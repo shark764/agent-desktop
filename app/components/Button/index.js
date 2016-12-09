@@ -6,16 +6,13 @@
 
 import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
-
-import Wrapper from './wrapper';
+import Radium from 'radium';
 
 function Button(props) {
   return (
-    <Wrapper>
-      <button>
-        <FormattedMessage {...props.text} />
-      </button>
-    </Wrapper>
+    <button>
+      <FormattedMessage {...props.text} />
+    </button>
   );
 }
 
@@ -24,4 +21,4 @@ Button.propTypes = {
 };
 
 
-export default Button;
+export default Radium(Button);

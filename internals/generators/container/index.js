@@ -31,6 +31,11 @@ module.exports = {
     message: 'Do you want headers?',
   }, {
     type: 'confirm',
+    name: 'wantCSS',
+    default: true,
+    message: 'Do you want CSS?',
+  }, {
+    type: 'confirm',
     name: 'wantActionsAndReducer',
     default: true,
     message: 'Do you want an actions/constants/selectors/reducer tupel for this container?',

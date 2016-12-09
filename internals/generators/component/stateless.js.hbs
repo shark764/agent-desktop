@@ -12,13 +12,21 @@ import messages from './messages';
 {{/if}}
 
 {{#if wantCSS}}
-import styles from './styles.css';
+import Radium from 'radium';
 {{/if}}
 
 function {{ properCase name }}() {
+  {{#if wantCSS}}
+  const styles = {
+    base: {
+      // styles
+    },
+  }
+  {{/if}}
+
   return (
     {{#if wantCSS}}
-    <div className={{curly true}}styles.{{ camelCase name }}{{curly}}>
+    <div style={{curly true}}styles.base{{curly}}>
     {{else}}
     <div>
     {{/if}}
@@ -29,4 +37,8 @@ function {{ properCase name }}() {
   );
 }
 
-export default {{ properCase name }};
+{{#if wantCSS}}
+  export default Radium({{ properCase name }});
+{{else}}
+  export default {{ properCase name }};
+{{/if}}

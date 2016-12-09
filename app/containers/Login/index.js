@@ -8,7 +8,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import selectLogin from './selectors';
 import messages from './messages';
-import Wrapper from './wrapper';
 
 import Dialog from 'components/Dialog';
 import Logo from 'components/Logo';
@@ -18,7 +17,9 @@ import CheckBox from 'components/Checkbox';
 import Button from 'components/Button';
 import A from 'components/A';
 
-import { Flex, Box } from 'reflexbox';
+import Radium from 'radium';
+
+import { Flex } from 'reflexbox';
 
 export class Login extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -45,9 +46,24 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     }
   }
 
+  styles = {
+    base: {
+      width: '100vw',
+      height: '100vh',
+      minHeight: '100%',
+      backgroundColor: '#051e24',
+      fontFamily: 'ProximaNova',
+      fontSize: '16px',
+      fontWeight: 'normal',
+      fontStyle: 'normal',
+      fontStretch: 'normal',
+      color: '#494949',
+    },
+  }
+
   render() {
     return (
-      <Wrapper>
+      <div style={this.styles.base}>
         <Flex align="center" justify="center" style={{ height: '100vh' }}>
           <Dialog>
             <Flex align="center" justify="center" py={3}>
@@ -73,7 +89,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
             </Flex>
           </Dialog>
         </Flex>
-      </Wrapper>
+      </div>
     );
   }
 }
@@ -86,4 +102,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(Login));

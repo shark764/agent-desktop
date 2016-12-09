@@ -26,6 +26,11 @@ module.exports = {
     },
   }, {
     type: 'confirm',
+    name: 'wantCSS',
+    default: true,
+    message: 'Do you want CSS?',
+  }, {
+    type: 'confirm',
     name: 'wantMessages',
     default: true,
     message: 'Do you want i18n messages (i.e. will this component use text)?',

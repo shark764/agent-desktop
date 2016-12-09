@@ -7,27 +7,29 @@
 import React, { PropTypes } from 'react';
 
 import { injectIntl, intlShape } from 'react-intl';
-import Wrapper from './wrapper';
 import styled from 'styled-components';
+import Radium from 'radium';
 
 function Checkbox(props) {
   const { formatMessage } = props.intl;
-  const Text = styled.span`
-    font-family: ProximaNova;
-    font-size: 16px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    color: #494949;
-    margin-left: 0.5em;
-    vertical-aligh: middle;
-`;
+  const styles = {
+    base: {
+      fontFamily: 'ProximaNova',
+      fontSize: '16px',
+      fontWeight: 'normal',
+      fontStyle: 'normal',
+      fontStretch: 'normal',
+      color: '#494949',
+      marginLeft: '0.5em',
+      verticalAlign: 'middle',
+    },
+  };
 
   return (
-    <Wrapper style={props.style || {}}>
+    <span style={props.style || {}}>
       <input type="checkbox" checked={props.checked} onChange={props.cb} />
-      <Text> {formatMessage(props.text)} </Text>
-    </Wrapper>
+      <span style={styles.base}> {formatMessage(props.text)} </span>
+    </span>
   );
 }
 
@@ -40,4 +42,4 @@ Checkbox.propTypes = {
   style: PropTypes.object,
 };
 
-export default injectIntl(Checkbox);
+export default injectIntl(Radium(Checkbox));

@@ -11,14 +11,21 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 {{/if}}
 {{#if wantCSS}}
-import styles from './styles.css';
+import Radium from 'radium';
 {{/if}}
 
 class {{ properCase name }} extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+  {{#if wantCSS}}
+  styles = {
+    base: {
+      // styles
+    },
+  }
+  {{/if}}
   render() {
     return (
       {{#if wantCSS}}
-      <div className={{curly true}}styles.{{ camelCase name }}{{curly}}>
+      <div style={{curly true}}this.styles.base{{curly}}>
       {{else}}
       <div>
       {{/if}}
@@ -30,4 +37,8 @@ class {{ properCase name }} extends React.PureComponent { // eslint-disable-line
   }
 }
 
+{{#if wantCSS}}
+export default Radium({{ properCase name }});
+{{else}}
 export default {{ properCase name }};
+{{/if}}

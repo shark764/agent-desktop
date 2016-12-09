@@ -5,13 +5,22 @@
 */
 
 import React, { PropTypes, Children } from 'react';
-import Wrapper from './wrapper';
+import Radium from 'radium';
 
 function Dialog(props) {
+  const styles = {
+    base: {
+      width: '542px',
+      height: '543px',
+      borderRadius: '8px',
+      backgroundColor: '#ffffff',
+      boxShadow: '0 0 6px 0 rgba(0, 0, 0, 0.09)',
+    },
+  };
   return (
-    <Wrapper>
+    <div style={styles.base}>
       {Children.toArray(props.children)}
-    </Wrapper>
+    </div>
   );
 }
 
@@ -19,4 +28,4 @@ Dialog.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default Dialog;
+export default Radium(Dialog);

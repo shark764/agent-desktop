@@ -17,14 +17,22 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 {{/if}}
 {{#if wantCSS}}
-import styles from './styles.css';
+import Radium from 'radium';
 {{/if}}
 
 export class {{ properCase name }} extends React.{{{ component }}} { // eslint-disable-line react/prefer-stateless-function
+  {{#if wantCSS}}
+  styles = {
+    base: {
+      // styles
+    },
+  }
+  {{/if}}
+
   render() {
     return (
       {{#if wantCSS}}
-      <div className={{curly true}}styles.{{ camelCase name }}{{curly}}>
+      <div style={{curly true}}this.styles.base{{curly}}>
       {{else}}
       <div>
       {{/if}}
@@ -55,7 +63,15 @@ function mapDispatchToProps(dispatch) {
 }
 
 {{#if wantActionsAndReducer}}
+  {{#if wantCSS}}
+export default connect(mapStateToProps, mapDispatchToProps)(Radium({{ properCase name }}));
+  {{else}}
 export default connect(mapStateToProps, mapDispatchToProps)({{ properCase name }});
+  {{/if}}
 {{else}}
+  {{#if wantCSS}}
+export default connect(null, mapDispatchToProps)(Radium({{ properCase name }}));
+  {{else}}
 export default connect(null, mapDispatchToProps)({{ properCase name }});
+  {{/if}}
 {{/if}}
