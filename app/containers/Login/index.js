@@ -8,7 +8,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import selectLogin from './selectors';
 import messages from './messages';
-
 import Dialog from 'components/Dialog';
 import Logo from 'components/Logo';
 import Title from 'components/Title';
@@ -16,6 +15,7 @@ import TextInput from 'components/TextInput';
 import CheckBox from 'components/Checkbox';
 import Button from 'components/Button';
 import A from 'components/A';
+import SDK from 'mcluhan';
 
 import Radium from 'radium';
 
@@ -28,6 +28,11 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.state = { username: '', password: '', remember: false };
     this.setUser = this.setUser.bind(this);
     this.setPassword = this.setPassword.bind(this);
+    this.loginAgent()
+  }
+
+  loginAgent() {
+    var foo = SDK;
   }
 
   setUser(username) {

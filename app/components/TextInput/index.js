@@ -26,6 +26,7 @@ function TextInput(props) {
       fontStretch: 'normal',
       color: '#494949',
       outline: 'none',
+      padding: '11px',
 
       ':focus': {
         boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
