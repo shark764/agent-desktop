@@ -5338,6 +5338,10 @@ math-expression-evaluator@^1.2.14:
   dependencies:
     lodash.indexof "^4.0.5"
 
+mcluhan:
+  version "0.9.4"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/mcluhan/-/mcluhan-0.9.4.tgz#a7e0506c041c44943a609304b714c53ec3f64b3a"
+
 media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"

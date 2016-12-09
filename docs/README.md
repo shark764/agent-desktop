@@ -15,7 +15,6 @@
   - [Component Testing](testing/component-testing.md)
   - [Remote Testing](testing/remote-testing.md)
 - [CSS](css)
-  - [`styled-components`](css/styled-componets.md)
   - [sanitize.css](css/sanitize.md)
 - [JS](js)
   - [Redux](js/redux.md)
@@ -63,16 +62,6 @@ JavaScript, HTML and tests.
 
 The rest of the folders and files only exist to make your life easier, and
 should not need to be touched.
-
-### CSS
-
-Utilising [tagged template literals](./docs/tagged-template-literals.md)
-(a recent addition to JavaScript) and the [power of CSS](./docs/css-we-support.md),
-`styled-components` allows you to write actual CSS code to style your components.
-It also removes the mapping between components and styles – using components as a
-low-level styling construct could not be easier!
-
-See the [CSS documentation](./css/README.md) for more information.
 
 ### JS
 

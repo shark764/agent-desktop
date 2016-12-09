@@ -43,12 +43,10 @@ and more, today.
 
 ## Next generation CSS
 
-Write composable CSS that's co-located with your components using [`styled-components`]
+Write composable CSS that's co-located with your components using [`Radium`]
 for complete modularity. Unique generated class names keep the specificity low
 while eliminating style clashes. Ship only the styles that are used on the
 visible page for the best performance.
-
-[`styled-components`]: ../css/styled-components.md
 
 ## Industry-standard routing
 

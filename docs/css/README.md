@@ -1,14 +1,11 @@
 # CSS
 
-This app uses [`styled-components`](https://github.com/styled-components/styled-components)
-allowing you to write your CSS in your JavaScript,
-removing the mapping between styles and components.
+This app uses [`Radium`](http://formidable.com/open-source/radium/)
+allowing you to write your CSS in your JavaScript
 
-`styled-components` let's us embrace component encapsulation while sanitize.css gives us
-data-driven cross-browser normalisation.
+`Radium` unlocks the power of React & inline styling by enabling support for CSS pseudo selectors, media queries, vendor-prefixing, and much more through a simple interface..
 
 Learn more:
 
-- [`syled-components`](styled-componets.md)
 - [sanitize.css](sanitize.md)
 - [Using Sass](sass.md)

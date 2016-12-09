@@ -106,7 +106,9 @@
     "rules": {
       "new-cap": [
         0,
-        { "newIsCap": false }
+        {
+          "newIsCap": false
+        }
       ],
       "arrow-parens": [
         "error",
@@ -123,7 +125,7 @@
       "import/imports-first": 0,
       "import/newline-after-import": 0,
       "import/no-dynamic-require": 0,
-      "import/no-extraneous-dependencies": 0, 
+      "import/no-extraneous-dependencies": 0,
       "import/no-named-as-default": 0,
       "import/no-unresolved": 2,
       "import/prefer-default-export": 0,
@@ -197,6 +199,7 @@
     "invariant": "2.2.1",
     "ip": "1.1.3",
     "lodash": "4.16.4",
+    "mcluhan": "^0.9.4",
     "minimist": "1.2.0",
     "radium": "^0.18.1",
     "react": "15.3.2",
