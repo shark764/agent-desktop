@@ -25,6 +25,8 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   constructor(props) {
     super(props);
     this.state = { username: '', password: '', remember: false };
+    this.setUser = this.setUser.bind(this);
+    this.setPassword = this.setPassword.bind(this);
   }
 
   setUser(username) {
@@ -55,10 +57,10 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
               <Title text={messages.welcome} style={{ paddingBottom: '23px' }} />
             </Flex>
             <Flex align="center" justify="center" py={1}>
-              <TextInput placeholder={messages.username} autocomplete="username" value={this.state.username} cb={this.setUser} />
+              <TextInput key={'username'} placeholder={messages.username} autocomplete="username" value={this.state.username} cb={this.setUser} />
             </Flex>
             <Flex align="center" justify="center" py={1}>
-              <TextInput placeholder={messages.password} autocomplete="password" value={this.state.password} cb={this.setPassword} />
+              <TextInput key={'password'} placeholder={messages.password} autocomplete="password" value={this.state.password} cb={this.setPassword} />
             </Flex>
             <Flex align="center" justify="center" py={1} px={1}>
               <CheckBox style={{ marginLeft: '-9.5em' }} checked={this.state.remember} text={messages.rememberMe} cb={this.toggleRemember} />

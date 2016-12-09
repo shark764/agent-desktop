@@ -8,33 +8,36 @@ import React, { PropTypes } from 'react';
 
 import { injectIntl, intlShape } from 'react-intl';
 import Wrapper from './wrapper';
-import styled from 'styled-components';
+
+import Radium from 'radium';
 
 
 function TextInput(props) {
   const { formatMessage } = props.intl;
-  const Input = styled.input`
-    width: 282px;
-    height: 44px;
-    background-color: #ffffff;
-    border: solid 1px #979797;
-    font-family: ProximaNova;
-    font-size: 20px;
-    font-weight: bold;
-    font-style: normal;
-    font-stretch: normal;
-    color: #494949;
-    outline: none;
+  const styles = {
+    base: {
+      width: '282px',
+      height: '44px',
+      backgroundColor: '#ffffff',
+      border: 'solid 1px #979797',
+      fontFamily: 'ProximaNova',
+      fontSize: '20px',
+      fontWeight: 'bold',
+      fontStyle: 'normal',
+      fontStretch: 'normal',
+      color: '#494949',
+      outline: 'none',
 
-    &:focus {
-      box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.12);
-      border: solid 1px #23cdf4;
-    }
-`;
+      ':focus': {
+        boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
+        border: 'solid 1px #23cdf4',
+      },
+    },
+  };
 
   return (
     <Wrapper>
-      <Input type="text" value={props.value} placeholder={formatMessage(props.placeholder)} onChange={(e) => props.cb(e.target.value)} autoComplete={props.autocomplete || ''} style={props.style || {}} />
+      <input style={styles.base} onClick={() => this.setState({ focused: true })} type="text" key={formatMessage(props.placeholder)} value={props.value} placeholder={formatMessage(props.placeholder)} onChange={(e) => props.cb(e.target.value)} autoComplete={props.autocomplete || ''} />
     </Wrapper>
   );
 }
@@ -48,4 +51,4 @@ TextInput.propTypes = {
   style: PropTypes.object,
 };
 
-export default injectIntl(TextInput);
+export default injectIntl(Radium(TextInput));
