@@ -24,13 +24,16 @@ function Button(props) {
       paddingRight: '28px',
       cursor: 'pointer',
       outline: 'none',
+      marginTop: '14px',
     },
   };
 
   return (
-    <button style={[styles.base, props.style]} onClick={props.onClick}>
-      <FormattedMessage {...props.text} />
-    </button>
+    <span style={styles.container} {...props}>
+      <button style={[styles.base, props.style]} onClick={props.onClick}>
+        <FormattedMessage {...props.text} />
+      </button>
+    </span>
   );
 }
 

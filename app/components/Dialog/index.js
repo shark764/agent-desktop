@@ -18,7 +18,7 @@ function Dialog(props) {
     },
   };
   return (
-    <div style={styles.base}>
+    <div {...props} style={Object.assign(styles.base, props.style)}>
       {Children.toArray(props.children)}
     </div>
   );
@@ -26,6 +26,7 @@ function Dialog(props) {
 
 Dialog.propTypes = {
   children: PropTypes.node.isRequired,
+  style: PropTypes.object,
 };
 
 export default Radium(Dialog);

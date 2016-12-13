@@ -27,6 +27,7 @@ function TextInput(props) {
       color: '#494949',
       outline: 'none',
       padding: '11px',
+      marginBottom: '11px',
 
       ':focus': {
         boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
@@ -36,7 +37,9 @@ function TextInput(props) {
   };
 
   return (
-    <input style={[styles.base, props.style]} type="text" key={formatMessage(props.placeholder)} value={props.value} placeholder={formatMessage(props.placeholder)} onChange={(e) => props.cb(e.target.value)} autoComplete={props.autocomplete || ''} />
+    <span style={styles.container} {...props}>
+      <input style={[styles.base, styles.center, props.style]} type="text" key={formatMessage(props.placeholder)} value={props.value} placeholder={formatMessage(props.placeholder)} onChange={(e) => props.cb(e.target.value)} autoComplete={props.autocomplete || ''} />
+    </span>
   );
 }
 

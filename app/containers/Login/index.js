@@ -20,8 +20,6 @@ import { push } from 'react-router-redux';
 
 import Radium from 'radium';
 
-import { Flex } from 'reflexbox';
-
 export class Login extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   constructor(props) {
@@ -65,36 +63,38 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       fontStretch: 'normal',
       color: '#494949',
     },
+    center: {
+      order: '0',
+      flex: '0 0 auto',
+      alignSelf: 'auto',
+    },
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      flexWrap: 'nowrap',
+      justifyContent: 'center',
+      alignContent: 'stretch',
+      alignItems: 'center',
+      height: '100vh',
+    },
   }
 
   render() {
     return (
       <div style={this.styles.base}>
-        <Flex align="center" justify="center" style={{ height: '100vh' }}>
-          <Dialog>
-            <Flex align="center" justify="center" py={3}>
-              <Logo style={{ width: '275px' }} />
-            </Flex>
-            <Flex align="center" justify="center" py={1}>
-              <Title text={messages.welcome} style={{ paddingBottom: '23px' }} />
-            </Flex>
-            <Flex align="center" justify="center" py={1}>
+        <div style={this.styles.container}>
+          <Dialog style={this.styles.center}>
+            <div style={Object.assign({}, this.styles.container, { justifyContent: 'flex-start' })}>
+              <Logo style={this.styles.center} width="275px" />
+              <Title text={messages.welcome} style={[{ paddingBottom: '23px' }, this.styles.center]} />
               <TextInput key={'username'} placeholder={messages.username} autocomplete="username" value={this.state.username} cb={this.setUser} />
-            </Flex>
-            <Flex align="center" justify="center" py={1}>
               <TextInput key={'password'} placeholder={messages.password} autocomplete="password" value={this.state.password} cb={this.setPassword} />
-            </Flex>
-            <Flex align="center" justify="center" py={1} px={1}>
-              <CheckBox style={{ marginLeft: '-9.5em' }} checked={this.state.remember} text={messages.rememberMe} cb={this.toggleRemember} />
-            </Flex>
-            <Flex align="center" justify="center" py={2}>
+              <CheckBox style={{ marginLeft: '-6.35em', marginBottom: '11px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.toggleRemember} />
               <Button text={messages.sendButton} onClick={() => this.props.onLogin()} />
-            </Flex>
-            <Flex align="center" justify="center" py={1}>
               <A text={messages.forgot} />
-            </Flex>
+            </div>
           </Dialog>
-        </Flex>
+        </div>
       </div>
     );
   }
