@@ -36,7 +36,7 @@ function TextInput(props) {
   };
 
   return (
-    <input style={[styles.base, props.style]} onClick={() => this.setState({ focused: true })} type="text" key={formatMessage(props.placeholder)} value={props.value} placeholder={formatMessage(props.placeholder)} onChange={(e) => props.cb(e.target.value)} autoComplete={props.autocomplete || ''} />
+    <input style={[styles.base, props.style]} type="text" key={formatMessage(props.placeholder)} value={props.value} placeholder={formatMessage(props.placeholder)} onChange={(e) => props.cb(e.target.value)} autoComplete={props.autocomplete || ''} />
   );
 }
 
