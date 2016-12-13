@@ -4,7 +4,7 @@
  * This is the entry file for the application
  */
 import 'babel-polyfill';
-import Raven from 'raven';
+import Raven from 'raven-js';
 
 /* eslint-disable import/no-unresolved, import/extensions */
 // Load the manifest.json file and the .htaccess file
