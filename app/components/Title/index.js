@@ -21,8 +21,8 @@ function Title(props) {
   };
 
   return (
-    <span style={[styles.base, props.style]}>
-      <FormattedMessage {...props.text} />
+    <span {...props} style={[styles.base, props.style]}>
+      <FormattedMessage style={styles.center} {...props.text} />
     </span>
   );
 }

@@ -6,9 +6,9 @@
 
 import React from 'react';
 
-function A() {
+function A(props) {
   return (
-    <div>
+    <div {...props}>
     </div>
   );
 }
