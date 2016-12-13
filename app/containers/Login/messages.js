@@ -40,7 +40,7 @@ export default defineMessages({
   },
   password: {
     id: 'app.contianers.Login.password',
-    defaultMessage: 'Password'
+    defaultMessage: 'Password',
   },
   rememberMe: {
     id: 'app.containers.Login.rememberMe',

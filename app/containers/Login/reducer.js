@@ -9,7 +9,7 @@ import {
   DEFAULT_ACTION,
 } from './constants';
 
-const initialState = fromJS({test:1});
+const initialState = fromJS({ test: 1 });
 
 function loginReducer(state = initialState, action) {
   switch (action.type) {

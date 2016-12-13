@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import selectLogin from './selectors';
 import messages from './messages';
@@ -15,7 +15,6 @@ import TextInput from 'components/TextInput';
 import CheckBox from 'components/Checkbox';
 import Button from 'components/Button';
 import A from 'components/A';
-import SDK from 'mcluhan';
 
 import { push } from 'react-router-redux';
 
@@ -30,11 +29,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.state = { username: '', password: '', remember: false };
     this.setUser = this.setUser.bind(this);
     this.setPassword = this.setPassword.bind(this);
-    this.loginAgent()
-  }
-
-  loginAgent() {
-    var foo = SDK;
+    this.loginAgent();
   }
 
   setUser(username) {
@@ -43,6 +38,10 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
 
   setPassword(password) {
     this.setState({ password });
+  }
+
+  loginAgent() {
+    // var foo = SDK;
   }
 
   toggleRemember(remember) {
@@ -89,7 +88,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
               <CheckBox style={{ marginLeft: '-9.5em' }} checked={this.state.remember} text={messages.rememberMe} cb={this.toggleRemember} />
             </Flex>
             <Flex align="center" justify="center" py={2}>
-              <Button text={messages.sendButton} onClick={(e) => this.props.onLogin(e)} />
+              <Button text={messages.sendButton} onClick={() => this.props.onLogin()} />
             </Flex>
             <Flex align="center" justify="center" py={1}>
               <A text={messages.forgot} />
@@ -105,9 +104,13 @@ const mapStateToProps = selectLogin();
 
 function mapDispatchToProps(dispatch) {
   return {
-    onLogin: (evt) => dispatch(push('/desktop')),
+    onLogin: () => dispatch(push('/desktop')),
     dispatch,
   };
 }
+
+Login.propTypes = {
+  onLogin: PropTypes.func,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(Login));

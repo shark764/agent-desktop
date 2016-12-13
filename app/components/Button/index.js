@@ -37,6 +37,7 @@ function Button(props) {
 Button.propTypes = {
   text: PropTypes.object.isRequired,
   style: PropTypes.object,
+  onClick: PropTypes.func,
 };
 
 
