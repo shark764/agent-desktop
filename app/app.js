@@ -21,6 +21,12 @@ import { useScroll } from 'react-router-scroll';
 import LanguageProvider from 'containers/LanguageProvider';
 import configureStore from './store';
 
+// Initialize Remote Logging with Sentry.io
+Raven.config('https://4dd03af6283843ccaa18ac2dc221149f@sentry.io/121909', {
+    release: '0.0.1',
+    environment: process.env.NODE_ENV === 'production' ? 'PRODUCTION' : 'DEVELOPMENT'
+}).install()
+
 // Import i18n messages
 import { translationMessages } from './i18n';
 
