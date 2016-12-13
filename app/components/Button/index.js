@@ -28,7 +28,7 @@ function Button(props) {
   };
 
   return (
-    <button style={[styles.base, props.style]}>
+    <button style={[styles.base, props.style]} onClick={props.onClick}>
       <FormattedMessage {...props.text} />
     </button>
   );

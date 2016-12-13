@@ -5340,7 +5340,7 @@ math-expression-evaluator@^1.2.14:
 
 mcluhan:
   version "0.9.4"
-  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/mcluhan/-/mcluhan-0.9.4.tgz#a7e0506c041c44943a609304b714c53ec3f64b3a"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/mcluhan/-/mcluhan-0.9.4.tgz#da39a3ee5e6b4b0d3255bfef95601890afd80709"
 
 media-typer@0.3.0:
   version "0.3.0"

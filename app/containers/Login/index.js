@@ -17,6 +17,8 @@ import Button from 'components/Button';
 import A from 'components/A';
 import SDK from 'mcluhan';
 
+import { push } from 'react-router-redux';
+
 import Radium from 'radium';
 
 import { Flex } from 'reflexbox';
@@ -87,7 +89,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
               <CheckBox style={{ marginLeft: '-9.5em' }} checked={this.state.remember} text={messages.rememberMe} cb={this.toggleRemember} />
             </Flex>
             <Flex align="center" justify="center" py={2}>
-              <Button text={messages.sendButton} />
+              <Button text={messages.sendButton} onClick={(e) => this.props.onLogin(e)} />
             </Flex>
             <Flex align="center" justify="center" py={1}>
               <A text={messages.forgot} />
@@ -103,6 +105,7 @@ const mapStateToProps = selectLogin();
 
 function mapDispatchToProps(dispatch) {
   return {
+    onLogin: (evt) => dispatch(push('/desktop')),
     dispatch,
   };
 }

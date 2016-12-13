@@ -54,6 +54,26 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/desktop',
+      name: 'agentDesktop',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          System.import('containers/AgentDesktop/reducer'),
+          System.import('containers/AgentDesktop/sagas'),
+          System.import('containers/AgentDesktop'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('agentDesktop', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
