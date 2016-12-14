@@ -37,9 +37,7 @@ function TextInput(props) {
   };
 
   return (
-    <span style={styles.container} {...props}>
-      <input style={[styles.base, styles.center, props.style]} type="text" key={formatMessage(props.placeholder)} value={props.value} placeholder={formatMessage(props.placeholder)} onChange={(e) => props.cb(e.target.value)} autoComplete={props.autocomplete || ''} />
-    </span>
+    <input style={[styles.base, styles.center, props.style]} type="text" key={formatMessage(props.placeholder)} value={props.value} placeholder={formatMessage(props.placeholder)} onChange={(e) => props.cb(e.target.value)} autoComplete={props.autocomplete || ''} />
   );
 }
 

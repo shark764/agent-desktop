@@ -14,7 +14,6 @@ import Title from 'components/Title';
 import TextInput from 'components/TextInput';
 import CheckBox from 'components/Checkbox';
 import Button from 'components/Button';
-import A from 'components/A';
 
 import { push } from 'react-router-redux';
 
@@ -27,6 +26,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.state = { username: '', password: '', remember: false };
     this.setUser = this.setUser.bind(this);
     this.setPassword = this.setPassword.bind(this);
+    this.setRemember = this.setRemember.bind(this);
     this.loginAgent();
   }
 
@@ -38,16 +38,12 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.setState({ password });
   }
 
-  loginAgent() {
-    // var foo = SDK;
+  setRemember(remember) {
+    this.setState({ remember });
   }
 
-  toggleRemember(remember) {
-    if (typeof remember !== 'undefined') {
-      this.setState({ remember });
-    } else {
-      this.setState({ remember: !this.state.remember });
-    }
+  loginAgent() {
+    // var foo = SDK;
   }
 
   styles = {
@@ -77,7 +73,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       alignItems: 'center',
       height: '100vh',
     },
-  }
+  };
 
   render() {
     return (
@@ -89,9 +85,8 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
               <Title text={messages.welcome} style={[{ paddingBottom: '23px' }, this.styles.center]} />
               <TextInput key={'username'} placeholder={messages.username} autocomplete="username" value={this.state.username} cb={this.setUser} />
               <TextInput key={'password'} placeholder={messages.password} autocomplete="password" value={this.state.password} cb={this.setPassword} />
-              <CheckBox style={{ marginLeft: '-6.35em', marginBottom: '11px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.toggleRemember} />
+              <CheckBox style={{ marginLeft: '-6.35em', marginBottom: '11px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.setRemember} />
               <Button text={messages.sendButton} onClick={() => this.props.onLogin()} />
-              <A text={messages.forgot} />
             </div>
           </Dialog>
         </div>
