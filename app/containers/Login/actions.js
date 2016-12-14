@@ -9,7 +9,7 @@ import {
   LOGIN_SUCCESS,
   SET_AUTHENTICATED,
   LOGIN_ERROR,
-  INIT_SDK,
+  SET_TENANTS,
 } from './constants';
 
 export function defaultAction() {
@@ -37,9 +37,9 @@ export function setAuthenticated(authed) {
   };
 }
 
-export function initSDK(sdk) {
+export function setTenants(tenants) {
   return {
-    type: INIT_SDK,
-    sdk,
+    type: SET_TENANTS,
+    tenants,
   };
 }

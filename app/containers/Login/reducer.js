@@ -10,7 +10,7 @@ import {
   LOGIN_SUCCESS,
   SET_AUTHENTICATED,
   LOGIN_ERROR,
-  INIT_SDK,
+  SET_TENANTS,
 } from './constants';
 
 const initialState = fromJS({
@@ -32,10 +32,9 @@ function loginReducer(state = initialState, action) {
       return state
         .set('login_error', true)
         .set('logged_in', false);
-    case INIT_SDK:
-    //   console.log(action.sdk);
+    case SET_TENANTS:
       return state
-        .set('sdk', action.sdk);
+        .set();
     default:
       return state;
   }
