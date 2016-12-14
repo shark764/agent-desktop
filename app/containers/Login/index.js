@@ -6,6 +6,9 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+import '../../../node_modules/mcluhan/release/mcluhan';
+
 import selectLogin from './selectors';
 import messages from './messages';
 import Dialog from 'components/Dialog';
@@ -15,7 +18,7 @@ import TextInput from 'components/TextInput';
 import CheckBox from 'components/Checkbox';
 import Button from 'components/Button';
 
-import { push } from 'react-router-redux';
+import { setAuthenticated, loginError, initSDK, loginSuccess } from './actions';
 
 import Radium from 'radium';
 
@@ -27,7 +30,10 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.setUser = this.setUser.bind(this);
     this.setPassword = this.setPassword.bind(this);
     this.setRemember = this.setRemember.bind(this);
-    this.loginAgent();
+  }
+
+  componentDidMount() {
+    this.props.initSDK(cxSDK.init('https://dev-api.cxengagelabs.net'));
   }
 
   setUser(username) {
@@ -40,10 +46,6 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
 
   setRemember(remember) {
     this.setState({ remember });
-  }
-
-  loginAgent() {
-    // var foo = SDK;
   }
 
   styles = {
@@ -100,12 +102,17 @@ const mapStateToProps = selectLogin();
 function mapDispatchToProps(dispatch) {
   return {
     onLogin: () => dispatch(push('/desktop')),
+    loginSuccess: () => dispatch(loginSuccess()),
+    setAuthenticated: () => dispatch(setAuthenticated()),
+    loginError: () => dispatch(loginError()),
+    initSDK: (sdk) => dispatch(initSDK(sdk)),
     dispatch,
   };
 }
 
 Login.propTypes = {
   onLogin: PropTypes.func,
+  initSDK: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(Login));

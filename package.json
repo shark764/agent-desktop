@@ -102,6 +102,9 @@
         "jsx": true
       }
     },
+    "globals": {
+      "cxSDK": false
+    },
     "rules": {
       "new-cap": [
         0,
