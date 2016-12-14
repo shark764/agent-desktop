@@ -75,9 +75,8 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     );
   }
 
-  loginCB(agent) {
-    var foo = agent
-    debugger;
+  loginCB() {
+    // TODO: Starting point for Thursday
     // agent.tennants
     this.props.dispatch(push('/desktop'));
   }
@@ -130,14 +129,11 @@ function mapDispatchToProps(dispatch) {
     loginSuccess: () => dispatch(loginSuccess()),
     setAuthenticated: () => dispatch(setAuthenticated()),
     loginError: () => dispatch(loginError()),
-    initSDK: (sdk) => dispatch(initSDK(sdk)),
     dispatch,
   };
 }
 
 Login.propTypes = {
-  initSDK: PropTypes.func.isRequired,
-  sdk: PropTypes.object,
   dispatch: PropTypes.func,
 };
 
