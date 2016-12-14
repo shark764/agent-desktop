@@ -103,7 +103,8 @@
       }
     },
     "globals": {
-      "cxSDK": false
+      "cxSDK": false,
+      "SDK": false
     },
     "rules": {
       "new-cap": [
