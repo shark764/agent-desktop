@@ -29,11 +29,9 @@ function Button(props) {
   };
 
   return (
-    <span style={styles.container} {...props}>
-      <button style={[styles.base, props.style]} onClick={props.onClick}>
-        <FormattedMessage {...props.text} />
-      </button>
-    </span>
+    <button style={[styles.base, props.style]} onClick={props.onClick}>
+      <FormattedMessage {...props.text} />
+    </button>
   );
 }
 

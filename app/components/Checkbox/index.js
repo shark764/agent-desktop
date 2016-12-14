@@ -25,11 +25,9 @@ function Checkbox(props) {
   };
 
   return (
-    <span style={styles.container}>
-      <span {...props} style={props.style}>
-        <input type="checkbox" checked={props.checked} onChange={props.cb} />
-        <span style={styles.base}> {formatMessage(props.text)} </span>
-      </span>
+    <span style={props.style}>
+      <input type="checkbox" checked={props.checked} onChange={(e) => props.cb(e.target.checked)} />
+      <span style={styles.base}> {formatMessage(props.text)} </span>
     </span>
   );
 }
