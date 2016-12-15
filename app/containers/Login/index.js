@@ -7,6 +7,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import '../../../node_modules/mcluhan/release/mcluhan';
+import { injectIntl, intlShape } from 'react-intl';
 
 import selectLogin from './selectors';
 import selectAgentDesktop from '../AgentDesktop/selectors';
@@ -19,8 +20,9 @@ import CheckBox from 'components/Checkbox';
 import Button from 'components/Button';
 import A from 'components/A';
 import Select from 'components/Select';
+import Radio from 'components/Radio';
 
-import { setAuthenticated, loginError, loginSuccess } from './actions';
+import { setAuthenticated, loginError, loginSuccess, resetPassword } from './actions';
 
 import Radium from 'radium';
 
@@ -28,16 +30,32 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
 
   constructor(props) {
     super(props);
-    this.state = { username: '', password: '', remember: false };
+    this.state = {
+      username: '',
+      password: '',
+      email: '',
+      remember: false,
+      requestingPassword: false,
+      tenantId: '-1',
+      agentDirection: props.intl.formatMessage(messages.inbound),
+    };
     this.setUser = this.setUser.bind(this);
+    this.setEmail = this.setEmail.bind(this);
     this.setPassword = this.setPassword.bind(this);
     this.setRemember = this.setRemember.bind(this);
+    this.setDirection = this.setDirection.bind(this);
     this.loginCB = this.loginCB.bind(this);
     this.onTenantSelect = this.onTenantSelect.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.onLogin = this.onLogin.bind(this);
+    this.setRequestingPassword = this.setRequestingPassword.bind(this);
+    this.unsetRequestingPassword = this.unsetRequestingPassword.bind(this);
+    this.sendForgotRequest = this.sendForgotRequest.bind(this);
   }
 
   componentDidMount() {
     window.SDK = cxSDK.init('https://dev-api.cxengagelabs.net/v1/');
+    // console.log('SDK', window.SDK);
   }
 
   onLogin() {
@@ -70,6 +88,10 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.setState({ password });
   }
 
+  setEmail(email) {
+    this.setState({ email });
+  }
+
   setUser(username) {
     this.setState({ username });
   }
@@ -82,39 +104,78 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.setState({ tenantId });
   }
 
-  getContent() {
+  getLoggedInContent() {
+    const tenantOptions = this.props.agent.tenants.map((t) => {
+      const tenant = t;
+      return { value: tenant['tenant-id'], label: tenant['tenant-name'] };
+    });
+    return (
+      <div style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
+        <Logo style={{ marginTop: '50px' }} width="275px" />
+        <Title text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
+        <Select style={{ width: '282px' }} value={this.state.tenantId} onChange={(e) => this.setTenantId(e.value || '')} options={tenantOptions} />
+        <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
+        <Button style={{ marginTop: '34px' }} text={messages.sendButton} onClick={() => this.onTenantSelect()} />
+      </div>
+    );
+  }
+
+  getLoginContent() {
     // TODO when tenants.length == 0, == 1
-    if (this.props.logged_in && this.props.agent) {
-      // console.log('getContent agent', this.props.agent);
-      const tenantOptions = this.props.agent.tenants.map((tenant) => <option key={tenant['tenant-id']} value={tenant['tenant-id']}>{tenant['tenant-name']}</option>);
-      return (
-        // TODO components for option
-        <div>
-          <Select style={{ width: '282px' }} onChange={(e) => this.setTenantId(e.target.value)}>
-            <option style={this.styles.selectOptions} key={'default-tennant-select'} value={-1}> Please select tenant</option>
-            {tenantOptions}
-          </Select>
-          <Button style={{ marginTop: '34px' }} text={messages.sendButton} onClick={() => this.onTenantSelect()} />
-        </div>
-      );
-    }
     return (
       <div style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
         <Logo style={{ marginTop: '50px' }} width="275px" />
         <Title text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
         <TextInput key={'username'} style={{ marginBottom: '11px' }} placeholder={messages.username} autocomplete="email" value={this.state.username} cb={this.setUser} />
-        <TextInput key={'password'} type="password" placeholder={messages.password} autocomplete="password" value={this.state.password} cb={this.setPassword} />
+        <TextInput key={'password'} type="password" placeholder={messages.password} autocomplete="password" value={this.state.password} cb={this.setPassword} onKeyUp={this.handleKeyPress} />
         <CheckBox style={{ marginLeft: '-9.35em', marginBottom: '11px', marginTop: '15px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.setRemember} />
-        <Button style={{ marginTop: '34px' }} text={messages.sendButton} onClick={() => this.onLogin()} />
-        <A text={messages.forgot} style={{ marginTop: '17px' }} />
+        <Button style={{ marginTop: '34px' }} text={messages.signInButton} onClick={() => this.onLogin()} />
+        <A text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
       </div>
     );
   }
 
+  getForgotContent() {
+    return (
+      <div style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
+        <Logo style={{ marginTop: '50px' }} width="275px" />
+        <Title text={messages.forgot} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
+        <p style={{ width: '282px', textAlign: 'center' }} >{this.props.intl.formatMessage(messages.forgotInstructions)}</p>
+        <TextInput key={'email'} style={{ marginBottom: '11px' }} placeholder={messages.email} autocomplete="email" value={this.state.email} cb={this.setEmail} />
+        <Button style={{ marginTop: '34px' }} text={messages.sendButton} onClick={this.sendForgotRequest} />
+        <A text={messages.return2Login} style={{ marginTop: '17px' }} onClick={this.unsetRequestingPassword} />
+      </div>
+    );
+  }
+
+  setRequestingPassword() {
+    this.setState({ requestingPassword: true });
+  }
+
+  setDirection(agentDirection) {
+    this.setState({ agentDirection });
+  }
+
+  unsetRequestingPassword() {
+    this.setState({ requestingPassword: false });
+  }
+
+  handleKeyPress(e) {
+    if (e.keyCode === 13) {
+      this.onLogin();
+    }
+  }
+
+  sendForgotRequest() {
+    this.props.resetPassword({ email: this.state.email });
+  }
+
   loginCB(agent) {
     //  this.props.dispatch(push('/desktop'));
+    // console.log('agent', agent);
     this.props.loginSuccess(agent);
   }
+
 
   styles = {
     base: {
@@ -141,21 +202,23 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       alignContent: 'stretch',
       alignItems: 'center',
     },
-    selectOptions: {
-      boxShadow: '0 0 6px 1px rgba(0,0,0,0.08)',
-      border: '1px solid #EAE AEA',
-      borderRadius: 'px',
-      width: '282px',
-      backgroundColor: '#FFFFFF',
-    },
   };
 
   render() {
+    let pageContent;
+    if (this.props.logged_in && this.props.agent) {
+      pageContent = this.getLoggedInContent();
+    } else if (this.state.requestingPassword) {
+      pageContent = this.getForgotContent();
+    } else {
+      pageContent = this.getLoginContent();
+    }
+
     return (
       <div style={this.styles.base}>
         <div style={Object.assign({}, this.styles.container, { height: '100vh' })}>
           <Dialog style={Object.assign({}, this.styles.center)}>
-            {this.getContent()}
+            {pageContent}
           </Dialog>
         </div>
       </div>
@@ -167,6 +230,7 @@ const mapStateToProps = Object.assign(selectLogin(), selectAgentDesktop());
 
 function mapDispatchToProps(dispatch) {
   return {
+    resetPassword: (email) => dispatch(resetPassword(email)),
     loginSuccess: (agent) => dispatch(loginSuccess(agent)),
     setAuthenticated: () => dispatch(setAuthenticated()),
     loginError: () => dispatch(loginError()),
@@ -177,9 +241,11 @@ function mapDispatchToProps(dispatch) {
 
 Login.propTypes = {
   // dispatch: PropTypes.func,
+  intl: intlShape.isRequired,
+  resetPassword: PropTypes.func,
   loginSuccess: PropTypes.func,
   agent: PropTypes.object,
   logged_in: PropTypes.bool,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(Login));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Login)));

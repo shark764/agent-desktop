@@ -19,8 +19,8 @@ function TextInput(props) {
       height: '44px',
       backgroundColor: '#ffffff',
       border: 'solid 1px #979797',
-      fontSize: '20px',
-      fontWeight: 'bold',
+      fontSize: '16px',
+      fontWeight: 'light',
       fontStyle: 'normal',
       fontStretch: 'normal',
       color: '#494949',
@@ -35,7 +35,16 @@ function TextInput(props) {
   };
 
   return (
-    <input style={[styles.base, styles.center, props.style]} type={props.type || 'text'} key={formatMessage(props.placeholder)} value={props.value} placeholder={formatMessage(props.placeholder)} onChange={(e) => props.cb(e.target.value)} autoComplete={props.autocomplete || 'on'} />
+    <input
+      style={[styles.base, styles.center, props.style]}
+      type={props.type || 'text'}
+      key={formatMessage(props.placeholder)}
+      value={props.value}
+      placeholder={formatMessage(props.placeholder)}
+      onChange={(e) => props.cb(e.target.value)}
+      autoComplete={props.autocomplete || 'on'}
+      onKeyUp={props.onKeyUp || ''}
+    />
   );
 }
 
@@ -47,6 +56,7 @@ TextInput.propTypes = {
   value: PropTypes.string.isRequired,
   style: PropTypes.object,
   type: PropTypes.string,
+  onKeyUp: PropTypes.func,
 };
 
 export default injectIntl(Radium(TextInput));

@@ -10,6 +10,7 @@ import {
   SET_AUTHENTICATED,
   LOGIN_ERROR,
   SET_TENANTS,
+  RESET_PASSWORD,
 } from './constants';
 
 export function defaultAction() {
@@ -42,5 +43,12 @@ export function setTenants(tenants) {
   return {
     type: SET_TENANTS,
     tenants,
+  };
+}
+
+export function resetPassword(email) {
+  return {
+    type: RESET_PASSWORD,
+    email,
   };
 }
