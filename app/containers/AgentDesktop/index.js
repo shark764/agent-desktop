@@ -8,7 +8,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import selectAgentDesktop from './selectors';
 
-import Login from '../Login';
+import Login from 'containers/Login';
 
 export class AgentDesktop extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {

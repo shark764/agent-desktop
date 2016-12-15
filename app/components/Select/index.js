@@ -4,7 +4,9 @@
 *
 */
 
-import React, { PropTypes, Children } from 'react';
+import React, { PropTypes } from 'react';
+import RSelect from 'react-select';
+import './react-select.css';
 
 import Radium from 'radium';
 
@@ -19,16 +21,21 @@ function Select(props) {
   };
 
   return (
-    <select style={[styles.base, props.style]} onChange={props.onChange}>
-      {Children.toArray(props.children)}
-    </select>
+    <RSelect
+      style={Object.assign({}, styles.base, props.style)}
+      onChange={props.onChange}
+      name="form-field-name"
+      value={props.value}
+      options={props.options}
+    />
   );
 }
 
 Select.propTypes = {
-  children: PropTypes.node.isRequired,
-  style: PropTypes.object,
+  style: PropTypes.array,
   onChange: PropTypes.func,
+  options: PropTypes.array,
+  value: PropTypes.string,
 };
 
 export default Radium(Select);

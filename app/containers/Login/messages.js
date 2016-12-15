@@ -16,7 +16,7 @@ export default defineMessages({
   },
   forgot: {
     id: 'app.containers.Login.forgot',
-    defaultMessage: 'Forgot your password',
+    defaultMessage: 'Forgot your password?',
   },
   forgotInstructions: {
     id: 'app.containers.Login.forgotInstructions',
@@ -24,6 +24,10 @@ export default defineMessages({
   },
   sendButton: {
     id: 'app.containers.Login.sendButton',
+    defaultMessage: 'Send',
+  },
+  signInButton: {
+    id: 'app.containers.Login.signInButton',
     defaultMessage: 'Sign In',
   },
   return2Login: {
@@ -45,5 +49,13 @@ export default defineMessages({
   rememberMe: {
     id: 'app.containers.Login.rememberMe',
     defaultMessage: 'Remember Me',
+  },
+  inbound: {
+    id: 'app.containers.Login.inbound',
+    defaultMessage: 'Inbound',
+  },
+  outbound: {
+    id: 'app.containers.Login.outbound',
+    defaultMessage: 'Outbound',
   },
 });
