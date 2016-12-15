@@ -11,6 +11,7 @@ import {
   LOGIN_ERROR,
   SET_TENANTS,
   RESET_PASSWORD,
+  SHOW_LOGIN,
 } from './constants';
 
 export function defaultAction() {
@@ -50,5 +51,12 @@ export function resetPassword(email) {
   return {
     type: RESET_PASSWORD,
     email,
+  };
+}
+
+export function showLogin(show) {
+  return {
+    type: SHOW_LOGIN,
+    show,
   };
 }
