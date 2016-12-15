@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the agentDesktop state domain
  */
-const selectAgentDesktopDomain = () => (state) => state.get('agentDesktop');
+const selectAgentDesktopDomain = () => (state) => state;
 
 /**
  * Other specific selectors

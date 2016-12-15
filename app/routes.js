@@ -19,6 +19,54 @@ export default function createRoutes(store) {
       getComponent(nextState, cb) {
        // --- Add containers here to use them --- //
 
+        const importToolbarModules = Promise.all([
+          System.import('containers/Toolbar/reducer'),
+          System.import('containers/Toolbar/sagas'),
+        ]);
+
+        importToolbarModules.then(([reducer, sagas]) => {
+          injectReducer('toolbar', reducer.default);
+          injectSagas(sagas.default);
+        });
+
+        importToolbarModules.catch(errorLoading);
+
+        const importSidePanelModules = Promise.all([
+          System.import('containers/SidePanel/reducer'),
+          System.import('containers/SidePanel/sagas'),
+        ]);
+
+        importSidePanelModules.then(([reducer, sagas]) => {
+          injectReducer('sidePanel', reducer.default);
+          injectSagas(sagas.default);
+        });
+
+        importSidePanelModules.catch(errorLoading);
+
+        const importMainContentAreaModules = Promise.all([
+          System.import('containers/MainContentArea/reducer'),
+          System.import('containers/MainContentArea/sagas'),
+        ]);
+
+        importMainContentAreaModules.then(([reducer, sagas]) => {
+          injectReducer('mainContentArea', reducer.default);
+          injectSagas(sagas.default);
+        });
+
+        importMainContentAreaModules.catch(errorLoading);
+
+        const importInteractionsBarModules = Promise.all([
+          System.import('containers/InteractionsBar/reducer'),
+          System.import('containers/InteractionsBar/sagas'),
+        ]);
+
+        importInteractionsBarModules.then(([reducer, sagas]) => {
+          injectReducer('interactionsBar', reducer.default);
+          injectSagas(sagas.default);
+        });
+
+        importInteractionsBarModules.catch(errorLoading);
+
         const importLoginModules = Promise.all([
           System.import('containers/Login/reducer'),
           System.import('containers/Login/sagas'),

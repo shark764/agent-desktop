@@ -10,7 +10,6 @@ import '../../../node_modules/mcluhan/release/mcluhan';
 import { injectIntl, intlShape } from 'react-intl';
 
 import selectLogin from './selectors';
-import selectAgentDesktop from '../AgentDesktop/selectors';
 import messages from './messages';
 import Dialog from 'components/Dialog';
 import Logo from 'components/Logo';
@@ -22,7 +21,7 @@ import A from 'components/A';
 import Select from 'components/Select';
 import Radio from 'components/Radio';
 
-import { setAuthenticated, loginError, loginSuccess, resetPassword } from './actions';
+import { setAuthenticated, loginError, loginSuccess, resetPassword, showLogin } from './actions';
 
 import Radium from 'radium';
 
@@ -73,14 +72,14 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       const sessionParams = {
         'tenant-id': this.state.tenantId,
         'on-notification': function handleSqsMessage() {
-          // console.log('handleSqsMessage');
+          // debugger;
         },
         callback: function sessionBeginCallback() {
-          // console.log('SESSION BEGIN CB FIRED');
-          // changeState('notready');
+          // debugger;
         },
       };
       SDK.Agent.Session.beginSession(sessionParams);
+      this.props.showLogin(false);
     }
   }
 
@@ -226,7 +225,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   }
 }
 
-const mapStateToProps = Object.assign(selectLogin(), selectAgentDesktop());
+const mapStateToProps = selectLogin();
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -234,18 +233,19 @@ function mapDispatchToProps(dispatch) {
     loginSuccess: (agent) => dispatch(loginSuccess(agent)),
     setAuthenticated: () => dispatch(setAuthenticated()),
     loginError: () => dispatch(loginError()),
+    showLogin: (show) => dispatch(showLogin(show)),
     // initSDK: (sdk) => dispatch(initSDK(sdk)),
     dispatch,
   };
 }
 
 Login.propTypes = {
-  // dispatch: PropTypes.func,
   intl: intlShape.isRequired,
   resetPassword: PropTypes.func,
   loginSuccess: PropTypes.func,
   agent: PropTypes.object,
   logged_in: PropTypes.bool,
+  showLogin: PropTypes.func,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Login)));
