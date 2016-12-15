@@ -18,9 +18,10 @@ export function defaultAction() {
   };
 }
 
-export function loginSuccess() {
+export function loginSuccess(agent) {
   return {
     type: LOGIN_SUCCESS,
+    agent,
   };
 }
 

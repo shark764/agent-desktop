@@ -23,6 +23,7 @@ function loginReducer(state = initialState, action) {
       return state;
     case LOGIN_SUCCESS:
       return state
+        .set('agent', action.agent)
         .set('logged_in', true)
         .set('login_error', false);
     case SET_AUTHENTICATED:

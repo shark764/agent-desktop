@@ -19,7 +19,6 @@ function TextInput(props) {
       height: '44px',
       backgroundColor: '#ffffff',
       border: 'solid 1px #979797',
-      fontFamily: 'ProximaNova',
       fontSize: '20px',
       fontWeight: 'bold',
       fontStyle: 'normal',
@@ -36,7 +35,7 @@ function TextInput(props) {
   };
 
   return (
-    <input style={[styles.base, styles.center, props.style]} type={props.type || 'text'} key={formatMessage(props.placeholder)} value={props.value} placeholder={formatMessage(props.placeholder)} onChange={(e) => props.cb(e.target.value)} autoComplete={props.autocomplete || ''} />
+    <input style={[styles.base, styles.center, props.style]} type={props.type || 'text'} key={formatMessage(props.placeholder)} value={props.value} placeholder={formatMessage(props.placeholder)} onChange={(e) => props.cb(e.target.value)} autoComplete={props.autocomplete || 'on'} />
   );
 }
 

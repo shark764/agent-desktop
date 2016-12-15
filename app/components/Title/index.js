@@ -11,7 +11,6 @@ import Radium from 'radium';
 function Title(props) {
   const styles = {
     base: {
-      fontFamily: 'ProximaNova',
       fontSize: '20px',
       fontWeight: 'bold',
       fontStyle: 'normal',

@@ -34,6 +34,15 @@ module.exports = {
       { test: /\.jpe?g$|\.gif$|\.png$|\.svg$/i,
         loader: 'null-loader',
       },
+      {
+        test: /\.otf$/,
+        loader: 'url',
+        query: {
+          limit: 50000,
+          mimetype: 'application/opentype',
+          name: './fonts/[hash].[ext]',
+        },
+      },
     ],
   },
 

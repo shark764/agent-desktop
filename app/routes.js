@@ -15,49 +15,27 @@ export default function createRoutes(store) {
   return [
     {
       path: '/',
-      name: 'home',
-      getComponent(nextState, cb) {
-        const importModules = Promise.all([
-          System.import('containers/Login/reducer'),
-          System.import('containers/Login/sagas'),
-          System.import('containers/Login'),
-        ]);
-
-        const renderRoute = loadModule(cb);
-
-        importModules.then(([reducer, sagas, component]) => {
-          injectReducer('login', reducer.default);
-          injectSagas(sagas.default);
-          renderRoute(component);
-        });
-
-        importModules.catch(errorLoading);
-      },
-    }, {
-      path: '/login',
-      name: 'login',
-      getComponent(nextState, cb) {
-        const importModules = Promise.all([
-          System.import('containers/Login/reducer'),
-          System.import('containers/Login/sagas'),
-          System.import('containers/Login'),
-        ]);
-
-        const renderRoute = loadModule(cb);
-
-        importModules.then(([reducer, sagas, component]) => {
-          injectReducer('login', reducer.default);
-          injectSagas(sagas.default);
-          renderRoute(component);
-        });
-
-        importModules.catch(errorLoading);
-      },
-    }, {
-      path: '/desktop',
       name: 'agentDesktop',
       getComponent(nextState, cb) {
-        const importModules = Promise.all([
+       // --- Add containers here to use them --- //
+
+        const importLoginModules = Promise.all([
+          System.import('containers/Login/reducer'),
+          System.import('containers/Login/sagas'),
+        ]);
+
+        importLoginModules.then(([reducer, sagas]) => {
+          injectReducer('login', reducer.default);
+          injectSagas(sagas.default);
+        });
+
+        importLoginModules.catch(errorLoading);
+
+        // --- End Container Import --- //
+
+        // --- App Top Level --- //
+
+        const importAppModules = Promise.all([
           System.import('containers/AgentDesktop/reducer'),
           System.import('containers/AgentDesktop/sagas'),
           System.import('containers/AgentDesktop'),
@@ -65,13 +43,13 @@ export default function createRoutes(store) {
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([reducer, sagas, component]) => {
+        importAppModules.then(([reducer, sagas, component]) => {
           injectReducer('agentDesktop', reducer.default);
           injectSagas(sagas.default);
           renderRoute(component);
         });
 
-        importModules.catch(errorLoading);
+        importAppModules.catch(errorLoading);
       },
     }, {
       path: '*',
