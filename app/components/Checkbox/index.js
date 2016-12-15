@@ -13,7 +13,6 @@ function Checkbox(props) {
   const { formatMessage } = props.intl;
   const styles = {
     base: {
-      fontFamily: 'ProximaNova',
       fontSize: '16px',
       fontWeight: 'normal',
       fontStyle: 'normal',

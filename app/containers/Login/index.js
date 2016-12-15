@@ -6,7 +6,6 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 import '../../../node_modules/mcluhan/release/mcluhan';
 
 import selectLogin from './selectors';
@@ -19,6 +18,7 @@ import TextInput from 'components/TextInput';
 import CheckBox from 'components/Checkbox';
 import Button from 'components/Button';
 import A from 'components/A';
+import Select from 'components/Select';
 
 import { setAuthenticated, loginError, loginSuccess } from './actions';
 
@@ -33,6 +33,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.setPassword = this.setPassword.bind(this);
     this.setRemember = this.setRemember.bind(this);
     this.loginCB = this.loginCB.bind(this);
+    this.onTenantSelect = this.onTenantSelect.bind(this);
   }
 
   componentDidMount() {
@@ -49,6 +50,22 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     }
   }
 
+  onTenantSelect() {
+    if (this.state.tenantId !== -1) {
+      const sessionParams = {
+        'tenant-id': this.state.tenantId,
+        'on-notification': function handleSqsMessage() {
+          // console.log('handleSqsMessage');
+        },
+        callback: function sessionBeginCallback() {
+          // console.log('SESSION BEGIN CB FIRED');
+          // changeState('notready');
+        },
+      };
+      SDK.Agent.Session.beginSession(sessionParams);
+    }
+  }
+
   setPassword(password) {
     this.setState({ password });
   }
@@ -61,12 +78,31 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.setState({ remember });
   }
 
+  setTenantId(tenantId) {
+    this.setState({ tenantId });
+  }
+
   getContent() {
+    // TODO when tenants.length == 0, == 1
+    if (this.props.logged_in && this.props.agent) {
+      // console.log('getContent agent', this.props.agent);
+      const tenantOptions = this.props.agent.tenants.map((tenant) => <option key={tenant['tenant-id']} value={tenant['tenant-id']}>{tenant['tenant-name']}</option>);
+      return (
+        // TODO components for option
+        <div>
+          <Select style={{ width: '282px' }} onChange={(e) => this.setTenantId(e.target.value)}>
+            <option style={this.styles.selectOptions} key={'default-tennant-select'} value={-1}> Please select tenant</option>
+            {tenantOptions}
+          </Select>
+          <Button style={{ marginTop: '34px' }} text={messages.sendButton} onClick={() => this.onTenantSelect()} />
+        </div>
+      );
+    }
     return (
       <div style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
         <Logo style={{ marginTop: '50px' }} width="275px" />
         <Title text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
-        <TextInput key={'username'} style={{ marginBottom: '11px' }} placeholder={messages.username} autocomplete="username" value={this.state.username} cb={this.setUser} />
+        <TextInput key={'username'} style={{ marginBottom: '11px' }} placeholder={messages.username} autocomplete="email" value={this.state.username} cb={this.setUser} />
         <TextInput key={'password'} type="password" placeholder={messages.password} autocomplete="password" value={this.state.password} cb={this.setPassword} />
         <CheckBox style={{ marginLeft: '-9.35em', marginBottom: '11px', marginTop: '15px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.setRemember} />
         <Button style={{ marginTop: '34px' }} text={messages.sendButton} onClick={() => this.onLogin()} />
@@ -75,10 +111,9 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     );
   }
 
-  loginCB() {
-    // TODO: Starting point for Thursday
-    // agent.tennants
-    this.props.dispatch(push('/desktop'));
+  loginCB(agent) {
+    //  this.props.dispatch(push('/desktop'));
+    this.props.loginSuccess(agent);
   }
 
   styles = {
@@ -87,7 +122,6 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       height: '100vh',
       minHeight: '100%',
       backgroundColor: '#051e24',
-      fontFamily: 'ProximaNova',
       fontSize: '16px',
       fontWeight: 'normal',
       fontStyle: 'normal',
@@ -106,6 +140,13 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       justifyContent: 'center',
       alignContent: 'stretch',
       alignItems: 'center',
+    },
+    selectOptions: {
+      boxShadow: '0 0 6px 1px rgba(0,0,0,0.08)',
+      border: '1px solid #EAE AEA',
+      borderRadius: 'px',
+      width: '282px',
+      backgroundColor: '#FFFFFF',
     },
   };
 
@@ -126,15 +167,19 @@ const mapStateToProps = Object.assign(selectLogin(), selectAgentDesktop());
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginSuccess: () => dispatch(loginSuccess()),
+    loginSuccess: (agent) => dispatch(loginSuccess(agent)),
     setAuthenticated: () => dispatch(setAuthenticated()),
     loginError: () => dispatch(loginError()),
+    // initSDK: (sdk) => dispatch(initSDK(sdk)),
     dispatch,
   };
 }
 
 Login.propTypes = {
-  dispatch: PropTypes.func,
+  // dispatch: PropTypes.func,
+  loginSuccess: PropTypes.func,
+  agent: PropTypes.object,
+  logged_in: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(Login));

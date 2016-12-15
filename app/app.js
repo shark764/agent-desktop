@@ -21,6 +21,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
 import LanguageProvider from 'containers/LanguageProvider';
 import configureStore from './store';
+import './global-styles';
 
 // Initialize Remote Logging with Sentry.io
 Raven.config('https://4dd03af6283843ccaa18ac2dc221149f@sentry.io/121909', {

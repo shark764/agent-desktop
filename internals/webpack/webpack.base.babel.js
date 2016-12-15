@@ -27,9 +27,19 @@ module.exports = (options) => ({
       include: /node_modules/,
       loaders: ['style-loader', 'css-loader'],
     }, {
-      test: /\.(eot|svg|ttf|woff|woff2)$/,
+      test: /\.(eot|svg)$/,
       loader: 'file-loader',
-    }, {
+    },
+    {
+      test: /\.[ot]tf$/,
+      loader: 'url',
+      query: {
+        limit: 50000,
+        mimetype: 'application/opentype',
+        name: './fonts/[hash].[ext]',
+      },
+    },
+    {
       test: /\.(jpg|png|gif)$/,
       loaders: [
         'file-loader',
