@@ -6,7 +6,7 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import './mcluhan';
+import '../../../internals/scripts/mcluhan';
 import { injectIntl, intlShape } from 'react-intl';
 
 import selectLogin from './selectors';
@@ -53,7 +53,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   }
 
   componentDidMount() {
-    window.SDK = cxSDK.init('https://dev-api.cxengagelabs.net/v1/');
+    window.SDK = cxSDK.init('https://dev-api.cxengagelabs.net');
     // console.log('SDK', window.SDK);
   }
 
