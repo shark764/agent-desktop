@@ -12,6 +12,6 @@ export default defineMessages({
   },
   notReady: {
     id: 'app.containers.Toolbar.notReady',
-    defaultMessage: 'Not Ready',
+    defaultMessage: 'NOT READY',
   },
 });

@@ -6,7 +6,7 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import '../../../node_modules/mcluhan/release/mcluhan';
+import './mcluhan';
 import { injectIntl, intlShape } from 'react-intl';
 
 import selectLogin from './selectors';
@@ -71,18 +71,18 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     if (this.state.tenantId !== -1) {
       const sessionParams = {
         'tenant-id': this.state.tenantId,
-        'on-notification': function handleSqsMessage(...allArguments) {
-          console.log('NOTIFICATION!', allArguments);
+        'on-notification': function handleSqsMessage(...allArguments) { // eslint-disable-line
+          // console.log('NOTIFICATION!', allArguments);
         },
         callback: function sessionBeginCallback() {
           const initState = 'notready';
           const changePresenceStateParams = {
             state: initState,
-            'on-complete': function changePresStateOnComplete(...allArguments) {
-              console.log('CHANGE PRESENCE STATE ONCOMPLETE', allArguments);
+            'on-complete': function changePresStateOnComplete(...allArguments) { // eslint-disable-line
+              // console.log('CHANGE PRESENCE STATE ONCOMPLETE', allArguments);
             },
-            callback: (...allArguments) => {
-              console.log('CHANGE PRESENCE CALL BACH', allArguments);
+            callback: (...allArguments) => { // eslint-disable-line
+              // console.log('CHANGE PRESENCE CALL BACH', allArguments);
             },
           };
           SDK.Agent.Session.changePresenceState(changePresenceStateParams);

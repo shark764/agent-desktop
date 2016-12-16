@@ -10,7 +10,7 @@ import selectAgentDesktop from './selectors';
 
 import InteractionsBar from 'containers/InteractionsBar';
 import MainContentArea from 'containers/MainContentArea';
-import SidePanel from 'containers/SidePanel';
+// import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
 import Login from 'containers/Login';
