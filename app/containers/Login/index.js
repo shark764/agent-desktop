@@ -6,7 +6,8 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import '../../../internals/scripts/mcluhan';
+import '../../assets/js/mcluhan';
+
 import { injectIntl, intlShape } from 'react-intl';
 
 import selectLogin from './selectors';
