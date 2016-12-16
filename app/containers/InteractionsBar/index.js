@@ -4,17 +4,23 @@
  *
  */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import selectInteractionsBar from './selectors';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+import Radium from 'radium';
 
-export class InteractionsBar extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+export class InteractionsBar extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  styles = {
+    base: {
+      backgroundColor: '#072931',
+    },
+  }
+
   render() {
     return (
-      <div>
-        <FormattedMessage {...messages.header} />
+      <div style={[this.styles.base, this.props.style]}>
       </div>
     );
   }
@@ -28,4 +34,8 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InteractionsBar);
+InteractionsBar.propTypes = {
+  style: PropTypes.array,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(InteractionsBar));

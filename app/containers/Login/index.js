@@ -71,11 +71,21 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     if (this.state.tenantId !== -1) {
       const sessionParams = {
         'tenant-id': this.state.tenantId,
-        'on-notification': function handleSqsMessage() {
-          // debugger;
+        'on-notification': function handleSqsMessage(...allArguments) {
+          console.log('NOTIFICATION!', allArguments);
         },
         callback: function sessionBeginCallback() {
-          // debugger;
+          const initState = 'notready';
+          const changePresenceStateParams = {
+            state: initState,
+            'on-complete': function changePresStateOnComplete(...allArguments) {
+              console.log('CHANGE PRESENCE STATE ONCOMPLETE', allArguments);
+            },
+            callback: (...allArguments) => {
+              console.log('CHANGE PRESENCE CALL BACH', allArguments);
+            },
+          };
+          SDK.Agent.Session.changePresenceState(changePresenceStateParams);
         },
       };
       SDK.Agent.Session.beginSession(sessionParams);
