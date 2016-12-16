@@ -42,9 +42,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.setEmail = this.setEmail.bind(this);
     this.setPassword = this.setPassword.bind(this);
     this.setRemember = this.setRemember.bind(this);
-    this.setDirection = this.setDirection.bind(this);
     this.loginCB = this.loginCB.bind(this);
-    this.onTenantSelect = this.onTenantSelect.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.onLogin = this.onLogin.bind(this);
     this.setRequestingPassword = this.setRequestingPassword.bind(this);
@@ -69,26 +67,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
 
   onTenantSelect() {
     if (this.state.tenantId !== -1) {
-      const sessionParams = {
-        'tenant-id': this.state.tenantId,
-        'on-notification': function handleSqsMessage(...allArguments) { // eslint-disable-line
-          // console.log('NOTIFICATION!', allArguments);
-        },
-        callback: function sessionBeginCallback() {
-          const initState = 'notready';
-          const changePresenceStateParams = {
-            state: initState,
-            'on-complete': function changePresStateOnComplete(...allArguments) { // eslint-disable-line
-              // console.log('CHANGE PRESENCE STATE ONCOMPLETE', allArguments);
-            },
-            callback: (...allArguments) => { // eslint-disable-line
-              // console.log('CHANGE PRESENCE CALL BACH', allArguments);
-            },
-          };
-          SDK.Agent.Session.changePresenceState(changePresenceStateParams);
-        },
-      };
-      SDK.Agent.Session.beginSession(sessionParams);
+      this.props.beginSession(this.state.tenantId);
       this.props.showLogin(false);
     }
   }
@@ -109,10 +88,6 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.setState({ remember });
   }
 
-  setTenantId(tenantId) {
-    this.setState({ tenantId });
-  }
-
   getLoggedInContent() {
     const tenantOptions = this.props.agent.tenants.map((t) => {
       const tenant = t;
@@ -122,7 +97,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       <div style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
         <Logo style={{ marginTop: '50px' }} width="275px" />
         <Title text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
-        <Select style={{ width: '282px' }} value={this.state.tenantId} onChange={(e) => this.setTenantId(e.value || '')} options={tenantOptions} />
+        <Select style={{ width: '282px' }} value={this.state.tenantId} onChange={(e) => this.setTenantId(e.value || '-1')} options={tenantOptions} />
         <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
         <Button style={{ marginTop: '34px' }} text={messages.sendButton} onClick={() => this.onTenantSelect()} />
       </div>
@@ -161,6 +136,10 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.setState({ requestingPassword: true });
   }
 
+  setTenantId(tenantId) {
+    this.setState({ tenantId });
+  }
+
   setDirection(agentDirection) {
     this.setState({ agentDirection });
   }
@@ -180,11 +159,8 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   }
 
   loginCB(agent) {
-    //  this.props.dispatch(push('/desktop'));
-    // console.log('agent', agent);
     this.props.loginSuccess(agent);
   }
-
 
   styles = {
     base: {
@@ -244,7 +220,6 @@ function mapDispatchToProps(dispatch) {
     setAuthenticated: () => dispatch(setAuthenticated()),
     loginError: () => dispatch(loginError()),
     showLogin: (show) => dispatch(showLogin(show)),
-    // initSDK: (sdk) => dispatch(initSDK(sdk)),
     dispatch,
   };
 }
@@ -256,6 +231,7 @@ Login.propTypes = {
   agent: PropTypes.object,
   logged_in: PropTypes.bool,
   showLogin: PropTypes.func,
+  beginSession: PropTypes.func,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Login)));
