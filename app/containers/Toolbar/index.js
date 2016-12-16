@@ -11,6 +11,8 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import Radium from 'radium';
 
+import { showAgentStatusMenu } from './actions';
+
 export class Toolbar extends React.Component { // eslint-disable-line react/prefer-stateless-function
   styles = {
     base: {
@@ -41,6 +43,10 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       paddingRight: '8px',
       paddingTop: '3px',
       paddingBottom: '4px',
+      outline: 'none',
+      borderRadius: this.props.agentStatusMenu ? '2px' : '0px',
+      boxShadow: this.props.agentStatusMenu ? '0 0 2px 1px rgba(0,0,0,0.29)' : 'none',
+      backgroundColor: this.props.agentStatusMenu ? '#C93952' : 'transparent',
       ':hover': {
         borderRadius: '2px',
         boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
@@ -73,6 +79,48 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       lineHeight: '19px',
       color: '#FFFFFF',
     },
+    agentStatusMenu: {
+      position: 'fixed',
+      width: '303px',
+      borderRadius: '8px',
+      backgroundColor: '#FFFFFF',
+      boxShadow: '0 0 6px 1px rgba(0,0,0,0.29)',
+      left: '12px',
+      bottom: '66px',
+      height: '200px',
+      paddingBottom: '16px',
+      paddingTop: '16px',
+      paddingLeft: '24px',
+      paddingRight: '24px',
+    },
+    agentStatusMenuTriangle: {
+      position: 'absolute',
+      width: '0px',
+      height: '0px',
+      left: '51px',
+      bottom: '60px',
+      zIndex: '1',
+      borderWidth: '8px',
+      borderStyle: 'solid',
+      borderColor: '#FFF transparent transparent #FFF',
+      borderImage: 'initial',
+      transform: 'rotate(-134deg)',
+      borderRadius: '3px',
+    },
+    readyLink: {
+      fontSize: '16px',
+      lineHeight: '19px',
+      color: '#363636',
+      textDecoration: 'underline',
+      borderTop: '1px solid #E1E1E1',
+      boxSizing: 'border-box',
+      bottom: '0px',
+      position: 'absolute',
+      width: 'calc(100% - 48px)',
+      paddingTop: '10px',
+      paddingBottom: '16px',
+      cursor: 'pointer',
+    },
   }
 
   render() {
@@ -80,10 +128,10 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       <div style={[this.styles.base, this.props.style]}>
         <div id="toolbar-container" style={[this.styles.container]}>
           <div id="agent-button-container" style={[this.styles.agentButtonContainer]}>
-            <span id="agent-button" style={[this.styles.agentButton]}>
+            <button id="agent-button" style={[this.styles.agentButton]} onClick={() => this.props.showAgentStatusMenu(true)}>
               <span id="agent-state" style={[this.styles.agentState]}>
                 {
-                  this.props.readyState
+                  this.props.readyState === 'ready'
                   ? <FormattedMessage {...messages.ready} />
                   : <FormattedMessage {...messages.notReady} />
                 }
@@ -91,8 +139,18 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
               <span id="agent-timer" style={[this.styles.agentTimer]}>
                 00:00:00
               </span>
-            </span>
+            </button>
           </div>
+          {
+            this.props.agentStatusMenu
+            ? <span>
+              <span style={[this.styles.agentStatusMenuTriangle]} />
+              <div id="agent-status-menu" style={this.styles.agentStatusMenu}>
+                <div style={[this.styles.readyLink]} onClick={() => { this.props.changePresence('ready'); this.props.showAgentStatusMenu(false); }}><FormattedMessage {...messages.ready} /></div>
+              </div>
+            </span>
+            : ''
+          }
           <span id="agent-stats" style={[this.styles.stats]} />
           <span id="agent-config" style={[this.styles.config]}>
           Gear
@@ -107,6 +165,7 @@ const mapStateToProps = selectToolbar();
 
 function mapDispatchToProps(dispatch) {
   return {
+    showAgentStatusMenu: (show) => dispatch(showAgentStatusMenu(show)),
     dispatch,
   };
 }
@@ -114,6 +173,9 @@ function mapDispatchToProps(dispatch) {
 Toolbar.propTypes = {
   style: PropTypes.array,
   readyState: PropTypes.bool.isRequired,
+  showAgentStatusMenu: PropTypes.func,
+  agentStatusMenu: PropTypes.bool,
+  changePresence: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(Toolbar));

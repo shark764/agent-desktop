@@ -52,7 +52,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   }
 
   componentDidMount() {
-    window.SDK = cxSDK.init('https://dev-api.cxengagelabs.net');
+    window.SDK = cxSDK.init('https://dev-api.cxengagelabs.net/');
     // console.log('SDK', window.SDK);
   }
 

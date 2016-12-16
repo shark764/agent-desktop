@@ -109,7 +109,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
               <MainContentArea style={[this.styles.flexchild]} />
               { /* <SidePanel style={[this.styles.flexchild, this.styles.sidebar]} />   */ }
             </div>
-            <Toolbar readyState={false} style={[this.styles.flexchild, this.styles.toolbar]} />
+            <Toolbar changePresence={this.changePresence} readyState={this.props.agentDesktop.presence} style={[this.styles.flexchild, this.styles.toolbar]} />
           </div>
         }
       </div>
@@ -136,6 +136,7 @@ AgentDesktop.propTypes = {
   setDirection: PropTypes.func,
   setPresence: PropTypes.func,
   setAvailablePresences: PropTypes.func,
+  agentDesktop: PropTypes.object,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(AgentDesktop)));
