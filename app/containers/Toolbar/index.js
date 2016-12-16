@@ -24,13 +24,28 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       alignContent: 'stretch',
       alignItems: 'flex-start',
     },
-    agentButton: {
+    agentButtonContainer: {
       order: '0',
       flex: '0 1 auto',
       alignSelf: 'auto',
       borderRight: '1px solid rgba(6, 30, 36, 1.0)',
       width: '277px',
       height: '54px',
+    },
+    agentButton: {
+      cursor: 'pointer',
+      marginLeft: '11px',
+      marginTop: '5px',
+      display: 'inline-grid',
+      paddingLeft: '8px',
+      paddingRight: '8px',
+      paddingTop: '3px',
+      paddingBottom: '4px',
+      ':hover': {
+        borderRadius: '2px',
+        boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+        backgroundColor: '#C93952',
+      },
     },
     stats: {
       order: '0',
@@ -50,8 +65,6 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       lineHeight: '19px',
       color: '#FFFFFF',
       display: 'block',
-      marginLeft: '22px',
-      marginTop: '6px',
       fontWeight: 'lighter',
     },
     agentTimer: {
@@ -59,7 +72,6 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       fontWeight: 'bold',
       lineHeight: '19px',
       color: '#FFFFFF',
-      marginLeft: '22px',
     },
   }
 
@@ -67,18 +79,20 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
     return (
       <div style={[this.styles.base, this.props.style]}>
         <div id="toolbar-container" style={[this.styles.container]}>
-          <span id="agent-button" style={[this.styles.agentButton]}>
-            <span id="agent-state" style={[this.styles.agentState]}>
-              {
-                this.props.readyState
-                ? <FormattedMessage {...messages.ready} />
-                : <FormattedMessage {...messages.notReady} />
-              }
+          <div id="agent-button-container" style={[this.styles.agentButtonContainer]}>
+            <span id="agent-button" style={[this.styles.agentButton]}>
+              <span id="agent-state" style={[this.styles.agentState]}>
+                {
+                  this.props.readyState
+                  ? <FormattedMessage {...messages.ready} />
+                  : <FormattedMessage {...messages.notReady} />
+                }
+              </span>
+              <span id="agent-timer" style={[this.styles.agentTimer]}>
+                00:00:00
+              </span>
             </span>
-            <span id="agent-timer" style={[this.styles.agentTimer]}>
-              00:00:00
-            </span>
-          </span>
+          </div>
           <span id="agent-stats" style={[this.styles.stats]} />
           <span id="agent-config" style={[this.styles.config]}>
           Gear

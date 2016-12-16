@@ -7,8 +7,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import selectInteractionsBar from './selectors';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 import Radium from 'radium';
 
 export class InteractionsBar extends React.Component { // eslint-disable-line react/prefer-stateless-function
