@@ -14,9 +14,21 @@ import Radium from 'radium';
 import { showAgentStatusMenu } from './actions';
 
 export class Toolbar extends React.Component { // eslint-disable-line react/prefer-stateless-function
+
+  getStyle() {
+    if (this.props.readyState === 'ready') {
+      return [this.styles.base, this.props.style];
+    } else {
+      return [this.styles.base, this.styles.ready, this.props.style];
+    }
+  }
+
   styles = {
     base: {
-      backgroundColor: this.props.readyState ? '#072931' : '#FE4565',
+      backgroundColor: '#072931',
+    },
+    ready: {
+      backgroundColor: '#FE4565',
     },
     container: {
       display: 'flex',
@@ -125,7 +137,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
 
   render() {
     return (
-      <div style={[this.styles.base, this.props.style]}>
+      <div key={this.props.readyState} style={this.getStyle()}>
         <div id="toolbar-container" style={[this.styles.container]}>
           <div id="agent-button-container" style={[this.styles.agentButtonContainer]}>
             <button id="agent-button" style={[this.styles.agentButton]} onClick={() => this.props.showAgentStatusMenu(true)}>
