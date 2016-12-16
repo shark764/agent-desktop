@@ -6,8 +6,12 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  header: {
-    id: 'app.containers.Toolbar.header',
-    defaultMessage: 'This is Toolbar container !',
+  ready: {
+    id: 'app.containers.Toolbar.ready',
+    defaultMessage: 'Ready',
+  },
+  notReady: {
+    id: 'app.containers.Toolbar.notReady',
+    defaultMessage: 'Not Ready',
   },
 });
