@@ -1,5 +1,5 @@
 // No need to build the DLL in production
-if (process.env.NODE_ENV === 'production') {
+if (typeof process.env.NODE_ENV === 'undefined' || process.env.NODE_ENV === 'production') {
   process.exit(0);
 }
 
