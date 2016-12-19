@@ -10,7 +10,8 @@ import selectToolbar from './selectors';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import Radium from 'radium';
-import Icon from 'react-fontawesome';
+
+import Icon from 'components/Icon';
 
 import { showAgentStatusMenu } from './actions';
 
@@ -166,7 +167,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
           }
           <span id="agent-stats" style={[this.styles.stats]} />
           <div id="agent-config" style={[this.styles.config]}>
-            <Icon name="rocket" style={{ color: '#FFFFFF' }} />
+            <Icon name="config" style={{ width: '18px', marginLeft: '13px', marginTop: '17px' }} />
           </div>
         </div>
       </div>

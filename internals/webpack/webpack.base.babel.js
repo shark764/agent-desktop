@@ -51,6 +51,9 @@ module.exports = (options) => ({
       test: /\.json$/,
       loader: 'json-loader',
     }, {
+      test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+    }, {
       test: /\.(mp4|webm)$/,
       loader: 'url-loader?limit=10000',
     }],
