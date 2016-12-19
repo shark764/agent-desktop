@@ -68,6 +68,9 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
       this.props.setDirection(changePresenceResult.direction);
       this.props.setPresence(changePresenceResult.state);
       this.props.setAvailablePresences(changePresenceResult.availableStates);
+      if (newPresence === 'ready') {
+        SDK.Agent.Session.Messaging.init({ onReceived: (e) => console.log('GOT A MESSAGE!', e) }); // eslint-disable-line
+      }
     };
 
     const changePresenceParams = {
@@ -78,6 +81,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
         console.log('CHANGE PRESENCE CALL BACH', allArguments); // eslint-disable-line
       },
     };
+
     SDK.Agent.Session.changePresenceState(changePresenceParams);
   }
 
