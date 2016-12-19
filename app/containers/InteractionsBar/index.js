@@ -17,8 +17,13 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
   }
 
   render() {
+    // TODO components for these
+    const messagingInteractions = this.props.messagingInteractions.map((messagingInteraction) => {
+      return <div key={messagingInteraction.interactionId}>{messagingInteraction.interactionId}</div>;
+    });
     return (
       <div style={[this.styles.base, this.props.style]}>
+        {messagingInteractions}
       </div>
     );
   }
@@ -34,6 +39,7 @@ function mapDispatchToProps(dispatch) {
 
 InteractionsBar.propTypes = {
   style: PropTypes.array,
+  messagingInteractions: PropTypes.array.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(InteractionsBar));

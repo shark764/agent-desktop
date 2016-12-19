@@ -9,6 +9,7 @@ import {
   SET_DIRECTION,
   SET_PRESENCE,
   SET_AVAILABLE_PRESENCES,
+  ADD_MESSAGING_INTERACTION,
 } from './constants';
 
 export function setTenantId(tenantId) {
@@ -36,5 +37,12 @@ export function setAvailablePresences(presences) {
   return {
     type: SET_AVAILABLE_PRESENCES,
     presences,
+  };
+}
+
+export function addMessagingInteraction(messagingInteraction) {
+  return {
+    type: ADD_MESSAGING_INTERACTION,
+    messagingInteraction,
   };
 }
