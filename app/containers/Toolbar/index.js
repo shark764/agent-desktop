@@ -186,7 +186,7 @@ function mapDispatchToProps(dispatch) {
 
 Toolbar.propTypes = {
   style: PropTypes.array,
-  readyState: PropTypes.bool.isRequired,
+  readyState: PropTypes.string,
   showAgentStatusMenu: PropTypes.func,
   agentStatusMenu: PropTypes.bool,
   changePresence: PropTypes.func,

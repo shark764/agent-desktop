@@ -10,9 +10,12 @@ import {
   SET_DIRECTION,
   SET_PRESENCE,
   SET_AVAILABLE_PRESENCES,
+  ADD_MESSAGING_INTERACTION,
 } from './constants';
 
-const initialState = fromJS({});
+const initialState = fromJS({
+  messagingInteractions: [],
+});
 
 function agentDesktopReducer(state = initialState, action) {
   switch (action.type) {
@@ -28,6 +31,9 @@ function agentDesktopReducer(state = initialState, action) {
     case SET_AVAILABLE_PRESENCES:
       return state
         .set('availablePresences', action.presences);
+    case ADD_MESSAGING_INTERACTION:
+      return state
+        .set('messagingInteractions', state.get('messagingInteractions').push(action.messagingInteraction));
     default:
       return state;
   }
