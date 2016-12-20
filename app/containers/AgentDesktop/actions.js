@@ -9,7 +9,7 @@ import {
   SET_DIRECTION,
   SET_PRESENCE,
   SET_AVAILABLE_PRESENCES,
-  ADD_MESSAGING_INTERACTION,
+  ADD_INTERACTION,
 } from './constants';
 
 export function setTenantId(tenantId) {
@@ -40,9 +40,9 @@ export function setAvailablePresences(presences) {
   };
 }
 
-export function addMessagingInteraction(messagingInteraction) {
+export function addInteraction(interaction) {
   return {
-    type: ADD_MESSAGING_INTERACTION,
-    messagingInteraction,
+    type: ADD_INTERACTION,
+    interaction,
   };
 }
