@@ -21,7 +21,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
     if (this.props.readyState === 'ready') {
       return [this.styles.base, this.props.style];
     } else {
-      return [this.styles.base, this.styles.ready, this.props.style];
+      return [this.styles.base, this.styles.notReady, this.props.style];
     }
   }
 
@@ -29,7 +29,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
     base: {
       backgroundColor: '#072931',
     },
-    ready: {
+    notReady: {
       backgroundColor: '#FE4565',
     },
     container: {
@@ -39,28 +39,28 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       justifyContent: 'flex-start',
       alignContent: 'stretch',
       alignItems: 'flex-start',
+      overflow: 'hidden',
     },
     agentButtonContainer: {
       order: '0',
       flex: '0 1 auto',
       alignSelf: 'auto',
-      borderRight: '1px solid rgba(6, 30, 36, 1.0)',
       width: '277px',
       height: '54px',
     },
     agentButton: {
       cursor: 'pointer',
-      marginLeft: '11px',
-      marginTop: '5px',
+      marginLeft: '8px',
+      marginTop: '3px',
       display: 'inline-grid',
-      paddingLeft: '8px',
-      paddingRight: '8px',
-      paddingTop: '3px',
-      paddingBottom: '4px',
+      paddingLeft: '23px',
+      paddingRight: '23px',
+      paddingTop: '8px',
+      paddingBottom: '8px',
       outline: 'none',
-      borderRadius: this.props.agentStatusMenu ? '2px' : '0px',
-      boxShadow: this.props.agentStatusMenu ? '0 0 2px 1px rgba(0,0,0,0.29)' : 'none',
-      backgroundColor: this.props.agentStatusMenu ? '#C93952' : 'transparent',
+      height: '47px',
+      borderRadius: this.props.agentStatusMenu ? '3px' : '0px',
+      backgroundColor: this.props.agentStatusMenu ? '#cb3750' : 'transparent',
       ':hover': {
         borderRadius: '2px',
         boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
@@ -76,13 +76,12 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       order: '0',
       flex: '0 1 45px',
       alignSelf: 'auto',
-      backgroundColor: 'rgba(59, 59, 59, 1.0)',
       height: '54px',
       width: '50px',
     },
     agentState: {
-      fontSize: '16px',
-      lineHeight: '19px',
+      fontSize: '14px',
+      lineHeight: '17px',
       color: '#FFFFFF',
       display: 'block',
       fontWeight: 'lighter',
@@ -92,6 +91,9 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       fontWeight: 'bold',
       lineHeight: '19px',
       color: '#FFFFFF',
+      top: '-18px',
+      position: 'relative',
+      marginLeft: '32px',
     },
     agentStatusMenu: {
       position: 'fixed',
@@ -146,8 +148,14 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
               <span id="agent-state" style={[this.styles.agentState]}>
                 {
                   this.props.readyState === 'ready'
-                  ? <FormattedMessage {...messages.ready} />
-                  : <FormattedMessage {...messages.notReady} />
+                  ? <span>
+                    <Icon name="connected" style={{ height: '34px' }} />
+                    <span style={{ top: '-8px', position: 'relative', marginLeft: '24px' }}><FormattedMessage {...messages.ready} /></span>
+                  </span>
+                  : <span>
+                    <Icon name="not_connected" style={{ height: '34px' }} />
+                    <span style={{ top: '-8px', position: 'relative', marginLeft: '24px' }}><FormattedMessage {...messages.notReady} /></span>
+                  </span>
                 }
               </span>
               <span id="agent-timer" style={[this.styles.agentTimer]}>

@@ -8,7 +8,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import '../../assets/js/mcluhan';
 
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import selectLogin from './selectors';
 import messages from './messages';
@@ -38,6 +38,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       requestingPassword: false,
       tenantId: '-1',
       agentDirection: props.intl.formatMessage(messages.inbound),
+      error: false,
     };
     this.setUser = this.setUser.bind(this);
     this.setEmail = this.setEmail.bind(this);
@@ -116,6 +117,12 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
         <CheckBox style={{ marginLeft: '-9.35em', marginBottom: '11px', marginTop: '15px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.setRemember} />
         <Button style={{ marginTop: '34px' }} text={messages.signInButton} onClick={() => this.onLogin()} />
         <A text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
+        {this.state.error
+          ? <span style={[this.styles.error]}>
+            <FormattedMessage style={this.styles.center} {...messages.error} />
+          </span>
+          : ''
+        }
       </div>
     );
   }
@@ -168,7 +175,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       width: '100vw',
       height: '100vh',
       minHeight: '100%',
-      backgroundColor: '#051e24',
+      backgroundColor: '#072931',
       fontSize: '16px',
       fontWeight: 'normal',
       fontStyle: 'normal',
@@ -187,6 +194,18 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       justifyContent: 'center',
       alignContent: 'stretch',
       alignItems: 'center',
+    },
+    error: {
+      borderRadius: '3px 3px 0 0',
+      backgroundColor: '#FE4565',
+      width: '542px',
+      height: '31px',
+      color: '#FFFFFF',
+      fontWeight: 'lighter',
+      textAlign: 'center',
+      paddingTop: '3px',
+      position: 'relative',
+      top: '-509px',
     },
   };
 

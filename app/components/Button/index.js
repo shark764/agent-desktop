@@ -25,6 +25,12 @@ function Button(props) {
       cursor: 'pointer',
       outline: 'none',
       marginTop: '14px',
+      ':hover': {
+        backgroundColor: '#1FB8DC',
+      },
+      ':active': {
+        backgroundColor: '#14778D',
+      },
     },
   };
 
