@@ -175,7 +175,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       width: '100vw',
       height: '100vh',
       minHeight: '100%',
-      backgroundColor: '#051e24',
+      backgroundColor: '#072931',
       fontSize: '16px',
       fontWeight: 'normal',
       fontStyle: 'normal',

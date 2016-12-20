@@ -26,10 +26,11 @@ function TextInput(props) {
       color: '#494949',
       outline: 'none',
       padding: '11px',
+      borderRadius: '2px',
 
       ':focus': {
         boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
-        border: 'solid 1px #23cdf4',
+        border: 'solid 1px #23CEF5',
       },
     },
   };
