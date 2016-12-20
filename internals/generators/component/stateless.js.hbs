@@ -21,7 +21,7 @@ function {{ properCase name }}() {
     base: {
       // styles
     },
-  }
+  };
   {{/if}}
 
   return (
@@ -38,7 +38,7 @@ function {{ properCase name }}() {
 }
 
 {{#if wantCSS}}
-  export default Radium({{ properCase name }});
+export default Radium({{ properCase name }});
 {{else}}
-  export default {{ properCase name }};
+export default {{ properCase name }};
 {{/if}}
