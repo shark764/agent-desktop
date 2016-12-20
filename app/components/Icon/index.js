@@ -6,7 +6,8 @@
 
 import React, { PropTypes } from 'react';
 import config from 'assets/icons/config.png';
-
+import message from 'assets/icons/message.png';
+import messageNew from 'assets/icons/message_new.png';
 
 import Radium from 'radium';
 
@@ -15,6 +16,10 @@ function Icon(props) {
     switch (props.name) {
       case 'config':
         return config;
+      case 'messaage':
+        return message;
+      case 'message_active':
+        return messageNew;
       default:
         return null;
     }
