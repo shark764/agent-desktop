@@ -6,7 +6,7 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { selectPendingNonVoiceInteractions, selectActiveNonVoiceInteractions } from './selectors';
+import { selectPendingInteractions, selectActiveInteractions } from './selectors';
 import Radium from 'radium';
 
 import messages from './messages';
@@ -27,39 +27,36 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
 
   render() {
     // TODO different styling for accepted ones
-    const activeNonVoiceInteractions = this.props.activeNonVoiceInteractions.map((pendingNonVoiceInteraction) =>
-      <div style={{ backgroundColor: '#F3F3F3', padding: '20px 16px', borderRadius: '3px', height: '123px', width: '100%' }} key={pendingNonVoiceInteraction.interactionId} onClick={() => this.props.acceptInteraction(pendingNonVoiceInteraction.interactionId)}>
+    const activeInteractions = this.props.activeInteractions.map((activeInteraction) =>
+      <div style={{ backgroundColor: '#F3F3F3', padding: '20px 16px', borderRadius: '3px', height: '123px', width: '100%' }} key={activeInteraction.interactionId}>
         <Icon name="chat" style={{ float: 'left', width: '20px', height: '16px' }} />
         <div style={{ float: 'left', marginLeft: '5px', width: '190px' }}>
           <div style={{ float: 'right', color: '#23CEF5' }}>
             0:00
           </div>
           <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px' }}>
-            {pendingNonVoiceInteraction.messageHistory[0].metadata.name}
+            {activeInteraction.messageHistory[0].metadata.name}
           </div>
           <div style={{ height: '36px', lineHeight: '18px', marginTop: '5px' }}>
-            {pendingNonVoiceInteraction.messageHistory[0].body.text}
-          </div>
-          <div style={{ color: '#979797', fontSize: '12px', marginTop: '11px' }}>
-            <FormattedMessage {...messages.accept} />
+            {activeInteraction.messageHistory[0].body.text}
           </div>
         </div>
       </div>
     );
 
     // TODO components for this
-    const pendingNonVoiceInteractions = this.props.pendingNonVoiceInteractions.map((pendingNonVoiceInteraction) =>
-      <div style={{ backgroundColor: '#F3F3F3', padding: '20px 16px', borderRadius: '3px', height: '123px', width: '100%' }} key={pendingNonVoiceInteraction.interactionId} onClick={() => this.props.acceptInteraction(pendingNonVoiceInteraction.interactionId)}>
+    const pendingInteractions = this.props.pendingInteractions.map((pendingInteraction) =>
+      <div style={{ backgroundColor: '#F3F3F3', padding: '20px 16px', borderRadius: '3px', height: '123px', width: '100%' }} key={pendingInteraction.interactionId} onClick={() => this.props.acceptInteraction(pendingInteraction.interactionId)}>
         <Icon name="message_new" style={{ float: 'left', width: '20px', height: '16px' }} />
         <div style={{ float: 'left', marginLeft: '5px', width: '190px' }}>
           <div style={{ float: 'right', color: '#23CEF5' }}>
             0:00
           </div>
           <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px' }}>
-            {pendingNonVoiceInteraction.messageHistory[0].metadata.name}
+            {pendingInteraction.messageHistory[0].metadata.name}
           </div>
           <div style={{ height: '36px', lineHeight: '18px', marginTop: '5px' }}>
-            {pendingNonVoiceInteraction.messageHistory[0].body.text}
+            {pendingInteraction.messageHistory[0].body.text}
           </div>
           <div style={{ color: '#979797', fontSize: '12px', marginTop: '11px' }}>
             <FormattedMessage {...messages.accept} />
@@ -69,12 +66,11 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
     );
     return (
       <div style={[this.styles.base, this.props.style]}>
-        <div>{ /* active voice interaction here */ }</div>
-        <div>
-          {activeNonVoiceInteractions}
+        <div style={{ position: 'absolute', top: 0, width: '100%', padding: '11px' }}>
+          {activeInteractions}
         </div>
         <div style={{ position: 'absolute', bottom: 0, width: '100%', padding: '11px' }}>
-          {pendingNonVoiceInteractions}
+          {pendingInteractions}
         </div>
       </div>
     );
@@ -82,8 +78,8 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
 }
 
 const mapStateToProps = (state, props) => ({
-  pendingNonVoiceInteractions: selectPendingNonVoiceInteractions()(state, props),
-  activeNonVoiceInteractions: selectActiveNonVoiceInteractions()(state, props),
+  pendingInteractions: selectPendingInteractions(state, props),
+  activeInteractions: selectActiveInteractions(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -94,8 +90,8 @@ function mapDispatchToProps(dispatch) {
 
 InteractionsBar.propTypes = {
   style: PropTypes.array,
-  pendingNonVoiceInteractions: PropTypes.array.isRequired,
-  activeNonVoiceInteractions: PropTypes.array.isRequired,
+  pendingInteractions: PropTypes.array.isRequired,
+  activeInteractions: PropTypes.array.isRequired,
   acceptInteraction: PropTypes.func.isRequired,
 };
 
