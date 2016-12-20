@@ -58,4 +58,8 @@ export default defineMessages({
     id: 'app.containers.Login.outbound',
     defaultMessage: 'Outbound',
   },
+  error: {
+    id: 'app.containers.Login.error',
+    defaultMessage: 'The username or password you\'ve entered is not correct',
+  },
 });
