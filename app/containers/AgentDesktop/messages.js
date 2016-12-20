@@ -10,4 +10,8 @@ export default defineMessages({
     id: 'app.containers.AgentDesktop.header',
     defaultMessage: 'This is AgentDesktop container !',
   },
+  sqsTypes: {
+    resourceStateChange: 'resource-state-change',
+    agentNotification: 'agent-notification',
+  },
 });

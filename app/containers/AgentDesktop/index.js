@@ -18,7 +18,8 @@ import Login from 'containers/Login';
 
 import Radium from 'radium';
 
-import { setTenantId, setPresence, setDirection, setAvailablePresences, addMessagingInteraction } from './actions';
+import { setTenantId, setPresence, setDirection, setAvailablePresences, addInteraction } from './actions';
+import { SQS_TYPES } from './constants';
 
 export class AgentDesktop extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -62,6 +63,10 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
     },
   };
 
+  acceptInteraction(interactionId) {
+    SDK.Agent.Session.Messaging.workNotificationHandler({ interactionId }, 'work-initiated');
+  }
+
   changePresence(newPresence) {
     const changePresStateOnComplete = (data) => {
       const changePresenceResult = data.result;
@@ -70,6 +75,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
       this.props.setAvailablePresences(changePresenceResult.availableStates);
       if (newPresence === 'ready') {
         SDK.Agent.Session.Messaging.init({ onReceived: (e) => console.log('GOT A MESSAGE!', e) }); // eslint-disable-line
+        // TODO here add message to interaction's message history
       }
     };
 
@@ -89,17 +95,45 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
     };
     const handleSqsMessage = (messageString) => {
       const message = JSON.parse(messageString);
-      if (message.type === 'resource-state-change') {
+
+      // We apparently need to acknowledge receipt of any flow-related message to
+      // flow in order for things to not explode; all notification types except
+      // resource-state-change need acknowledgement.
+      if (message.type.toLowerCase() !== SQS_TYPES.resourceStateChange) {
+        SDK.Agent.Session.Interactions.acknowledgeMessageReceived(message);
+      }
+
+      if (message.type.toLowerCase() === SQS_TYPES.resourceStateChange) {
         console.log('RESOURCE STATE CHANGE!', message.state, message); // eslint-disable-line
-      } else if (message.type === 'agent-notification') {
+      } else if (message.type.toLowerCase() === SQS_TYPES.agentNotification) {
         console.log('AGENT NOTIFICATION!', message.notificationType, message); // eslint-disable-line
-      } else if (message.type === 'work-offer') {
+        if (message.notificationType === 'work-accepted') {
+          // TODO here fire action to update interaction in state
+        }
+      } else if (message.type.toLowerCase() === SQS_TYPES.workOffer) {
         console.log('WORK OFFER!', message); // eslint-disable-line
         if (message.channelType === 'messaging' || message.channelType === 'sms') {
-          this.props.addMessagingInteraction(message);
+          SDK.Agent.Session.Messaging.getMessageHistory({ interactionId: message.interactionId,
+            callback: (messageHistory) => {
+              const interaction = {
+                interactionId: message.interactionId,
+                status: 'work-offer',
+                messageHistory,
+              };
+              this.props.addInteraction(interaction);
+            },
+          });
+        } else {
+          const interaction = {
+            interactionId: message.interactionId,
+            status: 'work-offer',
+          };
+          this.props.addInteraction(interaction);
         }
-      } else if (message.type === 'send-script') {
+      } else if (message.type.toLowerCase() === SQS_TYPES.sendScript) {
         console.log('SEND SCRIPT!', message); // eslint-disable-line
+      } else {
+        console.error(`Unknown message type: ${message.type}`); // eslint-disable-line
       }
     };
     const sessionParams = {
@@ -117,8 +151,8 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
           this.props.login.showLogin
           ? <Login beginSession={this.beginSession} />
           : <div id="desktop-container" style={[this.styles.flexchild, this.styles.parent, this.styles.columnParent]}>
-            <div id="top-area" style={[this.styles.flexchild, this.styles.parent, { height: 'calc(100vh - 54px)' }]}>
-              <InteractionsBar messagingInteractions={this.props.agentDesktop.messagingInteractions} style={[this.styles.flexchild, this.styles.interactions]} />
+            <div id="top-areia" style={[this.styles.flexchild, this.styles.parent, { height: 'calc(100vh - 54px)' }]}>
+              <InteractionsBar acceptInteraction={this.acceptInteraction} style={[this.styles.flexchild, this.styles.interactions]} />
               <MainContentArea style={[this.styles.flexchild]} />
               { /* <SidePanel style={[this.styles.flexchild, this.styles.sidebar]} />   */ }
             </div>
@@ -138,7 +172,7 @@ function mapDispatchToProps(dispatch) {
     setPresence: (presence) => dispatch(setPresence(presence)),
     setDirection: (direction) => dispatch(setDirection(direction)),
     setAvailablePresences: (availablePresences) => dispatch(setAvailablePresences(availablePresences)),
-    addMessagingInteraction: (messagingInteraction) => dispatch(addMessagingInteraction(messagingInteraction)),
+    addInteraction: (interaction) => dispatch(addInteraction(interaction)),
     dispatch,
   };
 }
@@ -150,7 +184,7 @@ AgentDesktop.propTypes = {
   setDirection: PropTypes.func,
   setPresence: PropTypes.func,
   setAvailablePresences: PropTypes.func,
-  addMessagingInteraction: PropTypes.func,
+  addInteraction: PropTypes.func,
   agentDesktop: PropTypes.object,
 };
 

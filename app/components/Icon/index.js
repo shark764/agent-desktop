@@ -16,7 +16,7 @@ function Icon(props) {
     switch (props.name) {
       case 'config':
         return config;
-      case 'messaage':
+      case 'message':
         return message;
       case 'message_new':
         return messageNew;

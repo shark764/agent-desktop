@@ -10,4 +10,8 @@ export default defineMessages({
     id: 'app.containers.InteractionsBar.header',
     defaultMessage: 'This is InteractionsBar container !',
   },
+  accept: {
+    id: 'app.containers.InteractionsBar.accept',
+    defaultMessage: 'Click to accept interaction',
+  },
 });
