@@ -18,7 +18,7 @@ function Icon(props) {
         return config;
       case 'messaage':
         return message;
-      case 'message_active':
+      case 'message_new':
         return messageNew;
       default:
         return null;
