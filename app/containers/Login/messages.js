@@ -62,4 +62,8 @@ export default defineMessages({
     id: 'app.containers.Login.error',
     defaultMessage: 'The username or password you\'ve entered is not correct',
   },
+  noTenant: {
+    id: 'app.containers.Login.noTenant',
+    defaultMessage: 'You must first select a tenant',
+  },
 });
