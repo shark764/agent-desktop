@@ -21,6 +21,7 @@ import Button from 'components/Button';
 import A from 'components/A';
 import Select from 'components/Select';
 import Radio from 'components/Radio';
+import Lockr from 'lockr';
 
 import { setAuthenticated, loginError, loginSuccess, resetPassword, showLogin } from './actions';
 
@@ -31,10 +32,10 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      username: Lockr.get('email') || '',
       password: '',
-      email: '',
-      remember: false,
+      email: Lockr.get('email') || '',
+      remember: Lockr.get('remember') || false,
       requestingPassword: false,
       tenantId: '-1',
       agentDirection: props.intl.formatMessage(messages.inbound),
@@ -50,6 +51,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.setRequestingPassword = this.setRequestingPassword.bind(this);
     this.unsetRequestingPassword = this.unsetRequestingPassword.bind(this);
     this.sendForgotRequest = this.sendForgotRequest.bind(this);
+    this.handleError = this.handleError.bind(this);
   }
 
   componentDidMount() {
@@ -63,7 +65,10 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
         userEmail: this.state.username.trim(),
         userPassword: this.state.password,
         callback: this.loginCB,
+        onError: this.handleError,
       });
+    } else {
+      this.setState({ error: true });
     }
   }
 
@@ -88,6 +93,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
 
   setRemember(remember) {
     this.setState({ remember });
+    Lockr.set('remember', remember);
   }
 
   getLoggedInContent() {
@@ -152,8 +158,12 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.setState({ agentDirection });
   }
 
+  handleError() {
+    this.setState({ error: true });
+  }
+
   unsetRequestingPassword() {
-    this.setState({ requestingPassword: false });
+    this.setState({ requestingPassword: false, error: false });
   }
 
   handleKeyPress(e) {
@@ -168,6 +178,16 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
 
   loginCB(agent) {
     this.props.loginSuccess(agent);
+    debugger;
+    if (this.state.remember) {
+      Lockr.set('name', `${agent['first-name']}, ${agent['last-name']}`);
+      Lockr.set('email', agent.username);
+      Lockr.set('remember', true);
+    } else {
+      Lockr.set('name', '');
+      Lockr.set('email', '');
+      Lockr.set('remember', false);
+    }
   }
 
   styles = {

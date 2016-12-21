@@ -4903,6 +4903,10 @@ lock@^0.1.2:
   version "0.1.3"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/lock/-/lock-0.1.3.tgz#f66c1caa0c41956e1426608039ed59b71bdf1854"
 
+lockr:
+  version "0.8.4"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/lockr/-/lockr-0.8.4.tgz#7614f9c7c98a60bc4ac45f44567d1d03d8fb493c"
+
 lodash-es@^4.2.1:
   version "4.17.2"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/lodash-es/-/lodash-es-4.17.2.tgz#59011b585166e613eb9dd5fc256b2cd1a30f3712"
