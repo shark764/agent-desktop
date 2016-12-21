@@ -18,7 +18,8 @@ import Login from 'containers/Login';
 
 import Radium from 'radium';
 
-import { setTenantId, setPresence, setDirection, setAvailablePresences, addInteraction, setInteractionStatus, removeInteraction } from './actions';
+import { setTenantId, setPresence, setDirection, setAvailablePresences, addInteraction, addMessage, setInteractionStatus, removeInteraction } from './actions';
+
 import { SQS_TYPES } from './constants';
 
 export class AgentDesktop extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -74,8 +75,15 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
       this.props.setPresence(changePresenceResult.state);
       this.props.setAvailablePresences(changePresenceResult.availableStates);
       if (newPresence === 'ready') {
-        SDK.Agent.Session.Messaging.init({ onReceived: (e) => console.log('GOT A MESSAGE!', e) }); // eslint-disable-line
-        // TODO here add message to interaction's message history
+        SDK.Agent.Session.Messaging.init({ onReceived: (message) => {
+          this.props.addMessage(message.id, {
+            text: message.body.text,
+            from: message.metadata.name ? message.metadata.name : message.metadata.type,
+            to: message.to,
+            timestamp: message.timestamp,
+          });
+          console.log('GOT A MESSAGE!', message); // eslint-disable-line
+        } });
       }
     };
 
@@ -117,10 +125,16 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
         if (message.channelType === 'messaging' || message.channelType === 'sms') {
           SDK.Agent.Session.Messaging.getMessageHistory({ interactionId: message.interactionId,
             callback: (messageHistory) => {
+              const messageHistoryItems = messageHistory.map((messageHistoryItem) => ({
+                text: messageHistoryItem.body.text,
+                from: messageHistoryItem.metadata.name ? messageHistoryItem.metadata.name : messageHistoryItem.metadata.type,
+                to: messageHistoryItem.to,
+                timestamp: messageHistoryItem.timestamp,
+              }));
               const interaction = {
                 interactionId: message.interactionId,
                 status: 'work-offer',
-                messageHistory,
+                messageHistory: messageHistoryItems,
               };
               this.props.addInteraction(interaction);
             },
@@ -177,6 +191,7 @@ function mapDispatchToProps(dispatch) {
     setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
     removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
+    addMessage: (interactionId, message) => dispatch(addMessage(interactionId, message)),
     dispatch,
   };
 }
@@ -191,6 +206,7 @@ AgentDesktop.propTypes = {
   setInteractionStatus: PropTypes.func,
   addInteraction: PropTypes.func,
   removeInteraction: PropTypes.func,
+  addMessage: PropTypes.func,
   agentDesktop: PropTypes.object,
 };
 
