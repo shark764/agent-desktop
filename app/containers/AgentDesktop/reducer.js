@@ -12,6 +12,7 @@ import {
   SET_AVAILABLE_PRESENCES,
   SET_INTERACTION_STATUS,
   ADD_INTERACTION,
+  REMOVE_INTERACTION,
 } from './constants';
 
 const initialState = fromJS({
@@ -45,6 +46,11 @@ function agentDesktopReducer(state = initialState, action) {
     case ADD_INTERACTION:
       return state
         .set('interactions', state.get('interactions').push(fromJS(action.interaction)));
+    case REMOVE_INTERACTION:
+      return state
+        .set('interactions', state.get('interactions').filterNot((interaction) =>
+          interaction.get('interactionId') === action.interactionId
+        ));
     default:
       return state;
   }
