@@ -10,6 +10,7 @@ import {
   SET_PRESENCE,
   SET_AVAILABLE_PRESENCES,
   ADD_INTERACTION,
+  SET_INTERACTION_STATUS,
 } from './constants';
 
 export function setTenantId(tenantId) {
@@ -44,5 +45,13 @@ export function addInteraction(interaction) {
   return {
     type: ADD_INTERACTION,
     interaction,
+  };
+}
+
+export function setInteractionStatus(interactionId, newStatus) {
+  return {
+    type: SET_INTERACTION_STATUS,
+    interactionId,
+    newStatus,
   };
 }

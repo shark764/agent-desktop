@@ -18,7 +18,7 @@ import Login from 'containers/Login';
 
 import Radium from 'radium';
 
-import { setTenantId, setPresence, setDirection, setAvailablePresences, addInteraction } from './actions';
+import { setTenantId, setPresence, setDirection, setAvailablePresences, addInteraction, setInteractionStatus } from './actions';
 import { SQS_TYPES } from './constants';
 
 export class AgentDesktop extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -108,7 +108,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
       } else if (message.type.toLowerCase() === SQS_TYPES.agentNotification) {
         console.log('AGENT NOTIFICATION!', message.notificationType, message); // eslint-disable-line
         if (message.notificationType === 'work-accepted') {
-          // TODO here fire action to update interaction in state
+          this.props.setInteractionStatus(message.interactionId, message.notificationType);
         }
       } else if (message.type.toLowerCase() === SQS_TYPES.workOffer) {
         console.log('WORK OFFER!', message); // eslint-disable-line
@@ -172,6 +172,7 @@ function mapDispatchToProps(dispatch) {
     setPresence: (presence) => dispatch(setPresence(presence)),
     setDirection: (direction) => dispatch(setDirection(direction)),
     setAvailablePresences: (availablePresences) => dispatch(setAvailablePresences(availablePresences)),
+    setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
     dispatch,
   };
@@ -184,6 +185,7 @@ AgentDesktop.propTypes = {
   setDirection: PropTypes.func,
   setPresence: PropTypes.func,
   setAvailablePresences: PropTypes.func,
+  setInteractionStatus: PropTypes.func,
   addInteraction: PropTypes.func,
   agentDesktop: PropTypes.object,
 };

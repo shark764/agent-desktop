@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
  */
 const selectInteractionsBarDomain = (state) => state.get('interactionsBar');
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
-const selectNonVoiceInteractions = createSelector(
+const selectInteractions = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) => agentDesktop.get('interactions')
 );
@@ -24,22 +24,20 @@ const selectInteractionsBar = () => createSelector(
   (substate) => substate.toJS()
 );
 
-const selectActiveNonVoiceInteractions = () => createSelector(
-  selectNonVoiceInteractions,
-  (nonVoiceInteractions) => nonVoiceInteractions.toJS().filter(
+const selectActiveInteractions = createSelector(
+  selectInteractions,
+  (interactions) => interactions.toJS().filter(
     (interaction) => interaction.status === 'work-accepted'
   )
 );
 
-const selectPendingNonVoiceInteractions = () => createSelector(
-  selectNonVoiceInteractions,
-  (nonVoiceInteractions) => nonVoiceInteractions.toJS().filter(
-    (interaction) => interaction.status === 'work-offer'
-  )
+const selectPendingInteractions = createSelector(
+  selectInteractions,
+  (interactions) => interactions.toJS().filter((interaction) => interaction.status === 'work-offer')
 );
 
 export default selectInteractionsBar;
 export {
-  selectPendingNonVoiceInteractions,
-  selectActiveNonVoiceInteractions,
+  selectPendingInteractions,
+  selectActiveInteractions,
 };
