@@ -13,6 +13,7 @@ import {
   SET_INTERACTION_STATUS,
   ADD_INTERACTION,
   REMOVE_INTERACTION,
+  ADD_MESSAGE,
 } from './constants';
 
 const initialState = fromJS({
@@ -35,13 +36,14 @@ function agentDesktopReducer(state = initialState, action) {
         .set('availablePresences', fromJS(action.presences));
     case SET_INTERACTION_STATUS:
       return state
-        .set('interactions',
-          state.get('interactions').update(
-            state.get('interactions').findIndex(
-              (interaction) => interaction.get('interactionId') === action.interactionId
-            ),
-            (interaction) => interaction.set('status', action.newStatus)
-          )
+        .update('interactions',
+          (interactions) =>
+            interactions.update(
+              interactions.findIndex(
+                (interaction) => interaction.get('interactionId') === action.interactionId
+              ),
+              (interaction) => interaction.set('status', action.newStatus)
+            )
         );
     case ADD_INTERACTION:
       return state
@@ -51,6 +53,17 @@ function agentDesktopReducer(state = initialState, action) {
         .set('interactions', state.get('interactions').filterNot((interaction) =>
           interaction.get('interactionId') === action.interactionId
         ));
+    case ADD_MESSAGE:
+      return state
+        .update('interactions',
+          (interactions) =>
+            interactions.update(
+              interactions.findIndex(
+                (interaction) => interaction.get('interactionId') === action.interactionId
+              ),
+              (interaction) => interaction.update('messageHistory', (messageHistory) => messageHistory.push(action.message))
+            )
+        );
     default:
       return state;
   }

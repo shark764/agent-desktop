@@ -10,6 +10,7 @@ import {
   SET_PRESENCE,
   SET_AVAILABLE_PRESENCES,
   ADD_INTERACTION,
+  ADD_MESSAGE,
   SET_INTERACTION_STATUS,
   REMOVE_INTERACTION,
 } from './constants';
@@ -46,6 +47,14 @@ export function addInteraction(interaction) {
   return {
     type: ADD_INTERACTION,
     interaction,
+  };
+}
+
+export function addMessage(interactionId, message) {
+  return {
+    type: ADD_MESSAGE,
+    interactionId,
+    message,
   };
 }
 

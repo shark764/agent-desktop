@@ -35,10 +35,10 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
             0:00
           </div>
           <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px' }}>
-            {activeInteraction.messageHistory[0].metadata.name}
+            {activeInteraction.messageHistory[0].from}
           </div>
           <div style={{ height: '36px', lineHeight: '18px', marginTop: '5px' }}>
-            {activeInteraction.messageHistory[0].body.text}
+            {activeInteraction.messageHistory[0].text}
           </div>
         </div>
       </div>
@@ -53,10 +53,10 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
             0:00
           </div>
           <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px' }}>
-            {pendingInteraction.messageHistory[0].metadata.name}
+            {pendingInteraction.messageHistory[0].from}
           </div>
           <div style={{ height: '36px', lineHeight: '18px', marginTop: '5px' }}>
-            {pendingInteraction.messageHistory[0].body.text}
+            {pendingInteraction.messageHistory[0].text}
           </div>
           <div style={{ color: '#979797', fontSize: '12px', marginTop: '11px' }}>
             <FormattedMessage {...messages.accept} />
