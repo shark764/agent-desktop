@@ -37,13 +37,9 @@ module.exports = (options) => ({
         mimetype: 'application/opentype',
         name: './fonts/[hash].[ext]',
       },
-    },
-    {
+    }, {
       test: /\.(jpg|png|gif)$/,
-      loaders: [
-        'file-loader',
-        'image-webpack?{progressive:true, optimizationLevel: 7, interlaced: false, pngquant:{quality: "65-90", speed: 4}}',
-      ],
+      loader: 'file-loader',
     }, {
       test: /\.html$/,
       loader: 'html-loader',
