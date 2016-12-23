@@ -57,7 +57,6 @@ module.exports = (options) => ({
       test: /\.(mp4|webm)$/,
       loader: 'url-loader?limit=10000',
     }],
-    noParse: [/moment.js/],
   },
   plugins: options.plugins.concat([
     new webpack.ProvidePlugin({
@@ -74,6 +73,7 @@ module.exports = (options) => ({
       },
     }),
     new webpack.NamedModulesPlugin(),
+    new webpack.ContextReplacementPlugin(/\.\/locale$/, 'empty-module', false, /js$/)
   ]),
   resolve: {
     modules: ['app', 'node_modules'],
