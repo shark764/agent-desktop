@@ -21,7 +21,7 @@ import Button from 'components/Button';
 import A from 'components/A';
 import Select from 'components/Select';
 import Radio from 'components/Radio';
-import Store from 'store';
+import store from 'store';
 
 import { setAuthenticated, loginError, loginSuccess, resetPassword, showLogin } from './actions';
 
@@ -32,10 +32,10 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   constructor(props) {
     super(props);
     this.state = {
-      username: Store.get('email') || '',
+      username: store.get('email') || '',
       password: '',
-      email: Store.get('email') || '',
-      remember: Store.get('remember') || false,
+      email: store.get('email') || '',
+      remember: store.get('remember') || false,
       requestingPassword: false,
       tenantId: '-1',
       agentDirection: props.intl.formatMessage(messages.inbound),
@@ -95,7 +95,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
 
   setRemember(remember) {
     this.setState({ remember });
-    Store.set('remember', remember);
+    store.set('remember', remember);
   }
 
   getLoggedInContent() {
@@ -187,13 +187,13 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   loginCB(agent) {
     this.props.loginSuccess(agent);
     if (this.state.remember) {
-      Store.set('name', `${agent['first-name']}, ${agent['last-name']}`);
-      Store.set('email', agent.username);
-      Store.set('remember', true);
+      store.set('name', `${agent['first-name']}, ${agent['last-name']}`);
+      store.set('email', agent.username);
+      store.set('remember', true);
     } else {
-      Store.set('name', '');
-      Store.set('email', '');
-      Store.set('remember', false);
+      store.set('name', '');
+      store.set('email', '');
+      store.set('remember', false);
     }
   }
 
