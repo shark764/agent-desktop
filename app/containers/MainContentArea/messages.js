@@ -10,4 +10,8 @@ export default defineMessages({
     id: 'app.containers.MainContentArea.header',
     defaultMessage: 'This is MainContentArea container !',
   },
+  endChat: {
+    id: 'app.containers.InteractionsBar.endChat',
+    defaultMessage: 'End Chat',
+  },
 });

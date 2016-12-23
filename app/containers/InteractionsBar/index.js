@@ -26,13 +26,16 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
   };
 
   render() {
-    // TODO different styling for accepted ones
     const activeInteractions = this.props.activeInteractions.map((activeInteraction) =>
-      <div style={{ backgroundColor: '#F3F3F3', padding: '20px 16px', borderRadius: '3px', height: '123px', width: '100%' }} key={activeInteraction.interactionId}>
-        <Icon name="chat" style={{ float: 'left', width: '20px', height: '16px' }} />
-        <div style={{ float: 'left', marginLeft: '5px', width: '190px' }}>
-          <div style={{ float: 'right', color: '#23CEF5' }}>
-            0:00
+      <div
+        style={{ borderBottom: '1px solid #141414', cursor: 'pointer', padding: '20px 16px', borderRadius: '3px', height: '100px', width: '100%' }}
+        key={activeInteraction.interactionId}
+        onClick={() => this.props.selectInteraction(activeInteraction.interactionId)}
+      >
+        <Icon name="message" style={{ float: 'left', width: '18px', height: '18px' }} />
+        <div style={{ float: 'left', marginLeft: '14px', width: '211px' }}>
+          <div style={{ float: 'right' }}>
+            <FormattedMessage {...messages.justNow} />
           </div>
           <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px' }}>
             {activeInteraction.messageHistory[0].from}
@@ -44,9 +47,12 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
       </div>
     );
 
-    // TODO components for this
     const pendingInteractions = this.props.pendingInteractions.map((pendingInteraction) =>
-      <div style={{ backgroundColor: '#F3F3F3', padding: '20px 16px', borderRadius: '3px', height: '123px', width: '100%' }} key={pendingInteraction.interactionId} onClick={() => this.props.acceptInteraction(pendingInteraction.interactionId)}>
+      <div
+        style={{ backgroundColor: '#F3F3F3', cursor: 'pointer', padding: '20px 16px', borderRadius: '3px', height: '123px', width: '100%' }}
+        key={pendingInteraction.interactionId}
+        onClick={() => this.props.acceptInteraction(pendingInteraction.interactionId)}
+      >
         <Icon name="message_new" style={{ float: 'left', width: '20px', height: '16px' }} />
         <div style={{ float: 'left', marginLeft: '5px', width: '190px' }}>
           <div style={{ float: 'right', color: '#23CEF5' }}>
@@ -64,9 +70,10 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
         </div>
       </div>
     );
+
     return (
       <div style={[this.styles.base, this.props.style]}>
-        <div style={{ position: 'absolute', top: 0, width: '100%', padding: '11px' }}>
+        <div style={{ position: 'absolute', top: 0, width: '100%', color: '#FFFFFF' }}>
           {activeInteractions}
         </div>
         <div style={{ position: 'absolute', bottom: 0, width: '100%', padding: '11px' }}>
@@ -93,6 +100,7 @@ InteractionsBar.propTypes = {
   pendingInteractions: PropTypes.array.isRequired,
   activeInteractions: PropTypes.array.isRequired,
   acceptInteraction: PropTypes.func.isRequired,
+  selectInteraction: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(InteractionsBar));
