@@ -18,7 +18,7 @@ import Login from 'containers/Login';
 
 import Radium from 'radium';
 
-import { setTenantId, setPresence, setDirection, setAvailablePresences, addInteraction, addMessage, setInteractionStatus, removeInteraction } from './actions';
+import { setTenantId, setPresence, setDirection, setAvailablePresences, addInteraction, addMessage, setInteractionStatus, removeInteraction, selectInteraction } from './actions';
 
 import { SQS_TYPES } from './constants';
 
@@ -61,6 +61,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
     interactions: {
       flex: '0 0 auto',
       width: '277px',
+      borderBottom: '1px solid #141414',
     },
   };
 
@@ -76,13 +77,13 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
       this.props.setAvailablePresences(changePresenceResult.availableStates);
       if (newPresence === 'ready') {
         SDK.Agent.Session.Messaging.init({ onReceived: (message) => {
+          console.log('GOT A MESSAGE!', message); // eslint-disable-line
           this.props.addMessage(message.id, {
             text: message.body.text,
-            from: message.metadata.name ? message.metadata.name : message.metadata.type,
+            from: message.metadata && message.metadata.name ? message.metadata.name : message.from,
             to: message.to,
             timestamp: message.timestamp,
           });
-          console.log('GOT A MESSAGE!', message); // eslint-disable-line
         } });
       }
     };
@@ -127,7 +128,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
             callback: (messageHistory) => {
               const messageHistoryItems = messageHistory.map((messageHistoryItem) => ({
                 text: messageHistoryItem.body.text,
-                from: messageHistoryItem.metadata.name ? messageHistoryItem.metadata.name : messageHistoryItem.metadata.type,
+                from: messageHistoryItem.metadata && messageHistoryItem.metadata.name ? messageHistoryItem.metadata.name : messageHistoryItem.from,
                 to: messageHistoryItem.to,
                 timestamp: messageHistoryItem.timestamp,
               }));
@@ -167,8 +168,8 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
           this.props.login.showLogin
           ? <Login beginSession={this.beginSession} />
           : <div id="desktop-container" style={[this.styles.flexchild, this.styles.parent, this.styles.columnParent]}>
-            <div id="top-areia" style={[this.styles.flexchild, this.styles.parent, { height: 'calc(100vh - 54px)' }]}>
-              <InteractionsBar acceptInteraction={this.acceptInteraction} style={[this.styles.flexchild, this.styles.interactions]} />
+            <div id="top-area" style={[this.styles.flexchild, this.styles.parent, { height: 'calc(100vh - 54px)' }]}>
+              <InteractionsBar acceptInteraction={this.acceptInteraction} selectInteraction={this.props.selectInteraction} style={[this.styles.flexchild, this.styles.interactions]} />
               <MainContentArea style={[this.styles.flexchild]} />
               { /* <SidePanel style={[this.styles.flexchild, this.styles.sidebar]} />   */ }
             </div>
@@ -192,6 +193,7 @@ function mapDispatchToProps(dispatch) {
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
     removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
     addMessage: (interactionId, message) => dispatch(addMessage(interactionId, message)),
+    selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
     dispatch,
   };
 }
@@ -207,6 +209,7 @@ AgentDesktop.propTypes = {
   addInteraction: PropTypes.func,
   removeInteraction: PropTypes.func,
   addMessage: PropTypes.func,
+  selectInteraction: PropTypes.func,
   agentDesktop: PropTypes.object,
 };
 

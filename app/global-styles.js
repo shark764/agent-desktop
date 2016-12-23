@@ -33,7 +33,7 @@ injectGlobal`
     width: 100%;
   }
 
-  body {
+  body, textarea {
     font-family: proximaNova, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
 

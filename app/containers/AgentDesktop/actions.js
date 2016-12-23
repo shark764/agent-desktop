@@ -13,6 +13,7 @@ import {
   ADD_MESSAGE,
   SET_INTERACTION_STATUS,
   REMOVE_INTERACTION,
+  SELECT_INTERACTION,
 } from './constants';
 
 export function setTenantId(tenantId) {
@@ -69,6 +70,13 @@ export function setInteractionStatus(interactionId, newStatus) {
 export function removeInteraction(interactionId) {
   return {
     type: REMOVE_INTERACTION,
+    interactionId,
+  };
+}
+
+export function selectInteraction(interactionId) {
+  return {
+    type: SELECT_INTERACTION,
     interactionId,
   };
 }

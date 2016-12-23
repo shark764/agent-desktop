@@ -14,6 +14,7 @@ import {
   ADD_INTERACTION,
   REMOVE_INTERACTION,
   ADD_MESSAGE,
+  SELECT_INTERACTION,
 } from './constants';
 
 const initialState = fromJS({
@@ -52,7 +53,8 @@ function agentDesktopReducer(state = initialState, action) {
       return state
         .set('interactions', state.get('interactions').filterNot((interaction) =>
           interaction.get('interactionId') === action.interactionId
-        ));
+        ))
+        .set('selectedInteractionId', state.get('selectedInteractionId') === action.interactionId ? undefined : state.get('selectedInteractionId'));
     case ADD_MESSAGE:
       return state
         .update('interactions',
@@ -64,6 +66,9 @@ function agentDesktopReducer(state = initialState, action) {
               (interaction) => interaction.update('messageHistory', (messageHistory) => messageHistory.push(action.message))
             )
         );
+    case SELECT_INTERACTION:
+      return state
+        .set('selectedInteractionId', action.interactionId);
     default:
       return state;
   }
