@@ -21,7 +21,7 @@ import Button from 'components/Button';
 import A from 'components/A';
 import Select from 'components/Select';
 import Radio from 'components/Radio';
-import store from 'store';
+const storage = window.localStorage;
 
 import { setAuthenticated, loginError, loginSuccess, resetPassword, showLogin } from './actions';
 
@@ -32,10 +32,10 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   constructor(props) {
     super(props);
     this.state = {
-      username: store.get('email') || '',
+      username: storage.getItem('email') || '',
       password: '',
-      email: store.get('email') || '',
-      remember: store.get('remember') || false,
+      email: storage.getItem('email') || '',
+      remember: storage.getItem('remember') || false,
       requestingPassword: false,
       tenantId: '-1',
       agentDirection: props.intl.formatMessage(messages.inbound),
@@ -95,7 +95,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
 
   setRemember(remember) {
     this.setState({ remember });
-    store.set('remember', remember);
+    storage.setItem('remember', remember);
   }
 
   getLoggedInContent() {
@@ -187,13 +187,13 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   loginCB(agent) {
     this.props.loginSuccess(agent);
     if (this.state.remember) {
-      store.set('name', `${agent['first-name']}, ${agent['last-name']}`);
-      store.set('email', agent.username);
-      store.set('remember', true);
+      storage.setItem('name', `${agent['first-name']}, ${agent['last-name']}`);
+      storage.setItem('email', agent.username);
+      storage.setItem('remember', true);
     } else {
-      store.set('name', '');
-      store.set('email', '');
-      store.set('remember', false);
+      storage.setItem('name', '');
+      storage.setItem('email', '');
+      storage.setItem('remember', false);
     }
   }
 
