@@ -9,10 +9,8 @@ import { connect } from 'react-redux';
 import { selectSelectedInteraction } from './selectors';
 import Radium from 'radium';
 
-import moment from 'moment';
-
 import messages from './messages';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedTime } from 'react-intl';
 
 export class MainContentArea extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -37,7 +35,7 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
           {message.from}
         </span>
         <span style={{ fontSize: '12px', marginLeft: '7px' }}>
-          {moment(message.timestamp).format('LT')}
+          <FormattedTime value={new Date(message.timestamp)} />
         </span>
         <div style={{ fontSize: '16px', whiteSpace: 'pre' }}>
           {message.text}

@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.0.4-SNAPSHOT",
+  "version": "0.0.5-SNAPSHOT",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -208,7 +208,6 @@
     "lodash": "4.16.4",
     "mcluhan": "^0.9.4",
     "minimist": "1.2.0",
-    "moment": "^2.17.1",
     "radium": "^0.18.1",
     "raven-js": "^3.9.1",
     "react": "^15.4.1",
