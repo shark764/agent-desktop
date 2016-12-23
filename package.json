@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.0.5-SNAPSHOT",
+  "version": "0.0.6-SNAPSHOT",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
