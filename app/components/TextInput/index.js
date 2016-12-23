@@ -45,6 +45,7 @@ function TextInput(props) {
       onChange={(e) => props.cb(e.target.value)}
       autoComplete={props.autocomplete || 'on'}
       onKeyUp={props.onKeyUp || ''}
+      autoFocus={props.autoFocus}
     />
   );
 }
@@ -58,6 +59,7 @@ TextInput.propTypes = {
   style: PropTypes.object,
   type: PropTypes.string,
   onKeyUp: PropTypes.func,
+  autoFocus: PropTypes.bool,
 };
 
 export default injectIntl(Radium(TextInput));

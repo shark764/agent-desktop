@@ -21,6 +21,7 @@ import Button from 'components/Button';
 import A from 'components/A';
 import Select from 'components/Select';
 import Radio from 'components/Radio';
+import Lockr from 'lockr';
 
 import { setAuthenticated, loginError, loginSuccess, resetPassword, showLogin } from './actions';
 
@@ -31,14 +32,15 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      username: Lockr.get('email') || '',
       password: '',
-      email: '',
-      remember: false,
+      email: Lockr.get('email') || '',
+      remember: Lockr.get('remember') || false,
       requestingPassword: false,
       tenantId: '-1',
       agentDirection: props.intl.formatMessage(messages.inbound),
       error: false,
+      noTenant: false,
     };
     this.setUser = this.setUser.bind(this);
     this.setEmail = this.setEmail.bind(this);
@@ -50,6 +52,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.setRequestingPassword = this.setRequestingPassword.bind(this);
     this.unsetRequestingPassword = this.unsetRequestingPassword.bind(this);
     this.sendForgotRequest = this.sendForgotRequest.bind(this);
+    this.handleError = this.handleError.bind(this);
   }
 
   componentDidMount() {
@@ -63,14 +66,19 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
         userEmail: this.state.username.trim(),
         userPassword: this.state.password,
         callback: this.loginCB,
+        onError: this.handleError,
       });
+    } else {
+      this.setState({ error: true });
     }
   }
 
   onTenantSelect() {
-    if (this.state.tenantId !== -1) {
+    if (this.state.tenantId !== '-1') {
       this.props.beginSession(this.state.tenantId);
       this.props.showLogin(false);
+    } else {
+      this.setState({ noTenant: true });
     }
   }
 
@@ -88,6 +96,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
 
   setRemember(remember) {
     this.setState({ remember });
+    Lockr.set('remember', remember);
   }
 
   getLoggedInContent() {
@@ -102,6 +111,12 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
         <Select style={{ width: '282px' }} value={this.state.tenantId} onChange={(e) => this.setTenantId(e.value || '-1')} options={tenantOptions} />
         <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
         <Button style={{ marginTop: '34px' }} text={messages.sendButton} onClick={() => this.onTenantSelect()} />
+        {this.state.noTenant
+          ? <span style={[this.styles.error, this.styles.errorTenant]}>
+            <FormattedMessage style={this.styles.center} {...messages.noTenant} />
+          </span>
+          : ''
+        }
       </div>
     );
   }
@@ -112,8 +127,8 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       <div style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
         <Logo style={{ marginTop: '50px' }} width="275px" />
         <Title text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
-        <TextInput key={'username'} style={{ marginBottom: '11px' }} placeholder={messages.username} autocomplete="email" value={this.state.username} cb={this.setUser} />
-        <TextInput key={'password'} type="password" placeholder={messages.password} autocomplete="password" value={this.state.password} cb={this.setPassword} onKeyUp={this.handleKeyPress} />
+        <TextInput autoFocus={!this.state.remember} key={'username'} style={{ marginBottom: '11px' }} placeholder={messages.username} autocomplete="email" value={this.state.username} cb={this.setUser} />
+        <TextInput autoFocus={this.state.remember} key={'password'} type="password" placeholder={messages.password} autocomplete="password" value={this.state.password} cb={this.setPassword} onKeyUp={this.handleKeyPress} />
         <CheckBox style={{ marginLeft: '-9.35em', marginBottom: '11px', marginTop: '15px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.setRemember} />
         <Button style={{ marginTop: '34px' }} text={messages.signInButton} onClick={() => this.onLogin()} />
         <A text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
@@ -152,8 +167,12 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.setState({ agentDirection });
   }
 
+  handleError() {
+    this.setState({ error: true });
+  }
+
   unsetRequestingPassword() {
-    this.setState({ requestingPassword: false });
+    this.setState({ requestingPassword: false, error: false });
   }
 
   handleKeyPress(e) {
@@ -168,6 +187,15 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
 
   loginCB(agent) {
     this.props.loginSuccess(agent);
+    if (this.state.remember) {
+      Lockr.set('name', `${agent['first-name']}, ${agent['last-name']}`);
+      Lockr.set('email', agent.username);
+      Lockr.set('remember', true);
+    } else {
+      Lockr.set('name', '');
+      Lockr.set('email', '');
+      Lockr.set('remember', false);
+    }
   }
 
   styles = {
@@ -206,6 +234,9 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       paddingTop: '3px',
       position: 'relative',
       top: '-509px',
+    },
+    errorTenant: {
+      top: '-406.4px',
     },
   };
 
