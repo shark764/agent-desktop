@@ -136,6 +136,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
                 interactionId: message.interactionId,
                 status: 'work-offer',
                 messageHistory: messageHistoryItems,
+                timeout: message.timeout,
               };
               this.props.addInteraction(interaction);
             },
@@ -144,6 +145,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
           const interaction = {
             interactionId: message.interactionId,
             status: 'work-offer',
+            timeout: message.timeout,
           };
           this.props.addInteraction(interaction);
         }

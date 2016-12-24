@@ -12,6 +12,7 @@ import Radium from 'radium';
 import messages from './messages';
 import { FormattedMessage } from 'react-intl';
 import Icon from 'components/Icon';
+import Countdown from 'components/Countdown';
 
 export class InteractionsBar extends React.Component { // eslint-disable-line react/prefer-stateless-function
   styles = {
@@ -56,7 +57,7 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
         <Icon name="message_new" style={{ float: 'left', width: '20px', height: '16px' }} />
         <div style={{ float: 'left', marginLeft: '5px', width: '190px' }}>
           <div style={{ float: 'right', color: '#23CEF5' }}>
-            0:00
+            <Countdown countdownUntil={new Date(pendingInteraction.timeout)} />
           </div>
           <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px' }}>
             {pendingInteraction.messageHistory[0].from}
