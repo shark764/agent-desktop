@@ -45,7 +45,10 @@ function agentDesktopReducer(state = initialState, action) {
               ),
               (interaction) => interaction.set('status', action.newStatus)
             )
-        );
+        ).set('selectedInteractionId',
+          action.newStatus === 'work-accepted' && state.get('selectedInteractionId') === undefined
+          ? action.interactionId
+          : state.get('selectedInteractionId'));
     case ADD_INTERACTION:
       return state
         .set('interactions', state.get('interactions').push(fromJS(action.interaction)));

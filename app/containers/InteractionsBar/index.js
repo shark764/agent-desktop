@@ -6,7 +6,7 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { selectPendingInteractions, selectActiveInteractions } from './selectors';
+import { selectPendingInteractions, selectActiveInteractions, getSelectedInteractionId } from './selectors';
 import Radium from 'radium';
 
 import messages from './messages';
@@ -29,7 +29,13 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
   render() {
     const activeInteractions = this.props.activeInteractions.map((activeInteraction) =>
       <div
-        style={{ borderBottom: '1px solid #141414', cursor: 'pointer', padding: '20px 16px', borderRadius: '3px', height: '100px', width: '100%' }}
+        style={{ backgroundColor: this.props.selectedInteractionId === activeInteraction.interactionId ? '#0B424E' : 'inherit',
+          borderBottom: '1px solid #141414',
+          cursor: 'pointer',
+          padding: '20px 16px',
+          borderRadius: '3px',
+          height: '100px',
+          width: '100%' }}
         key={activeInteraction.interactionId}
         onClick={() => this.props.selectInteraction(activeInteraction.interactionId)}
       >
@@ -88,6 +94,7 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
 const mapStateToProps = (state, props) => ({
   pendingInteractions: selectPendingInteractions(state, props),
   activeInteractions: selectActiveInteractions(state, props),
+  selectedInteractionId: getSelectedInteractionId(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -102,6 +109,7 @@ InteractionsBar.propTypes = {
   activeInteractions: PropTypes.array.isRequired,
   acceptInteraction: PropTypes.func.isRequired,
   selectInteraction: PropTypes.func.isRequired,
+  selectedInteractionId: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(InteractionsBar));

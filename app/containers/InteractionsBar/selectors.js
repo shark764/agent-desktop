@@ -9,6 +9,10 @@ const selectInteractions = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) => agentDesktop.get('interactions')
 );
+const getSelectedInteractionId = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) => agentDesktop.get('selectedInteractionId')
+);
 
 /**
  * Other specific selectors
@@ -40,4 +44,5 @@ export default selectInteractionsBar;
 export {
   selectPendingInteractions,
   selectActiveInteractions,
+  getSelectedInteractionId,
 };
