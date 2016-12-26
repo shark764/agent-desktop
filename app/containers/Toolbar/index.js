@@ -12,6 +12,7 @@ import messages from './messages';
 import Radium from 'radium';
 
 import Icon from 'components/Icon';
+import Timer from 'components/Timer';
 
 import { showAgentStatusMenu } from './actions';
 
@@ -53,7 +54,6 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       marginLeft: '8px',
       marginTop: '3px',
       display: 'inline-grid',
-      paddingLeft: '23px',
       paddingRight: '23px',
       paddingTop: '8px',
       paddingBottom: '8px',
@@ -91,9 +91,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       fontWeight: 'bold',
       lineHeight: '19px',
       color: '#FFFFFF',
-      top: '-18px',
       position: 'relative',
-      marginLeft: '32px',
     },
     agentStatusMenu: {
       position: 'fixed',
@@ -146,20 +144,25 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
           <div id="agent-button-container" style={[this.styles.agentButtonContainer]}>
             <button id="agent-button" style={[this.styles.agentButton]} onClick={() => this.props.showAgentStatusMenu(true)}>
               <span id="agent-state" style={[this.styles.agentState]}>
-                {
-                  this.props.readyState === 'ready'
-                  ? <span>
-                    <Icon name="connected" style={{ height: '34px' }} />
-                    <span style={{ top: '-8px', position: 'relative', marginLeft: '24px' }}><FormattedMessage {...messages.ready} /></span>
+                <div style={{ display: 'inline', float: 'left' }}>
+                  {
+                    this.props.readyState === 'ready'
+                    ? <Icon name="connected" style={{ height: '34px', float: 'left', marginLeft: '17px', marginRight: '23px' }} />
+                    : <Icon name="not_connected" style={{ height: '34px', float: 'left', marginLeft: '17px', marginRight: '23px' }} />
+                  }
+                </div>
+                <div style={{ display: 'inline', float: 'left' }}>
+                  <span style={{ top: '-3px', position: 'relative', float: 'left' }}>
+                    {
+                      this.props.readyState === 'ready'
+                      ? <FormattedMessage {...messages.ready} />
+                      : <FormattedMessage {...messages.notReady} />
+                    }
                   </span>
-                  : <span>
-                    <Icon name="not_connected" style={{ height: '34px' }} />
-                    <span style={{ top: '-8px', position: 'relative', marginLeft: '24px' }}><FormattedMessage {...messages.notReady} /></span>
+                  <span id="agent-timer" style={[this.styles.agentTimer, { display: 'block', textAlign: 'left' }]}>
+                    <Timer />
                   </span>
-                }
-              </span>
-              <span id="agent-timer" style={[this.styles.agentTimer]}>
-                00:00:00
+                </div>
               </span>
             </button>
           </div>
