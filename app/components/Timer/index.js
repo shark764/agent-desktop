@@ -8,7 +8,7 @@ import React, { PropTypes } from 'react';
 import timer from 'react-timer-hoc';
 import moment from 'moment';
 
-function Timer({ timer }) {
+function Timer({ timer }) { // eslint-disable-line
   const time = moment.duration(timer.tick * 1000);
   return (
     <span>

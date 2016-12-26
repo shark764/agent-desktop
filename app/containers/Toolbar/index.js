@@ -13,6 +13,7 @@ import Radium from 'radium';
 
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
+import AgentMenu from 'containers/AgentStatusMenu';
 
 import { showAgentStatusMenu } from './actions';
 
@@ -93,48 +94,6 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       color: '#FFFFFF',
       position: 'relative',
     },
-    agentStatusMenu: {
-      position: 'fixed',
-      width: '303px',
-      borderRadius: '8px',
-      backgroundColor: '#FFFFFF',
-      boxShadow: '0 0 6px 1px rgba(0,0,0,0.29)',
-      left: '12px',
-      bottom: '66px',
-      height: '200px',
-      paddingBottom: '16px',
-      paddingTop: '16px',
-      paddingLeft: '24px',
-      paddingRight: '24px',
-    },
-    agentStatusMenuTriangle: {
-      position: 'absolute',
-      width: '0px',
-      height: '0px',
-      left: '51px',
-      bottom: '60px',
-      zIndex: '1',
-      borderWidth: '8px',
-      borderStyle: 'solid',
-      borderColor: '#FFF transparent transparent #FFF',
-      borderImage: 'initial',
-      transform: 'rotate(-134deg)',
-      borderRadius: '3px',
-    },
-    readyLink: {
-      fontSize: '16px',
-      lineHeight: '19px',
-      color: '#363636',
-      textDecoration: 'underline',
-      borderTop: '1px solid #E1E1E1',
-      boxSizing: 'border-box',
-      bottom: '0px',
-      position: 'absolute',
-      width: 'calc(100% - 48px)',
-      paddingTop: '10px',
-      paddingBottom: '16px',
-      cursor: 'pointer',
-    },
   }
 
   render() {
@@ -168,12 +127,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
           </div>
           {
             this.props.agentStatusMenu
-            ? <span>
-              <span style={[this.styles.agentStatusMenuTriangle]} />
-              <div id="agent-status-menu" style={this.styles.agentStatusMenu}>
-                <div style={[this.styles.readyLink]} onClick={() => { this.props.changePresence('ready'); this.props.showAgentStatusMenu(false); }}><FormattedMessage {...messages.ready} /></div>
-              </div>
-            </span>
+            ? <AgentMenu readyState={this.props.readyState} showAgentStatusMenu={this.props.showAgentStatusMenu} changePresence={this.props.changePresence} />
             : ''
           }
           <span id="agent-stats" style={[this.styles.stats]} />
