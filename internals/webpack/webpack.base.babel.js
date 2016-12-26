@@ -18,13 +18,8 @@ module.exports = (options) => ({
       exclude: [/node_modules/, /mcluhan/],
       query: options.babelQuery,
     }, {
-      // Do not transform vendor's CSS with CSS-modules
-      // The point is that they remain in global scope.
-      // Since we require these CSS files in our JS or CSS files,
-      // they will be a part of our compilation either way.
-      // So, no need for ExtractTextPlugin here.
       test: /\.css$/,
-      loaders: ['style-loader', 'css-loader'],
+      loader: 'style-loader!css-loader!postcss-loader',
     }, {
       test: /\.(eot|svg)$/,
       loader: 'file-loader',
