@@ -39,7 +39,10 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
         key={activeInteraction.interactionId}
         onClick={() => this.props.selectInteraction(activeInteraction.interactionId)}
       >
-        <Icon name="message" style={{ float: 'left', width: '18px', height: '18px' }} />
+        <Icon
+          name={activeInteraction.hasUnreadMessage ? 'message_new' : 'message'}
+          style={{ float: 'left', width: '18px', height: '18px' }}
+        />
         <div style={{ float: 'left', marginLeft: '14px', width: '211px' }}>
           <div style={{ float: 'right' }}>
             <FormattedMessage {...messages.justNow} />
