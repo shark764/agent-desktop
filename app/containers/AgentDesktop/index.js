@@ -167,7 +167,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
         {
           this.props.login.showLogin
           ? <Login beginSession={this.beginSession} />
-          : <div id="desktop-container" style={[this.styles.flexchild, this.styles.parent, this.styles.columnParent]}>
+          : <div id="desktop-container" style={[this.styles.flexchild, this.styles.parent, this.styles.columnParent, { height: '100vh' }]}>
             <div id="top-area" style={[this.styles.flexchild, this.styles.parent, { height: 'calc(100vh - 54px)' }]}>
               <InteractionsBar acceptInteraction={this.acceptInteraction} selectInteraction={this.props.selectInteraction} style={[this.styles.flexchild, this.styles.interactions]} />
               <MainContentArea style={[this.styles.flexchild]} />

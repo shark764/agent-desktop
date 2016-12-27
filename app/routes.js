@@ -19,6 +19,18 @@ export default function createRoutes(store) {
       getComponent(nextState, cb) {
        // --- Add containers here to use them --- //
 
+        const importAgentMenuModules = Promise.all([
+          System.import('containers/AgentStatusMenu/reducer'),
+          System.import('containers/AgentStatusMenu/sagas'),
+        ]);
+
+        importAgentMenuModules.then(([reducer, sagas]) => {
+          injectReducer('agentStatusMenu', reducer.default);
+          injectSagas(sagas.default);
+        });
+
+        importAgentMenuModules.catch(errorLoading);
+
         const importToolbarModules = Promise.all([
           System.import('containers/Toolbar/reducer'),
           System.import('containers/Toolbar/sagas'),
