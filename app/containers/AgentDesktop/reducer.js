@@ -35,7 +35,8 @@ function agentDesktopReducer(state = initialState, action) {
     case SET_AVAILABLE_PRESENCES:
       return state
         .set('availablePresences', fromJS(action.presences));
-    case SET_INTERACTION_STATUS:
+    case SET_INTERACTION_STATUS: {
+      const automaticallyAcceptInteraction = action.newStatus === 'work-accepted' && state.get('selectedInteractionId') === undefined;
       return state
         .update('interactions',
           (interactions) =>
@@ -44,8 +45,13 @@ function agentDesktopReducer(state = initialState, action) {
                 (interaction) => interaction.get('interactionId') === action.interactionId
               ),
               (interaction) => interaction.set('status', action.newStatus)
+                .set('hasUnreadMessage', !automaticallyAcceptInteraction)
             )
-        );
+        ).set('selectedInteractionId',
+          automaticallyAcceptInteraction
+          ? action.interactionId
+          : state.get('selectedInteractionId'));
+    }
     case ADD_INTERACTION:
       return state
         .set('interactions', state.get('interactions').push(fromJS(action.interaction)));
@@ -64,11 +70,21 @@ function agentDesktopReducer(state = initialState, action) {
                 (interaction) => interaction.get('interactionId') === action.interactionId
               ),
               (interaction) => interaction.update('messageHistory', (messageHistory) => messageHistory.push(action.message))
+                .set('hasUnreadMessage', state.get('selectedInteractionId') !== interaction.get('interactionId'))
             )
         );
     case SELECT_INTERACTION:
       return state
-        .set('selectedInteractionId', action.interactionId);
+        .set('selectedInteractionId', action.interactionId)
+        .update('interactions',
+          (interactions) =>
+            interactions.update(
+              interactions.findIndex(
+                (interaction) => interaction.get('interactionId') === action.interactionId
+              ),
+              (interaction) => interaction.set('hasUnreadMessage', false)
+            )
+        );
     default:
       return state;
   }
