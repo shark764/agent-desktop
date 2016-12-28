@@ -24,6 +24,14 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
     this.sendMessageOnEnter = this.sendMessageOnEnter.bind(this);
   }
 
+  componentDidUpdate() {
+    // Scroll to bottom of message history
+    const messsageHistoryDiv = document.getElementById('message-history');
+    if (messsageHistoryDiv) {
+      messsageHistoryDiv.scrollTop = messsageHistoryDiv.scrollHeight;
+    }
+  }
+
   setMessageText(messageText) {
     this.setState({ messageText });
   }
@@ -56,7 +64,7 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
           </button>
         </div>
         <div style={{ backgroundColor: '#FFFFFF', border: '1px solid #E4E4E4', height: 'calc(100% - 60px)', padding: '17px' }}>
-          <div style={{ height: 'calc(100% - 36px)', overflowY: 'auto' }}>
+          <div id="message-history" style={{ height: 'calc(100% - 36px)', overflowY: 'auto' }}>
             {messageHistory}
           </div>
           <textarea
