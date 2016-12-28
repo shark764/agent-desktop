@@ -36,21 +36,26 @@ function agentDesktopReducer(state = initialState, action) {
       return state
         .set('availablePresences', fromJS(action.presences));
     case SET_INTERACTION_STATUS: {
-      const automaticallyAcceptInteraction = action.newStatus === 'work-accepted' && state.get('selectedInteractionId') === undefined;
-      return state
-        .update('interactions',
-          (interactions) =>
-            interactions.update(
-              interactions.findIndex(
-                (interaction) => interaction.get('interactionId') === action.interactionId
-              ),
-              (interaction) => interaction.set('status', action.newStatus)
-                .set('hasUnreadMessage', !automaticallyAcceptInteraction)
-            )
-        ).set('selectedInteractionId',
-          automaticallyAcceptInteraction
-          ? action.interactionId
-          : state.get('selectedInteractionId'));
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        const automaticallyAcceptInteraction = action.newStatus === 'work-accepted' && state.get('selectedInteractionId') === undefined;
+        return state
+          .update('interactions',
+            (interactions) =>
+              interactions.update(
+                interactionIndex,
+                (interaction) => interaction.set('status', action.newStatus)
+                  .set('hasUnreadMessage', !automaticallyAcceptInteraction)
+              )
+          ).set('selectedInteractionId',
+            automaticallyAcceptInteraction
+            ? action.interactionId
+            : state.get('selectedInteractionId'));
+      } else {
+        return state;
+      }
     }
     case ADD_INTERACTION:
       return state
@@ -61,30 +66,42 @@ function agentDesktopReducer(state = initialState, action) {
           interaction.get('interactionId') === action.interactionId
         ))
         .set('selectedInteractionId', state.get('selectedInteractionId') === action.interactionId ? undefined : state.get('selectedInteractionId'));
-    case ADD_MESSAGE:
-      return state
-        .update('interactions',
-          (interactions) =>
-            interactions.update(
-              interactions.findIndex(
-                (interaction) => interaction.get('interactionId') === action.interactionId
-              ),
-              (interaction) => interaction.update('messageHistory', (messageHistory) => messageHistory.push(action.message))
-                .set('hasUnreadMessage', state.get('selectedInteractionId') !== interaction.get('interactionId'))
-            )
-        );
-    case SELECT_INTERACTION:
-      return state
-        .set('selectedInteractionId', action.interactionId)
-        .update('interactions',
-          (interactions) =>
-            interactions.update(
-              interactions.findIndex(
-                (interaction) => interaction.get('interactionId') === action.interactionId
-              ),
-              (interaction) => interaction.set('hasUnreadMessage', false)
-            )
-        );
+    case ADD_MESSAGE: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state
+          .update('interactions',
+            (interactions) =>
+              interactions.update(
+                interactionIndex,
+                (interaction) => interaction.update('messageHistory', (messageHistory) => messageHistory.push(action.message))
+                  .set('hasUnreadMessage', state.get('selectedInteractionId') !== interaction.get('interactionId'))
+              )
+          );
+      } else {
+        return state;
+      }
+    }
+    case SELECT_INTERACTION: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state
+          .set('selectedInteractionId', action.interactionId)
+          .update('interactions',
+            (interactions) =>
+              interactions.update(
+                interactionIndex,
+                (interaction) => interaction.set('hasUnreadMessage', false)
+              )
+          );
+      } else {
+        return state;
+      }
+    }
     default:
       return state;
   }
