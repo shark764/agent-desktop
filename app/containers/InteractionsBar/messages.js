@@ -14,8 +14,4 @@ export default defineMessages({
     id: 'app.containers.InteractionsBar.accept',
     defaultMessage: 'Click to accept interaction',
   },
-  justNow: {
-    id: 'app.containers.InteractionsBar.justNow',
-    defaultMessage: 'Just Now',
-  },
 });

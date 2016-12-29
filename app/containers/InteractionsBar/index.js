@@ -13,6 +13,7 @@ import messages from './messages';
 import { FormattedMessage } from 'react-intl';
 import Icon from 'components/Icon';
 import Countdown from 'components/Countdown';
+import TimerMinutes from 'components/TimerMinutes';
 
 export class InteractionsBar extends React.Component { // eslint-disable-line react/prefer-stateless-function
   styles = {
@@ -45,7 +46,7 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
         />
         <div style={{ float: 'left', marginLeft: '14px', width: '211px' }}>
           <div style={{ float: 'right' }}>
-            <FormattedMessage {...messages.justNow} />
+            <TimerMinutes />
           </div>
           <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px' }}>
             {activeInteraction.messageHistory[0].from}

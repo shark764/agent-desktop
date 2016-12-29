@@ -7,6 +7,7 @@
   - [Tool Configuration](general/files.md)
   - [Server Configurations](general/server-configs.md)
   - [Deployment](general/deployment.md) *(currently Heroku specific)*
+  - [Messaging Demo](general/messaging-demo.md)
   - [FAQ](general/faq.md)
   - [Gotchas](general/gotchas.md)
   - [Remove](general/remove.md)
