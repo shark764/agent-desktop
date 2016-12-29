@@ -3,6 +3,7 @@
 - [**CLI Commands**](commands.md)
 - [Tool Configuration](files.md)
 - [Server Configurations](server-configs.md)
+- [Messaging Demo](messaging-demo.md)
 - [FAQ](faq.md)
 - [Gotchas](gotchas.md)
 
