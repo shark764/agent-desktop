@@ -27,6 +27,7 @@ function Select(props) {
       name="form-field-name"
       value={props.value}
       options={props.options}
+      autofocus={props.autoFocus}
     />
   );
 }
@@ -36,6 +37,7 @@ Select.propTypes = {
   onChange: PropTypes.func,
   options: PropTypes.array,
   value: PropTypes.string,
+  autoFocus: PropTypes.bool,
 };
 
 export default Radium(Select);

@@ -109,7 +109,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       <div style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
         <Logo style={{ marginTop: '50px' }} width="275px" />
         <Title text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
-        <Select style={{ width: '282px' }} value={this.state.tenantId} onChange={(e) => this.setTenantId(e.value || '-1', e.label || '')} options={tenantOptions} />
+        <Select style={{ width: '282px' }} value={this.state.tenantId} onChange={(e) => this.setTenantId(e.value || '-1', e.label || '')} options={tenantOptions} autoFocus />
         <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
         <Button style={{ marginTop: '34px' }} text={messages.sendButton} onClick={() => this.onTenantSelect()} />
         {this.state.noTenant

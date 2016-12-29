@@ -141,14 +141,14 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
                   }
                 </div>
                 <div style={{ display: 'inline', float: 'left' }}>
-                  <span style={{ top: '-3px', position: 'relative', float: 'left' }}>
+                  <span style={{ top: '-3px', position: 'relative', float: 'left', textTransform: 'uppercase' }}>
                     {
                       this.props.readyState === 'ready'
                       ? <FormattedMessage {...messages.ready} />
                       : <FormattedMessage {...messages.notReady} />
                     }
                   </span>
-                  <span id="agent-timer" style={[this.styles.agentTimer, { display: 'block', textAlign: 'left' }]}>
+                  <span id="agent-timer" style={this.props.readyState === 'ready' ? [this.styles.agentTimer, { display: 'block', textAlign: 'left', color: '#14778D' }] : [this.styles.agentTimer, { display: 'block', textAlign: 'left' }]}>
                     <Timer />
                   </span>
                 </div>
@@ -163,6 +163,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
               showAgentStatusMenu={this.props.showAgentStatusMenu}
               changePresence={this.props.changePresence}
               agentDirection={this.props.agentDirection}
+              availablePresences={this.props.availablePresences}
             />
             : ''
           }
@@ -193,6 +194,7 @@ Toolbar.propTypes = {
   changePresence: PropTypes.func,
   tenant: PropTypes.object,
   agentDirection: PropTypes.string,
+  availablePresences: PropTypes.array,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(Toolbar));

@@ -174,6 +174,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
               { /* <SidePanel style={[this.styles.flexchild, this.styles.sidebar]} />   */ }
             </div>
             <Toolbar
+              availablePresences={this.props.agentDesktop.availablePresences}
               tenant={this.props.login.tenant}
               changePresence={this.changePresence}
               readyState={this.props.agentDesktop.presence}

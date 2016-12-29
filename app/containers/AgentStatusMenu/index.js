@@ -10,7 +10,8 @@ import selectAgentStatusMenu from './selectors';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import Radium from 'radium';
-import { logout } from 'containers/Login/actions'
+import { logout } from 'containers/Login/actions';
+import checkIcon from 'assets/icons/CheckStatus.png';
 
 export class AgentStatusMenu extends React.Component { // eslint-disable-line react/prefer-stateless-function
   styles = {
@@ -24,6 +25,7 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
       bottom: '66px',
       paddingBottom: '16px',
       paddingTop: '16px',
+      color: '#4b4b4b',
     },
     agentStatusMenuTriangle: {
       position: 'absolute',
@@ -79,9 +81,27 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
       paddingBottom: '17px',
       borderTop: 'solid 1px #e4e4e4',
     },
+    notReadyReasons: {
+      paddingLeft: '24px',
+      paddingRight: '24px',
+      display: 'block',
+      paddingTop: '14px',
+      borderTop: 'solid 1px #e4e4e4',
+      lineHeight: '1.25',
+    },
+    notReadyReasonsTitle: {
+      fontSize: '16px',
+      color: '#979797',
+      height: '27px',
+    },
+    notReadyReasonsActive: {
+      fontWeight: 'bold',
+      cursor: 'default',
+    },
     tenantTitle: {
       fontSize: '14px',
       color: '#979797',
+      fontWeight: '300',
     },
     tenantText: {
       fontSize: '18px',
@@ -89,6 +109,18 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
       fontWeight: 'bold',
       display: 'inline',
       textTransform: 'capitalize',
+    },
+    notReadyPresence: {
+      cursor: 'pointer',
+      textTransform: 'capitalize',
+      height: '24px',
+      width: '303px',
+      marginLeft: '-24px',
+      paddingLeft: '24px',
+      paddingRight: '13px',
+      ':hover': {
+        backgroundColor: '#f3f3f3',
+      },
     },
     arrow: {
       float: 'right',
@@ -100,7 +132,7 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
       <span>
         <span style={[this.styles.agentStatusMenuTriangle]} />
         <div id="agentStatusMenu" style={this.styles.agentStatusMenu}>
-          <div id="agentLogoutLink" style={[this.styles.logoutLink]} onClick={() => { this.props.changePresence('offline'); this.props.logout(); this.props.showAgentStatusMenu(false); }}><FormattedMessage {...messages.logout} /></div>
+          <div id="agentLogoutLink" style={[this.styles.logoutLink]} onClick={() => { this.props.logout(); this.props.showAgentStatusMenu(false); }}><FormattedMessage {...messages.logout} /></div>
           <div id="agentMenuTenant" style={[this.styles.tenant]}>
             <div style={[this.styles.tenantTitle]}><FormattedMessage {...messages.tenant} /></div>
             <div style={[this.styles.tenantText]}>{this.props.tenant.name}</div>
@@ -113,10 +145,56 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
             <div style={[this.styles.tenantTitle]}><FormattedMessage {...messages.activeVoicePath} /></div>
             <div style={[this.styles.tenantText]}><FormattedMessage {...messages.softphone} /></div>
           </div>
+          <div id="agentNotReadyStates" style={[this.styles.notReadyReasons]}>
+            <div id="agentNotReadyStatesTitle" style={[this.styles.notReadyReasonsTitle]}><FormattedMessage {...messages.notReady} /></div>
+            {
+              this.props.availablePresences.map(
+                (presence) => { // eslint-disable-line
+                  return presence !== 'ready' && presence !== 'offline'
+                  ? <div
+                    id={`${presence}_reason`}
+                    key={`${presence}_reason`}
+                    style={presence !== this.props.readyState
+                    ? [this.styles.notReadyPresence]
+                    : [this.styles.notReadyPresence, this.styles.notReadyReasonsActive]}
+                    onClick={() => { this.props.changePresence(presence); this.props.showAgentStatusMenu(false); }}
+                  >
+                    {presence}
+                    {presence === this.props.readyState ? <img src={checkIcon} style={{ height: '17px', float: 'right' }} alt="checkIcon" /> : ''}
+                  </div>
+                  : '';
+                }
+              )
+            }
+            {
+              this.props.readyState !== 'ready'
+              ? <div
+                id={`${this.props.readyState}_current_reason`}
+                key={`${this.props.readyState}_current_reason`}
+                style={[this.styles.notReadyPresence, this.styles.notReadyReasonsActive, { cursor: 'default' }]}
+              >
+                {this.props.readyState}
+                <img src={checkIcon} style={{ height: '17px', float: 'right' }} alt="checkIcon" />
+              </div>
+              : ''
+            }
+          </div>
           {
-            this.props.readyState !== 'ready'
-            ? <div id="readyStateLink" style={[this.styles.readyLink]} onClick={() => { this.props.changePresence('ready'); this.props.showAgentStatusMenu(false); }}><FormattedMessage {...messages.ready} /></div>
-            : <div id="readyStateLink" style={[this.styles.readyLink]} onClick={() => { this.props.changePresence('notready'); this.props.showAgentStatusMenu(false); }}><FormattedMessage {...messages.notReady} /></div>
+            this.props.readyState === 'ready'
+            ? <div
+              id="readyStateLink"
+              style={[this.styles.readyLink, this.styles.notReadyReasonsActive]}
+            >
+              <FormattedMessage {...messages.ready} />
+              <img src={checkIcon} style={{ height: '17px', float: 'right' }} alt="checkIcon" />
+            </div>
+            : <div
+              id="readyStateLink"
+              style={[this.styles.readyLink]}
+              onClick={() => { this.props.changePresence('ready'); this.props.showAgentStatusMenu(false); }}
+            >
+              <FormattedMessage {...messages.ready} />
+            </div>
           }
         </div>
       </span>
@@ -131,6 +209,7 @@ AgentStatusMenu.propTypes = {
   agentDirection: PropTypes.string,
   readyState: PropTypes.string,
   logout: PropTypes.func,
+  availablePresences: PropTypes.array,
 };
 
 const mapStateToProps = selectAgentStatusMenu();

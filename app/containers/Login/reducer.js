@@ -31,6 +31,7 @@ function loginReducer(state = initialState, action) {
         .set('logged_in', true)
         .set('login_error', false);
     case LOGOUT:
+      window.SDK.Agent.logout();
       return state
         .set('agent', {})
         .set('logged_in', false)
