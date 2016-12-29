@@ -78,10 +78,9 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
       if (newPresence === 'ready') {
         SDK.Agent.Session.Messaging.init({ onReceived: (message) => {
           console.log('GOT A MESSAGE!', message); // eslint-disable-line
-          this.props.addMessage(message.id, {
+          this.props.addMessage(message.to, {
             text: message.body.text,
             from: message.metadata && message.metadata.name ? message.metadata.name : message.from,
-            to: message.to,
             timestamp: message.timestamp,
           });
         } });
@@ -129,7 +128,6 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
               const messageHistoryItems = messageHistory.map((messageHistoryItem) => ({
                 text: messageHistoryItem.body.text,
                 from: messageHistoryItem.metadata && messageHistoryItem.metadata.name ? messageHistoryItem.metadata.name : messageHistoryItem.from,
-                to: messageHistoryItem.to,
                 timestamp: messageHistoryItem.timestamp,
               }));
               const interaction = {
