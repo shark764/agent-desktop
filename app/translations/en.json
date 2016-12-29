@@ -1,5 +1,5 @@
 {
-  "app.components.NotFoundPage.header": "This is NotFoundPage component !",
+  "app.components.NotFoundPage.header": "Page Not Found",
   "app.components.TimerMinutes.hours": "h",
   "app.components.TimerMinutes.justNow": "Just Now",
   "app.components.TimerMinutes.minutes": "m",

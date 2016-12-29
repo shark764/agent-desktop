@@ -5,9 +5,4 @@
  */
 import { defineMessages } from 'react-intl';
 
-export default defineMessages({
-  sqsTypes: {
-    resourceStateChange: 'resource-state-change',
-    agentNotification: 'agent-notification',
-  },
-});
+export default defineMessages({});
