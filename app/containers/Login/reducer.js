@@ -12,6 +12,8 @@ import {
   LOGIN_ERROR,
   SET_TENANTS,
   SHOW_LOGIN,
+  SET_TENANT,
+  LOGOUT,
 } from './constants';
 
 const initialState = fromJS({
@@ -28,6 +30,12 @@ function loginReducer(state = initialState, action) {
         .set('agent', action.agent)
         .set('logged_in', true)
         .set('login_error', false);
+    case LOGOUT:
+      return state
+        .set('agent', {})
+        .set('logged_in', false)
+        .set('login_error', false)
+        .set('showLogin', true);
     case SET_AUTHENTICATED:
       return state
         .set('authed', action.authed);
@@ -35,6 +43,9 @@ function loginReducer(state = initialState, action) {
       return state
         .set('login_error', true)
         .set('logged_in', false);
+    case SET_TENANT:
+      return state
+        .set('tenant', { id: action.id, name: action.name });
     case SET_TENANTS:
       return state
         .set();

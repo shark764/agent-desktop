@@ -17,8 +17,13 @@ function toolbarReducer(state = initialState, action) {
     case DEFAULT_ACTION:
       return state;
     case SHOW_AGENT_STATUS_MENU:
-      return state
-        .set('agentStatusMenu', action.show);
+      if (typeof action.show !== 'undefined') {
+        return state
+          .set('agentStatusMenu', action.show);
+      } else {
+        return state
+          .set('agentStatusMenu', !state.get('agentStatusMenu'));
+      }
     default:
       return state;
   }

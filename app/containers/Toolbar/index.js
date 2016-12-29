@@ -50,7 +50,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       width: '277px',
       height: '54px',
     },
-    agentButton: {
+    agentButtonNR: {
       cursor: 'pointer',
       marginLeft: '8px',
       marginTop: '3px',
@@ -60,12 +60,42 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       paddingBottom: '8px',
       outline: 'none',
       height: '47px',
+      minWidth: '160px',
       borderRadius: this.props.agentStatusMenu ? '3px' : '0px',
-      backgroundColor: this.props.agentStatusMenu ? '#cb3750' : 'transparent',
+      backgroundColor: this.props.agentStatusMenu ? '#E43D5A' : 'transparent',
       ':hover': {
         borderRadius: '2px',
         boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
-        backgroundColor: '#C93952',
+        backgroundColor: '#E43D5A',
+      },
+      ':focus': {
+        borderRadius: '2px',
+        boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+        backgroundColor: '#CB3750',
+      },
+    },
+    agentButtonR: {
+      cursor: 'pointer',
+      marginLeft: '8px',
+      marginTop: '3px',
+      display: 'inline-grid',
+      paddingRight: '23px',
+      paddingTop: '8px',
+      paddingBottom: '8px',
+      outline: 'none',
+      height: '47px',
+      minWidth: '160px',
+      borderRadius: this.props.agentStatusMenu ? '3px' : '0px',
+      backgroundColor: this.props.agentStatusMenu ? '#E43D5A' : 'transparent',
+      ':hover': {
+        borderRadius: '2px',
+        boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+        backgroundColor: '#093742',
+      },
+      ':focus': {
+        borderRadius: '2px',
+        boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+        backgroundColor: '#0B424E',
       },
     },
     stats: {
@@ -101,7 +131,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       <div key={this.props.readyState} style={this.getStyle()}>
         <div id="toolbar-container" style={[this.styles.container]}>
           <div id="agent-button-container" style={[this.styles.agentButtonContainer]}>
-            <button id="agent-button" style={[this.styles.agentButton]} onClick={() => this.props.showAgentStatusMenu(true)}>
+            <button id="agent-button" style={this.props.readyState === 'ready' ? [this.styles.agentButtonR] : [this.styles.agentButtonNR]} onClick={() => this.props.showAgentStatusMenu()}>
               <span id="agent-state" style={[this.styles.agentState]}>
                 <div style={{ display: 'inline', float: 'left' }}>
                   {
@@ -127,7 +157,13 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
           </div>
           {
             this.props.agentStatusMenu
-            ? <AgentMenu readyState={this.props.readyState} showAgentStatusMenu={this.props.showAgentStatusMenu} changePresence={this.props.changePresence} />
+            ? <AgentMenu
+              tenant={this.props.tenant}
+              readyState={this.props.readyState}
+              showAgentStatusMenu={this.props.showAgentStatusMenu}
+              changePresence={this.props.changePresence}
+              agentDirection={this.props.agentDirection}
+            />
             : ''
           }
           <span id="agent-stats" style={[this.styles.stats]} />
@@ -155,6 +191,8 @@ Toolbar.propTypes = {
   showAgentStatusMenu: PropTypes.func,
   agentStatusMenu: PropTypes.bool,
   changePresence: PropTypes.func,
+  tenant: PropTypes.object,
+  agentDirection: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(Toolbar));

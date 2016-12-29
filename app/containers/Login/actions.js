@@ -12,6 +12,8 @@ import {
   SET_TENANTS,
   RESET_PASSWORD,
   SHOW_LOGIN,
+  SET_TENANT,
+  LOGOUT,
 } from './constants';
 
 export function defaultAction() {
@@ -27,6 +29,12 @@ export function loginSuccess(agent) {
   };
 }
 
+export function logout() {
+  return {
+    type: LOGOUT,
+  };
+}
+
 export function loginError() {
   return {
     type: LOGIN_ERROR,
@@ -37,6 +45,14 @@ export function setAuthenticated(authed) {
   return {
     type: SET_AUTHENTICATED,
     authed,
+  };
+}
+
+export function setTenant(id, name) {
+  return {
+    type: SET_TENANT,
+    id,
+    name,
   };
 }
 

@@ -23,7 +23,7 @@ import Select from 'components/Select';
 import Radio from 'components/Radio';
 const storage = window.localStorage;
 
-import { setAuthenticated, loginError, loginSuccess, resetPassword, showLogin } from './actions';
+import { setAuthenticated, loginError, loginSuccess, resetPassword, showLogin, setTenant } from './actions';
 
 import Radium from 'radium';
 
@@ -38,6 +38,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       remember: storage.getItem('remember') || false,
       requestingPassword: false,
       tenantId: '-1',
+      tenantName: '',
       agentDirection: props.intl.formatMessage(messages.inbound),
       error: false,
       noTenant: false,
@@ -56,7 +57,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   }
 
   componentDidMount() {
-    window.SDK = cxSDK.init('https://dev-api.cxengagelabs.net/');
+    window.SDK = cxSDK.init('https://dev-api.cxengagelabs.net/'); // TODO: switch on env variable
   }
 
   onLogin() {
@@ -76,6 +77,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     if (this.state.tenantId !== '-1') {
       this.props.beginSession(this.state.tenantId);
       this.props.showLogin(false);
+      this.props.setTenant(this.state.tenantId, this.state.tenantName);
     } else {
       this.setState({ noTenant: true });
     }
@@ -107,7 +109,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       <div style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
         <Logo style={{ marginTop: '50px' }} width="275px" />
         <Title text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
-        <Select style={{ width: '282px' }} value={this.state.tenantId} onChange={(e) => this.setTenantId(e.value || '-1')} options={tenantOptions} />
+        <Select style={{ width: '282px' }} value={this.state.tenantId} onChange={(e) => this.setTenantId(e.value || '-1', e.label || '')} options={tenantOptions} />
         <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
         <Button style={{ marginTop: '34px' }} text={messages.sendButton} onClick={() => this.onTenantSelect()} />
         {this.state.noTenant
@@ -158,8 +160,8 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.setState({ requestingPassword: true });
   }
 
-  setTenantId(tenantId) {
-    this.setState({ tenantId });
+  setTenantId(tenantId, tenantName) {
+    this.setState({ tenantId, tenantName });
   }
 
   setDirection(agentDirection) {
@@ -270,6 +272,7 @@ function mapDispatchToProps(dispatch) {
     setAuthenticated: () => dispatch(setAuthenticated()),
     loginError: () => dispatch(loginError()),
     showLogin: (show) => dispatch(showLogin(show)),
+    setTenant: (id, name) => dispatch(setTenant(id, name)),
     dispatch,
   };
 }
@@ -282,6 +285,7 @@ Login.propTypes = {
   logged_in: PropTypes.bool,
   showLogin: PropTypes.func,
   beginSession: PropTypes.func,
+  setTenant: PropTypes.func,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Login)));
