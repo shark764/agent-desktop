@@ -1,7 +1,7 @@
 /*
- * SidePanel Messages
+ * AgentMenu Messages
  *
- * This contains all the text for the SidePanel component.
+ * This contains all the text for the AgentMenu component.
  */
 import { defineMessages } from 'react-intl';
 

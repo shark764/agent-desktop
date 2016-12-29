@@ -7,8 +7,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import selectSidePanel from './selectors';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 import Radium from 'radium';
 
 export class SidePanel extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -21,7 +19,6 @@ export class SidePanel extends React.Component { // eslint-disable-line react/pr
   render() {
     return (
       <div style={[this.styles.base, this.props.style]}>
-        <FormattedMessage {...messages.header} />
       </div>
     );
   }
