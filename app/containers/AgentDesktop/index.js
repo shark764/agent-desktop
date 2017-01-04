@@ -18,7 +18,8 @@ import Login from 'containers/Login';
 
 import Radium from 'radium';
 
-import { setTenantId, setPresence, setDirection, setAvailablePresences, addInteraction, addMessage, setInteractionStatus, removeInteraction, selectInteraction } from './actions';
+import { setTenantId, setPresence, setDirection, setAvailablePresences, addInteraction, addMessage, setMessageHistory,
+  setInteractionStatus, removeInteraction, selectInteraction, setCustomFields } from './actions';
 
 import { SQS_TYPES } from './constants';
 
@@ -119,9 +120,18 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
           this.props.setInteractionStatus(message.interactionId, message.notificationType);
         } else if (message.notificationType === 'work-rejected' || message.notificationType === 'work-ended') {
           this.props.removeInteraction(message.interactionId);
+        } else if (message.notificationType === 'custom-fields') {
+          this.props.setCustomFields(message.interactionId, message.customFields);
         }
       } else if (message.type.toLowerCase() === SQS_TYPES.workOffer) {
         console.log('WORK OFFER!', message); // eslint-disable-line
+        const interaction = {
+          interactionId: message.interactionId,
+          status: 'work-offer',
+          timeout: message.timeout,
+        };
+        this.props.addInteraction(interaction);
+
         if (message.channelType === 'messaging' || message.channelType === 'sms') {
           SDK.Agent.Session.Messaging.getMessageHistory({ interactionId: message.interactionId,
             callback: (messageHistory) => {
@@ -130,22 +140,9 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
                 from: messageHistoryItem.metadata && messageHistoryItem.metadata.name ? messageHistoryItem.metadata.name : messageHistoryItem.from,
                 timestamp: messageHistoryItem.timestamp,
               }));
-              const interaction = {
-                interactionId: message.interactionId,
-                status: 'work-offer',
-                messageHistory: messageHistoryItems,
-                timeout: message.timeout,
-              };
-              this.props.addInteraction(interaction);
+              this.props.setMessageHistory(message.interactionId, messageHistoryItems);
             },
           });
-        } else {
-          const interaction = {
-            interactionId: message.interactionId,
-            status: 'work-offer',
-            timeout: message.timeout,
-          };
-          this.props.addInteraction(interaction);
         }
       } else if (message.type.toLowerCase() === SQS_TYPES.sendScript) {
         console.log('SEND SCRIPT!', message); // eslint-disable-line
@@ -199,8 +196,10 @@ function mapDispatchToProps(dispatch) {
     setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
     removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
+    setMessageHistory: (interactionId, messageHistoryItems) => dispatch(setMessageHistory(interactionId, messageHistoryItems)),
     addMessage: (interactionId, message) => dispatch(addMessage(interactionId, message)),
     selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
+    setCustomFields: (interactionId, customFields) => dispatch(setCustomFields(interactionId, customFields)),
     dispatch,
   };
 }
@@ -215,8 +214,10 @@ AgentDesktop.propTypes = {
   setInteractionStatus: PropTypes.func,
   addInteraction: PropTypes.func,
   removeInteraction: PropTypes.func,
+  setMessageHistory: PropTypes.func,
   addMessage: PropTypes.func,
   selectInteraction: PropTypes.func,
+  setCustomFields: PropTypes.func,
   agentDesktop: PropTypes.object,
   tenant: PropTypes.object,
 };
