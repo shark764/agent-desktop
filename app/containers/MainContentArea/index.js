@@ -12,6 +12,8 @@ import Radium from 'radium';
 import messages from './messages';
 import { FormattedMessage, FormattedTime } from 'react-intl';
 
+import Avatar from 'components/Avatar';
+
 export class MainContentArea extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   constructor(props) {
@@ -50,15 +52,28 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
 
     const messageHistory = this.props.selectedInteraction.messageHistory.map((message) =>
       <div key={message.from + message.timestamp} style={{ marginBottom: '10px' }}>
-        <span style={{ fontSize: '15px', fontWeight: 'bold' }}>
-          {message.from}
-        </span>
-        <span style={{ fontSize: '12px', marginLeft: '7px' }}>
-          <FormattedTime value={new Date(message.timestamp)} />
-        </span>
-        <div style={{ display: 'block', width: '100%', fontSize: '16px', whiteSpace: 'pre-wrap' }}>
-          {message.text}
-        </div>
+        {
+          message.type === 'system'
+          ? <div style={{ fontSize: '16px', whiteSpace: 'pre', textAlign: 'center', color: '#999', padding: '0 25%' }}>
+            {message.text}
+          </div>
+          : <div>
+            <div style={{ display: 'inline-block', verticalAlign: 'top', width: '40px', paddingTop: '5px' }}>
+              <Avatar customerAvatarIndex={message.type === 'agent' ? undefined : this.props.selectedInteraction.customerAvatarIndex} />
+            </div>
+            <div style={{ display: 'inline-block', width: 'calc(100% - 40px)' }}>
+              <span style={{ fontSize: '15px', fontWeight: 'bold' }}>
+                {message.from}
+              </span>
+              <span style={{ fontSize: '12px', marginLeft: '7px' }}>
+                <FormattedTime value={new Date(message.timestamp)} />
+              </span>
+              <div style={{ fontSize: '16px', lineHeight: '20px', whiteSpace: 'pre' }}>
+                {message.text}
+              </div>
+            </div>
+          </div>
+        }
       </div>
     );
 

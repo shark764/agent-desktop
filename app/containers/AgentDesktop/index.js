@@ -82,6 +82,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
           this.props.addMessage(message.to, {
             text: message.body.text,
             from: message.metadata && message.metadata.name ? message.metadata.name : message.from,
+            type: message.metadata.type,
             timestamp: message.timestamp,
           });
         } });
@@ -126,6 +127,8 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
       } else if (message.type.toLowerCase() === SQS_TYPES.workOffer) {
         console.log('WORK OFFER!', message); // eslint-disable-line
         const interaction = {
+          channelType: message.channelType,
+          customerAvatarIndex: Math.floor(Math.random() * 17),
           interactionId: message.interactionId,
           status: 'work-offer',
           timeout: message.timeout,
@@ -138,11 +141,9 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
               const messageHistoryItems = messageHistory.map((messageHistoryItem) => ({
                 text: messageHistoryItem.body.text,
                 from: messageHistoryItem.metadata && messageHistoryItem.metadata.name ? messageHistoryItem.metadata.name : messageHistoryItem.from,
+                type: messageHistoryItem.metadata.type,
                 timestamp: messageHistoryItem.timestamp,
               }));
-              this.props.setMessageHistory(message.interactionId, messageHistoryItems);
-            },
-          });
         }
       } else if (message.type.toLowerCase() === SQS_TYPES.sendScript) {
         console.log('SEND SCRIPT!', message); // eslint-disable-line
