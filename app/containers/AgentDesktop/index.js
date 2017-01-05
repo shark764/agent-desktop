@@ -136,7 +136,8 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
         this.props.addInteraction(interaction);
 
         if (message.channelType === 'messaging' || message.channelType === 'sms') {
-          SDK.Agent.Session.Messaging.getMessageHistory({ interactionId: message.interactionId,
+          SDK.Agent.Session.Messaging.getMessageHistory({
+            interactionId: message.interactionId,
             callback: (messageHistory) => {
               const messageHistoryItems = messageHistory.map((messageHistoryItem) => ({
                 text: messageHistoryItem.body.text,
@@ -144,6 +145,9 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
                 type: messageHistoryItem.metadata.type,
                 timestamp: messageHistoryItem.timestamp,
               }));
+              this.props.setMessageHistory(message.interactionId, messageHistoryItems);
+            },
+          });
         }
       } else if (message.type.toLowerCase() === SQS_TYPES.sendScript) {
         console.log('SEND SCRIPT!', message); // eslint-disable-line
