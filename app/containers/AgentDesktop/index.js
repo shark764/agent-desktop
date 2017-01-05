@@ -81,6 +81,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
           this.props.addMessage(message.to, {
             text: message.body.text,
             from: message.metadata && message.metadata.name ? message.metadata.name : message.from,
+            type: message.metadata.type,
             timestamp: message.timestamp,
           });
         } });
@@ -128,13 +129,16 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
               const messageHistoryItems = messageHistory.map((messageHistoryItem) => ({
                 text: messageHistoryItem.body.text,
                 from: messageHistoryItem.metadata && messageHistoryItem.metadata.name ? messageHistoryItem.metadata.name : messageHistoryItem.from,
+                type: messageHistoryItem.metadata.type,
                 timestamp: messageHistoryItem.timestamp,
               }));
               const interaction = {
                 interactionId: message.interactionId,
                 status: 'work-offer',
-                messageHistory: messageHistoryItems,
+                channelType: message.channelType,
                 timeout: message.timeout,
+                messageHistory: messageHistoryItems,
+                customerAvatarIndex: Math.floor(Math.random() * 17),
               };
               this.props.addInteraction(interaction);
             },
@@ -143,6 +147,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
           const interaction = {
             interactionId: message.interactionId,
             status: 'work-offer',
+            channelType: message.channelType,
             timeout: message.timeout,
           };
           this.props.addInteraction(interaction);
