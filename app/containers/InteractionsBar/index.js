@@ -49,10 +49,10 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
             <TimerMinutes />
           </div>
           <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px' }}>
-            {activeInteraction.messageHistory[0].from}
+            {activeInteraction.messageHistory ? activeInteraction.messageHistory[0].from : ''}
           </div>
-          <div style={{ height: '36px', lineHeight: '18px', marginTop: '5px' }}>
-            {activeInteraction.messageHistory[0].text}
+          <div style={{ height: '36px', lineHeight: '18px', marginTop: '5px', overflow: 'hidden' }}>
+            {activeInteraction.messageHistory ? activeInteraction.messageHistory[0].text : ''}
           </div>
         </div>
       </div>
@@ -70,10 +70,10 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
             <Countdown countdownUntil={new Date(pendingInteraction.timeout)} />
           </div>
           <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px' }}>
-            {pendingInteraction.messageHistory[0].from}
+            {pendingInteraction.messageHistory ? pendingInteraction.messageHistory[0].from : ''}
           </div>
-          <div style={{ height: '36px', lineHeight: '18px', marginTop: '5px' }}>
-            {pendingInteraction.messageHistory[0].text}
+          <div style={{ height: '36px', lineHeight: '18px', marginTop: '5px', overflow: 'hidden' }}>
+            {pendingInteraction.messageHistory ? pendingInteraction.messageHistory[0].text : ''}
           </div>
           <div style={{ color: '#979797', fontSize: '12px', marginTop: '11px' }}>
             <FormattedMessage {...messages.accept} />

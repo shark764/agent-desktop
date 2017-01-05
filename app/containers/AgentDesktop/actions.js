@@ -10,10 +10,12 @@ import {
   SET_PRESENCE,
   SET_AVAILABLE_PRESENCES,
   ADD_INTERACTION,
+  SET_MESSAGE_HISTORY,
   ADD_MESSAGE,
   SET_INTERACTION_STATUS,
   REMOVE_INTERACTION,
   SELECT_INTERACTION,
+  SET_CUSTOM_FIELDS,
 } from './constants';
 
 export function setTenantId(tenantId) {
@@ -51,6 +53,14 @@ export function addInteraction(interaction) {
   };
 }
 
+export function setMessageHistory(interactionId, messageHistoryItems) {
+  return {
+    type: SET_MESSAGE_HISTORY,
+    interactionId,
+    messageHistoryItems,
+  };
+}
+
 export function addMessage(interactionId, message) {
   return {
     type: ADD_MESSAGE,
@@ -78,5 +88,13 @@ export function selectInteraction(interactionId) {
   return {
     type: SELECT_INTERACTION,
     interactionId,
+  };
+}
+
+export function setCustomFields(interactionId, customFields) {
+  return {
+    type: SET_CUSTOM_FIELDS,
+    interactionId,
+    customFields,
   };
 }

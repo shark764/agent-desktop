@@ -39,6 +39,17 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
   }
 
   getMessagingContent() {
+    const customFields = this.props.selectedInteraction.customFields.map((customField) =>
+      <div key={customField.label + customField.value} style={{ display: 'inline-block', width: '50%' }}>
+        <div style={{ color: '#979797', display: 'inline-block', width: '90px' }}>
+          {customField.label}
+        </div>
+        <div style={{ display: 'inline-block', width: 'calc(100% - 90px)' }}>
+          {customField.value}
+        </div>
+      </div>
+    );
+
     const messageHistory = this.props.selectedInteraction.messageHistory.map((message) =>
       <div key={message.from + message.timestamp} style={{ marginBottom: '10px' }}>
         {
@@ -65,25 +76,31 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
         }
       </div>
     );
+
     return (
-      <div style={{ backgroundColor: '#F3F3F3', height: '100%', padding: '5px' }}>
-        <div style={{ width: '100%', height: '60px', overflow: 'auto' }}>
-          <div style={{ width: 'calc(100% - 150px)', display: 'inline-block', fontSize: '20px', fontWeight: 'bold', marginTop: '12px', marginLeft: '10px' }}>
-            {this.props.selectedInteraction.messageHistory[0].from}
+      <div style={{ display: 'flex', flexFlow: 'column', backgroundColor: '#F3F3F3', height: '100%', padding: '5px' }}>
+        <div style={{ flex: '0 1 auto', padding: '0 10px' }}>
+          <div style={{ borderBottom: '1px solid #D0D0D0', padding: '10px 5px 15px' }}>
+            <div style={{ width: 'calc(100% - 150px)', display: 'inline-block', fontSize: '20px', fontWeight: 'bold' }}>
+              {this.props.selectedInteraction.messageHistory[0].from}
+            </div>
+            <button
+              style={{ float: 'right', backgroundColor: '#FE4565', color: '#FFFFFF', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold', padding: '8px 18px', borderRadius: '3px' }}
+              onClick={this.endInteraction}
+            >
+              <FormattedMessage {...messages.endChat} />
+            </button>
           </div>
-          <button
-            style={{ float: 'right', backgroundColor: '#FE4565', color: '#FFFFFF', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold', margin: '11px 10px 0 0', padding: '8px 18px', borderRadius: '3px' }}
-            onClick={this.endInteraction}
-          >
-            <FormattedMessage {...messages.endChat} />
-          </button>
+          <div style={{ fontSize: '12px', padding: '10px' }}>
+            {customFields}
+          </div>
         </div>
-        <div style={{ backgroundColor: '#FFFFFF', border: '1px solid #E4E4E4', height: 'calc(100% - 60px)', padding: '17px' }}>
-          <div id="message-history" style={{ height: 'calc(100% - 36px)', overflowY: 'auto' }}>
+        <div style={{ flex: '1 1 auto', display: 'flex', flexFlow: 'column', backgroundColor: '#FFFFFF', border: '1px solid #E4E4E4', padding: '17px 17px 9px' }}>
+          <div id="message-history" style={{ flex: '1 1 auto', overflowY: 'auto' }}>
             {messageHistory}
           </div>
           <textarea
-            style={{ width: '100%', height: '36px', resize: 'none', borderRadius: '3px', border: '1px solid #23CEF5', boxShadow: '0 0 6px 0 rgba(0,0,0,0.07)' }}
+            style={{ flex: '0 1 36px', resize: 'none', borderRadius: '3px', border: '1px solid #23CEF5', boxShadow: '0 0 6px 0 rgba(0,0,0,0.07)' }}
             value={this.state.messageText}
             onChange={(e) => this.setMessageText(e.target.value)}
             onKeyPress={this.sendMessageOnEnter}

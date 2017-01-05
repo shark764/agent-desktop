@@ -13,8 +13,10 @@ import {
   SET_INTERACTION_STATUS,
   ADD_INTERACTION,
   REMOVE_INTERACTION,
+  SET_MESSAGE_HISTORY,
   ADD_MESSAGE,
   SELECT_INTERACTION,
+  SET_CUSTOM_FIELDS,
 } from './constants';
 
 const initialState = fromJS({
@@ -66,6 +68,23 @@ function agentDesktopReducer(state = initialState, action) {
           interaction.get('interactionId') === action.interactionId
         ))
         .set('selectedInteractionId', state.get('selectedInteractionId') === action.interactionId ? undefined : state.get('selectedInteractionId'));
+    case SET_MESSAGE_HISTORY: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state
+          .update('interactions',
+            (interactions) =>
+              interactions.update(
+                interactionIndex,
+                (interaction) => interaction.set('messageHistory', fromJS(action.messageHistoryItems))
+              )
+          );
+      } else {
+        return state;
+      }
+    }
     case ADD_MESSAGE: {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === action.interactionId
@@ -76,7 +95,7 @@ function agentDesktopReducer(state = initialState, action) {
             (interactions) =>
               interactions.update(
                 interactionIndex,
-                (interaction) => interaction.update('messageHistory', (messageHistory) => messageHistory.push(action.message))
+                (interaction) => interaction.update('messageHistory', (messageHistory) => messageHistory.push(fromJS(action.message)))
                   .set('hasUnreadMessage', state.get('selectedInteractionId') !== interaction.get('interactionId'))
               )
           );
@@ -96,6 +115,23 @@ function agentDesktopReducer(state = initialState, action) {
               interactions.update(
                 interactionIndex,
                 (interaction) => interaction.set('hasUnreadMessage', false)
+              )
+          );
+      } else {
+        return state;
+      }
+    }
+    case SET_CUSTOM_FIELDS: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state
+          .update('interactions',
+            (interactions) =>
+              interactions.update(
+                interactionIndex,
+                (interaction) => interaction.set('customFields', action.customFields)
               )
           );
       } else {
