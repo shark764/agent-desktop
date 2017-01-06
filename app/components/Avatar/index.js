@@ -31,7 +31,7 @@ const customerAvatars = [customerAvatar1, customerAvatar2, customerAvatar3, cust
 
 function Avatar(props) {
   function getAvatar() {
-    if (props.customerAvatarIndex) {
+    if (Number.isInteger(props.customerAvatarIndex)) {
       return customerAvatars[props.customerAvatarIndex];
     } else {
       return agentAvatar;

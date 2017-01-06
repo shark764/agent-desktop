@@ -15,6 +15,8 @@ export const SET_MESSAGE_HISTORY = 'app/AgentDesktop/SET_MESSAGE_HISTORY';
 export const ADD_MESSAGE = 'app/AgentDesktop/ADD_MESSAGE';
 export const SELECT_INTERACTION = 'app/AgentDesktop/SELECT_INTERACTION';
 export const SET_CUSTOM_FIELDS = 'app/AgentDesktop/SET_CUSTOM_FIELDS';
+export const EMAIL_CREATE_REPLY = 'app/AgentDesktop/EMAIL_CREATE_REPLY';
+export const EMAIL_CANCEL_REPLY = 'app/AgentDesktop/EMAIL_CANCEL_REPLY';
 
 export const SQS_TYPES = {
   resourceStateChange: 'resource-state-change',

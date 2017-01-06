@@ -8,6 +8,8 @@ import React, { PropTypes } from 'react';
 import config from 'assets/icons/config.png';
 import message from 'assets/icons/message.png';
 import messageNew from 'assets/icons/message_new.png';
+import email from 'assets/icons/email.png';
+import emailNew from 'assets/icons/email_new.png';
 import connected from 'assets/icons/connected.png';
 import notConnected from 'assets/icons/not_connected.png';
 
@@ -22,6 +24,10 @@ function Icon(props) {
         return message;
       case 'message_new':
         return messageNew;
+      case 'email':
+        return email;
+      case 'email_new':
+        return emailNew;
       case 'connected':
         return connected;
       case 'not_connected':

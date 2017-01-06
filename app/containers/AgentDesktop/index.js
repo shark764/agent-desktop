@@ -21,7 +21,7 @@ import Login from 'containers/Login';
 import Radium from 'radium';
 
 import { setTenantId, setPresence, setDirection, setAvailablePresences, addInteraction, addMessage, setMessageHistory,
-  setInteractionStatus, removeInteraction, selectInteraction, setCustomFields } from './actions';
+  setInteractionStatus, removeInteraction, selectInteraction, setCustomFields, emailCreateReply, emailCancelReply } from './actions';
 
 import { SQS_TYPES } from './constants';
 
@@ -203,7 +203,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
           : <div id="desktop-container" style={[this.styles.flexchild, this.styles.parent, this.styles.columnParent, { height: '100vh' }]}>
             <div id="top-area" style={[this.styles.flexchild, this.styles.parent, { height: 'calc(100vh - 54px)' }]}>
               <InteractionsBar acceptInteraction={this.acceptInteraction} selectInteraction={this.props.selectInteraction} style={[this.styles.flexchild, this.styles.interactions]} />
-              <MainContentArea style={[this.styles.flexchild]} />
+              <MainContentArea emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} style={[this.styles.flexchild]} />
               <Resizable direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={window.innerWidth - 827} minPx={415} disabled={this.state.collapseContactsPanel}>
                 <SidePanel style={[this.styles.sidebar]} isCollapsed={this.state.collapseContactsPanel} collapsePanel={this.collapseContactsPanel} showPanel={this.showContactsPanel} />
               </Resizable>
@@ -238,6 +238,8 @@ function mapDispatchToProps(dispatch) {
     addMessage: (interactionId, message) => dispatch(addMessage(interactionId, message)),
     selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
     setCustomFields: (interactionId, customFields) => dispatch(setCustomFields(interactionId, customFields)),
+    emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
+    emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
     dispatch,
   };
 }
@@ -256,6 +258,8 @@ AgentDesktop.propTypes = {
   addMessage: PropTypes.func,
   selectInteraction: PropTypes.func,
   setCustomFields: PropTypes.func,
+  emailCreateReply: PropTypes.func,
+  emailCancelReply: PropTypes.func,
   agentDesktop: PropTypes.object,
   tenant: PropTypes.object,
 };
