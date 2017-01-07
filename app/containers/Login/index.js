@@ -35,7 +35,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       username: storage.getItem('email') || '',
       password: '',
       email: storage.getItem('email') || '',
-      remember: storage.getItem('remember') || false,
+      remember: storage.getItem('remember') === 'true',
       requestingPassword: false,
       tenantId: '-1',
       tenantName: '',

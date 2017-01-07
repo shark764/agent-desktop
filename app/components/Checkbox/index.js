@@ -36,7 +36,7 @@ Checkbox.propTypes = {
   intl: intlShape.isRequired,
   text: PropTypes.object.isRequired,
   cb: PropTypes.func.isRequired,
-  checked: PropTypes.string.isRequired,
+  checked: PropTypes.bool.isRequired,
   style: PropTypes.object,
 };
 

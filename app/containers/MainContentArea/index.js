@@ -130,7 +130,7 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
 
   styles = {
     base: {
-      boxShadow: '0 0 6px 1px rgba(0,0,0,0.3)',
+      borderRight: '1px solid #D0D0D0',
       backgroundColor: '#051E24',
       color: '#4B4B4B',
     },
