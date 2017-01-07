@@ -12,9 +12,9 @@ import Radium from 'radium';
 export class SidePanel extends React.Component { // eslint-disable-line react/prefer-stateless-function
   styles = {
     base: {
-      // styles
+      backgroundColor: '#E4E4E4',
     },
-  }
+  };
 
   render() {
     return (

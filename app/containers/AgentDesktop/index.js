@@ -11,8 +11,10 @@ import { injectIntl } from 'react-intl';
 
 import InteractionsBar from 'containers/InteractionsBar';
 import MainContentArea from 'containers/MainContentArea';
-// import SidePanel from 'containers/SidePanel';
+import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
+
+import Resizable from 'components/Resizable';
 
 import Login from 'containers/Login';
 
@@ -57,7 +59,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
     },
     sidebar: {
       flex: '0 0 auto',
-      width: '400px',
+      width: '100%',
     },
     interactions: {
       flex: '0 0 auto',
@@ -173,7 +175,9 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
             <div id="top-area" style={[this.styles.flexchild, this.styles.parent, { height: 'calc(100vh - 54px)' }]}>
               <InteractionsBar acceptInteraction={this.acceptInteraction} selectInteraction={this.props.selectInteraction} style={[this.styles.flexchild, this.styles.interactions]} />
               <MainContentArea style={[this.styles.flexchild]} />
-              { /* <SidePanel style={[this.styles.flexchild, this.styles.sidebar]} />   */ }
+              <Resizable direction="left" initialPx={400} maxPx={900} minPx={100}>
+                <SidePanel style={[this.styles.sidebar]} />
+              </Resizable>
             </div>
             <Toolbar
               availablePresences={this.props.agentDesktop.availablePresences}

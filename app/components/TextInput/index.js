@@ -59,7 +59,7 @@ TextInput.propTypes = {
   style: PropTypes.object,
   type: PropTypes.string,
   onKeyUp: PropTypes.func,
-  autoFocus: PropTypes.string,
+  autoFocus: PropTypes.bool,
 };
 
 export default injectIntl(Radium(TextInput));
