@@ -31,72 +31,35 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
     super(props);
     this.beginSession = this.beginSession.bind(this);
     this.changePresence = this.changePresence.bind(this);
+    this.showContactsPanel = this.showContactsPanel.bind(this);
+    this.collapseContactsPanel = this.collapseContactsPanel.bind(this);
+    this.setContactsPanelWidth = this.setContactsPanelWidth.bind(this);
+
+    this.collapsedContactsPanelPx = 52;
+    this.defaultContactsPanelPx = Math.min(window.innerWidth - 827, 553);
+
+    this.state = {
+      collapseContactsPanel: false,
+      contactsPanelPx: this.defaultContactsPanelPx,
+    };
   }
 
-  styles = {
-    base: {
-      // styles
-    },
-    parent: {
-      alignItems: 'stretch',
-      display: 'flex',
-      flexDirection: 'row',
-      flexWrap: 'nowrap',
-      justifyContent: 'flex-start',
-      alignContent: 'stretch',
-    },
-    columnParent: {
-      flexDirection: 'column',
-    },
-    flexchild: {
-      flex: '1',
-      alignSelf: 'auto',
-      overflow: 'auto',
-    },
-    toolbar: {
-      flex: '0 0 auto',
-      height: '54px',
-    },
-    sidebar: {
-      flex: '0 0 auto',
-      width: '100%',
-    },
-    interactions: {
-      flex: '0 0 auto',
-      width: '277px',
-      borderBottom: '1px solid #141414',
-    },
-  };
-
-  acceptInteraction(interactionId) {
-    SDK.Agent.Session.Messaging.workNotificationHandler({ interactionId }, 'work-initiated');
+  setContactsPanelWidth(newWidth) {
+    this.setState({
+      contactsPanelPx: newWidth,
+    });
   }
 
-  changePresence(newPresence) {
-    const changePresStateOnComplete = (data) => {
-      const changePresenceResult = data.result;
-      this.props.setDirection(changePresenceResult.direction);
-      this.props.setPresence(changePresenceResult.state);
-      this.props.setAvailablePresences(changePresenceResult.availableStates);
-      if (newPresence === 'ready') {
-        SDK.Agent.Session.Messaging.init({ onReceived: (message) => {
-          console.log('GOT A MESSAGE!', message); // eslint-disable-line
-          this.props.addMessage(message.to, {
-            text: message.body.text,
-            from: message.metadata && message.metadata.name ? message.metadata.name : message.from,
-            type: message.metadata.type,
-            timestamp: message.timestamp,
-          });
-        } });
-      }
-    };
+  collapseContactsPanel() {
+    this.setState({
+      collapseContactsPanel: true,
+    });
+  }
 
-    const changePresenceParams = {
-      state: newPresence,
-      'on-complete': changePresStateOnComplete,
-    };
-
-    SDK.Agent.Session.changePresenceState(changePresenceParams);
+  showContactsPanel() {
+    this.setState({
+      collapseContactsPanel: false,
+    });
   }
 
   beginSession(tenantId) {
@@ -165,6 +128,72 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
     SDK.Agent.Session.beginSession(sessionParams);
   }
 
+  changePresence(newPresence) {
+    const changePresStateOnComplete = (data) => {
+      const changePresenceResult = data.result;
+      this.props.setDirection(changePresenceResult.direction);
+      this.props.setPresence(changePresenceResult.state);
+      this.props.setAvailablePresences(changePresenceResult.availableStates);
+      if (newPresence === 'ready') {
+        SDK.Agent.Session.Messaging.init({ onReceived: (message) => {
+          console.log('GOT A MESSAGE!', message); // eslint-disable-line
+          this.props.addMessage(message.to, {
+            text: message.body.text,
+            from: message.metadata && message.metadata.name ? message.metadata.name : message.from,
+            type: message.metadata.type,
+            timestamp: message.timestamp,
+          });
+        } });
+      }
+    };
+
+    const changePresenceParams = {
+      state: newPresence,
+      'on-complete': changePresStateOnComplete,
+    };
+
+    SDK.Agent.Session.changePresenceState(changePresenceParams);
+  }
+
+  acceptInteraction(interactionId) {
+    SDK.Agent.Session.Messaging.workNotificationHandler({ interactionId }, 'work-initiated');
+  }
+
+  styles = {
+    base: {
+      // styles
+    },
+    parent: {
+      alignItems: 'stretch',
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
+      justifyContent: 'flex-start',
+      alignContent: 'stretch',
+    },
+    columnParent: {
+      flexDirection: 'column',
+    },
+    flexchild: {
+      flex: '1',
+      alignSelf: 'auto',
+      overflow: 'auto',
+    },
+    toolbar: {
+      flex: '0 0 auto',
+      height: '54px',
+    },
+    sidebar: {
+      flex: '0 0 auto',
+      width: '100%',
+    },
+    interactions: {
+      flex: '0 0 auto',
+      width: '277px',
+      borderBottom: '1px solid #141414',
+    },
+  };
+
   render() {
     return (
       <div>
@@ -175,8 +204,8 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
             <div id="top-area" style={[this.styles.flexchild, this.styles.parent, { height: 'calc(100vh - 54px)' }]}>
               <InteractionsBar acceptInteraction={this.acceptInteraction} selectInteraction={this.props.selectInteraction} style={[this.styles.flexchild, this.styles.interactions]} />
               <MainContentArea style={[this.styles.flexchild]} />
-              <Resizable direction="left" initialPx={400} maxPx={900} minPx={100}>
-                <SidePanel style={[this.styles.sidebar]} />
+              <Resizable direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={window.innerWidth - 827} minPx={415} disabled={this.state.collapseContactsPanel}>
+                <SidePanel style={[this.styles.sidebar]} isCollapsed={this.state.collapseContactsPanel} collapsePanel={this.collapseContactsPanel} showPanel={this.showContactsPanel} />
               </Resizable>
             </div>
             <Toolbar

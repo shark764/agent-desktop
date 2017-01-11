@@ -8,17 +8,18 @@ import React, { PropTypes } from 'react';
 
 import Radium from 'radium';
 
-class Resizable extends React.Component { // eslint-disable-line react/prefer-stateless-function
+import { throttleDecorator } from 'utils/animation';
+
+class Resizable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPx: Number(props.initialPx),
       resizing: false,
     };
 
     this.dividerPx = 11;
-    this.dividerPosition = 'absolute';
     const dividerHandleOffsetPx = (this.dividerPx / 4) - 1;
+    this.dividerPosition = 'absolute';
     this.leftDividerHandleOffset = this.addPx(dividerHandleOffsetPx);
     this.rightDividerHandleOffset = this.addPx((this.dividerPx / 2) + dividerHandleOffsetPx);
     this.dividerHandleStyle = {
@@ -31,23 +32,39 @@ class Resizable extends React.Component { // eslint-disable-line react/prefer-st
     };
 
     this.getStyles = this.getStyles.bind(this);
+    this.addListeners = this.addListeners.bind(this);
+    this.removeListeners = this.removeListeners.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.startResizing = this.startResizing.bind(this);
     this.stopResizing = this.stopResizing.bind(this);
-    this.resize = this.resize.bind(this);
+    this.resize = throttleDecorator(this.resize.bind(this));
+    this.attemptResize = this.attemptResize.bind(this);
+  }
 
-    if (typeof window !== 'undefined') {
-      window.addEventListener('mouseup', this.handleMouseUp);
-      window.addEventListener('mouseleave', this.stopResizing);
-      window.addEventListener('mousemove', this.handleMouseMove);
+  componentWillMount() {
+    this.addListeners();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.disabled !== this.props.disabled) {
+      if (nextProps.disabled) {
+        this.removeListeners();
+      } else {
+        this.addListeners();
+      }
     }
+    return nextProps;
+  }
+
+  componentWillUnmount() {
+    this.removeListeners();
   }
 
   getStyles() {
-    const elementSize = this.addPx(this.state.currentPx);
-    const dividerOffset = this.addPx(this.state.currentPx - (this.dividerPx / 2));
+    const elementSize = this.addPx(this.props.disabled ? this.props.disabledPx : this.props.px);
+    const dividerOffset = this.addPx(this.props.px - (this.dividerPx / 2));
     const userSelect = this.state.resizing ? 'none' : 'auto';
     const styles = {
       left: {
@@ -60,8 +77,8 @@ class Resizable extends React.Component { // eslint-disable-line react/prefer-st
           height: '100%',
           right: dividerOffset,
           top: '0',
-          cursor: 'ew-resize',
           position: this.dividerPosition,
+          cursor: this.props.disabled ? '' : 'ew-resize',
         },
       },
       top: {
@@ -74,12 +91,24 @@ class Resizable extends React.Component { // eslint-disable-line react/prefer-st
           width: '100%',
           bottom: dividerOffset,
           left: '0',
-          cursor: 'ns-resize',
           position: this.dividerPosition,
+          cursor: this.props.disabled ? '' : 'ns-resize',
         },
       },
     };
     return styles[this.props.direction];
+  }
+
+  addListeners() {
+    window.addEventListener('mouseup', this.handleMouseUp);
+    window.addEventListener('mouseleave', this.stopResizing);
+    window.addEventListener('mousemove', this.handleMouseMove);
+  }
+
+  removeListeners() {
+    window.removeEventListener('mouseup', this.handleMouseUp);
+    window.removeEventListener('mouseleave', this.stopResizing);
+    window.removeEventListener('mousemove', this.handleMouseMove);
   }
 
   addPx(numberOfPixels) {
@@ -87,20 +116,21 @@ class Resizable extends React.Component { // eslint-disable-line react/prefer-st
   }
 
   handleMouseUp(event) {
-    if (this.state.resizing && event.button !== 2) {
+    if (!this.props.disabled && this.state.resizing && event.button !== 2) {
+      this.attemptResize(event);
       this.stopResizing();
     }
   }
 
   handleMouseDown(event) {
-    if (!this.state.resizing && event.button !== 2) {
+    if (!this.props.disabled && !this.state.resizing && event.button !== 2) {
       this.startResizing(event);
     }
   }
 
   handleMouseMove(event) {
-    if (this.state.resizing) {
-      this.resize(event);
+    if (!this.props.disabled && this.state.resizing) {
+      this.attemptResize(event);
     }
   }
 
@@ -117,16 +147,20 @@ class Resizable extends React.Component { // eslint-disable-line react/prefer-st
     });
   }
 
-  resize(event) {
+  resize(newPx, newMousePosition) {
+    this.props.setPx(newPx);
+    this.setState({
+      initialMousePosition: newMousePosition,
+    });
+  }
+
+  attemptResize(event) {
     const newMousePosition = this.props.direction === 'left' ? event.pageX : event.pageY;
-    const newPx = this.state.currentPx + (this.state.initialMousePosition - newMousePosition);
+    const newPx = this.props.px + (this.state.initialMousePosition - newMousePosition);
     let limitedNewPx = Math.min(this.props.maxPx, newPx);
     limitedNewPx = Math.max(this.props.minPx, limitedNewPx);
     if (limitedNewPx === newPx) {
-      this.setState({
-        currentPx: newPx,
-        initialMousePosition: newMousePosition,
-      });
+      this.resize(newPx, newMousePosition);
     }
     return this.stopEvent(event);
   }
@@ -141,9 +175,16 @@ class Resizable extends React.Component { // eslint-disable-line react/prefer-st
     const styles = this.getStyles();
     return (
       <div style={[styles.wrapper, this.props.styles]}>
-        <div style={styles.divider} onMouseDown={this.handleMouseDown}>
-          <div style={[this.dividerHandleStyle, { left: this.leftDividerHandleOffset }]}></div>
-          <div style={[this.dividerHandleStyle, { left: this.rightDividerHandleOffset }]}></div>
+        <div style={styles.divider} onMouseDown={this.handleMouseDown} disabled={this.props.disabled}>
+          {this.props.disabled
+            ?
+              ''
+            :
+              <span>
+                <div style={[this.dividerHandleStyle, { left: this.leftDividerHandleOffset }]}></div>
+                <div style={[this.dividerHandleStyle, { left: this.rightDividerHandleOffset }]}></div>
+              </span>
+          }
         </div>
         {this.props.children}
       </div>
@@ -154,7 +195,10 @@ class Resizable extends React.Component { // eslint-disable-line react/prefer-st
 Resizable.propTypes = {
   children: PropTypes.element,
   direction: PropTypes.oneOf(['left', 'top']).isRequired,
-  initialPx: PropTypes.number.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  disabledPx: PropTypes.number.isRequired,
+  setPx: PropTypes.func.isRequired,
+  px: PropTypes.number.isRequired,
   minPx: PropTypes.number.isRequired,
   maxPx: PropTypes.number.isRequired,
   styles: React.PropTypes.object,
