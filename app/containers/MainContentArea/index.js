@@ -74,11 +74,11 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
       from = this.props.selectedInteraction.messageHistory[0].from;
 
       details = this.props.selectedInteraction.customFields.map((customField) =>
-        <div key={customField.label + customField.value} style={{ display: 'inline-block', width: '50%' }}>
-          <div style={{ color: '#979797', display: 'inline-block', width: '90px' }}>
+        <div key={customField.label + customField.value} style={this.styles.customField}>
+          <div style={this.styles.customFieldLabel}>
             {customField.label}
           </div>
-          <div style={{ display: 'inline-block', width: 'calc(100% - 90px)' }}>
+          <div style={this.styles.customFieldValue}>
             {customField.value}
           </div>
         </div>
@@ -86,7 +86,7 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
 
       buttons = (
         <button
-          style={{ float: 'right', backgroundColor: '#FE4565', color: '#FFFFFF', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold', padding: '8px 18px', borderRadius: '3px' }}
+          style={this.styles.endInteraction}
           onClick={this.endInteraction}
         >
           <FormattedMessage {...messages.endChat} />
@@ -94,24 +94,24 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
       );
 
       const messageHistory = this.props.selectedInteraction.messageHistory.map((message) =>
-        <div key={message.from + message.timestamp} style={{ marginBottom: '10px' }}>
+        <div key={message.from + message.timestamp} style={this.styles.messageHistoryItem}>
           {
             message.type === 'system'
-            ? <div style={{ fontSize: '16px', whiteSpace: 'pre', textAlign: 'center', color: '#999', padding: '0 25%' }}>
+            ? <span style={this.styles.systemMessage}>
               {message.text}
-            </div>
+            </span>
             : <div>
-              <div style={{ display: 'inline-block', verticalAlign: 'top', width: '40px', paddingTop: '5px' }}>
+              <div style={this.styles.avatarContainer}>
                 <Avatar customerAvatarIndex={message.type === 'agent' ? undefined : this.props.selectedInteraction.customerAvatarIndex} />
               </div>
-              <div style={{ display: 'inline-block', width: 'calc(100% - 40px)' }}>
-                <span style={{ fontSize: '15px', fontWeight: 'bold' }}>
+              <div style={this.styles.messageContainer}>
+                <span style={this.styles.messageFrom}>
                   {message.from}
                 </span>
-                <span style={{ fontSize: '12px', marginLeft: '7px' }}>
+                <span style={this.styles.messageTime}>
                   <FormattedTime value={new Date(message.timestamp)} />
                 </span>
-                <div style={{ fontSize: '16px', lineHeight: '20px', whiteSpace: 'pre' }}>
+                <div style={this.styles.messageText}>
                   {message.text}
                 </div>
               </div>
@@ -120,12 +120,12 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
         </div>
       );
       content = (
-        <div style={{ display: 'flex', flexFlow: 'column', position: 'absolute', height: '100%', width: '100%', padding: '17px 17px 9px' }}>
-          <div id="message-history" style={{ flex: '1 1 auto', overflowY: 'auto' }}>
+        <div style={this.styles.messagingContainer}>
+          <div id="message-history" style={this.styles.messageHistory}>
             {messageHistory}
           </div>
           <textarea
-            style={{ flex: '0 1 36px', minHeight: '36px', resize: 'none', borderRadius: '3px', border: '1px solid #23CEF5', boxShadow: '0 0 6px 0 rgba(0,0,0,0.07)' }}
+            style={this.styles.messageTextarea}
             value={this.state.messageText}
             onChange={(e) => this.setMessageText(e.target.value)}
             onKeyPress={this.sendMessageOnEnter}
@@ -148,18 +148,18 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
         details = (
           <div>
             <div>
-              <div style={{ color: '#979797', display: 'inline-block', width: '90px' }}>
+              <div style={this.styles.detailsField}>
                 <FormattedMessage {...messages.to} />
               </div>
-              <div style={{ display: 'inline-block', width: 'calc(100% - 90px)' }}>
+              <div style={this.styles.detailsValue}>
                 {this.props.selectedInteraction.email.to}
               </div>
             </div>
             <div>
-              <div style={{ color: '#979797', display: 'inline-block', width: '90px' }}>
+              <div style={this.styles.detailsField}>
                 <FormattedMessage {...messages.subject} />
               </div>
-              <div style={{ display: 'inline-block', width: 'calc(100% - 90px)' }}>
+              <div style={this.styles.detailsValue}>
                 {this.props.selectedInteraction.email.subject}
               </div>
             </div>
@@ -167,11 +167,11 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
         );
 
         content = (
-          <div style={{ padding: '19px 23px', whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={{ __html: this.props.selectedInteraction.email.content }} /> // eslint-disable-line react/no-danger
+          <div style={this.styles.emailContent} dangerouslySetInnerHTML={{ __html: this.props.selectedInteraction.email.content }} /> // eslint-disable-line react/no-danger
         );
       } else {
         buttons = (
-          <div style={{ width: '160px' }}>
+          <div style={this.styles.replyButtons}>
             <button
               style={{ backgroundColor: '#FFFFFF', border: '1px solid #979797', color: '#4B4B4B', cursor: 'pointer', fontSize: '13px', padding: '8px 18px', borderRadius: '3px', marginRight: '5px' }}
               onClick={() => this.props.emailCancelReply(this.props.selectedInteraction.interactionId)}
@@ -190,18 +190,18 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
         details = (
           <div>
             <div>
-              <div style={{ color: '#979797', display: 'inline-block', width: '90px' }}>
+              <div style={this.styles.detailsField}>
                 <FormattedMessage {...messages.to} />
               </div>
-              <div style={{ display: 'inline-block', width: 'calc(100% - 90px)' }}>
+              <div style={this.styles.detailsValue}>
                 {this.props.selectedInteraction.email.reply.to}
               </div>
             </div>
             <div>
-              <div style={{ color: '#979797', display: 'inline-block', width: '90px' }}>
+              <div style={this.styles.detailsField}>
                 <FormattedMessage {...messages.subject} />
               </div>
-              <div style={{ display: 'inline-block', width: 'calc(100% - 90px)' }}>
+              <div style={this.styles.detailsValue}>
                 {this.props.selectedInteraction.email.reply.subject}
               </div>
             </div>
@@ -210,7 +210,7 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
 
         const { editorState } = this.state;
         content = (
-          <div style={{ position: 'absolute', height: '100%', width: '100%', overflowY: 'auto', paddingTop: '15px' }}>
+          <div style={this.styles.richTextEditorContainer}>
             <Editor
               editorState={editorState}
               onChange={this.onChange}
@@ -265,6 +265,107 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
       borderRight: '1px solid #D0D0D0',
       backgroundColor: '#051E24',
       color: '#4B4B4B',
+    },
+    // Messaging styles
+    customField: {
+      display: 'inline-block',
+      width: '50%',
+    },
+    customFieldLabel: {
+      color: '#979797',
+      display: 'inline-block',
+      width: '90px',
+    },
+    customFieldValue: {
+      display: 'inline-block',
+      width: 'calc(100% - 90px)',
+    },
+    endInteraction: {
+      float: 'right',
+      backgroundColor: '#FE4565',
+      color: '#FFFFFF',
+      cursor: 'pointer',
+      fontSize: '13px',
+      fontWeight: 'bold',
+      padding: '8px 18px',
+      borderRadius: '3px',
+    },
+    messageHistoryItem: {
+      marginBottom: '10px',
+    },
+    systemMessage: {
+      fontSize: '16px',
+      whiteSpace: 'pre-wrap',
+      textAlign: 'center',
+      color: '#999',
+      display: 'inline-block',
+      width: '50%',
+      margin: '0 25%',
+    },
+    avatarContainer: {
+      display: 'inline-block',
+      verticalAlign: 'top',
+      width: '40px',
+      paddingTop: '5px',
+    },
+    messageContainer: {
+      display: 'inline-block',
+      width: 'calc(100% - 40px)',
+    },
+    messageFrom: {
+      fontSize: '15px',
+      fontWeight: 'bold',
+    },
+    messageTime: {
+      fontSize: '12px',
+      marginLeft: '7px',
+    },
+    messageText: {
+      fontSize: '16px',
+      lineHeight: '20px',
+      whiteSpace: 'pre-wrap',
+    },
+    messagingContainer: {
+      display: 'flex',
+      flexFlow: 'column',
+      position: 'absolute',
+      height: '100%',
+      width: '100%',
+      padding: '17px 17px 9px',
+    },
+    messageHistory: {
+      flex: '1 1 auto',
+      overflowY: 'auto',
+    },
+    messageTextarea: {
+      flex: '0 1 36px',
+      minHeight: '36px',
+      resize: 'none',
+      borderRadius: '3px',
+      border: '1px solid #23CEF5',
+      boxShadow: '0 0 6px 0 rgba(0,0,0,0.07)',
+    },
+    // Email styles
+    detailsField: {
+      color: '#979797',
+      display: 'inline-block',
+      width: '90px',
+    },
+    detailsValue: {
+      display: 'inline-block',
+      width: 'calc(100% - 90px)',
+    },
+    emailContent: {
+      padding: '19px 23px',
+      whiteSpace: 'pre-wrap',
+    },
+    replyButtons: { width: '160px' },
+    richTextEditorContainer: {
+      position: 'absolute',
+      height: '100%',
+      width: '100%',
+      overflowY: 'auto',
+      paddingTop: '15px',
     },
   };
 

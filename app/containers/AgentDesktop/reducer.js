@@ -22,23 +22,23 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  interactions: [],
+  // interactions: [],
   // XXX replace with below to mock an email
-  // interactions: [
-  //   {
-  //     channelType: 'email',
-  //     interactionId: '0000000-0000-0000-0000-1649f0347621',
-  //     status: 'work-accepted', // 'work-offer',
-  //     timeout: new Date(Date.now() + 60000).toISOString(),
-  //     email: {
-  //       to: 'support@help.com',
-  //       from: 'j.englebert@yahoo.com',
-  //       timestamp: new Date().toISOString(),
-  //       subject: 'Files not uploading to my Cloud account',
-  //       content: 'Hello,<br/><br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br/><br/><b>John Englebert</b><br/>Software Developer<br/>An Organization<br/>313.218.9814',
-  //     },
-  //   },
-  // ],
+  interactions: [
+    {
+      channelType: 'email',
+      interactionId: '0000000-0000-0000-0000-1649f0347621',
+      status: 'work-accepted', // 'work-offer',
+      timeout: new Date(Date.now() + 60000).toISOString(),
+      email: {
+        to: 'support@help.com',
+        from: 'j.englebert@yahoo.com',
+        timestamp: new Date().toISOString(),
+        subject: 'Files not uploading to my Cloud account',
+        content: 'Hello,<br/><br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br/><br/><b>John Englebert</b><br/>Software Developer<br/>An Organization<br/>313.218.9814',
+      },
+    },
+  ],
 });
 
 function agentDesktopReducer(state = initialState, action) {
