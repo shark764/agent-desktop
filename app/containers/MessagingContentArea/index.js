@@ -5,7 +5,6 @@
  */
 
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import Radium from 'radium';
 
 import messages from './messages';
@@ -13,6 +12,8 @@ import { FormattedTime } from 'react-intl';
 
 import Avatar from 'components/Avatar';
 import Button from 'components/Button';
+
+import ContentArea from 'containers/ContentArea';
 
 export class MessagingContentArea extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -189,38 +190,13 @@ export class MessagingContentArea extends React.Component { // eslint-disable-li
       </div>
     );
 
-    // TODO component for this skeleton
-    return (
-      <div style={{ display: 'flex', flexFlow: 'column', backgroundColor: '#F3F3F3', height: '100%', padding: '5px' }}>
-        <div style={{ flex: '0 1 auto', padding: '0 10px' }}>
-          <div style={{ borderBottom: '1px solid #D0D0D0', padding: '10px 5px 15px' }}>
-            <div style={{ width: 'calc(100% - 160px)', display: 'inline-block', fontSize: '20px', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {from}
-            </div>
-            <div style={{ float: 'right' }}>
-              {buttons}
-            </div>
-          </div>
-          <div style={{ fontSize: '12px', padding: '10px' }}>
-            {details}
-          </div>
-        </div>
-        <div style={{ flex: '1 1 auto', position: 'relative', backgroundColor: '#FFFFFF', border: '1px solid #E4E4E4' }}>
-          {content}
-        </div>
-      </div>
-    );
+    return <ContentArea from={from} buttons={buttons} details={details} content={content} />;
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
 
 MessagingContentArea.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Radium(MessagingContentArea));
+export default Radium(MessagingContentArea);
