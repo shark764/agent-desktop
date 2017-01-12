@@ -111,7 +111,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
         <Title text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
         <Select style={{ width: '282px' }} value={this.state.tenantId} onChange={(e) => this.setTenantId(e.value || '-1', e.label || '')} options={tenantOptions} autoFocus />
         <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
-        <Button style={{ marginTop: '34px' }} text={messages.sendButton} onClick={() => this.onTenantSelect()} />
+        <Button type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.sendButton} onClick={() => this.onTenantSelect()} />
         {this.state.noTenant
           ? <span style={[this.styles.error, this.styles.errorTenant]}>
             <FormattedMessage style={this.styles.center} {...messages.noTenant} />
@@ -131,7 +131,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
         <TextInput autoFocus={!this.state.remember} key={'username'} style={{ marginBottom: '11px' }} placeholder={messages.username} autocomplete="email" value={this.state.username} cb={this.setUser} />
         <TextInput autoFocus={this.state.remember} key={'password'} type="password" placeholder={messages.password} autocomplete="password" value={this.state.password} cb={this.setPassword} onKeyUp={this.handleKeyPress} />
         <CheckBox style={{ marginLeft: '-9.35em', marginBottom: '11px', marginTop: '15px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.setRemember} />
-        <Button style={{ marginTop: '34px' }} text={messages.signInButton} onClick={() => this.onLogin()} />
+        <Button type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.signInButton} onClick={() => this.onLogin()} />
         <A text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
         {this.state.error
           ? <span style={[this.styles.error]}>
@@ -150,7 +150,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
         <Title text={messages.forgot} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
         <p style={{ width: '282px', textAlign: 'center' }} >{this.props.intl.formatMessage(messages.forgotInstructions)}</p>
         <TextInput key={'email'} style={{ marginBottom: '11px' }} placeholder={messages.email} autocomplete="email" value={this.state.email} cb={this.setEmail} />
-        <Button style={{ marginTop: '34px' }} text={messages.sendButton} onClick={this.sendForgotRequest} />
+        <Button type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.sendButton} onClick={this.sendForgotRequest} />
         <A text={messages.return2Login} style={{ marginTop: '17px' }} onClick={this.unsetRequestingPassword} />
       </div>
     );

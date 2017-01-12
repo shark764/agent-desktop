@@ -24,6 +24,7 @@ import { stateFromHTML } from 'draft-js-import-html';
 // import { stateToHTML } from 'draft-js-export-html';
 
 import Avatar from 'components/Avatar';
+import Button from 'components/Button';
 
 export class MainContentArea extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -85,12 +86,11 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
       );
 
       buttons = (
-        <button
-          style={this.styles.endInteraction}
+        <Button
+          type="primaryBlue"
+          text={messages.endChat}
           onClick={this.endInteraction}
-        >
-          <FormattedMessage {...messages.endChat} />
-        </button>
+        />
       );
 
       const messageHistory = this.props.selectedInteraction.messageHistory.map((message) =>
@@ -137,12 +137,11 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
 
       if (!this.props.selectedInteraction.email.reply) {
         buttons = (
-          <button
-            style={{ backgroundColor: '#23CEF5', color: '#FFFFFF', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold', padding: '8px 18px', borderRadius: '3px' }}
+          <Button
+            type="primaryBlue"
+            text={messages.reply}
             onClick={this.onEmailCreateReply}
-          >
-            <FormattedMessage {...messages.reply} />
-          </button>
+          />
         );
 
         details = (
@@ -172,17 +171,16 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
       } else {
         buttons = (
           <div style={this.styles.replyButtons}>
-            <button
-              style={{ backgroundColor: '#FFFFFF', border: '1px solid #979797', color: '#4B4B4B', cursor: 'pointer', fontSize: '13px', padding: '8px 18px', borderRadius: '3px', marginRight: '5px' }}
+            <Button
+              type="secondary"
+              style={{ marginRight: '5px' }}
+              text={messages.cancel}
               onClick={() => this.props.emailCancelReply(this.props.selectedInteraction.interactionId)}
-            >
-              <FormattedMessage {...messages.cancel} />
-            </button>
-            <button
-              style={{ backgroundColor: '#FE4565', color: '#FFFFFF', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold', padding: '8px 18px', borderRadius: '3px' }}
-            >
-              <FormattedMessage {...messages.send} />
-            </button>
+            />
+            <Button
+              type="primaryRed"
+              text={messages.send}
+            />
           </div>
         );
         // TODO send onClick
@@ -280,16 +278,6 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
       display: 'inline-block',
       width: 'calc(100% - 90px)',
     },
-    endInteraction: {
-      float: 'right',
-      backgroundColor: '#FE4565',
-      color: '#FFFFFF',
-      cursor: 'pointer',
-      fontSize: '13px',
-      fontWeight: 'bold',
-      padding: '8px 18px',
-      borderRadius: '3px',
-    },
     messageHistoryItem: {
       marginBottom: '10px',
     },
@@ -359,7 +347,7 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
       padding: '19px 23px',
       whiteSpace: 'pre-wrap',
     },
-    replyButtons: { width: '160px' },
+    replyButtons: { width: '148px' },
     richTextEditorContainer: {
       position: 'absolute',
       height: '100%',
