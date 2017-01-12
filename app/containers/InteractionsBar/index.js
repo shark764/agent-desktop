@@ -27,60 +27,98 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
     },
   };
 
-  render() {
-    const activeInteractions = this.props.activeInteractions.map((activeInteraction) =>
-      <div
-        style={{ backgroundColor: this.props.selectedInteractionId === activeInteraction.interactionId ? '#0B424E' : 'inherit',
-          borderBottom: '1px solid #141414',
-          cursor: 'pointer',
-          padding: '20px 16px',
-          borderRadius: '3px',
-          height: '100px',
-          width: '100%' }}
-        key={activeInteraction.interactionId}
-        onClick={() => this.props.selectInteraction(activeInteraction.interactionId)}
-      >
-        <Icon
-          name={activeInteraction.hasUnreadMessage ? 'message_new' : 'message'}
-          style={{ float: 'left', width: '18px', height: '18px' }}
-        />
-        <div style={{ float: 'left', marginLeft: '14px', width: '211px' }}>
-          <div style={{ float: 'right' }}>
-            <TimerMinutes />
-          </div>
-          <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px' }}>
-            {activeInteraction.messageHistory ? activeInteraction.messageHistory[0].from : ''}
-          </div>
-          <div style={{ height: '36px', lineHeight: '18px', marginTop: '5px', overflow: 'hidden' }}>
-            {activeInteraction.messageHistory ? activeInteraction.messageHistory[0].text : ''}
-          </div>
-        </div>
-      </div>
-    );
+  acceptInteraction(interactionId) {
+    SDK.Agent.Session.Messaging.workNotificationHandler({ interactionId }, 'work-initiated');
+  }
 
-    const pendingInteractions = this.props.pendingInteractions.map((pendingInteraction) =>
-      <div
-        style={{ backgroundColor: '#F3F3F3', cursor: 'pointer', padding: '20px 16px', borderRadius: '3px', height: '123px', width: '100%' }}
-        key={pendingInteraction.interactionId}
-        onClick={() => this.props.acceptInteraction(pendingInteraction.interactionId)}
-      >
-        <Icon name="message_new" style={{ float: 'left', width: '20px', height: '16px' }} />
-        <div style={{ float: 'left', marginLeft: '5px', width: '190px' }}>
-          <div style={{ float: 'right', color: '#23CEF5' }}>
-            <Countdown countdownUntil={new Date(pendingInteraction.timeout)} />
-          </div>
-          <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px' }}>
-            {pendingInteraction.messageHistory ? pendingInteraction.messageHistory[0].from : ''}
-          </div>
-          <div style={{ height: '36px', lineHeight: '18px', marginTop: '5px', overflow: 'hidden' }}>
-            {pendingInteraction.messageHistory ? pendingInteraction.messageHistory[0].text : ''}
-          </div>
-          <div style={{ color: '#979797', fontSize: '12px', marginTop: '11px' }}>
-            <FormattedMessage {...messages.accept} />
+  render() {
+    const activeInteractions = this.props.activeInteractions.map((activeInteraction) => {
+      let icon;
+      let from;
+      let text;
+      if (activeInteraction.channelType === 'messaging' || activeInteraction.channelType === 'sms') {
+        from = activeInteraction.messageHistory ? activeInteraction.messageHistory[0].from : '';
+        text = activeInteraction.messageHistory ? activeInteraction.messageHistory[0].text : '';
+        if (activeInteraction.hasUnreadMessage) {
+          icon = 'message_new';
+        } else {
+          icon = 'message';
+        }
+      } else if (activeInteraction.channelType === 'email') {
+        from = activeInteraction.email.from;
+        text = activeInteraction.email.content;
+        icon = 'email';
+      }
+      return (
+        <div
+          style={{ backgroundColor: this.props.selectedInteractionId === activeInteraction.interactionId ? '#0B424E' : 'inherit',
+            borderBottom: '1px solid #141414',
+            cursor: 'pointer',
+            padding: '20px 16px',
+            borderRadius: '3px',
+            height: '100px',
+            width: '100%' }}
+          key={activeInteraction.interactionId}
+          onClick={() => this.props.selectInteraction(activeInteraction.interactionId)}
+        >
+          <Icon
+            name={icon}
+            style={{ float: 'left', width: '18px', height: '15px' }}
+          />
+          <div style={{ float: 'left', marginLeft: '14px', width: '211px' }}>
+            <div style={{ float: 'right' }}>
+              <TimerMinutes />
+            </div>
+            <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px', width: 'calc(100% - 57px)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {from}
+            </div>
+            <style>
+              {'.previewText br {display: none;}'}
+            </style>
+            <div className="previewText" style={{ height: '36px', lineHeight: '18px', marginTop: '5px', overflow: 'hidden' }} dangerouslySetInnerHTML={{ __html: text }}></div>
           </div>
         </div>
-      </div>
-    );
+      );
+    });
+
+    const pendingInteractions = this.props.pendingInteractions.map((pendingInteraction) => {
+      let icon;
+      let from;
+      let text;
+      if (pendingInteraction.channelType === 'messaging' || pendingInteraction.channelType === 'sms') {
+        from = pendingInteraction.messageHistory ? pendingInteraction.messageHistory[0].from : '';
+        text = pendingInteraction.messageHistory ? pendingInteraction.messageHistory[0].text : '';
+        icon = 'message_new';
+      } else if (pendingInteraction.channelType === 'email') {
+        from = pendingInteraction.email.from;
+        text = pendingInteraction.email.content;
+        icon = 'email_new';
+      }
+      return (
+        <div
+          style={{ backgroundColor: '#F3F3F3', cursor: 'pointer', padding: '20px 16px', borderRadius: '3px', height: '123px', width: '100%' }}
+          key={pendingInteraction.interactionId}
+          onClick={() => this.acceptInteraction(pendingInteraction.interactionId, pendingInteraction.channelType)}
+        >
+          <Icon name={icon} style={{ float: 'left', width: '20px', height: '16px' }} />
+          <div style={{ float: 'left', marginLeft: '10px', width: '185px' }}>
+            <div style={{ float: 'right', color: '#23CEF5' }}>
+              <Countdown countdownUntil={new Date(pendingInteraction.timeout)} />
+            </div>
+            <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px', width: 'calc(100% - 27px)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {from}
+            </div>
+            <style>
+              {'.previewText br {display: none;}'}
+            </style>
+            <div className="previewText" style={{ height: '36px', lineHeight: '18px', marginTop: '5px', overflow: 'hidden' }} dangerouslySetInnerHTML={{ __html: text }}></div>
+            <div style={{ color: '#979797', fontSize: '12px', marginTop: '11px' }}>
+              <FormattedMessage {...messages.accept} />
+            </div>
+          </div>
+        </div>
+      );
+    });
 
     return (
       <div style={[this.styles.base, this.props.style]}>
@@ -111,7 +149,6 @@ InteractionsBar.propTypes = {
   style: PropTypes.array,
   pendingInteractions: PropTypes.array.isRequired,
   activeInteractions: PropTypes.array.isRequired,
-  acceptInteraction: PropTypes.func.isRequired,
   selectInteraction: PropTypes.func.isRequired,
   selectedInteractionId: PropTypes.string,
 };

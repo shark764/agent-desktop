@@ -16,6 +16,8 @@ import {
   REMOVE_INTERACTION,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
+  EMAIL_CREATE_REPLY,
+  EMAIL_CANCEL_REPLY,
 } from './constants';
 
 export function setTenantId(tenantId) {
@@ -96,5 +98,19 @@ export function setCustomFields(interactionId, customFields) {
     type: SET_CUSTOM_FIELDS,
     interactionId,
     customFields,
+  };
+}
+
+export function emailCreateReply(interactionId) {
+  return {
+    type: EMAIL_CREATE_REPLY,
+    interactionId,
+  };
+}
+
+export function emailCancelReply(interactionId) {
+  return {
+    type: EMAIL_CANCEL_REPLY,
+    interactionId,
   };
 }
