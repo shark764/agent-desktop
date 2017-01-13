@@ -15,6 +15,7 @@ function Button(props) {
   let border = '';
   let borderRadius = '3px';
   let color = '#FFFFFF';
+  let cursor = 'pointer';
   let fontSize = '13px';
   let fontWeight = 'bold';
   let padding = '9px 17px';
@@ -24,9 +25,14 @@ function Button(props) {
       fontSize = '16px';
       padding = '14px 28px';
     }
-    backgroundColor = '#23cdf4';
-    backgroundColorHover = '#1FB8DC';
-    backgroundColorActive = '#14778D';
+    if (props.disabled) {
+      backgroundColor = '#23CEF5';
+      cursor = 'progress';
+    } else {
+      backgroundColor = '#23cdf4';
+      backgroundColorHover = '#1FB8DC';
+      backgroundColorActive = '#14778D';
+    }
   } else if (props.type === 'primaryRed') {
     backgroundColor = '#FE4565';
     backgroundColorHover = '#E43D5A';
@@ -51,7 +57,7 @@ function Button(props) {
       fontStretch: 'normal',
       color,
       padding,
-      cursor: 'pointer',
+      cursor,
       outline: 'none',
       ':hover': {
         backgroundColor: backgroundColorHover,
@@ -63,7 +69,7 @@ function Button(props) {
   };
 
   return (
-    <button style={[styles.base, props.style]} onClick={props.onClick}>
+    <button style={[styles.base, props.style]} onClick={props.onClick} disabled={props.disabled}>
       <FormattedMessage {...props.text} />
     </button>
   );
@@ -73,6 +79,7 @@ Button.propTypes = {
   text: PropTypes.object.isRequired,
   type: PropTypes.oneOf(['primaryBlue', 'primaryBlueBig', 'primaryRed', 'secondary']).isRequired,
   style: PropTypes.object,
+  disabled: PropTypes.bool,
   onClick: PropTypes.func,
 };
 

@@ -72,14 +72,14 @@ function agentDesktopReducer(state = initialState, action) {
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
       if (interactionIndex !== -1) {
-        const automaticallyAcceptInteraction = action.newStatus === 'work-accepted' && state.get('selectedInteractionId') === undefined;
+        const automaticallyAcceptInteraction = (action.newStatus === 'work-accepting' || action.newStatus === 'work-accepted') && state.get('selectedInteractionId') === undefined;
         return state
           .update('interactions',
             (interactions) =>
               interactions.update(
                 interactionIndex,
                 (interaction) => interaction.set('status', action.newStatus)
-                  .set('hasUnreadMessage', !automaticallyAcceptInteraction)
+                  .set('hasUnreadMessage', !automaticallyAcceptInteraction && interaction.get('hasUnreadMessage'))
               )
           ).set('selectedInteractionId',
             automaticallyAcceptInteraction

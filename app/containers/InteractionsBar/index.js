@@ -28,6 +28,7 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
   };
 
   acceptInteraction(interactionId) {
+    this.props.setInteractionStatus(interactionId, 'work-accepting');
     SDK.Agent.Session.Messaging.workNotificationHandler({ interactionId }, 'work-initiated');
   }
 
@@ -149,6 +150,7 @@ InteractionsBar.propTypes = {
   style: PropTypes.array,
   pendingInteractions: PropTypes.array.isRequired,
   activeInteractions: PropTypes.array.isRequired,
+  setInteractionStatus: PropTypes.func.isRequired,
   selectInteraction: PropTypes.func.isRequired,
   selectedInteractionId: PropTypes.string,
 };
