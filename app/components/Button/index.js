@@ -26,8 +26,8 @@ function Button(props) {
       padding = '14px 28px';
     }
     if (props.disabled) {
-      backgroundColor = '#23CEF5';
-      cursor = 'progress';
+      backgroundColor = '#8BE1F4';
+      cursor = 'default';
     } else {
       backgroundColor = '#23cdf4';
       backgroundColorHover = '#1FB8DC';
@@ -48,7 +48,6 @@ function Button(props) {
 
   const styles = {
     base: {
-      border,
       borderRadius,
       backgroundColor,
       fontSize,
@@ -68,20 +67,30 @@ function Button(props) {
     },
   };
 
+  // To prevent warning from: https://github.com/FormidableLabs/radium/issues/95
+  if (props.style && (props.style.borderTop || props.style.borderRight || props.style.borderBottom || props.style.borderLeft)) {
+    border = undefined;
+  }
+  if (border) {
+    styles.base.border = border;
+  }
+
   return (
     <button style={[styles.base, props.style]} onClick={props.onClick} disabled={props.disabled}>
-      <FormattedMessage {...props.text} />
+      {typeof props.text === 'object'
+        ? <FormattedMessage {...props.text} />
+        : props.text
+      }
     </button>
   );
 }
 
 Button.propTypes = {
-  text: PropTypes.object.isRequired,
+  text: PropTypes.any.isRequired,
   type: PropTypes.oneOf(['primaryBlue', 'primaryBlueBig', 'primaryRed', 'secondary']).isRequired,
   style: PropTypes.object,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
 };
-
 
 export default Radium(Button);

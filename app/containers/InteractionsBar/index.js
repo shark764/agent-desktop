@@ -24,6 +24,7 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
       width: '100%',
       fontSize: '14px',
       lineHeight: '14px',
+      boxShadow: 'inset 0 0 6px 1px rgba(0,0,0,0.3)',
     },
   };
 
