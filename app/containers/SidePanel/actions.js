@@ -5,11 +5,19 @@
  */
 
 import {
-  DEFAULT_ACTION,
+  SET_CONTACT_LAYOUT,
+  SET_CONTACT_ATTRIBUTES,
 } from './constants';
 
-export function defaultAction() {
+export function setContactLayout(layout) {
   return {
-    type: DEFAULT_ACTION,
+    type: SET_CONTACT_LAYOUT,
+    layout,
+  };
+}
+export function setContactAttributes(attributes) {
+  return {
+    type: SET_CONTACT_ATTRIBUTES,
+    attributes,
   };
 }

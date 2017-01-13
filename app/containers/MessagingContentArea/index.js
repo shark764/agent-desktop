@@ -25,7 +25,6 @@ export class MessagingContentArea extends React.Component { // eslint-disable-li
     };
     this.setMessageText = this.setMessageText.bind(this);
     this.sendMessageOnEnter = this.sendMessageOnEnter.bind(this);
-    this.endInteraction = this.endInteraction.bind(this);
   }
 
   componentDidUpdate() {
@@ -38,10 +37,6 @@ export class MessagingContentArea extends React.Component { // eslint-disable-li
 
   setMessageText(messageText) {
     this.setState({ messageText });
-  }
-
-  endInteraction() {
-    SDK.Agent.Session.Messaging.workNotificationHandler({ interactionId: this.props.selectedInteraction.interactionId }, 'work-ended');
   }
 
   sendMessageOnEnter(e) {
@@ -149,7 +144,7 @@ export class MessagingContentArea extends React.Component { // eslint-disable-li
       <Button
         type="primaryBlue"
         text={messages.endChat}
-        onClick={this.endInteraction}
+        onClick={this.props.endInteraction}
         disabled={isAccepting}
       />
     );
@@ -212,6 +207,7 @@ export class MessagingContentArea extends React.Component { // eslint-disable-li
 
 MessagingContentArea.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,
+  endInteraction: PropTypes.func.isRequired,
 };
 
 export default Radium(MessagingContentArea);
