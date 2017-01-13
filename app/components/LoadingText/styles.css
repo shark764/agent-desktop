@@ -1,0 +1,125 @@
+._2iwo {
+  padding: 0 12px;
+}
+
+._2iwo:first-child {
+  padding-top: 12px;
+}
+
+._2iwo:last-child {
+  padding-bottom: 12px;
+}
+
+._2iwq {
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: forwards;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-name: placeHolderShimmer;
+  -webkit-animation-timing-function: linear;
+  background: #f6f7f8;
+  background-image: -webkit-gradient(linear, left center, right center, from(#f6f7f8), color-stop(0.2, #edeef1), color-stop(0.4, #f6f7f8), to(#f6f7f8));
+  background-image: -webkit-linear-gradient(left, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-repeat: no-repeat;
+  background-size: 800px 104px;
+  overflow: hidden;
+}
+
+._2rtk ._2iwq {
+  -webkit-animation-name: prideShimmer;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(deg), color-stop(0, red), color-stop(0.15, orange), color-stop(0.3, yellow), color-stop(0.45, green), color-stop(0.6, blue), color-stop(0.75, indigo), color-stop(0.8, violet), to(red));
+  background-image: -webkit-linear-gradient(135deg, red 0%, orange 15%, yellow 30%, green 45%, blue 60%, indigo 75%, violet 80%, red 100%);
+  background-repeat: repeat;
+  background-size: 50% auto;
+}
+
+.direction_rtl ._2iwq {
+  -webkit-animation-direction: reverse;
+}
+
+._2iwq div {
+  background: #fff;
+  height: 6px;
+  display: inline-block;
+  vertical-align:top;
+  float: left;
+}
+
+div._2iwr {
+  height: 40px;
+  margin-left: 40px;
+  width: 8px;
+}
+
+div._2iws {
+  height: 8px;
+  width: calc(100% - 48px);
+}
+
+div._2iwt {
+  margin-left: 15%;
+  width: calc(85% - 48px);
+}
+
+div._2iwu {
+  height: 12px;
+  width: calc(100% - 48px);
+}
+
+div._2iwv {
+  margin-left: 10%;
+  width: calc(90% - 48px);
+}
+
+div._2iww {
+  height: 8px;
+  width: calc(100% - 48px);
+}
+
+div._2iwx {
+  height: 20px;
+  width: 100%;
+}
+
+div._2iwy {
+  margin-left: 85%;
+  width: 15%;
+}
+
+div._2iwz {
+  height: 13px;
+  width: 100%;
+}
+
+div._2iw- {
+  margin-left: 95%;
+  width: 5%;
+}
+
+div._2iw_ {
+  height: 13px;
+  width: 100%;
+}
+
+div._2ix0 {
+  margin-left: 30%;
+  width: 70%;
+}
+
+@-webkit-keyframes placeHolderShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+
+  100% {
+    background-position: 468px 0;
+  }
+}
+@-webkit-keyframes prideShimmer {
+  from {
+    background-position: top left;
+  }
+
+  to {
+    background-position: top right;
+  }
+}

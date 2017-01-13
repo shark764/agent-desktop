@@ -12,6 +12,7 @@ import { FormattedTime } from 'react-intl';
 
 import Avatar from 'components/Avatar';
 import Button from 'components/Button';
+import LoadingText from 'components/LoadingText';
 
 import ContentArea from 'containers/ContentArea';
 
@@ -129,6 +130,8 @@ export class MessagingContentArea extends React.Component { // eslint-disable-li
   };
 
   render() {
+    const isAccepting = this.props.selectedInteraction.status === 'work-accepting';
+
     const from = this.props.selectedInteraction.messageHistory[0].from;
 
     const details = this.props.selectedInteraction.customFields.map((customField) =>
@@ -147,48 +150,60 @@ export class MessagingContentArea extends React.Component { // eslint-disable-li
         type="primaryBlue"
         text={messages.endChat}
         onClick={this.endInteraction}
+        disabled={isAccepting}
       />
     );
 
-    const messageHistory = this.props.selectedInteraction.messageHistory.map((message) =>
-      <div key={message.from + message.timestamp} style={this.styles.messageHistoryItem}>
-        {
-          message.type === 'system'
-          ? <span style={this.styles.systemMessage}>
-            {message.text}
-          </span>
-          : <div>
-            <div style={this.styles.avatarContainer}>
-              <Avatar customerAvatarIndex={message.type === 'agent' ? undefined : this.props.selectedInteraction.customerAvatarIndex} />
-            </div>
-            <div style={this.styles.messageContainer}>
-              <span style={this.styles.messageFrom}>
-                {message.from}
-              </span>
-              <span style={this.styles.messageTime}>
-                <FormattedTime value={new Date(message.timestamp)} />
-              </span>
-              <div style={this.styles.messageText}>
-                {message.text}
+    let content;
+    if (isAccepting) {
+      content = (
+        <div>
+          <LoadingText withSquare />
+          <LoadingText />
+        </div>
+      );
+    } else {
+      const messageHistory = this.props.selectedInteraction.messageHistory.map((message) =>
+        <div key={message.from + message.timestamp} style={this.styles.messageHistoryItem}>
+          {
+            message.type === 'system'
+            ? <span style={this.styles.systemMessage}>
+              {message.text}
+            </span>
+            : <div>
+              <div style={this.styles.avatarContainer}>
+                <Avatar customerAvatarIndex={message.type === 'agent' ? undefined : this.props.selectedInteraction.customerAvatarIndex} />
+              </div>
+              <div style={this.styles.messageContainer}>
+                <span style={this.styles.messageFrom}>
+                  {message.from}
+                </span>
+                <span style={this.styles.messageTime}>
+                  <FormattedTime value={new Date(message.timestamp)} />
+                </span>
+                <div style={this.styles.messageText}>
+                  {message.text}
+                </div>
               </div>
             </div>
-          </div>
-        }
-      </div>
-    );
-    const content = (
-      <div style={this.styles.messagingContainer}>
-        <div id="message-history" style={this.styles.messageHistory}>
-          {messageHistory}
+          }
         </div>
-        <textarea
-          style={this.styles.messageTextarea}
-          value={this.state.messageText}
-          onChange={(e) => this.setMessageText(e.target.value)}
-          onKeyPress={this.sendMessageOnEnter}
-        />
-      </div>
-    );
+      );
+
+      content = (
+        <div style={this.styles.messagingContainer}>
+          <div id="message-history" style={this.styles.messageHistory}>
+            {messageHistory}
+          </div>
+          <textarea
+            style={this.styles.messageTextarea}
+            value={this.state.messageText}
+            onChange={(e) => this.setMessageText(e.target.value)}
+            onKeyPress={this.sendMessageOnEnter}
+          />
+        </div>
+      );
+    }
 
     return <ContentArea from={from} buttons={buttons} details={details} content={content} />;
   }

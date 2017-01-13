@@ -31,7 +31,7 @@ const selectInteractionsBar = () => createSelector(
 const selectActiveInteractions = createSelector(
   selectInteractions,
   (interactions) => interactions.toJS().filter(
-    (interaction) => interaction.status === 'work-accepted'
+    (interaction) => interaction.status === 'work-accepting' || interaction.status === 'work-accepted'
   )
 );
 
