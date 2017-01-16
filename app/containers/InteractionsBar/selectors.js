@@ -15,11 +15,6 @@ const getSelectedInteractionId = createSelector(
 );
 
 /**
- * Other specific selectors
- */
-
-
-/**
  * Default selector used by InteractionsBar
  */
 
@@ -28,10 +23,21 @@ const selectInteractionsBar = () => createSelector(
   (substate) => substate.toJS()
 );
 
-const selectActiveInteractions = createSelector(
+/**
+ * Other specific selectors
+ */
+
+const selectActiveNonVoiceInteractions = createSelector(
   selectInteractions,
   (interactions) => interactions.toJS().filter(
-    (interaction) => interaction.status === 'work-accepting' || interaction.status === 'work-accepted'
+    (interaction) => (interaction.status === 'work-accepting' || interaction.status === 'work-accepted') && interaction.channelType !== 'voice'
+  )
+);
+
+const selectActiveVoiceInteraction = createSelector(
+  selectInteractions,
+  (interactions) => interactions.toJS().find(
+    (interaction) => (interaction.status === 'work-accepting' || interaction.status === 'work-accepted') && interaction.channelType === 'voice'
   )
 );
 
@@ -42,7 +48,8 @@ const selectPendingInteractions = createSelector(
 
 export default selectInteractionsBar;
 export {
-  selectPendingInteractions,
-  selectActiveInteractions,
   getSelectedInteractionId,
+  selectActiveNonVoiceInteractions,
+  selectActiveVoiceInteraction,
+  selectPendingInteractions,
 };

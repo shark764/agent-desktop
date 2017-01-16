@@ -6,13 +6,15 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { selectPendingInteractions, selectActiveInteractions, getSelectedInteractionId } from './selectors';
+import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 
 import messages from './messages';
-import { FormattedMessage } from 'react-intl';
-import Icon from 'components/Icon';
+import { selectPendingInteractions, selectActiveVoiceInteraction, selectActiveNonVoiceInteractions, getSelectedInteractionId } from './selectors';
+
 import Countdown from 'components/Countdown';
+import Icon from 'components/Icon';
+import Timer from 'components/Timer';
 import TimerMinutes from 'components/TimerMinutes';
 
 export class InteractionsBar extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -34,7 +36,34 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
   }
 
   render() {
-    const activeInteractions = this.props.activeInteractions.map((activeInteraction) => {
+    const activeVoiceInteraction = this.props.activeVoiceInteraction
+      ? <div
+        style={{ backgroundColor: this.props.selectedInteractionId === this.props.activeVoiceInteraction.interactionId ? '#0B424E' : 'inherit',
+          borderBottom: '1px solid #141414',
+          cursor: 'pointer',
+          padding: '30px 16px 20px',
+          height: '100px',
+          width: '100%' }}
+        onClick={() => this.props.selectInteraction(this.props.activeVoiceInteraction.interactionId)}
+      >
+        <Icon
+          name="voice"
+          style={{ float: 'left' }}
+        />
+        <div style={{ float: 'left', marginLeft: '14px', width: '211px' }}>
+          <div style={{ float: 'right' }}>
+            <Timer format="mm:ss" />
+          </div>
+          <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px', width: 'calc(100% - 57px)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {this.props.activeVoiceInteraction.number}
+          </div>
+          <div className="previewText" style={{ height: '36px', lineHeight: '18px', marginTop: '5px', overflow: 'hidden' }}>
+          </div>
+        </div>
+      </div>
+      : '';
+
+    const activeNonVoiceInteractions = this.props.activeNonVoiceInteractions.map((activeInteraction) => {
       let icon;
       let from;
       let text;
@@ -57,7 +86,6 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
             borderBottom: '1px solid #141414',
             cursor: 'pointer',
             padding: '20px 16px',
-            borderRadius: '3px',
             height: '100px',
             width: '100%' }}
           key={activeInteraction.interactionId}
@@ -95,14 +123,17 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
         from = pendingInteraction.email.from;
         text = pendingInteraction.email.content;
         icon = 'email_new';
+      } else if (pendingInteraction.channelType === 'voice') {
+        from = pendingInteraction.number;
+        icon = 'voice';
       }
       return (
         <div
-          style={{ backgroundColor: '#F3F3F3', cursor: 'pointer', padding: '20px 16px', borderRadius: '3px', height: '123px', width: '100%' }}
+          style={{ backgroundColor: '#F3F3F3', cursor: 'pointer', marginTop: '11px', padding: '20px 16px', borderRadius: '3px', height: '123px', width: '100%' }}
           key={pendingInteraction.interactionId}
           onClick={() => this.acceptInteraction(pendingInteraction.interactionId)}
         >
-          <Icon name={icon} style={{ float: 'left', width: '20px', height: '16px' }} />
+          <Icon name={icon} style={{ float: 'left', width: icon === 'message_new' ? '20px' : '', height: icon === 'message_new' ? '16px' : '' }} />
           <div style={{ float: 'left', marginLeft: '10px', width: '185px' }}>
             <div style={{ float: 'right', color: '#23CEF5' }}>
               <Countdown countdownUntil={new Date(pendingInteraction.timeout)} />
@@ -125,7 +156,8 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
     return (
       <div style={[this.styles.base, this.props.style]}>
         <div style={{ position: 'absolute', top: 0, width: '100%', color: '#FFFFFF' }}>
-          {activeInteractions}
+          {activeVoiceInteraction}
+          {activeNonVoiceInteractions}
         </div>
         <div style={{ position: 'absolute', bottom: 0, width: '100%', padding: '11px' }}>
           {pendingInteractions}
@@ -137,7 +169,8 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
 
 const mapStateToProps = (state, props) => ({
   pendingInteractions: selectPendingInteractions(state, props),
-  activeInteractions: selectActiveInteractions(state, props),
+  activeVoiceInteraction: selectActiveVoiceInteraction(state, props),
+  activeNonVoiceInteractions: selectActiveNonVoiceInteractions(state, props),
   selectedInteractionId: getSelectedInteractionId(state, props),
 });
 
@@ -150,7 +183,8 @@ function mapDispatchToProps(dispatch) {
 InteractionsBar.propTypes = {
   style: PropTypes.array,
   pendingInteractions: PropTypes.array.isRequired,
-  activeInteractions: PropTypes.array.isRequired,
+  activeNonVoiceInteractions: PropTypes.array.isRequired,
+  activeVoiceInteraction: PropTypes.object,
   selectInteraction: PropTypes.func.isRequired,
   selectedInteractionId: PropTypes.string,
   acceptInteraction: PropTypes.func,
