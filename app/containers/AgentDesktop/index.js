@@ -11,6 +11,7 @@ import { injectIntl } from 'react-intl';
 
 import InteractionsBar from 'containers/InteractionsBar';
 import MainContentArea from 'containers/MainContentArea';
+import PhoneControls from 'containers/PhoneControls';
 import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
@@ -179,6 +180,20 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
       alignSelf: 'auto',
       overflow: 'auto',
     },
+    leftArea: {
+      flex: '0 0 auto',
+      width: '283px',
+      borderBottom: '1px solid #141414',
+    },
+    phoneControls: {
+      height: '64px',
+    },
+    interactionsBar: {
+      height: 'calc(100% - 64px)',
+    },
+    mainContentArea: {
+      borderBottom: '1px solid #141414',
+    },
     toolbar: {
       flex: '0 0 auto',
       height: '54px',
@@ -186,11 +201,6 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
     sidebar: {
       flex: '0 0 auto',
       width: '100%',
-    },
-    interactions: {
-      flex: '0 0 auto',
-      width: '277px',
-      borderBottom: '1px solid #141414',
     },
   };
 
@@ -202,8 +212,11 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
           ? <Login beginSession={this.beginSession} />
           : <div id="desktop-container" style={[this.styles.flexchild, this.styles.parent, this.styles.columnParent, { height: '100vh' }]}>
             <div id="top-area" style={[this.styles.flexchild, this.styles.parent, { height: 'calc(100vh - 54px)' }]}>
-              <InteractionsBar acceptInteraction={this.acceptInteraction} setInteractionStatus={this.props.setInteractionStatus} selectInteraction={this.props.selectInteraction} style={[this.styles.flexchild, this.styles.interactions]} />
-              <MainContentArea emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} style={[this.styles.flexchild]} />
+              <div style={[this.styles.flexchild, this.styles.leftArea]}>
+                <PhoneControls style={[this.styles.phoneControls]} />
+                <InteractionsBar acceptInteraction={this.acceptInteraction} setInteractionStatus={this.props.setInteractionStatus} selectInteraction={this.props.selectInteraction} style={this.styles.interactionsBar} />
+              </div>
+              <MainContentArea emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} style={[this.styles.flexchild, this.styles.mainContentArea]} />
               <Resizable direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={window.innerWidth - 827} minPx={415} disabled={this.state.collapseContactsPanel}>
                 <SidePanel style={[this.styles.sidebar]} isCollapsed={this.state.collapseContactsPanel} collapsePanel={this.collapseContactsPanel} showPanel={this.showContactsPanel} />
               </Resizable>

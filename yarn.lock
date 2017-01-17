@@ -3490,6 +3490,10 @@ google-auth-library@~0.9.7:
     request "~2.74.0"
     string-template "~0.2.0"
 
+google-libphonenumber@^2.0.8:
+  version "2.0.8"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/google-libphonenumber/-/google-libphonenumber-2.0.8.tgz#356c3b35c9f6af28890295b3bc020b297d470654"
+
 google-p12-pem@^0.1.0:
   version "0.1.1"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/google-p12-pem/-/google-p12-pem-0.1.1.tgz#66ef8946ee97e8da37f1beb1d8ec5c3be2ba4539"

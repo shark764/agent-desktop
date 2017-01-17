@@ -37,11 +37,10 @@ function TextInput(props) {
 
   return (
     <input
-      style={[styles.base, styles.center, props.style]}
+      style={[styles.base, props.style]}
       type={props.type || 'text'}
-      key={formatMessage(props.placeholder)}
       value={props.value}
-      placeholder={formatMessage(props.placeholder)}
+      placeholder={props.placeholder ? formatMessage(props.placeholder) : ''}
       onChange={(e) => props.cb(e.target.value)}
       autoComplete={props.autocomplete || 'on'}
       onKeyUp={props.onKeyUp || ''}
@@ -52,7 +51,7 @@ function TextInput(props) {
 
 TextInput.propTypes = {
   intl: intlShape.isRequired,
-  placeholder: PropTypes.object.isRequired,
+  placeholder: PropTypes.object,
   cb: PropTypes.func.isRequired,
   autocomplete: PropTypes.string,
   value: PropTypes.string.isRequired,
