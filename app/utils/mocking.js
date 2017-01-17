@@ -1,11 +1,11 @@
-export function mockContact(channelType, from) {
+export default function mockContact(channelType, from) {
   const mock = {
     contactId: Date.now(),
     attributes: {
       name: 'Mockle Userton',
       email: 'mock@mockinc.biz',
       age: 99,
-      phone: '+15552213456',
+      mobile: '+15552213456',
     },
   };
   switch (channelType) {

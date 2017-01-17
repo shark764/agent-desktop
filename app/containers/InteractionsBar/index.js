@@ -31,8 +31,7 @@ export class InteractionsBar extends React.Component {
   };
 
   acceptInteraction(interactionId) {
-    const autoSelect = (this.props.selectedInteractionId === undefined);
-    this.props.acceptInteraction(interactionId, autoSelect);
+    this.props.acceptInteraction(interactionId);
   }
 
   render() {

@@ -24,7 +24,6 @@ export class MainContentArea extends React.Component {
     base: {
       backgroundColor: '#072931',
       color: '#4B4B4B',
-      borderRight: '1px solid #D0D0D0',
     },
   };
 

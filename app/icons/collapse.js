@@ -14,6 +14,7 @@ class IconCollapse extends React.Component { // eslint-disable-line react/prefer
         y="0px"
         viewBox="0 0 20 20"
         style={[{ enableBackground: 'new 0 0 20 20' }, this.props.style]}
+        onClick={this.props.onClick}
       >
         <style
           type="text/css"
@@ -32,6 +33,7 @@ class IconCollapse extends React.Component { // eslint-disable-line react/prefer
 
 IconCollapse.propTypes = {
   style: PropTypes.object,
+  onClick: PropTypes.func,
 };
 
 export default Radium(IconCollapse);
