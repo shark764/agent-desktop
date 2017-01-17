@@ -14,6 +14,12 @@ import EmailContentArea from 'containers/EmailContentArea';
 
 export class MainContentArea extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
+  constructor(props) {
+    super(props);
+
+    this.endInteraction = this.endInteraction.bind(this);
+  }
+
   styles = {
     base: {
       backgroundColor: '#072931',
@@ -21,12 +27,16 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
     },
   };
 
+  endInteraction() {
+    SDK.Agent.Session.Messaging.workNotificationHandler({ interactionId: this.props.selectedInteraction.interactionId }, 'work-ended');
+  }
+
   render() {
     const selectedInteraction = this.props.selectedInteraction;
     let content;
     if (selectedInteraction) {
       if (selectedInteraction.channelType === 'messaging' || selectedInteraction.channelType === 'sms') {
-        content = <MessagingContentArea selectedInteraction={selectedInteraction} />;
+        content = <MessagingContentArea endInteraction={this.endInteraction} selectedInteraction={selectedInteraction} />;
       } else if (selectedInteraction.channelType === 'email') {
         content = <EmailContentArea selectedInteraction={selectedInteraction} emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} />;
       } else {

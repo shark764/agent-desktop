@@ -29,8 +29,8 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
   };
 
   acceptInteraction(interactionId) {
-    this.props.setInteractionStatus(interactionId, 'work-accepting');
-    SDK.Agent.Session.Messaging.workNotificationHandler({ interactionId }, 'work-initiated');
+    const autoSelect = (this.props.selectedInteractionId === undefined);
+    this.props.acceptInteraction(interactionId, autoSelect);
   }
 
   render() {
@@ -100,7 +100,7 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
         <div
           style={{ backgroundColor: '#F3F3F3', cursor: 'pointer', padding: '20px 16px', borderRadius: '3px', height: '123px', width: '100%' }}
           key={pendingInteraction.interactionId}
-          onClick={() => this.acceptInteraction(pendingInteraction.interactionId, pendingInteraction.channelType)}
+          onClick={() => this.acceptInteraction(pendingInteraction.interactionId)}
         >
           <Icon name={icon} style={{ float: 'left', width: '20px', height: '16px' }} />
           <div style={{ float: 'left', marginLeft: '10px', width: '185px' }}>
@@ -151,9 +151,9 @@ InteractionsBar.propTypes = {
   style: PropTypes.array,
   pendingInteractions: PropTypes.array.isRequired,
   activeInteractions: PropTypes.array.isRequired,
-  setInteractionStatus: PropTypes.func.isRequired,
   selectInteraction: PropTypes.func.isRequired,
   selectedInteractionId: PropTypes.string,
+  acceptInteraction: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(InteractionsBar));

@@ -14,6 +14,7 @@ import {
   ADD_INTERACTION,
   REMOVE_INTERACTION,
   SET_MESSAGE_HISTORY,
+  ASSIGN_CONTACT,
   ADD_MESSAGE,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
@@ -72,19 +73,14 @@ function agentDesktopReducer(state = initialState, action) {
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
       if (interactionIndex !== -1) {
-        const automaticallyAcceptInteraction = (action.newStatus === 'work-accepting' || action.newStatus === 'work-accepted') && state.get('selectedInteractionId') === undefined;
         return state
           .update('interactions',
             (interactions) =>
               interactions.update(
                 interactionIndex,
                 (interaction) => interaction.set('status', action.newStatus)
-                  .set('hasUnreadMessage', !automaticallyAcceptInteraction && interaction.get('hasUnreadMessage'))
               )
-          ).set('selectedInteractionId',
-            automaticallyAcceptInteraction
-            ? action.interactionId
-            : state.get('selectedInteractionId'));
+          );
       } else {
         return state;
       }
@@ -109,6 +105,23 @@ function agentDesktopReducer(state = initialState, action) {
               interactions.update(
                 interactionIndex,
                 (interaction) => interaction.set('messageHistory', fromJS(action.messageHistoryItems))
+              )
+          );
+      } else {
+        return state;
+      }
+    }
+    case ASSIGN_CONTACT: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state
+          .update('interactions',
+            (interactions) =>
+              interactions.update(
+                interactionIndex,
+                (interaction) => interaction.set('contact', fromJS(action.contact))
               )
           );
       } else {
