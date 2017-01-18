@@ -62,8 +62,8 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
       case 'production':
         host = 'https://dev-api.cxengagelabs.net/';
         break;
-      case 'qe':
-        host = 'https://dev-api.cxengagelabs.net/';
+      case 'testing':
+        host = 'https://qe-api.cxengagelabs.net/';
         break;
       case 'development':
         host = 'https://dev-api.cxengagelabs.net/';
