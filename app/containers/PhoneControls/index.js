@@ -95,7 +95,7 @@ export class PhoneControls extends React.PureComponent {
   render() {
     return (
       <div style={[this.styles.base, this.props.style]}>
-        <CircleIconButton id="toggle-AD-dialpad" name="dialpad" onClick={() => this.setShowDialpad(!this.state.showDialpad)} style={{ margin: '10px 0 0 calc(50% - 29px)' }} />
+        <CircleIconButton id="toggle-AD-dialpad" name="dialpad" onClick={() => this.setShowDialpad(!this.state.showDialpad)} style={{ margin: '10px 0 0 calc(50% - 29px)', width: '40px', height: '39px' }} />
         { this.state.showDialpad
           ? <div>
             <div style={this.styles.topTriangle}></div>
