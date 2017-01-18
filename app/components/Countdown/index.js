@@ -29,13 +29,14 @@ class Countdown extends React.Component { // eslint-disable-line react/prefer-st
 
   render() {
     return (
-      <div>{this.state.secondsRemaining}</div>
+      <div id={this.props.id}>{this.state.secondsRemaining}</div>
     );
   }
 }
 
 Countdown.propTypes = {
   countdownUntil: PropTypes.instanceOf(Date).isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default Countdown;

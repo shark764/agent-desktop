@@ -148,8 +148,8 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
                       : <FormattedMessage {...messages.notReady} />
                     }
                   </span>
-                  <span id="agent-timer" style={this.props.readyState === 'ready' ? [this.styles.agentTimer, { display: 'block', textAlign: 'left', color: '#14778D' }] : [this.styles.agentTimer, { display: 'block', textAlign: 'left' }]}>
-                    <Timer />
+                  <span id="agent-timer-container-span" style={this.props.readyState === 'ready' ? [this.styles.agentTimer, { display: 'block', textAlign: 'left', color: '#14778D' }] : [this.styles.agentTimer, { display: 'block', textAlign: 'left' }]}>
+                    <Timer id="agent-timer-count" />
                   </span>
                 </div>
               </span>
@@ -169,7 +169,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
           }
           <span id="agent-stats" style={[this.styles.stats]} />
           <div id="agent-config" style={[this.styles.config]}>
-            <Icon name="config" style={{ width: '18px', marginLeft: '13px', marginTop: '17px' }} />
+            <Icon id="agent-config-icon" name="config" style={{ width: '18px', marginLeft: '13px', marginTop: '17px' }} />
           </div>
         </div>
       </div>

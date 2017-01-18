@@ -22,6 +22,7 @@ function Select(props) {
 
   return (
     <RSelect
+      id={props.id}
       style={Object.assign({}, styles.base, props.style)}
       onChange={props.onChange}
       name="form-field-name"
@@ -38,6 +39,7 @@ Select.propTypes = {
   options: PropTypes.array,
   value: PropTypes.string,
   autoFocus: PropTypes.bool,
+  id: PropTypes.string.isRequired,
 };
 
 export default Radium(Select);

@@ -20,7 +20,7 @@ function Title(props) {
   };
 
   return (
-    <span style={[styles.base, props.style]}>
+    <span id={props.id} style={[styles.base, props.style]}>
       <FormattedMessage style={styles.center} {...props.text} />
     </span>
   );
@@ -29,6 +29,7 @@ function Title(props) {
 Title.propTypes = {
   text: PropTypes.object.isRequired,
   style: PropTypes.object,
+  id: PropTypes.string.isRequired,
 };
 
 export default Radium(Title);

@@ -25,7 +25,7 @@ function Checkbox(props) {
 
   return (
     <span style={props.style}>
-      <input type="checkbox" checked={props.checked} onChange={(e) => props.cb(e.target.checked)} />
+      <input id={props.id} type="checkbox" checked={props.checked} onChange={(e) => props.cb(e.target.checked)} />
       <span style={styles.base}> {formatMessage(props.text)} </span>
     </span>
   );
@@ -38,6 +38,7 @@ Checkbox.propTypes = {
   cb: PropTypes.func.isRequired,
   checked: PropTypes.bool.isRequired,
   style: PropTypes.object,
+  id: PropTypes.string.isRequired,
 };
 
 export default injectIntl(Radium(Checkbox));

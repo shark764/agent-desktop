@@ -95,27 +95,27 @@ export class PhoneControls extends React.PureComponent {
   render() {
     return (
       <div style={[this.styles.base, this.props.style]}>
-        <CircleIconButton name="dialpad" onClick={() => this.setShowDialpad(!this.state.showDialpad)} style={{ margin: '10px 0 0 calc(50% - 29px)' }} />
+        <CircleIconButton id="toggle-AD-dialpad" name="dialpad" onClick={() => this.setShowDialpad(!this.state.showDialpad)} style={{ margin: '10px 0 0 calc(50% - 29px)' }} />
         { this.state.showDialpad
           ? <div>
             <div style={this.styles.topTriangle}></div>
-            <div style={this.styles.dialpad}>
-              <TextInput cb={this.setDialpadText} value={this.state.dialpadText} style={this.styles.dialpadText} />
-              <div style={this.styles.dialpadButtonContainer}>
-                <ButtonDialpad text="1" type="topLeft" onClick={() => this.setDialpadText(`${this.state.dialpadText}1`)} />
-                <ButtonDialpad text="2" type="top" onClick={() => this.setDialpadText(`${this.state.dialpadText}2`)} />
-                <ButtonDialpad text="3" type="topRight" onClick={() => this.setDialpadText(`${this.state.dialpadText}3`)} />
-                <ButtonDialpad text="4" type="left" onClick={() => this.setDialpadText(`${this.state.dialpadText}4`)} />
-                <ButtonDialpad text="5" type="middle" onClick={() => this.setDialpadText(`${this.state.dialpadText}5`)} />
-                <ButtonDialpad text="6" type="right" onClick={() => this.setDialpadText(`${this.state.dialpadText}6`)} />
-                <ButtonDialpad text="7" type="left" onClick={() => this.setDialpadText(`${this.state.dialpadText}7`)} />
-                <ButtonDialpad text="8" type="middle" onClick={() => this.setDialpadText(`${this.state.dialpadText}8`)} />
-                <ButtonDialpad text="9" type="right" onClick={() => this.setDialpadText(`${this.state.dialpadText}9`)} />
-                <ButtonDialpad text="*" type="bottomLeft" onClick={() => this.setDialpadText(`${this.state.dialpadText}*`)} />
-                <ButtonDialpad text="0" type="bottom" onClick={() => this.setDialpadText(`${this.state.dialpadText}0`)} />
-                <ButtonDialpad text="#" type="bottomRight" onClick={() => this.setDialpadText(`${this.state.dialpadText}#`)} />
+            <div id="dialpadContainer" style={this.styles.dialpad}>
+              <TextInput id="dialpadTextInput" cb={this.setDialpadText} value={this.state.dialpadText} style={this.styles.dialpadText} />
+              <div id="dialpadButtonContainer" style={this.styles.dialpadButtonContainer}>
+                <ButtonDialpad id="dialpadButton-1" text="1" type="topLeft" onClick={() => this.setDialpadText(`${this.state.dialpadText}1`)} />
+                <ButtonDialpad id="dialpadButton-2" text="2" type="top" onClick={() => this.setDialpadText(`${this.state.dialpadText}2`)} />
+                <ButtonDialpad id="dialpadButton-3" text="3" type="topRight" onClick={() => this.setDialpadText(`${this.state.dialpadText}3`)} />
+                <ButtonDialpad id="dialpadButton-4" text="4" type="left" onClick={() => this.setDialpadText(`${this.state.dialpadText}4`)} />
+                <ButtonDialpad id="dialpadButton-5" text="5" type="middle" onClick={() => this.setDialpadText(`${this.state.dialpadText}5`)} />
+                <ButtonDialpad id="dialpadButton-6" text="6" type="right" onClick={() => this.setDialpadText(`${this.state.dialpadText}6`)} />
+                <ButtonDialpad id="dialpadButton-7" text="7" type="left" onClick={() => this.setDialpadText(`${this.state.dialpadText}7`)} />
+                <ButtonDialpad id="dialpadButton-8" text="8" type="middle" onClick={() => this.setDialpadText(`${this.state.dialpadText}8`)} />
+                <ButtonDialpad id="dialpadButton-9" text="9" type="right" onClick={() => this.setDialpadText(`${this.state.dialpadText}9`)} />
+                <ButtonDialpad id="dialpadButton-*" text="*" type="bottomLeft" onClick={() => this.setDialpadText(`${this.state.dialpadText}*`)} />
+                <ButtonDialpad id="dialpadButton-0" text="0" type="bottom" onClick={() => this.setDialpadText(`${this.state.dialpadText}0`)} />
+                <ButtonDialpad id="dialpadButton-#" text="#" type="bottomRight" onClick={() => this.setDialpadText(`${this.state.dialpadText}#`)} />
               </div>
-              <Button text={messages.call} disabled={!this.state.dialpadTextValid} onClick={() => alert(`here's my number: ${this.state.dialpadText}, call me maybe`)} type="primaryBlue" style={this.styles.callButton} />
+              <Button id={messages.call.id} text={messages.call} disabled={!this.state.dialpadTextValid} onClick={() => alert(`here's my number: ${this.state.dialpadText}, call me maybe`)} type="primaryBlue" style={this.styles.callButton} />
             </div>
           </div>
           : ''

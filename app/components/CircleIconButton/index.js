@@ -20,8 +20,8 @@ function CircleIconButton(props) {
   };
 
   return (
-    <button style={[styles.base, props.style]} onClick={props.onClick}>
-      <Icon name={props.name} />
+    <button id={props.id} style={[styles.base, props.style]} onClick={props.onClick}>
+      <Icon id={`${props.id}-icon'`}name={props.name} />
     </button>
   );
 }
@@ -30,6 +30,7 @@ CircleIconButton.propTypes = {
   name: PropTypes.string.isRequired,
   style: PropTypes.object,
   onClick: PropTypes.func,
+  id: PropTypes.string.isRequired,
 };
 
 export default Radium(CircleIconButton);
