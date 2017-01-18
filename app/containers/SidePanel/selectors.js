@@ -1,25 +1,24 @@
 import { createSelector } from 'reselect';
 
-/**
- * Direct selector to the sidePanel state domain
- */
-const selectSidePanelDomain = () => (state) => state.get('sidePanel');
+const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 
-/**
- * Other specific selectors
- */
-
-
-/**
- * Default selector used by SidePanel
- */
-
-const selectSidePanel = () => createSelector(
-  selectSidePanelDomain(),
-  (substate) => substate.toJS()
+const selectInteractions = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) => agentDesktop.get('interactions')
 );
 
-export default selectSidePanel;
+const getSelectedInteractionId = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) => agentDesktop.get('selectedInteractionId')
+);
+
+const selectSelectedInteraction = createSelector(
+  [selectInteractions, getSelectedInteractionId],
+  (interactions, selectedInteractionId) => interactions.toJS().filter(
+    (interaction) => interaction.interactionId === selectedInteractionId
+  )[0]
+);
+
 export {
-  selectSidePanelDomain,
+  selectSelectedInteraction,
 };

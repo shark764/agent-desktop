@@ -7,11 +7,14 @@
 import React, { PropTypes } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { connect } from 'react-redux';
-import selectSidePanel from './selectors';
+import { selectSelectedInteraction } from './selectors';
+import { setContactLayout, setContactAttributes } from './actions';
 import Radium from 'radium';
 import IconCollapse from 'icons/collapse';
 
-export class SidePanel extends React.Component { // eslint-disable-line react/prefer-stateless-function
+import Contact from 'containers/Contact';
+
+export class SidePanel extends React.Component {
   constructor() {
     super();
 
@@ -142,7 +145,7 @@ export class SidePanel extends React.Component { // eslint-disable-line react/pr
       <div style={[this.styles.panel, this.props.style]}>
         <div style={[this.styles.leftGutter, this.styles.flexChild1]}>
           <div
-            style={[this.styles.flexChild1, this.styles.collapseContainer]}
+            style={[this.styles.flexChild1, this.styles.collapseContainer, this.props.selectedInteraction]}
             onClick={() => {
               if (this.props.isCollapsed) {
                 this.props.showPanel();
@@ -168,8 +171,8 @@ export class SidePanel extends React.Component { // eslint-disable-line react/pr
                   <Tab>Reference</Tab>
                 </TabList>
                 <TabPanel>
-                  <h2>Information</h2>
-                  <h4>Lorem ipsum dolor sit amet, consectetur.</h4>
+                  <div style={{ height: '54px' }}></div> { /* TODO: ContactControl component */ }
+                  <Contact contact={this.props.selectedInteraction.contact} />
                 </TabPanel>
                 <TabPanel>
                   <h2>History</h2>
@@ -187,10 +190,14 @@ export class SidePanel extends React.Component { // eslint-disable-line react/pr
   }
 }
 
-const mapStateToProps = selectSidePanel();
+const mapStateToProps = (state, props) => ({
+  selectedInteraction: selectSelectedInteraction(state, props),
+});
 
 function mapDispatchToProps(dispatch) {
   return {
+    setContactLayout: (layout) => dispatch(setContactLayout(layout)),
+    setContactAttributes: (attributes) => dispatch(setContactAttributes(attributes)),
     dispatch,
   };
 }
@@ -200,6 +207,7 @@ SidePanel.propTypes = {
   isCollapsed: PropTypes.bool,
   collapsePanel: PropTypes.func,
   showPanel: PropTypes.func,
+  selectedInteraction: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(SidePanel));

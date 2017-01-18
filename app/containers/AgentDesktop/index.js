@@ -6,8 +6,10 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import selectAgentDesktop from './selectors';
 import { injectIntl } from 'react-intl';
+import selectAgentDesktop, { selectLogin } from './selectors';
+
+import { mockContact } from 'utils/mocking';
 
 import InteractionsBar from 'containers/InteractionsBar';
 import MainContentArea from 'containers/MainContentArea';
@@ -21,12 +23,12 @@ import Login from 'containers/Login';
 
 import Radium from 'radium';
 
-import { setTenantId, setPresence, setDirection, setAvailablePresences, addInteraction, addMessage, setMessageHistory,
+import { setTenantId, setPresence, setDirection, setAvailablePresences, addInteraction, addMessage, setMessageHistory, assignContact,
   setInteractionStatus, removeInteraction, selectInteraction, setCustomFields, emailCreateReply, emailCancelReply } from './actions';
 
 import { SQS_TYPES } from './constants';
 
-export class AgentDesktop extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class AgentDesktop extends React.Component {
 
   constructor(props) {
     super(props);
@@ -34,13 +36,15 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
     this.changePresence = this.changePresence.bind(this);
     this.showContactsPanel = this.showContactsPanel.bind(this);
     this.collapseContactsPanel = this.collapseContactsPanel.bind(this);
+    this.acceptInteraction = this.acceptInteraction.bind(this);
     this.setContactsPanelWidth = this.setContactsPanelWidth.bind(this);
+    this.selectInteraction = this.selectInteraction.bind(this);
 
     this.collapsedContactsPanelPx = 52;
     this.defaultContactsPanelPx = Math.min(window.innerWidth - 827, 553);
 
     this.state = {
-      collapseContactsPanel: false,
+      isContactsPanelCollapsed: true,
       contactsPanelPx: this.defaultContactsPanelPx,
     };
   }
@@ -53,13 +57,13 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
 
   collapseContactsPanel() {
     this.setState({
-      collapseContactsPanel: true,
+      isContactsPanelCollapsed: true,
     });
   }
 
   showContactsPanel() {
     this.setState({
-      collapseContactsPanel: false,
+      isContactsPanelCollapsed: false,
     });
   }
 
@@ -112,6 +116,7 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
                 timestamp: messageHistoryItem.timestamp,
               }));
               this.props.setMessageHistory(message.interactionId, messageHistoryItems);
+              this.props.assignContact(message.interactionId, mockContact(message.channelType, messageHistoryItems[0].from));
             },
           });
         }
@@ -156,7 +161,16 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
     SDK.Agent.Session.changePresenceState(changePresenceParams);
   }
 
-  acceptInteraction(interactionId) {
+  selectInteraction(interactionId) {
+    this.props.selectInteraction(interactionId);
+    this.showContactsPanel();
+  }
+
+  acceptInteraction(interactionId, autoSelect) {
+    this.props.setInteractionStatus(interactionId, 'work-accepting');
+    if (autoSelect) {
+      this.selectInteraction(interactionId);
+    }
     SDK.Agent.Session.Messaging.workNotificationHandler({ interactionId }, 'work-initiated');
   }
 
@@ -214,12 +228,17 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
             <div id="top-area" style={[this.styles.flexchild, this.styles.parent, { height: 'calc(100vh - 54px)' }]}>
               <div style={[this.styles.flexchild, this.styles.leftArea]}>
                 <PhoneControls style={[this.styles.phoneControls]} />
-                <InteractionsBar acceptInteraction={this.acceptInteraction} setInteractionStatus={this.props.setInteractionStatus} selectInteraction={this.props.selectInteraction} style={this.styles.interactionsBar} />
+                <InteractionsBar acceptInteraction={this.acceptInteraction} setInteractionStatus={this.props.setInteractionStatus} selectInteraction={this.selectInteraction} style={[this.styles.interactionsBar]} />
               </div>
               <MainContentArea emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} style={[this.styles.flexchild, this.styles.mainContentArea]} />
-              <Resizable direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={window.innerWidth - 827} minPx={415} disabled={this.state.collapseContactsPanel}>
-                <SidePanel style={[this.styles.sidebar]} isCollapsed={this.state.collapseContactsPanel} collapsePanel={this.collapseContactsPanel} showPanel={this.showContactsPanel} />
-              </Resizable>
+              {
+                (this.props.agentDesktop.selectedInteractionId !== undefined) ?
+                  <Resizable direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={window.innerWidth - 827} minPx={415} disabled={this.state.isContactsPanelCollapsed}>
+                    <SidePanel style={[this.styles.sidebar]} isCollapsed={this.state.isContactsPanelCollapsed} collapsePanel={this.collapseContactsPanel} showPanel={this.showContactsPanel} />
+                  </Resizable>
+                :
+                  ''
+              }
             </div>
             <Toolbar
               availablePresences={this.props.agentDesktop.availablePresences}
@@ -236,7 +255,10 @@ export class AgentDesktop extends React.Component { // eslint-disable-line react
   }
 }
 
-const mapStateToProps = selectAgentDesktop();
+const mapStateToProps = (state, props) => ({
+  login: selectLogin(state, props),
+  agentDesktop: selectAgentDesktop(state, props),
+});
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -248,6 +270,7 @@ function mapDispatchToProps(dispatch) {
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
     removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
     setMessageHistory: (interactionId, messageHistoryItems) => dispatch(setMessageHistory(interactionId, messageHistoryItems)),
+    assignContact: (interactionId, messageHistoryItems) => dispatch(assignContact(interactionId, messageHistoryItems)),
     addMessage: (interactionId, message) => dispatch(addMessage(interactionId, message)),
     selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
     setCustomFields: (interactionId, customFields) => dispatch(setCustomFields(interactionId, customFields)),
@@ -258,8 +281,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 AgentDesktop.propTypes = {
-  showLogin: PropTypes.bool,
-  login: PropTypes.object,
   setTenantId: PropTypes.func,
   setDirection: PropTypes.func,
   setPresence: PropTypes.func,
@@ -268,13 +289,14 @@ AgentDesktop.propTypes = {
   addInteraction: PropTypes.func,
   removeInteraction: PropTypes.func,
   setMessageHistory: PropTypes.func,
+  assignContact: PropTypes.func,
   addMessage: PropTypes.func,
   selectInteraction: PropTypes.func,
   setCustomFields: PropTypes.func,
   emailCreateReply: PropTypes.func,
   emailCancelReply: PropTypes.func,
+  login: PropTypes.object,
   agentDesktop: PropTypes.object,
-  tenant: PropTypes.object,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(AgentDesktop)));

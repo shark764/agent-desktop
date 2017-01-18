@@ -11,6 +11,7 @@ import {
   SET_AVAILABLE_PRESENCES,
   ADD_INTERACTION,
   SET_MESSAGE_HISTORY,
+  ASSIGN_CONTACT,
   ADD_MESSAGE,
   SET_INTERACTION_STATUS,
   REMOVE_INTERACTION,
@@ -60,6 +61,13 @@ export function setMessageHistory(interactionId, messageHistoryItems) {
     type: SET_MESSAGE_HISTORY,
     interactionId,
     messageHistoryItems,
+  };
+}
+export function assignContact(interactionId, contact) {
+  return {
+    type: ASSIGN_CONTACT,
+    interactionId,
+    contact,
   };
 }
 

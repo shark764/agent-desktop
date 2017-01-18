@@ -4,4 +4,5 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/SidePanel/DEFAULT_ACTION';
+export const SET_CONTACT_LAYOUT = 'app/SidePanel/SET_CONTACT_LAYOUT';
+export const SET_CONTACT_ATTRIBUTES = 'app/SidePanel/SET_CONTACT_ATTRIBUTES';
