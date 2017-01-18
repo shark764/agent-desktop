@@ -46,7 +46,7 @@ function ButtonDialpad(props) {
   };
 
   return (
-    <Button style={styles.base} type="secondary" text={props.text} onClick={props.onClick} />
+    <Button id={props.id} style={styles.base} type="secondary" text={props.text} onClick={props.onClick} />
   );
 }
 
@@ -54,6 +54,7 @@ ButtonDialpad.propTypes = {
   text: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['topLeft', 'top', 'topRight', 'left', 'right', 'bottomLeft', 'bottom', 'bottomRight', 'middle']).isRequired,
   onClick: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default Radium(ButtonDialpad);

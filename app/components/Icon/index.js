@@ -62,13 +62,14 @@ function Icon(props) {
   };
 
   return (
-    <img src={icon} style={[props.style, styles.base]} alt={props.name} />
+    <img id={props.id} src={icon} style={[props.style, styles.base]} alt={props.name} />
   );
 }
 
 Icon.propTypes = {
   name: PropTypes.string.isRequired,
   style: PropTypes.object,
+  id: PropTypes.string.isRequired,
 };
 
 export default Radium(Icon);

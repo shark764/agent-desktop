@@ -76,7 +76,7 @@ function Button(props) {
   }
 
   return (
-    <button style={[styles.base, props.style]} onClick={props.onClick} disabled={props.disabled}>
+    <button id={props.id} style={[styles.base, props.style]} onClick={props.onClick} disabled={props.disabled}>
       {typeof props.text === 'object'
         ? <FormattedMessage {...props.text} />
         : props.text
@@ -91,6 +91,7 @@ Button.propTypes = {
   style: PropTypes.object,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
+  id: PropTypes.string.isRequired,
 };
 
 export default Radium(Button);

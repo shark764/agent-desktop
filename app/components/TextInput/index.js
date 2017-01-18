@@ -37,6 +37,7 @@ function TextInput(props) {
 
   return (
     <input
+      id={props.id}
       style={[styles.base, props.style]}
       type={props.type || 'text'}
       value={props.value}
@@ -59,6 +60,7 @@ TextInput.propTypes = {
   type: PropTypes.string,
   onKeyUp: PropTypes.func,
   autoFocus: PropTypes.bool,
+  id: PropTypes.string.isRequired,
 };
 
 export default injectIntl(Radium(TextInput));
