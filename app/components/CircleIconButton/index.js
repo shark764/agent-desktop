@@ -21,7 +21,7 @@ function CircleIconButton(props) {
 
   return (
     <button id={props.id} style={[styles.base, props.style]} onClick={props.onClick}>
-      <Icon id={`${props.id}-icon'`}name={props.name} />
+      <Icon id={`${props.id}-icon'`} name={props.name} style={[styles.base, props.style, { margin: 'none' }]} />
     </button>
   );
 }
