@@ -57,7 +57,19 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   }
 
   componentDidMount() {
-    window.SDK = cxSDK.init('https://dev-api.cxengagelabs.net/'); // TODO: switch on env variable
+    let host = '';
+    switch (window.location.hostname) {
+      case 'qe-desktop.cxengagelabs.net':
+        host = 'https://qe-api.cxengagelabs.net/';
+        break;
+      case 'dev-desktop.cxengagelabs.net':
+        host = 'https://dev-api.cxengagelabs.net/';
+        break;
+      default:
+        host = 'https://dev-api.cxengagelabs.net/';
+        break;
+    }
+    window.SDK = cxSDK.init(host); // TODO: switch on env variable
   }
 
   onLogin() {

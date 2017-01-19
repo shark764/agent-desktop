@@ -6478,6 +6478,12 @@ react-side-effect@1.0.2:
   dependencies:
     fbjs "0.1.0-alpha.10"
 
+react-svg@^2.1.18:
+  version "2.1.18"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-svg/-/react-svg-2.1.18.tgz#8264934e56fa68bcc157df08ca9846b9a8d76508"
+  dependencies:
+    svg-injector "^1.1.3"
+
 react-tabs@^0.8.2:
   version "0.8.2"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-tabs/-/react-tabs-0.8.2.tgz#7928e822361b61eb7f53164daf86ad7ee98ef539"
@@ -7467,6 +7473,10 @@ supports-color@^0.2.0:
 supports-color@^2.0.0:
   version "2.0.0"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
+
+svg-injector@^1.1.3:
+  version "1.1.3"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/svg-injector/-/svg-injector-1.1.3.tgz#8fba18d7419e5f818e712c4f82d83ee357610e61"
 
 svgo@^0.7.0:
   version "0.7.1"
