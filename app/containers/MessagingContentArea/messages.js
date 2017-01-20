@@ -7,7 +7,7 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   endChat: {
-    id: 'app.containers.InteractionsBar.endChat',
+    id: 'app.containers.MessagingContentArea.endChat',
     defaultMessage: 'End Chat',
   },
 });

@@ -22,7 +22,7 @@ function ContentArea(props) {
     },
     fromButtonsContainer: {
       borderBottom: '1px solid #D0D0D0',
-      padding: '10px 5px 15px',
+      padding: '10px 5px',
     },
     from: {
       width: 'calc(100% - 160px)',

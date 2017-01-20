@@ -51,6 +51,15 @@ const initialState = fromJS({
     //     content: 'Hello,<br/><br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br/><br/><b>John Englebert</b><br/>Software Developer<br/>An Organization<br/>313.218.9814',
     //   },
     // },
+
+    // XXX uncomment below to mock voice interaction
+    // {
+    //   channelType: 'voice',
+    //   interactionId: '0000000-0000-0000-0000-3333333333333',
+    //   status: 'work-accepted', // 'work-offer',
+    //   timeout: new Date(Date.now() + 60000).toISOString(),
+    //   number: '313.412.6623',
+    // },
   ],
 });
 
