@@ -54,6 +54,7 @@ function Icon(props) {
 
   const styles = {
     base: {
+      cursor: 'pointer',
       ':hover': {
         content: iconHover ? `url(${iconHover})` : '',
       },
