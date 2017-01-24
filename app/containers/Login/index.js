@@ -54,6 +54,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     this.unsetRequestingPassword = this.unsetRequestingPassword.bind(this);
     this.sendForgotRequest = this.sendForgotRequest.bind(this);
     this.handleError = this.handleError.bind(this);
+    this.setDirection = this.setDirection.bind(this);
   }
 
   componentDidMount() {
