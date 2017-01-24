@@ -12,7 +12,7 @@ import { setContactLayout, setContactAttributes } from './actions';
 import Radium from 'radium';
 import IconCollapse from 'icons/collapse';
 
-import Contact from 'containers/Contact';
+// import Contact from 'containers/Contact';
 
 export class SidePanel extends React.Component {
   constructor() {
@@ -172,7 +172,7 @@ export class SidePanel extends React.Component {
                 </TabList>
                 <TabPanel>
                   <div style={{ height: '54px' }}></div> { /* TODO: ContactControl component */ }
-                  <Contact contact={this.props.selectedInteraction.contact} />
+                  { /* <Contact contact={this.props.selectedInteraction.contact} /> */}
                 </TabPanel>
                 <TabPanel>
                   <h2>History</h2>

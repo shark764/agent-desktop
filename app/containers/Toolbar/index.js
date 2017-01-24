@@ -161,7 +161,6 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
               tenant={this.props.tenant}
               readyState={this.props.readyState}
               showAgentStatusMenu={this.props.showAgentStatusMenu}
-              changePresence={this.props.changePresence}
               agentDirection={this.props.agentDirection}
               availablePresences={this.props.availablePresences}
             />
@@ -191,7 +190,6 @@ Toolbar.propTypes = {
   readyState: PropTypes.string,
   showAgentStatusMenu: PropTypes.func,
   agentStatusMenu: PropTypes.bool,
-  changePresence: PropTypes.func,
   tenant: PropTypes.object,
   agentDirection: PropTypes.string,
   availablePresences: PropTypes.array,

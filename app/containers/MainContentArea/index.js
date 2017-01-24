@@ -13,11 +13,10 @@ import MessagingContentArea from 'containers/MessagingContentArea';
 import EmailContentArea from 'containers/EmailContentArea';
 import VoiceContentArea from 'containers/VoiceContentArea';
 
-export class MainContentArea extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class MainContentArea extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.endInteraction = this.endInteraction.bind(this);
   }
 
@@ -30,7 +29,7 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
   };
 
   endInteraction() {
-    SDK.Agent.Session.Messaging.workNotificationHandler({ interactionId: this.props.selectedInteraction.interactionId }, 'work-ended');
+    SDK.interactions.end({ interactionId: this.props.selectedInteraction.interactionId });
   }
 
   render() {
@@ -38,7 +37,7 @@ export class MainContentArea extends React.Component { // eslint-disable-line re
     let content;
     if (selectedInteraction) {
       if (selectedInteraction.channelType === 'messaging' || selectedInteraction.channelType === 'sms') {
-        content = <MessagingContentArea endInteraction={this.endInteraction} selectedInteraction={selectedInteraction} />;
+        content = <MessagingContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} />;
       } else if (selectedInteraction.channelType === 'email') {
         content = <EmailContentArea selectedInteraction={selectedInteraction} emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} />;
       } else if (selectedInteraction.channelType === 'voice') {

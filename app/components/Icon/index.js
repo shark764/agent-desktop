@@ -122,9 +122,9 @@ function Icon(props) {
 
   let iconResult;
   if (icon) {
-    iconResult = <img id={props.id} src={icon} style={[props.style, styles.base]} alt={props.name} />;
+    iconResult = <img id={props.id ? props.id : `${props.name}-icon`} src={icon} style={[props.style, styles.base]} alt={props.name} />;
   } else {
-    iconResult = <span id={props.id} style={[props.style, styles.base]} ></span>;
+    iconResult = <span id={props.id ? props.id : `${props.name}-icon`} style={[props.style, styles.base]} ></span>;
   }
 
   return iconResult;
@@ -134,7 +134,7 @@ Icon.propTypes = {
   name: PropTypes.string.isRequired,
   active: PropTypes.bool,
   style: PropTypes.object,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
 };
 
 export default Radium(Icon);

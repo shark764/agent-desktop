@@ -4,12 +4,14 @@
  *
  */
 
+import '../../../node_modules/cxengage-js-sdk/release/cxengage-js-sdk.min';
+
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import selectAgentDesktop, { selectLogin } from './selectors';
 
-import { mockContact } from 'utils/mocking';
+// import { mockContact } from 'utils/mocking';
 
 import InteractionsBar from 'containers/InteractionsBar';
 import MainContentArea from 'containers/MainContentArea';
@@ -23,17 +25,13 @@ import Login from 'containers/Login';
 
 import Radium from 'radium';
 
-import { setTenantId, setPresence, setDirection, setAvailablePresences, addInteraction, addMessage, setMessageHistory, assignContact,
+import { setPresence, addInteraction, addMessage, setMessageHistory, assignContact,
   setInteractionStatus, removeInteraction, selectInteraction, setCustomFields, emailCreateReply, emailCancelReply } from './actions';
-
-import { SQS_TYPES } from './constants';
 
 export class AgentDesktop extends React.Component {
 
   constructor(props) {
     super(props);
-    this.beginSession = this.beginSession.bind(this);
-    this.changePresence = this.changePresence.bind(this);
     this.showContactsPanel = this.showContactsPanel.bind(this);
     this.collapseContactsPanel = this.collapseContactsPanel.bind(this);
     this.acceptInteraction = this.acceptInteraction.bind(this);
@@ -47,6 +45,67 @@ export class AgentDesktop extends React.Component {
       isContactsPanelCollapsed: true,
       contactsPanelPx: this.defaultContactsPanelPx,
     };
+  }
+
+  componentDidMount() {
+    let env;
+    switch (window.location.hostname) {
+      case 'qe-desktop.cxengagelabs.net':
+        env = 'qe';
+        break;
+      case 'dev-desktop.cxengagelabs.net':
+        env = 'dev';
+        break;
+      default:
+        env = 'dev';
+        break;
+    }
+
+    window.SDK = cxengage.sdk.init({ env });
+
+    SDK.subscribe('cxengage', (error, topic, response) => {
+      if (error) {
+        console.error('Pub sub error', topic, error); // eslint-disable-line no-console
+      }
+      switch (topic) {
+        case 'cxengage/session/state-changed': {
+          this.props.setPresence(response);
+          break;
+        }
+        case 'cxengage/interactions/work-offer': {
+          this.props.addInteraction(response);
+          break;
+        }
+        case 'cxengage/messaging/history': {
+          this.props.setMessageHistory(response);
+          break;
+        }
+        case 'cxengage/interactions/work-accepted': {
+          this.props.setInteractionStatus(response.interactionId, 'work-accepted');
+          break;
+        }
+        case 'cxengage/interactions/work-rejected':
+        case 'cxengage/interactions/work-ended': {
+          this.props.removeInteraction(response.interactionId);
+          break;
+        }
+        case 'cxengage/messaging/new-message-received': {
+          this.props.addMessage(response);
+          break;
+        }
+        // Igonore these pubsubs
+        case 'cxengage/authentication/login': // Handled in Login component
+        case 'cxengage/session/active-tenant-set': // Handled in Login component
+        case 'cxengage/session/started': // Not needed
+        case 'cxengage/interactions/accept-response': // Using cxengage/interactions/work-accepted instead
+        case 'cxengage/interactions/end-response': // Using cxengage/interactions/work-ended instead
+        case 'cxengage/messaging/send-message-response': // Using cxengage/messaging/new-message-received instead
+          break;
+        default: {
+          console.warn('AGENT DESKTOP: No pub sub for', error, topic, response); // eslint-disable-line no-console
+        }
+      }
+    });
   }
 
   setContactsPanelWidth(newWidth) {
@@ -67,100 +126,6 @@ export class AgentDesktop extends React.Component {
     });
   }
 
-  beginSession(tenantId) {
-    const sessionBeginCallback = () => {
-      this.props.setTenantId(tenantId);
-      const initState = 'notready'; // TODO constants file for these
-      this.changePresence(initState);
-    };
-    const handleSqsMessage = (messageString) => {
-      const message = JSON.parse(messageString);
-
-      // We apparently need to acknowledge receipt of any flow-related message to
-      // flow in order for things to not explode; all notification types except
-      // resource-state-change need acknowledgement.
-      if (message.type.toLowerCase() !== SQS_TYPES.resourceStateChange) {
-        SDK.Agent.Session.Interactions.acknowledgeMessageReceived(message);
-      }
-
-      if (message.type.toLowerCase() === SQS_TYPES.resourceStateChange) {
-        console.log('RESOURCE STATE CHANGE!', message.state, message); // eslint-disable-line
-      } else if (message.type.toLowerCase() === SQS_TYPES.agentNotification) {
-        console.log('AGENT NOTIFICATION!', message.notificationType, message); // eslint-disable-line
-        if (message.notificationType === 'work-accepted') {
-          this.props.setInteractionStatus(message.interactionId, message.notificationType);
-        } else if (message.notificationType === 'work-rejected' || message.notificationType === 'work-ended') {
-          this.props.removeInteraction(message.interactionId);
-        } else if (message.notificationType === 'custom-fields') {
-          this.props.setCustomFields(message.interactionId, message.customFields);
-        }
-      } else if (message.type.toLowerCase() === SQS_TYPES.workOffer) {
-        console.log('WORK OFFER!', message); // eslint-disable-line
-        const interaction = {
-          channelType: message.channelType,
-          customerAvatarIndex: Math.floor(Math.random() * 17),
-          interactionId: message.interactionId,
-          status: 'work-offer',
-          timeout: message.timeout,
-        };
-        this.props.addInteraction(interaction);
-
-        if (message.channelType === 'messaging' || message.channelType === 'sms') {
-          SDK.Agent.Session.Messaging.getMessageHistory({
-            interactionId: message.interactionId,
-            callback: (messageHistory) => {
-              const messageHistoryItems = messageHistory.map((messageHistoryItem) => ({
-                text: messageHistoryItem.body.text,
-                from: messageHistoryItem.metadata && messageHistoryItem.metadata.name ? messageHistoryItem.metadata.name : messageHistoryItem.from,
-                type: messageHistoryItem.metadata.type,
-                timestamp: messageHistoryItem.timestamp,
-              }));
-              this.props.setMessageHistory(message.interactionId, messageHistoryItems);
-              this.props.assignContact(message.interactionId, mockContact(message.channelType, messageHistoryItems[0].from));
-            },
-          });
-        }
-      } else if (message.type.toLowerCase() === SQS_TYPES.sendScript) {
-        console.log('SEND SCRIPT!', message); // eslint-disable-line
-      } else {
-        console.error(`Unknown message type: ${message.type}`); // eslint-disable-line
-      }
-    };
-    const sessionParams = {
-      'tenant-id': tenantId,
-      'on-notification': handleSqsMessage,
-      callback: sessionBeginCallback,
-    };
-    SDK.Agent.Session.beginSession(sessionParams);
-  }
-
-  changePresence(newPresence) {
-    const changePresStateOnComplete = (data) => {
-      const changePresenceResult = data.result;
-      this.props.setDirection(changePresenceResult.direction);
-      this.props.setPresence(changePresenceResult.state);
-      this.props.setAvailablePresences(changePresenceResult.availableStates);
-      if (newPresence === 'ready') {
-        SDK.Agent.Session.Messaging.init({ onReceived: (message) => {
-          console.log('GOT A MESSAGE!', message); // eslint-disable-line
-          this.props.addMessage(message.to, {
-            text: message.body.text,
-            from: message.metadata && message.metadata.name ? message.metadata.name : message.from,
-            type: message.metadata.type,
-            timestamp: message.timestamp,
-          });
-        } });
-      }
-    };
-
-    const changePresenceParams = {
-      state: newPresence,
-      'on-complete': changePresStateOnComplete,
-    };
-
-    SDK.Agent.Session.changePresenceState(changePresenceParams);
-  }
-
   selectInteraction(interactionId) {
     this.props.selectInteraction(interactionId);
     this.showContactsPanel();
@@ -171,7 +136,7 @@ export class AgentDesktop extends React.Component {
     if (autoSelect) {
       this.selectInteraction(interactionId);
     }
-    SDK.Agent.Session.Messaging.workNotificationHandler({ interactionId }, 'work-initiated');
+    SDK.interactions.accept({ interactionId });
   }
 
   styles = {
@@ -223,7 +188,7 @@ export class AgentDesktop extends React.Component {
       <div>
         {
           this.props.login.showLogin
-          ? <Login beginSession={this.beginSession} />
+          ? <Login />
           : <div id="desktop-container" style={[this.styles.flexchild, this.styles.parent, this.styles.columnParent, { height: '100vh' }]}>
             <div id="top-area" style={[this.styles.flexchild, this.styles.parent, { height: 'calc(100vh - 54px)' }]}>
               <div style={[this.styles.flexchild, this.styles.leftArea]}>
@@ -243,7 +208,6 @@ export class AgentDesktop extends React.Component {
             <Toolbar
               availablePresences={this.props.agentDesktop.availablePresences}
               tenant={this.props.login.tenant}
-              changePresence={this.changePresence}
               readyState={this.props.agentDesktop.presence}
               agentDirection={this.props.agentDesktop.direction}
               style={[this.styles.flexchild, this.styles.toolbar]}
@@ -262,16 +226,13 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setTenantId: (tenantId) => dispatch(setTenantId(tenantId)),
-    setPresence: (presence) => dispatch(setPresence(presence)),
-    setDirection: (direction) => dispatch(setDirection(direction)),
-    setAvailablePresences: (availablePresences) => dispatch(setAvailablePresences(availablePresences)),
+    setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
     removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
-    setMessageHistory: (interactionId, messageHistoryItems) => dispatch(setMessageHistory(interactionId, messageHistoryItems)),
+    setMessageHistory: (response) => dispatch(setMessageHistory(response)),
     assignContact: (interactionId, messageHistoryItems) => dispatch(assignContact(interactionId, messageHistoryItems)),
-    addMessage: (interactionId, message) => dispatch(addMessage(interactionId, message)),
+    addMessage: (response) => dispatch(addMessage(response)),
     selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
     setCustomFields: (interactionId, customFields) => dispatch(setCustomFields(interactionId, customFields)),
     emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
@@ -281,18 +242,16 @@ function mapDispatchToProps(dispatch) {
 }
 
 AgentDesktop.propTypes = {
-  setTenantId: PropTypes.func,
-  setDirection: PropTypes.func,
   setPresence: PropTypes.func,
-  setAvailablePresences: PropTypes.func,
   setInteractionStatus: PropTypes.func,
   addInteraction: PropTypes.func,
   removeInteraction: PropTypes.func,
   setMessageHistory: PropTypes.func,
-  assignContact: PropTypes.func,
+  // assignContact: PropTypes.func,
   addMessage: PropTypes.func,
   selectInteraction: PropTypes.func,
-  setCustomFields: PropTypes.func,
+  // TODO when in SDK
+  // setCustomFields: PropTypes.func,
   emailCreateReply: PropTypes.func,
   emailCancelReply: PropTypes.func,
   login: PropTypes.object,

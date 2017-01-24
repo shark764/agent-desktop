@@ -17,7 +17,7 @@ import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 import TimerMinutes from 'components/TimerMinutes';
 
-export class InteractionsBar extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class InteractionsBar extends React.Component {
   styles = {
     base: {
       backgroundColor: '#072931',
@@ -136,7 +136,7 @@ export class InteractionsBar extends React.Component { // eslint-disable-line re
           <Icon name={icon} style={{ float: 'left', width: icon === 'message_new' ? '20px' : '', height: icon === 'message_new' ? '16px' : '' }} />
           <div style={{ float: 'left', marginLeft: '10px', width: '185px' }}>
             <div style={{ float: 'right', color: '#23CEF5' }}>
-              <Countdown countdownUntil={new Date(pendingInteraction.timeout)} />
+              <Countdown id={`countdown-${pendingInteraction.interactionId}`} countdownUntil={new Date(pendingInteraction.timeout)} />
             </div>
             <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px', width: 'calc(100% - 27px)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {from}

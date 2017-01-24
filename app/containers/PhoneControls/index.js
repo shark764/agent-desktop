@@ -136,7 +136,7 @@ export class PhoneControls extends React.Component {
       controls = (
         <div style={{ paddingTop: '12px' }}>
           <div style={{ height: 44, width: 40, margin: '0 auto', display: 'block' }}>
-            <CircleIconButton name="dialpad" onClick={() => this.setShowDialpad(!this.state.showDialpad)} />
+            <CircleIconButton id="dialpad" name="dialpad" onClick={() => this.setShowDialpad(!this.state.showDialpad)} />
           </div>
           { this.state.showDialpad
             ? <div>
