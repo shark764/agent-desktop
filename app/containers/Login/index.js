@@ -20,7 +20,7 @@ import CheckBox from 'components/Checkbox';
 import Button from 'components/Button';
 import A from 'components/A';
 import Select from 'components/Select';
-import Radio from 'components/Radio';
+// import Radio from 'components/Radio';
 const storage = window.localStorage;
 
 import { setAuthenticated, loginError, loginSuccess, resetPassword, showLogin, setTenant } from './actions';
