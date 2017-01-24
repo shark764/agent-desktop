@@ -6,7 +6,6 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import '../../assets/js/mcluhan';
 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
@@ -27,7 +26,7 @@ import { setAuthenticated, loginError, loginSuccess, resetPassword, showLogin, s
 
 import Radium from 'radium';
 
-export class Login extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class Login extends React.Component {
 
   constructor(props) {
     super(props);
@@ -75,11 +74,16 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
 
   onLogin() {
     if (this.state.username.trim() !== '' && this.state.password !== '') {
-      SDK.Agent.login({
-        userEmail: this.state.username.trim(),
-        userPassword: this.state.password,
-        callback: this.loginCB,
-        onError: this.handleError,
+      SDK.auth.login({
+        username: this.state.username.trim(),
+        password: this.state.password,
+        callback: (error, topic, response) => {
+          if (!error && response) {
+            this.loginCB(response);
+          } else {
+            this.handleError();
+          }
+        },
       });
     } else {
       this.setState({ error: true });
@@ -88,7 +92,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
 
   onTenantSelect() {
     if (this.state.tenantId !== '-1') {
-      this.props.beginSession(this.state.tenantId);
+      SDK.session.setActiveTenant({ tenantId: this.state.tenantId });
       this.props.showLogin(false);
       this.props.setTenant(this.state.tenantId, this.state.tenantName);
     } else {
@@ -114,10 +118,9 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   }
 
   getLoggedInContent() {
-    const tenantOptions = this.props.agent.tenants.map((t) => {
-      const tenant = t;
-      return { value: tenant['tenant-id'], label: tenant['tenant-name'] };
-    });
+    const tenantOptions = this.props.agent.tenants.map((tenant) =>
+      ({ value: tenant.tenantId, label: tenant.tenantName })
+    );
     return (
       <div id="TSContainerDiv" style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
         <Logo style={{ marginTop: '50px' }} width="275px" />
@@ -299,7 +302,6 @@ Login.propTypes = {
   agent: PropTypes.object,
   logged_in: PropTypes.bool,
   showLogin: PropTypes.func,
-  beginSession: PropTypes.func,
   setTenant: PropTypes.func,
 };
 

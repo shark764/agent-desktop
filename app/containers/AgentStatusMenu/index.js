@@ -127,6 +127,10 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
     },
   }
 
+  changePresence(newPresence) {
+    SDK.session.changeState({ state: newPresence });
+  }
+
   render() {
     return (
       <span>
@@ -157,7 +161,7 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
                     style={presence !== this.props.readyState
                     ? [this.styles.notReadyPresence]
                     : [this.styles.notReadyPresence, this.styles.notReadyReasonsActive]}
-                    onClick={() => { this.props.changePresence(presence); this.props.showAgentStatusMenu(false); }}
+                    onClick={() => { this.changePresence(presence); this.props.showAgentStatusMenu(false); }}
                   >
                     {presence}
                     {presence === this.props.readyState ? <img src={checkIcon} style={{ height: '17px', float: 'right' }} alt="checkIcon" /> : ''}
@@ -191,7 +195,7 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
             : <div
               id="readyStateLink"
               style={[this.styles.readyLink]}
-              onClick={() => { this.props.changePresence('ready'); this.props.showAgentStatusMenu(false); }}
+              onClick={() => { this.changePresence('ready'); this.props.showAgentStatusMenu(false); }}
             >
               <FormattedMessage {...messages.ready} />
             </div>
@@ -203,7 +207,6 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
 }
 
 AgentStatusMenu.propTypes = {
-  changePresence: PropTypes.func,
   showAgentStatusMenu: PropTypes.func,
   tenant: PropTypes.object,
   agentDirection: PropTypes.string,

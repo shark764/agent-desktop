@@ -7,23 +7,23 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   reply: {
-    id: 'app.containers.InteractionsBar.reply',
+    id: 'app.containers.EmailContentArea.reply',
     defaultMessage: 'Reply',
   },
   to: {
-    id: 'app.containers.InteractionsBar.to',
+    id: 'app.containers.EmailContentArea.to',
     defaultMessage: 'To',
   },
   subject: {
-    id: 'app.containers.InteractionsBar.subject',
+    id: 'app.containers.EmailContentArea.subject',
     defaultMessage: 'Subject',
   },
   send: {
-    id: 'app.containers.InteractionsBar.send',
+    id: 'app.containers.EmailContentArea.send',
     defaultMessage: 'Send',
   },
   cancel: {
-    id: 'app.containers.InteractionsBar.cancel',
+    id: 'app.containers.EmailContentArea.cancel',
     defaultMessage: 'Cancel',
   },
 });

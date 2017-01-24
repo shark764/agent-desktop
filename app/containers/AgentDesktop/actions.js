@@ -5,10 +5,7 @@
  */
 
 import {
-  SET_TENANT_ID,
-  SET_DIRECTION,
   SET_PRESENCE,
-  SET_AVAILABLE_PRESENCES,
   ADD_INTERACTION,
   SET_MESSAGE_HISTORY,
   ASSIGN_CONTACT,
@@ -21,46 +18,24 @@ import {
   EMAIL_CANCEL_REPLY,
 } from './constants';
 
-export function setTenantId(tenantId) {
-  return {
-    type: SET_TENANT_ID,
-    tenantId,
-  };
-}
-
-export function setDirection(direction) {
-  return {
-    type: SET_DIRECTION,
-    direction,
-  };
-}
-
-export function setPresence(presence) {
+export function setPresence(response) {
   return {
     type: SET_PRESENCE,
-    presence,
+    response,
   };
 }
 
-export function setAvailablePresences(presences) {
-  return {
-    type: SET_AVAILABLE_PRESENCES,
-    presences,
-  };
-}
-
-export function addInteraction(interaction) {
+export function addInteraction(response) {
   return {
     type: ADD_INTERACTION,
-    interaction,
+    response,
   };
 }
 
-export function setMessageHistory(interactionId, messageHistoryItems) {
+export function setMessageHistory(response) {
   return {
     type: SET_MESSAGE_HISTORY,
-    interactionId,
-    messageHistoryItems,
+    response,
   };
 }
 export function assignContact(interactionId, contact) {
@@ -71,11 +46,10 @@ export function assignContact(interactionId, contact) {
   };
 }
 
-export function addMessage(interactionId, message) {
+export function addMessage(response) {
   return {
     type: ADD_MESSAGE,
-    interactionId,
-    message,
+    response,
   };
 }
 

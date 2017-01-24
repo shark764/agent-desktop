@@ -16,7 +16,7 @@ import LoadingText from 'components/LoadingText';
 
 import ContentArea from 'containers/ContentArea';
 
-export class MessagingContentArea extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class MessagingContentArea extends React.Component {
 
   constructor(props) {
     super(props);
@@ -42,11 +42,13 @@ export class MessagingContentArea extends React.Component { // eslint-disable-li
   sendMessageOnEnter(e) {
     if (e.key === 'Enter') {
       e.preventDefault();
-      SDK.Agent.Session.Messaging.sendMessage({
-        message: this.state.messageText,
-        interactionId: this.props.selectedInteraction.interactionId,
-      });
-      this.setMessageText('');
+      if (this.state.messageText.trim() !== '') {
+        SDK.interactions.messaging.sendMessage({
+          interactionId: this.props.selectedInteraction.interactionId,
+          message: this.state.messageText,
+        });
+        this.setMessageText('');
+      }
       return false;
     } else {
       return true;
@@ -129,19 +131,25 @@ export class MessagingContentArea extends React.Component { // eslint-disable-li
 
     const from = this.props.selectedInteraction.messageHistory[0].from;
 
-    const details = this.props.selectedInteraction.customFields.map((customField) =>
-      <div key={customField.label + customField.value} style={this.styles.customField}>
-        <div style={this.styles.customFieldLabel}>
-          {customField.label}
+    let details;
+    if (this.props.selectedInteraction.customFields) {
+      details = this.props.selectedInteraction.customFields.map((customField) =>
+        <div key={customField.label + customField.value} style={this.styles.customField}>
+          <div style={this.styles.customFieldLabel}>
+            {customField.label}
+          </div>
+          <div style={this.styles.customFieldValue}>
+            {customField.value}
+          </div>
         </div>
-        <div style={this.styles.customFieldValue}>
-          {customField.value}
-        </div>
-      </div>
-    );
+      );
+    } else {
+      details = '';
+    }
 
     const buttons = (
       <Button
+        id="end-chat-button"
         type="primaryBlue"
         text={messages.endChat}
         onClick={this.props.endInteraction}
@@ -203,7 +211,6 @@ export class MessagingContentArea extends React.Component { // eslint-disable-li
     return <ContentArea from={from} buttons={buttons} details={details} content={content} />;
   }
 }
-
 
 MessagingContentArea.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,

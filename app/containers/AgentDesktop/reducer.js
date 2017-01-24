@@ -6,10 +6,7 @@
 
 import { fromJS } from 'immutable';
 import {
-  SET_TENANT_ID,
-  SET_DIRECTION,
   SET_PRESENCE,
-  SET_AVAILABLE_PRESENCES,
   SET_INTERACTION_STATUS,
   ADD_INTERACTION,
   REMOVE_INTERACTION,
@@ -51,28 +48,30 @@ const initialState = fromJS({
     //     content: 'Hello,<br/><br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br/><br/><b>John Englebert</b><br/>Software Developer<br/>An Organization<br/>313.218.9814',
     //   },
     // },
+
+    // XXX uncomment below to mock voice interaction
+    // {
+    //   channelType: 'voice',
+    //   interactionId: '0000000-0000-0000-0000-3333333333333',
+    //   status: 'work-accepted', // 'work-offer',
+    //   timeout: new Date(Date.now() + 60000).toISOString(),
+    //   number: '313.412.6623',
+    // },
   ],
 });
 
 function agentDesktopReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_TENANT_ID:
-      return state
-        .set('tenantId', action.tenantId);
-    case SET_DIRECTION:
-      return state
-        .set('direction', action.direction);
     case SET_PRESENCE:
       return state
-        .set('presence', action.presence);
-    case SET_AVAILABLE_PRESENCES:
-      return state
-        .set('availablePresences', fromJS(action.presences));
+        .set('presence', action.response.state)
+        .set('availablePresences', fromJS(action.response.availableStates));
     case SET_INTERACTION_STATUS: {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
       if (interactionIndex !== -1) {
+        const automaticallyAcceptInteraction = action.newStatus === 'work-accepting' && state.get('selectedInteractionId') === undefined;
         return state
           .update('interactions',
             (interactions) =>
@@ -80,14 +79,25 @@ function agentDesktopReducer(state = initialState, action) {
                 interactionIndex,
                 (interaction) => interaction.set('status', action.newStatus)
               )
-          );
+          ).set('selectedInteractionId',
+            automaticallyAcceptInteraction
+            ? action.interactionId
+            : state.get('selectedInteractionId'));
       } else {
         return state;
       }
     }
-    case ADD_INTERACTION:
+    case ADD_INTERACTION: {
+      const interaction = {
+        channelType: action.response.channelType,
+        customerAvatarIndex: Math.floor(Math.random() * 17),
+        interactionId: action.response.interactionId,
+        status: 'work-offer',
+        timeout: action.response.timeout,
+      };
       return state
-        .set('interactions', state.get('interactions').push(fromJS(action.interaction)));
+        .set('interactions', state.get('interactions').push(fromJS(interaction)));
+    }
     case REMOVE_INTERACTION:
       return state
         .set('interactions', state.get('interactions').filterNot((interaction) =>
@@ -95,18 +105,28 @@ function agentDesktopReducer(state = initialState, action) {
         ))
         .set('selectedInteractionId', state.get('selectedInteractionId') === action.interactionId ? undefined : state.get('selectedInteractionId'));
     case SET_MESSAGE_HISTORY: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
-      if (interactionIndex !== -1) {
-        return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => interaction.set('messageHistory', fromJS(action.messageHistoryItems))
-              )
-          );
+      if (action.response && action.response.length > 0) {
+        const interactionIndex = state.get('interactions').findIndex(
+          (interaction) => interaction.get('interactionId') === action.response[0].channelId
+        );
+        if (interactionIndex !== -1) {
+          const messageHistoryItems = action.response.map((messageHistoryItem) => ({
+            text: messageHistoryItem.payload.body.text,
+            from: messageHistoryItem.payload.metadata && messageHistoryItem.payload.metadata.name ? messageHistoryItem.payload.metadata.name : messageHistoryItem.payload.from,
+            type: messageHistoryItem.payload.metadata ? messageHistoryItem.payload.metadata.type : messageHistoryItem.payload.type,
+            timestamp: messageHistoryItem.payload.timestamp,
+          }));
+          return state
+            .update('interactions',
+              (interactions) =>
+                interactions.update(
+                  interactionIndex,
+                  (interaction) => interaction.set('messageHistory', fromJS(messageHistoryItems))
+                )
+            );
+        } else {
+          return state;
+        }
       } else {
         return state;
       }
@@ -130,18 +150,25 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case ADD_MESSAGE: {
       const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
+        (interaction) => interaction.get('interactionId') === action.response.to
       );
       if (interactionIndex !== -1) {
+        const message = action.response;
+        const messageHistoryItem = {
+          text: message.body.text,
+          from: message.metadata && message.metadata.name ? message.metadata.name : message.from,
+          type: message.metadata.type,
+          timestamp: message.timestamp,
+        };
         return state
           .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => interaction.update('messageHistory', (messageHistory) => messageHistory.push(fromJS(action.message)))
-                  .set('hasUnreadMessage', state.get('selectedInteractionId') !== interaction.get('interactionId'))
-              )
-          );
+          (interactions) =>
+            interactions.update(
+              interactionIndex,
+              (interaction) => interaction.update('messageHistory', (messageHistory) => messageHistory.push(fromJS(messageHistoryItem)))
+                .set('hasUnreadMessage', state.get('selectedInteractionId') !== interaction.get('interactionId'))
+          )
+        );
       } else {
         return state;
       }
