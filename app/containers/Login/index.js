@@ -56,22 +56,6 @@ export class Login extends React.Component {
     this.setDirection = this.setDirection.bind(this);
   }
 
-  componentDidMount() {
-    let host = '';
-    switch (window.location.hostname) {
-      case 'qe-desktop.cxengagelabs.net':
-        host = 'https://qe-api.cxengagelabs.net/';
-        break;
-      case 'dev-desktop.cxengagelabs.net':
-        host = 'https://dev-api.cxengagelabs.net/';
-        break;
-      default:
-        host = 'https://dev-api.cxengagelabs.net/';
-        break;
-    }
-    window.SDK = cxSDK.init(host); // TODO: switch on env variable
-  }
-
   onLogin() {
     if (this.state.username.trim() !== '' && this.state.password !== '') {
       SDK.auth.login({
