@@ -4,7 +4,7 @@
  *
  */
 
-import '../../../node_modules/cxengage-js-sdk/release/cxengage-js-sdk.min';
+import '../../assets/js/cxengagesdk';
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
@@ -67,6 +67,7 @@ export class AgentDesktop extends React.Component {
       if (error) {
         console.error('Pub sub error', topic, error); // eslint-disable-line no-console
       }
+      console.log('SDK.subscribe()', error, topic, response);
       switch (topic) {
         case 'cxengage/session/state-changed': {
           this.props.setPresence(response);

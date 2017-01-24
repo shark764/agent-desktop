@@ -60,6 +60,7 @@ export class VoiceContentArea extends React.Component { // eslint-disable-line r
 
     const buttons = (
       <Button
+        id="hang-up-button"
         type="primaryRed"
         text={messages.hangUp}
         onClick={this.endInteraction}

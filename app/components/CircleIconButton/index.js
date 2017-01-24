@@ -35,8 +35,8 @@ class CircleIconButton extends React.Component {
 
   render() {
     return (
-      <button id={this.props.id} style={[this.styles.base, this.props.style]} onClick={this.props.onClick}>
-        <Icon id={`${this.props.id}-icon'`} name={this.props.name} active={this.state.active} style={[this.styles.base, this.props.style, { margin: 'none' }]} />
+      <button id={this.props.name} style={[this.styles.base, this.props.style]} onClick={this.props.onClick}>
+        <Icon id={`${this.props.name}-icon'`} name={this.props.name} active={this.state.active} style={[this.styles.base, this.props.style, { margin: 'none' }]} />
       </button>
     );
   }
@@ -45,7 +45,6 @@ class CircleIconButton extends React.Component {
 CircleIconButton.propTypes = {
   name: PropTypes.string.isRequired,
   style: PropTypes.object,
-  id: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
