@@ -156,8 +156,8 @@ function agentDesktopReducer(state = initialState, action) {
         const message = action.response;
         const messageHistoryItem = {
           text: message.body.text,
-          from: message.metadata && message.metadata.name ? message.metadata.name : message.from,
-          type: message.metadata.type,
+          from: typeof message.metadata !== 'undefined' && message.metadata.name ? message.metadata.name : message.from,
+          type: typeof message.metadata !== 'undefined' ? message.metadata.type : message.type,
           timestamp: message.timestamp,
         };
         return state
