@@ -19,7 +19,7 @@ import CheckBox from 'components/Checkbox';
 import Button from 'components/Button';
 import A from 'components/A';
 import Select from 'components/Select';
-import Radio from 'components/Radio';
+// import Radio from 'components/Radio';
 const storage = window.localStorage;
 
 import { setAuthenticated, loginError, loginSuccess, resetPassword, showLogin, setTenant } from './actions';
@@ -53,6 +53,7 @@ export class Login extends React.Component {
     this.unsetRequestingPassword = this.unsetRequestingPassword.bind(this);
     this.sendForgotRequest = this.sendForgotRequest.bind(this);
     this.handleError = this.handleError.bind(this);
+    this.setDirection = this.setDirection.bind(this);
   }
 
   onLogin() {
@@ -109,7 +110,9 @@ export class Login extends React.Component {
         <Logo style={{ marginTop: '50px' }} width="275px" />
         <Title id={messages.welcome.id} text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
         <Select id={'app.login.selectTennant.selectbox'} style={{ width: '282px' }} value={this.state.tenantId} onChange={(e) => this.setTenantId(e.value || '-1', e.label || '')} options={tenantOptions} autoFocus />
-        <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
+        { // Inbound / Outbound Select
+          // <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
+        }
         <Button id={messages.sendButton.id} type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.sendButton} onClick={() => this.onTenantSelect()} />
         {this.state.noTenant
           ? <span style={[this.styles.error, this.styles.errorTenant]}>

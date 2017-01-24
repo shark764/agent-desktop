@@ -103,6 +103,7 @@ function Icon(props) {
 
   const styles = {
     base: {
+      cursor: 'pointer',
       ':hover': {
         backgroundPosition: backgroundPositionHover,
       },
