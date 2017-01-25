@@ -7,12 +7,15 @@
 import React, { PropTypes } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { connect } from 'react-redux';
-import { selectSelectedInteraction } from './selectors';
 import { setContactLayout, setContactAttributes } from './actions';
 import Radium from 'radium';
 import IconCollapse from 'icons/collapse';
 
-// import Contact from 'containers/Contact';
+import ContactsControl from 'containers/ContactsControl';
+
+const leftGutterPx = 52;
+const rightGutterPx = 26;
+const topBarHeightPx = 63;
 
 export class SidePanel extends React.Component {
   constructor() {
@@ -25,6 +28,8 @@ export class SidePanel extends React.Component {
     Tabs.setUseDefaultStyles(false);
 
     this.updateSelectedTab = this.updateSelectedTab.bind(this);
+    this.getPanelSizing = this.getPanelSizing.bind(this);
+    this.handleCollapseClick = this.handleCollapseClick.bind(this);
   }
 
   getTabsStyleElement() {
@@ -37,6 +42,11 @@ export class SidePanel extends React.Component {
             borderBottom: '1px solid #D0D0D0',
             padding: '10px 5px 15px 0',
             margin: '0',
+            maxHeight: `${topBarHeightPx}px`,
+            boxSizing: 'border-box',
+          },
+          '[role=tabpanel]': {
+            height: `calc(100% - ${topBarHeightPx}px)`,
           },
           '[role=tab]': {
             fontWeight: 'bold',
@@ -87,23 +97,43 @@ export class SidePanel extends React.Component {
     );
   }
 
+  getPanelSizing() {
+    const sizing = {
+      width: this.props.openPx,
+    };
+    if (this.props.isCollapsed) {
+      sizing.transform = `translateX(${this.props.openPx - this.props.collapsedPx}px)`;
+    }
+    return sizing;
+  }
+
+  updateSelectedTab(index) {
+    this.setState({
+      selectedTabIndex: index,
+    });
+  }
+
   styles = {
-    leftGutter: {
-      width: '52px',
-      display: 'flex',
-      flexDirection: 'column',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      alignContent: 'stretch',
-      alignItems: 'stretch',
+    base: {
+      position: 'fixed',
+      right: 0,
+      top: 0,
+      height: '100vh',
+      transition: 'transform 1s',
     },
-    collapseContainer: {
+    leftGutter: {
+      width: `${leftGutterPx}px`,
+      flexDirection: 'column',
+    },
+    rightGutter: {
+      width: `${rightGutterPx}px`,
+      flexDirection: 'column',
+    },
+    topBar: {
       borderBottom: '1px solid #D0D0D0',
       margin: '0',
-      height: '63px',
+      height: `${topBarHeightPx}px`,
       alignItems: 'center',
-      justifyContent: 'center',
-      display: 'flex',
     },
     left90: {
       transform: 'rotate(-90deg)',
@@ -113,86 +143,83 @@ export class SidePanel extends React.Component {
     },
     iconCollapse: {
       height: '19px',
+      cursor: 'pointer',
     },
-    panel: {
+    flexParent: {
       display: 'flex',
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'flex-start',
+      flexWrap: 'no-wrap',
+      justifyContent: 'center',
       alignContent: 'stretch',
       alignItems: 'stretch',
     },
-    flexChild1: {
+    flexChildStart: {
       order: '0',
       flex: '0 0 auto',
       alignSelf: 'auto',
     },
-    flexChild2: {
+    flexChildStretch: {
       order: '1',
       flex: '1 0 auto',
       alignSelf: 'auto',
     },
+    flexChildEnd: {
+      order: '2',
+      flex: '0 0 auto',
+      alignSelf: 'auto',
+    },
   };
 
-  updateSelectedTab(index) {
-    this.setState({
-      selectedTabIndex: index,
-    });
+  handleCollapseClick() {
+    if (this.props.isCollapsed) {
+      this.props.showPanel();
+    } else {
+      this.props.collapsePanel();
+    }
   }
 
   render() {
     return (
-      <div style={[this.styles.panel, this.props.style]}>
-        <div style={[this.styles.leftGutter, this.styles.flexChild1]}>
-          <div
-            style={[this.styles.flexChild1, this.styles.collapseContainer, this.props.selectedInteraction]}
-            onClick={() => {
-              if (this.props.isCollapsed) {
-                this.props.showPanel();
-              } else {
-                this.props.collapsePanel();
-              }
-            }}
-          >
-            <IconCollapse style={[this.styles.iconCollapse, this.props.isCollapsed ? this.styles.right90 : this.styles.left90]} />
+      <div style={[this.styles.base, this.styles.flexParent, this.getPanelSizing(), this.props.style]}>
+        <div style={[this.styles.flexParent, this.styles.flexChildStart, this.styles.leftGutter]}>
+          <div style={[this.styles.flexParent, this.styles.flexChildStart, this.styles.topBar]}>
+            <IconCollapse
+              onClick={this.handleCollapseClick}
+              style={[this.styles.iconCollapse, this.props.isCollapsed ? this.styles.right90 : this.styles.left90]}
+            />
           </div>
-          <div style={this.styles.flexChild2}></div>
+          <div style={this.styles.flexChildStretch}></div>
         </div>
-        {this.props.isCollapsed
-          ?
-            ''
-          :
-            <div style={[this.styles.flexChild2]}>
-              {this.getTabsStyleElement()}
-              <Tabs onSelect={this.updateSelectedTab} selectedIndex={this.state.selectedTabIndex}>
-                <TabList>
-                  <Tab>Info</Tab>
-                  <Tab>History</Tab>
-                  <Tab>Reference</Tab>
-                </TabList>
-                <TabPanel>
-                  <div style={{ height: '54px' }}></div> { /* TODO: ContactControl component */ }
-                  { /* <Contact contact={this.props.selectedInteraction.contact} /> */}
-                </TabPanel>
-                <TabPanel>
-                  <h2>History</h2>
-                  <h4>Interdum et malesuada fames ac ante ipsum.</h4>
-                </TabPanel>
-                <TabPanel>
-                  <h2>References</h2>
-                  <h4>Praesent sed metus ut lacus congue iaculis.</h4>
-                </TabPanel>
-              </Tabs>
-            </div>
-        }
+        <div style={[this.styles.flexParent, this.styles.flexChildStretch]}>
+          <div style={[this.styles.flexChildStretch]}>
+            {this.getTabsStyleElement()}
+            <Tabs style={{ height: '100%' }} onSelect={this.updateSelectedTab} selectedIndex={this.state.selectedTabIndex}>
+              <TabList>
+                <Tab>Info</Tab>
+                <Tab>History</Tab>
+                <Tab>Reference</Tab>
+              </TabList>
+              <TabPanel>
+                <ContactsControl></ContactsControl>
+              </TabPanel>
+              <TabPanel>
+                <h2>History</h2>
+                <h4>Interdum et malesuada fames ac ante ipsum.</h4>
+              </TabPanel>
+              <TabPanel>
+                <h2>References</h2>
+                <h4>Praesent sed metus ut lacus congue iaculis.</h4>
+              </TabPanel>
+            </Tabs>
+          </div>
+          <div style={[this.styles.flexParent, this.styles.flexChildEnd, this.styles.topBar, this.styles.rightGutter]}>
+            <div style={this.flexChildStart}></div>
+            <div style={this.flexChildStretch}></div>
+          </div>
+        </div>
       </div>
     );
   }
 }
-
-const mapStateToProps = (state, props) => ({
-  selectedInteraction: selectSelectedInteraction(state, props),
-});
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -205,9 +232,10 @@ function mapDispatchToProps(dispatch) {
 SidePanel.propTypes = {
   style: PropTypes.array,
   isCollapsed: PropTypes.bool,
+  openPx: PropTypes.number,
+  collapsedPx: PropTypes.number,
   collapsePanel: PropTypes.func,
   showPanel: PropTypes.func,
-  selectedInteraction: PropTypes.object,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(SidePanel));
+export default connect(null, mapDispatchToProps)(Radium(SidePanel));

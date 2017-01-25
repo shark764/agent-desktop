@@ -6,6 +6,8 @@
 
 import React, { PropTypes } from 'react';
 import config from 'assets/icons/config.png';
+import search from 'assets/icons/search.png';
+import close from 'assets/icons/close.png';
 import message from 'assets/icons/message.png';
 import messageNew from 'assets/icons/message_new.png';
 import email from 'assets/icons/email.png';
@@ -32,6 +34,12 @@ function Icon(props) {
   switch (props.name) {
     case 'config':
       icon = config;
+      break;
+    case 'search':
+      icon = search;
+      break;
+    case 'close':
+      icon = close;
       break;
     case 'message':
       icon = message;
@@ -123,9 +131,23 @@ function Icon(props) {
 
   let iconResult;
   if (icon) {
-    iconResult = <img id={props.id ? props.id : `${props.name}-icon`} src={icon} style={[props.style, styles.base]} alt={props.name} />;
+    iconResult = (
+      <img
+        id={props.id ? props.id : `${props.name}-icon`}
+        onClick={props.onclick}
+        src={icon}
+        style={[props.style, styles.base]}
+        alt={props.name}
+      />
+    );
   } else {
-    iconResult = <span id={props.id ? props.id : `${props.name}-icon`} style={[props.style, styles.base]} ></span>;
+    iconResult = (
+      <span
+        id={props.id ? props.id : `${props.name}-icon`}
+        onClick={props.onclick}
+        style={[props.style, styles.base]}
+      ></span>
+    );
   }
 
   return iconResult;
@@ -136,6 +158,7 @@ Icon.propTypes = {
   active: PropTypes.bool,
   style: PropTypes.object,
   id: PropTypes.string,
+  onclick: PropTypes.func,
 };
 
 export default Radium(Icon);

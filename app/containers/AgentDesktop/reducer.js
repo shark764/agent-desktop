@@ -57,6 +57,34 @@ const initialState = fromJS({
     //   timeout: new Date(Date.now() + 60000).toISOString(),
     //   number: '313.412.6623',
     // },
+
+    //   XXX uncomment below to mock SMS interaction
+    //   {
+    //     channelType: 'sms',
+    //     customerAvatarIndex: 5,
+    //     interactionId: '11111111111111111111112',
+    //     status: 'work-accepted',
+    //     messageHistory: [
+    //       {
+    //         text: 'this is a test',
+    //         from: 'Jedd',
+    //         type: 'sms',
+    //         timestamp: new Date().toISOString(),
+    //       },
+    //     ],
+    //     contact: {
+    //       contactId: '11111231234',
+    //       attributes: {
+    //         name: 'Mockle Userton',
+    //         email: 'mock@mockinc.biz',
+    //         age: 99,
+    //         mobile: '+15552213456',
+    //       },
+    //     },
+    //     hasUnreadMessage: false,
+    //   },
+    // ],
+    // selectedInteractionId: '11111111111111111111112',
   ],
 });
 

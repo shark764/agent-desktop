@@ -79,6 +79,14 @@ export default function createRoutes(store) {
 
         importInteractionsBarModules.catch(errorLoading);
 
+        const importContactsControlModules = System.import('containers/ContactsControl/reducer');
+
+        importContactsControlModules.then((reducer) => {
+          injectReducer('contactsControl', reducer.default);
+        });
+
+        importContactsControlModules.catch(errorLoading);
+
         const importLoginModules = Promise.all([
           System.import('containers/Login/reducer'),
           System.import('containers/Login/sagas'),

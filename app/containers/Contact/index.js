@@ -97,7 +97,7 @@ export class Contact extends React.Component {
 
   render() {
     return (
-      <div style={this.styles.base}>
+      <div style={[this.props.style, this.styles.base]}>
         {this.props.layout.map(this.getSection)}
       </div>
     );
@@ -118,6 +118,7 @@ Contact.propTypes = {
   layout: PropTypes.array,
   contact: PropTypes.object.isRequired,
   intl: PropTypes.object.isRequired,
+  style: PropTypes.object,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Contact)));
