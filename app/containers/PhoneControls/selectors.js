@@ -10,7 +10,7 @@ const selectActiveVoiceInteractionId = createSelector(
    [selectInteractions],
    (interactions) => {
      const activeVoiceInteraction = interactions.toJS().find(
-       (interaction) => interaction.channelType === 'voice'
+       (interaction) => (interaction.status === 'work-accepting' || interaction.status === 'work-accepted') && interaction.channelType === 'voice'
      );
      return activeVoiceInteraction ? activeVoiceInteraction.interactionId : undefined;
    }

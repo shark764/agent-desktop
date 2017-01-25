@@ -19,7 +19,15 @@ class CircleIconButton extends React.Component {
   }
 
   onClick() {
-    this.props.onClick();
+    if (typeof this.props.activeOnClick !== 'undefined' && typeof this.props.inactiveOnClick !== 'undefined') {
+      if (this.state.active) {
+        this.props.activeOnClick();
+      } else {
+        this.props.inactiveOnClick();
+      }
+    } else {
+      this.props.onClick();
+    }
     this.setState({
       active: !this.state.active,
     });
@@ -35,7 +43,7 @@ class CircleIconButton extends React.Component {
 
   render() {
     return (
-      <button id={this.props.id} style={[this.styles.base, this.props.style]} onClick={this.props.onClick}>
+      <button id={this.props.id} style={[this.styles.base, this.props.style]} onClick={this.onClick}>
         <Icon id={`${this.props.id}-icon'`} name={this.props.name} active={this.state.active} style={[this.styles.base, this.props.style, { margin: 'none' }]} />
       </button>
     );
@@ -43,10 +51,12 @@ class CircleIconButton extends React.Component {
 }
 
 CircleIconButton.propTypes = {
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   style: PropTypes.object,
-  id: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
+  activeOnClick: PropTypes.func,
+  inactiveOnClick: PropTypes.func,
 };
 
 export default Radium(CircleIconButton);

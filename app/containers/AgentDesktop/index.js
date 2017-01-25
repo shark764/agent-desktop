@@ -4,7 +4,9 @@
  *
  */
 
-import '../../../node_modules/cxengage-js-sdk/release/cxengage-js-sdk.min';
+// TODO get that working
+// import '../../../node_modules/cxengage-js-sdk/release/cxengage-js-sdk.min';
+import '../../assets/js/cxengagesdk';
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
@@ -25,8 +27,8 @@ import Login from 'containers/Login';
 
 import Radium from 'radium';
 
-import { setPresence, addInteraction, addMessage, setMessageHistory, assignContact,
-  setInteractionStatus, removeInteraction, selectInteraction, setCustomFields, emailCreateReply, emailCancelReply } from './actions';
+import { setPresence, addInteraction, addMessage, setMessageHistory, assignContact, setInteractionStatus, removeInteraction, selectInteraction,
+  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, emailCreateReply, emailCancelReply } from './actions';
 
 export class AgentDesktop extends React.Component {
 
@@ -67,6 +69,7 @@ export class AgentDesktop extends React.Component {
       if (error) {
         console.error('Pub sub error', topic, error); // eslint-disable-line no-console
       }
+      console.log('[AgentDesktop] SDK.subscribe()', topic, response);
       switch (topic) {
         case 'cxengage/session/state-changed': {
           this.props.setPresence(response);
@@ -94,6 +97,22 @@ export class AgentDesktop extends React.Component {
           this.props.addMessage(response);
           break;
         }
+        case 'cxengage/voice/mute-started': {
+          this.props.muteCall(response.interactionId);
+          break;
+        }
+        case 'cxengage/voice/mute-ended': {
+          this.props.unmuteCall(response.interactionId);
+          break;
+        }
+        case 'cxengage/voice/hold-started': {
+          this.props.holdCall(response.interactionId);
+          break;
+        }
+        case 'cxengage/voice/hold-ended': {
+          this.props.resumeCall(response.interactionId);
+          break;
+        }
         // Igonore these pubsubs
         case 'cxengage/authentication/login': // Handled in Login component
         case 'cxengage/session/active-tenant-set': // Handled in Login component
@@ -101,6 +120,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/accept-response': // Using cxengage/interactions/work-accepted instead
         case 'cxengage/interactions/end-response': // Using cxengage/interactions/work-ended instead
         case 'cxengage/messaging/send-message-response': // Using cxengage/messaging/new-message-received instead
+        case 'cxengage/voice/phone-controls-response': // Using mute-started, mute-ended, etc. instead
           break;
         default: {
           console.warn('AGENT DESKTOP: No pub sub for', error, topic, response); // eslint-disable-line no-console
@@ -234,6 +254,10 @@ function mapDispatchToProps(dispatch) {
     addMessage: (response) => dispatch(addMessage(response)),
     selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
     setCustomFields: (interactionId, customFields) => dispatch(setCustomFields(interactionId, customFields)),
+    muteCall: (interactionId) => dispatch(muteCall(interactionId)),
+    unmuteCall: (interactionId) => dispatch(unmuteCall(interactionId)),
+    holdCall: (interactionId) => dispatch(holdCall(interactionId)),
+    resumeCall: (interactionId) => dispatch(resumeCall(interactionId)),
     emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
     emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
     dispatch,
@@ -241,18 +265,22 @@ function mapDispatchToProps(dispatch) {
 }
 
 AgentDesktop.propTypes = {
-  setPresence: PropTypes.func,
-  setInteractionStatus: PropTypes.func,
-  addInteraction: PropTypes.func,
-  removeInteraction: PropTypes.func,
-  setMessageHistory: PropTypes.func,
-  assignContact: PropTypes.func,
-  addMessage: PropTypes.func,
-  selectInteraction: PropTypes.func,
+  setPresence: PropTypes.func.isRequired,
+  setInteractionStatus: PropTypes.func.isRequired,
+  addInteraction: PropTypes.func.isRequired,
+  removeInteraction: PropTypes.func.isRequired,
+  setMessageHistory: PropTypes.func.isRequired,
+  assignContact: PropTypes.func.isRequired,
+  addMessage: PropTypes.func.isRequired,
+  selectInteraction: PropTypes.func.isRequired,
   // TODO when in SDK
   // setCustomFields: PropTypes.func,
-  emailCreateReply: PropTypes.func,
-  emailCancelReply: PropTypes.func,
+  muteCall: PropTypes.func.isRequired,
+  unmuteCall: PropTypes.func.isRequired,
+  holdCall: PropTypes.func.isRequired,
+  resumeCall: PropTypes.func.isRequired,
+  emailCreateReply: PropTypes.func.isRequired,
+  emailCancelReply: PropTypes.func.isRequired,
   login: PropTypes.object,
   agentDesktop: PropTypes.object,
 };
