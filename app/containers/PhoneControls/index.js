@@ -24,6 +24,11 @@ export class PhoneControls extends React.Component {
     super(props);
     this.setShowDialpad = this.setShowDialpad.bind(this);
     this.setDialpadText = this.setDialpadText.bind(this);
+    this.endInteraction = this.endInteraction.bind(this);
+    this.mute = this.mute.bind(this);
+    this.unmute = this.unmute.bind(this);
+    this.hold = this.hold.bind(this);
+    this.resume = this.resume.bind(this);
 
     this.state = {
       showDialpad: false,
@@ -52,6 +57,26 @@ export class PhoneControls extends React.Component {
   }
 
   phoneNumberUtil = PhoneNumberUtil.getInstance();
+
+  endInteraction() {
+    SDK.interactions.end({ interactionId: this.props.activeVoiceInteractionId });
+  }
+
+  mute() {
+    SDK.interactions.voice.mute({ interactionId: this.props.activeVoiceInteractionId });
+  }
+
+  unmute() {
+    SDK.interactions.voice.unmute({ interactionId: this.props.activeVoiceInteractionId });
+  }
+
+  hold() {
+    SDK.interactions.voice.hold({ interactionId: this.props.activeVoiceInteractionId });
+  }
+
+  resume() {
+    SDK.interactions.voice.resume({ interactionId: this.props.activeVoiceInteractionId });
+  }
 
   styles = {
     base: {
@@ -102,10 +127,10 @@ export class PhoneControls extends React.Component {
       controls = (
         <div style={{ paddingTop: '12px' }}>
           <div style={{ height: 44, width: 176, margin: '0 auto', display: 'block' }}>
-            <CircleIconButton name="endCall" onClick={() => console.log('End call')} style={this.styles.circleIconButtonRow} />
-            <CircleIconButton name="mute" onClick={() => console.log('Mute')} style={this.styles.circleIconButtonRow} />
-            <CircleIconButton name="hold" onClick={() => console.log('Hold')} style={this.styles.circleIconButtonRow} />
-            <CircleIconButton name="dialpad" onClick={() => this.setShowDialpad(!this.state.showDialpad)} style={this.styles.circleIconButtonRow} />
+            <CircleIconButton id="endCallButton" name="endCall" onClick={this.endInteraction} style={this.styles.circleIconButtonRow} />
+            <CircleIconButton id="muteButton" name="mute" inactiveOnClick={this.mute} activeOnClick={this.unmute} style={this.styles.circleIconButtonRow} />
+            <CircleIconButton id="holdButton" name="hold" inactiveOnClick={this.hold} activeOnClick={this.resume} style={this.styles.circleIconButtonRow} />
+            <CircleIconButton id="dialpadButton" name="dialpad" onClick={() => this.setShowDialpad(!this.state.showDialpad)} style={this.styles.circleIconButtonRow} />
           </div>
           { this.state.showDialpad
             ? <div>
@@ -136,7 +161,7 @@ export class PhoneControls extends React.Component {
       controls = (
         <div style={{ paddingTop: '12px' }}>
           <div style={{ height: 44, width: 40, margin: '0 auto', display: 'block' }}>
-            <CircleIconButton id="dialpad" name="dialpad" onClick={() => this.setShowDialpad(!this.state.showDialpad)} />
+            <CircleIconButton id="dialpadButton" name="dialpad" onClick={() => this.setShowDialpad(!this.state.showDialpad)} />
           </div>
           { this.state.showDialpad
             ? <div>

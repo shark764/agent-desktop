@@ -15,15 +15,6 @@ import ContentArea from 'containers/ContentArea';
 
 export class VoiceContentArea extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
-  constructor(props) {
-    super(props);
-    this.endInteraction = this.endInteraction.bind(this);
-  }
-
-  endInteraction() {
-    console.log('TODO connect to SDK');
-  }
-
   styles = {
     customField: {
       display: 'inline-block',
@@ -60,9 +51,10 @@ export class VoiceContentArea extends React.Component { // eslint-disable-line r
 
     const buttons = (
       <Button
+        id="hang-up-button"
         type="primaryRed"
         text={messages.hangUp}
-        onClick={this.endInteraction}
+        onClick={this.props.endInteraction}
         disabled={isAccepting}
       />
     );
@@ -76,6 +68,7 @@ export class VoiceContentArea extends React.Component { // eslint-disable-line r
 
 VoiceContentArea.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,
+  endInteraction: PropTypes.func.isRequired,
 };
 
 export default Radium(VoiceContentArea);

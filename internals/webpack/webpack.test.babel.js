@@ -29,7 +29,7 @@ module.exports = {
       },
       { test: /\.js$/,
         loader: 'babel',
-        exclude: [/node_modules/],
+        exclude: [/node_modules/, /cxengagesdk/],
       },
       { test: /\.jpe?g$|\.gif$|\.png$|\.svg$/i,
         loader: 'null-loader',
