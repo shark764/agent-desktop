@@ -14,6 +14,10 @@ import {
   REMOVE_INTERACTION,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
+  MUTE_CALL,
+  UNMUTE_CALL,
+  HOLD_CALL,
+  RESUME_CALL,
   EMAIL_CREATE_REPLY,
   EMAIL_CANCEL_REPLY,
 } from './constants';
@@ -80,6 +84,34 @@ export function setCustomFields(interactionId, customFields) {
     type: SET_CUSTOM_FIELDS,
     interactionId,
     customFields,
+  };
+}
+
+export function muteCall(interactionId) {
+  return {
+    type: MUTE_CALL,
+    interactionId,
+  };
+}
+
+export function unmuteCall(interactionId) {
+  return {
+    type: UNMUTE_CALL,
+    interactionId,
+  };
+}
+
+export function holdCall(interactionId) {
+  return {
+    type: HOLD_CALL,
+    interactionId,
+  };
+}
+
+export function resumeCall(interactionId) {
+  return {
+    type: RESUME_CALL,
+    interactionId,
   };
 }
 

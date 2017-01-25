@@ -40,7 +40,7 @@ export class MainContentArea extends React.Component {
       } else if (selectedInteraction.channelType === 'email') {
         content = <EmailContentArea selectedInteraction={selectedInteraction} emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} />;
       } else if (selectedInteraction.channelType === 'voice') {
-        content = <VoiceContentArea selectedInteraction={selectedInteraction} />;
+        content = <VoiceContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} />;
       } else {
         throw new Error(`Unknown selected channelType: ${selectedInteraction.channelType}`);
       }
