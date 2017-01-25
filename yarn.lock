@@ -8323,6 +8323,10 @@ watchpack@^1.0.0:
     chokidar "^1.4.3"
     graceful-fs "^4.1.2"
 
+webfontloader@^1.6.27:
+  version "1.6.27"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/webfontloader/-/webfontloader-1.6.27.tgz#c3899649b0653aa57d0a23388f82409e0df224ba"
+
 webpack-dev-middleware@1.8.4, webpack-dev-middleware@^1.0.11:
   version "1.8.4"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/webpack-dev-middleware/-/webpack-dev-middleware-1.8.4.tgz#e8765c9122887ce9e3abd4cc9c3eb31b61e0948d"
