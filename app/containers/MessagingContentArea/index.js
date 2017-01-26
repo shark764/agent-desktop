@@ -199,6 +199,7 @@ export class MessagingContentArea extends React.Component {
             {messageHistory}
           </div>
           <textarea
+            id="messageTextarea"
             style={this.styles.messageTextarea}
             value={this.state.messageText}
             onChange={(e) => this.setMessageText(e.target.value)}

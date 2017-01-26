@@ -37,6 +37,8 @@ export class InteractionsBar extends React.Component {
   render() {
     const activeVoiceInteraction = this.props.activeVoiceInteraction
       ? <div
+        id={`activeVoiceInteraction-${this.props.activeVoiceInteraction.interactionId}`}
+        className="activeVoiceInteraction"
         style={{ backgroundColor: this.props.selectedInteractionId === this.props.activeVoiceInteraction.interactionId ? '#0B424E' : 'inherit',
           borderBottom: '1px solid #141414',
           cursor: 'pointer',
@@ -81,6 +83,8 @@ export class InteractionsBar extends React.Component {
       }
       return (
         <div
+          id={`activeInteractionContainer-${activeInteraction.interactionId}`}
+          className="activeInteractionContainer"
           style={{ backgroundColor: this.props.selectedInteractionId === activeInteraction.interactionId ? '#0B424E' : 'inherit',
             borderBottom: '1px solid #141414',
             cursor: 'pointer',
@@ -128,6 +132,8 @@ export class InteractionsBar extends React.Component {
       }
       return (
         <div
+          id={`pendingInteractionContainer-${pendingInteraction.interactionId}`}
+          className="pendingInteractionContainer"
           style={{ backgroundColor: '#F3F3F3', cursor: 'pointer', marginTop: '11px', padding: '20px 16px', borderRadius: '3px', height: '123px', width: '100%' }}
           key={pendingInteraction.interactionId}
           onClick={() => this.acceptInteraction(pendingInteraction.interactionId)}
