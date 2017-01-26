@@ -77,6 +77,11 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/interactions/work-offer': {
           this.props.addInteraction(response);
+          // WARNING - MUCH MOCKERY
+          if (response.channelType === 'voice') {
+            this.props.assignContact(response.interactionId, mockContact(response.channelType, response.number || response.from));
+          }
+          // WARNING - MUCH MOCKERY
           break;
         }
         case 'cxengage/messaging/history': {
@@ -85,7 +90,6 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/interactions/work-accepted': {
           this.props.setInteractionStatus(response.interactionId, 'work-accepted');
-          this.props.assignContact(response.interactionId, mockContact());
           break;
         }
         case 'cxengage/interactions/work-rejected':
