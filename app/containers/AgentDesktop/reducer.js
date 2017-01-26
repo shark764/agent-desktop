@@ -181,15 +181,15 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ADD_MESSAGE: {
+      const message = action.response;
       const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.response.to
+        (interaction) => interaction.get('interactionId') === message.to
       );
       if (interactionIndex !== -1) {
-        const message = action.response;
         const messageHistoryItem = {
           text: message.body.text,
-          from: typeof message.metadata !== 'undefined' && message.metadata.name ? message.metadata.name : message.from,
-          type: typeof message.metadata !== 'undefined' ? message.metadata.type : message.type,
+          from: message.metadata !== null ? message.metadata.name : message.from,
+          type: message.metadata !== null ? message.metadata.type : message.type,
           timestamp: message.timestamp,
         };
         return state
