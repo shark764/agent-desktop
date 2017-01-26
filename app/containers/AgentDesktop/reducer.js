@@ -4,6 +4,7 @@
  *
  */
 
+import mockContact from 'utils/mocking';
 import { fromJS } from 'immutable';
 import {
   SET_PRESENCE,
@@ -71,20 +72,12 @@ const initialState = fromJS({
     //     messageHistory: [
     //       {
     //         text: 'this is a test',
-    //         from: 'Jedd',
+    //         from: '15552213456',
     //         type: 'sms',
     //         timestamp: new Date().toISOString(),
     //       },
     //     ],
-    //     contact: {
-    //       contactId: '11111231234',
-    //       attributes: {
-    //         name: 'Mockle Userton',
-    //         email: 'mock@mockinc.biz',
-    //         age: 99,
-    //         mobile: '+15552213456',
-    //       },
-    //     },
+    //     contact: mockContact(),
     //     hasUnreadMessage: false,
     //   },
     // ],
@@ -154,7 +147,10 @@ function agentDesktopReducer(state = initialState, action) {
                 interactions.update(
                   interactionIndex,
                   (interaction) => interaction.set('messageHistory', fromJS(messageHistoryItems))
-                )
+                  // WARNING - MUCH MOCKERY
+                    .set('contact', fromJS(mockContact(interaction.get('channelType'), messageHistoryItems[0].from)))
+                  // WARNING - MUCH MOCKERY
+              )
             );
         } else {
           return state;
