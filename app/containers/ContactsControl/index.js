@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import Radium from 'radium';
 
+import mockContact from 'utils/mocking';
 import selectContactsControl, { selectSelectedInteraction } from './selectors';
 import { addSearchFilter, removeSearchFilter, setSearchResults, setLoading } from './actions';
 
@@ -54,6 +55,9 @@ export class ContactsControl extends React.Component { // eslint-disable-line re
   }
 
   beginSearch() {
+    // STRAIGHT MOCKIN'
+    this.props.setSearchResults([mockContact(this.props.query[0].sdkName, this.props.query[0].value), mockContact(this.props.query[0].sdkName, this.props.query[0].value), mockContact(this.props.query[0].sdkName, this.props.query[0].value)]);
+    // STRAIGHT MOCKIN'
     // SDK trigger search
     // this.props.setLoading();
   }
@@ -172,6 +176,7 @@ ContactsControl.propTypes = {
   query: React.PropTypes.array,
   loading: React.PropTypes.bool,
   results: React.PropTypes.any,
+  setSearchResults: React.PropTypes.func,
   addSearchFilter: React.PropTypes.func,
   selectedInteraction: React.PropTypes.object,
   removeSearchFilter: React.PropTypes.func,
