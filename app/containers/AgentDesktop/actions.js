@@ -18,6 +18,8 @@ import {
   UNMUTE_CALL,
   HOLD_CALL,
   RESUME_CALL,
+  RECORD_CALL,
+  STOP_RECORD_CALL,
   EMAIL_CREATE_REPLY,
   EMAIL_CANCEL_REPLY,
 } from './constants';
@@ -111,6 +113,20 @@ export function holdCall(interactionId) {
 export function resumeCall(interactionId) {
   return {
     type: RESUME_CALL,
+    interactionId,
+  };
+}
+
+export function recordCall(interactionId) {
+  return {
+    type: RECORD_CALL,
+    interactionId,
+  };
+}
+
+export function stopRecordCall(interactionId) {
+  return {
+    type: STOP_RECORD_CALL,
     interactionId,
   };
 }

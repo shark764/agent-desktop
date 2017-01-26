@@ -10,4 +10,8 @@ export default defineMessages({
     id: 'app.containers.PhoneControls.call',
     defaultMessage: 'Call',
   },
+  recording: {
+    id: 'app.containers.PhoneControls.recording',
+    defaultMessage: 'Recording',
+  },
 });

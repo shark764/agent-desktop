@@ -6,16 +6,16 @@ const selectInteractions = createSelector(
   (agentDesktop) => agentDesktop.get('interactions')
 );
 
-const selectActiveVoiceInteractionId = createSelector(
+const selectActiveVoiceInteraction = createSelector(
    [selectInteractions],
    (interactions) => {
      const activeVoiceInteraction = interactions.toJS().find(
-       (interaction) => (interaction.status === 'work-accepting' || interaction.status === 'work-accepted') && interaction.channelType === 'voice'
+       (interaction) => interaction.status === 'work-accepted' && interaction.channelType === 'voice'
      );
-     return activeVoiceInteraction ? activeVoiceInteraction.interactionId : undefined;
+     return activeVoiceInteraction;
    }
  );
 
 export {
-  selectActiveVoiceInteractionId,
+  selectActiveVoiceInteraction,
 };
