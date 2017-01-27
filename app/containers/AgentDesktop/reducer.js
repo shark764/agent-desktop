@@ -20,6 +20,8 @@ import {
   UNMUTE_CALL,
   HOLD_CALL,
   RESUME_CALL,
+  RECORD_CALL,
+  STOP_RECORD_CALL,
   EMAIL_CREATE_REPLY,
   EMAIL_CANCEL_REPLY,
 } from './constants';
@@ -61,6 +63,8 @@ const initialState = fromJS({
     //   status: 'work-accepted', // 'work-offer',
     //   timeout: new Date(Date.now() + 60000).toISOString(),
     //   number: '313.412.6623',
+    //   recording: true,
+    //   agentRecordingEnabled: true, // false
     // },
 
     //   XXX uncomment below to mock SMS interaction
@@ -119,6 +123,10 @@ function agentDesktopReducer(state = initialState, action) {
         interactionId: action.response.interactionId,
         status: 'work-offer',
         timeout: action.response.timeout,
+        // default to false so that corresponding Toggle component is controlled
+        recording: action.response.channelType === 'voice' ? false : undefined,
+        // recordingUpdate could be undefined for old flows, but should be enabled in that case
+        agentRecordingEnabled: action.response.channelType === 'voice' ? action.response.toolbarFeatures.recordingUpdate !== false : undefined,
       };
       return state
         .set('interactions', state.get('interactions').push(fromJS(interaction)));
@@ -298,6 +306,40 @@ function agentDesktopReducer(state = initialState, action) {
               interactions.update(
                 interactionIndex,
                 (interaction) => interaction.set('onHold', false)
+              )
+          );
+      } else {
+        return state;
+      }
+    }
+    case RECORD_CALL: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state
+          .update('interactions',
+            (interactions) =>
+              interactions.update(
+                interactionIndex,
+                (interaction) => interaction.set('recording', true)
+              )
+          );
+      } else {
+        return state;
+      }
+    }
+    case STOP_RECORD_CALL: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state
+          .update('interactions',
+            (interactions) =>
+              interactions.update(
+                interactionIndex,
+                (interaction) => interaction.set('recording', false)
               )
           );
       } else {

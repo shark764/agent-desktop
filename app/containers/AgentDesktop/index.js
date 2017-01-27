@@ -28,7 +28,7 @@ import Login from 'containers/Login';
 import Radium from 'radium';
 
 import { setPresence, addInteraction, addMessage, setMessageHistory, assignContact, setInteractionStatus, removeInteraction, selectInteraction,
-  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, emailCreateReply, emailCancelReply } from './actions';
+  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, emailCreateReply, emailCancelReply } from './actions';
 
 export class AgentDesktop extends React.Component {
 
@@ -117,6 +117,14 @@ export class AgentDesktop extends React.Component {
           this.props.resumeCall(response.interactionId);
           break;
         }
+        case 'cxengage/voice/recording-started': {
+          this.props.recordCall(response.interactionId);
+          break;
+        }
+        case 'cxengage/voice/recording-ended': {
+          this.props.stopRecordCall(response.interactionId);
+          break;
+        }
         // Igonore these pubsubs
         case 'cxengage/authentication/login': // Handled in Login component
         case 'cxengage/session/active-tenant-set': // Handled in Login component
@@ -183,12 +191,14 @@ export class AgentDesktop extends React.Component {
       flex: '0 0 auto',
       width: '283px',
       borderBottom: '1px solid #141414',
+      display: 'flex',
+      flexFlow: 'column',
     },
     phoneControls: {
-      height: '64px',
+      flex: '0 0 auto',
     },
     interactionsBar: {
-      height: 'calc(100% - 64px)',
+      flex: '1 0 auto',
     },
     toolbar: {
       flex: '0 0 auto',
@@ -262,6 +272,8 @@ function mapDispatchToProps(dispatch) {
     unmuteCall: (interactionId) => dispatch(unmuteCall(interactionId)),
     holdCall: (interactionId) => dispatch(holdCall(interactionId)),
     resumeCall: (interactionId) => dispatch(resumeCall(interactionId)),
+    recordCall: (interactionId) => dispatch(recordCall(interactionId)),
+    stopRecordCall: (interactionId) => dispatch(stopRecordCall(interactionId)),
     emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
     emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
     dispatch,
@@ -283,6 +295,8 @@ AgentDesktop.propTypes = {
   unmuteCall: PropTypes.func.isRequired,
   holdCall: PropTypes.func.isRequired,
   resumeCall: PropTypes.func.isRequired,
+  recordCall: PropTypes.func.isRequired,
+  stopRecordCall: PropTypes.func.isRequired,
   emailCreateReply: PropTypes.func.isRequired,
   emailCancelReply: PropTypes.func.isRequired,
   login: PropTypes.object,
