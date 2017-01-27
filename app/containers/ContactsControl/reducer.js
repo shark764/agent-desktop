@@ -24,7 +24,7 @@ function contactsControlReducer(state = initialState, action) {
       return state.update('query', (query) => query.push(action.filter)).set('results', false);
     }
     case REMOVE_SEARCH_FILTER: {
-      return state.update('query', (query) => query.filter((filter) => filter.value !== action.filter.value || filter.sdkName !== action.filter.sdkName)).set(['results'], false);
+      return state.update('query', (query) => query.filter((filter) => filter.value !== action.filter.value || filter.sdkName !== action.filter.sdkName)).set('results', false);
     }
     case SET_SEARCH_RESULTS: {
       return state.set('results', action.results).set(['loading'], false);

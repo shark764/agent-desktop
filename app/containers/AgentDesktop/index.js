@@ -226,7 +226,7 @@ export class AgentDesktop extends React.Component {
                   <MainContentArea emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} style={[this.styles.flexChildGrow, this.styles.bottomBorder]} />
                   {
                     (this.props.agentDesktop.selectedInteractionId !== undefined) ?
-                      <Resizable id="crm-resizable" direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={window.innerWidth - 827} minPx={415} isDisabled={this.state.isContactsPanelCollapsed} style={this.styles.topArea} >
+                      <Resizable id="crm-resizable" direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={window.innerWidth - 827} minPx={430} isDisabled={this.state.isContactsPanelCollapsed} style={this.styles.topArea} >
                       </Resizable>
                       :
                       ''

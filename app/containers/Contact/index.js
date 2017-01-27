@@ -6,7 +6,7 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { selectPopulatedLayout } from './selectors';
+import { selectPopulatedLayout, selectPopulatedCompactAttributes } from './selectors';
 import Radium from 'radium';
 import { injectIntl } from 'react-intl';
 
@@ -41,10 +41,10 @@ export class Contact extends React.Component {
   getAttributeRow(attribute) {
     return (
       <div style={this.styles.attributeRow} key={attribute.id}>
-        <div style={[this.styles.attributeName, this.styles.attributeRowChild]}>
+        <div style={this.styles.attributeName}>
           {attribute.label[this.props.intl.locale]}
         </div>
-        <div style={this.styles.attributeRowChild}>{this.getAttributeValueDisplay(attribute, this.props.contact.attributes[attribute.objectName])}</div>
+        <div style={this.styles.attributeValue}>{this.getAttributeValueDisplay(attribute, this.props.contact.attributes[attribute.objectName])}</div>
       </div>
     );
   }
@@ -84,28 +84,34 @@ export class Contact extends React.Component {
     attributeName: {
       color: '#979797',
       width: '161px',
+      flexShrink: '0',
     },
     attributeRow: {
       display: 'flex',
       flexDirection: 'row',
       marginBottom: '4px',
     },
-    attributeRowChild: {
-      flex: '0 1 auto',
+    attributeValue: {
+      flexShrink: '1',
     },
   };
 
   render() {
     return (
       <div style={[this.props.style, this.styles.base]}>
-        {this.props.layout.map(this.getSection)}
+        {
+          this.props.showCompactView
+            ? this.props.compactLayoutAttributes.map(this.getAttributeRow)
+            : this.props.layoutSections.map(this.getSection)
+        }
       </div>
     );
   }
 }
 
 const mapStateToProps = (state, props) => ({
-  layout: selectPopulatedLayout(state, props),
+  layoutSections: selectPopulatedLayout(state, props),
+  compactLayoutAttributes: selectPopulatedCompactAttributes(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -115,7 +121,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 Contact.propTypes = {
-  layout: PropTypes.array,
+  showCompactView: PropTypes.bool,
+  compactLayoutAttributes: PropTypes.array,
+  layoutSections: PropTypes.array,
   contact: PropTypes.object.isRequired,
   intl: PropTypes.object.isRequired,
   style: PropTypes.object,

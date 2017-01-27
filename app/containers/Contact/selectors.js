@@ -12,11 +12,15 @@ const selectSidePanelDomain = (state) => state.get('sidePanel');
 
 const selectLayout = createSelector(
   selectSidePanelDomain,
-  (sidePanel) => sidePanel.get('contactLayout')
+  (sidePanel) => sidePanel.get('contactLayoutSections')
 );
 const selectAttributes = createSelector(
   selectSidePanelDomain,
   (sidePanel) => sidePanel.get('contactAttributes')
+);
+const selectCompactLayoutAttributes = createSelector(
+  selectSidePanelDomain,
+  (sidePanel) => sidePanel.get('compactLayoutAttributes')
 );
 const selectPopulatedLayout = createSelector(
   [selectLayout, selectAttributes],
@@ -30,6 +34,23 @@ const selectPopulatedLayout = createSelector(
     )
 );
 
+const selectPopulatedCompactAttributes = createSelector(
+  [selectAttributes, selectCompactLayoutAttributes],
+  (attributes, compactLayoutAttributes) =>
+    compactLayoutAttributes.map(
+      (objectName) =>
+        attributes.find(
+          (attribute) =>
+          attribute.get('objectName') === objectName
+        )
+    ).toJS().filter(
+      (attribute) =>
+      typeof attribute !== 'string'
+    )
+);
+
+
 export {
   selectPopulatedLayout,
+  selectPopulatedCompactAttributes,
 };
