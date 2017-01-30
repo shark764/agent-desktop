@@ -106,7 +106,18 @@ function agentDesktopReducer(state = initialState, action) {
             (interactions) =>
               interactions.update(
                 interactionIndex,
-                (interaction) => interaction.set('status', action.newStatus)
+                (interaction) => {
+                  // We only want to set hasUnreadMessage for messaging/sms interactions
+                  let hasUnreadMessage;
+                  if ((interaction.get('channelType') === 'messaging' || interaction.get('channelType') === 'sms') &&
+                      (action.newStatus === 'work-accepting' || action.newStatus === 'work-accepted') &&
+                      state.get('selectedInteractionId') !== interaction.get('interactionId')) {
+                    hasUnreadMessage = true;
+                  }
+                  return interaction
+                    .set('status', action.newStatus)
+                    .set('hasUnreadMessage', hasUnreadMessage);
+                }
               )
           ).set('selectedInteractionId',
             automaticallyAcceptInteraction
