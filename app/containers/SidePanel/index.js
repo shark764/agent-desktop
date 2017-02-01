@@ -39,14 +39,18 @@ export class SidePanel extends React.Component {
         rules={{
           color: '#4B4B4B',
           '[role=tablist]': {
+            flexGrow: '0',
+            flexShrink: '0',
+            order: '0',
             borderBottom: '1px solid #D0D0D0',
             padding: '10px 5px 15px 0',
             margin: '0',
-            maxHeight: `${topBarHeightPx}px`,
+            height: `${topBarHeightPx}px`,
             boxSizing: 'border-box',
           },
           '[role=tabpanel]': {
             height: `calc(100% - ${topBarHeightPx}px)`,
+            alignSelf: 'stretch',
           },
           '[role=tab]': {
             fontWeight: 'bold',
@@ -114,26 +118,48 @@ export class SidePanel extends React.Component {
   }
 
   styles = {
-    base: {
+    outerShell: {
       position: 'fixed',
       right: 0,
       top: 0,
       height: '100vh',
       transition: 'transform 1s',
-    },
-    leftGutter: {
-      width: `${leftGutterPx}px`,
-      flexDirection: 'column',
+      display: 'flex',
+      flexWrap: 'no-wrap',
     },
     rightGutter: {
       width: `${rightGutterPx}px`,
       flexDirection: 'column',
+      order: '2',
+      flexGrow: '0',
+      flexShrink: '0',
     },
-    topBar: {
+    rightGutterSpacer: {
+      flexGrow: 1,
+    },
+    leftGutter: {
+      width: `${leftGutterPx}px`,
+      display: 'flex',
+      flexDirection: 'column',
+      flexGrow: '0',
+      flexShrink: 0,
+    },
+    topGutterLeft: {
       borderBottom: '1px solid #D0D0D0',
       margin: '0',
       height: `${topBarHeightPx}px`,
+      display: 'flex',
       alignItems: 'center',
+      justifyContent: 'center',
+    },
+    leftGutterSpacer: {
+      order: '1',
+      flexGrow: '1',
+    },
+    topGutterRight: {
+      borderBottom: '1px solid #D0D0D0',
+      margin: '0',
+      height: `${topBarHeightPx}px`,
     },
     left90: {
       transform: 'rotate(-90deg)',
@@ -145,27 +171,16 @@ export class SidePanel extends React.Component {
       height: '19px',
       cursor: 'pointer',
     },
-    flexParent: {
+    bodyWrapper: {
       display: 'flex',
-      flexWrap: 'no-wrap',
-      justifyContent: 'center',
-      alignContent: 'stretch',
-      alignItems: 'stretch',
-    },
-    flexChildStart: {
-      order: '0',
-      flex: '0 0 auto',
-      alignSelf: 'auto',
-    },
-    flexChildStretch: {
       order: '1',
-      flex: '1 0 auto',
-      alignSelf: 'auto',
+      flexGrow: '1',
     },
-    flexChildEnd: {
-      order: '2',
-      flex: '0 0 auto',
-      alignSelf: 'auto',
+    tabsOuter: {
+      flexGrow: '1',
+      alignSelf: 'stretch',
+      display: 'flex',
+      flexDirection: 'column',
     },
   };
 
@@ -179,42 +194,40 @@ export class SidePanel extends React.Component {
 
   render() {
     return (
-      <div style={[this.styles.base, this.styles.flexParent, this.getPanelSizing(), this.props.style]}>
-        <div style={[this.styles.flexParent, this.styles.flexChildStart, this.styles.leftGutter]}>
-          <div style={[this.styles.flexParent, this.styles.flexChildStart, this.styles.topBar]}>
+      <div style={[this.styles.outerShell, this.getPanelSizing(), this.props.style]}>
+        <div style={[this.styles.leftGutter]}>
+          <div style={[this.styles.topGutterLeft]}>
             <IconCollapse
               onClick={this.handleCollapseClick}
               style={[this.styles.iconCollapse, this.props.isCollapsed ? this.styles.right90 : this.styles.left90]}
             />
           </div>
-          <div style={this.styles.flexChildStretch}></div>
+          <div style={this.styles.leftGutterSpacer}></div>
         </div>
-        <div style={[this.styles.flexParent, this.styles.flexChildStretch]}>
-          <div style={[this.styles.flexChildStretch]}>
-            {this.getTabsStyleElement()}
-            <Tabs style={{ height: '100%' }} onSelect={this.updateSelectedTab} selectedIndex={this.state.selectedTabIndex}>
-              <TabList>
-                <Tab>Info</Tab>
-                <Tab>History</Tab>
-                <Tab>Reference</Tab>
-              </TabList>
-              <TabPanel>
-                <ContactsControl></ContactsControl>
-              </TabPanel>
-              <TabPanel>
-                <h2>History</h2>
-                <h4>Interdum et malesuada fames ac ante ipsum.</h4>
-              </TabPanel>
-              <TabPanel>
-                <h2>References</h2>
-                <h4>Praesent sed metus ut lacus congue iaculis.</h4>
-              </TabPanel>
-            </Tabs>
-          </div>
-          <div style={[this.styles.flexParent, this.styles.flexChildEnd, this.styles.topBar, this.styles.rightGutter]}>
-            <div style={this.flexChildStart}></div>
-            <div style={this.flexChildStretch}></div>
-          </div>
+        <div style={[this.styles.bodyWrapper]}>
+          {this.getTabsStyleElement()}
+          <Tabs style={this.styles.tabsOuter} onSelect={this.updateSelectedTab} selectedIndex={this.state.selectedTabIndex}>
+            <TabList>
+              <Tab>Info</Tab>
+              <Tab>History</Tab>
+              <Tab>Reference</Tab>
+            </TabList>
+            <TabPanel>
+              <ContactsControl></ContactsControl>
+            </TabPanel>
+            <TabPanel>
+              <h2>History</h2>
+              <h4>Interdum et malesuada fames ac ante ipsum.</h4>
+            </TabPanel>
+            <TabPanel>
+              <h2>References</h2>
+              <h4>Praesent sed metus ut lacus congue iaculis.</h4>
+            </TabPanel>
+          </Tabs>
+        </div>
+        <div style={this.styles.rightGutter}>
+          <div style={this.styles.topGutterRight}></div>
+          <div style={this.styles.rightGutterSpacer}></div>
         </div>
       </div>
     );

@@ -28,11 +28,13 @@ export default function mockContact(channelType, liveInput) {
     },
   ];
   const mock = {
-    contactId: Date.now(),
+    contactId: Math.random().toString(36) + Date.now(),
     attributes: {
       name: positionPairs[mockIndex].name,
       title: positionPairs[mockIndex].title,
       marketSegment: positionPairs[mockIndex].marketSegment,
+      customerNumber: Array(8).fill(null).map(() => String(Math.random() * 10)[0]).join(''),
+      accountName: 'Mocks Incorporated',
       email: 'mock@mockinc.biz',
       age: 99,
       mobile: '15552213456',

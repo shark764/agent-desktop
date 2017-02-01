@@ -11,7 +11,8 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  contactLayout: [
+  compactLayoutAttributes: ['mobile', 'email', 'address1'],
+  contactLayoutSections: [
     {
       label: {
         en: 'Personal Information',
