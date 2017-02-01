@@ -145,6 +145,7 @@ export class ContactSearchBar extends React.Component { // eslint-disable-line r
       backgroundImage: `url(${search})`,
       backgroundPosition: '10px 10px',
       backgroundRepeat: 'no-repeat',
+      backgroundSize: '16px',
       padding: '3px 0 3px 40px',
       height: '36px',
       borderRadius: '2px 0 0 3px',

@@ -15,6 +15,7 @@ import '../../assets/css/react-toggle-style.css';
 
 import { selectActiveVoiceInteraction } from './selectors';
 import messages from './messages';
+import TransferMenu from 'containers/TransferMenu';
 
 import Button from 'components/Button';
 import CircleIconButton from 'components/CircleIconButton';
@@ -38,6 +39,7 @@ export class PhoneControls extends React.Component {
     this.resume = this.resume.bind(this);
 
     this.state = {
+      showTransferMenu: false,
       showDialpad: false,
       dialpadText: '',
       dialpadTextValid: false,
@@ -52,6 +54,13 @@ export class PhoneControls extends React.Component {
     } else {
       SDK.interactions.voice.startRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
     }
+  }
+
+  setShowTransferMenu(showTransferMenu) {
+    this.setState({
+      showTransferMenu,
+      showActiveInteractionDialpad: false,
+    });
   }
 
   setShowDialpad(showDialpad) {
@@ -74,7 +83,10 @@ export class PhoneControls extends React.Component {
   }
 
   setShowActiveInteractionDialpad(showActiveInteractionDialpad) {
-    this.setState({ showActiveInteractionDialpad });
+    this.setState({
+      showActiveInteractionDialpad,
+      showTransferMenu: false,
+    });
   }
 
   setActiveInteractionDialpadText(activeInteractionDialpadText) {
@@ -130,20 +142,41 @@ export class PhoneControls extends React.Component {
       borderLeft: '8px solid transparent',
       borderRight: '8px solid transparent',
       borderBottom: '10px solid white',
-      marginLeft: this.props.activeVoiceInteraction ? '196px' : '134px',
       position: 'absolute',
+      marginTop: '4px',
       zIndex: 3,
     },
-    dialpad: {
+    dialpadTopTriangle: {
+      marginLeft: '134px',
+    },
+    activeVoiceInteractionDialpadTopTriangle: {
+      marginLeft: '219px',
+    },
+    transferTopTriangle: {
+      marginLeft: '177px',
+      borderBottom: '10px solid #F3F3F3',
+    },
+    phoneControlsPopupMenu: {
       width: '282px',
-      height: this.props.activeVoiceInteraction ? '339px' : '394px',
-      margin: '8px 0 0 14px',
+      margin: '10px 0 0 14px',
       backgroundColor: '#FFFFFF',
+      color: '#4B4B4B',
       boxShadow: '0 0 6px 0 rgba(0,0,0,0.23)',
       borderRadius: '3px',
+      overflow: 'hidden',
       position: 'absolute',
       zIndex: 2,
       padding: '25px 20px 20px',
+    },
+    dialpadPhoneControlsPopupMenu: {
+      height: '394px',
+    },
+    activeVoiceInteractionDialpadPhoneControlsPopupMenu: {
+      height: '339px',
+    },
+    transferPhoneControlsPopupMenu: {
+      padding: 0,
+      fontSize: '14px',
     },
     dialpadText: {
       height: '32px',
@@ -172,8 +205,8 @@ export class PhoneControls extends React.Component {
             <span style={{ float: 'right', verticalAlign: 'top', height: 20, marginTop: 2 }}>
               <label htmlFor="toggleRecording" style={this.styles.toggleRecordingLabel}>
                 {this.props.activeVoiceInteraction.recording
-                  ? 'ON'
-                  : 'OFF'
+                  ? <FormattedMessage {...messages.on} />
+                  : <FormattedMessage {...messages.off} />
                 }
               </label>
               <Toggle
@@ -192,16 +225,26 @@ export class PhoneControls extends React.Component {
       controls = (
         <div style={{ padding: '6px 0 12px' }}>
           {recordingContainer}
-          <div style={{ height: 40, width: 176, margin: '0 auto', display: 'block' }}>
+          <div style={{ height: 40, width: 216, margin: '0 auto', display: 'block' }}>
             <CircleIconButton id="endCallButton" name="endCall" onClick={this.endInteraction} style={this.styles.circleIconButtonRow} />
             <CircleIconButton id="muteButton" name="mute" inactiveOnClick={this.mute} activeOnClick={this.unmute} style={this.styles.circleIconButtonRow} />
             <CircleIconButton id="holdButton" name="hold" inactiveOnClick={this.hold} activeOnClick={this.resume} style={this.styles.circleIconButtonRow} />
-            <CircleIconButton id="dialpadButton" name="dialpad" onClick={() => this.setShowDialpad(!this.state.showDialpad)} style={this.styles.circleIconButtonRow} />
+            <CircleIconButton id="transferButton" name="transfer" active={this.state.showTransferMenu} onClick={() => this.setShowTransferMenu(!this.state.showTransferMenu)} style={this.styles.circleIconButtonRow} />
+            <CircleIconButton id="dialpadButton" name="dialpad" active={this.state.showActiveInteractionDialpad} onClick={() => this.setShowActiveInteractionDialpad(!this.state.showActiveInteractionDialpad)} style={this.styles.circleIconButtonRow} />
           </div>
-          { this.state.showDialpad
+          { this.state.showTransferMenu
             ? <div>
-              <div style={[this.styles.topTriangle, this.styles.topTriangleActiveVoiceInteraction]}></div>
-              <div style={this.styles.dialpad}>
+              <div style={[this.styles.topTriangle, this.styles.transferTopTriangle]}></div>
+              <div id="transfersContainer" style={[this.styles.phoneControlsPopupMenu, this.styles.transferPhoneControlsPopupMenu]}>
+                <TransferMenu />
+              </div>
+            </div>
+            : ''
+          }
+          { this.state.showActiveInteractionDialpad
+            ? <div>
+              <div style={[this.styles.topTriangle, this.styles.activeVoiceInteractionDialpadTopTriangle]}></div>
+              <div style={[this.styles.phoneControlsPopupMenu, this.styles.activeVoiceInteractionDialpadPhoneControlsPopupMenu]}>
                 <Dialpad id="activeInteractionDialpad" setDialpadText={this.setActiveInteractionDialpadText} dialpadText={this.state.activeInteractionDialpadText} />
               </div>
             </div>
@@ -217,8 +260,8 @@ export class PhoneControls extends React.Component {
           </div>
           { this.state.showDialpad
             ? <div>
-              <div style={this.styles.topTriangle}></div>
-              <div style={this.styles.dialpad}>
+              <div style={[this.styles.topTriangle, this.styles.dialpadTopTriangle]}></div>
+              <div style={[this.styles.phoneControlsPopupMenu, this.styles.dialpadPhoneControlsPopupMenu]}>
                 <Dialpad id="dialpad" setDialpadText={this.setDialpadText} dialpadText={this.state.dialpadText} />
                 <Button id="callButton" text={messages.call} disabled={!this.state.dialpadTextValid} onClick={() => alert(`here's my number: ${this.state.dialpadText}, call me maybe`)} type="primaryBlue" style={this.styles.callButton} />
               </div>

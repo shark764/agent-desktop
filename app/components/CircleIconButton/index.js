@@ -13,9 +13,11 @@ class CircleIconButton extends React.Component {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
-    this.state = {
-      active: false,
-    };
+    if (props.active === undefined) {
+      this.state = {
+        active: false,
+      };
+    }
   }
 
   onClick() {
@@ -28,9 +30,11 @@ class CircleIconButton extends React.Component {
     } else {
       this.props.onClick();
     }
-    this.setState({
-      active: !this.state.active,
-    });
+    if (this.props.active === undefined) {
+      this.setState({
+        active: !this.state.active,
+      });
+    }
   }
 
   styles = {
@@ -44,7 +48,7 @@ class CircleIconButton extends React.Component {
   render() {
     return (
       <button id={this.props.id} style={[this.styles.base, this.props.style]} onClick={this.onClick}>
-        <Icon id={`${this.props.id}-icon'`} name={this.props.name} active={this.state.active} style={[this.styles.base, this.props.style, { margin: 'none' }]} />
+        <Icon id={`${this.props.id}-icon'`} name={this.props.name} active={this.props.active !== undefined ? this.props.active : this.state.active} style={[this.styles.base, this.props.style, { margin: 'none' }]} />
       </button>
     );
   }
@@ -54,6 +58,7 @@ CircleIconButton.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   style: PropTypes.object,
+  active: PropTypes.bool,
   onClick: PropTypes.func,
   activeOnClick: PropTypes.func,
   inactiveOnClick: PropTypes.func,
