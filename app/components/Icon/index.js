@@ -18,6 +18,7 @@ import notConnected from 'assets/icons/not_connected.png';
 import endCallSprite from 'assets/icons/end_call_sprite.png';
 import muteSprite from 'assets/icons/mute_sprite.png';
 import holdSprite from 'assets/icons/hold_sprite.png';
+import transferSprite from 'assets/icons/transfer_sprite.png';
 import dialpadSprite from 'assets/icons/dialpad_sprite.png';
 
 import Radium from 'radium';
@@ -37,6 +38,8 @@ function Icon(props) {
       break;
     case 'search':
       icon = search;
+      height = '16px';
+      width = '16px';
       break;
     case 'close':
       icon = close;
@@ -85,6 +88,17 @@ function Icon(props) {
       break;
     case 'hold':
       iconSprite = holdSprite;
+      height = '40px';
+      width = '40px';
+      display = 'block';
+      borderRadius = '50%';
+      if (props.active) {
+        backgroundPosition = '-80px 0';
+      }
+      backgroundPositionHover = '-40px 0';
+      break;
+    case 'transfer':
+      iconSprite = transferSprite;
       height = '40px';
       width = '40px';
       display = 'block';

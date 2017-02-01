@@ -5,11 +5,13 @@
  */
 
 import React, { PropTypes } from 'react';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { Tab, TabList, TabPanel } from 'react-tabs';
 import { connect } from 'react-redux';
 import { setContactLayout, setContactAttributes } from './actions';
 import Radium from 'radium';
 import IconCollapse from 'icons/collapse';
+
+import Tabs from 'components/Tabs';
 
 import ContactsControl from 'containers/ContactsControl';
 
@@ -25,80 +27,9 @@ export class SidePanel extends React.Component {
       selectedTabIndex: 0,
     };
 
-    Tabs.setUseDefaultStyles(false);
-
     this.updateSelectedTab = this.updateSelectedTab.bind(this);
     this.getPanelSizing = this.getPanelSizing.bind(this);
     this.handleCollapseClick = this.handleCollapseClick.bind(this);
-  }
-
-  getTabsStyleElement() {
-    return (
-      <Radium.Style
-        scopeSelector=".react-tabs"
-        rules={{
-          color: '#4B4B4B',
-          '[role=tablist]': {
-            flexGrow: '0',
-            flexShrink: '0',
-            order: '0',
-            borderBottom: '1px solid #D0D0D0',
-            padding: '10px 5px 15px 0',
-            margin: '0',
-            height: `${topBarHeightPx}px`,
-            boxSizing: 'border-box',
-          },
-          '[role=tabpanel]': {
-            height: `calc(100% - ${topBarHeightPx}px)`,
-            alignSelf: 'stretch',
-          },
-          '[role=tab]': {
-            fontWeight: 'bold',
-            display: 'inline-block',
-            border: '1px solid transparent',
-            borderBottom: 'none',
-            bottom: '-1px',
-            position: 'relative',
-            listStyle: 'none',
-            padding: '6px 12px',
-            cursor: 'pointer',
-          },
-          '[role=tab]:first-child': {
-            paddingLeft: 0,
-          },
-          '[role=tab][aria-selected=true]::after': {
-            content: '\'\'',
-            width: 'calc(100% - 24px)',
-            left: '12px',
-            height: '4px',
-            background: '#4B4B4B',
-            position: 'absolute',
-            bottom: '-14px',
-          },
-          '[role=tab][aria-selected=true]:first-child::after': {
-            content: '\'\'',
-            width: 'calc(100% - 12px)',
-            left: '0px',
-          },
-          '[role=tab][aria-selected=false]': {
-            color: '#979797',
-          },
-          '[role=tab][aria-disabled=true]': {
-            cursor: 'default',
-          },
-          '[role=tab]:focus': {
-            boxShadow: '0 0 0',
-            border: 'none',
-            outline: 'none',
-          },
-          '[role=tab]:focus::after': {
-            boxShadow: '0 0 5px hsl(208, 99%, 50%)',
-            borderColor: 'hsl(208, 99%, 50%)',
-            outline: 'none',
-          },
-        }}
-      />
-    );
   }
 
   getPanelSizing() {
@@ -204,9 +135,8 @@ export class SidePanel extends React.Component {
           </div>
           <div style={this.styles.leftGutterSpacer}></div>
         </div>
-        <div style={[this.styles.bodyWrapper]}>
-          {this.getTabsStyleElement()}
-          <Tabs style={this.styles.tabsOuter} onSelect={this.updateSelectedTab} selectedIndex={this.state.selectedTabIndex}>
+        <div id="sidePanelTabsContainer" style={[this.styles.bodyWrapper]}>
+          <Tabs topBarHeightPx={topBarHeightPx} style={this.styles.tabsOuter} type="big" id="contactTabs" onSelect={this.updateSelectedTab} selectedIndex={this.state.selectedTabIndex}>
             <TabList>
               <Tab>Info</Tab>
               <Tab>History</Tab>

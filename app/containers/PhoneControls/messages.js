@@ -14,4 +14,12 @@ export default defineMessages({
     id: 'app.containers.PhoneControls.recording',
     defaultMessage: 'Recording',
   },
+  on: {
+    id: 'app.containers.PhoneControls.on',
+    defaultMessage: 'ON',
+  },
+  off: {
+    id: 'app.containers.PhoneControls.off',
+    defaultMessage: 'OFF',
+  },
 });
