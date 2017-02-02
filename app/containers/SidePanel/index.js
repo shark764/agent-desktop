@@ -16,6 +16,7 @@ import { getSelectedInteractionId } from './selectors';
 import Tabs from 'components/Tabs';
 
 import ContactsControl from 'containers/ContactsControl';
+import ContactInteractionHistory from 'containers/ContactInteractionHistory';
 
 const leftGutterPx = 52;
 const rightGutterPx = 26;
@@ -63,6 +64,8 @@ export class SidePanel extends React.Component {
 
   styles = {
     outerShell: {
+      backgroundColor: '#FFFFFF',
+      borderLeft: '1px solid #D0D0D0',
       position: 'fixed',
       right: 0,
       top: 0,
@@ -162,8 +165,7 @@ export class SidePanel extends React.Component {
               <ContactsControl assignContact={this.props.assignContact}></ContactsControl>
             </TabPanel>
             <TabPanel>
-              <h2>History</h2>
-              <h4>Interdum et malesuada fames ac ante ipsum.</h4>
+              <ContactInteractionHistory />
             </TabPanel>
             <TabPanel>
               <h2>References</h2>
