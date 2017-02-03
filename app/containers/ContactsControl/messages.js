@@ -18,4 +18,12 @@ export default defineMessages({
     id: 'app.containers.ContactControl.searchCRM',
     defaultMessage: 'Search the CRM database',
   },
+  newRecord: {
+    id: 'app.containers.ContactControl.newRecord',
+    defaultMessage: 'Create New Record',
+  },
+  or: {
+    id: 'app.containers.ContactControl.or',
+    defaultMessage: 'OR',
+  },
 });
