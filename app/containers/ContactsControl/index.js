@@ -29,14 +29,21 @@ export class ContactsControl extends React.Component { // eslint-disable-line re
     super(props);
 
     this.state = {
-      isSearching: false,
+      action: 'view',
+      tempContact: false,
     };
 
     this.setSearching = this.setSearching.bind(this);
-    this.setNotSearching = this.setNotSearching.bind(this);
+    this.setViewing = this.setViewing.bind(this);
+    this.setSearching = this.setSearching.bind(this);
     this.beginSearch = this.beginSearch.bind(this);
     this.renderResults = this.renderResults.bind(this);
-    this.renderContact = this.renderContact.bind(this);
+    this.renderContactView = this.renderContactView.bind(this);
+    this.setCreating = this.setCreating.bind(this);
+    this.getBannerHeader = this.getBannerHeader.bind(this);
+    this.getViewControlHeader = this.getViewControlHeader.bind(this);
+    this.getSearchControlHeader = this.getSearchControlHeader.bind(this);
+    this.getHeader = this.getHeader.bind(this);
   }
 
   componentDidUpdate() {
@@ -47,22 +54,87 @@ export class ContactsControl extends React.Component { // eslint-disable-line re
 
   setSearching() {
     this.setState({
-      isSearching: true,
+      action: 'search',
     });
   }
 
-  setNotSearching() {
+  setCreating() {
     this.setState({
-      isSearching: false,
+      action: 'creating',
     });
+  }
+
+  setViewing() {
+    this.setState({
+      action: 'view',
+    });
+  }
+
+  getSearchControlHeader() {
+    return (
+      <div style={this.styles.controlHeader}>
+        <ContactSearchBar resultsCount={this.props.results ? this.props.results.length : -1} addFilter={this.props.addSearchFilter} setNotSearching={this.setViewing} style={this.styles.contactSearchBar} />
+        <div style={this.styles.filtersWrapper}>
+          { this.props.query.map((filter) => <Filter key={filter.sdkName} filter={filter} remove={this.props.removeSearchFilter} style={this.styles.filter} />) }
+        </div>
+      </div>
+    );
+  }
+
+  getViewControlHeader() {
+    return (
+      <div style={this.styles.controlHeader}>
+        <div style={this.styles.buttonSet}>
+          {/* <Button id="contact-edit-btn" style={this.styles.leftButton} onClick={this.setCreating} text={messages.edit} type="secondary" /> */}
+          <Button id="contact-search-btn" style={this.styles.rightButton} onClick={this.setSearching} iconName="search" type="secondary" />
+        </div>
+      </div>
+    );
+  }
+
+  getBannerHeader(text) {
+    return (
+      <div style={this.styles.bannerHeader}>
+        <div style={this.styles.leftGutter}></div>
+        <div style={this.styles.bannerHeaderText}>
+          {text}
+        </div>
+      </div>
+    );
+  }
+
+  getHeader() {
+    switch (this.state.action) {
+      case 'view':
+        return this.getViewControlHeader();
+      case 'creating':
+        return this.getBannerHeader('New Customer Record');
+      case 'search':
+      default:
+        return this.getSearchControlHeader();
+    }
+  }
+
+  getMainContent() {
+    switch (this.state.action) {
+      case 'view':
+        return this.renderContactView();
+      case 'creating':
+        return <Contact save={this.save} cancel={this.setSearching} style={this.styles.mainContact} contactAttributes={this.state.tempContact ? this.state.tempContact.attributes : {}} isEditing />;
+      case 'search':
+      default:
+        return this.renderResults();
+    }
   }
 
   beginSearch() {
     // STRAIGHT MOCKIN'
     if (this.props.query[0].sdkName === 'name') {
       this.props.setSearchResults([mockContact(this.props.query[0].sdkName, this.props.query[0].value), mockContact(this.props.query[0].sdkName, this.props.query[0].value), mockContact(this.props.query[0].sdkName, this.props.query[0].value)]);
-    } else {
+    } else if (this.props.query[0].sdkName !== 'email') {
       this.props.setSearchResults([mockContact(this.props.query[0].sdkName, this.props.query[0].value)]);
+    } else {
+      this.props.setSearchResults([]);
     }
     // STRAIGHT MOCKIN'
     // SDK trigger search
@@ -156,11 +228,31 @@ export class ContactsControl extends React.Component { // eslint-disable-line re
       textAlign: 'center',
       maxWidth: `${resultsPlaceholderWidth}px`,
     },
+    bannerHeader: {
+      backgroundColor: '#DEF8FE',
+      width: 'calc(100% + 76px)',
+      height: '70px',
+      position: 'relative',
+      left: '-51px',
+      display: 'flex',
+      alignItems: 'stretch',
+    },
+    bannerHeaderText: {
+      fontWeight: 'bold',
+      alignSelf: 'center',
+    },
+    leftGutter: {
+      width: '52px',
+    },
   };
+
+  save(formData) {
+    console.log('save', formData);
+  }
 
   renderResults() {
     let results;
-    if (this.props.results) {
+    if (this.props.results && this.props.results.length) {
       results = this.props.results.map((contact) => <ContactSearchResult style={this.styles.contactResult} key={contact.contactId} contact={contact} />);
     } else {
       results = (
@@ -174,16 +266,19 @@ export class ContactsControl extends React.Component { // eslint-disable-line re
           <div style={this.styles.filtersList}>
             <FormattedMessage {...messages.filtersList} />
           </div>
-          {/* TODO: OR 'create contact' button */}
+          <div style={{ margin: '5px 0' }}>
+            <FormattedMessage {...messages.or} />
+          </div>
+          <Button id="createNewRecord" type="secondary" text="Create New Record" onClick={this.setCreating}></Button>
         </div>
       );
     }
     return results;
   }
 
-  renderContact() {
+  renderContactView() {
     return this.props.selectedInteraction.contact ?
-      <Contact style={this.styles.mainContact} contact={this.props.selectedInteraction.contact} />
+      <Contact style={this.styles.mainContact} contactAttributes={this.props.selectedInteraction.contact.attributes} />
       :
       ''; // TODO: loading animation
   }
@@ -191,24 +286,9 @@ export class ContactsControl extends React.Component { // eslint-disable-line re
   render() {
     return (
       <div key={this.props.key} style={[this.props.style, this.styles.base]}>
-        { this.state.isSearching
-          ?
-            <div style={this.styles.controlHeader}>
-              <ContactSearchBar resultsCount={this.props.results ? this.props.results.length : false} addFilter={this.props.addSearchFilter} setNotSearching={this.setNotSearching} style={this.styles.contactSearchBar} />
-              <div style={this.styles.filtersWrapper}>
-                { this.props.query.map((filter) => <Filter key={filter.sdkName} filter={filter} remove={this.props.removeSearchFilter} style={this.styles.filter} />) }
-              </div>
-            </div>
-          :
-            <div style={this.styles.controlHeader}>
-              <div style={this.styles.buttonSet}>
-                {/* <Button id="contact-edit-btn" style={this.styles.leftButton} text={messages.edit} type="secondary" /> */}
-                <Button id="contact-search-btn" style={this.styles.rightButton} onClick={this.setSearching} iconName="search" type="secondary" />
-              </div>
-            </div>
-        }
+        { this.getHeader() }
         <div style={[this.styles.contacts]}>
-          { this.state.isSearching ? this.renderResults() : this.renderContact() }
+          { this.getMainContent() }
         </div>
       </div>
     );

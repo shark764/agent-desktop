@@ -113,6 +113,9 @@ export class SidePanel extends React.Component {
       display: 'flex',
       flexDirection: 'column',
     },
+    tabsRoot: {
+      height: '100%',
+    },
   };
 
   handleCollapseClick() {
@@ -135,8 +138,8 @@ export class SidePanel extends React.Component {
           </div>
           <div style={this.styles.leftGutterSpacer}></div>
         </div>
-        <div id="sidePanelTabsContainer" style={[this.styles.bodyWrapper]}>
-          <Tabs topBarHeightPx={topBarHeightPx} style={this.styles.tabsOuter} type="big" id="contactTabs" onSelect={this.updateSelectedTab} selectedIndex={this.state.selectedTabIndex}>
+        <div id="sidePanelTabsContainer" style={this.styles.bodyWrapper}>
+          <Tabs topBarHeightPx={topBarHeightPx} style={this.styles.tabsOuter} tabsRootStyle={this.styles.tabsRoot} type="big" id="contactTabs" onSelect={this.updateSelectedTab} selectedIndex={this.state.selectedTabIndex}>
             <TabList>
               <Tab>Info</Tab>
               <Tab>History</Tab>

@@ -37,14 +37,25 @@ function TextInput(props) {
     };
   }
 
+  function getPlaceholder() {
+    if (typeof props.placeholder === 'string') {
+      return props.placeholder;
+    }
+    if (typeof props.placeholder === 'object') {
+      return formatMessage(props.placeholder);
+    }
+    return '';
+  }
+
   return (
     <input
       id={props.id}
+      name={props.name}
       style={[styles.base, props.style]}
       type={props.type || 'text'}
       value={props.value}
-      placeholder={props.placeholder ? formatMessage(props.placeholder) : ''}
-      onChange={(e) => props.cb(e.target.value)}
+      placeholder={getPlaceholder()}
+      onChange={(e) => props.cb(e.target.value, e)}
       autoComplete={props.autocomplete || 'on'}
       onKeyUp={props.onKeyUp || ''}
       onKeyDown={props.onKeyDown || ''}
@@ -55,9 +66,10 @@ function TextInput(props) {
 
 TextInput.propTypes = {
   intl: intlShape.isRequired,
-  placeholder: PropTypes.object,
+  placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.object]), // eslint-disable-line react/no-unused-prop-types
   cb: PropTypes.func.isRequired,
   autocomplete: PropTypes.string,
+  name: PropTypes.string,
   value: PropTypes.string.isRequired,
   style: PropTypes.object,
   type: PropTypes.string,

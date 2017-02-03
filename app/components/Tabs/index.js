@@ -125,9 +125,9 @@ function Tabs(props) {
   }
 
   return (
-    <div id={props.id} style={{ width: '100%' }}>
+    <div id={props.id} style={[props.style, { width: '100%' }]}>
       { tabsStyleElement }
-      <ReactTabs selectedIndex={props.selectedIndex} onSelect={props.onSelect} style={props.style}>
+      <ReactTabs selectedIndex={props.selectedIndex} onSelect={props.onSelect} style={props.tabsRootStyle}>
         { props.children }
       </ReactTabs>
     </div>
@@ -141,6 +141,7 @@ Tabs.propTypes = {
   selectedIndex: PropTypes.number,
   onSelect: PropTypes.func,
   style: PropTypes.object,
+  tabsRootStyle: PropTypes.object,
   topBarHeightPx: PropTypes.number,
 };
 

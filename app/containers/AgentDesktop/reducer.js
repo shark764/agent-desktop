@@ -68,22 +68,22 @@ const initialState = fromJS({
     // },
     //
     //   XXX uncomment below to mock SMS interaction
-  //   {
-  //     channelType: 'sms',
-  //     customerAvatarIndex: 5,
-  //     interactionId: '11111111111111111111112',
-  //     status: 'work-accepted',
-  //     messageHistory: [
-  //       {
-  //         text: 'this is a test',
-  //         from: '15552213456',
-  //         type: 'sms',
-  //         timestamp: new Date().toISOString(),
-  //       },
-  //     ],
-  //     contact: mockContact(),
-  //     hasUnreadMessage: false,
-  //   },
+    // {
+    //   channelType: 'sms',
+    //   customerAvatarIndex: 5,
+    //   interactionId: '11111111111111111111112',
+    //   status: 'work-accepted',
+    //   messageHistory: [
+    //     {
+    //       text: 'this is a test',
+    //       from: '15552213456',
+    //       type: 'sms',
+    //       timestamp: new Date().toISOString(),
+    //     },
+    //   ],
+    //   contact: mockContact(),
+    //   hasUnreadMessage: false,
+    // },
   // ],
   // selectedInteractionId: '11111111111111111111112',
   ],

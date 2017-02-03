@@ -203,6 +203,7 @@ export class ContactSearchBar extends React.Component { // eslint-disable-line r
       borderTop: 'none',
       padding: '10px 0 10px 0',
       margin: '4px 0 0 0',
+      zIndex: '10',
     },
     filterDropdownRow: {
       background: '#FFFFFF',
@@ -257,7 +258,7 @@ export class ContactSearchBar extends React.Component { // eslint-disable-line r
                 menuStyle={{ ...this.styles.filterDropdown, width: `${this.state.filterMenuWidth}px` }}
               />
           }
-          { this.props.resultsCount ? <div style={this.styles.resultsCount}>{`${this.props.resultsCount} Results`}</div> : '' }
+          { this.props.resultsCount > -1 ? <div style={this.styles.resultsCount}>{`${this.props.resultsCount} Results`}</div> : '' }
         </div>
         <Button id="exit-search-btn" style={this.styles.closeButton} iconName="close" type="secondary" onClick={this.props.setNotSearching} />
       </div>
@@ -270,7 +271,7 @@ ContactSearchBar.propTypes = {
   setNotSearching: React.PropTypes.func.isRequired,
   query: React.PropTypes.array,
   style: React.PropTypes.object,
-  resultsCount: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.number]),
+  resultsCount: React.PropTypes.number,
 };
 
 const mapStateToProps = (state, props) => ({
