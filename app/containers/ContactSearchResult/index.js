@@ -91,9 +91,7 @@ export class ContactSearchResult extends React.Component { // eslint-disable-lin
         <div style={this.styles.header}>
           <div style={this.styles.titlesWrapper}>
             <div style={this.styles.title}>{this.props.contact.attributes.name}</div>
-            <div style={this.styles.subTitle}>{this.props.contact.attributes.accountName}</div>
           </div>
-          <div>#{this.props.contact.attributes.customerNumber}</div>
         </div>
         <Contact contactAttributes={this.props.contact.attributes} style={[this.styles.contact]} showCompactView={!this.state.expanded} ></Contact>
         <div onClick={() => this.setState({ expanded: !this.state.expanded })} style={this.styles.expandToggle} >

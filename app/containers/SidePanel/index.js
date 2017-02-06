@@ -11,6 +11,8 @@ import { setContactLayout, setContactAttributes } from './actions';
 import Radium from 'radium';
 import IconCollapse from 'icons/collapse';
 
+import { getSelectedInteractionId } from './selectors';
+
 import Tabs from 'components/Tabs';
 
 import ContactsControl from 'containers/ContactsControl';
@@ -30,6 +32,17 @@ export class SidePanel extends React.Component {
     this.updateSelectedTab = this.updateSelectedTab.bind(this);
     this.getPanelSizing = this.getPanelSizing.bind(this);
     this.handleCollapseClick = this.handleCollapseClick.bind(this);
+  }
+
+  componentDidMount() {
+    SDK.subscribe('cxengage/contacts/list-attributes-response', (error, topic, response) => {
+      console.log('[SidePanel] SDK.subscribe()', topic, response);
+      this.props.setContactAttributes(response);
+    });
+    SDK.subscribe('cxengage/contacts/list-layouts-response', (error, topic, response) => {
+      console.log('[SidePanel] SDK.subscribe()', topic, response);
+      this.props.setContactLayout(response);
+    });
   }
 
   getPanelSizing() {
@@ -127,7 +140,7 @@ export class SidePanel extends React.Component {
   }
 
   render() {
-    return (
+    return this.props.selectedInteractionId !== undefined ? (
       <div style={[this.styles.outerShell, this.getPanelSizing(), this.props.style]}>
         <div style={[this.styles.leftGutter]}>
           <div style={[this.styles.topGutterLeft]}>
@@ -163,8 +176,15 @@ export class SidePanel extends React.Component {
           <div style={this.styles.rightGutterSpacer}></div>
         </div>
       </div>
-    );
+    )
+    : null;
   }
+}
+
+function mapStateToProps(state, props) {
+  return {
+    selectedInteractionId: getSelectedInteractionId(state, props),
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -182,6 +202,9 @@ SidePanel.propTypes = {
   collapsedPx: PropTypes.number,
   collapsePanel: PropTypes.func,
   showPanel: PropTypes.func,
+  selectedInteractionId: PropTypes.string,
+  setContactLayout: PropTypes.func.isRequired,
+  setContactAttributes: PropTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Radium(SidePanel));
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(SidePanel));

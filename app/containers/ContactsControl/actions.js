@@ -25,10 +25,10 @@ export function removeSearchFilter(filter) {
   };
 }
 
-export function setSearchResults(results) {
+export function setSearchResults(response) {
   return {
     type: SET_SEARCH_RESULTS,
-    results,
+    response,
   };
 }
 

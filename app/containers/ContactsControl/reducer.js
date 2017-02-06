@@ -14,20 +14,23 @@ import {
 
 const initialState = fromJS({
   query: [],
-  results: false,
+  results: undefined,
   loading: false,
 });
 
 function contactsControlReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_SEARCH_FILTER: {
-      return state.update('query', (query) => query.push(action.filter)).set('results', false);
+      return state.update('query', (query) => query.push(action.filter)).set('results', undefined);
     }
     case REMOVE_SEARCH_FILTER: {
-      return state.update('query', (query) => query.filter((filter) => filter.value !== action.filter.value || filter.sdkName !== action.filter.sdkName)).set('results', false);
+      return state.update('query', (query) => query.filter((filter) => filter.value !== action.filter.value || filter.sdkName !== action.filter.sdkName)).set('results', undefined);
     }
     case SET_SEARCH_RESULTS: {
-      return state.set('results', action.results).set(['loading'], false);
+      console.log('SET_SEARCH_RESULTS response', action.response);
+      // const results = action.response.results.map((result) => result.attributes);
+      // console.log('SET_SEARCH_RESULTS results', results);
+      return state.set('results', fromJS(action.response.results)).set('loading', false);
     }
     case SET_LOADING: {
       return state.set('loading', true);

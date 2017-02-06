@@ -10,7 +10,8 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import Radium from 'radium';
 
-import mockContact from 'utils/mocking';
+// XXX remove the file too
+// import mockContact from 'utils/mocking';
 import selectContactsControl, { selectSelectedInteraction } from './selectors';
 import { addSearchFilter, removeSearchFilter, setSearchResults, setLoading } from './actions';
 
@@ -24,7 +25,7 @@ import Contact from 'containers/Contact';
 const controlHeaderHeight = 70;
 const resultsPlaceholderWidth = 330;
 
-export class ContactsControl extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class ContactsControl extends React.Component {
   constructor(props) {
     super(props);
 
@@ -44,6 +45,12 @@ export class ContactsControl extends React.Component { // eslint-disable-line re
     this.getViewControlHeader = this.getViewControlHeader.bind(this);
     this.getSearchControlHeader = this.getSearchControlHeader.bind(this);
     this.getHeader = this.getHeader.bind(this);
+  }
+
+  componentDidMount() {
+    SDK.subscribe('cxengage/contacts/search-response', (error, topic, response) => {
+      this.props.setSearchResults(response);
+    });
   }
 
   componentDidUpdate() {
@@ -128,17 +135,25 @@ export class ContactsControl extends React.Component { // eslint-disable-line re
   }
 
   beginSearch() {
+    const sdkQuery = {};
+    this.props.query.forEach((queryItem) => {
+      sdkQuery[queryItem.sdkName] = queryItem.value;
+    });
+    console.log('sdkQuery', sdkQuery);
+    SDK.contacts.searchContacts({ query: sdkQuery });
+
+    // XXX STRAIGHT MOCKIN'
+    // if (this.props.query[0].sdkName === 'name') {
+    //   this.props.setSearchResults([mockContact(this.props.query[0].sdkName, this.props.query[0].value), mockContact(this.props.query[0].sdkName, this.props.query[0].value), mockContact(this.props.query[0].sdkName, this.props.query[0].value)]);
+    // } else if (this.props.query[0].sdkName !== 'email') {
+    //   this.props.setSearchResults([mockContact(this.props.query[0].sdkName, this.props.query[0].value)]);
+    // } else {
+    //   this.props.setSearchResults([]);
+    // }
     // STRAIGHT MOCKIN'
-    if (this.props.query[0].sdkName === 'name') {
-      this.props.setSearchResults([mockContact(this.props.query[0].sdkName, this.props.query[0].value), mockContact(this.props.query[0].sdkName, this.props.query[0].value), mockContact(this.props.query[0].sdkName, this.props.query[0].value)]);
-    } else if (this.props.query[0].sdkName !== 'email') {
-      this.props.setSearchResults([mockContact(this.props.query[0].sdkName, this.props.query[0].value)]);
-    } else {
-      this.props.setSearchResults([]);
-    }
-    // STRAIGHT MOCKIN'
-    // SDK trigger search
-    // this.props.setLoading();
+
+    // TODO ?
+    this.props.setLoading();
   }
 
   styles = {
@@ -253,7 +268,9 @@ export class ContactsControl extends React.Component { // eslint-disable-line re
   renderResults() {
     let results;
     if (this.props.results && this.props.results.length) {
-      results = this.props.results.map((contact) => <ContactSearchResult style={this.styles.contactResult} key={contact.contactId} contact={contact} />);
+      results = this.props.results.map((contact) => <ContactSearchResult style={this.styles.contactResult} key={contact.id} contact={contact} />);
+    } else if (this.props.loading) {
+      results = 'Loading...';
     } else {
       results = (
         <div id="results-placeholder" style={this.styles.resultsPlaceholder}>
@@ -301,10 +318,11 @@ ContactsControl.propTypes = {
   query: React.PropTypes.array,
   loading: React.PropTypes.bool,
   results: React.PropTypes.any,
-  setSearchResults: React.PropTypes.func,
   addSearchFilter: React.PropTypes.func,
-  selectedInteraction: React.PropTypes.object,
   removeSearchFilter: React.PropTypes.func,
+  setSearchResults: React.PropTypes.func,
+  setLoading: React.PropTypes.func,
+  selectedInteraction: React.PropTypes.object,
 };
 
 function mapStateToProps(state, props) {
@@ -318,7 +336,7 @@ function mapDispatchToProps(dispatch) {
   return {
     addSearchFilter: (filter) => dispatch(addSearchFilter(filter)),
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
-    setSearchResults: (filter) => dispatch(setSearchResults(filter)),
+    setSearchResults: (response) => dispatch(setSearchResults(response)),
     setLoading: () => dispatch(setLoading()),
     dispatch,
   };
