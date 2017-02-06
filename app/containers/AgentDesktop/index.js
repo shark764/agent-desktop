@@ -4,9 +4,7 @@
  *
  */
 
-// TODO get that working
-// import '../../../node_modules/cxengage-js-sdk/release/cxengage-js-sdk.min';
-import '../../assets/js/cxengagesdk';
+import '../../../node_modules/cxengage-javascript-sdk/release/cxengage-javascript-sdk.min';
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
@@ -68,14 +66,22 @@ export class AgentDesktop extends React.Component {
     SDK.subscribe('cxengage', (error, topic, response) => {
       if (error) {
         console.error('Pub sub error', topic, error); // eslint-disable-line no-console
+        return;
       }
-      console.log('[AgentDesktop] SDK.subscribe()', topic, response);
       switch (topic) {
+        case 'cxengage/session/started': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          SDK.contacts.listAttributes();
+          SDK.contacts.listLayouts();
+          break;
+        }
         case 'cxengage/session/state-changed': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setPresence(response);
           break;
         }
         case 'cxengage/interactions/work-offer': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.addInteraction(response);
           // WARNING - MUCH MOCKERY
           if (response.channelType === 'voice') {
@@ -85,54 +91,65 @@ export class AgentDesktop extends React.Component {
           break;
         }
         case 'cxengage/messaging/history': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setMessageHistory(response);
           break;
         }
         case 'cxengage/interactions/work-accepted': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setInteractionStatus(response.interactionId, 'work-accepted');
           break;
         }
         case 'cxengage/interactions/work-rejected':
         case 'cxengage/interactions/work-ended': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.removeInteraction(response.interactionId);
           break;
         }
         case 'cxengage/messaging/new-message-received': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.addMessage(response);
           break;
         }
         case 'cxengage/voice/mute-started': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.muteCall(response.interactionId);
           break;
         }
         case 'cxengage/voice/mute-ended': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.unmuteCall(response.interactionId);
           break;
         }
         case 'cxengage/voice/hold-started': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.holdCall(response.interactionId);
           break;
         }
         case 'cxengage/voice/hold-ended': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.resumeCall(response.interactionId);
           break;
         }
         case 'cxengage/voice/recording-started': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.recordCall(response.interactionId);
           break;
         }
         case 'cxengage/voice/recording-ended': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.stopRecordCall(response.interactionId);
           break;
         }
-        // Igonore these pubsubs
+        // Igonore these pubsubs. They are unneeded or handled elsewhere.
         case 'cxengage/authentication/login': // Handled in Login component
         case 'cxengage/session/active-tenant-set': // Handled in Login component
-        case 'cxengage/session/started': // Not needed
         case 'cxengage/interactions/accept-response': // Using cxengage/interactions/work-accepted instead
         case 'cxengage/interactions/end-response': // Using cxengage/interactions/work-ended instead
         case 'cxengage/messaging/send-message-response': // Using cxengage/messaging/new-message-received instead
         case 'cxengage/voice/phone-controls-response': // Using mute-started, mute-ended, etc. instead
+        case 'cxengage/contacts/list-attributes-response': // Handled in SidePanel
+        case 'cxengage/contacts/list-layouts-response': // Handled in SidePanel
           break;
         default: {
           console.warn('AGENT DESKTOP: No pub sub for', error, topic, response); // eslint-disable-line no-console
@@ -240,11 +257,7 @@ export class AgentDesktop extends React.Component {
                   style={[this.styles.flexChildGrow, this.styles.toolbar]}
                 />
               </div>
-              {this.props.agentDesktop.selectedInteractionId !== undefined ?
-                <SidePanel style={this.styles.topArea} collapsedPx={this.collapsedContactsPanelPx} openPx={this.state.contactsPanelPx} isCollapsed={this.state.isContactsPanelCollapsed} collapsePanel={this.collapseContactsPanel} showPanel={this.showContactsPanel} />
-                :
-                ''
-              }
+              <SidePanel style={this.styles.topArea} collapsedPx={this.collapsedContactsPanelPx} openPx={this.state.contactsPanelPx} isCollapsed={this.state.isContactsPanelCollapsed} collapsePanel={this.collapseContactsPanel} showPanel={this.showContactsPanel} />
             </span>
         }
       </div>
