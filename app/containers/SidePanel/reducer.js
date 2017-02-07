@@ -15,16 +15,21 @@ const initialState = fromJS({
   compactLayoutAttributes: [
     // 'mobile', 'email', 'address1'
   ],
-  contactLayoutSections: [],
+  contactLayout: undefined,
   contactAttributes: [],
 });
 
 function sidePanelReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CONTACT_LAYOUT:
-      return state.set('contactLayoutSections', action.layout);
+      if (action.layout.length === 0) {
+        throw new Error('No contact layout found for this tenant');
+      } else if (action.layout.length > 1) {
+        console.warn('More than one layout found. Only using first one.');
+      }
+      return state.set('contactLayout', fromJS(action.layout[0]));
     case SET_CONTACT_ATTRIBUTES:
-      return state.set('contactAttributes', action.attributes);
+      return state.set('contactAttributes', fromJS(action.attributes));
     default:
       return state;
   }

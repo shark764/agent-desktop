@@ -9,7 +9,7 @@ import Radium from 'radium';
 
 import Contact from 'containers/Contact';
 
-export class ContactSearchResult extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class ContactSearchResult extends React.Component {
 
   constructor() {
     super();
@@ -32,32 +32,7 @@ export class ContactSearchResult extends React.Component { // eslint-disable-lin
       flexDirection: 'column',
       alignContent: 'stretch',
     },
-    header: {
-      borderBottom: '1px solid #E4E4E4',
-      paddingBottom: '12px',
-      flexGrow: '1',
-      flexShrink: '1',
-      display: 'flex',
-      justifyContent: 'space-between',
-    },
-    title: {
-      fontWeight: 'bold',
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      flexShrink: '1',
-    },
-    subTitle: {
-      color: '#979797',
-      fontSize: '14px',
-      flexShrink: '1',
-    },
-    headerRight: {
-      alignSelf: 'flex-end',
-      flexShrink: '1',
-    },
     contact: {
-      marginTop: '12px',
       marginBottom: '5px',
       overflowY: 'hidden',
     },
@@ -78,21 +53,11 @@ export class ContactSearchResult extends React.Component { // eslint-disable-lin
       fontSize: '18px',
       color: '#979797',
     },
-    titlesWrapper: {
-      display: 'flex',
-      flexDirection: 'column',
-      flexShrink: '1',
-    },
   };
 
   render() {
     return (
       <div style={[this.styles.base, this.props.style]}>
-        <div style={this.styles.header}>
-          <div style={this.styles.titlesWrapper}>
-            <div style={this.styles.title}>{this.props.contact.attributes.name}</div>
-          </div>
-        </div>
         <Contact contactAttributes={this.props.contact.attributes} style={[this.styles.contact]} showCompactView={!this.state.expanded} ></Contact>
         <div onClick={() => this.setState({ expanded: !this.state.expanded })} style={this.styles.expandToggle} >
           <span style={this.styles.ellip}>...</span>

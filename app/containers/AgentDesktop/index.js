@@ -150,6 +150,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/voice/phone-controls-response': // Using mute-started, mute-ended, etc. instead
         case 'cxengage/contacts/list-attributes-response': // Handled in SidePanel
         case 'cxengage/contacts/list-layouts-response': // Handled in SidePanel
+        case 'cxengage/contacts/search-response': // Handled in ContactsControl
           break;
         default: {
           console.warn('AGENT DESKTOP: No pub sub for', error, topic, response); // eslint-disable-line no-console
