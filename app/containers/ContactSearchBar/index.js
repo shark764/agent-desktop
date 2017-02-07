@@ -7,16 +7,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Radium from 'radium';
+import { injectIntl } from 'react-intl';
 import Autocomplete from 'react-autocomplete';
 
-import { selectQuery } from './selectors';
+import { selectQuery, selectSearchableAttributes } from './selectors';
 
 import search from 'assets/icons/search.png';
 
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 
-export class ContactSearchBar extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class ContactSearchBar extends React.Component {
   constructor(props) {
     super(props);
 
@@ -34,6 +35,8 @@ export class ContactSearchBar extends React.Component { // eslint-disable-line r
     this.handleFilterSelect = this.handleFilterSelect.bind(this);
     this.createDropdownItem = this.createDropdownItem.bind(this);
     this.resizeFilterDropdownMenu = this.resizeFilterDropdownMenu.bind(this);
+    this.matchFilterToTerm = this.matchFilterToTerm.bind(this);
+    this.getItemValue = this.getItemValue.bind(this);
   }
 
   componentDidMount() {
@@ -45,11 +48,16 @@ export class ContactSearchBar extends React.Component { // eslint-disable-line r
   }
 
   getAvailableFilters() {
-    return this.allFilters.filter(
-      (possibleFilter) => this.props.query.findIndex(
-        (searchFilter) => searchFilter.full === possibleFilter.full
-      ) === -1
-    );
+    if (this.props.query.length && this.props.query[0].id === 'all') {
+      // Don't show other filters when 'all' is selected
+      return [];
+    } else {
+      return this.props.searchableAttributes.filter(
+        (possibleFilter) => this.props.query.findIndex(
+          (searchFilter) => searchFilter.label[this.props.intl.locale] === possibleFilter.label[this.props.intl.locale]
+        ) === -1
+      );
+    }
   }
 
   setSearchTerm(searchTerm) {
@@ -57,7 +65,7 @@ export class ContactSearchBar extends React.Component { // eslint-disable-line r
   }
 
   getItemValue(item) {
-    return item.full;
+    return item.label[this.props.intl.locale];
   }
 
   resizeFilterDropdownMenu() {
@@ -96,44 +104,11 @@ export class ContactSearchBar extends React.Component { // eslint-disable-line r
   createDropdownItem(item, isHighlighted) {
     return (
       <div
-        key={item.short}
+        key={item.id}
         style={Object.assign({}, this.styles.filterDropdownRow, isHighlighted ? this.styles.highlightedFilter : {})}
-      >{item.full}</div>
+      >{item.label[this.props.intl.locale]}</div>
     );
   }
-
-  allFilters = [
-    {
-      short: 'Name',
-      full: 'Name',
-      sdkName: 'name',
-    },
-    {
-      short: 'Email',
-      full: 'Email Address',
-      sdkName: 'email',
-    },
-    {
-      short: 'Address',
-      full: 'Mailing Address',
-      sdkName: 'address',
-    },
-    {
-      short: 'Phone',
-      full: 'Phone Number',
-      sdkName: 'phone',
-    },
-    {
-      short: 'Org',
-      full: 'Organization',
-      sdkName: 'organization',
-    },
-    {
-      short: 'Cust #',
-      full: 'Customer Number',
-      sdkName: 'customer',
-    },
-  ];
 
   styles = {
     base: {
@@ -221,15 +196,14 @@ export class ContactSearchBar extends React.Component { // eslint-disable-line r
 
   handleFilterSelect(itemFull) {
     this.setState({
-      pendingFilter: this.allFilters.find((filter) => filter.full === itemFull),
+      pendingFilter: this.props.searchableAttributes.find((filter) => filter.label[this.props.intl.locale] === itemFull),
       autoCompleteValue: '',
     });
   }
 
   matchFilterToTerm(state, value) {
     return (
-      state.short.toLowerCase().indexOf(value.toLowerCase()) !== -1 ||
-      state.full.toLowerCase().indexOf(value.toLowerCase()) !== -1
+      state.label[this.props.intl.locale].toLowerCase().indexOf(value.toLowerCase()) !== -1
     );
   }
 
@@ -240,7 +214,7 @@ export class ContactSearchBar extends React.Component { // eslint-disable-line r
           {
             this.state.pendingFilter ?
               <span style={this.styles.inputWrapper}>
-                <span style={this.styles.filterName}>{`${this.state.pendingFilter.short}:`}&nbsp;</span>
+                <span style={this.styles.filterName}>{`${this.state.pendingFilter.label[this.props.intl.locale]}:`}&nbsp;</span>
                 <TextInput id="search-filter-input" noBorder autoFocus onKeyDown={this.handleFilterValueInputKey} style={[this.styles.input, this.styles.pendingFilterInput]} cb={(pendingFilterValue) => this.setState({ pendingFilterValue })} value={this.state.pendingFilterValue} />
               </span>
             :
@@ -267,15 +241,18 @@ export class ContactSearchBar extends React.Component { // eslint-disable-line r
 }
 
 ContactSearchBar.propTypes = {
+  intl: React.PropTypes.object.isRequired,
   addFilter: React.PropTypes.func.isRequired,
   setNotSearching: React.PropTypes.func.isRequired,
   query: React.PropTypes.array,
+  searchableAttributes: React.PropTypes.array,
   style: React.PropTypes.object,
   resultsCount: React.PropTypes.number,
 };
 
 const mapStateToProps = (state, props) => ({
   query: selectQuery(state, props),
+  searchableAttributes: selectSearchableAttributes(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -284,4 +261,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(ContactSearchBar));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactSearchBar)));

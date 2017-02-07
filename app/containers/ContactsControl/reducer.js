@@ -21,10 +21,14 @@ const initialState = fromJS({
 function contactsControlReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_SEARCH_FILTER: {
-      return state.update('query', (query) => query.push(action.filter)).set('results', undefined);
+      if (action.filter.id !== 'all') {
+        return state.update('query', (query) => query.push(fromJS(action.filter))).set('results', undefined);
+      } else {
+        return state.set('query', fromJS([action.filter])).set('results', undefined);
+      }
     }
     case REMOVE_SEARCH_FILTER: {
-      return state.update('query', (query) => query.filter((filter) => filter.value !== action.filter.value || filter.sdkName !== action.filter.sdkName)).set('results', undefined);
+      return state.update('query', (query) => query.filter((filter) => filter.get('id') !== action.filter.id)).set('results', undefined);
     }
     case SET_SEARCH_RESULTS: {
       return state.set('results', fromJS(action.response.results)).set('loading', false);
