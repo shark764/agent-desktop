@@ -49,6 +49,7 @@ export class ContactsControl extends React.Component {
 
   componentDidMount() {
     SDK.subscribe('cxengage/contacts/search-response', (error, topic, response) => {
+      console.log('[ContactsControl] SDK.subscribe()', topic, response);
       this.props.setSearchResults(response);
     });
   }
@@ -139,20 +140,7 @@ export class ContactsControl extends React.Component {
     this.props.query.forEach((queryItem) => {
       sdkQuery[queryItem.sdkName] = queryItem.value;
     });
-    console.log('sdkQuery', sdkQuery);
-    SDK.contacts.searchContacts({ query: sdkQuery });
-
-    // XXX STRAIGHT MOCKIN'
-    // if (this.props.query[0].sdkName === 'name') {
-    //   this.props.setSearchResults([mockContact(this.props.query[0].sdkName, this.props.query[0].value), mockContact(this.props.query[0].sdkName, this.props.query[0].value), mockContact(this.props.query[0].sdkName, this.props.query[0].value)]);
-    // } else if (this.props.query[0].sdkName !== 'email') {
-    //   this.props.setSearchResults([mockContact(this.props.query[0].sdkName, this.props.query[0].value)]);
-    // } else {
-    //   this.props.setSearchResults([]);
-    // }
-    // STRAIGHT MOCKIN'
-
-    // TODO ?
+    SDK.contacts.search({ query: sdkQuery });
     this.props.setLoading();
   }
 

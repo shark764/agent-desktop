@@ -12,41 +12,50 @@ const selectSidePanelDomain = (state) => state.get('sidePanel');
 
 const selectLayout = createSelector(
   selectSidePanelDomain,
-  (sidePanel) => sidePanel.get('contactLayoutSections')
+  (sidePanel) => sidePanel.get('contactLayout')
 );
 const selectAttributes = createSelector(
   selectSidePanelDomain,
   (sidePanel) => sidePanel.get('contactAttributes')
 );
-const selectCompactLayoutAttributes = createSelector(
+const selectCompactLayoutSection = createSelector(
   selectSidePanelDomain,
-  (sidePanel) => sidePanel.get('compactLayoutAttributes')
+  (sidePanel) => sidePanel.get('contactLayout').get('layout').get(0).toJS()
 );
 const selectPopulatedLayout = createSelector(
   [selectLayout, selectAttributes],
   (layout, attributes) =>
-    layout.toJS().map(
-      (section) => Object.assign(section, {
-        attributes: section.attributes.map(
-          (attributeId) => attributes.find((attribute) => attribute.get('id') === attributeId).toJS()
-        ),
+    layout.get('layout').toJS().map((section) =>
+      Object.assign(section, {
+        attributes: section.attributes.map((attributeId) => {
+          const mappedAttribute = attributes.find((attribute) =>
+            attribute.get('id') === attributeId
+          );
+          if (mappedAttribute !== undefined) {
+            return mappedAttribute.toJS();
+          } else {
+            throw new Error('Could not map attribute');
+          }
+        }),
       })
     )
 );
 
 const selectPopulatedCompactAttributes = createSelector(
-  [selectAttributes, selectCompactLayoutAttributes],
-  (attributes, compactLayoutAttributes) =>
-    compactLayoutAttributes.map(
-      (objectName) =>
-        attributes.find(
-          (attribute) =>
-          attribute.get('objectName') === objectName
-        )
-    ).toJS().filter(
-      (attribute) =>
-      typeof attribute !== 'string'
-    )
+  [selectCompactLayoutSection, selectAttributes],
+  (section, attributes) =>
+    Object.assign(section, {
+      attributes: section.attributes.map((attributeId) => {
+        const mappedAttribute = attributes.find((attribute) =>
+          attribute.get('id') === attributeId
+        );
+        if (mappedAttribute !== undefined) {
+          return mappedAttribute.toJS();
+        } else {
+          throw new Error('Could not map attribute');
+        }
+      }),
+    })
 );
 
 

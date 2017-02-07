@@ -30,6 +30,7 @@ export class Contact extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputClear = this.handleInputClear.bind(this);
     this.cancel = this.cancel.bind(this);
+    this.getHeader = this.getHeader.bind(this);
   }
 
   getAttributeValueDisplay(attribute) {
@@ -111,7 +112,7 @@ export class Contact extends React.Component {
 
   getSection(section) {
     return (
-      <div style={this.styles.section} key={section.label.en}>
+      <div style={this.styles.section} key={section.label[this.props.intl.locale]}>
         {this.getSectionHeading(section)}
         {section.attributes.map(this.getAttributeRow)}
       </div>
@@ -135,7 +136,6 @@ export class Contact extends React.Component {
       color: '#4B4B4B',
       fontSize: '14px',
       lineHeight: '20px',
-      marginTop: '36px',
     },
     section: {
       marginBottom: '28px',
@@ -208,6 +208,28 @@ export class Contact extends React.Component {
         backgroundColor: '',
       },
     },
+    header: {
+      borderBottom: '1px solid #E4E4E4',
+      paddingBottom: '12px',
+      marginBottom: '12px',
+      flexGrow: '1',
+      flexShrink: '1',
+      display: 'flex',
+      justifyContent: 'space-between',
+    },
+    titlesWrapper: {
+      display: 'flex',
+      flexDirection: 'column',
+      flexShrink: '1',
+    },
+    title: {
+      fontSize: '16px',
+      fontWeight: 'bold',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      flexShrink: '1',
+    },
   };
 
   cancel(event) {
@@ -215,14 +237,31 @@ export class Contact extends React.Component {
     this.props.cancel();
   }
 
+  getHeader() {
+    return this.getAttributeValueDisplay(this.props.compactLayoutAttributes.attributes[0]);
+  }
+
   getEditView() {
     return this.props.layoutSections.map(this.getSection);
   }
 
   getDisplayView() {
-    return this.props.showCompactView
-      ? this.props.compactLayoutAttributes.map(this.getAttributeRow)
-      : this.props.layoutSections.map(this.getSection);
+    return (
+      <div>
+        <div style={this.styles.header}>
+          <div style={this.styles.titlesWrapper}>
+            <div style={this.styles.title}>
+              { this.getHeader() }
+            </div>
+          </div>
+        </div>
+        { this.props.showCompactView
+          // Skip the first attribute for compact view; we're displaying it in the header
+          ? this.props.compactLayoutAttributes.attributes.filter((element, index) => index !== 0).map(this.getAttributeRow)
+          : this.props.layoutSections.map(this.getSection)
+        }
+      </div>
+    );
   }
 
   handleInputClear(event) {
@@ -281,7 +320,7 @@ function mapDispatchToProps(dispatch) {
 
 Contact.propTypes = {
   showCompactView: PropTypes.bool,
-  compactLayoutAttributes: PropTypes.array,
+  compactLayoutAttributes: PropTypes.object,
   layoutSections: PropTypes.array,
   contactAttributes: PropTypes.object,
   isEditing: PropTypes.bool,

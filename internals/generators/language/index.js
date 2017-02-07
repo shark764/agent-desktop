@@ -8,14 +8,13 @@ module.exports = {
   prompts: [{
     type: 'input',
     name: 'language',
-    message: 'What is the language you want to add i18n support for (e.g. "fr", "de")?',
-    default: 'fr',
+    message: 'What is the language you want to add i18n support for (e.g. "fr-FR", "en-US")?',
+    default: 'fr-FR',
     validate: (value) => {
-      if ((/.+/).test(value) && value.length === 2) {
+      if ((/.+/).test(value) && value.length === 5) {
         return true;
       }
-
-      return '2 character language specifier is required';
+      return '5 character language specifier is required';
     },
   }],
 

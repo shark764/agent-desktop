@@ -258,7 +258,7 @@ export class ContactSearchBar extends React.Component { // eslint-disable-line r
                 menuStyle={{ ...this.styles.filterDropdown, width: `${this.state.filterMenuWidth}px` }}
               />
           }
-          { this.props.resultsCount > -1 ? <div style={this.styles.resultsCount}>{`${this.props.resultsCount} Results`}</div> : '' }
+          { this.props.resultsCount > -1 ? <div style={this.styles.resultsCount}>{`${this.props.resultsCount} Result(s)`}</div> : '' }
         </div>
         <Button id="exit-search-btn" style={this.styles.closeButton} iconName="close" type="secondary" onClick={this.props.setNotSearching} />
       </div>
