@@ -83,7 +83,7 @@ export class ContactsControl extends React.Component {
       <div style={this.styles.controlHeader}>
         <ContactSearchBar resultsCount={this.props.results ? this.props.results.length : -1} addFilter={this.props.addSearchFilter} setNotSearching={this.setViewing} style={this.styles.contactSearchBar} />
         <div style={this.styles.filtersWrapper}>
-          { this.props.query.map((filter) => <Filter key={filter.sdkName} filter={filter} remove={this.props.removeSearchFilter} style={this.styles.filter} />) }
+          { this.props.query.map((filter) => <Filter key={filter.id} filter={filter} remove={this.props.removeSearchFilter} style={this.styles.filter} />) }
         </div>
       </div>
     );
@@ -138,7 +138,7 @@ export class ContactsControl extends React.Component {
   beginSearch() {
     const sdkQuery = {};
     this.props.query.forEach((queryItem) => {
-      sdkQuery[queryItem.sdkName] = queryItem.value;
+      sdkQuery[queryItem.objectName] = queryItem.value;
     });
     SDK.contacts.search({ query: sdkQuery });
     this.props.setLoading();

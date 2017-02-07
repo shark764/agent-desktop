@@ -5,12 +5,12 @@
 */
 
 import React from 'react';
-
 import Radium from 'radium';
+import { injectIntl } from 'react-intl';
 
 import Icon from 'components/Icon';
 
-class Filter extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class Filter extends React.PureComponent {
   styles = {
     base: {
       background: '#DEF8FE',
@@ -37,7 +37,7 @@ class Filter extends React.PureComponent { // eslint-disable-line react/prefer-s
   render() {
     return (
       <div key={this.props.filter.full} style={[this.styles.base, this.props.style]}>
-        <span style={this.styles.filterName}>{`${this.props.filter.short}:`}&nbsp;</span>
+        <span style={this.styles.filterName}>{`${this.props.filter.label[this.props.intl.locale]}:`}&nbsp;</span>
         <span style={this.styles.valueText}>{this.props.filter.value}</span>
         <Icon name="close" onclick={() => this.props.remove(this.props.filter)} style={this.styles.deleteFilterIcon}></Icon>
       </div>
@@ -46,9 +46,10 @@ class Filter extends React.PureComponent { // eslint-disable-line react/prefer-s
 }
 
 Filter.propTypes = {
+  intl: React.PropTypes.object.isRequired,
   filter: React.PropTypes.object.isRequired,
   remove: React.PropTypes.func.isRequired,
   style: React.PropTypes.object,
 };
 
-export default Radium(Filter);
+export default injectIntl(Radium(Filter));
