@@ -45,6 +45,7 @@ export class ContactsControl extends React.Component {
     this.getViewControlHeader = this.getViewControlHeader.bind(this);
     this.getSearchControlHeader = this.getSearchControlHeader.bind(this);
     this.getHeader = this.getHeader.bind(this);
+    this.createContact = this.createContact.bind(this);
   }
 
   componentDidMount() {
@@ -128,7 +129,7 @@ export class ContactsControl extends React.Component {
       case 'view':
         return this.renderContactView();
       case 'creating':
-        return <Contact save={this.save} cancel={this.setSearching} style={this.styles.mainContact} contactAttributes={this.state.tempContact ? this.state.tempContact.attributes : {}} isEditing />;
+        return <Contact save={this.createContact} cancel={this.setSearching} style={this.styles.mainContact} contactAttributes={this.state.tempContact ? this.state.tempContact.attributes : {}} isEditing />;
       case 'search':
       default:
         return this.renderResults();
@@ -189,6 +190,7 @@ export class ContactsControl extends React.Component {
       justifyContent: 'center',
     },
     mainContact: {
+      marginTop: '8px',
       alignSelf: 'stretch',
       flexGrow: '1',
       flexShrink: '0',
@@ -249,8 +251,9 @@ export class ContactsControl extends React.Component {
     },
   };
 
-  save(formData) {
-    console.log('save', formData);
+  createContact(contact) {
+    SDK.contacts.create(contact);
+    this.setViewing();
   }
 
   renderResults() {

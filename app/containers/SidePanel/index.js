@@ -159,7 +159,7 @@ export class SidePanel extends React.Component {
               <Tab>Reference</Tab>
             </TabList>
             <TabPanel>
-              <ContactsControl></ContactsControl>
+              <ContactsControl assignContact={this.props.assignContact}></ContactsControl>
             </TabPanel>
             <TabPanel>
               <h2>History</h2>
@@ -205,6 +205,7 @@ SidePanel.propTypes = {
   selectedInteractionId: PropTypes.string,
   setContactLayout: PropTypes.func.isRequired,
   setContactAttributes: PropTypes.func.isRequired,
+  assignContact: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(SidePanel));

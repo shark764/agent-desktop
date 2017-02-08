@@ -136,7 +136,7 @@ export class Login extends React.Component {
         <Button id={messages.signInButton.id} type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.signInButton} onClick={() => this.onLogin()} />
         <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
         {this.state.error
-          ? <span style={[this.styles.error]}>
+          ? <span id={messages.error.id} style={[this.styles.error]}>
             <FormattedMessage style={this.styles.center} {...messages.error} />
           </span>
           : ''
