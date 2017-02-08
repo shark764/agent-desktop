@@ -9,11 +9,10 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import Radium from 'radium';
+import InfiniteScroll from 'react-infinite-scroller';
 
-// XXX remove the file too
-// import mockContact from 'utils/mocking';
 import selectContactsControl, { selectSelectedInteraction } from './selectors';
-import { addSearchFilter, removeSearchFilter, setSearchResults, setLoading } from './actions';
+import { addSearchFilter, removeSearchFilter, setSearchResults } from './actions';
 
 import Button from 'components/Button';
 import Filter from 'components/Filter';
@@ -37,7 +36,7 @@ export class ContactsControl extends React.Component {
     this.setSearching = this.setSearching.bind(this);
     this.setViewing = this.setViewing.bind(this);
     this.setSearching = this.setSearching.bind(this);
-    this.beginSearch = this.beginSearch.bind(this);
+    this.searchContacts = this.searchContacts.bind(this);
     this.renderResults = this.renderResults.bind(this);
     this.renderContactView = this.renderContactView.bind(this);
     this.setCreating = this.setCreating.bind(this);
@@ -53,12 +52,6 @@ export class ContactsControl extends React.Component {
       console.log('[ContactsControl] SDK.subscribe()', topic, response);
       this.props.setSearchResults(response);
     });
-  }
-
-  componentDidUpdate() {
-    if (this.props.query.length && !this.props.results && !this.props.loading) {
-      this.beginSearch();
-    }
   }
 
   setSearching() {
@@ -82,7 +75,7 @@ export class ContactsControl extends React.Component {
   getSearchControlHeader() {
     return (
       <div style={this.styles.controlHeader}>
-        <ContactSearchBar resultsCount={this.props.results ? this.props.results.length : -1} addFilter={this.props.addSearchFilter} setNotSearching={this.setViewing} style={this.styles.contactSearchBar} />
+        <ContactSearchBar resultsCount={this.props.resultsCount !== undefined ? this.props.resultsCount : -1} addFilter={this.props.addSearchFilter} setNotSearching={this.setViewing} style={this.styles.contactSearchBar} />
         <div style={this.styles.filtersWrapper}>
           { this.props.query.map((filter) => <Filter key={filter.id} filter={filter} remove={this.props.removeSearchFilter} style={this.styles.filter} />) }
         </div>
@@ -136,13 +129,13 @@ export class ContactsControl extends React.Component {
     }
   }
 
-  beginSearch() {
+  searchContacts() {
     const sdkQuery = {};
     this.props.query.forEach((queryItem) => {
       sdkQuery[queryItem.objectName] = queryItem.value;
     });
+    sdkQuery.page = this.props.nextPage;
     SDK.contacts.search({ query: sdkQuery });
-    this.props.setLoading();
   }
 
   styles = {
@@ -258,10 +251,18 @@ export class ContactsControl extends React.Component {
 
   renderResults() {
     let results;
-    if (this.props.results && this.props.results.length) {
-      results = this.props.results.map((contact) => <ContactSearchResult style={this.styles.contactResult} key={contact.id} contact={contact} />);
-    } else if (this.props.loading) {
-      results = 'Loading...';
+    if (this.props.query.length) {
+      const resultsMapped = this.props.results.map((contact) => <ContactSearchResult style={this.styles.contactResult} key={contact.id} contact={contact} />);
+      results = (
+        <InfiniteScroll
+          loadMore={this.searchContacts}
+          hasMore={this.props.resultsCount === undefined || this.props.results.length < this.props.resultsCount}
+          loader={<div className="loader"><FormattedMessage {...messages.loading} /></div>}
+          useWindow={false}
+        >
+          { resultsMapped }
+        </InfiniteScroll>
+      );
     } else {
       results = (
         <div id="results-placeholder" style={this.styles.resultsPlaceholder}>
@@ -307,12 +308,12 @@ ContactsControl.propTypes = {
   style: React.PropTypes.object,
   key: React.PropTypes.any,
   query: React.PropTypes.array,
-  loading: React.PropTypes.bool,
+  nextPage: React.PropTypes.number,
+  resultsCount: React.PropTypes.number,
   results: React.PropTypes.any,
   addSearchFilter: React.PropTypes.func,
   removeSearchFilter: React.PropTypes.func,
   setSearchResults: React.PropTypes.func,
-  setLoading: React.PropTypes.func,
   selectedInteraction: React.PropTypes.object,
 };
 
@@ -328,7 +329,6 @@ function mapDispatchToProps(dispatch) {
     addSearchFilter: (filter) => dispatch(addSearchFilter(filter)),
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
     setSearchResults: (response) => dispatch(setSearchResults(response)),
-    setLoading: () => dispatch(setLoading()),
     dispatch,
   };
 }

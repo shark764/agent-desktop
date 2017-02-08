@@ -26,4 +26,8 @@ export default defineMessages({
     id: 'app.containers.ContactControl.or',
     defaultMessage: 'OR',
   },
+  loading: {
+    id: 'app.containers.ContactControl.loading',
+    defaultMessage: 'Loading...',
+  },
 });
