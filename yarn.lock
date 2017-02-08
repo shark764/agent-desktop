@@ -2473,6 +2473,14 @@ draft-js-utils@^0.1.5:
   version "0.1.7"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/draft-js-utils/-/draft-js-utils-0.1.7.tgz#e2b6927ca620edf1855a4bfc1cf1d21080a70f16"
 
+draft-js@^0.10.0:
+  version "0.10.0"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/draft-js/-/draft-js-0.10.0.tgz#29d16191012b932fdab28a9b37ec1538f421abf6"
+  dependencies:
+    fbjs "^0.8.7"
+    immutable "~3.7.4"
+    object-assign "^4.1.0"
+
 draft-js@^0.9.0:
   version "0.9.1"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/draft-js/-/draft-js-0.9.1.tgz#940a51a0ad1fede0411676b6404f4050495f54f9"
@@ -3137,7 +3145,7 @@ fbjs@0.1.0-alpha.10:
     promise "^7.0.3"
     whatwg-fetch "^0.9.0"
 
-fbjs@^0.8.1, fbjs@^0.8.3, fbjs@^0.8.4, fbjs@^0.8.5, fbjs@^0.8.8:
+fbjs@^0.8.1, fbjs@^0.8.3, fbjs@^0.8.4, fbjs@^0.8.5, fbjs@^0.8.7, fbjs@^0.8.8:
   version "0.8.8"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/fbjs/-/fbjs-0.8.8.tgz#02f1b6e0ea0d46c24e0b51a2d24df069563a5ad6"
   dependencies:
@@ -6683,6 +6691,10 @@ react-helmet@3.1.0:
     react-side-effect "1.0.2"
     shallowequal "0.2.2"
     warning "2.1.0"
+
+"react-infinite-scroller@https://github.com/liveops/react-infinite-scroller":
+  version "1.0.5"
+  resolved "https://github.com/liveops/react-infinite-scroller#e16e44e2f0ca94d4a1e412b643c01cfdd9cbaba2"
 
 react-input-autosize@^1.1.0:
   version "1.1.0"

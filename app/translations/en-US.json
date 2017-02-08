@@ -22,6 +22,7 @@
   "app.containers.Contact.warningNew": "Abandon Record Creation?",
   "app.containers.ContactControl.edit": "Edit",
   "app.containers.ContactControl.filtersList": "(name, email address, mailing address, phone number, organization, customer number)",
+  "app.containers.ContactControl.loading": "Loading...",
   "app.containers.ContactControl.newRecord": "Create New Record",
   "app.containers.ContactControl.or": "OR",
   "app.containers.ContactControl.searchCRM": "Search the CRM database",
