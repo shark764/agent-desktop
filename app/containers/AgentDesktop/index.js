@@ -141,6 +141,11 @@ export class AgentDesktop extends React.Component {
           this.props.stopRecordCall(response.interactionId);
           break;
         }
+        case 'cxengage/contacts/create-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.assignContact(this.props.agentDesktop.selectedInteractionId, response);
+          break;
+        }
         // Igonore these pubsubs. They are unneeded or handled elsewhere.
         case 'cxengage/authentication/login': // Handled in Login component
         case 'cxengage/session/active-tenant-set': // Handled in Login component
@@ -241,7 +246,7 @@ export class AgentDesktop extends React.Component {
                     <PhoneControls style={[this.styles.phoneControls]} />
                     <InteractionsBar acceptInteraction={this.acceptInteraction} setInteractionStatus={this.props.setInteractionStatus} selectInteraction={this.selectInteraction} style={[this.styles.interactionsBar]} />
                   </div>
-                  <MainContentArea emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} style={[this.styles.flexChildGrow, this.styles.bottomBorder]} />
+                  <MainContentArea emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} style={[this.styles.flexChildGrow]} />
                   {
                     (this.props.agentDesktop.selectedInteractionId !== undefined) ?
                       <Resizable id="crm-resizable" direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={window.innerWidth - 827} minPx={430} isDisabled={this.state.isContactsPanelCollapsed} style={this.styles.topArea} >
@@ -258,7 +263,15 @@ export class AgentDesktop extends React.Component {
                   style={[this.styles.flexChildGrow, this.styles.toolbar]}
                 />
               </div>
-              <SidePanel style={this.styles.topArea} collapsedPx={this.collapsedContactsPanelPx} openPx={this.state.contactsPanelPx} isCollapsed={this.state.isContactsPanelCollapsed} collapsePanel={this.collapseContactsPanel} showPanel={this.showContactsPanel} />
+              <SidePanel
+                style={this.styles.topArea}
+                collapsedPx={this.collapsedContactsPanelPx}
+                openPx={this.state.contactsPanelPx}
+                isCollapsed={this.state.isContactsPanelCollapsed}
+                collapsePanel={this.collapseContactsPanel}
+                showPanel={this.showContactsPanel}
+                assignContact={this.props.assignContact}
+              />
             </span>
         }
       </div>

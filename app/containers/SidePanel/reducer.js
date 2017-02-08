@@ -11,10 +11,6 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  // XXX ?
-  compactLayoutAttributes: [
-    // 'mobile', 'email', 'address1'
-  ],
   contactLayout: undefined,
   contactAttributes: [],
 });

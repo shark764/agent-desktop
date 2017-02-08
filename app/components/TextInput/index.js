@@ -50,6 +50,7 @@ function TextInput(props) {
   return (
     <input
       id={props.id}
+      tabIndex={props.tabIndex}
       name={props.name}
       style={[styles.base, props.style]}
       type={props.type || 'text'}
@@ -60,6 +61,7 @@ function TextInput(props) {
       onKeyUp={props.onKeyUp || ''}
       onKeyDown={props.onKeyDown || ''}
       autoFocus={props.autoFocus}
+      onBlur={props.onBlur}
     />
   );
 }
@@ -69,15 +71,21 @@ TextInput.propTypes = {
   placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.object]), // eslint-disable-line react/no-unused-prop-types
   cb: PropTypes.func.isRequired,
   autocomplete: PropTypes.string,
+  tabIndex: PropTypes.number,
   name: PropTypes.string,
   value: PropTypes.string.isRequired,
   style: PropTypes.object,
   type: PropTypes.string,
   onKeyUp: PropTypes.func,
   onKeyDown: PropTypes.func,
+  onBlur: PropTypes.func,
   autoFocus: PropTypes.bool,
   id: PropTypes.string.isRequired,
   noBorder: PropTypes.bool,
+};
+
+TextInput.defaultProps = {
+  tabIndex: 0,
 };
 
 export default injectIntl(Radium(TextInput));

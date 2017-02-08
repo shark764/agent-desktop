@@ -14,6 +14,7 @@ function Button(props) {
   let backgroundColor;
   let backgroundColorHover;
   let backgroundColorActive;
+  let focusBorder;
   let boxSizing;
   let width;
   let height;
@@ -47,10 +48,19 @@ function Button(props) {
     backgroundColor = '#FFFFFF';
     backgroundColorHover = '#F3F3F3';
     backgroundColorActive = '#E4E4E4';
+    focusBorder = {
+      boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
+      border: 'solid 1px #23CEF5',
+    };
     border = '1px solid #979797';
     color = '#4B4B4B';
     fontWeight = '';
     borderRadius = '2px';
+    if (props.disabled) {
+      border = '1px solid #C5C5C5';
+      cursor = 'default';
+      color = '#C5C5C5';
+    }
   }
   if (isIcon) {
     boxSizing = 'borderBox';
@@ -88,6 +98,9 @@ function Button(props) {
     if (style.borderTop || style.borderRight || style.borderBottom || style.borderLeft) {
       border = undefined;
     }
+    if (style[':focus']) {
+      focusBorder = undefined;
+    }
   }
 
   if (Array.isArray(props.style)) {
@@ -102,6 +115,10 @@ function Button(props) {
     styles.base.border = border;
   }
 
+  if (focusBorder) {
+    styles.base[':focus'] = focusBorder;
+  }
+
   let inner;
 
   if (isIcon) {
@@ -113,7 +130,7 @@ function Button(props) {
   }
 
   return (
-    <button id={props.id} style={[styles.base, props.style]} onClick={props.onClick} disabled={props.disabled}>
+    <button id={props.id} style={[styles.base, props.style]} tabIndex={props.tabIndex} onClick={props.onClick} disabled={props.disabled}>
       {inner}
     </button>
   );
@@ -122,11 +139,16 @@ function Button(props) {
 Button.propTypes = {
   text: PropTypes.any,
   iconName: PropTypes.string,
+  tabIndex: PropTypes.number,
   type: PropTypes.oneOf(['primaryBlue', 'primaryBlueBig', 'primaryRed', 'secondary']).isRequired,
   style: PropTypes.object,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   id: PropTypes.string.isRequired,
+};
+
+Button.defaultProps = {
+  tabIndex: 0,
 };
 
 export default Radium(Button);

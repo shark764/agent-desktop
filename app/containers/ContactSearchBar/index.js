@@ -156,6 +156,12 @@ export class ContactSearchBar extends React.Component {
       borderRadius: '0 2px 2px 0',
       order: '1',
       flex: '0 0 auto',
+      ':focus': {
+        boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
+        borderTop: '1px solid #23CEF5',
+        borderRight: '1px solid #23CEF5',
+        borderBottom: '1px solid #23CEF5',
+      },
     },
     highlightedFilter: {
       background: '#E4E4E4',
