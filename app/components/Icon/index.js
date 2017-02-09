@@ -49,9 +49,13 @@ function Icon(props) {
       break;
     case 'message':
       icon = message;
+      width = '18px';
+      height = '15px';
       break;
     case 'message_new':
       icon = messageNew;
+      width = '18px';
+      height = '15px';
       break;
     case 'message_dark':
       icon = messageDark;
@@ -60,9 +64,13 @@ function Icon(props) {
       break;
     case 'email':
       icon = email;
+      width = '18px';
+      height = '15px';
       break;
     case 'email_new':
       icon = emailNew;
+      width = '18px';
+      height = '15px';
       break;
     case 'email_dark':
       icon = emailDark;

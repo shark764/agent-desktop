@@ -10,6 +10,7 @@ import {
   SET_PRESENCE,
   SET_INTERACTION_STATUS,
   ADD_INTERACTION,
+  WORK_INITIATED,
   REMOVE_INTERACTION,
   SET_MESSAGE_HISTORY,
   ASSIGN_CONTACT,
@@ -130,7 +131,7 @@ function agentDesktopReducer(state = initialState, action) {
     case ADD_INTERACTION: {
       const interaction = {
         channelType: action.response.channelType,
-        customerAvatarIndex: Math.floor(Math.random() * 17),
+        customerAvatarIndex: action.response.channelType !== 'voice' ? Math.floor(Math.random() * 17) : undefined,
         interactionId: action.response.interactionId,
         status: 'work-offer',
         timeout: action.response.timeout,
@@ -141,6 +142,20 @@ function agentDesktopReducer(state = initialState, action) {
       };
       return state
         .set('interactions', state.get('interactions').push(fromJS(interaction)));
+    }
+    case WORK_INITIATED: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.response.interactionId
+      );
+      return state.update('interactions',
+        (interactions) =>
+          interactions.update(
+            interactionIndex,
+            (interaction) => interaction
+              .set('status', 'work-initiated')
+              .set('number', interaction.get('channelType') === 'voice' ? action.response.customer : undefined)
+          )
+      );
     }
     case REMOVE_INTERACTION:
       return state

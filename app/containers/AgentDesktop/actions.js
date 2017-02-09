@@ -7,6 +7,7 @@
 import {
   SET_PRESENCE,
   ADD_INTERACTION,
+  WORK_INITIATED,
   SET_MESSAGE_HISTORY,
   ASSIGN_CONTACT,
   ADD_MESSAGE,
@@ -34,6 +35,13 @@ export function setPresence(response) {
 export function addInteraction(response) {
   return {
     type: ADD_INTERACTION,
+    response,
+  };
+}
+
+export function workInitiated(response) {
+  return {
+    type: WORK_INITIATED,
     response,
   };
 }
