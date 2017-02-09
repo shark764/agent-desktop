@@ -10,9 +10,12 @@ import search from 'assets/icons/search.png';
 import close from 'assets/icons/close.png';
 import message from 'assets/icons/message.png';
 import messageNew from 'assets/icons/message_new.png';
+import messageDark from 'assets/icons/message_dark.png';
 import email from 'assets/icons/email.png';
 import emailNew from 'assets/icons/email_new.png';
+import emailDark from 'assets/icons/email_dark.png';
 import voice from 'assets/icons/voice.png';
+import voiceDark from 'assets/icons/voice_dark.png';
 import connected from 'assets/icons/connected.png';
 import notConnected from 'assets/icons/not_connected.png';
 import endCallSprite from 'assets/icons/end_call_sprite.png';
@@ -50,14 +53,29 @@ function Icon(props) {
     case 'message_new':
       icon = messageNew;
       break;
+    case 'message_dark':
+      icon = messageDark;
+      height = '20px';
+      width = '20px';
+      break;
     case 'email':
       icon = email;
       break;
     case 'email_new':
       icon = emailNew;
       break;
+    case 'email_dark':
+      icon = emailDark;
+      height = '17px';
+      width = '20px';
+      break;
     case 'voice':
       icon = voice;
+      height = '20px';
+      width = '16px';
+      break;
+    case 'voice_dark':
+      icon = voiceDark;
       height = '20px';
       width = '16px';
       break;
@@ -120,6 +138,7 @@ function Icon(props) {
       backgroundPositionHover = '-40px 0';
       break;
     default:
+      console.error('Unhandled name:', props.name);
       break;
   }
 
@@ -150,7 +169,7 @@ function Icon(props) {
         id={props.id ? props.id : `${props.name}-icon`}
         onClick={props.onclick}
         src={icon}
-        style={[props.style, styles.base]}
+        style={[styles.base, props.style]}
         alt={props.name}
       />
     );
@@ -159,7 +178,7 @@ function Icon(props) {
       <span
         id={props.id ? props.id : `${props.name}-icon`}
         onClick={props.onclick}
-        style={[props.style, styles.base]}
+        style={[styles.base, props.style]}
       ></span>
     );
   }
