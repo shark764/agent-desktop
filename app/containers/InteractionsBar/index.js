@@ -96,7 +96,7 @@ export class InteractionsBar extends React.Component {
         >
           <Icon
             name={icon}
-            style={{ float: 'left', width: '18px', height: '15px' }}
+            style={{ float: 'left' }}
           />
           <div style={{ float: 'left', marginLeft: '14px', width: '211px' }}>
             <div style={{ float: 'right' }}>
@@ -138,7 +138,7 @@ export class InteractionsBar extends React.Component {
           key={pendingInteraction.interactionId}
           onClick={() => this.acceptInteraction(pendingInteraction.interactionId)}
         >
-          <Icon name={icon} style={{ float: 'left', width: icon === 'message_new' ? '20px' : '', height: icon === 'message_new' ? '16px' : '' }} />
+          <Icon name={icon} style={{ float: 'left' }} />
           <div style={{ float: 'left', marginLeft: '10px', width: '185px' }}>
             <div style={{ float: 'right', color: '#23CEF5' }}>
               <Countdown id={`countdown-${pendingInteraction.interactionId}`} countdownUntil={new Date(pendingInteraction.timeout)} />

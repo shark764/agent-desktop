@@ -25,7 +25,7 @@ import Login from 'containers/Login';
 
 import Radium from 'radium';
 
-import { setPresence, addInteraction, addMessage, setMessageHistory, assignContact, setInteractionStatus, removeInteraction, selectInteraction,
+import { setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, setInteractionStatus, removeInteraction, selectInteraction,
   setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, emailCreateReply, emailCancelReply } from './actions';
 
 export class AgentDesktop extends React.Component {
@@ -88,6 +88,11 @@ export class AgentDesktop extends React.Component {
             this.props.assignContact(response.interactionId, mockContact(response.channelType, response.number || response.from));
           }
           // WARNING - MUCH MOCKERY
+          break;
+        }
+        case 'cxengage/interactions/work-initiated': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.workInitiated(response);
           break;
         }
         case 'cxengage/messaging/history': {
@@ -289,6 +294,7 @@ function mapDispatchToProps(dispatch) {
     setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
+    workInitiated: (response) => dispatch(workInitiated(response)),
     removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
     setMessageHistory: (response) => dispatch(setMessageHistory(response)),
     assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
@@ -311,6 +317,7 @@ AgentDesktop.propTypes = {
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,
   addInteraction: PropTypes.func.isRequired,
+  workInitiated: PropTypes.func.isRequired,
   removeInteraction: PropTypes.func.isRequired,
   setMessageHistory: PropTypes.func.isRequired,
   assignContact: PropTypes.func.isRequired,
