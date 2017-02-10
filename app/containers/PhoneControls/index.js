@@ -236,7 +236,7 @@ export class PhoneControls extends React.Component {
             ? <div>
               <div style={[this.styles.topTriangle, this.styles.transferTopTriangle]}></div>
               <div id="transfersContainer" style={[this.styles.phoneControlsPopupMenu, this.styles.transferPhoneControlsPopupMenu]}>
-                <TransferMenu />
+                <TransferMenu interactionId={this.props.activeVoiceInteraction.interactionId} />
               </div>
             </div>
             : ''

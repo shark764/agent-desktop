@@ -161,6 +161,8 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/contacts/list-attributes-response': // Handled in SidePanel
         case 'cxengage/contacts/list-layouts-response': // Handled in SidePanel
         case 'cxengage/contacts/search-response': // Handled in ContactsControl
+        case 'cxengage/crud/get-queues-response': // Handled in TransferMenu
+        case 'cxengage/crud/get-users-response': // Handled in TransferMenu
           break;
         default: {
           console.warn('AGENT DESKTOP: No pub sub for', error, topic, response); // eslint-disable-line no-console
