@@ -1,15 +1,11 @@
 /*
- * MainContentArea Messages
+ * PhoneControlsActive Messages
  *
- * This contains all the text for the MainContentArea component.
+ * This contains all the text for the PhoneControlsActive component.
  */
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  call: {
-    id: 'app.containers.PhoneControls.call',
-    defaultMessage: 'Call',
-  },
   recording: {
     id: 'app.containers.PhoneControls.recording',
     defaultMessage: 'Recording',
