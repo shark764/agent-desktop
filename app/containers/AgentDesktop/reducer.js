@@ -12,6 +12,7 @@ import {
   SET_EXTENSIONS,
   UPDATE_WRAPUP_DETAILS,
   SET_ACTIVE_EXTENSION,
+  SET_QUEUES,
   SET_PRESENCE,
   SET_INTERACTION_STATUS,
   START_OUTBOUND_INTERACTION,
@@ -75,6 +76,8 @@ function agentDesktopReducer(state = initialState, action) {
         .set('extensions', fromJS(action.response.extensions));
     case SET_ACTIVE_EXTENSION:
       return state.set('activeExtension', fromJS(action.activeExtension));
+    case SET_QUEUES:
+      return state.set('queues', fromJS(action.queues));
     case SET_PRESENCE:
       return state
         .set('presence', action.response.state);

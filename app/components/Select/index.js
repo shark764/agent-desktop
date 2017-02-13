@@ -6,9 +6,9 @@
 
 import React, { PropTypes } from 'react';
 import RSelect from 'react-select';
+import Radium from 'radium';
 import './react-select.css';
 
-import Radium from 'radium';
 
 function Select(props) {
   const styles = {
@@ -29,6 +29,7 @@ function Select(props) {
       value={props.value}
       options={props.options}
       autofocus={props.autoFocus}
+      clearable={props.clearable}
     />
   );
 }
@@ -40,6 +41,7 @@ Select.propTypes = {
   value: PropTypes.string,
   autoFocus: PropTypes.bool,
   id: PropTypes.string.isRequired,
+  clearable: PropTypes.bool,
 };
 
 export default Radium(Select);

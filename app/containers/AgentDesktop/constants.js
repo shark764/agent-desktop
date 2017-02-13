@@ -7,6 +7,7 @@
 export const SET_EXTENSIONS = 'app/AgentDesktop/SET_EXTENSIONS';
 export const UPDATE_WRAPUP_DETAILS = 'app/AgentDesktop/UPDATE_WRAPUP_DETAILS';
 export const SET_ACTIVE_EXTENSION = 'app/AgentDesktop/SET_ACTIVE_EXTENSION';
+export const SET_QUEUES = 'app/AgentDesktop/SET_QUEUES';
 export const SET_PRESENCE = 'app/AgentDesktop/SET_PRESENCE';
 export const SET_INTERACTION_STATUS = 'app/AgentDesktop/SET_INTERACTION_STATUS';
 export const START_OUTBOUND_INTERACTION = 'app/AgentDesktop/START_OUTBOUND_INTERACTION';

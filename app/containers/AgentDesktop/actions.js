@@ -8,6 +8,7 @@ import {
   SET_EXTENSIONS,
   UPDATE_WRAPUP_DETAILS,
   SET_ACTIVE_EXTENSION,
+  SET_QUEUES,
   SET_PRESENCE,
   START_OUTBOUND_INTERACTION,
   ADD_INTERACTION,
@@ -62,6 +63,13 @@ export function setActiveExtension(activeExtension) {
   return {
     type: SET_ACTIVE_EXTENSION,
     activeExtension,
+  };
+}
+
+export function setQueues(queues) {
+  return {
+    type: SET_QUEUES,
+    queues,
   };
 }
 

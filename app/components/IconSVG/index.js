@@ -9,6 +9,7 @@ import ReactSVG from 'react-svg';
 
 import dialpad from 'assets/icons/dialpad.svg';
 import loading from 'assets/icons/loading.svg';
+import loading_white from 'assets/icons/loading_white.svg';
 
 import Radium from 'radium';
 
@@ -23,6 +24,10 @@ function IconSVG(props) {
       break;
     case 'loading':
       icon = loading;
+      borderRadius = '50%';
+      break;
+    case 'loading_white':
+      icon = loading_white;
       borderRadius = '50%';
       break;
     default:
