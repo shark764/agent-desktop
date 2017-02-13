@@ -26,17 +26,15 @@ export class PhoneControls extends React.Component {
   constructor(props) {
     super(props);
 
-    this.setRecording = this.setRecording.bind(this);
     this.setShowDialpad = this.setShowDialpad.bind(this);
     this.setDialpadText = this.setDialpadText.bind(this);
     this.setShowActiveInteractionDialpad = this.setShowActiveInteractionDialpad.bind(this);
     this.setActiveInteractionDialpadText = this.setActiveInteractionDialpadText.bind(this);
 
+    this.setRecording = this.setRecording.bind(this);
     this.endInteraction = this.endInteraction.bind(this);
-    this.mute = this.mute.bind(this);
-    this.unmute = this.unmute.bind(this);
-    this.hold = this.hold.bind(this);
-    this.resume = this.resume.bind(this);
+    this.setMute = this.setMute.bind(this);
+    this.setHold = this.setHold.bind(this);
 
     this.state = {
       showTransferMenu: false,
@@ -46,14 +44,6 @@ export class PhoneControls extends React.Component {
       showActiveInteractionDialpad: false,
       activeInteractionDialpadText: '',
     };
-  }
-
-  setRecording() {
-    if (this.props.activeVoiceInteraction.recording) {
-      SDK.interactions.voice.endRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
-    } else {
-      SDK.interactions.voice.startRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
-    }
   }
 
   setShowTransferMenu(showTransferMenu) {
@@ -66,6 +56,8 @@ export class PhoneControls extends React.Component {
   setShowDialpad(showDialpad) {
     this.setState({ showDialpad });
   }
+
+  phoneNumberUtil = PhoneNumberUtil.getInstance();
 
   setDialpadText(dialpadText) {
     let formattedDialpadText = dialpadText.replace(/[^0-9+*#]/g, '');
@@ -93,26 +85,32 @@ export class PhoneControls extends React.Component {
     this.setState({ activeInteractionDialpadText });
   }
 
-  phoneNumberUtil = PhoneNumberUtil.getInstance();
+  setRecording() {
+    if (this.props.activeVoiceInteraction.recording) {
+      SDK.interactions.voice.endRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
+    } else {
+      SDK.interactions.voice.startRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
+    }
+  }
 
   endInteraction() {
     SDK.interactions.end({ interactionId: this.props.activeVoiceInteraction.interactionId });
   }
 
-  mute() {
-    SDK.interactions.voice.mute({ interactionId: this.props.activeVoiceInteraction.interactionId });
+  setMute() {
+    if (this.props.activeVoiceInteraction.muted) {
+      SDK.interactions.voice.unmute({ interactionId: this.props.activeVoiceInteraction.interactionId });
+    } else {
+      SDK.interactions.voice.mute({ interactionId: this.props.activeVoiceInteraction.interactionId });
+    }
   }
 
-  unmute() {
-    SDK.interactions.voice.unmute({ interactionId: this.props.activeVoiceInteraction.interactionId });
-  }
-
-  hold() {
-    SDK.interactions.voice.hold({ interactionId: this.props.activeVoiceInteraction.interactionId });
-  }
-
-  resume() {
-    SDK.interactions.voice.resume({ interactionId: this.props.activeVoiceInteraction.interactionId });
+  setHold() {
+    if (this.props.activeVoiceInteraction.onHold) {
+      SDK.interactions.voice.resume({ interactionId: this.props.activeVoiceInteraction.interactionId });
+    } else {
+      SDK.interactions.voice.hold({ interactionId: this.props.activeVoiceInteraction.interactionId });
+    }
   }
 
   styles = {
@@ -227,8 +225,8 @@ export class PhoneControls extends React.Component {
           {recordingContainer}
           <div style={{ height: 40, width: 216, margin: '0 auto', display: 'block' }}>
             <CircleIconButton id="endCallButton" name="endCall" onClick={this.endInteraction} style={this.styles.circleIconButtonRow} />
-            <CircleIconButton id="muteButton" name="mute" inactiveOnClick={this.mute} activeOnClick={this.unmute} style={this.styles.circleIconButtonRow} />
-            <CircleIconButton id="holdButton" name="hold" inactiveOnClick={this.hold} activeOnClick={this.resume} style={this.styles.circleIconButtonRow} />
+            <CircleIconButton id="muteButton" name="mute" active={this.props.activeVoiceInteraction.muted} onClick={this.setMute} style={this.styles.circleIconButtonRow} />
+            <CircleIconButton id="holdButton" name="hold" active={this.props.activeVoiceInteraction.onHold} onClick={this.setHold} style={this.styles.circleIconButtonRow} />
             <CircleIconButton id="transferButton" name="transfer" active={this.state.showTransferMenu} onClick={() => this.setShowTransferMenu(!this.state.showTransferMenu)} style={this.styles.circleIconButtonRow} />
             <CircleIconButton id="dialpadButton" name="dialpad" active={this.state.showActiveInteractionDialpad} onClick={() => this.setShowActiveInteractionDialpad(!this.state.showActiveInteractionDialpad)} style={this.styles.circleIconButtonRow} />
           </div>

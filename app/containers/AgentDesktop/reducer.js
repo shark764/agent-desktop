@@ -129,16 +129,28 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ADD_INTERACTION: {
+      let agentRecordingEnabled;
+      let recording;
+      let onHold;
+      let muted;
+      if (action.response.channelType === 'voice') {
+        // recordingUpdate could be undefined for old flows, but should be enabled in that case
+        agentRecordingEnabled = action.response.toolbarFeatures.recordingUpdate !== false;
+        // recording and onHold can have been set by an incoming transfer
+        recording = action.response.recording === true;
+        onHold = action.response.customerOnHold === true;
+        muted = false;
+      }
       const interaction = {
         channelType: action.response.channelType,
         customerAvatarIndex: action.response.channelType !== 'voice' ? Math.floor(Math.random() * 17) : undefined,
         interactionId: action.response.interactionId,
         status: 'work-offer',
         timeout: action.response.timeout,
-        // default to false so that corresponding Toggle component is controlled
-        recording: action.response.channelType === 'voice' ? false : undefined,
-        // recordingUpdate could be undefined for old flows, but should be enabled in that case
-        agentRecordingEnabled: action.response.channelType === 'voice' ? action.response.toolbarFeatures.recordingUpdate !== false : undefined,
+        agentRecordingEnabled,
+        recording,
+        onHold,
+        muted,
       };
       return state
         .set('interactions', state.get('interactions').push(fromJS(interaction)));
