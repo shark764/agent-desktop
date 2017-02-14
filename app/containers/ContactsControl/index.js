@@ -188,6 +188,7 @@ export class ContactsControl extends React.Component {
     if (!this.state.loading) {
       this.setState({ loading: true });
       SDK.contacts.search({ query: this.props.selectedInteraction.query, page: this.props.nextPage }, (error, topic, response) => {
+        console.log('[ContactsControl] SDK.subscribe()', topic, response);
         this.props.setSearchResults(response);
         this.setState({ loading: false });
       });
