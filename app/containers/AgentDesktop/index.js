@@ -158,7 +158,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/voice/phone-controls-response': // Using mute-started, mute-ended, etc. instead
         case 'cxengage/contacts/list-attributes-response': // Handled in SidePanel
         case 'cxengage/contacts/list-layouts-response': // Handled in SidePanel
-        case 'cxengage/contacts/search-response': // Handled in ContactsControl
+        case 'cxengage/contacts/search-response': // Handled in ContactsControl & AgentDesktop callback
         case 'cxengage/crud/get-queues-response': // Handled in TransferMenu
         case 'cxengage/crud/get-users-response': // Handled in TransferMenu
 
@@ -174,6 +174,7 @@ export class AgentDesktop extends React.Component {
     const query = this.getInitialQuery(interactionInfo);
     if (query) {
       SDK.contacts.search({ query }, (error, topic, response) => {
+        console.log('[AgentDesktop] SDK.subscribe()', topic, response);
         if (response.results.length === 1) {
           this.props.assignContact(interactionId, response.results[0]);
         } else {

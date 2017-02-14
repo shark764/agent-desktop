@@ -150,7 +150,7 @@ function agentDesktopReducer(state = initialState, action) {
         interactionId: action.response.interactionId,
         status: 'work-offer',
         query: {},
-        contactAction: 'view',
+        contactAction: 'search',
         contact: {},
         timeout: action.response.timeout,
         agentRecordingEnabled,

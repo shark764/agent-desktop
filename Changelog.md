@@ -1,9 +1,13 @@
+<a name"0.2.1"></a>
+### 0.2.1 (2017-02-14)
+* Fix initial contact view state and SDK logs
+
 <a name"0.2.0"></a>
 ### 0.2.0 (2017-02-13)
 * Contact search and auto assign on interaction accept
 
 <a name"0.1.1"></a>
-### 0.1.1 (2017-02-13)
+### 0.1.1 (2017-02-13)`
 * On hold and recording added to state on interaction start so they are in sync with values set before and during transfer.
 
 <a name"0.1.0"></a>
