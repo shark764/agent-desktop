@@ -11,8 +11,6 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import selectAgentDesktop, { selectLogin } from './selectors';
 
-import mockContact from 'utils/mocking';
-
 import InteractionsBar from 'containers/InteractionsBar';
 import MainContentArea from 'containers/MainContentArea';
 import PhoneControls from 'containers/PhoneControls';
@@ -25,8 +23,9 @@ import Login from 'containers/Login';
 
 import Radium from 'radium';
 
-import { setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, setInteractionStatus, removeInteraction, selectInteraction,
-  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, emailCreateReply, emailCancelReply } from './actions';
+import { setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
+  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction } from './actions';
+
 
 export class AgentDesktop extends React.Component {
 
@@ -83,11 +82,6 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/work-offer': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.addInteraction(response);
-          // WARNING - MUCH MOCKERY
-          if (response.channelType === 'voice') {
-            this.props.assignContact(response.interactionId, mockContact(response.channelType, response.number || response.from));
-          }
-          // WARNING - MUCH MOCKERY
           break;
         }
         case 'cxengage/interactions/work-initiated': {
@@ -98,11 +92,15 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/messaging/history': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setMessageHistory(response);
+          this.attemptContact(response, response[0].channelId);
           break;
         }
         case 'cxengage/interactions/work-accepted': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setInteractionStatus(response.interactionId, 'work-accepted');
+          if (response.type !== 'messaging') {
+            this.attemptContact(response, response.interactionId);
+          }
           break;
         }
         case 'cxengage/interactions/work-rejected':
@@ -163,12 +161,46 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/contacts/search-response': // Handled in ContactsControl
         case 'cxengage/crud/get-queues-response': // Handled in TransferMenu
         case 'cxengage/crud/get-users-response': // Handled in TransferMenu
+
           break;
         default: {
           console.warn('AGENT DESKTOP: No pub sub for', error, topic, response); // eslint-disable-line no-console
         }
       }
     });
+  }
+
+  attemptContact(interactionInfo, interactionId) {
+    const query = this.getInitialQuery(interactionInfo);
+    if (query) {
+      SDK.contacts.search({ query }, (error, topic, response) => {
+        if (response.results.length === 1) {
+          this.props.assignContact(interactionId, response.results[0]);
+        } else {
+          this.props.setInteractionQuery(interactionId, query);
+        }
+      }); // trigger search
+    }
+  }
+
+  getInitialQuery(interactionInfo) {
+    let from;
+    if (Array.isArray(interactionInfo)) {
+      const messageHistoryItem = interactionInfo[0];
+      from = messageHistoryItem.payload.metadata && messageHistoryItem.payload.metadata.name ? messageHistoryItem.payload.metadata.name : messageHistoryItem.payload.from;
+    } else {
+      switch (interactionInfo.channelType) {
+        case 'email':
+          from = interactionInfo.email && interactionInfo.email.from;
+          break;
+        case 'voice':
+          from = interactionInfo.number;
+          break;
+        default:
+          from = false;
+      }
+    }
+    return from ? { q: from } : false;
   }
 
   setContactsPanelWidth(newWidth) {
@@ -278,6 +310,9 @@ export class AgentDesktop extends React.Component {
                 collapsePanel={this.collapseContactsPanel}
                 showPanel={this.showContactsPanel}
                 assignContact={this.props.assignContact}
+                addSearchFilter={this.props.addSearchFilter}
+                removeSearchFilter={this.props.removeSearchFilter}
+                setContactAction={this.props.setContactAction}
               />
             </span>
         }
@@ -302,6 +337,10 @@ function mapDispatchToProps(dispatch) {
     assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
     addMessage: (response) => dispatch(addMessage(response)),
     selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
+    setInteractionQuery: (interactionId, query) => dispatch(setInteractionQuery(interactionId, query)),
+    addSearchFilter: (filterName, value) => dispatch(addSearchFilter(filterName, value)),
+    removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
+    setContactAction: (interactionId, newAction) => dispatch(setContactAction(interactionId, newAction)),
     setCustomFields: (interactionId, customFields) => dispatch(setCustomFields(interactionId, customFields)),
     muteCall: (interactionId) => dispatch(muteCall(interactionId)),
     unmuteCall: (interactionId) => dispatch(unmuteCall(interactionId)),
@@ -325,6 +364,10 @@ AgentDesktop.propTypes = {
   assignContact: PropTypes.func.isRequired,
   addMessage: PropTypes.func.isRequired,
   selectInteraction: PropTypes.func.isRequired,
+  addSearchFilter: PropTypes.func.isRequired,
+  removeSearchFilter: PropTypes.func.isRequired,
+  setContactAction: PropTypes.func.isRequired,
+  setInteractionQuery: PropTypes.func.isRequired,
   // TODO when in SDK
   // setCustomFields: PropTypes.func,
   muteCall: PropTypes.func.isRequired,

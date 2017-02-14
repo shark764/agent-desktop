@@ -8,7 +8,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
-
+import { PhoneNumberUtil } from 'google-libphonenumber';
 
 import { selectPopulatedLayout, selectPopulatedCompactAttributes, selectAttributes } from './selectors';
 import messages from './messages';
@@ -49,8 +49,11 @@ export class Contact extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.showError = this.showError.bind(this);
     this.handleOnBlur = this.handleOnBlur.bind(this);
+    this.formatValue = this.formatValue.bind(this);
     this.getError = this.getError.bind(this);
   }
+
+  phoneNumberUtil = PhoneNumberUtil.getInstance();
 
   styles = {
     base: {
@@ -180,13 +183,39 @@ export class Contact extends React.Component {
     } else if (value.length) {
       switch (attributeToValidate.type) {
         case 'email':
-          error = !/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value) ? this.props.intl.formatMessage(messages.errorEmail) : false;
+          if (!/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)) {
+            error = this.props.intl.formatMessage(messages.errorEmail);
+          }
+          break;
+        case 'phone':
+          try {
+            if (!this.phoneNumberUtil.isValidNumber(this.phoneNumberUtil.parse(value, 'E164'))) {
+              error = this.props.intl.formatMessage(messages.errorPhone);
+            }
+          } catch (e) {
+            error = this.props.intl.formatMessage(messages.errorPhone);
+          }
           break;
         default:
           break;
       }
     }
     return error;
+  }
+
+  formatValue(name, value) {
+    const attributeToValidate = this.props.attributes.find((attribute) => attribute.objectName === name);
+    let formattedValue;
+    switch (attributeToValidate.type) {
+      case 'phone':
+        formattedValue = value.replace(/[^0-9+*#]/g, '');
+        if (formattedValue.indexOf('+') !== 0) {
+          formattedValue = `+${formattedValue}`;
+        }
+        return formattedValue;
+      default:
+        return value;
+    }
   }
 
   showError(name) {
@@ -307,8 +336,9 @@ export class Contact extends React.Component {
 
   setAttributeValue(name, newValue) {
     const stateUpdate = { formInput: { ...this.state.formInput }, errors: { ...this.state.errors } };
-    stateUpdate.formInput[name] = newValue;
-    stateUpdate.errors[name] = this.getError(name, newValue);
+    const cleanedInput = this.formatValue(name, newValue);
+    stateUpdate.formInput[name] = cleanedInput;
+    stateUpdate.errors[name] = this.getError(name, cleanedInput);
     stateUpdate.disableSubmit = Object.keys(stateUpdate.errors).some((key) => stateUpdate.errors[key] !== false);
     this.setState(stateUpdate);
   }
@@ -354,6 +384,7 @@ export class Contact extends React.Component {
               <Button
                 id="contactSaveBtn"
                 style={this.styles.button}
+                disabled={this.props.loading || this.state.disableSubmit}
                 type="secondary"
                 onClick={this.handleSubmit}
                 text={this.props.intl.formatMessage(messages.saveBtn)}
@@ -394,6 +425,7 @@ Contact.propTypes = {
   isEditing: PropTypes.bool,
   cancel: PropTypes.func,
   save: PropTypes.func,
+  loading: PropTypes.bool,
   intl: intlShape.isRequired,
   style: PropTypes.object,
 };

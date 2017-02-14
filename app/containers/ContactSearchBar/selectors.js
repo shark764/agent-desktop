@@ -29,12 +29,15 @@ const selectSearchableAttributes = createSelector(
       objectName: 'q', // Fuzzy search query parameter
     }];
     layout.get('layout').toJS().map((section) =>
-      section.attributes.map((attributeId) => {
+      section.attributes.forEach((attributeId) => {
+        if (searchableAttributes.indexOf((searchableAttribute) => searchableAttribute.id === attributeId) > -1) {
+          return;
+        }
         const mappedAttribute = attributes.find((attribute) =>
           attribute.get('id') === attributeId
         );
         if (mappedAttribute !== undefined) {
-          return searchableAttributes.push(mappedAttribute.toJS());
+          searchableAttributes.push(mappedAttribute.toJS());
         } else {
           throw new Error('Could not map attribute');
         }

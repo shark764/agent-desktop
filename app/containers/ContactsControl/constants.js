@@ -4,6 +4,5 @@
  *
  */
 
-export const ADD_SEARCH_FILTER = 'app/ContactsControl/ADD_SEARCH_FILTER';
-export const REMOVE_SEARCH_FILTER = 'app/ContactsControl/REMOVE_SEARCH_FILTER';
+export const CLEAR_SEARCH_RESULTS = 'app/ContactsControl/CLEAR-SEARCH_RESULTS';
 export const SET_SEARCH_RESULTS = 'app/ContactsControl/BEGIN_CONTACT_SEARCH';

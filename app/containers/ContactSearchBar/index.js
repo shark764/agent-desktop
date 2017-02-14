@@ -10,7 +10,7 @@ import Radium from 'radium';
 import { injectIntl } from 'react-intl';
 import Autocomplete from 'react-autocomplete';
 
-import { selectQuery, selectSearchableAttributes } from './selectors';
+import { selectSearchableAttributes } from './selectors';
 
 import search from 'assets/icons/search.png';
 
@@ -47,15 +47,17 @@ export class ContactSearchBar extends React.Component {
     this.resizeFilterDropdownMenu();
   }
 
+  getLabel(attribute) { // TODO: Dynamically load translations and use intl.formatMessage
+    return attribute.label[this.props.intl.locale] || attribute.objectName;
+  }
+
   getAvailableFilters() {
-    if (this.props.query.length && this.props.query[0].id === 'all') {
+    if (this.props.query.length && this.props.query[0].attribute.id === 'all') {
       // Don't show other filters when 'all' is selected
       return [];
     } else {
       return this.props.searchableAttributes.filter(
-        (possibleFilter) => this.props.query.findIndex(
-          (searchFilter) => searchFilter.label[this.props.intl.locale] === possibleFilter.label[this.props.intl.locale]
-        ) === -1
+        (possibleFilter) => (this.props.query.findIndex((searchFilter) => searchFilter.attribute.objectName === possibleFilter.objectName) === -1)
       );
     }
   }
@@ -65,11 +67,11 @@ export class ContactSearchBar extends React.Component {
   }
 
   getItemValue(item) {
-    return item.label[this.props.intl.locale];
+    return this.getLabel(item);
   }
 
   resizeFilterDropdownMenu() {
-    const newInputDivWidth = this.inputDiv.offsetWidth;
+    const newInputDivWidth = (this.inputDiv && this.inputDiv.offsetWidth) || this.state.filterMenuWidth;
     if (newInputDivWidth !== this.state.filterMenuWidth) {
       this.setState({ // eslint-disable-line react/no-did-mount-set-state
         filterMenuWidth: newInputDivWidth,
@@ -88,7 +90,7 @@ export class ContactSearchBar extends React.Component {
         break;
       case 'Enter':
         if (this.state.pendingFilterValue.length) {
-          this.props.addFilter({ ...this.state.pendingFilter, value: this.state.pendingFilterValue });
+          this.props.addFilter(this.state.pendingFilter.objectName, this.state.pendingFilterValue);
           this.setState({
             pendingFilter: false,
             pendingFilterValue: '',
@@ -106,7 +108,7 @@ export class ContactSearchBar extends React.Component {
       <div
         key={item.id}
         style={Object.assign({}, this.styles.filterDropdownRow, isHighlighted ? this.styles.highlightedFilter : {})}
-      >{item.label[this.props.intl.locale]}</div>
+      >{this.getLabel(item)}</div>
     );
   }
 
@@ -200,16 +202,16 @@ export class ContactSearchBar extends React.Component {
     },
   };
 
-  handleFilterSelect(itemFull) {
+  handleFilterSelect(itemName) {
     this.setState({
-      pendingFilter: this.props.searchableAttributes.find((filter) => filter.label[this.props.intl.locale] === itemFull),
+      pendingFilter: this.props.searchableAttributes.find((filter) => this.getLabel(filter) === itemName),
       autoCompleteValue: '',
     });
   }
 
   matchFilterToTerm(state, value) {
     return (
-      state.label[this.props.intl.locale].toLowerCase().indexOf(value.toLowerCase()) !== -1
+      this.getLabel(state).toLowerCase().indexOf(value.toLowerCase()) !== -1
     );
   }
 
@@ -220,7 +222,7 @@ export class ContactSearchBar extends React.Component {
           {
             this.state.pendingFilter ?
               <span style={this.styles.inputWrapper}>
-                <span style={this.styles.filterName}>{`${this.state.pendingFilter.label[this.props.intl.locale]}:`}&nbsp;</span>
+                <span style={this.styles.filterName}>{`${this.getLabel(this.state.pendingFilter)}:`}&nbsp;</span>
                 <TextInput id="search-filter-input" noBorder autoFocus onKeyDown={this.handleFilterValueInputKey} style={[this.styles.input, this.styles.pendingFilterInput]} cb={(pendingFilterValue) => this.setState({ pendingFilterValue })} value={this.state.pendingFilterValue} />
               </span>
             :
@@ -240,7 +242,7 @@ export class ContactSearchBar extends React.Component {
           }
           { this.props.resultsCount > -1 ? <div style={this.styles.resultsCount}>{`${this.props.resultsCount} Result(s)`}</div> : '' }
         </div>
-        <Button id="exit-search-btn" style={this.styles.closeButton} iconName="close" type="secondary" onClick={this.props.setNotSearching} />
+        <Button id="exit-search-btn" style={this.styles.closeButton} iconName="close" type="secondary" onClick={this.props.cancel} />
       </div>
     );
   }
@@ -249,7 +251,7 @@ export class ContactSearchBar extends React.Component {
 ContactSearchBar.propTypes = {
   intl: React.PropTypes.object.isRequired,
   addFilter: React.PropTypes.func.isRequired,
-  setNotSearching: React.PropTypes.func.isRequired,
+  cancel: React.PropTypes.func.isRequired,
   query: React.PropTypes.array,
   searchableAttributes: React.PropTypes.array,
   style: React.PropTypes.object,
@@ -257,7 +259,6 @@ ContactSearchBar.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  query: selectQuery(state, props),
   searchableAttributes: selectSearchableAttributes(state, props),
 });
 
