@@ -166,6 +166,7 @@ export class SidePanel extends React.Component {
                 assignContact={this.props.assignContact}
                 addSearchFilter={this.props.addSearchFilter}
                 removeSearchFilter={this.props.removeSearchFilter}
+                setContactAction={this.props.setContactAction}
               ></ContactsControl>
             </TabPanel>
             <TabPanel>
@@ -214,6 +215,7 @@ SidePanel.propTypes = {
   assignContact: PropTypes.func.isRequired,
   addSearchFilter: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
+  setContactAction: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(SidePanel));

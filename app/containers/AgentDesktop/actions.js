@@ -10,10 +10,10 @@ import {
   WORK_INITIATED,
   SET_INTERACTION_QUERY,
   SET_MESSAGE_HISTORY,
+  SET_CONTACT_ACTION,
   ASSIGN_CONTACT,
   ADD_MESSAGE,
   SET_INTERACTION_STATUS,
-  SET_SEARCH_RESULTS,
   ADD_SEARCH_FILTER,
   REMOVE_SEARCH_FILTER,
   REMOVE_INTERACTION,
@@ -56,14 +56,6 @@ export function setInteractionQuery(interactionId, query) {
     query,
   };
 }
-
-export function setSearchResults(interactionId, response) {
-  return {
-    type: SET_SEARCH_RESULTS,
-    interactionId,
-    response,
-  };
-}
 export function addSearchFilter(filterName, value) {
   return {
     type: ADD_SEARCH_FILTER,
@@ -75,6 +67,14 @@ export function removeSearchFilter(filterName) {
   return {
     type: REMOVE_SEARCH_FILTER,
     filterName,
+  };
+}
+
+export function setContactAction(interactionId, newAction) {
+  return {
+    type: SET_CONTACT_ACTION,
+    interactionId,
+    newAction,
   };
 }
 

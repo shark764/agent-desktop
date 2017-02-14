@@ -29,14 +29,10 @@ export class ContactsControl extends React.Component {
     super(props);
 
     this.state = {
-      action: this.props.selectedInteraction.initalContactAction ? this.props.selectedInteraction.initalContactAction : 'search',
+      action: 'search',
       query: this.expandQuery(this.props.selectedInteraction.query, this.props.attributes),
       loading: false,
     };
-
-    if (Object.keys(props.selectedInteraction.contact).length) {
-      this.state.action = 'view';
-    }
 
     this.setSearching = this.setSearching.bind(this);
     this.setViewing = this.setViewing.bind(this);
@@ -57,18 +53,18 @@ export class ContactsControl extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.selectedInteraction.query !== this.props.selectedInteraction.query) {
+      this.props.clearSearchResults();
       this.setState({ query: this.expandQuery(nextProps.selectedInteraction.query, nextProps.attributes) });
     }
-    if (this.props.selectedInteraction.id !== nextProps.selectedInteraction.id) {
-      if (Object.keys(nextProps.selectedInteraction.contact).length) {
-        this.setViewing();
-      }
-    }
+  }
+
+  componentWillUnmount() {
+    this.props.clearSearchResults();
   }
 
   expandQuery(query, attributes) {
     const newQuery = Object.keys(query).map((filterName) => {
-      let attribute = attributes.find((fullAttribute) => fullAttribute.objectName === filterName);
+      let attribute;
       if (filterName === 'q') {
         attribute = {
           id: 'all',
@@ -77,10 +73,12 @@ export class ContactsControl extends React.Component {
           },
           objectName: 'q', // Fuzzy search query parameter
         };
+      } else {
+        attribute = attributes.find((fullAttribute) => fullAttribute.objectName === filterName);
       }
-      const fallbackLabel = attribute.label[this.props.intl.locale] || (messages[`${filterName}Filter`] && messages[`${filterName}Filter`].defaultMessage) || filterName;
+      const label = attribute.label[this.props.intl.locale] || filterName;
       return (attribute)
-        ? { attribute, value: query[filterName], fallbackLabel }
+        ? { attribute, value: query[filterName], label }
         : false;
     }).filter(Boolean);
     return newQuery;
@@ -97,21 +95,15 @@ export class ContactsControl extends React.Component {
   }
 
   setSearching() {
-    this.setState({
-      action: 'search',
-    });
+    this.props.setContactAction(this.props.selectedInteraction.interactionId, 'search');
   }
 
   setCreating() {
-    this.setState({
-      action: 'creating',
-    });
+    this.props.setContactAction(this.props.selectedInteraction.interactionId, 'create');
   }
 
   setViewing() {
-    this.setState({
-      action: 'view',
-    });
+    this.props.setContactAction(this.props.selectedInteraction.interactionId, 'view');
   }
 
   cancelSearch() {
@@ -127,7 +119,7 @@ export class ContactsControl extends React.Component {
         <ContactSearchBar
           resultsCount={this.props.resultsCount !== undefined ? this.props.resultsCount : -1}
           addFilter={this.addFilter}
-          cancel={this.setViewing}
+          cancel={this.cancelSearch}
           query={this.state.query}
           style={this.styles.contactSearchBar}
         />
@@ -135,7 +127,7 @@ export class ContactsControl extends React.Component {
           {this.state.query.map((filter) =>
             <Filter
               key={filter.attribute.objectName}
-              name={filter.fallbackLabel}
+              name={filter.label}
               value={filter.value}
               remove={() => this.removeFilter(filter.attribute.objectName)}
               style={this.styles.filter}
@@ -169,10 +161,10 @@ export class ContactsControl extends React.Component {
   }
 
   getHeader() {
-    switch (this.state.action) {
+    switch (this.props.selectedInteraction.contactAction) {
       case 'view':
         return this.getViewControlHeader();
-      case 'creating':
+      case 'create':
         return this.getBannerHeader('New Customer Record');
       case 'search':
       default:
@@ -181,10 +173,10 @@ export class ContactsControl extends React.Component {
   }
 
   getMainContent() {
-    switch (this.state.action) {
+    switch (this.props.selectedInteraction.contactAction) {
       case 'view':
         return this.renderContactView();
-      case 'creating':
+      case 'create':
         return <Contact save={this.createContact} cancel={this.setSearching} style={this.styles.mainContact} isEditing />;
       case 'search':
       default:
@@ -386,6 +378,7 @@ ContactsControl.propTypes = {
   setSearchResults: React.PropTypes.func,
   clearSearchResults: React.PropTypes.func,
   selectedInteraction: React.PropTypes.object,
+  setContactAction: React.PropTypes.func,
 };
 
 function mapStateToProps(state, props) {

@@ -15,6 +15,7 @@ import {
   REMOVE_SEARCH_FILTER,
   SET_INTERACTION_QUERY,
   SET_MESSAGE_HISTORY,
+  SET_CONTACT_ACTION,
   ASSIGN_CONTACT,
   ADD_MESSAGE,
   SELECT_INTERACTION,
@@ -84,7 +85,6 @@ const initialState = fromJS({
     //         timestamp: new Date().toISOString(),
     //       },
     //     ],
-    //     query: {},
     //     contact: mockContact(),
     //     hasUnreadMessage: false,
     //   },
@@ -149,10 +149,9 @@ function agentDesktopReducer(state = initialState, action) {
         customerAvatarIndex: action.response.channelType !== 'voice' ? Math.floor(Math.random() * 17) : undefined,
         interactionId: action.response.interactionId,
         status: 'work-offer',
-        initialContactAction: 'view',
-        query: [],
+        query: {},
+        contactAction: 'view',
         contact: {},
-        searchResults: [],
         timeout: action.response.timeout,
         agentRecordingEnabled,
         recording,
@@ -209,6 +208,19 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+    case SET_CONTACT_ACTION: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state
+          .updateIn(['interactions', interactionIndex],
+            (interaction) => interaction.set('contactAction', action.newAction)
+          );
+      } else {
+        return state;
+      }
+    }
     case SET_INTERACTION_QUERY: {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === action.interactionId
@@ -216,7 +228,7 @@ function agentDesktopReducer(state = initialState, action) {
       if (interactionIndex !== -1) {
         return state
           .updateIn(['interactions', interactionIndex],
-            (interaction) => interaction.set('query', fromJS(action.query)).set('initialContactAction', 'search')
+            (interaction) => interaction.set('query', fromJS(action.query))
           );
       } else {
         return state;
@@ -231,7 +243,7 @@ function agentDesktopReducer(state = initialState, action) {
           .updateIn(['interactions', interactionIndex, 'query'],
             (query) => {
               if (action.filterName === 'q') {
-                return fromJS(action);
+                return fromJS({ [action.filterName]: action.value });
               } else {
                 return query.set(action.filterName, action.value);
               }
@@ -253,7 +265,7 @@ function agentDesktopReducer(state = initialState, action) {
             );
         } else {
           return state
-            .setIn(['interactions', interactionIndex, 'query'], {});
+            .setIn(['interactions', interactionIndex, 'query'], fromJS({}));
         }
       } else {
         return state;
@@ -269,7 +281,7 @@ function agentDesktopReducer(state = initialState, action) {
             (interactions) =>
               interactions.update(
                 interactionIndex,
-                (interaction) => interaction.set('contact', fromJS(action.contact))
+                (interaction) => interaction.set('contact', fromJS(action.contact)).set('contactAction', 'view')
               )
           );
       } else {

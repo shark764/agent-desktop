@@ -30,28 +30,4 @@ export default defineMessages({
     id: 'app.containers.ContactControl.loading',
     defaultMessage: 'Loading...',
   },
-  nameFilter: {
-    id: 'app.containers.ContactSearchBar.nameFilter',
-    defaultMessage: 'Name',
-  },
-  mobileFilter: {
-    id: 'app.containers.ContactSearchBar.mobileFilter',
-    defaultMessage: 'Phone',
-  },
-  emailFilter: {
-    id: 'app.containers.ContactSearchBar.emailFilter',
-    defaultMessage: 'Email',
-  },
-  addressFilter: {
-    id: 'app.containers.ContactSearchBar.addressFilter',
-    defaultMessage: 'Address',
-  },
-  organizationFilter: {
-    id: 'app.containers.ContactSearchBar.organizationFilter',
-    defaultMessage: 'Organization',
-  },
-  qFilter: {
-    id: 'app.containers.ContactSearchBar.qFilter',
-    defaultMessage: 'All',
-  },
 });

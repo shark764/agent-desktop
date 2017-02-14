@@ -24,7 +24,7 @@ import Login from 'containers/Login';
 import Radium from 'radium';
 
 import { setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
-  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter } from './actions';
+  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction } from './actions';
 
 
 export class AgentDesktop extends React.Component {
@@ -185,27 +185,19 @@ export class AgentDesktop extends React.Component {
 
   getInitialQuery(interactionInfo) {
     let from;
-    try {
-      if (Array.isArray(interactionInfo)) {
-        const messageHistoryItem = interactionInfo[0];
-        from = messageHistoryItem.payload.metadata && messageHistoryItem.payload.metadata.name ? messageHistoryItem.payload.metadata.name : messageHistoryItem.payload.from;
-      } else {
-        switch (interactionInfo.channelType) {
-          case 'email':
-            from = interactionInfo.email.from;
-            break;
-          case 'voice':
-            from = interactionInfo.number;
-            break;
-          default:
-            from = false;
-        }
-      }
-    } catch (error) {
-      if (error instanceof TypeError) {
-        from = false;
-      } else {
-        throw error;
+    if (Array.isArray(interactionInfo)) {
+      const messageHistoryItem = interactionInfo[0];
+      from = messageHistoryItem.payload.metadata && messageHistoryItem.payload.metadata.name ? messageHistoryItem.payload.metadata.name : messageHistoryItem.payload.from;
+    } else {
+      switch (interactionInfo.channelType) {
+        case 'email':
+          from = interactionInfo.email && interactionInfo.email.from;
+          break;
+        case 'voice':
+          from = interactionInfo.number;
+          break;
+        default:
+          from = false;
       }
     }
     return from ? { q: from } : false;
@@ -320,6 +312,7 @@ export class AgentDesktop extends React.Component {
                 assignContact={this.props.assignContact}
                 addSearchFilter={this.props.addSearchFilter}
                 removeSearchFilter={this.props.removeSearchFilter}
+                setContactAction={this.props.setContactAction}
               />
             </span>
         }
@@ -347,6 +340,7 @@ function mapDispatchToProps(dispatch) {
     setInteractionQuery: (interactionId, query) => dispatch(setInteractionQuery(interactionId, query)),
     addSearchFilter: (filterName, value) => dispatch(addSearchFilter(filterName, value)),
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
+    setContactAction: (interactionId, newAction) => dispatch(setContactAction(interactionId, newAction)),
     setCustomFields: (interactionId, customFields) => dispatch(setCustomFields(interactionId, customFields)),
     muteCall: (interactionId) => dispatch(muteCall(interactionId)),
     unmuteCall: (interactionId) => dispatch(unmuteCall(interactionId)),
@@ -372,6 +366,7 @@ AgentDesktop.propTypes = {
   selectInteraction: PropTypes.func.isRequired,
   addSearchFilter: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
+  setContactAction: PropTypes.func.isRequired,
   setInteractionQuery: PropTypes.func.isRequired,
   // TODO when in SDK
   // setCustomFields: PropTypes.func,

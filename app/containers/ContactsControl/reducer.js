@@ -11,7 +11,6 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  query: [],
   results: [],
   nextPage: 1,
   loading: false,

@@ -11,7 +11,6 @@ import { injectIntl } from 'react-intl';
 import Autocomplete from 'react-autocomplete';
 
 import { selectSearchableAttributes } from './selectors';
-import messages from './messages';
 
 import search from 'assets/icons/search.png';
 
@@ -48,8 +47,8 @@ export class ContactSearchBar extends React.Component {
     this.resizeFilterDropdownMenu();
   }
 
-  getFallbackLabel(attribute) {
-    return attribute.label[this.props.intl.locale] || messages[`${attribute.objectName}Filter`] || attribute.objectName;
+  getLabel(attribute) { // TODO: Dynamically load translations and use intl.formatMessage
+    return attribute.label[this.props.intl.locale] || attribute.objectName;
   }
 
   getAvailableFilters() {
@@ -68,7 +67,7 @@ export class ContactSearchBar extends React.Component {
   }
 
   getItemValue(item) {
-    return this.getFallbackLabel(item);
+    return this.getLabel(item);
   }
 
   resizeFilterDropdownMenu() {
@@ -109,7 +108,7 @@ export class ContactSearchBar extends React.Component {
       <div
         key={item.id}
         style={Object.assign({}, this.styles.filterDropdownRow, isHighlighted ? this.styles.highlightedFilter : {})}
-      >{this.getFallbackLabel(item)}</div>
+      >{this.getLabel(item)}</div>
     );
   }
 
@@ -205,14 +204,14 @@ export class ContactSearchBar extends React.Component {
 
   handleFilterSelect(itemName) {
     this.setState({
-      pendingFilter: this.props.searchableAttributes.find((filter) => this.getFallbackLabel(filter) === itemName),
+      pendingFilter: this.props.searchableAttributes.find((filter) => this.getLabel(filter) === itemName),
       autoCompleteValue: '',
     });
   }
 
   matchFilterToTerm(state, value) {
     return (
-      this.getFallbackLabel(state).toLowerCase().indexOf(value.toLowerCase()) !== -1
+      this.getLabel(state).toLowerCase().indexOf(value.toLowerCase()) !== -1
     );
   }
 
@@ -223,7 +222,7 @@ export class ContactSearchBar extends React.Component {
           {
             this.state.pendingFilter ?
               <span style={this.styles.inputWrapper}>
-                <span style={this.styles.filterName}>{`${this.getFallbackLabel(this.state.pendingFilter)}:`}&nbsp;</span>
+                <span style={this.styles.filterName}>{`${this.getLabel(this.state.pendingFilter)}:`}&nbsp;</span>
                 <TextInput id="search-filter-input" noBorder autoFocus onKeyDown={this.handleFilterValueInputKey} style={[this.styles.input, this.styles.pendingFilterInput]} cb={(pendingFilterValue) => this.setState({ pendingFilterValue })} value={this.state.pendingFilterValue} />
               </span>
             :
