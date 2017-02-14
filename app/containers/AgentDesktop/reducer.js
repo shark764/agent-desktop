@@ -4,7 +4,6 @@
  *
  */
 
-import mockContact from 'utils/mocking';
 import { fromJS } from 'immutable';
 import {
   SET_PRESENCE,
@@ -12,6 +11,9 @@ import {
   ADD_INTERACTION,
   WORK_INITIATED,
   REMOVE_INTERACTION,
+  ADD_SEARCH_FILTER,
+  REMOVE_SEARCH_FILTER,
+  SET_INTERACTION_QUERY,
   SET_MESSAGE_HISTORY,
   ASSIGN_CONTACT,
   ADD_MESSAGE,
@@ -82,6 +84,7 @@ const initialState = fromJS({
     //         timestamp: new Date().toISOString(),
     //       },
     //     ],
+    //     query: {},
     //     contact: mockContact(),
     //     hasUnreadMessage: false,
     //   },
@@ -146,6 +149,10 @@ function agentDesktopReducer(state = initialState, action) {
         customerAvatarIndex: action.response.channelType !== 'voice' ? Math.floor(Math.random() * 17) : undefined,
         interactionId: action.response.interactionId,
         status: 'work-offer',
+        initialContactAction: 'view',
+        query: [],
+        contact: {},
+        searchResults: [],
         timeout: action.response.timeout,
         agentRecordingEnabled,
         recording,
@@ -193,13 +200,60 @@ function agentDesktopReducer(state = initialState, action) {
                 interactions.update(
                   interactionIndex,
                   (interaction) => interaction.set('messageHistory', fromJS(messageHistoryItems))
-                  // WARNING - MUCH MOCKERY
-                    .set('contact', fromJS(mockContact(interaction.get('channelType'), messageHistoryItems[0].from)))
-                  // WARNING - MUCH MOCKERY
               )
             );
         } else {
           return state;
+        }
+      } else {
+        return state;
+      }
+    }
+    case SET_INTERACTION_QUERY: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state
+          .updateIn(['interactions', interactionIndex],
+            (interaction) => interaction.set('query', fromJS(action.query)).set('initialContactAction', 'search')
+          );
+      } else {
+        return state;
+      }
+    }
+    case ADD_SEARCH_FILTER: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === state.get('selectedInteractionId')
+      );
+      if (interactionIndex !== -1) {
+        return state
+          .updateIn(['interactions', interactionIndex, 'query'],
+            (query) => {
+              if (action.filterName === 'q') {
+                return fromJS(action);
+              } else {
+                return query.set(action.filterName, action.value);
+              }
+            }
+          );
+      } else {
+        return state;
+      }
+    }
+    case REMOVE_SEARCH_FILTER: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === state.get('selectedInteractionId')
+      );
+      if (interactionIndex !== -1) {
+        if (action.filterName) {
+          return state
+            .updateIn(['interactions', interactionIndex, 'query'],
+              (query) => query.delete(action.filterName)
+            );
+        } else {
+          return state
+            .setIn(['interactions', interactionIndex, 'query'], {});
         }
       } else {
         return state;

@@ -8,10 +8,14 @@ import {
   SET_PRESENCE,
   ADD_INTERACTION,
   WORK_INITIATED,
+  SET_INTERACTION_QUERY,
   SET_MESSAGE_HISTORY,
   ASSIGN_CONTACT,
   ADD_MESSAGE,
   SET_INTERACTION_STATUS,
+  SET_SEARCH_RESULTS,
+  ADD_SEARCH_FILTER,
+  REMOVE_SEARCH_FILTER,
   REMOVE_INTERACTION,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
@@ -45,6 +49,34 @@ export function workInitiated(response) {
     response,
   };
 }
+export function setInteractionQuery(interactionId, query) {
+  return {
+    type: SET_INTERACTION_QUERY,
+    interactionId,
+    query,
+  };
+}
+
+export function setSearchResults(interactionId, response) {
+  return {
+    type: SET_SEARCH_RESULTS,
+    interactionId,
+    response,
+  };
+}
+export function addSearchFilter(filterName, value) {
+  return {
+    type: ADD_SEARCH_FILTER,
+    filterName,
+    value,
+  };
+}
+export function removeSearchFilter(filterName) {
+  return {
+    type: REMOVE_SEARCH_FILTER,
+    filterName,
+  };
+}
 
 export function setMessageHistory(response) {
   return {
@@ -52,6 +84,7 @@ export function setMessageHistory(response) {
     response,
   };
 }
+
 export function assignContact(interactionId, contact) {
   return {
     type: ASSIGN_CONTACT,

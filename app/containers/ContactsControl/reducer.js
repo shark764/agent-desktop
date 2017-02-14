@@ -6,9 +6,8 @@
 
 import { fromJS, List } from 'immutable';
 import {
-  ADD_SEARCH_FILTER,
-  REMOVE_SEARCH_FILTER,
   SET_SEARCH_RESULTS,
+  CLEAR_SEARCH_RESULTS,
 } from './constants';
 
 const initialState = fromJS({
@@ -16,41 +15,30 @@ const initialState = fromJS({
   results: [],
   nextPage: 1,
   loading: false,
+  resultsCount: -1,
 });
 
 function contactsControlReducer(state = initialState, action) {
   switch (action.type) {
-    case ADD_SEARCH_FILTER: {
-      if (action.filter.id !== 'all') {
-        return state
-          .update('query', (query) => query.push(fromJS(action.filter)))
-          .set('results', new List())
-          .set('nextPage', 1)
-          .set('resultsCount', undefined);
-      } else {
-        return state
-          .set('query', fromJS([action.filter]))
-          .set('results', new List())
-          .set('nextPage', 1)
-          .set('resultsCount', undefined);
-      }
-    }
-    case REMOVE_SEARCH_FILTER: {
+    case CLEAR_SEARCH_RESULTS: {
       return state
-        .update('query', (query) => query.filter((filter) => filter.get('id') !== action.filter.id))
         .set('results', new List())
         .set('nextPage', 1)
-        .set('resultsCount', undefined);
+        .set('resultsCount', -1);
     }
     case SET_SEARCH_RESULTS: {
       let results = state.get('results');
-      action.response.results.forEach((result) => {
-        results = results.push(fromJS(result));
-      });
-      return state
-        .set('results', results)
-        .set('nextPage', action.response.page + 1)
-        .set('resultsCount', action.response.count);
+      if (action.response.page === state.get('nextPage')) {
+        action.response.results.forEach((result) => {
+          results = results.push(fromJS(result));
+        });
+        return state
+          .set('results', results)
+          .set('nextPage', action.response.page + 1)
+          .set('resultsCount', action.response.count);
+      } else {
+        return state;
+      }
     }
     default:
       return state;

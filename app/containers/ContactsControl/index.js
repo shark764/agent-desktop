@@ -6,13 +6,13 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import messages from './messages';
 import Radium from 'radium';
 import InfiniteScroll from 'react-infinite-scroller';
 
-import selectContactsControl, { selectSelectedInteraction } from './selectors';
-import { addSearchFilter, removeSearchFilter, setSearchResults } from './actions';
+import selectContactsControl, { selectSelectedInteraction, selectAttributes } from './selectors';
+import { setSearchResults, clearSearchResults } from './actions';
 
 import Button from 'components/Button';
 import Filter from 'components/Filter';
@@ -29,9 +29,14 @@ export class ContactsControl extends React.Component {
     super(props);
 
     this.state = {
-      action: 'view',
-      tempContact: false,
+      action: this.props.selectedInteraction.initalContactAction ? this.props.selectedInteraction.initalContactAction : 'search',
+      query: this.expandQuery(this.props.selectedInteraction.query, this.props.attributes),
+      loading: false,
     };
+
+    if (Object.keys(props.selectedInteraction.contact).length) {
+      this.state.action = 'view';
+    }
 
     this.setSearching = this.setSearching.bind(this);
     this.setViewing = this.setViewing.bind(this);
@@ -45,13 +50,50 @@ export class ContactsControl extends React.Component {
     this.getSearchControlHeader = this.getSearchControlHeader.bind(this);
     this.getHeader = this.getHeader.bind(this);
     this.createContact = this.createContact.bind(this);
+    this.addFilter = this.addFilter.bind(this);
+    this.removeFilter = this.removeFilter.bind(this);
+    this.cancelSearch = this.cancelSearch.bind(this);
   }
 
-  componentDidMount() {
-    SDK.subscribe('cxengage/contacts/search-response', (error, topic, response) => {
-      console.log('[ContactsControl] SDK.subscribe()', topic, response);
-      this.props.setSearchResults(response);
-    });
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedInteraction.query !== this.props.selectedInteraction.query) {
+      this.setState({ query: this.expandQuery(nextProps.selectedInteraction.query, nextProps.attributes) });
+    }
+    if (this.props.selectedInteraction.id !== nextProps.selectedInteraction.id) {
+      if (Object.keys(nextProps.selectedInteraction.contact).length) {
+        this.setViewing();
+      }
+    }
+  }
+
+  expandQuery(query, attributes) {
+    const newQuery = Object.keys(query).map((filterName) => {
+      let attribute = attributes.find((fullAttribute) => fullAttribute.objectName === filterName);
+      if (filterName === 'q') {
+        attribute = {
+          id: 'all',
+          label: {
+            'en-US': 'All',
+          },
+          objectName: 'q', // Fuzzy search query parameter
+        };
+      }
+      const fallbackLabel = attribute.label[this.props.intl.locale] || (messages[`${filterName}Filter`] && messages[`${filterName}Filter`].defaultMessage) || filterName;
+      return (attribute)
+        ? { attribute, value: query[filterName], fallbackLabel }
+        : false;
+    }).filter(Boolean);
+    return newQuery;
+  }
+
+  removeFilter(filterName) {
+    this.props.clearSearchResults();
+    this.props.removeSearchFilter(filterName);
+  }
+
+  addFilter(filterName, value) {
+    this.props.clearSearchResults();
+    this.props.addSearchFilter(filterName, value);
   }
 
   setSearching() {
@@ -72,12 +114,33 @@ export class ContactsControl extends React.Component {
     });
   }
 
+  cancelSearch() {
+    this.removeFilter();
+    if (Object.keys(this.props.selectedInteraction.contact).length) {
+      this.setViewing();
+    }
+  }
+
   getSearchControlHeader() {
     return (
       <div style={this.styles.controlHeader}>
-        <ContactSearchBar resultsCount={this.props.resultsCount !== undefined ? this.props.resultsCount : -1} addFilter={this.props.addSearchFilter} setNotSearching={this.setViewing} style={this.styles.contactSearchBar} />
+        <ContactSearchBar
+          resultsCount={this.props.resultsCount !== undefined ? this.props.resultsCount : -1}
+          addFilter={this.addFilter}
+          cancel={this.setViewing}
+          query={this.state.query}
+          style={this.styles.contactSearchBar}
+        />
         <div style={this.styles.filtersWrapper}>
-          { this.props.query.map((filter) => <Filter key={filter.id} filter={filter} remove={this.props.removeSearchFilter} style={this.styles.filter} />) }
+          {this.state.query.map((filter) =>
+            <Filter
+              key={filter.attribute.objectName}
+              name={filter.fallbackLabel}
+              value={filter.value}
+              remove={() => this.removeFilter(filter.attribute.objectName)}
+              style={this.styles.filter}
+            />
+          )}
         </div>
       </div>
     );
@@ -122,7 +185,7 @@ export class ContactsControl extends React.Component {
       case 'view':
         return this.renderContactView();
       case 'creating':
-        return <Contact save={this.createContact} cancel={this.setSearching} style={this.styles.mainContact} contactAttributes={this.state.tempContact ? this.state.tempContact.attributes : {}} isEditing />;
+        return <Contact save={this.createContact} cancel={this.setSearching} style={this.styles.mainContact} isEditing />;
       case 'search':
       default:
         return this.renderResults();
@@ -130,12 +193,13 @@ export class ContactsControl extends React.Component {
   }
 
   searchContacts() {
-    const sdkQuery = {};
-    this.props.query.forEach((queryItem) => {
-      sdkQuery[queryItem.objectName] = queryItem.value;
-    });
-    sdkQuery.page = this.props.nextPage;
-    SDK.contacts.search({ query: sdkQuery });
+    if (!this.state.loading) {
+      this.setState({ loading: true });
+      SDK.contacts.search({ query: this.props.selectedInteraction.query, page: this.props.nextPage }, (error, topic, response) => {
+        this.props.setSearchResults(response);
+        this.setState({ loading: false });
+      });
+    }
   }
 
   styles = {
@@ -245,18 +309,23 @@ export class ContactsControl extends React.Component {
   };
 
   createContact(contact) {
-    SDK.contacts.create(contact);
-    this.setViewing();
+    if (!this.state.loading) {
+      this.setState({ loading: true });
+      SDK.contacts.create(contact, () => {
+        this.setState({ loading: false });
+        this.setViewing();
+      });
+    }
   }
 
   renderResults() {
     let results;
-    if (this.props.query.length) {
+    if (this.props.selectedInteraction.query && Object.keys(this.props.selectedInteraction.query).length) {
       const resultsMapped = this.props.results.map((contact) => <ContactSearchResult style={this.styles.contactResult} key={contact.id} contact={contact} />);
       results = (
         <InfiniteScroll
           loadMore={this.searchContacts}
-          hasMore={this.props.resultsCount === undefined || this.props.results.length < this.props.resultsCount}
+          hasMore={this.props.resultsCount === -1 || this.props.results.length < this.props.resultsCount}
           loader={<div className="loader"><FormattedMessage {...messages.loading} /></div>}
           useWindow={false}
         >
@@ -287,7 +356,7 @@ export class ContactsControl extends React.Component {
 
   renderContactView() {
     return this.props.selectedInteraction.contact ?
-      <Contact style={this.styles.mainContact} contactAttributes={this.props.selectedInteraction.contact.attributes} />
+      <Contact style={this.styles.mainContact} contactAttributes={this.props.selectedInteraction.contact.attributes} loading={this.state.loading} />
       :
       ''; // TODO: loading animation
   }
@@ -305,20 +374,23 @@ export class ContactsControl extends React.Component {
 }
 
 ContactsControl.propTypes = {
+  intl: React.PropTypes.object.isRequired,
   style: React.PropTypes.object,
   key: React.PropTypes.any,
-  query: React.PropTypes.array,
-  nextPage: React.PropTypes.number,
+  attributes: React.PropTypes.array,
   resultsCount: React.PropTypes.number,
   results: React.PropTypes.any,
+  nextPage: React.PropTypes.number,
   addSearchFilter: React.PropTypes.func,
   removeSearchFilter: React.PropTypes.func,
   setSearchResults: React.PropTypes.func,
+  clearSearchResults: React.PropTypes.func,
   selectedInteraction: React.PropTypes.object,
 };
 
 function mapStateToProps(state, props) {
   return {
+    attributes: selectAttributes(state, props),
     selectedInteraction: selectSelectedInteraction(state, props),
     ...selectContactsControl(state, props),
   };
@@ -326,11 +398,10 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addSearchFilter: (filter) => dispatch(addSearchFilter(filter)),
-    removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
-    setSearchResults: (response) => dispatch(setSearchResults(response)),
+    setSearchResults: (filter) => dispatch(setSearchResults(filter)),
+    clearSearchResults: () => dispatch(clearSearchResults()),
     dispatch,
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(ContactsControl));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactsControl)));

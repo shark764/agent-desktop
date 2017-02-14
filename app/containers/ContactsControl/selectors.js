@@ -22,6 +22,12 @@ export default selectContactsControl;
  */
 
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
+const selectSidePanelDomain = (state) => state.get('sidePanel');
+
+const selectAttributes = createSelector(
+  selectSidePanelDomain,
+  (sidePanel) => sidePanel.get('contactAttributes').toJS()
+);
 
 const selectInteractions = createSelector(
   selectAgentDesktopDomain,
@@ -41,6 +47,7 @@ const selectSelectedInteraction = createSelector(
 );
 
 export {
-selectContactsControlDomain,
-selectSelectedInteraction,
+  selectContactsControlDomain,
+  selectSelectedInteraction,
+  selectAttributes,
 };

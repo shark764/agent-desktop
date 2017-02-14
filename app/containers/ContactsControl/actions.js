@@ -5,22 +5,13 @@
  */
 
 import {
-  ADD_SEARCH_FILTER,
-  REMOVE_SEARCH_FILTER,
+  CLEAR_SEARCH_RESULTS,
   SET_SEARCH_RESULTS,
 } from './constants';
 
-export function addSearchFilter(filter) {
+export function clearSearchResults() {
   return {
-    type: ADD_SEARCH_FILTER,
-    filter,
-  };
-}
-
-export function removeSearchFilter(filter) {
-  return {
-    type: REMOVE_SEARCH_FILTER,
-    filter,
+    type: CLEAR_SEARCH_RESULTS,
   };
 }
 
