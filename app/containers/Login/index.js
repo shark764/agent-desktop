@@ -241,6 +241,18 @@ export class Login extends React.Component {
     errorTenant: {
       top: '-406.4px',
     },
+    copyright: {
+      width: '500px',
+      position: 'relative',
+      bottom: '-5em',
+      color: '#FFFFFF',
+      textAlign: 'center',
+    },
+    copyrightText: {
+      marginBottom: '1em',
+      display: 'block',
+      position: 'relative',
+    },
   };
 
   render() {
@@ -259,6 +271,12 @@ export class Login extends React.Component {
           <Dialog style={Object.assign({}, this.styles.center)}>
             {pageContent}
           </Dialog>
+          <div style={this.styles.copyright}>
+            <div style={this.styles.copyrightText}>
+              <FormattedMessage {...messages.copyright} />
+            </div>
+            <FormattedMessage {...messages.legal} />
+          </div>
         </div>
       </div>
     );
