@@ -1,3 +1,12 @@
+<a name"0.2.2"></a>
+### 0.2.2 (2017-02-15)
+* Queue transfers
+* Refresh buttons for agents/queues in transfer menu
+* Switch positions of cold/warm transfers (warm is default)
+* Hide dialpad when not ready
+* Refactored voice controls into their own components so that they reconstruct when starting/ending interactions
+* Fixed dialpad buttons border error
+
 <a name"0.2.1"></a>
 ### 0.2.1 (2017-02-14)
 * Fix initial contact view state and SDK logs

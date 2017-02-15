@@ -97,8 +97,6 @@ function Button(props) {
   function checkBorderOverride(style) {
     if (style.borderTop || style.borderRight || style.borderBottom || style.borderLeft) {
       border = undefined;
-    }
-    if (style[':focus']) {
       focusBorder = undefined;
     }
   }
@@ -114,7 +112,6 @@ function Button(props) {
   if (border) {
     styles.base.border = border;
   }
-
   if (focusBorder) {
     styles.base[':focus'] = focusBorder;
   }
