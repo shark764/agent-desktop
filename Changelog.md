@@ -1,3 +1,7 @@
+<a name"0.2.3"></a>
+### 0.2.3 (2017-02-15)
+* Select next interaction when current interaction end.
+
 <a name"0.2.2"></a>
 ### 0.2.2 (2017-02-15)
 * Queue transfers
