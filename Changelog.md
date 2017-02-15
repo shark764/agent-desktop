@@ -1,3 +1,7 @@
+<a name"0.2.5"></a>
+### 0.2.5 (2017-02-15)
+* Show oldest unread customer message in interaction preview. Show most recent (non-system) message if none are unread.
+
 <a name"0.2.4"></a>
 ### 0.2.4 (2017-02-15)
 * Add copyright and legal info to login screen.

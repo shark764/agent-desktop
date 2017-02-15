@@ -83,10 +83,10 @@ const initialState = fromJS({
     //         from: '15552213456',
     //         type: 'sms',
     //         timestamp: new Date().toISOString(),
+    //         unread: false,
     //       },
     //     ],
     //     contact: mockContact(),
-    //     hasUnreadMessage: false,
     //   },
     // ],
     // selectedInteractionId: '11111111111111111111112',
@@ -110,18 +110,7 @@ function agentDesktopReducer(state = initialState, action) {
             (interactions) =>
               interactions.update(
                 interactionIndex,
-                (interaction) => {
-                  // We only want to set hasUnreadMessage for messaging/sms interactions
-                  let hasUnreadMessage;
-                  if ((interaction.get('channelType') === 'messaging' || interaction.get('channelType') === 'sms') &&
-                      (action.newStatus === 'work-accepting' || action.newStatus === 'work-accepted') &&
-                      state.get('selectedInteractionId') !== interaction.get('interactionId')) {
-                    hasUnreadMessage = true;
-                  }
-                  return interaction
-                    .set('status', action.newStatus)
-                    .set('hasUnreadMessage', hasUnreadMessage);
-                }
+                (interaction) => interaction.set('status', action.newStatus)
               )
           ).set('selectedInteractionId',
             automaticallyAcceptInteraction
@@ -215,6 +204,7 @@ function agentDesktopReducer(state = initialState, action) {
             from: messageHistoryItem.payload.metadata && messageHistoryItem.payload.metadata.name ? messageHistoryItem.payload.metadata.name : messageHistoryItem.payload.from,
             type: messageHistoryItem.payload.metadata ? messageHistoryItem.payload.metadata.type : messageHistoryItem.payload.type,
             timestamp: messageHistoryItem.payload.timestamp,
+            unread: state.get('selectedInteractionId') !== undefined && action.response[0].channelId !== state.get('selectedInteractionId'),
           }));
           return state
             .update('interactions',
@@ -322,6 +312,7 @@ function agentDesktopReducer(state = initialState, action) {
           from: message.metadata !== null ? message.metadata.name : message.from,
           type: message.metadata !== null ? message.metadata.type : message.type,
           timestamp: message.timestamp,
+          unread: state.get('selectedInteractionId') !== undefined && message.to !== state.get('selectedInteractionId'),
         };
         return state
           .update('interactions',
@@ -329,7 +320,6 @@ function agentDesktopReducer(state = initialState, action) {
             interactions.update(
               interactionIndex,
               (interaction) => interaction.update('messageHistory', (messageHistory) => messageHistory.push(fromJS(messageHistoryItem)))
-                .set('hasUnreadMessage', state.get('selectedInteractionId') !== interaction.get('interactionId'))
           )
         );
       } else {
@@ -347,7 +337,12 @@ function agentDesktopReducer(state = initialState, action) {
             (interactions) =>
               interactions.update(
                 interactionIndex,
-                (interaction) => interaction.set('hasUnreadMessage', false)
+                (interaction) =>
+                  interaction.set('messageHistory',
+                    interaction.get('messageHistory') !== undefined
+                    ? interaction.get('messageHistory').map((messageHistoryItem) => messageHistoryItem.set('unread', false))
+                    : undefined
+                  )
               )
           );
       } else {
