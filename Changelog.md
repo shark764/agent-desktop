@@ -1,6 +1,10 @@
+<a name"0.2.4"></a>
+### 0.2.4 (2017-02-15)
+* Add copyright and legal info to login screen.
+
 <a name"0.2.3"></a>
 ### 0.2.3 (2017-02-15)
-* Add copyright and legal info to login screen
+* Select next interaction when current interaction end.
 
 <a name"0.2.2"></a>
 ### 0.2.2 (2017-02-15)
