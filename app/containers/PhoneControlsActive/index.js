@@ -16,10 +16,12 @@ import TransferMenu from 'containers/TransferMenu';
 
 import CircleIconButton from 'components/CircleIconButton';
 import Dialpad from 'components/Dialpad';
+import Timer from 'components/Timer';
 
 export class PhoneControlsActive extends React.Component {
   constructor(props) {
     super(props);
+    this.setShowTransferMenu = this.setShowTransferMenu.bind(this);
     this.setShowActiveInteractionDialpad = this.setShowActiveInteractionDialpad.bind(this);
     this.setActiveInteractionDialpadText = this.setActiveInteractionDialpadText.bind(this);
     this.setRecording = this.setRecording.bind(this);
@@ -113,6 +115,51 @@ export class PhoneControlsActive extends React.Component {
       padding: 0,
       fontSize: '14px',
     },
+    warmTransfersContainer: {
+      marginTop: '11px',
+    },
+    warmTransfer: {
+      padding: '11px 23px',
+      fontSize: '15px',
+      fontWeight: 600,
+    },
+    transferInProgress: {
+      color: '#979797',
+    },
+    transferStatusIcon: {
+      height: '8px',
+      width: '8px',
+      borderRadius: '4px',
+      display: 'inline-block',
+      margin: '0 15px 6px 0',
+    },
+    transferConnectedIcon: {
+      backgroundColor: '#23CEF5',
+    },
+    transferOnHoldIcon: {
+      border: '1px solid #23CEF5',
+    },
+    transferName: {
+      // TODO once we have transfer-connected pub sub
+      // maxWidth: '100px',
+      maxWidth: '180px',
+      marginRight: '5px',
+      display: 'inline-block',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
+    transferStatus: {
+      fontSize: '12px',
+      display: 'inline-block',
+      verticalAlign: 'top',
+      marginTop: '2px',
+    },
+    transferTimer: {
+      float: 'right',
+      fontSize: '14px',
+      fontWeight: 'normal',
+    },
   }
 
   render() {
@@ -143,6 +190,42 @@ export class PhoneControlsActive extends React.Component {
       recordingContainer = <div style={{ height: '6px', width: '100%' }}></div>;
     }
 
+    let warmTransfers;
+    if (this.props.activeVoiceInteraction.warmTransfers.length > 0) {
+      const warmTransfersMapped = this.props.activeVoiceInteraction.warmTransfers.map((warmTransfer) => {
+        let status;
+        let statusStyle;
+        // TODO uncomment once we have transfer-connected pub sub
+        // let statusIconStyle;
+        if (warmTransfer.status === 'transferring') {
+          // status = <FormattedMessage {...messages.connecting} />;
+          // statusStyle = this.styles.transferInProgress;
+        } else if (warmTransfer.status === 'connected') {
+          // statusIconStyle = this.styles.transferConnectedIcon;
+        } else {
+          throw new Error(`transfer status not valid: ${warmTransfer.status}`);
+        }
+        return (
+          <div id={`transfer-${warmTransfer.type}-${warmTransfer.id}`} key={`transfer-${warmTransfer.type}-${warmTransfer.id}`} style={[this.styles.warmTransfer, statusStyle]}>
+            { /* <div style={[this.styles.transferStatusIcon, statusIconStyle]}></div> */}
+            <span title={warmTransfer.name} style={this.styles.transferName}>
+              { warmTransfer.name }
+            </span>
+            <Timer format="mm:ss" style={this.styles.transferTimer} />
+            {status
+              ? <span style={this.styles.transferStatus}>({status})</span>
+              : ''
+            }
+          </div>
+        );
+      });
+      warmTransfers = (
+        <div style={this.styles.warmTransfersContainer}>
+          { warmTransfersMapped }
+        </div>
+      );
+    }
+
     return (
       <div style={this.styles.base}>
         {recordingContainer}
@@ -157,7 +240,7 @@ export class PhoneControlsActive extends React.Component {
           ? <div>
             <div style={[this.props.style.topTriangle, this.styles.transferTopTriangle]}></div>
             <div id="transfersContainer" style={[this.props.style.phoneControlsPopupMenu, this.styles.transferPhoneControlsPopupMenu]}>
-              <TransferMenu interactionId={this.props.activeVoiceInteraction.interactionId} />
+              <TransferMenu interactionId={this.props.activeVoiceInteraction.interactionId} setShowTransferMenu={this.setShowTransferMenu} />
             </div>
           </div>
           : ''
@@ -171,6 +254,7 @@ export class PhoneControlsActive extends React.Component {
           </div>
           : ''
         }
+        { warmTransfers }
       </div>
     );
   }

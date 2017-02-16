@@ -19,6 +19,7 @@ import {
   REMOVE_INTERACTION,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
+  START_WARM_TRANSFERRING,
   MUTE_CALL,
   UNMUTE_CALL,
   HOLD_CALL,
@@ -127,6 +128,14 @@ export function setCustomFields(interactionId, customFields) {
     type: SET_CUSTOM_FIELDS,
     interactionId,
     customFields,
+  };
+}
+
+export function startWarmTransferring(interactionId, transferringTo) {
+  return {
+    type: START_WARM_TRANSFERRING,
+    interactionId,
+    transferringTo,
   };
 }
 

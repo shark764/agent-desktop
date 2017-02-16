@@ -10,10 +10,11 @@ import { Tab, TabList, TabPanel } from 'react-tabs';
 import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 
-import { selectAgentId } from './selectors';
+import { selectAgentId, selectWarmTransfers } from './selectors';
 import messages from './messages';
 
 import search from 'assets/icons/search.png';
+import { startWarmTransferring } from 'containers/AgentDesktop/actions';
 
 import Tabs from 'components/Tabs';
 import TextInput from 'components/TextInput';
@@ -75,6 +76,15 @@ export class TransferMenu extends React.Component {
   componentDidMount() {
     SDK.api.getQueues({}, (error, topic, response) => this.setQueuesCallback(error, topic, response));
     SDK.api.getUsers({}, (error, topic, response) => this.setAgentsCallback(error, topic, response));
+
+    this.reloadTransferablesInterval = setInterval(() => {
+      SDK.api.getQueues({}, (error, topic, response) => this.setQueuesCallback(error, topic, response));
+      SDK.api.getUsers({}, (error, topic, response) => this.setAgentsCallback(error, topic, response));
+    }, 5000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.reloadTransferablesInterval);
   }
 
   refreshQueues() {
@@ -225,9 +235,27 @@ export class TransferMenu extends React.Component {
     alert(`TODO ${this.state.transferTabIndex ? 'Cold' : 'Warm'} transfer to ${name}`);
   }
 
-  transfer(resourceId, queueId) {
+  transfer(name, resourceId, queueId) {
     console.log('transfer()', this.state.transferTabIndex === 0 ? 'warm' : 'cold', resourceId, queueId, this.props.interactionId);
     if (this.state.transferTabIndex === 0) {
+      let id;
+      let type;
+      if (queueId !== undefined) {
+        id = queueId;
+        type = 'queue';
+      } else if (resourceId !== undefined) {
+        id = resourceId;
+        type = 'agent';
+      } else {
+        throw new Error('neither resourceId nor queueId passed in');
+      }
+      const transferringTo = {
+        id,
+        type,
+        name,
+      };
+      this.props.startWarmTransferring(this.props.interactionId, transferringTo);
+
       SDK.interactions.voice.warmTransfer({
         interactionId: this.props.interactionId,
         resourceId,
@@ -240,6 +268,7 @@ export class TransferMenu extends React.Component {
         queueId,
       });
     }
+    this.props.setShowTransferMenu(false);
   }
 
   render() {
@@ -247,7 +276,7 @@ export class TransferMenu extends React.Component {
     if (this.state.queues !== 'loading') {
       queues = this.filterTransferListItems(this.state.queues)
         .map((queue) =>
-          <div key={queue.name} className="queueTransferListItem" onClick={() => this.transfer(undefined, queue.id)} style={this.styles.transferListItem} title={queue.name}>
+          <div key={queue.name} className="queueTransferListItem" onClick={() => this.transfer(queue.name, undefined, queue.id)} style={this.styles.transferListItem} title={queue.name}>
             <span style={this.styles.queueName}>
               {queue.name}
             </span>
@@ -264,10 +293,19 @@ export class TransferMenu extends React.Component {
     if (this.state.agents !== 'loading') {
       agents = this.filterTransferListItems(this.state.agents)
         .map((agent) => {
-          // TODO add voiceCapacity to this check when it is available
-          if (agent.state === 'ready') {
+          if (this.props.warmTransfers.find((transfer) => transfer.id === agent.id)) {
             return (
-              <div key={agent.id} id={agent.id} className="readyAgentTransferListItem" onClick={() => this.transfer(agent.id)} style={this.styles.transferListItem} title={agent.name}>
+              <div key={agent.id} id={agent.id} className="readyAgentTransferListItem" style={this.styles.inactiveTransferListItem} title={agent.name}>
+                <div style={[this.styles.agentStatusIcon, this.styles.agentAvailable]}></div>
+                <span style={this.styles.agentName}>
+                  {agent.name}
+                </span>
+              </div>
+            );
+          // TODO add voiceCapacity to this check when it is available
+          } else if (agent.state === 'ready') {
+            return (
+              <div key={agent.id} id={agent.id} className="readyAgentTransferListItem" onClick={() => this.transfer(agent.name, agent.id)} style={this.styles.transferListItem} title={agent.name}>
                 <div style={[this.styles.agentStatusIcon, this.styles.agentAvailable]}></div>
                 <span style={this.styles.agentName}>
                   {agent.name}
@@ -385,17 +423,22 @@ export class TransferMenu extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   agentId: selectAgentId(state, props),
+  warmTransfers: selectWarmTransfers(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
+    startWarmTransferring: (interactionId, transferringTo) => dispatch(startWarmTransferring(interactionId, transferringTo)),
     dispatch,
   };
 }
 
 TransferMenu.propTypes = {
   interactionId: PropTypes.string.isRequired,
+  setShowTransferMenu: PropTypes.func.isRequired,
   agentId: PropTypes.string.isRequired,
+  warmTransfers: PropTypes.array.isRequired,
+  startWarmTransferring: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(TransferMenu));

@@ -15,7 +15,7 @@ function Timer(props) {
   }
   const time = moment.duration(props.timer.tick * 1000);
   return (
-    <span>
+    <span style={props.style}>
       {moment.utc(time.asMilliseconds()).format(format)}
     </span>
   );
@@ -24,6 +24,7 @@ function Timer(props) {
 Timer.propTypes = {
   timer: PropTypes.object,
   format: PropTypes.string,
+  style: PropTypes.object,
 };
 
 export default timer(1000)(Timer);

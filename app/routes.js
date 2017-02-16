@@ -69,12 +69,10 @@ export default function createRoutes(store) {
 
         const importInteractionsBarModules = Promise.all([
           System.import('containers/InteractionsBar/reducer'),
-          System.import('containers/InteractionsBar/sagas'),
         ]);
 
-        importInteractionsBarModules.then(([reducer, sagas]) => {
+        importInteractionsBarModules.then(([reducer]) => {
           injectReducer('interactionsBar', reducer.default);
-          injectSagas(sagas.default);
         });
 
         importInteractionsBarModules.catch(errorLoading);

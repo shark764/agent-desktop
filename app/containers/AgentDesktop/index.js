@@ -240,7 +240,6 @@ export class AgentDesktop extends React.Component {
     leftArea: {
       flex: '0 0 auto',
       width: '283px',
-      borderBottom: '1px solid #141414',
       display: 'flex',
       flexFlow: 'column',
     },

@@ -1,3 +1,9 @@
+<a name"0.2.8"></a>
+### 0.2.8 (2017-02-16)
+* Start of warm transfer status in phone controls
+* Prevent transfer to agents already being transferred to
+* Auto refresh agents and queus every 5 seconds
+
 <a name"0.2.7"></a>
 ### 0.2.7 (2017-02-16)
 * BUG: voice interactions not triggering contact search/assign attempt.

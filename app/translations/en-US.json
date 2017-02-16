@@ -55,6 +55,7 @@
   "app.containers.Login.welcome": "Sign in to CXEngage",
   "app.containers.MessagingContentArea.endChat": "End Chat",
   "app.containers.PhoneControls.call": "Call",
+  "app.containers.PhoneControls.connecting": "connecting",
   "app.containers.PhoneControls.off": "OFF",
   "app.containers.PhoneControls.on": "ON",
   "app.containers.PhoneControls.recording": "Recording",
