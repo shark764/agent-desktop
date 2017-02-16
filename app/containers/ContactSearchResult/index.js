@@ -58,7 +58,7 @@ export class ContactSearchResult extends React.Component {
   render() {
     return (
       <div style={[this.styles.base, this.props.style]}>
-        <Contact contactAttributes={this.props.contact.attributes} style={[this.styles.contact]} showCompactView={!this.state.expanded} ></Contact>
+        <Contact contact={this.props.contact} style={[this.styles.contact]} showCompactView={!this.state.expanded} ></Contact>
         <div onClick={() => this.setState({ expanded: !this.state.expanded })} style={this.styles.expandToggle} >
           <span style={this.styles.ellip}>...</span>
         </div>

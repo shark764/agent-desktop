@@ -1,3 +1,9 @@
+<a name"0.2.6"></a>
+### 0.2.6 (2017-02-16)
+* Edit contacts.
+* Always show name as contact title.
+* Tweaks / improvements to contact input error display.
+
 <a name"0.2.5"></a>
 ### 0.2.5 (2017-02-15)
 * Show oldest unread customer message in interaction preview. Show most recent (non-system) message if none are unread.

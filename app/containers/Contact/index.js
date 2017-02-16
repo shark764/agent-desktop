@@ -21,21 +21,16 @@ export class Contact extends React.Component {
     super(props);
 
     this.state = {
-      formInput: {},
-      showError: {},
+      formInputs: {},
+      showErrors: {},
       errors: {},
       disableSubmit: true,
     };
 
-    this.props.layoutSections.forEach((section) => {
-      section.attributes.forEach((attribute) => {
-        const isExistingValueDefined = (this.props.contactAttributes && this.props.contactAttributes[attribute.objectName] !== undefined);
-        const initialValue = isExistingValueDefined ? this.props.contactAttributes[attribute.objectName] : (attribute.default || '');
-        this.state.formInput[attribute.objectName] = initialValue;
-        this.state.errors[attribute.objectName] = this.getError(attribute.objectName, initialValue);
-        this.state.showError[attribute.objectName] = false;
-      });
-    });
+    if (this.props.isEditing) {
+      Object.assign(this.state, this.initFormInputsState(this.props));
+    }
+
 
     this.getSection = this.getSection.bind(this);
     this.getSectionHeading = this.getSectionHeading.bind(this);
@@ -51,6 +46,36 @@ export class Contact extends React.Component {
     this.handleOnBlur = this.handleOnBlur.bind(this);
     this.formatValue = this.formatValue.bind(this);
     this.getError = this.getError.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isEditing && !this.props.isEditing) {
+      this.setState(this.initFormInputsState(nextProps));
+    } else if (!nextProps.isEditing && this.props.isEditing) {
+      this.setState({
+        editingContactId: false,
+        formInputs: {},
+        errors: {},
+        disableSubmit: true,
+      });
+    }
+  }
+
+  initFormInputsState(props) {
+    const contactAttributes = props.contact.attributes ? props.contact.attributes : {};
+    const formInputs = {};
+    const errors = {};
+    const showErrors = {};
+    props.layoutSections.forEach((section) => {
+      section.attributes.forEach((attribute) => {
+        const isExistingValueDefined = (contactAttributes && contactAttributes[attribute.objectName] !== undefined);
+        const initialValue = isExistingValueDefined ? contactAttributes[attribute.objectName] : (attribute.default || '');
+        formInputs[attribute.objectName] = initialValue;
+        errors[attribute.objectName] = this.getError(attribute.objectName, initialValue);
+        showErrors[attribute.objectName] = false;
+      });
+    });
+    return { formInputs, errors, showErrors, editingContactId: props.contact.contactId };
   }
 
   phoneNumberUtil = PhoneNumberUtil.getInstance();
@@ -209,7 +234,7 @@ export class Contact extends React.Component {
     switch (attributeToValidate.type) {
       case 'phone':
         formattedValue = value.replace(/[^0-9+*#]/g, '');
-        if (formattedValue.indexOf('+') !== 0) {
+        if (formattedValue.indexOf('+') !== 0 && formattedValue.length > 0) {
           formattedValue = `+${formattedValue}`;
         }
         return formattedValue;
@@ -219,25 +244,26 @@ export class Contact extends React.Component {
   }
 
   showError(name) {
-    const stateUpdate = { showError: { ...this.state.showError } };
-    stateUpdate.showError[name] = true;
-    this.setState(stateUpdate);
+    if (!this.state.showErrors[name]) {
+      const stateUpdate = { showErrors: { ...this.state.showErrors } };
+      stateUpdate.showErrors[name] = true;
+      this.setState(stateUpdate);
+    }
   }
 
   handleOnBlur(event) {
+    this.setState({
+      disableSubmit: Object.keys(this.state.errors).some((key) => this.state.errors[key] !== false),
+    });
     this.showError(event.target.name);
   }
 
   handleSubmit() {
-    if (this.state.disableSubmit) {
-      Object.keys(this.state.showError).forEach(this.showError);
-    } else {
-      this.props.save({ attributes: this.state.formInput });
-    }
+    this.props.save({ attributes: this.state.formInputs }, this.state.editingContactId);
   }
 
   handleCancel(event) {
-    const isNewRecord = !Object.keys(this.props.contactAttributes).length;
+    const isNewRecord = !this.state.editingContactId;
     event.preventDefault();
     if (window.confirm(isNewRecord ? this.props.intl.formatMessage(messages.warnNew) : this.props.intl.formatMessage(messages.warnEdit))) {
       this.props.cancel();
@@ -246,9 +272,9 @@ export class Contact extends React.Component {
 
   getAttributeValueDisplay(attribute) {
     let value;
-    const inputError = this.state.showError[attribute.objectName] ? this.state.errors[attribute.objectName] : false;
+    const inputError = this.state.showErrors[attribute.objectName] ? this.state.errors[attribute.objectName] : false;
     if (this.props.isEditing) {
-      value = this.state.formInput[attribute.objectName] || '';
+      value = this.state.formInputs[attribute.objectName] || '';
       return (
         <div key={attribute.objectName} ref={(element) => { this.inputDiv = element; }} style={[this.styles.inputBox, inputError ? this.styles.inputErrorBorder : this.styles.inputBorder]}>
           <TextInput
@@ -278,7 +304,7 @@ export class Contact extends React.Component {
         </div>
       );
     }
-    value = this.props.contactAttributes[attribute.objectName];
+    value = this.props.contact.attributes ? this.props.contact.attributes[attribute.objectName] : '';
     let content;
     switch (attribute.type) { // TODO: AttributeValue components w/edit flags & callbacks
       case 'phone':
@@ -310,7 +336,7 @@ export class Contact extends React.Component {
     return (
       <div style={this.styles.attributeRow} key={attribute.id}>
         <div style={this.styles.attributeName}>
-          {attribute.label[this.props.intl.locale]}
+          {`${attribute.label[this.props.intl.locale]}${(attribute.mandatory && this.props.isEditing) ? '*' : ''}`}
         </div>
         {this.getAttributeValueDisplay(attribute)}
       </div>
@@ -335,16 +361,16 @@ export class Contact extends React.Component {
   }
 
   setAttributeValue(name, newValue) {
-    const stateUpdate = { formInput: { ...this.state.formInput }, errors: { ...this.state.errors } };
+    const stateUpdate = { formInputs: { ...this.state.formInputs }, errors: { ...this.state.errors } };
     const cleanedInput = this.formatValue(name, newValue);
-    stateUpdate.formInput[name] = cleanedInput;
+    stateUpdate.formInputs[name] = cleanedInput;
     stateUpdate.errors[name] = this.getError(name, cleanedInput);
     stateUpdate.disableSubmit = Object.keys(stateUpdate.errors).some((key) => stateUpdate.errors[key] !== false);
     this.setState(stateUpdate);
   }
 
   getHeader() {
-    return this.getAttributeValueDisplay(this.props.compactLayoutAttributes.attributes[0]);
+    return this.getAttributeValueDisplay(this.props.attributes.find((attribute) => attribute.objectName === 'name'));
   }
 
   getEditView() {
@@ -363,7 +389,7 @@ export class Contact extends React.Component {
         </div>
         { this.props.showCompactView
           // Skip the first attribute for compact view; we're displaying it in the header
-          ? this.props.compactLayoutAttributes.attributes.filter((element, index) => index !== 0).map(this.getAttributeRow)
+          ? this.props.compactLayoutAttributes.attributes.map(this.getAttributeRow)
           : this.props.layoutSections.map(this.getSection)
         }
       </div>
@@ -421,7 +447,7 @@ Contact.propTypes = {
   compactLayoutAttributes: PropTypes.object,
   layoutSections: PropTypes.array,
   attributes: PropTypes.array,
-  contactAttributes: PropTypes.object,
+  contact: PropTypes.object,
   isEditing: PropTypes.bool,
   cancel: PropTypes.func,
   save: PropTypes.func,
@@ -431,7 +457,7 @@ Contact.propTypes = {
 };
 
 Contact.defaultProps = {
-  contactAttributes: {},
+  contact: {},
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Contact)));

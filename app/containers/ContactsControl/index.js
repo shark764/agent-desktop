@@ -29,9 +29,9 @@ export class ContactsControl extends React.Component {
     super(props);
 
     this.state = {
-      action: 'search',
       query: this.expandQuery(this.props.selectedInteraction.query, this.props.attributes),
       loading: false,
+      idEditing: false,
     };
 
     this.setSearching = this.setSearching.bind(this);
@@ -40,7 +40,7 @@ export class ContactsControl extends React.Component {
     this.searchContacts = this.searchContacts.bind(this);
     this.renderResults = this.renderResults.bind(this);
     this.renderContactView = this.renderContactView.bind(this);
-    this.setCreating = this.setCreating.bind(this);
+    this.setEditing = this.setEditing.bind(this);
     this.getBannerHeader = this.getBannerHeader.bind(this);
     this.getViewControlHeader = this.getViewControlHeader.bind(this);
     this.getSearchControlHeader = this.getSearchControlHeader.bind(this);
@@ -48,7 +48,10 @@ export class ContactsControl extends React.Component {
     this.createContact = this.createContact.bind(this);
     this.addFilter = this.addFilter.bind(this);
     this.removeFilter = this.removeFilter.bind(this);
-    this.cancelSearch = this.cancelSearch.bind(this);
+    this.clearSearch = this.clearSearch.bind(this);
+    this.setNotEditing = this.setNotEditing.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.saveCallback = this.saveCallback.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -98,19 +101,23 @@ export class ContactsControl extends React.Component {
     this.props.setContactAction(this.props.selectedInteraction.interactionId, 'search');
   }
 
-  setCreating() {
-    this.props.setContactAction(this.props.selectedInteraction.interactionId, 'create');
+  setEditing() {
+    this.setState({ isEditing: true });
   }
 
   setViewing() {
     this.props.setContactAction(this.props.selectedInteraction.interactionId, 'view');
   }
 
-  cancelSearch() {
+  clearSearch() {
     this.removeFilter();
     if (Object.keys(this.props.selectedInteraction.contact).length) {
       this.setViewing();
     }
+  }
+
+  setNotEditing() {
+    this.setState({ isEditing: false });
   }
 
   getSearchControlHeader() {
@@ -119,7 +126,7 @@ export class ContactsControl extends React.Component {
         <ContactSearchBar
           resultsCount={this.props.resultsCount !== undefined ? this.props.resultsCount : -1}
           addFilter={this.addFilter}
-          cancel={this.cancelSearch}
+          cancel={this.clearSearch}
           query={this.state.query}
           style={this.styles.contactSearchBar}
         />
@@ -142,7 +149,7 @@ export class ContactsControl extends React.Component {
     return (
       <div style={this.styles.controlHeader}>
         <div style={this.styles.buttonSet}>
-          {/* <Button id="contact-edit-btn" style={this.styles.leftButton} onClick={this.setCreating} text={messages.edit} type="secondary" /> */}
+          <Button id="contact-edit-btn" style={this.styles.leftButton} onClick={this.setEditing} text={messages.edit} type="secondary" />
           <Button id="contact-search-btn" style={this.styles.rightButton} onClick={this.setSearching} iconName="search" type="secondary" />
         </div>
       </div>
@@ -163,11 +170,15 @@ export class ContactsControl extends React.Component {
   getHeader() {
     switch (this.props.selectedInteraction.contactAction) {
       case 'view':
+        if (this.state.isEditing) {
+          return this.getBannerHeader(<FormattedMessage {...messages.editingBanner} />);
+        }
         return this.getViewControlHeader();
-      case 'create':
-        return this.getBannerHeader('New Customer Record');
       case 'search':
       default:
+        if (this.state.isEditing) {
+          return this.getBannerHeader(<FormattedMessage {...messages.newContactBanner} />);
+        }
         return this.getSearchControlHeader();
     }
   }
@@ -176,10 +187,11 @@ export class ContactsControl extends React.Component {
     switch (this.props.selectedInteraction.contactAction) {
       case 'view':
         return this.renderContactView();
-      case 'create':
-        return <Contact save={this.createContact} cancel={this.setSearching} style={this.styles.mainContact} isEditing />;
       case 'search':
       default:
+        if (this.state.isEditing) {
+          return <Contact save={this.handleSave} cancel={this.setNotEditing} style={this.styles.mainContact} isEditing={this.state.isEditing} />;
+        }
         return this.renderResults();
     }
   }
@@ -311,6 +323,25 @@ export class ContactsControl extends React.Component {
     }
   }
 
+  saveCallback(error, topic, response) {
+    console.log('[ContactsControl] SDK.subscribe()', topic, response);
+    this.setState({ loading: false });
+    if (error) {
+      console.error(error); // TODO: proper error display to user
+    } else {
+      this.setNotEditing();
+    }
+  }
+
+  handleSave(contactAttributes, contactId) {
+    this.setState({ loading: true });
+    if (contactId) {
+      SDK.contacts.update(contactId, contactAttributes, this.saveCallback);
+    } else {
+      SDK.contacts.create(contactAttributes, this.saveCallback);
+    }
+  }
+
   renderResults() {
     let results;
     if (this.props.selectedInteraction.query && Object.keys(this.props.selectedInteraction.query).length) {
@@ -340,7 +371,7 @@ export class ContactsControl extends React.Component {
           <div style={{ margin: '5px 0' }}>
             <FormattedMessage {...messages.or} />
           </div>
-          <Button id="createNewRecord" type="secondary" text="Create New Record" onClick={this.setCreating}></Button>
+          <Button id="createNewRecord" type="secondary" text="Create New Record" onClick={this.setEditing}></Button>
         </div>
       );
     }
@@ -348,8 +379,8 @@ export class ContactsControl extends React.Component {
   }
 
   renderContactView() {
-    return this.props.selectedInteraction.contact ?
-      <Contact style={this.styles.mainContact} contactAttributes={this.props.selectedInteraction.contact.attributes} loading={this.state.loading} />
+    return Object.keys(this.props.selectedInteraction.contact).length ?
+      <Contact style={this.styles.mainContact} contact={this.props.selectedInteraction.contact} loading={this.state.loading} save={this.handleSave} cancel={this.setNotEditing} isEditing={this.state.isEditing} />
       :
       ''; // TODO: loading animation
   }
