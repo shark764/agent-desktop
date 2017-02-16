@@ -242,7 +242,7 @@ export class Login extends React.Component {
       top: '-406.4px',
     },
     copyright: {
-      width: '500px',
+      width: '550px',
       position: 'relative',
       bottom: '-5em',
       color: '#FFFFFF',
@@ -252,6 +252,9 @@ export class Login extends React.Component {
       marginBottom: '1em',
       display: 'block',
       position: 'relative',
+    },
+    legalText: {
+      fontSize: '10px',
     },
   };
 
@@ -275,7 +278,9 @@ export class Login extends React.Component {
             <div style={this.styles.copyrightText}>
               <FormattedMessage {...messages.copyright} />
             </div>
-            <FormattedMessage {...messages.legal} />
+            <span style={this.styles.legalText}>
+              <FormattedMessage {...messages.legal} />
+            </span>
           </div>
         </div>
       </div>
