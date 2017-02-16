@@ -159,7 +159,6 @@ export class SidePanel extends React.Component {
             <TabList>
               <Tab>Info</Tab>
               <Tab>History</Tab>
-              <Tab>Reference</Tab>
             </TabList>
             <TabPanel>
               <ContactsControl
@@ -171,10 +170,6 @@ export class SidePanel extends React.Component {
             </TabPanel>
             <TabPanel>
               <ContactInteractionHistory />
-            </TabPanel>
-            <TabPanel>
-              <h2>References</h2>
-              <h4>Praesent sed metus ut lacus congue iaculis.</h4>
             </TabPanel>
           </Tabs>
         </div>
