@@ -31,7 +31,7 @@ export class ContactsControl extends React.Component {
     this.state = {
       query: this.expandQuery(this.props.selectedInteraction.query, this.props.attributes),
       loading: false,
-      idEditing: false,
+      isEditing: false,
     };
 
     this.setSearching = this.setSearching.bind(this);
@@ -45,7 +45,6 @@ export class ContactsControl extends React.Component {
     this.getViewControlHeader = this.getViewControlHeader.bind(this);
     this.getSearchControlHeader = this.getSearchControlHeader.bind(this);
     this.getHeader = this.getHeader.bind(this);
-    this.createContact = this.createContact.bind(this);
     this.addFilter = this.addFilter.bind(this);
     this.removeFilter = this.removeFilter.bind(this);
     this.clearSearch = this.clearSearch.bind(this);
@@ -58,6 +57,9 @@ export class ContactsControl extends React.Component {
     if (nextProps.selectedInteraction.query !== this.props.selectedInteraction.query) {
       this.props.clearSearchResults();
       this.setState({ query: this.expandQuery(nextProps.selectedInteraction.query, nextProps.attributes) });
+    }
+    if ((nextProps.selectedInteraction.interactionId !== this.props.selectedInteraction.interactionId) && this.state.isEditing) {
+      this.setNotEditing();
     }
   }
 
@@ -312,16 +314,6 @@ export class ContactsControl extends React.Component {
       width: '52px',
     },
   };
-
-  createContact(contact) {
-    if (!this.state.loading) {
-      this.setState({ loading: true });
-      SDK.contacts.create(contact, () => {
-        this.setState({ loading: false });
-        this.setViewing();
-      });
-    }
-  }
 
   saveCallback(error, topic, response) {
     console.log('[ContactsControl] SDK.subscribe()', topic, response);
