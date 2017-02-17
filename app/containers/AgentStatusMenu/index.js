@@ -6,7 +6,7 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import selectAgentStatusMenu from './selectors';
+import { selectHasActiveInteractions } from './selectors';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import Radium from 'radium';
@@ -70,6 +70,11 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
       marginLeft: '24px',
       marginRight: '24px',
       cursor: 'pointer',
+    },
+    logoutLinkInactive: {
+      cursor: 'default',
+      color: '#979797',
+      textDecoration: 'none',
     },
     tenant: {
       backgroundColor: '#F3F3F3',
@@ -136,7 +141,10 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
       <span>
         <span style={[this.styles.agentStatusMenuTriangle]} />
         <div id="agentStatusMenu" style={this.styles.agentStatusMenu}>
-          <div id="agentLogoutLink" style={[this.styles.logoutLink]} onClick={() => { this.props.logout(); this.props.showAgentStatusMenu(false); }}><FormattedMessage {...messages.logout} /></div>
+          { this.props.hasActiveInteractions
+            ? <div id="agentLogoutLink" style={[this.styles.logoutLink, this.styles.logoutLinkInactive]}><FormattedMessage {...messages.logout} /></div>
+            : <div id="agentLogoutLink" style={[this.styles.logoutLink]} onClick={() => { this.props.logout(); this.props.showAgentStatusMenu(false); }}><FormattedMessage {...messages.logout} /></div>
+          }
           <div id="agentMenuTenant" style={[this.styles.tenant]}>
             <div style={[this.styles.tenantTitle]}><FormattedMessage {...messages.tenant} /></div>
             <div style={[this.styles.tenantText]}>{this.props.tenant.name}</div>
@@ -207,6 +215,7 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
 }
 
 AgentStatusMenu.propTypes = {
+  hasActiveInteractions: PropTypes.bool.isRequired,
   showAgentStatusMenu: PropTypes.func,
   tenant: PropTypes.object,
   agentDirection: PropTypes.string,
@@ -215,7 +224,9 @@ AgentStatusMenu.propTypes = {
   availablePresences: PropTypes.array,
 };
 
-const mapStateToProps = selectAgentStatusMenu();
+const mapStateToProps = (state, props) => ({
+  hasActiveInteractions: selectHasActiveInteractions(state, props),
+});
 
 function mapDispatchToProps(dispatch) {
   return {
