@@ -4,7 +4,7 @@
  *
  */
 
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 import {
   SET_PRESENCE,
   SET_INTERACTION_STATUS,
@@ -20,6 +20,7 @@ import {
   ADD_MESSAGE,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
+  START_WARM_TRANSFERRING,
   MUTE_CALL,
   UNMUTE_CALL,
   HOLD_CALL,
@@ -69,6 +70,19 @@ const initialState = fromJS({
     //   number: '313.412.6623',
     //   recording: true,
     //   agentRecordingEnabled: true, // false
+    //   warmTransfers: [
+    //     // {
+    //     //   id: '1111111',
+    //     //   type: 'agent',
+    //     //   name: 'Jon Arbuckle',
+    //     //   status: 'transferring',
+    //     // }, {
+    //     //   id: '22222',
+    //     //   type: 'queue',
+    //     //   name: 'Queue #1',
+    //     //   status: 'connected',
+    //     // },
+    //   ],
     // },
     //
     //   XXX uncomment below to mock SMS interaction
@@ -125,6 +139,7 @@ function agentDesktopReducer(state = initialState, action) {
       let recording;
       let onHold;
       let muted;
+      let warmTransfers;
       if (action.response.channelType === 'voice') {
         // recordingUpdate could be undefined for old flows, but should be enabled in that case
         agentRecordingEnabled = action.response.toolbarFeatures.recordingUpdate !== false;
@@ -132,6 +147,7 @@ function agentDesktopReducer(state = initialState, action) {
         recording = action.response.recording === true;
         onHold = action.response.customerOnHold === true;
         muted = false;
+        warmTransfers = new List();
       }
       const interaction = {
         channelType: action.response.channelType,
@@ -146,6 +162,7 @@ function agentDesktopReducer(state = initialState, action) {
         recording,
         onHold,
         muted,
+        warmTransfers,
       };
       return state
         .set('interactions', state.get('interactions').push(fromJS(interaction)));
@@ -360,6 +377,29 @@ function agentDesktopReducer(state = initialState, action) {
               interactions.update(
                 interactionIndex,
                 (interaction) => interaction.set('customFields', action.customFields)
+              )
+          );
+      } else {
+        return state;
+      }
+    }
+    case START_WARM_TRANSFERRING: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1 &&
+          action.transferringTo !== undefined &&
+          action.transferringTo.id !== undefined &&
+          action.transferringTo.type !== undefined &&
+          action.transferringTo.name !== undefined) {
+        return state
+          .update('interactions',
+            (interactions) =>
+              interactions.update(
+                interactionIndex,
+                (interaction) =>
+                  interaction.update('warmTransfers', (warmTransfers) =>
+                    warmTransfers.push(fromJS({ ...action.transferringTo, status: 'transferring' })))
               )
           );
       } else {
