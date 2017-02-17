@@ -156,7 +156,6 @@ function agentDesktopReducer(state = initialState, action) {
         status: 'work-offer',
         query: {},
         contactAction: 'search',
-        contact: {},
         timeout: action.response.timeout,
         agentRecordingEnabled,
         recording,

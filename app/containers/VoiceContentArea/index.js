@@ -34,7 +34,7 @@ export class VoiceContentArea extends React.Component { // eslint-disable-line r
   render() {
     const isAccepting = this.props.selectedInteraction.status === 'work-accepting';
 
-    const from = this.props.selectedInteraction.number;
+    const from = this.props.selectedInteraction.contact !== undefined ? this.props.selectedInteraction.contact.attributes.name : this.props.selectedInteraction.number;
 
     const details = this.props.selectedInteraction.customFields
       ? this.props.selectedInteraction.customFields.map((customField) =>

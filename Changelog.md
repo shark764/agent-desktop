@@ -1,3 +1,8 @@
+<a name"0.2.9"></a>
+### 0.2.9 (2017-02-17)
+* Show contact's name in interactions bar and main content area when a contact has been assigned to the interaction.
+* Fix initial contact search for messaging interactions.
+
 <a name"0.2.8"></a>
 ### 0.2.8 (2017-02-16)
 * Start of warm transfer status in phone controls

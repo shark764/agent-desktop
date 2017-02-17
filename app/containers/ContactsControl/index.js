@@ -113,7 +113,7 @@ export class ContactsControl extends React.Component {
 
   clearSearch() {
     this.removeFilter();
-    if (Object.keys(this.props.selectedInteraction.contact).length) {
+    if (this.props.selectedInteraction.contact !== undefined) {
       this.setViewing();
     }
   }
