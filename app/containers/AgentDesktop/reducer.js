@@ -17,6 +17,7 @@ import {
   SET_MESSAGE_HISTORY,
   SET_CONTACT_ACTION,
   ASSIGN_CONTACT,
+  UPDATE_CONTACT,
   ADD_MESSAGE,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
@@ -316,6 +317,14 @@ function agentDesktopReducer(state = initialState, action) {
       } else {
         return state;
       }
+    }
+    case UPDATE_CONTACT: {
+      return state.update('interactions', (interactions) => interactions.map((interaction) => {
+        if (interaction.getIn(['contact', 'id']) === action.updatedContact.id) {
+          return interaction.set('contact', fromJS(action.updatedContact));
+        }
+        return interaction;
+      }));
     }
     case ADD_MESSAGE: {
       const message = action.response;

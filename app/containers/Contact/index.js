@@ -75,7 +75,7 @@ export class Contact extends React.Component {
         showErrors[attribute.objectName] = false;
       });
     });
-    return { formInputs, errors, showErrors, editingContactId: props.contact.contactId };
+    return { formInputs, errors, showErrors, editingContactId: props.contact.id };
   }
 
   phoneNumberUtil = PhoneNumberUtil.getInstance();
@@ -259,7 +259,7 @@ export class Contact extends React.Component {
   }
 
   handleSubmit() {
-    this.props.save({ attributes: this.state.formInputs }, this.state.editingContactId);
+    this.props.save(this.state.formInputs, this.state.editingContactId);
   }
 
   handleCancel(event) {
