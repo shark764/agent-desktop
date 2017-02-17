@@ -1,3 +1,7 @@
+<a name"0.2.11"></a>
+### 0.2.11 (2017-02-17)
+* Disable logout button when there is an active interaction.
+
 <a name"0.2.10"></a>
 ### 0.2.10 (2017-02-17)
 * BUG: calling create instead of update on edit save
