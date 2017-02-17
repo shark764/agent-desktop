@@ -1,3 +1,7 @@
+<a name"0.2.10"></a>
+### 0.2.10 (2017-02-17)
+* BUG: calling create instead of update on edit save
+
 <a name"0.2.9"></a>
 ### 0.2.9 (2017-02-17)
 * Show contact's name in interactions bar and main content area when a contact has been assigned to the interaction.

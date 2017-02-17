@@ -23,7 +23,7 @@ import Login from 'containers/Login';
 
 import Radium from 'radium';
 
-import { setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
+import { setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
   setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction } from './actions';
 
 
@@ -160,6 +160,11 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/contacts/create-response': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.assignContact(this.props.agentDesktop.selectedInteractionId, response);
+          break;
+        }
+        case 'cxengage/contacts/update-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.updateContact(response);
           break;
         }
         // Igonore these pubsubs. They are unneeded or handled elsewhere.
@@ -327,6 +332,7 @@ function mapDispatchToProps(dispatch) {
     removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
     setMessageHistory: (response) => dispatch(setMessageHistory(response)),
     assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
+    updateContact: (updatedContact) => dispatch(updateContact(updatedContact)),
     addMessage: (response) => dispatch(addMessage(response)),
     selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
     setInteractionQuery: (interactionId, query) => dispatch(setInteractionQuery(interactionId, query)),
@@ -354,6 +360,7 @@ AgentDesktop.propTypes = {
   removeInteraction: PropTypes.func.isRequired,
   setMessageHistory: PropTypes.func.isRequired,
   assignContact: PropTypes.func.isRequired,
+  updateContact: PropTypes.func.isRequired,
   addMessage: PropTypes.func.isRequired,
   selectInteraction: PropTypes.func.isRequired,
   addSearchFilter: PropTypes.func.isRequired,

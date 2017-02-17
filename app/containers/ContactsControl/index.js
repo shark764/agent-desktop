@@ -325,12 +325,12 @@ export class ContactsControl extends React.Component {
     }
   }
 
-  handleSave(contactAttributes, contactId) {
+  handleSave(attributes, contactId) {
     this.setState({ loading: true });
     if (contactId) {
-      SDK.contacts.update(contactId, contactAttributes, this.saveCallback);
+      SDK.contacts.update({ contactId, attributes }, this.saveCallback);
     } else {
-      SDK.contacts.create(contactAttributes, this.saveCallback);
+      SDK.contacts.create({ attributes }, this.saveCallback);
     }
   }
 
