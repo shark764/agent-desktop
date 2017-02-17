@@ -56,7 +56,7 @@ export class InteractionsBar extends React.Component {
             <Timer format="mm:ss" />
           </div>
           <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px', width: 'calc(100% - 57px)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {this.props.activeVoiceInteraction.number}
+            {this.props.activeVoiceInteraction.contact !== undefined ? this.props.activeVoiceInteraction.contact.attributes.name : this.props.activeVoiceInteraction.number}
           </div>
           <div className="previewText" style={{ height: '36px', lineHeight: '18px', marginTop: '5px', overflow: 'hidden' }}>
           </div>
@@ -91,6 +91,12 @@ export class InteractionsBar extends React.Component {
         text = activeInteraction.email.content;
         icon = 'email';
       }
+
+      // Set from to the contact name if available
+      if (activeInteraction.contact !== undefined) {
+        from = activeInteraction.contact.attributes.name;
+      }
+
       return (
         <div
           id={`activeInteractionContainer-${activeInteraction.interactionId}`}
@@ -139,6 +145,10 @@ export class InteractionsBar extends React.Component {
       } else if (pendingInteraction.channelType === 'voice') {
         from = pendingInteraction.number;
         icon = 'voice';
+      }
+      // Set from to the contact name if available
+      if (pendingInteraction.contact !== undefined) {
+        from = pendingInteraction.contact.attributes.name;
       }
       return (
         <div

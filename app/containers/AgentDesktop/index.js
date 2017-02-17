@@ -101,9 +101,13 @@ export class AgentDesktop extends React.Component {
           const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response[0].channelId);
           if (interaction && (interaction.channelType === 'messaging')) {
             const customerMessage = response.find((message) => message.payload.metadata.type === 'customer'); // History has been coming in with initial customer issue message missing
-            if (customerMessage && customerMessage.payload && customerMessage.payload.from) {
-              this.attemptContactSearch(customerMessage.payload.from, customerMessage.channelId);
+            if (customerMessage && customerMessage.payload && customerMessage.payload.metadata && customerMessage.payload.metadata.name) {
+              this.attemptContactSearch(customerMessage.payload.metadata.name, customerMessage.channelId);
+            } else {
+              console.error('customer name not found in:', customerMessage);
             }
+          } else {
+            console.warn('no customer message found for interaction:', response[0].channelId);
           }
           break;
         }
@@ -181,6 +185,7 @@ export class AgentDesktop extends React.Component {
 
   attemptContactSearch(from, interactionId) {
     const query = { q: from };
+    console.log('attemptContactSearch()', query);
     SDK.contacts.search({ query }, (error, topic, response) => {
       console.log('[AgentDesktop] SDK.subscribe()', topic, response);
       if (response.count === 1) {
