@@ -87,20 +87,29 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/work-initiated': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.workInitiated(response);
+          // attempt to auto-assign contact
+          const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response.interactionId);
+          if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms')) {
+            this.attemptContactSearch(response.customer, response.interactionId);
+          }
           break;
         }
         case 'cxengage/messaging/history': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setMessageHistory(response);
-          this.attemptContact(response, response[0].channelId);
+          // attempt to auto-assign contact
+          const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response[0].channelId);
+          if (interaction && (interaction.channelType === 'messaging')) {
+            const customerMessage = response.find((message) => message.payload.metadata.type === 'customer'); // History has been coming in with initial customer issue message missing
+            if (customerMessage && customerMessage.payload && customerMessage.payload.from) {
+              this.attemptContactSearch(customerMessage.payload.from, customerMessage.channelId);
+            }
+          }
           break;
         }
         case 'cxengage/interactions/work-accepted': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setInteractionStatus(response.interactionId, 'work-accepted');
-          if (response.type !== 'messaging') {
-            this.attemptContact(response, response.interactionId);
-          }
           break;
         }
         case 'cxengage/interactions/work-rejected':
@@ -170,38 +179,16 @@ export class AgentDesktop extends React.Component {
     });
   }
 
-  attemptContact(interactionInfo, interactionId) {
-    const query = this.getInitialQuery(interactionInfo);
-    if (query) {
-      SDK.contacts.search({ query }, (error, topic, response) => {
-        console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-        if (response.results.length === 1) {
-          this.props.assignContact(interactionId, response.results[0]);
-        } else {
-          this.props.setInteractionQuery(interactionId, query);
-        }
-      }); // trigger search
-    }
-  }
-
-  getInitialQuery(interactionInfo) {
-    let from;
-    if (Array.isArray(interactionInfo)) {
-      const messageHistoryItem = interactionInfo[0];
-      from = messageHistoryItem.payload.metadata && messageHistoryItem.payload.metadata.name ? messageHistoryItem.payload.metadata.name : messageHistoryItem.payload.from;
-    } else {
-      switch (interactionInfo.channelType) {
-        case 'email':
-          from = interactionInfo.email && interactionInfo.email.from;
-          break;
-        case 'voice':
-          from = interactionInfo.number;
-          break;
-        default:
-          from = false;
+  attemptContactSearch(from, interactionId) {
+    const query = { q: from };
+    SDK.contacts.search({ query }, (error, topic, response) => {
+      console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+      if (response.count === 1) {
+        this.props.assignContact(interactionId, response.results[0]);
+      } else {
+        this.props.setInteractionQuery(interactionId, query);
       }
-    }
-    return from ? { q: from } : false;
+    });
   }
 
   setContactsPanelWidth(newWidth) {

@@ -1,3 +1,8 @@
+<a name"0.2.7"></a>
+### 0.2.7 (2017-02-16)
+* BUG: voice interactions not triggering contact search/assign attempt.
+* BUG: edit screen not clearing when changing between interactions.
+
 <a name"0.2.6"></a>
 ### 0.2.6 (2017-02-16)
 * Edit contacts.
