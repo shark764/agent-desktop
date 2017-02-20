@@ -1,3 +1,7 @@
+<a name"0.2.12"></a>
+### 0.2.12 (2017-02-20)
+* Loading states for login and tenant select.
+
 <a name"0.2.11"></a>
 ### 0.2.11 (2017-02-17)
 * Disable logout button when there is an active interaction.

@@ -9,23 +9,21 @@ import '../../../node_modules/cxengage-javascript-sdk/release/cxengage-javascrip
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import selectAgentDesktop, { selectLogin } from './selectors';
+import Radium from 'radium';
+
+import Resizable from 'components/Resizable';
 
 import InteractionsBar from 'containers/InteractionsBar';
+import Login from 'containers/Login';
 import MainContentArea from 'containers/MainContentArea';
 import PhoneControls from 'containers/PhoneControls';
 import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
-import Resizable from 'components/Resizable';
-
-import Login from 'containers/Login';
-
-import Radium from 'radium';
-
+import selectAgentDesktop, { selectLogin } from './selectors';
 import { setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
   setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction } from './actions';
-
+import { showLogin } from 'containers/Login/actions';
 
 export class AgentDesktop extends React.Component {
 
@@ -70,6 +68,7 @@ export class AgentDesktop extends React.Component {
       switch (topic) {
         case 'cxengage/session/started': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.showLogin(false);
           SDK.contacts.listAttributes();
           SDK.contacts.listLayouts();
           break;
@@ -179,7 +178,6 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/contacts/search-response': // Handled in ContactsControl & AgentDesktop callback
         case 'cxengage/crud/get-queues-response': // Handled in TransferMenu
         case 'cxengage/crud/get-users-response': // Handled in TransferMenu
-
           break;
         default: {
           console.warn('AGENT DESKTOP: No pub sub for', error, topic, response); // eslint-disable-line no-console
@@ -190,7 +188,7 @@ export class AgentDesktop extends React.Component {
 
   attemptContactSearch(from, interactionId) {
     const query = { q: from };
-    console.log('attemptContactSearch()', query);
+    console.log('[AgentDesktop] attemptContactSearch()', query);
     SDK.contacts.search({ query }, (error, topic, response) => {
       console.log('[AgentDesktop] SDK.subscribe()', topic, response);
       if (response.count === 1) {
@@ -273,7 +271,7 @@ export class AgentDesktop extends React.Component {
     return (
       <div>
         {
-          this.props.login.showLogin
+          this.props.login.showLogin || this.props.agentDesktop.presence === undefined
             ? <Login />
             : <span>
               <div id="desktop-container" style={[this.styles.flexChildGrow, this.styles.parent, this.styles.columnParent, { height: '100vh' }]}>
@@ -325,6 +323,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    showLogin: (show) => dispatch(showLogin(show)),
     setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
@@ -353,6 +352,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 AgentDesktop.propTypes = {
+  showLogin: PropTypes.func.isRequired,
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,
   addInteraction: PropTypes.func.isRequired,
