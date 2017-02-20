@@ -7,7 +7,6 @@
 import React, { PropTypes } from 'react';
 import { Tab, TabList, TabPanel } from 'react-tabs';
 import { connect } from 'react-redux';
-import { setContactLayout, setContactAttributes } from './actions';
 import Radium from 'radium';
 import IconCollapse from 'icons/collapse';
 
@@ -33,17 +32,6 @@ export class SidePanel extends React.Component {
     this.updateSelectedTab = this.updateSelectedTab.bind(this);
     this.getPanelSizing = this.getPanelSizing.bind(this);
     this.handleCollapseClick = this.handleCollapseClick.bind(this);
-  }
-
-  componentDidMount() {
-    SDK.subscribe('cxengage/contacts/list-attributes-response', (error, topic, response) => {
-      console.log('[SidePanel] SDK.subscribe()', topic, response);
-      this.props.setContactAttributes(response);
-    });
-    SDK.subscribe('cxengage/contacts/list-layouts-response', (error, topic, response) => {
-      console.log('[SidePanel] SDK.subscribe()', topic, response);
-      this.props.setContactLayout(response);
-    });
   }
 
   getPanelSizing() {
@@ -191,8 +179,6 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setContactLayout: (layout) => dispatch(setContactLayout(layout)),
-    setContactAttributes: (attributes) => dispatch(setContactAttributes(attributes)),
     dispatch,
   };
 }
@@ -205,8 +191,6 @@ SidePanel.propTypes = {
   collapsePanel: PropTypes.func,
   showPanel: PropTypes.func,
   selectedInteractionId: PropTypes.string,
-  setContactLayout: PropTypes.func.isRequired,
-  setContactAttributes: PropTypes.func.isRequired,
   assignContact: PropTypes.func.isRequired,
   addSearchFilter: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,

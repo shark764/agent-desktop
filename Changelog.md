@@ -1,3 +1,8 @@
+<a name"0.2.13"></a>
+### 0.2.13 (2017-02-20)
+* Fix loading contact attributes/layout on tenant select.
+* Reset loading state on login error.
+
 <a name"0.2.12"></a>
 ### 0.2.12 (2017-02-20)
 * Loading states for login and tenant select.
