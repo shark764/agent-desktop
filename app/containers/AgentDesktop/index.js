@@ -303,7 +303,7 @@ export class AgentDesktop extends React.Component {
                     <PhoneControls style={[this.styles.phoneControls]} />
                     <InteractionsBar acceptInteraction={this.acceptInteraction} setInteractionStatus={this.props.setInteractionStatus} selectInteraction={this.selectInteraction} style={[this.styles.interactionsBar]} />
                   </div>
-                  <MainContentArea emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} style={[this.styles.flexChildGrow]} agent={this.props.login.agent} tenant={this.props.login.tenant} />
+                  <MainContentArea emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} agent={this.props.login.agent} tenant={this.props.login.tenant} style={{ flex: '1 1 auto' }} />
                   {
                     (this.props.agentDesktop.selectedInteractionId !== undefined) ?
                       <Resizable id="crm-resizable" direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={window.innerWidth - 827} minPx={430} isDisabled={this.state.isContactsPanelCollapsed} style={this.styles.topArea} >

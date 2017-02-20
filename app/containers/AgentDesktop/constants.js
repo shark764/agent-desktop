@@ -30,3 +30,4 @@ export const RECORD_CALL = 'app/AgentDesktop/RECORD_CALL';
 export const STOP_RECORD_CALL = 'app/AgentDesktop/STOP_RECORD_CALL';
 export const EMAIL_CREATE_REPLY = 'app/AgentDesktop/EMAIL_CREATE_REPLY';
 export const EMAIL_CANCEL_REPLY = 'app/AgentDesktop/EMAIL_CANCEL_REPLY';
+export const UPDATE_NOTE = 'app/AgentDesktop/UPDATE_NOTE';

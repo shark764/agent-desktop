@@ -32,16 +32,18 @@ import {
   STOP_RECORD_CALL,
   EMAIL_CREATE_REPLY,
   EMAIL_CANCEL_REPLY,
+  UPDATE_NOTE,
 } from './constants';
 
 const initialState = fromJS({
   interactions: [
-    // XXX uncomment below to mock email(s)
+    // // XXX uncomment below to mock email(s)
     // {
     //   channelType: 'email',
     //   interactionId: '0000000-0000-0000-0000-111111111',
     //   status: 'work-accepted', // 'work-offer',
     //   timeout: new Date(Date.now() + 60000).toISOString(),
+    //   query: {},
     //   email: {
     //     to: 'support@help.com',
     //     from: 'j.englebert@yahoo.com',
@@ -55,6 +57,7 @@ const initialState = fromJS({
     //   interactionId: '0000000-0000-0000-0000-222222222222',
     //   status: 'work-accepted', // 'work-offer',
     //   timeout: new Date(Date.now() + 60000).toISOString(),
+    //   query: {},
     //   email: {
     //     to: 'support@help.com',
     //     from: 'test@yahoo.com',
@@ -63,14 +66,15 @@ const initialState = fromJS({
     //     content: 'Hello,<br/><br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br/><br/><b>John Englebert</b><br/>Software Developer<br/>An Organization<br/>313.218.9814',
     //   },
     // },
-
-    // XXX uncomment below to mock voice interaction
+    //
+    // // XXX uncomment below to mock voice interaction
     // {
     //   channelType: 'voice',
     //   interactionId: '0000000-0000-0000-0000-3333333333333',
     //   status: 'work-accepted', // 'work-offer',
     //   timeout: new Date(Date.now() + 60000).toISOString(),
-    //   number: '313.412.6623',
+    //   number: '+3134126623',
+    //   query: {},
     //   recording: true,
     //   agentRecordingEnabled: true, // false
     //   warmTransfers: [
@@ -93,23 +97,77 @@ const initialState = fromJS({
     //   ],
     // },
     //
-    //   XXX uncomment below to mock SMS interaction
-    //   {
-    //     channelType: 'sms',
-    //     customerAvatarIndex: 5,
-    //     interactionId: '11111111111111111111112',
-    //     status: 'work-accepted',
-    //     messageHistory: [
-    //       {
-    //         text: 'this is a test',
-    //         from: '15552213456',
-    //         type: 'sms',
-    //         timestamp: new Date().toISOString(),
-    //         unread: false,
-    //       },
-    //     ],
-    //     contact: mockContact(),
-    //   },
+    // //   XXX uncomment below to mock SMS interaction
+    // {
+    //   channelType: 'sms',
+    //   customerAvatarIndex: 5,
+    //   interactionId: '11111111111111111111112',
+    //   status: 'work-accepted',
+    //   query: {},
+    //   messageHistory: [
+    //     {
+    //       text: 'this is a test',
+    //       from: '+15552213456',
+    //       type: 'sms',
+    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 9)).toISOString(),
+    //       unread: false,
+    //     }, {
+    //       text: 'this is a test',
+    //       from: '+15552213456',
+    //       type: 'sms',
+    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 8)).toISOString(),
+    //       unread: false,
+    //     }, {
+    //       text: 'this is a test',
+    //       from: '+15552213456',
+    //       type: 'sms',
+    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 7)).toISOString(),
+    //       unread: false,
+    //     }, {
+    //       text: 'this is a test',
+    //       from: '+15552213456',
+    //       type: 'sms',
+    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 6)).toISOString(),
+    //       unread: false,
+    //     }, {
+    //       text: 'this is a test',
+    //       from: '+15552213456',
+    //       type: 'sms',
+    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString(),
+    //       unread: false,
+    //     }, {
+    //       text: 'this is a test',
+    //       from: '+15552213456',
+    //       type: 'sms',
+    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 4)).toISOString(),
+    //       unread: false,
+    //     }, {
+    //       text: 'this is a test',
+    //       from: '+15552213456',
+    //       type: 'sms',
+    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 3)).toISOString(),
+    //       unread: false,
+    //     }, {
+    //       text: 'this is a test',
+    //       from: '+15552213456',
+    //       type: 'sms',
+    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(),
+    //       unread: false,
+    //     }, {
+    //       text: 'this is a test',
+    //       from: '+15552213456',
+    //       type: 'sms',
+    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString(),
+    //       unread: false,
+    //     }, {
+    //       text: 'this is a test',
+    //       from: '+15552213456',
+    //       type: 'sms',
+    //       timestamp: new Date().toISOString(),
+    //       unread: false,
+    //     },
+    //   ],
+    // },
     // ],
     // selectedInteractionId: '11111111111111111111112',
   ],
@@ -624,6 +682,22 @@ function agentDesktopReducer(state = initialState, action) {
                 )
               )
           );
+      } else {
+        return state;
+      }
+    }
+    case UPDATE_NOTE: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1 &&
+          action.note !== undefined &&
+          action.note.title !== undefined &&
+          action.note.content !== undefined &&
+          action.note.notesPanelHeight !== undefined) {
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.set('note', fromJS(action.note))
+        );
       } else {
         return state;
       }
