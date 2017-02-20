@@ -40,7 +40,6 @@ export class Login extends React.Component {
       tenantId: '-1',
       tenantName: '',
       agentDirection: props.intl.formatMessage(messages.inbound),
-      error: false,
       noTenant: false,
     };
     this.setUser = this.setUser.bind(this);
@@ -153,7 +152,7 @@ export class Login extends React.Component {
         <CheckBox id={messages.rememberMe.id} style={{ marginLeft: '-9.35em', marginBottom: '11px', marginTop: '15px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.setRemember} />
         <Button id={messages.signInButton.id} type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.signInButton} onClick={() => this.onLogin()} />
         <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
-        {this.state.error
+        {this.props.login_error
           ? <span id={messages.error.id} style={[this.styles.error]}>
             <FormattedMessage style={this.styles.center} {...messages.error} />
           </span>
@@ -189,11 +188,11 @@ export class Login extends React.Component {
   }
 
   handleError() {
-    this.setState({ error: true });
+    this.props.loginError();
   }
 
   unsetRequestingPassword() {
-    this.setState({ requestingPassword: false, error: false });
+    this.setState({ requestingPassword: false });
   }
 
   handleKeyPress(e) {
@@ -322,9 +321,11 @@ Login.propTypes = {
   resetPassword: PropTypes.func.isRequired,
   loggingIn: PropTypes.func.isRequired,
   loginSuccess: PropTypes.func.isRequired,
+  loginError: PropTypes.func.isRequired,
   settingTenant: PropTypes.func.isRequired,
   setTenant: PropTypes.func.isRequired,
   loading: PropTypes.bool,
+  login_error: PropTypes.bool,
   logged_in: PropTypes.bool,
   agent: PropTypes.object,
 };

@@ -42,7 +42,7 @@ function loginReducer(state = initialState, action) {
     case LOGIN_ERROR:
       return state
         .set('login_error', true)
-        .set('logged_in', false);
+        .set('loading', false);
     case SET_TENANT:
       return state
         .set('tenant', { id: action.id, name: action.name });

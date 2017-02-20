@@ -24,6 +24,7 @@ import selectAgentDesktop, { selectLogin } from './selectors';
 import { setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
   setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction } from './actions';
 import { showLogin } from 'containers/Login/actions';
+import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 
 export class AgentDesktop extends React.Component {
 
@@ -156,6 +157,16 @@ export class AgentDesktop extends React.Component {
           this.props.stopRecordCall(response.interactionId);
           break;
         }
+        case 'cxengage/contacts/list-attributes-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.setContactAttributes(response);
+          break;
+        }
+        case 'cxengage/contacts/list-layouts-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.setContactLayout(response);
+          break;
+        }
         case 'cxengage/contacts/create-response': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.assignContact(this.props.agentDesktop.selectedInteractionId, response);
@@ -173,8 +184,6 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/end-response': // Using cxengage/interactions/work-ended instead
         case 'cxengage/messaging/send-message-response': // Using cxengage/messaging/new-message-received instead
         case 'cxengage/voice/phone-controls-response': // Using mute-started, mute-ended, etc. instead
-        case 'cxengage/contacts/list-attributes-response': // Handled in SidePanel
-        case 'cxengage/contacts/list-layouts-response': // Handled in SidePanel
         case 'cxengage/contacts/search-response': // Handled in ContactsControl & AgentDesktop callback
         case 'cxengage/crud/get-queues-response': // Handled in TransferMenu
         case 'cxengage/crud/get-users-response': // Handled in TransferMenu
@@ -334,6 +343,8 @@ function mapDispatchToProps(dispatch) {
     updateContact: (updatedContact) => dispatch(updateContact(updatedContact)),
     addMessage: (response) => dispatch(addMessage(response)),
     selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
+    setContactLayout: (layout) => dispatch(setContactLayout(layout)),
+    setContactAttributes: (attributes) => dispatch(setContactAttributes(attributes)),
     setInteractionQuery: (interactionId, query) => dispatch(setInteractionQuery(interactionId, query)),
     addSearchFilter: (filterName, value) => dispatch(addSearchFilter(filterName, value)),
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
@@ -363,6 +374,8 @@ AgentDesktop.propTypes = {
   updateContact: PropTypes.func.isRequired,
   addMessage: PropTypes.func.isRequired,
   selectInteraction: PropTypes.func.isRequired,
+  setContactLayout: PropTypes.func.isRequired,
+  setContactAttributes: PropTypes.func.isRequired,
   addSearchFilter: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
   setContactAction: PropTypes.func.isRequired,
