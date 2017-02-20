@@ -6,7 +6,9 @@
 
 import React, { PropTypes } from 'react';
 import ReactSVG from 'react-svg';
+
 import dialpad from 'assets/icons/dialpad.svg';
+import loading from 'assets/icons/loading.svg';
 
 import Radium from 'radium';
 
@@ -17,6 +19,10 @@ function IconSVG(props) {
   switch (props.name) {
     case 'dialpad':
       icon = dialpad;
+      borderRadius = '50%';
+      break;
+    case 'loading':
+      icon = loading;
       borderRadius = '50%';
       break;
     default:
@@ -36,9 +42,8 @@ function IconSVG(props) {
     <ReactSVG
       id={props.id}
       path={icon}
-      callback={(svg) => console.log(svg)}
       evalScript="always"
-      style={[props.style, styles.base]}
+      style={Object.assign(styles.base, props.style ? props.style : {})}
     />
   );
 }

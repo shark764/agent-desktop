@@ -6,40 +6,39 @@
 
 import { fromJS } from 'immutable';
 import {
-  DEFAULT_ACTION,
+  LOGGING_IN,
   LOGIN_SUCCESS,
-  SET_AUTHENTICATED,
   LOGIN_ERROR,
-  SET_TENANTS,
   SHOW_LOGIN,
+  SETTING_TENANT,
   SET_TENANT,
   LOGOUT,
 } from './constants';
 
 const initialState = fromJS({
-  authed: false,
+  loading: false,
   showLogin: true,
 });
 
 function loginReducer(state = initialState, action) {
   switch (action.type) {
-    case DEFAULT_ACTION:
-      return state;
+    case LOGGING_IN:
+    case SETTING_TENANT:
+      return state
+        .set('loading', true);
     case LOGIN_SUCCESS:
       return state
         .set('agent', fromJS(action.agent))
         .set('logged_in', true)
-        .set('login_error', false);
+        .set('login_error', false)
+        .set('loading', false);
     case LOGOUT:
       // TODO SDK.auth.logout();
       return state
         .set('agent', {})
         .set('logged_in', false)
-        .set('login_error', false)
-        .set('showLogin', true);
-    case SET_AUTHENTICATED:
-      return state
-        .set('authed', action.authed);
+        .set('showLogin', true)
+        .set('loading', false);
     case LOGIN_ERROR:
       return state
         .set('login_error', true)
@@ -47,9 +46,6 @@ function loginReducer(state = initialState, action) {
     case SET_TENANT:
       return state
         .set('tenant', { id: action.id, name: action.name });
-    case SET_TENANTS:
-      return state
-        .set();
     case SHOW_LOGIN:
       return state
         .set('showLogin', action.show);
