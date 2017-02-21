@@ -21,6 +21,7 @@ import {
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
   START_WARM_TRANSFERRING,
+  TRANSFER_CANCELLED,
   TRANSFER_CONNECTED,
   MUTE_CALL,
   UNMUTE_CALL,
@@ -145,6 +146,13 @@ export function startWarmTransferring(interactionId, transferringTo) {
     type: START_WARM_TRANSFERRING,
     interactionId,
     transferringTo,
+  };
+}
+
+export function transferCancelled(interactionId) {
+  return {
+    type: TRANSFER_CANCELLED,
+    interactionId,
   };
 }
 

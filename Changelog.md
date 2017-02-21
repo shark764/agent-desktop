@@ -1,10 +1,13 @@
+<a name"0.2.17"></a>
+### 0.2.17 (2017-02-21)
+* Cancel transfers
+
 <a name"0.2.16"></a>
 ### 0.2.16 (2017-02-21)
 * Edit search results
 * Gray out assign button on results if assigned to selected interaction
 * Show placeholder / New Contact Btn on 0 results
 * Loading indicator on contact search
-
 
 <a name"0.2.15"></a>
 ### 0.2.15 (2017-02-21)
@@ -42,7 +45,7 @@
 ### 0.2.8 (2017-02-16)
 * Start of warm transfer status in phone controls
 * Prevent transfer to agents already being transferred to
-* Auto refresh agents and queus every 5 seconds
+* Auto refresh agents and queues every 5 seconds
 
 <a name"0.2.7"></a>
 ### 0.2.7 (2017-02-16)
