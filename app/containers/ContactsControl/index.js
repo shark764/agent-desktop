@@ -13,6 +13,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 
 import selectContactsControl, { selectSelectedInteraction, selectAttributes } from './selectors';
 import { setSearchResults, clearSearchResults } from './actions';
+import { assignContact } from '../AgentDesktop/actions';
 
 import Button from 'components/Button';
 import Filter from 'components/Filter';
@@ -51,6 +52,7 @@ export class ContactsControl extends React.Component {
     this.setNotEditing = this.setNotEditing.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.saveCallback = this.saveCallback.bind(this);
+    this.assignContactToSelected = this.assignContactToSelected.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -334,10 +336,15 @@ export class ContactsControl extends React.Component {
     }
   }
 
+  assignContactToSelected(contact) {
+    this.props.assignContact(this.props.selectedInteraction.interactionId, contact);
+    this.setViewing();
+  }
+
   renderResults() {
     let results;
     if (this.props.selectedInteraction.query && Object.keys(this.props.selectedInteraction.query).length) {
-      const resultsMapped = this.props.results.map((contact) => <ContactSearchResult style={this.styles.contactResult} key={contact.id} contact={contact} />);
+      const resultsMapped = this.props.results.map((contact) => <ContactSearchResult style={this.styles.contactResult} key={contact.id} contact={contact} assignContact={this.assignContactToSelected} loading={this.state.loading} />);
       results = (
         <InfiniteScroll
           loadMore={this.searchContacts}
@@ -403,6 +410,7 @@ ContactsControl.propTypes = {
   clearSearchResults: React.PropTypes.func,
   selectedInteraction: React.PropTypes.object,
   setContactAction: React.PropTypes.func,
+  assignContact: React.PropTypes.func,
 };
 
 function mapStateToProps(state, props) {
@@ -417,6 +425,7 @@ function mapDispatchToProps(dispatch) {
   return {
     setSearchResults: (filter) => dispatch(setSearchResults(filter)),
     clearSearchResults: () => dispatch(clearSearchResults()),
+    assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
     dispatch,
   };
 }

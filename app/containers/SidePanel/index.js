@@ -150,7 +150,6 @@ export class SidePanel extends React.Component {
             </TabList>
             <TabPanel>
               <ContactsControl
-                assignContact={this.props.assignContact}
                 addSearchFilter={this.props.addSearchFilter}
                 removeSearchFilter={this.props.removeSearchFilter}
                 setContactAction={this.props.setContactAction}
@@ -191,7 +190,6 @@ SidePanel.propTypes = {
   collapsePanel: PropTypes.func,
   showPanel: PropTypes.func,
   selectedInteractionId: PropTypes.string,
-  assignContact: PropTypes.func.isRequired,
   addSearchFilter: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
   setContactAction: PropTypes.func.isRequired,
