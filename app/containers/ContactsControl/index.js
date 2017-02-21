@@ -15,6 +15,7 @@ import selectContactsControl, { selectSelectedInteraction, selectAttributes } fr
 import { setSearchResults, clearSearchResults } from './actions';
 import { assignContact } from '../AgentDesktop/actions';
 
+import IconSVG from 'components/IconSVG';
 import Button from 'components/Button';
 import Filter from 'components/Filter';
 import Icon from 'components/Icon';
@@ -43,6 +44,7 @@ export class ContactsControl extends React.Component {
     this.renderResults = this.renderResults.bind(this);
     this.renderContactView = this.renderContactView.bind(this);
     this.editUnassignedContact = this.editUnassignedContact.bind(this);
+    this.editAssignedContact = this.editAssignedContact.bind(this);
     this.newContact = this.newContact.bind(this);
     this.getBannerHeader = this.getBannerHeader.bind(this);
     this.getViewControlHeader = this.getViewControlHeader.bind(this);
@@ -115,6 +117,10 @@ export class ContactsControl extends React.Component {
     this.setState({ isEditing: true, unassignedContactEditing: {} });
   }
 
+  editAssignedContact() {
+    this.setState({ isEditing: true, unassignedContactEditing: {} });
+  }
+
   setViewing() {
     this.props.setContactAction(this.props.selectedInteraction.interactionId, 'view');
   }
@@ -159,7 +165,7 @@ export class ContactsControl extends React.Component {
     return (
       <div style={this.styles.controlHeader}>
         <div style={this.styles.buttonSet}>
-          <Button id="contact-edit-btn" style={this.styles.leftButton} onClick={this.editContact} text={messages.edit} type="secondary" />
+          <Button id="contact-edit-btn" style={this.styles.leftButton} onClick={this.editAssignedContact} text={messages.edit} type="secondary" />
           <Button id="contact-search-btn" style={this.styles.rightButton} onClick={this.setSearching} iconName="search" type="secondary" />
         </div>
       </div>
@@ -181,7 +187,7 @@ export class ContactsControl extends React.Component {
     switch (this.props.selectedInteraction.contactAction) {
       case 'view':
         if (this.state.isEditing) {
-          return this.getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} values={{ name: this.props.selectedInteraction.contact.attributes.name }} />);
+          return this.getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} />);
         }
         return this.getViewControlHeader();
       case 'search':
@@ -190,7 +196,7 @@ export class ContactsControl extends React.Component {
           if (Object.keys(this.state.unassignedContactEditing).length === 0) {
             return this.getBannerHeader(<FormattedMessage {...messages.newContactBanner} />);
           } else {
-            return this.getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} values={{ name: this.state.unassignedContactEditing.attributes.name }} />);
+            return this.getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} />);
           }
         }
         return this.getSearchControlHeader();
@@ -331,6 +337,13 @@ export class ContactsControl extends React.Component {
     leftGutter: {
       width: '52px',
     },
+    loading: {
+      display: 'flex',
+      justifyContent: 'center',
+    },
+    loadingIcon: {
+      height: '60px',
+    },
   };
 
   saveCallback(error, topic, response) {
@@ -339,6 +352,7 @@ export class ContactsControl extends React.Component {
     if (error) {
       console.error(error); // TODO: proper error display to user
     } else {
+      this.props.clearSearchResults();
       this.setNotEditing();
     }
   }
@@ -354,25 +368,43 @@ export class ContactsControl extends React.Component {
 
   assignContactToSelected(contact) {
     this.props.assignContact(this.props.selectedInteraction.interactionId, contact);
-    this.setViewing();
+  }
+
+  getLoader() {
+    return (
+      <div id="loadingContainer" style={ this.styles.loading }>
+        <IconSVG style={this.loadingIcon} id="loadingIcon" name="loading" />
+      </div>
+    );
   }
 
   renderResults() {
-    let results;
+    const results = [];
     if (this.props.selectedInteraction.query && Object.keys(this.props.selectedInteraction.query).length) {
-      const resultsMapped = this.props.results.map((contact) => <ContactSearchResult style={this.styles.contactResult} key={contact.id} contact={contact} assignContact={this.assignContactToSelected} editContact={this.editUnassignedContact} loading={this.state.loading} />);
-      results = (
+      const resultsMapped = this.props.results.map(
+        (contact) =>
+          <ContactSearchResult
+            style={this.styles.contactResult}
+            key={contact.id}
+            isAssigned={this.props.selectedInteraction && this.props.selectedInteraction.contact && this.props.selectedInteraction.contact.id === contact.id}
+            contact={contact}
+            assignContact={this.assignContactToSelected}
+            editContact={this.editUnassignedContact}
+            loading={this.state.loading}
+          />);
+      results.push(
         <InfiniteScroll
           loadMore={this.searchContacts}
           hasMore={this.props.resultsCount === -1 || this.props.results.length < this.props.resultsCount}
-          loader={<div className="loader"><FormattedMessage {...messages.loading} /></div>}
+          loader={this.getLoader()}
           useWindow={false}
         >
           { resultsMapped }
         </InfiniteScroll>
       );
-    } else {
-      results = (
+    }
+    if (this.props.resultsCount < 1 && !this.state.loading) {
+      results.push(
         <div id="results-placeholder" style={this.styles.resultsPlaceholder}>
           <div style={this.styles.resultsPlaceholderTitle}>
             <Icon name="search" />
@@ -395,7 +427,7 @@ export class ContactsControl extends React.Component {
 
   renderContactView() {
     return Object.keys(this.props.selectedInteraction.contact).length ?
-      <Contact style={this.styles.mainContact} contact={this.props.selectedInteraction.contact} loading={this.state.loading} save={this.handleSave} cancel={this.setNotEditing} isEditing={this.state.isEditing} />
+      <Contact style={this.styles.mainContact} isAssigned contact={this.props.selectedInteraction.contact} loading={this.state.loading} save={this.handleSave} cancel={this.setNotEditing} isEditing={this.state.isEditing} />
       :
       ''; // TODO: loading animation
   }

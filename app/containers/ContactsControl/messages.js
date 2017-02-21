@@ -27,7 +27,7 @@ export default defineMessages({
     defaultMessage: 'OR',
   },
   loading: {
-    id: 'app.containers.ContactControl.load ing',
+    id: 'app.containers.ContactControl.loading',
     defaultMessage: 'Loading...',
   },
   newContactBanner: {
@@ -36,6 +36,6 @@ export default defineMessages({
   },
   contactEditingBanner: {
     id: 'app.containers.SidePanel.editing',
-    defaultMessage: `Editing Customer Record - {name}`, // eslint-disable-line quotes
+    defaultMessage: 'Editing Customer Record',
   },
 });

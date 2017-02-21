@@ -72,6 +72,7 @@ export class ContactSearchResult extends React.Component {
           contact={this.props.contact}
           style={[this.styles.contact]}
           showCompactView={!this.state.expanded}
+          isAssigned={this.props.isAssigned}
           assign={this.assignContact}
           edit={this.editContact}
           showControls={!this.props.loading}
@@ -88,8 +89,13 @@ ContactSearchResult.propTypes = {
   style: React.PropTypes.object,
   contact: React.PropTypes.object.isRequired,
   assignContact: React.PropTypes.func.isRequired,
+  isAssigned: React.PropTypes.bool,
   editContact: React.PropTypes.func.isRequired,
   loading: React.PropTypes.bool,
+};
+
+ContactSearchResult.defaultProps = {
+  isAssigned: false,
 };
 
 export default Radium(ContactSearchResult);
