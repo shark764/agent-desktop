@@ -1,3 +1,9 @@
+<a name"0.2.15"></a>
+### 0.2.15 (2017-02-21)
+* New SDK for transfers
+* Queue transfers
+* Status indicator for when warm transfer is connecting and connected
+
 <a name"0.2.14"></a>
 ### 0.2.14 (2017-02-21)
 * Assign Contact From Search Results

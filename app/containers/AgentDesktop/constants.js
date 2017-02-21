@@ -20,6 +20,7 @@ export const ADD_MESSAGE = 'app/AgentDesktop/ADD_MESSAGE';
 export const SELECT_INTERACTION = 'app/AgentDesktop/SELECT_INTERACTION';
 export const SET_CUSTOM_FIELDS = 'app/AgentDesktop/SET_CUSTOM_FIELDS';
 export const START_WARM_TRANSFERRING = 'app/AgentDesktop/START_WARM_TRANSFERRING';
+export const TRANSFER_CONNECTED = 'app/AgentDesktop/TRANSFER_CONNECTED';
 export const MUTE_CALL = 'app/AgentDesktop/MUTE_CALL';
 export const UNMUTE_CALL = 'app/AgentDesktop/UNMUTE_CALL';
 export const HOLD_CALL = 'app/AgentDesktop/HOLD_CALL';

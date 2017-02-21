@@ -140,9 +140,7 @@ export class PhoneControlsActive extends React.Component {
       border: '1px solid #23CEF5',
     },
     transferName: {
-      // TODO once we have transfer-connected pub sub
-      // maxWidth: '100px',
-      maxWidth: '180px',
+      maxWidth: '100px',
       marginRight: '5px',
       display: 'inline-block',
       whiteSpace: 'nowrap',
@@ -195,19 +193,18 @@ export class PhoneControlsActive extends React.Component {
       const warmTransfersMapped = this.props.activeVoiceInteraction.warmTransfers.map((warmTransfer) => {
         let status;
         let statusStyle;
-        // TODO uncomment once we have transfer-connected pub sub
-        // let statusIconStyle;
+        let statusIconStyle;
         if (warmTransfer.status === 'transferring') {
-          // status = <FormattedMessage {...messages.connecting} />;
-          // statusStyle = this.styles.transferInProgress;
+          status = <FormattedMessage {...messages.connecting} />;
+          statusStyle = this.styles.transferInProgress;
         } else if (warmTransfer.status === 'connected') {
-          // statusIconStyle = this.styles.transferConnectedIcon;
+          statusIconStyle = this.styles.transferConnectedIcon;
         } else {
           throw new Error(`transfer status not valid: ${warmTransfer.status}`);
         }
         return (
           <div id={`transfer-${warmTransfer.type}-${warmTransfer.id}`} key={`transfer-${warmTransfer.type}-${warmTransfer.id}`} style={[this.styles.warmTransfer, statusStyle]}>
-            { /* <div style={[this.styles.transferStatusIcon, statusIconStyle]}></div> */}
+            <div style={[this.styles.transferStatusIcon, statusIconStyle]}></div>
             <span title={warmTransfer.name} style={this.styles.transferName}>
               { warmTransfer.name }
             </span>

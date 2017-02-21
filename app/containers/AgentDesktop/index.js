@@ -22,7 +22,7 @@ import Toolbar from 'containers/Toolbar';
 
 import selectAgentDesktop, { selectLogin } from './selectors';
 import { setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
-  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction } from './actions';
+  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferConnected, emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction } from './actions';
 import { showLogin } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 
@@ -157,6 +157,11 @@ export class AgentDesktop extends React.Component {
           this.props.stopRecordCall(response.interactionId);
           break;
         }
+        case 'cxengage/voice/transfer-connected': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.transferConnected(response.interactionId);
+          break;
+        }
         case 'cxengage/contacts/list-attributes-response': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setContactAttributes(response);
@@ -187,6 +192,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/contacts/search-response': // Handled in ContactsControl & AgentDesktop callback
         case 'cxengage/crud/get-queues-response': // Handled in TransferMenu
         case 'cxengage/crud/get-users-response': // Handled in TransferMenu
+        case 'cxengage/voice/transfer-response': // Handled in TransferMenu
           break;
         default: {
           console.warn('AGENT DESKTOP: No pub sub for', error, topic, response); // eslint-disable-line no-console
@@ -355,6 +361,7 @@ function mapDispatchToProps(dispatch) {
     resumeCall: (interactionId) => dispatch(resumeCall(interactionId)),
     recordCall: (interactionId) => dispatch(recordCall(interactionId)),
     stopRecordCall: (interactionId) => dispatch(stopRecordCall(interactionId)),
+    transferConnected: (interactionId) => dispatch(transferConnected(interactionId)),
     emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
     emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
     dispatch,
@@ -387,6 +394,7 @@ AgentDesktop.propTypes = {
   resumeCall: PropTypes.func.isRequired,
   recordCall: PropTypes.func.isRequired,
   stopRecordCall: PropTypes.func.isRequired,
+  transferConnected: PropTypes.func.isRequired,
   emailCreateReply: PropTypes.func.isRequired,
   emailCancelReply: PropTypes.func.isRequired,
   login: PropTypes.object,

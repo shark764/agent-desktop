@@ -22,6 +22,7 @@ import {
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
   START_WARM_TRANSFERRING,
+  TRANSFER_CONNECTED,
   MUTE_CALL,
   UNMUTE_CALL,
   HOLD_CALL,
@@ -408,6 +409,36 @@ function agentDesktopReducer(state = initialState, action) {
                 (interaction) =>
                   interaction.update('warmTransfers', (warmTransfers) =>
                     warmTransfers.push(fromJS({ ...action.transferringTo, status: 'transferring' })))
+              )
+          );
+      } else {
+        return state;
+      }
+    }
+    case TRANSFER_CONNECTED: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state
+          .update('interactions',
+            (interactions) =>
+              interactions.update(
+                interactionIndex,
+                (interaction) => {
+                  const connectingTransferIndex = interaction.get('warmTransfers').findIndex(
+                    (warmTransfer) => warmTransfer.get('status') === 'transferring'
+                  );
+                  if (connectingTransferIndex !== -1) {
+                    return interaction.update('warmTransfers', (warmTransfers) =>
+                      warmTransfers.update(connectingTransferIndex, (warmTransfer) =>
+                        warmTransfer.set('status', 'connected')
+                      )
+                    );
+                  } else {
+                    return interaction;
+                  }
+                }
               )
           );
       } else {

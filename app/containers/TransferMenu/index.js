@@ -236,8 +236,9 @@ export class TransferMenu extends React.Component {
   }
 
   transfer(name, resourceId, queueId) {
-    console.log('transfer()', this.state.transferTabIndex === 0 ? 'warm' : 'cold', resourceId, queueId, this.props.interactionId);
+    let transferType;
     if (this.state.transferTabIndex === 0) {
+      transferType = 'warm';
       let id;
       let type;
       if (queueId !== undefined) {
@@ -255,19 +256,30 @@ export class TransferMenu extends React.Component {
         name,
       };
       this.props.startWarmTransferring(this.props.interactionId, transferringTo);
+    } else {
+      transferType = 'cold';
+    }
 
-      SDK.interactions.voice.warmTransfer({
+    console.log('transfer()', transferType, resourceId, queueId, this.props.interactionId);
+
+    if (queueId !== undefined) {
+      SDK.interactions.voice.transferToQueue({
         interactionId: this.props.interactionId,
         resourceId,
         queueId,
+        transferType,
+      });
+    } else if (resourceId !== undefined) {
+      SDK.interactions.voice.transferToResource({
+        interactionId: this.props.interactionId,
+        resourceId,
+        queueId,
+        transferType,
       });
     } else {
-      SDK.interactions.voice.coldTransfer({
-        interactionId: this.props.interactionId,
-        resourceId,
-        queueId,
-      });
+      throw new Error('neither resourceId nor queueId passed in');
     }
+
     this.props.setShowTransferMenu(false);
   }
 
