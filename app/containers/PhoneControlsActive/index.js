@@ -54,6 +54,10 @@ export class PhoneControlsActive extends React.Component {
     this.setState({ activeInteractionDialpadText });
   }
 
+  cancelTransfer() {
+    SDK.interactions.voice.cancelTransfer({ interactionId: this.props.activeVoiceInteraction.interactionId });
+  }
+
   setRecording() {
     if (this.props.activeVoiceInteraction.recording) {
       SDK.interactions.voice.endRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
@@ -126,6 +130,13 @@ export class PhoneControlsActive extends React.Component {
     transferInProgress: {
       color: '#979797',
     },
+    cancelTransfer: {
+      fontSize: '16px',
+      verticalAlign: 'top',
+      display: 'inline-block',
+      marginLeft: '5px',
+      cursor: 'pointer',
+    },
     transferStatusIcon: {
       height: '8px',
       width: '8px',
@@ -194,9 +205,11 @@ export class PhoneControlsActive extends React.Component {
         let status;
         let statusStyle;
         let statusIconStyle;
+        let cancelIcon;
         if (warmTransfer.status === 'transferring') {
           status = <FormattedMessage {...messages.connecting} />;
           statusStyle = this.styles.transferInProgress;
+          cancelIcon = <span title="Cancel transfer" onClick={() => this.cancelTransfer()} style={this.styles.cancelTransfer}>&#10060;</span>;
         } else if (warmTransfer.status === 'connected') {
           statusIconStyle = this.styles.transferConnectedIcon;
         } else {
@@ -204,15 +217,19 @@ export class PhoneControlsActive extends React.Component {
         }
         return (
           <div id={`transfer-${warmTransfer.type}-${warmTransfer.id}`} key={`transfer-${warmTransfer.type}-${warmTransfer.id}`} style={[this.styles.warmTransfer, statusStyle]}>
-            <div style={[this.styles.transferStatusIcon, statusIconStyle]}></div>
+            {statusIconStyle
+              ? <div style={[this.styles.transferStatusIcon, statusIconStyle]}></div>
+              : ''
+            }
             <span title={warmTransfer.name} style={this.styles.transferName}>
               { warmTransfer.name }
             </span>
-            <Timer format="mm:ss" style={this.styles.transferTimer} />
             {status
               ? <span style={this.styles.transferStatus}>({status})</span>
               : ''
             }
+            {cancelIcon}
+            <Timer format="mm:ss" style={this.styles.transferTimer} />
           </div>
         );
       });

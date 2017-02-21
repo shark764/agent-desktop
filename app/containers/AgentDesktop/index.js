@@ -22,7 +22,8 @@ import Toolbar from 'containers/Toolbar';
 
 import selectAgentDesktop, { selectLogin } from './selectors';
 import { setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
-  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferConnected, emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction } from './actions';
+  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected, emailCreateReply, emailCancelReply, addSearchFilter,
+  removeSearchFilter, setContactAction } from './actions';
 import { showLogin } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 
@@ -155,6 +156,11 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/voice/recording-ended': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.stopRecordCall(response.interactionId);
+          break;
+        }
+        case 'cxengage/voice/cancel-transfer-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.transferCancelled(response.interactionId);
           break;
         }
         case 'cxengage/voice/transfer-connected': {
@@ -361,6 +367,7 @@ function mapDispatchToProps(dispatch) {
     resumeCall: (interactionId) => dispatch(resumeCall(interactionId)),
     recordCall: (interactionId) => dispatch(recordCall(interactionId)),
     stopRecordCall: (interactionId) => dispatch(stopRecordCall(interactionId)),
+    transferCancelled: (interactionId) => dispatch(transferCancelled(interactionId)),
     transferConnected: (interactionId) => dispatch(transferConnected(interactionId)),
     emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
     emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
@@ -394,6 +401,7 @@ AgentDesktop.propTypes = {
   resumeCall: PropTypes.func.isRequired,
   recordCall: PropTypes.func.isRequired,
   stopRecordCall: PropTypes.func.isRequired,
+  transferCancelled: PropTypes.func.isRequired,
   transferConnected: PropTypes.func.isRequired,
   emailCreateReply: PropTypes.func.isRequired,
   emailCancelReply: PropTypes.func.isRequired,

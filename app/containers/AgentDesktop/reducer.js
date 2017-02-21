@@ -22,6 +22,7 @@ import {
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
   START_WARM_TRANSFERRING,
+  TRANSFER_CANCELLED,
   TRANSFER_CONNECTED,
   MUTE_CALL,
   UNMUTE_CALL,
@@ -409,6 +410,36 @@ function agentDesktopReducer(state = initialState, action) {
                 (interaction) =>
                   interaction.update('warmTransfers', (warmTransfers) =>
                     warmTransfers.push(fromJS({ ...action.transferringTo, status: 'transferring' })))
+              )
+          );
+      } else {
+        return state;
+      }
+    }
+    case TRANSFER_CANCELLED: {
+      const interactionIndex = state.get('interactions').findIndex(
+        // TODO TODO TODO do it this way instead when SDK returns interactionId:
+        // (interaction) => interaction.get('interactionId') === action.interactionId
+        (interaction) => interaction.get('channelType') === 'voice'
+      );
+      if (interactionIndex !== -1) {
+        return state
+          .update('interactions',
+            (interactions) =>
+              interactions.update(
+                interactionIndex,
+                (interaction) => {
+                  const cancellingTransferIndex = interaction.get('warmTransfers').findIndex(
+                    (warmTransfer) => warmTransfer.get('status') === 'transferring'
+                  );
+                  if (cancellingTransferIndex !== -1) {
+                    return interaction.update('warmTransfers', (warmTransfers) =>
+                      warmTransfers.delete(cancellingTransferIndex)
+                    );
+                  } else {
+                    return interaction;
+                  }
+                }
               )
           );
       } else {
