@@ -38,4 +38,8 @@ export default defineMessages({
     id: 'app.containers.Contact.assignButton',
     defaultMessage: 'Assign',
   },
+  editButton: {
+    id: 'app.containers.Contact.editButton',
+    defaultMessage: 'Edit',
+  },
 });

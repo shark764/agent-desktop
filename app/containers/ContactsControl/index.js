@@ -33,6 +33,7 @@ export class ContactsControl extends React.Component {
       query: this.expandQuery(this.props.selectedInteraction.query, this.props.attributes),
       loading: false,
       isEditing: false,
+      unassignedContactEditing: {},
     };
 
     this.setSearching = this.setSearching.bind(this);
@@ -41,7 +42,8 @@ export class ContactsControl extends React.Component {
     this.searchContacts = this.searchContacts.bind(this);
     this.renderResults = this.renderResults.bind(this);
     this.renderContactView = this.renderContactView.bind(this);
-    this.setEditing = this.setEditing.bind(this);
+    this.editUnassignedContact = this.editUnassignedContact.bind(this);
+    this.newContact = this.newContact.bind(this);
     this.getBannerHeader = this.getBannerHeader.bind(this);
     this.getViewControlHeader = this.getViewControlHeader.bind(this);
     this.getSearchControlHeader = this.getSearchControlHeader.bind(this);
@@ -105,8 +107,12 @@ export class ContactsControl extends React.Component {
     this.props.setContactAction(this.props.selectedInteraction.interactionId, 'search');
   }
 
-  setEditing() {
-    this.setState({ isEditing: true });
+  editUnassignedContact(contact) {
+    this.setState({ isEditing: true, unassignedContactEditing: contact });
+  }
+
+  newContact() {
+    this.setState({ isEditing: true, unassignedContactEditing: {} });
   }
 
   setViewing() {
@@ -121,7 +127,7 @@ export class ContactsControl extends React.Component {
   }
 
   setNotEditing() {
-    this.setState({ isEditing: false });
+    this.setState({ isEditing: false, unassignedContactEditing: {} });
   }
 
   getSearchControlHeader() {
@@ -153,7 +159,7 @@ export class ContactsControl extends React.Component {
     return (
       <div style={this.styles.controlHeader}>
         <div style={this.styles.buttonSet}>
-          <Button id="contact-edit-btn" style={this.styles.leftButton} onClick={this.setEditing} text={messages.edit} type="secondary" />
+          <Button id="contact-edit-btn" style={this.styles.leftButton} onClick={this.editContact} text={messages.edit} type="secondary" />
           <Button id="contact-search-btn" style={this.styles.rightButton} onClick={this.setSearching} iconName="search" type="secondary" />
         </div>
       </div>
@@ -175,13 +181,17 @@ export class ContactsControl extends React.Component {
     switch (this.props.selectedInteraction.contactAction) {
       case 'view':
         if (this.state.isEditing) {
-          return this.getBannerHeader(<FormattedMessage {...messages.editingBanner} />);
+          return this.getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} values={{ name: this.props.selectedInteraction.contact.attributes.name }} />);
         }
         return this.getViewControlHeader();
       case 'search':
       default:
         if (this.state.isEditing) {
-          return this.getBannerHeader(<FormattedMessage {...messages.newContactBanner} />);
+          if (Object.keys(this.state.unassignedContactEditing).length === 0) {
+            return this.getBannerHeader(<FormattedMessage {...messages.newContactBanner} />);
+          } else {
+            return this.getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} values={{ name: this.state.unassignedContactEditing.attributes.name }} />);
+          }
         }
         return this.getSearchControlHeader();
     }
@@ -194,7 +204,13 @@ export class ContactsControl extends React.Component {
       case 'search':
       default:
         if (this.state.isEditing) {
-          return <Contact save={this.handleSave} cancel={this.setNotEditing} style={this.styles.mainContact} isEditing={this.state.isEditing} />;
+          return (<Contact
+            save={this.handleSave}
+            cancel={this.setNotEditing}
+            style={this.styles.mainContact}
+            isEditing={this.state.isEditing}
+            contact={this.state.unassignedContactEditing}
+          />);
         }
         return this.renderResults();
     }
@@ -344,7 +360,7 @@ export class ContactsControl extends React.Component {
   renderResults() {
     let results;
     if (this.props.selectedInteraction.query && Object.keys(this.props.selectedInteraction.query).length) {
-      const resultsMapped = this.props.results.map((contact) => <ContactSearchResult style={this.styles.contactResult} key={contact.id} contact={contact} assignContact={this.assignContactToSelected} loading={this.state.loading} />);
+      const resultsMapped = this.props.results.map((contact) => <ContactSearchResult style={this.styles.contactResult} key={contact.id} contact={contact} assignContact={this.assignContactToSelected} editContact={this.editUnassignedContact} loading={this.state.loading} />);
       results = (
         <InfiniteScroll
           loadMore={this.searchContacts}
@@ -370,7 +386,7 @@ export class ContactsControl extends React.Component {
           <div style={{ margin: '5px 0' }}>
             <FormattedMessage {...messages.or} />
           </div>
-          <Button id="createNewRecord" type="secondary" text="Create New Record" onClick={this.setEditing}></Button>
+          <Button id="createNewRecord" type="secondary" text="Create New Record" onClick={this.newContact}></Button>
         </div>
       );
     }

@@ -34,8 +34,8 @@ export default defineMessages({
     id: 'app.containers.ContactControl.newContact',
     defaultMessage: 'New Customer Record',
   },
-  editingBanner: {
+  contactEditingBanner: {
     id: 'app.containers.SidePanel.editing',
-    defaultMessage: 'Editing Customer Record',
+    defaultMessage: `Editing Customer Record - {name}`, // eslint-disable-line quotes
   },
 });

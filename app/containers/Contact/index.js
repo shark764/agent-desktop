@@ -389,6 +389,13 @@ export class Contact extends React.Component {
               onClick={this.props.assign}
               text={this.props.intl.formatMessage(messages.assignButton)}
             />
+            <Button
+              id={`editBtn${this.props.contact.id}`}
+              disabled={this.props.loading}
+              type="secondary"
+              onClick={this.props.edit}
+              text={this.props.intl.formatMessage(messages.editButton)}
+            />
           </div>
           : ''
           }
@@ -450,6 +457,7 @@ function mapDispatchToProps(dispatch) {
 Contact.propTypes = {
   showControls: PropTypes.bool,
   assign: PropTypes.func,
+  edit: PropTypes.func,
   showCompactView: PropTypes.bool,
   compactLayoutAttributes: PropTypes.object,
   layoutSections: PropTypes.array,
