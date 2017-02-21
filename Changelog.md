@@ -1,3 +1,7 @@
+<a name"0.2.14"></a>
+### 0.2.14 (2017-02-21)
+* Assign Contact From Search Results
+
 <a name"0.2.13"></a>
 ### 0.2.13 (2017-02-20)
 * Fix loading contact attributes/layout on tenant select.

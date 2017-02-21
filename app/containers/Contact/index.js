@@ -174,11 +174,7 @@ export class Contact extends React.Component {
       flexShrink: '1',
       display: 'flex',
       justifyContent: 'space-between',
-    },
-    titlesWrapper: {
-      display: 'flex',
-      flexDirection: 'column',
-      flexShrink: '1',
+      alignItems: 'center',
     },
     title: {
       fontSize: '16px',
@@ -381,14 +377,23 @@ export class Contact extends React.Component {
     return (
       <div>
         <div style={this.styles.header}>
-          <div style={this.styles.titlesWrapper}>
-            <div style={this.styles.title}>
-              { this.getHeader() }
-            </div>
+          <div style={this.styles.title}>
+            { this.getHeader() }
           </div>
+          {this.props.showControls
+          ? <div>
+            <Button
+              id={`assignBtn${this.props.contact.id}`}
+              disabled={this.props.loading}
+              type="secondary"
+              onClick={this.props.assign}
+              text={this.props.intl.formatMessage(messages.assignButton)}
+            />
+          </div>
+          : ''
+          }
         </div>
         { this.props.showCompactView
-          // Skip the first attribute for compact view; we're displaying it in the header
           ? this.props.compactLayoutAttributes.attributes.map(this.getAttributeRow)
           : this.props.layoutSections.map(this.getSection)
         }
@@ -443,6 +448,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 Contact.propTypes = {
+  showControls: PropTypes.bool,
+  assign: PropTypes.func,
   showCompactView: PropTypes.bool,
   compactLayoutAttributes: PropTypes.object,
   layoutSections: PropTypes.array,

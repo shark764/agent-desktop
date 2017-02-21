@@ -313,7 +313,6 @@ export class AgentDesktop extends React.Component {
                 isCollapsed={this.state.isContactsPanelCollapsed}
                 collapsePanel={this.collapseContactsPanel}
                 showPanel={this.showContactsPanel}
-                assignContact={this.props.assignContact}
                 addSearchFilter={this.props.addSearchFilter}
                 removeSearchFilter={this.props.removeSearchFilter}
                 setContactAction={this.props.setContactAction}
