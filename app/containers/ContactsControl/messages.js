@@ -27,14 +27,14 @@ export default defineMessages({
     defaultMessage: 'OR',
   },
   loading: {
-    id: 'app.containers.ContactControl.load ing',
+    id: 'app.containers.ContactControl.loading',
     defaultMessage: 'Loading...',
   },
   newContactBanner: {
     id: 'app.containers.ContactControl.newContact',
     defaultMessage: 'New Customer Record',
   },
-  editingBanner: {
+  contactEditingBanner: {
     id: 'app.containers.SidePanel.editing',
     defaultMessage: 'Editing Customer Record',
   },

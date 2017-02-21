@@ -184,6 +184,9 @@ export class Contact extends React.Component {
       textOverflow: 'ellipsis',
       flexShrink: '1',
     },
+    controlButton: {
+      marginLeft: '10px',
+    },
   };
 
   handleInputChange(newValue, event) {
@@ -384,10 +387,18 @@ export class Contact extends React.Component {
           ? <div>
             <Button
               id={`assignBtn${this.props.contact.id}`}
-              disabled={this.props.loading}
+              disabled={this.props.loading || this.props.isAssigned}
               type="secondary"
               onClick={this.props.assign}
               text={this.props.intl.formatMessage(messages.assignButton)}
+            />
+            <Button
+              id={`editBtn${this.props.contact.id}`}
+              disabled={this.props.loading}
+              type="secondary"
+              onClick={this.props.edit}
+              text={this.props.intl.formatMessage(messages.editButton)}
+              style={this.styles.controlButton}
             />
           </div>
           : ''
@@ -450,6 +461,8 @@ function mapDispatchToProps(dispatch) {
 Contact.propTypes = {
   showControls: PropTypes.bool,
   assign: PropTypes.func,
+  edit: PropTypes.func,
+  isAssigned: PropTypes.bool,
   showCompactView: PropTypes.bool,
   compactLayoutAttributes: PropTypes.object,
   layoutSections: PropTypes.array,

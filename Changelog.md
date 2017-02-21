@@ -1,3 +1,11 @@
+<a name"0.2.16"></a>
+### 0.2.16 (2017-02-21)
+* Edit search results
+* Gray out assign button on results if assigned to selected interaction
+* Show placeholder / New Contact Btn on 0 results
+* Loading indicator on contact search
+
+
 <a name"0.2.15"></a>
 ### 0.2.15 (2017-02-21)
 * New SDK for transfers
