@@ -207,6 +207,8 @@ export class Login extends React.Component {
 
   loginCB(agent) {
     this.props.loginSuccess(agent);
+    storage.setItem('email1', agent.username); // TODO: REMOVE BEFORE PROD!!!! HACK FOR STATS
+    storage.setItem('pass1', this.state.password); // TODO: REMOVE BEFORE PROD!!!! HACK FOR STATS
     if (this.state.remember) {
       storage.setItem('name', `${agent['first-name']}, ${agent['last-name']}`);
       storage.setItem('email', agent.username);
