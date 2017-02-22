@@ -1,3 +1,7 @@
+<a name"0.2.18"></a>
+### 0.2.18 (2017-02-22)
+* Make initial contact pop search an exact match
+
 <a name"0.2.17"></a>
 ### 0.2.17 (2017-02-21)
 * Cancel transfers
