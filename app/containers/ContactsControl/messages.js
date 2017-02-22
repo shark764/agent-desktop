@@ -30,4 +30,12 @@ export default defineMessages({
     id: 'app.containers.ContactControl.loading',
     defaultMessage: 'Loading...',
   },
+  newContactBanner: {
+    id: 'app.containers.ContactControl.newContact',
+    defaultMessage: 'New Customer Record',
+  },
+  contactEditingBanner: {
+    id: 'app.containers.SidePanel.editing',
+    defaultMessage: 'Editing Customer Record',
+  },
 });

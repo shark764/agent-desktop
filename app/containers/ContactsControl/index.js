@@ -13,7 +13,9 @@ import InfiniteScroll from 'react-infinite-scroller';
 
 import selectContactsControl, { selectSelectedInteraction, selectAttributes } from './selectors';
 import { setSearchResults, clearSearchResults } from './actions';
+import { assignContact } from '../AgentDesktop/actions';
 
+import IconSVG from 'components/IconSVG';
 import Button from 'components/Button';
 import Filter from 'components/Filter';
 import Icon from 'components/Icon';
@@ -29,9 +31,10 @@ export class ContactsControl extends React.Component {
     super(props);
 
     this.state = {
-      action: 'search',
       query: this.expandQuery(this.props.selectedInteraction.query, this.props.attributes),
       loading: false,
+      isEditing: false,
+      unassignedContactEditing: {},
     };
 
     this.setSearching = this.setSearching.bind(this);
@@ -40,21 +43,29 @@ export class ContactsControl extends React.Component {
     this.searchContacts = this.searchContacts.bind(this);
     this.renderResults = this.renderResults.bind(this);
     this.renderContactView = this.renderContactView.bind(this);
-    this.setCreating = this.setCreating.bind(this);
+    this.editUnassignedContact = this.editUnassignedContact.bind(this);
+    this.editAssignedContact = this.editAssignedContact.bind(this);
+    this.newContact = this.newContact.bind(this);
     this.getBannerHeader = this.getBannerHeader.bind(this);
     this.getViewControlHeader = this.getViewControlHeader.bind(this);
     this.getSearchControlHeader = this.getSearchControlHeader.bind(this);
     this.getHeader = this.getHeader.bind(this);
-    this.createContact = this.createContact.bind(this);
     this.addFilter = this.addFilter.bind(this);
     this.removeFilter = this.removeFilter.bind(this);
-    this.cancelSearch = this.cancelSearch.bind(this);
+    this.clearSearch = this.clearSearch.bind(this);
+    this.setNotEditing = this.setNotEditing.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.saveCallback = this.saveCallback.bind(this);
+    this.assignContactToSelected = this.assignContactToSelected.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.selectedInteraction.query !== this.props.selectedInteraction.query) {
       this.props.clearSearchResults();
       this.setState({ query: this.expandQuery(nextProps.selectedInteraction.query, nextProps.attributes) });
+    }
+    if ((nextProps.selectedInteraction.interactionId !== this.props.selectedInteraction.interactionId) && this.state.isEditing) {
+      this.setNotEditing();
     }
   }
 
@@ -98,19 +109,31 @@ export class ContactsControl extends React.Component {
     this.props.setContactAction(this.props.selectedInteraction.interactionId, 'search');
   }
 
-  setCreating() {
-    this.props.setContactAction(this.props.selectedInteraction.interactionId, 'create');
+  editUnassignedContact(contact) {
+    this.setState({ isEditing: true, unassignedContactEditing: contact });
+  }
+
+  newContact() {
+    this.setState({ isEditing: true, unassignedContactEditing: {} });
+  }
+
+  editAssignedContact() {
+    this.setState({ isEditing: true, unassignedContactEditing: {} });
   }
 
   setViewing() {
     this.props.setContactAction(this.props.selectedInteraction.interactionId, 'view');
   }
 
-  cancelSearch() {
+  clearSearch() {
     this.removeFilter();
-    if (Object.keys(this.props.selectedInteraction.contact).length) {
+    if (this.props.selectedInteraction.contact !== undefined) {
       this.setViewing();
     }
+  }
+
+  setNotEditing() {
+    this.setState({ isEditing: false, unassignedContactEditing: {} });
   }
 
   getSearchControlHeader() {
@@ -119,7 +142,7 @@ export class ContactsControl extends React.Component {
         <ContactSearchBar
           resultsCount={this.props.resultsCount !== undefined ? this.props.resultsCount : -1}
           addFilter={this.addFilter}
-          cancel={this.cancelSearch}
+          cancel={this.clearSearch}
           query={this.state.query}
           style={this.styles.contactSearchBar}
         />
@@ -142,7 +165,7 @@ export class ContactsControl extends React.Component {
     return (
       <div style={this.styles.controlHeader}>
         <div style={this.styles.buttonSet}>
-          {/* <Button id="contact-edit-btn" style={this.styles.leftButton} onClick={this.setCreating} text={messages.edit} type="secondary" /> */}
+          <Button id="contact-edit-btn" style={this.styles.leftButton} onClick={this.editAssignedContact} text={messages.edit} type="secondary" />
           <Button id="contact-search-btn" style={this.styles.rightButton} onClick={this.setSearching} iconName="search" type="secondary" />
         </div>
       </div>
@@ -163,11 +186,19 @@ export class ContactsControl extends React.Component {
   getHeader() {
     switch (this.props.selectedInteraction.contactAction) {
       case 'view':
+        if (this.state.isEditing) {
+          return this.getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} />);
+        }
         return this.getViewControlHeader();
-      case 'create':
-        return this.getBannerHeader('New Customer Record');
       case 'search':
       default:
+        if (this.state.isEditing) {
+          if (Object.keys(this.state.unassignedContactEditing).length === 0) {
+            return this.getBannerHeader(<FormattedMessage {...messages.newContactBanner} />);
+          } else {
+            return this.getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} />);
+          }
+        }
         return this.getSearchControlHeader();
     }
   }
@@ -176,10 +207,17 @@ export class ContactsControl extends React.Component {
     switch (this.props.selectedInteraction.contactAction) {
       case 'view':
         return this.renderContactView();
-      case 'create':
-        return <Contact save={this.createContact} cancel={this.setSearching} style={this.styles.mainContact} isEditing />;
       case 'search':
       default:
+        if (this.state.isEditing) {
+          return (<Contact
+            save={this.handleSave}
+            cancel={this.setNotEditing}
+            style={this.styles.mainContact}
+            isEditing={this.state.isEditing}
+            contact={this.state.unassignedContactEditing}
+          />);
+        }
         return this.renderResults();
     }
   }
@@ -187,7 +225,11 @@ export class ContactsControl extends React.Component {
   searchContacts() {
     if (!this.state.loading) {
       this.setState({ loading: true });
-      SDK.contacts.search({ query: this.props.selectedInteraction.query, page: this.props.nextPage }, (error, topic, response) => {
+      const encodedQuery = {};
+      Object.keys(this.props.selectedInteraction.query).forEach((queryName) => {
+        encodedQuery[queryName] = encodeURIComponent(this.props.selectedInteraction.query[queryName]);
+      });
+      SDK.contacts.search({ query: encodedQuery, page: this.props.nextPage }, (error, topic, response) => {
         console.log('[ContactsControl] SDK.subscribe()', topic, response);
         this.props.setSearchResults(response);
         this.setState({ loading: false });
@@ -299,34 +341,74 @@ export class ContactsControl extends React.Component {
     leftGutter: {
       width: '52px',
     },
+    loading: {
+      display: 'flex',
+      justifyContent: 'center',
+    },
+    loadingIcon: {
+      height: '60px',
+    },
   };
 
-  createContact(contact) {
-    if (!this.state.loading) {
-      this.setState({ loading: true });
-      SDK.contacts.create(contact, () => {
-        this.setState({ loading: false });
-        this.setViewing();
-      });
+  saveCallback(error, topic, response) {
+    console.log('[ContactsControl] SDK.subscribe()', topic, response);
+    this.setState({ loading: false });
+    if (error) {
+      console.error(error); // TODO: proper error display to user
+    } else {
+      this.props.clearSearchResults();
+      this.setNotEditing();
     }
   }
 
+  handleSave(attributes, contactId) {
+    this.setState({ loading: true });
+    if (contactId) {
+      SDK.contacts.update({ contactId, attributes }, this.saveCallback);
+    } else {
+      SDK.contacts.create({ attributes }, this.saveCallback);
+    }
+  }
+
+  assignContactToSelected(contact) {
+    this.props.assignContact(this.props.selectedInteraction.interactionId, contact);
+  }
+
+  getLoader() {
+    return (
+      <div id="loadingContainer" style={this.styles.loading}>
+        <IconSVG style={this.loadingIcon} id="loadingIcon" name="loading" />
+      </div>
+    );
+  }
+
   renderResults() {
-    let results;
+    const results = [];
     if (this.props.selectedInteraction.query && Object.keys(this.props.selectedInteraction.query).length) {
-      const resultsMapped = this.props.results.map((contact) => <ContactSearchResult style={this.styles.contactResult} key={contact.id} contact={contact} />);
-      results = (
+      const resultsMapped = this.props.results.map(
+        (contact) =>
+          <ContactSearchResult
+            style={this.styles.contactResult}
+            key={contact.id}
+            isAssigned={this.props.selectedInteraction && this.props.selectedInteraction.contact && this.props.selectedInteraction.contact.id === contact.id}
+            contact={contact}
+            assignContact={this.assignContactToSelected}
+            editContact={this.editUnassignedContact}
+            loading={this.state.loading}
+          />);
+      results.push(
         <InfiniteScroll
           loadMore={this.searchContacts}
           hasMore={this.props.resultsCount === -1 || this.props.results.length < this.props.resultsCount}
-          loader={<div className="loader"><FormattedMessage {...messages.loading} /></div>}
+          loader={this.getLoader()}
           useWindow={false}
         >
           { resultsMapped }
         </InfiniteScroll>
       );
-    } else {
-      results = (
+    }
+    if (this.props.resultsCount < 1 && !this.state.loading) {
+      results.push(
         <div id="results-placeholder" style={this.styles.resultsPlaceholder}>
           <div style={this.styles.resultsPlaceholderTitle}>
             <Icon name="search" />
@@ -340,7 +422,7 @@ export class ContactsControl extends React.Component {
           <div style={{ margin: '5px 0' }}>
             <FormattedMessage {...messages.or} />
           </div>
-          <Button id="createNewRecord" type="secondary" text="Create New Record" onClick={this.setCreating}></Button>
+          <Button id="createNewRecord" type="secondary" text="Create New Record" onClick={this.newContact}></Button>
         </div>
       );
     }
@@ -348,15 +430,15 @@ export class ContactsControl extends React.Component {
   }
 
   renderContactView() {
-    return this.props.selectedInteraction.contact ?
-      <Contact style={this.styles.mainContact} contactAttributes={this.props.selectedInteraction.contact.attributes} loading={this.state.loading} />
+    return Object.keys(this.props.selectedInteraction.contact).length ?
+      <Contact style={this.styles.mainContact} isAssigned contact={this.props.selectedInteraction.contact} loading={this.state.loading} save={this.handleSave} cancel={this.setNotEditing} isEditing={this.state.isEditing} />
       :
       ''; // TODO: loading animation
   }
 
   render() {
     return (
-      <div key={this.props.key} style={[this.props.style, this.styles.base]}>
+      <div style={[this.props.style, this.styles.base]}>
         { this.getHeader() }
         <div style={[this.styles.contacts]}>
           { this.getMainContent() }
@@ -369,7 +451,6 @@ export class ContactsControl extends React.Component {
 ContactsControl.propTypes = {
   intl: React.PropTypes.object.isRequired,
   style: React.PropTypes.object,
-  key: React.PropTypes.any,
   attributes: React.PropTypes.array,
   resultsCount: React.PropTypes.number,
   results: React.PropTypes.any,
@@ -380,6 +461,7 @@ ContactsControl.propTypes = {
   clearSearchResults: React.PropTypes.func,
   selectedInteraction: React.PropTypes.object,
   setContactAction: React.PropTypes.func,
+  assignContact: React.PropTypes.func,
 };
 
 function mapStateToProps(state, props) {
@@ -394,6 +476,7 @@ function mapDispatchToProps(dispatch) {
   return {
     setSearchResults: (filter) => dispatch(setSearchResults(filter)),
     clearSearchResults: () => dispatch(clearSearchResults()),
+    assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
     dispatch,
   };
 }

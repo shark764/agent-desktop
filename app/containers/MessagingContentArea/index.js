@@ -129,7 +129,7 @@ export class MessagingContentArea extends React.Component {
   render() {
     const isAccepting = this.props.selectedInteraction.status === 'work-accepting';
 
-    const from = this.props.selectedInteraction.messageHistory[0].from;
+    const from = this.props.selectedInteraction.contact !== undefined ? this.props.selectedInteraction.contact.attributes.name : this.props.selectedInteraction.messageHistory[0].from;
 
     let details;
     if (this.props.selectedInteraction.customFields) {
@@ -166,32 +166,40 @@ export class MessagingContentArea extends React.Component {
         </div>
       );
     } else {
-      const messageHistory = this.props.selectedInteraction.messageHistory.map((message) =>
-        <div key={message.from + message.timestamp} style={this.styles.messageHistoryItem}>
-          {
-            message.type === 'system'
-            ? <span style={this.styles.systemMessage}>
-              {message.text}
-            </span>
-            : <div>
-              <div style={this.styles.avatarContainer}>
-                <Avatar customerAvatarIndex={message.type === 'agent' ? undefined : this.props.selectedInteraction.customerAvatarIndex} />
-              </div>
-              <div style={this.styles.messageContainer}>
-                <span style={this.styles.messageFrom}>
-                  {message.from}
-                </span>
-                <span style={this.styles.messageTime}>
-                  <FormattedTime value={new Date(message.timestamp)} />
-                </span>
-                <div style={this.styles.messageText}>
-                  {message.text}
+      const messageHistory = this.props.selectedInteraction.messageHistory.map((message) => {
+        let messageFrom;
+        if (message.type === 'customer' && this.props.selectedInteraction.contact !== undefined) {
+          messageFrom = this.props.selectedInteraction.contact.attributes.name;
+        } else {
+          messageFrom = message.from;
+        }
+        return (
+          <div key={message.from + message.timestamp} style={this.styles.messageHistoryItem}>
+            {
+              message.type === 'system'
+              ? <span style={this.styles.systemMessage}>
+                {message.text}
+              </span>
+              : <div>
+                <div style={this.styles.avatarContainer}>
+                  <Avatar customerAvatarIndex={message.type === 'agent' ? undefined : this.props.selectedInteraction.customerAvatarIndex} />
+                </div>
+                <div style={this.styles.messageContainer}>
+                  <span style={this.styles.messageFrom}>
+                    {messageFrom}
+                  </span>
+                  <span style={this.styles.messageTime}>
+                    <FormattedTime value={new Date(message.timestamp)} />
+                  </span>
+                  <div style={this.styles.messageText}>
+                    {message.text}
+                  </div>
                 </div>
               </div>
-            </div>
-          }
-        </div>
-      );
+            }
+          </div>
+        );
+      });
 
       content = (
         <div style={this.styles.messagingContainer}>

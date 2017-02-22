@@ -7,7 +7,6 @@
 import React, { PropTypes } from 'react';
 import { Tab, TabList, TabPanel } from 'react-tabs';
 import { connect } from 'react-redux';
-import { setContactLayout, setContactAttributes } from './actions';
 import Radium from 'radium';
 import IconCollapse from 'icons/collapse';
 
@@ -33,17 +32,6 @@ export class SidePanel extends React.Component {
     this.updateSelectedTab = this.updateSelectedTab.bind(this);
     this.getPanelSizing = this.getPanelSizing.bind(this);
     this.handleCollapseClick = this.handleCollapseClick.bind(this);
-  }
-
-  componentDidMount() {
-    SDK.subscribe('cxengage/contacts/list-attributes-response', (error, topic, response) => {
-      console.log('[SidePanel] SDK.subscribe()', topic, response);
-      this.props.setContactAttributes(response);
-    });
-    SDK.subscribe('cxengage/contacts/list-layouts-response', (error, topic, response) => {
-      console.log('[SidePanel] SDK.subscribe()', topic, response);
-      this.props.setContactLayout(response);
-    });
   }
 
   getPanelSizing() {
@@ -159,11 +147,9 @@ export class SidePanel extends React.Component {
             <TabList>
               <Tab>Info</Tab>
               <Tab>History</Tab>
-              <Tab>Reference</Tab>
             </TabList>
             <TabPanel>
               <ContactsControl
-                assignContact={this.props.assignContact}
                 addSearchFilter={this.props.addSearchFilter}
                 removeSearchFilter={this.props.removeSearchFilter}
                 setContactAction={this.props.setContactAction}
@@ -171,10 +157,6 @@ export class SidePanel extends React.Component {
             </TabPanel>
             <TabPanel>
               <ContactInteractionHistory />
-            </TabPanel>
-            <TabPanel>
-              <h2>References</h2>
-              <h4>Praesent sed metus ut lacus congue iaculis.</h4>
             </TabPanel>
           </Tabs>
         </div>
@@ -196,8 +178,6 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setContactLayout: (layout) => dispatch(setContactLayout(layout)),
-    setContactAttributes: (attributes) => dispatch(setContactAttributes(attributes)),
     dispatch,
   };
 }
@@ -210,9 +190,6 @@ SidePanel.propTypes = {
   collapsePanel: PropTypes.func,
   showPanel: PropTypes.func,
   selectedInteractionId: PropTypes.string,
-  setContactLayout: PropTypes.func.isRequired,
-  setContactAttributes: PropTypes.func.isRequired,
-  assignContact: PropTypes.func.isRequired,
   addSearchFilter: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
   setContactAction: PropTypes.func.isRequired,

@@ -26,4 +26,8 @@ export default defineMessages({
     id: 'app.containers.TransferMenu.agents',
     defaultMessage: 'Agents',
   },
+  transfer: {
+    id: 'app.containers.TransferMenu.transfer',
+    defaultMessage: 'Transfer',
+  },
 });

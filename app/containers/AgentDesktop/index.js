@@ -9,23 +9,23 @@ import '../../../node_modules/cxengage-javascript-sdk/release/cxengage-javascrip
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import selectAgentDesktop, { selectLogin } from './selectors';
+import Radium from 'radium';
+
+import Resizable from 'components/Resizable';
 
 import InteractionsBar from 'containers/InteractionsBar';
+import Login from 'containers/Login';
 import MainContentArea from 'containers/MainContentArea';
 import PhoneControls from 'containers/PhoneControls';
 import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
-import Resizable from 'components/Resizable';
-
-import Login from 'containers/Login';
-
-import Radium from 'radium';
-
-import { setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
-  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction } from './actions';
-
+import selectAgentDesktop, { selectLogin } from './selectors';
+import { setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
+  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected, emailCreateReply, emailCancelReply, addSearchFilter,
+  removeSearchFilter, setContactAction } from './actions';
+import { showLogin } from 'containers/Login/actions';
+import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 
 export class AgentDesktop extends React.Component {
 
@@ -70,6 +70,7 @@ export class AgentDesktop extends React.Component {
       switch (topic) {
         case 'cxengage/session/started': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.showLogin(false);
           SDK.contacts.listAttributes();
           SDK.contacts.listLayouts();
           break;
@@ -87,20 +88,33 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/work-initiated': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.workInitiated(response);
+          // attempt to auto-assign contact
+          const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response.interactionId);
+          if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms')) {
+            this.attemptContactSearch(response.customer, response.interactionId, true);
+          }
           break;
         }
         case 'cxengage/messaging/history': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setMessageHistory(response);
-          this.attemptContact(response, response[0].channelId);
+          // attempt to auto-assign contact
+          const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response[0].channelId);
+          if (interaction && (interaction.channelType === 'messaging')) {
+            const customerMessage = response.find((message) => message.payload.metadata.type === 'customer'); // History has been coming in with initial customer issue message missing
+            if (customerMessage && customerMessage.payload && customerMessage.payload.metadata && customerMessage.payload.metadata.name) {
+              this.attemptContactSearch(customerMessage.payload.metadata.name, customerMessage.channelId, false);
+            } else {
+              console.error('customer name not found in:', customerMessage);
+            }
+          } else {
+            console.warn('no customer message found for interaction:', response[0].channelId);
+          }
           break;
         }
         case 'cxengage/interactions/work-accepted': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setInteractionStatus(response.interactionId, 'work-accepted');
-          if (response.type !== 'messaging') {
-            this.attemptContact(response, response.interactionId);
-          }
           break;
         }
         case 'cxengage/interactions/work-rejected':
@@ -144,9 +158,34 @@ export class AgentDesktop extends React.Component {
           this.props.stopRecordCall(response.interactionId);
           break;
         }
+        case 'cxengage/voice/cancel-transfer-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.transferCancelled(response.interactionId);
+          break;
+        }
+        case 'cxengage/voice/transfer-connected': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.transferConnected(response.interactionId);
+          break;
+        }
+        case 'cxengage/contacts/list-attributes-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.setContactAttributes(response);
+          break;
+        }
+        case 'cxengage/contacts/list-layouts-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.setContactLayout(response);
+          break;
+        }
         case 'cxengage/contacts/create-response': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.assignContact(this.props.agentDesktop.selectedInteractionId, response);
+          break;
+        }
+        case 'cxengage/contacts/update-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.updateContact(response);
           break;
         }
         // Igonore these pubsubs. They are unneeded or handled elsewhere.
@@ -156,12 +195,11 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/end-response': // Using cxengage/interactions/work-ended instead
         case 'cxengage/messaging/send-message-response': // Using cxengage/messaging/new-message-received instead
         case 'cxengage/voice/phone-controls-response': // Using mute-started, mute-ended, etc. instead
-        case 'cxengage/contacts/list-attributes-response': // Handled in SidePanel
-        case 'cxengage/contacts/list-layouts-response': // Handled in SidePanel
         case 'cxengage/contacts/search-response': // Handled in ContactsControl & AgentDesktop callback
         case 'cxengage/crud/get-queues-response': // Handled in TransferMenu
         case 'cxengage/crud/get-users-response': // Handled in TransferMenu
-
+        case 'cxengage/crud/get-transfer-lists-response': // Handled in TransferMenu
+        case 'cxengage/voice/transfer-response': // Handled in TransferMenu
           break;
         default: {
           console.warn('AGENT DESKTOP: No pub sub for', error, topic, response); // eslint-disable-line no-console
@@ -170,38 +208,16 @@ export class AgentDesktop extends React.Component {
     });
   }
 
-  attemptContact(interactionInfo, interactionId) {
-    const query = this.getInitialQuery(interactionInfo);
-    if (query) {
-      SDK.contacts.search({ query }, (error, topic, response) => {
-        console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-        if (response.results.length === 1) {
-          this.props.assignContact(interactionId, response.results[0]);
-        } else {
-          this.props.setInteractionQuery(interactionId, query);
-        }
-      }); // trigger search
-    }
-  }
-
-  getInitialQuery(interactionInfo) {
-    let from;
-    if (Array.isArray(interactionInfo)) {
-      const messageHistoryItem = interactionInfo[0];
-      from = messageHistoryItem.payload.metadata && messageHistoryItem.payload.metadata.name ? messageHistoryItem.payload.metadata.name : messageHistoryItem.payload.from;
-    } else {
-      switch (interactionInfo.channelType) {
-        case 'email':
-          from = interactionInfo.email && interactionInfo.email.from;
-          break;
-        case 'voice':
-          from = interactionInfo.number;
-          break;
-        default:
-          from = false;
+  attemptContactSearch(from, interactionId, exact) {
+    console.log('[AgentDesktop] attemptContactSearch()', { query: { q: exact ? encodeURIComponent(`"${from}"`) : encodeURIComponent(from) } });
+    SDK.contacts.search({ query: { q: encodeURIComponent(`"${from}"`) } }, (error, topic, response) => {
+      console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+      if (response.count === 1) {
+        this.props.assignContact(interactionId, response.results[0]);
+      } else {
+        this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
       }
-    }
-    return from ? { q: from } : false;
+    });
   }
 
   setContactsPanelWidth(newWidth) {
@@ -253,7 +269,6 @@ export class AgentDesktop extends React.Component {
     leftArea: {
       flex: '0 0 auto',
       width: '283px',
-      borderBottom: '1px solid #141414',
       display: 'flex',
       flexFlow: 'column',
     },
@@ -277,7 +292,7 @@ export class AgentDesktop extends React.Component {
     return (
       <div>
         {
-          this.props.login.showLogin
+          this.props.login.showLogin || this.props.agentDesktop.presence === undefined
             ? <Login />
             : <span>
               <div id="desktop-container" style={[this.styles.flexChildGrow, this.styles.parent, this.styles.columnParent, { height: '100vh' }]}>
@@ -310,7 +325,6 @@ export class AgentDesktop extends React.Component {
                 isCollapsed={this.state.isContactsPanelCollapsed}
                 collapsePanel={this.collapseContactsPanel}
                 showPanel={this.showContactsPanel}
-                assignContact={this.props.assignContact}
                 addSearchFilter={this.props.addSearchFilter}
                 removeSearchFilter={this.props.removeSearchFilter}
                 setContactAction={this.props.setContactAction}
@@ -329,6 +343,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    showLogin: (show) => dispatch(showLogin(show)),
     setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
@@ -336,8 +351,11 @@ function mapDispatchToProps(dispatch) {
     removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
     setMessageHistory: (response) => dispatch(setMessageHistory(response)),
     assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
+    updateContact: (updatedContact) => dispatch(updateContact(updatedContact)),
     addMessage: (response) => dispatch(addMessage(response)),
     selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
+    setContactLayout: (layout) => dispatch(setContactLayout(layout)),
+    setContactAttributes: (attributes) => dispatch(setContactAttributes(attributes)),
     setInteractionQuery: (interactionId, query) => dispatch(setInteractionQuery(interactionId, query)),
     addSearchFilter: (filterName, value) => dispatch(addSearchFilter(filterName, value)),
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
@@ -349,6 +367,8 @@ function mapDispatchToProps(dispatch) {
     resumeCall: (interactionId) => dispatch(resumeCall(interactionId)),
     recordCall: (interactionId) => dispatch(recordCall(interactionId)),
     stopRecordCall: (interactionId) => dispatch(stopRecordCall(interactionId)),
+    transferCancelled: (interactionId) => dispatch(transferCancelled(interactionId)),
+    transferConnected: (interactionId) => dispatch(transferConnected(interactionId)),
     emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
     emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
     dispatch,
@@ -356,6 +376,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 AgentDesktop.propTypes = {
+  showLogin: PropTypes.func.isRequired,
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,
   addInteraction: PropTypes.func.isRequired,
@@ -363,8 +384,11 @@ AgentDesktop.propTypes = {
   removeInteraction: PropTypes.func.isRequired,
   setMessageHistory: PropTypes.func.isRequired,
   assignContact: PropTypes.func.isRequired,
+  updateContact: PropTypes.func.isRequired,
   addMessage: PropTypes.func.isRequired,
   selectInteraction: PropTypes.func.isRequired,
+  setContactLayout: PropTypes.func.isRequired,
+  setContactAttributes: PropTypes.func.isRequired,
   addSearchFilter: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
   setContactAction: PropTypes.func.isRequired,
@@ -377,6 +401,8 @@ AgentDesktop.propTypes = {
   resumeCall: PropTypes.func.isRequired,
   recordCall: PropTypes.func.isRequired,
   stopRecordCall: PropTypes.func.isRequired,
+  transferCancelled: PropTypes.func.isRequired,
+  transferConnected: PropTypes.func.isRequired,
   emailCreateReply: PropTypes.func.isRequired,
   emailCancelReply: PropTypes.func.isRequired,
   login: PropTypes.object,

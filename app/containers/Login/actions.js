@@ -5,20 +5,19 @@
  */
 
 import {
-  DEFAULT_ACTION,
+  LOGGING_IN,
   LOGIN_SUCCESS,
-  SET_AUTHENTICATED,
   LOGIN_ERROR,
-  SET_TENANTS,
   RESET_PASSWORD,
   SHOW_LOGIN,
+  SETTING_TENANT,
   SET_TENANT,
   LOGOUT,
 } from './constants';
 
-export function defaultAction() {
+export function loggingIn() {
   return {
-    type: DEFAULT_ACTION,
+    type: LOGGING_IN,
   };
 }
 
@@ -41,10 +40,9 @@ export function loginError() {
   };
 }
 
-export function setAuthenticated(authed) {
+export function settingTenant() {
   return {
-    type: SET_AUTHENTICATED,
-    authed,
+    type: SETTING_TENANT,
   };
 }
 
@@ -53,13 +51,6 @@ export function setTenant(id, name) {
     type: SET_TENANT,
     id,
     name,
-  };
-}
-
-export function setTenants(tenants) {
-  return {
-    type: SET_TENANTS,
-    tenants,
   };
 }
 

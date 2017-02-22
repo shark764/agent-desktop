@@ -17,6 +17,9 @@ export class ContactSearchResult extends React.Component {
     this.state = {
       expanded: false,
     };
+
+    this.assignContact = this.assignContact.bind(this);
+    this.editContact = this.editContact.bind(this);
   }
 
   styles = {
@@ -55,10 +58,25 @@ export class ContactSearchResult extends React.Component {
     },
   };
 
+  assignContact() {
+    this.props.assignContact(this.props.contact);
+  }
+  editContact() {
+    this.props.editContact(this.props.contact);
+  }
+
   render() {
     return (
       <div style={[this.styles.base, this.props.style]}>
-        <Contact contactAttributes={this.props.contact.attributes} style={[this.styles.contact]} showCompactView={!this.state.expanded} ></Contact>
+        <Contact
+          contact={this.props.contact}
+          style={[this.styles.contact]}
+          showCompactView={!this.state.expanded}
+          isAssigned={this.props.isAssigned}
+          assign={this.assignContact}
+          edit={this.editContact}
+          showControls={!this.props.loading}
+        />
         <div onClick={() => this.setState({ expanded: !this.state.expanded })} style={this.styles.expandToggle} >
           <span style={this.styles.ellip}>...</span>
         </div>
@@ -70,6 +88,14 @@ export class ContactSearchResult extends React.Component {
 ContactSearchResult.propTypes = {
   style: React.PropTypes.object,
   contact: React.PropTypes.object.isRequired,
+  assignContact: React.PropTypes.func.isRequired,
+  isAssigned: React.PropTypes.bool,
+  editContact: React.PropTypes.func.isRequired,
+  loading: React.PropTypes.bool,
+};
+
+ContactSearchResult.defaultProps = {
+  isAssigned: false,
 };
 
 export default Radium(ContactSearchResult);

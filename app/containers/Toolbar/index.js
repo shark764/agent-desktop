@@ -13,7 +13,7 @@ import Radium from 'radium';
 
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
-import AgentMenu from 'containers/AgentStatusMenu';
+import AgentStatusMenu from 'containers/AgentStatusMenu';
 
 import { showAgentStatusMenu } from './actions';
 
@@ -157,7 +157,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
           </div>
           {
             this.props.agentStatusMenu
-            ? <AgentMenu
+            ? <AgentStatusMenu
               tenant={this.props.tenant}
               readyState={this.props.readyState}
               showAgentStatusMenu={this.props.showAgentStatusMenu}

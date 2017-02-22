@@ -4,7 +4,7 @@
  *
  */
 
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 import {
   SET_PRESENCE,
   SET_INTERACTION_STATUS,
@@ -17,9 +17,13 @@ import {
   SET_MESSAGE_HISTORY,
   SET_CONTACT_ACTION,
   ASSIGN_CONTACT,
+  UPDATE_CONTACT,
   ADD_MESSAGE,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
+  START_WARM_TRANSFERRING,
+  TRANSFER_CANCELLED,
+  TRANSFER_CONNECTED,
   MUTE_CALL,
   UNMUTE_CALL,
   HOLD_CALL,
@@ -69,6 +73,24 @@ const initialState = fromJS({
     //   number: '313.412.6623',
     //   recording: true,
     //   agentRecordingEnabled: true, // false
+    //   warmTransfers: [
+    //     {
+    //       id: '1111111',
+    //       type: 'agent',
+    //       name: 'Agent with a very very very long name',
+    //       status: 'connected',
+    //     }, {
+    //       id: '22222',
+    //       type: 'queue',
+    //       name: 'Queue #1',
+    //       status: 'connected',
+    //     }, {
+    //       id: '33333',
+    //       type: 'pstn',
+    //       name: 'Some PSTN number',
+    //       status: 'transferring',
+    //     },
+    //   ],
     // },
     //
     //   XXX uncomment below to mock SMS interaction
@@ -83,10 +105,10 @@ const initialState = fromJS({
     //         from: '15552213456',
     //         type: 'sms',
     //         timestamp: new Date().toISOString(),
+    //         unread: false,
     //       },
     //     ],
     //     contact: mockContact(),
-    //     hasUnreadMessage: false,
     //   },
     // ],
     // selectedInteractionId: '11111111111111111111112',
@@ -110,18 +132,7 @@ function agentDesktopReducer(state = initialState, action) {
             (interactions) =>
               interactions.update(
                 interactionIndex,
-                (interaction) => {
-                  // We only want to set hasUnreadMessage for messaging/sms interactions
-                  let hasUnreadMessage;
-                  if ((interaction.get('channelType') === 'messaging' || interaction.get('channelType') === 'sms') &&
-                      (action.newStatus === 'work-accepting' || action.newStatus === 'work-accepted') &&
-                      state.get('selectedInteractionId') !== interaction.get('interactionId')) {
-                    hasUnreadMessage = true;
-                  }
-                  return interaction
-                    .set('status', action.newStatus)
-                    .set('hasUnreadMessage', hasUnreadMessage);
-                }
+                (interaction) => interaction.set('status', action.newStatus)
               )
           ).set('selectedInteractionId',
             automaticallyAcceptInteraction
@@ -136,6 +147,7 @@ function agentDesktopReducer(state = initialState, action) {
       let recording;
       let onHold;
       let muted;
+      let warmTransfers;
       if (action.response.channelType === 'voice') {
         // recordingUpdate could be undefined for old flows, but should be enabled in that case
         agentRecordingEnabled = action.response.toolbarFeatures.recordingUpdate !== false;
@@ -143,6 +155,7 @@ function agentDesktopReducer(state = initialState, action) {
         recording = action.response.recording === true;
         onHold = action.response.customerOnHold === true;
         muted = false;
+        warmTransfers = new List();
       }
       const interaction = {
         channelType: action.response.channelType,
@@ -151,12 +164,12 @@ function agentDesktopReducer(state = initialState, action) {
         status: 'work-offer',
         query: {},
         contactAction: 'search',
-        contact: {},
         timeout: action.response.timeout,
         agentRecordingEnabled,
         recording,
         onHold,
         muted,
+        warmTransfers,
       };
       return state
         .set('interactions', state.get('interactions').push(fromJS(interaction)));
@@ -215,6 +228,7 @@ function agentDesktopReducer(state = initialState, action) {
             from: messageHistoryItem.payload.metadata && messageHistoryItem.payload.metadata.name ? messageHistoryItem.payload.metadata.name : messageHistoryItem.payload.from,
             type: messageHistoryItem.payload.metadata ? messageHistoryItem.payload.metadata.type : messageHistoryItem.payload.type,
             timestamp: messageHistoryItem.payload.timestamp,
+            unread: state.get('selectedInteractionId') !== undefined && action.response[0].channelId !== state.get('selectedInteractionId'),
           }));
           return state
             .update('interactions',
@@ -311,6 +325,14 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+    case UPDATE_CONTACT: {
+      return state.update('interactions', (interactions) => interactions.map((interaction) => {
+        if (interaction.getIn(['contact', 'id']) === action.updatedContact.id) {
+          return interaction.set('contact', fromJS(action.updatedContact));
+        }
+        return interaction;
+      }));
+    }
     case ADD_MESSAGE: {
       const message = action.response;
       const interactionIndex = state.get('interactions').findIndex(
@@ -322,6 +344,7 @@ function agentDesktopReducer(state = initialState, action) {
           from: message.metadata !== null ? message.metadata.name : message.from,
           type: message.metadata !== null ? message.metadata.type : message.type,
           timestamp: message.timestamp,
+          unread: state.get('selectedInteractionId') !== undefined && message.to !== state.get('selectedInteractionId'),
         };
         return state
           .update('interactions',
@@ -329,7 +352,6 @@ function agentDesktopReducer(state = initialState, action) {
             interactions.update(
               interactionIndex,
               (interaction) => interaction.update('messageHistory', (messageHistory) => messageHistory.push(fromJS(messageHistoryItem)))
-                .set('hasUnreadMessage', state.get('selectedInteractionId') !== interaction.get('interactionId'))
           )
         );
       } else {
@@ -347,7 +369,12 @@ function agentDesktopReducer(state = initialState, action) {
             (interactions) =>
               interactions.update(
                 interactionIndex,
-                (interaction) => interaction.set('hasUnreadMessage', false)
+                (interaction) =>
+                  interaction.set('messageHistory',
+                    interaction.get('messageHistory') !== undefined
+                    ? interaction.get('messageHistory').map((messageHistoryItem) => messageHistoryItem.set('unread', false))
+                    : undefined
+                  )
               )
           );
       } else {
@@ -365,6 +392,89 @@ function agentDesktopReducer(state = initialState, action) {
               interactions.update(
                 interactionIndex,
                 (interaction) => interaction.set('customFields', action.customFields)
+              )
+          );
+      } else {
+        return state;
+      }
+    }
+    case START_WARM_TRANSFERRING: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1 &&
+          action.transferringTo !== undefined &&
+          action.transferringTo.id !== undefined &&
+          action.transferringTo.type !== undefined &&
+          action.transferringTo.name !== undefined) {
+        return state
+          .update('interactions',
+            (interactions) =>
+              interactions.update(
+                interactionIndex,
+                (interaction) =>
+                  interaction.update('warmTransfers', (warmTransfers) =>
+                    warmTransfers.push(fromJS({ ...action.transferringTo, status: 'transferring' })))
+              )
+          );
+      } else {
+        return state;
+      }
+    }
+    case TRANSFER_CANCELLED: {
+      const interactionIndex = state.get('interactions').findIndex(
+        // TODO TODO TODO do it this way instead when SDK returns interactionId:
+        // (interaction) => interaction.get('interactionId') === action.interactionId
+        (interaction) => interaction.get('channelType') === 'voice'
+      );
+      if (interactionIndex !== -1) {
+        return state
+          .update('interactions',
+            (interactions) =>
+              interactions.update(
+                interactionIndex,
+                (interaction) => {
+                  const cancellingTransferIndex = interaction.get('warmTransfers').findIndex(
+                    (warmTransfer) => warmTransfer.get('status') === 'transferring'
+                  );
+                  if (cancellingTransferIndex !== -1) {
+                    return interaction.update('warmTransfers', (warmTransfers) =>
+                      warmTransfers.delete(cancellingTransferIndex)
+                    );
+                  } else {
+                    return interaction;
+                  }
+                }
+              )
+          );
+      } else {
+        return state;
+      }
+    }
+    case TRANSFER_CONNECTED: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state
+          .update('interactions',
+            (interactions) =>
+              interactions.update(
+                interactionIndex,
+                (interaction) => {
+                  const connectingTransferIndex = interaction.get('warmTransfers').findIndex(
+                    (warmTransfer) => warmTransfer.get('status') === 'transferring'
+                  );
+                  if (connectingTransferIndex !== -1) {
+                    return interaction.update('warmTransfers', (warmTransfers) =>
+                      warmTransfers.update(connectingTransferIndex, (warmTransfer) =>
+                        warmTransfer.set('status', 'connected')
+                      )
+                    );
+                  } else {
+                    return interaction;
+                  }
+                }
               )
           );
       } else {

@@ -19,10 +19,11 @@ import CheckBox from 'components/Checkbox';
 import Button from 'components/Button';
 import A from 'components/A';
 import Select from 'components/Select';
+import IconSVG from 'components/IconSVG';
 // import Radio from 'components/Radio';
 const storage = window.localStorage;
 
-import { setAuthenticated, loginError, loginSuccess, resetPassword, showLogin, setTenant } from './actions';
+import { loggingIn, loginError, loginSuccess, resetPassword, settingTenant, setTenant } from './actions';
 
 import Radium from 'radium';
 
@@ -39,7 +40,6 @@ export class Login extends React.Component {
       tenantId: '-1',
       tenantName: '',
       agentDirection: props.intl.formatMessage(messages.inbound),
-      error: false,
       noTenant: false,
     };
     this.setUser = this.setUser.bind(this);
@@ -58,27 +58,35 @@ export class Login extends React.Component {
 
   onLogin() {
     if (this.state.username.trim() !== '' && this.state.password !== '') {
+      this.props.loggingIn();
       SDK.auth.login({
         username: this.state.username.trim(),
         password: this.state.password,
         callback: (error, topic, response) => {
+          console.log('[Login] SDK.subscribe()', topic, response);
           if (!error && response) {
             this.loginCB(response);
           } else {
             this.handleError();
           }
         },
+
       });
     } else {
-      this.setState({ error: true });
+      this.handleError();
     }
   }
 
   onTenantSelect() {
     if (this.state.tenantId !== '-1') {
-      SDK.session.setActiveTenant({ tenantId: this.state.tenantId });
-      this.props.showLogin(false);
-      this.props.setTenant(this.state.tenantId, this.state.tenantName);
+      this.props.settingTenant();
+      SDK.session.setActiveTenant({
+        tenantId: this.state.tenantId,
+        callback: (error, topic, response) => {
+          console.log('[Login] SDK.subscribe()', topic, response);
+          this.props.setTenant(this.state.tenantId, this.state.tenantName);
+        },
+      });
     } else {
       this.setState({ noTenant: true });
     }
@@ -99,6 +107,15 @@ export class Login extends React.Component {
   setRemember(remember) {
     this.setState({ remember });
     storage.setItem('remember', remember);
+  }
+
+  getLoadingContent() {
+    return (
+      <div id="loginContainerDiv" style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
+        <Logo style={{ marginTop: '50px' }} width="275px" />
+        <IconSVG id="loadingIcon" name="loading" style={{ marginTop: '50px' }} />
+      </div>
+    );
   }
 
   getLoggedInContent() {
@@ -135,7 +152,7 @@ export class Login extends React.Component {
         <CheckBox id={messages.rememberMe.id} style={{ marginLeft: '-9.35em', marginBottom: '11px', marginTop: '15px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.setRemember} />
         <Button id={messages.signInButton.id} type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.signInButton} onClick={() => this.onLogin()} />
         <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
-        {this.state.error
+        {this.props.login_error
           ? <span id={messages.error.id} style={[this.styles.error]}>
             <FormattedMessage style={this.styles.center} {...messages.error} />
           </span>
@@ -171,11 +188,11 @@ export class Login extends React.Component {
   }
 
   handleError() {
-    this.setState({ error: true });
+    this.props.loginError();
   }
 
   unsetRequestingPassword() {
-    this.setState({ requestingPassword: false, error: false });
+    this.setState({ requestingPassword: false });
   }
 
   handleKeyPress(e) {
@@ -243,9 +260,9 @@ export class Login extends React.Component {
       top: '-406.4px',
     },
     copyright: {
-      width: '65vw',
-      position: 'absolute',
-      bottom: '1em',
+      width: '500px',
+      position: 'relative',
+      bottom: '-5em',
       color: '#FFFFFF',
       textAlign: 'center',
     },
@@ -261,7 +278,9 @@ export class Login extends React.Component {
 
   render() {
     let pageContent;
-    if (this.props.logged_in && this.props.agent) {
+    if (this.props.loading) {
+      pageContent = this.getLoadingContent();
+    } else if (this.props.logged_in && this.props.agent) {
       pageContent = this.getLoggedInContent();
     } else if (this.state.requestingPassword) {
       pageContent = this.getForgotContent();
@@ -294,10 +313,10 @@ const mapStateToProps = selectLogin();
 function mapDispatchToProps(dispatch) {
   return {
     resetPassword: (email) => dispatch(resetPassword(email)),
+    loggingIn: () => dispatch(loggingIn()),
     loginSuccess: (agent) => dispatch(loginSuccess(agent)),
-    setAuthenticated: () => dispatch(setAuthenticated()),
     loginError: () => dispatch(loginError()),
-    showLogin: (show) => dispatch(showLogin(show)),
+    settingTenant: () => dispatch(settingTenant()),
     setTenant: (id, name) => dispatch(setTenant(id, name)),
     dispatch,
   };
@@ -305,12 +324,16 @@ function mapDispatchToProps(dispatch) {
 
 Login.propTypes = {
   intl: intlShape.isRequired,
-  resetPassword: PropTypes.func,
-  loginSuccess: PropTypes.func,
-  agent: PropTypes.object,
+  resetPassword: PropTypes.func.isRequired,
+  loggingIn: PropTypes.func.isRequired,
+  loginSuccess: PropTypes.func.isRequired,
+  loginError: PropTypes.func.isRequired,
+  settingTenant: PropTypes.func.isRequired,
+  setTenant: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  login_error: PropTypes.bool,
   logged_in: PropTypes.bool,
-  showLogin: PropTypes.func,
-  setTenant: PropTypes.func,
+  agent: PropTypes.object,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Login)));

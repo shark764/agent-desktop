@@ -1,3 +1,76 @@
+<a name"0.2.19"></a>
+### 0.2.19 (2017-02-22)
+* Transfer lists
+* Transfer to PSTN
+
+<a name"0.2.18"></a>
+### 0.2.18 (2017-02-22)
+* Make initial contact pop search an exact match
+
+<a name"0.2.17"></a>
+### 0.2.17 (2017-02-21)
+* Cancel transfers
+
+<a name"0.2.16"></a>
+### 0.2.16 (2017-02-21)
+* Edit search results
+* Gray out assign button on results if assigned to selected interaction
+* Show placeholder / New Contact Btn on 0 results
+* Loading indicator on contact search
+
+<a name"0.2.15"></a>
+### 0.2.15 (2017-02-21)
+* New SDK for transfers
+* Queue transfers
+* Status indicator for when warm transfer is connecting and connected
+
+<a name"0.2.14"></a>
+### 0.2.14 (2017-02-21)
+* Assign Contact From Search Results
+
+<a name"0.2.13"></a>
+### 0.2.13 (2017-02-20)
+* Fix loading contact attributes/layout on tenant select.
+* Reset loading state on login error.
+
+<a name"0.2.12"></a>
+### 0.2.12 (2017-02-20)
+* Loading states for login and tenant select.
+
+<a name"0.2.11"></a>
+### 0.2.11 (2017-02-17)
+* Disable logout button when there is an active interaction.
+
+<a name"0.2.10"></a>
+### 0.2.10 (2017-02-17)
+* BUG: calling create instead of update on edit save
+
+<a name"0.2.9"></a>
+### 0.2.9 (2017-02-17)
+* Show contact's name in interactions bar and main content area when a contact has been assigned to the interaction.
+* Fix initial contact search for messaging interactions.
+
+<a name"0.2.8"></a>
+### 0.2.8 (2017-02-16)
+* Start of warm transfer status in phone controls
+* Prevent transfer to agents already being transferred to
+* Auto refresh agents and queues every 5 seconds
+
+<a name"0.2.7"></a>
+### 0.2.7 (2017-02-16)
+* BUG: voice interactions not triggering contact search/assign attempt.
+* BUG: edit screen not clearing when changing between interactions.
+
+<a name"0.2.6"></a>
+### 0.2.6 (2017-02-16)
+* Edit contacts.
+* Always show name as contact title.
+* Tweaks / improvements to contact input error display.
+
+<a name"0.2.5"></a>
+### 0.2.5 (2017-02-15)
+* Show oldest unread customer message in interaction preview. Show most recent (non-system) message if none are unread.
+
 <a name"0.2.4"></a>
 ### 0.2.4 (2017-02-15)
 * Add copyright and legal info to login screen.

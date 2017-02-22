@@ -12,6 +12,7 @@ import {
   SET_MESSAGE_HISTORY,
   SET_CONTACT_ACTION,
   ASSIGN_CONTACT,
+  UPDATE_CONTACT,
   ADD_MESSAGE,
   SET_INTERACTION_STATUS,
   ADD_SEARCH_FILTER,
@@ -19,6 +20,9 @@ import {
   REMOVE_INTERACTION,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
+  START_WARM_TRANSFERRING,
+  TRANSFER_CANCELLED,
+  TRANSFER_CONNECTED,
   MUTE_CALL,
   UNMUTE_CALL,
   HOLD_CALL,
@@ -93,6 +97,13 @@ export function assignContact(interactionId, contact) {
   };
 }
 
+export function updateContact(updatedContact) {
+  return {
+    type: UPDATE_CONTACT,
+    updatedContact,
+  };
+}
+
 export function addMessage(response) {
   return {
     type: ADD_MESSAGE,
@@ -127,6 +138,28 @@ export function setCustomFields(interactionId, customFields) {
     type: SET_CUSTOM_FIELDS,
     interactionId,
     customFields,
+  };
+}
+
+export function startWarmTransferring(interactionId, transferringTo) {
+  return {
+    type: START_WARM_TRANSFERRING,
+    interactionId,
+    transferringTo,
+  };
+}
+
+export function transferCancelled(interactionId) {
+  return {
+    type: TRANSFER_CANCELLED,
+    interactionId,
+  };
+}
+
+export function transferConnected(interactionId) {
+  return {
+    type: TRANSFER_CONNECTED,
+    interactionId,
   };
 }
 
