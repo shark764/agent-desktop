@@ -398,6 +398,7 @@ export class ContactsControl extends React.Component {
           />);
       results.push(
         <InfiniteScroll
+          key="infinite-scroll"
           loadMore={this.searchContacts}
           hasMore={this.props.resultsCount === -1 || this.props.results.length < this.props.resultsCount}
           loader={this.getLoader()}
@@ -409,7 +410,7 @@ export class ContactsControl extends React.Component {
     }
     if (this.props.resultsCount < 1 && !this.state.loading) {
       results.push(
-        <div id="results-placeholder" style={this.styles.resultsPlaceholder}>
+        <div key="results-placeholder" id="results-placeholder" style={this.styles.resultsPlaceholder}>
           <div style={this.styles.resultsPlaceholderTitle}>
             <Icon name="search" />
             <div style={this.styles.resultsPlaceholderBold}>
@@ -438,7 +439,7 @@ export class ContactsControl extends React.Component {
 
   render() {
     return (
-      <div style={[this.props.style, this.styles.base]}>
+      <div key="filler-key" style={[this.props.style, this.styles.base]}>
         { this.getHeader() }
         <div style={[this.styles.contacts]}>
           { this.getMainContent() }

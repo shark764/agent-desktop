@@ -219,24 +219,27 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case SET_MESSAGE_HISTORY: {
       if (action.response && action.response.length > 0) {
-        const interactionIndex = state.get('interactions').findIndex(
+        const messageInteractionIndex = state.get('interactions').findIndex(
           (interaction) => interaction.get('interactionId') === action.response[0].channelId
         );
-        if (interactionIndex !== -1) {
-          const messageHistoryItems = action.response.map((messageHistoryItem) => ({
-            text: messageHistoryItem.payload.body.text,
-            from: messageHistoryItem.payload.metadata && messageHistoryItem.payload.metadata.name ? messageHistoryItem.payload.metadata.name : messageHistoryItem.payload.from,
-            type: messageHistoryItem.payload.metadata ? messageHistoryItem.payload.metadata.type : messageHistoryItem.payload.type,
-            timestamp: messageHistoryItem.payload.timestamp,
-            unread: state.get('selectedInteractionId') !== undefined && action.response[0].channelId !== state.get('selectedInteractionId'),
-          }));
+        const messageInteraction = state.getIn(['interactions', messageInteractionIndex]);
+        if (messageInteraction) {
+          const messageHistoryItems = action.response.map((messageHistoryItem) => {
+            let from = messageHistoryItem.payload.metadata && messageHistoryItem.payload.metadata.name ? messageHistoryItem.payload.metadata.name : messageHistoryItem.payload.from;
+            if (messageInteraction.get('channelType') === 'sms') {
+              if (from[0] !== '+') from = `+${from}`;
+            }
+            return {
+              text: messageHistoryItem.payload.body.text,
+              from,
+              type: messageHistoryItem.payload.metadata ? messageHistoryItem.payload.metadata.type : messageHistoryItem.payload.type,
+              timestamp: messageHistoryItem.payload.timestamp,
+              unread: state.get('selectedInteractionId') !== undefined && action.response[0].channelId !== state.get('selectedInteractionId'),
+            };
+          });
           return state
-            .update('interactions',
-              (interactions) =>
-                interactions.update(
-                  interactionIndex,
-                  (interaction) => interaction.set('messageHistory', fromJS(messageHistoryItems))
-              )
+            .updateIn(['interactions', messageInteractionIndex],
+              (interaction) => interaction.set('messageHistory', fromJS(messageHistoryItems))
             );
         } else {
           return state;
@@ -335,25 +338,26 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case ADD_MESSAGE: {
       const message = action.response;
-      const interactionIndex = state.get('interactions').findIndex(
+      const messageInteractionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === message.to
       );
-      if (interactionIndex !== -1) {
+      const messageInteraction = state.getIn(['interactions', messageInteractionIndex]);
+      if (messageInteractionIndex !== -1) {
+        let from = message.metadata !== null ? message.metadata.name : message.from;
+        if (messageInteraction.get('channelType') === 'sms') {
+          if (from[0] !== '+') from = `+${from}`;
+        }
         const messageHistoryItem = {
           text: message.body.text,
-          from: message.metadata !== null ? message.metadata.name : message.from,
+          from,
           type: message.metadata !== null ? message.metadata.type : message.type,
           timestamp: message.timestamp,
           unread: state.get('selectedInteractionId') !== undefined && message.to !== state.get('selectedInteractionId'),
         };
         return state
-          .update('interactions',
-          (interactions) =>
-            interactions.update(
-              interactionIndex,
-              (interaction) => interaction.update('messageHistory', (messageHistory) => messageHistory.push(fromJS(messageHistoryItem)))
-          )
-        );
+          .updateIn(['interactions', messageInteractionIndex, 'messageHistory'],
+            (messageHistory) => messageHistory.push(fromJS(messageHistoryItem))
+          );
       } else {
         return state;
       }
