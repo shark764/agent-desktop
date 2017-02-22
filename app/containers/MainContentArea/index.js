@@ -9,10 +9,12 @@ import { connect } from 'react-redux';
 import { selectSelectedInteraction } from './selectors';
 import Radium from 'radium';
 import axios from 'axios';
+import { FormattedMessage } from 'react-intl';
 
 import MessagingContentArea from 'containers/MessagingContentArea';
 import EmailContentArea from 'containers/EmailContentArea';
 import VoiceContentArea from 'containers/VoiceContentArea';
+import messages from './messages';
 
 export class MainContentArea extends React.Component {
 
@@ -175,18 +177,18 @@ export class MainContentArea extends React.Component {
           content !== null
           ? content
           : <div style={this.styles.welcome}>
-            Welcome, <span style={this.styles.agentName}>{this.props.agent.firstName} {this.props.agent.lastName}</span>
+            <span style={this.styles.statTitle}><FormattedMessage {...messages.welcome} /></span><span style={this.styles.agentName}>{this.props.agent.firstName} {this.props.agent.lastName}</span>
             <div id="statContainer" style={this.styles.statContainer}>
               <div style={this.styles.statLeft}>
-                <div style={this.styles.statTitle}>Average Handle Time</div>
+                <div style={this.styles.statTitle}><FormattedMessage {...messages.avgHandleTime} /></div>
                 <div style={this.styles.statVal}>{this.state.avgHandleTime}</div>
               </div>
               <div style={this.styles.statMid}>
-                <div>Customer Satisfaction</div>
+                <div style={this.styles.statTitle}><FormattedMessage {...messages.csat} /></div>
                 <div style={this.styles.statVal}>{this.state.csat}</div>
               </div>
               <div style={this.styles.statRight}>
-                <div>Daily Interactions</div>
+                <div style={this.styles.statTitle}><FormattedMessage {...messages.interactionsCount} /></div>
                 <div style={this.styles.statVal}>{this.state.interactionCount}</div>
               </div>
             </div>

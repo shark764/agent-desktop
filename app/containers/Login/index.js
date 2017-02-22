@@ -260,9 +260,9 @@ export class Login extends React.Component {
       top: '-406.4px',
     },
     copyright: {
-      width: '500px',
-      position: 'relative',
-      bottom: '-5em',
+      width: '65vw',
+      position: 'absolute',
+      bottom: '1em',
       color: '#FFFFFF',
       textAlign: 'center',
     },
