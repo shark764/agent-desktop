@@ -74,17 +74,22 @@ const initialState = fromJS({
     //   recording: true,
     //   agentRecordingEnabled: true, // false
     //   warmTransfers: [
-    //     // {
-    //     //   id: '1111111',
-    //     //   type: 'agent',
-    //     //   name: 'Jon Arbuckle',
-    //     //   status: 'transferring',
-    //     // }, {
-    //     //   id: '22222',
-    //     //   type: 'queue',
-    //     //   name: 'Queue #1',
-    //     //   status: 'connected',
-    //     // },
+    //     {
+    //       id: '1111111',
+    //       type: 'agent',
+    //       name: 'Agent with a very very very long name',
+    //       status: 'connected',
+    //     }, {
+    //       id: '22222',
+    //       type: 'queue',
+    //       name: 'Queue #1',
+    //       status: 'connected',
+    //     }, {
+    //       id: '33333',
+    //       type: 'pstn',
+    //       name: 'Some PSTN number',
+    //       status: 'transferring',
+    //     },
     //   ],
     // },
     //

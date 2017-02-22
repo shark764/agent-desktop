@@ -1,3 +1,8 @@
+<a name"0.2.19"></a>
+### 0.2.19 (2017-02-22)
+* Transfer lists
+* Transfer to PSTN
+
 <a name"0.2.18"></a>
 ### 0.2.18 (2017-02-22)
 * Make initial contact pop search an exact match
