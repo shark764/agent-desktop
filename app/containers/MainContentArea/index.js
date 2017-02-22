@@ -12,6 +12,7 @@ import Radium from 'radium';
 import MessagingContentArea from 'containers/MessagingContentArea';
 import EmailContentArea from 'containers/EmailContentArea';
 import VoiceContentArea from 'containers/VoiceContentArea';
+import WelcomeStats from 'containers/WelcomeStats';
 
 export class MainContentArea extends React.Component {
 
@@ -33,7 +34,8 @@ export class MainContentArea extends React.Component {
 
   render() {
     const selectedInteraction = this.props.selectedInteraction;
-    let content;
+
+    let content = null;
     if (selectedInteraction) {
       if (selectedInteraction.channelType === 'messaging' || selectedInteraction.channelType === 'sms') {
         content = <MessagingContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} />;
@@ -45,9 +47,14 @@ export class MainContentArea extends React.Component {
         throw new Error(`Unknown selected channelType: ${selectedInteraction.channelType}`);
       }
     }
+
     return (
       <div style={[this.styles.base, this.props.style]}>
-        {content}
+        {
+          content !== null
+          ? content
+          : <WelcomeStats agent={this.props.agent} tenant={this.props.tenant} />
+        }
       </div>
     );
   }
@@ -68,6 +75,8 @@ MainContentArea.propTypes = {
   selectedInteraction: PropTypes.object,
   emailCreateReply: PropTypes.func.isRequired,
   emailCancelReply: PropTypes.func.isRequired,
+  agent: PropTypes.object.isRequired,
+  tenant: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(MainContentArea));

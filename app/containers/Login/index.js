@@ -222,13 +222,14 @@ export class Login extends React.Component {
     base: {
       width: '100vw',
       height: '100vh',
-      minHeight: '100%',
+      minHeight: '800px',
       backgroundColor: '#072931',
       fontSize: '16px',
       fontWeight: 'normal',
       fontStyle: 'normal',
       fontStretch: 'normal',
       color: '#494949',
+      overflowY: 'auto',
     },
     center: {
       order: '0',
@@ -259,9 +260,9 @@ export class Login extends React.Component {
       top: '-406.4px',
     },
     copyright: {
-      width: '500px',
-      position: 'relative',
-      bottom: '-5em',
+      width: '65vw',
+      position: 'absolute',
+      bottom: '1em',
       color: '#FFFFFF',
       textAlign: 'center',
     },
@@ -269,6 +270,9 @@ export class Login extends React.Component {
       marginBottom: '1em',
       display: 'block',
       position: 'relative',
+    },
+    legalText: {
+      fontSize: '10px',
     },
   };
 
@@ -286,7 +290,7 @@ export class Login extends React.Component {
 
     return (
       <div style={this.styles.base}>
-        <div style={Object.assign({}, this.styles.container, { height: '100vh' })}>
+        <div style={Object.assign({}, this.styles.container, { height: '100vh', minHeight: '800px' })}>
           <Dialog style={Object.assign({}, this.styles.center)}>
             {pageContent}
           </Dialog>
@@ -294,7 +298,9 @@ export class Login extends React.Component {
             <div style={this.styles.copyrightText}>
               <FormattedMessage {...messages.copyright} />
             </div>
-            <FormattedMessage {...messages.legal} />
+            <div style={this.styles.legalText}>
+              <FormattedMessage {...messages.legal} />
+            </div>
           </div>
         </div>
       </div>

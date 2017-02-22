@@ -1,3 +1,7 @@
+<a name"0.2.20"></a>
+### 0.2.20 (2017-02-22)
+* Welcome status screen v1
+
 <a name"0.2.19"></a>
 ### 0.2.19 (2017-02-22)
 * Transfer lists

@@ -4,6 +4,9 @@
   "app.components.TimerMinutes.justNow": "Just Now",
   "app.components.TimerMinutes.minutes": "m",
   "app.conatainers.Login.return2Login": "Return to Login",
+  "app.container.WelcomeStats.avgHandleTime": "Average Handle Time",
+  "app.container.WelcomeStats.csat": "Customer Satisfaction",
+  "app.container.WelcomeStats.interactionsCount": "Daily Interactions",
   "app.containers.AgentStatusMenu.activeVoicePath": "Active Voice Pathway",
   "app.containers.AgentStatusMenu.inbound": "Inbound",
   "app.containers.AgentStatusMenu.logout": "Log Out",
@@ -71,5 +74,6 @@
   "app.containers.TransferMenu.transfer": "Transfer",
   "app.containers.TransferMenu.warmTransfer": "Warm Transfer",
   "app.containers.VoiceContentArea.hangUp": "Hang Up",
+  "app.containers.WelcomeStats.welcome": "Welcome,",
   "app.contianers.Login.password": "Password"
 }
