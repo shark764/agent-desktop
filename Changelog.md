@@ -1,3 +1,7 @@
+<a name"0.2.21"></a>
+### 0.2.21 (2017-02-22)
+* Pad pop search number with + if not there, server currently stripping
+
 <a name"0.2.20"></a>
 ### 0.2.20 (2017-02-22)
 * Welcome status screen v1
