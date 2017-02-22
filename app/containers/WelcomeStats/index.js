@@ -15,7 +15,6 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
   styles = {
     welcome: {
       boxShadow: 'inset 0 0 6px 1px rgba(0,0,0,0.34)',
-      fontFamily: 'ProximaNova-Regular',
       fontSize: '24px',
       color: '#50686E',
       lineHeight: '23px',
