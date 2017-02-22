@@ -19,7 +19,6 @@ export class MainContentArea extends React.Component {
   constructor(props) {
     super(props);
     this.endInteraction = this.endInteraction.bind(this);
-    this.state = { avgHandleTime: '-', csat: '-', interactionCount: '-' };
   }
 
   styles = {
