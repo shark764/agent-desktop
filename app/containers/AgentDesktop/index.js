@@ -91,7 +91,9 @@ export class AgentDesktop extends React.Component {
           // attempt to auto-assign contact
           const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response.interactionId);
           if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms')) {
-            this.attemptContactSearch(response.customer, response.interactionId, true);
+            let fromNumber = response.customer;
+            if (fromNumber[0] !== '+') fromNumber = `+${fromNumber}`; // server currently stripping +'s on SMS
+            this.attemptContactSearch(fromNumber, response.interactionId, true);
           }
           break;
         }
