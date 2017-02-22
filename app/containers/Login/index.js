@@ -205,7 +205,7 @@ export class Login extends React.Component {
     base: {
       width: '100vw',
       height: '100vh',
-      minHeight: '100%',
+      minHeight: '800px',
       backgroundColor: '#072931',
       fontSize: '16px',
       fontWeight: 'normal',
@@ -271,7 +271,7 @@ export class Login extends React.Component {
 
     return (
       <div style={this.styles.base}>
-        <div style={Object.assign({}, this.styles.container, { height: '100vh' })}>
+        <div style={Object.assign({}, this.styles.container, { height: '100vh', minHeight: '800px' })}>
           <Dialog style={Object.assign({}, this.styles.center)}>
             {pageContent}
           </Dialog>
