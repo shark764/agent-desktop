@@ -130,11 +130,14 @@ export class PhoneControlsActive extends React.Component {
     transferInProgress: {
       color: '#979797',
     },
+    transferConnectedStatus: {
+      maxWidth: '160px',
+    },
     cancelTransfer: {
       fontSize: '16px',
       verticalAlign: 'top',
       display: 'inline-block',
-      marginLeft: '5px',
+      marginRight: '13px',
       cursor: 'pointer',
     },
     transferStatusIcon: {
@@ -203,32 +206,29 @@ export class PhoneControlsActive extends React.Component {
     if (this.props.activeVoiceInteraction.warmTransfers.length > 0) {
       const warmTransfersMapped = this.props.activeVoiceInteraction.warmTransfers.map((warmTransfer) => {
         let status;
-        let statusStyle;
-        let statusIconStyle;
-        let cancelIcon;
+        let transferStyle;
+        let transferStatusStyle;
+        let icon;
         if (warmTransfer.status === 'transferring') {
           status = <FormattedMessage {...messages.connecting} />;
-          statusStyle = this.styles.transferInProgress;
-          cancelIcon = <span title="Cancel transfer" onClick={() => this.cancelTransfer()} style={this.styles.cancelTransfer}>&#10060;</span>;
+          transferStyle = this.styles.transferInProgress;
+          icon = <span title="Cancel transfer" onClick={() => this.cancelTransfer()} style={this.styles.cancelTransfer}>&#10060;</span>;
         } else if (warmTransfer.status === 'connected') {
-          statusIconStyle = this.styles.transferConnectedIcon;
+          icon = <div style={[this.styles.transferStatusIcon, this.styles.transferConnectedIcon]}></div>;
+          transferStatusStyle = this.styles.transferConnectedStatus;
         } else {
           throw new Error(`transfer status not valid: ${warmTransfer.status}`);
         }
         return (
-          <div id={`transfer-${warmTransfer.type}-${warmTransfer.id}`} key={`transfer-${warmTransfer.type}-${warmTransfer.id}`} style={[this.styles.warmTransfer, statusStyle]}>
-            {statusIconStyle
-              ? <div style={[this.styles.transferStatusIcon, statusIconStyle]}></div>
-              : ''
-            }
-            <span title={warmTransfer.name} style={this.styles.transferName}>
+          <div id={`transfer-${warmTransfer.type}-${warmTransfer.id}`} key={`transfer-${warmTransfer.type}-${warmTransfer.id}`} style={[this.styles.warmTransfer, transferStyle]}>
+            { icon }
+            <span title={warmTransfer.name} style={[this.styles.transferName, transferStatusStyle]}>
               { warmTransfer.name }
             </span>
             {status
               ? <span style={this.styles.transferStatus}>({status})</span>
               : ''
             }
-            {cancelIcon}
             <Timer format="mm:ss" style={this.styles.transferTimer} />
           </div>
         );

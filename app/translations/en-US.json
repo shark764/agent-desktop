@@ -68,6 +68,7 @@
   "app.containers.TransferMenu.coldTransfer": "Cold Transfer",
   "app.containers.TransferMenu.queues": "Queues",
   "app.containers.TransferMenu.search": "Search",
+  "app.containers.TransferMenu.transfer": "Transfer",
   "app.containers.TransferMenu.warmTransfer": "Warm Transfer",
   "app.containers.VoiceContentArea.hangUp": "Hang Up",
   "app.contianers.Login.password": "Password"

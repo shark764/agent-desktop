@@ -198,6 +198,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/contacts/search-response': // Handled in ContactsControl & AgentDesktop callback
         case 'cxengage/crud/get-queues-response': // Handled in TransferMenu
         case 'cxengage/crud/get-users-response': // Handled in TransferMenu
+        case 'cxengage/crud/get-transfer-lists-response': // Handled in TransferMenu
         case 'cxengage/voice/transfer-response': // Handled in TransferMenu
           break;
         default: {
