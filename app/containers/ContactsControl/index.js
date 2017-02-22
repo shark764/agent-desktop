@@ -225,7 +225,11 @@ export class ContactsControl extends React.Component {
   searchContacts() {
     if (!this.state.loading) {
       this.setState({ loading: true });
-      SDK.contacts.search({ query: this.props.selectedInteraction.query, page: this.props.nextPage }, (error, topic, response) => {
+      const encodedQuery = {};
+      Object.keys(this.props.selectedInteraction.query).forEach((queryName) => {
+        encodedQuery[queryName] = encodeURIComponent(this.props.selectedInteraction.query[queryName]);
+      });
+      SDK.contacts.search({ query: encodedQuery, page: this.props.nextPage }, (error, topic, response) => {
         console.log('[ContactsControl] SDK.subscribe()', topic, response);
         this.props.setSearchResults(response);
         this.setState({ loading: false });
@@ -372,7 +376,7 @@ export class ContactsControl extends React.Component {
 
   getLoader() {
     return (
-      <div id="loadingContainer" style={ this.styles.loading }>
+      <div id="loadingContainer" style={this.styles.loading}>
         <IconSVG style={this.loadingIcon} id="loadingIcon" name="loading" />
       </div>
     );
@@ -434,7 +438,7 @@ export class ContactsControl extends React.Component {
 
   render() {
     return (
-      <div key={this.props.key} style={[this.props.style, this.styles.base]}>
+      <div style={[this.props.style, this.styles.base]}>
         { this.getHeader() }
         <div style={[this.styles.contacts]}>
           { this.getMainContent() }
@@ -447,7 +451,6 @@ export class ContactsControl extends React.Component {
 ContactsControl.propTypes = {
   intl: React.PropTypes.object.isRequired,
   style: React.PropTypes.object,
-  key: React.PropTypes.any,
   attributes: React.PropTypes.array,
   resultsCount: React.PropTypes.number,
   results: React.PropTypes.any,
