@@ -91,7 +91,12 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
   }
 
   setHandleTime(data) {
-    this.setState({avgHandleTime: data.results.avg + ' ' + data.results.unit}); // eslint-disable-line
+    if (data.results.unit === 'millis') {
+      const avgHandleTimeInMinutes = (data.results.avg / 60000).toFixed(1);
+      this.setState({ avgHandleTime: `${avgHandleTimeInMinutes} minutes` });
+    } else {
+      throw new Error('Not handling avgHandleTime not in millis');
+    }
   }
 
   setCSAT(data) {

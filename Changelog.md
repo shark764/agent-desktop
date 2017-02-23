@@ -1,3 +1,7 @@
+<a name"0.2.22"></a>
+### 0.2.22 (2017-02-22)
+* Format to minutes and one decimal place for avg wait time stat
+
 <a name"0.2.21"></a>
 ### 0.2.21 (2017-02-22)
 * Pad pop search number with + if not there, server currently stripping
