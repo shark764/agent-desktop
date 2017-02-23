@@ -168,7 +168,7 @@ export class MessagingContentArea extends React.Component {
     } else {
       const messageHistory = this.props.selectedInteraction.messageHistory.map((message) => {
         let messageFrom;
-        if (message.type === 'customer' && this.props.selectedInteraction.contact !== undefined) {
+        if ((message.type === 'customer' || message.type === 'message') && this.props.selectedInteraction.contact !== undefined) {
           messageFrom = this.props.selectedInteraction.contact.attributes.name;
         } else {
           messageFrom = message.from;
