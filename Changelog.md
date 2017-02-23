@@ -1,3 +1,7 @@
+<a name"0.2.23"></a>
+### 0.2.23 (2017-02-22)
+* Use hotfix SDK build for quick facebook name patch
+
 <a name"0.2.22"></a>
 ### 0.2.22 (2017-02-22)
 * Format to minutes and one decimal place for avg wait time stat
