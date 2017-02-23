@@ -1,3 +1,7 @@
+<a name"0.3.2"></a>
+### 0.3.1 (2017-02-23)
+* Retrieve env from config.json, prep for prod push
+
 <a name"0.3.1"></a>
 ### 0.3.1 (2017-02-23)
 * Fix contacts panel size on window resize

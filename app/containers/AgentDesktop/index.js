@@ -63,7 +63,7 @@ export class AgentDesktop extends React.Component {
     window.removeEventListener('resize', this.updateDimensions);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     axios({
       method: 'get',
       url: window.location.href + 'config.json', // eslint-disable-line
