@@ -79,7 +79,7 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
     statTitle: {
       fontWeight: 'bold',
     },
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -123,7 +123,7 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
       method: 'get',
       url: host + '/v1/tenants/'+ this.props.tenant.id +'/users/'+ this.props.agent.userId +'/realtime-statistics/resource-handle-time', // eslint-disable-line
       auth: {
-        username: storage.getItem('email'), // TODO: REMOVE BEFORE v1!!!!!!!
+        username: storage.getItem('email1'), // TODO: REMOVE BEFORE v1!!!!!!!
         password: storage.getItem('pass1'), // TODO: REMOVE BEFORE v1!!!!!!!
       },
     }).then((res) => this.setHandleTime(res.data));
@@ -141,7 +141,7 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
       method: 'get',
       url: host + '/v1/tenants/'+ this.props.tenant.id +'/users/'+ this.props.agent.userId +'/realtime-statistics/work-accepted-count', // eslint-disable-line
       auth: {
-        username: storage.getItem('email'), // TODO: REMOVE BEFORE v1!!!!!!!
+        username: storage.getItem('email1'), // TODO: REMOVE BEFORE v1!!!!!!!
         password: storage.getItem('pass1'), // TODO: REMOVE BEFORE v1!!!!!!!
       },
     }).then((res) => this.setInteractionCount(res.data));

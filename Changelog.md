@@ -1,3 +1,7 @@
+<a name"0.2.24"></a>
+### 0.2.24 (2017-02-22)
+* fix email storage get typo
+
 <a name"0.2.23"></a>
 ### 0.2.23 (2017-02-22)
 * Use hotfix SDK build for quick facebook name patch
