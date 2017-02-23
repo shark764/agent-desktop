@@ -1,3 +1,8 @@
+<a name"0.3.1"></a>
+### 0.3.1 (2017-02-23)
+* Fix contacts panel size on window resize
+* Added 'active' class names for voice buttons
+
 <a name"0.3.0"></a>
 ### 0.3.0 (2017-02-23)
 * Notes components
