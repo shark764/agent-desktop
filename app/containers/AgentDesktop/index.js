@@ -10,6 +10,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import Radium from 'radium';
+import axios from 'axios';
 
 import Resizable from 'components/Resizable';
 
@@ -47,17 +48,23 @@ export class AgentDesktop extends React.Component {
   }
 
   componentDidMount() {
+    axios({
+      method: 'get',
+      url: window.location.href + 'config.json', // eslint-disable-line
+    }).then((res) => {
+      if (typeof res.data !== 'undefined') {
+        window.ADconf = res.data.config;
+      }
+      this.init();
+    });
+  }
+
+  init() {
     let env;
-    switch (window.location.hostname) {
-      case 'qe-desktop.cxengagelabs.net':
-        env = 'qe';
-        break;
-      case 'dev-desktop.cxengagelabs.net':
-        env = 'dev';
-        break;
-      default:
-        env = 'dev';
-        break;
+    if (typeof window.ADconf !== 'undefined') {
+      env = window.ADconf.api;
+    } else {
+      env = 'dev-api.cxengagelabs.net/v1';
     }
 
     window.SDK = cxengage.sdk.init({ env });
