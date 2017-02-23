@@ -22,7 +22,7 @@ import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
 import selectAgentDesktop, { selectLogin } from './selectors';
-import { setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
+import { setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
   setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected, emailCreateReply, emailCancelReply, addSearchFilter,
   removeSearchFilter, setContactAction } from './actions';
 import { showLogin } from 'containers/Login/actions';
@@ -90,13 +90,17 @@ export class AgentDesktop extends React.Component {
     const sdkConf = { baseUrl: `https://${env}`, logLevel: 'info', blastSqsOutput: false };
     window.SDK = cxengage.sdk.init(sdkConf);
 
-
     SDK.subscribe('cxengage', (error, topic, response) => {
       if (error) {
         console.error('Pub sub error', topic, error); // eslint-disable-line no-console
         return;
       }
       switch (topic) {
+        case 'cxengage/voice/extensions-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.setExtensions(response);
+          break;
+        }
         case 'cxengage/session/started': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.showLogin(false);
@@ -375,6 +379,7 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     showLogin: (show) => dispatch(showLogin(show)),
+    setExtensions: (response) => dispatch(setExtensions(response)),
     setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
@@ -408,6 +413,7 @@ function mapDispatchToProps(dispatch) {
 
 AgentDesktop.propTypes = {
   showLogin: PropTypes.func.isRequired,
+  setExtensions: PropTypes.func.isRequired,
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,
   addInteraction: PropTypes.func.isRequired,

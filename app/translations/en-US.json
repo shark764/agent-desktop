@@ -14,7 +14,6 @@
   "app.containers.AgentStatusMenu.notReady": "Not Ready",
   "app.containers.AgentStatusMenu.outbound": "Outbound",
   "app.containers.AgentStatusMenu.ready": "Ready",
-  "app.containers.AgentStatusMenu.softphone": "Softphone",
   "app.containers.AgentStatusMenu.tenant": "Tenant",
   "app.containers.Contact.assignButton": "Assign",
   "app.containers.Contact.cancel": "Cancel",

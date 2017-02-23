@@ -6,14 +6,15 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { selectHasActiveInteractions } from './selectors';
+import { selectHasActiveInteractions, selectExtensions, selectActiveExtension } from './selectors';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import Radium from 'radium';
+import { setActiveExtension } from 'containers/AgentDesktop/actions';
 import { logout } from 'containers/Login/actions';
 import checkIcon from 'assets/icons/CheckStatus.png';
 
-export class AgentStatusMenu extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class AgentStatusMenu extends React.Component {
   styles = {
     agentStatusMenu: {
       position: 'fixed',
@@ -76,15 +77,31 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
       color: '#979797',
       textDecoration: 'none',
     },
-    tenant: {
+    dropdownContainer: {
+      position: 'relative',
+    },
+    dropdown: {
       backgroundColor: '#F3F3F3',
       paddingLeft: '24px',
-      paddingRight: '24px',
-      display: 'block',
-      height: '74px',
+      paddingRight: '16px',
       paddingTop: '17px',
       paddingBottom: '17px',
+      display: 'block',
+      height: '74px',
       borderTop: 'solid 1px #e4e4e4',
+    },
+    activeDropdown: {
+      backgroundColor: '#FFFFFF',
+      cursor: 'pointer',
+    },
+    dropdownSelectedItemContainer: {
+      display: 'inline-block',
+      width: 'calc(100% - 20px)',
+    },
+    dropdownIcon: {
+      display: 'inline-block',
+      verticalAlign: 'top',
+      marginTop: '10px',
     },
     notReadyReasons: {
       paddingLeft: '24px',
@@ -103,17 +120,36 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
       fontWeight: 'bold',
       cursor: 'default',
     },
-    tenantTitle: {
+    dropdownTitle: {
       fontSize: '14px',
       color: '#979797',
       fontWeight: '300',
     },
-    tenantText: {
+    dropdownSelectedText: {
       fontSize: '18px',
       color: '#4B4B4B',
       fontWeight: 'bold',
       display: 'inline',
       textTransform: 'capitalize',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
+    dropdownList: {
+      position: 'absolute',
+      top: '18px',
+      left: '303px',
+      width: '303px',
+      backgroundColor: '#FFFFFF',
+      borderRadius: '3px',
+      padding: '5px 0',
+    },
+    dropdownListItem: {
+      padding: '3px 24px',
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: '#DEF8FE',
+      },
     },
     notReadyPresence: {
       cursor: 'pointer',
@@ -133,7 +169,13 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
   }
 
   changePresence(newPresence) {
-    SDK.session.changeState({ state: newPresence });
+    if (newPresence === 'ready') {
+      SDK.session.goReady({ extensionId: this.props.activeExtension.value });
+    } else if (newPresence === 'notready') {
+      SDK.session.goNotReady();
+    } else {
+      throw new Error('newPresence is neither ready nor notready:', newPresence);
+    }
   }
 
   render() {
@@ -145,17 +187,60 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
             ? <div id="agentLogoutLink" style={[this.styles.logoutLink, this.styles.logoutLinkInactive]}><FormattedMessage {...messages.logout} /></div>
             : <div id="agentLogoutLink" style={[this.styles.logoutLink]} onClick={() => { this.props.logout(); this.props.showAgentStatusMenu(false); }}><FormattedMessage {...messages.logout} /></div>
           }
-          <div id="agentMenuTenant" style={[this.styles.tenant]}>
-            <div style={[this.styles.tenantTitle]}><FormattedMessage {...messages.tenant} /></div>
-            <div style={[this.styles.tenantText]}>{this.props.tenant.name}</div>
+          <div id="agentMenuTenant" style={[this.styles.dropdown]}>
+            <div style={[this.styles.dropdownTitle]}><FormattedMessage {...messages.tenant} /></div>
+            <div style={[this.styles.dropdownSelectedText]}>{this.props.tenant.name}</div>
           </div>
-          <div id="agentMenuMode" style={[this.styles.tenant]}>
-            <div style={[this.styles.tenantTitle]}><FormattedMessage {...messages.mode} /></div>
-            <div style={[this.styles.tenantText]}>{this.props.agentDirection}</div>
+          <div id="agentMenuMode" style={[this.styles.dropdown]}>
+            <div style={[this.styles.dropdownTitle]}><FormattedMessage {...messages.mode} /></div>
+            <div style={[this.styles.dropdownSelectedText]}>
+              { /* TODO when we have this:
+                 this.props.agentDirection */}
+              <FormattedMessage {...messages.inbound} />
+            </div>
           </div>
-          <div id="agentMenuPathway" style={[this.styles.tenant]}>
-            <div style={[this.styles.tenantTitle]}><FormattedMessage {...messages.activeVoicePath} /></div>
-            <div style={[this.styles.tenantText]}><FormattedMessage {...messages.softphone} /></div>
+          <div style={this.styles.dropdownContainer}>
+            <div
+              id="agentMenuPathway"
+              style={[this.styles.dropdown, this.props.readyState !== 'ready' ? this.styles.activeDropdown : {}]}
+              onClick={() => {
+                if (this.props.readyState !== 'ready') {
+                  this.setState({ showAgentMenuPathwayDropdown: !this.state.showAgentMenuPathwayDropdown });
+                }
+              }}
+            >
+              <div style={this.styles.dropdownSelectedItemContainer}>
+                <div style={[this.styles.dropdownTitle]}><FormattedMessage {...messages.activeVoicePath} /></div>
+                <div style={[this.styles.dropdownSelectedText]}>{this.props.activeExtension.description}</div>
+              </div>
+              {
+                this.props.readyState !== 'ready'
+                ? <div style={this.styles.dropdownIcon}>
+                  &#9658;
+                </div>
+                : undefined
+              }
+            </div>
+            { this.state.showAgentMenuPathwayDropdown
+              ? <div style={this.styles.dropdownList}>
+                {
+                  this.props.extensions.map((extension) =>
+                    <div
+                      key={extension.value}
+                      id={extension.value}
+                      style={this.styles.dropdownListItem}
+                      onClick={() => {
+                        this.props.setActiveExtension(extension);
+                        this.setState({ showAgentMenuPathwayDropdown: false });
+                      }}
+                    >
+                      {extension.description}
+                    </div>
+                  )
+                }
+              </div>
+              : undefined
+            }
           </div>
           <div id="agentNotReadyStates" style={[this.styles.notReadyReasons]}>
             <div id="agentNotReadyStatesTitle" style={[this.styles.notReadyReasonsTitle]}><FormattedMessage {...messages.notReady} /></div>
@@ -216,21 +301,27 @@ export class AgentStatusMenu extends React.Component { // eslint-disable-line re
 
 AgentStatusMenu.propTypes = {
   hasActiveInteractions: PropTypes.bool.isRequired,
+  extensions: PropTypes.array.isRequired,
+  activeExtension: PropTypes.object.isRequired,
   showAgentStatusMenu: PropTypes.func,
   tenant: PropTypes.object,
-  agentDirection: PropTypes.string,
+  // agentDirection: PropTypes.string,
   readyState: PropTypes.string,
-  logout: PropTypes.func,
   availablePresences: PropTypes.array,
+  logout: PropTypes.func.isRequired,
+  setActiveExtension: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
   hasActiveInteractions: selectHasActiveInteractions(state, props),
+  extensions: selectExtensions(state, props),
+  activeExtension: selectActiveExtension(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     logout: () => dispatch(logout()),
+    setActiveExtension: (extension) => dispatch(setActiveExtension(extension)),
     dispatch,
   };
 }
