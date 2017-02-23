@@ -37,14 +37,30 @@ export class AgentDesktop extends React.Component {
     this.acceptInteraction = this.acceptInteraction.bind(this);
     this.setContactsPanelWidth = this.setContactsPanelWidth.bind(this);
     this.selectInteraction = this.selectInteraction.bind(this);
+    this.updateDimensions = this.updateDimensions.bind(this);
 
     this.collapsedContactsPanelPx = 52;
-    this.defaultContactsPanelPx = Math.min(window.innerWidth - 827, 553);
+    this.defaultContactsPanelPx = 600;
 
     this.state = {
       isContactsPanelCollapsed: false,
       contactsPanelPx: this.defaultContactsPanelPx,
+      contactsPanelMaxPx: Math.max(window.innerWidth - 600, 600),
     };
+  }
+
+  updateDimensions() {
+    const documentElement = document.documentElement;
+    const body = document.getElementsByTagName('body')[0];
+    const width = window.innerWidth || documentElement.clientWidth || body.clientWidth;
+    this.setState({
+      contactsPanelMaxPx: Math.max(width - 600, 600),
+      contactsPanelPx: this.state.contactsPanelPx > Math.max(width - 600, 600) ? Math.max(width - 600, 600) : this.state.contactsPanelPx,
+    });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
   }
 
   componentDidMount() {
@@ -60,6 +76,8 @@ export class AgentDesktop extends React.Component {
   }
 
   init() {
+    window.addEventListener('resize', this.updateDimensions);
+
     let env;
     if (typeof window.ADconf !== 'undefined') {
       env = window.ADconf.api;
@@ -310,10 +328,10 @@ export class AgentDesktop extends React.Component {
                     <PhoneControls style={[this.styles.phoneControls]} />
                     <InteractionsBar acceptInteraction={this.acceptInteraction} setInteractionStatus={this.props.setInteractionStatus} selectInteraction={this.selectInteraction} style={[this.styles.interactionsBar]} />
                   </div>
-                  <MainContentArea emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} style={[this.styles.flexChildGrow]} agent={this.props.login.agent} tenant={this.props.login.tenant} />
+                  <MainContentArea emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} agent={this.props.login.agent} tenant={this.props.login.tenant} style={{ flex: '1 1 auto' }} />
                   {
                     (this.props.agentDesktop.selectedInteractionId !== undefined) ?
-                      <Resizable id="crm-resizable" direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={window.innerWidth - 827} minPx={430} isDisabled={this.state.isContactsPanelCollapsed} style={this.styles.topArea} >
+                      <Resizable id="crm-resizable" direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={this.state.contactsPanelMaxPx} minPx={400} isDisabled={this.state.isContactsPanelCollapsed} style={this.styles.topArea} >
                       </Resizable>
                       :
                       ''

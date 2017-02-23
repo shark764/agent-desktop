@@ -35,6 +35,7 @@ function Icon(props) {
   let borderRadius;
   let height;
   let width;
+  let className;
   switch (props.name) {
     case 'config':
       icon = config;
@@ -109,6 +110,7 @@ function Icon(props) {
       borderRadius = '50%';
       if (props.active) {
         backgroundPosition = '-80px 0';
+        className = 'active';
       }
       backgroundPositionHover = '-40px 0';
       break;
@@ -120,6 +122,7 @@ function Icon(props) {
       borderRadius = '50%';
       if (props.active) {
         backgroundPosition = '-80px 0';
+        className = 'active';
       }
       backgroundPositionHover = '-40px 0';
       break;
@@ -131,6 +134,7 @@ function Icon(props) {
       borderRadius = '50%';
       if (props.active) {
         backgroundPosition = '-80px 0';
+        className = 'active';
       }
       backgroundPositionHover = '-40px 0';
       break;
@@ -142,6 +146,7 @@ function Icon(props) {
       borderRadius = '50%';
       if (props.active) {
         backgroundPosition = '-80px 0';
+        className = 'active';
       }
       backgroundPositionHover = '-40px 0';
       break;
@@ -175,6 +180,7 @@ function Icon(props) {
     iconResult = (
       <img
         id={props.id ? props.id : `${props.name}-icon`}
+        className={className}
         onClick={props.onclick}
         src={icon}
         style={[styles.base, props.style]}
@@ -185,6 +191,7 @@ function Icon(props) {
     iconResult = (
       <span
         id={props.id ? props.id : `${props.name}-icon`}
+        className={className}
         onClick={props.onclick}
         style={[styles.base, props.style]}
       ></span>

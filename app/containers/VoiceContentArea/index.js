@@ -61,7 +61,7 @@ export class VoiceContentArea extends React.Component { // eslint-disable-line r
 
     const content = '';
 
-    return <ContentArea from={from} buttons={buttons} details={details} content={content} />;
+    return <ContentArea interaction={this.props.selectedInteraction} from={from} buttons={buttons} details={details} content={content} />;
   }
 }
 
