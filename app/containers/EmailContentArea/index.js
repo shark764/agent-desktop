@@ -16,12 +16,8 @@ import ContentArea from 'containers/ContentArea';
 
 import moment from 'moment';
 import 'medium-draft/lib/index.css';
-import {
-  Editor,
-} from 'medium-draft';
-import {
-  EditorState,
-} from 'draft-js';
+import { Editor } from 'medium-draft';
+import { EditorState } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
 // import { stateToHTML } from 'draft-js-export-html';
 
@@ -72,6 +68,10 @@ export class EmailContentArea extends React.Component { // eslint-disable-line r
       width: 'calc(100% - 90px)',
     },
     emailContent: {
+      position: 'absolute',
+      height: '100%',
+      width: '100%',
+      overflowY: 'auto',
       padding: '19px 23px',
       whiteSpace: 'pre-wrap',
     },
@@ -94,6 +94,7 @@ export class EmailContentArea extends React.Component { // eslint-disable-line r
     if (!this.props.selectedInteraction.email.reply) {
       buttons = (
         <Button
+          id="replyEmail"
           type="primaryBlue"
           text={messages.reply}
           onClick={this.onEmailCreateReply}
@@ -128,12 +129,14 @@ export class EmailContentArea extends React.Component { // eslint-disable-line r
       buttons = (
         <div style={this.styles.replyButtons}>
           <Button
+            id="cancelEmail"
             type="secondary"
             style={{ marginRight: '5px' }}
             text={messages.cancel}
             onClick={() => this.props.emailCancelReply(this.props.selectedInteraction.interactionId)}
           />
           <Button
+            id="sendEmail"
             type="primaryRed"
             text={messages.send}
           />
@@ -173,8 +176,7 @@ export class EmailContentArea extends React.Component { // eslint-disable-line r
       );
     }
 
-    // TODO component for this skeleton
-    return <ContentArea from={from} buttons={buttons} details={details} content={content} />;
+    return <ContentArea interaction={this.props.selectedInteraction} from={from} buttons={buttons} details={details} content={content} />;
   }
 }
 

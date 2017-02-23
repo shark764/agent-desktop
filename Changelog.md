@@ -1,3 +1,8 @@
+<a name"0.3.0"></a>
+### 0.3.0 (2017-02-23)
+* Notes components
+* Updated local NovaX (native messaging) setup
+
 <a name"0.2.25"></a>
 ### 0.2.25 (2017-02-22)
 * fix FB name on messages

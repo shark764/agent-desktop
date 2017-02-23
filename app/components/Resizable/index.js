@@ -26,8 +26,8 @@ class Resizable extends React.Component {
     this.dividerHandleStyle = {
       top: '50%',
       position: 'absolute',
-      height: '18px',
-      width: '1px',
+      height: this.props.direction === 'left' ? '18px' : '1px',
+      width: this.props.direction === 'left' ? '1px' : '18px',
       background: '#D0D0D0',
     };
 
@@ -78,6 +78,7 @@ class Resizable extends React.Component {
           transition: this.state.isResizing ? '' : 'width 1s',
           userSelect,
           borderLeft: '1px solid #D0D0D0',
+          flex: '0 0 auto',
         },
         divider: {
           width: this.addPx(this.dividerPx),
@@ -98,24 +99,24 @@ class Resizable extends React.Component {
       top: {
         wrapper: {
           height: elementSize,
-          transition: this.state.isResizing ? '' : 'height 1s',
           userSelect,
           borderTop: '1px solid #D0D0D0',
+          position: 'relative',
         },
         divider: {
           height: this.addPx(this.dividerPx),
-          width: '100%',
+          width: `calc(50% - ${this.dividerPx}px)`,
           bottom: dividerOffset,
-          left: '0',
+          left: `calc(50% - ${this.dividerPx}px)`,
           position: this.dividerPosition,
           cursor: 'ns-resize',
           zIndex: '10',
         },
         dividerHandle1: {
-          left: this.dividerHandle1Offset,
+          top: this.dividerHandle1Offset,
         },
         dividerHandle2: {
-          left: this.dividerHandle2Offset,
+          top: this.dividerHandle2Offset,
         },
       },
     };

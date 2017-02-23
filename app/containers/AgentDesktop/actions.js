@@ -31,6 +31,7 @@ import {
   STOP_RECORD_CALL,
   EMAIL_CREATE_REPLY,
   EMAIL_CANCEL_REPLY,
+  UPDATE_NOTE,
 } from './constants';
 
 export function setPresence(response) {
@@ -216,5 +217,13 @@ export function emailCancelReply(interactionId) {
   return {
     type: EMAIL_CANCEL_REPLY,
     interactionId,
+  };
+}
+
+export function updateNote(interactionId, note) {
+  return {
+    type: UPDATE_NOTE,
+    interactionId,
+    note,
   };
 }
