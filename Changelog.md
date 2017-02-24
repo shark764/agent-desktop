@@ -1,7 +1,17 @@
-<a name"0.4.1"></a>
-### 0.4.1 (2017-02-24)
+<a name"0.4.3"></a>
+### 0.4.3 (2017-02-24)
 * Proper error handling for missing perms
 * Add env for SDK init
+
+<a name"0.4.2"></a>
+### 0.4.2 (2017-02-24)
+* link logout button to SDK goOffline()
+* BUG: infinite scroll hangs
+* BUG: active extension auto assign failing
+
+<a name"0.4.1"></a>
+### 0.4.1 (2017-02-24)
+* Add TimeStat component
 
 <a name"0.4.0"></a>
 ### 0.4.0 (2017-02-24)

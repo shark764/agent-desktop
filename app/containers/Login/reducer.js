@@ -34,7 +34,6 @@ function loginReducer(state = initialState, action) {
         .set('login_error', false)
         .set('loading', false);
     case LOGOUT:
-      // TODO SDK.auth.logout();
       return state
         .set('agent', {})
         .set('logged_in', false)
@@ -51,7 +50,8 @@ function loginReducer(state = initialState, action) {
         .set('tenant_error_message', fromJS(action.error));
     case SET_TENANT:
       return state
-        .set('tenant', { id: action.id, name: action.name });
+        .set('tenant', { id: action.id, name: action.name })
+        .set('tenant_error', false);
     case SHOW_LOGIN:
       return state
         .set('showLogin', action.show);

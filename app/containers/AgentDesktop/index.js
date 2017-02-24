@@ -25,7 +25,9 @@ import selectAgentDesktop, { selectLogin } from './selectors';
 import { setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
   setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected, emailCreateReply, emailCancelReply, addSearchFilter,
   removeSearchFilter, setContactAction } from './actions';
-import { showLogin, tenantError } from 'containers/Login/actions';
+
+import { showLogin, tenantError, logout } from 'containers/Login/actions';
+
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 import messages from './messages';
 
@@ -118,6 +120,9 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/session/state-changed': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setPresence(response);
+          if (response.state === 'offline') {
+            this.props.logout();
+          }
           break;
         }
         case 'cxengage/interactions/work-offer': {
@@ -415,6 +420,7 @@ function mapDispatchToProps(dispatch) {
     transferConnected: (interactionId) => dispatch(transferConnected(interactionId)),
     emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
     emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
+    logout: () => dispatch(logout()),
     dispatch,
   };
 }
@@ -451,6 +457,7 @@ AgentDesktop.propTypes = {
   transferConnected: PropTypes.func.isRequired,
   emailCreateReply: PropTypes.func.isRequired,
   emailCancelReply: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
   login: PropTypes.object,
   agentDesktop: PropTypes.object,
 };
