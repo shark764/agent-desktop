@@ -8,6 +8,7 @@ import {
   LOGGING_IN,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+  TENANT_ERROR,
   RESET_PASSWORD,
   SHOW_LOGIN,
   SETTING_TENANT,
@@ -37,6 +38,13 @@ export function logout() {
 export function loginError() {
   return {
     type: LOGIN_ERROR,
+  };
+}
+
+export function tenantError(error) {
+  return {
+    type: TENANT_ERROR,
+    error,
   };
 }
 

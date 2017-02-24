@@ -5,4 +5,9 @@
  */
 import { defineMessages } from 'react-intl';
 
-export default defineMessages({});
+export default defineMessages({
+  noPermsError: {
+    id: 'app.containers.AgentDesktop.noPermsError',
+    defaultMessage: 'You have insufficient permissions to access this tenant',
+  },
+});

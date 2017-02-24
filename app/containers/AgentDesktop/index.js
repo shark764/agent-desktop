@@ -25,8 +25,9 @@ import selectAgentDesktop, { selectLogin } from './selectors';
 import { setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
   setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected, emailCreateReply, emailCancelReply, addSearchFilter,
   removeSearchFilter, setContactAction } from './actions';
-import { showLogin } from 'containers/Login/actions';
+import { showLogin, tenantError } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
+import messages from './messages';
 
 export class AgentDesktop extends React.Component {
 
@@ -94,6 +95,9 @@ export class AgentDesktop extends React.Component {
     SDK.subscribe('cxengage', (error, topic, response) => {
       if (error) {
         console.error('Pub sub error', topic, error); // eslint-disable-line no-console
+        if (error.code === 1400) { // Missing CRM Perms
+          this.props.tenantError(messages.noPermsError);
+        }
         return;
       }
       switch (topic) {
@@ -375,6 +379,7 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     showLogin: (show) => dispatch(showLogin(show)),
+    tenantError: (error) => dispatch(tenantError(error)),
     setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
@@ -408,6 +413,7 @@ function mapDispatchToProps(dispatch) {
 
 AgentDesktop.propTypes = {
   showLogin: PropTypes.func.isRequired,
+  tenantError: PropTypes.func.isRequired,
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,
   addInteraction: PropTypes.func.isRequired,

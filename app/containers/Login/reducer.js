@@ -9,6 +9,7 @@ import {
   LOGGING_IN,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+  TENANT_ERROR,
   SHOW_LOGIN,
   SETTING_TENANT,
   SET_TENANT,
@@ -43,6 +44,11 @@ function loginReducer(state = initialState, action) {
       return state
         .set('login_error', true)
         .set('loading', false);
+    case TENANT_ERROR:
+      return state
+        .set('tenant_error', true)
+        .set('loading', false)
+        .set('tenant_error_message', fromJS(action.error));
     case SET_TENANT:
       return state
         .set('tenant', { id: action.id, name: action.name });
