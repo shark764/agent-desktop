@@ -121,7 +121,9 @@ export class AgentDesktop extends React.Component {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setPresence(response);
           if (response.state === 'offline') {
-            this.props.logout();
+            // FIXME do this instead when it's working on the SDK
+            // this.props.logout();
+            window.location.reload();
           }
           break;
         }
@@ -177,12 +179,16 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/voice/mute-started': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.muteCall(response.interactionId);
+          if (response.resourceId === this.props.login.agent.userId) {
+            this.props.muteCall(response.interactionId);
+          }
           break;
         }
         case 'cxengage/voice/mute-ended': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.unmuteCall(response.interactionId);
+          if (response.resourceId === this.props.login.agent.userId) {
+            this.props.unmuteCall(response.interactionId);
+          }
           break;
         }
         case 'cxengage/voice/hold-started': {
@@ -457,7 +463,8 @@ AgentDesktop.propTypes = {
   transferConnected: PropTypes.func.isRequired,
   emailCreateReply: PropTypes.func.isRequired,
   emailCancelReply: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
+  // TODO when fixed in SDK
+  // logout: PropTypes.func.isRequired,
   login: PropTypes.object,
   agentDesktop: PropTypes.object,
 };
