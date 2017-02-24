@@ -7,6 +7,7 @@
   "app.container.WelcomeStats.avgHandleTime": "Average Handle Time",
   "app.container.WelcomeStats.csat": "Customer Satisfaction",
   "app.container.WelcomeStats.interactionsCount": "Daily Interactions",
+  "app.containers.AgentDesktop.noPermsError": "You have insufficient permissions to access this tenant",
   "app.containers.AgentStatusMenu.activeVoicePath": "Active Voice Pathway",
   "app.containers.AgentStatusMenu.inbound": "Inbound",
   "app.containers.AgentStatusMenu.logout": "Log Out",
