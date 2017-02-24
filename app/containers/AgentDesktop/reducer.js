@@ -6,6 +6,8 @@
 
 import { fromJS, List } from 'immutable';
 import {
+  SET_EXTENSIONS,
+  SET_ACTIVE_EXTENSION,
   SET_PRESENCE,
   SET_INTERACTION_STATUS,
   ADD_INTERACTION,
@@ -175,6 +177,13 @@ const initialState = fromJS({
 
 function agentDesktopReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_EXTENSIONS:
+      return state
+        // Set active extension to the first available one if it isn't set
+        .set('activeExtension', action.response.activeExtension ? fromJS(action.response.activeExtension) : fromJS(action.response.extensions))
+        .set('extensions', fromJS(action.response.extensions));
+    case SET_ACTIVE_EXTENSION:
+      return state.set('activeExtension', fromJS(action.activeExtension));
     case SET_PRESENCE:
       return state
         .set('presence', action.response.state)

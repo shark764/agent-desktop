@@ -5,6 +5,8 @@
  */
 
 import {
+  SET_EXTENSIONS,
+  SET_ACTIVE_EXTENSION,
   SET_PRESENCE,
   ADD_INTERACTION,
   WORK_INITIATED,
@@ -33,6 +35,20 @@ import {
   EMAIL_CANCEL_REPLY,
   UPDATE_NOTE,
 } from './constants';
+
+export function setExtensions(response) {
+  return {
+    type: SET_EXTENSIONS,
+    response,
+  };
+}
+
+export function setActiveExtension(activeExtension) {
+  return {
+    type: SET_ACTIVE_EXTENSION,
+    activeExtension,
+  };
+}
 
 export function setPresence(response) {
   return {

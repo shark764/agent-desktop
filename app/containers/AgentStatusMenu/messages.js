@@ -38,8 +38,4 @@ export default defineMessages({
     id: 'app.containers.AgentStatusMenu.tenant',
     defaultMessage: 'Tenant',
   },
-  softphone: {
-    id: 'app.containers.AgentStatusMenu.softphone',
-    defaultMessage: 'Softphone',
-  },
 });
