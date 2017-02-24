@@ -1,5 +1,10 @@
+<a name"0.4.0"></a>
+### 0.4.0 (2017-02-24)
+* Ability to set extension before going ready
+* Set default extension to first one in the extensions list if an active extension hadn't been previously set
+
 <a name"0.3.2"></a>
-### 0.3.2 (2017-02-23)
+### 0.3.2 (2017-02-24)
 * Retrieve env from config.json, prep for prod push
 
 <a name"0.3.1"></a>

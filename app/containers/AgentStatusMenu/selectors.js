@@ -16,8 +16,22 @@ const selectHasActiveInteractions = createSelector(
     ) !== undefined
 );
 
+const selectExtensions = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) =>
+    agentDesktop.get('extensions').toJS()
+);
+
+const selectActiveExtension = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) =>
+    agentDesktop.get('activeExtension').toJS()
+);
+
 export default selectAgentStatusMenu;
 export {
   selectAgentStatusMenuDomain,
   selectHasActiveInteractions,
+  selectExtensions,
+  selectActiveExtension,
 };
