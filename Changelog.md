@@ -1,3 +1,7 @@
+<a name"0.4.4"></a>
+### 0.4.4 (2017-02-24)
+* SDK version bump to allow SDK.init() to work on all environments (staging, prod, etc.)
+
 <a name"0.4.3"></a>
 ### 0.4.3 (2017-02-24)
 * Proper error handling for missing perms
