@@ -81,11 +81,15 @@ export class AgentDesktop extends React.Component {
     let env;
     if (typeof window.ADconf !== 'undefined') {
       env = window.ADconf.api;
-    } else {
+    } else if (location.hostname === 'localhost') {
       env = 'dev-api.cxengagelabs.net/v1';
+    } else {
+      console.error('Server conf file not found, Unable to load desktop');
     }
 
-    window.SDK = cxengage.sdk.init({ env });
+    const sdkConf = { baseUrl: `https://${env}`, logLevel: 'info', blastSqsOutput: false };
+    window.SDK = cxengage.sdk.init(sdkConf);
+
 
     SDK.subscribe('cxengage', (error, topic, response) => {
       if (error) {
