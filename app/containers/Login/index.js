@@ -137,6 +137,12 @@ export class Login extends React.Component {
           </span>
           : ''
         }
+        {this.props.tenant_error
+          ? <span id="tenantLoginError" style={[this.styles.error, this.styles.errorPerms]}>
+            <FormattedMessage style={this.styles.center} {...this.props.tenant_error_message} />
+          </span>
+          : ''
+        }
       </div>
     );
   }
@@ -261,6 +267,9 @@ export class Login extends React.Component {
     errorTenant: {
       top: '-406.4px',
     },
+    errorPerms: {
+      top: '-361.4px',
+    },
     copyright: {
       width: '65vw',
       position: 'absolute',
@@ -336,6 +345,8 @@ Login.propTypes = {
   login_error: PropTypes.bool,
   logged_in: PropTypes.bool,
   agent: PropTypes.object,
+  tenant_error_message: PropTypes.object,
+  tenant_error: PropTypes.bool,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Login)));

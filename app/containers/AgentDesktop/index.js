@@ -25,8 +25,11 @@ import selectAgentDesktop, { selectLogin } from './selectors';
 import { setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
   setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected, emailCreateReply, emailCancelReply, addSearchFilter,
   removeSearchFilter, setContactAction } from './actions';
-import { showLogin, logout } from 'containers/Login/actions';
+
+import { showLogin, tenantError, logout } from 'containers/Login/actions';
+
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
+import messages from './messages';
 
 export class AgentDesktop extends React.Component {
 
@@ -78,21 +81,27 @@ export class AgentDesktop extends React.Component {
   init() {
     window.addEventListener('resize', this.updateDimensions);
 
+    let where;
     let env;
     if (typeof window.ADconf !== 'undefined') {
-      env = window.ADconf.api;
+      where = window.ADconf.api;
+      env = window.ADconf.env;
     } else if (location.hostname === 'localhost') {
-      env = 'dev-api.cxengagelabs.net/v1';
+      where = 'dev-api.cxengagelabs.net/v1';
+      env = 'dev';
     } else {
       console.error('Server conf file not found, Unable to load desktop');
     }
 
-    const sdkConf = { baseUrl: `https://${env}`, logLevel: 'info', blastSqsOutput: false };
+    const sdkConf = { baseUrl: `https://${where}`, logLevel: 'info', blastSqsOutput: false, env };
     window.SDK = cxengage.sdk.init(sdkConf);
 
     SDK.subscribe('cxengage', (error, topic, response) => {
       if (error) {
         console.error('Pub sub error', topic, error); // eslint-disable-line no-console
+        if (error.code === 1400) { // Missing CRM Perms
+          this.props.tenantError(messages.noPermsError);
+        }
         return;
       }
       switch (topic) {
@@ -382,6 +391,7 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     showLogin: (show) => dispatch(showLogin(show)),
+    tenantError: (error) => dispatch(tenantError(error)),
     setExtensions: (response) => dispatch(setExtensions(response)),
     setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
@@ -417,6 +427,7 @@ function mapDispatchToProps(dispatch) {
 
 AgentDesktop.propTypes = {
   showLogin: PropTypes.func.isRequired,
+  tenantError: PropTypes.func.isRequired,
   setExtensions: PropTypes.func.isRequired,
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,

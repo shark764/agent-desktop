@@ -1,3 +1,8 @@
+<a name"0.4.3"></a>
+### 0.4.3 (2017-02-24)
+* Proper error handling for missing perms
+* Add env for SDK init
+
 <a name"0.4.2"></a>
 ### 0.4.2 (2017-02-24)
 * link logout button to SDK goOffline()
