@@ -75,7 +75,8 @@ export class ContactSearchResult extends React.Component {
           isAssigned={this.props.isAssigned}
           assign={this.assignContact}
           edit={this.editContact}
-          showControls={!this.props.loading}
+          showControls
+          loading={this.props.loading}
         />
         <div onClick={() => this.setState({ expanded: !this.state.expanded })} style={this.styles.expandToggle} >
           <span style={this.styles.ellip}>...</span>

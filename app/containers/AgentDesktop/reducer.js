@@ -180,7 +180,7 @@ function agentDesktopReducer(state = initialState, action) {
     case SET_EXTENSIONS:
       return state
         // Set active extension to the first available one if it isn't set
-        .set('activeExtension', action.response.activeExtension ? fromJS(action.response.activeExtension) : fromJS(action.response.extensions))
+        .set('activeExtension', action.response.activeExtension ? fromJS(action.response.activeExtension) : fromJS(action.response.extensions[0]))
         .set('extensions', fromJS(action.response.extensions));
     case SET_ACTIVE_EXTENSION:
       return state.set('activeExtension', fromJS(action.activeExtension));

@@ -229,7 +229,7 @@ export class ContactsControl extends React.Component {
       Object.keys(this.props.selectedInteraction.query).forEach((queryName) => {
         encodedQuery[queryName] = encodeURIComponent(this.props.selectedInteraction.query[queryName]);
       });
-      SDK.contacts.search({ query: encodedQuery, page: this.props.nextPage }, (error, topic, response) => {
+      SDK.contacts.search({ query: Object.assign(encodedQuery, { page: this.props.nextPage }) }, (error, topic, response) => {
         console.log('[ContactsControl] SDK.subscribe()', topic, response);
         this.props.setSearchResults(response);
         this.setState({ loading: false });
