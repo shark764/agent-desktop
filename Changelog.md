@@ -1,3 +1,7 @@
+<a name"0.4.6"></a>
+### 0.4.6 (2017-02-24)
+* Potential build fix
+
 <a name"0.4.5"></a>
 ### 0.4.5 (2017-02-24)
 * Browser refresh on status change to offline (workaround until SDK fix is in)
