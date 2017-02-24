@@ -1,3 +1,9 @@
+<a name"0.4.2"></a>
+### 0.4.2 (2017-02-24)
+* link logout button to SDK goOffline()
+* BUG: infinite scroll hangs
+* BUG: active extension auto assign failing
+
 <a name"0.4.1"></a>
 ### 0.4.1 (2017-02-24)
 * Add TimeStat component

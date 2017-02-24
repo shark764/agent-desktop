@@ -33,7 +33,6 @@ function loginReducer(state = initialState, action) {
         .set('login_error', false)
         .set('loading', false);
     case LOGOUT:
-      // TODO SDK.auth.logout();
       return state
         .set('agent', {})
         .set('logged_in', false)

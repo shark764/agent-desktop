@@ -11,7 +11,6 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import Radium from 'radium';
 import { setActiveExtension } from 'containers/AgentDesktop/actions';
-import { logout } from 'containers/Login/actions';
 import checkIcon from 'assets/icons/CheckStatus.png';
 
 export class AgentStatusMenu extends React.Component {
@@ -185,7 +184,7 @@ export class AgentStatusMenu extends React.Component {
         <div id="agentStatusMenu" style={this.styles.agentStatusMenu}>
           { this.props.hasActiveInteractions
             ? <div id="agentLogoutLink" style={[this.styles.logoutLink, this.styles.logoutLinkInactive]}><FormattedMessage {...messages.logout} /></div>
-            : <div id="agentLogoutLink" style={[this.styles.logoutLink]} onClick={() => { this.props.logout(); this.props.showAgentStatusMenu(false); }}><FormattedMessage {...messages.logout} /></div>
+            : <div id="agentLogoutLink" style={[this.styles.logoutLink]} onClick={() => { SDK.session.goOffline(); this.props.showAgentStatusMenu(false); }}><FormattedMessage {...messages.logout} /></div>
           }
           <div id="agentMenuTenant" style={[this.styles.dropdown]}>
             <div style={[this.styles.dropdownTitle]}><FormattedMessage {...messages.tenant} /></div>
@@ -308,7 +307,6 @@ AgentStatusMenu.propTypes = {
   // agentDirection: PropTypes.string,
   readyState: PropTypes.string,
   availablePresences: PropTypes.array,
-  logout: PropTypes.func.isRequired,
   setActiveExtension: PropTypes.func.isRequired,
 };
 
@@ -320,7 +318,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    logout: () => dispatch(logout()),
     setActiveExtension: (extension) => dispatch(setActiveExtension(extension)),
     dispatch,
   };
