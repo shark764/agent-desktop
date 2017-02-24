@@ -11,6 +11,8 @@ import messages from './messages';
 import Radium from 'radium';
 import axios from 'axios';
 
+import TimeStat from '../../components/TimeStat';
+
 export class WelcomeStats extends React.Component { // eslint-disable-line react/prefer-stateless-function
   styles = {
     welcome: {
@@ -83,7 +85,7 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
 
   constructor(props) {
     super(props);
-    this.state = { avgHandleTime: '-', csat: '-', interactionCount: '-' };
+    this.state = { avgHandleTime: { avg: 0, unit: 'millis' }, csat: '-', interactionCount: '-' };
   }
 
   componentDidMount() {
@@ -91,12 +93,7 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
   }
 
   setHandleTime(data) {
-    if (data.results.unit === 'millis') {
-      const avgHandleTimeInMinutes = (data.results.avg / 60000).toFixed(1);
-      this.setState({ avgHandleTime: `${avgHandleTimeInMinutes} minutes` });
-    } else {
-      throw new Error('Not handling avgHandleTime not in millis');
-    }
+    this.setState({avgHandleTime: data.results}); // eslint-disable-line
   }
 
   setCSAT(data) {
@@ -152,7 +149,7 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
         <div id="statContainer" style={this.styles.statContainer}>
           <div style={this.styles.statLeft}>
             <div style={this.styles.statTitle}><FormattedMessage {...messages.avgHandleTime} /></div>
-            <div style={this.styles.statVal}>{this.state.avgHandleTime}</div>
+            <TimeStat time={this.state.avgHandleTime.avg} unit={this.state.avgHandleTime.unit} style={this.styles.statVal}></TimeStat>
           </div>
           <div style={this.styles.statMid}>
             <div style={this.styles.statTitle}><FormattedMessage {...messages.csat} /></div>
