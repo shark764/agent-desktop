@@ -8,6 +8,7 @@ export const SET_EXTENSIONS = 'app/AgentDesktop/SET_EXTENSIONS';
 export const SET_ACTIVE_EXTENSION = 'app/AgentDesktop/SET_ACTIVE_EXTENSION';
 export const SET_PRESENCE = 'app/AgentDesktop/SET_PRESENCE';
 export const SET_INTERACTION_STATUS = 'app/AgentDesktop/SET_INTERACTION_STATUS';
+export const START_OUTBOUND_INTERACTION = 'app/AgentDesktop/START_OUTBOUND_INTERACTION';
 export const ADD_INTERACTION = 'app/AgentDesktop/ADD_INTERACTION';
 export const WORK_INITIATED = 'app/AgentDesktop/WORK_INITIATED';
 export const REMOVE_INTERACTION = 'app/AgentDesktop/REMOVE_INTERACTION';
