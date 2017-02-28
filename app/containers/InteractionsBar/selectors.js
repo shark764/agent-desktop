@@ -45,7 +45,7 @@ const selectPendingInteractions = createSelector(
   selectInteractions,
   (interactions) => interactions.toJS().filter((interaction) =>
     // If it's not a voice interaction, make sure we have messageHistory before we show it.
-    interaction.status === 'work-initiated' && (interaction.channelType === 'voice' || interaction.messageHistory !== undefined)
+    interaction.status === 'work-initiated' && interaction.autoAnswer === false && (interaction.channelType === 'voice' || interaction.messageHistory !== undefined)
   )
 );
 

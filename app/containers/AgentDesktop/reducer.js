@@ -10,6 +10,7 @@ import {
   SET_ACTIVE_EXTENSION,
   SET_PRESENCE,
   SET_INTERACTION_STATUS,
+  START_OUTBOUND_INTERACTION,
   ADD_INTERACTION,
   WORK_INITIATED,
   REMOVE_INTERACTION,
@@ -39,6 +40,13 @@ import {
 
 const initialState = fromJS({
   interactions: [
+    // // XXX uncomment below to mock interaction connecting to outbound (to see loading)
+    // {
+    //   interactionId: 'outbound-interaction-1',
+    //   channelType: 'voice',
+    //   direction: 'outbound',
+    //   status: 'connecting-to-outbound',
+    // },
     // // XXX uncomment below to mock email(s)
     // {
     //   channelType: 'email',
@@ -209,12 +217,21 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+    case START_OUTBOUND_INTERACTION: {
+      return state.set('interactions', state.get('interactions').push(fromJS({
+        interactionId: action.interactionId,
+        channelType: action.channelType,
+        direction: 'outbound',
+        status: 'connecting-to-outbound',
+      })));
+    }
     case ADD_INTERACTION: {
       let agentRecordingEnabled;
       let recording;
       let onHold;
       let muted;
       let warmTransfers;
+      let customerAvatarIndex;
       if (action.response.channelType === 'voice') {
         // recordingUpdate could be undefined for old flows, but should be enabled in that case
         agentRecordingEnabled = action.response.toolbarFeatures.recordingUpdate !== false;
@@ -223,23 +240,38 @@ function agentDesktopReducer(state = initialState, action) {
         onHold = action.response.customerOnHold === true;
         muted = false;
         warmTransfers = new List();
+      } else if (action.response.channelType === 'sms' || action.response.channelType === 'messaging') {
+        customerAvatarIndex = Math.floor(Math.random() * 17);
       }
-      const interaction = {
+      const interactionToAdd = {
         channelType: action.response.channelType,
-        customerAvatarIndex: action.response.channelType !== 'voice' ? Math.floor(Math.random() * 17) : undefined,
+        direction: action.response.direction,
         interactionId: action.response.interactionId,
+        timeout: action.response.timeout,
+        autoAnswer: action.response.autoAnswer,
         status: 'work-offer',
         query: {},
         contactAction: 'search',
-        timeout: action.response.timeout,
         agentRecordingEnabled,
         recording,
         onHold,
         muted,
         warmTransfers,
+        customerAvatarIndex,
       };
-      return state
-        .set('interactions', state.get('interactions').push(fromJS(interaction)));
+
+      // If interaction was already added by START_OUTBOUND_INTERACTION, replace it; otherwise, just push it to the list
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.response.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex], () =>
+          fromJS(interactionToAdd)
+        );
+      } else {
+        return state
+          .set('interactions', state.get('interactions').push(fromJS(interactionToAdd)));
+      }
     }
     case WORK_INITIATED: {
       const interactionIndex = state.get('interactions').findIndex(

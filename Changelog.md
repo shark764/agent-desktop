@@ -1,3 +1,7 @@
+<a name"0.5.0"></a>
+### 0.5.0 (2017-02-27)
+* Click to dial via dialpad
+
 <a name"0.4.7"></a>
 ### 0.4.7 (2017-02-24)
 * Potential build fix

@@ -8,6 +8,7 @@ import {
   SET_EXTENSIONS,
   SET_ACTIVE_EXTENSION,
   SET_PRESENCE,
+  START_OUTBOUND_INTERACTION,
   ADD_INTERACTION,
   WORK_INITIATED,
   SET_INTERACTION_QUERY,
@@ -54,6 +55,14 @@ export function setPresence(response) {
   return {
     type: SET_PRESENCE,
     response,
+  };
+}
+
+export function startOutboundInteraction(interactionId, channelType) {
+  return {
+    type: START_OUTBOUND_INTERACTION,
+    interactionId,
+    channelType,
   };
 }
 

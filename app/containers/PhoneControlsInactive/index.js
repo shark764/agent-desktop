@@ -10,11 +10,12 @@ import messages from './messages';
 import Radium from 'radium';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 
-import { selectIsAgentReady } from './selectors';
+import { selectIsAgentReady, selectHasConnectingOutboundVoiceInteraction } from './selectors';
 
 import Button from 'components/Button';
 import CircleIconButton from 'components/CircleIconButton';
 import Dialpad from 'components/Dialpad';
+import IconSVG from 'components/IconSVG';
 
 export class PhoneControlsInactive extends React.Component {
   constructor(props) {
@@ -22,6 +23,7 @@ export class PhoneControlsInactive extends React.Component {
 
     this.setShowDialpad = this.setShowDialpad.bind(this);
     this.setDialpadText = this.setDialpadText.bind(this);
+    this.call = this.call.bind(this);
 
     this.state = {
       showDialpad: false,
@@ -51,9 +53,20 @@ export class PhoneControlsInactive extends React.Component {
     this.setState({ dialpadText: formattedDialpadText });
   }
 
+  call() {
+    SDK.interactions.voice.dial({ phoneNumber: this.state.dialpadText });
+    this.setState({ showDialpad: false });
+  }
+
   styles = {
     base: {
       padding: '12px 0',
+    },
+    phoneControlsContainer: {
+      height: 40,
+      width: 40,
+      margin: '0 auto',
+      display: 'block',
     },
     dialpadTopTriangle: {
       marginLeft: '134px',
@@ -69,11 +82,12 @@ export class PhoneControlsInactive extends React.Component {
   }
 
   render() {
-    return (
-      <div style={this.styles.base}>
-        { this.props.isAgentReady
-          ? <div>
-            <div style={{ height: 40, width: 40, margin: '0 auto', display: 'block' }}>
+    let phoneControlsInactive;
+    if (this.props.isAgentReady) {
+      if (!this.props.hasConnectingOutboundVoiceInteraction) {
+        phoneControlsInactive = (
+          <div>
+            <div style={this.styles.phoneControlsContainer}>
               <CircleIconButton id="dialpadButton" name="dialpad" onClick={() => this.setShowDialpad(!this.state.showDialpad)} />
             </div>
             { this.state.showDialpad
@@ -81,14 +95,27 @@ export class PhoneControlsInactive extends React.Component {
                 <div style={[this.props.style.topTriangle, this.styles.dialpadTopTriangle]}></div>
                 <div style={[this.props.style.phoneControlsPopupMenu, this.styles.dialpadPhoneControlsPopupMenu]}>
                   <Dialpad id="dialpad" setDialpadText={this.setDialpadText} dialpadText={this.state.dialpadText} />
-                  <Button id="callButton" text={messages.call} disabled={!this.state.dialpadTextValid} onClick={() => alert(this.state.dialpadText)} type="primaryBlue" style={this.styles.callButton} />
+                  <Button id="callButton" text={messages.call} disabled={!this.state.dialpadTextValid} onClick={this.call} type="primaryBlue" style={this.styles.callButton} />
                 </div>
               </div>
               : ''
             }
           </div>
-          : <div style={{ height: 40, width: 40, margin: '0 auto', display: 'block' }}></div>
-        }
+        );
+      } else {
+        phoneControlsInactive = (
+          <div style={this.styles.phoneControlsContainer}>
+            <IconSVG style={this.styles.phoneControlsContainer} id="connectingToOutboundCallIcon" name="loading" />
+          </div>
+        );
+      }
+    } else {
+      phoneControlsInactive = <div style={this.styles.phoneControlsContainer}></div>;
+    }
+
+    return (
+      <div style={this.styles.base}>
+        { phoneControlsInactive }
       </div>
     );
   }
@@ -96,6 +123,7 @@ export class PhoneControlsInactive extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   isAgentReady: selectIsAgentReady(state, props),
+  hasConnectingOutboundVoiceInteraction: selectHasConnectingOutboundVoiceInteraction(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -106,6 +134,7 @@ function mapDispatchToProps(dispatch) {
 
 PhoneControlsInactive.propTypes = {
   isAgentReady: PropTypes.bool.isRequired,
+  hasConnectingOutboundVoiceInteraction: PropTypes.bool.isRequired,
   style: PropTypes.shape({
     topTriangle: PropTypes.object.isRequired,
     phoneControlsPopupMenu: PropTypes.object.isRequired,
