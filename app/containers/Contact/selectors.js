@@ -1,15 +1,18 @@
 import { createSelector } from 'reselect';
 
-/**
- * Direct selector to the state domain
- */
+const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
+const selectInteractions = createSelector(
+  selectAgentDesktopDomain, (agentDesktop) => agentDesktop.get('interactions')
+);
+const selectHasVoiceInteraction = createSelector(
+  selectInteractions,
+  (interactions) => interactions.findIndex(
+    (interaction) => (interaction.get('channelType') === 'voice')
+  ) !== -1
+);
+
+
 const selectSidePanelDomain = (state) => state.get('sidePanel');
-
-
-/**
- * Other specific selectors
- */
-
 const selectLayout = createSelector(
   selectSidePanelDomain,
   (sidePanel) => sidePanel.get('contactLayout')
@@ -40,7 +43,6 @@ const selectPopulatedLayout = createSelector(
       })
     )
 );
-
 const selectPopulatedCompactAttributes = createSelector(
   [selectCompactLayoutSection, selectAttributes],
   (section, attributes) =>
@@ -63,4 +65,5 @@ export {
   selectPopulatedLayout,
   selectPopulatedCompactAttributes,
   selectAttributes,
+  selectHasVoiceInteraction,
 };

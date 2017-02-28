@@ -22,7 +22,7 @@ import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
 import selectAgentDesktop, { selectLogin } from './selectors';
-import { setExtensions, setPresence, startOutboundInteraction, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
+import { setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
   setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected, emailCreateReply, emailCancelReply, addSearchFilter,
   removeSearchFilter, setContactAction } from './actions';
 
@@ -129,7 +129,7 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/voice/dial-response': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.startOutboundInteraction(response.interactionId, 'voice');
+          if (error) console.error(error); // TODO: toast error
           break;
         }
         case 'cxengage/interactions/work-offer': {
@@ -409,7 +409,6 @@ function mapDispatchToProps(dispatch) {
     setExtensions: (response) => dispatch(setExtensions(response)),
     setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
-    startOutboundInteraction: (interactionId, channelType) => dispatch(startOutboundInteraction(interactionId, channelType)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
     workInitiated: (response) => dispatch(workInitiated(response)),
     removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
@@ -446,7 +445,6 @@ AgentDesktop.propTypes = {
   setExtensions: PropTypes.func.isRequired,
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,
-  startOutboundInteraction: PropTypes.func.isRequired,
   addInteraction: PropTypes.func.isRequired,
   workInitiated: PropTypes.func.isRequired,
   removeInteraction: PropTypes.func.isRequired,

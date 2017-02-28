@@ -119,6 +119,7 @@ export class MessagingContentArea extends React.Component {
     messageTextarea: {
       flex: '0 1 36px',
       minHeight: '36px',
+      padding: '4px',
       resize: 'none',
       borderRadius: '3px',
       border: '1px solid #23CEF5',

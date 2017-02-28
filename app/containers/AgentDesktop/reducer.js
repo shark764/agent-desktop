@@ -219,7 +219,6 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case START_OUTBOUND_INTERACTION: {
       return state.set('interactions', state.get('interactions').push(fromJS({
-        interactionId: action.interactionId,
         channelType: action.channelType,
         direction: 'outbound',
         status: 'connecting-to-outbound',
@@ -262,7 +261,7 @@ function agentDesktopReducer(state = initialState, action) {
 
       // If interaction was already added by START_OUTBOUND_INTERACTION, replace it; otherwise, just push it to the list
       const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.response.interactionId
+        (interaction) => (interaction.get('status') === 'connecting-to-outbound' && interaction.get('channelType') === action.response.channelType)
       );
       if (interactionIndex !== -1) {
         return state.updateIn(['interactions', interactionIndex], () =>
@@ -325,13 +324,14 @@ function agentDesktopReducer(state = initialState, action) {
         if (messageInteraction) {
           const messageHistoryItems = action.response.map((messageHistoryItem) => {
             let from = messageHistoryItem.payload.metadata && messageHistoryItem.payload.metadata.name ? messageHistoryItem.payload.metadata.name : messageHistoryItem.payload.from;
-            if (messageInteraction.get('channelType') === 'sms') {
+            const type = messageHistoryItem.payload.metadata ? messageHistoryItem.payload.metadata.type : messageHistoryItem.payload.type;
+            if (messageInteraction.get('channelType') === 'sms' && type === 'message') {
               if (from[0] !== '+') from = `+${from}`;
             }
             return {
               text: messageHistoryItem.payload.body.text,
               from,
-              type: messageHistoryItem.payload.metadata ? messageHistoryItem.payload.metadata.type : messageHistoryItem.payload.type,
+              type,
               timestamp: messageHistoryItem.payload.timestamp,
               unread: state.get('selectedInteractionId') !== undefined && action.response[0].channelId !== state.get('selectedInteractionId'),
             };
@@ -443,13 +443,14 @@ function agentDesktopReducer(state = initialState, action) {
       const messageInteraction = state.getIn(['interactions', messageInteractionIndex]);
       if (messageInteractionIndex !== -1) {
         let from = message.metadata !== null ? message.metadata.name : message.from;
-        if (messageInteraction.get('channelType') === 'sms') {
+        const type = message.metadata !== null ? message.metadata.type : message.type;
+        if (messageInteraction.get('channelType') === 'sms' && type === 'message') {
           if (from[0] !== '+') from = `+${from}`;
         }
         const messageHistoryItem = {
           text: message.body.text,
           from,
-          type: message.metadata !== null ? message.metadata.type : message.type,
+          type,
           timestamp: message.timestamp,
           unread: state.get('selectedInteractionId') !== undefined && message.to !== state.get('selectedInteractionId'),
         };

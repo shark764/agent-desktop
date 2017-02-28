@@ -9,10 +9,16 @@ import { connect } from 'react-redux';
 import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
 import { PhoneNumberUtil } from 'google-libphonenumber';
+import isUrl from 'validator/lib/isUrl'; // eslint-disable-line import/no-unresolved
 
-import { selectPopulatedLayout, selectPopulatedCompactAttributes, selectAttributes } from './selectors';
+import { selectPopulatedLayout, selectPopulatedCompactAttributes, selectAttributes, selectHasVoiceInteraction } from './selectors';
+
+import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
+
 import messages from './messages';
 
+import A from 'components/A';
+import Checkbox from 'components/Checkbox';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 
@@ -38,7 +44,6 @@ export class Contact extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.setAttributeValue = this.setAttributeValue.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputClear = this.handleInputClear.bind(this);
     this.getHeader = this.getHeader.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -46,6 +51,7 @@ export class Contact extends React.Component {
     this.handleOnBlur = this.handleOnBlur.bind(this);
     this.formatValue = this.formatValue.bind(this);
     this.getError = this.getError.bind(this);
+    this.attemptCall = this.attemptCall.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,7 +75,8 @@ export class Contact extends React.Component {
     props.layoutSections.forEach((section) => {
       section.attributes.forEach((attribute) => {
         const isExistingValueDefined = (contactAttributes && contactAttributes[attribute.objectName] !== undefined);
-        const initialValue = isExistingValueDefined ? contactAttributes[attribute.objectName] : (attribute.default || '');
+        let initialValue = isExistingValueDefined ? contactAttributes[attribute.objectName] : (attribute.default || '');
+        initialValue = this.formatValue(attribute.objectName, initialValue);
         formInputs[attribute.objectName] = initialValue;
         errors[attribute.objectName] = this.getError(attribute.objectName, initialValue);
         showErrors[attribute.objectName] = false;
@@ -187,6 +194,9 @@ export class Contact extends React.Component {
     controlButton: {
       marginLeft: '10px',
     },
+    inputCheckbox: {
+      marginLeft: '4px',
+    },
   };
 
   handleInputChange(newValue, event) {
@@ -207,7 +217,7 @@ export class Contact extends React.Component {
     } else if (value.length) {
       switch (attributeToValidate.type) {
         case 'email':
-          if (!/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)) {
+          if (!/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(value)) {
             error = this.props.intl.formatMessage(messages.errorEmail);
           }
           break;
@@ -218,6 +228,16 @@ export class Contact extends React.Component {
             }
           } catch (e) {
             error = this.props.intl.formatMessage(messages.errorPhone);
+          }
+          break;
+        case 'link':
+          if (!isUrl(value, { protocols: ['http', 'https'] })) {
+            error = this.props.intl.formatMessage(messages.errorLink);
+          }
+          break;
+        case 'number':
+          if (isNaN(Number(value))) {
+            error = this.props.intl.formatMessage(messages.errorNumber);
           }
           break;
         default:
@@ -236,10 +256,15 @@ export class Contact extends React.Component {
         if (formattedValue.indexOf('+') !== 0 && formattedValue.length > 0) {
           formattedValue = `+${formattedValue}`;
         }
-        return formattedValue;
+        break;
+      case 'boolean':
+        if (value === 'false' || value === '') formattedValue = false;
+        else formattedValue = !!value;
+        break;
       default:
         return value;
     }
+    return formattedValue;
   }
 
   showError(name) {
@@ -269,11 +294,31 @@ export class Contact extends React.Component {
     }
   }
 
+  attemptCall(number) {
+    this.props.startOutboundInteraction('voice');
+    SDK.interactions.voice.dial({ phoneNumber: number });
+  }
+
   getAttributeValueDisplay(attribute) {
     let value;
     const inputError = this.state.showErrors[attribute.objectName] ? this.state.errors[attribute.objectName] : false;
     if (this.props.isEditing) {
-      value = this.state.formInputs[attribute.objectName] || '';
+      value = this.state.formInputs[attribute.objectName];
+      switch (attribute.type) {
+        case 'boolean':
+          return (
+            <Checkbox
+              id={`${attribute.objectName}Checkbox`}
+              name={attribute.objectName}
+              cb={this.handleInputChange}
+              onBlur={this.handleOnBlur}
+              checked={value}
+              style={this.styles.inputCheckbox}
+            />
+          );
+        default:
+          break;
+      }
       return (
         <div key={attribute.objectName} ref={(element) => { this.inputDiv = element; }} style={[this.styles.inputBox, inputError ? this.styles.inputErrorBorder : this.styles.inputBorder]}>
           <TextInput
@@ -282,7 +327,6 @@ export class Contact extends React.Component {
             style={this.styles.textInput}
             id={`${attribute.objectName}Input`}
             name={attribute.objectName}
-            type={attribute.type}
             value={value}
             placeholder={attribute.label[this.props.intl.locale]}
             autocomplete="off"
@@ -303,12 +347,12 @@ export class Contact extends React.Component {
         </div>
       );
     }
-    value = this.props.contact.attributes ? this.props.contact.attributes[attribute.objectName] : '';
+    value = (this.props.contact.attributes && this.props.contact.attributes[attribute.objectName]) ? this.props.contact.attributes[attribute.objectName] : '';
     let content;
     switch (attribute.type) { // TODO: AttributeValue components w/edit flags & callbacks
       case 'phone':
         content = (
-          <a href={`tel:${value}`}>{value}</a>
+          <A id={`${attribute.objectName}Anchor`} disabled={this.props.hasVoiceInteraction || this.state.pendingOutbound} onClick={() => this.attemptCall(value)} text={value} />
         );
         break;
       case 'link':
@@ -319,6 +363,11 @@ export class Contact extends React.Component {
       case 'email':
         content = (
           <a href={`mailto:${value}`}>{value}</a>
+        );
+        break;
+      case 'boolean':
+        content = (
+          <Checkbox id={`${attribute.objectName}Checkbox`} checked={this.formatValue(attribute.objectName, value)} />
         );
         break;
       default:
@@ -450,10 +499,12 @@ const mapStateToProps = (state, props) => ({
   attributes: selectAttributes(state, props),
   layoutSections: selectPopulatedLayout(state, props),
   compactLayoutAttributes: selectPopulatedCompactAttributes(state, props),
+  hasVoiceInteraction: selectHasVoiceInteraction(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
+    startOutboundInteraction: (channelType) => dispatch(startOutboundInteraction(channelType)),
     dispatch,
   };
 }
@@ -474,6 +525,8 @@ Contact.propTypes = {
   loading: PropTypes.bool,
   intl: intlShape.isRequired,
   style: PropTypes.object,
+  hasVoiceInteraction: PropTypes.bool.isRequired,
+  startOutboundInteraction: PropTypes.func.isRequired,
 };
 
 Contact.defaultProps = {

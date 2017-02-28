@@ -12,6 +12,8 @@ import { PhoneNumberUtil } from 'google-libphonenumber';
 
 import { selectIsAgentReady, selectHasConnectingOutboundVoiceInteraction } from './selectors';
 
+import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
+
 import Button from 'components/Button';
 import CircleIconButton from 'components/CircleIconButton';
 import Dialpad from 'components/Dialpad';
@@ -54,6 +56,7 @@ export class PhoneControlsInactive extends React.Component {
   }
 
   call() {
+    this.props.startOutboundInteraction('voice');
     SDK.interactions.voice.dial({ phoneNumber: this.state.dialpadText });
     this.setState({ showDialpad: false });
   }
@@ -128,6 +131,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    startOutboundInteraction: (channelType) => dispatch(startOutboundInteraction(channelType)),
     dispatch,
   };
 }
@@ -135,6 +139,7 @@ function mapDispatchToProps(dispatch) {
 PhoneControlsInactive.propTypes = {
   isAgentReady: PropTypes.bool.isRequired,
   hasConnectingOutboundVoiceInteraction: PropTypes.bool.isRequired,
+  startOutboundInteraction: PropTypes.func.isRequired,
   style: PropTypes.shape({
     topTriangle: PropTypes.object.isRequired,
     phoneControlsPopupMenu: PropTypes.object.isRequired,
