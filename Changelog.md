@@ -1,3 +1,9 @@
+<a name"0.5.1"></a>
+### 0.5.1 (2017-02-28)
+* Link, Boolean and Number input types / validation
+* Click to dial from contact phone number
+* BUG: + being appended before Agent name
+
 <a name"0.5.0"></a>
 ### 0.5.0 (2017-02-27)
 * Click to dial via dialpad

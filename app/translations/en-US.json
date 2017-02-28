@@ -20,6 +20,8 @@
   "app.containers.Contact.cancel": "Cancel",
   "app.containers.Contact.editButton": "Edit",
   "app.containers.Contact.errorEmail": "Invalid Email",
+  "app.containers.Contact.errorLink": "Invalid URL",
+  "app.containers.Contact.errorNumber": "Invalid Number",
   "app.containers.Contact.errorPhone": "Invalid Phone Number",
   "app.containers.Contact.errorRequired": "Required",
   "app.containers.Contact.save": "Save Changes",

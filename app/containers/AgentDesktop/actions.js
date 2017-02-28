@@ -58,10 +58,9 @@ export function setPresence(response) {
   };
 }
 
-export function startOutboundInteraction(interactionId, channelType) {
+export function startOutboundInteraction(channelType) {
   return {
     type: START_OUTBOUND_INTERACTION,
-    interactionId,
     channelType,
   };
 }

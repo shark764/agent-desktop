@@ -34,6 +34,14 @@ export default defineMessages({
     id: 'app.containers.Contact.errorPhone',
     defaultMessage: 'Invalid Phone Number',
   },
+  errorLink: {
+    id: 'app.containers.Contact.errorLink',
+    defaultMessage: 'Invalid URL',
+  },
+  errorNumber: {
+    id: 'app.containers.Contact.errorNumber',
+    defaultMessage: 'Invalid Number',
+  },
   assignButton: {
     id: 'app.containers.Contact.assignButton',
     defaultMessage: 'Assign',
