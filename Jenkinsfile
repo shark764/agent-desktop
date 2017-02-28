@@ -61,7 +61,7 @@ else if (pwd ==~ /.*master.*/ ) {
             sh 'npm run build'
           }
           stage ('Push') { // Publish to S3
-            sh "aws s3 sync ./build/ s3://cxengagelabs-jenkins/frontend/Agent-Desktop/noah-test/${build_version}/ --delete"
+            sh "aws s3 sync ./build/ s3://cxengagelabs-jenkins/frontend/Agent-Desktop/${build_version}/ --delete"
           }
           stage ('Notify Success') { // Notify Hipchat of Success
             b.hipchatSuccess("${serviceName}", "${build_version}")
@@ -84,24 +84,13 @@ else if (pwd ==~ /.*master.*/ ) {
     timeout(time:5, unit:'DAYS') {
       input "Deploy to Dev?"
       node() {
-        echo "HE APPROVED"
+        sh "aws s3 sync s3://cxengagelabs-jenkins/frontend/Agent-Desktop/${build_version}/ . --delete"
+        writeFile file: 'robin.json', text: " \"{\"version\": \"${build_version}\"}\" "
+        writeFile file: 'config.json', text: " \"{\"config\": { \"api\": \"dev-api.cxengagelabs.net/v1\", \"env\": \"dev\", \"domain\": \"cxengagelabs.net\", \"region\": \"us-east-1\", \"version\": \"${build_version}\" }}\" "
+        sh "aws s3 rm s3://dev-desktop.cxengagelabs.net/ --recursive"
+        sh "aws s3 sync . s3://dev-desktop.cxengagelabs.net/ --delete"
+        sh "aws cloudfront create-invalidation --distribution-id E3MJXQEHZTM4FB --paths /*"
       }
-    }
-  }
-  stage ('Test') {
-    timeout(time:5, unit:'DAYS') {
-      input message: 'Test Dev?', parameters: [string(defaultValue: '', description: 'Which Test Suite Would You Like to Run?', name: 'Suite')]
-      node() {
-        echo "Running Tests in Dev"
-      }
-    }
-  }
-  stage ('Deploy - QE') {
-    timeout(time:5, unit:'DAYS') {
-      input "Deploy to QE?"
-      node() {
-        echo "Deployed to QE"
-     }
     }
   }
 }
