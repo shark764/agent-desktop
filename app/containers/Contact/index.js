@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
 import { PhoneNumberUtil } from 'google-libphonenumber';
-import isUrl from 'validator/lib/isUrl'; // eslint-disable-line import/no-unresolved
+import isURL from 'validator/lib/isURL';
 
 import { selectPopulatedLayout, selectPopulatedCompactAttributes, selectAttributes, selectHasVoiceInteraction } from './selectors';
 
@@ -36,7 +36,6 @@ export class Contact extends React.Component {
     if (this.props.isEditing) {
       Object.assign(this.state, this.initFormInputsState(this.props));
     }
-
 
     this.getSection = this.getSection.bind(this);
     this.getSectionHeading = this.getSectionHeading.bind(this);
@@ -231,7 +230,7 @@ export class Contact extends React.Component {
           }
           break;
         case 'link':
-          if (!isUrl(value, { protocols: ['http', 'https'] })) {
+          if (!isURL(value, { protocols: ['http', 'https'] })) {
             error = this.props.intl.formatMessage(messages.errorLink);
           }
           break;
