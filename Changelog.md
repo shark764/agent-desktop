@@ -1,3 +1,6 @@
+### Unreleased
+* build breaking typo fix in validator import
+
 <a name"0.5.1"></a>
 ### 0.5.1 (2017-02-28)
 * Link, Boolean and Number input types / validation
