@@ -162,7 +162,6 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
               readyState={this.props.readyState}
               showAgentStatusMenu={this.props.showAgentStatusMenu}
               agentDirection={this.props.agentDirection}
-              availablePresences={this.props.availablePresences}
             />
             : ''
           }
@@ -192,7 +191,6 @@ Toolbar.propTypes = {
   agentStatusMenu: PropTypes.bool,
   tenant: PropTypes.object,
   agentDirection: PropTypes.string,
-  availablePresences: PropTypes.array,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(Toolbar));

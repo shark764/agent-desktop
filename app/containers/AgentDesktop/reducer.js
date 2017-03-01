@@ -196,8 +196,7 @@ function agentDesktopReducer(state = initialState, action) {
       return state.set('activeExtension', fromJS(action.activeExtension));
     case SET_PRESENCE:
       return state
-        .set('presence', action.response.state)
-        .set('availablePresences', fromJS(action.response.availableStates));
+        .set('presence', action.response.state);
     case SET_INTERACTION_STATUS: {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === action.interactionId

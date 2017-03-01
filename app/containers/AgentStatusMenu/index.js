@@ -23,7 +23,6 @@ export class AgentStatusMenu extends React.Component {
       boxShadow: '0 0 6px 1px rgba(0,0,0,0.29)',
       left: '12px',
       bottom: '66px',
-      paddingBottom: '16px',
       paddingTop: '16px',
       color: '#4b4b4b',
     },
@@ -45,17 +44,19 @@ export class AgentStatusMenu extends React.Component {
       fontSize: '16px',
       lineHeight: '19px',
       color: '#363636',
-      textDecoration: 'underline',
-      borderTop: '1px solid #E1E1E1',
       boxSizing: 'border-box',
       bottom: '-15px',
       position: 'relative',
       width: 'calc(100% - 48px)',
-      paddingTop: '10px',
-      paddingBottom: '16px',
+      marginBottom: '16px',
       marginLeft: '24px',
       marginRight: '24px',
       cursor: 'pointer',
+    },
+    agentReadyState: {
+      borderTop: '1px solid #E1E1E1',
+      marginTop: '10px',
+      paddingBottom: '16px',
     },
     logoutLink: {
       fontSize: '16px',
@@ -110,13 +111,7 @@ export class AgentStatusMenu extends React.Component {
       borderTop: 'solid 1px #e4e4e4',
       lineHeight: '1.25',
     },
-    notReadyReasonsTitle: {
-      fontSize: '16px',
-      color: '#979797',
-      height: '27px',
-    },
     notReadyReasonsActive: {
-      fontWeight: 'bold',
       cursor: 'default',
     },
     dropdownTitle: {
@@ -158,9 +153,9 @@ export class AgentStatusMenu extends React.Component {
       marginLeft: '-24px',
       paddingLeft: '24px',
       paddingRight: '13px',
-      ':hover': {
-        backgroundColor: '#f3f3f3',
-      },
+    },
+    inactivePresence: {
+      textDecoration: 'underline',
     },
     arrow: {
       float: 'right',
@@ -241,57 +236,44 @@ export class AgentStatusMenu extends React.Component {
               : undefined
             }
           </div>
-          <div id="agentNotReadyStates" style={[this.styles.notReadyReasons]}>
-            <div id="agentNotReadyStatesTitle" style={[this.styles.notReadyReasonsTitle]}><FormattedMessage {...messages.notReady} /></div>
+          <div id="agentNotReadyState" style={[this.styles.notReadyReasons]}>
             {
-              this.props.availablePresences.map(
-                (presence) => { // eslint-disable-line
-                  return presence !== 'ready' && presence !== 'offline'
-                  ? <div
-                    id={`${presence}_reason`}
-                    key={`${presence}_reason`}
-                    style={presence !== this.props.readyState
-                    ? [this.styles.notReadyPresence]
-                    : [this.styles.notReadyPresence, this.styles.notReadyReasonsActive]}
-                    onClick={() => { this.changePresence(presence); this.props.showAgentStatusMenu(false); }}
-                  >
-                    {presence}
-                    {presence === this.props.readyState ? <img src={checkIcon} style={{ height: '17px', float: 'right' }} alt="checkIcon" /> : ''}
-                  </div>
-                  : '';
-                }
-              )
-            }
-            {
-              this.props.readyState !== 'ready'
+              this.props.readyState === 'ready'
               ? <div
-                id={`${this.props.readyState}_current_reason`}
-                key={`${this.props.readyState}_current_reason`}
-                style={[this.styles.notReadyPresence, this.styles.notReadyReasonsActive, { cursor: 'default' }]}
+                id="notReadyStateLink"
+                style={[this.styles.notReadyPresence, this.styles.inactivePresence]}
+                onClick={() => { this.changePresence('notready'); this.props.showAgentStatusMenu(false); }}
               >
-                {this.props.readyState}
+                <FormattedMessage {...messages.notReady} />
+              </div>
+              : <div
+                id="notReadyStateLink"
+                style={[this.styles.notReadyPresence, this.styles.notReadyReasonsActive]}
+              >
+                <FormattedMessage {...messages.notReady} />
                 <img src={checkIcon} style={{ height: '17px', float: 'right' }} alt="checkIcon" />
               </div>
-              : ''
             }
           </div>
-          {
-            this.props.readyState === 'ready'
-            ? <div
-              id="readyStateLink"
-              style={[this.styles.readyLink, this.styles.notReadyReasonsActive]}
-            >
-              <FormattedMessage {...messages.ready} />
-              <img src={checkIcon} style={{ height: '17px', float: 'right' }} alt="checkIcon" />
-            </div>
-            : <div
-              id="readyStateLink"
-              style={[this.styles.readyLink]}
-              onClick={() => { this.changePresence('ready'); this.props.showAgentStatusMenu(false); }}
-            >
-              <FormattedMessage {...messages.ready} />
-            </div>
-          }
+          <div id="agentReadyState" style={this.styles.agentReadyState}>
+            {
+              this.props.readyState === 'ready'
+              ? <div
+                id="readyStateLink"
+                style={[this.styles.readyLink, this.styles.notReadyReasonsActive]}
+              >
+                <FormattedMessage {...messages.ready} />
+                <img src={checkIcon} style={{ height: '17px', float: 'right' }} alt="checkIcon" />
+              </div>
+              : <div
+                id="readyStateLink"
+                style={[this.styles.readyLink, this.styles.inactivePresence]}
+                onClick={() => { this.changePresence('ready'); this.props.showAgentStatusMenu(false); }}
+              >
+                <FormattedMessage {...messages.ready} />
+              </div>
+            }
+          </div>
         </div>
       </span>
     );
@@ -306,7 +288,6 @@ AgentStatusMenu.propTypes = {
   tenant: PropTypes.object,
   // agentDirection: PropTypes.string,
   readyState: PropTypes.string,
-  availablePresences: PropTypes.array,
   setActiveExtension: PropTypes.func.isRequired,
 };
 

@@ -372,7 +372,6 @@ export class AgentDesktop extends React.Component {
                   }
                 </div>
                 <Toolbar
-                  availablePresences={this.props.agentDesktop.availablePresences}
                   tenant={this.props.login.tenant}
                   readyState={this.props.agentDesktop.presence}
                   agentDirection={this.props.agentDesktop.direction}
