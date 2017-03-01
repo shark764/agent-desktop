@@ -12,7 +12,7 @@ import Radium from 'radium';
 function Checkbox(props) {
   const { formatMessage } = props.intl;
   const styles = {
-    base: {
+    label: {
       fontSize: '16px',
       fontWeight: 'normal',
       fontStyle: 'normal',
@@ -20,8 +20,14 @@ function Checkbox(props) {
       color: '#494949',
       marginLeft: '0.5em',
       verticalAlign: 'middle',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      maxWidth: 'calc(100% - 25px)',
+      display: 'inline-block',
     },
     checkbox: {
+      verticalAlign: 'middle',
       height: '14px',
       width: '14px',
     },
@@ -32,6 +38,23 @@ function Checkbox(props) {
       props.cb(event.target.checked, event);
     }
   };
+
+  let label;
+  if (props.text === undefined) {
+    label = undefined;
+  } else if (typeof props.text === 'string') {
+    label = (
+      <label htmlFor={props.id} style={styles.label}>
+        { props.text }
+      </label>
+    );
+  } else {
+    label = (
+      <label htmlFor={props.id} style={styles.label}>
+        { formatMessage(props.text) }
+      </label>
+    );
+  }
 
   return (
     <span style={props.style}>
@@ -45,16 +68,18 @@ function Checkbox(props) {
         onBlur={props.onBlur}
         onChange={handleChange}
       />
-      {props.text ? <span style={styles.base}> {formatMessage(props.text)} </span> : null}
+      { label }
     </span>
   );
 }
 
-
 Checkbox.propTypes = {
   intl: intlShape.isRequired,
   name: PropTypes.string,
-  text: PropTypes.object,
+  text: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+  ]),
   cb: PropTypes.func,
   checked: PropTypes.bool.isRequired,
   style: PropTypes.object,

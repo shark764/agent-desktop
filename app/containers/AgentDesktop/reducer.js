@@ -39,6 +39,8 @@ import {
 } from './constants';
 
 const initialState = fromJS({
+  // // Uncomment to allow login screen to be hidden
+  // presence: 'notReady',
   interactions: [
     // // XXX uncomment below to mock interaction connecting to outbound (to see loading)
     // {
@@ -736,7 +738,8 @@ function agentDesktopReducer(state = initialState, action) {
           action.note !== undefined &&
           action.note.title !== undefined &&
           action.note.content !== undefined &&
-          action.note.notesPanelHeight !== undefined) {
+          action.note.notesPanelHeight !== undefined &&
+          action.note.selectedDispositions !== undefined) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
           interaction.set('note', fromJS(action.note))
         );

@@ -1,5 +1,7 @@
-### Unreleased
+<a name"0.5.2"></a>
+### 0.5.2 (2017-03-01)
 * build breaking typo fix in validator import
+* Disposition components (commented out, to be used later)
 
 <a name"0.5.1"></a>
 ### 0.5.1 (2017-02-28)

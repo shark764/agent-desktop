@@ -19,6 +19,12 @@ import {
 const initialState = fromJS({
   loading: false,
   showLogin: true,
+  // Uncomment below to hide login screen
+  // showLogin: false,
+  // agent: {
+  //   fistName: 'Tom',
+  //   lastName: 'Tucker',
+  // },
 });
 
 function loginReducer(state = initialState, action) {
