@@ -34,6 +34,9 @@ import {
   RECORD_CALL,
   STOP_RECORD_CALL,
   EMAIL_CREATE_REPLY,
+  EMAIL_ADD_ATTACHMENT,
+  EMAIL_REMOVE_ATTACHMENT,
+  EMAIL_UPDATE_REPLY,
   EMAIL_CANCEL_REPLY,
   UPDATE_NOTE,
 } from './constants';
@@ -61,6 +64,7 @@ const initialState = fromJS({
     //     from: 'j.englebert@yahoo.com',
     //     timestamp: new Date().toISOString(),
     //     subject: 'Files not uploading to my Cloud account',
+    //     attachments: [{ name: 'image.jpg', src: 'http://s14.postimg.org/mkyfiphgx/lgtm_with_gorilla.jpg' }, { name: 'PDF.pdf', src: 'http://www.pdf995.com/samples/pdf.pdf' }],
     //     content: 'Hello,<br/><br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br/><br/><b>John Englebert</b><br/>Software Developer<br/>An Organization<br/>313.218.9814',
     //   },
     // },
@@ -75,7 +79,8 @@ const initialState = fromJS({
     //     from: 'test@yahoo.com',
     //     timestamp: new Date().toISOString(),
     //     subject: 'Files not uploading to my Cloud account',
-    //     content: 'Hello,<br/><br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br/><br/><b>John Englebert</b><br/>Software Developer<br/>An Organization<br/>313.218.9814',
+    //     attachments: [],
+    //     content: 'Hello,<br/><br/><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f4dd.png" alt="image test" />Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br/><br/><b>John Englebert</b><br/>Software Developer<br/>An Organization<br/>313.218.9814',
     //   },
     // },
     //
@@ -702,6 +707,8 @@ function agentDesktopReducer(state = initialState, action) {
                   .set('reply', fromJS({
                     to: interaction.get('email').get('from'),
                     subject: `RE: ${interaction.get('email').get('subject')}`,
+                    attachments: [],
+                    message: '',
                   }))
                 )
               )
@@ -725,6 +732,44 @@ function agentDesktopReducer(state = initialState, action) {
                 )
               )
           );
+      } else {
+        return state;
+      }
+    }
+    case EMAIL_ADD_ATTACHMENT: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.setIn(['email', 'reply', 'attachments'], interaction.get('email').get('reply').get('attachments').push(fromJS({ name: action.attachment.name })))
+        );
+      } else {
+        return state;
+      }
+    }
+    case EMAIL_REMOVE_ATTACHMENT: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.setIn(['email', 'reply', 'attachments'], interaction.get('email').get('reply').get('attachments').filter((attachment) =>
+            attachment.get('name') !== action.attachment.name
+          ))
+        );
+      } else {
+        return state;
+      }
+    }
+    case EMAIL_UPDATE_REPLY: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.setIn(['email', 'reply', 'message'], action.reply)
+        );
       } else {
         return state;
       }

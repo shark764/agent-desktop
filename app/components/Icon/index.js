@@ -8,6 +8,7 @@ import React, { PropTypes } from 'react';
 import config from 'assets/icons/config.png';
 import search from 'assets/icons/search.png';
 import close from 'assets/icons/close.png';
+import attachment from 'assets/icons/attachment.png';
 import message from 'assets/icons/message.png';
 import messageNew from 'assets/icons/message_new.png';
 import messageDark from 'assets/icons/message_dark.png';
@@ -47,6 +48,11 @@ function Icon(props) {
       break;
     case 'close':
       icon = close;
+      break;
+    case 'attachment':
+      icon = attachment;
+      width = '16px';
+      height = '16px';
       break;
     case 'message':
       icon = message;
