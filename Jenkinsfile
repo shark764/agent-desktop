@@ -92,7 +92,7 @@ else if (pwd ==~ /.*master.*/ ) {
           sh "aws cloudfront create-invalidation --distribution-id E3MJXQEHZTM4FB --paths /*"
           hipchatSend color: 'GREEN',
                       credentialId: 'HipChat-API-Token',
-                      message: "<a href=\"https://github.com/liveops/${serviceName}\"><b>${serviceName}</b></a> was upgraded to ${build_version} (<a href="$URL">Open</a>)",
+                      message: "<a href=\"https://github.com/liveops/${serviceName}\"><b>${serviceName}</b></a> was upgraded to ${build_version} (<a href=\"${env.BLUE_OCEAN_URL}\">Open</a>)",
                       notify: true,
                       room: 'dev',
                       sendAs: 'Jenkins',
@@ -103,7 +103,7 @@ else if (pwd ==~ /.*master.*/ ) {
         catch(err) {
           hipchatSend color: 'RED',
                       credentialId: 'HipChat-API-Token',
-                      message: "Failed to upgrade <a href=\"https://github.com/liveops/${serviceName}\"><b>${serviceName}</b></a> to ${build_version} (<a href="$URL">Open</a>)",
+                      message: "Failed to upgrade <a href=\"https://github.com/liveops/${serviceName}\"><b>${serviceName}</b></a> to ${build_version} (<a href=\"${env.BLUE_OCEAN_URL}\">Open</a>)",
                       notify: true,
                       room: 'dev',
                       sendAs: 'Jenkins',
