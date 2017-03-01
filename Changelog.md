@@ -1,3 +1,27 @@
+<a name"0.5.9"></a>
+### 0.5.9 (2017-03-01)
+*  Error banner for contacts panel
+
+<a name"0.5.8"></a>
+### 0.5.8 (2017-03-01)
+* Fixing auto-deploy
+
+<a name"0.5.7"></a>
+### 0.5.7 (2017-03-01)
+* Fixing auto-deploy
+
+<a name"0.5.6"></a>
+### 0.5.6 (2017-03-01)
+* Fixing auto-deploy
+
+<a name"0.5.5"></a>
+### 0.5.5 (2017-03-01)
+* Fixing auto-deploy
+
+<a name"0.5.4"></a>
+### 0.5.4 (2017-03-01)
+* Fixing auto-deploy
+
 <a name"0.5.3"></a>
 ### 0.5.3 (2017-03-01)
 * "Notready" wording, styling

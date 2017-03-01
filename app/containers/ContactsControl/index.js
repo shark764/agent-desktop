@@ -15,6 +15,7 @@ import selectContactsControl, { selectSelectedInteraction, selectAttributes } fr
 import { setSearchResults, clearSearchResults } from './actions';
 import { assignContact } from '../AgentDesktop/actions';
 
+import ErrorBanner from 'components/ErrorBanner';
 import IconSVG from 'components/IconSVG';
 import Button from 'components/Button';
 import Filter from 'components/Filter';
@@ -35,6 +36,7 @@ export class ContactsControl extends React.Component {
       loading: false,
       isEditing: false,
       unassignedContactEditing: {},
+      errors: [],
     };
 
     this.setSearching = this.setSearching.bind(this);
@@ -57,6 +59,7 @@ export class ContactsControl extends React.Component {
     this.handleSave = this.handleSave.bind(this);
     this.saveCallback = this.saveCallback.bind(this);
     this.assignContactToSelected = this.assignContactToSelected.bind(this);
+    this.dismissError = this.dismissError.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -283,6 +286,7 @@ export class ContactsControl extends React.Component {
     },
     mainContact: {
       marginTop: '8px',
+      paddingRight: '5px',
       alignSelf: 'stretch',
       flexGrow: '1',
       flexShrink: '0',
@@ -333,6 +337,7 @@ export class ContactsControl extends React.Component {
       left: '-51px',
       display: 'flex',
       alignItems: 'stretch',
+      flexShrink: 0,
     },
     bannerHeaderText: {
       fontWeight: 'bold',
@@ -354,11 +359,17 @@ export class ContactsControl extends React.Component {
     console.log('[ContactsControl] SDK.subscribe()', topic, response);
     this.setState({ loading: false });
     if (error) {
-      console.error(error); // TODO: proper error display to user
+      const type = 'server'; // TODO: when errors are ready, get error from response?
+      this.setState({ errors: [...this.state.errors, { type, messageType: 'notSaved' }] });
+      console.error(error);
     } else {
       this.props.clearSearchResults();
       this.setNotEditing();
     }
+  }
+
+  dismissError(index) {
+    this.setState({ errors: [...this.state.errors.splice(1, index)] });
   }
 
   handleSave(attributes, contactId) {
@@ -439,7 +450,21 @@ export class ContactsControl extends React.Component {
 
   render() {
     return (
-      <div key="filler-key" style={[this.props.style, this.styles.base]}>
+      <div style={[this.props.style, this.styles.base]}>
+        {
+          this.state.errors.length ?
+            this.state.errors.map((error, index) =>
+              <ErrorBanner
+                id={`error${index}`}
+                key={index}
+                dismiss={() => this.dismissError(index)}
+                tryAgain={error.tryAgain}
+                errorType={error.type}
+                messageType={error.messageType}
+              />
+            )
+          : null
+        }
         { this.getHeader() }
         <div style={[this.styles.contacts]}>
           { this.getMainContent() }
