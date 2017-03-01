@@ -76,7 +76,6 @@ else if (pwd ==~ /.*master.*/ ) {
       error "Failed: ${err}"
     }
     finally {
-      // Cleanup Workspace
       step([$class: 'WsCleanup'])
     }
   }
@@ -84,12 +83,39 @@ else if (pwd ==~ /.*master.*/ ) {
     timeout(time:5, unit:'DAYS') {
       input "Deploy to Dev?"
       node() {
-        sh "aws s3 sync s3://cxengagelabs-jenkins/frontend/Agent-Desktop/${build_version}/ . --delete"
-        writeFile file: 'robin.json', text: "{ \"version\": \"${build_version}\"} "
-        writeFile file: 'config.json', text: "{ \"config\": { \"api\": \"dev-api.cxengagelabs.net/v1\", \"env\": \"dev\", \"domain\": \"cxengagelabs.net\", \"region\": \"us-east-1\", \"version\": \"${build_version}\" } }"
-        sh "aws s3 rm s3://dev-desktop.cxengagelabs.net/ --recursive"
-        sh "aws s3 sync . s3://dev-desktop.cxengagelabs.net/ --delete"
-        sh "aws cloudfront create-invalidation --distribution-id E3MJXQEHZTM4FB --paths /*"
+        try {
+          sh "aws s3 sync s3://cxengagelabs-jenkins/frontend/Agent-Desktop/${build_version}/ . --delete"
+          writeFile file: 'robin.json', text: "{ \"version\": \"${build_version}\"} "
+          writeFile file: 'config.json', text: "{ \"config\": { \"api\": \"dev-api.cxengagelabs.net/v1\", \"env\": \"dev\", \"domain\": \"cxengagelabs.net\", \"region\": \"us-east-1\", \"version\": \"${build_version}\" } }"
+          sh "aws s3 rm s3://dev-desktop.cxengagelabs.net/ --recursive"
+          sh "aws s3 sync . s3://dev-desktop.cxengagelabs.net/ --delete"
+          sh "aws cloudfront create-invalidation --distribution-id E3MJXQEHZTM4FB --paths /*"
+          hipchatSend color: 'GREEN',
+                      credentialId: 'HipChat-API-Token',
+                      message: "<a href=\"https://github.com/liveops/${serviceName}\"><b>${serviceName}</b></a> was upgraded to ${build_version} by <b>${BUILD_USER}</b> (@${BUILD_USER_ID}) (<a href="$URL">Open</a>)",
+                      notify: true,
+                      room: 'dev',
+                      sendAs: 'Jenkins',
+                      server: 'api.hipchat.com',
+                      textFormat: false,
+                      v2enabled: false
+        }
+        catch(err) {
+          hipchatSend color: 'RED',
+                      credentialId: 'HipChat-API-Token',
+                      message: "Failed to upgrade <a href=\"https://github.com/liveops/${serviceName}\"><b>${serviceName}</b></a> to ${build_version}. Deployed by <b>${BUILD_USER}</b> (@${BUILD_USER_ID}) (<a href="$URL">Open</a>)",
+                      notify: true,
+                      room: 'dev',
+                      sendAs: 'Jenkins',
+                      server: 'api.hipchat.com',
+                      textFormat: false,
+                      v2enabled: false
+          echo "Failed: ${err}"
+          error "Failed: ${err}"
+        }
+        finally {
+          step([$class: 'WsCleanup'])
+        }
       }
     }
   }
