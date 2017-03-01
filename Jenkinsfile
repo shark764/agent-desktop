@@ -85,8 +85,8 @@ else if (pwd ==~ /.*master.*/ ) {
       input "Deploy to Dev?"
       node() {
         sh "aws s3 sync s3://cxengagelabs-jenkins/frontend/Agent-Desktop/${build_version}/ . --delete"
-        writeFile file: 'robin.json', text: " \"{\"version\": \"${build_version}\"}\" "
-        writeFile file: 'config.json', text: " \"{\"config\": { \"api\": \"dev-api.cxengagelabs.net/v1\", \"env\": \"dev\", \"domain\": \"cxengagelabs.net\", \"region\": \"us-east-1\", \"version\": \"${build_version}\" }}\" "
+        writeFile file: 'robin.json', text: "{ \"version\": \"${build_version}\"} "
+        writeFile file: 'config.json', text: "{ \"config\": { \"api\": \"dev-api.cxengagelabs.net/v1\", \"env\": \"dev\", \"domain\": \"cxengagelabs.net\", \"region\": \"us-east-1\", \"version\": \"${build_version}\" } }"
         sh "aws s3 rm s3://dev-desktop.cxengagelabs.net/ --recursive"
         sh "aws s3 sync . s3://dev-desktop.cxengagelabs.net/ --delete"
         sh "aws cloudfront create-invalidation --distribution-id E3MJXQEHZTM4FB --paths /*"
