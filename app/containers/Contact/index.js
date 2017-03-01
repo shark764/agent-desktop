@@ -88,6 +88,8 @@ export class Contact extends React.Component {
 
   styles = {
     base: {
+      display: 'flex',
+      flexDirection: 'column',
       color: '#4B4B4B',
       fontSize: '14px',
       lineHeight: '20px',
@@ -161,8 +163,6 @@ export class Contact extends React.Component {
       border: 'solid 1px #F99CAC',
     },
     closeButton: {
-      height: '',
-      width: '',
       margin: '0',
       border: '0',
       order: '1',
@@ -470,7 +470,7 @@ export class Contact extends React.Component {
         }
         {
           this.props.isEditing
-            ? <div>
+            ? <div style={{ marginBottom: '28px' }}>
               <Button
                 id="contactSaveBtn"
                 style={this.styles.button}

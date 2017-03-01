@@ -1,4 +1,9 @@
 {
+  "app.components.ErrorBanner.networkError": "Network Error",
+  "app.components.ErrorBanner.notCreated": "Your new contact has not been created.",
+  "app.components.ErrorBanner.notSaved": "Your changes have not been saved.",
+  "app.components.ErrorBanner.serverError": "Server Error",
+  "app.components.ErrorBanner.tryAgain": "Try again.",
   "app.components.NotFoundPage.header": "Page Not Found",
   "app.components.TimerMinutes.hours": "h",
   "app.components.TimerMinutes.justNow": "Just Now",

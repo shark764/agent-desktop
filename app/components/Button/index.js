@@ -16,8 +16,6 @@ function Button(props) {
   let backgroundColorActive;
   let focusBorder;
   let boxSizing;
-  let width;
-  let height;
   let border;
   let borderRadius = '3px';
   let color = '#FFFFFF';
@@ -64,8 +62,6 @@ function Button(props) {
   }
   if (isIcon) {
     boxSizing = 'borderBox';
-    height = '36px';
-    width = '66px';
     padding = 'auto';
   }
 
@@ -80,9 +76,7 @@ function Button(props) {
       color,
       padding,
       cursor,
-      height,
       boxSizing,
-      width,
       outline: 'none',
       ':hover': {
         backgroundColor: backgroundColorHover,
