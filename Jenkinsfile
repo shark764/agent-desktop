@@ -103,7 +103,7 @@ else if (pwd ==~ /.*master.*/ ) {
         catch(err) {
           hipchatSend color: 'RED',
                       credentialId: 'HipChat-API-Token',
-                      message: "Failed to upgrade <a href=\"https://github.com/liveops/${serviceName}\"><b>${serviceName}</b></a> to ${build_version}. Deployed by <b>${BUILD_USER}</b> (@${BUILD_USER_ID}) (<a href="$URL">Open</a>)"",
+                      message: "Failed to upgrade <a href=\"https://github.com/liveops/${serviceName}\"><b>${serviceName}</b></a> to ${build_version}. Deployed by <b>${BUILD_USER}</b> (@${BUILD_USER_ID}) (<a href="$URL">Open</a>)",
                       notify: true,
                       room: 'dev',
                       sendAs: 'Jenkins',
