@@ -174,6 +174,7 @@ export class AgentDesktop extends React.Component {
           this.props.setInteractionStatus(response.interactionId, 'work-accepted');
           break;
         }
+        case 'cxengage/interactions/wrapup-end':
         case 'cxengage/interactions/work-rejected':
         case 'cxengage/interactions/work-ended': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
@@ -247,6 +248,11 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/contacts/update-response': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.updateContact(response);
+          break;
+        }
+        case 'cxengage/interactions/wrapup-started': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.setInteractionStatus(response.interactionId, 'wrapup');
           break;
         }
         // Igonore these pubsubs. They are unneeded or handled elsewhere.

@@ -30,14 +30,14 @@ const selectInteractionsBar = () => createSelector(
 const selectActiveNonVoiceInteractions = createSelector(
   selectInteractions,
   (interactions) => interactions.toJS().filter(
-    (interaction) => (interaction.status === 'work-accepting' || interaction.status === 'work-accepted') && interaction.channelType !== 'voice'
+    (interaction) => (interaction.status === 'work-accepting' || interaction.status === 'work-accepted' || interaction.status === 'wrapup') && interaction.channelType !== 'voice'
   )
 );
 
 const selectActiveVoiceInteraction = createSelector(
   selectInteractions,
   (interactions) => interactions.toJS().find(
-    (interaction) => (interaction.status === 'work-accepting' || interaction.status === 'work-accepted') && interaction.channelType === 'voice'
+    (interaction) => (interaction.status === 'work-accepting' || interaction.status === 'work-accepted' || interaction.status === 'wrapup') && interaction.channelType === 'voice'
   )
 );
 

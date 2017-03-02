@@ -29,7 +29,11 @@ export class MainContentArea extends React.Component {
   };
 
   endInteraction() {
-    SDK.interactions.end({ interactionId: this.props.selectedInteraction.interactionId });
+    if (this.props.selectedInteraction.status === 'wrapup') {
+      SDK.interactions.endWrapup({ interactionId: this.props.selectedInteraction.interactionId });
+    } else {
+      SDK.interactions.end({ interactionId: this.props.selectedInteraction.interactionId });
+    }
   }
 
   render() {

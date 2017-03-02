@@ -1,3 +1,11 @@
+<a name"0.6.0"></a>
+### 0.6.0 (2017-03-02)
+* Barebones wrapup handling
+
+<a name"0.5.10"></a>
+### 0.5.10 (2017-03-01)
+* Fixing auto-deploy
+
 <a name"0.5.9"></a>
 ### 0.5.9 (2017-03-01)
 *  Error banner for contacts panel

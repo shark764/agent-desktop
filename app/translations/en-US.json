@@ -83,6 +83,7 @@
   "app.containers.TransferMenu.search": "Search",
   "app.containers.TransferMenu.transfer": "Transfer",
   "app.containers.TransferMenu.warmTransfer": "Warm Transfer",
+  "app.containers.VoiceContentArea.endWrapup": "End Wrap Up",
   "app.containers.VoiceContentArea.hangUp": "Hang Up",
   "app.containers.WelcomeStats.welcome": "Welcome,",
   "app.contianers.Login.password": "Password"

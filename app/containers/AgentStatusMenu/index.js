@@ -160,7 +160,7 @@ export class AgentStatusMenu extends React.Component {
     arrow: {
       float: 'right',
     },
-  }
+  };
 
   changePresence(newPresence) {
     if (newPresence === 'ready') {

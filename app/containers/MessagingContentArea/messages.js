@@ -10,4 +10,8 @@ export default defineMessages({
     id: 'app.containers.MessagingContentArea.endChat',
     defaultMessage: 'End Chat',
   },
+  endWrapup: {
+    id: 'app.containers.VoiceContentArea.endWrapup',
+    defaultMessage: 'End Wrap Up',
+  },
 });

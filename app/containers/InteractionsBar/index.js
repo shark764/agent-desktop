@@ -52,9 +52,11 @@ export class InteractionsBar extends React.Component {
           style={{ float: 'left' }}
         />
         <div style={{ float: 'left', marginLeft: '14px', width: '211px' }}>
-          <div style={{ float: 'right' }}>
-            <Timer format="mm:ss" />
-          </div>
+          {this.props.activeVoiceInteraction.status !== 'wrapup' ?
+            <div style={{ float: 'right' }}>
+              <Timer format="mm:ss" />
+            </div>
+          : undefined }
           <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px', width: 'calc(100% - 57px)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {this.props.activeVoiceInteraction.contact !== undefined ? this.props.activeVoiceInteraction.contact.attributes.name : this.props.activeVoiceInteraction.number}
           </div>
@@ -115,9 +117,11 @@ export class InteractionsBar extends React.Component {
             style={{ float: 'left' }}
           />
           <div style={{ float: 'left', marginLeft: '14px', width: '211px' }}>
-            <div style={{ float: 'right' }}>
-              <TimerMinutes />
-            </div>
+            {activeInteraction.status !== 'wrapup' ?
+              <div style={{ float: 'right' }}>
+                <TimerMinutes />
+              </div>
+            : undefined }
             <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px', width: 'calc(100% - 57px)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {from}
             </div>
