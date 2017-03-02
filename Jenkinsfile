@@ -1,20 +1,20 @@
 @Library('sprockets') _
-import clj.pr
-import clj.build
+import node.pr
+import node.build
+import deploy.front-end
+
 node {
 pwd = pwd()
 }
-// Fill in Service Name
-def repoName = 'agent-desktop'
-def serviceName = 'Agent-Desktop'
+def service = 'Agent-Desktop'
 if (pwd ==~ /.*PR.*/ ) { // Run if Job is a Pull Request
   node() {
-    def p = new clj.pr()
+    def p = new node.pr()
     try {
       timeout(time: 1, unit: 'HOURS') {
         ansiColor('xterm') {
           stage ('SCM Checkout') { // Checkout Source Code
-            checkout scm
+            p.checkout()
           }
           stage ('Export Properties') { // Export Properties
             sh "node -e  \"console.log(require('./package.json').version);\" | xargs echo -n > version"
@@ -22,27 +22,27 @@ if (pwd ==~ /.*PR.*/ ) { // Run if Job is a Pull Request
             p.setDisplayName("${pr_version}")
           }
           stage ('Notify Success') { // Hipchat Notification of Success
-            p.hipchatSuccess("${serviceName}", "${pr_version}")
+            p.hipchatSuccess("${service}", "${pr_version}")
           }
         }
       }
     }
     catch (err) {
       // Hipchat Notification of Failure
-      p.hipchatFailure("${serviceName}", "${pr_version}")
+      p.hipchatFailure("${service}", "${pr_version}")
       echo "Failed: ${err}"
       error "Failed: ${err}"
     }
     finally {
       // Cleanup Workspace
-      step([$class: 'WsCleanup'])
+      p.cleanup()
     }
   }
 }
 // Run Job on Commit to Master Branch
 else if (pwd ==~ /.*master.*/ ) {
   node() {
-    def b = new clj.build()
+    def b = new node.build()
     try {
       timeout(time: 1, unit: 'HOURS') { // Timeout If Job is stuck
         ansiColor('xterm') { // Enable Color
@@ -61,55 +61,39 @@ else if (pwd ==~ /.*master.*/ ) {
             sh 'npm run build'
           }
           stage ('Push') { // Publish to S3
-            sh "aws s3 sync ./build/ s3://cxengagelabs-jenkins/frontend/Agent-Desktop/${build_version}/ --delete"
+            b.push("${service}", "${build_version}")
           }
           stage ('Notify Success') { // Notify Hipchat of Success
-            b.hipchatSuccess("${serviceName}", "${build_version}")
+            b.hipchatSuccess("${service}", "${build_version}")
           }
         }
       }
     }
     catch (err) {
       // Hipchat of Failure
-      b.hipchatFailure("${serviceName}", "${build_version}")
+      b.hipchatFailure("${service}", "${build_version}")
       echo "Failed: ${err}"
       error "Failed: ${err}"
     }
     finally {
-      step([$class: 'WsCleanup'])
+      b.cleanup()
     }
   }
   stage ('Deploy - Dev') {
     timeout(time:5, unit:'DAYS') {
       input "Deploy to Dev?"
       node() {
+        def d = new deploy.front-end()
         try {
-          sh "aws s3 sync s3://cxengagelabs-jenkins/frontend/Agent-Desktop/${build_version}/ . --delete"
-          writeFile file: 'robin.json', text: "{ \"version\": \"${build_version}\"} "
-          writeFile file: 'config.json', text: "{ \"config\": { \"api\": \"dev-api.cxengagelabs.net/v1\", \"env\": \"dev\", \"domain\": \"cxengagelabs.net\", \"region\": \"us-east-1\", \"version\": \"${build_version}\" } }"
-          sh "aws s3 rm s3://dev-desktop.cxengagelabs.net/ --recursive"
-          sh "aws s3 sync . s3://dev-desktop.cxengagelabs.net/ --delete"
-          sh "aws cloudfront create-invalidation --distribution-id E3MJXQEHZTM4FB --paths /*"
-          hipchatSend color: 'GREEN',
-                      credentialId: 'HipChat-API-Token',
-                      message: "<a href=\"https://github.com/liveops/${serviceName}\"><b>${serviceName}</b></a> was upgraded to ${build_version} by <b>${env.BUILD_USER}</b> (@${env.BUILD_USER_ID}) (<a href=\"${env.BUILD_URL}\">Open</a>)",
-                      notify: true,
-                      room: 'dev',
-                      sendAs: 'Jenkins',
-                      server: 'api.hipchat.com',
-                      textFormat: false,
-                      v2enabled: false
+          d.pull("${service}", "${build_version}")
+          d.versionFile("${build_version}")
+          d.confFile("dev", "${build_version}")
+          d.deploy("dev","${service}")
+          d.invalidate("E3MJXQEHZTM4FB")
+          d.hipchatSuccess("${service}", "${build_version}")
         }
         catch(err) {
-          hipchatSend color: 'RED',
-                      credentialId: 'HipChat-API-Token',
-                      message: "Failed to upgrade <a href=\"https://github.com/liveops/${serviceName}\"><b>${serviceName}</b></a> to ${build_version}. Deployed by <b>${env.BUILD_USER}</b> (@${env.BUILD_USER_ID}) (<a href=\"${env.BUILD_URL}\">Open</a>)",
-                      notify: true,
-                      room: 'dev',
-                      sendAs: 'Jenkins',
-                      server: 'api.hipchat.com',
-                      textFormat: false,
-                      v2enabled: false
+          d.hipchatFailure("${service}". "${version}")
           echo "Failed: ${err}"
           error "Failed: ${err}"
         }
