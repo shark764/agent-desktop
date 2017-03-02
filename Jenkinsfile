@@ -93,7 +93,7 @@ else if (pwd ==~ /.*master.*/ ) {
           d.hipchatSuccess("${service}", "${build_version}")
         }
         catch(err) {
-          d.hipchatFailure("${service}". "${version}")
+          d.hipchatFailure("${service}", "${version}")
           echo "Failed: ${err}"
           error "Failed: ${err}"
         }
