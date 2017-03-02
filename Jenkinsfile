@@ -1,7 +1,7 @@
 @Library('sprockets') _
 import node.pr
 import node.build
-import deploy.front-end
+import deploy.frontend
 
 node {
 pwd = pwd()
@@ -83,7 +83,7 @@ else if (pwd ==~ /.*master.*/ ) {
     timeout(time:5, unit:'DAYS') {
       input "Deploy to Dev?"
       node() {
-        def d = new deploy.front-end()
+        def d = new deploy.frontend()
         try {
           d.pull("${service}", "${build_version}")
           d.versionFile("${build_version}")
