@@ -150,9 +150,9 @@ export class MessagingContentArea extends React.Component {
 
     const buttons = (
       <Button
-        id="end-chat-button"
+        id={this.props.selectedInteraction.status === 'wrapup' ? 'wrapup-button' : 'end-chat-button'}
         type="primaryBlue"
-        text={messages.endChat}
+        text={this.props.selectedInteraction.status === 'wrapup' ? messages.endWrapup : messages.endChat}
         onClick={this.props.endInteraction}
         disabled={isAccepting}
       />

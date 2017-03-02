@@ -51,9 +51,9 @@ export class VoiceContentArea extends React.Component { // eslint-disable-line r
 
     const buttons = (
       <Button
-        id="hang-up-button"
+        id={this.props.selectedInteraction.status === 'wrapup' ? 'wrapup-button' : 'hang-up-button'}
         type="primaryRed"
-        text={messages.hangUp}
+        text={this.props.selectedInteraction.status === 'wrapup' ? messages.endWrapup : messages.hangUp}
         onClick={this.props.endInteraction}
         disabled={isAccepting}
       />

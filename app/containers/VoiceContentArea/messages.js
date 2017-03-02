@@ -10,4 +10,8 @@ export default defineMessages({
     id: 'app.containers.VoiceContentArea.hangUp',
     defaultMessage: 'Hang Up',
   },
+  endWrapup: {
+    id: 'app.containers.VoiceContentArea.endWrapup',
+    defaultMessage: 'End Wrap Up',
+  },
 });
