@@ -28,7 +28,7 @@ module.exports = {
         loader: 'imports?define=>false,require=>false',
       },
       { test: /\.js$/,
-        loader: 'babel',
+        loader: 'babel-loader',
         exclude: [/node_modules/, /cxengagesdk/],
       },
       { test: /\.jpe?g$|\.gif$|\.png$|\.svg$/i,
@@ -36,7 +36,7 @@ module.exports = {
       },
       {
         test: /\.otf$/,
-        loader: 'url',
+        loader: 'url-loader',
         query: {
           limit: 50000,
           mimetype: 'application/opentype',

@@ -6,14 +6,15 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import selectToolbar from './selectors';
 import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 import Radium from 'radium';
 
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 import AgentStatusMenu from 'containers/AgentStatusMenu';
+
+import selectToolbar from './selectors';
+import messages from './messages';
 
 import { showAgentStatusMenu } from './actions';
 
@@ -62,14 +63,17 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       height: '47px',
       minWidth: '160px',
       borderRadius: this.props.agentStatusMenu ? '3px' : '0px',
+      border: 'none',
       backgroundColor: this.props.agentStatusMenu ? '#E43D5A' : 'transparent',
       ':hover': {
         borderRadius: '2px',
+        border: 'none',
         boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
         backgroundColor: '#E43D5A',
       },
       ':focus': {
         borderRadius: '2px',
+        border: 'none',
         boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
         backgroundColor: '#CB3750',
       },
@@ -86,9 +90,11 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       height: '47px',
       minWidth: '160px',
       borderRadius: this.props.agentStatusMenu ? '3px' : '0px',
+      border: 'none',
       backgroundColor: this.props.agentStatusMenu ? '#E43D5A' : 'transparent',
       ':hover': {
         borderRadius: '2px',
+        border: 'none',
         boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
         backgroundColor: '#093742',
       },

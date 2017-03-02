@@ -137,6 +137,7 @@ export class ContentArea extends React.Component {
     },
     notesTitleInput: {
       marginLeft: '6px',
+      border: 'none',
       ':focus': {
         outline: 'none',
       },
