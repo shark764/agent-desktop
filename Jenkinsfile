@@ -7,7 +7,6 @@ node {
 pwd = pwd()
 }
 def service = 'Agent-Desktop'
-def name = 'agent-desktop'
 if (pwd ==~ /.*PR.*/ ) { // Run if Job is a Pull Request
   node() {
     def p = new node.pr()
@@ -89,7 +88,7 @@ else if (pwd ==~ /.*master.*/ ) {
           d.pull("${service}", "${build_version}")
           d.versionFile("${build_version}")
           d.confFile("dev", "${build_version}")
-          d.deploy("dev","${name}")
+          d.deploy("dev","desktop")
           d.invalidate("E3MJXQEHZTM4FB")
           d.hipchatSuccess("${service}", "${build_version}")
         }
