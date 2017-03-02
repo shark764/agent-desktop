@@ -90,10 +90,10 @@ else if (pwd ==~ /.*master.*/ ) {
           d.confFile("dev", "${build_version}")
           d.deploy("dev","desktop")
           d.invalidate("E3MJXQEHZTM4FB")
-          d.hipchatSuccess("${service}", "${build_version}", "${submitter}")
+          d.hipchatSuccess("${service}", "${build_version}", "${env.BUILD_USER}")
         }
         catch(err) {
-          d.hipchatFailure("${service}", "${build_version}", "${submitter}")
+          d.hipchatFailure("${service}", "${build_version}", "${env.BUILD_USER}")
           echo "Failed: ${err}"
           error "Failed: ${err}"
         }
