@@ -81,7 +81,7 @@ else if (pwd ==~ /.*master.*/ ) {
   }
   stage ('Deploy - Dev') {
     timeout(time:5, unit:'DAYS') {
-      input "Deploy to Dev?"
+      input message: 'Deploy to Dev?', submitterParameter: 'submitter'
       node() {
         def d = new deploy.frontend()
         try {
@@ -90,10 +90,10 @@ else if (pwd ==~ /.*master.*/ ) {
           d.confFile("dev", "${build_version}")
           d.deploy("dev","desktop")
           d.invalidate("E3MJXQEHZTM4FB")
-          d.hipchatSuccess("${service}", "${build_version}")
+          d.hipchatSuccess("${service}", "${build_version}", "${submitter}")
         }
         catch(err) {
-          d.hipchatFailure("${service}", "${build_version}")
+          d.hipchatFailure("${service}", "${build_version}", "${submitter}")
           echo "Failed: ${err}"
           error "Failed: ${err}"
         }
