@@ -12,9 +12,13 @@ import Icon from 'components/Icon';
 class CircleIconButton extends React.Component {
   styles = {
     base: {
+      border: 'none',
       borderRadius: '50%',
       outline: 'none',
       padding: 0,
+      ':focus': {
+        border: 'none',
+      },
     },
   };
 

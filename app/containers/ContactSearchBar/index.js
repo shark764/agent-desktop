@@ -10,12 +10,13 @@ import Radium from 'radium';
 import { injectIntl } from 'react-intl';
 import Autocomplete from 'react-autocomplete';
 
-import { selectSearchableAttributes } from './selectors';
 
 import search from 'assets/icons/search.png';
 
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
+
+import { selectSearchableAttributes } from './selectors';
 
 export class ContactSearchBar extends React.Component {
   constructor(props) {
@@ -141,6 +142,7 @@ export class ContactSearchBar extends React.Component {
       height: '100%',
       width: '100%',
       outline: 'none',
+      border: 'none',
       ':focus': {
         outline: 'none',
       },

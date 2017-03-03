@@ -14,7 +14,7 @@ module.exports = (options) => ({
   module: {
     loaders: [{
       test: /\.js$/, // Transform all .js files required somewhere with Babel
-      loader: 'babel',
+      loader: 'babel-loader',
       exclude: [/node_modules/, /cxengagesdk/],
       query: options.babelQuery,
     }, {
@@ -26,7 +26,7 @@ module.exports = (options) => ({
     },
     {
       test: /\.[ot]tf$/,
-      loader: 'url',
+      loader: 'url-loader',
       query: {
         limit: 50000,
         mimetype: 'application/opentype',
@@ -36,7 +36,7 @@ module.exports = (options) => ({
       test: /\.(jpg|png|gif)$/,
       loaders: [
         'file-loader',
-        'image-webpack?{progressive:true, pngquant:{quality: "65-90", speed: 4}}',
+        'image-webpack-loader?{progressive:true, pngquant:{quality: "65-90", speed: 4}}',
       ],
     }, {
       test: /\.html$/,
