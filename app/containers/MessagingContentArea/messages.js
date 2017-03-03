@@ -14,4 +14,8 @@ export default defineMessages({
     id: 'app.containers.VoiceContentArea.endWrapup',
     defaultMessage: 'End Wrap Up',
   },
+  send: {
+    id: 'app.containers.VoiceContentArea.send',
+    defaultMessage: 'Send',
+  },
 });

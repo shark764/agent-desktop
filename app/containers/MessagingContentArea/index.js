@@ -6,15 +6,15 @@
 
 import React, { PropTypes } from 'react';
 import Radium from 'radium';
-
-import messages from './messages';
-import { FormattedTime } from 'react-intl';
+import { FormattedMessage, FormattedTime } from 'react-intl';
 
 import Avatar from 'components/Avatar';
 import Button from 'components/Button';
 import LoadingText from 'components/LoadingText';
 
 import ContentArea from 'containers/ContentArea';
+
+import messages from './messages';
 
 export class MessagingContentArea extends React.Component {
 
@@ -25,6 +25,7 @@ export class MessagingContentArea extends React.Component {
     };
     this.setMessageText = this.setMessageText.bind(this);
     this.sendMessageOnEnter = this.sendMessageOnEnter.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
   }
 
   componentDidUpdate() {
@@ -40,18 +41,22 @@ export class MessagingContentArea extends React.Component {
   }
 
   sendMessageOnEnter(e) {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      if (this.state.messageText.trim() !== '') {
-        SDK.interactions.messaging.sendMessage({
-          interactionId: this.props.selectedInteraction.interactionId,
-          message: this.state.messageText,
-        });
-        this.setMessageText('');
-      }
+      this.sendMessage();
       return false;
     } else {
       return true;
+    }
+  }
+
+  sendMessage() {
+    if (this.state.messageText.trim() !== '') {
+      SDK.interactions.messaging.sendMessage({
+        interactionId: this.props.selectedInteraction.interactionId,
+        message: this.state.messageText,
+      });
+      this.setMessageText('');
     }
   }
 
@@ -116,14 +121,27 @@ export class MessagingContentArea extends React.Component {
       flex: '1 1 auto',
       overflowY: 'auto',
     },
-    messageTextarea: {
+    messageTextareaContainer: {
       flex: '0 1 36px',
-      minHeight: '36px',
+    },
+    messageTextarea: {
       padding: '4px',
       resize: 'none',
-      borderRadius: '3px',
-      border: '1px solid #23CEF5',
+      borderRadius: '3px 0  0 3px',
+      borderTop: '1px solid #23CEF5',
+      borderBottom: '1px solid #23CEF5',
+      borderLeft: '1px solid #23CEF5',
       boxShadow: '0 0 6px 0 rgba(0,0,0,0.07)',
+      height: '36px',
+      width: 'calc(100% - 50px)',
+    },
+    messageButton: {
+      height: '36px',
+      width: '50px',
+      verticalAlign: 'top',
+      fontSize: '11px',
+      padding: 0,
+      borderRadius: '0 3px 3px 0',
     },
   };
 
@@ -207,13 +225,18 @@ export class MessagingContentArea extends React.Component {
           <div id="message-history" style={this.styles.messageHistory}>
             {messageHistory}
           </div>
-          <textarea
-            id="messageTextarea"
-            style={this.styles.messageTextarea}
-            value={this.state.messageText}
-            onChange={(e) => this.setMessageText(e.target.value)}
-            onKeyPress={this.sendMessageOnEnter}
-          />
+          <div style={this.styles.messageTextareaContainer}>
+            <textarea
+              id="messageTextarea"
+              style={this.styles.messageTextarea}
+              value={this.state.messageText}
+              onChange={(e) => this.setMessageText(e.target.value)}
+              onKeyPress={this.sendMessageOnEnter}
+            />
+            <Button id="sendMessageButton" onClick={this.sendMessage} type="secondary" style={this.styles.messageButton}>
+              <FormattedMessage {...messages.send} />
+            </Button>
+          </div>
         </div>
       );
     }
