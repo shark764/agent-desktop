@@ -48,6 +48,8 @@
   "app.containers.ContentArea.notes": "Notes",
   "app.containers.ContentArea.notesPlaceholder": "Enter interaction notes here",
   "app.containers.ContentArea.notesTitlePlaceholder": "Untitled Interaction",
+  "app.containers.EmailContentArea.addAttachment": "Add an attachment",
+  "app.containers.EmailContentArea.addMessage": "Add a message",
   "app.containers.EmailContentArea.cancel": "Cancel",
   "app.containers.EmailContentArea.reply": "Reply",
   "app.containers.EmailContentArea.send": "Send",

@@ -1,3 +1,27 @@
+<a name"0.6.6"></a>
+### 0.6.6 (2017-03-03)
+* Email UI improvements
+
+<a name"0.6.5"></a>
+### 0.6.5 (2017-03-03)
+* Fixing Jenkins pipeline
+
+<a name"0.6.4"></a>
+### 0.6.4 (2017-03-03)
+* Fixing Jenkins pipeline
+
+<a name"0.6.3"></a>
+### 0.6.3 (2017-03-03)
+* Fixing Jenkins pipeline
+
+<a name"0.6.2"></a>
+### 0.6.2 (2017-03-03)
+* Fixing Jenkins pipeline
+
+<a name"0.6.1"></a>
+### 0.6.1 (2017-03-03)
+* Fixing Jenkins pipeline
+
 <a name"0.6.0"></a>
 ### 0.6.0 (2017-03-02)
 * Barebones wrapup handling

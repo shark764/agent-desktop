@@ -33,6 +33,9 @@ import {
   RECORD_CALL,
   STOP_RECORD_CALL,
   EMAIL_CREATE_REPLY,
+  EMAIL_ADD_ATTACHMENT,
+  EMAIL_REMOVE_ATTACHMENT,
+  EMAIL_UPDATE_REPLY,
   EMAIL_CANCEL_REPLY,
   UPDATE_NOTE,
 } from './constants';
@@ -234,6 +237,30 @@ export function emailCreateReply(interactionId) {
   return {
     type: EMAIL_CREATE_REPLY,
     interactionId,
+  };
+}
+
+export function emailAddAttachment(interactionId, attachment) {
+  return {
+    type: EMAIL_ADD_ATTACHMENT,
+    interactionId,
+    attachment,
+  };
+}
+
+export function emailRemoveAttachment(interactionId, attachment) {
+  return {
+    type: EMAIL_REMOVE_ATTACHMENT,
+    interactionId,
+    attachment,
+  };
+}
+
+export function emailUpdateReply(interactionId, reply) {
+  return {
+    type: EMAIL_UPDATE_REPLY,
+    interactionId,
+    reply,
   };
 }
 

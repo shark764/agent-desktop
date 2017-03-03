@@ -26,4 +26,12 @@ export default defineMessages({
     id: 'app.containers.EmailContentArea.cancel',
     defaultMessage: 'Cancel',
   },
+  addAttachment: {
+    id: 'app.containers.EmailContentArea.addAttachment',
+    defaultMessage: 'Add an attachment',
+  },
+  addMessage: {
+    id: 'app.containers.EmailContentArea.addMessage',
+    defaultMessage: 'Add a message',
+  },
 });

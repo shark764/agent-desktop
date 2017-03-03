@@ -115,7 +115,7 @@ export class ContentArea extends React.Component {
     },
     details: {
       fontSize: '12px',
-      padding: '10px',
+      padding: '10px 0',
     },
     content: {
       flex: '1 1 auto',
@@ -254,7 +254,7 @@ export class ContentArea extends React.Component {
             </div>
           </div>
         </div>
-        <Resizable id="notes-resizable" direction="top" setPx={this.setNotesPanelHeight} disabledPx={50} px={this.state.notesPanelHeight} maxPx={600} minPx={50} isDisabled={false} >
+        <Resizable id="notes-resizable" direction="top" setPx={this.setNotesPanelHeight} disabledPx={50} px={this.state.notesPanelHeight} maxPx={600} minPx={125} isDisabled={false} >
           <div style={this.styles.notesArea}>
             <div style={this.styles.notesTitleContainer}>
               <FormattedMessage {...messages.notes} />
