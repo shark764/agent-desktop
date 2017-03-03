@@ -87,6 +87,7 @@
   "app.containers.TransferMenu.warmTransfer": "Warm Transfer",
   "app.containers.VoiceContentArea.endWrapup": "End Wrap Up",
   "app.containers.VoiceContentArea.hangUp": "Hang Up",
+  "app.containers.VoiceContentArea.send": "Send",
   "app.containers.WelcomeStats.welcome": "Welcome,",
   "app.contianers.Login.password": "Password"
 }

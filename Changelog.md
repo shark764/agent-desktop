@@ -1,3 +1,12 @@
+<a name"0.7.1"></a>
+### 0.7.1 (2017-03-03)
+* Send button for messages
+* Shift+enter makes new new lines on messages
+
+<a name"0.7.0"></a>
+### 0.7.0 (2017-03-03)
+* Fixing Jenkins pipeline
+
 <a name"0.6.6"></a>
 ### 0.6.6 (2017-03-03)
 * Email UI improvements

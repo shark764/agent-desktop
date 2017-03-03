@@ -116,8 +116,10 @@ function Button(props) {
     inner = <Icon name={props.iconName} />;
   } else if (typeof props.text === 'object') {
     inner = <FormattedMessage {...props.text} />;
-  } else {
+  } else if (typeof props.text === 'string') {
     inner = props.text;
+  } else {
+    inner = props.children;
   }
 
   return (
@@ -130,6 +132,7 @@ function Button(props) {
 Button.propTypes = {
   text: PropTypes.any,
   iconName: PropTypes.string,
+  children: PropTypes.element,
   tabIndex: PropTypes.number,
   type: PropTypes.oneOf(['primaryBlue', 'primaryBlueBig', 'primaryRed', 'secondary']).isRequired,
   style: PropTypes.object,
