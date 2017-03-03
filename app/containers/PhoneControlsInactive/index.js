@@ -56,9 +56,11 @@ export class PhoneControlsInactive extends React.Component {
   }
 
   call() {
-    this.props.startOutboundInteraction('voice');
-    SDK.interactions.voice.dial({ phoneNumber: this.state.dialpadText });
-    this.setState({ showDialpad: false });
+    if (this.state.dialpadTextValid) {
+      this.props.startOutboundInteraction('voice');
+      SDK.interactions.voice.dial({ phoneNumber: this.state.dialpadText });
+      this.setState({ showDialpad: false });
+    }
   }
 
   styles = {
@@ -97,11 +99,11 @@ export class PhoneControlsInactive extends React.Component {
               ? <div>
                 <div style={[this.props.style.topTriangle, this.styles.dialpadTopTriangle]}></div>
                 <div style={[this.props.style.phoneControlsPopupMenu, this.styles.dialpadPhoneControlsPopupMenu]}>
-                  <Dialpad id="dialpad" setDialpadText={this.setDialpadText} dialpadText={this.state.dialpadText} />
+                  <Dialpad id="dialpad" setDialpadText={this.setDialpadText} dialpadText={this.state.dialpadText} onEnter={this.call} />
                   <Button id="callButton" text={messages.call} disabled={!this.state.dialpadTextValid} onClick={this.call} type="primaryBlue" style={this.styles.callButton} />
                 </div>
               </div>
-              : ''
+              : undefined
             }
           </div>
         );

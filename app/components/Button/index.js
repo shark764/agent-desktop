@@ -78,13 +78,10 @@ function Button(props) {
       cursor,
       boxSizing,
       outline: 'none',
-      border: 'none',
       ':hover': {
-        border: 'none',
         backgroundColor: backgroundColorHover,
       },
       ':active': {
-        border: 'none',
         backgroundColor: backgroundColorActive,
       },
     },

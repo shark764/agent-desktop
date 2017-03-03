@@ -58,7 +58,16 @@ function TextInput(props) {
       placeholder={getPlaceholder()}
       onChange={(e) => props.cb(e.target.value, e)}
       autoComplete={props.autocomplete || 'on'}
-      onKeyUp={props.onKeyUp || ''}
+      onKeyUp={
+        (e) => {
+          if (props.onKeyUp !== undefined) {
+            props.onKeyUp(e);
+          }
+          if (props.onEnter !== undefined && e.key === 'Enter') {
+            props.onEnter();
+          }
+        }
+      }
       onKeyDown={props.onKeyDown || ''}
       autoFocus={props.autoFocus}
       onBlur={props.onBlur}
@@ -69,7 +78,8 @@ function TextInput(props) {
 TextInput.propTypes = {
   intl: intlShape.isRequired,
   placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.object]), // eslint-disable-line react/no-unused-prop-types
-  cb: PropTypes.func.isRequired,
+  cb: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  onEnter: PropTypes.func,
   autocomplete: PropTypes.string,
   tabIndex: PropTypes.number,
   name: PropTypes.string,
