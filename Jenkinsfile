@@ -55,7 +55,7 @@ else if (pwd ==~ /.*master.*/ ) {
             b.setDisplayName("${build_version}")
           }
           stage ('Build') { // Build Website
-            def nodeHome = tool name: '5.3.0 and Gulp and Bower', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+            def nodeHome = tool name: 'Latest', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
             env.PATH = "${nodeHome}/bin:${env.PATH}"
             sh 'npm install'
             sh 'npm run build'
