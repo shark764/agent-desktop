@@ -1,3 +1,4 @@
+#!groovy​
 @Library('sprockets') _
 import node.pr
 import node.build
@@ -17,7 +18,7 @@ if (pwd ==~ /.*PR.*/ ) { // Run if Job is a Pull Request
             p.checkout()
           }
           stage ('Export Properties') { // Export Properties
-            sh "node -e  \"console.log(require('./package.json').version);\" | xargs echo -n > version"
+            p.export()
             pr_version = readFile('version')
             p.setDisplayName("${pr_version}")
           }
@@ -50,15 +51,12 @@ else if (pwd ==~ /.*master.*/ ) {
             checkout scm
           }
           stage ('Export Properties') { // Get Service Version
-            sh "node -e  \"console.log(require('./package.json').version);\" | xargs echo -n > version"
+            b.export()
             build_version = readFile('version')
             b.setDisplayName("${build_version}")
           }
           stage ('Build') { // Build Website
-            def nodeHome = tool name: 'Latest', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-            env.PATH = "${nodeHome}/bin:${env.PATH}"
-            sh 'npm install'
-            sh 'npm run build'
+            b.build()
           }
           stage ('Push') { // Publish to S3
             b.push("${service}", "${build_version}")
