@@ -21,7 +21,7 @@ if (pwd ==~ /.*PR.*/ ) { // Run if Job is a Pull Request
             pr_version = readFile('version')
             p.setDisplayName("${pr_version}")
           }
-          stage ('Notify Success') { // Hipchat Notification of Success
+          stage ('Notify Success') { // Hipchat Notification of Success - extra comment
             p.hipchatSuccess("${service}", "${pr_version}")
           }
         }
