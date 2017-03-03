@@ -12,9 +12,6 @@ import TextInput from 'components/TextInput';
 
 function Dialpad(props) {
   const styles = {
-    base: {
-      // styles
-    },
     dialpadText: {
       height: '32px',
       width: '100%',
@@ -25,8 +22,8 @@ function Dialpad(props) {
   };
 
   return (
-    <div id={props.id} style={styles.base}>
-      <TextInput id={`${props.id}TextInput`} cb={props.setDialpadText} value={props.dialpadText} style={styles.dialpadText} />
+    <div id={props.id} >
+      <TextInput id={`${props.id}TextInput`} cb={props.setDialpadText} onEnter={props.onEnter} value={props.dialpadText} autoFocus style={styles.dialpadText} />
       <div style={styles.dialpadButtonContainer}>
         <ButtonDialpad id={`${props.id}1Button`} text="1" type="topLeft" onClick={() => props.setDialpadText(`${props.dialpadText}1`)} />
         <ButtonDialpad id={`${props.id}2Button`} text="2" type="top" onClick={() => props.setDialpadText(`${props.dialpadText}2`)} />
@@ -47,6 +44,7 @@ function Dialpad(props) {
 
 Dialpad.propTypes = {
   id: PropTypes.string.isRequired,
+  onEnter: PropTypes.func.isRequired,
   dialpadText: PropTypes.string.isRequired,
   setDialpadText: PropTypes.func.isRequired,
 };

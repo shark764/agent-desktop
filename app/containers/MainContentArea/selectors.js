@@ -14,10 +14,16 @@ const getSelectedInteractionId = createSelector(
 );
 
 const selectSelectedInteraction = createSelector(
-   [selectInteractions, getSelectedInteractionId],
-   (interactions, selectedInteractionId) => interactions.toJS().filter(
-     (interaction) => interaction.interactionId === selectedInteractionId
-   )[0]
+  [selectInteractions, getSelectedInteractionId],
+  (interactions, selectedInteractionId) => {
+    if (selectedInteractionId !== undefined) {
+      return interactions.toJS().find((interaction) =>
+        interaction.interactionId === selectedInteractionId
+      );
+    } else {
+      return undefined;
+    }
+  }
  );
 
 export {

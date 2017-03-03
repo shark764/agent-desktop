@@ -1,3 +1,9 @@
+<a name"0.7.4"></a>
+### 0.7.4 (2017-03-03)
+* Auto focus dialpad text input
+* Call on dialpad text input enter
+* Fixed outbound voice interaction being selected, hiding, the re-appearing when auto-answer is on 
+
 <a name"0.7.3"></a>
 ### 0.7.3 (2017-03-03)
 * Remove analytics, leave google and mixpanel
