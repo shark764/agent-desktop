@@ -25,6 +25,7 @@ const initialState = fromJS({
   //   fistName: 'Tom',
   //   lastName: 'Tucker',
   // },
+  // tenant: {},
 });
 
 function loginReducer(state = initialState, action) {

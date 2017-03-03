@@ -3,8 +3,7 @@
  * AgentDesktop
  *
  */
-
-import '../../../node_modules/cxengage-javascript-sdk/release/cxengage-javascript-sdk.min';
+import 'cxengage-javascript-sdk/release/cxengage-javascript-sdk.min';
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
@@ -21,14 +20,14 @@ import PhoneControls from 'containers/PhoneControls';
 import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
-import selectAgentDesktop, { selectLogin } from './selectors';
-import { setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
+import { showLogin, tenantError, logout } from 'containers/Login/actions';
+import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
+import { setExtensions, updateWrapupDetails, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
   setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected, emailCreateReply, emailCancelReply, addSearchFilter,
   removeSearchFilter, setContactAction } from './actions';
 
-import { showLogin, tenantError, logout } from 'containers/Login/actions';
+import selectAgentDesktop, { selectLogin } from './selectors';
 
-import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 import messages from './messages';
 
 export class AgentDesktop extends React.Component {
@@ -255,6 +254,21 @@ export class AgentDesktop extends React.Component {
           this.props.setInteractionStatus(response.interactionId, 'wrapup');
           break;
         }
+        case 'cxengage/interactions/wrapup-details': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.updateWrapupDetails(response.interactionId, response);
+          break;
+        }
+        case 'cxengage/interactions/wrapup-on': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.updateWrapupDetails(response.interactionId, { wrapupEnabled: true });
+          break;
+        }
+        case 'cxengage/interactions/wrapup-off': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.updateWrapupDetails(response.interactionId, { wrapupEnabled: false });
+          break;
+        }
         // Igonore these pubsubs. They are unneeded or handled elsewhere.
         case 'cxengage/authentication/login': // Handled in Login component
         case 'cxengage/session/active-tenant-set': // Handled in Login component
@@ -412,6 +426,7 @@ function mapDispatchToProps(dispatch) {
     showLogin: (show) => dispatch(showLogin(show)),
     tenantError: (error) => dispatch(tenantError(error)),
     setExtensions: (response) => dispatch(setExtensions(response)),
+    updateWrapupDetails: (interactionId, wrapupDetails) => dispatch(updateWrapupDetails(interactionId, wrapupDetails)),
     setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
@@ -448,6 +463,7 @@ AgentDesktop.propTypes = {
   showLogin: PropTypes.func.isRequired,
   tenantError: PropTypes.func.isRequired,
   setExtensions: PropTypes.func.isRequired,
+  updateWrapupDetails: PropTypes.func.isRequired,
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,
   addInteraction: PropTypes.func.isRequired,

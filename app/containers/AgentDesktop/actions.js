@@ -6,6 +6,7 @@
 
 import {
   SET_EXTENSIONS,
+  UPDATE_WRAPUP_DETAILS,
   SET_ACTIVE_EXTENSION,
   SET_PRESENCE,
   START_OUTBOUND_INTERACTION,
@@ -45,6 +46,14 @@ export function setExtensions(response) {
   return {
     type: SET_EXTENSIONS,
     response,
+  };
+}
+
+export function updateWrapupDetails(interactionId, wrapupDetails) {
+  return {
+    type: UPDATE_WRAPUP_DETAILS,
+    interactionId,
+    wrapupDetails,
   };
 }
 

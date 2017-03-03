@@ -6,16 +6,11 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 
-import messages from './messages';
-import { selectPendingInteractions, selectActiveVoiceInteraction, selectActiveNonVoiceInteractions, getSelectedInteractionId } from './selectors';
+import Interaction from 'components/Interaction';
 
-import Countdown from 'components/Countdown';
-import Icon from 'components/Icon';
-import Timer from 'components/Timer';
-import TimerMinutes from 'components/TimerMinutes';
+import { selectPendingInteractions, selectActiveVoiceInteraction, selectActiveNonVoiceInteractions, getSelectedInteractionId } from './selectors';
 
 export class InteractionsBar extends React.Component {
   styles = {
@@ -36,34 +31,19 @@ export class InteractionsBar extends React.Component {
 
   render() {
     const activeVoiceInteraction = this.props.activeVoiceInteraction
-      ? <div
-        id={`activeVoiceInteraction-${this.props.activeVoiceInteraction.interactionId}`}
-        className="activeVoiceInteraction"
-        style={{ backgroundColor: this.props.selectedInteractionId === this.props.activeVoiceInteraction.interactionId ? '#0B424E' : 'inherit',
-          borderBottom: '1px solid #141414',
-          cursor: 'pointer',
-          padding: '30px 16px 20px',
-          height: '100px',
-          width: '100%' }}
-        onClick={() => this.props.selectInteraction(this.props.activeVoiceInteraction.interactionId)}
-      >
-        <Icon
-          name="voice"
-          style={{ float: 'left' }}
-        />
-        <div style={{ float: 'left', marginLeft: '14px', width: '211px' }}>
-          {this.props.activeVoiceInteraction.status !== 'wrapup' ?
-            <div style={{ float: 'right' }}>
-              <Timer format="mm:ss" />
-            </div>
-          : undefined }
-          <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px', width: 'calc(100% - 57px)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {this.props.activeVoiceInteraction.contact !== undefined ? this.props.activeVoiceInteraction.contact.attributes.name : this.props.activeVoiceInteraction.number}
-          </div>
-          <div className="previewText" style={{ height: '36px', lineHeight: '18px', marginTop: '5px', overflow: 'hidden' }}>
-          </div>
-        </div>
-      </div>
+      ? (<Interaction
+        interactionId={this.props.activeVoiceInteraction.interactionId}
+        key={this.props.activeVoiceInteraction.interactionId}
+        icon="voice"
+        channelType={this.props.activeVoiceInteraction.channelType}
+        from={this.props.activeVoiceInteraction.contact !== undefined ? this.props.activeVoiceInteraction.contact.attributes.name : this.props.activeVoiceInteraction.number}
+        previewText={this.props.activeVoiceInteraction.contact !== undefined ? this.props.activeVoiceInteraction.number : undefined}
+        status={this.props.activeVoiceInteraction.status === 'wrapup' ? 'wrapup' : 'active'}
+        targetWrapupSeconds={this.props.activeVoiceInteraction.wrapupDetails.targetWrapupTime}
+        selected={this.props.selectedInteractionId === this.props.activeVoiceInteraction.interactionId}
+        timeout={this.props.activeVoiceInteraction.timeout}
+        onClick={this.props.selectedInteractionId !== this.props.activeVoiceInteraction.interactionId ? () => this.props.selectInteraction(this.props.activeVoiceInteraction.interactionId) : undefined}
+      />)
       : '';
 
     const activeNonVoiceInteractions = this.props.activeNonVoiceInteractions.map((activeInteraction) => {
@@ -74,7 +54,7 @@ export class InteractionsBar extends React.Component {
         from = activeInteraction.messageHistory[0].from;
 
         // Try to find the first unread customer message
-        const firstUnreadCustomerMessage = activeInteraction.messageHistory.find((messageHistoryItem) => messageHistoryItem.unread === true && messageHistoryItem.type === 'customer');
+        const firstUnreadCustomerMessage = activeInteraction.messageHistory.find((messageHistoryItem) => messageHistoryItem.unread === true && (messageHistoryItem.type === 'customer' || messageHistoryItem.type === 'message'));
         if (firstUnreadCustomerMessage !== undefined) {
           text = firstUnreadCustomerMessage.text;
           icon = 'message_new';
@@ -100,37 +80,19 @@ export class InteractionsBar extends React.Component {
       }
 
       return (
-        <div
-          id={`activeInteractionContainer-${activeInteraction.interactionId}`}
-          className="activeInteractionContainer"
-          style={{ backgroundColor: this.props.selectedInteractionId === activeInteraction.interactionId ? '#0B424E' : 'inherit',
-            borderBottom: '1px solid #141414',
-            cursor: 'pointer',
-            padding: '20px 16px',
-            height: '100px',
-            width: '100%' }}
+        <Interaction
+          interactionId={activeInteraction.interactionId}
           key={activeInteraction.interactionId}
-          onClick={() => this.props.selectInteraction(activeInteraction.interactionId)}
-        >
-          <Icon
-            name={icon}
-            style={{ float: 'left' }}
-          />
-          <div style={{ float: 'left', marginLeft: '14px', width: '211px' }}>
-            {activeInteraction.status !== 'wrapup' ?
-              <div style={{ float: 'right' }}>
-                <TimerMinutes />
-              </div>
-            : undefined }
-            <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px', width: 'calc(100% - 57px)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {from}
-            </div>
-            <style>
-              {'.previewText br {display: none;}'}
-            </style>
-            <div className="previewText" style={{ height: '36px', lineHeight: '18px', marginTop: '5px', overflow: 'hidden' }} dangerouslySetInnerHTML={{ __html: text }}></div>
-          </div>
-        </div>
+          icon={icon}
+          channelType={activeInteraction.channelType}
+          from={from}
+          previewText={text}
+          status={activeInteraction.status === 'wrapup' ? 'wrapup' : 'active'}
+          targetWrapupSeconds={activeInteraction.wrapupDetails.targetWrapupTime}
+          selected={this.props.selectedInteractionId === activeInteraction.interactionId}
+          timeout={activeInteraction.timeout}
+          onClick={this.props.selectedInteractionId !== activeInteraction.interactionId ? () => this.props.selectInteraction(activeInteraction.interactionId) : undefined}
+        />
       );
     });
 
@@ -155,30 +117,18 @@ export class InteractionsBar extends React.Component {
         from = pendingInteraction.contact.attributes.name;
       }
       return (
-        <div
-          id={`pendingInteractionContainer-${pendingInteraction.interactionId}`}
-          className="pendingInteractionContainer"
-          style={{ backgroundColor: '#F3F3F3', cursor: 'pointer', marginTop: '11px', padding: '20px 16px', borderRadius: '3px', height: '123px', width: '100%' }}
+        <Interaction
+          interactionId={pendingInteraction.interactionId}
           key={pendingInteraction.interactionId}
+          icon={icon}
+          channelType={pendingInteraction.channelType}
+          from={from}
+          previewText={text}
+          status="pending"
+          targetWrapupSeconds={pendingInteraction.wrapupDetails.targetWrapupTime}
+          timeout={pendingInteraction.timeout}
           onClick={() => this.acceptInteraction(pendingInteraction.interactionId)}
-        >
-          <Icon name={icon} style={{ float: 'left' }} />
-          <div style={{ float: 'left', marginLeft: '10px', width: '185px' }}>
-            <div style={{ float: 'right', color: '#23CEF5' }}>
-              <Countdown id={`countdown-${pendingInteraction.interactionId}`} countdownUntil={new Date(pendingInteraction.timeout)} />
-            </div>
-            <div style={{ fontWeight: 'bold', fontSize: '16px', lineHeight: '19px', width: 'calc(100% - 27px)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {from}
-            </div>
-            <style>
-              {'.previewText br {display: none;}'}
-            </style>
-            <div className="previewText" style={{ height: '36px', lineHeight: '18px', marginTop: '5px', overflow: 'hidden' }} dangerouslySetInnerHTML={{ __html: text }}></div>
-            <div style={{ color: '#979797', fontSize: '12px', marginTop: '11px' }}>
-              <FormattedMessage {...messages.accept} />
-            </div>
-          </div>
-        </div>
+        />
       );
     });
 

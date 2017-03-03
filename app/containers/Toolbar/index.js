@@ -130,7 +130,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       color: '#FFFFFF',
       position: 'relative',
     },
-  }
+  };
 
   render() {
     return (

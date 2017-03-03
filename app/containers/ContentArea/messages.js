@@ -18,4 +18,8 @@ export default defineMessages({
     id: 'app.containers.ContentArea.notesPlaceholder',
     defaultMessage: 'Enter interaction notes here',
   },
+  wrapup: {
+    id: 'app.containers.PhoneControls.wrapup',
+    defaultMessage: 'Wrap Up',
+  },
 });
