@@ -1,3 +1,7 @@
+<a name"0.7.3"></a>
+### 0.7.3 (2017-03-03)
+* Remove analytics, leave google and mixpanel
+
 <a name"0.7.2"></a>
 ### 0.7.2 (2017-03-03)
 * Upgrade dependencies
