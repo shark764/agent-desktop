@@ -9,13 +9,13 @@ node {
 pwd = pwd()
 }
 def service = 'Agent-Desktop'
-if (pwd ==~ /.*PR.*/ ) { // Run if Job is a Pull Request
-  node() {
+if (pwd ==~ /.*PR.*/ ) { // Run if Pull Request
+  node() { // Allocate Executor
     def p = new node.pr()
     try {
       timeout(time: 1, unit: 'HOURS') {
         ansiColor('xterm') {
-          stage ('SCM Checkout') { // Checkout Source Code
+          stage ('SCM Checkout') { // Checkout SCM
             p.checkout()
           }
           stage ('Export Properties') { // Export Properties
@@ -23,27 +23,25 @@ if (pwd ==~ /.*PR.*/ ) { // Run if Job is a Pull Request
             pr_version = readFile('version')
             p.setDisplayName("${pr_version}")
           }
-          stage ('Notify Success') { // Hipchat Notification of Success
+          stage ('Notify Success') { // Hipchat Success
             p.hipchatSuccess("${service}", "${pr_version}")
           }
         }
       }
     }
     catch (err) {
-      // Hipchat Notification of Failure
+      // Hipchat Failure
       p.hipchatFailure("${service}", "${pr_version}")
       echo "Failed: ${err}"
       error "Failed: ${err}"
     }
-    finally {
-      // Cleanup Workspace
+    finally { // Cleanup
       p.cleanup()
     }
   }
 }
-// Run Job on Commit to Master Branch
-else if (pwd ==~ /.*master.*/ ) {
-  node() {
+else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
+  node() { // Allocate Executor
     def b = new node.build()
     try {
       timeout(time: 1, unit: 'HOURS') { // Timeout If Job is stuck
@@ -51,7 +49,7 @@ else if (pwd ==~ /.*master.*/ ) {
           stage ('SCM Checkout') { // Checkout SCM
             checkout scm
           }
-          stage ('Export Properties') { // Get Service Version
+          stage ('Export Properties') { // Export Properties
             b.export()
             build_version = readFile('version')
             b.setDisplayName("${build_version}")
@@ -62,7 +60,7 @@ else if (pwd ==~ /.*master.*/ ) {
           stage ('Push') { // Publish to S3
             b.push("${service}", "${build_version}")
           }
-          stage ('Notify Success') { // Notify Hipchat of Success
+          stage ('Notify Success') { // Hipchat Success
             b.hipchatSuccess("${service}", "${build_version}")
           }
         }
