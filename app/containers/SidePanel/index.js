@@ -10,15 +10,15 @@ import { connect } from 'react-redux';
 import Radium from 'radium';
 import IconCollapse from 'icons/collapse';
 
-import { getSelectedInteractionId } from './selectors';
+import { getSelectedInteractionId, getSelectedInteractionIsVoice } from './selectors';
 
 import Tabs from 'components/Tabs';
 
+// import AgentScript from 'containers/AgentScript';
 import ContactsControl from 'containers/ContactsControl';
 import ContactInteractionHistory from 'containers/ContactInteractionHistory';
 
 const leftGutterPx = 52;
-const rightGutterPx = 26;
 const topBarHeightPx = 63;
 
 export class SidePanel extends React.Component {
@@ -62,16 +62,6 @@ export class SidePanel extends React.Component {
       display: 'flex',
       flexWrap: 'no-wrap',
     },
-    rightGutter: {
-      width: `${rightGutterPx}px`,
-      flexDirection: 'column',
-      order: '2',
-      flexGrow: '0',
-      flexShrink: '0',
-    },
-    rightGutterSpacer: {
-      flexGrow: 1,
-    },
     leftGutter: {
       width: `${leftGutterPx}px`,
       display: 'flex',
@@ -90,11 +80,6 @@ export class SidePanel extends React.Component {
     leftGutterSpacer: {
       order: '1',
       flexGrow: '1',
-    },
-    topGutterRight: {
-      borderBottom: '1px solid #D0D0D0',
-      margin: '0',
-      height: `${topBarHeightPx}px`,
     },
     left90: {
       transform: 'rotate(-90deg)',
@@ -119,6 +104,11 @@ export class SidePanel extends React.Component {
     },
     tabsRoot: {
       height: '100%',
+    },
+    agentScriptPanel: {
+      height: '100%',
+      width: '100%',
+      overflowY: 'auto',
     },
   };
 
@@ -147,22 +137,32 @@ export class SidePanel extends React.Component {
             <TabList>
               <Tab>Info</Tab>
               <Tab>History</Tab>
+              { /*
+                !this.props.selectedInteractionIsVoice
+                ? <Tab>Scripts</Tab>
+                : undefined
+              */ }
             </TabList>
             <TabPanel>
               <ContactsControl
                 addSearchFilter={this.props.addSearchFilter}
                 removeSearchFilter={this.props.removeSearchFilter}
                 setContactAction={this.props.setContactAction}
-              ></ContactsControl>
+              />
             </TabPanel>
             <TabPanel>
               <ContactInteractionHistory />
             </TabPanel>
+            { /*
+              !this.props.selectedInteractionIsVoice
+              ? <TabPanel>
+                <div style={this.styles.agentScriptPanel}>
+                  <AgentScript />
+                </div>
+              </TabPanel>
+              : undefined
+            */ }
           </Tabs>
-        </div>
-        <div style={this.styles.rightGutter}>
-          <div style={this.styles.topGutterRight}></div>
-          <div style={this.styles.rightGutterSpacer}></div>
         </div>
       </div>
     )
@@ -173,6 +173,7 @@ export class SidePanel extends React.Component {
 function mapStateToProps(state, props) {
   return {
     selectedInteractionId: getSelectedInteractionId(state, props),
+    selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
   };
 }
 
@@ -190,6 +191,7 @@ SidePanel.propTypes = {
   collapsePanel: PropTypes.func,
   showPanel: PropTypes.func,
   selectedInteractionId: PropTypes.string,
+  // selectedInteractionIsVoice: PropTypes.bool,
   addSearchFilter: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
   setContactAction: PropTypes.func.isRequired,

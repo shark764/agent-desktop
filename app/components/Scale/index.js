@@ -4,25 +4,48 @@
 *
 */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
-import Radium from 'radium';
-
-class Scale extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  styles = {
-    base: {
-      // styles
-    },
-  }
-  render() {
-    return (
-      <div style={this.styles.base}>
-        <FormattedMessage {...messages.header} />
-      </div>
+function Scale(props) {
+  const scaleRadios = [];
+  for (let i = props.lowerBound; i <= props.upperBound; i += 1) {
+    scaleRadios.push(
+      <span key={`${props.id}-${i}`}>
+        <input id={`${props.id}-${i}-radio`} type="radio" checked={props.value === i} onChange={() => props.onChange(i)} />
+        <label id={`${props.id}-${i}-label`} htmlFor={`${props.id}-${i}-radio`}>
+          { i }
+        </label>
+      </span>
     );
   }
+  return (
+    <div id={props.id} key={props.id} style={props.style}>
+      <div>
+        { props.placeholder }
+      </div>
+      <div>
+        <span>
+          { props.lowerBoundLabel }
+        </span>
+        { scaleRadios }
+        <span>
+          { props.upperBoundLabel }
+        </span>
+      </div>
+    </div>
+  );
 }
 
-export default Radium(Scale);
+Scale.propTypes = {
+  id: PropTypes.string.isRequired,
+  lowerBound: PropTypes.number.isRequired,
+  lowerBoundLabel: PropTypes.string,
+  upperBound: PropTypes.number.isRequired,
+  upperBoundLabel: PropTypes.string,
+  value: PropTypes.number,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  style: PropTypes.object,
+};
+
+export default (Scale);

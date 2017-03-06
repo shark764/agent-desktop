@@ -1,4 +1,4 @@
-export var script: {
+const script = {
   elements: [
     {
       type: "text",
@@ -137,4 +137,6 @@ export var script: {
   ],
   id: "522ca8e2-3edc-497e-a03b-ed34b6608a0c",
   name: "script"
-}
+};
+
+export default script;

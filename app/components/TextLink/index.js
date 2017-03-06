@@ -4,25 +4,23 @@
 *
 */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
-import Radium from 'radium';
-
-class TextLink extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  styles = {
-    base: {
-      // styles
-    },
-  }
-  render() {
-    return (
-      <div style={this.styles.base}>
-        <FormattedMessage {...messages.header} />
-      </div>
-    );
-  }
+function TextLink(props) {
+  return (
+    <div id={props.id} style={props.style}>
+      <a href={props.link} target="_blank">
+        { props.text }
+      </a>
+    </div>
+  );
 }
 
-export default Radium(TextLink);
+TextLink.propTypes = {
+  id: PropTypes.string.isRequired,
+  link: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  style: PropTypes.object,
+};
+
+export default TextLink;

@@ -4,25 +4,20 @@
 *
 */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
-import Radium from 'radium';
-
-class TextBlob extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  styles = {
-    base: {
-      // styles
-    },
-  }
-  render() {
-    return (
-      <div style={this.styles.base}>
-        <FormattedMessage {...messages.header} />
-      </div>
-    );
-  }
+function TextBlob(props) {
+  return (
+    <div id={props.id} style={props.style}>
+      { props.text }
+    </div>
+  );
 }
 
-export default Radium(TextBlob);
+TextBlob.propTypes = {
+  id: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  style: PropTypes.object,
+};
+
+export default TextBlob;

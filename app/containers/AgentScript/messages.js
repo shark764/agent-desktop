@@ -6,8 +6,8 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  header: {
-    id: 'app.containers.AgentScript.header',
-    defaultMessage: 'This is AgentScript container !',
+  submit: {
+    id: 'app.containers.AgentScript.submit',
+    defaultMessage: 'Submit',
   },
 });

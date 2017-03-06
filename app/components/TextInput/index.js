@@ -5,11 +5,8 @@
 */
 
 import React, { PropTypes } from 'react';
-
 import { injectIntl, intlShape } from 'react-intl';
-
 import Radium from 'radium';
-
 
 function TextInput(props) {
   const { formatMessage } = props.intl;
