@@ -69,7 +69,7 @@ else if (pwd ==~ /.*master.*/ ) {
       }
     }
     catch (err) {
-      // Hipchat of Failure
+      // Hipchat Failure
       b.hipchatFailure("${service}", "${build_version}")
       echo "Failed: ${err}"
       error "Failed: ${err}"
@@ -84,14 +84,15 @@ else if (pwd ==~ /.*master.*/ ) {
       node() {
         def d = new deploy.frontend()
         try {
-          d.pull("${service}", "${build_version}")
-          d.versionFile("${build_version}")
-          d.confFile("dev", "${build_version}")
-          d.deploy("dev","desktop")
-          d.invalidate("E3MJXQEHZTM4FB")
+          d.pull("${service}", "${build_version}") // pull down version of site from s3
+          d.versionFile("${build_version}") // make version file
+          d.confFile("dev", "${build_version}") // make conf file
+          d.deploy("dev","desktop") // push to s3
+          d.invalidate("E3MJXQEHZTM4FB") // invalidate cloudfront
           d.hipchatSuccess("${service}", "dev", "${build_version}", "${env.BUILD_USER}")
         }
         catch(err) {
+          // Hipchat Failure
           d.hipchatFailure("${service}", "dev", "${build_version}", "${env.BUILD_USER}")
           echo "Failed: ${err}"
           error "Failed: ${err}"
@@ -112,6 +113,7 @@ else if (pwd ==~ /.*master.*/ ) {
           t.hipchatSuccess("${service}", "dev", "${build_version}")
         }
         catch(err) {
+          // Hipchat Failure
           t.hipchatFailure("${service}", "dev", "${build_version}")
           echo "Failed: ${err}"
           error "Failed: ${err}"
