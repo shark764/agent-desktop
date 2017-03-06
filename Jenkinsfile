@@ -3,6 +3,7 @@
 import node.pr
 import node.build
 import deploy.frontend
+import testing.acme
 
 node {
 pwd = pwd()
@@ -88,15 +89,35 @@ else if (pwd ==~ /.*master.*/ ) {
           d.confFile("dev", "${build_version}")
           d.deploy("dev","desktop")
           d.invalidate("E3MJXQEHZTM4FB")
-          d.hipchatSuccess("${service}", "${build_version}", "${env.BUILD_USER}")
+          d.hipchatSuccess("${service}", "dev", "${build_version}", "${env.BUILD_USER}")
         }
         catch(err) {
-          d.hipchatFailure("${service}", "${build_version}", "${env.BUILD_USER}")
+          d.hipchatFailure("${service}", "dev", "${build_version}", "${env.BUILD_USER}")
           echo "Failed: ${err}"
           error "Failed: ${err}"
         }
         finally {
-          step([$class: 'WsCleanup'])
+          d.cleanup()
+        }
+      }
+    }
+  }
+  stage ('Test - Dev') {
+    timeout(time:5, unit:'DAYS') {
+      input message: 'Test Dev?', submitterParameter: 'submitter'
+      node() {
+        def t = new testing.acme()
+        try {
+          t.singleTest("dev", "login")
+          t.hipchatSuccess("${service}", "dev", "${build_version}")
+        }
+        catch(err) {
+          t.hipchatFailure("${service}", "dev", "${build_version}")
+          echo "Failed: ${err}"
+          error "Failed: ${err}"
+        }
+        finally {
+          t.cleanup()
         }
       }
     }
