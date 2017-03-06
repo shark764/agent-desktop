@@ -98,7 +98,7 @@ else if (pwd ==~ /.*master.*/ ) {
           error "Failed: ${err}"
         }
         finally {
-          d.cleanup()
+          d.cleanup() // Cleanup
         }
       }
     }
@@ -109,17 +109,16 @@ else if (pwd ==~ /.*master.*/ ) {
       node() {
         def t = new testing.acme()
         try {
-          t.singleTest("dev", "login")
-          t.hipchatSuccess("${service}", "dev", "${build_version}")
+          t.test("dev", "login") // run test suite
+          t.hipchatSuccess("${service}", "dev", "${build_version}") // Notify Success
         }
         catch(err) {
-          // Hipchat Failure
-          t.hipchatFailure("${service}", "dev", "${build_version}")
+          t.hipchatFailure("${service}", "dev", "${build_version}") // Notify Failure
           echo "Failed: ${err}"
           error "Failed: ${err}"
         }
         finally {
-          t.cleanup()
+          t.cleanup() // Cleanup
         }
       }
     }
