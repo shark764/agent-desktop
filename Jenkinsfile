@@ -1,5 +1,5 @@
 #!groovy​
-@Library('sprockets') _
+@Library('sprockets@1.0.0') _
 import node.pr
 import node.build
 import deploy.frontend
@@ -101,8 +101,18 @@ else if (pwd ==~ /.*master.*/ ) {
       }
     }
   }
+  if (!build_version.contains("SNAPSHOT")) {
+    echo "this is a RELEASE version and the pipeline will continue"
+  }
+  else if (build_version.contains("SNAPSHOT")) {
+    echo "This is a SNAPSHOT, and therefore the end of its pipeline"
+  }
+  else {
+    stage ('Error')
+    error 'Could not determine SNAPSHOT'
+  }
 }
 else {
-  stage 'error'
+  stage ('Error')
   error 'No Stage'
 }
