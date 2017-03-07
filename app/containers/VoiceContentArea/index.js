@@ -11,10 +11,10 @@ import messages from './messages';
 
 import Button from 'components/Button';
 
-// import AgentScript from 'containers/AgentScript';
+import AgentScript from 'containers/AgentScript';
 import ContentArea from 'containers/ContentArea';
 
-export class VoiceContentArea extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class VoiceContentArea extends React.Component {
 
   styles = {
     customField: {
@@ -67,11 +67,14 @@ export class VoiceContentArea extends React.Component { // eslint-disable-line r
       />
     );
 
-    const content = (
-      <div style={this.styles.content}>
-        { /* TODO <AgentScript /> */}
-      </div>
-    );
+    let content;
+    if (this.props.selectedInteraction.script !== undefined) {
+      content = (
+        <div style={this.styles.content}>
+          <AgentScript interactionId={this.props.selectedInteraction.interactionId} script={this.props.selectedInteraction.script} />
+        </div>
+      );
+    }
 
     return <ContentArea interaction={this.props.selectedInteraction} from={from} buttons={buttons} details={details} content={content} />;
   }

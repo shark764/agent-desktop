@@ -1,3 +1,8 @@
+<a name"0.7.8"></a>
+### 0.7.8 (2017-03-07)
+* Mock scripts in interactions
+* Maintain script values in interaction state so they persist across switching interactions
+
 <a name"0.7.7"></a>
 ### 0.7.7 (2017-03-06)
 * Script render components

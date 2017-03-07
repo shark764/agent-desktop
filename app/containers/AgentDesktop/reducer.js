@@ -39,154 +39,21 @@ import {
   EMAIL_UPDATE_REPLY,
   EMAIL_CANCEL_REPLY,
   UPDATE_NOTE,
+  UPDATE_SCRIPT_VALUES,
 } from './constants';
+
+// import { outboundConnectingVoiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteractionWithAttachmentsAndScript, emailInteraction, smsInteractionWithLotsOfMessagesAndScript } from './assets/mockInteractions';
 
 const initialState = fromJS({
   // // Uncomment to allow login screen to be hidden
   // presence: 'notReady',
   interactions: [
-    // // XXX uncomment below to mock interaction connecting to outbound (to see loading)
-    // {
-    //   interactionId: 'outbound-interaction-1',
-    //   channelType: 'voice',
-    //   direction: 'outbound',
-    //   status: 'connecting-to-outbound',
-    // },
-    // // XXX uncomment below to mock email(s)
-    // {
-    //   channelType: 'email',
-    //   interactionId: '0000000-0000-0000-0000-111111111',
-    //   status: 'work-accepted', // 'work-offer',
-    //   timeout: new Date(Date.now() + 60000).toISOString(),
-    //   query: {},
-    //   email: {
-    //     to: 'support@help.com',
-    //     from: 'j.englebert@yahoo.com',
-    //     timestamp: new Date().toISOString(),
-    //     subject: 'Files not uploading to my Cloud account',
-    //     attachments: [{ name: 'image.jpg', src: 'http://s14.postimg.org/mkyfiphgx/lgtm_with_gorilla.jpg' }, { name: 'PDF.pdf', src: 'http://www.pdf995.com/samples/pdf.pdf' }],
-    //     content: 'Hello,<br/><br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br/><br/><b>John Englebert</b><br/>Software Developer<br/>An Organization<br/>313.218.9814',
-    //   },
-    // },
-    // {
-    //   channelType: 'email',
-    //   interactionId: '0000000-0000-0000-0000-222222222222',
-    //   status: 'work-accepted', // 'work-offer',
-    //   timeout: new Date(Date.now() + 60000).toISOString(),
-    //   query: {},
-    //   email: {
-    //     to: 'support@help.com',
-    //     from: 'test@yahoo.com',
-    //     timestamp: new Date().toISOString(),
-    //     subject: 'Files not uploading to my Cloud account',
-    //     attachments: [],
-    //     content: 'Hello,<br/><br/><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f4dd.png" alt="image test" />Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br/><br/><b>John Englebert</b><br/>Software Developer<br/>An Organization<br/>313.218.9814',
-    //   },
-    // },
-    //
-    // // XXX uncomment below to mock voice interaction
-    // {
-    //   channelType: 'voice',
-    //   interactionId: '0000000-0000-0000-0000-3333333333333',
-    //   status: 'work-accepted', // 'work-offer',
-    //   timeout: new Date(Date.now() + 60000).toISOString(),
-    //   number: '+3134126623',
-    //   query: {},
-    //   recording: true,
-    //   agentRecordingEnabled: true, // false
-    //   warmTransfers: [
-    //     {
-    //       id: '1111111',
-    //       type: 'agent',
-    //       name: 'Agent with a very very very long name',
-    //       status: 'connected',
-    //     }, {
-    //       id: '22222',
-    //       type: 'queue',
-    //       name: 'Queue #1',
-    //       status: 'connected',
-    //     }, {
-    //       id: '33333',
-    //       type: 'pstn',
-    //       name: 'Some PSTN number',
-    //       status: 'transferring',
-    //     },
-    //   ],
-    // },
-    //
-    // //   XXX uncomment below to mock SMS interaction
-    // {
-    //   channelType: 'sms',
-    //   customerAvatarIndex: 5,
-    //   interactionId: '11111111111111111111112',
-    //   status: 'work-accepted',
-    //   query: {},
-    //   messageHistory: [
-    //     {
-    //       text: 'this is a test',
-    //       from: '+15552213456',
-    //       type: 'sms',
-    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 9)).toISOString(),
-    //       unread: false,
-    //     }, {
-    //       text: 'this is a test',
-    //       from: '+15552213456',
-    //       type: 'sms',
-    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 8)).toISOString(),
-    //       unread: false,
-    //     }, {
-    //       text: 'this is a test',
-    //       from: '+15552213456',
-    //       type: 'sms',
-    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 7)).toISOString(),
-    //       unread: false,
-    //     }, {
-    //       text: 'this is a test',
-    //       from: '+15552213456',
-    //       type: 'sms',
-    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 6)).toISOString(),
-    //       unread: false,
-    //     }, {
-    //       text: 'this is a test',
-    //       from: '+15552213456',
-    //       type: 'sms',
-    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString(),
-    //       unread: false,
-    //     }, {
-    //       text: 'this is a test',
-    //       from: '+15552213456',
-    //       type: 'sms',
-    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 4)).toISOString(),
-    //       unread: false,
-    //     }, {
-    //       text: 'this is a test',
-    //       from: '+15552213456',
-    //       type: 'sms',
-    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 3)).toISOString(),
-    //       unread: false,
-    //     }, {
-    //       text: 'this is a test',
-    //       from: '+15552213456',
-    //       type: 'sms',
-    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(),
-    //       unread: false,
-    //     }, {
-    //       text: 'this is a test',
-    //       from: '+15552213456',
-    //       type: 'sms',
-    //       timestamp: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString(),
-    //       unread: false,
-    //     }, {
-    //       text: 'this is a test',
-    //       from: '+15552213456',
-    //       type: 'sms',
-    //       timestamp: new Date().toISOString(),
-    //       unread: false,
-    //     },
-    //   ],
-    // },
-    // ],
-    // selectedInteractionId: '11111111111111111111112',
+    // // Un-comment out below (and the above imports) to mock interactions (only use one voice interaction at a time):
+    // outboundConnectingVoiceInteraction,
+    // voiceInteractionWithTransfersAndScripts,
+    // emailInteractionWithAttachmentsAndScript,
+    // emailInteraction,
+    // smsInteractionWithLotsOfMessagesAndScript,
   ],
 });
 
@@ -786,6 +653,18 @@ function agentDesktopReducer(state = initialState, action) {
           action.note.selectedDispositions !== undefined) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
           interaction.set('note', fromJS(action.note))
+        );
+      } else {
+        return state;
+      }
+    }
+    case UPDATE_SCRIPT_VALUES: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.setIn(['script', 'values'], action.scriptValueMap)
         );
       } else {
         return state;
