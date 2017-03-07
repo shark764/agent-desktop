@@ -10,11 +10,11 @@ import { connect } from 'react-redux';
 import Radium from 'radium';
 import IconCollapse from 'icons/collapse';
 
-import { getSelectedInteractionId, getSelectedInteractionIsVoice } from './selectors';
+import { getSelectedInteractionId, getSelectedInteractionIsVoice, getSelectedInteractionScript } from './selectors';
 
 import Tabs from 'components/Tabs';
 
-// import AgentScript from 'containers/AgentScript';
+import AgentScript from 'containers/AgentScript';
 import ContactsControl from 'containers/ContactsControl';
 import ContactInteractionHistory from 'containers/ContactInteractionHistory';
 
@@ -137,11 +137,11 @@ export class SidePanel extends React.Component {
             <TabList>
               <Tab>Info</Tab>
               <Tab>History</Tab>
-              { /*
-                !this.props.selectedInteractionIsVoice
+              {
+                !this.props.selectedInteractionIsVoice && this.props.selectedInteractionScript !== undefined
                 ? <Tab>Scripts</Tab>
                 : undefined
-              */ }
+              }
             </TabList>
             <TabPanel>
               <ContactsControl
@@ -153,15 +153,15 @@ export class SidePanel extends React.Component {
             <TabPanel>
               <ContactInteractionHistory />
             </TabPanel>
-            { /*
-              !this.props.selectedInteractionIsVoice
+            {
+              !this.props.selectedInteractionIsVoice && this.props.selectedInteractionScript !== undefined
               ? <TabPanel>
                 <div style={this.styles.agentScriptPanel}>
-                  <AgentScript />
+                  <AgentScript interactionId={this.props.selectedInteractionId} script={this.props.selectedInteractionScript} />
                 </div>
               </TabPanel>
               : undefined
-            */ }
+            }
           </Tabs>
         </div>
       </div>
@@ -174,6 +174,7 @@ function mapStateToProps(state, props) {
   return {
     selectedInteractionId: getSelectedInteractionId(state, props),
     selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
+    selectedInteractionScript: getSelectedInteractionScript(state, props),
   };
 }
 
@@ -191,7 +192,8 @@ SidePanel.propTypes = {
   collapsePanel: PropTypes.func,
   showPanel: PropTypes.func,
   selectedInteractionId: PropTypes.string,
-  // selectedInteractionIsVoice: PropTypes.bool,
+  selectedInteractionIsVoice: PropTypes.bool,
+  selectedInteractionScript: PropTypes.object,
   addSearchFilter: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
   setContactAction: PropTypes.func.isRequired,

@@ -38,6 +38,7 @@ import {
   EMAIL_UPDATE_REPLY,
   EMAIL_CANCEL_REPLY,
   UPDATE_NOTE,
+  UPDATE_SCRIPT_VALUES,
 } from './constants';
 
 export function setExtensions(response) {
@@ -276,5 +277,13 @@ export function updateNote(interactionId, note) {
     type: UPDATE_NOTE,
     interactionId,
     note,
+  };
+}
+
+export function updateScriptValues(interactionId, scriptValueMap) {
+  return {
+    type: UPDATE_SCRIPT_VALUES,
+    interactionId,
+    scriptValueMap,
   };
 }

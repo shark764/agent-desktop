@@ -17,7 +17,22 @@ const getSelectedInteractionIsVoice = createSelector(
   }
 );
 
+const getSelectedInteractionScript = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) => {
+    const selectedInteraction = agentDesktop.get('interactions').toJS().find(
+      (interaction) => interaction.interactionId === agentDesktop.get('selectedInteractionId')
+    );
+    if (selectedInteraction !== undefined) {
+      return selectedInteraction.script;
+    } else {
+      return undefined;
+    }
+  }
+);
+
 export {
   getSelectedInteractionId,
   getSelectedInteractionIsVoice,
+  getSelectedInteractionScript,
 };
