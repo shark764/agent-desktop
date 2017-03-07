@@ -55,7 +55,10 @@ else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
             b.setDisplayName("${build_version}")
           }
           stage ('Build') { // Build Website
-            b.build()
+            def nodeHome = tool name: '7.X', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+            env.PATH = "${nodeHome}/bin:${env.PATH}"
+            sh 'npm install'
+            sh 'npm run build'
           }
           stage ('Push') { // Publish to S3
             b.push("${service}", "${build_version}")
