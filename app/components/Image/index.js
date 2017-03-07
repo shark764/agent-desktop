@@ -4,22 +4,32 @@
 *
 */
 
-import React from 'react';
-
+import React, { PropTypes } from 'react';
 import Radium from 'radium';
 
-class Image extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  styles = {
-    base: {
-      // styles
+function Image(props) {
+  const styles = {
+    img: {
+      maxWidth: '400px',
+      maxHeight: '400px',
     },
-  }
-  render() {
-    return (
-      <div style={this.styles.base}>
+  };
+
+  return (
+    <div id={props.id} style={props.style}>
+      <div>
+        { props.placeholder }
       </div>
-    );
-  }
+      <img src={props.src} alt="" style={styles.img} />
+    </div>
+  );
 }
+
+Image.propTypes = {
+  id: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  style: PropTypes.object,
+};
 
 export default Radium(Image);

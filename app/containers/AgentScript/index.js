@@ -5,11 +5,10 @@
  */
 
 import React from 'react';
-import { connect } from 'react-redux';
-import selectAgentScript from './selectors';
 import Radium from 'radium';
 
-import CheckBoxGroup from 'components/CheckboxGroup';
+import Button from 'components/Button';
+import CheckBox from 'components/Checkbox';
 import Image from 'components/Image';
 import TextLink from 'components/TextLink';
 import Scale from 'components/Scale';
@@ -17,13 +16,66 @@ import TextBlob from 'components/TextBlob';
 import TextInput from 'components/TextInput';
 import Select from 'components/Select';
 
-import { script } from './assets/agentScript';
+import script from './assets/agentScript';
+import messages from './messages';
 
-export class AgentScript extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class AgentScript extends React.Component {
+  constructor(props) {
+    super(props);
+    this.getScriptValueMap = this.getScriptValueMap.bind(this);
+
+    const state = {};
+    for (const element of script.elements) {
+      switch (element.type) {
+        case 'freeform':
+          state[element.name] = '';
+          break;
+        case 'dropdown':
+        case 'scale':
+          state[element.name] = null;
+          break;
+        case 'checkbox': {
+          element.options.forEach((option) =>
+            (state[option.value] = false)
+          );
+          break;
+        }
+        default:
+          break;
+      }
+    }
+    this.state = state;
+  }
+
   styles = {
     base: {
       // styles
     },
+    element: {
+      marginBottom: '12px',
+    },
+  }
+
+  getScriptValueMap() {
+    const scriptValueMap = {};
+    for (const element of script.elements) {
+      switch (element.type) {
+        case 'freeform':
+        case 'dropdown':
+        case 'scale':
+          scriptValueMap[element.name] = this.state[element.name];
+          break;
+        case 'checkbox': {
+          element.options.forEach((option) =>
+            (scriptValueMap[option.value] = this.state[option.value])
+          );
+          break;
+        }
+        default:
+          break;
+      }
+    }
+    return scriptValueMap;
   }
 
   getScript() {
@@ -31,28 +83,79 @@ export class AgentScript extends React.Component { // eslint-disable-line react/
     for (const element of script.elements) {
       switch (element.type) {
         case 'text':
-          scriptElements.push(<TextBlob />);
+          scriptElements.push(<TextBlob id={element.name} key={element.name} text={element.text} style={this.styles.element} />);
           break;
         case 'freeform':
-          scriptElements.push(<TextInput />);
+          scriptElements.push(
+            <div id={element.name} key={element.name} style={this.styles.element} >
+              <div>
+                { element.text }
+              </div>
+              <TextInput
+                id={`${element.name}-textInput`}
+                value={this.state[element.name]}
+                cb={(value) => this.setState({ [element.name]: value })}
+              />
+            </div>
+          );
           break;
-        case 'dropdown':
-          scriptElements.push(<Select />);
+        case 'dropdown': {
+          const dropdownOptions = element.options.map((option) =>
+            ({ value: option.value, label: option.name })
+          );
+          scriptElements.push(
+            <div key={element.name} style={this.styles.element} >
+              <div>
+                { element.text }
+              </div>
+              <Select
+                id={element.name}
+                options={dropdownOptions}
+                value={this.state[element.name]}
+                onChange={(option) => this.setState({ [element.name]: option !== null ? option.value : null })}
+              />
+            </div>
+          );
           break;
+        }
         case 'scale':
-          scriptElements.push(<Scale />);
+          scriptElements.push(
+            <Scale
+              id={element.name}
+              key={element.name}
+              lowerBound={element.lowerBound}
+              lowerBoundLabel={element.lowerBoundLabel}
+              upperBound={element.upperBound}
+              upperBoundLabel={element.upperBoundLabel}
+              value={this.state[element.name]}
+              onChange={(value) => this.setState({ [element.name]: value })}
+              placeholder={element.text}
+              style={this.styles.element}
+            />
+          );
           break;
         case 'image':
-          scriptElements.push(<Image />);
+          scriptElements.push(<Image id={element.name} key={element.name} src={element.value} placeholder={element.text} style={this.styles.element} />);
           break;
-        case 'checkbox':
-          scriptElements.push(<CheckBoxGroup />);
+        case 'checkbox': {
+          const checkboxes = element.options.map((option) =>
+            <CheckBox id={option.value} key={option.value} text={option.name} checked={this.state[option.value]} cb={(checked) => this.setState({ [option.value]: checked })} />
+          );
+          scriptElements.push(
+            <div key={element.text} style={this.styles.element}>
+              <div>
+                { element.text }
+              </div>
+              { checkboxes }
+            </div>
+          );
           break;
+        }
         case 'link':
-          scriptElements.push(<TextLink />);
+          scriptElements.push(<TextLink id={element.name} key={element.name} link={element.href} text={element.text} style={this.styles.element} />);
           break;
         default:
-          break;
+          throw new Error('Unknown script element type');
       }
     }
     return scriptElements;
@@ -62,17 +165,10 @@ export class AgentScript extends React.Component { // eslint-disable-line react/
     return (
       <div style={this.styles.base}>
         {this.getScript()}
+        <Button id="submitScriptButton" type="primaryBlue" text={messages.submit} onClick={() => console.log('TODO send this to SDK', this.getScriptValueMap())} />
       </div>
     );
   }
 }
 
-const mapStateToProps = selectAgentScript();
-
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(AgentScript));
+export default (Radium(AgentScript));
