@@ -82,7 +82,6 @@ else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
       node() {
         def d = new deploy.frontend()
         try {
-<<<<<<< Updated upstream
           d.pull("${service}", "${build_version}") // pull down version of site from s3
           d.versionFile("${build_version}") // make version file
           d.confFile("dev", "${build_version}") // make conf file
@@ -108,8 +107,6 @@ else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
       node() {
         def t = new testing.acme()
         try {
-          def nodeHome = tool name: 'Latest', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-          env.PATH = "${nodeHome}/bin:${env.PATH}"
           git url: 'git@github.com:liveops/ACME'
           sh 'npm install'
           sh 'npm -g install webdriverio'
@@ -123,48 +120,13 @@ else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
         }
         catch(err) {
           t.hipchatFailure("${service}", "dev", "${build_version}") // Notify Failure
-=======
-          d.pull("${service}", "${build_version}")
-          d.versionFile("${build_version}")
-          d.confFile("dev", "${build_version}")
-          d.deploy("dev","desktop")
-          d.invalidate("E3MJXQEHZTM4FB")
-          d.hipchatSuccess("${service}", "dev", "${build_version}", "${env.BUILD_USER}")
-        }
-        catch(err) {
-          d.hipchatFailure("${service}", "dev", "${build_version}", "${env.BUILD_USER}")
->>>>>>> Stashed changes
           echo "Failed: ${err}"
           error "Failed: ${err}"
         }
         finally {
-<<<<<<< Updated upstream
           t.cleanup() // Cleanup
           sh 'docker stop selenium'
           sh 'docker rm selenium'
-=======
-          d.cleanup()
-        }
-      }
-    }
-  }
-  stage ('Test - Dev') {
-    timeout(time:5, unit:'DAYS') {
-      input message: 'Test Dev?', submitterParameter: 'submitter'
-      node() {
-        def t = new testing.acme()
-        try {
-          t.singleTest("dev", "login")
-          t.hipchatSuccess("${service}", "dev", "${build_version}")
-        }
-        catch(err) {
-          t.hipchatFailure("${service}", "dev", "${build_version}")
-          echo "Failed: ${err}"
-          error "Failed: ${err}"
-        }
-        finally {
-          t.cleanup()
->>>>>>> Stashed changes
         }
       }
     }
