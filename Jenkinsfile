@@ -110,7 +110,6 @@ else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
           git url: 'git@github.com:liveops/ACME'
           pwd()
           dir('ACME') {
-            sh 'npm install'
             sh 'npm -g install webdriverio'
             sh 'npm -g install wdio-dot-reporter'
             sh 'npm -g install wdio-jasmine-framework'
