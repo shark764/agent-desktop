@@ -108,16 +108,13 @@ else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
         def t = new testing.acme()
         try {
           git url: 'git@github.com:liveops/ACME'
-          pwd()
-          dir('ACME') {
-            sh 'npm -g install webdriverio'
-            sh 'npm -g install wdio-dot-reporter'
-            sh 'npm -g install wdio-jasmine-framework'
-            sh 'npm -g install wdio-spec-reporter'
-            sh 'npm -g install node-uuid'
-            sh 'docker run -d -P -p 4444:4444 --name selenium selenium/standalone-chrome'
-            sh 'wdio webdriverio/wdio.conf.js --suite login'
-          }
+          sh 'npm -g install webdriverio'
+          sh 'npm -g install wdio-dot-reporter'
+          sh 'npm -g install wdio-jasmine-framework'
+          sh 'npm -g install wdio-spec-reporter'
+          sh 'npm -g install node-uuid'
+          sh 'docker run -d -P -p 4444:4444 --name selenium selenium/standalone-chrome'
+          sh 'wdio webdriverio/wdio.conf.js --suite login'
           t.hipchatSuccess("${service}", "dev", "${build_version}") // Notify Success
         }
         catch(err) {
