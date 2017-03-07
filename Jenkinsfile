@@ -107,7 +107,8 @@ else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
       node() {
         def t = new testing.acme()
         try {
-          sh 'docker run -d -P -p 4444:4444 --name selenium selenium/standalone-chrome'
+          def nodeHome = tool name: 'Latest', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+          env.PATH = "${nodeHome}/bin:${env.PATH}"
           git url: 'git@github.com:liveops/ACME'
           sh 'npm install'
           sh 'npm -g install webdriverio'
@@ -115,6 +116,7 @@ else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
           sh 'npm -g install wdio-jasmine-framework'
           sh 'npm -g install wdio-spec-reporter'
           sh 'npm -g install node-uuid'
+          sh 'docker run -d -P -p 4444:4444 --name selenium selenium/standalone-chrome'
           sh 'wdio webdriverio/wdio.conf.js --suite login'
           t.hipchatSuccess("${service}", "dev", "${build_version}") // Notify Success
         }
