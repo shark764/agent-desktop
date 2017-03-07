@@ -108,7 +108,9 @@ else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
         def t = new testing.acme()
         try {
           git url: 'git@github.com:liveops/ACME'
-          sh 'npm install'
+          sh 'npm -g install twilio'
+          sh 'npm -g install request'
+          sh 'npm -g install colors'
           sh 'npm -g install webdriverio'
           sh 'npm -g install wdio-dot-reporter'
           sh 'npm -g install wdio-jasmine-framework'
