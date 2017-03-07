@@ -107,8 +107,6 @@ else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
       node() {
         def t = new testing.acme()
         try {
-          def nodeHome = tool name: 'Latest', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-          env.PATH = "${nodeHome}/bin:${env.PATH}"
           git url: 'git@github.com:liveops/ACME'
           sh 'npm install'
           sh 'npm -g install webdriverio'
