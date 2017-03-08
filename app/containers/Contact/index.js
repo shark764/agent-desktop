@@ -11,7 +11,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 import isURL from 'validator/lib/isURL';
 
-import { selectPopulatedLayout, selectPopulatedCompactAttributes, selectAttributes, selectHasVoiceInteraction } from './selectors';
+import { selectPopulatedLayout, selectPopulatedCompactAttributes, selectAttributes, selectIsReady, selectHasVoiceInteraction, selectHasInteraction } from './selectors';
 
 import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
 
@@ -341,7 +341,7 @@ export class Contact extends React.Component {
               type="secondary"
               onClick={this.handleInputClear}
             />
-            : ''
+            : undefined
           }
         </div>
       );
@@ -351,17 +351,12 @@ export class Contact extends React.Component {
     switch (attribute.type) { // TODO: AttributeValue components w/edit flags & callbacks
       case 'phone':
         content = (
-          <A id={`${attribute.objectName}Anchor`} disabled={this.props.hasVoiceInteraction || this.state.pendingOutbound} onClick={() => this.attemptCall(value)} text={value} />
+          <A id={`${attribute.objectName}Anchor`} disabled={!this.props.isReady || this.props.hasVoiceInteraction || this.state.pendingOutbound} onClick={() => this.attemptCall(value)} text={value} />
         );
         break;
       case 'link':
         content = (
           <a href={value} target="_blank">{value}</a>
-        );
-        break;
-      case 'email':
-        content = (
-          <a href={`mailto:${value}`}>{value}</a>
         );
         break;
       case 'boolean':
@@ -424,6 +419,39 @@ export class Contact extends React.Component {
     return this.props.layoutSections.map(this.getSection);
   }
 
+  renderEditBtn(showControls) {
+    if (showControls) {
+      return (
+        <Button
+          id={`editBtn${this.props.contact.id}`}
+          disabled={this.props.loading}
+          type="secondary"
+          onClick={this.props.edit}
+          text={this.props.intl.formatMessage(messages.editButton)}
+          style={this.styles.controlButton}
+        />
+      );
+    } else {
+      return undefined;
+    }
+  }
+
+  renderAssignBtn(hasInteraction) {
+    if (hasInteraction) {
+      return (
+        <Button
+          id={`assignBtn${this.props.contact.id}`}
+          disabled={this.props.loading || this.props.isAssigned}
+          type="secondary"
+          onClick={this.props.assign}
+          text={this.props.intl.formatMessage(messages.assignButton)}
+        />
+      );
+    } else {
+      return undefined;
+    }
+  }
+
   getDisplayView() {
     return (
       <div>
@@ -431,26 +459,10 @@ export class Contact extends React.Component {
           <div style={this.styles.title}>
             { this.getHeader() }
           </div>
-          {this.props.showControls
-          ? <div>
-            <Button
-              id={`assignBtn${this.props.contact.id}`}
-              disabled={this.props.loading || this.props.isAssigned}
-              type="secondary"
-              onClick={this.props.assign}
-              text={this.props.intl.formatMessage(messages.assignButton)}
-            />
-            <Button
-              id={`editBtn${this.props.contact.id}`}
-              disabled={this.props.loading}
-              type="secondary"
-              onClick={this.props.edit}
-              text={this.props.intl.formatMessage(messages.editButton)}
-              style={this.styles.controlButton}
-            />
+          <div>
+            {this.renderAssignBtn(this.props.hasInteraction)}
+            {this.renderEditBtn(this.props.showControls)}
           </div>
-          : ''
-          }
         </div>
         { this.props.showCompactView
           ? this.props.compactLayoutAttributes.attributes.map(this.getAttributeRow)
@@ -498,7 +510,9 @@ const mapStateToProps = (state, props) => ({
   attributes: selectAttributes(state, props),
   layoutSections: selectPopulatedLayout(state, props),
   compactLayoutAttributes: selectPopulatedCompactAttributes(state, props),
+  isReady: selectIsReady(state, props),
   hasVoiceInteraction: selectHasVoiceInteraction(state, props),
+  hasInteraction: selectHasInteraction(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -524,6 +538,8 @@ Contact.propTypes = {
   loading: PropTypes.bool,
   intl: intlShape.isRequired,
   style: PropTypes.object,
+  isReady: PropTypes.bool.isRequired,
+  hasInteraction: PropTypes.bool.isRequired,
   hasVoiceInteraction: PropTypes.bool.isRequired,
   startOutboundInteraction: PropTypes.func.isRequired,
 };

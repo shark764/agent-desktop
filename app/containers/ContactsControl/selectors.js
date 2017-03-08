@@ -46,8 +46,25 @@ const selectSelectedInteraction = createSelector(
   )[0]
 );
 
+const selectNoInteractionContactPanelContactsData = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) => agentDesktop.get('noInteractionContactPanel')
+);
+
+const selectCurrentInteraction = createSelector(
+  [selectSelectedInteraction, selectNoInteractionContactPanelContactsData],
+  (selectedInteraction, floatingNoInteractionData) => {
+    if (selectedInteraction) {
+      return selectedInteraction;
+    } else {
+      return floatingNoInteractionData.toJS();
+    }
+  }
+);
+
+
 export {
   selectContactsControlDomain,
-  selectSelectedInteraction,
   selectAttributes,
+  selectCurrentInteraction,
 };

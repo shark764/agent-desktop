@@ -56,6 +56,10 @@ const initialState = fromJS({
     // emailInteraction,
     // smsInteractionWithLotsOfMessagesAndScript,
   ],
+  noInteractionContactPanel: {
+    contactAction: 'search',
+    query: {},
+  },
 });
 
 function agentDesktopReducer(state = initialState, action) {
@@ -253,16 +257,23 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case SET_CONTACT_ACTION: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
-      if (interactionIndex !== -1) {
+      if (action.interactionId === undefined) {
         return state
-          .updateIn(['interactions', interactionIndex],
-            (interaction) => interaction.set('contactAction', action.newAction)
+          .setIn(['noInteractionContactPanel', 'contactAction'],
+            action.newAction
           );
       } else {
-        return state;
+        const interactionIndex = state.get('interactions').findIndex(
+          (interaction) => interaction.get('interactionId') === action.interactionId
+        );
+        if (interactionIndex !== -1) {
+          return state
+            .updateIn(['interactions', interactionIndex],
+              (interaction) => interaction.set('contactAction', action.newAction)
+            );
+        } else {
+          return state;
+        }
       }
     }
     case SET_INTERACTION_QUERY: {
@@ -282,37 +293,47 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === state.get('selectedInteractionId')
       );
+
+      let addSearchFilterPath;
+
       if (interactionIndex !== -1) {
-        return state
-          .updateIn(['interactions', interactionIndex, 'query'],
-            (query) => {
-              if (action.filterName === 'q') {
-                return fromJS({ [action.filterName]: action.value });
-              } else {
-                return query.set(action.filterName, action.value);
-              }
-            }
-          );
+        addSearchFilterPath = ['interactions', interactionIndex, 'query'];
       } else {
-        return state;
+        addSearchFilterPath = ['noInteractionContactPanel', 'query'];
       }
+
+      return state
+        .updateIn(addSearchFilterPath,
+          (interaction) => {
+            if (action.filterName === 'q') {
+              return fromJS({ [action.filterName]: action.value });
+            } else {
+              return interaction.set(action.filterName, action.value);
+            }
+          }
+        );
     }
     case REMOVE_SEARCH_FILTER: {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === state.get('selectedInteractionId')
       );
+
+      let removeSearchFilterPath;
+
       if (interactionIndex !== -1) {
-        if (action.filterName) {
-          return state
-            .updateIn(['interactions', interactionIndex, 'query'],
-              (query) => query.delete(action.filterName)
-            );
-        } else {
-          return state
-            .setIn(['interactions', interactionIndex, 'query'], fromJS({}));
-        }
+        removeSearchFilterPath = ['interactions', interactionIndex, 'query'];
       } else {
-        return state;
+        removeSearchFilterPath = ['noInteractionContactPanel', 'query'];
+      }
+
+      if (action.filterName) {
+        return state
+          .updateIn(removeSearchFilterPath,
+            (query) => query.delete(action.filterName)
+          );
+      } else {
+        return state
+          .setIn(removeSearchFilterPath, fromJS({}));
       }
     }
     case ASSIGN_CONTACT: {

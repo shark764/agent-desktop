@@ -20,7 +20,7 @@ import ContactSearchBar from 'containers/ContactSearchBar';
 import Contact from 'containers/Contact';
 
 import messages from './messages';
-import selectContactsControl, { selectSelectedInteraction, selectAttributes } from './selectors';
+import selectContactsControl, { selectCurrentInteraction, selectAttributes } from './selectors';
 import { setSearchResults, clearSearchResults } from './actions';
 import { assignContact } from '../AgentDesktop/actions';
 
@@ -498,7 +498,7 @@ ContactsControl.propTypes = {
 function mapStateToProps(state, props) {
   return {
     attributes: selectAttributes(state, props),
-    selectedInteraction: selectSelectedInteraction(state, props),
+    selectedInteraction: selectCurrentInteraction(state, props),
     ...selectContactsControl(state, props),
   };
 }

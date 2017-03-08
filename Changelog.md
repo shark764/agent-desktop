@@ -1,3 +1,7 @@
+<a name"0.9.0"></a>
+### 0.9.0 (2017-03-08)
+* Make Contacts Panel Immediately Visible Upon Login.
+
 <a name"0.8.0"></a>
 ### 0.8.0 (2017-03-08)
 * Wrapups UI and remaining logic

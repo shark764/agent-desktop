@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
 import Radium from 'radium';
 import IconCollapse from 'icons/collapse';
 
+import messages from './messages';
+import { FormattedMessage } from 'react-intl';
 import { getSelectedInteractionId, getSelectedInteractionIsVoice, getSelectedInteractionScript } from './selectors';
 
 import Tabs from 'components/Tabs';
@@ -121,7 +123,7 @@ export class SidePanel extends React.Component {
   }
 
   render() {
-    return this.props.selectedInteractionId !== undefined ? (
+    return (
       <div style={[this.styles.outerShell, this.getPanelSizing(), this.props.style]}>
         <div style={[this.styles.leftGutter]}>
           <div style={[this.styles.topGutterLeft]}>
@@ -135,11 +137,21 @@ export class SidePanel extends React.Component {
         <div id="sidePanelTabsContainer" style={this.styles.bodyWrapper}>
           <Tabs topBarHeightPx={topBarHeightPx} style={this.styles.tabsOuter} tabsRootStyle={this.styles.tabsRoot} type="big" id="contactTabs" onSelect={this.updateSelectedTab} selectedIndex={this.state.selectedTabIndex}>
             <TabList>
-              <Tab>Info</Tab>
-              <Tab>History</Tab>
+              <Tab>
+                <FormattedMessage {...messages.infoTab} />
+              </Tab>
+              {
+                this.props.selectedInteractionId !== undefined
+                ? <Tab>
+                  <FormattedMessage {...messages.historyTab} />
+                </Tab>
+                : undefined
+              }
               {
                 !this.props.selectedInteractionIsVoice && this.props.selectedInteractionScript !== undefined
-                ? <Tab>Scripts</Tab>
+                ? <Tab>
+                  <FormattedMessage {...messages.scriptsTab} />
+                </Tab>
                 : undefined
               }
             </TabList>
@@ -150,9 +162,13 @@ export class SidePanel extends React.Component {
                 setContactAction={this.props.setContactAction}
               />
             </TabPanel>
-            <TabPanel>
-              <ContactInteractionHistory />
-            </TabPanel>
+            {
+              this.props.selectedInteractionId !== undefined
+              ? <TabPanel>
+                <ContactInteractionHistory />
+              </TabPanel>
+              : undefined
+            }
             {
               !this.props.selectedInteractionIsVoice && this.props.selectedInteractionScript !== undefined
               ? <TabPanel>
@@ -165,8 +181,7 @@ export class SidePanel extends React.Component {
           </Tabs>
         </div>
       </div>
-    )
-    : null;
+    );
   }
 }
 

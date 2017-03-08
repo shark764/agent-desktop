@@ -45,7 +45,7 @@ export class AgentDesktop extends React.Component {
     this.defaultContactsPanelPx = 600;
 
     this.state = {
-      isContactsPanelCollapsed: false,
+      isContactsPanelCollapsed: true,
       contactsPanelPx: this.defaultContactsPanelPx,
       contactsPanelMaxPx: Math.max(window.innerWidth - 600, 600),
     };
@@ -383,13 +383,7 @@ export class AgentDesktop extends React.Component {
                     <InteractionsBar acceptInteraction={this.acceptInteraction} setInteractionStatus={this.props.setInteractionStatus} selectInteraction={this.selectInteraction} style={[this.styles.interactionsBar]} />
                   </div>
                   <MainContentArea emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} agent={this.props.login.agent} tenant={this.props.login.tenant} style={{ flex: '1 1 auto' }} />
-                  {
-                    (this.props.agentDesktop.selectedInteractionId !== undefined) ?
-                      <Resizable id="crm-resizable" direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={this.state.contactsPanelMaxPx} minPx={400} isDisabled={this.state.isContactsPanelCollapsed} style={this.styles.topArea} >
-                      </Resizable>
-                      :
-                      ''
-                  }
+                  <Resizable id="crm-resizable" direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={this.state.contactsPanelMaxPx} minPx={400} isDisabled={this.state.isContactsPanelCollapsed} style={this.styles.topArea} />
                 </div>
                 <Toolbar
                   tenant={this.props.login.tenant}
