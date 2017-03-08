@@ -1,3 +1,8 @@
+<a name"0.9.1"></a>
+### 0.9.1 (2017-03-08)
+* Fix bug in wrapup toggle
+* Update index.html splash to new product name
+
 <a name"0.9.0"></a>
 ### 0.9.0 (2017-03-08)
 * Make Contacts Panel Immediately Visible Upon Login.
