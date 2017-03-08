@@ -20,6 +20,7 @@ export class ContentArea extends React.Component {
   constructor(props) {
     super(props);
     this.setNotesPanelHeight = this.setNotesPanelHeight.bind(this);
+    this.toggleWrapup = this.toggleWrapup.bind(this);
     this.state = {
       notesPanelHeight: this.props.interaction.note !== undefined ? this.props.interaction.note.notesPanelHeight : 300,
       noteTitle: this.props.interaction.note !== undefined ? this.props.interaction.note.title : '',
