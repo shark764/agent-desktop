@@ -228,12 +228,13 @@ export class MessagingContentArea extends React.Component {
           <div style={this.styles.messageTextareaContainer}>
             <textarea
               id="messageTextarea"
+              disabled={this.props.selectedInteraction.status === 'wrapup'}
               style={this.styles.messageTextarea}
               value={this.state.messageText}
               onChange={(e) => this.setMessageText(e.target.value)}
               onKeyPress={this.sendMessageOnEnter}
             />
-            <Button id="sendMessageButton" onClick={this.sendMessage} type="secondary" style={this.styles.messageButton}>
+            <Button id="sendMessageButton" disabled={this.props.selectedInteraction.status === 'wrapup'} onClick={this.sendMessage} type="secondary" style={this.styles.messageButton}>
               <FormattedMessage {...messages.send} />
             </Button>
           </div>

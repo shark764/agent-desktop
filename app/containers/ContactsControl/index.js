@@ -7,13 +7,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import messages from './messages';
 import Radium from 'radium';
 import InfiniteScroll from 'react-infinite-scroller';
-
-import selectContactsControl, { selectSelectedInteraction, selectAttributes } from './selectors';
-import { setSearchResults, clearSearchResults } from './actions';
-import { assignContact } from '../AgentDesktop/actions';
 
 import ErrorBanner from 'components/ErrorBanner';
 import IconSVG from 'components/IconSVG';
@@ -24,6 +19,11 @@ import ContactSearchResult from 'containers/ContactSearchResult';
 import ContactSearchBar from 'containers/ContactSearchBar';
 import Contact from 'containers/Contact';
 
+import messages from './messages';
+import selectContactsControl, { selectSelectedInteraction, selectAttributes } from './selectors';
+import { setSearchResults, clearSearchResults } from './actions';
+import { assignContact } from '../AgentDesktop/actions';
+
 const controlHeaderHeight = 70;
 const resultsPlaceholderWidth = 330;
 
@@ -32,6 +32,7 @@ export class ContactsControl extends React.Component {
     super(props);
 
     this.state = {
+      nextErrorId: 0,
       query: this.expandQuery(this.props.selectedInteraction.query, this.props.attributes),
       loading: false,
       isEditing: false,
@@ -63,11 +64,13 @@ export class ContactsControl extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedInteraction.query !== this.props.selectedInteraction.query) {
+    const querySizeChanged = Object.keys(nextProps.selectedInteraction.query).length !== Object.keys(this.props.selectedInteraction.query).length;
+    const interactionChanged = (nextProps.selectedInteraction.interactionId !== this.props.selectedInteraction.interactionId);
+    if (querySizeChanged || interactionChanged) {
       this.props.clearSearchResults();
       this.setState({ query: this.expandQuery(nextProps.selectedInteraction.query, nextProps.attributes) });
     }
-    if ((nextProps.selectedInteraction.interactionId !== this.props.selectedInteraction.interactionId) && this.state.isEditing) {
+    if (interactionChanged && this.state.isEditing) {
       this.setNotEditing();
     }
   }
@@ -77,7 +80,7 @@ export class ContactsControl extends React.Component {
   }
 
   expandQuery(query, attributes) {
-    const newQuery = Object.keys(query).map((filterName) => {
+    return Object.keys(query).map((filterName) => {
       let attribute;
       if (filterName === 'q') {
         attribute = {
@@ -95,7 +98,6 @@ export class ContactsControl extends React.Component {
         ? { attribute, value: query[filterName], label }
         : false;
     }).filter(Boolean);
-    return newQuery;
   }
 
   removeFilter(filterName) {
@@ -360,7 +362,10 @@ export class ContactsControl extends React.Component {
     this.setState({ loading: false });
     if (error) {
       const type = 'server'; // TODO: when errors are ready, get error from response?
-      this.setState({ errors: [...this.state.errors, { type, messageType: 'notSaved' }] });
+      this.setState({
+        errors: [...this.state.errors, { type, messageType: 'notSaved', id: this.state.nextErrorId }],
+        nextErrorId: this.state.nextErrorId + 1,
+      });
       console.error(error);
     } else {
       this.props.clearSearchResults();
@@ -456,7 +461,7 @@ export class ContactsControl extends React.Component {
             this.state.errors.map((error, index) =>
               <ErrorBanner
                 id={`error${index}`}
-                key={index}
+                key={error.id}
                 dismiss={() => this.dismissError(index)}
                 tryAgain={error.tryAgain}
                 errorType={error.type}

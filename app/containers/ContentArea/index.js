@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 
-// import CheckBox from 'components/Checkbox';
+import Toggle from 'react-toggle';
 import Resizable from 'components/Resizable';
 
 import { updateNote } from 'containers/AgentDesktop/actions';
@@ -100,9 +100,10 @@ export class ContentArea extends React.Component {
     fromButtonsContainer: {
       borderBottom: '1px solid #D0D0D0',
       padding: '10px 5px',
+      display: 'flex',
+      justifyContent: 'space-between',
     },
     from: {
-      width: 'calc(100% - 160px)',
       display: 'inline-block',
       fontSize: '20px',
       fontWeight: 'bold',
@@ -111,7 +112,7 @@ export class ContentArea extends React.Component {
       textOverflow: 'ellipsis',
     },
     buttons: {
-      float: 'right',
+      marginLeft: '10px',
     },
     details: {
       fontSize: '12px',
@@ -223,12 +224,31 @@ export class ContentArea extends React.Component {
       border: '1px solid #E4E4E4',
       padding: '20px',
     },
+    wrapupContainer: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    rightHeaderContainer: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    toggleWrapupLabel: {
+      marginRight: '5px',
+    },
   };
 
   setNotesPanelHeight(newWidth) {
     this.setState({
       notesPanelHeight: newWidth,
     });
+  }
+
+  toggleWrapup() {
+    if (this.props.interaction.wrapupDetails.wrapupEnabled) {
+      SDK.interactions.disableWrapup({ interactionId: this.props.interaction.interactionId });
+    } else {
+      SDK.interactions.enableWrapup({ interactionId: this.props.interaction.interactionId });
+    }
   }
 
   render() {
@@ -242,8 +262,25 @@ export class ContentArea extends React.Component {
                 <div style={this.styles.from}>
                   {this.props.from}
                 </div>
-                <div style={this.styles.buttons}>
-                  {this.props.buttons}
+                <div style={this.styles.rightHeaderContainer}>
+                  {this.props.interaction.status !== 'wrapup' ?
+                    <div id="wrapupContainer" style={this.styles.wrapupContainer}>
+                      <label htmlFor="wrapupToggle" style={this.styles.toggleWrapupLabel}>
+                        <FormattedMessage {...messages.wrapup} />
+                      </label>
+                      <Toggle
+                        id="toggleWrapup"
+                        icons={false}
+                        onChange={this.toggleWrapup}
+                        disabled={!this.props.interaction.wrapupDetails.wrapupUpdateAllowed}
+                        checked={this.props.interaction.wrapupDetails.wrapupEnabled}
+                      />
+                    </div>
+                    : undefined
+                  }
+                  <div style={this.styles.buttons}>
+                    {this.props.buttons}
+                  </div>
                 </div>
               </div>
               <div style={this.styles.details}>

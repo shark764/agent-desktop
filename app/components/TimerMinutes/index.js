@@ -1,26 +1,26 @@
 /**
 *
-* Timer
+* TimerMinutes
 *
 */
 
 import React, { PropTypes } from 'react';
-import messages from './messages';
 import { FormattedMessage } from 'react-intl';
-import timer from 'react-timer-hoc';
 
-function TimerMinutes({ timer }) { // eslint-disable-line
-  const time = timer.tick;
+import messages from './messages';
+
+function TimerMinutes({ seconds }) { // eslint-disable-line
+  const minutes = Math.round(seconds / 60);
   let timeDisplay;
   let timeUnit;
-  if (time < 1) {
+  if (minutes < 1) {
     timeDisplay = <FormattedMessage {...messages.justNow} />;
     timeUnit = '';
-  } else if (time < 60) {
-    timeDisplay = time;
+  } else if (minutes < 60) {
+    timeDisplay = minutes;
     timeUnit = <FormattedMessage {...messages.minutes} />;
   } else {
-    timeDisplay = Math.floor(time / 60);
+    timeDisplay = Math.floor(minutes / 60);
     timeUnit = <FormattedMessage {...messages.hours} />;
   }
   return (
@@ -29,7 +29,7 @@ function TimerMinutes({ timer }) { // eslint-disable-line
 }
 
 TimerMinutes.propTypes = {
-  timer: PropTypes.object,
+  seconds: PropTypes.number,
 };
 
-export default timer(60000)(TimerMinutes);
+export default TimerMinutes;

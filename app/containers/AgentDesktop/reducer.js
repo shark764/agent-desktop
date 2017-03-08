@@ -7,6 +7,7 @@
 import { fromJS, List } from 'immutable';
 import {
   SET_EXTENSIONS,
+  UPDATE_WRAPUP_DETAILS,
   SET_ACTIVE_EXTENSION,
   SET_PRESENCE,
   SET_INTERACTION_STATUS,
@@ -80,7 +81,18 @@ function agentDesktopReducer(state = initialState, action) {
             (interactions) =>
               interactions.update(
                 interactionIndex,
-                (interaction) => interaction.set('status', action.newStatus)
+                (interaction) => {
+                  const updatedInteraction = interaction.set('status', action.newStatus);
+                  if (action.newStatus === 'wrapup') {
+                    const wrapupTime = (
+                      interaction.getIn(['wrapupDetails', 'wrapupTime'])
+                    );
+                    const timeout = wrapupTime ? new Date().valueOf() + (wrapupTime * 1000) : 0;
+                    return updatedInteraction.set('timeout', timeout);
+                  } else {
+                    return updatedInteraction;
+                  }
+                }
               )
           ).set('selectedInteractionId',
             automaticallyAcceptInteraction
@@ -119,10 +131,14 @@ function agentDesktopReducer(state = initialState, action) {
         channelType: action.response.channelType,
         direction: action.response.direction,
         interactionId: action.response.interactionId,
-        timeout: action.response.timeout,
+        timeout: new Date(action.response.timeout).valueOf(),
         autoAnswer: action.response.autoAnswer,
         status: 'work-offer',
         query: {},
+        wrapupDetails: {
+          wrapupUpdateAllowed: false,
+          wrapUpEnabled: false,
+        },
         contactAction: 'search',
         agentRecordingEnabled,
         recording,
@@ -144,6 +160,22 @@ function agentDesktopReducer(state = initialState, action) {
         return state
           .set('interactions', state.get('interactions').push(fromJS(interactionToAdd)));
       }
+    }
+    case UPDATE_WRAPUP_DETAILS: {
+      let interactionIndex;
+      if (action.interactionId) {
+        interactionIndex = state.get('interactions').findIndex(
+          (interaction) => interaction.get('interactionId') === action.interactionId
+        );
+      } else { // TODO remove when wrapup_details starts getting interactionId
+        interactionIndex = state.get('interactions').findIndex(
+          (interaction) => (interaction.get('status') === 'work-accepted') && (typeof interaction.getIn('wrapupEnabled') === 'undefined')
+        );
+      }
+      if (interactionIndex > -1) {
+        return state.mergeIn(['interactions', interactionIndex, 'wrapupDetails'], fromJS(action.wrapupDetails));
+      }
+      return state;
     }
     case WORK_INITIATED: {
       const interactionIndex = state.get('interactions').findIndex(

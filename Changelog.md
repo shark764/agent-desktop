@@ -1,3 +1,9 @@
+<a name"0.8.0"></a>
+### 0.8.0 (2017-03-08)
+* Wrapups UI and remaining logic
+* BUGFIX: overzealous search result refreshing
+* BUGFIX: unread message indication not showing & timer not resetting on new message
+
 <a name"0.7.8"></a>
 ### 0.7.8 (2017-03-07)
 * Mock scripts in interactions
