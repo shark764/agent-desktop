@@ -11,9 +11,6 @@ import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 
-import { selectAgentId, selectWarmTransfers } from './selectors';
-import messages from './messages';
-
 import search from 'assets/icons/search.png';
 import { startWarmTransferring } from 'containers/AgentDesktop/actions';
 
@@ -22,6 +19,9 @@ import CircleIconButton from 'components/CircleIconButton';
 import Dialpad from 'components/Dialpad';
 import Tabs from 'components/Tabs';
 import TextInput from 'components/TextInput';
+
+import { selectAgentId, selectWarmTransfers } from './selectors';
+import messages from './messages';
 
 export class TransferMenu extends React.Component {
 
@@ -63,12 +63,12 @@ export class TransferMenu extends React.Component {
   }
 
   componentDidMount() {
-    SDK.api.getQueues({}, (error, topic, response) => this.setQueuesCallback(error, topic, response));
-    SDK.api.getUsers({}, (error, topic, response) => this.setAgentsCallback(error, topic, response));
-    SDK.api.getTransferLists({}, (error, topic, response) => this.setTransferListsCallback(error, topic, response));
+    SDK.entities.get.queues({}, (error, topic, response) => this.setQueuesCallback(error, topic, response));
+    SDK.entities.get.users({}, (error, topic, response) => this.setAgentsCallback(error, topic, response));
+    SDK.entities.get.transferLists({}, (error, topic, response) => this.setTransferListsCallback(error, topic, response));
 
     this.reloadTransferablesInterval = setInterval(() => {
-      SDK.api.getUsers({}, (error, topic, response) => this.setAgentsCallback(error, topic, response));
+      SDK.entities.get.users({}, (error, topic, response) => this.setAgentsCallback(error, topic, response));
     }, 5000);
   }
 
@@ -78,12 +78,12 @@ export class TransferMenu extends React.Component {
 
   refreshQueues() {
     this.setState({ queues: 'loading' });
-    SDK.api.getQueues({}, (error, topic, response) => this.setQueuesCallback(error, topic, response));
+    SDK.entities.get.queues({}, (error, topic, response) => this.setQueuesCallback(error, topic, response));
   }
 
   refreshAgents() {
     this.setState({ agents: 'loading' });
-    SDK.api.getUsers({}, (error, topic, response) => this.setAgentsCallback(error, topic, response));
+    SDK.entities.get.users({}, (error, topic, response) => this.setAgentsCallback(error, topic, response));
   }
 
   setQueuesCallback(error, topic, response) {

@@ -232,16 +232,16 @@ function agentDesktopReducer(state = initialState, action) {
         const messageInteraction = state.getIn(['interactions', messageInteractionIndex]);
         if (messageInteraction) {
           const messageHistoryItems = action.response.map((messageHistoryItem) => {
-            let from = messageHistoryItem.payload.metadata && messageHistoryItem.payload.metadata.name ? messageHistoryItem.payload.metadata.name : messageHistoryItem.payload.from;
-            const type = messageHistoryItem.payload.metadata ? messageHistoryItem.payload.metadata.type : messageHistoryItem.payload.type;
+            let from = messageHistoryItem.metadata && messageHistoryItem.metadata.name ? messageHistoryItem.metadata.name : messageHistoryItem.from;
+            const type = messageHistoryItem.metadata ? messageHistoryItem.metadata.type : messageHistoryItem.type;
             if (messageInteraction.get('channelType') === 'sms' && type === 'message') {
               if (from[0] !== '+') from = `+${from}`;
             }
             return {
-              text: messageHistoryItem.payload.body.text,
+              text: messageHistoryItem.body.text,
               from,
               type,
-              timestamp: messageHistoryItem.payload.timestamp,
+              timestamp: messageHistoryItem.timestamp,
               unread: state.get('selectedInteractionId') !== undefined && action.response[0].channelId !== state.get('selectedInteractionId'),
             };
           });

@@ -431,6 +431,7 @@ export class ContactsControl extends React.Component {
       if (error) {
         callback(error);
       } else {
+        SDK.reporting.getContactHistory({ entityId: contact.id });
         this.props.clearSearchResults();
         this.props.assignContact(this.props.selectedInteraction.interactionId, contact);
         callback();

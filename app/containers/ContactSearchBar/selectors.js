@@ -28,6 +28,7 @@ const selectSearchableAttributes = createSelector(
       },
       objectName: 'q', // Fuzzy search query parameter
     }];
+    // TODO TODO TODO error here: Uncaught TypeError: Cannot read property 'get' of undefined
     layout.get('layout').toJS().map((section) =>
       section.attributes.forEach((attributeId) => {
         if (searchableAttributes.indexOf((searchableAttribute) => searchableAttribute.id === attributeId) > -1) {

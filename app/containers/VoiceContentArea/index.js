@@ -7,12 +7,12 @@
 import React, { PropTypes } from 'react';
 import Radium from 'radium';
 
-import messages from './messages';
-
 import Button from 'components/Button';
 
 import AgentScript from 'containers/AgentScript';
 import ContentArea from 'containers/ContentArea';
+
+import messages from './messages';
 
 export class VoiceContentArea extends React.Component {
 
@@ -74,6 +74,8 @@ export class VoiceContentArea extends React.Component {
           <AgentScript interactionId={this.props.selectedInteraction.interactionId} script={this.props.selectedInteraction.script} />
         </div>
       );
+    } else {
+      content = <div id="noContent"></div>;
     }
 
     return <ContentArea interaction={this.props.selectedInteraction} from={from} buttons={buttons} details={details} content={content} />;
