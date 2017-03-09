@@ -10,9 +10,7 @@ import { connect } from 'react-redux';
 import Radium from 'radium';
 import IconCollapse from 'icons/collapse';
 
-import messages from './messages';
 import { FormattedMessage } from 'react-intl';
-import { getSelectedInteractionId, getSelectedInteractionIsVoice, getSelectedInteractionScript } from './selectors';
 
 import Tabs from 'components/Tabs';
 
@@ -20,8 +18,12 @@ import AgentScript from 'containers/AgentScript';
 import ContactsControl from 'containers/ContactsControl';
 import ContactInteractionHistory from 'containers/ContactInteractionHistory';
 
+import messages from './messages';
+import { getSelectedInteractionId, getSelectedInteractionIsVoice, getSelectedInteractionScript } from './selectors';
+
 const leftGutterPx = 52;
 const topBarHeightPx = 63;
+
 
 export class SidePanel extends React.Component {
   constructor() {
@@ -112,6 +114,9 @@ export class SidePanel extends React.Component {
       width: '100%',
       overflowY: 'auto',
     },
+    rightMargin: {
+      marginRight: '26px',
+    },
   };
 
   handleCollapseClick() {
@@ -160,12 +165,13 @@ export class SidePanel extends React.Component {
                 addSearchFilter={this.props.addSearchFilter}
                 removeSearchFilter={this.props.removeSearchFilter}
                 setContactAction={this.props.setContactAction}
+                style={this.styles.rightMargin}
               />
             </TabPanel>
             {
               this.props.selectedInteractionId !== undefined
               ? <TabPanel>
-                <ContactInteractionHistory />
+                <ContactInteractionHistory style={this.styles.rightMargin} />
               </TabPanel>
               : undefined
             }

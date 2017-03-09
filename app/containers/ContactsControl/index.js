@@ -402,10 +402,11 @@ export class ContactsControl extends React.Component {
     const results = [];
     if (this.props.selectedInteraction.query && Object.keys(this.props.selectedInteraction.query).length) {
       const resultsMapped = this.props.results.map(
-        (contact) =>
+        (contact, index) =>
           <ContactSearchResult
             style={this.styles.contactResult}
             key={contact.id}
+            id={`contactSearchResult-${index}`}
             isAssigned={this.props.selectedInteraction && this.props.selectedInteraction.contact && this.props.selectedInteraction.contact.id === contact.id}
             contact={contact}
             assignContact={this.assignContactToSelected}

@@ -6,12 +6,12 @@
 
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 import Radium from 'radium';
-
 import moment from 'moment';
 
 import Icon from 'components/Icon';
+
+import messages from './messages';
 
 export class ContactInteractionHistory extends React.Component {
   constructor(props) {
@@ -280,7 +280,7 @@ export class ContactInteractionHistory extends React.Component {
         );
       } else {
         const transcriptItems = segment.transcript.map((transcriptItem, index) =>
-          <div key={`${segment.id}-transcriptItem${index}`} style={this.styles.transcriptItem}>
+          <div key={`${segment.id}`} id={`transcriptItem${index}`} style={this.styles.transcriptItem}>
             <span style={this.styles.transcriptItemName}>
               {transcriptItem.name}:&nbsp;
             </span>
@@ -353,11 +353,15 @@ export class ContactInteractionHistory extends React.Component {
       content = this.getCurrentInteractionDisplay();
     }
     return (
-      <div style={this.styles.base}>
+      <div style={[this.styles.base, this.props.style]}>
         { content }
       </div>
     );
   }
 }
+
+ContactInteractionHistory.propTypes = {
+  style: React.PropTypes.object,
+};
 
 export default (Radium(ContactInteractionHistory));
