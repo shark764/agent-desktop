@@ -11,16 +11,15 @@ import { injectIntl, intlShape } from 'react-intl';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 import isURL from 'validator/lib/isURL';
 
-import { selectPopulatedLayout, selectPopulatedCompactAttributes, selectAttributes, selectIsReady, selectHasVoiceInteraction, selectHasInteraction } from './selectors';
-
 import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
-
-import messages from './messages';
 
 import A from 'components/A';
 import Checkbox from 'components/Checkbox';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
+
+import messages from './messages';
+import { selectPopulatedLayout, selectPopulatedCompactAttributes, selectAttributes, selectIsReady, selectHasVoiceInteraction, selectHasInteraction } from './selectors';
 
 export class Contact extends React.Component {
   constructor(props) {
@@ -419,8 +418,8 @@ export class Contact extends React.Component {
     return this.props.layoutSections.map(this.getSection);
   }
 
-  renderEditBtn(showControls) {
-    if (showControls) {
+  renderEditBtn() {
+    if (this.props.showControls) {
       return (
         <Button
           id={`editBtn${this.props.contact.id}`}
@@ -436,8 +435,8 @@ export class Contact extends React.Component {
     }
   }
 
-  renderAssignBtn(hasInteraction) {
-    if (hasInteraction) {
+  renderAssignBtn() {
+    if (this.props.hasInteraction && this.props.showControls) {
       return (
         <Button
           id={`assignBtn${this.props.contact.id}`}
@@ -460,8 +459,8 @@ export class Contact extends React.Component {
             { this.getHeader() }
           </div>
           <div>
-            {this.renderAssignBtn(this.props.hasInteraction)}
-            {this.renderEditBtn(this.props.showControls)}
+            {this.renderAssignBtn()}
+            {this.renderEditBtn()}
           </div>
         </div>
         { this.props.showCompactView

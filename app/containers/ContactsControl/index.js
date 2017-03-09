@@ -53,13 +53,11 @@ export class ContactsControl extends React.Component {
     this.getViewControlHeader = this.getViewControlHeader.bind(this);
     this.getSearchControlHeader = this.getSearchControlHeader.bind(this);
     this.getHeader = this.getHeader.bind(this);
-    this.addFilter = this.addFilter.bind(this);
-    this.removeFilter = this.removeFilter.bind(this);
     this.clearSearch = this.clearSearch.bind(this);
     this.setNotEditing = this.setNotEditing.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.saveCallback = this.saveCallback.bind(this);
-    this.assignContactToSelected = this.assignContactToSelected.bind(this);
+    this.handleContactAssign = this.handleContactAssign.bind(this);
     this.dismissError = this.dismissError.bind(this);
   }
 
@@ -100,16 +98,6 @@ export class ContactsControl extends React.Component {
     }).filter(Boolean);
   }
 
-  removeFilter(filterName) {
-    this.props.clearSearchResults();
-    this.props.removeSearchFilter(filterName);
-  }
-
-  addFilter(filterName, value) {
-    this.props.clearSearchResults();
-    this.props.addSearchFilter(filterName, value);
-  }
-
   setSearching() {
     this.props.setContactAction(this.props.selectedInteraction.interactionId, 'search');
   }
@@ -131,7 +119,7 @@ export class ContactsControl extends React.Component {
   }
 
   clearSearch() {
-    this.removeFilter();
+    this.props.removeSearchFilter();
     if (this.props.selectedInteraction.contact !== undefined) {
       this.setViewing();
     }
@@ -146,7 +134,7 @@ export class ContactsControl extends React.Component {
       <div style={this.styles.controlHeader}>
         <ContactSearchBar
           resultsCount={this.props.resultsCount !== undefined ? this.props.resultsCount : -1}
-          addFilter={this.addFilter}
+          addFilter={this.props.addSearchFilter}
           cancel={this.clearSearch}
           query={this.state.query}
           style={this.styles.contactSearchBar}
@@ -157,7 +145,7 @@ export class ContactsControl extends React.Component {
               key={filter.attribute.objectName}
               name={filter.label}
               value={filter.value}
-              remove={() => this.removeFilter(filter.attribute.objectName)}
+              remove={() => this.props.removeSearchFilter(filter.attribute.objectName)}
               style={this.styles.filter}
             />
           )}
@@ -277,6 +265,8 @@ export class ContactsControl extends React.Component {
     rightButton: {
       float: 'right',
       margin: '0',
+      height: '36px',
+      width: '60px',
     },
     resultsPlaceholder: {
       color: '#979797',
@@ -357,15 +347,18 @@ export class ContactsControl extends React.Component {
     },
   };
 
+  addError(type, messageType) {
+    this.setState({
+      errors: [...this.state.errors, { type, messageType, id: this.state.nextErrorId }],
+      nextErrorId: this.state.nextErrorId + 1,
+    });
+  }
+
   saveCallback(error, topic, response) {
     console.log('[ContactsControl] SDK.subscribe()', topic, response);
     this.setState({ loading: false });
     if (error) {
-      const type = 'server'; // TODO: when errors are ready, get error from response?
-      this.setState({
-        errors: [...this.state.errors, { type, messageType: 'notSaved', id: this.state.nextErrorId }],
-        nextErrorId: this.state.nextErrorId + 1,
-      });
+      this.addError('server', 'notSaved'); // TODO: when errors are ready, get error from response?
       console.error(error);
     } else {
       this.props.clearSearchResults();
@@ -386,8 +379,63 @@ export class ContactsControl extends React.Component {
     }
   }
 
-  assignContactToSelected(contact) {
-    this.props.assignContact(this.props.selectedInteraction.interactionId, contact);
+  unassignCurrentContact(callback) {
+    SDK.interactions.unassignContact({
+      interactionId: this.props.selectedInteraction.interactionId,
+      contactId: this.props.selectedInteraction.contact.id,
+    }, (error, response, topic) => {
+      this.setState({ loading: false });
+      console.log('[ContactsControl] SDK.subscribe()', topic, response);
+      callback(error);
+    });
+  }
+
+  handleContactAssign(contact) {
+    this.setState({ loading: true });
+    const handleError = (error) => {
+      this.addError('server', 'notAssigned'); // TODO: when errors are ready, get error from response?
+      console.error(error);
+    };
+    if (this.props.selectedInteraction.contact !== undefined) {
+      this.unassignCurrentContact((unassignError) => {
+        if (unassignError) {
+          this.setState({ loading: false });
+          handleError(unassignError);
+        } else {
+          this.props.assignContact(this.props.selectedInteraction.interactionId);
+          this.assignContactToSelected(contact, (assignError) => {
+            if (assignError) {
+              handleError(assignError);
+            }
+            this.setState({ loading: false });
+          });
+        }
+      });
+    } else {
+      this.assignContactToSelected(contact, (assignError) => {
+        if (assignError) {
+          handleError(assignError);
+        }
+        this.setState({ loading: false });
+      });
+    }
+  }
+
+  assignContactToSelected(contact, callback) {
+    SDK.interactions.assignContact({
+      interactionId: this.props.selectedInteraction.interactionId,
+      contactId: contact.id,
+    }, (error, response, topic) => {
+      this.setState({ loading: false });
+      console.log('[ContactsControl] SDK.subscribe()', topic, response);
+      if (error) {
+        callback(error);
+      } else {
+        this.props.clearSearchResults();
+        this.props.assignContact(this.props.selectedInteraction.interactionId, contact);
+        callback();
+      }
+    });
   }
 
   getLoader() {
@@ -409,7 +457,7 @@ export class ContactsControl extends React.Component {
             id={`contactSearchResult-${index}`}
             isAssigned={this.props.selectedInteraction && this.props.selectedInteraction.contact && this.props.selectedInteraction.contact.id === contact.id}
             contact={contact}
-            assignContact={this.assignContactToSelected}
+            assignContact={this.handleContactAssign}
             editContact={this.editUnassignedContact}
             loading={this.state.loading}
           />);
@@ -449,7 +497,15 @@ export class ContactsControl extends React.Component {
 
   renderContactView() {
     return Object.keys(this.props.selectedInteraction.contact).length ?
-      <Contact style={this.styles.mainContact} isAssigned contact={this.props.selectedInteraction.contact} loading={this.state.loading} save={this.handleSave} cancel={this.setNotEditing} isEditing={this.state.isEditing} />
+      <Contact
+        style={this.styles.mainContact}
+        isAssigned
+        contact={this.props.selectedInteraction.contact}
+        loading={this.state.loading}
+        save={this.handleSave}
+        cancel={this.setNotEditing}
+        isEditing={this.state.isEditing}
+      />
       :
       ''; // TODO: loading animation
   }

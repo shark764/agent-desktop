@@ -5,12 +5,12 @@
 */
 
 import React, { PropTypes } from 'react';
-
+import Radium from 'radium';
 import { injectIntl } from 'react-intl';
-import messages from './messages';
+
 import Button from 'components/Button';
 
-import Radium from 'radium';
+import messages from './messages';
 
 function ErrorBanner(props) {
   const styles = {
@@ -79,7 +79,7 @@ ErrorBanner.propTypes = {
   intl: PropTypes.object.isRequired,
   id: PropTypes.string.isRequired,
   errorType: PropTypes.oneOf(['server', 'network']).isRequired,
-  messageType: PropTypes.oneOf(['notSaved', 'notCreated']).isRequired,
+  messageType: PropTypes.oneOf(['notSaved', 'notCreated', 'notAssigned']).isRequired,
   dismiss: PropTypes.func.isRequired,
   tryAgain: PropTypes.func,
   key: PropTypes.string,

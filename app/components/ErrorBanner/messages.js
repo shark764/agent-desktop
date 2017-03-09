@@ -26,4 +26,8 @@ export default defineMessages({
     id: 'app.components.ErrorBanner.notCreated',
     defaultMessage: 'Your new contact has not been created.',
   },
+  notAssigned: {
+    id: 'app.components.ErrorBanner.notAssigned',
+    defaultMessage: 'Contact was not assigned to the interaction.',
+  },
 });

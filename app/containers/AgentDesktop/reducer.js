@@ -346,7 +346,13 @@ function agentDesktopReducer(state = initialState, action) {
             (interactions) =>
               interactions.update(
                 interactionIndex,
-                (interaction) => interaction.set('contact', fromJS(action.contact)).set('contactAction', 'view')
+                (interaction) => {
+                  const updatedInteraction = interaction.set('contact', fromJS(action.contact));
+                  if (action.contact) {
+                    return updatedInteraction.set('contactAction', 'view');
+                  }
+                  return updatedInteraction;
+                }
               )
           );
       } else {

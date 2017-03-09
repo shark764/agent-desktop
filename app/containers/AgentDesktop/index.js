@@ -281,6 +281,8 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/crud/get-users-response': // Handled in TransferMenu
         case 'cxengage/crud/get-transfer-lists-response': // Handled in TransferMenu
         case 'cxengage/voice/transfer-response': // Handled in TransferMenu
+        case 'cxengage/interactions/contact-unassigned': // Handled in ContactsControl
+        case 'cxengage/interactions/contact-assigned': // Handled in ContactsControl
           break;
         default: {
           console.warn('[AgentDesktop] SDK.subscribe(): No pub sub for', error, topic, response); // eslint-disable-line no-console
