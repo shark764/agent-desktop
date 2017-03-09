@@ -1,3 +1,10 @@
+<a name"0.9.3"></a>
+### 0.9.3 (2017-03-10)
+* Connect assign contact flow to SDK
+* BUGFIX: Search result count not resetting correctly
+* BUGFIX: Assign button showing on assigned contact view
+* BUGFIX: Shrunken search button on assigned contact view
+
 <a name"0.9.2"></a>
 ### 0.9.2 (2017-03-09)
 * Disable notes / dispositions panel until SDK functionality available
