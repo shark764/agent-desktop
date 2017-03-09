@@ -1,3 +1,8 @@
+<a name"0.9.2"></a>
+### 0.9.2 (2017-03-09)
+* Disable notes / dispositions panel until SDK functionality available
+* BUGFIX: Search dropdown offset, right margin missing.
+
 <a name"0.9.1"></a>
 ### 0.9.1 (2017-03-08)
 * Fix bug in wrapup toggle
