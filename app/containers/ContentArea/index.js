@@ -6,10 +6,11 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 
 import Toggle from 'react-toggle';
+import Resizable from 'components/Resizable';
 
 import { updateNote } from 'containers/AgentDesktop/actions';
 
@@ -252,6 +253,7 @@ export class ContentArea extends React.Component {
   }
 
   render() {
+    const { formatMessage } = this.props.intl;
     return (
       <div style={this.styles.base}>
         <div style={this.styles.mainContent}>
@@ -291,7 +293,6 @@ export class ContentArea extends React.Component {
             </div>
           </div>
         </div>
-        { /* TODO when notes / dispositions are available from the SDK
         <Resizable id="notes-resizable" direction="top" setPx={this.setNotesPanelHeight} disabledPx={50} px={this.state.notesPanelHeight} maxPx={600} minPx={125} isDisabled={false} >
           <div style={this.styles.notesArea}>
             <div style={this.styles.notesTitleContainer}>
@@ -304,6 +305,7 @@ export class ContentArea extends React.Component {
                 style={this.styles.notesTitleInput}
               />
             </div>
+            { /* TODO when dispositions are available from the SDK
             <div style={this.styles.dispositionsContainer}>
               {
                 this.state.selectedDispositions.map((dispositionId) => {
@@ -358,6 +360,7 @@ export class ContentArea extends React.Component {
                 : undefined
               }
             </div>
+            */ }
             <textarea
               id="notesTextarea"
               placeholder={formatMessage(messages.notesPlaceholder)}
@@ -367,13 +370,13 @@ export class ContentArea extends React.Component {
             />
           </div>
         </Resizable>
-        */ }
       </div>
     );
   }
 }
 
 ContentArea.propTypes = {
+  intl: intlShape.isRequired,
   updateNote: PropTypes.func.isRequired,
   interaction: PropTypes.object.isRequired,
   from: PropTypes.node.isRequired,

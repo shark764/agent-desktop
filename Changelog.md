@@ -1,3 +1,7 @@
+<a name"0.9.4"></a>
+### 0.9.4 (2017-03-10)
+* Notes back in
+
 <a name"0.9.3"></a>
 ### 0.9.3 (2017-03-10)
 * Connect assign contact flow to SDK
