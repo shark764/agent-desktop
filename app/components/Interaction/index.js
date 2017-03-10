@@ -9,7 +9,6 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 
-import Countdown from 'components/Countdown';
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 import TimerMinutes from 'components/TimerMinutes';
@@ -20,26 +19,43 @@ import messages from './messages';
 export class Interaction extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
+      startTime: Date.now(),
       ageSeconds: 0,
-      ageIncrementIntervalId: setInterval(
+      msIntervalId: setInterval(
         () => {
-          this.setState({ ageSeconds: this.state.ageSeconds + 1 });
+          const ageSeconds = Math.round((Date.now() - this.state.startTime) / 1000);
+          if (this.props.status === 'wrapup' && (ageSeconds > this.props.wrapupTime)) {
+            SDK.interactions.endWrapup({ interactionId: this.props.interactionId });
+            clearInterval(this.state.msIntervalId);
+          }
+          this.setState({
+            ageSeconds,
+          });
         }, 1000
       ),
     };
   }
 
+  getRemainingSeconds() {
+    switch (this.props.status) {
+      case 'pending':
+        return Math.max(Math.round((this.props.timeout - this.state.startTime) / 1000) - this.state.ageSeconds, 0);
+      default:
+        if (this.state.ageSeconds < this.props.targetWrapupTime) {
+          return (this.props.targetWrapupTime - this.state.ageSeconds);
+        } else if (this.state.ageSeconds < this.props.wrapupTime) {
+          return (this.props.wrapupTime - this.state.ageSeconds);
+        } else {
+          return 0;
+        }
+    }
+  }
+
   resetAge() {
-    window.clearInterval(this.state.ageIncrementIntervalId);
     this.setState({
+      startTime: Date.now(),
       ageSeconds: 0,
-      ageIncrementIntervalId: setInterval(
-          () => {
-            this.setState({ ageSeconds: this.state.ageSeconds + 1 });
-          }, 1000
-        ),
     });
   }
 
@@ -50,7 +66,7 @@ export class Interaction extends React.Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.ageIncrementIntervalId);
+    clearInterval(this.state.msIntervalId);
   }
 
   styles = {
@@ -137,7 +153,7 @@ export class Interaction extends React.Component {
       case 'pending':
         return '#23CEF5';
       case 'wrapup':
-        if (this.state.ageSeconds >= this.props.targetWrapupSeconds) {
+        if (this.props.targetWrapupTime && (this.state.ageSeconds >= this.props.targetWrapupTime)) {
           return '#FE4565';
         }
         return '#23CEF5';
@@ -150,7 +166,7 @@ export class Interaction extends React.Component {
     switch (this.props.status) {
       case 'wrapup':
       case 'pending':
-        return <Countdown id={`countdown-${this.props.interactionId}`} countdownUntil={new Date(this.props.timeout)} />;
+        return this.getRemainingSeconds();
       default:
         switch (this.props.channelType) {
           case 'sms':
@@ -193,9 +209,9 @@ export class Interaction extends React.Component {
               </div>
               <div>
                 <Progress
-                  value={this.state.ageSeconds}
-                  timeout={new Date(this.props.timeout)}
-                  targetSeconds={this.props.targetWrapupSeconds}
+                  current={this.getRemainingSeconds()}
+                  start={this.state.ageSeconds < this.props.targetWrapupTime ? this.props.targetWrapupTime : this.props.wrapupTime - this.props.targetWrapupTime}
+                  barColor={this.getTimerColor()}
                   style={{ width: '100%' }}
                 />
               </div>
@@ -224,10 +240,11 @@ Interaction.propTypes = {
   channelType: React.PropTypes.string,
   icon: React.PropTypes.string,
   timeout: React.PropTypes.number,
+  targetWrapupTime: React.PropTypes.number,
+  wrapupTime: React.PropTypes.number,
   status: React.PropTypes.oneOf(['pending', 'active', 'wrapup']).isRequired,
   selected: React.PropTypes.bool,
   onClick: React.PropTypes.func,
-  targetWrapupSeconds: React.PropTypes.string,
 };
 
 export default Radium(Interaction);

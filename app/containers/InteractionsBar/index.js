@@ -39,9 +39,9 @@ export class InteractionsBar extends React.Component {
         from={this.props.activeVoiceInteraction.contact !== undefined ? this.props.activeVoiceInteraction.contact.attributes.name : this.props.activeVoiceInteraction.number}
         previewText={this.props.activeVoiceInteraction.contact !== undefined ? this.props.activeVoiceInteraction.number : undefined}
         status={this.props.activeVoiceInteraction.status === 'wrapup' ? 'wrapup' : 'active'}
-        targetWrapupSeconds={this.props.activeVoiceInteraction.wrapupDetails.targetWrapupTime}
+        targetWrapupTime={Number(this.props.activeVoiceInteraction.wrapupDetails.targetWrapupTime)}
+        wrapupTime={Number(this.props.activeVoiceInteraction.wrapupDetails.wrapupTime)}
         selected={this.props.selectedInteractionId === this.props.activeVoiceInteraction.interactionId}
-        timeout={this.props.activeVoiceInteraction.timeout}
         onClick={this.props.selectedInteractionId !== this.props.activeVoiceInteraction.interactionId ? () => this.props.selectInteraction(this.props.activeVoiceInteraction.interactionId) : undefined}
       />)
       : '';
@@ -88,9 +88,9 @@ export class InteractionsBar extends React.Component {
           from={from}
           previewText={text}
           status={activeInteraction.status === 'wrapup' ? 'wrapup' : 'active'}
-          targetWrapupSeconds={activeInteraction.wrapupDetails.targetWrapupTime}
+          targetWrapupTime={Number(activeInteraction.wrapupDetails.targetWrapupTime)}
+          wrapupTime={Number(activeInteraction.wrapupDetails.wrapupTime)}
           selected={this.props.selectedInteractionId === activeInteraction.interactionId}
-          timeout={activeInteraction.timeout}
           onClick={this.props.selectedInteractionId !== activeInteraction.interactionId ? () => this.props.selectInteraction(activeInteraction.interactionId) : undefined}
         />
       );
@@ -125,7 +125,6 @@ export class InteractionsBar extends React.Component {
           from={from}
           previewText={text}
           status="pending"
-          targetWrapupSeconds={pendingInteraction.wrapupDetails.targetWrapupTime}
           timeout={pendingInteraction.timeout}
           onClick={() => this.acceptInteraction(pendingInteraction.interactionId)}
         />
