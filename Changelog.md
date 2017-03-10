@@ -1,3 +1,9 @@
+<a name"0.10.1"></a>
+### 0.10.1 (2017-03-10)
+* Fix work-rejected pubsub
+* Fix non-local welcome stats API calls
+* Temporary fix SDK log errors
+
 <a name"0.10.0"></a>
 ### 0.10.0 (2017-03-10)
 * SDK 2.0
