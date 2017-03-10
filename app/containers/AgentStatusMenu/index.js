@@ -6,12 +6,13 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { selectHasActiveInteractions, selectExtensions, selectActiveExtension } from './selectors';
 import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 import Radium from 'radium';
 import { setActiveExtension } from 'containers/AgentDesktop/actions';
 import checkIcon from 'assets/icons/CheckStatus.png';
+
+import messages from './messages';
+import { selectHasActiveInteractions, selectExtensions, selectActiveExtension } from './selectors';
 
 export class AgentStatusMenu extends React.Component {
   styles = {
@@ -164,7 +165,7 @@ export class AgentStatusMenu extends React.Component {
 
   changePresence(newPresence) {
     if (newPresence === 'ready') {
-      SDK.session.goReady({ extensionId: this.props.activeExtension.value });
+      SDK.session.goReady({ extensionValue: this.props.activeExtension.value });
     } else if (newPresence === 'notready') {
       SDK.session.goNotReady();
     } else {
@@ -179,7 +180,7 @@ export class AgentStatusMenu extends React.Component {
         <div id="agentStatusMenu" style={this.styles.agentStatusMenu}>
           { this.props.hasActiveInteractions
             ? <div id="agentLogoutLink" style={[this.styles.logoutLink, this.styles.logoutLinkInactive]}><FormattedMessage {...messages.logout} /></div>
-            : <div id="agentLogoutLink" style={[this.styles.logoutLink]} onClick={() => { SDK.session.goOffline(); this.props.showAgentStatusMenu(false); }}><FormattedMessage {...messages.logout} /></div>
+            : <div id="agentLogoutLink" style={[this.styles.logoutLink]} onClick={() => { SDK.session.end(); this.props.showAgentStatusMenu(false); }}><FormattedMessage {...messages.logout} /></div>
           }
           <div id="agentMenuTenant" style={[this.styles.dropdown]}>
             <div style={[this.styles.dropdownTitle]}><FormattedMessage {...messages.tenant} /></div>

@@ -1,3 +1,8 @@
+<a name"10.0.0"></a>
+### 10.0.0 (2017-03-10)
+* SDK 2.0
+* Custom fields on interactions
+
 <a name"0.9.4"></a>
 ### 0.9.4 (2017-03-10)
 * Notes back in

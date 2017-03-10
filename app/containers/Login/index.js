@@ -6,11 +6,10 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import Radium from 'radium';
 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
-import selectLogin from './selectors';
-import messages from './messages';
 import Dialog from 'components/Dialog';
 import Logo from 'components/Logo';
 import Title from 'components/Title';
@@ -21,11 +20,11 @@ import A from 'components/A';
 import Select from 'components/Select';
 import IconSVG from 'components/IconSVG';
 // import Radio from 'components/Radio';
-const storage = window.localStorage;
 
+import selectLogin from './selectors';
+import messages from './messages';
 import { loggingIn, loginError, loginSuccess, resetPassword, settingTenant, setTenant } from './actions';
-
-import Radium from 'radium';
+const storage = window.localStorage;
 
 export class Login extends React.Component {
 
@@ -58,7 +57,7 @@ export class Login extends React.Component {
   onLogin() {
     if (this.state.username.trim() !== '' && this.state.password !== '') {
       this.props.loggingIn();
-      SDK.auth.login({
+      SDK.authentication.login({
         username: this.state.username.trim(),
         password: this.state.password,
         callback: (error, topic, response) => {
@@ -137,7 +136,7 @@ export class Login extends React.Component {
           : ''
         }
         {this.props.tenant_error
-          ? <span id="tenantLoginError" style={[this.styles.error, this.styles.errorPerms]}>
+          ? <span id="tenantLoginError" style={[this.styles.error, this.styles.errorTenant]}>
             <FormattedMessage style={this.styles.center} {...this.props.tenant_error_message} />
           </span>
           : ''
@@ -258,9 +257,6 @@ export class Login extends React.Component {
       top: '-509px',
     },
     errorTenant: {
-      top: '-406.4px',
-    },
-    errorPerms: {
       top: '-361.4px',
     },
     copyright: {

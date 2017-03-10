@@ -44,7 +44,7 @@ function Dialpad(props) {
 
 Dialpad.propTypes = {
   id: PropTypes.string.isRequired,
-  onEnter: PropTypes.func.isRequired,
+  onEnter: PropTypes.func,
   dialpadText: PropTypes.string.isRequired,
   setDialpadText: PropTypes.func.isRequired,
 };
