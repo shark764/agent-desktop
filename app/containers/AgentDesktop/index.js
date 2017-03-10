@@ -87,7 +87,7 @@ export class AgentDesktop extends React.Component {
     if (typeof window.ADconf !== 'undefined') {
       where = window.ADconf.api;
       environment = window.ADconf.env;
-      logLevel = 'info';
+      logLevel = 'debug'; // FIXME set back to info when fixed on SDK
       blastSqsOutput = false;
     } else if (location.hostname === 'localhost') {
       where = 'dev-api.cxengagelabs.net/v1/';
@@ -125,6 +125,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/capabilities/voice-available':
         case 'cxengage/capabilities/messaging-available': {
           // TODO set these in state?
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           window.SDK = serenova.cxengage.api;
           break;
         }
@@ -198,7 +199,7 @@ export class AgentDesktop extends React.Component {
           break;
         }
         case 'cxengage/interactions/wrapup-ended':
-        case 'cxengage/interactions/work-rejected':
+        case 'cxengage/interactions/work-rejected-received':
         case 'cxengage/interactions/work-ended-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.removeInteraction(response.interactionId);
