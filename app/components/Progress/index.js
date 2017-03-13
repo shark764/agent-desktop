@@ -11,23 +11,50 @@ import Radium from 'radium';
 export class Progress extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      timeoutSeconds: Math.round((props.timeout.valueOf() - new Date().valueOf()) / 1000),
+      current: props.current,
+      animationPending: true,
     };
   }
 
+  animate() {
+    if (this.state.animationPending) {
+      this.setState({
+        current: this.props.current - 1,
+        animationPending: false,
+      });
+    }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.current === nextState.current || (nextState.current - nextProps.current) > 1) {
+      this.setState({ animationPending: true });
+    }
+    if (nextProps.current === nextProps.start) {
+      this.setState({
+        current: nextProps.current,
+        animationPending: true,
+      });
+    }
+  }
+
+  componentDidMount() {
+    this.animate();
+  }
+
+  componentDidUpdate() {
+    this.animate();
+  }
+
   getBarStyle() {
-    const progressDecimal = Math.min((this.props.value * 1.05) / this.state.timeoutSeconds, 1);
+    const progressDecimal = Math.min((this.props.start - this.state.current) / this.props.start, 1);
     return {
       strokeDasharray: '100px, 100px',
       strokeDashoffset: `${progressDecimal * 100}px`,
       transition: 'stroke-dashoffset 1s linear',
-      stroke: this.props.value >= this.props.targetSeconds ? '#FE4565' : '#23CEF5',
+      stroke: this.props.barColor,
     };
   }
-
-  get
 
   render() {
     return (
@@ -57,9 +84,9 @@ export class Progress extends React.Component {
 }
 
 Progress.propTypes = {
-  value: React.PropTypes.number.isRequired,
-  timeout: React.PropTypes.instanceOf(Date),
-  targetSeconds: React.PropTypes.string,
+  current: React.PropTypes.number.isRequired,
+  start: React.PropTypes.number.isRequired,
+  barColor: React.PropTypes.string,
   style: React.PropTypes.object,
 };
 

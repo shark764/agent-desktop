@@ -13,7 +13,7 @@ import {
 const initialState = fromJS({
   contactLayout: undefined,
   // uncomment below line for mocking
-  // contactLayout: {layout: []},
+  // contactLayout: { layout: [] },
   contactAttributes: [],
 });
 

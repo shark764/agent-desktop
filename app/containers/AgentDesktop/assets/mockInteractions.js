@@ -3,15 +3,28 @@ const outboundConnectingVoiceInteraction = {
   channelType: 'voice',
   direction: 'outbound',
   status: 'connecting-to-outbound',
+  wrapupDetails: {
+    wrapupUpdateAllowed: true,
+    wrapupEnabled: true,
+    wrapupTime: '20',
+    targetWrapupTime: '10',
+  },
+  query: {},
 };
 
 const voiceInteractionWithTransfersAndScripts = {
   channelType: 'voice',
   interactionId: '0000000-0000-0000-0000-3333333333333',
-  status: 'work-accepted', // 'work-offer',
-  timeout: new Date(Date.now() + 60000).toISOString(),
+  status: 'wrapup', // 'work-offer',
+  timeout: Date.now() + 60000,
   number: '+3134126623',
   query: {},
+  wrapupDetails: {
+    wrapupUpdateAllowed: true,
+    wrapupEnabled: true,
+    wrapupTime: '45',
+    targetWrapupTime: '30',
+  },
   script: {
     elements: [
       {
@@ -178,8 +191,14 @@ const emailInteractionWithAttachmentsAndScript = {
   channelType: 'email',
   interactionId: '0000000-0000-0000-0000-111111111',
   status: 'work-accepted', // 'work-offer',
-  timeout: new Date(Date.now() + 60000).toISOString(),
+  timeout: Date.now() + 60000,
   query: {},
+  wrapupDetails: {
+    wrapupUpdateAllowed: true,
+    wrapupEnabled: true,
+    wrapupTime: '20',
+    targetWrapupTime: '10',
+  },
   script: {
     elements: [
       {
@@ -244,7 +263,13 @@ const emailInteraction = {
   channelType: 'email',
   interactionId: '0000000-0000-0000-0000-222222222222',
   status: 'work-accepted', // 'work-offer',
-  timeout: new Date(Date.now() + 60000).toISOString(),
+  timeout: Date.now() + 60000,
+  wrapupDetails: {
+    wrapupUpdateAllowed: true,
+    wrapupEnabled: true,
+    wrapupTime: '20',
+    targetWrapupTime: '10',
+  },
   query: {},
   email: {
     to: 'support@help.com',
@@ -262,6 +287,12 @@ const smsInteractionWithLotsOfMessagesAndScript = {
   interactionId: '11111111111111111111112',
   status: 'work-accepted',
   query: {},
+  wrapupDetails: {
+    wrapupUpdateAllowed: true,
+    wrapupEnabled: true,
+    wrapupTime: '20',
+    targetWrapupTime: '10',
+  },
   script: {
     elements: [
       {

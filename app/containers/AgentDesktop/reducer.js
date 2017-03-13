@@ -4,7 +4,10 @@
  *
  */
 
-import { fromJS, List } from 'immutable';
+import { fromJS, Map } from 'immutable';
+
+import Interaction from 'models/Interaction';
+
 import {
   SET_EXTENSIONS,
   UPDATE_WRAPUP_DETAILS,
@@ -46,10 +49,10 @@ import {
 // import { outboundConnectingVoiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteractionWithAttachmentsAndScript, emailInteraction, smsInteractionWithLotsOfMessagesAndScript } from './assets/mockInteractions';
 
 const initialState = fromJS({
-  // // Uncomment to allow login screen to be hidden
+  // Uncomment to allow login screen to be hidden
   // presence: 'notReady',
   interactions: [
-    // // Un-comment out below (and the above imports) to mock interactions (only use one voice interaction at a time):
+    // Un-comment out below (and the above imports) to mock interactions (only use one voice interaction at a time):
     // outboundConnectingVoiceInteraction,
     // voiceInteractionWithTransfersAndScripts,
     // emailInteractionWithAttachmentsAndScript,
@@ -81,23 +84,8 @@ function agentDesktopReducer(state = initialState, action) {
       if (interactionIndex !== -1) {
         const automaticallyAcceptInteraction = action.newStatus === 'work-accepting' && state.get('selectedInteractionId') === undefined;
         return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => {
-                  const updatedInteraction = interaction.set('status', action.newStatus);
-                  if (action.newStatus === 'wrapup') {
-                    const wrapupTime = (
-                      interaction.getIn(['wrapupDetails', 'wrapupTime'])
-                    );
-                    const timeout = wrapupTime ? new Date().valueOf() + (wrapupTime * 1000) : 0;
-                    return updatedInteraction.set('timeout', timeout);
-                  } else {
-                    return updatedInteraction;
-                  }
-                }
-              )
+          .updateIn(['interactions', interactionIndex],
+                (interaction) => interaction.set('status', action.newStatus)
           ).set('selectedInteractionId',
             automaticallyAcceptInteraction
             ? action.interactionId
@@ -107,62 +95,23 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case START_OUTBOUND_INTERACTION: {
-      return state.set('interactions', state.get('interactions').push(fromJS({
+      return state.set('interactions', state.get('interactions').push(new Map(new Interaction({
         channelType: action.channelType,
         direction: 'outbound',
         status: 'connecting-to-outbound',
-      })));
+      }))));
     }
     case ADD_INTERACTION: {
-      let agentRecordingEnabled;
-      let recording;
-      let onHold;
-      let muted;
-      let warmTransfers;
-      let customerAvatarIndex;
-      if (action.response.channelType === 'voice') {
-        // recordingUpdate could be undefined for old flows, but should be enabled in that case
-        agentRecordingEnabled = action.response.toolbarFeatures.recordingUpdate !== false;
-        // recording and onHold can have been set by an incoming transfer
-        recording = action.response.recording === true;
-        onHold = action.response.customerOnHold === true;
-        muted = false;
-        warmTransfers = new List();
-      } else if (action.response.channelType === 'sms' || action.response.channelType === 'messaging') {
-        customerAvatarIndex = Math.floor(Math.random() * 17);
-      }
-      const interactionToAdd = {
-        channelType: action.response.channelType,
-        direction: action.response.direction,
-        interactionId: action.response.interactionId,
-        timeout: new Date(action.response.timeout).valueOf(),
-        autoAnswer: action.response.autoAnswer,
-        status: 'work-offer',
-        query: {},
-        wrapupDetails: {
-          wrapupUpdateAllowed: false,
-          wrapUpEnabled: false,
-        },
-        contactAction: 'search',
-        agentRecordingEnabled,
-        recording,
-        onHold,
-        muted,
-        warmTransfers,
-        customerAvatarIndex,
-      };
-
+      const interactionToAdd = new Map(new Interaction(action.response));
       // If interaction was already added by START_OUTBOUND_INTERACTION, replace it; otherwise, just push it to the list
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => (interaction.get('status') === 'connecting-to-outbound' && interaction.get('channelType') === action.response.channelType)
       );
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex], () =>
-          fromJS(interactionToAdd)
-        );
+        return state.setIn(['interactions', interactionIndex], interactionToAdd);
       } else {
         return state
-          .set('interactions', state.get('interactions').push(fromJS(interactionToAdd)));
+          .set('interactions', state.get('interactions').push(interactionToAdd));
       }
     }
     case UPDATE_WRAPUP_DETAILS: {
@@ -185,14 +134,10 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === action.response.interactionId
       );
-      return state.update('interactions',
-        (interactions) =>
-          interactions.update(
-            interactionIndex,
-            (interaction) => interaction
-              .set('status', 'work-initiated')
-              .set('number', interaction.get('channelType') === 'voice' ? action.response.customer : undefined)
-          )
+      return state.updateIn(['interactions', interactionIndex],
+        (interaction) => interaction
+          .set('status', 'work-initiated')
+          .set('number', interaction.get('channelType') === 'voice' ? action.response.customer : undefined)
       );
     }
     case REMOVE_INTERACTION: {

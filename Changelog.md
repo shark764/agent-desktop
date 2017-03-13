@@ -1,4 +1,9 @@
 <a name"0.10.1"></a>
+### 0.10.1 (2017-03-13)
+* Split wrapup timeout bars
+* BUGFIX: outbound calls blowing up
+
+<a name"0.10.1"></a>
 ### 0.10.1 (2017-03-10)
 * Fix work-rejected pubsub
 * Fix non-local welcome stats API calls
