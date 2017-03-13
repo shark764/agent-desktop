@@ -118,8 +118,6 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/session/started': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.showLogin(false);
-          SDK.contacts.listAttributes();
-          SDK.contacts.listLayouts();
           break;
         }
         case 'cxengage/capabilities/voice-available':
@@ -320,13 +318,27 @@ export class AgentDesktop extends React.Component {
   }
 
   attemptContactSearch(from, interactionId, exact) {
-    console.log('[AgentDesktop] attemptContactSearch()', { query: { q: exact ? encodeURIComponent(`"${from}"`) : encodeURIComponent(from) } });
-    SDK.contacts.search({ query: { q: encodeURIComponent(`"${from}"`) } }, (error, topic, response) => {
-      console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-      if (response.count === 1) {
-        this.props.assignContact(interactionId, response.results[0]);
-      } else {
+    SDK.contacts.search({ query: { q: exact ? encodeURIComponent(`"${from}"`) : encodeURIComponent(from) } }, (searchError, searchTopic, searchResponse) => {
+      if (searchError) {
         this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
+      } else {
+        console.log('[AgentDesktop] SDK.subscribe()', searchTopic, searchResponse);
+        if (searchResponse.count === 1) { // if single contact found, auto assign to interaction
+          SDK.interactions.assignContact({
+            interactionId,
+            contactId: searchResponse.results[0].id,
+          }, (assignError, assignTopic, assignResponse) => {
+            console.log('[ContactsControl] SDK.subscribe()', assignTopic, assignResponse);
+            if (assignError) {
+              this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
+            } else {
+              SDK.reporting.getContactHistory({ entityId: searchResponse.results[0].id });
+              this.props.assignContact(interactionId, searchResponse.results[0]);
+            }
+          });
+        } else {
+          this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
+        }
       }
     });
   }
