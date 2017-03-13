@@ -133,6 +133,7 @@ export class SidePanel extends React.Component {
         <div style={[this.styles.leftGutter]}>
           <div style={[this.styles.topGutterLeft]}>
             <IconCollapse
+              id="sidePanelCollapse"
               onClick={this.handleCollapseClick}
               style={[this.styles.iconCollapse, this.props.isCollapsed ? this.styles.right90 : this.styles.left90]}
             />

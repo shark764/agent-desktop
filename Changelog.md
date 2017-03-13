@@ -1,5 +1,9 @@
-<a name"0.10.1"></a>
-### 0.10.1 (2017-03-13)
+<a name"0.10.3"></a>
+### 0.10.3 (2017-03-13)
+* IDs for side panel collapse icon and searh bar
+
+<a name"0.10.2"></a>
+### 0.10.2 (2017-03-13)
 * Split wrapup timeout bars
 * BUGFIX: outbound calls blowing up
 

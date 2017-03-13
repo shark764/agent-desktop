@@ -221,7 +221,7 @@ export class ContactSearchBar extends React.Component {
 
   render() {
     return (
-      <div style={[this.styles.base, this.props.style]}>
+      <div id="contactSearchBar" style={[this.styles.base, this.props.style]}>
         <div ref={(element) => { this.inputDiv = element; }} style={this.styles.inputBox}>
           {
             this.state.pendingFilter ?
@@ -231,7 +231,6 @@ export class ContactSearchBar extends React.Component {
               </span>
             :
               <Autocomplete
-                id="search-filter-autocomplete"
                 value={this.state.autocompleteValue}
                 items={this.getAvailableFilters()}
                 renderItem={this.createDropdownItem}
