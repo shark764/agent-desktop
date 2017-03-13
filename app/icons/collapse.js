@@ -9,6 +9,7 @@ class IconCollapse extends React.Component { // eslint-disable-line react/prefer
 
     return (
       <svg
+        id={this.props.id}
         version="1.1"
         x="0px"
         y="0px"
@@ -32,6 +33,7 @@ class IconCollapse extends React.Component { // eslint-disable-line react/prefer
 }
 
 IconCollapse.propTypes = {
+  id: PropTypes.string.isRequired,
   style: PropTypes.object,
   onClick: PropTypes.func,
 };
