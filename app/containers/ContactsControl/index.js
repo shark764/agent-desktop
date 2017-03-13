@@ -435,7 +435,7 @@ export class ContactsControl extends React.Component {
     SDK.interactions.assignContact({
       interactionId: this.props.selectedInteraction.interactionId,
       contactId: contact.id,
-    }, (error, response, topic) => {
+    }, (error, topic, response) => {
       this.setState({ loading: false });
       console.log('[ContactsControl] SDK.subscribe()', topic, response);
       if (error) {

@@ -45,6 +45,7 @@
   "app.containers.ContactInteractionHistory.customerSatisfaction": "Customer Satifaction",
   "app.containers.ContactInteractionHistory.interaction": "interaction",
   "app.containers.ContactInteractionHistory.interactionsSince": "interactions since",
+  "app.containers.ContactInteractionHistory.minutes": "minutes",
   "app.containers.ContactInteractionHistory.noPastInteractions": "No past interactions",
   "app.containers.ContactInteractionHistory.transcript": "Transcript",
   "app.containers.ContentArea.notes": "Notes",

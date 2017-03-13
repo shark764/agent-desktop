@@ -22,9 +22,10 @@ import Toolbar from 'containers/Toolbar';
 
 import { showLogin, tenantError, logout } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
-import { setExtensions, updateWrapupDetails, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
-  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected, emailCreateReply, emailCancelReply, addSearchFilter,
-  removeSearchFilter, setContactAction } from './actions';
+import { setExtensions, updateWrapupDetails, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact,
+  setContactInteractionHistory, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
+  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected,
+  emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction } from './actions';
 
 import selectAgentDesktop, { selectLogin } from './selectors';
 
@@ -267,6 +268,11 @@ export class AgentDesktop extends React.Component {
           this.props.assignContact(this.props.agentDesktop.selectedInteractionId, response);
           break;
         }
+        case 'cxengage/reporting/get-contact-interaction-history-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.setContactInteractionHistory(response);
+          break;
+        }
         case 'cxengage/contacts/update-contact-response': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.updateContact(response);
@@ -308,7 +314,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/entities/get-transfer-lists-response': // Handled in TransferMenu
         case 'cxengage/interactions/voice/transfer-response': // Handled in TransferMenu
         case 'cxengage/interactions/contact-unassigned-acknowledged': // Handled in ContactsControl
-        case 'cxengage/interactions/contact-assigned-acknowledged': // Handled in ContactsControl
+        case 'cxengage/interactions/contact-assign-acknowledged': // Handled in callbacks here and in ContactsControl
           break;
         default: {
           console.warn('[AgentDesktop] SDK.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console
@@ -330,6 +336,7 @@ export class AgentDesktop extends React.Component {
           }, (assignError, assignTopic, assignResponse) => {
             console.log('[ContactsControl] SDK.subscribe()', assignTopic, assignResponse);
             if (assignError) {
+              console.error('Assign error', assignError);
               this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
             } else {
               SDK.reporting.getContactHistory({ entityId: searchResponse.results[0].id });
@@ -470,6 +477,7 @@ function mapDispatchToProps(dispatch) {
     removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
     setMessageHistory: (response) => dispatch(setMessageHistory(response)),
     assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
+    setContactInteractionHistory: (response) => dispatch(setContactInteractionHistory(response)),
     updateContact: (updatedContact) => dispatch(updateContact(updatedContact)),
     addMessage: (response) => dispatch(addMessage(response)),
     selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
@@ -507,6 +515,7 @@ AgentDesktop.propTypes = {
   removeInteraction: PropTypes.func.isRequired,
   setMessageHistory: PropTypes.func.isRequired,
   assignContact: PropTypes.func.isRequired,
+  setContactInteractionHistory: PropTypes.func.isRequired,
   updateContact: PropTypes.func.isRequired,
   addMessage: PropTypes.func.isRequired,
   selectInteraction: PropTypes.func.isRequired,

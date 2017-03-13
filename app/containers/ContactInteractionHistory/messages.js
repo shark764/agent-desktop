@@ -22,6 +22,10 @@ export default defineMessages({
     id: 'app.containers.ContactInteractionHistory.customerSatisfaction',
     defaultMessage: 'Customer Satifaction',
   },
+  minutes: {
+    id: 'app.containers.ContactInteractionHistory.minutes',
+    defaultMessage: 'minutes',
+  },
   audioRecording: {
     id: 'app.containers.ContactInteractionHistory.audioRecording',
     defaultMessage: 'Audio Recording',

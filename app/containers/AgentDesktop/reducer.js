@@ -24,6 +24,7 @@ import {
   SET_MESSAGE_HISTORY,
   SET_CONTACT_ACTION,
   ASSIGN_CONTACT,
+  SET_CONTACT_INTERACTION_HISTORY,
   UPDATE_CONTACT,
   ADD_MESSAGE,
   SELECT_INTERACTION,
@@ -303,6 +304,15 @@ function agentDesktopReducer(state = initialState, action) {
       } else {
         return state;
       }
+    }
+    case SET_CONTACT_INTERACTION_HISTORY: {
+      return state.update('interactions', (interactions) => interactions.map((interaction) => {
+        if (interaction.getIn(['contact', 'id']) === action.response.contactId) {
+          // TODO also set stuff for pagination
+          return interaction.setIn(['contact', 'interactionHistory'], fromJS(action.response.results));
+        }
+        return interaction;
+      }));
     }
     case UPDATE_CONTACT: {
       return state.update('interactions', (interactions) => interactions.map((interaction) => {
