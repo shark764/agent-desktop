@@ -1,3 +1,7 @@
+<a name"0.11.1"></a>
+### 0.11.1 (2017-03-14)
+* Fixing in call timer format
+
 <a name"0.11.0"></a>
 ### 0.11.0 (2017-03-13)
 * Contact interaction history
