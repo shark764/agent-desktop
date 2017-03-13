@@ -34,7 +34,7 @@ export class ContactsControl extends React.Component {
     this.state = {
       nextErrorId: 0,
       query: this.expandQuery(this.props.selectedInteraction.query, this.props.attributes),
-      loading: false,
+      loading: true,
       isEditing: false,
       unassignedContactEditing: {},
       errors: [],
@@ -75,6 +75,16 @@ export class ContactsControl extends React.Component {
 
   componentWillUnmount() {
     this.props.clearSearchResults();
+  }
+
+  componentDidMount() {
+    SDK.contacts.listAttributes({ callback: (attributesError, attributesTopic, attributesResponse) => {
+      console.log('[AgentDesktop] SDK.subscribe()', attributesTopic, attributesResponse);
+      SDK.contacts.listLayouts({ callback: (layoutsError, layoutsTopic, layoutsResponse) => {
+        console.log('[AgentDesktop] SDK.subscribe()', layoutsTopic, layoutsResponse);
+        this.setState({ loading: false }); // TODO: error handling
+      } });
+    } });
   }
 
   expandQuery(query, attributes) {

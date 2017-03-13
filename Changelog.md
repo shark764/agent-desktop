@@ -1,6 +1,17 @@
+<a name"0.10.5></a>
+### 0.10.5 (2017-03-13)
+* SDK build with working wrapups
+* BUGFIX: contact layouts loading race condition causing occasional login bomb out
+* BUGFIX: messages not being marked accepted on interaction auto select
+* BUGFIX: no sdk contact assign on autoassign
+
+<a name"0.10.4"></a>
+### 0.10.4 (2017-03-13)
+* Fixing auto-deploy
+
 <a name"0.10.3"></a>
 ### 0.10.3 (2017-03-13)
-* IDs for side panel collapse icon and searh bar
+* IDs for side panel collapse icon and search bar
 
 <a name"0.10.2"></a>
 ### 0.10.2 (2017-03-13)

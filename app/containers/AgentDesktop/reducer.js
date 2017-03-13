@@ -187,7 +187,7 @@ function agentDesktopReducer(state = initialState, action) {
               from,
               type,
               timestamp: messageHistoryItem.timestamp,
-              unread: state.get('selectedInteractionId') !== undefined && action.response[0].channelId !== state.get('selectedInteractionId'),
+              unread: state.get('selectedInteractionId') !== undefined && action.response[0].to !== state.get('selectedInteractionId'),
             };
           });
           return state
