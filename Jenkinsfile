@@ -101,27 +101,25 @@ else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
       }
     }
   }
-  stage ('Test - Dev') {
-    timeout(time:5, unit:'DAYS') {
-      input message: 'Test Dev?', submitterParameter: 'submitter'
-      node() {
-        def t = new testing.acme()
-        try {
-          t.hipchatSuccess("${service}", "dev", "${build_version}") // Notify Success
-        }
-        catch(err) {
-          t.hipchatFailure("${service}", "dev", "${build_version}") // Notify Failure
-          echo "Failed: ${err}"
-          error "Failed: ${err}"
-        }
-        finally {
-          t.cleanup() // Cleanup
-          sh 'docker stop selenium'
-          sh 'docker rm selenium'
-        }
-      }
-    }
-  }
+  // stage ('Test - Dev') {
+  //   timeout(time:5, unit:'DAYS') {
+  //     input message: 'Test Dev?', submitterParameter: 'submitter'
+  //     node() {
+  //       def t = new testing.acme()
+  //       try {
+  //         t.hipchatSuccess("${service}", "dev", "${build_version}") // Notify Success
+  //       }
+  //       catch(err) {
+  //         t.hipchatFailure("${service}", "dev", "${build_version}") // Notify Failure
+  //         echo "Failed: ${err}"
+  //         error "Failed: ${err}"
+  //       }
+  //       finally {
+  //         t.cleanup() // Cleanup
+  //       }
+  //     }
+  //   }
+  // }
   if (!build_version.contains("SNAPSHOT")) {
     echo "this is a RELEASE version and the pipeline will continue"
   }
