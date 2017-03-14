@@ -30,6 +30,9 @@ import {
   ADD_MESSAGE,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
+  SET_EMAIL_PLAIN_BODY,
+  SET_EMAIL_HTML_BODY,
+  SET_EMAIL_DETAILS,
   START_WARM_TRANSFERRING,
   TRANSFER_CANCELLED,
   TRANSFER_CONNECTED,
@@ -48,7 +51,7 @@ import {
   UPDATE_SCRIPT_VALUES,
 } from './constants';
 
-// import { outboundConnectingVoiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteractionWithAttachmentsAndScript, emailInteraction, smsInteractionWithLotsOfMessagesAndScript } from './assets/mockInteractions';
+// import { outboundConnectingVoiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript } from './assets/mockInteractions';
 
 const initialState = fromJS({
   // Uncomment to allow login screen to be hidden
@@ -57,7 +60,6 @@ const initialState = fromJS({
     // Un-comment out below (and the above imports) to mock interactions (only use one voice interaction at a time):
     // outboundConnectingVoiceInteraction,
     // voiceInteractionWithTransfersAndScripts,
-    // emailInteractionWithAttachmentsAndScript,
     // emailInteraction,
     // smsInteractionWithLotsOfMessagesAndScript,
   ],
@@ -385,6 +387,30 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+    case SET_EMAIL_PLAIN_BODY: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      return state.updateIn(['interactions', interactionIndex], (interaction) =>
+        interaction.set('emailPlainBody', action.body)
+      );
+    }
+    case SET_EMAIL_HTML_BODY: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      return state.updateIn(['interactions', interactionIndex], (interaction) =>
+        interaction.set('emailHtmlBody', action.body)
+      );
+    }
+    case SET_EMAIL_DETAILS: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      return state.updateIn(['interactions', interactionIndex], (interaction) =>
+        interaction.set('emailDetails', fromJS(action.details))
+      );
+    }
     case START_WARM_TRANSFERRING: {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === action.interactionId
@@ -580,14 +606,12 @@ function agentDesktopReducer(state = initialState, action) {
             (interactions) =>
               interactions.update(
                 interactionIndex,
-                (interaction) => interaction.set('email', interaction.get('email')
-                  .set('reply', fromJS({
-                    to: interaction.get('email').get('from'),
-                    subject: `RE: ${interaction.get('email').get('subject')}`,
-                    attachments: [],
-                    message: '',
-                  }))
-                )
+                (interaction) => interaction.set('emailReply', fromJS({
+                  to: interaction.getIn('emailDetails', 'from', 0, 'address'),
+                  subject: `RE: ${interaction.get('emailDetails').get('subject')}`,
+                  attachments: [],
+                  message: '',
+                }))
               )
           );
       } else {
@@ -604,9 +628,7 @@ function agentDesktopReducer(state = initialState, action) {
             (interactions) =>
               interactions.update(
                 interactionIndex,
-                (interaction) => interaction.set('email', interaction.get('email')
-                  .set('reply', undefined)
-                )
+                (interaction) => interaction.set('emailReply', undefined)
               )
           );
       } else {
@@ -619,7 +641,7 @@ function agentDesktopReducer(state = initialState, action) {
       );
       if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.setIn(['email', 'reply', 'attachments'], interaction.get('email').get('reply').get('attachments').push(fromJS({ name: action.attachment.name })))
+          interaction.setIn(['emailReply', 'attachments'], interaction.get('emailReply').get('attachments').push(fromJS({ name: action.attachment.name })))
         );
       } else {
         return state;
@@ -631,7 +653,7 @@ function agentDesktopReducer(state = initialState, action) {
       );
       if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.setIn(['email', 'reply', 'attachments'], interaction.get('email').get('reply').get('attachments').filter((attachment) =>
+          interaction.setIn(['emailReply', 'attachments'], interaction.get('emailReply').get('attachments').filter((attachment) =>
             attachment.get('name') !== action.attachment.name
           ))
         );
@@ -645,7 +667,7 @@ function agentDesktopReducer(state = initialState, action) {
       );
       if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.setIn(['email', 'reply', 'message'], action.reply)
+          interaction.setIn(['emailReply', 'message'], action.reply)
         );
       } else {
         return state;

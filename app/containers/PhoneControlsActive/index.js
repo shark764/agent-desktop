@@ -6,17 +6,18 @@
 
 import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 import Radium from 'radium';
 
 import Toggle from 'react-toggle';
-import '../../assets/css/react-toggle-style.css';
-
-import TransferMenu from 'containers/TransferMenu';
+import 'assets/css/react-toggle-style.css';
 
 import CircleIconButton from 'components/CircleIconButton';
 import Dialpad from 'components/Dialpad';
 import Timer from 'components/Timer';
+
+import TransferMenu from 'containers/TransferMenu';
+
+import messages from './messages';
 
 export class PhoneControlsActive extends React.Component {
   constructor(props) {
@@ -60,7 +61,7 @@ export class PhoneControlsActive extends React.Component {
 
   setRecording() {
     if (this.props.activeVoiceInteraction.recording) {
-      SDK.interactions.voice.endRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
+      SDK.interactions.voice.stopRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
     } else {
       SDK.interactions.voice.startRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
     }

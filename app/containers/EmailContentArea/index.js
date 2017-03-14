@@ -10,7 +10,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 
 import moment from 'moment';
-import '../../assets/css/mediumdraft.min.css';
+import 'assets/css/mediumdraft.min.css';
 import { Editor, createEditorState } from 'medium-draft';
 import { EditorState } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
@@ -18,6 +18,8 @@ import { stateToHTML } from 'draft-js-export-html';
 
 import Button from 'components/Button';
 import Icon from 'components/Icon';
+import IconSVG from 'components/IconSVG';
+import LoadingText from 'components/LoadingText';
 
 import ContentArea from 'containers/ContentArea';
 
@@ -35,27 +37,27 @@ export class EmailContentArea extends React.Component {
     };
 
     this.state = {
-      editorState: this.props.selectedInteraction.email.reply
-        ? EditorState.createWithContent(stateFromHTML(this.props.selectedInteraction.email.reply.message))
+      editorState: this.props.selectedInteraction.emailReply
+        ? EditorState.createWithContent(stateFromHTML(this.props.selectedInteraction.emailReply.message))
         : createEditorState(),
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.selectedInteraction.interactionId !== nextProps.selectedInteraction.interactionId) {
-      if (this.props.selectedInteraction.email.reply) {
+      if (this.props.selectedInteraction.emailReply) {
         this.props.emailUpdateReply(this.props.selectedInteraction.interactionId, stateToHTML(this.state.editorState.getCurrentContent()));
       }
       this.setState({
-        editorState: nextProps.selectedInteraction.email.reply
-          ? EditorState.createWithContent(stateFromHTML(nextProps.selectedInteraction.email.reply.message))
+        editorState: nextProps.selectedInteraction.emailReply
+          ? EditorState.createWithContent(stateFromHTML(nextProps.selectedInteraction.emailReply.message))
           : createEditorState(),
       });
     }
   }
 
   componentWillUnmount() {
-    if (this.props.selectedInteraction.email.reply) {
+    if (this.props.selectedInteraction.emailReply) {
       this.props.emailUpdateReply(this.props.selectedInteraction.interactionId, stateToHTML(this.state.editorState.getCurrentContent()));
     }
   }
@@ -123,13 +125,18 @@ export class EmailContentArea extends React.Component {
       color: '#979797',
       cursor: 'pointer',
     },
+    loadingCircle: {
+      margin: '0 auto',
+      display: 'block',
+      height: 50,
+      width: 50,
+    },
     emailContent: {
       position: 'absolute',
       height: '100%',
       width: '100%',
       overflowY: 'auto',
       padding: '19px 23px',
-      whiteSpace: 'pre-wrap',
     },
     replyButtons: { width: '148px' },
     richTextEditorContainer: {
@@ -142,60 +149,150 @@ export class EmailContentArea extends React.Component {
   }
 
   render() {
-    const from = this.props.selectedInteraction.email.from;
+    let from;
+    if (this.props.selectedInteraction.emailDetails === undefined) {
+      from = this.props.selectedInteraction.customer;
+    } else {
+      const emailFrom = this.props.selectedInteraction.emailDetails.from[0];
+      if (emailFrom.name !== emailFrom.address) {
+        from = `${emailFrom.name} [${emailFrom.address}]`;
+      } else {
+        from = emailFrom.address;
+      }
+    }
+
     let buttons;
     let details;
     let content;
 
-    if (!this.props.selectedInteraction.email.reply) {
-      buttons = (
-        <Button
-          id="replyEmail"
-          type="primaryBlue"
-          text={messages.reply}
-          onClick={this.onEmailCreateReply}
-        />
-      );
-
-      details = (
-        <div>
+    if (this.props.selectedInteraction.emailReply === undefined) {
+      if (this.props.selectedInteraction.emailDetails === undefined || this.props.selectedInteraction.emailHtmlBody === undefined) {
+        buttons = (
+          <Button
+            id="replyEmailDisabled"
+            type="primaryBlue"
+            text={messages.reply}
+            disabled
+          />
+        );
+      } else {
+        buttons = (
           <div>
-            <div style={this.styles.detailsField}>
-              <FormattedMessage {...messages.to} />
-            </div>
-            <div style={this.styles.detailsValue}>
-              {this.props.selectedInteraction.email.to}
-            </div>
+            <Button
+              id="endEmail"
+              type="primaryRed"
+              text={messages.noReply}
+              onClick={this.props.endInteraction}
+              style={{ marginRight: '8px' }}
+            />
+            <Button
+              id="replyEmail"
+              type="primaryBlue"
+              text={messages.reply}
+              onClick={this.onEmailCreateReply}
+            />
           </div>
-          <div>
-            <div style={this.styles.detailsField}>
-              <FormattedMessage {...messages.subject} />
-            </div>
-            <div style={this.styles.detailsValue}>
-              {this.props.selectedInteraction.email.subject}
-            </div>
-          </div>
-          {
-            this.props.selectedInteraction.email.attachments.length > 0
-            ? <div style={this.styles.attachmentsContainer}>
-              {
-                this.props.selectedInteraction.email.attachments.map((attachment) =>
-                  <a key={attachment.src} href={attachment.src} download >
-                    <div style={this.styles.attachment} >
-                      {attachment.name}
-                    </div>
-                  </a>
-                )
-              }
-            </div>
-            : undefined
+        );
+      }
+      if (this.props.selectedInteraction.emailDetails === undefined) {
+        details = <IconSVG style={this.styles.loadingCircle} id="connectingToOutboundCallIcon" name="loading" />;
+      } else {
+        const tos = this.props.selectedInteraction.emailDetails.to.map((to) => {
+          if (to.name !== to.address) {
+            return `${to.name} [${to.address}]`;
+          } else {
+            return to.address;
           }
-        </div>
-      );
+        });
+        const ccs = this.props.selectedInteraction.emailDetails.cc.map((cc) => {
+          if (cc.name !== cc.address) {
+            return `${cc.name} [${cc.address}]`;
+          } else {
+            return cc.address;
+          }
+        });
+        const bccs = this.props.selectedInteraction.emailDetails.bcc.map((bcc) => {
+          if (bcc.name !== bcc.address) {
+            return `${bcc.name} [${bcc.address}]`;
+          } else {
+            return bcc.address;
+          }
+        });
+        details = (
+          <div>
+            <div>
+              <div style={this.styles.detailsField}>
+                <FormattedMessage {...messages.to} />
+              </div>
+              <div style={this.styles.detailsValue}>
+                { tos }
+              </div>
+            </div>
+            {
+              ccs.length > 0
+              ? <div>
+                <div style={this.styles.detailsField}>
+                  <FormattedMessage {...messages.cc} />
+                </div>
+                <div style={this.styles.detailsValue}>
+                  { ccs.join(', ') }
+                </div>
+              </div>
+              : undefined
+            }
+            {
+              bccs.length > 0
+              ? <div>
+                <div style={this.styles.detailsField}>
+                  <FormattedMessage {...messages.bcc} />
+                </div>
+                <div style={this.styles.detailsValue}>
+                  { bccs.join(', ') }
+                </div>
+              </div>
+              : undefined
+            }
+            <div>
+              <div style={this.styles.detailsField}>
+                <FormattedMessage {...messages.subject} />
+              </div>
+              <div style={this.styles.detailsValue}>
+                {this.props.selectedInteraction.emailDetails.subject}
+              </div>
+            </div>
+            {
+              this.props.selectedInteraction.emailDetails.attachments.length > 0
+              ? <div style={this.styles.attachmentsContainer}>
+                {
+                  this.props.selectedInteraction.emailDetails.attachments.map((attachment) =>
+                    // TODO get URL (src) from SDK when it is available
+                    <a key={attachment.artifactFileId} href={attachment.src} download >
+                      <div style={this.styles.attachment} >
+                        {attachment.filename}
+                      </div>
+                    </a>
+                  )
+                }
+              </div>
+              : undefined
+            }
+          </div>
+        );
+      }
 
-      content = (
-        <div style={this.styles.emailContent} dangerouslySetInnerHTML={{ __html: this.props.selectedInteraction.email.content }} /> // eslint-disable-line react/no-danger
-      );
+      if (this.props.selectedInteraction.emailHtmlBody === undefined) {
+        content = (
+          <div>
+            <LoadingText />
+            <br />
+            <LoadingText />
+          </div>
+        );
+      } else {
+        content = (
+          <div style={this.styles.emailContent} dangerouslySetInnerHTML={{ __html: this.props.selectedInteraction.emailHtmlBody }} /> // eslint-disable-line react/no-danger
+        );
+      }
     } else {
       buttons = (
         <div style={this.styles.replyButtons}>
@@ -222,7 +319,7 @@ export class EmailContentArea extends React.Component {
               <FormattedMessage {...messages.to} />
             </div>
             <div style={this.styles.detailsValue}>
-              {this.props.selectedInteraction.email.reply.to}
+              {this.props.selectedInteraction.emailReply.to}
             </div>
           </div>
           <div>
@@ -230,12 +327,12 @@ export class EmailContentArea extends React.Component {
               <FormattedMessage {...messages.subject} />
             </div>
             <div style={this.styles.detailsValue}>
-              {this.props.selectedInteraction.email.reply.subject}
+              {this.props.selectedInteraction.emailReply.subject}
             </div>
           </div>
           <div style={this.styles.attachmentsContainer}>
             {
-              this.props.selectedInteraction.email.reply.attachments.map((attachment) =>
+              this.props.selectedInteraction.emailReply.attachments.map((attachment) =>
                 <div key={attachment.name} style={this.styles.attachment} >
                   <span style={this.styles.attachmentName}>
                     {attachment.name}
@@ -251,7 +348,7 @@ export class EmailContentArea extends React.Component {
               <div style={[this.styles.attachment, this.styles.addAttachment]}>
                 <Icon name="attachment" style={this.styles.attachmentIcon} />
                 {
-                  this.props.selectedInteraction.email.reply.attachments.length === 0
+                  this.props.selectedInteraction.emailReply.attachments.length === 0
                   ? <span style={this.styles.addAttachmentMessage}>
                     <FormattedMessage {...messages.addAttachment} />
                   </span>
@@ -263,11 +360,11 @@ export class EmailContentArea extends React.Component {
         </div>
       );
 
-      const timestampFormatted = moment(this.props.selectedInteraction.email.timestamp).format('LL');
+      const timestampFormatted = moment(this.props.selectedInteraction.emailDetails.dateSent).format('LL');
       const emailReplyingTo = (
         <div className="md-RichEditor-editor" style={{ padding: '0 30px 20px' }}>
-          <p>On {timestampFormatted} {this.props.selectedInteraction.email.from} wrote:</p>
-          <blockquote className="md-RichEditor-blockquote" dangerouslySetInnerHTML={{ __html: this.props.selectedInteraction.email.content }}></blockquote>
+          <p>On {timestampFormatted} {this.props.selectedInteraction.emailDetails.from[0].name} wrote:</p>
+          <blockquote className="md-RichEditor-blockquote" dangerouslySetInnerHTML={{ __html: this.props.selectedInteraction.emailHtmlBody }}></blockquote>
         </div>
       );
 
@@ -338,6 +435,7 @@ export class EmailContentArea extends React.Component {
 EmailContentArea.propTypes = {
   intl: intlShape.isRequired,
   selectedInteraction: PropTypes.object.isRequired,
+  endInteraction: PropTypes.func.isRequired,
   emailCreateReply: PropTypes.func.isRequired,
   emailCancelReply: PropTypes.func.isRequired,
   emailAddAttachment: PropTypes.func.isRequired,

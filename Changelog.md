@@ -1,3 +1,8 @@
+<a name"0.13.0"></a>
+### 0.13.0 (2017-03-15)
+* Email interaction view. Reply mocked.
+* Fixed stop recording toggle function.
+
 <a name"0.12.1"></a>
 ### 0.12.1 (2017-03-15)
 * Fix loopy progress bar causing stack overflows >.<

@@ -187,81 +187,11 @@ const voiceInteractionWithTransfersAndScripts = {
   ],
 };
 
-const emailInteractionWithAttachmentsAndScript = {
-  channelType: 'email',
-  interactionId: '0000000-0000-0000-0000-111111111',
-  status: 'work-accepted', // 'work-offer',
-  timeout: Date.now() + 60000,
-  query: {},
-  wrapupDetails: {
-    wrapupUpdateAllowed: true,
-    wrapupEnabled: true,
-    wrapupTime: '20',
-    targetWrapupTime: '10',
-  },
-  script: {
-    elements: [
-      {
-        type: 'text',
-        icon: 'fa-font',
-        label: 'Text',
-        text: 'Email Text Placeholder',
-        id: 'ebe65c75-feda-45c9-852f-62cb6d2faca9',
-        name: 'justtext',
-        description: 'justTextDescription',
-      }, {
-        type: 'scale',
-        icon: 'fa-circle-o',
-        label: 'Scale',
-        inputs: [
-          {
-            type: 'number',
-            min: '0',
-            max: '1',
-            name: 'lowerBound',
-            label: 'Lower Bound',
-          }, {
-            type: 'string',
-            name: 'lowerBoundLabel',
-            label: 'Lower Bound Label',
-          }, {
-            type: 'number',
-            min: '1',
-            max: '10',
-            name: 'upperBound',
-            label: 'Upper Bound',
-          }, {
-            type: 'string',
-            name: 'upperBoundLabel',
-            label: 'Upper Bound Label',
-          },
-        ],
-        text: 'Email Scale Input Placeholder Text',
-        id: '32dd691b-aaed-4e6d-a9db-8aa153c33072',
-        name: 'scaleinput',
-        description: 'scaleinputdesc',
-        lowerBound: 1,
-        lowerBoundLabel: 'lower bound label',
-        upperBound: 10,
-        upperBoundLabel: 'upperboundlabel',
-      },
-    ],
-    id: '522ca8e2-3edc-497e-a03b-ed34b6608a0c',
-    name: 'script',
-  },
-  email: {
-    to: 'support@help.com',
-    from: 'j.englebert@yahoo.com',
-    timestamp: new Date().toISOString(),
-    subject: 'Files not uploading to my Cloud account',
-    attachments: [{ name: 'image.jpg', src: 'http://s14.postimg.org/mkyfiphgx/lgtm_with_gorilla.jpg' }, { name: 'PDF.pdf', src: 'http://www.pdf995.com/samples/pdf.pdf' }],
-    content: 'Hello,<br/><br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br/><br/><b>John Englebert</b><br/>Software Developer<br/>An Organization<br/>313.218.9814',
-  },
-};
-
+// In loading state. Add emailDetails and emailHtmlBody to display content.
 const emailInteraction = {
   channelType: 'email',
   interactionId: '0000000-0000-0000-0000-222222222222',
+  customer: 'jclowater@serenova.com',
   status: 'work-accepted', // 'work-offer',
   timeout: Date.now() + 60000,
   wrapupDetails: {
@@ -271,14 +201,6 @@ const emailInteraction = {
     targetWrapupTime: '10',
   },
   query: {},
-  email: {
-    to: 'support@help.com',
-    from: 'test@yahoo.com',
-    timestamp: new Date().toISOString(),
-    subject: 'Files not uploading to my Cloud account',
-    attachments: [],
-    content: 'Hello,<br/><br/><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f4dd.png" alt="image test" />Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br/><br/><b>John Englebert</b><br/>Software Developer<br/>An Organization<br/>313.218.9814',
-  },
 };
 
 const smsInteractionWithLotsOfMessagesAndScript = {

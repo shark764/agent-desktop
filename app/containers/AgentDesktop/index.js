@@ -26,7 +26,8 @@ import { setContactLayout, setContactAttributes } from 'containers/SidePanel/act
 
 import { setExtensions, updateWrapupDetails, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact,
   setContactInteractionHistory, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
-  setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected,
+  setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails,
+  muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected,
   emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction, setQueues } from './actions';
 
 import selectAgentDesktop, { selectLogin } from './selectors';
@@ -198,6 +199,21 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/custom-fields-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setCustomFields(response.interactionId, response.customFields);
+          break;
+        }
+        case 'cxengage/interactions/email/plain-body-received': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.setEmailPlainBody(response.interactionId, response.body);
+          break;
+        }
+        case 'cxengage/interactions/email/html-body-received': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.setEmailHtmlBody(response.interactionId, response.body);
+          break;
+        }
+        case 'cxengage/interactions/email-details-received': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.setEmailDetails(response.interactionId, response.body);
           break;
         }
         case 'cxengage/interactions/wrapup-ended':
@@ -517,6 +533,9 @@ function mapDispatchToProps(dispatch) {
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
     setContactAction: (interactionId, newAction) => dispatch(setContactAction(interactionId, newAction)),
     setCustomFields: (interactionId, customFields) => dispatch(setCustomFields(interactionId, customFields)),
+    setEmailPlainBody: (interactionId, body) => dispatch(setEmailPlainBody(interactionId, body)),
+    setEmailHtmlBody: (interactionId, body) => dispatch(setEmailHtmlBody(interactionId, body)),
+    setEmailDetails: (interactionId, details) => dispatch(setEmailDetails(interactionId, details)),
     muteCall: (interactionId) => dispatch(muteCall(interactionId)),
     unmuteCall: (interactionId) => dispatch(unmuteCall(interactionId)),
     holdCall: (interactionId) => dispatch(holdCall(interactionId)),
@@ -558,6 +577,9 @@ AgentDesktop.propTypes = {
   setContactAction: PropTypes.func.isRequired,
   setInteractionQuery: PropTypes.func.isRequired,
   setCustomFields: PropTypes.func.isRequired,
+  setEmailPlainBody: PropTypes.func.isRequired,
+  setEmailHtmlBody: PropTypes.func.isRequired,
+  setEmailDetails: PropTypes.func.isRequired,
   muteCall: PropTypes.func.isRequired,
   unmuteCall: PropTypes.func.isRequired,
   holdCall: PropTypes.func.isRequired,

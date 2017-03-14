@@ -6,13 +6,14 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { selectSelectedInteraction } from './selectors';
 import Radium from 'radium';
 
 import MessagingContentArea from 'containers/MessagingContentArea';
 import EmailContentArea from 'containers/EmailContentArea';
 import VoiceContentArea from 'containers/VoiceContentArea';
 import WelcomeStats from 'containers/WelcomeStats';
+
+import { selectSelectedInteraction } from './selectors';
 
 export class MainContentArea extends React.Component {
 
@@ -44,7 +45,7 @@ export class MainContentArea extends React.Component {
       if (selectedInteraction.channelType === 'messaging' || selectedInteraction.channelType === 'sms') {
         content = <MessagingContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} />;
       } else if (selectedInteraction.channelType === 'email') {
-        content = <EmailContentArea selectedInteraction={selectedInteraction} emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} />;
+        content = <EmailContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} />;
       } else if (selectedInteraction.channelType === 'voice') {
         content = <VoiceContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} />;
       } else {

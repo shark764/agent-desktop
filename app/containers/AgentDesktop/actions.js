@@ -26,6 +26,9 @@ import {
   REMOVE_INTERACTION,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
+  SET_EMAIL_PLAIN_BODY,
+  SET_EMAIL_HTML_BODY,
+  SET_EMAIL_DETAILS,
   START_WARM_TRANSFERRING,
   TRANSFER_CANCELLED,
   TRANSFER_CONNECTED,
@@ -192,6 +195,30 @@ export function setCustomFields(interactionId, customFields) {
     type: SET_CUSTOM_FIELDS,
     interactionId,
     customFields,
+  };
+}
+
+export function setEmailPlainBody(interactionId, body) {
+  return {
+    type: SET_EMAIL_PLAIN_BODY,
+    interactionId,
+    body,
+  };
+}
+
+export function setEmailHtmlBody(interactionId, body) {
+  return {
+    type: SET_EMAIL_HTML_BODY,
+    interactionId,
+    body,
+  };
+}
+
+export function setEmailDetails(interactionId, details) {
+  return {
+    type: SET_EMAIL_DETAILS,
+    interactionId,
+    details,
   };
 }
 
