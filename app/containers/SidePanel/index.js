@@ -19,7 +19,7 @@ import ContactsControl from 'containers/ContactsControl';
 import ContactInteractionHistory from 'containers/ContactInteractionHistory';
 
 import messages from './messages';
-import { getSelectedInteractionId, getSelectedInteractionIsVoice, getSelectedInteractionScript } from './selectors';
+import { getSelectedInteractionId, getSelectedInteractionIsVoice, getSelectedInteractionScript, getHasAssignedContact } from './selectors';
 
 const leftGutterPx = 52;
 const topBarHeightPx = 63;
@@ -147,7 +147,7 @@ export class SidePanel extends React.Component {
                 <FormattedMessage {...messages.infoTab} />
               </Tab>
               {
-                this.props.selectedInteractionId !== undefined
+                this.props.hasAssignedContact
                 ? <Tab>
                   <FormattedMessage {...messages.historyTab} />
                 </Tab>
@@ -170,7 +170,7 @@ export class SidePanel extends React.Component {
               />
             </TabPanel>
             {
-              this.props.selectedInteractionId !== undefined
+              this.props.hasAssignedContact
               ? <TabPanel>
                 <ContactInteractionHistory style={this.styles.rightMargin} />
               </TabPanel>
@@ -197,6 +197,7 @@ function mapStateToProps(state, props) {
     selectedInteractionId: getSelectedInteractionId(state, props),
     selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
     selectedInteractionScript: getSelectedInteractionScript(state, props),
+    hasAssignedContact: getHasAssignedContact(state, props),
   };
 }
 
@@ -216,6 +217,7 @@ SidePanel.propTypes = {
   selectedInteractionId: PropTypes.string,
   selectedInteractionIsVoice: PropTypes.bool,
   selectedInteractionScript: PropTypes.object,
+  hasAssignedContact: PropTypes.bool.isRequired,
   addSearchFilter: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
   setContactAction: PropTypes.func.isRequired,
