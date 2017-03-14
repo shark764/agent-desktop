@@ -12,13 +12,25 @@ import Radium from 'radium';
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 import AgentStatusMenu from 'containers/AgentStatusMenu';
+import AgentStats from 'containers/AgentStats';
+import AgentConfigMenu from 'containers/AgentConfigMenu';
 
-import selectToolbar from './selectors';
+import selectToolbar, { selectQueues, selectCurrentAgent } from './selectors';
 import messages from './messages';
 
-import { showAgentStatusMenu } from './actions';
+import { toggleStat } from './actions';
 
 export class Toolbar extends React.Component { // eslint-disable-line react/prefer-stateless-function
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      agentStatusMenu: false,
+      agentConfigMenu: false,
+    };
+    this.showAgentStatusMenu = this.showAgentStatusMenu.bind(this);
+    this.showAgentConfigMenu = this.showAgentConfigMenu.bind(this);
+  }
 
   getStyle() {
     if (this.props.readyState === 'ready') {
@@ -62,9 +74,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       outline: 'none',
       height: '47px',
       minWidth: '160px',
-      borderRadius: this.props.agentStatusMenu ? '3px' : '0px',
       border: 'none',
-      backgroundColor: this.props.agentStatusMenu ? '#E43D5A' : 'transparent',
       ':hover': {
         borderRadius: '2px',
         border: 'none',
@@ -89,9 +99,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
       outline: 'none',
       height: '47px',
       minWidth: '160px',
-      borderRadius: this.props.agentStatusMenu ? '3px' : '0px',
       border: 'none',
-      backgroundColor: this.props.agentStatusMenu ? '#E43D5A' : 'transparent',
       ':hover': {
         borderRadius: '2px',
         border: 'none',
@@ -104,17 +112,40 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
         backgroundColor: '#0B424E',
       },
     },
-    stats: {
-      order: '0',
-      flex: '1 1 auto',
-      alignSelf: 'auto',
-    },
-    config: {
+    configButtonContainer: {
       order: '0',
       flex: '0 1 45px',
       alignSelf: 'auto',
+    },
+    configR: {
       height: '54px',
       width: '50px',
+      outline: 'none',
+      ':hover': {
+        borderRadius: '2px',
+        boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+        backgroundColor: '#093742',
+      },
+      ':focus': {
+        borderRadius: '2px',
+        boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+        backgroundColor: '#0B424E',
+      },
+    },
+    configNR: {
+      height: '54px',
+      width: '50px',
+      outline: 'none',
+      ':hover': {
+        borderRadius: '2px',
+        boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+        backgroundColor: '#E43D5A',
+      },
+      ':focus': {
+        borderRadius: '2px',
+        boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+        backgroundColor: '#CB3750',
+      },
     },
     agentState: {
       fontSize: '14px',
@@ -132,12 +163,25 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
     },
   };
 
+  showAgentStatusMenu(show = true) {
+    this.setState({ agentStatusMenu: show, agentConfigMenu: false });
+  }
+
+  showAgentConfigMenu(show = true) {
+    this.setState({ agentConfigMenu: show, agentStatusMenu: false });
+  }
+
   render() {
     return (
       <div key={this.props.readyState} style={this.getStyle()}>
         <div id="toolbar-container" style={[this.styles.container]}>
           <div id="agent-button-container" style={[this.styles.agentButtonContainer]}>
-            <button id="agent-button" style={this.props.readyState === 'ready' ? [this.styles.agentButtonR] : [this.styles.agentButtonNR]} onClick={() => this.props.showAgentStatusMenu()}>
+            <button
+              id="agent-button"
+              key="status-button"
+              style={[this.props.readyState === 'ready' ? this.styles.agentButtonR : this.styles.agentButtonNR]}
+              onClick={() => this.showAgentStatusMenu(!this.state.agentStatusMenu)}
+            >
               <span id="agent-state" style={[this.styles.agentState]}>
                 <div style={{ display: 'inline', float: 'left' }}>
                   {
@@ -162,30 +206,48 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
             </button>
           </div>
           {
-            this.props.agentStatusMenu
+            this.state.agentStatusMenu
             ? <AgentStatusMenu
               tenant={this.props.tenant}
               readyState={this.props.readyState}
-              showAgentStatusMenu={this.props.showAgentStatusMenu}
+              showAgentStatusMenu={this.showAgentStatusMenu}
               agentDirection={this.props.agentDirection}
             />
             : ''
           }
-          <span id="agent-stats" style={[this.styles.stats]} />
-          <div id="agent-config" style={[this.styles.config]}>
-            <Icon id="agent-config-icon" name="config" style={{ width: '18px', marginLeft: '13px', marginTop: '17px' }} />
+          <AgentStats queues={this.props.queues} toggleStat={this.props.toggleStat} readyState={this.props.readyState} />
+          <div id="config-button-container" style={this.styles.configButtonContainer}>
+            <button
+              id="config-button"
+              key="config-button"
+              style={[this.props.readyState === 'ready' ? this.styles.configR : this.styles.configNR]}
+              onClick={() => this.showAgentConfigMenu(!this.state.agentConfigMenu)}
+            >
+              <Icon id="config-icon" name="config" style={{ width: '22px' }} />
+            </button>
           </div>
+          {
+            this.state.agentConfigMenu
+            ? <AgentConfigMenu toggleStat={this.props.toggleStat} queues={this.props.queues} currentAgent={this.props.currentAgent} />
+            : ''
+          }
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = selectToolbar();
+function mapStateToProps(state, props) {
+  return {
+    queues: selectQueues(state, props),
+    currentAgent: selectCurrentAgent(state, props),
+    ...selectToolbar()(state, props),
+  };
+}
 
 function mapDispatchToProps(dispatch) {
   return {
-    showAgentStatusMenu: (show) => dispatch(showAgentStatusMenu(show)),
+    toggleStat: (stat, userId) => dispatch(toggleStat(stat, userId)),
     dispatch,
   };
 }
@@ -193,10 +255,11 @@ function mapDispatchToProps(dispatch) {
 Toolbar.propTypes = {
   style: PropTypes.array,
   readyState: PropTypes.string,
-  showAgentStatusMenu: PropTypes.func,
-  agentStatusMenu: PropTypes.bool,
   tenant: PropTypes.object,
   agentDirection: PropTypes.string,
+  toggleStat: PropTypes.func,
+  queues: PropTypes.array,
+  currentAgent: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(Toolbar));

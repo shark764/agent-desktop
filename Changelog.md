@@ -1,3 +1,7 @@
+<a name"0.12.0"></a>
+### 0.12.0 (2017-03-14)
+* CXV1-6937 - Realtime agent stats
+
 <a name"0.11.1"></a>
 ### 0.11.1 (2017-03-14)
 * Fixing in call timer format

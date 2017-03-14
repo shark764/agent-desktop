@@ -20,12 +20,14 @@ import PhoneControls from 'containers/PhoneControls';
 import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
+import { setAvailableStats, statsReceived } from 'containers/Toolbar/actions';
 import { showLogin, tenantError, logout } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
+
 import { setExtensions, updateWrapupDetails, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact,
   setContactInteractionHistory, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
   setCustomFields, muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected,
-  emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction } from './actions';
+  emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction, setQueues } from './actions';
 
 import selectAgentDesktop, { selectLogin } from './selectors';
 
@@ -118,7 +120,8 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/session/started': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.showLogin(false);
+          SDK.entities.get.queues({});
+          SDK.reporting.getAvailableStats();
           break;
         }
         case 'cxengage/capabilities/voice-available':
@@ -298,6 +301,31 @@ export class AgentDesktop extends React.Component {
           this.props.updateWrapupDetails(response.interactionId, { wrapupEnabled: false });
           break;
         }
+        case 'cxengage/reporting/get-available-stats-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          // The user friendly names are too long, need to trim them
+          const stats = { ...response };
+          delete stats.status;
+          Object.keys(stats).forEach((key) => {
+            stats[key].userFriendlyName = stats[key].userFriendlyName.replace(/(\sCount|Count of|Percentage of)/, '');
+            if (stats[key].userFriendlyName === 'Resource Conversation Starts') {
+              stats[key].userFriendlyName = 'Conversation Starts';
+            }
+          });
+          this.props.setAvailableStats(stats, this.props.login.tenant.id, this.props.login.agent.userId);
+          break;
+        }
+        case 'cxengage/reporting/batch-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.statsReceived(response);
+          break;
+        }
+        case 'cxengage/entities/get-queues-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.setQueues(response.result);
+          this.props.showLogin(false);
+          break;
+        }
         // Igonore these pubsubs. They are unneeded or handled elsewhere.
         case 'cxengage/authentication/login-response': // Handled in Login component
         case 'cxengage/session/tenant-list': // Using tenants from login-response
@@ -309,12 +337,13 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/messaging/send-message-acknowledged': // Using cxengage/messaging/new-message-received instead
         case 'cxengage/interactions/voice/phone-controls-response': // Using mute-started, mute-ended, etc. instead
         case 'cxengage/contacts/search-contacts-response': // Handled in ContactsControl & AgentDesktop callback
-        case 'cxengage/entities/get-queues-response': // Handled in TransferMenu
         case 'cxengage/entities/get-users-response': // Handled in TransferMenu
         case 'cxengage/entities/get-transfer-lists-response': // Handled in TransferMenu
         case 'cxengage/interactions/voice/transfer-response': // Handled in TransferMenu
         case 'cxengage/interactions/contact-unassigned-acknowledged': // Handled in ContactsControl
-        case 'cxengage/interactions/contact-assign-acknowledged': // Handled in callbacks here and in ContactsControl
+        case 'cxengage/interactions/contact-assigned-acknowledged': // Handled in ContactsControl
+        case 'cxengage/reporting/polling-started': // Ignore
+        case 'cxengage/reporting/polling-stopped': // Ignore
           break;
         default: {
           console.warn('[AgentDesktop] SDK.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console
@@ -498,6 +527,9 @@ function mapDispatchToProps(dispatch) {
     transferConnected: (interactionId) => dispatch(transferConnected(interactionId)),
     emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
     emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
+    setAvailableStats: (stats, tenantId, userId) => dispatch(setAvailableStats(stats, tenantId, userId)),
+    statsReceived: (stats) => dispatch(statsReceived(stats)),
+    setQueues: (queues) => dispatch(setQueues(queues)),
     logout: () => dispatch(logout()),
     dispatch,
   };
@@ -536,6 +568,9 @@ AgentDesktop.propTypes = {
   transferConnected: PropTypes.func.isRequired,
   emailCreateReply: PropTypes.func.isRequired,
   emailCancelReply: PropTypes.func.isRequired,
+  setAvailableStats: PropTypes.func.isRequired,
+  statsReceived: PropTypes.func.isRequired,
+  setQueues: PropTypes.func.isRequired,
   // TODO when fixed in SDK
   // logout: PropTypes.func.isRequired,
   login: PropTypes.object,

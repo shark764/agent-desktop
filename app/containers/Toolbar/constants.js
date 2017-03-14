@@ -4,5 +4,6 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/Toolbar/DEFAULT_ACTION';
-export const SHOW_AGENT_STATUS_MENU = 'app/Toolbar/SHOW_AGENT_STATUS_MENU';
+export const SET_AVAILABLE_STATS = 'app/Toolbar/SET_AVAILABLE_STATS';
+export const TOGGLE_STAT = 'app/Toolbar/TOGGLE_STAT';
+export const STATS_RECEIVED = 'app/Toolbar/STATS_RECEIVED';

@@ -5,19 +5,31 @@
  */
 
 import {
-  DEFAULT_ACTION,
-  SHOW_AGENT_STATUS_MENU,
+  SET_AVAILABLE_STATS,
+  TOGGLE_STAT,
+  STATS_RECEIVED,
 } from './constants';
 
-export function defaultAction() {
+export function setAvailableStats(stats, tenantId, userId) {
   return {
-    type: DEFAULT_ACTION,
+    type: SET_AVAILABLE_STATS,
+    stats,
+    tenantId,
+    userId,
   };
 }
 
-export function showAgentStatusMenu(show) {
+export function toggleStat(stat, userId) {
   return {
-    type: SHOW_AGENT_STATUS_MENU,
-    show,
+    type: TOGGLE_STAT,
+    stat,
+    userId,
+  };
+}
+
+export function statsReceived(stats) {
+  return {
+    type: STATS_RECEIVED,
+    stats,
   };
 }

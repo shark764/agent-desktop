@@ -9,6 +9,19 @@ const selectToolbarDomain = () => (state) => state.get('toolbar');
  * Other specific selectors
  */
 
+const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
+
+const selectQueues = createSelector(
+   selectAgentDesktopDomain,
+   (agentDesktop) => agentDesktop.get('queues').toJS()
+ );
+
+const selectLoginDomain = (state) => state.get('login');
+
+const selectCurrentAgent = createSelector(
+  selectLoginDomain,
+  (login) => login.get('agent').toJS()
+);
 
 /**
  * Default selector used by Toolbar
@@ -19,7 +32,10 @@ const selectToolbar = () => createSelector(
   (substate) => substate.toJS()
 );
 
+
 export default selectToolbar;
 export {
   selectToolbarDomain,
+  selectQueues,
+  selectCurrentAgent,
 };
