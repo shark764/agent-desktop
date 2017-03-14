@@ -175,7 +175,7 @@ export class Interaction extends React.Component {
             return <TimerMinutes seconds={this.state.ageSeconds} />;
           case 'voice':
           default:
-            return <Timer format="mm:ss" />;
+            return <Timer />;
         }
     }
   }
