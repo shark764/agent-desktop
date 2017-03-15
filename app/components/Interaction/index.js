@@ -209,8 +209,8 @@ export class Interaction extends React.Component {
               </div>
               <div>
                 <Progress
-                  current={this.getRemainingSeconds()}
-                  start={this.state.ageSeconds < this.props.targetWrapupTime ? this.props.targetWrapupTime : this.props.wrapupTime - this.props.targetWrapupTime}
+                  start={this.state.ageSeconds < this.props.targetWrapupTime ? this.state.startTime : this.state.startTime + (this.props.targetWrapupTime * 1000)}
+                  finish={this.state.ageSeconds < this.props.targetWrapupTime ? this.state.startTime + (this.props.targetWrapupTime * 1000) : this.state.startTime + (this.props.wrapupTime * 1000)}
                   barColor={this.getTimerColor()}
                   style={{ width: '100%' }}
                 />

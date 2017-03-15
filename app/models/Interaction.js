@@ -22,7 +22,7 @@ export default class Interaction {
     this.query = {};
     this.wrapupDetails = {
       wrapupUpdateAllowed: false,
-      wrapUpEnabled: false,
+      wrapupEnabled: false,
     };
     this.contactAction = 'search';
   }

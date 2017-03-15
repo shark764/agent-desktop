@@ -12,46 +12,32 @@ export class Progress extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      current: props.current,
-      animationPending: true,
+      current: Date.now(),
     };
-  }
 
-  animate() {
-    if (this.state.animationPending) {
-      this.setState({
-        current: this.props.current - 1,
-        animationPending: false,
-      });
-    }
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    if (nextProps.current === nextState.current || (nextState.current - nextProps.current) > 1) {
-      this.setState({ animationPending: true });
-    }
-    if (nextProps.current === nextProps.start) {
-      this.setState({
-        current: nextProps.current,
-        animationPending: true,
-      });
-    }
+    this.update = this.update.bind(this);
   }
 
   componentDidMount() {
-    this.animate();
+    this.update();
   }
 
-  componentDidUpdate() {
-    this.animate();
+  componentWillUnmount() {
+    cancelAnimationFrame(this.requestAnimationId);
+  }
+
+  update() {
+    this.setState({
+      current: Date.now(),
+    });
+    this.requestAnimationId = requestAnimationFrame(this.update);
   }
 
   getBarStyle() {
-    const progressDecimal = Math.min((this.props.start - this.state.current) / this.props.start, 1);
+    const progressDecimal = Math.min((this.props.start - this.state.current) / (this.props.start - this.props.finish), 1);
     return {
       strokeDasharray: '100px, 100px',
       strokeDashoffset: `${progressDecimal * 100}px`,
-      transition: 'stroke-dashoffset 1s linear',
       stroke: this.props.barColor,
     };
   }
@@ -84,7 +70,7 @@ export class Progress extends React.Component {
 }
 
 Progress.propTypes = {
-  current: React.PropTypes.number.isRequired,
+  finish: React.PropTypes.number.isRequired,
   start: React.PropTypes.number.isRequired,
   barColor: React.PropTypes.string,
   style: React.PropTypes.object,
