@@ -6,6 +6,10 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
+  noReply: {
+    id: 'app.containers.EmailContentArea.noReply',
+    defaultMessage: 'No Reply',
+  },
   reply: {
     id: 'app.containers.EmailContentArea.reply',
     defaultMessage: 'Reply',
@@ -13,6 +17,14 @@ export default defineMessages({
   to: {
     id: 'app.containers.EmailContentArea.to',
     defaultMessage: 'To',
+  },
+  cc: {
+    id: 'app.containers.EmailContentArea.cc',
+    defaultMessage: 'CC',
+  },
+  bcc: {
+    id: 'app.containers.EmailContentArea.bcc',
+    defaultMessage: 'BCC',
   },
   subject: {
     id: 'app.containers.EmailContentArea.subject',

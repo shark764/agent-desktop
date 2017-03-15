@@ -1,7 +1,7 @@
 import { List } from 'immutable';
 
 export default class Interaction {
-  constructor({ interactionId, channelType, autoAnswer, direction, timeout, toolbarFeatures, recording, customerOnHold, status }) {
+  constructor({ interactionId, channelType, autoAnswer, direction, timeout, toolbarFeatures, recording, customerOnHold, status, customer }) {
     if (channelType === 'voice') {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
       this.agentRecordingEnabled = toolbarFeatures && toolbarFeatures.recordingUpdate !== false;
@@ -12,6 +12,8 @@ export default class Interaction {
       this.warmTransfers = new List();
     } else if (channelType === 'sms' || channelType === 'messaging') {
       this.customerAvatarIndex = Math.floor(Math.random() * 17);
+    } else if (channelType === 'email') {
+      this.customer = customer;
     }
     this.channelType = channelType;
     this.direction = direction;

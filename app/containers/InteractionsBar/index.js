@@ -69,8 +69,8 @@ export class InteractionsBar extends React.Component {
           icon = 'message';
         }
       } else if (activeInteraction.channelType === 'email') {
-        from = activeInteraction.email.from;
-        text = activeInteraction.email.content;
+        from = activeInteraction.emailDetails ? activeInteraction.emailDetails.from[0].name : activeInteraction.customer;
+        text = activeInteraction.emailPlainBody;
         icon = 'email';
       }
 
@@ -105,8 +105,7 @@ export class InteractionsBar extends React.Component {
         text = pendingInteraction.messageHistory ? pendingInteraction.messageHistory[0].text : '';
         icon = 'message_new';
       } else if (pendingInteraction.channelType === 'email') {
-        from = pendingInteraction.email.from;
-        text = pendingInteraction.email.content;
+        from = pendingInteraction.customer;
         icon = 'email_new';
       } else if (pendingInteraction.channelType === 'voice') {
         from = pendingInteraction.number;
