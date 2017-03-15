@@ -1,3 +1,8 @@
+<a name"0.13.1"></a>
+### 0.13.0 (2017-03-15)
+* Fix select menu drawing offscreen
+* Update splash
+
 <a name"0.13.0"></a>
 ### 0.13.0 (2017-03-15)
 * Email interaction view. Reply mocked.
