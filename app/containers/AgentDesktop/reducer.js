@@ -119,16 +119,9 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case UPDATE_WRAPUP_DETAILS: {
-      let interactionIndex;
-      if (action.interactionId) {
-        interactionIndex = state.get('interactions').findIndex(
-          (interaction) => interaction.get('interactionId') === action.interactionId
-        );
-      } else { // TODO remove when wrapup_details starts getting interactionId
-        interactionIndex = state.get('interactions').findIndex(
-          (interaction) => (interaction.get('status') === 'work-accepted') && (typeof interaction.getIn('wrapupEnabled') === 'undefined')
-        );
-      }
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
       if (interactionIndex > -1) {
         return state.mergeIn(['interactions', interactionIndex, 'wrapupDetails'], fromJS(action.wrapupDetails));
       }

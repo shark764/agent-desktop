@@ -1,5 +1,6 @@
-### Unreleased
-* Turn on sqsblastoutput on dev so Sam can debug
+<a name"0.12.1"></a>
+### 0.12.1 (2017-03-15)
+* Fix loopy progress bar causing stack overflows >.<
 
 <a name"0.12.0"></a>
 ### 0.12.0 (2017-03-14)

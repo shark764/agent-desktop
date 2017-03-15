@@ -91,7 +91,7 @@ export class AgentDesktop extends React.Component {
       where = window.ADconf.api;
       environment = window.ADconf.env;
       logLevel = 'debug'; // FIXME set back to info when fixed on SDK
-      blastSqsOutput = true;
+      blastSqsOutput = false;
     } else if (location.hostname === 'localhost') {
       where = 'dev-api.cxengagelabs.net/v1/';
       environment = 'dev';
