@@ -5,7 +5,7 @@
 */
 
 import React, { PropTypes } from 'react';
-import RSelect from 'react-select';
+import TetheredSelect from 'components/TetheredSelect';
 import Radium from 'radium';
 import './react-select.css';
 
@@ -21,7 +21,7 @@ function Select(props) {
   };
 
   return (
-    <RSelect
+    <TetheredSelect
       id={props.id}
       style={Object.assign({}, styles.base, props.style)}
       onChange={props.onChange}

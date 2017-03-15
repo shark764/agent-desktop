@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -239,6 +239,7 @@
     "react-select": "1.0.0-rc.2",
     "react-svg": "2.1.18",
     "react-tabs": "0.8.2",
+    "react-tether": "^0.5.6",
     "react-timer-hoc": "2.0.2",
     "react-toggle": "3.0.1",
     "redux": "3.6.0",
