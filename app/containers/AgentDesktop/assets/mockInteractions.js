@@ -1,3 +1,53 @@
+const processedDispositionDetails = {
+  dispositions: [
+    {
+      name: 'Cat 1',
+      dispositions: [
+        {
+          shared: true,
+          tenantId: '57e2f960-3328-11e6-8dd4-c88eee4d9f61',
+          externalId: null,
+          active: true,
+          name: 'Issue resolved',
+          sortOrder: 0,
+          dispositionId: '89c2d1d0-332d-11e6-8dd4-c88eee4d9f61',
+          hierarchy: [
+            'Cat 1'
+          ],
+          description: 'Issue resolved'
+        },
+        {
+          shared: true,
+          tenantId: '57e2f960-3328-11e6-8dd4-c88eee4d9f61',
+          externalId: null,
+          active: true,
+          name: 'Refund',
+          sortOrder: 1,
+          dispositionId: '89c34700-332d-11e6-8dd4-c88eee4d9f61',
+          hierarchy: [
+            'Cat 1'
+          ],
+          description: 'Refund'
+        }
+      ],
+      type: 'category'
+    },
+    {
+      shared: true,
+      tenantId: '57e2f960-3328-11e6-8dd4-c88eee4d9f61',
+      externalId: null,
+      active: true,
+      name: 'Partial refund',
+      sortOrder: 2,
+      dispositionId: '89c39520-332d-11e6-8dd4-c88eee4d9f61',
+      hierarchy: [],
+      description: 'Partial refund'
+    }
+  ],
+  forceSelect: true,
+    selected: []
+};
+
 const outboundConnectingVoiceInteraction = {
   interactionId: 'outbound-interaction-1',
   channelType: 'voice',
@@ -19,6 +69,7 @@ const voiceInteractionWithTransfersAndScripts = {
   timeout: Date.now() + 60000,
   number: '+3134126623',
   query: {},
+  dispositionDetails: processedDispositionDetails,
   wrapupDetails: {
     wrapupUpdateAllowed: true,
     wrapupEnabled: true,
@@ -194,6 +245,7 @@ const emailInteraction = {
   customer: 'jclowater@serenova.com',
   status: 'work-accepted', // 'work-offer',
   timeout: Date.now() + 60000,
+  dispositionDetails: processedDispositionDetails,
   wrapupDetails: {
     wrapupUpdateAllowed: true,
     wrapupEnabled: true,
@@ -509,6 +561,7 @@ const smsInteractionWithLotsOfMessagesAndScript = {
     wrapupTime: '20',
     targetWrapupTime: '10',
   },
+  dispositionDetails: processedDispositionDetails,
   script: {
     elements: [
       {
@@ -600,7 +653,6 @@ const smsInteractionWithLotsOfMessagesAndScript = {
 export {
   outboundConnectingVoiceInteraction,
   voiceInteractionWithTransfersAndScripts,
-  emailInteractionWithAttachmentsAndScript,
   emailInteraction,
   smsInteractionWithLotsOfMessagesAndScript,
 };

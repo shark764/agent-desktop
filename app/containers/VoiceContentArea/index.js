@@ -5,12 +5,15 @@
  */
 
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Radium from 'radium';
 
 import Button from 'components/Button';
 
 import AgentScript from 'containers/AgentScript';
 import ContentArea from 'containers/ContentArea';
+
+import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
 
@@ -57,13 +60,15 @@ export class VoiceContentArea extends React.Component {
       )
       : '';
 
+    const wrappingUp = this.props.selectedInteraction.status === 'wrapup';
+
     const buttons = (
       <Button
-        id={this.props.selectedInteraction.status === 'wrapup' ? 'wrapup-button' : 'hang-up-button'}
+        id={wrappingUp ? 'wrapup-button' : 'hang-up-button'}
         type="primaryRed"
-        text={this.props.selectedInteraction.status === 'wrapup' ? messages.endWrapup : messages.hangUp}
+        text={wrappingUp ? messages.endWrapup : messages.hangUp}
         onClick={this.props.endInteraction}
-        disabled={isAccepting}
+        disabled={isAccepting || this.props.awaitingDisposition}
       />
     );
 
@@ -82,10 +87,14 @@ export class VoiceContentArea extends React.Component {
   }
 }
 
-
 VoiceContentArea.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,
   endInteraction: PropTypes.func.isRequired,
+  awaitingDisposition: PropTypes.bool.isRequired,
 };
 
-export default Radium(VoiceContentArea);
+const mapStateToProps = (state, props) => ({
+  awaitingDisposition: selectAwaitingDisposition(state, props),
+});
+
+export default connect(mapStateToProps)(Radium(VoiceContentArea));

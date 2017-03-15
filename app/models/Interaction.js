@@ -27,5 +27,10 @@ export default class Interaction {
       wrapupEnabled: false,
     };
     this.contactAction = 'search';
+    this.dispositionDetails = {
+      forceSelect: false,
+      dispositions: [],
+      categories: [],
+    };
   }
 }

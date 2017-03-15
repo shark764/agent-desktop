@@ -11,6 +11,8 @@ import Radium from 'radium';
 import Icon from 'components/Icon';
 
 function Button(props) {
+  const cursor = props.disabled ? 'pointer' : 'default';
+  const isIcon = !!props.iconName;
   let backgroundColor;
   let backgroundColorHover;
   let backgroundColorActive;
@@ -19,11 +21,9 @@ function Button(props) {
   let border;
   let borderRadius = '3px';
   let color = '#FFFFFF';
-  let cursor = 'pointer';
   let fontSize = '13px';
   let fontWeight = 'bold';
   let padding = '9px 17px';
-  const isIcon = !!props.iconName;
   if (props.type === 'primaryBlueBig' || props.type === 'primaryBlue') {
     if (props.type === 'primaryBlueBig') {
       borderRadius = '8px';
@@ -32,16 +32,19 @@ function Button(props) {
     }
     if (props.disabled) {
       backgroundColor = '#8BE1F4';
-      cursor = 'default';
     } else {
       backgroundColor = '#23cdf4';
       backgroundColorHover = '#1FB8DC';
       backgroundColorActive = '#14778D';
     }
   } else if (props.type === 'primaryRed') {
-    backgroundColor = '#FE4565';
-    backgroundColorHover = '#E43D5A';
-    backgroundColorActive = '#CB3750';
+    if (props.disabled) {
+      backgroundColor = '#F99CAC';
+    } else {
+      backgroundColor = '#FE4565';
+      backgroundColorHover = '#E43D5A';
+      backgroundColorActive = '#CB3750';
+    }
   } else if (props.type === 'secondary') {
     backgroundColor = '#FFFFFF';
     backgroundColorHover = '#F3F3F3';
@@ -56,7 +59,6 @@ function Button(props) {
     borderRadius = '2px';
     if (props.disabled) {
       border = '1px solid #C5C5C5';
-      cursor = 'default';
       color = '#C5C5C5';
     }
   }
@@ -68,7 +70,7 @@ function Button(props) {
   const styles = {
     base: {
       borderRadius,
-      backgroundColor,
+      backgroundColor: !props.clear && backgroundColor,
       fontSize,
       fontWeight,
       fontStyle: 'normal',
@@ -79,17 +81,17 @@ function Button(props) {
       boxSizing,
       outline: 'none',
       ':hover': {
-        backgroundColor: backgroundColorHover,
+        backgroundColor: !props.clear && backgroundColorHover,
       },
       ':active': {
-        backgroundColor: backgroundColorActive,
+        backgroundColor: !props.clear && backgroundColorActive,
       },
     },
   };
 
   // To prevent warning from: https://github.com/FormidableLabs/radium/issues/95
   function checkBorderOverride(style) {
-    if (style.borderTop || style.borderRight || style.borderBottom || style.borderLeft) {
+    if (style.borderTop || style.borderRight || style.borderBottom || style.borderLeft || props.clear) {
       border = undefined;
       focusBorder = undefined;
     }
@@ -131,6 +133,7 @@ function Button(props) {
 
 Button.propTypes = {
   text: PropTypes.any,
+  clear: PropTypes.bool,
   iconName: PropTypes.string,
   children: PropTypes.element,
   tabIndex: PropTypes.number,

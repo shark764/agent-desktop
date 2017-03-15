@@ -6,6 +6,7 @@
 
 import React, { PropTypes } from 'react';
 import Radium from 'radium';
+import { connect } from 'react-redux';
 import { FormattedMessage, FormattedTime } from 'react-intl';
 
 import Avatar from 'components/Avatar';
@@ -13,6 +14,8 @@ import Button from 'components/Button';
 import LoadingText from 'components/LoadingText';
 
 import ContentArea from 'containers/ContentArea';
+
+import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
 
@@ -166,13 +169,15 @@ export class MessagingContentArea extends React.Component {
       details = '';
     }
 
+    const wrappingUp = this.props.selectedInteraction.status === 'wrapup';
+
     const buttons = (
       <Button
-        id={this.props.selectedInteraction.status === 'wrapup' ? 'wrapup-button' : 'end-chat-button'}
+        id={wrappingUp ? 'wrapup-button' : 'end-chat-button'}
         type="primaryBlue"
-        text={this.props.selectedInteraction.status === 'wrapup' ? messages.endWrapup : messages.endChat}
+        text={wrappingUp ? messages.endWrapup : messages.endChat}
         onClick={this.props.endInteraction}
-        disabled={isAccepting}
+        disabled={isAccepting || this.props.awaitingDisposition}
       />
     );
 
@@ -249,6 +254,11 @@ export class MessagingContentArea extends React.Component {
 MessagingContentArea.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,
   endInteraction: PropTypes.func.isRequired,
+  awaitingDisposition: PropTypes.bool.isRequired,
 };
 
-export default Radium(MessagingContentArea);
+const mapStateToProps = (state, props) => ({
+  awaitingDisposition: selectAwaitingDisposition(state, props),
+});
+
+export default connect(mapStateToProps)(Radium(MessagingContentArea));
