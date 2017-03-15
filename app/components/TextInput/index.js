@@ -10,28 +10,42 @@ import Radium from 'radium';
 
 function TextInput(props) {
   const { formatMessage } = props.intl;
-  const styles = {
-    base: {
-      width: '282px',
-      height: '44px',
-      backgroundColor: '#ffffff',
-      fontSize: '16px',
-      fontWeight: 'light',
-      fontStyle: 'normal',
-      fontStretch: 'normal',
-      color: '#494949',
-      outline: 'none',
-      padding: '11px',
-      borderRadius: '2px',
-    },
-  };
 
-  if (!props.noBorder) {
-    styles.base.border = 'solid 1px #979797';
-    styles.base[':focus'] = {
-      boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
-      border: 'solid 1px #23CEF5',
+  let styles;
+  if (props.styleType === 'inlineInherit') {
+    styles = {
+      base: {
+        display: 'inline-block',
+        fontFamily: 'inherit',
+        ':focus': {
+          outline: 'none',
+        },
+      },
     };
+  } else {
+    styles = {
+      base: {
+        width: '282px',
+        height: '44px',
+        backgroundColor: '#ffffff',
+        fontSize: '16px',
+        fontWeight: 'light',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        color: '#494949',
+        outline: 'none',
+        padding: '11px',
+        borderRadius: '2px',
+      },
+    };
+
+    if (!props.noBorder) {
+      styles.base.border = 'solid 1px #979797';
+      styles.base[':focus'] = {
+        boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
+        border: 'solid 1px #23CEF5',
+      };
+    }
   }
 
   function getPlaceholder() {
@@ -89,6 +103,7 @@ TextInput.propTypes = {
   autoFocus: PropTypes.bool,
   id: PropTypes.string.isRequired,
   noBorder: PropTypes.bool,
+  styleType: PropTypes.oneOf(['inlineInherit']),
 };
 
 TextInput.defaultProps = {

@@ -1,5 +1,9 @@
+<a name"0.13.2"></a>
+### 0.13.2 (2017-03-15)
+* Editable To, CC, BCC, and subject in email replies.
+
 <a name"0.13.1"></a>
-### 0.13.0 (2017-03-15)
+### 0.13.1 (2017-03-15)
 * Fix select menu drawing offscreen
 * Update splash
 

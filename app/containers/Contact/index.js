@@ -10,6 +10,7 @@ import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 import isURL from 'validator/lib/isURL';
+import { isValidEmail } from 'utils/validator';
 
 import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
 
@@ -215,7 +216,7 @@ export class Contact extends React.Component {
     } else if (value.length) {
       switch (attributeToValidate.type) {
         case 'email':
-          if (!/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(value)) {
+          if (!isValidEmail(value)) {
             error = this.props.intl.formatMessage(messages.errorEmail);
           }
           break;
