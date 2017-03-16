@@ -70,7 +70,7 @@ export class InteractionsBar extends React.Component {
         }
       } else if (activeInteraction.channelType === 'email') {
         from = activeInteraction.emailDetails ? activeInteraction.emailDetails.from[0].name : activeInteraction.customer;
-        text = activeInteraction.emailPlainBody;
+        text = activeInteraction.emailDetails ? activeInteraction.emailDetails.subject : '';
         icon = 'email';
       }
 

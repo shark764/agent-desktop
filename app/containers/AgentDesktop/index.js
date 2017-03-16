@@ -164,10 +164,8 @@ export class AgentDesktop extends React.Component {
           this.props.workInitiated(response);
           // attempt to auto-assign contact
           const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response.interactionId);
-          if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms')) {
-            let fromNumber = response.customer;
-            if (fromNumber[0] !== '+') fromNumber = `+${fromNumber}`; // server currently stripping +'s on SMS
-            this.attemptContactSearch(fromNumber, response.interactionId, true);
+          if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms' || interaction.channelType === 'email')) {
+            this.attemptContactSearch(response.customer, response.interactionId, true);
           }
           if (interaction.autoAnswer === true) {
             this.acceptInteraction(response.interactionId);
@@ -211,7 +209,7 @@ export class AgentDesktop extends React.Component {
           this.props.setEmailHtmlBody(response.interactionId, response.body);
           break;
         }
-        case 'cxengage/interactions/email-details-received': {
+        case 'cxengage/interactions/email/details-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setEmailDetails(response.interactionId, response.body);
           break;

@@ -4,7 +4,7 @@
  *
  */
 
-import { fromJS, Map } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
 
 import Interaction from 'models/Interaction';
 
@@ -51,7 +51,7 @@ import {
   UPDATE_SCRIPT_VALUES,
 } from './constants';
 
-// import { outboundConnectingVoiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript } from './assets/mockInteractions';
+// import { outboundConnectingVoiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
 
 const initialState = fromJS({
   // Uncomment to allow login screen to be hidden
@@ -607,7 +607,9 @@ function agentDesktopReducer(state = initialState, action) {
               interactions.update(
                 interactionIndex,
                 (interaction) => interaction.set('emailReply', fromJS({
-                  to: interaction.getIn('emailDetails', 'from', 0, 'address'),
+                  tos: interaction.get('emailDetails').get('from'),
+                  ccs: interaction.get('emailDetails').get('cc'),
+                  bccs: interaction.get('emailDetails').get('bcc'),
                   subject: `RE: ${interaction.get('emailDetails').get('subject')}`,
                   attachments: [],
                   message: '',
@@ -667,7 +669,11 @@ function agentDesktopReducer(state = initialState, action) {
       );
       if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.setIn(['emailReply', 'message'], action.reply)
+          interaction.setIn(['emailReply', 'message'], action.reply.message)
+            .setIn(['emailReply', 'tos'], new List(action.reply.tos))
+            .setIn(['emailReply', 'ccs'], new List(action.reply.ccs))
+            .setIn(['emailReply', 'bccs'], new List(action.reply.bccs))
+            .setIn(['emailReply', 'subject'], action.reply.subject)
         );
       } else {
         return state;

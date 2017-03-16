@@ -1,5 +1,23 @@
+<a name"0.13.5"></a>
+### 0.13.5 (2017-03-16)
+* Version bump SDK for bugfixes.
+* Hide inline image attachments in emails.
+
+<a name"0.13.4"></a>
+### 0.13.4 (2017-03-16)
+* Refactor Tos, CCs, BCCs to work with SDK.sendReply() contract.
+* Fixed duplicate emails/attachments errors.
+
+<a name"0.13.3"></a>
+### 0.13.3 (2017-03-16)
+* Email contact pop.
+
+<a name"0.13.2"></a>
+### 0.13.2 (2017-03-15)
+* Editable To, CC, BCC, and subject in email replies.
+
 <a name"0.13.1"></a>
-### 0.13.0 (2017-03-15)
+### 0.13.1 (2017-03-15)
 * Fix select menu drawing offscreen
 * Update splash
 
