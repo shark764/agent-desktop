@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.13.5",
+  "version": "0.13.6",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -250,6 +250,8 @@
     "store": "2.0.3",
     "styled-components": "1.4.4",
     "validator": "7.0.0",
+    "velocity-animate": "^1.4.3",
+    "velocity-react": "^1.2.1",
     "warning": "3.0.0",
     "webfontloader": "1.6.27",
     "whatwg-fetch": "2.0.2"

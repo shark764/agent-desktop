@@ -205,16 +205,14 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
               </span>
             </button>
           </div>
-          {
-            this.state.agentStatusMenu
-            ? <AgentStatusMenu
-              tenant={this.props.tenant}
-              readyState={this.props.readyState}
-              showAgentStatusMenu={this.showAgentStatusMenu}
-              agentDirection={this.props.agentDirection}
-            />
-            : ''
-          }
+          <AgentStatusMenu
+            show={this.state.agentStatusMenu}
+            key={'agentStatusMenu'}
+            tenant={this.props.tenant}
+            readyState={this.props.readyState}
+            showAgentStatusMenu={this.showAgentStatusMenu}
+            agentDirection={this.props.agentDirection}
+          />
           <AgentStats queues={this.props.queues} toggleStat={this.props.toggleStat} readyState={this.props.readyState} />
           <div id="config-button-container" style={this.styles.configButtonContainer}>
             <button

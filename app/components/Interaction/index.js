@@ -69,6 +69,11 @@ export class Interaction extends React.Component {
     clearInterval(this.state.msIntervalId);
   }
 
+  pulseKeyframes = Radium.keyframes({
+    '0%': { opacity: '0', transform: 'translate(0, -10px)' },
+    '100%': { opacity: '1', transform: 'translate(0, -25px)' },
+  }, 'fadein');
+
   styles = {
     base: {
       cursor: 'pointer',
