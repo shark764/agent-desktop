@@ -105,7 +105,7 @@ export class EmailContentArea extends React.Component {
       e.preventDefault();
       if (isValidEmail(this.state.toInput)) {
         this.setState({
-          tos: this.state.tos.concat(this.state.toInput),
+          tos: this.state.tos.concat({ name: this.state.toInput, address: this.state.toInput }),
           toInput: '',
         });
       }
@@ -120,7 +120,7 @@ export class EmailContentArea extends React.Component {
       e.preventDefault();
       if (isValidEmail(this.state.ccInput)) {
         this.setState({
-          ccs: this.state.ccs.concat(this.state.ccInput),
+          ccs: this.state.ccs.concat({ name: this.state.ccInput, address: this.state.ccInput }),
           ccInput: '',
         });
       }
@@ -135,7 +135,7 @@ export class EmailContentArea extends React.Component {
       e.preventDefault();
       if (isValidEmail(this.state.bccInput)) {
         this.setState({
-          bccs: this.state.bccs.concat(this.state.bccInput),
+          bccs: this.state.bccs.concat({ name: this.state.bccInput, address: this.state.bccInput }),
           bccInput: '',
         });
       }
@@ -148,7 +148,7 @@ export class EmailContentArea extends React.Component {
   onBlurAddTo() {
     if (isValidEmail(this.state.toInput)) {
       this.setState({
-        tos: this.state.tos.concat(this.state.toInput),
+        tos: this.state.tos.concat({ name: this.state.toInput, address: this.state.toInput }),
         toInput: '',
       });
     }
@@ -157,7 +157,7 @@ export class EmailContentArea extends React.Component {
   onBlurAddCc() {
     if (isValidEmail(this.state.ccInput)) {
       this.setState({
-        ccs: this.state.ccs.concat(this.state.ccInput),
+        ccs: this.state.ccs.concat({ name: this.state.ccInput, address: this.state.ccInput }),
         ccInput: '',
       });
     }
@@ -166,7 +166,7 @@ export class EmailContentArea extends React.Component {
   onBlurAddBcc() {
     if (isValidEmail(this.state.bccInput)) {
       this.setState({
-        bccs: this.state.bccs.concat(this.state.bccInput),
+        bccs: this.state.bccs.concat({ name: this.state.bccInput, address: this.state.bccInput }),
         bccInput: '',
       });
     }
@@ -199,8 +199,22 @@ export class EmailContentArea extends React.Component {
   addFilesToEmail(fileList) {
     for (let i = 0; i < fileList.length; i += 1) {
       // TODO call SDK file upload function here when available. Move emailAddAttachment() to that callback. Loading in between.
+      // SDK.interactions.email.addAttachment({ interactionId: this.props.selectedInteraction.interactionId, attachment: fileList[i] });
       this.props.emailAddAttachment(this.props.selectedInteraction.interactionId, fileList[i]);
     }
+  }
+
+  sendEmail() {
+    alert(`TODO send email\n\nTo: ${this.state.tos.map((email) => email.address).join(', ')}\nCC: ${this.state.ccs.map((email) => email.address).join(', ')}\nBCC: ${this.state.bccs.map((email) => email.address).join(', ')}\nSubject: ${this.state.subject}\nPlain Body: ${this.state.editorState.getCurrentContent().getPlainText()}\nHTML Body: ${stateToHTML(this.state.editorState.getCurrentContent())}`);
+    // SDK.interactions.email.sendReply({
+    //   interactionId: this.props.selectedInteraction.interactionId,
+    //   to: this.state.tos,
+    //   cc: this.state.ccs,
+    //   bcc: this.state.bccs,
+    //   subject: this.state.subject,
+    //   htmlBody: stateToHTML(this.state.editorState.getCurrentContent()),
+    //   plainBody: this.state.editorState.getCurrentContent().getPlainText(),
+    // });
   }
 
   styles = {
@@ -410,7 +424,7 @@ export class EmailContentArea extends React.Component {
               ? <div style={this.styles.attachmentsContainer}>
                 {
                   this.props.selectedInteraction.emailDetails.attachments.map((attachment) =>
-                    // TODO get URL (src) from SDK when it is available
+                    // TODO SDK.getAttachment() when it is available
                     <a key={attachment.artifactFileId} href={attachment.src} download >
                       <div style={this.styles.attachment} >
                         {attachment.filename}
@@ -452,7 +466,7 @@ export class EmailContentArea extends React.Component {
             id="sendEmail"
             type="primaryRed"
             text={messages.send}
-            onClick={() => alert(`TODO send email\n\nTo: ${this.state.tos.join(', ')}\nCC: ${this.state.ccs.join(', ')}\nSubject: ${this.state.subject}\nMessage: ${stateToHTML(this.state.editorState.getCurrentContent())}`)}
+            onClick={() => this.sendEmail()}
           />
         </div>
       );
@@ -465,9 +479,10 @@ export class EmailContentArea extends React.Component {
             </div>
             <div style={this.styles.detailsValue}>
               {
-                this.state.tos.map((to) =>
-                  <div key={to} style={this.styles.emailAddress}>
-                    { to }
+                this.state.tos.map((to, index) =>
+                  // eslint-disable-next-line react/no-array-index-key
+                  <div key={`${index}-${to.address}`} id={`${index}-${to.address}`} style={this.styles.emailAddress}>
+                    { to.name !== to.address ? `${to.name} [${to.address}]` : to.address }
                     <span onClick={() => this.removeTo(to)} style={this.styles.emailAddressRemove}>
                       &#10060;
                     </span>
@@ -490,10 +505,11 @@ export class EmailContentArea extends React.Component {
             </div>
             <div style={this.styles.detailsValue}>
               {
-                this.state.ccs.map((cc) =>
-                  <div key={cc} style={this.styles.emailAddress}>
-                    { cc }
-                    <span onClick={() => this.removeCc(cc)} style={this.styles.emailAddressRemove}>
+                this.state.ccs.map((cc, index) =>
+                  // eslint-disable-next-line react/no-array-index-key
+                  <div key={`${index}-${cc.address}`} id={`${index}-${cc.address}`} style={this.styles.emailAddress}>
+                    { cc.name !== cc.address ? `${cc.name} [${cc.address}]` : cc.address }
+                    <span className="removeAddress" onClick={() => this.removeCc(cc)} style={this.styles.emailAddressRemove}>
                       &#10060;
                     </span>
                   </div>
@@ -515,10 +531,11 @@ export class EmailContentArea extends React.Component {
             </div>
             <div style={this.styles.detailsValue}>
               {
-                this.state.bccs.map((bcc) =>
-                  <div key={bcc} style={this.styles.emailAddress}>
-                    { bcc }
-                    <span onClick={() => this.removeBcc(bcc)} style={this.styles.emailAddressRemove}>
+                this.state.bccs.map((bcc, index) =>
+                  // eslint-disable-next-line react/no-array-index-key
+                  <div key={`${index}-${bcc.address}`} id={`${index}-${bcc.address}`} style={this.styles.emailAddress}>
+                    { bcc.name !== bcc.address ? `${bcc.name} [${bcc.address}]` : bcc.address }
+                    <span className="removeAddress" onClick={() => this.removeBcc(bcc)} style={this.styles.emailAddressRemove}>
                       &#10060;
                     </span>
                   </div>
@@ -544,8 +561,9 @@ export class EmailContentArea extends React.Component {
           </div>
           <div style={this.styles.attachmentsContainer}>
             {
-              this.props.selectedInteraction.emailReply.attachments.map((attachment) =>
-                <div key={attachment.name} style={this.styles.attachment} >
+              this.props.selectedInteraction.emailReply.attachments.map((attachment, index) =>
+                // eslint-disable-next-line react/no-array-index-key
+                <div key={`${index}-${attachment.name}`} id={`${index}-${attachment.name}`} style={this.styles.attachment} >
                   <span style={this.styles.attachmentName}>
                     {attachment.name}
                   </span>

@@ -1,3 +1,8 @@
+<a name"0.13.4"></a>
+### 0.13.4 (2017-03-16)
+* Refactor Tos, CCs, BCCs to work with SDK.sendReply() contract.
+* Fixed duplicate emails/attachments errors.
+
 <a name"0.13.3"></a>
 ### 0.13.3 (2017-03-16)
 * Email contact pop.
