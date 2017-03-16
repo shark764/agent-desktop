@@ -607,13 +607,9 @@ function agentDesktopReducer(state = initialState, action) {
               interactions.update(
                 interactionIndex,
                 (interaction) => interaction.set('emailReply', fromJS({
-                  tos: [interaction.get('emailDetails').get('from').get(0).get('address')],
-                  ccs: interaction.get('emailDetails').get('cc').map((cc) =>
-                    cc.get('address')
-                  ),
-                  bccs: interaction.get('emailDetails').get('bcc').map((bcc) =>
-                    bcc.get('address')
-                  ),
+                  tos: interaction.get('emailDetails').get('from'),
+                  ccs: interaction.get('emailDetails').get('cc'),
+                  bccs: interaction.get('emailDetails').get('bcc'),
                   subject: `RE: ${interaction.get('emailDetails').get('subject')}`,
                   attachments: [],
                   message: '',
