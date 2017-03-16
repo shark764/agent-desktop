@@ -61,19 +61,19 @@ const rootRoute = {
 
 const render = (translatedMessages) => {
   ReactDOM.render(
-      <Provider store={store}>
-        <LanguageProvider messages={translatedMessages}>
-          <Router
-            history={history}
-            routes={rootRoute}
-            render={
-              // Scroll to top when going to a new page, imitating default browser
-              // behaviour
-              applyRouterMiddleware(useScroll())
-            }
-          />
-        </LanguageProvider>
-      </Provider>,
+    <Provider store={store}>
+      <LanguageProvider messages={translatedMessages}>
+        <Router
+          history={history}
+          routes={rootRoute}
+          render={
+            // Scroll to top when going to a new page, imitating default browser
+            // behaviour
+            applyRouterMiddleware(useScroll())
+          }
+        />
+      </LanguageProvider>
+    </Provider>,
     document.getElementById('app')
   );
 };

@@ -1,3 +1,8 @@
+<a name"0.13.6"></a>
+### 0.13.5 (2017-03-16)
+* Add agent status menu animation
+* Fix zIndex bug with stats menu
+
 <a name"0.13.5"></a>
 ### 0.13.5 (2017-03-16)
 * Version bump SDK for bugfixes.
