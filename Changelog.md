@@ -1,3 +1,8 @@
+<a name"0.13.5"></a>
+### 0.13.5 (2017-03-16)
+* Version bump SDK for bugfixes.
+* Hide inline image attachments in emails.
+
 <a name"0.13.4"></a>
 ### 0.13.4 (2017-03-16)
 * Refactor Tos, CCs, BCCs to work with SDK.sendReply() contract.

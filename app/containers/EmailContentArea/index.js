@@ -449,7 +449,12 @@ export class EmailContentArea extends React.Component {
         );
       } else {
         content = (
-          <div style={this.styles.emailContent} dangerouslySetInnerHTML={{ __html: this.props.selectedInteraction.emailHtmlBody }} /> // eslint-disable-line react/no-danger
+          <div>
+            { /* TODO remove this inline style when inline attachments/images are supported */ }
+            <style>{'#emailContainer img { display: none; }'}</style>
+            { // eslint-disable-next-line react/no-danger
+            }<div id="emailContainer" style={this.styles.emailContent} dangerouslySetInnerHTML={{ __html: this.props.selectedInteraction.emailHtmlBody }} />
+          </div>
         );
       }
     } else {
