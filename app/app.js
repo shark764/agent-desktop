@@ -5,7 +5,6 @@
  */
 import 'babel-polyfill';
 import Raven from 'raven-js';
-import { StyleRoot } from 'Radium';
 
 /* eslint-disable import/no-unresolved, import/extensions */
 // Load the manifest.json file and the .htaccess file
@@ -62,7 +61,6 @@ const rootRoute = {
 
 const render = (translatedMessages) => {
   ReactDOM.render(
-    <StyleRoot>
       <Provider store={store}>
         <LanguageProvider messages={translatedMessages}>
           <Router
@@ -75,8 +73,7 @@ const render = (translatedMessages) => {
             }
           />
         </LanguageProvider>
-      </Provider>
-    </StyleRoot>,
+      </Provider>,
     document.getElementById('app')
   );
 };

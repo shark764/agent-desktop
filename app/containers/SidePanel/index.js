@@ -59,7 +59,6 @@ export class SidePanel extends React.Component {
       backgroundColor: '#FFFFFF',
       borderLeft: '1px solid #D0D0D0',
       position: 'fixed',
-      zIndex: 2,
       right: 0,
       top: 0,
       height: '100vh',
