@@ -16,10 +16,13 @@ import { EditorState } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
 
+import { isValidEmail } from 'utils/validator';
+
 import Button from 'components/Button';
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 import LoadingText from 'components/LoadingText';
+import TextInput from 'components/TextInput';
 
 import ContentArea from 'containers/ContentArea';
 
@@ -37,6 +40,13 @@ export class EmailContentArea extends React.Component {
     };
 
     this.state = {
+      subject: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.subject : undefined,
+      tos: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.tos : undefined,
+      toInput: '',
+      ccs: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.ccs : undefined,
+      ccInput: '',
+      bccs: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.bccs : undefined,
+      bccInput: '',
       editorState: this.props.selectedInteraction.emailReply
         ? EditorState.createWithContent(stateFromHTML(this.props.selectedInteraction.emailReply.message))
         : createEditorState(),
@@ -46,20 +56,41 @@ export class EmailContentArea extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.selectedInteraction.interactionId !== nextProps.selectedInteraction.interactionId) {
       if (this.props.selectedInteraction.emailReply) {
-        this.props.emailUpdateReply(this.props.selectedInteraction.interactionId, stateToHTML(this.state.editorState.getCurrentContent()));
+        this.emailUpdateReply();
       }
       this.setState({
+        tos: nextProps.selectedInteraction.emailReply.tos,
+        ccs: nextProps.selectedInteraction.emailReply.ccs,
+        bccs: nextProps.selectedInteraction.emailReply.bccs,
+        subject: nextProps.selectedInteraction.emailReply.subject,
         editorState: nextProps.selectedInteraction.emailReply
           ? EditorState.createWithContent(stateFromHTML(nextProps.selectedInteraction.emailReply.message))
           : createEditorState(),
+      });
+    } else if (this.props.selectedInteraction.emailReply === undefined && nextProps.selectedInteraction.emailReply !== undefined) {
+      this.setState({
+        tos: nextProps.selectedInteraction.emailReply.tos,
+        ccs: nextProps.selectedInteraction.emailReply.ccs,
+        bccs: nextProps.selectedInteraction.emailReply.bccs,
+        subject: nextProps.selectedInteraction.emailReply.subject,
       });
     }
   }
 
   componentWillUnmount() {
     if (this.props.selectedInteraction.emailReply) {
-      this.props.emailUpdateReply(this.props.selectedInteraction.interactionId, stateToHTML(this.state.editorState.getCurrentContent()));
+      this.emailUpdateReply();
     }
+  }
+
+  emailUpdateReply() {
+    this.props.emailUpdateReply(this.props.selectedInteraction.interactionId, {
+      tos: this.state.tos,
+      ccs: this.state.ccs,
+      bccs: this.state.bccs,
+      subject: this.state.subject,
+      message: stateToHTML(this.state.editorState.getCurrentContent()),
+    });
   }
 
   onEmailCreateReply() {
@@ -67,6 +98,102 @@ export class EmailContentArea extends React.Component {
       editorState: createEditorState(),
     });
     this.props.emailCreateReply(this.props.selectedInteraction.interactionId);
+  }
+
+  onCommaAddTo(e) {
+    if (e.keyCode === 188) {
+      e.preventDefault();
+      if (isValidEmail(this.state.toInput)) {
+        this.setState({
+          tos: this.state.tos.concat(this.state.toInput),
+          toInput: '',
+        });
+      }
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  onCommaAddCc(e) {
+    if (e.keyCode === 188) {
+      e.preventDefault();
+      if (isValidEmail(this.state.ccInput)) {
+        this.setState({
+          ccs: this.state.ccs.concat(this.state.ccInput),
+          ccInput: '',
+        });
+      }
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  onCommaAddBcc(e) {
+    if (e.keyCode === 188) {
+      e.preventDefault();
+      if (isValidEmail(this.state.bccInput)) {
+        this.setState({
+          bccs: this.state.bccs.concat(this.state.bccInput),
+          bccInput: '',
+        });
+      }
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  onBlurAddTo() {
+    if (isValidEmail(this.state.toInput)) {
+      this.setState({
+        tos: this.state.tos.concat(this.state.toInput),
+        toInput: '',
+      });
+    }
+  }
+
+  onBlurAddCc() {
+    if (isValidEmail(this.state.ccInput)) {
+      this.setState({
+        ccs: this.state.ccs.concat(this.state.ccInput),
+        ccInput: '',
+      });
+    }
+  }
+
+  onBlurAddBcc() {
+    if (isValidEmail(this.state.bccInput)) {
+      this.setState({
+        bccs: this.state.bccs.concat(this.state.bccInput),
+        bccInput: '',
+      });
+    }
+  }
+
+  removeTo(toRemove) {
+    this.setState({
+      tos: this.state.tos.filter((to) =>
+        to !== toRemove
+      ),
+    });
+  }
+
+  removeCc(ccRemove) {
+    this.setState({
+      ccs: this.state.ccs.filter((cc) =>
+        cc !== ccRemove
+      ),
+    });
+  }
+
+  removeBcc(bccRemove) {
+    this.setState({
+      bccs: this.state.bccs.filter((bcc) =>
+        bcc !== bccRemove
+      ),
+    });
   }
 
   addFilesToEmail(fileList) {
@@ -81,6 +208,7 @@ export class EmailContentArea extends React.Component {
       color: '#979797',
       display: 'inline-block',
       width: '90px',
+      verticalAlign: 'top',
     },
     detailsValue: {
       display: 'inline-block',
@@ -139,6 +267,23 @@ export class EmailContentArea extends React.Component {
       padding: '19px 23px',
     },
     replyButtons: { width: '148px' },
+    inputContainer: {
+      marginBottom: '2px',
+    },
+    emailAddress: {
+      display: 'inline-block',
+      backgroundColor: '#FFFFFF',
+      border: '1px solid #D0D0D0',
+      borderRadius: '3px',
+      padding: '0 6px',
+      marginRight: '6px',
+    },
+    emailAddressRemove: {
+      fontSize: '12px',
+      marginLeft: '6px',
+      color: '#979797',
+      cursor: 'pointer',
+    },
     richTextEditorContainer: {
       position: 'absolute',
       height: '100%',
@@ -307,19 +452,86 @@ export class EmailContentArea extends React.Component {
             id="sendEmail"
             type="primaryRed"
             text={messages.send}
-            onClick={() => alert(`TODO send email with content:\n\n${stateToHTML(this.state.editorState.getCurrentContent())}`)}
+            onClick={() => alert(`TODO send email\n\nTo: ${this.state.tos.join(', ')}\nCC: ${this.state.ccs.join(', ')}\nSubject: ${this.state.subject}\nMessage: ${stateToHTML(this.state.editorState.getCurrentContent())}`)}
           />
         </div>
       );
 
       details = (
         <div>
-          <div>
+          <div style={this.styles.inputContainer}>
             <div style={this.styles.detailsField}>
               <FormattedMessage {...messages.to} />
             </div>
             <div style={this.styles.detailsValue}>
-              {this.props.selectedInteraction.emailReply.to}
+              {
+                this.state.tos.map((to) =>
+                  <div key={to} style={this.styles.emailAddress}>
+                    { to }
+                    <span onClick={() => this.removeTo(to)} style={this.styles.emailAddressRemove}>
+                      &#10060;
+                    </span>
+                  </div>
+                )
+              }
+              <TextInput
+                id="emailToInput"
+                styleType="inlineInherit"
+                value={this.state.toInput}
+                cb={(toInput) => this.setState({ toInput })}
+                onKeyDown={(e) => this.onCommaAddTo(e)}
+                onBlur={() => this.onBlurAddTo()}
+              />
+            </div>
+          </div>
+          <div style={this.styles.inputContainer}>
+            <div style={this.styles.detailsField}>
+              <FormattedMessage {...messages.cc} />
+            </div>
+            <div style={this.styles.detailsValue}>
+              {
+                this.state.ccs.map((cc) =>
+                  <div key={cc} style={this.styles.emailAddress}>
+                    { cc }
+                    <span onClick={() => this.removeCc(cc)} style={this.styles.emailAddressRemove}>
+                      &#10060;
+                    </span>
+                  </div>
+                )
+              }
+              <TextInput
+                id="emailCcInput"
+                styleType="inlineInherit"
+                value={this.state.ccInput}
+                cb={(ccInput) => this.setState({ ccInput })}
+                onKeyDown={(e) => this.onCommaAddCc(e)}
+                onBlur={() => this.onBlurAddCc()}
+              />
+            </div>
+          </div>
+          <div style={this.styles.inputContainer}>
+            <div style={this.styles.detailsField}>
+              <FormattedMessage {...messages.bcc} />
+            </div>
+            <div style={this.styles.detailsValue}>
+              {
+                this.state.bccs.map((bcc) =>
+                  <div key={bcc} style={this.styles.emailAddress}>
+                    { bcc }
+                    <span onClick={() => this.removeBcc(bcc)} style={this.styles.emailAddressRemove}>
+                      &#10060;
+                    </span>
+                  </div>
+                )
+              }
+              <TextInput
+                id="emailBccInput"
+                styleType="inlineInherit"
+                value={this.state.bccInput}
+                cb={(bccInput) => this.setState({ bccInput })}
+                onKeyDown={(e) => this.onCommaAddBcc(e)}
+                onBlur={() => this.onBlurAddBcc()}
+              />
             </div>
           </div>
           <div>
@@ -327,7 +539,7 @@ export class EmailContentArea extends React.Component {
               <FormattedMessage {...messages.subject} />
             </div>
             <div style={this.styles.detailsValue}>
-              {this.props.selectedInteraction.emailReply.subject}
+              <TextInput id="subjectInput" styleType="inlineInherit" value={this.state.subject} cb={(subject) => this.setState({ subject })} style={{ width: '100%' }} />
             </div>
           </div>
           <div style={this.styles.attachmentsContainer}>
