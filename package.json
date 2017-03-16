@@ -227,6 +227,7 @@
     "react": "15.4.2",
     "react-addons-shallow-compare": "15.4.2",
     "react-addons-test-utils": "15.4.2",
+    "react-animations": "github:liveops/react-animations",
     "react-autocomplete": "1.4.0",
     "react-dom": "15.4.2",
     "react-helmet": "4.0.0",
@@ -250,6 +251,8 @@
     "store": "2.0.3",
     "styled-components": "1.4.4",
     "validator": "7.0.0",
+    "velocity-animate": "^1.4.3",
+    "velocity-react": "^1.2.1",
     "warning": "3.0.0",
     "webfontloader": "1.6.27",
     "whatwg-fetch": "2.0.2"

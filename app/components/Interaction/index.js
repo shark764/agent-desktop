@@ -8,6 +8,7 @@ import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
+import { fadeInUp } from 'react-animations';
 
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
@@ -69,6 +70,11 @@ export class Interaction extends React.Component {
     clearInterval(this.state.msIntervalId);
   }
 
+  pulseKeyframes = Radium.keyframes({
+    '0%': { opacity: '0', transform: 'translate(0, -10px)' },
+    '100%': { opacity: '1', transform: 'translate(0, -25px)' },
+  }, 'fadein');
+
   styles = {
     base: {
       cursor: 'pointer',
@@ -79,6 +85,8 @@ export class Interaction extends React.Component {
       borderBottom: '1px solid #141414',
       display: 'flex',
       justifyContent: 'stretch',
+      animation: 'x 0.3s',
+      animationName: Radium.keyframes(fadeInUp, 'fadeInUp'),
     },
     pendingBase: {
       height: '123px',

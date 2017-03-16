@@ -5272,7 +5272,7 @@ lodash@4.17.4, lodash@^4.0.0, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3, lo
   version "4.17.4"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
-lodash@^3.8.0:
+lodash@^3.10.1, lodash@^3.8.0:
   version "3.10.1"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
@@ -6720,6 +6720,17 @@ react-addons-test-utils@15.4.2:
   dependencies:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
+
+"react-addons-transition-group@^0.14.0 || ^15.0.0", react-addons-transition-group@^15.4.2:
+  version "15.4.2"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-addons-transition-group/-/react-addons-transition-group-15.4.2.tgz#4c42fa1c2ce024acab2924316c0f11268ded1af3"
+  dependencies:
+    fbjs "^0.8.4"
+    object-assign "^4.1.0"
+
+"react-animations@github:liveops/react-animations":
+  version "0.1.2"
+  resolved "https://codeload.github.com/liveops/react-animations/tar.gz/943ac65796297e049a676fa440e527f49fd56fca"
 
 react-autocomplete@1.4.0:
   version "1.4.0"
@@ -8260,6 +8271,18 @@ validator@7.0.0:
 vary@~1.1.0:
   version "1.1.0"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/vary/-/vary-1.1.0.tgz#e1e5affbbd16ae768dd2674394b9ad3022653140"
+
+velocity-animate@^1.4.0, velocity-animate@^1.4.3:
+  version "1.4.3"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/velocity-animate/-/velocity-animate-1.4.3.tgz#1d27a66afcc0cef73f8807b8c6253b94d214ad5a"
+
+velocity-react@^1.2.1:
+  version "1.2.1"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/velocity-react/-/velocity-react-1.2.1.tgz#d0cb59289a3b666c596da109d5f541d6e6f8ad98"
+  dependencies:
+    lodash "^3.10.1"
+    react-addons-transition-group "^0.14.0 || ^15.0.0"
+    velocity-animate "^1.4.0"
 
 vendors@^1.0.0:
   version "1.0.1"

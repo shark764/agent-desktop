@@ -5,6 +5,7 @@
  */
 import 'babel-polyfill';
 import Raven from 'raven-js';
+import { StyleRoot } from 'Radium';
 
 /* eslint-disable import/no-unresolved, import/extensions */
 // Load the manifest.json file and the .htaccess file
@@ -61,19 +62,21 @@ const rootRoute = {
 
 const render = (translatedMessages) => {
   ReactDOM.render(
-    <Provider store={store}>
-      <LanguageProvider messages={translatedMessages}>
-        <Router
-          history={history}
-          routes={rootRoute}
-          render={
-            // Scroll to top when going to a new page, imitating default browser
-            // behaviour
-            applyRouterMiddleware(useScroll())
-          }
-        />
-      </LanguageProvider>
-    </Provider>,
+    <StyleRoot>
+      <Provider store={store}>
+        <LanguageProvider messages={translatedMessages}>
+          <Router
+            history={history}
+            routes={rootRoute}
+            render={
+              // Scroll to top when going to a new page, imitating default browser
+              // behaviour
+              applyRouterMiddleware(useScroll())
+            }
+          />
+        </LanguageProvider>
+      </Provider>
+    </StyleRoot>,
     document.getElementById('app')
   );
 };
