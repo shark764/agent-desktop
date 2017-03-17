@@ -27,6 +27,7 @@ import TextInput from 'components/TextInput';
 import ContentArea from 'containers/ContentArea';
 
 import { emailAddAttachment, emailRemoveAttachment, emailUpdateReply } from 'containers/AgentDesktop/actions';
+import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
 
@@ -342,6 +343,7 @@ export class EmailContentArea extends React.Component {
               type="primaryRed"
               text={messages.noReply}
               onClick={this.props.endInteraction}
+              disabled={this.props.awaitingDisposition}
               style={{ marginRight: '8px' }}
             />
             <Button
@@ -676,7 +678,13 @@ EmailContentArea.propTypes = {
   emailAddAttachment: PropTypes.func.isRequired,
   emailRemoveAttachment: PropTypes.func.isRequired,
   emailUpdateReply: PropTypes.func.isRequired,
+  awaitingDisposition: PropTypes.bool.isRequired,
 };
+
+
+const mapStateToProps = (state, props) => ({
+  awaitingDisposition: selectAwaitingDisposition(state, props),
+});
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -687,4 +695,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default injectIntl(connect(null, mapDispatchToProps)(Radium(EmailContentArea)));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(EmailContentArea)));

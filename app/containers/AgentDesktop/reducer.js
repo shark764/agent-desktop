@@ -49,6 +49,8 @@ import {
   EMAIL_CANCEL_REPLY,
   UPDATE_NOTE,
   UPDATE_SCRIPT_VALUES,
+  SET_DISPOSITION_DETAILS,
+  SELECT_DISPOSITION,
 } from './constants';
 
 // import { outboundConnectingVoiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
@@ -67,6 +69,9 @@ const initialState = fromJS({
     contactAction: 'search',
     query: {},
   },
+  queues: [],
+  extensions: [],
+  activeExtension: {},
 });
 
 function agentDesktopReducer(state = initialState, action) {
@@ -89,16 +94,20 @@ function agentDesktopReducer(state = initialState, action) {
       );
       if (interactionIndex !== -1) {
         const automaticallyAcceptInteraction = action.newStatus === 'work-accepting' && state.get('selectedInteractionId') === undefined;
-        return state
-          .updateIn(['interactions', interactionIndex],
-                (interaction) => interaction.set('status', action.newStatus)
-          ).set('selectedInteractionId',
-            automaticallyAcceptInteraction
-            ? action.interactionId
-            : state.get('selectedInteractionId'));
-      } else {
-        return state;
+        const newState = state
+          .setIn(['interactions', interactionIndex, 'status'], action.newStatus)
+            .set('selectedInteractionId',
+              automaticallyAcceptInteraction
+              ? action.interactionId
+              : state.get('selectedInteractionId'));
+        if (action.newStatus === 'wrapup') {
+          const wrapupTimeout = state.getIn(['interactions', interactionIndex, 'wrapupDetails', 'wrapupTime']);
+          const newTimeout = Date.now() + (wrapupTimeout * 1000);
+          return newState.setIn(['interactions', interactionIndex, 'timeout'], newTimeout);
+        }
+        return newState;
       }
+      return state;
     }
     case START_OUTBOUND_INTERACTION: {
       return state.set('interactions', state.get('interactions').push(new Map(new Interaction({
@@ -707,6 +716,50 @@ function agentDesktopReducer(state = initialState, action) {
       } else {
         return state;
       }
+    }
+    case SET_DISPOSITION_DETAILS: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        const categorizedDispositions = [];
+        action.dispositions.sort((a, b) => a.sortOrder > b.sortOrder).forEach(
+          (disposition) => {
+            if (disposition.hierarchy[0]) {
+              const existingCategoryIndex = categorizedDispositions.findIndex(
+                (category) => category.name === disposition.hierarchy[0]
+              );
+              if (existingCategoryIndex > -1) {
+                categorizedDispositions[existingCategoryIndex].dispositions.push(disposition);
+              } else {
+                categorizedDispositions.push({
+                  name: disposition.hierarchy[0],
+                  dispositions: [disposition],
+                  type: 'category',
+                });
+              }
+            } else {
+              categorizedDispositions.push(disposition);
+            }
+          }
+        );
+        return state.setIn(['interactions', interactionIndex, 'dispositionDetails'], fromJS({
+          forceSelect: action.forceSelect,
+          dispositions: categorizedDispositions,
+          selected: [],
+        }));
+      } else {
+        return state;
+      }
+    }
+    case SELECT_DISPOSITION: {
+      const selectedInteractionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      return state.setIn(
+        ['interactions', selectedInteractionIndex, 'dispositionDetails', 'selected'],
+        fromJS(action.disposition ? [action.disposition] : []),
+      );
     }
     default:
       return state;

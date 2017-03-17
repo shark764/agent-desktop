@@ -7,12 +7,15 @@
 import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
 import Radium from 'radium';
 
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 import TimerMinutes from 'components/TimerMinutes';
 import Progress from 'components/Progress';
+
+import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
 
@@ -26,7 +29,9 @@ export class Interaction extends React.Component {
         () => {
           const ageSeconds = Math.round((Date.now() - this.state.startTime) / 1000);
           if (this.props.status === 'wrapup' && (ageSeconds > this.props.wrapupTime)) {
-            SDK.interactions.endWrapup({ interactionId: this.props.interactionId });
+            if (!this.props.awaitingDisposition) {
+              SDK.interactions.endWrapup({ interactionId: this.props.interactionId });
+            }
             clearInterval(this.state.msIntervalId);
           }
           this.setState({
@@ -248,8 +253,13 @@ Interaction.propTypes = {
   targetWrapupTime: React.PropTypes.number,
   wrapupTime: React.PropTypes.number,
   status: React.PropTypes.oneOf(['pending', 'active', 'wrapup']).isRequired,
+  awaitingDisposition: React.PropTypes.bool.isRequired,
   selected: React.PropTypes.bool,
   onClick: React.PropTypes.func,
 };
 
-export default Radium(Interaction);
+const mapStateToProps = (state, props) => ({
+  awaitingDisposition: selectAwaitingDisposition(state, props),
+});
+
+export default connect(mapStateToProps)(Radium(Interaction));

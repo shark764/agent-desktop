@@ -81,11 +81,10 @@ export class InteractionsBar extends React.Component {
 
       return (
         <Interaction
+          {...{ from, icon }}
           interactionId={activeInteraction.interactionId}
           key={activeInteraction.interactionId}
-          icon={icon}
           channelType={activeInteraction.channelType}
-          from={from}
           previewText={text}
           status={activeInteraction.status === 'wrapup' ? 'wrapup' : 'active'}
           targetWrapupTime={Number(activeInteraction.wrapupDetails.targetWrapupTime)}
@@ -115,13 +114,13 @@ export class InteractionsBar extends React.Component {
       if (pendingInteraction.contact !== undefined) {
         from = pendingInteraction.contact.attributes.name;
       }
+
       return (
         <Interaction
+          {...{ icon, from }}
           interactionId={pendingInteraction.interactionId}
           key={pendingInteraction.interactionId}
-          icon={icon}
           channelType={pendingInteraction.channelType}
-          from={from}
           previewText={text}
           status="pending"
           timeout={pendingInteraction.timeout}

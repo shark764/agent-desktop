@@ -28,7 +28,7 @@ import { setExtensions, updateWrapupDetails, setPresence, addInteraction, workIn
   setContactInteractionHistory, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
   setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails,
   muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected,
-  emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction, setQueues } from './actions';
+  emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition } from './actions';
 
 import selectAgentDesktop, { selectLogin } from './selectors';
 
@@ -340,12 +340,22 @@ export class AgentDesktop extends React.Component {
           this.props.showLogin(false);
           break;
         }
+        case 'cxengage/interactions/disposition-codes-received': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.setDispositionDetails(response.interactionId, response.dispositionCodes.dispositions, response.forceSelect);
+          break;
+        }
+        case 'cxengage/interactions/disposition-code-changed': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.selectDisposition(response.interactionId, response.disposition);
+          break;
+        }
         // Igonore these pubsubs. They are unneeded or handled elsewhere.
         case 'cxengage/authentication/login-response': // Handled in Login component
         case 'cxengage/session/tenant-list': // Using tenants from login-response
         case 'cxengage/session/set-active-tenant-response': // Handled in Login component
         case 'cxengage/session/state-change-request-acknowledged': // Ignore
-        case 'cxengage/session/session-heartbeat-response': // Ignore
+        case 'cxengage/session/heartbeat-response': // Ignore
         case 'cxengage/interactions/accept-acknowledged': // Using cxengage/interactions/work-accepted instead
         case 'cxengage/interactions/end-acknowledged': // Using cxengage/interactions/work-ended instead
         case 'cxengage/interactions/messaging/send-message-acknowledged': // Using cxengage/messaging/new-message-received instead
@@ -547,6 +557,8 @@ function mapDispatchToProps(dispatch) {
     setAvailableStats: (stats, tenantId, userId) => dispatch(setAvailableStats(stats, tenantId, userId)),
     statsReceived: (stats) => dispatch(statsReceived(stats)),
     setQueues: (queues) => dispatch(setQueues(queues)),
+    setDispositionDetails: (interactionId, dispositions, forceSelect) => dispatch(setDispositionDetails(interactionId, dispositions, forceSelect)),
+    selectDisposition: (interactionId, disposition) => dispatch(selectDisposition(interactionId, disposition)),
     logout: () => dispatch(logout()),
     dispatch,
   };
@@ -591,6 +603,8 @@ AgentDesktop.propTypes = {
   setAvailableStats: PropTypes.func.isRequired,
   statsReceived: PropTypes.func.isRequired,
   setQueues: PropTypes.func.isRequired,
+  setDispositionDetails: PropTypes.func.isRequired,
+  selectDisposition: PropTypes.func.isRequired,
   // TODO when fixed in SDK
   // logout: PropTypes.func.isRequired,
   login: PropTypes.object,

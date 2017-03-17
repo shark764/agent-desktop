@@ -2124,9 +2124,9 @@ custom-event@~1.0.0:
   version "1.0.1"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/custom-event/-/custom-event-1.0.1.tgz#5d02a46850adf1b4a317946a3928fccb5bfd0425"
 
-cxengage-javascript-sdk@2.1.0-SNAPSHOT.180:
-  version "2.1.0-SNAPSHOT.180"
-  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/cxengage-javascript-sdk/-/cxengage-javascript-sdk-2.1.0-SNAPSHOT.180.tgz#1f0edb4f15a2b105ca8fa6dfa27e41ed671ee49c"
+cxengage-javascript-sdk@2.1.0:
+  version "2.1.0"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/cxengage-javascript-sdk/-/cxengage-javascript-sdk-2.1.0.tgz#b396f3bf2fd42a8098cf6b606f539e595af632b0"
 
 d@1:
   version "1.0.0"
@@ -6721,16 +6721,12 @@ react-addons-test-utils@15.4.2:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
 
-"react-addons-transition-group@^0.14.0 || ^15.0.0", react-addons-transition-group@^15.4.2:
+"react-addons-transition-group@^0.14.0 || ^15.0.0":
   version "15.4.2"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-addons-transition-group/-/react-addons-transition-group-15.4.2.tgz#4c42fa1c2ce024acab2924316c0f11268ded1af3"
   dependencies:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
-
-"react-animations@github:liveops/react-animations":
-  version "0.1.2"
-  resolved "https://codeload.github.com/liveops/react-animations/tar.gz/943ac65796297e049a676fa440e527f49fd56fca"
 
 react-autocomplete@1.4.0:
   version "1.4.0"

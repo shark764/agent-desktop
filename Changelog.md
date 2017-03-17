@@ -1,3 +1,7 @@
+<a name"0.14.0"></a>
+### 0.14.0 (2017-03-17)
+* CXV1-6942 - Dispositions with force select
+
 <a name"0.13.6"></a>
 ### 0.13.5 (2017-03-16)
 * Add agent status menu animation

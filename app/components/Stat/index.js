@@ -184,7 +184,7 @@ function Stat(props) {
         {props.statistic[resultKey]
           ? value
           : <div id="loadingContainer" style={styles.loading}>
-            <IconSVG style={styles.loadingIcon} id="loadingIcon" name="loading_white" />
+            <IconSVG style={styles.loadingIcon} id="loadingIcon" name="loadingWhite" />
           </div>}
       </div>
       <div className="agent-stat" style={styles.statName}>

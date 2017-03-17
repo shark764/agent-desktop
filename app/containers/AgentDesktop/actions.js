@@ -45,6 +45,8 @@ import {
   EMAIL_CANCEL_REPLY,
   UPDATE_NOTE,
   UPDATE_SCRIPT_VALUES,
+  SET_DISPOSITION_DETAILS,
+  SELECT_DISPOSITION,
 } from './constants';
 
 export function setExtensions(response) {
@@ -337,5 +339,22 @@ export function updateScriptValues(interactionId, scriptValueMap) {
     type: UPDATE_SCRIPT_VALUES,
     interactionId,
     scriptValueMap,
+  };
+}
+
+export function setDispositionDetails(interactionId, dispositions, forceSelect) {
+  return {
+    type: SET_DISPOSITION_DETAILS,
+    interactionId,
+    dispositions,
+    forceSelect,
+  };
+}
+
+export function selectDisposition(interactionId, disposition) {
+  return {
+    type: SELECT_DISPOSITION,
+    interactionId,
+    disposition,
   };
 }
