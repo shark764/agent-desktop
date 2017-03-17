@@ -26,6 +26,10 @@ export default defineMessages({
     id: 'app.containers.ContactInteractionHistory.minutes',
     defaultMessage: 'minutes',
   },
+  seconds: {
+    id: 'app.containers.ContactInteractionHistory.seconds',
+    defaultMessage: 'seconds',
+  },
   audioRecording: {
     id: 'app.containers.ContactInteractionHistory.audioRecording',
     defaultMessage: 'Audio Recording',

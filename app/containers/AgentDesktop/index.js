@@ -25,8 +25,8 @@ import { showLogin, tenantError, logout } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 
 import { setExtensions, updateWrapupDetails, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact,
-  setContactInteractionHistory, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction, selectInteraction,
-  setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails,
+  setContactInteractionHistory, setContactHistoryInteractionDetails, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction,
+  selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails,
   muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected,
   emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition } from './actions';
 
@@ -290,6 +290,11 @@ export class AgentDesktop extends React.Component {
           this.props.setContactInteractionHistory(response);
           break;
         }
+        case 'cxengage/reporting/get-contact-interactions-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.setContactHistoryInteractionDetails(response);
+          break;
+        }
         case 'cxengage/contacts/update-contact-response': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.updateContact(response);
@@ -361,6 +366,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/messaging/send-message-acknowledged': // Using cxengage/messaging/new-message-received instead
         case 'cxengage/interactions/voice/phone-controls-response': // Using mute-started, mute-ended, etc. instead
         case 'cxengage/contacts/search-contacts-response': // Handled in ContactsControl & AgentDesktop callback
+        case 'cxengage/interactions/contact-assign-acknowledged': // Handled in ContactsControl
         case 'cxengage/entities/get-users-response': // Handled in TransferMenu
         case 'cxengage/entities/get-transfer-lists-response': // Handled in TransferMenu
         case 'cxengage/interactions/voice/transfer-response': // Handled in TransferMenu
@@ -531,6 +537,7 @@ function mapDispatchToProps(dispatch) {
     setMessageHistory: (response) => dispatch(setMessageHistory(response)),
     assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
     setContactInteractionHistory: (response) => dispatch(setContactInteractionHistory(response)),
+    setContactHistoryInteractionDetails: (response) => dispatch(setContactHistoryInteractionDetails(response)),
     updateContact: (updatedContact) => dispatch(updateContact(updatedContact)),
     addMessage: (response) => dispatch(addMessage(response)),
     selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
@@ -577,6 +584,7 @@ AgentDesktop.propTypes = {
   setMessageHistory: PropTypes.func.isRequired,
   assignContact: PropTypes.func.isRequired,
   setContactInteractionHistory: PropTypes.func.isRequired,
+  setContactHistoryInteractionDetails: PropTypes.func.isRequired,
   updateContact: PropTypes.func.isRequired,
   addMessage: PropTypes.func.isRequired,
   selectInteraction: PropTypes.func.isRequired,

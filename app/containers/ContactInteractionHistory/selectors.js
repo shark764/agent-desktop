@@ -32,5 +32,6 @@ const selectContactHistory = createSelector(
 
 
 export {
+  getSelectedInteractionId,
   selectContactHistory,
 };

@@ -13,8 +13,10 @@ import moment from 'moment';
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 
+import { setContactHistoryInteractionDetailsLoading } from 'containers/AgentDesktop/actions';
+
 import messages from './messages';
-import { selectContactHistory } from './selectors';
+import { getSelectedInteractionId, selectContactHistory } from './selectors';
 
 export class ContactInteractionHistory extends React.Component {
   constructor(props) {
@@ -28,6 +30,11 @@ export class ContactInteractionHistory extends React.Component {
     };
   }
 
+  getInteractionHistoryDetails(contactHistoryInteractionId) {
+    this.props.setContactHistoryInteractionDetailsLoading(this.props.selectedInteractionId, contactHistoryInteractionId);
+    SDK.reporting.getContactInteraction({ entityId: contactHistoryInteractionId });
+  }
+
   selectInteraction(selectedInteractionIndex) {
     this.setState({ selectedInteractionIndex });
   }
@@ -38,8 +45,10 @@ export class ContactInteractionHistory extends React.Component {
       display: 'block',
     },
     base: {
-      padding: '28px 0',
+      padding: '28px 26px 26px 0',
       fontSize: '14px',
+      height: '100%',
+      overflowY: 'auto',
     },
     interactionsSince: {
       fontSize: '15px',
@@ -54,8 +63,10 @@ export class ContactInteractionHistory extends React.Component {
       padding: '16px 40px',
     },
     interactionListItem: {
-      cursor: 'pointer',
       marginBottom: '14px',
+    },
+    pointer: {
+      cursor: 'pointer',
     },
     interactionDaysAgo: {
       float: 'right',
@@ -65,8 +76,18 @@ export class ContactInteractionHistory extends React.Component {
       float: 'right',
       marginTop: '5px',
     },
+    loadingInteractionDetails: {
+      margin: '0 auto',
+      display: 'block',
+      marginTop: '12px',
+      height: '40px',
+    },
+    interactionDetails: {
+      borderTop: '1px solid #E4E4E4',
+      paddingBottom: '12px',
+    },
     segment: {
-      marginBottom: '37px',
+      marginTop: '12px',
     },
     segmentData: {
       borderTop: '1px solid #E4E4E4',
@@ -95,7 +116,7 @@ export class ContactInteractionHistory extends React.Component {
       backgroundColor: '#F3F3F3',
       padding: '6px',
       display: 'inline-block',
-      margin: '6px 0 17px',
+      marginTop: '6px',
     },
     transcript: {
       borderTop: '1px solid #D0D0D0',
@@ -118,31 +139,96 @@ export class ContactInteractionHistory extends React.Component {
     if (this.props.contactInteractionHistory === undefined) {
       return <IconSVG id="loadingContactHistoryIcon" name="loading" style={this.styles.loading} />;
     } else {
-      const interactions = this.props.contactInteractionHistory.map((interaction, index) =>
-        <div
-          key={interaction.interactionId}
-          className="interactionHistoryItem"
-          style={[this.styles.interaction, this.styles.interactionListItem, this.styles.interactionHeader]}
-          onClick={() => this.selectInteraction(index)}
-        >
-          <div style={this.styles.interactionDaysAgo}>
-            { moment(interaction.startTimestamp).fromNow() }
-          </div>
-          <div>
-            {interaction.directionName},&nbsp;{interaction.lastQueueName}
-          </div>
-          <div>
-            { moment(interaction.startTimestamp).format('LLL') }
-          </div>
-          {
-            interaction.csat !== null
-            ? <div>
-              <FormattedMessage {...messages.customerSatisfaction} />:&nbsp;{ interaction.csat }
-            </div>
-            : undefined
+      const interactions = this.props.contactInteractionHistory.map((interaction) => {
+        let interactionDetails;
+        if (interaction.interactionDetails === 'loading') {
+          interactionDetails = <IconSVG id="loadingContactHistoryIcon" name="loading" style={this.styles.loadingInteractionDetails} />;
+        } else if (interaction.interactionDetails !== undefined) {
+          let icon;
+          if (interaction.interactionDetails.channelType === 'voice') {
+            icon = 'voice_dark';
+          } else if (interaction.interactionDetails.channelType === 'sms' || interaction.interactionDetails.channelType === 'messaging') {
+            icon = 'message_dark';
+          } else if (interaction.interactionDetails.channelType === 'email') {
+            icon = 'email_dark';
           }
-        </div>
-      );
+          const segmentData = interaction.interactionDetails.agents.map((segment) => {
+            let duration = moment(segment.conversationEndTimestamp).diff(moment(segment.conversationStartTimestamp), 'minutes');
+            if (duration > 0) {
+              duration = (
+                <span>
+                  {duration}&nbsp;<FormattedMessage {...messages.minutes} />
+                </span>
+              );
+            } else {
+              duration = (
+                <span>
+                  {moment(segment.conversationEndTimestamp).diff(moment(segment.conversationStartTimestamp), 'seconds')}&nbsp;<FormattedMessage {...messages.seconds} />
+                </span>
+              );
+            }
+            return (
+              <div className="segment" key={`${segment.resourceId}-${segment.conversationStartTimestamp}`} style={this.styles.segment} >
+                <Icon name={icon} style={this.styles.segmentChannelIcon} />
+                <div style={this.styles.segmentContent}>
+                  <div className="noteTitle" style={this.styles.segmentTitle}>
+                    { segment.noteTitle }
+                  </div>
+                  <div className="agentName">
+                    { segment.agentName }
+                  </div>
+                  <div className="duration">
+                    { duration }
+                  </div>
+                  {
+                    segment.dispositionName !== null
+                    ? <span className="dispositionName" style={this.styles.disposition}>
+                      { segment.dispositionName }
+                    </span>
+                    : undefined
+                  }
+                </div>
+              </div>
+            );
+          });
+          interactionDetails = segmentData;
+        }
+        return (
+          <div
+            key={interaction.interactionId}
+            id={`contactHistoryInteraction-${interaction.interactionId}`}
+            className="contactHistoryInteraction"
+            style={[this.styles.interaction, this.styles.interactionListItem, interactionDetails === undefined ? this.styles.pointer : '']}
+            onClick={() => this.getInteractionHistoryDetails(interaction.interactionId)}
+          >
+            <div style={this.styles.interactionHeader}>
+              <div style={this.styles.interactionDaysAgo}>
+                { moment(interaction.startTimestamp).fromNow() }
+              </div>
+              <div>
+                {interaction.directionName},&nbsp;{interaction.lastQueueName}
+              </div>
+              <div>
+                { moment(interaction.startTimestamp).format('LLL') }
+              </div>
+              {
+                interaction.csat !== null
+                ? <div>
+                  <FormattedMessage {...messages.customerSatisfaction} />:&nbsp;{ interaction.csat }
+                </div>
+                : undefined
+              }
+            </div>
+            {
+              interactionDetails
+              ? <div className="interactionDetails" style={this.styles.interactionDetails}>
+                { interactionDetails }
+              </div>
+              : undefined
+            }
+          </div>
+        );
+      });
       return (
         <div>
           <div id="interactionsSince" style={this.styles.interactionsSince}>
@@ -167,19 +253,9 @@ export class ContactInteractionHistory extends React.Component {
     }
   }
 
+  // TODO combine with above code when artifacts (transcripts, recordings, notes) are available from the SDK
   getCurrentInteractionDisplay() {
     const selectedInteractionHistoryItem = this.props.contactInteractionHistory[this.state.selectedInteractionIndex];
-    // TODO use selectedInteractionHistoryItem.segments when available from reporting/SDK
-    // const segmentData = selectedInteractionHistoryItem.segments.map((segment) => {
-    const segment = selectedInteractionHistoryItem;
-    let icon;
-    if (segment.channelType === 'voice') {
-      icon = 'voice_dark';
-    } else if (segment.channelType === 'sms' || segment.channelType === 'messaging') {
-      icon = 'message_dark';
-    } else if (segment.channelType === 'email') {
-      icon = 'email_dark';
-    }
     // let transcript;
     // if (segment.channelType === 'voice') {
     //   transcript = (
@@ -214,34 +290,14 @@ export class ContactInteractionHistory extends React.Component {
     //     </div>
     //   );
     // }
-    const segmentData = (
-      <div key={segment.segmentId} style={this.styles.segment} >
-        <Icon name={icon} style={this.styles.segmentChannelIcon} />
-        <div style={this.styles.segmentContent}>
-          <div style={this.styles.segmentTitle}>
-            { segment.title }
-          </div>
-          <div>
-            { segment.lastAgentName }
-          </div>
-          <div>
-            { moment(segment.endTimestamp).diff(moment(segment.startTimestamp), 'minutes') }
-            &nbsp;<FormattedMessage {...messages.minutes} />
-          </div>
-          {
-            segment.lastDispositionName !== null
-            ? <span style={this.styles.disposition}>
-              { segment.lastDispositionName }
-            </span>
-            : undefined
-          }
-          <div style={this.styles.segmentMessage}>
-            { segment.note }
-          </div>
-          { /* transcript */ }
-        </div>
-      </div>
-    );
+    // const segmentData = (
+    //   <div>
+    //     <div style={this.styles.segmentMessage}>
+    //       { segment.note }
+    //     </div>
+    //     { /* transcript */ }
+    //   </div>
+    // );
     return (
       <div id="selectedInteractionHistoryItem" style={this.styles.interaction}>
         <div style={this.styles.interactionHeader}>
@@ -261,7 +317,7 @@ export class ContactInteractionHistory extends React.Component {
           }
         </div>
         <div style={this.styles.segmentData} >
-          { segmentData }
+          { /* segmentData */ }
         </div>
       </div>
     );
@@ -284,18 +340,22 @@ export class ContactInteractionHistory extends React.Component {
 
 function mapStateToProps(state, props) {
   return {
+    selectedInteractionId: getSelectedInteractionId(state, props),
     contactInteractionHistory: selectContactHistory(state, props),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    setContactHistoryInteractionDetailsLoading: (interactionId, contactHistoryInteractionId) => dispatch(setContactHistoryInteractionDetailsLoading(interactionId, contactHistoryInteractionId)),
     dispatch,
   };
 }
 
 ContactInteractionHistory.propTypes = {
+  selectedInteractionId: React.PropTypes.string.isRequired,
   contactInteractionHistory: React.PropTypes.array,
+  setContactHistoryInteractionDetailsLoading: React.PropTypes.func.isRequired,
   style: React.PropTypes.object,
 };
 
