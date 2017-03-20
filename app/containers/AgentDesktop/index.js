@@ -26,7 +26,7 @@ import { setContactLayout, setContactAttributes } from 'containers/SidePanel/act
 
 import { setExtensions, updateWrapupDetails, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact,
   setContactInteractionHistory, setContactHistoryInteractionDetails, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction,
-  selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails,
+  selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
   muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected,
   emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition } from './actions';
 
@@ -212,6 +212,12 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/email/details-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setEmailDetails(response.interactionId, response.body);
+          response.body.attachments.forEach((attachment) => {
+            SDK.interactions.email.getAttachmentUrl({ interactionId: response.interactionId, artifactId: response.body.artifactId, artifactFileId: attachment.artifactFileId }, (attachmentUrlError, attachmentUrlTopic, attachmentUrlResponse) => {
+              console.log('[AgentDesktop] SDK.subscribe()', attachmentUrlTopic, attachmentUrlResponse);
+              this.props.setEmailAttachmentUrl(response.interactionId, attachment.artifactFileId, attachmentUrlResponse.url);
+            });
+          });
           break;
         }
         case 'cxengage/interactions/work-rejected-received':
@@ -368,6 +374,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/session/heartbeat-response': // Ignore
         case 'cxengage/interactions/accept-acknowledged': // Using cxengage/interactions/work-accepted instead
         case 'cxengage/interactions/end-acknowledged': // Using cxengage/interactions/work-ended instead
+        case 'cxengage/interactions/email/attachment-received': // Handled in callback of cxengage/interactions/email/details-received
         case 'cxengage/interactions/messaging/send-message-acknowledged': // Using cxengage/messaging/new-message-received instead
         case 'cxengage/interactions/voice/phone-controls-response': // Using mute-started, mute-ended, etc. instead
         case 'cxengage/contacts/search-contacts-response': // Handled in ContactsControl & AgentDesktop callback
@@ -559,6 +566,7 @@ function mapDispatchToProps(dispatch) {
     setEmailPlainBody: (interactionId, body) => dispatch(setEmailPlainBody(interactionId, body)),
     setEmailHtmlBody: (interactionId, body) => dispatch(setEmailHtmlBody(interactionId, body)),
     setEmailDetails: (interactionId, details) => dispatch(setEmailDetails(interactionId, details)),
+    setEmailAttachmentUrl: (interactionId, artifactFileId, url) => dispatch(setEmailAttachmentUrl(interactionId, artifactFileId, url)),
     muteCall: (interactionId) => dispatch(muteCall(interactionId)),
     unmuteCall: (interactionId) => dispatch(unmuteCall(interactionId)),
     holdCall: (interactionId) => dispatch(holdCall(interactionId)),
@@ -606,6 +614,7 @@ AgentDesktop.propTypes = {
   setEmailPlainBody: PropTypes.func.isRequired,
   setEmailHtmlBody: PropTypes.func.isRequired,
   setEmailDetails: PropTypes.func.isRequired,
+  setEmailAttachmentUrl: PropTypes.func.isRequired,
   muteCall: PropTypes.func.isRequired,
   unmuteCall: PropTypes.func.isRequired,
   holdCall: PropTypes.func.isRequired,

@@ -78,10 +78,8 @@ export class ContactsControl extends React.Component {
   }
 
   componentDidMount() {
-    SDK.contacts.listAttributes({ callback: (attributesError, attributesTopic, attributesResponse) => {
-      console.log('[AgentDesktop] SDK.subscribe()', attributesTopic, attributesResponse);
-      SDK.contacts.listLayouts({ callback: (layoutsError, layoutsTopic, layoutsResponse) => {
-        console.log('[AgentDesktop] SDK.subscribe()', layoutsTopic, layoutsResponse);
+    SDK.contacts.listAttributes({ callback: () => {
+      SDK.contacts.listLayouts({ callback: () => {
         this.setState({ loading: false }); // TODO: error handling
       } });
     } });

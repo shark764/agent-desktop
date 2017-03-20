@@ -30,6 +30,7 @@ export const SET_CUSTOM_FIELDS = 'app/AgentDesktop/SET_CUSTOM_FIELDS';
 export const SET_EMAIL_PLAIN_BODY = 'app/AgentDesktop/SET_EMAIL_PLAIN_BODY';
 export const SET_EMAIL_HTML_BODY = 'app/AgentDesktop/SET_EMAIL_HTML_BODY';
 export const SET_EMAIL_DETAILS = 'app/AgentDesktop/SET_EMAIL_DETAILS';
+export const SET_EMAIL_ATTACHMENT_URL = 'app/AgentDesktop/SET_EMAIL_ATTACHMENT_URL';
 export const START_WARM_TRANSFERRING = 'app/AgentDesktop/START_WARM_TRANSFERRING';
 export const TRANSFER_CANCELLED = 'app/AgentDesktop/TRANSFER_CANCELLED';
 export const TRANSFER_CONNECTED = 'app/AgentDesktop/TRANSFER_CONNECTED';

@@ -31,6 +31,7 @@ import {
   SET_EMAIL_PLAIN_BODY,
   SET_EMAIL_HTML_BODY,
   SET_EMAIL_DETAILS,
+  SET_EMAIL_ATTACHMENT_URL,
   START_WARM_TRANSFERRING,
   TRANSFER_CANCELLED,
   TRANSFER_CONNECTED,
@@ -238,6 +239,15 @@ export function setEmailDetails(interactionId, details) {
     type: SET_EMAIL_DETAILS,
     interactionId,
     details,
+  };
+}
+
+export function setEmailAttachmentUrl(interactionId, artifactFileId, url) {
+  return {
+    type: SET_EMAIL_ATTACHMENT_URL,
+    interactionId,
+    artifactFileId,
+    url,
   };
 }
 
