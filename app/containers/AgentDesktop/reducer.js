@@ -35,6 +35,7 @@ import {
   SET_EMAIL_PLAIN_BODY,
   SET_EMAIL_HTML_BODY,
   SET_EMAIL_DETAILS,
+  SET_EMAIL_ATTACHMENT_URL,
   START_WARM_TRANSFERRING,
   TRANSFER_CANCELLED,
   TRANSFER_CONNECTED,
@@ -462,6 +463,24 @@ function agentDesktopReducer(state = initialState, action) {
       return state.updateIn(['interactions', interactionIndex], (interaction) =>
         interaction.set('emailDetails', fromJS(action.details))
       );
+    }
+    case SET_EMAIL_ATTACHMENT_URL: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex, 'emailDetails', 'attachments'], (attachments) =>
+          attachments.map((attachment) => {
+            if (attachment.get('artifactFileId') === action.artifactFileId) {
+              return attachment.set('url', action.url);
+            } else {
+              return attachment;
+            }
+          })
+        );
+      } else {
+        return state;
+      }
     }
     case START_WARM_TRANSFERRING: {
       const interactionIndex = state.get('interactions').findIndex(

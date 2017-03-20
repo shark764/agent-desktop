@@ -535,7 +535,33 @@ const emailInteraction = {
      ],
      subject: 'ergerg',
      'content-type': 'multipart/alternative;  boundary*0=_000_MWHPR17MB09577273A3C96A38D6F92945DD270MWHPR17MB0957namp;  boundary*1=_',
-     attachments: [],
+     attachments: [
+       {
+        filename: 'lgtm.png',
+        headers: [
+          {
+            contentType: 'image/png; name="lgtm.png"'
+          },
+          {
+            contentDescription: 'lgtm.png'
+          },
+          {
+            contentDisposition: 'attachment; filename="lgtm.png"; size=6558; creation-date="Mon, 20 Mar 2017 17:12:07 GMT"; modification-date="Mon, 20 Mar 2017 17:12:07 GMT"'
+          },
+          {
+            contentTransferEncoding: 'base64'
+          },
+          {
+            xMicrosoftExchangeDiagnostics: '1;MWHPR22MB0528;27:f8r9VLyfgVsPUJ6wrzQyqMyKoyW7dnvXEdSf0HeGtQG2kDCrIyxklY0U9+Iq5MzJjM+tQaJkXiPTnnbsEeOG7Tf63TiyjWPsO4arv+8B9fHi9Tq13PA6SngOyoPpcyVoRrkXq2KUfnSt0+H6UXtZhw=='
+          },
+          {
+            xMicrosoftAntispamMailboxDelivery: 'abwl:0;wl:1;pcwl:1;iwl:0;rwl:0;ex:0;auth:1;dest:I;WIMS-SenderIP:104.47.34.54;WIMS-SPF:serenova%2ecom;WIMS-DKIM:serenova%2ecom;WIMS-822:jclowater%40serenova%2ecom;WIMS-PRA:jclowater%40serenova%2ecom;WIMS-AUTH:PASS;ENG:(5061607094)(102400140)(102409045);OFR:TrustedSenderList;'
+          }
+        ],
+        artifactFileId: 'aae9dd03-d241-4e7a-a667-cac1438dcfdf',
+        // url: 'https://cdn.meme.am/instances/63480649.jpg'
+       }
+     ],
      'multipart?': true,
      sender: null,
      'date-sent': '2017-03-15T16:07:04Z',

@@ -274,6 +274,11 @@ export class EmailContentArea extends React.Component {
       height: 50,
       width: 50,
     },
+    loadingAttachment: {
+      display: 'inline-block',
+      height: 14,
+      width: 14,
+    },
     emailContent: {
       position: 'absolute',
       height: '100%',
@@ -357,7 +362,7 @@ export class EmailContentArea extends React.Component {
         );
       }
       if (this.props.selectedInteraction.emailDetails === undefined) {
-        details = <IconSVG style={this.styles.loadingCircle} id="connectingToOutboundCallIcon" name="loading" />;
+        details = <IconSVG style={this.styles.loadingCircle} id="loadingEmailDetails" name="loading" />;
       } else {
         const tos = this.props.selectedInteraction.emailDetails.to.map((to) => {
           if (to.name !== to.address) {
@@ -423,14 +428,20 @@ export class EmailContentArea extends React.Component {
               </div>
             </div>
             {
-              this.props.selectedInteraction.emailDetails.attachments.length > 0
+              this.props.selectedInteraction.emailDetails.attachments !== undefined && this.props.selectedInteraction.emailDetails.attachments.length > 0
               ? <div style={this.styles.attachmentsContainer}>
                 {
-                  this.props.selectedInteraction.emailDetails.attachments.map((attachment) =>
-                    // TODO SDK.getAttachment() when it is available
-                    <a key={attachment.artifactFileId} href={attachment.src} download >
+                  this.props.selectedInteraction.emailDetails.attachments.map((attachment, index) =>
+                    <a key={attachment.artifactFileId} id={`attachment-${index}`} className="attachment" href={attachment.url} download >
                       <div style={this.styles.attachment} >
                         {attachment.filename}
+                        {
+                          attachment.url === undefined
+                          ? <div style={{ display: 'inline-block', marginLeft: '6px' }}>
+                            <IconSVG style={this.styles.loadingAttachment} id={`loadingAttachment-${index}`} name="loading" />
+                          </div>
+                          : ''
+                        }
                       </div>
                     </a>
                   )
