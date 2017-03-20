@@ -330,6 +330,7 @@ export class EmailContentArea extends React.Component {
         buttons = (
           <Button
             id="replyEmailDisabled"
+            key="replyEmailDisabled"
             type="primaryBlue"
             text={messages.reply}
             disabled

@@ -65,6 +65,7 @@ export class VoiceContentArea extends React.Component {
     const buttons = (
       <Button
         id={wrappingUp ? 'wrapup-button' : 'hang-up-button'}
+        key={wrappingUp ? 'wrapup-button' : 'end-chat-button'}
         type="primaryRed"
         text={wrappingUp ? messages.endWrapup : messages.hangUp}
         onClick={this.props.endInteraction}
