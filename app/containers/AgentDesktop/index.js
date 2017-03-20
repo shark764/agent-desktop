@@ -214,7 +214,6 @@ export class AgentDesktop extends React.Component {
           this.props.setEmailDetails(response.interactionId, response.body);
           break;
         }
-        case 'cxengage/interactions/wrapup-ended':
         case 'cxengage/interactions/work-rejected-received':
         case 'cxengage/interactions/work-ended-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
@@ -374,6 +373,9 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/contact-assigned-acknowledged': // Handled in ContactsControl
         case 'cxengage/reporting/polling-started': // Ignore
         case 'cxengage/reporting/polling-stopped': // Ignore
+        case 'cxengage/interactions/create-note-response': // Handled in ContentArea
+        case 'cxengage/interactions/update-note-response': // Handled in ContentArea
+        case 'cxengage/interactions/end-wrapup-acknowledged': // Ignore - comes with a work-ended.
           break;
         default: {
           console.warn('[AgentDesktop] SDK.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console

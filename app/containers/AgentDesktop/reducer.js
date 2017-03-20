@@ -735,15 +735,8 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
-      if (interactionIndex !== -1 &&
-          action.note !== undefined &&
-          action.note.title !== undefined &&
-          action.note.content !== undefined &&
-          action.note.notesPanelHeight !== undefined &&
-          action.note.selectedDispositions !== undefined) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.set('note', fromJS(action.note))
-        );
+      if (interactionIndex !== -1) {
+        return state.mergeIn(['interactions', interactionIndex, 'note'], action.note);
       } else {
         return state;
       }

@@ -1,3 +1,7 @@
+<a name"0.16.0"></a>
+### 0.16.0 (2017-03-20)
+* CXV1-6949 - Connect Notes UI to SDK
+
 <a name"0.15.0"></a>
 ### 0.15.0 (2017-03-19)
 * CXV1-6935 - Contact interaction history "level 2"

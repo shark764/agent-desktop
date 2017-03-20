@@ -26,35 +26,86 @@ export class ContentArea extends React.Component {
     this.setNotesPanelHeight = this.setNotesPanelHeight.bind(this);
     this.toggleWrapup = this.toggleWrapup.bind(this);
     this.state = {
-      notesPanelHeight: this.props.interaction.note !== undefined ? this.props.interaction.note.notesPanelHeight : 300,
-      noteTitle: this.props.interaction.note !== undefined ? this.props.interaction.note.title : '',
-      noteContent: this.props.interaction.note !== undefined ? this.props.interaction.note.content : '',
+      notesPanelHeight: this.props.interaction.note.notesPanelHeight,
+      body: this.props.interaction.note.body,
+      title: this.props.interaction.note.title,
       showDispositionsList: false,
       loadingDisposition: false,
       loadingWrapup: false,
+      savingNote: false,
     };
 
     this.selectDisposition = this.selectDisposition.bind(this);
     this.renderDisposition = this.renderDisposition.bind(this);
     this.deselectDisposition = this.deselectDisposition.bind(this);
     this.renderCategory = this.renderCategory.bind(this);
+    this.persistNote = this.persistNote.bind(this);
+    this.mounted = false;
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.interaction.interactionId !== nextProps.interaction.interactionId) {
-      this.props.updateNote(this.props.interaction.interactionId, { title: this.state.noteTitle, content: this.state.noteContent, notesPanelHeight: this.state.notesPanelHeight, selectedDispositions: this.state.selectedDispositions });
       this.setState({
         showDispositionsList: false,
-        notesPanelHeight: nextProps.interaction.note !== undefined ? nextProps.interaction.note.notesPanelHeight : 300,
-        noteTitle: nextProps.interaction.note !== undefined ? nextProps.interaction.note.title : '',
-        noteContent: nextProps.interaction.note !== undefined ? nextProps.interaction.note.content : '',
-        selectedDispositions: nextProps.interaction.note !== undefined ? nextProps.interaction.note.selectedDispositions : [],
+        notesPanelHeight: nextProps.interaction.note.notesPanelHeight,
+        title: nextProps.interaction.note.title,
+        body: nextProps.interaction.note.body,
+        savingNote: false,
       });
     }
   }
 
   componentWillUnmount() {
-    this.props.updateNote(this.props.interaction.interactionId, { title: this.state.noteTitle, content: this.state.noteContent, notesPanelHeight: this.state.notesPanelHeight, selectedDispositions: this.state.selectedDispositions });
+    clearInterval(this.persistNoteIntervalId);
+    this.persistNote();
+    this.mounted = false;
+  }
+
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  persistNote() {
+    if (!this.state.savingNote) {
+      this.setState({
+        savingNote: true,
+      });
+      const currentNotesPanelHeight = this.state.notesPanelHeight;
+      const note = {
+        title: this.state.title,
+        body: this.state.body,
+        interactionId: this.props.interaction.interactionId,
+      };
+      const callback = (error, topic, response) => {
+        // TODO: error handling / display
+        console.log('[ContentArea] SDK.subscribe()', topic, response);
+        if (this.mounted && this.props.interaction.interactionId === note.interactionId) {
+          this.setState({
+            savingNote: false,
+          });
+        }
+        if (topic.indexOf('cxengage/interactions/create-note-response') > -1) {
+          this.props.updateNote(note.interactionId, {
+            title: note.title,
+            body: note.body,
+            noteId: response.noteId,
+            notesPanelHeight: currentNotesPanelHeight,
+          });
+        } else {
+          this.props.updateNote(this.props.interaction.interactionId, {
+            title: note.title,
+            body: note.body,
+            notesPanelHeight: currentNotesPanelHeight,
+          });
+        }
+      };
+      if (this.props.interaction.note.noteId) {
+        note.noteId = this.props.interaction.note.noteId;
+        SDK.interactions.updateNote(note, callback);
+      } else {
+        SDK.interactions.createNote(note, callback);
+      }
+    }
   }
 
   styles = {
@@ -108,11 +159,12 @@ export class ContentArea extends React.Component {
       padding: '5px',
     },
     notesTitleContainer: {
-      flex: '0 1 auto',
+      display: 'flex',
       padding: '12px 24px',
       fontSize: '15px',
     },
     notesTitleInput: {
+      flexGrow: 1,
       marginLeft: '6px',
       border: 'none',
       ':focus': {
@@ -234,10 +286,16 @@ export class ContentArea extends React.Component {
     },
   };
 
-  setNotesPanelHeight(newWidth) {
+  setNotesPanelHeight(newHeight) {
     this.setState({
-      notesPanelHeight: newWidth,
+      notesPanelHeight: newHeight,
     });
+  }
+
+  handleChange(note) {
+    this.setState(note);
+    clearTimeout(this.persistNoteIntervalId);
+    this.persistNoteIntervalId = setTimeout(this.persistNote, 1500);
   }
 
   toggleWrapup() {
@@ -382,8 +440,8 @@ export class ContentArea extends React.Component {
               <input
                 id="notesTitleInput"
                 placeholder={formatMessage(messages.notesTitlePlaceholder)}
-                value={this.state.noteTitle}
-                onChange={(e) => this.setState({ noteTitle: e.target.value })}
+                value={this.state.title}
+                onChange={(e) => this.handleChange({ title: e.target.value })}
                 style={this.styles.notesTitleInput}
               />
             </div>
@@ -412,6 +470,8 @@ export class ContentArea extends React.Component {
                   ? [
                     <div
                       onClick={() => this.setState({ showDispositionsList: !this.state.showDispositionsList })}
+                      key="new-label-button"
+                      id="new-label-button"
                       style={[this.styles.dispositionChip, this.styles.dispositionNewLabel, { border: `1px solid ${this.getNewLabelChipBorderColor()}` }]}
                     >
                       <IconSVG
@@ -423,8 +483,8 @@ export class ContentArea extends React.Component {
                         <FormattedMessage {...messages.newLabel} />
                       </span>
                     </div>,
-                    this.state.showDispositionsList
-                      ? <div style={{ position: 'relative' }}>
+                    this.state.showDispositionsList && this.props.interaction.dispositionDetails.dispositions.length
+                      ? <div key="dispositionsContainer" style={{ position: 'relative' }}>
                         <div style={this.styles.dispositionList}>
                           {
                             this.props.interaction.dispositionDetails.dispositions.map((disposition) => {
@@ -446,8 +506,8 @@ export class ContentArea extends React.Component {
             <textarea
               id="notesTextarea"
               placeholder={formatMessage(messages.notesPlaceholder)}
-              value={this.state.noteContent}
-              onChange={(e) => this.setState({ noteContent: e.target.value })}
+              value={this.state.body}
+              onChange={(e) => this.handleChange({ body: e.target.value })}
               style={this.styles.notesTextarea}
             />
           </div>

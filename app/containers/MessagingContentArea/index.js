@@ -174,6 +174,7 @@ export class MessagingContentArea extends React.Component {
     const buttons = (
       <Button
         id={wrappingUp ? 'wrapup-button' : 'end-chat-button'}
+        key={wrappingUp ? 'wrapup-button' : 'end-chat-button'}
         type="primaryBlue"
         text={wrappingUp ? messages.endWrapup : messages.endChat}
         onClick={this.props.endInteraction}

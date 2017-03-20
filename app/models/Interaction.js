@@ -1,4 +1,4 @@
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 
 export default class Interaction {
   constructor({ interactionId, channelType, autoAnswer, direction, timeout, toolbarFeatures, recording, customerOnHold, status, customer }) {
@@ -21,16 +21,22 @@ export default class Interaction {
     this.timeout = new Date(timeout).valueOf();
     this.autoAnswer = autoAnswer;
     this.status = status || 'work-offer';
-    this.query = {};
-    this.wrapupDetails = {
+    this.query = new Map();
+    this.wrapupDetails = new Map({
       wrapupUpdateAllowed: false,
       wrapupEnabled: false,
-    };
+    });
     this.contactAction = 'search';
-    this.dispositionDetails = {
+    this.dispositionDetails = new Map({
       forceSelect: false,
-      dispositions: [],
-      categories: [],
-    };
+      dispositions: new List(),
+      categories: new List(),
+      selected: new List(),
+    });
+    this.note = new Map({
+      body: '',
+      title: '',
+      notesPanelHeight: 300,
+    });
   }
 }
