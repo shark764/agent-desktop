@@ -276,7 +276,13 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/contacts/list-layouts-response': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.setContactLayout(response);
+          const activeLayouts = response.filter((layout) => layout.active);
+          if (activeLayouts.length === 0) {
+            throw new Error('No active contact layout found for this tenant');
+          } else if (activeLayouts.length > 1) {
+            console.warn('More than one layout found. Only using first one.');
+          }
+          this.props.setContactLayout(activeLayouts[0]);
           break;
         }
         case 'cxengage/contacts/create-contact-response': {

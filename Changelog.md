@@ -1,3 +1,7 @@
+<a name"0.16.1"></a>
+### 0.16.1 (2017-03-20)
+* CXV1-7937 - use active layouts only
+
 <a name"0.16.0"></a>
 ### 0.16.0 (2017-03-20)
 * CXV1-6949 - Connect Notes UI to SDK
