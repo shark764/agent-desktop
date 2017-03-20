@@ -26,6 +26,8 @@ import {
   SET_CONTACT_ACTION,
   ASSIGN_CONTACT,
   SET_CONTACT_INTERACTION_HISTORY,
+  SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
+  SET_CONTACT_HISTORY_INTERACTION_DETAILS,
   UPDATE_CONTACT,
   ADD_MESSAGE,
   SELECT_INTERACTION,
@@ -319,6 +321,47 @@ function agentDesktopReducer(state = initialState, action) {
           return interaction.setIn(['contact', 'interactionHistory'], fromJS(action.response.results));
         }
         return interaction;
+      }));
+    }
+    case SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex], (interaction) => {
+          if (interaction.getIn(['contact', 'interactionHistory']) !== undefined) {
+            return interaction.updateIn(['contact', 'interactionHistory'], (interactionHistory) =>
+              interactionHistory.map((contactHistoryInteraction) => {
+                if (contactHistoryInteraction.get('interactionId') === action.contactHistoryInteractionId) {
+                  return contactHistoryInteraction.set('interactionDetails', 'loading');
+                } else {
+                  return contactHistoryInteraction;
+                }
+              })
+            );
+          } else {
+            return interaction;
+          }
+        });
+      } else {
+        return state;
+      }
+    }
+    case SET_CONTACT_HISTORY_INTERACTION_DETAILS: {
+      return state.set('interactions', state.get('interactions').map((interaction) => {
+        if (interaction.getIn(['contact', 'interactionHistory']) !== undefined) {
+          return interaction.updateIn(['contact', 'interactionHistory'], (interactionHistory) =>
+            interactionHistory.map((contactHistoryInteraction) => {
+              if (contactHistoryInteraction.get('interactionId') === action.response.details.interactionId) {
+                return contactHistoryInteraction.set('interactionDetails', action.response.details);
+              } else {
+                return contactHistoryInteraction;
+              }
+            })
+          );
+        } else {
+          return interaction;
+        }
       }));
     }
     case UPDATE_CONTACT: {

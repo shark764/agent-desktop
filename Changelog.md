@@ -1,3 +1,7 @@
+<a name"0.15.0"></a>
+### 0.15.0 (2017-03-19)
+* CXV1-6935 - Contact interaction history "level 2"
+
 <a name"0.14.0"></a>
 ### 0.14.0 (2017-03-17)
 * CXV1-6942 - Dispositions with force select

@@ -18,6 +18,8 @@ import {
   SET_CONTACT_ACTION,
   ASSIGN_CONTACT,
   SET_CONTACT_INTERACTION_HISTORY,
+  SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
+  SET_CONTACT_HISTORY_INTERACTION_DETAILS,
   UPDATE_CONTACT,
   ADD_MESSAGE,
   SET_INTERACTION_STATUS,
@@ -152,6 +154,21 @@ export function assignContact(interactionId, contact) {
 export function setContactInteractionHistory(response) {
   return {
     type: SET_CONTACT_INTERACTION_HISTORY,
+    response,
+  };
+}
+
+export function setContactHistoryInteractionDetailsLoading(interactionId, contactHistoryInteractionId) {
+  return {
+    type: SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
+    interactionId,
+    contactHistoryInteractionId,
+  };
+}
+
+export function setContactHistoryInteractionDetails(response) {
+  return {
+    type: SET_CONTACT_HISTORY_INTERACTION_DETAILS,
     response,
   };
 }

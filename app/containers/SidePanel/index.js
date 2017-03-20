@@ -172,7 +172,7 @@ export class SidePanel extends React.Component {
             {
               this.props.hasAssignedContact
               ? <TabPanel>
-                <ContactInteractionHistory style={this.styles.rightMargin} />
+                <ContactInteractionHistory />
               </TabPanel>
               : undefined
             }
