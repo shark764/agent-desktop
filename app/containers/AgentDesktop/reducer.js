@@ -11,6 +11,8 @@ import Interaction from 'models/Interaction';
 import {
   SET_EXTENSIONS,
   UPDATE_WRAPUP_DETAILS,
+  ADD_SCRIPT,
+  REMOVE_SCRIPT,
   SET_ACTIVE_EXTENSION,
   SET_QUEUES,
   SET_PRESENCE,
@@ -142,6 +144,26 @@ function agentDesktopReducer(state = initialState, action) {
         return state.mergeIn(['interactions', interactionIndex, 'wrapupDetails'], fromJS(action.wrapupDetails));
       }
       return state;
+    }
+    case ADD_SCRIPT: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex > -1) {
+        return state.setIn(['interactions', interactionIndex, 'script'], fromJS(action.script));
+      } else {
+        return state;
+      }
+    }
+    case REMOVE_SCRIPT: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex > -1) {
+        return state.setIn(['interactions', interactionIndex, 'script'], undefined);
+      } else {
+        return state;
+      }
     }
     case WORK_INITIATED: {
       const interactionIndex = state.get('interactions').findIndex(
@@ -808,9 +830,13 @@ function agentDesktopReducer(state = initialState, action) {
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.setIn(['script', 'values'], action.scriptValueMap)
-        );
+        return state.updateIn(['interactions', interactionIndex], (interaction) => {
+          if (interaction.get('script') !== undefined) {
+            return interaction.setIn(['script', 'values'], action.scriptValueMap);
+          } else {
+            return interaction;
+          }
+        });
       } else {
         return state;
       }

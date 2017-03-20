@@ -7,6 +7,8 @@
 import {
   SET_EXTENSIONS,
   UPDATE_WRAPUP_DETAILS,
+  ADD_SCRIPT,
+  REMOVE_SCRIPT,
   SET_ACTIVE_EXTENSION,
   SET_QUEUES,
   SET_PRESENCE,
@@ -66,6 +68,21 @@ export function updateWrapupDetails(interactionId, wrapupDetails) {
     type: UPDATE_WRAPUP_DETAILS,
     interactionId,
     wrapupDetails,
+  };
+}
+
+export function addScript(interactionId, script) {
+  return {
+    type: ADD_SCRIPT,
+    interactionId,
+    script,
+  };
+}
+
+export function removeScript(interactionId) {
+  return {
+    type: REMOVE_SCRIPT,
+    interactionId,
   };
 }
 
