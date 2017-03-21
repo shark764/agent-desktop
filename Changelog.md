@@ -1,3 +1,7 @@
+<a name"0.18.0"></a>
+### 0.18.0 (2017-03-21)
+* CXV1-6289: Email replies
+
 <a name"0.17.2"></a>
 ### 0.17.2 (2017-03-21)
 * Fix permission error handling and error css

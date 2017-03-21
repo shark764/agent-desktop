@@ -46,6 +46,7 @@ import {
   EMAIL_REMOVE_ATTACHMENT,
   EMAIL_UPDATE_REPLY,
   EMAIL_CANCEL_REPLY,
+  EMAIL_SEND_REPLY,
   UPDATE_NOTE,
   UPDATE_SCRIPT_VALUES,
   SET_DISPOSITION_DETAILS,
@@ -349,6 +350,13 @@ export function emailUpdateReply(interactionId, reply) {
 export function emailCancelReply(interactionId) {
   return {
     type: EMAIL_CANCEL_REPLY,
+    interactionId,
+  };
+}
+
+export function emailSendReply(interactionId) {
+  return {
+    type: EMAIL_SEND_REPLY,
     interactionId,
   };
 }
