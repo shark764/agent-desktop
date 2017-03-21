@@ -1,3 +1,7 @@
+<a name"0.18.3"></a>
+### 0.18.3 (2017-03-21)
+* CXV1-7958: Fix random loading error via more deterministic module loading
+
 <a name"0.18.2"></a>
 ### 0.18.2 (2017-03-21)
 * HACK: Attempt to fix random loading issues via force reload on state loading error
