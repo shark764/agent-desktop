@@ -26,9 +26,10 @@ export class AgentStatusMenu extends React.Component {
       borderRadius: '8px',
       backgroundColor: '#FFFFFF',
       boxShadow: '0 0 6px 1px rgba(0,0,0,0.29)',
-      left: '12px',
-      bottom: '66px',
+      left: '2px',
+      bottom: '56px',
       paddingTop: '16px',
+      margin: '10px',
       color: '#4b4b4b',
     },
     agentStatusMenuTriangle: {
@@ -165,6 +166,13 @@ export class AgentStatusMenu extends React.Component {
     arrow: {
       float: 'right',
     },
+    mask: {
+      position: 'fixed',
+      height: '100vh',
+      width: '100vw',
+      top: '0px',
+      left: '0px',
+    },
   };
 
   changePresence(newPresence) {
@@ -180,9 +188,13 @@ export class AgentStatusMenu extends React.Component {
   render() {
     return (
       <div>
+        {
+          // Transparent mask to catch click outside of menu
+          this.props.show && <div style={this.styles.mask} id="screen-mask-status-menu" onClick={() => this.props.showAgentStatusMenu(false)} />
+        }
         <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100' }} leave={{ animation: 'transition.slideUpOut', duration: '100' }}>
           {
-              this.props.show && <div id="agentStatusMenu" style={this.styles.agentStatusMenu} onMouseLeave={() => this.props.showAgentStatusMenu(false)}>
+              this.props.show && <div id="agentStatusMenu" style={this.styles.agentStatusMenu} >
                 <span style={[this.styles.agentStatusMenuTriangle]} />
                 { this.props.hasActiveInteractions
                   ? <div id="agentLogoutLink" style={[this.styles.logoutLink, this.styles.logoutLinkInactive]}><FormattedMessage {...messages.logout} /></div>

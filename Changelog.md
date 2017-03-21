@@ -1,4 +1,8 @@
-<a name"0.17.1"></a>
+<a name"0.17.2"></a>
+### 0.17.2 (2017-03-21)
+* Fix permission error handling and error css
+* Change agent status menu to require click to hide. Click anywhere on screen to hide.
+
 ### 0.17.1 (2017-03-21)
 * Contact create/update confirmation messages
 * New Label -> Disposition

@@ -21,7 +21,7 @@ import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
 import { setAvailableStats, statsReceived } from 'containers/Toolbar/actions';
-import { showLogin, tenantError, logout } from 'containers/Login/actions';
+import { showLogin, logout } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 
 import { setExtensions, updateWrapupDetails, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact,
@@ -31,8 +31,6 @@ import { setExtensions, updateWrapupDetails, setPresence, addInteraction, workIn
   emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition } from './actions';
 
 import selectAgentDesktop, { selectLogin } from './selectors';
-
-import messages from './messages';
 
 export class AgentDesktop extends React.Component {
 
@@ -108,9 +106,6 @@ export class AgentDesktop extends React.Component {
     SDK.subscribe('cxengage', (error, topic, response) => {
       if (error) {
         console.error('Pub sub error', topic, error); // eslint-disable-line no-console
-        if (error.code === 1400) { // Missing CRM Perms
-          this.props.tenantError(messages.noPermsError);
-        }
         return;
       }
       switch (topic) {
@@ -541,7 +536,6 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     showLogin: (show) => dispatch(showLogin(show)),
-    tenantError: (error) => dispatch(tenantError(error)),
     setExtensions: (response) => dispatch(setExtensions(response)),
     updateWrapupDetails: (interactionId, wrapupDetails) => dispatch(updateWrapupDetails(interactionId, wrapupDetails)),
     setPresence: (response) => dispatch(setPresence(response)),
@@ -589,7 +583,6 @@ function mapDispatchToProps(dispatch) {
 
 AgentDesktop.propTypes = {
   showLogin: PropTypes.func.isRequired,
-  tenantError: PropTypes.func.isRequired,
   setExtensions: PropTypes.func.isRequired,
   updateWrapupDetails: PropTypes.func.isRequired,
   setPresence: PropTypes.func.isRequired,

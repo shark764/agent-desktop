@@ -23,7 +23,7 @@ import IconSVG from 'components/IconSVG';
 
 import selectLogin from './selectors';
 import messages from './messages';
-import { loggingIn, loginError, loginSuccess, resetPassword, settingTenant, setTenant } from './actions';
+import { loggingIn, loginError, loginSuccess, resetPassword, settingTenant, setTenant, tenantError } from './actions';
 const storage = window.localStorage;
 
 export class Login extends React.Component {
@@ -82,7 +82,19 @@ export class Login extends React.Component {
         tenantId: this.state.tenantId,
         callback: (error, topic, response) => {
           console.log('[Login] SDK.subscribe()', topic, response);
-          this.props.setTenant(this.state.tenantId, this.state.tenantName);
+
+          if (error !== null) { // General error check
+            switch (error.code) {
+              case 1003:
+                this.props.tenantError(messages.noPermsError);
+                break;
+              default:
+                console.error('SDK Error:', error.error); // Uncaught error handling
+                break;
+            }
+          } else {
+            this.props.setTenant(this.state.tenantId, this.state.tenantName);
+          }
         },
       });
     } else {
@@ -122,6 +134,18 @@ export class Login extends React.Component {
     );
     return (
       <div id="TSContainerDiv" style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
+        {this.state.noTenant
+          ? <span style={[this.styles.error]}>
+            <FormattedMessage style={this.styles.center} {...messages.noTenant} />
+          </span>
+          : ''
+        }
+        {this.props.tenant_error
+          ? <span id="tenantLoginError" style={[this.styles.error]}>
+            <FormattedMessage style={this.styles.center} {...this.props.tenant_error_message} />
+          </span>
+          : ''
+        }
         <Logo style={{ marginTop: '50px' }} width="275px" />
         <Title id={messages.welcome.id} text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
         <Select id={'app.login.selectTennant.selectbox'} style={{ width: '282px' }} value={this.state.tenantId} onChange={(e) => this.setTenantId(e.value || '-1', e.label || '')} options={tenantOptions} autoFocus />
@@ -129,18 +153,6 @@ export class Login extends React.Component {
           // <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
         }
         <Button id={messages.sendButton.id} type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.sendButton} onClick={() => this.onTenantSelect()} />
-        {this.state.noTenant
-          ? <span style={[this.styles.error, this.styles.errorTenant]}>
-            <FormattedMessage style={this.styles.center} {...messages.noTenant} />
-          </span>
-          : ''
-        }
-        {this.props.tenant_error
-          ? <span id="tenantLoginError" style={[this.styles.error, this.styles.errorTenant]}>
-            <FormattedMessage style={this.styles.center} {...this.props.tenant_error_message} />
-          </span>
-          : ''
-        }
       </div>
     );
   }
@@ -149,6 +161,12 @@ export class Login extends React.Component {
     // TODO when tenants.length == 0, == 1
     return (
       <div id="loginContainerDiv" style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
+        {this.props.login_error
+          ? <span id={messages.error.id} style={[this.styles.error]}>
+            <FormattedMessage style={this.styles.center} {...messages.error} />
+          </span>
+          : ''
+        }
         <Logo style={{ marginTop: '50px' }} width="275px" />
         <Title id={messages.welcome.id} text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
         <TextInput id={messages.username.id} autoFocus={!this.state.remember} key={'username'} style={{ marginBottom: '11px' }} placeholder={messages.username} autocomplete="email" value={this.state.username} cb={this.setUser} />
@@ -156,12 +174,6 @@ export class Login extends React.Component {
         <CheckBox id={messages.rememberMe.id} style={{ marginLeft: '-9.35em', marginBottom: '11px', marginTop: '15px', width: '130px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.setRemember} />
         <Button id={messages.signInButton.id} type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.signInButton} onClick={() => this.onLogin()} />
         <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
-        {this.props.login_error
-          ? <span id={messages.error.id} style={[this.styles.error]}>
-            <FormattedMessage style={this.styles.center} {...messages.error} />
-          </span>
-          : ''
-        }
       </div>
     );
   }
@@ -254,7 +266,8 @@ export class Login extends React.Component {
       textAlign: 'center',
       paddingTop: '3px',
       position: 'relative',
-      top: '-509px',
+      top: '0px',
+      marginBottom: '-31px',
     },
     errorTenant: {
       top: '-361.4px',
@@ -318,6 +331,7 @@ function mapDispatchToProps(dispatch) {
     loginError: () => dispatch(loginError()),
     settingTenant: () => dispatch(settingTenant()),
     setTenant: (id, name) => dispatch(setTenant(id, name)),
+    tenantError: (error) => dispatch(tenantError(error)),
     dispatch,
   };
 }
@@ -336,6 +350,7 @@ Login.propTypes = {
   agent: PropTypes.object,
   tenant_error_message: PropTypes.object,
   tenant_error: PropTypes.bool,
+  tenantError: PropTypes.func.isRequired,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Login)));
