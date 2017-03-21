@@ -9,7 +9,16 @@ const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 
 const selectLogin = createSelector(
   selectLoginDomain,
-  (substate) => substate.toJS()
+  (substate) => {
+    let loginState;
+    if (substate === undefined) {
+      // HACK: reload if state is borked
+      location.reload();
+    } else {
+      loginState = substate.toJS();
+    }
+    return loginState;
+  }
 );
 
 const selectAgentDesktop = createSelector(
