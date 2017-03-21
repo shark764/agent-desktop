@@ -1,5 +1,9 @@
+<a name"0.18.2"></a>
+### 0.18.2 (2017-03-21)
+* HACK: Attempt to fix random loading issues via force reload on state loading error
+
 <a name"0.18.1"></a>
-### 0.18.0 (2017-03-21)
+### 0.18.1 (2017-03-21)
 * Add click to hide to agent config menu, add menu animations
 
 <a name"0.18.0"></a>
