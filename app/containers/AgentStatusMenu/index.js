@@ -188,7 +188,10 @@ export class AgentStatusMenu extends React.Component {
   render() {
     return (
       <div>
-        {this.props.show && <div style={this.styles.mask} id="screen-mask-status-menu" onClick={() => this.props.showAgentStatusMenu(false)} />}
+        {
+          // Transparent mask to catch click outside of menu
+          this.props.show && <div style={this.styles.mask} id="screen-mask-status-menu" onClick={() => this.props.showAgentStatusMenu(false)} />
+        }
         <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100' }} leave={{ animation: 'transition.slideUpOut', duration: '100' }}>
           {
               this.props.show && <div id="agentStatusMenu" style={this.styles.agentStatusMenu} >
