@@ -10,9 +10,13 @@ const selectInteractions = createSelector(
   selectAgentDesktopDomain, (agentDesktop) => agentDesktop.get('interactions')
 );
 
-const selectHasInteraction = createSelector(
-  selectInteractions,
-  (interactions) => interactions.size > 0
+const selectSelectedInteractionId = createSelector(
+  selectAgentDesktopDomain, (agentDesktop) => agentDesktop.get('selectedInteractionId')
+);
+
+const selectInInteractionContext = createSelector(
+  selectSelectedInteractionId,
+  (interactionId) => typeof interactionId !== 'undefined'
 );
 
 const selectHasVoiceInteraction = createSelector(
@@ -77,5 +81,5 @@ export {
   selectPopulatedCompactAttributes,
   selectAttributes,
   selectHasVoiceInteraction,
-  selectHasInteraction,
+  selectInInteractionContext,
 };
