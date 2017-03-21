@@ -9,6 +9,10 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 
+import 'velocity-animate';
+import 'velocity-animate/velocity.ui';
+import { VelocityTransitionGroup } from 'velocity-react';
+
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 import AgentStatusMenu from 'containers/AgentStatusMenu';
@@ -213,6 +217,14 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
             showAgentStatusMenu={this.showAgentStatusMenu}
             agentDirection={this.props.agentDirection}
           />
+          <AgentConfigMenu
+            toggleStat={this.props.toggleStat}
+            queues={this.props.queues}
+            currentAgent={this.props.currentAgent}
+            hideMenu={() => this.showAgentConfigMenu(false)}
+            show={this.state.agentConfigMenu}
+            key={'agentConfigMenu'}
+          />
           <AgentStats queues={this.props.queues} toggleStat={this.props.toggleStat} readyState={this.props.readyState} />
           <div id="config-button-container" style={this.styles.configButtonContainer}>
             <button
@@ -224,11 +236,6 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
               <Icon id="config-icon" name="config" style={{ width: '22px' }} />
             </button>
           </div>
-          {
-            this.state.agentConfigMenu
-            ? <AgentConfigMenu toggleStat={this.props.toggleStat} queues={this.props.queues} currentAgent={this.props.currentAgent} />
-            : ''
-          }
         </div>
       </div>
     );
