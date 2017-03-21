@@ -10,7 +10,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import Radium from 'radium';
 import InfiniteScroll from 'react-infinite-scroller';
 
-import ErrorBanner from 'components/ErrorBanner';
+import NotificationBanner from 'components/NotificationBanner';
 import IconSVG from 'components/IconSVG';
 import Button from 'components/Button';
 import Filter from 'components/Filter';
@@ -32,12 +32,12 @@ export class ContactsControl extends React.Component {
     super(props);
 
     this.state = {
-      nextErrorId: 0,
+      nextNotificationId: 0,
       query: this.expandQuery(this.props.selectedInteraction.query, this.props.attributes),
       loading: true,
       isEditing: false,
       unassignedContactEditing: {},
-      errors: [],
+      notifications: [],
     };
 
     this.setSearching = this.setSearching.bind(this);
@@ -56,9 +56,10 @@ export class ContactsControl extends React.Component {
     this.clearSearch = this.clearSearch.bind(this);
     this.setNotEditing = this.setNotEditing.bind(this);
     this.handleSave = this.handleSave.bind(this);
-    this.saveCallback = this.saveCallback.bind(this);
+    this.createCallback = this.createCallback.bind(this);
+    this.updateCallback = this.updateCallback.bind(this);
     this.handleContactAssign = this.handleContactAssign.bind(this);
-    this.dismissError = this.dismissError.bind(this);
+    this.dismissNotification = this.dismissNotification.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -355,35 +356,56 @@ export class ContactsControl extends React.Component {
     },
   };
 
-  addError(type, messageType) {
+  addNotification(messageType, isError, errorType) {
+    const id = this.state.nextNotificationId;
+    if (!isError) {
+      setTimeout(() => this.dismissNotification(id), 3000);
+    }
     this.setState({
-      errors: [...this.state.errors, { type, messageType, id: this.state.nextErrorId }],
-      nextErrorId: this.state.nextErrorId + 1,
+      notifications: [...this.state.notifications, { id, errorType, messageType, isError }],
+      nextNotificationId: id + 1,
     });
   }
 
-  saveCallback(error, topic, response) {
+  updateCallback(error, topic, response) {
     console.log('[ContactsControl] SDK.subscribe()', topic, response);
     this.setState({ loading: false });
     if (error) {
-      this.addError('server', 'notSaved'); // TODO: when errors are ready, get error from response?
+      this.addNotification('notSaved', true, 'serverError'); // TODO: when notifications are ready, get error from response?
       console.error(error);
     } else {
       this.props.clearSearchResults();
       this.setNotEditing();
+      this.addNotification('saved', false);
     }
   }
 
-  dismissError(index) {
-    this.setState({ errors: [...this.state.errors.splice(1, index)] });
+  createCallback(error, topic, response) {
+    console.log('[ContactsControl] SDK.subscribe()', topic, response);
+    this.setState({ loading: false });
+    if (error) {
+      this.addNotification('notCreated', true, 'serverError'); // TODO: when notifications are ready, get error from response?
+      console.error(error);
+    } else {
+      this.props.clearSearchResults();
+      this.setNotEditing();
+      this.addNotification('created', false);
+    }
+  }
+
+  dismissNotification(id) {
+    const notificationIndex = this.state.notifications.findIndex((notification) => notification.id === id);
+    if (notificationIndex > -1) {
+      this.setState({ notifications: [...this.state.notifications.splice(1, notificationIndex)] });
+    }
   }
 
   handleSave(attributes, contactId) {
     this.setState({ loading: true });
     if (contactId) {
-      SDK.contacts.update({ contactId, attributes }, this.saveCallback);
+      SDK.contacts.update({ contactId, attributes }, this.updateCallback);
     } else {
-      SDK.contacts.create({ attributes }, this.saveCallback);
+      SDK.contacts.create({ attributes }, this.createCallback);
     }
   }
 
@@ -401,7 +423,7 @@ export class ContactsControl extends React.Component {
   handleContactAssign(contact) {
     this.setState({ loading: true });
     const handleError = (error) => {
-      this.addError('server', 'notAssigned'); // TODO: when errors are ready, get error from response?
+      this.addNotification('notAssigned', true, 'serverError'); // TODO: when errors are ready, get error from response?
       console.error(error);
     };
     if (this.props.selectedInteraction.contact !== undefined) {
@@ -523,15 +545,16 @@ export class ContactsControl extends React.Component {
     return (
       <div style={[this.props.style, this.styles.base]}>
         {
-          this.state.errors.length ?
-            this.state.errors.map((error, index) =>
-              <ErrorBanner
-                id={`error${index}`}
-                key={error.id}
-                dismiss={() => this.dismissError(index)}
-                tryAgain={error.tryAgain}
-                errorType={error.type}
-                messageType={error.messageType}
+          this.state.notifications.length ?
+            this.state.notifications.map((notification, index) =>
+              <NotificationBanner
+                id={`contactNotification${index}`}
+                key={notification.id}
+                dismiss={() => this.dismissNotification(notification.id)}
+                tryAgain={notification.tryAgain}
+                errorType={notification.errorType}
+                messageType={notification.messageType}
+                isError={notification.isError}
               />
             )
           : null

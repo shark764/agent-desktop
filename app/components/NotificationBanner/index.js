@@ -1,6 +1,6 @@
 /**
 *
-* ErrorBanner
+* NotificationBanner
 *
 */
 
@@ -12,10 +12,10 @@ import Button from 'components/Button';
 
 import messages from './messages';
 
-function ErrorBanner(props) {
+function NotificationBanner(props) {
   const styles = {
     base: {
-      backgroundColor: '#FE4565',
+      backgroundColor: props.isError ? '#FE4565' : '#072931',
       width: 'calc(100% + 76px)',
       height: '35px',
       position: 'relative',
@@ -25,11 +25,11 @@ function ErrorBanner(props) {
       color: 'white',
       flexShrink: 0,
     },
-    errorTypeText: {
+    typeText: {
       fontWeight: '600',
       alignSelf: 'center',
     },
-    errorMessageText: {
+    messageText: {
       alignSelf: 'center',
     },
     tryAgainText: {
@@ -48,13 +48,17 @@ function ErrorBanner(props) {
   };
 
   return (
-    <div id={props.id} style={styles.base} key={props.key}>
+    <div id={props.id} style={[styles.base]} key={props.key}>
       <div style={styles.leftGutter}></div>
-      <div style={styles.errorTypeText}>
-        {props.intl.formatMessage(messages[`${props.errorType}Error`])}
-      </div>
-      &nbsp;
-      <div style={styles.errorMessageText}>
+      {
+        props.isError
+        ? <div key="1" style={styles.typeText}>
+          {props.intl.formatMessage(messages[`${props.errorType}`])}
+          &nbsp;
+        </div>
+        : undefined
+      }
+      <div style={styles.messageText}>
         {props.intl.formatMessage(messages[props.messageType])}
       </div>
       {
@@ -64,25 +68,30 @@ function ErrorBanner(props) {
         : undefined
       }
       <div style={{ flexGrow: 1 }}></div>
-      <Button
-        id={`${props.id}error-dismiss-btn`}
-        style={styles.closeButton}
-        iconName="close"
-        type="primaryRed"
-        onClick={props.dismiss}
-      />
+      {
+        props.isError
+        ? <Button
+          id={`${props.id}error-dismiss-btn`}
+          style={styles.closeButton}
+          iconName="close"
+          type="primaryRed"
+          onClick={props.dismiss}
+        />
+        : undefined
+      }
     </div>
   );
 }
 
-ErrorBanner.propTypes = {
+NotificationBanner.propTypes = {
   intl: PropTypes.object.isRequired,
   id: PropTypes.string.isRequired,
-  errorType: PropTypes.oneOf(['server', 'network']).isRequired,
-  messageType: PropTypes.oneOf(['notSaved', 'notCreated', 'notAssigned']).isRequired,
+  errorType: PropTypes.oneOf(['serverError', 'networkError']),
+  messageType: PropTypes.oneOf(['notSaved', 'notCreated', 'notAssigned', 'created', 'saved']).isRequired,
   dismiss: PropTypes.func.isRequired,
+  isError: PropTypes.bool.isRequired,
   tryAgain: PropTypes.func,
   key: PropTypes.string,
 };
 
-export default injectIntl(Radium(ErrorBanner));
+export default injectIntl(Radium(NotificationBanner));

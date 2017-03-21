@@ -1,3 +1,9 @@
+<a name"0.17.1"></a>
+### 0.17.1 (2017-03-21)
+* Contact create/update confirmation messages
+* New Label -> Disposition
+* SDK 2.1.1-SNAPSHOT.189
+
 <a name"0.17.0"></a>
 ### 0.17.0 (2017-03-20)
 * CXV1-7154 - Email attachments on view
