@@ -253,6 +253,13 @@ const emailInteraction = {
     targetWrapupTime: '10',
   },
   query: {},
+  note: {
+    body: '',
+    title: '',
+    notesPanelHeight: 300,
+  },
+  // Add sendingReply to mock the state between an email reply being sent and the interaction ending
+  // sendingReply: true,
   emailPlainBody: 'erggregre\r\n\r\nre\r\n\r\n\r\n\r\n        gregr\r\n\r\n\r\n\r\n        ergreg\r\n\r\n',
   emailHtmlBody: '<html><head>\r\n<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">\r\n<style type="text/css" style="display:none;"><!-- P {margin-top:0;margin-bottom:0;} --></style>\r\n</head>\r\n<body dir="ltr">\r\n<div id="divtagdefaultwrapper" style="font-size:12pt;color:#000000;font-family:Calibri,Arial,Helvetica,sans-serif;" dir="ltr">\r\n<p>erggregre</p>\r\n<p>\r\n<table cellspacing="0" role="table" class="ms-rteTable-default" style="border-collapse:collapse; border: 1px solid rgb(198, 198, 198);">\r\n<tbody>\r\n<tr>\r\n<td class="ms-rteTable-default" style="border-collapse: collapse; border: 1px solid rgb(198, 198, 198); width: 120px;">\r\nre</td>\r\n<td class="ms-rteTable-default" style="border-collapse: collapse; border: 1px solid rgb(198, 198, 198); width: 120px;">\r\n<br>\r\n</td>\r\n<td class="ms-rteTable-default" style="border-collapse: collapse; border: 1px solid rgb(198, 198, 198); width: 120px;">\r\n<br>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td class="ms-rteTable-default" style="border-collapse:collapse; border: 1px solid rgb(198, 198, 198);">\r\n<br>\r\n</td>\r\n<td class="ms-rteTable-default" style="border-collapse:collapse; border: 1px solid rgb(198, 198, 198);">\r\ngregr</td>\r\n<td class="ms-rteTable-default" style="border-collapse:collapse; border: 1px solid rgb(198, 198, 198);">\r\n<br>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td class="ms-rteTable-default" style="border-collapse:collapse; border: 1px solid rgb(198, 198, 198);">\r\n<br>\r\n</td>\r\n<td class="ms-rteTable-default" style="border-collapse:collapse; border: 1px solid rgb(198, 198, 198);">\r\n<br>\r\n</td>\r\n<td class="ms-rteTable-default" style="border-collapse:collapse; border: 1px solid rgb(198, 198, 198);">\r\nergreg</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<br>\r\n</p>\r\n</div>\r\n</body>\r\n</html>\r\n',
   emailDetails: {
@@ -559,7 +566,8 @@ const emailInteraction = {
           }
         ],
         artifactFileId: 'aae9dd03-d241-4e7a-a667-cac1438dcfdf',
-        // url: 'https://cdn.meme.am/instances/63480649.jpg'
+        // Comment out url to mock loading attachment state
+        url: 'https://cdn.meme.am/instances/63480649.jpg'
        }
      ],
      'multipart?': true,

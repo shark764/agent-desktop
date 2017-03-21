@@ -65,7 +65,6 @@ export class AgentConfigMenu extends React.Component {
       right: '2px',
       zIndex: '2',
       bottom: '56px',
-      paddingTop: '16px',
       margin: '10px',
       color: '#4b4b4b',
       paddingTop: '10px',
@@ -179,66 +178,66 @@ export class AgentConfigMenu extends React.Component {
         <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100' }} leave={{ animation: 'transition.slideUpOut', duration: '100' }}>
           {
             this.props.show && <div id="statMenu" style={this.styles.statMenu}>
-                <span style={this.styles.statMenuTriangle} />
+              <span style={this.styles.statMenuTriangle} />
+              <div style={this.styles.menuGroup}>
+                <div style={this.styles.menuHeader}><FormattedMessage {...messages.source} /></div>
+                <div style={this.styles.statOption}>
+                  <Select
+                    id="statSource"
+                    value={this.state.statSource}
+                    style={this.styles.select}
+                    options={this.sourceOptions}
+                    onChange={(e) => this.setStatSource(e.value || '-1')}
+                    clearable={false}
+                  />
+                </div>
+              </div>
+              {this.state.statSource === 'queue-id' ?
                 <div style={this.styles.menuGroup}>
-                  <div style={this.styles.menuHeader}><FormattedMessage {...messages.source} /></div>
+                  <div style={this.styles.menuHeader}><FormattedMessage {...messages.queue} /></div>
                   <div style={this.styles.statOption}>
                     <Select
-                      id="statSource"
-                      value={this.state.statSource}
+                      id="queueSelect"
+                      value={this.state.queue}
                       style={this.styles.select}
-                      options={this.sourceOptions}
-                      onChange={(e) => this.setStatSource(e.value || '-1')}
+                      options={this.getQueues()}
+                      onChange={(e) => this.setQueue(e.value || '-1')}
                       clearable={false}
                     />
                   </div>
                 </div>
-                {this.state.statSource === 'queue-id' ?
-                  <div style={this.styles.menuGroup}>
-                    <div style={this.styles.menuHeader}><FormattedMessage {...messages.queue} /></div>
-                    <div style={this.styles.statOption}>
-                      <Select
-                        id="queueSelect"
-                        value={this.state.queue}
-                        style={this.styles.select}
-                        options={this.getQueues()}
-                        onChange={(e) => this.setQueue(e.value || '-1')}
-                        clearable={false}
-                      />
-                    </div>
-                  </div>
-                : ''}
-                <div style={this.styles.menuGroup}>
-                  <div style={this.styles.menuHeader}><FormattedMessage {...messages.statistic} /></div>
-                  <div style={this.styles.statOption}>
-                    <Select
-                      id="statOption"
-                      value={this.state.statOption}
-                      style={this.styles.select}
-                      options={this.getStats()}
-                      onChange={(e) => this.setStatOption(e.value || '-1')}
-                      clearable={false}
-                    />
-                  </div>
+              : ''}
+              <div style={this.styles.menuGroup}>
+                <div style={this.styles.menuHeader}><FormattedMessage {...messages.statistic} /></div>
+                <div style={this.styles.statOption}>
+                  <Select
+                    id="statOption"
+                    value={this.state.statOption}
+                    style={this.styles.select}
+                    options={this.getStats()}
+                    onChange={(e) => this.setStatOption(e.value || '-1')}
+                    clearable={false}
+                  />
                 </div>
-                <div style={this.styles.menuGroup}>
-                  <div style={this.styles.menuHeader}><FormattedMessage {...messages.aggregate} /></div>
-                  <div style={this.styles.statOption}>
-                    <Select
-                      id="statAggregate"
-                      value={this.state.statAggregate}
-                      style={this.styles.select}
-                      options={this.getAggregates()}
-                      onChange={(e) => this.setStatAggregate(e.value || '-1', e.label || '')}
-                      clearable={false}
-                    />
-                  </div>
+              </div>
+              <div style={this.styles.menuGroup}>
+                <div style={this.styles.menuHeader}><FormattedMessage {...messages.aggregate} /></div>
+                <div style={this.styles.statOption}>
+                  <Select
+                    id="statAggregate"
+                    value={this.state.statAggregate}
+                    style={this.styles.select}
+                    options={this.getAggregates()}
+                    onChange={(e) => this.setStatAggregate(e.value || '-1', e.label || '')}
+                    clearable={false}
+                  />
                 </div>
-                <div style={this.styles.buttonContainer}>
-                  {this.props.enabledStats.length === MAXIMUM_STATS
-                    ? <span><FormattedMessage {...messages.maxStats} /></span>
-                    : <Button text={messages.add} id="toggleStat" style={this.styles.addButton} type="secondary" onClick={this.toggleStat} />}
-                </div>
+              </div>
+              <div style={this.styles.buttonContainer}>
+                {this.props.enabledStats.length === MAXIMUM_STATS
+                  ? <span><FormattedMessage {...messages.maxStats} /></span>
+                  : <Button text={messages.add} id="toggleStat" style={this.styles.addButton} type="secondary" onClick={this.toggleStat} />}
+              </div>
             </div>
           }
         </VelocityTransitionGroup>

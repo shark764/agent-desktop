@@ -215,6 +215,11 @@ export class AgentDesktop extends React.Component {
           });
           break;
         }
+        case 'cxengage/interactions/email/send-reply': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          // Not doing anything with this; setting loading state on send button click. This log may be useful for debugging.
+          break;
+        }
         case 'cxengage/interactions/work-rejected-received':
         case 'cxengage/interactions/work-ended-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);

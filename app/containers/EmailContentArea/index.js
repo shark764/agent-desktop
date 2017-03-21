@@ -26,7 +26,7 @@ import TextInput from 'components/TextInput';
 
 import ContentArea from 'containers/ContentArea';
 
-import { emailAddAttachment, emailRemoveAttachment, emailUpdateReply } from 'containers/AgentDesktop/actions';
+import { emailAddAttachment, emailRemoveAttachment, emailUpdateReply, emailSendReply } from 'containers/AgentDesktop/actions';
 import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
@@ -206,16 +206,25 @@ export class EmailContentArea extends React.Component {
   }
 
   sendEmail() {
-    alert(`TODO send email\n\nTo: ${this.state.tos.map((email) => email.address).join(', ')}\nCC: ${this.state.ccs.map((email) => email.address).join(', ')}\nBCC: ${this.state.bccs.map((email) => email.address).join(', ')}\nSubject: ${this.state.subject}\nPlain Body: ${this.state.editorState.getCurrentContent().getPlainText()}\nHTML Body: ${stateToHTML(this.state.editorState.getCurrentContent())}`);
-    // SDK.interactions.email.sendReply({
-    //   interactionId: this.props.selectedInteraction.interactionId,
-    //   to: this.state.tos,
-    //   cc: this.state.ccs,
-    //   bcc: this.state.bccs,
-    //   subject: this.state.subject,
-    //   htmlBody: stateToHTML(this.state.editorState.getCurrentContent()),
-    //   plainBody: this.state.editorState.getCurrentContent().getPlainText(),
-    // });
+    this.props.emailSendReply(this.props.selectedInteraction.interactionId);
+    console.log('SDK.interactions.email.sendReply()', {
+      interactionId: this.props.selectedInteraction.interactionId,
+      to: this.state.tos,
+      cc: this.state.ccs,
+      bcc: this.state.bccs,
+      subject: this.state.subject,
+      htmlBody: stateToHTML(this.state.editorState.getCurrentContent()),
+      plainTextBody: this.state.editorState.getCurrentContent().getPlainText(),
+    });
+    SDK.interactions.email.sendReply({
+      interactionId: this.props.selectedInteraction.interactionId,
+      to: this.state.tos,
+      cc: this.state.ccs,
+      bcc: this.state.bccs,
+      subject: this.state.subject,
+      htmlBody: stateToHTML(this.state.editorState.getCurrentContent()),
+      plainTextBody: this.state.editorState.getCurrentContent().getPlainText(),
+    });
   }
 
   styles = {
@@ -279,6 +288,15 @@ export class EmailContentArea extends React.Component {
       height: 14,
       width: 14,
     },
+    loadingSendingEmail: {
+      margin: '20px auto 10px',
+      display: 'block',
+      height: 80,
+      width: 80,
+    },
+    centerText: {
+      textAlign: 'center',
+    },
     emailContent: {
       position: 'absolute',
       height: '100%',
@@ -330,7 +348,35 @@ export class EmailContentArea extends React.Component {
     let details;
     let content;
 
-    if (this.props.selectedInteraction.emailReply === undefined) {
+    if (this.props.selectedInteraction.sendingReply === true) {
+      buttons = (
+        <div style={this.styles.replyButtons}>
+          <Button
+            id="cancelEmail"
+            type="secondary"
+            style={{ marginRight: '5px' }}
+            text={messages.cancel}
+            onClick={() => this.props.emailCancelReply(this.props.selectedInteraction.interactionId)}
+          />
+          <Button
+            id="sendEmail"
+            type="primaryRed"
+            text={messages.send}
+            onClick={() => this.sendEmail()}
+            disabled
+          />
+        </div>
+      );
+      details = <div></div>;
+      content = (
+        <div>
+          <IconSVG style={this.styles.loadingSendingEmail} id="sendingReplyIcon" name="loading" />
+          <div style={this.styles.centerText}>
+            <FormattedMessage {...messages.sendingReply} />
+          </div>
+        </div>
+      );
+    } else if (this.props.selectedInteraction.emailReply === undefined) {
       if (this.props.selectedInteraction.emailDetails === undefined || this.props.selectedInteraction.emailHtmlBody === undefined) {
         buttons = (
           <Button
@@ -690,6 +736,7 @@ EmailContentArea.propTypes = {
   emailAddAttachment: PropTypes.func.isRequired,
   emailRemoveAttachment: PropTypes.func.isRequired,
   emailUpdateReply: PropTypes.func.isRequired,
+  emailSendReply: PropTypes.func.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
 };
 
@@ -703,6 +750,7 @@ function mapDispatchToProps(dispatch) {
     emailAddAttachment: (interactionId, attachment) => dispatch(emailAddAttachment(interactionId, attachment)),
     emailRemoveAttachment: (interactionId, attachment) => dispatch(emailRemoveAttachment(interactionId, attachment)),
     emailUpdateReply: (interactionId, reply) => dispatch(emailUpdateReply(interactionId, reply)),
+    emailSendReply: (interactionId) => dispatch(emailSendReply(interactionId)),
     dispatch,
   };
 }

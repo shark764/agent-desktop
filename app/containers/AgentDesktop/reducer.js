@@ -50,6 +50,7 @@ import {
   EMAIL_REMOVE_ATTACHMENT,
   EMAIL_UPDATE_REPLY,
   EMAIL_CANCEL_REPLY,
+  EMAIL_SEND_REPLY,
   UPDATE_NOTE,
   UPDATE_SCRIPT_VALUES,
   SET_DISPOSITION_DETAILS,
@@ -745,6 +746,18 @@ function agentDesktopReducer(state = initialState, action) {
             .setIn(['emailReply', 'ccs'], new List(action.reply.ccs))
             .setIn(['emailReply', 'bccs'], new List(action.reply.bccs))
             .setIn(['emailReply', 'subject'], action.reply.subject)
+        );
+      } else {
+        return state;
+      }
+    }
+    case EMAIL_SEND_REPLY: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.set('sendingReply', true)
         );
       } else {
         return state;

@@ -45,6 +45,7 @@ export const EMAIL_ADD_ATTACHMENT = 'app/AgentDesktop/EMAIL_ADD_ATTACHMENT';
 export const EMAIL_REMOVE_ATTACHMENT = 'app/AgentDesktop/EMAIL_REMOVE_ATTACHMENT';
 export const EMAIL_UPDATE_REPLY = 'app/AgentDesktop/EMAIL_UPDATE_REPLY';
 export const EMAIL_CANCEL_REPLY = 'app/AgentDesktop/EMAIL_CANCEL_REPLY';
+export const EMAIL_SEND_REPLY = 'app/AgentDesktop/EMAIL_SEND_REPLY';
 export const UPDATE_NOTE = 'app/AgentDesktop/UPDATE_NOTE';
 export const UPDATE_SCRIPT_VALUES = 'app/AgentDesktop/UPDATE_SCRIPT_VALUES';
 export const SET_DISPOSITION_DETAILS = 'app/AgentDesktop/SET_DISPOSITION_DETAILS';

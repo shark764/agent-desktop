@@ -9,10 +9,6 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 
-import 'velocity-animate';
-import 'velocity-animate/velocity.ui';
-import { VelocityTransitionGroup } from 'velocity-react';
-
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 import AgentStatusMenu from 'containers/AgentStatusMenu';
