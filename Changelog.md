@@ -1,3 +1,7 @@
+<a name"0.18.1"></a>
+### 0.18.0 (2017-03-21)
+* Add click to hide to agent config menu, add menu animations
+
 <a name"0.18.0"></a>
 ### 0.18.0 (2017-03-21)
 * CXV1-6289: Email replies

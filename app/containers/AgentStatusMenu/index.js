@@ -261,7 +261,7 @@ export class AgentStatusMenu extends React.Component {
                     ? <div
                       id="notReadyStateLink"
                       style={[this.styles.notReadyPresence, this.styles.inactivePresence]}
-                      onClick={() => { this.changePresence('notready'); }}
+                      onClick={() => { this.changePresence('notready'); this.props.showAgentStatusMenu(false); }}
                     >
                       <FormattedMessage {...messages.notReady} />
                     </div>
@@ -287,7 +287,7 @@ export class AgentStatusMenu extends React.Component {
                     : <div
                       id="readyStateLink"
                       style={[this.styles.readyLink, this.styles.inactivePresence]}
-                      onClick={() => { this.changePresence('ready'); }}
+                      onClick={() => { this.changePresence('ready'); this.props.showAgentStatusMenu(false); }}
                     >
                       <FormattedMessage {...messages.ready} />
                     </div>

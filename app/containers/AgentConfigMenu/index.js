@@ -9,6 +9,9 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 import pickBy from 'lodash/pickBy';
+import 'velocity-animate';
+import 'velocity-animate/velocity.ui';
+import { VelocityTransitionGroup } from 'velocity-react';
 
 import Select from 'components/Select';
 import Button from 'components/Button';
@@ -43,7 +46,7 @@ export class AgentConfigMenu extends React.Component {
       width: '0px',
       height: '0px',
       right: '17px',
-      bottom: '60px',
+      bottom: '-6px',
       borderWidth: '8px',
       borderStyle: 'solid',
       borderColor: '#FFF transparent transparent #FFF',
@@ -55,15 +58,19 @@ export class AgentConfigMenu extends React.Component {
     },
     statMenu: {
       position: 'fixed',
-      right: '8px',
-      bottom: '66px',
-      zIndex: '2',
       width: '230px',
-      minHeight: '250px',
       borderRadius: '8px',
-      padding: '10px 13px',
       backgroundColor: '#FFFFFF',
       boxShadow: '0 0 6px 1px rgba(0,0,0,0.29)',
+      right: '2px',
+      zIndex: '2',
+      bottom: '56px',
+      margin: '10px',
+      color: '#4b4b4b',
+      paddingTop: '10px',
+      paddingBottom: '10px',
+      paddingRight: '13px',
+      paddingLeft: '13px',
     },
     menuGroup: {
       paddingBottom: '11px',
@@ -90,6 +97,13 @@ export class AgentConfigMenu extends React.Component {
       display: 'flex',
       justifyContent: 'flex-end',
       color: 'red',
+    },
+    mask: {
+      position: 'fixed',
+      height: '100vh',
+      width: '100vw',
+      top: '0px',
+      left: '0px',
     },
   }
 
@@ -156,70 +170,78 @@ export class AgentConfigMenu extends React.Component {
 
   render() {
     return (
-      <span>
-        <div id="statMenu" style={this.styles.statMenu}>
-          <div style={this.styles.menuGroup}>
-            <div style={this.styles.menuHeader}><FormattedMessage {...messages.source} /></div>
-            <div style={this.styles.statOption}>
-              <Select
-                id="statSource"
-                value={this.state.statSource}
-                style={this.styles.select}
-                options={this.sourceOptions}
-                onChange={(e) => this.setStatSource(e.value || '-1')}
-                clearable={false}
-              />
-            </div>
-          </div>
-          {this.state.statSource === 'queue-id' ?
-            <div style={this.styles.menuGroup}>
-              <div style={this.styles.menuHeader}><FormattedMessage {...messages.queue} /></div>
-              <div style={this.styles.statOption}>
-                <Select
-                  id="queueSelect"
-                  value={this.state.queue}
-                  style={this.styles.select}
-                  options={this.getQueues()}
-                  onChange={(e) => this.setQueue(e.value || '-1')}
-                  clearable={false}
-                />
+      <div>
+        {
+          // Transparent mask to catch click outside of menu
+          this.props.show && <div style={this.styles.mask} id="screen-mask-status-menu" onClick={() => this.props.hideMenu()} />
+        }
+        <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100' }} leave={{ animation: 'transition.slideUpOut', duration: '100' }}>
+          {
+            this.props.show && <div id="statMenu" style={this.styles.statMenu}>
+              <span style={this.styles.statMenuTriangle} />
+              <div style={this.styles.menuGroup}>
+                <div style={this.styles.menuHeader}><FormattedMessage {...messages.source} /></div>
+                <div style={this.styles.statOption}>
+                  <Select
+                    id="statSource"
+                    value={this.state.statSource}
+                    style={this.styles.select}
+                    options={this.sourceOptions}
+                    onChange={(e) => this.setStatSource(e.value || '-1')}
+                    clearable={false}
+                  />
+                </div>
+              </div>
+              {this.state.statSource === 'queue-id' ?
+                <div style={this.styles.menuGroup}>
+                  <div style={this.styles.menuHeader}><FormattedMessage {...messages.queue} /></div>
+                  <div style={this.styles.statOption}>
+                    <Select
+                      id="queueSelect"
+                      value={this.state.queue}
+                      style={this.styles.select}
+                      options={this.getQueues()}
+                      onChange={(e) => this.setQueue(e.value || '-1')}
+                      clearable={false}
+                    />
+                  </div>
+                </div>
+              : ''}
+              <div style={this.styles.menuGroup}>
+                <div style={this.styles.menuHeader}><FormattedMessage {...messages.statistic} /></div>
+                <div style={this.styles.statOption}>
+                  <Select
+                    id="statOption"
+                    value={this.state.statOption}
+                    style={this.styles.select}
+                    options={this.getStats()}
+                    onChange={(e) => this.setStatOption(e.value || '-1')}
+                    clearable={false}
+                  />
+                </div>
+              </div>
+              <div style={this.styles.menuGroup}>
+                <div style={this.styles.menuHeader}><FormattedMessage {...messages.aggregate} /></div>
+                <div style={this.styles.statOption}>
+                  <Select
+                    id="statAggregate"
+                    value={this.state.statAggregate}
+                    style={this.styles.select}
+                    options={this.getAggregates()}
+                    onChange={(e) => this.setStatAggregate(e.value || '-1', e.label || '')}
+                    clearable={false}
+                  />
+                </div>
+              </div>
+              <div style={this.styles.buttonContainer}>
+                {this.props.enabledStats.length === MAXIMUM_STATS
+                  ? <span><FormattedMessage {...messages.maxStats} /></span>
+                  : <Button text={messages.add} id="toggleStat" style={this.styles.addButton} type="secondary" onClick={this.toggleStat} />}
               </div>
             </div>
-          : ''}
-          <div style={this.styles.menuGroup}>
-            <div style={this.styles.menuHeader}><FormattedMessage {...messages.statistic} /></div>
-            <div style={this.styles.statOption}>
-              <Select
-                id="statOption"
-                value={this.state.statOption}
-                style={this.styles.select}
-                options={this.getStats()}
-                onChange={(e) => this.setStatOption(e.value || '-1')}
-                clearable={false}
-              />
-            </div>
-          </div>
-          <div style={this.styles.menuGroup}>
-            <div style={this.styles.menuHeader}><FormattedMessage {...messages.aggregate} /></div>
-            <div style={this.styles.statOption}>
-              <Select
-                id="statAggregate"
-                value={this.state.statAggregate}
-                style={this.styles.select}
-                options={this.getAggregates()}
-                onChange={(e) => this.setStatAggregate(e.value || '-1', e.label || '')}
-                clearable={false}
-              />
-            </div>
-          </div>
-          <div style={this.styles.buttonContainer}>
-            {this.props.enabledStats.length === MAXIMUM_STATS
-              ? <span><FormattedMessage {...messages.maxStats} /></span>
-              : <Button text={messages.add} id="toggleStat" style={this.styles.addButton} type="secondary" onClick={this.toggleStat} />}
-          </div>
-        </div>
-        <span style={this.styles.statMenuTriangle} />
-      </span>
+          }
+        </VelocityTransitionGroup>
+      </div>
     );
   }
 }
@@ -243,6 +265,8 @@ AgentConfigMenu.propTypes = {
   availableStats: PropTypes.object,
   queues: PropTypes.array,
   currentAgent: PropTypes.object,
+  hideMenu: PropTypes.func,
+  show: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(AgentConfigMenu));
