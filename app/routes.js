@@ -14,11 +14,31 @@ export default function createRoutes(store) {
 
   return [
     {
-      path: '/',
+      path: '*',
       name: 'agentDesktop',
       getComponent(nextState, cb) {
-       // --- Add containers here to use them --- //
+        const importAppModules = Promise.all([
+          System.import('containers/Login/reducer'),
+          System.import('containers/Login/sagas'),
+          System.import('containers/AgentDesktop/reducer'),
+          System.import('containers/AgentDesktop/sagas'),
+          System.import('containers/AgentDesktop'),
+        ]);
 
+        const renderRoute = loadModule(cb);
+
+        importAppModules.then(([loginReducer, loginSagas, reducer, sagas, component]) => {
+          injectReducer('login', loginReducer.default);
+          injectSagas(loginSagas.default);
+          injectReducer('agentDesktop', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importAppModules.catch(errorLoading);
+
+
+       // --- Add containers here to use them --- //
         const importToolbarModules = Promise.all([
           System.import('containers/Toolbar/reducer'),
           System.import('containers/Toolbar/sagas'),
@@ -73,45 +93,7 @@ export default function createRoutes(store) {
 
         importContactsControlModules.catch(errorLoading);
 
-        const importLoginModules = Promise.all([
-          System.import('containers/Login/reducer'),
-          System.import('containers/Login/sagas'),
-        ]);
-
-        importLoginModules.then(([reducer, sagas]) => {
-          injectReducer('login', reducer.default);
-          injectSagas(sagas.default);
-        });
-
-        importLoginModules.catch(errorLoading);
-
         // --- End Container Import --- //
-
-        // --- App Top Level --- //
-
-        const importAppModules = Promise.all([
-          System.import('containers/AgentDesktop/reducer'),
-          System.import('containers/AgentDesktop/sagas'),
-          System.import('containers/AgentDesktop'),
-        ]);
-
-        const renderRoute = loadModule(cb);
-
-        importAppModules.then(([reducer, sagas, component]) => {
-          injectReducer('agentDesktop', reducer.default);
-          injectSagas(sagas.default);
-          renderRoute(component);
-        });
-
-        importAppModules.catch(errorLoading);
-      },
-    }, {
-      path: '*',
-      name: 'notfound',
-      getComponent(nextState, cb) {
-        System.import('containers/NotFoundPage')
-          .then(loadModule(cb))
-          .catch(errorLoading);
       },
     },
   ];
