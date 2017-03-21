@@ -56,8 +56,6 @@ export class ContentArea extends React.Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.persistNoteIntervalId);
-    this.persistNote();
     this.mounted = false;
   }
 
@@ -65,21 +63,18 @@ export class ContentArea extends React.Component {
     this.mounted = true;
   }
 
-  persistNote() {
-    if (!this.state.savingNote) {
-      this.setState({
-        savingNote: true,
-      });
-      const currentNotesPanelHeight = this.state.notesPanelHeight;
-      const note = {
-        title: this.state.title,
-        body: this.state.body,
-        interactionId: this.props.interaction.interactionId,
-      };
+  persistNote(note, currentNotesPanelHeight) {
+    const inContext = (this.mounted && this.props.interaction.interactionId === note.interactionId);
+    if (!inContext || !this.state.savingNote) {
+      if (inContext) {
+        this.setState({
+          savingNote: true,
+        });
+      }
       const callback = (error, topic, response) => {
         // TODO: error handling / display
         console.log('[ContentArea] SDK.subscribe()', topic, response);
-        if (this.mounted && this.props.interaction.interactionId === note.interactionId) {
+        if (inContext) {
           this.setState({
             savingNote: false,
           });
@@ -100,8 +95,7 @@ export class ContentArea extends React.Component {
         }
       };
       if (this.props.interaction.note.noteId) {
-        note.noteId = this.props.interaction.note.noteId;
-        SDK.interactions.updateNote(note, callback);
+        SDK.interactions.updateNote({ noteId: this.props.interaction.note.noteId, ...note }, callback);
       } else {
         SDK.interactions.createNote(note, callback);
       }
@@ -295,7 +289,13 @@ export class ContentArea extends React.Component {
   handleChange(note) {
     this.setState(note);
     clearTimeout(this.persistNoteIntervalId);
-    this.persistNoteIntervalId = setTimeout(this.persistNote, 1500);
+    const currentNotesPanelHeight = this.state.notesPanelHeight;
+    const currentNote = {
+      title: note.title || this.state.title,
+      body: note.body || this.state.body,
+      interactionId: this.props.interaction.interactionId,
+    };
+    this.persistNoteIntervalId = setTimeout(() => this.persistNote(currentNote, currentNotesPanelHeight), 1500);
   }
 
   toggleWrapup() {
@@ -480,7 +480,7 @@ export class ContentArea extends React.Component {
                         style={this.styles.addIcon}
                       />
                       <span style={[this.styles.dispositionLabelText, { marginLeft: '5px' }]}>
-                        <FormattedMessage {...messages.newLabel} />
+                        <FormattedMessage {...messages.disposition} />
                       </span>
                     </div>,
                     this.state.showDispositionsList && this.props.interaction.dispositionDetails.dispositions.length

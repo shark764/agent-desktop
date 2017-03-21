@@ -2124,9 +2124,9 @@ custom-event@~1.0.0:
   version "1.0.1"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/custom-event/-/custom-event-1.0.1.tgz#5d02a46850adf1b4a317946a3928fccb5bfd0425"
 
-cxengage-javascript-sdk@2.1.0:
-  version "2.1.0"
-  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/cxengage-javascript-sdk/-/cxengage-javascript-sdk-2.1.0.tgz#b396f3bf2fd42a8098cf6b606f539e595af632b0"
+cxengage-javascript-sdk@2.1.1-SNAPSHOT.191:
+  version "2.1.1-SNAPSHOT.191"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/cxengage-javascript-sdk/-/cxengage-javascript-sdk-2.1.1-SNAPSHOT.191.tgz#acc10166ceef51eb5a56cd9657b00a17f629a3ed"
 
 d@1:
   version "1.0.0"

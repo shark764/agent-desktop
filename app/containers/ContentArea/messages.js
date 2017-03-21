@@ -22,8 +22,8 @@ export default defineMessages({
     id: 'app.containers.PhoneControls.wrapup',
     defaultMessage: 'Wrap Up',
   },
-  newLabel: {
-    id: 'app.containers.PhoneControls.newLabel',
-    defaultMessage: 'New Label',
+  disposition: {
+    id: 'app.containers.PhoneControls.disposition',
+    defaultMessage: 'Disposition',
   },
 });
