@@ -70,6 +70,7 @@
   "app.containers.EmailContentArea.noReply": "No Reply",
   "app.containers.EmailContentArea.reply": "Reply",
   "app.containers.EmailContentArea.send": "Send",
+  "app.containers.EmailContentArea.sendingReply": "Sending Reply",
   "app.containers.EmailContentArea.subject": "Subject",
   "app.containers.EmailContentArea.to": "To",
   "app.containers.InteractionsBar.accept": "Click to accept interaction",
