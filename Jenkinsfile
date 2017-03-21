@@ -56,6 +56,7 @@ else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
           }
           stage ('Build') { // Build Website
             b.build()
+            sh 'mv app/favicon.ico build/favicon.ico'
           }
           stage ('Push') { // Publish to S3
             b.push("${service}", "${build_version}")
