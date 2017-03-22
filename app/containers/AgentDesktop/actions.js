@@ -30,6 +30,7 @@ import {
   SET_CUSTOM_FIELDS,
   SET_EMAIL_PLAIN_BODY,
   SET_EMAIL_HTML_BODY,
+  SELECT_CONTACT,
   SET_EMAIL_DETAILS,
   SET_EMAIL_ATTACHMENT_URL,
   START_WARM_TRANSFERRING,
@@ -179,6 +180,14 @@ export function updateContact(updatedContact) {
   return {
     type: UPDATE_CONTACT,
     updatedContact,
+  };
+}
+
+
+export function selectContact(contact) {
+  return {
+    type: SELECT_CONTACT,
+    contact,
   };
 }
 
@@ -385,7 +394,6 @@ export function setDispositionDetails(interactionId, dispositions, forceSelect) 
     forceSelect,
   };
 }
-
 export function selectDisposition(interactionId, disposition) {
   return {
     type: SELECT_DISPOSITION,

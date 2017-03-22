@@ -46,6 +46,10 @@ export default defineMessages({
     id: 'app.containers.Contact.assignButton',
     defaultMessage: 'Assign',
   },
+  selectButton: {
+    id: 'app.containers.Contact.selectButton',
+    defaultMessage: 'Select',
+  },
   editButton: {
     id: 'app.containers.Contact.editButton',
     defaultMessage: 'Edit',

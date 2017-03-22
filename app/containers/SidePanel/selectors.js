@@ -12,13 +12,20 @@ const getSelectedInteractionId = createSelector(
   (agentDesktop) => agentDesktop.get('selectedInteractionId')
 );
 
+const selectNoInteractionContactPanelContactsData = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) => agentDesktop.get('noInteractionContactPanel')
+);
+
 const getSelectedInteraction = createSelector(
-  [selectInteractions, getSelectedInteractionId],
-  (interactions, selectedInteractionId) => {
-    const selectedInteraction = interactions.toJS().find(
-      (interaction) => interaction.interactionId === selectedInteractionId
-    );
-    return selectedInteraction;
+  [selectInteractions, getSelectedInteractionId, selectNoInteractionContactPanelContactsData],
+  (interactions, selectedInteractionId, noInteractionContactPanelContactsData) => {
+    if (typeof selectedInteractionId !== 'undefined') {
+      return interactions.toJS().find(
+        (interaction) => interaction.interactionId === selectedInteractionId
+      );
+    }
+    return noInteractionContactPanelContactsData.toJS();
   }
 );
 

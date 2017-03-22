@@ -20,7 +20,7 @@ import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 
 import messages from './messages';
-import { selectPopulatedLayout, selectPopulatedCompactAttributes, selectAttributes, selectIsReady, selectHasVoiceInteraction, selectHasInteraction } from './selectors';
+import { selectPopulatedLayout, selectPopulatedCompactAttributes, selectAttributes, selectIsReady, selectHasVoiceInteraction, selectInInteractionContext } from './selectors';
 
 export class Contact extends React.Component {
   constructor(props) {
@@ -437,14 +437,14 @@ export class Contact extends React.Component {
   }
 
   renderAssignBtn() {
-    if (this.props.hasInteraction && this.props.showControls) {
+    if (this.props.showControls) {
       return (
         <Button
           id={`assignBtn${this.props.contact.id}`}
           disabled={this.props.loading || this.props.isAssigned}
           type="secondary"
           onClick={this.props.assign}
-          text={this.props.intl.formatMessage(messages.assignButton)}
+          text={this.props.intl.formatMessage(this.props.inInteractionContext ? messages.assignButton : messages.selectButton)}
         />
       );
     } else {
@@ -512,7 +512,7 @@ const mapStateToProps = (state, props) => ({
   compactLayoutAttributes: selectPopulatedCompactAttributes(state, props),
   isReady: selectIsReady(state, props),
   hasVoiceInteraction: selectHasVoiceInteraction(state, props),
-  hasInteraction: selectHasInteraction(state, props),
+  inInteractionContext: selectInInteractionContext(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -539,7 +539,7 @@ Contact.propTypes = {
   intl: intlShape.isRequired,
   style: PropTypes.object,
   isReady: PropTypes.bool.isRequired,
-  hasInteraction: PropTypes.bool.isRequired,
+  inInteractionContext: PropTypes.bool.isRequired,
   hasVoiceInteraction: PropTypes.bool.isRequired,
   startOutboundInteraction: PropTypes.func.isRequired,
 };

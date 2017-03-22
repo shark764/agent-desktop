@@ -291,11 +291,6 @@ export class AgentDesktop extends React.Component {
           this.props.setContactLayout(activeLayouts[0]);
           break;
         }
-        case 'cxengage/contacts/create-contact-response': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.assignContact(this.props.agentDesktop.selectedInteractionId, response);
-          break;
-        }
         case 'cxengage/reporting/get-contact-interaction-history-response': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setContactInteractionHistory(response);
@@ -389,6 +384,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/create-note-response': // Handled in ContentArea
         case 'cxengage/interactions/update-note-response': // Handled in ContentArea
         case 'cxengage/interactions/end-wrapup-acknowledged': // Ignore - comes with a work-ended.
+        case 'cxengage/contacts/create-contact-response': // Handled in ContactsControl
           break;
         default: {
           console.warn('[AgentDesktop] SDK.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console
