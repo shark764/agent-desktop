@@ -1,11 +1,8 @@
 import { createSelector } from 'reselect';
 
-const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
+import { selectCurrentInteraction } from 'containers/ContactsControl/selectors';
 
-const selectInteractions = createSelector(
-  selectAgentDesktopDomain,
-  (agentDesktop) => agentDesktop.get('interactions')
-);
+const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 
 const getSelectedInteractionId = createSelector(
   selectAgentDesktopDomain,
@@ -13,21 +10,8 @@ const getSelectedInteractionId = createSelector(
 );
 
 const selectContactHistory = createSelector(
-  [selectInteractions, getSelectedInteractionId],
-  (interactions, selectedInteractionId) => {
-    if (selectedInteractionId !== undefined) {
-      const selectedInteraction = interactions.toJS().find(
-        (interaction) => interaction.interactionId === selectedInteractionId
-      );
-      if (selectedInteraction !== undefined && selectedInteraction.contact !== undefined) {
-        return selectedInteraction.contact.interactionHistory;
-      } else {
-        return undefined;
-      }
-    } else {
-      return undefined;
-    }
-  }
+  [selectCurrentInteraction],
+  (currentInteraction) => currentInteraction.contact && currentInteraction.contact.interactionHistory
 );
 
 

@@ -1,3 +1,19 @@
+<a name"0.21.0"></a>
+### 0.21.0 (2017-03-22)
+* CXV1-6296: Scripts
+
+<a name"0.20.0"></a>
+### 0.20.0 (2017-03-22)
+* CXV1-6289: Email reply attachments
+
+<a name"0.19.1"></a>
+### 0.19.1 (2017-03-22)
+* Fix for gmail bodies and null email names
+
+<a name"0.19.0"></a>
+### 0.19.0 (2017-03-22)
+* CXV1-8293: Selected contact state when no interaction selected - inc. interaction history
+
 <a name"0.18.3"></a>
 ### 0.18.3 (2017-03-21)
 * CXV1-7958: Fix random loading error via more deterministic module loading
@@ -22,7 +38,7 @@
 ### 0.17.1 (2017-03-21)
 * Contact create/update confirmation messages
 * New Label -> Disposition
-* SDK 2.1.1-SNAPSHOT.189
+* BUGFIX: contact creation key camel-casing (SDK fix)
 
 <a name"0.17.0"></a>
 ### 0.17.0 (2017-03-20)

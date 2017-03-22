@@ -152,7 +152,7 @@ export class ContactInteractionHistory extends React.Component {
           } else if (interaction.interactionDetails.channelType === 'email') {
             icon = 'email_dark';
           }
-          const segmentData = interaction.interactionDetails.agents.map((segment) => {
+          const segmentData = interaction.interactionDetails.agents && interaction.interactionDetails.agents.map((segment) => {
             let duration = moment(segment.conversationEndTimestamp).diff(moment(segment.conversationStartTimestamp), 'minutes');
             if (duration > 0) {
               duration = (
@@ -353,7 +353,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 ContactInteractionHistory.propTypes = {
-  selectedInteractionId: React.PropTypes.string.isRequired,
+  selectedInteractionId: React.PropTypes.string,
   contactInteractionHistory: React.PropTypes.array,
   setContactHistoryInteractionDetailsLoading: React.PropTypes.func.isRequired,
   style: React.PropTypes.object,

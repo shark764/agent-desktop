@@ -24,11 +24,11 @@ import { setAvailableStats, statsReceived } from 'containers/Toolbar/actions';
 import { showLogin, logout } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 
-import { setExtensions, updateWrapupDetails, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact,
+import { setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact,
   setContactInteractionHistory, setContactHistoryInteractionDetails, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction,
-  selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
+  updateWrapupDetails, addScript, removeScript, selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
   muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected,
-  emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition } from './actions';
+  emailCreateReply, emailCancelReply, emailAddAttachment, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition } from './actions';
 
 import selectAgentDesktop, { selectLogin } from './selectors';
 
@@ -215,6 +215,11 @@ export class AgentDesktop extends React.Component {
           });
           break;
         }
+        case 'cxengage/interactions/email/attachment-added': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.emailAddAttachment(response.interactionId, { attachmentId: response.attachmentId, name: response.filename });
+          break;
+        }
         case 'cxengage/interactions/email/send-reply': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           // Not doing anything with this; setting loading state on send button click. This log may be useful for debugging.
@@ -291,11 +296,6 @@ export class AgentDesktop extends React.Component {
           this.props.setContactLayout(activeLayouts[0]);
           break;
         }
-        case 'cxengage/contacts/create-contact-response': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.assignContact(this.props.agentDesktop.selectedInteractionId, response);
-          break;
-        }
         case 'cxengage/reporting/get-contact-interaction-history-response': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setContactInteractionHistory(response);
@@ -318,6 +318,7 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/interactions/wrapup-details-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          response.wrapupEnabled = !!response.wrapupEnabled; // eslint-disable-line no-param-reassign
           this.props.updateWrapupDetails(response.interactionId, response);
           break;
         }
@@ -329,6 +330,16 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/disable-wrapup-acknowledged': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.updateWrapupDetails(response.interactionId, { wrapupEnabled: false });
+          break;
+        }
+        case 'cxengage/interactions/script-received': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.addScript(response.interactionId, JSON.parse(response.script));
+          break;
+        }
+        case 'cxengage/interactions/send-script': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.removeScript(response);
           break;
         }
         case 'cxengage/reporting/get-available-stats-response': {
@@ -389,6 +400,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/create-note-response': // Handled in ContentArea
         case 'cxengage/interactions/update-note-response': // Handled in ContentArea
         case 'cxengage/interactions/end-wrapup-acknowledged': // Ignore - comes with a work-ended.
+        case 'cxengage/contacts/create-contact-response': // Handled in ContactsControl
           break;
         default: {
           console.warn('[AgentDesktop] SDK.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console
@@ -543,6 +555,8 @@ function mapDispatchToProps(dispatch) {
     showLogin: (show) => dispatch(showLogin(show)),
     setExtensions: (response) => dispatch(setExtensions(response)),
     updateWrapupDetails: (interactionId, wrapupDetails) => dispatch(updateWrapupDetails(interactionId, wrapupDetails)),
+    addScript: (interactionId, script) => dispatch(addScript(interactionId, script)),
+    removeScript: (interactionId) => dispatch(removeScript(interactionId)),
     setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
@@ -576,6 +590,7 @@ function mapDispatchToProps(dispatch) {
     transferConnected: (interactionId) => dispatch(transferConnected(interactionId)),
     emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
     emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
+    emailAddAttachment: (interactionId, attachment) => dispatch(emailAddAttachment(interactionId, attachment)),
     setAvailableStats: (stats, tenantId, userId) => dispatch(setAvailableStats(stats, tenantId, userId)),
     statsReceived: (stats) => dispatch(statsReceived(stats)),
     setQueues: (queues) => dispatch(setQueues(queues)),
@@ -589,9 +604,11 @@ function mapDispatchToProps(dispatch) {
 AgentDesktop.propTypes = {
   showLogin: PropTypes.func.isRequired,
   setExtensions: PropTypes.func.isRequired,
-  updateWrapupDetails: PropTypes.func.isRequired,
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,
+  updateWrapupDetails: PropTypes.func.isRequired,
+  addScript: PropTypes.func.isRequired,
+  removeScript: PropTypes.func.isRequired,
   addInteraction: PropTypes.func.isRequired,
   workInitiated: PropTypes.func.isRequired,
   removeInteraction: PropTypes.func.isRequired,
@@ -623,6 +640,7 @@ AgentDesktop.propTypes = {
   transferConnected: PropTypes.func.isRequired,
   emailCreateReply: PropTypes.func.isRequired,
   emailCancelReply: PropTypes.func.isRequired,
+  emailAddAttachment: PropTypes.func.isRequired,
   setAvailableStats: PropTypes.func.isRequired,
   statsReceived: PropTypes.func.isRequired,
   setQueues: PropTypes.func.isRequired,

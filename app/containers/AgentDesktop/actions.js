@@ -7,6 +7,8 @@
 import {
   SET_EXTENSIONS,
   UPDATE_WRAPUP_DETAILS,
+  ADD_SCRIPT,
+  REMOVE_SCRIPT,
   SET_ACTIVE_EXTENSION,
   SET_QUEUES,
   SET_PRESENCE,
@@ -30,6 +32,7 @@ import {
   SET_CUSTOM_FIELDS,
   SET_EMAIL_PLAIN_BODY,
   SET_EMAIL_HTML_BODY,
+  SELECT_CONTACT,
   SET_EMAIL_DETAILS,
   SET_EMAIL_ATTACHMENT_URL,
   START_WARM_TRANSFERRING,
@@ -65,6 +68,21 @@ export function updateWrapupDetails(interactionId, wrapupDetails) {
     type: UPDATE_WRAPUP_DETAILS,
     interactionId,
     wrapupDetails,
+  };
+}
+
+export function addScript(interactionId, script) {
+  return {
+    type: ADD_SCRIPT,
+    interactionId,
+    script,
+  };
+}
+
+export function removeScript(interactionId) {
+  return {
+    type: REMOVE_SCRIPT,
+    interactionId,
   };
 }
 
@@ -179,6 +197,14 @@ export function updateContact(updatedContact) {
   return {
     type: UPDATE_CONTACT,
     updatedContact,
+  };
+}
+
+
+export function selectContact(contact) {
+  return {
+    type: SELECT_CONTACT,
+    contact,
   };
 }
 
@@ -331,11 +357,11 @@ export function emailAddAttachment(interactionId, attachment) {
   };
 }
 
-export function emailRemoveAttachment(interactionId, attachment) {
+export function emailRemoveAttachment(interactionId, attachmentId) {
   return {
     type: EMAIL_REMOVE_ATTACHMENT,
     interactionId,
-    attachment,
+    attachmentId,
   };
 }
 
@@ -385,7 +411,6 @@ export function setDispositionDetails(interactionId, dispositions, forceSelect) 
     forceSelect,
   };
 }
-
 export function selectDisposition(interactionId, disposition) {
   return {
     type: SELECT_DISPOSITION,

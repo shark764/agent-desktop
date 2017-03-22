@@ -199,10 +199,14 @@ export class EmailContentArea extends React.Component {
 
   addFilesToEmail(fileList) {
     for (let i = 0; i < fileList.length; i += 1) {
-      // TODO call SDK file upload function here when available. Move emailAddAttachment() to that callback. Loading in between.
-      // SDK.interactions.email.addAttachment({ interactionId: this.props.selectedInteraction.interactionId, attachment: fileList[i] });
-      this.props.emailAddAttachment(this.props.selectedInteraction.interactionId, fileList[i]);
+      this.props.emailAddAttachment(this.props.selectedInteraction.interactionId, {});
+      SDK.interactions.email.addAttachment({ interactionId: this.props.selectedInteraction.interactionId, file: fileList[i] });
     }
+  }
+
+  removeAttachment(attachmentId) {
+    this.props.emailRemoveAttachment(this.props.selectedInteraction.interactionId, attachmentId);
+    SDK.interactions.email.removeAttachment({ interactionId: this.props.selectedInteraction.interactionId, attachmentId });
   }
 
   sendEmail() {
@@ -411,21 +415,21 @@ export class EmailContentArea extends React.Component {
         details = <IconSVG style={this.styles.loadingCircle} id="loadingEmailDetails" name="loading" />;
       } else {
         const tos = this.props.selectedInteraction.emailDetails.to.map((to) => {
-          if (to.name !== to.address) {
+          if (to.name && to.name !== to.address) {
             return `${to.name} [${to.address}]`;
           } else {
             return to.address;
           }
         });
         const ccs = this.props.selectedInteraction.emailDetails.cc.map((cc) => {
-          if (cc.name !== cc.address) {
+          if (cc.name && cc.name !== cc.address) {
             return `${cc.name} [${cc.address}]`;
           } else {
             return cc.address;
           }
         });
         const bccs = this.props.selectedInteraction.emailDetails.bcc.map((bcc) => {
-          if (bcc.name !== bcc.address) {
+          if (bcc.name && bcc.name !== bcc.address) {
             return `${bcc.name} [${bcc.address}]`;
           } else {
             return bcc.address;
@@ -547,7 +551,7 @@ export class EmailContentArea extends React.Component {
                 this.state.tos.map((to, index) =>
                   // eslint-disable-next-line react/no-array-index-key
                   <div key={`${index}-${to.address}`} id={`${index}-${to.address}`} style={this.styles.emailAddress}>
-                    { to.name !== to.address ? `${to.name} [${to.address}]` : to.address }
+                    { to.name && to.name !== to.address ? `${to.name} [${to.address}]` : to.address }
                     <span onClick={() => this.removeTo(to)} style={this.styles.emailAddressRemove}>
                       &#10060;
                     </span>
@@ -573,7 +577,7 @@ export class EmailContentArea extends React.Component {
                 this.state.ccs.map((cc, index) =>
                   // eslint-disable-next-line react/no-array-index-key
                   <div key={`${index}-${cc.address}`} id={`${index}-${cc.address}`} style={this.styles.emailAddress}>
-                    { cc.name !== cc.address ? `${cc.name} [${cc.address}]` : cc.address }
+                    { cc.name && cc.name !== cc.address ? `${cc.name} [${cc.address}]` : cc.address }
                     <span className="removeAddress" onClick={() => this.removeCc(cc)} style={this.styles.emailAddressRemove}>
                       &#10060;
                     </span>
@@ -599,7 +603,7 @@ export class EmailContentArea extends React.Component {
                 this.state.bccs.map((bcc, index) =>
                   // eslint-disable-next-line react/no-array-index-key
                   <div key={`${index}-${bcc.address}`} id={`${index}-${bcc.address}`} style={this.styles.emailAddress}>
-                    { bcc.name !== bcc.address ? `${bcc.name} [${bcc.address}]` : bcc.address }
+                    { bcc.name && bcc.name !== bcc.address ? `${bcc.name} [${bcc.address}]` : bcc.address }
                     <span className="removeAddress" onClick={() => this.removeBcc(bcc)} style={this.styles.emailAddressRemove}>
                       &#10060;
                     </span>
@@ -629,12 +633,18 @@ export class EmailContentArea extends React.Component {
               this.props.selectedInteraction.emailReply.attachments.map((attachment, index) =>
                 // eslint-disable-next-line react/no-array-index-key
                 <div key={`${index}-${attachment.name}`} id={`${index}-${attachment.name}`} style={this.styles.attachment} >
-                  <span style={this.styles.attachmentName}>
-                    {attachment.name}
-                  </span>
-                  <span onClick={() => this.props.emailRemoveAttachment(this.props.selectedInteraction.interactionId, attachment)} style={this.styles.attachmentRemove}>
-                    &#10060;
-                  </span>
+                  {
+                    attachment.attachmentId === undefined
+                    ? <div>Uploading...</div>
+                    : <div>
+                      <span style={this.styles.attachmentName}>
+                        {attachment.name}
+                      </span>
+                      <span onClick={() => this.removeAttachment(attachment.attachmentId)} style={this.styles.attachmentRemove}>
+                        &#10060;
+                      </span>
+                    </div>
+                  }
                 </div>
               )
             }
@@ -748,7 +758,7 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     emailAddAttachment: (interactionId, attachment) => dispatch(emailAddAttachment(interactionId, attachment)),
-    emailRemoveAttachment: (interactionId, attachment) => dispatch(emailRemoveAttachment(interactionId, attachment)),
+    emailRemoveAttachment: (interactionId, attachmentId) => dispatch(emailRemoveAttachment(interactionId, attachmentId)),
     emailUpdateReply: (interactionId, reply) => dispatch(emailUpdateReply(interactionId, reply)),
     emailSendReply: (interactionId) => dispatch(emailSendReply(interactionId)),
     dispatch,

@@ -22,7 +22,7 @@ import Contact from 'containers/Contact';
 import messages from './messages';
 import selectContactsControl, { selectCurrentInteraction, selectAttributes } from './selectors';
 import { setSearchResults, clearSearchResults } from './actions';
-import { assignContact } from '../AgentDesktop/actions';
+import { assignContact, selectContact } from '../AgentDesktop/actions';
 
 const controlHeaderHeight = 70;
 const resultsPlaceholderWidth = 330;
@@ -39,6 +39,8 @@ export class ContactsControl extends React.Component {
       unassignedContactEditing: {},
       notifications: [],
     };
+
+    this.mounted = false;
 
     this.setSearching = this.setSearching.bind(this);
     this.setViewing = this.setViewing.bind(this);
@@ -76,9 +78,11 @@ export class ContactsControl extends React.Component {
 
   componentWillUnmount() {
     this.props.clearSearchResults();
+    this.mounted = false;
   }
 
   componentDidMount() {
+    this.mounted = true;
     SDK.contacts.listAttributes({ callback: () => {
       SDK.contacts.listLayouts({ callback: () => {
         this.setState({ loading: false }); // TODO: error handling
@@ -234,7 +238,7 @@ export class ContactsControl extends React.Component {
       SDK.contacts.search({ query: Object.assign(encodedQuery, { page: this.props.nextPage }) }, (error, topic, response) => {
         console.log('[ContactsControl] SDK.subscribe()', topic, response);
         this.props.setSearchResults(response);
-        this.setState({ loading: false });
+        if (this.mounted) this.setState({ loading: false });
       });
     }
   }
@@ -382,20 +386,22 @@ export class ContactsControl extends React.Component {
 
   createCallback(error, topic, response) {
     console.log('[ContactsControl] SDK.subscribe()', topic, response);
-    this.setState({ loading: false });
     if (error) {
       this.addNotification('notCreated', true, 'serverError'); // TODO: when notifications are ready, get error from response?
       console.error(error);
+      this.setState({ loading: false });
     } else {
-      this.props.clearSearchResults();
-      this.setNotEditing();
-      this.addNotification('created', false);
+      this.handleContactAssign(response, () => {
+        this.props.clearSearchResults();
+        this.setNotEditing();
+        this.addNotification('created', false);
+      });
     }
   }
 
   dismissNotification(id) {
     const notificationIndex = this.state.notifications.findIndex((notification) => notification.id === id);
-    if (notificationIndex > -1) {
+    if (notificationIndex > -1 && this.mounted) {
       this.setState({ notifications: [...this.state.notifications.splice(1, notificationIndex)] });
     }
   }
@@ -420,34 +426,43 @@ export class ContactsControl extends React.Component {
     });
   }
 
-  handleContactAssign(contact) {
-    this.setState({ loading: true });
-    const handleError = (error) => {
-      this.addNotification('notAssigned', true, 'serverError'); // TODO: when errors are ready, get error from response?
-      console.error(error);
-    };
-    if (this.props.selectedInteraction.contact !== undefined) {
-      this.unassignCurrentContact((unassignError) => {
-        if (unassignError) {
-          this.setState({ loading: false });
-          handleError(unassignError);
-        } else {
-          this.props.assignContact(this.props.selectedInteraction.interactionId);
-          this.assignContactToSelected(contact, (assignError) => {
-            if (assignError) {
-              handleError(assignError);
-            }
-            this.setState({ loading: false });
-          });
-        }
-      });
+  handleContactAssign(contact, callback) {
+    if (!this.props.selectedInteraction.interactionId) {
+      this.props.selectContact(contact);
+      if (typeof callback === 'function') callback();
+      SDK.reporting.getContactHistory({ entityId: contact.id });
     } else {
-      this.assignContactToSelected(contact, (assignError) => {
-        if (assignError) {
-          handleError(assignError);
-        }
-        this.setState({ loading: false });
-      });
+      this.setState({ loading: true });
+      const handleError = (error) => {
+        this.addNotification('notAssigned', true, 'serverError'); // TODO: when errors are ready, get error from response?
+        console.error(error);
+      };
+      if (this.props.selectedInteraction.contact !== undefined) {
+        this.unassignCurrentContact((unassignError) => {
+          if (unassignError) {
+            this.setState({ loading: false });
+            handleError(unassignError);
+            if (typeof callback === 'function') callback();
+          } else {
+            this.props.assignContact(this.props.selectedInteraction.interactionId);
+            this.assignContactToSelected(contact, (assignError) => {
+              if (assignError) {
+                handleError(assignError);
+              }
+              this.setState({ loading: false });
+              if (typeof callback === 'function') callback();
+            });
+          }
+        });
+      } else {
+        this.assignContactToSelected(contact, (assignError) => {
+          if (assignError) {
+            handleError(assignError);
+          }
+          this.setState({ loading: false });
+          if (typeof callback === 'function') callback();
+        });
+      }
     }
   }
 
@@ -486,7 +501,7 @@ export class ContactsControl extends React.Component {
             style={this.styles.contactResult}
             key={contact.id}
             id={`contactSearchResult-${index}`}
-            isAssigned={this.props.selectedInteraction && this.props.selectedInteraction.contact && this.props.selectedInteraction.contact.id === contact.id}
+            isAssigned={this.props.selectedInteraction.contact && this.props.selectedInteraction.contact.id === contact.id}
             contact={contact}
             assignContact={this.handleContactAssign}
             editContact={this.editUnassignedContact}
@@ -582,6 +597,7 @@ ContactsControl.propTypes = {
   selectedInteraction: React.PropTypes.object,
   setContactAction: React.PropTypes.func,
   assignContact: React.PropTypes.func,
+  selectContact: React.PropTypes.func,
 };
 
 function mapStateToProps(state, props) {
@@ -597,6 +613,7 @@ function mapDispatchToProps(dispatch) {
     setSearchResults: (filter) => dispatch(setSearchResults(filter)),
     clearSearchResults: () => dispatch(clearSearchResults()),
     assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
+    selectContact: (contact) => dispatch(selectContact(contact)),
     dispatch,
   };
 }
