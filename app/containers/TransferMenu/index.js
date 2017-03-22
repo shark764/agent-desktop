@@ -480,7 +480,7 @@ export class TransferMenu extends React.Component {
           </div>
         </div>
         : <div style={this.styles.dialpadContainer}>
-          <Dialpad id="dialpad" setDialpadText={this.setDialpadText} dialpadText={this.state.dialpadText} />
+          <Dialpad id="dialpad" interactionId={this.props.interactionId} setDialpadText={this.setDialpadText} dialpadText={this.state.dialpadText} />
           <Button
             id="transferDialpadButton"
             text={messages.transfer}
