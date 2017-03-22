@@ -344,13 +344,15 @@ function agentDesktopReducer(state = initialState, action) {
         if (interaction.getIn(['contact', 'id']) === action.response.contactId) {
           // TODO also set stuff for pagination
           return interaction.setIn(['contact', 'interactionHistory'], fromJS(action.response.results));
+        } else {
+          return interaction;
         }
-        return interaction;
       })).updateIn(['noInteractionContactPanel', 'contact'], (contact) => {
         if (contact && contact.get('id') === action.response.contactId) {
           return contact.set('interactionHistory', fromJS(action.response.results));
+        } else {
+          return contact;
         }
-        return contact;
       });
     }
     case SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING: {

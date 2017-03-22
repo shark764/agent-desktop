@@ -13,10 +13,10 @@ import moment from 'moment';
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 
-import { setContactHistoryInteractionDetailsLoading } from 'containers/AgentDesktop/actions';
+import { setContactInteractionHistory, setContactHistoryInteractionDetailsLoading } from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
-import { getSelectedInteractionId, selectContactHistory } from './selectors';
+import { getSelectedInteractionId, selectContactId, selectContactHistory } from './selectors';
 
 export class ContactInteractionHistory extends React.Component {
   constructor(props) {
@@ -28,6 +28,11 @@ export class ContactInteractionHistory extends React.Component {
     this.state = {
       selectedInteractionIndex: undefined,
     };
+  }
+
+  refreshContactInteractionHistory() {
+    this.props.setContactInteractionHistory({ contactId: this.props.contactId, results: undefined });
+    SDK.reporting.getContactHistory({ entityId: this.props.contactId });
   }
 
   getInteractionHistoryDetails(contactHistoryInteractionId) {
@@ -50,9 +55,19 @@ export class ContactInteractionHistory extends React.Component {
       height: '100%',
       overflowY: 'auto',
     },
-    interactionsSince: {
+    interactionsSinceContainer: {
       fontSize: '15px',
       marginBottom: '19px',
+    },
+    interactionsSince: {
+      display: 'inline-block',
+    },
+    refresh: {
+      display: 'inline-block',
+      float: 'right',
+      fontSize: '22px',
+      marginTop: '-4px',
+      cursor: 'pointer',
     },
     interaction: {
       border: '1px solid #E4E4E4',
@@ -60,7 +75,7 @@ export class ContactInteractionHistory extends React.Component {
     },
     interactionHeader: {
       backgroundColor: '#F3F3F3',
-      padding: '16px 40px',
+      padding: '16px 40px 20px',
     },
     interactionListItem: {
       marginBottom: '14px',
@@ -153,19 +168,24 @@ export class ContactInteractionHistory extends React.Component {
             icon = 'email_dark';
           }
           const segmentData = interaction.interactionDetails.agents && interaction.interactionDetails.agents.map((segment) => {
-            let duration = moment(segment.conversationEndTimestamp).diff(moment(segment.conversationStartTimestamp), 'minutes');
-            if (duration > 0) {
-              duration = (
-                <span>
-                  {duration}&nbsp;<FormattedMessage {...messages.minutes} />
-                </span>
-              );
+            let duration;
+            if (segment.conversationStartTimestamp && segment.conversationEndTimestamp) {
+              duration = moment(segment.conversationEndTimestamp).diff(moment(segment.conversationStartTimestamp), 'minutes');
+              if (duration > 0) {
+                duration = (
+                  <span>
+                    {duration}&nbsp;<FormattedMessage {...messages.minutes} />
+                  </span>
+                );
+              } else {
+                duration = (
+                  <span>
+                    {moment(segment.conversationEndTimestamp).diff(moment(segment.conversationStartTimestamp), 'seconds')}&nbsp;<FormattedMessage {...messages.seconds} />
+                  </span>
+                );
+              }
             } else {
-              duration = (
-                <span>
-                  {moment(segment.conversationEndTimestamp).diff(moment(segment.conversationStartTimestamp), 'seconds')}&nbsp;<FormattedMessage {...messages.seconds} />
-                </span>
-              );
+              console.warn('No conversation start/end time for resourceId:', segment.resourceId);
             }
             return (
               <div className="segment" key={`${segment.resourceId}-${segment.conversationStartTimestamp}`} style={this.styles.segment} >
@@ -182,7 +202,7 @@ export class ContactInteractionHistory extends React.Component {
                   </div>
                   {
                     segment.dispositionName !== null
-                    ? <span className="dispositionName" style={this.styles.disposition}>
+                    ? <span className="dispositionName" style={this.styles.disposition} title="Disposition">
                       { segment.dispositionName }
                     </span>
                     : undefined
@@ -199,7 +219,7 @@ export class ContactInteractionHistory extends React.Component {
             id={`contactHistoryInteraction-${interaction.interactionId}`}
             className="contactHistoryInteraction"
             style={[this.styles.interaction, this.styles.interactionListItem, interactionDetails === undefined ? this.styles.pointer : '']}
-            onClick={() => this.getInteractionHistoryDetails(interaction.interactionId)}
+            onClick={interactionDetails === undefined ? () => this.getInteractionHistoryDetails(interaction.interactionId) : ''}
           >
             <div style={this.styles.interactionHeader}>
               <div style={this.styles.interactionDaysAgo}>
@@ -208,9 +228,13 @@ export class ContactInteractionHistory extends React.Component {
               <div>
                 {interaction.directionName},&nbsp;{interaction.lastQueueName}
               </div>
-              <div>
-                { moment(interaction.startTimestamp).format('LLL') }
-              </div>
+              {
+                interaction.lastDispositionName
+                ? <div style={[this.styles.disposition, { float: 'right', backgroundColor: '#FFFFFF', margin: '2px 0' }]}>
+                  {interaction.lastDispositionName}
+                </div>
+                : undefined
+              }
               {
                 interaction.csat !== null
                 ? <div>
@@ -218,6 +242,9 @@ export class ContactInteractionHistory extends React.Component {
                 </div>
                 : undefined
               }
+              <div>
+                { moment(interaction.startTimestamp).format('LLL') }
+              </div>
             </div>
             {
               interactionDetails
@@ -231,21 +258,26 @@ export class ContactInteractionHistory extends React.Component {
       });
       return (
         <div>
-          <div id="interactionsSince" style={this.styles.interactionsSince}>
-            { this.props.contactInteractionHistory.length > 0
-              ? <div>
-                { this.props.contactInteractionHistory.length }
-                &nbsp;
-                {
-                  this.props.contactInteractionHistory.length > 1
-                  ? <FormattedMessage {...messages.interactionsSince} />
-                  : <FormattedMessage {...messages.interaction} />
-                }
-                &nbsp;
-                { moment(this.props.contactInteractionHistory[this.props.contactInteractionHistory.length - 1].startTimestamp).format('LL') }
-              </div>
-              : <FormattedMessage {...messages.noPastInteractions} />
-            }
+          <div style={this.styles.interactionsSinceContainer}>
+            <div id="interactionsSince" style={this.styles.interactionsSince}>
+              { this.props.contactInteractionHistory.length > 0
+                ? <div>
+                  { this.props.contactInteractionHistory.length }
+                  &nbsp;
+                  {
+                    this.props.contactInteractionHistory.length > 1
+                    ? <FormattedMessage {...messages.interactionsSince} />
+                    : <FormattedMessage {...messages.interaction} />
+                  }
+                  &nbsp;
+                  { moment(this.props.contactInteractionHistory[this.props.contactInteractionHistory.length - 1].startTimestamp).format('LL') }
+                </div>
+                : <FormattedMessage {...messages.noPastInteractions} />
+              }
+            </div>
+            <div id="refreshContactInteractionHistory" onClick={() => this.refreshContactInteractionHistory()} style={this.styles.refresh}>
+              &#8635;
+            </div>
           </div>
           { interactions }
         </div>
@@ -341,12 +373,14 @@ export class ContactInteractionHistory extends React.Component {
 function mapStateToProps(state, props) {
   return {
     selectedInteractionId: getSelectedInteractionId(state, props),
+    contactId: selectContactId(state, props),
     contactInteractionHistory: selectContactHistory(state, props),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    setContactInteractionHistory: (response) => dispatch(setContactInteractionHistory(response)),
     setContactHistoryInteractionDetailsLoading: (interactionId, contactHistoryInteractionId) => dispatch(setContactHistoryInteractionDetailsLoading(interactionId, contactHistoryInteractionId)),
     dispatch,
   };
@@ -354,7 +388,9 @@ function mapDispatchToProps(dispatch) {
 
 ContactInteractionHistory.propTypes = {
   selectedInteractionId: React.PropTypes.string,
+  contactId: React.PropTypes.string.isRequired,
   contactInteractionHistory: React.PropTypes.array,
+  setContactInteractionHistory: React.PropTypes.func.isRequired,
   setContactHistoryInteractionDetailsLoading: React.PropTypes.func.isRequired,
   style: React.PropTypes.object,
 };
