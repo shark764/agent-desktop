@@ -340,11 +340,11 @@ export function emailAddAttachment(interactionId, attachment) {
   };
 }
 
-export function emailRemoveAttachment(interactionId, attachment) {
+export function emailRemoveAttachment(interactionId, attachmentId) {
   return {
     type: EMAIL_REMOVE_ATTACHMENT,
     interactionId,
-    attachment,
+    attachmentId,
   };
 }
 

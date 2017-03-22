@@ -28,7 +28,7 @@ import { setExtensions, updateWrapupDetails, setPresence, addInteraction, workIn
   setContactInteractionHistory, setContactHistoryInteractionDetails, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction,
   selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
   muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected,
-  emailCreateReply, emailCancelReply, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition } from './actions';
+  emailCreateReply, emailCancelReply, emailAddAttachment, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition } from './actions';
 
 import selectAgentDesktop, { selectLogin } from './selectors';
 
@@ -213,6 +213,11 @@ export class AgentDesktop extends React.Component {
               this.props.setEmailAttachmentUrl(response.interactionId, attachment.artifactFileId, attachmentUrlResponse.url);
             });
           });
+          break;
+        }
+        case 'cxengage/interactions/email/attachment-added': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.emailAddAttachment(response.interactionId, { attachmentId: response.attachmentId, name: response.filename });
           break;
         }
         case 'cxengage/interactions/email/send-reply': {
@@ -572,6 +577,7 @@ function mapDispatchToProps(dispatch) {
     transferConnected: (interactionId) => dispatch(transferConnected(interactionId)),
     emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
     emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
+    emailAddAttachment: (interactionId, attachment) => dispatch(emailAddAttachment(interactionId, attachment)),
     setAvailableStats: (stats, tenantId, userId) => dispatch(setAvailableStats(stats, tenantId, userId)),
     statsReceived: (stats) => dispatch(statsReceived(stats)),
     setQueues: (queues) => dispatch(setQueues(queues)),
@@ -619,6 +625,7 @@ AgentDesktop.propTypes = {
   transferConnected: PropTypes.func.isRequired,
   emailCreateReply: PropTypes.func.isRequired,
   emailCancelReply: PropTypes.func.isRequired,
+  emailAddAttachment: PropTypes.func.isRequired,
   setAvailableStats: PropTypes.func.isRequired,
   statsReceived: PropTypes.func.isRequired,
   setQueues: PropTypes.func.isRequired,

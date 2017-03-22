@@ -1,3 +1,7 @@
+<a name"0.20.0"></a>
+### 0.20.0 (2017-03-22)
+* CXV1-6289: Email reply attachments
+
 <a name"0.19.1"></a>
 ### 0.19.1 (2017-03-22)
 * Fix for gmail bodies and null email names
