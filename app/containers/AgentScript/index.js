@@ -27,7 +27,7 @@ export class AgentScript extends React.Component {
     this.getScriptValueMap = this.getScriptValueMap.bind(this);
 
     const state = {};
-    for (const element of props.script.elements) {
+    this.props.script.elements.forEach((element) => {
       switch (element.type) {
         case 'freeform':
           state[element.name] = props.script.values !== undefined && props.script.values[element.name] !== undefined ? props.script.values[element.name] : '';
@@ -45,7 +45,7 @@ export class AgentScript extends React.Component {
         default:
           break;
       }
-    }
+    });
     this.state = state;
   }
 
@@ -56,7 +56,7 @@ export class AgentScript extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.interactionId !== nextProps.interactionId) {
       this.props.updateScriptValues(this.props.interactionId, this.getScriptValueMap());
-      for (const element of nextProps.script.elements) {
+      this.props.script.elements.forEach((element) => {
         switch (element.type) {
           case 'freeform':
             this.setState({
@@ -80,7 +80,7 @@ export class AgentScript extends React.Component {
           default:
             break;
         }
-      }
+      });
     }
   }
 
@@ -99,7 +99,7 @@ export class AgentScript extends React.Component {
 
   getScriptValueMap() {
     const scriptValueMap = {};
-    for (const element of this.props.script.elements) {
+    this.props.script.elements.forEach((element) => {
       switch (element.type) {
         case 'freeform':
         case 'dropdown':
@@ -115,13 +115,13 @@ export class AgentScript extends React.Component {
         default:
           break;
       }
-    }
+    });
     return scriptValueMap;
   }
 
   getScript() {
     const scriptElements = [];
-    for (const element of this.props.script.elements) {
+    this.props.script.elements.forEach((element) => {
       switch (element.type) {
         case 'text':
           scriptElements.push(<TextBlob id={element.name} key={element.name} text={element.text} style={this.styles.element} />);
@@ -200,15 +200,20 @@ export class AgentScript extends React.Component {
         default:
           throw new Error('Unknown script element type');
       }
-    }
+    });
     return scriptElements;
+  }
+
+  sendScript() {
+    console.log('Sending this to SDK', { interactionId: this.props.interactionId, scriptId: this.props.script.id, answers: this.getScriptValueMap() });
+    SDK.interactions.sendScript({ interactionId: this.props.interactionId, scriptId: this.props.script.id, answers: this.getScriptValueMap() });
   }
 
   render() {
     return (
       <div style={this.styles.base}>
         {this.getScript()}
-        <Button id="submitScriptButton" type="primaryBlue" text={messages.submit} onClick={() => console.log('TODO send this to SDK', this.getScriptValueMap())} />
+        <Button id="submitScriptButton" type="primaryBlue" text={messages.submit} onClick={() => this.sendScript()} />
       </div>
     );
   }

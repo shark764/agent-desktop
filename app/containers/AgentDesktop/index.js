@@ -24,9 +24,9 @@ import { setAvailableStats, statsReceived } from 'containers/Toolbar/actions';
 import { showLogin, logout } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 
-import { setExtensions, updateWrapupDetails, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact,
+import { setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact,
   setContactInteractionHistory, setContactHistoryInteractionDetails, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction,
-  selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
+  updateWrapupDetails, addScript, removeScript, selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
   muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected,
   emailCreateReply, emailCancelReply, emailAddAttachment, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition } from './actions';
 
@@ -318,6 +318,7 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/interactions/wrapup-details-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          response.wrapupEnabled = !!response.wrapupEnabled; // eslint-disable-line no-param-reassign
           this.props.updateWrapupDetails(response.interactionId, response);
           break;
         }
@@ -329,6 +330,16 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/disable-wrapup-acknowledged': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.updateWrapupDetails(response.interactionId, { wrapupEnabled: false });
+          break;
+        }
+        case 'cxengage/interactions/script-received': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.addScript(response.interactionId, JSON.parse(response.script));
+          break;
+        }
+        case 'cxengage/interactions/send-script': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.removeScript(response);
           break;
         }
         case 'cxengage/reporting/get-available-stats-response': {
@@ -544,6 +555,8 @@ function mapDispatchToProps(dispatch) {
     showLogin: (show) => dispatch(showLogin(show)),
     setExtensions: (response) => dispatch(setExtensions(response)),
     updateWrapupDetails: (interactionId, wrapupDetails) => dispatch(updateWrapupDetails(interactionId, wrapupDetails)),
+    addScript: (interactionId, script) => dispatch(addScript(interactionId, script)),
+    removeScript: (interactionId) => dispatch(removeScript(interactionId)),
     setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
@@ -591,9 +604,11 @@ function mapDispatchToProps(dispatch) {
 AgentDesktop.propTypes = {
   showLogin: PropTypes.func.isRequired,
   setExtensions: PropTypes.func.isRequired,
-  updateWrapupDetails: PropTypes.func.isRequired,
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,
+  updateWrapupDetails: PropTypes.func.isRequired,
+  addScript: PropTypes.func.isRequired,
+  removeScript: PropTypes.func.isRequired,
   addInteraction: PropTypes.func.isRequired,
   workInitiated: PropTypes.func.isRequired,
   removeInteraction: PropTypes.func.isRequired,
