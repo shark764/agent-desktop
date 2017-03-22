@@ -199,10 +199,14 @@ export class EmailContentArea extends React.Component {
 
   addFilesToEmail(fileList) {
     for (let i = 0; i < fileList.length; i += 1) {
-      // TODO call SDK file upload function here when available. Move emailAddAttachment() to that callback. Loading in between.
-      // SDK.interactions.email.addAttachment({ interactionId: this.props.selectedInteraction.interactionId, attachment: fileList[i] });
-      this.props.emailAddAttachment(this.props.selectedInteraction.interactionId, fileList[i]);
+      this.props.emailAddAttachment(this.props.selectedInteraction.interactionId, {});
+      SDK.interactions.email.addAttachment({ interactionId: this.props.selectedInteraction.interactionId, file: fileList[i] });
     }
+  }
+
+  removeAttachment(attachmentId) {
+    this.props.emailRemoveAttachment(this.props.selectedInteraction.interactionId, attachmentId);
+    SDK.interactions.email.removeAttachment({ interactionId: this.props.selectedInteraction.interactionId, attachmentId });
   }
 
   sendEmail() {
@@ -629,12 +633,18 @@ export class EmailContentArea extends React.Component {
               this.props.selectedInteraction.emailReply.attachments.map((attachment, index) =>
                 // eslint-disable-next-line react/no-array-index-key
                 <div key={`${index}-${attachment.name}`} id={`${index}-${attachment.name}`} style={this.styles.attachment} >
-                  <span style={this.styles.attachmentName}>
-                    {attachment.name}
-                  </span>
-                  <span onClick={() => this.props.emailRemoveAttachment(this.props.selectedInteraction.interactionId, attachment)} style={this.styles.attachmentRemove}>
-                    &#10060;
-                  </span>
+                  {
+                    attachment.attachmentId === undefined
+                    ? <div>Uploading...</div>
+                    : <div>
+                      <span style={this.styles.attachmentName}>
+                        {attachment.name}
+                      </span>
+                      <span onClick={() => this.removeAttachment(attachment.attachmentId)} style={this.styles.attachmentRemove}>
+                        &#10060;
+                      </span>
+                    </div>
+                  }
                 </div>
               )
             }
@@ -748,7 +758,7 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     emailAddAttachment: (interactionId, attachment) => dispatch(emailAddAttachment(interactionId, attachment)),
-    emailRemoveAttachment: (interactionId, attachment) => dispatch(emailRemoveAttachment(interactionId, attachment)),
+    emailRemoveAttachment: (interactionId, attachmentId) => dispatch(emailRemoveAttachment(interactionId, attachmentId)),
     emailUpdateReply: (interactionId, reply) => dispatch(emailUpdateReply(interactionId, reply)),
     emailSendReply: (interactionId) => dispatch(emailSendReply(interactionId)),
     dispatch,

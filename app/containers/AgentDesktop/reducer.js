@@ -732,7 +732,20 @@ function agentDesktopReducer(state = initialState, action) {
       );
       if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.setIn(['emailReply', 'attachments'], interaction.get('emailReply').get('attachments').push(fromJS({ name: action.attachment.name })))
+          interaction.updateIn(['emailReply', 'attachments'], (attachments) => {
+            if (action.attachment.attachmentId === undefined) {
+              return attachments.push(fromJS(action.attachment));
+            } else {
+              const loadingAttachmentIndex = attachments.findIndex((attachment) =>
+                attachment.get('attachmentId') === undefined
+              );
+              if (loadingAttachmentIndex !== -1) {
+                return attachments.remove(loadingAttachmentIndex).push(fromJS(action.attachment));
+              } else {
+                return attachments.push(fromJS(action.attachment));
+              }
+            }
+          })
         );
       } else {
         return state;
@@ -743,10 +756,10 @@ function agentDesktopReducer(state = initialState, action) {
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
       if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.setIn(['emailReply', 'attachments'], interaction.get('emailReply').get('attachments').filter((attachment) =>
-            attachment.get('name') !== action.attachment.name
-          ))
+        return state.updateIn(['interactions', interactionIndex, 'emailReply', 'attachments'], (attachments) =>
+          attachments.filter((attachment) =>
+            attachment.get('attachmentId') !== action.attachmentId
+          )
         );
       } else {
         return state;
