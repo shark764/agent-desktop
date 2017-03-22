@@ -264,7 +264,7 @@ export class PhoneControlsActive extends React.Component {
           ? <div>
             <div style={[this.props.style.topTriangle, this.styles.activeVoiceInteractionDialpadTopTriangle]}></div>
             <div style={[this.props.style.phoneControlsPopupMenu, this.styles.activeVoiceInteractionDialpadPhoneControlsPopupMenu]}>
-              <Dialpad id="activeInteractionDialpad" setDialpadText={this.setActiveInteractionDialpadText} dialpadText={this.state.activeInteractionDialpadText} />
+              <Dialpad id="activeInteractionDialpad" interactionId={this.props.activeVoiceInteraction.interactionId} setDialpadText={this.setActiveInteractionDialpadText} dialpadText={this.state.activeInteractionDialpadText} />
             </div>
           </div>
           : ''
