@@ -1,3 +1,7 @@
+<a name"0.19.1"></a>
+### 0.19.1 (2017-03-22)
+* Fix for gmail bodies and null email names
+
 <a name"0.19.0"></a>
 ### 0.19.0 (2017-03-22)
 * CXV1-8293: Selected contact state when no interaction selected - inc. interaction history

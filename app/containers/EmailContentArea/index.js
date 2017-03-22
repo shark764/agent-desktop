@@ -411,21 +411,21 @@ export class EmailContentArea extends React.Component {
         details = <IconSVG style={this.styles.loadingCircle} id="loadingEmailDetails" name="loading" />;
       } else {
         const tos = this.props.selectedInteraction.emailDetails.to.map((to) => {
-          if (to.name !== to.address) {
+          if (to.name && to.name !== to.address) {
             return `${to.name} [${to.address}]`;
           } else {
             return to.address;
           }
         });
         const ccs = this.props.selectedInteraction.emailDetails.cc.map((cc) => {
-          if (cc.name !== cc.address) {
+          if (cc.name && cc.name !== cc.address) {
             return `${cc.name} [${cc.address}]`;
           } else {
             return cc.address;
           }
         });
         const bccs = this.props.selectedInteraction.emailDetails.bcc.map((bcc) => {
-          if (bcc.name !== bcc.address) {
+          if (bcc.name && bcc.name !== bcc.address) {
             return `${bcc.name} [${bcc.address}]`;
           } else {
             return bcc.address;
@@ -547,7 +547,7 @@ export class EmailContentArea extends React.Component {
                 this.state.tos.map((to, index) =>
                   // eslint-disable-next-line react/no-array-index-key
                   <div key={`${index}-${to.address}`} id={`${index}-${to.address}`} style={this.styles.emailAddress}>
-                    { to.name !== to.address ? `${to.name} [${to.address}]` : to.address }
+                    { to.name && to.name !== to.address ? `${to.name} [${to.address}]` : to.address }
                     <span onClick={() => this.removeTo(to)} style={this.styles.emailAddressRemove}>
                       &#10060;
                     </span>
@@ -573,7 +573,7 @@ export class EmailContentArea extends React.Component {
                 this.state.ccs.map((cc, index) =>
                   // eslint-disable-next-line react/no-array-index-key
                   <div key={`${index}-${cc.address}`} id={`${index}-${cc.address}`} style={this.styles.emailAddress}>
-                    { cc.name !== cc.address ? `${cc.name} [${cc.address}]` : cc.address }
+                    { cc.name && cc.name !== cc.address ? `${cc.name} [${cc.address}]` : cc.address }
                     <span className="removeAddress" onClick={() => this.removeCc(cc)} style={this.styles.emailAddressRemove}>
                       &#10060;
                     </span>
@@ -599,7 +599,7 @@ export class EmailContentArea extends React.Component {
                 this.state.bccs.map((bcc, index) =>
                   // eslint-disable-next-line react/no-array-index-key
                   <div key={`${index}-${bcc.address}`} id={`${index}-${bcc.address}`} style={this.styles.emailAddress}>
-                    { bcc.name !== bcc.address ? `${bcc.name} [${bcc.address}]` : bcc.address }
+                    { bcc.name && bcc.name !== bcc.address ? `${bcc.name} [${bcc.address}]` : bcc.address }
                     <span className="removeAddress" onClick={() => this.removeBcc(bcc)} style={this.styles.emailAddressRemove}>
                       &#10060;
                     </span>
