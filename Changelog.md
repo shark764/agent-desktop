@@ -1,3 +1,7 @@
+<a name"0.21.1"></a>
+### 0.21.1 (2017-03-22)
+* Contact interaction history fixes (history refresh button, onclick only for level 1, last dispo on level 1)
+
 <a name"0.21.0"></a>
 ### 0.21.0 (2017-03-22)
 * CXV1-6296: Scripts
