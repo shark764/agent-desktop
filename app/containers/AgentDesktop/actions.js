@@ -22,6 +22,7 @@ import {
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS,
+  ADD_NOTES_TO_CONTACT_INTERACTION_HISTORY,
   UPDATE_CONTACT,
   ADD_MESSAGE,
   SET_INTERACTION_STATUS,
@@ -189,6 +190,14 @@ export function setContactHistoryInteractionDetailsLoading(interactionId, contac
 export function setContactHistoryInteractionDetails(response) {
   return {
     type: SET_CONTACT_HISTORY_INTERACTION_DETAILS,
+    response,
+  };
+}
+
+export function addNotesToContactInteractionHistory(contactHistoryInteractionId, response) {
+  return {
+    type: ADD_NOTES_TO_CONTACT_INTERACTION_HISTORY,
+    contactHistoryInteractionId,
     response,
   };
 }

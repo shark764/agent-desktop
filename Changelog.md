@@ -1,3 +1,7 @@
+<a name"0.23.0"></a>
+### 0.23.0 (2017-03-23)
+* Notes (level 3) added to contact interaction history
+
 <a name"0.22.3"></a>
 ### 0.22.3 (2017-03-23)
 * bump SDK version for fixes to resource hold

@@ -13,7 +13,7 @@ import moment from 'moment';
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 
-import { setContactInteractionHistory, setContactHistoryInteractionDetailsLoading } from 'containers/AgentDesktop/actions';
+import { setContactInteractionHistory, setContactHistoryInteractionDetailsLoading, addNotesToContactInteractionHistory } from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
 import { getSelectedInteractionId, selectContactId, selectContactHistory } from './selectors';
@@ -21,10 +21,6 @@ import { getSelectedInteractionId, selectContactId, selectContactHistory } from 
 export class ContactInteractionHistory extends React.Component {
   constructor(props) {
     super(props);
-    this.selectInteraction = this.selectInteraction.bind(this);
-    this.getInteractionHistoryList = this.getInteractionHistoryList.bind(this);
-    this.getCurrentInteractionDisplay = this.getCurrentInteractionDisplay.bind(this);
-
     this.state = {
       selectedInteractionIndex: undefined,
     };
@@ -41,6 +37,18 @@ export class ContactInteractionHistory extends React.Component {
   }
 
   selectInteraction(selectedInteractionIndex) {
+    if (selectedInteractionIndex !== undefined) {
+      const interaction = this.props.contactInteractionHistory[selectedInteractionIndex];
+      const needsNotes = interaction.interactionDetails.agents.findIndex((agent) =>
+        agent.noteTitle !== null && agent.note === undefined
+      ) !== -1;
+      if (needsNotes) {
+        SDK.interactions.getAllNotes({ interactionId: interaction.interactionId }, (error, topic, response) => {
+          console.log('[ContactInteractionHistory] SDK.subscribe()', topic, response);
+          this.props.addNotesToContactInteractionHistory(interaction.interactionId, response);
+        });
+      }
+    }
     this.setState({ selectedInteractionIndex });
   }
 
@@ -125,6 +133,8 @@ export class ContactInteractionHistory extends React.Component {
     },
     segmentMessage: {
       fontSize: '16px',
+      whiteSpace: 'pre-wrap',
+      marginTop: '8px',
     },
     disposition: {
       fontSize: '12px',
@@ -132,6 +142,17 @@ export class ContactInteractionHistory extends React.Component {
       padding: '6px',
       display: 'inline-block',
       marginTop: '6px',
+    },
+    expand: {
+      display: 'inline-block',
+      padding: '0 7px',
+      fontSize: '8px',
+      border: '1px solid #979797',
+      borderRadius: '3px',
+      color: '#979797',
+      marginTop: '10px',
+      marginLeft: '48px',
+      cursor: 'pointer',
     },
     transcript: {
       borderTop: '1px solid #D0D0D0',
@@ -150,112 +171,174 @@ export class ContactInteractionHistory extends React.Component {
     },
   }
 
+  contactHistoryInteraction(interaction, interactionIndex) {
+    let interactionDetails;
+    if (interaction.interactionDetails === 'loading') {
+      interactionDetails = <IconSVG id="loadingContactHistoryIcon" name="loading" style={this.styles.loadingInteractionDetails} />;
+    } else if (interaction.interactionDetails !== undefined) {
+      let icon;
+      if (interaction.interactionDetails.channelType === 'voice') {
+        icon = 'voice_dark';
+      } else if (interaction.interactionDetails.channelType === 'sms' || interaction.interactionDetails.channelType === 'messaging') {
+        icon = 'message_dark';
+      } else if (interaction.interactionDetails.channelType === 'email') {
+        icon = 'email_dark';
+      }
+      const segmentData = interaction.interactionDetails.agents && interaction.interactionDetails.agents.map((segment) => {
+        let duration;
+        if (segment.conversationStartTimestamp && segment.conversationEndTimestamp) {
+          duration = moment(segment.conversationEndTimestamp).diff(moment(segment.conversationStartTimestamp), 'minutes');
+          if (duration > 0) {
+            duration = (
+              <span>
+                {duration}&nbsp;<FormattedMessage {...messages.minutes} />
+              </span>
+            );
+          } else {
+            duration = (
+              <span>
+                {moment(segment.conversationEndTimestamp).diff(moment(segment.conversationStartTimestamp), 'seconds')}&nbsp;<FormattedMessage {...messages.seconds} />
+              </span>
+            );
+          }
+        }
+        return (
+          <div className="segment" key={`${segment.resourceId}-${segment.conversationStartTimestamp}`} style={this.styles.segment} >
+            <Icon name={icon} style={this.styles.segmentChannelIcon} />
+            <div style={this.styles.segmentContent}>
+              <div className="noteTitle" style={this.styles.segmentTitle}>
+                { segment.noteTitle }
+              </div>
+              <div className="agentName">
+                { segment.agentName }
+              </div>
+              <div className="duration">
+                { duration }
+              </div>
+              {
+                segment.dispositionName !== null
+                ? <span className="dispositionName" style={this.styles.disposition} title="Disposition">
+                  { segment.dispositionName }
+                </span>
+                : undefined
+              }
+              {
+                interactionIndex === undefined
+                ? <div style={this.styles.segmentMessage}>
+                  { segment.note !== undefined
+                    ? segment.note.body
+                    : <IconSVG id="loadingNote" name="loading" style={this.styles.loadingInteractionDetails} />
+                  }
+                </div>
+                : undefined
+              }
+              { // TODO when we have transcripts/recordings
+              // if (segment.channelType === 'voice') {
+              //   transcript = (
+              //     <div style={this.styles.transcript}>
+              //       <div style={this.styles.transcriptTitle}>
+              //         <FormattedMessage {...messages.audioRecording} />
+              //       </div>
+              //       <div>
+              //         <audio controls src={segment.audioRecording} />
+              //       </div>
+              //     </div>
+              //   );
+              // } else {
+              //   const transcriptItems = segment.transcript.map((transcriptItem, index) =>
+              //     <div key={`${segment.id}`} id={`transcriptItem${index}`} style={this.styles.transcriptItem}>
+              //       <span style={this.styles.transcriptItemName}>
+              //         {transcriptItem.name}:&nbsp;
+              //       </span>
+              //       <span>
+              //         {transcriptItem.message}
+              //       </span>
+              //     </div>
+              //   );
+              //   transcript = (
+              //     <div style={this.styles.transcript}>
+              //       <div style={this.styles.transcriptTitle}>
+              //         <FormattedMessage {...messages.transcript} />
+              //       </div>
+              //       <div style={this.styles.segmentMessage}>
+              //         {transcriptItems}
+              //       </div>
+              //     </div>
+              //   );
+              // }
+              }
+            </div>
+          </div>
+        );
+      });
+      interactionDetails = (
+        <div>
+          { segmentData }
+          {
+            interactionIndex !== undefined && interaction.interactionDetails.agents.findIndex((agent) => agent.noteTitle !== null) !== -1
+            ? <div className="expand" style={this.styles.expand} onClick={() => this.selectInteraction(interactionIndex)}>
+              &#9679;&#9679;&#9679;
+            </div>
+            : undefined
+          }
+        </div>
+      );
+    }
+    return (
+      <div
+        key={interaction.interactionId}
+        id={`contactHistoryInteraction-${interaction.interactionId}`}
+        className="contactHistoryInteraction"
+        style={[this.styles.interaction, this.styles.interactionListItem, interactionDetails === undefined ? this.styles.pointer : '']}
+        onClick={interactionDetails === undefined ? () => this.getInteractionHistoryDetails(interaction.interactionId) : ''}
+      >
+        <div style={this.styles.interactionHeader}>
+          {
+            interactionIndex === undefined
+            ? <Icon name="close" style={this.styles.closeIcon} onclick={() => this.selectInteraction(undefined)} />
+            : <div style={this.styles.interactionDaysAgo}>
+              { moment(interaction.startTimestamp).fromNow() }
+            </div>
+          }
+          <div>
+            {interaction.directionName},&nbsp;{interaction.lastQueueName}
+          </div>
+          {
+            interaction.lastDispositionName
+            ? <div style={[this.styles.disposition, { float: 'right', backgroundColor: '#FFFFFF', marginTop: '2px', marginBottom: '2px' }]}>
+              {interaction.lastDispositionName}
+            </div>
+            : undefined
+          }
+          {
+            interaction.csat !== null
+            ? <div>
+              <FormattedMessage {...messages.customerSatisfaction} />:&nbsp;{ interaction.csat }
+            </div>
+            : undefined
+          }
+          <div>
+            { moment(interaction.startTimestamp).format('LLL') }
+          </div>
+        </div>
+        {
+          interactionDetails
+          ? <div className="interactionDetails" style={this.styles.interactionDetails}>
+            { interactionDetails }
+          </div>
+          : undefined
+        }
+      </div>
+    );
+  }
+
   getInteractionHistoryList() {
     if (this.props.contactInteractionHistory === undefined) {
       return <IconSVG id="loadingContactHistoryIcon" name="loading" style={this.styles.loading} />;
     } else {
-      const interactions = this.props.contactInteractionHistory.map((interaction) => {
-        let interactionDetails;
-        if (interaction.interactionDetails === 'loading') {
-          interactionDetails = <IconSVG id="loadingContactHistoryIcon" name="loading" style={this.styles.loadingInteractionDetails} />;
-        } else if (interaction.interactionDetails !== undefined) {
-          let icon;
-          if (interaction.interactionDetails.channelType === 'voice') {
-            icon = 'voice_dark';
-          } else if (interaction.interactionDetails.channelType === 'sms' || interaction.interactionDetails.channelType === 'messaging') {
-            icon = 'message_dark';
-          } else if (interaction.interactionDetails.channelType === 'email') {
-            icon = 'email_dark';
-          }
-          const segmentData = interaction.interactionDetails.agents && interaction.interactionDetails.agents.map((segment) => {
-            let duration;
-            if (segment.conversationStartTimestamp && segment.conversationEndTimestamp) {
-              duration = moment(segment.conversationEndTimestamp).diff(moment(segment.conversationStartTimestamp), 'minutes');
-              if (duration > 0) {
-                duration = (
-                  <span>
-                    {duration}&nbsp;<FormattedMessage {...messages.minutes} />
-                  </span>
-                );
-              } else {
-                duration = (
-                  <span>
-                    {moment(segment.conversationEndTimestamp).diff(moment(segment.conversationStartTimestamp), 'seconds')}&nbsp;<FormattedMessage {...messages.seconds} />
-                  </span>
-                );
-              }
-            } else {
-              console.warn('No conversation start/end time for resourceId:', segment.resourceId);
-            }
-            return (
-              <div className="segment" key={`${segment.resourceId}-${segment.conversationStartTimestamp}`} style={this.styles.segment} >
-                <Icon name={icon} style={this.styles.segmentChannelIcon} />
-                <div style={this.styles.segmentContent}>
-                  <div className="noteTitle" style={this.styles.segmentTitle}>
-                    { segment.noteTitle }
-                  </div>
-                  <div className="agentName">
-                    { segment.agentName }
-                  </div>
-                  <div className="duration">
-                    { duration }
-                  </div>
-                  {
-                    segment.dispositionName !== null
-                    ? <span className="dispositionName" style={this.styles.disposition} title="Disposition">
-                      { segment.dispositionName }
-                    </span>
-                    : undefined
-                  }
-                </div>
-              </div>
-            );
-          });
-          interactionDetails = segmentData;
-        }
-        return (
-          <div
-            key={interaction.interactionId}
-            id={`contactHistoryInteraction-${interaction.interactionId}`}
-            className="contactHistoryInteraction"
-            style={[this.styles.interaction, this.styles.interactionListItem, interactionDetails === undefined ? this.styles.pointer : '']}
-            onClick={interactionDetails === undefined ? () => this.getInteractionHistoryDetails(interaction.interactionId) : ''}
-          >
-            <div style={this.styles.interactionHeader}>
-              <div style={this.styles.interactionDaysAgo}>
-                { moment(interaction.startTimestamp).fromNow() }
-              </div>
-              <div>
-                {interaction.directionName},&nbsp;{interaction.lastQueueName}
-              </div>
-              {
-                interaction.lastDispositionName
-                ? <div style={[this.styles.disposition, { float: 'right', backgroundColor: '#FFFFFF', margin: '2px 0' }]}>
-                  {interaction.lastDispositionName}
-                </div>
-                : undefined
-              }
-              {
-                interaction.csat !== null
-                ? <div>
-                  <FormattedMessage {...messages.customerSatisfaction} />:&nbsp;{ interaction.csat }
-                </div>
-                : undefined
-              }
-              <div>
-                { moment(interaction.startTimestamp).format('LLL') }
-              </div>
-            </div>
-            {
-              interactionDetails
-              ? <div className="interactionDetails" style={this.styles.interactionDetails}>
-                { interactionDetails }
-              </div>
-              : undefined
-            }
-          </div>
-        );
-      });
+      const interactions = this.props.contactInteractionHistory.map((interaction, interactionIndex) =>
+        this.contactHistoryInteraction(interaction, interactionIndex)
+      );
       return (
         <div>
           <div style={this.styles.interactionsSinceContainer}>
@@ -285,82 +368,12 @@ export class ContactInteractionHistory extends React.Component {
     }
   }
 
-  // TODO combine with above code when artifacts (transcripts, recordings, notes) are available from the SDK
-  getCurrentInteractionDisplay() {
-    const selectedInteractionHistoryItem = this.props.contactInteractionHistory[this.state.selectedInteractionIndex];
-    // let transcript;
-    // if (segment.channelType === 'voice') {
-    //   transcript = (
-    //     <div style={this.styles.transcript}>
-    //       <div style={this.styles.transcriptTitle}>
-    //         <FormattedMessage {...messages.audioRecording} />
-    //       </div>
-    //       <div>
-    //         <audio controls src={segment.audioRecording} />
-    //       </div>
-    //     </div>
-    //   );
-    // } else {
-    //   const transcriptItems = segment.transcript.map((transcriptItem, index) =>
-    //     <div key={`${segment.id}`} id={`transcriptItem${index}`} style={this.styles.transcriptItem}>
-    //       <span style={this.styles.transcriptItemName}>
-    //         {transcriptItem.name}:&nbsp;
-    //       </span>
-    //       <span>
-    //         {transcriptItem.message}
-    //       </span>
-    //     </div>
-    //   );
-    //   transcript = (
-    //     <div style={this.styles.transcript}>
-    //       <div style={this.styles.transcriptTitle}>
-    //         <FormattedMessage {...messages.transcript} />
-    //       </div>
-    //       <div style={this.styles.segmentMessage}>
-    //         {transcriptItems}
-    //       </div>
-    //     </div>
-    //   );
-    // }
-    // const segmentData = (
-    //   <div>
-    //     <div style={this.styles.segmentMessage}>
-    //       { segment.note }
-    //     </div>
-    //     { /* transcript */ }
-    //   </div>
-    // );
-    return (
-      <div id="selectedInteractionHistoryItem" style={this.styles.interaction}>
-        <div style={this.styles.interactionHeader}>
-          <Icon name="close" style={this.styles.closeIcon} onclick={() => this.selectInteraction(undefined)} />
-          <div>
-            {selectedInteractionHistoryItem.directionName},&nbsp;{selectedInteractionHistoryItem.lastQueueName}
-          </div>
-          <div>
-            { moment(selectedInteractionHistoryItem.startTimestamp).format('LLL') }
-          </div>
-          {
-            selectedInteractionHistoryItem.csat !== null
-            ? <div>
-              <FormattedMessage {...messages.customerSatisfaction} />:&nbsp;{ selectedInteractionHistoryItem.csat }
-            </div>
-            : undefined
-          }
-        </div>
-        <div style={this.styles.segmentData} >
-          { /* segmentData */ }
-        </div>
-      </div>
-    );
-  }
-
   render() {
     let content;
     if (this.state.selectedInteractionIndex === undefined) {
       content = this.getInteractionHistoryList();
     } else {
-      content = this.getCurrentInteractionDisplay();
+      content = this.contactHistoryInteraction(this.props.contactInteractionHistory[this.state.selectedInteractionIndex]);
     }
     return (
       <div style={[this.styles.base, this.props.style]}>
@@ -382,6 +395,7 @@ function mapDispatchToProps(dispatch) {
   return {
     setContactInteractionHistory: (response) => dispatch(setContactInteractionHistory(response)),
     setContactHistoryInteractionDetailsLoading: (interactionId, contactHistoryInteractionId) => dispatch(setContactHistoryInteractionDetailsLoading(interactionId, contactHistoryInteractionId)),
+    addNotesToContactInteractionHistory: (contactHistoryInteractionId, response) => dispatch(addNotesToContactInteractionHistory(contactHistoryInteractionId, response)),
     dispatch,
   };
 }
@@ -392,6 +406,7 @@ ContactInteractionHistory.propTypes = {
   contactInteractionHistory: React.PropTypes.array,
   setContactInteractionHistory: React.PropTypes.func.isRequired,
   setContactHistoryInteractionDetailsLoading: React.PropTypes.func.isRequired,
+  addNotesToContactInteractionHistory: React.PropTypes.func.isRequired,
   style: React.PropTypes.object,
 };
 
