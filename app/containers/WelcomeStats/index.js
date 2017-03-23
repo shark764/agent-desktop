@@ -17,7 +17,6 @@ import messages from './messages';
 export class WelcomeStats extends React.Component { // eslint-disable-line react/prefer-stateless-function
   styles = {
     welcome: {
-      boxShadow: 'inset 0 0 6px 1px rgba(0,0,0,0.34)',
       fontSize: '24px',
       color: '#50686E',
       lineHeight: '23px',
@@ -33,6 +32,7 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
       position: 'relative',
       top: '0.5em',
       left: '1em',
+      color: 'white'
     },
     statContainer: {
       display: 'flex',
@@ -55,6 +55,7 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
     },
     statVal: {
       position: 'relative',
+      color: 'white',
       top: '1em',
     },
     statLeft: {
@@ -80,6 +81,7 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
     },
     statTitle: {
       fontWeight: 'bold',
+      color: 'rgb(20, 119, 141)'
     },
   };
 

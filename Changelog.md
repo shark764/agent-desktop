@@ -1,3 +1,7 @@
+<a name"0.23.1"></a>
+### 0.23.1 (2017-03-23)
+* Game changing CSS fixes
+
 <a name"0.23.0"></a>
 ### 0.23.0 (2017-03-23)
 * Notes (level 3) added to contact interaction history
