@@ -1,3 +1,7 @@
+<a name"0.22.3"></a>
+### 0.22.3 (2017-03-23)
+* bump SDK version for fixes to resource hold
+
 <a name"0.22.2"></a>
 ### 0.22.2 (2017-03-23)
 * Fixed server-side resource mute
