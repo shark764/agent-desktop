@@ -1,3 +1,7 @@
+<a name"0.22.2"></a>
+### 0.22.2 (2017-03-23)
+* Fixed server-side resource mute
+
 <a name"0.22.1"></a>
 ### 0.22.1 (2017-03-23)
 * DTMF fix
