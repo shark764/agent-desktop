@@ -25,11 +25,11 @@ function Dialpad(props) {
     props.setDialpadText(`${props.dialpadText}${num}`);
     if (props.interactionId !== undefined) {
       SDK.interactions.voice.sendDigits({ interactionId: props.interactionId, digit: num },
-        (e, r) => {
-          if (e !== undefined) {
+        (e, t, r) => {
+          if (e) {
             console.error('DTMF Error:', e);
           } else {
-            console.info('DTMF:', r);
+            console.log('[Dialpad] SDK.subscribe()', t, r);
           }
         });
     }
