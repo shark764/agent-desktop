@@ -1,3 +1,8 @@
+<a name"0.22.1"></a>
+### 0.22.1 (2017-03-23)
+* DTMF fix
+* blastSqsOutput and logLevel added to config
+
 <a name"0.22.0"></a>
 ### 0.22.0 (2017-03-22)
 * DTMF enabled when you have an active interaction

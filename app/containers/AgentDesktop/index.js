@@ -89,8 +89,8 @@ export class AgentDesktop extends React.Component {
     if (typeof window.ADconf !== 'undefined') {
       where = window.ADconf.api;
       environment = window.ADconf.env;
-      logLevel = 'debug'; // FIXME set back to info when fixed on SDK
-      blastSqsOutput = false;
+      logLevel = window.ADconf.logLevel;
+      blastSqsOutput = window.ADconf.blastSqsOutput;
     } else if (location.hostname === 'localhost') {
       where = 'dev-api.cxengagelabs.net/v1/';
       environment = 'dev';
@@ -401,6 +401,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/update-note-response': // Handled in ContentArea
         case 'cxengage/interactions/end-wrapup-acknowledged': // Ignore - comes with a work-ended.
         case 'cxengage/contacts/create-contact-response': // Handled in ContactsControl
+        case 'cxengage/interactions/voice/send-digits-acknowledged': // Handled in Dialpad
           break;
         default: {
           console.warn('[AgentDesktop] SDK.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console
