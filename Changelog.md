@@ -1,3 +1,7 @@
+<a name"0.23.2"></a>
+### 0.23.2 (2017-03-23)
+* Cancel transfer fix
+
 <a name"0.23.1"></a>
 ### 0.23.1 (2017-03-23)
 * Game changing CSS fixes

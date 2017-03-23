@@ -275,7 +275,7 @@ export class TransferMenu extends React.Component {
         id = resourceId;
         type = 'agent';
       } else if (transferExtension !== undefined) {
-        id = transferExtension.value;
+        id = transferExtension;
         type = 'transferExtension';
       } else {
         throw new Error('warm transfer: neither resourceId, queueId, nor transferExtension passed in');
