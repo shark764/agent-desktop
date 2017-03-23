@@ -55,8 +55,16 @@ export class PhoneControlsActive extends React.Component {
     this.setState({ activeInteractionDialpadText });
   }
 
-  cancelTransfer() {
-    SDK.interactions.voice.cancelTransfer({ interactionId: this.props.activeVoiceInteraction.interactionId });
+  cancelTransfer(warmTransfer) {
+    if (warmTransfer.type === 'agent') {
+      SDK.interactions.voice.cancelResourceTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferResourceId: warmTransfer.id });
+    } else if (warmTransfer.type === 'queue') {
+      SDK.interactions.voice.cancelQueueTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferQueueId: warmTransfer.id });
+    } else if (warmTransfer.type === 'transferExtension') {
+      SDK.interactions.voice.cancelExtensionTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferExtension: warmTransfer.id });
+    } else {
+      console.error('Unknown transfer type:', warmTransfer);
+    }
   }
 
   setRecording() {
@@ -213,7 +221,7 @@ export class PhoneControlsActive extends React.Component {
         if (warmTransfer.status === 'transferring') {
           status = <FormattedMessage {...messages.connecting} />;
           transferStyle = this.styles.transferInProgress;
-          icon = <span title="Cancel transfer" onClick={() => this.cancelTransfer()} style={this.styles.cancelTransfer}>&#10060;</span>;
+          icon = <span title="Cancel transfer" onClick={() => this.cancelTransfer(warmTransfer)} style={this.styles.cancelTransfer}>&#10060;</span>;
         } else if (warmTransfer.status === 'connected') {
           icon = <div style={[this.styles.transferStatusIcon, this.styles.transferConnectedIcon]}></div>;
           transferStatusStyle = this.styles.transferConnectedStatus;
