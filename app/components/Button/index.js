@@ -11,7 +11,7 @@ import Radium from 'radium';
 import Icon from 'components/Icon';
 
 function Button(props) {
-  const cursor = props.disabled ? 'pointer' : 'default';
+  const cursor = props.disabled ? 'default' : 'pointer';
   const isIcon = !!props.iconName;
   let backgroundColor;
   let backgroundColorHover;
