@@ -369,7 +369,9 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/interactions/disposition-codes-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.setDispositionDetails(response.interactionId, response.dispositionCodes.dispositions, response.forceSelect);
+          if (response.dispositionCodes) {
+            this.props.setDispositionDetails(response.interactionId, response.dispositionCodes.dispositions, response.forceSelect);
+          }
           break;
         }
         case 'cxengage/interactions/disposition-code-changed': {
