@@ -894,26 +894,28 @@ function agentDesktopReducer(state = initialState, action) {
       );
       if (interactionIndex !== -1) {
         const categorizedDispositions = [];
-        action.dispositions.sort((a, b) => a.sortOrder > b.sortOrder).forEach(
-          (disposition) => {
-            if (disposition.hierarchy[0]) {
-              const existingCategoryIndex = categorizedDispositions.findIndex(
-                (category) => category.name === disposition.hierarchy[0]
-              );
-              if (existingCategoryIndex > -1) {
-                categorizedDispositions[existingCategoryIndex].dispositions.push(disposition);
+        if (action.dispositions) {
+          action.dispositions.sort((a, b) => a.sortOrder > b.sortOrder).forEach(
+            (disposition) => {
+              if (disposition.hierarchy[0]) {
+                const existingCategoryIndex = categorizedDispositions.findIndex(
+                  (category) => category.name === disposition.hierarchy[0]
+                );
+                if (existingCategoryIndex > -1) {
+                  categorizedDispositions[existingCategoryIndex].dispositions.push(disposition);
+                } else {
+                  categorizedDispositions.push({
+                    name: disposition.hierarchy[0],
+                    dispositions: [disposition],
+                    type: 'category',
+                  });
+                }
               } else {
-                categorizedDispositions.push({
-                  name: disposition.hierarchy[0],
-                  dispositions: [disposition],
-                  type: 'category',
-                });
+                categorizedDispositions.push(disposition);
               }
-            } else {
-              categorizedDispositions.push(disposition);
             }
-          }
-        );
+          );
+        }
         return state.setIn(['interactions', interactionIndex, 'dispositionDetails'], fromJS({
           forceSelect: action.forceSelect,
           dispositions: categorizedDispositions,
