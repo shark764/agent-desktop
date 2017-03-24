@@ -1,3 +1,9 @@
+<a name"0.23.3"></a>
+### 0.23.3 (2017-03-23)
+* Fix customer name on facebook interactions
+* Fix facebook interactions
+* Bump SDK to 2.3.0
+
 <a name"0.23.2"></a>
 ### 0.23.2 (2017-03-23)
 * Cancel transfer fix
