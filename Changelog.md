@@ -1,3 +1,7 @@
+<a name"0.23.4"></a>
+### 0.23.4 (2017-03-23)
+* Fixed issue w outbound click-to-dial
+
 <a name"0.23.3"></a>
 ### 0.23.3 (2017-03-23)
 * Fix customer name on facebook interactions
