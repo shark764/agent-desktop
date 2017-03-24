@@ -173,7 +173,7 @@ export class AgentDesktop extends React.Component {
           // attempt to auto-assign contact
           const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response[0].to);
           if (interaction !== undefined && interaction.channelType === 'messaging') {
-            const customerMessage = response.find((message) => message.metadata.type === 'customer'); // History has been coming in with initial customer issue message missing
+            const customerMessage = response.find((message) => message.metadata && message.metadata.type === 'customer'); // History has been coming in with initial customer issue message missing
             if (customerMessage && customerMessage.metadata && customerMessage.metadata.name) {
               this.attemptContactSearch(customerMessage.metadata.name, customerMessage.to, false);
             } else {
