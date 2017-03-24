@@ -1,3 +1,7 @@
+<a name"0.23.5"></a>
+### 0.23.5 (2017-03-23)
+* Additional null checks around dispositions
+
 <a name"0.23.4"></a>
 ### 0.23.4 (2017-03-23)
 * Fixed issue w outbound click-to-dial
