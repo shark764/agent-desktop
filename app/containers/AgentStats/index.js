@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import Radium from 'radium';
 
 import Stat from 'components/Stat';
-import { startPoll } from 'containers/Toolbar/reducer';
 import { selectEnabledStats, selectAvailableStats, selectCurrentAgent } from './selectors';
 
 export class AgentStats extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -38,7 +37,21 @@ export class AgentStats extends React.Component { // eslint-disable-line react/p
   }
 
   componentDidMount() {
-    startPoll(this.props.enabledStats, this.props.availableStats, this.props.currentAgent.userId);
+    const availableStats = this.props.availableStats;
+    const currentAgent = this.props.currentAgent.userId;
+    this.props.enabledStats.forEach((stat, statIndex) => {
+      let statRequestBody;
+      if (stat.statSource === 'resource-id') {
+        statRequestBody = { statistic: availableStats[stat.statOption].name, resourceId: currentAgent };
+      } else if (stat.statSource === 'queue-id') {
+        statRequestBody = { statistic: availableStats[stat.statOption].name, queueId: stat.queue };
+      } else {
+        statRequestBody = { statistic: availableStats[stat.statOption].name };
+      }
+      SDK.reporting.addStatSubscription(statRequestBody, (err, topics, res) => {
+        this.props.setStatId(statIndex, res.statId);
+      });
+    });
   }
 
   toggleStat(stat) {
@@ -48,21 +61,26 @@ export class AgentStats extends React.Component { // eslint-disable-line react/p
 
   generateStat(stat, index, array) {
     const statistic = this.props.availableStats[stat.statOption];
+    let key;
+    if (stat.statSource === 'queue-id') {
+      key = stat.statOption + stat.statSource + stat.statAggregate + stat.queue;
+    } else {
+      key = stat.statOption + stat.statSource + stat.statAggregate;
+    }
     return (
       <div
-        key={stat.statOption + stat.statSource + stat.statAggregate}
+        key={key}
         onMouseOver={() => { this.setState({ hoverIndex: index }); }}
         onFocus={() => { this.setState({ hoverIndex: index }); }}
         onMouseLeave={() => { this.setState({ hoverIndex: -1 }); }}
       >
         <Stat
-          key={stat.statOption + stat.statSource + stat.statAggregate}
+          key={key}
           statistic={statistic}
           hover={this.state.hoverIndex === index}
           index={array.length - index}
           hoverData={stat}
           queues={this.props.queues}
-          currentAgent={this.props.currentAgent.userId}
           toggleStat={this.toggleStat}
           readyState={this.props.readyState}
         />
@@ -100,6 +118,7 @@ AgentStats.propTypes = {
   queues: PropTypes.array,
   toggleStat: PropTypes.func.isRequired,
   readyState: PropTypes.string.isRequired,
+  setStatId: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStats));

@@ -102,42 +102,38 @@ function Stat(props) {
   };
 
   let source;
-  let resultKey;
 
   switch (props.hoverData.statSource) {
     case 'resource-id':
       source = 'Agent';
-      resultKey = `results.${props.currentAgent.split('-').join('')}`;
       break;
     case 'queue-id':
       source = props.queues.filter((queue) => queue.id === props.hoverData.queue)[0].name;
-      resultKey = `results.${props.hoverData.queue.split('-').join('')}`;
       break;
     case 'tenant-id':
       source = 'Tenant';
-      resultKey = 'results';
       break;
     default:
-      console.warn('[Agent Desktop] Agent statistic has unknown results key.');
+      console.warn('[Agent Desktop] Agent statistic has unknown source.');
   }
 
   let value;
   let percent;
 
-  if (props.statistic[resultKey]) {
+  if (props.hoverData.results) {
     switch (props.hoverData.statAggregate) {
       case 'count':
-        value = props.statistic[resultKey].count;
+        value = props.hoverData.results.count;
         break;
       case 'percent':
-        percent = props.statistic[resultKey].percent;
+        percent = props.hoverData.results.percent;
         value = `${percent}%`;
         break;
       case 'avg':
       case 'max':
       case 'min':
       case 'total':
-        value = <TimeStat time={props.statistic[resultKey][props.hoverData.statAggregate]} unit="millis" />;
+        value = <TimeStat time={props.hoverData.results[props.hoverData.statAggregate]} unit="millis" />;
         break;
       default:
         console.warn('[Agent Desktop] Agent statistic has unknown aggregate key.');
@@ -181,7 +177,7 @@ function Stat(props) {
         </span>
       : ''}
       <div className="stat-value" style={styles.statValue}>
-        {props.statistic[resultKey]
+        {props.hoverData.results
           ? value
           : <div id="loadingContainer" style={styles.loading}>
             <IconSVG style={styles.loadingIcon} id="loadingIcon" name="loadingWhite" />
@@ -208,11 +204,11 @@ Stat.propTypes = {
     queue: PropTypes.string,
     statAggregate: PropTypes.string.isRequired,
     statSource: PropTypes.string.isRequired,
+    results: PropTypes.object,
   }).isRequired,
   toggleStat: PropTypes.func.isRequired,
   readyState: PropTypes.string.isRequired,
   queues: PropTypes.array.isRequired,
-  currentAgent: PropTypes.string.isRequired,
 };
 
 export default Radium(Stat);

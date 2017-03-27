@@ -18,7 +18,7 @@ import AgentConfigMenu from 'containers/AgentConfigMenu';
 import selectToolbar, { selectQueues, selectCurrentAgent } from './selectors';
 import messages from './messages';
 
-import { toggleStat } from './actions';
+import { toggleStat, setStatId } from './actions';
 
 export class Toolbar extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -221,7 +221,7 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
             show={this.state.agentConfigMenu}
             key={'agentConfigMenu'}
           />
-          <AgentStats queues={this.props.queues} toggleStat={this.props.toggleStat} readyState={this.props.readyState} />
+          <AgentStats queues={this.props.queues} toggleStat={this.props.toggleStat} setStatId={this.props.setStatId} readyState={this.props.readyState} />
           <div id="config-button-container" style={this.styles.configButtonContainer}>
             <button
               id="config-button"
@@ -249,6 +249,7 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return {
     toggleStat: (stat, userId) => dispatch(toggleStat(stat, userId)),
+    setStatId: (statIndex, statId) => dispatch(setStatId(statIndex, statId)),
     dispatch,
   };
 }
@@ -261,6 +262,7 @@ Toolbar.propTypes = {
   toggleStat: PropTypes.func,
   queues: PropTypes.array,
   currentAgent: PropTypes.object,
+  setStatId: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(Toolbar));
