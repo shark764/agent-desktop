@@ -1,3 +1,7 @@
+<a name"0.23.8"></a>
+### 0.23.8 (2017-03-27)
+* adapt stats to new SDK api
+
 <a name"0.23.7"></a>
 ### 0.23.7 (2017-03-23)
 * Factor in for null on auto-answer on the pending interactions filter
