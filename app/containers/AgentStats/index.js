@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import Radium from 'radium';
 
 import Stat from 'components/Stat';
-import { selectEnabledStats, selectAvailableStats, selectCurrentAgent } from './selectors';
+import { selectEnabledStats, selectAvailableStats } from './selectors';
 
 export class AgentStats extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -34,24 +34,6 @@ export class AgentStats extends React.Component { // eslint-disable-line react/p
     button: {
       cursor: 'pointer',
     },
-  }
-
-  componentDidMount() {
-    const availableStats = this.props.availableStats;
-    const currentAgent = this.props.currentAgent.userId;
-    this.props.enabledStats.forEach((stat, statIndex) => {
-      let statRequestBody;
-      if (stat.statSource === 'resource-id') {
-        statRequestBody = { statistic: availableStats[stat.statOption].name, resourceId: currentAgent };
-      } else if (stat.statSource === 'queue-id') {
-        statRequestBody = { statistic: availableStats[stat.statOption].name, queueId: stat.queue };
-      } else {
-        statRequestBody = { statistic: availableStats[stat.statOption].name };
-      }
-      SDK.reporting.addStatSubscription(statRequestBody, (err, topics, res) => {
-        this.props.setStatId(statIndex, res.statId);
-      });
-    });
   }
 
   toggleStat(stat) {
@@ -101,7 +83,6 @@ function mapStateToProps(state, props) {
   return {
     enabledStats: selectEnabledStats(state, props),
     availableStats: selectAvailableStats(state, props),
-    currentAgent: selectCurrentAgent(state, props),
   };
 }
 
@@ -114,11 +95,9 @@ function mapDispatchToProps(dispatch) {
 AgentStats.propTypes = {
   enabledStats: PropTypes.array,
   availableStats: PropTypes.object,
-  currentAgent: PropTypes.object,
   queues: PropTypes.array,
   toggleStat: PropTypes.func.isRequired,
   readyState: PropTypes.string.isRequired,
-  setStatId: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStats));

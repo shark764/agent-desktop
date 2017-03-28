@@ -5,7 +5,6 @@ import { createSelector } from 'reselect';
 */
 
 const selectToolbarDomain = (state) => state.get('toolbar');
-const selectLoginDomain = (state) => state.get('login');
 
 const selectEnabledStats = createSelector(
   selectToolbarDomain,
@@ -17,13 +16,7 @@ const selectAvailableStats = createSelector(
   (toolbar) => toolbar.get('availableStats').toJS()
 );
 
-const selectCurrentAgent = createSelector(
-  selectLoginDomain,
-  (login) => login.get('agent').toJS()
-);
-
 export {
   selectEnabledStats,
   selectAvailableStats,
-  selectCurrentAgent,
 };

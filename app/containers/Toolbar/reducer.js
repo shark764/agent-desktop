@@ -9,7 +9,6 @@ import {
   SET_AVAILABLE_STATS,
   TOGGLE_STAT,
   STATS_RECEIVED,
-  SET_STAT_ID,
 } from './constants';
 
 let localStorageKey;
@@ -30,10 +29,8 @@ function toolbarReducer(state = initialState, action) {
   switch (action.type) {
     case SET_AVAILABLE_STATS:
       localStorageKey = `agentDesktopStats.${action.tenantId}.${action.userId}`;
-      savedStats = window.localStorage.getItem(localStorageKey) || '[]';
       return state
-        .set('availableStats', fromJS(action.stats))
-        .set('enabledStats', fromJS(JSON.parse(savedStats)));
+        .set('availableStats', fromJS(action.stats));
     case TOGGLE_STAT:
       savedStats = window.localStorage.getItem(localStorageKey) || '[]';
       savedStats = JSON.parse(savedStats);
@@ -45,10 +42,12 @@ function toolbarReducer(state = initialState, action) {
         SDK.reporting.removeStatSubscription({ statId: action.stat.statId });
         return state
           .set('enabledStats', fromJS(currentStats.filter((item) => !statEqualityCheck(item, action.stat))));
-      } else {
+      } else if (validateStat(action.stat, availableStats, action.queues)) {
         newStat = action.stat;
-        savedStats.push(newStat);
-        window.localStorage.setItem(localStorageKey, JSON.stringify(savedStats));
+        if (!action.saved) {
+          savedStats.push(newStat);
+          window.localStorage.setItem(localStorageKey, JSON.stringify(savedStats));
+        }
         let statRequestBody;
         if (newStat.statSource === 'resource-id') {
           statRequestBody = { statistic: availableStats[newStat.statOption].name, resourceId: action.userId };
@@ -61,11 +60,13 @@ function toolbarReducer(state = initialState, action) {
           newStat.statId = res.statId;
         });
         return state
-          .set('enabledStats', fromJS([newStat, ...currentStats]));
+        .set('enabledStats', fromJS([newStat, ...currentStats]));
+      } else {
+        console.warn('[Agent Desktop] - Saved stat failed validation. Removing from saved stats.');
+        savedStats = savedStats.filter((item) => !statEqualityCheck(item, action.stat));
+        window.localStorage.setItem(localStorageKey, JSON.stringify(savedStats));
+        return state;
       }
-    case SET_STAT_ID:
-      return state
-        .setIn(['enabledStats', action.statIndex, 'statId'], action.statId);
     case STATS_RECEIVED:
       cleanStats = {};
       Object.keys(action.stats).forEach((statKey) => {
@@ -90,6 +91,17 @@ function statEqualityCheck(stat1, stat2) {
     return stat1.statSource === stat2.statSource && stat1.statAggregate === stat2.statAggregate && stat1.statOption === stat2.statOption && stat1.queue === stat2.queue;
   }
   return stat1.statSource === stat2.statSource && stat1.statAggregate === stat2.statAggregate && stat1.statOption === stat2.statOption;
+}
+
+function validateStat(stat, availableStats, queues) {
+  const statExists = availableStats[stat.statOption];
+  const aggregateExists = statExists && Object.keys(availableStats[stat.statOption].responseKeys).includes(stat.statAggregate);
+  const filterExists = stat.statSource === 'tenant-id' || (statExists && availableStats[stat.statOption].optionalFilters.includes(stat.statSource));
+  let queueExists = true;
+  if (stat.statSource === 'queue-id') {
+    queueExists = queues.filter((queue) => queue.id === stat.queue).length;
+  }
+  return aggregateExists && filterExists && queueExists;
 }
 
 export default toolbarReducer;
