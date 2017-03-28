@@ -20,7 +20,7 @@ import PhoneControls from 'containers/PhoneControls';
 import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
-import { setAvailableStats, statsReceived } from 'containers/Toolbar/actions';
+import { setAvailableStats, statsReceived, toggleStat } from 'containers/Toolbar/actions';
 import { showLogin, logout } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 
@@ -86,21 +86,24 @@ export class AgentDesktop extends React.Component {
     let environment;
     let logLevel;
     let blastSqsOutput;
+    let reportingRefreshRate;
     if (typeof window.ADconf !== 'undefined') {
       where = window.ADconf.api;
       environment = window.ADconf.env;
       logLevel = window.ADconf.logLevel;
       blastSqsOutput = window.ADconf.blastSqsOutput;
+      reportingRefreshRate = window.ADconf.refreshRate;
     } else if (location.hostname === 'localhost') {
       where = 'dev-api.cxengagelabs.net/v1/';
       environment = 'dev';
       logLevel = 'debug';
       blastSqsOutput = true;
+      reportingRefreshRate = 10000;
     } else {
       console.error('Server conf file not found, Unable to load desktop');
     }
 
-    const sdkConf = { baseUrl: `https://${where}`, logLevel, blastSqsOutput, environment };
+    const sdkConf = { baseUrl: `https://${where}`, logLevel, blastSqsOutput, environment, reportingRefreshRate };
     window.SDK = serenova.cxengage.initialize(sdkConf);
 
     SDK.subscribe('cxengage', (error, topic, response) => {
@@ -117,7 +120,6 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/session/started': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           SDK.entities.get.queues({});
-          SDK.reporting.getAvailableStats();
           break;
         }
         case 'cxengage/capabilities/voice-available':
@@ -354,6 +356,10 @@ export class AgentDesktop extends React.Component {
             }
           });
           this.props.setAvailableStats(stats, this.props.login.tenant.id, this.props.login.agent.userId);
+          const savedStats = JSON.parse(window.localStorage.getItem(`agentDesktopStats.${this.props.login.tenant.id}.${this.props.login.agent.userId}`)) || [];
+          savedStats.forEach((stat) => {
+            this.props.toggleStat(stat, this.props.login.agent.userId, this.props.agentDesktop.queues, true);
+          });
           break;
         }
         case 'cxengage/reporting/batch-response': {
@@ -364,6 +370,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/entities/get-queues-response': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setQueues(response.result);
+          SDK.reporting.getAvailableStats();
           this.props.showLogin(false);
           break;
         }
@@ -404,6 +411,8 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/end-wrapup-acknowledged': // Ignore - comes with a work-ended.
         case 'cxengage/contacts/create-contact-response': // Handled in ContactsControl
         case 'cxengage/interactions/voice/send-digits-acknowledged': // Handled in Dialpad
+        case 'cxengage/reporting/stat-subscription-added': // Handled by Toolbar
+        case 'cxengage/reporting/stat-subscription-removed': // Handled by Toolbar
           break;
         default: {
           console.warn('[AgentDesktop] SDK.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console
@@ -595,6 +604,7 @@ function mapDispatchToProps(dispatch) {
     emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
     emailAddAttachment: (interactionId, attachment) => dispatch(emailAddAttachment(interactionId, attachment)),
     setAvailableStats: (stats, tenantId, userId) => dispatch(setAvailableStats(stats, tenantId, userId)),
+    toggleStat: (stat, userId, queues, saved) => dispatch(toggleStat(stat, userId, queues, saved)),
     statsReceived: (stats) => dispatch(statsReceived(stats)),
     setQueues: (queues) => dispatch(setQueues(queues)),
     setDispositionDetails: (interactionId, dispositions, forceSelect) => dispatch(setDispositionDetails(interactionId, dispositions, forceSelect)),
@@ -649,6 +659,7 @@ AgentDesktop.propTypes = {
   setQueues: PropTypes.func.isRequired,
   setDispositionDetails: PropTypes.func.isRequired,
   selectDisposition: PropTypes.func.isRequired,
+  toggleStat: PropTypes.func.isRequired,
   // TODO when fixed in SDK
   // logout: PropTypes.func.isRequired,
   login: PropTypes.object,

@@ -108,7 +108,7 @@ export class AgentConfigMenu extends React.Component {
   }
 
   toggleStat() {
-    this.props.toggleStat(this.state, this.props.currentAgent.userId);
+    this.props.toggleStat(this.state, this.props.currentAgent.userId, this.props.queues);
   }
 
   setStatSource(value) {

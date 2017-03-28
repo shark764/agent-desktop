@@ -1,3 +1,7 @@
+<a name"0.23.9"></a>
+### 0.23.9 (2017-03-28)
+* CXV1-8366 - Validate saved agent stats
+
 <a name"0.23.8"></a>
 ### 0.23.8 (2017-03-27)
 * adapt stats to new SDK api
