@@ -1,3 +1,7 @@
+<a name"0.23.10"></a>
+### 0.23.10 (2017-03-29)
+* update dependencies
+
 <a name"0.23.9"></a>
 ### 0.23.9 (2017-03-28)
 * CXV1-8366 - Validate saved agent stats
