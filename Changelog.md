@@ -1,3 +1,7 @@
+<a name"0.23.11"></a>
+### 0.23.11 (2017-03-29)
+* update dev dependencies
+
 <a name"0.23.10"></a>
 ### 0.23.10 (2017-03-29)
 * update dependencies
