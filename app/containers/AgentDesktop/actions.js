@@ -55,6 +55,7 @@ import {
   UPDATE_SCRIPT_VALUES,
   SET_DISPOSITION_DETAILS,
   SELECT_DISPOSITION,
+  SHOW_REFRESH_NOTIF,
 } from './constants';
 
 export function setExtensions(response) {
@@ -425,5 +426,12 @@ export function selectDisposition(interactionId, disposition) {
     type: SELECT_DISPOSITION,
     interactionId,
     disposition,
+  };
+}
+
+export function showRefreshRequired(show) {
+  return {
+    type: SHOW_REFRESH_NOTIF,
+    show,
   };
 }

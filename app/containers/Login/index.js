@@ -21,7 +21,7 @@ import Select from 'components/Select';
 import IconSVG from 'components/IconSVG';
 // import Radio from 'components/Radio';
 
-import selectLogin from './selectors';
+import selectLogin, { selectRefresh } from './selectors';
 import messages from './messages';
 import { loggingIn, loginError, loginSuccess, resetPassword, settingTenant, setTenant, tenantError } from './actions';
 const storage = window.localStorage;
@@ -233,7 +233,7 @@ export class Login extends React.Component {
   styles = {
     base: {
       width: '100vw',
-      height: '100vh',
+      height: this.props.refreshRequired ? 'calc(100vh - 2em)' : '100vh',
       minHeight: '800px',
       backgroundColor: '#072931',
       fontSize: '16px',
@@ -303,7 +303,7 @@ export class Login extends React.Component {
 
     return (
       <div style={this.styles.base}>
-        <div style={Object.assign({}, this.styles.container, { height: '100vh', minHeight: '800px' })}>
+        <div style={Object.assign({}, this.styles.container, { height: this.props.refreshRequired ? 'calc(100vh - 2em)' : '100vh', minHeight: '800px' })}>
           <Dialog style={Object.assign({}, this.styles.center)}>
             {pageContent}
           </Dialog>
@@ -321,7 +321,10 @@ export class Login extends React.Component {
   }
 }
 
-const mapStateToProps = selectLogin();
+const mapStateToProps = (state, props) => ({
+  ...selectLogin(state, props),
+  refreshRequired: selectRefresh(state, props),
+});
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -351,6 +354,7 @@ Login.propTypes = {
   tenant_error_message: PropTypes.object,
   tenant_error: PropTypes.bool,
   tenantError: PropTypes.func.isRequired,
+  refreshRequired: PropTypes.bool.isRequired,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Login)));

@@ -12,6 +12,7 @@ import Radium from 'radium';
 import axios from 'axios';
 
 import Resizable from 'components/Resizable';
+import RefreshBanner from 'components/RefreshBanner';
 
 import InteractionsBar from 'containers/InteractionsBar';
 import Login from 'containers/Login';
@@ -27,7 +28,7 @@ import { setContactLayout, setContactAttributes } from 'containers/SidePanel/act
 import { setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact,
   setContactInteractionHistory, setContactHistoryInteractionDetails, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction,
   updateWrapupDetails, addScript, removeScript, selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
-  muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected,
+  muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected, showRefreshRequired,
   emailCreateReply, emailCancelReply, emailAddAttachment, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition } from './actions';
 
 import selectAgentDesktop, { selectLogin } from './selectors';
@@ -42,6 +43,7 @@ export class AgentDesktop extends React.Component {
     this.setContactsPanelWidth = this.setContactsPanelWidth.bind(this);
     this.selectInteraction = this.selectInteraction.bind(this);
     this.updateDimensions = this.updateDimensions.bind(this);
+    this.hideRefreshBanner = this.hideRefreshBanner.bind(this);
 
     this.collapsedContactsPanelPx = 52;
     this.defaultContactsPanelPx = 600;
@@ -68,15 +70,31 @@ export class AgentDesktop extends React.Component {
   }
 
   componentWillMount() {
+    this.loadConf();
+    setInterval(this.loadConf(), 300000); // Cache busting version check every 5min
+  }
+
+  loadConf() {
     axios({
       method: 'get',
-      url: window.location.href + 'config.json', // eslint-disable-line
+      url: `${window.location.href}config.json`,
     }).then((res) => {
       if (typeof res.data !== 'undefined') {
+        if (window.ADconf !== undefined) {
+          if (window.ADconf.version !== res.data.config.version) {
+            this.props.showRefreshRequired(true);
+          }
+        }
         window.ADconf = res.data.config;
       }
-      this.init();
+      if (typeof window.SDK === 'undefined') {
+        this.init();
+      }
     });
+  }
+
+  hideRefreshBanner() {
+    this.props.showRefreshRequired(false);
   }
 
   init() {
@@ -520,10 +538,14 @@ export class AgentDesktop extends React.Component {
     return (
       <div>
         {
+          this.props.agentDesktop.refreshRequired && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' &&
+          <RefreshBanner hide={this.hideRefreshBanner} />
+        }
+        {
           this.props.login.showLogin || this.props.agentDesktop.presence === undefined
             ? <Login />
             : <span>
-              <div id="desktop-container" style={[this.styles.flexChildGrow, this.styles.parent, this.styles.columnParent, { height: '100vh' }]}>
+              <div id="desktop-container" style={[this.styles.flexChildGrow, this.styles.parent, this.styles.columnParent, this.props.agentDesktop.refreshRequired ? { height: 'calc(100vh - 2em)' } : { height: '100vh' }]}>
                 <div id="top-area" style={[this.styles.flexChildGrow, this.styles.parent, this.styles.topArea]}>
                   <div style={[this.styles.leftArea]}>
                     <PhoneControls style={[this.styles.phoneControls]} />
@@ -564,6 +586,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    showRefreshRequired: (show) => dispatch(showRefreshRequired(show)),
     showLogin: (show) => dispatch(showLogin(show)),
     setExtensions: (response) => dispatch(setExtensions(response)),
     updateWrapupDetails: (interactionId, wrapupDetails) => dispatch(updateWrapupDetails(interactionId, wrapupDetails)),
@@ -660,6 +683,7 @@ AgentDesktop.propTypes = {
   setDispositionDetails: PropTypes.func.isRequired,
   selectDisposition: PropTypes.func.isRequired,
   toggleStat: PropTypes.func.isRequired,
+  showRefreshRequired: PropTypes.func.isRequired,
   // TODO when fixed in SDK
   // logout: PropTypes.func.isRequired,
   login: PropTypes.object,
