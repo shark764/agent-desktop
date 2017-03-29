@@ -38,7 +38,9 @@ import {
   SET_EMAIL_ATTACHMENT_URL,
   START_WARM_TRANSFERRING,
   TRANSFER_CANCELLED,
-  TRANSFER_CONNECTED,
+  RESOURCE_ADDED,
+  UPDATE_RESOURCE_NAME,
+  RESOURCE_REMOVED,
   MUTE_CALL,
   UNMUTE_CALL,
   HOLD_CALL,
@@ -302,10 +304,24 @@ export function transferCancelled(interactionId) {
   };
 }
 
-export function transferConnected(interactionId) {
+export function resourceAdded(response) {
   return {
-    type: TRANSFER_CONNECTED,
-    interactionId,
+    type: RESOURCE_ADDED,
+    response,
+  };
+}
+
+export function updateResourceName(response) {
+  return {
+    type: UPDATE_RESOURCE_NAME,
+    response,
+  };
+}
+
+export function resourceRemoved(response) {
+  return {
+    type: RESOURCE_REMOVED,
+    response,
   };
 }
 

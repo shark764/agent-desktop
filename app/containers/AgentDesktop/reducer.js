@@ -42,7 +42,9 @@ import {
   SET_EMAIL_ATTACHMENT_URL,
   START_WARM_TRANSFERRING,
   TRANSFER_CANCELLED,
-  TRANSFER_CONNECTED,
+  RESOURCE_ADDED,
+  UPDATE_RESOURCE_NAME,
+  RESOURCE_REMOVED,
   MUTE_CALL,
   UNMUTE_CALL,
   HOLD_CALL,
@@ -578,76 +580,94 @@ function agentDesktopReducer(state = initialState, action) {
           action.transferringTo.id !== undefined &&
           action.transferringTo.type !== undefined &&
           action.transferringTo.name !== undefined) {
-        return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) =>
-                  interaction.update('warmTransfers', (warmTransfers) =>
-                    warmTransfers.push(fromJS({ ...action.transferringTo, status: 'transferring' })))
-              )
-          );
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.update('warmTransfers', (warmTransfers) =>
+            warmTransfers.push(fromJS({ ...action.transferringTo, status: 'transferring' })))
+        );
       } else {
         return state;
       }
     }
     case TRANSFER_CANCELLED: {
       const interactionIndex = state.get('interactions').findIndex(
-        // TODO TODO TODO do it this way instead when SDK returns interactionId:
-        // (interaction) => interaction.get('interactionId') === action.interactionId
-        (interaction) => interaction.get('channelType') === 'voice'
+        (interaction) => interaction.get('interactionId') === action.interactionId
       );
       if (interactionIndex !== -1) {
-        return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => {
-                  const cancellingTransferIndex = interaction.get('warmTransfers').findIndex(
-                    (warmTransfer) => warmTransfer.get('status') === 'transferring'
-                  );
-                  if (cancellingTransferIndex !== -1) {
-                    return interaction.update('warmTransfers', (warmTransfers) =>
-                      warmTransfers.delete(cancellingTransferIndex)
-                    );
-                  } else {
-                    return interaction;
-                  }
-                }
-              )
+        return state.updateIn(['interactions', interactionIndex], (interaction) => {
+          const cancellingTransferIndex = interaction.get('warmTransfers').findIndex(
+            (warmTransfer) => warmTransfer.get('status') === 'transferring'
           );
+          if (cancellingTransferIndex !== -1) {
+            return interaction.update('warmTransfers', (warmTransfers) =>
+              warmTransfers.delete(cancellingTransferIndex)
+            );
+          } else {
+            return interaction;
+          }
+        });
       } else {
         return state;
       }
     }
-    case TRANSFER_CONNECTED: {
+    case RESOURCE_ADDED: {
       const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
+        (interaction) => interaction.get('interactionId') === action.response.interactionId
       );
       if (interactionIndex !== -1) {
-        return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => {
-                  const connectingTransferIndex = interaction.get('warmTransfers').findIndex(
-                    (warmTransfer) => warmTransfer.get('status') === 'transferring'
-                  );
-                  if (connectingTransferIndex !== -1) {
-                    return interaction.update('warmTransfers', (warmTransfers) =>
-                      warmTransfers.update(connectingTransferIndex, (warmTransfer) =>
-                        warmTransfer.set('status', 'connected')
-                      )
-                    );
-                  } else {
-                    return interaction;
-                  }
-                }
-              )
+        return state.updateIn(['interactions', interactionIndex], (interaction) => {
+          const connectingTransferIndex = interaction.get('warmTransfers').findIndex(
+            (warmTransfer) => warmTransfer.get('status') === 'transferring'
           );
+          if (connectingTransferIndex !== -1) {
+            return interaction.updateIn(['warmTransfers', connectingTransferIndex], (warmTransfer) =>
+              warmTransfer.set('status', 'connected')
+                .set('targetResource', action.response.extraParams.targetResource)
+            );
+          } else {
+            return interaction.update('warmTransfers', (warmTransfers) =>
+              warmTransfers.push(fromJS({
+                targetResource: action.response.extraParams.targetResource,
+                name: action.response.extraParams.displayName,
+                status: 'connected',
+              }))
+            );
+          }
+        });
+      } else {
+        return state;
+      }
+    }
+    case UPDATE_RESOURCE_NAME: {
+      return state.update('interactions', (interactions) => interactions.map((interaction) => {
+        if (interaction.get('warmTransfers') !== undefined && interaction.get('warmTransfers').size > 0) {
+          return interaction.update('warmTransfers', (warmTransfers) => warmTransfers.map((warmTransfer) => {
+            if (warmTransfer.get('id') === action.response.result.id) {
+              const name = action.response.result.firstName || action.response.result.lastName ? `${action.response.result.firstName} ${action.response.result.lastName}` : action.response.result.email;
+              return warmTransfer.set('name', name);
+            } else {
+              return warmTransfer;
+            }
+          }));
+        } else {
+          return interaction;
+        }
+      }));
+    }
+    case RESOURCE_REMOVED: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.response.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex, 'warmTransfers'], (warmTransfers) => {
+          const resourceToRemoveIndex = warmTransfers.findIndex((warmTransfer) =>
+            warmTransfer.get('targetResource') === action.response.extraParams.targetResource
+          );
+          if (resourceToRemoveIndex !== -1) {
+            return warmTransfers.delete(resourceToRemoveIndex);
+          } else {
+            return warmTransfers;
+          }
+        });
       } else {
         return state;
       }

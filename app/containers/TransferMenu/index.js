@@ -20,7 +20,8 @@ import Dialpad from 'components/Dialpad';
 import Tabs from 'components/Tabs';
 import TextInput from 'components/TextInput';
 
-import { selectAgentId, selectWarmTransfers } from './selectors';
+import { selectAgentId } from 'containers/AgentDesktop/selectors';
+import { selectWarmTransfers } from './selectors';
 import messages from './messages';
 
 export class TransferMenu extends React.Component {
