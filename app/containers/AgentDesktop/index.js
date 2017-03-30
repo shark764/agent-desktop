@@ -127,7 +127,14 @@ export class AgentDesktop extends React.Component {
     SDK.subscribe('cxengage', (error, topic, response) => {
       if (error) {
         console.error('Pub sub error', topic, error); // eslint-disable-line no-console
-        return;
+        switch (topic) {
+          // Safe errors handled elsewhere
+          case 'cxengage/authentication/login-response':
+            break;
+          default:
+            window.localStorage.setItem('ADError', topic); // Consume in Login component
+            location.reload(); // Kill it with 🔥
+        }
       }
       switch (topic) {
         case 'cxengage/session/extension-list': {
