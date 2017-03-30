@@ -1,3 +1,9 @@
+<a name"0.24.2"></a>
+### 0.24.2 (2017-03-30)
+* Remove cache invalidation from main agent screen
+* Fix css issue with cache invalidation notice on login screen
+* set default to false for show notification
+
 <a name"0.24.1"></a>
 ### 0.24.1 (2017-03-30)
 * Add cache invalidation
