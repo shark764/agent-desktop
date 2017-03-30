@@ -58,6 +58,14 @@ export default defineMessages({
     id: 'app.containers.Login.error',
     defaultMessage: 'The username or password you\'ve entered is not correct',
   },
+  heartbeatError: {
+    id: 'app.containers.Login.heartbeatError',
+    defaultMessage: 'Your session has expired, please log in again. If this persists, please check your internet connection and ensure you are not logged in elsewhere',
+  },
+  generalError: {
+    id: 'app.containers.Login.generalError',
+    defaultMessage: 'You were logged out because an error has occured, please log in again. If this persists, please contact support',
+  },
   noTenant: {
     id: 'app.containers.Login.noTenant',
     defaultMessage: 'You must first select a tenant',

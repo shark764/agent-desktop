@@ -1,3 +1,8 @@
+<a name"0.24.1"></a>
+### 0.24.1 (2017-03-30)
+* Add cache invalidation
+* add heartbeat and general sdk error handling
+
 <a name"0.24.0"></a>
 ### 0.24.0 (2017-03-29)
 * Updated breaking changes by new SDK

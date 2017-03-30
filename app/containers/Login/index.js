@@ -21,7 +21,7 @@ import Select from 'components/Select';
 import IconSVG from 'components/IconSVG';
 // import Radio from 'components/Radio';
 
-import selectLogin from './selectors';
+import selectLogin, { selectRefresh } from './selectors';
 import messages from './messages';
 import { loggingIn, loginError, loginSuccess, resetPassword, settingTenant, setTenant, tenantError } from './actions';
 const storage = window.localStorage;
@@ -52,9 +52,11 @@ export class Login extends React.Component {
     this.sendForgotRequest = this.sendForgotRequest.bind(this);
     this.handleError = this.handleError.bind(this);
     this.setDirection = this.setDirection.bind(this);
+    this.getErrors = this.getErrors.bind(this);
   }
 
   onLogin() {
+    storage.removeItem('ADError');
     if (this.state.username.trim() !== '' && this.state.password !== '') {
       this.props.loggingIn();
       SDK.authentication.login({
@@ -157,16 +159,41 @@ export class Login extends React.Component {
     );
   }
 
+  getErrors() {
+    const error = storage.getItem('ADError');
+    storage.removeItem('ADError'); // Prevent showing error on reload
+    let errorSpan;
+    if (this.props.login_error) {
+      errorSpan = (
+        <span id={messages.error.id} style={[this.styles.error]}>
+          <FormattedMessage style={this.styles.center} {...messages.error} />
+        </span>
+      );
+    } else if (error !== null) {
+      switch (error) {
+        case 'cxengage/session/heartbeat-response':
+          errorSpan = (
+            <span id={`${error}:ERROR`} style={[this.styles.error]}>
+              <FormattedMessage style={this.styles.center} {...messages.heartbeatError} />
+            </span>
+          );
+          break;
+        default:
+          errorSpan = (
+            <span id={`${error}:ERROR`} style={[this.styles.error]}>
+              <FormattedMessage style={this.styles.center} {...messages.generalError} />
+            </span>
+          );
+          break;
+      }
+    }
+    return errorSpan;
+  }
+
   getLoginContent() {
     // TODO when tenants.length == 0, == 1
     return (
       <div id="loginContainerDiv" style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
-        {this.props.login_error
-          ? <span id={messages.error.id} style={[this.styles.error]}>
-            <FormattedMessage style={this.styles.center} {...messages.error} />
-          </span>
-          : ''
-        }
         <Logo style={{ marginTop: '50px' }} width="275px" />
         <Title id={messages.welcome.id} text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
         <TextInput id={messages.username.id} autoFocus={!this.state.remember} key={'username'} style={{ marginBottom: '11px' }} placeholder={messages.username} autocomplete="email" value={this.state.username} cb={this.setUser} />
@@ -233,7 +260,7 @@ export class Login extends React.Component {
   styles = {
     base: {
       width: '100vw',
-      height: '100vh',
+      height: this.props.refreshRequired && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' ? 'calc(100vh - 2em)' : '100vh',
       minHeight: '800px',
       backgroundColor: '#072931',
       fontSize: '16px',
@@ -260,14 +287,14 @@ export class Login extends React.Component {
       borderRadius: '3px 3px 0 0',
       backgroundColor: '#FE4565',
       width: '542px',
-      height: '31px',
       color: '#FFFFFF',
       fontWeight: 'lighter',
       textAlign: 'center',
       paddingTop: '3px',
+      paddingBottom: '3px',
       position: 'relative',
       top: '0px',
-      marginBottom: '-31px',
+      marginBottom: '-27px',
     },
     errorTenant: {
       top: '-361.4px',
@@ -303,7 +330,10 @@ export class Login extends React.Component {
 
     return (
       <div style={this.styles.base}>
-        <div style={Object.assign({}, this.styles.container, { height: '100vh', minHeight: '800px' })}>
+        <div style={Object.assign({}, this.styles.container, { height: this.props.refreshRequired && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' ? 'calc(100vh - 2em)' : '100vh', minHeight: '800px' })}>
+          {
+            this.getErrors()
+          }
           <Dialog style={Object.assign({}, this.styles.center)}>
             {pageContent}
           </Dialog>
@@ -321,7 +351,10 @@ export class Login extends React.Component {
   }
 }
 
-const mapStateToProps = selectLogin();
+const mapStateToProps = (state, props) => ({
+  ...selectLogin(state, props),
+  refreshRequired: selectRefresh(state, props),
+});
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -351,6 +384,7 @@ Login.propTypes = {
   tenant_error_message: PropTypes.object,
   tenant_error: PropTypes.bool,
   tenantError: PropTypes.func.isRequired,
+  refreshRequired: PropTypes.bool.isRequired,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Login)));

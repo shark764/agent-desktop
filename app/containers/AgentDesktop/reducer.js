@@ -61,6 +61,7 @@ import {
   UPDATE_SCRIPT_VALUES,
   SET_DISPOSITION_DETAILS,
   SELECT_DISPOSITION,
+  SHOW_REFRESH_NOTIF,
 } from './constants';
 
 // import { outboundConnectingVoiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
@@ -82,10 +83,14 @@ const initialState = fromJS({
   queues: [],
   extensions: [],
   activeExtension: {},
+  refreshRequired: true,
 });
 
 function agentDesktopReducer(state = initialState, action) {
   switch (action.type) {
+    case SHOW_REFRESH_NOTIF:
+      return state
+      .set('refreshRequired', action.show);
     case SET_EXTENSIONS:
       return state
         // Set active extension to the first available one if it isn't set
