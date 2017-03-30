@@ -12,12 +12,14 @@ import Radium from 'radium';
 import Toggle from 'react-toggle';
 import 'assets/css/react-toggle-style.css';
 
+import Button from 'components/Button';
 import CircleIconButton from 'components/CircleIconButton';
 import Dialpad from 'components/Dialpad';
-import Timer from 'components/Timer';
 
 import { selectAgentId } from 'containers/AgentDesktop/selectors';
 import TransferMenu from 'containers/TransferMenu';
+import TransferResource from 'containers/TransferResource';
+
 import messages from './messages';
 
 export class PhoneControlsActive extends React.Component {
@@ -30,6 +32,7 @@ export class PhoneControlsActive extends React.Component {
     this.endInteraction = this.endInteraction.bind(this);
     this.setMute = this.setMute.bind(this);
     this.setHold = this.setHold.bind(this);
+    this.resumeMe = this.resumeMe.bind(this);
 
     this.state = {
       showTransferMenu: false,
@@ -54,18 +57,6 @@ export class PhoneControlsActive extends React.Component {
 
   setActiveInteractionDialpadText(activeInteractionDialpadText) {
     this.setState({ activeInteractionDialpadText });
-  }
-
-  cancelTransfer(warmTransfer) {
-    if (warmTransfer.type === 'agent') {
-      SDK.interactions.voice.cancelResourceTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferResourceId: warmTransfer.id });
-    } else if (warmTransfer.type === 'queue') {
-      SDK.interactions.voice.cancelQueueTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferQueueId: warmTransfer.id });
-    } else if (warmTransfer.type === 'transferExtension') {
-      SDK.interactions.voice.cancelExtensionTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferExtension: warmTransfer.id });
-    } else {
-      console.error('Unknown transfer type:', warmTransfer);
-    }
   }
 
   setRecording() {
@@ -96,6 +87,10 @@ export class PhoneControlsActive extends React.Component {
     }
   }
 
+  resumeMe() {
+    SDK.interactions.voice.resourceResume({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
+  }
+
   styles = {
     base: {
       padding: '6px 0 12px',
@@ -111,6 +106,16 @@ export class PhoneControlsActive extends React.Component {
       verticalAlign: 'top',
       lineHeight: '21px',
       marginRight: '3px',
+    },
+    bottonRowContainer: {
+      height: 40,
+      width: '100%',
+      display: 'table',
+    },
+    center: {
+      display: 'table-cell',
+      verticalAlign: 'middle',
+      textAlign: 'center',
     },
     circleIconButtonRow: {
       padding: '0 1.5px',
@@ -129,58 +134,15 @@ export class PhoneControlsActive extends React.Component {
       padding: 0,
       fontSize: '14px',
     },
+    meOnHold: {
+      width: '255px',
+      margin: '12px 14px 0',
+      padding: '5px',
+      borderRadius: '9px',
+      textAlign: 'center',
+    },
     warmTransfersContainer: {
-      marginTop: '11px',
-    },
-    warmTransfer: {
-      padding: '11px 23px',
-      fontSize: '15px',
-      fontWeight: 600,
-    },
-    transferInProgress: {
-      color: '#979797',
-    },
-    transferConnectedStatus: {
-      maxWidth: '160px',
-    },
-    cancelTransfer: {
-      fontSize: '16px',
-      verticalAlign: 'top',
-      display: 'inline-block',
-      marginRight: '13px',
-      cursor: 'pointer',
-    },
-    transferStatusIcon: {
-      height: '8px',
-      width: '8px',
-      borderRadius: '4px',
-      display: 'inline-block',
-      margin: '0 15px 6px 0',
-    },
-    transferConnectedIcon: {
-      backgroundColor: '#23CEF5',
-    },
-    transferOnHoldIcon: {
-      border: '1px solid #23CEF5',
-    },
-    transferName: {
-      maxWidth: '100px',
-      marginRight: '5px',
-      display: 'inline-block',
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-    },
-    transferStatus: {
-      fontSize: '12px',
-      display: 'inline-block',
-      verticalAlign: 'top',
-      marginTop: '2px',
-    },
-    transferTimer: {
-      float: 'right',
-      fontSize: '14px',
-      fontWeight: 'normal',
+      marginTop: '7px',
     },
   }
 
@@ -213,35 +175,13 @@ export class PhoneControlsActive extends React.Component {
     }
 
     let warmTransfers;
+    let connectingTransfers = false;
     if (this.props.activeVoiceInteraction.warmTransfers.length > 0) {
       const warmTransfersMapped = this.props.activeVoiceInteraction.warmTransfers.map((warmTransfer) => {
-        let status;
-        let transferStyle;
-        let transferStatusStyle;
-        let icon;
         if (warmTransfer.status === 'transferring') {
-          status = <FormattedMessage {...messages.connecting} />;
-          transferStyle = this.styles.transferInProgress;
-          icon = <span title="Cancel transfer" onClick={() => this.cancelTransfer(warmTransfer)} style={this.styles.cancelTransfer}>&#10060;</span>;
-        } else if (warmTransfer.status === 'connected') {
-          icon = <div style={[this.styles.transferStatusIcon, this.styles.transferConnectedIcon]}></div>;
-          transferStatusStyle = this.styles.transferConnectedStatus;
-        } else {
-          throw new Error(`transfer status not valid: ${warmTransfer.status}`);
+          connectingTransfers = true;
         }
-        return (
-          <div id={`transfer-${warmTransfer.type}-${warmTransfer.id}`} key={`transfer-${warmTransfer.type}-${warmTransfer.id}`} style={[this.styles.warmTransfer, transferStyle]}>
-            { icon }
-            <span title={warmTransfer.name} style={[this.styles.transferName, transferStatusStyle]}>
-              { warmTransfer.name }
-            </span>
-            {status
-              ? <span style={this.styles.transferStatus}>({status})</span>
-              : ''
-            }
-            <Timer format="mm:ss" style={this.styles.transferTimer} />
-          </div>
-        );
+        return <TransferResource key={warmTransfer.id} activeVoiceInteraction={this.props.activeVoiceInteraction} resource={warmTransfer} style={this.props.style} />;
       });
       warmTransfers = (
         <div style={this.styles.warmTransfersContainer}>
@@ -253,30 +193,43 @@ export class PhoneControlsActive extends React.Component {
     return (
       <div style={this.styles.base}>
         {recordingContainer}
-        <div style={{ height: 40, width: 216, margin: '0 auto', display: 'block' }}>
-          <CircleIconButton id="endCallButton" name="endCall" onClick={this.endInteraction} style={this.styles.circleIconButtonRow} />
-          <CircleIconButton id="muteButton" name="mute" active={this.props.activeVoiceInteraction.muted} onClick={this.setMute} style={this.styles.circleIconButtonRow} />
-          <CircleIconButton id="holdButton" name="hold" active={this.props.activeVoiceInteraction.onHold} onClick={this.setHold} style={this.styles.circleIconButtonRow} />
-          <CircleIconButton id="transferButton" name="transfer" active={this.state.showTransferMenu} onClick={() => this.setShowTransferMenu(!this.state.showTransferMenu)} style={this.styles.circleIconButtonRow} />
-          <CircleIconButton id="dialpadButton" name="dialpad" active={this.state.showActiveInteractionDialpad} onClick={() => this.setShowActiveInteractionDialpad(!this.state.showActiveInteractionDialpad)} style={this.styles.circleIconButtonRow} />
+        <div style={this.styles.bottonRowContainer}>
+          <div style={this.styles.center}>
+            <CircleIconButton id="endCallButton" name="endCall" onClick={this.endInteraction} style={this.styles.circleIconButtonRow} />
+            <CircleIconButton id="muteButton" name="mute" active={this.props.activeVoiceInteraction.muted} onClick={this.setMute} style={this.styles.circleIconButtonRow} />
+            <CircleIconButton id="holdButton" name="hold" active={this.props.activeVoiceInteraction.onHold} onClick={this.setHold} style={this.styles.circleIconButtonRow} />
+            {
+              !connectingTransfers
+              ? <CircleIconButton id="transferButton" name="transfer" active={this.state.showTransferMenu} onClick={() => this.setShowTransferMenu(!this.state.showTransferMenu)} style={this.styles.circleIconButtonRow} />
+              : undefined
+            }
+            <CircleIconButton id="dialpadButton" name="dialpad" active={this.state.showActiveInteractionDialpad} onClick={() => this.setShowActiveInteractionDialpad(!this.state.showActiveInteractionDialpad)} style={this.styles.circleIconButtonRow} />
+          </div>
         </div>
-        { this.state.showTransferMenu
+        {
+          this.state.showTransferMenu && !connectingTransfers
           ? <div>
             <div style={[this.props.style.topTriangle, this.styles.transferTopTriangle]}></div>
             <div id="transfersContainer" style={[this.props.style.phoneControlsPopupMenu, this.styles.transferPhoneControlsPopupMenu]}>
               <TransferMenu interactionId={this.props.activeVoiceInteraction.interactionId} setShowTransferMenu={this.setShowTransferMenu} />
             </div>
           </div>
-          : ''
+          : undefined
         }
-        { this.state.showActiveInteractionDialpad
+        {
+          this.state.showActiveInteractionDialpad
           ? <div>
             <div style={[this.props.style.topTriangle, this.styles.activeVoiceInteractionDialpadTopTriangle]}></div>
             <div style={[this.props.style.phoneControlsPopupMenu, this.styles.activeVoiceInteractionDialpadPhoneControlsPopupMenu]}>
               <Dialpad id="activeInteractionDialpad" interactionId={this.props.activeVoiceInteraction.interactionId} setDialpadText={this.setActiveInteractionDialpadText} dialpadText={this.state.activeInteractionDialpadText} />
             </div>
           </div>
-          : ''
+          : undefined
+        }
+        {
+          this.props.activeVoiceInteraction.meOnHold === true
+          ? <Button id="agentOnHoldButton" text={messages.onHold} mouseOverText={messages.resume} type="primaryRed" onClick={this.resumeMe} style={this.styles.meOnHold} />
+          : undefined
         }
         { warmTransfers }
       </div>

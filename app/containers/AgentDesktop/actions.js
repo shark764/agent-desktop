@@ -43,6 +43,9 @@ import {
   TRANSFER_CANCELLED,
   RESOURCE_ADDED,
   UPDATE_RESOURCE_NAME,
+  UPDATE_RESOURCE_STATUS,
+  HOLD_ME,
+  RESUME_ME,
   RESOURCE_REMOVED,
   MUTE_CALL,
   UNMUTE_CALL,
@@ -343,6 +346,30 @@ export function updateResourceName(response) {
   return {
     type: UPDATE_RESOURCE_NAME,
     response,
+  };
+}
+
+export function updateResourceStatus(interactionId, targetResource, statusKey, statusValue) {
+  return {
+    type: UPDATE_RESOURCE_STATUS,
+    interactionId,
+    targetResource,
+    statusKey,
+    statusValue,
+  };
+}
+
+export function holdMe(interactionId) {
+  return {
+    type: HOLD_ME,
+    interactionId,
+  };
+}
+
+export function resumeMe(interactionId) {
+  return {
+    type: RESUME_ME,
+    interactionId,
   };
 }
 

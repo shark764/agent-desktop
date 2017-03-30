@@ -217,18 +217,21 @@ const voiceInteractionWithTransfersAndScripts = {
     name: 'script',
   },
   recording: true,
-  agentRecordingEnabled: true, // false
+  agentRecordingEnabled: true,
+  meOnHold: true,
   warmTransfers: [
     {
       id: '1111111',
       type: 'agent',
       name: 'Agent with a very very very long name',
       status: 'connected',
+      onHold: true,
     }, {
       id: '22222',
       type: 'queue',
       name: 'Queue #1',
       status: 'connected',
+      muted: true,
     }, {
       id: '33333',
       type: 'pstn',

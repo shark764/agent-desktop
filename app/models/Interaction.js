@@ -26,7 +26,12 @@ export default class Interaction {
         const mappedResource = Object.assign({}, resource);
         mappedResource.targetResource = mappedResource.id;
         mappedResource.status = 'connected';
-        SDK.entities.get.user({ entityId: resource.id });
+        if (mappedResource.externalResource) {
+          mappedResource.name = mappedResource.extension;
+        } else {
+          mappedResource.name = 'Agent';
+          SDK.entities.get.user({ entityId: resource.id });
+        }
         return new Map(mappedResource);
       }));
     }
