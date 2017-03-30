@@ -1,3 +1,7 @@
+<a name"0.25.0"></a>
+### 0.25.0 (2017-03-30)
+* CXV1-8272 contact interaction history level 3 - recordings
+
 <a name"0.24.3"></a>
 ### 0.24.3 (2017-03-30)
 * Fix cache invalidation interval

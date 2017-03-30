@@ -13,7 +13,7 @@ import moment from 'moment';
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 
-import { setContactInteractionHistory, setContactHistoryInteractionDetailsLoading, addNotesToContactInteractionHistory } from 'containers/AgentDesktop/actions';
+import { setContactInteractionHistory, setContactHistoryInteractionDetailsLoading, addNotesToContactInteractionHistory, loadHistoricalInteractionBody } from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
 import { getSelectedInteractionId, selectContactId, selectContactHistory } from './selectors';
@@ -47,6 +47,20 @@ export class ContactInteractionHistory extends React.Component {
           console.log('[ContactInteractionHistory] SDK.subscribe()', topic, response);
           this.props.addNotesToContactInteractionHistory(interaction.interactionId, response);
         });
+      }
+      const needsBody = (interaction.interactionDetails.recordings === undefined && interaction.interactionDetails.transcript === undefined);
+      if (needsBody) {
+        switch (interaction.channelType) {
+          case 'voice':
+            this.props.loadHistoricalInteractionBody(interaction.interactionId, 'recordings');
+            break;
+          case 'sms':
+          case 'messaging':
+            this.props.loadHistoricalInteractionBody(interaction.interactionId, 'transcript');
+            break;
+          default:
+            break;
+        }
       }
     }
     this.setState({ selectedInteractionIndex });
@@ -111,6 +125,12 @@ export class ContactInteractionHistory extends React.Component {
     },
     segment: {
       marginTop: '12px',
+      display: 'flex',
+    },
+    interactionBody: {
+      marginLeft: '44px',
+      marginRight: '44px',
+      display: 'flex',
     },
     segmentData: {
       borderTop: '1px solid #E4E4E4',
@@ -126,10 +146,11 @@ export class ContactInteractionHistory extends React.Component {
       verticalAlign: 'top',
       margin: '5px 14px 0 14px',
       cursor: 'default',
+      flexGrow: '0',
     },
     segmentContent: {
-      width: 'calc(100% - 50px)',
-      display: 'inline-block',
+      marginRight: '44px',
+      flexGrow: '1',
     },
     segmentMessage: {
       fontSize: '16px',
@@ -145,7 +166,7 @@ export class ContactInteractionHistory extends React.Component {
     },
     expand: {
       display: 'inline-block',
-      padding: '0 7px',
+      padding: '2px 7px 0px 7px',
       fontSize: '8px',
       border: '1px solid #979797',
       borderRadius: '3px',
@@ -157,11 +178,12 @@ export class ContactInteractionHistory extends React.Component {
     transcript: {
       borderTop: '1px solid #D0D0D0',
       marginTop: '20px',
+      flexGrow: '1',
     },
     transcriptTitle: {
       fontSize: '16px',
       color: '#7E7E7E',
-      margin: '20px 0',
+      margin: '20px 0 15px 0',
     },
     transcriptItem: {
       marginBottom: '20px',
@@ -169,10 +191,74 @@ export class ContactInteractionHistory extends React.Component {
     transcriptItemName: {
       fontWeight: 'bold',
     },
+    audio: {
+      width: '100%',
+      marginBottom: '5px',
+    },
+  }
+
+  interactionBody(interactionDetails) {
+    let transcript;
+    // UNCOMMENT WHEN MESSAGING TRANSCRIPTS API READY
+    // let transcriptItems;
+    const audioRecordings = (recordings) => {
+      if (recordings.length === 0) {
+        return <FormattedMessage {...messages.noRecordings} />;
+      }
+      return recordings.map(
+        (recordingUrl) =>
+          <audio controls key={recordingUrl} src={recordingUrl} style={this.styles.audio} />
+      );
+    };
+    switch (interactionDetails.channelType) {
+      case 'voice':
+        transcript = (
+          <div style={this.styles.transcript}>
+            <div style={this.styles.transcriptTitle}>
+              <FormattedMessage {...messages.audioRecording} />
+            </div>
+            <div>
+              { interactionDetails.audioRecordings !== undefined
+                ? audioRecordings(interactionDetails.audioRecordings)
+                : <IconSVG id="loadingRecordings" name="loading" style={this.styles.loadingInteractionDetails} />
+              }
+            </div>
+          </div>
+        );
+        break;
+      // UNCOMMENT WHEN MESSAGING TRANSCRIPTS API READY
+      // case 'sms':
+      // case 'messaging':
+      //   transcriptItems = segment.transcript.map((transcriptItem, index) =>
+      //     <div key={`${segment.id}`} id={`transcriptItem${index}`} style={this.styles.transcriptItem}>
+      //       <span style={this.styles.transcriptItemName}>
+      //         {transcriptItem.name}:&nbsp;
+      //       </span>
+      //       <span>
+      //         {transcriptItem.message}
+      //       </span>
+      //     </div>
+      //   );
+      //   transcript = (
+      //     <div style={this.styles.transcript}>
+      //       <div style={this.styles.transcriptTitle}>
+      //         <FormattedMessage {...messages.transcript} />
+      //       </div>
+      //       <div style={this.styles.segmentMessage}>
+      //         {transcriptItems}
+      //       </div>
+      //     </div>
+      //   );
+      //   break;
+      default:
+        break;
+    }
+    return transcript;
   }
 
   contactHistoryInteraction(interaction, interactionIndex) {
     let interactionDetails;
+    const expandedView = (interactionIndex === undefined);
     if (interaction.interactionDetails === 'loading') {
       interactionDetails = <IconSVG id="loadingContactHistoryIcon" name="loading" style={this.styles.loadingInteractionDetails} />;
     } else if (interaction.interactionDetails !== undefined) {
@@ -186,6 +272,10 @@ export class ContactInteractionHistory extends React.Component {
       }
       const segmentData = interaction.interactionDetails.agents && interaction.interactionDetails.agents.map((segment) => {
         let duration;
+        const hasNotes = segment.noteTitle !== null;
+        const notes = (segment.note !== undefined)
+          ? segment.note.body
+          : <IconSVG id="loadingNote" name="loading" style={this.styles.loadingInteractionDetails} />;
         if (segment.conversationStartTimestamp && segment.conversationEndTimestamp) {
           duration = moment(segment.conversationEndTimestamp).diff(moment(segment.conversationStartTimestamp), 'minutes');
           if (duration > 0) {
@@ -223,49 +313,14 @@ export class ContactInteractionHistory extends React.Component {
                 : undefined
               }
               {
-                interactionIndex === undefined
+                expandedView
                 ? <div style={this.styles.segmentMessage}>
-                  { segment.note !== undefined
-                    ? segment.note.body
-                    : <IconSVG id="loadingNote" name="loading" style={this.styles.loadingInteractionDetails} />
+                  { hasNotes
+                    ? notes
+                    : undefined
                   }
                 </div>
                 : undefined
-              }
-              { // TODO when we have transcripts/recordings
-              // if (segment.channelType === 'voice') {
-              //   transcript = (
-              //     <div style={this.styles.transcript}>
-              //       <div style={this.styles.transcriptTitle}>
-              //         <FormattedMessage {...messages.audioRecording} />
-              //       </div>
-              //       <div>
-              //         <audio controls src={segment.audioRecording} />
-              //       </div>
-              //     </div>
-              //   );
-              // } else {
-              //   const transcriptItems = segment.transcript.map((transcriptItem, index) =>
-              //     <div key={`${segment.id}`} id={`transcriptItem${index}`} style={this.styles.transcriptItem}>
-              //       <span style={this.styles.transcriptItemName}>
-              //         {transcriptItem.name}:&nbsp;
-              //       </span>
-              //       <span>
-              //         {transcriptItem.message}
-              //       </span>
-              //     </div>
-              //   );
-              //   transcript = (
-              //     <div style={this.styles.transcript}>
-              //       <div style={this.styles.transcriptTitle}>
-              //         <FormattedMessage {...messages.transcript} />
-              //       </div>
-              //       <div style={this.styles.segmentMessage}>
-              //         {transcriptItems}
-              //       </div>
-              //     </div>
-              //   );
-              // }
               }
             </div>
           </div>
@@ -275,9 +330,16 @@ export class ContactInteractionHistory extends React.Component {
         <div>
           { segmentData }
           {
-            interactionIndex !== undefined && interaction.interactionDetails.agents.findIndex((agent) => agent.noteTitle !== null) !== -1
+            !expandedView
             ? <div className="expand" style={this.styles.expand} onClick={() => this.selectInteraction(interactionIndex)}>
               &#9679;&#9679;&#9679;
+            </div>
+            : undefined
+          }
+          {
+            expandedView
+            ? <div style={[this.styles.interactionBody]}>
+              { this.interactionBody(interaction.interactionDetails) }
             </div>
             : undefined
           }
@@ -294,7 +356,7 @@ export class ContactInteractionHistory extends React.Component {
       >
         <div style={this.styles.interactionHeader}>
           {
-            interactionIndex === undefined
+            expandedView
             ? <Icon name="close" style={this.styles.closeIcon} onclick={() => this.selectInteraction(undefined)} />
             : <div style={this.styles.interactionDaysAgo}>
               { moment(interaction.startTimestamp).fromNow() }
@@ -396,6 +458,7 @@ function mapDispatchToProps(dispatch) {
     setContactInteractionHistory: (response) => dispatch(setContactInteractionHistory(response)),
     setContactHistoryInteractionDetailsLoading: (interactionId, contactHistoryInteractionId) => dispatch(setContactHistoryInteractionDetailsLoading(interactionId, contactHistoryInteractionId)),
     addNotesToContactInteractionHistory: (contactHistoryInteractionId, response) => dispatch(addNotesToContactInteractionHistory(contactHistoryInteractionId, response)),
+    loadHistoricalInteractionBody: (interactionId, bodyType) => dispatch(loadHistoricalInteractionBody(interactionId, bodyType)),
     dispatch,
   };
 }
@@ -407,6 +470,7 @@ ContactInteractionHistory.propTypes = {
   setContactInteractionHistory: React.PropTypes.func.isRequired,
   setContactHistoryInteractionDetailsLoading: React.PropTypes.func.isRequired,
   addNotesToContactInteractionHistory: React.PropTypes.func.isRequired,
+  loadHistoricalInteractionBody: React.PropTypes.func.isRequired,
   style: React.PropTypes.object,
 };
 
