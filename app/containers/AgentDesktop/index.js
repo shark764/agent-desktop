@@ -28,7 +28,7 @@ import { setContactLayout, setContactAttributes } from 'containers/SidePanel/act
 import { setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact,
   setContactInteractionHistory, setContactHistoryInteractionDetails, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction,
   updateWrapupDetails, addScript, removeScript, selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
-  muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, transferConnected, showRefreshRequired,
+  muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall, transferCancelled, resourceAdded, updateResourceName, resourceRemoved, showRefreshRequired,
   emailCreateReply, emailCancelReply, emailAddAttachment, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition } from './actions';
 
 import selectAgentDesktop, { selectLogin } from './selectors';
@@ -272,7 +272,7 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/interactions/voice/resource-unmute-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          if (response.mutedResources.includes(this.props.login.agent.userId)) {
+          if (response.extraParams.targetResource === this.props.login.agent.userId) {
             this.props.unmuteCall(response.interactionId);
           }
           break;
@@ -302,9 +302,21 @@ export class AgentDesktop extends React.Component {
           this.props.transferCancelled(response.interactionId);
           break;
         }
-        case 'cxengage/interactions/voice/transfer-connected': {
+        case 'cxengage/interactions/resource-added': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.transferConnected(response.interactionId);
+          if (this.props.login.agent.userId !== response.extraParams.targetResource) {
+            this.props.resourceAdded(response);
+          }
+          break;
+        }
+        case 'cxengage/entities/get-user-response': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.updateResourceName(response);
+          break;
+        }
+        case 'cxengage/interactions/resource-removed': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.resourceRemoved(response);
           break;
         }
         case 'cxengage/contacts/list-attributes-response': {
@@ -424,9 +436,14 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/voice/phone-controls-response': // Using mute-started, mute-ended, etc. instead
         case 'cxengage/contacts/search-contacts-response': // Handled in ContactsControl & AgentDesktop callback
         case 'cxengage/interactions/contact-assign-acknowledged': // Handled in ContactsControl
+        case 'cxengage/interactions/voice/mute-acknowledged': // Just using cxengage/interactions/voice/resource-mute-received
+        case 'cxengage/interactions/voice/unmute-acknowledged': // Just using cxengage/interactions/voice/resource-unmute-received
+        case 'cxengage/interactions/voice/resume-acknowledged': // Just using cxengage/interactions/voice/customer-resume-received
+        case 'cxengage/interactions/voice/hold-acknowledged': // Just using cxengage/interactions/voice/customer-hold-received
         case 'cxengage/entities/get-users-response': // Handled in TransferMenu
         case 'cxengage/entities/get-transfer-lists-response': // Handled in TransferMenu
         case 'cxengage/interactions/voice/transfer-response': // Handled in TransferMenu
+        case 'cxengage/interactions/voice/transfer-connected': // Using cxengage/interactions/resource-added instead
         case 'cxengage/interactions/contact-unassigned-acknowledged': // Handled in ContactsControl
         case 'cxengage/interactions/contact-assigned-acknowledged': // Handled in ContactsControl
         case 'cxengage/reporting/polling-started': // Ignore
@@ -629,7 +646,9 @@ function mapDispatchToProps(dispatch) {
     recordCall: (interactionId) => dispatch(recordCall(interactionId)),
     stopRecordCall: (interactionId) => dispatch(stopRecordCall(interactionId)),
     transferCancelled: (interactionId) => dispatch(transferCancelled(interactionId)),
-    transferConnected: (interactionId) => dispatch(transferConnected(interactionId)),
+    resourceAdded: (response) => dispatch(resourceAdded(response)),
+    updateResourceName: (response) => dispatch(updateResourceName(response)),
+    resourceRemoved: (response) => dispatch(resourceRemoved(response)),
     emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
     emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
     emailAddAttachment: (interactionId, attachment) => dispatch(emailAddAttachment(interactionId, attachment)),
@@ -680,7 +699,9 @@ AgentDesktop.propTypes = {
   recordCall: PropTypes.func.isRequired,
   stopRecordCall: PropTypes.func.isRequired,
   transferCancelled: PropTypes.func.isRequired,
-  transferConnected: PropTypes.func.isRequired,
+  resourceAdded: PropTypes.func.isRequired,
+  updateResourceName: PropTypes.func.isRequired,
+  resourceRemoved: PropTypes.func.isRequired,
   emailCreateReply: PropTypes.func.isRequired,
   emailCancelReply: PropTypes.func.isRequired,
   emailAddAttachment: PropTypes.func.isRequired,

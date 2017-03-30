@@ -1,7 +1,7 @@
 import { List, Map } from 'immutable';
 
 export default class Interaction {
-  constructor({ interactionId, channelType, autoAnswer, direction, timeout, toolbarFeatures, recording, customerOnHold, status, customer }) {
+  constructor({ interactionId, channelType, autoAnswer, direction, timeout, toolbarFeatures, recording, customerOnHold, status, customer, activeResources }) {
     if (channelType === 'voice') {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
       this.agentRecordingEnabled = toolbarFeatures && toolbarFeatures.recordingUpdate !== false;
@@ -21,12 +21,19 @@ export default class Interaction {
     this.timeout = new Date(timeout).valueOf();
     this.autoAnswer = autoAnswer;
     this.status = status || 'work-offer';
-    this.query = new Map();
+    if (activeResources !== null) {
+      this.warmTransfers = new List(activeResources.map((resource) => {
+        const mappedResource = Object.assign({}, resource);
+        mappedResource.targetResource = mappedResource.id;
+        mappedResource.status = 'connected';
+        SDK.entities.get.user({ entityId: resource.id });
+        return new Map(mappedResource);
+      }));
+    }
     this.wrapupDetails = new Map({
       wrapupUpdateAllowed: false,
       wrapupEnabled: false,
     });
-    this.contactAction = 'search';
     this.dispositionDetails = new Map({
       forceSelect: false,
       dispositions: new List(),
@@ -38,5 +45,7 @@ export default class Interaction {
       title: '',
       notesPanelHeight: 300,
     });
+    this.contactAction = 'search';
+    this.query = new Map();
   }
 }
