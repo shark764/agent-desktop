@@ -1,3 +1,8 @@
+<a name"0.24.0"></a>
+### 0.24.0 (2017-03-29)
+* Updated breaking changes by new SDK
+* Add/remove transfer resource functionality
+
 <a name"0.23.11"></a>
 ### 0.23.11 (2017-03-29)
 * update dev dependencies

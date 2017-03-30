@@ -5,6 +5,7 @@
  */
 
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 
@@ -15,8 +16,8 @@ import CircleIconButton from 'components/CircleIconButton';
 import Dialpad from 'components/Dialpad';
 import Timer from 'components/Timer';
 
+import { selectAgentId } from 'containers/AgentDesktop/selectors';
 import TransferMenu from 'containers/TransferMenu';
-
 import messages from './messages';
 
 export class PhoneControlsActive extends React.Component {
@@ -81,17 +82,17 @@ export class PhoneControlsActive extends React.Component {
 
   setMute() {
     if (this.props.activeVoiceInteraction.muted) {
-      SDK.interactions.voice.unmute({ interactionId: this.props.activeVoiceInteraction.interactionId });
+      SDK.interactions.voice.unmute({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
     } else {
-      SDK.interactions.voice.mute({ interactionId: this.props.activeVoiceInteraction.interactionId });
+      SDK.interactions.voice.mute({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
     }
   }
 
   setHold() {
     if (this.props.activeVoiceInteraction.onHold) {
-      SDK.interactions.voice.resume({ interactionId: this.props.activeVoiceInteraction.interactionId });
+      SDK.interactions.voice.customerResume({ interactionId: this.props.activeVoiceInteraction.interactionId });
     } else {
-      SDK.interactions.voice.hold({ interactionId: this.props.activeVoiceInteraction.interactionId });
+      SDK.interactions.voice.customerHold({ interactionId: this.props.activeVoiceInteraction.interactionId });
     }
   }
 
@@ -283,7 +284,18 @@ export class PhoneControlsActive extends React.Component {
   }
 }
 
+const mapStateToProps = (state, props) => ({
+  agentId: selectAgentId(state, props),
+});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
+
 PhoneControlsActive.propTypes = {
+  agentId: PropTypes.string.isRequired,
   activeVoiceInteraction: PropTypes.object,
   style: PropTypes.shape({
     topTriangle: PropTypes.object.isRequired,
@@ -291,4 +303,4 @@ PhoneControlsActive.propTypes = {
   }),
 };
 
-export default (Radium(PhoneControlsActive));
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(PhoneControlsActive));
