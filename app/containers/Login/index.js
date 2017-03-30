@@ -291,6 +291,7 @@ export class Login extends React.Component {
       fontWeight: 'lighter',
       textAlign: 'center',
       paddingTop: '3px',
+      paddingBottom: '3px',
       position: 'relative',
       top: '0px',
       marginBottom: '-27px',

@@ -128,12 +128,12 @@ export class AgentDesktop extends React.Component {
       if (error) {
         console.error('Pub sub error', topic, error); // eslint-disable-line no-console
         switch (topic) {
-          // Safe errors handled elsewhere
-          case 'cxengage/authentication/login-response':
-            break;
-          default:
+          case 'cxengage/session/heartbeat-response':
             window.localStorage.setItem('ADError', topic); // Consume in Login component
             location.reload(); // Kill it with 🔥
+            break;
+          default:
+            break;
         }
       }
       switch (topic) {
