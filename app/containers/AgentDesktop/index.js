@@ -67,11 +67,12 @@ export class AgentDesktop extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateDimensions);
+    clearInterval(this.cacheCheckInterval);
   }
 
   componentWillMount() {
     this.loadConf();
-    setInterval(this.loadConf(), 300000); // Cache busting version check every 5min
+    this.cacheCheckInterval = setInterval(this.loadConf, 300000); // Cache busting version check every 5min
   }
 
   loadConf() {
