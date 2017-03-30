@@ -1,3 +1,7 @@
+<a name"0.24.3"></a>
+### 0.24.3 (2017-03-30)
+* Fix cache invalidation interval
+
 <a name"0.24.2"></a>
 ### 0.24.2 (2017-03-30)
 * Remove cache invalidation from main agent screen
