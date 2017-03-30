@@ -446,10 +446,16 @@ export class ContentArea extends React.Component {
               />
             </div>
             {
-              <div style={this.styles.dispositionChipsContainer}>
+              this.props.interaction.dispositionDetails.dispositions.length
+              ? <div style={this.styles.dispositionChipsContainer}>
                 {
                   this.props.interaction.dispositionDetails.selected.map((disposition) =>
-                    <div id={`selected-disposition-${disposition.dispositionId}`} key={`selected-disposition-${disposition.dispositionId}`} title={disposition.name} style={[this.styles.dispositionChip]} >
+                    <div
+                      id={`selected-disposition-${disposition.dispositionId}`}
+                      key={`selected-disposition-${disposition.dispositionId}`}
+                      title={disposition.name}
+                      style={[this.styles.dispositionChip]}
+                    >
                       <span style={this.styles.dispositionLabelText}>
                         { disposition.name !== undefined ? disposition.name.toUpperCase() : '' }
                       </span>
@@ -467,41 +473,42 @@ export class ContentArea extends React.Component {
                 }
                 {
                   this.props.interaction.dispositionDetails.selected.length === 0
-                  ? [
-                    <div
-                      onClick={() => this.setState({ showDispositionsList: !this.state.showDispositionsList })}
-                      key="new-label-button"
-                      id="new-label-button"
-                      style={[this.styles.dispositionChip, this.styles.dispositionNewLabel, { border: `1px solid ${this.getNewLabelChipBorderColor()}` }]}
-                    >
-                      <IconSVG
-                        name="add"
-                        id="add-disposition-icon"
-                        style={this.styles.addIcon}
-                      />
-                      <span style={[this.styles.dispositionLabelText, { marginLeft: '5px' }]}>
-                        <FormattedMessage {...messages.disposition} />
-                      </span>
-                    </div>,
-                    this.state.showDispositionsList && this.props.interaction.dispositionDetails.dispositions.length
-                      ? <div key="dispositionsContainer" style={{ position: 'relative' }}>
-                        <div style={this.styles.dispositionList}>
-                          {
-                            this.props.interaction.dispositionDetails.dispositions.map((disposition) => {
-                              if (disposition.type === 'category') {
-                                return this.renderCategory(disposition);
-                              }
-                              return this.renderDisposition(disposition);
-                            })
-                          }
+                    ? [
+                      <div
+                        onClick={() => this.setState({ showDispositionsList: !this.state.showDispositionsList })}
+                        key="new-label-button"
+                        id="new-label-button"
+                        style={[this.styles.dispositionChip, this.styles.dispositionNewLabel, { border: `1px solid ${this.getNewLabelChipBorderColor()}` }]}
+                      >
+                        <IconSVG
+                          name="add"
+                          id="add-disposition-icon"
+                          style={this.styles.addIcon}
+                        />
+                        <span style={[this.styles.dispositionLabelText, { marginLeft: '5px' }]}>
+                          <FormattedMessage {...messages.disposition} />
+                        </span>
+                      </div>,
+                      this.state.showDispositionsList
+                        ? <div key="dispositionsContainer" style={{ position: 'relative' }}>
+                          <div style={this.styles.dispositionList}>
+                            {
+                              this.props.interaction.dispositionDetails.dispositions.map((disposition) => {
+                                if (disposition.type === 'category') {
+                                  return this.renderCategory(disposition);
+                                }
+                                return this.renderDisposition(disposition);
+                              })
+                            }
+                          </div>
+                          <div style={this.styles.triangle}></div>
                         </div>
-                        <div style={this.styles.triangle}></div>
-                      </div>
-                      : undefined,
-                  ]
-                  : undefined
+                        : undefined,
+                    ]
+                    : undefined
                 }
               </div>
+              : undefined
             }
             <textarea
               id="notesTextarea"

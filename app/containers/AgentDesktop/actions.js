@@ -22,6 +22,8 @@ import {
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS,
+  LOAD_HISTORICAL_INTERACTION_BODY,
+  UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS,
   ADD_NOTES_TO_CONTACT_INTERACTION_HISTORY,
   UPDATE_CONTACT,
   ADD_MESSAGE,
@@ -194,6 +196,22 @@ export function setContactHistoryInteractionDetails(response) {
   return {
     type: SET_CONTACT_HISTORY_INTERACTION_DETAILS,
     response,
+  };
+}
+
+export function loadHistoricalInteractionBody(interactionId, bodyType) {
+  return {
+    type: LOAD_HISTORICAL_INTERACTION_BODY,
+    interactionId,
+    bodyType,
+  };
+}
+
+export function updateContactHistoryInteractionDetails(interactionId, interactionDetails) {
+  return {
+    type: UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS,
+    interactionId,
+    interactionDetails,
   };
 }
 

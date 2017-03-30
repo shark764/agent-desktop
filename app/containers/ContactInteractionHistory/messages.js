@@ -34,6 +34,10 @@ export default defineMessages({
     id: 'app.containers.ContactInteractionHistory.audioRecording',
     defaultMessage: 'Audio Recording',
   },
+  noRecordings: {
+    id: 'app.containers.ContactInteractionHistory.noRecordings',
+    defaultMessage: 'No recordings (processing can take up to 10 minutes).',
+  },
   transcript: {
     id: 'app.containers.ContactInteractionHistory.transcript',
     defaultMessage: 'Transcript',

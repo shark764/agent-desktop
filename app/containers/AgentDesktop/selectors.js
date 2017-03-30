@@ -47,6 +47,7 @@ const selectAwaitingDisposition = createSelector(
 
 export default selectAgentDesktop;
 export {
+  selectInteractions,
   selectLogin,
   selectAgentId,
   selectAwaitingDisposition,

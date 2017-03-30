@@ -456,6 +456,8 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/voice/send-digits-acknowledged': // Handled in Dialpad
         case 'cxengage/reporting/stat-subscription-added': // Handled by Toolbar
         case 'cxengage/reporting/stat-subscription-removed': // Handled by Toolbar
+        case 'cxengage/interactions/voice/recording-received': // Handled in historicalInteractionBody saga
+        case 'cxengage/interactions/get-notes-response': // Handled in contactInteractionHistory
           break;
         default: {
           console.warn('[AgentDesktop] SDK.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console
