@@ -562,14 +562,14 @@ export class AgentDesktop extends React.Component {
     return (
       <div>
         {
-          this.props.agentDesktop.refreshRequired && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' &&
+          this.props.agentDesktop.refreshRequired && this.props.login.showLogin && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' &&
           <RefreshBanner hide={this.hideRefreshBanner} />
         }
         {
           this.props.login.showLogin || this.props.agentDesktop.presence === undefined
             ? <Login />
             : <span>
-              <div id="desktop-container" style={[this.styles.flexChildGrow, this.styles.parent, this.styles.columnParent, this.props.agentDesktop.refreshRequired ? { height: 'calc(100vh - 2em)' } : { height: '100vh' }]}>
+              <div id="desktop-container" style={[this.styles.flexChildGrow, this.styles.parent, this.styles.columnParent, { height: '100vh' }]}>
                 <div id="top-area" style={[this.styles.flexChildGrow, this.styles.parent, this.styles.topArea]}>
                   <div style={[this.styles.leftArea]}>
                     <PhoneControls style={[this.styles.phoneControls]} />

@@ -83,7 +83,7 @@ const initialState = fromJS({
   queues: [],
   extensions: [],
   activeExtension: {},
-  refreshRequired: true,
+  refreshRequired: false,
 });
 
 function agentDesktopReducer(state = initialState, action) {
