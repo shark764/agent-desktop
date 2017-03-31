@@ -30,6 +30,7 @@ function Select(props) {
       options={props.options}
       autofocus={props.autoFocus}
       clearable={props.clearable}
+      placeholder={props.placeholder || 'Select...'}
     />
   );
 }
@@ -42,6 +43,7 @@ Select.propTypes = {
   autoFocus: PropTypes.bool,
   id: PropTypes.string.isRequired,
   clearable: PropTypes.bool,
+  placeholder: PropTypes.object,
 };
 
 export default Radium(Select);

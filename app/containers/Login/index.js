@@ -150,7 +150,7 @@ export class Login extends React.Component {
         }
         <Logo style={{ marginTop: '50px' }} width="275px" />
         <Title id={messages.welcome.id} text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
-        <Select id={'app.login.selectTennant.selectbox'} style={{ width: '282px' }} value={this.state.tenantId} onChange={(e) => this.setTenantId(e.value || '-1', e.label || '')} options={tenantOptions} autoFocus />
+        <Select id={'app.login.selectTennant.selectbox'} style={{ width: '282px' }} value={this.state.tenantId} onChange={(e) => this.setTenantId(e.value || '-1', e.label || '')} options={tenantOptions} autoFocus clearable={false} placeholder={<FormattedMessage {...messages.selectTenant} />} />
         { // Inbound / Outbound Select
           // <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
         }
