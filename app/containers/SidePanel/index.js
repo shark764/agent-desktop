@@ -18,8 +18,10 @@ import AgentScript from 'containers/AgentScript';
 import ContactsControl from 'containers/ContactsControl';
 import ContactInteractionHistory from 'containers/ContactInteractionHistory';
 
+import { setSidePanelTabIndex } from 'containers/AgentDesktop/actions';
+
 import messages from './messages';
-import { getSelectedInteractionId, getSelectedInteractionIsVoice, getSelectedInteractionScript, getHasAssignedContact } from './selectors';
+import { getSelectedInteractionId, getSelectedInteractionIsVoice, getSelectedInteractionScript, getHasAssignedContact, getSelectedTabIndex } from './selectors';
 
 const leftGutterPx = 52;
 const topBarHeightPx = 63;
@@ -29,11 +31,6 @@ export class SidePanel extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-      selectedTabIndex: 0,
-    };
-
-    this.updateSelectedTab = this.updateSelectedTab.bind(this);
     this.getPanelSizing = this.getPanelSizing.bind(this);
     this.handleCollapseClick = this.handleCollapseClick.bind(this);
   }
@@ -46,12 +43,6 @@ export class SidePanel extends React.Component {
       sizing.transform = `translateX(${this.props.openPx - this.props.collapsedPx}px)`;
     }
     return sizing;
-  }
-
-  updateSelectedTab(index) {
-    this.setState({
-      selectedTabIndex: index,
-    });
   }
 
   styles = {
@@ -141,7 +132,7 @@ export class SidePanel extends React.Component {
           <div style={this.styles.leftGutterSpacer}></div>
         </div>
         <div id="sidePanelTabsContainer" style={this.styles.bodyWrapper}>
-          <Tabs topBarHeightPx={topBarHeightPx} style={this.styles.tabsOuter} tabsRootStyle={this.styles.tabsRoot} type="big" id="contactTabs" onSelect={this.updateSelectedTab} selectedIndex={this.state.selectedTabIndex}>
+          <Tabs topBarHeightPx={topBarHeightPx} style={this.styles.tabsOuter} tabsRootStyle={this.styles.tabsRoot} type="big" id="contactTabs" onSelect={(tabIndex) => this.props.setSidePanelTabIndex(this.props.selectedInteractionId, tabIndex)} selectedIndex={this.props.selectedTabIndex}>
             <TabList>
               <Tab>
                 <FormattedMessage {...messages.infoTab} />
@@ -198,11 +189,13 @@ function mapStateToProps(state, props) {
     selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
     selectedInteractionScript: getSelectedInteractionScript(state, props),
     hasAssignedContact: getHasAssignedContact(state, props),
+    selectedTabIndex: getSelectedTabIndex(state, props),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    setSidePanelTabIndex: (interactionId, tabIndex) => dispatch(setSidePanelTabIndex(interactionId, tabIndex)),
     dispatch,
   };
 }
@@ -217,10 +210,12 @@ SidePanel.propTypes = {
   selectedInteractionId: PropTypes.string,
   selectedInteractionIsVoice: PropTypes.bool,
   selectedInteractionScript: PropTypes.object,
+  selectedTabIndex: PropTypes.number.isRequired,
   hasAssignedContact: PropTypes.bool.isRequired,
   addSearchFilter: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
   setContactAction: PropTypes.func.isRequired,
+  setSidePanelTabIndex: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(SidePanel));

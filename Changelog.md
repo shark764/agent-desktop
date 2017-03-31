@@ -1,3 +1,8 @@
+<a name"0.25.01"></a>
+### 0.25.1 (2017-03-31)
+* CXV1-7949 Default search bar to All filter on enter if none selected
+* CXV1-8417 BUGFIX - Contacts panel blanking if in history tab and next interaction does not have contact assigned/selected.
+
 <a name"0.25.0"></a>
 ### 0.25.0 (2017-03-30)
 * CXV1-8272 contact interaction history level 3 - recordings
