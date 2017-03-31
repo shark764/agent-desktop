@@ -1,3 +1,8 @@
+<a name"0.25.3"></a>
+### 0.25.3 (2017-03-31)
+* BUGFIX - Search filters list never showing empty.
+* BUGFIX - Bombing out when trying to fetch detailed history view for sms interaction
+
 <a name"0.25.2"></a>
 ### 0.25.2 (2017-03-31)
 * CXV1-8412 Remove ability to clear select since you need it to progress to next screen.
@@ -34,11 +39,11 @@
 
 <a name"0.23.11"></a>
 ### 0.23.11 (2017-03-29)
-* update dev dependencies
+* CXV1-8421 -update dev dependencies
 
 <a name"0.23.10"></a>
 ### 0.23.10 (2017-03-29)
-* update dependencies
+* CXV1-8421 -update dependencies
 
 <a name"0.23.9"></a>
 ### 0.23.9 (2017-03-28)

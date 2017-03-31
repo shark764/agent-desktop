@@ -14,12 +14,14 @@ export function* loadHistoricalInteractionBody(action) {
         body.audioRecordings = recordings.map((recording) => recording.url);
         break;
       case 'transcript':
-        body.transcript = yield call(sdkCallToPromise, SDK.interactions.voice.getTranscript, { interactionId: action.interactionId }, 'AgentDesktop');
+        body.transcript = yield call(sdkCallToPromise, SDK.interactions.messaging.getTranscripts, { interactionId: action.interactionId }, 'AgentDesktop');
         break;
       default:
         break;
     }
-    yield put(updateContactHistoryInteractionDetails(action.interactionId, body));
+    if (Object.keys(body).length) {
+      yield put(updateContactHistoryInteractionDetails(action.interactionId, body));
+    }
   } catch (error) {
     console.error(error); // TODO fire error action?
   }
