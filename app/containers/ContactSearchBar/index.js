@@ -54,16 +54,13 @@ export class ContactSearchBar extends React.Component {
   }
 
   getAvailableFilters() {
-    const filteredFilters = this.props.searchableAttributes.filter(
-      (possibleFilter) => (this.props.query.findIndex((searchFilter) => searchFilter.attribute.objectName === possibleFilter.objectName) === -1)
-    );
-    if (
-      filteredFilters.length === 0 ||
-      (this.props.query.length && this.props.query[0].attribute.id === 'all')
-    ) {
+    if (this.props.query.length && this.props.query[0].attribute.id === 'all') {
       // Don't show other filters when 'all' is selected
       return [];
     }
+    const filteredFilters = this.props.searchableAttributes.filter(
+      (possibleFilter) => (this.props.query.findIndex((searchFilter) => searchFilter.attribute.objectName === possibleFilter.objectName) === -1)
+    );
     return filteredFilters;
   }
 
