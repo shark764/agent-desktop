@@ -66,6 +66,10 @@ export default defineMessages({
     id: 'app.containers.Login.generalError',
     defaultMessage: 'You were logged out because an error has occured, please log in again. If this persists, please contact support',
   },
+  selectTenant: {
+    id: 'app.containers.Login.selectTenant',
+    defaultMessage: 'Select Tenant...',
+  },
   noTenant: {
     id: 'app.containers.Login.noTenant',
     defaultMessage: 'You must first select a tenant',
