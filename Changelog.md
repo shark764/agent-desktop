@@ -1,4 +1,9 @@
-<a name"0.25.01"></a>
+<a name"0.25.2"></a>
+### 0.25.2 (2017-03-31)
+* CXV1-8412 Remove ability to clear select since you need it to progress to next screen.
+* Indicate what the agent is selecting on the tenant select screen.
+
+<a name"0.25.1"></a>
 ### 0.25.1 (2017-03-31)
 * CXV1-7949 Default search bar to All filter on enter if none selected
 * CXV1-8417 BUGFIX - Contacts panel blanking if in history tab and next interaction does not have contact assigned/selected.
