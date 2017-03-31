@@ -38,6 +38,7 @@ export class ContactSearchBar extends React.Component {
     this.resizeFilterDropdownMenu = this.resizeFilterDropdownMenu.bind(this);
     this.matchFilterToTerm = this.matchFilterToTerm.bind(this);
     this.getItemValue = this.getItemValue.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -53,14 +54,17 @@ export class ContactSearchBar extends React.Component {
   }
 
   getAvailableFilters() {
-    if (this.props.query.length && this.props.query[0].attribute.id === 'all') {
+    const filteredFilters = this.props.searchableAttributes.filter(
+      (possibleFilter) => (this.props.query.findIndex((searchFilter) => searchFilter.attribute.objectName === possibleFilter.objectName) === -1)
+    );
+    if (
+      filteredFilters.length === 0 ||
+      (this.props.query.length && this.props.query[0].attribute.id === 'all')
+    ) {
       // Don't show other filters when 'all' is selected
       return [];
-    } else {
-      return this.props.searchableAttributes.filter(
-        (possibleFilter) => (this.props.query.findIndex((searchFilter) => searchFilter.attribute.objectName === possibleFilter.objectName) === -1)
-      );
     }
+    return filteredFilters;
   }
 
   setSearchTerm(searchTerm) {
@@ -86,16 +90,6 @@ export class ContactSearchBar extends React.Component {
         if (!this.state.pendingFilterValue.length) {
           this.setState({
             pendingFilter: false,
-          });
-        }
-        break;
-      case 'Enter':
-        if (this.state.pendingFilterValue.length) {
-          this.props.addFilter(this.state.pendingFilter.objectName, this.state.pendingFilterValue);
-          this.setState({
-            pendingFilter: false,
-            pendingFilterValue: '',
-            autocompleteValue: '',
           });
         }
         break;
@@ -219,18 +213,42 @@ export class ContactSearchBar extends React.Component {
     );
   }
 
+  handleSubmit(event) {
+    if (this.state.pendingFilter) {
+      if (this.state.pendingFilterValue.length) {
+        this.props.addFilter(this.state.pendingFilter.objectName, this.state.pendingFilterValue);
+        this.setState({
+          pendingFilter: false,
+          pendingFilterValue: '',
+          autocompleteValue: '',
+        });
+      }
+    } else if (this.state.autocompleteValue.length > 0) {
+      this.props.addFilter('q', this.state.autocompleteValue);
+      this.setState({
+        pendingFilter: false,
+        pendingFilterValue: '',
+        autocompleteValue: '',
+      });
+    }
+    event.preventDefault();
+    return false;
+  }
+
   render() {
     return (
-      <div id="contactSearchBar" style={[this.styles.base, this.props.style]}>
-        <div ref={(element) => { this.inputDiv = element; }} style={this.styles.inputBox}>
-          {
-            this.state.pendingFilter ?
-              <span style={this.styles.inputWrapper}>
-                <span style={this.styles.filterName}>{`${this.getLabel(this.state.pendingFilter)}:`}&nbsp;</span>
+      <form onSubmit={this.handleSubmit}>
+        <div id="contactSearchBar" style={[this.styles.base, this.props.style]}>
+          <div ref={(element) => { this.inputDiv = element; }} style={this.styles.inputBox}>
+            {
+              this.state.pendingFilter
+              ? <span style={this.styles.inputWrapper}>
+                <span style={this.styles.filterName}>
+                  {`${this.getLabel(this.state.pendingFilter)}:`}&nbsp;
+                </span>
                 <TextInput id="search-filter-input" noBorder autoFocus onKeyDown={this.handleFilterValueInputKey} style={[this.styles.input, this.styles.pendingFilterInput]} cb={(pendingFilterValue) => this.setState({ pendingFilterValue })} value={this.state.pendingFilterValue} />
               </span>
-            :
-              <Autocomplete
+              : <Autocomplete
                 value={this.state.autocompleteValue}
                 items={this.getAvailableFilters()}
                 renderItem={this.createDropdownItem}
@@ -238,15 +256,16 @@ export class ContactSearchBar extends React.Component {
                 shouldItemRender={this.matchFilterToTerm}
                 onChange={(event, value) => this.setState({ autocompleteValue: value })}
                 onSelect={this.handleFilterSelect}
-                inputProps={{ style: this.styles.input }}
+                inputProps={{ style: this.styles.input, autoFocus: true }}
                 wrapperStyle={this.styles.inputWrapper}
                 menuStyle={{ ...this.styles.filterDropdown, width: `${this.state.filterMenuWidth}px` }}
               />
-          }
-          { this.props.resultsCount > -1 ? <div style={this.styles.resultsCount}>{`${this.props.resultsCount} Result(s)`}</div> : '' }
+            }
+            { this.props.resultsCount > -1 ? <div style={this.styles.resultsCount}>{`${this.props.resultsCount} Result(s)`}</div> : '' }
+          </div>
+          <Button id="exit-search-btn" style={this.styles.closeButton} iconName="close" type="secondary" onClick={this.props.cancel} />
         </div>
-        <Button id="exit-search-btn" style={this.styles.closeButton} iconName="close" type="secondary" onClick={this.props.cancel} />
-      </div>
+      </form>
     );
   }
 }

@@ -19,6 +19,7 @@ import {
   SET_MESSAGE_HISTORY,
   SET_CONTACT_ACTION,
   ASSIGN_CONTACT,
+  SET_SIDE_PANEL_TAB_INDEX,
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS,
@@ -174,6 +175,14 @@ export function assignContact(interactionId, contact) {
     type: ASSIGN_CONTACT,
     interactionId,
     contact,
+  };
+}
+
+export function setSidePanelTabIndex(interactionId, tabIndex) {
+  return {
+    type: SET_SIDE_PANEL_TAB_INDEX,
+    interactionId,
+    tabIndex,
   };
 }
 

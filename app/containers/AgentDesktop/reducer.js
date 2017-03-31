@@ -27,6 +27,7 @@ import {
   SET_MESSAGE_HISTORY,
   SET_CONTACT_ACTION,
   ASSIGN_CONTACT,
+  SET_SIDE_PANEL_TAB_INDEX,
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS,
@@ -80,6 +81,7 @@ const initialState = fromJS({
   noInteractionContactPanel: {
     contactAction: 'search',
     query: {},
+    sidePanelTabIndex: 0,
   },
   queues: [],
   extensions: [],
@@ -399,6 +401,23 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+    case SET_SIDE_PANEL_TAB_INDEX: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      const target = interactionIndex !== -1 ? ['interactions', interactionIndex] : ['noInteractionContactPanel'];
+      target.push('sidePanelTabIndex');
+      return state.setIn(target, action.tabIndex);
+    }
+    case SET_CONTACT_HISTORY_INTERACTION_DETAILS: {
+      return state.update('interactions',
+        (interactions) => interactions.map(
+          (interaction) => setContactInteractionDetails(interaction, action)
+        )).update(
+        'noInteractionContactPanel',
+        (noInteractionContactPanel) => setContactInteractionDetails(noInteractionContactPanel, action)
+      );
+    }
     case SET_CONTACT_INTERACTION_HISTORY: {
       return state.update('interactions', (interactions) => interactions.map((interaction) => {
         if (interaction.getIn(['contact', 'id']) === action.response.contactId) {
@@ -435,15 +454,6 @@ function agentDesktopReducer(state = initialState, action) {
           return interaction;
         }
       });
-    }
-    case SET_CONTACT_HISTORY_INTERACTION_DETAILS: {
-      return state.update('interactions',
-        (interactions) => interactions.map(
-          (interaction) => setContactInteractionDetails(interaction, action)
-        )).update(
-        'noInteractionContactPanel',
-        (noInteractionContactPanel) => setContactInteractionDetails(noInteractionContactPanel, action)
-      );
     }
     case UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS: {
       return state.update('interactions',

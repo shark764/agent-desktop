@@ -47,5 +47,6 @@ export default class Interaction {
     });
     this.contactAction = 'search';
     this.query = new Map();
+    this.sidePanelTabIndex = 0;
   }
 }
