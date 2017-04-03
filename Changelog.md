@@ -1,3 +1,7 @@
+<a name"0.25.6"></a>
+### 0.25.6 (2017-04-03)
+* CXV1-8330 Show plain text body if there is no html body
+
 <a name"0.25.5"></a>
 ### 0.25.5 (2017-04-03)
 * Fix work offers without resources defined (emails, pre-transfer enhancements)

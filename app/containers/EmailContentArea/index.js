@@ -381,7 +381,7 @@ export class EmailContentArea extends React.Component {
         </div>
       );
     } else if (this.props.selectedInteraction.emailReply === undefined) {
-      if (this.props.selectedInteraction.emailDetails === undefined || this.props.selectedInteraction.emailHtmlBody === undefined) {
+      if (this.props.selectedInteraction.emailDetails === undefined || (this.props.selectedInteraction.emailHtmlBody === undefined && this.props.selectedInteraction.emailPlainBody === undefined)) {
         buttons = (
           <Button
             id="replyEmailDisabled"
@@ -503,7 +503,7 @@ export class EmailContentArea extends React.Component {
         );
       }
 
-      if (this.props.selectedInteraction.emailHtmlBody === undefined) {
+      if (this.props.selectedInteraction.emailHtmlBody === undefined && this.props.selectedInteraction.emailPlainBody === undefined) {
         content = (
           <div>
             <LoadingText />
@@ -511,13 +511,19 @@ export class EmailContentArea extends React.Component {
             <LoadingText />
           </div>
         );
-      } else {
+      } else if (this.props.selectedInteraction.emailHtmlBody !== undefined) {
         content = (
           <div>
-            { /* TODO remove this inline style when inline attachments/images are supported */ }
+            { /* Remove this inline style when inline attachments/images are supported */ }
             <style>{'#emailContainer img { display: none; }'}</style>
             { // eslint-disable-next-line react/no-danger
             }<div id="emailContainer" style={this.styles.emailContent} dangerouslySetInnerHTML={{ __html: this.props.selectedInteraction.emailHtmlBody }} />
+          </div>
+        );
+      } else {
+        content = (
+          <div id="emailContainer" style={this.styles.emailContent}>
+            { this.props.selectedInteraction.emailPlainBody }
           </div>
         );
       }
@@ -669,7 +675,11 @@ export class EmailContentArea extends React.Component {
       const emailReplyingTo = (
         <div className="md-RichEditor-editor" style={{ padding: '0 30px 20px' }}>
           <p>On {timestampFormatted} {this.props.selectedInteraction.emailDetails.from[0].name} wrote:</p>
-          <blockquote className="md-RichEditor-blockquote" dangerouslySetInnerHTML={{ __html: this.props.selectedInteraction.emailHtmlBody }}></blockquote>
+          {
+            this.props.selectedInteraction.emailHtmlBody !== undefined
+            ? <blockquote className="md-RichEditor-blockquote" dangerouslySetInnerHTML={{ __html: this.props.selectedInteraction.emailHtmlBody }}></blockquote>
+            : <blockquote className="md-RichEditor-blockquote">{ this.props.selectedInteraction.emailPlainBody }</blockquote>
+          }
         </div>
       );
 
