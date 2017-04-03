@@ -1,3 +1,7 @@
+<a name"0.25.5"></a>
+### 0.25.5 (2017-04-03)
+* Fix work offers without resources defined (emails, pre-transfer enhancements)
+
 <a name"0.25.4"></a>
 ### 0.25.4 (2017-04-03)
 * FIRST! (April)

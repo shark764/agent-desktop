@@ -21,7 +21,7 @@ export default class Interaction {
     this.timeout = new Date(timeout).valueOf();
     this.autoAnswer = autoAnswer;
     this.status = status || 'work-offer';
-    if (activeResources !== null) {
+    if (activeResources) {
       this.warmTransfers = new List(activeResources.map((resource) => {
         const mappedResource = Object.assign({}, resource);
         mappedResource.targetResource = mappedResource.id;
