@@ -1,3 +1,8 @@
+<a name"0.25.4"></a>
+### 0.25.4 (2017-04-03)
+* FIRST! (April)
+* Restrict analytics to Prod only
+
 <a name"0.25.3"></a>
 ### 0.25.3 (2017-03-31)
 * BUGFIX - Search filters list never showing empty.
