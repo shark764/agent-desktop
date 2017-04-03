@@ -18,8 +18,12 @@ export default defineMessages({
     id: 'app.containers.PhoneControls.off',
     defaultMessage: 'OFF',
   },
-  connecting: {
-    id: 'app.containers.PhoneControls.connecting',
-    defaultMessage: 'connecting',
+  onHold: {
+    id: 'app.containers.PhoneControls.onHold',
+    defaultMessage: 'On Hold',
+  },
+  resume: {
+    id: 'app.containers.PhoneControls.resume',
+    defaultMessage: 'Resume',
   },
 });

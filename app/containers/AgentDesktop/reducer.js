@@ -46,6 +46,9 @@ import {
   TRANSFER_CANCELLED,
   RESOURCE_ADDED,
   UPDATE_RESOURCE_NAME,
+  UPDATE_RESOURCE_STATUS,
+  HOLD_ME,
+  RESUME_ME,
   RESOURCE_REMOVED,
   MUTE_CALL,
   UNMUTE_CALL,
@@ -678,6 +681,51 @@ function agentDesktopReducer(state = initialState, action) {
           return interaction;
         }
       }));
+    }
+    case UPDATE_RESOURCE_STATUS: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex, 'warmTransfers'], (warmTransfers) => {
+          const resourceToUpdate = warmTransfers.findIndex((warmTransfer) =>
+            warmTransfer.get('targetResource') === action.targetResource
+          );
+          if (resourceToUpdate !== -1) {
+            return warmTransfers.update(resourceToUpdate, (warmTransfer) =>
+              warmTransfer.set(action.statusKey, action.statusValue)
+            );
+          } else {
+            return warmTransfers;
+          }
+        });
+      } else {
+        return state;
+      }
+    }
+    case HOLD_ME: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.set('meOnHold', true)
+        );
+      } else {
+        return state;
+      }
+    }
+    case RESUME_ME: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.set('meOnHold', false)
+        );
+      } else {
+        return state;
+      }
     }
     case RESOURCE_REMOVED: {
       const interactionIndex = state.get('interactions').findIndex(

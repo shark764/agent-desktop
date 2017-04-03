@@ -1,3 +1,7 @@
+<a name"0.26.0"></a>
+### 0.26.0 (2017-04-03)
+* Transfer enhancements (resource controls)
+
 <a name"0.25.6"></a>
 ### 0.25.6 (2017-04-03)
 * CXV1-8330 Show plain text body if there is no html body
