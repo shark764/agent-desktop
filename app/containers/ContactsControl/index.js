@@ -22,7 +22,7 @@ import Contact from 'containers/Contact';
 import messages from './messages';
 import selectContactsControl, { selectCurrentInteraction, selectAttributes } from './selectors';
 import { setSearchResults, clearSearchResults } from './actions';
-import { assignContact, selectContact } from '../AgentDesktop/actions';
+import { assignContact, selectContact, loadContactInteractionHistory } from '../AgentDesktop/actions';
 
 const controlHeaderHeight = 70;
 const resultsPlaceholderWidth = 330;
@@ -65,9 +65,9 @@ export class ContactsControl extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const querySizeChanged = Object.keys(nextProps.selectedInteraction.query).length !== Object.keys(this.props.selectedInteraction.query).length;
+    const queryChanged = JSON.stringify(nextProps.selectedInteraction.query) !== JSON.stringify(this.props.selectedInteraction.query);
     const interactionChanged = (nextProps.selectedInteraction.interactionId !== this.props.selectedInteraction.interactionId);
-    if (querySizeChanged || interactionChanged) {
+    if (queryChanged || interactionChanged) {
       this.props.clearSearchResults();
       this.setState({ query: this.expandQuery(nextProps.selectedInteraction.query, nextProps.attributes) });
     }
@@ -430,7 +430,7 @@ export class ContactsControl extends React.Component {
     if (!this.props.selectedInteraction.interactionId) {
       this.props.selectContact(contact);
       if (typeof callback === 'function') callback();
-      SDK.reporting.getContactHistory({ entityId: contact.id });
+      this.props.loadContactInteractionHistory(contact.id);
     } else {
       this.setState({ loading: true });
       const handleError = (error) => {
@@ -476,7 +476,7 @@ export class ContactsControl extends React.Component {
       if (error) {
         callback(error);
       } else {
-        SDK.reporting.getContactHistory({ entityId: contact.id });
+        this.props.loadContactInteractionHistory(contact.id);
         this.props.clearSearchResults();
         this.props.assignContact(this.props.selectedInteraction.interactionId, contact);
         callback();
@@ -598,6 +598,7 @@ ContactsControl.propTypes = {
   setContactAction: React.PropTypes.func,
   assignContact: React.PropTypes.func,
   selectContact: React.PropTypes.func,
+  loadContactInteractionHistory: React.PropTypes.func,
 };
 
 function mapStateToProps(state, props) {
@@ -614,6 +615,7 @@ function mapDispatchToProps(dispatch) {
     clearSearchResults: () => dispatch(clearSearchResults()),
     assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
     selectContact: (contact) => dispatch(selectContact(contact)),
+    loadContactInteractionHistory: (contactId, page) => dispatch(loadContactInteractionHistory(contactId, page)),
     dispatch,
   };
 }

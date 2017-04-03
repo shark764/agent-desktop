@@ -23,6 +23,7 @@ import {
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS,
+  LOAD_CONTACT_INTERACTION_HISTORY,
   LOAD_HISTORICAL_INTERACTION_BODY,
   UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS,
   ADD_NOTES_TO_CONTACT_INTERACTION_HISTORY,
@@ -189,9 +190,10 @@ export function setSidePanelTabIndex(interactionId, tabIndex) {
   };
 }
 
-export function setContactInteractionHistory(response) {
+export function setContactInteractionHistory(contactId, response) {
   return {
     type: SET_CONTACT_INTERACTION_HISTORY,
+    contactId,
     response,
   };
 }
@@ -208,6 +210,14 @@ export function setContactHistoryInteractionDetails(response) {
   return {
     type: SET_CONTACT_HISTORY_INTERACTION_DETAILS,
     response,
+  };
+}
+
+export function loadContactInteractionHistory(contactId, page) {
+  return {
+    type: LOAD_CONTACT_INTERACTION_HISTORY,
+    contactId,
+    page,
   };
 }
 

@@ -138,6 +138,7 @@ export class Button extends React.Component {
     return (
       <button
         id={this.props.id}
+        type="button"
         style={[styles.base, this.props.style]}
         tabIndex={this.props.tabIndex}
         onClick={this.props.onClick}

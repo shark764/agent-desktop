@@ -9,11 +9,12 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 import moment from 'moment';
+import InfiniteScroll from 'react-infinite-scroller';
 
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 
-import { setContactInteractionHistory, setContactHistoryInteractionDetailsLoading, addNotesToContactInteractionHistory, loadHistoricalInteractionBody } from 'containers/AgentDesktop/actions';
+import { setContactInteractionHistory, setContactHistoryInteractionDetailsLoading, addNotesToContactInteractionHistory, loadHistoricalInteractionBody, loadContactInteractionHistory } from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
 import { getSelectedInteractionId, selectContactId, selectContactHistory } from './selectors';
@@ -27,8 +28,12 @@ export class ContactInteractionHistory extends React.Component {
   }
 
   refreshContactInteractionHistory() {
-    this.props.setContactInteractionHistory({ contactId: this.props.contactId, results: undefined });
-    SDK.reporting.getContactHistory({ entityId: this.props.contactId });
+    this.props.setContactInteractionHistory(this.props.contactId, { results: undefined });
+    this.props.loadContactInteractionHistory(this.props.contactId);
+  }
+
+  loadMoreContactInteractionHistory() {
+    this.props.loadContactInteractionHistory({ contactId: this.props.contactId, page: this.props.contactInteractionHistory.page + 1 });
   }
 
   getInteractionHistoryDetails(contactHistoryInteractionId) {
@@ -38,7 +43,7 @@ export class ContactInteractionHistory extends React.Component {
 
   selectInteraction(selectedInteractionIndex) {
     if (selectedInteractionIndex !== undefined) {
-      const interaction = this.props.contactInteractionHistory[selectedInteractionIndex];
+      const interaction = this.props.contactInteractionHistory.results[selectedInteractionIndex];
       const needsNotes = interaction.interactionDetails.agents.findIndex((agent) =>
         agent.noteTitle !== null && agent.note === undefined
       ) !== -1;
@@ -177,7 +182,7 @@ export class ContactInteractionHistory extends React.Component {
     },
     transcript: {
       borderTop: '1px solid #D0D0D0',
-      marginTop: '20px',
+      margin: '20px 0 15px 0',
       flexGrow: '1',
     },
     transcriptTitle: {
@@ -398,24 +403,24 @@ export class ContactInteractionHistory extends React.Component {
     if (this.props.contactInteractionHistory === undefined) {
       return <IconSVG id="loadingContactHistoryIcon" name="loading" style={this.styles.loading} />;
     } else {
-      const interactions = this.props.contactInteractionHistory.map((interaction, interactionIndex) =>
+      const interactions = this.props.contactInteractionHistory.results.map((interaction, interactionIndex) =>
         this.contactHistoryInteraction(interaction, interactionIndex)
       );
       return (
         <div>
           <div style={this.styles.interactionsSinceContainer}>
             <div id="interactionsSince" style={this.styles.interactionsSince}>
-              { this.props.contactInteractionHistory.length > 0
+              { this.props.contactInteractionHistory.length > 1
                 ? <div>
                   { this.props.contactInteractionHistory.length }
                   &nbsp;
                   {
-                    this.props.contactInteractionHistory.length > 1
+                    this.props.contactInteractionHistory.length > 2
                     ? <FormattedMessage {...messages.interactionsSince} />
                     : <FormattedMessage {...messages.interaction} />
                   }
                   &nbsp;
-                  { moment(this.props.contactInteractionHistory[this.props.contactInteractionHistory.length - 1].startTimestamp).format('LL') }
+                  { moment(this.props.contactInteractionHistory.results[this.props.contactInteractionHistory.length - 1].startTimestamp).format('LL') }
                 </div>
                 : <FormattedMessage {...messages.noPastInteractions} />
               }
@@ -424,7 +429,18 @@ export class ContactInteractionHistory extends React.Component {
               &#8635;
             </div>
           </div>
-          { interactions }
+          <InfiniteScroll
+            key="infinite-scroll"
+            loadMore={this.loadMoreContactInteractionHistory}
+            hasMore={false /** UNCOMMENT WHEN SDK HAS PAGING this.props.contactInteractionHistory.results.length < this.props.contactInteractionHistory.total **/}
+            loader={
+              <IconSVG id="loadingContactHistoryIcon" name="loading" style={this.styles.loading} />
+            }
+            useWindow={false}
+            threshold={1}
+          >
+            { interactions }
+          </InfiniteScroll>
         </div>
       );
     }
@@ -435,7 +451,7 @@ export class ContactInteractionHistory extends React.Component {
     if (this.state.selectedInteractionIndex === undefined) {
       content = this.getInteractionHistoryList();
     } else {
-      content = this.contactHistoryInteraction(this.props.contactInteractionHistory[this.state.selectedInteractionIndex]);
+      content = this.contactHistoryInteraction(this.props.contactInteractionHistory.results[this.state.selectedInteractionIndex]);
     }
     return (
       <div style={[this.styles.base, this.props.style]}>
@@ -455,10 +471,11 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setContactInteractionHistory: (response) => dispatch(setContactInteractionHistory(response)),
+    setContactInteractionHistory: (contactId, response) => dispatch(setContactInteractionHistory(contactId, response)),
     setContactHistoryInteractionDetailsLoading: (interactionId, contactHistoryInteractionId) => dispatch(setContactHistoryInteractionDetailsLoading(interactionId, contactHistoryInteractionId)),
     addNotesToContactInteractionHistory: (contactHistoryInteractionId, response) => dispatch(addNotesToContactInteractionHistory(contactHistoryInteractionId, response)),
     loadHistoricalInteractionBody: (interactionId, bodyType) => dispatch(loadHistoricalInteractionBody(interactionId, bodyType)),
+    loadContactInteractionHistory: (contactId, bodyType) => dispatch(loadContactInteractionHistory(contactId, bodyType)),
     dispatch,
   };
 }
@@ -466,11 +483,12 @@ function mapDispatchToProps(dispatch) {
 ContactInteractionHistory.propTypes = {
   selectedInteractionId: React.PropTypes.string,
   contactId: React.PropTypes.string.isRequired,
-  contactInteractionHistory: React.PropTypes.array,
+  contactInteractionHistory: React.PropTypes.object,
   setContactInteractionHistory: React.PropTypes.func.isRequired,
   setContactHistoryInteractionDetailsLoading: React.PropTypes.func.isRequired,
   addNotesToContactInteractionHistory: React.PropTypes.func.isRequired,
   loadHistoricalInteractionBody: React.PropTypes.func.isRequired,
+  loadContactInteractionHistory: React.PropTypes.func.isRequired,
   style: React.PropTypes.object,
 };
 

@@ -1,3 +1,7 @@
+<a name"0.26.1"></a>
+### 0.26.1 (2017-04-03)
+* CXV1-8271 pagination (just awaiting SDK query string update)
+
 <a name"0.26.0"></a>
 ### 0.26.0 (2017-04-03)
 * Transfer enhancements (resource controls)
