@@ -21,7 +21,7 @@ import PhoneControls from 'containers/PhoneControls';
 import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
-import { setAvailableStats, statsReceived, toggleStat } from 'containers/Toolbar/actions';
+import { setAvailableStats, statsReceived, toggleStat, toggleAgentMenu } from 'containers/Toolbar/actions';
 import { showLogin, logout } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 
@@ -181,6 +181,7 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/interactions/work-offer-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.toggleAgentMenu(false);
           this.props.addInteraction(response);
           break;
         }
@@ -689,6 +690,7 @@ function mapDispatchToProps(dispatch) {
     setDispositionDetails: (interactionId, dispositions, forceSelect) => dispatch(setDispositionDetails(interactionId, dispositions, forceSelect)),
     selectDisposition: (interactionId, disposition) => dispatch(selectDisposition(interactionId, disposition)),
     logout: () => dispatch(logout()),
+    toggleAgentMenu: () => dispatch(toggleAgentMenu()),
     dispatch,
   };
 }
@@ -745,6 +747,7 @@ AgentDesktop.propTypes = {
   selectDisposition: PropTypes.func.isRequired,
   toggleStat: PropTypes.func.isRequired,
   showRefreshRequired: PropTypes.func.isRequired,
+  toggleAgentMenu: PropTypes.func.isRequired,
   // TODO when fixed in SDK
   // logout: PropTypes.func.isRequired,
   login: PropTypes.object,

@@ -8,6 +8,7 @@ import {
   SET_AVAILABLE_STATS,
   TOGGLE_STAT,
   STATS_RECEIVED,
+  SHOW_AGENT_MENU,
 } from './constants';
 
 export function setAvailableStats(stats, tenantId, userId) {
@@ -16,6 +17,13 @@ export function setAvailableStats(stats, tenantId, userId) {
     stats,
     tenantId,
     userId,
+  };
+}
+
+export function toggleAgentMenu(show) {
+  return {
+    type: SHOW_AGENT_MENU,
+    show,
   };
 }
 
