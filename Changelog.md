@@ -1,3 +1,9 @@
+<a name"0.26.2"></a>
+### 0.26.2 (2017-04-04)
+* Only present tenant select screen when the agent belongs to more then one tenant
+* Tweak 404 error handling
+* Tweak Cache invalidation to stop checking once a version bump has been detected
+
 <a name"0.26.1"></a>
 ### 0.26.1 (2017-04-03)
 * CXV1-8271 pagination (just awaiting SDK query string update)

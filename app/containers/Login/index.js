@@ -30,6 +30,7 @@ export class Login extends React.Component {
 
   constructor(props) {
     super(props);
+    window.onbeforeunload = () => storage.removeItem('ADError'); // Prevent showing error on reload
     this.state = {
       username: storage.getItem('email') || '',
       password: '',
@@ -161,7 +162,6 @@ export class Login extends React.Component {
 
   getErrors() {
     const error = storage.getItem('ADError');
-    storage.removeItem('ADError'); // Prevent showing error on reload
     let errorSpan;
     if (this.props.login_error) {
       errorSpan = (
@@ -321,7 +321,12 @@ export class Login extends React.Component {
     if (this.props.loading) {
       pageContent = this.getLoadingContent();
     } else if (this.props.logged_in && this.props.agent) {
-      pageContent = this.getLoggedInContent();
+      if (this.props.agent.tenants.length === 1) {
+        this.setTenantId(this.props.agent.tenants[0].tenantId, this.props.agent.tenants[0].tenantName);
+        this.onTenantSelect();
+      } else {
+        pageContent = this.getLoggedInContent();
+      }
     } else if (this.state.requestingPassword) {
       pageContent = this.getForgotContent();
     } else {

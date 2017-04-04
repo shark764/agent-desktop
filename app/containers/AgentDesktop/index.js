@@ -85,6 +85,7 @@ export class AgentDesktop extends React.Component {
         if (window.ADconf !== undefined) {
           if (window.ADconf.version !== res.data.config.version) {
             this.props.showRefreshRequired(true);
+            clearInterval(this.cacheCheckInterval);
           }
         }
         window.ADconf = res.data.config;
