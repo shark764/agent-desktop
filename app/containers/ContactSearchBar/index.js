@@ -10,7 +10,6 @@ import Radium from 'radium';
 import { injectIntl } from 'react-intl';
 import Autocomplete from 'react-autocomplete';
 
-
 import search from 'assets/icons/search.png';
 
 import Button from 'components/Button';
@@ -211,6 +210,7 @@ export class ContactSearchBar extends React.Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     if (this.state.pendingFilter) {
       if (this.state.pendingFilterValue.length) {
         this.props.addFilter(this.state.pendingFilter.objectName, this.state.pendingFilterValue);
@@ -228,13 +228,12 @@ export class ContactSearchBar extends React.Component {
         autocompleteValue: '',
       });
     }
-    event.preventDefault();
     return false;
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form id="search-form" onSubmit={this.handleSubmit}>
         <div id="contactSearchBar" style={[this.styles.base, this.props.style]}>
           <div ref={(element) => { this.inputDiv = element; }} style={this.styles.inputBox}>
             {
@@ -253,7 +252,7 @@ export class ContactSearchBar extends React.Component {
                 shouldItemRender={this.matchFilterToTerm}
                 onChange={(event, value) => this.setState({ autocompleteValue: value })}
                 onSelect={this.handleFilterSelect}
-                inputProps={{ style: this.styles.input, autoFocus: true }}
+                inputProps={{ style: this.styles.input }}
                 wrapperStyle={this.styles.inputWrapper}
                 menuStyle={{ ...this.styles.filterDropdown, width: `${this.state.filterMenuWidth}px` }}
               />

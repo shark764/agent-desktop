@@ -97,7 +97,7 @@ const addContactInteractionNote = (interaction, action) =>
     if (typeof interactionHistory === 'undefined') {
       return interactionHistory;
     }
-    return interactionHistory.map((contactHistoryInteraction) => {
+    return interactionHistory.update('results', (results) => results.map((contactHistoryInteraction) => {
       if (contactHistoryInteraction.get('interactionId') === action.contactHistoryInteractionId && contactHistoryInteraction.get('interactionDetails') !== undefined) {
         return contactHistoryInteraction.updateIn(['interactionDetails', 'agents'], (agents) =>
           agents.map((agent) => {
@@ -112,7 +112,7 @@ const addContactInteractionNote = (interaction, action) =>
       } else {
         return contactHistoryInteraction;
       }
-    });
+    }));
   });
 
 const setContactInteractionDetails = (interaction, action) =>
@@ -120,17 +120,19 @@ const setContactInteractionDetails = (interaction, action) =>
     if (typeof interactionHistory === 'undefined') {
       return interactionHistory;
     }
-    return interactionHistory.map((contactHistoryInteraction) => {
-      if (contactHistoryInteraction.get('interactionId') === action.response.details.interactionId) {
-        return contactHistoryInteraction.set('interactionDetails', fromJS(action.response.details));
-      } else {
-        return contactHistoryInteraction;
-      }
-    });
+    return interactionHistory.update('results', (interactionHistoryResults) =>
+      interactionHistoryResults.map((contactHistoryInteraction) => {
+        if (contactHistoryInteraction.get('interactionId') === action.response.details.interactionId) {
+          return contactHistoryInteraction.set('interactionDetails', fromJS(action.response.details));
+        } else {
+          return contactHistoryInteraction;
+        }
+      })
+    );
   });
 
 const updateContactInteractionDetails = (interaction, action) =>
-  interaction.updateIn(['contact', 'interactionHistory'], (interactionHistory) => {
+  interaction.updateIn(['contact', 'interactionHistory', 'results'], (interactionHistory) => {
     if (typeof interactionHistory === 'undefined') {
       return interactionHistory;
     }
@@ -142,6 +144,29 @@ const updateContactInteractionDetails = (interaction, action) =>
       }
     });
   });
+
+const updateContactInteractionHistoryResults = (contact, action) => {
+  if (contact !== undefined && contact.get('id') === action.contactId) {
+    return contact.update('interactionHistory', (interactionHistory) => {
+      if (typeof action.response.results === 'undefined') {
+        return action.response.results;
+      } else if (typeof interactionHistory === 'undefined' || action.response.page === interactionHistory.get('nextPage')) {
+        const existingResults = interactionHistory ? interactionHistory.get('results') : false;
+        return new Map({
+          nextPage: action.response.page + 1,
+          page: action.response.page,
+          total: action.response.total,
+          results: existingResults ? existingResults.concat(fromJS(action.response.results)) : fromJS(action.response.results),
+        });
+      } else {
+        return interactionHistory;
+      }
+    });
+  } else {
+    return contact;
+  }
+};
+
 
 function agentDesktopReducer(state = initialState, action) {
   switch (action.type) {
@@ -422,20 +447,13 @@ function agentDesktopReducer(state = initialState, action) {
       );
     }
     case SET_CONTACT_INTERACTION_HISTORY: {
-      return state.update('interactions', (interactions) => interactions.map((interaction) => {
-        if (interaction.getIn(['contact', 'id']) === action.response.contactId) {
-          // TODO also set stuff for pagination
-          return interaction.setIn(['contact', 'interactionHistory'], fromJS(action.response.results));
-        } else {
-          return interaction;
-        }
-      })).updateIn(['noInteractionContactPanel', 'contact'], (contact) => {
-        if (contact && contact.get('id') === action.response.contactId) {
-          return contact.set('interactionHistory', fromJS(action.response.results));
-        } else {
-          return contact;
-        }
-      });
+      return state.update('interactions', (interactions) =>
+        interactions.map(
+          (interaction) => interaction.update('contact', (contact) => updateContactInteractionHistoryResults(contact, action))
+        )
+      ).updateIn(['noInteractionContactPanel', 'contact'], (contact) =>
+        updateContactInteractionHistoryResults(contact, action)
+      );
     }
     case SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING: {
       const interactionIndex = state.get('interactions').findIndex(
@@ -444,8 +462,8 @@ function agentDesktopReducer(state = initialState, action) {
       const target = interactionIndex !== -1 ? ['interactions', interactionIndex] : ['noInteractionContactPanel'];
       return state.updateIn(target, (interaction) => {
         if (interaction.getIn(['contact', 'interactionHistory']) !== undefined) {
-          return interaction.updateIn(['contact', 'interactionHistory'], (interactionHistory) =>
-            interactionHistory.map((contactHistoryInteraction) => {
+          return interaction.updateIn(['contact', 'interactionHistory', 'results'], (interactionHistoryResults) =>
+            interactionHistoryResults.map((contactHistoryInteraction) => {
               if (contactHistoryInteraction.get('interactionId') === action.contactHistoryInteractionId) {
                 return contactHistoryInteraction.set('interactionDetails', 'loading');
               } else {
