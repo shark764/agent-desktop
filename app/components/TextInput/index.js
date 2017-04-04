@@ -82,6 +82,7 @@ function TextInput(props) {
       onKeyDown={props.onKeyDown || ''}
       autoFocus={props.autoFocus}
       onBlur={props.onBlur}
+      disabled={props.disabled}
     />
   );
 }
@@ -104,6 +105,7 @@ TextInput.propTypes = {
   id: PropTypes.string.isRequired,
   noBorder: PropTypes.bool,
   styleType: PropTypes.oneOf(['inlineInherit']),
+  disabled: PropTypes.bool,
 };
 
 TextInput.defaultProps = {

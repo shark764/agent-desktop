@@ -37,7 +37,7 @@ function Dialpad(props) {
 
   return (
     <div id={props.id} >
-      <TextInput id={`${props.id}TextInput`} cb={props.setDialpadText} onEnter={props.onEnter} value={props.dialpadText} autoFocus style={styles.dialpadText} />
+      <TextInput id={`${props.id}TextInput`} cb={props.setDialpadText} disabled={props.inCall || false} onEnter={props.onEnter} value={props.dialpadText} autoFocus style={styles.dialpadText} />
       <div style={styles.dialpadButtonContainer}>
         <ButtonDialpad id={`${props.id}1Button`} text="1" type="topLeft" onClick={() => buttonPress('1')} />
         <ButtonDialpad id={`${props.id}2Button`} text="2" type="top" onClick={() => buttonPress('2')} />
@@ -62,6 +62,7 @@ Dialpad.propTypes = {
   dialpadText: PropTypes.string.isRequired,
   setDialpadText: PropTypes.func.isRequired,
   interactionId: PropTypes.string,
+  inCall: PropTypes.bool,
 };
 
 export default Radium(Dialpad);

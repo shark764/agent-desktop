@@ -4,7 +4,8 @@
 * Tweak 404 error handling
 * Tweak Cache invalidation to stop checking once a version bump has been detected
 * Adjust config button width to match side panel
-* Hide agent menu when a work offer is received. 
+* Hide agent menu when a work offer is received
+* Make dialpad textfield not editable when on a call
 
 <a name"0.26.1"></a>
 ### 0.26.1 (2017-04-03)
