@@ -1,3 +1,7 @@
+<a name"0.26.3"></a>
+### 0.26.3 (2017-04-04)
+* Resource mute fix
+
 <a name"0.26.2"></a>
 ### 0.26.2 (2017-04-04)
 * Only present tenant select screen when the agent belongs to more then one tenant
