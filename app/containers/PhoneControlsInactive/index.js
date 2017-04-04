@@ -6,18 +6,17 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import messages from './messages';
 import Radium from 'radium';
 import { PhoneNumberUtil } from 'google-libphonenumber';
-
-import { selectIsAgentReady, selectHasConnectingOutboundVoiceInteraction } from './selectors';
-
 import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
 
 import Button from 'components/Button';
 import CircleIconButton from 'components/CircleIconButton';
 import Dialpad from 'components/Dialpad';
 import IconSVG from 'components/IconSVG';
+import messages from './messages';
+
+import { selectIsAgentReady, selectHasConnectingOutboundVoiceInteraction } from './selectors';
 
 export class PhoneControlsInactive extends React.Component {
   constructor(props) {
@@ -99,7 +98,7 @@ export class PhoneControlsInactive extends React.Component {
               ? <div>
                 <div style={[this.props.style.topTriangle, this.styles.dialpadTopTriangle]}></div>
                 <div style={[this.props.style.phoneControlsPopupMenu, this.styles.dialpadPhoneControlsPopupMenu]}>
-                  <Dialpad id="dialpad" setDialpadText={this.setDialpadText} dialpadText={this.state.dialpadText} onEnter={this.call} />
+                  <Dialpad id="dialpad" setDialpadText={this.setDialpadText} dialpadText={this.state.dialpadText} onEnter={this.call} inCall={false} />
                   <Button id="callButton" text={messages.call} disabled={!this.state.dialpadTextValid} onClick={this.call} type="primaryBlue" style={this.styles.callButton} />
                 </div>
               </div>

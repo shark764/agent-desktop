@@ -9,6 +9,7 @@ import {
   SET_AVAILABLE_STATS,
   TOGGLE_STAT,
   STATS_RECEIVED,
+  SHOW_AGENT_MENU,
 } from './constants';
 
 let localStorageKey;
@@ -17,6 +18,7 @@ let savedStats;
 const initialState = fromJS({
   enabledStats: [],
   availableStats: {},
+  showAgentStatusMenu: false,
 });
 
 function toolbarReducer(state = initialState, action) {
@@ -27,6 +29,9 @@ function toolbarReducer(state = initialState, action) {
   let newStat;
 
   switch (action.type) {
+    case SHOW_AGENT_MENU:
+      return state
+        .set('showAgentStatusMenu', action.show);
     case SET_AVAILABLE_STATS:
       localStorageKey = `agentDesktopStats.${action.tenantId}.${action.userId}`;
       return state
