@@ -64,3 +64,5 @@ export const UPDATE_SCRIPT_VALUES = 'app/AgentDesktop/UPDATE_SCRIPT_VALUES';
 export const SET_DISPOSITION_DETAILS = 'app/AgentDesktop/SET_DISPOSITION_DETAILS';
 export const SELECT_DISPOSITION = 'app/AgentDesktop/SELECT_DISPOSITION';
 export const SHOW_REFRESH_NOTIF = 'app/AgentDesktop/SHOW_REFRESH_NOTIF';
+
+export const DEFAULT_LOCALE = 'en-US';

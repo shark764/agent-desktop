@@ -1,3 +1,7 @@
+<a name"0.26.4"></a>
+### 0.26.4 (2017-04-04)
+* CXV1-8420 take out react router and unused async loading
+
 <a name"0.26.3"></a>
 ### 0.26.3 (2017-04-04)
 * Resource mute fix

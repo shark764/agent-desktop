@@ -12,7 +12,7 @@ const addCheckmark = require('./helpers/checkmark');
 
 const pkg = require('../../package.json');
 const i18n = require('../../app/i18n');
-import { DEFAULT_LOCALE } from '../../app/containers/App/constants';
+import { DEFAULT_LOCALE } from  '../../app/containers/AgentDesktop/constants';
 
 require('shelljs/global');
 
