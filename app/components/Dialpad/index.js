@@ -62,11 +62,7 @@ Dialpad.propTypes = {
   dialpadText: PropTypes.string.isRequired,
   setDialpadText: PropTypes.func.isRequired,
   interactionId: PropTypes.string,
-<<<<<<< HEAD
   inCall: PropTypes.bool,
-=======
-  inCall: PropTypes.bool.isRequired,
->>>>>>> c8ae74eabb279a3f1316dd59b0dc401a560c6e44
 };
 
 export default Radium(Dialpad);
