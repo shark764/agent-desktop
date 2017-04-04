@@ -269,13 +269,11 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/interactions/voice/resource-mute-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          response.mutedResources.forEach((mutedResource) => {
-            if (mutedResource === this.props.login.agent.userId) {
-              this.props.muteCall(response.interactionId);
-            } else {
-              this.props.updateResourceStatus(response.interactionId, mutedResource, 'muted', true);
-            }
-          });
+          if (response.extraParams.targetResource === this.props.login.agent.userId) {
+            this.props.muteCall(response.interactionId);
+          } else {
+            this.props.updateResourceStatus(response.interactionId, response.extraParams.targetResource, 'muted', true);
+          }
           break;
         }
         case 'cxengage/interactions/voice/resource-unmute-received': {
