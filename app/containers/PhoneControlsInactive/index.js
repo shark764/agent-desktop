@@ -99,7 +99,7 @@ export class PhoneControlsInactive extends React.Component {
               ? <div>
                 <div style={[this.props.style.topTriangle, this.styles.dialpadTopTriangle]}></div>
                 <div style={[this.props.style.phoneControlsPopupMenu, this.styles.dialpadPhoneControlsPopupMenu]}>
-                  <Dialpad id="dialpad" setDialpadText={this.setDialpadText} dialpadText={this.state.dialpadText} onEnter={this.call} />
+                  <Dialpad id="dialpad" setDialpadText={this.setDialpadText} dialpadText={this.state.dialpadText} onEnter={this.call} inCall={false} />
                   <Button id="callButton" text={messages.call} disabled={!this.state.dialpadTextValid} onClick={this.call} type="primaryBlue" style={this.styles.callButton} />
                 </div>
               </div>
