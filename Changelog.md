@@ -1,3 +1,7 @@
+<a name"0.27.1"></a>
+### 0.27.1 (2017-04-05)
+* Fix on hold/muted/participants getting out of sync between work offer and work accepted
+
 <a name"0.27.0"></a>
 ### 0.27.0 (2017-04-05)
 * Resume all functionality in participant controls when >1 participants on hold

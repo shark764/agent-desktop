@@ -217,7 +217,7 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/interactions/work-accepted-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.setInteractionStatus(response.interactionId, 'work-accepted');
+          this.props.setInteractionStatus(response.interactionId, 'work-accepted', response.activeResources);
           break;
         }
         case 'cxengage/interactions/custom-fields-received': {
@@ -599,7 +599,7 @@ export class AgentDesktop extends React.Component {
                 <div id="top-area" style={[this.styles.flexChildGrow, this.styles.parent, this.styles.topArea]}>
                   <div style={[this.styles.leftArea]}>
                     <PhoneControls style={[this.styles.phoneControls]} />
-                    <InteractionsBar acceptInteraction={this.acceptInteraction} setInteractionStatus={this.props.setInteractionStatus} selectInteraction={this.selectInteraction} style={[this.styles.interactionsBar]} />
+                    <InteractionsBar acceptInteraction={this.acceptInteraction} selectInteraction={this.selectInteraction} style={[this.styles.interactionsBar]} />
                   </div>
                   <MainContentArea emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} agent={this.props.login.agent} tenant={this.props.login.tenant} style={{ flex: '1 1 auto' }} />
                   <Resizable id="crm-resizable" direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={this.state.contactsPanelMaxPx} minPx={400} isDisabled={this.state.isContactsPanelCollapsed} style={this.styles.topArea} />
@@ -643,7 +643,7 @@ function mapDispatchToProps(dispatch) {
     addScript: (interactionId, script) => dispatch(addScript(interactionId, script)),
     removeScript: (interactionId) => dispatch(removeScript(interactionId)),
     setPresence: (response) => dispatch(setPresence(response)),
-    setInteractionStatus: (interactionId, newStatus) => dispatch(setInteractionStatus(interactionId, newStatus)),
+    setInteractionStatus: (interactionId, newStatus, activeResources) => dispatch(setInteractionStatus(interactionId, newStatus, activeResources)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
     workInitiated: (response) => dispatch(workInitiated(response)),
     removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),

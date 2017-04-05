@@ -192,11 +192,43 @@ function agentDesktopReducer(state = initialState, action) {
       if (interactionIndex !== -1) {
         const automaticallyAcceptInteraction = action.newStatus === 'work-accepting' && state.get('selectedInteractionId') === undefined;
         const newState = state
-          .setIn(['interactions', interactionIndex, 'status'], action.newStatus)
-            .set('selectedInteractionId',
-              automaticallyAcceptInteraction
-              ? action.interactionId
-              : state.get('selectedInteractionId'));
+          .updateIn(['interactions', interactionIndex], (interaction) => {
+            let updatedInteraction = interaction.set('status', action.newStatus);
+            // If we're accepting an existing conference, make any updates that have happened to the participants since the work offer
+            if (action.activeResources) {
+              // Remove any resources that are no longer on the interaction
+              updatedInteraction = updatedInteraction.update('warmTransfers', (warmTransfers) =>
+                warmTransfers.filter((warmTransfer) => {
+                  let containsResource = false;
+                  action.activeResources.forEach((resource) => {
+                    if (resource.id === warmTransfer.get('targetResource')) {
+                      containsResource = true;
+                    }
+                  });
+                  return containsResource;
+                })
+              );
+              // Update muted and onHolds that have changed
+              action.activeResources.forEach((resource) => {
+                const resourceIndex = interaction.get('warmTransfers').findIndex((warmTransfer) =>
+                  warmTransfer.get('targetResource') === resource.id
+                );
+                if (resourceIndex !== -1) {
+                  updatedInteraction = updatedInteraction.updateIn(['warmTransfers', resourceIndex], (warmTransfer) =>
+                    warmTransfer.set('muted', resource.muted)
+                      .set('onHold', resource.onHold)
+                  );
+                } else {
+                  throw new Error(`Resource not found to update: ${resource.id}`);
+                }
+              });
+            }
+            return updatedInteraction;
+          })
+          .set('selectedInteractionId',
+            automaticallyAcceptInteraction
+            ? action.interactionId
+            : state.get('selectedInteractionId'));
         if (action.newStatus === 'wrapup') {
           const wrapupTimeout = state.getIn(['interactions', interactionIndex, 'wrapupDetails', 'wrapupTime']);
           const newTimeout = Date.now() + (wrapupTimeout * 1000);
