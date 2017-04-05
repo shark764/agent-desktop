@@ -688,7 +688,7 @@ function mapDispatchToProps(dispatch) {
     setDispositionDetails: (interactionId, dispositions, forceSelect) => dispatch(setDispositionDetails(interactionId, dispositions, forceSelect)),
     selectDisposition: (interactionId, disposition) => dispatch(selectDisposition(interactionId, disposition)),
     logout: () => dispatch(logout()),
-    toggleAgentMenu: () => dispatch(toggleAgentMenu()),
+    toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     dispatch,
   };
 }

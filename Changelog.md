@@ -1,3 +1,8 @@
+<a name"0.26.5"></a>
+### 0.26.5 (2017-04-05)
+* Fix bug in single tenant login
+* Fix bug with toggling agent menu
+
 <a name"0.26.4"></a>
 ### 0.26.4 (2017-04-04)
 * CXV1-8420 take out react router and unused async loading
