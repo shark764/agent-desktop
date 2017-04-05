@@ -244,6 +244,10 @@ export class Login extends React.Component {
 
   loginCB(agent) {
     this.props.loginSuccess(agent);
+    if (agent.tenants.length === 1) {
+      this.setTenantId(agent.tenants[0].tenantId, agent.tenants[0].tenantName);
+      this.onTenantSelect();
+    }
     storage.setItem('email1', agent.username); // TODO: REMOVE BEFORE PROD!!!! HACK FOR STATS
     storage.setItem('pass1', this.state.password); // TODO: REMOVE BEFORE PROD!!!! HACK FOR STATS
     if (this.state.remember) {
@@ -320,13 +324,8 @@ export class Login extends React.Component {
     let pageContent;
     if (this.props.loading) {
       pageContent = this.getLoadingContent();
-    } else if (this.props.logged_in && this.props.agent) {
-      if (this.props.agent.tenants.length === 1) {
-        this.setTenantId(this.props.agent.tenants[0].tenantId, this.props.agent.tenants[0].tenantName);
-        this.onTenantSelect();
-      } else {
-        pageContent = this.getLoggedInContent();
-      }
+    } else if (this.props.logged_in && this.props.agent && this.props.agent.tenants.length > 1) {
+      pageContent = this.getLoggedInContent();
     } else if (this.state.requestingPassword) {
       pageContent = this.getForgotContent();
     } else {
