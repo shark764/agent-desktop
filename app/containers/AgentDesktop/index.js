@@ -310,7 +310,7 @@ export class AgentDesktop extends React.Component {
           this.props.transferCancelled(response.interactionId);
           break;
         }
-        case 'cxengage/interactions/resource-added': {
+        case 'cxengage/interactions/resource-added-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           if (this.props.login.agent.userId !== response.extraParams.targetResource) {
             this.props.resourceAdded(response);
@@ -322,7 +322,7 @@ export class AgentDesktop extends React.Component {
           this.props.updateResourceName(response);
           break;
         }
-        case 'cxengage/interactions/resource-hold': {
+        case 'cxengage/interactions/resource-hold-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           if (this.props.login.agent.userId === response.extraParams.targetResource) {
             this.props.holdMe(response.interactionId);
@@ -331,7 +331,7 @@ export class AgentDesktop extends React.Component {
           }
           break;
         }
-        case 'cxengage/interactions/resource-resume': {
+        case 'cxengage/interactions/resource-resume-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           if (this.props.login.agent.userId === response.extraParams.targetResource) {
             this.props.resumeMe(response.interactionId);
@@ -340,7 +340,7 @@ export class AgentDesktop extends React.Component {
           }
           break;
         }
-        case 'cxengage/interactions/resource-removed': {
+        case 'cxengage/interactions/resource-removed-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.resourceRemoved(response);
           break;
@@ -466,7 +466,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/entities/get-users-response': // Handled in TransferMenu
         case 'cxengage/entities/get-transfer-lists-response': // Handled in TransferMenu
         case 'cxengage/interactions/voice/transfer-response': // Handled in TransferMenu
-        case 'cxengage/interactions/voice/transfer-connected': // Using cxengage/interactions/resource-added instead
+        case 'cxengage/interactions/voice/transfer-connected': // Using cxengage/interactions/resource-added-received instead
         case 'cxengage/interactions/contact-unassigned-acknowledged': // Handled in ContactsControl
         case 'cxengage/interactions/contact-assigned-acknowledged': // Handled in ContactsControl
         case 'cxengage/reporting/polling-started': // Ignore

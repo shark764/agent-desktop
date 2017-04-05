@@ -2108,9 +2108,9 @@ custom-event@~1.0.0:
   version "1.0.1"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/custom-event/-/custom-event-1.0.1.tgz#5d02a46850adf1b4a317946a3928fccb5bfd0425"
 
-cxengage-javascript-sdk@4.0.0-SNAPSHOT.244:
-  version "4.0.0-SNAPSHOT.244"
-  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/cxengage-javascript-sdk/-/cxengage-javascript-sdk-4.0.0-SNAPSHOT.244.tgz#943c563f6b087e365766b64de169427539df3800"
+cxengage-javascript-sdk@4.0.0-SNAPSHOT.246:
+  version "4.0.0-SNAPSHOT.246"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/cxengage-javascript-sdk/-/cxengage-javascript-sdk-4.0.0-SNAPSHOT.246.tgz#15b10d7705d453f2116eb8930d660228e58392f4"
 
 d@1:
   version "1.0.0"
@@ -3365,10 +3365,6 @@ follow-redirects@1.0.0:
   dependencies:
     debug "^2.2.0"
 
-fontfaceobserver@2.0.9:
-  version "2.0.9"
-  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/fontfaceobserver/-/fontfaceobserver-2.0.9.tgz#fb61e1053bd28d38cd4750a05b30f5130b32e97a"
-
 for-in@^1.0.1:
   version "1.0.2"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -3887,16 +3883,6 @@ he@1.1.x:
   version "1.1.1"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
 
-history@^4.5.1, history@^4.6.0, history@^4.6.1:
-  version "4.6.1"
-  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/history/-/history-4.6.1.tgz#911cf8eb65728555a94f2b12780a0c531a14d2fd"
-  dependencies:
-    invariant "^2.2.1"
-    loose-envify "^1.2.0"
-    resolve-pathname "^2.0.0"
-    value-equal "^0.2.0"
-    warning "^3.0.0"
-
 hmac-drbg@^1.0.0:
   version "1.0.0"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/hmac-drbg/-/hmac-drbg-1.0.0.tgz#3db471f45aae4a994a0688322171f51b8b91bee5"
@@ -4248,7 +4234,7 @@ intl@1.2.5:
   version "1.2.5"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/intl/-/intl-1.2.5.tgz#82244a2190c4e419f8371f5aa34daa3420e2abde"
 
-invariant@2.2.2, invariant@^2.0.0, invariant@^2.1.1, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2:
+invariant@^2.0.0, invariant@^2.1.1, invariant@^2.2.0:
   version "2.2.2"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
@@ -5322,7 +5308,7 @@ longest@^1.0.0, longest@^1.0.1:
   version "1.0.1"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
 
-loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3.1:
+loose-envify@^1.0.0, loose-envify@^1.1.0:
   version "1.3.1"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/loose-envify/-/loose-envify-1.3.1.tgz#d1a8ad33fa9ce0e713d65fdd0ac8b748d478c848"
   dependencies:
@@ -6677,7 +6663,7 @@ qs@~6.3.0:
   version "6.3.1"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/qs/-/qs-6.3.1.tgz#918c0b3bcd36679772baf135b1acb4c1651ed79d"
 
-query-string@^4.1.0, query-string@^4.2.2:
+query-string@^4.1.0:
   version "4.3.2"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/query-string/-/query-string-4.3.2.tgz#ec0fd765f58a50031a3968c2431386f8947a5cdd"
   dependencies:
@@ -6753,13 +6739,6 @@ rc@^1.0.1, rc@^1.1.2, rc@^1.1.6, rc@~1.1.6:
 react-addons-css-transition-group@^15.0.0:
   version "15.4.2"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-addons-css-transition-group/-/react-addons-css-transition-group-15.4.2.tgz#b7828834dfa14229fe07750e331e8a8cb6fb7745"
-  dependencies:
-    fbjs "^0.8.4"
-    object-assign "^4.1.0"
-
-react-addons-shallow-compare@15.4.2:
-  version "15.4.2"
-  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-addons-shallow-compare/-/react-addons-shallow-compare-15.4.2.tgz#027ffd9720e3a1e0b328dcd8fc62e214a0d174a5"
   dependencies:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
@@ -6859,27 +6838,6 @@ react-redux@5.0.3:
     lodash "^4.2.0"
     lodash-es "^4.2.0"
     loose-envify "^1.1.0"
-
-react-router-dom@^4.0.0:
-  version "4.0.0"
-  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-router-dom/-/react-router-dom-4.0.0.tgz#4fa4418e14b8cfc5bcc0bdea0c4083fb8c2aef10"
-  dependencies:
-    history "^4.5.1"
-    react-router "^4.0.0"
-
-react-router-redux@4.0.8:
-  version "4.0.8"
-  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-router-redux/-/react-router-redux-4.0.8.tgz#227403596b5151e182377dab835b5d45f0f8054e"
-
-react-router@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-4.0.0.tgz#6532075231f0bb5077c2005c1d417ad6165b3997"
-  dependencies:
-    history "^4.6.0"
-    invariant "^2.2.2"
-    loose-envify "^1.3.1"
-    path-to-regexp "^1.5.3"
-    warning "^3.0.0"
 
 react-select@1.0.0-rc.2:
   version "1.0.0-rc.2"
@@ -7246,10 +7204,6 @@ resolve-dir@^0.1.0:
 resolve-from@^1.0.0:
   version "1.0.1"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/resolve-from/-/resolve-from-1.0.1.tgz#26cbfe935d1aeeeabb29bc3fe5aeb01e93d44226"
-
-resolve-pathname@^2.0.0:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/resolve-pathname/-/resolve-pathname-2.0.2.tgz#e55c016eb2e9df1de98e85002282bfb38c630436"
 
 resolve@1.1.x:
   version "1.1.7"
@@ -8329,10 +8283,6 @@ validator@7.0.0:
   version "7.0.0"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/validator/-/validator-7.0.0.tgz#c74deb8063512fac35547938e6f0b1504a282fd2"
 
-value-equal@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/value-equal/-/value-equal-0.2.0.tgz#4f41c60a3fc011139a2ec3d3340a8998ae8b69c0"
-
 vary@~1.1.0:
   version "1.1.0"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/vary/-/vary-1.1.0.tgz#e1e5affbbd16ae768dd2674394b9ad3022653140"
@@ -8427,7 +8377,7 @@ ware@^1.2.0:
   dependencies:
     wrap-fn "^0.1.0"
 
-warning@3.0.0, warning@^3.0.0:
+warning@3.0.0:
   version "3.0.0"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/warning/-/warning-3.0.0.tgz#32e5377cb572de4ab04753bdf8821c01ed605b7c"
   dependencies:

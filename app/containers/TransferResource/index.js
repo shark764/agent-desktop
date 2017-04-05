@@ -5,9 +5,10 @@
  */
 
 import React, { PropTypes } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 
+import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 
 import messages from './messages';
@@ -20,6 +21,7 @@ export class TransferResource extends React.Component {
     this.hangUpResource = this.hangUpResource.bind(this);
     this.holdResource = this.holdResource.bind(this);
     this.resumeResource = this.resumeResource.bind(this);
+    this.resumeAll = this.resumeAll.bind(this);
     this.transfer = this.transfer.bind(this);
     this.state = {
       showResourceControlsMenu: false,
@@ -38,7 +40,7 @@ export class TransferResource extends React.Component {
     } else if (warmTransfer.type === 'transferExtension') {
       SDK.interactions.voice.cancelExtensionTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferExtension: warmTransfer.id });
     } else {
-      console.error('Unknown transfer type:', warmTransfer);
+      throw new Error(`Unhandled transfer type: ${warmTransfer.type}`);
     }
   }
 
@@ -57,6 +59,11 @@ export class TransferResource extends React.Component {
     this.setState({ showResourceControlsMenu: false });
   }
 
+  resumeAll() {
+    SDK.interactions.voice.resumeAll({ interactionId: this.props.activeVoiceInteraction.interactionId });
+    this.setState({ showResourceControlsMenu: false });
+  }
+
   transfer() {
     SDK.interactions.voice.transferToResource({
       transferType: 'cold',
@@ -68,7 +75,7 @@ export class TransferResource extends React.Component {
 
   styles = {
     warmTransfer: {
-      padding: '11px 23px 5px',
+      padding: '4px 23px',
       fontSize: '15px',
       fontWeight: 600,
     },
@@ -76,7 +83,6 @@ export class TransferResource extends React.Component {
       color: '#979797',
     },
     cancelTransfer: {
-      fontSize: '16px',
       verticalAlign: 'top',
       display: 'inline-block',
       marginRight: '13px',
@@ -129,8 +135,8 @@ export class TransferResource extends React.Component {
       marginLeft: '251px',
     },
     phoneControlsPopupMenu: {
-      width: '100px',
-      margin: '-7px 0 0 205px',
+      width: '110px',
+      margin: '-7px 0 0 200px',
       padding: '12px',
     },
     phoneControlsPopupMenuOption: {
@@ -148,7 +154,7 @@ export class TransferResource extends React.Component {
     let transferStatusStyle;
     let icon;
     if (this.props.resource.status === 'transferring') {
-      icon = <span title="Cancel transfer" onClick={() => this.cancelTransfer(this.props.resource)} style={this.styles.cancelTransfer}>&#10060;</span>;
+      icon = <span title={this.props.intl.formatMessage(messages.cancelTransfer)} onClick={() => this.cancelTransfer(this.props.resource)} style={this.styles.cancelTransfer}><Icon name="close" /></span>;
       status = <FormattedMessage {...messages.connecting} />;
       transferStyle = this.styles.transferInProgress;
     } else if (this.props.resource.status === 'connected') {
@@ -191,17 +197,26 @@ export class TransferResource extends React.Component {
             <div style={[this.props.style.phoneControlsPopupMenu, this.styles.phoneControlsPopupMenu]}>
               {
                 this.props.resource.onHold !== true
-                ? <div id="holdResource" key="holdResource" onClick={this.holdResource} style={this.styles.phoneControlsPopupMenuOption}>
+                ? <div id="holdResource" key="holdResource" title={this.props.intl.formatMessage(messages.holdDescription)} onClick={this.holdResource} style={this.styles.phoneControlsPopupMenuOption}>
                   <FormattedMessage {...messages.hold} />
                 </div>
-                : <div id="resumeResource" key="resumeResource" onClick={this.resumeResource} style={this.styles.phoneControlsPopupMenuOption}>
-                  <FormattedMessage {...messages.resume} />
+                : <div>
+                  <div id="resumeResource" key="resumeResource" title={this.props.intl.formatMessage(messages.resumeDescription)} onClick={this.resumeResource} style={this.styles.phoneControlsPopupMenuOption}>
+                    <FormattedMessage {...messages.resume} />
+                  </div>
+                  {
+                    this.props.resumeAllAvailable
+                    ? <div id="resumeAll" key="resumeAll" title={this.props.intl.formatMessage(messages.resumeAllDescription)} onClick={this.resumeAll} style={this.styles.phoneControlsPopupMenuOption}>
+                      <FormattedMessage {...messages.resumeAll} />
+                    </div>
+                    : undefined
+                  }
                 </div>
               }
-              <div id="transferResource" key="transferResource" onClick={this.transfer} style={this.styles.phoneControlsPopupMenuOption}>
+              <div id="transferResource" key="transferResource" title={this.props.intl.formatMessage(messages.transferDescription)} onClick={this.transfer} style={this.styles.phoneControlsPopupMenuOption}>
                 <FormattedMessage {...messages.transfer} />
               </div>
-              <div id="hangUpResource" key="hangUpResource" onClick={this.hangUpResource} style={this.styles.phoneControlsPopupMenuOption}>
+              <div id="hangUpResource" key="hangUpResource" title={this.props.intl.formatMessage(messages.hangUpDescription)} onClick={this.hangUpResource} style={this.styles.phoneControlsPopupMenuOption}>
                 <FormattedMessage {...messages.hangUp} />
               </div>
             </div>
@@ -214,12 +229,14 @@ export class TransferResource extends React.Component {
 }
 
 TransferResource.propTypes = {
+  intl: intlShape.isRequired,
   activeVoiceInteraction: PropTypes.object.isRequired,
   resource: PropTypes.object.isRequired,
+  resumeAllAvailable: PropTypes.bool.isRequired,
   style: PropTypes.shape({
     topTriangle: PropTypes.object.isRequired,
     phoneControlsPopupMenu: PropTypes.object.isRequired,
   }).isRequired,
 };
 
-export default (Radium(TransferResource));
+export default injectIntl(Radium(TransferResource));

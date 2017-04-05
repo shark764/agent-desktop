@@ -6,13 +6,13 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  warmTransfer: {
-    id: 'app.containers.TransferMenu.warmTransfer',
-    defaultMessage: 'Warm Transfer',
+  addParticipant: {
+    id: 'app.containers.TransferMenu.addParticipant',
+    defaultMessage: 'Add participant',
   },
-  coldTransfer: {
-    id: 'app.containers.TransferMenu.coldTransfer',
-    defaultMessage: 'Cold Transfer',
+  transfer: {
+    id: 'app.containers.TransferMenu.transfer',
+    defaultMessage: 'Transfer',
   },
   search: {
     id: 'app.containers.TransferMenu.search',
@@ -25,9 +25,5 @@ export default defineMessages({
   agents: {
     id: 'app.containers.TransferMenu.agents',
     defaultMessage: 'Agents',
-  },
-  transfer: {
-    id: 'app.containers.TransferMenu.transfer',
-    defaultMessage: 'Transfer',
   },
 });

@@ -174,15 +174,21 @@ export class PhoneControlsActive extends React.Component {
       recordingContainer = <div style={{ height: '6px', width: '100%' }}></div>;
     }
 
-    let warmTransfers;
     let connectingTransfers = false;
+    let resourcesOnHold = this.props.activeVoiceInteraction.onHold ? 1 : 0;
+    this.props.activeVoiceInteraction.warmTransfers.forEach((warmTransfer) => {
+      if (warmTransfer.status === 'transferring') {
+        connectingTransfers = true;
+      }
+      if (warmTransfer.onHold === true) {
+        resourcesOnHold += 1;
+      }
+    });
+    let warmTransfers;
     if (this.props.activeVoiceInteraction.warmTransfers.length > 0) {
-      const warmTransfersMapped = this.props.activeVoiceInteraction.warmTransfers.map((warmTransfer) => {
-        if (warmTransfer.status === 'transferring') {
-          connectingTransfers = true;
-        }
-        return <TransferResource key={warmTransfer.id} activeVoiceInteraction={this.props.activeVoiceInteraction} resource={warmTransfer} style={this.props.style} />;
-      });
+      const warmTransfersMapped = this.props.activeVoiceInteraction.warmTransfers.map((warmTransfer) =>
+        <TransferResource key={`${warmTransfer.id}-${warmTransfer.name}`} activeVoiceInteraction={this.props.activeVoiceInteraction} resource={warmTransfer} resumeAllAvailable={resourcesOnHold > 1} style={this.props.style} />
+      );
       warmTransfers = (
         <div style={this.styles.warmTransfersContainer}>
           { warmTransfersMapped }
