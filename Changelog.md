@@ -1,3 +1,8 @@
+<a name"0.27.0"></a>
+### 0.27.0 (2017-04-05)
+* Resume all functionality in participant controls when >1 participants on hold
+* UI improvments for transfers (icon for cancel transfer, padding on participants, tool tips for participants controls, warm/cold transfer verbage)
+
 <a name"0.26.5"></a>
 ### 0.26.5 (2017-04-05)
 * Fix bug in single tenant login

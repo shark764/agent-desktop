@@ -218,6 +218,7 @@ const voiceInteractionWithTransfersAndScripts = {
   },
   recording: true,
   agentRecordingEnabled: true,
+  onHold: true,
   meOnHold: true,
   warmTransfers: [
     {

@@ -438,10 +438,10 @@ export class TransferMenu extends React.Component {
         <Tabs id="transferTabs" type="small" selectedIndex={this.state.transferTabIndex} onSelect={(transferTabIndex) => this.setState({ transferTabIndex })} >
           <TabList>
             <Tab>
-              <FormattedMessage {...messages.warmTransfer} />
+              <FormattedMessage {...messages.addParticipant} />
             </Tab>
             <Tab>
-              <FormattedMessage {...messages.coldTransfer} />
+              <FormattedMessage {...messages.transfer} />
             </Tab>
           </TabList>
           <TabPanel></TabPanel>
