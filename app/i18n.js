@@ -5,15 +5,15 @@
  *
  */
 import { addLocaleData } from 'react-intl';
-import { DEFAULT_LOCALE } from './containers/App/constants';
-
 import enLocaleData from 'react-intl/locale-data/en';
+
+import { DEFAULT_LOCALE } from './containers/AgentDesktop/constants';
+import enUsTranslationMessages from './translations/en-US.json';
 
 export const appLocales = [
   'en-US',
 ];
 
-import enUsTranslationMessages from './translations/en-US.json';
 
 addLocaleData(enLocaleData);
 
@@ -21,13 +21,13 @@ export const formatTranslationMessages = (locale, messages) => {
   const defaultFormattedMessages = locale !== DEFAULT_LOCALE ? formatTranslationMessages(DEFAULT_LOCALE, enUsTranslationMessages) : {};
   const formattedMessages = {};
   const messageKeys = Object.keys(messages);
-  for (const messageKey of messageKeys) {
+  messageKeys.forEach((messageKey) => {
     if (locale === DEFAULT_LOCALE) {
       formattedMessages[messageKey] = messages[messageKey];
     } else {
       formattedMessages[messageKey] = messages[messageKey] || defaultFormattedMessages[messageKey];
     }
-  }
+  });
 
   return formattedMessages;
 };
