@@ -202,7 +202,11 @@ export class PhoneControlsActive extends React.Component {
         <div style={this.styles.bottonRowContainer}>
           <div style={this.styles.center}>
             <CircleIconButton id="endCallButton" name="endCall" onClick={this.endInteraction} style={this.styles.circleIconButtonRow} />
-            <CircleIconButton id="muteButton" name="mute" active={this.props.activeVoiceInteraction.muted} onClick={this.setMute} style={this.styles.circleIconButtonRow} />
+            {
+              this.props.activeVoiceInteraction.meOnHold !== true
+              ? <CircleIconButton id="muteButton" name="mute" active={this.props.activeVoiceInteraction.muted} onClick={this.setMute} style={this.styles.circleIconButtonRow} />
+              : undefined
+            }
             <CircleIconButton id="holdButton" name="hold" active={this.props.activeVoiceInteraction.onHold} onClick={this.setHold} style={this.styles.circleIconButtonRow} />
             {
               !connectingTransfers

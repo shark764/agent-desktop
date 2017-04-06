@@ -1,3 +1,7 @@
+<a name"0.27.3"></a>
+### 0.27.3 (2017-04-06)
+* CXV1-8486 Disable mute button when agent is on hold. Unmute when resource is taken off hold.
+
 <a name"0.27.2"></a>
 ### 0.27.2 (2017-04-06)
 * CXV1-8486 Fix on customer hold and recoringd getting out of sync between work offer and work accepted
