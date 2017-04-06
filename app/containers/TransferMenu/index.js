@@ -495,7 +495,7 @@ export class TransferMenu extends React.Component {
         <div style={this.styles.dialpadButtonContainer}>
           <CircleIconButton
             id="transferDialpadButton"
-            name={this.state.showTransferListDialpad ? 'transfer' : 'dialpad'}
+            name={this.state.showTransferListDialpad ? 'transfer_dark' : 'dialpad_dark'}
             active={false} onClick={() => this.setState({ showTransferListDialpad: !this.state.showTransferListDialpad })}
             style={this.styles.dialpadButton}
           />

@@ -217,7 +217,7 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/interactions/work-accepted-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.setInteractionStatus(response.interactionId, 'work-accepted', response.activeResources);
+          this.props.setInteractionStatus(response.interactionId, 'work-accepted', response);
           break;
         }
         case 'cxengage/interactions/custom-fields-received': {
@@ -643,7 +643,7 @@ function mapDispatchToProps(dispatch) {
     addScript: (interactionId, script) => dispatch(addScript(interactionId, script)),
     removeScript: (interactionId) => dispatch(removeScript(interactionId)),
     setPresence: (response) => dispatch(setPresence(response)),
-    setInteractionStatus: (interactionId, newStatus, activeResources) => dispatch(setInteractionStatus(interactionId, newStatus, activeResources)),
+    setInteractionStatus: (interactionId, newStatus, response) => dispatch(setInteractionStatus(interactionId, newStatus, response)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
     workInitiated: (response) => dispatch(workInitiated(response)),
     removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),

@@ -1,11 +1,16 @@
+<a name"0.27.2"></a>
+### 0.27.2 (2017-04-06)
+* CXV1-8486 Fix on customer hold and recoringd getting out of sync between work offer and work accepted
+* CXV1-8486 New icons for dialpad buttons in transfer menu
+
 <a name"0.27.1"></a>
 ### 0.27.1 (2017-04-05)
-* Fix on hold/muted/participants getting out of sync between work offer and work accepted
+* CXV1-8486 Fix on hold/muted/participants getting out of sync between work offer and work accepted
 
 <a name"0.27.0"></a>
 ### 0.27.0 (2017-04-05)
-* Resume all functionality in participant controls when >1 participants on hold
-* UI improvments for transfers (icon for cancel transfer, padding on participants, tool tips for participants controls, warm/cold transfer verbage)
+* CXV1-8260 Resume all functionality in participant controls when >1 participants on hold
+* CXV1-8486 UI improvments for transfers (icon for cancel transfer, padding on participants, tool tips for participants controls, warm/cold transfer verbage)
 
 <a name"0.26.5"></a>
 ### 0.26.5 (2017-04-05)

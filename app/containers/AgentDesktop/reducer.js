@@ -194,34 +194,39 @@ function agentDesktopReducer(state = initialState, action) {
         const newState = state
           .updateIn(['interactions', interactionIndex], (interaction) => {
             let updatedInteraction = interaction.set('status', action.newStatus);
-            // If we're accepting an existing conference, make any updates that have happened to the participants since the work offer
-            if (action.activeResources) {
+            // If we're accepting an existing voice conference, make any updates that have happened to the participants since the work offer
+            if (interaction.get('channelType') === 'voice' && action.response !== undefined) {
+              // Update customerOnHold and recording
+              updatedInteraction = updatedInteraction.set('onHold', action.response.customerOnHold === true);
+              updatedInteraction = updatedInteraction.set('recording', action.response.recording === true);
               // Remove any resources that are no longer on the interaction
-              updatedInteraction = updatedInteraction.update('warmTransfers', (warmTransfers) =>
-                warmTransfers.filter((warmTransfer) => {
-                  let containsResource = false;
-                  action.activeResources.forEach((resource) => {
-                    if (resource.id === warmTransfer.get('targetResource')) {
-                      containsResource = true;
-                    }
-                  });
-                  return containsResource;
-                })
-              );
-              // Update muted and onHolds that have changed
-              action.activeResources.forEach((resource) => {
-                const resourceIndex = interaction.get('warmTransfers').findIndex((warmTransfer) =>
-                  warmTransfer.get('targetResource') === resource.id
+              if (action.response.activeResources) {
+                updatedInteraction = updatedInteraction.update('warmTransfers', (warmTransfers) =>
+                  warmTransfers.filter((warmTransfer) => {
+                    let containsResource = false;
+                    action.response.activeResources.forEach((resource) => {
+                      if (resource.id === warmTransfer.get('targetResource')) {
+                        containsResource = true;
+                      }
+                    });
+                    return containsResource;
+                  })
                 );
-                if (resourceIndex !== -1) {
-                  updatedInteraction = updatedInteraction.updateIn(['warmTransfers', resourceIndex], (warmTransfer) =>
-                    warmTransfer.set('muted', resource.muted)
-                      .set('onHold', resource.onHold)
+                // Update muted and onHolds that have changed
+                action.response.activeResources.forEach((resource) => {
+                  const resourceIndex = interaction.get('warmTransfers').findIndex((warmTransfer) =>
+                    warmTransfer.get('targetResource') === resource.id
                   );
-                } else {
-                  throw new Error(`Resource not found to update: ${resource.id}`);
-                }
-              });
+                  if (resourceIndex !== -1) {
+                    updatedInteraction = updatedInteraction.updateIn(['warmTransfers', resourceIndex], (warmTransfer) =>
+                      warmTransfer.set('muted', resource.muted)
+                        .set('onHold', resource.onHold)
+                    );
+                  } else {
+                    throw new Error(`Resource not found to update: ${resource.id}`);
+                  }
+                });
+              }
             }
             return updatedInteraction;
           })

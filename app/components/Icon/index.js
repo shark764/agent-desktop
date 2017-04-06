@@ -23,7 +23,9 @@ import endCallSprite from 'assets/icons/end_call_sprite.png';
 import muteSprite from 'assets/icons/mute_sprite.png';
 import holdSprite from 'assets/icons/hold_sprite.png';
 import transferSprite from 'assets/icons/transfer_sprite.png';
+import transferDarkSprite from 'assets/icons/transfer_dark_sprite.png';
 import dialpadSprite from 'assets/icons/dialpad_sprite.png';
+import dialpadDarkSprite from 'assets/icons/dialpad_dark_sprite.png';
 
 import Radium from 'radium';
 
@@ -34,6 +36,7 @@ function Icon(props) {
   let backgroundPositionHover;
   let display;
   let borderRadius;
+  let backgroundSize;
   let height;
   let width;
   let className;
@@ -144,6 +147,19 @@ function Icon(props) {
       }
       backgroundPositionHover = '-40px 0';
       break;
+    case 'transfer_dark':
+      iconSprite = transferDarkSprite;
+      height = '40px';
+      width = '40px';
+      backgroundSize = '120px 40px';
+      display = 'block';
+      borderRadius = '50%';
+      if (props.active) {
+        backgroundPosition = '-80px 0';
+        className = 'active';
+      }
+      backgroundPositionHover = '-40px 0';
+      break;
     case 'dialpad':
       iconSprite = dialpadSprite;
       height = '40px';
@@ -156,9 +172,21 @@ function Icon(props) {
       }
       backgroundPositionHover = '-40px 0';
       break;
-    default:
-      console.error('Unhandled name:', props.name);
+    case 'dialpad_dark':
+      iconSprite = dialpadDarkSprite;
+      height = '40px';
+      width = '40px';
+      backgroundSize = '120px 40px';
+      display = 'block';
+      borderRadius = '50%';
+      if (props.active) {
+        backgroundPosition = '-80px 0';
+        className = 'active';
+      }
+      backgroundPositionHover = '-40px 0';
       break;
+    default:
+      throw new Error(`Unhandled icon name: ${props.name}`);
   }
 
   const styles = {
@@ -169,6 +197,7 @@ function Icon(props) {
       },
       backgroundImage: iconSprite ? `url(${iconSprite})` : '',
       backgroundPosition,
+      backgroundSize,
       borderRadius,
       display,
     },
