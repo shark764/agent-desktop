@@ -1,3 +1,8 @@
+<a name"0.27.4"></a>
+### 0.27.4 (2017-04-07)
+* CXV1-8272 Enable trasncript fetching
+* BUGFIX - interaction history failing to load on new interaction pop
+
 <a name"0.27.3"></a>
 ### 0.27.3 (2017-04-06)
 * CXV1-8486 Disable mute button when agent is on hold. Unmute when resource is taken off hold.

@@ -42,4 +42,8 @@ export default defineMessages({
     id: 'app.containers.ContactInteractionHistory.transcript',
     defaultMessage: 'Transcript',
   },
+  noTranscript: {
+    id: 'app.containers.ContactInteractionHistory.noTranscript',
+    defaultMessage: 'No Transcript Currently Available',
+  },
 });

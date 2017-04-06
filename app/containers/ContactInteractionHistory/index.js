@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedTime } from 'react-intl';
 import Radium from 'radium';
 import moment from 'moment';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -17,7 +17,7 @@ import IconSVG from 'components/IconSVG';
 import { setContactInteractionHistory, setContactHistoryInteractionDetailsLoading, addNotesToContactInteractionHistory, loadHistoricalInteractionBody, loadContactInteractionHistory } from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
-import { getSelectedInteractionId, selectContactId, selectContactHistory } from './selectors';
+import { getSelectedInteractionId, selectContact } from './selectors';
 
 export class ContactInteractionHistory extends React.Component {
   constructor(props) {
@@ -200,12 +200,24 @@ export class ContactInteractionHistory extends React.Component {
       width: '100%',
       marginBottom: '5px',
     },
-  }
+    messageFrom: {
+      fontSize: '15px',
+      fontWeight: 'bold',
+    },
+    messageTime: {
+      fontSize: '12px',
+      marginLeft: '7px',
+    },
+    messageText: {
+      fontSize: '16px',
+      lineHeight: '20px',
+      whiteSpace: 'pre-wrap',
+    },
+  };
 
   interactionBody(interactionDetails) {
     let transcript;
-    // UNCOMMENT WHEN MESSAGING TRANSCRIPTS API READY
-    // let transcriptItems;
+    let transcriptItems;
     const audioRecordings = (recordings) => {
       if (recordings.length === 0) {
         return <FormattedMessage {...messages.noRecordings} />;
@@ -231,30 +243,47 @@ export class ContactInteractionHistory extends React.Component {
           </div>
         );
         break;
-      // UNCOMMENT WHEN MESSAGING TRANSCRIPTS API READY
-      // case 'sms':
-      // case 'messaging':
-      //   transcriptItems = segment.transcript.map((transcriptItem, index) =>
-      //     <div key={`${segment.id}`} id={`transcriptItem${index}`} style={this.styles.transcriptItem}>
-      //       <span style={this.styles.transcriptItemName}>
-      //         {transcriptItem.name}:&nbsp;
-      //       </span>
-      //       <span>
-      //         {transcriptItem.message}
-      //       </span>
-      //     </div>
-      //   );
-      //   transcript = (
-      //     <div style={this.styles.transcript}>
-      //       <div style={this.styles.transcriptTitle}>
-      //         <FormattedMessage {...messages.transcript} />
-      //       </div>
-      //       <div style={this.styles.segmentMessage}>
-      //         {transcriptItems}
-      //       </div>
-      //     </div>
-      //   );
-      //   break;
+      case 'sms':
+      case 'messaging':
+        transcriptItems =
+          typeof interactionDetails.transcript === 'undefined'
+          ? <IconSVG id="loadingRecordings" name="loading" style={this.styles.loadingInteractionDetails} />
+          : interactionDetails.transcript && interactionDetails.transcript.map && interactionDetails.transcript.map(
+            (transcriptItem, index) => {
+              const messageFrom =
+                (transcriptItem.payload.type === 'customer' || transcriptItem.payload.type === 'message')
+                  ? this.props.contactName
+                  : transcriptItem.payload.from;
+              return (
+                <div key={`${transcriptItem.payload.id}-${index}`} id={`transcriptItem${index}`} style={this.styles.transcriptItem}>
+                  <span style={this.styles.messageFrom}>
+                    {messageFrom}
+                  </span>
+                  <span style={this.styles.messageTime}>
+                    <FormattedTime value={new Date(Number(transcriptItem.timestamp))} />
+                  </span>
+                  <div style={this.styles.messageText}>
+                    {transcriptItem.payload.body.text}
+                  </div>
+                </div>
+              );
+            }
+          );
+        transcript = (
+          <div style={this.styles.transcript}>
+            <div style={this.styles.transcriptTitle}>
+              <FormattedMessage {...messages.transcript} />
+            </div>
+            <div style={this.styles.segmentMessage}>
+              {
+                Array.isArray(transcriptItems) && transcriptItems.length === 0
+                ? <FormattedMessage {...messages.noTranscript} />
+                : transcriptItems
+              }
+            </div>
+          </div>
+        );
+        break;
       default:
         break;
     }
@@ -462,10 +491,12 @@ export class ContactInteractionHistory extends React.Component {
 }
 
 function mapStateToProps(state, props) {
+  const contact = selectContact(state, props);
   return {
     selectedInteractionId: getSelectedInteractionId(state, props),
-    contactId: selectContactId(state, props),
-    contactInteractionHistory: selectContactHistory(state, props),
+    contactId: contact.id,
+    contactName: contact.attributes.name,
+    contactInteractionHistory: contact.interactionHistory,
   };
 }
 
@@ -483,6 +514,7 @@ function mapDispatchToProps(dispatch) {
 ContactInteractionHistory.propTypes = {
   selectedInteractionId: React.PropTypes.string,
   contactId: React.PropTypes.string.isRequired,
+  contactName: React.PropTypes.string.isRequired,
   contactInteractionHistory: React.PropTypes.object,
   setContactInteractionHistory: React.PropTypes.func.isRequired,
   setContactHistoryInteractionDetailsLoading: React.PropTypes.func.isRequired,
