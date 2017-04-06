@@ -197,8 +197,8 @@ function agentDesktopReducer(state = initialState, action) {
             // If we're accepting an existing voice conference, make any updates that have happened to the participants since the work offer
             if (interaction.get('channelType') === 'voice' && action.response !== undefined) {
               // Update customerOnHold and recording
-              updatedInteraction = updatedInteraction.set('onHold', action.response.customerOnHold === true);
-              updatedInteraction = updatedInteraction.set('recording', action.response.recording === true);
+              updatedInteraction = updatedInteraction.set('onHold', action.response.customerOnHold === true)
+                .set('recording', action.response.recording === true);
               // Remove any resources that are no longer on the interaction
               if (action.response.activeResources) {
                 updatedInteraction = updatedInteraction.update('warmTransfers', (warmTransfers) =>
@@ -747,9 +747,15 @@ function agentDesktopReducer(state = initialState, action) {
             warmTransfer.get('targetResource') === action.targetResource
           );
           if (resourceToUpdate !== -1) {
-            return warmTransfers.update(resourceToUpdate, (warmTransfer) =>
-              warmTransfer.set(action.statusKey, action.statusValue)
-            );
+            return warmTransfers.update(resourceToUpdate, (warmTransfer) => {
+              if (!(action.statusKey === 'onHold' && action.statusValue === true)) {
+                return warmTransfer.set(action.statusKey, action.statusValue);
+              } else {
+                // Also set muted to false if resource is being resumed
+                return warmTransfer.set(action.statusKey, action.statusValue)
+                  .set('muted', false);
+              }
+            });
           } else {
             return warmTransfers;
           }
@@ -777,6 +783,7 @@ function agentDesktopReducer(state = initialState, action) {
       if (interactionIndex !== -1) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
           interaction.set('meOnHold', false)
+            .set('muted', false)
         );
       } else {
         return state;
