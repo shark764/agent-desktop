@@ -267,12 +267,12 @@ export function addMessage(response) {
   };
 }
 
-export function setInteractionStatus(interactionId, newStatus, activeResources) {
+export function setInteractionStatus(interactionId, newStatus, response) {
   return {
     type: SET_INTERACTION_STATUS,
     interactionId,
     newStatus,
-    activeResources,
+    response,
   };
 }
 

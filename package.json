@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.27.1",
+  "version": "0.27.2",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "build": "cross-env NODE_ENV=production webpack --config internals/webpack/webpack.prod.babel.js --color -p --progress",
     "build:clean": "npm run test:clean && rimraf ./build",
     "build:dll": "node ./internals/scripts/dependencies.js",
-    "start": "npm run extract-intl && cross-env NODE_ENV=development node server",
+    "start": "npm run build:dll && npm run extract-intl && cross-env NODE_ENV=development node server",
     "start:qe": "cross-env NODE_ENV=testing node server",
     "start:tunnel": "cross-env NODE_ENV=development ENABLE_TUNNEL=true node server",
     "start:production": "npm run build && npm run start:prod",
@@ -207,7 +207,7 @@
     "chalk": "1.1.3",
     "compression": "1.6.2",
     "cross-env": "^3.2.4",
-    "cxengage-javascript-sdk": "4.0.0-SNAPSHOT.247",
+    "cxengage-javascript-sdk": "4.0.0-SNAPSHOT.248",
     "draft-js-export-html": "0.5.2",
     "draft-js-import-html": "0.3.2",
     "empty-module": "0.0.2",
