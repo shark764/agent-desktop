@@ -4,6 +4,7 @@
  *
  */
 
+export const SET_USER_CONFIG = 'app/AgentDesktop/SET_USER_CONFIG';
 export const SET_EXTENSIONS = 'app/AgentDesktop/SET_EXTENSIONS';
 export const SET_ACTIVE_EXTENSION = 'app/AgentDesktop/SET_ACTIVE_EXTENSION';
 export const SET_QUEUES = 'app/AgentDesktop/SET_QUEUES';

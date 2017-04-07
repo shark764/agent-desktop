@@ -13,7 +13,7 @@ import EmailContentArea from 'containers/EmailContentArea';
 import VoiceContentArea from 'containers/VoiceContentArea';
 import WelcomeStats from 'containers/WelcomeStats';
 
-import { selectSelectedInteraction } from './selectors';
+import { selectSelectedInteraction, selectMessageTemplates } from './selectors';
 
 export class MainContentArea extends React.Component {
 
@@ -43,7 +43,10 @@ export class MainContentArea extends React.Component {
     let content = null;
     if (selectedInteraction) {
       if (selectedInteraction.channelType === 'messaging' || selectedInteraction.channelType === 'sms') {
-        content = <MessagingContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} />;
+        const messageTemplates = this.props.messageTemplates.filter((messageTemplate) =>
+          messageTemplate.channels.includes(selectedInteraction.channelType)
+        );
+        content = <MessagingContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} messageTemplates={messageTemplates} />;
       } else if (selectedInteraction.channelType === 'email') {
         content = <EmailContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} />;
       } else if (selectedInteraction.channelType === 'voice') {
@@ -67,6 +70,7 @@ export class MainContentArea extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   selectedInteraction: selectSelectedInteraction(state, props),
+  messageTemplates: selectMessageTemplates(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -78,6 +82,7 @@ function mapDispatchToProps(dispatch) {
 MainContentArea.propTypes = {
   style: PropTypes.array,
   selectedInteraction: PropTypes.object,
+  messageTemplates: PropTypes.array,
   emailCreateReply: PropTypes.func.isRequired,
   emailCancelReply: PropTypes.func.isRequired,
   agent: PropTypes.object.isRequired,

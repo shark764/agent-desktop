@@ -5,6 +5,7 @@
  */
 
 import {
+  SET_USER_CONFIG,
   SET_EXTENSIONS,
   UPDATE_WRAPUP_DETAILS,
   ADD_SCRIPT,
@@ -66,6 +67,13 @@ import {
   SELECT_DISPOSITION,
   SHOW_REFRESH_NOTIF,
 } from './constants';
+
+export function setUserConfig(response) {
+  return {
+    type: SET_USER_CONFIG,
+    response,
+  };
+}
 
 export function setExtensions(response) {
   return {

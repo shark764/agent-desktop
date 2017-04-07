@@ -1,3 +1,7 @@
+<a name"0.28.0"></a>
+### 0.28.0 (2017-04-10)
+* Messaging template base functionality
+
 <a name"0.27.9"></a>
 ### 0.27.9 (2017-04-10)
 * Re-brand for mitel on login screen Only

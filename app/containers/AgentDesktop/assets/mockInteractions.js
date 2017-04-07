@@ -216,6 +216,12 @@ const voiceInteractionWithTransfersAndScripts = {
     id: '522ca8e2-3edc-497e-a03b-ed34b6608a0c',
     name: 'script',
   },
+  sidePanelTabIndex: 0,
+  note: {
+    body: '',
+    title: '',
+    notesPanelHeight: 300,
+  },
   recording: true,
   agentRecordingEnabled: true,
   onHold: true,
@@ -227,12 +233,14 @@ const voiceInteractionWithTransfersAndScripts = {
       name: 'Agent with a very very very long name',
       status: 'connected',
       onHold: true,
+      targetResource: 'targetResource1',
     }, {
       id: '22222',
       type: 'queue',
       name: 'Queue #1',
       status: 'connected',
       muted: true,
+      targetResource: 'targetResource2',
     }, {
       id: '33333',
       type: 'pstn',
@@ -599,6 +607,12 @@ const smsInteractionWithLotsOfMessagesAndScript = {
     wrapupTime: '20',
     targetWrapupTime: '10',
   },
+  note: {
+    body: '',
+    title: '',
+    notesPanelHeight: 300,
+  },
+  sidePanelTabIndex: 0,
   dispositionDetails: processedDispositionDetails,
   script: {
     elements: [

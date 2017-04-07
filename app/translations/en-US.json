@@ -133,8 +133,13 @@
   "app.containers.TransferResource.transfer": "Transfer",
   "app.containers.TransferResource.transferDescription": "Transfer to participant",
   "app.containers.VoiceContentArea.endWrapup": "End Wrap Up",
+  "app.containers.VoiceContentArea.esc": "esc",
   "app.containers.VoiceContentArea.hangUp": "Hang Up",
+  "app.containers.VoiceContentArea.messagingTemplates": "Messaging Templates",
   "app.containers.VoiceContentArea.send": "Send",
+  "app.containers.VoiceContentArea.toDismiss": "to dismiss",
+  "app.containers.VoiceContentArea.toNavigate": "to navigate",
+  "app.containers.VoiceContentArea.toSelect": "to select",
   "app.containers.WelcomeStats.welcome": "Welcome,",
   "app.contianers.Login.password": "Password"
 }
