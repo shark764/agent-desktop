@@ -1,3 +1,10 @@
+<a name"0.27.8"></a>
+### 0.27.8 (2017-04-07)
+* CXV1-8467 - remove router broke hot reload, fix and better understand webpack processes
+* BUGFIX - interaction count on contact history not showing
+* contact interartion transcript - Show agent name instead of 'Agent'
+* Welcome stats - still hacky but no longer dangerous.
+
 <a name"0.27.7"></a>
 ### 0.27.7 (2017-04-07)
 * CXV1-8486 - Only allow one transfer resource menu open at once. Fix transfer dialpad on enter.

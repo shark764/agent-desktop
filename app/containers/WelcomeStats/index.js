@@ -32,7 +32,7 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
       position: 'relative',
       top: '0.5em',
       left: '1em',
-      color: 'white'
+      color: 'white',
     },
     statContainer: {
       display: 'flex',
@@ -81,7 +81,7 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
     },
     statTitle: {
       fontWeight: 'bold',
-      color: 'rgb(20, 119, 141)'
+      color: 'rgb(20, 119, 141)',
     },
   };
 
@@ -107,8 +107,6 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
   }
 
   getStats() {
-    const storage = window.localStorage;
-
     let host;
     if (typeof window.ADconf !== 'undefined') {
       host = 'https://' + window.ADconf.api; // eslint-disable-line
@@ -116,31 +114,28 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
       host = 'https://dev-api.cxengagelabs.net/v1/';
     }
 
+    // TODO: Still hacky! replace with proper stats SDK call?
+
+    const headers = {
+      authorization: `Token ${SDK.dumpState().authentication.token}`,
+    };
+
     axios({
       method: 'get',
       url: host + 'tenants/'+ this.props.tenant.id +'/users/'+ this.props.agent.userId +'/realtime-statistics/resource-handle-time', // eslint-disable-line
-      auth: {
-        username: storage.getItem('email1'), // TODO: REMOVE BEFORE v1!!!!!!!
-        password: storage.getItem('pass1'), // TODO: REMOVE BEFORE v1!!!!!!!
-      },
+      headers,
     }).then((res) => this.setHandleTime(res.data));
 
     axios({
       method: 'get',
       url: host + 'tenants/'+ this.props.tenant.id +'/users/'+ this.props.agent.userId +'/realtime-statistics/customer-satisfaction-score', // eslint-disable-line
-      auth: {
-        username: storage.getItem('email1'), // TODO: REMOVE BEFORE v1!!!!!!!
-        password: storage.getItem('pass1'), // TODO: REMOVE BEFORE v1!!!!!!!
-      },
+      headers,
     }).then((res) => this.setCSAT(res.data));
 
     axios({
       method: 'get',
       url: host + 'tenants/'+ this.props.tenant.id +'/users/'+ this.props.agent.userId +'/realtime-statistics/work-accepted-count', // eslint-disable-line
-      auth: {
-        username: storage.getItem('email1'), // TODO: REMOVE BEFORE v1!!!!!!!
-        password: storage.getItem('pass1'), // TODO: REMOVE BEFORE v1!!!!!!!
-      },
+      headers,
     }).then((res) => this.setInteractionCount(res.data));
   }
 

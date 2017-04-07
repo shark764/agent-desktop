@@ -251,10 +251,18 @@ export class ContactInteractionHistory extends React.Component {
           : interactionDetails.transcript && interactionDetails.transcript.map && interactionDetails.transcript.map(
             (transcriptItem, index) => {
               const messageType = (transcriptItem.payload.metadata && transcriptItem.payload.metadata.type) || transcriptItem.payload.type;
-              const messageFrom =
-                (messageType === 'customer' || messageType === 'message')
-                  ? this.props.contactName
-                  : (transcriptItem.payload.metadata && transcriptItem.payload.metadata.name) || transcriptItem.payload.from;
+              let messageFrom = transcriptItem.payload.from;
+              if (messageType === 'agent') {
+                interactionDetails.agents.forEach((agent) => {
+                  if (agent.resourceId === transcriptItem.payload.from) {
+                    messageFrom = agent.agentName;
+                  }
+                });
+              } else if (interactionDetails.customer === transcriptItem.payload.from) {
+                messageFrom = this.props.contactName;
+              } else if (transcriptItem.payload.metadata && transcriptItem.payload.metadata.name) {
+                messageFrom = transcriptItem.payload.metadata.name;
+              }
               return (
                 <div key={`${transcriptItem.payload.id}-${index}`} id={`transcriptItem${index}`} style={this.styles.transcriptItem}>
                   <span style={this.styles.messageFrom}>
@@ -433,24 +441,25 @@ export class ContactInteractionHistory extends React.Component {
     if (this.props.contactInteractionHistory === undefined) {
       return <IconSVG id="loadingContactHistoryIcon" name="loading" style={this.styles.loading} />;
     } else {
-      const interactions = this.props.contactInteractionHistory.results.map((interaction, interactionIndex) =>
+      const contactInteractionHistory = this.props.contactInteractionHistory.results;
+      const interactions = contactInteractionHistory.map((interaction, interactionIndex) =>
         this.contactHistoryInteraction(interaction, interactionIndex)
       );
       return (
         <div>
           <div style={this.styles.interactionsSinceContainer}>
             <div id="interactionsSince" style={this.styles.interactionsSince}>
-              { this.props.contactInteractionHistory.length > 1
+              { contactInteractionHistory.length > 1
                 ? <div>
-                  { this.props.contactInteractionHistory.length }
+                  { contactInteractionHistory.length }
                   &nbsp;
                   {
-                    this.props.contactInteractionHistory.length > 2
+                    contactInteractionHistory.length > 2
                     ? <FormattedMessage {...messages.interactionsSince} />
                     : <FormattedMessage {...messages.interaction} />
                   }
                   &nbsp;
-                  { moment(this.props.contactInteractionHistory.results[this.props.contactInteractionHistory.length - 1].startTimestamp).format('LL') }
+                  { moment(contactInteractionHistory[contactInteractionHistory.length - 1].startTimestamp).format('LL') }
                 </div>
                 : <FormattedMessage {...messages.noPastInteractions} />
               }
