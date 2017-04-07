@@ -479,6 +479,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/reporting/stat-subscription-added': // Handled by Toolbar
         case 'cxengage/reporting/stat-subscription-removed': // Handled by Toolbar
         case 'cxengage/interactions/voice/recording-received': // Handled in historicalInteractionBody saga
+        case 'cxengage/interactions/messaging/transcript-received': // Handled in historicalInteractionBody saga
         case 'cxengage/reporting/get-contact-interaction-history-response': // Handled in contactInteractionHistory saga
         case 'cxengage/interactions/get-notes-response': // Handled in contactInteractionHistory
           break;
@@ -505,7 +506,7 @@ export class AgentDesktop extends React.Component {
               console.error('Assign error', assignError);
               this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
             } else {
-              this.props.loadContactInteractionHistory({ contactId: searchResponse.results[0].id });
+              this.props.loadContactInteractionHistory(searchResponse.results[0].id);
               this.props.assignContact(interactionId, searchResponse.results[0]);
             }
           });

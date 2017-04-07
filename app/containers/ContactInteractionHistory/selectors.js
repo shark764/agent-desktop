@@ -9,18 +9,12 @@ const getSelectedInteractionId = createSelector(
   (agentDesktop) => agentDesktop.get('selectedInteractionId')
 );
 
-const selectContactId = createSelector(
+const selectContact = createSelector(
   [selectCurrentInteraction],
-  (currentInteraction) => currentInteraction.contact && currentInteraction.contact.id
-);
-
-const selectContactHistory = createSelector(
-  [selectCurrentInteraction],
-  (currentInteraction) => currentInteraction.contact && currentInteraction.contact.interactionHistory
+  (currentInteraction) => currentInteraction.contact
 );
 
 export {
   getSelectedInteractionId,
-  selectContactId,
-  selectContactHistory,
+  selectContact,
 };

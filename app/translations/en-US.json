@@ -60,6 +60,7 @@
   "app.containers.ContactInteractionHistory.minutes": "minutes",
   "app.containers.ContactInteractionHistory.noPastInteractions": "No past interactions",
   "app.containers.ContactInteractionHistory.noRecordings": "No recordings (processing can take up to 10 minutes).",
+  "app.containers.ContactInteractionHistory.noTranscript": "No Transcript Currently Available",
   "app.containers.ContactInteractionHistory.seconds": "seconds",
   "app.containers.ContactInteractionHistory.transcript": "Transcript",
   "app.containers.ContentArea.notes": "Notes",

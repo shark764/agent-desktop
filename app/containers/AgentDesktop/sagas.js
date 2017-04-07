@@ -1,4 +1,5 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
+import axios from 'axios';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 import { updateContactHistoryInteractionDetails, setContactInteractionHistory } from 'containers/AgentDesktop/actions';
@@ -6,15 +7,20 @@ import { LOAD_HISTORICAL_INTERACTION_BODY, LOAD_CONTACT_INTERACTION_HISTORY } fr
 
 export function* loadHistoricalInteractionBody(action) {
   const body = {};
-  let recordings;
+  let metaData;
+  let transcriptResponse;
   try {
     switch (action.bodyType) {
       case 'recordings':
-        recordings = yield call(sdkCallToPromise, SDK.interactions.voice.getRecordings, { interactionId: action.interactionId }, 'AgentDesktop');
-        body.audioRecordings = recordings.map((recording) => recording.url);
+        metaData = yield call(sdkCallToPromise, SDK.interactions.voice.getRecordings, { interactionId: action.interactionId }, 'AgentDesktop');
+        body.audioRecordings = metaData.map((recording) => recording.url);
         break;
       case 'transcript':
-        body.transcript = yield call(sdkCallToPromise, SDK.interactions.messaging.getTranscripts, { interactionId: action.interactionId }, 'AgentDesktop');
+        metaData = yield call(sdkCallToPromise, SDK.interactions.messaging.getTranscripts, { interactionId: action.interactionId }, 'AgentDesktop');
+        transcriptResponse = yield call(axios.get, metaData[0] && metaData[0].url);
+        body.transcript = transcriptResponse && transcriptResponse.data
+          ? transcriptResponse.data
+          : [];
         break;
       default:
         break;
