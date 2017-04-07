@@ -1,3 +1,7 @@
+<a name"0.27.5"></a>
+### 0.27.5 (2017-04-07)
+* BUGFIX - all messages in transcript carry name of contact
+
 <a name"0.27.4"></a>
 ### 0.27.4 (2017-04-07)
 * CXV1-8272 Enable trasncript fetching
