@@ -124,6 +124,8 @@ export class AgentDesktop extends React.Component {
       console.error('Server conf file not found, Unable to load desktop');
     }
 
+    window.agentDesktopState = () => console.log(this.props.agentDesktop);
+
     const sdkConf = { baseUrl: `https://${where}`, logLevel, blastSqsOutput, environment, reportingRefreshRate };
     window.SDK = serenova.cxengage.initialize(sdkConf);
 
@@ -444,6 +446,18 @@ export class AgentDesktop extends React.Component {
           this.props.selectDisposition(response.interactionId, response.disposition);
           break;
         }
+        // Not using these pubsubs, but logging for debugging.
+        case 'cxengage/interactions/voice/start-recording-acknowledged': // Just using cxengage/interactions/voice/recording-start-received
+        case 'cxengage/interactions/voice/stop-recording-acknowledged': // Just using cxengage/interactions/voice/recording-end-received
+        case 'cxengage/interactions/voice/mute-acknowledged': // Just using cxengage/interactions/voice/resource-mute-received
+        case 'cxengage/interactions/voice/unmute-acknowledged': // Just using cxengage/interactions/voice/resource-unmute-received
+        case 'cxengage/interactions/voice/resume-acknowledged': // Just using cxengage/interactions/voice/customer-resume-received
+        case 'cxengage/interactions/voice/hold-acknowledged': // Just using cxengage/interactions/voice/customer-hold-received
+        case 'cxengage/interactions/voice/transfer-connected': // Just using cxengage/interactions/resource-added-received
+        case 'cxengage/interactions/voice/resource-hold-acknowledged': // Just using cxengage/interactions/voice/resource-hold-received
+        case 'cxengage/interactions/voice/resource-resume-acknowledged': // Just using cxengage/interactions/voice/resource-resume-received
+          console.log('[AgentDesktop] Log SDK.subscribe()', topic, response);
+          break;
         // Igonore these pubsubs. They are unneeded or handled elsewhere.
         case 'cxengage/authentication/login-response': // Handled in Login component
         case 'cxengage/session/tenant-list': // Using tenants from login-response
@@ -457,16 +471,9 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/voice/phone-controls-response': // Using mute-started, mute-ended, etc. instead
         case 'cxengage/contacts/search-contacts-response': // Handled in ContactsControl & AgentDesktop callback
         case 'cxengage/interactions/contact-assign-acknowledged': // Handled in ContactsControl
-        case 'cxengage/interactions/voice/start-recording-acknowledged': // Just using cxengage/interactions/voice/recording-start-received
-        case 'cxengage/interactions/voice/stop-recording-acknowledged': // Just using cxengage/interactions/voice/recording-end-received
-        case 'cxengage/interactions/voice/mute-acknowledged': // Just using cxengage/interactions/voice/resource-mute-received
-        case 'cxengage/interactions/voice/unmute-acknowledged': // Just using cxengage/interactions/voice/resource-unmute-received
-        case 'cxengage/interactions/voice/resume-acknowledged': // Just using cxengage/interactions/voice/customer-resume-received
-        case 'cxengage/interactions/voice/hold-acknowledged': // Just using cxengage/interactions/voice/customer-hold-received
         case 'cxengage/entities/get-users-response': // Handled in TransferMenu
         case 'cxengage/entities/get-transfer-lists-response': // Handled in TransferMenu
         case 'cxengage/interactions/voice/transfer-response': // Handled in TransferMenu
-        case 'cxengage/interactions/voice/transfer-connected': // Using cxengage/interactions/resource-added-received instead
         case 'cxengage/interactions/contact-unassigned-acknowledged': // Handled in ContactsControl
         case 'cxengage/interactions/contact-assigned-acknowledged': // Handled in ContactsControl
         case 'cxengage/reporting/polling-started': // Ignore

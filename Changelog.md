@@ -1,3 +1,8 @@
+<a name"0.27.6"></a>
+### 0.27.6 (2017-04-07)
+* BUGFIX - Minor transfer enhancements fixes (transfer on enter for transfer dialpad, transfer dialpad button verbage, handle multiple transfers to the same PSTN)
+* Added function to log AgentDesktop state for debugging non-locally
+
 <a name"0.27.5"></a>
 ### 0.27.5 (2017-04-07)
 * BUGFIX - all messages in transcript carry name of contact

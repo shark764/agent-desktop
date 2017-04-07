@@ -236,7 +236,7 @@ export class TransferMenu extends React.Component {
     transferDialpadButton: {
       display: 'block',
       margin: '24px auto 0',
-      width: '102px',
+      width: '134px',
     },
   }
 
@@ -260,6 +260,10 @@ export class TransferMenu extends React.Component {
       };
       this.transfer(name, undefined, undefined, transferExtension);
     }
+  }
+
+  transferFromDialpad() {
+    this.transfer(this.state.dialpadText, undefined, undefined, { type: 'pstn', value: this.state.dialpadText });
   }
 
   transfer(name, resourceId, queueId, transferExtension) {
@@ -481,12 +485,12 @@ export class TransferMenu extends React.Component {
           </div>
         </div>
         : <div style={this.styles.dialpadContainer}>
-          <Dialpad id="dialpad" setDialpadText={this.setDialpadText} dialpadText={this.state.dialpadText} />
+          <Dialpad id="dialpad" setDialpadText={this.setDialpadText} onEnter={this.transferFromDialpad} dialpadText={this.state.dialpadText} />
           <Button
             id="transferDialpadButton"
-            text={messages.transfer}
+            text={this.state.transferTabIndex === 0 ? messages.addParticipant : messages.transfer}
             disabled={!this.state.dialpadTextValid}
-            onClick={() => this.transfer(this.state.dialpadText, undefined, undefined, { type: 'pstn', value: this.state.dialpadText })}
+            onClick={this.transferFromDialpad}
             type="primaryBlue"
             style={this.styles.transferDialpadButton}
           />
