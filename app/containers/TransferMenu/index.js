@@ -34,6 +34,7 @@ export class TransferMenu extends React.Component {
     this.refreshAgents = this.refreshAgents.bind(this);
     this.filterTransferListItems = this.filterTransferListItems.bind(this);
     this.setDialpadText = this.setDialpadText.bind(this);
+    this.transferFromDialpad = this.transferFromDialpad.bind(this);
 
     this.state = {
       transferTabIndex: 0,

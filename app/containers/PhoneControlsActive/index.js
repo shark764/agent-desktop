@@ -25,6 +25,7 @@ import messages from './messages';
 export class PhoneControlsActive extends React.Component {
   constructor(props) {
     super(props);
+    this.setSelectedTransferResourceMenu = this.setSelectedTransferResourceMenu.bind(this);
     this.setShowTransferMenu = this.setShowTransferMenu.bind(this);
     this.setShowActiveInteractionDialpad = this.setShowActiveInteractionDialpad.bind(this);
     this.setActiveInteractionDialpadText = this.setActiveInteractionDialpadText.bind(this);
@@ -36,9 +37,14 @@ export class PhoneControlsActive extends React.Component {
 
     this.state = {
       showTransferMenu: false,
+      selectedTransferResourceMenu: undefined,
       showActiveInteractionDialpad: false,
       activeInteractionDialpadText: '',
     };
+  }
+
+  setSelectedTransferResourceMenu(selectedTransferResourceMenu) {
+    this.setState({ selectedTransferResourceMenu });
   }
 
   setShowTransferMenu(showTransferMenu) {
@@ -187,7 +193,15 @@ export class PhoneControlsActive extends React.Component {
     let warmTransfers;
     if (this.props.activeVoiceInteraction.warmTransfers.length > 0) {
       const warmTransfersMapped = this.props.activeVoiceInteraction.warmTransfers.map((warmTransfer) =>
-        <TransferResource key={`${warmTransfer.targetResource ? warmTransfer.targetResource : warmTransfer.id}`} activeVoiceInteraction={this.props.activeVoiceInteraction} resource={warmTransfer} resumeAllAvailable={resourcesOnHold > 1} style={this.props.style} />
+        <TransferResource
+          key={`${warmTransfer.targetResource ? warmTransfer.targetResource : warmTransfer.id}`}
+          activeVoiceInteraction={this.props.activeVoiceInteraction}
+          resource={warmTransfer}
+          resumeAllAvailable={resourcesOnHold > 1}
+          selectedTransferResourceMenu={this.state.selectedTransferResourceMenu}
+          setSelectedTransferResourceMenu={this.setSelectedTransferResourceMenu}
+          style={this.props.style}
+        />
       );
       warmTransfers = (
         <div style={this.styles.warmTransfersContainer}>
