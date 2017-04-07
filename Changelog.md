@@ -1,6 +1,10 @@
+<a name"0.27.7"></a>
+### 0.27.7 (2017-04-07)
+* CXV1-8486 - Only allow one transfer resource menu open at once. Fix transfer dialpad on enter.
+
 <a name"0.27.6"></a>
 ### 0.27.6 (2017-04-07)
-* BUGFIX - Minor transfer enhancements fixes (transfer on enter for transfer dialpad, transfer dialpad button verbage, handle multiple transfers to the same PSTN)
+* CXV1-8486 Minor transfer enhancements fixes (transfer on enter for transfer dialpad, transfer dialpad button verbage, handle multiple transfers to the same PSTN)
 * Added function to log AgentDesktop state for debugging non-locally
 
 <a name"0.27.5"></a>
@@ -9,7 +13,7 @@
 
 <a name"0.27.4"></a>
 ### 0.27.4 (2017-04-07)
-* CXV1-8272 Enable trasncript fetching
+* CXV1-8272 Enable transcript fetching
 * BUGFIX - interaction history failing to load on new interaction pop
 
 <a name"0.27.3"></a>
