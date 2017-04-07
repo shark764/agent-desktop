@@ -250,10 +250,11 @@ export class ContactInteractionHistory extends React.Component {
           ? <IconSVG id="loadingRecordings" name="loading" style={this.styles.loadingInteractionDetails} />
           : interactionDetails.transcript && interactionDetails.transcript.map && interactionDetails.transcript.map(
             (transcriptItem, index) => {
+              const messageType = (transcriptItem.payload.metadata && transcriptItem.payload.metadata.type) || transcriptItem.payload.type;
               const messageFrom =
-                (transcriptItem.payload.type === 'customer' || transcriptItem.payload.type === 'message')
+                (messageType === 'customer' || messageType === 'message')
                   ? this.props.contactName
-                  : transcriptItem.payload.from;
+                  : (transcriptItem.payload.metadata && transcriptItem.payload.metadata.name) || transcriptItem.payload.from;
               return (
                 <div key={`${transcriptItem.payload.id}-${index}`} id={`transcriptItem${index}`} style={this.styles.transcriptItem}>
                   <span style={this.styles.messageFrom}>
