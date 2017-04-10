@@ -1,3 +1,8 @@
+<a name"0.27.9"></a>
+### 0.27.9 (2017-04-10)
+* Re-brand for mitel on login screen Only
+* Better error handling for agent with only 1 tenant and misssing perms
+
 <a name"0.27.8"></a>
 ### 0.27.8 (2017-04-07)
 * CXV1-8467 - remove router broke hot reload, fix and better understand webpack processes

@@ -97,6 +97,7 @@
   "app.containers.Login.signInButton": "Sign In",
   "app.containers.Login.username": "Username",
   "app.containers.Login.welcome": "Sign in to CXEngage",
+  "app.containers.Login.welcomeNoProd": "Sign in",
   "app.containers.MessagingContentArea.endChat": "End Chat",
   "app.containers.PhoneControls.call": "Call",
   "app.containers.PhoneControls.disposition": "Disposition",
