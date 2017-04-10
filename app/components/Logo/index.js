@@ -6,12 +6,20 @@
 
 import React, { PropTypes } from 'react';
 
-import logo from './Serenova.png';
-
+import serenova from './Serenova.png';
+import mitel from './Mitel.png';
 
 function Logo(props) {
+  const parts = location.hostname.split('.');
+  let logo;
+  if (parts[0].indexOf('mitel') !== -1) {
+    logo = mitel;
+  } else {
+    logo = serenova;
+  }
+
   return (
-    <img src={logo} alt="Serenova" style={Object.assign({ width: props.width, height: props.height }, props.style)} />
+    <img src={logo} alt="Logo" style={Object.assign({ width: props.width, height: props.height }, props.style)} />
   );
 }
 

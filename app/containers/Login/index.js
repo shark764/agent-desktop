@@ -41,6 +41,8 @@ export class Login extends React.Component {
       tenantName: '',
       agentDirection: props.intl.formatMessage(messages.inbound),
       noTenant: false,
+      brand: this.getBrand(),
+      backgroundColor: this.getBackground(),
     };
     this.setUser = this.setUser.bind(this);
     this.setEmail = this.setEmail.bind(this);
@@ -54,6 +56,24 @@ export class Login extends React.Component {
     this.handleError = this.handleError.bind(this);
     this.setDirection = this.setDirection.bind(this);
     this.getErrors = this.getErrors.bind(this);
+  }
+
+  getBrand() {
+    const parts = location.hostname.split('.');
+    if (parts[0].indexOf('mitel') !== -1) {
+      return 'mitel';
+    } else {
+      return 'serenova';
+    }
+  }
+
+  getBackground() {
+    const parts = location.hostname.split('.');
+    if (parts[0].indexOf('mitel') !== -1) {
+      return '#002855';
+    } else {
+      return '#072931';
+    }
   }
 
   onLogin() {
@@ -266,7 +286,7 @@ export class Login extends React.Component {
       width: '100vw',
       height: '100vh',
       minHeight: '800px',
-      backgroundColor: '#072931',
+      backgroundColor: this.getBackground(),
       fontSize: '16px',
       fontWeight: 'normal',
       fontStyle: 'normal',
