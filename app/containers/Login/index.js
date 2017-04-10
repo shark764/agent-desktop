@@ -56,6 +56,26 @@ export class Login extends React.Component {
     this.getErrors = this.getErrors.bind(this);
   }
 
+  getBackground() {
+    const parts = location.hostname.split('.');
+    if (parts[0].indexOf('mitel') !== -1) {
+      return '#002855';
+    } else {
+      return '#072931';
+    }
+  }
+
+  getLoginTitle() {
+    const parts = location.hostname.split('.');
+    if (parts[0].indexOf('mitel') !== -1) {
+      return <Title id={messages.welcome.id} text={messages.welcomeNoProd} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
+;
+    } else {
+      return <Title id={messages.welcome.id} text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
+;
+    }
+  }
+
   onLogin() {
     storage.removeItem('ADError');
     if (this.state.username.trim() !== '' && this.state.password !== '') {
@@ -194,8 +214,16 @@ export class Login extends React.Component {
     // TODO when tenants.length == 0, == 1
     return (
       <div id="loginContainerDiv" style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
+        {this.props.tenant_error
+          ? <span id="tenantLoginError" style={[this.styles.error]}>
+            <FormattedMessage style={this.styles.center} {...this.props.tenant_error_message} />
+          </span>
+          : ''
+        }
         <Logo style={{ marginTop: '50px' }} width="275px" />
-        <Title id={messages.welcome.id} text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
+        {
+          this.getLoginTitle()
+        }
         <TextInput id={messages.username.id} autoFocus={!this.state.remember} key={'username'} style={{ marginBottom: '11px' }} placeholder={messages.username} autocomplete="email" value={this.state.username} cb={this.setUser} />
         <TextInput id={messages.password.id} autoFocus={this.state.remember} key={'password'} type="password" placeholder={messages.password} autocomplete="password" value={this.state.password} cb={this.setPassword} onEnter={this.onLogin} />
         <CheckBox id={messages.rememberMe.id} style={{ marginLeft: '-9.35em', marginBottom: '11px', marginTop: '15px', width: '130px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.setRemember} />
@@ -264,7 +292,7 @@ export class Login extends React.Component {
       width: '100vw',
       height: '100vh',
       minHeight: '800px',
-      backgroundColor: '#072931',
+      backgroundColor: this.getBackground(),
       fontSize: '16px',
       fontWeight: 'normal',
       fontStyle: 'normal',

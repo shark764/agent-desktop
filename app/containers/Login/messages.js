@@ -10,6 +10,10 @@ export default defineMessages({
     id: 'app.containers.Login.welcome',
     defaultMessage: 'Sign in to CXEngage',
   },
+  welcomeNoProd: {
+    id: 'app.containers.Login.welcomeNoProd',
+    defaultMessage: 'Sign in',
+  },
   forgot: {
     id: 'app.containers.Login.forgot',
     defaultMessage: 'Forgot your password?',
@@ -85,6 +89,6 @@ export default defineMessages({
   },
   noPermsError: {
     id: 'app.containers.Login.noPermsError',
-    defaultMessage: 'You have insufficient permissions to access this tenant',
+    defaultMessage: 'You have insufficient permissions to access tenant',
   },
 });
