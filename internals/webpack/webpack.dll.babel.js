@@ -9,19 +9,30 @@
  */
 
 const { join } = require('path');
-const defaults = require('lodash/defaultsDeep');
+const pullAll = require('lodash/pullAll');
+const uniq = require('lodash/uniq');
 const webpack = require('webpack');
 const pkg = require(join(process.cwd(), 'package.json'));
-const dllPlugin = require('../config').dllPlugin;
 
 if (!pkg.dllPlugin) { process.exit(0); }
 
-const dllConfig = defaults(pkg.dllPlugin, dllPlugin.defaults);
+const dllConfig = pkg.dllPlugin;
 const outputPath = join(process.cwd(), dllConfig.path);
+
+const entry = function (pkg) {
+  const dependencyNames = Object.keys(pkg.dependencies);
+  const exclude = pkg.dllPlugin.exclude;
+  const include = pkg.dllPlugin.include;
+  const includeDependencies = uniq(dependencyNames.concat(include));
+
+  return {
+    [pkg.dllPlugin.name]: pullAll(includeDependencies, exclude),
+  };
+};
 
 module.exports = require('./webpack.base.babel')({
   context: process.cwd(),
-  entry: dllConfig.dlls ? dllConfig.dlls : dllPlugin.entry(pkg),
+  entry: entry(pkg),
   devtool: 'eval',
   output: {
     filename: '[name].dll.js',
@@ -35,4 +46,7 @@ module.exports = require('./webpack.base.babel')({
   node: {
     fs: 'empty',
   },
+  resolve: {
+    modules: ['node_modules'],
+  }
 });

@@ -23,13 +23,14 @@ export class TransferResource extends React.Component {
     this.resumeResource = this.resumeResource.bind(this);
     this.resumeAll = this.resumeAll.bind(this);
     this.transfer = this.transfer.bind(this);
-    this.state = {
-      showResourceControlsMenu: false,
-    };
   }
 
   resourceControlsMenuToggle() {
-    this.setState({ showResourceControlsMenu: !this.state.showResourceControlsMenu });
+    if (this.props.selectedTransferResourceMenu !== this.props.resource.targetResource) {
+      this.props.setSelectedTransferResourceMenu(this.props.resource.targetResource);
+    } else {
+      this.props.setSelectedTransferResourceMenu(undefined);
+    }
   }
 
   cancelTransfer(warmTransfer) {
@@ -46,22 +47,22 @@ export class TransferResource extends React.Component {
 
   hangUpResource() {
     SDK.interactions.voice.resourceRemove({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
-    this.setState({ showResourceControlsMenu: false });
+    this.props.setSelectedTransferResourceMenu(undefined);
   }
 
   holdResource() {
     SDK.interactions.voice.resourceHold({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
-    this.setState({ showResourceControlsMenu: false });
+    this.props.setSelectedTransferResourceMenu(undefined);
   }
 
   resumeResource() {
     SDK.interactions.voice.resourceResume({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
-    this.setState({ showResourceControlsMenu: false });
+    this.props.setSelectedTransferResourceMenu(undefined);
   }
 
   resumeAll() {
     SDK.interactions.voice.resumeAll({ interactionId: this.props.activeVoiceInteraction.interactionId });
-    this.setState({ showResourceControlsMenu: false });
+    this.props.setSelectedTransferResourceMenu(undefined);
   }
 
   transfer() {
@@ -70,7 +71,7 @@ export class TransferResource extends React.Component {
       interactionId: this.props.activeVoiceInteraction.interactionId,
       resourceId: this.props.resource.targetResource,
     });
-    this.setState({ showResourceControlsMenu: false });
+    this.props.setSelectedTransferResourceMenu(undefined);
   }
 
   styles = {
@@ -191,7 +192,7 @@ export class TransferResource extends React.Component {
           <Timer format="mm:ss" style={this.styles.transferTimer} />
         </div>
         {
-          this.state.showResourceControlsMenu
+          this.props.resource.targetResource !== undefined && this.props.selectedTransferResourceMenu === this.props.resource.targetResource
           ? <div id="resourceControlsMenu" >
             <div style={[this.props.style.topTriangle, this.styles.topTriangle]}></div>
             <div style={[this.props.style.phoneControlsPopupMenu, this.styles.phoneControlsPopupMenu]}>
@@ -233,6 +234,8 @@ TransferResource.propTypes = {
   activeVoiceInteraction: PropTypes.object.isRequired,
   resource: PropTypes.object.isRequired,
   resumeAllAvailable: PropTypes.bool.isRequired,
+  selectedTransferResourceMenu: PropTypes.string,
+  setSelectedTransferResourceMenu: PropTypes.func.isRequired,
   style: PropTypes.shape({
     topTriangle: PropTypes.object.isRequired,
     phoneControlsPopupMenu: PropTypes.object.isRequired,

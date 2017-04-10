@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.27.6",
+  "version": "0.27.8",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "build": "cross-env NODE_ENV=production webpack --config internals/webpack/webpack.prod.babel.js --color -p --progress",
     "build:clean": "npm run test:clean && rimraf ./build",
     "build:dll": "node ./internals/scripts/dependencies.js",
-    "start": "npm run build:dll && npm run extract-intl && cross-env NODE_ENV=development node server",
+    "start": "npm run extract-intl && cross-env NODE_ENV=development node server",
     "start:qe": "cross-env NODE_ENV=testing node server",
     "start:tunnel": "cross-env NODE_ENV=development ENABLE_TUNNEL=true node server",
     "start:production": "npm run build && npm run start:prod",
@@ -185,7 +185,8 @@
     }
   },
   "dllPlugin": {
-    "path": "node_modules/react-boilerplate-dlls",
+    "path": "node_modules/agent-desktop-dlls",
+    "name": "agentDesktopDeps",
     "exclude": [
       "chalk",
       "compression",
