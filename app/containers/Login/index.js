@@ -248,8 +248,6 @@ export class Login extends React.Component {
       this.setTenantId(agent.tenants[0].tenantId, agent.tenants[0].tenantName);
       this.onTenantSelect();
     }
-    storage.setItem('email1', agent.username); // TODO: REMOVE BEFORE PROD!!!! HACK FOR STATS
-    storage.setItem('pass1', this.state.password); // TODO: REMOVE BEFORE PROD!!!! HACK FOR STATS
     if (this.state.remember) {
       storage.setItem('name', `${agent['first-name']}, ${agent['last-name']}`);
       storage.setItem('email', agent.username);

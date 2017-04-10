@@ -12,8 +12,7 @@ const writeFile = fs.writeFileSync;
 
 const defaults = require('lodash/defaultsDeep');
 const pkg = require(path.join(process.cwd(), 'package.json'));
-const config = require('../config');
-const dllConfig = defaults(pkg.dllPlugin, config.dllPlugin.defaults);
+const dllConfig = pkg.dllPlugin;
 const outputPath = path.join(process.cwd(), dllConfig.path);
 const dllManifestPath = path.join(outputPath, 'package.json');
 
@@ -28,7 +27,7 @@ if (!exists(dllManifestPath)) {
   writeFile(
     dllManifestPath,
     JSON.stringify(defaults({
-      name: 'app-dlls',
+      name: 'agent-desktop-dlls',
       private: true,
       author: pkg.author,
       repository: pkg.repository,

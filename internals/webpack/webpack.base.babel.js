@@ -68,7 +68,7 @@ module.exports = (options) => ({
     new webpack.NamedModulesPlugin(),
   ]),
   resolve: {
-    modules: ['app', 'node_modules'],
+    modules: (options.resolve && options.resolve.modules) || ['app', 'node_modules'],
     extensions: [
       '.js',
       '.jsx',

@@ -75,45 +75,23 @@ function dependencyHandlers() {
   const dllPath = path.resolve(process.cwd(), dllPlugin.path || 'node_modules/react-boilerplate-dlls');
 
   /**
-   * If DLLs aren't explicitly defined, we assume all production dependencies listed in package.json
+   * All production dependencies listed in package.json
    * Reminder: You need to exclude any server side dependencies by listing them in dllConfig.exclude
    *
    */
-  if (!dllPlugin.dlls) {
-    const manifestPath = path.resolve(dllPath, 'reactBoilerplateDeps.json');
+  const manifestPath = path.resolve(dllPath, 'agentDesktopDeps.json');
 
-    if (!fs.existsSync(manifestPath)) {
-      logger.error('The DLL manifest is missing. Please run `npm run build:dll`');
-      process.exit(0);
-    }
-
-    return [
-      new webpack.DllReferencePlugin({
-        context: process.cwd(),
-        manifest: require(manifestPath), // eslint-disable-line global-require
-      }),
-    ];
+  if (!fs.existsSync(manifestPath)) {
+    logger.error('The DLL manifest is missing. Please run `npm run build:dll`');
+    process.exit(0);
   }
 
-  // If DLLs are explicitly defined, we automatically create a DLLReferencePlugin for each of them.
-  const dllManifests = Object.keys(dllPlugin.dlls).map((name) => path.join(dllPath, `/${name}.json`));
-
-  return dllManifests.map((manifestPath) => {
-    if (!fs.existsSync(path)) {
-      if (!fs.existsSync(manifestPath)) {
-        logger.error(`The following Webpack DLL manifest is missing: ${path.basename(manifestPath)}`);
-        logger.error(`Expected to find it in ${dllPath}`);
-        logger.error('Please run: npm run build:dll');
-
-        process.exit(0);
-      }
-    }
-
-    return new webpack.DllReferencePlugin({
+  return [
+    new webpack.DllReferencePlugin({
       context: process.cwd(),
       manifest: require(manifestPath), // eslint-disable-line global-require
-    });
-  });
+    }),
+  ];
 }
 
 /**
@@ -129,9 +107,7 @@ function templateContent() {
 
   const doc = cheerio(html);
   const body = doc.find('body');
-  const dllNames = !dllPlugin.dlls ? ['reactBoilerplateDeps'] : Object.keys(dllPlugin.dlls);
-
-  dllNames.forEach((dllName) => body.append(`<script data-dll='true' src='/${dllName}.dll.js'></script>`));
+  body.append(`<script data-dll='true' src='/${dllPlugin.name}.dll.js'></script>`);
 
   return doc.toString();
 }
