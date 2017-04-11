@@ -5,9 +5,12 @@
 */
 
 import React, { PropTypes } from 'react';
+
 import config from 'assets/icons/config.png';
 import search from 'assets/icons/search.png';
 import close from 'assets/icons/close.png';
+import arrowUpDown from 'assets/icons/arrow_up_down.png';
+import arrowReturn from 'assets/icons/arrow_return.png';
 import attachment from 'assets/icons/attachment.png';
 import message from 'assets/icons/message.png';
 import messageNew from 'assets/icons/message_new.png';
@@ -51,6 +54,12 @@ function Icon(props) {
       break;
     case 'close':
       icon = close;
+      break;
+    case 'arrow_return':
+      icon = arrowReturn;
+      break;
+    case 'arrow_up_down':
+      icon = arrowUpDown;
       break;
     case 'attachment':
       icon = attachment;

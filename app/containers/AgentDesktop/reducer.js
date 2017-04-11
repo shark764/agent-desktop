@@ -9,6 +9,7 @@ import { fromJS, Map, List } from 'immutable';
 import Interaction from 'models/Interaction';
 
 import {
+  SET_USER_CONFIG,
   SET_EXTENSIONS,
   UPDATE_WRAPUP_DETAILS,
   ADD_SCRIPT,
@@ -171,8 +172,9 @@ const updateContactInteractionHistoryResults = (contact, action) => {
 function agentDesktopReducer(state = initialState, action) {
   switch (action.type) {
     case SHOW_REFRESH_NOTIF:
-      return state
-      .set('refreshRequired', action.show);
+      return state.set('refreshRequired', action.show);
+    case SET_USER_CONFIG:
+      return state.set('userConfig', fromJS(action.response));
     case SET_EXTENSIONS:
       return state
         // Set active extension to the first available one if it isn't set

@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 
-
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 
 const selectInteractions = createSelector(
@@ -26,6 +25,12 @@ const selectSelectedInteraction = createSelector(
   }
  );
 
+const selectMessageTemplates = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) => agentDesktop.get('userConfig').get('messageTemplates').toJS()
+);
+
 export {
   selectSelectedInteraction,
+  selectMessageTemplates,
 };

@@ -25,7 +25,7 @@ import { setAvailableStats, statsReceived, toggleStat, toggleAgentMenu } from 'c
 import { showLogin, logout } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 
-import { setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, loadContactInteractionHistory,
+import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, loadContactInteractionHistory,
   setContactHistoryInteractionDetails, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction,
   updateWrapupDetails, addScript, removeScript, selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
   muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall,
@@ -142,6 +142,11 @@ export class AgentDesktop extends React.Component {
         }
       }
       switch (topic) {
+        case 'cxengage/session/config-details': {
+          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.setUserConfig(response);
+          break;
+        }
         case 'cxengage/session/extension-list': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setExtensions(response);
@@ -646,6 +651,7 @@ function mapDispatchToProps(dispatch) {
   return {
     showRefreshRequired: (show) => dispatch(showRefreshRequired(show)),
     showLogin: (show) => dispatch(showLogin(show)),
+    setUserConfig: (response) => dispatch(setUserConfig(response)),
     setExtensions: (response) => dispatch(setExtensions(response)),
     updateWrapupDetails: (interactionId, wrapupDetails) => dispatch(updateWrapupDetails(interactionId, wrapupDetails)),
     addScript: (interactionId, script) => dispatch(addScript(interactionId, script)),
@@ -703,6 +709,7 @@ function mapDispatchToProps(dispatch) {
 
 AgentDesktop.propTypes = {
   showLogin: PropTypes.func.isRequired,
+  setUserConfig: PropTypes.func.isRequired,
   setExtensions: PropTypes.func.isRequired,
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,
