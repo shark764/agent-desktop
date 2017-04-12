@@ -1,3 +1,7 @@
+<a name"0.28.1"></a>
+### 0.28.1 (2017-04-10)
+* Update Cx SDK to 4.0.0-SS.253
+
 <a name"0.28.0"></a>
 ### 0.28.0 (2017-04-10)
 * Messaging template base functionality
