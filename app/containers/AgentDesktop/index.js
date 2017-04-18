@@ -45,6 +45,7 @@ export class AgentDesktop extends React.Component {
     this.selectInteraction = this.selectInteraction.bind(this);
     this.updateDimensions = this.updateDimensions.bind(this);
     this.hideRefreshBanner = this.hideRefreshBanner.bind(this);
+    this.loadConf = this.loadConf.bind(this);
 
     this.collapsedContactsPanelPx = 52;
     this.defaultContactsPanelPx = 600;

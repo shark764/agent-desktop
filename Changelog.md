@@ -1,3 +1,7 @@
+<a name"0.28.2"></a>
+### 0.28.2 (2017-04-18)
+* CXV1-7531 - Cache invalidation bug fix
+
 <a name"0.28.1"></a>
 ### 0.28.1 (2017-04-10)
 * Update Cx SDK to 4.0.0-SS.253
