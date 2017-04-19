@@ -43,16 +43,16 @@ const selectActiveVoiceInteraction = createSelector(
 
 const selectPendingInteractions = createSelector(
   selectInteractions,
-  function(interactions) {
-    return interactions.toJS().filter(function(interaction) {
-      // If it's not a voice/email interaction, make sure we have messageHistory before we show it.
-      return interaction.status === 'work-initiated'
-      && (interaction.autoAnswer === false || interaction.autoAnswer === null)
-      && (interaction.channelType === 'voice'
-          || interaction.channelType === 'email'
-          || interaction.messageHistory !== undefined);
-    });
-  }
+  (interactions) => interactions.toJS().filter((interaction) =>
+    // If it's not a voice/email interaction, make sure we have messageHistory before we show it.
+    interaction.status === 'work-initiated'
+    && (interaction.autoAnswer === false || interaction.autoAnswer === null)
+    && (
+      interaction.channelType === 'voice'
+      || interaction.channelType === 'email'
+      || interaction.messageHistory !== undefined
+    )
+  )
 );
 
 export default selectInteractionsBar;
