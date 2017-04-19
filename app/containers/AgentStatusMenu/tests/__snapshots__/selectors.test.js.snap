@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`selectHasActiveInteractions selectActiveExtention Should return activeExtension from the agentDesktop domain 1`] = `
+Object {
+  "mockExtension": "mockExtension",
+}
+`;
+
+exports[`selectHasActiveInteractions selectExtensions Should return extensions from the agentDesktop domain 1`] = `
+Array [
+  "mockExtension",
+]
+`;

@@ -1,0 +1,138 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadContactInteractions when action.page is defined should call the promise util with the SDK getContactHistory with the correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "getContactHistory",
+        Object {
+          "entityId": "mockContactId",
+          "page": 1,
+        },
+        "AgentDesktop",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`loadContactInteractions when action.page is undefined should call the promise util with the SDK getContactHistory with the correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "getContactHistory",
+        Object {
+          "entityId": "mockContactId",
+        },
+        "AgentDesktop",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`loadHistoricalInteractionBody Saga if bodyType is recordings should call the promise util with the SDK getRecordings function with the correct args 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "mockGetRecordingsFunction",
+        Object {
+          "interactionId": "mockId",
+        },
+        "AgentDesktop",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`loadHistoricalInteractionBody Saga if bodyType is recordings should use the yielded SDK results to dispatch an updateContactHistoryInteractionDetails action with the correct args 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionDetails": Object {
+          "audioRecordings": Array [
+            "mockRecordingUrl",
+          ],
+        },
+        "interactionId": "mockId",
+        "type": "app/AgentDesktop/UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`loadHistoricalInteractionBody Saga if bodyType is transcript should call axios get with the 1st returned transcript url 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "mockTranscriptUrl",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`loadHistoricalInteractionBody Saga if bodyType is transcript should call the promise util with the SDK getTranscripts function with the correct args 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "mockGetTranscriptsFunction",
+        Object {
+          "interactionId": "mockId",
+        },
+        "AgentDesktop",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`loadHistoricalInteractionBody Saga if bodyType is transcript should use the yielded SDK results to dispatch an updateContactHistoryInteractionDetails action with the correct args 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionDetails": Object {
+          "transcript": "mockTranscript",
+        },
+        "interactionId": "mockId",
+        "type": "app/AgentDesktop/UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS",
+      },
+      "channel": null,
+    },
+  },
+}
+`;

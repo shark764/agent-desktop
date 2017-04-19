@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Tabs /> with type big should render correctly 1`] = `
+<div
+  data-radium={true}
+  id="mockId"
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <Style
+    rules={
+      Object {
+        "[role=tab]": Object {
+          "backgroundColor": "#FFFFFF",
+          "border": "1px solid transparent",
+          "borderBottom": "none",
+          "bottom": "-1px",
+          "cursor": "pointer",
+          "display": "inline-block",
+          "fontWeight": "bold",
+          "listStyle": "none",
+          "padding": "6px 12px",
+          "position": "relative",
+        },
+        "[role=tab]:first-child": Object {
+          "paddingLeft": 0,
+        },
+        "[role=tab]:focus": Object {
+          "border": "none",
+          "boxShadow": "0 0 0",
+          "outline": "none",
+        },
+        "[role=tab]:focus::after": Object {
+          "borderColor": "hsl(208, 99%, 50%)",
+          "boxShadow": "0 0 5px hsl(208, 99%, 50%)",
+          "outline": "none",
+        },
+        "[role=tab][aria-disabled=true]": Object {
+          "cursor": "default",
+        },
+        "[role=tab][aria-selected=false]": Object {
+          "color": "#979797",
+        },
+        "[role=tab][aria-selected=true]::after": Object {
+          "background": "#4B4B4B",
+          "bottom": "-14px",
+          "content": "''",
+          "height": "4px",
+          "left": "12px",
+          "position": "absolute",
+          "width": "calc(100% - 24px)",
+        },
+        "[role=tab][aria-selected=true]:first-child::after": Object {
+          "content": "''",
+          "left": "0px",
+          "width": "calc(100% - 12px)",
+        },
+        "[role=tablist]": Object {
+          "borderBottom": "1px solid #D0D0D0",
+          "boxSizing": "border-box",
+          "flexGrow": "0",
+          "flexShrink": "0",
+          "height": "undefinedpx",
+          "margin": "0",
+          "order": "0",
+          "padding": "10px 5px 15px 0",
+        },
+        "[role=tabpanel]": Object {
+          "alignSelf": "stretch",
+          "height": "calc(100% - undefinedpx)",
+        },
+        "color": "#4B4B4B",
+      }
+    }
+    scopeSelector="#mockId .react-tabs"
+  />
+  <Tabs
+    focus={false}
+    forceRenderTabPanel={false}
+    selectedIndex={-1}
+  />
+</div>
+`;
+
+exports[`<Tabs /> with type small should render correctly 1`] = `
+<div
+  data-radium={true}
+  id="mockId"
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <Style
+    rules={
+      Object {
+        "[role=tab]": Object {
+          "backgroundColor": "#F3F3F3",
+          "border": "1px solid transparent",
+          "borderBottom": "none",
+          "bottom": "-1px",
+          "cursor": "pointer",
+          "display": "inline-block",
+          "fontWeight": "bold",
+          "listStyle": "none",
+          "marginBottom": "1px",
+          "padding": "10px 12px",
+          "position": "relative",
+        },
+        "[role=tab]:first-child": Object {
+          "paddingLeft": 0,
+        },
+        "[role=tab]:focus": Object {
+          "border": "none",
+          "boxShadow": "0 0 0",
+          "outline": "none",
+        },
+        "[role=tab]:focus::after": Object {
+          "borderColor": "hsl(208, 99%, 50%)",
+          "boxShadow": "0 0 5px hsl(208, 99%, 50%)",
+          "outline": "none",
+        },
+        "[role=tab][aria-disabled=true]": Object {
+          "cursor": "default",
+        },
+        "[role=tab][aria-selected=false]": Object {
+          "color": "#979797",
+        },
+        "[role=tab][aria-selected=true]::after": Object {
+          "background": "#4B4B4B",
+          "bottom": 0,
+          "content": "''",
+          "height": "3px",
+          "left": "12px",
+          "position": "absolute",
+          "width": "calc(100% - 24px)",
+        },
+        "[role=tab][aria-selected=true]:first-child::after": Object {
+          "content": "''",
+          "left": "0px",
+          "width": "calc(100% - 12px)",
+        },
+        "[role=tablist]": Object {
+          "backgroundColor": "#F3F3F3",
+          "borderBottom": "1px solid #D0D0D0",
+          "boxSizing": "border-box",
+          "margin": "0",
+          "maxHeight": 100,
+          "padding": "0 32px",
+        },
+        "color": "#4B4B4B",
+      }
+    }
+    scopeSelector="#mockId .react-tabs"
+  />
+  <Tabs
+    focus={false}
+    forceRenderTabPanel={false}
+    selectedIndex={-1}
+  />
+</div>
+`;

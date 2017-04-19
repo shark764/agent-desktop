@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loginReducer returns the initial state 1`] = `
+Object {
+  "loading": false,
+  "showLogin": true,
+}
+`;

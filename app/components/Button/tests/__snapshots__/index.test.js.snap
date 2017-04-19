@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button /> with type primaryBlue should render correctly 1`] = `
+<button
+  data-radium={true}
+  id="mockId"
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundColor": "#23cdf4",
+      "borderRadius": "3px",
+      "boxSizing": undefined,
+      "color": "#FFFFFF",
+      "cursor": "pointer",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "9px 17px",
+    }
+  }
+  tabIndex={0}
+  type="button"
+/>
+`;
+
+exports[`<Button /> with type primaryBlueBig should render correctly 1`] = `
+<button
+  data-radium={true}
+  id="mockId"
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundColor": "#23cdf4",
+      "borderRadius": "8px",
+      "boxSizing": undefined,
+      "color": "#FFFFFF",
+      "cursor": "pointer",
+      "fontSize": "16px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "14px 28px",
+    }
+  }
+  tabIndex={0}
+  type="button"
+/>
+`;
+
+exports[`<Button /> with type primaryRed should render correctly 1`] = `
+<button
+  data-radium={true}
+  id="mockId"
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundColor": "#FE4565",
+      "borderRadius": "3px",
+      "boxSizing": undefined,
+      "color": "#FFFFFF",
+      "cursor": "pointer",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "9px 17px",
+    }
+  }
+  tabIndex={0}
+  type="button"
+/>
+`;
+
+exports[`<Button /> with type secondary should render correctly 1`] = `
+<button
+  data-radium={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundColor": "#FFFFFF",
+      "border": "1px solid #979797",
+      "borderRadius": "2px",
+      "boxSizing": undefined,
+      "color": "#4B4B4B",
+      "cursor": "pointer",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "",
+      "outline": "none",
+      "padding": "9px 17px",
+    }
+  }
+  tabIndex={0}
+  type="button"
+/>
+`;

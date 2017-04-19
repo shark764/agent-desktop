@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Scale /> should render correctly 1`] = `
+<div
+  data-radium={true}
+  id="mockId"
+>
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "marginBottom": "3px",
+      }
+    }
+  />
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "display": "table",
+      }
+    }
+  >
+    <div
+      data-radium={true}
+      style={
+        Object {
+          "display": "table-row",
+        }
+      }
+    >
+      <span
+        data-radium={true}
+        style={
+          Object {
+            "display": "table-cell",
+            "paddingRight": "5px",
+            "verticalAlign": "top",
+          }
+        }
+      />
+      <span
+        data-radium={true}
+        style={
+          Object {
+            "display": "table-cell",
+            "paddingRight": "5px",
+            "verticalAlign": "top",
+          }
+        }
+      >
+        <input
+          checked={false}
+          data-radium={true}
+          id="mockId-1-radio"
+          onChange={[Function]}
+          style={
+            Object {
+              "display": "block",
+            }
+          }
+          type="radio"
+        />
+        <label
+          data-radium={true}
+          htmlFor="mockId-1-radio"
+          id="mockId-1-label"
+          style={
+            Object {
+              "display": "block",
+            }
+          }
+        >
+          1
+        </label>
+      </span>
+      <span
+        data-radium={true}
+        style={
+          Object {
+            "display": "table-cell",
+            "paddingRight": "5px",
+            "verticalAlign": "top",
+          }
+        }
+      >
+        <input
+          checked={false}
+          data-radium={true}
+          id="mockId-2-radio"
+          onChange={[Function]}
+          style={
+            Object {
+              "display": "block",
+            }
+          }
+          type="radio"
+        />
+        <label
+          data-radium={true}
+          htmlFor="mockId-2-radio"
+          id="mockId-2-label"
+          style={
+            Object {
+              "display": "block",
+            }
+          }
+        >
+          2
+        </label>
+      </span>
+      <span
+        data-radium={true}
+        style={
+          Object {
+            "display": "table-cell",
+            "paddingRight": "5px",
+            "verticalAlign": "top",
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;

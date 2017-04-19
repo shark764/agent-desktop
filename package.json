@@ -54,6 +54,14 @@
       "!app/app.js",
       "!app/routes.js"
     ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 10,
+        "branches": 6,
+        "functions": 6,
+        "lines": 17
+      }
+    },
     "moduleDirectories": [
       "node_modules",
       "app"

@@ -29,7 +29,7 @@ function TimerMinutes({ seconds }) { // eslint-disable-line
 }
 
 TimerMinutes.propTypes = {
-  seconds: PropTypes.number,
+  seconds: PropTypes.number.isRequired,
 };
 
 export default TimerMinutes;

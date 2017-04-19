@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NotificationBanner /> should render correctly 1`] = `
+<div
+  data-radium={true}
+  id="mockId"
+  style={
+    Object {
+      "alignItems": "stretch",
+      "backgroundColor": "#FE4565",
+      "color": "white",
+      "display": "flex",
+      "flexShrink": 0,
+      "height": "35px",
+      "left": "-51px",
+      "position": "relative",
+      "width": "calc(100% + 76px)",
+    }
+  }
+>
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "width": "52px",
+      }
+    }
+  />
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "alignSelf": "center",
+        "fontWeight": "600",
+      }
+    }
+  >
+    Server Error
+     
+  </div>
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "alignSelf": "center",
+      }
+    }
+  >
+    Your changes have not been saved.
+  </div>
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "flexGrow": 1,
+      }
+    }
+  />
+  <Button
+    iconName="close"
+    id="mockIderror-dismiss-btn"
+    onClick={[Function]}
+    style={
+      Object {
+        "alignSelf": "center",
+        "border": "0",
+        "margin": "0 10px 0 0",
+      }
+    }
+    tabIndex={0}
+    type="primaryRed"
+  />
+</div>
+`;

@@ -1,0 +1,504 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Icon /> with name arrow_return should render correctly 1`] = `
+<img
+  alt="arrow_return"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name arrow_up_down should render correctly 1`] = `
+<img
+  alt="arrow_up_down"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name attachment should render correctly 1`] = `
+<img
+  alt="attachment"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+      "height": "16px",
+      "width": "16px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name close should render correctly 1`] = `
+<img
+  alt="close"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name config should render correctly 1`] = `
+<img
+  alt="config"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name connected should render correctly 1`] = `
+<img
+  alt="connected"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name dialpad should render correctly 1`] = `
+<span
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "40px",
+      "width": "40px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name dialpad_dark should render correctly 1`] = `
+<span
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundPosition": undefined,
+      "backgroundSize": "120px 40px",
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "40px",
+      "width": "40px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name email should render correctly 1`] = `
+<img
+  alt="email"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+      "height": "15px",
+      "width": "18px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name email_dark should render correctly 1`] = `
+<img
+  alt="email_dark"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+      "height": "17px",
+      "width": "20px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name email_new should render correctly 1`] = `
+<img
+  alt="email_new"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+      "height": "15px",
+      "width": "18px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name endCall should render correctly 1`] = `
+<span
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "40px",
+      "width": "40px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name hold should render correctly 1`] = `
+<span
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "40px",
+      "width": "40px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name message should render correctly 1`] = `
+<img
+  alt="message"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+      "height": "15px",
+      "width": "18px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name message_dark should render correctly 1`] = `
+<img
+  alt="message_dark"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+      "height": "20px",
+      "width": "20px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name message_new should render correctly 1`] = `
+<img
+  alt="message_new"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+      "height": "15px",
+      "width": "18px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name mute should render correctly 1`] = `
+<span
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "40px",
+      "width": "40px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name not_connected should render correctly 1`] = `
+<img
+  alt="not_connected"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name search should render correctly 1`] = `
+<img
+  alt="search"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+      "height": "16px",
+      "width": "16px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name transfer should render correctly 1`] = `
+<span
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "40px",
+      "width": "40px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name transfer_dark should render correctly 1`] = `
+<span
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundPosition": undefined,
+      "backgroundSize": "120px 40px",
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "40px",
+      "width": "40px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name voice should render correctly 1`] = `
+<img
+  alt="voice"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+      "height": "20px",
+      "width": "16px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name voice_dark should render correctly 1`] = `
+<img
+  alt="voice_dark"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  src="test-file-stub"
+  style={
+    Object {
+      "backgroundImage": "",
+      "backgroundPosition": undefined,
+      "backgroundSize": undefined,
+      "borderRadius": undefined,
+      "cursor": "pointer",
+      "display": undefined,
+      "height": "20px",
+      "width": "16px",
+    }
+  }
+/>
+`;

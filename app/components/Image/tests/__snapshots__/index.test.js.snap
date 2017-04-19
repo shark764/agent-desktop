@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Image /> should render correctly 1`] = `
+<div
+  data-radium={true}
+  id="mockId"
+>
+  <div />
+  <img
+    alt=""
+    data-radium={true}
+    src="mockSource"
+    style={
+      Object {
+        "maxHeight": "400px",
+        "maxWidth": "400px",
+      }
+    }
+  />
+</div>
+`;

@@ -20,7 +20,14 @@ import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 
 import messages from './messages';
-import { selectPopulatedLayout, selectPopulatedCompactAttributes, selectAttributes, selectIsReady, selectHasVoiceInteraction, selectInInteractionContext } from './selectors';
+import {
+  selectIsReady,
+  selectPopulatedLayout,
+  selectPopulatedCompactAttributes,
+  selectAttributes,
+  selectHasVoiceInteraction,
+  selectInInteractionContext,
+} from './selectors';
 
 export class Contact extends React.Component {
   constructor(props) {

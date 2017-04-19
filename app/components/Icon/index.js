@@ -32,6 +32,32 @@ import dialpadDarkSprite from 'assets/icons/dialpad_dark_sprite.png';
 
 import Radium from 'radium';
 
+const availableIcons = [
+  'config',
+  'search',
+  'close',
+  'attachment',
+  'message',
+  'message_new',
+  'message_dark',
+  'email',
+  'email_new',
+  'email_dark',
+  'voice',
+  'voice_dark',
+  'connected',
+  'not_connected',
+  'endCall',
+  'mute',
+  'hold',
+  'transfer',
+  'transfer_dark',
+  'dialpad',
+  'dialpad_dark',
+  'arrow_up_down',
+  'arrow_return',
+];
+
 function Icon(props) {
   let icon;
   let iconSprite;
@@ -195,7 +221,7 @@ function Icon(props) {
       backgroundPositionHover = '-40px 0';
       break;
     default:
-      throw new Error(`Unhandled icon name: ${props.name}`);
+      break;
   }
 
   const styles = {
@@ -246,7 +272,7 @@ function Icon(props) {
 }
 
 Icon.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.oneOf(availableIcons).isRequired,
   active: PropTypes.bool,
   style: PropTypes.object,
   id: PropTypes.string,

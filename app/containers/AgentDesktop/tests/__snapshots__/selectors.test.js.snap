@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`selectInteractions should select interactions on the AgentDesktop domain 1`] = `
+Array [
+  Object {
+    "interactionId": "mockId",
+  },
+]
+`;
+
+exports[`selectLogin should select the login domain 1`] = `
+Object {
+  "agent": Object {
+    "userId": "mockId",
+  },
+}
+`;

@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Timer /> should render correctly 1`] = `
+<Timer
+  id="mockId"
+  timer={
+    Object {
+      "delay": 1000,
+      "resume": [Function],
+      "setDelay": [Function],
+      "stop": [Function],
+      "tick": 0,
+    }
+  }
+/>
+`;

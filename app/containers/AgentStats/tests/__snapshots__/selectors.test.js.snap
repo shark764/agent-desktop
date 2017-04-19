@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`selectAvailableStats Should return availableStats from the toolbar domain 1`] = `
+Array [
+  "mockAvailableStat",
+]
+`;
+
+exports[`selectEnabledStats Should return enabledStats from the toolbar domain 1`] = `
+Array [
+  "mockEnabledStat",
+]
+`;

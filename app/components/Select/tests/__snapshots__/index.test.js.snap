@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Select /> should render correctly 1`] = `
+<Select
+  addLabelText="Add \\"{label}\\"?"
+  arrowRenderer={[Function]}
+  autosize={true}
+  backspaceRemoves={true}
+  backspaceToRemoveMessage="Press backspace to remove {label}"
+  clearAllText="Clear all"
+  clearValueText="Clear value"
+  clearable={true}
+  delimiter=","
+  disabled={false}
+  escapeClearsValue={true}
+  filterOptions={[Function]}
+  id="mockId"
+  ignoreAccents={true}
+  ignoreCase={true}
+  inputProps={Object {}}
+  isLoading={false}
+  joinValues={false}
+  labelKey="label"
+  matchPos="any"
+  matchProp="any"
+  menuBuffer={0}
+  menuRenderer={[Function]}
+  multi={false}
+  name="form-field-name"
+  noResultsText="No results found"
+  onBlurResetsInput={true}
+  onCloseResetsInput={true}
+  openAfterFocus={false}
+  optionComponent={[Function]}
+  pageSize={5}
+  placeholder="Select..."
+  required={false}
+  scrollMenuIntoView={true}
+  searchable={true}
+  simpleValue={false}
+  style={
+    Object {
+      "backgroundColor": "#FFFFFF",
+      "border": "1px solid #979797",
+      "borderRadius": "2px",
+      "height": "44px",
+    }
+  }
+  tabSelectsValue={true}
+  valueComponent={[Function]}
+  valueKey="value"
+/>
+`;

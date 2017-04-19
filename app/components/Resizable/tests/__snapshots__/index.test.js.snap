@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Resizable /> with direction left should render correctly 1`] = `
+<div
+  data-radium={true}
+  style={
+    Object {
+      "borderLeft": "1px solid #D0D0D0",
+      "flex": "0 0 auto",
+      "transition": "width 1s",
+      "userSelect": "auto",
+      "width": "1px",
+    }
+  }
+/>
+`;
+
+exports[`<Resizable /> with direction top should render correctly 1`] = `
+<div
+  data-radium={true}
+  style={
+    Object {
+      "borderTop": "1px solid #D0D0D0",
+      "height": "1px",
+      "position": "relative",
+      "userSelect": "auto",
+    }
+  }
+/>
+`;

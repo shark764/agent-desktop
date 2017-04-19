@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TextInput /> should render correctly 1`] = `
+<input
+  autoComplete="on"
+  data-radium={true}
+  id="mockId"
+  onBlur={[Function]}
+  onChange={[Function]}
+  onFocus={[Function]}
+  onKeyDown=""
+  onKeyUp={[Function]}
+  placeholder=""
+  style={
+    Object {
+      "backgroundColor": "#ffffff",
+      "border": "solid 1px #979797",
+      "borderRadius": "2px",
+      "color": "#494949",
+      "fontSize": "16px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "light",
+      "height": "44px",
+      "outline": "none",
+      "padding": "11px",
+      "width": "282px",
+    }
+  }
+  tabIndex={0}
+  type="text"
+  value="mockValue"
+/>
+`;

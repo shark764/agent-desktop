@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LoadingText /> should render correctly 1`] = `
+<div
+  className="_2iwo"
+  data-radium={true}
+>
+  <div
+    className="_2iwq"
+    data-radium={true}
+  >
+    <div
+      className="_2iwy"
+    />
+    <div
+      className="_2iwz"
+    />
+    <div
+      className="_2iw-"
+    />
+    <div
+      className="_2iw_"
+    />
+    <div
+      className="_2ix0"
+    />
+  </div>
+</div>
+`;
+
+exports[`<LoadingText /> Expect LoadingText with attribute withSquare to render correctly 1`] = `
+<div
+  className="_2iwo"
+  data-radium={true}
+>
+  <div
+    className="_2iwq"
+    data-radium={true}
+  >
+    <div
+      className="_2iwr"
+    />
+    <div
+      className="_2iws"
+    />
+    <div
+      className="_2iwt"
+    />
+    <div
+      className="_2iwu"
+    />
+    <div
+      className="_2iwv"
+    />
+    <div
+      className="_2iww"
+    />
+    <div
+      className="_2iwx"
+    />
+  </div>
+</div>
+`;

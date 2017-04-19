@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Title /> should render correctly 1`] = `
+<span
+  data-radium={true}
+  id="mockId"
+  style={
+    Object {
+      "color": "#494949",
+      "fontSize": "20px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+    }
+  }
+>
+  <FormattedMessage
+    id="app.containers.Login.welcome"
+    values={Object {}}
+  />
+</span>
+`;
