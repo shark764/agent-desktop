@@ -1,3 +1,7 @@
+<a name"0.28.3"></a>
+### 0.28.3 (2017-04-18)
+* CXV1-8466 - Move to jest + snapshot testing
+
 <a name"0.28.2"></a>
 ### 0.28.2 (2017-04-18)
 * CXV1-7531 - Cache invalidation bug fix

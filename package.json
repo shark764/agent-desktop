@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.28.2",
+  "version": "0.28.3",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -40,17 +40,32 @@
     "lint:staged": "lint-staged",
     "pretest": "npm run test:clean && npm run lint",
     "test:clean": "rimraf ./coverage",
-    "test": "cross-env NODE_ENV=test karma start internals/testing/karma.conf.js --single-run",
-    "test:watch": "npm run test -- --auto-watch --no-single-run",
-    "test:firefox": "npm run test -- --browsers Firefox",
-    "test:safari": "npm run test -- --browsers Safari",
-    "test:ie": "npm run test -- --browsers IE",
-    "coveralls": "cat ./coverage/lcov/lcov.info | coveralls"
+    "test": "cross-env NODE_ENV=test jest --coverage",
+    "test:watch": "cross-env NODE_ENV=test jest --watchAll"
   },
   "lint-staged": {
     "*.js": "lint:eslint"
   },
-  "pre-commit": "lint:staged",
+  "jest": {
+    "collectCoverageFrom": [
+      "app/**/*.{js,jsx}",
+      "!app/**/*.test.{js,jsx}",
+      "!app/*/RbGenerated*/*.{js,jsx}",
+      "!app/app.js",
+      "!app/routes.js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app"
+    ],
+    "moduleNameMapper": {
+      ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",
+      ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/image.js"
+    },
+    "testRegex": "tests/.*\\.test\\.js$",
+    "snapshotSerializers": ["enzyme-to-json/serializer"]
+  },
+  "pre-commit": ["lint:staged", "test"],
   "babel": {
     "presets": [
       [
@@ -77,7 +92,7 @@
       },
       "test": {
         "plugins": [
-          "istanbul"
+          "transform-es2015-modules-commonjs"
         ]
       }
     }
@@ -88,7 +103,7 @@
     "env": {
       "browser": true,
       "node": true,
-      "mocha": true,
+      "jest": true,
       "es6": true
     },
     "plugins": [
@@ -179,7 +194,7 @@
     "settings": {
       "import/resolver": {
         "webpack": {
-          "config": "./internals/webpack/webpack.test.babel.js"
+          "config": "./internals/webpack/webpack.dev.babel.js"
         }
       }
     }
@@ -248,12 +263,10 @@
     "velocity-animate": "^1.5.0",
     "velocity-react": "^1.2.1",
     "warning": "3.0.0",
-    "webfontloader": "1.6.27",
-    "whatwg-fetch": "^2.0.3"
+    "webfontloader": "1.6.27"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",
-    "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
     "babel-eslint": "^7.2.1",
     "babel-loader": "^6.4.1",
@@ -267,12 +280,10 @@
     "babel-preset-react": "6.23.0",
     "babel-preset-react-hmre": "1.1.1",
     "babel-preset-stage-0": "6.22.0",
-    "chai": "3.5.0",
-    "chai-enzyme": "0.6.1",
     "cheerio": "0.22.0",
-    "coveralls": "^2.12.0",
     "css-loader": "^0.27.3",
     "enzyme": "^2.8.0",
+    "enzyme-to-json": "^1.5.1",
     "eslint": "^3.18.0",
     "eslint-config-airbnb": "14.1.0",
     "eslint-config-airbnb-base": "^11.1.2",
@@ -282,8 +293,6 @@
     "eslint-plugin-react": "^6.10.3",
     "eslint-plugin-redux-saga": "0.3.0",
     "eventsource-polyfill": "0.9.6",
-    "expect": "1.20.2",
-    "expect-jsx": "3.0.0",
     "exports-loader": "0.6.4",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "0.10.1",
@@ -291,19 +300,9 @@
     "html-webpack-plugin": "2.28.0",
     "image-webpack-loader": "^3.3.0",
     "imports-loader": "0.7.1",
+    "jest": "^19.0.2",
     "json-loader": "0.5.4",
-    "karma": "1.5.0",
-    "karma-chrome-launcher": "2.0.0",
-    "karma-coverage": "1.1.1",
-    "karma-firefox-launcher": "^1.0.1",
-    "karma-ie-launcher": "1.0.0",
-    "karma-mocha": "1.3.0",
-    "karma-mocha-reporter": "^2.2.3",
-    "karma-safari-launcher": "1.0.0",
-    "karma-sourcemap-loader": "0.3.7",
-    "karma-webpack": "^2.0.3",
     "lint-staged": "^3.4.0",
-    "mocha": "3.2.0",
     "ngrok": "2.2.6",
     "null-loader": "0.1.1",
     "plop": "1.7.4",
@@ -313,7 +312,6 @@
     "psi": "3.0.0",
     "rimraf": "2.6.1",
     "shelljs": "^0.7.7",
-    "sinon": "^2.1.0",
     "style-loader": "^0.16.1",
     "url-loader": "0.5.8",
     "webpack": "^2.3.2",
