@@ -1,11 +1,28 @@
-// import Icon from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import IconSVG from '../index';
 
-describe('<Icon />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+const names = [
+  'dialpad',
+  'loading',
+  'loadingWhite',
+  'add',
+  'close',
+];
+
+describe('<IconSVG />', () => {
+  names.forEach((name) => {
+    describe(`with name ${name}`, () => {
+      it('should render correctly', () => {
+        const rendered = shallow(
+          <IconSVG
+            id="mockId"
+            name={name}
+          />
+        );
+        expect(rendered).toMatchSnapshot();
+      });
+    });
   });
 });

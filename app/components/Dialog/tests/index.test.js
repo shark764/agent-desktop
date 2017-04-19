@@ -1,11 +1,17 @@
-// import Dialog from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import Dialog from '../index';
 
 describe('<Dialog />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(
+      <Dialog
+        id="mockId"
+      >
+        <p>Mock Child</p>
+      </Dialog>
+    );
+    expect(rendered).toMatchSnapshot();
   });
 });

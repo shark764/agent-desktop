@@ -1,24 +1,20 @@
 import { createSelector } from 'reselect';
 
+// AgentDesktop Domain Selectors
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
-
 const selectIsReady = createSelector(
   selectAgentDesktopDomain, (agentDesktop) => agentDesktop.get('presence') === 'ready'
 );
-
 const selectInteractions = createSelector(
   selectAgentDesktopDomain, (agentDesktop) => agentDesktop.get('interactions')
 );
-
 const selectSelectedInteractionId = createSelector(
   selectAgentDesktopDomain, (agentDesktop) => agentDesktop.get('selectedInteractionId')
 );
-
 const selectInInteractionContext = createSelector(
   selectSelectedInteractionId,
   (interactionId) => typeof interactionId !== 'undefined'
 );
-
 const selectHasVoiceInteraction = createSelector(
   selectInteractions,
   (interactions) => interactions.findIndex(
@@ -26,6 +22,7 @@ const selectHasVoiceInteraction = createSelector(
   ) !== -1
 );
 
+// SidePanel Domain Selectors
 const selectSidePanelDomain = (state) => state.get('sidePanel');
 const selectLayout = createSelector(
   selectSidePanelDomain,
@@ -51,7 +48,7 @@ const selectPopulatedLayout = createSelector(
           if (mappedAttribute !== undefined) {
             return mappedAttribute;
           } else {
-            throw new Error('Could not map attribute');
+            throw new Error(`Could not map attribute ${attributeId}`);
           }
         }),
       })

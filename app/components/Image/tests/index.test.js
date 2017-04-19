@@ -1,11 +1,16 @@
-// import Image from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import Image from '../index';
 
 describe('<Image />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(
+      <Image
+        id="mockId"
+        src="mockSource"
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
 });

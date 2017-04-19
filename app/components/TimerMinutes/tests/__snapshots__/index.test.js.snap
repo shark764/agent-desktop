@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TimerMinutes /> if seconds equal hour should render correctly 1`] = `
+<span>
+  1
+  <FormattedMessage
+    defaultMessage="h"
+    id="app.components.TimerMinutes.hours"
+    values={Object {}}
+  />
+</span>
+`;
+
+exports[`<TimerMinutes /> if seconds equal minute should render correctly 1`] = `
+<span>
+  1
+  <FormattedMessage
+    defaultMessage="m"
+    id="app.components.TimerMinutes.minutes"
+    values={Object {}}
+  />
+</span>
+`;
+
+exports[`<TimerMinutes /> if seconds less than minute should render correctly 1`] = `
+<span>
+  <FormattedMessage
+    defaultMessage="Just Now"
+    id="app.components.TimerMinutes.justNow"
+    values={Object {}}
+  />
+</span>
+`;

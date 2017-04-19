@@ -1,11 +1,19 @@
-// import TextInput from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
+import { getIntlContext } from 'utils/test';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import TextInput from '../index';
 
 describe('<TextInput />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(
+      <TextInput.WrappedComponent
+        id="mockId"
+        intl={getIntlContext()}
+        cb={() => {}}
+        value="mockValue"
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
 });

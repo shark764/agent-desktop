@@ -1,11 +1,28 @@
-// import Loading from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import LoadingText from '../index';
 
 describe('<LoadingText />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(
+      <LoadingText
+        id="mockId"
+      />
+    );
+    expect(rendered).toMatchSnapshot();
+  });
+});
+
+
+describe('<LoadingText />', () => {
+  it('Expect LoadingText with attribute withSquare to render correctly', () => {
+    const rendered = shallow(
+      <LoadingText
+        id="mockId"
+        withSquare
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
 });

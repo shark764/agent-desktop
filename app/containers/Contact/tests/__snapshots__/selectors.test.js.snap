@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`selectAttributes should return the  attributes from the SidePanel domain 1`] = `
+Array [
+  "mockContactAttribute",
+]
+`;
+
+exports[`selectPopulatedCompactAttributes should return the first section of the layout with attributes populated from attributes 1`] = `
+Object {
+  "attributes": Array [
+    Object {
+      "id": "mockAttributeIdOne",
+    },
+    Object {
+      "id": "mockAttributeIdTwo",
+    },
+  ],
+}
+`;
+
+exports[`selectPopulatedLayout should return the Layout with attributes populated 1`] = `
+Array [
+  Object {
+    "attributes": Array [
+      Object {
+        "id": "mockAttributeIdOne",
+      },
+      Object {
+        "id": "mockAttributeIdTwo",
+      },
+    ],
+  },
+  Object {
+    "attributes": Array [
+      Object {
+        "id": "mockAttributeIdThree",
+      },
+    ],
+  },
+]
+`;

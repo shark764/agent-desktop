@@ -1,11 +1,17 @@
-// import Button from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import Button from '../index';
+
+const possibleTypes = ['primaryBlue', 'primaryBlueBig', 'primaryRed', 'secondary'];
 
 describe('<Button />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  possibleTypes.forEach((type) => {
+    describe(`with type ${type}`, () => {
+      it('should render correctly', () => {
+        const rendered = shallow(<Button type={type} id="mockId" />);
+        expect(rendered).toMatchSnapshot();
+      });
+    });
   });
 });

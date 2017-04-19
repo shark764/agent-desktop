@@ -1,11 +1,30 @@
-// import Stat from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
+import { getIntlContext } from 'utils/test';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import Stat from '../index';
 
 describe('<Stat />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(
+      <Stat
+        id="mockId"
+        intl={getIntlContext()}
+        statistic={{
+          type: 'mockType',
+          userFriendlyName: 'mockName',
+        }}
+        hover
+        index={1}
+        hoverData={{
+          statAggregate: 'mockStatAggregate',
+          statSource: 'mockStatSource',
+        }}
+        toggleStat={() => {}}
+        readyState="mockReadyState"
+        queues={[]}
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
 });

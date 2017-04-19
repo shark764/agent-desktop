@@ -1,11 +1,21 @@
-// import NotificationBanner from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
+import { getIntlContext } from 'utils/test';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import NotificationBanner from '../index';
 
 describe('<NotificationBanner />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(
+      <NotificationBanner.WrappedComponent
+        id="mockId"
+        errorType="serverError"
+        messageType="notSaved"
+        dismiss={() => {}}
+        isError
+        intl={getIntlContext()}
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
 });

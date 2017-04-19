@@ -15,7 +15,7 @@ import { VelocityTransitionGroup } from 'velocity-react';
 
 import Select from 'components/Select';
 import Button from 'components/Button';
-import { selectEnabledStats, selectAvailableStats } from './selectors';
+import { selectEnabledStats, selectAvailableStats } from 'containers/AgentStats/selectors';
 import messages from './messages';
 
 const MAXIMUM_STATS = 5;

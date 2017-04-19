@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Dialpad /> should render correctly 1`] = `
+<div
+  data-radium={true}
+  id="mockId"
+>
+  <InjectIntl(TextInput)
+    autoFocus={true}
+    cb={[Function]}
+    disabled={false}
+    id="mockIdTextInput"
+    style={
+      Object {
+        "height": "32px",
+        "width": "100%",
+      }
+    }
+    value="mockDialpadText"
+  />
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "marginTop": "13px",
+      }
+    }
+  >
+    <ButtonDialpad
+      id="mockId1Button"
+      onClick={[Function]}
+      text="1"
+      type="topLeft"
+    />
+    <ButtonDialpad
+      id="mockId2Button"
+      onClick={[Function]}
+      text="2"
+      type="top"
+    />
+    <ButtonDialpad
+      id="mockId3Button"
+      onClick={[Function]}
+      text="3"
+      type="topRight"
+    />
+    <ButtonDialpad
+      id="mockId4Button"
+      onClick={[Function]}
+      text="4"
+      type="left"
+    />
+    <ButtonDialpad
+      id="mockId5Button"
+      onClick={[Function]}
+      text="5"
+      type="middle"
+    />
+    <ButtonDialpad
+      id="mockId6Button"
+      onClick={[Function]}
+      text="6"
+      type="right"
+    />
+    <ButtonDialpad
+      id="mockId7Button"
+      onClick={[Function]}
+      text="7"
+      type="left"
+    />
+    <ButtonDialpad
+      id="mockId8Button"
+      onClick={[Function]}
+      text="8"
+      type="middle"
+    />
+    <ButtonDialpad
+      id="mockId9Button"
+      onClick={[Function]}
+      text="9"
+      type="right"
+    />
+    <ButtonDialpad
+      id="mockIdStarButton"
+      onClick={[Function]}
+      text="*"
+      type="bottomLeft"
+    />
+    <ButtonDialpad
+      id="mockId0Button"
+      onClick={[Function]}
+      text="0"
+      type="bottom"
+    />
+    <ButtonDialpad
+      id="mockIdNumberButton"
+      onClick={[Function]}
+      text="#"
+      type="bottomRight"
+    />
+  </div>
+</div>
+`;

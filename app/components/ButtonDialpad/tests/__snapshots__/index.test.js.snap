@@ -1,0 +1,208 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ButtonDialpad /> with type bottom should render correctly 1`] = `
+<Button
+  id="mockId"
+  onClick={[Function]}
+  style={
+    Object {
+      "borderBottom": "1px solid #E4E4E4",
+      "borderLeft": undefined,
+      "borderRadius": 0,
+      "borderRight": "1px solid #E4E4E4",
+      "borderTop": undefined,
+      "color": "#4B4B4B",
+      "fontSize": "22px",
+      "padding": "17px 0",
+      "width": "33.3%",
+    }
+  }
+  tabIndex={0}
+  text="mockText"
+  type="secondary"
+/>
+`;
+
+exports[`<ButtonDialpad /> with type bottomLeft should render correctly 1`] = `
+<Button
+  id="mockId"
+  onClick={[Function]}
+  style={
+    Object {
+      "borderBottom": "1px solid #E4E4E4",
+      "borderLeft": "1px solid #E4E4E4",
+      "borderRadius": "0 0 0 3px",
+      "borderRight": "1px solid #E4E4E4",
+      "borderTop": undefined,
+      "color": "#4B4B4B",
+      "fontSize": "22px",
+      "padding": "17px 0",
+      "width": "33.3%",
+    }
+  }
+  tabIndex={0}
+  text="mockText"
+  type="secondary"
+/>
+`;
+
+exports[`<ButtonDialpad /> with type bottomRight should render correctly 1`] = `
+<Button
+  id="mockId"
+  onClick={[Function]}
+  style={
+    Object {
+      "borderBottom": "1px solid #E4E4E4",
+      "borderLeft": undefined,
+      "borderRadius": "0 0 3px 0",
+      "borderRight": "1px solid #E4E4E4",
+      "borderTop": undefined,
+      "color": "#4B4B4B",
+      "fontSize": "22px",
+      "padding": "17px 0",
+      "width": "33.3%",
+    }
+  }
+  tabIndex={0}
+  text="mockText"
+  type="secondary"
+/>
+`;
+
+exports[`<ButtonDialpad /> with type left should render correctly 1`] = `
+<Button
+  id="mockId"
+  onClick={[Function]}
+  style={
+    Object {
+      "borderBottom": "1px solid #E4E4E4",
+      "borderLeft": "1px solid #E4E4E4",
+      "borderRadius": 0,
+      "borderRight": "1px solid #E4E4E4",
+      "borderTop": undefined,
+      "color": "#4B4B4B",
+      "fontSize": "22px",
+      "padding": "17px 0",
+      "width": "33.3%",
+    }
+  }
+  tabIndex={0}
+  text="mockText"
+  type="secondary"
+/>
+`;
+
+exports[`<ButtonDialpad /> with type middle should render correctly 1`] = `
+<Button
+  id="mockId"
+  onClick={[Function]}
+  style={
+    Object {
+      "borderBottom": "1px solid #E4E4E4",
+      "borderLeft": undefined,
+      "borderRadius": 0,
+      "borderRight": "1px solid #E4E4E4",
+      "borderTop": undefined,
+      "color": "#4B4B4B",
+      "fontSize": "22px",
+      "padding": "17px 0",
+      "width": "33.3%",
+    }
+  }
+  tabIndex={0}
+  text="mockText"
+  type="secondary"
+/>
+`;
+
+exports[`<ButtonDialpad /> with type right should render correctly 1`] = `
+<Button
+  id="mockId"
+  onClick={[Function]}
+  style={
+    Object {
+      "borderBottom": "1px solid #E4E4E4",
+      "borderLeft": undefined,
+      "borderRadius": 0,
+      "borderRight": "1px solid #E4E4E4",
+      "borderTop": undefined,
+      "color": "#4B4B4B",
+      "fontSize": "22px",
+      "padding": "17px 0",
+      "width": "33.3%",
+    }
+  }
+  tabIndex={0}
+  text="mockText"
+  type="secondary"
+/>
+`;
+
+exports[`<ButtonDialpad /> with type top should render correctly 1`] = `
+<Button
+  id="mockId"
+  onClick={[Function]}
+  style={
+    Object {
+      "borderBottom": "1px solid #E4E4E4",
+      "borderLeft": undefined,
+      "borderRadius": 0,
+      "borderRight": "1px solid #E4E4E4",
+      "borderTop": "1px solid #E4E4E4",
+      "color": "#4B4B4B",
+      "fontSize": "22px",
+      "padding": "17px 0",
+      "width": "33.3%",
+    }
+  }
+  tabIndex={0}
+  text="mockText"
+  type="secondary"
+/>
+`;
+
+exports[`<ButtonDialpad /> with type topLeft should render correctly 1`] = `
+<Button
+  id="mockId"
+  onClick={[Function]}
+  style={
+    Object {
+      "borderBottom": "1px solid #E4E4E4",
+      "borderLeft": "1px solid #E4E4E4",
+      "borderRadius": "3px 0 0 0",
+      "borderRight": "1px solid #E4E4E4",
+      "borderTop": "1px solid #E4E4E4",
+      "color": "#4B4B4B",
+      "fontSize": "22px",
+      "padding": "17px 0",
+      "width": "33.3%",
+    }
+  }
+  tabIndex={0}
+  text="mockText"
+  type="secondary"
+/>
+`;
+
+exports[`<ButtonDialpad /> with type topRight should render correctly 1`] = `
+<Button
+  id="mockId"
+  onClick={[Function]}
+  style={
+    Object {
+      "borderBottom": "1px solid #E4E4E4",
+      "borderLeft": undefined,
+      "borderRadius": "0 3px 0 0",
+      "borderRight": "1px solid #E4E4E4",
+      "borderTop": "1px solid #E4E4E4",
+      "color": "#4B4B4B",
+      "fontSize": "22px",
+      "padding": "17px 0",
+      "width": "33.3%",
+    }
+  }
+  tabIndex={0}
+  text="mockText"
+  type="secondary"
+/>
+`;

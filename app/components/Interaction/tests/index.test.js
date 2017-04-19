@@ -1,11 +1,20 @@
-// import Interaction from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
+import { getIntlContext } from 'utils/test';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import Interaction from '../index';
 
 describe('<Interaction />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(
+      <Interaction.WrappedComponent
+        id="mockId"
+        status="pending"
+        awaitingDisposition
+        icon="config"
+        intl={getIntlContext()}
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
 });

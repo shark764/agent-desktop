@@ -8,10 +8,10 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Radium from 'radium';
 
-import { selectActiveVoiceInteraction } from './selectors';
-
 import PhoneControlsInactive from 'containers/PhoneControlsInactive';
 import PhoneControlsActive from 'containers/PhoneControlsActive';
+
+import { selectActiveVoiceInteraction } from './selectors';
 
 export class PhoneControls extends React.Component {
 

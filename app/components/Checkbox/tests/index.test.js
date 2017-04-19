@@ -1,11 +1,18 @@
-// import Checkbox from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
+import { getIntlContext } from 'utils/test';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import Checkbox from '../index';
 
 describe('<Checkbox />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(
+      <Checkbox.WrappedComponent
+        id="mockId"
+        intl={getIntlContext()}
+        checked
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
 });

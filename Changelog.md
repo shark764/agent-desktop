@@ -1,3 +1,9 @@
+<a name"0.28.3"></a>
+### 0.28.3 (2017-04-18)
+* CXV1-8466 - Move to jest + snapshot testing
+* CXV1-8647 - Basic snapshot tests on all components
+* CXV1-8648 - Containers - Saga tests, good start on selector tests and some basic reducer tests 
+
 <a name"0.28.2"></a>
 ### 0.28.2 (2017-04-18)
 * CXV1-7531 - Cache invalidation bug fix
@@ -19,7 +25,7 @@
 ### 0.27.8 (2017-04-07)
 * CXV1-8467 - remove router broke hot reload, fix and better understand webpack processes
 * BUGFIX - interaction count on contact history not showing
-* contact interartion transcript - Show agent name instead of 'Agent'
+* contact interaction transcript - Show agent name instead of 'Agent'
 * Welcome stats - still hacky but no longer dangerous.
 
 <a name"0.27.7"></a>

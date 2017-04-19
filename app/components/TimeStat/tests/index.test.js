@@ -1,11 +1,17 @@
-// import TimeStat from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import TimeStat from '../index';
 
 describe('<TimeStat />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(
+      <TimeStat
+        id="mockId"
+        time={1}
+        unit="millis"
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
 });

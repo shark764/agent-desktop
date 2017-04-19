@@ -1,11 +1,28 @@
-// import Resizable from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import Resizable from '../index';
+
+const directions = ['left', 'top'];
 
 describe('<Resizable />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  directions.forEach((direction) => {
+    describe(`with direction ${direction}`, () => {
+      it('should render correctly', () => {
+        const rendered = shallow(
+          <Resizable
+            id="mockId"
+            direction={direction}
+            isDisabled
+            disabledPx={1}
+            setPx={() => {}}
+            px={2}
+            minPx={3}
+            maxPx={4}
+          />
+        );
+        expect(rendered).toMatchSnapshot();
+      });
+    });
   });
 });

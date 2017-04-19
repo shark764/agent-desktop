@@ -1,11 +1,11 @@
-// import Avatar from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import Avatar from '../index';
 
 describe('<Avatar />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(<Avatar id="mockId" />);
+    expect(rendered).toMatchSnapshot();
   });
 });

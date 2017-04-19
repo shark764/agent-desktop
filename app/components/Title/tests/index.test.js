@@ -1,11 +1,16 @@
-// import Title from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import Title from '../index';
 
 describe('<Title />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(
+      <Title
+        id="mockId"
+        text={{ id: 'app.containers.Login.welcome' }}
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
 });

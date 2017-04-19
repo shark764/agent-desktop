@@ -15,6 +15,14 @@ import close from 'assets/icons/close.svg';
 
 import Radium from 'radium';
 
+const availableIcons = [
+  'dialpad',
+  'loading',
+  'loadingWhite',
+  'add',
+  'close',
+];
+
 function IconSVG(props) {
   let icon;
   let iconHover;
@@ -58,7 +66,7 @@ function IconSVG(props) {
 }
 
 IconSVG.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.oneOf(availableIcons).isRequired,
   style: PropTypes.object,
   id: PropTypes.string.isRequired,
 };

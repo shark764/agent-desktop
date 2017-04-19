@@ -12,11 +12,21 @@ export function* loadHistoricalInteractionBody(action) {
   try {
     switch (action.bodyType) {
       case 'recordings':
-        metaData = yield call(sdkCallToPromise, SDK.interactions.voice.getRecordings, { interactionId: action.interactionId }, 'AgentDesktop');
+        metaData = yield call(
+          sdkCallToPromise,
+          SDK.interactions.voice.getRecordings,
+          { interactionId: action.interactionId },
+          'AgentDesktop'
+        );
         body.audioRecordings = metaData.map((recording) => recording.url);
         break;
       case 'transcript':
-        metaData = yield call(sdkCallToPromise, SDK.interactions.messaging.getTranscripts, { interactionId: action.interactionId }, 'AgentDesktop');
+        metaData = yield call(
+          sdkCallToPromise,
+          SDK.interactions.messaging.getTranscripts,
+          { interactionId: action.interactionId },
+          'AgentDesktop'
+        );
         transcriptResponse = yield call(axios.get, metaData[0] && metaData[0].url);
         body.transcript = transcriptResponse && transcriptResponse.data
           ? transcriptResponse.data
@@ -40,7 +50,12 @@ export function* loadContactInteractions(action) {
     contactQuery.page = action.page;
   }
   try {
-    contactInteractionHistoryDetails = yield call(sdkCallToPromise, SDK.reporting.getContactHistory, contactQuery, 'AgentDesktop');
+    contactInteractionHistoryDetails = yield call(
+      sdkCallToPromise,
+      SDK.reporting.getContactHistory,
+      contactQuery,
+      'AgentDesktop'
+    );
   } catch (error) {
     console.error(error);
   }

@@ -1,11 +1,20 @@
-// import Filter from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
+import { getIntlContext } from 'utils/test';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import Filter from '../index';
 
 describe('<Filter />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(
+      <Filter.WrappedComponent
+        id="mockId"
+        name="mockName"
+        value="mockValue"
+        remove={() => {}}
+        intl={getIntlContext()}
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
 });

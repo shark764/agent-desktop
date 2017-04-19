@@ -1,11 +1,17 @@
-// import CircleIconButton from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import CircleIconButton from '../index';
 
 describe('<CircleIconButton />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(
+      <CircleIconButton
+        id="mockId"
+        name="config"
+        onClick={() => {}}
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
 });

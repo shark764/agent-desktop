@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Progress /> should render correctly 1`] = `
+<div
+  data-radium={true}
+>
+  <svg
+    data-radium={true}
+    preserveAspectRatio="none"
+    viewBox="0 0 100 2"
+  >
+    <path
+      d="M 1,1 L 99,1"
+      fillOpacity="0"
+      stroke="#031417"
+      strokeLinecap="round"
+      strokeWidth="2"
+    />
+    <path
+      d="M 1,1 L 99,1"
+      data-radium={true}
+      fillOpacity="0"
+      strokeLinecap="round"
+      strokeWidth="2"
+      style={
+        Object {
+          "stroke": "mockColour",
+          "strokeDasharray": "100px, 100px",
+          "strokeDashoffset": "100px",
+        }
+      }
+    />
+  </svg>
+</div>
+`;

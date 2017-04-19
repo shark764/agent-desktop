@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TextLink /> should render correctly 1`] = `
+<div
+  id="mockId"
+>
+  <a
+    href="mockLink"
+    target="_blank"
+  >
+    mockText
+  </a>
+</div>
+`;

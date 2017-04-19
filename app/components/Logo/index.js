@@ -5,6 +5,7 @@
 */
 
 import React, { PropTypes } from 'react';
+import Radium from 'radium';
 
 import serenova from './Serenova.png';
 import mitel from './Mitel.png';
@@ -19,7 +20,11 @@ function Logo(props) {
   }
 
   return (
-    <img src={logo} alt="Logo" style={Object.assign({ width: props.width, height: props.height }, props.style)} />
+    <img
+      src={logo}
+      alt="Logo"
+      style={[{ width: props.width, height: props.height }, props.style]}
+    />
   );
 }
 
@@ -30,4 +35,4 @@ Logo.propTypes = {
 };
 
 
-export default Logo;
+export default Radium(Logo);

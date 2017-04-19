@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CircleIconButton /> should render correctly 1`] = `
+<button
+  data-radium={true}
+  id="mockId"
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  style={
+    Object {
+      "border": "none",
+      "borderRadius": "50%",
+      "outline": "none",
+      "padding": 0,
+    }
+  }
+>
+  <Icon
+    id="mockId-icon"
+    name="config"
+    style={
+      Array [
+        Object {
+          ":focus": Object {
+            "border": "none",
+          },
+          "border": "none",
+          "borderRadius": "50%",
+          "outline": "none",
+          "padding": 0,
+        },
+        undefined,
+        Object {
+          "margin": "none",
+        },
+      ]
+    }
+  />
+</button>
+`;

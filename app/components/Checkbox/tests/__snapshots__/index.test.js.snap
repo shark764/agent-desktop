@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Checkbox /> should render correctly 1`] = `
+<span
+  data-radium={true}
+>
+  <input
+    checked={true}
+    data-radium={true}
+    disabled={true}
+    id="mockId"
+    onChange={[Function]}
+    style={
+      Object {
+        "height": "14px",
+        "verticalAlign": "middle",
+        "width": "14px",
+      }
+    }
+    type="checkbox"
+  />
+</span>
+`;

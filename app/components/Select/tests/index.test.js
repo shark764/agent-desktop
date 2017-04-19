@@ -1,11 +1,15 @@
-// import Select from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import Select from '../index';
 
 describe('<Select />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(
+      <Select
+        id="mockId"
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
 });

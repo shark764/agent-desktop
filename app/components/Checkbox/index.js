@@ -10,7 +10,6 @@ import { injectIntl, intlShape } from 'react-intl';
 import Radium from 'radium';
 
 function Checkbox(props) {
-  const { formatMessage } = props.intl;
   const styles = {
     label: {
       fontSize: '16px',
@@ -49,6 +48,7 @@ function Checkbox(props) {
       </label>
     );
   } else {
+    const { formatMessage } = props.intl;
     label = (
       <label htmlFor={props.id} style={styles.label}>
         { formatMessage(props.text) }
@@ -74,7 +74,7 @@ function Checkbox(props) {
 }
 
 Checkbox.propTypes = {
-  intl: intlShape.isRequired,
+  intl: intlShape,
   name: PropTypes.string,
   text: PropTypes.oneOfType([
     PropTypes.object,

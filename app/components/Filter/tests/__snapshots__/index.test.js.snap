@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Filter /> should render correctly 1`] = `
+<div
+  data-radium={true}
+  style={
+    Object {
+      "alignItems": "center",
+      "background": "#DEF8FE",
+      "display": "flex",
+      "flexWrap": "nowrap",
+      "height": "28px",
+      "paddingLeft": "10px",
+    }
+  }
+>
+  <span
+    data-radium={true}
+    style={
+      Object {
+        "fontWeight": "bold",
+      }
+    }
+  >
+    mockName:
+     
+  </span>
+  <span
+    data-radium={true}
+    style={
+      Object {
+        "maxWidth": "200px",
+        "overflow": "hidden",
+        "textOverflow": "ellipsis",
+        "whiteSpace": "nowrap",
+      }
+    }
+  >
+    mockValue
+  </span>
+  <Icon
+    name="close"
+    onclick={[Function]}
+    style={
+      Object {
+        "cursor": "pointer",
+        "margin": "0 10px",
+      }
+    }
+  />
+</div>
+`;

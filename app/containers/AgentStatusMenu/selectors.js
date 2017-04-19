@@ -1,11 +1,5 @@
 import { createSelector } from 'reselect';
 
-const selectAgentStatusMenuDomain = () => (state) => state.get('agentStatusMenu');
-const selectAgentStatusMenu = () => createSelector(
-  selectAgentStatusMenuDomain(),
-  (substate) => substate.toJS()
-);
-
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 
 const selectHasActiveInteractions = createSelector(
@@ -28,9 +22,7 @@ const selectActiveExtension = createSelector(
     agentDesktop.get('activeExtension').toJS()
 );
 
-export default selectAgentStatusMenu;
 export {
-  selectAgentStatusMenuDomain,
   selectHasActiveInteractions,
   selectExtensions,
   selectActiveExtension,

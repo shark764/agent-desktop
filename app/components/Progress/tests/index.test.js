@@ -1,11 +1,18 @@
-// import Progress from '../index';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import expect from 'expect';
-// import { shallow } from 'enzyme';
-// import React from 'react';
+import Progress from '../index';
 
 describe('<Progress />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render correctly', () => {
+    const rendered = shallow(
+      <Progress
+        id="mockId"
+        barColor="mockColour"
+        start={0}
+        finish={1}
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
 });

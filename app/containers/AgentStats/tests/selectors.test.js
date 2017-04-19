@@ -1,11 +1,21 @@
-// import { selectAgentStatsDomain } from '../selectors';
-// import { fromJS } from 'immutable';
-import expect from 'expect';
+import { fromJS } from 'immutable';
+import { selectEnabledStats, selectAvailableStats } from '../selectors';
 
-// const selector = selectAgentStatsDomain();
+const mockState = fromJS({
+  toolbar: {
+    enabledStats: ['mockEnabledStat'],
+    availableStats: ['mockAvailableStat'],
+  },
+});
 
-describe('selectAgentStatsDomain', () => {
-  it('Expect to have unit tests specified', () => {
-    expect('Test case').toEqual(false);
+describe('selectEnabledStats', () => {
+  it('Should return enabledStats from the toolbar domain', () => {
+    expect(selectEnabledStats(mockState)).toMatchSnapshot();
+  });
+});
+
+describe('selectAvailableStats', () => {
+  it('Should return availableStats from the toolbar domain', () => {
+    expect(selectAvailableStats(mockState)).toMatchSnapshot();
   });
 });
