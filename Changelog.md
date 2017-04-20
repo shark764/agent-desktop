@@ -1,3 +1,7 @@
+<a name"0.28.5"></a>
+### 0.28.5 (2017-04-20)
+* CXV1-8671 - Fix CSS issues with long words in message previews
+
 <a name"0.28.4"></a>
 ### 0.28.4 (2017-04-20)
 * CXV1-8618 - Prompt before allowing page navigation/reload if there is an active interaction
