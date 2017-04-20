@@ -103,6 +103,11 @@ export class AgentDesktop extends React.Component {
 
   init() {
     window.addEventListener('resize', this.updateDimensions);
+    window.addEventListener('beforeunload', (e) => {
+      if (this.props.agentDesktop.interactions.length) {
+        e.returnValue = true;
+      }
+    });
 
     let where;
     let environment;
