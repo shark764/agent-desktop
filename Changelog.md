@@ -1,8 +1,12 @@
+<a name"0.28.4"></a>
+### 0.28.4 (2017-04-20)
+* CXV1-8618 - Prompt before allowing page navigation/reload if there is an active interaction
+
 <a name"0.28.3"></a>
 ### 0.28.3 (2017-04-18)
 * CXV1-8466 - Move to jest + snapshot testing
 * CXV1-8647 - Basic snapshot tests on all components
-* CXV1-8648 - Containers - Saga tests, good start on selector tests and some basic reducer tests 
+* CXV1-8648 - Containers - Saga tests, good start on selector tests and some basic reducer tests
 
 <a name"0.28.2"></a>
 ### 0.28.2 (2017-04-18)
