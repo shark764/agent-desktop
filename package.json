@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.28.6",
+  "version": "0.28.7",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -71,9 +71,14 @@
       ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/image.js"
     },
     "testRegex": "tests/.*\\.test\\.js$",
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
-  "pre-commit": ["lint:staged", "test"],
+  "pre-commit": [
+    "lint:staged",
+    "test"
+  ],
   "babel": {
     "presets": [
       [
@@ -244,6 +249,7 @@
     "medium-draft": "https://github.com/joshclowater/medium-draft",
     "minimist": "1.2.0",
     "moment": "^2.18.1",
+    "prop-types": "^15.5.8",
     "radium": "^0.18.2",
     "raven-js": "^3.13.1",
     "react": "15.4.2",

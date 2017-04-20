@@ -1,19 +1,18 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import PopupDialog from '../index';
+import ConfirmDialog from '../index';
 
-describe('<PopupDialog />', () => {
+describe('<ConfirmDialog />', () => {
   it('should render correctly', () => {
     const rendered = shallow(
-      <PopupDialog
+      <ConfirmDialog
         id="mockId"
         isVisible
+        leftAction={() => {}}
+        rightAction={() => {}}
         hide={() => {}}
-        widthPx={1}
-      >
-        <p>Mock Child</p>
-      </PopupDialog>
+      />
     );
     expect(rendered).toMatchSnapshot();
   });

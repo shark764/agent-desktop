@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ConfirmDialog /> should render correctly 1`] = `
+<div>
+  <PopupDialog
+    arrowLeftOffsetPx={42}
+    fadeContent={true}
+    hide={[Function]}
+    isVisible={true}
+    style={
+      Object {
+        "borderRadius": "4px",
+      }
+    }
+    widthPx={200}
+  >
+    <div
+      style={
+        Object {
+          "alignItems": "stretch",
+          "display": "flex",
+          "flexDirection": "column",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "borderTop": "1px solid #C5C5C5",
+            "display": "flex",
+            "zIndex": 2,
+          }
+        }
+      >
+        <Button
+          clear={true}
+          id="leftConfirmButton"
+          onClick={[Function]}
+          style={
+            Object {
+              "width": "50%",
+            }
+          }
+          tabIndex={0}
+          type="secondary"
+        >
+          <FormattedMessage
+            defaultMessage="No"
+            id="app.components.ConfirmDialog.no"
+            values={Object {}}
+          />
+        </Button>
+        <Button
+          clear={true}
+          id="rightConfirmButton"
+          onClick={[Function]}
+          style={
+            Object {
+              "borderLeft": "1px solid #C5C5C5",
+              "width": "50%",
+            }
+          }
+          tabIndex={0}
+          type="secondary"
+        >
+          <FormattedMessage
+            defaultMessage="Yes"
+            id="app.components.ConfirmDialog.yes"
+            values={Object {}}
+          />
+        </Button>
+      </div>
+    </div>
+  </PopupDialog>
+</div>
+`;

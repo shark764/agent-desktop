@@ -1,4 +1,6 @@
 {
+  "app.components.ConfirmDialog.no": "No",
+  "app.components.ConfirmDialog.yes": "Yes",
   "app.components.NotFoundPage.header": "Page Not Found",
   "app.components.NotificationBanner.created": "Contact created.",
   "app.components.NotificationBanner.networkError": "Network Error",
@@ -34,6 +36,7 @@
   "app.containers.AgentStatusMenu.outbound": "Outbound",
   "app.containers.AgentStatusMenu.ready": "Ready",
   "app.containers.AgentStatusMenu.tenant": "Tenant",
+  "app.containers.Contact.abandonChanges": "Abandon Changes?",
   "app.containers.Contact.assignButton": "Assign",
   "app.containers.Contact.cancel": "Cancel",
   "app.containers.Contact.editButton": "Edit",
@@ -44,8 +47,6 @@
   "app.containers.Contact.errorRequired": "Required",
   "app.containers.Contact.save": "Save Changes",
   "app.containers.Contact.selectButton": "Select",
-  "app.containers.Contact.warningEdit": "Abandon Record Edit?",
-  "app.containers.Contact.warningNew": "Abandon Record Creation?",
   "app.containers.ContactControl.edit": "Edit",
   "app.containers.ContactControl.filtersList": "(name, email address, mailing address, phone number, organization, customer number)",
   "app.containers.ContactControl.loading": "Loading...",

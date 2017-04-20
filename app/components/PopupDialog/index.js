@@ -5,6 +5,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import 'velocity-animate';
 import 'velocity-animate/velocity.ui';
 import { VelocityTransitionGroup } from 'velocity-react';
@@ -20,7 +21,7 @@ function PopupDialog(props) {
       borderRadius: '8px',
       backgroundColor: '#FFFFFF',
       boxShadow: '0 0 6px 1px rgba(0,0,0,0.29)',
-      paddingTop: '16px',
+      padding: '16px 0 0 0',
       margin: '10px',
       color: '#4b4b4b',
     },
@@ -36,6 +37,7 @@ function PopupDialog(props) {
       borderColor: '#FFF transparent transparent #FFF',
       borderImage: 'initial',
       transform: 'rotate(-134deg)',
+      boxShadow: '-6px -6px 11px -4px rgba(0,0,0,0.29)',
       borderRadius: '3px',
     },
     mask: {
@@ -51,11 +53,11 @@ function PopupDialog(props) {
     <div>
       {
         // Transparent mask to catch click outside of dialog
-        props.isVisible && <div style={styles.mask} id="screen-mask-status-menu" onClick={props.hide} />
+        props.isVisible && <div style={styles.mask} id="screen-mask" onClick={props.hide} />
       }
       <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100' }} leave={{ animation: 'transition.slideUpOut', duration: '100' }}>
         { props.isVisible &&
-          <div id={props.id} style={styles.base}>
+          <div id={props.id} style={[styles.base, props.style]}>
             <span style={[styles.triangle]} />
             {props.children}
           </div>
@@ -66,12 +68,13 @@ function PopupDialog(props) {
 }
 
 PopupDialog.propTypes = {
-  widthPx: React.PropTypes.number,
-  arrowLeftOffsetPx: React.PropTypes.number,
-  id: React.PropTypes.string,
-  children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.array]).isRequired,
-  isVisible: React.PropTypes.bool.isRequired,
-  hide: React.PropTypes.func.isRequired,
+  id: PropTypes.string,
+  style: PropTypes.object,
+  widthPx: PropTypes.number.isRequired,
+  arrowLeftOffsetPx: PropTypes.number,
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]).isRequired,
+  isVisible: PropTypes.bool.isRequired,
+  hide: PropTypes.func.isRequired,
 };
 
 export default Radium(PopupDialog);
