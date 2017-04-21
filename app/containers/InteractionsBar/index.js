@@ -50,22 +50,22 @@ export class InteractionsBar extends React.Component {
       let icon;
       let from;
       let text;
+      let type;
       if (activeInteraction.channelType === 'messaging' || activeInteraction.channelType === 'sms') {
         from = activeInteraction.messageHistory[0].from;
 
-        // Try to find the first unread customer message
-        const firstUnreadCustomerMessage = activeInteraction.messageHistory.find((messageHistoryItem) => messageHistoryItem.unread === true && (messageHistoryItem.type === 'customer' || messageHistoryItem.type === 'message'));
-        if (firstUnreadCustomerMessage !== undefined) {
-          text = firstUnreadCustomerMessage.text;
+        // use the last non-system message
+        for (let i = activeInteraction.messageHistory.length - 1; i >= 0; i -= 1) {
+          if (activeInteraction.messageHistory[i].type !== 'system') {
+            text = activeInteraction.messageHistory[i].text;
+            type = activeInteraction.messageHistory[i].type;
+            break;
+          }
+        }
+        // if the last message was from the customer, show the 'new' icon
+        if (type === 'customer' || type === 'message') {
           icon = 'message_new';
         } else {
-          // If there are no unread customer messages, use the last non-system message
-          for (let i = activeInteraction.messageHistory.length - 1; i >= 0; i -= 1) {
-            if (activeInteraction.messageHistory[i].type !== 'system') {
-              text = activeInteraction.messageHistory[i].text;
-              break;
-            }
-          }
           icon = 'message';
         }
       } else if (activeInteraction.channelType === 'email') {
