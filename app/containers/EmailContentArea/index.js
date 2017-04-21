@@ -9,6 +9,10 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 
+import 'velocity-animate';
+import 'velocity-animate/velocity.ui';
+import { VelocityTransitionGroup } from 'velocity-react';
+
 import moment from 'moment';
 import 'assets/css/mediumdraft.min.css';
 import { Editor, createEditorState } from 'medium-draft';
@@ -59,15 +63,23 @@ export class EmailContentArea extends React.Component {
       if (this.props.selectedInteraction.emailReply) {
         this.emailUpdateReply();
       }
-      this.setState({
-        tos: nextProps.selectedInteraction.emailReply.tos,
-        ccs: nextProps.selectedInteraction.emailReply.ccs,
-        bccs: nextProps.selectedInteraction.emailReply.bccs,
-        subject: nextProps.selectedInteraction.emailReply.subject,
-        editorState: nextProps.selectedInteraction.emailReply
-          ? EditorState.createWithContent(stateFromHTML(nextProps.selectedInteraction.emailReply.message))
-          : createEditorState(),
-      });
+      if (nextProps.selectedInteraction.emailReply) {
+        this.setState({
+          tos: nextProps.selectedInteraction.emailReply.tos,
+          ccs: nextProps.selectedInteraction.emailReply.ccs,
+          bccs: nextProps.selectedInteraction.emailReply.bccs,
+          subject: nextProps.selectedInteraction.emailReply.subject,
+          editorState: EditorState.createWithContent(stateFromHTML(nextProps.selectedInteraction.emailReply.message)),
+        });
+      } else {
+        this.setState({
+          tos: undefined,
+          ccs: undefined,
+          bccs: undefined,
+          subject: undefined,
+          editorState: createEditorState(),
+        });
+      }
     } else if (this.props.selectedInteraction.emailReply === undefined && nextProps.selectedInteraction.emailReply !== undefined) {
       this.setState({
         tos: nextProps.selectedInteraction.emailReply.tos,
@@ -354,29 +366,42 @@ export class EmailContentArea extends React.Component {
 
     if (this.props.selectedInteraction.sendingReply === true) {
       buttons = (
-        <div style={this.styles.replyButtons}>
-          <Button
-            id="cancelEmail"
-            type="secondary"
-            style={{ marginRight: '5px' }}
-            text={messages.cancel}
-            onClick={() => this.props.emailCancelReply(this.props.selectedInteraction.interactionId)}
-          />
-          <Button
-            id="sendEmail"
+        this.props.selectedInteraction.status === 'wrapup' ?
+          (<Button
+            id="endWrapup"
             type="primaryRed"
-            text={messages.send}
-            onClick={() => this.sendEmail()}
-            disabled
-          />
-        </div>
+            text={messages.endWrapup}
+            onClick={this.props.endInteraction}
+            disabled={this.props.awaitingDisposition}
+            style={{ marginRight: '8px' }}
+          />)
+          : (<div style={this.styles.replyButtons}>
+            <Button
+              id="cancelEmail"
+              type="secondary"
+              style={{ marginRight: '5px' }}
+              text={messages.cancel}
+              onClick={() => this.props.emailCancelReply(this.props.selectedInteraction.interactionId)}
+            />
+            <Button
+              id="sendEmail"
+              type="primaryRed"
+              text={messages.send}
+              onClick={() => this.sendEmail()}
+              disabled
+            />
+          </div>)
       );
       details = <div></div>;
       content = (
-        <div>
+        <div key="wrapupSpinner">
           <IconSVG style={this.styles.loadingSendingEmail} id="sendingReplyIcon" name="loading" />
           <div style={this.styles.centerText}>
-            <FormattedMessage {...messages.sendingReply} />
+            <VelocityTransitionGroup runOnMount enter={{ animation: 'transition.slideUpIn', duration: '1000' }}>
+              {this.props.selectedInteraction.status === 'wrapup' ?
+                <FormattedMessage key="dispoSpinner" {...messages.awaitingDisposition} />
+                : <FormattedMessage key="replySpinner" {...messages.sendingReply} /> }
+            </VelocityTransitionGroup>
           </div>
         </div>
       );
@@ -393,13 +418,21 @@ export class EmailContentArea extends React.Component {
         );
       } else {
         buttons = (
-          <div>
+          this.props.selectedInteraction.status === 'wrapup' ?
+            (<Button
+              id="endWrapup"
+              type="primaryRed"
+              text={messages.endWrapup}
+              onClick={this.props.endInteraction}
+              disabled={this.props.awaitingDisposition}
+              style={{ marginRight: '8px' }}
+            />)
+          : (<div>
             <Button
               id="endEmail"
               type="primaryRed"
               text={messages.noReply}
               onClick={this.props.endInteraction}
-              disabled={this.props.awaitingDisposition}
               style={{ marginRight: '8px' }}
             />
             <Button
@@ -408,7 +441,7 @@ export class EmailContentArea extends React.Component {
               text={messages.reply}
               onClick={this.onEmailCreateReply}
             />
-          </div>
+          </div>)
         );
       }
       if (this.props.selectedInteraction.emailDetails === undefined) {
@@ -529,21 +562,30 @@ export class EmailContentArea extends React.Component {
       }
     } else {
       buttons = (
-        <div style={this.styles.replyButtons}>
-          <Button
-            id="cancelEmail"
-            type="secondary"
-            style={{ marginRight: '5px' }}
-            text={messages.cancel}
-            onClick={() => this.props.emailCancelReply(this.props.selectedInteraction.interactionId)}
-          />
-          <Button
-            id="sendEmail"
+        this.props.selectedInteraction.status === 'wrapup' ?
+          (<Button
+            id="endWrapup"
             type="primaryRed"
-            text={messages.send}
-            onClick={() => this.sendEmail()}
-          />
-        </div>
+            text={messages.endWrapup}
+            onClick={this.props.endInteraction}
+            disabled={this.props.awaitingDisposition}
+            style={{ marginRight: '8px' }}
+          />)
+          : (<div style={this.styles.replyButtons}>
+            <Button
+              id="cancelEmail"
+              type="secondary"
+              style={{ marginRight: '5px' }}
+              text={messages.cancel}
+              onClick={() => this.props.emailCancelReply(this.props.selectedInteraction.interactionId)}
+            />
+            <Button
+              id="sendEmail"
+              type="primaryRed"
+              text={messages.send}
+              onClick={() => this.sendEmail()}
+            />
+          </div>)
       );
 
       details = (

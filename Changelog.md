@@ -1,3 +1,7 @@
+<a name"0.28.9"></a>
+### 0.28.9 (2017-04-25)
+* CXV1-8609 - Email wrap up
+
 <a name"0.28.8"></a>
 ### 0.28.8 (2017-04-24)
 * CXV1-8681 - Agent shouldn't be able to Logout during wrapup
