@@ -1,3 +1,7 @@
+<a name"0.28.6"></a>
+### 0.28.6 (2017-04-21)
+* CXV1-8672 - Only change messaging icon after agent replies
+
 <a name"0.28.5"></a>
 ### 0.28.5 (2017-04-20)
 * CXV1-8671 - Fix CSS issues with long words in message previews
