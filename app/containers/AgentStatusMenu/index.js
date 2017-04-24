@@ -10,10 +10,8 @@ import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 import { setActiveExtension } from 'containers/AgentDesktop/actions';
 import checkIcon from 'assets/icons/CheckStatus.png';
-import 'velocity-animate';
-import 'velocity-animate/velocity.ui';
-import { VelocityTransitionGroup } from 'velocity-react';
 
+import PopupDialog from 'components/PopupDialog';
 import messages from './messages';
 import { selectHasActiveInteractions, selectExtensions, selectActiveExtension } from './selectors';
 
@@ -22,29 +20,8 @@ export class AgentStatusMenu extends React.Component {
   styles = {
     agentStatusMenu: {
       position: 'fixed',
-      width: '303px',
-      borderRadius: '8px',
-      backgroundColor: '#FFFFFF',
-      boxShadow: '0 0 6px 1px rgba(0,0,0,0.29)',
       left: '2px',
       bottom: '56px',
-      paddingTop: '16px',
-      margin: '10px',
-      color: '#4b4b4b',
-    },
-    agentStatusMenuTriangle: {
-      position: 'absolute',
-      width: '0px',
-      height: '0px',
-      left: '51px',
-      bottom: '-5px',
-      zIndex: '1',
-      borderWidth: '8px',
-      borderStyle: 'solid',
-      borderColor: '#FFF transparent transparent #FFF',
-      borderImage: 'initial',
-      transform: 'rotate(-134deg)',
-      borderRadius: '3px',
     },
     readyLink: {
       fontSize: '16px',
@@ -187,115 +164,106 @@ export class AgentStatusMenu extends React.Component {
 
   render() {
     return (
-      <div>
-        {
-          // Transparent mask to catch click outside of menu
-          this.props.show && <div style={this.styles.mask} id="screen-mask-status-menu" onClick={() => this.props.showAgentStatusMenu(false)} />
-        }
-        <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100' }} leave={{ animation: 'transition.slideUpOut', duration: '100' }}>
-          {
-              this.props.show && <div id="agentStatusMenu" style={this.styles.agentStatusMenu} >
-                <span style={[this.styles.agentStatusMenuTriangle]} />
-                { this.props.hasActiveInteractions
-                  ? <div id="agentLogoutLink" style={[this.styles.logoutLink, this.styles.logoutLinkInactive]}><FormattedMessage {...messages.logout} /></div>
-                  : <div id="agentLogoutLink" style={[this.styles.logoutLink]} onClick={() => { SDK.session.end(); }}><FormattedMessage {...messages.logout} /></div>
+      <div style={this.styles.agentStatusMenu}>
+        <PopupDialog id="agentStatusMenu" isVisible={this.props.show} hide={() => this.props.showAgentStatusMenu(false)} widthPx={303} arrowLeftOffsetPx={51}>
+          { this.props.hasActiveInteractions
+            ? <div id="agentLogoutLink" style={[this.styles.logoutLink, this.styles.logoutLinkInactive]}><FormattedMessage {...messages.logout} /></div>
+            : <div id="agentLogoutLink" style={[this.styles.logoutLink]} onClick={() => { SDK.session.end(); }}><FormattedMessage {...messages.logout} /></div>
+          }
+          <div id="agentMenuTenant" style={[this.styles.dropdown]}>
+            <div style={[this.styles.dropdownTitle]}><FormattedMessage {...messages.tenant} /></div>
+            <div style={[this.styles.dropdownSelectedText]}>{this.props.tenant.name}</div>
+          </div>
+          <div id="agentMenuMode" style={[this.styles.dropdown]}>
+            <div style={[this.styles.dropdownTitle]}><FormattedMessage {...messages.mode} /></div>
+            <div style={[this.styles.dropdownSelectedText]}>
+              { /* TODO when we have this:
+                 this.props.agentDirection */}
+              <FormattedMessage {...messages.inbound} />
+            </div>
+          </div>
+          <div style={this.styles.dropdownContainer}>
+            <div
+              id="agentMenuPathway"
+              style={[this.styles.dropdown, this.props.readyState !== 'ready' ? this.styles.activeDropdown : {}]}
+              onClick={() => {
+                if (this.props.readyState !== 'ready') {
+                  this.setState({ showAgentMenuPathwayDropdown: !this.state.showAgentMenuPathwayDropdown });
                 }
-                <div id="agentMenuTenant" style={[this.styles.dropdown]}>
-                  <div style={[this.styles.dropdownTitle]}><FormattedMessage {...messages.tenant} /></div>
-                  <div style={[this.styles.dropdownSelectedText]}>{this.props.tenant.name}</div>
-                </div>
-                <div id="agentMenuMode" style={[this.styles.dropdown]}>
-                  <div style={[this.styles.dropdownTitle]}><FormattedMessage {...messages.mode} /></div>
-                  <div style={[this.styles.dropdownSelectedText]}>
-                    { /* TODO when we have this:
-                       this.props.agentDirection */}
-                    <FormattedMessage {...messages.inbound} />
-                  </div>
-                </div>
-                <div style={this.styles.dropdownContainer}>
-                  <div
-                    id="agentMenuPathway"
-                    style={[this.styles.dropdown, this.props.readyState !== 'ready' ? this.styles.activeDropdown : {}]}
-                    onClick={() => {
-                      if (this.props.readyState !== 'ready') {
-                        this.setState({ showAgentMenuPathwayDropdown: !this.state.showAgentMenuPathwayDropdown });
-                      }
-                    }}
-                  >
-                    <div style={this.styles.dropdownSelectedItemContainer}>
-                      <div style={[this.styles.dropdownTitle]}><FormattedMessage {...messages.activeVoicePath} /></div>
-                      <div style={[this.styles.dropdownSelectedText]}>{this.props.activeExtension.description}</div>
-                    </div>
-                    {
-                      this.props.readyState !== 'ready'
-                      ? <div style={this.styles.dropdownIcon}>
-                        &#9658;
-                      </div>
-                      : undefined
-                    }
-                  </div>
-                  { this.state.showAgentMenuPathwayDropdown
-                    ? <div style={this.styles.dropdownList}>
-                      {
-                        this.props.extensions.map((extension) =>
-                          <div
-                            key={extension.value}
-                            id={extension.value}
-                            style={this.styles.dropdownListItem}
-                            onClick={() => {
-                              this.props.setActiveExtension(extension);
-                              this.setState({ showAgentMenuPathwayDropdown: false });
-                            }}
-                          >
-                            {extension.description}
-                          </div>
-                        )
-                      }
-                    </div>
-                    : undefined
-                  }
-                </div>
-                <div id="agentNotReadyState" style={[this.styles.notReadyReasons]}>
-                  {
-                    this.props.readyState === 'ready'
-                    ? <div
-                      id="notReadyStateLink"
-                      style={[this.styles.notReadyPresence, this.styles.inactivePresence]}
-                      onClick={() => { this.changePresence('notready'); this.props.showAgentStatusMenu(false); }}
-                    >
-                      <FormattedMessage {...messages.notReady} />
-                    </div>
-                    : <div
-                      id="notReadyStateLink"
-                      style={[this.styles.notReadyPresence, this.styles.notReadyReasonsActive]}
-                    >
-                      <FormattedMessage {...messages.notReady} />
-                      <img src={checkIcon} style={{ height: '17px', float: 'right' }} alt="checkIcon" />
-                    </div>
-                  }
-                </div>
-                <div id="agentReadyState" style={this.styles.agentReadyState}>
-                  {
-                    this.props.readyState === 'ready'
-                    ? <div
-                      id="readyStateLink"
-                      style={[this.styles.readyLink, this.styles.notReadyReasonsActive]}
-                    >
-                      <FormattedMessage {...messages.ready} />
-                      <img src={checkIcon} style={{ height: '17px', float: 'right' }} alt="checkIcon" />
-                    </div>
-                    : <div
-                      id="readyStateLink"
-                      style={[this.styles.readyLink, this.styles.inactivePresence]}
-                      onClick={() => { this.changePresence('ready'); this.props.showAgentStatusMenu(false); }}
-                    >
-                      <FormattedMessage {...messages.ready} />
-                    </div>
-                  }
-                </div>
+              }}
+            >
+              <div style={this.styles.dropdownSelectedItemContainer}>
+                <div style={[this.styles.dropdownTitle]}><FormattedMessage {...messages.activeVoicePath} /></div>
+                <div style={[this.styles.dropdownSelectedText]}>{this.props.activeExtension.description}</div>
               </div>
-        }
-        </VelocityTransitionGroup>
+              {
+                this.props.readyState !== 'ready'
+                ? <div style={this.styles.dropdownIcon}>
+                  &#9658;
+                </div>
+                : undefined
+              }
+            </div>
+            { this.state.showAgentMenuPathwayDropdown
+              ? <div style={this.styles.dropdownList}>
+                {
+                  this.props.extensions.map((extension) =>
+                    <div
+                      key={extension.value}
+                      id={extension.value}
+                      style={this.styles.dropdownListItem}
+                      onClick={() => {
+                        this.props.setActiveExtension(extension);
+                        this.setState({ showAgentMenuPathwayDropdown: false });
+                      }}
+                    >
+                      {extension.description}
+                    </div>
+                  )
+                }
+              </div>
+              : undefined
+            }
+          </div>
+          <div id="agentNotReadyState" style={[this.styles.notReadyReasons]}>
+            {
+              this.props.readyState === 'ready'
+              ? <div
+                id="notReadyStateLink"
+                style={[this.styles.notReadyPresence, this.styles.inactivePresence]}
+                onClick={() => { this.changePresence('notready'); this.props.showAgentStatusMenu(false); }}
+              >
+                <FormattedMessage {...messages.notReady} />
+              </div>
+              : <div
+                id="notReadyStateLink"
+                style={[this.styles.notReadyPresence, this.styles.notReadyReasonsActive]}
+              >
+                <FormattedMessage {...messages.notReady} />
+                <img src={checkIcon} style={{ height: '17px', float: 'right' }} alt="checkIcon" />
+              </div>
+            }
+          </div>
+          <div id="agentReadyState" style={this.styles.agentReadyState}>
+            {
+              this.props.readyState === 'ready'
+              ? <div
+                id="readyStateLink"
+                style={[this.styles.readyLink, this.styles.notReadyReasonsActive]}
+              >
+                <FormattedMessage {...messages.ready} />
+                <img src={checkIcon} style={{ height: '17px', float: 'right' }} alt="checkIcon" />
+              </div>
+              : <div
+                id="readyStateLink"
+                style={[this.styles.readyLink, this.styles.inactivePresence]}
+                onClick={() => { this.changePresence('ready'); this.props.showAgentStatusMenu(false); }}
+              >
+                <FormattedMessage {...messages.ready} />
+              </div>
+            }
+          </div>
+        </PopupDialog>
       </div>
     );
   }

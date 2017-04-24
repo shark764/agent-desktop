@@ -14,14 +14,6 @@ export default defineMessages({
     id: 'app.containers.Contact.cancel',
     defaultMessage: 'Cancel',
   },
-  warnNew: {
-    id: 'app.containers.Contact.warningNew',
-    defaultMessage: 'Abandon Record Creation?',
-  },
-  warnEdit: {
-    id: 'app.containers.Contact.warningEdit',
-    defaultMessage: 'Abandon Record Edit?',
-  },
   errorRequired: {
     id: 'app.containers.Contact.errorRequired',
     defaultMessage: 'Required',
@@ -53,5 +45,9 @@ export default defineMessages({
   editButton: {
     id: 'app.containers.Contact.editButton',
     defaultMessage: 'Edit',
+  },
+  abandonChanges: {
+    id: 'app.containers.Contact.abandonChanges',
+    defaultMessage: 'Abandon Changes?',
   },
 });

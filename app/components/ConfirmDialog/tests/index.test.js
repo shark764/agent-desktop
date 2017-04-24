@@ -1,13 +1,17 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import {{ properCase name }} from '../index';
+import ConfirmDialog from '../index';
 
-describe('<{{ properCase name }} />', () => {
+describe('<ConfirmDialog />', () => {
   it('should render correctly', () => {
     const rendered = shallow(
-      <{{ properCase name }}
+      <ConfirmDialog
         id="mockId"
+        isVisible
+        leftAction={() => {}}
+        rightAction={() => {}}
+        hide={() => {}}
       />
     );
     expect(rendered).toMatchSnapshot();

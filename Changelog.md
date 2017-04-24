@@ -1,3 +1,7 @@
+<a name"0.28.7"></a>
+### 0.28.7 (2017-04-21)
+* CXV1-8665 - Custom confirmation / warning dialog
+
 <a name"0.28.6"></a>
 ### 0.28.6 (2017-04-21)
 * CXV1-8672 - Only change messaging icon after agent replies

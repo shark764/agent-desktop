@@ -18,6 +18,7 @@ import A from 'components/A';
 import Checkbox from 'components/Checkbox';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
+import ConfirmDialog from 'components/ConfirmDialog';
 
 import messages from './messages';
 import {
@@ -38,6 +39,7 @@ export class Contact extends React.Component {
       showErrors: {},
       errors: {},
       disableSubmit: true,
+      showCancelDialog: false,
     };
 
     if (this.props.isEditing) {
@@ -58,6 +60,7 @@ export class Contact extends React.Component {
     this.formatValue = this.formatValue.bind(this);
     this.getError = this.getError.bind(this);
     this.attemptCall = this.attemptCall.bind(this);
+    this.cancelCancelDialog = this.cancelCancelDialog.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -293,16 +296,19 @@ export class Contact extends React.Component {
   }
 
   handleCancel(event) {
-    const isNewRecord = !this.state.editingContactId;
     event.preventDefault();
-    if (window.confirm(isNewRecord ? this.props.intl.formatMessage(messages.warnNew) : this.props.intl.formatMessage(messages.warnEdit))) {
-      this.props.cancel();
-    }
+    this.setState({ showCancelDialog: true });
   }
 
   attemptCall(number) {
     this.props.startOutboundInteraction('voice');
     SDK.interactions.voice.dial({ phoneNumber: number });
+  }
+
+  cancelCancelDialog() {
+    this.setState({
+      showCancelDialog: false,
+    });
   }
 
   getAttributeValueDisplay(attribute) {
@@ -489,7 +495,15 @@ export class Contact extends React.Component {
         }
         {
           this.props.isEditing
-            ? <div style={{ marginBottom: '28px' }}>
+            ? <div style={{ marginBottom: '28px', position: 'relative' }}>
+              <ConfirmDialog
+                questionMessage={messages.abandonChanges}
+                leftAction={this.cancelCancelDialog}
+                rightAction={this.props.cancel}
+                isVisible={this.state.showCancelDialog}
+                hide={this.cancelCancelDialog}
+                style={{ position: 'absolute', left: '112px', bottom: '40px' }}
+              />
               <Button
                 id="contactSaveBtn"
                 style={this.styles.button}

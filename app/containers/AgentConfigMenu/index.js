@@ -9,10 +9,8 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 import pickBy from 'lodash/pickBy';
-import 'velocity-animate';
-import 'velocity-animate/velocity.ui';
-import { VelocityTransitionGroup } from 'velocity-react';
 
+import PopupDialog from 'components/PopupDialog';
 import Select from 'components/Select';
 import Button from 'components/Button';
 import { selectEnabledStats, selectAvailableStats } from 'containers/AgentStats/selectors';
@@ -41,36 +39,16 @@ export class AgentConfigMenu extends React.Component {
   }
 
   styles = {
-    statMenuTriangle: {
-      position: 'absolute',
-      width: '0px',
-      height: '0px',
-      right: '17px',
-      bottom: '-6px',
-      borderWidth: '8px',
-      borderStyle: 'solid',
-      borderColor: '#FFF transparent transparent #FFF',
-      borderImage: 'initial',
-      transform: 'rotate(-134deg)',
-      borderRadius: '3px',
-      boxShadow: '-6px -6px 6px -4px rgba(0,0,0,0.29)',
-      zIndex: '2',
-    },
     statMenu: {
       position: 'fixed',
       width: '230px',
-      borderRadius: '8px',
-      backgroundColor: '#FFFFFF',
-      boxShadow: '0 0 6px 1px rgba(0,0,0,0.29)',
       right: '2px',
       zIndex: '2',
       bottom: '56px',
       margin: '10px',
       color: '#4b4b4b',
-      paddingTop: '10px',
-      paddingBottom: '10px',
-      paddingRight: '13px',
-      paddingLeft: '13px',
+      padding: '10px 13px',
+
     },
     menuGroup: {
       paddingBottom: '11px',
@@ -157,7 +135,7 @@ export class AgentConfigMenu extends React.Component {
   }
 
   getAggregates() {
-    return Object.keys(this.props.availableStats[this.state.statOption].responseKeys).map((key) => {
+    return this.props.availableStats[this.state.statOption] && Object.keys(this.props.availableStats[this.state.statOption].responseKeys).map((key) => {
       let label;
       if (key === 'avg') {
         label = 'average';
@@ -170,78 +148,67 @@ export class AgentConfigMenu extends React.Component {
 
   render() {
     return (
-      <div>
-        {
-          // Transparent mask to catch click outside of menu
-          this.props.show && <div style={this.styles.mask} id="screen-mask-status-menu" onClick={() => this.props.hideMenu()} />
-        }
-        <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100' }} leave={{ animation: 'transition.slideUpOut', duration: '100' }}>
-          {
-            this.props.show && <div id="statMenu" style={this.styles.statMenu}>
-              <span style={this.styles.statMenuTriangle} />
-              <div style={this.styles.menuGroup}>
-                <div style={this.styles.menuHeader}><FormattedMessage {...messages.source} /></div>
-                <div style={this.styles.statOption}>
-                  <Select
-                    id="statSource"
-                    value={this.state.statSource}
-                    style={this.styles.select}
-                    options={this.sourceOptions}
-                    onChange={(e) => this.setStatSource(e.value || '-1')}
-                    clearable={false}
-                  />
-                </div>
-              </div>
-              {this.state.statSource === 'queue-id' ?
-                <div style={this.styles.menuGroup}>
-                  <div style={this.styles.menuHeader}><FormattedMessage {...messages.queue} /></div>
-                  <div style={this.styles.statOption}>
-                    <Select
-                      id="queueSelect"
-                      value={this.state.queue}
-                      style={this.styles.select}
-                      options={this.getQueues()}
-                      onChange={(e) => this.setQueue(e.value || '-1')}
-                      clearable={false}
-                    />
-                  </div>
-                </div>
-              : ''}
-              <div style={this.styles.menuGroup}>
-                <div style={this.styles.menuHeader}><FormattedMessage {...messages.statistic} /></div>
-                <div style={this.styles.statOption}>
-                  <Select
-                    id="statOption"
-                    value={this.state.statOption}
-                    style={this.styles.select}
-                    options={this.getStats()}
-                    onChange={(e) => this.setStatOption(e.value || '-1')}
-                    clearable={false}
-                  />
-                </div>
-              </div>
-              <div style={this.styles.menuGroup}>
-                <div style={this.styles.menuHeader}><FormattedMessage {...messages.aggregate} /></div>
-                <div style={this.styles.statOption}>
-                  <Select
-                    id="statAggregate"
-                    value={this.state.statAggregate}
-                    style={this.styles.select}
-                    options={this.getAggregates()}
-                    onChange={(e) => this.setStatAggregate(e.value || '-1', e.label || '')}
-                    clearable={false}
-                  />
-                </div>
-              </div>
-              <div style={this.styles.buttonContainer}>
-                {this.props.enabledStats.length === MAXIMUM_STATS
-                  ? <span><FormattedMessage {...messages.maxStats} /></span>
-                  : <Button text={messages.add} id="toggleStat" style={this.styles.addButton} type="secondary" onClick={this.toggleStat} />}
-              </div>
+      <PopupDialog id="statMenu" style={this.styles.statMenu} widthPx={230} arrowLeftOffsetPx={198} isVisible={this.props.show} hide={this.props.hideMenu}>
+        <div style={this.styles.menuGroup}>
+          <div style={this.styles.menuHeader}><FormattedMessage {...messages.source} /></div>
+          <div style={this.styles.statOption}>
+            <Select
+              id="statSource"
+              value={this.state.statSource}
+              style={this.styles.select}
+              options={this.sourceOptions}
+              onChange={(e) => this.setStatSource(e.value || '-1')}
+              clearable={false}
+            />
+          </div>
+        </div>
+        {this.state.statSource === 'queue-id' ?
+          <div style={this.styles.menuGroup}>
+            <div style={this.styles.menuHeader}><FormattedMessage {...messages.queue} /></div>
+            <div style={this.styles.statOption}>
+              <Select
+                id="queueSelect"
+                value={this.state.queue}
+                style={this.styles.select}
+                options={this.getQueues()}
+                onChange={(e) => this.setQueue(e.value || '-1')}
+                clearable={false}
+              />
             </div>
-          }
-        </VelocityTransitionGroup>
-      </div>
+          </div>
+        : ''}
+        <div style={this.styles.menuGroup}>
+          <div style={this.styles.menuHeader}><FormattedMessage {...messages.statistic} /></div>
+          <div style={this.styles.statOption}>
+            <Select
+              id="statOption"
+              value={this.state.statOption}
+              style={this.styles.select}
+              options={this.getStats()}
+              onChange={(e) => this.setStatOption(e.value || '-1')}
+              clearable={false}
+            />
+          </div>
+        </div>
+        <div style={this.styles.menuGroup}>
+          <div style={this.styles.menuHeader}><FormattedMessage {...messages.aggregate} /></div>
+          <div style={this.styles.statOption}>
+            <Select
+              id="statAggregate"
+              value={this.state.statAggregate}
+              style={this.styles.select}
+              options={this.getAggregates()}
+              onChange={(e) => this.setStatAggregate(e.value || '-1', e.label || '')}
+              clearable={false}
+            />
+          </div>
+        </div>
+        <div style={this.styles.buttonContainer}>
+          {this.props.enabledStats.length === MAXIMUM_STATS
+            ? <span><FormattedMessage {...messages.maxStats} /></span>
+            : <Button text={messages.add} id="toggleStat" style={this.styles.addButton} type="secondary" onClick={this.toggleStat} />}
+        </div>
+      </PopupDialog>
     );
   }
 }
