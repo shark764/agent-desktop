@@ -3,6 +3,7 @@ import {
   selectHasActiveInteractions,
   selectExtensions,
   selectActiveExtension,
+  selectHasActiveWrapup,
 } from '../selectors';
 
 describe('selectHasActiveInteractions', () => {
@@ -47,28 +48,58 @@ describe('selectHasActiveInteractions', () => {
       expect(selectHasActiveInteractions(mockState)).toEqual(false);
     });
   });
+});
 
-  describe('selectExtensions', () => {
+describe('selectExtensions', () => {
+  const mockState = fromJS({
+    agentDesktop: {
+      extensions: ['mockExtension'],
+    },
+  });
+
+  it('should return extensions from the agentDesktop domain', () => {
+    expect(selectExtensions(mockState)).toMatchSnapshot();
+  });
+});
+
+describe('selectActiveExtension', () => {
+  const mockState = fromJS({
+    agentDesktop: {
+      activeExtension: { mockExtension: 'mockExtension' },
+    },
+  });
+
+  it('should return activeExtension from the agentDesktop domain', () => {
+    expect(selectActiveExtension(mockState)).toMatchSnapshot();
+  });
+});
+
+describe('selectHasActiveWrapup', () => {
+  describe('if an interaction is present with status wrapup', () => {
     const mockState = fromJS({
       agentDesktop: {
-        extensions: ['mockExtension'],
+        interactions: [{
+          status: 'wrapup',
+        }],
       },
     });
 
-    it('Should return extensions from the agentDesktop domain', () => {
-      expect(selectExtensions(mockState)).toMatchSnapshot();
+    it('should return true', () => {
+      expect(selectHasActiveWrapup(mockState)).toEqual(true);
     });
   });
 
-  describe('selectActiveExtention', () => {
+  describe('if no interaction is present with status wrapup', () => {
     const mockState = fromJS({
       agentDesktop: {
-        activeExtension: { mockExtension: 'mockExtension' },
+        interactions: [{
+          status: 'nonWrapupStatus',
+        }],
       },
     });
 
-    it('Should return activeExtension from the agentDesktop domain', () => {
-      expect(selectActiveExtension(mockState)).toMatchSnapshot();
+    it('should return false', () => {
+      expect(selectHasActiveWrapup(mockState)).toEqual(false);
     });
   });
 });

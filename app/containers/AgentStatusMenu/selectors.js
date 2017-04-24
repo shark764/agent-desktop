@@ -22,8 +22,17 @@ const selectActiveExtension = createSelector(
     agentDesktop.get('activeExtension').toJS()
 );
 
+const selectHasActiveWrapup = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) =>
+    agentDesktop.get('interactions').find((interaction) =>
+      interaction.get('status') === 'wrapup'
+    ) !== undefined
+);
+
 export {
   selectHasActiveInteractions,
   selectExtensions,
   selectActiveExtension,
+  selectHasActiveWrapup,
 };

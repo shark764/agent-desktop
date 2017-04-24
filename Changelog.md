@@ -1,3 +1,7 @@
+<a name"0.28.8"></a>
+### 0.28.8 (2017-04-24)
+* CXV1-8681 - Agent shouldn't be able to Logout during wrapup
+
 <a name"0.28.7"></a>
 ### 0.28.7 (2017-04-21)
 * CXV1-8665 - Custom confirmation / warning dialog

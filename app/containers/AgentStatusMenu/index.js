@@ -13,7 +13,7 @@ import checkIcon from 'assets/icons/CheckStatus.png';
 
 import PopupDialog from 'components/PopupDialog';
 import messages from './messages';
-import { selectHasActiveInteractions, selectExtensions, selectActiveExtension } from './selectors';
+import { selectHasActiveInteractions, selectExtensions, selectActiveExtension, selectHasActiveWrapup } from './selectors';
 
 export class AgentStatusMenu extends React.Component {
 
@@ -166,7 +166,7 @@ export class AgentStatusMenu extends React.Component {
     return (
       <div style={this.styles.agentStatusMenu}>
         <PopupDialog id="agentStatusMenu" isVisible={this.props.show} hide={() => this.props.showAgentStatusMenu(false)} widthPx={303} arrowLeftOffsetPx={51}>
-          { this.props.hasActiveInteractions
+          { this.props.hasActiveInteractions || this.props.hasActiveWrapup
             ? <div id="agentLogoutLink" style={[this.styles.logoutLink, this.styles.logoutLinkInactive]}><FormattedMessage {...messages.logout} /></div>
             : <div id="agentLogoutLink" style={[this.styles.logoutLink]} onClick={() => { SDK.session.end(); }}><FormattedMessage {...messages.logout} /></div>
           }
@@ -273,6 +273,7 @@ AgentStatusMenu.propTypes = {
   hasActiveInteractions: PropTypes.bool.isRequired,
   extensions: PropTypes.array.isRequired,
   activeExtension: PropTypes.object.isRequired,
+  hasActiveWrapup: PropTypes.bool.isRequired,
   showAgentStatusMenu: PropTypes.func,
   tenant: PropTypes.object,
   // agentDirection: PropTypes.string,
@@ -285,6 +286,7 @@ const mapStateToProps = (state, props) => ({
   hasActiveInteractions: selectHasActiveInteractions(state, props),
   extensions: selectExtensions(state, props),
   activeExtension: selectActiveExtension(state, props),
+  hasActiveWrapup: selectHasActiveWrapup(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
