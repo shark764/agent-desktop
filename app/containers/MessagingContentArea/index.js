@@ -26,6 +26,8 @@ export class MessagingContentArea extends React.Component {
     super(props);
     this.state = {
       showMessageTemplateMenu: false,
+      showMessageTemplateMenuByForwardSlash: false,
+      messageTemplateFilter: undefined,
       selectedMessageTemplateIndex: 0,
       messageText: '',
     };
@@ -33,7 +35,7 @@ export class MessagingContentArea extends React.Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.addMessageTemplate = this.addMessageTemplate.bind(this);
     this.setMessageText = this.setMessageText.bind(this);
-    this.sendMessageOnEnter = this.sendMessageOnEnter.bind(this);
+    this.onMessageKeyDown = this.onMessageKeyDown.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
   }
 
@@ -52,21 +54,59 @@ export class MessagingContentArea extends React.Component {
   toggleMessageTemplateMenu() {
     if (!this.state.showMessageTemplateMenu) {
       document.addEventListener('keydown', this.handleKeyDown);
+      this.setState({
+        showMessageTemplateMenu: true,
+        selectedMessageTemplateIndex: 0,
+      });
     } else {
       document.removeEventListener('keydown', this.handleKeyDown);
+      this.setState({
+        showMessageTemplateMenu: false,
+        showMessageTemplateMenuByForwardSlash: false,
+        messageTemplateFilter: undefined,
+      });
     }
-    this.setState({ showMessageTemplateMenu: !this.state.showMessageTemplateMenu });
   }
 
   handleKeyDown(e) {
     if (e.key === 'ArrowUp') {
-      this.setState({ selectedMessageTemplateIndex: this.state.selectedMessageTemplateIndex > 0 ? this.state.selectedMessageTemplateIndex - 1 : 0 });
+      let newSelectedMessageTemplateIndex = this.state.selectedMessageTemplateIndex;
+      if (!this.state.showMessageTemplateMenuByForwardSlash) {
+        newSelectedMessageTemplateIndex = this.state.selectedMessageTemplateIndex > 0 ? this.state.selectedMessageTemplateIndex - 1 : 0;
+      } else {
+        // If we're filtering based on "/" text, select the previous unfiltered one
+        for (let i = this.state.selectedMessageTemplateIndex - 1; i >= 0; i -= 1) {
+          if (this.props.messageTemplates[i].name.toUpperCase().includes(this.state.messageTemplateFilter.toUpperCase())) {
+            newSelectedMessageTemplateIndex = i;
+            break;
+          }
+        }
+      }
+      this[`messageTemplate-${newSelectedMessageTemplateIndex}`].scrollIntoView();
+      this.setState({ selectedMessageTemplateIndex: newSelectedMessageTemplateIndex });
     } else if (e.key === 'ArrowDown') {
-      this.setState({ selectedMessageTemplateIndex: this.state.selectedMessageTemplateIndex < this.props.messageTemplates.length - 1 ? this.state.selectedMessageTemplateIndex + 1 : this.state.selectedMessageTemplateIndex });
+      let newSelectedMessageTemplateIndex = this.state.selectedMessageTemplateIndex;
+      if (!this.state.showMessageTemplateMenuByForwardSlash) {
+        newSelectedMessageTemplateIndex = this.state.selectedMessageTemplateIndex < this.props.messageTemplates.length - 1 ? this.state.selectedMessageTemplateIndex + 1 : this.state.selectedMessageTemplateIndex;
+      } else {
+        // If we're filtering based on "/" text, select the next unfiltered one
+        for (let i = this.state.selectedMessageTemplateIndex + 1; i < this.props.messageTemplates.length; i += 1) {
+          if (this.props.messageTemplates[i].name.toUpperCase().includes(this.state.messageTemplateFilter.toUpperCase())) {
+            newSelectedMessageTemplateIndex = i;
+            break;
+          }
+        }
+      }
+      this[`messageTemplate-${newSelectedMessageTemplateIndex}`].scrollIntoView();
+      this.setState({ selectedMessageTemplateIndex: newSelectedMessageTemplateIndex });
     } else if (e.key === 'Enter') {
       this.addMessageTemplate();
     } else if (e.key === 'Escape') {
-      this.setState({ showMessageTemplateMenu: false });
+      this.setState({
+        showMessageTemplateMenu: false,
+        showMessageTemplateMenuByForwardSlash: false,
+        messageTemplateFilter: undefined,
+      });
       document.removeEventListener('keydown', this.handleKeyDown);
     }
   }
@@ -77,17 +117,40 @@ export class MessagingContentArea extends React.Component {
 
   addMessageTemplate() {
     this.messageTextarea.focus();
+    let newMessageText = this.state.messageText;
+    if (this.state.showMessageTemplateMenuByForwardSlash) {
+      newMessageText = newMessageText.substring(0, newMessageText.lastIndexOf('/'));
+    }
     this.setState({
-      messageText: `${this.state.messageText}${this.props.messageTemplates[this.state.selectedMessageTemplateIndex].template}`,
+      messageText: `${newMessageText}${this.props.messageTemplates[this.state.selectedMessageTemplateIndex].template}`,
       showMessageTemplateMenu: false,
+      showMessageTemplateMenuByForwardSlash: false,
+      messageTemplateFilter: undefined,
     });
+    document.removeEventListener('keydown', this.handleKeyDown);
   }
 
   setMessageText(messageText) {
-    this.setState({ messageText });
+    // If we're filtering based on "/" text, reset the selected message template to the first unfiltered one
+    let newSelectedMessageTemplateIndex;
+    let newMessageTemplateFilter;
+    if (this.state.showMessageTemplateMenuByForwardSlash) {
+      newMessageTemplateFilter = messageText.substring(messageText.lastIndexOf('/') + 1);
+      for (let i = 0; i < this.props.messageTemplates.length; i += 1) {
+        if (this.props.messageTemplates[i].name.toUpperCase().includes(newMessageTemplateFilter.toUpperCase())) {
+          newSelectedMessageTemplateIndex = i;
+          break;
+        }
+      }
+    }
+    this.setState({
+      messageText,
+      messageTemplateFilter: newMessageTemplateFilter,
+      selectedMessageTemplateIndex: newSelectedMessageTemplateIndex !== undefined ? newSelectedMessageTemplateIndex : this.state.selectedMessageTemplateIndex,
+    });
   }
 
-  sendMessageOnEnter(e) {
+  onMessageKeyDown(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       if (!this.state.showMessageTemplateMenu) {
@@ -97,6 +160,12 @@ export class MessagingContentArea extends React.Component {
     } else if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && this.state.showMessageTemplateMenu) {
       e.preventDefault();
       return false;
+    } else if (e.key === '/' && !this.state.showMessageTemplateMenu && !this.state.showMessageTemplateMenuByForwardSlash) {
+      this.setState({
+        showMessageTemplateMenuByForwardSlash: true,
+      });
+      this.toggleMessageTemplateMenu();
+      return true;
     } else {
       return true;
     }
@@ -175,10 +244,10 @@ export class MessagingContentArea extends React.Component {
     },
     messageTemplatesContainer: {
       position: 'absolute',
-      bottom: '52px',
+      bottom: '86px',
       left: '56px',
       width: 'calc(100% - 122px)',
-      maxHeight: 'calc(100% - 68px)',
+      maxHeight: 'calc(100% - 102px)',
       display: 'flex',
       flexDirection: 'column',
       backgroundColor: '#FFFFFF',
@@ -214,10 +283,10 @@ export class MessagingContentArea extends React.Component {
       backgroundColor: '#DEF8FE',
     },
     messageTextareaContainer: {
-      flex: '0 1 36px',
+      flex: '0 1 70px',
     },
     templateMenuButton: {
-      height: '36px',
+      height: '70px',
       width: '40px',
       verticalAlign: 'top',
       fontSize: '24px',
@@ -231,11 +300,11 @@ export class MessagingContentArea extends React.Component {
       borderTop: '1px solid #23CEF5',
       borderBottom: '1px solid #23CEF5',
       borderLeft: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '' : '1px solid #23CEF5',
-      height: '36px',
+      height: '70px',
       width: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? 'calc(100% - 90px)' : 'calc(100% - 50px)',
     },
     messageButton: {
-      height: '36px',
+      height: '70px',
       width: '50px',
       verticalAlign: 'top',
       fontSize: '11px',
@@ -354,18 +423,24 @@ export class MessagingContentArea extends React.Component {
               </div>
               <div style={this.styles.messageTemplates}>
                 {
-                  this.props.messageTemplates.map((messageTemplate, messageTemplateIndex) =>
-                    <div
-                      className="messageTemplate" key={messageTemplate.id}
-                      onClick={() => this.addMessageTemplate()}
-                      onFocus={() => this.selectMessageTemplateIndex(messageTemplateIndex)}
-                      onMouseOver={() => this.selectMessageTemplateIndex(messageTemplateIndex)}
-                      style={[this.styles.messageTemplate, this.state.selectedMessageTemplateIndex === messageTemplateIndex ? this.styles.selectedMessageTemplate : {}]}
-                    >
-                      <span style={this.styles.bold}>{ messageTemplate.name }</span>&nbsp;
-                      <span>{ messageTemplate.template }</span>
-                    </div>
-                  )
+                  this.props.messageTemplates.map((messageTemplate, messageTemplateIndex) => {
+                    if (!this.state.showMessageTemplateMenuByForwardSlash || !this.state.messageTemplateFilter || messageTemplate.name.toUpperCase().includes(this.state.messageTemplateFilter.toUpperCase())) {
+                      return (
+                        <div
+                          className="messageTemplate" key={messageTemplate.id} ref={(c) => { this[`messageTemplate-${messageTemplateIndex}`] = c; }}
+                          onClick={() => this.addMessageTemplate()}
+                          onFocus={() => this.selectMessageTemplateIndex(messageTemplateIndex)}
+                          onMouseOver={() => this.selectMessageTemplateIndex(messageTemplateIndex)}
+                          style={[this.styles.messageTemplate, this.state.selectedMessageTemplateIndex === messageTemplateIndex ? this.styles.selectedMessageTemplate : {}]}
+                        >
+                          <span style={this.styles.bold}>{ messageTemplate.name }</span>&nbsp;
+                          <span>{ messageTemplate.template }</span>
+                        </div>
+                      );
+                    } else {
+                      return undefined;
+                    }
+                  })
                 }
               </div>
             </div>
@@ -386,7 +461,7 @@ export class MessagingContentArea extends React.Component {
               style={this.styles.messageTextarea}
               value={this.state.messageText}
               onChange={(e) => this.setMessageText(e.target.value)}
-              onKeyDown={this.sendMessageOnEnter}
+              onKeyDown={this.onMessageKeyDown}
             />
             <Button id="sendMessageButton" disabled={this.props.selectedInteraction.status === 'wrapup'} onClick={this.sendMessage} type="secondary" style={this.styles.messageButton}>
               <FormattedMessage {...messages.send} />

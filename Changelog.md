@@ -1,3 +1,7 @@
+<a name"0.29.0"></a>
+### 0.29.0 (2017-04-25)
+* CXV1-8547 - Message template hotkeys/shortcuts ("/" to select and filter templates while typing, arrow up and down improvements)
+
 <a name"0.28.9"></a>
 ### 0.28.9 (2017-04-25)
 * CXV1-8609 - Email wrap up
@@ -38,7 +42,7 @@
 
 <a name"0.28.0"></a>
 ### 0.28.0 (2017-04-10)
-* Messaging template base functionality
+* CXV1-8547 - Messaging template base functionality
 
 <a name"0.27.9"></a>
 ### 0.27.9 (2017-04-10)

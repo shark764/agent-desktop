@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.28.9",
+  "version": "0.29.0",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -281,6 +281,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.24.0",
     "babel-eslint": "^7.2.1",
     "babel-loader": "^6.4.1",
