@@ -1,3 +1,7 @@
+<a name"0.29.2"></a>
+### 0.29.2 (2017-04-26)
+* CXV1-8671 - Give message preview in tooltip
+
 <a name"0.29.1"></a>
 ### 0.29.1 (2017-04-26)
 * Fix page favicon and title with mitel branding
