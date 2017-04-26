@@ -230,6 +230,7 @@ export class Interaction extends React.Component {
             : <div
               className="previewText"
               style={this.styles.previewText}
+              title={this.props.previewText}
               dangerouslySetInnerHTML={{ __html: this.props.previewText }}
             ></div>}
           {this.props.status === 'pending'
