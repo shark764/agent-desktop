@@ -44,7 +44,6 @@ exports[`<Interaction /> should render correctly 1`] = `
         "flexDirection": "column",
         "flexGrow": 1,
         "marginLeft": "8px",
-        "maxWidth": "210px",
       }
     }
   >
@@ -88,23 +87,27 @@ exports[`<Interaction /> should render correctly 1`] = `
         NaN
       </div>
     </div>
-    <div
+    <Dotdotdot
+      clamp={2}
       className="previewText"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": undefined,
-        }
-      }
-      data-radium={true}
       style={
         Object {
           "height": "36px",
           "lineHeight": "18px",
           "marginTop": "5px",
-          "overflow": "hidden",
         }
       }
-    />
+      truncationChar="…"
+    >
+      <p
+        data-radium={true}
+        style={
+          Object {
+            "margin": 0,
+          }
+        }
+      />
+    </Dotdotdot>
     <div
       data-radium={true}
       style={

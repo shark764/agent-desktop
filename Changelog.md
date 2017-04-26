@@ -1,3 +1,7 @@
+<a name"0.29.4"></a>
+### 0.29.4 (2017-04-26)
+* CXV1-8671 - Truncate message preview with ellipsis
+
 <a name"0.29.3"></a>
 ### 0.29.3 (2017-04-26)
 * CXV1-8609 - Hide disposition spinner once dispo is selected. If wrap up timer is expired, end wrap up on dispo select.

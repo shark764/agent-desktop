@@ -10,6 +10,8 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import Radium from 'radium';
 
+import Dotdotdot from 'react-dotdotdot';
+
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 import TimerMinutes from 'components/TimerMinutes';
@@ -100,7 +102,6 @@ export class Interaction extends React.Component {
       flexGrow: 1,
       display: 'flex',
       flexDirection: 'column',
-      maxWidth: this.props.status === 'pending' ? '210px' : '230px',
     },
     headerContainer: {
       display: 'flex',
@@ -122,7 +123,6 @@ export class Interaction extends React.Component {
       height: '36px',
       lineHeight: '18px',
       marginTop: '5px',
-      overflow: 'hidden',
     },
     intentText: {
       color: '#979797',
@@ -227,12 +227,14 @@ export class Interaction extends React.Component {
                 />
               </div>
             </div>
-            : <div
+            : <Dotdotdot
+              clamp={2}
               className="previewText"
               style={this.styles.previewText}
               title={this.props.previewText}
-              dangerouslySetInnerHTML={{ __html: this.props.previewText }}
-            ></div>}
+            >
+              <p style={{ margin: 0 }} title={this.props.previewText}>{this.props.previewText}</p>
+            </Dotdotdot>}
           {this.props.status === 'pending'
             ? <div style={this.styles.intentText}>
               <FormattedMessage {...messages.accept} />
