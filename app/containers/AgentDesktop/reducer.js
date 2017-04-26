@@ -1,3 +1,4 @@
+/* eslint no-case-declarations: 0 */
 /*
  *
  * AgentDesktop reducer
@@ -92,7 +93,33 @@ const initialState = fromJS({
   extensions: [],
   activeExtension: {},
   refreshRequired: false,
+  presenceReasonList: [],
 });
+
+const categorizeItems = (rawItems, name) => {
+  const categorizedItems = [];
+  rawItems.sort((a, b) => a.sortOrder > b.sortOrder).forEach(
+    (item) => {
+      if (item.hierarchy[0]) {
+        const existingCategoryIndex = categorizedItems.findIndex(
+          (category) => category.name === item.hierarchy[0]
+        );
+        if (existingCategoryIndex > -1) {
+          categorizedItems[existingCategoryIndex][name].push(item);
+        } else {
+          categorizedItems.push({
+            name: item.hierarchy[0],
+            [name]: [item],
+            type: 'category',
+          });
+        }
+      } else {
+        categorizedItems.push(item);
+      }
+    }
+  );
+  return categorizedItems;
+};
 
 const addContactInteractionNote = (interaction, action) =>
   interaction.updateIn(['contact', 'interactionHistory'], (interactionHistory) => {
@@ -169,13 +196,21 @@ const updateContactInteractionHistoryResults = (contact, action) => {
   }
 };
 
-
 function agentDesktopReducer(state = initialState, action) {
+  let newState;
   switch (action.type) {
     case SHOW_REFRESH_NOTIF:
       return state.set('refreshRequired', action.show);
     case SET_USER_CONFIG:
-      return state.set('userConfig', fromJS(action.response));
+      const presenceReasonList = action.response.reasonLists.sort((a, b) => a.updated < b.updated)[0];
+      newState = state.set('userConfig', fromJS(action.response));
+      if (presenceReasonList) {
+        newState = newState.set('presenceReasonList', fromJS({
+          id: presenceReasonList.id,
+          reasons: categorizeItems(presenceReasonList.reasons, 'reasons'),
+        }));
+      }
+      return newState;
     case SET_EXTENSIONS:
       return state
         // Set active extension to the first available one if it isn't set
@@ -194,7 +229,7 @@ function agentDesktopReducer(state = initialState, action) {
       );
       if (interactionIndex !== -1) {
         const automaticallyAcceptInteraction = action.newStatus === 'work-accepting' && state.get('selectedInteractionId') === undefined;
-        const newState = state
+        newState = state
           .updateIn(['interactions', interactionIndex], (interaction) => {
             let updatedInteraction = interaction.set('status', action.newStatus);
             // If we're accepting an existing voice conference, make any updates that have happened to the participants since the work offer
@@ -1052,29 +1087,7 @@ function agentDesktopReducer(state = initialState, action) {
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
       if (interactionIndex !== -1) {
-        const categorizedDispositions = [];
-        if (action.dispositions) {
-          action.dispositions.sort((a, b) => a.sortOrder > b.sortOrder).forEach(
-            (disposition) => {
-              if (disposition.hierarchy[0]) {
-                const existingCategoryIndex = categorizedDispositions.findIndex(
-                  (category) => category.name === disposition.hierarchy[0]
-                );
-                if (existingCategoryIndex > -1) {
-                  categorizedDispositions[existingCategoryIndex].dispositions.push(disposition);
-                } else {
-                  categorizedDispositions.push({
-                    name: disposition.hierarchy[0],
-                    dispositions: [disposition],
-                    type: 'category',
-                  });
-                }
-              } else {
-                categorizedDispositions.push(disposition);
-              }
-            }
-          );
-        }
+        const categorizedDispositions = categorizeItems(action.dispositions, 'dispositions');
         return state.setIn(['interactions', interactionIndex, 'dispositionDetails'], fromJS({
           forceSelect: action.forceSelect,
           dispositions: categorizedDispositions,

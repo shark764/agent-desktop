@@ -10,6 +10,7 @@ Object {
     "query": Object {},
     "sidePanelTabIndex": 0,
   },
+  "presenceReasonList": Array [],
   "queues": Array [],
   "refreshRequired": false,
 }
