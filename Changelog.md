@@ -1,3 +1,7 @@
+<a name"0.29.3"></a>
+### 0.29.3 (2017-04-26)
+* CXV1-8609 - Hide disposition spinner once dispo is selected. If wrap up timer is expired, end wrap up on dispo select.
+
 <a name"0.29.2"></a>
 ### 0.29.2 (2017-04-26)
 * CXV1-8671 - Give message preview in tooltip
