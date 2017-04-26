@@ -1,3 +1,7 @@
+<a name"0.29.1"></a>
+### 0.29.1 (2017-04-26)
+* Fix page favicon and title with mitel branding
+
 <a name"0.29.0"></a>
 ### 0.29.0 (2017-04-25)
 * CXV1-8547 - Message template hotkeys/shortcuts ("/" to select and filter templates while typing, arrow up and down improvements)

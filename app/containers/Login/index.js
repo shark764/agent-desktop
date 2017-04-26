@@ -19,6 +19,7 @@ import Button from 'components/Button';
 import A from 'components/A';
 import Select from 'components/Select';
 import IconSVG from 'components/IconSVG';
+import mitelFavicon from 'assets/favicons/mitel.png';
 // import Radio from 'components/Radio';
 
 import selectLogin, { selectRefresh } from './selectors';
@@ -68,11 +69,19 @@ export class Login extends React.Component {
   getLoginTitle() {
     const parts = location.hostname.split('.');
     if (parts[0].indexOf('mitel') !== -1) {
-      return <Title id={messages.welcome.id} text={messages.welcomeNoProd} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
-;
+      document.title = 'Mitel'; // Change title to match
+
+      // Set favicon
+      const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+      link.type = 'image/x-icon';
+      link.rel = 'shortcut icon';
+      link.href = mitelFavicon;
+      document.getElementsByTagName('head')[0].appendChild(link);
+      // ------
+
+      return <Title id={messages.welcome.id} text={messages.welcomeNoProd} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />;
     } else {
-      return <Title id={messages.welcome.id} text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
-;
+      return <Title id={messages.welcome.id} text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />;
     }
   }
 
