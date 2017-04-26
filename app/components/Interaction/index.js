@@ -31,8 +31,8 @@ export class Interaction extends React.Component {
           if (this.props.status === 'wrapup' && (ageSeconds > this.props.wrapupTime)) {
             if (!this.props.awaitingDisposition) {
               SDK.interactions.endWrapup({ interactionId: this.props.interactionId });
+              clearInterval(this.state.msIntervalId);
             }
-            clearInterval(this.state.msIntervalId);
           }
           this.setState({
             ageSeconds,
@@ -230,6 +230,7 @@ export class Interaction extends React.Component {
             : <div
               className="previewText"
               style={this.styles.previewText}
+              title={this.props.previewText}
               dangerouslySetInnerHTML={{ __html: this.props.previewText }}
             ></div>}
           {this.props.status === 'pending'

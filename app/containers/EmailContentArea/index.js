@@ -393,18 +393,31 @@ export class EmailContentArea extends React.Component {
           </div>)
       );
       details = <div></div>;
-      content = (
-        <div key="wrapupSpinner">
-          <IconSVG style={this.styles.loadingSendingEmail} id="sendingReplyIcon" name="loading" />
-          <div style={this.styles.centerText}>
-            <VelocityTransitionGroup runOnMount enter={{ animation: 'transition.slideUpIn', duration: '1000' }}>
-              {this.props.selectedInteraction.status === 'wrapup' ?
-                <FormattedMessage key="dispoSpinner" {...messages.awaitingDisposition} />
-                : <FormattedMessage key="replySpinner" {...messages.sendingReply} /> }
-            </VelocityTransitionGroup>
+      if (this.props.selectedInteraction.status !== 'wrapup') {
+        content = (
+          <div key="wrapupSpinner">
+            <IconSVG style={this.styles.loadingSendingEmail} id="sendingReplyIcon" name="loading" />
+            <div style={this.styles.centerText}>
+              <VelocityTransitionGroup runOnMount enter={{ animation: 'transition.slideUpIn', duration: '1000' }}>
+                <FormattedMessage key="replySpinner" {...messages.sendingReply} />
+              </VelocityTransitionGroup>
+            </div>
           </div>
-        </div>
-      );
+        );
+      } else if (this.props.awaitingDisposition) {
+        content = (
+          <div key="wrapupSpinner">
+            <IconSVG style={this.styles.loadingSendingEmail} id="sendingReplyIcon" name="loading" />
+            <div style={this.styles.centerText}>
+              <VelocityTransitionGroup runOnMount enter={{ animation: 'transition.slideUpIn', duration: '1000' }}>
+                <FormattedMessage key="dispoSpinner" {...messages.awaitingDisposition} />
+              </VelocityTransitionGroup>
+            </div>
+          </div>
+        );
+      } else {
+        content = <div></div>;
+      }
     } else if (this.props.selectedInteraction.emailReply === undefined) {
       if (this.props.selectedInteraction.emailDetails === undefined || (this.props.selectedInteraction.emailHtmlBody === undefined && this.props.selectedInteraction.emailPlainBody === undefined)) {
         buttons = (
