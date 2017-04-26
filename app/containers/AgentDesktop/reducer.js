@@ -93,7 +93,7 @@ const initialState = fromJS({
   extensions: [],
   activeExtension: {},
   refreshRequired: false,
-  presenceReasonList: [],
+  presenceReasonList: {},
 });
 
 const categorizeItems = (rawItems, name) => {

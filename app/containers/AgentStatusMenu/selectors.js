@@ -28,6 +28,11 @@ const selectHasActiveWrapup = createSelector(
     agentDesktop.get('interactions').find((interaction) =>
       interaction.get('status') === 'wrapup'
     ) !== undefined
+    );
+const selectPresenceReasons = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) =>
+    agentDesktop.getIn(['presenceReasonList', 'reasons']).toJS()
 );
 
 export {
@@ -35,4 +40,5 @@ export {
   selectExtensions,
   selectActiveExtension,
   selectHasActiveWrapup,
+  selectPresenceReasons,
 };
