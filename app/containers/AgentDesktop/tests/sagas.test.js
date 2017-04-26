@@ -1,4 +1,4 @@
-import { loadHistoricalInteractionBody, loadContactInteractions } from 'containers/AgentDesktop/sagas';
+import { loadHistoricalInteractionBody, loadContactInteractions, goNotReady } from 'containers/AgentDesktop/sagas';
 
 describe('loadHistoricalInteractionBody Saga', () => {
   describe('if bodyType is recordings', () => {
@@ -96,6 +96,49 @@ describe('loadContactInteractions', () => {
     });
     it('should use the yielded SDK results to dispatch a setContactInteractionHistory action with the correct args', () => {
       expect(generator.next(mockInteractionHistory));
+    });
+  });
+});
+
+describe('goNotReady', () => {
+  beforeEach(() => {
+    global.SDK = {
+      session: {
+        goNotReady: 'goNotReady',
+      },
+    };
+  });
+
+  describe('when action.reason is undefined', () => {
+    const mockGoNotReadyResponse = 'mockGoNotReadyResponse';
+    const mockAction = {};
+    const generator = goNotReady(mockAction);
+    it('should call the promise util with the SDK goNotReady and the correct arguments', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should use the yielded SDK response to dispatch a setPresence action with the correct args', () => {
+      expect(generator.next(mockGoNotReadyResponse));
+    });
+  });
+
+  describe('when action.reason is defined', () => {
+    const mockReasonListId = 'mockReasonListId';
+    const mockGoNotReadyResponse = 'mockGoNotReadyResponse';
+    const mockAction = {
+      reason: {
+        reason: 'mockReasonName',
+        reasonId: 'mockReasonId',
+      },
+    };
+    const generator = goNotReady(mockAction);
+    it('should select reasonListId', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should use the yielded id to call the promise util with the SDK goNotReady and the correct arguments', () => {
+      expect(generator.next(mockReasonListId)).toMatchSnapshot();
+    });
+    it('should use the yielded SDK response to dispatch a setPresence action with the correct args', () => {
+      expect(generator.next(mockGoNotReadyResponse));
     });
   });
 });

@@ -13,6 +13,7 @@ import {
   SET_ACTIVE_EXTENSION,
   SET_QUEUES,
   SET_PRESENCE,
+  GO_NOT_READY,
   START_OUTBOUND_INTERACTION,
   ADD_INTERACTION,
   WORK_INITIATED,
@@ -119,10 +120,18 @@ export function setQueues(queues) {
   };
 }
 
-export function setPresence(response) {
+export function setPresence(response, reasonId) {
   return {
     type: SET_PRESENCE,
     response,
+    reasonId,
+  };
+}
+
+export function goNotReady(reason) {
+  return {
+    type: GO_NOT_READY,
+    reason,
   };
 }
 

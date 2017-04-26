@@ -222,7 +222,7 @@ function agentDesktopReducer(state = initialState, action) {
       return state.set('queues', fromJS(action.queues));
     case SET_PRESENCE:
       return state
-        .set('presence', action.response.state);
+        .set('presence', action.response.state).set('presenceReasonId', action.reasonId);
     case SET_INTERACTION_STATUS: {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === action.interactionId
