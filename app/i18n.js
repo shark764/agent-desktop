@@ -10,11 +10,6 @@ import enLocaleData from 'react-intl/locale-data/en';
 import { DEFAULT_LOCALE } from './containers/AgentDesktop/constants';
 import enUsTranslationMessages from './translations/en-US.json';
 
-export const appLocales = [
-  'en-US',
-];
-
-
 addLocaleData(enLocaleData);
 
 export const formatTranslationMessages = (locale, messages) => {
@@ -31,6 +26,14 @@ export const formatTranslationMessages = (locale, messages) => {
 
   return formattedMessages;
 };
+
+export const mappedLocales = [
+  { value: 'en-US', label: 'English-US' },
+];
+
+export const appLocales = [
+  'en-US',
+];
 
 export const translationMessages = {
   'en-US': formatTranslationMessages('en-US', enUsTranslationMessages),

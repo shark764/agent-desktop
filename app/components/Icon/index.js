@@ -29,6 +29,7 @@ import transferSprite from 'assets/icons/transfer_sprite.png';
 import transferDarkSprite from 'assets/icons/transfer_dark_sprite.png';
 import dialpadSprite from 'assets/icons/dialpad_sprite.png';
 import dialpadDarkSprite from 'assets/icons/dialpad_dark_sprite.png';
+import earth from 'assets/icons/earth.png';
 
 import Radium from 'radium';
 
@@ -56,6 +57,7 @@ const availableIcons = [
   'dialpad_dark',
   'arrow_up_down',
   'arrow_return',
+  'earth',
 ];
 
 function Icon(props) {
@@ -219,6 +221,13 @@ function Icon(props) {
         className = 'active';
       }
       backgroundPositionHover = '-40px 0';
+      break;
+    case 'earth':
+      iconSprite = earth;
+      height = '40px';
+      width = '40px';
+      display = 'block';
+      backgroundSize = 'cover';
       break;
     default:
       break;

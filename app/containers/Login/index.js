@@ -19,9 +19,14 @@ import Button from 'components/Button';
 import A from 'components/A';
 import Select from 'components/Select';
 import IconSVG from 'components/IconSVG';
+import Icon from 'components/Icon';
+import PopupDialog from 'components/PopupDialog';
 import mitelFavicon from 'assets/favicons/mitel.png';
 // import Radio from 'components/Radio';
 
+import { mappedLocales } from 'i18n';
+import { changeLocale } from 'containers/LanguageProvider/actions';
+import { selectLocale } from 'containers/LanguageProvider/selectors';
 import selectLogin, { selectRefresh } from './selectors';
 import messages from './messages';
 import { loggingIn, loginError, loginSuccess, resetPassword, settingTenant, setTenant, tenantError } from './actions';
@@ -42,6 +47,7 @@ export class Login extends React.Component {
       tenantName: '',
       agentDirection: props.intl.formatMessage(messages.inbound),
       noTenant: false,
+      showLanguage: false,
     };
     this.setUser = this.setUser.bind(this);
     this.setEmail = this.setEmail.bind(this);
@@ -55,6 +61,8 @@ export class Login extends React.Component {
     this.handleError = this.handleError.bind(this);
     this.setDirection = this.setDirection.bind(this);
     this.getErrors = this.getErrors.bind(this);
+    this.setLocalLocale = this.setLocalLocale.bind(this);
+    this.toggleLanguageMenu = this.toggleLanguageMenu.bind(this);
   }
 
   getBackground() {
@@ -296,6 +304,14 @@ export class Login extends React.Component {
     }
   }
 
+  setLocalLocale(locale) {
+    storage.setItem('locale', locale);
+  }
+
+  toggleLanguageMenu() {
+    this.setState({ showLanguage: !this.state.showLanguage });
+  }
+
   styles = {
     base: {
       width: '100vw',
@@ -353,6 +369,23 @@ export class Login extends React.Component {
     legalText: {
       fontSize: '10px',
     },
+    languageMenu: {
+      position: 'relative',
+      right: '240px',
+      bottom: '50px',
+    },
+    languageDialog: {
+      position: 'absolute',
+      bottom: '42px',
+      left: '-15px',
+    },
+    languageSelect: {
+      width: '180px',
+      bottom: '10px',
+      marginLeft: '10px',
+      marginTop: '3px',
+      border: 'none',
+    },
   };
 
   render() {
@@ -376,6 +409,26 @@ export class Login extends React.Component {
           <Dialog style={Object.assign({}, this.styles.center)}>
             {pageContent}
           </Dialog>
+          <div style={this.styles.languageMenu}>
+            <Icon id={'earth-icon'} name={'earth'} onclick={this.toggleLanguageMenu} />
+            <div style={this.styles.languageDialog}>
+              <PopupDialog isVisible={this.state.showLanguage} hide={this.toggleLanguageMenu} widthPx={200} arrowLeftOffsetPx={18}>
+                <Select
+                  id={'locale'}
+                  style={this.styles.languageSelect}
+                  value={this.props.locale}
+                  options={mappedLocales}
+                  onChange={(e) => {
+                    this.props.changeLocale(e.value);
+                    this.setLocalLocale(e.value);
+                    window.setTimeout(this.toggleLanguageMenu, 400);
+                  }}
+                  autoFocus
+                  clearable={false}
+                />
+              </PopupDialog>
+            </div>
+          </div>
           <div style={this.styles.copyright}>
             <div style={this.styles.copyrightText}>
               <FormattedMessage {...messages.copyright} />
@@ -393,6 +446,7 @@ export class Login extends React.Component {
 const mapStateToProps = (state, props) => ({
   ...selectLogin(state, props),
   refreshRequired: selectRefresh(state, props),
+  locale: selectLocale()(state),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -404,6 +458,7 @@ function mapDispatchToProps(dispatch) {
     settingTenant: () => dispatch(settingTenant()),
     setTenant: (id, name) => dispatch(setTenant(id, name)),
     tenantError: (error) => dispatch(tenantError(error)),
+    changeLocale: (locale) => dispatch(changeLocale(locale)),
     dispatch,
   };
 }
@@ -424,6 +479,8 @@ Login.propTypes = {
   tenant_error: PropTypes.bool,
   tenantError: PropTypes.func.isRequired,
   refreshRequired: PropTypes.bool.isRequired,
+  changeLocale: PropTypes.func,
+  locale: PropTypes.string,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Login)));
