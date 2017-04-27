@@ -1,3 +1,7 @@
+<a name"0.30.1"></a>
+### 0.30.1 (2017-04-27)
+* CXV1-8547 - Message template QE fixes (styling)
+
 <a name"0.30.0"></a>
 ### 0.30.0 (2017-04-27)
 * CXV1-7491 - Added locale switcher to login screen

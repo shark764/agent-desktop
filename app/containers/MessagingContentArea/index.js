@@ -297,10 +297,10 @@ export class MessagingContentArea extends React.Component {
       backgroundColor: '#DEF8FE',
     },
     messageTextareaContainer: {
-      flex: '0 1 70px',
+      flex: '0 1 50px',
     },
     templateMenuButton: {
-      height: 'calc(100% - 8px)',
+      height: 'calc(100% - 7px)',
       width: '40px',
       verticalAlign: 'top',
       fontSize: '24px',
@@ -310,7 +310,6 @@ export class MessagingContentArea extends React.Component {
     messageTextarea: {
       padding: '4px',
       resize: 'none',
-      height: '70px',
       width: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? 'calc(100% - 90px)' : 'calc(100% - 50px)',
       borderRadius: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '0' : '3px 0 0 3px',
       borderTop: '1px solid #979797',
@@ -318,7 +317,7 @@ export class MessagingContentArea extends React.Component {
       borderLeft: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '' : '1px solid #979797',
     },
     messageButton: {
-      height: 'calc(100% - 8px)',
+      height: 'calc(100% - 7px)',
       width: '50px',
       verticalAlign: 'top',
       fontSize: '11px',
