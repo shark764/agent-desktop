@@ -8,6 +8,7 @@ import React, { PropTypes } from 'react';
 import Radium from 'radium';
 import { connect } from 'react-redux';
 import { FormattedMessage, FormattedTime } from 'react-intl';
+import Textarea from 'react-textarea-autosize';
 
 import Avatar from 'components/Avatar';
 import Button from 'components/Button';
@@ -30,6 +31,7 @@ export class MessagingContentArea extends React.Component {
       messageTemplateFilter: undefined,
       selectedMessageTemplateIndex: 0,
       messageText: '',
+      messageTextareaHeight: 50,
     };
     this.toggleMessageTemplateMenu = this.toggleMessageTemplateMenu.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -37,6 +39,19 @@ export class MessagingContentArea extends React.Component {
     this.setMessageText = this.setMessageText.bind(this);
     this.onMessageKeyDown = this.onMessageKeyDown.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.selectedInteraction.interactionId !== nextProps.selectedInteraction.interactionId) {
+      this.setState({
+        showMessageTemplateMenu: false,
+        showMessageTemplateMenuByForwardSlash: false,
+        messageTemplateFilter: undefined,
+        selectedMessageTemplateIndex: 0,
+        messageText: '',
+        messageTextareaHeight: 50,
+      });
+    }
   }
 
   componentDidUpdate() {
@@ -160,7 +175,7 @@ export class MessagingContentArea extends React.Component {
     } else if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && this.state.showMessageTemplateMenu) {
       e.preventDefault();
       return false;
-    } else if (e.key === '/' && !this.state.showMessageTemplateMenu && !this.state.showMessageTemplateMenuByForwardSlash) {
+    } else if (e.key === '/' && this.props.messageTemplates && this.props.messageTemplates.length > 0 && !this.state.showMessageTemplateMenu && !this.state.showMessageTemplateMenuByForwardSlash) {
       this.setState({
         showMessageTemplateMenuByForwardSlash: true,
       });
@@ -244,7 +259,6 @@ export class MessagingContentArea extends React.Component {
     },
     messageTemplatesContainer: {
       position: 'absolute',
-      bottom: '86px',
       left: '56px',
       width: 'calc(100% - 122px)',
       maxHeight: 'calc(100% - 102px)',
@@ -286,7 +300,7 @@ export class MessagingContentArea extends React.Component {
       flex: '0 1 70px',
     },
     templateMenuButton: {
-      height: '70px',
+      height: 'calc(100% - 8px)',
       width: '40px',
       verticalAlign: 'top',
       fontSize: '24px',
@@ -296,15 +310,15 @@ export class MessagingContentArea extends React.Component {
     messageTextarea: {
       padding: '4px',
       resize: 'none',
-      borderRadius: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '0' : '3px 0 0 3px',
-      borderTop: '1px solid #23CEF5',
-      borderBottom: '1px solid #23CEF5',
-      borderLeft: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '' : '1px solid #23CEF5',
       height: '70px',
       width: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? 'calc(100% - 90px)' : 'calc(100% - 50px)',
+      borderRadius: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '0' : '3px 0 0 3px',
+      borderTop: '1px solid #979797',
+      borderBottom: '1px solid #979797',
+      borderLeft: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '' : '1px solid #979797',
     },
     messageButton: {
-      height: '70px',
+      height: 'calc(100% - 8px)',
       width: '50px',
       verticalAlign: 'top',
       fontSize: '11px',
@@ -398,7 +412,7 @@ export class MessagingContentArea extends React.Component {
           </div>
           {
             this.state.showMessageTemplateMenu
-            ? <div id="messageTemplatesContainer" style={this.styles.messageTemplatesContainer}>
+            ? <div id="messageTemplatesContainer" style={[this.styles.messageTemplatesContainer, { bottom: 17 + this.state.messageTextareaHeight }]}>
               <div style={this.styles.messageTemplatesHeader}>
                 <span style={this.styles.bold}>
                   <FormattedMessage {...messages.messagingTemplates} />
@@ -433,7 +447,7 @@ export class MessagingContentArea extends React.Component {
                           onMouseOver={() => this.selectMessageTemplateIndex(messageTemplateIndex)}
                           style={[this.styles.messageTemplate, this.state.selectedMessageTemplateIndex === messageTemplateIndex ? this.styles.selectedMessageTemplate : {}]}
                         >
-                          <span style={this.styles.bold}>{ messageTemplate.name }</span>&nbsp;
+                          <span style={this.styles.bold}>/{ messageTemplate.name }</span>&nbsp;&nbsp;&nbsp;
                           <span>{ messageTemplate.template }</span>
                         </div>
                       );
@@ -454,7 +468,14 @@ export class MessagingContentArea extends React.Component {
               </Button>
               : undefined
             }
-            <textarea
+            <style>
+              { /* This style is here because the Textarea library doesn't render the ':focus' Radium attribute */ }
+              {`#messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: ${this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '0;' : '1px solid #23CEF5 !important;'}}`}
+            </style>
+            <Textarea
+              minRows={2}
+              maxRows={4}
+              onHeightChange={(messageTextareaHeight) => this.setState({ messageTextareaHeight })}
               id="messageTextarea"
               ref={(textarea) => { this.messageTextarea = textarea; }}
               disabled={this.props.selectedInteraction.status === 'wrapup'}
@@ -462,6 +483,7 @@ export class MessagingContentArea extends React.Component {
               value={this.state.messageText}
               onChange={(e) => this.setMessageText(e.target.value)}
               onKeyDown={this.onMessageKeyDown}
+              autoFocus
             />
             <Button id="sendMessageButton" disabled={this.props.selectedInteraction.status === 'wrapup'} onClick={this.sendMessage} type="secondary" style={this.styles.messageButton}>
               <FormattedMessage {...messages.send} />

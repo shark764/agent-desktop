@@ -1,3 +1,7 @@
+<a name"0.29.5"></a>
+### 0.29.5 (2017-04-27)
+* CXV1-8547 - Message template QE fixes
+
 <a name"0.29.4"></a>
 ### 0.29.4 (2017-04-26)
 * CXV1-8671 - Truncate message preview with ellipsis
