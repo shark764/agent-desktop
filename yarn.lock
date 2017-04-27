@@ -6677,6 +6677,10 @@ react-dom@15.4.2, react-dom@^15.0.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
+react-dotdotdot@^1.0.17:
+  version "1.0.17"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-dotdotdot/-/react-dotdotdot-1.0.17.tgz#2439fa150854a2b4906e7da7dae6e35e4a1646cb"
+
 react-helmet@^5.0.2:
   version "5.0.3"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-helmet/-/react-helmet-5.0.3.tgz#c6da63ee96e83aa7c8fe6d041f28dd288b1b006d"
