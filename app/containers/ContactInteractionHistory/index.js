@@ -161,6 +161,7 @@ export class ContactInteractionHistory extends React.Component {
       fontSize: '16px',
       whiteSpace: 'pre-wrap',
       marginTop: '8px',
+      fontStyle: 'italic',
     },
     disposition: {
       fontSize: '12px',

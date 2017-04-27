@@ -1,3 +1,7 @@
+<a name"0.30.2"></a>
+### 0.30.2 (2017-04-27)
+* CXV1-8608 - Interaction History note text styles
+
 <a name"0.30.1"></a>
 ### 0.30.1 (2017-04-27)
 * CXV1-8547 - Message template QE fixes (styling)
