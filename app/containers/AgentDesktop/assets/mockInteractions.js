@@ -1,3 +1,5 @@
+import cloneDeep from 'lodash/cloneDeep';
+
 const processedDispositionDetails = {
   dispositions: [
     {
@@ -598,7 +600,7 @@ const emailInteraction = {
 const smsInteractionWithLotsOfMessagesAndScript = {
   channelType: 'sms',
   customerAvatarIndex: 5,
-  interactionId: '11111111111111111111112',
+  interactionId: 'smsInteractionWithLotsOfMessagesAndScript',
   status: 'work-accepted',
   query: {},
   wrapupDetails: {
@@ -702,9 +704,13 @@ const smsInteractionWithLotsOfMessagesAndScript = {
   ],
 };
 
+let smsInteractionWithLotsOfMessagesAndScript2 = cloneDeep(smsInteractionWithLotsOfMessagesAndScript);
+smsInteractionWithLotsOfMessagesAndScript2.interactionId = 'smsInteractionWithLotsOfMessagesAndScript2';
+
 export {
   outboundConnectingVoiceInteraction,
   voiceInteractionWithTransfersAndScripts,
   emailInteraction,
   smsInteractionWithLotsOfMessagesAndScript,
+  smsInteractionWithLotsOfMessagesAndScript2,
 };

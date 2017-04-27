@@ -70,7 +70,7 @@ import {
   SHOW_REFRESH_NOTIF,
 } from './constants';
 
-// import { outboundConnectingVoiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
+// import { outboundConnectingVoiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithLotsOfMessagesAndScript2 } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
 
 const initialState = fromJS({
   // Uncomment to allow login screen to be hidden
@@ -81,6 +81,7 @@ const initialState = fromJS({
     // voiceInteractionWithTransfersAndScripts,
     // emailInteraction,
     // smsInteractionWithLotsOfMessagesAndScript,
+    // smsInteractionWithLotsOfMessagesAndScript2,
   ],
   noInteractionContactPanel: {
     contactAction: 'search',

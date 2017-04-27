@@ -11,31 +11,31 @@ export default defineMessages({
     defaultMessage: 'End Chat',
   },
   endWrapup: {
-    id: 'app.containers.VoiceContentArea.endWrapup',
+    id: 'app.containers.MessagingContentArea.endWrapup',
     defaultMessage: 'End Wrap Up',
   },
   messagingTemplates: {
-    id: 'app.containers.VoiceContentArea.messagingTemplates',
+    id: 'app.containers.MessagingContentArea.messagingTemplates',
     defaultMessage: 'Messaging Templates',
   },
   toNavigate: {
-    id: 'app.containers.VoiceContentArea.toNavigate',
+    id: 'app.containers.MessagingContentArea.toNavigate',
     defaultMessage: 'to navigate',
   },
   toSelect: {
-    id: 'app.containers.VoiceContentArea.toSelect',
+    id: 'app.containers.MessagingContentArea.toSelect',
     defaultMessage: 'to select',
   },
   esc: {
-    id: 'app.containers.VoiceContentArea.esc',
-    defaultMessage: 'esc',
+    id: 'app.containers.MessagingContentArea.esc',
+    defaultMessage: 'Esc',
   },
   toDismiss: {
-    id: 'app.containers.VoiceContentArea.toDismiss',
+    id: 'app.containers.MessagingContentArea.toDismiss',
     defaultMessage: 'to dismiss',
   },
   send: {
-    id: 'app.containers.VoiceContentArea.send',
+    id: 'app.containers.MessagingContentArea.send',
     defaultMessage: 'Send',
   },
 });
