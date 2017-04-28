@@ -1,3 +1,7 @@
+<a name"0.30.3"></a>
+### 0.30.3 (2017-04-28)
+* Fix URL validation on contacts
+
 <a name"0.30.2"></a>
 ### 0.30.2 (2017-04-27)
 * CXV1-8608 - Interaction History note text styles

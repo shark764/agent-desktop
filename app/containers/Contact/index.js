@@ -240,7 +240,7 @@ export class Contact extends React.Component {
           }
           break;
         case 'link':
-          if (!isURL(value, { protocols: ['http', 'https'] })) {
+          if (!isURL(value, { protocols: ['http', 'https'], require_protocol: true })) {
             error = this.props.intl.formatMessage(messages.errorLink);
           }
           break;
