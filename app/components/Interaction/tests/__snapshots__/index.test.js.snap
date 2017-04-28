@@ -44,6 +44,7 @@ exports[`<Interaction /> should render correctly 1`] = `
         "flexDirection": "column",
         "flexGrow": 1,
         "marginLeft": "8px",
+        "maxWidth": "210px",
       }
     }
   >

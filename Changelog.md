@@ -1,3 +1,7 @@
+<a name"0.30.4"></a>
+### 0.30.4 (2017-04-28)
+* Put max width back in interactions preview
+
 <a name"0.30.3"></a>
 ### 0.30.3 (2017-04-28)
 * Fix URL validation on contacts

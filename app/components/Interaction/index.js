@@ -102,6 +102,7 @@ export class Interaction extends React.Component {
       flexGrow: 1,
       display: 'flex',
       flexDirection: 'column',
+      maxWidth: this.props.status === 'pending' ? '210px' : '230px',
     },
     headerContainer: {
       display: 'flex',
