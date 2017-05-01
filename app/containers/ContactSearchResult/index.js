@@ -6,6 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Radium from 'radium';
 
 import 'velocity-animate';
@@ -14,6 +15,8 @@ import { VelocityTransitionGroup } from 'velocity-react';
 
 import Checkbox from 'components/Checkbox';
 import Contact from 'containers/Contact';
+
+import { setContactMode, setUnassignedContact } from 'containers/InfoTab/actions';
 
 export class ContactSearchResult extends React.Component {
 
@@ -71,11 +74,14 @@ export class ContactSearchResult extends React.Component {
       border: '1px solid #23cdf4',
     },
   };
+
   assignContact() {
     this.props.assignContact(this.props.contact);
   }
+
   editContact() {
-    this.props.editContact(this.props.contact);
+    this.props.setContactMode('editing');
+    this.props.setUnassignedContact(this.props.contact);
   }
 
   render() {
@@ -94,6 +100,8 @@ export class ContactSearchResult extends React.Component {
           }
         </VelocityTransitionGroup>
         <Contact
+          getError={this.props.getError}
+          formatValue={this.props.formatValue}
           contact={this.props.contact}
           style={this.styles.contact}
           showCompactView={!this.state.expanded}
@@ -119,12 +127,22 @@ ContactSearchResult.propTypes = {
   contact: PropTypes.object.isRequired,
   assignContact: PropTypes.func.isRequired,
   isAssigned: PropTypes.bool,
-  editContact: PropTypes.func.isRequired,
   loading: PropTypes.bool,
+  formatValue: PropTypes.func.isRequired,
+  getError: PropTypes.func.isRequired,
+  setContactMode: PropTypes.func,
+  setUnassignedContact: PropTypes.func,
 };
 
 ContactSearchResult.defaultProps = {
   isAssigned: false,
 };
 
-export default Radium(ContactSearchResult);
+function mapDispatchToProps(dispatch) {
+  return {
+    setContactMode: (contactMode) => dispatch(setContactMode(contactMode)),
+    setUnassignedContact: (unassignedContact) => dispatch(setUnassignedContact(unassignedContact)),
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Radium(ContactSearchResult));

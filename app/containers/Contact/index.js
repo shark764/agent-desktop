@@ -9,17 +9,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
-import { PhoneNumberUtil } from 'google-libphonenumber';
-import isURL from 'validator/lib/isURL';
-import { isValidEmail } from 'utils/validator';
 
 import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
+import { selectShowCancelDialog, selectFormIsDirty, selectFormValidity, selectContactForm, selectFormErrors, selectShowErrors } from 'containers/ContactsControl/selectors';
+import { setShowCancelDialog, setFormIsDirty, setFormValidity, resetForm, setShowError, setFormField, setFormError } from 'containers/ContactsControl/actions';
+import { selectLoading } from 'containers/InfoTab/selectors';
+import { clearSearchResults, setLoading } from 'containers/InfoTab/actions';
 
+import ContactSectionHeader from 'components/ContactSectionHeader';
+import ContactInput from 'components/ContactInput';
 import Button from 'components/Button';
-import Checkbox from 'components/Checkbox';
 import ConfirmDialog from 'components/ConfirmDialog';
-import ConfirmDialogLink from 'components/ConfirmDialogLink';
-import TextInput from 'components/TextInput';
 
 import messages from './messages';
 import {
@@ -36,72 +36,26 @@ export class Contact extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      formInputs: {},
-      showErrors: {},
-      errors: {},
-      disableSubmit: true,
-      showCancelDialog: false,
-      hasChanged: false,
-    };
-
-    if (this.props.isEditing) {
-      Object.assign(this.state, this.initFormInputsState(this.props));
-    }
-
     this.getSection = this.getSection.bind(this);
-    this.getSectionHeading = this.getSectionHeading.bind(this);
     this.getAttributeRow = this.getAttributeRow.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSave = this.handleSave.bind(this);
     this.setAttributeValue = this.setAttributeValue.bind(this);
     this.handleInputClear = this.handleInputClear.bind(this);
-    this.getHeader = this.getHeader.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
     this.showError = this.showError.bind(this);
     this.handleOnBlur = this.handleOnBlur.bind(this);
-    this.formatValue = this.formatValue.bind(this);
-    this.getError = this.getError.bind(this);
     this.startCall = this.startCall.bind(this);
     this.startSms = this.startSms.bind(this);
-    this.cancelCancelDialog = this.cancelCancelDialog.bind(this);
-    this.handleSave = this.handleSave.bind(this);
+    this.createCallback = this.createCallback.bind(this);
+    this.updateCallback = this.updateCallback.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isEditing && !this.props.isEditing) {
-      this.setState(this.initFormInputsState(nextProps));
-    } else if (!nextProps.isEditing && this.props.isEditing) {
-      this.setState({
-        formInputs: {},
-        showErrors: {},
-        errors: {},
-        editingContactId: false,
-        disableSubmit: true,
-        showCancelDialog: false,
-        hasChanged: false,
-      });
+    if (!nextProps.isEditing && this.props.isEditing) {
+      this.props.resetForm();
+      this.props.setFormValidity(false);
     }
   }
-
-  initFormInputsState(props) {
-    const contactAttributes = props.contact.attributes ? props.contact.attributes : {};
-    const formInputs = {};
-    const errors = {};
-    const showErrors = {};
-    props.layoutSections.forEach((section) => {
-      section.attributes.forEach((attribute) => {
-        const isExistingValueDefined = (contactAttributes && contactAttributes[attribute.objectName] !== undefined);
-        let initialValue = isExistingValueDefined ? contactAttributes[attribute.objectName] : (attribute.default || '');
-        initialValue = this.formatValue(attribute.objectName, initialValue);
-        formInputs[attribute.objectName] = initialValue;
-        errors[attribute.objectName] = this.getError(attribute.objectName, initialValue);
-        showErrors[attribute.objectName] = false;
-      });
-    });
-    return { formInputs, errors, showErrors, editingContactId: props.contact.id };
-  }
-
-  phoneNumberUtil = PhoneNumberUtil.getInstance();
 
   styles = {
     base: {
@@ -114,83 +68,9 @@ export class Contact extends React.Component {
     section: {
       marginBottom: '28px',
     },
-    sectionHeading: {
-      height: '17px',
-      fontSize: '15px',
-      lineHeight: '18px',
-      marginBottom: '8px',
-    },
-    attributeName: {
-      color: '#979797',
-      width: '161px',
-      flexShrink: '0',
-      alignSelf: 'center',
-    },
-    attributeRow: {
-      display: 'flex',
-      flexDirection: 'row',
-      marginBottom: '4px',
-    },
-    attributeValue: {
-      flexShrink: '1',
-    },
-    buttonGroup: {
-      width: '100%',
-    },
     button: {
       float: 'left',
       marginRight: '10px',
-    },
-    textInput: {
-      width: '',
-      height: '',
-      fontSize: '14px',
-      outline: 'none',
-      ':focus': {
-        outline: 'none',
-      },
-      padding: '',
-      flexGrow: '1',
-      flexShrink: '1',
-      alignSelf: 'stretch',
-    },
-    inputBox: {
-      backgroundColor: '#ffffff',
-      padding: '2px',
-      height: '21px',
-      borderRadius: '2px 0 0 3px',
-      maxWidth: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      flexGrow: '1',
-      flexShrink: '1',
-    },
-    inputBorder: {
-      ':focus': {
-        boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
-        border: 'solid 1px #23CEF5',
-      },
-      border: 'solid 1px #979797',
-    },
-    inputErrorBorder: {
-      ':focus': {
-        boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
-        border: 'solid 1px #FE4565',
-      },
-      border: 'solid 1px #F99CAC',
-    },
-    closeButton: {
-      margin: '0',
-      borderTop: '0',
-      borderRight: '0',
-      borderBottom: '0',
-      borderLeft: '0',
-      order: '1',
-      flexGrow: '0',
-      flexShrink: '0',
-      ':hover': {
-        backgroundColor: '',
-      },
     },
     header: {
       borderBottom: '1px solid #E4E4E4',
@@ -213,105 +93,65 @@ export class Contact extends React.Component {
     controlButton: {
       marginLeft: '10px',
     },
-    inputCheckbox: {
-      marginLeft: '4px',
-    },
   };
 
   handleInputChange(newValue, event) {
-    this.setState({ hasChanged: true });
+    this.props.setFormIsDirty(true);
     this.setAttributeValue(event.target.name, newValue);
   }
 
   handleInputClear(event) {
     const targetInputElement = event.target.previousSibling ? event.target.previousSibling : event.target.parentElement.previousSibling;
     const inputName = targetInputElement.name;
+    this.props.setFormIsDirty(true);
     this.setAttributeValue(inputName, '');
   }
 
-  getError(name, value) {
-    const attributeToValidate = this.props.attributes.find((attribute) => attribute.objectName === name);
-    let error = false;
-    if (attributeToValidate.mandatory && (value.length < 1)) {
-      error = this.props.intl.formatMessage(messages.errorRequired);
-    } else if (value.length) {
-      switch (attributeToValidate.type) {
-        case 'email':
-          if (!isValidEmail(value)) {
-            error = this.props.intl.formatMessage(messages.errorEmail);
-          }
-          break;
-        case 'phone':
-          try {
-            if (!this.phoneNumberUtil.isValidNumber(this.phoneNumberUtil.parse(value, 'E164'))) {
-              error = this.props.intl.formatMessage(messages.errorPhone);
-            }
-          } catch (e) {
-            error = this.props.intl.formatMessage(messages.errorPhone);
-          }
-          break;
-        case 'link':
-          if (!isURL(value, { protocols: ['http', 'https'], require_protocol: true })) {
-            error = this.props.intl.formatMessage(messages.errorLink);
-          }
-          break;
-        case 'number':
-          if (isNaN(Number(value))) {
-            error = this.props.intl.formatMessage(messages.errorNumber);
-          }
-          break;
-        default:
-          break;
-      }
-    }
-    return error;
-  }
-
-  formatValue(name, value) {
-    const attributeToValidate = this.props.attributes.find((attribute) => attribute.objectName === name);
-    let formattedValue;
-    switch (attributeToValidate.type) {
-      case 'phone':
-        formattedValue = value.replace(/[^0-9+*#]/g, '');
-        if (formattedValue.indexOf('+') !== 0 && formattedValue.length > 0) {
-          formattedValue = `+${formattedValue}`;
-        }
-        break;
-      case 'boolean':
-        if (value === 'false' || value === '') formattedValue = false;
-        else formattedValue = !!value;
-        break;
-      default:
-        return value;
-    }
-    return formattedValue;
-  }
-
   showError(name) {
-    if (!this.state.showErrors[name]) {
-      const stateUpdate = { showErrors: { ...this.state.showErrors } };
-      stateUpdate.showErrors[name] = true;
-      this.setState(stateUpdate);
+    if (!this.props.showErrors[name]) {
+      this.props.setShowError(name, true);
     }
   }
 
   handleOnBlur(event) {
-    this.setState({
-      disableSubmit: Object.keys(this.state.errors).some((key) => this.state.errors[key] !== false),
-    });
+    this.props.setFormValidity(Object.keys(this.props.formErrors).every((key) => !this.props.formErrors[key]));
     this.showError(event.target.name);
   }
 
   handleSave() {
-    this.props.save(this.state.formInputs, this.state.editingContactId);
+    this.props.setLoading(true);
+    if (this.props.contact.id) {
+      CxEngage.contacts.update({ contactId: this.props.contact.id, attributes: this.props.contactForm }, this.updateCallback);
+      this.props.setNotEditing();
+    } else {
+      CxEngage.contacts.create({ attributes: this.props.contactForm }, this.createCallback);
+      this.props.setNotEditing();
+    }
   }
 
-  handleCancel(event) {
-    event.preventDefault();
-    if (this.state.hasChanged) {
-      this.setState({ showCancelDialog: true });
+  createCallback(error, topic, response) {
+    console.log('[Contact] CxEngage.subscribe()', topic, response);
+    if (error) {
+      this.props.addNotification('notCreated', true, 'serverError'); // TODO: when notifications are ready, get error from response?
+      console.error(error);
     } else {
-      this.props.cancel();
+      this.props.assignContact(response, () => {
+        this.props.clearSearchResults();
+        this.props.addNotification('created', false);
+        this.props.setLoading(false);
+      });
+    }
+  }
+
+  updateCallback(error, topic, response) {
+    console.log('[Contact] CxEngage.subscribe()', topic, response);
+    this.props.setLoading(false);
+    if (error) {
+      this.props.addNotification('notSaved', true, 'serverError'); // TODO: when notifications are ready, get error from response?
+      console.error(error);
+    } else {
+      this.props.clearSearchResults();
+      this.props.addNotification('saved', false);
     }
   }
 
@@ -324,174 +164,50 @@ export class Contact extends React.Component {
     this.props.startOutboundInteraction('sms', value, this.props.contact);
   }
 
-  cancelCancelDialog() {
-    this.setState({
-      showCancelDialog: false,
-    });
-  }
-
-  getAttributeValueDisplay(attribute) {
-    let value;
-    const inputError = this.state.showErrors[attribute.objectName] ? this.state.errors[attribute.objectName] : false;
-    if (this.props.isEditing) {
-      value = this.state.formInputs[attribute.objectName];
-      switch (attribute.type) {
-        case 'boolean':
-          return (
-            <Checkbox
-              id={`${attribute.objectName}Checkbox`}
-              name={attribute.objectName}
-              cb={this.handleInputChange}
-              onBlur={this.handleOnBlur}
-              checked={value}
-              style={this.styles.inputCheckbox}
-            />
-          );
-        default:
-          break;
-      }
-      return (
-        <div key={attribute.objectName} ref={(element) => { this.inputDiv = element; }} style={[this.styles.inputBox, inputError ? this.styles.inputErrorBorder : this.styles.inputBorder]}>
-          <TextInput
-            noBorder
-            cb={this.handleInputChange}
-            style={this.styles.textInput}
-            id={`${attribute.objectName}Input`}
-            name={attribute.objectName}
-            value={value}
-            placeholder={attribute.label[this.props.intl.locale]}
-            autocomplete="off"
-            onBlur={this.handleOnBlur}
-          />
-          {value.length
-            ? <Button
-              id={`${attribute.objectName}-clear-btn`}
-              tabIndex={-1}
-              name={attribute.objectName}
-              style={this.styles.closeButton}
-              iconName="close"
-              type="secondary"
-              onClick={this.handleInputClear}
-            />
-            : undefined
-          }
-        </div>
-      );
-    }
-    value = (this.props.contact.attributes && this.props.contact.attributes[attribute.objectName]) ? this.props.contact.attributes[attribute.objectName] : '';
-    let content;
-    switch (attribute.type) { // TODO: AttributeValue components w/edit flags & callbacks
-      case 'phone':
-        content = (
-          <ConfirmDialogLink
-            id={`${attribute.objectName}Anchor`}
-            linkText={value}
-            disabled={!this.props.isReady}
-            leftMessage={messages.call}
-            leftAction={() => this.startCall(value)}
-            leftDisabled={this.props.hasVoiceInteraction}
-            rightMessage={messages.sms}
-            rightAction={() => this.startSms(value)}
-            rightDisabled={this.props.smsInteractionNumbers.includes(value)}
-          />
-        );
-        break;
-      case 'link':
-        content = (
-          <a href={value} target="_blank">{value}</a>
-        );
-        break;
-      case 'boolean':
-        content = (
-          <Checkbox id={`${attribute.objectName}Checkbox`} checked={this.formatValue(attribute.objectName, value)} />
-        );
-        break;
-      default:
-        content = value;
-    }
-    return (
-      <div style={this.styles.attributeValue}>
-        {content}
-      </div>
-    );
-  }
-
   getAttributeRow(attribute) {
+    const attributeLabel = `${attribute.label[this.props.intl.locale]}${(attribute.mandatory && this.props.isEditing) ? '*' : ''}`;
     return (
-      <div style={this.styles.attributeRow} key={attribute.id}>
-        <div style={this.styles.attributeName}>
-          {`${attribute.label[this.props.intl.locale]}${(attribute.mandatory && this.props.isEditing) ? '*' : ''}`}
-        </div>
-        {this.getAttributeValueDisplay(attribute)}
-      </div>
-    );
-  }
-
-  getSectionHeading(section) {
-    return (
-      <div style={this.styles.sectionHeading}>
-        {section.label[this.props.intl.locale]}
-      </div>
+      <ContactInput
+        key={attribute.id}
+        handleInputChange={this.handleInputChange}
+        handleOnBlur={this.handleOnBlur}
+        handleInputClear={this.handleInputClear}
+        formatValue={this.props.formatValue}
+        attemptCall={this.attemptCall}
+        attribute={attribute}
+        attributeLabel={attributeLabel}
+        isEditing={this.props.isEditing}
+        intl={this.props.intl}
+        contact={this.props.contact}
+        isReady={this.props.isReady}
+        hasVoiceInteraction={this.props.hasVoiceInteraction}
+        showErrors={this.props.showErrors}
+        errors={this.props.formErrors}
+        formInput={this.props.contactForm[attribute.objectName]}
+        startCall={this.startCall}
+        startSms={this.startSms}
+        smsInteractionNumbers={this.props.smsInteractionNumbers}
+      />
     );
   }
 
   getSection(section) {
     return (
       <div style={this.styles.section} key={section.label[this.props.intl.locale]}>
-        {this.getSectionHeading(section)}
+        <ContactSectionHeader label={section.label[this.props.intl.locale]} />
         {section.attributes.map(this.getAttributeRow)}
       </div>
     );
   }
 
   setAttributeValue(name, newValue) {
-    const stateUpdate = { formInputs: { ...this.state.formInputs }, errors: { ...this.state.errors } };
-    const cleanedInput = this.formatValue(name, newValue);
-    stateUpdate.formInputs[name] = cleanedInput;
-    stateUpdate.errors[name] = this.getError(name, cleanedInput);
-    stateUpdate.disableSubmit = Object.keys(stateUpdate.errors).some((key) => stateUpdate.errors[key] !== false);
-    this.setState(stateUpdate);
-  }
-
-  getHeader() {
-    return this.getAttributeValueDisplay(this.props.attributes.find((attribute) => attribute.objectName === 'name'));
-  }
-
-  getEditView() {
-    return this.props.layoutSections.map(this.getSection);
-  }
-
-  renderEditBtn() {
-    if (this.props.showControls) {
-      return (
-        <Button
-          id={`editBtn${this.props.contact.id}`}
-          disabled={this.props.loading}
-          type="secondary"
-          onClick={this.props.edit}
-          text={this.props.intl.formatMessage(messages.editButton)}
-          style={this.styles.controlButton}
-        />
-      );
-    } else {
-      return undefined;
-    }
-  }
-
-  renderAssignBtn() {
-    if (this.props.showControls) {
-      return (
-        <Button
-          id={`assignBtn${this.props.contact.id}`}
-          disabled={this.props.loading || this.props.isAssigned}
-          type="secondary"
-          onClick={this.props.assign}
-          text={this.props.intl.formatMessage(this.props.inInteractionContext ? messages.assignButton : messages.selectButton)}
-        />
-      );
-    } else {
-      return undefined;
-    }
+    const stateUpdate = { ...this.props.formErrors };
+    const cleanedInput = this.props.formatValue(name, newValue);
+    const newError = this.props.getError(name, cleanedInput);
+    stateUpdate[name] = newError;
+    this.props.setFormField(name, cleanedInput);
+    this.props.setFormError(name, this.props.getError(name, cleanedInput));
+    this.props.setFormValidity(Object.keys(stateUpdate).every((key) => !stateUpdate[key]));
   }
 
   getDisplayView() {
@@ -499,12 +215,29 @@ export class Contact extends React.Component {
       <div>
         <div style={this.styles.header}>
           <div style={this.styles.title}>
-            { this.getHeader() }
+            { this.props.contact.attributes.name }
           </div>
-          <div>
-            {this.renderAssignBtn()}
-            {this.renderEditBtn()}
-          </div>
+          {
+            this.props.showControls ?
+              <div>
+                <Button
+                  id={`assignBtn${this.props.contact.id}`}
+                  disabled={this.props.loading || this.props.isAssigned}
+                  type="secondary"
+                  onClick={this.props.assign}
+                  text={this.props.intl.formatMessage(this.props.inInteractionContext ? messages.assignButton : messages.selectButton)}
+                />
+                <Button
+                  id={`editBtn${this.props.contact.id}`}
+                  disabled={this.props.loading}
+                  type="secondary"
+                  onClick={this.props.edit}
+                  text={this.props.intl.formatMessage(messages.editButton)}
+                  style={this.styles.controlButton}
+                />
+              </div>
+            : <div></div>
+          }
         </div>
         { this.props.showCompactView
           ? this.props.compactLayoutAttributes.attributes.map(this.getAttributeRow)
@@ -519,7 +252,7 @@ export class Contact extends React.Component {
       <div style={[this.props.style, this.styles.base]}>
         {
           this.props.isEditing
-            ? this.getEditView()
+            ? this.props.layoutSections.map(this.getSection)
             : this.getDisplayView()
         }
         {
@@ -527,20 +260,20 @@ export class Contact extends React.Component {
             ? <div style={{ marginBottom: '28px', position: 'relative' }}>
               <ConfirmDialog
                 questionMessage={messages.abandonChanges}
-                leftAction={this.cancelCancelDialog}
-                rightAction={this.props.cancel}
-                isVisible={this.state.showCancelDialog}
-                hide={this.cancelCancelDialog}
-                style={{ position: 'absolute', left: '112px', bottom: '40px' }}
+                leftAction={() => this.props.setShowCancelDialog(false)}
+                rightAction={this.props.setNotEditing}
+                isVisible={this.props.showCancelDialog}
+                hide={() => this.props.setShowCancelDialog(false)}
+                style={{ position: 'absolute', left: this.props.contact.id ? '112px' : '64px', bottom: '40px' }}
               />
               <Button
                 id="contactSaveBtn"
                 style={this.styles.button}
-                disabled={this.props.loading || this.state.disableSubmit || !this.state.hasChanged}
+                disabled={this.props.loading || !this.props.formIsValid || !this.props.formIsDirty}
                 type="secondary"
                 onClick={this.handleSave}
                 text={
-                  this.state.editingContactId
+                  this.props.contact.id
                     ? this.props.intl.formatMessage(messages.saveBtn)
                     : this.props.intl.formatMessage(messages.createBtn)
                 }
@@ -550,7 +283,7 @@ export class Contact extends React.Component {
                 style={this.styles.button}
                 type="secondary"
                 text={this.props.intl.formatMessage(messages.cancelBtn)}
-                onClick={this.handleCancel}
+                onClick={this.props.handleCancel}
               />
             </div>
             : ''
@@ -568,16 +301,34 @@ const mapStateToProps = (state, props) => ({
   hasVoiceInteraction: selectHasVoiceInteraction(state, props),
   smsInteractionNumbers: selectSmsInteractionNumbers(state, props),
   inInteractionContext: selectInInteractionContext(state, props),
+  showCancelDialog: selectShowCancelDialog(state, props),
+  formIsDirty: selectFormIsDirty(state, props),
+  formIsValid: selectFormValidity(state, props),
+  contactForm: selectContactForm(state, props),
+  formErrors: selectFormErrors(state, props),
+  showErrors: selectShowErrors(state, props),
+  loading: selectLoading(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     startOutboundInteraction: (channelType, customer, contact) => dispatch(startOutboundInteraction(channelType, customer, contact)),
+    setShowCancelDialog: (showCancelDialog) => dispatch(setShowCancelDialog(showCancelDialog)),
+    setLoading: (loading) => dispatch(setLoading(loading)),
+    clearSearchResults: () => dispatch(clearSearchResults()),
+    setFormIsDirty: (formIsDirty) => dispatch(setFormIsDirty(formIsDirty)),
+    setFormValidity: (formIsValid) => dispatch(setFormValidity(formIsValid)),
+    resetForm: () => dispatch(resetForm()),
+    setShowError: (field, error) => dispatch(setShowError(field, error)),
+    setFormField: (field, value) => dispatch(setFormField(field, value)),
+    setFormError: (field, error) => dispatch(setFormError(field, error)),
     dispatch,
   };
 }
 
 Contact.propTypes = {
+  getError: PropTypes.func.isRequired,
+  formatValue: PropTypes.func.isRequired,
   showControls: PropTypes.bool,
   assign: PropTypes.func,
   edit: PropTypes.func,
@@ -588,8 +339,6 @@ Contact.propTypes = {
   attributes: PropTypes.array,
   contact: PropTypes.object,
   isEditing: PropTypes.bool,
-  cancel: PropTypes.func,
-  save: PropTypes.func,
   loading: PropTypes.bool,
   intl: intlShape.isRequired,
   style: PropTypes.object,
@@ -598,6 +347,25 @@ Contact.propTypes = {
   hasVoiceInteraction: PropTypes.bool.isRequired,
   smsInteractionNumbers: PropTypes.array.isRequired,
   startOutboundInteraction: PropTypes.func.isRequired,
+  showCancelDialog: PropTypes.bool,
+  handleCancel: PropTypes.func,
+  resetForm: PropTypes.func,
+  setFormValidity: PropTypes.func,
+  setFormIsDirty: PropTypes.func,
+  showErrors: PropTypes.object,
+  setShowError: PropTypes.func,
+  formErrors: PropTypes.object,
+  setLoading: PropTypes.func,
+  contactForm: PropTypes.object,
+  setNotEditing: PropTypes.func,
+  addNotification: PropTypes.func,
+  assignContact: PropTypes.func,
+  clearSearchResults: PropTypes.func,
+  setFormField: PropTypes.func,
+  setFormError: PropTypes.func,
+  setShowCancelDialog: PropTypes.func,
+  formIsValid: PropTypes.bool,
+  formIsDirty: PropTypes.bool,
 };
 
 Contact.defaultProps = {

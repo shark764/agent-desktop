@@ -9,249 +9,180 @@ import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+import { isValidEmail } from 'utils/validator';
+import isURL from 'validator/lib/isURL';
+import { PhoneNumberUtil } from 'google-libphonenumber';
 import InfiniteScroll from 'react-infinite-scroller';
-import 'velocity-animate';
-import 'velocity-animate/velocity.ui';
-import { VelocityTransitionGroup } from 'velocity-react';
 
-import NotificationBanner from 'components/NotificationBanner';
-import IconSVG from 'components/IconSVG';
 import Button from 'components/Button';
-import Filter from 'components/Filter';
 import Icon from 'components/Icon';
-import ContactSearchResult from 'containers/ContactSearchResult';
-import ContactSearchBar from 'containers/ContactSearchBar';
-import ConfirmDialog from 'components/ConfirmDialog';
+import IconSVG from 'components/IconSVG';
 import Contact from 'containers/Contact';
+import ContactMerge from 'containers/ContactMerge';
+import ContactSearchResult from 'containers/ContactSearchResult';
 
+import { assignContact, selectContact, loadContactInteractionHistory } from 'containers/AgentDesktop/actions';
+import { selectPopulatedLayout } from 'containers/Contact/selectors';
+import selectInfoTab, { selectCheckedContacts, selectContactMode, selectUnassignedContact, selectLoading, selectDeletionPending } from 'containers/InfoTab/selectors';
+import { setSearchResults, clearSearchResults, checkContact, uncheckContact, setLoading, setDeletionPending } from 'containers/InfoTab/actions';
+
+import { selectCurrentInteraction, selectAttributes, selectShowCancelDialog, selectFormIsDirty, selectContactForm } from './selectors';
+import { setShowCancelDialog, setFormField, setFormError, setShowError, setUnusedField, setSelectedIndex } from './actions';
 import messages from './messages';
-import selectContactsControl, { selectCurrentInteraction, selectAttributes } from './selectors';
-import { setSearchResults, clearSearchResults } from './actions';
-import { assignContact, selectContact, loadContactInteractionHistory, deleteContacts } from '../AgentDesktop/actions';
 
-const controlHeaderHeight = 70;
 const resultsPlaceholderWidth = 330;
 
-export class ContactsControl extends React.Component {
+export class ContactsControl extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
 
-    this.state = {
-      nextNotificationId: 0,
-      query: this.expandQuery(this.props.selectedInteraction.query, this.props.attributes),
-      loading: true,
-      isEditing: false,
-      confirmingDelete: false,
-      deletionPending: false,
-      unassignedContactEditing: {},
-      notifications: [],
-      selectedContacts: [],
-    };
-
-    this.mounted = false;
-
-    this.setSearching = this.setSearching.bind(this);
-    this.setViewing = this.setViewing.bind(this);
-    this.setSearching = this.setSearching.bind(this);
-    this.searchContacts = this.searchContacts.bind(this);
+    this.getError = this.getError.bind(this);
+    this.formatValue = this.formatValue.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
     this.renderResults = this.renderResults.bind(this);
-    this.renderContactView = this.renderContactView.bind(this);
-    this.editUnassignedContact = this.editUnassignedContact.bind(this);
-    this.editAssignedContact = this.editAssignedContact.bind(this);
-    this.newContact = this.newContact.bind(this);
-    this.deleteContacts = this.deleteContacts.bind(this);
-    this.getBannerHeader = this.getBannerHeader.bind(this);
-    this.getViewControlHeader = this.getViewControlHeader.bind(this);
-    this.getSearchControlHeader = this.getSearchControlHeader.bind(this);
-    this.getHeader = this.getHeader.bind(this);
-    this.clearSearch = this.clearSearch.bind(this);
-    this.setNotEditing = this.setNotEditing.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.createCallback = this.createCallback.bind(this);
-    this.updateCallback = this.updateCallback.bind(this);
+    this.searchContacts = this.searchContacts.bind(this);
     this.handleContactAssign = this.handleContactAssign.bind(this);
-    this.dismissNotification = this.dismissNotification.bind(this);
-    this.renderBulkActionControls = this.renderBulkActionControls.bind(this);
+    this.unassignCurrentContact = this.unassignCurrentContact.bind(this);
+    this.assignContactToSelected = this.assignContactToSelected.bind(this);
+    this.hydrateEditForm = this.hydrateEditForm.bind(this);
+    this.hydrateMergeForm = this.hydrateMergeForm.bind(this);
   }
+
+  styles = {
+    mainContact: {
+      marginTop: '8px',
+      paddingRight: '5px',
+      alignSelf: 'stretch',
+      flexGrow: '1',
+      flexShrink: '0',
+    },
+    contactResult: {
+      marginBottom: '14px',
+      alignSelf: 'stretch',
+      flex: '1',
+      flexGrow: '1',
+      flexShrink: '1',
+      marginLeft: '52px',
+    },
+    resultsPlaceholder: {
+      color: '#979797',
+      display: 'flex',
+      marginTop: '100px',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    resultsPlaceholderBold: {
+      paddingLeft: '15px',
+      fontWeight: 'bold',
+      alignItems: 'center',
+    },
+    filtersListText: {
+      textAlign: 'center',
+    },
+    resultsPlaceholderTitle: {
+      paddingBottom: '8px',
+      display: 'flex',
+      alignItems: 'center',
+    },
+    filtersList: {
+      textAlign: 'center',
+      maxWidth: `${resultsPlaceholderWidth}px`,
+    },
+    loading: {
+      display: 'flex',
+      justifyContent: 'center',
+    },
+    loadingIcon: {
+      height: '60px',
+    },
+  };
 
   componentWillReceiveProps(nextProps) {
-    const queryChanged = JSON.stringify(nextProps.selectedInteraction.query) !== JSON.stringify(this.props.selectedInteraction.query);
-    const interactionChanged = (nextProps.selectedInteraction.interactionId !== this.props.selectedInteraction.interactionId);
-    if (queryChanged || interactionChanged) {
-      this.props.clearSearchResults();
-      this.setState({
-        query: this.expandQuery(nextProps.selectedInteraction.query, nextProps.attributes),
-        selectedContacts: [],
-      });
-    }
-    if (interactionChanged && this.state.isEditing) {
-      this.setNotEditing();
-    }
-  }
-
-  componentWillUnmount() {
-    this.props.clearSearchResults();
-    this.mounted = false;
-  }
-
-  componentDidMount() {
-    this.mounted = true;
-    CxEngage.contacts.listAttributes(() => {
-      CxEngage.contacts.listLayouts(() => {
-        this.setState({ loading: false }); // TODO: error handling
-      });
-    });
-  }
-
-  deleteContacts() {
-    this.setState({ loading: true, deletionPending: true }, () => {
-      this.props.deleteContacts(this.state.selectedContacts);
-      this.setState({ confirmingDelete: false, selectedContacts: [] });
-    });
-  }
-
-  expandQuery(query, attributes) {
-    return Object.keys(query).map((filterName) => {
-      let attribute;
-      if (filterName === 'q') {
-        attribute = {
-          id: 'all',
-          label: {
-            'en-US': 'All',
-          },
-          objectName: 'q', // Fuzzy search query parameter
-        };
+    if (nextProps.contactMode === 'editing' && this.props.contactMode !== 'editing') {
+      if (nextProps.selectedInteraction.contactAction === 'view' && nextProps.selectedInteraction.contact) {
+        this.hydrateEditForm(nextProps.selectedInteraction.contact);
       } else {
-        attribute = attributes.find((fullAttribute) => fullAttribute.objectName === filterName);
+        this.hydrateEditForm(nextProps.unassignedContact);
       }
-      const label = attribute.label[this.props.intl.locale] || filterName;
-      return (attribute)
-        ? { attribute, value: query[filterName], label }
-        : false;
-    }).filter(Boolean);
-  }
-
-  setSearching() {
-    this.props.setContactAction(this.props.selectedInteraction.interactionId, 'search');
-  }
-
-  editUnassignedContact(contact) {
-    this.setState({ isEditing: true, unassignedContactEditing: contact, selectedContacts: [] });
-  }
-
-  newContact() {
-    this.setState({ isEditing: true, unassignedContactEditing: {}, selectedContacts: [] });
-  }
-
-  editAssignedContact() {
-    this.setState({ isEditing: true, unassignedContactEditing: {}, selectedContacts: [] });
-  }
-
-  setViewing() {
-    this.props.setContactAction(this.props.selectedInteraction.interactionId, 'view');
-  }
-
-  clearSearch() {
-    this.props.removeSearchFilter();
-    if (this.props.selectedInteraction.contact !== undefined) {
-      this.setViewing();
+    } else if (nextProps.contactMode === 'merging' && this.props.contactMode !== 'merging') {
+      this.hydrateMergeForm();
     }
   }
 
-  setNotEditing() {
-    this.setState({ isEditing: false, unassignedContactEditing: {} });
+  unassignCurrentContact(callback) {
+    CxEngage.interactions.unassignContact({
+      interactionId: this.props.selectedInteraction.interactionId,
+      contactId: this.props.selectedInteraction.contact.id,
+    }, (error, response, topic) => {
+      this.props.setLoading(false);
+      console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
+      callback(error);
+    });
   }
 
-  getSearchControlHeader() {
-    return (
-      <div style={this.styles.controlHeader}>
-        <ContactSearchBar
-          resultsCount={this.props.resultsCount !== undefined ? this.props.resultsCount : -1}
-          addFilter={this.props.addSearchFilter}
-          cancel={this.clearSearch}
-          query={this.state.query}
-          style={this.styles.contactSearchBar}
-        />
-        <div style={this.styles.filtersWrapper}>
-          {this.state.query.map((filter) =>
-            <Filter
-              key={filter.attribute.objectName}
-              name={filter.label}
-              value={filter.value}
-              remove={() => this.props.removeSearchFilter(filter.attribute.objectName)}
-              style={this.styles.filter}
-            />
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  getViewControlHeader() {
-    return (
-      <div style={this.styles.controlHeader}>
-        <div style={this.styles.buttonSet}>
-          <Button id="contact-edit-btn" style={this.styles.leftButton} onClick={this.editAssignedContact} text={messages.edit} type="secondary" />
-          <Button id="contact-search-btn" style={this.styles.rightButton} onClick={this.setSearching} iconName="search" type="secondary" />
-        </div>
-      </div>
-    );
-  }
-
-  getBannerHeader(text) {
-    return (
-      <div style={this.styles.bannerHeader}>
-        <div style={this.styles.leftGutter}></div>
-        <div style={this.styles.bannerHeaderText}>
-          {text}
-        </div>
-      </div>
-    );
-  }
-
-  getHeader() {
-    switch (this.props.selectedInteraction.contactAction) {
-      case 'view':
-        if (this.state.isEditing) {
-          return this.getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} />);
-        }
-        return this.getViewControlHeader();
-      case 'search':
-      default:
-        if (this.state.isEditing) {
-          if (Object.keys(this.state.unassignedContactEditing).length === 0) {
-            return this.getBannerHeader(<FormattedMessage {...messages.newContactBanner} />);
+  handleContactAssign(contact, callback) {
+    if (!this.props.selectedInteraction.interactionId) {
+      this.props.selectContact(contact);
+      if (typeof callback === 'function') callback();
+      this.props.loadContactInteractionHistory(contact.id);
+    } else {
+      this.props.setLoading(true);
+      const handleError = (error) => {
+        this.props.addNotification('notAssigned', true, 'serverError'); // TODO: when errors are ready, get error from response?
+        console.error(error);
+      };
+      if (this.props.selectedInteraction.contact !== undefined) {
+        this.unassignCurrentContact((unassignError) => {
+          if (unassignError) {
+            this.props.setLoading(false);
+            handleError(unassignError);
+            if (typeof callback === 'function') callback();
           } else {
-            return this.getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} />);
+            this.props.assignContact(this.props.selectedInteraction.interactionId);
+            this.assignContactToSelected(contact, (assignError) => {
+              if (assignError) {
+                handleError(assignError);
+              }
+              this.props.setLoading(false);
+              if (typeof callback === 'function') callback();
+            });
           }
-        }
-        return this.getSearchControlHeader();
+        });
+      } else {
+        this.assignContactToSelected(contact, (assignError) => {
+          if (assignError) {
+            handleError(assignError);
+          }
+          this.props.setLoading(false);
+          if (typeof callback === 'function') callback();
+        });
+      }
     }
   }
 
-  getMainContent() {
-    switch (this.props.selectedInteraction.contactAction) {
-      case 'view':
-        return this.renderContactView();
-      case 'search':
-      default:
-        if (this.state.isEditing) {
-          return (<Contact
-            key={this.state.unassignedContactEditing.id}
-            save={this.handleSave}
-            cancel={this.setNotEditing}
-            style={this.styles.mainContact}
-            isEditing={this.state.isEditing}
-            contact={this.state.unassignedContactEditing}
-          />);
-        }
-        return this.renderResults();
-    }
+  assignContactToSelected(contact, callback) {
+    CxEngage.interactions.assignContact({
+      interactionId: this.props.selectedInteraction.interactionId,
+      contactId: contact.id,
+    }, (error, topic, response) => {
+      this.props.setLoading(false);
+      console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
+      if (error) {
+        callback(error);
+      } else {
+        this.props.loadContactInteractionHistory(contact.id);
+        this.props.clearSearchResults();
+        this.props.assignContact(this.props.selectedInteraction.interactionId, contact);
+        callback();
+      }
+    });
   }
 
   searchContacts() {
-    if (!this.state.loading || this.state.deletionPending) {
-      this.setState({ loading: true, deletionPending: false });
+    if (!this.props.loading || this.props.deletionPending) {
+      this.props.setLoading(true);
+      this.props.setDeletionPending(false);
       const encodedQuery = {};
       Object.keys(this.props.selectedInteraction.query).forEach((queryName) => {
         const queryToEncode = this.props.selectedInteraction.query[queryName];
@@ -270,295 +201,105 @@ export class ContactsControl extends React.Component {
       CxEngage.contacts.search({ query: Object.assign(encodedQuery, { page: this.props.nextPage }) }, (error, topic, response) => {
         console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
         this.props.setSearchResults(response);
-        if (this.mounted) this.setState({ loading: false });
+        this.props.setLoading(false);
       });
     }
   }
 
-  styles = {
-    base: {
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'stretch',
-    },
-    controlHeader: {
-      minHeight: `${controlHeaderHeight}px`,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      flexShrink: '0',
-    },
-    contactSearchBar: {
-      paddingTop: '19px',
-    },
-    filtersWrapper: {
-      minHeight: '65px',
-      display: 'flex',
-      padding: '11.5px 0',
-      overflowX: 'auto',
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      alignItems: 'center',
-    },
-    filter: {
-      margin: '5px 5px 5px 0',
-    },
-    leftButton: {
-      margin: '0 11px',
-    },
-    rightButton: {
-      float: 'right',
-      margin: '0',
-      height: '36px',
-      width: '60px',
-    },
-    resultsPlaceholder: {
-      color: '#979797',
-      display: 'flex',
-      marginTop: '100px',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    mainContact: {
-      marginTop: '8px',
-      paddingRight: '5px',
-      alignSelf: 'stretch',
-      flexGrow: '1',
-      flexShrink: '0',
-    },
-    results: {
-      height: '100%',
-      alignItems: 'stretch',
-    },
-    resultsPlaceholderBold: {
-      paddingLeft: '15px',
-      fontWeight: 'bold',
-      alignItems: 'center',
-    },
-    filtersListText: {
-      textAlign: 'center',
-    },
-    contacts: {
-      overflowY: 'auto',
-      boxSizing: 'content-box',
-      flexGrow: '1',
-      flexShrink: '1',
-      position: 'relative',
-      display: 'flex',
-      flexFlow: 'column',
-    },
-    buttonSet: {
-      alignSelf: 'flex-end',
-      flexGrow: '0',
-      flexShrink: '1',
-    },
-    contactResult: {
-      marginBottom: '14px',
-      alignSelf: 'stretch',
-      flex: '1',
-      flexGrow: '1',
-      flexShrink: '1',
-      marginLeft: '52px',
-    },
-    resultsPlaceholderTitle: {
-      paddingBottom: '8px',
-      display: 'flex',
-      alignItems: 'center',
-    },
-    filtersList: {
-      textAlign: 'center',
-      maxWidth: `${resultsPlaceholderWidth}px`,
-    },
-    bannerHeader: {
-      backgroundColor: '#DEF8FE',
-      width: 'calc(100% + 76px)',
-      height: '70px',
-      position: 'relative',
-      left: '-51px',
-      display: 'flex',
-      alignItems: 'stretch',
-      flexShrink: 0,
-    },
-    bannerHeaderText: {
-      fontWeight: 'bold',
-      alignSelf: 'center',
-    },
-    leftGutter: {
-      width: '52px',
-    },
-    loading: {
-      display: 'flex',
-      justifyContent: 'center',
-    },
-    loadingIcon: {
-      height: '60px',
-    },
-    bulkActionControlBar: {
-      display: 'flex',
-      flexShrink: '0',
-      margin: '12px 0',
-      transform: 'none',
-    },
-    bulkConfirmDialog: {
-      position: 'absolute',
-      left: '-23px',
-      bottom: '40px',
-    },
-    checkboxSpacing: {
-      marginLeft: '-52px',
-    },
-  };
-
-  addNotification(messageType, isError, errorType) {
-    const id = this.state.nextNotificationId;
-    if (!isError) {
-      setTimeout(() => this.dismissNotification(id), 3000);
-    }
-    this.setState({
-      notifications: [...this.state.notifications, { id, errorType, messageType, isError }],
-      nextNotificationId: id + 1,
-    });
-  }
-
-  updateCallback(error, topic, response) {
-    console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
-    this.setState({ loading: false });
-    if (error) {
-      this.addNotification('notSaved', true, 'serverError'); // TODO: when notifications are ready, get error from response?
-      console.error(error);
+  handleCancel(event) {
+    event.preventDefault();
+    if (this.props.formIsDirty || this.props.contactMode === 'merging') {
+      this.props.setShowCancelDialog(true);
     } else {
-      this.props.clearSearchResults();
-      this.setNotEditing();
-      this.addNotification('saved', false);
+      this.props.setNotEditing();
     }
-  }
-
-  createCallback(error, topic, response) {
-    console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
-    if (error) {
-      this.addNotification('notCreated', true, 'serverError'); // TODO: when notifications are ready, get error from response?
-      console.error(error);
-      this.setState({ loading: false });
-    } else {
-      this.handleContactAssign(response, () => {
-        this.props.clearSearchResults();
-        this.setState({ loading: false });
-        this.setNotEditing();
-        this.addNotification('created', false);
-      });
-    }
-  }
-
-  dismissNotification(id) {
-    const notificationIndex = this.state.notifications.findIndex((notification) => notification.id === id);
-    if (notificationIndex > -1 && this.mounted) {
-      this.setState({ notifications: [...this.state.notifications.splice(1, notificationIndex)] });
-    }
-  }
-
-  handleSave(attributes, contactId) {
-    this.setState({ loading: true });
-    if (contactId) {
-      CxEngage.contacts.update({ contactId, attributes }, this.updateCallback);
-    } else {
-      CxEngage.contacts.create({ attributes }, this.createCallback);
-    }
-  }
-
-  unassignCurrentContact(callback) {
-    CxEngage.interactions.unassignContact({
-      interactionId: this.props.selectedInteraction.interactionId,
-      contactId: this.props.selectedInteraction.contact.id,
-    }, (error, response, topic) => {
-      this.setState({ loading: false });
-      console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
-      callback(error);
-    });
-  }
-
-  handleContactAssign(contact, callback) {
-    if (!this.props.selectedInteraction.interactionId) {
-      this.props.selectContact(contact);
-      if (typeof callback === 'function') callback();
-      this.props.loadContactInteractionHistory(contact.id);
-    } else {
-      this.setState({ loading: true });
-      const handleError = (error) => {
-        this.addNotification('notAssigned', true, 'serverError'); // TODO: when errors are ready, get error from response?
-        console.error(error);
-      };
-      if (this.props.selectedInteraction.contact !== undefined) {
-        this.unassignCurrentContact((unassignError) => {
-          if (unassignError) {
-            this.setState({ loading: false });
-            handleError(unassignError);
-            if (typeof callback === 'function') callback();
-          } else {
-            this.props.assignContact(this.props.selectedInteraction.interactionId);
-            this.assignContactToSelected(contact, (assignError) => {
-              if (assignError) {
-                handleError(assignError);
-              }
-              this.setState({ loading: false });
-              if (typeof callback === 'function') callback();
-            });
-          }
-        });
-      } else {
-        this.assignContactToSelected(contact, (assignError) => {
-          if (assignError) {
-            handleError(assignError);
-          }
-          this.setState({ loading: false });
-          if (typeof callback === 'function') callback();
-        });
-      }
-    }
-  }
-
-  assignContactToSelected(contact, callback) {
-    CxEngage.interactions.assignContact({
-      interactionId: this.props.selectedInteraction.interactionId,
-      contactId: contact.id,
-    }, (error, topic, response) => {
-      this.setState({ loading: false });
-      console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
-      if (error) {
-        callback(error);
-      } else {
-        this.props.loadContactInteractionHistory(contact.id);
-        this.props.clearSearchResults();
-        this.props.assignContact(this.props.selectedInteraction.interactionId, contact);
-        callback();
-      }
-    });
   }
 
   getLoader() {
     return (
       <div id="loadingContainer" style={this.styles.loading}>
-        <IconSVG style={this.loadingIcon} id="loadingIcon" name="loading" />
+        <IconSVG style={this.styles.loadingIcon} id="loadingIcon" name="loading" />
       </div>
     );
+  }
+
+  formatValue(name, value) {
+    const attributeToValidate = this.props.attributes.find((attribute) => attribute.objectName === name);
+    let formattedValue;
+    switch (attributeToValidate.type) {
+      case 'phone':
+        formattedValue = value.replace(/[^0-9+*#]/g, '');
+        if (formattedValue.indexOf('+') !== 0 && formattedValue.length > 0) {
+          formattedValue = `+${formattedValue}`;
+        }
+        break;
+      case 'boolean':
+        if (value === 'false' || value === '') formattedValue = false;
+        else formattedValue = !!value;
+        break;
+      default:
+        return value;
+    }
+    return formattedValue;
+  }
+
+  phoneNumberUtil = PhoneNumberUtil.getInstance();
+
+  getError(name, value) {
+    const attributeToValidate = this.props.attributes.find((attribute) => attribute.objectName === name);
+    let error = false;
+    if (attributeToValidate.mandatory && (value.length < 1)) {
+      error = this.props.intl.formatMessage(messages.errorRequired);
+    } else if (value.length) {
+      switch (attributeToValidate.type) {
+        case 'email':
+          if (!isValidEmail(value)) {
+            error = this.props.intl.formatMessage(messages.errorEmail);
+          }
+          break;
+        case 'phone':
+          try {
+            if (!this.phoneNumberUtil.isValidNumber(this.phoneNumberUtil.parse(value, 'E164'))) {
+              error = this.props.intl.formatMessage(messages.errorPhone);
+            }
+          } catch (e) {
+            error = this.props.intl.formatMessage(messages.errorPhone);
+          }
+          break;
+        case 'link':
+          if (!isURL(value, { protocols: ['http', 'https'], require_protocol: true })) {
+            error = this.props.intl.formatMessage(messages.errorLink);
+          }
+          break;
+        case 'number':
+          if (isNaN(Number(value))) {
+            error = this.props.intl.formatMessage(messages.errorNumber);
+          }
+          break;
+        default:
+          break;
+      }
+    }
+    return error;
   }
 
   renderResults() {
     const results = [];
     if (this.props.selectedInteraction.query && Object.keys(this.props.selectedInteraction.query).length) {
-      const resultsMapped = !this.state.deletionPending && this.props.results.map(
+      const resultsMapped = !this.props.deletionPending && this.props.results.map(
         (contact, index) => {
-          const isSelected = this.state.selectedContacts.includes(contact.id);
+          const isSelected = this.props.checkedContacts.find((checkedContact) => checkedContact.id === contact.id);
           return (<ContactSearchResult
+            getError={this.getError}
+            formatValue={this.formatValue}
             isCollapsed={this.props.isCollapsed}
-            checked={isSelected}
+            checked={!!isSelected}
             style={this.styles.contactResult}
             selectContact={(isChecked) => {
               if (isChecked) {
-                this.setState({ selectedContacts: this.state.selectedContacts.concat(contact.id) });
+                this.props.checkContact(contact);
               } else {
-                this.setState({ selectedContacts: this.state.selectedContacts.filter((id) => id !== contact.id) });
+                this.props.uncheckContact(contact);
               }
             }}
             key={contact.id}
@@ -566,8 +307,7 @@ export class ContactsControl extends React.Component {
             isAssigned={this.props.selectedInteraction.contact && this.props.selectedInteraction.contact.id === contact.id}
             contact={contact}
             assignContact={this.handleContactAssign}
-            editContact={this.editUnassignedContact}
-            loading={this.state.loading}
+            loading={this.props.loading}
           />);
         });
       results.push(
@@ -582,7 +322,7 @@ export class ContactsControl extends React.Component {
         </InfiniteScroll>
       );
     }
-    if (this.props.resultsCount < 1 && !this.state.loading) {
+    if (this.props.resultsCount < 1 && !this.props.loading) {
       results.push(
         <div key="results-placeholder" id="results-placeholder" style={this.styles.resultsPlaceholder}>
           <div style={this.styles.resultsPlaceholderTitle}>
@@ -597,131 +337,191 @@ export class ContactsControl extends React.Component {
           <div style={{ margin: '5px 0' }}>
             <FormattedMessage {...messages.or} />
           </div>
-          <Button id="createNewRecord" type="secondary" text="Create New Record" onClick={this.newContact}></Button>
+          <Button id="createNewRecord" type="secondary" text="Create New Record" onClick={this.props.newContact}></Button>
         </div>
       );
     }
     return results;
   }
 
-  renderContactView() {
-    return this.props.selectedInteraction.contact !== undefined ?
-      <Contact
-        key={this.props.selectedInteraction.contact.id}
-        style={this.styles.mainContact}
-        isAssigned
-        contact={this.props.selectedInteraction.contact}
-        loading={this.state.loading}
-        save={this.handleSave}
-        cancel={this.setNotEditing}
-        isEditing={this.state.isEditing}
-      />
-      :
-      ''; // TODO: loading animation
+  hydrateEditForm(contact) {
+    const contactAttributes = contact.attributes ? contact.attributes : {};
+    this.props.layoutSections.forEach((section) => {
+      section.attributes.forEach((attribute) => {
+        const isExistingValueDefined = (contactAttributes && contactAttributes[attribute.objectName] !== undefined);
+        let initialValue = isExistingValueDefined ? contactAttributes[attribute.objectName] : (attribute.default || '');
+        initialValue = this.formatValue(attribute.objectName, initialValue);
+        this.props.setFormField(attribute.objectName, initialValue);
+        this.props.setFormError(attribute.objectName, this.getError(attribute.objectName, initialValue));
+        this.props.setShowError(attribute.objectName, false);
+      });
+    });
   }
 
-  renderBulkActionControls() {
-    return (
-      <div id="bulk-action-controls" style={this.styles.bulkActionControlBar}>
-        <div key="delete-btn-container" style={{ position: 'relative' }}>
-          <ConfirmDialog
-            questionMessage={
-              this.state.selectedContacts.length === 1
-                ? messages.deleteContact
-                : { ...messages.deleteContacts, values: { count: this.state.selectedContacts.length } }
-            }
-            leftAction={() => this.setState({ confirmingDelete: false })}
-            rightAction={this.deleteContacts}
-            isVisible={this.state.confirmingDelete}
-            hide={() => this.setState({ confirmingDelete: false })}
-            style={this.styles.bulkConfirmDialog}
-          />
-          <Button onClick={() => this.setState({ confirmingDelete: true })} id="delete-btn" text={messages.delete} type="secondary"></Button>
-        </div>
-      </div>
-    );
-  }
+  hydrateMergeForm() {
+    const firstContact = this.props.checkedContacts[0].attributes;
+    const secondContact = this.props.checkedContacts[1].attributes;
+    Object.keys(firstContact).forEach((attributeName) => {
+      if (firstContact[attributeName] === undefined || firstContact[attributeName] === '') {
+        this.props.setFormField(attributeName, secondContact[attributeName]);
+        this.props.setFormError(attributeName, this.getError(attributeName, secondContact[attributeName]));
+      } else {
+        this.props.setFormField(attributeName, firstContact[attributeName]);
+        this.props.setFormError(attributeName, this.getError(attributeName, firstContact[attributeName]));
 
-  velocityCleanup = (animatedElements) => {
-    const bulkActionBar = animatedElements[0];
-    bulkActionBar.style.transform = 'none';
+        if (secondContact[attributeName] !== undefined && secondContact[attributeName] !== '') {
+          this.props.setUnusedField(attributeName, secondContact[attributeName]);
+          this.props.setSelectedIndex(attributeName, 0);
+        }
+      }
+      this.props.setShowError(attributeName, false);
+    });
   }
 
   render() {
-    const showCheckboxes = (
-      this.props.selectedInteraction.contactAction !== 'view'
-      && this.state.isEditing === false
-    );
-    return (
-      <div style={[this.props.style, this.styles.base]}>
-        {
-          this.state.notifications.length ?
-            this.state.notifications.map((notification, index) =>
-              <NotificationBanner
-                id={`contactNotification${index}`}
-                key={notification.id}
-                dismiss={() => this.dismissNotification(notification.id)}
-                tryAgain={notification.tryAgain}
-                errorType={notification.errorType}
-                messageType={notification.messageType}
-                isError={notification.isError}
-              />
-            )
-          : null
+    let content;
+    switch (this.props.selectedInteraction.contactAction) {
+      case 'view':
+        if (this.props.selectedInteraction.contact) {
+          content = Object.keys(this.props.selectedInteraction.contact).length ?
+            (<Contact
+              getError={this.getError}
+              formatValue={this.formatValue}
+              key={this.props.selectedInteraction.contact.id}
+              style={this.styles.mainContact}
+              isAssigned
+              contact={this.props.selectedInteraction.contact}
+              setNotEditing={this.props.setNotEditing}
+              handleCancel={this.handleCancel}
+              isEditing={this.props.contactMode === 'editing'}
+              addNotification={this.props.addNotification}
+              assignContact={this.handleContactAssign}
+            />)
+          :
+          '';
+        } else {
+          content = (<Contact
+            getError={this.getError}
+            formatValue={this.formatValue}
+            key={this.props.unassignedContact}
+            style={this.styles.mainContact}
+            isAssigned
+            contact={this.props.unassignedContact}
+            setNotEditing={this.props.setNotEditing}
+            handleCancel={this.handleCancel}
+            isEditing={this.props.contactMode === 'editing'}
+            addNotification={this.props.addNotification}
+            assignContact={this.handleContactAssign}
+          />);
         }
-        { this.getHeader() }
-        <div style={[this.styles.contacts, showCheckboxes && this.styles.checkboxSpacing]}>
-          <div style={{ width: '52px' }}></div>
-          { this.getMainContent() }
-        </div>
-        <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100', complete: this.velocityCleanup }} leave={{ animation: 'transition.slideDownOut', duration: '100' }}>
-          {
-            (this.props.selectedInteraction.contactAction === 'search' && !this.state.isEditing && this.state.selectedContacts.length > 0)
-            && this.renderBulkActionControls()
-          }
-        </VelocityTransitionGroup>
+        break;
+      case 'search':
+      default:
+        if (this.props.contactMode === 'editing') {
+          content = (<Contact
+            getError={this.getError}
+            formatValue={this.formatValue}
+            key={this.props.unassignedContact.id}
+            setNotEditing={this.props.setNotEditing}
+            style={this.styles.mainContact}
+            isEditing
+            contact={this.props.unassignedContact}
+            handleCancel={this.handleCancel}
+            addNotification={this.props.addNotification}
+            assignContact={this.handleContactAssign}
+          />);
+        } else if (this.props.contactMode === 'merging') {
+          content = (<ContactMerge
+            getError={this.getError}
+            formatValue={this.formatValue}
+            setNotEditing={this.props.setNotEditing}
+            style={this.styles.mainContact}
+            handleCancel={this.handleCancel}
+            addNotification={this.props.addNotification}
+            assignContact={this.handleContactAssign}
+          />);
+        } else {
+          content = this.renderResults();
+        }
+    }
+    return (
+      <div style={{ flexGrow: 1 }}>
+        { content }
       </div>
     );
   }
 }
 
 ContactsControl.propTypes = {
-  isCollapsed: PropTypes.bool.isRequired,
+  attributes: PropTypes.array.isRequired,
+  selectedInteraction: PropTypes.object.isRequired,
   intl: PropTypes.object.isRequired,
-  style: PropTypes.object,
-  attributes: PropTypes.array,
-  resultsCount: PropTypes.number,
   results: PropTypes.any,
-  nextPage: PropTypes.number,
-  addSearchFilter: PropTypes.func,
-  removeSearchFilter: PropTypes.func,
+  resultsCount: PropTypes.number,
+  isCollapsed: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
   setSearchResults: PropTypes.func,
   clearSearchResults: PropTypes.func,
-  selectedInteraction: PropTypes.object,
-  setContactAction: PropTypes.func,
-  assignContact: PropTypes.func,
+  checkContact: PropTypes.func,
+  uncheckContact: PropTypes.func,
   selectContact: PropTypes.func,
-  deleteContacts: PropTypes.func,
   loadContactInteractionHistory: PropTypes.func,
+  assignContact: PropTypes.func,
+  contactMode: PropTypes.string,
+  unassignedContact: PropTypes.object,
+  setLoading: PropTypes.func,
+  addNotification: PropTypes.func,
+  deletionPending: PropTypes.bool,
+  setDeletionPending: PropTypes.func,
+  nextPage: PropTypes.number,
+  formIsDirty: PropTypes.bool,
+  setShowCancelDialog: PropTypes.func,
+  setNotEditing: PropTypes.func,
+  checkedContacts: PropTypes.array,
+  newContact: PropTypes.func,
+  layoutSections: PropTypes.array,
+  setFormField: PropTypes.func,
+  setFormError: PropTypes.func,
+  setUnusedField: PropTypes.func,
+  setSelectedIndex: PropTypes.func,
+  setShowError: PropTypes.func,
 };
 
 function mapStateToProps(state, props) {
   return {
     attributes: selectAttributes(state, props),
     selectedInteraction: selectCurrentInteraction(state, props),
-    ...selectContactsControl(state, props),
+    checkedContacts: selectCheckedContacts(state, props),
+    contactMode: selectContactMode(state, props),
+    unassignedContact: selectUnassignedContact(state, props),
+    loading: selectLoading(state, props),
+    deletionPending: selectDeletionPending(state, props),
+    showCancelDialog: selectShowCancelDialog(state, props),
+    formIsDirty: selectFormIsDirty(state, props),
+    contactForm: selectContactForm(state, props),
+    layoutSections: selectPopulatedLayout(state, props),
+    ...selectInfoTab(state, props),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    dispatch,
     setSearchResults: (filter) => dispatch(setSearchResults(filter)),
     clearSearchResults: () => dispatch(clearSearchResults()),
-    assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
+    checkContact: (contact) => dispatch(checkContact(contact)),
+    uncheckContact: (contact) => dispatch(uncheckContact(contact)),
+    setLoading: (loading) => dispatch(setLoading(loading)),
+    setDeletionPending: (deletionPending) => dispatch(setDeletionPending(deletionPending)),
     selectContact: (contact) => dispatch(selectContact(contact)),
-    deleteContacts: (contactIds) => dispatch(deleteContacts(contactIds)),
     loadContactInteractionHistory: (contactId, page) => dispatch(loadContactInteractionHistory(contactId, page)),
-    dispatch,
+    assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
+    setShowCancelDialog: (showCancelDialog) => dispatch(setShowCancelDialog(showCancelDialog)),
+    setFormField: (field, value) => dispatch(setFormField(field, value)),
+    setFormError: (field, error) => dispatch(setFormError(field, error)),
+    setShowError: (field, error) => dispatch(setShowError(field, error)),
+    setUnusedField: (field, value) => dispatch(setUnusedField(field, value)),
+    setSelectedIndex: (field, index) => dispatch(setSelectedIndex(field, index)),
   };
 }
 

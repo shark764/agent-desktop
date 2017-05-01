@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 import { updateContactHistoryInteractionDetails, setContactInteractionHistory, removeContact } from 'containers/AgentDesktop/actions';
-import { clearSearchResults } from 'containers/ContactsControl/actions';
+import { clearSearchResults, setLoading } from 'containers/InfoTab/actions';
 import { LOAD_HISTORICAL_INTERACTION_BODY, LOAD_CONTACT_INTERACTION_HISTORY, GO_NOT_READY, DELETE_CONTACTS } from 'containers/AgentDesktop/constants';
 
 export function* loadHistoricalInteractionBody(action) {
@@ -96,6 +96,7 @@ export function* goDeleteContacts(action) {
       .filter((contactId, index) => response[index]) // API response is bool
       .map((contactId) => put(removeContact(contactId)));
     yield put(clearSearchResults());
+    yield put(setLoading(false));
   } catch (error) {
     console.error(error);
   }

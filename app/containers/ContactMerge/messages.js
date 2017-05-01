@@ -10,13 +10,29 @@ export default defineMessages({
     id: 'app.containers.Contact.save',
     defaultMessage: 'Save Changes',
   },
-  createBtn: {
-    id: 'app.containers.Contact.create',
-    defaultMessage: 'Create',
-  },
   cancelBtn: {
     id: 'app.containers.Contact.cancel',
     defaultMessage: 'Cancel',
+  },
+  errorRequired: {
+    id: 'app.containers.Contact.errorRequired',
+    defaultMessage: 'Required',
+  },
+  errorEmail: {
+    id: 'app.containers.Contact.errorEmail',
+    defaultMessage: 'Invalid Email',
+  },
+  errorPhone: {
+    id: 'app.containers.Contact.errorPhone',
+    defaultMessage: 'Invalid Phone Number',
+  },
+  errorLink: {
+    id: 'app.containers.Contact.errorLink',
+    defaultMessage: 'Invalid URL',
+  },
+  errorNumber: {
+    id: 'app.containers.Contact.errorNumber',
+    defaultMessage: 'Invalid Number',
   },
   assignButton: {
     id: 'app.containers.Contact.assignButton',

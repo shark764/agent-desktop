@@ -11,7 +11,7 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  contactLayout: undefined,
+  contactLayout: { layout: [] },
   // uncomment below line for mocking
   // contactLayout: { layout: [] },
   contactAttributes: [],

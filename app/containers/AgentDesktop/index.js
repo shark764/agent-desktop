@@ -34,7 +34,7 @@ import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiate
   updateWrapupDetails, addScript, removeScript, selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
   muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall,
   transferCancelled, resourceAdded, updateResourceName, updateResourceStatus, holdMe, resumeMe, resourceRemoved, showRefreshRequired,
-  emailAddAttachment, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition, goNotReady } from './actions';
+  emailAddAttachment, addSearchFilter, removeSearchFilter, setQueues, setDispositionDetails, selectDisposition, goNotReady } from './actions';
 
 import { selectAgentDesktopMap, selectLoginMap } from './selectors';
 
@@ -468,9 +468,6 @@ export class AgentDesktop extends React.Component {
           break;
         // Igonore these pubsubs. They are unneeded or handled elsewhere.
         case 'cxengage/authentication/login-response': // Handled in Login component
-        case 'cxengage/contacts/create-contact-response': // Handled in ContactsControl
-        case 'cxengage/contacts/delete-contact-response': // Handled in ContactsControl
-        case 'cxengage/contacts/search-contacts-response': // Handled in ContactsControl & AgentDesktop callback
         case 'cxengage/entities/get-users-response': // Handled in TransferMenu
         case 'cxengage/entities/get-transfer-lists-response': // Handled in TransferMenu
         case 'cxengage/interactions/accept-acknowledged': // Using cxengage/interactions/work-accepted instead
@@ -480,10 +477,10 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/messaging/send-outbound-sms-response': // Handled in MessagingContentArea saga
         case 'cxengage/interactions/messaging/send-message-acknowledged': // Using cxengage/messaging/new-message-received instead
         case 'cxengage/interactions/voice/phone-controls-response': // Using mute-started, mute-ended, etc. instead
-        case 'cxengage/interactions/contact-assign-acknowledged': // Handled in ContactsControl
+        case 'cxengage/interactions/contact-assign-acknowledged': // Handled in InfoTab
         case 'cxengage/interactions/voice/transfer-response': // Handled in TransferMenu
-        case 'cxengage/interactions/contact-unassigned-acknowledged': // Handled in ContactsControl
-        case 'cxengage/interactions/contact-assigned-acknowledged': // Handled in ContactsControl
+        case 'cxengage/interactions/contact-unassigned-acknowledged': // Handled in InfoTab
+        case 'cxengage/interactions/contact-assigned-acknowledged': // Handled in InfoTab
         case 'cxengage/interactions/voice/recording-received': // Handled in historicalInteractionBody saga
         case 'cxengage/interactions/messaging/transcript-received': // Handled in historicalInteractionBody saga
         case 'cxengage/interactions/create-note-response': // Handled in ContentArea
@@ -492,7 +489,6 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/voice/send-digits-acknowledged': // Handled in Dialpad
         case 'cxengage/interactions/get-notes-response': // Handled in contactInteractionHistory
         case 'cxengage/reporting/get-capacity-response': // Handled in TransferMenu
-        case 'cxengage/reporting/get-contact-interaction-history-response': // Handled in contactInteractionHistory saga
         case 'cxengage/reporting/get-stat-query-response': // Handled in TransferMenu
         case 'cxengage/reporting/polling-started': // Ignore
         case 'cxengage/reporting/polling-stopped': // Ignore
@@ -502,6 +498,11 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/session/set-active-tenant-response': // Handled in Login component
         case 'cxengage/session/state-change-request-acknowledged': // Ignore
         case 'cxengage/session/tenant-list': // Using tenants from login-response
+        case 'cxengage/reporting/get-contact-interaction-history-response': // Handled in contactInteractionHistory saga
+        case 'cxengage/contacts/search-contacts-response': // Handled in InfoTab & AgentDesktop callback
+        case 'cxengage/contacts/create-contact-response': // Handled in Contact
+        case 'cxengage/contacts/delete-contact-response': // Handled in InfoTab
+        case 'cxengage/contacts/merge-contacts-response': // Handled in ContactMerge
           break;
         default: {
           console.warn('[AgentDesktop] CxEngage.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console
@@ -641,7 +642,6 @@ export class AgentDesktop extends React.Component {
                 showPanel={this.showContactsPanel}
                 addSearchFilter={this.props.addSearchFilter}
                 removeSearchFilter={this.props.removeSearchFilter}
-                setContactAction={this.props.setContactAction}
               />
             </span>
         }
@@ -682,7 +682,6 @@ function mapDispatchToProps(dispatch) {
     setInteractionQuery: (interactionId, query) => dispatch(setInteractionQuery(interactionId, query)),
     addSearchFilter: (filterName, value) => dispatch(addSearchFilter(filterName, value)),
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
-    setContactAction: (interactionId, newAction) => dispatch(setContactAction(interactionId, newAction)),
     setCustomFields: (interactionId, customFields) => dispatch(setCustomFields(interactionId, customFields)),
     setEmailPlainBody: (interactionId, body) => dispatch(setEmailPlainBody(interactionId, body)),
     setEmailHtmlBody: (interactionId, body) => dispatch(setEmailHtmlBody(interactionId, body)),
@@ -738,7 +737,6 @@ AgentDesktop.propTypes = {
   setContactAttributes: PropTypes.func.isRequired,
   addSearchFilter: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
-  setContactAction: PropTypes.func.isRequired,
   setInteractionQuery: PropTypes.func.isRequired,
   setCustomFields: PropTypes.func.isRequired,
   setEmailPlainBody: PropTypes.func.isRequired,

@@ -43,7 +43,7 @@ Object {
     "@@redux-saga/IO": true,
     "PUT": Object {
       "action": Object {
-        "type": "app/ContactsControl/CLEAR-SEARCH_RESULTS",
+        "type": "app/InfoTab/CLEAR-SEARCH_RESULTS",
       },
       "channel": null,
     },

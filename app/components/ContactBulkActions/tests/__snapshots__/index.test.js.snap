@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ContactBulkActions /> should render correctly 1`] = `
+<div
+  data-radium={true}
+  id="bulk-action-controls"
+  style={
+    Object {
+      "display": "flex",
+      "flexShrink": "0",
+      "margin": "12px 0",
+    }
+  }
+>
+  <div>
+    <Button
+      id="createNewRecord"
+      tabIndex={0}
+      text="New Record"
+      type="secondary"
+    />
+  </div>
+  <VelocityTransitionGroup
+    enter={
+      Object {
+        "animation": "transition.slideUpIn",
+        "complete": [Function],
+        "display": "flex",
+        "duration": "100",
+      }
+    }
+    enterHideStyle={
+      Object {
+        "display": "none",
+      }
+    }
+    enterShowStyle={
+      Object {
+        "display": "",
+      }
+    }
+    leave={
+      Object {
+        "animation": "transition.slideDownOut",
+        "duration": "100",
+      }
+    }
+    runOnMount={false}
+  >
+    <div
+      data-radium={true}
+    >
+      <ConfirmDialog
+        hide={[Function]}
+        isVisible={false}
+        leftAction={[Function]}
+        leftMessage={
+          Object {
+            "defaultMessage": "No",
+            "id": "app.components.ConfirmDialog.no",
+          }
+        }
+        questionMessage={
+          Object {
+            "defaultMessage": "Delete {count} Contacts?",
+            "id": "app.containers.InfoTab.deleteContacts",
+            "values": Object {
+              "count": 2,
+            },
+          }
+        }
+        rightAction={[Function]}
+        rightMessage={
+          Object {
+            "defaultMessage": "Yes",
+            "id": "app.components.ConfirmDialog.yes",
+          }
+        }
+        style={
+          Object {
+            "bottom": "50px",
+            "left": "95px",
+            "position": "absolute",
+          }
+        }
+      />
+      <Button
+        id="delete-btn"
+        onClick={[Function]}
+        style={
+          Object {
+            "marginLeft": "10px",
+          }
+        }
+        tabIndex={0}
+        text={
+          Object {
+            "defaultMessage": "Delete",
+            "id": "app.containers.InfoTab.delete",
+          }
+        }
+        type="secondary"
+      />
+    </div>
+  </VelocityTransitionGroup>
+  <VelocityTransitionGroup
+    enter={
+      Object {
+        "animation": "transition.slideUpIn",
+        "complete": [Function],
+        "display": "flex",
+        "duration": "100",
+      }
+    }
+    enterHideStyle={
+      Object {
+        "display": "none",
+      }
+    }
+    enterShowStyle={
+      Object {
+        "display": "",
+      }
+    }
+    leave={
+      Object {
+        "animation": "transition.slideDownOut",
+        "duration": "100",
+      }
+    }
+    runOnMount={false}
+  >
+    <div>
+      <Button
+        id="merge"
+        style={
+          Object {
+            "marginLeft": "10px",
+          }
+        }
+        tabIndex={0}
+        text="Merge"
+        type="secondary"
+      />
+    </div>
+  </VelocityTransitionGroup>
+</div>
+`;

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import { selectCurrentInteraction } from 'containers/ContactsControl/selectors';
+import { selectCurrentInteraction } from 'containers/InfoTab/selectors';
 
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 

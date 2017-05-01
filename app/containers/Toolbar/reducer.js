@@ -79,6 +79,7 @@ function toolbarReducer(state = initialState, action) {
       });
       return state.update('enabledStats', (enabledStats) =>
         enabledStats.map((enabledStat) => {
+          console.log('enabledStat', enabledStat);
           enabledStatId = enabledStat.get('statId').split('-').join('');
           if (cleanStats[enabledStatId]) {
             return enabledStat.set('results', fromJS(cleanStats[enabledStatId].body.results));

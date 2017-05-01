@@ -5,6 +5,7 @@ import agentDesktop from 'containers/AgentDesktop/reducer';
 import toolbar from 'containers/Toolbar/reducer';
 import sidePanel from 'containers/SidePanel/reducer';
 import interactionsBar from 'containers/InteractionsBar/reducer';
+import infoTab from 'containers/InfoTab/reducer';
 import contactsControl from 'containers/ContactsControl/reducer';
 
 export default combineReducers({
@@ -14,5 +15,6 @@ export default combineReducers({
   toolbar,
   sidePanel,
   interactionsBar,
+  infoTab,
   contactsControl,
 });

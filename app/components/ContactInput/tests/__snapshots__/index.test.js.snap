@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ContactInput /> should render correctly 1`] = `
+<div
+  data-radium={true}
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "row",
+      "marginBottom": "4px",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "alignSelf": "center",
+        "color": "#979797",
+        "flexShrink": "0",
+        "width": "161px",
+      }
+    }
+  />
+  <div
+    data-radium={true}
+    onBlur={[Function]}
+    onFocus={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#ffffff",
+        "borderColor": "#979797",
+        "borderRadius": "2px 0 0 3px",
+        "borderStyle": "solid",
+        "borderWidth": "1px",
+        "display": "flex",
+        "flexGrow": "1",
+        "flexShrink": "1",
+        "height": "21px",
+        "marginLeft": "",
+        "maxWidth": "100%",
+        "padding": "2px",
+      }
+    }
+  >
+    <InjectIntl(TextInput)
+      autocomplete="off"
+      cb={[Function]}
+      id="mockInput"
+      name="mock"
+      noBorder={true}
+      onBlur={[Function]}
+      placeholder="mock"
+      style={
+        Object {
+          ":focus": Object {
+            "outline": "none",
+          },
+          "alignSelf": "stretch",
+          "flexGrow": "1",
+          "flexShrink": "1",
+          "fontSize": "14px",
+          "height": "",
+          "outline": "none",
+          "padding": "",
+          "width": "",
+        }
+      }
+      value="mock"
+    />
+    <Button
+      iconName="close"
+      id="mock-clear-btn"
+      name="mock"
+      onClick={[Function]}
+      style={
+        Object {
+          ":hover": Object {
+            "backgroundColor": "",
+          },
+          "borderBottom": "0",
+          "borderLeft": "0",
+          "borderRight": "0",
+          "borderTop": "0",
+          "flexGrow": "0",
+          "flexShrink": "0",
+          "margin": "0",
+          "order": "1",
+        }
+      }
+      tabIndex={-1}
+      type="secondary"
+    />
+  </div>
+</div>
+`;

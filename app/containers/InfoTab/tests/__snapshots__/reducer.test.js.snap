@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`infoTabReducer returns the initial state 1`] = `
+Object {
+  "checkedContacts": Array [],
+  "confirmingDelete": false,
+  "contactMode": "viewing",
+  "deletionPending": false,
+  "loading": false,
+  "nextNotificationId": 0,
+  "nextPage": 1,
+  "notifications": Array [],
+  "results": Array [],
+  "resultsCount": -1,
+  "unassignedContact": Object {},
+}
+`;
