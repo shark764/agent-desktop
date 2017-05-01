@@ -48,7 +48,10 @@ export class MainContentArea extends React.Component {
         );
         content = <MessagingContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} messageTemplates={messageTemplates} />;
       } else if (selectedInteraction.channelType === 'email') {
-        content = <EmailContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} />;
+        const emailTemplates = this.props.messageTemplates.filter((messageTemplate) =>
+          messageTemplate.channels.includes(selectedInteraction.channelType)
+        );
+        content = <EmailContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} emailTemplates={emailTemplates} />;
       } else if (selectedInteraction.channelType === 'voice') {
         content = <VoiceContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} />;
       } else {
@@ -83,8 +86,6 @@ MainContentArea.propTypes = {
   style: PropTypes.array,
   selectedInteraction: PropTypes.object,
   messageTemplates: PropTypes.array,
-  emailCreateReply: PropTypes.func.isRequired,
-  emailCancelReply: PropTypes.func.isRequired,
   agent: PropTypes.object.isRequired,
   tenant: PropTypes.object.isRequired,
 };

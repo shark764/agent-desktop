@@ -21,17 +21,19 @@ function Select(props) {
   };
 
   return (
-    <TetheredSelect
-      id={props.id}
-      style={Object.assign({}, styles.base, props.style)}
-      onChange={props.onChange}
-      name="form-field-name"
-      value={props.value}
-      options={props.options}
-      autofocus={props.autoFocus}
-      clearable={props.clearable}
-      placeholder={props.placeholder || 'Select...'}
-    />
+    <div id={props.type}>
+      <TetheredSelect
+        id={props.id}
+        style={Object.assign({}, styles.base, props.style)}
+        onChange={props.onChange}
+        name="form-field-name"
+        value={props.value}
+        options={props.options}
+        autofocus={props.autoFocus}
+        clearable={props.clearable}
+        placeholder={props.placeholder || 'Select...'}
+      />
+    </div>
   );
 }
 
@@ -44,6 +46,7 @@ Select.propTypes = {
   id: PropTypes.string.isRequired,
   clearable: PropTypes.bool,
   placeholder: PropTypes.object,
+  type: PropTypes.oneOf(['inline-small']),
 };
 
 export default Radium(Select);

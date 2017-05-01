@@ -267,6 +267,7 @@ const emailInteraction = {
     targetWrapupTime: '10',
   },
   query: {},
+  sidePanelTabIndex: 0,
   note: {
     body: '',
     title: '',

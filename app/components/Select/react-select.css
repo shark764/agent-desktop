@@ -1,3 +1,25 @@
+/**
+* Custom styling for Select component
+*/
+#inline-small .Select-placeholder, #inline-small .Select-value {
+  padding-left: 0;
+  line-height: 18px;
+}
+
+#inline-small .Select-input {
+  padding-left: 0;
+  line-height: 18px;
+  height: 20px;
+}
+
+#inline-small .Select-input > input {
+  padding: 0;
+}
+
+#inline-small .Select-clear-zone {
+  padding-top: 0;
+}
+
  /**
  * React Select
  * ============

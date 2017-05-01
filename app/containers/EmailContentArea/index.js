@@ -16,7 +16,7 @@ import { VelocityTransitionGroup } from 'velocity-react';
 import moment from 'moment';
 import 'assets/css/mediumdraft.min.css';
 import { Editor, createEditorState } from 'medium-draft';
-import { EditorState } from 'draft-js';
+import { EditorState, convertFromHTML, ContentState, CompositeDecorator } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
 
@@ -26,14 +26,47 @@ import Button from 'components/Button';
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 import LoadingText from 'components/LoadingText';
+import Select from 'components/Select';
 import TextInput from 'components/TextInput';
 
 import ContentArea from 'containers/ContentArea';
 
-import { emailAddAttachment, emailRemoveAttachment, emailUpdateReply, emailSendReply } from 'containers/AgentDesktop/actions';
+import { emailCreateReply, emailCancelReply, emailAddAttachment, emailRemoveAttachment, emailUpdateReply, emailSendReply } from 'containers/AgentDesktop/actions';
 import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
+
+function findImageEntities(contentBlock, callback, contentState) {
+  contentBlock.findEntityRanges(
+    (character) => {
+      const entityKey = character.getEntity();
+      return (
+        entityKey !== null &&
+        contentState.getEntity(entityKey).getType() === 'IMAGE'
+      );
+    },
+    callback
+  );
+}
+
+const Image = (props) => {
+  const {
+    height,
+    src,
+    width,
+  } = props.contentState.getEntity(props.entityKey).getData(); // eslint-disable-line
+
+  return (
+    <img alt="" src={src} height={height} width={width} />
+  );
+};
+
+const decorator = new CompositeDecorator([
+  {
+    strategy: findImageEntities,
+    component: Image,
+  },
+]);
 
 export class EmailContentArea extends React.Component {
 
@@ -51,8 +84,9 @@ export class EmailContentArea extends React.Component {
       ccInput: '',
       bccs: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.bccs : undefined,
       bccInput: '',
+      selectedEmailTemplate: undefined,
       editorState: this.props.selectedInteraction.emailReply
-        ? EditorState.createWithContent(stateFromHTML(this.props.selectedInteraction.emailReply.message))
+        ? EditorState.createWithContent(stateFromHTML(this.props.selectedInteraction.emailReply.message), decorator)
         : createEditorState(),
     };
   }
@@ -68,7 +102,7 @@ export class EmailContentArea extends React.Component {
           ccs: nextProps.selectedInteraction.emailReply.ccs,
           bccs: nextProps.selectedInteraction.emailReply.bccs,
           subject: nextProps.selectedInteraction.emailReply.subject,
-          editorState: EditorState.createWithContent(stateFromHTML(nextProps.selectedInteraction.emailReply.message)),
+          editorState: EditorState.createWithContent(stateFromHTML(nextProps.selectedInteraction.emailReply.message), decorator),
         });
       } else {
         this.setState({
@@ -220,18 +254,22 @@ export class EmailContentArea extends React.Component {
     SDK.interactions.email.removeAttachment({ interactionId: this.props.selectedInteraction.interactionId, attachmentId });
   }
 
+  onTemplateChange(value) {
+    let newEditorState;
+    if (value !== null && value !== undefined) {
+      newEditorState = EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(value).contentBlocks, convertFromHTML(value).entityMap), decorator);
+    } else {
+      newEditorState = createEditorState();
+    }
+    this.setState({
+      selectedEmailTemplate: value,
+      editorState: newEditorState,
+    });
+  }
+
   sendEmail() {
     this.props.emailSendReply(this.props.selectedInteraction.interactionId);
-    console.log('SDK.interactions.email.sendReply()', {
-      interactionId: this.props.selectedInteraction.interactionId,
-      to: this.state.tos,
-      cc: this.state.ccs,
-      bcc: this.state.bccs,
-      subject: this.state.subject,
-      htmlBody: stateToHTML(this.state.editorState.getCurrentContent()),
-      plainTextBody: this.state.editorState.getCurrentContent().getPlainText(),
-    });
-    SDK.interactions.email.sendReply({
+    const emailReply = {
       interactionId: this.props.selectedInteraction.interactionId,
       to: this.state.tos,
       cc: this.state.ccs,
@@ -239,7 +277,9 @@ export class EmailContentArea extends React.Component {
       subject: this.state.subject,
       htmlBody: stateToHTML(this.state.editorState.getCurrentContent()) + this.wrapEmailHistory(this.emailWithImages()),
       plainTextBody: this.state.editorState.getCurrentContent().getPlainText() + this.props.selectedInteraction.emailPlainBody,
-    });
+    };
+    console.log('SDK.interactions.email.sendReply()', emailReply);
+    SDK.interactions.email.sendReply(emailReply);
   }
 
   emailWithImages() {
@@ -381,6 +421,11 @@ export class EmailContentArea extends React.Component {
       marginLeft: '6px',
       color: '#979797',
       cursor: 'pointer',
+    },
+    select: {
+      height: '20px',
+      border: 'none',
+      backgroundColor: 'inherit',
     },
     richTextEditorContainer: {
       position: 'absolute',
@@ -643,6 +688,9 @@ export class EmailContentArea extends React.Component {
           </div>)
       );
 
+      const emailTemplates = this.props.emailTemplates.map((emailTemplate) =>
+        ({ value: emailTemplate.template, label: emailTemplate.name })
+      );
       details = (
         <div>
           <div style={this.styles.inputContainer}>
@@ -723,7 +771,7 @@ export class EmailContentArea extends React.Component {
               />
             </div>
           </div>
-          <div>
+          <div style={this.styles.inputContainer}>
             <div style={this.styles.detailsField}>
               <FormattedMessage {...messages.subject} />
             </div>
@@ -731,6 +779,25 @@ export class EmailContentArea extends React.Component {
               <TextInput id="subjectInput" styleType="inlineInherit" value={this.state.subject} cb={(subject) => this.setState({ subject })} style={{ width: '100%' }} />
             </div>
           </div>
+          {
+            this.props.emailTemplates.length > 0
+              ? <div>
+                <div style={this.styles.detailsField}>
+                  <FormattedMessage {...messages.template} />
+                </div>
+                <div style={this.styles.detailsValue}>
+                  <Select
+                    id="emailTemplates"
+                    style={this.styles.select}
+                    type="inline-small"
+                    value={this.state.selectedEmailTemplate}
+                    options={emailTemplates}
+                    onChange={(e) => this.onTemplateChange(e ? e.value : e)}
+                  />
+                </div>
+              </div>
+              : undefined
+            }
           <div style={this.styles.attachmentsContainer}>
             {
               this.props.selectedInteraction.emailReply.attachments.map((attachment, index) =>
@@ -855,8 +922,8 @@ EmailContentArea.propTypes = {
   emailUpdateReply: PropTypes.func.isRequired,
   emailSendReply: PropTypes.func.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
+  emailTemplates: PropTypes.array.isRequired,
 };
-
 
 const mapStateToProps = (state, props) => ({
   awaitingDisposition: selectAwaitingDisposition(state, props),
@@ -864,6 +931,8 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
+    emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
     emailAddAttachment: (interactionId, attachment) => dispatch(emailAddAttachment(interactionId, attachment)),
     emailRemoveAttachment: (interactionId, attachmentId) => dispatch(emailRemoveAttachment(interactionId, attachmentId)),
     emailUpdateReply: (interactionId, reply) => dispatch(emailUpdateReply(interactionId, reply)),

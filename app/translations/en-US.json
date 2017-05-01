@@ -79,6 +79,7 @@
   "app.containers.EmailContentArea.send": "Send",
   "app.containers.EmailContentArea.sendingReply": "Sending Reply",
   "app.containers.EmailContentArea.subject": "Subject",
+  "app.containers.EmailContentArea.template": "Template",
   "app.containers.EmailContentArea.to": "To",
   "app.containers.InteractionsBar.accept": "Click to accept interaction",
   "app.containers.InteractionsBar.wrapup": "WRAP UP",
