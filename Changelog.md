@@ -1,3 +1,7 @@
+<a name"0.30.5"></a>
+### 0.30.5 (2017-04-28)
+* Added email history to reply messages and added inline images to emails
+
 <a name"0.30.4"></a>
 ### 0.30.4 (2017-04-28)
 * Put max width back in interactions preview
