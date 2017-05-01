@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.30.5",
+  "version": "0.30.6",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -259,6 +259,7 @@
     "react-dotdotdot": "^1.0.17",
     "react-helmet": "^5.0.2",
     "react-infinite-scroller": "https://github.com/liveops/react-infinite-scroller",
+    "react-input-autosize": "1.1.0",
     "react-intl": "2.2.3",
     "react-redux": "5.0.3",
     "react-select": "1.0.0-rc.2",
