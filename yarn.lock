@@ -6694,7 +6694,7 @@ react-helmet@^5.0.2:
   version "1.0.7"
   resolved "https://github.com/liveops/react-infinite-scroller#80faf0974d1c40e071ce3d777d7368438072a1e2"
 
-react-input-autosize@^1.1.0:
+react-input-autosize@1.1.0, react-input-autosize@^1.1.0:
   version "1.1.0"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-input-autosize/-/react-input-autosize-1.1.0.tgz#3fe1ac832387d8abab85f6051ceab1c9e5570853"
 

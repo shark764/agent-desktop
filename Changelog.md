@@ -1,3 +1,8 @@
+<a name"0.30.6"></a>
+### 0.30.6 (2017-05-01)
+* Quick fix for react-select dependency build error
+* https://github.com/JedWatson/react-select/issues/1694
+
 <a name"0.30.5"></a>
 ### 0.30.5 (2017-04-28)
 * Added email history to reply messages and added inline images to emails
