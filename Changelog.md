@@ -1,3 +1,7 @@
+<a name"0.31.1"></a>
+### 0.31.1 (2017-05-02)
+* CXV1-8616 Fixed multiple inline email images bug
+
 <a name"0.31.0"></a>
 ### 0.31.0 (2017-05-02)
 * CXV1-8498 Not Ready Presence Reasons

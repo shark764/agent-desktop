@@ -237,36 +237,43 @@ export class EmailContentArea extends React.Component {
       cc: this.state.ccs,
       bcc: this.state.bccs,
       subject: this.state.subject,
-      htmlBody: stateToHTML(this.state.editorState.getCurrentContent()) + this.wrapEmailHistory(this.inlineImageSrc(this.props.selectedInteraction.emailHtmlBody)),
+      htmlBody: stateToHTML(this.state.editorState.getCurrentContent()) + this.wrapEmailHistory(this.emailWithImages()),
       plainTextBody: this.state.editorState.getCurrentContent().getPlainText() + this.props.selectedInteraction.emailPlainBody,
     });
   }
 
-  inlineImageSrc(emailBody) {
-    let newEmailBody = emailBody;
+  emailWithImages() {
+    const emailDetails = this.props.selectedInteraction.emailDetails;
+    let newEmailBody = this.props.selectedInteraction.emailHtmlBody;
     let srcStartIndex;
     let bodyAfter;
     let srcEndIndex;
-    const images = [];
-    const emailDetails = this.props.selectedInteraction.emailDetails;
+    let inlineContent;
+    let imageId;
 
     if (emailDetails.attachments && emailDetails.attachments.length !== 0) {
-      emailDetails.attachments.forEach((attachment, index) => {
+      emailDetails.attachments.forEach((attachment) => {
+        inlineContent = false;
+        imageId = '';
+
         attachment.headers.forEach((header) => {
           if (header.contentDisposition && header.contentDisposition.slice(0, 6) === 'inline') {
-            images.push(emailDetails.attachments[index]);
+            inlineContent = true;
+          }
+          if (header.contentId) {
+            imageId = header.contentId.slice(1, -1);
           }
         });
-      });
-      images.forEach((image) => {
-        if (newEmailBody.indexOf('cid:')) {
-          srcStartIndex = newEmailBody.indexOf('cid:');
+
+        srcStartIndex = newEmailBody.indexOf(imageId) - 4;
+        if (inlineContent && srcStartIndex > -1) {
           bodyAfter = newEmailBody.slice(srcStartIndex);
           srcEndIndex = bodyAfter.indexOf('"') + srcStartIndex;
-          newEmailBody = [newEmailBody.slice(0, srcStartIndex), image.url, newEmailBody.slice(srcEndIndex)].join('');
+          newEmailBody = [newEmailBody.slice(0, srcStartIndex), attachment.url, newEmailBody.slice(srcEndIndex)].join('');
         }
       });
     }
+
     return newEmailBody;
   }
 
@@ -598,7 +605,7 @@ export class EmailContentArea extends React.Component {
         content = (
           <div>
             { // eslint-disable-next-line react/no-danger
-            }<div id="emailContainer" style={this.styles.emailContent} dangerouslySetInnerHTML={{ __html: this.inlineImageSrc(this.props.selectedInteraction.emailHtmlBody) }} />
+            }<div id="emailContainer" style={this.styles.emailContent} dangerouslySetInnerHTML={{ __html: this.emailWithImages() }} />
           </div>
         );
       } else {
@@ -767,7 +774,7 @@ export class EmailContentArea extends React.Component {
           <p>On {timestampFormatted} {this.props.selectedInteraction.emailDetails.from[0].name} wrote:</p>
           {
             this.props.selectedInteraction.emailHtmlBody !== undefined
-            ? <blockquote className="md-RichEditor-blockquote" dangerouslySetInnerHTML={{ __html: this.inlineImageSrc(this.props.selectedInteraction.emailHtmlBody) }}></blockquote>
+            ? <blockquote className="md-RichEditor-blockquote" dangerouslySetInnerHTML={{ __html: this.emailWithImages() }}></blockquote>
             : <blockquote className="md-RichEditor-blockquote">{ this.props.selectedInteraction.emailPlainBody }</blockquote>
           }
         </div>
