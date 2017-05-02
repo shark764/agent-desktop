@@ -498,7 +498,7 @@ export class MessagingContentArea extends React.Component {
 
 MessagingContentArea.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,
-  messageTemplates: PropTypes.array,
+  messageTemplates: PropTypes.array.isRequired,
   endInteraction: PropTypes.func.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
 };

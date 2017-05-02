@@ -30,7 +30,7 @@ import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiate
   updateWrapupDetails, addScript, removeScript, selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
   muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall,
   transferCancelled, resourceAdded, updateResourceName, updateResourceStatus, holdMe, resumeMe, resourceRemoved, showRefreshRequired,
-  emailCreateReply, emailCancelReply, emailAddAttachment, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition } from './actions';
+  emailAddAttachment, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition } from './actions';
 
 import selectAgentDesktop, { selectLogin } from './selectors';
 
@@ -620,7 +620,7 @@ export class AgentDesktop extends React.Component {
                     <PhoneControls style={[this.styles.phoneControls]} />
                     <InteractionsBar acceptInteraction={this.acceptInteraction} selectInteraction={this.selectInteraction} style={[this.styles.interactionsBar]} />
                   </div>
-                  <MainContentArea emailCreateReply={this.props.emailCreateReply} emailCancelReply={this.props.emailCancelReply} agent={this.props.login.agent} tenant={this.props.login.tenant} style={{ flex: '1 1 auto' }} />
+                  <MainContentArea agent={this.props.login.agent} tenant={this.props.login.tenant} style={{ flex: '1 1 auto' }} />
                   <Resizable id="crm-resizable" direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={this.state.contactsPanelMaxPx} minPx={400} isDisabled={this.state.isContactsPanelCollapsed} style={this.styles.topArea} />
                 </div>
                 <Toolbar
@@ -698,8 +698,6 @@ function mapDispatchToProps(dispatch) {
     holdMe: (interactionId) => dispatch(holdMe(interactionId)),
     resumeMe: (interactionId) => dispatch(resumeMe(interactionId)),
     resourceRemoved: (response) => dispatch(resourceRemoved(response)),
-    emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
-    emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
     emailAddAttachment: (interactionId, attachment) => dispatch(emailAddAttachment(interactionId, attachment)),
     setAvailableStats: (stats, tenantId, userId) => dispatch(setAvailableStats(stats, tenantId, userId)),
     toggleStat: (stat, userId, queues, saved) => dispatch(toggleStat(stat, userId, queues, saved)),
@@ -756,8 +754,6 @@ AgentDesktop.propTypes = {
   holdMe: PropTypes.func.isRequired,
   resumeMe: PropTypes.func.isRequired,
   resourceRemoved: PropTypes.func.isRequired,
-  emailCreateReply: PropTypes.func.isRequired,
-  emailCancelReply: PropTypes.func.isRequired,
   emailAddAttachment: PropTypes.func.isRequired,
   setAvailableStats: PropTypes.func.isRequired,
   statsReceived: PropTypes.func.isRequired,

@@ -30,6 +30,10 @@ export default defineMessages({
     id: 'app.containers.EmailContentArea.subject',
     defaultMessage: 'Subject',
   },
+  template: {
+    id: 'app.containers.EmailContentArea.template',
+    defaultMessage: 'Template',
+  },
   send: {
     id: 'app.containers.EmailContentArea.send',
     defaultMessage: 'Send',

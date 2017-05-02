@@ -1,3 +1,8 @@
+<a name"0.32.0"></a>
+### 0.32.0 (2017-05-02)
+* CXV1-8500 Email templates
+* CXV1-7410 Update medium-draft. Move fork to liveops.
+
 <a name"0.31.1"></a>
 ### 0.31.1 (2017-05-02)
 * CXV1-8616 Fixed multiple inline email images bug
