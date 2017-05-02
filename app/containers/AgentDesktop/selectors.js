@@ -45,10 +45,16 @@ const selectAwaitingDisposition = createSelector(
   )
 );
 
+const selectPresenceReasonListId = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) => agentDesktop.getIn(['presenceReasonList', 'id'])
+);
+
 export default selectAgentDesktop;
 export {
   selectInteractions,
   selectLogin,
   selectAgentId,
   selectAwaitingDisposition,
+  selectPresenceReasonListId,
 };

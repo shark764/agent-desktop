@@ -1,5 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`goNotReady when action.reason is defined should use the yielded id to call the promise util with the SDK goNotReady and the correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "goNotReady",
+        Object {
+          "reasonInfo": Object {
+            "reason": "mockReasonName",
+            "reasonId": "mockReasonId",
+            "reasonListId": "mockReasonListId",
+          },
+        },
+        "AgentDesktop",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goNotReady when action.reason is undefined should call the promise util with the SDK goNotReady and the correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "goNotReady",
+        Object {},
+        "AgentDesktop",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
 exports[`loadContactInteractions when action.page is defined should call the promise util with the SDK getContactHistory with the correct arguments 1`] = `
 Object {
   "done": false,

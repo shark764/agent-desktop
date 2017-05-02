@@ -17,6 +17,7 @@ import {
   SET_ACTIVE_EXTENSION,
   SET_QUEUES,
   SET_PRESENCE,
+  SET_PRESENCE_REASON_ID,
   SET_INTERACTION_STATUS,
   START_OUTBOUND_INTERACTION,
   ADD_INTERACTION,
@@ -92,7 +93,34 @@ const initialState = fromJS({
   extensions: [],
   activeExtension: {},
   refreshRequired: false,
+  presenceReasonLists: [],
+  selectedPresenceReason: {},
 });
+
+const categorizeItems = (rawItems, name) => {
+  const categorizedItems = [];
+  rawItems.sort((a, b) => a.sortOrder > b.sortOrder).forEach(
+    (item) => {
+      if (item.hierarchy[0]) {
+        const existingCategoryIndex = categorizedItems.findIndex(
+          (category) => category.name === item.hierarchy[0]
+        );
+        if (existingCategoryIndex > -1) {
+          categorizedItems[existingCategoryIndex][name].push(item);
+        } else {
+          categorizedItems.push({
+            name: item.hierarchy[0],
+            [name]: [item],
+            type: 'category',
+          });
+        }
+      } else {
+        categorizedItems.push(item);
+      }
+    }
+  );
+  return categorizedItems;
+};
 
 const addContactInteractionNote = (interaction, action) =>
   interaction.updateIn(['contact', 'interactionHistory'], (interactionHistory) => {
@@ -169,13 +197,23 @@ const updateContactInteractionHistoryResults = (contact, action) => {
   }
 };
 
-
 function agentDesktopReducer(state = initialState, action) {
   switch (action.type) {
     case SHOW_REFRESH_NOTIF:
       return state.set('refreshRequired', action.show);
-    case SET_USER_CONFIG:
-      return state.set('userConfig', fromJS(action.response));
+    case SET_USER_CONFIG: {
+      const presenceReasonLists = action.response.reasonLists.filter((list) => list.isDefault === true && list.active === true);
+      let newState = state.set('userConfig', fromJS(action.response));
+      if (presenceReasonLists) {
+        newState = newState.set('presenceReasonLists', fromJS(
+          presenceReasonLists.map((reasonList) => {
+            reasonList.reasons = categorizeItems(reasonList.reasons, 'reasons'); // eslint-disable-line no-param-reassign
+            return reasonList;
+          }
+        )));
+      }
+      return newState;
+    }
     case SET_EXTENSIONS:
       return state
         // Set active extension to the first available one if it isn't set
@@ -188,6 +226,12 @@ function agentDesktopReducer(state = initialState, action) {
     case SET_PRESENCE:
       return state
         .set('presence', action.response.state);
+    case SET_PRESENCE_REASON_ID:
+      return state
+        .set('selectedPresenceReason', fromJS({
+          reasonId: action.reasonId,
+          listId: action.listId,
+        }));
     case SET_INTERACTION_STATUS: {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === action.interactionId
@@ -1052,29 +1096,7 @@ function agentDesktopReducer(state = initialState, action) {
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
       if (interactionIndex !== -1) {
-        const categorizedDispositions = [];
-        if (action.dispositions) {
-          action.dispositions.sort((a, b) => a.sortOrder > b.sortOrder).forEach(
-            (disposition) => {
-              if (disposition.hierarchy[0]) {
-                const existingCategoryIndex = categorizedDispositions.findIndex(
-                  (category) => category.name === disposition.hierarchy[0]
-                );
-                if (existingCategoryIndex > -1) {
-                  categorizedDispositions[existingCategoryIndex].dispositions.push(disposition);
-                } else {
-                  categorizedDispositions.push({
-                    name: disposition.hierarchy[0],
-                    dispositions: [disposition],
-                    type: 'category',
-                  });
-                }
-              } else {
-                categorizedDispositions.push(disposition);
-              }
-            }
-          );
-        }
+        const categorizedDispositions = categorizeItems(action.dispositions, 'dispositions');
         return state.setIn(['interactions', interactionIndex, 'dispositionDetails'], fromJS({
           forceSelect: action.forceSelect,
           dispositions: categorizedDispositions,

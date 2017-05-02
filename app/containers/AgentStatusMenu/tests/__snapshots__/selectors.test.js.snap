@@ -11,3 +11,15 @@ Array [
   "mockExtension",
 ]
 `;
+
+exports[`selectHasActiveWrapup selectPresenceReasons Should return presenceReasonLists from the agentDesktop domain 1`] = `
+Array [
+  Object {
+    "reasons": Array [
+      Object {
+        "name": "mockPresenceReason",
+      },
+    ],
+  },
+]
+`;

@@ -4,6 +4,7 @@ import {
   selectExtensions,
   selectActiveExtension,
   selectHasActiveWrapup,
+  selectPresenceReasonLists,
 } from '../selectors';
 
 describe('selectHasActiveInteractions', () => {
@@ -100,6 +101,18 @@ describe('selectHasActiveWrapup', () => {
 
     it('should return false', () => {
       expect(selectHasActiveWrapup(mockState)).toEqual(false);
+    });
+  });
+
+  describe('selectPresenceReasons', () => {
+    const mockState = fromJS({
+      agentDesktop: {
+        presenceReasonLists: [{ reasons: [{ name: 'mockPresenceReason' }] }],
+      },
+    });
+
+    it('Should return presenceReasonLists from the agentDesktop domain', () => {
+      expect(selectPresenceReasonLists(mockState)).toMatchSnapshot();
     });
   });
 });

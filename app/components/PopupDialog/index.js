@@ -21,7 +21,6 @@ function PopupDialog(props) {
       borderRadius: '8px',
       backgroundColor: '#FFFFFF',
       boxShadow: '0 0 6px 1px rgba(0,0,0,0.29)',
-      padding: '16px 0 0 0',
       margin: '10px',
       color: '#4b4b4b',
     },

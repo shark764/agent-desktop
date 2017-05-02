@@ -6,6 +6,7 @@
 
 import React, { PropTypes } from 'react';
 
+import checkStatus from 'assets/icons/check_status.png';
 import config from 'assets/icons/config.png';
 import search from 'assets/icons/search.png';
 import close from 'assets/icons/close.png';
@@ -34,30 +35,31 @@ import earth from 'assets/icons/earth.png';
 import Radium from 'radium';
 
 const availableIcons = [
-  'config',
-  'search',
-  'close',
+  'arrow_return',
+  'arrow_up_down',
   'attachment',
-  'message',
-  'message_new',
-  'message_dark',
-  'email',
-  'email_new',
-  'email_dark',
-  'voice',
-  'voice_dark',
+  'checkStatus',
+  'close',
+  'config',
   'connected',
-  'not_connected',
-  'endCall',
-  'mute',
-  'hold',
-  'transfer',
-  'transfer_dark',
   'dialpad',
   'dialpad_dark',
-  'arrow_up_down',
-  'arrow_return',
   'earth',
+  'email',
+  'email_dark',
+  'email_new',
+  'endCall',
+  'hold',
+  'message',
+  'message_dark',
+  'message_new',
+  'mute',
+  'not_connected',
+  'search',
+  'transfer',
+  'transfer_dark',
+  'voice',
+  'voice_dark',
 ];
 
 function Icon(props) {
@@ -79,6 +81,10 @@ function Icon(props) {
       icon = search;
       height = '16px';
       width = '16px';
+      break;
+    case 'checkStatus':
+      icon = checkStatus;
+      height = '17px';
       break;
     case 'close':
       icon = close;
@@ -263,7 +269,7 @@ function Icon(props) {
         onClick={props.onclick}
         src={icon}
         style={[styles.base, props.style]}
-        alt={props.name}
+        alt={props.alt || props.name}
       />
     );
   } else {
@@ -282,6 +288,7 @@ function Icon(props) {
 
 Icon.propTypes = {
   name: PropTypes.oneOf(availableIcons).isRequired,
+  alt: PropTypes.string,
   active: PropTypes.bool,
   style: PropTypes.object,
   id: PropTypes.string,

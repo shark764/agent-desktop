@@ -1,3 +1,7 @@
+<a name"0.31.0"></a>
+### 0.31.0 (2017-05-02)
+* CXV1-8498 Not Ready Presence Reasons
+
 <a name"0.30.6"></a>
 ### 0.30.6 (2017-05-01)
 * Quick fix for react-select dependency build error
