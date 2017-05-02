@@ -125,15 +125,13 @@ describe('goNotReady', () => {
     const mockReasonListId = 'mockReasonListId';
     const mockGoNotReadyResponse = 'mockGoNotReadyResponse';
     const mockAction = {
+      listId: 'mockReasonListId',
       reason: {
-        reason: 'mockReasonName',
+        name: 'mockReasonName',
         reasonId: 'mockReasonId',
       },
     };
     const generator = goNotReady(mockAction);
-    it('should select reasonListId', () => {
-      expect(generator.next()).toMatchSnapshot();
-    });
     it('should use the yielded id to call the promise util with the SDK goNotReady and the correct arguments', () => {
       expect(generator.next(mockReasonListId)).toMatchSnapshot();
     });

@@ -1,9 +1,8 @@
-import { takeEvery, call, put, select } from 'redux-saga/effects';
+import { takeEvery, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
-import selectPresenceReasonListId from 'containers/AgentDesktop/selectors';
-import { updateContactHistoryInteractionDetails, setContactInteractionHistory, setPresence } from 'containers/AgentDesktop/actions';
+import { updateContactHistoryInteractionDetails, setContactInteractionHistory, setPresence, setPresenceReasonId } from 'containers/AgentDesktop/actions';
 import { LOAD_HISTORICAL_INTERACTION_BODY, LOAD_CONTACT_INTERACTION_HISTORY, GO_NOT_READY } from 'containers/AgentDesktop/constants';
 
 export function* loadHistoricalInteractionBody(action) {
@@ -66,12 +65,11 @@ export function* loadContactInteractions(action) {
 export function* goNotReady(action) {
   let goNotReadyResponse;
   const parameters = {};
-  if (typeof action.reasons !== 'undefined') {
-    const presenceReasonListId = yield select(selectPresenceReasonListId);
+  if (typeof action.reason !== 'undefined') {
     parameters.reasonInfo = {
-      reasonListId: presenceReasonListId,
+      reasonListId: action.listId,
       reasonId: action.reason.reasonId,
-      name: action.reason.name,
+      reason: action.reason.name,
     };
   }
   try {
@@ -84,7 +82,8 @@ export function* goNotReady(action) {
   } catch (error) {
     console.error(error);
   }
-  yield put(setPresence(goNotReadyResponse, action.reason && action.reason.reasonId));
+  yield put(setPresence(goNotReadyResponse));
+  yield put(setPresenceReasonId(action.reason && action.reason.reasonId, action.reason && action.listId));
 }
 
 // Individual exports for testing

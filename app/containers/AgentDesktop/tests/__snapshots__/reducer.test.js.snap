@@ -10,8 +10,9 @@ Object {
     "query": Object {},
     "sidePanelTabIndex": 0,
   },
-  "presenceReasonList": Object {},
+  "presenceReasonLists": Array [],
   "queues": Array [],
   "refreshRequired": false,
+  "selectedPresenceReason": Object {},
 }
 `;

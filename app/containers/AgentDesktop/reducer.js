@@ -1,4 +1,3 @@
-/* eslint no-case-declarations: 0 */
 /*
  *
  * AgentDesktop reducer
@@ -18,6 +17,7 @@ import {
   SET_ACTIVE_EXTENSION,
   SET_QUEUES,
   SET_PRESENCE,
+  SET_PRESENCE_REASON_ID,
   SET_INTERACTION_STATUS,
   START_OUTBOUND_INTERACTION,
   ADD_INTERACTION,
@@ -93,7 +93,8 @@ const initialState = fromJS({
   extensions: [],
   activeExtension: {},
   refreshRequired: false,
-  presenceReasonList: {},
+  presenceReasonLists: [],
+  selectedPresenceReason: {},
 });
 
 const categorizeItems = (rawItems, name) => {
@@ -197,20 +198,22 @@ const updateContactInteractionHistoryResults = (contact, action) => {
 };
 
 function agentDesktopReducer(state = initialState, action) {
-  let newState;
   switch (action.type) {
     case SHOW_REFRESH_NOTIF:
       return state.set('refreshRequired', action.show);
-    case SET_USER_CONFIG:
-      const presenceReasonList = action.response.reasonLists.sort((a, b) => a.updated < b.updated)[0];
-      newState = state.set('userConfig', fromJS(action.response));
-      if (presenceReasonList) {
-        newState = newState.set('presenceReasonList', fromJS({
-          id: presenceReasonList.id,
-          reasons: categorizeItems(presenceReasonList.reasons, 'reasons'),
-        }));
+    case SET_USER_CONFIG: {
+      const presenceReasonLists = action.response.reasonLists.filter((list) => list.isDefault === true && list.active === true);
+      let newState = state.set('userConfig', fromJS(action.response));
+      if (presenceReasonLists) {
+        newState = newState.set('presenceReasonLists', fromJS(
+          presenceReasonLists.map((reasonList) => {
+            reasonList.reasons = categorizeItems(reasonList.reasons, 'reasons'); // eslint-disable-line no-param-reassign
+            return reasonList;
+          }
+        )));
       }
       return newState;
+    }
     case SET_EXTENSIONS:
       return state
         // Set active extension to the first available one if it isn't set
@@ -222,14 +225,20 @@ function agentDesktopReducer(state = initialState, action) {
       return state.set('queues', fromJS(action.queues));
     case SET_PRESENCE:
       return state
-        .set('presence', action.response.state).set('presenceReasonId', action.reasonId);
+        .set('presence', action.response.state);
+    case SET_PRESENCE_REASON_ID:
+      return state
+        .set('selectedPresenceReason', fromJS({
+          reasonId: action.reasonId,
+          listId: action.listId,
+        }));
     case SET_INTERACTION_STATUS: {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
       if (interactionIndex !== -1) {
         const automaticallyAcceptInteraction = action.newStatus === 'work-accepting' && state.get('selectedInteractionId') === undefined;
-        newState = state
+        const newState = state
           .updateIn(['interactions', interactionIndex], (interaction) => {
             let updatedInteraction = interaction.set('status', action.newStatus);
             // If we're accepting an existing voice conference, make any updates that have happened to the participants since the work offer

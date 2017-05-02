@@ -16,6 +16,7 @@ import messages from './messages';
 const styles = {
   base: {
     borderRadius: '4px',
+    paddingTop: '16px',
   },
   container: {
     display: 'flex',
