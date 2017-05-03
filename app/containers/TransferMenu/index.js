@@ -21,20 +21,21 @@ import Tabs from 'components/Tabs';
 import TextInput from 'components/TextInput';
 
 import { selectAgentId } from 'containers/AgentDesktop/selectors';
-import { selectWarmTransfers } from './selectors';
+import { selectWarmTransfers, selectQueues } from './selectors';
 import messages from './messages';
 
 export class TransferMenu extends React.Component {
 
   constructor(props) {
     super(props);
-    this.setQueuesCallback = this.setQueuesCallback.bind(this);
     this.setAgentsCallback = this.setAgentsCallback.bind(this);
     this.refreshQueues = this.refreshQueues.bind(this);
     this.refreshAgents = this.refreshAgents.bind(this);
     this.filterTransferListItems = this.filterTransferListItems.bind(this);
     this.setDialpadText = this.setDialpadText.bind(this);
     this.transferFromDialpad = this.transferFromDialpad.bind(this);
+
+    this.mounted = false;
 
     this.state = {
       transferTabIndex: 0,
@@ -65,7 +66,8 @@ export class TransferMenu extends React.Component {
   }
 
   componentDidMount() {
-    SDK.entities.get.queues({}, (error, topic, response) => this.setQueuesCallback(error, topic, response));
+    this.mounted = true;
+
     SDK.entities.get.users({}, (error, topic, response) => this.setAgentsCallback(error, topic, response));
     SDK.entities.get.transferLists({}, (error, topic, response) => this.setTransferListsCallback(error, topic, response));
 
@@ -75,31 +77,19 @@ export class TransferMenu extends React.Component {
   }
 
   componentWillUnmount() {
+    this.mounted = false;
+
     clearInterval(this.reloadTransferablesInterval);
   }
 
   refreshQueues() {
     this.setState({ queues: 'loading' });
-    SDK.entities.get.queues({}, (error, topic, response) => this.setQueuesCallback(error, topic, response));
+    SDK.entities.get.queues({});
   }
 
   refreshAgents() {
     this.setState({ agents: 'loading' });
     SDK.entities.get.users({}, (error, topic, response) => this.setAgentsCallback(error, topic, response));
-  }
-
-  setQueuesCallback(error, topic, response) {
-    console.log('[TransferMenu] SDK.subscribe()', topic, response);
-    const queues = response.result.map((queue) => (
-      {
-        id: queue.id,
-        name: queue.name,
-        // TODO add averageQueueTime when it is available
-      }
-    ));
-    this.setState({
-      queues,
-    });
   }
 
   setAgentsCallback(error, topic, response) {
@@ -122,9 +112,11 @@ export class TransferMenu extends React.Component {
         // TODO add voiceCapacity when it is available
       }
     ));
-    this.setState({
-      agents,
-    });
+    if (this.mounted) {
+      this.setState({
+        agents,
+      });
+    }
   }
 
   setTransferListsCallback(error, topic, response) {
@@ -135,9 +127,11 @@ export class TransferMenu extends React.Component {
         endpoints: transferList.endpoints,
       }
     ));
-    this.setState({
-      transferLists,
-    });
+    if (this.mounted) {
+      this.setState({
+        transferLists,
+      });
+    }
   }
 
   styles = {
@@ -326,8 +320,8 @@ export class TransferMenu extends React.Component {
 
   render() {
     let queues;
-    if (this.state.queues !== 'loading') {
-      queues = this.filterTransferListItems(this.state.queues)
+    if (this.props.queues !== 'loading') {
+      queues = this.filterTransferListItems(this.props.queues)
         .map((queue) =>
           <div key={queue.name} className="queueTransferListItem" onClick={() => this.transfer(queue.name, undefined, queue.id)} style={this.styles.transferListItem} title={queue.name}>
             <span style={this.styles.queueName}>
@@ -513,6 +507,7 @@ export class TransferMenu extends React.Component {
 const mapStateToProps = (state, props) => ({
   agentId: selectAgentId(state, props),
   warmTransfers: selectWarmTransfers(state, props),
+  queues: selectQueues(state, props).map((queue) => ({ id: queue.id, name: queue.name })),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -528,6 +523,7 @@ TransferMenu.propTypes = {
   agentId: PropTypes.string.isRequired,
   warmTransfers: PropTypes.array.isRequired,
   startWarmTransferring: PropTypes.func.isRequired,
+  queues: PropTypes.array.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(TransferMenu));

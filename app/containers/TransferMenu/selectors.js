@@ -10,6 +10,13 @@ const selectWarmTransfers = createSelector(
     ).get('warmTransfers').toJS()
 );
 
+const selectQueues = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) => agentDesktop.get('queues').toJS()
+
+);
+
 export {
   selectWarmTransfers,
+  selectQueues,
 };

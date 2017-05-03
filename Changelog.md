@@ -1,3 +1,7 @@
+<a name"0.32.2"></a>
+### 0.32.2 (2017-05-03)
+* CXV1-8230 - Changed transfer menu so that queues come from the Redux store instead of an SDK call
+
 <a name"0.32.1"></a>
 ### 0.32.1 (2017-05-02)
 * CXV1-8498 - BUGFIX - show all active reason lists, not just active && default
