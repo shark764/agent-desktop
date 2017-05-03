@@ -202,7 +202,7 @@ function agentDesktopReducer(state = initialState, action) {
     case SHOW_REFRESH_NOTIF:
       return state.set('refreshRequired', action.show);
     case SET_USER_CONFIG: {
-      const presenceReasonLists = action.response.reasonLists.filter((list) => list.isDefault === true && list.active === true);
+      const presenceReasonLists = action.response.reasonLists.filter((list) => list.active === true);
       let newState = state.set('userConfig', fromJS(action.response));
       if (presenceReasonLists) {
         newState = newState.set('presenceReasonLists', fromJS(
