@@ -1,3 +1,7 @@
+<a name"0.32.3"></a>
+### 0.32.3 (2017-05-04)
+* SDK version bump (poller fix)
+
 <a name"0.32.2"></a>
 ### 0.32.2 (2017-05-03)
 * CXV1-8230 - Changed transfer menu so that queues come from the Redux store instead of an SDK call

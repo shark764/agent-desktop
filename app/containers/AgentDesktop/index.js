@@ -134,6 +134,7 @@ export class AgentDesktop extends React.Component {
 
     const sdkConf = { baseUrl: `https://${where}`, logLevel, blastSqsOutput, environment, reportingRefreshRate };
     window.SDK = serenova.cxengage.initialize(sdkConf);
+    serenova.cxengage.internal = {}; // TODO remove when fixed in SDK
 
     SDK.subscribe('cxengage', (error, topic, response) => {
       if (error) {
