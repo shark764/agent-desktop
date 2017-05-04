@@ -1,3 +1,7 @@
+<a name"0.32.4"></a>
+### 0.32.4 (2017-05-04)
+* SDK version bump (to the version that includes click to sms & send outbound SMS functionality)
+
 <a name"0.32.3"></a>
 ### 0.32.3 (2017-05-04)
 * SDK version bump (poller fix)
