@@ -12,6 +12,7 @@ import {
   REMOVE_SCRIPT,
   SET_ACTIVE_EXTENSION,
   SET_QUEUES,
+  SET_QUEUE_TIME,
   SET_PRESENCE,
   GO_NOT_READY,
   START_OUTBOUND_INTERACTION,
@@ -120,6 +121,14 @@ export function setQueues(queues) {
   return {
     type: SET_QUEUES,
     queues,
+  };
+}
+
+export function setQueueTime(queueId, queueTime) {
+  return {
+    type: SET_QUEUE_TIME,
+    queueId,
+    queueTime,
   };
 }
 

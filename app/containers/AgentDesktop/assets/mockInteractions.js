@@ -51,7 +51,7 @@ const processedDispositionDetails = {
 };
 
 const outboundConnectingVoiceInteraction = {
-  interactionId: 'outbound-interaction-1',
+  interactionId: 'outbound-voice-interaction-1',
   channelType: 'voice',
   direction: 'outbound',
   status: 'connecting-to-outbound',
@@ -62,6 +62,29 @@ const outboundConnectingVoiceInteraction = {
     targetWrapupTime: '10',
   },
   query: {},
+};
+
+const voiceInteraction = {
+  channelType: 'voice',
+  interactionId: 'voice-interaction-1',
+  status: 'work-accepted', // 'wrapup', // 'work-offer',
+  timeout: Date.now() + 60000,
+  number: '+3134126623',
+  query: {},
+  dispositionDetails: processedDispositionDetails,
+  wrapupDetails: {
+    wrapupUpdateAllowed: true,
+    wrapupEnabled: true,
+    wrapupTime: '45',
+    targetWrapupTime: '30',
+  },
+  warmTransfers: [],
+  sidePanelTabIndex: 0,
+  note: {
+    body: '',
+    title: '',
+    notesPanelHeight: 300,
+  },
 };
 
 const voiceInteractionWithTransfersAndScripts = {
@@ -730,6 +753,7 @@ smsInteractionWithLotsOfMessagesAndScript2.interactionId = 'smsInteractionWithLo
 
 export {
   outboundConnectingVoiceInteraction,
+  voiceInteraction,
   voiceInteractionWithTransfersAndScripts,
   emailInteraction,
   smsInteractionWithLotsOfMessagesAndScript,
