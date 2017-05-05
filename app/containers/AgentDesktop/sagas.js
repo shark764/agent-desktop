@@ -2,7 +2,7 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
-import { updateContactHistoryInteractionDetails, setContactInteractionHistory, setPresence, setPresenceReasonId } from 'containers/AgentDesktop/actions';
+import { updateContactHistoryInteractionDetails, setContactInteractionHistory } from 'containers/AgentDesktop/actions';
 import { LOAD_HISTORICAL_INTERACTION_BODY, LOAD_CONTACT_INTERACTION_HISTORY, GO_NOT_READY } from 'containers/AgentDesktop/constants';
 
 export function* loadHistoricalInteractionBody(action) {
@@ -63,7 +63,6 @@ export function* loadContactInteractions(action) {
 }
 
 export function* goNotReady(action) {
-  let goNotReadyResponse;
   const parameters = {};
   if (typeof action.reason !== 'undefined') {
     parameters.reasonInfo = {
@@ -73,7 +72,7 @@ export function* goNotReady(action) {
     };
   }
   try {
-    goNotReadyResponse = yield call(
+    yield call(
       sdkCallToPromise,
       SDK.session.goNotReady,
       parameters,
@@ -82,8 +81,6 @@ export function* goNotReady(action) {
   } catch (error) {
     console.error(error);
   }
-  yield put(setPresence(goNotReadyResponse));
-  yield put(setPresenceReasonId(action.reason && action.reason.reasonId, action.reason && action.listId));
 }
 
 // Individual exports for testing

@@ -1,30 +1,20 @@
 import { createSelector } from 'reselect';
 
-const selectLoginDomain = (state) => state.get('login');
-const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
-
-const selectLogin = createSelector(
-  selectLoginDomain,
-  (substate) => substate.toJS()
-);
-
-const selectAgentDesktop = createSelector(
-  selectAgentDesktopDomain,
-  (substate) => substate.toJS()
-);
+const selectLoginMap = (state) => state.get('login');
+const selectAgentDesktopMap = (state) => state.get('agentDesktop');
 
 const selectAgentId = createSelector(
-   selectLoginDomain,
-   (login) => login.get('agent').get('userId')
- );
+  selectLoginMap,
+  (login) => login.get('agent').get('userId')
+);
 
 const selectInteractions = createSelector(
-  selectAgentDesktopDomain,
+  selectAgentDesktopMap,
   (agentDesktop) => agentDesktop.get('interactions')
 );
 
 const getSelectedInteractionId = createSelector(
-  selectAgentDesktopDomain,
+  selectAgentDesktopMap,
   (agentDesktop) => agentDesktop.get('selectedInteractionId')
 );
 
@@ -45,16 +35,11 @@ const selectAwaitingDisposition = createSelector(
   )
 );
 
-const selectPresenceReasonListId = createSelector(
-  selectAgentDesktopDomain,
-  (agentDesktop) => agentDesktop.getIn(['presenceReasonList', 'id'])
-);
 
-export default selectAgentDesktop;
 export {
   selectInteractions,
-  selectLogin,
+  selectLoginMap,
+  selectAgentDesktopMap,
   selectAgentId,
   selectAwaitingDisposition,
-  selectPresenceReasonListId,
 };

@@ -17,7 +17,6 @@ import {
   SET_ACTIVE_EXTENSION,
   SET_QUEUES,
   SET_PRESENCE,
-  SET_PRESENCE_REASON_ID,
   SET_INTERACTION_STATUS,
   START_OUTBOUND_INTERACTION,
   ADD_INTERACTION,
@@ -94,7 +93,7 @@ const initialState = fromJS({
   activeExtension: {},
   refreshRequired: false,
   presenceReasonLists: [],
-  selectedPresenceReason: {},
+  presenceReason: {},
 });
 
 const categorizeItems = (rawItems, name) => {
@@ -225,12 +224,11 @@ function agentDesktopReducer(state = initialState, action) {
       return state.set('queues', fromJS(action.queues));
     case SET_PRESENCE:
       return state
-        .set('presence', action.response.state);
-    case SET_PRESENCE_REASON_ID:
-      return state
-        .set('selectedPresenceReason', fromJS({
-          reasonId: action.reasonId,
-          listId: action.listId,
+        .set('presence', action.presenceInfo.state)
+        .set('presenceReason', fromJS({
+          reason: action.presenceInfo.reason,
+          reasonId: action.presenceInfo.reasonId,
+          listId: action.presenceInfo.reasonListId,
         }));
     case SET_INTERACTION_STATUS: {
       const interactionIndex = state.get('interactions').findIndex(

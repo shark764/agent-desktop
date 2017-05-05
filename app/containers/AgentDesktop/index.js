@@ -30,9 +30,9 @@ import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiate
   updateWrapupDetails, addScript, removeScript, selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
   muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall,
   transferCancelled, resourceAdded, updateResourceName, updateResourceStatus, holdMe, resumeMe, resourceRemoved, showRefreshRequired,
-  emailAddAttachment, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition } from './actions';
+  emailAddAttachment, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition, goNotReady } from './actions';
 
-import selectAgentDesktop, { selectLogin } from './selectors';
+import { selectAgentDesktopMap, selectLoginMap } from './selectors';
 
 export class AgentDesktop extends React.Component {
 
@@ -172,11 +172,21 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/session/state-change-response': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.setPresence(response);
           if (response.state === 'offline') {
             // FIXME do this instead when it's working on the SDK
             // this.props.logout();
             window.location.reload();
+          } else if (!this.props.agentDesktop.presenceReason.reasonId && response.reasonId === null) {
+            const systemPresenceReasonsList = this.props.agentDesktop.userConfig
+              && this.props.agentDesktop.userConfig.reasonLists
+              && this.props.agentDesktop.userConfig.reasonLists.find((list) => list.name === 'System Presence Reasons');
+            const loggedInReason = systemPresenceReasonsList && systemPresenceReasonsList.reasons.find((reason) => reason.name === 'Logged in');
+            if (loggedInReason) {
+              this.props.goNotReady(loggedInReason, systemPresenceReasonsList.id);
+            }
+            this.props.setPresence(response);
+          } else {
+            this.props.setPresence(response);
           }
           break;
         }
@@ -649,8 +659,8 @@ export class AgentDesktop extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  login: selectLogin(state, props),
-  agentDesktop: selectAgentDesktop(state, props),
+  login: selectLoginMap(state, props).toJS(),
+  agentDesktop: selectAgentDesktopMap(state, props).toJS(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -707,6 +717,7 @@ function mapDispatchToProps(dispatch) {
     selectDisposition: (interactionId, disposition) => dispatch(selectDisposition(interactionId, disposition)),
     logout: () => dispatch(logout()),
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
+    goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
     dispatch,
   };
 }
@@ -763,6 +774,7 @@ AgentDesktop.propTypes = {
   toggleStat: PropTypes.func.isRequired,
   showRefreshRequired: PropTypes.func.isRequired,
   toggleAgentMenu: PropTypes.func.isRequired,
+  goNotReady: PropTypes.func.isRequired,
   // TODO when fixed in SDK
   // logout: PropTypes.func.isRequired,
   login: PropTypes.object,
