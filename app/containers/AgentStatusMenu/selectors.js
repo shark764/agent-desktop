@@ -32,13 +32,13 @@ const selectHasActiveWrapup = createSelector(
 const selectPresenceReasonLists = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) =>
-    agentDesktop.getIn(['presenceReasonLists']).toJS()
+    agentDesktop.getIn(['presenceReasonLists']).filter((list) => list.get('name') !== 'System Presence Reasons').toJS()
 );
 
 const selectSelectedPresenceReason = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) =>
-    agentDesktop.get('selectedPresenceReason').toJS()
+    agentDesktop.get('presenceReason').toJS()
 );
 
 export {

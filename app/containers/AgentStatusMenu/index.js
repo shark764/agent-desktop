@@ -12,7 +12,7 @@ import Radium from 'radium';
 import Icon from 'components/Icon';
 import PopupDialog from 'components/PopupDialog';
 
-import { setActiveExtension, goNotReady, setPresenceReasonId } from 'containers/AgentDesktop/actions';
+import { setActiveExtension, goNotReady } from 'containers/AgentDesktop/actions';
 
 import LargeMenuRow from './LargeMenuRow';
 import MenuRow from './MenuRow';
@@ -103,9 +103,7 @@ export class AgentStatusMenu extends React.Component {
 
   changePresence(newPresence, reason, listId) {
     if (newPresence === 'ready') {
-      SDK.session.goReady({ extensionValue: this.props.activeExtension.value }, () => {
-        this.props.setPresenceReasonId(undefined);
-      });
+      SDK.session.goReady({ extensionValue: this.props.activeExtension.value });
     } else if (newPresence === 'notready') {
       this.props.goNotReady(reason, listId);
     } else {
@@ -298,7 +296,6 @@ AgentStatusMenu.propTypes = {
   readyState: PropTypes.string,
   setActiveExtension: PropTypes.func.isRequired,
   goNotReady: PropTypes.func.isRequired,
-  setPresenceReasonId: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
 };
 
@@ -315,7 +312,6 @@ function mapDispatchToProps(dispatch) {
   return {
     setActiveExtension: (extension) => dispatch(setActiveExtension(extension)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
-    setPresenceReasonId: (reasonId, listId) => dispatch(setPresenceReasonId(reasonId, listId)),
     dispatch,
   };
 }

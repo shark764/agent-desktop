@@ -1,7 +1,8 @@
 import { fromJS } from 'immutable';
 import {
   selectInteractions,
-  selectLogin,
+  selectLoginMap,
+  selectAgentDesktopMap,
   selectAgentId,
   selectAwaitingDisposition,
 } from '../selectors';
@@ -19,7 +20,7 @@ describe('selectInteractions', () => {
   });
 });
 
-describe('selectLogin', () => {
+describe('selectLoginMap', () => {
   it('should select the login domain', () => {
     const mockLoginDomain = {
       agent: { userId: 'mockId' },
@@ -27,7 +28,19 @@ describe('selectLogin', () => {
     const mockedState = fromJS({
       login: mockLoginDomain,
     });
-    expect(selectLogin(mockedState)).toMatchSnapshot();
+    expect(selectLoginMap(mockedState)).toMatchSnapshot();
+  });
+});
+
+describe('selectAgentDesktopMap', () => {
+  it('should select the agentDesktop domain', () => {
+    const mockAgentDesktopDomain = {
+      interactions: ['mockInteraction'],
+    };
+    const mockedState = fromJS({
+      agentDesktop: mockAgentDesktopDomain,
+    });
+    expect(selectAgentDesktopMap(mockedState)).toMatchSnapshot();
   });
 });
 
