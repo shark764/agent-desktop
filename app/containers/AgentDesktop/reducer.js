@@ -6,7 +6,9 @@
 
 import { fromJS, Map, List } from 'immutable';
 
-import Interaction from 'models/Interaction';
+import Interaction from 'models/Interaction/Interaction';
+import Message from 'models/Message/Message';
+import ResponseMessage from 'models/Message/ResponseMessage';
 
 import {
   SET_USER_CONFIG,
@@ -19,6 +21,7 @@ import {
   SET_PRESENCE,
   SET_INTERACTION_STATUS,
   START_OUTBOUND_INTERACTION,
+  INITIALIZE_OUTBOUND_SMS,
   ADD_INTERACTION,
   WORK_INITIATED,
   REMOVE_INTERACTION,
@@ -294,23 +297,49 @@ function agentDesktopReducer(state = initialState, action) {
       return state;
     }
     case START_OUTBOUND_INTERACTION: {
-      return state.set('interactions', state.get('interactions').push(new Map(new Interaction({
+      const outboundInteraction = new Map(new Interaction({
         channelType: action.channelType,
+        customer: action.customer,
+        contact: action.contact,
         direction: 'outbound',
         status: 'connecting-to-outbound',
-      }))));
+      }));
+      return state
+        .set('interactions', state.get('interactions').push(outboundInteraction))
+        .set('selectedInteractionId', action.channelType === 'sms' ? outboundInteraction.get('interactionId') : state.get('interactionId'));
+    }
+    case INITIALIZE_OUTBOUND_SMS: {
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.placeholderInteractionId
+      );
+      return state.updateIn(['interactions', interactionIndex], (interaction) =>
+        interaction.set('interactionId', action.interactionId)
+          .set('status', 'initialized-outbound')
+          .set('messageHistory', new List().push(new Message({
+            text: action.message,
+            from: 'Agent',
+            type: 'agent',
+            timestamp: (new Date()).toISOString(),
+            unread: false,
+          })))
+      // Update the selected interactionId to match the new one (if it is selected)
+      ).set('selectedInteractionId', state.get('selectedInteractionId') === action.placeholderInteractionId ? action.interactionId : state.get('selectedInteractionId'));
     }
     case ADD_INTERACTION: {
-      const interactionToAdd = new Map(new Interaction(action.response));
-      // If interaction was already added by START_OUTBOUND_INTERACTION, replace it; otherwise, just push it to the list
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => (interaction.get('status') === 'connecting-to-outbound' && interaction.get('channelType') === action.response.channelType)
-      );
-      if (interactionIndex !== -1) {
-        return state.setIn(['interactions', interactionIndex], interactionToAdd);
+      // Don't re-add outbound SMS interaction. It was already added by INITIALIZE_OUTBOUND_SMS. Update it's status instead.
+      if (!(action.response.direction === 'outbound' && action.response.channelType === 'sms')) {
+        // If interaction was already added by START_OUTBOUND_INTERACTION, replace it; otherwise, just push it to the list
+        const interactionIndex = state.get('interactions').findIndex(
+          (interaction) => (interaction.get('direction') === 'outbound' && interaction.get('channelType') === action.response.channelType)
+        );
+        const interactionToAdd = new Map(new Interaction(action.response));
+        if (interactionIndex !== -1) {
+          return state.setIn(['interactions', interactionIndex], interactionToAdd);
+        } else {
+          return state.set('interactions', state.get('interactions').push(interactionToAdd));
+        }
       } else {
-        return state
-          .set('interactions', state.get('interactions').push(interactionToAdd));
+        return state;
       }
     }
     case UPDATE_WRAPUP_DETAILS: {
@@ -388,24 +417,12 @@ function agentDesktopReducer(state = initialState, action) {
         );
         const messageInteraction = state.getIn(['interactions', messageInteractionIndex]);
         if (messageInteraction) {
-          const messageHistoryItems = action.response.map((messageHistoryItem) => {
-            let from = messageHistoryItem.metadata && messageHistoryItem.metadata.name ? messageHistoryItem.metadata.name : messageHistoryItem.from;
-            const type = messageHistoryItem.metadata ? messageHistoryItem.metadata.type : messageHistoryItem.type;
-            if (messageInteraction.get('channelType') === 'sms' && type === 'message') {
-              if (from[0] !== '+') from = `+${from}`;
-            }
-            return {
-              text: messageHistoryItem.body.text,
-              from,
-              type,
-              timestamp: messageHistoryItem.timestamp,
-              unread: state.get('selectedInteractionId') !== undefined && action.response[0].to !== state.get('selectedInteractionId'),
-            };
-          });
-          return state
-            .updateIn(['interactions', messageInteractionIndex],
-              (interaction) => interaction.set('messageHistory', fromJS(messageHistoryItems))
-            );
+          const messageHistoryItems = new List(action.response.map((messageHistoryItem) =>
+            new ResponseMessage(messageHistoryItem, state.get('selectedInteractionId'), action.agentId)
+          ));
+          return state.updateIn(['interactions', messageInteractionIndex], (interaction) =>
+            interaction.set('messageHistory', messageHistoryItems)
+          );
         } else {
           return state;
         }
@@ -610,28 +627,16 @@ function agentDesktopReducer(state = initialState, action) {
       });
     }
     case ADD_MESSAGE: {
-      const message = action.response;
+      if (!(action.message instanceof Message)) {
+        throw new Error('ADD_MESSAGE message must be of type Message');
+      }
       const messageInteractionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === message.to
+        (interaction) => interaction.get('interactionId') === action.interactionId
       );
-      const messageInteraction = state.getIn(['interactions', messageInteractionIndex]);
       if (messageInteractionIndex !== -1) {
-        let from = message.metadata !== null ? message.metadata.name : message.from;
-        const type = message.metadata !== null ? message.metadata.type : message.type;
-        if (messageInteraction.get('channelType') === 'sms' && type === 'message') {
-          if (from[0] !== '+') from = `+${from}`;
-        }
-        const messageHistoryItem = {
-          text: message.body.text,
-          from,
-          type,
-          timestamp: message.timestamp,
-          unread: state.get('selectedInteractionId') !== undefined && message.to !== state.get('selectedInteractionId'),
-        };
-        return state
-          .updateIn(['interactions', messageInteractionIndex, 'messageHistory'],
-            (messageHistory) => messageHistory.push(fromJS(messageHistoryItem))
-          );
+        return state.updateIn(['interactions', messageInteractionIndex, 'messageHistory'], (messageHistory) =>
+          messageHistory.push(action.message)
+        );
       } else {
         return state;
       }

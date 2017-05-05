@@ -1,7 +1,7 @@
 import { List, Map } from 'immutable';
 
 export default class Interaction {
-  constructor({ interactionId, channelType, autoAnswer, direction, timeout, toolbarFeatures, recording, customerOnHold, status, customer, activeResources }) {
+  constructor({ interactionId, channelType, autoAnswer, direction, timeout, toolbarFeatures, recording, customerOnHold, status, customer, activeResources, contact }) {
     if (channelType === 'voice') {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
       this.agentRecordingEnabled = toolbarFeatures && toolbarFeatures.recordingUpdate !== false;
@@ -12,12 +12,14 @@ export default class Interaction {
       this.warmTransfers = new List();
     } else if (channelType === 'sms' || channelType === 'messaging') {
       this.customerAvatarIndex = Math.floor(Math.random() * 17);
-    } else if (channelType === 'email') {
+      this.messageHistory = [];
+    }
+    if (channelType === 'email' || channelType === 'sms') {
       this.customer = customer;
     }
     this.channelType = channelType;
     this.direction = direction;
-    this.interactionId = interactionId;
+    this.interactionId = interactionId || `${direction}-${channelType}-${customer}`;
     this.timeout = new Date(timeout).valueOf();
     this.autoAnswer = autoAnswer;
     this.status = status || 'work-offer';
@@ -50,7 +52,8 @@ export default class Interaction {
       title: '',
       notesPanelHeight: 300,
     });
-    this.contactAction = 'search';
+    this.contact = contact;
+    this.contactAction = contact ? 'view' : 'search';
     this.query = new Map();
     this.sidePanelTabIndex = 0;
   }

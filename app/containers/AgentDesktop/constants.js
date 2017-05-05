@@ -15,6 +15,7 @@ export const ADD_SCRIPT = 'app/AgentDesktop/ADD_SCRIPT';
 export const REMOVE_SCRIPT = 'app/AgentDesktop/REMOVE_SCRIPT';
 export const SET_INTERACTION_STATUS = 'app/AgentDesktop/SET_INTERACTION_STATUS';
 export const START_OUTBOUND_INTERACTION = 'app/AgentDesktop/START_OUTBOUND_INTERACTION';
+export const INITIALIZE_OUTBOUND_SMS = 'app/AgentDesktop/INITIALIZE_OUTBOUND_SMS';
 export const ADD_INTERACTION = 'app/AgentDesktop/ADD_INTERACTION';
 export const WORK_INITIATED = 'app/AgentDesktop/WORK_INITIATED';
 export const REMOVE_INTERACTION = 'app/AgentDesktop/REMOVE_INTERACTION';

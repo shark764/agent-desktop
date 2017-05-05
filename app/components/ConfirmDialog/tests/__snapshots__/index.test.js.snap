@@ -10,7 +10,6 @@ exports[`<ConfirmDialog /> should render correctly 1`] = `
     style={
       Object {
         "borderRadius": "4px",
-        "paddingTop": "16px",
       }
     }
     widthPx={200}

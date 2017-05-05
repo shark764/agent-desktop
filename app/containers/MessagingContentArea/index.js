@@ -17,8 +17,10 @@ import LoadingText from 'components/LoadingText';
 
 import ContentArea from 'containers/ContentArea';
 
+import { setInteractionStatus } from 'containers/AgentDesktop/actions';
 import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
+import { initializeOutboundSms, sendOutboundSms } from './actions';
 import messages from './messages';
 
 export class MessagingContentArea extends React.Component {
@@ -188,10 +190,16 @@ export class MessagingContentArea extends React.Component {
 
   sendMessage() {
     if (this.state.messageText.trim() !== '') {
-      SDK.interactions.messaging.sendMessage({
-        interactionId: this.props.selectedInteraction.interactionId,
-        message: this.state.messageText,
-      });
+      if (this.props.selectedInteraction.status === 'connecting-to-outbound') {
+        this.props.initializeOutboundSms(this.props.selectedInteraction.interactionId, this.props.selectedInteraction.customer, this.state.messageText);
+      } else if (this.props.selectedInteraction.status === 'initialized-outbound') {
+        this.props.sendOutboundSms(this.props.selectedInteraction.interactionId, this.state.messageText);
+      } else {
+        SDK.interactions.messaging.sendMessage({
+          interactionId: this.props.selectedInteraction.interactionId,
+          message: this.state.messageText,
+        });
+      }
       this.setMessageText('');
     }
   }
@@ -327,7 +335,7 @@ export class MessagingContentArea extends React.Component {
   };
 
   render() {
-    const isAccepting = this.props.selectedInteraction.status === 'work-accepting';
+    const isLoading = this.props.selectedInteraction.status === 'work-accepting' || this.props.selectedInteraction.status === 'initializing-outbound';
 
     const from = this.props.selectedInteraction.contact !== undefined ? this.props.selectedInteraction.contact.attributes.name : this.props.selectedInteraction.messageHistory[0].from;
 
@@ -356,12 +364,12 @@ export class MessagingContentArea extends React.Component {
         type="primaryBlue"
         text={wrappingUp ? messages.endWrapup : messages.endChat}
         onClick={this.props.endInteraction}
-        disabled={isAccepting || this.props.awaitingDisposition}
+        disabled={isLoading || this.props.awaitingDisposition}
       />
     );
 
     let content;
-    if (isAccepting) {
+    if (isLoading) {
       content = (
         <div>
           <LoadingText withSquare />
@@ -501,10 +509,21 @@ MessagingContentArea.propTypes = {
   messageTemplates: PropTypes.array.isRequired,
   endInteraction: PropTypes.func.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
+  initializeOutboundSms: PropTypes.func.isRequired,
+  sendOutboundSms: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
   awaitingDisposition: selectAwaitingDisposition(state, props),
 });
 
-export default connect(mapStateToProps)(Radium(MessagingContentArea));
+function mapDispatchToProps(dispatch) {
+  return {
+    setInteractionStatus: (interactionId, newStatus, response) => dispatch(setInteractionStatus(interactionId, newStatus, response)),
+    initializeOutboundSms: (interactionId, phoneNumber, message) => dispatch(initializeOutboundSms(interactionId, phoneNumber, message)),
+    sendOutboundSms: (interactionId, message) => dispatch(sendOutboundSms(interactionId, message)),
+    dispatch,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(MessagingContentArea));

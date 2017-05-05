@@ -16,7 +16,6 @@ import messages from './messages';
 const styles = {
   base: {
     borderRadius: '4px',
-    paddingTop: '16px',
   },
   container: {
     display: 'flex',
@@ -25,6 +24,7 @@ const styles = {
   },
   questionContainer: {
     alignSelf: 'center',
+    paddingTop: '16px',
     paddingBottom: '16px',
     fontSize: '16px',
   },
@@ -54,10 +54,10 @@ function ConfirmDialog(props) {
             </div>
           }
           <div style={styles.buttonContainer}>
-            <Button id="leftConfirmButton" onClick={props.leftAction} type="secondary" clear style={styles.leftButton}>
+            <Button id="leftConfirmButton" onClick={props.leftAction} disabled={props.leftDisabled} type="secondary" clear style={styles.leftButton}>
               <FormattedMessage {...props.leftMessage} />
             </Button>
-            <Button id="rightConfirmButton" onClick={props.rightAction} type="secondary" clear style={styles.rightButton}>
+            <Button id="rightConfirmButton" onClick={props.rightAction} disabled={props.rightDisabled} type="secondary" clear style={styles.rightButton}>
               <FormattedMessage {...props.rightMessage} />
             </Button>
           </div>
@@ -73,6 +73,8 @@ ConfirmDialog.propTypes = {
   rightMessage: PropTypes.object,
   leftAction: PropTypes.func.isRequired,
   rightAction: PropTypes.func.isRequired,
+  leftDisabled: PropTypes.bool,
+  rightDisabled: PropTypes.bool,
   hide: PropTypes.func,
   isVisible: PropTypes.bool.isRequired,
   style: PropTypes.object,
