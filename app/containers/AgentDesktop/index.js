@@ -176,7 +176,7 @@ export class AgentDesktop extends React.Component {
             // FIXME do this instead when it's working on the SDK
             // this.props.logout();
             window.location.reload();
-          } else if (!this.props.agentDesktop.presenceReason.reasonId && response.reasonId === null) {
+          } else if (!this.props.agentDesktop.presence && response.state === 'notready' && response.reasonId === null) {
             const systemPresenceReasonsList = this.props.agentDesktop.userConfig
               && this.props.agentDesktop.userConfig.reasonLists
               && this.props.agentDesktop.userConfig.reasonLists.find((list) => list.name === 'System Presence Reasons');

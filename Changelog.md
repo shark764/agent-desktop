@@ -1,8 +1,11 @@
+### [0.32.7] (2017-05-08)
+* CXV1-8498 - BUGFIX - presence flipping back to not ready when going ready
+
 ### [0.32.6] (2017-05-05)
 * CXV1-7491 - Adjusted locale icon
 
 ### [0.32.5] (2017-05-05)
-* Set reason code from state change response
+* CXV1-8498 - Set reason code from state change response
 * SDK version bump to 4.1.1-SNAPSHOT.267
 
 ### 0.32.4 (2017-05-04)
@@ -622,4 +625,7 @@
 #### Initial Commit
 * Here we go!
 
+[0.32.7]: http://www.github.com/liveops/agent-desktop/compare/0.32.6...0.32.7
+[0.32.6]: http://www.github.com/liveops/agent-desktop/compare/0.32.5...0.32.6
 [0.32.5]: http://www.github.com/liveops/agent-desktop/compare/0.32.4...0.32.5
+
