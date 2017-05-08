@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.32.5",
+  "version": "0.32.6",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -241,6 +241,7 @@
     "draft-js-import-html": "0.3.2",
     "empty-module": "0.0.2",
     "express": "^4.15.2",
+    "font-awesome": "^4.7.0",
     "google-libphonenumber": "^2.0.14",
     "immutable": "3.8.1",
     "intl": "1.2.5",

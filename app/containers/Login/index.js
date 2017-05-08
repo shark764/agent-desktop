@@ -19,7 +19,7 @@ import Button from 'components/Button';
 import A from 'components/A';
 import Select from 'components/Select';
 import IconSVG from 'components/IconSVG';
-import Icon from 'components/Icon';
+import FontAwesomeIcon from 'components/FontAwesomeIcon';
 import PopupDialog from 'components/PopupDialog';
 import mitelFavicon from 'assets/favicons/mitel.png';
 // import Radio from 'components/Radio';
@@ -370,21 +370,25 @@ export class Login extends React.Component {
       fontSize: '10px',
     },
     languageMenu: {
-      position: 'relative',
-      right: '240px',
-      bottom: '50px',
+      position: 'absolute',
+      left: '1.4em',
+      bottom: '1em',
     },
     languageDialog: {
       position: 'absolute',
-      bottom: '42px',
-      left: '-15px',
+      bottom: '38px',
+      left: '-18px',
     },
     languageSelect: {
       width: '180px',
+      top: '0',
       bottom: '10px',
       marginLeft: '10px',
-      marginTop: '3px',
+      marginTop: '10px',
       border: 'none',
+    },
+    languageIcon: {
+      color: 'gray',
     },
   };
 
@@ -410,9 +414,9 @@ export class Login extends React.Component {
             {pageContent}
           </Dialog>
           <div style={this.styles.languageMenu}>
-            <Icon id={'earth-icon'} name={'earth'} onclick={this.toggleLanguageMenu} />
+            <FontAwesomeIcon id={'localeIcon'} name={'globe'} style={this.styles.languageIcon} onclick={this.toggleLanguageMenu} />
             <div style={this.styles.languageDialog}>
-              <PopupDialog isVisible={this.state.showLanguage} hide={this.toggleLanguageMenu} widthPx={200} arrowLeftOffsetPx={18}>
+              <PopupDialog isVisible={this.state.showLanguage} hide={this.toggleLanguageMenu} widthPx={200} arrowLeftOffsetPx={14}>
                 <Select
                   id={'locale'}
                   style={this.styles.languageSelect}

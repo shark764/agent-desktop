@@ -1,3 +1,6 @@
+### [0.32.6] (2017-05-05)
+* CXV1-7491 - Adjusted locale icon
+
 ### [0.32.5] (2017-05-05)
 * Set reason code from state change response
 * SDK version bump to 4.1.1-SNAPSHOT.267
