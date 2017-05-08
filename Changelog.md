@@ -1,3 +1,6 @@
+### [0.32.8] (2017-05-08)
+* CXV1-7193 - Locale Icon hover styles
+
 ### [0.32.7] (2017-05-08)
 * CXV1-8498 - BUGFIX - presence flipping back to not ready when going ready
 
@@ -628,4 +631,3 @@
 [0.32.7]: http://www.github.com/liveops/agent-desktop/compare/0.32.6...0.32.7
 [0.32.6]: http://www.github.com/liveops/agent-desktop/compare/0.32.5...0.32.6
 [0.32.5]: http://www.github.com/liveops/agent-desktop/compare/0.32.4...0.32.5
-
