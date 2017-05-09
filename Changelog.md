@@ -1,4 +1,7 @@
-### [0.33.0] (2017-05-09)
+### [0.33.1] (2017-05-10)
+* CXV1-8315 - Corrected checkbox data structure in agentScripts and refactored agentScripts
+
+### [0.33.0] (2017-05-10)
 * CXV1-8499 - Contact delete bulk action
 * BUGFIX - edit abandon dialog not hiding after cancel and reenter
 * BUGFIX - edit abandon dialog showing up even when no changes made
