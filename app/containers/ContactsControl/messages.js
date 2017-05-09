@@ -38,4 +38,16 @@ export default defineMessages({
     id: 'app.containers.SidePanel.editing',
     defaultMessage: 'Editing Customer Record',
   },
+  delete: {
+    id: 'app.containers.ContactControl.delete',
+    defaultMessage: 'Delete',
+  },
+  deleteContact: {
+    id: 'app.containers.ContactControl.deleteContact',
+    defaultMessage: 'Delete Contact?',
+  },
+  deleteContacts: {
+    id: 'app.containers.ContactControl.deleteContacts',
+    defaultMessage: 'Delete {count} Contacts?',
+  },
 });

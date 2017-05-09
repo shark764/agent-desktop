@@ -2,8 +2,9 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
-import { updateContactHistoryInteractionDetails, setContactInteractionHistory } from 'containers/AgentDesktop/actions';
-import { LOAD_HISTORICAL_INTERACTION_BODY, LOAD_CONTACT_INTERACTION_HISTORY, GO_NOT_READY } from 'containers/AgentDesktop/constants';
+import { updateContactHistoryInteractionDetails, setContactInteractionHistory, removeContact } from 'containers/AgentDesktop/actions';
+import { clearSearchResults } from 'containers/ContactsControl/actions';
+import { LOAD_HISTORICAL_INTERACTION_BODY, LOAD_CONTACT_INTERACTION_HISTORY, GO_NOT_READY, DELETE_CONTACTS } from 'containers/AgentDesktop/constants';
 
 export function* loadHistoricalInteractionBody(action) {
   const body = {};
@@ -83,6 +84,23 @@ export function* goNotReady(action) {
   }
 }
 
+export function* goDeleteContacts(action) {
+  try {
+    const response = yield action.contactIds.map((contactId) => call(
+      sdkCallToPromise,
+      SDK.contacts.delete,
+      { contactId },
+      'AgentDesktop'
+    ));
+    yield action.contactIds
+      .filter((contactId, index) => response[index]) // API response is bool
+      .map((contactId) => put(removeContact(contactId)));
+    yield put(clearSearchResults());
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 // Individual exports for testing
 export function* historicalInteractionBody() {
   yield takeEvery(LOAD_HISTORICAL_INTERACTION_BODY, loadHistoricalInteractionBody);
@@ -96,9 +114,14 @@ export function* notReady() {
   yield takeEvery(GO_NOT_READY, goNotReady);
 }
 
+export function* deleteContacts() {
+  yield takeEvery(DELETE_CONTACTS, goDeleteContacts);
+}
+
 // All sagas to be loaded
 export default [
   historicalInteractionBody,
   contactInteractionHistory,
   notReady,
+  deleteContacts,
 ];

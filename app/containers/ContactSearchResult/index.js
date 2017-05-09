@@ -7,6 +7,11 @@
 import React from 'react';
 import Radium from 'radium';
 
+import 'velocity-animate';
+import 'velocity-animate/velocity.ui';
+import { VelocityTransitionGroup } from 'velocity-react';
+
+import Checkbox from 'components/Checkbox';
 import Contact from 'containers/Contact';
 
 export class ContactSearchResult extends React.Component {
@@ -28,12 +33,12 @@ export class ContactSearchResult extends React.Component {
       borderRadius: '3px',
       padding: '17px',
       fontSize: '16px',
-      overflowY: 'hidden',
       transition: 'height 1s',
       boxSizing: 'border-box',
       display: 'flex',
       flexDirection: 'column',
       alignContent: 'stretch',
+      position: 'relative',
     },
     contact: {
       marginBottom: '5px',
@@ -56,8 +61,11 @@ export class ContactSearchResult extends React.Component {
       fontSize: '18px',
       color: '#979797',
     },
+    checkbox: {
+      position: 'absolute',
+      left: '-33px',
+    },
   };
-
   assignContact() {
     this.props.assignContact(this.props.contact);
   }
@@ -68,6 +76,18 @@ export class ContactSearchResult extends React.Component {
   render() {
     return (
       <div style={[this.styles.base, this.props.style]}>
+        <VelocityTransitionGroup enter={{ animation: 'transition.fadeIn', duration: '1000' }} leave={{ animation: 'transition.fadeOut', duration: '1000' }}>
+          {
+            !this.props.isCollapsed ?
+              <Checkbox
+                style={this.styles.checkbox}
+                id={this.props.contact.id}
+                checked={this.props.checked}
+                cb={this.props.selectContact}
+              />
+            : ''
+          }
+        </VelocityTransitionGroup>
         <Contact
           contact={this.props.contact}
           style={[this.styles.contact]}
@@ -87,6 +107,9 @@ export class ContactSearchResult extends React.Component {
 }
 
 ContactSearchResult.propTypes = {
+  isCollapsed: React.PropTypes.bool.isRequired,
+  checked: React.PropTypes.bool.isRequired,
+  selectContact: React.PropTypes.func.isRequired,
   style: React.PropTypes.object,
   contact: React.PropTypes.object.isRequired,
   assignContact: React.PropTypes.func.isRequired,

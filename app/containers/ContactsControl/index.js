@@ -9,6 +9,9 @@ import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import Radium from 'radium';
 import InfiniteScroll from 'react-infinite-scroller';
+import 'velocity-animate';
+import 'velocity-animate/velocity.ui';
+import { VelocityTransitionGroup } from 'velocity-react';
 
 import NotificationBanner from 'components/NotificationBanner';
 import IconSVG from 'components/IconSVG';
@@ -17,12 +20,13 @@ import Filter from 'components/Filter';
 import Icon from 'components/Icon';
 import ContactSearchResult from 'containers/ContactSearchResult';
 import ContactSearchBar from 'containers/ContactSearchBar';
+import ConfirmDialog from 'components/ConfirmDialog';
 import Contact from 'containers/Contact';
 
 import messages from './messages';
 import selectContactsControl, { selectCurrentInteraction, selectAttributes } from './selectors';
 import { setSearchResults, clearSearchResults } from './actions';
-import { assignContact, selectContact, loadContactInteractionHistory } from '../AgentDesktop/actions';
+import { assignContact, selectContact, loadContactInteractionHistory, deleteContacts } from '../AgentDesktop/actions';
 
 const controlHeaderHeight = 70;
 const resultsPlaceholderWidth = 330;
@@ -36,8 +40,11 @@ export class ContactsControl extends React.Component {
       query: this.expandQuery(this.props.selectedInteraction.query, this.props.attributes),
       loading: true,
       isEditing: false,
+      confirmingDelete: false,
+      deletionPending: false,
       unassignedContactEditing: {},
       notifications: [],
+      selectedContacts: [],
     };
 
     this.mounted = false;
@@ -51,6 +58,7 @@ export class ContactsControl extends React.Component {
     this.editUnassignedContact = this.editUnassignedContact.bind(this);
     this.editAssignedContact = this.editAssignedContact.bind(this);
     this.newContact = this.newContact.bind(this);
+    this.deleteContacts = this.deleteContacts.bind(this);
     this.getBannerHeader = this.getBannerHeader.bind(this);
     this.getViewControlHeader = this.getViewControlHeader.bind(this);
     this.getSearchControlHeader = this.getSearchControlHeader.bind(this);
@@ -69,7 +77,10 @@ export class ContactsControl extends React.Component {
     const interactionChanged = (nextProps.selectedInteraction.interactionId !== this.props.selectedInteraction.interactionId);
     if (queryChanged || interactionChanged) {
       this.props.clearSearchResults();
-      this.setState({ query: this.expandQuery(nextProps.selectedInteraction.query, nextProps.attributes) });
+      this.setState({
+        query: this.expandQuery(nextProps.selectedInteraction.query, nextProps.attributes),
+        selectedContacts: [],
+      });
     }
     if (interactionChanged && this.state.isEditing) {
       this.setNotEditing();
@@ -88,6 +99,13 @@ export class ContactsControl extends React.Component {
         this.setState({ loading: false }); // TODO: error handling
       } });
     } });
+  }
+
+  deleteContacts() {
+    this.setState({ loading: true, deletionPending: true }, () => {
+      this.props.deleteContacts(this.state.selectedContacts);
+      this.setState({ confirmingDelete: false, selectedContacts: [] });
+    });
   }
 
   expandQuery(query, attributes) {
@@ -217,6 +235,7 @@ export class ContactsControl extends React.Component {
       default:
         if (this.state.isEditing) {
           return (<Contact
+            key={this.state.unassignedContactEditing.id}
             save={this.handleSave}
             cancel={this.setNotEditing}
             style={this.styles.mainContact}
@@ -229,8 +248,8 @@ export class ContactsControl extends React.Component {
   }
 
   searchContacts() {
-    if (!this.state.loading) {
-      this.setState({ loading: true });
+    if (!this.state.loading || this.state.deletionPending) {
+      this.setState({ loading: true, deletionPending: false });
       const encodedQuery = {};
       Object.keys(this.props.selectedInteraction.query).forEach((queryName) => {
         encodedQuery[queryName] = encodeURIComponent(this.props.selectedInteraction.query[queryName]);
@@ -313,6 +332,10 @@ export class ContactsControl extends React.Component {
       boxSizing: 'content-box',
       flexGrow: '1',
       flexShrink: '1',
+      width: '110%',
+      left: '-52px',
+      position: 'relative',
+      display: 'flex',
     },
     buttonSet: {
       alignSelf: 'flex-end',
@@ -358,6 +381,16 @@ export class ContactsControl extends React.Component {
     loadingIcon: {
       height: '60px',
     },
+    bulkActionControlBar: {
+      display: 'flex',
+      flexShrink: '0',
+      margin: '12px 0',
+    },
+    bulkConfirmDialog: {
+      position: 'absolute',
+      left: '-23px',
+      bottom: '40px',
+    },
   };
 
   addNotification(messageType, isError, errorType) {
@@ -393,6 +426,7 @@ export class ContactsControl extends React.Component {
     } else {
       this.handleContactAssign(response, () => {
         this.props.clearSearchResults();
+        this.setState({ loading: false });
         this.setNotEditing();
         this.addNotification('created', false);
       });
@@ -495,10 +529,20 @@ export class ContactsControl extends React.Component {
   renderResults() {
     const results = [];
     if (this.props.selectedInteraction.query && Object.keys(this.props.selectedInteraction.query).length) {
-      const resultsMapped = this.props.results.map(
-        (contact, index) =>
-          <ContactSearchResult
+      const resultsMapped = !this.state.deletionPending && this.props.results.map(
+        (contact, index) => {
+          const isSelected = this.state.selectedContacts.includes(contact.id);
+          return (<ContactSearchResult
+            isCollapsed={this.props.isCollapsed}
+            checked={isSelected}
             style={this.styles.contactResult}
+            selectContact={(isChecked) => {
+              if (isChecked) {
+                this.setState({ selectedContacts: this.state.selectedContacts.concat(contact.id) });
+              } else {
+                this.setState({ selectedContacts: this.state.selectedContacts.filter((id) => id !== contact.id) });
+              }
+            }}
             key={contact.id}
             id={`contactSearchResult-${index}`}
             isAssigned={this.props.selectedInteraction.contact && this.props.selectedInteraction.contact.id === contact.id}
@@ -507,6 +551,7 @@ export class ContactsControl extends React.Component {
             editContact={this.editUnassignedContact}
             loading={this.state.loading}
           />);
+        });
       results.push(
         <InfiniteScroll
           key="infinite-scroll"
@@ -544,6 +589,7 @@ export class ContactsControl extends React.Component {
   renderContactView() {
     return Object.keys(this.props.selectedInteraction.contact).length ?
       <Contact
+        key={this.props.selectedInteraction.contact.id}
         style={this.styles.mainContact}
         isAssigned
         contact={this.props.selectedInteraction.contact}
@@ -554,6 +600,28 @@ export class ContactsControl extends React.Component {
       />
       :
       ''; // TODO: loading animation
+  }
+
+  renderBulkActionControls() {
+    return (
+      <div id="bulk-action-controls" style={this.styles.bulkActionControlBar}>
+        <div key="delete-btn-container" style={{ position: 'relative' }}>
+          <ConfirmDialog
+            questionMessage={
+              this.state.selectedContacts.length === 1
+                ? messages.deleteContact
+                : { ...messages.deleteContacts, values: { count: this.state.selectedContacts.length } }
+            }
+            leftAction={() => this.setState({ confirmingDelete: false })}
+            rightAction={this.deleteContacts}
+            isVisible={this.state.confirmingDelete}
+            hide={() => this.setState({ confirmingDelete: false })}
+            style={this.styles.bulkConfirmDialog}
+          />
+          <Button onClick={() => this.setState({ confirmingDelete: true })} id="delete-btn" text={messages.delete} type="secondary"></Button>
+        </div>
+      </div>
+    );
   }
 
   render() {
@@ -576,14 +644,22 @@ export class ContactsControl extends React.Component {
         }
         { this.getHeader() }
         <div style={[this.styles.contacts]}>
-          { this.getMainContent() }
+          <div style={{ width: '52px' }}></div>
+          <div style={{ flexGrow: 1 }}>{ this.getMainContent() }</div>
         </div>
+        <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100' }} leave={{ animation: 'transition.slideDownOut', duration: '100' }}>
+          {
+            (this.props.selectedInteraction.contactAction === 'search' && this.state.selectedContacts.length > 0)
+            && this.renderBulkActionControls()
+          }
+        </VelocityTransitionGroup>
       </div>
     );
   }
 }
 
 ContactsControl.propTypes = {
+  isCollapsed: React.PropTypes.bool.isRequired,
   intl: React.PropTypes.object.isRequired,
   style: React.PropTypes.object,
   attributes: React.PropTypes.array,
@@ -598,6 +674,7 @@ ContactsControl.propTypes = {
   setContactAction: React.PropTypes.func,
   assignContact: React.PropTypes.func,
   selectContact: React.PropTypes.func,
+  deleteContacts: React.PropTypes.func,
   loadContactInteractionHistory: React.PropTypes.func,
 };
 
@@ -615,6 +692,7 @@ function mapDispatchToProps(dispatch) {
     clearSearchResults: () => dispatch(clearSearchResults()),
     assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
     selectContact: (contact) => dispatch(selectContact(contact)),
+    deleteContacts: (contactIds) => dispatch(deleteContacts(contactIds)),
     loadContactInteractionHistory: (contactId, page) => dispatch(loadContactInteractionHistory(contactId, page)),
     dispatch,
   };

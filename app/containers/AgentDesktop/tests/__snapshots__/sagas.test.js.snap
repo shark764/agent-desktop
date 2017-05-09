@@ -1,5 +1,102 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`goDeleteContacts when action.reasonIds is an array of Ids should call the promise util with the SDK goDeleteContacts and the correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Array [
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          "deleteContacts",
+          Object {
+            "contactId": "reasonId1",
+          },
+          "AgentDesktop",
+        ],
+        "context": null,
+        "fn": [Function],
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          "deleteContacts",
+          Object {
+            "contactId": "reasonId2",
+          },
+          "AgentDesktop",
+        ],
+        "context": null,
+        "fn": [Function],
+      },
+    },
+  ],
+}
+`;
+
+exports[`goDeleteContacts when action.reasonIds is an array of Ids should dispatch a clearSearchResults action after deletion is complete 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "type": "app/ContactsControl/CLEAR-SEARCH_RESULTS",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goDeleteContacts when action.reasonIds is an array of Ids when API responds with a false bool for contactId1 and a true bool for 2 should only dispatch a removeContact action contactId2 1`] = `
+Object {
+  "done": false,
+  "value": Array [
+    Object {
+      "@@redux-saga/IO": true,
+      "PUT": Object {
+        "action": Object {
+          "contactId": "reasonId2",
+          "type": "app/AgentDesktop/REMOVE_CONTACT",
+        },
+        "channel": null,
+      },
+    },
+  ],
+}
+`;
+
+exports[`goDeleteContacts when action.reasonIds is an array of Ids when API responds with true bools should use the yielded SDK responses to dispatch a removeContact action for each contactId 1`] = `
+Object {
+  "done": false,
+  "value": Array [
+    Object {
+      "@@redux-saga/IO": true,
+      "PUT": Object {
+        "action": Object {
+          "contactId": "reasonId1",
+          "type": "app/AgentDesktop/REMOVE_CONTACT",
+        },
+        "channel": null,
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "PUT": Object {
+        "action": Object {
+          "contactId": "reasonId2",
+          "type": "app/AgentDesktop/REMOVE_CONTACT",
+        },
+        "channel": null,
+      },
+    },
+  ],
+}
+`;
+
 exports[`goNotReady when action.reason is defined should use the yielded id to call the promise util with the SDK goNotReady and the correct arguments 1`] = `
 Object {
   "done": false,
