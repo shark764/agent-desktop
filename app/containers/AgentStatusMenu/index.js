@@ -19,6 +19,69 @@ import MenuRow from './MenuRow';
 import messages from './messages';
 import { selectHasActiveInteractions, selectExtensions, selectActiveExtension, selectSelectedPresenceReason, selectPresenceReasonLists, selectHasActiveWrapup } from './selectors';
 
+const styles = {
+  menuPosition: {
+    position: 'fixed',
+    left: '2px',
+    bottom: '56px',
+  },
+  baseMenuContainer: {
+    padding: '3px 0',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  itemText: {
+    flexGrow: 1,
+  },
+  notReadyReasons: {
+    display: 'block',
+    paddingTop: '4px',
+    lineHeight: '1.25',
+  },
+  presenceLinkContainer: {
+    color: '#363636',
+    textTransform: 'capitalize',
+    width: '303px',
+    padding: '10px 24px',
+    display: 'flex',
+  },
+  listTitle: {
+    color: '#979797',
+    textTransform: 'capitalize',
+    width: '303px',
+    padding: '10px 24px 0 24px',
+    display: 'flex',
+  },
+  inactivePresence: {
+    textDecoration: 'underline',
+    cursor: 'pointer',
+  },
+  activePresence: {
+    fontWeight: 'bold',
+  },
+  selectedCategory: {
+    fontWeight: 'bold',
+  },
+  narrowDivider: {
+    borderBottom: '1px solid #E1E1E1',
+    margin: '0 24px',
+  },
+  clearButton: {
+    border: '0',
+    margin: '-4px 0 0 0',
+    ':hover': {
+      backgroundColor: '',
+    },
+  },
+  selectedIcon: {
+    alignSelf: 'center',
+    cursor: 'inherit',
+  },
+  notReadyLinkContainer: {
+    padding: '14px 24px 10px 24px',
+  },
+};
+
 export class AgentStatusMenu extends React.Component {
 
   constructor(props) {
@@ -30,72 +93,6 @@ export class AgentStatusMenu extends React.Component {
     };
   }
 
-  styles = {
-    menuPosition: {
-      position: 'fixed',
-      left: '2px',
-      bottom: '56px',
-    },
-    baseMenuContainer: {
-      padding: '3px 0',
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    itemText: {
-      flexGrow: 1,
-    },
-    notReadyReasons: {
-      display: 'block',
-      paddingTop: '4px',
-      borderTop: 'solid 1px #e4e4e4',
-      lineHeight: '1.25',
-    },
-    presenceLinkContainer: {
-      color: '#363636',
-      textTransform: 'capitalize',
-      width: '303px',
-      padding: '10px 24px',
-      display: 'flex',
-    },
-    listContainer: {
-      marginBottom: '7px',
-    },
-    listTitle: {
-      color: '#979797',
-      textTransform: 'capitalize',
-      width: '303px',
-      padding: '10px 24px 0 24px',
-      display: 'flex',
-    },
-    inactivePresence: {
-      textDecoration: 'underline',
-      cursor: 'pointer',
-    },
-    activePresence: {
-      fontWeight: 'bold',
-    },
-    selectedCategory: {
-      fontWeight: 'bold',
-    },
-    narrowDivider: {
-      borderBottom: '1px solid #E1E1E1',
-      margin: '0 24px',
-    },
-    clearButton: {
-      border: '0',
-      margin: '-4px 0 0 0',
-      ':hover': {
-        backgroundColor: '',
-      },
-    },
-    selectedIcon: {
-      alignSelf: 'center',
-      cursor: 'inherit',
-    },
-    notReadyLinkContainer: {
-      padding: '14px 24px 10px 24px',
-    },
-  };
 
   clearHover() { // Longstanding radium bug where mouseleave event is never triggered https://github.com/FormidableLabs/radium/issues/524
     this.setState({ clearHoverInt: this.state.clearHoverInt + 1 });
@@ -119,10 +116,6 @@ export class AgentStatusMenu extends React.Component {
       this.changePresence('notready', reason, listId);
       this.clearHover();
     };
-    const clearReason = () => {
-      this.changePresence('notready');
-      this.clearHover();
-    };
     return (
       <MenuRow
         id={`reason-${reason.reasonId}-${listId}`}
@@ -133,7 +126,6 @@ export class AgentStatusMenu extends React.Component {
         }
         isSelected={isSelected}
         onSelect={selectReason}
-        onClear={clearReason}
       />
     );
   }
@@ -156,7 +148,7 @@ export class AgentStatusMenu extends React.Component {
         onSelect={() => {
           this.setState({ showPathwayMenu: false, showReasonMenuInfo: isDropdownOpen ? {} : { listId, index: categoryIndex } });
         }}
-        style={[containsSelected && this.styles.selectedCategory]}
+        style={[containsSelected && styles.selectedCategory]}
         isOpen={isDropdownOpen}
         hasSubMenu
         subMenuRows={
@@ -168,17 +160,17 @@ export class AgentStatusMenu extends React.Component {
 
   renderList(reasonList) {
     return [
-      <div key={`reasonListDivider-${reasonList.id}`} style={this.styles.narrowDivider}></div>,
       <div
         id={`notReadyStateTitle-${reasonList.id}`}
         key={`notReadyStateTitle-${reasonList.id}`}
-        style={this.styles.listTitle}
+        style={styles.listTitle}
       >
         <div>
           {reasonList.name}
         </div>
       </div>,
-      <div key={`reasonListBody-${reasonList.id}`} style={this.styles.listContainer}>
+      <div key={`reasonListTitleBottom-${reasonList.id}`} style={[styles.narrowDivider, { margin: '5px 24px' }]}></div>,
+      <div key={`reasonListBody-${reasonList.id}`}>
         {reasonList.reasons.map((reasonData, index) => {
           if (reasonData.type === 'category') {
             return this.renderCategory(reasonData, reasonList.id, index);
@@ -192,14 +184,14 @@ export class AgentStatusMenu extends React.Component {
 
   render() {
     return (
-      <div style={this.styles.menuPosition}>
+      <div style={styles.menuPosition}>
         <PopupDialog id="agentStatusMenu" isVisible={this.props.show} hide={() => { this.setState({ showPathwayMenu: false }); this.setState({ showReasonMenuInfo: {} }); this.props.showAgentStatusMenu(false); }} widthPx={303} arrowLeftOffsetPx={51}>
-          <div style={this.styles.baseMenuContainer}>
+          <div style={styles.baseMenuContainer}>
             { this.props.hasActiveInteractions || this.props.hasActiveWrapup
-              ? <div id="agentLogoutLink" style={this.styles.presenceLinkContainer}><FormattedMessage {...messages.logout} /></div>
+              ? <div id="agentLogoutLink" style={styles.presenceLinkContainer}><FormattedMessage {...messages.logout} /></div>
               : <div
                 id="agentLogoutLink"
-                style={[this.styles.presenceLinkContainer, this.styles.inactivePresence]}
+                style={[styles.presenceLinkContainer, styles.inactivePresence]}
                 onClick={() => { SDK.session.end(); this.props.showAgentStatusMenu(false); }}
               >
                 <FormattedMessage {...messages.logout} />
@@ -231,46 +223,28 @@ export class AgentStatusMenu extends React.Component {
                   />
                 )
               }
+              style={{ borderBottom: 'solid 1px #e4e4e4' }}
             />
-            <div id="agentNotReadyState" style={this.styles.notReadyReasons}>
-              {
-                this.props.readyState === 'notready'
-                  ? <div
-                    id="notReadyStateLink"
-                    style={[this.styles.presenceLinkContainer, this.styles.activePresence]}
-                  >
-                    <div style={this.styles.itemText}>
-                      <FormattedMessage {...messages.notReady} />
-                    </div>
-                    <Icon name="checkStatus" alt="selected" style={this.styles.selectedIcon} />
-                  </div>
-                  : <div
-                    id="notReadyStateLink"
-                    style={[this.styles.presenceLinkContainer, this.styles.inactivePresence]}
-                    onClick={() => { this.changePresence('notready'); }}
-                  >
-                    <FormattedMessage {...messages.notReady} />
-                  </div>
-              }
+            <div id="agentNotReadyState" style={styles.notReadyReasons}>
               {
                 this.props.presenceReasonLists.map(this.renderList, this)
               }
             </div>
-            <div style={this.styles.narrowDivider}></div>
+            <div style={[styles.narrowDivider, { padding: '7px 24px 0 24px' }]}></div>
             {
               this.props.readyState === 'ready'
               ? <div
                 id="readyStateLink"
-                style={[this.styles.presenceLinkContainer, this.styles.activePresence, {}]}
+                style={[styles.presenceLinkContainer, styles.activePresence]}
               >
-                <div style={this.styles.itemText}>
+                <div style={styles.itemText}>
                   <FormattedMessage {...messages.ready} />
                 </div>
-                <Icon name="checkStatus" alt="selected" style={this.styles.selectedIcon} />
+                <Icon name="checkStatus" alt="selected" style={styles.selectedIcon} />
               </div>
               : <div
                 id="readyStateLink"
-                style={[this.styles.presenceLinkContainer, this.styles.inactivePresence]}
+                style={[styles.presenceLinkContainer, styles.inactivePresence]}
                 onClick={() => { this.changePresence('ready'); }}
               >
                 <FormattedMessage {...messages.ready} />

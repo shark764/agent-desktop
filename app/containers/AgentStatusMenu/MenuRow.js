@@ -8,7 +8,7 @@ import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 
-import Button from 'components/Button';
+import Icon from 'components/Icon';
 
 const styles = {
   base: {
@@ -22,7 +22,9 @@ const styles = {
   selected: {
     fontWeight: 'bold',
     cursor: 'default',
-    ':hover': {},
+    ':hover': {
+      backgroundColor: '',
+    },
   },
   text: {
     flexGrow: 1,
@@ -49,6 +51,10 @@ const styles = {
   submenuOuterContainer: {
     position: 'relative',
   },
+  selectedIcon: {
+    alignSelf: 'center',
+    cursor: 'inherit',
+  },
 };
 
 function MenuRow(props) {
@@ -68,17 +74,8 @@ function MenuRow(props) {
         {rowText}
       </div>
       {
-        props.isSelected
-        && <Button
-          id={`${props.id}-clear-btn`}
-          tabIndex={-1}
-          name={`${props.id}-clear-btn`}
-          style={styles.clearButton}
-          iconName="close"
-          type="secondary"
-          clear
-          onClick={props.onClear}
-        />
+        props.isSelected &&
+        <Icon name="checkStatus" alt="selected" style={styles.selectedIcon} />
       }
       {
         props.hasSubMenu &&
@@ -108,7 +105,6 @@ MenuRow.propTypes = {
   hasSubMenu: PropTypes.bool,
   subMenuRows: PropTypes.array,
   onSelect: PropTypes.func,
-  onClear: PropTypes.func,
   isSelected: PropTypes.bool,
   isOpen: PropTypes.bool,
 };

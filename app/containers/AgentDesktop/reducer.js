@@ -223,14 +223,18 @@ function agentDesktopReducer(state = initialState, action) {
       return state.set('activeExtension', fromJS(action.activeExtension));
     case SET_QUEUES:
       return state.set('queues', fromJS(action.queues));
-    case SET_PRESENCE:
+    case SET_PRESENCE: {
+      const systemPresenceReasonList = state.get('presenceReasonLists').find((reasonList) => reasonList.get('name') === 'System Presence Reasons');
+      const isSystemReason = systemPresenceReasonList && (systemPresenceReasonList.get('id') === action.presenceInfo.reasonListId);
       return state
         .set('presence', action.presenceInfo.state)
         .set('presenceReason', fromJS({
           reason: action.presenceInfo.reason,
           reasonId: action.presenceInfo.reasonId,
           listId: action.presenceInfo.reasonListId,
+          isSystemReason,
         }));
+    }
     case SET_INTERACTION_STATUS: {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === action.interactionId

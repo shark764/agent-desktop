@@ -8,7 +8,7 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   ready: {
     id: 'app.containers.Toolbar.ready',
-    defaultMessage: 'Ready',
+    defaultMessage: 'READY',
   },
   notReady: {
     id: 'app.containers.Toolbar.notReady',
