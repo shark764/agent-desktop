@@ -481,6 +481,8 @@ export class AgentDesktop extends React.Component {
           break;
         // Igonore these pubsubs. They are unneeded or handled elsewhere.
         case 'cxengage/authentication/login-response': // Handled in Login component
+        case 'cxengage/entities/get-users-response': // Handled in TransferMenu
+        case 'cxengage/entities/get-transfer-lists-response': // Handled in TransferMenu
         case 'cxengage/session/tenant-list': // Using tenants from login-response
         case 'cxengage/session/set-active-tenant-response': // Handled in Login component
         case 'cxengage/session/state-change-request-acknowledged': // Ignore
@@ -490,26 +492,25 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/email/attachment-received': // Handled in callback of cxengage/interactions/email/details-received
         case 'cxengage/interactions/messaging/send-message-acknowledged': // Using cxengage/messaging/new-message-received instead
         case 'cxengage/interactions/voice/phone-controls-response': // Using mute-started, mute-ended, etc. instead
-        case 'cxengage/contacts/search-contacts-response': // Handled in ContactsControl & AgentDesktop callback
         case 'cxengage/interactions/contact-assign-acknowledged': // Handled in ContactsControl
-        case 'cxengage/entities/get-users-response': // Handled in TransferMenu
-        case 'cxengage/entities/get-transfer-lists-response': // Handled in TransferMenu
         case 'cxengage/interactions/voice/transfer-response': // Handled in TransferMenu
         case 'cxengage/interactions/contact-unassigned-acknowledged': // Handled in ContactsControl
         case 'cxengage/interactions/contact-assigned-acknowledged': // Handled in ContactsControl
-        case 'cxengage/reporting/polling-started': // Ignore
-        case 'cxengage/reporting/polling-stopped': // Ignore
+        case 'cxengage/interactions/voice/recording-received': // Handled in historicalInteractionBody saga
+        case 'cxengage/interactions/messaging/transcript-received': // Handled in historicalInteractionBody saga
         case 'cxengage/interactions/create-note-response': // Handled in ContentArea
         case 'cxengage/interactions/update-note-response': // Handled in ContentArea
         case 'cxengage/interactions/end-wrapup-acknowledged': // Ignore - comes with a work-ended.
-        case 'cxengage/contacts/create-contact-response': // Handled in ContactsControl
         case 'cxengage/interactions/voice/send-digits-acknowledged': // Handled in Dialpad
+        case 'cxengage/interactions/get-notes-response': // Handled in contactInteractionHistory
+        case 'cxengage/reporting/polling-started': // Ignore
+        case 'cxengage/reporting/polling-stopped': // Ignore
         case 'cxengage/reporting/stat-subscription-added': // Handled by Toolbar
         case 'cxengage/reporting/stat-subscription-removed': // Handled by Toolbar
-        case 'cxengage/interactions/voice/recording-received': // Handled in historicalInteractionBody saga
-        case 'cxengage/interactions/messaging/transcript-received': // Handled in historicalInteractionBody saga
         case 'cxengage/reporting/get-contact-interaction-history-response': // Handled in contactInteractionHistory saga
-        case 'cxengage/interactions/get-notes-response': // Handled in contactInteractionHistory
+        case 'cxengage/contacts/search-contacts-response': // Handled in ContactsControl & AgentDesktop callback
+        case 'cxengage/contacts/create-contact-response': // Handled in ContactsControl
+        case 'cxengage/contacts/delete-contact-response': // Handled in ContactsControl
           break;
         default: {
           console.warn('[AgentDesktop] SDK.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console

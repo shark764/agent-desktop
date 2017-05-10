@@ -1,4 +1,9 @@
-import { loadHistoricalInteractionBody, loadContactInteractions, goNotReady } from 'containers/AgentDesktop/sagas';
+import {
+  loadHistoricalInteractionBody,
+  loadContactInteractions,
+  goNotReady,
+  goDeleteContacts,
+} from 'containers/AgentDesktop/sagas';
 
 describe('loadHistoricalInteractionBody Saga', () => {
   describe('if bodyType is recordings', () => {
@@ -137,6 +142,48 @@ describe('goNotReady', () => {
     });
     it('should use the yielded SDK response to dispatch a setPresence action with the correct args', () => {
       expect(generator.next(mockGoNotReadyResponse));
+    });
+  });
+});
+
+describe('goDeleteContacts', () => {
+  let generator;
+  beforeEach(() => {
+    global.SDK = {
+      contacts: {
+        delete: 'deleteContacts',
+      },
+    };
+  });
+
+  describe('when action.reasonIds is an array of Ids', () => {
+    beforeEach(() => {
+      const mockAction = {
+        contactIds: ['reasonId1', 'reasonId2'],
+      };
+      generator = goDeleteContacts(mockAction);
+    });
+    it('should call the promise util with the SDK goDeleteContacts and the correct arguments', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    describe('when API responds with true bools', () => {
+      const mockDeleteResponses = [true, true];
+      it('should use the yielded SDK responses to dispatch a removeContact action for each contactId', () => {
+        generator.next();
+        expect(generator.next(mockDeleteResponses)).toMatchSnapshot();
+      });
+    });
+    describe('when API responds with a false bool for contactId1 and a true bool for 2', () => {
+      const mockDeleteResponses = [false, true];
+      it('should only dispatch a removeContact action contactId2', () => {
+        generator.next();
+        expect(generator.next(mockDeleteResponses)).toMatchSnapshot();
+      });
+    });
+    it('should dispatch a clearSearchResults action after deletion is complete', () => {
+      generator.next();
+      generator.next([]);
+      expect(generator.next()).toMatchSnapshot();
     });
   });
 });

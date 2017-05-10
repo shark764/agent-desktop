@@ -30,6 +30,8 @@ import {
   UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS,
   ADD_NOTES_TO_CONTACT_INTERACTION_HISTORY,
   UPDATE_CONTACT,
+  DELETE_CONTACTS,
+  REMOVE_CONTACT,
   ADD_MESSAGE,
   SET_INTERACTION_STATUS,
   ADD_SEARCH_FILTER,
@@ -269,6 +271,18 @@ export function updateContact(updatedContact) {
   };
 }
 
+export function deleteContacts(contactIds) {
+  return {
+    type: DELETE_CONTACTS,
+    contactIds,
+  };
+}
+export function removeContact(contactId) {
+  return {
+    type: REMOVE_CONTACT,
+    contactId,
+  };
+}
 
 export function selectContact(contact) {
   return {

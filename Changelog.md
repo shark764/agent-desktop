@@ -1,3 +1,8 @@
+### [0.33.0] (2017-05-09)
+* CXV1-8499 - Contact delete bulk action
+* BUGFIX - edit abandon dialog not hiding after cancel and reenter
+* BUGFIX - edit abandon dialog showing up even when no changes made
+
 ### [0.32.8] (2017-05-08)
 * CXV1-7193 - Locale Icon hover styles
 
@@ -628,6 +633,8 @@
 #### Initial Commit
 * Here we go!
 
+[0.33.0]: http://www.github.com/liveops/agent-desktop/compare/0.32.8...0.33.0
+[0.32.8]: http://www.github.com/liveops/agent-desktop/compare/0.32.7...0.32.8
 [0.32.7]: http://www.github.com/liveops/agent-desktop/compare/0.32.6...0.32.7
 [0.32.6]: http://www.github.com/liveops/agent-desktop/compare/0.32.5...0.32.6
 [0.32.5]: http://www.github.com/liveops/agent-desktop/compare/0.32.4...0.32.5

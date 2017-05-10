@@ -154,6 +154,7 @@ export class SidePanel extends React.Component {
             </TabList>
             <TabPanel>
               <ContactsControl
+                isCollapsed={this.props.isCollapsed}
                 addSearchFilter={this.props.addSearchFilter}
                 removeSearchFilter={this.props.removeSearchFilter}
                 setContactAction={this.props.setContactAction}

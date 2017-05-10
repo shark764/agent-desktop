@@ -40,6 +40,7 @@ export class Contact extends React.Component {
       errors: {},
       disableSubmit: true,
       showCancelDialog: false,
+      hasChanged: false,
     };
 
     if (this.props.isEditing) {
@@ -68,10 +69,13 @@ export class Contact extends React.Component {
       this.setState(this.initFormInputsState(nextProps));
     } else if (!nextProps.isEditing && this.props.isEditing) {
       this.setState({
-        editingContactId: false,
         formInputs: {},
+        showErrors: {},
         errors: {},
+        editingContactId: false,
         disableSubmit: true,
+        showCancelDialog: false,
+        hasChanged: false,
       });
     }
   }
@@ -209,6 +213,7 @@ export class Contact extends React.Component {
   };
 
   handleInputChange(newValue, event) {
+    this.setState({ hasChanged: true });
     this.setAttributeValue(event.target.name, newValue);
   }
 
@@ -297,7 +302,11 @@ export class Contact extends React.Component {
 
   handleCancel(event) {
     event.preventDefault();
-    this.setState({ showCancelDialog: true });
+    if (this.state.hasChanged) {
+      this.setState({ showCancelDialog: true });
+    } else {
+      this.props.cancel();
+    }
   }
 
   attemptCall(number) {
@@ -507,7 +516,7 @@ export class Contact extends React.Component {
               <Button
                 id="contactSaveBtn"
                 style={this.styles.button}
-                disabled={this.props.loading || this.state.disableSubmit}
+                disabled={this.props.loading || this.state.disableSubmit || !this.state.hasChanged}
                 type="secondary"
                 onClick={this.handleSubmit}
                 text={this.props.intl.formatMessage(messages.saveBtn)}

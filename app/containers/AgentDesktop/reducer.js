@@ -36,6 +36,7 @@ import {
   ADD_NOTES_TO_CONTACT_INTERACTION_HISTORY,
   UPDATE_CONTACT,
   SELECT_CONTACT,
+  REMOVE_CONTACT,
   ADD_MESSAGE,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
@@ -589,6 +590,19 @@ function agentDesktopReducer(state = initialState, action) {
           return contact.merge(fromJS(action.updatedContact));
         }
         return contact;
+      });
+    }
+    case REMOVE_CONTACT: {
+      return state.update('interactions', (interactions) => interactions.map((interaction) => {
+        if (interaction.getIn(['contact', 'id']) === action.contactId) {
+          return interaction.delete('contact');
+        }
+        return interaction;
+      })).update('noInteractionContactPanel', (noInteractionContactPanel) => {
+        if (noInteractionContactPanel.getIn(['contact', 'id']) === action.contactId) {
+          return noInteractionContactPanel.delete('contact');
+        }
+        return noInteractionContactPanel;
       });
     }
     case ADD_MESSAGE: {

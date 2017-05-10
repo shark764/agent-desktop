@@ -393,7 +393,7 @@ export class Login extends React.Component {
         color: '#f3f3f3',
         textShadow: '0px 1px 1px #ccc',
         cursor: 'pointer',
-      }
+      },
     },
   };
 
