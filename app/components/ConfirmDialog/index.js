@@ -16,6 +16,7 @@ import messages from './messages';
 const styles = {
   base: {
     borderRadius: '4px',
+    zIndex: '2',
   },
   container: {
     display: 'flex',
@@ -45,7 +46,7 @@ const styles = {
 function ConfirmDialog(props) {
   return (
     <div style={props.style}>
-      <PopupDialog isVisible={props.isVisible} hide={props.hide} widthPx={200} arrowLeftOffsetPx={42} style={styles.base} fadeContent>
+      <PopupDialog isVisible={props.isVisible} hide={props.hide} widthPx={200} arrowLeftOffsetPx={42} style={[styles.base, props.dialogStyle]} fadeContent>
         <div style={styles.container}>
           {
             props.questionMessage
@@ -78,6 +79,7 @@ ConfirmDialog.propTypes = {
   hide: PropTypes.func,
   isVisible: PropTypes.bool.isRequired,
   style: PropTypes.object,
+  dialogStyle: PropTypes.object,
 };
 
 ConfirmDialog.defaultProps = {
