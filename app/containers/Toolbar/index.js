@@ -146,7 +146,7 @@ const styles = {
     top: '-3px',
     position: 'relative',
     float: 'left',
-    maxWidth: '5.7em',
+    maxWidth: '6em',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',

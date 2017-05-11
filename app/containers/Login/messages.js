@@ -91,4 +91,8 @@ export default defineMessages({
     id: 'app.containers.Login.noPermsError',
     defaultMessage: 'You have insufficient permissions to access tenant',
   },
+  reasonListError: {
+    id: 'app.containers.Login.reasonListError',
+    defaultMessage: 'No presence reason lists available on tenant, please talk to your administrator.',
+  },
 });

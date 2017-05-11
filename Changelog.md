@@ -1,3 +1,8 @@
+### [0.33.3] (2017-05-10)
+* CXV1-8966 - Add error & refresh if no non system reason list is set for user on tenant
+* CXV1-8966 - BUGFIX - ready message change did not stick in translations
+* CXV1-8966 - BUGFIX - notReady cutting off to ellip on some browsers
+
 ### [0.33.2] (2017-05-10)
 * CXV1-8966 - Remove not ready button in agent status menu
 
@@ -639,6 +644,9 @@
 #### Initial Commit
 * Here we go!
 
+[0.33.3]: http://www.github.com/liveops/agent-desktop/compare/0.33.2...0.33.3
+[0.33.2]: http://www.github.com/liveops/agent-desktop/compare/0.33.1...0.33.2
+[0.33.1]: http://www.github.com/liveops/agent-desktop/compare/0.33.0...0.33.1
 [0.33.0]: http://www.github.com/liveops/agent-desktop/compare/0.32.8...0.33.0
 [0.32.8]: http://www.github.com/liveops/agent-desktop/compare/0.32.7...0.32.8
 [0.32.7]: http://www.github.com/liveops/agent-desktop/compare/0.32.6...0.32.7
