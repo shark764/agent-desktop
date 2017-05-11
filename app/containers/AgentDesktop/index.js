@@ -140,6 +140,7 @@ export class AgentDesktop extends React.Component {
         console.error('Pub sub error', topic, error); // eslint-disable-line no-console
         switch (topic) {
           case 'cxengage/session/heartbeat-response':
+            window.onbeforeunload = null; // clear error clearer set in Login
             window.localStorage.setItem('ADError', topic); // Consume in Login component
             location.reload(); // Kill it with 🔥
             break;
@@ -150,7 +151,13 @@ export class AgentDesktop extends React.Component {
       switch (topic) {
         case 'cxengage/session/config-details': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.setUserConfig(response);
+          if (response.reasonLists.length < 2) {
+            window.onbeforeunload = null; // clear error clearer set in Login
+            window.localStorage.setItem('ADError', 'onlySystemReasonList'); // Consume in Login component
+            location.reload(); // Kill it with 🔥
+          } else {
+            this.props.setUserConfig(response);
+          }
           break;
         }
         case 'cxengage/session/extension-list': {

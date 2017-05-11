@@ -126,7 +126,7 @@
   "app.containers.SidePanel.infoTab": "Info",
   "app.containers.SidePanel.scriptsTab": "Script",
   "app.containers.Toolbar.notReady": "NOT READY",
-  "app.containers.Toolbar.ready": "Ready",
+  "app.containers.Toolbar.ready": "READY",
   "app.containers.TransferMenu.addParticipant": "Add participant",
   "app.containers.TransferMenu.agents": "Agents",
   "app.containers.TransferMenu.queues": "Queues",
