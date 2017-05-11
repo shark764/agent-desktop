@@ -385,10 +385,15 @@ export class ContactsControl extends React.Component {
       display: 'flex',
       flexShrink: '0',
       margin: '12px 0',
+      transform: 'none',
     },
     bulkConfirmDialog: {
       position: 'absolute',
       left: '-23px',
+      bottom: '40px',
+    },
+    bulkActionDialog: {
+      position: 'fixed',
       bottom: '40px',
     },
   };
@@ -617,11 +622,16 @@ export class ContactsControl extends React.Component {
             isVisible={this.state.confirmingDelete}
             hide={() => this.setState({ confirmingDelete: false })}
             style={this.styles.bulkConfirmDialog}
+            dialogStyle={this.styles.bulkActionDialog}
           />
           <Button onClick={() => this.setState({ confirmingDelete: true })} id="delete-btn" text={messages.delete} type="secondary"></Button>
         </div>
       </div>
     );
+  }
+
+  velocityCleanup = () => {
+    this.styles.bulkActionControlBar.transform = 'none';
   }
 
   render() {
@@ -647,7 +657,7 @@ export class ContactsControl extends React.Component {
           <div style={{ width: '52px' }}></div>
           <div style={{ flexGrow: 1 }}>{ this.getMainContent() }</div>
         </div>
-        <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100' }} leave={{ animation: 'transition.slideDownOut', duration: '100' }}>
+        <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100', complete: this.velocityCleanup }} leave={{ animation: 'transition.slideDownOut', duration: '100' }}>
           {
             (this.props.selectedInteraction.contactAction === 'search' && this.state.selectedContacts.length > 0)
             && this.renderBulkActionControls()

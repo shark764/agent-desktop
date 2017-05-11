@@ -1,3 +1,6 @@
+### [0.34.2] (2017-05-11)
+* CXV1-8705 - Fixed screen mask bugs with popup dialogs
+
 ### [0.34.1] (2017-05-11)
 * CXV1-8499 - Add blue border to selected contact
 

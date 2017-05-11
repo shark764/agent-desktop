@@ -100,6 +100,7 @@
   "app.containers.Login.noPermsError": "You have insufficient permissions to access this tenant",
   "app.containers.Login.noTenant": "You must first select a tenant",
   "app.containers.Login.outbound": "Outbound",
+  "app.containers.Login.reasonListError": "No presence reason lists available on tenant, please talk to your administrator.",
   "app.containers.Login.rememberMe": "Remember Me",
   "app.containers.Login.selectTenant": "Select Tenant...",
   "app.containers.Login.sendButton": "Send",

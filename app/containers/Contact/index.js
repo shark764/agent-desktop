@@ -528,6 +528,7 @@ export class Contact extends React.Component {
                 isVisible={this.state.showCancelDialog}
                 hide={this.cancelCancelDialog}
                 style={{ position: 'absolute', left: '112px', bottom: '40px' }}
+                dialogStyle={{ position: 'fixed', bottom: '320px' }}
               />
               <Button
                 id="contactSaveBtn"
