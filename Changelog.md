@@ -1,3 +1,6 @@
+### [0.33.2] (2017-05-10)
+* CXV1-8966 - Remove not ready button in agent status menu
+
 ### [0.33.1] (2017-05-10)
 * CXV1-8315 - Corrected checkbox data structure in agentScripts and refactored agentScripts
 
