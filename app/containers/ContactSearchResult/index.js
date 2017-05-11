@@ -65,6 +65,9 @@ export class ContactSearchResult extends React.Component {
       position: 'absolute',
       left: '-33px',
     },
+    checkedContact: {
+      border: '1px solid #23cdf4',
+    },
   };
   assignContact() {
     this.props.assignContact(this.props.contact);
@@ -75,7 +78,7 @@ export class ContactSearchResult extends React.Component {
 
   render() {
     return (
-      <div style={[this.styles.base, this.props.style]}>
+      <div style={[this.styles.base, this.props.style, this.props.checked && this.styles.checkedContact]}>
         <VelocityTransitionGroup enter={{ animation: 'transition.fadeIn', duration: '1000' }} leave={{ animation: 'transition.fadeOut', duration: '1000' }}>
           {
             !this.props.isCollapsed ?
@@ -90,7 +93,7 @@ export class ContactSearchResult extends React.Component {
         </VelocityTransitionGroup>
         <Contact
           contact={this.props.contact}
-          style={[this.styles.contact]}
+          style={this.styles.contact}
           showCompactView={!this.state.expanded}
           isAssigned={this.props.isAssigned}
           assign={this.assignContact}
