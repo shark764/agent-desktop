@@ -23,7 +23,7 @@ import messages from './messages';
 
 const styles = {
   base: {
-    marginTop: '30px',
+    margin: '30px 30px 30px 0',
   },
   textInput: {
     width: '100%',
@@ -34,6 +34,25 @@ const styles = {
   },
   element: {
     marginBottom: '15px',
+  },
+  checkboxesContainer: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+    position: 'relative',
+  },
+  indivCheckbox: {
+    display: 'inline-block',
+    margin: '15px 0 0',
+    flexBasis: '33%',
+    verticalAlign: 'top',
+    paddingRight: '1%',
+  },
+  checkboxLabel: {
+    whiteSpace: 'normal',
+  },
+  checkboxInput: {
+    verticalAlign: 'top',
+    margin: '5px 5px 0 0',
   },
 };
 
@@ -144,10 +163,13 @@ class AgentScript extends React.Component {
           scriptElements.push(<Image id={element.name} key={element.name} src={element.value} placeholder={element.text} style={styles.element} />);
           break;
         case 'checkbox': {
-          const checkboxes = element.options.map((option) =>
+          const checkboxes = element.options.map((option, index) =>
             <CheckBox
-              id={option.value}
-              key={option.value}
+              style={styles.indivCheckbox}
+              labelStyle={styles.checkboxLabel}
+              checkboxInputStyle={styles.checkboxInput}
+              id={`${option.value}_${index}`}
+              key={`${element.id}_${index}`}
               text={option.name}
               checked={this.state[element.name][option.value]}
               cb={(checked) => {
@@ -158,11 +180,13 @@ class AgentScript extends React.Component {
             />
           );
           scriptElements.push(
-            <div key={element.text} style={styles.element}>
+            <div key={element.id} style={styles.element}>
               <div>
                 { element.text }
               </div>
-              { checkboxes }
+              <div style={styles.checkboxesContainer}>
+                { checkboxes }
+              </div>
             </div>
           );
           break;

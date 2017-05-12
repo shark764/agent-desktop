@@ -1,3 +1,6 @@
+### [0.34.9] (2017-05-15)
+* CXV1-8784 - Checkboxes in Agent Scripts not showing up correctly
+
 ### [0.34.8] (2017-05-15)
 * CXV1-8966 - various small QE fixes / improvements
 
@@ -674,6 +677,7 @@
 #### Initial Commit
 * Here we go!
 
+[0.34.9]: http://www.github.com/liveops/agent-desktop/compare/0.34.8...0.34.9
 [0.34.8]: http://www.github.com/liveops/agent-desktop/compare/0.34.7...0.34.8
 [0.34.7]: http://www.github.com/liveops/agent-desktop/compare/0.34.6...0.34.7
 [0.34.6]: http://www.github.com/liveops/agent-desktop/compare/0.34.5...0.34.6
