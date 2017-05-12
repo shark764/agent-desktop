@@ -1,3 +1,6 @@
+### [0.34.5] (2017-05-12)
+* CXV1-9208 - Fixed infinite scroll of searched contacts in ContactsControl
+
 ### [0.34.4] (2017-05-12)
 * Replaying commits from extra version release of 33.4
 

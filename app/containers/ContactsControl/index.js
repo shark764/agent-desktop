@@ -347,6 +347,7 @@ export class ContactsControl extends React.Component {
       left: '-52px',
       position: 'relative',
       display: 'flex',
+      flexFlow: 'column',
     },
     buttonSet: {
       alignSelf: 'flex-end',
@@ -356,8 +357,10 @@ export class ContactsControl extends React.Component {
     contactResult: {
       marginBottom: '14px',
       alignSelf: 'stretch',
+      flex: '1',
       flexGrow: '1',
       flexShrink: '1',
+      marginLeft: '52px',
     },
     resultsPlaceholderTitle: {
       paddingBottom: '8px',
@@ -666,7 +669,7 @@ export class ContactsControl extends React.Component {
         { this.getHeader() }
         <div style={[this.styles.contacts]}>
           <div style={{ width: '52px' }}></div>
-          <div style={{ flexGrow: 1 }}>{ this.getMainContent() }</div>
+          { this.getMainContent() }
         </div>
         <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100', complete: this.velocityCleanup }} leave={{ animation: 'transition.slideDownOut', duration: '100' }}>
           {
