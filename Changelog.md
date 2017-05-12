@@ -1,3 +1,6 @@
+### [0.33.4] (2017-05-12)
+* CXV1-8966 - BUGFIX - lower button text stay not ready when system reason
+
 ### [0.33.3] (2017-05-10)
 * CXV1-8966 - Add error & refresh if no non system reason list is set for user on tenant
 * CXV1-8966 - BUGFIX - ready message change did not stick in translations
