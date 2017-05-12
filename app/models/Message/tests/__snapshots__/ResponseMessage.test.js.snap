@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResponseMessage constructor should construct properly with metadata 1`] = `
+Object {
+  "from": "metadata.name",
+  "text": "text",
+  "timestamp": "timestamp",
+  "type": "metadata.type",
+  "unread": false,
+}
+`;
+
+exports[`ResponseMessage constructor should construct properly with minimum params 1`] = `
+Object {
+  "from": "from",
+  "text": "text",
+  "timestamp": "timestamp",
+  "type": "type",
+  "unread": false,
+}
+`;
+
+exports[`ResponseMessage constructor should construct unread as true when selectedInteractionId is different 1`] = `
+Object {
+  "from": "from",
+  "text": "text",
+  "timestamp": "timestamp",
+  "type": "type",
+  "unread": true,
+}
+`;
+
+exports[`ResponseMessage constructor should construct with "agent" type and "Agent" from when from is userId 1`] = `
+Object {
+  "from": "Agent",
+  "text": "text",
+  "timestamp": "timestamp",
+  "type": "agent",
+  "unread": true,
+}
+`;

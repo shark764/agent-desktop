@@ -24,6 +24,7 @@ const styles = {
     position: 'fixed',
     left: '2px',
     bottom: '56px',
+    zIndex: '2',
   },
   baseMenuContainer: {
     padding: '3px 0',
@@ -92,7 +93,6 @@ export class AgentStatusMenu extends React.Component {
       clearHoverInt: 0,
     };
   }
-
 
   clearHover() { // Longstanding radium bug where mouseleave event is never triggered https://github.com/FormidableLabs/radium/issues/524
     this.setState({ clearHoverInt: this.state.clearHoverInt + 1 });
@@ -184,75 +184,73 @@ export class AgentStatusMenu extends React.Component {
 
   render() {
     return (
-      <div style={styles.menuPosition}>
-        <PopupDialog id="agentStatusMenu" isVisible={this.props.show} hide={() => { this.setState({ showPathwayMenu: false }); this.setState({ showReasonMenuInfo: {} }); this.props.showAgentStatusMenu(false); }} widthPx={303} arrowLeftOffsetPx={51}>
-          <div style={styles.baseMenuContainer}>
-            { this.props.hasActiveInteractions || this.props.hasActiveWrapup
-              ? <div id="agentLogoutLink" style={styles.presenceLinkContainer}><FormattedMessage {...messages.logout} /></div>
-              : <div
-                id="agentLogoutLink"
-                style={[styles.presenceLinkContainer, styles.inactivePresence]}
-                onClick={() => { SDK.session.end(); this.props.showAgentStatusMenu(false); }}
-              >
-                <FormattedMessage {...messages.logout} />
-              </div>
-            }
-            <LargeMenuRow id="agentMenuTenant" titleText={messages.tenant} mainText={this.props.tenant.name} />
-            <LargeMenuRow id="agentMenuMode" titleText={messages.mode} mainText={messages.inbound} />
-            <LargeMenuRow
-              id="agentMenuPathway"
-              titleText={messages.activeVoicePath}
-              mainText={this.props.activeExtension.description}
-              hasSubMenu
-              onClick={() => {
-                this.setState({ showReasonMenuInfo: {}, showPathwayMenu: !this.state.showPathwayMenu });
-              }}
-              disabled={this.props.readyState === 'ready'}
-              isOpen={this.state.showPathwayMenu}
-              subMenuRows={
-                this.props.extensions.map((extension) =>
-                  <MenuRow
-                    key={extension.value}
-                    id={extension.value}
-                    rowText={extension.description}
-                    onSelect={() => {
-                      this.props.setActiveExtension(extension);
-                      this.setState({ showPathwayMenu: false });
-                      this.props.showAgentStatusMenu(false);
-                    }}
-                  />
-                )
-              }
-              style={{ borderBottom: 'solid 1px #e4e4e4' }}
-            />
-            <div id="agentNotReadyState" style={styles.notReadyReasons}>
-              {
-                this.props.presenceReasonLists.map(this.renderList, this)
-              }
+      <PopupDialog id="agentStatusMenu" style={styles.menuPosition} isVisible={this.props.show} hide={() => { this.setState({ showPathwayMenu: false }); this.setState({ showReasonMenuInfo: {} }); this.props.showAgentStatusMenu(false); }} widthPx={303} arrowLeftOffsetPx={51}>
+        <div style={styles.baseMenuContainer}>
+          { this.props.hasActiveInteractions || this.props.hasActiveWrapup
+            ? <div id="agentLogoutLink" style={styles.presenceLinkContainer}><FormattedMessage {...messages.logout} /></div>
+            : <div
+              id="agentLogoutLink"
+              style={[styles.presenceLinkContainer, styles.inactivePresence]}
+              onClick={() => { SDK.session.end(); this.props.showAgentStatusMenu(false); }}
+            >
+              <FormattedMessage {...messages.logout} />
             </div>
-            <div style={[styles.narrowDivider, { padding: '7px 24px 0 24px' }]}></div>
+          }
+          <LargeMenuRow id="agentMenuTenant" titleText={messages.tenant} mainText={this.props.tenant.name} />
+          <LargeMenuRow id="agentMenuMode" titleText={messages.mode} mainText={messages.inbound} />
+          <LargeMenuRow
+            id="agentMenuPathway"
+            titleText={messages.activeVoicePath}
+            mainText={this.props.activeExtension.description}
+            hasSubMenu
+            onClick={() => {
+              this.setState({ showReasonMenuInfo: {}, showPathwayMenu: !this.state.showPathwayMenu });
+            }}
+            disabled={this.props.readyState === 'ready'}
+            isOpen={this.state.showPathwayMenu}
+            subMenuRows={
+              this.props.extensions.map((extension) =>
+                <MenuRow
+                  key={extension.value}
+                  id={extension.value}
+                  rowText={extension.description}
+                  onSelect={() => {
+                    this.props.setActiveExtension(extension);
+                    this.setState({ showPathwayMenu: false });
+                    this.props.showAgentStatusMenu(false);
+                  }}
+                />
+              )
+            }
+            style={{ borderBottom: 'solid 1px #e4e4e4' }}
+          />
+          <div id="agentNotReadyState" style={styles.notReadyReasons}>
             {
-              this.props.readyState === 'ready'
-              ? <div
-                id="readyStateLink"
-                style={[styles.presenceLinkContainer, styles.activePresence]}
-              >
-                <div style={styles.itemText}>
-                  <FormattedMessage {...messages.ready} />
-                </div>
-                <Icon name="checkStatus" alt="selected" style={styles.selectedIcon} />
-              </div>
-              : <div
-                id="readyStateLink"
-                style={[styles.presenceLinkContainer, styles.inactivePresence]}
-                onClick={() => { this.changePresence('ready'); }}
-              >
-                <FormattedMessage {...messages.ready} />
-              </div>
+              this.props.presenceReasonLists.map(this.renderList, this)
             }
           </div>
-        </PopupDialog>
-      </div>
+          <div style={[styles.narrowDivider, { padding: '7px 24px 0 24px' }]}></div>
+          {
+            this.props.readyState === 'ready'
+            ? <div
+              id="readyStateLink"
+              style={[styles.presenceLinkContainer, styles.activePresence]}
+            >
+              <div style={styles.itemText}>
+                <FormattedMessage {...messages.ready} />
+              </div>
+              <Icon name="checkStatus" alt="selected" style={styles.selectedIcon} />
+            </div>
+            : <div
+              id="readyStateLink"
+              style={[styles.presenceLinkContainer, styles.inactivePresence]}
+              onClick={() => { this.changePresence('ready'); }}
+            >
+              <FormattedMessage {...messages.ready} />
+            </div>
+          }
+        </div>
+      </PopupDialog>
     );
   }
 }
