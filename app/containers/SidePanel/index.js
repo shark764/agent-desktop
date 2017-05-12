@@ -56,6 +56,7 @@ export class SidePanel extends React.Component {
       transition: 'transform 1s',
       display: 'flex',
       flexWrap: 'no-wrap',
+      zIndex: '1',
     },
     leftGutter: {
       width: `${leftGutterPx}px`,

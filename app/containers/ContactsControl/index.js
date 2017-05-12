@@ -252,7 +252,18 @@ export class ContactsControl extends React.Component {
       this.setState({ loading: true, deletionPending: false });
       const encodedQuery = {};
       Object.keys(this.props.selectedInteraction.query).forEach((queryName) => {
-        encodedQuery[queryName] = encodeURIComponent(this.props.selectedInteraction.query[queryName]);
+        const queryToEncode = this.props.selectedInteraction.query[queryName];
+        const queryNoQuotes = queryToEncode.replace(/"/g, '');
+        let finalQuery = queryNoQuotes;
+
+        // here we are looking for queries that either start and end with double-quotes,
+        // or are telephone queries. If they are either, then put double quotes around
+        // them so that the sdk does an exact string match instead of the default partial match
+        if (/^".*"$/.test(queryToEncode) || queryName === 'phone') {
+          finalQuery = `"${queryNoQuotes}"`;
+        }
+
+        encodedQuery[queryName] = encodeURIComponent(finalQuery);
       });
       SDK.contacts.search({ query: Object.assign(encodedQuery, { page: this.props.nextPage }) }, (error, topic, response) => {
         console.log('[ContactsControl] SDK.subscribe()', topic, response);
@@ -385,10 +396,15 @@ export class ContactsControl extends React.Component {
       display: 'flex',
       flexShrink: '0',
       margin: '12px 0',
+      transform: 'none',
     },
     bulkConfirmDialog: {
       position: 'absolute',
       left: '-23px',
+      bottom: '40px',
+    },
+    bulkActionDialog: {
+      position: 'fixed',
       bottom: '40px',
     },
   };
@@ -617,11 +633,16 @@ export class ContactsControl extends React.Component {
             isVisible={this.state.confirmingDelete}
             hide={() => this.setState({ confirmingDelete: false })}
             style={this.styles.bulkConfirmDialog}
+            dialogStyle={this.styles.bulkActionDialog}
           />
           <Button onClick={() => this.setState({ confirmingDelete: true })} id="delete-btn" text={messages.delete} type="secondary"></Button>
         </div>
       </div>
     );
+  }
+
+  velocityCleanup = () => {
+    this.styles.bulkActionControlBar.transform = 'none';
   }
 
   render() {
@@ -647,7 +668,7 @@ export class ContactsControl extends React.Component {
           <div style={{ width: '52px' }}></div>
           <div style={{ flexGrow: 1 }}>{ this.getMainContent() }</div>
         </div>
-        <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100' }} leave={{ animation: 'transition.slideDownOut', duration: '100' }}>
+        <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100', complete: this.velocityCleanup }} leave={{ animation: 'transition.slideDownOut', duration: '100' }}>
           {
             (this.props.selectedInteraction.contactAction === 'search' && this.state.selectedContacts.length > 0)
             && this.renderBulkActionControls()

@@ -13,6 +13,8 @@ import EmailContentArea from 'containers/EmailContentArea';
 import VoiceContentArea from 'containers/VoiceContentArea';
 import WelcomeStats from 'containers/WelcomeStats';
 
+import { removeInteraction } from 'containers/AgentDesktop/actions';
+
 import { selectSelectedInteraction, selectMessageTemplates } from './selectors';
 
 export class MainContentArea extends React.Component {
@@ -32,6 +34,10 @@ export class MainContentArea extends React.Component {
   endInteraction() {
     if (this.props.selectedInteraction.status === 'wrapup') {
       SDK.interactions.endWrapup({ interactionId: this.props.selectedInteraction.interactionId });
+    } else if (this.props.selectedInteraction.status === 'connecting-to-outbound' ||
+        this.props.selectedInteraction.status === 'initializing-outbound' ||
+        this.props.selectedInteraction.status === 'initialized-outbound') {
+      this.props.removeInteraction(this.props.selectedInteraction.interactionId);
     } else {
       SDK.interactions.end({ interactionId: this.props.selectedInteraction.interactionId });
     }
@@ -78,14 +84,16 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
     dispatch,
   };
 }
 
 MainContentArea.propTypes = {
-  style: PropTypes.array,
   selectedInteraction: PropTypes.object,
   messageTemplates: PropTypes.array,
+  removeInteraction: PropTypes.func.isRequired,
+  style: PropTypes.array,
   agent: PropTypes.object.isRequired,
   tenant: PropTypes.object.isRequired,
 };

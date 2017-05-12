@@ -87,7 +87,7 @@ class Resizable extends React.Component {
           top: '0',
           position: this.dividerPosition,
           cursor: 'ew-resize',
-          zIndex: '10',
+          zIndex: '2',
         },
         dividerHandle1: {
           left: this.dividerHandle1Offset,

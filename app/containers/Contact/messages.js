@@ -6,6 +6,14 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
+  call: {
+    id: 'app.containers.Contact.call',
+    defaultMessage: 'Call',
+  },
+  sms: {
+    id: 'app.containers.Contact.sms',
+    defaultMessage: 'SMS',
+  },
   saveBtn: {
     id: 'app.containers.Contact.save',
     defaultMessage: 'Save Changes',

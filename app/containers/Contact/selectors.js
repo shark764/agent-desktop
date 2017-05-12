@@ -22,6 +22,19 @@ const selectHasVoiceInteraction = createSelector(
   ) !== -1
 );
 
+const selectSmsInteractionNumbers = createSelector(
+  selectInteractions,
+  (interactions) => {
+    const smsInteractionNumbers = [];
+    interactions.forEach((interaction) => {
+      if (interaction.get('channelType') === 'sms') {
+        smsInteractionNumbers.push(interaction.get('customer'));
+      }
+    });
+    return smsInteractionNumbers;
+  }
+);
+
 // SidePanel Domain Selectors
 const selectSidePanelDomain = (state) => state.get('sidePanel');
 const selectLayout = createSelector(
@@ -78,5 +91,6 @@ export {
   selectPopulatedCompactAttributes,
   selectAttributes,
   selectHasVoiceInteraction,
+  selectSmsInteractionNumbers,
   selectInInteractionContext,
 };
