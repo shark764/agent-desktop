@@ -15,7 +15,6 @@ import {
   SET_PRESENCE,
   GO_NOT_READY,
   START_OUTBOUND_INTERACTION,
-  INITIALIZE_OUTBOUND_SMS,
   ADD_INTERACTION,
   WORK_INITIATED,
   SET_INTERACTION_QUERY,
@@ -138,21 +137,10 @@ export function goNotReady(reason, listId) {
   };
 }
 
-export function startOutboundInteraction(channelType, customer, contact) {
+export function startOutboundInteraction(channelType) {
   return {
     type: START_OUTBOUND_INTERACTION,
     channelType,
-    customer,
-    contact,
-  };
-}
-
-export function initializeOutboundSms(placeholderInteractionId, interactionId, message) {
-  return {
-    type: INITIALIZE_OUTBOUND_SMS,
-    placeholderInteractionId,
-    interactionId,
-    message,
   };
 }
 
@@ -198,11 +186,10 @@ export function setContactAction(interactionId, newAction) {
   };
 }
 
-export function setMessageHistory(response, agentId) {
+export function setMessageHistory(response) {
   return {
     type: SET_MESSAGE_HISTORY,
     response,
-    agentId,
   };
 }
 
@@ -304,11 +291,10 @@ export function selectContact(contact) {
   };
 }
 
-export function addMessage(interactionId, message) {
+export function addMessage(response) {
   return {
     type: ADD_MESSAGE,
-    interactionId,
-    message,
+    response,
   };
 }
 
@@ -547,7 +533,6 @@ export function setDispositionDetails(interactionId, dispositions, forceSelect) 
     forceSelect,
   };
 }
-
 export function selectDisposition(interactionId, disposition) {
   return {
     type: SELECT_DISPOSITION,

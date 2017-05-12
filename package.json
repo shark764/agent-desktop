@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.34.3",
+  "version": "0.33.3",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -183,7 +183,7 @@
       "jsx-a11y/no-static-element-interactions": 0,
       "max-len": 0,
       "newline-per-chained-call": 0,
-      "no-console": 0,
+      "no-console": 1,
       "no-use-before-define": 0,
       "prefer-template": 2,
       "class-methods-use-this": 0,

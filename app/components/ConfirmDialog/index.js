@@ -16,7 +16,7 @@ import messages from './messages';
 const styles = {
   base: {
     borderRadius: '4px',
-    zIndex: '2',
+    paddingTop: '16px',
   },
   container: {
     display: 'flex',
@@ -25,7 +25,6 @@ const styles = {
   },
   questionContainer: {
     alignSelf: 'center',
-    paddingTop: '16px',
     paddingBottom: '16px',
     fontSize: '16px',
   },
@@ -46,7 +45,7 @@ const styles = {
 function ConfirmDialog(props) {
   return (
     <div style={props.style}>
-      <PopupDialog isVisible={props.isVisible} hide={props.hide} widthPx={200} arrowLeftOffsetPx={42} style={[styles.base, props.dialogStyle]} fadeContent>
+      <PopupDialog isVisible={props.isVisible} hide={props.hide} widthPx={200} arrowLeftOffsetPx={42} style={styles.base} fadeContent>
         <div style={styles.container}>
           {
             props.questionMessage
@@ -55,10 +54,10 @@ function ConfirmDialog(props) {
             </div>
           }
           <div style={styles.buttonContainer}>
-            <Button id="leftConfirmButton" onClick={props.leftAction} disabled={props.leftDisabled} type="secondary" clear style={styles.leftButton}>
+            <Button id="leftConfirmButton" onClick={props.leftAction} type="secondary" clear style={styles.leftButton}>
               <FormattedMessage {...props.leftMessage} />
             </Button>
-            <Button id="rightConfirmButton" onClick={props.rightAction} disabled={props.rightDisabled} type="secondary" clear style={styles.rightButton}>
+            <Button id="rightConfirmButton" onClick={props.rightAction} type="secondary" clear style={styles.rightButton}>
               <FormattedMessage {...props.rightMessage} />
             </Button>
           </div>
@@ -74,12 +73,9 @@ ConfirmDialog.propTypes = {
   rightMessage: PropTypes.object,
   leftAction: PropTypes.func.isRequired,
   rightAction: PropTypes.func.isRequired,
-  leftDisabled: PropTypes.bool,
-  rightDisabled: PropTypes.bool,
   hide: PropTypes.func,
   isVisible: PropTypes.bool.isRequired,
   style: PropTypes.object,
-  dialogStyle: PropTypes.object,
 };
 
 ConfirmDialog.defaultProps = {
