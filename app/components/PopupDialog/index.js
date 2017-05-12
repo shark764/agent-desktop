@@ -45,7 +45,6 @@ function PopupDialog(props) {
       width: '100vw',
       top: '0px',
       left: '0px',
-      zIndex: '2',
     },
   };
 

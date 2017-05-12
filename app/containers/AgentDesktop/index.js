@@ -11,8 +11,6 @@ import { injectIntl } from 'react-intl';
 import Radium from 'radium';
 import axios from 'axios';
 
-import ResponseMessage from 'models/Message/ResponseMessage';
-
 import Resizable from 'components/Resizable';
 import RefreshBanner from 'components/RefreshBanner';
 
@@ -219,24 +217,20 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/interactions/work-initiated-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+          this.props.workInitiated(response);
+          // attempt to auto-assign contact
           const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response.interactionId);
-          if (!(interaction.direction === 'outbound' && interaction.channelType === 'sms')) {
-            this.props.workInitiated(response);
-          }
-          // Attempt to auto-assign contact if it hasn't already been assigned (if it were started by click to outbound)
-          if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms' || interaction.channelType === 'email') && !interaction.contact) {
+          if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms' || interaction.channelType === 'email')) {
             this.attemptContactSearch(response.customer, response.interactionId, true);
           }
-          if (interaction.direction === 'outbound' && interaction.channelType === 'sms') {
-            SDK.interactions.accept({ interactionId: response.interactionId });
-          } else if (interaction.autoAnswer === true) {
+          if (interaction.autoAnswer === true) {
             this.acceptInteraction(response.interactionId);
           }
           break;
         }
         case 'cxengage/interactions/messaging/history-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.setMessageHistory(response, this.props.login.agent.userId);
+          this.props.setMessageHistory(response);
           // attempt to auto-assign contact
           const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response[0].to);
           if (interaction !== undefined && interaction.channelType === 'messaging') {
@@ -246,6 +240,8 @@ export class AgentDesktop extends React.Component {
             } else {
               console.error('customer name not found in:', interaction);
             }
+          } else {
+            console.warn('no customer message found for interaction:', interaction);
           }
           break;
         }
@@ -298,7 +294,7 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/interactions/messaging/new-message-received': {
           console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          this.props.addMessage(response.to, new ResponseMessage(response, this.props.agentDesktop.selectedInteractionId));
+          this.props.addMessage(response);
           break;
         }
         case 'cxengage/interactions/voice/resource-mute-received': {
@@ -501,8 +497,6 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/accept-acknowledged': // Using cxengage/interactions/work-accepted instead
         case 'cxengage/interactions/end-acknowledged': // Using cxengage/interactions/work-ended instead
         case 'cxengage/interactions/email/attachment-received': // Handled in callback of cxengage/interactions/email/details-received
-        case 'cxengage/interactions/messaging/initialize-outbound-sms-response': // Handled in MessagingContentArea saga
-        case 'cxengage/interactions/messaging/send-outbound-sms-response': // Handled in MessagingContentArea saga
         case 'cxengage/interactions/messaging/send-message-acknowledged': // Using cxengage/messaging/new-message-received instead
         case 'cxengage/interactions/voice/phone-controls-response': // Using mute-started, mute-ended, etc. instead
         case 'cxengage/interactions/contact-assign-acknowledged': // Handled in ContactsControl
@@ -691,12 +685,12 @@ function mapDispatchToProps(dispatch) {
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
     workInitiated: (response) => dispatch(workInitiated(response)),
     removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
-    setMessageHistory: (response, agentId) => dispatch(setMessageHistory(response, agentId)),
+    setMessageHistory: (response) => dispatch(setMessageHistory(response)),
     assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
     loadContactInteractionHistory: (contactId, page) => dispatch(loadContactInteractionHistory(contactId, page)),
     setContactHistoryInteractionDetails: (response) => dispatch(setContactHistoryInteractionDetails(response)),
     updateContact: (updatedContact) => dispatch(updateContact(updatedContact)),
-    addMessage: (interactionId, message) => dispatch(addMessage(interactionId, message)),
+    addMessage: (response) => dispatch(addMessage(response)),
     selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
     setContactLayout: (layout) => dispatch(setContactLayout(layout)),
     setContactAttributes: (attributes) => dispatch(setContactAttributes(attributes)),

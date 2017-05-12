@@ -52,7 +52,7 @@ export class InteractionsBar extends React.Component {
       let text;
       let type;
       if (activeInteraction.channelType === 'messaging' || activeInteraction.channelType === 'sms') {
-        from = activeInteraction.customer ? activeInteraction.customer : activeInteraction.messageHistory[0].from;
+        from = activeInteraction.messageHistory[0].from;
 
         // use the last non-system message
         for (let i = activeInteraction.messageHistory.length - 1; i >= 0; i -= 1) {
@@ -83,7 +83,7 @@ export class InteractionsBar extends React.Component {
         <Interaction
           {...{ from, icon }}
           interactionId={activeInteraction.interactionId}
-          key={activeInteraction.interactionId ? activeInteraction.interactionId : activeInteraction.customer}
+          key={activeInteraction.interactionId}
           channelType={activeInteraction.channelType}
           previewText={text}
           status={activeInteraction.status === 'wrapup' ? 'wrapup' : 'active'}
@@ -100,8 +100,8 @@ export class InteractionsBar extends React.Component {
       let from;
       let text;
       if (pendingInteraction.channelType === 'messaging' || pendingInteraction.channelType === 'sms') {
-        from = pendingInteraction.messageHistory && pendingInteraction.messageHistory.length > 0 ? pendingInteraction.messageHistory[0].from : '';
-        text = pendingInteraction.messageHistory && pendingInteraction.messageHistory.length > 0 ? pendingInteraction.messageHistory[0].text : '';
+        from = pendingInteraction.messageHistory ? pendingInteraction.messageHistory[0].from : '';
+        text = pendingInteraction.messageHistory ? pendingInteraction.messageHistory[0].text : '';
         icon = 'message_new';
       } else if (pendingInteraction.channelType === 'email') {
         from = pendingInteraction.customer;

@@ -8,13 +8,10 @@ exports[`<ConfirmDialog /> should render correctly 1`] = `
     hide={[Function]}
     isVisible={true}
     style={
-      Array [
-        Object {
-          "borderRadius": "4px",
-          "zIndex": "2",
-        },
-        undefined,
-      ]
+      Object {
+        "borderRadius": "4px",
+        "paddingTop": "16px",
+      }
     }
     widthPx={200}
   >

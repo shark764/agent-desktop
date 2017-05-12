@@ -6,7 +6,9 @@ const requestAnimationFrame =
   window.requestAnimationFrame ||
   window.webkitRequestAnimationFrame ||
   window.mozRequestAnimationFrame ||
-  ((callback) => window.setTimeout(callback, 1000 / 60));
+  function (callback) {
+    window.setTimeout(callback, 1000 / 60);
+  };
 
 function throttler(...callbackArgs) {
   if (!this.running) {

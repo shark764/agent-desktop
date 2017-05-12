@@ -14,11 +14,11 @@ import { isValidEmail } from 'utils/validator';
 
 import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
 
-import Button from 'components/Button';
+import A from 'components/A';
 import Checkbox from 'components/Checkbox';
-import ConfirmDialog from 'components/ConfirmDialog';
-import ConfirmDialogLink from 'components/ConfirmDialogLink';
+import Button from 'components/Button';
 import TextInput from 'components/TextInput';
+import ConfirmDialog from 'components/ConfirmDialog';
 
 import messages from './messages';
 import {
@@ -27,7 +27,6 @@ import {
   selectPopulatedCompactAttributes,
   selectAttributes,
   selectHasVoiceInteraction,
-  selectSmsInteractionNumbers,
   selectInInteractionContext,
 } from './selectors';
 
@@ -61,8 +60,7 @@ export class Contact extends React.Component {
     this.handleOnBlur = this.handleOnBlur.bind(this);
     this.formatValue = this.formatValue.bind(this);
     this.getError = this.getError.bind(this);
-    this.startCall = this.startCall.bind(this);
-    this.startSms = this.startSms.bind(this);
+    this.attemptCall = this.attemptCall.bind(this);
     this.cancelCancelDialog = this.cancelCancelDialog.bind(this);
   }
 
@@ -311,13 +309,9 @@ export class Contact extends React.Component {
     }
   }
 
-  startCall(number) {
+  attemptCall(number) {
     this.props.startOutboundInteraction('voice');
     SDK.interactions.voice.dial({ phoneNumber: number });
-  }
-
-  startSms(value) {
-    this.props.startOutboundInteraction('sms', value, this.props.contact);
   }
 
   cancelCancelDialog() {
@@ -379,17 +373,7 @@ export class Contact extends React.Component {
     switch (attribute.type) { // TODO: AttributeValue components w/edit flags & callbacks
       case 'phone':
         content = (
-          <ConfirmDialogLink
-            id={`${attribute.objectName}Anchor`}
-            linkText={value}
-            disabled={!this.props.isReady}
-            leftMessage={messages.call}
-            leftAction={() => this.startCall(value)}
-            leftDisabled={this.props.hasVoiceInteraction}
-            rightMessage={messages.sms}
-            rightAction={() => this.startSms(value)}
-            rightDisabled={this.props.smsInteractionNumbers.includes(value)}
-          />
+          <A id={`${attribute.objectName}Anchor`} disabled={!this.props.isReady || this.props.hasVoiceInteraction || this.state.pendingOutbound} onClick={() => this.attemptCall(value)} text={value} />
         );
         break;
       case 'link':
@@ -528,7 +512,6 @@ export class Contact extends React.Component {
                 isVisible={this.state.showCancelDialog}
                 hide={this.cancelCancelDialog}
                 style={{ position: 'absolute', left: '112px', bottom: '40px' }}
-                dialogStyle={{ position: 'fixed', bottom: '320px' }}
               />
               <Button
                 id="contactSaveBtn"
@@ -559,13 +542,12 @@ const mapStateToProps = (state, props) => ({
   compactLayoutAttributes: selectPopulatedCompactAttributes(state, props),
   isReady: selectIsReady(state, props),
   hasVoiceInteraction: selectHasVoiceInteraction(state, props),
-  smsInteractionNumbers: selectSmsInteractionNumbers(state, props),
   inInteractionContext: selectInInteractionContext(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    startOutboundInteraction: (channelType, customer, contact) => dispatch(startOutboundInteraction(channelType, customer, contact)),
+    startOutboundInteraction: (channelType) => dispatch(startOutboundInteraction(channelType)),
     dispatch,
   };
 }
@@ -589,7 +571,6 @@ Contact.propTypes = {
   isReady: PropTypes.bool.isRequired,
   inInteractionContext: PropTypes.bool.isRequired,
   hasVoiceInteraction: PropTypes.bool.isRequired,
-  smsInteractionNumbers: PropTypes.array.isRequired,
   startOutboundInteraction: PropTypes.func.isRequired,
 };
 

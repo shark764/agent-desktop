@@ -382,16 +382,16 @@ export class Login extends React.Component {
       bottom: '1em',
     },
     languageDialog: {
-      position: 'fixed',
-      bottom: '55px',
-      left: '4px',
-      zIndex: '2',
+      position: 'absolute',
+      bottom: '38px',
+      left: '-18px',
     },
     languageSelect: {
       width: '180px',
       top: '0',
       bottom: '10px',
       marginLeft: '10px',
+      marginTop: '10px',
       border: 'none',
     },
     languageIcon: {
@@ -427,21 +427,23 @@ export class Login extends React.Component {
           </Dialog>
           <div style={this.styles.languageMenu}>
             <FontAwesomeIcon id={'localeIcon'} name={'globe'} style={this.styles.languageIcon} onclick={this.toggleLanguageMenu} />
-            <PopupDialog style={this.styles.languageDialog} isVisible={this.state.showLanguage} hide={this.toggleLanguageMenu} widthPx={200} arrowLeftOffsetPx={14}>
-              <Select
-                id={'locale'}
-                style={this.styles.languageSelect}
-                value={this.props.locale}
-                options={mappedLocales}
-                onChange={(e) => {
-                  this.props.changeLocale(e.value);
-                  this.setLocalLocale(e.value);
-                  window.setTimeout(this.toggleLanguageMenu, 400);
-                }}
-                autoFocus
-                clearable={false}
-              />
-            </PopupDialog>
+            <div style={this.styles.languageDialog}>
+              <PopupDialog isVisible={this.state.showLanguage} hide={this.toggleLanguageMenu} widthPx={200} arrowLeftOffsetPx={14}>
+                <Select
+                  id={'locale'}
+                  style={this.styles.languageSelect}
+                  value={this.props.locale}
+                  options={mappedLocales}
+                  onChange={(e) => {
+                    this.props.changeLocale(e.value);
+                    this.setLocalLocale(e.value);
+                    window.setTimeout(this.toggleLanguageMenu, 400);
+                  }}
+                  autoFocus
+                  clearable={false}
+                />
+              </PopupDialog>
+            </div>
           </div>
           <div style={this.styles.copyright}>
             <div style={this.styles.copyrightText}>

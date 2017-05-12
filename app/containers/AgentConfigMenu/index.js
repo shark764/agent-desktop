@@ -48,6 +48,7 @@ export class AgentConfigMenu extends React.Component {
       margin: '10px',
       color: '#4b4b4b',
       padding: '10px 13px',
+
     },
     menuGroup: {
       paddingBottom: '11px',
@@ -62,6 +63,10 @@ export class AgentConfigMenu extends React.Component {
       lineHeight: '17px',
       color: '#4B4B4B',
     },
+    statTitle: {
+      position: 'relative',
+      top: '-3px',
+    },
     select: {
       height: '17px',
       border: 'none',
@@ -70,6 +75,13 @@ export class AgentConfigMenu extends React.Component {
       display: 'flex',
       justifyContent: 'flex-end',
       color: 'red',
+    },
+    mask: {
+      position: 'fixed',
+      height: '100vh',
+      width: '100vw',
+      top: '0px',
+      left: '0px',
     },
   }
 

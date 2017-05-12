@@ -1,16 +1,7 @@
-### [0.34.3] (2017-05-12)
-* CXV1-8202 - Updated contact search to make phone number search only return results for exact matches
+### [0.33.4] (2017-05-12)
+* CXV1-8966 - BUGFIX - lower button text stay not ready when system reason
 
-### [0.34.2] (2017-05-11)
-* CXV1-8705 - Fixed screen mask bugs with popup dialogs
-
-### [0.34.1] (2017-05-11)
-* CXV1-8499 - Add blue border to selected contact
-
-### [0.34.0] (2017-05-10)
-* CXV1-6956 - Click to SMS
-
-### [0.33.3] (2017-05-11)
+### [0.33.3] (2017-05-10)
 * CXV1-8966 - Add error & refresh if no non system reason list is set for user on tenant
 * CXV1-8966 - BUGFIX - ready message change did not stick in translations
 * CXV1-8966 - BUGFIX - notReady cutting off to ellip on some browsers
@@ -656,8 +647,6 @@
 #### Initial Commit
 * Here we go!
 
-[0.34.1]: http://www.github.com/liveops/agent-desktop/compare/0.34.0...0.34.1
-[0.34.0]: http://www.github.com/liveops/agent-desktop/compare/0.33.3...0.34.0
 [0.33.3]: http://www.github.com/liveops/agent-desktop/compare/0.33.2...0.33.3
 [0.33.2]: http://www.github.com/liveops/agent-desktop/compare/0.33.1...0.33.2
 [0.33.1]: http://www.github.com/liveops/agent-desktop/compare/0.33.0...0.33.1
