@@ -252,7 +252,18 @@ export class ContactsControl extends React.Component {
       this.setState({ loading: true, deletionPending: false });
       const encodedQuery = {};
       Object.keys(this.props.selectedInteraction.query).forEach((queryName) => {
-        encodedQuery[queryName] = encodeURIComponent(this.props.selectedInteraction.query[queryName]);
+        const queryToEncode = this.props.selectedInteraction.query[queryName];
+        const queryNoQuotes = queryToEncode.replace(/"/g, '');
+        let finalQuery = queryNoQuotes;
+
+        // here we are looking for queries that either start and end with double-quotes,
+        // or are telephone queries. If they are either, then put double quotes around
+        // them so that the sdk does an exact string match instead of the default partial match
+        if (/^".*"$/.test(queryToEncode) || queryName === 'phone') {
+          finalQuery = `"${queryNoQuotes}"`;
+        }
+
+        encodedQuery[queryName] = encodeURIComponent(finalQuery);
       });
       SDK.contacts.search({ query: Object.assign(encodedQuery, { page: this.props.nextPage }) }, (error, topic, response) => {
         console.log('[ContactsControl] SDK.subscribe()', topic, response);
