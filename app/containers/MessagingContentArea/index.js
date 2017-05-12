@@ -17,7 +17,6 @@ import LoadingText from 'components/LoadingText';
 
 import ContentArea from 'containers/ContentArea';
 
-import { setInteractionStatus } from 'containers/AgentDesktop/actions';
 import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import { initializeOutboundSms, sendOutboundSms } from './actions';
@@ -519,7 +518,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setInteractionStatus: (interactionId, newStatus, response) => dispatch(setInteractionStatus(interactionId, newStatus, response)),
     initializeOutboundSms: (interactionId, phoneNumber, message) => dispatch(initializeOutboundSms(interactionId, phoneNumber, message)),
     sendOutboundSms: (interactionId, message) => dispatch(sendOutboundSms(interactionId, message)),
     dispatch,

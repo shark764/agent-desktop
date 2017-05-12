@@ -270,7 +270,7 @@ function agentDesktopReducer(state = initialState, action) {
                 );
                 // Update muted and onHolds that have changed
                 action.response.activeResources.forEach((resource) => {
-                  const resourceIndex = interaction.get('warmTransfers').findIndex((warmTransfer) =>
+                  const resourceIndex = updatedInteraction.get('warmTransfers').findIndex((warmTransfer) =>
                     warmTransfer.get('targetResource') === resource.id
                   );
                   if (resourceIndex !== -1) {
@@ -322,14 +322,14 @@ function agentDesktopReducer(state = initialState, action) {
             text: action.message,
             from: 'Agent',
             type: 'agent',
-            timestamp: (new Date()).toISOString(),
+            timestamp: (new Date(Date.now())).toISOString(),
             unread: false,
           })))
       // Update the selected interactionId to match the new one (if it is selected)
       ).set('selectedInteractionId', state.get('selectedInteractionId') === action.placeholderInteractionId ? action.interactionId : state.get('selectedInteractionId'));
     }
     case ADD_INTERACTION: {
-      // Don't re-add outbound SMS interaction. It was already added by INITIALIZE_OUTBOUND_SMS. Update it's status instead.
+      // Don't re-add outbound SMS interaction. It was already added by INITIALIZE_OUTBOUND_SMS.
       if (!(action.response.direction === 'outbound' && action.response.channelType === 'sms')) {
         // If interaction was already added by START_OUTBOUND_INTERACTION, replace it; otherwise, just push it to the list
         const interactionIndex = state.get('interactions').findIndex(

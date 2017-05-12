@@ -33,6 +33,7 @@ const styles = {
   },
   leftButton: {
     width: '50%',
+    border: 'none',
   },
   rightButton: {
     width: '50%',
@@ -53,10 +54,10 @@ function ConfirmDialog(props) {
             </div>
           }
           <div style={[styles.buttonContainer, props.questionMessage ? { borderTop: '1px solid #C5C5C5' } : {}]}>
-            <Button id="leftConfirmButton" onClick={props.leftAction} disabled={props.leftDisabled} type="secondary" clear style={styles.leftButton}>
+            <Button id="leftConfirmButton" onClick={props.leftAction} disabled={props.leftDisabled} type="secondary" style={styles.leftButton}>
               <FormattedMessage {...props.leftMessage} />
             </Button>
-            <Button id="rightConfirmButton" onClick={props.rightAction} disabled={props.rightDisabled} type="secondary" clear style={styles.rightButton}>
+            <Button id="rightConfirmButton" onClick={props.rightAction} disabled={props.rightDisabled} type="secondary" style={styles.rightButton}>
               <FormattedMessage {...props.rightMessage} />
             </Button>
           </div>

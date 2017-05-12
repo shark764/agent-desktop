@@ -1,3 +1,7 @@
+### [0.34.10] (2017-05-15)
+* CXV1-6956: Reducer tests for actions involving click to SMS, QE fixes
+* CXV1-9232: Fix contact edits on click to SMS interactions
+
 ### [0.34.9] (2017-05-15)
 * CXV1-8784 - Checkboxes in Agent Scripts not showing up correctly
 

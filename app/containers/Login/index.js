@@ -235,7 +235,6 @@ export class Login extends React.Component {
   }
 
   getLoginContent() {
-    // TODO when tenants.length == 0, == 1
     return (
       <div id="loginContainerDiv" style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
         {this.props.tenant_error

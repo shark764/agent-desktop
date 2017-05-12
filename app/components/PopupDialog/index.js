@@ -31,7 +31,7 @@ function PopupDialog(props) {
       width: '0px',
       height: '0px',
       left: `${leftOffsetPx}px`,
-      bottom: '-5px',
+      bottom: '-8px',
       zIndex: '1',
       borderWidth: '8px',
       borderStyle: 'solid',
