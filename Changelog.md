@@ -1,3 +1,6 @@
+### [0.34.3] (2017-05-12)
+* CXV1-8202 - Updated contact search to make phone number search only return results for exact matches
+
 ### [0.34.2] (2017-05-11)
 * CXV1-8705 - Fixed screen mask bugs with popup dialogs
 
