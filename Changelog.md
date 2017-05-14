@@ -1,3 +1,6 @@
+### [0.35.6] (2017-06-17)
+* CXV1-9062 - Refactor styles block of Avatar. Refactor styles block of Button + Tests.
+
 ### [0.35.5] (2017-06-17)
 * Fixed interactions without contact assigned
 

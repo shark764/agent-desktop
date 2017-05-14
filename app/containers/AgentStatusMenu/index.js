@@ -67,13 +67,6 @@ const styles = {
     borderBottom: '1px solid #E1E1E1',
     margin: '0 24px',
   },
-  clearButton: {
-    border: '0',
-    margin: '-4px 0 0 0',
-    ':hover': {
-      backgroundColor: '',
-    },
-  },
   selectedIcon: {
     alignSelf: 'center',
     cursor: 'inherit',

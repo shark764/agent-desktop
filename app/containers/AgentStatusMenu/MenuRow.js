@@ -29,13 +29,6 @@ const styles = {
   text: {
     flexGrow: 1,
   },
-  clearButton: {
-    border: '0',
-    margin: '-4px 0 0 0',
-    ':hover': {
-      backgroundColor: '',
-    },
-  },
   openMenuRoot: {
     backgroundColor: '#DEF8FE',
   },

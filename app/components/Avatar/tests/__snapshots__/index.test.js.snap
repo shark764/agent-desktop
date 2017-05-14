@@ -1,6 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Avatar /> should render correctly 1`] = `
+exports[`<Avatar /> when only passed id prop should render correctly 1`] = `
+<img
+  alt="Avatar"
+  src="test-file-stub"
+  style={
+    Object {
+      "borderRadius": "3px",
+      "height": "32px",
+      "width": "32px",
+    }
+  }
+/>
+`;
+
+exports[`<Avatar /> when passed customerAvatarIndex should render correctly 1`] = `
 <img
   alt="Avatar"
   src="test-file-stub"
