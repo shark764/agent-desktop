@@ -1,3 +1,6 @@
+### [0.34.8] (2017-05-15)
+* CXV1-8966 - various small QE fixes / improvements
+
 ### [0.34.7] (2017-05-15)
 * No Ticket - BUGFIX left gutter gone on contect edit/view
 
@@ -671,6 +674,7 @@
 #### Initial Commit
 * Here we go!
 
+[0.34.8]: http://www.github.com/liveops/agent-desktop/compare/0.34.7...0.34.8
 [0.34.7]: http://www.github.com/liveops/agent-desktop/compare/0.34.6...0.34.7
 [0.34.6]: http://www.github.com/liveops/agent-desktop/compare/0.34.5...0.34.6
 [0.34.5]: http://www.github.com/liveops/agent-desktop/compare/0.34.4...0.34.5

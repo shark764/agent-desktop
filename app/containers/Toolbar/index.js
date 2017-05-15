@@ -22,33 +22,27 @@ import selectToolbar, { selectQueues, selectCurrentAgent } from './selectors';
 import messages from './messages';
 
 const styles = {
-  base: {
+  readyBase: {
     backgroundColor: '#072931',
   },
-  notReady: {
+  notReadyBase: {
     backgroundColor: '#FE4565',
   },
   container: {
     display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    justifyContent: 'flex-start',
-    alignContent: 'stretch',
-    alignItems: 'flex-start',
     overflow: 'hidden',
   },
-  agentButtonContainer: {
+  statusButtonContainer: {
     order: '0',
     flex: '0 1 auto',
-    alignSelf: 'auto',
     width: '277px',
     height: '54px',
   },
-  agentButtonNR: {
+  statusButtonNR: {
     cursor: 'pointer',
     marginLeft: '8px',
     marginTop: '3px',
-    display: 'inline-grid',
+    display: 'flex',
     paddingRight: '23px',
     paddingTop: '8px',
     paddingBottom: '8px',
@@ -56,24 +50,12 @@ const styles = {
     height: '47px',
     minWidth: '160px',
     border: 'none',
-    ':hover': {
-      borderRadius: '2px',
-      border: 'none',
-      boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
-      backgroundColor: '#E43D5A',
-    },
-    ':focus': {
-      borderRadius: '2px',
-      border: 'none',
-      boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
-      backgroundColor: '#CB3750',
-    },
   },
-  agentButtonR: {
+  statusButtonR: {
     cursor: 'pointer',
     marginLeft: '8px',
     marginTop: '3px',
-    display: 'inline-grid',
+    display: 'flex',
     paddingRight: '23px',
     paddingTop: '8px',
     paddingBottom: '8px',
@@ -81,58 +63,72 @@ const styles = {
     height: '47px',
     minWidth: '160px',
     border: 'none',
-    ':hover': {
-      borderRadius: '2px',
-      border: 'none',
-      boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
-      backgroundColor: '#093742',
-    },
-    ':focus': {
-      borderRadius: '2px',
-      boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
-      backgroundColor: '#0B424E',
-    },
+  },
+  openButtonNR: {
+    borderRadius: '2px',
+    border: 'none',
+    boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+    backgroundColor: '#CB3750',
+  },
+  openButtonR: {
+    borderRadius: '2px',
+    boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+    backgroundColor: '#0B424E',
+  },
+  hoverButtonNR: {
+    borderRadius: '2px',
+    border: 'none',
+    boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+    backgroundColor: '#E43D5A',
+  },
+  hoverButtonR: {
+    borderRadius: '2px',
+    border: 'none',
+    boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+    backgroundColor: '#093742',
   },
   configButtonContainer: {
     order: '0',
     flex: '0 1 52px',
     alignSelf: 'auto',
   },
-  configR: {
+  configButtonR: {
     height: '54px',
     width: '50px',
     outline: 'none',
-    ':hover': {
-      borderRadius: '2px',
-      boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
-      backgroundColor: '#093742',
-    },
-    ':focus': {
-      borderRadius: '2px',
-      boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
-      backgroundColor: '#0B424E',
-    },
+    cursor: 'pointer',
   },
-  configNR: {
+  configButtonNR: {
     height: '54px',
     width: '50px',
     outline: 'none',
-    ':hover': {
-      borderRadius: '2px',
-      boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
-      backgroundColor: '#E43D5A',
-    },
-    ':focus': {
-      borderRadius: '2px',
-      boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
-      backgroundColor: '#CB3750',
-    },
+    cursor: 'pointer',
+  },
+  openConfigButtonNR: {
+    borderRadius: '2px',
+    boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+    backgroundColor: '#CB3750',
+  },
+  openConfigButtonR: {
+    borderRadius: '2px',
+    boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+    backgroundColor: '#0B424E',
+  },
+  hoverConfigButtonNR: {
+    borderRadius: '2px',
+    boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+    backgroundColor: '#E43D5A',
+  },
+  hoverConfigButtonR: {
+    borderRadius: '2px',
+    boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
+    backgroundColor: '#093742',
   },
   agentState: {
     fontSize: '14px',
     lineHeight: '17px',
     color: '#FFFFFF',
-    display: 'block',
+    display: 'flex',
     fontWeight: 'lighter',
   },
   agentTimer: {
@@ -145,15 +141,20 @@ const styles = {
   presenceText: {
     top: '-3px',
     position: 'relative',
-    float: 'left',
     maxWidth: '6em',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
   },
   presenceTextContainer: {
-    display: 'inline',
-    float: 'left',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
+  connectionIcon: {
+    height: '34px',
+    marginLeft: '17px',
+    marginRight: '23px',
   },
 };
 
@@ -162,67 +163,124 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
   constructor(props) {
     super(props);
     this.state = {
-      agentConfigMenu: false,
+      showConfigMenu: false,
+      isStatusButtonHovered: false,
+      isConfigButtonHovered: false,
     };
-    this.showAgentStatusMenu = this.showAgentStatusMenu.bind(this);
-    this.showAgentConfigMenu = this.showAgentConfigMenu.bind(this);
+    this.showStatusMenu = this.showStatusMenu.bind(this);
+    this.showConfigMenu = this.showConfigMenu.bind(this);
   }
 
-  getStyle() {
-    if (this.props.readyState === 'ready') {
-      return [styles.base, this.props.style];
-    } else {
-      return [styles.base, styles.notReady, this.props.style];
-    }
+  setStatusButtonHovered(isStatusButtonHovered) {
+    this.setState({ isStatusButtonHovered });
   }
 
+  setConfigButtonHovered(isConfigButtonHovered) {
+    this.setState({ isConfigButtonHovered });
+  }
 
-  showAgentStatusMenu(show = true) {
+  showStatusMenu(show = true) {
     this.props.toggleAgentMenu(show);
   }
 
-  showAgentConfigMenu(show = true) {
-    this.setState({ agentConfigMenu: show });
+  showConfigMenu(show = true) {
+    this.setState({ showConfigMenu: show });
   }
 
   notReadyText() {
     if (this.props.selectedPresenceReason.reason && !this.props.selectedPresenceReason.isSystemReason) {
-      return this.props.selectedPresenceReason.reason;
+      return <span>{this.props.selectedPresenceReason.reason}</span>;
     }
     return <FormattedMessage {...messages.notReady} />;
   }
 
+  getStatusMenuButtonStyle() {
+    const statusButtonStyle = [];
+    if (this.props.readyState === 'ready') {
+      statusButtonStyle.push(styles.statusButtonR);
+      if (this.props.showAgentStatusMenu) {
+        statusButtonStyle.push(styles.openButtonR);
+      } else if (this.state.isStatusButtonHovered) {
+        statusButtonStyle.push(styles.hoverButtonR);
+      }
+    } else {
+      statusButtonStyle.push(styles.statusButtonNR);
+      if (this.props.showAgentStatusMenu) {
+        statusButtonStyle.push(styles.openButtonNR);
+      } else if (this.state.isStatusButtonHovered) {
+        statusButtonStyle.push(styles.hoverButtonNR);
+      }
+    }
+    return statusButtonStyle;
+  }
+
+  getConfigMenuButtonStyle() {
+    const configButtonStyle = [];
+    if (this.props.readyState === 'ready') {
+      configButtonStyle.push(styles.configButtonR);
+      if (this.state.showConfigMenu) {
+        configButtonStyle.push(styles.openConfigButtonR);
+      } else if (this.state.isConfigButtonHovered) {
+        configButtonStyle.push(styles.hoverConfigButtonR);
+      }
+    } else {
+      configButtonStyle.push(styles.configButtonNR);
+      if (this.state.showConfigMenu) {
+        configButtonStyle.push(styles.openConfigButtonNR);
+      } else if (this.state.isConfigButtonHovered) {
+        configButtonStyle.push(styles.hoverConfigButtonNR);
+      }
+    }
+    return configButtonStyle;
+  }
+
+  getConnectionIconName() {
+    const agentIsReady = this.props.readyState === 'ready';
+    if (
+      ((this.props.showAgentStatusMenu && agentIsReady) || (!this.state.isStatusButtonHovered && agentIsReady))
+      || (!this.props.showAgentStatusMenu && this.state.isStatusButtonHovered && !agentIsReady)
+    ) {
+      return 'connected';
+    } else {
+      return 'not_connected';
+    }
+  }
+
   render() {
+    const agentIsReady = this.props.readyState === 'ready';
+
     return (
-      <div key={this.props.readyState} style={this.getStyle()}>
+      <div
+        key={this.props.readyState}
+        style={[
+          agentIsReady ? styles.readyBase : styles.notReadyBase,
+          this.props.style,
+        ]}
+      >
         <div id="toolbar-container" style={[styles.container]}>
-          <div id="agent-button-container" style={[styles.agentButtonContainer]}>
+          <div id="agent-button-container" style={[styles.statusButtonContainer]}>
             <button
               id="agent-button"
               key="status-button"
-              style={[this.props.readyState === 'ready' ? styles.agentButtonR : styles.agentButtonNR]}
-              onClick={() => this.showAgentStatusMenu(!this.props.showAgentStatusMenu)}
+              style={this.getStatusMenuButtonStyle()}
+              onClick={() => this.showStatusMenu(!this.props.showAgentStatusMenu)}
+              onMouseEnter={() => this.setStatusButtonHovered(true)}
+              onMouseLeave={() => this.setStatusButtonHovered(false)}
             >
               <span id="agent-state" style={[styles.agentState]}>
                 <div style={styles.presenceTextContainer}>
-                  {
-                    this.props.readyState === 'ready'
-                    ? <Icon name="connected" style={{ height: '34px', float: 'left', marginLeft: '17px', marginRight: '23px' }} />
-                    : <Icon name="not_connected" style={{ height: '34px', float: 'left', marginLeft: '17px', marginRight: '23px' }} />
-                  }
+                  <Icon name={this.getConnectionIconName()} style={styles.connectionIcon} />
                 </div>
                 <div style={styles.presenceTextContainer}>
                   <span
                     style={styles.presenceText}
                   >
-                    {
-                      this.props.readyState === 'ready'
+                    { agentIsReady
                       ? <FormattedMessage {...messages.ready} />
-                      : this.notReadyText()
-                    }
+                      : this.notReadyText() }
                   </span>
-                  <span id="agent-timer-container-span" style={this.props.readyState === 'ready' ? [styles.agentTimer, { display: 'block', textAlign: 'left', color: '#14778D' }] : [styles.agentTimer, { display: 'block', textAlign: 'left' }]}>
-                    <Timer id="agent-timer-count" />
+                  <span id="agent-timer-container-span" style={[styles.agentTimer, agentIsReady && { color: '#14778D' }]}>
+                    <Timer id="agent-timer-count" key={this.props.selectedPresenceReason.reason || this.props.readyState} />
                   </span>
                 </div>
               </span>
@@ -233,15 +291,15 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
             key={'agentStatusMenu'}
             tenant={this.props.tenant}
             readyState={this.props.readyState}
-            showAgentStatusMenu={this.showAgentStatusMenu}
+            showAgentStatusMenu={this.showStatusMenu}
             agentDirection={this.props.agentDirection}
           />
           <AgentConfigMenu
             toggleStat={this.props.toggleStat}
             queues={this.props.queues}
             currentAgent={this.props.currentAgent}
-            hideMenu={() => this.showAgentConfigMenu(false)}
-            show={this.state.agentConfigMenu}
+            hideMenu={() => this.showConfigMenu(false)}
+            show={this.state.showConfigMenu}
             key={'agentConfigMenu'}
           />
           <AgentStats queues={this.props.queues} toggleStat={this.props.toggleStat} readyState={this.props.readyState} />
@@ -249,8 +307,10 @@ export class Toolbar extends React.Component { // eslint-disable-line react/pref
             <button
               id="config-button"
               key="config-button"
-              style={[this.props.readyState === 'ready' ? styles.configR : styles.configNR]}
-              onClick={() => this.showAgentConfigMenu(!this.state.agentConfigMenu)}
+              style={this.getConfigMenuButtonStyle()}
+              onClick={() => this.showConfigMenu(!this.state.showConfigMenu)}
+              onMouseEnter={() => this.setConfigButtonHovered(true)}
+              onMouseLeave={() => this.setConfigButtonHovered(false)}
             >
               <Icon id="config-icon" name="config" style={{ width: '22px' }} />
             </button>
