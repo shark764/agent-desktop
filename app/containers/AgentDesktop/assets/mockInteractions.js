@@ -179,8 +179,28 @@ const voiceInteractionWithTransfersAndScripts = {
         text: 'Checkbox Placeholder Text',
         options: [
           {
-            name: 'checkoption',
-            value: 'checkvalue',
+            name: 'AppleJacks ',
+            value: 'wow1'
+          },
+          {
+            name: 'Raisin Bran',
+            value: 'wow2'
+          },
+          {
+            name: 'Cheerios',
+            value: 'wow3'
+          },
+          {
+            name: 'Cocoa Puffs',
+            value: 'wow4'
+          },
+          {
+            name: 'Cinnamon Toast Crunch',
+            value: 'wow5'
+          },
+          {
+            name: 'Frosted Flakes',
+            value: 'wow6'
           },
         ],
         inputs: [

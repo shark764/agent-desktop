@@ -43,14 +43,14 @@ function Checkbox(props) {
     label = undefined;
   } else if (typeof props.text === 'string') {
     label = (
-      <label htmlFor={props.id} style={styles.label}>
+      <label htmlFor={props.id} style={[styles.label, props.labelStyle]}>
         { props.text }
       </label>
     );
   } else {
     const { formatMessage } = props.intl;
     label = (
-      <label htmlFor={props.id} style={styles.label}>
+      <label htmlFor={props.id} style={[styles.label, props.labelStyle]}>
         { formatMessage(props.text) }
       </label>
     );
@@ -59,7 +59,7 @@ function Checkbox(props) {
   return (
     <span style={props.style}>
       <input
-        style={styles.checkbox}
+        style={[styles.checkbox, props.checkboxInputStyle]}
         id={props.id}
         name={props.name}
         type="checkbox"
@@ -83,6 +83,8 @@ Checkbox.propTypes = {
   cb: PropTypes.func,
   checked: PropTypes.bool.isRequired,
   style: PropTypes.object,
+  labelStyle: PropTypes.object,
+  checkboxInputStyle: PropTypes.object,
   id: PropTypes.string.isRequired,
   onBlur: PropTypes.func,
 };
