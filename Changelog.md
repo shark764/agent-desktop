@@ -1,3 +1,6 @@
+### [0.34.7] (2017-05-15)
+* No Ticket - BUGFIX left gutter gone on contect edit/view
+
 ### [0.34.6] (2017-05-15)
 * CXV1-8705 - Fixed screen mask bug with confirm dialogs
 
@@ -668,6 +671,12 @@
 #### Initial Commit
 * Here we go!
 
+[0.34.7]: http://www.github.com/liveops/agent-desktop/compare/0.34.6...0.34.7
+[0.34.6]: http://www.github.com/liveops/agent-desktop/compare/0.34.5...0.34.6
+[0.34.5]: http://www.github.com/liveops/agent-desktop/compare/0.34.4...0.34.5
+[0.34.4]: http://www.github.com/liveops/agent-desktop/compare/0.34.3...0.34.4
+[0.34.3]: http://www.github.com/liveops/agent-desktop/compare/0.34.2...0.34.3
+[0.34.2]: http://www.github.com/liveops/agent-desktop/compare/0.34.1...0.34.2
 [0.34.1]: http://www.github.com/liveops/agent-desktop/compare/0.34.0...0.34.1
 [0.34.0]: http://www.github.com/liveops/agent-desktop/compare/0.33.3...0.34.0
 [0.33.3]: http://www.github.com/liveops/agent-desktop/compare/0.33.2...0.33.3

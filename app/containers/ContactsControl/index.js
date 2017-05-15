@@ -343,8 +343,6 @@ export class ContactsControl extends React.Component {
       boxSizing: 'content-box',
       flexGrow: '1',
       flexShrink: '1',
-      width: '110%',
-      left: '-52px',
       position: 'relative',
       display: 'flex',
       flexFlow: 'column',
@@ -409,6 +407,10 @@ export class ContactsControl extends React.Component {
     bulkActionDialog: {
       position: 'fixed',
       bottom: '40px',
+    },
+    checkboxSpacing: {
+      width: '110%',
+      left: '-52px',
     },
   };
 
@@ -649,6 +651,10 @@ export class ContactsControl extends React.Component {
   }
 
   render() {
+    const showCheckboxes = (
+      this.props.selectedInteraction.contactAction !== 'view'
+      && this.state.isEditing === false
+    );
     return (
       <div style={[this.props.style, this.styles.base]}>
         {
@@ -667,7 +673,7 @@ export class ContactsControl extends React.Component {
           : null
         }
         { this.getHeader() }
-        <div style={[this.styles.contacts]}>
+        <div style={[this.styles.contacts, showCheckboxes && this.styles.checkboxSpacing]}>
           <div style={{ width: '52px' }}></div>
           { this.getMainContent() }
         </div>
