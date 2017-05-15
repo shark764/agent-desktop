@@ -16,7 +16,6 @@ import messages from './messages';
 const styles = {
   base: {
     borderRadius: '4px',
-    zIndex: '2',
   },
   container: {
     display: 'flex',
@@ -31,8 +30,6 @@ const styles = {
   },
   buttonContainer: {
     display: 'flex',
-    borderTop: '1px solid #C5C5C5',
-    zIndex: 2,
   },
   leftButton: {
     width: '50%',
@@ -40,6 +37,7 @@ const styles = {
   rightButton: {
     width: '50%',
     borderLeft: '1px solid #C5C5C5',
+    borderRadius: '0 2px 2px 0',
   },
 };
 
@@ -54,7 +52,7 @@ function ConfirmDialog(props) {
               <FormattedMessage {...props.questionMessage} />
             </div>
           }
-          <div style={styles.buttonContainer}>
+          <div style={[styles.buttonContainer, props.questionMessage ? { borderTop: '1px solid #C5C5C5' } : {}]}>
             <Button id="leftConfirmButton" onClick={props.leftAction} disabled={props.leftDisabled} type="secondary" clear style={styles.leftButton}>
               <FormattedMessage {...props.leftMessage} />
             </Button>

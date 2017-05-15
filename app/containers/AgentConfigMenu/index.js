@@ -43,7 +43,6 @@ export class AgentConfigMenu extends React.Component {
       position: 'fixed',
       width: '230px',
       right: '2px',
-      zIndex: '2',
       bottom: '56px',
       margin: '10px',
       color: '#4b4b4b',

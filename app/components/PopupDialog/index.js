@@ -23,6 +23,8 @@ function PopupDialog(props) {
       boxShadow: '0 0 6px 1px rgba(0,0,0,0.29)',
       margin: '10px',
       color: '#4b4b4b',
+      zIndex: 3,
+      position: 'relative',
     },
     triangle: {
       position: 'absolute',

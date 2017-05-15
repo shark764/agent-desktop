@@ -132,7 +132,7 @@ exports[`<Stat /> should render correctly 1`] = `
           "right": "95px",
           "transform": "rotate(-134deg)",
           "width": "0px",
-          "zIndex": "3",
+          "zIndex": "2",
         }
       }
     />
@@ -149,7 +149,7 @@ exports[`<Stat /> should render correctly 1`] = `
           "fontSize": "12px",
           "position": "absolute",
           "right": "60px",
-          "zIndex": "10",
+          "zIndex": "2",
         }
       }
     >
