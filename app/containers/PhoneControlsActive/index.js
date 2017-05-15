@@ -67,34 +67,34 @@ export class PhoneControlsActive extends React.Component {
 
   setRecording() {
     if (this.props.activeVoiceInteraction.recording) {
-      SDK.interactions.voice.stopRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
+      CxEngage.interactions.voice.stopRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
     } else {
-      SDK.interactions.voice.startRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
+      CxEngage.interactions.voice.startRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
     }
   }
 
   endInteraction() {
-    SDK.interactions.end({ interactionId: this.props.activeVoiceInteraction.interactionId });
+    CxEngage.interactions.end({ interactionId: this.props.activeVoiceInteraction.interactionId });
   }
 
   setMute() {
     if (this.props.activeVoiceInteraction.muted) {
-      SDK.interactions.voice.unmute({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
+      CxEngage.interactions.voice.unmute({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
     } else {
-      SDK.interactions.voice.mute({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
+      CxEngage.interactions.voice.mute({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
     }
   }
 
   setHold() {
     if (this.props.activeVoiceInteraction.onHold) {
-      SDK.interactions.voice.customerResume({ interactionId: this.props.activeVoiceInteraction.interactionId });
+      CxEngage.interactions.voice.customerResume({ interactionId: this.props.activeVoiceInteraction.interactionId });
     } else {
-      SDK.interactions.voice.customerHold({ interactionId: this.props.activeVoiceInteraction.interactionId });
+      CxEngage.interactions.voice.customerHold({ interactionId: this.props.activeVoiceInteraction.interactionId });
     }
   }
 
   resumeMe() {
-    SDK.interactions.voice.resourceResume({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
+    CxEngage.interactions.voice.resourceResume({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
   }
 
   styles = {

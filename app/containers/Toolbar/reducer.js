@@ -44,7 +44,7 @@ function toolbarReducer(state = initialState, action) {
       if (currentStats.filter((item) => statEqualityCheck(item, action.stat)).length) {
         savedStats = savedStats.filter((item) => !statEqualityCheck(item, action.stat));
         window.localStorage.setItem(localStorageKey, JSON.stringify(savedStats));
-        SDK.reporting.removeStatSubscription({ statId: action.stat.statId });
+        CxEngage.reporting.removeStatSubscription({ statId: action.stat.statId });
         return state
           .set('enabledStats', fromJS(currentStats.filter((item) => !statEqualityCheck(item, action.stat))));
       } else if (validateStat(action.stat, availableStats, action.queues)) {
@@ -61,7 +61,7 @@ function toolbarReducer(state = initialState, action) {
         } else {
           statRequestBody = { statistic: availableStats[newStat.statOption].name };
         }
-        SDK.reporting.addStatSubscription(statRequestBody, (err, topics, res) => {
+        CxEngage.reporting.addStatSubscription(statRequestBody, (err, topics, res) => {
           newStat.statId = res.statId;
         });
         return state

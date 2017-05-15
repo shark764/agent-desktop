@@ -3,8 +3,6 @@
  * AgentDesktop
  *
  */
-import 'cxengage-javascript-sdk/release/cxengage-javascript-sdk.min';
-
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
@@ -93,7 +91,7 @@ export class AgentDesktop extends React.Component {
         }
         window.ADconf = res.data.config;
       }
-      if (typeof window.SDK === 'undefined') {
+      if (typeof window.CxEngage.subscribe === 'undefined') {
         this.init();
       }
     });
@@ -135,9 +133,10 @@ export class AgentDesktop extends React.Component {
     window.agentDesktopState = () => console.log(this.props.agentDesktop);
 
     const sdkConf = { baseUrl: `https://${where}`, logLevel, blastSqsOutput, environment, reportingRefreshRate };
-    window.SDK = serenova.cxengage.initialize(sdkConf);
 
-    SDK.subscribe('cxengage', (error, topic, response) => {
+    CxEngage.initialize(sdkConf);
+
+    CxEngage.subscribe('cxengage', (error, topic, response) => {
       if (error) {
         console.error('Pub sub error', topic, error); // eslint-disable-line no-console
         switch (topic) {
@@ -150,9 +149,11 @@ export class AgentDesktop extends React.Component {
             break;
         }
       }
+
+      console.log('[AgentDesktop] CxEngage.subscribe()', topic, response);
+
       switch (topic) {
         case 'cxengage/session/config-details': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           if (response.reasonLists.length < 2) {
             window.onbeforeunload = null; // clear error clearer set in Login
             window.localStorage.setItem('ADError', 'onlySystemReasonList'); // Consume in Login component
@@ -163,24 +164,14 @@ export class AgentDesktop extends React.Component {
           break;
         }
         case 'cxengage/session/extension-list': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setExtensions(response);
           break;
         }
         case 'cxengage/session/started': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          SDK.entities.get.queues({});
-          break;
-        }
-        case 'cxengage/capabilities/voice-available':
-        case 'cxengage/capabilities/messaging-available': {
-          // TODO set these in state?
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
-          window.SDK = serenova.cxengage.api;
+          CxEngage.entities.getQueues();
           break;
         }
         case 'cxengage/session/state-change-response': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           if (response.state === 'offline') {
             // FIXME do this instead when it's working on the SDK
             // this.props.logout();
@@ -200,42 +191,39 @@ export class AgentDesktop extends React.Component {
           break;
         }
         case 'cxengage/session/ended': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           // FIXME do this instead when it's working on the SDK
           // this.props.logout();
           window.location.reload();
           break;
         }
         case 'cxengage/interactions/voice/dial-response': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           if (error) console.error(error); // TODO: toast error
           break;
         }
         case 'cxengage/interactions/work-offer-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.toggleAgentMenu(false);
           this.props.addInteraction(response);
           break;
         }
         case 'cxengage/interactions/work-initiated-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response.interactionId);
+
           if (!(interaction.direction === 'outbound' && interaction.channelType === 'sms')) {
             this.props.workInitiated(response);
           }
+
           // Attempt to auto-assign contact if it hasn't already been assigned (if it were started by click to outbound)
-          if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms' || interaction.channelType === 'email') && !interaction.contact) {
+          if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms' || interaction.channelType === 'email') && Object.keys(interaction.contact).length === 0) {
             this.attemptContactSearch(response.customer, response.interactionId, true);
           }
           if (interaction.direction === 'outbound' && interaction.channelType === 'sms') {
-            SDK.interactions.accept({ interactionId: response.interactionId });
+            CxEngage.interactions.accept({ interactionId: response.interactionId });
           } else if (interaction.autoAnswer === true) {
             this.acceptInteraction(response.interactionId);
           }
           break;
         }
         case 'cxengage/interactions/messaging/history-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setMessageHistory(response, this.props.login.agent.userId);
           // attempt to auto-assign contact
           const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response[0].to);
@@ -250,59 +238,49 @@ export class AgentDesktop extends React.Component {
           break;
         }
         case 'cxengage/interactions/work-accepted-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setInteractionStatus(response.interactionId, 'work-accepted', response);
           break;
         }
         case 'cxengage/interactions/custom-fields-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setCustomFields(response.interactionId, response.customFields);
           break;
         }
         case 'cxengage/interactions/email/plain-body-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setEmailPlainBody(response.interactionId, response.body);
           break;
         }
         case 'cxengage/interactions/email/html-body-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setEmailHtmlBody(response.interactionId, response.body);
           break;
         }
         case 'cxengage/interactions/email/details-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setEmailDetails(response.interactionId, response.body);
           response.body.attachments.forEach((attachment) => {
-            SDK.interactions.email.getAttachmentUrl({ interactionId: response.interactionId, artifactId: response.body.artifactId, artifactFileId: attachment.artifactFileId }, (attachmentUrlError, attachmentUrlTopic, attachmentUrlResponse) => {
-              console.log('[AgentDesktop] SDK.subscribe()', attachmentUrlTopic, attachmentUrlResponse);
+            CxEngage.interactions.email.getAttachmentUrl({ interactionId: response.interactionId, artifactId: response.body.artifactId, artifactFileId: attachment.artifactFileId }, (attachmentUrlError, attachmentUrlTopic, attachmentUrlResponse) => {
+              console.log('[AgentDesktop] CxEngage.subscribe()', attachmentUrlTopic, attachmentUrlResponse);
               this.props.setEmailAttachmentUrl(response.interactionId, attachment.artifactFileId, attachmentUrlResponse.url);
             });
           });
           break;
         }
         case 'cxengage/interactions/email/attachment-added': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.emailAddAttachment(response.interactionId, { attachmentId: response.attachmentId, name: response.filename });
           break;
         }
         case 'cxengage/interactions/email/send-reply': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           // Not doing anything with this; setting loading state on send button click. This log may be useful for debugging.
           break;
         }
         case 'cxengage/interactions/work-rejected-received':
         case 'cxengage/interactions/work-ended-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.removeInteraction(response.interactionId);
           break;
         }
         case 'cxengage/interactions/messaging/new-message-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.addMessage(response.to, new ResponseMessage(response, this.props.agentDesktop.selectedInteractionId));
           break;
         }
         case 'cxengage/interactions/voice/resource-mute-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           if (response.extraParams.targetResource === this.props.login.agent.userId) {
             this.props.muteCall(response.interactionId);
           } else {
@@ -311,7 +289,6 @@ export class AgentDesktop extends React.Component {
           break;
         }
         case 'cxengage/interactions/voice/resource-unmute-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           if (response.extraParams.targetResource === this.props.login.agent.userId) {
             this.props.unmuteCall(response.interactionId);
           } else {
@@ -320,44 +297,36 @@ export class AgentDesktop extends React.Component {
           break;
         }
         case 'cxengage/interactions/voice/customer-hold-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.holdCall(response.interactionId);
           break;
         }
         case 'cxengage/interactions/voice/customer-resume-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.resumeCall(response.interactionId);
           break;
         }
         case 'cxengage/interactions/voice/recording-start-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.recordCall(response.interactionId);
           break;
         }
         case 'cxengage/interactions/voice/recording-end-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.stopRecordCall(response.interactionId);
           break;
         }
         case 'cxengage/interactions/voice/cancel-transfer-acknowledged': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.transferCancelled(response.interactionId);
           break;
         }
         case 'cxengage/interactions/resource-added-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           if (this.props.login.agent.userId !== response.extraParams.targetResource) {
             this.props.resourceAdded(response);
           }
           break;
         }
         case 'cxengage/entities/get-user-response': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.updateResourceName(response);
           break;
         }
         case 'cxengage/interactions/resource-hold-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           if (this.props.login.agent.userId === response.extraParams.targetResource) {
             this.props.holdMe(response.interactionId);
           } else {
@@ -366,7 +335,6 @@ export class AgentDesktop extends React.Component {
           break;
         }
         case 'cxengage/interactions/resource-resume-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           if (this.props.login.agent.userId === response.extraParams.targetResource) {
             this.props.resumeMe(response.interactionId);
           } else {
@@ -375,17 +343,14 @@ export class AgentDesktop extends React.Component {
           break;
         }
         case 'cxengage/interactions/resource-removed-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.resourceRemoved(response);
           break;
         }
         case 'cxengage/contacts/list-attributes-response': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setContactAttributes(response);
           break;
         }
         case 'cxengage/contacts/list-layouts-response': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           const activeLayouts = response.filter((layout) => layout.active);
           if (activeLayouts.length === 0) {
             throw new Error('No active contact layout found for this tenant');
@@ -395,50 +360,43 @@ export class AgentDesktop extends React.Component {
           this.props.setContactLayout(activeLayouts[0]);
           break;
         }
-        case 'cxengage/reporting/get-contact-interactions-response': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+        case 'cxengage/reporting/get-interaction-response': {
           this.props.setContactHistoryInteractionDetails(response);
           break;
         }
         case 'cxengage/contacts/update-contact-response': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.updateContact(response);
           break;
         }
         case 'cxengage/interactions/wrapup-started': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setInteractionStatus(response.interactionId, 'wrapup');
           break;
         }
         case 'cxengage/interactions/wrapup-details-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           response.wrapupEnabled = !!response.wrapupEnabled; // eslint-disable-line no-param-reassign
           this.props.updateWrapupDetails(response.interactionId, response);
           break;
         }
         case 'cxengage/interactions/enable-wrapup-acknowledged': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.updateWrapupDetails(response.interactionId, { wrapupEnabled: true });
           break;
         }
         case 'cxengage/interactions/disable-wrapup-acknowledged': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.updateWrapupDetails(response.interactionId, { wrapupEnabled: false });
           break;
         }
         case 'cxengage/interactions/script-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.addScript(response.interactionId, JSON.parse(response.script));
           break;
         }
         case 'cxengage/interactions/send-script': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.removeScript(response);
           break;
         }
         case 'cxengage/reporting/get-available-stats-response': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           // The user friendly names are too long, need to trim them
+
+
           const stats = { ...response };
           delete stats.status;
           Object.keys(stats).forEach((key) => {
@@ -455,26 +413,22 @@ export class AgentDesktop extends React.Component {
           break;
         }
         case 'cxengage/reporting/batch-response': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.statsReceived(response);
           break;
         }
         case 'cxengage/entities/get-queues-response': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.setQueues(response.result);
-          SDK.reporting.getAvailableStats();
+          CxEngage.reporting.getAvailableStats();
           this.props.showLogin(false);
           break;
         }
         case 'cxengage/interactions/disposition-codes-received': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           if (response.dispositionCodes) {
             this.props.setDispositionDetails(response.interactionId, response.dispositionCodes.dispositions, response.forceSelect);
           }
           break;
         }
         case 'cxengage/interactions/disposition-code-changed': {
-          console.log('[AgentDesktop] SDK.subscribe()', topic, response);
           this.props.selectDisposition(response.interactionId, response.disposition);
           break;
         }
@@ -488,7 +442,6 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/voice/transfer-connected': // Just using cxengage/interactions/resource-added-received
         case 'cxengage/interactions/voice/resource-hold-acknowledged': // Just using cxengage/interactions/voice/resource-hold-received
         case 'cxengage/interactions/voice/resource-resume-acknowledged': // Just using cxengage/interactions/voice/resource-resume-received
-          console.log('[AgentDesktop] Log SDK.subscribe()', topic, response);
           break;
         // Igonore these pubsubs. They are unneeded or handled elsewhere.
         case 'cxengage/authentication/login-response': // Handled in Login component
@@ -526,24 +479,24 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/contacts/delete-contact-response': // Handled in ContactsControl
           break;
         default: {
-          console.warn('[AgentDesktop] SDK.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console
+          console.warn('[AgentDesktop] CxEngage.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console
         }
       }
     });
   }
 
   attemptContactSearch(from, interactionId, exact) {
-    SDK.contacts.search({ query: { q: exact ? encodeURIComponent(`"${from}"`) : encodeURIComponent(from) } }, (searchError, searchTopic, searchResponse) => {
+    CxEngage.contacts.search({ query: { q: exact ? encodeURIComponent(`"${from}"`) : encodeURIComponent(from) } }, (searchError, searchTopic, searchResponse) => {
       if (searchError) {
         this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
       } else {
-        console.log('[AgentDesktop] SDK.subscribe()', searchTopic, searchResponse);
+        console.log('[AgentDesktop] CxEngage.subscribe()', searchTopic, searchResponse);
         if (searchResponse.count === 1) { // if single contact found, auto assign to interaction
-          SDK.interactions.assignContact({
+          CxEngage.interactions.assignContact({
             interactionId,
             contactId: searchResponse.results[0].id,
           }, (assignError, assignTopic, assignResponse) => {
-            console.log('[ContactsControl] SDK.subscribe()', assignTopic, assignResponse);
+            console.log('[ContactsControl] CxEngage.subscribe()', assignTopic, assignResponse);
             if (assignError) {
               console.error('Assign error', assignError);
               this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
@@ -584,7 +537,7 @@ export class AgentDesktop extends React.Component {
 
   acceptInteraction(interactionId) {
     this.props.setInteractionStatus(interactionId, 'work-accepting');
-    SDK.interactions.accept({ interactionId });
+    CxEngage.interactions.accept({ interactionId });
   }
 
   styles = {

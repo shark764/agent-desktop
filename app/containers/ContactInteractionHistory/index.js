@@ -38,7 +38,7 @@ export class ContactInteractionHistory extends React.Component {
 
   getInteractionHistoryDetails(contactHistoryInteractionId) {
     this.props.setContactHistoryInteractionDetailsLoading(this.props.selectedInteractionId, contactHistoryInteractionId);
-    SDK.reporting.getContactInteraction({ entityId: contactHistoryInteractionId });
+    CxEngage.reporting.getInteraction({ interactionId: contactHistoryInteractionId });
   }
 
   selectInteraction(selectedInteractionIndex) {
@@ -48,8 +48,8 @@ export class ContactInteractionHistory extends React.Component {
         agent.noteTitle !== null && agent.note === undefined
       ) !== -1;
       if (needsNotes) {
-        SDK.interactions.getAllNotes({ interactionId: interaction.interactionId }, (error, topic, response) => {
-          console.log('[ContactInteractionHistory] SDK.subscribe()', topic, response);
+        CxEngage.interactions.getAllNotes({ interactionId: interaction.interactionId }, (error, topic, response) => {
+          console.log('[ContactInteractionHistory] CxEngage.subscribe()', topic, response);
           this.props.addNotesToContactInteractionHistory(interaction.interactionId, response);
         });
       }

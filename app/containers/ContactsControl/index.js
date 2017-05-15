@@ -95,11 +95,11 @@ export class ContactsControl extends React.Component {
 
   componentDidMount() {
     this.mounted = true;
-    SDK.contacts.listAttributes({ callback: () => {
-      SDK.contacts.listLayouts({ callback: () => {
+    CxEngage.contacts.listAttributes(() => {
+      CxEngage.contacts.listLayouts(() => {
         this.setState({ loading: false }); // TODO: error handling
-      } });
-    } });
+      });
+    });
   }
 
   deleteContacts() {
@@ -266,8 +266,8 @@ export class ContactsControl extends React.Component {
 
         encodedQuery[queryName] = encodeURIComponent(finalQuery);
       });
-      SDK.contacts.search({ query: Object.assign(encodedQuery, { page: this.props.nextPage }) }, (error, topic, response) => {
-        console.log('[ContactsControl] SDK.subscribe()', topic, response);
+      CxEngage.contacts.search({ query: Object.assign(encodedQuery, { page: this.props.nextPage }) }, (error, topic, response) => {
+        console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
         this.props.setSearchResults(response);
         if (this.mounted) this.setState({ loading: false });
       });
@@ -422,7 +422,7 @@ export class ContactsControl extends React.Component {
   }
 
   updateCallback(error, topic, response) {
-    console.log('[ContactsControl] SDK.subscribe()', topic, response);
+    console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
     this.setState({ loading: false });
     if (error) {
       this.addNotification('notSaved', true, 'serverError'); // TODO: when notifications are ready, get error from response?
@@ -435,7 +435,7 @@ export class ContactsControl extends React.Component {
   }
 
   createCallback(error, topic, response) {
-    console.log('[ContactsControl] SDK.subscribe()', topic, response);
+    console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
     if (error) {
       this.addNotification('notCreated', true, 'serverError'); // TODO: when notifications are ready, get error from response?
       console.error(error);
@@ -460,19 +460,19 @@ export class ContactsControl extends React.Component {
   handleSave(attributes, contactId) {
     this.setState({ loading: true });
     if (contactId) {
-      SDK.contacts.update({ contactId, attributes }, this.updateCallback);
+      CxEngage.contacts.update({ contactId, attributes }, this.updateCallback);
     } else {
-      SDK.contacts.create({ attributes }, this.createCallback);
+      CxEngage.contacts.create({ attributes }, this.createCallback);
     }
   }
 
   unassignCurrentContact(callback) {
-    SDK.interactions.unassignContact({
+    CxEngage.interactions.unassignContact({
       interactionId: this.props.selectedInteraction.interactionId,
       contactId: this.props.selectedInteraction.contact.id,
     }, (error, response, topic) => {
       this.setState({ loading: false });
-      console.log('[ContactsControl] SDK.subscribe()', topic, response);
+      console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
       callback(error);
     });
   }
@@ -518,12 +518,12 @@ export class ContactsControl extends React.Component {
   }
 
   assignContactToSelected(contact, callback) {
-    SDK.interactions.assignContact({
+    CxEngage.interactions.assignContact({
       interactionId: this.props.selectedInteraction.interactionId,
       contactId: contact.id,
     }, (error, topic, response) => {
       this.setState({ loading: false });
-      console.log('[ContactsControl] SDK.subscribe()', topic, response);
+      console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
       if (error) {
         callback(error);
       } else {

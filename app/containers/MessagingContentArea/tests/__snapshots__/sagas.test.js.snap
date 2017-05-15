@@ -64,7 +64,7 @@ Object {
     "@@redux-saga/IO": true,
     "CALL": Object {
       "args": Array [
-        "SDK.interactions.messaging.sendOutboundSms",
+        "CxEngage.interactions.messaging.sendOutboundSms",
         Object {
           "interactionId": "interactionId",
           "message": "message",

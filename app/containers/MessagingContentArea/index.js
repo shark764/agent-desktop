@@ -194,7 +194,7 @@ export class MessagingContentArea extends React.Component {
       } else if (this.props.selectedInteraction.status === 'initialized-outbound') {
         this.props.sendOutboundSms(this.props.selectedInteraction.interactionId, this.state.messageText);
       } else {
-        SDK.interactions.messaging.sendMessage({
+        CxEngage.interactions.messaging.sendMessage({
           interactionId: this.props.selectedInteraction.interactionId,
           message: this.state.messageText,
         });

@@ -75,7 +75,7 @@ export class InteractionsBar extends React.Component {
       }
 
       // Set from to the contact name if available
-      if (activeInteraction.contact !== undefined) {
+      if (activeInteraction.contact !== undefined && activeInteraction.contact.attributes !== undefined) {
         from = activeInteraction.contact.attributes.name;
       }
 
@@ -111,7 +111,7 @@ export class InteractionsBar extends React.Component {
         icon = 'voice';
       }
       // Set from to the contact name if available
-      if (pendingInteraction.contact !== undefined) {
+      if (pendingInteraction.contact !== undefined && pendingInteraction.contact.attributes !== undefined) {
         from = pendingInteraction.contact.attributes.name;
       }
 

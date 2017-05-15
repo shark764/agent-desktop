@@ -4,10 +4,10 @@ import {
 } from 'containers/MessagingContentArea/sagas';
 
 describe('initializeOutboundSmsSaga', () => {
-  global.SDK = {
+  global.CxEngage = {
     interactions: {
       messaging: {
-        initializeOutboundSms: 'SDK.interactions.messaging.initializeOutboundSms',
+        initializeOutboundSms: 'CxEngage.interactions.messaging.initializeOutboundSms',
       },
     },
   };
@@ -30,10 +30,10 @@ describe('initializeOutboundSmsSaga', () => {
 
 describe('sendOutboundSms', () => {
   Date.now = jest.fn(() => 0); // Override so snapshots stay the same
-  global.SDK = {
+  global.CxEngage = {
     interactions: {
       messaging: {
-        sendOutboundSms: 'SDK.interactions.messaging.sendOutboundSms',
+        sendOutboundSms: 'CxEngage.interactions.messaging.sendOutboundSms',
       },
     },
   };

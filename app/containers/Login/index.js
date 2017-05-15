@@ -97,18 +97,16 @@ export class Login extends React.Component {
     storage.removeItem('ADError');
     if (this.state.username.trim() !== '' && this.state.password !== '') {
       this.props.loggingIn();
-      SDK.authentication.login({
+      CxEngage.authentication.login({
         username: this.state.username.trim(),
         password: this.state.password,
-        callback: (error, topic, response) => {
-          console.log('[Login] SDK.subscribe()', topic, response);
-          if (!error && response) {
-            this.loginCB(response);
-          } else {
-            this.handleError();
-          }
-        },
-
+      }, (error, topic, response) => {
+        console.log('[Login] CxEngage.subscribe()', topic, response);
+        if (!error && response) {
+          this.loginCB(response);
+        } else {
+          this.handleError();
+        }
       });
     } else {
       this.handleError();
@@ -118,24 +116,23 @@ export class Login extends React.Component {
   onTenantSelect() {
     if (this.state.tenantId !== '-1') {
       this.props.settingTenant();
-      SDK.session.setActiveTenant({
+      CxEngage.session.setActiveTenant({
         tenantId: this.state.tenantId,
-        callback: (error, topic, response) => {
-          console.log('[Login] SDK.subscribe()', topic, response);
+      }, (error, topic, response) => {
+        console.log('[Login] CxEngage.subscribe()', topic, response);
 
-          if (error !== null) { // General error check
-            switch (error.code) {
-              case 1003:
-                this.props.tenantError(messages.noPermsError);
-                break;
-              default:
-                console.error('SDK Error:', error.error); // Uncaught error handling
-                break;
-            }
-          } else {
-            this.props.setTenant(this.state.tenantId, this.state.tenantName);
+        if (error !== null) { // General error check
+          switch (error.code) {
+            case 2000:
+              this.props.tenantError(messages.noPermsError);
+              break;
+            default:
+              console.error('SDK Error:', error.error); // Uncaught error handling
+              break;
           }
-        },
+        } else {
+          this.props.setTenant(this.state.tenantId, this.state.tenantName);
+        }
       });
     } else {
       this.setState({ noTenant: true });

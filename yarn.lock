@@ -2062,10 +2062,6 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-cxengage-javascript-sdk@4.1.1-SNAPSHOT.267:
-  version "4.1.1-SNAPSHOT.267"
-  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/cxengage-javascript-sdk/-/cxengage-javascript-sdk-4.1.1-SNAPSHOT.267.tgz#8db0d8eade11cf17950634cd6a45776e6216121c"
-
 d@1:
   version "1.0.0"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/d/-/d-1.0.0.tgz#754bb5bfe55451da69a58b94d45f4c5b0462d58f"

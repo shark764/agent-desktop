@@ -57,7 +57,7 @@ export class PhoneControlsInactive extends React.Component {
   call() {
     if (this.state.dialpadTextValid) {
       this.props.startOutboundInteraction('voice');
-      SDK.interactions.voice.dial({ phoneNumber: this.state.dialpadText });
+      CxEngage.interactions.voice.dial({ phoneNumber: this.state.dialpadText });
       this.setState({ showDialpad: false });
     }
   }

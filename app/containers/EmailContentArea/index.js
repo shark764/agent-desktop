@@ -245,13 +245,13 @@ export class EmailContentArea extends React.Component {
   addFilesToEmail(fileList) {
     for (let i = 0; i < fileList.length; i += 1) {
       this.props.emailAddAttachment(this.props.selectedInteraction.interactionId, {});
-      SDK.interactions.email.addAttachment({ interactionId: this.props.selectedInteraction.interactionId, file: fileList[i] });
+      CxEngage.interactions.email.addAttachment({ interactionId: this.props.selectedInteraction.interactionId, file: fileList[i] });
     }
   }
 
   removeAttachment(attachmentId) {
     this.props.emailRemoveAttachment(this.props.selectedInteraction.interactionId, attachmentId);
-    SDK.interactions.email.removeAttachment({ interactionId: this.props.selectedInteraction.interactionId, attachmentId });
+    CxEngage.interactions.email.removeAttachment({ interactionId: this.props.selectedInteraction.interactionId, attachmentId });
   }
 
   onTemplateChange(value) {
@@ -278,8 +278,8 @@ export class EmailContentArea extends React.Component {
       htmlBody: stateToHTML(this.state.editorState.getCurrentContent()) + this.wrapEmailHistory(this.emailWithImages()),
       plainTextBody: this.state.editorState.getCurrentContent().getPlainText() + this.props.selectedInteraction.emailPlainBody,
     };
-    console.log('SDK.interactions.email.sendReply()', emailReply);
-    SDK.interactions.email.sendReply(emailReply);
+    console.log('CxEngage.interactions.email.sendReply()', emailReply);
+    CxEngage.interactions.email.sendReply(emailReply);
   }
 
   emailWithImages() {
