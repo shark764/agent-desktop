@@ -18,6 +18,10 @@ export default defineMessages({
     id: 'app.containers.Contact.save',
     defaultMessage: 'Save Changes',
   },
+  createBtn: {
+    id: 'app.containers.Contact.create',
+    defaultMessage: 'Create',
+  },
   cancelBtn: {
     id: 'app.containers.Contact.cancel',
     defaultMessage: 'Cancel',

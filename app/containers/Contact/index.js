@@ -298,7 +298,7 @@ export class Contact extends React.Component {
     this.showError(event.target.name);
   }
 
-  handleSubmit() {
+  handleSave() {
     this.props.save(this.state.formInputs, this.state.editingContactId);
   }
 
@@ -534,8 +534,12 @@ export class Contact extends React.Component {
                 style={this.styles.button}
                 disabled={this.props.loading || this.state.disableSubmit || !this.state.hasChanged}
                 type="secondary"
-                onClick={this.handleSubmit}
-                text={this.props.intl.formatMessage(messages.saveBtn)}
+                onClick={this.handleSave}
+                text={
+                  this.state.editingContactId
+                    ? this.props.intl.formatMessage(messages.saveBtn)
+                    : this.props.intl.formatMessage(messages.createBtn)
+                }
               />
               <Button
                 id="contactCancelBtn"
