@@ -77,7 +77,7 @@ function Stat(props) {
       right: `${((props.index - 1) * 104) + 60}px`,
       bottom: '30px',
       fontSize: '12px',
-      zIndex: '10',
+      zIndex: '2',
       cursor: 'pointer',
       color: props.readyState === 'notready' ? '#000000' : '#FFFFFF',
       ':hover': {
@@ -97,7 +97,7 @@ function Stat(props) {
       transform: 'rotate(-134deg)',
       borderRadius: '3px',
       boxShadow: '-6px -6px 6px -4px rgba(0,0,0,0.29)',
-      zIndex: '3',
+      zIndex: '2',
     },
   };
 

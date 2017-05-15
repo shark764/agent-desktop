@@ -385,7 +385,6 @@ export class Login extends React.Component {
       position: 'fixed',
       bottom: '55px',
       left: '4px',
-      zIndex: '2',
     },
     languageSelect: {
       width: '180px',

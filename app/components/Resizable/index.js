@@ -110,7 +110,7 @@ class Resizable extends React.Component {
           left: `calc(50% - ${this.dividerPx}px)`,
           position: this.dividerPosition,
           cursor: 'ns-resize',
-          zIndex: '10',
+          zIndex: '2',
         },
         dividerHandle1: {
           top: this.dividerHandle1Offset,

@@ -1,3 +1,6 @@
+### [0.34.6] (2017-05-15)
+* CXV1-8705 - Fixed screen mask bug with confirm dialogs
+
 ### [0.34.5] (2017-05-12)
 * CXV1-9208 - Fixed infinite scroll of searched contacts in ContactsControl
 
