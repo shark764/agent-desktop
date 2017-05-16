@@ -146,9 +146,9 @@ Object {
     "@@redux-saga/IO": true,
     "CALL": Object {
       "args": Array [
-        "getContactHistory",
+        "getContactInteractionHistory",
         Object {
-          "entityId": "mockContactId",
+          "contactId": "mockContactId",
           "page": 1,
         },
         "AgentDesktop",
@@ -167,9 +167,9 @@ Object {
     "@@redux-saga/IO": true,
     "CALL": Object {
       "args": Array [
-        "getContactHistory",
+        "getContactInteractionHistory",
         Object {
-          "entityId": "mockContactId",
+          "contactId": "mockContactId",
         },
         "AgentDesktop",
       ],
