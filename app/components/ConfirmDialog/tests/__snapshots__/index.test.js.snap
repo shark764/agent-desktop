@@ -37,11 +37,11 @@ exports[`<ConfirmDialog /> should render correctly 1`] = `
         }
       >
         <Button
-          clear={true}
           id="leftConfirmButton"
           onClick={[Function]}
           style={
             Object {
+              "border": "none",
               "width": "50%",
             }
           }
@@ -55,7 +55,6 @@ exports[`<ConfirmDialog /> should render correctly 1`] = `
           />
         </Button>
         <Button
-          clear={true}
           id="rightConfirmButton"
           onClick={[Function]}
           style={

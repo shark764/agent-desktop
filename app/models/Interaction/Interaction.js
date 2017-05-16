@@ -52,7 +52,7 @@ export default class Interaction {
       title: '',
       notesPanelHeight: 300,
     });
-    this.contact = contact;
+    this.contact = new Map(contact);
     this.contactAction = contact ? 'view' : 'search';
     this.query = new Map();
     this.sidePanelTabIndex = 0;

@@ -79,7 +79,7 @@ export class Button extends React.Component {
     const styles = {
       base: {
         borderRadius,
-        backgroundColor: !this.props.clear && backgroundColor,
+        backgroundColor,
         fontSize,
         fontWeight,
         fontStyle: 'normal',
@@ -90,10 +90,10 @@ export class Button extends React.Component {
         boxSizing,
         outline: 'none',
         ':hover': {
-          backgroundColor: !this.props.clear && backgroundColorHover,
+          backgroundColor: backgroundColorHover,
         },
         ':active': {
-          backgroundColor: !this.props.clear && backgroundColorActive,
+          backgroundColor: backgroundColorActive,
         },
       },
     };
@@ -101,13 +101,13 @@ export class Button extends React.Component {
     // To prevent warning from: https://github.com/FormidableLabs/radium/issues/95
     if (Array.isArray(this.props.style)) {
       this.props.style.forEach((style) => {
-        if (style.borderTop || style.borderRight || style.borderBottom || style.borderLeft || this.props.clear) {
+        if (style.borderTop || style.borderRight || style.borderBottom || style.borderLeft) {
           border = undefined;
           focusBorder = undefined;
         }
       });
     } else if (this.props.style) {
-      if (this.props.style.borderTop || this.props.style.borderRight || this.props.style.borderBottom || this.props.style.borderLeft || this.props.clear) {
+      if (this.props.style.borderTop || this.props.style.borderRight || this.props.style.borderBottom || this.props.style.borderLeft) {
         border = undefined;
         focusBorder = undefined;
       }
@@ -155,7 +155,6 @@ export class Button extends React.Component {
 Button.propTypes = {
   text: PropTypes.any,
   mouseOverText: PropTypes.object,
-  clear: PropTypes.bool,
   iconName: PropTypes.string,
   children: PropTypes.element,
   tabIndex: PropTypes.number,
