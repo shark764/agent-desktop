@@ -70,6 +70,7 @@ export class ContactsControl extends React.Component {
     this.updateCallback = this.updateCallback.bind(this);
     this.handleContactAssign = this.handleContactAssign.bind(this);
     this.dismissNotification = this.dismissNotification.bind(this);
+    this.renderBulkActionControls = this.renderBulkActionControls.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -134,15 +135,15 @@ export class ContactsControl extends React.Component {
   }
 
   editUnassignedContact(contact) {
-    this.setState({ isEditing: true, unassignedContactEditing: contact });
+    this.setState({ isEditing: true, unassignedContactEditing: contact, selectedContacts: [] });
   }
 
   newContact() {
-    this.setState({ isEditing: true, unassignedContactEditing: {} });
+    this.setState({ isEditing: true, unassignedContactEditing: {}, selectedContacts: [] });
   }
 
   editAssignedContact() {
-    this.setState({ isEditing: true, unassignedContactEditing: {} });
+    this.setState({ isEditing: true, unassignedContactEditing: {}, selectedContacts: [] });
   }
 
   setViewing() {
@@ -404,10 +405,6 @@ export class ContactsControl extends React.Component {
       left: '-23px',
       bottom: '40px',
     },
-    bulkActionDialog: {
-      position: 'fixed',
-      bottom: '40px',
-    },
     checkboxSpacing: {
       width: '110%',
       left: '-52px',
@@ -638,7 +635,6 @@ export class ContactsControl extends React.Component {
             isVisible={this.state.confirmingDelete}
             hide={() => this.setState({ confirmingDelete: false })}
             style={this.styles.bulkConfirmDialog}
-            dialogStyle={this.styles.bulkActionDialog}
           />
           <Button onClick={() => this.setState({ confirmingDelete: true })} id="delete-btn" text={messages.delete} type="secondary"></Button>
         </div>
@@ -646,8 +642,9 @@ export class ContactsControl extends React.Component {
     );
   }
 
-  velocityCleanup = () => {
-    this.styles.bulkActionControlBar.transform = 'none';
+  velocityCleanup = (animatedElements) => {
+    const bulkActionBar = animatedElements[0];
+    bulkActionBar.style.transform = 'none';
   }
 
   render() {
@@ -679,7 +676,7 @@ export class ContactsControl extends React.Component {
         </div>
         <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100', complete: this.velocityCleanup }} leave={{ animation: 'transition.slideDownOut', duration: '100' }}>
           {
-            (this.props.selectedInteraction.contactAction === 'search' && this.state.selectedContacts.length > 0)
+            (this.props.selectedInteraction.contactAction === 'search' && !this.state.isEditing && this.state.selectedContacts.length > 0)
             && this.renderBulkActionControls()
           }
         </VelocityTransitionGroup>

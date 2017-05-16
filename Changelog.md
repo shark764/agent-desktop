@@ -1,3 +1,7 @@
+### [0.34.11] (2017-05-15)
+* CXV1-8966 - BUGFIX - delete confirm dialog mask misplaced
+* CXV1-8966 - BUGFIX - delete bar showing in edit
+
 ### [0.34.10] (2017-05-15)
 * CXV1-6956: Reducer tests for actions involving click to SMS, QE fixes
 * CXV1-9232: Fix contact edits on click to SMS interactions
@@ -681,6 +685,8 @@
 #### Initial Commit
 * Here we go!
 
+[0.34.11]: http://www.github.com/liveops/agent-desktop/compare/0.34.10...0.34.11
+[0.34.10]: http://www.github.com/liveops/agent-desktop/compare/0.34.9...0.34.10
 [0.34.9]: http://www.github.com/liveops/agent-desktop/compare/0.34.8...0.34.9
 [0.34.8]: http://www.github.com/liveops/agent-desktop/compare/0.34.7...0.34.8
 [0.34.7]: http://www.github.com/liveops/agent-desktop/compare/0.34.6...0.34.7
