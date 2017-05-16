@@ -1,3 +1,6 @@
+### [0.34.12] (2017-05-16)
+* CXV1-8658 - BUGFIX - contact panel resize fix
+
 ### [0.34.11] (2017-05-15)
 * CXV1-8966 - BUGFIX - delete confirm dialog mask misplaced
 * CXV1-8966 - BUGFIX - delete bar showing in edit
