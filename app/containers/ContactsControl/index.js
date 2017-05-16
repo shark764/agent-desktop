@@ -406,8 +406,7 @@ export class ContactsControl extends React.Component {
       bottom: '40px',
     },
     checkboxSpacing: {
-      width: '110%',
-      left: '-52px',
+      marginLeft: '-52px',
     },
   };
 
