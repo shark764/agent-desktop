@@ -1,4 +1,7 @@
-### [0.35.0]
+### [0.35.1] (2017-06-16)
+* Fallback to SDK from npm until https is fixed
+
+### [0.35.0] (2017-06-16)
 * Bump SDK to v5.0.0
 
 ### [0.34.12] (2017-05-16)
@@ -691,6 +694,8 @@
 #### Initial Commit
 * Here we go!
 
+[0.35.1]: http://www.github.com/liveops/agent-desktop/compare/0.35.0...0.35.1
+[0.35.0]: http://www.github.com/liveops/agent-desktop/compare/0.34.11...0.35.0
 [0.34.11]: http://www.github.com/liveops/agent-desktop/compare/0.34.10...0.34.11
 [0.34.10]: http://www.github.com/liveops/agent-desktop/compare/0.34.9...0.34.10
 [0.34.9]: http://www.github.com/liveops/agent-desktop/compare/0.34.8...0.34.9
