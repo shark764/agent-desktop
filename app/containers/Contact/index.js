@@ -52,7 +52,6 @@ export class Contact extends React.Component {
     this.getSectionHeading = this.getSectionHeading.bind(this);
     this.getAttributeRow = this.getAttributeRow.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.setAttributeValue = this.setAttributeValue.bind(this);
     this.handleInputClear = this.handleInputClear.bind(this);
     this.getHeader = this.getHeader.bind(this);
@@ -313,7 +312,7 @@ export class Contact extends React.Component {
 
   startCall(number) {
     this.props.startOutboundInteraction('voice');
-    SDK.interactions.voice.dial({ phoneNumber: number });
+    CxEngage.interactions.voice.dial({ phoneNumber: number });
   }
 
   startSms(value) {

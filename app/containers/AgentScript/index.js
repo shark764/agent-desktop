@@ -203,7 +203,7 @@ class AgentScript extends React.Component {
 
   sendScript = () => {
     console.log('Sending this to SDK', { interactionId: this.props.interactionId, scriptId: this.props.script.id, answers: this.state });
-    SDK.interactions.sendScript({ interactionId: this.props.interactionId, scriptId: this.props.script.id, answers: this.state });
+    CxEngage.interactions.sendScript({ interactionId: this.props.interactionId, scriptId: this.props.script.id, answers: this.state });
   }
 
   render() {

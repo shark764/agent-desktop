@@ -35,38 +35,38 @@ export class TransferResource extends React.Component {
 
   cancelTransfer(warmTransfer) {
     if (warmTransfer.type === 'agent') {
-      SDK.interactions.voice.cancelResourceTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferResourceId: warmTransfer.id });
+      CxEngage.interactions.voice.cancelResourceTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferResourceId: warmTransfer.id });
     } else if (warmTransfer.type === 'queue') {
-      SDK.interactions.voice.cancelQueueTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferQueueId: warmTransfer.id });
+      CxEngage.interactions.voice.cancelQueueTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferQueueId: warmTransfer.id });
     } else if (warmTransfer.type === 'transferExtension') {
-      SDK.interactions.voice.cancelExtensionTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferExtension: warmTransfer.id });
+      CxEngage.interactions.voice.cancelExtensionTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferExtension: warmTransfer.id });
     } else {
       throw new Error(`Unhandled transfer type: ${warmTransfer.type}`);
     }
   }
 
   hangUpResource() {
-    SDK.interactions.voice.resourceRemove({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
+    CxEngage.interactions.voice.resourceRemove({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
     this.props.setSelectedTransferResourceMenu(undefined);
   }
 
   holdResource() {
-    SDK.interactions.voice.resourceHold({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
+    CxEngage.interactions.voice.resourceHold({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
     this.props.setSelectedTransferResourceMenu(undefined);
   }
 
   resumeResource() {
-    SDK.interactions.voice.resourceResume({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
+    CxEngage.interactions.voice.resourceResume({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
     this.props.setSelectedTransferResourceMenu(undefined);
   }
 
   resumeAll() {
-    SDK.interactions.voice.resumeAll({ interactionId: this.props.activeVoiceInteraction.interactionId });
+    CxEngage.interactions.voice.resumeAll({ interactionId: this.props.activeVoiceInteraction.interactionId });
     this.props.setSelectedTransferResourceMenu(undefined);
   }
 
   transfer() {
-    SDK.interactions.voice.transferToResource({
+    CxEngage.interactions.voice.transferToResource({
       transferType: 'cold',
       interactionId: this.props.activeVoiceInteraction.interactionId,
       resourceId: this.props.resource.targetResource,

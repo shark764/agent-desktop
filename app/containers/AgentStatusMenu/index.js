@@ -100,7 +100,7 @@ export class AgentStatusMenu extends React.Component {
 
   changePresence(newPresence, reason, listId) {
     if (newPresence === 'ready') {
-      SDK.session.goReady({ extensionValue: this.props.activeExtension.value });
+      CxEngage.session.goReady({ extensionValue: this.props.activeExtension.value });
     } else if (newPresence === 'notready') {
       this.props.goNotReady(reason, listId);
     } else {
@@ -191,7 +191,7 @@ export class AgentStatusMenu extends React.Component {
             : <div
               id="agentLogoutLink"
               style={[styles.presenceLinkContainer, styles.inactivePresence]}
-              onClick={() => { SDK.session.end(); this.props.showAgentStatusMenu(false); }}
+              onClick={() => { CxEngage.authentication.logout(); this.props.showAgentStatusMenu(false); }}
             >
               <FormattedMessage {...messages.logout} />
             </div>

@@ -1,3 +1,6 @@
+### [0.35.0]
+* Bump SDK to v5.0.0
+
 ### [0.34.12] (2017-05-16)
 * CXV1-8658 - BUGFIX - contact panel resize fix
 

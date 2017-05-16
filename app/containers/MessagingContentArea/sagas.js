@@ -10,7 +10,7 @@ export function* initializeOutboundSmsSaga(action) {
     yield put(setInteractionStatus(action.interactionId, 'initializing-outbound'));
     const response = yield call(
       sdkCallToPromise,
-      SDK.interactions.messaging.initializeOutboundSms,
+      CxEngage.interactions.messaging.initializeOutboundSms,
       {
         phoneNumber: action.phoneNumber,
         message: action.message,
@@ -27,7 +27,7 @@ export function* sendOutboundSms(action) {
   try {
     yield call(
       sdkCallToPromise,
-      SDK.interactions.messaging.sendOutboundSms,
+      CxEngage.interactions.messaging.sendOutboundSms,
       {
         interactionId: action.interactionId,
         message: action.message,

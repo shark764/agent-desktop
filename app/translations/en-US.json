@@ -40,6 +40,7 @@
   "app.containers.Contact.assignButton": "Assign",
   "app.containers.Contact.call": "Call",
   "app.containers.Contact.cancel": "Cancel",
+  "app.containers.Contact.create": "Create",
   "app.containers.Contact.editButton": "Edit",
   "app.containers.Contact.errorEmail": "Invalid Email",
   "app.containers.Contact.errorLink": "Invalid URL",

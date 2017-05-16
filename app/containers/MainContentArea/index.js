@@ -33,13 +33,13 @@ export class MainContentArea extends React.Component {
 
   endInteraction() {
     if (this.props.selectedInteraction.status === 'wrapup') {
-      SDK.interactions.endWrapup({ interactionId: this.props.selectedInteraction.interactionId });
+      CxEngage.interactions.endWrapup({ interactionId: this.props.selectedInteraction.interactionId });
     } else if (this.props.selectedInteraction.status === 'connecting-to-outbound' ||
         this.props.selectedInteraction.status === 'initializing-outbound' ||
         this.props.selectedInteraction.status === 'initialized-outbound') {
       this.props.removeInteraction(this.props.selectedInteraction.interactionId);
     } else {
-      SDK.interactions.end({ interactionId: this.props.selectedInteraction.interactionId });
+      CxEngage.interactions.end({ interactionId: this.props.selectedInteraction.interactionId });
     }
   }
 

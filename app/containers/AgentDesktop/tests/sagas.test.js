@@ -17,7 +17,7 @@ describe('loadHistoricalInteractionBody Saga', () => {
       url: 'mockRecordingUrl',
     }];
     beforeEach(() => {
-      global.SDK = {
+      global.CxEngage = {
         interactions: {
           voice: {
             getRecordings: mockGetRecordings,
@@ -46,7 +46,7 @@ describe('loadHistoricalInteractionBody Saga', () => {
       data: 'mockTranscript',
     };
     beforeEach(() => {
-      global.SDK = {
+      global.CxEngage = {
         interactions: {
           messaging: {
             getTranscripts: mockGetTranscripts,
@@ -70,9 +70,9 @@ describe('loadContactInteractions', () => {
   const mockInteractionHistory = 'mockInteractionHistoryDetails';
 
   beforeEach(() => {
-    global.SDK = {
+    global.CxEngage = {
       reporting: {
-        getContactHistory: 'getContactHistory',
+        getContactInteractionHistory: 'getContactInteractionHistory',
       },
     };
   });
@@ -107,7 +107,7 @@ describe('loadContactInteractions', () => {
 
 describe('goNotReady', () => {
   beforeEach(() => {
-    global.SDK = {
+    global.CxEngage = {
       session: {
         goNotReady: 'goNotReady',
       },
@@ -149,7 +149,7 @@ describe('goNotReady', () => {
 describe('goDeleteContacts', () => {
   let generator;
   beforeEach(() => {
-    global.SDK = {
+    global.CxEngage = {
       contacts: {
         delete: 'deleteContacts',
       },

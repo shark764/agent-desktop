@@ -15,7 +15,7 @@ export function* loadHistoricalInteractionBody(action) {
       case 'recordings':
         metaData = yield call(
           sdkCallToPromise,
-          SDK.interactions.voice.getRecordings,
+          CxEngage.interactions.voice.getRecordings,
           { interactionId: action.interactionId },
           'AgentDesktop'
         );
@@ -24,7 +24,7 @@ export function* loadHistoricalInteractionBody(action) {
       case 'transcript':
         metaData = yield call(
           sdkCallToPromise,
-          SDK.interactions.messaging.getTranscripts,
+          CxEngage.interactions.messaging.getTranscripts,
           { interactionId: action.interactionId },
           'AgentDesktop'
         );
@@ -46,14 +46,14 @@ export function* loadHistoricalInteractionBody(action) {
 
 export function* loadContactInteractions(action) {
   let contactInteractionHistoryDetails;
-  const contactQuery = { entityId: action.contactId };
+  const contactQuery = { contactId: action.contactId };
   if (typeof action.page !== 'undefined') {
     contactQuery.page = action.page;
   }
   try {
     contactInteractionHistoryDetails = yield call(
       sdkCallToPromise,
-      SDK.reporting.getContactHistory,
+      CxEngage.reporting.getContactInteractionHistory,
       contactQuery,
       'AgentDesktop'
     );
@@ -75,7 +75,7 @@ export function* goNotReady(action) {
   try {
     yield call(
       sdkCallToPromise,
-      SDK.session.goNotReady,
+      CxEngage.session.goNotReady,
       parameters,
       'AgentDesktop'
     );
@@ -88,7 +88,7 @@ export function* goDeleteContacts(action) {
   try {
     const response = yield action.contactIds.map((contactId) => call(
       sdkCallToPromise,
-      SDK.contacts.delete,
+      CxEngage.contacts.delete,
       { contactId },
       'AgentDesktop'
     ));

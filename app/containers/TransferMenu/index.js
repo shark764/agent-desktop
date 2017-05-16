@@ -68,11 +68,11 @@ export class TransferMenu extends React.Component {
   componentDidMount() {
     this.mounted = true;
 
-    SDK.entities.get.users({}, (error, topic, response) => this.setAgentsCallback(error, topic, response));
-    SDK.entities.get.transferLists({}, (error, topic, response) => this.setTransferListsCallback(error, topic, response));
+    CxEngage.entities.getUsers((error, topic, response) => this.setAgentsCallback(error, topic, response));
+    CxEngage.entities.getTransferLists((error, topic, response) => this.setTransferListsCallback(error, topic, response));
 
     this.reloadTransferablesInterval = setInterval(() => {
-      SDK.entities.get.users({}, (error, topic, response) => this.setAgentsCallback(error, topic, response));
+      CxEngage.entities.getUsers((error, topic, response) => this.setAgentsCallback(error, topic, response));
     }, 5000);
   }
 
@@ -84,16 +84,16 @@ export class TransferMenu extends React.Component {
 
   refreshQueues() {
     this.setState({ queues: 'loading' });
-    SDK.entities.get.queues({});
+    CxEngage.entities.getQueues();
   }
 
   refreshAgents() {
     this.setState({ agents: 'loading' });
-    SDK.entities.get.users({}, (error, topic, response) => this.setAgentsCallback(error, topic, response));
+    CxEngage.entities.getUsers((error, topic, response) => this.setAgentsCallback(error, topic, response));
   }
 
   setAgentsCallback(error, topic, response) {
-    console.log('[TransferMenu] SDK.subscribe()', topic, response);
+    console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
     const agents = response.result.filter((agent) =>
       // Filter ourself, pending users
       agent.id !== this.props.agentId && agent.status === 'accepted'
@@ -120,7 +120,7 @@ export class TransferMenu extends React.Component {
   }
 
   setTransferListsCallback(error, topic, response) {
-    console.log('[TransferMenu] SDK.subscribe()', topic, response);
+    console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
     const transferLists = response.result.map((transferList) => (
       {
         name: transferList.name,
@@ -292,21 +292,21 @@ export class TransferMenu extends React.Component {
 
     if (queueId !== undefined) {
       console.log('transferToQueue()', interactionId, transferType, queueId);
-      SDK.interactions.voice.transferToQueue({
+      CxEngage.interactions.voice.transferToQueue({
         interactionId,
         queueId,
         transferType,
       });
     } else if (resourceId !== undefined) {
       console.log('transferToResource()', interactionId, transferType, resourceId);
-      SDK.interactions.voice.transferToResource({
+      CxEngage.interactions.voice.transferToResource({
         interactionId,
         resourceId,
         transferType,
       });
     } else if (transferExtension !== undefined) {
       console.log('transferToExtension()', interactionId, transferType, transferExtension);
-      SDK.interactions.voice.transferToExtension({
+      CxEngage.interactions.voice.transferToExtension({
         interactionId,
         transferExtension,
         transferType,

@@ -117,7 +117,7 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
     // TODO: Still hacky! replace with proper stats SDK call?
 
     const headers = {
-      authorization: `Token ${SDK.dumpState().authentication.token}`,
+      authorization: `Token ${CxEngage.dumpState().authentication.token}`,
     };
 
     axios({

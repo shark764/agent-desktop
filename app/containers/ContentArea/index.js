@@ -73,7 +73,7 @@ export class ContentArea extends React.Component {
       }
       const callback = (error, topic, response) => {
         // TODO: error handling / display
-        console.log('[ContentArea] SDK.subscribe()', topic, response);
+        console.log('[ContentArea] CxEngage.subscribe()', topic, response);
         if (inContext) {
           this.setState({
             savingNote: false,
@@ -95,9 +95,9 @@ export class ContentArea extends React.Component {
         }
       };
       if (this.props.interaction.note.noteId) {
-        SDK.interactions.updateNote({ noteId: this.props.interaction.note.noteId, ...note }, callback);
+        CxEngage.interactions.updateNote({ noteId: this.props.interaction.note.noteId, ...note }, callback);
       } else {
-        SDK.interactions.createNote(note, callback);
+        CxEngage.interactions.createNote(note, callback);
       }
     }
   }
@@ -300,15 +300,15 @@ export class ContentArea extends React.Component {
 
   toggleWrapup() {
     const wrapupToggleCallback = (error, topic, response) => {
-      console.log('[AgentDesktop] SDK.subscribe()', topic, response);
+      console.log('[AgentDesktop] CxEngage.subscribe()', topic, response);
       // TODO: display / handle error
       this.setState({ loadingWrapup: false });
     };
     this.setState({ loadingWrapup: true });
     if (this.props.interaction.wrapupDetails.wrapupEnabled) {
-      SDK.interactions.disableWrapup({ interactionId: this.props.interaction.interactionId }, wrapupToggleCallback);
+      CxEngage.interactions.disableWrapup({ interactionId: this.props.interaction.interactionId }, wrapupToggleCallback);
     } else {
-      SDK.interactions.enableWrapup({ interactionId: this.props.interaction.interactionId }, wrapupToggleCallback);
+      CxEngage.interactions.enableWrapup({ interactionId: this.props.interaction.interactionId }, wrapupToggleCallback);
     }
   }
 
@@ -317,11 +317,11 @@ export class ContentArea extends React.Component {
       loadingDisposition: true,
       showDispositionsList: false,
     });
-    SDK.interactions.selectDispositionCode({
+    CxEngage.interactions.selectDispositionCode({
       interactionId: this.props.interaction.interactionId,
       dispositionId,
     }, (error, topic, response) => {
-      console.log('[ContentArea] SDK.subscribe()', topic, response);
+      console.log('[ContentArea] CxEngage.subscribe()', topic, response);
       // TODO: display / handle error
       this.setState({
         loadingDisposition: false,
@@ -361,14 +361,14 @@ export class ContentArea extends React.Component {
     this.setState({
       loadingDisposition: true,
     });
-    SDK.interactions.deselectDispositionCode({ interactionId: this.props.interaction.interactionId }, (error, topic, response) => {
-      console.log('[ContentArea] SDK.subscribe()', topic, response);
+    CxEngage.interactions.deselectDispositionCode({ interactionId: this.props.interaction.interactionId }, (error, topic, response) => {
+      console.log('[ContentArea] CxEngage.subscribe()', topic, response);
       // TODO: display / handle error
       if (
         this.props.interaction.dispositionDetails.forceSelect &&
         !this.props.interaction.wrapupDetails.wrapupEnabled
       ) {
-        SDK.interactions.enableWrapup({ interactionId: response.interactionId });
+        CxEngage.interactions.enableWrapup({ interactionId: response.interactionId });
       }
       this.setState({
         loadingDisposition: false,
