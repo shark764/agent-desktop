@@ -7,7 +7,7 @@ Object {
       "agentRecordingEnabled": undefined,
       "autoAnswer": undefined,
       "channelType": "voice",
-      "contact": Object {},
+      "contact": undefined,
       "contactAction": "search",
       "direction": "inbound",
       "dispositionDetails": Object {
@@ -54,7 +54,7 @@ Object {
       "agentRecordingEnabled": undefined,
       "autoAnswer": undefined,
       "channelType": "voice",
-      "contact": Object {},
+      "contact": undefined,
       "contactAction": "search",
       "direction": "outbound",
       "dispositionDetails": Object {

@@ -1,3 +1,6 @@
+### [0.35.5] (2017-06-17)
+* Fixed interactions without contact assigned
+
 ### [0.35.4] (2017-06-17)
 * Dependency updates - !major || (!semver && !breaking-changes)
 
