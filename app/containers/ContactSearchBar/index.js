@@ -138,7 +138,7 @@ export class ContactSearchBar extends React.Component {
       },
     },
     pendingFilterInput: {
-      padding: '11px 11px 11px 0',
+      padding: '0 11px 0 0',
     },
     closeButton: {
       margin: '0',

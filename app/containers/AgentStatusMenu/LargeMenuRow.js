@@ -5,7 +5,7 @@
  */
 
 import React, { PropTypes } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 import Radium from 'radium';
 
 const styles = {
@@ -40,6 +40,7 @@ const styles = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    width: '260px',
   },
   availableMenu: {
     backgroundColor: '#FFFFFF',
@@ -66,8 +67,8 @@ const styles = {
 };
 
 function LargeMenuRow(props) {
-  const titleText = typeof props.titleText === 'string' ? props.titleText : <FormattedMessage {...props.titleText} />;
-  const mainText = typeof props.mainText === 'string' ? props.mainText : <FormattedMessage {...props.mainText} />;
+  const titleText = typeof props.titleText === 'string' ? props.titleText : props.intl.formatMessage(props.titleText);
+  const mainText = typeof props.mainText === 'string' ? props.mainText : props.intl.formatMessage(props.mainText);
   const mainRow = (
     <div
       id={props.id}
@@ -84,7 +85,7 @@ function LargeMenuRow(props) {
         <div style={[styles.titleText]}>
           {titleText}
         </div>
-        <div style={[styles.mainText]}>
+        <div title={mainText} style={[styles.mainText]}>
           {mainText}
         </div>
       </div>
@@ -110,6 +111,7 @@ function LargeMenuRow(props) {
 }
 
 LargeMenuRow.propTypes = {
+  intl: intlShape.isRequired,
   id: PropTypes.string.isRequired,
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   titleText: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
@@ -121,4 +123,4 @@ LargeMenuRow.propTypes = {
   isOpen: PropTypes.bool,
 };
 
-export default Radium(LargeMenuRow);
+export default injectIntl(Radium(LargeMenuRow));
