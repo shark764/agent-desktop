@@ -180,7 +180,10 @@ export class Contact extends React.Component {
     },
     closeButton: {
       margin: '0',
-      border: '0',
+      borderTop: '0',
+      borderRight: '0',
+      borderBottom: '0',
+      borderLeft: '0',
       order: '1',
       flexGrow: '0',
       flexShrink: '0',

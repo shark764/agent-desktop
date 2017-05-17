@@ -29,6 +29,14 @@ const customerAvatars = [customerAvatar1, customerAvatar2, customerAvatar3, cust
   customerAvatar7, customerAvatar8, customerAvatar9, customerAvatar10, customerAvatar11, customerAvatar12,
   customerAvatar13, customerAvatar14, customerAvatar15, customerAvatar16, customerAvatar17];
 
+const styles = {
+  base: {
+    width: '32px',
+    height: '32px',
+    borderRadius: '3px',
+  },
+};
+
 function Avatar(props) {
   function getAvatar() {
     if (Number.isInteger(props.customerAvatarIndex)) {
@@ -39,7 +47,7 @@ function Avatar(props) {
   }
 
   return (
-    <img src={getAvatar()} style={{ width: '32px', height: '32px', borderRadius: '3px' }} alt="Avatar" />
+    <img src={getAvatar()} style={styles.base} alt="Avatar" />
   );
 }
 

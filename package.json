@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.35.5",
+  "version": "0.35.6",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -41,6 +41,7 @@
     "pretest": "npm run test:clean && npm run lint",
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=test jest --coverage",
+    "test:file": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll"
   },
   "lint-staged": {
