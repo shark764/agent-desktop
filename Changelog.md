@@ -1,3 +1,7 @@
+### [0.35.2] (2017-06-17)
+* CXV1-9130: Fixed contact search bar styling in Firefox.
+* Fixed long tenant names in status menu. 
+
 ### [0.35.1] (2017-06-16)
 * Fallback to SDK from npm until https is fixed
 
