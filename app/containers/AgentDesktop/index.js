@@ -213,7 +213,7 @@ export class AgentDesktop extends React.Component {
           }
 
           // Attempt to auto-assign contact if it hasn't already been assigned (if it were started by click to outbound)
-          if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms' || interaction.channelType === 'email') && Object.keys(interaction.contact).length === 0) {
+          if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms' || interaction.channelType === 'email') && interaction.contact !== undefined) {
             this.attemptContactSearch(response.customer, response.interactionId, true);
           }
           if (interaction.direction === 'outbound' && interaction.channelType === 'sms') {

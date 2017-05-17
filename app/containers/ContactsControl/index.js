@@ -604,7 +604,7 @@ export class ContactsControl extends React.Component {
   }
 
   renderContactView() {
-    return Object.keys(this.props.selectedInteraction.contact).length ?
+    return this.props.selectedInteraction.contact !== undefined ?
       <Contact
         key={this.props.selectedInteraction.contact.id}
         style={this.styles.mainContact}
