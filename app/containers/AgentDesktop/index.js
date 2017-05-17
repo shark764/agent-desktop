@@ -3,8 +3,6 @@
  * AgentDesktop
  *
  */
-import 'cxengage-javascript-sdk/release/main';
-
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
