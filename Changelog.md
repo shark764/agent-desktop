@@ -1,6 +1,11 @@
+### [0.35.3] (2017-06-17)
+* Bump to SDK 5 Snapshot 301 for contact search query fixes
+* Back to script tag SDK loading for the nice debugging stack
+* BUGFIX: Contact editing errors out
+
 ### [0.35.2] (2017-06-17)
 * CXV1-9130: Fixed contact search bar styling in Firefox.
-* Fixed long tenant names in status menu. 
+* Fixed long tenant names in status menu.
 
 ### [0.35.1] (2017-06-16)
 * Fallback to SDK from npm until https is fixed
@@ -698,6 +703,8 @@
 #### Initial Commit
 * Here we go!
 
+[0.35.3]: http://www.github.com/liveops/agent-desktop/compare/0.35.2...0.35.3
+[0.35.2]: http://www.github.com/liveops/agent-desktop/compare/0.35.1...0.35.2
 [0.35.1]: http://www.github.com/liveops/agent-desktop/compare/0.35.0...0.35.1
 [0.35.0]: http://www.github.com/liveops/agent-desktop/compare/0.34.11...0.35.0
 [0.34.11]: http://www.github.com/liveops/agent-desktop/compare/0.34.10...0.34.11
@@ -712,6 +719,7 @@
 [0.34.2]: http://www.github.com/liveops/agent-desktop/compare/0.34.1...0.34.2
 [0.34.1]: http://www.github.com/liveops/agent-desktop/compare/0.34.0...0.34.1
 [0.34.0]: http://www.github.com/liveops/agent-desktop/compare/0.33.3...0.34.0
+[0.33.4]: http://www.github.com/liveops/agent-desktop/compare/0.33.3...0.33.4
 [0.33.3]: http://www.github.com/liveops/agent-desktop/compare/0.33.2...0.33.3
 [0.33.2]: http://www.github.com/liveops/agent-desktop/compare/0.33.1...0.33.2
 [0.33.1]: http://www.github.com/liveops/agent-desktop/compare/0.33.0...0.33.1

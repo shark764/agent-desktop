@@ -63,6 +63,7 @@ export class Contact extends React.Component {
     this.startCall = this.startCall.bind(this);
     this.startSms = this.startSms.bind(this);
     this.cancelCancelDialog = this.cancelCancelDialog.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
