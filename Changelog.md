@@ -1,3 +1,6 @@
+### [0.35.4] (2017-06-17)
+* Dependency updates - !major || (!semver && !breaking-changes)
+
 ### [0.35.3] (2017-06-17)
 * Bump to SDK 5 Snapshot 301 for contact search query fixes
 * Back to script tag SDK loading for the nice debugging stack
@@ -703,6 +706,7 @@
 #### Initial Commit
 * Here we go!
 
+[0.35.4]: http://www.github.com/liveops/agent-desktop/compare/0.35.3...0.35.4
 [0.35.3]: http://www.github.com/liveops/agent-desktop/compare/0.35.2...0.35.3
 [0.35.2]: http://www.github.com/liveops/agent-desktop/compare/0.35.1...0.35.2
 [0.35.1]: http://www.github.com/liveops/agent-desktop/compare/0.35.0...0.35.1
