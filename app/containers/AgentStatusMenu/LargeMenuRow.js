@@ -15,7 +15,7 @@ const styles = {
     alignItems: 'center',
     backgroundColor: '#F3F3F3',
     paddingLeft: '24px',
-    paddingRight: '16px',
+    paddingRight: '24px',
     paddingTop: '17px',
     paddingBottom: '17px',
     height: '74px',
@@ -41,7 +41,7 @@ const styles = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    width: '260px',
+    width: '230px',
   },
   availableMenu: {
     backgroundColor: '#FFFFFF',

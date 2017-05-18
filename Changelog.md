@@ -1,3 +1,11 @@
+### [0.35.10] (2017-06-18)
+* BUGFIX - contact pop search broken
+* BUGFIX - Voice pathway arrow outta place
+* SDK 5.0.0!
+* BUGFIX - login gets stuck on incorrect password (SDK fix)
+* BUGFIX - Reason codes not showing (SDK fix)
+* Lil bit o' app description in readme
+
 ### [0.35.9] (2017-06-18)
 * Sentry config; restrict to non-dev. Source map for non-dev.
 
@@ -721,6 +729,8 @@
 #### Initial Commit
 * Here we go!
 
+[0.35.10]: http://www.github.com/liveops/agent-desktop/compare/0.35.9...0.35.10
+[0.35.9]: http://www.github.com/liveops/agent-desktop/compare/0.35.8...0.35.9
 [0.35.8]: http://www.github.com/liveops/agent-desktop/compare/0.35.7...0.35.8
 [0.35.7]: http://www.github.com/liveops/agent-desktop/compare/0.35.6...0.35.7
 [0.35.6]: http://www.github.com/liveops/agent-desktop/compare/0.35.5...0.35.6
