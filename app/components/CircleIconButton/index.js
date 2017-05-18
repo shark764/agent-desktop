@@ -10,26 +10,27 @@ import Radium from 'radium';
 
 import Icon from 'components/Icon';
 
-class CircleIconButton extends React.Component {
-  styles = {
-    base: {
+const styles = {
+  base: {
+    border: 'none',
+    borderRadius: '50%',
+    outline: 'none',
+    padding: 0,
+    ':focus': {
       border: 'none',
-      borderRadius: '50%',
-      outline: 'none',
-      padding: 0,
-      ':focus': {
-        border: 'none',
-      },
     },
-  };
+  },
+  icon: {
+    margin: 'none',
+  },
+};
 
-  render() {
-    return (
-      <button id={this.props.id} style={[this.styles.base, this.props.style]} onClick={this.props.onClick}>
-        <Icon id={`${this.props.id}-icon`} name={this.props.name} active={this.props.active} style={[this.styles.base, this.props.style, { margin: 'none' }]} />
-      </button>
-    );
-  }
+function CircleIconButton(props) {
+  return (
+    <button id={props.id} style={[styles.base, props.style]} onClick={props.onClick}>
+      <Icon id={`${props.id}-icon`} name={props.name} active={props.active} style={[styles.base, props.style, styles.icon]} />
+    </button>
+  );
 }
 
 CircleIconButton.propTypes = {

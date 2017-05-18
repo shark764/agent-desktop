@@ -168,7 +168,10 @@ Button.propTypes = {
   children: PropTypes.element,
   tabIndex: PropTypes.number,
   type: PropTypes.oneOf(possibleTypes).isRequired,
-  style: PropTypes.object,
+  style: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array,
+  ]),
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   id: PropTypes.string.isRequired,

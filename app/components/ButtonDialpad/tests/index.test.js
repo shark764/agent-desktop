@@ -1,12 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import ButtonDialpad from '../index';
-
-const types = ['topLeft', 'top', 'topRight', 'left', 'right', 'bottomLeft', 'bottom', 'bottomRight', 'middle'];
+import ButtonDialpad, { possibleTypes } from '../index';
 
 describe('<ButtonDialpad />', () => {
-  types.forEach((type) => {
+  possibleTypes.forEach((type) => {
     describe(`with type ${type}`, () => {
       it('should render correctly', () => {
         const rendered = shallow(

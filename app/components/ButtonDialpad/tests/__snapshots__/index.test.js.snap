@@ -5,17 +5,22 @@ exports[`<ButtonDialpad /> with type bottom should render correctly 1`] = `
   id="mockId"
   onClick={[Function]}
   style={
-    Object {
-      "borderBottom": "1px solid #E4E4E4",
-      "borderLeft": "none",
-      "borderRadius": 0,
-      "borderRight": "1px solid #E4E4E4",
-      "borderTop": "none",
-      "color": "#4B4B4B",
-      "fontSize": "22px",
-      "padding": "17px 0",
-      "width": "33.3%",
-    }
+    Array [
+      Object {
+        "borderBottom": "1px solid #E4E4E4",
+        "borderLeft": "none",
+        "borderRadius": 0,
+        "borderRight": "1px solid #E4E4E4",
+        "borderTop": "none",
+        "color": "#4B4B4B",
+        "fontSize": "22px",
+        "padding": "17px 0",
+        "width": "33.3%",
+      },
+      undefined,
+      false,
+      false,
+    ]
   }
   tabIndex={0}
   text="mockText"
@@ -28,17 +33,26 @@ exports[`<ButtonDialpad /> with type bottomLeft should render correctly 1`] = `
   id="mockId"
   onClick={[Function]}
   style={
-    Object {
-      "borderBottom": "1px solid #E4E4E4",
-      "borderLeft": "1px solid #E4E4E4",
-      "borderRadius": "0 0 0 3px",
-      "borderRight": "1px solid #E4E4E4",
-      "borderTop": "none",
-      "color": "#4B4B4B",
-      "fontSize": "22px",
-      "padding": "17px 0",
-      "width": "33.3%",
-    }
+    Array [
+      Object {
+        "borderBottom": "1px solid #E4E4E4",
+        "borderLeft": "none",
+        "borderRadius": 0,
+        "borderRight": "1px solid #E4E4E4",
+        "borderTop": "none",
+        "color": "#4B4B4B",
+        "fontSize": "22px",
+        "padding": "17px 0",
+        "width": "33.3%",
+      },
+      Object {
+        "borderRadius": "0 0 0 3px",
+      },
+      false,
+      Object {
+        "borderLeft": "1px solid #E4E4E4",
+      },
+    ]
   }
   tabIndex={0}
   text="mockText"
@@ -51,17 +65,24 @@ exports[`<ButtonDialpad /> with type bottomRight should render correctly 1`] = `
   id="mockId"
   onClick={[Function]}
   style={
-    Object {
-      "borderBottom": "1px solid #E4E4E4",
-      "borderLeft": "none",
-      "borderRadius": "0 0 3px 0",
-      "borderRight": "1px solid #E4E4E4",
-      "borderTop": "none",
-      "color": "#4B4B4B",
-      "fontSize": "22px",
-      "padding": "17px 0",
-      "width": "33.3%",
-    }
+    Array [
+      Object {
+        "borderBottom": "1px solid #E4E4E4",
+        "borderLeft": "none",
+        "borderRadius": 0,
+        "borderRight": "1px solid #E4E4E4",
+        "borderTop": "none",
+        "color": "#4B4B4B",
+        "fontSize": "22px",
+        "padding": "17px 0",
+        "width": "33.3%",
+      },
+      Object {
+        "borderRadius": "0 0 3px 0",
+      },
+      false,
+      false,
+    ]
   }
   tabIndex={0}
   text="mockText"
@@ -74,17 +95,24 @@ exports[`<ButtonDialpad /> with type left should render correctly 1`] = `
   id="mockId"
   onClick={[Function]}
   style={
-    Object {
-      "borderBottom": "1px solid #E4E4E4",
-      "borderLeft": "1px solid #E4E4E4",
-      "borderRadius": 0,
-      "borderRight": "1px solid #E4E4E4",
-      "borderTop": "none",
-      "color": "#4B4B4B",
-      "fontSize": "22px",
-      "padding": "17px 0",
-      "width": "33.3%",
-    }
+    Array [
+      Object {
+        "borderBottom": "1px solid #E4E4E4",
+        "borderLeft": "none",
+        "borderRadius": 0,
+        "borderRight": "1px solid #E4E4E4",
+        "borderTop": "none",
+        "color": "#4B4B4B",
+        "fontSize": "22px",
+        "padding": "17px 0",
+        "width": "33.3%",
+      },
+      Object {
+        "borderLeft": "1px solid #E4E4E4",
+      },
+      false,
+      false,
+    ]
   }
   tabIndex={0}
   text="mockText"
@@ -97,17 +125,22 @@ exports[`<ButtonDialpad /> with type middle should render correctly 1`] = `
   id="mockId"
   onClick={[Function]}
   style={
-    Object {
-      "borderBottom": "1px solid #E4E4E4",
-      "borderLeft": "none",
-      "borderRadius": 0,
-      "borderRight": "1px solid #E4E4E4",
-      "borderTop": "none",
-      "color": "#4B4B4B",
-      "fontSize": "22px",
-      "padding": "17px 0",
-      "width": "33.3%",
-    }
+    Array [
+      Object {
+        "borderBottom": "1px solid #E4E4E4",
+        "borderLeft": "none",
+        "borderRadius": 0,
+        "borderRight": "1px solid #E4E4E4",
+        "borderTop": "none",
+        "color": "#4B4B4B",
+        "fontSize": "22px",
+        "padding": "17px 0",
+        "width": "33.3%",
+      },
+      undefined,
+      false,
+      false,
+    ]
   }
   tabIndex={0}
   text="mockText"
@@ -120,17 +153,22 @@ exports[`<ButtonDialpad /> with type right should render correctly 1`] = `
   id="mockId"
   onClick={[Function]}
   style={
-    Object {
-      "borderBottom": "1px solid #E4E4E4",
-      "borderLeft": "none",
-      "borderRadius": 0,
-      "borderRight": "1px solid #E4E4E4",
-      "borderTop": "none",
-      "color": "#4B4B4B",
-      "fontSize": "22px",
-      "padding": "17px 0",
-      "width": "33.3%",
-    }
+    Array [
+      Object {
+        "borderBottom": "1px solid #E4E4E4",
+        "borderLeft": "none",
+        "borderRadius": 0,
+        "borderRight": "1px solid #E4E4E4",
+        "borderTop": "none",
+        "color": "#4B4B4B",
+        "fontSize": "22px",
+        "padding": "17px 0",
+        "width": "33.3%",
+      },
+      undefined,
+      false,
+      false,
+    ]
   }
   tabIndex={0}
   text="mockText"
@@ -143,17 +181,26 @@ exports[`<ButtonDialpad /> with type top should render correctly 1`] = `
   id="mockId"
   onClick={[Function]}
   style={
-    Object {
-      "borderBottom": "1px solid #E4E4E4",
-      "borderLeft": "none",
-      "borderRadius": 0,
-      "borderRight": "1px solid #E4E4E4",
-      "borderTop": "1px solid #E4E4E4",
-      "color": "#4B4B4B",
-      "fontSize": "22px",
-      "padding": "17px 0",
-      "width": "33.3%",
-    }
+    Array [
+      Object {
+        "borderBottom": "1px solid #E4E4E4",
+        "borderLeft": "none",
+        "borderRadius": 0,
+        "borderRight": "1px solid #E4E4E4",
+        "borderTop": "none",
+        "color": "#4B4B4B",
+        "fontSize": "22px",
+        "padding": "17px 0",
+        "width": "33.3%",
+      },
+      Object {
+        "borderTop": "1px solid #E4E4E4",
+      },
+      Object {
+        "borderTop": "1px solid #E4E4E4",
+      },
+      false,
+    ]
   }
   tabIndex={0}
   text="mockText"
@@ -166,17 +213,28 @@ exports[`<ButtonDialpad /> with type topLeft should render correctly 1`] = `
   id="mockId"
   onClick={[Function]}
   style={
-    Object {
-      "borderBottom": "1px solid #E4E4E4",
-      "borderLeft": "1px solid #E4E4E4",
-      "borderRadius": "3px 0 0 0",
-      "borderRight": "1px solid #E4E4E4",
-      "borderTop": "1px solid #E4E4E4",
-      "color": "#4B4B4B",
-      "fontSize": "22px",
-      "padding": "17px 0",
-      "width": "33.3%",
-    }
+    Array [
+      Object {
+        "borderBottom": "1px solid #E4E4E4",
+        "borderLeft": "none",
+        "borderRadius": 0,
+        "borderRight": "1px solid #E4E4E4",
+        "borderTop": "none",
+        "color": "#4B4B4B",
+        "fontSize": "22px",
+        "padding": "17px 0",
+        "width": "33.3%",
+      },
+      Object {
+        "borderRadius": "3px 0 0 0",
+      },
+      Object {
+        "borderTop": "1px solid #E4E4E4",
+      },
+      Object {
+        "borderLeft": "1px solid #E4E4E4",
+      },
+    ]
   }
   tabIndex={0}
   text="mockText"
@@ -189,17 +247,26 @@ exports[`<ButtonDialpad /> with type topRight should render correctly 1`] = `
   id="mockId"
   onClick={[Function]}
   style={
-    Object {
-      "borderBottom": "1px solid #E4E4E4",
-      "borderLeft": "none",
-      "borderRadius": "0 3px 0 0",
-      "borderRight": "1px solid #E4E4E4",
-      "borderTop": "1px solid #E4E4E4",
-      "color": "#4B4B4B",
-      "fontSize": "22px",
-      "padding": "17px 0",
-      "width": "33.3%",
-    }
+    Array [
+      Object {
+        "borderBottom": "1px solid #E4E4E4",
+        "borderLeft": "none",
+        "borderRadius": 0,
+        "borderRight": "1px solid #E4E4E4",
+        "borderTop": "none",
+        "color": "#4B4B4B",
+        "fontSize": "22px",
+        "padding": "17px 0",
+        "width": "33.3%",
+      },
+      Object {
+        "borderRadius": "0 3px 0 0",
+      },
+      Object {
+        "borderTop": "1px solid #E4E4E4",
+      },
+      false,
+    ]
   }
   tabIndex={0}
   text="mockText"

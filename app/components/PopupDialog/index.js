@@ -71,7 +71,10 @@ function PopupDialog(props) {
 
 PopupDialog.propTypes = {
   id: PropTypes.string,
-  style: PropTypes.object,
+  style: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array,
+  ]),
   widthPx: PropTypes.number.isRequired,
   arrowLeftOffsetPx: PropTypes.number,
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]).isRequired,

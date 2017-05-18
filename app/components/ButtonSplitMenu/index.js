@@ -6,7 +6,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium from 'radium';
 
 import Button from 'components/Button';
 
@@ -21,7 +20,7 @@ const styles = {
   },
 };
 
-export class ButtonSplitMenu extends React.Component {
+class ButtonSplitMenu extends React.Component {
 
   constructor(props) {
     super(props);
@@ -73,4 +72,4 @@ ButtonSplitMenu.propTypes = {
   style: PropTypes.object,
 };
 
-export default Radium(ButtonSplitMenu);
+export default ButtonSplitMenu;

@@ -6,7 +6,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium from 'radium';
 
 import { FormattedMessage } from 'react-intl';
 import PopupDialog from 'components/PopupDialog';
@@ -92,4 +91,4 @@ ConfirmDialog.defaultProps = {
   rightMessage: messages.yes,
 };
 
-export default Radium(ConfirmDialog);
+export default ConfirmDialog;

@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ButtonSplitMenu /> with disabled true should render correctly 1`] = `
+<div
+  id="mockId"
+>
+  <div>
+    <Button
+      disabled={true}
+      id="mockId-main-button"
+      onClick={[Function]}
+      style={
+        Object {
+          "borderRadius": "3px 0 0 3px",
+        }
+      }
+      tabIndex={0}
+      type="primaryBlue"
+    />
+    <Button
+      disabled={true}
+      id="mockId-dropdown-button"
+      onClick={[Function]}
+      style={
+        Object {
+          "borderLeft": "1px #FFFFFF solid",
+          "borderRadius": "0 3px 3px 0",
+          "padding": "9px 3px",
+        }
+      }
+      tabIndex={0}
+      text="▼"
+      type="primaryBlue"
+    />
+  </div>
+</div>
+`;
+
+exports[`<ButtonSplitMenu /> with required props and text should render correctly 1`] = `
+<div
+  id="mockId"
+>
+  <div>
+    <Button
+      id="mockId-main-button"
+      onClick={[Function]}
+      style={
+        Object {
+          "borderRadius": "3px 0 0 3px",
+        }
+      }
+      tabIndex={0}
+      text="testing"
+      type="primaryBlue"
+    />
+    <Button
+      id="mockId-dropdown-button"
+      onClick={[Function]}
+      style={
+        Object {
+          "borderLeft": "1px #FFFFFF solid",
+          "borderRadius": "0 3px 3px 0",
+          "padding": "9px 3px",
+        }
+      }
+      tabIndex={0}
+      text="▼"
+      type="primaryBlue"
+    />
+  </div>
+</div>
+`;
