@@ -5,7 +5,7 @@
 */
 
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 export class Progress extends React.Component {
@@ -70,10 +70,10 @@ export class Progress extends React.Component {
 }
 
 Progress.propTypes = {
-  finish: React.PropTypes.number.isRequired,
-  start: React.PropTypes.number.isRequired,
-  barColor: React.PropTypes.string.isRequired,
-  style: React.PropTypes.object,
+  finish: PropTypes.number.isRequired,
+  start: PropTypes.number.isRequired,
+  barColor: PropTypes.string.isRequired,
+  style: PropTypes.object,
 };
 
 export default Radium(Progress);

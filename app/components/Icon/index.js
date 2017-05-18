@@ -4,7 +4,7 @@
 *
 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 import checkStatus from 'assets/icons/check_status.png';
 import config from 'assets/icons/config.png';
@@ -31,6 +31,8 @@ import transferDarkSprite from 'assets/icons/transfer_dark_sprite.png';
 import dialpadSprite from 'assets/icons/dialpad_sprite.png';
 import dialpadDarkSprite from 'assets/icons/dialpad_dark_sprite.png';
 import earth from 'assets/icons/earth.png';
+
+import PropTypes from 'prop-types';
 
 import Radium from 'radium';
 

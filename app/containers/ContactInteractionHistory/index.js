@@ -7,6 +7,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, FormattedTime } from 'react-intl';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 import moment from 'moment';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -523,16 +524,16 @@ function mapDispatchToProps(dispatch) {
 }
 
 ContactInteractionHistory.propTypes = {
-  selectedInteractionId: React.PropTypes.string,
-  contactId: React.PropTypes.string.isRequired,
-  contactName: React.PropTypes.string.isRequired,
-  contactInteractionHistory: React.PropTypes.object,
-  setContactInteractionHistory: React.PropTypes.func.isRequired,
-  setContactHistoryInteractionDetailsLoading: React.PropTypes.func.isRequired,
-  addNotesToContactInteractionHistory: React.PropTypes.func.isRequired,
-  loadHistoricalInteractionBody: React.PropTypes.func.isRequired,
-  loadContactInteractionHistory: React.PropTypes.func.isRequired,
-  style: React.PropTypes.object,
+  selectedInteractionId: PropTypes.string,
+  contactId: PropTypes.string.isRequired,
+  contactName: PropTypes.string.isRequired,
+  contactInteractionHistory: PropTypes.object,
+  setContactInteractionHistory: PropTypes.func.isRequired,
+  setContactHistoryInteractionDetailsLoading: PropTypes.func.isRequired,
+  addNotesToContactInteractionHistory: PropTypes.func.isRequired,
+  loadHistoricalInteractionBody: PropTypes.func.isRequired,
+  loadContactInteractionHistory: PropTypes.func.isRequired,
+  style: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(ContactInteractionHistory));

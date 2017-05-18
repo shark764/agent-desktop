@@ -4,7 +4,7 @@
 *
 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import ReactSVG from 'react-svg';
 
 import dialpad from 'assets/icons/dialpad.svg';
@@ -12,6 +12,8 @@ import loading from 'assets/icons/loading.svg';
 import loadingWhite from 'assets/icons/loading_white.svg';
 import add from 'assets/icons/add.svg';
 import close from 'assets/icons/close.svg';
+
+import PropTypes from 'prop-types';
 
 import Radium from 'radium';
 

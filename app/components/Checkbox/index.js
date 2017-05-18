@@ -4,9 +4,10 @@
 *
 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 import { injectIntl, intlShape } from 'react-intl';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 function Checkbox(props) {

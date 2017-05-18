@@ -4,9 +4,10 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import Icon from 'components/Icon';
@@ -66,7 +67,6 @@ const styles = {
   },
   openButtonNR: {
     borderRadius: '2px',
-    border: 'none',
     boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
     backgroundColor: '#CB3750',
   },
@@ -77,13 +77,11 @@ const styles = {
   },
   hoverButtonNR: {
     borderRadius: '2px',
-    border: 'none',
     boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
     backgroundColor: '#E43D5A',
   },
   hoverButtonR: {
     borderRadius: '2px',
-    border: 'none',
     boxShadow: '0 0 2px 1px rgba(0,0,0,0.29)',
     backgroundColor: '#093742',
   },
@@ -96,12 +94,14 @@ const styles = {
     height: '54px',
     width: '50px',
     outline: 'none',
+    border: 'none',
     cursor: 'pointer',
   },
   configButtonNR: {
     height: '54px',
     width: '50px',
     outline: 'none',
+    border: 'none',
     cursor: 'pointer',
   },
   openConfigButtonNR: {

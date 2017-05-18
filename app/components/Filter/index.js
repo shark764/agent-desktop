@@ -5,6 +5,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { injectIntl } from 'react-intl';
 
@@ -46,10 +47,10 @@ class Filter extends React.PureComponent {
 }
 
 Filter.propTypes = {
-  name: React.PropTypes.string.isRequired,
-  value: React.PropTypes.string.isRequired,
-  remove: React.PropTypes.func.isRequired,
-  style: React.PropTypes.object,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  remove: PropTypes.func.isRequired,
+  style: PropTypes.object,
 };
 
 export default injectIntl(Radium(Filter));

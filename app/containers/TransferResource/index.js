@@ -4,8 +4,9 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import Icon from 'components/Icon';

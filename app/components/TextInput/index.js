@@ -4,8 +4,9 @@
 *
 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { injectIntl, intlShape } from 'react-intl';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 function TextInput(props) {
@@ -36,6 +37,7 @@ function TextInput(props) {
         outline: 'none',
         padding: '11px',
         borderRadius: '2px',
+        border: 'none',
       },
     };
 

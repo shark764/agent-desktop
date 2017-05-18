@@ -4,8 +4,9 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
@@ -353,6 +354,7 @@ export class Login extends React.Component {
       position: 'relative',
       top: '0px',
       marginBottom: '-27px',
+      lineHeight: '1.5em',
     },
     errorTenant: {
       top: '-361.4px',

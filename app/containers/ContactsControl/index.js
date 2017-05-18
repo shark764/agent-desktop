@@ -7,6 +7,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 import InfiniteScroll from 'react-infinite-scroller';
 import 'velocity-animate';
@@ -685,23 +686,23 @@ export class ContactsControl extends React.Component {
 }
 
 ContactsControl.propTypes = {
-  isCollapsed: React.PropTypes.bool.isRequired,
-  intl: React.PropTypes.object.isRequired,
-  style: React.PropTypes.object,
-  attributes: React.PropTypes.array,
-  resultsCount: React.PropTypes.number,
-  results: React.PropTypes.any,
-  nextPage: React.PropTypes.number,
-  addSearchFilter: React.PropTypes.func,
-  removeSearchFilter: React.PropTypes.func,
-  setSearchResults: React.PropTypes.func,
-  clearSearchResults: React.PropTypes.func,
-  selectedInteraction: React.PropTypes.object,
-  setContactAction: React.PropTypes.func,
-  assignContact: React.PropTypes.func,
-  selectContact: React.PropTypes.func,
-  deleteContacts: React.PropTypes.func,
-  loadContactInteractionHistory: React.PropTypes.func,
+  isCollapsed: PropTypes.bool.isRequired,
+  intl: PropTypes.object.isRequired,
+  style: PropTypes.object,
+  attributes: PropTypes.array,
+  resultsCount: PropTypes.number,
+  results: PropTypes.any,
+  nextPage: PropTypes.number,
+  addSearchFilter: PropTypes.func,
+  removeSearchFilter: PropTypes.func,
+  setSearchResults: PropTypes.func,
+  clearSearchResults: PropTypes.func,
+  selectedInteraction: PropTypes.object,
+  setContactAction: PropTypes.func,
+  assignContact: PropTypes.func,
+  selectContact: PropTypes.func,
+  deleteContacts: PropTypes.func,
+  loadContactInteractionHistory: PropTypes.func,
 };
 
 function mapStateToProps(state, props) {

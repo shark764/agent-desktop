@@ -4,8 +4,9 @@
 *
 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import Icon from 'components/Icon';
@@ -15,6 +16,7 @@ export const possibleTypes = ['primaryBlue', 'primaryBlueBig', 'primaryRed', 'se
 const styles = {
   base: {
     borderRadius: '3px',
+    borderWidth: '0px',
     backgroundColor: '#23cdf4',
     fontSize: '13px',
     fontWeight: 'bold',

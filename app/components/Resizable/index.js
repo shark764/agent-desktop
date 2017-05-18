@@ -4,7 +4,9 @@
 *
 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import Radium from 'radium';
 
@@ -235,7 +237,7 @@ Resizable.propTypes = {
   minPx: PropTypes.number.isRequired,
   maxPx: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
-  styles: React.PropTypes.object,
+  styles: PropTypes.object,
 };
 
 export default Radium(Resizable);
