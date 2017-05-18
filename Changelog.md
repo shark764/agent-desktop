@@ -1,3 +1,6 @@
+### [0.35.9] (2017-06-18)
+* Sentry config; restrict to non-dev. Source map for non-dev.
+
 ### [0.35.8] (2017-06-18)
 * CXV1-9314 - Update Dependencies (React 15.5 Prep, sanitize.css, nothing disruptive)
 

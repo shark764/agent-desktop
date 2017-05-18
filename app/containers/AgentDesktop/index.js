@@ -3,6 +3,7 @@
  * AgentDesktop
  *
  */
+import Raven from 'raven-js';
 import React from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
@@ -34,6 +35,8 @@ import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiate
   emailAddAttachment, addSearchFilter, removeSearchFilter, setContactAction, setQueues, setDispositionDetails, selectDisposition, goNotReady } from './actions';
 
 import { selectAgentDesktopMap, selectLoginMap } from './selectors';
+
+import { version as release } from '../../../package.json';
 
 export class AgentDesktop extends React.Component {
 
@@ -76,6 +79,13 @@ export class AgentDesktop extends React.Component {
   componentWillMount() {
     this.loadConf();
     this.cacheCheckInterval = setInterval(this.loadConf, 300000); // Cache busting version check every 5min
+
+    window.addEventListener('resize', this.updateDimensions);
+    window.addEventListener('beforeunload', (e) => {
+      if (this.props.agentDesktop.interactions.length) {
+        e.returnValue = true;
+      }
+    });
   }
 
   loadConf() {
@@ -103,13 +113,6 @@ export class AgentDesktop extends React.Component {
   }
 
   init() {
-    window.addEventListener('resize', this.updateDimensions);
-    window.addEventListener('beforeunload', (e) => {
-      if (this.props.agentDesktop.interactions.length) {
-        e.returnValue = true;
-      }
-    });
-
     let where;
     let environment;
     let logLevel;
@@ -132,6 +135,14 @@ export class AgentDesktop extends React.Component {
     }
 
     window.agentDesktopState = () => console.log(this.props.agentDesktop);
+
+    // Initialize Remote Logging with Sentry.io
+    if (environment !== 'dev') {
+      Raven.config('https://4dd03af6283843ccaa18ac2dc221149f@sentry.io/121909', {
+        release,
+        environment,
+      }).install();
+    }
 
     const sdkConf = { baseUrl: `https://${where}`, logLevel, blastSqsOutput, environment, reportingRefreshRate };
 

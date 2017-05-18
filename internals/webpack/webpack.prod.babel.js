@@ -13,6 +13,7 @@ module.exports = require('./webpack.base.babel')({
   output: {
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].chunk.js',
+    sourceMapFilename: "[name].[chunkhash].js.map",
   },
 
   plugins: [
@@ -44,4 +45,7 @@ module.exports = require('./webpack.base.babel')({
       inject: true,
     }),
   ],
+
+  // Emit a source map for easier debugging
+  devtool: 'source-map',
 });
