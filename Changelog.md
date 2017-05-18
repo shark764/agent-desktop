@@ -1,3 +1,6 @@
+### [0.35.11] (2017-06-18)
+* Fix transfer user fetch
+
 ### [0.35.10] (2017-06-18)
 * BUGFIX - contact pop search broken
 * BUGFIX - Voice pathway arrow outta place
