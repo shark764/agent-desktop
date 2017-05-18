@@ -5,9 +5,7 @@
 */
 
 import React from 'react';
-
 import PropTypes from 'prop-types';
-
 import Radium from 'radium';
 
 export class Progress extends React.Component {

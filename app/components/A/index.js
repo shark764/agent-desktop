@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 /**
 *
 * A
@@ -6,6 +5,7 @@ import PropTypes from 'prop-types';
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 const styles = {

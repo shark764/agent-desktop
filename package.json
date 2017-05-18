@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.35.7",
+  "version": "0.35.8",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -250,7 +250,7 @@
     "minimist": "1.2.0",
     "moment": "2.18.1",
     "prop-types": "15.5.10",
-    "radium": "0.18.2",
+    "radium": "0.19.0",
     "raven-js": "3.15.0",
     "react": "15.4.2",
     "react-addons-test-utils": "15.4.2",

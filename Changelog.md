@@ -1,3 +1,6 @@
+### [0.35.8] (2017-06-18)
+* CXV1-9314 - Update Dependencies (React 15.5 Prep, sanitize.css, nothing disruptive)
+
 ### [0.35.7] (2017-06-18)
 * BUGFIX - Fixed button styling border in confirm dialog
 
@@ -715,6 +718,10 @@
 #### Initial Commit
 * Here we go!
 
+[0.35.8]: http://www.github.com/liveops/agent-desktop/compare/0.35.7...0.35.8
+[0.35.7]: http://www.github.com/liveops/agent-desktop/compare/0.35.6...0.35.7
+[0.35.6]: http://www.github.com/liveops/agent-desktop/compare/0.35.5...0.35.6
+[0.35.5]: http://www.github.com/liveops/agent-desktop/compare/0.35.4...0.35.5
 [0.35.4]: http://www.github.com/liveops/agent-desktop/compare/0.35.3...0.35.4
 [0.35.3]: http://www.github.com/liveops/agent-desktop/compare/0.35.2...0.35.3
 [0.35.2]: http://www.github.com/liveops/agent-desktop/compare/0.35.1...0.35.2
