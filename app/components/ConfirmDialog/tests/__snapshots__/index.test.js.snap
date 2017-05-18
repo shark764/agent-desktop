@@ -41,7 +41,10 @@ exports[`<ConfirmDialog /> should render correctly 1`] = `
           onClick={[Function]}
           style={
             Object {
-              "border": "none",
+              "borderBottom": "none",
+              "borderLeft": "none",
+              "borderRight": "none",
+              "borderTop": "none",
               "width": "50%",
             }
           }
@@ -59,8 +62,11 @@ exports[`<ConfirmDialog /> should render correctly 1`] = `
           onClick={[Function]}
           style={
             Object {
+              "borderBottom": "none",
               "borderLeft": "1px solid #C5C5C5",
               "borderRadius": "0 2px 2px 0",
+              "borderRight": "none",
+              "borderTop": "none",
               "width": "50%",
             }
           }
