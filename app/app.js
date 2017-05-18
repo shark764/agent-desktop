@@ -5,34 +5,66 @@
  */
 import 'babel-polyfill';
 
-/* eslint-disable import/no-unresolved, import/extensions */
+/* eslint-disable import/no-unresolved, import/extensions, import/no-webpack-loader-syntax */
 // Load the manifest.json file and the .htaccess file
 import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess';
-/* eslint-enable import/no-unresolved, import/extensions */
+/* eslint-enable import/no-unresolved, import/extensions, import/no-webpack-loader-syntax */
 
 // Import all the third party stuff
+import Raven from 'raven-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactUpdates from 'react-dom/lib/ReactUpdates';
+import ReactDefaultBatchingStrategy from 'react-dom/lib/ReactDefaultBatchingStrategy';
 import { Provider } from 'react-redux';
 import LanguageProvider from 'containers/LanguageProvider';
 import configureStore from 'store';
-import './global-styles';
-import AgentDesktop from 'containers/AgentDesktop';
 
-// Import i18n messages
-import { translationMessages } from './i18n';
+import AgentDesktop from 'containers/AgentDesktop';
 
 // Import the CSS reset, which HtmlWebpackPlugin transfers to the build folder
 import 'sanitize.css/sanitize.css';
+import './global-styles';
+
+import { translationMessages } from './i18n';
+
+let isHandlingError = false;
+const ReactTryCatchBatchingStrategy = {
+  // this is part of the BatchingStrategy API. simply pass along
+  // what the default batching strategy would do.
+  get isBatchingUpdates() { return ReactDefaultBatchingStrategy.isBatchingUpdates; },
+
+  batchedUpdates(...args) {
+    try {
+      ReactDefaultBatchingStrategy.batchedUpdates(...args);
+    } catch (e) {
+      if (isHandlingError) {
+        // our error handling code threw an error. just throw now
+        throw e;
+      }
+
+      isHandlingError = true;
+      try {
+        console.error('ReactTryCatchBatchingStrategy caught error', e);
+        Raven.captureException(e);
+      } finally {
+        isHandlingError = false;
+      }
+    }
+  },
+};
+
+ReactUpdates.injection.injectBatchingStrategy(ReactTryCatchBatchingStrategy);
 
 const store = configureStore();
+window.store = store;
 
 const render = (translatedMessages) => {
   ReactDOM.render(
     <Provider store={store}>
       <LanguageProvider messages={translatedMessages}>
-        <AgentDesktop/>
+        <AgentDesktop />
       </LanguageProvider>
     </Provider>,
     document.getElementById('app')
