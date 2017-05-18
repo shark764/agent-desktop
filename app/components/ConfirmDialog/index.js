@@ -33,10 +33,16 @@ const styles = {
   },
   leftButton: {
     width: '50%',
-    border: 'none',
+    borderTop: 'none',
+    borderRight: 'none',
+    borderBottom: 'none',
+    borderLeft: 'none',
   },
   rightButton: {
     width: '50%',
+    borderTop: 'none',
+    borderRight: 'none',
+    borderBottom: 'none',
     borderLeft: '1px solid #C5C5C5',
     borderRadius: '0 2px 2px 0',
   },

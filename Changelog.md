@@ -1,3 +1,6 @@
+### [0.35.7] (2017-06-18)
+* BUGFIX - Fixed button styling border in confirm dialog
+
 ### [0.35.6] (2017-06-17)
 * CXV1-9062 - Refactor styles block of Avatar. Refactor styles block of Button + Tests.
 
