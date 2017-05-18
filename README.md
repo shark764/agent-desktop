@@ -1,3 +1,6 @@
+# Skylight
+A single screen web app built in React for handling inbound and outbound interactions across multiple channels, with integrated CRM functionality.
+
 ## Quick start
 
 1. Clone this repo using `git clone git@github.com:liveops/agent-desktop.git`
