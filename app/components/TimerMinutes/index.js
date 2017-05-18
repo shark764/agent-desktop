@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 /**
 *
 * TimerMinutes
 *
 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import messages from './messages';

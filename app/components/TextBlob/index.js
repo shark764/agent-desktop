@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 /**
 *
 * TextBlob
 *
 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 function TextBlob(props) {
   return (

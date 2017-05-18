@@ -4,7 +4,8 @@
 *
 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { Tabs as ReactTabs } from 'react-tabs';
 
@@ -137,7 +138,7 @@ function Tabs(props) {
 Tabs.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['big', 'small']).isRequired,
-  children: React.PropTypes.array.isRequired,
+  children: PropTypes.array.isRequired,
   selectedIndex: PropTypes.number,
   onSelect: PropTypes.func,
   style: PropTypes.object,

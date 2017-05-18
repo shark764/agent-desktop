@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 /**
 *
 * TextLink
 *
 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 function TextLink(props) {
   return (

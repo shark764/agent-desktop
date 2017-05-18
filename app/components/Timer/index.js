@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 /**
 *
 * Timer
 *
 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import timer from 'react-timer-hoc';
 import moment from 'moment';
 

@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 /**
 *
 * A
 *
 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 const styles = {
@@ -29,7 +30,7 @@ function A(props) {
 
 A.propTypes = {
   style: PropTypes.object,
-  text: React.PropTypes.oneOfType([
+  text: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
   ]),

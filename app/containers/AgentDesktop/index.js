@@ -3,9 +3,10 @@
  * AgentDesktop
  *
  */
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 import axios from 'axios';
 

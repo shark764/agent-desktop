@@ -4,8 +4,9 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 import { startOutboundInteraction } from 'containers/AgentDesktop/actions';

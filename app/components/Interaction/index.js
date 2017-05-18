@@ -8,6 +8,7 @@ import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import Dotdotdot from 'react-dotdotdot';
@@ -249,18 +250,18 @@ export class Interaction extends React.Component {
 }
 
 Interaction.propTypes = {
-  interactionId: React.PropTypes.string,
-  from: React.PropTypes.string,
-  previewText: React.PropTypes.string,
-  channelType: React.PropTypes.string,
-  icon: React.PropTypes.string,
-  timeout: React.PropTypes.number,
-  targetWrapupTime: React.PropTypes.number,
-  wrapupTime: React.PropTypes.number,
-  status: React.PropTypes.oneOf(['pending', 'active', 'wrapup']).isRequired,
-  awaitingDisposition: React.PropTypes.bool.isRequired,
-  selected: React.PropTypes.bool,
-  onClick: React.PropTypes.func,
+  interactionId: PropTypes.string,
+  from: PropTypes.string,
+  previewText: PropTypes.string,
+  channelType: PropTypes.string,
+  icon: PropTypes.string,
+  timeout: PropTypes.number,
+  targetWrapupTime: PropTypes.number,
+  wrapupTime: PropTypes.number,
+  status: PropTypes.oneOf(['pending', 'active', 'wrapup']).isRequired,
+  awaitingDisposition: PropTypes.bool.isRequired,
+  selected: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 const mapStateToProps = (state, props) => ({

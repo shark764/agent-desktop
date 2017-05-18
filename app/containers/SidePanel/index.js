@@ -4,9 +4,10 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Tab, TabList, TabPanel } from 'react-tabs';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 import IconCollapse from 'icons/collapse';
 

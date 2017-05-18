@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import 'velocity-animate';
@@ -110,15 +111,15 @@ export class ContactSearchResult extends React.Component {
 }
 
 ContactSearchResult.propTypes = {
-  isCollapsed: React.PropTypes.bool.isRequired,
-  checked: React.PropTypes.bool.isRequired,
-  selectContact: React.PropTypes.func.isRequired,
-  style: React.PropTypes.object,
-  contact: React.PropTypes.object.isRequired,
-  assignContact: React.PropTypes.func.isRequired,
-  isAssigned: React.PropTypes.bool,
-  editContact: React.PropTypes.func.isRequired,
-  loading: React.PropTypes.bool,
+  isCollapsed: PropTypes.bool.isRequired,
+  checked: PropTypes.bool.isRequired,
+  selectContact: PropTypes.func.isRequired,
+  style: PropTypes.object,
+  contact: PropTypes.object.isRequired,
+  assignContact: PropTypes.func.isRequired,
+  isAssigned: PropTypes.bool,
+  editContact: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
 };
 
 ContactSearchResult.defaultProps = {

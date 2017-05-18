@@ -6,6 +6,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { injectIntl } from 'react-intl';
 import Autocomplete from 'react-autocomplete';
@@ -267,13 +268,13 @@ export class ContactSearchBar extends React.Component {
 }
 
 ContactSearchBar.propTypes = {
-  intl: React.PropTypes.object.isRequired,
-  addFilter: React.PropTypes.func.isRequired,
-  cancel: React.PropTypes.func.isRequired,
-  query: React.PropTypes.array,
-  searchableAttributes: React.PropTypes.array,
-  style: React.PropTypes.object,
-  resultsCount: React.PropTypes.number,
+  intl: PropTypes.object.isRequired,
+  addFilter: PropTypes.func.isRequired,
+  cancel: PropTypes.func.isRequired,
+  query: PropTypes.array,
+  searchableAttributes: PropTypes.array,
+  style: PropTypes.object,
+  resultsCount: PropTypes.number,
 };
 
 const mapStateToProps = (state, props) => ({

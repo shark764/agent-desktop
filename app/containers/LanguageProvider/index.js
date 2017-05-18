@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 /*
  *
  * LanguageProvider
@@ -6,7 +7,7 @@
  * IntlProvider component and i18n messages (loaded from `app/translations`)
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { IntlProvider } from 'react-intl';
@@ -32,9 +33,9 @@ export class LanguageProvider extends React.PureComponent { // eslint-disable-li
 }
 
 LanguageProvider.propTypes = {
-  locale: React.PropTypes.string,
-  messages: React.PropTypes.object,
-  children: React.PropTypes.element.isRequired,
+  locale: PropTypes.string,
+  messages: PropTypes.object,
+  children: PropTypes.element.isRequired,
 };
 
 
