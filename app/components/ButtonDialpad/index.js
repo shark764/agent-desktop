@@ -11,8 +11,8 @@ import Radium from 'radium';
 import Button from 'components/Button';
 
 function ButtonDialpad(props) {
-  let borderTop;
-  let borderLeft;
+  let borderTop = 'none';
+  let borderLeft = 'none';
   let borderRadius = 0;
 
   if (props.type.includes('top')) {

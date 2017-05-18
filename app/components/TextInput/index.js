@@ -37,6 +37,7 @@ function TextInput(props) {
         outline: 'none',
         padding: '11px',
         borderRadius: '2px',
+        border: 'none',
       },
     };
 

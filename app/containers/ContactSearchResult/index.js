@@ -61,6 +61,7 @@ export class ContactSearchResult extends React.Component {
       letterSpacing: '1px',
       fontSize: '18px',
       color: '#979797',
+      lineHeight: '1.5em',
     },
     checkbox: {
       position: 'absolute',

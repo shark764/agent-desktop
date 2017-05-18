@@ -13,6 +13,7 @@ exports[`<Button /> when button is icon should render correctly 1`] = `
     Object {
       "backgroundColor": "#23cdf4",
       "borderRadius": "3px",
+      "borderWidth": "0px",
       "boxSizing": "borderBox",
       "color": "#FFFFFF",
       "cursor": "pointer",
@@ -46,6 +47,7 @@ exports[`<Button /> when it has children should render correctly 1`] = `
     Object {
       "backgroundColor": "#23cdf4",
       "borderRadius": "3px",
+      "borderWidth": "0px",
       "boxSizing": undefined,
       "color": "#FFFFFF",
       "cursor": "pointer",
@@ -80,6 +82,7 @@ exports[`<Button /> when passed a border style should render correctly 1`] = `
       "backgroundColor": "#23cdf4",
       "borderRadius": "3px",
       "borderTop": "thick double #ff0000",
+      "borderWidth": "0px",
       "boxSizing": undefined,
       "color": "#FFFFFF",
       "cursor": "pointer",
@@ -109,6 +112,7 @@ exports[`<Button /> when passed mouseOverText and is hovered should render corre
     Object {
       "backgroundColor": "#1FB8DC",
       "borderRadius": "3px",
+      "borderWidth": "0px",
       "boxSizing": undefined,
       "color": "#FFFFFF",
       "cursor": "pointer",
@@ -144,6 +148,7 @@ exports[`<Button /> when passed text as a obj should render correctly 1`] = `
     Object {
       "backgroundColor": "#23cdf4",
       "borderRadius": "3px",
+      "borderWidth": "0px",
       "boxSizing": undefined,
       "color": "#FFFFFF",
       "cursor": "pointer",
@@ -179,6 +184,7 @@ exports[`<Button /> when passed text as a string should render correctly 1`] = `
     Object {
       "backgroundColor": "#23cdf4",
       "borderRadius": "3px",
+      "borderWidth": "0px",
       "boxSizing": undefined,
       "color": "#FFFFFF",
       "cursor": "pointer",
@@ -211,6 +217,7 @@ exports[`<Button /> with type primaryBlue and disabled should render correctly 1
     Object {
       "backgroundColor": "#8BE1F4",
       "borderRadius": "3px",
+      "borderWidth": "0px",
       "boxSizing": undefined,
       "color": "#FFFFFF",
       "cursor": "default",
@@ -240,6 +247,7 @@ exports[`<Button /> with type primaryBlue should render correctly 1`] = `
     Object {
       "backgroundColor": "#23cdf4",
       "borderRadius": "3px",
+      "borderWidth": "0px",
       "boxSizing": undefined,
       "color": "#FFFFFF",
       "cursor": "pointer",
@@ -270,6 +278,7 @@ exports[`<Button /> with type primaryBlueBig and disabled should render correctl
     Object {
       "backgroundColor": "#8BE1F4",
       "borderRadius": "8px",
+      "borderWidth": "0px",
       "boxSizing": undefined,
       "color": "#FFFFFF",
       "cursor": "default",
@@ -299,6 +308,7 @@ exports[`<Button /> with type primaryBlueBig should render correctly 1`] = `
     Object {
       "backgroundColor": "#23cdf4",
       "borderRadius": "8px",
+      "borderWidth": "0px",
       "boxSizing": undefined,
       "color": "#FFFFFF",
       "cursor": "pointer",
@@ -329,6 +339,7 @@ exports[`<Button /> with type primaryRed and disabled should render correctly 1`
     Object {
       "backgroundColor": "#F99CAC",
       "borderRadius": "3px",
+      "borderWidth": "0px",
       "boxSizing": undefined,
       "color": "#FFFFFF",
       "cursor": "default",
@@ -358,6 +369,7 @@ exports[`<Button /> with type primaryRed should render correctly 1`] = `
     Object {
       "backgroundColor": "#FE4565",
       "borderRadius": "3px",
+      "borderWidth": "0px",
       "boxSizing": undefined,
       "color": "#FFFFFF",
       "cursor": "pointer",
@@ -394,6 +406,7 @@ exports[`<Button /> with type secondary and disabled should render correctly 1`]
       "borderRadius": "2px",
       "borderRight": "1px solid #C5C5C5",
       "borderTop": "1px solid #C5C5C5",
+      "borderWidth": "0px",
       "boxSizing": undefined,
       "color": "#C5C5C5",
       "cursor": "default",
@@ -429,6 +442,7 @@ exports[`<Button /> with type secondary should render correctly 1`] = `
       "borderRadius": "2px",
       "borderRight": "1px solid #979797",
       "borderTop": "1px solid #979797",
+      "borderWidth": "0px",
       "boxSizing": undefined,
       "color": "#4B4B4B",
       "cursor": "pointer",

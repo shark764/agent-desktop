@@ -16,6 +16,7 @@ export const possibleTypes = ['primaryBlue', 'primaryBlueBig', 'primaryRed', 'se
 const styles = {
   base: {
     borderRadius: '3px',
+    borderWidth: '0px',
     backgroundColor: '#23cdf4',
     fontSize: '13px',
     fontWeight: 'bold',
