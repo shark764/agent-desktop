@@ -1,12 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<A /> should render correctly 1`] = `
+exports[`<A /> when not disabled should render correctly 1`] = `
 <a
+  data-radium={true}
   id="mockId"
+  onClick={[Function]}
   style={
     Object {
       "color": "#494949",
       "cursor": "pointer",
+      "textDecoration": "underline",
+    }
+  }
+>
+  mockText
+</a>
+`;
+
+exports[`<A /> when passed disabled should render correctly 1`] = `
+<a
+  data-radium={true}
+  id="mockId"
+  onClick={null}
+  style={
+    Object {
+      "color": "#979797",
       "textDecoration": "underline",
     }
   }

@@ -10,29 +10,29 @@ import { injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-function Checkbox(props) {
-  const styles = {
-    label: {
-      fontSize: '16px',
-      fontWeight: 'normal',
-      fontStyle: 'normal',
-      fontStretch: 'normal',
-      color: '#494949',
-      marginLeft: '0.5em',
-      verticalAlign: 'middle',
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      maxWidth: 'calc(100% - 25px)',
-      display: 'inline-block',
-    },
-    checkbox: {
-      verticalAlign: 'middle',
-      height: '14px',
-      width: '14px',
-    },
-  };
+const styles = {
+  label: {
+    fontSize: '16px',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    fontStretch: 'normal',
+    color: '#494949',
+    marginLeft: '0.5em',
+    verticalAlign: 'middle',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    maxWidth: 'calc(100% - 25px)',
+    display: 'inline-block',
+  },
+  checkbox: {
+    verticalAlign: 'middle',
+    height: '14px',
+    width: '14px',
+  },
+};
 
+function Checkbox(props) {
   const handleChange = (event) => {
     if (props.cb) {
       props.cb(event.target.checked, event);

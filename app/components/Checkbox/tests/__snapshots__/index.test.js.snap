@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Checkbox /> should render correctly 1`] = `
+exports[`<Checkbox /> when given required props, intl, and text should render correctly 1`] = `
 <span
   data-radium={true}
 >
@@ -19,5 +19,93 @@ exports[`<Checkbox /> should render correctly 1`] = `
     }
     type="checkbox"
   />
+  <label
+    data-radium={true}
+    htmlFor="mockId"
+    style={
+      Object {
+        "color": "#494949",
+        "display": "inline-block",
+        "fontSize": "16px",
+        "fontStretch": "normal",
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+        "marginLeft": "0.5em",
+        "maxWidth": "calc(100% - 25px)",
+        "overflow": "hidden",
+        "textOverflow": "ellipsis",
+        "verticalAlign": "middle",
+        "whiteSpace": "nowrap",
+      }
+    }
+  >
+    testing!
+  </label>
+</span>
+`;
+
+exports[`<Checkbox /> when no text is passed in should render correctly 1`] = `
+<span
+  data-radium={true}
+>
+  <input
+    checked={true}
+    data-radium={true}
+    disabled={true}
+    id="mockId"
+    onChange={[Function]}
+    style={
+      Object {
+        "height": "14px",
+        "verticalAlign": "middle",
+        "width": "14px",
+      }
+    }
+    type="checkbox"
+  />
+</span>
+`;
+
+exports[`<Checkbox /> when passed a text obj should render correctly 1`] = `
+<span
+  data-radium={true}
+>
+  <input
+    checked={true}
+    data-radium={true}
+    disabled={true}
+    id="mockId"
+    onChange={[Function]}
+    style={
+      Object {
+        "height": "14px",
+        "verticalAlign": "middle",
+        "width": "14px",
+      }
+    }
+    type="checkbox"
+  />
+  <label
+    data-radium={true}
+    htmlFor="mockId"
+    style={
+      Object {
+        "color": "#494949",
+        "display": "inline-block",
+        "fontSize": "16px",
+        "fontStretch": "normal",
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+        "marginLeft": "0.5em",
+        "maxWidth": "calc(100% - 25px)",
+        "overflow": "hidden",
+        "textOverflow": "ellipsis",
+        "verticalAlign": "middle",
+        "whiteSpace": "nowrap",
+      }
+    }
+  >
+    ON
+  </label>
 </span>
 `;

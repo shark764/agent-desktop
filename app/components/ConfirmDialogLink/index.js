@@ -6,12 +6,22 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium from 'radium';
 
 import A from 'components/A';
 import ConfirmDialog from 'components/ConfirmDialog';
 
-export class ConfirmDialogLink extends React.Component {
+const styles = {
+  base: {
+    position: 'relative',
+  },
+  confirmDialog: {
+    position: 'absolute',
+    bottom: '20px',
+    left: '-10px',
+  },
+};
+
+class ConfirmDialogLink extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,20 +29,9 @@ export class ConfirmDialogLink extends React.Component {
     };
   }
 
-  styles = {
-    base: {
-      position: 'relative',
-    },
-    confirmDialog: {
-      position: 'absolute',
-      bottom: '20px',
-      left: '-10px',
-    },
-  };
-
   render() {
     return (
-      <div style={this.styles.base}>
+      <div style={styles.base}>
         <A id={this.props.id} disabled={this.props.disabled} onClick={() => this.setState({ showConfirmDialog: !this.state.showConfirmDialog })} text={this.props.linkText} />
         <ConfirmDialog
           leftAction={this.props.leftAction}
@@ -43,7 +42,7 @@ export class ConfirmDialogLink extends React.Component {
           rightDisabled={this.props.rightDisabled}
           isVisible={this.state.showConfirmDialog}
           hide={() => this.setState({ showConfirmDialog: false })}
-          style={this.styles.confirmDialog}
+          style={styles.confirmDialog}
         />
       </div>
     );
@@ -62,4 +61,4 @@ ConfirmDialogLink.propTypes = {
   rightDisabled: PropTypes.bool,
 };
 
-export default Radium(ConfirmDialogLink);
+export default ConfirmDialogLink;
