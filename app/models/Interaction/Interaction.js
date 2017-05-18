@@ -32,7 +32,7 @@ export default class Interaction {
           mappedResource.name = mappedResource.extension;
         } else {
           mappedResource.name = 'Agent';
-          CxEngage.entities.getUser({ userId: resource.id });
+          CxEngage.entities.getUser({ resourceId: resource.id });
         }
         return new Map(mappedResource);
       }));
