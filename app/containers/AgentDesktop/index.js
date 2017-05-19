@@ -27,6 +27,8 @@ import { setAvailableStats, statsReceived, toggleStat, toggleAgentMenu } from 'c
 import { showLogin, logout } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 
+import { selectAvailableStats } from 'containers/AgentStats/selectors';
+
 import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, loadContactInteractionHistory,
   setContactHistoryInteractionDetails, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction,
   updateWrapupDetails, addScript, removeScript, selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
@@ -407,8 +409,6 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/reporting/get-available-stats-response': {
           // The user friendly names are too long, need to trim them
-
-
           const stats = { ...response };
           delete stats.status;
           Object.keys(stats).forEach((key) => {
@@ -430,8 +430,11 @@ export class AgentDesktop extends React.Component {
         }
         case 'cxengage/entities/get-queues-response': {
           this.props.setQueues(response.result);
-          CxEngage.reporting.getAvailableStats();
-          this.props.showLogin(false);
+          // If this is the first time calling getQueues (from session-started), load the availableStats
+          if (Object.keys(this.props.availableStats).length === 0) {
+            CxEngage.reporting.getAvailableStats();
+            this.props.showLogin(false);
+          }
           break;
         }
         case 'cxengage/interactions/disposition-codes-received': {
@@ -457,12 +460,11 @@ export class AgentDesktop extends React.Component {
           break;
         // Igonore these pubsubs. They are unneeded or handled elsewhere.
         case 'cxengage/authentication/login-response': // Handled in Login component
+        case 'cxengage/contacts/create-contact-response': // Handled in ContactsControl
+        case 'cxengage/contacts/delete-contact-response': // Handled in ContactsControl
+        case 'cxengage/contacts/search-contacts-response': // Handled in ContactsControl & AgentDesktop callback
         case 'cxengage/entities/get-users-response': // Handled in TransferMenu
         case 'cxengage/entities/get-transfer-lists-response': // Handled in TransferMenu
-        case 'cxengage/session/tenant-list': // Using tenants from login-response
-        case 'cxengage/session/set-active-tenant-response': // Handled in Login component
-        case 'cxengage/session/state-change-request-acknowledged': // Ignore
-        case 'cxengage/session/heartbeat-response': // Ignore
         case 'cxengage/interactions/accept-acknowledged': // Using cxengage/interactions/work-accepted instead
         case 'cxengage/interactions/end-acknowledged': // Using cxengage/interactions/work-ended instead
         case 'cxengage/interactions/email/attachment-received': // Handled in callback of cxengage/interactions/email/details-received
@@ -481,14 +483,17 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/interactions/end-wrapup-acknowledged': // Ignore - comes with a work-ended.
         case 'cxengage/interactions/voice/send-digits-acknowledged': // Handled in Dialpad
         case 'cxengage/interactions/get-notes-response': // Handled in contactInteractionHistory
+        case 'cxengage/reporting/get-capacity-response': // Handled in TransferMenu
+        case 'cxengage/reporting/get-contact-interaction-history-response': // Handled in contactInteractionHistory saga
+        case 'cxengage/reporting/get-stat-query-response': // Handled in TransferMenu
         case 'cxengage/reporting/polling-started': // Ignore
         case 'cxengage/reporting/polling-stopped': // Ignore
         case 'cxengage/reporting/stat-subscription-added': // Handled by Toolbar
         case 'cxengage/reporting/stat-subscription-removed': // Handled by Toolbar
-        case 'cxengage/reporting/get-contact-interaction-history-response': // Handled in contactInteractionHistory saga
-        case 'cxengage/contacts/search-contacts-response': // Handled in ContactsControl & AgentDesktop callback
-        case 'cxengage/contacts/create-contact-response': // Handled in ContactsControl
-        case 'cxengage/contacts/delete-contact-response': // Handled in ContactsControl
+        case 'cxengage/session/heartbeat-response': // Ignore
+        case 'cxengage/session/set-active-tenant-response': // Handled in Login component
+        case 'cxengage/session/state-change-request-acknowledged': // Ignore
+        case 'cxengage/session/tenant-list': // Using tenants from login-response
           break;
         default: {
           console.warn('[AgentDesktop] CxEngage.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console
@@ -640,6 +645,7 @@ export class AgentDesktop extends React.Component {
 const mapStateToProps = (state, props) => ({
   login: selectLoginMap(state, props).toJS(),
   agentDesktop: selectAgentDesktopMap(state, props).toJS(),
+  availableStats: selectAvailableStats(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -758,6 +764,7 @@ AgentDesktop.propTypes = {
   // logout: PropTypes.func.isRequired,
   login: PropTypes.object,
   agentDesktop: PropTypes.object,
+  availableStats: PropTypes.object,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(AgentDesktop)));

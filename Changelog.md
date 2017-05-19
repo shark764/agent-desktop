@@ -1,3 +1,6 @@
+### [0.36.0] (2017-06-18)
+* CXV1-8563 - Agent capacity and Queue average time on Transfer Menu
+
 ### [0.35.11] (2017-06-18)
 * Fix transfer user fetch
 

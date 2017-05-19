@@ -18,6 +18,7 @@ import {
   REMOVE_SCRIPT,
   SET_ACTIVE_EXTENSION,
   SET_QUEUES,
+  SET_QUEUE_TIME,
   SET_PRESENCE,
   SET_INTERACTION_STATUS,
   START_OUTBOUND_INTERACTION,
@@ -74,7 +75,7 @@ import {
   SHOW_REFRESH_NOTIF,
 } from './constants';
 
-// import { outboundConnectingVoiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithLotsOfMessagesAndScript2 } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
+// import { outboundConnectingVoiceInteraction, voiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithLotsOfMessagesAndScript2 } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
 
 const initialState = fromJS({
   // Uncomment to allow login screen to be hidden
@@ -82,6 +83,7 @@ const initialState = fromJS({
   interactions: [
     // Un-comment out below (and the above imports) to mock interactions (only use one voice interaction at a time):
     // outboundConnectingVoiceInteraction,
+    // voiceInteraction,
     // voiceInteractionWithTransfersAndScripts,
     // emailInteraction,
     // smsInteractionWithLotsOfMessagesAndScript,
@@ -226,6 +228,16 @@ function agentDesktopReducer(state = initialState, action) {
       return state.set('activeExtension', fromJS(action.activeExtension));
     case SET_QUEUES:
       return state.set('queues', fromJS(action.queues));
+    case SET_QUEUE_TIME: {
+      const queueIndex = state.get('queues').findIndex((queue) =>
+        queue.get('id') === action.queueId
+      );
+      if (queueIndex !== -1) {
+        return state.setIn(['queues', queueIndex, 'queueTime'], action.queueTime);
+      } else {
+        return state;
+      }
+    }
     case SET_PRESENCE: {
       const systemPresenceReasonList = state.get('presenceReasonLists').find((reasonList) => reasonList.get('name') === 'System Presence Reasons');
       const isSystemReason = (
