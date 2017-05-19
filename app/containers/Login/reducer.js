@@ -57,7 +57,7 @@ function loginReducer(state = initialState, action) {
         .set('tenant_error_message', fromJS(action.error));
     case SET_TENANT:
       return state
-        .set('tenant', { id: action.id, name: action.name })
+        .set('tenant', fromJS({ id: action.id, name: action.name }))
         .set('tenant_error', false);
     case SHOW_LOGIN:
       return state
