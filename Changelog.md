@@ -1,4 +1,8 @@
+### [0.37.1] (2017-05-19)
+* CXV1-9359 - Fix stat issue (convert stats to saga)
+
 ### [0.37.0] (2017-05-19)
+* CXV1-6938 - Contact Merge
 
 ### [0.36.1] (2017-05-19)
 * Test errors

@@ -25,9 +25,21 @@ const selectRefresh = createSelector(
   (substate) => substate.get('refreshRequired')
 );
 
+const selectTenant = createSelector(
+  selectLoginDomain,
+  (substate) => substate.get('tenant').toJS()
+);
+
+const selectAgent = createSelector(
+  selectLoginDomain,
+  (substate) => substate.get('agent').toJS()
+);
+
 export default selectLogin;
 export {
   selectLoginDomain,
   selectAgentDesktopDomain,
   selectRefresh,
+  selectTenant,
+  selectAgent,
 };
