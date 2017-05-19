@@ -1,3 +1,6 @@
+### [0.36.1] (2017-06-19)
+* Test errors
+
 ### [0.36.0] (2017-06-18)
 * CXV1-8563 - Agent capacity and Queue average time on Transfer Menu
 

@@ -45,6 +45,12 @@ export class PhoneControlsInactive extends React.Component {
     if (formattedDialpadText.indexOf('+') !== 0) {
       formattedDialpadText = `+${formattedDialpadText}`;
     }
+
+    // XXX remove this after error testing
+    if (formattedDialpadText === '+15068675309') {
+      throw new Error('Test error');
+    }
+
     let isValid = false;
     try {
       isValid = this.phoneNumberUtil.isValidNumber(this.phoneNumberUtil.parse(formattedDialpadText, 'E164'));
