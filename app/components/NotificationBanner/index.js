@@ -13,43 +13,46 @@ import Button from 'components/Button';
 
 import messages from './messages';
 
-function NotificationBanner(props) {
-  const styles = {
-    base: {
-      backgroundColor: props.isError ? '#FE4565' : '#072931',
-      width: 'calc(100% + 76px)',
-      height: '35px',
-      position: 'relative',
-      left: '-51px',
-      display: 'flex',
-      alignItems: 'stretch',
-      color: 'white',
-      flexShrink: 0,
-    },
-    typeText: {
-      fontWeight: '600',
-      alignSelf: 'center',
-    },
-    messageText: {
-      alignSelf: 'center',
-    },
-    tryAgainText: {
-      textDecoration: 'underline',
-      cursor: 'pointer',
-      alignSelf: 'center',
-    },
-    leftGutter: {
-      width: '52px',
-    },
-    closeButton: {
-      margin: '0 10px 0 0',
-      border: '0',
-      alignSelf: 'center',
-    },
-  };
+const styles = {
+  base: {
+    backgroundColor: '#072931',
+    width: 'calc(100% + 76px)',
+    height: '35px',
+    position: 'relative',
+    left: '-51px',
+    display: 'flex',
+    alignItems: 'stretch',
+    color: 'white',
+    flexShrink: 0,
+  },
+  baseError: {
+    backgroundColor: '#FE4565',
+  },
+  typeText: {
+    fontWeight: '600',
+    alignSelf: 'center',
+  },
+  messageText: {
+    alignSelf: 'center',
+  },
+  tryAgainText: {
+    textDecoration: 'underline',
+    cursor: 'pointer',
+    alignSelf: 'center',
+  },
+  leftGutter: {
+    width: '52px',
+  },
+  closeButton: {
+    margin: '0 10px 0 0',
+    border: '0',
+    alignSelf: 'center',
+  },
+};
 
+function NotificationBanner(props) {
   return (
-    <div id={props.id} style={[styles.base]} key={props.key}>
+    <div id={props.id} style={[styles.base, props.isError && styles.baseError]} key={props.key}>
       <div style={styles.leftGutter}></div>
       {
         props.isError

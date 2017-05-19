@@ -5,9 +5,9 @@
 */
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+import { FormattedMessage } from 'react-intl';
 
 import Icon from 'components/Icon';
 

@@ -6,50 +6,50 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import Radium from 'radium';
 import 'velocity-animate';
 import 'velocity-animate/velocity.ui';
 import { VelocityTransitionGroup } from 'velocity-react';
 
-import Radium from 'radium';
+const styles = {
+  base: {
+    width: '100px',
+    borderRadius: '8px',
+    backgroundColor: '#FFFFFF',
+    boxShadow: '0 0 6px 1px rgba(0,0,0,0.29)',
+    margin: '10px',
+    color: '#4b4b4b',
+    zIndex: 3,
+    position: 'relative',
+  },
+  triangle: {
+    position: 'absolute',
+    width: '0px',
+    height: '0px',
+    left: '40px',
+    bottom: '-8px',
+    zIndex: '1',
+    borderWidth: '8px',
+    borderStyle: 'solid',
+    borderColor: '#FFF transparent transparent #FFF',
+    borderImage: 'initial',
+    transform: 'rotate(-134deg)',
+    boxShadow: '-6px -6px 11px -4px rgba(0,0,0,0.29)',
+    borderRadius: '3px',
+  },
+  mask: {
+    position: 'fixed',
+    height: '100vh',
+    width: '100vw',
+    top: '0px',
+    left: '0px',
+    zIndex: '2',
+  },
+};
 
 function PopupDialog(props) {
-  const leftOffsetPx = (typeof props.arrowLeftOffsetPx !== 'undefined') ? props.arrowLeftOffsetPx : Math.round(props.widthPx / 4);
-
-  const styles = {
-    base: {
-      width: `${props.widthPx}px`,
-      borderRadius: '8px',
-      backgroundColor: '#FFFFFF',
-      boxShadow: '0 0 6px 1px rgba(0,0,0,0.29)',
-      margin: '10px',
-      color: '#4b4b4b',
-      zIndex: 3,
-      position: 'relative',
-    },
-    triangle: {
-      position: 'absolute',
-      width: '0px',
-      height: '0px',
-      left: `${leftOffsetPx}px`,
-      bottom: '-8px',
-      zIndex: '1',
-      borderWidth: '8px',
-      borderStyle: 'solid',
-      borderColor: '#FFF transparent transparent #FFF',
-      borderImage: 'initial',
-      transform: 'rotate(-134deg)',
-      boxShadow: '-6px -6px 11px -4px rgba(0,0,0,0.29)',
-      borderRadius: '3px',
-    },
-    mask: {
-      position: 'fixed',
-      height: '100vh',
-      width: '100vw',
-      top: '0px',
-      left: '0px',
-      zIndex: '2',
-    },
-  };
+  styles.base.width = `${props.widthPx}px`;
+  styles.triangle.left = `${(typeof props.arrowLeftOffsetPx !== 'undefined') ? props.arrowLeftOffsetPx : Math.round(props.widthPx / 4)}px`;
 
   return (
     <div>

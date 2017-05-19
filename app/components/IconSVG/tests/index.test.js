@@ -1,18 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import IconSVG from '../index';
-
-const names = [
-  'dialpad',
-  'loading',
-  'loadingWhite',
-  'add',
-  'close',
-];
+import IconSVG, { availableIcons } from '../index';
 
 describe('<IconSVG />', () => {
-  names.forEach((name) => {
+  availableIcons.forEach((name) => {
     describe(`with name ${name}`, () => {
       it('should render correctly', () => {
         const rendered = shallow(

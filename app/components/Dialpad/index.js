@@ -11,17 +11,17 @@ import Radium from 'radium';
 import ButtonDialpad from 'components/ButtonDialpad';
 import TextInput from 'components/TextInput';
 
-function Dialpad(props) {
-  const styles = {
-    dialpadText: {
-      height: '32px',
-      width: '100%',
-    },
-    dialpadButtonContainer: {
-      marginTop: '13px',
-    },
-  };
+const styles = {
+  dialpadText: {
+    height: '32px',
+    width: '100%',
+  },
+  dialpadButtonContainer: {
+    marginTop: '13px',
+  },
+};
 
+function Dialpad(props) {
   function buttonPress(num) {
     props.setDialpadText(`${props.dialpadText}${num}`);
     if (props.interactionId !== undefined) {
@@ -44,7 +44,8 @@ function Dialpad(props) {
         disabled={props.inCall || false}
         onEnter={props.onEnter}
         value={props.dialpadText}
-        autoFocus style={styles.dialpadText}
+        style={styles.dialpadText}
+        autoFocus
       />
       <div style={styles.dialpadButtonContainer}>
         <ButtonDialpad id={`${props.id}1Button`} text="1" type="topLeft" onClick={() => buttonPress('1')} />

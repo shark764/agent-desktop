@@ -4,14 +4,30 @@ import { shallow } from 'enzyme';
 import Dialpad from '../index';
 
 describe('<Dialpad />', () => {
-  it('should render correctly', () => {
-    const rendered = shallow(
-      <Dialpad
-        id="mockId"
-        dialpadText="mockDialpadText"
-        setDialpadText={() => {}}
-      />
-    );
-    expect(rendered).toMatchSnapshot();
+  describe('when given required props', () => {
+    it('should render correctly', () => {
+      const rendered = shallow(
+        <Dialpad
+          id="mockId"
+          dialpadText="mockDialpadText"
+          setDialpadText={() => {}}
+        />
+      );
+      expect(rendered).toMatchSnapshot();
+    });
+  });
+
+  describe('when inCall prop set to true', () => {
+    it('should render correctly', () => {
+      const rendered = shallow(
+        <Dialpad
+          id="mockId"
+          dialpadText="mockDialpadText"
+          setDialpadText={() => {}}
+          inCall
+        />
+      );
+      expect(rendered).toMatchSnapshot();
+    });
   });
 });

@@ -5,9 +5,7 @@
 */
 
 import React from 'react';
-
 import PropTypes from 'prop-types';
-
 import Radium from 'radium';
 
 import 'font-awesome/css/font-awesome.css';
