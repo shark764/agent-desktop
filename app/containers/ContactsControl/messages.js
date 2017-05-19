@@ -6,48 +6,36 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  edit: {
-    id: 'app.containers.ContactControl.edit',
-    defaultMessage: 'Edit',
-  },
-  filtersList: {
-    id: 'app.containers.ContactControl.filtersList',
-    defaultMessage: '(name, email address, mailing address, phone number, organization, customer number)',
-  },
   searchText: {
-    id: 'app.containers.ContactControl.searchCRM',
+    id: 'app.containers.ContactsControl.searchCRM',
     defaultMessage: 'Search the CRM database',
   },
-  newRecord: {
-    id: 'app.containers.ContactControl.newRecord',
-    defaultMessage: 'Create New Record',
+  filtersList: {
+    id: 'app.containers.ContactsControl.filtersList',
+    defaultMessage: '(name, email address, mailing address, phone number, organization, customer number)',
   },
   or: {
-    id: 'app.containers.ContactControl.or',
+    id: 'app.containers.ContactsControl.or',
     defaultMessage: 'OR',
   },
-  loading: {
-    id: 'app.containers.ContactControl.loading',
-    defaultMessage: 'Loading...',
+  errorRequired: {
+    id: 'app.containers.ContactsControl.errorRequired',
+    defaultMessage: 'Required',
   },
-  newContactBanner: {
-    id: 'app.containers.ContactControl.newContact',
-    defaultMessage: 'New Customer Record',
+  errorEmail: {
+    id: 'app.containers.ContactsControl.errorEmail',
+    defaultMessage: 'Invalid Email',
   },
-  contactEditingBanner: {
-    id: 'app.containers.SidePanel.editing',
-    defaultMessage: 'Editing Customer Record',
+  errorPhone: {
+    id: 'app.containers.ContactsControl.errorPhone',
+    defaultMessage: 'Invalid Phone Number',
   },
-  delete: {
-    id: 'app.containers.ContactControl.delete',
-    defaultMessage: 'Delete',
+  errorLink: {
+    id: 'app.containers.ContactsControl.errorLink',
+    defaultMessage: 'Invalid URL',
   },
-  deleteContact: {
-    id: 'app.containers.ContactControl.deleteContact',
-    defaultMessage: 'Delete Contact?',
-  },
-  deleteContacts: {
-    id: 'app.containers.ContactControl.deleteContacts',
-    defaultMessage: 'Delete {count} Contacts?',
+  errorNumber: {
+    id: 'app.containers.ContactsControl.errorNumber',
+    defaultMessage: 'Invalid Number',
   },
 });

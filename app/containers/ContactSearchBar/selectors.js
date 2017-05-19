@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
 
-const selectContactsControlDomain = (state) => state.get('contactsControl');
+const selectInfoTabDomain = (state) => state.get('infoTab');
 
 const selectQuery = createSelector(
-  selectContactsControlDomain,
-  (contactsControl) => contactsControl.get('query').toJS()
+  selectInfoTabDomain,
+  (infoTab) => infoTab.get('query').toJS()
 );
 
 const selectSidePanelDomain = (state) => state.get('sidePanel');

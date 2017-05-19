@@ -16,7 +16,7 @@ import { FormattedMessage } from 'react-intl';
 import Tabs from 'components/Tabs';
 
 import AgentScript from 'containers/AgentScript';
-import ContactsControl from 'containers/ContactsControl';
+import InfoTab from 'containers/InfoTab';
 import ContactInteractionHistory from 'containers/ContactInteractionHistory';
 
 import { setSidePanelTabIndex } from 'containers/AgentDesktop/actions';
@@ -155,11 +155,10 @@ export class SidePanel extends React.Component {
               }
             </TabList>
             <TabPanel>
-              <ContactsControl
+              <InfoTab
                 isCollapsed={this.props.isCollapsed}
                 addSearchFilter={this.props.addSearchFilter}
                 removeSearchFilter={this.props.removeSearchFilter}
-                setContactAction={this.props.setContactAction}
                 style={this.styles.rightMargin}
               />
             </TabPanel>
@@ -217,7 +216,6 @@ SidePanel.propTypes = {
   hasAssignedContact: PropTypes.bool.isRequired,
   addSearchFilter: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
-  setContactAction: PropTypes.func.isRequired,
   setSidePanelTabIndex: PropTypes.func.isRequired,
 };
 

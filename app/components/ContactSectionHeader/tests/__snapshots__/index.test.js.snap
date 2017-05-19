@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ContactSectionHeader /> should render correctly 1`] = `
+<div
+  data-radium={true}
+  style={
+    Object {
+      "fontSize": "15px",
+      "height": "17px",
+      "lineHeight": "18px",
+      "marginBottom": "8px",
+    }
+  }
+>
+  mock
+</div>
+`;

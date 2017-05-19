@@ -1,13 +1,15 @@
-### [0.36.1] (2017-06-19)
+### [0.37.0] (2017-05-19)
+
+### [0.36.1] (2017-05-19)
 * Test errors
 
-### [0.36.0] (2017-06-18)
+### [0.36.0] (2017-05-18)
 * CXV1-8563 - Agent capacity and Queue average time on Transfer Menu
 
-### [0.35.11] (2017-06-18)
+### [0.35.11] (2017-05-18)
 * Fix transfer user fetch
 
-### [0.35.10] (2017-06-18)
+### [0.35.10] (2017-05-18)
 * BUGFIX - contact pop search broken
 * BUGFIX - Voice pathway arrow outta place
 * SDK 5.0.0!
@@ -15,37 +17,37 @@
 * BUGFIX - Reason codes not showing (SDK fix)
 * Lil bit o' app description in readme
 
-### [0.35.9] (2017-06-18)
+### [0.35.9] (2017-05-18)
 * Sentry config; restrict to non-dev. Source map for non-dev.
 
-### [0.35.8] (2017-06-18)
+### [0.35.8] (2017-05-18)
 * CXV1-9314 - Update Dependencies (React 15.5 Prep, sanitize.css, nothing disruptive)
 
-### [0.35.7] (2017-06-18)
+### [0.35.7] (2017-05-18)
 * BUGFIX - Fixed button styling border in confirm dialog
 
-### [0.35.6] (2017-06-17)
+### [0.35.6] (2017-05-17)
 * CXV1-9062 - Refactor styles block of Avatar. Refactor styles block of Button + Tests.
 
-### [0.35.5] (2017-06-17)
+### [0.35.5] (2017-05-17)
 * Fixed interactions without contact assigned
 
-### [0.35.4] (2017-06-17)
+### [0.35.4] (2017-05-17)
 * Dependency updates - !major || (!semver && !breaking-changes)
 
-### [0.35.3] (2017-06-17)
+### [0.35.3] (2017-05-17)
 * Bump to SDK 5 Snapshot 301 for contact search query fixes
 * Back to script tag SDK loading for the nice debugging stack
 * BUGFIX: Contact editing errors out
 
-### [0.35.2] (2017-06-17)
+### [0.35.2] (2017-05-17)
 * CXV1-9130: Fixed contact search bar styling in Firefox.
 * Fixed long tenant names in status menu.
 
-### [0.35.1] (2017-06-16)
+### [0.35.1] (2017-05-16)
 * Fallback to SDK from npm until https is fixed
 
-### [0.35.0] (2017-06-16)
+### [0.35.0] (2017-05-16)
 * Bump SDK to v5.0.0
 
 ### [0.34.12] (2017-05-16)
@@ -738,6 +740,10 @@
 #### Initial Commit
 * Here we go!
 
+[0.37.0]: http://www.github.com/liveops/agent-desktop/compare/0.36.1...0.37.0
+[0.36.1]: http://www.github.com/liveops/agent-desktop/compare/0.36.0...0.36.1
+[0.36.0]: http://www.github.com/liveops/agent-desktop/compare/0.35.11...0.36.0
+[0.35.11]: http://www.github.com/liveops/agent-desktop/compare/0.35.10...0.35.11
 [0.35.10]: http://www.github.com/liveops/agent-desktop/compare/0.35.9...0.35.10
 [0.35.9]: http://www.github.com/liveops/agent-desktop/compare/0.35.8...0.35.9
 [0.35.8]: http://www.github.com/liveops/agent-desktop/compare/0.35.7...0.35.8

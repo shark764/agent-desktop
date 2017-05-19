@@ -4,46 +4,63 @@
  *
  */
 
-import { fromJS, List } from 'immutable';
+import { fromJS } from 'immutable';
 import {
-  SET_SEARCH_RESULTS,
-  CLEAR_SEARCH_RESULTS,
+  SET_SHOW_CANCEL_DIALOG,
+  SET_FORM_IS_DIRTY,
+  SET_FORM_VALIDITY,
+  SET_FORM_FIELD,
+  SET_FORM_ERROR,
+  SET_SHOW_ERROR,
+  SET_UNUSED_FIELD,
+  SET_SELECTED_INDEX,
+  RESET_FORM,
 } from './constants';
 
 const initialState = fromJS({
-  results: [],
-  nextPage: 1,
-  loading: false,
-  resultsCount: -1,
+  showCancelDialog: false,
+  formIsDirty: false,
+  formIsValid: false,
+  contactForm: {},
+  formErrors: {},
+  showErrors: {},
+  unusedFields: {},
+  selectedIndexes: {},
 });
 
 function contactsControlReducer(state = initialState, action) {
   switch (action.type) {
-    case CLEAR_SEARCH_RESULTS: {
+    case SET_SHOW_CANCEL_DIALOG:
       return state
-        .set('results', new List())
-        .set('nextPage', 1)
-        .set('resultsCount', -1);
-    }
-    case SET_SEARCH_RESULTS: {
-      let results = state.get('results');
-      let validResultsCount = action.response.count;
-      if (action.response.page === state.get('nextPage')) {
-        action.response.results.forEach((newResult) => {
-          if (newResult) { // search returns null for contact immediately after it's been deleted
-            results = results.push(fromJS(newResult));
-          } else {
-            validResultsCount -= 1;
-          }
-        });
-        return state
-          .set('results', results)
-          .set('nextPage', action.response.page + 1)
-          .set('resultsCount', validResultsCount);
-      } else {
-        return state;
-      }
-    }
+        .set('showCancelDialog', action.showCancelDialog);
+    case SET_FORM_IS_DIRTY:
+      return state
+        .set('formIsDirty', action.formIsDirty);
+    case SET_FORM_VALIDITY:
+      return state
+        .set('formIsValid', action.formIsValid);
+    case SET_FORM_FIELD:
+      return state
+        .set('contactForm', fromJS({ ...state.get('contactForm').toJS(), [action.field]: action.value }));
+    case SET_FORM_ERROR:
+      return state
+        .set('formErrors', fromJS({ ...state.get('formErrors').toJS(), [action.field]: action.error }));
+    case SET_SHOW_ERROR:
+      return state
+        .set('showErrors', fromJS({ ...state.get('showErrors').toJS(), [action.field]: action.error }));
+    case SET_UNUSED_FIELD:
+      return state
+        .set('unusedFields', fromJS({ ...state.get('unusedFields').toJS(), [action.field]: action.value }));
+    case SET_SELECTED_INDEX:
+      return state
+        .set('selectedIndexes', fromJS({ ...state.get('selectedIndexes').toJS(), [action.field]: action.index }));
+    case RESET_FORM:
+      return state
+        .set('contactForm', fromJS({}))
+        .set('formErrors', fromJS({}))
+        .set('showErrors', fromJS({}))
+        .set('unusedFields', fromJS({}))
+        .set('selectedIndexes', fromJS({}));
     default:
       return state;
   }

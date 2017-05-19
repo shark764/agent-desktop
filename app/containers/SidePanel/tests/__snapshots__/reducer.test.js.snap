@@ -3,6 +3,8 @@
 exports[`sidePanelReducer returns the initial state 1`] = `
 Object {
   "contactAttributes": Array [],
-  "contactLayout": undefined,
+  "contactLayout": Object {
+    "layout": Array [],
+  },
 }
 `;
