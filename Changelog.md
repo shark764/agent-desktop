@@ -1,3 +1,6 @@
+### [0.37.2] (2017-05-22)
+* BUGFIX - Bug prevention for a agent selecting a status while another status is still pending
+
 ### [0.37.1] (2017-05-19)
 * CXV1-9359 - Fix stat issue (convert stats to saga)
 

@@ -58,6 +58,10 @@ const styles = {
     textDecoration: 'underline',
     cursor: 'pointer',
   },
+  disabledPresenceUpdate: {
+    cursor: 'default',
+    color: '#979797',
+  },
   activePresence: {
     fontWeight: 'bold',
   },
@@ -85,17 +89,26 @@ export class AgentStatusMenu extends React.Component {
     this.state = {
       showReasonMenuInfo: {},
       clearHoverInt: 0,
+      statusLoading: false,
     };
   }
 
-  clearHover() { // Longstanding radium bug where mouseleave event is never triggered https://github.com/FormidableLabs/radium/issues/524
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.readyState !== this.props.readyState || nextProps.selectedPresenceReason !== this.props.selectedPresenceReason) {
+      this.setState({ statusLoading: false });
+    }
+  }
+
+  clearHover = () => { // Longstanding radium bug where mouseleave event is never triggered https://github.com/FormidableLabs/radium/issues/524
     this.setState({ clearHoverInt: this.state.clearHoverInt + 1 });
   }
 
-  changePresence(newPresence, reason, listId) {
+  changePresence = (newPresence, reason, listId) => {
     if (newPresence === 'ready') {
+      this.setState({ statusLoading: true });
       CxEngage.session.goReady({ extensionValue: this.props.activeExtension.value });
     } else if (newPresence === 'notready') {
+      this.setState({ statusLoading: true });
       this.props.goNotReady(reason, listId);
     } else {
       throw new Error('newPresence is neither ready nor notready:', newPresence);
@@ -104,7 +117,9 @@ export class AgentStatusMenu extends React.Component {
     this.props.showAgentStatusMenu(false);
   }
 
-  renderReason(reason, listId, includeSectionName) {
+  goReady = () => { this.changePresence('ready'); }
+
+  renderReason = (reason, listId, includeSectionName) => {
     const isSelected = (this.props.selectedPresenceReason.reasonId === reason.reasonId && this.props.selectedPresenceReason.listId === listId);
     const selectReason = () => {
       this.changePresence('notready', reason, listId);
@@ -120,11 +135,12 @@ export class AgentStatusMenu extends React.Component {
         }
         isSelected={isSelected}
         onSelect={selectReason}
+        disabled={this.state.statusLoading}
       />
     );
   }
 
-  renderCategory(category, listId, categoryIndex) {
+  renderCategory = (category, listId, categoryIndex) => {
     if (category.reasons.length === 1) {
       return this.renderReason(category.reasons[0], listId, true);
     }
@@ -152,29 +168,27 @@ export class AgentStatusMenu extends React.Component {
     );
   }
 
-  renderList(reasonList) {
-    return [
-      <div
-        id={`notReadyStateTitle-${reasonList.id}`}
-        key={`notReadyStateTitle-${reasonList.id}`}
-        style={styles.listTitle}
-      >
-        <div>
-          {reasonList.name}
-        </div>
-      </div>,
-      <div key={`reasonListTitleBottom-${reasonList.id}`} style={[styles.narrowDivider, { margin: '5px 24px' }]}></div>,
-      <div key={`reasonListBody-${reasonList.id}`}>
-        {reasonList.reasons.map((reasonData, index) => {
-          if (reasonData.type === 'category') {
-            return this.renderCategory(reasonData, reasonList.id, index);
-          } else {
-            return this.renderReason(reasonData, reasonList.id);
-          }
-        })}
-      </div>,
-    ];
-  }
+  renderList = (reasonList) => [
+    <div
+      id={`notReadyStateTitle-${reasonList.id}`}
+      key={`notReadyStateTitle-${reasonList.id}`}
+      style={styles.listTitle}
+    >
+      <div>
+        {reasonList.name}
+      </div>
+    </div>,
+    <div key={`reasonListTitleBottom-${reasonList.id}`} style={[styles.narrowDivider, { margin: '5px 24px' }]}></div>,
+    <div key={`reasonListBody-${reasonList.id}`}>
+      {reasonList.reasons.map((reasonData, index) => {
+        if (reasonData.type === 'category') {
+          return this.renderCategory(reasonData, reasonList.id, index);
+        } else {
+          return this.renderReason(reasonData, reasonList.id);
+        }
+      })}
+    </div>,
+  ];
 
   render() {
     return (
@@ -218,7 +232,13 @@ export class AgentStatusMenu extends React.Component {
             }
             style={{ borderBottom: 'solid 1px #e4e4e4' }}
           />
-          <div id="agentNotReadyState" style={styles.notReadyReasons}>
+          <div
+            id="agentNotReadyState"
+            style={[
+              styles.notReadyReasons,
+              this.state.statusLoading && styles.disabledPresenceUpdate,
+            ]}
+          >
             {
               this.props.presenceReasonLists.map(this.renderList, this)
             }
@@ -237,8 +257,12 @@ export class AgentStatusMenu extends React.Component {
             </div>
             : <div
               id="readyStateLink"
-              style={[styles.presenceLinkContainer, styles.inactivePresence]}
-              onClick={() => { this.changePresence('ready'); }}
+              style={[
+                styles.presenceLinkContainer,
+                styles.inactivePresence,
+                this.state.statusLoading && styles.disabledPresenceUpdate,
+              ]}
+              onClick={!this.state.statusLoading && this.goReady}
             >
               <FormattedMessage {...messages.ready} />
             </div>
