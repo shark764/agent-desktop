@@ -6,7 +6,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radium from 'radium';
 
 import './styles.css';
 
@@ -39,4 +38,4 @@ LoadingText.propTypes = {
   withSquare: PropTypes.bool,
 };
 
-export default Radium(LoadingText);
+export default LoadingText;

@@ -10,9 +10,6 @@ exports[`<IconSVG /> with name add should render correctly 1`] = `
   path="test-file-stub"
   style={
     Object {
-      ":hover": Object {
-        "content": "",
-      },
       "borderRadius": "50%",
     }
   }
@@ -29,9 +26,6 @@ exports[`<IconSVG /> with name close should render correctly 1`] = `
   path="test-file-stub"
   style={
     Object {
-      ":hover": Object {
-        "content": "",
-      },
       "borderRadius": "50%",
     }
   }
@@ -48,9 +42,6 @@ exports[`<IconSVG /> with name dialpad should render correctly 1`] = `
   path="test-file-stub"
   style={
     Object {
-      ":hover": Object {
-        "content": "",
-      },
       "borderRadius": "50%",
     }
   }
@@ -67,9 +58,6 @@ exports[`<IconSVG /> with name loading should render correctly 1`] = `
   path="test-file-stub"
   style={
     Object {
-      ":hover": Object {
-        "content": "",
-      },
       "borderRadius": "50%",
     }
   }
@@ -86,9 +74,6 @@ exports[`<IconSVG /> with name loadingWhite should render correctly 1`] = `
   path="test-file-stub"
   style={
     Object {
-      ":hover": Object {
-        "content": "",
-      },
       "borderRadius": "50%",
     }
   }

@@ -6,10 +6,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { FormattedMessage } from 'react-intl';
+
 import PopupDialog from 'components/PopupDialog';
 import Button from 'components/Button';
+
 import messages from './messages';
 
 const styles = {

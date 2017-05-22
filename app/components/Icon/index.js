@@ -5,6 +5,8 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import Radium from 'radium';
 
 import checkStatus from 'assets/icons/check_status.png';
 import config from 'assets/icons/config.png';
@@ -30,13 +32,8 @@ import transferSprite from 'assets/icons/transfer_sprite.png';
 import transferDarkSprite from 'assets/icons/transfer_dark_sprite.png';
 import dialpadSprite from 'assets/icons/dialpad_sprite.png';
 import dialpadDarkSprite from 'assets/icons/dialpad_dark_sprite.png';
-import earth from 'assets/icons/earth.png';
 
-import PropTypes from 'prop-types';
-
-import Radium from 'radium';
-
-const availableIcons = [
+export const availableIcons = [
   'arrow_return',
   'arrow_up_down',
   'attachment',
@@ -46,7 +43,6 @@ const availableIcons = [
   'connected',
   'dialpad',
   'dialpad_dark',
-  'earth',
   'email',
   'email_dark',
   'email_new',
@@ -64,228 +60,183 @@ const availableIcons = [
   'voice_dark',
 ];
 
-function Icon(props) {
-  let icon;
-  let iconSprite;
-  let backgroundPosition;
-  let backgroundPositionHover;
-  let display;
-  let borderRadius;
-  let backgroundSize;
-  let height;
-  let width;
-  let className;
-  switch (props.name) {
-    case 'config':
-      icon = config;
-      break;
-    case 'search':
-      icon = search;
-      height = '16px';
-      width = '16px';
-      break;
-    case 'checkStatus':
-      icon = checkStatus;
-      height = '17px';
-      break;
-    case 'close':
-      icon = close;
-      break;
-    case 'arrow_return':
-      icon = arrowReturn;
-      break;
-    case 'arrow_up_down':
-      icon = arrowUpDown;
-      break;
-    case 'attachment':
-      icon = attachment;
-      width = '16px';
-      height = '16px';
-      break;
-    case 'message':
-      icon = message;
-      width = '18px';
-      height = '15px';
-      break;
-    case 'message_new':
-      icon = messageNew;
-      width = '18px';
-      height = '15px';
-      break;
-    case 'message_dark':
-      icon = messageDark;
-      height = '20px';
-      width = '20px';
-      break;
-    case 'email':
-      icon = email;
-      width = '18px';
-      height = '15px';
-      break;
-    case 'email_new':
-      icon = emailNew;
-      width = '18px';
-      height = '15px';
-      break;
-    case 'email_dark':
-      icon = emailDark;
-      height = '17px';
-      width = '20px';
-      break;
-    case 'voice':
-      icon = voice;
-      height = '20px';
-      width = '16px';
-      break;
-    case 'voice_dark':
-      icon = voiceDark;
-      height = '20px';
-      width = '16px';
-      break;
-    case 'connected':
-      icon = connected;
-      break;
-    case 'not_connected':
-      icon = notConnected;
-      break;
-    case 'endCall':
-      iconSprite = endCallSprite;
-      height = '40px';
-      width = '40px';
-      display = 'block';
-      borderRadius = '50%';
-      backgroundPositionHover = '-80px 0';
-      break;
-    case 'mute':
-      iconSprite = muteSprite;
-      height = '40px';
-      width = '40px';
-      display = 'block';
-      borderRadius = '50%';
-      if (props.active) {
-        backgroundPosition = '-80px 0';
-        className = 'active';
-      }
-      backgroundPositionHover = '-40px 0';
-      break;
-    case 'hold':
-      iconSprite = holdSprite;
-      height = '40px';
-      width = '40px';
-      display = 'block';
-      borderRadius = '50%';
-      if (props.active) {
-        backgroundPosition = '-80px 0';
-        className = 'active';
-      }
-      backgroundPositionHover = '-40px 0';
-      break;
-    case 'transfer':
-      iconSprite = transferSprite;
-      height = '40px';
-      width = '40px';
-      display = 'block';
-      borderRadius = '50%';
-      if (props.active) {
-        backgroundPosition = '-80px 0';
-        className = 'active';
-      }
-      backgroundPositionHover = '-40px 0';
-      break;
-    case 'transfer_dark':
-      iconSprite = transferDarkSprite;
-      height = '40px';
-      width = '40px';
-      backgroundSize = '120px 40px';
-      display = 'block';
-      borderRadius = '50%';
-      if (props.active) {
-        backgroundPosition = '-80px 0';
-        className = 'active';
-      }
-      backgroundPositionHover = '-40px 0';
-      break;
-    case 'dialpad':
-      iconSprite = dialpadSprite;
-      height = '40px';
-      width = '40px';
-      display = 'block';
-      borderRadius = '50%';
-      if (props.active) {
-        backgroundPosition = '-80px 0';
-        className = 'active';
-      }
-      backgroundPositionHover = '-40px 0';
-      break;
-    case 'dialpad_dark':
-      iconSprite = dialpadDarkSprite;
-      height = '40px';
-      width = '40px';
-      backgroundSize = '120px 40px';
-      display = 'block';
-      borderRadius = '50%';
-      if (props.active) {
-        backgroundPosition = '-80px 0';
-        className = 'active';
-      }
-      backgroundPositionHover = '-40px 0';
-      break;
-    case 'earth':
-      iconSprite = earth;
-      height = '40px';
-      width = '40px';
-      display = 'block';
-      backgroundSize = 'cover';
-      break;
-    default:
-      break;
-  }
-
-  const styles = {
-    base: {
-      cursor: 'pointer',
-      ':hover': {
-        backgroundPosition: backgroundPositionHover,
-      },
-      backgroundImage: iconSprite ? `url(${iconSprite})` : '',
-      backgroundPosition,
-      backgroundSize,
-      borderRadius,
-      display,
+const styles = {
+  base: {
+    cursor: 'pointer',
+  },
+  config: {
+    data: { src: config },
+  },
+  search: {
+    data: { src: search },
+    height: '16px',
+    width: '16px',
+  },
+  checkStatus: {
+    data: { src: checkStatus },
+    height: '17px',
+  },
+  close: {
+    data: { src: close },
+  },
+  arrow_return: {
+    data: { src: arrowReturn },
+  },
+  arrow_up_down: {
+    data: { src: arrowUpDown },
+  },
+  attachment: {
+    data: { src: attachment },
+    height: '16px',
+    width: '16px',
+  },
+  message: {
+    data: { src: message },
+    height: '15px',
+    width: '18px',
+  },
+  message_new: {
+    data: { src: messageNew },
+    height: '15px',
+    width: '18px',
+  },
+  message_dark: {
+    data: { src: messageDark },
+    height: '20px',
+    width: '20px',
+  },
+  email: {
+    data: { src: email },
+    height: '15px',
+    width: '18px',
+  },
+  email_new: {
+    data: { src: emailNew },
+    height: '15px',
+    width: '18px',
+  },
+  email_dark: {
+    data: { src: emailDark },
+    height: '17px',
+    width: '20px',
+  },
+  voice: {
+    data: { src: voice },
+    height: '20px',
+    width: '16px',
+  },
+  voice_dark: {
+    data: { src: voiceDark },
+    height: '20px',
+    width: '16px',
+  },
+  connected: {
+    data: { src: connected },
+  },
+  not_connected: {
+    data: { src: notConnected },
+  },
+  sprite: {
+    height: '40px',
+    width: '40px',
+    display: 'block',
+    borderRadius: '50%',
+  },
+  endCall: {
+    backgroundImage: `url(${endCallSprite})`,
+    ':hover': {
+      backgroundPosition: '-80px 0',
     },
-  };
+  },
+  mute: {
+    backgroundImage: `url(${muteSprite})`,
+    ':hover': {
+      backgroundPosition: '-40px 0',
+    },
+    active: {
+      backgroundPosition: '-80px 0',
+    },
+  },
+  hold: {
+    backgroundImage: `url(${holdSprite})`,
+    ':hover': {
+      backgroundPosition: '-40px 0',
+    },
+    active: {
+      backgroundPosition: '-80px 0',
+    },
+  },
+  transfer: {
+    backgroundImage: `url(${transferSprite})`,
+    ':hover': {
+      backgroundPosition: '-40px 0',
+    },
+    active: {
+      backgroundPosition: '-80px 0',
+    },
+  },
+  transfer_dark: {
+    backgroundSize: '120px 40px',
+    backgroundImage: `url(${transferDarkSprite})`,
+    ':hover': {
+      backgroundPosition: '-40px 0',
+    },
+    active: {
+      backgroundPosition: '-80px 0',
+    },
+  },
+  dialpad: {
+    backgroundImage: `url(${dialpadSprite})`,
+    ':hover': {
+      backgroundPosition: '-40px 0',
+    },
+    active: {
+      backgroundPosition: '-80px 0',
+    },
+  },
+  dialpad_dark: {
+    backgroundSize: '120px 40px',
+    backgroundImage: `url(${dialpadDarkSprite})`,
+    ':hover': {
+      backgroundPosition: '-40px 0',
+    },
+    active: {
+      backgroundPosition: '-80px 0',
+    },
+  },
+};
 
-  if (width) {
-    styles.base.width = width;
-  }
-  if (height) {
-    styles.base.height = height;
-  }
-
-  let iconResult;
-  if (icon) {
-    iconResult = (
+function Icon(props) {
+  if (styles[props.name].backgroundImage) {
+    return (
+      <span
+        id={props.id ? props.id : `${props.name}-icon`}
+        className={props.active ? 'active' : ''}
+        onClick={props.onclick}
+        style={[
+          styles.base,
+          styles.sprite,
+          styles[props.name],
+          props.active && styles[props.name].active,
+          props.style,
+        ]}
+      ></span>
+    );
+  } else {
+    return (
       <img
         id={props.id ? props.id : `${props.name}-icon`}
-        className={className}
         onClick={props.onclick}
-        src={icon}
-        style={[styles.base, props.style]}
+        src={styles[props.name].data.src}
+        style={[
+          styles.base,
+          styles[props.name],
+          props.style,
+        ]}
         alt={props.alt || props.name}
       />
     );
-  } else {
-    iconResult = (
-      <span
-        id={props.id ? props.id : `${props.name}-icon`}
-        className={className}
-        onClick={props.onclick}
-        style={[styles.base, props.style]}
-      ></span>
-    );
   }
-
-  return iconResult;
 }
 
 Icon.propTypes = {

@@ -5,6 +5,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactSVG from 'react-svg';
 
 import dialpad from 'assets/icons/dialpad.svg';
@@ -13,11 +14,7 @@ import loadingWhite from 'assets/icons/loading_white.svg';
 import add from 'assets/icons/add.svg';
 import close from 'assets/icons/close.svg';
 
-import PropTypes from 'prop-types';
-
-import Radium from 'radium';
-
-const availableIcons = [
+export const availableIcons = [
   'dialpad',
   'loading',
   'loadingWhite',
@@ -25,9 +22,14 @@ const availableIcons = [
   'close',
 ];
 
+const styles = {
+  base: {
+    borderRadius: '50%',
+  },
+};
+
 function IconSVG(props) {
   let icon;
-  let iconHover;
   switch (props.name) {
     case 'dialpad':
       icon = dialpad;
@@ -48,15 +50,6 @@ function IconSVG(props) {
       break;
   }
 
-  const styles = {
-    base: {
-      ':hover': {
-        content: iconHover ? `url(${iconHover})` : '',
-      },
-      borderRadius: '50%',
-    },
-  };
-
   return (
     <ReactSVG
       id={props.id}
@@ -73,4 +66,4 @@ IconSVG.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-export default Radium(IconSVG);
+export default IconSVG;

@@ -14,8 +14,6 @@ export class Progress extends React.Component {
     this.state = {
       current: Date.now(),
     };
-
-    this.update = this.update.bind(this);
   }
 
   componentDidMount() {
@@ -26,14 +24,14 @@ export class Progress extends React.Component {
     cancelAnimationFrame(this.requestAnimationId);
   }
 
-  update() {
+  update = () => {
     this.setState({
       current: Date.now(),
     });
     this.requestAnimationId = requestAnimationFrame(this.update);
   }
 
-  getBarStyle() {
+  getBarStyle = () => {
     const progressDecimal = Math.min((this.props.start - this.state.current) / (this.props.start - this.props.finish), 1);
     return {
       strokeDasharray: '100px, 100px',

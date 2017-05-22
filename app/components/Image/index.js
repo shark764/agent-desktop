@@ -8,14 +8,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-function Image(props) {
-  const styles = {
-    img: {
-      maxWidth: '400px',
-      maxHeight: '400px',
-    },
-  };
+const styles = {
+  img: {
+    maxWidth: '400px',
+    maxHeight: '400px',
+  },
+};
 
+function Image(props) {
   return (
     <div id={props.id} style={props.style}>
       <div>

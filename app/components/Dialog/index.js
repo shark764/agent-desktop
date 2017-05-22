@@ -8,18 +8,19 @@ import React, { Children } from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+const styles = {
+  base: {
+    width: '542px',
+    height: '543px',
+    borderRadius: '3px',
+    backgroundColor: '#ffffff',
+    boxShadow: '0 0 6px 0 rgba(0, 0, 0, 0.09)',
+  },
+};
+
 function Dialog(props) {
-  const styles = {
-    base: {
-      width: '542px',
-      height: '543px',
-      borderRadius: '3px',
-      backgroundColor: '#ffffff',
-      boxShadow: '0 0 6px 0 rgba(0, 0, 0, 0.09)',
-    },
-  };
   return (
-    <div {...props} style={Object.assign(styles.base, props.style)}>
+    <div {...props} style={[styles.base, props.style]}>
       {Children.toArray(props.children)}
     </div>
   );
