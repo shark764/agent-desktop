@@ -49,10 +49,18 @@ const styles = {
     alignSelf: 'center',
     cursor: 'inherit',
   },
+  disabled: {
+    cursor: 'default',
+    color: '#979797',
+    ':hover': {
+      backgroundColor: '',
+    },
+  },
 };
 
 function MenuRow(props) {
   const rowText = typeof props.rowText === 'string' ? props.rowText : <FormattedMessage {...props.rowText} />;
+  const allowSelect = !props.isSelected && !props.disabled;
   const mainRow = (
     <div
       id={props.id}
@@ -60,9 +68,10 @@ function MenuRow(props) {
         styles.base,
         props.isSelected && styles.selected,
         props.isOpen && styles.openMenuRoot,
+        props.disabled && styles.disabled,
         props.style,
       ]}
-      onClick={!props.isSelected && props.onSelect}
+      onClick={allowSelect && props.onSelect}
     >
       <div style={styles.text}>
         {rowText}
@@ -101,6 +110,7 @@ MenuRow.propTypes = {
   onSelect: PropTypes.func,
   isSelected: PropTypes.bool,
   isOpen: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 export default Radium(MenuRow);
