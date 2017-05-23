@@ -21,6 +21,13 @@ function TextInput(props) {
         ':focus': {
           outline: 'none',
         },
+        ':hover': {
+          borderBottom: 'solid 1px #D0D0D0',
+        },
+        borderTop: 'none',
+        borderRight: 'none',
+        borderBottom: 'none',
+        borderLeft: 'none',
       },
     };
   } else {
@@ -37,7 +44,10 @@ function TextInput(props) {
         outline: 'none',
         padding: '11px',
         borderRadius: '2px',
-        border: 'none',
+        borderTop: 'none',
+        borderRight: 'none',
+        borderBottom: 'none',
+        borderLeft: 'none',
       },
     };
 
@@ -45,7 +55,10 @@ function TextInput(props) {
       styles.base.border = 'solid 1px #979797';
       styles.base[':focus'] = {
         boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
-        border: 'solid 1px #23CEF5',
+        borderTop: 'solid 1px #23CEF5',
+        borderRight: 'solid 1px #23CEF5',
+        borderBottom: 'solid 1px #23CEF5',
+        borderLeft: 'solid 1px #23CEF5',
       };
     }
   }

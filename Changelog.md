@@ -1,3 +1,6 @@
+### [0.37.5] (2017-05-23)
+* CXV1-9406 - email inputs border cleanup
+
 ### [0.37.4] (2017-05-23)
 * SDK-BUMP - 5.0.1
 * CXV1-9406 - various small css bugs
@@ -754,6 +757,7 @@
 #### Initial Commit
 * Here we go!
 
+[0.37.5]: http://www.github.com/liveops/agent-desktop/compare/0.37.4...0.37.5
 [0.37.4]: http://www.github.com/liveops/agent-desktop/compare/0.37.3...0.37.4
 [0.37.3]: http://www.github.com/liveops/agent-desktop/compare/0.37.2...0.37.3
 [0.37.2]: http://www.github.com/liveops/agent-desktop/compare/0.37.1...0.37.2

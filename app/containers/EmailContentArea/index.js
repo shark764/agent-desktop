@@ -338,6 +338,7 @@ export class EmailContentArea extends React.Component {
     detailsValue: {
       display: 'inline-block',
       width: 'calc(100% - 90px)',
+      minHeight: '1.8em',
     },
     attachmentsContainer: {
       borderTop: '1px solid #D0D0D0',
@@ -712,6 +713,8 @@ export class EmailContentArea extends React.Component {
               <TextInput
                 id="emailToInput"
                 styleType="inlineInherit"
+                noBorder
+                placeholder="…"
                 value={this.state.toInput}
                 cb={(toInput) => this.setState({ toInput })}
                 onKeyDown={(e) => this.onCommaAddTo(e)}
@@ -738,6 +741,8 @@ export class EmailContentArea extends React.Component {
               <TextInput
                 id="emailCcInput"
                 styleType="inlineInherit"
+                noBorder
+                placeholder="…"
                 value={this.state.ccInput}
                 cb={(ccInput) => this.setState({ ccInput })}
                 onKeyDown={(e) => this.onCommaAddCc(e)}
@@ -764,6 +769,8 @@ export class EmailContentArea extends React.Component {
               <TextInput
                 id="emailBccInput"
                 styleType="inlineInherit"
+                noBorder
+                placeholder="…"
                 value={this.state.bccInput}
                 cb={(bccInput) => this.setState({ bccInput })}
                 onKeyDown={(e) => this.onCommaAddBcc(e)}
@@ -776,7 +783,14 @@ export class EmailContentArea extends React.Component {
               <FormattedMessage {...messages.subject} />
             </div>
             <div style={this.styles.detailsValue}>
-              <TextInput id="subjectInput" styleType="inlineInherit" value={this.state.subject} cb={(subject) => this.setState({ subject })} style={{ width: '100%' }} />
+              <TextInput
+                id="subjectInput"
+                styleType="inlineInherit"
+                placeholder="…"
+                value={this.state.subject}
+                cb={(subject) => this.setState({ subject })}
+                style={{ width: '100%' }}
+              />
             </div>
           </div>
           {

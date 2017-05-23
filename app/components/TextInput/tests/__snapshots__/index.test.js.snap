@@ -15,7 +15,11 @@ exports[`<TextInput /> should render correctly 1`] = `
     Object {
       "backgroundColor": "#ffffff",
       "border": "solid 1px #979797",
+      "borderBottom": "none",
+      "borderLeft": "none",
       "borderRadius": "2px",
+      "borderRight": "none",
+      "borderTop": "none",
       "color": "#494949",
       "fontSize": "16px",
       "fontStretch": "normal",
