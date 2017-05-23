@@ -103,5 +103,46 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
       />
     </div>
   </VelocityTransitionGroup>
+  <VelocityTransitionGroup
+    enter={
+      Object {
+        "animation": "transition.slideUpIn",
+        "complete": [Function],
+        "display": "flex",
+        "duration": "100",
+      }
+    }
+    enterHideStyle={
+      Object {
+        "display": "none",
+      }
+    }
+    enterShowStyle={
+      Object {
+        "display": "",
+      }
+    }
+    leave={
+      Object {
+        "animation": "transition.slideDownOut",
+        "duration": "100",
+      }
+    }
+    runOnMount={false}
+  >
+    <div>
+      <Button
+        id="merge"
+        style={
+          Object {
+            "marginLeft": "10px",
+          }
+        }
+        tabIndex={0}
+        text="Merge"
+        type="secondary"
+      />
+    </div>
+  </VelocityTransitionGroup>
 </div>
 `;
