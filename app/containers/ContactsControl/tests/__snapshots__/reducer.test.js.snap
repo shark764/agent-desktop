@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContactsControl Reducer returns the initial state 1`] = `
+Object {
+  "contactForm": Object {},
+  "formErrors": Object {},
+  "formIsDirty": false,
+  "formIsValid": false,
+  "selectedIndexes": Object {},
+  "showCancelDialog": false,
+  "showErrors": Object {},
+  "unusedFields": Object {},
+}
+`;

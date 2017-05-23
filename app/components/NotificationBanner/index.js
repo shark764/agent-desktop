@@ -16,72 +16,61 @@ import messages from './messages';
 const styles = {
   base: {
     backgroundColor: '#072931',
-    width: 'calc(100% + 76px)',
+    width: '100%',
     height: '35px',
-    position: 'relative',
-    left: '-51px',
+    paddingLeft: '52px',
     display: 'flex',
-    alignItems: 'stretch',
+    alignItems: 'center',
     color: 'white',
     flexShrink: 0,
   },
   baseError: {
     backgroundColor: '#FE4565',
   },
-  typeText: {
+  titleText: {
     fontWeight: '600',
-    alignSelf: 'center',
   },
-  messageText: {
-    alignSelf: 'center',
-  },
-  tryAgainText: {
+  rightLinkText: {
     textDecoration: 'underline',
     cursor: 'pointer',
-    alignSelf: 'center',
-  },
-  leftGutter: {
-    width: '52px',
+    marginLeft: '4px',
   },
   closeButton: {
     margin: '0 10px 0 0',
     border: '0',
-    alignSelf: 'center',
   },
 };
 
 function NotificationBanner(props) {
   return (
-    <div id={props.id} style={[styles.base, props.isError && styles.baseError]} key={props.key}>
-      <div style={styles.leftGutter}></div>
+    <div id={props.id} style={[styles.base, props.style, props.isError && styles.baseError]}>
       {
-        props.isError
-        ? <div key="1" style={styles.typeText}>
-          {props.intl.formatMessage(messages[`${props.errorType}`])}
+        props.titleMessage
+        && <div key="1" style={styles.titleText}>
+          {props.intl.formatMessage(props.titleMessage)}
           &nbsp;
         </div>
-        : undefined
       }
-      <div style={styles.messageText}>
-        {props.intl.formatMessage(messages[props.messageType])}
+      <div>
+        {props.intl.formatMessage(props.descriptionMessage)}
       </div>
       {
-        props.tryAgain ? <div onClick={props.tryAgain} style={styles.tryAgainText}>
-          {props.intl.formatMessage(messages.tryAgain)}
+        props.rightLinkAction
+        && <div onClick={props.rightLinkAction} style={styles.rightLinkText}>
+          {props.intl.formatMessage(props.rightLinkMessage || messages.tryAgain)}
         </div>
-        : undefined
       }
       <div style={{ flexGrow: 1 }}></div>
       {
         props.isError
-        ? <Button
+        && props.dismiss
+        && <Button
           id={`${props.id}error-dismiss-btn`}
           style={styles.closeButton}
           iconName="close"
           type="primaryRed"
           onClick={props.dismiss}
         />
-        : undefined
       }
     </div>
   );
@@ -90,12 +79,13 @@ function NotificationBanner(props) {
 NotificationBanner.propTypes = {
   intl: PropTypes.object.isRequired,
   id: PropTypes.string.isRequired,
-  errorType: PropTypes.oneOf(['serverError', 'networkError']),
-  messageType: PropTypes.oneOf(['notSaved', 'notCreated', 'notAssigned', 'created', 'saved']).isRequired,
-  dismiss: PropTypes.func.isRequired,
+  style: PropTypes.object,
+  titleMessage: PropTypes.object,
+  descriptionMessage: PropTypes.object.isRequired,
+  dismiss: PropTypes.func,
   isError: PropTypes.bool.isRequired,
-  tryAgain: PropTypes.func,
-  key: PropTypes.string,
+  rightLinkAction: PropTypes.func,
+  rightLinkMessage: PropTypes.object,
 };
 
 export default injectIntl(Radium(NotificationBanner));

@@ -1,3 +1,6 @@
+### [0.37.7] (2017-05-23)
+* CXV1-9329 - SDK error handler - send to Sentry.
+
 ### [0.37.6] (2017-05-23)
 * Remove dev sentry reports
 
@@ -760,6 +763,8 @@
 #### Initial Commit
 * Here we go!
 
+[0.37.7]: http://www.github.com/liveops/agent-desktop/compare/0.37.6...0.37.7
+[0.37.6]: http://www.github.com/liveops/agent-desktop/compare/0.37.5...0.37.6
 [0.37.5]: http://www.github.com/liveops/agent-desktop/compare/0.37.4...0.37.5
 [0.37.4]: http://www.github.com/liveops/agent-desktop/compare/0.37.3...0.37.4
 [0.37.3]: http://www.github.com/liveops/agent-desktop/compare/0.37.2...0.37.3

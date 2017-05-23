@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`handleError Saga if error.level is "fatal" should dispatch action setCriticalError 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "type": "app/Errors/SET_CRITICAL_ERROR",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`handleError Saga if topic is cxengage/session/heartbeat-response should dispatch action setCriticalError 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "type": "app/Errors/SET_CRITICAL_ERROR",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`handleError Saga should call Raven.captureException with a new Error created from the action.topic 1`] = `[Error: mockErrorTopic]`;
+
+exports[`handleError Saga should call Raven.captureException with the SDK error in the extra info and error.code in the tags 1`] = `
+Object {
+  "extra": Object {
+    "sdkError": Object {
+      "code": "mockErrorCode",
+    },
+  },
+  "level": "warning",
+  "tags": Object {
+    "sdkCode": "mockErrorCode",
+  },
+}
+`;
