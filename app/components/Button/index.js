@@ -106,7 +106,7 @@ const styles = {
     },
     cursor: 'default',
   },
-  isIcon: {
+  clear: {
     borderTop: 'none',
     borderRight: 'none',
     borderBottom: 'none',
@@ -118,6 +118,8 @@ const styles = {
     ':active': {
       backgroundColor: undefined,
     },
+  },
+  isIcon: {
     boxSizing: 'borderBox',
     padding: 'auto',
   },
@@ -158,6 +160,7 @@ class Button extends React.Component {
           this.props.disabled && styles[this.props.type].disabled,
           this.props.disabled && styles.disabled,
           this.props.iconName && styles.isIcon,
+          this.props.clear && styles.clear,
           this.props.style,
         ]}
         tabIndex={this.props.tabIndex}
@@ -183,6 +186,7 @@ Button.propTypes = {
     PropTypes.object,
     PropTypes.array,
   ]),
+  clear: PropTypes.bool,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   id: PropTypes.string.isRequired,

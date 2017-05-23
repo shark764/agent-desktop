@@ -1,3 +1,8 @@
+### [0.37.9] (2017-05-23)
+* BUGFIX - login input borders
+* BUGFIX - contact search button
+* BUGFIX - contact interaction history transcripts
+
 ### [0.37.8] (2017-05-23)
 * Revert to 0.37.5 for safe fix & release
 

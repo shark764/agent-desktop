@@ -326,6 +326,7 @@ export class MessagingContentArea extends React.Component {
       borderRadius: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '0' : '3px 0 0 3px',
       borderTop: '1px solid #979797',
       borderBottom: '1px solid #979797',
+      borderRight: 'none',
       borderLeft: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '' : '1px solid #979797',
     },
     messageButton: {

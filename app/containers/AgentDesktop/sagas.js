@@ -10,6 +10,7 @@ export function* loadHistoricalInteractionBody(action) {
   const body = {};
   let metaData;
   let transcriptResponse;
+  let transcriptUrl;
   try {
     switch (action.bodyType) {
       case 'recordings':
@@ -28,7 +29,10 @@ export function* loadHistoricalInteractionBody(action) {
           { interactionId: action.interactionId },
           'AgentDesktop'
         );
-        transcriptResponse = yield call(axios.get, metaData[0] && metaData[0].url);
+        transcriptUrl = metaData[0] && metaData[0].url;
+        if (transcriptUrl) {
+          transcriptResponse = yield call(axios.get, transcriptUrl);
+        }
         body.transcript = transcriptResponse && transcriptResponse.data
           ? transcriptResponse.data
           : [];

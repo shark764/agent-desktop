@@ -272,6 +272,7 @@ export class ContentArea extends React.Component {
     closeButton: {
       margin: '0',
       padding: '0 0 3px 5px',
+      backgroundColor: 'inherit',
     },
     categoryName: {
       fontWeight: '600',
@@ -464,6 +465,7 @@ export class ContentArea extends React.Component {
                       <Button
                         id="delete-disposition-btn"
                         style={this.styles.closeButton}
+                        clear
                         iconName="close"
                         type="secondary"
                         onClick={this.deselectDisposition}
