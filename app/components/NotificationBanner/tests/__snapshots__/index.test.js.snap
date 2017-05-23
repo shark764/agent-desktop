@@ -6,14 +6,15 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
   id="mockId"
   style={
     Object {
-      "alignItems": "center",
+      "alignItems": "stretch",
       "backgroundColor": "#FE4565",
       "color": "white",
       "display": "flex",
       "flexShrink": 0,
       "height": "35px",
-      "paddingLeft": "52px",
-      "width": "100%",
+      "left": "-51px",
+      "position": "relative",
+      "width": "calc(100% + 76px)",
     }
   }
 >
@@ -21,15 +22,31 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
     data-radium={true}
     style={
       Object {
+        "width": "52px",
+      }
+    }
+  />
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "alignSelf": "center",
         "fontWeight": "600",
       }
     }
   >
-    mockMessage
+    Server Error
      
   </div>
-  <div>
-    mockMessage
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "alignSelf": "center",
+      }
+    }
+  >
+    Your changes have not been saved.
   </div>
   <div
     data-radium={true}
@@ -45,6 +62,7 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
     onClick={[Function]}
     style={
       Object {
+        "alignSelf": "center",
         "border": "0",
         "margin": "0 10px 0 0",
       }

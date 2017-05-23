@@ -95,8 +95,4 @@ export default defineMessages({
     id: 'app.containers.Login.reasonListError',
     defaultMessage: 'No presence reason lists available on tenant, please talk to your administrator.',
   },
-  contactLayoutError: {
-    id: 'app.containers.Login.contactLayoutError',
-    defaultMessage: 'No active contact layout available on tenant, please talk to your administrator.',
-  },
 });

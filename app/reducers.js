@@ -7,7 +7,6 @@ import sidePanel from 'containers/SidePanel/reducer';
 import interactionsBar from 'containers/InteractionsBar/reducer';
 import infoTab from 'containers/InfoTab/reducer';
 import contactsControl from 'containers/ContactsControl/reducer';
-import errors from 'containers/Errors/reducer';
 
 export default combineReducers({
   language,
@@ -18,5 +17,4 @@ export default combineReducers({
   interactionsBar,
   infoTab,
   contactsControl,
-  errors,
 });

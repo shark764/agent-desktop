@@ -22,16 +22,12 @@ import MainContentArea from 'containers/MainContentArea';
 import PhoneControls from 'containers/PhoneControls';
 import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
-import NotificationBanner from 'components/NotificationBanner';
 
 import { setAvailableStats, statsReceived, toggleStat, toggleAgentMenu } from 'containers/Toolbar/actions';
 import { showLogin, logout } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
 
 import { selectAvailableStats } from 'containers/AgentStats/selectors';
-
-import { selectCriticalError } from 'containers/Errors/selectors';
-import { handleSDKError } from 'containers/Errors/actions';
 
 import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, loadContactInteractionHistory,
   setContactHistoryInteractionDetails, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction,
@@ -40,12 +36,9 @@ import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiate
   transferCancelled, resourceAdded, updateResourceName, updateResourceStatus, holdMe, resumeMe, resourceRemoved, showRefreshRequired,
   emailAddAttachment, addSearchFilter, removeSearchFilter, setQueues, setDispositionDetails, selectDisposition, goNotReady } from './actions';
 
-import messages from './messages';
 import { selectAgentDesktopMap, selectLoginMap } from './selectors';
 
 import { version as release } from '../../../package.json';
-
-let logoutOnSessionStart = false;
 
 export class AgentDesktop extends React.Component {
 
@@ -146,43 +139,50 @@ export class AgentDesktop extends React.Component {
     window.agentDesktopState = () => this.props.agentDesktop;
 
     // Initialize Remote Logging with Sentry.io
-    if (environment !== 'dev') {
-      Raven.config('https://892f9eb6bb314a9da98b98372c518351@sentry.io/169686', {
-        release,
-        environment,
-        autoBreadcrumbs: {
-          xhr: false,
-        },
-        dataCallback: (data) => {
-          // Add state to extra data
-          (Object.assign({}, data).extra.appState = window.store.getState().toJS());
-        },
-      }).install();
-    }
+    // TODO put this if check back in when done testing
+    // if (environment !== 'dev') {
+    Raven.config('https://892f9eb6bb314a9da98b98372c518351@sentry.io/169686', {
+      release,
+      environment,
+      autoBreadcrumbs: {
+        xhr: false,
+      },
+      dataCallback: (data) => {
+        // Add state to extra data
+        (Object.assign({}, data).extra.appState = window.store.getState().toJS());
+      },
+    }).install();
+    // }
 
     const sdkConf = { baseUrl: `https://${where}`, logLevel, blastSqsOutput, environment, reportingRefreshRate };
 
     CxEngage.initialize(sdkConf);
 
-    const killItWithFire = (errorType) => {
-      window.onbeforeunload = null; // clear error clearer set in Login
-      window.localStorage.setItem('ADError', errorType); // Consume in Login component
-      CxEngage.authentication.logout();
-      logoutOnSessionStart = true; // session has not usually started yet here so logout has no effect
-    };
-
     CxEngage.subscribe('cxengage', (error, topic, response) => {
       if (error) {
-        this.props.handleSDKError(error, topic);
-      } else {
-        console.log('[AgentDesktop] CxEngage.subscribe()', topic, response);
+        console.error('Pub sub error', topic, error); // eslint-disable-line no-console
+        switch (topic) {
+          case 'cxengage/session/heartbeat-response':
+            window.onbeforeunload = null; // clear error clearer set in Login
+            window.localStorage.setItem('ADError', topic); // Consume in Login component
+            location.reload(); // Kill it with 🔥
+            break;
+          default:
+            break;
+        }
       }
+
+      console.log('[AgentDesktop] CxEngage.subscribe()', topic, response);
+
       switch (topic) {
         case 'cxengage/session/config-details': {
           if (response.reasonLists.length < 2) {
-            killItWithFire('reasonListError');
+            window.onbeforeunload = null; // clear error clearer set in Login
+            window.localStorage.setItem('ADError', 'onlySystemReasonList'); // Consume in Login component
+            location.reload(); // Kill it with 🔥
+          } else {
+            this.props.setUserConfig(response);
           }
-          this.props.setUserConfig(response);
           break;
         }
         case 'cxengage/session/extension-list': {
@@ -190,14 +190,15 @@ export class AgentDesktop extends React.Component {
           break;
         }
         case 'cxengage/session/started': {
-          if (logoutOnSessionStart) {
-            CxEngage.authentication.logout();
-          }
           CxEngage.entities.getQueues();
           break;
         }
         case 'cxengage/session/state-change-response': {
-          if (!this.props.agentDesktop.presence && response.state === 'notready' && response.reasonId === null) {
+          if (response.state === 'offline') {
+            // FIXME do this instead when it's working on the SDK
+            // this.props.logout();
+            window.location.reload();
+          } else if (!this.props.agentDesktop.presence && response.state === 'notready' && response.reasonId === null) {
             const systemPresenceReasonsList = this.props.agentDesktop.userConfig
               && this.props.agentDesktop.userConfig.reasonLists
               && this.props.agentDesktop.userConfig.reasonLists.find((list) => list.name === 'System Presence Reasons');
@@ -212,11 +213,13 @@ export class AgentDesktop extends React.Component {
           break;
         }
         case 'cxengage/session/ended': {
+          // FIXME do this instead when it's working on the SDK
+          // this.props.logout();
           window.location.reload();
           break;
         }
         case 'cxengage/interactions/voice/dial-response': {
-          // TODO: toast error
+          if (error) console.error(error); // TODO: toast error
           break;
         }
         case 'cxengage/interactions/work-offer-received': {
@@ -372,7 +375,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/contacts/list-layouts-response': {
           const activeLayouts = response.filter((layout) => layout.active);
           if (activeLayouts.length === 0) {
-            killItWithFire('contactLayoutError');
+            throw new Error('No active contact layout found for this tenant');
           } else if (activeLayouts.length > 1) {
             console.warn('More than one layout found. Only using first one.');
           }
@@ -502,9 +505,7 @@ export class AgentDesktop extends React.Component {
         case 'cxengage/contacts/merge-contacts-response': // Handled in ContactMerge
           break;
         default: {
-          if (!error) {
-            console.warn('[AgentDesktop] CxEngage.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console
-          }
+          console.warn('[AgentDesktop] CxEngage.subscribe(): No pub sub for', topic, response, error); // eslint-disable-line no-console
         }
       }
     });
@@ -603,72 +604,21 @@ export class AgentDesktop extends React.Component {
       height: 'calc(100vh - 54px)',
       borderBottom: '1px solid #141414',
     },
-    topAreaOneBanner: {
-      height: 'calc(100vh - 54px - 35px)',
-    },
-    topAreaTwoBanners: {
-      height: 'calc(100vh - 54px - 70px)',
-    },
-    notificationBanner: {
-      position: 'relative',
-      zIndex: 20,
-    },
-    sidePanelOneBanner: {
-      top: '35px',
-    },
-    sidePanelTwoBanners: {
-      top: '70px',
-    },
   };
 
   render() {
-    const refreshBannerIsVisible = (
-      this.props.agentDesktop.refreshRequired
-      && this.props.login.showLogin
-      && location.hostname !== 'localhost'
-      && location.hostname !== '127.0.0.1'
-    );
     return (
       <div>
         {
-          refreshBannerIsVisible &&
+          this.props.agentDesktop.refreshRequired && this.props.login.showLogin && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' &&
           <RefreshBanner hide={this.hideRefreshBanner} />
-        }
-        {
-          this.props.criticalError && <NotificationBanner
-            id="critical-error-banner"
-            style={this.styles.notificationBanner}
-            titleMessage={messages.criticalError}
-            descriptionMessage={messages.criticalErrorDescription}
-            isError
-            rightLinkAction={
-              CxEngage.authentication.logout // Causes SDK session end event -> reload.
-            }
-            rightLinkMessage={messages.reload}
-          />
         }
         {
           this.props.login.showLogin || this.props.agentDesktop.presence === undefined
             ? <Login />
             : <span>
-              <div
-                id="desktop-container"
-                style={[
-                  this.styles.flexChildGrow,
-                  this.styles.parent,
-                  this.styles.columnParent,
-                ]}
-              >
-                <div
-                  id="top-area"
-                  style={[
-                    this.styles.flexChildGrow,
-                    this.styles.parent,
-                    this.styles.topArea,
-                    this.props.criticalError && this.styles.topAreaOneBanner,
-                    this.props.criticalError && refreshBannerIsVisible && this.styles.topAreaTwoBanner,
-                  ]}
-                >
+              <div id="desktop-container" style={[this.styles.flexChildGrow, this.styles.parent, this.styles.columnParent, { height: '100vh' }]}>
+                <div id="top-area" style={[this.styles.flexChildGrow, this.styles.parent, this.styles.topArea]}>
                   <div style={[this.styles.leftArea]}>
                     <PhoneControls style={[this.styles.phoneControls]} />
                     <InteractionsBar acceptInteraction={this.acceptInteraction} selectInteraction={this.selectInteraction} style={[this.styles.interactionsBar]} />
@@ -684,11 +634,7 @@ export class AgentDesktop extends React.Component {
                 />
               </div>
               <SidePanel
-                style={[
-                  this.styles.topArea,
-                  this.props.criticalError && { ...this.styles.topAreaOneBanner, ...this.styles.sidePanelOneBanner },
-                  this.props.criticalError && refreshBannerIsVisible && { ...this.styles.topAreaTwoBanners, ...this.styles.sidePanelTwoBanners },
-                ]}
+                style={this.styles.topArea}
                 collapsedPx={this.collapsedContactsPanelPx}
                 openPx={this.state.contactsPanelPx}
                 isCollapsed={this.state.isContactsPanelCollapsed}
@@ -708,7 +654,6 @@ const mapStateToProps = (state, props) => ({
   login: selectLoginMap(state, props).toJS(),
   agentDesktop: selectAgentDesktopMap(state, props).toJS(),
   availableStats: selectAvailableStats(state, props),
-  criticalError: selectCriticalError(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -765,7 +710,6 @@ function mapDispatchToProps(dispatch) {
     logout: () => dispatch(logout()),
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
-    handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
     dispatch,
   };
 }
@@ -822,13 +766,11 @@ AgentDesktop.propTypes = {
   showRefreshRequired: PropTypes.func.isRequired,
   toggleAgentMenu: PropTypes.func.isRequired,
   goNotReady: PropTypes.func.isRequired,
-  handleSDKError: PropTypes.func.isRequired,
   // TODO when fixed in SDK
   // logout: PropTypes.func.isRequired,
   login: PropTypes.object,
   agentDesktop: PropTypes.object,
   availableStats: PropTypes.object,
-  criticalError: PropTypes.any,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(AgentDesktop)));
