@@ -213,10 +213,17 @@ export class Login extends React.Component {
             </span>
           );
           break;
-        case 'onlySystemReasonList':
+        case 'reasonListError':
           errorSpan = (
             <span id={`${error}:ERROR`} style={[this.styles.error]}>
               <FormattedMessage style={this.styles.center} {...messages.reasonListError} />
+            </span>
+          );
+          break;
+        case 'contactLayoutError':
+          errorSpan = (
+            <span id={`${error}:ERROR`} style={[this.styles.error]}>
+              <FormattedMessage style={this.styles.center} {...messages.contactLayoutError} />
             </span>
           );
           break;
