@@ -1,3 +1,6 @@
+### [0.37.3] (2017-05-23)
+* Remove merge button
+
 ### [0.37.2] (2017-05-22)
 * BUGFIX - Bug prevention for a agent selecting a status while another status is still pending
 

@@ -61,14 +61,6 @@ function ContactBulkActions(props) {
           </div>
         }
       </VelocityTransitionGroup>
-      <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100', complete: velocityCleanup, display: 'flex' }} leave={{ animation: 'transition.slideDownOut', duration: '100' }}>
-        {
-          props.selectedContacts.length === 2 &&
-          <div key="merge-btn-container">
-            <Button style={{ marginLeft: '10px' }} onClick={props.setMerging} id="merge" key="merge" text="Merge" type="secondary"></Button>
-          </div>
-        }
-      </VelocityTransitionGroup>
     </div>
   );
 }
@@ -79,7 +71,6 @@ ContactBulkActions.propTypes = {
   setConfirmingDelete: PropTypes.func,
   deleteContacts: PropTypes.func,
   confirmingDelete: PropTypes.bool,
-  setMerging: PropTypes.func,
 };
 
 export default Radium(ContactBulkActions);
