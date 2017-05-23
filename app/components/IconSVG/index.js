@@ -55,7 +55,7 @@ function IconSVG(props) {
       id={props.id}
       path={icon}
       evalScript="always"
-      style={Object.assign(styles.base, props.style ? props.style : {})}
+      style={Object.assign({}, styles.base, props.style ? props.style : {})}
     />
   );
 }

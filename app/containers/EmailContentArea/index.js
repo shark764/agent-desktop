@@ -405,7 +405,6 @@ export class EmailContentArea extends React.Component {
       overflowY: 'auto',
       padding: '19px 23px',
     },
-    replyButtons: { width: '148px' },
     inputContainer: {
       marginBottom: '2px',
     },
@@ -465,7 +464,7 @@ export class EmailContentArea extends React.Component {
             disabled={this.props.awaitingDisposition}
             style={{ marginRight: '8px' }}
           />)
-          : (<div style={this.styles.replyButtons}>
+          : (<div>
             <Button
               id="cancelEmail"
               type="secondary"
@@ -672,17 +671,17 @@ export class EmailContentArea extends React.Component {
             disabled={this.props.awaitingDisposition}
             style={{ marginRight: '8px' }}
           />)
-          : (<div style={this.styles.replyButtons}>
+          : (<div>
             <Button
               id="cancelEmail"
-              type="secondary"
-              style={{ marginRight: '5px' }}
+              type="primaryRed"
+              style={{ marginRight: '8px' }}
               text={messages.cancel}
               onClick={() => this.props.emailCancelReply(this.props.selectedInteraction.interactionId)}
             />
             <Button
               id="sendEmail"
-              type="primaryRed"
+              type="primaryBlue"
               text={messages.send}
               onClick={() => this.sendEmail()}
             />
