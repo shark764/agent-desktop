@@ -157,8 +157,6 @@ export class SidePanel extends React.Component {
             <TabPanel>
               <InfoTab
                 isCollapsed={this.props.isCollapsed}
-                addSearchFilter={this.props.addSearchFilter}
-                removeSearchFilter={this.props.removeSearchFilter}
                 style={this.styles.rightMargin}
               />
             </TabPanel>
@@ -214,8 +212,6 @@ SidePanel.propTypes = {
   selectedInteractionScript: PropTypes.object,
   selectedTabIndex: PropTypes.number.isRequired,
   hasAssignedContact: PropTypes.bool.isRequired,
-  addSearchFilter: PropTypes.func.isRequired,
-  removeSearchFilter: PropTypes.func.isRequired,
   setSidePanelTabIndex: PropTypes.func.isRequired,
 };
 

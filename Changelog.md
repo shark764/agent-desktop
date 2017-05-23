@@ -1,3 +1,6 @@
+### [0.37.11] (2017-05-23)
+* Internal - move main SDK subscription block up out of AgentDesktop, prepare to split
+
 ### [0.37.10] (2017-05-23)
 * Revert 0.37.8
 
@@ -9,7 +12,7 @@
 ### [0.37.8] (2017-05-23)
 * Revert to 0.37.5 for safe fix & release
 
-### [0.37.7] (2017-05-23)
+### [0.37.7] (2017-05-22)
 * CXV1-9329 - SDK error handler - send to Sentry.
 
 ### [0.37.6] (2017-05-23)
@@ -774,6 +777,7 @@
 #### Initial Commit
 * Here we go!
 
+[0.37.11]: http://www.github.com/liveops/agent-desktop/compare/0.37.10...0.37.11
 [0.37.10]: http://www.github.com/liveops/agent-desktop/compare/0.37.9...0.37.10
 [0.37.9]: http://www.github.com/liveops/agent-desktop/compare/0.37.8...0.37.9
 [0.37.8]: http://www.github.com/liveops/agent-desktop/compare/0.37.7...0.37.8

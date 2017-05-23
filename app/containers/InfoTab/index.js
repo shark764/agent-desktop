@@ -21,7 +21,7 @@ import selectInfoTab, { selectCurrentInteraction, selectCheckedContacts,
   selectNextNotificationId, selectDeletionPending, selectConfirmingDelete } from './selectors';
 import { clearSearchResults, clearCheckedContacts, setContactMode,
   setUnassignedContact, addNotification, dismissNotification, setLoading, setDeletionPending, setConfirmingDelete } from './actions';
-import { deleteContacts, setContactAction } from '../AgentDesktop/actions';
+import { deleteContacts, setContactAction, addSearchFilter, removeSearchFilter } from '../AgentDesktop/actions';
 import messages from './messages';
 
 export class InfoTab extends React.Component {
@@ -295,6 +295,8 @@ function mapDispatchToProps(dispatch) {
     setContactAction: (interactionId, newAction) => dispatch(setContactAction(interactionId, newAction)),
     setFormIsDirty: (formIsDirty) => dispatch(setFormIsDirty(formIsDirty)),
     setFormValidity: (formIsValid) => dispatch(setFormValidity(formIsValid)),
+    addSearchFilter: (filterName, value) => dispatch(addSearchFilter(filterName, value)),
+    removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
     resetForm: () => dispatch(resetForm()),
     dispatch,
   };

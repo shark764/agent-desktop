@@ -97,6 +97,7 @@
   "app.containers.InfoTab.newRecord": "Create New Record",
   "app.containers.InteractionsBar.accept": "Click to accept interaction",
   "app.containers.InteractionsBar.wrapup": "WRAP UP",
+  "app.containers.Login.contactLayoutError": "No active contact layout available on tenant, please talk to your administrator.",
   "app.containers.Login.copyright": "Copyright © 2015-{year} Serenova, LLC (“Serenova’). All rights reserved.",
   "app.containers.Login.email": "Email",
   "app.containers.Login.error": "The username or password you've entered is not correct",
