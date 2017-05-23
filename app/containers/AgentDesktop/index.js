@@ -139,20 +139,19 @@ export class AgentDesktop extends React.Component {
     window.agentDesktopState = () => this.props.agentDesktop;
 
     // Initialize Remote Logging with Sentry.io
-    // TODO put this if check back in when done testing
-    // if (environment !== 'dev') {
-    Raven.config('https://892f9eb6bb314a9da98b98372c518351@sentry.io/169686', {
-      release,
-      environment,
-      autoBreadcrumbs: {
-        xhr: false,
-      },
-      dataCallback: (data) => {
-        // Add state to extra data
-        (Object.assign({}, data).extra.appState = window.store.getState().toJS());
-      },
-    }).install();
-    // }
+    if (environment !== 'dev') {
+      Raven.config('https://892f9eb6bb314a9da98b98372c518351@sentry.io/169686', {
+        release,
+        environment,
+        autoBreadcrumbs: {
+          xhr: false,
+        },
+        dataCallback: (data) => {
+          // Add state to extra data
+          (Object.assign({}, data).extra.appState = window.store.getState().toJS());
+        },
+      }).install();
+    }
 
     const sdkConf = { baseUrl: `https://${where}`, logLevel, blastSqsOutput, environment, reportingRefreshRate };
 

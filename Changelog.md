@@ -1,3 +1,6 @@
+### [0.37.6] (2017-05-23)
+* Remove dev sentry reports
+
 ### [0.37.5] (2017-05-23)
 * CXV1-9406 - email inputs border cleanup
 
