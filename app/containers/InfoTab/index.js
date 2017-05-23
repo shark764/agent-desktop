@@ -22,7 +22,6 @@ import selectInfoTab, { selectCurrentInteraction, selectCheckedContacts,
 import { clearSearchResults, clearCheckedContacts, setContactMode,
   setUnassignedContact, addNotification, dismissNotification, setLoading, setDeletionPending, setConfirmingDelete } from './actions';
 import { deleteContacts, setContactAction } from '../AgentDesktop/actions';
-import messages from './messages';
 
 export class InfoTab extends React.Component {
   constructor(props) {
@@ -71,11 +70,6 @@ export class InfoTab extends React.Component {
     },
     loadingIcon: {
       height: '60px',
-    },
-    notificationBanner: {
-      width: 'calc(100% + 76px)',
-      position: 'relative',
-      left: '-51px',
     },
   };
 
@@ -155,7 +149,6 @@ export class InfoTab extends React.Component {
   }
 
   addNotification(messageType, isError, errorType) {
-    // TODO: move error logic to Errors reducer/saga and call handleError instead of addNotification if error
     const id = this.props.nextNotificationId;
     if (!isError) {
       setTimeout(() => this.props.dismissNotification(id), 3000);
@@ -174,11 +167,10 @@ export class InfoTab extends React.Component {
               <NotificationBanner
                 id={`contactNotification${index}`}
                 key={notification.id}
-                style={this.styles.notificationBanner}
                 dismiss={() => this.props.dismissNotification(notification.id)}
                 tryAgain={notification.tryAgain}
-                titleMessage={messages[notification.errorType]}
-                descriptionMessage={messages[notification.messageType]}
+                errorType={notification.errorType}
+                messageType={notification.messageType}
                 isError={notification.isError}
               />
             )

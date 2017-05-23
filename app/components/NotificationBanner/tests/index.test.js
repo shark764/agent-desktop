@@ -4,15 +4,13 @@ import { getIntlContext } from 'utils/test';
 
 import NotificationBanner from '../index';
 
-const mockMessage = { id: 'mockMessage', defaultMessage: 'mockMessage' };
-
 describe('<NotificationBanner />', () => {
   it('should render correctly', () => {
     const rendered = shallow(
       <NotificationBanner.WrappedComponent
         id="mockId"
-        titleMessage={mockMessage}
-        descriptionMessage={mockMessage}
+        errorType="serverError"
+        messageType="notSaved"
         dismiss={() => {}}
         isError
         intl={getIntlContext()}
