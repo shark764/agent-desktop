@@ -9,8 +9,11 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-
 import Toggle from 'react-toggle';
+
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Resizable from 'components/Resizable';
 import Checkbox from 'components/Checkbox';
 import IconSVG from 'components/IconSVG';
@@ -21,7 +24,7 @@ import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
 
-export class ContentArea extends React.Component {
+export class ContentArea extends BaseComponent {
   constructor(props) {
     super(props);
     this.setNotesPanelHeight = this.setNotesPanelHeight.bind(this);
@@ -544,6 +547,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     updateNote: (interactionId, note) => dispatch(updateNote(interactionId, note)),
     dispatch,
   };

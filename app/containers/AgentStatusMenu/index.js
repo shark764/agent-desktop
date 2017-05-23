@@ -10,6 +10,9 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Icon from 'components/Icon';
 import PopupDialog from 'components/PopupDialog';
 
@@ -81,7 +84,7 @@ const styles = {
   },
 };
 
-export class AgentStatusMenu extends React.Component {
+export class AgentStatusMenu extends BaseComponent {
 
   constructor(props) {
     super(props);
@@ -300,6 +303,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     setActiveExtension: (extension) => dispatch(setActiveExtension(extension)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
     dispatch,

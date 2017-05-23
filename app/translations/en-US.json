@@ -3,7 +3,6 @@
   "app.components.ConfirmDialog.yes": "Yes",
   "app.components.InfoTab.created": "Contact created.",
   "app.components.InfoTab.saved": "Changes saved.",
-  "app.components.NotFoundPage.header": "Page Not Found",
   "app.components.NotificationBanner.tryAgain": "Try again.",
   "app.components.RefreshBanner.notification": "There is a new version available! Click to refresh.",
   "app.components.Stat.aggregate": "Aggregate",

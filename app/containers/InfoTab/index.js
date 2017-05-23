@@ -9,6 +9,9 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import Radium from 'radium';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import NotificationBanner from 'components/NotificationBanner';
 import ContactsControl from 'containers/ContactsControl';
 import ContactHeader from 'components/ContactHeader';
@@ -24,7 +27,7 @@ import { clearSearchResults, clearCheckedContacts, setContactMode,
 import { deleteContacts, setContactAction, addSearchFilter, removeSearchFilter } from '../AgentDesktop/actions';
 import messages from './messages';
 
-export class InfoTab extends React.Component {
+export class InfoTab extends BaseComponent {
   constructor(props) {
     super(props);
 
@@ -281,6 +284,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     clearSearchResults: () => dispatch(clearSearchResults()),
     clearCheckedContacts: () => dispatch(clearCheckedContacts()),
     deleteContacts: (contactIds) => dispatch(deleteContacts(contactIds)),

@@ -9,10 +9,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Stat from 'components/Stat';
 import { selectEnabledStats, selectAvailableStats } from './selectors';
 
-export class AgentStats extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class AgentStats extends BaseComponent {
 
   constructor(props) {
     super(props);
@@ -89,6 +92,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     dispatch,
   };
 }

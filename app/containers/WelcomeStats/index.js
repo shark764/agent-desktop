@@ -11,11 +11,14 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import axios from 'axios';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import TimeStat from 'components/TimeStat';
 
 import messages from './messages';
 
-export class WelcomeStats extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class WelcomeStats extends BaseComponent {
   styles = {
     welcome: {
       fontSize: '24px',
@@ -166,6 +169,7 @@ export class WelcomeStats extends React.Component { // eslint-disable-line react
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     dispatch,
   };
 }

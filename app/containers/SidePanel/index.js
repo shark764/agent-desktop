@@ -10,8 +10,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import IconCollapse from 'icons/collapse';
-
 import { FormattedMessage } from 'react-intl';
+
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
 
 import Tabs from 'components/Tabs';
 
@@ -27,10 +29,9 @@ import { getSelectedInteractionId, getSelectedInteractionIsVoice, getSelectedInt
 const leftGutterPx = 52;
 const topBarHeightPx = 63;
 
-
-export class SidePanel extends React.Component {
-  constructor() {
-    super();
+export class SidePanel extends BaseComponent {
+  constructor(props) {
+    super(props);
 
     this.getPanelSizing = this.getPanelSizing.bind(this);
     this.handleCollapseClick = this.handleCollapseClick.bind(this);
@@ -195,6 +196,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     setSidePanelTabIndex: (interactionId, tabIndex) => dispatch(setSidePanelTabIndex(interactionId, tabIndex)),
     dispatch,
   };

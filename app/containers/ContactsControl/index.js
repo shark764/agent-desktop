@@ -14,6 +14,9 @@ import isURL from 'validator/lib/isURL';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 import InfiniteScroll from 'react-infinite-scroller';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Button from 'components/Button';
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
@@ -32,7 +35,7 @@ import messages from './messages';
 
 const resultsPlaceholderWidth = 330;
 
-export class ContactsControl extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class ContactsControl extends BaseComponent {
   constructor(props) {
     super(props);
 
@@ -506,7 +509,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    setCriticalError: () => dispatch(setCriticalError()),
     setSearchResults: (filter) => dispatch(setSearchResults(filter)),
     clearSearchResults: () => dispatch(clearSearchResults()),
     checkContact: (contact) => dispatch(checkContact(contact)),
@@ -522,6 +525,7 @@ function mapDispatchToProps(dispatch) {
     setShowError: (field, error) => dispatch(setShowError(field, error)),
     setUnusedField: (field, value) => dispatch(setUnusedField(field, value)),
     setSelectedIndex: (field, index) => dispatch(setSelectedIndex(field, index)),
+    dispatch,
   };
 }
 

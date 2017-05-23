@@ -12,6 +12,9 @@ import Radium from 'radium';
 import moment from 'moment';
 import InfiniteScroll from 'react-infinite-scroller';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 
@@ -20,7 +23,7 @@ import { setContactInteractionHistory, setContactHistoryInteractionDetailsLoadin
 import messages from './messages';
 import { getSelectedInteractionId, selectContact } from './selectors';
 
-export class ContactInteractionHistory extends React.Component {
+export class ContactInteractionHistory extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -514,6 +517,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     setContactInteractionHistory: (contactId, response) => dispatch(setContactInteractionHistory(contactId, response)),
     setContactHistoryInteractionDetailsLoading: (interactionId, contactHistoryInteractionId) => dispatch(setContactHistoryInteractionDetailsLoading(interactionId, contactHistoryInteractionId)),
     addNotesToContactInteractionHistory: (contactHistoryInteractionId, response) => dispatch(addNotesToContactInteractionHistory(contactHistoryInteractionId, response)),

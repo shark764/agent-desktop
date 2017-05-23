@@ -16,6 +16,9 @@ import { setShowCancelDialog, setFormIsDirty, setFormValidity, resetForm, setSho
 import { selectLoading } from 'containers/InfoTab/selectors';
 import { clearSearchResults, setLoading } from 'containers/InfoTab/actions';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import ContactSectionHeader from 'components/ContactSectionHeader';
 import ContactInput from 'components/ContactInput';
 import Button from 'components/Button';
@@ -32,7 +35,7 @@ import {
   selectInInteractionContext,
 } from './selectors';
 
-export class Contact extends React.Component {
+export class Contact extends BaseComponent {
   constructor(props) {
     super(props);
 
@@ -312,6 +315,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     startOutboundInteraction: (channelType, customer, contact) => dispatch(startOutboundInteraction(channelType, customer, contact)),
     setShowCancelDialog: (showCancelDialog) => dispatch(setShowCancelDialog(showCancelDialog)),
     setLoading: (loading) => dispatch(setLoading(loading)),
