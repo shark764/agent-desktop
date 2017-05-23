@@ -107,6 +107,17 @@ const styles = {
     cursor: 'default',
   },
   isIcon: {
+    borderTop: 'none',
+    borderRight: 'none',
+    borderBottom: 'none',
+    borderLeft: 'none',
+    backgroundColor: 'none',
+    ':hover': {
+      backgroundColor: undefined,
+    },
+    ':active': {
+      backgroundColor: undefined,
+    },
     boxSizing: 'borderBox',
     padding: 'auto',
   },

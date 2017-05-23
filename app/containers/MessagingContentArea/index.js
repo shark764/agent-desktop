@@ -264,6 +264,8 @@ export class MessagingContentArea extends React.Component {
     messageHistory: {
       flex: '1 1 auto',
       overflowY: 'auto',
+      marginBottom: '1px',
+      borderRadius: '3px',
     },
     messageTemplatesContainer: {
       position: 'absolute',
@@ -305,7 +307,9 @@ export class MessagingContentArea extends React.Component {
       backgroundColor: '#DEF8FE',
     },
     messageTextareaContainer: {
-      flex: '0 1 50px',
+      flex: '0 0 50px',
+      display: 'flex',
+      alignItems: 'stretch',
     },
     templateMenuButton: {
       height: 'calc(100% - 7px)',
@@ -325,7 +329,6 @@ export class MessagingContentArea extends React.Component {
       borderLeft: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '' : '1px solid #979797',
     },
     messageButton: {
-      height: 'calc(100% - 7px)',
       width: '50px',
       verticalAlign: 'top',
       fontSize: '11px',

@@ -124,6 +124,7 @@ export class ContentArea extends React.Component {
       padding: '10px 5px',
       display: 'flex',
       justifyContent: 'space-between',
+      alignItems: 'center',
     },
     from: {
       display: 'inline-block',
@@ -263,6 +264,7 @@ export class ContentArea extends React.Component {
     rightHeaderContainer: {
       display: 'flex',
       alignItems: 'center',
+      flexShrink: 0,
     },
     toggleWrapupLabel: {
       marginRight: '5px',
@@ -277,7 +279,6 @@ export class ContentArea extends React.Component {
     addIcon: {
       width: '16px',
       height: '16px',
-      paddingBottom: '2px',
     },
   };
 
@@ -448,7 +449,7 @@ export class ContentArea extends React.Component {
             </div>
             {
               this.props.interaction.dispositionDetails.dispositions.length
-              ? <div style={this.styles.dispositionChipsContainer}>
+              ? <div id="selected-dispositions" style={this.styles.dispositionChipsContainer}>
                 {
                   this.props.interaction.dispositionDetails.selected.map((disposition) =>
                     <div
@@ -462,7 +463,6 @@ export class ContentArea extends React.Component {
                       </span>
                       <Button
                         id="delete-disposition-btn"
-                        clear
                         style={this.styles.closeButton}
                         iconName="close"
                         type="secondary"
@@ -486,13 +486,13 @@ export class ContentArea extends React.Component {
                           id="add-disposition-icon"
                           style={this.styles.addIcon}
                         />
-                        <span style={[this.styles.dispositionLabelText, { marginLeft: '5px' }]}>
+                        <span style={[this.styles.dispositionLabelText, { marginLeft: '5px', padding: '2.5px 0' }]}>
                           <FormattedMessage {...messages.disposition} />
                         </span>
                       </div>,
                       this.state.showDispositionsList
-                        ? <div key="dispositionsContainer" style={{ position: 'relative' }}>
-                          <div style={this.styles.dispositionList}>
+                        ? <div id="dispositions-lists-container" key="dispositionsContainer" style={{ position: 'relative' }}>
+                          <div id="dispositions-lists" style={this.styles.dispositionList}>
                             {
                               this.props.interaction.dispositionDetails.dispositions.map((disposition) => {
                                 if (disposition.type === 'category') {
