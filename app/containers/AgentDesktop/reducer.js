@@ -187,11 +187,19 @@ const updateContactInteractionHistoryResults = (contact, action) => {
         return action.response.results;
       } else if (typeof interactionHistory === 'undefined' || action.response.page === interactionHistory.get('nextPage')) {
         const existingResults = interactionHistory ? interactionHistory.get('results') : false;
+        let existingEarliestTimestamp;
+        if (existingResults) {
+          existingEarliestTimestamp = interactionHistory.get('earliestTimestamp');
+        }
+        const earliestTimestamp = existingEarliestTimestamp || action.response.earliestTimestamp;
         return new Map({
           nextPage: action.response.page + 1,
           page: action.response.page,
           total: action.response.total,
-          results: existingResults ? existingResults.concat(fromJS(action.response.results)) : fromJS(action.response.results),
+          results: existingResults
+            ? existingResults.concat(fromJS(action.response.results))
+            : fromJS(action.response.results),
+          earliestTimestamp,
         });
       } else {
         return interactionHistory;

@@ -12,7 +12,7 @@ export default defineMessages({
   },
   criticalErrorDescription: {
     id: 'app.containers.AgentDesktop.criticalErrorDescription',
-    defaultMessage: 'A critical error has occurred with Skylight.',
+    defaultMessage: 'A critical error has occurred with Skylight, sorry!',
   },
   reload: {
     id: 'app.containers.AgentDesktop.reload',

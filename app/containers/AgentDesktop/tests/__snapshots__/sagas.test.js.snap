@@ -160,7 +160,7 @@ Object {
 }
 `;
 
-exports[`loadContactInteractions when action.page is undefined should call the promise util with the SDK getContactHistory with the correct arguments 1`] = `
+exports[`loadContactInteractions when action.page is undefined when total results are equal to returned results length should call the promise util with the SDK getContactHistory with the correct arguments 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -175,6 +175,113 @@ Object {
       ],
       "context": null,
       "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`loadContactInteractions when action.page is undefined when total results are equal to returned results length should dispatch a setContactInteractionHistory action with results, results data and earliestTimestamp from the last result of the SDK call 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "contactId": "mockContactId",
+        "response": Object {
+          "earliestTimestamp": "mockTimestamp3",
+          "limit": 3,
+          "page": 0,
+          "results": Array [
+            Object {
+              "startTimestamp": "mockTimestamp1",
+            },
+            Object {
+              "startTimestamp": "mockTimestamp2",
+            },
+            Object {
+              "startTimestamp": "mockTimestamp3",
+            },
+          ],
+          "total": 3,
+        },
+        "type": "app/AgentDesktop/SET_CONTACT_INTERACTION_HISTORY",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`loadContactInteractions when action.page is undefined when total results are greater than returned results length should call the promise util with SDK getContactHistory with the final page derived from limit and total 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "getContactInteractionHistory",
+        Object {
+          "contactId": "mockContactId",
+          "page": 3,
+        },
+        "AgentDesktop",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`loadContactInteractions when action.page is undefined when total results are greater than returned results length should call the promise util with the SDK getContactHistory with the correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "getContactInteractionHistory",
+        Object {
+          "contactId": "mockContactId",
+        },
+        "AgentDesktop",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`loadContactInteractions when action.page is undefined when total results are greater than returned results length should dispatch a setContactInteractionHistory action with results, results data and earliestTimestamp from the last result of the 2nd SDK call 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "contactId": "mockContactId",
+        "response": Object {
+          "earliestTimestamp": "mockTimestamp3",
+          "limit": 3,
+          "page": 0,
+          "results": Array [
+            Object {
+              "startTimestamp": "mockTimestamp1",
+            },
+            Object {
+              "startTimestamp": "mockTimestamp2",
+            },
+            Object {
+              "startTimestamp": "mockTimestamp3",
+            },
+          ],
+          "total": 10,
+        },
+        "type": "app/AgentDesktop/SET_CONTACT_INTERACTION_HISTORY",
+      },
+      "channel": null,
     },
   },
 }
