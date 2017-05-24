@@ -13,15 +13,18 @@ import 'velocity-animate';
 import 'velocity-animate/velocity.ui';
 import { VelocityTransitionGroup } from 'velocity-react';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Checkbox from 'components/Checkbox';
 import Contact from 'containers/Contact';
 
 import { setContactMode, setUnassignedContact } from 'containers/InfoTab/actions';
 
-export class ContactSearchResult extends React.Component {
+export class ContactSearchResult extends BaseComponent {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       expanded: false,
@@ -140,8 +143,10 @@ ContactSearchResult.defaultProps = {
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     setContactMode: (contactMode) => dispatch(setContactMode(contactMode)),
     setUnassignedContact: (unassignedContact) => dispatch(setUnassignedContact(unassignedContact)),
+    dispatch,
   };
 }
 

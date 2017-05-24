@@ -23,6 +23,9 @@ import { stateToHTML } from 'draft-js-export-html';
 
 import { isValidEmail } from 'utils/validator';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Button from 'components/Button';
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
@@ -69,7 +72,7 @@ const decorator = new CompositeDecorator([
   },
 ]);
 
-export class EmailContentArea extends React.Component {
+export class EmailContentArea extends BaseComponent {
 
   constructor(props) {
     super(props);
@@ -945,6 +948,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
     emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
     emailAddAttachment: (interactionId, attachment) => dispatch(emailAddAttachment(interactionId, attachment)),

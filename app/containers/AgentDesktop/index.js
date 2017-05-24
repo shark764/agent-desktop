@@ -9,6 +9,9 @@ import { injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Resizable from 'components/Resizable';
 
 import InteractionsBar from 'containers/InteractionsBar';
@@ -24,7 +27,7 @@ import { selectCriticalError } from 'containers/Errors/selectors';
 import { setInteractionStatus, selectInteraction } from './actions';
 import { selectAgentDesktopMap, selectLoginMap } from './selectors';
 
-export class AgentDesktop extends React.Component {
+export class AgentDesktop extends BaseComponent {
 
   constructor(props) {
     super(props);
@@ -206,6 +209,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     showLogin: (show) => dispatch(showLogin(show)),
     setInteractionStatus: (interactionId, newStatus, response) => dispatch(setInteractionStatus(interactionId, newStatus, response)),
     selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),

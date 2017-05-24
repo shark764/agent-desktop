@@ -11,6 +11,9 @@ import { connect } from 'react-redux';
 import { FormattedMessage, FormattedTime } from 'react-intl';
 import Textarea from 'react-textarea-autosize';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Avatar from 'components/Avatar';
 import Button from 'components/Button';
 import Icon from 'components/Icon';
@@ -23,7 +26,7 @@ import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 import { initializeOutboundSms, sendOutboundSms } from './actions';
 import messages from './messages';
 
-export class MessagingContentArea extends React.Component {
+export class MessagingContentArea extends BaseComponent {
 
   constructor(props) {
     super(props);
@@ -523,6 +526,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     initializeOutboundSms: (interactionId, phoneNumber, message) => dispatch(initializeOutboundSms(interactionId, phoneNumber, message)),
     sendOutboundSms: (interactionId, message) => dispatch(sendOutboundSms(interactionId, message)),
     dispatch,

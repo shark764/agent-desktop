@@ -13,12 +13,15 @@ import Autocomplete from 'react-autocomplete';
 
 import search from 'assets/icons/search.png';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 
 import { selectSearchableAttributes } from './selectors';
 
-export class ContactSearchBar extends React.Component {
+export class ContactSearchBar extends BaseComponent {
   constructor(props) {
     super(props);
 
@@ -283,6 +286,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     dispatch,
   };
 }

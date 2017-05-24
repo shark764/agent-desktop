@@ -9,11 +9,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Interaction from 'components/Interaction';
 
 import { selectPendingInteractions, selectActiveVoiceInteraction, selectActiveNonVoiceInteractions, getSelectedInteractionId } from './selectors';
 
-export class InteractionsBar extends React.Component {
+export class InteractionsBar extends BaseComponent {
   styles = {
     base: {
       backgroundColor: '#072931',
@@ -153,6 +156,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     dispatch,
   };
 }

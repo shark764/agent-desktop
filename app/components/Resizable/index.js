@@ -5,11 +5,8 @@
 */
 
 import React from 'react';
-
 import PropTypes from 'prop-types';
-
 import Radium from 'radium';
-
 import { throttleDecorator } from 'utils/animation';
 
 class Resizable extends React.Component {

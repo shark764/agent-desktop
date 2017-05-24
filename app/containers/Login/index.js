@@ -11,6 +11,9 @@ import Radium from 'radium';
 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Dialog from 'components/Dialog';
 import Logo from 'components/Logo';
 import Title from 'components/Title';
@@ -33,7 +36,7 @@ import messages from './messages';
 import { loggingIn, loginError, loginSuccess, resetPassword, settingTenant, setTenant, tenantError } from './actions';
 const storage = window.localStorage;
 
-export class Login extends React.Component {
+export class Login extends BaseComponent {
 
   constructor(props) {
     super(props);
@@ -469,6 +472,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     resetPassword: (email) => dispatch(resetPassword(email)),
     loggingIn: () => dispatch(loggingIn()),
     loginSuccess: (agent) => dispatch(loginSuccess(agent)),

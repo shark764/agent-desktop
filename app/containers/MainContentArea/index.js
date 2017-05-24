@@ -9,6 +9,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import MessagingContentArea from 'containers/MessagingContentArea';
 import EmailContentArea from 'containers/EmailContentArea';
 import VoiceContentArea from 'containers/VoiceContentArea';
@@ -18,7 +21,7 @@ import { removeInteraction } from 'containers/AgentDesktop/actions';
 
 import { selectSelectedInteraction, selectMessageTemplates } from './selectors';
 
-export class MainContentArea extends React.Component {
+export class MainContentArea extends BaseComponent {
 
   constructor(props) {
     super(props);
@@ -85,6 +88,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
     dispatch,
   };

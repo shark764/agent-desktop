@@ -11,6 +11,9 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import pickBy from 'lodash/pickBy';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import PopupDialog from 'components/PopupDialog';
 import Select from 'components/Select';
 import Button from 'components/Button';
@@ -19,7 +22,7 @@ import messages from './messages';
 
 const MAXIMUM_STATS = 5;
 
-export class AgentConfigMenu extends React.Component {
+export class AgentConfigMenu extends BaseComponent {
 
   constructor(props) {
     super(props);
@@ -210,6 +213,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     dispatch,
   };
 }

@@ -9,6 +9,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Button from 'components/Button';
 
 import AgentScript from 'containers/AgentScript';
@@ -18,7 +21,7 @@ import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
 
-export class VoiceContentArea extends React.Component {
+export class VoiceContentArea extends BaseComponent {
 
   styles = {
     customField: {
@@ -89,14 +92,21 @@ export class VoiceContentArea extends React.Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    setCriticalError: () => dispatch(setCriticalError()),
+    dispatch,
+  };
+}
+
+const mapStateToProps = (state, props) => ({
+  awaitingDisposition: selectAwaitingDisposition(state, props),
+});
+
 VoiceContentArea.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,
   endInteraction: PropTypes.func.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state, props) => ({
-  awaitingDisposition: selectAwaitingDisposition(state, props),
-});
-
-export default connect(mapStateToProps)(Radium(VoiceContentArea));
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(VoiceContentArea));

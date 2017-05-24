@@ -14,6 +14,9 @@ import { PhoneNumberUtil } from 'google-libphonenumber';
 
 import search from 'assets/icons/search.png';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Button from 'components/Button';
 import CircleIconButton from 'components/CircleIconButton';
 import Dialpad from 'components/Dialpad';
@@ -30,7 +33,7 @@ import messages from './messages';
 const REFRESH_AGENTS_RATE = 5000;
 const REFRESH_QUEUES_RATE = 10000;
 
-export class TransferMenu extends React.Component {
+export class TransferMenu extends BaseComponent {
 
   constructor(props) {
     super(props);
@@ -539,6 +542,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     startWarmTransferring: (interactionId, transferringTo) => dispatch(startWarmTransferring(interactionId, transferringTo)),
     setQueueTime: (queueId, queueTime) => dispatch(setQueueTime(queueId, queueTime)),
     dispatch,

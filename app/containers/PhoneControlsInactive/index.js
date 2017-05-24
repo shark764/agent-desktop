@@ -11,6 +11,9 @@ import Radium from 'radium';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Button from 'components/Button';
 import CircleIconButton from 'components/CircleIconButton';
 import Dialpad from 'components/Dialpad';
@@ -19,7 +22,7 @@ import messages from './messages';
 
 import { selectIsAgentReady, selectHasConnectingOutboundVoiceInteraction } from './selectors';
 
-export class PhoneControlsInactive extends React.Component {
+export class PhoneControlsInactive extends BaseComponent {
   constructor(props) {
     super(props);
 
@@ -139,6 +142,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     startOutboundInteraction: (channelType) => dispatch(startOutboundInteraction(channelType)),
     dispatch,
   };

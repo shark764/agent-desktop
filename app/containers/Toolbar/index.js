@@ -10,6 +10,9 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 import AgentStatusMenu from 'containers/AgentStatusMenu';
@@ -158,7 +161,7 @@ const styles = {
   },
 };
 
-export class Toolbar extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class Toolbar extends BaseComponent {
 
   constructor(props) {
     super(props);
@@ -332,6 +335,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     toggleStat: (stat, userId, queues) => dispatch(toggleStat(stat, userId, queues)),
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     dispatch,

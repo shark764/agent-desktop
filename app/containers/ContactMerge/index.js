@@ -9,6 +9,9 @@ import { connect } from 'react-redux';
 import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
 
+import BaseComponent from 'components/BaseComponent';
+import { setCriticalError } from 'containers/Errors/actions';
+
 import ContactSectionHeader from 'components/ContactSectionHeader';
 import ContactInput from 'components/ContactInput';
 import ConfirmDialog from 'components/ConfirmDialog';
@@ -24,7 +27,7 @@ import { clearSearchResults, setLoading, setUnassignedContact } from 'containers
 import { selectLayout, selectAttributes, selectSelectedIndexes, selectUnusedFields } from './selectors';
 import messages from './messages';
 
-export class ContactMerge extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class ContactMerge extends BaseComponent {
   constructor(props) {
     super(props);
 
@@ -369,6 +372,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
     setShowCancelDialog: (showCancelDialog) => dispatch(setShowCancelDialog(showCancelDialog)),
     setLoading: (loading) => dispatch(setLoading(loading)),
     clearSearchResults: () => dispatch(clearSearchResults()),
