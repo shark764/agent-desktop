@@ -14,12 +14,11 @@ exports[`<TextInput /> should render correctly 1`] = `
   style={
     Object {
       "backgroundColor": "#ffffff",
-      "border": "solid 1px #979797",
-      "borderBottom": "none",
-      "borderLeft": "none",
+      "borderBottom": "solid 1px #979797",
+      "borderLeft": "solid 1px #979797",
       "borderRadius": "2px",
-      "borderRight": "none",
-      "borderTop": "none",
+      "borderRight": "solid 1px #979797",
+      "borderTop": "solid 1px #979797",
       "color": "#494949",
       "fontSize": "16px",
       "fontStretch": "normal",

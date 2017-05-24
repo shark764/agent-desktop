@@ -49,16 +49,9 @@ function ContactInput(props) {
     },
     closeButton: {
       margin: '0',
-      borderTop: '0',
-      borderRight: '0',
-      borderBottom: '0',
-      borderLeft: '0',
       order: '1',
       flexGrow: '0',
       flexShrink: '0',
-      ':hover': {
-        backgroundColor: '',
-      },
     },
     textInput: {
       width: '',
@@ -139,6 +132,7 @@ function ContactInput(props) {
                   name={props.attribute.objectName}
                   style={styles.closeButton}
                   iconName="close"
+                  clear
                   type="secondary"
                   onClick={props.handleInputClear}
                 />

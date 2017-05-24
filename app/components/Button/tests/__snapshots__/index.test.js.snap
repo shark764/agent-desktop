@@ -11,12 +11,8 @@ exports[`<Button /> when button is icon should render correctly 1`] = `
   onMouseLeave={[Function]}
   style={
     Object {
-      "backgroundColor": "none",
-      "borderBottom": "none",
-      "borderLeft": "none",
+      "backgroundColor": "#23cdf4",
       "borderRadius": "3px",
-      "borderRight": "none",
-      "borderTop": "none",
       "borderWidth": "0px",
       "boxSizing": "borderBox",
       "color": "#FFFFFF",

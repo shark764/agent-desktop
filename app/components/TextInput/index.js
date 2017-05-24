@@ -52,7 +52,10 @@ function TextInput(props) {
     };
 
     if (!props.noBorder) {
-      styles.base.border = 'solid 1px #979797';
+      styles.base.borderTop = 'solid 1px #979797';
+      styles.base.borderRight = 'solid 1px #979797';
+      styles.base.borderBottom = 'solid 1px #979797';
+      styles.base.borderLeft = 'solid 1px #979797';
       styles.base[':focus'] = {
         boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
         borderTop: 'solid 1px #23CEF5',
