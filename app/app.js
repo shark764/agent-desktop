@@ -21,7 +21,7 @@ import { Provider } from 'react-redux';
 import LanguageProvider from 'containers/LanguageProvider';
 import configureStore from 'store';
 
-import AgentDesktop from 'containers/AgentDesktop';
+import App from 'containers/App';
 
 // Import the CSS reset, which HtmlWebpackPlugin transfers to the build folder
 import 'sanitize.css/sanitize.css';
@@ -64,7 +64,7 @@ const render = (translatedMessages) => {
   ReactDOM.render(
     <Provider store={store}>
       <LanguageProvider messages={translatedMessages}>
-        <AgentDesktop />
+        <App />
       </LanguageProvider>
     </Provider>,
     document.getElementById('app')
