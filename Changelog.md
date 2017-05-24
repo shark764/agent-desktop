@@ -1,3 +1,6 @@
+### [0.37.12] (2017-05-24)
+* Add merge button. Style changes on merge form.
+
 ### [0.37.11] (2017-05-23)
 * Internal - move main SDK subscription block up out of AgentDesktop, prepare to split
 

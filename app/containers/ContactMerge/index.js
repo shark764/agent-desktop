@@ -60,6 +60,9 @@ export class ContactMerge extends React.Component { // eslint-disable-line react
       float: 'left',
       marginRight: '10px',
     },
+    section: {
+      marginBottom: '28px',
+    },
   }
 
   handleSubmit() {
@@ -224,6 +227,7 @@ export class ContactMerge extends React.Component { // eslint-disable-line react
             attribute={attribute}
             attributeLabel={attributeLabel}
             isEditing
+            notSelected={this.props.selectedIndexes[attribute.objectName] !== 0}
             hasRadio
             intl={this.props.intl}
             contact={this.props.checkedContacts[0]}
@@ -255,6 +259,7 @@ export class ContactMerge extends React.Component { // eslint-disable-line react
             attribute={attribute}
             attributeLabel={attributeLabel}
             isEditing
+            notSelected={this.props.selectedIndexes[attribute.objectName] !== 1}
             hasRadio
             intl={this.props.intl}
             contact={this.props.checkedContacts[1]}

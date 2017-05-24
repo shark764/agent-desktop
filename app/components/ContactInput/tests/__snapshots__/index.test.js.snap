@@ -54,19 +54,22 @@ exports[`<ContactInput /> should render correctly 1`] = `
       onBlur={[Function]}
       placeholder="mock"
       style={
-        Object {
-          ":focus": Object {
+        Array [
+          Object {
+            ":focus": Object {
+              "outline": "none",
+            },
+            "alignSelf": "stretch",
+            "flexGrow": "1",
+            "flexShrink": "1",
+            "fontSize": "14px",
+            "height": "",
             "outline": "none",
+            "padding": "",
+            "width": "",
           },
-          "alignSelf": "stretch",
-          "flexGrow": "1",
-          "flexShrink": "1",
-          "fontSize": "14px",
-          "height": "",
-          "outline": "none",
-          "padding": "",
-          "width": "",
-        }
+          undefined,
+        ]
       }
       value="mock"
     />

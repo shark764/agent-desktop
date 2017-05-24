@@ -66,6 +66,10 @@ function ContactInput(props) {
       flexShrink: '1',
       alignSelf: 'stretch',
     },
+    notSelected: {
+      backgroundColor: 'lightgrey',
+      textDecoration: 'line-through',
+    },
     attributeValue: {
       flexShrink: '1',
     },
@@ -116,8 +120,9 @@ function ContactInput(props) {
             <div key={props.attribute.objectName} style={[styles.inputBox, styles.inputBorder, inputError && styles.inputErrorBorder, { marginLeft: props.hasRadio ? '-17px' : '' }]}>
               <TextInput
                 noBorder
+                disabled={props.notSelected}
                 cb={props.handleInputChange}
-                style={styles.textInput}
+                style={[styles.textInput, props.notSelected && styles.notSelected]}
                 id={`${props.attribute.objectName}Input`}
                 name={props.attribute.objectName}
                 value={value}
@@ -125,7 +130,7 @@ function ContactInput(props) {
                 autocomplete="off"
                 onBlur={props.handleOnBlur}
               />
-              {value && value.length
+              {value && value.length && !props.notSelected
                 ? <Button
                   id={`${props.attribute.objectName}-clear-btn`}
                   tabIndex={-1}
@@ -179,7 +184,7 @@ function ContactInput(props) {
       <div style={styles.attributeName}>
         {props.attributeLabel}
       </div>
-      <div style={styles.attributeValue}>
+      <div style={[styles.attributeValue]}>
         {content}
       </div>
     </div>
@@ -205,6 +210,7 @@ ContactInput.propTypes = {
   smsInteractionNumbers: PropTypes.array.isRequired,
   startCall: PropTypes.func,
   startSms: PropTypes.func,
+  notSelected: PropTypes.bool,
 };
 
 export default Radium(ContactInput);
