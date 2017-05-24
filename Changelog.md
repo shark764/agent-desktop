@@ -1,3 +1,6 @@
+### [0.37.10] (2017-05-23)
+* Revert 0.37.8
+
 ### [0.37.9] (2017-05-23)
 * BUGFIX - login input borders
 * BUGFIX - contact search button
@@ -771,6 +774,11 @@
 #### Initial Commit
 * Here we go!
 
+[0.37.10]: http://www.github.com/liveops/agent-desktop/compare/0.37.9...0.37.10
+[0.37.9]: http://www.github.com/liveops/agent-desktop/compare/0.37.8...0.37.9
+[0.37.8]: http://www.github.com/liveops/agent-desktop/compare/0.37.7...0.37.8
+[0.37.7]: http://www.github.com/liveops/agent-desktop/compare/0.37.6...0.37.7
+[0.37.6]: http://www.github.com/liveops/agent-desktop/compare/0.37.5...0.37.6
 [0.37.5]: http://www.github.com/liveops/agent-desktop/compare/0.37.4...0.37.5
 [0.37.4]: http://www.github.com/liveops/agent-desktop/compare/0.37.3...0.37.4
 [0.37.3]: http://www.github.com/liveops/agent-desktop/compare/0.37.2...0.37.3
