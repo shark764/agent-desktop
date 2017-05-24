@@ -1,5 +1,10 @@
+### [0.37.14] (2017-05-24)
+* Update SDK URL
+* Fix error banner refresh link
+* CXV1-9364 - Only initialize Sentry for prod
+
 ### [0.37.13] (2017-05-24)
-* Handle render errors (show critical error bar instead of breaking/freezing the app)
+* CXV1-9364 - Handle render errors (show critical error bar instead of breaking/freezing the app)
 
 ### [0.37.12] (2017-05-24)
 * Add merge button. Style changes on merge form.

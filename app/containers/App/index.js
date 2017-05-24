@@ -126,7 +126,7 @@ export class App extends React.Component {
     window.agentDesktopState = () => this.props.agentDesktop;
 
     // Initialize Remote Logging with Sentry.io
-    if (environment !== 'dev') {
+    if (environment === 'prod') {
       Raven.config('https://892f9eb6bb314a9da98b98372c518351@sentry.io/169686', {
         release,
         environment,
@@ -591,7 +591,7 @@ export class App extends React.Component {
             descriptionMessage={messages.criticalErrorDescription}
             isError
             rightLinkAction={
-              CxEngage.authentication.logout // Causes SDK session end event -> reload.
+              () => CxEngage.authentication.logout() // Causes SDK session end event -> reload.
             }
             rightLinkMessage={messages.reload}
           />
