@@ -132,18 +132,24 @@ export class App extends React.Component {
       }).install();
     }
 
-
     const sdkConf = { baseUrl: `https://${where}`, logLevel, blastSqsOutput, environment, reportingRefreshRate };
 
     CxEngage.initialize(sdkConf);
 
     CxEngage.subscribe('cxengage', (error, topic, response) => {
-      const isIgnoreTopic = sdkIgnoreTopics.includes(topic);
-      const isLogTopic = sdkLogTopics.includes(topic);
-      let topicUnhandled;
       if (error) {
-        this.props.handleSDKError(error, topic);
+        switch (topic) {
+          case 'cxengage/authentication/login-response': // Handled in Login container
+            break;
+          default: {
+            this.props.handleSDKError(error, topic);
+          }
+        }
       } else {
+        const isIgnoreTopic = sdkIgnoreTopics.includes(topic);
+        const isLogTopic = sdkLogTopics.includes(topic);
+        let topicUnhandled;
+
         switch (topic) {
 
           // SESSION

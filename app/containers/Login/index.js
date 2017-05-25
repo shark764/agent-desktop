@@ -91,10 +91,11 @@ export class Login extends BaseComponent {
         username: this.state.username.trim(),
         password: this.state.password,
       }, (error, topic, response) => {
-        console.log('[Login] CxEngage.subscribe()', topic, response);
         if (!error && response) {
+          console.log('[Login] CxEngage.subscribe()', topic, response);
           this.loginCB(response);
         } else {
+          console.warn('[Login] CxEngage error', topic, error);
           this.handleError();
         }
       });
