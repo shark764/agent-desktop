@@ -1,3 +1,6 @@
+### [0.37.18] (2017-05-25)
+* CXV1-9329 - Fix login error handling
+
 ### [0.37.17] (2017-05-25)
 * CXV1-8721 - Contact interaction history paging
 
