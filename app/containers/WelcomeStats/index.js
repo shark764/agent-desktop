@@ -98,19 +98,19 @@ export class WelcomeStats extends BaseComponent {
     this.getStats();
   }
 
-  setHandleTime(data) {
+  setHandleTime = (data) => {
     this.setState({avgHandleTime: data.results}); // eslint-disable-line
   }
 
-  setCSAT(data) {
+  setCSAT = (data) => {
     this.setState({csat: data.results.percent + '%'}); // eslint-disable-line
   }
 
-  setInteractionCount(data) {
+  setInteractionCount = (data) => {
     this.setState({interactionCount: data.results.count}); // eslint-disable-line
   }
 
-  getStats() {
+  getStats = () => {
     let host;
     if (typeof window.ADconf !== 'undefined') {
       host = 'https://' + window.ADconf.api; // eslint-disable-line

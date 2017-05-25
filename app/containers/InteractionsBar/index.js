@@ -29,7 +29,7 @@ export class InteractionsBar extends BaseComponent {
     },
   };
 
-  acceptInteraction(interactionId) {
+  acceptInteraction = (interactionId) => {
     this.props.acceptInteraction(interactionId);
   }
 

@@ -76,7 +76,7 @@ export class EmailContentArea extends BaseComponent {
 
   constructor(props) {
     super(props);
-    this.onEmailCreateReply = this.onEmailCreateReply.bind(this);
+
     this.onChange = (editorState) => {
       this.setState({ editorState });
     };
@@ -133,7 +133,7 @@ export class EmailContentArea extends BaseComponent {
     }
   }
 
-  emailUpdateReply() {
+  emailUpdateReply = () => {
     this.props.emailUpdateReply(this.props.selectedInteraction.interactionId, {
       tos: this.state.tos,
       ccs: this.state.ccs,
@@ -143,14 +143,14 @@ export class EmailContentArea extends BaseComponent {
     });
   }
 
-  onEmailCreateReply() {
+  onEmailCreateReply = () => {
     this.setState({
       editorState: createEditorState(),
     });
     this.props.emailCreateReply(this.props.selectedInteraction.interactionId);
   }
 
-  onCommaAddTo(e) {
+  onCommaAddTo = (e) => {
     if (e.keyCode === 188) {
       e.preventDefault();
       if (isValidEmail(this.state.toInput)) {
@@ -165,7 +165,7 @@ export class EmailContentArea extends BaseComponent {
     }
   }
 
-  onCommaAddCc(e) {
+  onCommaAddCc = (e) => {
     if (e.keyCode === 188) {
       e.preventDefault();
       if (isValidEmail(this.state.ccInput)) {
@@ -180,7 +180,7 @@ export class EmailContentArea extends BaseComponent {
     }
   }
 
-  onCommaAddBcc(e) {
+  onCommaAddBcc = (e) => {
     if (e.keyCode === 188) {
       e.preventDefault();
       if (isValidEmail(this.state.bccInput)) {
@@ -195,7 +195,7 @@ export class EmailContentArea extends BaseComponent {
     }
   }
 
-  onBlurAddTo() {
+  onBlurAddTo = () => {
     if (isValidEmail(this.state.toInput)) {
       this.setState({
         tos: this.state.tos.concat({ name: this.state.toInput, address: this.state.toInput }),
@@ -204,7 +204,7 @@ export class EmailContentArea extends BaseComponent {
     }
   }
 
-  onBlurAddCc() {
+  onBlurAddCc = () => {
     if (isValidEmail(this.state.ccInput)) {
       this.setState({
         ccs: this.state.ccs.concat({ name: this.state.ccInput, address: this.state.ccInput }),
@@ -213,7 +213,7 @@ export class EmailContentArea extends BaseComponent {
     }
   }
 
-  onBlurAddBcc() {
+  onBlurAddBcc = () => {
     if (isValidEmail(this.state.bccInput)) {
       this.setState({
         bccs: this.state.bccs.concat({ name: this.state.bccInput, address: this.state.bccInput }),
@@ -222,7 +222,7 @@ export class EmailContentArea extends BaseComponent {
     }
   }
 
-  removeTo(toRemove) {
+  removeTo = (toRemove) => {
     this.setState({
       tos: this.state.tos.filter((to) =>
         to !== toRemove
@@ -230,7 +230,7 @@ export class EmailContentArea extends BaseComponent {
     });
   }
 
-  removeCc(ccRemove) {
+  removeCc = (ccRemove) => {
     this.setState({
       ccs: this.state.ccs.filter((cc) =>
         cc !== ccRemove
@@ -238,7 +238,7 @@ export class EmailContentArea extends BaseComponent {
     });
   }
 
-  removeBcc(bccRemove) {
+  removeBcc = (bccRemove) => {
     this.setState({
       bccs: this.state.bccs.filter((bcc) =>
         bcc !== bccRemove
@@ -246,19 +246,19 @@ export class EmailContentArea extends BaseComponent {
     });
   }
 
-  addFilesToEmail(fileList) {
+  addFilesToEmail = (fileList) => {
     for (let i = 0; i < fileList.length; i += 1) {
       this.props.emailAddAttachment(this.props.selectedInteraction.interactionId, {});
       CxEngage.interactions.email.addAttachment({ interactionId: this.props.selectedInteraction.interactionId, file: fileList[i] });
     }
   }
 
-  removeAttachment(attachmentId) {
+  removeAttachment = (attachmentId) => {
     this.props.emailRemoveAttachment(this.props.selectedInteraction.interactionId, attachmentId);
     CxEngage.interactions.email.removeAttachment({ interactionId: this.props.selectedInteraction.interactionId, attachmentId });
   }
 
-  onTemplateChange(value) {
+  onTemplateChange = (value) => {
     let newEditorState;
     if (value !== null && value !== undefined) {
       newEditorState = EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(value).contentBlocks, convertFromHTML(value).entityMap), decorator);
@@ -271,7 +271,7 @@ export class EmailContentArea extends BaseComponent {
     });
   }
 
-  sendEmail() {
+  sendEmail = () => {
     this.props.emailSendReply(this.props.selectedInteraction.interactionId);
     const emailReply = {
       interactionId: this.props.selectedInteraction.interactionId,
@@ -286,7 +286,7 @@ export class EmailContentArea extends BaseComponent {
     CxEngage.interactions.email.sendReply(emailReply);
   }
 
-  emailWithImages() {
+  emailWithImages = () => {
     const emailDetails = this.props.selectedInteraction.emailDetails;
     let newEmailBody = this.props.selectedInteraction.emailHtmlBody;
     let srcStartIndex;
@@ -321,7 +321,7 @@ export class EmailContentArea extends BaseComponent {
     return newEmailBody;
   }
 
-  wrapEmailHistory(email) {
+  wrapEmailHistory = (email) => {
     const timestampFormatted = moment(this.props.selectedInteraction.emailDetails.dateSent).format('LL');
     return (`
       <p>On ${timestampFormatted} ${this.props.selectedInteraction.emailDetails.from[0].name} wrote:</p>
@@ -704,7 +704,6 @@ export class EmailContentArea extends BaseComponent {
             <div style={this.styles.detailsValue}>
               {
                 this.state.tos.map((to, index) =>
-                  // eslint-disable-next-line react/no-array-index-key
                   <div key={`${index}-${to.address}`} id={`${index}-${to.address}`} style={this.styles.emailAddress}>
                     { to.name && to.name !== to.address ? `${to.name} [${to.address}]` : to.address }
                     <span onClick={() => this.removeTo(to)} style={this.styles.emailAddressRemove}>
@@ -732,7 +731,6 @@ export class EmailContentArea extends BaseComponent {
             <div style={this.styles.detailsValue}>
               {
                 this.state.ccs.map((cc, index) =>
-                  // eslint-disable-next-line react/no-array-index-key
                   <div key={`${index}-${cc.address}`} id={`${index}-${cc.address}`} style={this.styles.emailAddress}>
                     { cc.name && cc.name !== cc.address ? `${cc.name} [${cc.address}]` : cc.address }
                     <span className="removeAddress" onClick={() => this.removeCc(cc)} style={this.styles.emailAddressRemove}>
@@ -760,7 +758,6 @@ export class EmailContentArea extends BaseComponent {
             <div style={this.styles.detailsValue}>
               {
                 this.state.bccs.map((bcc, index) =>
-                  // eslint-disable-next-line react/no-array-index-key
                   <div key={`${index}-${bcc.address}`} id={`${index}-${bcc.address}`} style={this.styles.emailAddress}>
                     { bcc.name && bcc.name !== bcc.address ? `${bcc.name} [${bcc.address}]` : bcc.address }
                     <span className="removeAddress" onClick={() => this.removeBcc(bcc)} style={this.styles.emailAddressRemove}>
@@ -818,7 +815,6 @@ export class EmailContentArea extends BaseComponent {
           <div style={this.styles.attachmentsContainer}>
             {
               this.props.selectedInteraction.emailReply.attachments.map((attachment, index) =>
-                // eslint-disable-next-line react/no-array-index-key
                 <div key={`${index}-${attachment.name}`} id={`${index}-${attachment.name}`} style={this.styles.attachment} >
                   {
                     attachment.attachmentId === undefined

@@ -1,3 +1,7 @@
+### [0.37.15] (2017-05-25)
+* Change all component non-react lifecycle functions to arrow functions
+* Fixed radium warning on contact search bar
+
 ### [0.37.14] (2017-05-24)
 * Update SDK URL
 * Fix error banner refresh link

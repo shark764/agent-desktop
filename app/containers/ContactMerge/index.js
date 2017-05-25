@@ -28,19 +28,6 @@ import { selectLayout, selectAttributes, selectSelectedIndexes, selectUnusedFiel
 import messages from './messages';
 
 export class ContactMerge extends BaseComponent {
-  constructor(props) {
-    super(props);
-
-    this.generateSection = this.generateSection.bind(this);
-    this.generateAttributeRow = this.generateAttributeRow.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleInputClear = this.handleInputClear.bind(this);
-    this.handleOnBlur = this.handleOnBlur.bind(this);
-    this.selectAttribute = this.selectAttribute.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.showError = this.showError.bind(this);
-    this.mergeCallback = this.mergeCallback.bind(this);
-  }
 
   componentDidMount() {
     this.props.setFormValidity(true);
@@ -68,7 +55,7 @@ export class ContactMerge extends BaseComponent {
     },
   }
 
-  handleSubmit() {
+  handleSubmit = () => {
     const contactIds = this.props.checkedContacts.map((contact) => contact.id);
     const attributes = this.props.contactForm;
     CxEngage.contacts.merge({ contactIds, attributes }, this.mergeCallback);
@@ -77,7 +64,7 @@ export class ContactMerge extends BaseComponent {
     this.props.setContactAction(this.props.selectedInteraction.interactionId, 'view');
   }
 
-  mergeCallback(error, topic, response) {
+  mergeCallback = (error, topic, response) => {
     console.log('[ContactMerge] CxEngage.subscribe()', topic, response);
     this.props.setUnassignedContact(response);
     this.props.setLoading(false);
@@ -96,7 +83,7 @@ export class ContactMerge extends BaseComponent {
     }
   }
 
-  selectAttribute(event) {
+  selectAttribute = (event) => {
     const name = event.currentTarget.name;
     const clickedIndex = parseInt(event.target.id.slice(-1), 10);
     const previousIndex = this.props.selectedIndexes[name];
@@ -116,18 +103,18 @@ export class ContactMerge extends BaseComponent {
     this.props.setFormValidity(Object.keys(errors).every((key) => errors[key] === false));
   }
 
-  showError(name) {
+  showError = (name) => {
     if (!this.props.showErrors[name]) {
       this.props.setShowError(name, true);
     }
   }
 
-  handleOnBlur(event) {
+  handleOnBlur = (event) => {
     this.props.setFormValidity(Object.keys(this.props.formErrors).every((key) => !this.props.formErrors[key]));
     this.showError(event.target.name);
   }
 
-  setAttributeValue(name, newValue) {
+  setAttributeValue = (name, newValue) => {
     const stateUpdate = { ...this.props.formErrors };
     const cleanedInput = this.props.formatValue(name, newValue);
     const newError = this.props.getError(name, cleanedInput);
@@ -137,11 +124,11 @@ export class ContactMerge extends BaseComponent {
     this.props.setFormValidity(Object.keys(stateUpdate).every((key) => !stateUpdate[key]));
   }
 
-  setUnusedValue(name, newValue) {
+  setUnusedValue = (name, newValue) => {
     this.props.setUnusedField(name, this.props.formatValue(name, newValue));
   }
 
-  handleInputClear(event, index) {
+  handleInputClear = (event, index) => {
     const targetInputElement = event.target.previousSibling ? event.target.previousSibling : event.target.parentElement.previousSibling;
     const inputName = targetInputElement.name;
     if (index === undefined || this.props.selectedIndexes[inputName] === index) {
@@ -151,7 +138,7 @@ export class ContactMerge extends BaseComponent {
     }
   }
 
-  handleInputChange(newValue, event, index) {
+  handleInputChange = (newValue, event, index) => {
     if (index === undefined || this.props.selectedIndexes[event.target.name] === index) {
       this.setAttributeValue(event.target.name, newValue);
     } else {
@@ -159,7 +146,7 @@ export class ContactMerge extends BaseComponent {
     }
   }
 
-  generateAttributeRow(attributeId) {
+  generateAttributeRow = (attributeId) => {
     const attribute = this.props.attributes.find((attr) => attr.id === attributeId);
     const attributeLabel = `${attribute.label[this.props.intl.locale]}${(attribute.mandatory) ? '*' : ''}`;
     const firstValue = this.props.checkedContacts[0].attributes[attribute.objectName] || '';
@@ -276,14 +263,11 @@ export class ContactMerge extends BaseComponent {
     );
   }
 
-  generateSection(section) {
-    return (
-      <div style={this.styles.section} key={section.label[this.props.intl.locale]}>
-        <ContactSectionHeader label={section.label[this.props.intl.locale]} />
-        {section.attributes.map(this.generateAttributeRow)}
-      </div>
-    );
-  }
+  generateSection = (section) =>
+    <div style={this.styles.section} key={section.label[this.props.intl.locale]}>
+      <ContactSectionHeader label={section.label[this.props.intl.locale]} />
+      {section.attributes.map(this.generateAttributeRow)}
+    </div>
 
   render() {
     return (

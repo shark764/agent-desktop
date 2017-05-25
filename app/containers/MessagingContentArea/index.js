@@ -38,12 +38,6 @@ export class MessagingContentArea extends BaseComponent {
       messageText: '',
       messageTextareaHeight: 50,
     };
-    this.toggleMessageTemplateMenu = this.toggleMessageTemplateMenu.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.addMessageTemplate = this.addMessageTemplate.bind(this);
-    this.setMessageText = this.setMessageText.bind(this);
-    this.onMessageKeyDown = this.onMessageKeyDown.bind(this);
-    this.sendMessage = this.sendMessage.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -71,7 +65,7 @@ export class MessagingContentArea extends BaseComponent {
     document.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  toggleMessageTemplateMenu() {
+  toggleMessageTemplateMenu = () => {
     if (!this.state.showMessageTemplateMenu) {
       document.addEventListener('keydown', this.handleKeyDown);
       this.setState({
@@ -88,7 +82,7 @@ export class MessagingContentArea extends BaseComponent {
     }
   }
 
-  handleKeyDown(e) {
+  handleKeyDown = (e) => {
     if (e.key === 'ArrowUp') {
       let newSelectedMessageTemplateIndex = this.state.selectedMessageTemplateIndex;
       if (!this.state.showMessageTemplateMenuByForwardSlash) {
@@ -131,11 +125,11 @@ export class MessagingContentArea extends BaseComponent {
     }
   }
 
-  selectMessageTemplateIndex(selectedMessageTemplateIndex) {
+  selectMessageTemplateIndex = (selectedMessageTemplateIndex) => {
     this.setState({ selectedMessageTemplateIndex });
   }
 
-  addMessageTemplate() {
+  addMessageTemplate = () => {
     this.messageTextarea.focus();
     let newMessageText = this.state.messageText;
     if (this.state.showMessageTemplateMenuByForwardSlash) {
@@ -150,7 +144,7 @@ export class MessagingContentArea extends BaseComponent {
     document.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  setMessageText(messageText) {
+  setMessageText = (messageText) => {
     // If we're filtering based on "/" text, reset the selected message template to the first unfiltered one
     let newSelectedMessageTemplateIndex;
     let newMessageTemplateFilter;
@@ -170,7 +164,7 @@ export class MessagingContentArea extends BaseComponent {
     });
   }
 
-  onMessageKeyDown(e) {
+  onMessageKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       if (!this.state.showMessageTemplateMenu) {
@@ -191,7 +185,7 @@ export class MessagingContentArea extends BaseComponent {
     }
   }
 
-  sendMessage() {
+  sendMessage = () => {
     if (this.state.messageText.trim() !== '') {
       if (this.props.selectedInteraction.status === 'connecting-to-outbound') {
         this.props.initializeOutboundSms(this.props.selectedInteraction.interactionId, this.props.selectedInteraction.customer, this.state.messageText);

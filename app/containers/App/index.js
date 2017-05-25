@@ -47,14 +47,6 @@ let logoutOnSessionStart = false;
 
 export class App extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.acceptInteraction = this.acceptInteraction.bind(this);
-    this.selectInteraction = this.selectInteraction.bind(this);
-    this.hideRefreshBanner = this.hideRefreshBanner.bind(this);
-    this.loadConf = this.loadConf.bind(this);
-  }
-
   componentWillUnmount() {
     clearInterval(this.cacheCheckInterval);
   }
@@ -70,7 +62,7 @@ export class App extends React.Component {
     });
   }
 
-  loadConf() {
+  loadConf = () => {
     axios({
       method: 'get',
       url: `${window.location.href}config.json`,
@@ -90,18 +82,18 @@ export class App extends React.Component {
     });
   }
 
-  hideRefreshBanner() {
+  hideRefreshBanner = () => {
     this.props.showRefreshRequired(false);
   }
 
-  killItWithFire(errorType) {
+  killItWithFire = (errorType) => {
     window.onbeforeunload = null; // clear error clearer set in Login
     window.localStorage.setItem('ADError', errorType); // Consume in Login component
     CxEngage.authentication.logout();
     logoutOnSessionStart = true; // session has not usually started yet here so logout has no effect
   }
 
-  init() {
+  init = () => {
     let where;
     let environment;
     let logLevel;
@@ -459,7 +451,7 @@ export class App extends React.Component {
     });
   }
 
-  attemptContactSearch(from, interactionId, exact) {
+  attemptContactSearch = (from, interactionId, exact) => {
     CxEngage.contacts.search({ query: { q: exact ? encodeURIComponent(`"${from}"`) : encodeURIComponent(from) } }, (searchError, searchTopic, searchResponse) => {
       if (searchError) {
         this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
@@ -486,30 +478,30 @@ export class App extends React.Component {
     });
   }
 
-  setContactsPanelWidth(newWidth) {
+  setContactsPanelWidth = (newWidth) => {
     this.setState({
       contactsPanelPx: newWidth,
     });
   }
 
-  collapseContactsPanel() {
+  collapseContactsPanel = () => {
     this.setState({
       isContactsPanelCollapsed: true,
     });
   }
 
-  showContactsPanel() {
+  showContactsPanel = () => {
     this.setState({
       isContactsPanelCollapsed: false,
     });
   }
 
-  selectInteraction(interactionId) {
+  selectInteraction = (interactionId) => {
     this.props.selectInteraction(interactionId);
     this.showContactsPanel();
   }
 
-  acceptInteraction(interactionId) {
+  acceptInteraction = (interactionId) => {
     this.props.setInteractionStatus(interactionId, 'work-accepting');
     CxEngage.interactions.accept({ interactionId });
   }

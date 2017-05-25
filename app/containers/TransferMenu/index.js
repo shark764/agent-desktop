@@ -37,11 +37,6 @@ export class TransferMenu extends BaseComponent {
 
   constructor(props) {
     super(props);
-    this.setAgentsCallback = this.setAgentsCallback.bind(this);
-    this.refreshAgents = this.refreshAgents.bind(this);
-    this.filterTransferListItems = this.filterTransferListItems.bind(this);
-    this.setDialpadText = this.setDialpadText.bind(this);
-    this.transferFromDialpad = this.transferFromDialpad.bind(this);
 
     this.mounted = false;
 
@@ -57,7 +52,7 @@ export class TransferMenu extends BaseComponent {
 
   phoneNumberUtil = PhoneNumberUtil.getInstance();
 
-  setDialpadText(dialpadText) {
+  setDialpadText = (dialpadText) => {
     let formattedDialpadText = dialpadText.replace(/[^0-9+*#]/g, '');
     if (formattedDialpadText.indexOf('+') !== 0) {
       formattedDialpadText = `+${formattedDialpadText}`;
@@ -94,7 +89,7 @@ export class TransferMenu extends BaseComponent {
     clearInterval(this.reloadTransferablesInterval);
   }
 
-  refreshQueueTimes() {
+  refreshQueueTimes = () => {
     this.props.queues.forEach((queue) => {
       CxEngage.reporting.statQuery({ statistic: 'queue-time', queueId: queue.id }, (error, topic, response) => {
         console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
@@ -103,12 +98,12 @@ export class TransferMenu extends BaseComponent {
     });
   }
 
-  refreshAgents() {
+  refreshAgents = () => {
     this.setState({ agents: 'loading' });
     CxEngage.entities.getUsers((error, topic, response) => this.setAgentsCallback(error, topic, response));
   }
 
-  setAgentsCallback(error, topic, response) {
+  setAgentsCallback = (error, topic, response) => {
     console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
     CxEngage.reporting.getCapacity({}, (capactityError, capactityTopic, capacityResponse) => {
       console.log('[TransferMenu] CxEngage.subscribe()', capactityTopic, capacityResponse);
@@ -138,7 +133,7 @@ export class TransferMenu extends BaseComponent {
     });
   }
 
-  isAgentAvailable(agent, resourceCapacities) {
+  isAgentAvailable = (agent, resourceCapacities) => {
     if (agent.state !== 'ready') {
       return false;
     }
@@ -153,7 +148,7 @@ export class TransferMenu extends BaseComponent {
     return isAgentAvailable;
   }
 
-  setTransferListsCallback(error, topic, response) {
+  setTransferListsCallback = (error, topic, response) => {
     console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
     const transferLists = response.result.map((transferList) => (
       {
@@ -269,17 +264,16 @@ export class TransferMenu extends BaseComponent {
     },
   }
 
-  filterTransferListItems(transferListItems) {
-    return transferListItems.filter((transferListItem) => {
+  filterTransferListItems = (transferListItems) =>
+    transferListItems.filter((transferListItem) => {
       if (this.state.transferSearchInput.trim() !== '') {
         return transferListItem.name.toUpperCase().includes(this.state.transferSearchInput.toUpperCase());
       } else {
         return true;
       }
-    });
-  }
+    })
 
-  transferTransferListItem(name, contactType, endpoint) {
+  transferTransferListItem = (name, contactType, endpoint) => {
     if (contactType === 'queue') {
       this.transfer(name, undefined, endpoint);
     } else {
@@ -291,11 +285,11 @@ export class TransferMenu extends BaseComponent {
     }
   }
 
-  transferFromDialpad() {
+  transferFromDialpad = () => {
     this.transfer(this.state.dialpadText, undefined, undefined, { type: 'pstn', value: this.state.dialpadText });
   }
 
-  transfer(name, resourceId, queueId, transferExtension) {
+  transfer = (name, resourceId, queueId, transferExtension) => {
     const interactionId = this.props.interactionId;
     let transferType;
     if (this.state.transferTabIndex === 0) {

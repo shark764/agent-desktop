@@ -28,20 +28,6 @@ import { deleteContacts, setContactAction, addSearchFilter, removeSearchFilter }
 import messages from './messages';
 
 export class InfoTab extends BaseComponent {
-  constructor(props) {
-    super(props);
-
-    this.setSearching = this.setSearching.bind(this);
-    this.setViewing = this.setViewing.bind(this);
-    this.editContact = this.editContact.bind(this);
-    this.newContact = this.newContact.bind(this);
-    this.deleteContacts = this.deleteContacts.bind(this);
-    this.clearSearch = this.clearSearch.bind(this);
-    this.setNotEditing = this.setNotEditing.bind(this);
-    this.addNotification = this.addNotification.bind(this);
-    this.setMerging = this.setMerging.bind(this);
-    this.setDeletionPending = this.setDeletionPending.bind(this);
-  }
 
   styles = {
     base: {
@@ -109,42 +95,42 @@ export class InfoTab extends BaseComponent {
     });
   }
 
-  setDeletionPending() {
+  setDeletionPending = () => {
     this.props.setLoading(true);
     this.props.setDeletionPending(true);
   }
 
-  deleteContacts() {
+  deleteContacts = () => {
     this.props.deleteContacts(this.props.checkedContacts.map((contact) => contact.id));
     this.props.clearCheckedContacts();
     this.props.setConfirmingDelete(false);
   }
 
-  setSearching() {
+  setSearching = () => {
     this.props.setContactAction(this.props.selectedInteraction.interactionId, 'search');
   }
 
-  newContact() {
+  newContact = () => {
     this.props.setContactMode('editing');
     this.props.setUnassignedContact({});
   }
 
-  editContact() {
+  editContact = () => {
     this.props.setContactMode('editing');
   }
 
-  setViewing() {
+  setViewing = () => {
     this.props.setContactAction(this.props.selectedInteraction.interactionId, 'view');
   }
 
-  clearSearch() {
+  clearSearch = () => {
     this.props.removeSearchFilter();
     if (this.props.selectedInteraction.contact !== undefined) {
       this.setViewing();
     }
   }
 
-  setNotEditing() {
+  setNotEditing = () => {
     this.props.setContactMode('viewing');
     this.props.clearCheckedContacts();
     this.props.setShowCancelDialog(false);
@@ -153,11 +139,11 @@ export class InfoTab extends BaseComponent {
     this.props.resetForm();
   }
 
-  setMerging() {
+  setMerging = () => {
     this.props.setContactMode('merging');
   }
 
-  addNotification(messageType, isError, errorType) {
+  addNotification = (messageType, isError, errorType) => {
     // TODO: move error logic to Errors reducer/saga and call handleError instead of addNotification if error
     const id = this.props.nextNotificationId;
     if (!isError) {

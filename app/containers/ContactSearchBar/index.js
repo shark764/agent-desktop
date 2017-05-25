@@ -33,15 +33,6 @@ export class ContactSearchBar extends BaseComponent {
       filterMenuWidth: 0,
       filterMenuRightOffset: 0,
     };
-
-    this.setSearchTerm = this.setSearchTerm.bind(this);
-    this.handleFilterValueInputKey = this.handleFilterValueInputKey.bind(this);
-    this.handleFilterSelect = this.handleFilterSelect.bind(this);
-    this.createDropdownItem = this.createDropdownItem.bind(this);
-    this.resizeFilterDropdownMenu = this.resizeFilterDropdownMenu.bind(this);
-    this.matchFilterToTerm = this.matchFilterToTerm.bind(this);
-    this.getItemValue = this.getItemValue.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -52,11 +43,10 @@ export class ContactSearchBar extends BaseComponent {
     this.resizeFilterDropdownMenu();
   }
 
-  getLabel(attribute) { // TODO: Dynamically load translations and use intl.formatMessage
-    return attribute.label[this.props.intl.locale] || attribute.objectName;
-  }
+  getLabel = (attribute) => // TODO: Dynamically load translations and use intl.formatMessage
+    attribute.label[this.props.intl.locale] || attribute.objectName
 
-  getAvailableFilters() {
+  getAvailableFilters = () => {
     if (this.props.query.length && this.props.query[0].attribute.id === 'all') {
       // Don't show other filters when 'all' is selected
       return [];
@@ -67,15 +57,13 @@ export class ContactSearchBar extends BaseComponent {
     return filteredFilters;
   }
 
-  setSearchTerm(searchTerm) {
+  setSearchTerm = (searchTerm) => {
     this.setState({ searchTerm });
   }
 
-  getItemValue(item) {
-    return this.getLabel(item);
-  }
+  getItemValue = (item) => this.getLabel(item)
 
-  resizeFilterDropdownMenu() {
+  resizeFilterDropdownMenu = () => {
     const newInputDivWidth = (this.inputDiv && this.inputDiv.offsetWidth) || this.state.filterMenuWidth;
     if (newInputDivWidth !== this.state.filterMenuWidth) {
       this.setState({ // eslint-disable-line react/no-did-mount-set-state
@@ -84,7 +72,7 @@ export class ContactSearchBar extends BaseComponent {
     }
   }
 
-  handleFilterValueInputKey(event) {
+  handleFilterValueInputKey = (event) => {
     switch (event.key) {
       case 'Backspace':
         if (!this.state.pendingFilterValue.length) {
@@ -98,14 +86,13 @@ export class ContactSearchBar extends BaseComponent {
     }
   }
 
-  createDropdownItem(item, isHighlighted) {
-    return (
-      <div
-        key={item.id}
-        style={Object.assign({}, this.styles.filterDropdownRow, isHighlighted ? this.styles.highlightedFilter : {})}
-      >{this.getLabel(item)}</div>
-    );
-  }
+  createDropdownItem = (item, isHighlighted) =>
+    <div
+      key={item.id}
+      style={Object.assign({}, this.styles.filterDropdownRow, isHighlighted ? this.styles.highlightedFilter : {})}
+    >
+      {this.getLabel(item)}
+    </div>
 
   styles = {
     base: {
@@ -136,7 +123,10 @@ export class ContactSearchBar extends BaseComponent {
       height: '100%',
       width: '100%',
       outline: 'none',
-      border: 'none',
+      borderTop: 'none',
+      borderRight: 'none',
+      borderBottom: 'none',
+      borderLeft: 'none',
       ':focus': {
         outline: 'none',
       },
@@ -200,20 +190,17 @@ export class ContactSearchBar extends BaseComponent {
     },
   };
 
-  handleFilterSelect(itemName) {
+  handleFilterSelect = (itemName) => {
     this.setState({
       pendingFilter: this.props.searchableAttributes.find((filter) => this.getLabel(filter) === itemName),
       autoCompleteValue: '',
     });
   }
 
-  matchFilterToTerm(state, value) {
-    return (
-      this.getLabel(state).toLowerCase().indexOf(value.toLowerCase()) !== -1
-    );
-  }
+  matchFilterToTerm = (state, value) =>
+    this.getLabel(state).toLowerCase().indexOf(value.toLowerCase()) !== -1
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.pendingFilter) {
       if (this.state.pendingFilterValue.length) {

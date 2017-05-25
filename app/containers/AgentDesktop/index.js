@@ -31,12 +31,6 @@ export class AgentDesktop extends BaseComponent {
 
   constructor(props) {
     super(props);
-    this.showContactsPanel = this.showContactsPanel.bind(this);
-    this.collapseContactsPanel = this.collapseContactsPanel.bind(this);
-    this.acceptInteraction = this.acceptInteraction.bind(this);
-    this.setContactsPanelWidth = this.setContactsPanelWidth.bind(this);
-    this.selectInteraction = this.selectInteraction.bind(this);
-    this.updateDimensions = this.updateDimensions.bind(this);
 
     this.collapsedContactsPanelPx = 52;
     this.defaultContactsPanelPx = 600;
@@ -48,7 +42,15 @@ export class AgentDesktop extends BaseComponent {
     };
   }
 
-  updateDimensions() {
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
+
+  componentWillMount() {
+    window.addEventListener('resize', this.updateDimensions);
+  }
+
+  updateDimensions = () => {
     const documentElement = document.documentElement;
     const body = document.getElementsByTagName('body')[0];
     const width = window.innerWidth || documentElement.clientWidth || body.clientWidth;
@@ -58,37 +60,30 @@ export class AgentDesktop extends BaseComponent {
     });
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateDimensions);
-  }
-  componentWillMount() {
-    window.addEventListener('resize', this.updateDimensions);
-  }
-
-  setContactsPanelWidth(newWidth) {
+  setContactsPanelWidth = (newWidth) => {
     this.setState({
       contactsPanelPx: newWidth,
     });
   }
 
-  collapseContactsPanel() {
+  collapseContactsPanel = () => {
     this.setState({
       isContactsPanelCollapsed: true,
     });
   }
 
-  showContactsPanel() {
+  showContactsPanel = () => {
     this.setState({
       isContactsPanelCollapsed: false,
     });
   }
 
-  selectInteraction(interactionId) {
+  selectInteraction = (interactionId) => {
     this.props.selectInteraction(interactionId);
     this.showContactsPanel();
   }
 
-  acceptInteraction(interactionId) {
+  acceptInteraction = (interactionId) => {
     this.props.setInteractionStatus(interactionId, 'work-accepting');
     CxEngage.interactions.accept({ interactionId });
   }

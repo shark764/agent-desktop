@@ -30,14 +30,8 @@ const leftGutterPx = 52;
 const topBarHeightPx = 63;
 
 export class SidePanel extends BaseComponent {
-  constructor(props) {
-    super(props);
 
-    this.getPanelSizing = this.getPanelSizing.bind(this);
-    this.handleCollapseClick = this.handleCollapseClick.bind(this);
-  }
-
-  getPanelSizing() {
+  getPanelSizing = () => {
     const sizing = {
       width: this.props.openPx,
     };
@@ -113,7 +107,7 @@ export class SidePanel extends BaseComponent {
     },
   };
 
-  handleCollapseClick() {
+  handleCollapseClick = () => {
     if (this.props.isCollapsed) {
       this.props.showPanel();
     } else {
