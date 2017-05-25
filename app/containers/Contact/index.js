@@ -36,22 +36,6 @@ import {
 } from './selectors';
 
 export class Contact extends BaseComponent {
-  constructor(props) {
-    super(props);
-
-    this.getSection = this.getSection.bind(this);
-    this.getAttributeRow = this.getAttributeRow.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.setAttributeValue = this.setAttributeValue.bind(this);
-    this.handleInputClear = this.handleInputClear.bind(this);
-    this.showError = this.showError.bind(this);
-    this.handleOnBlur = this.handleOnBlur.bind(this);
-    this.startCall = this.startCall.bind(this);
-    this.startSms = this.startSms.bind(this);
-    this.createCallback = this.createCallback.bind(this);
-    this.updateCallback = this.updateCallback.bind(this);
-  }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.isEditing && this.props.isEditing) {
@@ -98,30 +82,30 @@ export class Contact extends BaseComponent {
     },
   };
 
-  handleInputChange(newValue, event) {
+  handleInputChange = (newValue, event) => {
     this.props.setFormIsDirty(true);
     this.setAttributeValue(event.target.name, newValue);
   }
 
-  handleInputClear(event) {
+  handleInputClear = (event) => {
     const targetInputElement = event.target.previousSibling ? event.target.previousSibling : event.target.parentElement.previousSibling;
     const inputName = targetInputElement.name;
     this.props.setFormIsDirty(true);
     this.setAttributeValue(inputName, '');
   }
 
-  showError(name) {
+  showError = (name) => {
     if (!this.props.showErrors[name]) {
       this.props.setShowError(name, true);
     }
   }
 
-  handleOnBlur(event) {
+  handleOnBlur = (event) => {
     this.props.setFormValidity(Object.keys(this.props.formErrors).every((key) => !this.props.formErrors[key]));
     this.showError(event.target.name);
   }
 
-  handleSave() {
+  handleSave = () => {
     this.props.setLoading(true);
     if (this.props.contact.id) {
       CxEngage.contacts.update({ contactId: this.props.contact.id, attributes: this.props.contactForm }, this.updateCallback);
@@ -132,7 +116,7 @@ export class Contact extends BaseComponent {
     }
   }
 
-  createCallback(error, topic, response) {
+  createCallback = (error, topic, response) => {
     console.log('[Contact] CxEngage.subscribe()', topic, response);
     if (error) {
       this.props.addNotification('notCreated', true, 'serverError'); // TODO: when notifications are ready, get error from response?
@@ -146,7 +130,7 @@ export class Contact extends BaseComponent {
     }
   }
 
-  updateCallback(error, topic, response) {
+  updateCallback = (error, topic, response) => {
     console.log('[Contact] CxEngage.subscribe()', topic, response);
     this.props.setLoading(false);
     if (error) {
@@ -158,16 +142,16 @@ export class Contact extends BaseComponent {
     }
   }
 
-  startCall(number) {
+  startCall = (number) => {
     this.props.startOutboundInteraction('voice');
     CxEngage.interactions.voice.dial({ phoneNumber: number });
   }
 
-  startSms(value) {
-    this.props.startOutboundInteraction('sms', value, this.props.contact);
+  startSms = (number) => {
+    this.props.startOutboundInteraction('sms', number, this.props.contact);
   }
 
-  getAttributeRow(attribute) {
+  getAttributeRow = (attribute) => {
     const attributeLabel = `${attribute.label[this.props.intl.locale]}${(attribute.mandatory && this.props.isEditing) ? '*' : ''}`;
     return (
       <ContactInput
@@ -194,16 +178,13 @@ export class Contact extends BaseComponent {
     );
   }
 
-  getSection(section) {
-    return (
-      <div style={this.styles.section} key={section.label[this.props.intl.locale]}>
-        <ContactSectionHeader label={section.label[this.props.intl.locale]} />
-        {section.attributes.map(this.getAttributeRow)}
-      </div>
-    );
-  }
+  getSection = (section) =>
+    <div style={this.styles.section} key={section.label[this.props.intl.locale]}>
+      <ContactSectionHeader label={section.label[this.props.intl.locale]} />
+      {section.attributes.map(this.getAttributeRow)}
+    </div>
 
-  setAttributeValue(name, newValue) {
+  setAttributeValue = (name, newValue) => {
     const stateUpdate = { ...this.props.formErrors };
     const cleanedInput = this.props.formatValue(name, newValue);
     const newError = this.props.getError(name, cleanedInput);
@@ -213,42 +194,39 @@ export class Contact extends BaseComponent {
     this.props.setFormValidity(Object.keys(stateUpdate).every((key) => !stateUpdate[key]));
   }
 
-  getDisplayView() {
-    return (
-      <div>
-        <div style={this.styles.header}>
-          <div style={this.styles.title}>
-            { this.props.contact.attributes.name }
-          </div>
-          {
-            this.props.showControls ?
-              <div>
-                <Button
-                  id={`assignBtn${this.props.contact.id}`}
-                  disabled={this.props.loading || this.props.isAssigned}
-                  type="secondary"
-                  onClick={this.props.assign}
-                  text={this.props.intl.formatMessage(this.props.inInteractionContext ? messages.assignButton : messages.selectButton)}
-                />
-                <Button
-                  id={`editBtn${this.props.contact.id}`}
-                  disabled={this.props.loading}
-                  type="secondary"
-                  onClick={this.props.edit}
-                  text={this.props.intl.formatMessage(messages.editButton)}
-                  style={this.styles.controlButton}
-                />
-              </div>
-            : <div></div>
-          }
+  getDisplayView = () =>
+    <div>
+      <div style={this.styles.header}>
+        <div style={this.styles.title}>
+          { this.props.contact.attributes.name }
         </div>
-        { this.props.showCompactView
-          ? this.props.compactLayoutAttributes.attributes.map(this.getAttributeRow)
-          : this.props.layoutSections.map(this.getSection)
+        {
+          this.props.showControls ?
+            <div>
+              <Button
+                id={`assignBtn${this.props.contact.id}`}
+                disabled={this.props.loading || this.props.isAssigned}
+                type="secondary"
+                onClick={this.props.assign}
+                text={this.props.intl.formatMessage(this.props.inInteractionContext ? messages.assignButton : messages.selectButton)}
+              />
+              <Button
+                id={`editBtn${this.props.contact.id}`}
+                disabled={this.props.loading}
+                type="secondary"
+                onClick={this.props.edit}
+                text={this.props.intl.formatMessage(messages.editButton)}
+                style={this.styles.controlButton}
+              />
+            </div>
+          : <div></div>
         }
       </div>
-    );
-  }
+      { this.props.showCompactView
+        ? this.props.compactLayoutAttributes.attributes.map(this.getAttributeRow)
+        : this.props.layoutSections.map(this.getSection)
+      }
+    </div>
 
   render() {
     return (

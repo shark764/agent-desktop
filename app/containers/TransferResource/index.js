@@ -20,17 +20,7 @@ import messages from './messages';
 
 export class TransferResource extends BaseComponent {
 
-  constructor(props) {
-    super(props);
-    this.resourceControlsMenuToggle = this.resourceControlsMenuToggle.bind(this);
-    this.hangUpResource = this.hangUpResource.bind(this);
-    this.holdResource = this.holdResource.bind(this);
-    this.resumeResource = this.resumeResource.bind(this);
-    this.resumeAll = this.resumeAll.bind(this);
-    this.transfer = this.transfer.bind(this);
-  }
-
-  resourceControlsMenuToggle() {
+  resourceControlsMenuToggle = () => {
     if (this.props.selectedTransferResourceMenu !== this.props.resource.targetResource) {
       this.props.setSelectedTransferResourceMenu(this.props.resource.targetResource);
     } else {
@@ -38,7 +28,7 @@ export class TransferResource extends BaseComponent {
     }
   }
 
-  cancelTransfer(warmTransfer) {
+  cancelTransfer = (warmTransfer) => {
     if (warmTransfer.type === 'agent') {
       CxEngage.interactions.voice.cancelResourceTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferResourceId: warmTransfer.id });
     } else if (warmTransfer.type === 'queue') {
@@ -50,27 +40,27 @@ export class TransferResource extends BaseComponent {
     }
   }
 
-  hangUpResource() {
+  hangUpResource = () => {
     CxEngage.interactions.voice.resourceRemove({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
     this.props.setSelectedTransferResourceMenu(undefined);
   }
 
-  holdResource() {
+  holdResource = () => {
     CxEngage.interactions.voice.resourceHold({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
     this.props.setSelectedTransferResourceMenu(undefined);
   }
 
-  resumeResource() {
+  resumeResource = () => {
     CxEngage.interactions.voice.resourceResume({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
     this.props.setSelectedTransferResourceMenu(undefined);
   }
 
-  resumeAll() {
+  resumeAll = () => {
     CxEngage.interactions.voice.resumeAll({ interactionId: this.props.activeVoiceInteraction.interactionId });
     this.props.setSelectedTransferResourceMenu(undefined);
   }
 
-  transfer() {
+  transfer = () => {
     CxEngage.interactions.voice.transferToResource({
       transferType: 'cold',
       interactionId: this.props.activeVoiceInteraction.interactionId,

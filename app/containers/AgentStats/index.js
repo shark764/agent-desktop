@@ -22,8 +22,6 @@ export class AgentStats extends BaseComponent {
     this.state = {
       hoverIndex: -1,
     };
-    this.generateStat = this.generateStat.bind(this);
-    this.toggleStat = this.toggleStat.bind(this);
   }
 
   styles = {
@@ -40,12 +38,12 @@ export class AgentStats extends BaseComponent {
     },
   }
 
-  toggleStat(stat) {
+  toggleStat = (stat) => {
     this.props.toggleStat(stat);
     this.setState({ hoverIndex: -1 });
   }
 
-  generateStat(stat, index, array) {
+  generateStat = (stat, index, array) => {
     const statistic = this.props.availableStats[stat.statOption];
     let key;
     if (stat.statSource === 'queue-id') {

@@ -27,8 +27,7 @@ import messages from './messages';
 export class ContentArea extends BaseComponent {
   constructor(props) {
     super(props);
-    this.setNotesPanelHeight = this.setNotesPanelHeight.bind(this);
-    this.toggleWrapup = this.toggleWrapup.bind(this);
+
     this.state = {
       notesPanelHeight: this.props.interaction.note.notesPanelHeight,
       body: this.props.interaction.note.body,
@@ -39,11 +38,6 @@ export class ContentArea extends BaseComponent {
       savingNote: false,
     };
 
-    this.selectDisposition = this.selectDisposition.bind(this);
-    this.renderDisposition = this.renderDisposition.bind(this);
-    this.deselectDisposition = this.deselectDisposition.bind(this);
-    this.renderCategory = this.renderCategory.bind(this);
-    this.persistNote = this.persistNote.bind(this);
     this.mounted = false;
   }
 
@@ -67,7 +61,7 @@ export class ContentArea extends BaseComponent {
     this.mounted = true;
   }
 
-  persistNote(note, currentNotesPanelHeight) {
+  persistNote = (note, currentNotesPanelHeight) => {
     const inContext = (this.mounted && this.props.interaction.interactionId === note.interactionId);
     if (!inContext || !this.state.savingNote) {
       if (inContext) {
@@ -286,13 +280,13 @@ export class ContentArea extends BaseComponent {
     },
   };
 
-  setNotesPanelHeight(newHeight) {
+  setNotesPanelHeight = (newHeight) => {
     this.setState({
       notesPanelHeight: newHeight,
     });
   }
 
-  handleChange(note) {
+  handleChange = (note) => {
     this.setState(note);
     clearTimeout(this.persistNoteIntervalId);
     const currentNotesPanelHeight = this.state.notesPanelHeight;
@@ -304,7 +298,7 @@ export class ContentArea extends BaseComponent {
     this.persistNoteIntervalId = setTimeout(() => this.persistNote(currentNote, currentNotesPanelHeight), 1500);
   }
 
-  toggleWrapup() {
+  toggleWrapup = () => {
     const wrapupToggleCallback = (error, topic, response) => {
       console.log('[AgentDesktop] CxEngage.subscribe()', topic, response);
       // TODO: display / handle error
@@ -318,7 +312,7 @@ export class ContentArea extends BaseComponent {
     }
   }
 
-  selectDisposition(dispositionId) {
+  selectDisposition = (dispositionId) => {
     this.setState({
       loadingDisposition: true,
       showDispositionsList: false,
@@ -335,35 +329,29 @@ export class ContentArea extends BaseComponent {
     });
   }
 
-  renderCategory(category) {
-    return (
-      <div key={`category-${category.name}`} id={`category-${category.name}`} title={category.name}>
-        <div style={this.styles.categoryName}>{category.name}</div>
-        <div style={this.styles.dispositionsContainer}>
-          {
-            category.dispositions.map(this.renderDisposition)
-          }
-        </div>
+  renderCategory = (category) =>
+    <div key={`category-${category.name}`} id={`category-${category.name}`} title={category.name}>
+      <div style={this.styles.categoryName}>{category.name}</div>
+      <div style={this.styles.dispositionsContainer}>
+        {
+          category.dispositions.map(this.renderDisposition)
+        }
       </div>
-    );
-  }
+    </div>
 
-  renderDisposition(disposition) {
-    return (
-      <div key={`disposition-${disposition.dispositionId}`} id={`disposition-${disposition.dispositionId}`} title={disposition.name} style={this.styles.selectableDisposition}>
-        <Checkbox
-          id={`${disposition.dispositionId}-checkbox`}
-          text={disposition.name}
-          checked={false}
-          cb={() => this.selectDisposition(disposition.dispositionId)}
-          style={{ width: '100%' }}
-          disabled={this.state.loadingDisposition}
-        />
-      </div>
-    );
-  }
+  renderDisposition = (disposition) =>
+    <div key={`disposition-${disposition.dispositionId}`} id={`disposition-${disposition.dispositionId}`} title={disposition.name} style={this.styles.selectableDisposition}>
+      <Checkbox
+        id={`${disposition.dispositionId}-checkbox`}
+        text={disposition.name}
+        checked={false}
+        cb={() => this.selectDisposition(disposition.dispositionId)}
+        style={{ width: '100%' }}
+        disabled={this.state.loadingDisposition}
+      />
+    </div>
 
-  deselectDisposition() {
+  deselectDisposition = () => {
     this.setState({
       loadingDisposition: true,
     });
@@ -382,7 +370,7 @@ export class ContentArea extends BaseComponent {
     });
   }
 
-  getNewLabelChipBorderColor() {
+  getNewLabelChipBorderColor = () => {
     if (this.props.awaitingDisposition) {
       return '#FE4565';
     } else if (this.state.showDispositionsList) {

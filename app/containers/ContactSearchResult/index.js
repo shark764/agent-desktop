@@ -29,9 +29,6 @@ export class ContactSearchResult extends BaseComponent {
     this.state = {
       expanded: false,
     };
-
-    this.assignContact = this.assignContact.bind(this);
-    this.editContact = this.editContact.bind(this);
   }
 
   styles = {
@@ -78,11 +75,11 @@ export class ContactSearchResult extends BaseComponent {
     },
   };
 
-  assignContact() {
+  assignContact = () => {
     this.props.assignContact(this.props.contact);
   }
 
-  editContact() {
+  editContact = () => {
     this.props.setContactMode('editing');
     this.props.setUnassignedContact(this.props.contact);
   }

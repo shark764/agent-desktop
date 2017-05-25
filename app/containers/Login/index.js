@@ -53,23 +53,9 @@ export class Login extends BaseComponent {
       noTenant: false,
       showLanguage: false,
     };
-    this.setUser = this.setUser.bind(this);
-    this.setEmail = this.setEmail.bind(this);
-    this.setPassword = this.setPassword.bind(this);
-    this.setRemember = this.setRemember.bind(this);
-    this.loginCB = this.loginCB.bind(this);
-    this.onLogin = this.onLogin.bind(this);
-    this.setRequestingPassword = this.setRequestingPassword.bind(this);
-    this.unsetRequestingPassword = this.unsetRequestingPassword.bind(this);
-    this.sendForgotRequest = this.sendForgotRequest.bind(this);
-    this.handleError = this.handleError.bind(this);
-    this.setDirection = this.setDirection.bind(this);
-    this.getErrors = this.getErrors.bind(this);
-    this.setLocalLocale = this.setLocalLocale.bind(this);
-    this.toggleLanguageMenu = this.toggleLanguageMenu.bind(this);
   }
 
-  getBackground() {
+  getBackground = () => {
     const parts = location.hostname.split('.');
     if (parts[0].indexOf('mitel') !== -1) {
       return '#002855';
@@ -78,7 +64,7 @@ export class Login extends BaseComponent {
     }
   }
 
-  getLoginTitle() {
+  getLoginTitle = () => {
     const parts = location.hostname.split('.');
     if (parts[0].indexOf('mitel') !== -1) {
       document.title = 'Mitel'; // Change title to match
@@ -97,7 +83,7 @@ export class Login extends BaseComponent {
     }
   }
 
-  onLogin() {
+  onLogin = () => {
     storage.removeItem('ADError');
     if (this.state.username.trim() !== '' && this.state.password !== '') {
       this.props.loggingIn();
@@ -117,7 +103,7 @@ export class Login extends BaseComponent {
     }
   }
 
-  onTenantSelect() {
+  onTenantSelect = () => {
     if (this.state.tenantId !== '-1') {
       this.props.settingTenant();
       CxEngage.session.setActiveTenant({
@@ -143,33 +129,30 @@ export class Login extends BaseComponent {
     }
   }
 
-  setPassword(password) {
+  setPassword = (password) => {
     this.setState({ password });
   }
 
-  setEmail(email) {
+  setEmail = (email) => {
     this.setState({ email });
   }
 
-  setUser(username) {
+  setUser = (username) => {
     this.setState({ username });
   }
 
-  setRemember(remember) {
+  setRemember = (remember) => {
     this.setState({ remember });
     storage.setItem('remember', remember);
   }
 
-  getLoadingContent() {
-    return (
-      <div id="loginContainerDiv" style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
-        <Logo style={{ marginTop: '50px' }} width="275px" />
-        <IconSVG id="loadingIcon" name="loading" style={{ marginTop: '50px' }} />
-      </div>
-    );
-  }
+  getLoadingContent = () =>
+    <div id="loginContainerDiv" style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
+      <Logo style={{ marginTop: '50px' }} width="275px" />
+      <IconSVG id="loadingIcon" name="loading" style={{ marginTop: '50px' }} />
+    </div>
 
-  getLoggedInContent() {
+  getLoggedInContent = () => {
     const tenantOptions = this.props.agent.tenants.map((tenant) =>
       ({ value: tenant.tenantId, label: tenant.tenantName })
     );
@@ -198,7 +181,7 @@ export class Login extends BaseComponent {
     );
   }
 
-  getErrors() {
+  getErrors = () => {
     const error = storage.getItem('ADError');
     let errorSpan;
     if (this.props.login_error) {
@@ -242,66 +225,60 @@ export class Login extends BaseComponent {
     return errorSpan;
   }
 
-  getLoginContent() {
-    return (
-      <div id="loginContainerDiv" style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
-        {this.props.tenant_error
-          ? <span id="tenantLoginError" style={[this.styles.error]}>
-            <FormattedMessage style={this.styles.center} {...this.props.tenant_error_message} />
-          </span>
-          : ''
-        }
-        <Logo style={{ marginTop: '50px' }} width="275px" />
-        {
-          this.getLoginTitle()
-        }
-        <TextInput id={messages.username.id} autoFocus={!this.state.remember} key={'username'} style={{ marginBottom: '11px' }} placeholder={messages.username} autocomplete="email" value={this.state.username} cb={this.setUser} />
-        <TextInput id={messages.password.id} autoFocus={this.state.remember} key={'password'} type="password" placeholder={messages.password} autocomplete="password" value={this.state.password} cb={this.setPassword} onEnter={this.onLogin} />
-        <CheckBox id={messages.rememberMe.id} style={{ marginLeft: '-9.35em', marginBottom: '11px', marginTop: '15px', width: '130px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.setRemember} />
-        <Button id={messages.signInButton.id} type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.signInButton} onClick={() => this.onLogin()} />
-        <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
-      </div>
-    );
-  }
+  getLoginContent = () =>
+    <div id="loginContainerDiv" style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
+      {this.props.tenant_error
+        ? <span id="tenantLoginError" style={[this.styles.error]}>
+          <FormattedMessage style={this.styles.center} {...this.props.tenant_error_message} />
+        </span>
+        : ''
+      }
+      <Logo style={{ marginTop: '50px' }} width="275px" />
+      {
+        this.getLoginTitle()
+      }
+      <TextInput id={messages.username.id} autoFocus={!this.state.remember} key={'username'} style={{ marginBottom: '11px' }} placeholder={messages.username} autocomplete="email" value={this.state.username} cb={this.setUser} />
+      <TextInput id={messages.password.id} autoFocus={this.state.remember} key={'password'} type="password" placeholder={messages.password} autocomplete="password" value={this.state.password} cb={this.setPassword} onEnter={this.onLogin} />
+      <CheckBox id={messages.rememberMe.id} style={{ marginLeft: '-9.35em', marginBottom: '11px', marginTop: '15px', width: '130px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.setRemember} />
+      <Button id={messages.signInButton.id} type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.signInButton} onClick={() => this.onLogin()} />
+      <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
+    </div>
 
-  getForgotContent() {
-    return (
-      <div style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
-        <Logo style={{ marginTop: '50px' }} width="275px" />
-        <Title text={messages.forgot} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
-        <p style={{ width: '282px', textAlign: 'center' }} >{this.props.intl.formatMessage(messages.forgotInstructions)}</p>
-        <TextInput key={'email'} style={{ marginBottom: '11px' }} placeholder={messages.email} autocomplete="email" value={this.state.email} cb={this.setEmail} />
-        <Button type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.sendButton} onClick={this.sendForgotRequest} />
-        <A text={messages.return2Login} style={{ marginTop: '17px' }} onClick={this.unsetRequestingPassword} />
-      </div>
-    );
-  }
+  getForgotContent = () =>
+    <div style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
+      <Logo style={{ marginTop: '50px' }} width="275px" />
+      <Title text={messages.forgot} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
+      <p style={{ width: '282px', textAlign: 'center' }} >{this.props.intl.formatMessage(messages.forgotInstructions)}</p>
+      <TextInput key={'email'} style={{ marginBottom: '11px' }} placeholder={messages.email} autocomplete="email" value={this.state.email} cb={this.setEmail} />
+      <Button type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.sendButton} onClick={this.sendForgotRequest} />
+      <A text={messages.return2Login} style={{ marginTop: '17px' }} onClick={this.unsetRequestingPassword} />
+    </div>
 
-  setRequestingPassword() {
+  setRequestingPassword = () => {
     this.setState({ requestingPassword: true });
   }
 
-  setTenantId(tenantId, tenantName) {
+  setTenantId = (tenantId, tenantName) => {
     this.setState({ tenantId, tenantName });
   }
 
-  setDirection(agentDirection) {
+  setDirection = (agentDirection) => {
     this.setState({ agentDirection });
   }
 
-  handleError() {
+  handleError = () => {
     this.props.loginError();
   }
 
-  unsetRequestingPassword() {
+  unsetRequestingPassword = () => {
     this.setState({ requestingPassword: false });
   }
 
-  sendForgotRequest() {
+  sendForgotRequest = () => {
     this.props.resetPassword({ email: this.state.email });
   }
 
-  loginCB(agent) {
+  loginCB = (agent) => {
     this.props.loginSuccess(agent);
     if (agent.tenants.length === 1) {
       this.setTenantId(agent.tenants[0].tenantId, agent.tenants[0].tenantName);
@@ -318,11 +295,11 @@ export class Login extends BaseComponent {
     }
   }
 
-  setLocalLocale(locale) {
+  setLocalLocale = (locale) => {
     storage.setItem('locale', locale);
   }
 
-  toggleLanguageMenu() {
+  toggleLanguageMenu = () => {
     this.setState({ showLanguage: !this.state.showLanguage });
   }
 

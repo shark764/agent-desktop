@@ -31,21 +31,21 @@ export class ContactInteractionHistory extends BaseComponent {
     };
   }
 
-  refreshContactInteractionHistory() {
+  refreshContactInteractionHistory = () => {
     this.props.setContactInteractionHistory(this.props.contactId, { results: undefined });
     this.props.loadContactInteractionHistory(this.props.contactId);
   }
 
-  loadMoreContactInteractionHistory() {
+  loadMoreContactInteractionHistory = () => {
     this.props.loadContactInteractionHistory({ contactId: this.props.contactId, page: this.props.contactInteractionHistory.page + 1 });
   }
 
-  getInteractionHistoryDetails(contactHistoryInteractionId) {
+  getInteractionHistoryDetails = (contactHistoryInteractionId) => {
     this.props.setContactHistoryInteractionDetailsLoading(this.props.selectedInteractionId, contactHistoryInteractionId);
     CxEngage.reporting.getInteraction({ interactionId: contactHistoryInteractionId });
   }
 
-  selectInteraction(selectedInteractionIndex) {
+  selectInteraction = (selectedInteractionIndex) => {
     if (selectedInteractionIndex !== undefined) {
       const interaction = this.props.contactInteractionHistory.results[selectedInteractionIndex];
       const needsNotes = interaction.interactionDetails.agents.findIndex((agent) =>
@@ -220,7 +220,7 @@ export class ContactInteractionHistory extends BaseComponent {
     },
   };
 
-  interactionBody(interactionDetails) {
+  interactionBody = (interactionDetails) => {
     let transcript;
     let transcriptItems;
     const audioRecordings = (recordings) => {
@@ -304,7 +304,7 @@ export class ContactInteractionHistory extends BaseComponent {
     return transcript;
   }
 
-  contactHistoryInteraction(interaction, interactionIndex) {
+  contactHistoryInteraction = (interaction, interactionIndex) => {
     let interactionDetails;
     const expandedView = (interactionIndex === undefined);
     if (interaction.interactionDetails === 'loading') {
@@ -442,7 +442,7 @@ export class ContactInteractionHistory extends BaseComponent {
     );
   }
 
-  getInteractionHistoryList() {
+  getInteractionHistoryList = () => {
     if (this.props.contactInteractionHistory === undefined) {
       return <IconSVG id="loadingContactHistoryIcon" name="loading" style={this.styles.loading} />;
     } else {

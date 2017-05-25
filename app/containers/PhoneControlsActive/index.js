@@ -29,15 +29,6 @@ import messages from './messages';
 export class PhoneControlsActive extends BaseComponent {
   constructor(props) {
     super(props);
-    this.setSelectedTransferResourceMenu = this.setSelectedTransferResourceMenu.bind(this);
-    this.setShowTransferMenu = this.setShowTransferMenu.bind(this);
-    this.setShowActiveInteractionDialpad = this.setShowActiveInteractionDialpad.bind(this);
-    this.setActiveInteractionDialpadText = this.setActiveInteractionDialpadText.bind(this);
-    this.setRecording = this.setRecording.bind(this);
-    this.endInteraction = this.endInteraction.bind(this);
-    this.setMute = this.setMute.bind(this);
-    this.setHold = this.setHold.bind(this);
-    this.resumeMe = this.resumeMe.bind(this);
 
     this.state = {
       showTransferMenu: false,
@@ -47,29 +38,29 @@ export class PhoneControlsActive extends BaseComponent {
     };
   }
 
-  setSelectedTransferResourceMenu(selectedTransferResourceMenu) {
+  setSelectedTransferResourceMenu = (selectedTransferResourceMenu) => {
     this.setState({ selectedTransferResourceMenu });
   }
 
-  setShowTransferMenu(showTransferMenu) {
+  setShowTransferMenu = (showTransferMenu) => {
     this.setState({
       showTransferMenu,
       showActiveInteractionDialpad: false,
     });
   }
 
-  setShowActiveInteractionDialpad(showActiveInteractionDialpad) {
+  setShowActiveInteractionDialpad = (showActiveInteractionDialpad) => {
     this.setState({
       showActiveInteractionDialpad,
       showTransferMenu: false,
     });
   }
 
-  setActiveInteractionDialpadText(activeInteractionDialpadText) {
+  setActiveInteractionDialpadText = (activeInteractionDialpadText) => {
     this.setState({ activeInteractionDialpadText });
   }
 
-  setRecording() {
+  setRecording = () => {
     if (this.props.activeVoiceInteraction.recording) {
       CxEngage.interactions.voice.stopRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
     } else {
@@ -77,11 +68,11 @@ export class PhoneControlsActive extends BaseComponent {
     }
   }
 
-  endInteraction() {
+  endInteraction = () => {
     CxEngage.interactions.end({ interactionId: this.props.activeVoiceInteraction.interactionId });
   }
 
-  setMute() {
+  setMute = () => {
     if (this.props.activeVoiceInteraction.muted) {
       CxEngage.interactions.voice.unmute({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
     } else {
@@ -89,7 +80,7 @@ export class PhoneControlsActive extends BaseComponent {
     }
   }
 
-  setHold() {
+  setHold = () => {
     if (this.props.activeVoiceInteraction.onHold) {
       CxEngage.interactions.voice.customerResume({ interactionId: this.props.activeVoiceInteraction.interactionId });
     } else {
@@ -97,7 +88,7 @@ export class PhoneControlsActive extends BaseComponent {
     }
   }
 
-  resumeMe() {
+  resumeMe = () => {
     CxEngage.interactions.voice.resourceResume({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
   }
 

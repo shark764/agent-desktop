@@ -32,14 +32,6 @@ export class AgentConfigMenu extends BaseComponent {
       statAggregate: 'count',
     };
     this.sourceOptions = [{ value: 'resource-id', label: 'Agent' }, { value: 'queue-id', label: 'Queue' }, { value: 'tenant-id', label: 'Tenant' }];
-    this.toggleStat = this.toggleStat.bind(this);
-    this.setStatSource = this.setStatSource.bind(this);
-    this.setStatOption = this.setStatOption.bind(this);
-    this.setStatAggregate = this.setStatAggregate.bind(this);
-    this.setQueue = this.setQueue.bind(this);
-    this.getQueues = this.getQueues.bind(this);
-    this.getStats = this.getStats.bind(this);
-    this.getAggregates = this.getAggregates.bind(this);
   }
 
   styles = {
@@ -76,11 +68,11 @@ export class AgentConfigMenu extends BaseComponent {
     },
   }
 
-  toggleStat() {
+  toggleStat = () => {
     this.props.toggleStat(this.state, this.props.currentAgent.userId, this.props.queues);
   }
 
-  setStatSource(value) {
+  setStatSource = (value) => {
     this.setState({ statSource: value }, () => {
       if (value === 'queue-id') {
         this.setQueue(this.getQueues()[0].value);
@@ -89,25 +81,26 @@ export class AgentConfigMenu extends BaseComponent {
     });
   }
 
-  setStatOption(value) {
+  setStatOption = (value) => {
     this.setState({ statOption: value }, () => {
       this.setStatAggregate(this.getAggregates()[0].value);
     });
   }
 
-  setStatAggregate(value) {
+  setStatAggregate = (value) => {
     this.setState({ statAggregate: value });
   }
 
-  setQueue(value) {
+  setQueue = (value) => {
     this.setState({ queue: value });
   }
 
-  getQueues() {
-    return this.props.queues.map((queue) => ({ value: queue.id, label: queue.name }));
-  }
+  getQueues = () =>
+    this.props.queues.map((queue) =>
+      ({ value: queue.id, label: queue.name })
+    );
 
-  getStats() {
+  getStats = () => {
     let stats;
     if (this.state.statSource === 'tenant-id') {
       stats = this.props.availableStats;
@@ -125,8 +118,8 @@ export class AgentConfigMenu extends BaseComponent {
         });
   }
 
-  getAggregates() {
-    return this.props.availableStats[this.state.statOption] && Object.keys(this.props.availableStats[this.state.statOption].responseKeys).map((key) => {
+  getAggregates = () =>
+    this.props.availableStats[this.state.statOption] && Object.keys(this.props.availableStats[this.state.statOption].responseKeys).map((key) => {
       let label;
       if (key === 'avg') {
         label = 'average';
@@ -135,7 +128,6 @@ export class AgentConfigMenu extends BaseComponent {
       }
       return { value: key, label: label[0].toUpperCase() + label.slice(1) };
     });
-  }
 
   render() {
     return (

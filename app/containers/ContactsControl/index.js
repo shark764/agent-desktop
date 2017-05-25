@@ -36,20 +36,6 @@ import messages from './messages';
 const resultsPlaceholderWidth = 330;
 
 export class ContactsControl extends BaseComponent {
-  constructor(props) {
-    super(props);
-
-    this.getError = this.getError.bind(this);
-    this.formatValue = this.formatValue.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-    this.renderResults = this.renderResults.bind(this);
-    this.searchContacts = this.searchContacts.bind(this);
-    this.handleContactAssign = this.handleContactAssign.bind(this);
-    this.unassignCurrentContact = this.unassignCurrentContact.bind(this);
-    this.assignContactToSelected = this.assignContactToSelected.bind(this);
-    this.hydrateEditForm = this.hydrateEditForm.bind(this);
-    this.hydrateMergeForm = this.hydrateMergeForm.bind(this);
-  }
 
   styles = {
     mainContact: {
@@ -113,7 +99,7 @@ export class ContactsControl extends BaseComponent {
     }
   }
 
-  unassignCurrentContact(callback) {
+  unassignCurrentContact = (callback) => {
     CxEngage.interactions.unassignContact({
       interactionId: this.props.selectedInteraction.interactionId,
       contactId: this.props.selectedInteraction.contact.id,
@@ -124,7 +110,7 @@ export class ContactsControl extends BaseComponent {
     });
   }
 
-  handleContactAssign(contact, callback) {
+  handleContactAssign = (contact, callback) => {
     if (!this.props.selectedInteraction.interactionId) {
       this.props.selectContact(contact);
       if (typeof callback === 'function') callback();
@@ -164,7 +150,7 @@ export class ContactsControl extends BaseComponent {
     }
   }
 
-  assignContactToSelected(contact, callback) {
+  assignContactToSelected = (contact, callback) => {
     CxEngage.interactions.assignContact({
       interactionId: this.props.selectedInteraction.interactionId,
       contactId: contact.id,
@@ -182,7 +168,7 @@ export class ContactsControl extends BaseComponent {
     });
   }
 
-  searchContacts() {
+  searchContacts = () => {
     if (!this.props.loading || this.props.deletionPending) {
       this.props.setLoading(true);
       this.props.setDeletionPending(false);
@@ -209,7 +195,7 @@ export class ContactsControl extends BaseComponent {
     }
   }
 
-  handleCancel(event) {
+  handleCancel = (event) => {
     event.preventDefault();
     if (this.props.formIsDirty || this.props.contactMode === 'merging') {
       this.props.setShowCancelDialog(true);
@@ -218,15 +204,12 @@ export class ContactsControl extends BaseComponent {
     }
   }
 
-  getLoader() {
-    return (
-      <div id="loadingContainer" style={this.styles.loading}>
-        <IconSVG style={this.styles.loadingIcon} id="loadingIcon" name="loading" />
-      </div>
-    );
-  }
+  getLoader = () =>
+    <div id="loadingContainer" style={this.styles.loading}>
+      <IconSVG style={this.styles.loadingIcon} id="loadingIcon" name="loading" />
+    </div>
 
-  formatValue(name, value) {
+  formatValue = (name, value) => {
     const attributeToValidate = this.props.attributes.find((attribute) => attribute.objectName === name);
     let formattedValue;
     switch (attributeToValidate.type) {
@@ -248,7 +231,7 @@ export class ContactsControl extends BaseComponent {
 
   phoneNumberUtil = PhoneNumberUtil.getInstance();
 
-  getError(name, value) {
+  getError = (name, value) => {
     const attributeToValidate = this.props.attributes.find((attribute) => attribute.objectName === name);
     let error = false;
     if (attributeToValidate.mandatory && (value.length < 1)) {
@@ -286,7 +269,7 @@ export class ContactsControl extends BaseComponent {
     return error;
   }
 
-  renderResults() {
+  renderResults = () => {
     const results = [];
     if (this.props.selectedInteraction.query && Object.keys(this.props.selectedInteraction.query).length) {
       const resultsMapped = !this.props.deletionPending && this.props.results.map(
@@ -347,7 +330,7 @@ export class ContactsControl extends BaseComponent {
     return results;
   }
 
-  hydrateEditForm(contact) {
+  hydrateEditForm = (contact) => {
     const contactAttributes = contact.attributes ? contact.attributes : {};
     this.props.layoutSections.forEach((section) => {
       section.attributes.forEach((attribute) => {
@@ -361,7 +344,7 @@ export class ContactsControl extends BaseComponent {
     });
   }
 
-  hydrateMergeForm() {
+  hydrateMergeForm = () => {
     const firstContact = this.props.checkedContacts[0].attributes;
     const secondContact = this.props.checkedContacts[1].attributes;
     Object.keys(firstContact).forEach((attributeName) => {

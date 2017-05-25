@@ -170,34 +170,32 @@ export class Toolbar extends BaseComponent {
       isStatusButtonHovered: false,
       isConfigButtonHovered: false,
     };
-    this.showStatusMenu = this.showStatusMenu.bind(this);
-    this.showConfigMenu = this.showConfigMenu.bind(this);
   }
 
-  setStatusButtonHovered(isStatusButtonHovered) {
+  setStatusButtonHovered = (isStatusButtonHovered) => {
     this.setState({ isStatusButtonHovered });
   }
 
-  setConfigButtonHovered(isConfigButtonHovered) {
+  setConfigButtonHovered = (isConfigButtonHovered) => {
     this.setState({ isConfigButtonHovered });
   }
 
-  showStatusMenu(show = true) {
+  showStatusMenu = (show = true) => {
     this.props.toggleAgentMenu(show);
   }
 
-  showConfigMenu(show = true) {
+  showConfigMenu = (show = true) => {
     this.setState({ showConfigMenu: show });
   }
 
-  notReadyText() {
+  notReadyText = () => {
     if (this.props.selectedPresenceReason.reason && !this.props.selectedPresenceReason.isSystemReason) {
       return <span>{this.props.selectedPresenceReason.reason}</span>;
     }
     return <FormattedMessage {...messages.notReady} />;
   }
 
-  getStatusMenuButtonStyle() {
+  getStatusMenuButtonStyle = () => {
     const statusButtonStyle = [];
     if (this.props.readyState === 'ready') {
       statusButtonStyle.push(styles.statusButtonR);
@@ -217,7 +215,7 @@ export class Toolbar extends BaseComponent {
     return statusButtonStyle;
   }
 
-  getConfigMenuButtonStyle() {
+  getConfigMenuButtonStyle = () => {
     const configButtonStyle = [];
     if (this.props.readyState === 'ready') {
       configButtonStyle.push(styles.configButtonR);
@@ -237,7 +235,7 @@ export class Toolbar extends BaseComponent {
     return configButtonStyle;
   }
 
-  getConnectionIconName() {
+  getConnectionIconName = () => {
     const agentIsReady = this.props.readyState === 'ready';
     if (
       ((this.props.showAgentStatusMenu && agentIsReady) || (!this.state.isStatusButtonHovered && agentIsReady))

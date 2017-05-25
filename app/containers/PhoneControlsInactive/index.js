@@ -26,10 +26,6 @@ export class PhoneControlsInactive extends BaseComponent {
   constructor(props) {
     super(props);
 
-    this.setShowDialpad = this.setShowDialpad.bind(this);
-    this.setDialpadText = this.setDialpadText.bind(this);
-    this.call = this.call.bind(this);
-
     this.state = {
       showDialpad: false,
       dialpadText: '',
@@ -37,13 +33,13 @@ export class PhoneControlsInactive extends BaseComponent {
     };
   }
 
-  setShowDialpad(showDialpad) {
+  setShowDialpad = (showDialpad) => {
     this.setState({ showDialpad });
   }
 
   phoneNumberUtil = PhoneNumberUtil.getInstance();
 
-  setDialpadText(dialpadText) {
+  setDialpadText = (dialpadText) => {
     let formattedDialpadText = dialpadText.replace(/[^0-9+*#]/g, '');
     if (formattedDialpadText.indexOf('+') !== 0) {
       formattedDialpadText = `+${formattedDialpadText}`;
@@ -64,7 +60,7 @@ export class PhoneControlsInactive extends BaseComponent {
     this.setState({ dialpadText: formattedDialpadText });
   }
 
-  call() {
+  call = () => {
     if (this.state.dialpadTextValid) {
       this.props.startOutboundInteraction('voice');
       CxEngage.interactions.voice.dial({ phoneNumber: this.state.dialpadText });

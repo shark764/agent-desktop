@@ -23,11 +23,6 @@ import { selectSelectedInteraction, selectMessageTemplates } from './selectors';
 
 export class MainContentArea extends BaseComponent {
 
-  constructor(props) {
-    super(props);
-    this.endInteraction = this.endInteraction.bind(this);
-  }
-
   styles = {
     base: {
       backgroundColor: '#072931',
@@ -35,7 +30,7 @@ export class MainContentArea extends BaseComponent {
     },
   };
 
-  endInteraction() {
+  endInteraction = () => {
     if (this.props.selectedInteraction.status === 'wrapup') {
       CxEngage.interactions.endWrapup({ interactionId: this.props.selectedInteraction.interactionId });
     } else if (this.props.selectedInteraction.status === 'connecting-to-outbound' ||
