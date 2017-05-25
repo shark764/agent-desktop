@@ -10,17 +10,21 @@ export default defineMessages({
     id: 'app.containers.ContactInteractionHistory.interaction',
     defaultMessage: 'interaction',
   },
-  interactionsSince: {
-    id: 'app.containers.ContactInteractionHistory.interactionsSince',
-    defaultMessage: 'interactions since',
+  interactions: {
+    id: 'app.containers.ContactInteractionHistory.interactions',
+    defaultMessage: 'interactions',
   },
   noPastInteractions: {
     id: 'app.containers.ContactInteractionHistory.noPastInteractions',
     defaultMessage: 'No past interactions',
   },
+  since: {
+    id: 'app.containers.ContactInteractionHistory.since',
+    defaultMessage: 'since',
+  },
   customerSatisfaction: {
     id: 'app.containers.ContactInteractionHistory.customerSatisfaction',
-    defaultMessage: 'Customer Satifaction',
+    defaultMessage: 'Customer Satisfaction',
   },
   minutes: {
     id: 'app.containers.ContactInteractionHistory.minutes',

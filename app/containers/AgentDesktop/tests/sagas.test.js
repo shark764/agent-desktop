@@ -67,7 +67,10 @@ describe('loadHistoricalInteractionBody Saga', () => {
 });
 
 describe('loadContactInteractions', () => {
-  const mockInteractionHistory = 'mockInteractionHistoryDetails';
+  let mockInteractionHistory;
+  let mockInteractionHistory2;
+  let mockAction;
+  let generator;
 
   beforeEach(() => {
     global.CxEngage = {
@@ -75,28 +78,55 @@ describe('loadContactInteractions', () => {
         getContactInteractionHistory: 'getContactInteractionHistory',
       },
     };
+    mockInteractionHistory = {
+      results: [
+        { startTimestamp: 'mockTimestamp1' },
+        { startTimestamp: 'mockTimestamp2' },
+        { startTimestamp: 'mockTimestamp3' },
+      ],
+      limit: 3,
+      total: 10,
+      page: 0,
+    };
+    mockInteractionHistory2 = { ...mockInteractionHistory, page: 3 };
+    mockAction = {
+      contactId: 'mockContactId',
+    };
   });
 
   describe('when action.page is undefined', () => {
-    const mockAction = {
-      contactId: 'mockContactId',
-    };
-    const generator = loadContactInteractions(mockAction);
-    it('should call the promise util with the SDK getContactHistory with the correct arguments', () => {
-      expect(generator.next()).toMatchSnapshot();
+    describe('when total results are greater than returned results length', () => {
+      it('should call the promise util with the SDK getContactHistory with the correct arguments', () => {
+        generator = loadContactInteractions(mockAction);
+        expect(generator.next()).toMatchSnapshot();
+      });
+      it('should call the promise util with SDK getContactHistory with the final page derived from limit and total', () => {
+        expect(generator.next(mockInteractionHistory)).toMatchSnapshot();
+      });
+      it('should dispatch a setContactInteractionHistory action with results, results data and earliestTimestamp from the last result of the 2nd SDK call', () => {
+        expect(generator.next(mockInteractionHistory2)).toMatchSnapshot();
+      });
     });
-    it('should use the yielded SDK results to dispatch a setContactInteractionHistory action with the correct args', () => {
-      expect(generator.next(mockInteractionHistory));
+    describe('when total results are equal to returned results length', () => {
+      beforeEach(() => {
+        mockInteractionHistory.total = 3;
+      });
+      it('should call the promise util with the SDK getContactHistory with the correct arguments', () => {
+        generator = loadContactInteractions(mockAction);
+        expect(generator.next()).toMatchSnapshot();
+      });
+      it('should dispatch a setContactInteractionHistory action with results, results data and earliestTimestamp from the last result of the SDK call', () => {
+        expect(generator.next(mockInteractionHistory)).toMatchSnapshot();
+      });
     });
   });
 
   describe('when action.page is defined', () => {
-    const mockAction = {
-      contactId: 'mockContactId',
-      page: 1,
-    };
-    const generator = loadContactInteractions(mockAction);
+    beforeEach(() => {
+      mockAction.page = 1;
+    });
     it('should call the promise util with the SDK getContactHistory with the correct arguments', () => {
+      generator = loadContactInteractions(mockAction);
       expect(generator.next()).toMatchSnapshot();
     });
     it('should use the yielded SDK results to dispatch a setContactInteractionHistory action with the correct args', () => {

@@ -1,3 +1,6 @@
+### [0.37.17] (2017-05-25)
+* CXV1-8721 - Contact interaction history paging
+
 ### [0.37.16] (2017-05-25)
 * Style updates for contact merge
 

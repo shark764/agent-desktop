@@ -37,7 +37,7 @@ export class ContactInteractionHistory extends BaseComponent {
   }
 
   loadMoreContactInteractionHistory = () => {
-    this.props.loadContactInteractionHistory({ contactId: this.props.contactId, page: this.props.contactInteractionHistory.page + 1 });
+    this.props.loadContactInteractionHistory(this.props.contactId, this.props.contactInteractionHistory.nextPage);
   }
 
   getInteractionHistoryDetails = (contactHistoryInteractionId) => {
@@ -86,11 +86,11 @@ export class ContactInteractionHistory extends BaseComponent {
       height: '100%',
       overflowY: 'auto',
     },
-    interactionsSinceContainer: {
+    interactionsHeaderContainer: {
       fontSize: '15px',
       marginBottom: '19px',
     },
-    interactionsSince: {
+    interactionsHeader: {
       display: 'inline-block',
     },
     refresh: {
@@ -184,6 +184,7 @@ export class ContactInteractionHistory extends BaseComponent {
       marginTop: '10px',
       marginLeft: '48px',
       cursor: 'pointer',
+      lineHeight: '1.5em',
     },
     transcript: {
       borderTop: '1px solid #D0D0D0',
@@ -442,51 +443,62 @@ export class ContactInteractionHistory extends BaseComponent {
     );
   }
 
+  getInteractionHistoryHeader = () => {
+    const interactionsTotal = this.props.contactInteractionHistory.total;
+    const earliestTimestamp = this.props.contactInteractionHistory.earliestTimestamp;
+    return (
+      <div id="interaction-history-header" key="interaction-history-header" style={this.styles.interactionsHeaderContainer}>
+        <div id="interactionsSince" style={this.styles.interactionsHeader}>
+          { interactionsTotal > 0
+            ? <div>
+              { interactionsTotal }
+              &nbsp;
+              {
+                interactionsTotal > 1
+                  ? <FormattedMessage {...messages.interactions} />
+                  : <FormattedMessage {...messages.interaction} />
+              }
+              {
+                earliestTimestamp
+                && <span>
+                  &nbsp;
+                  <FormattedMessage {...messages.since} />
+                  &nbsp;
+                  { moment(earliestTimestamp).format('LL') }
+                </span>
+              }
+            </div>
+            : <FormattedMessage {...messages.noPastInteractions} />
+          }
+        </div>
+        <div id="refreshContactInteractionHistory" onClick={() => this.refreshContactInteractionHistory()} style={this.styles.refresh}>
+          &#8635;
+        </div>
+      </div>
+    );
+  }
+
   getInteractionHistoryList = () => {
     if (this.props.contactInteractionHistory === undefined) {
       return <IconSVG id="loadingContactHistoryIcon" name="loading" style={this.styles.loading} />;
     } else {
-      const contactInteractionHistory = this.props.contactInteractionHistory.results;
-      const interactions = contactInteractionHistory.map((interaction, interactionIndex) =>
+      const interactions = this.props.contactInteractionHistory.results.map((interaction, interactionIndex) =>
         this.contactHistoryInteraction(interaction, interactionIndex)
       );
-      return (
-        <div>
-          <div style={this.styles.interactionsSinceContainer}>
-            <div id="interactionsSince" style={this.styles.interactionsSince}>
-              { contactInteractionHistory.length > 1
-                ? <div>
-                  { contactInteractionHistory.length }
-                  &nbsp;
-                  {
-                    contactInteractionHistory.length > 2
-                    ? <FormattedMessage {...messages.interactionsSince} />
-                    : <FormattedMessage {...messages.interaction} />
-                  }
-                  &nbsp;
-                  { moment(contactInteractionHistory[contactInteractionHistory.length - 1].startTimestamp).format('LL') }
-                </div>
-                : <FormattedMessage {...messages.noPastInteractions} />
-              }
-            </div>
-            <div id="refreshContactInteractionHistory" onClick={() => this.refreshContactInteractionHistory()} style={this.styles.refresh}>
-              &#8635;
-            </div>
-          </div>
-          <InfiniteScroll
-            key="infinite-scroll"
-            loadMore={this.loadMoreContactInteractionHistory}
-            hasMore={false /** UNCOMMENT WHEN SDK HAS PAGING this.props.contactInteractionHistory.results.length < this.props.contactInteractionHistory.total **/}
-            loader={
-              <IconSVG id="loadingContactHistoryIcon" name="loading" style={this.styles.loading} />
-            }
-            useWindow={false}
-            threshold={1}
-          >
-            { interactions }
-          </InfiniteScroll>
-        </div>
-      );
+      return ([
+        this.getInteractionHistoryHeader(),
+        <InfiniteScroll
+          key="infinite-scroll"
+          loadMore={this.loadMoreContactInteractionHistory}
+          hasMore={this.props.contactInteractionHistory.results.length < this.props.contactInteractionHistory.total}
+          loader={
+            <IconSVG id="loadingContactHistoryIcon" name="loading" style={this.styles.loading} />
+          }
+          useWindow={false}
+        >
+          { interactions }
+        </InfiniteScroll>,
+      ]);
     }
   }
 
@@ -522,7 +534,7 @@ function mapDispatchToProps(dispatch) {
     setContactHistoryInteractionDetailsLoading: (interactionId, contactHistoryInteractionId) => dispatch(setContactHistoryInteractionDetailsLoading(interactionId, contactHistoryInteractionId)),
     addNotesToContactInteractionHistory: (contactHistoryInteractionId, response) => dispatch(addNotesToContactInteractionHistory(contactHistoryInteractionId, response)),
     loadHistoricalInteractionBody: (interactionId, bodyType) => dispatch(loadHistoricalInteractionBody(interactionId, bodyType)),
-    loadContactInteractionHistory: (contactId, bodyType) => dispatch(loadContactInteractionHistory(contactId, bodyType)),
+    loadContactInteractionHistory: (contactId, page) => dispatch(loadContactInteractionHistory(contactId, page)),
     dispatch,
   };
 }

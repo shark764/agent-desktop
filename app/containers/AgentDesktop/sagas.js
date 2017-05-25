@@ -64,6 +64,34 @@ export function* loadContactInteractions(action) {
   } catch (error) {
     console.error(error);
   }
+
+  if (!contactQuery.page) {
+    let earliestTimestamp;
+    if (contactInteractionHistoryDetails.total > contactInteractionHistoryDetails.results.length) {
+      contactQuery.page = Math.floor(contactInteractionHistoryDetails.total / contactInteractionHistoryDetails.limit);
+      try {
+        const earliestContactInteractionDetails = yield call(
+          sdkCallToPromise,
+          CxEngage.reporting.getContactInteractionHistory,
+          contactQuery,
+          'AgentDesktop'
+        );
+        earliestTimestamp =
+          earliestContactInteractionDetails.results &&
+          earliestContactInteractionDetails.results.length &&
+          earliestContactInteractionDetails.results[earliestContactInteractionDetails.results.length - 1].startTimestamp;
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      earliestTimestamp =
+        contactInteractionHistoryDetails.results &&
+        contactInteractionHistoryDetails.results.length &&
+        contactInteractionHistoryDetails.results[contactInteractionHistoryDetails.results.length - 1].startTimestamp;
+    }
+    contactInteractionHistoryDetails.earliestTimestamp = earliestTimestamp;
+  }
+
   yield put(setContactInteractionHistory(action.contactId, contactInteractionHistoryDetails));
 }
 
