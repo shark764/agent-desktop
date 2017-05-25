@@ -72,7 +72,7 @@ export class ContactMerge extends BaseComponent {
       this.props.addNotification('notMerged', true, 'serverError'); // TODO: when notifications are ready, get error from response?
       console.error(error);
     } else {
-      if (this.props.checkedContacts.find((contact) => this.props.selectedInteraction.contact.id === contact.id)) {
+      if (this.props.selectedInteraction.contact && this.props.checkedContacts.find((contact) => this.props.selectedInteraction.contact.id === contact.id)) {
         this.props.assignContact(response);
       }
       this.props.checkedContacts.forEach((contact) => {

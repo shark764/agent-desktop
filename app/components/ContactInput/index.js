@@ -23,7 +23,10 @@ function ContactInput(props) {
     },
     inputBox: {
       backgroundColor: '#ffffff',
-      padding: '2px',
+      paddingTop: '2px',
+      paddingRight: '2px',
+      paddingBottom: '2px',
+      paddingLeft: '5px',
       height: '21px',
       borderRadius: '2px 0 0 3px',
       maxWidth: '100%',
@@ -67,8 +70,7 @@ function ContactInput(props) {
       alignSelf: 'stretch',
     },
     notSelected: {
-      backgroundColor: 'lightgrey',
-      textDecoration: 'line-through',
+      backgroundColor: '#f0f0f0',
     },
     attributeValue: {
       flexShrink: '1',
@@ -117,7 +119,7 @@ function ContactInput(props) {
             <div style={styles.attributeName}>
               {props.attributeLabel}
             </div>
-            <div key={props.attribute.objectName} style={[styles.inputBox, styles.inputBorder, inputError && styles.inputErrorBorder, { marginLeft: props.hasRadio ? '-17px' : '' }]}>
+            <div key={props.attribute.objectName} style={[styles.inputBox, styles.inputBorder, inputError && styles.inputErrorBorder, { marginLeft: props.hasRadio ? '-17px' : '' }, props.notSelected && styles.notSelected]}>
               <TextInput
                 noBorder
                 disabled={props.notSelected}

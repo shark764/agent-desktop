@@ -1,3 +1,6 @@
+### [0.37.16] (2017-05-25)
+* Style updates for contact merge
+
 ### [0.37.15] (2017-05-25)
 * Change all component non-react lifecycle functions to arrow functions
 * Fixed radium warning on contact search bar
@@ -792,6 +795,11 @@
 #### Initial Commit
 * Here we go!
 
+[0.37.16]: http://www.github.com/liveops/agent-desktop/compare/0.37.15...0.37.16
+[0.37.15]: http://www.github.com/liveops/agent-desktop/compare/0.37.14...0.37.15
+[0.37.14]: http://www.github.com/liveops/agent-desktop/compare/0.37.13...0.37.14
+[0.37.13]: http://www.github.com/liveops/agent-desktop/compare/0.37.12...0.37.13
+[0.37.12]: http://www.github.com/liveops/agent-desktop/compare/0.37.11...0.37.12
 [0.37.11]: http://www.github.com/liveops/agent-desktop/compare/0.37.10...0.37.11
 [0.37.10]: http://www.github.com/liveops/agent-desktop/compare/0.37.9...0.37.10
 [0.37.9]: http://www.github.com/liveops/agent-desktop/compare/0.37.8...0.37.9
