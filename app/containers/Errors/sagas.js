@@ -1,12 +1,18 @@
 import Raven from 'raven-js';
 
 import { takeEvery, put } from 'redux-saga/effects';
+import { setCRMUnavailable } from 'containers/InfoTab/actions';
 import { HANDLE_SDK_ERROR } from './constants';
 import { setCriticalError } from './actions';
 
 export const fatalTopics = [
   'cxengage/session/heartbeat-response',
 ];
+
+export const topicActions = {
+  'cxengage/contacts/list-layouts-response': setCRMUnavailable('crmLayoutError'),
+  'cxengage/contacts/list-attributes-response': setCRMUnavailable('crmAttributeError'),
+};
 
 export function* goHandleSDKError(action) {
   try {
@@ -26,6 +32,8 @@ export function* goHandleSDKError(action) {
     });
     if (isFatal) {
       yield put(setCriticalError());
+    } else if (topicActions[action.topic]) {
+      yield put(topicActions[action.topic]);
     }
   } catch (error) {
     throw error;

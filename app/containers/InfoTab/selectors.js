@@ -103,6 +103,11 @@ const selectExpandedQuery = createSelector(
   }
 );
 
+const selectCRMUnavailable = createSelector(
+  selectInfoTabDomain(),
+  (infoTab) => infoTab.get('crmUnavailable')
+);
+
 const selectNotifications = createSelector(
   selectInfoTabDomain(),
   (infoTab) => infoTab.get('notifications')
@@ -128,7 +133,9 @@ const selectConfirmingDelete = createSelector(
   (infoTab) => infoTab.get('confirmingDelete')
 );
 
+
 export {
+  selectCRMUnavailable,
   selectInfoTabDomain,
   selectAttributes,
   selectCurrentInteraction,

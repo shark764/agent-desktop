@@ -5,6 +5,7 @@
  */
 
 import {
+  SET_CRM_UNAVAILABLE,
   CLEAR_SEARCH_RESULTS,
   SET_SEARCH_RESULTS,
   CHECK_CONTACT,
@@ -18,6 +19,13 @@ import {
   SET_DELETION_PENDING,
   SET_CONFIRMING_DELETE,
 } from './constants';
+
+export function setCRMUnavailable(reason) {
+  return {
+    type: SET_CRM_UNAVAILABLE,
+    reason,
+  };
+}
 
 export function clearSearchResults() {
   return {

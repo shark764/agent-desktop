@@ -6,6 +6,7 @@
 
 import { fromJS, List } from 'immutable';
 import {
+  SET_CRM_UNAVAILABLE,
   SET_SEARCH_RESULTS,
   CLEAR_SEARCH_RESULTS,
   CHECK_CONTACT,
@@ -63,6 +64,8 @@ function infoTabReducer(state = initialState, action) {
         return state;
       }
     }
+    case SET_CRM_UNAVAILABLE:
+      return state.set('crmUnavailable', action.reason || 'generalError');
     case CHECK_CONTACT:
       currentContacts = state.get('checkedContacts');
       return state

@@ -21,7 +21,7 @@ import IconSVG from 'components/IconSVG';
 import { setShowCancelDialog, setFormIsDirty, setFormValidity, resetForm } from 'containers/ContactsControl/actions';
 import selectInfoTab, { selectCurrentInteraction, selectCheckedContacts,
   selectContactMode, selectUnassignedContact, selectExpandedQuery, selectNotifications,
-  selectNextNotificationId, selectDeletionPending, selectConfirmingDelete } from './selectors';
+  selectNextNotificationId, selectDeletionPending, selectConfirmingDelete, selectCRMUnavailable } from './selectors';
 import { clearSearchResults, clearCheckedContacts, setContactMode,
   setUnassignedContact, addNotification, dismissNotification, setLoading, setDeletionPending, setConfirmingDelete } from './actions';
 import { deleteContacts, setContactAction, addSearchFilter, removeSearchFilter } from '../AgentDesktop/actions';
@@ -69,28 +69,32 @@ export class InfoTab extends BaseComponent {
   };
 
   componentWillReceiveProps(nextProps) {
-    const queryChanged = JSON.stringify(nextProps.selectedInteraction.query) !== JSON.stringify(this.props.selectedInteraction.query);
-    const interactionChanged = (nextProps.selectedInteraction.interactionId !== this.props.selectedInteraction.interactionId);
-    if (queryChanged || interactionChanged) {
-      this.props.clearSearchResults();
-      this.props.clearCheckedContacts();
-    }
-    if (interactionChanged && this.props.contactMode !== 'viewing') {
-      this.setNotEditing();
-    }
-    if (!this.props.deletionPending && nextProps.deletionPending) {
-      this.deleteContacts();
+    if (!this.state.error) {
+      const queryChanged = JSON.stringify(nextProps.selectedInteraction.query) !== JSON.stringify(this.props.selectedInteraction.query);
+      const interactionChanged = (nextProps.selectedInteraction.interactionId !== this.props.selectedInteraction.interactionId);
+      if (queryChanged || interactionChanged) {
+        this.props.clearSearchResults();
+        this.props.clearCheckedContacts();
+      }
+      if (interactionChanged && this.props.contactMode !== 'viewing') {
+        this.setNotEditing();
+      }
+      if (!this.props.deletionPending && nextProps.deletionPending) {
+        this.deleteContacts();
+      }
     }
   }
 
   componentWillUnmount() {
-    this.props.clearSearchResults();
+    if (!this.state.error) {
+      this.props.clearSearchResults();
+    }
   }
 
   componentDidMount() {
     CxEngage.contacts.listAttributes(() => {
       CxEngage.contacts.listLayouts(() => {
-        this.props.setLoading(false); // TODO: error handling
+        this.props.setLoading(false);
       });
     });
   }
@@ -152,7 +156,22 @@ export class InfoTab extends BaseComponent {
     this.props.addNotification({ id, errorType, messageType, isError });
   }
 
+  crmUnavailableBanner = () =>
+    <div style={[this.props.style, this.styles.base]}>
+      <NotificationBanner
+        id="crm-unavailable-banner"
+        key="crm-unavailable-banner"
+        style={this.styles.notificationBanner}
+        titleMessage={messages.crmUnavailableTitle}
+        descriptionMessage={messages[this.props.crmUnavailable] || messages.crmUnavailableGeneral}
+        isError
+      />
+    </div>
+
   render() {
+    if (this.props.crmUnavailable) {
+      return this.crmUnavailableBanner();
+    }
     const showBulkActions = this.props.results.length > 0 && this.props.contactMode === 'viewing' && this.props.selectedInteraction.contactAction === 'search';
     const showCheckboxes = this.props.selectedInteraction.contactAction !== 'view' && this.props.contactMode !== 'merging' && this.props.contactMode !== 'editing';
     return (
@@ -219,6 +238,7 @@ export class InfoTab extends BaseComponent {
 }
 
 InfoTab.propTypes = {
+  crmUnavailable: React.PropTypes.string,
   isCollapsed: React.PropTypes.bool.isRequired,
   style: React.PropTypes.object,
   resultsCount: React.PropTypes.number,
@@ -255,6 +275,7 @@ InfoTab.propTypes = {
 
 function mapStateToProps(state, props) {
   return {
+    crmUnavailable: selectCRMUnavailable(state, props),
     selectedInteraction: selectCurrentInteraction(state, props),
     checkedContacts: selectCheckedContacts(state, props),
     contactMode: selectContactMode(state, props),

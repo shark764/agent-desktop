@@ -28,6 +28,7 @@ import { selectAvailableStats } from 'containers/AgentStats/selectors';
 import { selectCriticalError } from 'containers/Errors/selectors';
 import { handleSDKError } from 'containers/Errors/actions';
 
+import { setCRMUnavailable } from 'containers/InfoTab/actions';
 import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, loadContactInteractionHistory,
   setContactHistoryInteractionDetails, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction,
   updateWrapupDetails, addScript, removeScript, selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
@@ -86,10 +87,14 @@ export class App extends React.Component {
     this.props.showRefreshRequired(false);
   }
 
-  killItWithFire = (errorType) => {
+  killItWithFire = () => {
+    CxEngage.authentication.logout((error) => error && window.location.reload());
+  }
+
+  setLoginErrorAndLogout = (errorType) => {
     window.onbeforeunload = null; // clear error clearer set in Login
     window.localStorage.setItem('ADError', errorType); // Consume in Login component
-    CxEngage.authentication.logout();
+    this.killItWithfire();
     logoutOnSessionStart = true; // session has not usually started yet here so logout has no effect
   }
 
@@ -170,7 +175,7 @@ export class App extends React.Component {
           }
           case 'cxengage/session/config-details': {
             if (response.reasonLists.length < 2) {
-              this.killItWithFire('reasonListError');
+              this.setLoginErrorAndReload('reasonListError');
             } else {
               this.props.setUserConfig(response);
             }
@@ -182,7 +187,7 @@ export class App extends React.Component {
           }
           case 'cxengage/session/started': {
             if (logoutOnSessionStart) {
-              CxEngage.authentication.logout();
+              this.killItWithFire();
             }
             CxEngage.entities.getQueues();
             break;
@@ -385,7 +390,7 @@ export class App extends React.Component {
           case 'cxengage/contacts/list-layouts-response': {
             const activeLayouts = response.filter((layout) => layout.active);
             if (activeLayouts.length === 0) {
-              this.killItWithFire('contactLayoutError');
+              this.props.setCRMUnavailable('crmUnavailableLayout');
             } else if (activeLayouts.length > 1) {
               console.warn('More than one layout found. Only using first one.');
             }
@@ -393,6 +398,9 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/contacts/list-attributes-response': {
+            if (response.length === 0) {
+              this.props.setCRMUnavailable('crmUnavailableAttribute');
+            }
             this.props.setContactAttributes(response);
             break;
           }
@@ -588,9 +596,7 @@ export class App extends React.Component {
             titleMessage={messages.criticalError}
             descriptionMessage={messages.criticalErrorDescription}
             isError
-            rightLinkAction={
-              () => CxEngage.authentication.logout() // Causes SDK session end event -> reload.
-            }
+            rightLinkAction={this.killItWithFire}
             rightLinkMessage={messages.reload}
           />
         }
@@ -664,6 +670,7 @@ function mapDispatchToProps(dispatch) {
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
+    setCRMUnavailable: (reason) => dispatch(setCRMUnavailable(reason)),
     dispatch,
   };
 }
@@ -719,6 +726,7 @@ App.propTypes = {
   toggleAgentMenu: PropTypes.func.isRequired,
   goNotReady: PropTypes.func.isRequired,
   handleSDKError: PropTypes.func.isRequired,
+  setCRMUnavailable: PropTypes.func.isRequired,
   // TODO when fixed in SDK
   // logout: PropTypes.func.isRequired,
   login: PropTypes.object,

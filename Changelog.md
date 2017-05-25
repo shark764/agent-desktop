@@ -1,3 +1,6 @@
+### [0.37.20] (2017-05-25)
+* CXV1-9329 - Contact interaction deactivation switch on layout fail
+
 ### [0.37.19] (2017-05-25)
 * CXV1-6938 - Clear search filters after create or merge contact
 
@@ -804,6 +807,10 @@
 #### Initial Commit
 * Here we go!
 
+[0.37.20]: http://www.github.com/liveops/agent-desktop/compare/0.37.19...0.37.20
+[0.37.19]: http://www.github.com/liveops/agent-desktop/compare/0.37.18...0.37.19
+[0.37.18]: http://www.github.com/liveops/agent-desktop/compare/0.37.17...0.37.18
+[0.37.17]: http://www.github.com/liveops/agent-desktop/compare/0.37.16...0.37.17
 [0.37.16]: http://www.github.com/liveops/agent-desktop/compare/0.37.15...0.37.16
 [0.37.15]: http://www.github.com/liveops/agent-desktop/compare/0.37.14...0.37.15
 [0.37.14]: http://www.github.com/liveops/agent-desktop/compare/0.37.13...0.37.14

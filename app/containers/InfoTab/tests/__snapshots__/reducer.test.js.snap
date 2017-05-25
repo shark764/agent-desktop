@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`infoTabReducer SET_CRM_UNAVAILABLE if reason is a string sets crmUnavailable to the reason 1`] = `
+Object {
+  "crmUnavailable": "mockReason",
+}
+`;
+
+exports[`infoTabReducer SET_CRM_UNAVAILABLE if reason is undefined sets crmUnavailable to generalError 1`] = `
+Object {
+  "crmUnavailable": "generalError",
+}
+`;
+
 exports[`infoTabReducer returns the initial state 1`] = `
 Object {
   "checkedContacts": Array [],
