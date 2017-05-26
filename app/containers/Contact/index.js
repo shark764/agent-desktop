@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
 
-import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
+import { startOutboundInteraction, removeSearchFilter } from 'containers/AgentDesktop/actions';
 import { selectShowCancelDialog, selectFormIsDirty, selectFormValidity, selectContactForm, selectFormErrors, selectShowErrors } from 'containers/ContactsControl/selectors';
 import { setShowCancelDialog, setFormIsDirty, setFormValidity, resetForm, setShowError, setFormField, setFormError } from 'containers/ContactsControl/actions';
 import { selectLoading } from 'containers/InfoTab/selectors';
@@ -124,6 +124,7 @@ export class Contact extends BaseComponent {
     } else {
       this.props.assignContact(response, () => {
         this.props.clearSearchResults();
+        this.props.removeSearchFilter();
         this.props.addNotification('created', false);
         this.props.setLoading(false);
       });
@@ -304,6 +305,7 @@ function mapDispatchToProps(dispatch) {
     setShowError: (field, error) => dispatch(setShowError(field, error)),
     setFormField: (field, value) => dispatch(setFormField(field, value)),
     setFormError: (field, error) => dispatch(setFormError(field, error)),
+    removeSearchFilter: () => dispatch(removeSearchFilter()),
     dispatch,
   };
 }
@@ -348,6 +350,7 @@ Contact.propTypes = {
   setShowCancelDialog: PropTypes.func,
   formIsValid: PropTypes.bool,
   formIsDirty: PropTypes.bool,
+  removeSearchFilter: PropTypes.func,
 };
 
 Contact.defaultProps = {

@@ -17,7 +17,7 @@ import ContactInput from 'components/ContactInput';
 import ConfirmDialog from 'components/ConfirmDialog';
 import Button from 'components/Button';
 
-import { setContactAction, removeContact } from 'containers/AgentDesktop/actions';
+import { setContactAction, removeContact, removeSearchFilter } from 'containers/AgentDesktop/actions';
 import { selectSmsInteractionNumbers } from 'containers/Contact/selectors';
 import { selectShowCancelDialog, selectFormValidity, selectContactForm, selectFormErrors, selectShowErrors } from 'containers/ContactsControl/selectors';
 import { setShowCancelDialog, setFormValidity, setShowError, setFormField, setFormError, setUnusedField, setSelectedIndex } from 'containers/ContactsControl/actions';
@@ -79,6 +79,7 @@ export class ContactMerge extends BaseComponent {
         this.props.removeContact(contact.id);
       });
       this.props.clearSearchResults();
+      this.props.removeSearchFilter();
       this.props.addNotification('saved', false);
     }
   }
@@ -335,6 +336,7 @@ ContactMerge.propTypes = {
   formIsValid: PropTypes.bool,
   removeContact: PropTypes.func,
   assignContact: PropTypes.func,
+  removeSearchFilter: PropTypes.func,
 };
 
 function mapStateToProps(state, props) {
@@ -369,6 +371,7 @@ function mapDispatchToProps(dispatch) {
     setSelectedIndex: (field, index) => dispatch(setSelectedIndex(field, index)),
     setUnassignedContact: (contact) => dispatch(setUnassignedContact(contact)),
     removeContact: (contact) => dispatch(removeContact(contact)),
+    removeSearchFilter: () => dispatch(removeSearchFilter()),
     dispatch,
   };
 }

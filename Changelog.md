@@ -1,3 +1,6 @@
+### [0.37.19] (2017-05-25)
+* CXV1-6938 - Clear search filters after create or merge contact
+
 ### [0.37.18] (2017-05-25)
 * CXV1-9329 - Fix login error handling
 
