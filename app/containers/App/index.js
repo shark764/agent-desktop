@@ -120,8 +120,6 @@ export class App extends React.Component {
       console.error('Server conf file not found, Unable to load desktop');
     }
 
-    window.agentDesktopState = () => this.props.agentDesktop;
-
     // Initialize Remote Logging with Sentry.io
     if (environment === 'prod') {
       Raven.config('https://892f9eb6bb314a9da98b98372c518351@sentry.io/169686', {
@@ -140,6 +138,8 @@ export class App extends React.Component {
     const sdkConf = { baseUrl: `https://${where}`, logLevel, blastSqsOutput, environment, reportingRefreshRate };
 
     CxEngage.initialize(sdkConf);
+
+    Raven.setTagsContext({ sdkVersion: CxEngage.version });
 
     CxEngage.subscribe('cxengage', (error, topic, response) => {
       if (error) {
