@@ -3,6 +3,7 @@ import Raven from 'raven-js';
 import {
   goHandleSDKError,
   fatalTopics,
+  topicActions,
 } from 'containers/Errors/sagas';
 
 jest.mock('raven-js', () => ({
@@ -34,6 +35,30 @@ describe('handleError Saga', () => {
     expect(Raven.captureException.mock.calls[0][1]).toMatchSnapshot();
   });
 
+  fatalTopics.forEach((fatalTopic) => {
+    describe(`if topic is ${fatalTopic}`, () => {
+      beforeEach(() => {
+        mockAction.topic = fatalTopic;
+        generator = goHandleSDKError(mockAction);
+      });
+      it('should dispatch action setCriticalError', () => {
+        expect(generator.next()).toMatchSnapshot();
+      });
+    });
+  });
+
+  Object.keys(topicActions).forEach((actionTopic) => {
+    describe(`if topic is ${actionTopic}`, () => {
+      beforeEach(() => {
+        mockAction.topic = actionTopic;
+        generator = goHandleSDKError(mockAction);
+      });
+      it(`should dispatch action ${topicActions[actionTopic].type}`, () => {
+        expect(generator.next()).toMatchSnapshot();
+      });
+    });
+  });
+
   describe('if error.level is "fatal"', () => {
     beforeEach(() => {
       mockAction.error = {
@@ -48,18 +73,6 @@ describe('handleError Saga', () => {
       generator.next();
       const result = Raven.captureException.mock.calls[0][1];
       expect(result.level).toBe('fatal');
-    });
-  });
-
-  fatalTopics.forEach((fatalTopic) => {
-    describe(`if topic is ${fatalTopic}`, () => {
-      beforeEach(() => {
-        mockAction.topic = fatalTopic;
-        generator = goHandleSDKError(mockAction);
-      });
-      it('should dispatch action setCriticalError', () => {
-        expect(generator.next()).toMatchSnapshot();
-      });
     });
   });
 });

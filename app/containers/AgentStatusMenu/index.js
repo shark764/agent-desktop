@@ -193,6 +193,11 @@ export class AgentStatusMenu extends BaseComponent {
     </div>,
   ];
 
+  logoutAndCloseMenu = () => {
+    CxEngage.authentication.logout((error) => error && window.location.reload());
+    this.props.showAgentStatusMenu(false);
+  }
+
   render() {
     return (
       <PopupDialog id="agentStatusMenu" style={styles.menuPosition} isVisible={this.props.show} hide={() => { this.setState({ showPathwayMenu: false }); this.setState({ showReasonMenuInfo: {} }); this.props.showAgentStatusMenu(false); }} widthPx={303} arrowLeftOffsetPx={51}>
@@ -202,7 +207,7 @@ export class AgentStatusMenu extends BaseComponent {
             : <div
               id="agentLogoutLink"
               style={[styles.presenceLinkContainer, styles.inactivePresence]}
-              onClick={() => { CxEngage.authentication.logout(); this.props.showAgentStatusMenu(false); }}
+              onClick={this.logoutAndCloseMenu}
             >
               <FormattedMessage {...messages.logout} />
             </div>

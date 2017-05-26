@@ -6,6 +6,22 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
+  crmUnavailableTitle: {
+    id: 'app.containers.InfoTab.crmUnavailableTitle',
+    defaultMessage: 'CRM Unavailable',
+  },
+  crmUnavailableGeneral: {
+    id: 'app.containers.InfoTab.crmUnavailableGeneral',
+    defaultMessage: 'The contact management functionality is unavailable.',
+  },
+  crmUnavailableLayout: {
+    id: 'app.containers.InfoTab.crmUnavailableLayout',
+    defaultMessage: 'Failed to load a valid contact layout, check tenant config.',
+  },
+  crmUnavailableAttribute: {
+    id: 'app.containers.InfoTab.crmUnavailableAttribute',
+    defaultMessage: 'No contact attributes found, check tenant config.',
+  },
   newRecord: {
     id: 'app.containers.InfoTab.newRecord',
     defaultMessage: 'Create New Record',
@@ -23,23 +39,23 @@ export default defineMessages({
     defaultMessage: 'Changes saved.',
   },
   notSaved: {
-    id: 'app.containers.AgentDesktop.notSaved',
+    id: 'app.containers.InfoTab.notSaved',
     defaultMessage: 'Your changes have not been saved.',
   },
   notCreated: {
-    id: 'app.containers.AgentDesktop.notCreated',
+    id: 'app.containers.InfoTab.notCreated',
     defaultMessage: 'Your new contact has not been created.',
   },
   notAssigned: {
-    id: 'app.containers.AgentDesktop.notAssigned',
+    id: 'app.containers.InfoTab.notAssigned',
     defaultMessage: 'Contact was not assigned to the interaction.',
   },
   serverError: {
-    id: 'app.containers.AgentDesktop.serverError',
+    id: 'app.containers.InfoTab.serverError',
     defaultMessage: 'Server Error',
   },
   networkError: {
-    id: 'app.containers.AgentDesktop.networkError',
+    id: 'app.containers.InfoTab.networkError',
     defaultMessage: 'Network Error',
   },
 });

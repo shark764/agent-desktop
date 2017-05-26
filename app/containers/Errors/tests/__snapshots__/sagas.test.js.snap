@@ -15,6 +15,38 @@ Object {
 }
 `;
 
+exports[`handleError Saga if topic is cxengage/contacts/list-attributes-response should dispatch action app/InfoTab/SET_CRM_UNAVAILABLE 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "reason": "crmAttributeError",
+        "type": "app/InfoTab/SET_CRM_UNAVAILABLE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`handleError Saga if topic is cxengage/contacts/list-layouts-response should dispatch action app/InfoTab/SET_CRM_UNAVAILABLE 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "reason": "crmLayoutError",
+        "type": "app/InfoTab/SET_CRM_UNAVAILABLE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
 exports[`handleError Saga if topic is cxengage/session/heartbeat-response should dispatch action setCriticalError 1`] = `
 Object {
   "done": false,

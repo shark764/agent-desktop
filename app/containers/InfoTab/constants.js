@@ -4,6 +4,7 @@
  *
  */
 
+export const SET_CRM_UNAVAILABLE = 'app/InfoTab/SET_CRM_UNAVAILABLE';
 export const CLEAR_SEARCH_RESULTS = 'app/InfoTab/CLEAR-SEARCH_RESULTS';
 export const SET_SEARCH_RESULTS = 'app/InfoTab/SET_SEARCH_RESULTS';
 export const CHECK_CONTACT = 'app/InfoTab/CHECK_CONTACT';
