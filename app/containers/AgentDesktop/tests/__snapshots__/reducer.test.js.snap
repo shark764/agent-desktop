@@ -261,6 +261,13 @@ Object {
   "activeExtension": Object {},
   "extensions": Array [],
   "interactions": Array [],
+  "newInteractionPanel": Object {
+    "contactAction": "view",
+    "interactionId": "creating-new-interaction",
+    "sidePanelTabIndex": 0,
+    "status": "creating-new-interaction",
+    "visible": false,
+  },
   "noInteractionContactPanel": Object {
     "contactAction": "search",
     "query": Object {},

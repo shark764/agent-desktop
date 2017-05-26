@@ -12,14 +12,16 @@ import Radium from 'radium';
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
 
+import NewInteractionContentArea from 'containers/NewInteractionContentArea';
 import MessagingContentArea from 'containers/MessagingContentArea';
 import EmailContentArea from 'containers/EmailContentArea';
 import VoiceContentArea from 'containers/VoiceContentArea';
 import WelcomeStats from 'containers/WelcomeStats';
 
 import { removeInteraction } from 'containers/AgentDesktop/actions';
+import { selectSelectedInteraction } from 'containers/AgentDesktop/selectors';
 
-import { selectSelectedInteraction, selectMessageTemplates } from './selectors';
+import { selectMessageTemplates } from './selectors';
 
 export class MainContentArea extends BaseComponent {
 
@@ -47,7 +49,9 @@ export class MainContentArea extends BaseComponent {
 
     let content = null;
     if (selectedInteraction) {
-      if (selectedInteraction.channelType === 'messaging' || selectedInteraction.channelType === 'sms') {
+      if (selectedInteraction.status === 'creating-new-interaction') {
+        content = <NewInteractionContentArea showContactsPanel={this.props.showContactsPanel} />;
+      } else if (selectedInteraction.channelType === 'messaging' || selectedInteraction.channelType === 'sms') {
         const messageTemplates = this.props.messageTemplates.filter((messageTemplate) =>
           messageTemplate.channels.includes(selectedInteraction.channelType)
         );
@@ -96,6 +100,7 @@ MainContentArea.propTypes = {
   style: PropTypes.array,
   agent: PropTypes.object.isRequired,
   tenant: PropTypes.object.isRequired,
+  showContactsPanel: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(MainContentArea));

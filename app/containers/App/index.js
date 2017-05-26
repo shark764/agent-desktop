@@ -488,21 +488,8 @@ export class App extends React.Component {
     });
   }
 
-  collapseContactsPanel = () => {
-    this.setState({
-      isContactsPanelCollapsed: true,
-    });
-  }
-
-  showContactsPanel = () => {
-    this.setState({
-      isContactsPanelCollapsed: false,
-    });
-  }
-
   selectInteraction = (interactionId) => {
     this.props.selectInteraction(interactionId);
-    this.showContactsPanel();
   }
 
   acceptInteraction = (interactionId) => {

@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { selectSelectedInteraction } from 'containers/AgentDesktop/selectors';
 
 /**
  * Direct selector to the infoTab state domain
@@ -28,23 +29,6 @@ const selectLanguageDomain = (state) => state.get('language');
 const selectAttributes = createSelector(
   selectSidePanelDomain,
   (sidePanel) => sidePanel.get('contactAttributes').toJS()
-);
-
-const selectInteractions = createSelector(
-  selectAgentDesktopDomain,
-  (agentDesktop) => agentDesktop.get('interactions')
-);
-
-const getSelectedInteractionId = createSelector(
-  selectAgentDesktopDomain,
-  (agentDesktop) => agentDesktop.get('selectedInteractionId')
-);
-
-const selectSelectedInteraction = createSelector(
-  [selectInteractions, getSelectedInteractionId],
-  (interactions, selectedInteractionId) => interactions.toJS().filter(
-    (interaction) => interaction.interactionId === selectedInteractionId
-  )[0]
 );
 
 const selectNoInteractionContactPanelContactsData = createSelector(
@@ -81,25 +65,29 @@ const selectUnassignedContact = createSelector(
 const selectExpandedQuery = createSelector(
   [selectCurrentInteraction, selectAttributes, selectLanguageDomain],
   (currentInteraction, attributes, language) => {
-    const locale = language.get('locale');
-    return Object.keys(currentInteraction.query).map((filterName) => {
-      let attribute;
-      if (filterName === 'q') {
-        attribute = {
-          id: 'all',
-          label: {
-            'en-US': 'All',
-          },
-          objectName: 'q', // Fuzzy search query parameter
-        };
-      } else {
-        attribute = attributes.find((fullAttribute) => fullAttribute.objectName === filterName);
-      }
-      const label = attribute.label[locale] || filterName;
-      return (attribute)
-      ? { attribute, value: currentInteraction.query[filterName], label }
-      : false;
-    }).filter(Boolean);
+    if (currentInteraction.status !== 'creating-new-interaction') {
+      const locale = language.get('locale');
+      return Object.keys(currentInteraction.query).map((filterName) => {
+        let attribute;
+        if (filterName === 'q') {
+          attribute = {
+            id: 'all',
+            label: {
+              'en-US': 'All',
+            },
+            objectName: 'q', // Fuzzy search query parameter
+          };
+        } else {
+          attribute = attributes.find((fullAttribute) => fullAttribute.objectName === filterName);
+        }
+        const label = attribute.label[locale] || filterName;
+        return (attribute)
+        ? { attribute, value: currentInteraction.query[filterName], label }
+        : false;
+      }).filter(Boolean);
+    } else {
+      return [];
+    }
   }
 );
 

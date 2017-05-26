@@ -21,6 +21,9 @@ import {
   SET_QUEUE_TIME,
   SET_PRESENCE,
   SET_INTERACTION_STATUS,
+  OPEN_NEW_INTERACTION_PANEL,
+  NEW_INTERACTION_PANEL_SELECT_CONTACT,
+  CLOSE_NEW_INTERACTION_PANEL,
   START_OUTBOUND_INTERACTION,
   INITIALIZE_OUTBOUND_SMS,
   ADD_INTERACTION,
@@ -93,6 +96,13 @@ const initialState = fromJS({
     contactAction: 'search',
     query: {},
     sidePanelTabIndex: 0,
+  },
+  newInteractionPanel: {
+    interactionId: 'creating-new-interaction',
+    status: 'creating-new-interaction',
+    visible: false,
+    sidePanelTabIndex: 0,
+    contactAction: 'view',
   },
   queues: [],
   extensions: [],
@@ -266,9 +276,11 @@ function agentDesktopReducer(state = initialState, action) {
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
       if (interactionIndex !== -1) {
-        const automaticallyAcceptInteraction = action.newStatus === 'work-accepting' && state.get('selectedInteractionId') === undefined;
-        const newState = state
+        const automaticallySelectInteraction = action.newStatus === 'work-accepting' && state.get('selectedInteractionId') === undefined;
+        let hideNewInteractionPanelOnWorkAccepted = false;
+        let newState = state
           .updateIn(['interactions', interactionIndex], (interaction) => {
+            hideNewInteractionPanelOnWorkAccepted = interaction.get('hideNewInteractionPanelOnWorkAccepted');
             let updatedInteraction = interaction.set('status', action.newStatus);
             // If we're accepting an existing voice conference, make any updates that have happened to the participants since the work offer
             if (interaction.get('channelType') === 'voice' && action.response !== undefined) {
@@ -307,29 +319,76 @@ function agentDesktopReducer(state = initialState, action) {
             return updatedInteraction;
           })
           .set('selectedInteractionId',
-            automaticallyAcceptInteraction
+            automaticallySelectInteraction
             ? action.interactionId
             : state.get('selectedInteractionId'));
+        if (hideNewInteractionPanelOnWorkAccepted && action.newStatus === 'work-accepting') {
+          // Hide new interaction panel and auto select interaction (for outbound voice from new interaction panel)
+          newState = newState
+            .set('selectedInteractionId', action.interactionId)
+            .update('newInteractionPanel', (newInteractionPanel) =>
+              newInteractionPanel
+                .set('visible', false)
+                .set('contact', undefined)
+            );
+        }
         if (action.newStatus === 'wrapup') {
           const wrapupTimeout = state.getIn(['interactions', interactionIndex, 'wrapupDetails', 'wrapupTime']);
           const newTimeout = Date.now() + (wrapupTimeout * 1000);
-          return newState.setIn(['interactions', interactionIndex, 'timeout'], newTimeout);
+          newState = newState.setIn(['interactions', interactionIndex, 'timeout'], newTimeout);
         }
         return newState;
       }
       return state;
+    }
+    case OPEN_NEW_INTERACTION_PANEL: {
+      return state.setIn(['newInteractionPanel', 'visible'], true)
+        .set('selectedInteractionId', state.getIn(['newInteractionPanel', 'interactionId']));
+    }
+    case NEW_INTERACTION_PANEL_SELECT_CONTACT: {
+      return state.setIn(['newInteractionPanel', 'contact'], action.contact);
+    }
+    case CLOSE_NEW_INTERACTION_PANEL: {
+      let nextSelectedInteractionId;
+      const currentVoiceInteraction = state.get('interactions').find(
+        (interaction) => interaction.get('channelType') === 'voice' && interaction.get('status') !== 'connecting-to-outbound'
+      );
+      if (currentVoiceInteraction) {
+        nextSelectedInteractionId = currentVoiceInteraction.get('interactionId');
+      } else {
+        const firstNonVoiceInteraction = state.get('interactions').find(
+          (interaction) => interaction.get('channelType') !== 'voice' &&
+            interaction.get('interactionId') !== action.interactionId
+        );
+        nextSelectedInteractionId = firstNonVoiceInteraction ? firstNonVoiceInteraction.get('interactionId') : undefined;
+      }
+      return state.setIn(['newInteractionPanel', 'visible'], false)
+        .set('selectedInteractionId', nextSelectedInteractionId);
     }
     case START_OUTBOUND_INTERACTION: {
       const outboundInteraction = new Map(new Interaction({
         channelType: action.channelType,
         customer: action.customer,
         contact: action.contact,
+        // We don't want to hide the new interaction panel for outbound voice until the interaction has been accepted because
+        // the voice interation is not 'selectable' until then and we want to avoid the contact panel 'flicker' in between
+        hideNewInteractionPanelOnWorkAccepted: action.addedByNewInteractionPanel && action.channelType === 'voice',
         direction: 'outbound',
         status: 'connecting-to-outbound',
       }));
       return state
         .set('interactions', state.get('interactions').push(outboundInteraction))
-        .set('selectedInteractionId', action.channelType === 'sms' ? outboundInteraction.get('interactionId') : state.get('interactionId'));
+        // Hide the new interaction panel and auto select new new interaction for SMS
+        .set('selectedInteractionId', action.channelType === 'sms' ? outboundInteraction.get('interactionId') : state.get('selectedInteractionId'))
+        .update('newInteractionPanel', (newInteractionPanel) => {
+          if (action.channelType === 'sms' && action.addedByNewInteractionPanel) {
+            return newInteractionPanel
+              .set('visible', false)
+              .set('contact', undefined);
+          } else {
+            return newInteractionPanel;
+          }
+        });
     }
     case INITIALIZE_OUTBOUND_SMS: {
       const interactionIndex = state.get('interactions').findIndex(
@@ -357,7 +416,7 @@ function agentDesktopReducer(state = initialState, action) {
         );
         const interactionToAdd = new Map(new Interaction(action.response));
         if (interactionIndex !== -1) {
-          return state.setIn(['interactions', interactionIndex], interactionToAdd);
+          return state.mergeIn(['interactions', interactionIndex], interactionToAdd);
         } else {
           return state.set('interactions', state.get('interactions').push(interactionToAdd));
         }
@@ -671,18 +730,17 @@ function agentDesktopReducer(state = initialState, action) {
       if (interactionIndex !== -1) {
         return state
           .set('selectedInteractionId', action.interactionId)
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) =>
-                  interaction.set('messageHistory',
-                    interaction.get('messageHistory') !== undefined
-                    ? interaction.get('messageHistory').map((messageHistoryItem) => messageHistoryItem.set('unread', false))
-                    : undefined
-                  )
+          .update('interactions', (interactions) =>
+            interactions.update(interactionIndex, (interaction) =>
+              interaction.set('messageHistory',
+                interaction.get('messageHistory') !== undefined
+                ? interaction.get('messageHistory').map((messageHistoryItem) => messageHistoryItem.set('unread', false))
+                : undefined
               )
+            )
           );
+      } else if (action.interactionId === 'creating-new-interaction') {
+        return state.set('selectedInteractionId', action.interactionId);
       } else {
         return state;
       }

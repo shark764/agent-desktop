@@ -3,11 +3,10 @@ import { fromJS } from 'immutable';
 import {
   selectIsReady,
   selectInInteractionContext,
-  selectHasVoiceInteraction,
   selectPopulatedLayout,
   selectPopulatedCompactAttributes,
   selectAttributes,
-} from '../selectors';// import { fromJS } from 'immutable';
+} from '../selectors';
 
 // AgentDesktop Domain Selectors
 describe('selectIsReady', () => {
@@ -50,29 +49,6 @@ describe('selectInInteractionContext', () => {
     });
     it('should return false', () => {
       expect(selectInInteractionContext(mockState)).toEqual(false);
-    });
-  });
-});
-
-describe('selectHasVoiceInteraction', () => {
-  describe('if a voice type interaction is present', () => {
-    const mockState = fromJS({
-      agentDesktop: {
-        interactions: [{ channelType: 'voice' }],
-      },
-    });
-    it('should return true', () => {
-      expect(selectHasVoiceInteraction(mockState)).toEqual(true);
-    });
-  });
-  describe('if a voice type interaction is not present', () => {
-    const mockState = fromJS({
-      agentDesktop: {
-        interactions: [{ channelType: 'telegram' }],
-      },
-    });
-    it('should return false', () => {
-      expect(selectHasVoiceInteraction(mockState)).toEqual(false);
     });
   });
 });

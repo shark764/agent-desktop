@@ -1,12 +1,10 @@
 import { createSelector } from 'reselect';
+import { selectSelectedInteraction } from 'containers/AgentDesktop/selectors';
 
 // AgentDesktop Domain Selectors
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 const selectIsReady = createSelector(
   selectAgentDesktopDomain, (agentDesktop) => agentDesktop.get('presence') === 'ready'
-);
-const selectInteractions = createSelector(
-  selectAgentDesktopDomain, (agentDesktop) => agentDesktop.get('interactions')
 );
 const selectSelectedInteractionId = createSelector(
   selectAgentDesktopDomain, (agentDesktop) => agentDesktop.get('selectedInteractionId')
@@ -15,24 +13,12 @@ const selectInInteractionContext = createSelector(
   selectSelectedInteractionId,
   (interactionId) => typeof interactionId !== 'undefined'
 );
-const selectHasVoiceInteraction = createSelector(
-  selectInteractions,
-  (interactions) => interactions.findIndex(
-    (interaction) => (interaction.get('channelType') === 'voice')
-  ) !== -1
-);
 
-const selectSmsInteractionNumbers = createSelector(
-  selectInteractions,
-  (interactions) => {
-    const smsInteractionNumbers = [];
-    interactions.forEach((interaction) => {
-      if (interaction.get('channelType') === 'sms') {
-        smsInteractionNumbers.push(interaction.get('customer'));
-      }
-    });
-    return smsInteractionNumbers;
-  }
+const getSelectedInteractionIsCreatingNewInteraction = createSelector(
+  selectSelectedInteraction,
+  (selectedInteraction) =>
+    selectedInteraction !== undefined
+      && selectedInteraction.interactionId === 'creating-new-interaction'
 );
 
 // SidePanel Domain Selectors
@@ -90,7 +76,6 @@ export {
   selectPopulatedLayout,
   selectPopulatedCompactAttributes,
   selectAttributes,
-  selectHasVoiceInteraction,
-  selectSmsInteractionNumbers,
   selectInInteractionContext,
+  getSelectedInteractionIsCreatingNewInteraction,
 };

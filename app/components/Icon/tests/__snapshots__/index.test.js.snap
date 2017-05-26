@@ -1,5 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<Icon /> with name add_interaction and active prop should render correctly 1`] = `
+<img
+  alt="add_interaction"
+  data-radium={true}
+  id="mockId"
+  src="test-file-stub"
+  style={
+    Object {
+      "cursor": "pointer",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name add_interaction should render correctly 1`] = `
+<img
+  alt="add_interaction"
+  data-radium={true}
+  id="mockId"
+  src="test-file-stub"
+  style={
+    Object {
+      "cursor": "pointer",
+    }
+  }
+/>
+`;
+
 exports[`<Icon /> with name arrow_return and active prop should render correctly 1`] = `
 <img
   alt="arrow_return"

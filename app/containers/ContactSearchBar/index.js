@@ -105,7 +105,7 @@ export class ContactSearchBar extends BaseComponent {
       backgroundPosition: '10px 10px',
       backgroundRepeat: 'no-repeat',
       backgroundSize: '16px',
-      padding: '3px 0 3px 40px',
+      padding: '3px 3px 3px 40px',
       height: '36px',
       borderRadius: '2px 0 0 3px',
       border: 'solid 1px #979797',

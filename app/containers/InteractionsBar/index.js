@@ -7,14 +7,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { injectIntl, intlShape } from 'react-intl';
 import Radium from 'radium';
 
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
 
+import { selectIsAgentReady } from 'containers/AgentDesktop/selectors';
+import { openNewInteractionPanel } from 'containers/AgentDesktop/actions';
+
+import Icon from 'components/Icon';
 import Interaction from 'components/Interaction';
 
-import { selectPendingInteractions, selectActiveVoiceInteraction, selectActiveNonVoiceInteractions, getSelectedInteractionId } from './selectors';
+import { selectPendingInteractions, selectActiveVoiceInteraction, selectActiveNonVoiceInteractions, getSelectedInteractionId, selectNewInteractionPanel } from './selectors';
+import messages from './messages';
 
 export class InteractionsBar extends BaseComponent {
   styles = {
@@ -99,6 +105,14 @@ export class InteractionsBar extends BaseComponent {
       );
     });
 
+    const newInteraction = this.props.newInteractionPanel.visible
+      && (<Interaction
+        interactionId={this.props.newInteractionPanel.interactionId}
+        status={this.props.newInteractionPanel.status}
+        selected={this.props.selectedInteractionId === this.props.newInteractionPanel.interactionId}
+        onClick={this.props.selectedInteractionId !== this.props.newInteractionPanel.interactionId ? () => this.props.selectInteraction(this.props.newInteractionPanel.interactionId) : undefined}
+      />);
+
     const pendingInteractions = this.props.pendingInteractions.map((pendingInteraction) => {
       let icon;
       let from;
@@ -135,12 +149,25 @@ export class InteractionsBar extends BaseComponent {
 
     return (
       <div style={[this.styles.base, this.props.style]}>
-        <div style={{ position: 'absolute', top: 0, width: '100%', color: '#FFFFFF' }}>
+        <div style={{ position: 'absolute', top: 0, width: '100%', color: '#FFFFFF', height: 'calc(100% - 47px)', overflowY: 'auto' }}>
           {activeVoiceInteraction}
           {activeNonVoiceInteractions}
+          {newInteraction}
+        </div>
+        <div style={{ position: 'absolute', bottom: 47, width: '100%', padding: '11px' }}>
+          {pendingInteractions}
         </div>
         <div style={{ position: 'absolute', bottom: 0, width: '100%', padding: '11px' }}>
-          {pendingInteractions}
+          {
+            this.props.isAgentReady && !this.props.newInteractionPanel.visible &&
+            <Icon
+              id="newInteraction"
+              name="add_interaction"
+              alt={this.props.intl.formatMessage(messages.newInteraction)}
+              onclick={this.props.openNewInteractionPanel}
+              style={{ display: 'block', margin: '0 auto' }}
+            />
+          }
         </div>
       </div>
     );
@@ -148,21 +175,26 @@ export class InteractionsBar extends BaseComponent {
 }
 
 const mapStateToProps = (state, props) => ({
+  isAgentReady: selectIsAgentReady(state, props),
   pendingInteractions: selectPendingInteractions(state, props),
   activeVoiceInteraction: selectActiveVoiceInteraction(state, props),
   activeNonVoiceInteractions: selectActiveNonVoiceInteractions(state, props),
   selectedInteractionId: getSelectedInteractionId(state, props),
+  newInteractionPanel: selectNewInteractionPanel(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
+    openNewInteractionPanel: () => dispatch(openNewInteractionPanel()),
     dispatch,
   };
 }
 
 InteractionsBar.propTypes = {
+  intl: intlShape.isRequired,
   style: PropTypes.array,
+  isAgentReady: PropTypes.bool.isRequired,
   pendingInteractions: PropTypes.array.isRequired,
   activeNonVoiceInteractions: PropTypes.array.isRequired,
   activeVoiceInteraction: PropTypes.object,
@@ -171,4 +203,4 @@ InteractionsBar.propTypes = {
   acceptInteraction: PropTypes.func,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(InteractionsBar));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(InteractionsBar)));

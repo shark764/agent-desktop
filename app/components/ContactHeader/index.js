@@ -115,10 +115,13 @@ function ContactHeader(props) {
   function getViewControlHeader() {
     return (
       <div style={styles.controlHeader}>
-        <div style={styles.buttonSet}>
-          <Button id="contact-edit-btn" style={styles.leftButton} onClick={props.editAssignedContact} text={messages.edit} type="secondary" />
-          <Button id="contact-search-btn" style={styles.rightButton} onClick={props.setSearching} iconName="search" type="secondary" />
-        </div>
+        {
+          props.selectedInteraction.interactionId !== 'creating-new-interaction'
+          && <div style={styles.buttonSet}>
+            <Button id="contact-edit-btn" style={styles.leftButton} onClick={props.editAssignedContact} text={messages.edit} type="secondary" />
+            <Button id="contact-search-btn" style={styles.rightButton} onClick={props.setSearching} iconName="search" type="secondary" />
+          </div>
+        }
       </div>
     );
   }

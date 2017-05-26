@@ -1,7 +1,7 @@
 import { List, Map } from 'immutable';
 
 export default class Interaction {
-  constructor({ interactionId, channelType, autoAnswer, direction, timeout, toolbarFeatures, recording, customerOnHold, status, customer, activeResources, contact }) {
+  constructor({ interactionId, channelType, autoAnswer, direction, timeout, toolbarFeatures, recording, customerOnHold, status, customer, activeResources, contact, hideNewInteractionPanelOnWorkAccepted }) {
     if (channelType === 'voice') {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
       this.agentRecordingEnabled = toolbarFeatures && toolbarFeatures.recordingUpdate !== false;
@@ -56,5 +56,8 @@ export default class Interaction {
     this.contactAction = contact ? 'view' : 'search';
     this.query = new Map();
     this.sidePanelTabIndex = 0;
+    if (hideNewInteractionPanelOnWorkAccepted !== undefined) {
+      this.hideNewInteractionPanelOnWorkAccepted = hideNewInteractionPanelOnWorkAccepted;
+    }
   }
 }

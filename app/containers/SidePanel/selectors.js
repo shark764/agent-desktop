@@ -12,21 +12,38 @@ const getSelectedInteractionId = createSelector(
   (agentDesktop) => agentDesktop.get('selectedInteractionId')
 );
 
+const selectNewInteractionPanel = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) => agentDesktop.get('newInteractionPanel')
+);
+
 const selectNoInteractionContactPanelContactsData = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) => agentDesktop.get('noInteractionContactPanel')
 );
 
 const getSelectedInteraction = createSelector(
-  [selectInteractions, getSelectedInteractionId, selectNoInteractionContactPanelContactsData],
-  (interactions, selectedInteractionId, noInteractionContactPanelContactsData) => {
+  [selectInteractions, getSelectedInteractionId, selectNewInteractionPanel, selectNoInteractionContactPanelContactsData],
+  (interactions, selectedInteractionId, newInteractionPanel, noInteractionContactPanelContactsData) => {
     if (typeof selectedInteractionId !== 'undefined') {
-      return interactions.toJS().find(
-        (interaction) => interaction.interactionId === selectedInteractionId
-      );
+      if (selectedInteractionId === 'creating-new-interaction') {
+        return newInteractionPanel.toJS();
+      } else {
+        return interactions.toJS().find((interaction) =>
+          interaction.interactionId === selectedInteractionId
+        );
+      }
     }
     return noInteractionContactPanelContactsData.toJS();
   }
+);
+
+const getSelectedInteractionIsCreatingNewInteractionWithoutSelectedContact = createSelector(
+  getSelectedInteraction,
+  (selectedInteraction) =>
+    selectedInteraction !== undefined
+      && selectedInteraction.interactionId === 'creating-new-interaction'
+      && selectedInteraction.contact === undefined
 );
 
 const getSelectedInteractionIsVoice = createSelector(
@@ -59,6 +76,7 @@ const getHasAssignedContact = createSelector(
 
 export {
   getSelectedInteractionId,
+  getSelectedInteractionIsCreatingNewInteractionWithoutSelectedContact,
   getSelectedInteractionIsVoice,
   getSelectedInteractionScript,
   getHasAssignedContact,

@@ -41,6 +41,9 @@ const styles = {
   selectedBase: {
     backgroundColor: '#0B424E',
   },
+  newInteractionBase: {
+    height: '60px',
+  },
   mainContainer: {
     marginLeft: '8px',
     flexGrow: 1,
@@ -182,62 +185,89 @@ class Interaction extends React.Component {
   }
 
   render() {
-    return (
-      <div
-        id={`${this.props.status}InteractionContainer-${this.props.interactionId}`}
-        className={`${this.props.status}InteractionContainer`}
-        style={[
-          styles.base,
-          this.props.selected && styles.selectedBase,
-          this.props.status === 'pending' && styles.pendingBase,
-        ]}
-        key={this.props.interactionId}
-        onClick={this.props.onClick}
-        disabled={this.props.selected}
-      >
-        <div style={styles.iconContainer}>
-          <Icon name={this.props.icon} />
-        </div>
-        <div style={[styles.mainContainer, styles.mainContainer[this.props.status]]}>
-          <div style={styles.headerContainer}>
-            <div style={styles.from}>
-              {this.props.from}
+    if (this.props.status !== 'creating-new-interaction') {
+      return (
+        <div
+          id={`${this.props.status}InteractionContainer-${this.props.interactionId}`}
+          className={`${this.props.status}InteractionContainer`}
+          style={[
+            styles.base,
+            this.props.selected && styles.selectedBase,
+            this.props.status === 'pending' && styles.pendingBase,
+          ]}
+          key={this.props.interactionId}
+          onClick={this.props.onClick}
+          disabled={this.props.selected}
+        >
+          <div style={styles.iconContainer}>
+            <Icon name={this.props.icon} />
+          </div>
+          <div style={[styles.mainContainer, styles.mainContainer[this.props.status]]}>
+            <div style={styles.headerContainer}>
+              <div style={styles.from}>
+                {this.props.from}
+              </div>
+              <div style={[styles.timer, { color: this.getTimerColor() }]}>
+                {this.getTimer()}
+              </div>
             </div>
-            <div style={[styles.timer, { color: this.getTimerColor() }]}>
-              {this.getTimer()}
+            {this.props.status === 'wrapup'
+              ? <div style={[styles.wrapupContainer, { color: this.getTimerColor() }]}>
+                <div>
+                  <FormattedMessage {...messages.wrapup} />
+                </div>
+                <div>
+                  <Progress
+                    start={this.state.ageSeconds < this.props.targetWrapupTime ? this.state.startTime : this.state.startTime + (this.props.targetWrapupTime * 1000)}
+                    finish={this.state.ageSeconds < this.props.targetWrapupTime ? this.state.startTime + (this.props.targetWrapupTime * 1000) : this.state.startTime + (this.props.wrapupTime * 1000)}
+                    barColor={this.getTimerColor()}
+                    style={{ width: '100%' }}
+                  />
+                </div>
+              </div>
+              : <Dotdotdot
+                clamp={2}
+                className="previewText"
+                style={styles.previewText}
+                title={this.props.previewText}
+              >
+                <p style={{ margin: 0 }} title={this.props.previewText}>{this.props.previewText}</p>
+              </Dotdotdot>}
+            {this.props.status === 'pending'
+              ? <div style={styles.intentText}>
+                <FormattedMessage {...messages.accept} />
+              </div>
+              : undefined
+            }
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          id={`${this.props.status}InteractionContainer-${this.props.interactionId}`}
+          className={`${this.props.status}InteractionContainer`}
+          style={[
+            styles.base,
+            this.props.selected && styles.selectedBase,
+            styles.newInteractionBase,
+          ]}
+          key={this.props.interactionId}
+          onClick={this.props.onClick}
+          disabled={this.props.selected}
+        >
+          <div style={styles.iconContainer}>
+          </div>
+          <div style={[styles.mainContainer, styles.mainContainer[this.props.status]]}>
+            <div style={styles.headerContainer}>
+              <div style={styles.from}>
+                New Interaction
+              </div>
             </div>
           </div>
-          {this.props.status === 'wrapup'
-            ? <div style={[styles.wrapupContainer, { color: this.getTimerColor() }]}>
-              <div>
-                <FormattedMessage {...messages.wrapup} />
-              </div>
-              <div>
-                <Progress
-                  start={this.state.ageSeconds < this.props.targetWrapupTime ? this.state.startTime : this.state.startTime + (this.props.targetWrapupTime * 1000)}
-                  finish={this.state.ageSeconds < this.props.targetWrapupTime ? this.state.startTime + (this.props.targetWrapupTime * 1000) : this.state.startTime + (this.props.wrapupTime * 1000)}
-                  barColor={this.getTimerColor()}
-                  style={{ width: '100%' }}
-                />
-              </div>
-            </div>
-            : <Dotdotdot
-              clamp={2}
-              className="previewText"
-              style={styles.previewText}
-              title={this.props.previewText}
-            >
-              <p style={{ margin: 0 }} title={this.props.previewText}>{this.props.previewText}</p>
-            </Dotdotdot>}
-          {this.props.status === 'pending'
-            ? <div style={styles.intentText}>
-              <FormattedMessage {...messages.accept} />
-            </div>
-            : undefined
-          }
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 
@@ -250,7 +280,7 @@ Interaction.propTypes = {
   timeout: PropTypes.number,
   targetWrapupTime: PropTypes.number,
   wrapupTime: PropTypes.number,
-  status: PropTypes.oneOf(['pending', 'active', 'wrapup']).isRequired,
+  status: PropTypes.oneOf(['pending', 'active', 'wrapup', 'creating-new-interaction']).isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
   selected: PropTypes.bool,
   onClick: PropTypes.func,

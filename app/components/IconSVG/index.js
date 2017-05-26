@@ -51,19 +51,23 @@ function IconSVG(props) {
   }
 
   return (
-    <ReactSVG
-      id={props.id}
-      path={icon}
-      evalScript="always"
-      style={Object.assign({}, styles.base, props.style ? props.style : {})}
-    />
+    <div style={props.styleOuter}>
+      <ReactSVG
+        id={props.id}
+        path={icon}
+        evalScript="always"
+        style={Object.assign({}, styles.base, props.style ? props.style : {})}
+      />
+    </div>
   );
 }
 
 IconSVG.propTypes = {
+  id: PropTypes.string.isRequired,
   name: PropTypes.oneOf(availableIcons).isRequired,
   style: PropTypes.object,
-  id: PropTypes.string.isRequired,
+  // styleOuter used because ReactSVG wraps <svg style={props.style}> in two layers of <div>s
+  styleOuter: PropTypes.object,
 };
 
 export default IconSVG;

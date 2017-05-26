@@ -107,8 +107,8 @@ function TextInput(props) {
 
 TextInput.propTypes = {
   intl: intlShape.isRequired,
-  placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.object]), // eslint-disable-line react/no-unused-prop-types
-  cb: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  cb: PropTypes.func.isRequired,
   onEnter: PropTypes.func,
   autocomplete: PropTypes.string,
   tabIndex: PropTypes.number,

@@ -18,13 +18,14 @@ import ContactHeader from 'components/ContactHeader';
 import ContactBulkActions from 'components/ContactBulkActions';
 import IconSVG from 'components/IconSVG';
 
+import { deleteContacts, setContactAction, addSearchFilter, removeSearchFilter } from 'containers/AgentDesktop/actions';
 import { setShowCancelDialog, setShowConfirmDialog, setFormIsDirty, setFormValidity, resetForm } from 'containers/ContactsControl/actions';
+
 import selectInfoTab, { selectCurrentInteraction, selectCheckedContacts,
   selectContactMode, selectUnassignedContact, selectExpandedQuery, selectNotifications,
   selectNextNotificationId, selectDeletionPending, selectConfirmingDelete, selectCRMUnavailable } from './selectors';
 import { clearSearchResults, clearCheckedContacts, setContactMode,
   setUnassignedContact, addNotification, dismissNotification, setLoading, setDeletionPending, setConfirmingDelete } from './actions';
-import { deleteContacts, setContactAction, addSearchFilter, removeSearchFilter } from '../AgentDesktop/actions';
 import messages from './messages';
 
 export class InfoTab extends BaseComponent {

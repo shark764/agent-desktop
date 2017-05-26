@@ -8,6 +8,11 @@ const selectAgentId = createSelector(
   (login) => login.get('agent').get('userId')
 );
 
+const selectIsAgentReady = createSelector(
+  selectAgentDesktopMap,
+  (agentDesktop) => agentDesktop.get('presence') === 'ready'
+);
+
 const selectInteractions = createSelector(
   selectAgentDesktopMap,
   (agentDesktop) => agentDesktop.get('interactions')
@@ -18,12 +23,27 @@ const getSelectedInteractionId = createSelector(
   (agentDesktop) => agentDesktop.get('selectedInteractionId')
 );
 
-const selectSelectedInteraction = createSelector(
-  [selectInteractions, getSelectedInteractionId],
-  (interactions, selectedInteractionId) => interactions.toJS().filter(
-    (interaction) => interaction.interactionId === selectedInteractionId
-  )[0]
+const selectNewInteractionPanel = createSelector(
+  selectAgentDesktopMap,
+  (agentDesktop) => agentDesktop.get('newInteractionPanel')
 );
+
+const selectSelectedInteraction = createSelector(
+  [selectNewInteractionPanel, selectInteractions, getSelectedInteractionId],
+  (newInteractionPanel, interactions, selectedInteractionId) => {
+    if (selectedInteractionId !== undefined) {
+      if (selectedInteractionId === 'creating-new-interaction') {
+        return newInteractionPanel.toJS();
+      } else {
+        return interactions.toJS().find((interaction) =>
+          interaction.interactionId === selectedInteractionId
+        );
+      }
+    } else {
+      return undefined;
+    }
+  }
+ );
 
 const selectAwaitingDisposition = createSelector(
   selectSelectedInteraction,
@@ -35,11 +55,34 @@ const selectAwaitingDisposition = createSelector(
   )
 );
 
+const selectHasVoiceInteraction = createSelector(
+  selectInteractions,
+  (interactions) => interactions.findIndex(
+    (interaction) => (interaction.get('channelType') === 'voice')
+  ) !== -1
+);
+
+const selectSmsInteractionNumbers = createSelector(
+  selectInteractions,
+  (interactions) => {
+    const smsInteractionNumbers = [];
+    interactions.forEach((interaction) => {
+      if (interaction.get('channelType') === 'sms') {
+        smsInteractionNumbers.push(interaction.get('customer'));
+      }
+    });
+    return smsInteractionNumbers;
+  }
+);
 
 export {
+  selectAgentId,
+  selectIsAgentReady,
   selectInteractions,
   selectLoginMap,
   selectAgentDesktopMap,
-  selectAgentId,
+  selectSelectedInteraction,
   selectAwaitingDisposition,
+  selectHasVoiceInteraction,
+  selectSmsInteractionNumbers,
 };

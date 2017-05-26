@@ -1,9 +1,5 @@
 import { createSelector } from 'reselect';
 
-/**
- * Direct selector to the interactionsBar state domain
- */
-const selectInteractionsBarDomain = (state) => state.get('interactionsBar');
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 const selectInteractions = createSelector(
   selectAgentDesktopDomain,
@@ -14,19 +10,6 @@ const getSelectedInteractionId = createSelector(
   (agentDesktop) => agentDesktop.get('selectedInteractionId')
 );
 
-/**
- * Default selector used by InteractionsBar
- */
-
-const selectInteractionsBar = () => createSelector(
-  selectInteractionsBarDomain(),
-  (substate) => substate.toJS()
-);
-
-/**
- * Other specific selectors
- */
-
 const selectActiveNonVoiceInteractions = createSelector(
   selectInteractions,
   (interactions) => interactions.toJS().filter((interaction) =>
@@ -34,6 +17,7 @@ const selectActiveNonVoiceInteractions = createSelector(
       interaction.status === 'work-accepting' ||
       interaction.status === 'work-accepted' ||
       interaction.status === 'wrapup' ||
+      interaction.status === 'creating-new-interaction' ||
       interaction.status === 'connecting-to-outbound' ||
       interaction.status === 'initializing-outbound' ||
       interaction.status === 'initialized-outbound'
@@ -53,6 +37,11 @@ const selectActiveVoiceInteraction = createSelector(
   )
 );
 
+const selectNewInteractionPanel = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) => agentDesktop.get('newInteractionPanel').toJS()
+);
+
 const selectPendingInteractions = createSelector(
   selectInteractions,
   (interactions) => interactions.toJS().filter((interaction) =>
@@ -67,10 +56,10 @@ const selectPendingInteractions = createSelector(
   )
 );
 
-export default selectInteractionsBar;
 export {
   getSelectedInteractionId,
   selectActiveNonVoiceInteractions,
   selectActiveVoiceInteraction,
+  selectNewInteractionPanel,
   selectPendingInteractions,
 };
