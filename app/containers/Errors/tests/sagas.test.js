@@ -2,7 +2,6 @@ import Raven from 'raven-js';
 
 import {
   goHandleSDKError,
-  fatalTopics,
   topicActions,
 } from 'containers/Errors/sagas';
 
@@ -33,18 +32,6 @@ describe('handleError Saga', () => {
   });
   it('should call Raven.captureException with the SDK error in the extra info and error.code in the tags', () => {
     expect(Raven.captureException.mock.calls[0][1]).toMatchSnapshot();
-  });
-
-  fatalTopics.forEach((fatalTopic) => {
-    describe(`if topic is ${fatalTopic}`, () => {
-      beforeEach(() => {
-        mockAction.topic = fatalTopic;
-        generator = goHandleSDKError(mockAction);
-      });
-      it('should dispatch action setCriticalError', () => {
-        expect(generator.next()).toMatchSnapshot();
-      });
-    });
   });
 
   Object.keys(topicActions).forEach((actionTopic) => {

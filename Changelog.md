@@ -1,3 +1,6 @@
+### [0.37.22] (2017-05-26)
+* CXV1-9329 - Fix heartbeat 404 error handling
+
 ### [0.37.21] (2017-05-26)
 * Updated SDK to 5.1.0, fixes PSTN (CXV1-9374)
 
