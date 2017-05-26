@@ -143,13 +143,7 @@ export class App extends React.Component {
 
     CxEngage.subscribe('cxengage', (error, topic, response) => {
       if (error) {
-        switch (topic) {
-          case 'cxengage/authentication/login-response': // Handled in Login container
-            break;
-          default: {
-            this.props.handleSDKError(error, topic);
-          }
-        }
+        this.props.handleSDKError(error, topic);
       } else {
         const isIgnoreTopic = sdkIgnoreTopics.includes(topic);
         const isLogTopic = sdkLogTopics.includes(topic);
@@ -379,10 +373,6 @@ export class App extends React.Component {
           }
           case 'cxengage/interactions/email/html-body-received': {
             this.props.setEmailHtmlBody(response.interactionId, response.body);
-            break;
-          }
-          case 'cxengage/interactions/email/send-reply': {
-            // Not doing anything with this; setting loading state on send button click. This log may be useful for debugging.
             break;
           }
 

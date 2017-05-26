@@ -1,4 +1,5 @@
 export default [
+  'cxengage/interactions/email/send-reply', // Just using work-ended
   'cxengage/interactions/voice/start-recording-acknowledged', // Just using cxengage/interactions/voice/recording-start-received
   'cxengage/interactions/voice/stop-recording-acknowledged', // Just using cxengage/interactions/voice/recording-end-received
   'cxengage/interactions/voice/mute-acknowledged', // Just using cxengage/interactions/voice/resource-mute-received

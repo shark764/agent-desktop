@@ -5,38 +5,41 @@ import { setCRMUnavailable } from 'containers/InfoTab/actions';
 import { HANDLE_SDK_ERROR } from './constants';
 import { setCriticalError } from './actions';
 
-export const fatalTopics = [
-  'cxengage/session/heartbeat-response',
-];
-
 export const topicActions = {
   'cxengage/contacts/list-layouts-response': setCRMUnavailable('crmLayoutError'),
   'cxengage/contacts/list-attributes-response': setCRMUnavailable('crmAttributeError'),
 };
 
 export function* goHandleSDKError(action) {
-  try {
-    const isFatal = (
-      (action.error && action.error.level === 'fatal')
-      || fatalTopics.includes(action.topic)
-    );
-    console.warn('SDK Error:', action.topic, action.error);
-    Raven.captureException(new Error(action.topic), {
-      level: isFatal ? 'fatal' : 'warning',
-      extra: {
-        sdkError: action.error,
-      },
-      tags: {
-        sdkCode: action.error && action.error.code,
-      },
-    });
-    if (isFatal) {
-      yield put(setCriticalError());
-    } else if (topicActions[action.topic]) {
-      yield put(topicActions[action.topic]);
+  const topic = action.topic;
+  const error = action.error;
+  switch (topic) {
+    case 'cxengage/errors/error/api-rejected-bad-client-request': // Ignoring until removed by SDK
+    case 'cxengage/authentication/login-response': // Handled in Login container
+      break;
+    case 'cxengage/session/heartbeat-response':
+      window.onbeforeunload = null; // clear error clearer set in Login
+      window.localStorage.setItem('ADError', topic); // Consume in Login component
+      location.reload(); // Kill it with 🔥
+      break;
+    default: {
+      const isFatal = (error && error.level === 'fatal');
+      console.warn('SDK Error:', topic, error);
+      Raven.captureException(new Error(topic), {
+        level: isFatal ? 'fatal' : 'warning',
+        extra: {
+          sdkError: error,
+        },
+        tags: {
+          sdkCode: error && error.code,
+        },
+      });
+      if (isFatal) {
+        yield put(setCriticalError());
+      } else if (topicActions[topic]) {
+        yield put(topicActions[topic]);
+      }
     }
-  } catch (error) {
-    throw error;
   }
 }
 
