@@ -1,3 +1,7 @@
+### [0.37.23] (2017-05-26)
+* CXV1-9364 - Add SDK version to Sentry config
+* Updated SDK to 5.1.1
+
 ### [0.37.22] (2017-05-26)
 * CXV1-9329 - Fix heartbeat 404 error handling
 
