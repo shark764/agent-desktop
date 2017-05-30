@@ -1,3 +1,6 @@
+### [0.37.24] (2017-05-30)
+* CXV1-9364 - Catch redux errors
+
 ### [0.37.23] (2017-05-26)
 * CXV1-9364 - Add SDK version to Sentry config
 * Updated SDK to 5.1.1
@@ -817,6 +820,9 @@
 #### Initial Commit
 * Here we go!
 
+[0.37.24]: http://www.github.com/liveops/agent-desktop/compare/0.37.23...0.37.24
+[0.37.23]: http://www.github.com/liveops/agent-desktop/compare/0.37.22...0.37.23
+[0.37.22]: http://www.github.com/liveops/agent-desktop/compare/0.37.21...0.37.22
 [0.37.21]: http://www.github.com/liveops/agent-desktop/compare/0.37.20...0.37.21
 [0.37.20]: http://www.github.com/liveops/agent-desktop/compare/0.37.19...0.37.20
 [0.37.19]: http://www.github.com/liveops/agent-desktop/compare/0.37.18...0.37.19

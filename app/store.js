@@ -3,12 +3,14 @@ import { fromJS } from 'immutable';
 import createSagaMiddleware from 'redux-saga';
 import reducer from 'reducers';
 import rootSaga from 'sagas';
+import reduxErrorMiddleware from 'utils/reduxErrorMiddleware';
 
 const sagaMiddleware = createSagaMiddleware();
 
 export default function configureStore(initialState = {}) {
   const middlewares = [
     sagaMiddleware,
+    reduxErrorMiddleware,
   ];
 
   const enhancers = [
