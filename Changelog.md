@@ -1,3 +1,6 @@
+### [0.37.25] (2017-05-30)
+* CXV1-6938 - Add confirm dialog to contact merge
+
 ### [0.37.24] (2017-05-30)
 * CXV1-9364 - Catch redux errors
 

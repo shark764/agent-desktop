@@ -7,6 +7,7 @@
 import { fromJS } from 'immutable';
 import {
   SET_SHOW_CANCEL_DIALOG,
+  SET_SHOW_CONFIRM_DIALOG,
   SET_FORM_IS_DIRTY,
   SET_FORM_VALIDITY,
   SET_FORM_FIELD,
@@ -19,6 +20,7 @@ import {
 
 const initialState = fromJS({
   showCancelDialog: false,
+  showConfirmDialog: false,
   formIsDirty: false,
   formIsValid: false,
   contactForm: {},
@@ -33,6 +35,9 @@ function contactsControlReducer(state = initialState, action) {
     case SET_SHOW_CANCEL_DIALOG:
       return state
         .set('showCancelDialog', action.showCancelDialog);
+    case SET_SHOW_CONFIRM_DIALOG:
+      return state
+        .set('showConfirmDialog', action.showConfirmDialog);
     case SET_FORM_IS_DIRTY:
       return state
         .set('formIsDirty', action.formIsDirty);

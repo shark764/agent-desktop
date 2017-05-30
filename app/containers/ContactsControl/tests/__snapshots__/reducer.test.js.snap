@@ -8,6 +8,7 @@ Object {
   "formIsValid": false,
   "selectedIndexes": Object {},
   "showCancelDialog": false,
+  "showConfirmDialog": false,
   "showErrors": Object {},
   "unusedFields": Object {},
 }

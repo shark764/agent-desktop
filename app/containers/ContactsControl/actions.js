@@ -6,6 +6,7 @@
 
 import {
   SET_SHOW_CANCEL_DIALOG,
+  SET_SHOW_CONFIRM_DIALOG,
   SET_FORM_IS_DIRTY,
   SET_FORM_VALIDITY,
   SET_FORM_FIELD,
@@ -20,6 +21,13 @@ export function setShowCancelDialog(showCancelDialog) {
   return {
     type: SET_SHOW_CANCEL_DIALOG,
     showCancelDialog,
+  };
+}
+
+export function setShowConfirmDialog(showConfirmDialog) {
+  return {
+    type: SET_SHOW_CONFIRM_DIALOG,
+    showConfirmDialog,
   };
 }
 
