@@ -18,7 +18,7 @@ import ContactHeader from 'components/ContactHeader';
 import ContactBulkActions from 'components/ContactBulkActions';
 import IconSVG from 'components/IconSVG';
 
-import { setShowCancelDialog, setFormIsDirty, setFormValidity, resetForm } from 'containers/ContactsControl/actions';
+import { setShowCancelDialog, setShowConfirmDialog, setFormIsDirty, setFormValidity, resetForm } from 'containers/ContactsControl/actions';
 import selectInfoTab, { selectCurrentInteraction, selectCheckedContacts,
   selectContactMode, selectUnassignedContact, selectExpandedQuery, selectNotifications,
   selectNextNotificationId, selectDeletionPending, selectConfirmingDelete, selectCRMUnavailable } from './selectors';
@@ -138,6 +138,7 @@ export class InfoTab extends BaseComponent {
     this.props.setContactMode('viewing');
     this.props.clearCheckedContacts();
     this.props.setShowCancelDialog(false);
+    this.props.setShowConfirmDialog(false);
     this.props.setFormIsDirty(false);
     this.props.setFormValidity(false);
     this.props.resetForm();
@@ -303,6 +304,7 @@ function mapDispatchToProps(dispatch) {
     setDeletionPending: (deletionPending) => dispatch(setDeletionPending(deletionPending)),
     setConfirmingDelete: (confirmingDelete) => dispatch(setConfirmingDelete(confirmingDelete)),
     setShowCancelDialog: (showCancelDialog) => dispatch(setShowCancelDialog(showCancelDialog)),
+    setShowConfirmDialog: (showConfirmDialog) => dispatch(setShowConfirmDialog(showConfirmDialog)),
     setContactAction: (interactionId, newAction) => dispatch(setContactAction(interactionId, newAction)),
     setFormIsDirty: (formIsDirty) => dispatch(setFormIsDirty(formIsDirty)),
     setFormValidity: (formIsValid) => dispatch(setFormValidity(formIsValid)),

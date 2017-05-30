@@ -19,8 +19,8 @@ import Button from 'components/Button';
 
 import { setContactAction, removeContact, removeSearchFilter } from 'containers/AgentDesktop/actions';
 import { selectSmsInteractionNumbers } from 'containers/Contact/selectors';
-import { selectShowCancelDialog, selectFormValidity, selectContactForm, selectFormErrors, selectShowErrors } from 'containers/ContactsControl/selectors';
-import { setShowCancelDialog, setFormValidity, setShowError, setFormField, setFormError, setUnusedField, setSelectedIndex } from 'containers/ContactsControl/actions';
+import { selectShowCancelDialog, selectShowConfirmDialog, selectFormValidity, selectContactForm, selectFormErrors, selectShowErrors } from 'containers/ContactsControl/selectors';
+import { setShowCancelDialog, setShowConfirmDialog, setFormValidity, setShowError, setFormField, setFormError, setUnusedField, setSelectedIndex } from 'containers/ContactsControl/actions';
 import { selectCheckedContacts, selectCurrentInteraction } from 'containers/InfoTab/selectors';
 import { clearSearchResults, setLoading, setUnassignedContact } from 'containers/InfoTab/actions';
 
@@ -139,12 +139,28 @@ export class ContactMerge extends BaseComponent {
     }
   }
 
+  handleTopInputClear = (event) => {
+    this.handleInputClear(event, 0);
+  }
+
+  handleBottomInputClear = (event) => {
+    this.handleInputClear(event, 1);
+  }
+
   handleInputChange = (newValue, event, index) => {
     if (index === undefined || this.props.selectedIndexes[event.target.name] === index) {
       this.setAttributeValue(event.target.name, newValue);
     } else {
       this.setUnusedValue(event.target.name, newValue);
     }
+  }
+
+  handleTopInputChange = (newValue, event) => {
+    this.handleInputChange(newValue, event, 0);
+  }
+
+  handleBottomInputChange = (newValue, event) => {
+    this.handleInputChange(newValue, event, 1);
   }
 
   generateAttributeRow = (attributeId) => {
@@ -158,9 +174,7 @@ export class ContactMerge extends BaseComponent {
           key={attribute.id}
           handleInputChange={this.handleInputChange}
           handleOnBlur={this.handleOnBlur}
-          handleInputClear={(e) => {
-            this.handleInputClear(e);
-          }}
+          handleInputClear={this.handleInputClear}
           attribute={attribute}
           attributeLabel={attributeLabel}
           isEditing
@@ -179,9 +193,7 @@ export class ContactMerge extends BaseComponent {
           key={attribute.id}
           handleInputChange={this.handleInputChange}
           handleOnBlur={this.handleOnBlur}
-          handleInputClear={(e) => {
-            this.handleInputClear(e);
-          }}
+          handleInputClear={this.handleInputClear}
           attribute={attribute}
           attributeLabel={attributeLabel}
           isEditing
@@ -208,13 +220,9 @@ export class ContactMerge extends BaseComponent {
           />
           <ContactInput
             key={`${attribute.id}-0`}
-            handleInputChange={(nv, e) => {
-              this.handleInputChange(nv, e, 0);
-            }}
+            handleInputChange={this.handleTopInputChange}
             handleOnBlur={this.handleOnBlur}
-            handleInputClear={(e) => {
-              this.handleInputClear(e, 0);
-            }}
+            handleInputClear={this.handleTopInputClear}
             attribute={attribute}
             attributeLabel={attributeLabel}
             isEditing
@@ -240,13 +248,9 @@ export class ContactMerge extends BaseComponent {
           />
           <ContactInput
             key={`${attribute.id}-1`}
-            handleInputChange={(nv, e) => {
-              this.handleInputChange(nv, e, 1);
-            }}
+            handleInputChange={this.handleBottomInputChange}
             handleOnBlur={this.handleOnBlur}
-            handleInputClear={(e) => {
-              this.handleInputClear(e, 1);
-            }}
+            handleInputClear={this.handleBottomInputClear}
             attribute={attribute}
             attributeLabel={attributeLabel}
             isEditing
@@ -270,17 +274,37 @@ export class ContactMerge extends BaseComponent {
       {section.attributes.map(this.generateAttributeRow)}
     </div>
 
+  showConfirmDialog = () => {
+    this.props.setShowConfirmDialog(true);
+  }
+
+  hideConfirmDialog = () => {
+    this.props.setShowConfirmDialog(false);
+  }
+
+  hideCancelDialog = () => {
+    this.props.setShowCancelDialog(false);
+  }
+
   render() {
     return (
       <div style={this.styles.base}>
         { this.props.layout.map(this.generateSection) }
         <div style={{ marginBottom: '28px', position: 'relative' }}>
           <ConfirmDialog
+            questionMessage={messages.confirmChanges}
+            leftAction={this.hideConfirmDialog}
+            rightAction={this.handleSubmit}
+            isVisible={this.props.showConfirmDialog}
+            hide={this.hideConfirmDialog}
+            style={{ position: 'absolute', bottom: '40px' }}
+          />
+          <ConfirmDialog
             questionMessage={messages.abandonChanges}
-            leftAction={() => this.props.setShowCancelDialog(false)}
+            leftAction={this.hideCancelDialog}
             rightAction={this.props.setNotEditing}
             isVisible={this.props.showCancelDialog}
-            hide={() => this.props.setShowCancelDialog(false)}
+            hide={this.hideCancelDialog}
             style={{ position: 'absolute', left: '112px', bottom: '40px' }}
           />
           <Button
@@ -288,7 +312,7 @@ export class ContactMerge extends BaseComponent {
             style={this.styles.button}
             disabled={!this.props.formIsValid}
             type="secondary"
-            onClick={this.handleSubmit}
+            onClick={this.showConfirmDialog}
             text={this.props.intl.formatMessage(messages.saveBtn)}
           />
           <Button
@@ -345,6 +369,7 @@ function mapStateToProps(state, props) {
     attributes: selectAttributes(state, props),
     checkedContacts: selectCheckedContacts(state, props),
     showCancelDialog: selectShowCancelDialog(state, props),
+    showConfirmDialog: selectShowConfirmDialog(state, props),
     smsInteractionNumbers: selectSmsInteractionNumbers(state, props),
     selectedInteraction: selectCurrentInteraction(state, props),
     formIsValid: selectFormValidity(state, props),
@@ -360,6 +385,7 @@ function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
     setShowCancelDialog: (showCancelDialog) => dispatch(setShowCancelDialog(showCancelDialog)),
+    setShowConfirmDialog: (showConfirmDialog) => dispatch(setShowConfirmDialog(showConfirmDialog)),
     setLoading: (loading) => dispatch(setLoading(loading)),
     clearSearchResults: () => dispatch(clearSearchResults()),
     setContactAction: (interactionId, newAction) => dispatch(setContactAction(interactionId, newAction)),

@@ -55,6 +55,11 @@ const selectShowCancelDialog = createSelector(
   (contactsControl) => contactsControl.get('showCancelDialog')
 );
 
+const selectShowConfirmDialog = createSelector(
+  selectContactsControlDomain(),
+  (contactsControl) => contactsControl.get('showConfirmDialog')
+);
+
 const selectFormIsDirty = createSelector(
   selectContactsControlDomain(),
   (contactsControl) => contactsControl.get('formIsDirty')
@@ -95,6 +100,7 @@ export {
   selectAttributes,
   selectCurrentInteraction,
   selectShowCancelDialog,
+  selectShowConfirmDialog,
   selectFormIsDirty,
   selectFormValidity,
   selectContactForm,
