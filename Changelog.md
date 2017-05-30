@@ -1,3 +1,6 @@
+### [0.37.27] (2017-05-30)
+* BUGFIX - Contact Search resize issue fix
+
 ### [0.37.26] (2017-05-30)
 * Update SDK to 5.2.0
 
