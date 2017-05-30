@@ -46,7 +46,7 @@ export class InfoTab extends BaseComponent {
       boxSizing: 'content-box',
       flexGrow: '1',
       flexShrink: '1',
-      width: '120%',
+      width: 'calc(100% + 104px)',
       left: '-52px',
       position: 'relative',
       display: 'flex',
