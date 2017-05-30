@@ -1,3 +1,6 @@
+### [0.37.26] (2017-05-30)
+* Update SDK to 5.2.0
+
 ### [0.37.25] (2017-05-30)
 * CXV1-6938 - Add confirm dialog to contact merge
 
@@ -823,6 +826,8 @@
 #### Initial Commit
 * Here we go!
 
+[0.37.26]: http://www.github.com/liveops/agent-desktop/compare/0.37.25...0.37.26
+[0.37.25]: http://www.github.com/liveops/agent-desktop/compare/0.37.24...0.37.25
 [0.37.24]: http://www.github.com/liveops/agent-desktop/compare/0.37.23...0.37.24
 [0.37.23]: http://www.github.com/liveops/agent-desktop/compare/0.37.22...0.37.23
 [0.37.22]: http://www.github.com/liveops/agent-desktop/compare/0.37.21...0.37.22
