@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StatValue /> if stat.statAggregate is avg and isErrored is false should render correctly 1`] = `
+<span>
+  <TimeStat
+    time={1}
+    unit="millis"
+  />
+</span>
+`;
+
+exports[`<StatValue /> if stat.statAggregate is avg and isErrored is true should render with "-" instead of value 1`] = `
+<span>
+  -
+</span>
+`;
+
+exports[`<StatValue /> if stat.statAggregate is count and isErrored is false should render correctly 1`] = `
+<span>
+  1
+</span>
+`;
+
+exports[`<StatValue /> if stat.statAggregate is count and isErrored is true should render with "-" instead of value 1`] = `
+<span>
+  -
+</span>
+`;
+
+exports[`<StatValue /> if stat.statAggregate is max and isErrored is false should render correctly 1`] = `
+<span>
+  <TimeStat
+    time={1}
+    unit="millis"
+  />
+</span>
+`;
+
+exports[`<StatValue /> if stat.statAggregate is max and isErrored is true should render with "-" instead of value 1`] = `
+<span>
+  -
+</span>
+`;
+
+exports[`<StatValue /> if stat.statAggregate is min and isErrored is false should render correctly 1`] = `
+<span>
+  <TimeStat
+    time={1}
+    unit="millis"
+  />
+</span>
+`;
+
+exports[`<StatValue /> if stat.statAggregate is min and isErrored is true should render with "-" instead of value 1`] = `
+<span>
+  -
+</span>
+`;
+
+exports[`<StatValue /> if stat.statAggregate is mockImpossibleAggregate and isErrored is false should console.warn 1`] = `
+Array [
+  "[Agent Desktop] Agent statistic has unknown aggregate key.",
+]
+`;
+
+exports[`<StatValue /> if stat.statAggregate is mockImpossibleAggregate and isErrored is false should render correctly 1`] = `
+<span>
+  -
+</span>
+`;
+
+exports[`<StatValue /> if stat.statAggregate is mockImpossibleAggregate and isErrored is true should render with "-" instead of value 1`] = `
+<span>
+  -
+</span>
+`;
+
+exports[`<StatValue /> if stat.statAggregate is percent and isErrored is false should render correctly 1`] = `
+<span>
+  1%
+</span>
+`;
+
+exports[`<StatValue /> if stat.statAggregate is percent and isErrored is true should render with "-" instead of value 1`] = `
+<span>
+  -
+</span>
+`;
+
+exports[`<StatValue /> if stat.statAggregate is total and isErrored is false should render correctly 1`] = `
+<span>
+  <TimeStat
+    time={1}
+    unit="millis"
+  />
+</span>
+`;
+
+exports[`<StatValue /> if stat.statAggregate is total and isErrored is true should render with "-" instead of value 1`] = `
+<span>
+  -
+</span>
+`;

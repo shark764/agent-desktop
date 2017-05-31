@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import IconSVG from 'components/IconSVG';
-import TimeStat from 'components/TimeStat';
+import StatValue from './StatValue';
 import messages from './messages';
 
 function Stat(props) {
@@ -69,7 +69,7 @@ function Stat(props) {
       lineHeight: '20px',
       color: '#979797',
     },
-    hoverData: {
+    stat: {
       fontSize: '14px',
       lineHeight: '20px',
     },
@@ -104,12 +104,12 @@ function Stat(props) {
 
   let source;
 
-  switch (props.hoverData.statSource) {
+  switch (props.stat.statSource) {
     case 'resource-id':
       source = 'Agent';
       break;
     case 'queue-id':
-      source = props.queues.filter((queue) => queue.id === props.hoverData.queue)[0].name;
+      source = props.queues.filter((queue) => queue.id === props.stat.queue)[0].name;
       break;
     case 'tenant-id':
       source = 'Tenant';
@@ -118,32 +118,7 @@ function Stat(props) {
       console.warn('[Agent Desktop] Agent statistic has unknown source.');
   }
 
-  let value;
-  let percent;
-
-  if (props.hoverData.results) {
-    switch (props.hoverData.statAggregate) {
-      case 'count':
-        value = props.hoverData.results.count;
-        break;
-      case 'percent':
-        percent = props.hoverData.results.percent;
-        value = `${percent}%`;
-        break;
-      case 'avg':
-      case 'max':
-      case 'min':
-      case 'total':
-        value = <TimeStat time={props.hoverData.results[props.hoverData.statAggregate]} unit="millis" />;
-        break;
-      default:
-        console.warn('[Agent Desktop] Agent statistic has unknown aggregate key.');
-        value = null;
-    }
-  }
-
-
-  let aggregate = props.hoverData.statAggregate;
+  let aggregate = props.stat.statAggregate;
   if (aggregate === 'avg') {
     aggregate = 'average';
   }
@@ -164,7 +139,7 @@ function Stat(props) {
               <FormattedMessage {...messages.statistic} />:
             </div>
             <div style={styles.hoverData}>
-              {props.statistic.userFriendlyName}
+              {props.userFriendlyName}
             </div>
             <div style={styles.hoverHeader}>
               <FormattedMessage {...messages.aggregate} />:
@@ -174,40 +149,35 @@ function Stat(props) {
             </div>
           </div>
           <span style={styles.hoverBoxTriangle} />
-          <span key={props.index} style={styles.statRemove} onClick={() => { props.toggleStat(props.hoverData); }}>X</span>
+          <span key={props.index} style={styles.statRemove} onClick={() => { props.removeStat(props.stat); }}>X</span>
         </span>
       : ''}
       <div className="stat-value" style={styles.statValue}>
-        {props.hoverData.results
-          ? value
+        {(props.stat.results || props.stat.isErrored)
+          ? <StatValue stat={props.stat} />
           : <div id="loadingContainer" style={styles.loading}>
             <IconSVG style={styles.loadingIcon} id="loadingIcon" name="loadingWhite" />
           </div>}
       </div>
       <div className="agent-stat" style={styles.statName}>
-        {props.statistic.userFriendlyName}
+        {props.userFriendlyName}
       </div>
     </div>
   );
 }
 
 Stat.propTypes = {
-  statistic: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    userFriendlyName: PropTypes.string.isRequired,
-    percent: PropTypes.number,
-    count: PropTypes.number,
-    results: PropTypes.object,
-  }).isRequired,
+  userFriendlyName: PropTypes.string.isRequired,
   hover: PropTypes.bool.isRequired,
   index: PropTypes.number.isRequired,
-  hoverData: PropTypes.shape({
+  stat: PropTypes.shape({
     queue: PropTypes.string,
     statAggregate: PropTypes.string.isRequired,
     statSource: PropTypes.string.isRequired,
     results: PropTypes.object,
+    isErrored: PropTypes.bool,
   }).isRequired,
-  toggleStat: PropTypes.func.isRequired,
+  removeStat: PropTypes.func.isRequired,
   readyState: PropTypes.string.isRequired,
   queues: PropTypes.array.isRequired,
 };

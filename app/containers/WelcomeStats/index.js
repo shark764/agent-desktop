@@ -9,14 +9,18 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import axios from 'axios';
 
+import IconSVG from 'components/IconSVG';
 import BaseComponent from 'components/BaseComponent';
+import StatValue from 'components/Stat/StatValue';
+
 import { setCriticalError } from 'containers/Errors/actions';
 
-import TimeStat from 'components/TimeStat';
+import { selectErroredStatIds } from 'containers/Errors/selectors';
+import { selectWelcomeStats } from 'containers/Toolbar/selectors';
 
 import messages from './messages';
+import { statKey, stats as welcomeStatsConfig } from './welcomeStatsConfig';
 
 export class WelcomeStats extends BaseComponent {
   styles = {
@@ -38,7 +42,7 @@ export class WelcomeStats extends BaseComponent {
       left: '1em',
       color: 'white',
     },
-    statContainer: {
+    statsContainer: {
       display: 'flex',
       flexWrap: 'wrap',
       flexDirection: 'row',
@@ -83,89 +87,61 @@ export class WelcomeStats extends BaseComponent {
       width: '30%',
       margin: '0 auto',
     },
+    statContainer: {
+      order: '2',
+      flexBias: '100%',
+      height: '200px',
+      width: '30%',
+      margin: '0 auto',
+    },
     statTitle: {
       fontWeight: 'bold',
       color: 'rgb(20, 119, 141)',
     },
+    loadingIcon: {
+      height: '20px',
+      position: 'relative',
+      top: '-5px',
+    },
   };
 
-  constructor(props) {
-    super(props);
-    this.state = { avgHandleTime: { avg: 0, unit: 'millis' }, csat: '-', interactionCount: '-' };
-  }
-
-  componentDidMount() {
-    this.getStats();
-  }
-
-  setHandleTime = (data) => {
-    this.setState({avgHandleTime: data.results}); // eslint-disable-line
-  }
-
-  setCSAT = (data) => {
-    this.setState({csat: data.results.percent + '%'}); // eslint-disable-line
-  }
-
-  setInteractionCount = (data) => {
-    this.setState({interactionCount: data.results.count}); // eslint-disable-line
-  }
-
-  getStats = () => {
-    let host;
-    if (typeof window.ADconf !== 'undefined') {
-      host = 'https://' + window.ADconf.api; // eslint-disable-line
+  getStatBody = (filledStat) => {
+    if (
+      filledStat
+      && (filledStat.results || filledStat.isErrored)
+    ) {
+      return <StatValue stat={filledStat} />;
     } else {
-      host = 'https://dev-api.cxengagelabs.net/v1/';
+      return this.getLoadingIcon();
     }
-
-    // TODO: Still hacky! replace with proper stats SDK call?
-
-    const headers = {
-      authorization: `Token ${CxEngage.dumpState().authentication.token}`,
-    };
-
-    axios({
-      method: 'get',
-      url: host + 'tenants/'+ this.props.tenant.id +'/users/'+ this.props.agent.userId +'/realtime-statistics/resource-handle-time', // eslint-disable-line
-      headers,
-    }).then((res) => this.setHandleTime(res.data));
-
-    axios({
-      method: 'get',
-      url: host + 'tenants/'+ this.props.tenant.id +'/users/'+ this.props.agent.userId +'/realtime-statistics/customer-satisfaction-score', // eslint-disable-line
-      headers,
-    }).then((res) => this.setCSAT(res.data));
-
-    axios({
-      method: 'get',
-      url: host + 'tenants/'+ this.props.tenant.id +'/users/'+ this.props.agent.userId +'/realtime-statistics/work-accepted-count', // eslint-disable-line
-      headers,
-    }).then((res) => this.setInteractionCount(res.data));
   }
+
+  getStatDisplay = (stat, index) =>
+    <div style={[this.styles.statContainer, { order: index }]} key={stat[statKey]}>
+      <div style={this.styles.statTitle}><FormattedMessage {...messages[stat[statKey]]} /></div>
+      <div style={this.styles.statVal}>
+        { this.getStatBody(this.props.welcomeStats[stat[statKey]]) }
+      </div>
+    </div>
+
+  getLoadingIcon = () => <IconSVG style={this.styles.loadingIcon} id="loadingIcon" name="loadingWhite" />
 
   render() {
     return (
       <div style={this.styles.welcome}>
         <span style={this.styles.statTitle}><FormattedMessage {...messages.welcome} /></span><span style={this.styles.agentName}>{this.props.agent.firstName} {this.props.agent.lastName}</span>
-        <div id="statContainer" style={this.styles.statContainer}>
-          <div style={this.styles.statLeft}>
-            <div style={this.styles.statTitle}><FormattedMessage {...messages.avgHandleTime} /></div>
-            <TimeStat time={this.state.avgHandleTime.avg} unit={this.state.avgHandleTime.unit} style={this.styles.statVal}></TimeStat>
-          </div>
-          <div style={this.styles.statMid}>
-            <div style={this.styles.statTitle}><FormattedMessage {...messages.csat} /></div>
-            <div style={this.styles.statVal}>{this.state.csat}</div>
-          </div>
-          <div style={this.styles.statRight}>
-            <div style={this.styles.statTitle}><FormattedMessage {...messages.interactionsCount} /></div>
-            <div style={this.styles.statVal}>{this.state.interactionCount}</div>
-          </div>
+        <div id="statContainer" style={this.styles.statsContainer}>
+          { welcomeStatsConfig.map(this.getStatDisplay) }
         </div>
       </div>
     );
   }
 }
 
+const mapStateToProps = (state, props) => ({
+  welcomeStats: selectWelcomeStats(state, props),
+  erroredStatIds: selectErroredStatIds(state, props),
+});
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -177,6 +153,8 @@ function mapDispatchToProps(dispatch) {
 WelcomeStats.propTypes = {
   agent: PropTypes.object.isRequired,
   tenant: PropTypes.object.isRequired,
+  welcomeStats: PropTypes.object.isRequired,
+  erroredStatIds: PropTypes.array.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Radium(WelcomeStats));
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(WelcomeStats));

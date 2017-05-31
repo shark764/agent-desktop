@@ -21,7 +21,7 @@ import AgentConfigMenu from 'containers/AgentConfigMenu';
 
 import { selectSelectedPresenceReason } from 'containers/AgentStatusMenu/selectors';
 
-import { toggleStat, toggleAgentMenu } from './actions';
+import { toggleAgentMenu } from './actions';
 import selectToolbar, { selectQueues, selectCurrentAgent } from './selectors';
 import messages from './messages';
 
@@ -296,14 +296,13 @@ export class Toolbar extends BaseComponent {
             agentDirection={this.props.agentDirection}
           />
           <AgentConfigMenu
-            toggleStat={this.props.toggleStat}
             queues={this.props.queues}
             currentAgent={this.props.currentAgent}
             hideMenu={() => this.showConfigMenu(false)}
             show={this.state.showConfigMenu}
             key={'agentConfigMenu'}
           />
-          <AgentStats queues={this.props.queues} toggleStat={this.props.toggleStat} readyState={this.props.readyState} />
+          <AgentStats queues={this.props.queues} readyState={this.props.readyState} />
           <div id="config-button-container" style={styles.configButtonContainer}>
             <button
               id="config-button"
@@ -334,7 +333,6 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    toggleStat: (stat, userId, queues) => dispatch(toggleStat(stat, userId, queues)),
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     dispatch,
   };
@@ -345,7 +343,6 @@ Toolbar.propTypes = {
   readyState: PropTypes.string,
   tenant: PropTypes.object,
   agentDirection: PropTypes.string,
-  toggleStat: PropTypes.func,
   queues: PropTypes.array,
   currentAgent: PropTypes.object,
   showAgentStatusMenu: PropTypes.bool,

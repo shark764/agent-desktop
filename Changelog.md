@@ -1,3 +1,7 @@
+### [0.38.1] (2017-06-02)
+* CXV1-9592 - Hook welcome stats up to main stats system
+* CXV1-9592 - Handle stat errors
+
 ### [0.38.0] (2017-06-02)
 * CXV1-9519: Dial to SMS v1
 

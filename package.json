@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.38.0",
+  "version": "0.38.1",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -58,7 +58,9 @@
     "coverageThreshold": {
       "global": {
         "branches": 7,
-        "functions": 8
+        "functions": 7,
+        "lines": 13,
+        "statements": 9
       }
     },
     "moduleDirectories": [

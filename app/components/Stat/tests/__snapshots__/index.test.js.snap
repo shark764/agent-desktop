@@ -50,15 +50,7 @@ exports[`<Stat /> should render correctly 1`] = `
         />
         :
       </div>
-      <div
-        data-radium={true}
-        style={
-          Object {
-            "fontSize": "14px",
-            "lineHeight": "20px",
-          }
-        }
-      />
+      <div />
       <div
         data-radium={true}
         style={
@@ -76,15 +68,7 @@ exports[`<Stat /> should render correctly 1`] = `
         />
         :
       </div>
-      <div
-        data-radium={true}
-        style={
-          Object {
-            "fontSize": "14px",
-            "lineHeight": "20px",
-          }
-        }
-      >
+      <div>
         mockName
       </div>
       <div
@@ -104,15 +88,7 @@ exports[`<Stat /> should render correctly 1`] = `
         />
         :
       </div>
-      <div
-        data-radium={true}
-        style={
-          Object {
-            "fontSize": "14px",
-            "lineHeight": "20px",
-          }
-        }
-      >
+      <div>
         MockStatAggregate
       </div>
     </div>

@@ -27,6 +27,10 @@ const selectNewInteractionPanel = createSelector(
   selectAgentDesktopMap,
   (agentDesktop) => agentDesktop.get('newInteractionPanel')
 );
+const selectQueues = createSelector(
+  selectAgentDesktopMap,
+  (agentDesktop) => agentDesktop.get('queues').toJS()
+);
 
 const selectSelectedInteraction = createSelector(
   [selectNewInteractionPanel, selectInteractions, getSelectedInteractionId],
@@ -85,4 +89,5 @@ export {
   selectAwaitingDisposition,
   selectHasVoiceInteraction,
   selectSmsInteractionNumbers,
+  selectQueues,
 };
