@@ -11,15 +11,15 @@ export default defineMessages({
     defaultMessage: 'Welcome, ',
   },
   avgHandleTime: {
-    id: 'app.container.WelcomeStats.avgHandleTime',
+    id: 'app.containers.WelcomeStats.avgHandleTime',
     defaultMessage: 'Average Handle Time',
   },
   csat: {
-    id: 'app.container.WelcomeStats.csat',
+    id: 'app.containers.WelcomeStats.csat',
     defaultMessage: 'Customer Satisfaction',
   },
   interactionsCount: {
-    id: 'app.container.WelcomeStats.interactionsCount',
+    id: 'app.containers.WelcomeStats.interactionsCount',
     defaultMessage: 'Daily Interactions',
   },
 });

@@ -1,8 +1,11 @@
+### [0.37.29] (2017-05-31)
+* BUGFIX - fixed typos in translations and resorted list
+
 ### [0.37.28] (2017-05-31)
-* BUGFIX - Contact Search infiniteScroll fixed
+* CXV1-9208 - BUGFIX - Contact Search infiniteScroll fixed
 
 ### [0.37.27] (2017-05-30)
-* BUGFIX - Contact Search resize issue fix
+* CXV1-8658 - BUGFIX - Contact Search resize issue fix
 
 ### [0.37.26] (2017-05-30)
 * Update SDK to 5.2.0

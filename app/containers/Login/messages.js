@@ -31,7 +31,7 @@ export default defineMessages({
     defaultMessage: 'Sign In',
   },
   return2Login: {
-    id: 'app.conatainers.Login.return2Login',
+    id: 'app.containers.Login.return2Login',
     defaultMessage: 'Return to Login',
   },
   email: {
