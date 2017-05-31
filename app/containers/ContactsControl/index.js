@@ -56,10 +56,10 @@ export class ContactsControl extends BaseComponent {
     resultsPlaceholder: {
       color: '#979797',
       display: 'flex',
-      marginTop: '100px',
+      marginTop: '150px',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center',
+      flex: '1',
     },
     resultsPlaceholderBold: {
       paddingLeft: '15px',
@@ -84,6 +84,9 @@ export class ContactsControl extends BaseComponent {
     },
     loadingIcon: {
       height: '60px',
+    },
+    infiniteScroll: {
+      flex: '1',
     },
   };
 
@@ -270,7 +273,7 @@ export class ContactsControl extends BaseComponent {
   }
 
   renderResults = () => {
-    const results = [];
+    let results;
     if (this.props.selectedInteraction.query && Object.keys(this.props.selectedInteraction.query).length) {
       const resultsMapped = !this.props.deletionPending && this.props.results.map(
         (contact, index) => {
@@ -296,20 +299,20 @@ export class ContactsControl extends BaseComponent {
             loading={this.props.loading}
           />);
         });
-      results.push(
+      results = (
         <InfiniteScroll
           key="infinite-scroll"
           loadMore={this.searchContacts}
           hasMore={this.props.resultsCount === -1 || this.props.results.length < this.props.resultsCount}
           loader={this.getLoader()}
           useWindow={false}
+          style={this.styles.infiniteScroll}
         >
           { resultsMapped }
         </InfiniteScroll>
       );
-    }
-    if (this.props.resultsCount < 1 && !this.props.loading) {
-      results.push(
+    } else if (this.props.resultsCount < 1 && !this.props.loading) {
+      results = (
         <div key="results-placeholder" id="results-placeholder" style={this.styles.resultsPlaceholder}>
           <div style={this.styles.resultsPlaceholderTitle}>
             <Icon name="search" />
@@ -430,11 +433,7 @@ export class ContactsControl extends BaseComponent {
           content = this.renderResults();
         }
     }
-    return (
-      <div style={{ flexGrow: 1 }}>
-        { content }
-      </div>
-    );
+    return content;
   }
 }
 
