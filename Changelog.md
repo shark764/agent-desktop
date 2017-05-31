@@ -1,3 +1,6 @@
+### [0.37.28] (2017-05-31)
+* BUGFIX - Contact Search infiniteScroll fixed
+
 ### [0.37.27] (2017-05-30)
 * BUGFIX - Contact Search resize issue fix
 
