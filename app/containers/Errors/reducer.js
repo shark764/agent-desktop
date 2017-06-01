@@ -7,6 +7,8 @@
 import { fromJS } from 'immutable';
 import {
   SET_CRITICAL_ERROR,
+  SET_NON_CRITICAL_ERROR,
+  DISMISS_ERROR,
   ADD_STAT_ERROR_ID,
   REMOVE_STAT_ERROR_ID,
 } from './constants';
@@ -21,6 +23,10 @@ function errorsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CRITICAL_ERROR:
       return state.set('criticalError', true);
+    case SET_NON_CRITICAL_ERROR:
+      return state.set('nonCriticalError', action.error);
+    case DISMISS_ERROR:
+      return state.set('nonCriticalError', undefined);
     case ADD_STAT_ERROR_ID:
       return state.updateIn(['stats', 'erroredIds'], (erroredStatIds) =>
         erroredStatIds.push(action.statId)

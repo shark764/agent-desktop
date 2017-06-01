@@ -83,6 +83,7 @@ export {
   selectWelcomeStats,
   selectQueues,
   selectCurrentAgent,
+  selectToolbarStatIds,
   selectWelcomeStatIds,
   selectActivatedStatIds,
 };

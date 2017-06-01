@@ -1,3 +1,6 @@
+### [0.38.2] (2017-06-02)
+* CXV1-9443 - Handle invalid extension
+
 ### [0.38.1] (2017-06-02)
 * CXV1-9592 - Hook welcome stats up to main stats system
 * CXV1-9592 - Handle stat errors

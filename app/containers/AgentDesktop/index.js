@@ -22,7 +22,7 @@ import Toolbar from 'containers/Toolbar';
 
 import { showLogin, logout } from 'containers/Login/actions';
 
-import { selectCriticalError } from 'containers/Errors/selectors';
+import { selectCriticalError, selectNonCriticalError } from 'containers/Errors/selectors';
 
 import { setInteractionStatus, selectInteraction } from './actions';
 import { selectAgentDesktopMap, selectLoginMap } from './selectors';
@@ -161,8 +161,8 @@ export class AgentDesktop extends BaseComponent {
               this.styles.flexChildGrow,
               this.styles.parent,
               this.styles.topArea,
-              this.props.criticalError && this.styles.topAreaOneBanner,
-              this.props.criticalError && this.props.refreshBannerIsVisible && this.styles.topAreaTwoBanners,
+              (this.props.criticalError || this.props.nonCriticalError) && this.styles.topAreaOneBanner,
+              (this.props.criticalError || this.props.nonCriticalError) && this.props.refreshBannerIsVisible && this.styles.topAreaTwoBanners,
             ]}
           >
             <div style={[this.styles.leftArea]}>
@@ -200,6 +200,7 @@ const mapStateToProps = (state, props) => ({
   login: selectLoginMap(state, props).toJS(),
   agentDesktop: selectAgentDesktopMap(state, props).toJS(),
   criticalError: selectCriticalError(state, props),
+  nonCriticalError: selectNonCriticalError(state, props),
 });
 
 function mapDispatchToProps(dispatch) {

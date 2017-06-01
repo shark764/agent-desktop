@@ -1,21 +1,25 @@
 /*
- * AgentDesktop Messages
+ * App Messages
  *
- * This contains all the text for the AgentDesktop component.
+ * This contains all the text for the App component.
  */
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   criticalError: {
-    id: 'app.containers.AgentDesktop.criticalError',
+    id: 'app.containers.App.criticalError',
     defaultMessage: 'Critical Error',
   },
   criticalErrorDescription: {
-    id: 'app.containers.AgentDesktop.criticalErrorDescription',
+    id: 'app.containers.App.criticalErrorDescription',
     defaultMessage: 'A critical error has occurred with Skylight, sorry!',
   },
   reload: {
-    id: 'app.containers.AgentDesktop.reload',
+    id: 'app.containers.App.reload',
     defaultMessage: 'Click Here To Reload',
+  },
+  nonCriticalError: {
+    id: 'app.containers.App.nonCriticalError',
+    defaultMessage: 'Error!',
   },
 });

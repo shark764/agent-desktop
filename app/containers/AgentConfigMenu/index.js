@@ -19,7 +19,8 @@ import { activateToolbarStat } from 'containers/Toolbar/actions';
 import PopupDialog from 'components/PopupDialog';
 import Select from 'components/Select';
 import Button from 'components/Button';
-import { selectEnabledStats, selectAvailableStats } from 'containers/AgentStats/selectors';
+import { selectAvailableStats } from 'containers/AgentStats/selectors';
+import { selectToolbarStatIds } from 'containers/Toolbar/selectors';
 import messages from './messages';
 
 const MAXIMUM_STATS = 5;
@@ -190,7 +191,7 @@ export class AgentConfigMenu extends BaseComponent {
           </div>
         </div>
         <div style={this.styles.buttonContainer}>
-          {this.props.enabledStats.length === MAXIMUM_STATS
+          {this.props.toolbarStatIds.length === MAXIMUM_STATS
             ? <span><FormattedMessage {...messages.maxStats} /></span>
             : <Button text={messages.add} id="toggleStat" style={this.styles.addButton} type="secondary" onClick={this.addStat} />}
         </div>
@@ -201,7 +202,7 @@ export class AgentConfigMenu extends BaseComponent {
 
 function mapStateToProps(state, props) {
   return {
-    enabledStats: selectEnabledStats(state, props),
+    toolbarStatIds: selectToolbarStatIds()(state, props).toJS(),
     availableStats: selectAvailableStats(state, props),
   };
 }
@@ -216,7 +217,7 @@ function mapDispatchToProps(dispatch) {
 
 AgentConfigMenu.propTypes = {
   activateToolbarStat: PropTypes.func,
-  enabledStats: PropTypes.array,
+  toolbarStatIds: PropTypes.array,
   availableStats: PropTypes.object,
   queues: PropTypes.array,
   currentAgent: PropTypes.object,

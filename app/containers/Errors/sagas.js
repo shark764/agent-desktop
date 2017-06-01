@@ -2,8 +2,11 @@ import Raven from 'raven-js';
 
 import { takeEvery, put } from 'redux-saga/effects';
 import { setCRMUnavailable } from 'containers/InfoTab/actions';
+import { removeInvalidExtension } from 'containers/AgentDesktop/actions';
 import { HANDLE_SDK_ERROR } from './constants';
-import { setCriticalError } from './actions';
+import { setCriticalError, setNonCriticalError } from './actions';
+import errorMessagesMap from './errorMessagesMap';
+
 
 export const topicActions = {
   'cxengage/contacts/list-layouts-response': setCRMUnavailable('crmLayoutError'),
@@ -21,6 +24,24 @@ export function* goHandleSDKError(action) {
       window.onbeforeunload = null; // clear error clearer set in Login
       window.localStorage.setItem('ADError', topic); // Consume in Login component
       location.reload(); // Kill it with 🔥
+      break;
+    case 'cxengage/session/state-change-request-acknowledged':
+      if (error.code === 2005) {
+        yield put(removeInvalidExtension());
+      }
+      if (errorMessagesMap[error.code] === undefined) {
+        Raven.captureException(new Error('Unknown error code returned from SDK.'), {
+          level: 'warning',
+          extra: {
+            sdkError: error,
+          },
+          tags: {
+            sdkCode: error.code,
+          },
+        });
+      } else {
+        yield put(setNonCriticalError(error));
+      }
       break;
     default: {
       const isFatal = (error && error.level === 'fatal');

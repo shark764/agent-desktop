@@ -22,11 +22,12 @@ import AgentDesktop from 'containers/AgentDesktop';
 import { setAvailableStats, statsReceived, toggleAgentMenu, initializeStats } from 'containers/Toolbar/actions';
 import { showLogin, logout } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
-import { handleSDKError, addStatErrorId, removeStatErrorId } from 'containers/Errors/actions';
+import { handleSDKError, addStatErrorId, removeStatErrorId, dismissError } from 'containers/Errors/actions';
 
 import { selectAvailableStats } from 'containers/AgentStats/selectors';
 import { selectActivatedStatIds } from 'containers/Toolbar/selectors';
-import { selectCriticalError, selectErroredStatIds } from 'containers/Errors/selectors';
+import { selectCriticalError, selectErroredStatIds, selectNonCriticalError } from 'containers/Errors/selectors';
+import errorMessagesMap from 'containers/Errors/errorMessagesMap';
 
 import { setCRMUnavailable } from 'containers/InfoTab/actions';
 import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, loadContactInteractionHistory,
@@ -36,11 +37,11 @@ import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiate
   transferCancelled, resourceAdded, updateResourceName, updateResourceStatus, holdMe, resumeMe, resourceRemoved, showRefreshRequired,
   emailAddAttachment, setQueues, setDispositionDetails, selectDisposition, goNotReady } from 'containers/AgentDesktop/actions';
 
-import messages from 'containers/AgentDesktop/messages';
 import { selectAgentDesktopMap, selectLoginMap } from 'containers/AgentDesktop/selectors';
 
 import { version as release } from '../../../package.json';
 
+import messages from './messages';
 import sdkIgnoreTopics from './sdkIgnoreTopics';
 import sdkLogTopics from './sdkLogTopics';
 
@@ -571,23 +572,34 @@ export class App extends React.Component {
       && location.hostname !== 'localhost'
       && location.hostname !== '127.0.0.1'
     );
+    let errorBanner;
+    if (this.props.criticalError) {
+      errorBanner = (<NotificationBanner
+        id="critical-error-banner"
+        style={this.styles.notificationBanner}
+        titleMessage={messages.criticalError}
+        descriptionMessage={messages.criticalErrorDescription}
+        isError
+        rightLinkAction={this.killItWithFire}
+        rightLinkMessage={messages.reload}
+      />);
+    } else if (this.props.nonCriticalError) {
+      errorBanner = (<NotificationBanner
+        id="noncritical-error-banner"
+        style={this.styles.notificationBanner}
+        titleMessage={messages.nonCriticalError}
+        descriptionMessage={errorMessagesMap[this.props.nonCriticalError.code]}
+        isError
+        dismiss={this.props.dismissError}
+      />);
+    }
     return (
       <div>
         {
           refreshBannerIsVisible &&
           <RefreshBanner hide={this.hideRefreshBanner} />
         }
-        {
-          this.props.criticalError && <NotificationBanner
-            id="critical-error-banner"
-            style={this.styles.notificationBanner}
-            titleMessage={messages.criticalError}
-            descriptionMessage={messages.criticalErrorDescription}
-            isError
-            rightLinkAction={this.killItWithFire}
-            rightLinkMessage={messages.reload}
-          />
-        }
+        { errorBanner }
         {
           this.props.login.showLogin || this.props.agentDesktop.presence === undefined
             ? <Login />
@@ -605,6 +617,7 @@ const mapStateToProps = (state, props) => ({
   criticalError: selectCriticalError(state, props),
   activatedStatIds: selectActivatedStatIds(state, props).toJS(),
   erroredStatIds: selectErroredStatIds(state, props),
+  nonCriticalError: selectNonCriticalError(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -663,6 +676,7 @@ function mapDispatchToProps(dispatch) {
     setCRMUnavailable: (reason) => dispatch(setCRMUnavailable(reason)),
     addStatErrorId: (statId) => dispatch(addStatErrorId(statId)),
     removeStatErrorId: (statId) => dispatch(removeStatErrorId(statId)),
+    dismissError: () => dispatch(dismissError()),
     dispatch,
   };
 }
@@ -729,6 +743,8 @@ App.propTypes = {
   activatedStatIds: PropTypes.array,
   erroredStatIds: PropTypes.array,
   criticalError: PropTypes.any,
+  nonCriticalError: PropTypes.any,
+  dismissError: PropTypes.func,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(App)));
