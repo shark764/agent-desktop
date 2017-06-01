@@ -1,3 +1,6 @@
+### [0.37.30] (2017-06-01)
+* Bump SDK to 5.2.1
+
 ### [0.37.29] (2017-05-31)
 * BUGFIX - fixed typos in translations and resorted list
 
@@ -835,6 +838,10 @@
 #### Initial Commit
 * Here we go!
 
+[0.37.30]: http://www.github.com/liveops/agent-desktop/compare/0.37.29...0.37.30
+[0.37.29]: http://www.github.com/liveops/agent-desktop/compare/0.37.28...0.37.29
+[0.37.28]: http://www.github.com/liveops/agent-desktop/compare/0.37.27...0.37.28
+[0.37.27]: http://www.github.com/liveops/agent-desktop/compare/0.37.26...0.37.27
 [0.37.26]: http://www.github.com/liveops/agent-desktop/compare/0.37.25...0.37.26
 [0.37.25]: http://www.github.com/liveops/agent-desktop/compare/0.37.24...0.37.25
 [0.37.24]: http://www.github.com/liveops/agent-desktop/compare/0.37.23...0.37.24
