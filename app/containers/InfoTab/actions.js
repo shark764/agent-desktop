@@ -12,7 +12,7 @@ import {
   UNCHECK_CONTACT,
   CLEAR_CHECKED_CONTACTS,
   SET_CONTACT_MODE,
-  SET_UNASSIGNED_CONTACT,
+  SET_EDITING_CONTACT,
   ADD_NOTIFICATION,
   DISMISS_NOTIFICATION,
   SET_LOADING,
@@ -67,10 +67,10 @@ export function setContactMode(contactMode) {
   };
 }
 
-export function setUnassignedContact(unassignedContact) {
+export function setEditingContact(editingContact) {
   return {
-    type: SET_UNASSIGNED_CONTACT,
-    unassignedContact,
+    type: SET_EDITING_CONTACT,
+    editingContact,
   };
 }
 

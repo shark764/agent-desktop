@@ -47,6 +47,12 @@ const selectCurrentInteraction = createSelector(
   }
 );
 
+const selectCurrentInteractionContactId = createSelector(
+  [selectCurrentInteraction],
+  (selectedCurrentInteraction) =>
+    selectedCurrentInteraction && selectedCurrentInteraction.contact && selectedCurrentInteraction.contact.id
+);
+
 const selectCheckedContacts = createSelector(
   selectInfoTabDomain(),
   (infoTab) => infoTab.get('checkedContacts').toJS()
@@ -57,9 +63,9 @@ const selectContactMode = createSelector(
   (infoTab) => infoTab.get('contactMode')
 );
 
-const selectUnassignedContact = createSelector(
+const selectEditingContact = createSelector(
   selectInfoTabDomain(),
-  (infoTab) => infoTab.get('unassignedContact')
+  (infoTab) => infoTab.get('editingContact')
 );
 
 const selectExpandedQuery = createSelector(
@@ -127,9 +133,10 @@ export {
   selectInfoTabDomain,
   selectAttributes,
   selectCurrentInteraction,
+  selectCurrentInteractionContactId,
   selectCheckedContacts,
   selectContactMode,
-  selectUnassignedContact,
+  selectEditingContact,
   selectExpandedQuery,
   selectNotifications,
   selectNextNotificationId,

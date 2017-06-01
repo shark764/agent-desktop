@@ -1,25 +1,4 @@
 import { createSelector } from 'reselect';
-import { selectSelectedInteraction } from 'containers/AgentDesktop/selectors';
-
-// AgentDesktop Domain Selectors
-const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
-const selectIsReady = createSelector(
-  selectAgentDesktopDomain, (agentDesktop) => agentDesktop.get('presence') === 'ready'
-);
-const selectSelectedInteractionId = createSelector(
-  selectAgentDesktopDomain, (agentDesktop) => agentDesktop.get('selectedInteractionId')
-);
-const selectInInteractionContext = createSelector(
-  selectSelectedInteractionId,
-  (interactionId) => typeof interactionId !== 'undefined'
-);
-
-const getSelectedInteractionIsCreatingNewInteraction = createSelector(
-  selectSelectedInteraction,
-  (selectedInteraction) =>
-    selectedInteraction !== undefined
-      && selectedInteraction.interactionId === 'creating-new-interaction'
-);
 
 // SidePanel Domain Selectors
 const selectSidePanelDomain = (state) => state.get('sidePanel');
@@ -70,12 +49,8 @@ const selectPopulatedCompactAttributes = createSelector(
     })
 );
 
-
 export {
-  selectIsReady,
+  selectAttributes,
   selectPopulatedLayout,
   selectPopulatedCompactAttributes,
-  selectAttributes,
-  selectInInteractionContext,
-  getSelectedInteractionIsCreatingNewInteraction,
 };

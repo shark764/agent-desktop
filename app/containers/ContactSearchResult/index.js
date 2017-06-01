@@ -17,15 +17,12 @@ import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
 
 import Checkbox from 'components/Checkbox';
-import Contact from 'containers/Contact';
-
-import { setContactMode, setUnassignedContact } from 'containers/InfoTab/actions';
+import ContactView from 'containers/ContactView';
 
 export class ContactSearchResult extends BaseComponent {
 
   constructor(props) {
     super(props);
-
     this.state = {
       expanded: false,
     };
@@ -79,11 +76,6 @@ export class ContactSearchResult extends BaseComponent {
     this.props.assignContact(this.props.contact);
   }
 
-  editContact = () => {
-    this.props.setContactMode('editing');
-    this.props.setUnassignedContact(this.props.contact);
-  }
-
   render() {
     return (
       <div style={[this.styles.base, this.props.style, this.props.checked && this.styles.checkedContact]}>
@@ -99,17 +91,12 @@ export class ContactSearchResult extends BaseComponent {
             : ''
           }
         </VelocityTransitionGroup>
-        <Contact
-          getError={this.props.getError}
-          formatValue={this.props.formatValue}
+        <ContactView
           contact={this.props.contact}
-          style={this.styles.contact}
+          assignContact={this.assignContact}
           showCompactView={!this.state.expanded}
-          isAssigned={this.props.isAssigned}
-          assign={this.assignContact}
-          edit={this.editContact}
           showControls
-          loading={this.props.loading}
+          style={this.styles.contact}
         />
         <div onClick={() => this.setState({ expanded: !this.state.expanded })} style={this.styles.expandToggle} >
           <span style={this.styles.ellip}>...</span>
@@ -126,23 +113,11 @@ ContactSearchResult.propTypes = {
   style: PropTypes.object,
   contact: PropTypes.object.isRequired,
   assignContact: PropTypes.func.isRequired,
-  isAssigned: PropTypes.bool,
-  loading: PropTypes.bool,
-  formatValue: PropTypes.func.isRequired,
-  getError: PropTypes.func.isRequired,
-  setContactMode: PropTypes.func,
-  setUnassignedContact: PropTypes.func,
-};
-
-ContactSearchResult.defaultProps = {
-  isAssigned: false,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    setContactMode: (contactMode) => dispatch(setContactMode(contactMode)),
-    setUnassignedContact: (unassignedContact) => dispatch(setUnassignedContact(unassignedContact)),
     dispatch,
   };
 }

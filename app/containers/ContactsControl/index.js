@@ -20,17 +20,21 @@ import { setCriticalError } from 'containers/Errors/actions';
 import Button from 'components/Button';
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
-import Contact from 'containers/Contact';
+import ContactEdit from 'containers/ContactEdit';
 import ContactMerge from 'containers/ContactMerge';
 import ContactSearchResult from 'containers/ContactSearchResult';
+import ContactView from 'containers/ContactView';
 
 import { assignContact, selectContact, loadContactInteractionHistory } from 'containers/AgentDesktop/actions';
-import { selectPopulatedLayout } from 'containers/Contact/selectors';
-import selectInfoTab, { selectCheckedContacts, selectContactMode, selectUnassignedContact, selectLoading, selectDeletionPending } from 'containers/InfoTab/selectors';
+import { selectPopulatedLayout } from 'containers/ContactView/selectors';
+import selectInfoTab, { selectCheckedContacts, selectContactMode, selectEditingContact, selectLoading, selectDeletionPending } from 'containers/InfoTab/selectors';
 import { setSearchResults, clearSearchResults, checkContact, uncheckContact, setLoading, setDeletionPending } from 'containers/InfoTab/actions';
 
 import { selectCurrentInteraction, selectAttributes, selectShowCancelDialog, selectFormIsDirty, selectContactForm } from './selectors';
 import { setShowCancelDialog, setFormField, setFormError, setShowError, setUnusedField, setSelectedIndex } from './actions';
+
+import NoRecords from './NoRecords';
+
 import messages from './messages';
 
 const resultsPlaceholderWidth = 330;
@@ -95,7 +99,7 @@ export class ContactsControl extends BaseComponent {
       if (nextProps.selectedInteraction.contactAction === 'view' && nextProps.selectedInteraction.contact) {
         this.hydrateEditForm(nextProps.selectedInteraction.contact);
       } else {
-        this.hydrateEditForm(nextProps.unassignedContact);
+        this.hydrateEditForm(nextProps.editingContact);
       }
     } else if (nextProps.contactMode === 'merging' && this.props.contactMode !== 'merging') {
       this.hydrateMergeForm();
@@ -131,7 +135,6 @@ export class ContactsControl extends BaseComponent {
             handleError(unassignError);
             if (typeof callback === 'function') callback();
           } else {
-            this.props.assignContact(this.props.selectedInteraction.interactionId);
             this.assignContactToSelected(contact, (assignError) => {
               if (assignError) {
                 handleError(assignError);
@@ -275,42 +278,41 @@ export class ContactsControl extends BaseComponent {
   renderResults = () => {
     let results;
     if (this.props.selectedInteraction.query && Object.keys(this.props.selectedInteraction.query).length) {
-      const resultsMapped = !this.props.deletionPending && this.props.results.map(
-        (contact, index) => {
-          const isSelected = this.props.checkedContacts.find((checkedContact) => checkedContact.id === contact.id);
-          return (<ContactSearchResult
-            getError={this.getError}
-            formatValue={this.formatValue}
-            isCollapsed={this.props.isCollapsed}
-            checked={!!isSelected}
-            style={this.styles.contactResult}
-            selectContact={(isChecked) => {
-              if (isChecked) {
-                this.props.checkContact(contact);
-              } else {
-                this.props.uncheckContact(contact);
-              }
-            }}
-            key={contact.id}
-            id={`contactSearchResult-${index}`}
-            isAssigned={this.props.selectedInteraction.contact && this.props.selectedInteraction.contact.id === contact.id}
-            contact={contact}
-            assignContact={this.handleContactAssign}
-            loading={this.props.loading}
-          />);
-        });
-      results = (
-        <InfiniteScroll
-          key="infinite-scroll"
-          loadMore={this.searchContacts}
-          hasMore={this.props.resultsCount === -1 || this.props.results.length < this.props.resultsCount}
-          loader={this.getLoader()}
-          useWindow={false}
-          style={this.styles.infiniteScroll}
-        >
-          { resultsMapped }
-        </InfiniteScroll>
-      );
+      if (this.props.resultsCount !== 0) {
+        const resultsMapped = !this.props.deletionPending && this.props.results.map(
+          (contact) => {
+            const isSelected = this.props.checkedContacts.find((checkedContact) => checkedContact.id === contact.id);
+            return (<ContactSearchResult
+              key={contact.id}
+              isCollapsed={this.props.isCollapsed}
+              checked={!!isSelected}
+              selectContact={(isChecked) => {
+                if (isChecked) {
+                  this.props.checkContact(contact);
+                } else {
+                  this.props.uncheckContact(contact);
+                }
+              }}
+              assignContact={this.handleContactAssign}
+              contact={contact}
+              style={this.styles.contactResult}
+            />);
+          });
+        results = (
+          <InfiniteScroll
+            key="infinite-scroll"
+            loadMore={this.searchContacts}
+            hasMore={this.props.resultsCount === -1 || this.props.results.length < this.props.resultsCount}
+            loader={this.getLoader()}
+            useWindow={false}
+            style={this.styles.infiniteScroll}
+          >
+            { resultsMapped }
+          </InfiniteScroll>
+        );
+      } else {
+        results = <NoRecords query={this.props.selectedInteraction.query} />;
+      }
     } else if (this.props.resultsCount < 1 && !this.props.loading) {
       results = (
         <div key="results-placeholder" id="results-placeholder" style={this.styles.resultsPlaceholder}>
@@ -369,69 +371,40 @@ export class ContactsControl extends BaseComponent {
 
   render() {
     let content;
-    switch (this.props.selectedInteraction.contactAction) {
-      case 'view':
-        if (this.props.selectedInteraction.contact) {
-          content = Object.keys(this.props.selectedInteraction.contact).length ?
-            (<Contact
-              getError={this.getError}
-              formatValue={this.formatValue}
-              key={this.props.selectedInteraction.contact.id}
-              style={this.styles.mainContact}
-              isAssigned
-              contact={this.props.selectedInteraction.contact}
-              setNotEditing={this.props.setNotEditing}
-              handleCancel={this.handleCancel}
-              isEditing={this.props.contactMode === 'editing'}
-              addNotification={this.props.addNotification}
-              assignContact={this.handleContactAssign}
-            />)
-          :
-          '';
-        } else {
-          content = (<Contact
-            getError={this.getError}
-            formatValue={this.formatValue}
-            key={this.props.unassignedContact}
-            style={this.styles.mainContact}
-            isAssigned
-            contact={this.props.unassignedContact}
-            setNotEditing={this.props.setNotEditing}
-            handleCancel={this.handleCancel}
-            isEditing={this.props.contactMode === 'editing'}
-            addNotification={this.props.addNotification}
+    if (this.props.contactMode === 'editing') {
+      content = (<ContactEdit
+        getError={this.getError}
+        formatValue={this.formatValue}
+        setNotEditing={this.props.setNotEditing}
+        style={this.styles.mainContact}
+        contact={this.props.selectedInteraction.contactAction === 'view' ? this.props.selectedInteraction.contact : this.props.editingContact}
+        handleCancel={this.handleCancel}
+        addNotification={this.props.addNotification}
+        assignContact={this.handleContactAssign}
+      />);
+    } else if (this.props.contactMode === 'merging') {
+      content = (<ContactMerge
+        getError={this.getError}
+        formatValue={this.formatValue}
+        setNotEditing={this.props.setNotEditing}
+        style={this.styles.mainContact}
+        handleCancel={this.handleCancel}
+        addNotification={this.props.addNotification}
+        assignContact={this.handleContactAssign}
+      />);
+    } else {
+      switch (this.props.selectedInteraction.contactAction) {
+        case 'view':
+          content = (<ContactView
+            contact={this.props.selectedInteraction.contact ? this.props.selectedInteraction.contact : this.props.editingContact}
             assignContact={this.handleContactAssign}
-          />);
-        }
-        break;
-      case 'search':
-      default:
-        if (this.props.contactMode === 'editing') {
-          content = (<Contact
-            getError={this.getError}
-            formatValue={this.formatValue}
-            key={this.props.unassignedContact.id}
-            setNotEditing={this.props.setNotEditing}
             style={this.styles.mainContact}
-            isEditing
-            contact={this.props.unassignedContact}
-            handleCancel={this.handleCancel}
-            addNotification={this.props.addNotification}
-            assignContact={this.handleContactAssign}
           />);
-        } else if (this.props.contactMode === 'merging') {
-          content = (<ContactMerge
-            getError={this.getError}
-            formatValue={this.formatValue}
-            setNotEditing={this.props.setNotEditing}
-            style={this.styles.mainContact}
-            handleCancel={this.handleCancel}
-            addNotification={this.props.addNotification}
-            assignContact={this.handleContactAssign}
-          />);
-        } else {
+          break;
+        case 'search':
+        default:
           content = this.renderResults();
-        }
+      }
     }
     return content;
   }
@@ -453,7 +426,7 @@ ContactsControl.propTypes = {
   loadContactInteractionHistory: PropTypes.func,
   assignContact: PropTypes.func,
   contactMode: PropTypes.string,
-  unassignedContact: PropTypes.object,
+  editingContact: PropTypes.object,
   setLoading: PropTypes.func,
   addNotification: PropTypes.func,
   deletionPending: PropTypes.bool,
@@ -478,7 +451,7 @@ function mapStateToProps(state, props) {
     selectedInteraction: selectCurrentInteraction(state, props),
     checkedContacts: selectCheckedContacts(state, props),
     contactMode: selectContactMode(state, props),
-    unassignedContact: selectUnassignedContact(state, props),
+    editingContact: selectEditingContact(state, props),
     loading: selectLoading(state, props),
     deletionPending: selectDeletionPending(state, props),
     showCancelDialog: selectShowCancelDialog(state, props),

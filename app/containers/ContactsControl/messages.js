@@ -18,6 +18,18 @@ export default defineMessages({
     id: 'app.containers.ContactsControl.or',
     defaultMessage: 'OR',
   },
+  noRecords: {
+    id: 'app.containers.ContactsControl.noRecords',
+    defaultMessage: 'No records found',
+  },
+  call: {
+    id: 'app.containers.ContactsControl.call',
+    defaultMessage: 'CALL',
+  },
+  sms: {
+    id: 'app.containers.ContactsControl.sms',
+    defaultMessage: 'SMS',
+  },
   errorRequired: {
     id: 'app.containers.ContactsControl.errorRequired',
     defaultMessage: 'Required',

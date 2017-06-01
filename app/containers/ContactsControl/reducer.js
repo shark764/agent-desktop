@@ -60,12 +60,7 @@ function contactsControlReducer(state = initialState, action) {
       return state
         .set('selectedIndexes', fromJS({ ...state.get('selectedIndexes').toJS(), [action.field]: action.index }));
     case RESET_FORM:
-      return state
-        .set('contactForm', fromJS({}))
-        .set('formErrors', fromJS({}))
-        .set('showErrors', fromJS({}))
-        .set('unusedFields', fromJS({}))
-        .set('selectedIndexes', fromJS({}));
+      return initialState;
     default:
       return state;
   }

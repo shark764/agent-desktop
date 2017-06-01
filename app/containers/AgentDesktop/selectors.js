@@ -83,6 +83,7 @@ export {
   selectAgentId,
   selectIsAgentReady,
   selectInteractions,
+  getSelectedInteractionId,
   selectLoginMap,
   selectAgentDesktopMap,
   selectSelectedInteraction,

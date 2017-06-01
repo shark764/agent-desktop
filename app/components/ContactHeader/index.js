@@ -135,7 +135,7 @@ function ContactHeader(props) {
     case 'search':
     default:
       if (props.contactMode === 'editing') {
-        if (Object.keys(props.unassignedContactEditing).length === 0) {
+        if (Object.keys(props.editingContactEditing).length === 0) {
           return getBannerHeader(<FormattedMessage {...messages.newContactBanner} />);
         } else {
           return getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} />);

@@ -13,7 +13,7 @@ import {
   UNCHECK_CONTACT,
   CLEAR_CHECKED_CONTACTS,
   SET_CONTACT_MODE,
-  SET_UNASSIGNED_CONTACT,
+  SET_EDITING_CONTACT,
   ADD_NOTIFICATION,
   DISMISS_NOTIFICATION,
   SET_LOADING,
@@ -28,7 +28,7 @@ const initialState = fromJS({
   resultsCount: -1,
   checkedContacts: [],
   contactMode: 'viewing',
-  unassignedContact: {},
+  editingContact: {},
   notifications: [],
   nextNotificationId: 0,
   deletionPending: false,
@@ -80,9 +80,9 @@ function infoTabReducer(state = initialState, action) {
     case SET_CONTACT_MODE:
       return state
         .set('contactMode', action.contactMode);
-    case SET_UNASSIGNED_CONTACT:
+    case SET_EDITING_CONTACT:
       return state
-        .set('unassignedContact', action.unassignedContact);
+        .set('editingContact', action.editingContact);
     case ADD_NOTIFICATION:
       return state
         .set('notifications', state.get('notifications').push(fromJS(action.notification)))
