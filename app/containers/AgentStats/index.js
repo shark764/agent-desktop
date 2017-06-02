@@ -12,8 +12,11 @@ import Radium from 'radium';
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
 
+import { deactivateToolbarStat } from 'containers/Toolbar/actions';
+import { selectToolbarStats } from 'containers/Toolbar/selectors';
+
 import Stat from 'components/Stat';
-import { selectEnabledStats, selectAvailableStats } from './selectors';
+import { selectAvailableStats } from './selectors';
 
 export class AgentStats extends BaseComponent {
 
@@ -38,13 +41,13 @@ export class AgentStats extends BaseComponent {
     },
   }
 
-  toggleStat = (stat) => {
-    this.props.toggleStat(stat);
+  removeStat = (stat) => {
+    this.props.deactivateToolbarStat(stat);
     this.setState({ hoverIndex: -1 });
   }
 
   generateStat = (stat, index, array) => {
-    const statistic = this.props.availableStats[stat.statOption];
+    const userFriendlyName = this.props.availableStats[stat.statOption].userFriendlyName;
     let key;
     if (stat.statSource === 'queue-id') {
       key = stat.statOption + stat.statSource + stat.statAggregate + stat.queue;
@@ -60,12 +63,12 @@ export class AgentStats extends BaseComponent {
       >
         <Stat
           key={key}
-          statistic={statistic}
+          userFriendlyName={userFriendlyName}
           hover={this.state.hoverIndex === index}
           index={array.length - index}
-          hoverData={stat}
+          stat={stat}
           queues={this.props.queues}
-          toggleStat={this.toggleStat}
+          removeStat={this.removeStat}
           readyState={this.props.readyState}
         />
       </div>
@@ -75,7 +78,7 @@ export class AgentStats extends BaseComponent {
   render() {
     return (
       <div id="agent-stats" style={this.styles.statsContainer}>
-        {this.props.enabledStats.map(this.generateStat)}
+        {this.props.toolbarStats.map(this.generateStat)}
       </div>
     );
   }
@@ -83,7 +86,7 @@ export class AgentStats extends BaseComponent {
 
 function mapStateToProps(state, props) {
   return {
-    enabledStats: selectEnabledStats(state, props),
+    toolbarStats: selectToolbarStats(state, props),
     availableStats: selectAvailableStats(state, props),
   };
 }
@@ -91,15 +94,16 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
+    deactivateToolbarStat: (stat) => dispatch(deactivateToolbarStat(stat)),
     dispatch,
   };
 }
 
 AgentStats.propTypes = {
-  enabledStats: PropTypes.array,
+  toolbarStats: PropTypes.array,
   availableStats: PropTypes.object,
   queues: PropTypes.array,
-  toggleStat: PropTypes.func.isRequired,
+  deactivateToolbarStat: PropTypes.func.isRequired,
   readyState: PropTypes.string.isRequired,
 };
 

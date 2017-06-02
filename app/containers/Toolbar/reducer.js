@@ -5,25 +5,27 @@
  */
 
 import { fromJS } from 'immutable';
-import statEqualityCheck from 'utils/statEqualityCheck';
 import {
   SET_AVAILABLE_STATS,
   STATS_RECEIVED,
   SHOW_AGENT_MENU,
   REMOVE_STAT,
   ADD_STAT,
+  REMOVE_TOOLBAR_STAT_ID,
+  ADD_TOOLBAR_STAT_ID,
+  ADD_WELCOME_STAT_ID,
 } from './constants';
 
 const initialState = fromJS({
+  welcomeStatIds: [],
+  toolbarStatIds: [],
   enabledStats: [],
   availableStats: {},
   showAgentStatusMenu: false,
 });
 
 function toolbarReducer(state = initialState, action) {
-  let currentStats;
   let enabledStatId;
-  let cleanStats;
 
   switch (action.type) {
     case SHOW_AGENT_MENU:
@@ -33,23 +35,26 @@ function toolbarReducer(state = initialState, action) {
       return state
         .set('availableStats', fromJS(action.stats));
     case REMOVE_STAT:
-      currentStats = state.get('enabledStats').toJS();
       return state
-        .set('enabledStats', fromJS(currentStats.filter((item) => !statEqualityCheck(item, action.stat))));
+        .update('enabledStats', (enabledStats) => fromJS(enabledStats.filter((currentStat) => currentStat.get('statId') !== action.stat.statId)));
     case ADD_STAT:
-      currentStats = state.get('enabledStats').toJS();
       return state
-        .set('enabledStats', fromJS([action.stat, ...currentStats]));
+        .update('enabledStats', (enabledStats) => fromJS([action.stat, ...enabledStats.filter((currentStat) => currentStat.get('statId') !== action.stat.statId)]));
+    case REMOVE_TOOLBAR_STAT_ID:
+      return state
+        .update('toolbarStatIds', (toolbarStatIds) => fromJS(toolbarStatIds.filter((statId) => statId !== action.statId)));
+    case ADD_TOOLBAR_STAT_ID:
+      return state
+        .update('toolbarStatIds', (toolbarStatIds) => fromJS([...toolbarStatIds.filter((statId) => statId !== action.statId), action.statId]));
+    case ADD_WELCOME_STAT_ID:
+      return state
+        .update('welcomeStatIds', (welcomeStatIds) => fromJS([...welcomeStatIds.filter((statId) => statId !== action.statId), action.statId]));
     case STATS_RECEIVED:
-      cleanStats = {};
-      Object.keys(action.stats).forEach((statKey) => {
-        cleanStats[statKey.toLowerCase()] = action.stats[statKey];
-      });
       return state.update('enabledStats', (enabledStats) =>
         enabledStats.map((enabledStat) => {
           enabledStatId = enabledStat.get('statId');
-          if (cleanStats[enabledStatId]) {
-            return enabledStat.set('results', fromJS(cleanStats[enabledStatId].body.results));
+          if (action.stats[enabledStatId]) {
+            return enabledStat.set('results', fromJS(action.stats[enabledStatId].body.results));
           }
           return enabledStat;
         })

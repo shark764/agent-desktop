@@ -10,17 +10,14 @@ describe('<Stat />', () => {
       <Stat
         id="mockId"
         intl={getIntlContext()}
-        statistic={{
-          type: 'mockType',
-          userFriendlyName: 'mockName',
-        }}
+        userFriendlyName="mockName"
         hover
         index={1}
-        hoverData={{
+        stat={{
           statAggregate: 'mockStatAggregate',
           statSource: 'mockStatSource',
         }}
-        toggleStat={() => {}}
+        removeStat={() => {}}
         readyState="mockReadyState"
         queues={[]}
       />

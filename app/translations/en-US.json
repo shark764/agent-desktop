@@ -11,6 +11,9 @@
   "app.components.TimerMinutes.hours": "h",
   "app.components.TimerMinutes.justNow": "Just Now",
   "app.components.TimerMinutes.minutes": "m",
+  "app.container.WelcomeStats.customerSatisfactionScore": "Customer Satisfaction",
+  "app.container.WelcomeStats.resourceHandleTime": "Average Handle Time",
+  "app.container.WelcomeStats.workAcceptedCount": "Daily Interactions",
   "app.containers.AgentConfigMenu.add": "Add",
   "app.containers.AgentConfigMenu.aggregate": "Aggregate",
   "app.containers.AgentConfigMenu.maxStats": "Maximum Stats Enabled",
@@ -179,9 +182,6 @@
   "app.containers.TransferResource.transferDescription": "Transfer to participant",
   "app.containers.VoiceContentArea.endWrapup": "End Wrap Up",
   "app.containers.VoiceContentArea.hangUp": "Hang Up",
-  "app.containers.WelcomeStats.avgHandleTime": "Average Handle Time",
-  "app.containers.WelcomeStats.csat": "Customer Satisfaction",
-  "app.containers.WelcomeStats.interactionsCount": "Daily Interactions",
   "app.containers.WelcomeStats.welcome": "Welcome,",
   "app.contianers.Login.password": "Password"
 }

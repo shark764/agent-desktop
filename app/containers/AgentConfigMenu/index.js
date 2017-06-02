@@ -14,6 +14,8 @@ import pickBy from 'lodash/pickBy';
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
 
+import { activateToolbarStat } from 'containers/Toolbar/actions';
+
 import PopupDialog from 'components/PopupDialog';
 import Select from 'components/Select';
 import Button from 'components/Button';
@@ -68,8 +70,9 @@ export class AgentConfigMenu extends BaseComponent {
     },
   }
 
-  toggleStat = () => {
-    this.props.toggleStat(this.state, this.props.currentAgent.userId, this.props.queues);
+  addStat = () => {
+    this.props.activateToolbarStat(this.state);
+    this.props.hideMenu();
   }
 
   setStatSource = (value) => {
@@ -189,7 +192,7 @@ export class AgentConfigMenu extends BaseComponent {
         <div style={this.styles.buttonContainer}>
           {this.props.enabledStats.length === MAXIMUM_STATS
             ? <span><FormattedMessage {...messages.maxStats} /></span>
-            : <Button text={messages.add} id="toggleStat" style={this.styles.addButton} type="secondary" onClick={this.toggleStat} />}
+            : <Button text={messages.add} id="toggleStat" style={this.styles.addButton} type="secondary" onClick={this.addStat} />}
         </div>
       </PopupDialog>
     );
@@ -206,12 +209,13 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
+    activateToolbarStat: (stat) => dispatch(activateToolbarStat(stat)),
     dispatch,
   };
 }
 
 AgentConfigMenu.propTypes = {
-  toggleStat: PropTypes.func,
+  activateToolbarStat: PropTypes.func,
   enabledStats: PropTypes.array,
   availableStats: PropTypes.object,
   queues: PropTypes.array,

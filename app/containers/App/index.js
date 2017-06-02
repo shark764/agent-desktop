@@ -19,14 +19,14 @@ import Login from 'containers/Login';
 import NotificationBanner from 'components/NotificationBanner';
 import AgentDesktop from 'containers/AgentDesktop';
 
-import { setAvailableStats, statsReceived, toggleStat, toggleAgentMenu } from 'containers/Toolbar/actions';
+import { setAvailableStats, statsReceived, toggleAgentMenu, initializeStats } from 'containers/Toolbar/actions';
 import { showLogin, logout } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
+import { handleSDKError, addStatErrorId, removeStatErrorId } from 'containers/Errors/actions';
 
 import { selectAvailableStats } from 'containers/AgentStats/selectors';
-
-import { selectCriticalError } from 'containers/Errors/selectors';
-import { handleSDKError } from 'containers/Errors/actions';
+import { selectActivatedStatIds } from 'containers/Toolbar/selectors';
+import { selectCriticalError, selectErroredStatIds } from 'containers/Errors/selectors';
 
 import { setCRMUnavailable } from 'containers/InfoTab/actions';
 import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, loadContactInteractionHistory,
@@ -96,6 +96,19 @@ export class App extends React.Component {
     window.localStorage.setItem('ADError', errorType); // Consume in Login component
     this.killItWithfire();
     logoutOnSessionStart = true; // session has not usually started yet here so logout has no effect
+  }
+
+  checkStatErrors = (statsObject) => { // TODO: move into saga
+    this.props.activatedStatIds.forEach((statId) => {
+      const hasData = statsObject[statId] && (statsObject[statId].status === 200);
+      const hasNewError = statsObject[statId] && (statsObject[statId].status !== 200);
+      const isErrored = this.props.erroredStatIds.includes(statId);
+      if (hasNewError && !isErrored) {
+        this.props.addStatErrorId(statId);
+      } else if (hasData && isErrored) {
+        this.props.removeStatErrorId(statId);
+      }
+    });
   }
 
   init = () => {
@@ -169,7 +182,7 @@ export class App extends React.Component {
           }
           case 'cxengage/session/config-details': {
             if (response.reasonLists.length < 2) {
-              this.setLoginErrorAndReload('reasonListError');
+              this.setLoginErrorAndLogout('reasonListError');
             } else {
               this.props.setUserConfig(response);
             }
@@ -411,10 +424,7 @@ export class App extends React.Component {
               }
             });
             this.props.setAvailableStats(stats, this.props.login.tenant.id, this.props.login.agent.userId);
-            const savedStats = JSON.parse(window.localStorage.getItem(`agentDesktopStats.${this.props.login.tenant.id}.${this.props.login.agent.userId}`)) || [];
-            savedStats.forEach((stat) => {
-              this.props.toggleStat(stat, this.props.login.agent.userId, this.props.agentDesktop.queues, true);
-            });
+            this.props.initializeStats();
             break;
           }
           case 'cxengage/reporting/get-interaction-response': {
@@ -422,6 +432,7 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/reporting/batch-response': {
+            this.checkStatErrors(response);
             this.props.statsReceived(response);
             break;
           }
@@ -592,6 +603,8 @@ const mapStateToProps = (state, props) => ({
   agentDesktop: selectAgentDesktopMap(state, props).toJS(),
   availableStats: selectAvailableStats(state, props),
   criticalError: selectCriticalError(state, props),
+  activatedStatIds: selectActivatedStatIds(state, props).toJS(),
+  erroredStatIds: selectErroredStatIds(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -638,7 +651,7 @@ function mapDispatchToProps(dispatch) {
     resourceRemoved: (response) => dispatch(resourceRemoved(response)),
     emailAddAttachment: (interactionId, attachment) => dispatch(emailAddAttachment(interactionId, attachment)),
     setAvailableStats: (stats, tenantId, userId) => dispatch(setAvailableStats(stats, tenantId, userId)),
-    toggleStat: (stat, userId, queues, saved) => dispatch(toggleStat(stat, userId, queues, saved)),
+    initializeStats: () => dispatch(initializeStats()),
     statsReceived: (stats) => dispatch(statsReceived(stats)),
     setQueues: (queues) => dispatch(setQueues(queues)),
     setDispositionDetails: (interactionId, dispositions, forceSelect) => dispatch(setDispositionDetails(interactionId, dispositions, forceSelect)),
@@ -648,6 +661,8 @@ function mapDispatchToProps(dispatch) {
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
     setCRMUnavailable: (reason) => dispatch(setCRMUnavailable(reason)),
+    addStatErrorId: (statId) => dispatch(addStatErrorId(statId)),
+    removeStatErrorId: (statId) => dispatch(removeStatErrorId(statId)),
     dispatch,
   };
 }
@@ -698,17 +713,21 @@ App.propTypes = {
   setQueues: PropTypes.func.isRequired,
   setDispositionDetails: PropTypes.func.isRequired,
   selectDisposition: PropTypes.func.isRequired,
-  toggleStat: PropTypes.func.isRequired,
+  initializeStats: PropTypes.func.isRequired,
   showRefreshRequired: PropTypes.func.isRequired,
   toggleAgentMenu: PropTypes.func.isRequired,
   goNotReady: PropTypes.func.isRequired,
   handleSDKError: PropTypes.func.isRequired,
   setCRMUnavailable: PropTypes.func.isRequired,
+  addStatErrorId: PropTypes.func.isRequired,
+  removeStatErrorId: PropTypes.func.isRequired,
   // TODO when fixed in SDK
   // logout: PropTypes.func.isRequired,
   login: PropTypes.object,
   agentDesktop: PropTypes.object,
   availableStats: PropTypes.object,
+  activatedStatIds: PropTypes.array,
+  erroredStatIds: PropTypes.array,
   criticalError: PropTypes.any,
 };
 
