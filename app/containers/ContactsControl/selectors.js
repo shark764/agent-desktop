@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { selectSelectedInteraction } from 'containers/AgentDesktop/selectors';
 
 /**
  * Direct selector to the contactsControl state domain
@@ -15,23 +16,6 @@ const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 const selectAttributes = createSelector(
  selectSidePanelDomain,
  (sidePanel) => sidePanel.get('contactAttributes').toJS()
-);
-
-const selectInteractions = createSelector(
- selectAgentDesktopDomain,
- (agentDesktop) => agentDesktop.get('interactions')
-);
-
-const getSelectedInteractionId = createSelector(
- selectAgentDesktopDomain,
- (agentDesktop) => agentDesktop.get('selectedInteractionId')
-);
-
-const selectSelectedInteraction = createSelector(
- [selectInteractions, getSelectedInteractionId],
- (interactions, selectedInteractionId) => interactions.toJS().filter(
-   (interaction) => interaction.interactionId === selectedInteractionId
- )[0]
 );
 
 const selectNoInteractionContactPanelContactsData = createSelector(

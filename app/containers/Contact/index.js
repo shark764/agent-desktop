@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
 
+import { selectHasVoiceInteraction, selectSmsInteractionNumbers } from 'containers/AgentDesktop/selectors';
 import { startOutboundInteraction, removeSearchFilter } from 'containers/AgentDesktop/actions';
 import { selectShowCancelDialog, selectFormIsDirty, selectFormValidity, selectContactForm, selectFormErrors, selectShowErrors } from 'containers/ContactsControl/selectors';
 import { setShowCancelDialog, setFormIsDirty, setFormValidity, resetForm, setShowError, setFormField, setFormError } from 'containers/ContactsControl/actions';
@@ -30,9 +31,8 @@ import {
   selectPopulatedLayout,
   selectPopulatedCompactAttributes,
   selectAttributes,
-  selectHasVoiceInteraction,
-  selectSmsInteractionNumbers,
   selectInInteractionContext,
+  getSelectedInteractionIsCreatingNewInteraction,
 } from './selectors';
 
 export class Contact extends BaseComponent {
@@ -144,12 +144,12 @@ export class Contact extends BaseComponent {
   }
 
   startCall = (number) => {
-    this.props.startOutboundInteraction('voice');
+    this.props.startOutboundInteraction('voice', number, this.props.contact, this.props.selectedInteractionIsCreatingNewInteraction);
     CxEngage.interactions.voice.dial({ phoneNumber: number });
   }
 
   startSms = (number) => {
-    this.props.startOutboundInteraction('sms', number, this.props.contact);
+    this.props.startOutboundInteraction('sms', number, this.props.contact, this.props.selectedInteractionIsCreatingNewInteraction);
   }
 
   getAttributeRow = (attribute) => {
@@ -283,6 +283,7 @@ const mapStateToProps = (state, props) => ({
   hasVoiceInteraction: selectHasVoiceInteraction(state, props),
   smsInteractionNumbers: selectSmsInteractionNumbers(state, props),
   inInteractionContext: selectInInteractionContext(state, props),
+  selectedInteractionIsCreatingNewInteraction: getSelectedInteractionIsCreatingNewInteraction(state, props),
   showCancelDialog: selectShowCancelDialog(state, props),
   formIsDirty: selectFormIsDirty(state, props),
   formIsValid: selectFormValidity(state, props),
@@ -295,7 +296,7 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    startOutboundInteraction: (channelType, customer, contact) => dispatch(startOutboundInteraction(channelType, customer, contact)),
+    startOutboundInteraction: (channelType, customer, contact, addedByNewInteractionPanel) => dispatch(startOutboundInteraction(channelType, customer, contact, addedByNewInteractionPanel)),
     setShowCancelDialog: (showCancelDialog) => dispatch(setShowCancelDialog(showCancelDialog)),
     setLoading: (loading) => dispatch(setLoading(loading)),
     clearSearchResults: () => dispatch(clearSearchResults()),
@@ -328,6 +329,7 @@ Contact.propTypes = {
   style: PropTypes.object,
   isReady: PropTypes.bool.isRequired,
   inInteractionContext: PropTypes.bool.isRequired,
+  selectedInteractionIsCreatingNewInteraction: PropTypes.bool.isRequired,
   hasVoiceInteraction: PropTypes.bool.isRequired,
   smsInteractionNumbers: PropTypes.array.isRequired,
   startOutboundInteraction: PropTypes.func.isRequired,

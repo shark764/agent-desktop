@@ -15,6 +15,9 @@ import {
   SET_QUEUE_TIME,
   SET_PRESENCE,
   GO_NOT_READY,
+  OPEN_NEW_INTERACTION_PANEL,
+  NEW_INTERACTION_PANEL_SELECT_CONTACT,
+  CLOSE_NEW_INTERACTION_PANEL,
   START_OUTBOUND_INTERACTION,
   INITIALIZE_OUTBOUND_SMS,
   ADD_INTERACTION,
@@ -147,12 +150,32 @@ export function goNotReady(reason, listId) {
   };
 }
 
-export function startOutboundInteraction(channelType, customer, contact) {
+export function openNewInteractionPanel() {
+  return {
+    type: OPEN_NEW_INTERACTION_PANEL,
+  };
+}
+
+export function newInteractionPanelSelectContact(contact) {
+  return {
+    type: NEW_INTERACTION_PANEL_SELECT_CONTACT,
+    contact,
+  };
+}
+
+export function closeNewInteractionPanel() {
+  return {
+    type: CLOSE_NEW_INTERACTION_PANEL,
+  };
+}
+
+export function startOutboundInteraction(channelType, customer, contact, addedByNewInteractionPanel) {
   return {
     type: START_OUTBOUND_INTERACTION,
     channelType,
     customer,
     contact,
+    addedByNewInteractionPanel,
   };
 }
 

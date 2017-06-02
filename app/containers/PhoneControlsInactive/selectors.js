@@ -2,11 +2,6 @@ import { createSelector } from 'reselect';
 
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 
-const selectIsAgentReady = createSelector(
-  selectAgentDesktopDomain,
-  (agentDesktop) => agentDesktop.get('presence') === 'ready'
-);
-
 const selectHasConnectingOutboundVoiceInteraction = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) => agentDesktop.get('interactions').toJS().find(
@@ -15,6 +10,5 @@ const selectHasConnectingOutboundVoiceInteraction = createSelector(
 );
 
 export {
-  selectIsAgentReady,
   selectHasConnectingOutboundVoiceInteraction,
 };

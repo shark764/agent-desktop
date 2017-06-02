@@ -1,81 +1,91 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<IconSVG /> with name add should render correctly 1`] = `
-<ReactSVG
-  callback={[Function]}
-  className=""
-  evalScript="always"
-  evalScripts="once"
-  id="mockId"
-  path="test-file-stub"
-  style={
-    Object {
-      "borderRadius": "50%",
+<div>
+  <ReactSVG
+    callback={[Function]}
+    className=""
+    evalScript="always"
+    evalScripts="once"
+    id="mockId"
+    path="test-file-stub"
+    style={
+      Object {
+        "borderRadius": "50%",
+      }
     }
-  }
-/>
+  />
+</div>
 `;
 
 exports[`<IconSVG /> with name close should render correctly 1`] = `
-<ReactSVG
-  callback={[Function]}
-  className=""
-  evalScript="always"
-  evalScripts="once"
-  id="mockId"
-  path="test-file-stub"
-  style={
-    Object {
-      "borderRadius": "50%",
+<div>
+  <ReactSVG
+    callback={[Function]}
+    className=""
+    evalScript="always"
+    evalScripts="once"
+    id="mockId"
+    path="test-file-stub"
+    style={
+      Object {
+        "borderRadius": "50%",
+      }
     }
-  }
-/>
+  />
+</div>
 `;
 
 exports[`<IconSVG /> with name dialpad should render correctly 1`] = `
-<ReactSVG
-  callback={[Function]}
-  className=""
-  evalScript="always"
-  evalScripts="once"
-  id="mockId"
-  path="test-file-stub"
-  style={
-    Object {
-      "borderRadius": "50%",
+<div>
+  <ReactSVG
+    callback={[Function]}
+    className=""
+    evalScript="always"
+    evalScripts="once"
+    id="mockId"
+    path="test-file-stub"
+    style={
+      Object {
+        "borderRadius": "50%",
+      }
     }
-  }
-/>
+  />
+</div>
 `;
 
 exports[`<IconSVG /> with name loading should render correctly 1`] = `
-<ReactSVG
-  callback={[Function]}
-  className=""
-  evalScript="always"
-  evalScripts="once"
-  id="mockId"
-  path="test-file-stub"
-  style={
-    Object {
-      "borderRadius": "50%",
+<div>
+  <ReactSVG
+    callback={[Function]}
+    className=""
+    evalScript="always"
+    evalScripts="once"
+    id="mockId"
+    path="test-file-stub"
+    style={
+      Object {
+        "borderRadius": "50%",
+      }
     }
-  }
-/>
+  />
+</div>
 `;
 
 exports[`<IconSVG /> with name loadingWhite should render correctly 1`] = `
-<ReactSVG
-  callback={[Function]}
-  className=""
-  evalScript="always"
-  evalScripts="once"
-  id="mockId"
-  path="test-file-stub"
-  style={
-    Object {
-      "borderRadius": "50%",
+<div>
+  <ReactSVG
+    callback={[Function]}
+    className=""
+    evalScript="always"
+    evalScripts="once"
+    id="mockId"
+    path="test-file-stub"
+    style={
+      Object {
+        "borderRadius": "50%",
+      }
     }
-  }
-/>
+  />
+</div>
 `;

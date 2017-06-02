@@ -32,6 +32,7 @@ import transferSprite from 'assets/icons/transfer_sprite.png';
 import transferDarkSprite from 'assets/icons/transfer_dark_sprite.png';
 import dialpadSprite from 'assets/icons/dialpad_sprite.png';
 import dialpadDarkSprite from 'assets/icons/dialpad_dark_sprite.png';
+import addInteraction from 'assets/icons/add_interaction.png';
 
 export const availableIcons = [
   'arrow_return',
@@ -58,6 +59,7 @@ export const availableIcons = [
   'transfer_dark',
   'voice',
   'voice_dark',
+  'add_interaction',
 ];
 
 const styles = {
@@ -204,6 +206,9 @@ const styles = {
       backgroundPosition: '-80px 0',
     },
   },
+  add_interaction: {
+    data: { src: addInteraction },
+  },
 };
 
 function Icon(props) {
@@ -234,6 +239,7 @@ function Icon(props) {
           props.style,
         ]}
         alt={props.alt || props.name}
+        title={props.alt}
       />
     );
   }

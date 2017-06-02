@@ -18,7 +18,7 @@ import ConfirmDialog from 'components/ConfirmDialog';
 import Button from 'components/Button';
 
 import { setContactAction, removeContact, removeSearchFilter } from 'containers/AgentDesktop/actions';
-import { selectSmsInteractionNumbers } from 'containers/Contact/selectors';
+import { selectSmsInteractionNumbers } from 'containers/AgentDesktop/selectors';
 import { selectShowCancelDialog, selectShowConfirmDialog, selectFormValidity, selectContactForm, selectFormErrors, selectShowErrors } from 'containers/ContactsControl/selectors';
 import { setShowCancelDialog, setShowConfirmDialog, setFormValidity, setShowError, setFormField, setFormError, setUnusedField, setSelectedIndex } from 'containers/ContactsControl/actions';
 import { selectCheckedContacts, selectCurrentInteraction } from 'containers/InfoTab/selectors';

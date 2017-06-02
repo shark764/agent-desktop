@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`interactionsBarReducer returns the initial state 1`] = `Object {}`;

@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { PhoneNumberUtil } from 'google-libphonenumber';
-import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
 
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
@@ -18,9 +17,12 @@ import Button from 'components/Button';
 import CircleIconButton from 'components/CircleIconButton';
 import Dialpad from 'components/Dialpad';
 import IconSVG from 'components/IconSVG';
-import messages from './messages';
 
-import { selectIsAgentReady, selectHasConnectingOutboundVoiceInteraction } from './selectors';
+import { selectIsAgentReady } from 'containers/AgentDesktop/selectors';
+import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
+
+import messages from './messages';
+import { selectHasConnectingOutboundVoiceInteraction } from './selectors';
 
 export class PhoneControlsInactive extends BaseComponent {
   constructor(props) {

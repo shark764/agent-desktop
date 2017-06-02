@@ -309,7 +309,6 @@ export class MessagingContentArea extends BaseComponent {
       alignItems: 'stretch',
     },
     templateMenuButton: {
-      height: 'calc(100% - 7px)',
       width: '40px',
       verticalAlign: 'top',
       fontSize: '24px',
@@ -324,7 +323,7 @@ export class MessagingContentArea extends BaseComponent {
       borderTop: '1px solid #979797',
       borderBottom: '1px solid #979797',
       borderRight: 'none',
-      borderLeft: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '' : '1px solid #979797',
+      borderLeft: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? 'none' : '1px solid #979797',
     },
     messageButton: {
       width: '50px',
@@ -338,7 +337,14 @@ export class MessagingContentArea extends BaseComponent {
   render() {
     const isLoading = this.props.selectedInteraction.status === 'work-accepting' || this.props.selectedInteraction.status === 'initializing-outbound';
 
-    const from = this.props.selectedInteraction.contact !== undefined ? this.props.selectedInteraction.contact.attributes.name : this.props.selectedInteraction.messageHistory[0].from;
+    let from;
+    if (this.props.selectedInteraction.contact !== undefined) {
+      from = this.props.selectedInteraction.contact.attributes.name;
+    } else if (this.props.selectedInteraction.channelType === 'sms') {
+      from = this.props.selectedInteraction.customer;
+    } else {
+      from = this.props.selectedInteraction.messageHistory[0].from;
+    }
 
     let details;
     if (this.props.selectedInteraction.customFields) {

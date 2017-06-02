@@ -24,7 +24,7 @@ import ContactInteractionHistory from 'containers/ContactInteractionHistory';
 import { setSidePanelTabIndex } from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
-import { getSelectedInteractionId, getSelectedInteractionIsVoice, getSelectedInteractionScript, getHasAssignedContact, getSelectedTabIndex } from './selectors';
+import { getSelectedInteractionId, getSelectedInteractionIsCreatingNewInteractionWithoutSelectedContact, getSelectedInteractionIsVoice, getSelectedInteractionScript, getHasAssignedContact, getSelectedTabIndex } from './selectors';
 
 const leftGutterPx = 52;
 const topBarHeightPx = 63;
@@ -105,6 +105,11 @@ export class SidePanel extends BaseComponent {
     rightMargin: {
       marginRight: '26px',
     },
+    emptyPanel: {
+      height: `${topBarHeightPx}px`,
+      width: '100%',
+      borderBottom: '1px solid #D0D0D0',
+    },
   };
 
   handleCollapseClick = () => {
@@ -129,49 +134,53 @@ export class SidePanel extends BaseComponent {
           <div style={this.styles.leftGutterSpacer}></div>
         </div>
         <div id="sidePanelTabsContainer" style={this.styles.bodyWrapper}>
-          <Tabs topBarHeightPx={topBarHeightPx} style={this.styles.tabsOuter} tabsRootStyle={this.styles.tabsRoot} type="big" id="contactTabs" onSelect={(tabIndex) => this.props.setSidePanelTabIndex(this.props.selectedInteractionId, tabIndex)} selectedIndex={this.props.selectedTabIndex}>
-            <TabList>
-              <Tab>
-                <FormattedMessage {...messages.infoTab} />
-              </Tab>
+          {
+            !this.props.selectedInteractionIsCreatingNewInteractionWithoutSelectedContact
+            ? <Tabs topBarHeightPx={topBarHeightPx} style={this.styles.tabsOuter} tabsRootStyle={this.styles.tabsRoot} type="big" id="contactTabs" onSelect={(tabIndex) => this.props.setSidePanelTabIndex(this.props.selectedInteractionId, tabIndex)} selectedIndex={this.props.selectedTabIndex}>
+              <TabList>
+                <Tab>
+                  <FormattedMessage {...messages.infoTab} />
+                </Tab>
+                {
+                  this.props.hasAssignedContact
+                  ? <Tab>
+                    <FormattedMessage {...messages.historyTab} />
+                  </Tab>
+                  : undefined
+                }
+                {
+                  !this.props.selectedInteractionIsVoice && this.props.selectedInteractionScript !== undefined
+                  ? <Tab>
+                    <FormattedMessage {...messages.scriptsTab} />
+                  </Tab>
+                  : undefined
+                }
+              </TabList>
+              <TabPanel>
+                <InfoTab
+                  isCollapsed={this.props.isCollapsed}
+                  style={this.styles.rightMargin}
+                />
+              </TabPanel>
               {
                 this.props.hasAssignedContact
-                ? <Tab>
-                  <FormattedMessage {...messages.historyTab} />
-                </Tab>
+                ? <TabPanel>
+                  <ContactInteractionHistory />
+                </TabPanel>
                 : undefined
               }
               {
                 !this.props.selectedInteractionIsVoice && this.props.selectedInteractionScript !== undefined
-                ? <Tab>
-                  <FormattedMessage {...messages.scriptsTab} />
-                </Tab>
+                ? <TabPanel>
+                  <div style={this.styles.agentScriptPanel}>
+                    <AgentScript interactionId={this.props.selectedInteractionId} script={this.props.selectedInteractionScript} />
+                  </div>
+                </TabPanel>
                 : undefined
               }
-            </TabList>
-            <TabPanel>
-              <InfoTab
-                isCollapsed={this.props.isCollapsed}
-                style={this.styles.rightMargin}
-              />
-            </TabPanel>
-            {
-              this.props.hasAssignedContact
-              ? <TabPanel>
-                <ContactInteractionHistory />
-              </TabPanel>
-              : undefined
-            }
-            {
-              !this.props.selectedInteractionIsVoice && this.props.selectedInteractionScript !== undefined
-              ? <TabPanel>
-                <div style={this.styles.agentScriptPanel}>
-                  <AgentScript interactionId={this.props.selectedInteractionId} script={this.props.selectedInteractionScript} />
-                </div>
-              </TabPanel>
-              : undefined
-            }
-          </Tabs>
+            </Tabs>
+            : <div style={this.styles.emptyPanel} />
+          }
         </div>
       </div>
     );
@@ -181,6 +190,7 @@ export class SidePanel extends BaseComponent {
 function mapStateToProps(state, props) {
   return {
     selectedInteractionId: getSelectedInteractionId(state, props),
+    selectedInteractionIsCreatingNewInteractionWithoutSelectedContact: getSelectedInteractionIsCreatingNewInteractionWithoutSelectedContact(state, props),
     selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
     selectedInteractionScript: getSelectedInteractionScript(state, props),
     hasAssignedContact: getHasAssignedContact(state, props),
