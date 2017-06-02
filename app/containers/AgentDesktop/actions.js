@@ -11,6 +11,7 @@ import {
   ADD_SCRIPT,
   REMOVE_SCRIPT,
   SET_ACTIVE_EXTENSION,
+  REMOVE_INVALID_EXTENSION,
   SET_QUEUES,
   SET_QUEUE_TIME,
   SET_PRESENCE,
@@ -117,6 +118,12 @@ export function setActiveExtension(activeExtension) {
   return {
     type: SET_ACTIVE_EXTENSION,
     activeExtension,
+  };
+}
+
+export function removeInvalidExtension() {
+  return {
+    type: REMOVE_INVALID_EXTENSION,
   };
 }
 

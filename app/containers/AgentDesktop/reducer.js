@@ -17,6 +17,7 @@ import {
   ADD_SCRIPT,
   REMOVE_SCRIPT,
   SET_ACTIVE_EXTENSION,
+  REMOVE_INVALID_EXTENSION,
   SET_QUEUES,
   SET_QUEUE_TIME,
   SET_PRESENCE,
@@ -244,6 +245,12 @@ function agentDesktopReducer(state = initialState, action) {
         .set('extensions', fromJS(action.response.extensions));
     case SET_ACTIVE_EXTENSION:
       return state.set('activeExtension', fromJS(action.activeExtension));
+    case REMOVE_INVALID_EXTENSION: {
+      const selectedExtensionValue = state.get('activeExtension').get('value');
+      return state.update('extensions', (extensions) =>
+        extensions.filter((extension) => extension.get('value') !== selectedExtensionValue)
+      );
+    }
     case SET_QUEUES:
       return state.set('queues', fromJS(action.queues));
     case SET_QUEUE_TIME: {

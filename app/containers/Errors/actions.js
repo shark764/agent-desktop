@@ -7,6 +7,8 @@
 import {
   HANDLE_SDK_ERROR,
   SET_CRITICAL_ERROR,
+  SET_NON_CRITICAL_ERROR,
+  DISMISS_ERROR,
   ADD_STAT_ERROR_ID,
   REMOVE_STAT_ERROR_ID,
 } from './constants';
@@ -23,6 +25,19 @@ export function handleSDKError(error, topic) {
 export function setCriticalError() {
   return {
     type: SET_CRITICAL_ERROR,
+  };
+}
+
+export function setNonCriticalError(error) {
+  return {
+    type: SET_NON_CRITICAL_ERROR,
+    error,
+  };
+}
+
+export function dismissError() {
+  return {
+    type: DISMISS_ERROR,
   };
 }
 

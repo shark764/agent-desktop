@@ -19,6 +19,11 @@ const selectCriticalError = createSelector(
   (substate) => substate.get('criticalError')
 );
 
+const selectNonCriticalError = createSelector(
+  selectErrorsDomain(),
+  (substate) => substate.get('nonCriticalError')
+);
+
 const selectErroredStatIds = createSelector(
   selectStatsDomain,
   (substate) => substate.get('erroredIds').toJS()
@@ -26,5 +31,6 @@ const selectErroredStatIds = createSelector(
 
 export {
   selectCriticalError,
+  selectNonCriticalError,
   selectErroredStatIds,
 };

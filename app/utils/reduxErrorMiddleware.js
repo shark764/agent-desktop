@@ -1,8 +1,6 @@
 import Raven from 'raven-js';
 import { setCriticalError } from 'containers/Errors/actions';
-
 let reduxHasErrored = false;
-
 const errorHandler = (error, action, dispatch) => {
   if (!reduxHasErrored) {
     if (Raven.isSetup()) {
@@ -23,7 +21,6 @@ const errorHandler = (error, action, dispatch) => {
   dispatch(setCriticalError());
   console.error(error);
 };
-
 const reduxErrorMiddleware = (store) =>
   (next) => (action) => {
     try {
@@ -34,5 +31,4 @@ const reduxErrorMiddleware = (store) =>
       return store.getState();
     }
   };
-
 export default reduxErrorMiddleware;

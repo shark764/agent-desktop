@@ -37,7 +37,10 @@ const styles = {
   },
   closeButton: {
     margin: '0 10px 0 0',
-    border: '0',
+    borderTop: '0',
+    borderRight: '0',
+    borderBottom: '0',
+    borderLeft: '0',
   },
 };
 
@@ -52,7 +55,7 @@ function NotificationBanner(props) {
         </div>
       }
       <div>
-        {props.intl.formatMessage(props.descriptionMessage)}
+        { props.intl.formatMessage(props.descriptionMessage) }
       </div>
       {
         props.rightLinkAction
