@@ -47,8 +47,7 @@ export class InfoTab extends BaseComponent {
       boxSizing: 'content-box',
       flexGrow: '1',
       flexShrink: '1',
-      width: 'calc(100% + 104px)',
-      left: '-52px',
+      width: 'calc(100% + 78px)',
       position: 'relative',
       display: 'flex',
     },
@@ -212,7 +211,6 @@ export class InfoTab extends BaseComponent {
               <IconSVG style={this.styles.loadingIcon} id="loadingIcon" name="loading" />
             </div>
           : <div style={[this.styles.contacts, showCheckboxes && this.styles.checkboxSpacing, this.props.contactMode !== 'viewing' && { width: '110%' }]}>
-            <div style={{ width: '52px' }}></div>
             <ContactsControl
               newContact={this.newContact}
               results={this.props.results}

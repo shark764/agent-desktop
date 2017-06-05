@@ -1,3 +1,6 @@
+### [0.38.3] (2017-06-05)
+* CXV1-8658 - Moved scroll bar over to the side away from contact cards and removed floating extra div
+
 ### [0.38.2] (2017-06-02)
 * CXV1-9443 - Handle invalid extension
 
