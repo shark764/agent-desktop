@@ -1,3 +1,6 @@
+### [0.38.4] (2017-06-05)
+* CXV1-8658 - Reverted scrollbar styles back as we cannot always determine when the scrollbar will be showing
+
 ### [0.38.3] (2017-06-05)
 * CXV1-8658 - Moved scroll bar over to the side away from contact cards and removed floating extra div
 

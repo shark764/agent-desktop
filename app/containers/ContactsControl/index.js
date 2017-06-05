@@ -87,11 +87,6 @@ export class ContactsControl extends BaseComponent {
     },
     infiniteScroll: {
       flex: '1',
-      marginRight: '26px',
-    },
-    infiniteScrollScrollbar: {
-      flex: '1',
-      marginRight: '11px',
     },
   };
 
@@ -311,7 +306,7 @@ export class ContactsControl extends BaseComponent {
           hasMore={this.props.resultsCount === -1 || this.props.results.length < this.props.resultsCount}
           loader={this.getLoader()}
           useWindow={false}
-          style={(this.props.resultsCount > 2) ? this.styles.infiniteScrollScrollbar : this.styles.infiniteScroll}
+          style={this.styles.infiniteScroll}
         >
           { resultsMapped }
         </InfiniteScroll>
