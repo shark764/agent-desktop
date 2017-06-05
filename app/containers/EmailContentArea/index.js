@@ -35,7 +35,7 @@ import TextInput from 'components/TextInput';
 
 import ContentArea from 'containers/ContentArea';
 
-import { emailCreateReply, emailCancelReply, emailAddAttachment, emailRemoveAttachment, emailUpdateReply, emailSendReply } from 'containers/AgentDesktop/actions';
+import { emailCreateReply, emailCancelReply, emailAddAttachment, emailRemoveAttachment, emailUpdateReply, emailSendReply, removeInteraction } from 'containers/AgentDesktop/actions';
 import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
@@ -72,6 +72,115 @@ const decorator = new CompositeDecorator([
   },
 ]);
 
+const styles = {
+  detailsField: {
+    color: '#979797',
+    display: 'inline-block',
+    width: '90px',
+    verticalAlign: 'top',
+  },
+  detailsValue: {
+    display: 'inline-block',
+    width: 'calc(100% - 90px)',
+    minHeight: '1.8em',
+  },
+  attachmentsContainer: {
+    borderTop: '1px solid #D0D0D0',
+    marginTop: '10px',
+    paddingTop: '10px',
+  },
+  attachment: {
+    display: 'inline-block',
+    backgroundColor: '#FFFFFF',
+    color: '#000000',
+    borderRadius: '2px',
+    fontSize: '12px',
+    height: '26px',
+    padding: '3px 10px',
+    margin: '4px 10px 0 0',
+    verticalAlign: 'top',
+    border: '1px solid transparent',
+  },
+  addAttachment: {
+    cursor: 'pointer',
+  },
+  attachmentIcon: {
+    verticalAlign: 'top',
+    marginTop: '1px',
+  },
+  addAttachmentMessage: {
+    marginLeft: '5px',
+  },
+  attachmentName: {
+    verticalAlign: 'top',
+    marginTop: '-1px',
+    display: 'inline-block',
+  },
+  attachmentRemove: {
+    fontSize: '18px',
+    lineHeight: '16px',
+    marginLeft: '7px',
+    color: '#979797',
+    cursor: 'pointer',
+  },
+  loadingCircle: {
+    margin: '0 auto',
+    display: 'block',
+    height: 50,
+    width: 50,
+  },
+  loadingAttachment: {
+    display: 'inline-block',
+    height: 14,
+    width: 14,
+  },
+  loadingSendingEmail: {
+    margin: '20px auto 10px',
+    display: 'block',
+    height: 80,
+    width: 80,
+  },
+  centerText: {
+    textAlign: 'center',
+  },
+  emailContent: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    overflowY: 'auto',
+    padding: '19px 23px',
+  },
+  inputContainer: {
+    marginBottom: '2px',
+  },
+  emailAddress: {
+    display: 'inline-block',
+    backgroundColor: '#FFFFFF',
+    border: '1px solid #D0D0D0',
+    borderRadius: '3px',
+    padding: '0 6px',
+    marginRight: '6px',
+  },
+  emailAddressRemove: {
+    fontSize: '12px',
+    marginLeft: '6px',
+    color: '#979797',
+    cursor: 'pointer',
+  },
+  select: {
+    height: '20px',
+    border: 'none',
+    backgroundColor: 'inherit',
+  },
+  richTextEditorContainer: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    overflowY: 'auto',
+    paddingTop: '15px',
+  },
+};
+
 export class EmailContentArea extends BaseComponent {
 
   constructor(props) {
@@ -81,14 +190,14 @@ export class EmailContentArea extends BaseComponent {
       this.setState({ editorState });
     };
     this.state = {
-      subject: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.subject : undefined,
-      tos: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.tos : undefined,
+      subject: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.subject : '',
+      tos: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.tos : [],
       toInput: '',
-      ccs: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.ccs : undefined,
+      ccs: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.ccs : [],
       ccInput: '',
-      bccs: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.bccs : undefined,
+      bccs: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.bccs : [],
       bccInput: '',
-      selectedEmailTemplate: undefined,
+      selectedEmailTemplate: [],
       editorState: this.props.selectedInteraction.emailReply
         ? EditorState.createWithContent(stateFromHTML(this.props.selectedInteraction.emailReply.message), decorator)
         : createEditorState(),
@@ -110,10 +219,10 @@ export class EmailContentArea extends BaseComponent {
         });
       } else {
         this.setState({
-          tos: undefined,
-          ccs: undefined,
-          bccs: undefined,
-          subject: undefined,
+          tos: [],
+          ccs: [],
+          bccs: [],
+          subject: '',
           editorState: createEditorState(),
         });
       }
@@ -273,15 +382,23 @@ export class EmailContentArea extends BaseComponent {
 
   sendEmail = () => {
     this.props.emailSendReply(this.props.selectedInteraction.interactionId);
+
     const emailReply = {
       interactionId: this.props.selectedInteraction.interactionId,
       to: this.state.tos,
       cc: this.state.ccs,
       bcc: this.state.bccs,
       subject: this.state.subject,
-      htmlBody: stateToHTML(this.state.editorState.getCurrentContent()) + this.wrapEmailHistory(this.emailWithImages()),
-      plainTextBody: this.state.editorState.getCurrentContent().getPlainText() + this.props.selectedInteraction.emailPlainBody,
     };
+
+    if (this.props.selectedInteraction.direction === 'outbound') {
+      emailReply.htmlBody = stateToHTML(this.state.editorState.getCurrentContent());
+      emailReply.plainTextBody = this.state.editorState.getCurrentContent().getPlainText();
+    } else {
+      emailReply.htmlBody = stateToHTML(this.state.editorState.getCurrentContent()) + this.wrapEmailHistory(this.emailWithImages());
+      emailReply.plainTextBody = this.state.editorState.getCurrentContent().getPlainText() + this.props.selectedInteraction.emailPlainBody;
+    }
+
     console.log('CxEngage.interactions.email.sendReply()', emailReply);
     CxEngage.interactions.email.sendReply(emailReply);
   }
@@ -331,113 +448,9 @@ export class EmailContentArea extends BaseComponent {
     `);
   }
 
-  styles = {
-    detailsField: {
-      color: '#979797',
-      display: 'inline-block',
-      width: '90px',
-      verticalAlign: 'top',
-    },
-    detailsValue: {
-      display: 'inline-block',
-      width: 'calc(100% - 90px)',
-      minHeight: '1.8em',
-    },
-    attachmentsContainer: {
-      borderTop: '1px solid #D0D0D0',
-      marginTop: '10px',
-      paddingTop: '10px',
-    },
-    attachment: {
-      display: 'inline-block',
-      backgroundColor: '#FFFFFF',
-      color: '#000000',
-      borderRadius: '2px',
-      fontSize: '12px',
-      height: '26px',
-      padding: '3px 10px',
-      margin: '4px 10px 0 0',
-      verticalAlign: 'top',
-      border: '1px solid transparent',
-    },
-    addAttachment: {
-      cursor: 'pointer',
-    },
-    attachmentIcon: {
-      verticalAlign: 'top',
-      marginTop: '1px',
-    },
-    addAttachmentMessage: {
-      marginLeft: '5px',
-    },
-    attachmentName: {
-      verticalAlign: 'top',
-      marginTop: '-1px',
-      display: 'inline-block',
-    },
-    attachmentRemove: {
-      fontSize: '18px',
-      lineHeight: '16px',
-      marginLeft: '7px',
-      color: '#979797',
-      cursor: 'pointer',
-    },
-    loadingCircle: {
-      margin: '0 auto',
-      display: 'block',
-      height: 50,
-      width: 50,
-    },
-    loadingAttachment: {
-      display: 'inline-block',
-      height: 14,
-      width: 14,
-    },
-    loadingSendingEmail: {
-      margin: '20px auto 10px',
-      display: 'block',
-      height: 80,
-      width: 80,
-    },
-    centerText: {
-      textAlign: 'center',
-    },
-    emailContent: {
-      position: 'absolute',
-      height: '100%',
-      width: '100%',
-      overflowY: 'auto',
-      padding: '19px 23px',
-    },
-    inputContainer: {
-      marginBottom: '2px',
-    },
-    emailAddress: {
-      display: 'inline-block',
-      backgroundColor: '#FFFFFF',
-      border: '1px solid #D0D0D0',
-      borderRadius: '3px',
-      padding: '0 6px',
-      marginRight: '6px',
-    },
-    emailAddressRemove: {
-      fontSize: '12px',
-      marginLeft: '6px',
-      color: '#979797',
-      cursor: 'pointer',
-    },
-    select: {
-      height: '20px',
-      border: 'none',
-      backgroundColor: 'inherit',
-    },
-    richTextEditorContainer: {
-      position: 'absolute',
-      height: '100%',
-      width: '100%',
-      overflowY: 'auto',
-      paddingTop: '15px',
-    },
+  cancelOutboundEmail = () => {
+    this.props.removeInteraction(this.props.selectedInteraction.interactionId);
+    this.props.endInteraction();
   }
 
   render() {
@@ -489,10 +502,10 @@ export class EmailContentArea extends BaseComponent {
       if (this.props.selectedInteraction.status !== 'wrapup') {
         content = (
           <div key="wrapupSpinner">
-            <IconSVG style={this.styles.loadingSendingEmail} id="sendingReplyIcon" name="loading" />
-            <div style={this.styles.centerText}>
+            <IconSVG style={styles.loadingSendingEmail} id="sendingReplyIcon" name="loading" />
+            <div style={styles.centerText}>
               <VelocityTransitionGroup runOnMount enter={{ animation: 'transition.slideUpIn', duration: '1000' }}>
-                <FormattedMessage key="replySpinner" {...messages.sendingReply} />
+                <FormattedMessage key="replySpinner" {...messages.sendingEmail} />
               </VelocityTransitionGroup>
             </div>
           </div>
@@ -500,8 +513,8 @@ export class EmailContentArea extends BaseComponent {
       } else if (this.props.awaitingDisposition) {
         content = (
           <div key="wrapupSpinner">
-            <IconSVG style={this.styles.loadingSendingEmail} id="sendingReplyIcon" name="loading" />
-            <div style={this.styles.centerText}>
+            <IconSVG style={styles.loadingSendingEmail} id="sendingReplyIcon" name="loading" />
+            <div style={styles.centerText}>
               <VelocityTransitionGroup runOnMount enter={{ animation: 'transition.slideUpIn', duration: '1000' }}>
                 <FormattedMessage key="dispoSpinner" {...messages.awaitingDisposition} />
               </VelocityTransitionGroup>
@@ -551,7 +564,7 @@ export class EmailContentArea extends BaseComponent {
         );
       }
       if (this.props.selectedInteraction.emailDetails === undefined) {
-        details = <IconSVG style={this.styles.loadingCircle} id="loadingEmailDetails" name="loading" />;
+        details = <IconSVG style={styles.loadingCircle} id="loadingEmailDetails" name="loading" />;
       } else {
         const tos = this.props.selectedInteraction.emailDetails.to.map((to) => {
           if (to.name && to.name !== to.address) {
@@ -577,20 +590,20 @@ export class EmailContentArea extends BaseComponent {
         details = (
           <div>
             <div>
-              <div style={this.styles.detailsField}>
+              <div style={styles.detailsField}>
                 <FormattedMessage {...messages.to} />
               </div>
-              <div style={this.styles.detailsValue}>
+              <div style={styles.detailsValue}>
                 { tos }
               </div>
             </div>
             {
               ccs.length > 0
               ? <div>
-                <div style={this.styles.detailsField}>
+                <div style={styles.detailsField}>
                   <FormattedMessage {...messages.cc} />
                 </div>
-                <div style={this.styles.detailsValue}>
+                <div style={styles.detailsValue}>
                   { ccs.join(', ') }
                 </div>
               </div>
@@ -599,35 +612,35 @@ export class EmailContentArea extends BaseComponent {
             {
               bccs.length > 0
               ? <div>
-                <div style={this.styles.detailsField}>
+                <div style={styles.detailsField}>
                   <FormattedMessage {...messages.bcc} />
                 </div>
-                <div style={this.styles.detailsValue}>
+                <div style={styles.detailsValue}>
                   { bccs.join(', ') }
                 </div>
               </div>
               : undefined
             }
             <div>
-              <div style={this.styles.detailsField}>
+              <div style={styles.detailsField}>
                 <FormattedMessage {...messages.subject} />
               </div>
-              <div style={this.styles.detailsValue}>
+              <div style={styles.detailsValue}>
                 {this.props.selectedInteraction.emailDetails.subject}
               </div>
             </div>
             {
               this.props.selectedInteraction.emailDetails.attachments !== undefined && this.props.selectedInteraction.emailDetails.attachments.length > 0
-              ? <div style={this.styles.attachmentsContainer}>
+              ? <div style={styles.attachmentsContainer}>
                 {
                   this.props.selectedInteraction.emailDetails.attachments.map((attachment, index) =>
                     <a key={attachment.artifactFileId} id={`attachment-${index}`} className="attachment" href={attachment.url} download >
-                      <div style={this.styles.attachment} >
+                      <div style={styles.attachment} >
                         {attachment.filename}
                         {
                           attachment.url === undefined
                           ? <div style={{ display: 'inline-block', marginLeft: '6px' }}>
-                            <IconSVG style={this.styles.loadingAttachment} id={`loadingAttachment-${index}`} name="loading" />
+                            <IconSVG style={styles.loadingAttachment} id={`loadingAttachment-${index}`} name="loading" />
                           </div>
                           : ''
                         }
@@ -654,28 +667,50 @@ export class EmailContentArea extends BaseComponent {
         content = (
           <div>
             { // eslint-disable-next-line react/no-danger
-            }<div id="emailContainer" style={this.styles.emailContent} dangerouslySetInnerHTML={{ __html: this.emailWithImages() }} />
+            }<div id="emailContainer" style={styles.emailContent} dangerouslySetInnerHTML={{ __html: this.emailWithImages() }} />
           </div>
         );
       } else {
         content = (
-          <div id="emailContainer" style={this.styles.emailContent}>
+          <div id="emailContainer" style={styles.emailContent}>
             { this.props.selectedInteraction.emailPlainBody }
           </div>
         );
       }
     } else {
-      buttons = (
-        this.props.selectedInteraction.status === 'wrapup' ?
-          (<Button
+      if (this.props.selectedInteraction.direction === 'outbound') {
+        buttons = (
+          <div>
+            <Button
+              id="cancelOutboundEmail"
+              type="primaryRed"
+              style={{ marginRight: '8px' }}
+              text={messages.cancel}
+              onClick={() => this.cancelOutboundEmail()}
+            />
+            <Button
+              id="sendOutboundEmail"
+              type="primaryBlue"
+              text={messages.send}
+              disabled={this.props.selectedInteraction.status !== 'work-accepted'}
+              onClick={() => this.sendEmail()}
+            />
+          </div>
+        );
+      } else if (this.props.selectedInteraction.status === 'wrapup') {
+        buttons = (
+          <Button
             id="endWrapup"
             type="primaryRed"
             text={messages.endWrapup}
             onClick={this.props.endInteraction}
             disabled={this.props.awaitingDisposition}
             style={{ marginRight: '8px' }}
-          />)
-          : (<div>
+          />
+        );
+      } else {
+        buttons = (
+          <div>
             <Button
               id="cancelEmail"
               type="primaryRed"
@@ -689,24 +724,25 @@ export class EmailContentArea extends BaseComponent {
               text={messages.send}
               onClick={() => this.sendEmail()}
             />
-          </div>)
-      );
+          </div>
+        );
+      }
 
       const emailTemplates = this.props.emailTemplates.map((emailTemplate) =>
         ({ value: emailTemplate.template, label: emailTemplate.name })
       );
       details = (
         <div>
-          <div style={this.styles.inputContainer}>
-            <div style={this.styles.detailsField}>
+          <div style={styles.inputContainer}>
+            <div style={styles.detailsField}>
               <FormattedMessage {...messages.to} />
             </div>
-            <div style={this.styles.detailsValue}>
+            <div style={styles.detailsValue}>
               {
                 this.state.tos.map((to, index) =>
-                  <div key={`${index}-${to.address}`} id={`${index}-${to.address}`} style={this.styles.emailAddress}>
+                  <div key={`${index}-${to.address}`} id={`${index}-${to.address}`} style={styles.emailAddress}>
                     { to.name && to.name !== to.address ? `${to.name} [${to.address}]` : to.address }
-                    <span onClick={() => this.removeTo(to)} style={this.styles.emailAddressRemove}>
+                    <span onClick={() => this.removeTo(to)} style={styles.emailAddressRemove}>
                       &#10060;
                     </span>
                   </div>
@@ -724,16 +760,16 @@ export class EmailContentArea extends BaseComponent {
               />
             </div>
           </div>
-          <div style={this.styles.inputContainer}>
-            <div style={this.styles.detailsField}>
+          <div style={styles.inputContainer}>
+            <div style={styles.detailsField}>
               <FormattedMessage {...messages.cc} />
             </div>
-            <div style={this.styles.detailsValue}>
+            <div style={styles.detailsValue}>
               {
                 this.state.ccs.map((cc, index) =>
-                  <div key={`${index}-${cc.address}`} id={`${index}-${cc.address}`} style={this.styles.emailAddress}>
+                  <div key={`${index}-${cc.address}`} id={`${index}-${cc.address}`} style={styles.emailAddress}>
                     { cc.name && cc.name !== cc.address ? `${cc.name} [${cc.address}]` : cc.address }
-                    <span className="removeAddress" onClick={() => this.removeCc(cc)} style={this.styles.emailAddressRemove}>
+                    <span className="removeAddress" onClick={() => this.removeCc(cc)} style={styles.emailAddressRemove}>
                       &#10060;
                     </span>
                   </div>
@@ -751,16 +787,16 @@ export class EmailContentArea extends BaseComponent {
               />
             </div>
           </div>
-          <div style={this.styles.inputContainer}>
-            <div style={this.styles.detailsField}>
+          <div style={styles.inputContainer}>
+            <div style={styles.detailsField}>
               <FormattedMessage {...messages.bcc} />
             </div>
-            <div style={this.styles.detailsValue}>
+            <div style={styles.detailsValue}>
               {
                 this.state.bccs.map((bcc, index) =>
-                  <div key={`${index}-${bcc.address}`} id={`${index}-${bcc.address}`} style={this.styles.emailAddress}>
+                  <div key={`${index}-${bcc.address}`} id={`${index}-${bcc.address}`} style={styles.emailAddress}>
                     { bcc.name && bcc.name !== bcc.address ? `${bcc.name} [${bcc.address}]` : bcc.address }
-                    <span className="removeAddress" onClick={() => this.removeBcc(bcc)} style={this.styles.emailAddressRemove}>
+                    <span className="removeAddress" onClick={() => this.removeBcc(bcc)} style={styles.emailAddressRemove}>
                       &#10060;
                     </span>
                   </div>
@@ -778,11 +814,11 @@ export class EmailContentArea extends BaseComponent {
               />
             </div>
           </div>
-          <div style={this.styles.inputContainer}>
-            <div style={this.styles.detailsField}>
+          <div style={styles.inputContainer}>
+            <div style={styles.detailsField}>
               <FormattedMessage {...messages.subject} />
             </div>
-            <div style={this.styles.detailsValue}>
+            <div style={styles.detailsValue}>
               <TextInput
                 id="subjectInput"
                 styleType="inlineInherit"
@@ -796,13 +832,13 @@ export class EmailContentArea extends BaseComponent {
           {
             this.props.emailTemplates.length > 0
               ? <div>
-                <div style={this.styles.detailsField}>
+                <div style={styles.detailsField}>
                   <FormattedMessage {...messages.template} />
                 </div>
-                <div style={this.styles.detailsValue}>
+                <div style={styles.detailsValue}>
                   <Select
                     id="emailTemplates"
-                    style={this.styles.select}
+                    style={styles.select}
                     type="inline-small"
                     value={this.state.selectedEmailTemplate}
                     options={emailTemplates}
@@ -812,18 +848,18 @@ export class EmailContentArea extends BaseComponent {
               </div>
               : undefined
             }
-          <div style={this.styles.attachmentsContainer}>
+          <div style={styles.attachmentsContainer}>
             {
               this.props.selectedInteraction.emailReply.attachments.map((attachment, index) =>
-                <div key={`${index}-${attachment.name}`} id={`${index}-${attachment.name}`} style={this.styles.attachment} >
+                <div key={`${index}-${attachment.name}`} id={`${index}-${attachment.name}`} style={styles.attachment} >
                   {
                     attachment.attachmentId === undefined
                     ? <div>Uploading...</div>
                     : <div>
-                      <span style={this.styles.attachmentName}>
+                      <span style={styles.attachmentName}>
                         {attachment.name}
                       </span>
-                      <span onClick={() => this.removeAttachment(attachment.attachmentId)} style={this.styles.attachmentRemove}>
+                      <span onClick={() => this.removeAttachment(attachment.attachmentId)} style={styles.attachmentRemove}>
                         &#10060;
                       </span>
                     </div>
@@ -833,11 +869,11 @@ export class EmailContentArea extends BaseComponent {
             }
             <input id="attachmentFilePicker" type="file" multiple value="" onChange={(e) => this.addFilesToEmail(e.target.files)} style={{ display: 'none' }} />
             <label id="attachmentFilePickerLabel" htmlFor="attachmentFilePicker">
-              <div style={[this.styles.attachment, this.styles.addAttachment]}>
-                <Icon name="attachment" style={this.styles.attachmentIcon} />
+              <div style={[styles.attachment, styles.addAttachment]}>
+                <Icon name="attachment" style={styles.attachmentIcon} />
                 {
                   this.props.selectedInteraction.emailReply.attachments.length === 0
-                  ? <span style={this.styles.addAttachmentMessage}>
+                  ? <span style={styles.addAttachmentMessage}>
                     <FormattedMessage {...messages.addAttachment} />
                   </span>
                   : undefined
@@ -848,21 +884,26 @@ export class EmailContentArea extends BaseComponent {
         </div>
       );
 
-      const timestampFormatted = moment(this.props.selectedInteraction.emailDetails.dateSent).format('LL');
-      const emailReplyingTo = (
-        <div className="md-RichEditor-editor" style={{ padding: '0 30px 20px' }}>
-          <p>On {timestampFormatted} {this.props.selectedInteraction.emailDetails.from[0].name} wrote:</p>
-          {
-            this.props.selectedInteraction.emailHtmlBody !== undefined
-            ? <blockquote className="md-RichEditor-blockquote" dangerouslySetInnerHTML={{ __html: this.emailWithImages() }}></blockquote>
-            : <blockquote className="md-RichEditor-blockquote">{ this.props.selectedInteraction.emailPlainBody }</blockquote>
-          }
-        </div>
-      );
+      let timestampFormatted;
+      let emailReplyingTo;
+
+      if (this.props.selectedInteraction.direction !== 'outbound') {
+        timestampFormatted = moment(this.props.selectedInteraction.emailDetails.dateSent).format('LL');
+        emailReplyingTo = (
+          <div className="md-RichEditor-editor" style={{ padding: '0 30px 20px' }}>
+            <p>On {timestampFormatted} {this.props.selectedInteraction.emailDetails.from[0].name} wrote:</p>
+            {
+              this.props.selectedInteraction.emailHtmlBody !== undefined
+              ? <blockquote className="md-RichEditor-blockquote" dangerouslySetInnerHTML={{ __html: this.emailWithImages() }}></blockquote>
+              : <blockquote className="md-RichEditor-blockquote">{ this.props.selectedInteraction.emailPlainBody }</blockquote>
+            }
+          </div>
+        );
+      }
 
       const { editorState } = this.state;
       content = (
-        <div style={this.styles.richTextEditorContainer}>
+        <div style={styles.richTextEditorContainer}>
           <Editor
             editorState={editorState}
             onChange={this.onChange}
@@ -951,6 +992,7 @@ function mapDispatchToProps(dispatch) {
     emailRemoveAttachment: (interactionId, attachmentId) => dispatch(emailRemoveAttachment(interactionId, attachmentId)),
     emailUpdateReply: (interactionId, reply) => dispatch(emailUpdateReply(interactionId, reply)),
     emailSendReply: (interactionId) => dispatch(emailSendReply(interactionId)),
+    removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
     dispatch,
   };
 }

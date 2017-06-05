@@ -35,4 +35,5 @@ export default [
   'cxengage/contacts/create-contact-response', // Handled in Contact
   'cxengage/contacts/delete-contact-response', // Handled in InfoTab
   'cxengage/contacts/merge-contacts-response', // Handled in ContactMerge
+  'cxengage/interactions/email/start-outbound-email', // Handled in EmailContentArea saga
 ];

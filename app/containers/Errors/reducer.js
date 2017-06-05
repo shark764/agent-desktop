@@ -24,7 +24,7 @@ function errorsReducer(state = initialState, action) {
     case SET_CRITICAL_ERROR:
       return state.set('criticalError', true);
     case SET_NON_CRITICAL_ERROR:
-      return state.set('nonCriticalError', action.error);
+      return state.set('nonCriticalError', fromJS({ ...action.error, topic: action.topic }));
     case DISMISS_ERROR:
       return state.set('nonCriticalError', undefined);
     case ADD_STAT_ERROR_ID:

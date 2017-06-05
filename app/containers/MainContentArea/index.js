@@ -23,14 +23,14 @@ import { selectSelectedInteraction } from 'containers/AgentDesktop/selectors';
 
 import { selectMessageTemplates } from './selectors';
 
-export class MainContentArea extends BaseComponent {
+const styles = {
+  base: {
+    backgroundColor: '#072931',
+    color: '#4B4B4B',
+  },
+};
 
-  styles = {
-    base: {
-      backgroundColor: '#072931',
-      color: '#4B4B4B',
-    },
-  };
+class MainContentArea extends BaseComponent {
 
   endInteraction = () => {
     if (this.props.selectedInteraction.status === 'wrapup') {
@@ -69,7 +69,7 @@ export class MainContentArea extends BaseComponent {
     }
 
     return (
-      <div style={[this.styles.base, this.props.style]}>
+      <div style={[styles.base, this.props.style]}>
         {
           content !== null
           ? content

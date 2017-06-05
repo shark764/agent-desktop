@@ -26,4 +26,12 @@ export default defineMessages({
     id: 'app.containers.Errors.failedToChangeState',
     defaultMessage: 'Failed to change agent state. The server returned an error.',
   },
+  emailFailed: {
+    id: 'app.containers.Errors.emailFailed',
+    defaultMessage: 'Outbound email failed. Please try again or rrefresh your browser.',
+  },
+  default: {
+    id: 'app.containers.Errors.default',
+    defaultMessage: 'Something went wrong... Please try again or refresh your browser.',
+  },
 });
