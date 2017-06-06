@@ -58,18 +58,6 @@ export default defineMessages({
     id: 'app.containers.Login.outbound',
     defaultMessage: 'Outbound',
   },
-  error: {
-    id: 'app.containers.Login.error',
-    defaultMessage: 'The username or password you\'ve entered is not correct',
-  },
-  heartbeatError: {
-    id: 'app.containers.Login.heartbeatError',
-    defaultMessage: 'Your session has expired, please log in again. If this persists, please check your internet connection and ensure you are not logged in elsewhere',
-  },
-  generalError: {
-    id: 'app.containers.Login.generalError',
-    defaultMessage: 'You were logged out because an error has occured, please log in again. If this persists, please contact support',
-  },
   selectTenant: {
     id: 'app.containers.Login.selectTenant',
     defaultMessage: 'Select Tenant...',
@@ -87,6 +75,14 @@ export default defineMessages({
     id: 'app.containers.Login.legal',
     defaultMessage: 'Access to this site requires separate permission from Serenova, LLC. This site contains confidential information, and may also contain content and enable interaction with users from third-party sites subject to different terms that are outside of Serenova\'s control. By using or accessing this site, you have agreed to the Terms of Service as outlined in the Master Service Agreement ("Agreement"). A copy of this Agreement is available from your Serenova contact.',
   },
+  error: {
+    id: 'app.containers.Login.error',
+    defaultMessage: 'The username or password you\'ve entered is not correct',
+  },
+  generalError: {
+    id: 'app.containers.Login.generalError',
+    defaultMessage: 'You were logged out because an error has occured, please log in again. If this persists, please contact support',
+  },
   noPermsError: {
     id: 'app.containers.Login.noPermsError',
     defaultMessage: 'You have insufficient permissions to access tenant',
@@ -95,8 +91,8 @@ export default defineMessages({
     id: 'app.containers.Login.reasonListError',
     defaultMessage: 'No presence reason lists available on tenant, please talk to your administrator.',
   },
-  contactLayoutError: {
-    id: 'app.containers.Login.contactLayoutError',
-    defaultMessage: 'No active contact layout available on tenant, please talk to your administrator.',
+  configLoadFailed: {
+    id: 'app.containers.Login.configLoadFailed',
+    defaultMessage: 'Failed to get user configuration. Please try again.',
   },
 });

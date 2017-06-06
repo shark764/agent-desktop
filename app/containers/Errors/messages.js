@@ -28,7 +28,11 @@ export default defineMessages({
   },
   emailFailed: {
     id: 'app.containers.Errors.emailFailed',
-    defaultMessage: 'Outbound email failed. Please try again or rrefresh your browser.',
+    defaultMessage: 'Outbound email failed. Please try again or refresh your browser.',
+  },
+  sessionExpired: {
+    id: 'app.containers.Errors.sessionExpired',
+    defaultMessage: 'Session Expired. If this persists, please check your internet connection and ensure you are not logged in elsewhere',
   },
   default: {
     id: 'app.containers.Errors.default',

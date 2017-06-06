@@ -33,7 +33,7 @@ const styles = {
   rightLinkText: {
     textDecoration: 'underline',
     cursor: 'pointer',
-    marginLeft: '4px',
+    marginRight: '52px',
   },
   closeButton: {
     margin: '0 10px 0 0',
@@ -57,13 +57,13 @@ function NotificationBanner(props) {
       <div>
         { props.intl.formatMessage(props.descriptionMessage) }
       </div>
+      <div style={{ flexGrow: 1 }}></div>
       {
         props.rightLinkAction
         && <div onClick={props.rightLinkAction} style={styles.rightLinkText}>
           {props.intl.formatMessage(props.rightLinkMessage || messages.tryAgain)}
         </div>
       }
-      <div style={{ flexGrow: 1 }}></div>
       {
         props.isError
         && props.dismiss

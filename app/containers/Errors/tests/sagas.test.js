@@ -2,22 +2,25 @@ import Raven from 'raven-js';
 
 import {
   goHandleSDKError,
+  goSetLoginErrorAndReload,
   topicActions,
 } from 'containers/Errors/sagas';
 
 jest.mock('raven-js', () => ({
   captureException: jest.fn(),
+  isSetup: () => true,
 }));
 
 describe('handleError Saga', () => {
   let generator;
-  const mockAction = {
-    error: {
-      code: 'mockErrorCode',
-    },
-    topic: 'mockErrorTopic',
-  };
+  let mockAction;
   beforeEach(() => {
+    mockAction = {
+      error: {
+        code: 'mockErrorCode',
+      },
+      topic: 'mockErrorTopic',
+    };
     Raven.captureException.mockClear();
     generator = goHandleSDKError(mockAction);
     generator.next();
@@ -51,6 +54,7 @@ describe('handleError Saga', () => {
       mockAction.error = {
         level: 'fatal',
       };
+      Raven.captureException.mockClear();
       generator = goHandleSDKError(mockAction);
     });
     it('should dispatch action setCriticalError', () => {
@@ -61,5 +65,43 @@ describe('handleError Saga', () => {
       const result = Raven.captureException.mock.calls[0][1];
       expect(result.level).toBe('fatal');
     });
+  });
+});
+
+describe('setLoginErrorAndReload Saga', () => {
+  let generator;
+  let output;
+  beforeAll(() => {
+    global.CxEngage = {
+      authentication: {
+        logout: 'mockLogoutFunction',
+      },
+      subscribe: 'mockSubscribeFunction',
+    };
+    global.window.onbeforeunload = 'mockHandler';
+    global.window.localStorage = {
+      setItem: jest.fn(),
+    };
+    const mockAction = {
+      errorType: 'mockErrorType',
+    };
+    generator = goSetLoginErrorAndReload(mockAction);
+    output = generator.next();
+  });
+
+  it('should set window.onbeforeunload to null', () => {
+    expect(global.window.onbeforeunload).toEqual(null);
+  });
+  it('should call localStorage.setItem with "ADError" and errorType', () => {
+    expect(global.window.localStorage.setItem.mock.calls[0]).toMatchSnapshot();
+  });
+  it('should call SDK logout function', () => {
+    expect(output).toMatchSnapshot();
+  });
+  it('should call SDK subscribe function with session topic', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should call CxEngage logout', () => {
+    expect(generator.next()).toMatchSnapshot();
   });
 });
