@@ -18,12 +18,12 @@ Object {
   "confirmingDelete": false,
   "contactMode": "viewing",
   "deletionPending": false,
+  "editingContact": Object {},
   "loading": false,
   "nextNotificationId": 0,
   "nextPage": 1,
   "notifications": Array [],
   "results": Array [],
   "resultsCount": -1,
-  "unassignedContact": Object {},
 }
 `;

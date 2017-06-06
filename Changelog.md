@@ -1,3 +1,7 @@
+### [0.39.0] (2017-06-02)
+* CXV1-9519: Added dial to SMS/call buttons to Contact panel when searching phone number and no results
+* CXV1-9519: Refactored Contact component into ContactView and ContactEdit component
+
 ### [0.38.4] (2017-06-05)
 * CXV1-8658 - Reverted scrollbar styles back as we cannot always determine when the scrollbar will be showing
 

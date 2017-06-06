@@ -1,57 +1,10 @@
 import { fromJS } from 'immutable';
 
 import {
-  selectIsReady,
-  selectInInteractionContext,
   selectPopulatedLayout,
   selectPopulatedCompactAttributes,
   selectAttributes,
 } from '../selectors';
-
-// AgentDesktop Domain Selectors
-describe('selectIsReady', () => {
-  describe('if presence is ready', () => {
-    const mockState = fromJS({
-      agentDesktop: {
-        presence: 'ready',
-      },
-    });
-    it('should return true', () => {
-      expect(selectIsReady(mockState)).toEqual(true);
-    });
-  });
-  describe('if presence is not ready', () => {
-    const mockState = fromJS({
-      agentDesktop: {
-        presence: 'literallyAnyOtherString',
-      },
-    });
-    it('should return false', () => {
-      expect(selectIsReady(mockState)).toEqual(false);
-    });
-  });
-});
-
-describe('selectInInteractionContext', () => {
-  describe('if a selected interaction id is defined', () => {
-    const mockState = fromJS({
-      agentDesktop: {
-        selectedInteractionId: 'mockInteractionId',
-      },
-    });
-    it('should return true', () => {
-      expect(selectInInteractionContext(mockState)).toEqual(true);
-    });
-  });
-  describe('if a selected interaction id is not defined', () => {
-    const mockState = fromJS({
-      agentDesktop: {},
-    });
-    it('should return false', () => {
-      expect(selectInInteractionContext(mockState)).toEqual(false);
-    });
-  });
-});
 
 // SidePanel Domain Selectors
 describe('selectPopulatedLayout', () => {

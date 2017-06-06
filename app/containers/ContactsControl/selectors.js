@@ -23,6 +23,13 @@ const selectNoInteractionContactPanelContactsData = createSelector(
  (agentDesktop) => agentDesktop.get('noInteractionContactPanel')
 );
 
+const getSelectedInteractionIsCreatingNewInteraction = createSelector(
+  selectSelectedInteraction,
+  (selectedInteraction) =>
+    selectedInteraction !== undefined
+      && selectedInteraction.interactionId === 'creating-new-interaction'
+);
+
 const selectCurrentInteraction = createSelector(
  [selectSelectedInteraction, selectNoInteractionContactPanelContactsData],
  (selectedInteraction, floatingNoInteractionData) => {
@@ -82,6 +89,7 @@ export default selectContactsControl;
 export {
   selectContactsControlDomain,
   selectAttributes,
+  getSelectedInteractionIsCreatingNewInteraction,
   selectCurrentInteraction,
   selectShowCancelDialog,
   selectShowConfirmDialog,

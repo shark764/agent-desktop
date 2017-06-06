@@ -18,11 +18,10 @@ import ConfirmDialog from 'components/ConfirmDialog';
 import Button from 'components/Button';
 
 import { setContactAction, removeContact, removeSearchFilter } from 'containers/AgentDesktop/actions';
-import { selectSmsInteractionNumbers } from 'containers/AgentDesktop/selectors';
 import { selectShowCancelDialog, selectShowConfirmDialog, selectFormValidity, selectContactForm, selectFormErrors, selectShowErrors } from 'containers/ContactsControl/selectors';
 import { setShowCancelDialog, setShowConfirmDialog, setFormValidity, setShowError, setFormField, setFormError, setUnusedField, setSelectedIndex } from 'containers/ContactsControl/actions';
 import { selectCheckedContacts, selectCurrentInteraction } from 'containers/InfoTab/selectors';
-import { clearSearchResults, setLoading, setUnassignedContact } from 'containers/InfoTab/actions';
+import { clearSearchResults, setLoading, setEditingContact } from 'containers/InfoTab/actions';
 
 import { selectLayout, selectAttributes, selectSelectedIndexes, selectUnusedFields } from './selectors';
 import messages from './messages';
@@ -66,7 +65,7 @@ export class ContactMerge extends BaseComponent {
 
   mergeCallback = (error, topic, response) => {
     console.log('[ContactMerge] CxEngage.subscribe()', topic, response);
-    this.props.setUnassignedContact(response);
+    this.props.setEditingContact(response);
     this.props.setLoading(false);
     if (error) {
       this.props.addNotification('notMerged', true, 'serverError'); // TODO: when notifications are ready, get error from response?
@@ -168,41 +167,19 @@ export class ContactMerge extends BaseComponent {
     const attributeLabel = `${attribute.label[this.props.intl.locale]}${(attribute.mandatory) ? '*' : ''}`;
     const firstValue = this.props.checkedContacts[0].attributes[attribute.objectName] || '';
     const secondValue = this.props.checkedContacts[1].attributes[attribute.objectName] || '';
-    if (firstValue === secondValue || secondValue === '' || attribute.type === 'boolean') {
+    if (firstValue === secondValue || (firstValue === '' && secondValue !== '') || secondValue === '' || attribute.type === 'boolean') {
       return (
         <ContactInput
           key={attribute.id}
+          attribute={attribute}
+          attributeLabel={attributeLabel}
+          formInput={this.props.contactForm[attribute.objectName]}
           handleInputChange={this.handleInputChange}
           handleOnBlur={this.handleOnBlur}
           handleInputClear={this.handleInputClear}
-          attribute={attribute}
-          attributeLabel={attributeLabel}
-          isEditing
-          intl={this.props.intl}
-          contact={this.props.checkedContacts[0]}
           showErrors={this.props.showErrors}
           errors={this.props.formErrors}
-          formInput={this.props.contactForm[attribute.objectName]}
-          smsInteractionNumbers={this.props.smsInteractionNumbers}
-        />
-      );
-    }
-    if (firstValue === '' && secondValue !== '') {
-      return (
-        <ContactInput
-          key={attribute.id}
-          handleInputChange={this.handleInputChange}
-          handleOnBlur={this.handleOnBlur}
-          handleInputClear={this.handleInputClear}
-          attribute={attribute}
-          attributeLabel={attributeLabel}
-          isEditing
           intl={this.props.intl}
-          contact={this.props.checkedContacts[1]}
-          showErrors={this.props.showErrors}
-          errors={this.props.formErrors}
-          formInput={this.props.contactForm[attribute.objectName]}
-          smsInteractionNumbers={this.props.smsInteractionNumbers}
         />
       );
     }
@@ -219,21 +196,17 @@ export class ContactMerge extends BaseComponent {
             onChange={this.selectAttribute}
           />
           <ContactInput
-            key={`${attribute.id}-0`}
+            attribute={attribute}
+            attributeLabel={attributeLabel}
+            formInput={this.props.selectedIndexes[attribute.objectName] === 0 ? this.props.contactForm[attribute.objectName] : this.props.unusedFields[attribute.objectName]}
             handleInputChange={this.handleTopInputChange}
             handleOnBlur={this.handleOnBlur}
             handleInputClear={this.handleTopInputClear}
-            attribute={attribute}
-            attributeLabel={attributeLabel}
-            isEditing
             notSelected={this.props.selectedIndexes[attribute.objectName] !== 0}
             hasRadio
-            intl={this.props.intl}
-            contact={this.props.checkedContacts[0]}
             showErrors={this.props.selectedIndexes[attribute.objectName] === 0 ? this.props.showErrors : {}}
             errors={this.props.formErrors}
-            formInput={this.props.selectedIndexes[attribute.objectName] === 0 ? this.props.contactForm[attribute.objectName] : this.props.unusedFields[attribute.objectName]}
-            smsInteractionNumbers={this.props.smsInteractionNumbers}
+            intl={this.props.intl}
           />
         </div>
         <div style={{ display: 'flex' }}>
@@ -247,21 +220,17 @@ export class ContactMerge extends BaseComponent {
             onChange={this.selectAttribute}
           />
           <ContactInput
-            key={`${attribute.id}-1`}
+            attribute={attribute}
+            attributeLabel={attributeLabel}
+            formInput={this.props.selectedIndexes[attribute.objectName] === 1 ? this.props.contactForm[attribute.objectName] : this.props.unusedFields[attribute.objectName]}
             handleInputChange={this.handleBottomInputChange}
             handleOnBlur={this.handleOnBlur}
             handleInputClear={this.handleBottomInputClear}
-            attribute={attribute}
-            attributeLabel={attributeLabel}
-            isEditing
             notSelected={this.props.selectedIndexes[attribute.objectName] !== 1}
             hasRadio
-            intl={this.props.intl}
-            contact={this.props.checkedContacts[1]}
             showErrors={this.props.selectedIndexes[attribute.objectName] === 1 ? this.props.showErrors : {}}
             errors={this.props.formErrors}
-            formInput={this.props.selectedIndexes[attribute.objectName] === 1 ? this.props.contactForm[attribute.objectName] : this.props.unusedFields[attribute.objectName]}
-            smsInteractionNumbers={this.props.smsInteractionNumbers}
+            intl={this.props.intl}
           />
         </div>
       </div>
@@ -343,7 +312,7 @@ ContactMerge.propTypes = {
   setNotEditing: PropTypes.func,
   setContactAction: PropTypes.func,
   selectedInteraction: PropTypes.object,
-  setUnassignedContact: PropTypes.func,
+  setEditingContact: PropTypes.func,
   addNotification: PropTypes.func,
   clearSearchResults: PropTypes.func,
   selectedIndexes: PropTypes.object,
@@ -354,12 +323,11 @@ ContactMerge.propTypes = {
   setFormField: PropTypes.func,
   showErrors: PropTypes.object,
   setShowError: PropTypes.func,
-  smsInteractionNumbers: PropTypes.array,
   unusedFields: PropTypes.object,
   setShowCancelDialog: PropTypes.func,
   formIsValid: PropTypes.bool,
   removeContact: PropTypes.func,
-  assignContact: PropTypes.func,
+  assignContact: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func,
 };
 
@@ -370,7 +338,6 @@ function mapStateToProps(state, props) {
     checkedContacts: selectCheckedContacts(state, props),
     showCancelDialog: selectShowCancelDialog(state, props),
     showConfirmDialog: selectShowConfirmDialog(state, props),
-    smsInteractionNumbers: selectSmsInteractionNumbers(state, props),
     selectedInteraction: selectCurrentInteraction(state, props),
     formIsValid: selectFormValidity(state, props),
     contactForm: selectContactForm(state, props),
@@ -395,7 +362,7 @@ function mapDispatchToProps(dispatch) {
     setFormError: (field, error) => dispatch(setFormError(field, error)),
     setUnusedField: (field, value) => dispatch(setUnusedField(field, value)),
     setSelectedIndex: (field, index) => dispatch(setSelectedIndex(field, index)),
-    setUnassignedContact: (contact) => dispatch(setUnassignedContact(contact)),
+    setEditingContact: (contact) => dispatch(setEditingContact(contact)),
     removeContact: (contact) => dispatch(removeContact(contact)),
     removeSearchFilter: () => dispatch(removeSearchFilter()),
     dispatch,

@@ -22,10 +22,10 @@ import { deleteContacts, setContactAction, addSearchFilter, removeSearchFilter }
 import { setShowCancelDialog, setShowConfirmDialog, setFormIsDirty, setFormValidity, resetForm } from 'containers/ContactsControl/actions';
 
 import selectInfoTab, { selectCurrentInteraction, selectCheckedContacts,
-  selectContactMode, selectUnassignedContact, selectExpandedQuery, selectNotifications,
+  selectContactMode, selectEditingContact, selectExpandedQuery, selectNotifications,
   selectNextNotificationId, selectDeletionPending, selectConfirmingDelete, selectCRMUnavailable } from './selectors';
 import { clearSearchResults, clearCheckedContacts, setContactMode,
-  setUnassignedContact, addNotification, dismissNotification, setLoading, setDeletionPending, setConfirmingDelete } from './actions';
+  setEditingContact, addNotification, dismissNotification, setLoading, setDeletionPending, setConfirmingDelete } from './actions';
 import messages from './messages';
 
 export class InfoTab extends BaseComponent {
@@ -116,7 +116,7 @@ export class InfoTab extends BaseComponent {
 
   newContact = () => {
     this.props.setContactMode('editing');
-    this.props.setUnassignedContact({});
+    this.props.setEditingContact({});
   }
 
   editContact = () => {
@@ -196,7 +196,7 @@ export class InfoTab extends BaseComponent {
         <ContactHeader
           selectedInteraction={this.props.selectedInteraction}
           contactMode={this.props.contactMode}
-          unassignedContactEditing={this.props.unassignedContact}
+          editingContactEditing={this.props.editingContact}
           resultsCount={this.props.resultsCount}
           addSearchFilter={this.props.addSearchFilter}
           clearSearch={this.clearSearch}
@@ -257,7 +257,7 @@ InfoTab.propTypes = {
   setDeletionPending: React.PropTypes.func,
   setConfirmingDelete: React.PropTypes.func,
   setContactMode: React.PropTypes.func,
-  setUnassignedContact: React.PropTypes.func,
+  setEditingContact: React.PropTypes.func,
   setShowCancelDialog: React.PropTypes.func,
   setFormIsDirty: React.PropTypes.func,
   setFormValidity: React.PropTypes.func,
@@ -267,7 +267,7 @@ InfoTab.propTypes = {
   dismissNotification: React.PropTypes.func,
   addNotification: React.PropTypes.func,
   notifications: React.PropTypes.array,
-  unassignedContact: React.PropTypes.object,
+  editingContact: React.PropTypes.object,
   expandedQuery: React.PropTypes.array,
   loading: React.PropTypes.bool,
   confirmingDelete: React.PropTypes.bool,
@@ -279,7 +279,7 @@ function mapStateToProps(state, props) {
     selectedInteraction: selectCurrentInteraction(state, props),
     checkedContacts: selectCheckedContacts(state, props),
     contactMode: selectContactMode(state, props),
-    unassignedContact: selectUnassignedContact(state, props),
+    editingContact: selectEditingContact(state, props),
     expandedQuery: selectExpandedQuery(state, props),
     nextNotificationId: selectNextNotificationId(state, props),
     notifications: selectNotifications(state, props),
@@ -296,7 +296,7 @@ function mapDispatchToProps(dispatch) {
     clearCheckedContacts: () => dispatch(clearCheckedContacts()),
     deleteContacts: (contactIds) => dispatch(deleteContacts(contactIds)),
     setContactMode: (contactMode) => dispatch(setContactMode(contactMode)),
-    setUnassignedContact: (unassignedContact) => dispatch(setUnassignedContact(unassignedContact)),
+    setEditingContact: (editingContact) => dispatch(setEditingContact(editingContact)),
     addNotification: (notification) => dispatch(addNotification(notification)),
     dismissNotification: (id) => dispatch(dismissNotification(id)),
     setLoading: (loading) => dispatch(setLoading(loading)),
