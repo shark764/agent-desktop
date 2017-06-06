@@ -24,8 +24,8 @@ import { showLogin, logout } from 'containers/Login/actions';
 
 import { selectCriticalError, selectNonCriticalError } from 'containers/Errors/selectors';
 
-import { setInteractionStatus, selectInteraction } from './actions';
-import { selectAgentDesktopMap, selectLoginMap } from './selectors';
+import { setInteractionStatus, selectInteraction, showContactsPanel } from './actions';
+import { selectAgentDesktopMap, selectLoginMap, selectIsContactsPanelCollapsed } from './selectors';
 
 export class AgentDesktop extends BaseComponent {
 
@@ -36,7 +36,6 @@ export class AgentDesktop extends BaseComponent {
     this.defaultContactsPanelPx = 600;
 
     this.state = {
-      isContactsPanelCollapsed: true,
       contactsPanelPx: this.defaultContactsPanelPx,
       contactsPanelMaxPx: Math.max(window.innerWidth - 600, 600),
     };
@@ -66,21 +65,9 @@ export class AgentDesktop extends BaseComponent {
     });
   }
 
-  collapseContactsPanel = () => {
-    this.setState({
-      isContactsPanelCollapsed: true,
-    });
-  }
-
-  showContactsPanel = () => {
-    this.setState({
-      isContactsPanelCollapsed: false,
-    });
-  }
-
   selectInteraction = (interactionId) => {
     this.props.selectInteraction(interactionId);
-    this.showContactsPanel();
+    this.props.showContactsPanel();
   }
 
   acceptInteraction = (interactionId) => {
@@ -169,8 +156,12 @@ export class AgentDesktop extends BaseComponent {
               <PhoneControls style={[this.styles.phoneControls]} />
               <InteractionsBar acceptInteraction={this.acceptInteraction} selectInteraction={this.selectInteraction} style={[this.styles.interactionsBar]} />
             </div>
-            <MainContentArea agent={this.props.login.agent} tenant={this.props.login.tenant} showContactsPanel={this.showContactsPanel} style={{ flex: '1 1 auto' }} />
-            <Resizable id="crm-resizable" direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={this.state.contactsPanelMaxPx} minPx={500} isDisabled={this.state.isContactsPanelCollapsed} style={this.styles.topArea} />
+            <MainContentArea
+              agent={this.props.login.agent}
+              tenant={this.props.login.tenant}
+              style={{ flex: '1 1 auto' }}
+            />
+            <Resizable id="crm-resizable" direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={this.state.contactsPanelMaxPx} minPx={500} isDisabled={this.props.isContactsPanelCollapsed} style={this.styles.topArea} />
           </div>
           <Toolbar
             tenant={this.props.login.tenant}
@@ -187,9 +178,7 @@ export class AgentDesktop extends BaseComponent {
           ]}
           collapsedPx={this.collapsedContactsPanelPx}
           openPx={this.state.contactsPanelPx}
-          isCollapsed={this.state.isContactsPanelCollapsed}
-          collapsePanel={this.collapseContactsPanel}
-          showPanel={this.showContactsPanel}
+          isCollapsed={this.props.isContactsPanelCollapsed}
         />
       </span>
     );
@@ -201,6 +190,7 @@ const mapStateToProps = (state, props) => ({
   agentDesktop: selectAgentDesktopMap(state, props).toJS(),
   criticalError: selectCriticalError(state, props),
   nonCriticalError: selectNonCriticalError(state, props),
+  isContactsPanelCollapsed: selectIsContactsPanelCollapsed(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -210,6 +200,7 @@ function mapDispatchToProps(dispatch) {
     setInteractionStatus: (interactionId, newStatus, response) => dispatch(setInteractionStatus(interactionId, newStatus, response)),
     selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
     logout: () => dispatch(logout()),
+    showContactsPanel: () => dispatch(showContactsPanel()),
     dispatch,
   };
 }

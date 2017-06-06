@@ -13,7 +13,7 @@ import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
 
 import { selectHasVoiceInteraction, selectSmsInteractionNumbers } from 'containers/AgentDesktop/selectors';
-import { startOutboundInteraction, newInteractionPanelSelectContact, closeNewInteractionPanel } from 'containers/AgentDesktop/actions';
+import { startOutboundInteraction, newInteractionPanelSelectContact, closeNewInteractionPanel, showContactsPanel } from 'containers/AgentDesktop/actions';
 
 import SearchBar from './SearchBar';
 import Results from './Results';
@@ -100,6 +100,7 @@ function mapDispatchToProps(dispatch) {
     startOutboundInteraction: (channelType, customer, contact, addedByNewInteractionPanel) => dispatch(startOutboundInteraction(channelType, customer, contact, addedByNewInteractionPanel)),
     newInteractionPanelSelectContact: (contact) => dispatch(newInteractionPanelSelectContact(contact)),
     closeNewInteractionPanel: () => dispatch(closeNewInteractionPanel()),
+    showContactsPanel: () => dispatch(showContactsPanel()),
     dispatch,
   };
 }

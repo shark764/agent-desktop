@@ -21,7 +21,7 @@ import AgentScript from 'containers/AgentScript';
 import InfoTab from 'containers/InfoTab';
 import ContactInteractionHistory from 'containers/ContactInteractionHistory';
 
-import { setSidePanelTabIndex } from 'containers/AgentDesktop/actions';
+import { setSidePanelTabIndex, showContactsPanel, hideContactsPanel } from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
 import { getSelectedInteractionId, getSelectedInteractionIsCreatingNewInteractionWithoutSelectedContact, getSelectedInteractionIsVoice, getSelectedInteractionScript, getHasAssignedContact, getSelectedTabIndex } from './selectors';
@@ -114,9 +114,9 @@ export class SidePanel extends BaseComponent {
 
   handleCollapseClick = () => {
     if (this.props.isCollapsed) {
-      this.props.showPanel();
+      this.props.showContactsPanel();
     } else {
-      this.props.collapsePanel();
+      this.props.hideContactsPanel();
     }
   }
 
@@ -202,6 +202,8 @@ function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
     setSidePanelTabIndex: (interactionId, tabIndex) => dispatch(setSidePanelTabIndex(interactionId, tabIndex)),
+    showContactsPanel: () => dispatch(showContactsPanel()),
+    hideContactsPanel: () => dispatch(hideContactsPanel()),
     dispatch,
   };
 }
@@ -211,8 +213,8 @@ SidePanel.propTypes = {
   isCollapsed: PropTypes.bool,
   openPx: PropTypes.number,
   collapsedPx: PropTypes.number,
-  collapsePanel: PropTypes.func,
-  showPanel: PropTypes.func,
+  hideContactsPanel: PropTypes.func,
+  showContactsPanel: PropTypes.func,
   selectedInteractionId: PropTypes.string,
   selectedInteractionIsVoice: PropTypes.bool,
   selectedInteractionScript: PropTypes.object,

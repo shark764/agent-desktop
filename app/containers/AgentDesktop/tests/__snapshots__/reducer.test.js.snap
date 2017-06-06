@@ -261,6 +261,7 @@ Object {
   "activeExtension": Object {},
   "extensions": Array [],
   "interactions": Array [],
+  "isContactsPanelCollapsed": true,
   "newInteractionPanel": Object {
     "contactAction": "view",
     "interactionId": "creating-new-interaction",

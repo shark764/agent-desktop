@@ -114,6 +114,7 @@
   "app.containers.InfoTab.notCreated": "Your new contact has not been created.",
   "app.containers.InfoTab.notSaved": "Your changes have not been saved.",
   "app.containers.InfoTab.serverError": "Server Error",
+  "app.containers.InteractionsBar.PSTN": "Answer phone to accept interaction",
   "app.containers.InteractionsBar.accept": "Click to accept interaction",
   "app.containers.InteractionsBar.newInteraction": "New Interaction",
   "app.containers.InteractionsBar.wrapup": "WRAP UP",

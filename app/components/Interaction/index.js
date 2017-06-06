@@ -17,6 +17,7 @@ import TimerMinutes from 'components/TimerMinutes';
 import Progress from 'components/Progress';
 
 import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
+import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
 
 import messages from './messages';
 
@@ -31,6 +32,9 @@ const styles = {
     display: 'flex',
     justifyContent: 'stretch',
     backgroundColor: 'inherit',
+  },
+  pstnBase: {
+    cursor: 'default',
   },
   pendingBase: {
     height: '123px',
@@ -186,6 +190,8 @@ class Interaction extends React.Component {
 
   render() {
     if (this.props.status !== 'creating-new-interaction') {
+      const pendingPSTN = this.props.activeExtension.type === 'pstn' && this.props.status === 'pending' && this.props.channelType === 'voice';
+      const acceptMessage = pendingPSTN ? messages.PSTN : messages.accept;
       return (
         <div
           id={`${this.props.status}InteractionContainer-${this.props.interactionId}`}
@@ -194,6 +200,7 @@ class Interaction extends React.Component {
             styles.base,
             this.props.selected && styles.selectedBase,
             this.props.status === 'pending' && styles.pendingBase,
+            pendingPSTN && styles.pstnBase,
           ]}
           key={this.props.interactionId}
           onClick={this.props.onClick}
@@ -235,7 +242,7 @@ class Interaction extends React.Component {
               </Dotdotdot>}
             {this.props.status === 'pending'
               ? <div style={styles.intentText}>
-                <FormattedMessage {...messages.accept} />
+                <FormattedMessage {...acceptMessage} />
               </div>
               : undefined
             }
@@ -284,10 +291,12 @@ Interaction.propTypes = {
   awaitingDisposition: PropTypes.bool.isRequired,
   selected: PropTypes.bool,
   onClick: PropTypes.func,
+  activeExtension: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
   awaitingDisposition: selectAwaitingDisposition(state, props),
+  activeExtension: selectActiveExtension(state, props),
 });
 
 export default connect(mapStateToProps)(Radium(Interaction));

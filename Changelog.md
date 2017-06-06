@@ -1,3 +1,6 @@
+### [0.39.1] (2017-06-06)
+* CXV1-9647 - Contact screen pop and other PSTN changes
+
 ### [0.39.0] (2017-06-02)
 * CXV1-9519: Added dial to SMS/call buttons to Contact panel when searching phone number and no results
 * CXV1-9519: Refactored Contact component into ContactView and ContactEdit component

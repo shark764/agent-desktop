@@ -16,6 +16,8 @@ import { setCriticalError } from 'containers/Errors/actions';
 import { selectIsAgentReady } from 'containers/AgentDesktop/selectors';
 import { openNewInteractionPanel } from 'containers/AgentDesktop/actions';
 
+import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
+
 import Icon from 'components/Icon';
 import Interaction from 'components/Interaction';
 
@@ -36,7 +38,11 @@ export class InteractionsBar extends BaseComponent {
   };
 
   acceptInteraction = (interactionId) => {
-    this.props.acceptInteraction(interactionId);
+    const interaction = this.props.pendingInteractions.find((item) => item.interactionId === interactionId);
+    const disallow = (this.props.activeExtension.type === 'pstn' && interaction.channelType === 'voice');
+    if (!disallow) {
+      this.props.acceptInteraction(interactionId);
+    }
   }
 
   render() {
@@ -181,6 +187,7 @@ const mapStateToProps = (state, props) => ({
   activeNonVoiceInteractions: selectActiveNonVoiceInteractions(state, props),
   selectedInteractionId: getSelectedInteractionId(state, props),
   newInteractionPanel: selectNewInteractionPanel(state, props),
+  activeExtension: selectActiveExtension(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
