@@ -105,7 +105,8 @@ const initialState = fromJS({
     status: 'creating-new-interaction',
     visible: false,
     sidePanelTabIndex: 0,
-    contactAction: 'view',
+    contactAction: 'search',
+    query: {},
   },
   queues: [],
   extensions: [],
@@ -356,7 +357,11 @@ function agentDesktopReducer(state = initialState, action) {
         .set('selectedInteractionId', state.getIn(['newInteractionPanel', 'interactionId']));
     }
     case NEW_INTERACTION_PANEL_SELECT_CONTACT: {
-      return state.setIn(['newInteractionPanel', 'contact'], action.contact);
+      return state.update('newInteractionPanel', (newInteractionPanel) =>
+        newInteractionPanel
+          .set('contact', action.contact)
+          .set('contactAction', 'view')
+      );
     }
     case CLOSE_NEW_INTERACTION_PANEL: {
       let nextSelectedInteractionId;
@@ -566,6 +571,8 @@ function agentDesktopReducer(state = initialState, action) {
 
       if (interactionIndex !== -1) {
         addSearchFilterPath = ['interactions', interactionIndex, 'query'];
+      } else if (state.get('selectedInteractionId') === 'creating-new-interaction') {
+        addSearchFilterPath = ['newInteractionPanel', 'query'];
       } else {
         addSearchFilterPath = ['noInteractionContactPanel', 'query'];
       }
@@ -590,6 +597,8 @@ function agentDesktopReducer(state = initialState, action) {
 
       if (interactionIndex !== -1) {
         removeSearchFilterPath = ['interactions', interactionIndex, 'query'];
+      } else if (state.get('selectedInteractionId') === 'creating-new-interaction') {
+        removeSearchFilterPath = ['newInteractionPanel', 'query'];
       } else {
         removeSearchFilterPath = ['noInteractionContactPanel', 'query'];
       }

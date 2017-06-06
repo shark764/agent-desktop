@@ -270,8 +270,9 @@ Object {
   "interactions": Array [],
   "isContactsPanelCollapsed": true,
   "newInteractionPanel": Object {
-    "contactAction": "view",
+    "contactAction": "search",
     "interactionId": "creating-new-interaction",
+    "query": Object {},
     "sidePanelTabIndex": 0,
     "status": "creating-new-interaction",
     "visible": false,

@@ -1,10 +1,12 @@
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeEvery, call, put, select } from 'redux-saga/effects';
 import axios from 'axios';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
-import { updateContactHistoryInteractionDetails, setContactInteractionHistory, removeContact } from 'containers/AgentDesktop/actions';
-import { clearSearchResults, setLoading } from 'containers/InfoTab/actions';
-import { LOAD_HISTORICAL_INTERACTION_BODY, LOAD_CONTACT_INTERACTION_HISTORY, GO_NOT_READY, DELETE_CONTACTS } from 'containers/AgentDesktop/constants';
+
+import { updateContactHistoryInteractionDetails, setContactInteractionHistory, removeContact, selectContact, assignContact, newInteractionPanelSelectContact } from 'containers/AgentDesktop/actions';
+import { selectCurrentInteraction, selectNextNotificationId } from 'containers/InfoTab/selectors';
+import { clearSearchResults, setLoading, addNotification } from 'containers/InfoTab/actions';
+import { LOAD_HISTORICAL_INTERACTION_BODY, LOAD_CONTACT_INTERACTION_HISTORY, GO_NOT_READY, DELETE_CONTACTS, ASSIGN_CONTACT_ACTION } from 'containers/AgentDesktop/constants';
 
 export function* loadHistoricalInteractionBody(action) {
   const body = {};
@@ -134,6 +136,43 @@ export function* goDeleteContacts(action) {
   }
 }
 
+export function* goAssignContact(action) {
+  const selectedInteraction = yield select(selectCurrentInteraction);
+  if (selectedInteraction.interactionId === undefined) {
+    yield put(selectContact(action.contact));
+    yield call(loadContactInteractions, { contactId: action.contact.id });
+  } else if (selectedInteraction.interactionId === 'creating-new-interaction') {
+    yield put(newInteractionPanelSelectContact(action.contact));
+    yield call(loadContactInteractions, { contactId: action.contact.id });
+  } else {
+    yield put(setLoading(true));
+    try {
+      if (selectedInteraction.contact && selectedInteraction.contact.id) {
+        yield call(
+          sdkCallToPromise,
+          CxEngage.interactions.unassignContact,
+          { interactionId: selectedInteraction.interactionId, contactId: selectedInteraction.contact.id },
+          'AgentDesktop'
+        );
+      }
+      yield call(
+        sdkCallToPromise,
+        CxEngage.interactions.assignContact,
+        { interactionId: selectedInteraction.interactionId, contactId: action.contact.id },
+        'AgentDesktop'
+      );
+      yield put(assignContact(selectedInteraction.interactionId, action.contact));
+      yield call(loadContactInteractions, { contactId: action.contact.id });
+      yield put(clearSearchResults());
+      yield put(setLoading(false));
+    } catch (error) {
+      yield put(setLoading(false));
+      const id = yield select(selectNextNotificationId);
+      yield put(addNotification({ id, errorType: 'serverError', messageType: 'notAssigned', isError: true }));
+    }
+  }
+}
+
 // Individual exports for testing
 export function* historicalInteractionBody() {
   yield takeEvery(LOAD_HISTORICAL_INTERACTION_BODY, loadHistoricalInteractionBody);
@@ -151,10 +190,15 @@ export function* deleteContacts() {
   yield takeEvery(DELETE_CONTACTS, goDeleteContacts);
 }
 
+export function* assignContactAction() {
+  yield takeEvery(ASSIGN_CONTACT_ACTION, goAssignContact);
+}
+
 // All sagas to be loaded
 export default [
   historicalInteractionBody,
   contactInteractionHistory,
   notReady,
   deleteContacts,
+  assignContactAction,
 ];

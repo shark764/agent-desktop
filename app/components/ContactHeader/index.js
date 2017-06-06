@@ -11,13 +11,9 @@ import Radium from 'radium';
 
 import { FormattedMessage } from 'react-intl';
 
-import ContactSearchBar from 'containers/ContactSearchBar';
 import Button from 'components/Button';
-import Filter from 'components/Filter';
 
 import messages from './messages';
-
-const controlHeaderHeight = 70;
 
 function ContactHeader(props) {
   const styles = {
@@ -39,26 +35,11 @@ function ContactHeader(props) {
       width: '52px',
     },
     controlHeader: {
-      minHeight: `${controlHeaderHeight}px`,
+      minHeight: '70px',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       flexShrink: '0',
-    },
-    contactSearchBar: {
-      paddingTop: '19px',
-    },
-    filtersWrapper: {
-      minHeight: '65px',
-      display: 'flex',
-      padding: '11.5px 0',
-      overflowX: 'auto',
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      alignItems: 'center',
-    },
-    filter: {
-      margin: '5px 5px 5px 0',
     },
     buttonSet: {
       alignSelf: 'flex-end',
@@ -82,31 +63,6 @@ function ContactHeader(props) {
         <div style={styles.leftGutter}></div>
         <div style={styles.bannerHeaderText}>
           {text}
-        </div>
-      </div>
-    );
-  }
-
-  function getSearchControlHeader() {
-    return (
-      <div style={styles.controlHeader}>
-        <ContactSearchBar
-          resultsCount={props.resultsCount !== undefined ? props.resultsCount : -1}
-          addFilter={props.addSearchFilter}
-          cancel={props.clearSearch}
-          query={props.query}
-          style={styles.contactSearchBar}
-        />
-        <div style={styles.filtersWrapper}>
-          {props.query.map((filter) =>
-            <Filter
-              key={filter.attribute.objectName}
-              name={filter.label}
-              value={filter.value}
-              remove={() => props.removeSearchFilter(filter.attribute.objectName)}
-              style={styles.filter}
-            />
-          )}
         </div>
       </div>
     );
@@ -144,15 +100,11 @@ function ContactHeader(props) {
       if (props.contactMode === 'merging') {
         return getBannerHeader(<FormattedMessage {...messages.contactMergeBanner} />);
       }
-      return getSearchControlHeader();
+      return null;
   }
 }
 
 ContactHeader.propTypes = {
-  resultsCount: PropTypes.number,
-  addSearchFilter: PropTypes.func,
-  clearSearch: PropTypes.func,
-  query: PropTypes.array,
   editAssignedContact: PropTypes.func,
   setSearching: PropTypes.func,
 };

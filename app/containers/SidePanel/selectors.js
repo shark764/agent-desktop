@@ -38,14 +38,6 @@ const getSelectedInteraction = createSelector(
   }
 );
 
-const getSelectedInteractionIsCreatingNewInteractionWithoutSelectedContact = createSelector(
-  getSelectedInteraction,
-  (selectedInteraction) =>
-    selectedInteraction !== undefined
-      && selectedInteraction.interactionId === 'creating-new-interaction'
-      && selectedInteraction.contact === undefined
-);
-
 const getSelectedInteractionIsVoice = createSelector(
   getSelectedInteraction,
   (selectedInteraction) =>
@@ -76,7 +68,7 @@ const getHasAssignedContact = createSelector(
 
 export {
   getSelectedInteractionId,
-  getSelectedInteractionIsCreatingNewInteractionWithoutSelectedContact,
+  getSelectedInteraction,
   getSelectedInteractionIsVoice,
   getSelectedInteractionScript,
   getHasAssignedContact,
