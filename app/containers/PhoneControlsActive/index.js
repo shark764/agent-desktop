@@ -20,6 +20,7 @@ import Button from 'components/Button';
 import CircleIconButton from 'components/CircleIconButton';
 import Dialpad from 'components/Dialpad';
 
+import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
 import { selectAgentId } from 'containers/AgentDesktop/selectors';
 import TransferMenu from 'containers/TransferMenu';
 import TransferResource from 'containers/TransferResource';
@@ -225,7 +226,10 @@ export class PhoneControlsActive extends BaseComponent {
               ? <CircleIconButton id="transferButton" name="transfer" active={this.state.showTransferMenu} onClick={() => this.setShowTransferMenu(!this.state.showTransferMenu)} style={this.styles.circleIconButtonRow} />
               : undefined
             }
-            <CircleIconButton id="dialpadButton" name="dialpad" active={this.state.showActiveInteractionDialpad} onClick={() => this.setShowActiveInteractionDialpad(!this.state.showActiveInteractionDialpad)} style={this.styles.circleIconButtonRow} />
+            {
+              this.props.activeExtension.type !== 'pstn' &&
+              <CircleIconButton id="dialpadButton" name="dialpad" active={this.state.showActiveInteractionDialpad} onClick={() => this.setShowActiveInteractionDialpad(!this.state.showActiveInteractionDialpad)} style={this.styles.circleIconButtonRow} />
+            }
           </div>
         </div>
         {
@@ -261,6 +265,7 @@ export class PhoneControlsActive extends BaseComponent {
 
 const mapStateToProps = (state, props) => ({
   agentId: selectAgentId(state, props),
+  activeExtension: selectActiveExtension(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -273,6 +278,7 @@ function mapDispatchToProps(dispatch) {
 PhoneControlsActive.propTypes = {
   agentId: PropTypes.string.isRequired,
   activeVoiceInteraction: PropTypes.object,
+  activeExtension: PropTypes.object,
   style: PropTypes.shape({
     topTriangle: PropTypes.object.isRequired,
     phoneControlsPopupMenu: PropTypes.object.isRequired,
