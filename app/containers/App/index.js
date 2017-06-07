@@ -22,7 +22,7 @@ import AgentDesktop from 'containers/AgentDesktop';
 import { setAvailableStats, statsReceived, toggleAgentMenu, initializeStats } from 'containers/Toolbar/actions';
 import { showLogin, logout } from 'containers/Login/actions';
 import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
-import { handleSDKError, addStatErrorId, removeStatErrorId, dismissError } from 'containers/Errors/actions';
+import { setLoginErrorAndReload, handleSDKError, addStatErrorId, removeStatErrorId, dismissError } from 'containers/Errors/actions';
 
 import { selectAvailableStats } from 'containers/AgentStats/selectors';
 import { selectActivatedStatIds } from 'containers/Toolbar/selectors';
@@ -44,8 +44,6 @@ import { version as release } from '../../../package.json';
 import messages from './messages';
 import sdkIgnoreTopics from './sdkIgnoreTopics';
 import sdkLogTopics from './sdkLogTopics';
-
-let logoutOnSessionStart = false;
 
 export class App extends React.Component {
 
@@ -88,15 +86,12 @@ export class App extends React.Component {
     this.props.showRefreshRequired(false);
   }
 
-  killItWithFire = () => {
-    CxEngage.authentication.logout((error) => error && window.location.reload());
-  }
-
-  setLoginErrorAndLogout = (errorType) => {
-    window.onbeforeunload = null; // clear error clearer set in Login
-    window.localStorage.setItem('ADError', errorType); // Consume in Login component
-    this.killItWithfire();
-    logoutOnSessionStart = true; // session has not usually started yet here so logout has no effect
+  logoutAndReload = () => {
+    try {
+      CxEngage.authentication.logout((error) => error && window.location.reload());
+    } catch (e) {
+      window.location.reload();
+    }
   }
 
   checkStatErrors = (statsObject) => { // TODO: move into saga
@@ -183,7 +178,7 @@ export class App extends React.Component {
           }
           case 'cxengage/session/config-details': {
             if (response.reasonLists.length < 2) {
-              this.setLoginErrorAndLogout('reasonListError');
+              this.props.setLoginErrorAndReload('reasonListError');
             } else {
               this.props.setUserConfig(response);
             }
@@ -194,9 +189,6 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/session/started': {
-            if (logoutOnSessionStart) {
-              this.killItWithFire();
-            }
             CxEngage.entities.getQueues();
             break;
           }
@@ -578,31 +570,22 @@ export class App extends React.Component {
       && location.hostname !== '127.0.0.1'
     );
     let errorBanner;
-    if (this.props.criticalError) {
-      errorBanner = (<NotificationBanner
-        id="critical-error-banner"
-        style={this.styles.notificationBanner}
-        titleMessage={messages.criticalError}
-        descriptionMessage={messages.criticalErrorDescription}
-        isError
-        rightLinkAction={this.killItWithFire}
-        rightLinkMessage={messages.reload}
-      />);
-    } else if (this.props.nonCriticalError) {
-      const topic = this.props.nonCriticalError.topic;
-      const code = this.props.nonCriticalError.code;
-      let nonCritErrorMsg;
+    let errorDescriptionMessage;
+    const errorInfo = this.props.criticalError || this.props.nonCriticalError;
+    if (errorInfo) {
+      const topic = errorInfo.topic;
+      const code = errorInfo.code;
       if (errorMessagesMap[topic]) {
         if (errorMessagesMap[topic][code]) {
           // Specific error code message is found under this topic
-          nonCritErrorMsg = errorMessagesMap[topic][code];
+          errorDescriptionMessage = errorMessagesMap[topic][code];
         } else {
           // No specific error code is found under this topic. Using deafult topic message
-          nonCritErrorMsg = errorMessagesMap[topic].default;
+          errorDescriptionMessage = errorMessagesMap[topic].default;
         }
       } else {
         // No topic found in errorMessagesMap. Using generic error message
-        nonCritErrorMsg = errorMessagesMap.default;
+        errorDescriptionMessage = errorMessagesMap.default;
         // Log unhandled topic errors to Sentry
         Raven.captureMessage('Unhandled topic error', {
           level: 'warning',
@@ -612,11 +595,23 @@ export class App extends React.Component {
           },
         });
       }
+    }
+    if (this.props.criticalError) {
+      errorBanner = (<NotificationBanner
+        id="critical-error-banner"
+        style={this.styles.notificationBanner}
+        titleMessage={messages.criticalError}
+        descriptionMessage={errorDescriptionMessage}
+        isError
+        rightLinkAction={this.logoutAndReload}
+        rightLinkMessage={messages.reload}
+      />);
+    } else if (this.props.nonCriticalError) {
       errorBanner = (<NotificationBanner
         id="noncritical-error-banner"
         style={this.styles.notificationBanner}
         titleMessage={messages.nonCriticalError}
-        descriptionMessage={nonCritErrorMsg}
+        descriptionMessage={errorDescriptionMessage}
         isError
         dismiss={this.props.dismissError}
       />);
@@ -702,6 +697,7 @@ function mapDispatchToProps(dispatch) {
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
+    setLoginErrorAndReload: (errorType) => dispatch(setLoginErrorAndReload(errorType)),
     setCRMUnavailable: (reason) => dispatch(setCRMUnavailable(reason)),
     addStatErrorId: (statId) => dispatch(addStatErrorId(statId)),
     removeStatErrorId: (statId) => dispatch(removeStatErrorId(statId)),
@@ -762,6 +758,7 @@ App.propTypes = {
   toggleAgentMenu: PropTypes.func.isRequired,
   goNotReady: PropTypes.func.isRequired,
   handleSDKError: PropTypes.func.isRequired,
+  setLoginErrorAndReload: PropTypes.func.isRequired,
   setCRMUnavailable: PropTypes.func.isRequired,
   addStatErrorId: PropTypes.func.isRequired,
   removeStatErrorId: PropTypes.func.isRequired,

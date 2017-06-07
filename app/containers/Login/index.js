@@ -193,13 +193,6 @@ export class Login extends BaseComponent {
       );
     } else if (error !== null) {
       switch (error) {
-        case 'cxengage/session/heartbeat-response':
-          errorSpan = (
-            <span id={`${error}:ERROR`} style={[this.styles.error]}>
-              <FormattedMessage style={this.styles.center} {...messages.heartbeatError} />
-            </span>
-          );
-          break;
         case 'reasonListError':
           errorSpan = (
             <span id={`${error}:ERROR`} style={[this.styles.error]}>
@@ -207,10 +200,10 @@ export class Login extends BaseComponent {
             </span>
           );
           break;
-        case 'contactLayoutError':
+        case 'configLoadFailed':
           errorSpan = (
             <span id={`${error}:ERROR`} style={[this.styles.error]}>
-              <FormattedMessage style={this.styles.center} {...messages.contactLayoutError} />
+              <FormattedMessage style={this.styles.center} {...messages.configLoadFailed} />
             </span>
           );
           break;

@@ -1,3 +1,7 @@
+### [0.40.3] (2017-06-07)
+* CXV1-9329 - User config fail on load handling
+* Internal - Critical error banner with custom messages
+
 ### [0.40.2] (2017-06-07)
 * CXV1-9641 - Added Tests for Click to Email
 

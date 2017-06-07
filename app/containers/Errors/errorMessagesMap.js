@@ -18,6 +18,9 @@ const errorMessagesMap = {
   'cxengage/interactions/email/send-reply': {
     default: messages.emailFailed,
   },
+  'cxengage/session/heartbeat-response': {
+    default: messages.sessionExpired,
+  },
   default: messages.default,
 };
 

@@ -7,6 +7,10 @@ Object {
     "@@redux-saga/IO": true,
     "PUT": Object {
       "action": Object {
+        "error": Object {
+          "level": "fatal",
+        },
+        "topic": "mockErrorTopic",
         "type": "app/Errors/SET_CRITICAL_ERROR",
       },
       "channel": null,
@@ -47,6 +51,22 @@ Object {
 }
 `;
 
+exports[`handleError Saga if topic is cxengage/session/config-details should dispatch action app/Errors/SET_LOGIN_ERROR_AND_RELOAD 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "errorType": "configLoadFailed",
+        "type": "app/Errors/SET_LOGIN_ERROR_AND_RELOAD",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
 exports[`handleError Saga should call Raven.captureException with a new Error created from the action.topic 1`] = `[Error: mockErrorTopic]`;
 
 exports[`handleError Saga should call Raven.captureException with the SDK error in the extra info and error.code in the tags 1`] = `
@@ -61,4 +81,65 @@ Object {
     "sdkCode": "mockErrorCode",
   },
 }
+`;
+
+exports[`setLoginErrorAndReload Saga should call CxEngage logout 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "mockLogoutFunction",
+        undefined,
+        "Errors",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`setLoginErrorAndReload Saga should call SDK logout function 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "mockLogoutFunction",
+        undefined,
+        "Errors",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`setLoginErrorAndReload Saga should call SDK subscribe function with session topic 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "mockSubscribeFunction",
+        "cxengage/session/started",
+        "Errors",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`setLoginErrorAndReload Saga should call localStorage.setItem with "ADError" and errorType 1`] = `
+Array [
+  "ADError",
+  "mockErrorType",
+]
 `;

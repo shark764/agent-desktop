@@ -16,7 +16,7 @@ const selectStatsDomain = createSelector(
 
 const selectCriticalError = createSelector(
   selectErrorsDomain(),
-  (substate) => substate.get('criticalError')
+  (substate) => (substate.get('criticalError') && substate.get('criticalError').toJS())
 );
 
 const selectNonCriticalError = createSelector(

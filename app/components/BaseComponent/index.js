@@ -27,7 +27,7 @@ export class BaseComponent extends React.Component {
         if (Raven.isSetup()) {
           Raven.captureException(error);
         }
-        props.setCriticalError();
+        props.setCriticalError(null, error);
         return <div />;
       }
     };
