@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`startOutboundEmailSaga should call the promise util with the SDK startOutboundEmailSaga and the correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "CxEngage.interactions.email.startOutboundEmail",
+        Object {
+          "address": "email@test.com",
+        },
+        "EmailContentArea",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`startOutboundEmailSaga should use the yielded SDK results to dispatch a setInteractionStatus action with the correct args 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockId123456789",
+        "newStatus": "initialized-outbound",
+        "response": undefined,
+        "type": "app/AgentDesktop/SET_INTERACTION_STATUS",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`startOutboundEmailSaga should use the yielded SDK results to dispatch a startOutboundInteraction action with the correct args 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "addedByNewInteractionPanel": false,
+        "channelType": "email",
+        "contact": "mockContact123",
+        "customer": "email@test.com",
+        "interactionId": "mockId123456789",
+        "type": "app/AgentDesktop/START_OUTBOUND_INTERACTION",
+      },
+      "channel": null,
+    },
+  },
+}
+`;

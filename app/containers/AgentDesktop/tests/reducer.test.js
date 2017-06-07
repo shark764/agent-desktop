@@ -267,6 +267,16 @@ describe('agentDesktopReducer', () => {
         runReducerAndExpectSnapshot();
       });
     });
+    describe('adding an outbound email interaction', () => {
+      beforeEach(() => {
+        action.response.channelType = 'email';
+        action.response.direction = 'outbound';
+        action.response.recording = true;
+      });
+      it('is ignored', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
   });
 
   describe('ADD_MESSAGE', () => {

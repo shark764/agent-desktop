@@ -40,6 +40,13 @@ Object {
 }
 `;
 
+exports[`agentDesktopReducer ADD_INTERACTION adding an outbound email interaction is ignored 1`] = `
+Object {
+  "interactions": Array [],
+  "selectedInteractionId": undefined,
+}
+`;
+
 exports[`agentDesktopReducer ADD_INTERACTION adding an outbound sms interaction is ignored 1`] = `
 Object {
   "interactions": Array [],
