@@ -28,9 +28,10 @@ export function setCriticalError() {
   };
 }
 
-export function setNonCriticalError(error) {
+export function setNonCriticalError(topic, error) {
   return {
     type: SET_NON_CRITICAL_ERROR,
+    topic,
     error,
   };
 }

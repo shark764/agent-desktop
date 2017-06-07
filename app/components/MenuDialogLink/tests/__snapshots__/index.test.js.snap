@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MenuDialogLink /> when A is clicked on should render correctly 1`] = `
+<div
+  style={
+    Object {
+      "position": "relative",
+    }
+  }
+>
+  <A
+    disabled={false}
+    id="mockId"
+    onClick={[Function]}
+    text="test link text"
+  />
+  <div
+    style={
+      Object {
+        "bottom": "20px",
+        "left": "-10px",
+        "position": "absolute",
+      }
+    }
+  >
+    <PopupDialog
+      arrowLeftOffsetPx={60.5}
+      fadeContent={true}
+      hide={[Function]}
+      isVisible={true}
+      style={
+        Object {
+          "borderRadius": "none",
+        }
+      }
+      widthPx={135}
+    >
+      <div
+        style={
+          Object {
+            "alignItems": "stretch",
+            "display": "flex",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Button
+          id="menuOption-0"
+          onClick={[Function]}
+          style={
+            Array [
+              Object {
+                "borderBottom": "none",
+                "borderLeft": "none",
+                "borderRight": "none",
+                "borderTop": "none",
+              },
+              Object {
+                "width": "100%",
+              },
+              Object {},
+            ]
+          }
+          tabIndex={0}
+          type="secondary"
+        >
+          <FormattedMessage
+            defaultMessage="Testing"
+            id="app.mockId"
+            values={Object {}}
+          />
+        </Button>
+      </div>
+    </PopupDialog>
+  </div>
+</div>
+`;
+
+exports[`<MenuDialogLink /> when dialog not active should render correctly 1`] = `
+<div
+  style={
+    Object {
+      "position": "relative",
+    }
+  }
+>
+  <A
+    disabled={false}
+    id="mockId"
+    onClick={[Function]}
+    text="test link text"
+  />
+  <div
+    style={
+      Object {
+        "bottom": "20px",
+        "left": "-10px",
+        "position": "absolute",
+      }
+    }
+  >
+    <PopupDialog
+      arrowLeftOffsetPx={60.5}
+      fadeContent={true}
+      hide={[Function]}
+      isVisible={false}
+      style={
+        Object {
+          "borderRadius": "none",
+        }
+      }
+      widthPx={135}
+    >
+      <div
+        style={
+          Object {
+            "alignItems": "stretch",
+            "display": "flex",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Button
+          id="menuOption-0"
+          onClick={[Function]}
+          style={
+            Array [
+              Object {
+                "borderBottom": "none",
+                "borderLeft": "none",
+                "borderRight": "none",
+                "borderTop": "none",
+              },
+              Object {
+                "width": "100%",
+              },
+              Object {},
+            ]
+          }
+          tabIndex={0}
+          type="secondary"
+        >
+          <FormattedMessage
+            defaultMessage="Testing"
+            id="app.mockId"
+            values={Object {}}
+          />
+        </Button>
+      </div>
+    </PopupDialog>
+  </div>
+</div>
+`;

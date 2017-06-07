@@ -50,9 +50,9 @@ export default defineMessages({
     id: 'app.containers.EmailContentArea.addMessage',
     defaultMessage: 'Add a message',
   },
-  sendingReply: {
-    id: 'app.containers.EmailContentArea.sendingReply',
-    defaultMessage: 'Sending Reply',
+  sendingEmail: {
+    id: 'app.containers.EmailContentArea.sendingEmail',
+    defaultMessage: 'Sending Email',
   },
   awaitingDisposition: {
     id: 'app.containers.EmailContentArea.awaitingDisposition',

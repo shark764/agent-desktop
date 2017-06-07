@@ -1,17 +1,21 @@
 /*
- * ContactInput Messages
+ * ContactAttribute Messages
  *
- * This contains all the text for the ContactInput component.
+ * This contains all the text for the ContactAttribute component.
  */
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   call: {
-    id: 'app.containers.Contact.call',
+    id: 'app.components.ContactAttribute.call',
     defaultMessage: 'Call',
   },
   sms: {
-    id: 'app.containers.Contact.sms',
+    id: 'app.components.ContactAttribute.sms',
     defaultMessage: 'SMS',
+  },
+  email: {
+    id: 'app.components.ContactAttribute.email',
+    defaultMessage: 'Compose Email',
   },
 });

@@ -1,3 +1,6 @@
+### [0.40.0] (2017-06-07)
+* CXV1-9641 - Click to Email
+
 ### [0.39.1] (2017-06-06)
 * CXV1-9647 - Contact screen pop and other PSTN changes
 

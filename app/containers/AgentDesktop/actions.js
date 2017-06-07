@@ -178,13 +178,15 @@ export function closeNewInteractionPanel() {
   };
 }
 
-export function startOutboundInteraction(channelType, customer, contact, addedByNewInteractionPanel) {
+
+export function startOutboundInteraction(channelType, customer, contact, addedByNewInteractionPanel, interactionId) {
   return {
     type: START_OUTBOUND_INTERACTION,
     channelType,
     customer,
     contact,
     addedByNewInteractionPanel,
+    interactionId,
   };
 }
 

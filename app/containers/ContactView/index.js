@@ -18,6 +18,7 @@ import { selectIsAgentReady, selectHasVoiceInteraction, selectSmsInteractionNumb
 import { setContactMode, setEditingContact } from 'containers/InfoTab/actions';
 import { selectLoading, selectCurrentInteractionContactId } from 'containers/InfoTab/selectors';
 import { getSelectedInteractionIsCreatingNewInteraction } from 'containers/ContactsControl/selectors';
+import { startOutboundEmail } from 'containers/EmailContentArea/actions';
 
 import Button from 'components/Button';
 import ContactAttribute from 'components/ContactAttribute';
@@ -78,6 +79,7 @@ export class ContactView extends BaseComponent {
         smsInteractionNumbers={this.props.smsInteractionNumbers}
         startCall={this.startCall}
         startSms={this.startSms}
+        startEmail={this.startEmail}
       />
     );
   }
@@ -95,6 +97,10 @@ export class ContactView extends BaseComponent {
 
   startSms = (number) => {
     this.props.startOutboundInteraction('sms', number, this.props.contact, this.props.selectedInteractionIsCreatingNewInteraction);
+  }
+
+  startEmail = (value) => {
+    this.props.startOutboundEmail(value, this.props.contact);
   }
 
   render() {
@@ -151,6 +157,7 @@ function mapDispatchToProps(dispatch) {
     setContactMode: (contactMode) => dispatch(setContactMode(contactMode)),
     setEditingContact: (editingContact) => dispatch(setEditingContact(editingContact)),
     startOutboundInteraction: (channelType, customer, contact, addedByNewInteractionPanel) => dispatch(startOutboundInteraction(channelType, customer, contact, addedByNewInteractionPanel)),
+    startOutboundEmail: (customer, contact) => dispatch(startOutboundEmail(customer, contact)),
     dispatch,
   };
 }
@@ -173,6 +180,7 @@ ContactView.propTypes = {
   setContactMode: PropTypes.func.isRequired,
   setEditingContact: PropTypes.func.isRequired,
   startOutboundInteraction: PropTypes.func.isRequired,
+  startOutboundEmail: PropTypes.func.isRequired,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactView)));

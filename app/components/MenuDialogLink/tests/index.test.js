@@ -1,18 +1,25 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import ConfirmDialogLink from '../index';
+import MenuDialogLink from '../index';
 
-describe('<ConfirmDialogLink />', () => {
+describe('<MenuDialogLink />', () => {
   describe('when dialog not active', () => {
     it('should render correctly', () => {
       const rendered = shallow(
-        <ConfirmDialogLink
+        <MenuDialogLink
           id="mockId"
           disabled={false}
           linkText="test link text"
-          leftAction={() => {}}
-          rightAction={() => {}}
+          options={[
+            {
+              message: {
+                id: 'app.mockId',
+                defaultMessage: 'Testing',
+              },
+              action: () => {},
+            },
+          ]}
         />
       );
       expect(rendered).toMatchSnapshot();
@@ -22,17 +29,24 @@ describe('<ConfirmDialogLink />', () => {
   describe('when A is clicked on', () => {
     it('should render correctly', () => {
       const rendered = shallow(
-        <ConfirmDialogLink
+        <MenuDialogLink
           id="mockId"
           disabled={false}
           linkText="test link text"
-          leftAction={() => {}}
-          rightAction={() => {}}
+          options={[
+            {
+              message: {
+                id: 'app.mockId',
+                defaultMessage: 'Testing',
+              },
+              action: () => {},
+            },
+          ]}
         />
       );
 
       rendered.find('#mockId').simulate('click');
-      expect(rendered.state('showConfirmDialog')).toBe(true);
+      expect(rendered.state('showDialog')).toBe(true);
       expect(rendered).toMatchSnapshot();
     });
   });

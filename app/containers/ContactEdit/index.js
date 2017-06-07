@@ -27,28 +27,28 @@ import ConfirmDialog from 'components/ConfirmDialog';
 import { selectPopulatedLayout } from 'containers/ContactView/selectors';
 import messages from './messages';
 
+const styles = {
+  base: {
+    display: 'flex',
+    flexDirection: 'column',
+    color: '#4B4B4B',
+    fontSize: '14px',
+    lineHeight: '20px',
+  },
+  section: {
+    marginBottom: '28px',
+  },
+  button: {
+    float: 'left',
+    marginRight: '10px',
+  },
+};
+
 export class ContactEdit extends BaseComponent {
 
   componentWillUnmount() {
     this.props.resetForm();
   }
-
-  styles = {
-    base: {
-      display: 'flex',
-      flexDirection: 'column',
-      color: '#4B4B4B',
-      fontSize: '14px',
-      lineHeight: '20px',
-    },
-    section: {
-      marginBottom: '28px',
-    },
-    button: {
-      float: 'left',
-      marginRight: '10px',
-    },
-  };
 
   handleInputChange = (newValue, event) => {
     this.props.setFormIsDirty(true);
@@ -124,7 +124,7 @@ export class ContactEdit extends BaseComponent {
   }
 
   getSection = (section) =>
-    <div style={this.styles.section} key={section.label[this.props.intl.locale]}>
+    <div style={styles.section} key={section.label[this.props.intl.locale]}>
       <ContactSectionHeader label={section.label[this.props.intl.locale]} />
       {section.attributes.map(this.getAttributeRow)}
     </div>
@@ -151,7 +151,7 @@ export class ContactEdit extends BaseComponent {
 
   render() {
     return (
-      <div style={[this.props.style, this.styles.base]}>
+      <div style={[this.props.style, styles.base]}>
         { this.props.layoutSections.map(this.getSection) }
         <div style={{ marginBottom: '28px', position: 'relative' }}>
           <ConfirmDialog
@@ -164,7 +164,7 @@ export class ContactEdit extends BaseComponent {
           />
           <Button
             id="contactSaveBtn"
-            style={this.styles.button}
+            style={styles.button}
             disabled={this.props.loading || !this.props.formIsValid || !this.props.formIsDirty}
             type="secondary"
             onClick={this.handleSave}
@@ -176,7 +176,7 @@ export class ContactEdit extends BaseComponent {
           />
           <Button
             id="contactCancelBtn"
-            style={this.styles.button}
+            style={styles.button}
             type="secondary"
             text={this.props.intl.formatMessage(messages.cancelBtn)}
             onClick={this.props.handleCancel}

@@ -377,6 +377,7 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case START_OUTBOUND_INTERACTION: {
       const outboundInteraction = new Map(new Interaction({
+        interactionId: action.interactionId,
         channelType: action.channelType,
         customer: action.customer,
         contact: action.contact,
@@ -389,7 +390,7 @@ function agentDesktopReducer(state = initialState, action) {
       return state
         .set('interactions', state.get('interactions').push(outboundInteraction))
         // Hide the new interaction panel and auto select new new interaction for SMS
-        .set('selectedInteractionId', action.channelType === 'sms' ? outboundInteraction.get('interactionId') : state.get('selectedInteractionId'))
+        .set('selectedInteractionId', (action.channelType === 'sms' || action.channelType === 'email') ? outboundInteraction.get('interactionId') : state.get('selectedInteractionId'))
         .update('newInteractionPanel', (newInteractionPanel) => {
           if (action.channelType === 'sms' && action.addedByNewInteractionPanel) {
             return newInteractionPanel
@@ -419,7 +420,8 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case ADD_INTERACTION: {
       // Don't re-add outbound SMS interaction. It was already added by INITIALIZE_OUTBOUND_SMS.
-      if (!(action.response.direction === 'outbound' && action.response.channelType === 'sms')) {
+      // Don't re-add outbound Email interaction. It was already added by START_OUTBOUND_EMAIL.
+      if (!(action.response.direction === 'outbound' && (action.response.channelType === 'sms' || action.response.channelType === 'email'))) {
         // If interaction was already added by START_OUTBOUND_INTERACTION, replace it; otherwise, just push it to the list
         const interactionIndex = state.get('interactions').findIndex(
           (interaction) => (interaction.get('direction') === 'outbound' && interaction.get('channelType') === action.response.channelType)

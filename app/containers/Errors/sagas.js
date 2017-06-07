@@ -40,8 +40,13 @@ export function* goHandleSDKError(action) {
           },
         });
       } else {
-        yield put(setNonCriticalError(error));
+        yield put(setNonCriticalError(topic, error));
       }
+      break;
+    case 'cxengage/interactions/email/start-outbound-email':
+    case 'cxengage/errors/error/failed-to-create-outbound-email-interaction':
+    case 'cxengage/interactions/email/send-reply':
+      yield put(setNonCriticalError(topic, error));
       break;
     default: {
       const isFatal = (error && error.level === 'fatal');

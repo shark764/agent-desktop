@@ -209,7 +209,7 @@ export class App extends React.Component {
           case 'cxengage/interactions/work-initiated-received': {
             const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response.interactionId);
 
-            if (!(interaction.direction === 'outbound' && interaction.channelType === 'sms')) {
+            if (!(interaction.direction === 'outbound' && (interaction.channelType === 'sms' || interaction.channelType === 'email'))) {
               this.props.workInitiated(response);
             }
 
@@ -217,7 +217,7 @@ export class App extends React.Component {
             if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms' || interaction.channelType === 'email') && interaction.contact === undefined) {
               this.attemptContactSearch(response.customer, response.interactionId, true);
             }
-            if (interaction.direction === 'outbound' && interaction.channelType === 'sms') {
+            if (interaction.direction === 'outbound' && (interaction.channelType === 'sms' || interaction.channelType === 'email')) {
               CxEngage.interactions.accept({ interactionId: response.interactionId });
             } else if (interaction.autoAnswer === true) {
               this.acceptInteraction(response.interactionId);
@@ -589,11 +589,34 @@ export class App extends React.Component {
         rightLinkMessage={messages.reload}
       />);
     } else if (this.props.nonCriticalError) {
+      const topic = this.props.nonCriticalError.topic;
+      const code = this.props.nonCriticalError.code;
+      let nonCritErrorMsg;
+      if (errorMessagesMap[topic]) {
+        if (errorMessagesMap[topic][code]) {
+          // Specific error code message is found under this topic
+          nonCritErrorMsg = errorMessagesMap[topic][code];
+        } else {
+          // No specific error code is found under this topic. Using deafult topic message
+          nonCritErrorMsg = errorMessagesMap[topic].default;
+        }
+      } else {
+        // No topic found in errorMessagesMap. Using generic error message
+        nonCritErrorMsg = errorMessagesMap.default;
+        // Log unhandled topic errors to Sentry
+        Raven.captureMessage('Unhandled topic error', {
+          level: 'warning',
+          extra: {
+            topic,
+            code,
+          },
+        });
+      }
       errorBanner = (<NotificationBanner
         id="noncritical-error-banner"
         style={this.styles.notificationBanner}
         titleMessage={messages.nonCriticalError}
-        descriptionMessage={errorMessagesMap[this.props.nonCriticalError.code]}
+        descriptionMessage={nonCritErrorMsg}
         isError
         dismiss={this.props.dismissError}
       />);
