@@ -13,6 +13,7 @@ describe('<Interaction />', () => {
         awaitingDisposition
         icon="config"
         intl={getIntlContext()}
+        activeExtension={{}}
       />
     );
     expect(rendered).toMatchSnapshot();

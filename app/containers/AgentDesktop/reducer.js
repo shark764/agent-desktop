@@ -77,6 +77,8 @@ import {
   SET_DISPOSITION_DETAILS,
   SELECT_DISPOSITION,
   SHOW_REFRESH_NOTIF,
+  SHOW_CONTACTS_PANEL,
+  HIDE_CONTACTS_PANEL,
 } from './constants';
 
 // import { outboundConnectingVoiceInteraction, voiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithLotsOfMessagesAndScript2 } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
@@ -111,6 +113,7 @@ const initialState = fromJS({
   refreshRequired: false,
   presenceReasonLists: [],
   presenceReason: {},
+  isContactsPanelCollapsed: true,
 });
 
 const categorizeItems = (rawItems, name) => {
@@ -1229,6 +1232,12 @@ function agentDesktopReducer(state = initialState, action) {
         contact: action.contact,
         contactAction: 'view',
       }));
+    }
+    case SHOW_CONTACTS_PANEL: {
+      return state.set('isContactsPanelCollapsed', false);
+    }
+    case HIDE_CONTACTS_PANEL: {
+      return state.set('isContactsPanelCollapsed', true);
     }
     default:
       return state;

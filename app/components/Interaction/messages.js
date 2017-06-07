@@ -10,6 +10,10 @@ export default defineMessages({
     id: 'app.containers.InteractionsBar.accept',
     defaultMessage: 'Click to accept interaction',
   },
+  PSTN: {
+    id: 'app.containers.InteractionsBar.PSTN',
+    defaultMessage: 'Answer phone to accept interaction',
+  },
   wrapup: {
     id: 'app.containers.InteractionsBar.wrapup',
     defaultMessage: 'WRAP UP',

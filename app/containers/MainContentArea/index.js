@@ -50,7 +50,7 @@ export class MainContentArea extends BaseComponent {
     let content = null;
     if (selectedInteraction) {
       if (selectedInteraction.status === 'creating-new-interaction') {
-        content = <NewInteractionContentArea showContactsPanel={this.props.showContactsPanel} />;
+        content = <NewInteractionContentArea />;
       } else if (selectedInteraction.channelType === 'messaging' || selectedInteraction.channelType === 'sms') {
         const messageTemplates = this.props.messageTemplates.filter((messageTemplate) =>
           messageTemplate.channels.includes(selectedInteraction.channelType)
@@ -100,7 +100,6 @@ MainContentArea.propTypes = {
   style: PropTypes.array,
   agent: PropTypes.object.isRequired,
   tenant: PropTypes.object.isRequired,
-  showContactsPanel: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(MainContentArea));

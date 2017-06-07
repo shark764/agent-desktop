@@ -75,6 +75,8 @@ import {
   SET_DISPOSITION_DETAILS,
   SELECT_DISPOSITION,
   SHOW_REFRESH_NOTIF,
+  SHOW_CONTACTS_PANEL,
+  HIDE_CONTACTS_PANEL,
 } from './constants';
 
 export function setUserConfig(response) {
@@ -599,5 +601,17 @@ export function showRefreshRequired(show) {
   return {
     type: SHOW_REFRESH_NOTIF,
     show,
+  };
+}
+
+export function showContactsPanel() {
+  return {
+    type: SHOW_CONTACTS_PANEL,
+  };
+}
+
+export function hideContactsPanel() {
+  return {
+    type: HIDE_CONTACTS_PANEL,
   };
 }
