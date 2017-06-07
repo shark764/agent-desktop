@@ -1,3 +1,6 @@
+### [0.40.1] (2017-06-07)
+* CXV1-9647 - Hide dialpad during active PSTN call
+
 ### [0.40.0] (2017-06-07)
 * CXV1-9641 - Click to Email
 
