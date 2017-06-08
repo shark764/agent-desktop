@@ -1,3 +1,6 @@
+### [0.41.2] (2017-06-09)
+* Added Legal to prod minified js
+
 ### [0.41.1] (2017-06-09)
 * CXV1-9848 Bug prevention for click to email
 

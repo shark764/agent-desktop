@@ -44,6 +44,9 @@ module.exports = require('./webpack.base.babel')({
       },
       inject: true,
     }),
+
+    // Add Legal Banner to top of Prod minified js
+    new webpack.BannerPlugin('Copyright © 2015-2017 Serenova, LLC. All rights reserved.'),
   ],
 
   // Emit a source map for easier debugging
