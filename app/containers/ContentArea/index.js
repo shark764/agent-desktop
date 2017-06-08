@@ -437,6 +437,7 @@ export class ContentArea extends BaseComponent {
                 value={this.state.title}
                 onChange={(e) => this.handleChange({ title: e.target.value })}
                 style={this.styles.notesTitleInput}
+                maxLength="80"
               />
             </div>
             {
@@ -510,6 +511,7 @@ export class ContentArea extends BaseComponent {
               value={this.state.body}
               onChange={(e) => this.handleChange({ body: e.target.value })}
               style={this.styles.notesTextarea}
+              maxLength="65535"
             />
           </div>
         </Resizable>
