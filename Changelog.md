@@ -1,3 +1,6 @@
+### [0.40.5] (2017-06-08)
+* BUGFIX - Hide "Forgot Password" link
+
 ### [0.40.4] (2017-06-07)
 * BUGFIX - Fix Contact edit/merge form width
 
