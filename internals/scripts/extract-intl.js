@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
 /* eslint-disable */
 /**
  * This script will extract the internationalization messages from all components

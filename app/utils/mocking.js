@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
 export default function mockContact(channelType, liveInput) {
   const mockIndex = Math.floor(Math.random() * 5);
   const positionPairs = [

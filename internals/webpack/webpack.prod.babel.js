@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
 // Important modules this config uses
 const path = require('path');
 const webpack = require('webpack');
