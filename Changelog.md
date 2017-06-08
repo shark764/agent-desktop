@@ -1,3 +1,6 @@
+### [0.40.6] (2017-06-08)
+* BUGFIX - Add legal to all JS files
+
 ### [0.40.5] (2017-06-08)
 * BUGFIX - Hide "Forgot Password" link
 
