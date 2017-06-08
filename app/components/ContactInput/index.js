@@ -108,7 +108,7 @@ function ContactInput(props) {
     default:
       return (
         <div style={styles.attributeRow} key={props.attribute.id}>
-          <div style={styles.attributeName}>
+          <div style={[styles.attributeName, props.inputLabelStyle]}>
             {props.attributeLabel}
           </div>
           <div key={props.attribute.objectName} style={[styles.inputBox, styles.inputBorder, inputError && styles.inputErrorBorder, { marginLeft: props.hasRadio ? '-17px' : '' }, props.notSelected && styles.notSelected]}>
@@ -155,6 +155,7 @@ ContactInput.propTypes = {
   showErrors: PropTypes.object,
   errors: PropTypes.object,
   intl: PropTypes.object,
+  inputLabelStyle: PropTypes.object,
 };
 
 export default Radium(ContactInput);

@@ -26,32 +26,40 @@ import { clearSearchResults, setLoading, setEditingContact } from 'containers/In
 import { selectLayout, selectAttributes, selectSelectedIndexes, selectUnusedFields } from './selectors';
 import messages from './messages';
 
+const styles = {
+  base: {
+    display: 'flex',
+    flexDirection: 'column',
+    color: '#4B4B4B',
+    fontSize: '14px',
+    lineHeight: '20px',
+    marginTop: '8px',
+    paddingRight: '5px',
+    alignSelf: 'stretch',
+    flexGrow: '1',
+    flexShrink: '0',
+  },
+  button: {
+    float: 'left',
+    marginRight: '10px',
+  },
+  section: {
+    marginBottom: '28px',
+  },
+  radio: {
+    marginTop: '7px',
+    marginRight: '5px',
+    marginLeft: '2px',
+  },
+  radioInputLabel: {
+    width: '159px',
+  },
+};
+
 export class ContactMerge extends BaseComponent {
 
   componentDidMount() {
     this.props.setFormValidity(true);
-  }
-
-  styles = {
-    base: {
-      display: 'flex',
-      flexDirection: 'column',
-      color: '#4B4B4B',
-      fontSize: '14px',
-      lineHeight: '20px',
-      marginTop: '8px',
-      paddingRight: '5px',
-      alignSelf: 'stretch',
-      flexGrow: '1',
-      flexShrink: '0',
-    },
-    button: {
-      float: 'left',
-      marginRight: '10px',
-    },
-    section: {
-      marginBottom: '28px',
-    },
   }
 
   handleSubmit = () => {
@@ -190,7 +198,7 @@ export class ContactMerge extends BaseComponent {
             type="radio"
             id={`${attribute.objectName}0`}
             name={attribute.objectName}
-            style={{ marginRight: '5px', marginTop: '7px' }}
+            style={styles.radio}
             value={this.props.selectedIndexes[attribute.objectName] === 0 ? this.props.contactForm[attribute.objectName] : this.props.unusedFields[attribute.objectName]}
             checked={this.props.selectedIndexes[attribute.objectName] === 0}
             onChange={this.selectAttribute}
@@ -207,6 +215,7 @@ export class ContactMerge extends BaseComponent {
             showErrors={this.props.selectedIndexes[attribute.objectName] === 0 ? this.props.showErrors : {}}
             errors={this.props.formErrors}
             intl={this.props.intl}
+            inputLabelStyle={styles.radioInputLabel}
           />
         </div>
         <div style={{ display: 'flex' }}>
@@ -214,7 +223,7 @@ export class ContactMerge extends BaseComponent {
             type="radio"
             id={`${attribute.objectName}1`}
             name={attribute.objectName}
-            style={{ marginRight: '5px', marginTop: '7px' }}
+            style={styles.radio}
             value={this.props.selectedIndexes[attribute.objectName] === 1 ? this.props.contactForm[attribute.objectName] : this.props.unusedFields[attribute.objectName]}
             checked={this.props.selectedIndexes[attribute.objectName] === 1}
             onChange={this.selectAttribute}
@@ -231,6 +240,7 @@ export class ContactMerge extends BaseComponent {
             showErrors={this.props.selectedIndexes[attribute.objectName] === 1 ? this.props.showErrors : {}}
             errors={this.props.formErrors}
             intl={this.props.intl}
+            inputLabelStyle={styles.radioInputLabel}
           />
         </div>
       </div>
@@ -238,7 +248,7 @@ export class ContactMerge extends BaseComponent {
   }
 
   generateSection = (section) =>
-    <div style={this.styles.section} key={section.label[this.props.intl.locale]}>
+    <div style={styles.section} key={section.label[this.props.intl.locale]}>
       <ContactSectionHeader label={section.label[this.props.intl.locale]} />
       {section.attributes.map(this.generateAttributeRow)}
     </div>
@@ -257,7 +267,7 @@ export class ContactMerge extends BaseComponent {
 
   render() {
     return (
-      <div style={this.styles.base}>
+      <div style={styles.base}>
         { this.props.layout.map(this.generateSection) }
         <div style={{ marginBottom: '28px', position: 'relative' }}>
           <ConfirmDialog
@@ -278,7 +288,7 @@ export class ContactMerge extends BaseComponent {
           />
           <Button
             id="contactSaveBtn"
-            style={this.styles.button}
+            style={styles.button}
             disabled={!this.props.formIsValid}
             type="secondary"
             onClick={this.showConfirmDialog}
@@ -286,7 +296,7 @@ export class ContactMerge extends BaseComponent {
           />
           <Button
             id="contactCancelBtn"
-            style={this.styles.button}
+            style={styles.button}
             type="secondary"
             text={this.props.intl.formatMessage(messages.cancelBtn)}
             onClick={this.props.handleCancel}
