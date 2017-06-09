@@ -120,6 +120,7 @@
   "app.containers.InfoTab.serverError": "Server Error",
   "app.containers.InteractionsBar.PSTN": "Answer phone to accept interaction",
   "app.containers.InteractionsBar.accept": "Click to accept interaction",
+  "app.containers.InteractionsBar.cancelInteraction": "CANCEL",
   "app.containers.InteractionsBar.newInteraction": "New Interaction",
   "app.containers.InteractionsBar.wrapup": "WRAP UP",
   "app.containers.Login.configLoadFailed": "Failed to get user configuration. Please try again.",

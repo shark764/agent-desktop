@@ -1,3 +1,6 @@
+### [0.41.6] (2017-06-13)
+* CXV1-9407 Added cancel button on interactions popup for click to dial calls only
+
 ### [0.41.5] (2017-06-13)
 * BUGFIX - Remove error test
 

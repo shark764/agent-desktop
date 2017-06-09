@@ -24,6 +24,8 @@ import {
   NEW_INTERACTION_PANEL_SELECT_CONTACT,
   CLOSE_NEW_INTERACTION_PANEL,
   START_OUTBOUND_INTERACTION,
+  CANCEL_CLICK_TO_DIAL,
+  SET_IS_CANCELLING_INTERACTION,
   INITIALIZE_OUTBOUND_SMS,
   ADD_INTERACTION,
   WORK_INITIATED,
@@ -191,6 +193,20 @@ export function startOutboundInteraction(channelType, customer, contact, addedBy
     customer,
     contact,
     addedByNewInteractionPanel,
+    interactionId,
+  };
+}
+
+export function cancelClickToDial(interactionId) {
+  return {
+    type: CANCEL_CLICK_TO_DIAL,
+    interactionId,
+  };
+}
+
+export function setIsCancellingInteraction(interactionId) {
+  return {
+    type: SET_IS_CANCELLING_INTERACTION,
     interactionId,
   };
 }

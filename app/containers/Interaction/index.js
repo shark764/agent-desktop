@@ -19,6 +19,8 @@ import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 import TimerMinutes from 'components/TimerMinutes';
 import Progress from 'components/Progress';
+import Button from 'components/Button';
+import { cancelClickToDial } from 'containers/AgentDesktop/actions';
 
 import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
@@ -30,7 +32,7 @@ const styles = {
     cursor: 'pointer',
     padding: '20px 16px 0 16px',
     borderRadius: '3px',
-    height: '100px',
+    height: '108px',
     width: '100%',
     borderBottom: '1px solid #141414',
     display: 'flex',
@@ -41,7 +43,6 @@ const styles = {
     cursor: 'default',
   },
   pendingBase: {
-    height: '123px',
     borderBottom: 'none',
     marginTop: '11px',
     backgroundColor: '#F3F3F3',
@@ -87,6 +88,8 @@ const styles = {
     color: '#979797',
     fontSize: '12px',
     marginTop: '11px',
+    display: 'flex',
+    flexDirection: 'column',
   },
   timer: {
     marginLeft: '3px',
@@ -106,6 +109,16 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+  },
+  cancelInteractionBtn: {
+    margin: '10px 0 0 auto',
+    padding: '.25em .5em',
+    maxWidth: '65px',
+  },
+  cancelInteractionInProgress: {
+    opacity: '.75',
+    pointerEvents: 'none',
+    cursor: 'default',
   },
 };
 
@@ -192,6 +205,13 @@ class Interaction extends React.Component {
     }
   }
 
+  cancelInteraction = (e) => {
+    // adding this to prevent other events from bubbling up - namely the
+    // event to start the interaction which sits on the same div as the button
+    e.stopPropagation();
+    this.props.cancelClickToDial(this.props.interactionId);
+  }
+
   render() {
     if (this.props.status !== 'creating-new-interaction') {
       const pendingPSTN = this.props.activeExtension.type === 'pstn' && this.props.status === 'pending' && this.props.channelType === 'voice';
@@ -205,6 +225,7 @@ class Interaction extends React.Component {
             this.props.selected && styles.selectedBase,
             this.props.status === 'pending' && styles.pendingBase,
             pendingPSTN && styles.pstnBase,
+            this.props.isCanceled && styles.cancelInteractionInProgress,
           ]}
           key={this.props.interactionId}
           onClick={this.props.onClick}
@@ -247,8 +268,18 @@ class Interaction extends React.Component {
             {this.props.status === 'pending'
               ? <div style={styles.intentText}>
                 <FormattedMessage {...acceptMessage} />
+                { this.props.interactionDirection === 'outbound' && this.props.channelType === 'voice'
+                  ? <Button
+                    id="cancelInteractionBeforeActive"
+                    type="primaryRed"
+                    text={messages.cancelInteraction}
+                    style={styles.cancelInteractionBtn}
+                    onClick={this.cancelInteraction}
+                  />
+                : undefined
+              }
               </div>
-              : undefined
+            : undefined
             }
           </div>
         </div>
@@ -296,6 +327,9 @@ Interaction.propTypes = {
   selected: PropTypes.bool,
   onClick: PropTypes.func,
   activeExtension: PropTypes.object.isRequired,
+  isCanceled: PropTypes.bool,
+  interactionDirection: PropTypes.string,
+  cancelClickToDial: PropTypes.func,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -303,4 +337,11 @@ const mapStateToProps = (state, props) => ({
   activeExtension: selectActiveExtension(state, props),
 });
 
-export default connect(mapStateToProps)(Radium(Interaction));
+function mapDispatchToProps(dispatch) {
+  return {
+    cancelClickToDial: (interactionId) => dispatch(cancelClickToDial(interactionId)),
+    dispatch,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(Interaction));

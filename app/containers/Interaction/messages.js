@@ -22,4 +22,8 @@ export default defineMessages({
     id: 'app.containers.InteractionsBar.wrapup',
     defaultMessage: 'WRAP UP',
   },
+  cancelInteraction: {
+    id: 'app.containers.InteractionsBar.cancelInteraction',
+    defaultMessage: 'CANCEL',
+  },
 });

@@ -12,7 +12,7 @@ exports[`<Interaction /> should render correctly 1`] = `
       "borderRadius": "3px",
       "cursor": "pointer",
       "display": "flex",
-      "height": "123px",
+      "height": "108px",
       "justifyContent": "stretch",
       "marginTop": "11px",
       "padding": "20px 16px 0 16px",
@@ -114,6 +114,8 @@ exports[`<Interaction /> should render correctly 1`] = `
       style={
         Object {
           "color": "#979797",
+          "display": "flex",
+          "flexDirection": "column",
           "fontSize": "12px",
           "marginTop": "11px",
         }

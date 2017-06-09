@@ -23,7 +23,7 @@ import { openNewInteractionPanel } from 'containers/AgentDesktop/actions';
 import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
 
 import Icon from 'components/Icon';
-import Interaction from 'components/Interaction';
+import Interaction from 'containers/Interaction';
 
 import { selectPendingInteractions, selectActiveVoiceInteraction, selectActiveNonVoiceInteractions, getSelectedInteractionId, selectNewInteractionPanel } from './selectors';
 import messages from './messages';
@@ -153,6 +153,8 @@ export class InteractionsBar extends BaseComponent {
           status="pending"
           timeout={pendingInteraction.timeout}
           onClick={() => this.acceptInteraction(pendingInteraction.interactionId)}
+          interactionDirection={pendingInteraction.direction}
+          isCanceled={pendingInteraction.isCancellingInteraction}
         />
       );
     });
