@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
 // No need to build the DLL in production
 if (process.env.NODE_ENV === 'production') {
   process.exit(0);

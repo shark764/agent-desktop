@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
 #!/usr/bin/env node
 
 process.stdin.resume();

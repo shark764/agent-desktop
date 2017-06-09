@@ -1,3 +1,6 @@
+### [0.41.1] (2017-06-08)
+* BUGFIX - Add legal to all JS files
+
 ### [0.41.0] (2017-06-09)
 * CXV1-9519: Updated new interaction panel to use full CRM search
 

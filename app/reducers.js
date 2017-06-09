@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
 import { combineReducers } from 'redux-immutable';
 import language from 'containers/LanguageProvider/reducer';
 import login from 'containers/Login/reducer';

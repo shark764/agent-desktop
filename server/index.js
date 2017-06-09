@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
 /* eslint consistent-return:0 */
 
 const express = require('express');

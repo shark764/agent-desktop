@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
 import { takeEvery, call, put, select } from 'redux-saga/effects';
 import axios from 'axios';
 

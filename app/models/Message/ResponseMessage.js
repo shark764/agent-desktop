@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
 import Message from './Message';
 
 export default class ResponseMessage extends Message {
