@@ -1,3 +1,6 @@
+### [0.41.0] (2017-06-09)
+* CXV1-9519: Updated new interaction panel to use full CRM search
+
 ### [0.40.8] (2017-06-09)
 * Bump the SDK version to 5.3.2
   * Fixes CXV1-8189, CXV1-9389, CXV1-9836

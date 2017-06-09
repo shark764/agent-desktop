@@ -22,7 +22,7 @@ function ContactBulkActions(props) {
     bulkActionControlBar: {
       display: 'flex',
       flexShrink: '0',
-      margin: '12px 0',
+      margin: '12px 0 12px 54px',
     },
     bulkConfirmDialog: {
       position: 'absolute',

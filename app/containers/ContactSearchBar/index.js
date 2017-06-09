@@ -19,6 +19,7 @@ import { setCriticalError } from 'containers/Errors/actions';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 
+import { addSearchFilter, removeSearchFilter, setContactAction } from 'containers/AgentDesktop/actions';
 import { selectSearchableAttributes } from './selectors';
 
 export class ContactSearchBar extends BaseComponent {
@@ -98,6 +99,7 @@ export class ContactSearchBar extends BaseComponent {
     base: {
       display: 'flex',
       alignItems: 'center',
+      boxSizing: 'border-box',
     },
     inputBox: {
       backgroundColor: '#ffffff',
@@ -163,17 +165,16 @@ export class ContactSearchBar extends BaseComponent {
       alignItems: 'center',
       flexGrow: '1',
       flexShrink: '1',
+      position: 'relative',
     },
     filterDropdown: {
-      left: '',
-      right: '92px',
-      position: 'fixed',
+      left: '-41px',
+      top: '32px',
+      position: 'absolute',
       background: '#FFFFFF',
       borderRadius: '0 0 0 2px',
       border: '1px solid #E4E4E4',
       borderTop: 'none',
-      padding: '10px 0 10px 0',
-      margin: '4px 0 0 0',
       zIndex: '10',
     },
     filterDropdownRow: {
@@ -222,6 +223,13 @@ export class ContactSearchBar extends BaseComponent {
     return false;
   }
 
+  cancel = () => {
+    this.props.removeSearchFilter();
+    if (this.props.selectedInteraction.contact !== undefined) {
+      this.props.setContactAction(this.props.selectedInteraction.interactionId, 'view');
+    }
+  }
+
   render() {
     return (
       <form id="search-form" onSubmit={this.handleSubmit}>
@@ -250,7 +258,7 @@ export class ContactSearchBar extends BaseComponent {
             }
             { this.props.resultsCount > -1 ? <div style={this.styles.resultsCount}>{`${this.props.resultsCount} Result(s)`}</div> : '' }
           </div>
-          <Button id="exit-search-btn" style={this.styles.closeButton} iconName="close" type="secondary" onClick={this.props.cancel} />
+          <Button id="exit-search-btn" style={this.styles.closeButton} iconName="close" type="secondary" onClick={this.cancel} />
         </div>
       </form>
     );
@@ -259,12 +267,13 @@ export class ContactSearchBar extends BaseComponent {
 
 ContactSearchBar.propTypes = {
   intl: PropTypes.object.isRequired,
-  addFilter: PropTypes.func.isRequired,
-  cancel: PropTypes.func.isRequired,
   query: PropTypes.array,
-  searchableAttributes: PropTypes.array,
   style: PropTypes.object,
   resultsCount: PropTypes.number,
+  searchableAttributes: PropTypes.array,
+  addFilter: PropTypes.func.isRequired,
+  removeSearchFilter: PropTypes.func.isRequired,
+  setContactAction: React.PropTypes.func,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -274,6 +283,9 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
+    addFilter: (filterName, value) => dispatch(addSearchFilter(filterName, value)),
+    removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
+    setContactAction: (interactionId, newAction) => dispatch(setContactAction(interactionId, newAction)),
     dispatch,
   };
 }
