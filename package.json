@@ -1,13 +1,14 @@
 {
   "name": "agent-desktop",
-  "version": "0.41.2",
+
+  "version": "0.41.3",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
     "url": "git@github.com:liveops/agent-desktop.git"
   },
   "engines": {
-    "npm": ">=3"
+  "npm": ">=3"
   },
   "author": "Serenova",
   "scripts": {

@@ -1,3 +1,6 @@
+### [0.41.3] (2017-06-09)
+* BUGFIX - Add legal to all JS files
+
 ### [0.41.2] (2017-06-09)
 * Added Legal to prod minified js
 

@@ -1,4 +1,8 @@
 /*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
+/*
  * EmailContentArea Messages
  *
  * This contains all the text for the EmailContentArea component.
