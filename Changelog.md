@@ -1,8 +1,14 @@
-### [0.41.1] (2017-06-08)
+### [0.41.3] (2017-06-08)
 * BUGFIX - Add legal to all JS files
 
+### [0.41.2] (2017-06-09)
+* Added Legal to prod minified js
+
+### [0.41.1] (2017-06-09)
+* CXV1-9848 Bug prevention for click to email
+
 ### [0.41.0] (2017-06-09)
-* CXV1-9519: Updated new interaction panel to use full CRM search
+* CXV1-9519 Updated new interaction panel to use full CRM search
 
 ### [0.40.8] (2017-06-09)
 * Bump the SDK version to 5.3.2
