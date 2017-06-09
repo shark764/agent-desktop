@@ -1,5 +1,15 @@
-### [0.40.6] (2017-06-08)
+### [0.40.9] (2017-06-08)
 * BUGFIX - Add legal to all JS files
+
+### [0.40.8] (2017-06-09)
+* Bump the SDK version to 5.3.2
+  * Fixes CXV1-8189, CXV1-9389, CXV1-9836
+
+### [0.40.7] (2017-06-08)
+* CXV1-9497 - Character limits on notes
+
+### [0.40.6] (2017-06-08)
+* BUGFIX - Fix Contact edit/merge form radio button circle mac issue
 
 ### [0.40.5] (2017-06-08)
 * BUGFIX - Hide "Forgot Password" link
@@ -883,6 +893,23 @@
 #### Initial Commit
 * Here we go!
 
+
+[0.40.8]: http://www.github.com/liveops/agent-desktop/compare/0.40.7...0.40.8
+[0.40.7]: http://www.github.com/liveops/agent-desktop/compare/0.40.6...0.40.7
+[0.40.6]: http://www.github.com/liveops/agent-desktop/compare/0.40.5...0.40.6
+[0.40.5]: http://www.github.com/liveops/agent-desktop/compare/0.40.4...0.40.5
+[0.40.4]: http://www.github.com/liveops/agent-desktop/compare/0.40.3...0.40.4
+[0.40.3]: http://www.github.com/liveops/agent-desktop/compare/0.40.2...0.40.3
+[0.40.2]: http://www.github.com/liveops/agent-desktop/compare/0.40.1...0.40.2
+[0.40.1]: http://www.github.com/liveops/agent-desktop/compare/0.40.0...0.40.1
+[0.40.0]: http://www.github.com/liveops/agent-desktop/compare/0.39.1...0.40.0
+[0.39.1]: http://www.github.com/liveops/agent-desktop/compare/0.39.0...0.39.1
+[0.39.0]: http://www.github.com/liveops/agent-desktop/compare/0.38.4...0.39.0
+[0.38.4]: http://www.github.com/liveops/agent-desktop/compare/0.38.3...0.38.4
+[0.38.3]: http://www.github.com/liveops/agent-desktop/compare/0.38.2...0.38.3
+[0.38.2]: http://www.github.com/liveops/agent-desktop/compare/0.38.1...0.38.2
+[0.38.1]: http://www.github.com/liveops/agent-desktop/compare/0.38.0...0.38.1
+[0.38.0]: http://www.github.com/liveops/agent-desktop/compare/0.37.30...0.38.0
 [0.37.30]: http://www.github.com/liveops/agent-desktop/compare/0.37.29...0.37.30
 [0.37.29]: http://www.github.com/liveops/agent-desktop/compare/0.37.28...0.37.29
 [0.37.28]: http://www.github.com/liveops/agent-desktop/compare/0.37.27...0.37.28
