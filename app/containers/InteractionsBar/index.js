@@ -72,14 +72,18 @@ export class InteractionsBar extends BaseComponent {
       let text;
       let type;
       if (activeInteraction.channelType === 'messaging' || activeInteraction.channelType === 'sms') {
-        from = activeInteraction.customer ? activeInteraction.customer : activeInteraction.messageHistory[0].from;
+        from = activeInteraction.customer
+          ? activeInteraction.customer
+          : activeInteraction.messageHistory && activeInteraction.messageHistory[0] && activeInteraction.messageHistory[0].from;
 
         // use the last non-system message
-        for (let i = activeInteraction.messageHistory.length - 1; i >= 0; i -= 1) {
-          if (activeInteraction.messageHistory[i].type !== 'system') {
-            text = activeInteraction.messageHistory[i].text;
-            type = activeInteraction.messageHistory[i].type;
-            break;
+        if (activeInteraction.messageHistory) {
+          for (let i = activeInteraction.messageHistory.length - 1; i >= 0; i -= 1) {
+            if (activeInteraction.messageHistory[i].type !== 'system') {
+              text = activeInteraction.messageHistory[i].text;
+              type = activeInteraction.messageHistory[i].type;
+              break;
+            }
           }
         }
         // if the last message was from the customer, show the 'new' icon

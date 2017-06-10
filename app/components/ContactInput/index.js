@@ -116,18 +116,21 @@ function ContactInput(props) {
             {props.attributeLabel}
           </div>
           <div key={props.attribute.objectName} style={[styles.inputBox, styles.inputBorder, inputError && styles.inputErrorBorder, { marginLeft: props.hasRadio ? '-17px' : '' }, props.notSelected && styles.notSelected]}>
-            <TextInput
-              noBorder
-              disabled={props.notSelected}
-              cb={props.handleInputChange}
-              style={[styles.textInput, props.notSelected && styles.notSelected]}
-              id={`${props.attribute.objectName}Input`}
-              name={props.attribute.objectName}
-              value={value}
-              placeholder={props.attribute.label[props.intl.locale]}
-              autocomplete="off"
-              onBlur={props.handleOnBlur}
-            />
+            {
+              (value !== undefined)
+              && <TextInput
+                noBorder
+                disabled={props.notSelected}
+                cb={props.handleInputChange}
+                style={[styles.textInput, props.notSelected && styles.notSelected]}
+                id={`${props.attribute.objectName}Input`}
+                name={props.attribute.objectName}
+                value={value}
+                placeholder={props.attribute.label[props.intl.locale]}
+                autocomplete="off"
+                onBlur={props.handleOnBlur}
+              />
+            }
             {value && value.length && !props.notSelected
               ? <Button
                 id={`${props.attribute.objectName}-clear-btn`}

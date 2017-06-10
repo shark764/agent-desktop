@@ -1,3 +1,6 @@
+### [0.41.7] (2017-06-09)
+* CXV1-9519 - further new interaction panel / search work
+
 ### [0.41.6] (2017-06-13)
 * CXV1-9407 Added cancel button on interactions popup for click to dial calls only
 

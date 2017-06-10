@@ -122,6 +122,18 @@ const initialState = fromJS({
   isContactsPanelCollapsed: true,
 });
 
+const getInteractionUpdateTarget = (interactionId, interactionIndex) => {
+  let target;
+  if (interactionId === 'creating-new-interaction') {
+    target = ['newInteractionPanel'];
+  } else if (interactionIndex === -1) {
+    target = ['noInteractionContactPanel'];
+  } else {
+    target = ['interactions', interactionIndex];
+  }
+  return target;
+};
+
 const categorizeItems = (rawItems, name) => {
   const categorizedItems = [];
   rawItems.sort((a, b) => a.sortOrder > b.sortOrder).forEach(
@@ -364,7 +376,7 @@ function agentDesktopReducer(state = initialState, action) {
     case NEW_INTERACTION_PANEL_SELECT_CONTACT: {
       return state.update('newInteractionPanel', (newInteractionPanel) =>
         newInteractionPanel
-          .set('contact', action.contact)
+          .set('contact', fromJS(action.contact))
           .set('contactAction', 'view')
       );
     }
@@ -660,7 +672,7 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
-      const target = interactionIndex !== -1 ? ['interactions', interactionIndex] : ['noInteractionContactPanel'];
+      const target = getInteractionUpdateTarget(action.interactionId, interactionIndex);
       target.push('sidePanelTabIndex');
       return state.setIn(target, action.tabIndex);
     }
@@ -671,6 +683,9 @@ function agentDesktopReducer(state = initialState, action) {
         )).update(
         'noInteractionContactPanel',
         (noInteractionContactPanel) => setContactInteractionDetails(noInteractionContactPanel, action)
+      ).update(
+        'newInteractionPanel',
+        (newInteractionPanel) => setContactInteractionDetails(newInteractionPanel, action)
       );
     }
     case SET_CONTACT_INTERACTION_HISTORY: {
@@ -680,13 +695,15 @@ function agentDesktopReducer(state = initialState, action) {
         )
       ).updateIn(['noInteractionContactPanel', 'contact'], (contact) =>
         updateContactInteractionHistoryResults(contact, action)
+      ).updateIn(['newInteractionPanel', 'contact'], (contact) =>
+        updateContactInteractionHistoryResults(contact, action)
       );
     }
     case SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING: {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
-      const target = interactionIndex !== -1 ? ['interactions', interactionIndex] : ['noInteractionContactPanel'];
+      const target = getInteractionUpdateTarget(action.interactionId, interactionIndex);
       return state.updateIn(target, (interaction) => {
         if (interaction.getIn(['contact', 'interactionHistory']) !== undefined) {
           return interaction.updateIn(['contact', 'interactionHistory', 'results'], (interactionHistoryResults) =>
@@ -710,6 +727,9 @@ function agentDesktopReducer(state = initialState, action) {
         )).update(
         'noInteractionContactPanel',
         (noInteractionContactPanel) => updateContactInteractionDetails(noInteractionContactPanel, action)
+      ).update(
+        'newInteractionPanel',
+        (newInteractionPanel) => updateContactInteractionDetails(newInteractionPanel, action)
       );
     }
     case ADD_NOTES_TO_CONTACT_INTERACTION_HISTORY: {
@@ -721,6 +741,9 @@ function agentDesktopReducer(state = initialState, action) {
       ).update(
         'noInteractionContactPanel',
         (noInteractionContactPanel) => addContactInteractionNote(noInteractionContactPanel, action)
+      ).update(
+        'newInteractionPanel',
+        (newInteractionPanel) => addContactInteractionNote(newInteractionPanel, action)
       );
     }
     case UPDATE_CONTACT: {
@@ -730,6 +753,11 @@ function agentDesktopReducer(state = initialState, action) {
         }
         return interaction;
       })).updateIn(['noInteractionContactPanel', 'contact'], (contact) => {
+        if (contact && contact.get('id') === action.updatedContact.id) {
+          return contact.merge(fromJS(action.updatedContact));
+        }
+        return contact;
+      }).updateIn(['newInteractionPanel', 'contact'], (contact) => {
         if (contact && contact.get('id') === action.updatedContact.id) {
           return contact.merge(fromJS(action.updatedContact));
         }
@@ -747,6 +775,11 @@ function agentDesktopReducer(state = initialState, action) {
           return noInteractionContactPanel.delete('contact');
         }
         return noInteractionContactPanel;
+      }).update('newInteractionPanel', (newInteractionPanel) => {
+        if (newInteractionPanel.getIn(['contact', 'id']) === action.contactId) {
+          return newInteractionPanel.delete('contact');
+        }
+        return newInteractionPanel;
       });
     }
     case ADD_MESSAGE: {

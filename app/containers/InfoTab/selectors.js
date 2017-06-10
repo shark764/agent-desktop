@@ -52,7 +52,7 @@ const selectContactMode = createSelector(
 
 const selectEditingContact = createSelector(
   selectInfoTabDomain(),
-  (infoTab) => infoTab.get('editingContact')
+  (infoTab) => infoTab.get('editingContact').toJS()
 );
 
 const selectExpandedQuery = createSelector(

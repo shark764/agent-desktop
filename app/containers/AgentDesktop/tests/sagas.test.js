@@ -182,6 +182,10 @@ describe('goNotReady', () => {
 
 describe('goDeleteContacts', () => {
   let generator;
+  const mockCheckedContacts = [
+    { id: 'reasonId1' },
+    { id: 'reasonId2' },
+  ];
   beforeEach(() => {
     global.CxEngage = {
       contacts: {
@@ -192,32 +196,28 @@ describe('goDeleteContacts', () => {
 
   describe('when action.reasonIds is an array of Ids', () => {
     beforeEach(() => {
-      const mockAction = {
-        contactIds: ['reasonId1', 'reasonId2'],
-      };
-      generator = goDeleteContacts(mockAction);
+      generator = goDeleteContacts();
+      generator.next(1);
+      generator.next();
+      generator.next();
+      generator.next();
     });
     it('should call the promise util with the SDK goDeleteContacts and the correct arguments', () => {
-      expect(generator.next()).toMatchSnapshot();
+      expect(generator.next(mockCheckedContacts)).toMatchSnapshot();
     });
     describe('when API responds with true bools', () => {
       const mockDeleteResponses = [true, true];
       it('should use the yielded SDK responses to dispatch a removeContact action for each contactId', () => {
-        generator.next();
+        generator.next(mockCheckedContacts);
         expect(generator.next(mockDeleteResponses)).toMatchSnapshot();
       });
     });
     describe('when API responds with a false bool for contactId1 and a true bool for 2', () => {
       const mockDeleteResponses = [false, true];
       it('should only dispatch a removeContact action contactId2', () => {
-        generator.next();
+        generator.next(mockCheckedContacts);
         expect(generator.next(mockDeleteResponses)).toMatchSnapshot();
       });
-    });
-    it('should dispatch a clearSearchResults action after deletion is complete', () => {
-      generator.next();
-      generator.next([]);
-      expect(generator.next()).toMatchSnapshot();
     });
   });
 });

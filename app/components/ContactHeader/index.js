@@ -76,41 +76,50 @@ function ContactHeader(props) {
     return (
       <div style={styles.controlHeader}>
         {
-          props.selectedInteraction.interactionId !== 'creating-new-interaction'
+          props.showControls
           && <div style={styles.buttonSet}>
-            <Button id="contact-edit-btn" style={styles.leftButton} onClick={props.editAssignedContact} text={messages.edit} type="secondary" />
-            <Button id="contact-search-btn" style={styles.rightButton} onClick={props.setSearching} iconName="search" type="secondary" />
+            <Button
+              id="contact-edit-btn"
+              style={styles.leftButton}
+              onClick={props.editAssignedContact}
+              text={messages.edit}
+              type="secondary"
+            />
+            <Button
+              id="contact-search-btn"
+              style={styles.rightButton}
+              onClick={props.setSearching}
+              iconName="search"
+              type="secondary"
+            />
           </div>
         }
       </div>
     );
   }
 
-  switch (props.selectedInteraction.contactAction) {
-    case 'view':
-      if (props.contactMode === 'editing') {
-        return getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} />);
-      }
-      return getViewControlHeader();
-    case 'search':
-    default:
-      if (props.contactMode === 'editing') {
-        if (Object.keys(props.editingContactEditing).length === 0) {
-          return getBannerHeader(<FormattedMessage {...messages.newContactBanner} />);
-        } else {
-          return getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} />);
-        }
-      }
-      if (props.contactMode === 'merging') {
+  if (props.contactMode) {
+    switch (props.contactMode) {
+      case 'merge':
         return getBannerHeader(<FormattedMessage {...messages.contactMergeBanner} />);
-      }
-      return null;
+      case 'create':
+        return getBannerHeader(<FormattedMessage {...messages.newContactBanner} />);
+      case 'edit':
+      default:
+        return getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} />);
+    }
+  } else if (props.contactAction === 'view') {
+    return getViewControlHeader();
   }
+  return null;
 }
 
 ContactHeader.propTypes = {
   editAssignedContact: PropTypes.func,
   setSearching: PropTypes.func,
+  contactAction: PropTypes.string,
+  contactMode: PropTypes.string,
+  showControls: PropTypes.bool,
 };
 
 export default Radium(ContactHeader);
