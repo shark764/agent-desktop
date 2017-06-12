@@ -9,7 +9,7 @@ node {
 pwd = pwd()
 }
 def service = 'Agent-Desktop'
-if (pwd ==~ /.*PR.*/ ) { // Run if Pull Request
+if (pwd ==~ /.*_PR-.*/ ) { // Run if Pull Request
   node() { // Allocate Executor
     def p = new node.pr()
     try {
