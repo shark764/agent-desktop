@@ -40,7 +40,7 @@ if (pwd ==~ /.*PR.*/ ) { // Run if Pull Request
     }
   }
 }
-else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
+else if (pwd ==~ /.*master.*/ || pwd ==~ /.*hotfix.*/) { // Run if Master Branch
   node() { // Allocate Executor
     def b = new node.build()
     try {
