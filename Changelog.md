@@ -1,3 +1,6 @@
+### [0.41.11] (2017-06-14)
+* BUGFIX - Updated Messaging model to work even if from field is null
+
 ### [0.41.10] (2017-06-14)
 * CXV1-9769 - Improved handling of SDK callback so they won't continue if there was an error.
 * CXV1-9501 - Handle errors in transfer agents capacity callback to handle error.

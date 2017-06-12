@@ -357,7 +357,7 @@ export class App extends React.Component {
               if (customerMessage && customerMessage.metadata && customerMessage.metadata.name) {
                 this.attemptContactSearch(customerMessage.metadata.name, customerMessage.to, false);
               } else {
-                console.error('customer name not found in:', interaction);
+                console.warn('customer name not found in:', interaction);
               }
             }
             break;
