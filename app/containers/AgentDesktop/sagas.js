@@ -7,10 +7,10 @@ import axios from 'axios';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 
-import { updateContactHistoryInteractionDetails, setContactInteractionHistory, removeContact, selectContact, assignContact, newInteractionPanelSelectContact } from 'containers/AgentDesktop/actions';
+import { updateContactHistoryInteractionDetails, setContactInteractionHistory, removeContact, selectContact, assignContact, newInteractionPanelSelectContact, setIsCancellingInteraction } from 'containers/AgentDesktop/actions';
 import { selectCurrentInteraction, selectNextNotificationId } from 'containers/InfoTab/selectors';
 import { clearSearchResults, setLoading, addNotification } from 'containers/InfoTab/actions';
-import { LOAD_HISTORICAL_INTERACTION_BODY, LOAD_CONTACT_INTERACTION_HISTORY, GO_NOT_READY, DELETE_CONTACTS, ASSIGN_CONTACT_ACTION } from 'containers/AgentDesktop/constants';
+import { LOAD_HISTORICAL_INTERACTION_BODY, LOAD_CONTACT_INTERACTION_HISTORY, CANCEL_CLICK_TO_DIAL, GO_NOT_READY, DELETE_CONTACTS, ASSIGN_CONTACT_ACTION } from 'containers/AgentDesktop/constants';
 
 export function* loadHistoricalInteractionBody(action) {
   const body = {};
@@ -99,6 +99,21 @@ export function* loadContactInteractions(action) {
   }
 
   yield put(setContactInteractionHistory(action.contactId, contactInteractionHistoryDetails));
+}
+
+export function* cancelClickToDial(action) {
+  yield put(setIsCancellingInteraction(action.interactionId));
+
+  try {
+    yield call(
+      sdkCallToPromise,
+      CxEngage.interactions.voice.cancelDial,
+      { interactionId: action.interactionId },
+      'AgentDesktop',
+    );
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export function* goNotReady(action) {
@@ -190,6 +205,10 @@ export function* notReady() {
   yield takeEvery(GO_NOT_READY, goNotReady);
 }
 
+export function* cancelDial() {
+  yield takeEvery(CANCEL_CLICK_TO_DIAL, cancelClickToDial);
+}
+
 export function* deleteContacts() {
   yield takeEvery(DELETE_CONTACTS, goDeleteContacts);
 }
@@ -205,4 +224,5 @@ export default [
   notReady,
   deleteContacts,
   assignContactAction,
+  cancelDial,
 ];

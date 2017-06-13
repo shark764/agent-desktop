@@ -33,6 +33,7 @@ import {
   INITIALIZE_OUTBOUND_SMS,
   ADD_INTERACTION,
   WORK_INITIATED,
+  SET_IS_CANCELLING_INTERACTION,
   REMOVE_INTERACTION,
   ADD_SEARCH_FILTER,
   REMOVE_SEARCH_FILTER,
@@ -483,6 +484,21 @@ function agentDesktopReducer(state = initialState, action) {
           .set('status', 'work-initiated')
           .set('number', interaction.get('channelType') === 'voice' ? action.response.customer : undefined)
       );
+    }
+    case SET_IS_CANCELLING_INTERACTION: {
+      // setting "isCancellingInteraction" flag so that we can give the user
+      // instant visual/UI feedback while we wait for the sdk to do its magic
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex],
+          (interaction) => interaction
+            .set('isCancellingInteraction', true)
+        );
+      } else {
+        return state;
+      }
     }
     case REMOVE_INTERACTION: {
       // If the interaction being removed is the selected interaction, select the next interaction (voice, first non-voice)
