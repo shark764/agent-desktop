@@ -141,7 +141,7 @@
   "app.containers.Login.sendButton": "Send",
   "app.containers.Login.signInButton": "Sign In",
   "app.containers.Login.username": "Username",
-  "app.containers.Login.welcome": "Sign in to CXEngage",
+  "app.containers.Login.welcome": "Sign in to CxEngage",
   "app.containers.Login.welcomeNoProd": "Sign in",
   "app.containers.MessagingContentArea.endChat": "End Chat",
   "app.containers.MessagingContentArea.endWrapup": "End Wrap Up",
