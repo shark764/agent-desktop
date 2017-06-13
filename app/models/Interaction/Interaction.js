@@ -2,10 +2,10 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
-import { List, Map } from 'immutable';
+import { List, Map, fromJS } from 'immutable';
 
 export default class Interaction {
-  constructor({ interactionId, channelType, autoAnswer, direction, timeout, toolbarFeatures, recording, customerOnHold, status, customer, activeResources, contact, hideNewInteractionPanelOnWorkAccepted }) {
+  constructor({ interactionId, channelType, autoAnswer, direction, timeout, toolbarFeatures, recording, customerOnHold, status, customer, activeResources, contact, hideNewInteractionPanelOnWorkAccepted, contactMode }) {
     if (channelType === 'voice') {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
       this.agentRecordingEnabled = toolbarFeatures && toolbarFeatures.recordingUpdate !== false;
@@ -37,6 +37,7 @@ export default class Interaction {
     this.channelType = channelType;
     this.direction = direction;
     this.interactionId = interactionId || `${direction}-${channelType}-${customer}`;
+    this.contactMode = contactMode || 'search';
     this.timeout = new Date(timeout).valueOf();
     this.autoAnswer = autoAnswer;
     this.status = status || 'work-offer';
@@ -70,11 +71,23 @@ export default class Interaction {
       notesPanelHeight: 300,
     });
     this.contact = contact ? new Map(contact) : undefined;
-    this.contactAction = contact ? 'view' : 'search';
     this.query = new Map();
     this.sidePanelTabIndex = 0;
     if (hideNewInteractionPanelOnWorkAccepted !== undefined) {
       this.hideNewInteractionPanelOnWorkAccepted = hideNewInteractionPanelOnWorkAccepted;
     }
+    this.activeContactForm = fromJS(activeContactFormBlank);
   }
 }
+
+export const activeContactFormBlank = {
+  formIsDirty: false,
+  formIsValid: false,
+  contactForm: {},
+  formErrors: {},
+  showErrors: {},
+  unusedFields: {},
+  selectedIndexes: {},
+  editingContacts: [],
+  saveLoading: false,
+};

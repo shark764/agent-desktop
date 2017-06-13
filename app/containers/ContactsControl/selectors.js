@@ -34,6 +34,16 @@ const getSelectedInteractionIsCreatingNewInteraction = createSelector(
       && selectedInteraction.interactionId === 'creating-new-interaction'
 );
 
+const selectShowCancelDialog = createSelector(
+  selectContactsControlDomain(),
+  (activeContactForm) => activeContactForm.get('showCancelDialog')
+);
+
+const selectShowConfirmDialog = createSelector(
+  selectContactsControlDomain(),
+  (activeContactForm) => activeContactForm.get('showConfirmDialog')
+);
+
 const selectCurrentInteraction = createSelector(
  [selectSelectedInteraction, selectNoInteractionContactPanelContactsData],
  (selectedInteraction, floatingNoInteractionData) => {
@@ -45,39 +55,59 @@ const selectCurrentInteraction = createSelector(
  }
 );
 
-const selectShowCancelDialog = createSelector(
-  selectContactsControlDomain(),
-  (contactsControl) => contactsControl.get('showCancelDialog')
+const selectContactMode = createSelector(
+  selectCurrentInteraction,
+  (currentInteraction) => currentInteraction.contactMode
 );
 
-const selectShowConfirmDialog = createSelector(
-  selectContactsControlDomain(),
-  (contactsControl) => contactsControl.get('showConfirmDialog')
+const selectActiveContactForm = createSelector(
+  selectCurrentInteraction,
+  (currentInteraction) => currentInteraction.activeContactForm
 );
 
 const selectFormIsDirty = createSelector(
-  selectContactsControlDomain(),
-  (contactsControl) => contactsControl.get('formIsDirty')
+  selectActiveContactForm,
+  (activeContactForm) => activeContactForm.formIsDirty
 );
 
 const selectFormValidity = createSelector(
-  selectContactsControlDomain(),
-  (contactsControl) => contactsControl.get('formIsValid')
+  selectActiveContactForm,
+  (activeContactForm) => activeContactForm.formIsValid
 );
 
 const selectContactForm = createSelector(
-  selectContactsControlDomain(),
-  (contactsControl) => contactsControl.get('contactForm').toJS()
+  selectActiveContactForm,
+  (activeContactForm) => activeContactForm.contactForm
 );
 
 const selectFormErrors = createSelector(
-  selectContactsControlDomain(),
-  (contactsControl) => contactsControl.get('formErrors').toJS()
+  selectActiveContactForm,
+  (activeContactForm) => activeContactForm.formErrors
 );
 
 const selectShowErrors = createSelector(
-  selectContactsControlDomain(),
-  (contactsControl) => contactsControl.get('showErrors').toJS()
+  selectActiveContactForm,
+  (activeContactForm) => activeContactForm.showErrors
+);
+
+const selectUnusedFields = createSelector(
+  selectActiveContactForm,
+  (activeContactForm) => activeContactForm.unusedFields
+);
+
+const selectSelectedIndexes = createSelector(
+  selectActiveContactForm,
+  (activeContactForm) => activeContactForm.selectedIndexes
+);
+
+const selectEditingContacts = createSelector(
+  selectActiveContactForm,
+  (activeContactForm) => activeContactForm.editingContacts
+);
+
+const selectContactSaveLoading = createSelector(
+  selectActiveContactForm,
+  (activeContactForm) => activeContactForm.saveLoading
 );
 
 /**
@@ -94,7 +124,6 @@ export {
   selectContactsControlDomain,
   selectAttributes,
   getSelectedInteractionIsCreatingNewInteraction,
-  selectCurrentInteraction,
   selectShowCancelDialog,
   selectShowConfirmDialog,
   selectFormIsDirty,
@@ -102,4 +131,9 @@ export {
   selectContactForm,
   selectFormErrors,
   selectShowErrors,
+  selectUnusedFields,
+  selectSelectedIndexes,
+  selectEditingContacts,
+  selectContactSaveLoading,
+  selectContactMode,
 };

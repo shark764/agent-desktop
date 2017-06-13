@@ -12,7 +12,6 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
-import union from 'lodash/union';
 
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
@@ -22,13 +21,14 @@ import ContactInput from 'components/ContactInput';
 import ConfirmDialog from 'components/ConfirmDialog';
 import Button from 'components/Button';
 
-import { setContactAction, removeContact, removeSearchFilter } from 'containers/AgentDesktop/actions';
-import { selectShowCancelDialog, selectShowConfirmDialog, selectFormValidity, selectContactForm, selectFormErrors, selectShowErrors } from 'containers/ContactsControl/selectors';
-import { setShowCancelDialog, setShowConfirmDialog, setFormValidity, setShowError, setFormField, setFormError, setUnusedField, setSelectedIndex } from 'containers/ContactsControl/actions';
-import { selectCheckedContacts, selectCurrentInteraction } from 'containers/InfoTab/selectors';
-import { clearSearchResults, setLoading, setEditingContact } from 'containers/InfoTab/actions';
+import { setContactMode, removeContact, removeSearchFilter, setFormValidity, setShowError, setFormField, setFormError, setUnusedField, setSelectedIndex } from 'containers/AgentDesktop/actions';
+import { selectShowCancelDialog, selectShowConfirmDialog, selectFormValidity, selectContactForm, selectFormErrors, selectShowErrors, selectSelectedIndexes, selectUnusedFields, selectEditingContacts, selectContactSaveLoading } from 'containers/ContactsControl/selectors';
+import { setShowCancelDialog, setShowConfirmDialog, submitContactMerge } from 'containers/ContactsControl/actions';
+import { selectCurrentInteraction } from 'containers/InfoTab/selectors';
+import { selectLayout, selectAttributes } from 'containers/ContactSearchBar/selectors';
 
-import { selectLayout, selectAttributes, selectSelectedIndexes, selectUnusedFields } from './selectors';
+import { formatValue, getError } from 'utils/contact';
+
 import messages from './messages';
 
 const styles = {
@@ -63,64 +63,14 @@ const styles = {
 
 export class ContactMerge extends BaseComponent {
 
-  componentWillMount() {
-    this.hydrateMergeForm();
-  }
-
-  componentDidMount() {
-    this.props.setFormValidity(true);
-  }
-
-  hydrateMergeForm = () => {
-    const firstContact = this.props.checkedContacts[0].attributes;
-    const secondContact = this.props.checkedContacts[1].attributes;
-    union(Object.keys(firstContact), Object.keys(secondContact)).forEach((attributeName) => {
-      if (firstContact[attributeName] === undefined || firstContact[attributeName] === '') {
-        this.props.setFormField(attributeName, secondContact[attributeName]);
-        this.props.setFormError(attributeName, this.props.getError(attributeName, secondContact[attributeName]));
-      } else {
-        this.props.setFormField(attributeName, firstContact[attributeName]);
-        this.props.setFormError(attributeName, this.props.getError(attributeName, firstContact[attributeName]));
-
-        if (secondContact[attributeName] !== undefined && secondContact[attributeName] !== '') {
-          this.props.setUnusedField(attributeName, secondContact[attributeName]);
-          this.props.setSelectedIndex(attributeName, 0);
-        }
-      }
-      this.props.setShowError(attributeName, false);
-    });
-  }
-
   handleSubmit = () => {
-    const contactIds = this.props.checkedContacts.map((contact) => contact.id);
-    const attributes = this.props.contactForm;
-    CxEngage.contacts.merge({ contactIds, attributes }, this.mergeCallback);
-    this.props.setLoading(true);
-    this.props.setNotEditing();
-    this.props.setContactAction(this.props.selectedInteraction.interactionId, 'search');
-  }
-
-  mergeCallback = (error, topic, response) => {
-    console.log('[ContactMerge] CxEngage.subscribe()', topic, response);
-    this.props.setLoading(false);
-    if (error) {
-      this.props.addNotification('notMerged', true, 'serverError'); // TODO: when notifications are ready, get error from response?
-      console.error(error);
-    } else {
-      this.props.removeSearchFilter();
-      this.props.setEditingContact(response);
-      if (this.props.selectedInteraction.contact && this.props.checkedContacts.find((contact) => this.props.selectedInteraction.contact.id === contact.id)) {
-        this.props.assignContact(response);
-      }
-      this.props.checkedContacts.forEach((contact) => {
-        this.props.removeContact(contact.id);
-      });
-      this.props.addNotification('merged', false);
-    }
+    this.props.submitContactMerge(this.props.selectedInteraction.interactionId);
+    this.hideConfirmDialog();
   }
 
   selectAttribute = (event) => {
     const name = event.currentTarget.name;
+    const attribute = this.props.attributes.find((attr) => attr.objectName === name);
     const clickedIndex = parseInt(event.target.id.slice(-1), 10);
     const previousIndex = this.props.selectedIndexes[name];
     const errors = { ...this.props.formErrors };
@@ -128,40 +78,42 @@ export class ContactMerge extends BaseComponent {
       return;
     }
     if (previousIndex === 0) {
-      this.props.setSelectedIndex(name, 1);
+      this.props.setSelectedIndex(this.props.selectedInteraction.interactionId, name, 1);
     } else {
-      this.props.setSelectedIndex(name, 0);
+      this.props.setSelectedIndex(this.props.selectedInteraction.interactionId, name, 0);
     }
-    errors[name] = this.props.getError(name, event.currentTarget.value);
-    this.props.setFormError(name, errors[name]);
-    this.props.setUnusedField(name, this.props.contactForm[name]);
-    this.props.setFormField(name, event.currentTarget.value);
-    this.props.setFormValidity(Object.keys(errors).every((key) => errors[key] === false));
+    errors[name] = getError(attribute, event.currentTarget.value);
+    this.props.setFormError(this.props.selectedInteraction.interactionId, name, errors[name]);
+    this.props.setUnusedField(this.props.selectedInteraction.interactionId, name, this.props.contactForm[name]);
+    this.props.setFormField(this.props.selectedInteraction.interactionId, name, event.currentTarget.value);
+    this.props.setFormValidity(this.props.selectedInteraction.interactionId, Object.keys(errors).every((key) => errors[key] === false));
   }
 
   showError = (name) => {
     if (!this.props.showErrors[name]) {
-      this.props.setShowError(name, true);
+      this.props.setShowError(this.props.selectedInteraction.interactionId, name, true);
     }
   }
 
   handleOnBlur = (event) => {
-    this.props.setFormValidity(Object.keys(this.props.formErrors).every((key) => !this.props.formErrors[key]));
+    this.props.setFormValidity(this.props.selectedInteraction.interactionId, Object.keys(this.props.formErrors).every((key) => !this.props.formErrors[key]));
     this.showError(event.target.name);
   }
 
   setAttributeValue = (name, newValue) => {
+    const attribute = this.props.attributes.find((attr) => attr.objectName === name);
     const stateUpdate = { ...this.props.formErrors };
-    const cleanedInput = this.props.formatValue(name, newValue);
-    const newError = this.props.getError(name, cleanedInput);
+    const cleanedInput = formatValue(attribute, newValue);
+    const newError = getError(attribute, cleanedInput);
     stateUpdate[name] = newError;
-    this.props.setFormField(name, cleanedInput);
-    this.props.setFormError(name, this.props.getError(name, cleanedInput));
-    this.props.setFormValidity(Object.keys(stateUpdate).every((key) => !stateUpdate[key]));
+    this.props.setFormField(this.props.selectedInteraction.interactionId, name, cleanedInput);
+    this.props.setFormError(this.props.selectedInteraction.interactionId, name, getError(attribute, cleanedInput));
+    this.props.setFormValidity(this.props.selectedInteraction.interactionId, Object.keys(stateUpdate).every((key) => !stateUpdate[key]));
   }
 
   setUnusedValue = (name, newValue) => {
-    this.props.setUnusedField(name, this.props.formatValue(name, newValue));
+    const attribute = this.props.attributes.find((attr) => attr.objectName === name);
+    this.props.setUnusedField(this.props.selectedInteraction.interactionId, name, formatValue(attribute, newValue));
   }
 
   handleInputClear = (event, index) => {
@@ -201,8 +153,8 @@ export class ContactMerge extends BaseComponent {
   generateAttributeRow = (attributeId) => {
     const attribute = this.props.attributes.find((attr) => attr.id === attributeId);
     const attributeLabel = `${attribute.label[this.props.intl.locale]}${(attribute.mandatory) ? '*' : ''}`;
-    const firstValue = this.props.checkedContacts[0].attributes[attribute.objectName] || '';
-    const secondValue = this.props.checkedContacts[1].attributes[attribute.objectName] || '';
+    const firstValue = this.props.editingContacts[0].attributes[attribute.objectName] || '';
+    const secondValue = this.props.editingContacts[1].attributes[attribute.objectName] || '';
     if (firstValue === secondValue || (firstValue === '' && secondValue !== '') || secondValue === '' || attribute.type === 'boolean') {
       return (
         <ContactInput
@@ -293,6 +245,11 @@ export class ContactMerge extends BaseComponent {
     this.props.setShowCancelDialog(false);
   }
 
+  handleCancel = () => {
+    this.hideCancelDialog();
+    this.props.setNotEditing();
+  }
+
   render() {
     return (
       <div style={styles.base}>
@@ -309,7 +266,7 @@ export class ContactMerge extends BaseComponent {
           <ConfirmDialog
             questionMessage={messages.abandonChanges}
             leftAction={this.hideCancelDialog}
-            rightAction={this.props.setNotEditing}
+            rightAction={this.handleCancel}
             isVisible={this.props.showCancelDialog}
             hide={this.hideCancelDialog}
             style={{ position: 'absolute', left: '112px', bottom: '40px' }}
@@ -317,7 +274,7 @@ export class ContactMerge extends BaseComponent {
           <Button
             id="contactSaveBtn"
             style={styles.button}
-            disabled={!this.props.formIsValid}
+            disabled={!this.props.formIsValid || this.props.loading}
             type="secondary"
             onClick={this.showConfirmDialog}
             text={this.props.intl.formatMessage(messages.saveBtn)}
@@ -336,23 +293,18 @@ export class ContactMerge extends BaseComponent {
 }
 
 ContactMerge.propTypes = {
-  getError: PropTypes.func.isRequired,
-  formatValue: PropTypes.func.isRequired,
   attributes: PropTypes.array,
   intl: intlShape.isRequired,
   layout: PropTypes.array,
   handleCancel: PropTypes.func.isRequired,
   showCancelDialog: PropTypes.bool.isRequired,
-  checkedContacts: PropTypes.array.isRequired,
+  editingContacts: PropTypes.array.isRequired,
   setFormValidity: PropTypes.func,
   contactForm: PropTypes.object,
-  setLoading: PropTypes.func,
   setNotEditing: PropTypes.func,
-  setContactAction: PropTypes.func,
+  setContactMode: PropTypes.func,
   selectedInteraction: PropTypes.object,
-  setEditingContact: PropTypes.func,
   addNotification: PropTypes.func,
-  clearSearchResults: PropTypes.func,
   selectedIndexes: PropTypes.object,
   formErrors: PropTypes.object,
   setSelectedIndex: PropTypes.func,
@@ -362,18 +314,19 @@ ContactMerge.propTypes = {
   showErrors: PropTypes.object,
   setShowError: PropTypes.func,
   unusedFields: PropTypes.object,
-  setShowCancelDialog: PropTypes.func,
+  loading: PropTypes.bool,
   formIsValid: PropTypes.bool,
+  setShowCancelDialog: PropTypes.func,
   removeContact: PropTypes.func,
-  assignContact: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func,
+  submitContactMerge: PropTypes.func,
 };
 
 function mapStateToProps(state, props) {
   return {
-    layout: selectLayout(state, props),
-    attributes: selectAttributes(state, props),
-    checkedContacts: selectCheckedContacts(state, props),
+    layout: selectLayout(state, props).toJS().layout,
+    attributes: selectAttributes(state, props).toJS(),
+    editingContacts: selectEditingContacts(state, props),
     showCancelDialog: selectShowCancelDialog(state, props),
     showConfirmDialog: selectShowConfirmDialog(state, props),
     selectedInteraction: selectCurrentInteraction(state, props),
@@ -383,6 +336,7 @@ function mapStateToProps(state, props) {
     showErrors: selectShowErrors(state, props),
     selectedIndexes: selectSelectedIndexes(state, props),
     unusedFields: selectUnusedFields(state, props),
+    loading: selectContactSaveLoading(state, props),
   };
 }
 
@@ -391,18 +345,16 @@ function mapDispatchToProps(dispatch) {
     setCriticalError: () => dispatch(setCriticalError()),
     setShowCancelDialog: (showCancelDialog) => dispatch(setShowCancelDialog(showCancelDialog)),
     setShowConfirmDialog: (showConfirmDialog) => dispatch(setShowConfirmDialog(showConfirmDialog)),
-    setLoading: (loading) => dispatch(setLoading(loading)),
-    clearSearchResults: () => dispatch(clearSearchResults()),
-    setContactAction: (interactionId, newAction) => dispatch(setContactAction(interactionId, newAction)),
-    setFormValidity: (formIsValid) => dispatch(setFormValidity(formIsValid)),
-    setShowError: (field, error) => dispatch(setShowError(field, error)),
-    setFormField: (field, value) => dispatch(setFormField(field, value)),
-    setFormError: (field, error) => dispatch(setFormError(field, error)),
-    setUnusedField: (field, value) => dispatch(setUnusedField(field, value)),
-    setSelectedIndex: (field, index) => dispatch(setSelectedIndex(field, index)),
-    setEditingContact: (contact) => dispatch(setEditingContact(contact)),
+    setContactMode: (interactionId, newMode) => dispatch(setContactMode(interactionId, newMode)),
+    setFormValidity: (interactionId, formIsValid) => dispatch(setFormValidity(interactionId, formIsValid)),
+    setShowError: (interactionId, field, error) => dispatch(setShowError(interactionId, field, error)),
+    setFormField: (interactionId, field, value) => dispatch(setFormField(interactionId, field, value)),
+    setFormError: (interactionId, field, error) => dispatch(setFormError(interactionId, field, error)),
+    setUnusedField: (interactionId, field, value) => dispatch(setUnusedField(interactionId, field, value)),
+    setSelectedIndex: (interactionId, field, index) => dispatch(setSelectedIndex(interactionId, field, index)),
     removeContact: (contact) => dispatch(removeContact(contact)),
     removeSearchFilter: () => dispatch(removeSearchFilter()),
+    submitContactMerge: (interactionId) => dispatch(submitContactMerge(interactionId)),
     dispatch,
   };
 }
