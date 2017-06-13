@@ -1,10 +1,14 @@
 /*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
+/*
  *
  * InfoTab reducer
  *
  */
 
-import { fromJS, List } from 'immutable';
+import { fromJS, List, Map } from 'immutable';
 import {
   SET_CRM_UNAVAILABLE,
   SET_SEARCH_RESULTS,
@@ -14,6 +18,7 @@ import {
   CLEAR_CHECKED_CONTACTS,
   SET_CONTACT_MODE,
   SET_EDITING_CONTACT,
+  NEW_CONTACT,
   ADD_NOTIFICATION,
   DISMISS_NOTIFICATION,
   SET_LOADING,
@@ -83,6 +88,10 @@ function infoTabReducer(state = initialState, action) {
     case SET_EDITING_CONTACT:
       return state
         .set('editingContact', action.editingContact);
+    case NEW_CONTACT:
+      return state
+        .set('contactMode', 'editing')
+        .set('editingContact', new Map());
     case ADD_NOTIFICATION:
       return state
         .set('notifications', state.get('notifications').push(fromJS(action.notification)))

@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
 /* eslint-disable global-require */
 const express = require('express');
 const path = require('path');

@@ -1,5 +1,9 @@
+/*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
 import { createSelector } from 'reselect';
-import { selectSelectedInteraction } from 'containers/AgentDesktop/selectors';
+import { getSelectedInteraction as selectCurrentInteraction } from 'containers/SidePanel/selectors';
 
 /**
  * Direct selector to the infoTab state domain
@@ -22,29 +26,12 @@ export default selectInfoTab;
  * Other specific selectors
  */
 
-const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 const selectSidePanelDomain = (state) => state.get('sidePanel');
 const selectLanguageDomain = (state) => state.get('language');
 
 const selectAttributes = createSelector(
   selectSidePanelDomain,
   (sidePanel) => sidePanel.get('contactAttributes').toJS()
-);
-
-const selectNoInteractionContactPanelContactsData = createSelector(
-  selectAgentDesktopDomain,
-  (agentDesktop) => agentDesktop.get('noInteractionContactPanel')
-);
-
-const selectCurrentInteraction = createSelector(
-  [selectSelectedInteraction, selectNoInteractionContactPanelContactsData],
-  (selectedInteraction, floatingNoInteractionData) => {
-    if (selectedInteraction) {
-      return selectedInteraction;
-    } else {
-      return floatingNoInteractionData.toJS();
-    }
-  }
 );
 
 const selectCurrentInteractionContactId = createSelector(
@@ -71,29 +58,25 @@ const selectEditingContact = createSelector(
 const selectExpandedQuery = createSelector(
   [selectCurrentInteraction, selectAttributes, selectLanguageDomain],
   (currentInteraction, attributes, language) => {
-    if (currentInteraction.status !== 'creating-new-interaction') {
-      const locale = language.get('locale');
-      return Object.keys(currentInteraction.query).map((filterName) => {
-        let attribute;
-        if (filterName === 'q') {
-          attribute = {
-            id: 'all',
-            label: {
-              'en-US': 'All',
-            },
-            objectName: 'q', // Fuzzy search query parameter
-          };
-        } else {
-          attribute = attributes.find((fullAttribute) => fullAttribute.objectName === filterName);
-        }
-        const label = attribute.label[locale] || filterName;
-        return (attribute)
-        ? { attribute, value: currentInteraction.query[filterName], label }
-        : false;
-      }).filter(Boolean);
-    } else {
-      return [];
-    }
+    const locale = language.get('locale');
+    return Object.keys(currentInteraction.query).map((filterName) => {
+      let attribute;
+      if (filterName === 'q') {
+        attribute = {
+          id: 'all',
+          label: {
+            'en-US': 'All',
+          },
+          objectName: 'q', // Fuzzy search query parameter
+        };
+      } else {
+        attribute = attributes.find((fullAttribute) => fullAttribute.objectName === filterName);
+      }
+      const label = attribute.label[locale] || filterName;
+      return (attribute)
+      ? { attribute, value: currentInteraction.query[filterName], label }
+      : false;
+    }).filter(Boolean);
   }
 );
 
@@ -127,6 +110,20 @@ const selectConfirmingDelete = createSelector(
   (infoTab) => infoTab.get('confirmingDelete')
 );
 
+const selectResults = createSelector(
+  selectInfoTabDomain(),
+  (infoTab) => infoTab.get('results').toJS()
+);
+
+const selectResultsCount = createSelector(
+  selectInfoTabDomain(),
+  (infoTab) => (infoTab.get('resultsCount') !== undefined ? infoTab.get('resultsCount') : -1)
+);
+
+const selectNextPage = createSelector(
+  selectInfoTabDomain(),
+  (infoTab) => infoTab.get('nextPage')
+);
 
 export {
   selectCRMUnavailable,
@@ -143,4 +140,7 @@ export {
   selectLoading,
   selectDeletionPending,
   selectConfirmingDelete,
+  selectResults,
+  selectResultsCount,
+  selectNextPage,
 };

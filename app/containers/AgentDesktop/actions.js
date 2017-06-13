@@ -1,4 +1,8 @@
 /*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
+/*
  *
  * AgentDesktop actions
  *
@@ -20,6 +24,8 @@ import {
   NEW_INTERACTION_PANEL_SELECT_CONTACT,
   CLOSE_NEW_INTERACTION_PANEL,
   START_OUTBOUND_INTERACTION,
+  CANCEL_CLICK_TO_DIAL,
+  SET_IS_CANCELLING_INTERACTION,
   INITIALIZE_OUTBOUND_SMS,
   ADD_INTERACTION,
   WORK_INITIATED,
@@ -27,6 +33,7 @@ import {
   SET_MESSAGE_HISTORY,
   SET_CONTACT_ACTION,
   ASSIGN_CONTACT,
+  ASSIGN_CONTACT_ACTION,
   SET_SIDE_PANEL_TAB_INDEX,
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
@@ -190,6 +197,20 @@ export function startOutboundInteraction(channelType, customer, contact, addedBy
   };
 }
 
+export function cancelClickToDial(interactionId) {
+  return {
+    type: CANCEL_CLICK_TO_DIAL,
+    interactionId,
+  };
+}
+
+export function setIsCancellingInteraction(interactionId) {
+  return {
+    type: SET_IS_CANCELLING_INTERACTION,
+    interactionId,
+  };
+}
+
 export function initializeOutboundSms(placeholderInteractionId, interactionId, message) {
   return {
     type: INITIALIZE_OUTBOUND_SMS,
@@ -253,6 +274,13 @@ export function assignContact(interactionId, contact) {
   return {
     type: ASSIGN_CONTACT,
     interactionId,
+    contact,
+  };
+}
+
+export function assignContactAction(contact) {
+  return {
+    type: ASSIGN_CONTACT_ACTION,
     contact,
   };
 }

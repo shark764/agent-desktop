@@ -1,4 +1,8 @@
 /*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
+/*
  *
  * AgentDesktop constants
  *
@@ -20,6 +24,8 @@ export const OPEN_NEW_INTERACTION_PANEL = 'app/AgentDesktop/OPEN_NEW_INTERACTION
 export const NEW_INTERACTION_PANEL_SELECT_CONTACT = 'app/AgentDesktop/NEW_INTERACTION_PANEL_SELECT_CONTACT';
 export const CLOSE_NEW_INTERACTION_PANEL = 'app/AgentDesktop/CLOSE_NEW_INTERACTION_PANEL';
 export const START_OUTBOUND_INTERACTION = 'app/AgentDesktop/START_OUTBOUND_INTERACTION';
+export const CANCEL_CLICK_TO_DIAL = 'app/AgentDesktop/CANCEL_CLICK_TO_DIAL';
+export const SET_IS_CANCELLING_INTERACTION = 'app/AgentDesktop/SET_IS_CANCELLING_INTERACTION';
 export const INITIALIZE_OUTBOUND_SMS = 'app/AgentDesktop/INITIALIZE_OUTBOUND_SMS';
 export const ADD_INTERACTION = 'app/AgentDesktop/ADD_INTERACTION';
 export const WORK_INITIATED = 'app/AgentDesktop/WORK_INITIATED';
@@ -30,6 +36,7 @@ export const REMOVE_SEARCH_FILTER = 'app/AgentDesktop/REMOVE_SEARCH_FILTER';
 export const SET_MESSAGE_HISTORY = 'app/AgentDesktop/SET_MESSAGE_HISTORY';
 export const SET_CONTACT_ACTION = 'app/AgentDesktop/SET_CONTACT_ACTION';
 export const ASSIGN_CONTACT = 'app/AgentDesktop/ASSIGN_CONTACT';
+export const ASSIGN_CONTACT_ACTION = 'app/AgentDesktop/ASSIGN_CONTACT_ACTION';
 export const SET_SIDE_PANEL_TAB_INDEX = 'app/AgentDesktop/SET_SIDE_PANEL_TAB_INDEX';
 export const LOAD_CONTACT_INTERACTION_HISTORY = 'app/AgentDesktop/LOAD_CONTACT_INTERACTION_HISTORY';
 export const SET_CONTACT_INTERACTION_HISTORY = 'app/AgentDesktop/SET_CONTACT_INTERACTION_HISTORY';

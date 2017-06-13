@@ -1,4 +1,8 @@
 /*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
+/*
  *
  * ContactSearchResult
  *
@@ -18,6 +22,8 @@ import { setCriticalError } from 'containers/Errors/actions';
 
 import Checkbox from 'components/Checkbox';
 import ContactView from 'containers/ContactView';
+
+import { assignContactAction } from 'containers/AgentDesktop/actions';
 
 export class ContactSearchResult extends BaseComponent {
 
@@ -81,14 +87,13 @@ export class ContactSearchResult extends BaseComponent {
       <div style={[this.styles.base, this.props.style, this.props.checked && this.styles.checkedContact]}>
         <VelocityTransitionGroup enter={{ animation: 'transition.fadeIn', duration: '1000' }} leave={{ animation: 'transition.fadeOut', duration: '1000' }}>
           {
-            !this.props.isCollapsed ?
-              <Checkbox
-                style={this.styles.checkbox}
-                id={this.props.contact.id}
-                checked={this.props.checked}
-                cb={this.props.selectContact}
-              />
-            : ''
+            !this.props.hideContactSelectCheckbox &&
+            <Checkbox
+              style={this.styles.checkbox}
+              id={this.props.contact.id}
+              checked={this.props.checked}
+              cb={this.props.selectContact}
+            />
           }
         </VelocityTransitionGroup>
         <ContactView
@@ -107,7 +112,7 @@ export class ContactSearchResult extends BaseComponent {
 }
 
 ContactSearchResult.propTypes = {
-  isCollapsed: PropTypes.bool.isRequired,
+  hideContactSelectCheckbox: PropTypes.bool,
   checked: PropTypes.bool.isRequired,
   selectContact: PropTypes.func.isRequired,
   style: PropTypes.object,
@@ -118,6 +123,7 @@ ContactSearchResult.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
+    assignContact: (contact) => dispatch(assignContactAction(contact)),
     dispatch,
   };
 }

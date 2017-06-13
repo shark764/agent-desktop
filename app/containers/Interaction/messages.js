@@ -1,4 +1,8 @@
 /*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
+/*
  * Interaction Messages
  *
  * This contains all the text for the Interaction component.
@@ -17,5 +21,9 @@ export default defineMessages({
   wrapup: {
     id: 'app.containers.InteractionsBar.wrapup',
     defaultMessage: 'WRAP UP',
+  },
+  cancelInteraction: {
+    id: 'app.containers.InteractionsBar.cancelInteraction',
+    defaultMessage: 'CANCEL',
   },
 });

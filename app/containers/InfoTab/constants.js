@@ -1,4 +1,8 @@
 /*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
+/*
  *
  * InfoTab constants
  *
@@ -12,6 +16,7 @@ export const UNCHECK_CONTACT = 'app/InfoTab/UNCHECK_CONTACT';
 export const CLEAR_CHECKED_CONTACTS = 'app/InfoTab/CLEAR_CHECKED_CONTACTS';
 export const SET_CONTACT_MODE = 'app/InfoTab/SET_CONTACT_MODE';
 export const SET_EDITING_CONTACT = 'app/InfoTab/SET_EDITING_CONTACT';
+export const NEW_CONTACT = 'app/InfoTab/NEW_CONTACT';
 export const ADD_NOTIFICATION = 'app/InfoTab/ADD_NOTIFICATION';
 export const DISMISS_NOTIFICATION = 'app/InfoTab/DISMISS_NOTIFICATION';
 export const SET_LOADING = 'app/InfoTab/SET_LOADING';

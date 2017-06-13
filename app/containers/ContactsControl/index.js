@@ -1,4 +1,8 @@
 /*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
+/*
  *
  * ContactsControl
  *
@@ -6,38 +10,33 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { isValidEmail } from 'utils/validator';
 import isURL from 'validator/lib/isURL';
 import { PhoneNumberUtil } from 'google-libphonenumber';
-import InfiniteScroll from 'react-infinite-scroller';
 
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
 
-import Button from 'components/Button';
-import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
+
 import ContactEdit from 'containers/ContactEdit';
 import ContactMerge from 'containers/ContactMerge';
-import ContactSearchResult from 'containers/ContactSearchResult';
+import ContactSearch from 'containers/ContactSearch';
 import ContactView from 'containers/ContactView';
 
 import { assignContact, selectContact, loadContactInteractionHistory } from 'containers/AgentDesktop/actions';
+import { selectIsContactsPanelCollapsed } from 'containers/AgentDesktop/selectors';
 import { selectPopulatedLayout } from 'containers/ContactView/selectors';
-import selectInfoTab, { selectCheckedContacts, selectContactMode, selectEditingContact, selectLoading, selectDeletionPending } from 'containers/InfoTab/selectors';
-import { setSearchResults, clearSearchResults, checkContact, uncheckContact, setLoading, setDeletionPending } from 'containers/InfoTab/actions';
+import selectInfoTab, { selectCheckedContacts, selectContactMode, selectEditingContact, selectLoading } from 'containers/InfoTab/selectors';
+import { clearSearchResults, setLoading } from 'containers/InfoTab/actions';
 
 import { selectCurrentInteraction, selectAttributes, selectShowCancelDialog, selectFormIsDirty, selectContactForm } from './selectors';
 import { setShowCancelDialog, setFormField, setFormError, setShowError, setUnusedField, setSelectedIndex } from './actions';
 
-import NoRecords from './NoRecords';
-
 import messages from './messages';
-
-const resultsPlaceholderWidth = 330;
 
 export class ContactsControl extends BaseComponent {
 
@@ -48,49 +47,6 @@ export class ContactsControl extends BaseComponent {
       alignSelf: 'stretch',
       flexGrow: '1',
       flexShrink: '0',
-    },
-    contactResult: {
-      marginBottom: '14px',
-      alignSelf: 'stretch',
-      flex: '1',
-      flexGrow: '1',
-      flexShrink: '1',
-      marginLeft: '52px',
-    },
-    resultsPlaceholder: {
-      color: '#979797',
-      display: 'flex',
-      marginTop: '150px',
-      flexDirection: 'column',
-      alignItems: 'center',
-      flex: '1',
-    },
-    resultsPlaceholderBold: {
-      paddingLeft: '15px',
-      fontWeight: 'bold',
-      alignItems: 'center',
-    },
-    filtersListText: {
-      textAlign: 'center',
-    },
-    resultsPlaceholderTitle: {
-      paddingBottom: '8px',
-      display: 'flex',
-      alignItems: 'center',
-    },
-    filtersList: {
-      textAlign: 'center',
-      maxWidth: `${resultsPlaceholderWidth}px`,
-    },
-    loading: {
-      display: 'flex',
-      justifyContent: 'center',
-    },
-    loadingIcon: {
-      height: '60px',
-    },
-    infiniteScroll: {
-      flex: '1',
     },
   };
 
@@ -174,33 +130,6 @@ export class ContactsControl extends BaseComponent {
     });
   }
 
-  searchContacts = () => {
-    if (!this.props.loading || this.props.deletionPending) {
-      this.props.setLoading(true);
-      this.props.setDeletionPending(false);
-      const encodedQuery = {};
-      Object.keys(this.props.selectedInteraction.query).forEach((queryName) => {
-        const queryToEncode = this.props.selectedInteraction.query[queryName];
-        const queryNoQuotes = queryToEncode.replace(/"/g, '');
-        let finalQuery = queryNoQuotes;
-
-        // here we are looking for queries that either start and end with double-quotes,
-        // or are telephone queries. If they are either, then put double quotes around
-        // them so that the sdk does an exact string match instead of the default partial match
-        if (/^".*"$/.test(queryToEncode) || queryName === 'phone') {
-          finalQuery = `"${queryNoQuotes}"`;
-        }
-
-        encodedQuery[queryName] = encodeURIComponent(finalQuery);
-      });
-      CxEngage.contacts.search({ query: Object.assign(encodedQuery, { page: this.props.nextPage }) }, (error, topic, response) => {
-        console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
-        this.props.setSearchResults(response);
-        this.props.setLoading(false);
-      });
-    }
-  }
-
   handleCancel = (event) => {
     event.preventDefault();
     if (this.props.formIsDirty || this.props.contactMode === 'merging') {
@@ -209,11 +138,6 @@ export class ContactsControl extends BaseComponent {
       this.props.setNotEditing();
     }
   }
-
-  getLoader = () =>
-    <div id="loadingContainer" style={this.styles.loading}>
-      <IconSVG style={this.styles.loadingIcon} id="loadingIcon" name="loading" />
-    </div>
 
   formatValue = (name, value) => {
     const attributeToValidate = this.props.attributes.find((attribute) => attribute.objectName === name);
@@ -275,66 +199,6 @@ export class ContactsControl extends BaseComponent {
     return error;
   }
 
-  renderResults = () => {
-    let results;
-    if (this.props.selectedInteraction.query && Object.keys(this.props.selectedInteraction.query).length) {
-      if (this.props.resultsCount !== 0) {
-        const resultsMapped = !this.props.deletionPending && this.props.results.map(
-          (contact) => {
-            const isSelected = this.props.checkedContacts.find((checkedContact) => checkedContact.id === contact.id);
-            return (<ContactSearchResult
-              key={contact.id}
-              isCollapsed={this.props.isCollapsed}
-              checked={!!isSelected}
-              selectContact={(isChecked) => {
-                if (isChecked) {
-                  this.props.checkContact(contact);
-                } else {
-                  this.props.uncheckContact(contact);
-                }
-              }}
-              assignContact={this.handleContactAssign}
-              contact={contact}
-              style={this.styles.contactResult}
-            />);
-          });
-        results = (
-          <InfiniteScroll
-            key="infinite-scroll"
-            loadMore={this.searchContacts}
-            hasMore={this.props.resultsCount === -1 || this.props.results.length < this.props.resultsCount}
-            loader={this.getLoader()}
-            useWindow={false}
-            style={this.styles.infiniteScroll}
-          >
-            { resultsMapped }
-          </InfiniteScroll>
-        );
-      } else {
-        results = <NoRecords query={this.props.selectedInteraction.query} />;
-      }
-    } else if (this.props.resultsCount < 1 && !this.props.loading) {
-      results = (
-        <div key="results-placeholder" id="results-placeholder" style={this.styles.resultsPlaceholder}>
-          <div style={this.styles.resultsPlaceholderTitle}>
-            <Icon name="search" />
-            <div style={this.styles.resultsPlaceholderBold}>
-              <FormattedMessage {...messages.searchText} />
-            </div>
-          </div>
-          <div style={this.styles.filtersList}>
-            <FormattedMessage {...messages.filtersList} />
-          </div>
-          <div style={{ margin: '5px 0' }}>
-            <FormattedMessage {...messages.or} />
-          </div>
-          <Button id="createNewRecord" type="secondary" text="Create New Record" onClick={this.props.newContact}></Button>
-        </div>
-      );
-    }
-    return results;
-  }
-
   hydrateEditForm = (contact) => {
     const contactAttributes = contact.attributes ? contact.attributes : {};
     this.props.layoutSections.forEach((section) => {
@@ -371,13 +235,19 @@ export class ContactsControl extends BaseComponent {
 
   render() {
     let content;
-    if (this.props.contactMode === 'editing') {
+    if (this.props.loading && (this.props.contactMode === 'editing' || this.props.contactMode === 'merging' || this.props.selectedInteraction.contactAction === 'view')) {
+      content = (
+        <div id="loadingContainer" style={this.styles.loading}>
+          <IconSVG style={this.styles.loadingIcon} id="loadingIcon" name="loading" />
+        </div>
+      );
+    } else if (this.props.contactMode === 'editing') {
       content = (<ContactEdit
         getError={this.getError}
         formatValue={this.formatValue}
         setNotEditing={this.props.setNotEditing}
         style={this.styles.mainContact}
-        contact={this.props.selectedInteraction.contactAction === 'view' ? this.props.selectedInteraction.contact : this.props.editingContact}
+        contact={this.props.editingContact}
         handleCancel={this.handleCancel}
         addNotification={this.props.addNotification}
         assignContact={this.handleContactAssign}
@@ -402,8 +272,13 @@ export class ContactsControl extends BaseComponent {
           />);
           break;
         case 'search':
-        default:
-          content = this.renderResults();
+        default: {
+          if (this.props.selectedInteraction.interactionId !== 'creating-new-interaction') {
+            content = (<ContactSearch hideContactSelectCheckboxes={this.props.isCollapsed} />);
+          } else {
+            content = null;
+          }
+        }
       }
     }
     return content;
@@ -416,7 +291,6 @@ ContactsControl.propTypes = {
   intl: PropTypes.object.isRequired,
   results: PropTypes.any,
   resultsCount: PropTypes.number,
-  isCollapsed: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   setSearchResults: PropTypes.func,
   clearSearchResults: PropTypes.func,
@@ -429,20 +303,17 @@ ContactsControl.propTypes = {
   editingContact: PropTypes.object,
   setLoading: PropTypes.func,
   addNotification: PropTypes.func,
-  deletionPending: PropTypes.bool,
-  setDeletionPending: PropTypes.func,
-  nextPage: PropTypes.number,
   formIsDirty: PropTypes.bool,
   setShowCancelDialog: PropTypes.func,
   setNotEditing: PropTypes.func,
   checkedContacts: PropTypes.array,
-  newContact: PropTypes.func,
   layoutSections: PropTypes.array,
   setFormField: PropTypes.func,
   setFormError: PropTypes.func,
   setUnusedField: PropTypes.func,
   setSelectedIndex: PropTypes.func,
   setShowError: PropTypes.func,
+  isCollapsed: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state, props) {
@@ -453,11 +324,11 @@ function mapStateToProps(state, props) {
     contactMode: selectContactMode(state, props),
     editingContact: selectEditingContact(state, props),
     loading: selectLoading(state, props),
-    deletionPending: selectDeletionPending(state, props),
     showCancelDialog: selectShowCancelDialog(state, props),
     formIsDirty: selectFormIsDirty(state, props),
     contactForm: selectContactForm(state, props),
     layoutSections: selectPopulatedLayout(state, props),
+    isCollapsed: selectIsContactsPanelCollapsed(state, props),
     ...selectInfoTab(state, props),
   };
 }
@@ -465,12 +336,8 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    setSearchResults: (filter) => dispatch(setSearchResults(filter)),
     clearSearchResults: () => dispatch(clearSearchResults()),
-    checkContact: (contact) => dispatch(checkContact(contact)),
-    uncheckContact: (contact) => dispatch(uncheckContact(contact)),
     setLoading: (loading) => dispatch(setLoading(loading)),
-    setDeletionPending: (deletionPending) => dispatch(setDeletionPending(deletionPending)),
     selectContact: (contact) => dispatch(selectContact(contact)),
     loadContactInteractionHistory: (contactId, page) => dispatch(loadContactInteractionHistory(contactId, page)),
     assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),

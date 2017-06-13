@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -108,7 +112,7 @@ export class NoRecords extends BaseComponent {
       );
     }
     return (
-      <div style={{ paddingLeft: '52px', width: '100%' }}>
+      <div style={{ paddingLeft: '52px' }}>
         <div style={styles.noRecordsMessage}>
           - <FormattedMessage {...messages.noRecords} /> -
         </div>

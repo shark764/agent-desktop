@@ -9,7 +9,7 @@ node {
 pwd = pwd()
 }
 def service = 'Agent-Desktop'
-if (pwd ==~ /.*PR.*/ ) { // Run if Pull Request
+if (pwd ==~ /.*_PR-.*/ ) { // Run if Pull Request
   node() { // Allocate Executor
     def p = new node.pr()
     try {
@@ -40,7 +40,7 @@ if (pwd ==~ /.*PR.*/ ) { // Run if Pull Request
     }
   }
 }
-else if (pwd ==~ /.*master.*/ ) { // Run if Master Branch
+else if (pwd ==~ /.*master.*/ || pwd ==~ /.*hotfix.*/) { // Run if Master Branch
   node() { // Allocate Executor
     def b = new node.build()
     try {

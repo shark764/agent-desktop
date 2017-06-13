@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
 export default [
   'cxengage/interactions/email/send-reply', // Just using work-ended
   'cxengage/interactions/voice/dial-send-acknowledged ', // Just using cxengage/interactions/work-offer-received

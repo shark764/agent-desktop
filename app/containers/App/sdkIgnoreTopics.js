@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
 export default [
   'cxengage/authentication/login-response', // Handled in Login component
   'cxengage/entities/get-users-response', // Handled in TransferMenu
@@ -10,9 +14,8 @@ export default [
   'cxengage/interactions/messaging/send-message-acknowledged', // Using cxengage/messaging/new-message-received instead
   'cxengage/interactions/voice/phone-controls-response', // Using mute-started, mute-ended, etc. instead
   'cxengage/interactions/contact-assign-acknowledged', // Handled in InfoTab
+  'cxengage/interactions/contact-unassign-acknowledged', // Handled in InfoTab
   'cxengage/interactions/voice/transfer-response', // Handled in TransferMenu
-  'cxengage/interactions/contact-unassigned-acknowledged', // Handled in InfoTab
-  'cxengage/interactions/contact-assigned-acknowledged', // Handled in InfoTab
   'cxengage/interactions/voice/recording-received', // Handled in historicalInteractionBody saga
   'cxengage/interactions/messaging/transcript-received', // Handled in historicalInteractionBody saga
   'cxengage/interactions/create-note-response', // Handled in ContentArea

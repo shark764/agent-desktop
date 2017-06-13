@@ -1,4 +1,8 @@
 /*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
+/*
  *
  * InfoTab actions
  *
@@ -13,6 +17,7 @@ import {
   CLEAR_CHECKED_CONTACTS,
   SET_CONTACT_MODE,
   SET_EDITING_CONTACT,
+  NEW_CONTACT,
   ADD_NOTIFICATION,
   DISMISS_NOTIFICATION,
   SET_LOADING,
@@ -71,6 +76,12 @@ export function setEditingContact(editingContact) {
   return {
     type: SET_EDITING_CONTACT,
     editingContact,
+  };
+}
+
+export function newContact() {
+  return {
+    type: NEW_CONTACT,
   };
 }
 

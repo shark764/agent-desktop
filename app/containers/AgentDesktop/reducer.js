@@ -1,4 +1,8 @@
 /*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
+/*
  *
  * AgentDesktop reducer
  *
@@ -29,6 +33,7 @@ import {
   INITIALIZE_OUTBOUND_SMS,
   ADD_INTERACTION,
   WORK_INITIATED,
+  SET_IS_CANCELLING_INTERACTION,
   REMOVE_INTERACTION,
   ADD_SEARCH_FILTER,
   REMOVE_SEARCH_FILTER,
@@ -105,7 +110,8 @@ const initialState = fromJS({
     status: 'creating-new-interaction',
     visible: false,
     sidePanelTabIndex: 0,
-    contactAction: 'view',
+    contactAction: 'search',
+    query: {},
   },
   queues: [],
   extensions: [],
@@ -356,7 +362,11 @@ function agentDesktopReducer(state = initialState, action) {
         .set('selectedInteractionId', state.getIn(['newInteractionPanel', 'interactionId']));
     }
     case NEW_INTERACTION_PANEL_SELECT_CONTACT: {
-      return state.setIn(['newInteractionPanel', 'contact'], action.contact);
+      return state.update('newInteractionPanel', (newInteractionPanel) =>
+        newInteractionPanel
+          .set('contact', action.contact)
+          .set('contactAction', 'view')
+      );
     }
     case CLOSE_NEW_INTERACTION_PANEL: {
       let nextSelectedInteractionId;
@@ -475,6 +485,21 @@ function agentDesktopReducer(state = initialState, action) {
           .set('number', interaction.get('channelType') === 'voice' ? action.response.customer : undefined)
       );
     }
+    case SET_IS_CANCELLING_INTERACTION: {
+      // setting "isCancellingInteraction" flag so that we can give the user
+      // instant visual/UI feedback while we wait for the sdk to do its magic
+      const interactionIndex = state.get('interactions').findIndex(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex],
+          (interaction) => interaction
+            .set('isCancellingInteraction', true)
+        );
+      } else {
+        return state;
+      }
+    }
     case REMOVE_INTERACTION: {
       // If the interaction being removed is the selected interaction, select the next interaction (voice, first non-voice)
       let nextSelectedInteractionId;
@@ -566,6 +591,8 @@ function agentDesktopReducer(state = initialState, action) {
 
       if (interactionIndex !== -1) {
         addSearchFilterPath = ['interactions', interactionIndex, 'query'];
+      } else if (state.get('selectedInteractionId') === 'creating-new-interaction') {
+        addSearchFilterPath = ['newInteractionPanel', 'query'];
       } else {
         addSearchFilterPath = ['noInteractionContactPanel', 'query'];
       }
@@ -590,6 +617,8 @@ function agentDesktopReducer(state = initialState, action) {
 
       if (interactionIndex !== -1) {
         removeSearchFilterPath = ['interactions', interactionIndex, 'query'];
+      } else if (state.get('selectedInteractionId') === 'creating-new-interaction') {
+        removeSearchFilterPath = ['newInteractionPanel', 'query'];
       } else {
         removeSearchFilterPath = ['noInteractionContactPanel', 'query'];
       }

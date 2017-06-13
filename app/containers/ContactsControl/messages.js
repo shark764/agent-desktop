@@ -1,4 +1,8 @@
 /*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
+/*
  * ContactsControl Messages
  *
  * This contains all the text for the ContactsControl component.
@@ -6,30 +10,6 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  searchText: {
-    id: 'app.containers.ContactsControl.searchCRM',
-    defaultMessage: 'Search the CRM database',
-  },
-  filtersList: {
-    id: 'app.containers.ContactsControl.filtersList',
-    defaultMessage: '(name, email address, mailing address, phone number, organization, customer number)',
-  },
-  or: {
-    id: 'app.containers.ContactsControl.or',
-    defaultMessage: 'OR',
-  },
-  noRecords: {
-    id: 'app.containers.ContactsControl.noRecords',
-    defaultMessage: 'No records found',
-  },
-  call: {
-    id: 'app.containers.ContactsControl.call',
-    defaultMessage: 'CALL',
-  },
-  sms: {
-    id: 'app.containers.ContactsControl.sms',
-    defaultMessage: 'SMS',
-  },
   errorRequired: {
     id: 'app.containers.ContactsControl.errorRequired',
     defaultMessage: 'Required',

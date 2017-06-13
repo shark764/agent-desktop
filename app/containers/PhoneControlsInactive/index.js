@@ -1,4 +1,8 @@
 /*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
+/*
  *
  * PhoneControlsInactive
  *
@@ -45,11 +49,6 @@ export class PhoneControlsInactive extends BaseComponent {
     let formattedDialpadText = dialpadText.replace(/[^0-9+*#]/g, '');
     if (formattedDialpadText.indexOf('+') !== 0) {
       formattedDialpadText = `+${formattedDialpadText}`;
-    }
-
-    // XXX remove this after error testing
-    if (formattedDialpadText === '+15068675309') {
-      throw new Error('Test error');
     }
 
     let isValid = false;

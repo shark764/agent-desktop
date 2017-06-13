@@ -1,4 +1,8 @@
 /*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+
+/*
  *
  * EmailContentArea
  *
@@ -178,6 +182,11 @@ const styles = {
     width: '100%',
     overflowY: 'auto',
     paddingTop: '15px',
+  },
+  toText: {
+    display: 'inline-block',
+    paddingBottom: '2px',
+    paddingTop: '4px',
   },
 };
 
@@ -448,11 +457,6 @@ export class EmailContentArea extends BaseComponent {
     `);
   }
 
-  cancelOutboundEmail = () => {
-    this.props.removeInteraction(this.props.selectedInteraction.interactionId);
-    this.props.endInteraction();
-  }
-
   render() {
     let from;
     if (this.props.selectedInteraction.emailDetails === undefined) {
@@ -686,7 +690,8 @@ export class EmailContentArea extends BaseComponent {
               type="primaryRed"
               style={{ marginRight: '8px' }}
               text={messages.cancel}
-              onClick={() => this.cancelOutboundEmail()}
+              disabled={this.props.selectedInteraction.status !== 'work-accepted'}
+              onClick={this.props.endInteraction}
             />
             <Button
               id="sendOutboundEmail"
@@ -741,10 +746,23 @@ export class EmailContentArea extends BaseComponent {
               {
                 this.state.tos.map((to, index) =>
                   <div key={`${index}-${to.address}`} id={`${index}-${to.address}`} style={styles.emailAddress}>
-                    { to.name && to.name !== to.address ? `${to.name} [${to.address}]` : to.address }
-                    <span onClick={() => this.removeTo(to)} style={styles.emailAddressRemove}>
-                      &#10060;
-                    </span>
+                    {
+                      to.name && to.name !== to.address ?
+                        <span style={styles.toText}>
+                          `${to.name} [${to.address}]`
+                        </span>
+                      :
+                        <span style={styles.toText}>
+                          {to.address}
+                        </span>
+                    }
+                    {
+                      this.props.selectedInteraction.direction === 'outbound' && index !== 0 ?
+                        <span onClick={() => this.removeTo(to)} style={styles.emailAddressRemove}>
+                          &#10060;
+                        </span>
+                      : undefined
+                    }
                   </div>
                 )
               }
