@@ -1,3 +1,6 @@
+### [0.41.5] (2017-06-13)
+* BUGFIX - Remove error test
+
 ### [0.41.4] (2017-06-12)
 * BUILDFIX - Update Jenkinsfile to support hotfix branches better and PRs
 
