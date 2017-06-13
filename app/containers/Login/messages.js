@@ -12,7 +12,7 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   welcome: {
     id: 'app.containers.Login.welcome',
-    defaultMessage: 'Sign in to CXEngage',
+    defaultMessage: 'Sign in to CxEngage',
   },
   welcomeNoProd: {
     id: 'app.containers.Login.welcomeNoProd',
