@@ -96,8 +96,10 @@ export class TransferMenu extends BaseComponent {
   refreshQueueTimes = () => {
     this.props.queues.forEach((queue) => {
       CxEngage.reporting.statQuery({ statistic: 'queue-time', queueId: queue.id }, (error, topic, response) => {
-        console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
-        this.props.setQueueTime(queue.id, response[Object.keys(response)[0]].body.results.avg);
+        if (!error) {
+          console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
+          this.props.setQueueTime(queue.id, response[Object.keys(response)[0]].body.results.avg);
+        }
       });
     });
   }
@@ -108,33 +110,35 @@ export class TransferMenu extends BaseComponent {
   }
 
   setAgentsCallback = (error, topic, response) => {
-    console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
-    CxEngage.reporting.getCapacity({}, (capactityError, capactityTopic, capacityResponse) => {
-      console.log('[TransferMenu] CxEngage.subscribe()', capactityTopic, capacityResponse);
-      const resourceCapacities = capacityResponse.resourceCapacity;
-      const agents = response.result.filter((agent) =>
-        // Filter ourself, pending users
-        agent.id !== this.props.agentId && agent.status === 'accepted'
-      ).map((agent) => ({
-        id: agent.id,
-        firstName: agent.firstName,
-        lastName: agent.lastName,
-        name: `${agent.firstName ? agent.firstName : ''} ${agent.lastName ? agent.lastName : ''}`,
-        isAvailable: this.isAgentAvailable(agent, resourceCapacities),
-      })).sort((agent1, agent2) => {
-        // Ready agents first, then sort by name alphabetically
-        if (agent1.isAvailable && !agent2.isAvailable) return -1;
-        if (!agent1.isAvailable && agent2.isAvailable) return 1;
-        if (agent1.firstName.toLowerCase() + agent1.lastName.toLowerCase() < agent2.firstName.toLowerCase() + agent2.lastName.toLowerCase()) return -1;
-        if (agent1.firstName.toLowerCase() + agent1.lastName.toLowerCase() > agent2.firstName.toLowerCase() + agent2.lastName.toLowerCase()) return 1;
-        return 0;
-      });
-      if (this.mounted) {
-        this.setState({
-          agents,
+    if (!error) {
+      console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
+      CxEngage.reporting.getCapacity({}, (capactityError, capactityTopic, capacityResponse) => {
+        console.log('[TransferMenu] CxEngage.subscribe()', capactityTopic, capacityResponse);
+        const agents = response.result.filter((agent) =>
+          // Filter ourself, pending users
+          agent.id !== this.props.agentId && agent.status === 'accepted'
+        ).map((agent) => ({
+          id: agent.id,
+          firstName: agent.firstName,
+          lastName: agent.lastName,
+          name: `${agent.firstName ? agent.firstName : ''} ${agent.lastName ? agent.lastName : ''}`,
+          // If there was an error with getCapactity, we have to assume agents are available
+          isAvailable: !error ? this.isAgentAvailable(agent, capacityResponse.resourceCapacity) : true,
+        })).sort((agent1, agent2) => {
+          // Ready agents first, then sort by name alphabetically
+          if (agent1.isAvailable && !agent2.isAvailable) return -1;
+          if (!agent1.isAvailable && agent2.isAvailable) return 1;
+          if (agent1.firstName.toLowerCase() + agent1.lastName.toLowerCase() < agent2.firstName.toLowerCase() + agent2.lastName.toLowerCase()) return -1;
+          if (agent1.firstName.toLowerCase() + agent1.lastName.toLowerCase() > agent2.firstName.toLowerCase() + agent2.lastName.toLowerCase()) return 1;
+          return 0;
         });
-      }
-    });
+        if (this.mounted) {
+          this.setState({
+            agents,
+          });
+        }
+      });
+    }
   }
 
   isAgentAvailable = (agent, resourceCapacities) => {

@@ -29,14 +29,11 @@ function Dialpad(props) {
   function buttonPress(num) {
     props.setDialpadText(`${props.dialpadText}${num}`);
     if (props.interactionId !== undefined) {
-      CxEngage.interactions.voice.sendDigits({ interactionId: props.interactionId, digit: num },
-        (e, t, r) => {
-          if (e) {
-            console.error('DTMF Error:', e);
-          } else {
-            console.log('[Dialpad] CxEngage.subscribe()', t, r);
-          }
-        });
+      CxEngage.interactions.voice.sendDigits({ interactionId: props.interactionId, digit: num }, (e, t, r) => {
+        if (!e) {
+          console.log('[Dialpad] CxEngage.subscribe()', t, r);
+        }
+      });
     }
   }
 

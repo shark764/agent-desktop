@@ -6,6 +6,7 @@ import Raven from 'raven-js';
 
 import {
   goHandleSDKError,
+  logSentryErrorAndSetError,
   goSetLoginErrorAndReload,
   topicActions,
 } from 'containers/Errors/sagas';
@@ -25,10 +26,30 @@ describe('handleError Saga', () => {
       },
       topic: 'mockErrorTopic',
     };
-    Raven.captureException.mockClear();
     generator = goHandleSDKError(mockAction);
+  });
+  it('should call logSentryErrorAndSetError by default', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+});
+
+describe('logSentryErrorAndSetError saga', () => {
+  let generator;
+  let mockError;
+  let mockTopic;
+  beforeAll(() => {
+    global.console = { warn: jest.fn() };
+  });
+  beforeEach(() => {
+    mockError = {
+      code: 'mockErrorCode',
+    };
+    mockTopic = 'mockErrorTopic';
+    Raven.captureException.mockClear();
+    generator = logSentryErrorAndSetError(mockTopic, mockError);
     generator.next();
   });
+
   it('should call Raven.captureException', () => {
     expect(Raven.captureException.mock.calls.length).toBe(1);
   });
@@ -44,8 +65,8 @@ describe('handleError Saga', () => {
   Object.keys(topicActions).forEach((actionTopic) => {
     describe(`if topic is ${actionTopic}`, () => {
       beforeEach(() => {
-        mockAction.topic = actionTopic;
-        generator = goHandleSDKError(mockAction);
+        mockTopic = actionTopic;
+        generator = logSentryErrorAndSetError(mockTopic, mockError);
       });
       it(`should dispatch action ${topicActions[actionTopic].type}`, () => {
         expect(generator.next()).toMatchSnapshot();
@@ -55,11 +76,9 @@ describe('handleError Saga', () => {
 
   describe('if error.level is "fatal"', () => {
     beforeEach(() => {
-      mockAction.error = {
-        level: 'fatal',
-      };
+      mockError.level = 'fatal';
       Raven.captureException.mockClear();
-      generator = goHandleSDKError(mockAction);
+      generator = logSentryErrorAndSetError(mockTopic, mockError);
     });
     it('should dispatch action setCriticalError', () => {
       expect(generator.next()).toMatchSnapshot();

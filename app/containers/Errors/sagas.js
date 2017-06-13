@@ -14,7 +14,6 @@ import { HANDLE_SDK_ERROR, SET_LOGIN_ERROR_AND_RELOAD } from './constants';
 import { setCriticalError, setNonCriticalError, setLoginErrorAndReload as setLoginErrorAndReloadAction } from './actions';
 import errorMessagesMap from './errorMessagesMap';
 
-
 export const topicActions = {
   'cxengage/contacts/list-layouts-response': setCRMUnavailable('crmLayoutError'),
   'cxengage/contacts/list-attributes-response': setCRMUnavailable('crmAttributeError'),
@@ -29,9 +28,15 @@ export function* goHandleSDKError(action) {
   const topic = action.topic;
   const error = action.error;
   switch (topic) {
-    case 'cxengage/errors/error/api-rejected-bad-client-request': // Ignoring until removed by SDK
     case 'cxengage/authentication/login-response': // Handled in Login container
       break;
+    case 'cxengage/session/set-active-tenant-response':
+      if (error.code === 2000) {
+        break; // Handled in Login/index.js
+      } else {
+        yield call(logSentryErrorAndSetError, { topic, error });
+        break;
+      }
     case 'cxengage/session/state-change-request-acknowledged':
       if (error.code === 2005) {
         yield put(removeInvalidExtension());
@@ -59,25 +64,29 @@ export function* goHandleSDKError(action) {
       yield put(setNonCriticalError(topic, error));
       break;
     default: {
-      const isFatal = (error && error.level === 'fatal');
-      console.warn('SDK Error:', topic, error);
-      if (Raven.isSetup() && !sentryIgnoreTopics.includes(topic)) {
-        Raven.captureException(new Error(topic), {
-          level: isFatal ? 'fatal' : 'warning',
-          extra: {
-            sdkError: error,
-          },
-          tags: {
-            sdkCode: error && error.code,
-          },
-        });
-      }
-      if (isFatal) {
-        yield put(setCriticalError(topic, error));
-      } else if (topicActions[topic]) {
-        yield put(topicActions[topic]);
-      }
+      yield call(logSentryErrorAndSetError, { topic, error });
     }
+  }
+}
+
+export function* logSentryErrorAndSetError(topic, error) {
+  const isFatal = (error && error.level === 'fatal');
+  console.warn('SDK Error:', topic, error);
+  if (Raven.isSetup() && !sentryIgnoreTopics.includes(topic)) {
+    Raven.captureException(new Error(topic), {
+      level: isFatal ? 'fatal' : 'warning',
+      extra: {
+        sdkError: error,
+      },
+      tags: {
+        sdkCode: error && error.code,
+      },
+    });
+  }
+  if (isFatal) {
+    yield put(setCriticalError(topic, error));
+  } else if (topicActions[topic]) {
+    yield put(topicActions[topic]);
   }
 }
 
