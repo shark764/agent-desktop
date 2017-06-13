@@ -17,10 +17,11 @@ import IconSVG from 'components/IconSVG';
 import ContactSearchBar from 'containers/ContactSearchBar';
 import ContactSearchResult from 'containers/ContactSearchResult';
 
-import { removeSearchFilter } from 'containers/AgentDesktop/actions';
+import { removeSearchFilter, deleteContacts, setSidePanelTabIndex } from 'containers/AgentDesktop/actions';
 import { getSelectedInteraction } from 'containers/SidePanel/selectors';
-import { selectResults, selectResultsCount, selectNextPage, selectCheckedContacts, selectLoading, selectConfirmingDelete, selectDeletionPending, selectExpandedQuery } from 'containers/InfoTab/selectors';
-import { setSearchResults, checkContact, uncheckContact, newContact, setLoading, setDeletionPending, setConfirmingDelete, setContactMode } from 'containers/InfoTab/actions';
+import { resetForm } from 'containers/ContactsControl/actions';
+import { selectResults, selectResultsCount, selectNextPage, selectCheckedContacts, selectLoading, selectConfirmingDelete, selectDeletionPending, selectExpandedQuery, selectContactMode } from 'containers/InfoTab/selectors';
+import { setSearchResults, checkContact, uncheckContact, newContact, setLoading, setConfirmingDelete, setContactMode, clearSearchResults, clearCheckedContacts } from 'containers/InfoTab/actions';
 
 import messages from './messages';
 import NoRecords from './NoRecords';
@@ -100,10 +101,22 @@ const styles = {
 
 export class ContactSearch extends BaseComponent {
 
+  componentWillMount() {
+    this.props.clearSearchResults();
+    this.props.clearCheckedContacts();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const queryChanged = JSON.stringify(nextProps.selectedInteraction.query) !== JSON.stringify(this.props.selectedInteraction.query);
+    const interactionChanged = (nextProps.selectedInteraction.interactionId !== this.props.selectedInteraction.interactionId);
+    if (queryChanged || interactionChanged) {
+      this.props.clearSearchResults();
+      this.props.clearCheckedContacts();
+    }
+  }
+
   searchContacts = () => {
     if (!this.props.loading || this.props.deletionPending) {
-      this.props.setLoading(true);
-      this.props.setDeletionPending(false);
       const encodedQuery = {};
       Object.keys(this.props.selectedInteraction.query).forEach((queryName) => {
         const queryToEncode = this.props.selectedInteraction.query[queryName];
@@ -122,18 +135,18 @@ export class ContactSearch extends BaseComponent {
       CxEngage.contacts.search({ query: Object.assign(encodedQuery, { page: this.props.nextPage }) }, (error, topic, response) => {
         console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
         this.props.setSearchResults(response);
-        this.props.setLoading(false);
       });
     }
   }
 
-  setDeletionPending = () => {
-    this.props.setLoading(true);
-    this.props.setDeletionPending(true);
+  setMerging = () => {
+    this.props.setContactMode('merge');
+    this.props.setSidePanelTabIndex(this.props.selectedInteraction.interactionId, 0);
   }
 
-  setMerging = () => {
-    this.props.setContactMode('merging');
+  newContact = () => {
+    this.props.newContact();
+    this.props.setSidePanelTabIndex(this.props.selectedInteraction.interactionId, 0);
   }
 
   getLoader = () =>
@@ -143,7 +156,11 @@ export class ContactSearch extends BaseComponent {
 
   render() {
     let results;
-    if (this.props.selectedInteraction.query && Object.keys(this.props.selectedInteraction.query).length) {
+    if (
+      this.props.selectedInteraction
+      && this.props.selectedInteraction.query
+      && Object.keys(this.props.selectedInteraction.query).length
+    ) {
       if (this.props.resultsCount !== 0) {
         const resultsMapped = !this.props.deletionPending && this.props.results.map(
           (contact) => {
@@ -194,7 +211,7 @@ export class ContactSearch extends BaseComponent {
           <div style={{ margin: '5px 0' }}>
             <FormattedMessage {...messages.or} />
           </div>
-          <Button id="createNewRecord" type="secondary" text="Create New Record" onClick={this.props.newContact}></Button>
+          <Button id="createNewRecord" type="secondary" text="Create New Record" onClick={this.newContact}></Button>
         </div>
       );
     }
@@ -221,17 +238,20 @@ export class ContactSearch extends BaseComponent {
         </div>
         { results }
         {
-          this.props.results.length > 0 && !this.props.loading &&
-          <ContactBulkActions
-            newContact={this.props.newContact}
+          this.props.results.length > 0
+          && !this.props.loading
+          && !this.props.contactMode
+          && <ContactBulkActions
+            newContact={this.newContact}
             selectedContacts={this.props.checkedContacts}
-            deleteContacts={this.setDeletionPending}
+            deleteContacts={this.props.deleteContacts}
             confirmingDelete={this.props.confirmingDelete}
             setMerging={this.setMerging}
             setConfirmingDelete={this.props.setConfirmingDelete}
           />
         }
-      </div>);
+      </div>
+    );
   }
 }
 
@@ -247,14 +267,19 @@ ContactSearch.propTypes = {
   confirmingDelete: PropTypes.bool,
   query: PropTypes.array,
   setSearchResults: PropTypes.func.isRequired,
+  clearSearchResults: PropTypes.func.isRequired,
+  clearCheckedContacts: PropTypes.func.isRequired,
   checkContact: PropTypes.func.isRequired,
   uncheckContact: PropTypes.func.isRequired,
   newContact: PropTypes.func.isRequired,
   setLoading: PropTypes.func.isRequired,
-  setDeletionPending: PropTypes.func.isRequired,
+  deleteContacts: PropTypes.func.isRequired,
   setConfirmingDelete: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
   setContactMode: PropTypes.func.isRequired,
+  contactMode: PropTypes.string,
+  setSidePanelTabIndex: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state, props) {
@@ -268,6 +293,7 @@ function mapStateToProps(state, props) {
     deletionPending: selectDeletionPending(state, props),
     confirmingDelete: selectConfirmingDelete(state, props),
     query: selectExpandedQuery(state, props),
+    contactMode: selectContactMode(state, props),
   };
 }
 
@@ -275,14 +301,18 @@ function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
     setSearchResults: (filter) => dispatch(setSearchResults(filter)),
+    clearSearchResults: () => dispatch(clearSearchResults()),
+    clearCheckedContacts: () => dispatch(clearCheckedContacts()),
     checkContact: (contact) => dispatch(checkContact(contact)),
     uncheckContact: (contact) => dispatch(uncheckContact(contact)),
     newContact: () => dispatch(newContact()),
     setLoading: (loading) => dispatch(setLoading(loading)),
-    setDeletionPending: (deletionPending) => dispatch(setDeletionPending(deletionPending)),
+    deleteContacts: () => dispatch(deleteContacts()),
     setConfirmingDelete: (confirmingDelete) => dispatch(setConfirmingDelete(confirmingDelete)),
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
     setContactMode: (contactMode) => dispatch(setContactMode(contactMode)),
+    setSidePanelTabIndex: (interactionId, sidePanelTabIndex) => dispatch(setSidePanelTabIndex(interactionId, sidePanelTabIndex)),
+    resetForm: () => dispatch(resetForm()),
     dispatch,
   };
 }

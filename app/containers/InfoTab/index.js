@@ -20,12 +20,12 @@ import NotificationBanner from 'components/NotificationBanner';
 import ContactsControl from 'containers/ContactsControl';
 import ContactHeader from 'components/ContactHeader';
 
-import { deleteContacts, setContactAction } from 'containers/AgentDesktop/actions';
+import { setContactAction } from 'containers/AgentDesktop/actions';
 import { setShowCancelDialog, setShowConfirmDialog, setFormIsDirty, setFormValidity, resetForm } from 'containers/ContactsControl/actions';
 
 import selectInfoTab, { selectCurrentInteraction, selectCheckedContacts,
   selectContactMode, selectEditingContact, selectNotifications,
-  selectNextNotificationId, selectDeletionPending, selectCRMUnavailable } from './selectors';
+  selectNextNotificationId, selectCRMUnavailable } from './selectors';
 import { clearSearchResults, clearCheckedContacts, setContactMode,
   setEditingContact, addNotification, dismissNotification, setLoading, setConfirmingDelete } from './actions';
 import messages from './messages';
@@ -65,29 +65,6 @@ export class InfoTab extends BaseComponent {
     },
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (!this.state.error) {
-      const queryChanged = JSON.stringify(nextProps.selectedInteraction.query) !== JSON.stringify(this.props.selectedInteraction.query);
-      const interactionChanged = (nextProps.selectedInteraction.interactionId !== this.props.selectedInteraction.interactionId);
-      if (queryChanged || interactionChanged) {
-        this.props.clearSearchResults();
-        this.props.clearCheckedContacts();
-      }
-      if (interactionChanged && this.props.contactMode !== 'viewing') {
-        this.setNotEditing();
-      }
-      if (!this.props.deletionPending && nextProps.deletionPending) {
-        this.deleteContacts();
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    if (!this.state.error) {
-      this.props.clearSearchResults();
-    }
-  }
-
   componentDidMount() {
     CxEngage.contacts.listAttributes(() => {
       CxEngage.contacts.listLayouts(() => {
@@ -96,27 +73,26 @@ export class InfoTab extends BaseComponent {
     });
   }
 
-  deleteContacts = () => {
-    this.props.deleteContacts(this.props.checkedContacts.map((contact) => contact.id));
-    this.props.clearCheckedContacts();
-    this.props.setConfirmingDelete(false);
+  componentWillReceiveProps(nextProps) {
+    const interactionChanged = (nextProps.selectedInteraction.interactionId !== this.props.selectedInteraction.interactionId);
+    if (interactionChanged) {
+      this.setNotEditing();
+    }
   }
 
   setSearching = () => {
     this.props.setContactAction(this.props.selectedInteraction.interactionId, 'search');
   }
 
-  editContact = () => {
-    this.props.setContactMode('editing');
+  editAssignedContact = () => {
+    this.props.setEditingContact({});
+    this.props.setContactMode('edit');
   }
 
   setNotEditing = () => {
-    this.props.setContactMode('viewing');
+    this.props.setContactMode();
+    this.props.setEditingContact({});
     this.props.clearCheckedContacts();
-    this.props.setShowCancelDialog(false);
-    this.props.setShowConfirmDialog(false);
-    this.props.setFormIsDirty(false);
-    this.props.setFormValidity(false);
     this.props.resetForm();
   }
 
@@ -145,7 +121,10 @@ export class InfoTab extends BaseComponent {
     if (this.props.crmUnavailable) {
       return this.crmUnavailableBanner();
     }
-    const showCheckboxes = this.props.selectedInteraction.contactAction !== 'view' && this.props.contactMode !== 'merging' && this.props.contactMode !== 'editing';
+    const showCheckboxes = (
+      this.props.selectedInteraction.contactAction === 'search'
+      && !this.props.contactMode
+    );
     return (
       <div style={[this.props.style, this.styles.base]}>
         {
@@ -156,18 +135,18 @@ export class InfoTab extends BaseComponent {
               style={this.styles.notificationBanner}
               dismiss={() => this.props.dismissNotification(notification.id)}
               tryAgain={notification.tryAgain}
-              titleMessage={messages[notification.errorType]}
-              descriptionMessage={messages[notification.messageType]}
+              titleMessage={notification.errorType && messages[notification.errorType]}
+              descriptionMessage={messages[notification.messageType] || messages.notSaved}
               isError={notification.isError}
             />
           )
         }
         <ContactHeader
-          selectedInteraction={this.props.selectedInteraction}
+          contactAction={this.props.selectedInteraction.contactAction}
           contactMode={this.props.contactMode}
-          editingContactEditing={this.props.editingContact}
-          editAssignedContact={this.editContact}
+          editAssignedContact={this.editAssignedContact}
           setSearching={this.setSearching}
+          showControls={this.props.selectedInteraction.interactionId !== 'creating-new-interaction'}
         />
         <div style={[this.styles.contacts, showCheckboxes && this.styles.checkboxSpacing]}>
           <ContactsControl
@@ -187,7 +166,6 @@ InfoTab.propTypes = {
   clearCheckedContacts: React.PropTypes.func,
   selectedInteraction: React.PropTypes.object,
   setContactAction: React.PropTypes.func,
-  deleteContacts: React.PropTypes.func,
   contactMode: React.PropTypes.string,
   query: React.PropTypes.array,
   deletionPending: React.PropTypes.bool,
@@ -216,7 +194,6 @@ function mapStateToProps(state, props) {
     editingContact: selectEditingContact(state, props),
     nextNotificationId: selectNextNotificationId(state, props),
     notifications: selectNotifications(state, props),
-    deletionPending: selectDeletionPending(state, props),
     ...selectInfoTab(state, props),
   };
 }
@@ -226,7 +203,6 @@ function mapDispatchToProps(dispatch) {
     setCriticalError: () => dispatch(setCriticalError()),
     clearSearchResults: () => dispatch(clearSearchResults()),
     clearCheckedContacts: () => dispatch(clearCheckedContacts()),
-    deleteContacts: (contactIds) => dispatch(deleteContacts(contactIds)),
     setContactMode: (contactMode) => dispatch(setContactMode(contactMode)),
     setEditingContact: (editingContact) => dispatch(setEditingContact(editingContact)),
     addNotification: (notification) => dispatch(addNotification(notification)),

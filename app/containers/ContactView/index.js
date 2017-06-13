@@ -18,9 +18,9 @@ import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
 
 import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
-import { selectIsAgentReady, selectHasVoiceInteraction, selectSmsInteractionNumbers } from 'containers/AgentDesktop/selectors';
+import { selectIsAgentReady, selectHasVoiceInteraction, selectSmsInteractionNumbers, selectSelectedInteraction } from 'containers/AgentDesktop/selectors';
 import { setContactMode, setEditingContact } from 'containers/InfoTab/actions';
-import { selectLoading, selectCurrentInteractionContactId } from 'containers/InfoTab/selectors';
+import { selectLoading, selectCurrentInteractionContactId, selectContactMode } from 'containers/InfoTab/selectors';
 import { getSelectedInteractionIsCreatingNewInteraction } from 'containers/ContactsControl/selectors';
 import { startOutboundEmail } from 'containers/EmailContentArea/actions';
 
@@ -65,8 +65,15 @@ const styles = {
 export class ContactView extends BaseComponent {
 
   editContact = () => {
-    this.props.setContactMode('editing');
-    this.props.setEditingContact(this.props.contact);
+    this.props.setContactMode('edit');
+    if (
+      this.props.currentInteractionContactId
+      && this.props.currentInteractionContactId === this.props.contact.id
+    ) {
+      this.props.setEditingContact({});
+    } else {
+      this.props.setEditingContact(this.props.contact);
+    }
   }
 
   getAttributeRow = (attribute) => {
@@ -108,6 +115,11 @@ export class ContactView extends BaseComponent {
   }
 
   render() {
+    const inInteractionContext = (
+      this.props.selectedInteraction
+      && this.props.selectedInteraction.interactionId
+      && !this.props.selectedInteractionIsCreatingNewInteraction
+    );
     return (
       <div style={[this.props.style, styles.base]}>
         <div style={styles.header}>
@@ -119,14 +131,18 @@ export class ContactView extends BaseComponent {
               <div>
                 <Button
                   id={`assignBtn${this.props.contact.id}`}
-                  disabled={this.props.loading || (this.props.currentInteractionContactId && this.props.currentInteractionContactId === this.props.contact.id)}
+                  disabled={
+                    this.props.loading
+                    || (this.props.currentInteractionContactId && this.props.currentInteractionContactId === this.props.contact.id)
+                    || this.props.contactMode !== undefined
+                  }
                   type="secondary"
                   onClick={() => this.props.assignContact(this.props.contact)}
-                  text={this.props.intl.formatMessage(this.props.inInteractionContext ? messages.assignButton : messages.selectButton)}
+                  text={this.props.intl.formatMessage(inInteractionContext ? messages.assignButton : messages.selectButton)}
                 />
                 <Button
                   id={`editBtn${this.props.contact.id}`}
-                  disabled={this.props.loading}
+                  disabled={this.props.loading || this.props.contactMode !== undefined}
                   type="secondary"
                   onClick={this.editContact}
                   text={this.props.intl.formatMessage(messages.editButton)}
@@ -146,13 +162,15 @@ export class ContactView extends BaseComponent {
 
 const mapStateToProps = (state, props) => ({
   loading: selectLoading(state, props),
+  selectedInteraction: selectSelectedInteraction(state, props),
   currentInteractionContactId: selectCurrentInteractionContactId(state, props),
   layoutSections: selectPopulatedLayout(state, props),
   compactLayoutAttributes: selectPopulatedCompactAttributes(state, props),
   isReady: selectIsAgentReady(state, props),
-  selectedInteractionIsCreatingNewInteraction: getSelectedInteractionIsCreatingNewInteraction(state, props),
+  contactMode: selectContactMode(state, props),
   hasVoiceInteraction: selectHasVoiceInteraction(state, props),
   smsInteractionNumbers: selectSmsInteractionNumbers(state, props),
+  selectedInteractionIsCreatingNewInteraction: getSelectedInteractionIsCreatingNewInteraction(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -169,6 +187,7 @@ function mapDispatchToProps(dispatch) {
 ContactView.propTypes = {
   intl: intlShape.isRequired,
   style: PropTypes.object,
+  selectedInteraction: PropTypes.object,
   contact: PropTypes.object.isRequired,
   showCompactView: PropTypes.bool,
   showControls: PropTypes.bool,
@@ -178,6 +197,7 @@ ContactView.propTypes = {
   layoutSections: PropTypes.array,
   compactLayoutAttributes: PropTypes.object,
   isReady: PropTypes.bool.isRequired,
+  contactMode: PropTypes.string,
   hasVoiceInteraction: PropTypes.bool.isRequired,
   smsInteractionNumbers: PropTypes.array.isRequired,
   selectedInteractionIsCreatingNewInteraction: PropTypes.bool.isRequired,

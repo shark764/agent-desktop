@@ -26,9 +26,16 @@ import messages from './messages';
 
 const styles = {
   base: {
-    backgroundColor: '#FFFFFF',
-    height: '100%',
     paddingRight: '20px',
+    height: '100%',
+    backgroundColor: '#FFFFFF',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  contacts: {
+    height: '100%',
+    overflowY: 'auto',
+    display: 'flex',
   },
   buttonContainer: {
     padding: '13px 0',
@@ -42,7 +49,7 @@ export class NewInteractionContentArea extends BaseComponent {
 
   closeNewInteractionPanel = () => {
     this.props.closeNewInteractionPanel();
-    this.props.setContactMode('viewing');
+    this.props.setContactMode();
   }
 
   render() {
@@ -57,7 +64,9 @@ export class NewInteractionContentArea extends BaseComponent {
             onClick={this.closeNewInteractionPanel}
           />
         </div>
-        <ContactSearch />
+        <div style={styles.contacts}>
+          <ContactSearch />
+        </div>
       </div>
     );
   }

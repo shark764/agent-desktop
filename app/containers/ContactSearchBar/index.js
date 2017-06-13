@@ -31,7 +31,6 @@ export class ContactSearchBar extends BaseComponent {
     super(props);
 
     this.state = {
-      searchTerm: '',
       pendingFilter: false,
       pendingFilterValue: '',
       autocompleteValue: '',
@@ -60,10 +59,6 @@ export class ContactSearchBar extends BaseComponent {
       (possibleFilter) => (this.props.query.findIndex((searchFilter) => searchFilter.attribute.objectName === possibleFilter.objectName) === -1)
     );
     return filteredFilters;
-  }
-
-  setSearchTerm = (searchTerm) => {
-    this.setState({ searchTerm });
   }
 
   getItemValue = (item) => this.getLabel(item)

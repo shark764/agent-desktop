@@ -36,21 +36,6 @@ Object {
 }
 `;
 
-exports[`goDeleteContacts when action.reasonIds is an array of Ids should dispatch a clearSearchResults action after deletion is complete 1`] = `
-Object {
-  "done": false,
-  "value": Object {
-    "@@redux-saga/IO": true,
-    "PUT": Object {
-      "action": Object {
-        "type": "app/InfoTab/CLEAR-SEARCH_RESULTS",
-      },
-      "channel": null,
-    },
-  },
-}
-`;
-
 exports[`goDeleteContacts when action.reasonIds is an array of Ids when API responds with a false bool for contactId1 and a true bool for 2 should only dispatch a removeContact action contactId2 1`] = `
 Object {
   "done": false,

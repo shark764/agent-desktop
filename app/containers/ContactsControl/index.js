@@ -27,7 +27,7 @@ import ContactMerge from 'containers/ContactMerge';
 import ContactSearch from 'containers/ContactSearch';
 import ContactView from 'containers/ContactView';
 
-import { assignContact, selectContact, loadContactInteractionHistory } from 'containers/AgentDesktop/actions';
+import { showContactsPanel, assignContactToSelected, selectContact, loadContactInteractionHistory, setContactAction } from 'containers/AgentDesktop/actions';
 import { selectIsContactsPanelCollapsed } from 'containers/AgentDesktop/selectors';
 import { selectPopulatedLayout } from 'containers/ContactView/selectors';
 import selectInfoTab, { selectCheckedContacts, selectContactMode, selectEditingContact, selectLoading } from 'containers/InfoTab/selectors';
@@ -48,91 +48,35 @@ export class ContactsControl extends BaseComponent {
       flexGrow: '1',
       flexShrink: '0',
     },
+    loadingContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      flexGrow: 1,
+      paddingTop: '50px',
+    },
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.contactMode === 'editing' && this.props.contactMode !== 'editing') {
-      if (nextProps.selectedInteraction.contactAction === 'view' && nextProps.selectedInteraction.contact) {
-        this.hydrateEditForm(nextProps.selectedInteraction.contact);
-      } else {
-        this.hydrateEditForm(nextProps.editingContact);
-      }
-    } else if (nextProps.contactMode === 'merging' && this.props.contactMode !== 'merging') {
-      this.hydrateMergeForm();
-    }
-  }
-
-  unassignCurrentContact = (callback) => {
-    CxEngage.interactions.unassignContact({
-      interactionId: this.props.selectedInteraction.interactionId,
-      contactId: this.props.selectedInteraction.contact.id,
-    }, (error, response, topic) => {
-      this.props.setLoading(false);
-      console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
-      callback(error);
-    });
-  }
-
-  handleContactAssign = (contact, callback) => {
-    if (!this.props.selectedInteraction.interactionId) {
-      this.props.selectContact(contact);
-      if (typeof callback === 'function') callback();
-      this.props.loadContactInteractionHistory(contact.id);
-    } else {
-      this.props.setLoading(true);
-      const handleError = (error) => {
-        this.props.addNotification('notAssigned', true, 'serverError'); // TODO: when errors are ready, get error from response?
-        console.error(error);
-      };
-      if (this.props.selectedInteraction.contact !== undefined) {
-        this.unassignCurrentContact((unassignError) => {
-          if (unassignError) {
-            this.props.setLoading(false);
-            handleError(unassignError);
-            if (typeof callback === 'function') callback();
+    if (nextProps.contactMode !== this.props.contactMode) {
+      switch (nextProps.contactMode) {
+        case 'edit':
+          if (!Object.keys(nextProps.editingContact).length) {
+            this.hydrateEditForm(nextProps.selectedInteraction.contact);
           } else {
-            this.assignContactToSelected(contact, (assignError) => {
-              if (assignError) {
-                handleError(assignError);
-              }
-              this.props.setLoading(false);
-              if (typeof callback === 'function') callback();
-            });
+            this.hydrateEditForm(nextProps.editingContact);
           }
-        });
-      } else {
-        this.assignContactToSelected(contact, (assignError) => {
-          if (assignError) {
-            handleError(assignError);
-          }
-          this.props.setLoading(false);
-          if (typeof callback === 'function') callback();
-        });
+          break;
+        case 'create':
+        default:
+          this.hydrateEditForm({});
       }
+      this.props.showContactsPanel();
     }
-  }
-
-  assignContactToSelected = (contact, callback) => {
-    CxEngage.interactions.assignContact({
-      interactionId: this.props.selectedInteraction.interactionId,
-      contactId: contact.id,
-    }, (error, topic, response) => {
-      this.props.setLoading(false);
-      console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
-      if (error) {
-        callback(error);
-      } else {
-        this.props.loadContactInteractionHistory(contact.id);
-        this.props.clearSearchResults();
-        this.props.assignContact(this.props.selectedInteraction.interactionId, contact);
-        callback();
-      }
-    });
   }
 
   handleCancel = (event) => {
     event.preventDefault();
-    if (this.props.formIsDirty || this.props.contactMode === 'merging') {
+    if (this.props.formIsDirty || this.props.contactMode === 'merge') {
       this.props.setShowCancelDialog(true);
     } else {
       this.props.setNotEditing();
@@ -162,6 +106,7 @@ export class ContactsControl extends BaseComponent {
   phoneNumberUtil = PhoneNumberUtil.getInstance();
 
   getError = (name, value) => {
+    if (!value) return false;
     const attributeToValidate = this.props.attributes.find((attribute) => attribute.objectName === name);
     let error = false;
     if (attributeToValidate.mandatory && (value.length < 1)) {
@@ -213,46 +158,36 @@ export class ContactsControl extends BaseComponent {
     });
   }
 
-  hydrateMergeForm = () => {
-    const firstContact = this.props.checkedContacts[0].attributes;
-    const secondContact = this.props.checkedContacts[1].attributes;
-    Object.keys(firstContact).forEach((attributeName) => {
-      if (firstContact[attributeName] === undefined || firstContact[attributeName] === '') {
-        this.props.setFormField(attributeName, secondContact[attributeName]);
-        this.props.setFormError(attributeName, this.getError(attributeName, secondContact[attributeName]));
-      } else {
-        this.props.setFormField(attributeName, firstContact[attributeName]);
-        this.props.setFormError(attributeName, this.getError(attributeName, firstContact[attributeName]));
-
-        if (secondContact[attributeName] !== undefined && secondContact[attributeName] !== '') {
-          this.props.setUnusedField(attributeName, secondContact[attributeName]);
-          this.props.setSelectedIndex(attributeName, 0);
-        }
-      }
-      this.props.setShowError(attributeName, false);
-    });
-  }
-
   render() {
     let content;
-    if (this.props.loading && (this.props.contactMode === 'editing' || this.props.contactMode === 'merging' || this.props.selectedInteraction.contactAction === 'view')) {
+    if (this.props.loading && (this.props.selectedInteraction.contactAction === 'search' && !this.props.contactMode)) {
       content = (
-        <div id="loadingContainer" style={this.styles.loading}>
+        <div id="loadingContainer" style={this.styles.loadingContainer}>
           <IconSVG style={this.styles.loadingIcon} id="loadingIcon" name="loading" />
         </div>
       );
-    } else if (this.props.contactMode === 'editing') {
+    } else if (this.props.contactMode === 'edit' || this.props.contactMode === 'create') {
+      let contactId;
+      if (this.props.contactMode === 'edit') {
+        contactId =
+          this.props.editingContact.id
+          || (
+            this.props.selectedInteraction &&
+            this.props.selectedInteraction.contact &&
+            this.props.selectedInteraction.contact.id
+          );
+      }
       content = (<ContactEdit
         getError={this.getError}
         formatValue={this.formatValue}
         setNotEditing={this.props.setNotEditing}
         style={this.styles.mainContact}
-        contact={this.props.editingContact}
+        contactId={contactId}
         handleCancel={this.handleCancel}
         addNotification={this.props.addNotification}
-        assignContact={this.handleContactAssign}
+        assignContact={this.props.assignContact}
       />);
-    } else if (this.props.contactMode === 'merging') {
+    } else if (this.props.contactMode === 'merge') {
       content = (<ContactMerge
         getError={this.getError}
         formatValue={this.formatValue}
@@ -260,14 +195,14 @@ export class ContactsControl extends BaseComponent {
         style={this.styles.mainContact}
         handleCancel={this.handleCancel}
         addNotification={this.props.addNotification}
-        assignContact={this.handleContactAssign}
+        assignContact={this.props.assignContact}
       />);
     } else {
       switch (this.props.selectedInteraction.contactAction) {
         case 'view':
           content = (<ContactView
             contact={this.props.selectedInteraction.contact ? this.props.selectedInteraction.contact : this.props.editingContact}
-            assignContact={this.handleContactAssign}
+            assignContact={this.props.assignContact}
             style={this.styles.mainContact}
           />);
           break;
@@ -313,6 +248,8 @@ ContactsControl.propTypes = {
   setUnusedField: PropTypes.func,
   setSelectedIndex: PropTypes.func,
   setShowError: PropTypes.func,
+  setContactAction: PropTypes.func,
+  showContactsPanel: PropTypes.func,
   isCollapsed: PropTypes.bool.isRequired,
 };
 
@@ -339,14 +276,16 @@ function mapDispatchToProps(dispatch) {
     clearSearchResults: () => dispatch(clearSearchResults()),
     setLoading: (loading) => dispatch(setLoading(loading)),
     selectContact: (contact) => dispatch(selectContact(contact)),
+    setContactAction: (interactionId, action) => dispatch(setContactAction(interactionId, action)),
     loadContactInteractionHistory: (contactId, page) => dispatch(loadContactInteractionHistory(contactId, page)),
-    assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
+    assignContact: (contact) => dispatch(assignContactToSelected(contact)),
     setShowCancelDialog: (showCancelDialog) => dispatch(setShowCancelDialog(showCancelDialog)),
     setFormField: (field, value) => dispatch(setFormField(field, value)),
     setFormError: (field, error) => dispatch(setFormError(field, error)),
     setShowError: (field, error) => dispatch(setShowError(field, error)),
     setUnusedField: (field, value) => dispatch(setUnusedField(field, value)),
     setSelectedIndex: (field, index) => dispatch(setSelectedIndex(field, index)),
+    showContactsPanel: () => dispatch(showContactsPanel()),
     dispatch,
   };
 }

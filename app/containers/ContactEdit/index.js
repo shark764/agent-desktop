@@ -16,9 +16,9 @@ import { injectIntl, intlShape } from 'react-intl';
 
 import { removeSearchFilter } from 'containers/AgentDesktop/actions';
 import { selectShowCancelDialog, selectFormIsDirty, selectFormValidity, selectContactForm, selectFormErrors, selectShowErrors } from 'containers/ContactsControl/selectors';
-import { setShowCancelDialog, setFormIsDirty, setFormValidity, resetForm, setShowError, setFormField, setFormError } from 'containers/ContactsControl/actions';
-import { selectLoading } from 'containers/InfoTab/selectors';
-import { clearSearchResults, setLoading } from 'containers/InfoTab/actions';
+import { setShowCancelDialog, setFormIsDirty, setFormValidity, setShowError, setFormField, setFormError } from 'containers/ContactsControl/actions';
+import { selectLoading, selectContactMode } from 'containers/InfoTab/selectors';
+import { clearSearchResults, setLoading, setEditingContact } from 'containers/InfoTab/actions';
 
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
@@ -50,10 +50,6 @@ const styles = {
 
 export class ContactEdit extends BaseComponent {
 
-  componentWillUnmount() {
-    this.props.resetForm();
-  }
-
   handleInputChange = (newValue, event) => {
     this.props.setFormIsDirty(true);
     this.setAttributeValue(event.target.name, newValue);
@@ -79,14 +75,12 @@ export class ContactEdit extends BaseComponent {
 
   handleSave = () => {
     this.props.setLoading(true);
-    if (this.props.contact.id) {
-      CxEngage.contacts.update({ contactId: this.props.contact.id, attributes: this.props.contactForm }, this.updateCallback);
+    if (this.props.contactMode === 'edit') {
+      CxEngage.contacts.update({ contactId: this.props.contactId, attributes: this.props.contactForm }, this.updateCallback);
       // TODO: handle errors
-      this.props.setNotEditing();
     } else {
       CxEngage.contacts.create({ attributes: this.props.contactForm }, this.createCallback);
       // TODO: handle errors
-      this.props.setNotEditing();
     }
   }
 
@@ -94,14 +88,11 @@ export class ContactEdit extends BaseComponent {
     console.log('[Contact] CxEngage.subscribe()', topic, response);
     if (error) {
       this.props.addNotification('notCreated', true, 'serverError'); // TODO: when notifications are ready, get error from response?
+      this.props.setLoading(false);
       console.error(error);
     } else {
-      this.props.assignContact(response, () => {
-        this.props.clearSearchResults();
-        this.props.removeSearchFilter();
-        this.props.addNotification('created', false);
-        this.props.setLoading(false);
-      });
+      this.props.assignContact(response);
+      this.props.setNotEditing();
     }
   }
 
@@ -112,6 +103,7 @@ export class ContactEdit extends BaseComponent {
       this.props.addNotification('notSaved', true, 'serverError'); // TODO: when notifications are ready, get error from response?
       console.error(error);
     } else {
+      this.props.setNotEditing();
       this.props.clearSearchResults();
       this.props.addNotification('saved', false);
     }
@@ -145,7 +137,6 @@ export class ContactEdit extends BaseComponent {
         attribute={attribute}
         attributeLabel={attributeLabel}
         intl={this.props.intl}
-        contact={this.props.contact}
         showErrors={this.props.showErrors}
         errors={this.props.formErrors}
         formInput={this.props.contactForm[attribute.objectName]}
@@ -164,7 +155,7 @@ export class ContactEdit extends BaseComponent {
             rightAction={this.props.setNotEditing}
             isVisible={this.props.showCancelDialog}
             hide={() => this.props.setShowCancelDialog(false)}
-            style={{ position: 'absolute', left: this.props.contact.id ? '112px' : '64px', bottom: '40px' }}
+            style={{ position: 'absolute', left: (this.props.contactMode === 'edit') ? '112px' : '64px', bottom: '40px' }}
           />
           <Button
             id="contactSaveBtn"
@@ -173,7 +164,7 @@ export class ContactEdit extends BaseComponent {
             type="secondary"
             onClick={this.handleSave}
             text={
-              this.props.contact.id
+              this.props.contactMode === 'edit'
                 ? this.props.intl.formatMessage(messages.saveBtn)
                 : this.props.intl.formatMessage(messages.createBtn)
             }
@@ -192,6 +183,7 @@ export class ContactEdit extends BaseComponent {
 }
 
 const mapStateToProps = (state, props) => ({
+  contactMode: selectContactMode(state, props),
   layoutSections: selectPopulatedLayout(state, props),
   showCancelDialog: selectShowCancelDialog(state, props),
   formIsDirty: selectFormIsDirty(state, props),
@@ -210,11 +202,11 @@ function mapDispatchToProps(dispatch) {
     clearSearchResults: () => dispatch(clearSearchResults()),
     setFormIsDirty: (formIsDirty) => dispatch(setFormIsDirty(formIsDirty)),
     setFormValidity: (formIsValid) => dispatch(setFormValidity(formIsValid)),
-    resetForm: () => dispatch(resetForm()),
     setShowError: (field, error) => dispatch(setShowError(field, error)),
     setFormField: (field, value) => dispatch(setFormField(field, value)),
     setFormError: (field, error) => dispatch(setFormError(field, error)),
     removeSearchFilter: () => dispatch(removeSearchFilter()),
+    setEditingContact: (contact) => dispatch(setEditingContact(contact)),
     dispatch,
   };
 }
@@ -224,13 +216,12 @@ ContactEdit.propTypes = {
   formatValue: PropTypes.func.isRequired,
   edit: PropTypes.func,
   layoutSections: PropTypes.array,
-  contact: PropTypes.object.isRequired,
+  contactId: PropTypes.string,
   loading: PropTypes.bool,
   intl: intlShape.isRequired,
   style: PropTypes.object,
   showCancelDialog: PropTypes.bool,
   handleCancel: PropTypes.func,
-  resetForm: PropTypes.func,
   setFormValidity: PropTypes.func,
   setFormIsDirty: PropTypes.func,
   showErrors: PropTypes.object,
@@ -248,6 +239,8 @@ ContactEdit.propTypes = {
   formIsValid: PropTypes.bool,
   formIsDirty: PropTypes.bool,
   removeSearchFilter: PropTypes.func,
+  setEditingContact: PropTypes.func,
+  contactMode: PropTypes.string,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactEdit)));

@@ -23,7 +23,7 @@ import { setCriticalError } from 'containers/Errors/actions';
 import Checkbox from 'components/Checkbox';
 import ContactView from 'containers/ContactView';
 
-import { assignContactAction } from 'containers/AgentDesktop/actions';
+import { assignContactToSelected } from 'containers/AgentDesktop/actions';
 
 export class ContactSearchResult extends BaseComponent {
 
@@ -123,7 +123,7 @@ ContactSearchResult.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    assignContact: (contact) => dispatch(assignContactAction(contact)),
+    assignContact: (contact) => dispatch(assignContactToSelected(contact)),
     dispatch,
   };
 }

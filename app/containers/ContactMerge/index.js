@@ -12,6 +12,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
+import union from 'lodash/union';
 
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
@@ -62,8 +63,32 @@ const styles = {
 
 export class ContactMerge extends BaseComponent {
 
+  componentWillMount() {
+    this.hydrateMergeForm();
+  }
+
   componentDidMount() {
     this.props.setFormValidity(true);
+  }
+
+  hydrateMergeForm = () => {
+    const firstContact = this.props.checkedContacts[0].attributes;
+    const secondContact = this.props.checkedContacts[1].attributes;
+    union(Object.keys(firstContact), Object.keys(secondContact)).forEach((attributeName) => {
+      if (firstContact[attributeName] === undefined || firstContact[attributeName] === '') {
+        this.props.setFormField(attributeName, secondContact[attributeName]);
+        this.props.setFormError(attributeName, this.props.getError(attributeName, secondContact[attributeName]));
+      } else {
+        this.props.setFormField(attributeName, firstContact[attributeName]);
+        this.props.setFormError(attributeName, this.props.getError(attributeName, firstContact[attributeName]));
+
+        if (secondContact[attributeName] !== undefined && secondContact[attributeName] !== '') {
+          this.props.setUnusedField(attributeName, secondContact[attributeName]);
+          this.props.setSelectedIndex(attributeName, 0);
+        }
+      }
+      this.props.setShowError(attributeName, false);
+    });
   }
 
   handleSubmit = () => {
@@ -72,26 +97,25 @@ export class ContactMerge extends BaseComponent {
     CxEngage.contacts.merge({ contactIds, attributes }, this.mergeCallback);
     this.props.setLoading(true);
     this.props.setNotEditing();
-    this.props.setContactAction(this.props.selectedInteraction.interactionId, 'view');
+    this.props.setContactAction(this.props.selectedInteraction.interactionId, 'search');
   }
 
   mergeCallback = (error, topic, response) => {
     console.log('[ContactMerge] CxEngage.subscribe()', topic, response);
-    this.props.setEditingContact(response);
     this.props.setLoading(false);
     if (error) {
       this.props.addNotification('notMerged', true, 'serverError'); // TODO: when notifications are ready, get error from response?
       console.error(error);
     } else {
+      this.props.removeSearchFilter();
+      this.props.setEditingContact(response);
       if (this.props.selectedInteraction.contact && this.props.checkedContacts.find((contact) => this.props.selectedInteraction.contact.id === contact.id)) {
         this.props.assignContact(response);
       }
       this.props.checkedContacts.forEach((contact) => {
         this.props.removeContact(contact.id);
       });
-      this.props.clearSearchResults();
-      this.props.removeSearchFilter();
-      this.props.addNotification('saved', false);
+      this.props.addNotification('merged', false);
     }
   }
 

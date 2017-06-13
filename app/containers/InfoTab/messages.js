@@ -42,9 +42,33 @@ export default defineMessages({
     id: 'app.components.InfoTab.saved',
     defaultMessage: 'Changes saved.',
   },
+  merged: {
+    id: 'app.components.InfoTab.merged',
+    defaultMessage: 'Contacts Merged.',
+  },
+  assigned: {
+    id: 'app.components.InfoTab.assigned',
+    defaultMessage: 'Interaction assigned to contact.',
+  },
+  deleted: {
+    id: 'app.components.InfoTab.deleted',
+    defaultMessage: 'Contact deleted.',
+  },
+  deletedMultiple: {
+    id: 'app.components.InfoTab.deletedMultiple',
+    defaultMessage: 'Contacts deleted.',
+  },
   notSaved: {
     id: 'app.containers.InfoTab.notSaved',
     defaultMessage: 'Your changes have not been saved.',
+  },
+  notDeleted: {
+    id: 'app.containers.InfoTab.notDeleted',
+    defaultMessage: 'Contact deletion failed.',
+  },
+  notDeletedMultiple: {
+    id: 'app.containers.InfoTab.notDeletedMultiple',
+    defaultMessage: 'Selected contacts were not deleted.',
   },
   notCreated: {
     id: 'app.containers.InfoTab.notCreated',
@@ -53,6 +77,10 @@ export default defineMessages({
   notAssigned: {
     id: 'app.containers.InfoTab.notAssigned',
     defaultMessage: 'Contact was not assigned to the interaction.',
+  },
+  notMerged: {
+    id: 'app.containers.InfoTab.notMerged',
+    defaultMessage: 'Contact merge failed.',
   },
   serverError: {
     id: 'app.containers.InfoTab.serverError',

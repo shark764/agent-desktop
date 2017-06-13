@@ -16,7 +16,6 @@ exports[`infoTabReducer returns the initial state 1`] = `
 Object {
   "checkedContacts": Array [],
   "confirmingDelete": false,
-  "contactMode": "viewing",
   "deletionPending": false,
   "editingContact": Object {},
   "loading": false,

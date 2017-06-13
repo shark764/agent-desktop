@@ -32,7 +32,6 @@ const initialState = fromJS({
   loading: false,
   resultsCount: -1,
   checkedContacts: [],
-  contactMode: 'viewing',
   editingContact: {},
   notifications: [],
   nextNotificationId: 0,
@@ -87,10 +86,10 @@ function infoTabReducer(state = initialState, action) {
         .set('contactMode', action.contactMode);
     case SET_EDITING_CONTACT:
       return state
-        .set('editingContact', action.editingContact);
+        .set('editingContact', fromJS(action.editingContact));
     case NEW_CONTACT:
       return state
-        .set('contactMode', 'editing')
+        .set('contactMode', 'create')
         .set('editingContact', new Map());
     case ADD_NOTIFICATION:
       return state

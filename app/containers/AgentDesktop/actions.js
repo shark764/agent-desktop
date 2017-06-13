@@ -33,7 +33,7 @@ import {
   SET_MESSAGE_HISTORY,
   SET_CONTACT_ACTION,
   ASSIGN_CONTACT,
-  ASSIGN_CONTACT_ACTION,
+  ASSIGN_CONTACT_TO_SELECTED,
   SET_SIDE_PANEL_TAB_INDEX,
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
@@ -278,9 +278,9 @@ export function assignContact(interactionId, contact) {
   };
 }
 
-export function assignContactAction(contact) {
+export function assignContactToSelected(contact) {
   return {
-    type: ASSIGN_CONTACT_ACTION,
+    type: ASSIGN_CONTACT_TO_SELECTED,
     contact,
   };
 }
@@ -355,10 +355,9 @@ export function updateContact(updatedContact) {
   };
 }
 
-export function deleteContacts(contactIds) {
+export function deleteContacts() {
   return {
     type: DELETE_CONTACTS,
-    contactIds,
   };
 }
 export function removeContact(contactId) {

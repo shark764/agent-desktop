@@ -27,6 +27,7 @@ function ContactBulkActions(props) {
       display: 'flex',
       flexShrink: '0',
       margin: '12px 0 12px 54px',
+      position: 'relative',
     },
     bulkConfirmDialog: {
       position: 'absolute',
@@ -38,6 +39,11 @@ function ContactBulkActions(props) {
   const velocityCleanup = (animatedElements) => {
     const bulkActionBar = animatedElements[0];
     bulkActionBar.style.transform = 'none';
+  };
+
+  const deleteContacts = () => {
+    props.deleteContacts();
+    props.setConfirmingDelete(false);
   };
 
   return (
@@ -56,7 +62,7 @@ function ContactBulkActions(props) {
                 : { ...messages.deleteContacts, values: { count: props.selectedContacts.length } }
               }
               leftAction={() => props.setConfirmingDelete(false)}
-              rightAction={props.deleteContacts}
+              rightAction={deleteContacts}
               isVisible={props.confirmingDelete}
               hide={() => props.setConfirmingDelete(false)}
               style={styles.bulkConfirmDialog}
