@@ -46,7 +46,7 @@ function TextInput(props) {
         fontStretch: 'normal',
         color: '#494949',
         outline: 'none',
-        padding: '11px',
+        padding: '0 11px',
         borderRadius: '2px',
         borderTop: 'none',
         borderRight: 'none',
