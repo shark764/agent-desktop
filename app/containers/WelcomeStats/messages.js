@@ -15,15 +15,15 @@ export default defineMessages({
     defaultMessage: 'Welcome, ',
   },
   resourceHandleTime: {
-    id: 'app.container.WelcomeStats.resourceHandleTime',
+    id: 'app.containers.WelcomeStats.resourceHandleTime',
     defaultMessage: 'Average Handle Time',
   },
   customerSatisfactionScore: {
-    id: 'app.container.WelcomeStats.customerSatisfactionScore',
+    id: 'app.containers.WelcomeStats.customerSatisfactionScore',
     defaultMessage: 'Customer Satisfaction',
   },
   workAcceptedCount: {
-    id: 'app.container.WelcomeStats.workAcceptedCount',
+    id: 'app.containers.WelcomeStats.workAcceptedCount',
     defaultMessage: 'Daily Interactions',
   },
 });

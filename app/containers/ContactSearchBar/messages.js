@@ -9,4 +9,13 @@
  */
 import { defineMessages } from 'react-intl';
 
-export default defineMessages({});
+export default defineMessages({
+  result: {
+    id: 'app.containers.ContactsSearchBar.result',
+    defaultMessage: '1 Result',
+  },
+  results: {
+    id: 'app.containers.ContactsSearchBar.results',
+    defaultMessage: '{count} Results',
+  },
+});

@@ -12,7 +12,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import Autocomplete from 'react-autocomplete';
 
 import search from 'assets/icons/search.png';
@@ -25,6 +25,7 @@ import TextInput from 'components/TextInput';
 
 import { addSearchFilter, removeSearchFilter, setContactAction } from 'containers/AgentDesktop/actions';
 import { selectSearchableAttributes } from './selectors';
+import messages from './messages';
 
 export class ContactSearchBar extends BaseComponent {
   constructor(props) {
@@ -64,7 +65,7 @@ export class ContactSearchBar extends BaseComponent {
   getItemValue = (item) => this.getLabel(item)
 
   resizeFilterDropdownMenu = () => {
-    const newInputDivWidth = (this.inputDiv && this.inputDiv.offsetWidth) || this.state.filterMenuWidth;
+    const newInputDivWidth = (this.inputDivElement && this.inputDivElement.offsetWidth) || this.state.filterMenuWidth;
     if (newInputDivWidth !== this.state.filterMenuWidth) {
       this.setState({ // eslint-disable-line react/no-did-mount-set-state
         filterMenuWidth: newInputDivWidth,
@@ -78,7 +79,7 @@ export class ContactSearchBar extends BaseComponent {
         if (!this.state.pendingFilterValue.length) {
           this.setState({
             pendingFilter: false,
-          });
+          }, this.props.focusSearchInputElement);
         }
         break;
       default:
@@ -194,7 +195,7 @@ export class ContactSearchBar extends BaseComponent {
     this.setState({
       pendingFilter: this.props.searchableAttributes.find((filter) => this.getLabel(filter) === itemName),
       autoCompleteValue: '',
-    });
+    }, this.props.focusSearchInputElement);
   }
 
   matchFilterToTerm = (state, value) =>
@@ -229,18 +230,46 @@ export class ContactSearchBar extends BaseComponent {
     }
   }
 
+  handleAutocompleteRef = (component) => {
+    if (component && component.refs) {
+      this.props.setSearchInputElement(component.refs.input);
+    }
+  }
+
+  getResultsCountText = () => {
+    let resultsCountText;
+    if (this.props.resultsCount === 1) {
+      resultsCountText = <FormattedMessage {...messages.result} />;
+    } else if (this.props.resultsCount !== -1) {
+      resultsCountText = <FormattedMessage {...messages.results} values={{ count: String(this.props.resultsCount) }} />;
+    }
+    return resultsCountText;
+  }
+
+  setinputDivElement = (element) => {
+    this.inputDivElement = element;
+  }
+
   render() {
     return (
       <form id="search-form" onSubmit={this.handleSubmit}>
         <div id="contactSearchBar" style={[this.styles.base, this.props.style]}>
-          <div ref={(element) => { this.inputDiv = element; }} style={this.styles.inputBox}>
+          <div ref={this.setinputDivElement} style={this.styles.inputBox}>
             {
               this.state.pendingFilter
               ? <span style={this.styles.inputWrapper}>
                 <span style={this.styles.filterName}>
                   {`${this.getLabel(this.state.pendingFilter)}:`}&nbsp;
                 </span>
-                <TextInput id="search-filter-input" noBorder autoFocus onKeyDown={this.handleFilterValueInputKey} style={[this.styles.input, this.styles.pendingFilterInput]} cb={(pendingFilterValue) => this.setState({ pendingFilterValue })} value={this.state.pendingFilterValue} />
+                <TextInput
+                  id="search-filter-input"
+                  noBorder
+                  onKeyDown={this.handleFilterValueInputKey}
+                  style={[this.styles.input, this.styles.pendingFilterInput]}
+                  cb={(pendingFilterValue) => this.setState({ pendingFilterValue })}
+                  value={this.state.pendingFilterValue}
+                  handleInputRef={this.props.setSearchInputElement}
+                />
               </span>
               : <Autocomplete
                 value={this.state.autocompleteValue}
@@ -250,12 +279,17 @@ export class ContactSearchBar extends BaseComponent {
                 shouldItemRender={this.matchFilterToTerm}
                 onChange={(event, value) => this.setState({ autocompleteValue: value })}
                 onSelect={this.handleFilterSelect}
-                inputProps={{ style: this.styles.input }}
+                inputProps={{
+                  style: this.styles.input,
+                }}
                 wrapperStyle={this.styles.inputWrapper}
                 menuStyle={{ ...this.styles.filterDropdown, width: `${this.state.filterMenuWidth}px` }}
+                ref={this.handleAutocompleteRef}
               />
             }
-            { this.props.resultsCount > -1 ? <div style={this.styles.resultsCount}>{`${this.props.resultsCount} Result(s)`}</div> : '' }
+            <div style={this.styles.resultsCount}>
+              { this.getResultsCountText() }
+            </div>
           </div>
           <Button id="exit-search-btn" style={this.styles.closeButton} iconName="close" type="secondary" onClick={this.cancel} />
         </div>
@@ -269,8 +303,6 @@ ContactSearchBar.propTypes = {
   query: PropTypes.array,
   style: PropTypes.object,
   resultsCount: PropTypes.number,
-  searchableAttributes: PropTypes.array,
-  addFilter: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
   setContactAction: React.PropTypes.func,
 };

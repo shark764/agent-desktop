@@ -10,10 +10,6 @@ export default defineMessages({
     id: 'app.containers.ContactsSearch.searchCRM',
     defaultMessage: 'Search the CRM database',
   },
-  filtersList: {
-    id: 'app.containers.ContactsSearch.filtersList',
-    defaultMessage: '(name, email address, mailing address, phone number, organization, customer number)',
-  },
   or: {
     id: 'app.containers.ContactsSearch.or',
     defaultMessage: 'OR',

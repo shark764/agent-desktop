@@ -1,3 +1,9 @@
+### [0.41.16] (2017-06-14)
+* CXV1-8179 - Clean up search input focus
+* BUGFIX - contact search 'Result(s)' text
+* BUGFIX - box shadow on agent status menu submenus
+* BUGFIX - taking out download button and context menu for audio element
+
 ### [0.41.15] (2017-06-15)
 * Bump the SDK version to 5.3.6
 
