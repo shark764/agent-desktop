@@ -19,7 +19,7 @@ describe('<Stat />', () => {
         index={1}
         stat={{
           statAggregate: 'mockStatAggregate',
-          statSource: 'mockStatSource',
+          statSource: 'resource-id',
         }}
         removeStat={() => {}}
         readyState="mockReadyState"
