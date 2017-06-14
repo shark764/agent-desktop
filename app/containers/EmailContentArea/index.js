@@ -749,7 +749,7 @@ export class EmailContentArea extends BaseComponent {
                     {
                       to.name && to.name !== to.address ?
                         <span style={styles.toText}>
-                          `${to.name} [${to.address}]`
+                          {`${to.name} [${to.address}]`}
                         </span>
                       :
                         <span style={styles.toText}>
