@@ -1,3 +1,7 @@
+### [0.41.8] (2017-06-13)
+* Bump the SDK version to 5.3.3
+  * Adds email reporting functions CXV1-9907
+
 ### [0.41.7] (2017-06-13)
 * CXV1-9519 - further new interaction panel / search work
 
