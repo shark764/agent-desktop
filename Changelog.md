@@ -1,3 +1,6 @@
+### [0.41.14] (2017-06-14)
+* CXV1-8189 - Fix error when we get work-initiated without previous work-offer
+
 ### [0.41.13] (2017-06-14)
 * CXV1-9925 - Fix text input padding (for Firefox)
 
