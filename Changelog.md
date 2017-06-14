@@ -1,3 +1,6 @@
+### [0.41.9] (2017-06-14)
+* Internal - Fix test console warnings/errors
+
 ### [0.41.8] (2017-06-13)
 * Bump the SDK version to 5.3.3
   * Adds email reporting functions CXV1-9907

@@ -8,7 +8,7 @@ import { getIntlContext } from 'utils/test';
 
 import NotificationBanner from '../index';
 
-const mockMessage = { id: 'mockMessage', defaultMessage: 'mockMessage' };
+const mockMessage = { id: 'app.test.mockMessage', defaultMessage: 'mockMessage' };
 
 describe('<NotificationBanner />', () => {
   it('should render correctly', () => {

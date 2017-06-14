@@ -9,9 +9,8 @@ import StatValue from '../StatValue';
 
 let mockStat;
 let rendered;
-// let aggregate;
 
-jest.spyOn(console, 'warn');
+console.warn = jest.fn();
 
 const possibleAggregates = [
   'count',

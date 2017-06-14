@@ -50,7 +50,9 @@ exports[`<Stat /> should render correctly 1`] = `
         />
         :
       </div>
-      <div />
+      <div>
+        Agent
+      </div>
       <div
         data-radium={true}
         style={
