@@ -12,11 +12,15 @@ export default class Message extends Immutable.Record({
   unread: false,
 }) {
   constructor({ type, from, text, timestamp, unread }) {
+    let messageFrom;
     if (type == null) {
       throw new Error('type is required');
     }
     if (from == null) {
-      throw new Error('from is required');
+      messageFrom = '';
+      console.warn('from is required');
+    } else {
+      messageFrom = from;
     }
     if (text == null) {
       throw new Error('text is required');
@@ -27,6 +31,6 @@ export default class Message extends Immutable.Record({
     if (unread == null) {
       throw new Error('unread is required');
     }
-    super({ type, from, text, timestamp, unread });
+    super({ type, from: messageFrom, text, timestamp, unread });
   }
 }

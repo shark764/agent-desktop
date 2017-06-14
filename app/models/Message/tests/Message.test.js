@@ -6,6 +6,9 @@ import Message from '../Message';
 
 describe('Message', () => {
   describe('constructor', () => {
+    beforeAll(() => {
+      global.console = { warn: jest.fn() };
+    });
     it('should construct properly', () => {
       const message = new Message({
         type: 'type',
@@ -31,20 +34,15 @@ describe('Message', () => {
       }
       expect(error.message).toEqual('type is required');
     });
-    it('should error when "from" is not passed in', () => {
-      let error;
-      try {
-        new Message({ // eslint-disable-line no-new
-          type: 'type',
-          // from: 'from',
-          text: 'text',
-          timestamp: 'timestamp',
-          unread: false,
-        });
-      } catch (e) {
-        error = e;
-      }
-      expect(error.message).toEqual('from is required');
+    it('should set "from" to empty string when "from" is not passed in', () => {
+      const message = new Message({ // eslint-disable-line no-new
+        type: 'type',
+        // from: 'from',
+        text: 'text',
+        timestamp: 'timestamp',
+        unread: false,
+      });
+      expect(message).toMatchSnapshot();
     });
     it('should error when "text" is not passed in', () => {
       let error;
