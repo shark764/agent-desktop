@@ -1,3 +1,6 @@
+### [0.41.17] (2017-06-14)
+* CXV1-9907 - Add SDK flow signals on email replys
+
 ### [0.41.16] (2017-06-14)
 * CXV1-8179 - Clean up search input focus
 * BUGFIX - contact search 'Result(s)' text

@@ -262,10 +262,16 @@ export class EmailContentArea extends BaseComponent {
   }
 
   onEmailCreateReply = () => {
+    CxEngage.interactions.email.agentReplyStarted({ interactionId: this.props.selectedInteraction.interactionId });
     this.setState({
       editorState: createEditorState(),
     });
     this.props.emailCreateReply(this.props.selectedInteraction.interactionId);
+  }
+
+  onEmailNoReply = () => {
+    CxEngage.interactions.email.agentNoReply({ interactionId: this.props.selectedInteraction.interactionId });
+    this.props.endInteraction();
   }
 
   onCommaAddTo = (e) => {
@@ -555,7 +561,7 @@ export class EmailContentArea extends BaseComponent {
               id="endEmail"
               type="primaryRed"
               text={messages.noReply}
-              onClick={this.props.endInteraction}
+              onClick={this.onEmailNoReply}
               style={{ marginRight: '8px' }}
             />
             <Button
