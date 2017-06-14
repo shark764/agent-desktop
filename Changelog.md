@@ -1,3 +1,6 @@
+### [0.41.12] (2017-06-14)
+* BUGFIX - Email Reply name fix
+
 ### [0.41.11] (2017-06-14)
 * BUGFIX - Updated Messaging model to work even if from field is null
 
