@@ -74,26 +74,27 @@ export class ContentArea extends BaseComponent {
         });
       }
       const callback = (error, topic, response) => {
-        // TODO: error handling / display
-        console.log('[ContentArea] CxEngage.subscribe()', topic, response);
-        if (inContext) {
-          this.setState({
-            savingNote: false,
-          });
-        }
-        if (topic.indexOf('cxengage/interactions/create-note-response') > -1) {
-          this.props.updateNote(note.interactionId, {
-            title: note.title,
-            body: note.body,
-            noteId: response.noteId,
-            notesPanelHeight: currentNotesPanelHeight,
-          });
-        } else {
-          this.props.updateNote(this.props.interaction.interactionId, {
-            title: note.title,
-            body: note.body,
-            notesPanelHeight: currentNotesPanelHeight,
-          });
+        if (!error) {
+          console.log('[ContentArea] CxEngage.subscribe()', topic, response);
+          if (inContext) {
+            this.setState({
+              savingNote: false,
+            });
+          }
+          if (topic.indexOf('cxengage/interactions/create-note-response') > -1) {
+            this.props.updateNote(note.interactionId, {
+              title: note.title,
+              body: note.body,
+              noteId: response.noteId,
+              notesPanelHeight: currentNotesPanelHeight,
+            });
+          } else {
+            this.props.updateNote(this.props.interaction.interactionId, {
+              title: note.title,
+              body: note.body,
+              notesPanelHeight: currentNotesPanelHeight,
+            });
+          }
         }
       };
       if (this.props.interaction.note.noteId) {
@@ -305,7 +306,6 @@ export class ContentArea extends BaseComponent {
   toggleWrapup = () => {
     const wrapupToggleCallback = (error, topic, response) => {
       console.log('[AgentDesktop] CxEngage.subscribe()', topic, response);
-      // TODO: display / handle error
       this.setState({ loadingWrapup: false });
     };
     this.setState({ loadingWrapup: true });
@@ -326,7 +326,6 @@ export class ContentArea extends BaseComponent {
       dispositionId,
     }, (error, topic, response) => {
       console.log('[ContentArea] CxEngage.subscribe()', topic, response);
-      // TODO: display / handle error
       this.setState({
         loadingDisposition: false,
       });
@@ -361,8 +360,8 @@ export class ContentArea extends BaseComponent {
     });
     CxEngage.interactions.deselectDispositionCode({ interactionId: this.props.interaction.interactionId }, (error, topic, response) => {
       console.log('[ContentArea] CxEngage.subscribe()', topic, response);
-      // TODO: display / handle error
       if (
+        !error &&
         this.props.interaction.dispositionDetails.forceSelect &&
         !this.props.interaction.wrapupDetails.wrapupEnabled
       ) {

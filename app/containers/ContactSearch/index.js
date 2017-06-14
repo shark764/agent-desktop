@@ -133,8 +133,10 @@ export class ContactSearch extends BaseComponent {
         encodedQuery[queryName] = encodeURIComponent(finalQuery);
       });
       CxEngage.contacts.search({ query: Object.assign(encodedQuery, { page: this.props.nextPage }) }, (error, topic, response) => {
-        console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
-        this.props.setSearchResults(response);
+        if (!error) {
+          console.log('[ContactsControl] CxEngage.subscribe()', topic, response);
+          this.props.setSearchResults(response);
+        }
       });
     }
   }

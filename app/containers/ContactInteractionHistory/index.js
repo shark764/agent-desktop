@@ -57,8 +57,10 @@ export class ContactInteractionHistory extends BaseComponent {
       ) !== -1;
       if (needsNotes) {
         CxEngage.interactions.getAllNotes({ interactionId: interaction.interactionId }, (error, topic, response) => {
-          console.log('[ContactInteractionHistory] CxEngage.subscribe()', topic, response);
-          this.props.addNotesToContactInteractionHistory(interaction.interactionId, response);
+          if (!error) {
+            console.log('[ContactInteractionHistory] CxEngage.subscribe()', topic, response);
+            this.props.addNotesToContactInteractionHistory(interaction.interactionId, response);
+          }
         });
       }
       const needsBody = (interaction.interactionDetails.recordings === undefined && interaction.interactionDetails.transcript === undefined);

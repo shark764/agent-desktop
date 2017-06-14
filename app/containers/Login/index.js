@@ -117,13 +117,8 @@ export class Login extends BaseComponent {
         console.log('[Login] CxEngage.subscribe()', topic, response);
 
         if (error !== null) { // General error check
-          switch (error.code) {
-            case 2000:
-              this.props.tenantError(messages.noPermsError);
-              break;
-            default:
-              console.error('SDK Error:', error.error); // Uncaught error handling
-              break;
+          if (error.code === 2000) {
+            this.props.tenantError(messages.noPermsError);
           }
         } else {
           this.props.setTenant(this.state.tenantId, this.state.tenantName);

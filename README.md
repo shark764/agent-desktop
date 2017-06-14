@@ -17,5 +17,5 @@ Now you're ready to rumble!
 - [**Commands**](docs/general/commands.md): Don't do stuff manually!
 - [Testing](docs/testing): How to work with the built-in test harness
 - [Styling](docs/css): How to work with the CSS tooling
-- [Framework](docs/js): Routing, Redux, simple
-  asynchronicity helpers, etc.
+- [Framework](docs/js): Routing, Redux, simple asynchronicity helpers, etc.
+- [Versioning](docs/general/versioning.md): Semantic version for UI
