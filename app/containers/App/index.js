@@ -204,19 +204,22 @@ export class App extends React.Component {
           // INTERACTIONS
           case 'cxengage/interactions/work-initiated-received': {
             const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response.interactionId);
+            if (interaction !== undefined) {
+              if (!(interaction.direction === 'outbound' && (interaction.channelType === 'sms' || interaction.channelType === 'email'))) {
+                this.props.workInitiated(response);
+              }
 
-            if (!(interaction.direction === 'outbound' && (interaction.channelType === 'sms' || interaction.channelType === 'email'))) {
-              this.props.workInitiated(response);
-            }
-
-            // Attempt to auto-assign contact if it hasn't already been assigned (if it were started by click to outbound)
-            if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms' || interaction.channelType === 'email') && interaction.contact === undefined) {
-              this.attemptContactSearch(response.customer, response.interactionId, true);
-            }
-            if (interaction.direction === 'outbound' && (interaction.channelType === 'sms' || interaction.channelType === 'email')) {
-              CxEngage.interactions.accept({ interactionId: response.interactionId });
-            } else if (interaction.autoAnswer === true) {
-              this.acceptInteraction(response.interactionId);
+              // Attempt to auto-assign contact if it hasn't already been assigned (if it were started by click to outbound)
+              if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms' || interaction.channelType === 'email') && interaction.contact === undefined) {
+                this.attemptContactSearch(response.customer, response.interactionId, true);
+              }
+              if (interaction.direction === 'outbound' && (interaction.channelType === 'sms' || interaction.channelType === 'email')) {
+                CxEngage.interactions.accept({ interactionId: response.interactionId });
+              } else if (interaction.autoAnswer === true) {
+                this.acceptInteraction(response.interactionId);
+              }
+            } else {
+              console.warn('Interaction not found to initiate:', response.interactionId);
             }
             break;
           }
