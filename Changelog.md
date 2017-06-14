@@ -1,3 +1,6 @@
+### [0.41.13] (2017-06-14)
+* CXV1-9925 - Fix text input padding (for Firefox)
+
 ### [0.41.12] (2017-06-14)
 * BUGFIX - Email Reply name fix
 
