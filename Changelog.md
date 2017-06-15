@@ -1,3 +1,6 @@
+### [0.41.19] (2017-06-14)
+* CXV1-9968 - Use SDK messages for errors. Show "error" level SDK errors as non-critical errors.
+
 ### [0.41.18] (2017-06-14)
 * BUGFIX - Added Create Contact button to Contact Search when no search results
 
