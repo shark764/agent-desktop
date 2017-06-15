@@ -87,15 +87,16 @@ const styles = {
     paddingBottom: '8px',
     display: 'flex',
     alignItems: 'center',
+    cursor: 'pointer',
   },
   resultsPlaceholderBold: {
     paddingLeft: '15px',
     fontWeight: 'bold',
     alignItems: 'center',
   },
-  filtersList: {
-    textAlign: 'center',
-    maxWidth: '300px',
+  orText: {
+    marginTop: '8px',
+    marginBottom: '18px',
   },
 };
 
@@ -112,6 +113,20 @@ export class ContactSearch extends BaseComponent {
     if (queryChanged || interactionChanged) {
       this.props.clearSearchResults();
       this.props.clearCheckedContacts();
+    }
+    if (
+      !interactionChanged
+      && queryChanged
+      && Object.keys(nextProps.selectedInteraction.query).length === 0
+    ) {
+      this.pendingSearchInputFocus = true;
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.pendingSearchInputFocus) {
+      this.focusSearchInputElement();
+      this.pendingSearchInputFocus = false;
     }
   }
 
@@ -155,6 +170,18 @@ export class ContactSearch extends BaseComponent {
     <div id="loadingContainer" style={styles.loading}>
       <IconSVG style={styles.loadingIcon} id="loadingIcon" name="loading" />
     </div>
+
+  setSearchInputElement = (element) => {
+    if (element) {
+      this.searchInputElement = element;
+    }
+  };
+
+  focusSearchInputElement = () => {
+    if (this.searchInputElement) {
+      this.searchInputElement.focus();
+    }
+  }
 
   render() {
     let results;
@@ -201,16 +228,13 @@ export class ContactSearch extends BaseComponent {
     } else if (this.props.resultsCount < 1 && !this.props.loading) {
       results = (
         <div key="results-placeholder" id="results-placeholder" style={styles.resultsPlaceholder}>
-          <div style={styles.resultsPlaceholderTitle}>
+          <div style={styles.resultsPlaceholderTitle} onClick={this.focusSearchInputElement}>
             <Icon name="search" />
             <div style={styles.resultsPlaceholderBold}>
               <FormattedMessage {...messages.searchText} />
             </div>
           </div>
-          <div style={styles.filtersList}>
-            <FormattedMessage {...messages.filtersList} />
-          </div>
-          <div style={{ margin: '5px 0' }}>
+          <div style={styles.orText}>
             <FormattedMessage {...messages.or} />
           </div>
           <Button id="createNewRecord" type="secondary" text="Create New Record" onClick={this.newContact}></Button>
@@ -225,11 +249,14 @@ export class ContactSearch extends BaseComponent {
             query={this.props.query}
             selectedInteraction={this.props.selectedInteraction}
             style={styles.contactSearchBar}
+            setSearchInputElement={this.setSearchInputElement}
+            focusSearchInputElement={this.focusSearchInputElement}
           />
           <div style={styles.filtersWrapper}>
             {this.props.query.map((filter) =>
               <Filter
                 key={filter.attribute.objectName}
+                objectName={filter.attribute.objectName}
                 name={filter.label}
                 value={filter.value}
                 remove={() => this.props.removeSearchFilter(filter.attribute.objectName)}

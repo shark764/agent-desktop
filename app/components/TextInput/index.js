@@ -105,6 +105,7 @@ function TextInput(props) {
       autoFocus={props.autoFocus}
       onBlur={props.onBlur}
       disabled={props.disabled}
+      ref={props.handleInputRef}
     />
   );
 }
@@ -128,6 +129,7 @@ TextInput.propTypes = {
   noBorder: PropTypes.bool,
   styleType: PropTypes.oneOf(['inlineInherit']),
   disabled: PropTypes.bool,
+  handleInputRef: PropTypes.func,
 };
 
 TextInput.defaultProps = {

@@ -227,6 +227,10 @@ export class ContactInteractionHistory extends BaseComponent {
     },
   };
 
+  addControlsListAttribute = (element) => {
+    element.setAttribute('controlslist', 'nodownload'); // controlslist attribute not currently supported in React!
+  }
+
   interactionBody = (interactionDetails) => {
     let transcript;
     let transcriptItems;
@@ -236,7 +240,14 @@ export class ContactInteractionHistory extends BaseComponent {
       }
       return recordings.map(
         (recordingUrl) =>
-          <audio controls key={recordingUrl} src={recordingUrl} style={this.styles.audio} />
+          <audio
+            key={recordingUrl}
+            src={recordingUrl}
+            ref={this.addControlsListAttribute}
+            style={this.styles.audio}
+            controls
+            onContextMenu={(event) => event.preventDefault()}
+          />
       );
     };
     switch (interactionDetails.channelType) {

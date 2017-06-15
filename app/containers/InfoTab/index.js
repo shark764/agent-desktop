@@ -16,9 +16,9 @@ import Radium from 'radium';
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
 
-import NotificationBanner from 'components/NotificationBanner';
 import ContactsControl from 'containers/ContactsControl';
 import ContactHeader from 'components/ContactHeader';
+import NotificationBanner from 'components/NotificationBanner';
 
 import { setContactAction } from 'containers/AgentDesktop/actions';
 import { setShowCancelDialog, setShowConfirmDialog, setFormIsDirty, setFormValidity, resetForm } from 'containers/ContactsControl/actions';

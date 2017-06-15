@@ -209,7 +209,9 @@ export class ContactsControl extends BaseComponent {
         case 'search':
         default: {
           if (this.props.selectedInteraction.interactionId !== 'creating-new-interaction') {
-            content = (<ContactSearch hideContactSelectCheckboxes={this.props.isCollapsed} />);
+            content = (<ContactSearch
+              hideContactSelectCheckboxes={this.props.isCollapsed}
+            />);
           } else {
             content = null;
           }

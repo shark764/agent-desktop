@@ -64,7 +64,7 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
         questionMessage={
           Object {
             "defaultMessage": "Delete {count} Contacts?",
-            "id": "app.containers.InfoTab.deleteContacts",
+            "id": "app.components.contactBulkActions.deleteContacts",
             "values": Object {
               "count": 2,
             },
@@ -97,7 +97,7 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
         text={
           Object {
             "defaultMessage": "Delete",
-            "id": "app.containers.InfoTab.delete",
+            "id": "app.components.contactBulkActions.delete",
           }
         }
         type="secondary"

@@ -11,15 +11,15 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   delete: {
-    id: 'app.containers.InfoTab.delete',
+    id: 'app.components.contactBulkActions.delete',
     defaultMessage: 'Delete',
   },
   deleteContact: {
-    id: 'app.containers.InfoTab.deleteContact',
+    id: 'app.components.contactBulkActions.deleteContact',
     defaultMessage: 'Delete Contact?',
   },
   deleteContacts: {
-    id: 'app.containers.InfoTab.deleteContacts',
+    id: 'app.components.contactBulkActions.deleteContacts',
     defaultMessage: 'Delete {count} Contacts?',
   },
 });

@@ -65,6 +65,7 @@ const styles = {
     backgroundColor: '#FFFFFF',
     borderRadius: '3px',
     padding: '5px 0',
+    boxShadow: '0 0 6px 1px rgba(0,0,0,0.29)',
   },
   submenuOuterContainer: {
     position: 'relative',

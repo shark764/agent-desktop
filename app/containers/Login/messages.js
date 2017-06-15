@@ -47,7 +47,7 @@ export default defineMessages({
     defaultMessage: 'Username',
   },
   password: {
-    id: 'app.contianers.Login.password',
+    id: 'app.containers.Login.password',
     defaultMessage: 'Password',
   },
   rememberMe: {
