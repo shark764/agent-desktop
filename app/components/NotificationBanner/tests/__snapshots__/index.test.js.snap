@@ -25,11 +25,11 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
       }
     }
   >
-    Mock message
+    mockMessage
      
   </div>
   <div>
-    Mock message
+    mockMessage
   </div>
   <div
     data-radium={true}
