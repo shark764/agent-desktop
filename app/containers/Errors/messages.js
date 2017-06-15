@@ -10,36 +10,36 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  failedToGetUserConfig: {
-    id: 'app.containers.Errors.failedToGetUserConfig',
-    defaultMessage: 'Failed to get user configuration. Please try again.',
-  },
-  invalidExtension: {
-    id: 'app.containers.Errors.invalidExtension',
-    defaultMessage: 'The extension selected is no longer valid. Please select a new extension.',
-  },
-  failedToUpdateExtension: {
-    id: 'app.containers.Errors.failedToUpdateExtension',
-    defaultMessage: 'Failed to update user extension. Please try again.',
-  },
-  invalidReasonInfo: {
-    id: 'app.containers.Errors.invalidReasonInfo',
-    defaultMessage: 'Reason code selected is invalid. Please select a different reason code.',
-  },
-  failedToChangeState: {
-    id: 'app.containers.Errors.failedToChangeState',
-    defaultMessage: 'Failed to change agent state. The server returned an error.',
-  },
-  emailFailed: {
-    id: 'app.containers.Errors.emailFailed',
-    defaultMessage: 'Outbound email failed. Please try again or refresh your browser.',
-  },
-  sessionExpired: {
-    id: 'app.containers.Errors.sessionExpired',
-    defaultMessage: 'Session Expired. If this persists, please check your internet connection and ensure you are not logged in elsewhere',
-  },
   default: {
     id: 'app.containers.Errors.default',
-    defaultMessage: 'Something went wrong... Please try again or refresh your browser.',
+    defaultMessage: 'An unknown error has occurred. Please try to finish your work as you may need to refresh the page to continue.',
+  },
+  2001: {
+    id: 'app.containers.Errors.2001',
+    defaultMessage: 'Failed to get user configuration. Please try again.',
+  },
+  2003: {
+    id: 'app.containers.Errors.2003',
+    defaultMessage: 'Session Expired. If this persists, please check your internet connection and ensure you are not logged in elsewhere.',
+  },
+  2004: {
+    id: 'app.containers.Errors.2004',
+    defaultMessage: 'Failed to change agent state. The server returned an error.',
+  },
+  2005: {
+    id: 'app.containers.Errors.2005',
+    defaultMessage: 'The extension selected is no longer valid. Please select a new extension.',
+  },
+  2006: {
+    id: 'app.containers.Errors.2006',
+    defaultMessage: 'Failed to update user extension. Please try again.',
+  },
+  2007: {
+    id: 'app.containers.Errors.2007',
+    defaultMessage: 'Reason code selected is invalid. Please select a different reason code.',
+  },
+  10002: {
+    id: 'app.containers.Errors.10002',
+    defaultMessage: 'Outbound email failed. Please try again or refresh your browser.',
   },
 });

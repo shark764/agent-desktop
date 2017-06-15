@@ -31,7 +31,7 @@ import { setLoginErrorAndReload, handleSDKError, addStatErrorId, removeStatError
 import { selectAvailableStats } from 'containers/AgentStats/selectors';
 import { selectActivatedStatIds } from 'containers/Toolbar/selectors';
 import { selectCriticalError, selectErroredStatIds, selectNonCriticalError } from 'containers/Errors/selectors';
-import errorMessagesMap from 'containers/Errors/errorMessagesMap';
+import errorMessages from 'containers/Errors/messages';
 
 import { setCRMUnavailable } from 'containers/InfoTab/actions';
 import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, loadContactInteractionHistory,
@@ -580,29 +580,22 @@ export class App extends React.Component {
     let errorDescriptionMessage;
     const errorInfo = this.props.criticalError || this.props.nonCriticalError;
     if (errorInfo) {
-      const topic = errorInfo.topic;
       const code = errorInfo.code;
-      if (errorMessagesMap[topic]) {
-        if (errorMessagesMap[topic][code]) {
-          // Specific error code message is found under this topic
-          errorDescriptionMessage = errorMessagesMap[topic][code];
-        } else {
-          // No specific error code is found under this topic. Using deafult topic message
-          errorDescriptionMessage = errorMessagesMap[topic].default;
-        }
+      if (code && errorMessages[code]) {
+        // Specific error message is found for this code
+        errorDescriptionMessage = this.props.intl.formatMessage(errorMessages[code]);
+      } else if (errorInfo.message) {
+        // Fallback to message provided by error (for SDK errors)
+        errorDescriptionMessage = errorInfo.message;
       } else {
-        // No topic found in errorMessagesMap. Using generic error message
-        errorDescriptionMessage = errorMessagesMap.default;
-        // Log unhandled topic errors to Sentry
-        Raven.captureMessage('Unhandled topic error', {
-          level: 'warning',
-          extra: {
-            topic,
-            code,
-          },
-        });
+        // Use default for other errors (probably made by us)
+        errorDescriptionMessage = errorMessages.default;
+      }
+      if (code) {
+        errorDescriptionMessage += ` (Code: ${code})`;
       }
     }
+
     if (this.props.criticalError) {
       errorBanner = (<NotificationBanner
         id="critical-error-banner"
@@ -715,6 +708,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 App.propTypes = {
+  intl: PropTypes.object.isRequired,
   showLogin: PropTypes.func.isRequired,
   setUserConfig: PropTypes.func.isRequired,
   setExtensions: PropTypes.func.isRequired,
@@ -769,8 +763,6 @@ App.propTypes = {
   setCRMUnavailable: PropTypes.func.isRequired,
   addStatErrorId: PropTypes.func.isRequired,
   removeStatErrorId: PropTypes.func.isRequired,
-  // TODO when fixed in SDK
-  // logout: PropTypes.func.isRequired,
   login: PropTypes.object,
   agentDesktop: PropTypes.object,
   availableStats: PropTypes.object,

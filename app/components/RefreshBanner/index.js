@@ -19,7 +19,7 @@ import messages from './messages';
 function RefreshBanner(props) {
   const styles = {
     base: {
-      height: '2em',
+      height: '40px',
       backgroundColor: '#3EC5EC',
       textAlign: 'center',
       width: '100vw',

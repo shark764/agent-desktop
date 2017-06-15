@@ -118,20 +118,16 @@ export class AgentDesktop extends BaseComponent {
       borderBottom: '1px solid #141414',
     },
     topAreaOneBanner: {
-      height: 'calc(100vh - 54px - 35px)',
+      height: 'calc(100vh - 54px - 40px)',
     },
     topAreaTwoBanners: {
-      height: 'calc(100vh - 54px - 70px)',
-    },
-    notificationBanner: {
-      position: 'relative',
-      zIndex: 20,
+      height: 'calc(100vh - 54px - 80px)',
     },
     sidePanelOneBanner: {
-      top: '35px',
+      top: '40px',
     },
     sidePanelTwoBanners: {
-      top: '70px',
+      top: '80px',
     },
   };
 
