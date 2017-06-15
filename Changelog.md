@@ -1,3 +1,6 @@
+### [0.41.15] (2017-06-15)
+* Bump the SDK version to 5.3.6
+
 ### [0.41.14] (2017-06-14)
 * CXV1-8189 - Fix error when we get work-initiated without previous work-offer
 
