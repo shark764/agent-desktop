@@ -21,8 +21,8 @@ const styles = {
   base: {
     backgroundColor: '#072931',
     width: '100%',
-    height: '35px',
-    paddingLeft: '52px',
+    height: '40px',
+    padding: '0 30px',
     display: 'flex',
     alignItems: 'center',
     color: 'white',
@@ -33,14 +33,16 @@ const styles = {
   },
   titleText: {
     fontWeight: '600',
+    marginRight: '24px',
+  },
+  descriptionMessage: {
+    flexGrow: 1,
   },
   rightLinkText: {
     textDecoration: 'underline',
     cursor: 'pointer',
-    marginRight: '52px',
   },
   closeButton: {
-    margin: '0 10px 0 0',
     borderTop: '0',
     borderRight: '0',
     borderBottom: '0',
@@ -58,10 +60,13 @@ function NotificationBanner(props) {
           &nbsp;
         </div>
       }
-      <div>
-        { props.intl.formatMessage(props.descriptionMessage) }
+      <div style={styles.descriptionMessage}>
+        {
+          typeof props.descriptionMessage === 'object'
+          ? props.intl.formatMessage(props.descriptionMessage)
+          : props.descriptionMessage
+        }
       </div>
-      <div style={{ flexGrow: 1 }}></div>
       {
         props.rightLinkAction
         && <div onClick={props.rightLinkAction} style={styles.rightLinkText}>
@@ -88,7 +93,7 @@ NotificationBanner.propTypes = {
   id: PropTypes.string.isRequired,
   style: PropTypes.object,
   titleMessage: PropTypes.object,
-  descriptionMessage: PropTypes.object.isRequired,
+  descriptionMessage: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   dismiss: PropTypes.func,
   isError: PropTypes.bool.isRequired,
   rightLinkAction: PropTypes.func,

@@ -35,7 +35,8 @@ export default [
   'cxengage/session/tenant-list', // Using tenants from login-response
   'cxengage/reporting/get-contact-interaction-history-response', // Handled in contactInteractionHistory saga
   'cxengage/contacts/search-contacts-response', // Handled in InfoTab & AgentDesktop callback
-  'cxengage/contacts/create-contact-response', // Handled in Contact
+  'cxengage/contacts/create-contact-response', // Handled in ContactEdit
+  'cxengage/contacts/update-contact-response', // Handled in ContactEdit
   'cxengage/contacts/delete-contact-response', // Handled in InfoTab
   'cxengage/contacts/merge-contacts-response', // Handled in ContactMerge
   'cxengage/interactions/email/start-outbound-email', // Handled in EmailContentArea saga

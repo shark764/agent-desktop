@@ -11,8 +11,8 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
       "color": "white",
       "display": "flex",
       "flexShrink": 0,
-      "height": "35px",
-      "paddingLeft": "52px",
+      "height": "40px",
+      "padding": "0 30px",
       "width": "100%",
     }
   }
@@ -22,14 +22,12 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
     style={
       Object {
         "fontWeight": "600",
+        "marginRight": "24px",
       }
     }
   >
     mockMessage
      
-  </div>
-  <div>
-    mockMessage
   </div>
   <div
     data-radium={true}
@@ -38,7 +36,9 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
         "flexGrow": 1,
       }
     }
-  />
+  >
+    mockMessage
+  </div>
   <Button
     iconName="close"
     id="mockIderror-dismiss-btn"
@@ -49,7 +49,6 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
         "borderLeft": "0",
         "borderRight": "0",
         "borderTop": "0",
-        "margin": "0 10px 0 0",
       }
     }
     tabIndex={0}

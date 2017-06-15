@@ -178,7 +178,6 @@ export class TransferMenu extends BaseComponent {
     transferSearchInput: {
       width: '100%',
       height: '35px',
-      border: '1px solid #979797',
       backgroundImage: `url(${search})`,
       backgroundSize: '16px',
       backgroundPosition: '11px 8px',
