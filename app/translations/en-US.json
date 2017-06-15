@@ -76,6 +76,7 @@
   "app.containers.ContactsControl.errorPhone": "Invalid Phone Number",
   "app.containers.ContactsControl.errorRequired": "Required",
   "app.containers.ContactsSearch.call": "CALL",
+  "app.containers.ContactsSearch.createRecord": "Create New Record",
   "app.containers.ContactsSearch.noRecords": "No records found",
   "app.containers.ContactsSearch.or": "OR",
   "app.containers.ContactsSearch.searchCRM": "Search the CRM database",

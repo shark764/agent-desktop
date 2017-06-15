@@ -223,7 +223,7 @@ export class ContactSearch extends BaseComponent {
           </div>
         );
       } else {
-        results = <NoRecords query={this.props.selectedInteraction.query} />;
+        results = <NoRecords query={this.props.selectedInteraction.query} newContact={this.props.newContact} />;
       }
     } else if (this.props.resultsCount < 1 && !this.props.loading) {
       results = (
@@ -237,7 +237,7 @@ export class ContactSearch extends BaseComponent {
           <div style={styles.orText}>
             <FormattedMessage {...messages.or} />
           </div>
-          <Button id="createNewRecord" type="secondary" text="Create New Record" onClick={this.newContact}></Button>
+          <Button id="createNewRecord" type="secondary" text={messages.createRecord} onClick={this.newContact}></Button>
         </div>
       );
     }

@@ -1,3 +1,6 @@
+### [0.41.18] (2017-06-14)
+* BUGFIX - Added Create Contact button to Contact Search when no search results
+
 ### [0.41.17] (2017-06-14)
 * CXV1-9907 - Add SDK flow signals on email replys
 
