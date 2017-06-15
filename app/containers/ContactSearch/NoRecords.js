@@ -13,6 +13,7 @@ import { isValidNumber } from 'utils/validator';
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
 
+import Button from 'components/Button';
 import Icon from 'components/Icon';
 
 import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
@@ -50,6 +51,18 @@ const styles = {
   },
   startInteractionValue: {
     float: 'right',
+  },
+  createRecordBtn: {
+    textAlign: 'center',
+  },
+  orText: {
+    marginTop: '8px',
+    marginBottom: '8px',
+    color: '#979797',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    flex: '1',
   },
 };
 
@@ -108,6 +121,9 @@ export class NoRecords extends BaseComponent {
               {this.state.phoneNumber}
             </div>
           </div>
+          <div style={styles.orText}>
+            <FormattedMessage {...messages.or} />
+          </div>
         </div>
       );
     }
@@ -117,6 +133,9 @@ export class NoRecords extends BaseComponent {
           - <FormattedMessage {...messages.noRecords} /> -
         </div>
         { outboundInteractionButtons }
+        <div style={styles.createRecordBtn}>
+          <Button id="createNewRecord" type="secondary" text={messages.createRecord} onClick={this.props.newContact}></Button>
+        </div>
       </div>
     );
   }
@@ -142,6 +161,7 @@ NoRecords.propTypes = {
   isAgentReady: PropTypes.bool.isRequired,
   hasVoiceInteraction: PropTypes.bool.isRequired,
   smsInteractionNumbers: PropTypes.array.isRequired,
+  newContact: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(NoRecords));

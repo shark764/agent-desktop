@@ -26,4 +26,8 @@ export default defineMessages({
     id: 'app.containers.ContactsSearch.sms',
     defaultMessage: 'SMS',
   },
+  createRecord: {
+    id: 'app.containers.ContactsSearch.createRecord',
+    defaultMessage: 'Create New Record',
+  },
 });
