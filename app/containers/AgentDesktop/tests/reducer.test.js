@@ -14,6 +14,9 @@ import {
   INITIALIZE_OUTBOUND_SMS,
   ADD_INTERACTION,
   ADD_MESSAGE,
+  ADD_SCRIPT,
+  REMOVE_SCRIPT,
+  REMOVE_INTERACTION,
 } from '../constants';
 import agentDesktopReducer from '../reducer';
 
@@ -341,6 +344,139 @@ describe('agentDesktopReducer', () => {
           error = e;
         }
         expect(error.message).toEqual('ADD_MESSAGE message must be of type Message');
+      });
+    });
+  });
+
+  describe('ADD_SCRIPT', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 'test-interaction-id',
+          },
+        ],
+      };
+      action = {
+        type: ADD_SCRIPT,
+        interactionId: 'test-interaction-id',
+        script: { scriptItem: 'something' },
+      };
+    });
+    describe('interaction is there', () => {
+      it('adds the script', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('interaction is not there', () => {
+      beforeEach(() => {
+        action.interactionId = 'not-the-right-id';
+      });
+      it('does nothing', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+  });
+
+  describe('REMOVE_SCRIPT', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 'test-interaction-id',
+            script: { scriptItem: 'something' },
+          },
+        ],
+      };
+      action = {
+        type: REMOVE_SCRIPT,
+        interactionId: 'test-interaction-id',
+      };
+    });
+    describe('interaction is there', () => {
+      it('removes the script', () => {
+        runReducerAndExpectSnapshot();
+      });
+      describe('the interaction has status of "work-ended-pending-script"', () => {
+        beforeEach(() => {
+          initialState.interactions[0].status = 'work-ended-pending-script';
+        });
+        it('removes the interaction', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+    });
+    describe('interaction is not there', () => {
+      beforeEach(() => {
+        action.interactionId = 'not-the-right-id';
+      });
+      it('does nothing', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+  });
+
+  describe('REMOVE_INTERACTION', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 'test-interaction-id',
+          },
+        ],
+      };
+      action = {
+        type: REMOVE_INTERACTION,
+        interactionId: 'test-interaction-id',
+      };
+    });
+    describe('interaction without a script', () => {
+      describe('interaction is the selected interaction', () => {
+        beforeEach(() => {
+          initialState.selectedInteractionId = 'test-interaction-id';
+        });
+        describe('voice interaction exists', () => {
+          beforeEach(() => {
+            initialState.interactions.push({ interactionId: 'sms-interaction-id', channelType: 'sms' });
+            initialState.interactions.push({ interactionId: 'voice-interaction-id', channelType: 'voice' });
+          });
+          it('selects the voice interaction', () => {
+            runReducerAndExpectSnapshot();
+          });
+        });
+        describe('only non-voice interactions exist', () => {
+          beforeEach(() => {
+            initialState.interactions.push({ interactionId: 'first-interaction-id', channelType: 'sms' });
+            initialState.interactions.push({ interactionId: 'second-interaction-id', channelType: 'email' });
+          });
+          it('selects the first non-voice interaction', () => {
+            runReducerAndExpectSnapshot();
+          });
+        });
+      });
+      describe('interaction is not the selected interaction', () => {
+        beforeEach(() => {
+          initialState.selectedInteractionId = 'other-interaction-id';
+        });
+        it('keeps the selectedInteractionId the same', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+    });
+    describe('interaction with a script', () => {
+      beforeEach(() => {
+        initialState.interactions[0].script = { scriptItem: 'something' };
+      });
+      it('sets the status to "work-ended-pending-script"', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('interaction is not there', () => {
+      beforeEach(() => {
+        action.interactionId = 'not-the-right-id';
+      });
+      it('does nothing', () => {
+        runReducerAndExpectSnapshot();
       });
     });
   });

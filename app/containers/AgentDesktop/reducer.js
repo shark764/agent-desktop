@@ -242,6 +242,37 @@ const updateContactInteractionHistoryResults = (contact, action) => {
   }
 };
 
+const removeInteractionAndSetNextSelectedInteraction = (state, interactionId) => {
+  // If the interaction being removed is the selected interaction, select the next interaction (voice, first non-voice)
+  let nextSelectedInteractionId;
+  if (state.get('selectedInteractionId') === interactionId) {
+    const interactionBeingRemoved = state.get('interactions').find(
+      (interaction) => interaction.get('interactionId') === interactionId
+    );
+    const currentVoiceInteraction = state.get('interactions').find(
+      (interaction) => interaction.get('channelType') === 'voice'
+    );
+    if (interactionBeingRemoved.get('channelType') !== 'voice' && currentVoiceInteraction) {
+      nextSelectedInteractionId = currentVoiceInteraction.get('interactionId');
+    } else {
+      const firstNonVoiceInteraction = state.get('interactions').find(
+        (interaction) => interaction.get('channelType') !== 'voice' &&
+          interaction.get('interactionId') !== interactionId
+      );
+      nextSelectedInteractionId = firstNonVoiceInteraction ? firstNonVoiceInteraction.get('interactionId') : undefined;
+    }
+  } else {
+    nextSelectedInteractionId = state.get('selectedInteractionId');
+  }
+
+  // Remove interaction and set next selectedInteractionId
+  return state
+    .set('interactions', state.get('interactions').filterNot((interaction) =>
+      interaction.get('interactionId') === interactionId
+    ))
+    .set('selectedInteractionId', nextSelectedInteractionId);
+};
+
 function agentDesktopReducer(state = initialState, action) {
   switch (action.type) {
     case SHOW_REFRESH_NOTIF:
@@ -482,7 +513,12 @@ function agentDesktopReducer(state = initialState, action) {
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
       if (interactionIndex > -1) {
-        return state.setIn(['interactions', interactionIndex, 'script'], undefined);
+        // Remove the interaction if the script is the only thing left to do
+        if (state.getIn(['interactions', interactionIndex, 'status']) === 'work-ended-pending-script') {
+          return removeInteractionAndSetNextSelectedInteraction(state, action.interactionId);
+        } else {
+          return state.setIn(['interactions', interactionIndex, 'script'], undefined);
+        }
       } else {
         return state;
       }
@@ -513,33 +549,20 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case REMOVE_INTERACTION: {
-      // If the interaction being removed is the selected interaction, select the next interaction (voice, first non-voice)
-      let nextSelectedInteractionId;
-      if (state.get('selectedInteractionId') === action.interactionId) {
-        const interactionBeingRemoved = state.get('interactions').find(
+      const interactionToRemove = state.get('interactions').find(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionToRemove !== undefined && interactionToRemove.get('script') === undefined) {
+        return removeInteractionAndSetNextSelectedInteraction(state, action.interactionId);
+      // If the interaction still has a script, set the interaction's state to indicate this so it can be "disabled" until the script is complete
+      } else if (interactionToRemove !== undefined && interactionToRemove.get('script') !== undefined) {
+        const interactionIndex = state.get('interactions').findIndex(
           (interaction) => interaction.get('interactionId') === action.interactionId
         );
-        const currentVoiceInteraction = state.get('interactions').find(
-          (interaction) => interaction.get('channelType') === 'voice'
-        );
-        if (interactionBeingRemoved.get('channelType') !== 'voice' && currentVoiceInteraction) {
-          nextSelectedInteractionId = currentVoiceInteraction.get('interactionId');
-        } else {
-          const firstNonVoiceInteraction = state.get('interactions').find(
-            (interaction) => interaction.get('channelType') !== 'voice' &&
-              interaction.get('interactionId') !== action.interactionId
-          );
-          nextSelectedInteractionId = firstNonVoiceInteraction ? firstNonVoiceInteraction.get('interactionId') : undefined;
-        }
+        return state.setIn(['interactions', interactionIndex, 'status'], 'work-ended-pending-script');
       } else {
-        nextSelectedInteractionId = state.get('selectedInteractionId');
+        return state;
       }
-
-      return state
-        .set('interactions', state.get('interactions').filterNot((interaction) =>
-          interaction.get('interactionId') === action.interactionId
-        ))
-        .set('selectedInteractionId', nextSelectedInteractionId);
     }
     case SET_MESSAGE_HISTORY: {
       if (action.response && action.response.length > 0) {

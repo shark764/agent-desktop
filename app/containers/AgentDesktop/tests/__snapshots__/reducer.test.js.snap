@@ -120,6 +120,29 @@ Object {
 }
 `;
 
+exports[`agentDesktopReducer ADD_SCRIPT interaction is not there does nothing 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "interactionId": "test-interaction-id",
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer ADD_SCRIPT interaction is there adds the script 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "interactionId": "test-interaction-id",
+      "script": Object {
+        "scriptItem": "something",
+      },
+    },
+  ],
+}
+`;
+
 exports[`agentDesktopReducer INITIALIZE_OUTBOUND_SMS sets the interactionId, updates the selectedInteractionId, updates the status, and adds the message 1`] = `
 Object {
   "interactions": Array [
@@ -138,6 +161,100 @@ Object {
     },
   ],
   "selectedInteractionId": "newInteractionId",
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_INTERACTION interaction is not there does nothing 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "interactionId": "test-interaction-id",
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_INTERACTION interaction with a script sets the status to "work-ended-pending-script" 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "interactionId": "test-interaction-id",
+      "script": Object {
+        "scriptItem": "something",
+      },
+      "status": "work-ended-pending-script",
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_INTERACTION interaction without a script interaction is not the selected interaction keeps the selectedInteractionId the same 1`] = `
+Object {
+  "interactions": Array [],
+  "selectedInteractionId": "other-interaction-id",
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_INTERACTION interaction without a script interaction is the selected interaction only non-voice interactions exist selects the first non-voice interaction 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "channelType": "sms",
+      "interactionId": "first-interaction-id",
+    },
+    Object {
+      "channelType": "email",
+      "interactionId": "second-interaction-id",
+    },
+  ],
+  "selectedInteractionId": "first-interaction-id",
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_INTERACTION interaction without a script interaction is the selected interaction voice interaction exists selects the voice interaction 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "channelType": "sms",
+      "interactionId": "sms-interaction-id",
+    },
+    Object {
+      "channelType": "voice",
+      "interactionId": "voice-interaction-id",
+    },
+  ],
+  "selectedInteractionId": "voice-interaction-id",
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_SCRIPT interaction is not there does nothing 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "interactionId": "test-interaction-id",
+      "script": Object {
+        "scriptItem": "something",
+      },
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_SCRIPT interaction is there removes the script 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "interactionId": "test-interaction-id",
+      "script": undefined,
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_SCRIPT interaction is there the interaction has status of "work-ended-pending-script" removes the interaction 1`] = `
+Object {
+  "interactions": Array [],
+  "selectedInteractionId": undefined,
 }
 `;
 

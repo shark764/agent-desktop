@@ -1,3 +1,6 @@
+### [0.42.0] (2017-06-19)
+* CXV1-9978 - Keep interaction alive in 'pending script' state when interaction has an unsubmitted script.
+
 ### [0.41.23] (2017-06-20)
 * CXV1-9501 - Suppress error bar for failed request to get capacity (it is handled in the transfer menu)
 

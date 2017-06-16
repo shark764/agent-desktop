@@ -12,7 +12,7 @@ describe('<Filter />', () => {
   it('should render correctly', () => {
     const rendered = shallow(
       <Filter.WrappedComponent
-        id="mockId"
+        objectName="mockObjectName"
         name="mockName"
         value="mockValue"
         remove={() => {}}
