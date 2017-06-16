@@ -62,14 +62,14 @@ exports[`<MenuDialogLink /> when A is clicked on should render correctly 1`] = `
             ]
           }
           tabIndex={0}
+          text={
+            Object {
+              "defaultMessage": "Testing",
+              "id": "app.mockId",
+            }
+          }
           type="secondary"
-        >
-          <FormattedMessage
-            defaultMessage="Testing"
-            id="app.mockId"
-            values={Object {}}
-          />
-        </Button>
+        />
       </div>
     </PopupDialog>
   </div>
@@ -138,14 +138,14 @@ exports[`<MenuDialogLink /> when dialog not active should render correctly 1`] =
             ]
           }
           tabIndex={0}
+          text={
+            Object {
+              "defaultMessage": "Testing",
+              "id": "app.mockId",
+            }
+          }
           type="secondary"
-        >
-          <FormattedMessage
-            defaultMessage="Testing"
-            id="app.mockId"
-            values={Object {}}
-          />
-        </Button>
+        />
       </div>
     </PopupDialog>
   </div>

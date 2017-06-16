@@ -1,3 +1,6 @@
+### [0.41.20] (2017-06-16)
+* Add more strings for translation and refactored button messages
+
 ### [0.41.19] (2017-06-14)
 * CXV1-9968 - Use SDK messages for errors. Show "error" level SDK errors as non-critical errors.
 

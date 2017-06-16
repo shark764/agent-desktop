@@ -49,14 +49,14 @@ exports[`<ConfirmDialog /> should render correctly 1`] = `
             }
           }
           tabIndex={0}
+          text={
+            Object {
+              "defaultMessage": "No",
+              "id": "app.components.ConfirmDialog.no",
+            }
+          }
           type="secondary"
-        >
-          <FormattedMessage
-            defaultMessage="No"
-            id="app.components.ConfirmDialog.no"
-            values={Object {}}
-          />
-        </Button>
+        />
         <Button
           id="rightConfirmButton"
           onClick={[Function]}
@@ -71,14 +71,14 @@ exports[`<ConfirmDialog /> should render correctly 1`] = `
             }
           }
           tabIndex={0}
+          text={
+            Object {
+              "defaultMessage": "Yes",
+              "id": "app.components.ConfirmDialog.yes",
+            }
+          }
           type="secondary"
-        >
-          <FormattedMessage
-            defaultMessage="Yes"
-            id="app.components.ConfirmDialog.yes"
-            values={Object {}}
-          />
-        </Button>
+        />
       </div>
     </div>
   </PopupDialog>
