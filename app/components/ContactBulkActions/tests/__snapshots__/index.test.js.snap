@@ -17,7 +17,12 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
     <Button
       id="createNewRecord"
       tabIndex={0}
-      text="New Record"
+      text={
+        Object {
+          "defaultMessage": "New Record",
+          "id": "app.components.contactBulkActions.newRecord",
+        }
+      }
       type="secondary"
     />
   </div>
@@ -140,7 +145,12 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
           }
         }
         tabIndex={0}
-        text="Merge"
+        text={
+          Object {
+            "defaultMessage": "Merge",
+            "id": "app.components.contactBulkActions.merge",
+          }
+        }
         type="secondary"
       />
     </div>

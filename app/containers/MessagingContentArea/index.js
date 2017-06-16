@@ -503,9 +503,14 @@ export class MessagingContentArea extends BaseComponent {
               onKeyDown={this.onMessageKeyDown}
               autoFocus
             />
-            <Button id="sendMessageButton" disabled={this.props.selectedInteraction.status === 'wrapup'} onClick={this.sendMessage} type="secondary" style={this.styles.messageButton}>
-              <FormattedMessage {...messages.send} />
-            </Button>
+            <Button
+              id="sendMessageButton"
+              disabled={this.props.selectedInteraction.status === 'wrapup'}
+              onClick={this.sendMessage}
+              type="secondary"
+              style={this.styles.messageButton}
+              text={messages.send}
+            />
           </div>
         </div>
       );

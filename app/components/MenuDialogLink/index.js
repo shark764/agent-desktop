@@ -10,7 +10,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 
 import A from 'components/A';
 import PopupDialog from 'components/PopupDialog';
@@ -91,9 +90,8 @@ class MenuDialogLink extends React.Component {
                       { width: `${100 / numberOfOptions}%` },
                       index > 0 ? styles.leftButtonBorder : {},
                     ]}
-                  >
-                    <FormattedMessage {...option.message} />
-                  </Button>
+                    text={option.message}
+                  />
                 )
               }
             </div>

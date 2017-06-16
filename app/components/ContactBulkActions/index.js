@@ -49,7 +49,7 @@ function ContactBulkActions(props) {
   return (
     <div id="bulk-action-controls" style={styles.bulkActionControlBar}>
       <div key="new-btn-container">
-        <Button id="createNewRecord" type="secondary" text="New Record" onClick={props.newContact}></Button>
+        <Button id="createNewRecord" type="secondary" text={messages.newRecord} onClick={props.newContact} />
       </div>
       <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100', complete: velocityCleanup, display: 'flex' }} leave={{ animation: 'transition.slideDownOut', duration: '100' }}>
         {
@@ -67,7 +67,7 @@ function ContactBulkActions(props) {
               hide={() => props.setConfirmingDelete(false)}
               style={styles.bulkConfirmDialog}
             />
-            <Button style={{ marginLeft: '10px' }} onClick={() => props.setConfirmingDelete(true)} id="delete-btn" text={messages.delete} type="secondary"></Button>
+            <Button style={{ marginLeft: '10px' }} onClick={() => props.setConfirmingDelete(true)} id="delete-btn" text={messages.delete} type="secondary" />
           </div>
         }
       </VelocityTransitionGroup>
@@ -75,7 +75,7 @@ function ContactBulkActions(props) {
         {
           props.selectedContacts.length === 2 &&
           <div key="merge-btn-container">
-            <Button style={{ marginLeft: '10px' }} onClick={props.setMerging} id="merge" key="merge" text="Merge" type="secondary"></Button>
+            <Button style={{ marginLeft: '10px' }} onClick={props.setMerging} id="merge" key="merge" text={messages.merge} type="secondary" />
           </div>
         }
       </VelocityTransitionGroup>

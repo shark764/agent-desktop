@@ -64,12 +64,22 @@ function ConfirmDialog(props) {
             </div>
           }
           <div style={[styles.buttonContainer, props.questionMessage ? { borderTop: '1px solid #C5C5C5' } : {}]}>
-            <Button id="leftConfirmButton" onClick={props.leftAction} disabled={props.leftDisabled} type="secondary" style={styles.leftButton}>
-              <FormattedMessage {...props.leftMessage} />
-            </Button>
-            <Button id="rightConfirmButton" onClick={props.rightAction} disabled={props.rightDisabled} type="secondary" style={styles.rightButton}>
-              <FormattedMessage {...props.rightMessage} />
-            </Button>
+            <Button
+              id="leftConfirmButton"
+              onClick={props.leftAction}
+              disabled={props.leftDisabled}
+              type="secondary"
+              style={styles.leftButton}
+              text={props.leftMessage}
+            />
+            <Button
+              id="rightConfirmButton"
+              onClick={props.rightAction}
+              disabled={props.rightDisabled}
+              type="secondary"
+              style={styles.rightButton}
+              text={props.rightMessage}
+            />
           </div>
         </div>
       </PopupDialog>

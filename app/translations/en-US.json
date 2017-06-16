@@ -21,6 +21,8 @@
   "app.components.contactBulkActions.delete": "Delete",
   "app.components.contactBulkActions.deleteContact": "Delete Contact?",
   "app.components.contactBulkActions.deleteContacts": "Delete {count} Contacts?",
+  "app.components.contactBulkActions.merge": "Merge",
+  "app.components.contactBulkActions.newRecord": "New Record",
   "app.containers.AgentConfigMenu.add": "Add",
   "app.containers.AgentConfigMenu.aggregate": "Aggregate",
   "app.containers.AgentConfigMenu.maxStats": "Maximum Stats Enabled",
