@@ -604,7 +604,7 @@ export class EmailContentArea extends BaseComponent {
                 <FormattedMessage {...messages.to} />
               </div>
               <div style={styles.detailsValue}>
-                { tos }
+                { tos.join(', ') }
               </div>
             </div>
             {
