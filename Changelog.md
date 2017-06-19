@@ -1,3 +1,6 @@
+### [0.41.21] (2017-06-19)
+* CXV1-9538 - Add commas and spacing for multiple entries in 'To:' field for email
+
 ### [0.41.20] (2017-06-16)
 * Add more strings for translation and refactored button messages
 
