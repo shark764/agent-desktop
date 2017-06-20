@@ -210,7 +210,7 @@ class AgentScript extends BaseComponent {
   }
 
   sendScript = () => {
-    console.log('Sending this to SDK', { interactionId: this.props.interactionId, scriptId: this.props.script.id, answers: this.state });
+    console.log('Sending this script to SDK', { interactionId: this.props.interactionId, scriptId: this.props.script.id, answers: this.state });
     CxEngage.interactions.sendScript({ interactionId: this.props.interactionId, scriptId: this.props.script.id, answers: this.state });
   }
 
@@ -218,7 +218,7 @@ class AgentScript extends BaseComponent {
     return (
       <div style={styles.base}>
         {this.getScript()}
-        <Button id="submitScriptButton" type="primaryBlue" text={messages.submit} onClick={() => this.sendScript()} />
+        <Button id="submitScriptButton" type="primaryBlue" text={messages.submit} onClick={this.sendScript} />
       </div>
     );
   }
