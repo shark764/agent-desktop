@@ -112,8 +112,8 @@ export class TransferMenu extends BaseComponent {
   setAgentsCallback = (error, topic, response) => {
     if (!error) {
       console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
-      CxEngage.reporting.getCapacity({}, (capactityError, capactityTopic, capacityResponse) => {
-        console.log('[TransferMenu] CxEngage.subscribe()', capactityTopic, capacityResponse);
+      CxEngage.reporting.getCapacity({}, (capacityError, capacityTopic, capacityResponse) => {
+        console.log('[TransferMenu] CxEngage.subscribe()', capacityTopic, capacityResponse);
         const agents = response.result.filter((agent) =>
           // Filter ourself, pending users
           agent.id !== this.props.agentId && agent.status === 'accepted'
@@ -122,8 +122,8 @@ export class TransferMenu extends BaseComponent {
           firstName: agent.firstName,
           lastName: agent.lastName,
           name: `${agent.firstName ? agent.firstName : ''} ${agent.lastName ? agent.lastName : ''}`,
-          // If there was an error with getCapactity, we have to assume agents are available
-          isAvailable: !error ? this.isAgentAvailable(agent, capacityResponse.resourceCapacity) : true,
+          // If there was an error with getCapactity, we have to assume ready agents are available
+          isAvailable: !capacityError ? this.isAgentAvailable(agent, capacityResponse.resourceCapacity) : agent.state === 'ready',
         })).sort((agent1, agent2) => {
           // Ready agents first, then sort by name alphabetically
           if (agent1.isAvailable && !agent2.isAvailable) return -1;
