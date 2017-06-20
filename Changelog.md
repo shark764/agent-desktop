@@ -1,3 +1,6 @@
+### [0.42.1] (2017-06-20)
+* CXV1-9922 - Login and Tenant Select keyboard optimization
+
 ### [0.42.0] (2017-06-19)
 * CXV1-9978 - Keep interaction alive in 'pending script' state when interaction has an unsubmitted script.
 

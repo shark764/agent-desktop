@@ -31,7 +31,7 @@ const styles = {
     width: '0px',
     height: '0px',
     left: '40px',
-    bottom: '-8px',
+    bottom: '-7px',
     zIndex: '1',
     borderWidth: '8px',
     borderStyle: 'solid',

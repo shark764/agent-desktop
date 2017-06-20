@@ -26,9 +26,9 @@ export default defineMessages({
     id: 'app.containers.Login.forgotInstructions',
     defaultMessage: 'Enter your email address and we\'ll send you a link to change your password',
   },
-  sendButton: {
-    id: 'app.containers.Login.sendButton',
-    defaultMessage: 'Send',
+  selectButton: {
+    id: 'app.containers.Login.selectButton',
+    defaultMessage: 'Select',
   },
   signInButton: {
     id: 'app.containers.Login.signInButton',
@@ -61,6 +61,10 @@ export default defineMessages({
   outbound: {
     id: 'app.containers.Login.outbound',
     defaultMessage: 'Outbound',
+  },
+  selectTenantMenu: {
+    id: 'app.containers.Login.selectTenantMenu',
+    defaultMessage: 'Please Select a Tenant',
   },
   selectTenant: {
     id: 'app.containers.Login.selectTenant',
