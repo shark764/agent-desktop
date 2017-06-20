@@ -34,6 +34,9 @@ const styles = {
   },
   primaryBlue: {
     backgroundColor: '#23cdf4',
+    ':focus': {
+      boxShadow: '0 0 1em #23cef5',
+    },
     ':hover': {
       backgroundColor: '#1FB8DC',
     },
@@ -49,6 +52,9 @@ const styles = {
     borderRadius: '8px',
     fontSize: '16px',
     padding: '14px 28px',
+    ':focus': {
+      boxShadow: '0 0 1em #23cef5',
+    },
     ':hover': {
       backgroundColor: '#1FB8DC',
     },
@@ -61,6 +67,9 @@ const styles = {
   },
   primaryRed: {
     backgroundColor: '#FE4565',
+    ':focus': {
+      boxShadow: '0 0 1em #FE4566',
+    },
     ':hover': {
       backgroundColor: '#E43D5A',
     },
