@@ -1,3 +1,6 @@
+### [0.41.22] (2017-06-20)
+* CXV1-9501 - Fix handling of resource capacity error in Transfer Menu
+
 ### [0.41.21] (2017-06-19)
 * CXV1-9538 - Add commas and spacing for multiple entries in 'To:' field for email
 
