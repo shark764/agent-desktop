@@ -15,8 +15,9 @@ export function* goHandleSDKError(action) {
   const topic = action.topic;
   const error = action.error;
   console.warn('SDK Error:', topic, error);
-  if (error.code === 2000 || // Not enough tenant permissions
-    error.code === 3000 || // Login authentication failed
+  if (error.code === 2000 || // Not enough tenant permissions. Handled in Login.
+    error.code === 3000 || // Login authentication failed. Handled in Login.
+    error.code === 12005 || // Failed to get capacity. Handled in TransferMenu.
     topic === 'cxengage/contacts/create-contact-response' || // Handled in ContactEdit
     topic === 'cxengage/contacts/update-contact-response' || // Handled in ContactEdit
     topic === 'cxengage/contacts/merge-contacts-response' // Handled in ContactMerge

@@ -1,3 +1,6 @@
+### [0.41.23] (2017-06-20)
+* CXV1-9501 - Suppress error bar for failed request to get capacity (it is handled in the transfer menu)
+
 ### [0.41.22] (2017-06-20)
 * CXV1-9501 - Fix handling of resource capacity error in Transfer Menu
 
