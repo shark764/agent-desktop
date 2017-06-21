@@ -23,11 +23,11 @@ export default defineMessages({
     defaultMessage: 'Enter interaction notes here',
   },
   wrapup: {
-    id: 'app.containers.ContentArea.wrapup',
+    id: 'app.containers.PhoneControls.wrapup',
     defaultMessage: 'Wrap Up',
   },
   disposition: {
-    id: 'app.containers.ContentArea.disposition',
+    id: 'app.containers.PhoneControls.disposition',
     defaultMessage: 'Disposition',
   },
 });

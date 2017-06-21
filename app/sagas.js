@@ -9,7 +9,6 @@ import messagingContentAreaSagas from 'containers/MessagingContentArea/sagas';
 import emailContentAreaSagas from 'containers/EmailContentArea/sagas';
 import toolbarSagas from 'containers/Toolbar/sagas';
 import errorSagas from 'containers/Errors/sagas';
-import contactSagas from 'containers/ContactsControl/sagas';
 
 export default function* rootSaga() {
   const allSagas = [
@@ -18,7 +17,6 @@ export default function* rootSaga() {
     ...emailContentAreaSagas,
     ...toolbarSagas,
     ...errorSagas,
-    ...contactSagas,
   ];
   for (let i = 0; i < allSagas.length; i += 1) {
     yield fork(allSagas[i]);

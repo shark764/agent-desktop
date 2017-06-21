@@ -23,6 +23,8 @@ import { setCriticalError } from 'containers/Errors/actions';
 import Checkbox from 'components/Checkbox';
 import ContactView from 'containers/ContactView';
 
+import { assignContactToSelected } from 'containers/AgentDesktop/actions';
+
 export class ContactSearchResult extends BaseComponent {
 
   constructor(props) {
@@ -76,6 +78,10 @@ export class ContactSearchResult extends BaseComponent {
     },
   };
 
+  assignContact = () => {
+    this.props.assignContact(this.props.contact);
+  }
+
   render() {
     return (
       <div style={[this.styles.base, this.props.style, this.props.checked && this.styles.checkedContact]}>
@@ -92,6 +98,7 @@ export class ContactSearchResult extends BaseComponent {
         </VelocityTransitionGroup>
         <ContactView
           contact={this.props.contact}
+          assignContact={this.assignContact}
           showCompactView={!this.state.expanded}
           showControls
           style={this.styles.contact}
@@ -110,11 +117,13 @@ ContactSearchResult.propTypes = {
   selectContact: PropTypes.func.isRequired,
   style: PropTypes.object,
   contact: PropTypes.object.isRequired,
+  assignContact: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
+    assignContact: (contact) => dispatch(assignContactToSelected(contact)),
     dispatch,
   };
 }

@@ -17,11 +17,11 @@ import { injectIntl, intlShape } from 'react-intl';
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
 
-import { startOutboundInteraction, assignContact } from 'containers/AgentDesktop/actions';
+import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
 import { selectIsAgentReady, selectHasVoiceInteraction, selectSmsInteractionNumbers, selectSelectedInteraction } from 'containers/AgentDesktop/selectors';
-import { selectLoading, selectCurrentInteractionContactId, selectCurrentInteraction } from 'containers/InfoTab/selectors';
+import { setContactMode, setEditingContact } from 'containers/InfoTab/actions';
+import { selectLoading, selectCurrentInteractionContactId, selectContactMode } from 'containers/InfoTab/selectors';
 import { getSelectedInteractionIsCreatingNewInteraction } from 'containers/ContactsControl/selectors';
-import { editContact } from 'containers/ContactsControl/actions';
 import { startOutboundEmail } from 'containers/EmailContentArea/actions';
 
 import Button from 'components/Button';
@@ -65,13 +65,14 @@ const styles = {
 export class ContactView extends BaseComponent {
 
   editContact = () => {
+    this.props.setContactMode('edit');
     if (
       this.props.currentInteractionContactId
       && this.props.currentInteractionContactId === this.props.contact.id
     ) {
-      this.props.editContact(this.props.currentInteraction.interactionId, this.props.currentInteraction.contact);
+      this.props.setEditingContact({});
     } else {
-      this.props.editContact(this.props.currentInteraction.interactionId, this.props.contact);
+      this.props.setEditingContact(this.props.contact);
     }
   }
 
@@ -113,10 +114,6 @@ export class ContactView extends BaseComponent {
     this.props.startOutboundEmail(value, this.props.contact);
   }
 
-  assignContact = () => {
-    this.props.assignContact(this.props.currentInteraction.interactionId, this.props.contact);
-  }
-
   render() {
     const inInteractionContext = (
       this.props.selectedInteraction
@@ -127,7 +124,7 @@ export class ContactView extends BaseComponent {
       <div style={[this.props.style, styles.base]}>
         <div style={styles.header}>
           <div style={styles.title}>
-            { this.props.contact.attributes && this.props.contact.attributes.name }
+            { this.props.contact.attributes.name }
           </div>
           {
             this.props.showControls &&
@@ -140,7 +137,7 @@ export class ContactView extends BaseComponent {
                     || this.props.contactMode !== undefined
                   }
                   type="secondary"
-                  onClick={this.assignContact}
+                  onClick={() => this.props.assignContact(this.props.contact)}
                   text={this.props.intl.formatMessage(inInteractionContext ? messages.assignButton : messages.selectButton)}
                 />
                 <Button
@@ -170,19 +167,19 @@ const mapStateToProps = (state, props) => ({
   layoutSections: selectPopulatedLayout(state, props),
   compactLayoutAttributes: selectPopulatedCompactAttributes(state, props),
   isReady: selectIsAgentReady(state, props),
+  contactMode: selectContactMode(state, props),
   hasVoiceInteraction: selectHasVoiceInteraction(state, props),
   smsInteractionNumbers: selectSmsInteractionNumbers(state, props),
   selectedInteractionIsCreatingNewInteraction: getSelectedInteractionIsCreatingNewInteraction(state, props),
-  currentInteraction: selectCurrentInteraction(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    editContact: (interactionId, contact) => dispatch(editContact(interactionId, contact)),
+    setContactMode: (contactMode) => dispatch(setContactMode(contactMode)),
+    setEditingContact: (editingContact) => dispatch(setEditingContact(editingContact)),
     startOutboundInteraction: (channelType, customer, contact, addedByNewInteractionPanel) => dispatch(startOutboundInteraction(channelType, customer, contact, addedByNewInteractionPanel)),
     startOutboundEmail: (customer, contact) => dispatch(startOutboundEmail(customer, contact)),
-    assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
     dispatch,
   };
 }
@@ -204,10 +201,10 @@ ContactView.propTypes = {
   hasVoiceInteraction: PropTypes.bool.isRequired,
   smsInteractionNumbers: PropTypes.array.isRequired,
   selectedInteractionIsCreatingNewInteraction: PropTypes.bool.isRequired,
-  editContact: PropTypes.func.isRequired,
+  setContactMode: PropTypes.func.isRequired,
+  setEditingContact: PropTypes.func.isRequired,
   startOutboundInteraction: PropTypes.func.isRequired,
   startOutboundEmail: PropTypes.func.isRequired,
-  currentInteraction: PropTypes.object,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactView)));

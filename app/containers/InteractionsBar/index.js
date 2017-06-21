@@ -50,17 +50,6 @@ export class InteractionsBar extends BaseComponent {
   }
 
   render() {
-    let activeVoiceInteractionStatus;
-    if (this.props.activeVoiceInteraction) {
-      if (this.props.activeVoiceInteraction.status === 'wrapup') {
-        activeVoiceInteractionStatus = 'wrapup';
-      } else if (this.props.activeVoiceInteraction.status === 'work-ended-pending-script') {
-        activeVoiceInteractionStatus = 'work-ended-pending-script';
-      } else {
-        activeVoiceInteractionStatus = 'active';
-      }
-    }
-
     const activeVoiceInteraction = this.props.activeVoiceInteraction
       ? (<Interaction
         interactionId={this.props.activeVoiceInteraction.interactionId}
@@ -69,7 +58,7 @@ export class InteractionsBar extends BaseComponent {
         channelType={this.props.activeVoiceInteraction.channelType}
         from={this.props.activeVoiceInteraction.contact !== undefined ? this.props.activeVoiceInteraction.contact.attributes.name : this.props.activeVoiceInteraction.number}
         previewText={this.props.activeVoiceInteraction.contact !== undefined ? this.props.activeVoiceInteraction.number : undefined}
-        status={activeVoiceInteractionStatus}
+        status={this.props.activeVoiceInteraction.status === 'wrapup' ? 'wrapup' : 'active'}
         targetWrapupTime={Number(this.props.activeVoiceInteraction.wrapupDetails.targetWrapupTime)}
         wrapupTime={Number(this.props.activeVoiceInteraction.wrapupDetails.wrapupTime)}
         selected={this.props.selectedInteractionId === this.props.activeVoiceInteraction.interactionId}
@@ -114,15 +103,6 @@ export class InteractionsBar extends BaseComponent {
         from = activeInteraction.contact.attributes.name;
       }
 
-      let status;
-      if (activeInteraction.status === 'wrapup') {
-        status = 'wrapup';
-      } else if (activeInteraction.status === 'work-ended-pending-script') {
-        status = 'work-ended-pending-script';
-      } else {
-        status = 'active';
-      }
-
       return (
         <Interaction
           {...{ from, icon }}
@@ -130,7 +110,7 @@ export class InteractionsBar extends BaseComponent {
           key={activeInteraction.interactionId ? activeInteraction.interactionId : activeInteraction.customer}
           channelType={activeInteraction.channelType}
           previewText={text}
-          status={status}
+          status={activeInteraction.status === 'wrapup' ? 'wrapup' : 'active'}
           targetWrapupTime={Number(activeInteraction.wrapupDetails.targetWrapupTime)}
           wrapupTime={Number(activeInteraction.wrapupDetails.wrapupTime)}
           selected={this.props.selectedInteractionId === activeInteraction.interactionId}

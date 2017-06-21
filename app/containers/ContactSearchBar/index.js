@@ -23,7 +23,7 @@ import { setCriticalError } from 'containers/Errors/actions';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 
-import { addSearchFilter, removeSearchFilter, setContactMode } from 'containers/AgentDesktop/actions';
+import { addSearchFilter, removeSearchFilter, setContactAction } from 'containers/AgentDesktop/actions';
 import { selectSearchableAttributes } from './selectors';
 import messages from './messages';
 
@@ -226,7 +226,7 @@ export class ContactSearchBar extends BaseComponent {
   cancel = () => {
     this.props.removeSearchFilter();
     if (this.props.selectedInteraction.contact !== undefined) {
-      this.props.setContactMode(this.props.selectedInteraction.interactionId, 'view');
+      this.props.setContactAction(this.props.selectedInteraction.interactionId, 'view');
     }
   }
 
@@ -304,7 +304,7 @@ ContactSearchBar.propTypes = {
   style: PropTypes.object,
   resultsCount: PropTypes.number,
   removeSearchFilter: PropTypes.func.isRequired,
-  setContactMode: React.PropTypes.func,
+  setContactAction: React.PropTypes.func,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -316,7 +316,7 @@ function mapDispatchToProps(dispatch) {
     setCriticalError: () => dispatch(setCriticalError()),
     addFilter: (filterName, value) => dispatch(addSearchFilter(filterName, value)),
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
-    setContactMode: (interactionId, newMode) => dispatch(setContactMode(interactionId, newMode)),
+    setContactAction: (interactionId, newAction) => dispatch(setContactAction(interactionId, newAction)),
     dispatch,
   };
 }

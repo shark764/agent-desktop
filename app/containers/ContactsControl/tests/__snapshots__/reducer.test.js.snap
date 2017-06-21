@@ -2,7 +2,14 @@
 
 exports[`ContactsControl Reducer returns the initial state 1`] = `
 Object {
+  "contactForm": Object {},
+  "formErrors": Object {},
+  "formIsDirty": false,
+  "formIsValid": false,
+  "selectedIndexes": Object {},
   "showCancelDialog": false,
   "showConfirmDialog": false,
+  "showErrors": Object {},
+  "unusedFields": Object {},
 }
 `;

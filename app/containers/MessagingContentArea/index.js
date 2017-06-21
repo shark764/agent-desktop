@@ -308,10 +308,11 @@ export class MessagingContentArea extends BaseComponent {
       backgroundColor: '#DEF8FE',
     },
     messageTextareaContainer: {
-      flex: '0 1 50px',
+      flex: '0 0 50px',
+      display: 'flex',
+      alignItems: 'stretch',
     },
     templateMenuButton: {
-      height: 'calc(100% - 5px)',
       width: '40px',
       verticalAlign: 'top',
       fontSize: '24px',
@@ -329,7 +330,6 @@ export class MessagingContentArea extends BaseComponent {
       borderLeft: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? 'none' : '1px solid #979797',
     },
     messageButton: {
-      height: 'calc(100% - 5px)',
       width: '50px',
       verticalAlign: 'top',
       fontSize: '11px',
@@ -429,92 +429,89 @@ export class MessagingContentArea extends BaseComponent {
             {messageHistory}
           </div>
           {
-            this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
-            <div style={this.styles.messageTextareaContainer}>
-              {
-                this.state.showMessageTemplateMenu
-                ? <div id="messageTemplatesContainer" style={[this.styles.messageTemplatesContainer, { bottom: 17 + this.state.messageTextareaHeight }]}>
-                  <div style={this.styles.messageTemplatesHeader}>
+            this.state.showMessageTemplateMenu
+            ? <div id="messageTemplatesContainer" style={[this.styles.messageTemplatesContainer, { bottom: 17 + this.state.messageTextareaHeight }]}>
+              <div style={this.styles.messageTemplatesHeader}>
+                <span style={this.styles.bold}>
+                  <FormattedMessage {...messages.messagingTemplates} />
+                </span>
+                <span style={this.styles.right}>
+                  <Icon name="arrow_up_down" />
+                  &nbsp;
+                  <FormattedMessage {...messages.toNavigate} />
+                  &nbsp;&nbsp;&nbsp;
+                  <Icon name="arrow_return" />
+                  &nbsp;
+                  <FormattedMessage {...messages.toSelect} />
+                  &nbsp;&nbsp;&nbsp;
+                  <span>
                     <span style={this.styles.bold}>
-                      <FormattedMessage {...messages.messagingTemplates} />
+                      <FormattedMessage {...messages.esc} />
                     </span>
-                    <span style={this.styles.right}>
-                      <Icon name="arrow_up_down" />
-                      &nbsp;
-                      <FormattedMessage {...messages.toNavigate} />
-                      &nbsp;&nbsp;&nbsp;
-                      <Icon name="arrow_return" />
-                      &nbsp;
-                      <FormattedMessage {...messages.toSelect} />
-                      &nbsp;&nbsp;&nbsp;
-                      <span>
-                        <span style={this.styles.bold}>
-                          <FormattedMessage {...messages.esc} />
-                        </span>
-                        &nbsp;
-                        <FormattedMessage {...messages.toDismiss} />
-                      </span>
-                    </span>
-                  </div>
-                  <div style={this.styles.messageTemplates}>
-                    {
-                      this.props.messageTemplates.map((messageTemplate, messageTemplateIndex) => {
-                        if (!this.state.showMessageTemplateMenuByForwardSlash || !this.state.messageTemplateFilter || messageTemplate.name.toUpperCase().includes(this.state.messageTemplateFilter.toUpperCase())) {
-                          return (
-                            <div
-                              className="messageTemplate" key={messageTemplate.id} ref={(c) => { this[`messageTemplate-${messageTemplateIndex}`] = c; }}
-                              onClick={() => this.addMessageTemplate()}
-                              onFocus={() => this.selectMessageTemplateIndex(messageTemplateIndex)}
-                              onMouseOver={() => this.selectMessageTemplateIndex(messageTemplateIndex)}
-                              style={[this.styles.messageTemplate, this.state.selectedMessageTemplateIndex === messageTemplateIndex ? this.styles.selectedMessageTemplate : {}]}
-                            >
-                              <span style={this.styles.bold}>/{ messageTemplate.name }</span>&nbsp;&nbsp;&nbsp;
-                              <span>{ messageTemplate.template }</span>
-                            </div>
-                          );
-                        } else {
-                          return undefined;
-                        }
-                      })
+                    &nbsp;
+                    <FormattedMessage {...messages.toDismiss} />
+                  </span>
+                </span>
+              </div>
+              <div style={this.styles.messageTemplates}>
+                {
+                  this.props.messageTemplates.map((messageTemplate, messageTemplateIndex) => {
+                    if (!this.state.showMessageTemplateMenuByForwardSlash || !this.state.messageTemplateFilter || messageTemplate.name.toUpperCase().includes(this.state.messageTemplateFilter.toUpperCase())) {
+                      return (
+                        <div
+                          className="messageTemplate" key={messageTemplate.id} ref={(c) => { this[`messageTemplate-${messageTemplateIndex}`] = c; }}
+                          onClick={() => this.addMessageTemplate()}
+                          onFocus={() => this.selectMessageTemplateIndex(messageTemplateIndex)}
+                          onMouseOver={() => this.selectMessageTemplateIndex(messageTemplateIndex)}
+                          style={[this.styles.messageTemplate, this.state.selectedMessageTemplateIndex === messageTemplateIndex ? this.styles.selectedMessageTemplate : {}]}
+                        >
+                          <span style={this.styles.bold}>/{ messageTemplate.name }</span>&nbsp;&nbsp;&nbsp;
+                          <span>{ messageTemplate.template }</span>
+                        </div>
+                      );
+                    } else {
+                      return undefined;
                     }
-                  </div>
-                </div>
-                : undefined
-              }
-              {
-                this.props.messageTemplates && this.props.messageTemplates.length > 0
-                ? <Button id="templateMenuButton" disabled={this.props.selectedInteraction.status === 'wrapup'} onClick={this.toggleMessageTemplateMenu} type="secondary" style={this.styles.templateMenuButton}>
-                  <span>+</span>
-                </Button>
-                : undefined
-              }
-              <style>
-                { /* This style is here because the Textarea library doesn't render the ':focus' Radium attribute */ }
-                {`#messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: ${this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '0;' : '1px solid #23CEF5 !important;'}}`}
-              </style>
-              <Textarea
-                minRows={2}
-                maxRows={4}
-                onHeightChange={(messageTextareaHeight) => this.setState({ messageTextareaHeight })}
-                id="messageTextarea"
-                ref={(textarea) => { this.messageTextarea = textarea; }}
-                disabled={this.props.selectedInteraction.status === 'wrapup'}
-                style={this.styles.messageTextarea}
-                value={this.state.messageText}
-                onChange={(e) => this.setMessageText(e.target.value)}
-                onKeyDown={this.onMessageKeyDown}
-                autoFocus
-              />
-              <Button
-                id="sendMessageButton"
-                disabled={this.props.selectedInteraction.status === 'wrapup'}
-                onClick={this.sendMessage}
-                type="secondary"
-                style={this.styles.messageButton}
-                text={messages.send}
-              />
+                  })
+                }
+              </div>
             </div>
+            : undefined
           }
+          <div style={this.styles.messageTextareaContainer}>
+            {
+              this.props.messageTemplates && this.props.messageTemplates.length > 0
+              ? <Button id="templateMenuButton" disabled={this.props.selectedInteraction.status === 'wrapup'} onClick={this.toggleMessageTemplateMenu} type="secondary" style={this.styles.templateMenuButton}>
+                <span>+</span>
+              </Button>
+              : undefined
+            }
+            <style>
+              { /* This style is here because the Textarea library doesn't render the ':focus' Radium attribute */ }
+              {`#messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: ${this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '0;' : '1px solid #23CEF5 !important;'}}`}
+            </style>
+            <Textarea
+              minRows={2}
+              maxRows={4}
+              onHeightChange={(messageTextareaHeight) => this.setState({ messageTextareaHeight })}
+              id="messageTextarea"
+              ref={(textarea) => { this.messageTextarea = textarea; }}
+              disabled={this.props.selectedInteraction.status === 'wrapup'}
+              style={this.styles.messageTextarea}
+              value={this.state.messageText}
+              onChange={(e) => this.setMessageText(e.target.value)}
+              onKeyDown={this.onMessageKeyDown}
+              autoFocus
+            />
+            <Button
+              id="sendMessageButton"
+              disabled={this.props.selectedInteraction.status === 'wrapup'}
+              onClick={this.sendMessage}
+              type="secondary"
+              style={this.styles.messageButton}
+              text={messages.send}
+            />
+          </div>
         </div>
       );
     }

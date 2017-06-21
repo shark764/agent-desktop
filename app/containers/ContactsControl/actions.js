@@ -11,14 +11,14 @@
 import {
   SET_SHOW_CANCEL_DIALOG,
   SET_SHOW_CONFIRM_DIALOG,
-  EDIT_CONTACT,
-  MERGE_CONTACTS,
-  NEW_CONTACT,
-  SUBMIT_CONTACT_EDIT,
-  SUBMIT_CONTACT_CREATE,
-  SUBMIT_CONTACT_MERGE,
-  ADD_CONTACT_NOTIFICATION,
-  ADD_CONTACT_ERROR_NOTIFICATION,
+  SET_FORM_IS_DIRTY,
+  SET_FORM_VALIDITY,
+  SET_FORM_FIELD,
+  SET_FORM_ERROR,
+  SET_SHOW_ERROR,
+  SET_UNUSED_FIELD,
+  SET_SELECTED_INDEX,
+  RESET_FORM,
 } from './constants';
 
 export function setShowCancelDialog(showCancelDialog) {
@@ -35,59 +35,62 @@ export function setShowConfirmDialog(showConfirmDialog) {
   };
 }
 
-export function editContact(interactionId, contact) {
+export function setFormIsDirty(formIsDirty) {
   return {
-    type: EDIT_CONTACT,
-    interactionId,
-    contact,
+    type: SET_FORM_IS_DIRTY,
+    formIsDirty,
   };
 }
 
-export function mergeContacts(interactionId) {
+export function setFormValidity(formIsValid) {
   return {
-    type: MERGE_CONTACTS,
-    interactionId,
+    type: SET_FORM_VALIDITY,
+    formIsValid,
   };
 }
 
-export function newContact(interactionId) {
+export function setFormField(field, value) {
   return {
-    type: NEW_CONTACT,
-    interactionId,
+    type: SET_FORM_FIELD,
+    field,
+    value,
   };
 }
 
-export function submitContactEdit(interactionId) {
+export function setFormError(field, error) {
   return {
-    type: SUBMIT_CONTACT_EDIT,
-    interactionId,
+    type: SET_FORM_ERROR,
+    field,
+    error,
   };
 }
 
-export function submitContactCreate(interactionId) {
+export function setShowError(field, error) {
   return {
-    type: SUBMIT_CONTACT_CREATE,
-    interactionId,
+    type: SET_SHOW_ERROR,
+    field,
+    error,
   };
 }
 
-export function submitContactMerge(interactionId) {
+export function setUnusedField(field, value) {
   return {
-    type: SUBMIT_CONTACT_MERGE,
-    interactionId,
+    type: SET_UNUSED_FIELD,
+    field,
+    value,
   };
 }
 
-export function addContactNotification(notificationInfo) {
+export function setSelectedIndex(field, index) {
   return {
-    type: ADD_CONTACT_NOTIFICATION,
-    notificationInfo,
+    type: SET_SELECTED_INDEX,
+    field,
+    index,
   };
 }
 
-export function addContactErrorNotification(notificationInfo) {
+export function resetForm() {
   return {
-    type: ADD_CONTACT_ERROR_NOTIFICATION,
-    notificationInfo,
+    type: RESET_FORM,
   };
 }

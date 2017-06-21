@@ -17,7 +17,6 @@ exports[`<Checkbox /> when given required props, intl, and text should render co
         "width": "14px",
       }
     }
-    tabIndex={0}
     type="checkbox"
   />
   <label
@@ -62,7 +61,6 @@ exports[`<Checkbox /> when no text is passed in should render correctly 1`] = `
         "width": "14px",
       }
     }
-    tabIndex={0}
     type="checkbox"
   />
 </span>
@@ -85,7 +83,6 @@ exports[`<Checkbox /> when passed a text obj should render correctly 1`] = `
         "width": "14px",
       }
     }
-    tabIndex={0}
     type="checkbox"
   />
   <label

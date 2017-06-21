@@ -205,43 +205,6 @@ class Interaction extends React.Component {
     }
   }
 
-  getPreviewText = () => {
-    if (this.props.status === 'wrapup') {
-      return (
-        <div style={[styles.wrapupContainer, { color: this.getTimerColor() }]}>
-          <div>
-            <FormattedMessage {...messages.wrapup} />
-          </div>
-          <div>
-            <Progress
-              start={this.state.ageSeconds < this.props.targetWrapupTime ? this.state.startTime : this.state.startTime + (this.props.targetWrapupTime * 1000)}
-              finish={this.state.ageSeconds < this.props.targetWrapupTime ? this.state.startTime + (this.props.targetWrapupTime * 1000) : this.state.startTime + (this.props.wrapupTime * 1000)}
-              barColor={this.getTimerColor()}
-              style={{ width: '100%' }}
-            />
-          </div>
-        </div>
-      );
-    } else if (this.props.status === 'work-ended-pending-script') {
-      return (
-        <div style={[styles.previewText, { fontStyle: 'italic' }]}>
-          <FormattedMessage {...messages.pendingScript} />
-        </div>
-      );
-    } else {
-      return (
-        <Dotdotdot
-          clamp={2}
-          className="previewText"
-          style={styles.previewText}
-          title={this.props.previewText}
-        >
-          <p style={{ margin: 0 }} title={this.props.previewText}>{this.props.previewText}</p>
-        </Dotdotdot>
-      );
-    }
-  }
-
   cancelInteraction = (e) => {
     // adding this to prevent other events from bubbling up - namely the
     // event to start the interaction which sits on the same div as the button
@@ -280,7 +243,28 @@ class Interaction extends React.Component {
                 {this.getTimer()}
               </div>
             </div>
-            { this.getPreviewText() }
+            {this.props.status === 'wrapup'
+              ? <div style={[styles.wrapupContainer, { color: this.getTimerColor() }]}>
+                <div>
+                  <FormattedMessage {...messages.wrapup} />
+                </div>
+                <div>
+                  <Progress
+                    start={this.state.ageSeconds < this.props.targetWrapupTime ? this.state.startTime : this.state.startTime + (this.props.targetWrapupTime * 1000)}
+                    finish={this.state.ageSeconds < this.props.targetWrapupTime ? this.state.startTime + (this.props.targetWrapupTime * 1000) : this.state.startTime + (this.props.wrapupTime * 1000)}
+                    barColor={this.getTimerColor()}
+                    style={{ width: '100%' }}
+                  />
+                </div>
+              </div>
+              : <Dotdotdot
+                clamp={2}
+                className="previewText"
+                style={styles.previewText}
+                title={this.props.previewText}
+              >
+                <p style={{ margin: 0 }} title={this.props.previewText}>{this.props.previewText}</p>
+              </Dotdotdot>}
             {this.props.status === 'pending'
               ? <div style={styles.intentText}>
                 <FormattedMessage {...acceptMessage} />
@@ -338,7 +322,7 @@ Interaction.propTypes = {
   timeout: PropTypes.number,
   targetWrapupTime: PropTypes.number,
   wrapupTime: PropTypes.number,
-  status: PropTypes.oneOf(['pending', 'active', 'wrapup', 'creating-new-interaction', 'work-ended-pending-script']).isRequired,
+  status: PropTypes.oneOf(['pending', 'active', 'wrapup', 'creating-new-interaction']).isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
   selected: PropTypes.bool,
   onClick: PropTypes.func,

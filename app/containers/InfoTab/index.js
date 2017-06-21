@@ -20,12 +20,14 @@ import ContactsControl from 'containers/ContactsControl';
 import ContactHeader from 'components/ContactHeader';
 import NotificationBanner from 'components/NotificationBanner';
 
-import { setContactMode, resetForm } from 'containers/AgentDesktop/actions';
-import { setShowCancelDialog, setShowConfirmDialog, editContact } from 'containers/ContactsControl/actions';
+import { setContactAction } from 'containers/AgentDesktop/actions';
+import { setShowCancelDialog, setShowConfirmDialog, setFormIsDirty, setFormValidity, resetForm } from 'containers/ContactsControl/actions';
 
-import selectInfoTab, { selectCurrentInteraction, selectNotifications,
+import selectInfoTab, { selectCurrentInteraction, selectCheckedContacts,
+  selectContactMode, selectEditingContact, selectNotifications,
   selectNextNotificationId, selectCRMUnavailable } from './selectors';
-import { addNotification, dismissNotification, setLoading, setConfirmingDelete } from './actions';
+import { clearSearchResults, clearCheckedContacts, setContactMode,
+  setEditingContact, addNotification, dismissNotification, setLoading, setConfirmingDelete } from './actions';
 import messages from './messages';
 
 export class InfoTab extends BaseComponent {
@@ -71,19 +73,27 @@ export class InfoTab extends BaseComponent {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    const interactionChanged = (nextProps.selectedInteraction.interactionId !== this.props.selectedInteraction.interactionId);
+    if (interactionChanged) {
+      this.setNotEditing();
+    }
+  }
+
   setSearching = () => {
-    this.props.setContactMode(this.props.selectedInteraction.interactionId, 'search');
+    this.props.setContactAction(this.props.selectedInteraction.interactionId, 'search');
   }
 
   editAssignedContact = () => {
-    this.props.editContact(this.props.selectedInteraction.interactionId, this.props.selectedInteraction.contact);
+    this.props.setEditingContact({});
+    this.props.setContactMode('edit');
   }
 
-  setNotEditing = (goTo) => {
-    const newMode = goTo === 'view' ? 'view' : 'search';
-    this.props.setContactMode(this.props.selectedInteraction.interactionId, newMode);
-    this.props.resetForm(this.props.selectedInteraction.interactionId);
-    this.props.setShowCancelDialog(false);
+  setNotEditing = () => {
+    this.props.setContactMode();
+    this.props.setEditingContact({});
+    this.props.clearCheckedContacts();
+    this.props.resetForm();
   }
 
   addNotification = (messageType, isError, errorType) => {
@@ -111,7 +121,10 @@ export class InfoTab extends BaseComponent {
     if (this.props.crmUnavailable) {
       return this.crmUnavailableBanner();
     }
-    const showCheckboxes = this.props.selectedInteraction.contactMode === 'search';
+    const showCheckboxes = (
+      this.props.selectedInteraction.contactAction === 'search'
+      && !this.props.contactMode
+    );
     return (
       <div style={[this.props.style, this.styles.base]}>
         {
@@ -129,8 +142,9 @@ export class InfoTab extends BaseComponent {
           )
         }
         <ContactHeader
+          contactAction={this.props.selectedInteraction.contactAction}
+          contactMode={this.props.contactMode}
           editAssignedContact={this.editAssignedContact}
-          contactMode={this.props.selectedInteraction.contactMode}
           setSearching={this.setSearching}
           showControls={this.props.selectedInteraction.interactionId !== 'creating-new-interaction'}
         />
@@ -148,24 +162,36 @@ export class InfoTab extends BaseComponent {
 InfoTab.propTypes = {
   crmUnavailable: React.PropTypes.string,
   style: React.PropTypes.object,
+  clearSearchResults: React.PropTypes.func,
+  clearCheckedContacts: React.PropTypes.func,
   selectedInteraction: React.PropTypes.object,
-  setContactMode: React.PropTypes.func,
+  setContactAction: React.PropTypes.func,
+  contactMode: React.PropTypes.string,
   query: React.PropTypes.array,
+  deletionPending: React.PropTypes.bool,
   setLoading: React.PropTypes.func,
   setConfirmingDelete: React.PropTypes.func,
+  setContactMode: React.PropTypes.func,
+  setEditingContact: React.PropTypes.func,
   setShowCancelDialog: React.PropTypes.func,
+  setFormIsDirty: React.PropTypes.func,
+  setFormValidity: React.PropTypes.func,
   resetForm: React.PropTypes.func,
   nextNotificationId: React.PropTypes.number,
+  checkedContacts: React.PropTypes.array,
   dismissNotification: React.PropTypes.func,
   addNotification: React.PropTypes.func,
   notifications: React.PropTypes.array,
-  editContact: React.PropTypes.func,
+  editingContact: React.PropTypes.object,
 };
 
 function mapStateToProps(state, props) {
   return {
     crmUnavailable: selectCRMUnavailable(state, props),
     selectedInteraction: selectCurrentInteraction(state, props),
+    checkedContacts: selectCheckedContacts(state, props),
+    contactMode: selectContactMode(state, props),
+    editingContact: selectEditingContact(state, props),
     nextNotificationId: selectNextNotificationId(state, props),
     notifications: selectNotifications(state, props),
     ...selectInfoTab(state, props),
@@ -174,16 +200,21 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    setCriticalError: () => dispatch(setCriticalError()),
+    clearSearchResults: () => dispatch(clearSearchResults()),
+    clearCheckedContacts: () => dispatch(clearCheckedContacts()),
+    setContactMode: (contactMode) => dispatch(setContactMode(contactMode)),
+    setEditingContact: (editingContact) => dispatch(setEditingContact(editingContact)),
     addNotification: (notification) => dispatch(addNotification(notification)),
     dismissNotification: (id) => dispatch(dismissNotification(id)),
     setLoading: (loading) => dispatch(setLoading(loading)),
     setConfirmingDelete: (confirmingDelete) => dispatch(setConfirmingDelete(confirmingDelete)),
     setShowCancelDialog: (showCancelDialog) => dispatch(setShowCancelDialog(showCancelDialog)),
     setShowConfirmDialog: (showConfirmDialog) => dispatch(setShowConfirmDialog(showConfirmDialog)),
-    setContactMode: (interactionId, newMode) => dispatch(setContactMode(interactionId, newMode)),
+    setContactAction: (interactionId, newAction) => dispatch(setContactAction(interactionId, newAction)),
+    setFormIsDirty: (formIsDirty) => dispatch(setFormIsDirty(formIsDirty)),
+    setFormValidity: (formIsValid) => dispatch(setFormValidity(formIsValid)),
     resetForm: () => dispatch(resetForm()),
-    editContact: (interactionId, contact) => dispatch(editContact(interactionId, contact)),
-    setCriticalError: () => dispatch(setCriticalError()),
     dispatch,
   };
 }

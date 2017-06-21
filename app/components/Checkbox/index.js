@@ -63,11 +63,10 @@ function Checkbox(props) {
   return (
     <span style={props.style}>
       <input
+        style={[styles.checkbox, props.checkboxInputStyle]}
         id={props.id}
-        tabIndex={props.tabIndex}
         name={props.name}
         type="checkbox"
-        style={[styles.checkbox, props.checkboxInputStyle]}
         checked={props.checked}
         disabled={!props.cb}
         onBlur={props.onBlur}
@@ -92,11 +91,6 @@ Checkbox.propTypes = {
   checkboxInputStyle: PropTypes.object,
   id: PropTypes.string.isRequired,
   onBlur: PropTypes.func,
-  tabIndex: PropTypes.number,
-};
-
-Checkbox.defaultProps = {
-  tabIndex: 0,
 };
 
 export default injectIntl(Radium(Checkbox));

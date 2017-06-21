@@ -17,6 +17,7 @@ Object {
   "checkedContacts": Array [],
   "confirmingDelete": false,
   "deletionPending": false,
+  "editingContact": Object {},
   "loading": false,
   "nextNotificationId": 0,
   "nextPage": 1,

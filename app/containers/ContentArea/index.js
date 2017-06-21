@@ -169,9 +169,6 @@ export class ContentArea extends BaseComponent {
         outline: 'none',
       },
     },
-    disabled: {
-      cursor: 'not-allowed',
-    },
     dispositionChipsContainer: {
       flex: '0 1 auto',
       padding: '0 12px 12px',
@@ -398,7 +395,7 @@ export class ContentArea extends BaseComponent {
                   {this.props.from}
                 </div>
                 <div style={this.styles.rightHeaderContainer}>
-                  {this.props.interaction.status !== 'wrapup' && this.props.interaction.status !== 'work-ended-pending-script' &&
+                  {this.props.interaction.status !== 'wrapup' ?
                     <div id="wrapupContainer" style={this.styles.wrapupContainer}>
                       <label htmlFor="wrapupToggle" style={this.styles.toggleWrapupLabel}>
                         <FormattedMessage {...messages.wrapup} />
@@ -417,12 +414,10 @@ export class ContentArea extends BaseComponent {
                         checked={this.props.interaction.wrapupDetails.wrapupEnabled}
                       />
                     </div>
+                    : undefined
                   }
                   <div style={this.styles.buttons}>
-                    {
-                      this.props.interaction.status !== 'work-ended-pending-script' &&
-                      this.props.buttons
-                    }
+                    {this.props.buttons}
                   </div>
                 </div>
               </div>
@@ -444,9 +439,8 @@ export class ContentArea extends BaseComponent {
                 placeholder={formatMessage(messages.notesTitlePlaceholder)}
                 value={this.state.title}
                 onChange={(e) => this.handleChange({ title: e.target.value })}
-                style={[this.styles.notesTitleInput, this.props.interaction.status === 'work-ended-pending-script' && this.styles.disabled]}
+                style={this.styles.notesTitleInput}
                 maxLength="80"
-                readOnly={this.props.interaction.status === 'work-ended-pending-script'}
               />
             </div>
             {
@@ -476,7 +470,7 @@ export class ContentArea extends BaseComponent {
                   )
                 }
                 {
-                  this.props.interaction.dispositionDetails.selected.length === 0 && this.props.interaction.status !== 'work-ended-pending-script'
+                  this.props.interaction.dispositionDetails.selected.length === 0
                     ? [
                       <div
                         onClick={() => this.setState({ showDispositionsList: !this.state.showDispositionsList })}
@@ -519,9 +513,8 @@ export class ContentArea extends BaseComponent {
               placeholder={formatMessage(messages.notesPlaceholder)}
               value={this.state.body}
               onChange={(e) => this.handleChange({ body: e.target.value })}
-              style={[this.styles.notesTextarea, this.props.interaction.status === 'work-ended-pending-script' && this.styles.disabled]}
+              style={this.styles.notesTextarea}
               maxLength="65535"
-              readOnly={this.props.interaction.status === 'work-ended-pending-script'}
             />
           </div>
         </Resizable>

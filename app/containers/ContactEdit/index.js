@@ -14,10 +14,11 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
 
-import { setFormIsDirty, setFormValidity, setShowError, setFormField, setFormError } from 'containers/AgentDesktop/actions';
-import { getSelectedInteractionId } from 'containers/AgentDesktop/selectors';
-import { selectShowCancelDialog, selectFormIsDirty, selectFormValidity, selectContactForm, selectFormErrors, selectShowErrors, selectContactSaveLoading } from 'containers/ContactsControl/selectors';
-import { setShowCancelDialog, submitContactCreate, submitContactEdit } from 'containers/ContactsControl/actions';
+import { removeSearchFilter } from 'containers/AgentDesktop/actions';
+import { selectShowCancelDialog, selectFormIsDirty, selectFormValidity, selectContactForm, selectFormErrors, selectShowErrors } from 'containers/ContactsControl/selectors';
+import { setShowCancelDialog, setFormIsDirty, setFormValidity, setShowError, setFormField, setFormError } from 'containers/ContactsControl/actions';
+import { selectLoading, selectContactMode } from 'containers/InfoTab/selectors';
+import { clearSearchResults, setLoading, setEditingContact } from 'containers/InfoTab/actions';
 
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
@@ -26,10 +27,8 @@ import ContactSectionHeader from 'components/ContactSectionHeader';
 import ContactInput from 'components/ContactInput';
 import Button from 'components/Button';
 import ConfirmDialog from 'components/ConfirmDialog';
-import { formatValue, getError } from 'utils/contact';
 
 import { selectPopulatedLayout } from 'containers/ContactView/selectors';
-import { selectAttributes } from 'containers/ContactSearchBar/selectors';
 import messages from './messages';
 
 const styles = {
@@ -52,49 +51,72 @@ const styles = {
 export class ContactEdit extends BaseComponent {
 
   handleInputChange = (newValue, event) => {
-    this.props.setFormIsDirty(this.props.selectedInteractionId, true);
+    this.props.setFormIsDirty(true);
     this.setAttributeValue(event.target.name, newValue);
   }
 
   handleInputClear = (event) => {
     const targetInputElement = event.target.previousSibling ? event.target.previousSibling : event.target.parentElement.previousSibling;
     const inputName = targetInputElement.name;
-    this.props.setFormIsDirty(this.props.selectedInteractionId, true);
+    this.props.setFormIsDirty(true);
     this.setAttributeValue(inputName, '');
   }
 
   showError = (name) => {
     if (!this.props.showErrors[name]) {
-      this.props.setShowError(this.props.selectedInteractionId, name, true);
+      this.props.setShowError(name, true);
     }
   }
 
   handleOnBlur = (event) => {
-    this.props.setFormValidity(this.props.selectedInteractionId, Object.keys(this.props.formErrors).every((key) => !this.props.formErrors[key]));
+    this.props.setFormValidity(Object.keys(this.props.formErrors).every((key) => !this.props.formErrors[key]));
     this.showError(event.target.name);
   }
 
   handleSave = () => {
-    switch (this.props.contactMode) {
-      case 'create':
-        this.props.submitContactCreate(this.props.selectedInteractionId);
-        break;
-      case 'edit':
-      default:
-        this.props.submitContactEdit(this.props.selectedInteractionId);
-        break;
+    this.props.setLoading(true);
+    if (this.props.contactMode === 'edit') {
+      CxEngage.contacts.update({ contactId: this.props.contactId, attributes: this.props.contactForm }, this.updateCallback);
+      // TODO: handle errors
+    } else {
+      CxEngage.contacts.create({ attributes: this.props.contactForm }, this.createCallback);
+      // TODO: handle errors
+    }
+  }
+
+  createCallback = (error, topic, response) => {
+    console.log('[Contact] CxEngage.subscribe()', topic, response);
+    if (error) {
+      this.props.addNotification('notCreated', true, 'serverError'); // TODO: when notifications are ready, get error from response?
+      this.props.setLoading(false);
+      console.error(error);
+    } else {
+      this.props.assignContact(response);
+      this.props.setNotEditing();
+    }
+  }
+
+  updateCallback = (error, topic, response) => {
+    console.log('[Contact] CxEngage.subscribe()', topic, response);
+    this.props.setLoading(false);
+    if (error) {
+      this.props.addNotification('notSaved', true, 'serverError'); // TODO: when notifications are ready, get error from response?
+      console.error(error);
+    } else {
+      this.props.setNotEditing();
+      this.props.clearSearchResults();
+      this.props.addNotification('saved', false);
     }
   }
 
   setAttributeValue = (name, newValue) => {
-    const attribute = this.props.attributes.find((attr) => attr.objectName === name);
     const stateUpdate = { ...this.props.formErrors };
-    const cleanedInput = formatValue(attribute, newValue);
-    const newError = getError(attribute, cleanedInput);
+    const cleanedInput = this.props.formatValue(name, newValue);
+    const newError = this.props.getError(name, cleanedInput);
     stateUpdate[name] = newError;
-    this.props.setFormField(this.props.selectedInteractionId, name, cleanedInput);
-    this.props.setFormError(this.props.selectedInteractionId, name, newError);
-    this.props.setFormValidity(this.props.selectedInteractionId, Object.keys(stateUpdate).every((key) => !stateUpdate[key]));
+    this.props.setFormField(name, cleanedInput);
+    this.props.setFormError(name, this.props.getError(name, cleanedInput));
+    this.props.setFormValidity(Object.keys(stateUpdate).every((key) => !stateUpdate[key]));
   }
 
   getSection = (section) =>
@@ -111,6 +133,7 @@ export class ContactEdit extends BaseComponent {
         handleInputChange={this.handleInputChange}
         handleOnBlur={this.handleOnBlur}
         handleInputClear={this.handleInputClear}
+        formatValue={this.props.formatValue}
         attribute={attribute}
         attributeLabel={attributeLabel}
         intl={this.props.intl}
@@ -160,6 +183,7 @@ export class ContactEdit extends BaseComponent {
 }
 
 const mapStateToProps = (state, props) => ({
+  contactMode: selectContactMode(state, props),
   layoutSections: selectPopulatedLayout(state, props),
   showCancelDialog: selectShowCancelDialog(state, props),
   formIsDirty: selectFormIsDirty(state, props),
@@ -167,30 +191,32 @@ const mapStateToProps = (state, props) => ({
   contactForm: selectContactForm(state, props),
   formErrors: selectFormErrors(state, props),
   showErrors: selectShowErrors(state, props),
-  loading: selectContactSaveLoading(state, props),
-  attributes: selectAttributes(state, props).toJS(),
-  selectedInteractionId: getSelectedInteractionId(state, props),
+  loading: selectLoading(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
     setShowCancelDialog: (showCancelDialog) => dispatch(setShowCancelDialog(showCancelDialog)),
-    setFormIsDirty: (interactionId, formIsDirty) => dispatch(setFormIsDirty(interactionId, formIsDirty)),
-    setFormValidity: (interactionId, formIsValid) => dispatch(setFormValidity(interactionId, formIsValid)),
-    setShowError: (interactionId, field, error) => dispatch(setShowError(interactionId, field, error)),
-    setFormField: (interactionId, field, value) => dispatch(setFormField(interactionId, field, value)),
-    setFormError: (interactionId, field, error) => dispatch(setFormError(interactionId, field, error)),
-    submitContactCreate: (interactionId) => dispatch(submitContactCreate(interactionId)),
-    submitContactEdit: (interactionId) => dispatch(submitContactEdit(interactionId)),
+    setLoading: (loading) => dispatch(setLoading(loading)),
+    clearSearchResults: () => dispatch(clearSearchResults()),
+    setFormIsDirty: (formIsDirty) => dispatch(setFormIsDirty(formIsDirty)),
+    setFormValidity: (formIsValid) => dispatch(setFormValidity(formIsValid)),
+    setShowError: (field, error) => dispatch(setShowError(field, error)),
+    setFormField: (field, value) => dispatch(setFormField(field, value)),
+    setFormError: (field, error) => dispatch(setFormError(field, error)),
+    removeSearchFilter: () => dispatch(removeSearchFilter()),
+    setEditingContact: (contact) => dispatch(setEditingContact(contact)),
     dispatch,
   };
 }
 
 ContactEdit.propTypes = {
+  getError: PropTypes.func.isRequired,
+  formatValue: PropTypes.func.isRequired,
   edit: PropTypes.func,
   layoutSections: PropTypes.array,
-  attributes: PropTypes.array,
+  contactId: PropTypes.string,
   loading: PropTypes.bool,
   intl: intlShape.isRequired,
   style: PropTypes.object,
@@ -201,18 +227,20 @@ ContactEdit.propTypes = {
   showErrors: PropTypes.object,
   setShowError: PropTypes.func,
   formErrors: PropTypes.object,
+  setLoading: PropTypes.func,
   contactForm: PropTypes.object,
   setNotEditing: PropTypes.func,
   addNotification: PropTypes.func,
+  assignContact: PropTypes.func.isRequired,
+  clearSearchResults: PropTypes.func,
   setFormField: PropTypes.func,
   setFormError: PropTypes.func,
   setShowCancelDialog: PropTypes.func,
   formIsValid: PropTypes.bool,
   formIsDirty: PropTypes.bool,
-  submitContactCreate: PropTypes.func,
-  submitContactEdit: PropTypes.func,
+  removeSearchFilter: PropTypes.func,
+  setEditingContact: PropTypes.func,
   contactMode: PropTypes.string,
-  selectedInteractionId: PropTypes.string,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactEdit)));

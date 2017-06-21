@@ -15,6 +15,9 @@ import {
   CHECK_CONTACT,
   UNCHECK_CONTACT,
   CLEAR_CHECKED_CONTACTS,
+  SET_CONTACT_MODE,
+  SET_EDITING_CONTACT,
+  NEW_CONTACT,
   ADD_NOTIFICATION,
   DISMISS_NOTIFICATION,
   SET_LOADING,
@@ -59,6 +62,26 @@ export function uncheckContact(contact) {
 export function clearCheckedContacts() {
   return {
     type: CLEAR_CHECKED_CONTACTS,
+  };
+}
+
+export function setContactMode(contactMode) {
+  return {
+    type: SET_CONTACT_MODE,
+    contactMode,
+  };
+}
+
+export function setEditingContact(editingContact) {
+  return {
+    type: SET_EDITING_CONTACT,
+    editingContact,
+  };
+}
+
+export function newContact() {
+  return {
+    type: NEW_CONTACT,
   };
 }
 

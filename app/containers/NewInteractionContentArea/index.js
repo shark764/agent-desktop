@@ -16,7 +16,8 @@ import Radium from 'radium';
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
 
-import { closeNewInteractionPanel, setContactMode } from 'containers/AgentDesktop/actions';
+import { closeNewInteractionPanel } from 'containers/AgentDesktop/actions';
+import { setContactMode } from 'containers/InfoTab/actions';
 
 import Button from 'components/Button';
 
@@ -46,6 +47,11 @@ const styles = {
 
 export class NewInteractionContentArea extends BaseComponent {
 
+  closeNewInteractionPanel = () => {
+    this.props.closeNewInteractionPanel();
+    this.props.setContactMode();
+  }
+
   render() {
     return (
       <div style={styles.base}>
@@ -55,7 +61,7 @@ export class NewInteractionContentArea extends BaseComponent {
             type="secondary"
             style={styles.button}
             text={messages.cancel}
-            onClick={this.props.closeNewInteractionPanel}
+            onClick={this.closeNewInteractionPanel}
           />
         </div>
         <div style={styles.contacts}>
@@ -70,7 +76,7 @@ function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
     closeNewInteractionPanel: () => dispatch(closeNewInteractionPanel()),
-    setContactMode: (interactionId, newMode) => dispatch(setContactMode(interactionId, newMode)),
+    setContactMode: (contactMode) => dispatch(setContactMode(contactMode)),
     dispatch,
   };
 }

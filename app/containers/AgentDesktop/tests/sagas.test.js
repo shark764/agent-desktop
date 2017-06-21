@@ -197,6 +197,7 @@ describe('goDeleteContacts', () => {
   describe('when action.reasonIds is an array of Ids', () => {
     beforeEach(() => {
       generator = goDeleteContacts();
+      generator.next(1);
       generator.next();
       generator.next();
       generator.next();

@@ -14,16 +14,17 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import './react-select.css';
 
-const styles = {
-  base: {
-    height: '44px',
-    backgroundColor: '#FFFFFF',
-    border: '1px solid #979797',
-    borderRadius: '2px',
-  },
-};
 
 function Select(props) {
+  const styles = {
+    base: {
+      height: '44px',
+      backgroundColor: '#FFFFFF',
+      border: '1px solid #979797',
+      borderRadius: '2px',
+    },
+  };
+
   return (
     <div id={props.type}>
       <TetheredSelect

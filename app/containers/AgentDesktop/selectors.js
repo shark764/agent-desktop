@@ -17,7 +17,7 @@ const selectIsAgentReady = createSelector(
   (agentDesktop) => agentDesktop.get('presence') === 'ready'
 );
 
-const selectInteractionsList = createSelector(
+const selectInteractions = createSelector(
   selectAgentDesktopMap,
   (agentDesktop) => agentDesktop.get('interactions')
 );
@@ -26,6 +26,7 @@ const getSelectedInteractionId = createSelector(
   selectAgentDesktopMap,
   (agentDesktop) => agentDesktop.get('selectedInteractionId')
 );
+
 const selectNewInteractionPanel = createSelector(
   selectAgentDesktopMap,
   (agentDesktop) => agentDesktop.get('newInteractionPanel')
@@ -35,18 +36,8 @@ const selectQueues = createSelector(
   (agentDesktop) => agentDesktop.get('queues').toJS()
 );
 
-const selectNoInteractionContactPanel = createSelector(
-  selectAgentDesktopMap,
-  (agentDesktop) => agentDesktop.get('noInteractionContactPanel').toJS()
-);
-
-const selectNewInteractionContactPanel = createSelector(
-  selectAgentDesktopMap,
-  (agentDesktop) => agentDesktop.get('newInteractionPanel').toJS()
-);
-
 const selectSelectedInteraction = createSelector(
-  [selectNewInteractionPanel, selectInteractionsList, getSelectedInteractionId],
+  [selectNewInteractionPanel, selectInteractions, getSelectedInteractionId],
   (newInteractionPanel, interactions, selectedInteractionId) => {
     if (selectedInteractionId !== undefined) {
       if (selectedInteractionId === 'creating-new-interaction') {
@@ -73,14 +64,14 @@ const selectAwaitingDisposition = createSelector(
 );
 
 const selectHasVoiceInteraction = createSelector(
-  selectInteractionsList,
+  selectInteractions,
   (interactions) => interactions.findIndex(
     (interaction) => (interaction.get('channelType') === 'voice')
   ) !== -1
 );
 
 const selectSmsInteractionNumbers = createSelector(
-  selectInteractionsList,
+  selectInteractions,
   (interactions) => {
     const smsInteractionNumbers = [];
     interactions.forEach((interaction) => {
@@ -100,12 +91,10 @@ const selectIsContactsPanelCollapsed = createSelector(
 export {
   selectAgentId,
   selectIsAgentReady,
-  selectInteractionsList,
+  selectInteractions,
   getSelectedInteractionId,
   selectLoginMap,
   selectAgentDesktopMap,
-  selectNoInteractionContactPanel,
-  selectNewInteractionContactPanel,
   selectSelectedInteraction,
   selectAwaitingDisposition,
   selectHasVoiceInteraction,

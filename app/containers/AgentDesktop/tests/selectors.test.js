@@ -4,7 +4,7 @@
 
 import { fromJS } from 'immutable';
 import {
-  selectInteractionsList,
+  selectInteractions,
   selectLoginMap,
   selectAgentDesktopMap,
   selectAgentId,
@@ -12,7 +12,7 @@ import {
 } from '../selectors';
 
 
-describe('selectInteractionsList', () => {
+describe('selectInteractions', () => {
   it('should select interactions on the AgentDesktop domain', () => {
     const mockInteractions = [{ interactionId: 'mockId' }];
     const mockedState = fromJS({
@@ -20,7 +20,7 @@ describe('selectInteractionsList', () => {
         interactions: mockInteractions,
       },
     });
-    expect(selectInteractionsList(mockedState)).toMatchSnapshot();
+    expect(selectInteractions(mockedState)).toMatchSnapshot();
   });
 });
 

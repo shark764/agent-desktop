@@ -26,8 +26,4 @@ export default defineMessages({
     id: 'app.containers.InteractionsBar.cancelInteraction',
     defaultMessage: 'CANCEL',
   },
-  pendingScript: {
-    id: 'app.containers.InteractionsBar.pendingScript',
-    defaultMessage: 'Pending script',
-  },
 });

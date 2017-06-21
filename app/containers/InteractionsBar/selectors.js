@@ -21,7 +21,6 @@ const selectActiveNonVoiceInteractions = createSelector(
       interaction.status === 'work-accepting' ||
       interaction.status === 'work-accepted' ||
       interaction.status === 'wrapup' ||
-      interaction.status === 'work-ended-pending-script' ||
       interaction.status === 'creating-new-interaction' ||
       interaction.status === 'connecting-to-outbound' ||
       interaction.status === 'initializing-outbound' ||
@@ -37,8 +36,7 @@ const selectActiveVoiceInteraction = createSelector(
       (
         interaction.status === 'work-accepting' ||
         interaction.status === 'work-accepted' ||
-        interaction.status === 'wrapup' ||
-        interaction.status === 'work-ended-pending-script'
+        interaction.status === 'wrapup'
       ) && interaction.channelType === 'voice'
   )
 );

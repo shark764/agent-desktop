@@ -4,8 +4,6 @@ exports[`<Button /> when button is icon should render correctly 1`] = `
 <button
   data-radium={true}
   id="mockId"
-  onBlur={[Function]}
-  onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
   onMouseDown={[Function]}
@@ -40,8 +38,6 @@ exports[`<Button /> when it has children should render correctly 1`] = `
 <button
   data-radium={true}
   id="mockId"
-  onBlur={[Function]}
-  onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
   onMouseDown={[Function]}
@@ -76,8 +72,6 @@ exports[`<Button /> when passed a border style should render correctly 1`] = `
 <button
   data-radium={true}
   id="mockId"
-  onBlur={[Function]}
-  onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
   onMouseDown={[Function]}
@@ -109,8 +103,6 @@ exports[`<Button /> when passed mouseOverText and is hovered should render corre
 <button
   data-radium={true}
   id="mockId"
-  onBlur={[Function]}
-  onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
   onMouseDown={[Function]}
@@ -147,8 +139,6 @@ exports[`<Button /> when passed text as a obj should render correctly 1`] = `
 <button
   data-radium={true}
   id="mockId"
-  onBlur={[Function]}
-  onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
   onMouseDown={[Function]}
@@ -185,8 +175,6 @@ exports[`<Button /> when passed text as a string should render correctly 1`] = `
 <button
   data-radium={true}
   id="mockId"
-  onBlur={[Function]}
-  onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
   onMouseDown={[Function]}
@@ -220,8 +208,6 @@ exports[`<Button /> with type primaryBlue and disabled should render correctly 1
   data-radium={true}
   disabled={true}
   id="mockId"
-  onBlur={[Function]}
-  onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
   onMouseDown={[Function]}
@@ -252,8 +238,6 @@ exports[`<Button /> with type primaryBlue should render correctly 1`] = `
 <button
   data-radium={true}
   id="mockId"
-  onBlur={[Function]}
-  onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
   onMouseDown={[Function]}
@@ -285,8 +269,6 @@ exports[`<Button /> with type primaryBlueBig and disabled should render correctl
   data-radium={true}
   disabled={true}
   id="mockId"
-  onBlur={[Function]}
-  onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
   onMouseDown={[Function]}
@@ -317,8 +299,6 @@ exports[`<Button /> with type primaryBlueBig should render correctly 1`] = `
 <button
   data-radium={true}
   id="mockId"
-  onBlur={[Function]}
-  onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
   onMouseDown={[Function]}
@@ -350,8 +330,6 @@ exports[`<Button /> with type primaryRed and disabled should render correctly 1`
   data-radium={true}
   disabled={true}
   id="mockId"
-  onBlur={[Function]}
-  onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
   onMouseDown={[Function]}
@@ -382,8 +360,6 @@ exports[`<Button /> with type primaryRed should render correctly 1`] = `
 <button
   data-radium={true}
   id="mockId"
-  onBlur={[Function]}
-  onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
   onMouseDown={[Function]}
