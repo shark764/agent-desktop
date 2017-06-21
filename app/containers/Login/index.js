@@ -163,33 +163,6 @@ export class Login extends BaseComponent {
     };
   }
 
-  componentWillMount() {
-    window.addEventListener('keydown', this.handleKeyPress);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyPress);
-  }
-
-  handleKeyPress = (e) => {
-    // keyCode 13 === ENTER KEY
-    if (
-      e.keyCode === 13 &&
-      !this.props.loading &&
-      !this.state.requestingPassword
-    ) {
-      if (
-        this.props.logged_in &&
-        this.props.agent &&
-        this.props.agent.tenants.length > 1
-      ) {
-        this.onTenantSelect();
-      } else {
-        this.onLogin();
-      }
-    }
-  };
-
   getLoginTitle = () => {
     const parts = location.hostname.split('.');
     if (parts[0].indexOf('mitel') !== -1) {
@@ -607,7 +580,6 @@ export class Login extends BaseComponent {
                   this.setLocalLocale(e.value);
                   this.toggleLanguageMenu();
                 }}
-                autoFocus
                 clearable={false}
               />
             </PopupDialog>

@@ -47,6 +47,7 @@ exports[`<Select /> should render correctly 1`] = `
         "height": "44px",
       }
     }
+    tabIndex="0"
     tabSelectsValue={true}
     valueComponent={[Function]}
     valueKey="value"
