@@ -231,7 +231,10 @@ export function* goAssignContact(action) {
   } else if (interaction.interactionId === 'creating-new-interaction') {
     yield put(newInteractionPanelSelectContact(action.contact));
     yield put(showContactsPanel());
-  } else if (!isUUID(interaction.interactionId)) {
+  } else if (
+    !isUUID(interaction.interactionId) ||
+    interaction.status === 'script-only'
+  ) {
     yield put(setAssignedContact(interaction.interactionId, action.contact));
   } else {
     try {

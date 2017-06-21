@@ -387,10 +387,19 @@ describe('agentDesktopReducer', () => {
     });
     describe('interaction is not there', () => {
       beforeEach(() => {
-        action.interactionId = 'not-the-right-id';
+        initialState.selectedInteractionId = 'test-interaction-id';
+        action.interactionId = 'new-interaction-id';
       });
-      it('does nothing', () => {
+      it('adds a "script-only" interaction', () => {
         runReducerAndExpectSnapshot();
+      });
+      describe('no existing/selected interactions', () => {
+        beforeEach(() => {
+          initialState = { interactions: [] };
+        });
+        it('adds also selects the interaction', () => {
+          runReducerAndExpectSnapshot();
+        });
       });
     });
   });

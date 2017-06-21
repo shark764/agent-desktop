@@ -11,23 +11,31 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   accept: {
-    id: 'app.containers.InteractionsBar.accept',
+    id: 'app.containers.Interaction.accept',
     defaultMessage: 'Click to accept interaction',
   },
   PSTN: {
-    id: 'app.containers.InteractionsBar.PSTN',
+    id: 'app.containers.Interaction.PSTN',
     defaultMessage: 'Answer phone to accept interaction',
   },
   wrapup: {
-    id: 'app.containers.InteractionsBar.wrapup',
+    id: 'app.containers.Interaction.wrapup',
     defaultMessage: 'WRAP UP',
   },
   cancelInteraction: {
-    id: 'app.containers.InteractionsBar.cancelInteraction',
+    id: 'app.containers.Interaction.cancelInteraction',
     defaultMessage: 'CANCEL',
   },
   pendingScript: {
-    id: 'app.containers.InteractionsBar.pendingScript',
+    id: 'app.containers.Interaction.pendingScript',
     defaultMessage: 'Pending script',
+  },
+  newInteraction: {
+    id: 'app.containers.Interaction.newInteraction',
+    defaultMessage: 'New Interaction',
+  },
+  script: {
+    id: 'app.containers.Interaction.script',
+    defaultMessage: 'Script',
   },
 });

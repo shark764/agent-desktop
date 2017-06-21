@@ -1,3 +1,6 @@
+### [0.43.0] (2017-06-28)
+* CXV1-9981 - Show script by itself it it is received before or after an interaction.
+
 ### [0.42.14] (2017-06-28)
 * BUGFIX - Ignore SDK error 14000 (failed to save logs)
 

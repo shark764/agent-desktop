@@ -35,6 +35,7 @@ import {
   getSelectedInteractionId,
   getSelectedInteractionIsVoice,
   getSelectedInteractionScript,
+  getSelectedInteractionIsScriptOnly,
   getHasAssignedContact,
   getSelectedTabIndex,
 } from './selectors';
@@ -129,6 +130,10 @@ export class SidePanel extends React.Component {
   };
 
   render() {
+    const renderScriptTab =
+      !this.props.selectedInteractionIsVoice &&
+      this.props.selectedInteractionScript !== undefined &&
+      !this.props.selectedInteractionIsScriptOnly;
     return (
       <div
         style={[
@@ -170,17 +175,14 @@ export class SidePanel extends React.Component {
               <Tab>
                 <FormattedMessage {...messages.infoTab} />
               </Tab>
-              {this.props.hasAssignedContact
-                ? <Tab>
+              {this.props.hasAssignedContact &&
+                <Tab>
                   <FormattedMessage {...messages.historyTab} />
-                </Tab>
-                : undefined}
-              {!this.props.selectedInteractionIsVoice &&
-                this.props.selectedInteractionScript !== undefined
-                ? <Tab>
+                </Tab>}
+              {renderScriptTab &&
+                <Tab>
                   <FormattedMessage {...messages.scriptsTab} />
-                </Tab>
-                : undefined}
+                </Tab>}
             </TabList>
             <TabPanel>
               <InfoTab
@@ -188,22 +190,19 @@ export class SidePanel extends React.Component {
                 style={this.styles.rightMargin}
               />
             </TabPanel>
-            {this.props.hasAssignedContact
-              ? <TabPanel>
+            {this.props.hasAssignedContact &&
+              <TabPanel>
                 <ContactInteractionHistory />
-              </TabPanel>
-              : undefined}
-            {!this.props.selectedInteractionIsVoice &&
-              this.props.selectedInteractionScript !== undefined
-              ? <TabPanel>
+              </TabPanel>}
+            {renderScriptTab &&
+              <TabPanel>
                 <div style={this.styles.agentScriptPanel}>
                   <AgentScript
                     interactionId={this.props.selectedInteractionId}
                     script={this.props.selectedInteractionScript}
                   />
                 </div>
-              </TabPanel>
-              : undefined}
+              </TabPanel>}
           </Tabs>
         </div>
       </div>
@@ -216,6 +215,10 @@ function mapStateToProps(state, props) {
     selectedInteractionId: getSelectedInteractionId(state, props),
     selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
     selectedInteractionScript: getSelectedInteractionScript(state, props),
+    selectedInteractionIsScriptOnly: getSelectedInteractionIsScriptOnly(
+      state,
+      props
+    ),
     hasAssignedContact: getHasAssignedContact(state, props),
     selectedTabIndex: getSelectedTabIndex(state, props),
   };
@@ -241,6 +244,7 @@ SidePanel.propTypes = {
   selectedInteractionId: PropTypes.string,
   selectedInteractionIsVoice: PropTypes.bool,
   selectedInteractionScript: PropTypes.object,
+  selectedInteractionIsScriptOnly: PropTypes.bool,
   selectedTabIndex: PropTypes.number.isRequired,
   hasAssignedContact: PropTypes.bool.isRequired,
   setSidePanelTabIndex: PropTypes.func.isRequired,

@@ -6,6 +6,7 @@ export default [
   'cxengage/authentication/login-response', // Handled in Login component
   'cxengage/entities/get-users-response', // Handled in TransferMenu
   'cxengage/entities/get-transfer-lists-response', // Handled in TransferMenu
+  'cxengage/logging/logs-saved', // Ignore
   'cxengage/interactions/accept-acknowledged', // Using cxengage/interactions/work-accepted instead
   'cxengage/interactions/end-acknowledged', // Using cxengage/interactions/work-ended instead
   'cxengage/interactions/email/attachment-received', // Handled in callback of cxengage/interactions/email/details-received

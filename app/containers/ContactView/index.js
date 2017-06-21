@@ -156,7 +156,8 @@ export class ContactView extends React.Component {
     const inInteractionContext =
       this.props.selectedInteraction &&
       this.props.selectedInteraction.interactionId &&
-      !this.props.selectedInteractionIsCreatingNewInteraction;
+      !this.props.selectedInteractionIsCreatingNewInteraction &&
+      this.props.selectedInteraction.status !== 'script-only';
     return (
       <div style={[this.props.style, styles.base]}>
         <div style={styles.header}>

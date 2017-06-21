@@ -154,7 +154,9 @@ export class InfoTab extends React.Component {
           setSearching={this.setSearching}
           showControls={
             this.props.selectedInteraction.interactionId !==
-            'creating-new-interaction'
+              'creating-new-interaction' &&
+            this.props.selectedInteraction.status !==
+              'work-ended-pending-script'
           }
         />
         <div

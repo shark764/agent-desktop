@@ -138,13 +138,66 @@ Object {
 }
 `;
 
-exports[`agentDesktopReducer ADD_SCRIPT interaction is not there does nothing 1`] = `
+exports[`agentDesktopReducer ADD_SCRIPT interaction is not there adds a "script-only" interaction 1`] = `
 Object {
   "interactions": Array [
     Object {
       "interactionId": "test-interaction-id",
     },
+    Object {
+      "activeContactForm": Object {
+        "contactForm": Object {},
+        "editingContacts": Array [],
+        "formErrors": Object {},
+        "formIsDirty": false,
+        "formIsValid": false,
+        "saveLoading": false,
+        "selectedIndexes": Object {},
+        "showErrors": Object {},
+        "unusedFields": Object {},
+      },
+      "contact": Object {},
+      "interactionId": "new-interaction-id",
+      "isScriptOnly": true,
+      "query": Object {},
+      "script": Object {
+        "scriptItem": "something",
+      },
+      "sidePanelTabIndex": 0,
+      "status": "script-only",
+    },
   ],
+  "selectedInteractionId": "test-interaction-id",
+}
+`;
+
+exports[`agentDesktopReducer ADD_SCRIPT interaction is not there no existing/selected interactions adds also selects the interaction 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "activeContactForm": Object {
+        "contactForm": Object {},
+        "editingContacts": Array [],
+        "formErrors": Object {},
+        "formIsDirty": false,
+        "formIsValid": false,
+        "saveLoading": false,
+        "selectedIndexes": Object {},
+        "showErrors": Object {},
+        "unusedFields": Object {},
+      },
+      "contact": Object {},
+      "interactionId": "new-interaction-id",
+      "isScriptOnly": true,
+      "query": Object {},
+      "script": Object {
+        "scriptItem": "something",
+      },
+      "sidePanelTabIndex": 0,
+      "status": "script-only",
+    },
+  ],
+  "selectedInteractionId": "new-interaction-id",
 }
 `;
 
@@ -196,6 +249,7 @@ exports[`agentDesktopReducer REMOVE_INTERACTION interaction with a script sets t
 Object {
   "interactions": Array [
     Object {
+      "contactMode": "view",
       "interactionId": "test-interaction-id",
       "script": Object {
         "scriptItem": "something",
@@ -327,7 +381,7 @@ Object {
 }
 `;
 
-exports[`agentDesktopReducer SET_INTERACTION_STATUS if action contains a response object sets the appropriate parameters 1`] = `
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if interaction is of channelType 'voice' and action contains a response object sets onHold and recording parameters 1`] = `
 Object {
   "interactions": Array [
     Object {
