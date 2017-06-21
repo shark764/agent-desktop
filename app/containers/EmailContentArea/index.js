@@ -183,11 +183,6 @@ const styles = {
     overflowY: 'auto',
     paddingTop: '15px',
   },
-  toText: {
-    display: 'inline-block',
-    paddingBottom: '2px',
-    paddingTop: '4px',
-  },
 };
 
 export class EmailContentArea extends BaseComponent {
@@ -206,7 +201,7 @@ export class EmailContentArea extends BaseComponent {
       ccInput: '',
       bccs: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.bccs : [],
       bccInput: '',
-      selectedEmailTemplate: [],
+      selectedEmailTemplate: undefined,
       editorState: this.props.selectedInteraction.emailReply
         ? EditorState.createWithContent(stateFromHTML(this.props.selectedInteraction.emailReply.message), decorator)
         : createEditorState(),
@@ -480,7 +475,7 @@ export class EmailContentArea extends BaseComponent {
     let details;
     let content;
 
-    if (this.props.selectedInteraction.sendingReply === true) {
+    if (this.props.selectedInteraction.sendingReply === true && this.props.selectedInteraction.status !== 'work-ended-pending-script') {
       buttons = (
         this.props.selectedInteraction.status === 'wrapup' ?
           (<Button
@@ -752,36 +747,29 @@ export class EmailContentArea extends BaseComponent {
               {
                 this.state.tos.map((to, index) =>
                   <div key={`${index}-${to.address}`} id={`${index}-${to.address}`} style={styles.emailAddress}>
+                    { to.name && to.name !== to.address ? `${to.name} [${to.address}]` : to.address }
                     {
-                      to.name && to.name !== to.address ?
-                        <span style={styles.toText}>
-                          {`${to.name} [${to.address}]`}
-                        </span>
-                      :
-                        <span style={styles.toText}>
-                          {to.address}
-                        </span>
-                    }
-                    {
-                      this.props.selectedInteraction.direction === 'outbound' && index !== 0 ?
-                        <span onClick={() => this.removeTo(to)} style={styles.emailAddressRemove}>
-                          &#10060;
-                        </span>
-                      : undefined
+                      (this.props.selectedInteraction.direction === 'outbound' || index !== 0) && this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
+                      <span onClick={() => this.removeTo(to)} style={styles.emailAddressRemove}>
+                        &#10060;
+                      </span>
                     }
                   </div>
                 )
               }
-              <TextInput
-                id="emailToInput"
-                styleType="inlineInherit"
-                noBorder
-                placeholder="…"
-                value={this.state.toInput}
-                cb={(toInput) => this.setState({ toInput })}
-                onKeyDown={(e) => this.onCommaAddTo(e)}
-                onBlur={() => this.onBlurAddTo()}
-              />
+              {
+                this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
+                <TextInput
+                  id="emailToInput"
+                  styleType="inlineInherit"
+                  noBorder
+                  placeholder="…"
+                  value={this.state.toInput}
+                  cb={(toInput) => this.setState({ toInput })}
+                  onKeyDown={(e) => this.onCommaAddTo(e)}
+                  onBlur={() => this.onBlurAddTo()}
+                />
+              }
             </div>
           </div>
           <div style={styles.inputContainer}>
@@ -793,22 +781,28 @@ export class EmailContentArea extends BaseComponent {
                 this.state.ccs.map((cc, index) =>
                   <div key={`${index}-${cc.address}`} id={`${index}-${cc.address}`} style={styles.emailAddress}>
                     { cc.name && cc.name !== cc.address ? `${cc.name} [${cc.address}]` : cc.address }
-                    <span className="removeAddress" onClick={() => this.removeCc(cc)} style={styles.emailAddressRemove}>
-                      &#10060;
-                    </span>
+                    {
+                      this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
+                      <span className="removeAddress" onClick={() => this.removeCc(cc)} style={styles.emailAddressRemove}>
+                        &#10060;
+                      </span>
+                    }
                   </div>
                 )
               }
-              <TextInput
-                id="emailCcInput"
-                styleType="inlineInherit"
-                noBorder
-                placeholder="…"
-                value={this.state.ccInput}
-                cb={(ccInput) => this.setState({ ccInput })}
-                onKeyDown={(e) => this.onCommaAddCc(e)}
-                onBlur={() => this.onBlurAddCc()}
-              />
+              {
+                this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
+                <TextInput
+                  id="emailCcInput"
+                  styleType="inlineInherit"
+                  noBorder
+                  placeholder="…"
+                  value={this.state.ccInput}
+                  cb={(ccInput) => this.setState({ ccInput })}
+                  onKeyDown={(e) => this.onCommaAddCc(e)}
+                  onBlur={() => this.onBlurAddCc()}
+                />
+              }
             </div>
           </div>
           <div style={styles.inputContainer}>
@@ -820,22 +814,28 @@ export class EmailContentArea extends BaseComponent {
                 this.state.bccs.map((bcc, index) =>
                   <div key={`${index}-${bcc.address}`} id={`${index}-${bcc.address}`} style={styles.emailAddress}>
                     { bcc.name && bcc.name !== bcc.address ? `${bcc.name} [${bcc.address}]` : bcc.address }
-                    <span className="removeAddress" onClick={() => this.removeBcc(bcc)} style={styles.emailAddressRemove}>
-                      &#10060;
-                    </span>
+                    {
+                      this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
+                      <span className="removeAddress" onClick={() => this.removeBcc(bcc)} style={styles.emailAddressRemove}>
+                        &#10060;
+                      </span>
+                    }
                   </div>
                 )
               }
-              <TextInput
-                id="emailBccInput"
-                styleType="inlineInherit"
-                noBorder
-                placeholder="…"
-                value={this.state.bccInput}
-                cb={(bccInput) => this.setState({ bccInput })}
-                onKeyDown={(e) => this.onCommaAddBcc(e)}
-                onBlur={() => this.onBlurAddBcc()}
-              />
+              {
+                this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
+                <TextInput
+                  id="emailBccInput"
+                  styleType="inlineInherit"
+                  noBorder
+                  placeholder="…"
+                  value={this.state.bccInput}
+                  cb={(bccInput) => this.setState({ bccInput })}
+                  onKeyDown={(e) => this.onCommaAddBcc(e)}
+                  onBlur={() => this.onBlurAddBcc()}
+                />
+              }
             </div>
           </div>
           <div style={styles.inputContainer}>
@@ -843,24 +843,31 @@ export class EmailContentArea extends BaseComponent {
               <FormattedMessage {...messages.subject} />
             </div>
             <div style={styles.detailsValue}>
-              <TextInput
-                id="subjectInput"
-                styleType="inlineInherit"
-                placeholder="…"
-                value={this.state.subject}
-                cb={(subject) => this.setState({ subject })}
-                style={{ width: '100%' }}
-              />
+              {
+                this.props.selectedInteraction.status !== 'work-ended-pending-script'
+                ? <TextInput
+                  id="subjectInput"
+                  styleType="inlineInherit"
+                  placeholder="…"
+                  value={this.state.subject}
+                  cb={(subject) => this.setState({ subject })}
+                  style={{ width: '100%' }}
+                  readOnly={this.props.selectedInteraction.status === 'work-ended-pending-script'}
+                />
+                : this.state.subject
+              }
             </div>
           </div>
           {
-            this.props.emailTemplates.length > 0
-              ? <div>
-                <div style={styles.detailsField}>
-                  <FormattedMessage {...messages.template} />
-                </div>
-                <div style={styles.detailsValue}>
-                  <Select
+            this.props.emailTemplates.length > 0 &&
+            <div>
+              <div style={styles.detailsField}>
+                <FormattedMessage {...messages.template} />
+              </div>
+              <div style={styles.detailsValue}>
+                {
+                  this.props.selectedInteraction.status !== 'work-ended-pending-script'
+                  ? <Select
                     id="emailTemplates"
                     style={styles.select}
                     type="inline-small"
@@ -868,10 +875,11 @@ export class EmailContentArea extends BaseComponent {
                     options={emailTemplates}
                     onChange={(e) => this.onTemplateChange(e ? e.value : e)}
                   />
-                </div>
+                  : this.state.selectedEmailTemplate
+                }
               </div>
-              : undefined
-            }
+            </div>
+          }
           <div style={styles.attachmentsContainer}>
             {
               this.props.selectedInteraction.emailReply.attachments.map((attachment, index) =>
@@ -883,27 +891,35 @@ export class EmailContentArea extends BaseComponent {
                       <span style={styles.attachmentName}>
                         {attachment.name}
                       </span>
-                      <span onClick={() => this.removeAttachment(attachment.attachmentId)} style={styles.attachmentRemove}>
-                        &#10060;
-                      </span>
+                      {
+                        this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
+                        <span onClick={() => this.removeAttachment(attachment.attachmentId)} style={styles.attachmentRemove}>
+                          &#10060;
+                        </span>
+                      }
                     </div>
                   }
                 </div>
               )
             }
-            <input id="attachmentFilePicker" type="file" multiple value="" onChange={(e) => this.addFilesToEmail(e.target.files)} style={{ display: 'none' }} />
-            <label id="attachmentFilePickerLabel" htmlFor="attachmentFilePicker">
-              <div style={[styles.attachment, styles.addAttachment]}>
-                <Icon name="attachment" style={styles.attachmentIcon} />
-                {
-                  this.props.selectedInteraction.emailReply.attachments.length === 0
-                  ? <span style={styles.addAttachmentMessage}>
-                    <FormattedMessage {...messages.addAttachment} />
-                  </span>
-                  : undefined
-                }
+            {
+              this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
+              <div>
+                <input id="attachmentFilePicker" type="file" multiple value="" onChange={(e) => this.addFilesToEmail(e.target.files)} style={{ display: 'none' }} />
+                <label id="attachmentFilePickerLabel" htmlFor="attachmentFilePicker">
+                  <div style={[styles.attachment, styles.addAttachment]}>
+                    <Icon name="attachment" style={styles.attachmentIcon} />
+                    {
+                      this.props.selectedInteraction.emailReply.attachments.length === 0
+                      ? <span style={styles.addAttachmentMessage}>
+                        <FormattedMessage {...messages.addAttachment} />
+                      </span>
+                      : undefined
+                    }
+                  </div>
+                </label>
               </div>
-            </label>
+            }
           </div>
         </div>
       );
@@ -930,6 +946,7 @@ export class EmailContentArea extends BaseComponent {
         <div style={styles.richTextEditorContainer}>
           <Editor
             editorState={editorState}
+            editorEnabled={this.props.selectedInteraction.status !== 'work-ended-pending-script'}
             onChange={this.onChange}
             placeholder={this.props.intl.formatMessage(messages.addMessage)}
             sideButtons={[]}

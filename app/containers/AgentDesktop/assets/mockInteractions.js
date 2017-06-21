@@ -304,7 +304,7 @@ const emailInteraction = {
   channelType: 'email',
   interactionId: '0000000-0000-0000-0000-222222222222',
   customer: 'jclowater@serenova.com',
-  status: 'work-accepted', // 'work-offer',
+  status: 'work-accepted', // 'work-offer', 'work-ended-pending-script'
   timeout: Date.now() + 60000,
   dispositionDetails: processedDispositionDetails,
   wrapupDetails: {
@@ -322,6 +322,28 @@ const emailInteraction = {
   },
   // Add sendingReply to mock the state between an email reply being sent and the interaction ending
   // sendingReply: true,
+  // emailReply: {
+  //   tos: [
+  //     {
+  //       address: 'jclowater@serenova.com',
+  //       name: 'Joshua Clowater'
+  //     }
+  //   ],
+  //   ccs: [
+  //     {
+  //       address: 'jclowater@serenova.com',
+  //       name: 'Joshua Clowater'
+  //     },
+  //     {
+  //       address: 'josh.clowater@gmail.com',
+  //       name: 'josh.clowater@gmail.com'
+  //     }
+  //   ],
+  //   bccs: [],
+  //   subject: 'RE: ergerg',
+  //   attachments: [],
+  //   message: ''
+  // },
   emailPlainBody: 'erggregre\r\n\r\nre\r\n\r\n\r\n\r\n        gregr\r\n\r\n\r\n\r\n        ergreg\r\n\r\n',
   emailHtmlBody: '<html><head>\r\n<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">\r\n<style type="text/css" style="display:none;"><!-- P {margin-top:0;margin-bottom:0;} --></style>\r\n</head>\r\n<body dir="ltr">\r\n<div id="divtagdefaultwrapper" style="font-size:12pt;color:#000000;font-family:Calibri,Arial,Helvetica,sans-serif;" dir="ltr">\r\n<p>erggregre</p>\r\n<p>\r\n<table cellspacing="0" role="table" class="ms-rteTable-default" style="border-collapse:collapse; border: 1px solid rgb(198, 198, 198);">\r\n<tbody>\r\n<tr>\r\n<td class="ms-rteTable-default" style="border-collapse: collapse; border: 1px solid rgb(198, 198, 198); width: 120px;">\r\nre</td>\r\n<td class="ms-rteTable-default" style="border-collapse: collapse; border: 1px solid rgb(198, 198, 198); width: 120px;">\r\n<br>\r\n</td>\r\n<td class="ms-rteTable-default" style="border-collapse: collapse; border: 1px solid rgb(198, 198, 198); width: 120px;">\r\n<br>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td class="ms-rteTable-default" style="border-collapse:collapse; border: 1px solid rgb(198, 198, 198);">\r\n<br>\r\n</td>\r\n<td class="ms-rteTable-default" style="border-collapse:collapse; border: 1px solid rgb(198, 198, 198);">\r\ngregr</td>\r\n<td class="ms-rteTable-default" style="border-collapse:collapse; border: 1px solid rgb(198, 198, 198);">\r\n<br>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td class="ms-rteTable-default" style="border-collapse:collapse; border: 1px solid rgb(198, 198, 198);">\r\n<br>\r\n</td>\r\n<td class="ms-rteTable-default" style="border-collapse:collapse; border: 1px solid rgb(198, 198, 198);">\r\n<br>\r\n</td>\r\n<td class="ms-rteTable-default" style="border-collapse:collapse; border: 1px solid rgb(198, 198, 198);">\r\nergreg</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<br>\r\n</p>\r\n</div>\r\n</body>\r\n</html>\r\n',
   emailDetails: {
@@ -650,6 +672,7 @@ const smsInteractionWithLotsOfMessagesAndScript = {
   customerAvatarIndex: 5,
   interactionId: 'smsInteractionWithLotsOfMessagesAndScript',
   status: 'work-accepted',
+  customer: '+15552213456',
   query: {},
   wrapupDetails: {
     wrapupUpdateAllowed: true,

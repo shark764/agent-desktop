@@ -8,7 +8,7 @@ Object {
 }
 `;
 
-exports[`selectInteractions should select interactions on the AgentDesktop domain 1`] = `
+exports[`selectInteractionsList should select interactions on the AgentDesktop domain 1`] = `
 Array [
   Object {
     "interactionId": "mockId",
