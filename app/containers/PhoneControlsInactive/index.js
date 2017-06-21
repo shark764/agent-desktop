@@ -43,6 +43,10 @@ export class PhoneControlsInactive extends BaseComponent {
     this.setState({ showDialpad });
   }
 
+  toggleDialpad = () => {
+    this.setShowDialpad(!this.state.showDialpad);
+  }
+
   phoneNumberUtil = PhoneNumberUtil.getInstance();
 
   setDialpadText = (dialpadText) => {
@@ -99,16 +103,21 @@ export class PhoneControlsInactive extends BaseComponent {
         phoneControlsInactive = (
           <div>
             <div style={this.styles.phoneControlsContainer}>
-              <CircleIconButton id="dialpadButton" name="dialpad" onClick={() => this.setShowDialpad(!this.state.showDialpad)} />
+              <CircleIconButton id="dialpadButton" name="dialpad" onClick={this.toggleDialpad} />
             </div>
             { this.state.showDialpad
-              ? <div>
-                <div style={[this.props.style.topTriangle, this.styles.dialpadTopTriangle]}></div>
-                <div style={[this.props.style.phoneControlsPopupMenu, this.styles.dialpadPhoneControlsPopupMenu]}>
-                  <Dialpad id="dialpad" setDialpadText={this.setDialpadText} dialpadText={this.state.dialpadText} onEnter={this.call} inCall={false} />
-                  <Button id="callButton" text={messages.call} disabled={!this.state.dialpadTextValid} onClick={this.call} type="primaryBlue" style={this.styles.callButton} />
-                </div>
-              </div>
+              ? <Dialpad
+                id="dialpad"
+                setDialpadText={this.setDialpadText}
+                dialpadText={this.state.dialpadText}
+                onEnter={this.call}
+                inCall={false}
+                toggle={this.toggleDialpad}
+                active={false}
+                transfer={false}
+              >
+                <Button id="callButton" text={messages.call} disabled={!this.state.dialpadTextValid} onClick={this.call} type="primaryBlue" style={this.styles.callButton} />
+              </Dialpad>
               : undefined
             }
           </div>

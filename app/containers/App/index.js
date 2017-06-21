@@ -134,7 +134,8 @@ export class App extends React.Component {
     }
 
     // Initialize Remote Logging with Sentry.io
-    if (environment === 'prod') {
+    // Check if environment === 'prod' to re-enable
+    if (false) {
       Raven.config('https://892f9eb6bb314a9da98b98372c518351@sentry.io/169686', {
         release,
         environment,

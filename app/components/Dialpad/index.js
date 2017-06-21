@@ -23,6 +23,52 @@ const styles = {
   dialpadButtonContainer: {
     marginTop: '13px',
   },
+  mask: {
+    position: 'fixed',
+    top: '0px',
+    left: '0px',
+    height: '100vh',
+    width: '100vw',
+    zIndex: '2',
+  },
+  topTriangle: {
+    width: '0px',
+    height: '0px',
+    borderTop: 'none',
+    borderLeft: '8px solid transparent',
+    borderRight: '8px solid transparent',
+    borderBottom: '10px solid white',
+    position: 'absolute',
+    marginTop: '4px',
+    zIndex: 3,
+  },
+  phoneControlsPopupMenu: {
+    width: '282px',
+    margin: '10px 0 0 14px',
+    backgroundColor: '#FFFFFF',
+    color: '#4B4B4B',
+    boxShadow: '0 0 6px 0 rgba(0,0,0,0.23)',
+    borderRadius: '3px',
+    overflow: 'hidden',
+    position: 'absolute',
+    zIndex: 2,
+    padding: '25px 20px 20px',
+  },
+  activeVoiceInteractionDialpadTopTriangle: {
+    marginLeft: '219px',
+  },
+  activeVoiceInteractionDialpadPhoneControlsPopupMenu: {
+    height: '339px',
+  },
+  inactiveVoiceInteractionDialpadTopTriangle: {
+    marginLeft: '134px',
+  },
+  inactiveVoiceInteractionDialpadPhoneControlsPopupMenu: {
+    height: '394px',
+  },
+  transfer: {
+    padding: '24px 12px',
+  },
 };
 
 function Dialpad(props) {
@@ -38,29 +84,53 @@ function Dialpad(props) {
   }
 
   return (
-    <div id={props.id} >
-      <TextInput
-        id={`${props.id}TextInput`}
-        cb={props.setDialpadText}
-        disabled={props.inCall || false}
-        onEnter={props.onEnter}
-        value={props.dialpadText}
-        style={styles.dialpadText}
-        autoFocus
+    <div>
+      <div id="dialpadMask" style={styles.mask} onClick={props.toggle} />
+      <div
+        style={[
+          styles.topTriangle,
+          props.active
+          ? styles.activeVoiceInteractionDialpadTopTriangle
+          : styles.inactiveVoiceInteractionDialpadTopTriangle,
+        ]}
       />
-      <div style={styles.dialpadButtonContainer}>
-        <ButtonDialpad id={`${props.id}1Button`} text="1" type="topLeft" onClick={() => buttonPress('1')} />
-        <ButtonDialpad id={`${props.id}2Button`} text="2" type="top" onClick={() => buttonPress('2')} />
-        <ButtonDialpad id={`${props.id}3Button`} text="3" type="topRight" onClick={() => buttonPress('3')} />
-        <ButtonDialpad id={`${props.id}4Button`} text="4" type="left" onClick={() => buttonPress('4')} />
-        <ButtonDialpad id={`${props.id}5Button`} text="5" type="middle" onClick={() => buttonPress('5')} />
-        <ButtonDialpad id={`${props.id}6Button`} text="6" type="right" onClick={() => buttonPress('6')} />
-        <ButtonDialpad id={`${props.id}7Button`} text="7" type="left" onClick={() => buttonPress('7')} />
-        <ButtonDialpad id={`${props.id}8Button`} text="8" type="middle" onClick={() => buttonPress('8')} />
-        <ButtonDialpad id={`${props.id}9Button`} text="9" type="right" onClick={() => buttonPress('9')} />
-        <ButtonDialpad id={`${props.id}StarButton`} text="*" type="bottomLeft" onClick={() => buttonPress('*')} />
-        <ButtonDialpad id={`${props.id}0Button`} text="0" type="bottom" onClick={() => buttonPress('0')} />
-        <ButtonDialpad id={`${props.id}NumberButton`} text="#" type="bottomRight" onClick={() => buttonPress('#')} />
+      <div
+        style={[
+          styles.phoneControlsPopupMenu,
+          props.active
+          ? styles.activeVoiceInteractionDialpadPhoneControlsPopupMenu
+          : styles.inactiveVoiceInteractionDialpadPhoneControlsPopupMenu,
+          props.transfer
+          ? styles.transfer
+          : undefined,
+        ]}
+      >
+        <div id={props.id} style={{ zIndex: '4' }}>
+          <TextInput
+            id={`${props.id}TextInput`}
+            cb={props.setDialpadText}
+            disabled={props.inCall || false}
+            onEnter={props.onEnter}
+            value={props.dialpadText}
+            style={styles.dialpadText}
+            autoFocus
+          />
+          <div style={styles.dialpadButtonContainer}>
+            <ButtonDialpad id={`${props.id}1Button`} text="1" type="topLeft" onClick={() => buttonPress('1')} />
+            <ButtonDialpad id={`${props.id}2Button`} text="2" type="top" onClick={() => buttonPress('2')} />
+            <ButtonDialpad id={`${props.id}3Button`} text="3" type="topRight" onClick={() => buttonPress('3')} />
+            <ButtonDialpad id={`${props.id}4Button`} text="4" type="left" onClick={() => buttonPress('4')} />
+            <ButtonDialpad id={`${props.id}5Button`} text="5" type="middle" onClick={() => buttonPress('5')} />
+            <ButtonDialpad id={`${props.id}6Button`} text="6" type="right" onClick={() => buttonPress('6')} />
+            <ButtonDialpad id={`${props.id}7Button`} text="7" type="left" onClick={() => buttonPress('7')} />
+            <ButtonDialpad id={`${props.id}8Button`} text="8" type="middle" onClick={() => buttonPress('8')} />
+            <ButtonDialpad id={`${props.id}9Button`} text="9" type="right" onClick={() => buttonPress('9')} />
+            <ButtonDialpad id={`${props.id}StarButton`} text="*" type="bottomLeft" onClick={() => buttonPress('*')} />
+            <ButtonDialpad id={`${props.id}0Button`} text="0" type="bottom" onClick={() => buttonPress('0')} />
+            <ButtonDialpad id={`${props.id}NumberButton`} text="#" type="bottomRight" onClick={() => buttonPress('#')} />
+          </div>
+          {props.children}
+        </div>
       </div>
     </div>
   );
@@ -73,6 +143,10 @@ Dialpad.propTypes = {
   setDialpadText: PropTypes.func.isRequired,
   interactionId: PropTypes.string,
   inCall: PropTypes.bool,
+  children: PropTypes.element,
+  toggle: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired,
+  transfer: PropTypes.bool.isRequired,
 };
 
 export default Radium(Dialpad);

@@ -353,6 +353,10 @@ export class TransferMenu extends BaseComponent {
     this.props.setShowTransferMenu(false);
   }
 
+  toggleDialpad = () => {
+    this.setState({ showTransferListDialpad: !this.state.showTransferListDialpad });
+  }
+
   render() {
     const queues = this.filterTransferListItems(this.props.queues).map((queue) =>
       <div key={queue.name} className="queueTransferListItem" onClick={() => this.transfer(queue.name, undefined, queue.id)} style={this.styles.transferListItem} title={queue.name}>
@@ -510,8 +514,15 @@ export class TransferMenu extends BaseComponent {
             { transferLists }
           </div>
         </div>
-        : <div style={this.styles.dialpadContainer}>
-          <Dialpad id="dialpad" setDialpadText={this.setDialpadText} onEnter={this.transferFromDialpad} dialpadText={this.state.dialpadText} />
+        : <Dialpad
+          id="dialpad"
+          setDialpadText={this.setDialpadText}
+          onEnter={this.transferFromDialpad}
+          dialpadText={this.state.dialpadText}
+          toggle={this.toggleDialpad}
+          active
+          transfer
+        >
           <Button
             id="transferDialpadButton"
             text={this.state.transferTabIndex === 0 ? messages.addParticipant : messages.transfer}
@@ -520,7 +531,7 @@ export class TransferMenu extends BaseComponent {
             type="primaryBlue"
             style={this.styles.transferDialpadButton}
           />
-        </div>
+        </Dialpad>
         }
         <div style={this.styles.dialpadButtonContainer}>
           <CircleIconButton

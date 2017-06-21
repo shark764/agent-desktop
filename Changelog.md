@@ -1,3 +1,8 @@
+### [0.42.3] (2017-06-21)
+* BUGFIX - Remove Sentry.io Logging
+* BUGFIX - Shorten notification banner height, add drop shadow, adjust font size
+* CXV1-9293 - Add Screen mask on dialer popup
+
 ### [0.42.2] (2017-06-21)
 * CXV1-9912 - CRM Panel refactor
 
