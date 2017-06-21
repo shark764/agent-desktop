@@ -8,7 +8,7 @@
  *
  */
 
-import { fromJS, List, Map } from 'immutable';
+import { fromJS, List } from 'immutable';
 import {
   SET_CRM_UNAVAILABLE,
   SET_SEARCH_RESULTS,
@@ -16,9 +16,6 @@ import {
   CHECK_CONTACT,
   UNCHECK_CONTACT,
   CLEAR_CHECKED_CONTACTS,
-  SET_CONTACT_MODE,
-  SET_EDITING_CONTACT,
-  NEW_CONTACT,
   ADD_NOTIFICATION,
   DISMISS_NOTIFICATION,
   SET_LOADING,
@@ -32,7 +29,6 @@ const initialState = fromJS({
   loading: false,
   resultsCount: -1,
   checkedContacts: [],
-  editingContact: {},
   notifications: [],
   nextNotificationId: 0,
   deletionPending: false,
@@ -81,16 +77,6 @@ function infoTabReducer(state = initialState, action) {
     case CLEAR_CHECKED_CONTACTS:
       return state
         .set('checkedContacts', new List());
-    case SET_CONTACT_MODE:
-      return state
-        .set('contactMode', action.contactMode);
-    case SET_EDITING_CONTACT:
-      return state
-        .set('editingContact', fromJS(action.editingContact));
-    case NEW_CONTACT:
-      return state
-        .set('contactMode', 'create')
-        .set('editingContact', new Map());
     case ADD_NOTIFICATION:
       return state
         .set('notifications', state.get('notifications').push(fromJS(action.notification)))

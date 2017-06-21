@@ -9,6 +9,7 @@ export default [
   'cxengage/interactions/accept-acknowledged', // Using cxengage/interactions/work-accepted instead
   'cxengage/interactions/end-acknowledged', // Using cxengage/interactions/work-ended instead
   'cxengage/interactions/email/attachment-received', // Handled in callback of cxengage/interactions/email/details-received
+  'cxengage/interactions/flow-action-acknowledged', // Ignore
   'cxengage/interactions/messaging/initialize-outbound-sms-response', // Handled in MessagingContentArea saga
   'cxengage/interactions/messaging/send-outbound-sms-response', // Handled in MessagingContentArea saga
   'cxengage/interactions/messaging/send-message-acknowledged', // Using cxengage/messaging/new-message-received instead

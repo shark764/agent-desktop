@@ -3,15 +3,16 @@
  */
 
 import { takeEvery, call, put, select } from 'redux-saga/effects';
-import { delay } from 'redux-saga';
 import axios from 'axios';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 
-import { updateContactHistoryInteractionDetails, setContactInteractionHistory, removeContact, selectContact, assignContact, newInteractionPanelSelectContact, setIsCancellingInteraction, showContactsPanel } from 'containers/AgentDesktop/actions';
-import { selectCurrentInteraction, selectNextNotificationId, selectCheckedContacts } from 'containers/InfoTab/selectors';
-import { clearSearchResults, setLoading, addNotification, dismissNotification, setDeletionPending, clearCheckedContacts } from 'containers/InfoTab/actions';
-import { LOAD_HISTORICAL_INTERACTION_BODY, LOAD_CONTACT_INTERACTION_HISTORY, CANCEL_CLICK_TO_DIAL, GO_NOT_READY, DELETE_CONTACTS, ASSIGN_CONTACT_TO_SELECTED } from 'containers/AgentDesktop/constants';
+import { getInteraction } from 'containers/ContactsControl/sagas';
+import { addContactNotification, addContactErrorNotification } from 'containers/ContactsControl/actions';
+import { selectCheckedContacts } from 'containers/InfoTab/selectors';
+import { clearSearchResults, setLoading, setDeletionPending, clearCheckedContacts } from 'containers/InfoTab/actions';
+import { LOAD_HISTORICAL_INTERACTION_BODY, LOAD_CONTACT_INTERACTION_HISTORY, CANCEL_CLICK_TO_DIAL, GO_NOT_READY, DELETE_CONTACTS, ASSIGN_CONTACT } from './constants';
+import { setContactMode, updateContactHistoryInteractionDetails, setContactInteractionHistory, removeContact, selectContact, setAssignedContact, newInteractionPanelSelectContact, setIsCancellingInteraction, showContactsPanel, setContactSaveLoading } from './actions';
 
 export function* loadHistoricalInteractionBody(action) {
   const body = {};
@@ -139,7 +140,6 @@ export function* goNotReady(action) {
 }
 
 export function* goDeleteContacts() {
-  const id = yield select(selectNextNotificationId);
   try {
     yield put(setLoading(true));
     yield put(setDeletionPending(true));
@@ -158,58 +158,49 @@ export function* goDeleteContacts() {
     yield put(clearCheckedContacts());
     yield put(setDeletionPending(false));
     yield put(setLoading(false));
-    yield put(addNotification({ id, messageType: checkedContacts.length > 1 ? 'deletedMultiple' : 'deleted', isError: false }));
-    yield call(delay, 3000);
-    yield put(dismissNotification(id));
+    yield put(addContactNotification({ messageType: checkedContacts.length > 1 ? 'deletedMultiple' : 'deleted' }));
   } catch (error) {
-    yield put(addNotification({ id, errorType: 'serverError', messageType: 'notDeleted', isError: true }));
+    yield put(addContactErrorNotification({ errorType: 'serverError', messageType: 'notDeleted' }));
     console.error(error);
   }
 }
 
 export function* goAssignContact(action) {
-  const selectedInteraction = yield select(selectCurrentInteraction);
-  const id = yield select(selectNextNotificationId);
-  yield put(setLoading(true));
-  if (selectedInteraction.interactionId === undefined) {
+  const interaction = yield call(getInteraction, action.interactionId);
+  yield put(setContactSaveLoading(interaction.interactionId, true));
+  if (interaction.interactionId === undefined) {
     yield put(selectContact(action.contact));
-    yield call(loadContactInteractions, { contactId: action.contact.id });
-    yield put(clearSearchResults());
-    yield put(setLoading(false));
-  } else if (selectedInteraction.interactionId === 'creating-new-interaction') {
+  } else if (interaction.interactionId === 'creating-new-interaction') {
     yield put(newInteractionPanelSelectContact(action.contact));
-    yield call(loadContactInteractions, { contactId: action.contact.id });
     yield put(showContactsPanel());
-    yield put(clearSearchResults());
-    yield put(setLoading(false));
   } else {
     try {
-      if (selectedInteraction.contact && selectedInteraction.contact.id) {
+      if (interaction.contact && interaction.contact.id) {
         yield call(
           sdkCallToPromise,
           CxEngage.interactions.unassignContact,
-          { interactionId: selectedInteraction.interactionId, contactId: selectedInteraction.contact.id },
+          { interactionId: interaction.interactionId, contactId: interaction.contact.id },
           'AgentDesktop'
         );
       }
       yield call(
         sdkCallToPromise,
         CxEngage.interactions.assignContact,
-        { interactionId: selectedInteraction.interactionId, contactId: action.contact.id },
+        { interactionId: interaction.interactionId, contactId: action.contact.id },
         'AgentDesktop'
       );
-      yield put(assignContact(selectedInteraction.interactionId, action.contact)); // TODO: tidy up so errors can know if assign happened
-      yield put(addNotification({ id, messageType: 'assigned', isError: false }));
-      yield call(loadContactInteractions, { contactId: action.contact.id });
-      yield put(clearSearchResults());
-      yield put(setLoading(false));
-      yield call(delay, 3000);
-      yield put(dismissNotification(id));
+      yield put(setAssignedContact(interaction.interactionId, action.contact)); // TODO: tidy up so errors can know if assign happened
+      yield put(addContactNotification({ messageType: 'assigned' }));
     } catch (error) {
-      yield put(setLoading(false));
-      yield put(addNotification({ id: id + 1, errorType: 'serverError', messageType: 'notAssigned', isError: true }));
+      yield put(setContactSaveLoading(interaction.interactionId, false));
+      yield put(setContactMode(interaction.interactionId, 'search'));
+      yield put(addContactErrorNotification({ errorType: 'serverError', messageType: 'notAssigned' }));
+      return;
     }
   }
+  yield put(setContactMode(interaction.interactionId, 'view'));
+  yield call(loadContactInteractions, { contactId: action.contact.id });
+  yield put(setContactSaveLoading(interaction.interactionId, false));
 }
 
 // Individual exports for testing
@@ -233,8 +224,8 @@ export function* deleteContacts() {
   yield takeEvery(DELETE_CONTACTS, goDeleteContacts);
 }
 
-export function* assignContactToSelected() {
-  yield takeEvery(ASSIGN_CONTACT_TO_SELECTED, goAssignContact);
+export function* assignContact() {
+  yield takeEvery(ASSIGN_CONTACT, goAssignContact);
 }
 
 // All sagas to be loaded
@@ -243,6 +234,6 @@ export default [
   contactInteractionHistory,
   notReady,
   deleteContacts,
-  assignContactToSelected,
+  assignContact,
   cancelDial,
 ];

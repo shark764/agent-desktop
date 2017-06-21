@@ -40,6 +40,103 @@ import messages from './messages';
 import { loggingIn, loginError, loginSuccess, resetPassword, settingTenant, setTenant, tenantError } from './actions';
 const storage = window.localStorage;
 
+const styles = {
+  base: {
+    width: '100vw',
+    height: '100vh',
+    minHeight: '800px',
+    backgroundColor: '#072931',
+    fontSize: '16px',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    fontStretch: 'normal',
+    color: '#494949',
+    overflowY: 'auto',
+  },
+  center: {
+    order: '0',
+    flex: '0 0 auto',
+    alignSelf: 'auto',
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'nowrap',
+    justifyContent: 'center',
+    alignContent: 'stretch',
+    alignItems: 'center',
+  },
+  error: {
+    borderRadius: '3px 3px 0 0',
+    backgroundColor: '#FE4565',
+    width: '542px',
+    color: '#FFFFFF',
+    fontWeight: 'lighter',
+    textAlign: 'center',
+    paddingTop: '3px',
+    paddingBottom: '3px',
+    position: 'relative',
+    top: '0px',
+    marginBottom: '-27px',
+    lineHeight: '1.5em',
+  },
+  errorTenant: {
+    top: '-361.4px',
+  },
+  copyright: {
+    width: '65vw',
+    position: 'absolute',
+    bottom: '1em',
+    color: '#FFFFFF',
+    textAlign: 'center',
+  },
+  copyrightText: {
+    marginBottom: '1em',
+    display: 'block',
+    position: 'relative',
+  },
+  legalText: {
+    fontSize: '10px',
+  },
+  languageMenu: {
+    position: 'absolute',
+    left: '1.4em',
+    bottom: '1em',
+  },
+  languageDialog: {
+    position: 'fixed',
+    bottom: '55px',
+    left: '4px',
+  },
+  languageSelect: {
+    width: '180px',
+    top: '0',
+    bottom: '10px',
+    marginLeft: '10px',
+    border: 'none',
+  },
+  languageIcon: {
+    color: 'gray',
+    ':hover': {
+      color: '#f3f3f3',
+      textShadow: '0px 1px 1px #ccc',
+      cursor: 'pointer',
+    },
+  },
+  usernameInput: {
+    marginBottom: '11px',
+  },
+  rememberMe: {
+    marginLeft: '-9.35em',
+    marginBottom: '11px',
+    marginTop: '15px',
+    width: '130px',
+  },
+  actionButton: {
+    marginTop: '34px',
+  },
+};
+
 export class Login extends BaseComponent {
 
   constructor(props) {
@@ -59,12 +156,22 @@ export class Login extends BaseComponent {
     };
   }
 
-  getBackground = () => {
-    const parts = location.hostname.split('.');
-    if (parts[0].indexOf('mitel') !== -1) {
-      return '#002855';
-    } else {
-      return '#072931';
+  componentWillMount() {
+    window.addEventListener('keydown', this.handleKeyPress);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyPress);
+  }
+
+  handleKeyPress = (e) => {
+    // keyCode 13 === ENTER KEY
+    if (e.keyCode === 13 && !this.props.loading && !this.state.requestingPassword) {
+      if (this.props.logged_in && this.props.agent && this.props.agent.tenants.length > 1) {
+        this.onTenantSelect();
+      } else {
+        this.onLogin();
+      }
     }
   }
 
@@ -81,9 +188,9 @@ export class Login extends BaseComponent {
       document.getElementsByTagName('head')[0].appendChild(link);
       // ------
 
-      return <Title id={messages.welcome.id} text={messages.welcomeNoProd} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />;
+      return <Title id={messages.welcome.id} text={messages.welcomeNoProd} style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]} />;
     } else {
-      return <Title id={messages.welcome.id} text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />;
+      return <Title id={messages.welcome.id} text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]} />;
     }
   }
 
@@ -146,7 +253,7 @@ export class Login extends BaseComponent {
   }
 
   getLoadingContent = () =>
-    <div id="loginContainerDiv" style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
+    <div id="loginContainerDiv" style={Object.assign({}, styles.container, { justifyContent: 'center' })}>
       <Logo style={{ marginTop: '50px' }} width="275px" />
       <IconSVG id="loadingIcon" name="loading" style={{ marginTop: '50px' }} />
     </div>
@@ -156,26 +263,41 @@ export class Login extends BaseComponent {
       ({ value: tenant.tenantId, label: tenant.tenantName })
     );
     return (
-      <div id="TSContainerDiv" style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
+      <div id="TSContainerDiv" style={Object.assign({}, styles.container, { justifyContent: 'center' })}>
         {this.state.noTenant
-          ? <span style={[this.styles.error]}>
-            <FormattedMessage style={this.styles.center} {...messages.noTenant} />
+          ? <span style={[styles.error]}>
+            <FormattedMessage style={styles.center} {...messages.noTenant} />
           </span>
           : ''
         }
         {this.props.tenant_error
-          ? <span id="tenantLoginError" style={[this.styles.error]}>
-            <FormattedMessage style={this.styles.center} {...this.props.tenant_error_message} />
+          ? <span id="tenantLoginError" style={[styles.error]}>
+            <FormattedMessage style={styles.center} {...this.props.tenant_error_message} />
           </span>
           : ''
         }
         <Logo style={{ marginTop: '50px' }} width="275px" />
-        <Title id={messages.welcome.id} text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
-        <Select id={'app.login.selectTennant.selectbox'} style={{ width: '282px' }} value={this.state.tenantId} onChange={(e) => this.setTenantId(e.value || '-1', e.label || '')} options={tenantOptions} autoFocus clearable={false} placeholder={<FormattedMessage {...messages.selectTenant} />} />
+        <Title id={messages.selectTenantMenu.id} text={messages.selectTenantMenu} style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]} />
+        <Select
+          id={'app.login.selectTennant.selectbox'}
+          style={{ width: '282px' }}
+          value={this.state.tenantId}
+          onChange={(e) => this.setTenantId(e.value || '-1', e.label || '')}
+          options={tenantOptions}
+          autoFocus
+          clearable={false}
+          placeholder={<FormattedMessage {...messages.selectTenant} />}
+        />
         { // Inbound / Outbound Select
           // <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
         }
-        <Button id={messages.sendButton.id} type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.sendButton} onClick={() => this.onTenantSelect()} />
+        <Button
+          id={messages.selectButton.id}
+          type="primaryBlueBig"
+          style={styles.actionButton}
+          text={messages.selectButton}
+          onClick={() => this.onTenantSelect()}
+        />
       </div>
     );
   }
@@ -185,30 +307,30 @@ export class Login extends BaseComponent {
     let errorSpan;
     if (this.props.login_error) {
       errorSpan = (
-        <span id={messages.error.id} style={[this.styles.error]}>
-          <FormattedMessage style={this.styles.center} {...messages.error} />
+        <span id={messages.error.id} style={[styles.error]}>
+          <FormattedMessage style={styles.center} {...messages.error} />
         </span>
       );
     } else if (error !== null) {
       switch (error) {
         case 'reasonListError':
           errorSpan = (
-            <span id={`${error}:ERROR`} style={[this.styles.error]}>
-              <FormattedMessage style={this.styles.center} {...messages.reasonListError} />
+            <span id={`${error}:ERROR`} style={[styles.error]}>
+              <FormattedMessage style={styles.center} {...messages.reasonListError} />
             </span>
           );
           break;
         case 'configLoadFailed':
           errorSpan = (
-            <span id={`${error}:ERROR`} style={[this.styles.error]}>
-              <FormattedMessage style={this.styles.center} {...messages.configLoadFailed} />
+            <span id={`${error}:ERROR`} style={[styles.error]}>
+              <FormattedMessage style={styles.center} {...messages.configLoadFailed} />
             </span>
           );
           break;
         default:
           errorSpan = (
-            <span id={`${error}:ERROR`} style={[this.styles.error]}>
-              <FormattedMessage style={this.styles.center} {...messages.generalError} />
+            <span id={`${error}:ERROR`} style={[styles.error]}>
+              <FormattedMessage style={styles.center} {...messages.generalError} />
             </span>
           );
           break;
@@ -218,10 +340,10 @@ export class Login extends BaseComponent {
   }
 
   getLoginContent = () =>
-    <div id="loginContainerDiv" style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
+    <div id="loginContainerDiv" style={Object.assign({}, styles.container, { justifyContent: 'center' })}>
       {this.props.tenant_error
-        ? <span id="tenantLoginError" style={[this.styles.error]}>
-          <FormattedMessage style={this.styles.center} {...this.props.tenant_error_message} />
+        ? <span id="tenantLoginError" style={[styles.error]}>
+          <FormattedMessage style={styles.center} {...this.props.tenant_error_message} />
         </span>
         : ''
       }
@@ -229,19 +351,50 @@ export class Login extends BaseComponent {
       {
         this.getLoginTitle()
       }
-      <TextInput id={messages.username.id} autoFocus={!this.state.remember} key={'username'} style={{ marginBottom: '11px' }} placeholder={messages.username} autocomplete="email" value={this.state.username} cb={this.setUser} />
-      <TextInput id={messages.password.id} autoFocus={this.state.remember} key={'password'} type="password" placeholder={messages.password} autocomplete="password" value={this.state.password} cb={this.setPassword} onEnter={this.onLogin} />
-      <CheckBox id={messages.rememberMe.id} style={{ marginLeft: '-9.35em', marginBottom: '11px', marginTop: '15px', width: '130px' }} checked={this.state.remember} text={messages.rememberMe} cb={this.setRemember} />
-      <Button id={messages.signInButton.id} type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.signInButton} onClick={() => this.onLogin()} />
+      <TextInput
+        id={messages.username.id}
+        autoFocus={!this.state.remember}
+        key={'username'}
+        style={styles.usernameInput}
+        placeholder={messages.username}
+        autocomplete="email"
+        value={this.state.username}
+        cb={this.setUser}
+      />
+      <TextInput
+        id={messages.password.id}
+        autoFocus={this.state.remember}
+        key={'password'}
+        type="password"
+        placeholder={messages.password}
+        autocomplete="password"
+        value={this.state.password}
+        cb={this.setPassword}
+        onEnter={this.onLogin}
+      />
+      <CheckBox
+        id={messages.rememberMe.id}
+        style={styles.rememberMe}
+        checked={this.state.remember}
+        text={messages.rememberMe}
+        cb={this.setRemember}
+      />
+      <Button
+        id={messages.signInButton.id}
+        type="primaryBlueBig"
+        style={styles.actionButton}
+        text={messages.signInButton}
+        onClick={() => this.onLogin()}
+      />
       { /* Hide until we implement the feature
         <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
       */ }
     </div>
 
   getForgotContent = () =>
-    <div style={Object.assign({}, this.styles.container, { justifyContent: 'center' })}>
+    <div style={Object.assign({}, styles.container, { justifyContent: 'center' })}>
       <Logo style={{ marginTop: '50px' }} width="275px" />
-      <Title text={messages.forgot} style={[{ paddingBottom: '23px', marginTop: '39px' }, this.styles.center]} />
+      <Title text={messages.forgot} style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]} />
       <p style={{ width: '282px', textAlign: 'center' }} >{this.props.intl.formatMessage(messages.forgotInstructions)}</p>
       <TextInput key={'email'} style={{ marginBottom: '11px' }} placeholder={messages.email} autocomplete="email" value={this.state.email} cb={this.setEmail} />
       <Button type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.sendButton} onClick={this.sendForgotRequest} />
@@ -297,91 +450,6 @@ export class Login extends BaseComponent {
     this.setState({ showLanguage: !this.state.showLanguage });
   }
 
-  styles = {
-    base: {
-      width: '100vw',
-      height: '100vh',
-      minHeight: '800px',
-      backgroundColor: this.getBackground(),
-      fontSize: '16px',
-      fontWeight: 'normal',
-      fontStyle: 'normal',
-      fontStretch: 'normal',
-      color: '#494949',
-      overflowY: 'auto',
-    },
-    center: {
-      order: '0',
-      flex: '0 0 auto',
-      alignSelf: 'auto',
-    },
-    container: {
-      display: 'flex',
-      flexDirection: 'column',
-      flexWrap: 'nowrap',
-      justifyContent: 'center',
-      alignContent: 'stretch',
-      alignItems: 'center',
-    },
-    error: {
-      borderRadius: '3px 3px 0 0',
-      backgroundColor: '#FE4565',
-      width: '542px',
-      color: '#FFFFFF',
-      fontWeight: 'lighter',
-      textAlign: 'center',
-      paddingTop: '3px',
-      paddingBottom: '3px',
-      position: 'relative',
-      top: '0px',
-      marginBottom: '-27px',
-      lineHeight: '1.5em',
-    },
-    errorTenant: {
-      top: '-361.4px',
-    },
-    copyright: {
-      width: '65vw',
-      position: 'absolute',
-      bottom: '1em',
-      color: '#FFFFFF',
-      textAlign: 'center',
-    },
-    copyrightText: {
-      marginBottom: '1em',
-      display: 'block',
-      position: 'relative',
-    },
-    legalText: {
-      fontSize: '10px',
-    },
-    languageMenu: {
-      position: 'absolute',
-      left: '1.4em',
-      bottom: '1em',
-    },
-    languageDialog: {
-      position: 'fixed',
-      bottom: '55px',
-      left: '4px',
-    },
-    languageSelect: {
-      width: '180px',
-      top: '0',
-      bottom: '10px',
-      marginLeft: '10px',
-      border: 'none',
-    },
-    languageIcon: {
-      color: 'gray',
-      ':hover': {
-        color: '#f3f3f3',
-        textShadow: '0px 1px 1px #ccc',
-        cursor: 'pointer',
-      },
-    },
-  };
-
   render() {
     let pageContent;
     if (this.props.loading) {
@@ -394,38 +462,44 @@ export class Login extends BaseComponent {
       pageContent = this.getLoginContent();
     }
 
+    // Mitel Branding Color Swap
+    const parts = location.hostname.split('.');
+    if (parts[0].indexOf('mitel') !== -1) {
+      styles.base.backgroundColor = '#002855';
+    }
+
     return (
-      <div style={[this.styles.base, this.props.refreshRequired && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' ? { height: 'calc(100vh - 2em)' } : { height: '100vh' }]}>
-        <div style={Object.assign({}, this.styles.container, { height: this.props.refreshRequired && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' ? 'calc(100vh - 2em)' : '100vh', minHeight: '800px' })}>
+      <div style={[styles.base, this.props.refreshRequired && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' ? { height: 'calc(100vh - 2em)' } : { height: '100vh' }]}>
+        <div style={Object.assign({}, styles.container, { height: this.props.refreshRequired && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' ? 'calc(100vh - 2em)' : '100vh', minHeight: '800px' })}>
           {
             this.getErrors()
           }
-          <Dialog style={Object.assign({}, this.styles.center)}>
+          <Dialog style={styles.center}>
             {pageContent}
           </Dialog>
-          <div style={this.styles.languageMenu}>
-            <FontAwesomeIcon id={'localeIcon'} name={'globe'} style={this.styles.languageIcon} onclick={this.toggleLanguageMenu} />
-            <PopupDialog style={this.styles.languageDialog} isVisible={this.state.showLanguage} hide={this.toggleLanguageMenu} widthPx={200} arrowLeftOffsetPx={14}>
+          <div style={styles.languageMenu}>
+            <FontAwesomeIcon id={'localeIcon'} name={'globe'} style={styles.languageIcon} onclick={this.toggleLanguageMenu} />
+            <PopupDialog style={styles.languageDialog} isVisible={this.state.showLanguage} hide={this.toggleLanguageMenu} widthPx={200} arrowLeftOffsetPx={14}>
               <Select
                 id={'locale'}
-                style={this.styles.languageSelect}
+                style={styles.languageSelect}
                 value={this.props.locale}
                 options={mappedLocales}
                 onChange={(e) => {
                   this.props.changeLocale(e.value);
                   this.setLocalLocale(e.value);
-                  window.setTimeout(this.toggleLanguageMenu, 400);
+                  this.toggleLanguageMenu();
                 }}
                 autoFocus
                 clearable={false}
               />
             </PopupDialog>
           </div>
-          <div style={this.styles.copyright}>
-            <div style={this.styles.copyrightText}>
+          <div style={styles.copyright}>
+            <div style={styles.copyrightText}>
               <FormattedMessage {...messages.copyright} />
             </div>
-            <div style={this.styles.legalText}>
+            <div style={styles.legalText}>
               <FormattedMessage {...messages.legal} />
             </div>
           </div>

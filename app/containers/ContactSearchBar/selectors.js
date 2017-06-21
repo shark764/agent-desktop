@@ -56,4 +56,6 @@ const selectSearchableAttributes = createSelector(
 export {
   selectQuery,
   selectSearchableAttributes,
+  selectAttributes,
+  selectLayout,
 };

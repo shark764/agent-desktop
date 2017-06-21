@@ -10,7 +10,7 @@
 
 import { fromJS, Map, List } from 'immutable';
 
-import Interaction from 'models/Interaction/Interaction';
+import Interaction, { activeContactFormBlank } from 'models/Interaction/Interaction';
 import Message from 'models/Message/Message';
 import ResponseMessage from 'models/Message/ResponseMessage';
 
@@ -39,8 +39,8 @@ import {
   REMOVE_SEARCH_FILTER,
   SET_INTERACTION_QUERY,
   SET_MESSAGE_HISTORY,
-  SET_CONTACT_ACTION,
-  ASSIGN_CONTACT,
+  SET_CONTACT_MODE,
+  SET_ASSIGNED_CONTACT,
   SET_SIDE_PANEL_TAB_INDEX,
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
@@ -84,6 +84,17 @@ import {
   SHOW_REFRESH_NOTIF,
   SHOW_CONTACTS_PANEL,
   HIDE_CONTACTS_PANEL,
+  SET_FORM_IS_DIRTY,
+  SET_FORM_VALIDITY,
+  SET_FORM_FIELD,
+  SET_FORM_ERROR,
+  SET_SHOW_ERROR,
+  SET_UNUSED_FIELD,
+  SET_SELECTED_INDEX,
+  SET_EDITING_CONTACTS,
+  SET_CONTACT_SAVE_LOADING,
+  INIT_FORM,
+  RESET_FORM,
 } from './constants';
 
 // import { outboundConnectingVoiceInteraction, voiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithLotsOfMessagesAndScript2 } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
@@ -101,17 +112,19 @@ const initialState = fromJS({
     // smsInteractionWithLotsOfMessagesAndScript2,
   ],
   noInteractionContactPanel: {
-    contactAction: 'search',
+    contactMode: 'search',
     query: {},
     sidePanelTabIndex: 0,
+    activeContactForm: activeContactFormBlank,
   },
   newInteractionPanel: {
     interactionId: 'creating-new-interaction',
     status: 'creating-new-interaction',
     visible: false,
     sidePanelTabIndex: 0,
-    contactAction: 'search',
+    contactMode: 'search',
     query: {},
+    activeContactForm: activeContactFormBlank,
   },
   queues: [],
   extensions: [],
@@ -122,7 +135,25 @@ const initialState = fromJS({
   isContactsPanelCollapsed: true,
 });
 
-const getInteractionUpdateTarget = (interactionId, interactionIndex) => {
+const getSelectedContactInteractionPath = (state) => {
+  const interactionIndex = state.get('interactions').findIndex(
+    (interaction) => interaction.get('interactionId') === state.get('selectedInteractionId')
+  );
+  let selectedInteractionPath;
+  if (interactionIndex !== -1) {
+    selectedInteractionPath = ['interactions', interactionIndex];
+  } else if (state.get('selectedInteractionId') === 'creating-new-interaction') {
+    selectedInteractionPath = ['newInteractionPanel'];
+  } else {
+    selectedInteractionPath = ['noInteractionContactPanel'];
+  }
+  return selectedInteractionPath;
+};
+
+const getContactInteractionPath = (state, interactionId) => {
+  const interactionIndex = state.get('interactions').findIndex(
+    (interaction) => interaction.get('interactionId') === interactionId
+  );
   let target;
   if (interactionId === 'creating-new-interaction') {
     target = ['newInteractionPanel'];
@@ -242,6 +273,37 @@ const updateContactInteractionHistoryResults = (contact, action) => {
   }
 };
 
+const removeInteractionAndSetNextSelectedInteraction = (state, interactionId) => {
+  // If the interaction being removed is the selected interaction, select the next interaction (voice, first non-voice)
+  let nextSelectedInteractionId;
+  if (state.get('selectedInteractionId') === interactionId) {
+    const interactionBeingRemoved = state.get('interactions').find(
+      (interaction) => interaction.get('interactionId') === interactionId
+    );
+    const currentVoiceInteraction = state.get('interactions').find(
+      (interaction) => interaction.get('channelType') === 'voice'
+    );
+    if (interactionBeingRemoved.get('channelType') !== 'voice' && currentVoiceInteraction) {
+      nextSelectedInteractionId = currentVoiceInteraction.get('interactionId');
+    } else {
+      const firstNonVoiceInteraction = state.get('interactions').find(
+        (interaction) => interaction.get('channelType') !== 'voice' &&
+          interaction.get('interactionId') !== interactionId
+      );
+      nextSelectedInteractionId = firstNonVoiceInteraction ? firstNonVoiceInteraction.get('interactionId') : undefined;
+    }
+  } else {
+    nextSelectedInteractionId = state.get('selectedInteractionId');
+  }
+
+  // Remove interaction and set next selectedInteractionId
+  return state
+    .set('interactions', state.get('interactions').filterNot((interaction) =>
+      interaction.get('interactionId') === interactionId
+    ))
+    .set('selectedInteractionId', nextSelectedInteractionId);
+};
+
 function agentDesktopReducer(state = initialState, action) {
   switch (action.type) {
     case SHOW_REFRESH_NOTIF:
@@ -304,10 +366,12 @@ function agentDesktopReducer(state = initialState, action) {
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
       if (interactionIndex !== -1) {
+        let openContactsPanel;
         const automaticallySelectInteraction = action.newStatus === 'work-accepting' && state.get('selectedInteractionId') === undefined;
         let hideNewInteractionPanelOnWorkAccepted = false;
         let newState = state
           .updateIn(['interactions', interactionIndex], (interaction) => {
+            openContactsPanel = (action.newStatus === 'work-accepted' && interaction.get('contact'));
             hideNewInteractionPanelOnWorkAccepted = interaction.get('hideNewInteractionPanelOnWorkAccepted');
             let updatedInteraction = interaction.set('status', action.newStatus);
             // If we're accepting an existing voice conference, make any updates that have happened to the participants since the work offer
@@ -360,6 +424,9 @@ function agentDesktopReducer(state = initialState, action) {
                 .set('contact', undefined)
             );
         }
+        if (openContactsPanel) {
+          newState = newState.set('isContactsPanelCollapsed', false);
+        }
         if (action.newStatus === 'wrapup') {
           const wrapupTimeout = state.getIn(['interactions', interactionIndex, 'wrapupDetails', 'wrapupTime']);
           const newTimeout = Date.now() + (wrapupTimeout * 1000);
@@ -377,7 +444,7 @@ function agentDesktopReducer(state = initialState, action) {
       return state.update('newInteractionPanel', (newInteractionPanel) =>
         newInteractionPanel
           .set('contact', fromJS(action.contact))
-          .set('contactAction', 'view')
+          .set('contactMode', 'view')
       );
     }
     case CLOSE_NEW_INTERACTION_PANEL: {
@@ -394,8 +461,11 @@ function agentDesktopReducer(state = initialState, action) {
         );
         nextSelectedInteractionId = firstNonVoiceInteraction ? firstNonVoiceInteraction.get('interactionId') : undefined;
       }
-      return state.setIn(['newInteractionPanel', 'visible'], false)
-        .set('selectedInteractionId', nextSelectedInteractionId);
+      return state.update('newInteractionPanel', (newInteractionPanel) =>
+        newInteractionPanel
+          .set('visible', false)
+          .set('contactMode', 'search')
+      ).set('selectedInteractionId', nextSelectedInteractionId);
     }
     case START_OUTBOUND_INTERACTION: {
       const outboundInteraction = new Map(new Interaction({
@@ -482,7 +552,12 @@ function agentDesktopReducer(state = initialState, action) {
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
       if (interactionIndex > -1) {
-        return state.setIn(['interactions', interactionIndex, 'script'], undefined);
+        // Remove the interaction if the script is the only thing left to do
+        if (state.getIn(['interactions', interactionIndex, 'status']) === 'work-ended-pending-script') {
+          return removeInteractionAndSetNextSelectedInteraction(state, action.interactionId);
+        } else {
+          return state.setIn(['interactions', interactionIndex, 'script'], undefined);
+        }
       } else {
         return state;
       }
@@ -513,33 +588,20 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case REMOVE_INTERACTION: {
-      // If the interaction being removed is the selected interaction, select the next interaction (voice, first non-voice)
-      let nextSelectedInteractionId;
-      if (state.get('selectedInteractionId') === action.interactionId) {
-        const interactionBeingRemoved = state.get('interactions').find(
+      const interactionToRemove = state.get('interactions').find(
+        (interaction) => interaction.get('interactionId') === action.interactionId
+      );
+      if (interactionToRemove !== undefined && interactionToRemove.get('script') === undefined) {
+        return removeInteractionAndSetNextSelectedInteraction(state, action.interactionId);
+      // If the interaction still has a script, set the interaction's state to indicate this so it can be "disabled" until the script is complete
+      } else if (interactionToRemove !== undefined && interactionToRemove.get('script') !== undefined) {
+        const interactionIndex = state.get('interactions').findIndex(
           (interaction) => interaction.get('interactionId') === action.interactionId
         );
-        const currentVoiceInteraction = state.get('interactions').find(
-          (interaction) => interaction.get('channelType') === 'voice'
-        );
-        if (interactionBeingRemoved.get('channelType') !== 'voice' && currentVoiceInteraction) {
-          nextSelectedInteractionId = currentVoiceInteraction.get('interactionId');
-        } else {
-          const firstNonVoiceInteraction = state.get('interactions').find(
-            (interaction) => interaction.get('channelType') !== 'voice' &&
-              interaction.get('interactionId') !== action.interactionId
-          );
-          nextSelectedInteractionId = firstNonVoiceInteraction ? firstNonVoiceInteraction.get('interactionId') : undefined;
-        }
+        return state.setIn(['interactions', interactionIndex, 'status'], 'work-ended-pending-script');
       } else {
-        nextSelectedInteractionId = state.get('selectedInteractionId');
+        return state;
       }
-
-      return state
-        .set('interactions', state.get('interactions').filterNot((interaction) =>
-          interaction.get('interactionId') === action.interactionId
-        ))
-        .set('selectedInteractionId', nextSelectedInteractionId);
     }
     case SET_MESSAGE_HISTORY: {
       if (action.response && action.response.length > 0) {
@@ -561,25 +623,12 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case SET_CONTACT_ACTION: {
-      if (action.interactionId === undefined) {
-        return state
-          .setIn(['noInteractionContactPanel', 'contactAction'],
-            action.newAction
-          );
-      } else {
-        const interactionIndex = state.get('interactions').findIndex(
-          (interaction) => interaction.get('interactionId') === action.interactionId
+    case SET_CONTACT_MODE: {
+      const targetPath = getContactInteractionPath(state, action.interactionId);
+      return state
+        .setIn([...targetPath, 'contactMode'],
+          action.newMode
         );
-        if (interactionIndex !== -1) {
-          return state
-            .updateIn(['interactions', interactionIndex],
-              (interaction) => interaction.set('contactAction', action.newAction)
-            );
-        } else {
-          return state;
-        }
-      }
     }
     case SET_INTERACTION_QUERY: {
       const interactionIndex = state.get('interactions').findIndex(
@@ -595,22 +644,9 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ADD_SEARCH_FILTER: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === state.get('selectedInteractionId')
-      );
-
-      let addSearchFilterPath;
-
-      if (interactionIndex !== -1) {
-        addSearchFilterPath = ['interactions', interactionIndex, 'query'];
-      } else if (state.get('selectedInteractionId') === 'creating-new-interaction') {
-        addSearchFilterPath = ['newInteractionPanel', 'query'];
-      } else {
-        addSearchFilterPath = ['noInteractionContactPanel', 'query'];
-      }
-
+      const selectedInteractionPath = getSelectedContactInteractionPath(state);
       return state
-        .updateIn(addSearchFilterPath,
+        .updateIn([...selectedInteractionPath, 'query'],
           (interaction) => {
             if (action.filterName === 'q') {
               return fromJS({ [action.filterName]: action.value });
@@ -621,31 +657,19 @@ function agentDesktopReducer(state = initialState, action) {
         );
     }
     case REMOVE_SEARCH_FILTER: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === state.get('selectedInteractionId')
-      );
-
-      let removeSearchFilterPath;
-
-      if (interactionIndex !== -1) {
-        removeSearchFilterPath = ['interactions', interactionIndex, 'query'];
-      } else if (state.get('selectedInteractionId') === 'creating-new-interaction') {
-        removeSearchFilterPath = ['newInteractionPanel', 'query'];
-      } else {
-        removeSearchFilterPath = ['noInteractionContactPanel', 'query'];
-      }
-
+      const selectedInteractionPath = getSelectedContactInteractionPath(state);
+      const queryPath = [...selectedInteractionPath, 'query'];
       if (action.filterName) {
         return state
-          .updateIn(removeSearchFilterPath,
+          .updateIn(queryPath,
             (query) => query.delete(action.filterName)
           );
       } else {
         return state
-          .setIn(removeSearchFilterPath, fromJS({}));
+          .setIn(queryPath, fromJS({}));
       }
     }
-    case ASSIGN_CONTACT: {
+    case SET_ASSIGNED_CONTACT: {
       const interactionIndex = state.get('interactions').findIndex(
         (interaction) => interaction.get('interactionId') === action.interactionId
       );
@@ -658,7 +682,7 @@ function agentDesktopReducer(state = initialState, action) {
                 (interaction) => {
                   const updatedInteraction = interaction.set('contact', fromJS(action.contact));
                   if (action.contact) {
-                    return updatedInteraction.set('contactAction', 'view');
+                    return updatedInteraction.set('contactMode', 'view');
                   }
                   return updatedInteraction;
                 }
@@ -669,10 +693,7 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case SET_SIDE_PANEL_TAB_INDEX: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
-      const target = getInteractionUpdateTarget(action.interactionId, interactionIndex);
+      const target = getContactInteractionPath(state, action.interactionId);
       target.push('sidePanelTabIndex');
       return state.setIn(target, action.tabIndex);
     }
@@ -700,10 +721,7 @@ function agentDesktopReducer(state = initialState, action) {
       );
     }
     case SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
-      const target = getInteractionUpdateTarget(action.interactionId, interactionIndex);
+      const target = getContactInteractionPath(state, action.interactionId);
       return state.updateIn(target, (interaction) => {
         if (interaction.getIn(['contact', 'interactionHistory']) !== undefined) {
           return interaction.updateIn(['contact', 'interactionHistory', 'results'], (interactionHistoryResults) =>
@@ -1294,7 +1312,7 @@ function agentDesktopReducer(state = initialState, action) {
     case SELECT_CONTACT: {
       return state.mergeIn(['noInteractionContactPanel'], fromJS({
         contact: action.contact,
-        contactAction: 'view',
+        contactMode: 'view',
       }));
     }
     case SHOW_CONTACTS_PANEL: {
@@ -1302,6 +1320,84 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case HIDE_CONTACTS_PANEL: {
       return state.set('isContactsPanelCollapsed', true);
+    }
+    case SET_FORM_IS_DIRTY: {
+      const target = getContactInteractionPath(state, action.interactionId);
+      target.push('activeContactForm');
+      target.push('formIsDirty');
+      return state.setIn(target, action.formIsDirty);
+    }
+    case SET_FORM_VALIDITY: {
+      const target = getContactInteractionPath(state, action.interactionId);
+      target.push('activeContactForm');
+      target.push('formIsValid');
+      return state.setIn(target, action.formIsValid);
+    }
+    case SET_FORM_FIELD: {
+      const target = getContactInteractionPath(state, action.interactionId);
+      target.push('activeContactForm');
+      target.push('contactForm');
+      target.push(action.field);
+      return state.setIn(target, action.value);
+    }
+    case SET_FORM_ERROR: {
+      const target = getContactInteractionPath(state, action.interactionId);
+      target.push('activeContactForm');
+      target.push('formErrors');
+      target.push(action.field);
+      return state.setIn(target, action.error);
+    }
+    case SET_SHOW_ERROR: {
+      const target = getContactInteractionPath(state, action.interactionId);
+      target.push('activeContactForm');
+      target.push('showErrors');
+      target.push(action.field);
+      return state.setIn(target, action.error);
+    }
+    case SET_UNUSED_FIELD: {
+      const target = getContactInteractionPath(state, action.interactionId);
+      target.push('activeContactForm');
+      target.push('unusedFields');
+      target.push(action.field);
+      return state.setIn(target, action.value);
+    }
+    case SET_SELECTED_INDEX: {
+      const target = getContactInteractionPath(state, action.interactionId);
+      target.push('activeContactForm');
+      target.push('selectedIndexes');
+      target.push(action.field);
+      return state.setIn(target, action.index);
+    }
+    case SET_EDITING_CONTACTS: {
+      const target = getContactInteractionPath(state, action.interactionId);
+      target.push('activeContactForm');
+      target.push('editingContacts');
+      return state.setIn(target, fromJS(action.contacts));
+    }
+    case SET_CONTACT_SAVE_LOADING: {
+      const target = getContactInteractionPath(state, action.interactionId);
+      target.push('activeContactForm');
+      target.push('saveLoading');
+      return state.setIn(target, action.isLoading);
+    }
+    case INIT_FORM: {
+      const target = getContactInteractionPath(state, action.interactionId);
+      target.push('activeContactForm');
+      let updatedState = state.setIn([...target, 'contactForm'], fromJS(action.contactForm));
+      updatedState = updatedState.setIn([...target, 'formErrors'], fromJS(action.formErrors));
+      updatedState = updatedState.setIn([...target, 'showErrors'], fromJS(action.showErrors));
+      if (action.unusedFields) {
+        updatedState = updatedState.setIn([...target, 'unusedFields'], fromJS(action.unusedFields));
+      }
+      if (action.selectedIndexes) {
+        updatedState = updatedState.setIn([...target, 'selectedIndexes'], fromJS(action.selectedIndexes));
+      }
+      return updatedState;
+    }
+    case RESET_FORM: {
+      const target = getContactInteractionPath(state, action.interactionId);
+      target.push('activeContactForm');
+      return state.setIn(target, fromJS(activeContactFormBlank));
     }
     default:
       return state;

@@ -98,28 +98,26 @@ function ContactHeader(props) {
     );
   }
 
-  if (props.contactMode) {
-    switch (props.contactMode) {
-      case 'merge':
-        return getBannerHeader(<FormattedMessage {...messages.contactMergeBanner} />);
-      case 'create':
-        return getBannerHeader(<FormattedMessage {...messages.newContactBanner} />);
-      case 'edit':
-      default:
-        return getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} />);
-    }
-  } else if (props.contactAction === 'view') {
-    return getViewControlHeader();
+  switch (props.contactMode) {
+    case 'view':
+      return getViewControlHeader();
+    case 'create':
+      return getBannerHeader(<FormattedMessage {...messages.newContactBanner} />);
+    case 'merge':
+      return getBannerHeader(<FormattedMessage {...messages.contactMergeBanner} />);
+    case 'edit':
+      return getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} />);
+    case 'search':
+    default:
+      return null;
   }
-  return null;
 }
 
 ContactHeader.propTypes = {
   editAssignedContact: PropTypes.func,
   setSearching: PropTypes.func,
-  contactAction: PropTypes.string,
-  contactMode: PropTypes.string,
   showControls: PropTypes.bool,
+  contactMode: PropTypes.string,
 };
 
 export default Radium(ContactHeader);
