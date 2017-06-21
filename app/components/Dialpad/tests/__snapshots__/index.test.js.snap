@@ -3,101 +3,160 @@
 exports[`<Dialpad /> when given required props should render correctly 1`] = `
 <div
   data-radium={true}
-  id="mockId"
 >
-  <InjectIntl(TextInput)
-    autoFocus={true}
-    cb={[Function]}
-    disabled={false}
-    id="mockIdTextInput"
+  <div
+    data-radium={true}
+    id="dialpadMask"
     style={
       Object {
-        "height": "32px",
-        "width": "100%",
+        "height": "100vh",
+        "left": "0px",
+        "position": "fixed",
+        "top": "0px",
+        "width": "100vw",
+        "zIndex": "2",
       }
     }
-    value="mockDialpadText"
   />
   <div
     data-radium={true}
     style={
       Object {
-        "marginTop": "13px",
+        "borderBottom": "10px solid white",
+        "borderLeft": "8px solid transparent",
+        "borderRight": "8px solid transparent",
+        "borderTop": "none",
+        "height": "0px",
+        "marginLeft": "134px",
+        "marginTop": "4px",
+        "position": "absolute",
+        "width": "0px",
+        "zIndex": 3,
+      }
+    }
+  />
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "borderRadius": "3px",
+        "boxShadow": "0 0 6px 0 rgba(0,0,0,0.23)",
+        "color": "#4B4B4B",
+        "height": "394px",
+        "margin": "10px 0 0 14px",
+        "overflow": "hidden",
+        "padding": "25px 20px 20px",
+        "position": "absolute",
+        "width": "282px",
+        "zIndex": 2,
       }
     }
   >
-    <ButtonDialpad
-      id="mockId1Button"
-      onClick={[Function]}
-      text="1"
-      type="topLeft"
-    />
-    <ButtonDialpad
-      id="mockId2Button"
-      onClick={[Function]}
-      text="2"
-      type="top"
-    />
-    <ButtonDialpad
-      id="mockId3Button"
-      onClick={[Function]}
-      text="3"
-      type="topRight"
-    />
-    <ButtonDialpad
-      id="mockId4Button"
-      onClick={[Function]}
-      text="4"
-      type="left"
-    />
-    <ButtonDialpad
-      id="mockId5Button"
-      onClick={[Function]}
-      text="5"
-      type="middle"
-    />
-    <ButtonDialpad
-      id="mockId6Button"
-      onClick={[Function]}
-      text="6"
-      type="right"
-    />
-    <ButtonDialpad
-      id="mockId7Button"
-      onClick={[Function]}
-      text="7"
-      type="left"
-    />
-    <ButtonDialpad
-      id="mockId8Button"
-      onClick={[Function]}
-      text="8"
-      type="middle"
-    />
-    <ButtonDialpad
-      id="mockId9Button"
-      onClick={[Function]}
-      text="9"
-      type="right"
-    />
-    <ButtonDialpad
-      id="mockIdStarButton"
-      onClick={[Function]}
-      text="*"
-      type="bottomLeft"
-    />
-    <ButtonDialpad
-      id="mockId0Button"
-      onClick={[Function]}
-      text="0"
-      type="bottom"
-    />
-    <ButtonDialpad
-      id="mockIdNumberButton"
-      onClick={[Function]}
-      text="#"
-      type="bottomRight"
-    />
+    <div
+      data-radium={true}
+      id="mockId"
+      style={
+        Object {
+          "zIndex": "4",
+        }
+      }
+    >
+      <InjectIntl(TextInput)
+        autoFocus={true}
+        cb={[Function]}
+        disabled={false}
+        id="mockIdTextInput"
+        style={
+          Object {
+            "height": "32px",
+            "width": "100%",
+          }
+        }
+        value="mockDialpadText"
+      />
+      <div
+        data-radium={true}
+        style={
+          Object {
+            "marginTop": "13px",
+          }
+        }
+      >
+        <ButtonDialpad
+          id="mockId1Button"
+          onClick={[Function]}
+          text="1"
+          type="topLeft"
+        />
+        <ButtonDialpad
+          id="mockId2Button"
+          onClick={[Function]}
+          text="2"
+          type="top"
+        />
+        <ButtonDialpad
+          id="mockId3Button"
+          onClick={[Function]}
+          text="3"
+          type="topRight"
+        />
+        <ButtonDialpad
+          id="mockId4Button"
+          onClick={[Function]}
+          text="4"
+          type="left"
+        />
+        <ButtonDialpad
+          id="mockId5Button"
+          onClick={[Function]}
+          text="5"
+          type="middle"
+        />
+        <ButtonDialpad
+          id="mockId6Button"
+          onClick={[Function]}
+          text="6"
+          type="right"
+        />
+        <ButtonDialpad
+          id="mockId7Button"
+          onClick={[Function]}
+          text="7"
+          type="left"
+        />
+        <ButtonDialpad
+          id="mockId8Button"
+          onClick={[Function]}
+          text="8"
+          type="middle"
+        />
+        <ButtonDialpad
+          id="mockId9Button"
+          onClick={[Function]}
+          text="9"
+          type="right"
+        />
+        <ButtonDialpad
+          id="mockIdStarButton"
+          onClick={[Function]}
+          text="*"
+          type="bottomLeft"
+        />
+        <ButtonDialpad
+          id="mockId0Button"
+          onClick={[Function]}
+          text="0"
+          type="bottom"
+        />
+        <ButtonDialpad
+          id="mockIdNumberButton"
+          onClick={[Function]}
+          text="#"
+          type="bottomRight"
+        />
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -105,101 +164,160 @@ exports[`<Dialpad /> when given required props should render correctly 1`] = `
 exports[`<Dialpad /> when inCall prop set to true should render correctly 1`] = `
 <div
   data-radium={true}
-  id="mockId"
 >
-  <InjectIntl(TextInput)
-    autoFocus={true}
-    cb={[Function]}
-    disabled={true}
-    id="mockIdTextInput"
+  <div
+    data-radium={true}
+    id="dialpadMask"
     style={
       Object {
-        "height": "32px",
-        "width": "100%",
+        "height": "100vh",
+        "left": "0px",
+        "position": "fixed",
+        "top": "0px",
+        "width": "100vw",
+        "zIndex": "2",
       }
     }
-    value="mockDialpadText"
   />
   <div
     data-radium={true}
     style={
       Object {
-        "marginTop": "13px",
+        "borderBottom": "10px solid white",
+        "borderLeft": "8px solid transparent",
+        "borderRight": "8px solid transparent",
+        "borderTop": "none",
+        "height": "0px",
+        "marginLeft": "134px",
+        "marginTop": "4px",
+        "position": "absolute",
+        "width": "0px",
+        "zIndex": 3,
+      }
+    }
+  />
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "borderRadius": "3px",
+        "boxShadow": "0 0 6px 0 rgba(0,0,0,0.23)",
+        "color": "#4B4B4B",
+        "height": "394px",
+        "margin": "10px 0 0 14px",
+        "overflow": "hidden",
+        "padding": "25px 20px 20px",
+        "position": "absolute",
+        "width": "282px",
+        "zIndex": 2,
       }
     }
   >
-    <ButtonDialpad
-      id="mockId1Button"
-      onClick={[Function]}
-      text="1"
-      type="topLeft"
-    />
-    <ButtonDialpad
-      id="mockId2Button"
-      onClick={[Function]}
-      text="2"
-      type="top"
-    />
-    <ButtonDialpad
-      id="mockId3Button"
-      onClick={[Function]}
-      text="3"
-      type="topRight"
-    />
-    <ButtonDialpad
-      id="mockId4Button"
-      onClick={[Function]}
-      text="4"
-      type="left"
-    />
-    <ButtonDialpad
-      id="mockId5Button"
-      onClick={[Function]}
-      text="5"
-      type="middle"
-    />
-    <ButtonDialpad
-      id="mockId6Button"
-      onClick={[Function]}
-      text="6"
-      type="right"
-    />
-    <ButtonDialpad
-      id="mockId7Button"
-      onClick={[Function]}
-      text="7"
-      type="left"
-    />
-    <ButtonDialpad
-      id="mockId8Button"
-      onClick={[Function]}
-      text="8"
-      type="middle"
-    />
-    <ButtonDialpad
-      id="mockId9Button"
-      onClick={[Function]}
-      text="9"
-      type="right"
-    />
-    <ButtonDialpad
-      id="mockIdStarButton"
-      onClick={[Function]}
-      text="*"
-      type="bottomLeft"
-    />
-    <ButtonDialpad
-      id="mockId0Button"
-      onClick={[Function]}
-      text="0"
-      type="bottom"
-    />
-    <ButtonDialpad
-      id="mockIdNumberButton"
-      onClick={[Function]}
-      text="#"
-      type="bottomRight"
-    />
+    <div
+      data-radium={true}
+      id="mockId"
+      style={
+        Object {
+          "zIndex": "4",
+        }
+      }
+    >
+      <InjectIntl(TextInput)
+        autoFocus={true}
+        cb={[Function]}
+        disabled={true}
+        id="mockIdTextInput"
+        style={
+          Object {
+            "height": "32px",
+            "width": "100%",
+          }
+        }
+        value="mockDialpadText"
+      />
+      <div
+        data-radium={true}
+        style={
+          Object {
+            "marginTop": "13px",
+          }
+        }
+      >
+        <ButtonDialpad
+          id="mockId1Button"
+          onClick={[Function]}
+          text="1"
+          type="topLeft"
+        />
+        <ButtonDialpad
+          id="mockId2Button"
+          onClick={[Function]}
+          text="2"
+          type="top"
+        />
+        <ButtonDialpad
+          id="mockId3Button"
+          onClick={[Function]}
+          text="3"
+          type="topRight"
+        />
+        <ButtonDialpad
+          id="mockId4Button"
+          onClick={[Function]}
+          text="4"
+          type="left"
+        />
+        <ButtonDialpad
+          id="mockId5Button"
+          onClick={[Function]}
+          text="5"
+          type="middle"
+        />
+        <ButtonDialpad
+          id="mockId6Button"
+          onClick={[Function]}
+          text="6"
+          type="right"
+        />
+        <ButtonDialpad
+          id="mockId7Button"
+          onClick={[Function]}
+          text="7"
+          type="left"
+        />
+        <ButtonDialpad
+          id="mockId8Button"
+          onClick={[Function]}
+          text="8"
+          type="middle"
+        />
+        <ButtonDialpad
+          id="mockId9Button"
+          onClick={[Function]}
+          text="9"
+          type="right"
+        />
+        <ButtonDialpad
+          id="mockIdStarButton"
+          onClick={[Function]}
+          text="*"
+          type="bottomLeft"
+        />
+        <ButtonDialpad
+          id="mockId0Button"
+          onClick={[Function]}
+          text="0"
+          type="bottom"
+        />
+        <ButtonDialpad
+          id="mockIdNumberButton"
+          onClick={[Function]}
+          text="#"
+          type="bottomRight"
+        />
+      </div>
+    </div>
   </div>
 </div>
 `;

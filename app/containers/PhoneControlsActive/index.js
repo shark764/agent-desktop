@@ -93,6 +93,10 @@ export class PhoneControlsActive extends BaseComponent {
     }
   }
 
+  toggleDialpad = () => {
+    this.setShowActiveInteractionDialpad(!this.state.showActiveInteractionDialpad);
+  }
+
   resumeMe = () => {
     CxEngage.interactions.voice.resourceResume({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
   }
@@ -248,12 +252,16 @@ export class PhoneControlsActive extends BaseComponent {
         }
         {
           this.state.showActiveInteractionDialpad
-          ? <div>
-            <div style={[this.props.style.topTriangle, this.styles.activeVoiceInteractionDialpadTopTriangle]}></div>
-            <div style={[this.props.style.phoneControlsPopupMenu, this.styles.activeVoiceInteractionDialpadPhoneControlsPopupMenu]}>
-              <Dialpad id="activeInteractionDialpad" interactionId={this.props.activeVoiceInteraction.interactionId} setDialpadText={this.setActiveInteractionDialpadText} dialpadText={this.state.activeInteractionDialpadText} inCall />
-            </div>
-          </div>
+          ? <Dialpad
+            id="activeInteractionDialpad"
+            interactionId={this.props.activeVoiceInteraction.interactionId}
+            setDialpadText={this.setActiveInteractionDialpadText}
+            dialpadText={this.state.activeInteractionDialpadText}
+            inCall
+            toggle={this.toggleDialpad}
+            active
+            transfer={false}
+          />
           : undefined
         }
         {

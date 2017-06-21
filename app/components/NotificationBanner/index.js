@@ -21,12 +21,14 @@ const styles = {
   base: {
     backgroundColor: '#072931',
     width: '100%',
-    height: '40px',
+    height: '28px',
+    fontSize: '14px',
     padding: '0 30px',
     display: 'flex',
     alignItems: 'center',
     color: 'white',
     flexShrink: 0,
+    boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
   },
   baseError: {
     backgroundColor: '#FE4565',
