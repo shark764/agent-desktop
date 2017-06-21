@@ -99,6 +99,16 @@ import {
 
 // import { outboundConnectingVoiceInteraction, voiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithLotsOfMessagesAndScript2 } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
 
+const blankNewInteractionPanel = {
+  interactionId: 'creating-new-interaction',
+  status: 'creating-new-interaction',
+  visible: false,
+  sidePanelTabIndex: 0,
+  contactMode: 'view',
+  query: {},
+  activeContactForm: activeContactFormBlank,
+};
+
 const initialState = fromJS({
   // Uncomment to allow login screen to be hidden
   // presence: 'notReady',
@@ -117,15 +127,7 @@ const initialState = fromJS({
     sidePanelTabIndex: 0,
     activeContactForm: activeContactFormBlank,
   },
-  newInteractionPanel: {
-    interactionId: 'creating-new-interaction',
-    status: 'creating-new-interaction',
-    visible: false,
-    sidePanelTabIndex: 0,
-    contactMode: 'search',
-    query: {},
-    activeContactForm: activeContactFormBlank,
-  },
+  newInteractionPanel: blankNewInteractionPanel,
   queues: [],
   extensions: [],
   activeExtension: {},
@@ -461,11 +463,9 @@ function agentDesktopReducer(state = initialState, action) {
         );
         nextSelectedInteractionId = firstNonVoiceInteraction ? firstNonVoiceInteraction.get('interactionId') : undefined;
       }
-      return state.update('newInteractionPanel', (newInteractionPanel) =>
-        newInteractionPanel
-          .set('visible', false)
-          .set('contactMode', 'search')
-      ).set('selectedInteractionId', nextSelectedInteractionId);
+      return state
+        .set('newInteractionPanel', fromJS(blankNewInteractionPanel))
+        .set('selectedInteractionId', nextSelectedInteractionId);
     }
     case START_OUTBOUND_INTERACTION: {
       const outboundInteraction = new Map(new Interaction({
@@ -626,9 +626,17 @@ function agentDesktopReducer(state = initialState, action) {
     case SET_CONTACT_MODE: {
       const targetPath = getContactInteractionPath(state, action.interactionId);
       return state
-        .setIn([...targetPath, 'contactMode'],
-          action.newMode
-        );
+        .updateIn(targetPath, (interaction) => {
+          // InfoTab is always a view panel when in new interaction mode
+          if (
+            action.interactionId === 'creating-new-interaction'
+            && action.newMode === 'search'
+          ) {
+            return interaction.set('contactMode', 'view');
+          } else {
+            return interaction.set('contactMode', action.newMode);
+          }
+        });
     }
     case SET_INTERACTION_QUERY: {
       const interactionIndex = state.get('interactions').findIndex(

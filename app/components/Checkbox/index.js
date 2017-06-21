@@ -69,7 +69,7 @@ function Checkbox(props) {
         type="checkbox"
         style={[styles.checkbox, props.checkboxInputStyle]}
         checked={props.checked}
-        disabled={!props.cb}
+        disabled={!props.cb || props.disabled}
         onBlur={props.onBlur}
         onChange={handleChange}
       />
@@ -87,6 +87,7 @@ Checkbox.propTypes = {
   ]),
   cb: PropTypes.func,
   checked: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   style: PropTypes.object,
   labelStyle: PropTypes.object,
   checkboxInputStyle: PropTypes.object,

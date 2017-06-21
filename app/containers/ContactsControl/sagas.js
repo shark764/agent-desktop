@@ -121,7 +121,7 @@ export function* goSubmitContactCreate(action) {
     );
     yield put(addContactNotificationAction({ messageType: 'created' }));
     yield put(assignContact(interaction.interactionId, createdContact)); // loadOff
-    yield put(setContactMode(action.interactionId, 'search'));
+    yield put(setContactMode(action.interactionId, 'view'));
     yield put(setContactSaveLoading(action.interactionId, false));
     yield put(resetForm(action.interactionId));
   } catch (error) {
@@ -174,15 +174,17 @@ export function* goSubmitContactMerge(action) {
     );
     yield put(addContactNotificationAction({ messageType: 'merged' }));
     const interactionsList = yield select(selectInteractionsList);
+    yield put(assignContact(action.interactionId, createdContact));
+    yield put(setContactMode(interaction.interactionId, 'view'));
     yield interactionsList.toJS()
       .filter(
         (inter) =>
-        inter.contact
+        inter.interactionId !== action.interactionId
+        && inter.contact
         && [originalContacts[0].id, originalContacts[1].id].includes(inter.contact.id)
       )
       .map((inter) => put(assignContact(inter.interactionId, createdContact)));
     yield put(removeSearchFilter());
-    yield put(setContactMode(action.interactionId, 'search'));
     yield put(setContactSaveLoading(action.interactionId, false));
     yield put(resetForm(action.interactionId));
   } catch (error) {

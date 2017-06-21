@@ -198,7 +198,9 @@ export function* goAssignContact(action) {
       return;
     }
   }
-  yield put(setContactMode(interaction.interactionId, 'view'));
+  if (interaction.contactMode === 'search') {
+    yield put(setContactMode(interaction.interactionId, 'view'));
+  }
   yield call(loadContactInteractions, { contactId: action.contact.id });
   yield put(setContactSaveLoading(interaction.interactionId, false));
 }
