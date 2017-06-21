@@ -31,9 +31,9 @@ import {
   WORK_INITIATED,
   SET_INTERACTION_QUERY,
   SET_MESSAGE_HISTORY,
-  SET_CONTACT_ACTION,
+  SET_CONTACT_MODE,
   ASSIGN_CONTACT,
-  ASSIGN_CONTACT_TO_SELECTED,
+  SET_ASSIGNED_CONTACT,
   SET_SIDE_PANEL_TAB_INDEX,
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
@@ -84,6 +84,17 @@ import {
   SHOW_REFRESH_NOTIF,
   SHOW_CONTACTS_PANEL,
   HIDE_CONTACTS_PANEL,
+  SET_FORM_IS_DIRTY,
+  SET_FORM_VALIDITY,
+  SET_FORM_FIELD,
+  SET_FORM_ERROR,
+  SET_SHOW_ERROR,
+  SET_UNUSED_FIELD,
+  SET_SELECTED_INDEX,
+  SET_EDITING_CONTACTS,
+  SET_CONTACT_SAVE_LOADING,
+  INIT_FORM,
+  RESET_FORM,
 } from './constants';
 
 export function setUserConfig(response) {
@@ -254,11 +265,11 @@ export function removeSearchFilter(filterName) {
   };
 }
 
-export function setContactAction(interactionId, newAction) {
+export function setContactMode(interactionId, newMode) {
   return {
-    type: SET_CONTACT_ACTION,
+    type: SET_CONTACT_MODE,
     interactionId,
-    newAction,
+    newMode,
   };
 }
 
@@ -278,9 +289,10 @@ export function assignContact(interactionId, contact) {
   };
 }
 
-export function assignContactToSelected(contact) {
+export function setAssignedContact(interactionId, contact) {
   return {
-    type: ASSIGN_CONTACT_TO_SELECTED,
+    type: SET_ASSIGNED_CONTACT,
+    interactionId,
     contact,
   };
 }
@@ -642,5 +654,101 @@ export function showContactsPanel() {
 export function hideContactsPanel() {
   return {
     type: HIDE_CONTACTS_PANEL,
+  };
+}
+
+export function setFormIsDirty(interactionId, formIsDirty) {
+  return {
+    type: SET_FORM_IS_DIRTY,
+    interactionId,
+    formIsDirty,
+  };
+}
+
+export function setFormValidity(interactionId, formIsValid) {
+  return {
+    type: SET_FORM_VALIDITY,
+    interactionId,
+    formIsValid,
+  };
+}
+
+export function setFormField(interactionId, field, value) {
+  return {
+    type: SET_FORM_FIELD,
+    interactionId,
+    field,
+    value,
+  };
+}
+
+export function setFormError(interactionId, field, error) {
+  return {
+    type: SET_FORM_ERROR,
+    interactionId,
+    field,
+    error,
+  };
+}
+
+export function setShowError(interactionId, field, error) {
+  return {
+    type: SET_SHOW_ERROR,
+    interactionId,
+    field,
+    error,
+  };
+}
+
+export function setUnusedField(interactionId, field, value) {
+  return {
+    type: SET_UNUSED_FIELD,
+    interactionId,
+    field,
+    value,
+  };
+}
+
+export function setSelectedIndex(interactionId, field, index) {
+  return {
+    type: SET_SELECTED_INDEX,
+    interactionId,
+    field,
+    index,
+  };
+}
+
+export function setEditingContacts(interactionId, contacts) {
+  return {
+    type: SET_EDITING_CONTACTS,
+    interactionId,
+    contacts,
+  };
+}
+
+export function setContactSaveLoading(interactionId, isLoading) {
+  return {
+    type: SET_CONTACT_SAVE_LOADING,
+    interactionId,
+    isLoading,
+  };
+}
+
+export function initForm(interactionId, contactForm, formErrors, showErrors, unusedFields, selectedIndexes) {
+  return {
+    type: INIT_FORM,
+    interactionId,
+    contactForm,
+    formErrors,
+    showErrors,
+    unusedFields,
+    selectedIndexes,
+  };
+}
+
+export function resetForm(interactionId) {
+  return {
+    type: RESET_FORM,
+    interactionId,
   };
 }

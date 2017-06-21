@@ -39,9 +39,9 @@ import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiate
   updateWrapupDetails, addScript, removeScript, selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
   muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall,
   transferCancelled, resourceAdded, updateResourceName, updateResourceStatus, holdMe, resumeMe, resourceRemoved, showRefreshRequired,
-  emailAddAttachment, setQueues, setDispositionDetails, selectDisposition, goNotReady, showContactsPanel } from 'containers/AgentDesktop/actions';
+  emailAddAttachment, setQueues, setDispositionDetails, selectDisposition, goNotReady } from 'containers/AgentDesktop/actions';
 
-import { selectAgentDesktopMap, selectLoginMap, selectInteractions } from 'containers/AgentDesktop/selectors';
+import { selectAgentDesktopMap, selectLoginMap } from 'containers/AgentDesktop/selectors';
 
 import { version as release } from '../../../package.json';
 
@@ -267,12 +267,7 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/work-accepted-received': {
-            const acceptedInteraction = this.props.interactions.find((interaction) => interaction.interactionId === response.interactionid).toJS();
-            if (acceptedInteraction.contact) {
-              this.props.showContactsPanel();
-            }
             this.props.setInteractionStatus(response.interactionId, 'work-accepted', response);
-            this.props.selectInteraction(response.interactionId);
             break;
           }
           case 'cxengage/interactions/custom-fields-received': {
@@ -498,12 +493,6 @@ export class App extends React.Component {
     });
   }
 
-  setContactsPanelWidth = (newWidth) => {
-    this.setState({
-      contactsPanelPx: newWidth,
-    });
-  }
-
   selectInteraction = (interactionId) => {
     this.props.selectInteraction(interactionId);
   }
@@ -641,7 +630,6 @@ const mapStateToProps = (state, props) => ({
   activatedStatIds: selectActivatedStatIds(state, props).toJS(),
   erroredStatIds: selectErroredStatIds(state, props),
   nonCriticalError: selectNonCriticalError(state, props),
-  interactions: selectInteractions(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -702,7 +690,6 @@ function mapDispatchToProps(dispatch) {
     addStatErrorId: (statId) => dispatch(addStatErrorId(statId)),
     removeStatErrorId: (statId) => dispatch(removeStatErrorId(statId)),
     dismissError: () => dispatch(dismissError()),
-    showContactsPanel: () => dispatch(showContactsPanel()),
     dispatch,
   };
 }
@@ -771,8 +758,6 @@ App.propTypes = {
   criticalError: PropTypes.any,
   nonCriticalError: PropTypes.any,
   dismissError: PropTypes.func,
-  interactions: PropTypes.object,
-  showContactsPanel: PropTypes.func,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(App)));

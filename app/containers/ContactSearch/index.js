@@ -17,11 +17,11 @@ import IconSVG from 'components/IconSVG';
 import ContactSearchBar from 'containers/ContactSearchBar';
 import ContactSearchResult from 'containers/ContactSearchResult';
 
-import { removeSearchFilter, deleteContacts, setSidePanelTabIndex } from 'containers/AgentDesktop/actions';
+import { removeSearchFilter, setContactMode, deleteContacts, setSidePanelTabIndex } from 'containers/AgentDesktop/actions';
 import { getSelectedInteraction } from 'containers/SidePanel/selectors';
-import { resetForm } from 'containers/ContactsControl/actions';
-import { selectResults, selectResultsCount, selectNextPage, selectCheckedContacts, selectLoading, selectConfirmingDelete, selectDeletionPending, selectExpandedQuery, selectContactMode } from 'containers/InfoTab/selectors';
-import { setSearchResults, checkContact, uncheckContact, newContact, setLoading, setConfirmingDelete, setContactMode, clearSearchResults, clearCheckedContacts } from 'containers/InfoTab/actions';
+import { mergeContacts, newContact } from 'containers/ContactsControl/actions';
+import { selectResults, selectResultsCount, selectNextPage, selectCheckedContacts, selectLoading, selectConfirmingDelete, selectDeletionPending, selectExpandedQuery } from 'containers/InfoTab/selectors';
+import { setSearchResults, checkContact, uncheckContact, setLoading, setConfirmingDelete, clearSearchResults, clearCheckedContacts } from 'containers/InfoTab/actions';
 
 import messages from './messages';
 import NoRecords from './NoRecords';
@@ -157,12 +157,12 @@ export class ContactSearch extends BaseComponent {
   }
 
   setMerging = () => {
-    this.props.setContactMode('merge');
+    this.props.mergeContacts(this.props.selectedInteraction.interactionId);
     this.props.setSidePanelTabIndex(this.props.selectedInteraction.interactionId, 0);
   }
 
   newContact = () => {
-    this.props.newContact();
+    this.props.newContact(this.props.selectedInteraction.interactionId);
     this.props.setSidePanelTabIndex(this.props.selectedInteraction.interactionId, 0);
   }
 
@@ -223,7 +223,7 @@ export class ContactSearch extends BaseComponent {
           </div>
         );
       } else {
-        results = <NoRecords query={this.props.selectedInteraction.query} newContact={this.props.newContact} />;
+        results = <NoRecords query={this.props.selectedInteraction.query} newContact={this.newContact} />;
       }
     } else if (this.props.resultsCount < 1 && !this.props.loading) {
       results = (
@@ -237,7 +237,13 @@ export class ContactSearch extends BaseComponent {
           <div style={styles.orText}>
             <FormattedMessage {...messages.or} />
           </div>
-          <Button id="createNewRecord" type="secondary" text={messages.createRecord} onClick={this.newContact}></Button>
+          <Button
+            id="createNewRecord"
+            type="secondary"
+            text={messages.createRecord}
+            onClick={this.newContact}
+            disabled={!['search', 'view'].includes(this.props.selectedInteraction.contactMode)}
+          />
         </div>
       );
     }
@@ -269,7 +275,7 @@ export class ContactSearch extends BaseComponent {
         {
           this.props.results.length > 0
           && !this.props.loading
-          && !this.props.contactMode
+          && this.props.selectedInteraction.contactMode === 'search'
           && <ContactBulkActions
             newContact={this.newContact}
             selectedContacts={this.props.checkedContacts}
@@ -306,9 +312,8 @@ ContactSearch.propTypes = {
   setConfirmingDelete: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
   setContactMode: PropTypes.func.isRequired,
-  contactMode: PropTypes.string,
   setSidePanelTabIndex: PropTypes.func.isRequired,
-  resetForm: PropTypes.func.isRequired,
+  mergeContacts: PropTypes.func,
 };
 
 function mapStateToProps(state, props) {
@@ -322,7 +327,6 @@ function mapStateToProps(state, props) {
     deletionPending: selectDeletionPending(state, props),
     confirmingDelete: selectConfirmingDelete(state, props),
     query: selectExpandedQuery(state, props),
-    contactMode: selectContactMode(state, props),
   };
 }
 
@@ -334,14 +338,14 @@ function mapDispatchToProps(dispatch) {
     clearCheckedContacts: () => dispatch(clearCheckedContacts()),
     checkContact: (contact) => dispatch(checkContact(contact)),
     uncheckContact: (contact) => dispatch(uncheckContact(contact)),
-    newContact: () => dispatch(newContact()),
+    newContact: (interactionId) => dispatch(newContact(interactionId)),
     setLoading: (loading) => dispatch(setLoading(loading)),
     deleteContacts: () => dispatch(deleteContacts()),
     setConfirmingDelete: (confirmingDelete) => dispatch(setConfirmingDelete(confirmingDelete)),
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
-    setContactMode: (contactMode) => dispatch(setContactMode(contactMode)),
     setSidePanelTabIndex: (interactionId, sidePanelTabIndex) => dispatch(setSidePanelTabIndex(interactionId, sidePanelTabIndex)),
-    resetForm: () => dispatch(resetForm()),
+    setContactMode: (interactionId, newMode) => dispatch(setContactMode(interactionId, newMode)),
+    mergeContacts: (interactionId) => dispatch(mergeContacts(interactionId)),
     dispatch,
   };
 }

@@ -4,11 +4,22 @@ exports[`agentDesktopReducer ADD_INTERACTION adding an inbound interaction adds 
 Object {
   "interactions": Array [
     Object {
+      "activeContactForm": Object {
+        "contactForm": Object {},
+        "editingContacts": Array [],
+        "formErrors": Object {},
+        "formIsDirty": false,
+        "formIsValid": false,
+        "saveLoading": false,
+        "selectedIndexes": Object {},
+        "showErrors": Object {},
+        "unusedFields": Object {},
+      },
       "agentRecordingEnabled": undefined,
       "autoAnswer": undefined,
       "channelType": "voice",
       "contact": undefined,
-      "contactAction": "search",
+      "contactMode": "search",
       "direction": "inbound",
       "dispositionDetails": Object {
         "categories": Array [],
@@ -58,11 +69,22 @@ exports[`agentDesktopReducer ADD_INTERACTION adding an outbound voice interactio
 Object {
   "interactions": Array [
     Object {
+      "activeContactForm": Object {
+        "contactForm": Object {},
+        "editingContacts": Array [],
+        "formErrors": Object {},
+        "formIsDirty": false,
+        "formIsValid": false,
+        "saveLoading": false,
+        "selectedIndexes": Object {},
+        "showErrors": Object {},
+        "unusedFields": Object {},
+      },
       "agentRecordingEnabled": undefined,
       "autoAnswer": undefined,
       "channelType": "voice",
       "contact": undefined,
-      "contactAction": "search",
+      "contactMode": "search",
       "direction": "outbound",
       "dispositionDetails": Object {
         "categories": Array [],
@@ -340,6 +362,17 @@ exports[`agentDesktopReducer START_OUTBOUND_INTERACTION adds a new outbound inte
 Object {
   "interactions": Array [
     Object {
+      "activeContactForm": Object {
+        "contactForm": Object {},
+        "editingContacts": Array [],
+        "formErrors": Object {},
+        "formIsDirty": false,
+        "formIsValid": false,
+        "saveLoading": false,
+        "selectedIndexes": Object {},
+        "showErrors": Object {},
+        "unusedFields": Object {},
+      },
       "autoAnswer": undefined,
       "channelType": "sms",
       "contact": Object {
@@ -349,7 +382,7 @@ Object {
         },
         "id": "test-contact-id",
       },
-      "contactAction": "view",
+      "contactMode": "search",
       "customer": "+15064701234",
       "customerAvatarIndex": 0,
       "direction": "outbound",
@@ -387,7 +420,18 @@ Object {
   "interactions": Array [],
   "isContactsPanelCollapsed": true,
   "newInteractionPanel": Object {
-    "contactAction": "search",
+    "activeContactForm": Object {
+      "contactForm": Object {},
+      "editingContacts": Array [],
+      "formErrors": Object {},
+      "formIsDirty": false,
+      "formIsValid": false,
+      "saveLoading": false,
+      "selectedIndexes": Object {},
+      "showErrors": Object {},
+      "unusedFields": Object {},
+    },
+    "contactMode": "search",
     "interactionId": "creating-new-interaction",
     "query": Object {},
     "sidePanelTabIndex": 0,
@@ -395,7 +439,18 @@ Object {
     "visible": false,
   },
   "noInteractionContactPanel": Object {
-    "contactAction": "search",
+    "activeContactForm": Object {
+      "contactForm": Object {},
+      "editingContacts": Array [],
+      "formErrors": Object {},
+      "formIsDirty": false,
+      "formIsValid": false,
+      "saveLoading": false,
+      "selectedIndexes": Object {},
+      "showErrors": Object {},
+      "unusedFields": Object {},
+    },
+    "contactMode": "search",
     "query": Object {},
     "sidePanelTabIndex": 0,
   },

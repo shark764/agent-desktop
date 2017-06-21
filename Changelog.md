@@ -1,3 +1,6 @@
+### [0.42.2] (2017-06-21)
+* CXV1-9912 - CRM Panel refactor
+
 ### [0.42.1] (2017-06-20)
 * CXV1-9922 - Login and Tenant Select keyboard optimization
 
