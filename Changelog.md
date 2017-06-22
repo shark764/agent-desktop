@@ -1,3 +1,9 @@
+### [0.42.4] (2017-06-21)
+* CXV1-10076 - Clear new interaction panel on cancel
+* CXV1-10076 - BUGFIX - bulk action buttons missing
+* CXV1-10080 - Edit buttons available while edit already ongoing
+* CXV1-10081 - Auto assign on contact merge to match create behavior and allow view
+
 ### [0.42.3] (2017-06-21)
 * BUGFIX - Remove Sentry.io Logging
 * BUGFIX - Shorten notification banner height, add drop shadow, adjust font size

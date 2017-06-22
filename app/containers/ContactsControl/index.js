@@ -100,10 +100,14 @@ export class ContactsControl extends BaseComponent {
           />);
           break;
         case 'view':
-          content = (<ContactView
-            contact={this.props.selectedInteraction.contact ? this.props.selectedInteraction.contact : this.props.editingContact}
-            style={this.styles.mainContact}
-          />);
+          content = (
+            this.props.selectedInteraction.contact
+              ? (<ContactView
+                contact={this.props.selectedInteraction.contact}
+                style={this.styles.mainContact}
+              />)
+              : null
+          );
           break;
         case 'search':
         default:

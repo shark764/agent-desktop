@@ -86,6 +86,7 @@ export class ContactSearchResult extends BaseComponent {
               style={this.styles.checkbox}
               id={this.props.contact.id}
               checked={this.props.checked}
+              disabled={this.props.disableEditing}
               cb={this.props.selectContact}
             />
           }
@@ -93,7 +94,7 @@ export class ContactSearchResult extends BaseComponent {
         <ContactView
           contact={this.props.contact}
           showCompactView={!this.state.expanded}
-          showControls
+          showControls={!this.props.disableEditing}
           style={this.styles.contact}
         />
         <div onClick={() => this.setState({ expanded: !this.state.expanded })} style={this.styles.expandToggle} >
@@ -106,6 +107,7 @@ export class ContactSearchResult extends BaseComponent {
 
 ContactSearchResult.propTypes = {
   hideContactSelectCheckbox: PropTypes.bool,
+  disableEditing: PropTypes.bool,
   checked: PropTypes.bool.isRequired,
   selectContact: PropTypes.func.isRequired,
   style: PropTypes.object,

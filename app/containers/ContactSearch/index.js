@@ -184,6 +184,7 @@ export class ContactSearch extends BaseComponent {
   }
 
   render() {
+    const isEditing = !['search', 'view'].includes(this.props.selectedInteraction.contactMode);
     let results;
     if (
       this.props.selectedInteraction
@@ -207,6 +208,7 @@ export class ContactSearch extends BaseComponent {
               }}
               contact={contact}
               style={styles.contactResult}
+              disableEditing={isEditing}
             />);
           });
         results = (
@@ -242,7 +244,7 @@ export class ContactSearch extends BaseComponent {
             type="secondary"
             text={messages.createRecord}
             onClick={this.newContact}
-            disabled={!['search', 'view'].includes(this.props.selectedInteraction.contactMode)}
+            disabled={isEditing}
           />
         </div>
       );
@@ -275,7 +277,7 @@ export class ContactSearch extends BaseComponent {
         {
           this.props.results.length > 0
           && !this.props.loading
-          && this.props.selectedInteraction.contactMode === 'search'
+          && !isEditing
           && <ContactBulkActions
             newContact={this.newContact}
             selectedContacts={this.props.checkedContacts}
