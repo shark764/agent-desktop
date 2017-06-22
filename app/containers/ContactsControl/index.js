@@ -101,7 +101,7 @@ export class ContactsControl extends BaseComponent {
           break;
         case 'view':
           content = (
-            this.props.selectedInteraction.contact
+            this.props.selectedInteraction.contact && this.props.selectedInteraction.contact.id
               ? (<ContactView
                 contact={this.props.selectedInteraction.contact}
                 style={this.styles.mainContact}

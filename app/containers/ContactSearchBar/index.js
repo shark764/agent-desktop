@@ -225,7 +225,7 @@ export class ContactSearchBar extends BaseComponent {
 
   cancel = () => {
     this.props.removeSearchFilter();
-    if (this.props.selectedInteraction.contact !== undefined) {
+    if (this.props.selectedInteraction.contact !== undefined && this.props.selectedInteraction.contact.id !== undefined) {
       this.props.setContactMode(this.props.selectedInteraction.interactionId, 'view');
     }
   }
