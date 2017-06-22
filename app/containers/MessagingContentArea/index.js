@@ -342,7 +342,7 @@ export class MessagingContentArea extends BaseComponent {
     const isLoading = this.props.selectedInteraction.status === 'work-accepting' || this.props.selectedInteraction.status === 'initializing-outbound';
 
     let from;
-    if (this.props.selectedInteraction.contact !== undefined) {
+    if (this.props.selectedInteraction.contact && this.props.selectedInteraction.contact.id !== undefined) {
       from = this.props.selectedInteraction.contact.attributes.name;
     } else if (this.props.selectedInteraction.channelType === 'sms') {
       from = this.props.selectedInteraction.customer;
@@ -390,7 +390,7 @@ export class MessagingContentArea extends BaseComponent {
     } else {
       const messageHistory = this.props.selectedInteraction.messageHistory.map((message) => {
         let messageFrom;
-        if ((message.type === 'customer' || message.type === 'message') && this.props.selectedInteraction.contact !== undefined) {
+        if ((message.type === 'customer' || message.type === 'message') && (this.props.selectedInteraction.contact !== undefined && this.props.selectedInteraction.contact.id !== undefined)) {
           messageFrom = this.props.selectedInteraction.contact.attributes.name;
         } else {
           messageFrom = message.from;

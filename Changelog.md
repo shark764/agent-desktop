@@ -1,3 +1,8 @@
+### [0.42.5] (2017-06-22)
+* CXV1-9976 - Fix fatal error on creating contact from new outbound sms
+* Fix fatal error from viewing contact history when new interaction contact is undefined
+* Clear new interaction panel when starting new interaction
+
 ### [0.42.4] (2017-06-21)
 * CXV1-10076 - Clear new interaction panel on cancel
 * CXV1-10076 - BUGFIX - bulk action buttons missing

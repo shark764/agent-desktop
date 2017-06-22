@@ -107,6 +107,7 @@ const blankNewInteractionPanel = {
   contactMode: 'view',
   query: {},
   activeContactForm: activeContactFormBlank,
+  contact: {},
 };
 
 const initialState = fromJS({
@@ -126,6 +127,7 @@ const initialState = fromJS({
     query: {},
     sidePanelTabIndex: 0,
     activeContactForm: activeContactFormBlank,
+    contact: {},
   },
   newInteractionPanel: blankNewInteractionPanel,
   queues: [],
@@ -420,11 +422,7 @@ function agentDesktopReducer(state = initialState, action) {
           // Hide new interaction panel and auto select interaction (for outbound voice from new interaction panel)
           newState = newState
             .set('selectedInteractionId', action.interactionId)
-            .update('newInteractionPanel', (newInteractionPanel) =>
-              newInteractionPanel
-                .set('visible', false)
-                .set('contact', undefined)
-            );
+            .set('newInteractionPanel', fromJS(blankNewInteractionPanel));
         }
         if (openContactsPanel) {
           newState = newState.set('isContactsPanelCollapsed', false);
@@ -445,7 +443,7 @@ function agentDesktopReducer(state = initialState, action) {
     case NEW_INTERACTION_PANEL_SELECT_CONTACT: {
       return state.update('newInteractionPanel', (newInteractionPanel) =>
         newInteractionPanel
-          .set('contact', fromJS(action.contact))
+          .set('contact', fromJS(action.contact || {}))
           .set('contactMode', 'view')
       );
     }
@@ -485,9 +483,7 @@ function agentDesktopReducer(state = initialState, action) {
         .set('selectedInteractionId', (action.channelType === 'sms' || action.channelType === 'email') ? outboundInteraction.get('interactionId') : state.get('selectedInteractionId'))
         .update('newInteractionPanel', (newInteractionPanel) => {
           if (action.channelType === 'sms' && action.addedByNewInteractionPanel) {
-            return newInteractionPanel
-              .set('visible', false)
-              .set('contact', undefined);
+            return fromJS(blankNewInteractionPanel);
           } else {
             return newInteractionPanel;
           }
@@ -688,7 +684,7 @@ function agentDesktopReducer(state = initialState, action) {
               interactions.update(
                 interactionIndex,
                 (interaction) => {
-                  const updatedInteraction = interaction.set('contact', fromJS(action.contact));
+                  const updatedInteraction = interaction.set('contact', fromJS(action.contact || {}));
                   if (action.contact) {
                     return updatedInteraction.set('contactMode', 'view');
                   }
@@ -793,17 +789,17 @@ function agentDesktopReducer(state = initialState, action) {
     case REMOVE_CONTACT: {
       return state.update('interactions', (interactions) => interactions.map((interaction) => {
         if (interaction.getIn(['contact', 'id']) === action.contactId) {
-          return interaction.delete('contact');
+          return interaction.set('contact', fromJS({}));
         }
         return interaction;
       })).update('noInteractionContactPanel', (noInteractionContactPanel) => {
         if (noInteractionContactPanel.getIn(['contact', 'id']) === action.contactId) {
-          return noInteractionContactPanel.delete('contact');
+          return noInteractionContactPanel.set('contact', fromJS({}));
         }
         return noInteractionContactPanel;
       }).update('newInteractionPanel', (newInteractionPanel) => {
         if (newInteractionPanel.getIn(['contact', 'id']) === action.contactId) {
-          return newInteractionPanel.delete('contact');
+          return newInteractionPanel.set('contact', fromJS({}));
         }
         return newInteractionPanel;
       });

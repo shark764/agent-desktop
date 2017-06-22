@@ -6,6 +6,7 @@ import { takeEvery, call, put, select } from 'redux-saga/effects';
 import axios from 'axios';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
+import { isUUID } from 'utils/validator';
 
 import { getInteraction } from 'containers/ContactsControl/sagas';
 import { addContactNotification, addContactErrorNotification } from 'containers/ContactsControl/actions';
@@ -173,6 +174,8 @@ export function* goAssignContact(action) {
   } else if (interaction.interactionId === 'creating-new-interaction') {
     yield put(newInteractionPanelSelectContact(action.contact));
     yield put(showContactsPanel());
+  } else if (!isUUID(interaction.interactionId)) {
+    yield put(setAssignedContact(interaction.interactionId, action.contact));
   } else {
     try {
       if (interaction.contact && interaction.contact.id) {
