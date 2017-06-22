@@ -1,3 +1,6 @@
+### [0.42.6] (2017-06-22)
+* CXV1-9912 - New saga unit tests
+
 ### [0.42.5] (2017-06-22)
 * CXV1-9976 - Fix fatal error on creating contact from new outbound sms
 * Fix fatal error from viewing contact history when new interaction contact is undefined

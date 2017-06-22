@@ -5,10 +5,59 @@
 import {
   goEditContact,
   goMergeContacts,
+  getInteraction,
+  goAddContactNotification,
+  goAddContactErrorNotification,
+  goSubmitContactCreate,
+  goSubmitContactEdit,
+  goSubmitContactMerge,
 } from 'containers/ContactsControl/sagas';
 import { fromJS } from 'immutable';
 
-let generator;
+describe('getInteraction generator', () => {
+  let generator;
+  describe('if interactionId is undefined', () => {
+    beforeEach(() => {
+      generator = getInteraction('creating-new-interaction');
+    });
+    it('should select the no interaction contact panel', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should complete and yield the selected interaction', () => {
+      generator.next();
+      expect(generator.next('mockNoInteractionPanel')).toMatchSnapshot();
+    });
+  });
+  describe('if interactionId is creating-new-interaction', () => {
+    beforeEach(() => {
+      generator = getInteraction('creating-new-interaction');
+    });
+    it('should select the new interaction contact panel', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should complete and yield the selected interaction', () => {
+      generator.next();
+      expect(generator.next('mockNewInteractionPanel')).toMatchSnapshot();
+    });
+  });
+  describe('if interactionId is any other string', () => {
+    const mockInteractionList = fromJS([
+      { interactionId: 'mockInteractionId' },
+      { interactionId: '¡mockInteractionId!' },
+    ]);
+    beforeEach(() => {
+      generator = getInteraction('mockInteractionId');
+    });
+    it('should select the interaction List', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should complete and yield the interaction with the specified id', () => {
+      generator.next();
+      expect(generator.next(mockInteractionList)).toMatchSnapshot();
+    });
+  });
+});
+
 describe('goEditContact Saga', () => {
   const mockLayoutSections = [{
     label: 'label',
@@ -19,6 +68,7 @@ describe('goEditContact Saga', () => {
   }];
 
   describe('when action.contact is undefined', () => {
+    let generator;
     beforeEach(() => {
       generator = goEditContact({ interactionId: 'mockInteractionId' });
       generator.next();
@@ -41,6 +91,7 @@ describe('goEditContact Saga', () => {
   });
 
   describe('when action.contact is defined', () => {
+    let generator;
     beforeEach(() => {
       generator = goEditContact({
         interactionId: 'mockInteractionId',
@@ -81,6 +132,7 @@ describe('goEditContact Saga', () => {
 });
 
 describe('goMergeContacts saga', () => {
+  let generator;
   const mockCheckedContacts = [
     {
       id: 'contactId1',
@@ -136,3 +188,197 @@ describe('goMergeContacts saga', () => {
     expect(generator.next()).toMatchSnapshot();
   });
 });
+
+describe('goAddContactNotification Saga', () => {
+  let generator;
+  const mockNotificationId = 234;
+  const mockAction = {
+    interactionId: 'mockInteractionId',
+    notificationInfo: {
+      mockNotificationInfo: 'mockNotificationInfo',
+    },
+  };
+  beforeAll(() => {
+    generator = goAddContactNotification(mockAction);
+  });
+  it('should select the next notification id', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put the addNotification action with correct keys', () => {
+    expect(generator.next(mockNotificationId)).toMatchSnapshot();
+  });
+  it('should delay for 3000ms', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put the dismissNotification action with the selected id', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+});
+
+describe('goAddContactErrorNotification Saga', () => {
+  let generator;
+  const mockNotificationId = 234;
+  const mockAction = {
+    interactionId: 'mockInteractionId',
+    notificationInfo: {
+      mockNotificationInfo: 'mockNotificationInfo',
+    },
+  };
+  beforeAll(() => {
+    generator = goAddContactErrorNotification(mockAction);
+  });
+  it('should select the next notification id', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put the addNotification action with correct keys', () => {
+    expect(generator.next(mockNotificationId)).toMatchSnapshot();
+  });
+});
+
+describe('goSubmitContactCreate Saga', () => {
+  let generator;
+  const mockAction = {
+    interactionId: 'mockInteractionId',
+  };
+  const mockInteraction = {
+    activeContactForm: {
+      contactForm: 'mockContactForm',
+    },
+  };
+  beforeAll(() => {
+    global.CxEngage = {
+      contacts: {
+        create: 'mockContactCreate',
+      },
+    };
+    generator = goSubmitContactCreate(mockAction);
+  });
+  it('should call the getInteraction generator with the interactionId', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a setContactSaveLoading true action', () => {
+    expect(generator.next(mockInteraction)).toMatchSnapshot();
+  });
+  it('should call the promise util with the contact create SDK method and correct arguments', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a addContactNotification action with correct message type', () => {
+    expect(generator.next('mockCreatedContact')).toMatchSnapshot();
+  });
+  it('should put a contactAssign action with the created contact', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a set contact mode action', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a setContactSaveLoading false action', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a resetForm action', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+});
+
+describe('goSubmitContactEdit Saga', () => {
+  let generator;
+  const mockAction = {
+    interactionId: 'mockInteractionId',
+  };
+  const mockInteraction = {
+    activeContactForm: {
+      contactForm: 'mockContactForm',
+      editingContacts: [{ id: 'mockContactId' }],
+    },
+  };
+  beforeAll(() => {
+    global.CxEngage = {
+      contacts: {
+        update: 'mockContactUpdate',
+      },
+    };
+    generator = goSubmitContactEdit(mockAction);
+  });
+  it('should call the getInteraction generator with the interactionId', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a setContactSaveLoading true action', () => {
+    expect(generator.next(mockInteraction)).toMatchSnapshot();
+  });
+  it('should call the promise util with the contact update SDK method and correct arguments', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a addContactNotification action with correct message type', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a set contact mode action', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a setContactSaveLoading false action', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a resetForm action', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+});
+
+describe('goSubmitContactMerge Saga', () => {
+  let generator;
+  const mockAction = {
+    interactionId: 'mockInteractionId',
+  };
+  const mockInteractionList = fromJS([
+    { interactionId: 'mockInteractionId', contact: { id: 'mockContactId' } },
+    { interactionId: 'mockInteractionId1', contact: { id: 'mockContactId1' } },
+    { interactionId: 'mockInteractionId2', contact: { id: 'mockContactId2' } },
+    { interactionId: '¡mockInteractionId!' },
+  ]);
+  const mockInteraction = {
+    activeContactForm: {
+      contact: { id: 'mockContactId' },
+      contactForm: 'mockContactForm',
+      editingContacts: [{ id: 'mockContactId' }, { id: 'mockContactId1' }],
+    },
+  };
+  beforeAll(() => {
+    global.CxEngage = {
+      contacts: {
+        merge: 'mockContactMerge',
+      },
+    };
+    generator = goSubmitContactMerge(mockAction);
+  });
+  it('should call the getInteraction generator with the interactionId', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a setContactSaveLoading true action', () => {
+    expect(generator.next(mockInteraction)).toMatchSnapshot();
+  });
+  it('should call the promise util with the contact merge SDK method and correct arguments', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a addContactNotificationAction with correct message type', () => {
+    expect(generator.next('mockNewContact')).toMatchSnapshot();
+  });
+  it('should select the interactionsList', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should yield an assign contact put for action interaction', () => {
+    expect(generator.next(mockInteractionList)).toMatchSnapshot();
+  });
+  it('should put a set contact mode action', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should yield an assign contact put for each affected interaction', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a remove search filter action', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a setContactSaveLoading false action', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('should put a resetForm action', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+});
+
