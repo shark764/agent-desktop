@@ -1,3 +1,6 @@
+### [0.42.9] (2017-06-23)
+* INTERNAL - Added prettier formatting library
+
 ### [0.42.8] (2017-06-23)
 * BUGFIX - Fix keys for transfer lists
 
