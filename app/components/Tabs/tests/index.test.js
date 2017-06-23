@@ -14,10 +14,7 @@ describe('<Tabs />', () => {
     describe(`with type ${type}`, () => {
       it('should render correctly', () => {
         const rendered = shallow(
-          <Tabs
-            id="mockId"
-            type={type}
-          >
+          <Tabs id="mockId" type={type}>
             {[]}
           </Tabs>
         );

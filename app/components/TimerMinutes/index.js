@@ -14,7 +14,8 @@ import { FormattedMessage } from 'react-intl';
 
 import messages from './messages';
 
-function TimerMinutes({ seconds }) { // eslint-disable-line
+function TimerMinutes({ seconds }) {
+  // eslint-disable-line
   const minutes = Math.round(seconds / 60);
   let timeDisplay;
   let timeUnit;
@@ -28,9 +29,7 @@ function TimerMinutes({ seconds }) { // eslint-disable-line
     timeDisplay = Math.floor(minutes / 60);
     timeUnit = <FormattedMessage {...messages.hours} />;
   }
-  return (
-    <span>{ timeDisplay }{ timeUnit }</span>
-  );
+  return <span>{timeDisplay}{timeUnit}</span>;
 }
 
 TimerMinutes.propTypes = {

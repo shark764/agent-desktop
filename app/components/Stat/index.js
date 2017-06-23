@@ -60,7 +60,7 @@ function Stat(props) {
     hoverBox: {
       position: 'absolute',
       bottom: '66px',
-      right: `${((props.index - 1) * 104) + 19}px`,
+      right: `${(props.index - 1) * 104 + 19}px`,
       zIndex: '2',
       width: '166px',
       borderRadius: '8px',
@@ -79,7 +79,7 @@ function Stat(props) {
     },
     statRemove: {
       position: 'absolute',
-      right: `${((props.index - 1) * 104) + 60}px`,
+      right: `${(props.index - 1) * 104 + 60}px`,
       bottom: '30px',
       fontSize: '12px',
       zIndex: '2',
@@ -93,7 +93,7 @@ function Stat(props) {
       position: 'absolute',
       width: '0px',
       height: '0px',
-      right: `${((props.index - 1) * 104) + 95}px`,
+      right: `${(props.index - 1) * 104 + 95}px`,
       bottom: '60px',
       borderWidth: '8px',
       borderStyle: 'solid',
@@ -113,7 +113,8 @@ function Stat(props) {
       source = 'Agent';
       break;
     case 'queue-id':
-      source = props.queues.filter((queue) => queue.id === props.stat.queue)[0].name;
+      source = props.queues.filter((queue) => queue.id === props.stat.queue)[0]
+        .name;
       break;
     case 'tenant-id':
       source = 'Tenant';
@@ -130,37 +131,49 @@ function Stat(props) {
 
   return (
     <div className="stat-box" style={styles.statBox}>
-      {props.hover ?
-        <span>
+      {props.hover
+        ? <span>
           <div style={styles.hoverBox}>
             <div style={styles.hoverHeader}>
               <FormattedMessage {...messages.source} />:
-            </div>
+              </div>
             <div style={styles.hoverData}>
               {source}
             </div>
             <div style={styles.hoverHeader}>
               <FormattedMessage {...messages.statistic} />:
-            </div>
+              </div>
             <div style={styles.hoverData}>
               {props.userFriendlyName}
             </div>
             <div style={styles.hoverHeader}>
               <FormattedMessage {...messages.aggregate} />:
-            </div>
+              </div>
             <div style={styles.hoverData}>
               {aggregate}
             </div>
           </div>
           <span style={styles.hoverBoxTriangle} />
-          <span key={props.index} style={styles.statRemove} onClick={() => { props.removeStat(props.stat); }}>X</span>
+          <span
+            key={props.index}
+            style={styles.statRemove}
+            onClick={() => {
+              props.removeStat(props.stat);
+            }}
+          >
+              X
+            </span>
         </span>
-      : ''}
+        : ''}
       <div className="stat-value" style={styles.statValue}>
-        {(props.stat.results || props.stat.isErrored)
+        {props.stat.results || props.stat.isErrored
           ? <StatValue stat={props.stat} />
           : <div id="loadingContainer" style={styles.loading}>
-            <IconSVG style={styles.loadingIcon} id="loadingIcon" name="loadingWhite" />
+            <IconSVG
+              style={styles.loadingIcon}
+              id="loadingIcon"
+              name="loadingWhite"
+            />
           </div>}
       </div>
       <div className="agent-stat" style={styles.statName}>

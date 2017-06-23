@@ -55,15 +55,25 @@ const styles = {
 function ConfirmDialog(props) {
   return (
     <div style={props.style}>
-      <PopupDialog isVisible={props.isVisible} hide={props.hide} widthPx={200} arrowLeftOffsetPx={42} style={[styles.base, props.dialogStyle]} fadeContent>
+      <PopupDialog
+        isVisible={props.isVisible}
+        hide={props.hide}
+        widthPx={200}
+        arrowLeftOffsetPx={42}
+        style={[styles.base, props.dialogStyle]}
+        fadeContent
+      >
         <div style={styles.container}>
-          {
-            props.questionMessage
-            && <div style={styles.questionContainer}>
+          {props.questionMessage &&
+            <div style={styles.questionContainer}>
               <FormattedMessage {...props.questionMessage} />
-            </div>
-          }
-          <div style={[styles.buttonContainer, props.questionMessage ? { borderTop: '1px solid #C5C5C5' } : {}]}>
+            </div>}
+          <div
+            style={[
+              styles.buttonContainer,
+              props.questionMessage ? { borderTop: '1px solid #C5C5C5' } : {},
+            ]}
+          >
             <Button
               id="leftConfirmButton"
               onClick={props.leftAction}

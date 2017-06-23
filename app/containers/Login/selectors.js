@@ -14,29 +14,24 @@ const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
  * Other specific selectors
  */
 
-
 /**
  * Default selector used by Login
  */
 
-const selectLogin = createSelector(
-  selectLoginDomain,
-  (substate) => substate.toJS()
+const selectLogin = createSelector(selectLoginDomain, (substate) =>
+  substate.toJS()
 );
 
-const selectRefresh = createSelector(
-  selectAgentDesktopDomain,
-  (substate) => substate.get('refreshRequired')
+const selectRefresh = createSelector(selectAgentDesktopDomain, (substate) =>
+  substate.get('refreshRequired')
 );
 
-const selectTenant = createSelector(
-  selectLoginDomain,
-  (substate) => substate.get('tenant').toJS()
+const selectTenant = createSelector(selectLoginDomain, (substate) =>
+  substate.get('tenant').toJS()
 );
 
-const selectAgent = createSelector(
-  selectLoginDomain,
-  (substate) => substate.get('agent').toJS()
+const selectAgent = createSelector(selectLoginDomain, (substate) =>
+  substate.get('agent').toJS()
 );
 
 export default selectLogin;

@@ -24,7 +24,8 @@ export default defineMessages({
   },
   forgotInstructions: {
     id: 'app.containers.Login.forgotInstructions',
-    defaultMessage: 'Enter your email address and we\'ll send you a link to change your password',
+    defaultMessage:
+      "Enter your email address and we'll send you a link to change your password",
   },
   selectButton: {
     id: 'app.containers.Login.selectButton',
@@ -76,20 +77,23 @@ export default defineMessages({
   },
   copyright: {
     id: 'app.containers.Login.copyright',
-    defaultMessage: 'Copyright © 2015-{year} Serenova, LLC ("Serenova"). All rights reserved.',
+    defaultMessage:
+      'Copyright © 2015-{year} Serenova, LLC ("Serenova"). All rights reserved.',
     values: { year: new Date().getFullYear() },
   },
   legal: {
     id: 'app.containers.Login.legal',
-    defaultMessage: 'Access to this site requires separate permission from Serenova, LLC. This site contains confidential information, and may also contain content and enable interaction with users from third-party sites subject to different terms that are outside of Serenova\'s control. By using or accessing this site, you have agreed to the Terms of Service as outlined in the Master Service Agreement ("Agreement"). A copy of this Agreement is available from your Serenova contact.',
+    defaultMessage:
+      'Access to this site requires separate permission from Serenova, LLC. This site contains confidential information, and may also contain content and enable interaction with users from third-party sites subject to different terms that are outside of Serenova\'s control. By using or accessing this site, you have agreed to the Terms of Service as outlined in the Master Service Agreement ("Agreement"). A copy of this Agreement is available from your Serenova contact.',
   },
   error: {
     id: 'app.containers.Login.error',
-    defaultMessage: 'The username or password you\'ve entered is not correct',
+    defaultMessage: "The username or password you've entered is not correct",
   },
   generalError: {
     id: 'app.containers.Login.generalError',
-    defaultMessage: 'You were logged out because an error has occured, please log in again. If this persists, please contact support',
+    defaultMessage:
+      'You were logged out because an error has occured, please log in again. If this persists, please contact support',
   },
   noPermsError: {
     id: 'app.containers.Login.noPermsError',
@@ -97,7 +101,8 @@ export default defineMessages({
   },
   reasonListError: {
     id: 'app.containers.Login.reasonListError',
-    defaultMessage: 'No presence reason lists available on tenant, please talk to your administrator.',
+    defaultMessage:
+      'No presence reason lists available on tenant, please talk to your administrator.',
   },
   configLoadFailed: {
     id: 'app.containers.Login.configLoadFailed',

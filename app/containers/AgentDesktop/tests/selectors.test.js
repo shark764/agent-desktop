@@ -11,7 +11,6 @@ import {
   selectAwaitingDisposition,
 } from '../selectors';
 
-
 describe('selectInteractionsList', () => {
   it('should select interactions on the AgentDesktop domain', () => {
     const mockInteractions = [{ interactionId: 'mockId' }];
@@ -60,20 +59,21 @@ describe('selectAgentId', () => {
   });
 });
 
-
 describe('selectAwaitingDisposition', () => {
   it('should return true if the selected interaction is in wrapup & awaiting a disposition', () => {
     const mockedState = fromJS({
       agentDesktop: {
         selectedInteractionId: 'mockId',
-        interactions: [{
-          status: 'wrapup',
-          interactionId: 'mockId',
-          dispositionDetails: {
-            forceSelect: true,
-            selected: [],
+        interactions: [
+          {
+            status: 'wrapup',
+            interactionId: 'mockId',
+            dispositionDetails: {
+              forceSelect: true,
+              selected: [],
+            },
           },
-        }],
+        ],
       },
     });
     expect(selectAwaitingDisposition(mockedState)).toEqual(true);

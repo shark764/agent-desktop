@@ -9,10 +9,7 @@
  */
 
 import { fromJS } from 'immutable';
-import {
-  SET_CONTACT_LAYOUT,
-  SET_CONTACT_ATTRIBUTES,
-} from './constants';
+import { SET_CONTACT_LAYOUT, SET_CONTACT_ATTRIBUTES } from './constants';
 
 const initialState = fromJS({
   contactLayout: { layout: [] },

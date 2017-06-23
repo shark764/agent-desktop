@@ -33,24 +33,25 @@ export class Progress extends React.Component {
       current: Date.now(),
     });
     this.requestAnimationId = requestAnimationFrame(this.update);
-  }
+  };
 
   getBarStyle = () => {
-    const progressDecimal = Math.min((this.props.start - this.state.current) / (this.props.start - this.props.finish), 1);
+    const progressDecimal = Math.min(
+      (this.props.start - this.state.current) /
+        (this.props.start - this.props.finish),
+      1
+    );
     return {
       strokeDasharray: '100px, 100px',
       strokeDashoffset: `${progressDecimal * 100}px`,
       stroke: this.props.barColor,
     };
-  }
+  };
 
   render() {
     return (
       <div style={this.props.style}>
-        <svg
-          viewBox="0 0 100 2"
-          preserveAspectRatio="none"
-        >
+        <svg viewBox="0 0 100 2" preserveAspectRatio="none">
           <path
             d="M 1,1 L 99,1"
             strokeLinecap="round"

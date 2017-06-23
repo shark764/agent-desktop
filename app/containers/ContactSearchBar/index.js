@@ -23,7 +23,11 @@ import { setCriticalError } from 'containers/Errors/actions';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 
-import { addSearchFilter, removeSearchFilter, setContactMode } from 'containers/AgentDesktop/actions';
+import {
+  addSearchFilter,
+  removeSearchFilter,
+  setContactMode,
+} from 'containers/AgentDesktop/actions';
 import { selectSearchableAttributes } from './selectors';
 import messages from './messages';
 
@@ -49,7 +53,7 @@ export class ContactSearchBar extends BaseComponent {
   }
 
   getLabel = (attribute) => // TODO: Dynamically load translations and use intl.formatMessage
-    attribute.label[this.props.intl.locale] || attribute.objectName
+    attribute.label[this.props.intl.locale] || attribute.objectName;
 
   getAvailableFilters = () => {
     if (this.props.query.length && this.props.query[0].attribute.id === 'all') {
@@ -57,43 +61,57 @@ export class ContactSearchBar extends BaseComponent {
       return [];
     }
     const filteredFilters = this.props.searchableAttributes.filter(
-      (possibleFilter) => (this.props.query.findIndex((searchFilter) => searchFilter.attribute.objectName === possibleFilter.objectName) === -1)
+      (possibleFilter) =>
+        this.props.query.findIndex(
+          (searchFilter) =>
+            searchFilter.attribute.objectName === possibleFilter.objectName
+        ) === -1
     );
     return filteredFilters;
-  }
+  };
 
-  getItemValue = (item) => this.getLabel(item)
+  getItemValue = (item) => this.getLabel(item);
 
   resizeFilterDropdownMenu = () => {
-    const newInputDivWidth = (this.inputDivElement && this.inputDivElement.offsetWidth) || this.state.filterMenuWidth;
+    const newInputDivWidth =
+      (this.inputDivElement && this.inputDivElement.offsetWidth) ||
+      this.state.filterMenuWidth;
     if (newInputDivWidth !== this.state.filterMenuWidth) {
-      this.setState({ // eslint-disable-line react/no-did-mount-set-state
+      this.setState({
+        // eslint-disable-line react/no-did-mount-set-state
         filterMenuWidth: newInputDivWidth,
       });
     }
-  }
+  };
 
   handleFilterValueInputKey = (event) => {
     switch (event.key) {
       case 'Backspace':
         if (!this.state.pendingFilterValue.length) {
-          this.setState({
-            pendingFilter: false,
-          }, this.props.focusSearchInputElement);
+          this.setState(
+            {
+              pendingFilter: false,
+            },
+            this.props.focusSearchInputElement
+          );
         }
         break;
       default:
         break;
     }
-  }
+  };
 
   createDropdownItem = (item, isHighlighted) =>
     <div
       key={item.id}
-      style={Object.assign({}, this.styles.filterDropdownRow, isHighlighted ? this.styles.highlightedFilter : {})}
+      style={Object.assign(
+        {},
+        this.styles.filterDropdownRow,
+        isHighlighted ? this.styles.highlightedFilter : {}
+      )}
     >
       {this.getLabel(item)}
-    </div>
+    </div>;
 
   styles = {
     base: {
@@ -192,20 +210,28 @@ export class ContactSearchBar extends BaseComponent {
   };
 
   handleFilterSelect = (itemName) => {
-    this.setState({
-      pendingFilter: this.props.searchableAttributes.find((filter) => this.getLabel(filter) === itemName),
-      autoCompleteValue: '',
-    }, this.props.focusSearchInputElement);
-  }
+    this.setState(
+      {
+        pendingFilter: this.props.searchableAttributes.find(
+          (filter) => this.getLabel(filter) === itemName
+        ),
+        autoCompleteValue: '',
+      },
+      this.props.focusSearchInputElement
+    );
+  };
 
   matchFilterToTerm = (state, value) =>
-    this.getLabel(state).toLowerCase().indexOf(value.toLowerCase()) !== -1
+    this.getLabel(state).toLowerCase().indexOf(value.toLowerCase()) !== -1;
 
   handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.pendingFilter) {
       if (this.state.pendingFilterValue.length) {
-        this.props.addFilter(this.state.pendingFilter.objectName, this.state.pendingFilterValue);
+        this.props.addFilter(
+          this.state.pendingFilter.objectName,
+          this.state.pendingFilterValue
+        );
         this.setState({
           pendingFilter: false,
           pendingFilterValue: '',
@@ -221,42 +247,52 @@ export class ContactSearchBar extends BaseComponent {
       });
     }
     return false;
-  }
+  };
 
   cancel = () => {
     this.props.removeSearchFilter();
-    if (this.props.selectedInteraction.contact !== undefined && this.props.selectedInteraction.contact.id !== undefined) {
-      this.props.setContactMode(this.props.selectedInteraction.interactionId, 'view');
+    if (
+      this.props.selectedInteraction.contact !== undefined &&
+      this.props.selectedInteraction.contact.id !== undefined
+    ) {
+      this.props.setContactMode(
+        this.props.selectedInteraction.interactionId,
+        'view'
+      );
     }
-  }
+  };
 
   handleAutocompleteRef = (component) => {
     if (component && component.refs) {
       this.props.setSearchInputElement(component.refs.input);
     }
-  }
+  };
 
   getResultsCountText = () => {
     let resultsCountText;
     if (this.props.resultsCount === 1) {
       resultsCountText = <FormattedMessage {...messages.result} />;
     } else if (this.props.resultsCount !== -1) {
-      resultsCountText = <FormattedMessage {...messages.results} values={{ count: String(this.props.resultsCount) }} />;
+      resultsCountText = (
+        <FormattedMessage
+          {...messages.results}
+          values={{ count: String(this.props.resultsCount) }}
+        />
+      );
     }
     return resultsCountText;
-  }
+  };
 
   setinputDivElement = (element) => {
     this.inputDivElement = element;
-  }
+  };
 
   render() {
     return (
       <form id="search-form" onSubmit={this.handleSubmit}>
         <div id="contactSearchBar" style={[this.styles.base, this.props.style]}>
           <div ref={this.setinputDivElement} style={this.styles.inputBox}>
-            {
-              this.state.pendingFilter
+            {this.state.pendingFilter
               ? <span style={this.styles.inputWrapper}>
                 <span style={this.styles.filterName}>
                   {`${this.getLabel(this.state.pendingFilter)}:`}&nbsp;
@@ -266,7 +302,8 @@ export class ContactSearchBar extends BaseComponent {
                   noBorder
                   onKeyDown={this.handleFilterValueInputKey}
                   style={[this.styles.input, this.styles.pendingFilterInput]}
-                  cb={(pendingFilterValue) => this.setState({ pendingFilterValue })}
+                  cb={(pendingFilterValue) =>
+                      this.setState({ pendingFilterValue })}
                   value={this.state.pendingFilterValue}
                   handleInputRef={this.props.setSearchInputElement}
                 />
@@ -277,21 +314,30 @@ export class ContactSearchBar extends BaseComponent {
                 renderItem={this.createDropdownItem}
                 getItemValue={this.getItemValue}
                 shouldItemRender={this.matchFilterToTerm}
-                onChange={(event, value) => this.setState({ autocompleteValue: value })}
+                onChange={(event, value) =>
+                    this.setState({ autocompleteValue: value })}
                 onSelect={this.handleFilterSelect}
                 inputProps={{
                   style: this.styles.input,
                 }}
                 wrapperStyle={this.styles.inputWrapper}
-                menuStyle={{ ...this.styles.filterDropdown, width: `${this.state.filterMenuWidth}px` }}
+                menuStyle={{
+                  ...this.styles.filterDropdown,
+                  width: `${this.state.filterMenuWidth}px`,
+                }}
                 ref={this.handleAutocompleteRef}
-              />
-            }
+              />}
             <div style={this.styles.resultsCount}>
-              { this.getResultsCountText() }
+              {this.getResultsCountText()}
             </div>
           </div>
-          <Button id="exit-search-btn" style={this.styles.closeButton} iconName="close" type="secondary" onClick={this.cancel} />
+          <Button
+            id="exit-search-btn"
+            style={this.styles.closeButton}
+            iconName="close"
+            type="secondary"
+            onClick={this.cancel}
+          />
         </div>
       </form>
     );
@@ -314,11 +360,15 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    addFilter: (filterName, value) => dispatch(addSearchFilter(filterName, value)),
+    addFilter: (filterName, value) =>
+      dispatch(addSearchFilter(filterName, value)),
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
-    setContactMode: (interactionId, newMode) => dispatch(setContactMode(interactionId, newMode)),
+    setContactMode: (interactionId, newMode) =>
+      dispatch(setContactMode(interactionId, newMode)),
     dispatch,
   };
 }
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactSearchBar)));
+export default injectIntl(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(ContactSearchBar))
+);

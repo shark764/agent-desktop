@@ -9,40 +9,44 @@ const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 const selectHasActiveInteractions = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) =>
-    agentDesktop.get('interactions').find((interaction) =>
-      interaction.get('status') === 'work-accepting' || interaction.get('status') === 'work-accepted'
-    ) !== undefined
+    agentDesktop
+      .get('interactions')
+      .find(
+        (interaction) =>
+          interaction.get('status') === 'work-accepting' ||
+          interaction.get('status') === 'work-accepted'
+      ) !== undefined
 );
 
 const selectExtensions = createSelector(
   selectAgentDesktopDomain,
-  (agentDesktop) =>
-    agentDesktop.get('extensions').toJS()
+  (agentDesktop) => agentDesktop.get('extensions').toJS()
 );
 
 const selectActiveExtension = createSelector(
   selectAgentDesktopDomain,
-  (agentDesktop) =>
-    agentDesktop.get('activeExtension').toJS()
+  (agentDesktop) => agentDesktop.get('activeExtension').toJS()
 );
 
 const selectHasActiveWrapup = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) =>
-    agentDesktop.get('interactions').find((interaction) =>
-      interaction.get('status') === 'wrapup'
-    ) !== undefined
-    );
+    agentDesktop
+      .get('interactions')
+      .find((interaction) => interaction.get('status') === 'wrapup') !== undefined
+);
 const selectPresenceReasonLists = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) =>
-    agentDesktop.getIn(['presenceReasonLists']).filter((list) => list.get('name') !== 'System Presence Reasons').toJS()
+    agentDesktop
+      .getIn(['presenceReasonLists'])
+      .filter((list) => list.get('name') !== 'System Presence Reasons')
+      .toJS()
 );
 
 const selectSelectedPresenceReason = createSelector(
   selectAgentDesktopDomain,
-  (agentDesktop) =>
-    agentDesktop.get('presenceReason').toJS()
+  (agentDesktop) => agentDesktop.get('presenceReason').toJS()
 );
 
 export {

@@ -11,15 +11,17 @@ const selectInteractions = createSelector(
 );
 
 const selectActiveVoiceInteraction = createSelector(
-   [selectInteractions],
-   (interactions) => {
-     const activeVoiceInteraction = interactions.toJS().find(
-       (interaction) => interaction.status === 'work-accepted' && interaction.channelType === 'voice'
-     );
-     return activeVoiceInteraction;
-   }
- );
+  [selectInteractions],
+  (interactions) => {
+    const activeVoiceInteraction = interactions
+      .toJS()
+      .find(
+        (interaction) =>
+          interaction.status === 'work-accepted' &&
+          interaction.channelType === 'voice'
+      );
+    return activeVoiceInteraction;
+  }
+);
 
-export {
-  selectActiveVoiceInteraction,
-};
+export { selectActiveVoiceInteraction };

@@ -17,9 +17,11 @@ describe('loadHistoricalInteractionBody Saga', () => {
     };
     const generator = loadHistoricalInteractionBody(mockAction);
     const mockGetRecordings = 'mockGetRecordingsFunction';
-    const mockRecordings = [{
-      url: 'mockRecordingUrl',
-    }];
+    const mockRecordings = [
+      {
+        url: 'mockRecordingUrl',
+      },
+    ];
     beforeEach(() => {
       global.CxEngage = {
         interactions: {
@@ -43,9 +45,11 @@ describe('loadHistoricalInteractionBody Saga', () => {
     };
     const generator = loadHistoricalInteractionBody(mockAction);
     const mockGetTranscripts = 'mockGetTranscriptsFunction';
-    const mockGetTranscriptsResponse = [{
-      url: 'mockTranscriptUrl',
-    }];
+    const mockGetTranscriptsResponse = [
+      {
+        url: 'mockTranscriptUrl',
+      },
+    ];
     const mockTranscriptUrlResponse = {
       data: 'mockTranscript',
     };
@@ -182,10 +186,7 @@ describe('goNotReady', () => {
 
 describe('goDeleteContacts', () => {
   let generator;
-  const mockCheckedContacts = [
-    { id: 'reasonId1' },
-    { id: 'reasonId2' },
-  ];
+  const mockCheckedContacts = [{ id: 'reasonId1' }, { id: 'reasonId2' }];
   beforeEach(() => {
     global.CxEngage = {
       contacts: {

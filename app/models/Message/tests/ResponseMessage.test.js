@@ -35,34 +35,41 @@ describe('ResponseMessage', () => {
       expect(message).toMatchSnapshot();
     });
     it('should construct unread as true when selectedInteractionId is different', () => {
-      const message = new ResponseMessage({
-        to: 'interaction-id',
-        type: 'type',
-        from: 'from',
-        body: {
-          text: 'text',
+      const message = new ResponseMessage(
+        {
+          to: 'interaction-id',
+          type: 'type',
+          from: 'from',
+          body: {
+            text: 'text',
+          },
+          timestamp: 'timestamp',
         },
-        timestamp: 'timestamp',
-      }, 'another-interaction-id');
+        'another-interaction-id'
+      );
       expect(message).toMatchSnapshot();
     });
     it('should construct with "agent" type and "Agent" from when from is userId', () => {
-      const message = new ResponseMessage({
-        to: 'interaction-id',
-        // type: 'type',
-        from: 'userId',
-        body: {
-          text: 'text',
+      const message = new ResponseMessage(
+        {
+          to: 'interaction-id',
+          // type: 'type',
+          from: 'userId',
+          body: {
+            text: 'text',
+          },
+          timestamp: 'timestamp',
         },
-        timestamp: 'timestamp',
-      }, 'another-interaction-id',
-      'userId');
+        'another-interaction-id',
+        'userId'
+      );
       expect(message).toMatchSnapshot();
     });
     it('should error when "to" is not passed in', () => {
       let error;
       try {
-        new ResponseMessage({ // eslint-disable-line no-new
+        // eslint-disable-next-line no-new
+        new ResponseMessage({
           // to: 'interaction-id',
           type: 'type',
           from: 'from',

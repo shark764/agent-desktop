@@ -17,21 +17,20 @@ const selectContactsControlDomain = () => (state) => state.get('contactsControl'
 const selectSidePanelDomain = (state) => state.get('sidePanel');
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 
-const selectAttributes = createSelector(
- selectSidePanelDomain,
- (sidePanel) => sidePanel.get('contactAttributes').toJS()
+const selectAttributes = createSelector(selectSidePanelDomain, (sidePanel) =>
+  sidePanel.get('contactAttributes').toJS()
 );
 
 const selectNoInteractionContactPanelContactsData = createSelector(
- selectAgentDesktopDomain,
- (agentDesktop) => agentDesktop.get('noInteractionContactPanel')
+  selectAgentDesktopDomain,
+  (agentDesktop) => agentDesktop.get('noInteractionContactPanel')
 );
 
 const getSelectedInteractionIsCreatingNewInteraction = createSelector(
   selectSelectedInteraction,
   (selectedInteraction) =>
-    selectedInteraction !== undefined
-      && selectedInteraction.interactionId === 'creating-new-interaction'
+    selectedInteraction !== undefined &&
+    selectedInteraction.interactionId === 'creating-new-interaction'
 );
 
 const selectShowCancelDialog = createSelector(
@@ -45,14 +44,14 @@ const selectShowConfirmDialog = createSelector(
 );
 
 const selectCurrentInteraction = createSelector(
- [selectSelectedInteraction, selectNoInteractionContactPanelContactsData],
- (selectedInteraction, floatingNoInteractionData) => {
-   if (selectedInteraction) {
-     return selectedInteraction;
-   } else {
-     return floatingNoInteractionData.toJS();
-   }
- }
+  [selectSelectedInteraction, selectNoInteractionContactPanelContactsData],
+  (selectedInteraction, floatingNoInteractionData) => {
+    if (selectedInteraction) {
+      return selectedInteraction;
+    } else {
+      return floatingNoInteractionData.toJS();
+    }
+  }
 );
 
 const selectContactMode = createSelector(
@@ -114,10 +113,8 @@ const selectContactSaveLoading = createSelector(
  * Default selector used by ContactsControl
  */
 
-const selectContactsControl = () => createSelector(
-  selectContactsControlDomain(),
-  (substate) => substate.toJS()
-);
+const selectContactsControl = () =>
+  createSelector(selectContactsControlDomain(), (substate) => substate.toJS());
 
 export default selectContactsControl;
 export {

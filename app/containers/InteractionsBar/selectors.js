@@ -16,31 +16,36 @@ const getSelectedInteractionId = createSelector(
 
 const selectActiveNonVoiceInteractions = createSelector(
   selectInteractions,
-  (interactions) => interactions.toJS().filter((interaction) =>
-    (
-      interaction.status === 'work-accepting' ||
-      interaction.status === 'work-accepted' ||
-      interaction.status === 'wrapup' ||
-      interaction.status === 'work-ended-pending-script' ||
-      interaction.status === 'creating-new-interaction' ||
-      interaction.status === 'connecting-to-outbound' ||
-      interaction.status === 'initializing-outbound' ||
-      interaction.status === 'initialized-outbound'
-    ) && interaction.channelType !== 'voice'
-  )
+  (interactions) =>
+    interactions
+      .toJS()
+      .filter(
+        (interaction) =>
+          (interaction.status === 'work-accepting' ||
+            interaction.status === 'work-accepted' ||
+            interaction.status === 'wrapup' ||
+            interaction.status === 'work-ended-pending-script' ||
+            interaction.status === 'creating-new-interaction' ||
+            interaction.status === 'connecting-to-outbound' ||
+            interaction.status === 'initializing-outbound' ||
+            interaction.status === 'initialized-outbound') &&
+          interaction.channelType !== 'voice'
+      )
 );
 
 const selectActiveVoiceInteraction = createSelector(
   selectInteractions,
-  (interactions) => interactions.toJS().find(
-    (interaction) =>
-      (
-        interaction.status === 'work-accepting' ||
-        interaction.status === 'work-accepted' ||
-        interaction.status === 'wrapup' ||
-        interaction.status === 'work-ended-pending-script'
-      ) && interaction.channelType === 'voice'
-  )
+  (interactions) =>
+    interactions
+      .toJS()
+      .find(
+        (interaction) =>
+          (interaction.status === 'work-accepting' ||
+            interaction.status === 'work-accepted' ||
+            interaction.status === 'wrapup' ||
+            interaction.status === 'work-ended-pending-script') &&
+          interaction.channelType === 'voice'
+      )
 );
 
 const selectNewInteractionPanel = createSelector(
@@ -50,16 +55,16 @@ const selectNewInteractionPanel = createSelector(
 
 const selectPendingInteractions = createSelector(
   selectInteractions,
-  (interactions) => interactions.toJS().filter((interaction) =>
-    // If it's not a voice/email interaction, make sure we have messageHistory before we show it.
-    interaction.status === 'work-initiated'
-    && (interaction.autoAnswer === false || interaction.autoAnswer === null)
-    && (
-      interaction.channelType === 'voice'
-      || interaction.channelType === 'email'
-      || interaction.messageHistory !== undefined
+  (interactions) =>
+    interactions.toJS().filter(
+      (interaction) =>
+        // If it's not a voice/email interaction, make sure we have messageHistory before we show it.
+        interaction.status === 'work-initiated' &&
+        (interaction.autoAnswer === false || interaction.autoAnswer === null) &&
+        (interaction.channelType === 'voice' ||
+          interaction.channelType === 'email' ||
+          interaction.messageHistory !== undefined)
     )
-  )
 );
 
 export {

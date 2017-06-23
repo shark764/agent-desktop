@@ -5,12 +5,17 @@
 import Message from './Message';
 
 export default class ResponseMessage extends Message {
-  constructor({ to, metadata, from, type, body, timestamp }, selectedInteractionId, agentId) {
+  constructor(
+    { to, metadata, from, type, body, timestamp },
+    selectedInteractionId,
+    agentId
+  ) {
     if (to == null) {
       throw new Error('to is required');
     }
     const text = body ? body.text : undefined;
-    const unread = selectedInteractionId !== undefined && to !== selectedInteractionId;
+    const unread =
+      selectedInteractionId !== undefined && to !== selectedInteractionId;
     let messageType;
     let messageFrom;
     // Doing this check because agent messages from the message history do not have the agent meta data
@@ -19,7 +24,9 @@ export default class ResponseMessage extends Message {
       messageFrom = 'Agent';
     } else {
       messageType = metadata != null ? metadata.type : type;
-      messageFrom = metadata != null && metadata.name != null ? metadata.name : from;
+      messageFrom = metadata != null && metadata.name != null
+        ? metadata.name
+        : from;
     }
     super({ type: messageType, from: messageFrom, text, timestamp, unread });
   }

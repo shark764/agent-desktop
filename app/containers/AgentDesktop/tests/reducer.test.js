@@ -2,7 +2,6 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
-
 import { fromJS } from 'immutable';
 
 import Message from 'models/Message/Message';
@@ -65,7 +64,7 @@ describe('agentDesktopReducer', () => {
             },
           ];
         });
-        it('updates the correct interaction\'s status', () => {
+        it("updates the correct interaction's status", () => {
           runReducerAndExpectSnapshot();
         });
       });
@@ -102,7 +101,7 @@ describe('agentDesktopReducer', () => {
         });
       });
     });
-    describe('if setting an interaction\'s status to wrapup', () => {
+    describe("if setting an interaction's status to wrapup", () => {
       beforeEach(() => {
         action.newStatus = 'wrapup';
       });
@@ -155,7 +154,8 @@ describe('agentDesktopReducer', () => {
                   targetResource: 'resource-id-1',
                   muted: false,
                   onHold: false,
-                }, {
+                },
+                {
                   targetResource: 'resource-id-2',
                   // These will be updated
                   muted: false,
@@ -308,7 +308,7 @@ describe('agentDesktopReducer', () => {
           type: 'agent',
           from: 'Agent',
           text: 'test message',
-          timestamp: (new Date(0)).toISOString(),
+          timestamp: new Date(0).toISOString(),
           unread: false,
         });
       });
@@ -325,7 +325,7 @@ describe('agentDesktopReducer', () => {
           body: {
             text: 'test messasge',
           },
-          timestamp: (new Date(0)).toISOString(),
+          timestamp: new Date(0).toISOString(),
         });
       });
       it('is added', () => {
@@ -343,7 +343,9 @@ describe('agentDesktopReducer', () => {
         } catch (e) {
           error = e;
         }
-        expect(error.message).toEqual('ADD_MESSAGE message must be of type Message');
+        expect(error.message).toEqual(
+          'ADD_MESSAGE message must be of type Message'
+        );
       });
     });
   });
@@ -437,8 +439,14 @@ describe('agentDesktopReducer', () => {
         });
         describe('voice interaction exists', () => {
           beforeEach(() => {
-            initialState.interactions.push({ interactionId: 'sms-interaction-id', channelType: 'sms' });
-            initialState.interactions.push({ interactionId: 'voice-interaction-id', channelType: 'voice' });
+            initialState.interactions.push({
+              interactionId: 'sms-interaction-id',
+              channelType: 'sms',
+            });
+            initialState.interactions.push({
+              interactionId: 'voice-interaction-id',
+              channelType: 'voice',
+            });
           });
           it('selects the voice interaction', () => {
             runReducerAndExpectSnapshot();
@@ -446,8 +454,14 @@ describe('agentDesktopReducer', () => {
         });
         describe('only non-voice interactions exist', () => {
           beforeEach(() => {
-            initialState.interactions.push({ interactionId: 'first-interaction-id', channelType: 'sms' });
-            initialState.interactions.push({ interactionId: 'second-interaction-id', channelType: 'email' });
+            initialState.interactions.push({
+              interactionId: 'first-interaction-id',
+              channelType: 'sms',
+            });
+            initialState.interactions.push({
+              interactionId: 'second-interaction-id',
+              channelType: 'email',
+            });
           });
           it('selects the first non-voice interaction', () => {
             runReducerAndExpectSnapshot();

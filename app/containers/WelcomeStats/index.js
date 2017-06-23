@@ -110,32 +110,44 @@ export class WelcomeStats extends BaseComponent {
   };
 
   getStatBody = (filledStat) => {
-    if (
-      filledStat
-      && (filledStat.results || filledStat.isErrored)
-    ) {
+    if (filledStat && (filledStat.results || filledStat.isErrored)) {
       return <StatValue stat={filledStat} />;
     } else {
       return this.getLoadingIcon();
     }
-  }
+  };
 
   getStatDisplay = (stat, index) =>
-    <div style={[this.styles.statContainer, { order: index }]} key={stat[statKey]}>
-      <div style={this.styles.statTitle}><FormattedMessage {...messages[stat[statKey]]} /></div>
-      <div style={this.styles.statVal}>
-        { this.getStatBody(this.props.welcomeStats[stat[statKey]]) }
+    <div
+      style={[this.styles.statContainer, { order: index }]}
+      key={stat[statKey]}
+    >
+      <div style={this.styles.statTitle}>
+        <FormattedMessage {...messages[stat[statKey]]} />
       </div>
-    </div>
+      <div style={this.styles.statVal}>
+        {this.getStatBody(this.props.welcomeStats[stat[statKey]])}
+      </div>
+    </div>;
 
-  getLoadingIcon = () => <IconSVG style={this.styles.loadingIcon} id="loadingIcon" name="loadingWhite" />
+  getLoadingIcon = () =>
+    <IconSVG
+      style={this.styles.loadingIcon}
+      id="loadingIcon"
+      name="loadingWhite"
+    />;
 
   render() {
     return (
       <div style={this.styles.welcome}>
-        <span style={this.styles.statTitle}><FormattedMessage {...messages.welcome} /></span><span style={this.styles.agentName}>{this.props.agent.firstName} {this.props.agent.lastName}</span>
+        <span style={this.styles.statTitle}>
+          <FormattedMessage {...messages.welcome} />
+        </span>
+        <span style={this.styles.agentName}>
+          {this.props.agent.firstName} {this.props.agent.lastName}
+        </span>
         <div id="statContainer" style={this.styles.statsContainer}>
-          { welcomeStatsConfig.map(this.getStatDisplay) }
+          {welcomeStatsConfig.map(this.getStatDisplay)}
         </div>
       </div>
     );
@@ -161,4 +173,6 @@ WelcomeStats.propTypes = {
   erroredStatIds: PropTypes.array.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(WelcomeStats));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  Radium(WelcomeStats)
+);

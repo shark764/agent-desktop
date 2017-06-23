@@ -20,12 +20,22 @@ import { setCriticalError } from 'containers/Errors/actions';
 import Icon from 'components/Icon';
 import PopupDialog from 'components/PopupDialog';
 
-import { setActiveExtension, goNotReady } from 'containers/AgentDesktop/actions';
+import {
+  setActiveExtension,
+  goNotReady,
+} from 'containers/AgentDesktop/actions';
 
 import LargeMenuRow from './LargeMenuRow';
 import MenuRow from './MenuRow';
 import messages from './messages';
-import { selectHasActiveInteractions, selectExtensions, selectActiveExtension, selectSelectedPresenceReason, selectPresenceReasonLists, selectHasActiveWrapup } from './selectors';
+import {
+  selectHasActiveInteractions,
+  selectExtensions,
+  selectActiveExtension,
+  selectSelectedPresenceReason,
+  selectPresenceReasonLists,
+  selectHasActiveWrapup,
+} from './selectors';
 
 const styles = {
   menuPosition: {
@@ -89,7 +99,6 @@ const styles = {
 };
 
 export class AgentStatusMenu extends BaseComponent {
-
   constructor(props) {
     super(props);
 
@@ -101,33 +110,46 @@ export class AgentStatusMenu extends BaseComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.readyState !== this.props.readyState || nextProps.selectedPresenceReason !== this.props.selectedPresenceReason) {
+    if (
+      nextProps.readyState !== this.props.readyState ||
+      nextProps.selectedPresenceReason !== this.props.selectedPresenceReason
+    ) {
       this.setState({ statusLoading: false });
     }
   }
 
-  clearHover = () => { // Longstanding radium bug where mouseleave event is never triggered https://github.com/FormidableLabs/radium/issues/524
+  clearHover = () => {
+    // Longstanding radium bug where mouseleave event is never triggered https://github.com/FormidableLabs/radium/issues/524
     this.setState({ clearHoverInt: this.state.clearHoverInt + 1 });
-  }
+  };
 
   changePresence = (newPresence, reason, listId) => {
     if (newPresence === 'ready') {
       this.setState({ statusLoading: true });
-      CxEngage.session.goReady({ extensionValue: this.props.activeExtension.value });
+      CxEngage.session.goReady({
+        extensionValue: this.props.activeExtension.value,
+      });
     } else if (newPresence === 'notready') {
       this.setState({ statusLoading: true });
       this.props.goNotReady(reason, listId);
     } else {
-      throw new Error('newPresence is neither ready nor notready:', newPresence);
+      throw new Error(
+        'newPresence is neither ready nor notready:',
+        newPresence
+      );
     }
     this.setState({ showReasonMenuInfo: {} });
     this.props.showAgentStatusMenu(false);
-  }
+  };
 
-  goReady = () => { this.changePresence('ready'); }
+  goReady = () => {
+    this.changePresence('ready');
+  };
 
   renderReason = (reason, listId, includeSectionName) => {
-    const isSelected = (this.props.selectedPresenceReason.reasonId === reason.reasonId && this.props.selectedPresenceReason.listId === listId);
+    const isSelected =
+      this.props.selectedPresenceReason.reasonId === reason.reasonId &&
+      this.props.selectedPresenceReason.listId === listId;
     const selectReason = () => {
       this.changePresence('notready', reason, listId);
       this.clearHover();
@@ -136,26 +158,31 @@ export class AgentStatusMenu extends BaseComponent {
       <MenuRow
         id={`reason-${reason.reasonId}-${listId}`}
         key={listId + reason.reasonId + this.state.clearHoverInt}
-        rowText={includeSectionName === true
-          ? `${reason.hierarchy[0]} - ${reason.name}`
-          : reason.name
+        rowText={
+          includeSectionName === true
+            ? `${reason.hierarchy[0]} - ${reason.name}`
+            : reason.name
         }
         isSelected={isSelected}
         onSelect={selectReason}
         disabled={this.state.statusLoading}
       />
     );
-  }
+  };
 
   renderCategory = (category, listId, categoryIndex) => {
     if (category.reasons.length === 1) {
       return this.renderReason(category.reasons[0], listId, true);
     }
-    const containsSelected = category.reasons.findIndex(
-      (reason) =>
-        (this.props.selectedPresenceReason.reasonId === reason.reasonId && this.props.selectedPresenceReason.listId === listId)
+    const containsSelected =
+      category.reasons.findIndex(
+        (reason) =>
+          this.props.selectedPresenceReason.reasonId === reason.reasonId &&
+          this.props.selectedPresenceReason.listId === listId
       ) > -1;
-    const isDropdownOpen = (this.state.showReasonMenuInfo.listId === listId) && (this.state.showReasonMenuInfo.index === categoryIndex);
+    const isDropdownOpen =
+      this.state.showReasonMenuInfo.listId === listId &&
+      this.state.showReasonMenuInfo.index === categoryIndex;
     const elementId = `${listId}-${categoryIndex}`;
     return (
       <MenuRow
@@ -163,17 +190,23 @@ export class AgentStatusMenu extends BaseComponent {
         key={elementId + this.state.clearHoverInt}
         rowText={category.name}
         onSelect={() => {
-          this.setState({ showPathwayMenu: false, showReasonMenuInfo: isDropdownOpen ? {} : { listId, index: categoryIndex } });
+          this.setState({
+            showPathwayMenu: false,
+            showReasonMenuInfo: isDropdownOpen
+              ? {}
+              : { listId, index: categoryIndex },
+          });
         }}
         style={[containsSelected && styles.selectedCategory]}
         isOpen={isDropdownOpen}
         hasSubMenu
-        subMenuRows={
-          category.reasons.map((reason) => this.renderReason(reason, listId), this)
-        }
+        subMenuRows={category.reasons.map(
+          (reason) => this.renderReason(reason, listId),
+          this
+        )}
       />
     );
-  }
+  };
 
   renderList = (reasonList) => [
     <div
@@ -185,7 +218,10 @@ export class AgentStatusMenu extends BaseComponent {
         {reasonList.name}
       </div>
     </div>,
-    <div key={`reasonListTitleBottom-${reasonList.id}`} style={[styles.narrowDivider, { margin: '5px 24px' }]}></div>,
+    <div
+      key={`reasonListTitleBottom-${reasonList.id}`}
+      style={[styles.narrowDivider, { margin: '5px 24px' }]}
+    />,
     <div key={`reasonListBody-${reasonList.id}`}>
       {reasonList.reasons.map((reasonData, index) => {
         if (reasonData.type === 'category') {
@@ -200,48 +236,69 @@ export class AgentStatusMenu extends BaseComponent {
   logoutAndCloseMenu = () => {
     CxEngage.authentication.logout((error) => error && window.location.reload());
     this.props.showAgentStatusMenu(false);
-  }
+  };
 
   render() {
     return (
-      <PopupDialog id="agentStatusMenu" style={styles.menuPosition} isVisible={this.props.show} hide={() => { this.setState({ showPathwayMenu: false }); this.setState({ showReasonMenuInfo: {} }); this.props.showAgentStatusMenu(false); }} widthPx={303} arrowLeftOffsetPx={51}>
+      <PopupDialog
+        id="agentStatusMenu"
+        style={styles.menuPosition}
+        isVisible={this.props.show}
+        hide={() => {
+          this.setState({ showPathwayMenu: false });
+          this.setState({ showReasonMenuInfo: {} });
+          this.props.showAgentStatusMenu(false);
+        }}
+        widthPx={303}
+        arrowLeftOffsetPx={51}
+      >
         <div style={styles.baseMenuContainer}>
-          { this.props.hasActiveInteractions || this.props.hasActiveWrapup
-            ? <div id="agentLogoutLink" style={styles.presenceLinkContainer}><FormattedMessage {...messages.logout} /></div>
+          {this.props.hasActiveInteractions || this.props.hasActiveWrapup
+            ? <div id="agentLogoutLink" style={styles.presenceLinkContainer}>
+              <FormattedMessage {...messages.logout} />
+            </div>
             : <div
               id="agentLogoutLink"
               style={[styles.presenceLinkContainer, styles.inactivePresence]}
               onClick={this.logoutAndCloseMenu}
             >
               <FormattedMessage {...messages.logout} />
-            </div>
-          }
-          <LargeMenuRow id="agentMenuTenant" titleText={messages.tenant} mainText={this.props.tenant.name} />
-          <LargeMenuRow id="agentMenuMode" titleText={messages.mode} mainText={messages.inbound} />
+            </div>}
+          <LargeMenuRow
+            id="agentMenuTenant"
+            titleText={messages.tenant}
+            mainText={this.props.tenant.name}
+          />
+          <LargeMenuRow
+            id="agentMenuMode"
+            titleText={messages.mode}
+            mainText={messages.inbound}
+          />
           <LargeMenuRow
             id="agentMenuPathway"
             titleText={messages.activeVoicePath}
             mainText={this.props.activeExtension.description}
             hasSubMenu
             onClick={() => {
-              this.setState({ showReasonMenuInfo: {}, showPathwayMenu: !this.state.showPathwayMenu });
+              this.setState({
+                showReasonMenuInfo: {},
+                showPathwayMenu: !this.state.showPathwayMenu,
+              });
             }}
             disabled={this.props.readyState === 'ready'}
             isOpen={this.state.showPathwayMenu}
-            subMenuRows={
-              this.props.extensions.map((extension) =>
-                <MenuRow
-                  key={extension.value}
-                  id={extension.value}
-                  rowText={extension.description}
-                  onSelect={() => {
-                    this.props.setActiveExtension(extension);
-                    this.setState({ showPathwayMenu: false });
-                    this.props.showAgentStatusMenu(false);
-                  }}
-                />
-              )
-            }
+            subMenuRows={this.props.extensions.map((extension) =>
+              <MenuRow
+                key={extension.value}
+                id={extension.value}
+                rowText={extension.description}
+                onSelect={() => {
+                  this.props.setActiveExtension(extension);
+                  this.setState({ showPathwayMenu: false });
+                  this.props.showAgentStatusMenu(false);
+                }}
+              />
+            )}
             style={{ borderBottom: 'solid 1px #e4e4e4' }}
           />
           <div
@@ -251,13 +308,10 @@ export class AgentStatusMenu extends BaseComponent {
               this.state.statusLoading && styles.disabledPresenceUpdate,
             ]}
           >
-            {
-              this.props.presenceReasonLists.map(this.renderList, this)
-            }
+            {this.props.presenceReasonLists.map(this.renderList, this)}
           </div>
-          <div style={[styles.narrowDivider, { padding: '7px 24px 0 24px' }]}></div>
-          {
-            this.props.readyState === 'ready'
+          <div style={[styles.narrowDivider, { padding: '7px 24px 0 24px' }]} />
+          {this.props.readyState === 'ready'
             ? <div
               id="readyStateLink"
               style={[styles.presenceLinkContainer, styles.activePresence]}
@@ -265,7 +319,11 @@ export class AgentStatusMenu extends BaseComponent {
               <div style={styles.itemText}>
                 <FormattedMessage {...messages.ready} />
               </div>
-              <Icon name="checkStatus" alt="selected" style={styles.selectedIcon} />
+              <Icon
+                name="checkStatus"
+                alt="selected"
+                style={styles.selectedIcon}
+              />
             </div>
             : <div
               id="readyStateLink"
@@ -277,8 +335,7 @@ export class AgentStatusMenu extends BaseComponent {
               onClick={!this.state.statusLoading && this.goReady}
             >
               <FormattedMessage {...messages.ready} />
-            </div>
-          }
+            </div>}
         </div>
       </PopupDialog>
     );
@@ -319,4 +376,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStatusMenu));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  Radium(AgentStatusMenu)
+);

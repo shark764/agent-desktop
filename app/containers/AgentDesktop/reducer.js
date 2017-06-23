@@ -140,13 +140,18 @@ const initialState = fromJS({
 });
 
 const getSelectedContactInteractionPath = (state) => {
-  const interactionIndex = state.get('interactions').findIndex(
-    (interaction) => interaction.get('interactionId') === state.get('selectedInteractionId')
-  );
+  const interactionIndex = state
+    .get('interactions')
+    .findIndex(
+      (interaction) =>
+        interaction.get('interactionId') === state.get('selectedInteractionId')
+    );
   let selectedInteractionPath;
   if (interactionIndex !== -1) {
     selectedInteractionPath = ['interactions', interactionIndex];
-  } else if (state.get('selectedInteractionId') === 'creating-new-interaction') {
+  } else if (
+    state.get('selectedInteractionId') === 'creating-new-interaction'
+  ) {
     selectedInteractionPath = ['newInteractionPanel'];
   } else {
     selectedInteractionPath = ['noInteractionContactPanel'];
@@ -155,9 +160,11 @@ const getSelectedContactInteractionPath = (state) => {
 };
 
 const getContactInteractionPath = (state, interactionId) => {
-  const interactionIndex = state.get('interactions').findIndex(
-    (interaction) => interaction.get('interactionId') === interactionId
-  );
+  const interactionIndex = state
+    .get('interactions')
+    .findIndex(
+      (interaction) => interaction.get('interactionId') === interactionId
+    );
   let target;
   if (interactionId === 'creating-new-interaction') {
     target = ['newInteractionPanel'];
@@ -171,94 +178,131 @@ const getContactInteractionPath = (state, interactionId) => {
 
 const categorizeItems = (rawItems, name) => {
   const categorizedItems = [];
-  rawItems.sort((a, b) => a.sortOrder > b.sortOrder).forEach(
-    (item) => {
-      if (item.hierarchy[0]) {
-        const existingCategoryIndex = categorizedItems.findIndex(
-          (category) => category.name === item.hierarchy[0]
-        );
-        if (existingCategoryIndex > -1) {
-          categorizedItems[existingCategoryIndex][name].push(item);
-        } else {
-          categorizedItems.push({
-            name: item.hierarchy[0],
-            [name]: [item],
-            type: 'category',
-          });
-        }
+  rawItems.sort((a, b) => a.sortOrder > b.sortOrder).forEach((item) => {
+    if (item.hierarchy[0]) {
+      const existingCategoryIndex = categorizedItems.findIndex(
+        (category) => category.name === item.hierarchy[0]
+      );
+      if (existingCategoryIndex > -1) {
+        categorizedItems[existingCategoryIndex][name].push(item);
       } else {
-        categorizedItems.push(item);
+        categorizedItems.push({
+          name: item.hierarchy[0],
+          [name]: [item],
+          type: 'category',
+        });
       }
+    } else {
+      categorizedItems.push(item);
     }
-  );
+  });
   return categorizedItems;
 };
 
 const addContactInteractionNote = (interaction, action) =>
-  interaction.updateIn(['contact', 'interactionHistory'], (interactionHistory) => {
-    if (typeof interactionHistory === 'undefined') {
-      return interactionHistory;
-    }
-    return interactionHistory.update('results', (results) => results.map((contactHistoryInteraction) => {
-      if (contactHistoryInteraction.get('interactionId') === action.contactHistoryInteractionId && contactHistoryInteraction.get('interactionDetails') !== undefined) {
-        return contactHistoryInteraction.updateIn(['interactionDetails', 'agents'], (agents) =>
-          agents.map((agent) => {
-            const agentNote = action.response.results.find((note) => note.resourceId === agent.get('resourceId'));
-            if (agentNote !== undefined) {
-              return agent.set('note', agentNote);
-            } else {
-              return agent;
-            }
-          })
-        );
-      } else {
-        return contactHistoryInteraction;
+  interaction.updateIn(
+    ['contact', 'interactionHistory'],
+    (interactionHistory) => {
+      if (typeof interactionHistory === 'undefined') {
+        return interactionHistory;
       }
-    }));
-  });
+      return interactionHistory.update('results', (results) =>
+        results.map((contactHistoryInteraction) => {
+          if (
+            contactHistoryInteraction.get('interactionId') ===
+              action.contactHistoryInteractionId &&
+            contactHistoryInteraction.get('interactionDetails') !== undefined
+          ) {
+            return contactHistoryInteraction.updateIn(
+              ['interactionDetails', 'agents'],
+              (agents) =>
+                agents.map((agent) => {
+                  const agentNote = action.response.results.find(
+                    (note) => note.resourceId === agent.get('resourceId')
+                  );
+                  if (agentNote !== undefined) {
+                    return agent.set('note', agentNote);
+                  } else {
+                    return agent;
+                  }
+                })
+            );
+          } else {
+            return contactHistoryInteraction;
+          }
+        })
+      );
+    }
+  );
 
 const setContactInteractionDetails = (interaction, action) =>
-  interaction.updateIn(['contact', 'interactionHistory'], (interactionHistory) => {
-    if (typeof interactionHistory === 'undefined') {
-      return interactionHistory;
+  interaction.updateIn(
+    ['contact', 'interactionHistory'],
+    (interactionHistory) => {
+      if (typeof interactionHistory === 'undefined') {
+        return interactionHistory;
+      }
+      return interactionHistory.update('results', (interactionHistoryResults) =>
+        interactionHistoryResults.map((contactHistoryInteraction) => {
+          if (
+            contactHistoryInteraction.get('interactionId') ===
+            action.response.details.interactionId
+          ) {
+            return contactHistoryInteraction.set(
+              'interactionDetails',
+              fromJS(action.response.details)
+            );
+          } else {
+            return contactHistoryInteraction;
+          }
+        })
+      );
     }
-    return interactionHistory.update('results', (interactionHistoryResults) =>
-      interactionHistoryResults.map((contactHistoryInteraction) => {
-        if (contactHistoryInteraction.get('interactionId') === action.response.details.interactionId) {
-          return contactHistoryInteraction.set('interactionDetails', fromJS(action.response.details));
+  );
+
+const updateContactInteractionDetails = (interaction, action) =>
+  interaction.updateIn(
+    ['contact', 'interactionHistory', 'results'],
+    (interactionHistory) => {
+      if (typeof interactionHistory === 'undefined') {
+        return interactionHistory;
+      }
+      return interactionHistory.map((contactHistoryInteraction) => {
+        if (
+          contactHistoryInteraction.get('interactionId') ===
+          action.interactionId
+        ) {
+          return contactHistoryInteraction.mergeIn(
+            ['interactionDetails'],
+            fromJS(action.interactionDetails)
+          );
         } else {
           return contactHistoryInteraction;
         }
-      })
-    );
-  });
-
-const updateContactInteractionDetails = (interaction, action) =>
-  interaction.updateIn(['contact', 'interactionHistory', 'results'], (interactionHistory) => {
-    if (typeof interactionHistory === 'undefined') {
-      return interactionHistory;
+      });
     }
-    return interactionHistory.map((contactHistoryInteraction) => {
-      if (contactHistoryInteraction.get('interactionId') === action.interactionId) {
-        return contactHistoryInteraction.mergeIn(['interactionDetails'], fromJS(action.interactionDetails));
-      } else {
-        return contactHistoryInteraction;
-      }
-    });
-  });
+  );
 
 const updateContactInteractionHistoryResults = (contact, action) => {
   if (contact !== undefined && contact.get('id') === action.contactId) {
     return contact.update('interactionHistory', (interactionHistory) => {
       if (typeof action.response.results === 'undefined') {
         return action.response.results;
-      } else if (typeof interactionHistory === 'undefined' || action.response.page === interactionHistory.get('nextPage')) {
-        const existingResults = interactionHistory ? interactionHistory.get('results') : false;
+      } else if (
+        typeof interactionHistory === 'undefined' ||
+        action.response.page === interactionHistory.get('nextPage')
+      ) {
+        const existingResults = interactionHistory
+          ? interactionHistory.get('results')
+          : false;
         let existingEarliestTimestamp;
         if (existingResults) {
-          existingEarliestTimestamp = interactionHistory.get('earliestTimestamp');
+          existingEarliestTimestamp = interactionHistory.get(
+            'earliestTimestamp'
+          );
         }
-        const earliestTimestamp = existingEarliestTimestamp || action.response.earliestTimestamp;
+        const earliestTimestamp =
+          existingEarliestTimestamp || action.response.earliestTimestamp;
         return new Map({
           nextPage: action.response.page + 1,
           page: action.response.page,
@@ -277,24 +321,35 @@ const updateContactInteractionHistoryResults = (contact, action) => {
   }
 };
 
-const removeInteractionAndSetNextSelectedInteraction = (state, interactionId) => {
+const removeInteractionAndSetNextSelectedInteraction = (
+  state,
+  interactionId
+) => {
   // If the interaction being removed is the selected interaction, select the next interaction (voice, first non-voice)
   let nextSelectedInteractionId;
   if (state.get('selectedInteractionId') === interactionId) {
-    const interactionBeingRemoved = state.get('interactions').find(
-      (interaction) => interaction.get('interactionId') === interactionId
-    );
-    const currentVoiceInteraction = state.get('interactions').find(
-      (interaction) => interaction.get('channelType') === 'voice'
-    );
-    if (interactionBeingRemoved.get('channelType') !== 'voice' && currentVoiceInteraction) {
+    const interactionBeingRemoved = state
+      .get('interactions')
+      .find((interaction) => interaction.get('interactionId') === interactionId);
+    const currentVoiceInteraction = state
+      .get('interactions')
+      .find((interaction) => interaction.get('channelType') === 'voice');
+    if (
+      interactionBeingRemoved.get('channelType') !== 'voice' &&
+      currentVoiceInteraction
+    ) {
       nextSelectedInteractionId = currentVoiceInteraction.get('interactionId');
     } else {
-      const firstNonVoiceInteraction = state.get('interactions').find(
-        (interaction) => interaction.get('channelType') !== 'voice' &&
-          interaction.get('interactionId') !== interactionId
-      );
-      nextSelectedInteractionId = firstNonVoiceInteraction ? firstNonVoiceInteraction.get('interactionId') : undefined;
+      const firstNonVoiceInteraction = state
+        .get('interactions')
+        .find(
+          (interaction) =>
+            interaction.get('channelType') !== 'voice' &&
+            interaction.get('interactionId') !== interactionId
+        );
+      nextSelectedInteractionId = firstNonVoiceInteraction
+        ? firstNonVoiceInteraction.get('interactionId')
+        : undefined;
     }
   } else {
     nextSelectedInteractionId = state.get('selectedInteractionId');
@@ -302,9 +357,14 @@ const removeInteractionAndSetNextSelectedInteraction = (state, interactionId) =>
 
   // Remove interaction and set next selectedInteractionId
   return state
-    .set('interactions', state.get('interactions').filterNot((interaction) =>
-      interaction.get('interactionId') === interactionId
-    ))
+    .set(
+      'interactions',
+      state
+        .get('interactions')
+        .filterNot(
+          (interaction) => interaction.get('interactionId') === interactionId
+        )
+    )
     .set('selectedInteractionId', nextSelectedInteractionId);
 };
 
@@ -313,112 +373,172 @@ function agentDesktopReducer(state = initialState, action) {
     case SHOW_REFRESH_NOTIF:
       return state.set('refreshRequired', action.show);
     case SET_USER_CONFIG: {
-      const presenceReasonLists = action.response.reasonLists.filter((list) => list.active === true);
+      const presenceReasonLists = action.response.reasonLists.filter(
+        (list) => list.active === true
+      );
       let newState = state.set('userConfig', fromJS(action.response));
       if (presenceReasonLists) {
-        newState = newState.set('presenceReasonLists', fromJS(
-          presenceReasonLists.map((reasonList) => {
-            reasonList.reasons = categorizeItems(reasonList.reasons, 'reasons'); // eslint-disable-line no-param-reassign
-            return reasonList;
-          }
-        )));
+        newState = newState.set(
+          'presenceReasonLists',
+          fromJS(
+            presenceReasonLists.map((reasonList) => {
+              // eslint-disable-next-line no-param-reassign
+              reasonList.reasons = categorizeItems(
+                reasonList.reasons,
+                'reasons'
+              );
+              return reasonList;
+            })
+          )
+        );
       }
       return newState;
     }
     case SET_EXTENSIONS:
-      return state
-        // Set active extension to the first available one if it isn't set
-        .set('activeExtension', action.response.activeExtension ? fromJS(action.response.activeExtension) : fromJS(action.response.extensions[0]))
-        .set('extensions', fromJS(action.response.extensions));
+      return (
+        state
+          // Set active extension to the first available one if it isn't set
+          .set(
+            'activeExtension',
+            action.response.activeExtension
+              ? fromJS(action.response.activeExtension)
+              : fromJS(action.response.extensions[0])
+          )
+          .set('extensions', fromJS(action.response.extensions))
+      );
     case SET_ACTIVE_EXTENSION:
       return state.set('activeExtension', fromJS(action.activeExtension));
     case REMOVE_INVALID_EXTENSION: {
       const selectedExtensionValue = state.get('activeExtension').get('value');
       return state.update('extensions', (extensions) =>
-        extensions.filter((extension) => extension.get('value') !== selectedExtensionValue)
+        extensions.filter(
+          (extension) => extension.get('value') !== selectedExtensionValue
+        )
       );
     }
     case SET_QUEUES:
       return state.set('queues', fromJS(action.queues));
     case SET_QUEUE_TIME: {
-      const queueIndex = state.get('queues').findIndex((queue) =>
-        queue.get('id') === action.queueId
-      );
+      const queueIndex = state
+        .get('queues')
+        .findIndex((queue) => queue.get('id') === action.queueId);
       if (queueIndex !== -1) {
-        return state.setIn(['queues', queueIndex, 'queueTime'], action.queueTime);
+        return state.setIn(
+          ['queues', queueIndex, 'queueTime'],
+          action.queueTime
+        );
       } else {
         return state;
       }
     }
     case SET_PRESENCE: {
-      const systemPresenceReasonList = state.get('presenceReasonLists').find((reasonList) => reasonList.get('name') === 'System Presence Reasons');
-      const isSystemReason = (
+      const systemPresenceReasonList = state
+        .get('presenceReasonLists')
+        .find(
+          (reasonList) => reasonList.get('name') === 'System Presence Reasons'
+        );
+      const isSystemReason =
         action.presenceInfo.reasonListId === null ||
-        (systemPresenceReasonList && (systemPresenceReasonList.get('id') === action.presenceInfo.reasonListId))
-      );
-      return state
-        .set('presence', action.presenceInfo.state)
-        .set('presenceReason', fromJS({
+        (systemPresenceReasonList &&
+          systemPresenceReasonList.get('id') ===
+            action.presenceInfo.reasonListId);
+      return state.set('presence', action.presenceInfo.state).set(
+        'presenceReason',
+        fromJS({
           reason: action.presenceInfo.reason,
           reasonId: action.presenceInfo.reasonId,
           listId: action.presenceInfo.reasonListId,
           isSystemReason,
-        }));
+        })
+      );
     }
     case SET_INTERACTION_STATUS: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
         let openContactsPanel;
-        const automaticallySelectInteraction = action.newStatus === 'work-accepting' && state.get('selectedInteractionId') === undefined;
+        const automaticallySelectInteraction =
+          action.newStatus === 'work-accepting' &&
+          state.get('selectedInteractionId') === undefined;
         let hideNewInteractionPanelOnWorkAccepted = false;
         let newState = state
           .updateIn(['interactions', interactionIndex], (interaction) => {
-            openContactsPanel = (action.newStatus === 'work-accepted' && interaction.get('contact'));
-            hideNewInteractionPanelOnWorkAccepted = interaction.get('hideNewInteractionPanelOnWorkAccepted');
-            let updatedInteraction = interaction.set('status', action.newStatus);
+            openContactsPanel =
+              action.newStatus === 'work-accepted' &&
+              interaction.get('contact');
+            hideNewInteractionPanelOnWorkAccepted = interaction.get(
+              'hideNewInteractionPanelOnWorkAccepted'
+            );
+            let updatedInteraction = interaction.set(
+              'status',
+              action.newStatus
+            );
             // If we're accepting an existing voice conference, make any updates that have happened to the participants since the work offer
-            if (interaction.get('channelType') === 'voice' && action.response !== undefined) {
+            if (
+              interaction.get('channelType') === 'voice' &&
+              action.response !== undefined
+            ) {
               // Update customerOnHold and recording
-              updatedInteraction = updatedInteraction.set('onHold', action.response.customerOnHold === true)
+              updatedInteraction = updatedInteraction
+                .set('onHold', action.response.customerOnHold === true)
                 .set('recording', action.response.recording === true);
               // Remove any resources that are no longer on the interaction
               if (action.response.activeResources) {
-                updatedInteraction = updatedInteraction.update('warmTransfers', (warmTransfers) =>
-                  warmTransfers.filter((warmTransfer) => {
-                    let containsResource = false;
-                    action.response.activeResources.forEach((resource) => {
-                      if (resource.id === warmTransfer.get('targetResource')) {
-                        containsResource = true;
-                      }
-                    });
-                    return containsResource;
-                  })
+                updatedInteraction = updatedInteraction.update(
+                  'warmTransfers',
+                  (warmTransfers) =>
+                    warmTransfers.filter((warmTransfer) => {
+                      let containsResource = false;
+                      action.response.activeResources.forEach((resource) => {
+                        if (
+                          resource.id === warmTransfer.get('targetResource')
+                        ) {
+                          containsResource = true;
+                        }
+                      });
+                      return containsResource;
+                    })
                 );
                 // Update muted and onHolds that have changed
                 action.response.activeResources.forEach((resource) => {
-                  const resourceIndex = updatedInteraction.get('warmTransfers').findIndex((warmTransfer) =>
-                    warmTransfer.get('targetResource') === resource.id
-                  );
+                  const resourceIndex = updatedInteraction
+                    .get('warmTransfers')
+                    .findIndex(
+                      (warmTransfer) =>
+                        warmTransfer.get('targetResource') === resource.id
+                    );
                   if (resourceIndex !== -1) {
-                    updatedInteraction = updatedInteraction.updateIn(['warmTransfers', resourceIndex], (warmTransfer) =>
-                      warmTransfer.set('muted', resource.muted)
-                        .set('onHold', resource.onHold)
+                    updatedInteraction = updatedInteraction.updateIn(
+                      ['warmTransfers', resourceIndex],
+                      (warmTransfer) =>
+                        warmTransfer
+                          .set('muted', resource.muted)
+                          .set('onHold', resource.onHold)
                     );
                   } else {
-                    throw new Error(`Resource not found to update: ${resource.id}`);
+                    throw new Error(
+                      `Resource not found to update: ${resource.id}`
+                    );
                   }
                 });
               }
             }
             return updatedInteraction;
           })
-          .set('selectedInteractionId',
+          .set(
+            'selectedInteractionId',
             automaticallySelectInteraction
-            ? action.interactionId
-            : state.get('selectedInteractionId'));
-        if (hideNewInteractionPanelOnWorkAccepted && action.newStatus === 'work-accepting') {
+              ? action.interactionId
+              : state.get('selectedInteractionId')
+          );
+        if (
+          hideNewInteractionPanelOnWorkAccepted &&
+          action.newStatus === 'work-accepting'
+        ) {
           // Hide new interaction panel and auto select interaction (for outbound voice from new interaction panel)
           newState = newState
             .set('selectedInteractionId', action.interactionId)
@@ -428,17 +548,29 @@ function agentDesktopReducer(state = initialState, action) {
           newState = newState.set('isContactsPanelCollapsed', false);
         }
         if (action.newStatus === 'wrapup') {
-          const wrapupTimeout = state.getIn(['interactions', interactionIndex, 'wrapupDetails', 'wrapupTime']);
-          const newTimeout = Date.now() + (wrapupTimeout * 1000);
-          newState = newState.setIn(['interactions', interactionIndex, 'timeout'], newTimeout);
+          const wrapupTimeout = state.getIn([
+            'interactions',
+            interactionIndex,
+            'wrapupDetails',
+            'wrapupTime',
+          ]);
+          const newTimeout = Date.now() + wrapupTimeout * 1000;
+          newState = newState.setIn(
+            ['interactions', interactionIndex, 'timeout'],
+            newTimeout
+          );
         }
         return newState;
       }
       return state;
     }
     case OPEN_NEW_INTERACTION_PANEL: {
-      return state.setIn(['newInteractionPanel', 'visible'], true)
-        .set('selectedInteractionId', state.getIn(['newInteractionPanel', 'interactionId']));
+      return state
+        .setIn(['newInteractionPanel', 'visible'], true)
+        .set(
+          'selectedInteractionId',
+          state.getIn(['newInteractionPanel', 'interactionId'])
+        );
     }
     case NEW_INTERACTION_PANEL_SELECT_CONTACT: {
       return state.update('newInteractionPanel', (newInteractionPanel) =>
@@ -449,168 +581,296 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case CLOSE_NEW_INTERACTION_PANEL: {
       let nextSelectedInteractionId;
-      const currentVoiceInteraction = state.get('interactions').find(
-        (interaction) => interaction.get('channelType') === 'voice' && interaction.get('status') !== 'connecting-to-outbound'
-      );
-      if (currentVoiceInteraction) {
-        nextSelectedInteractionId = currentVoiceInteraction.get('interactionId');
-      } else {
-        const firstNonVoiceInteraction = state.get('interactions').find(
-          (interaction) => interaction.get('channelType') !== 'voice' &&
-            interaction.get('interactionId') !== action.interactionId
+      const currentVoiceInteraction = state
+        .get('interactions')
+        .find(
+          (interaction) =>
+            interaction.get('channelType') === 'voice' &&
+            interaction.get('status') !== 'connecting-to-outbound'
         );
-        nextSelectedInteractionId = firstNonVoiceInteraction ? firstNonVoiceInteraction.get('interactionId') : undefined;
+      if (currentVoiceInteraction) {
+        nextSelectedInteractionId = currentVoiceInteraction.get(
+          'interactionId'
+        );
+      } else {
+        const firstNonVoiceInteraction = state
+          .get('interactions')
+          .find(
+            (interaction) =>
+              interaction.get('channelType') !== 'voice' &&
+              interaction.get('interactionId') !== action.interactionId
+          );
+        nextSelectedInteractionId = firstNonVoiceInteraction
+          ? firstNonVoiceInteraction.get('interactionId')
+          : undefined;
       }
       return state
         .set('newInteractionPanel', fromJS(blankNewInteractionPanel))
         .set('selectedInteractionId', nextSelectedInteractionId);
     }
     case START_OUTBOUND_INTERACTION: {
-      const outboundInteraction = new Map(new Interaction({
-        interactionId: action.interactionId,
-        channelType: action.channelType,
-        customer: action.customer,
-        contact: action.contact,
-        // We don't want to hide the new interaction panel for outbound voice until the interaction has been accepted because
-        // the voice interation is not 'selectable' until then and we want to avoid the contact panel 'flicker' in between
-        hideNewInteractionPanelOnWorkAccepted: action.addedByNewInteractionPanel && action.channelType === 'voice',
-        direction: 'outbound',
-        status: 'connecting-to-outbound',
-      }));
-      return state
-        .set('interactions', state.get('interactions').push(outboundInteraction))
-        // Hide the new interaction panel and auto select new new interaction for SMS
-        .set('selectedInteractionId', (action.channelType === 'sms' || action.channelType === 'email') ? outboundInteraction.get('interactionId') : state.get('selectedInteractionId'))
-        .update('newInteractionPanel', (newInteractionPanel) => {
-          if (action.channelType === 'sms' && action.addedByNewInteractionPanel) {
-            return fromJS(blankNewInteractionPanel);
-          } else {
-            return newInteractionPanel;
-          }
-        });
+      const outboundInteraction = new Map(
+        new Interaction({
+          interactionId: action.interactionId,
+          channelType: action.channelType,
+          customer: action.customer,
+          contact: action.contact,
+          // We don't want to hide the new interaction panel for outbound voice until the interaction has been accepted because
+          // the voice interation is not 'selectable' until then and we want to avoid the contact panel 'flicker' in between
+          hideNewInteractionPanelOnWorkAccepted:
+            action.addedByNewInteractionPanel && action.channelType === 'voice',
+          direction: 'outbound',
+          status: 'connecting-to-outbound',
+        })
+      );
+      return (
+        state
+          .set(
+            'interactions',
+            state.get('interactions').push(outboundInteraction)
+          )
+          // Hide the new interaction panel and auto select new new interaction for SMS
+          .set(
+            'selectedInteractionId',
+            action.channelType === 'sms' || action.channelType === 'email'
+              ? outboundInteraction.get('interactionId')
+              : state.get('selectedInteractionId')
+          )
+          .update('newInteractionPanel', (newInteractionPanel) => {
+            if (
+              action.channelType === 'sms' &&
+              action.addedByNewInteractionPanel
+            ) {
+              return fromJS(blankNewInteractionPanel);
+            } else {
+              return newInteractionPanel;
+            }
+          })
+      );
     }
     case INITIALIZE_OUTBOUND_SMS: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.placeholderInteractionId
-      );
-      return state.updateIn(['interactions', interactionIndex], (interaction) =>
-        interaction.set('interactionId', action.interactionId)
-          .set('status', 'initialized-outbound')
-          .set('messageHistory', new List().push(new Message({
-            text: action.message,
-            from: 'Agent',
-            type: 'agent',
-            timestamp: (new Date(Date.now())).toISOString(),
-            unread: false,
-          })))
-      // Update the selected interactionId to match the new one (if it is selected)
-      ).set('selectedInteractionId', state.get('selectedInteractionId') === action.placeholderInteractionId ? action.interactionId : state.get('selectedInteractionId'));
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.placeholderInteractionId
+        );
+      return state
+        .updateIn(
+          ['interactions', interactionIndex],
+          (interaction) =>
+            interaction
+              .set('interactionId', action.interactionId)
+              .set('status', 'initialized-outbound')
+              .set(
+                'messageHistory',
+                new List().push(
+                  new Message({
+                    text: action.message,
+                    from: 'Agent',
+                    type: 'agent',
+                    timestamp: new Date(Date.now()).toISOString(),
+                    unread: false,
+                  })
+                )
+              )
+          // Update the selected interactionId to match the new one (if it is selected)
+        )
+        .set(
+          'selectedInteractionId',
+          state.get('selectedInteractionId') === action.placeholderInteractionId
+            ? action.interactionId
+            : state.get('selectedInteractionId')
+        );
     }
     case ADD_INTERACTION: {
       // Don't re-add outbound SMS interaction. It was already added by INITIALIZE_OUTBOUND_SMS.
       // Don't re-add outbound Email interaction. It was already added by START_OUTBOUND_EMAIL.
-      if (!(action.response.direction === 'outbound' && (action.response.channelType === 'sms' || action.response.channelType === 'email'))) {
+      if (
+        !(
+          action.response.direction === 'outbound' &&
+          (action.response.channelType === 'sms' ||
+            action.response.channelType === 'email')
+        )
+      ) {
         // If interaction was already added by START_OUTBOUND_INTERACTION, replace it; otherwise, just push it to the list
-        const interactionIndex = state.get('interactions').findIndex(
-          (interaction) => (interaction.get('direction') === 'outbound' && interaction.get('channelType') === action.response.channelType)
-        );
+        const interactionIndex = state
+          .get('interactions')
+          .findIndex(
+            (interaction) =>
+              interaction.get('direction') === 'outbound' &&
+              interaction.get('channelType') === action.response.channelType
+          );
         const interactionToAdd = new Map(new Interaction(action.response));
         if (interactionIndex !== -1) {
-          return state.mergeIn(['interactions', interactionIndex], interactionToAdd);
+          return state.mergeIn(
+            ['interactions', interactionIndex],
+            interactionToAdd
+          );
         } else {
-          return state.set('interactions', state.get('interactions').push(interactionToAdd));
+          return state.set(
+            'interactions',
+            state.get('interactions').push(interactionToAdd)
+          );
         }
       } else {
         return state;
       }
     }
     case UPDATE_WRAPUP_DETAILS: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex > -1) {
-        return state.mergeIn(['interactions', interactionIndex, 'wrapupDetails'], fromJS(action.wrapupDetails));
+        return state.mergeIn(
+          ['interactions', interactionIndex, 'wrapupDetails'],
+          fromJS(action.wrapupDetails)
+        );
       }
       return state;
     }
     case ADD_SCRIPT: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex > -1) {
-        return state.setIn(['interactions', interactionIndex, 'script'], fromJS(action.script));
+        return state.setIn(
+          ['interactions', interactionIndex, 'script'],
+          fromJS(action.script)
+        );
       } else {
         return state;
       }
     }
     case REMOVE_SCRIPT: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex > -1) {
         // Remove the interaction if the script is the only thing left to do
-        if (state.getIn(['interactions', interactionIndex, 'status']) === 'work-ended-pending-script') {
-          return removeInteractionAndSetNextSelectedInteraction(state, action.interactionId);
+        if (
+          state.getIn(['interactions', interactionIndex, 'status']) ===
+          'work-ended-pending-script'
+        ) {
+          return removeInteractionAndSetNextSelectedInteraction(
+            state,
+            action.interactionId
+          );
         } else {
-          return state.setIn(['interactions', interactionIndex, 'script'], undefined);
+          return state.setIn(
+            ['interactions', interactionIndex, 'script'],
+            undefined
+          );
         }
       } else {
         return state;
       }
     }
     case WORK_INITIATED: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.response.interactionId
-      );
-      return state.updateIn(['interactions', interactionIndex],
-        (interaction) => interaction
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.response.interactionId
+        );
+      return state.updateIn(['interactions', interactionIndex], (interaction) =>
+        interaction
           .set('status', 'work-initiated')
-          .set('number', interaction.get('channelType') === 'voice' ? action.response.customer : undefined)
+          .set(
+            'number',
+            interaction.get('channelType') === 'voice'
+              ? action.response.customer
+              : undefined
+          )
       );
     }
     case SET_IS_CANCELLING_INTERACTION: {
       // setting "isCancellingInteraction" flag so that we can give the user
       // instant visual/UI feedback while we wait for the sdk to do its magic
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex],
-          (interaction) => interaction
-            .set('isCancellingInteraction', true)
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.set('isCancellingInteraction', true)
         );
       } else {
         return state;
       }
     }
     case REMOVE_INTERACTION: {
-      const interactionToRemove = state.get('interactions').find(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
-      if (interactionToRemove !== undefined && interactionToRemove.get('script') === undefined) {
-        return removeInteractionAndSetNextSelectedInteraction(state, action.interactionId);
-      // If the interaction still has a script, set the interaction's state to indicate this so it can be "disabled" until the script is complete
-      } else if (interactionToRemove !== undefined && interactionToRemove.get('script') !== undefined) {
-        const interactionIndex = state.get('interactions').findIndex(
-          (interaction) => interaction.get('interactionId') === action.interactionId
+      const interactionToRemove = state
+        .get('interactions')
+        .find(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
         );
-        return state.setIn(['interactions', interactionIndex, 'status'], 'work-ended-pending-script');
+      if (
+        interactionToRemove !== undefined &&
+        interactionToRemove.get('script') === undefined
+      ) {
+        return removeInteractionAndSetNextSelectedInteraction(
+          state,
+          action.interactionId
+        );
+        // If the interaction still has a script, set the interaction's state to indicate this so it can be "disabled" until the script is complete
+      } else if (
+        interactionToRemove !== undefined &&
+        interactionToRemove.get('script') !== undefined
+      ) {
+        const interactionIndex = state
+          .get('interactions')
+          .findIndex(
+            (interaction) =>
+              interaction.get('interactionId') === action.interactionId
+          );
+        return state.setIn(
+          ['interactions', interactionIndex, 'status'],
+          'work-ended-pending-script'
+        );
       } else {
         return state;
       }
     }
     case SET_MESSAGE_HISTORY: {
       if (action.response && action.response.length > 0) {
-        const messageInteractionIndex = state.get('interactions').findIndex(
-          (interaction) => interaction.get('interactionId') === action.response[0].channelId
-        );
-        const messageInteraction = state.getIn(['interactions', messageInteractionIndex]);
+        const messageInteractionIndex = state
+          .get('interactions')
+          .findIndex(
+            (interaction) =>
+              interaction.get('interactionId') === action.response[0].channelId
+          );
+        const messageInteraction = state.getIn([
+          'interactions',
+          messageInteractionIndex,
+        ]);
         if (messageInteraction) {
-          const messageHistoryItems = new List(action.response.map((messageHistoryItem) =>
-            new ResponseMessage(messageHistoryItem, state.get('selectedInteractionId'), action.agentId)
-          ));
-          return state.updateIn(['interactions', messageInteractionIndex], (interaction) =>
-            interaction.set('messageHistory', messageHistoryItems)
+          const messageHistoryItems = new List(
+            action.response.map(
+              (messageHistoryItem) =>
+                new ResponseMessage(
+                  messageHistoryItem,
+                  state.get('selectedInteractionId'),
+                  action.agentId
+                )
+            )
+          );
+          return state.updateIn(
+            ['interactions', messageInteractionIndex],
+            (interaction) =>
+              interaction.set('messageHistory', messageHistoryItems)
           );
         } else {
           return state;
@@ -621,77 +881,77 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case SET_CONTACT_MODE: {
       const targetPath = getContactInteractionPath(state, action.interactionId);
-      return state
-        .updateIn(targetPath, (interaction) => {
-          // InfoTab is always a view panel when in new interaction mode
-          if (
-            action.interactionId === 'creating-new-interaction'
-            && action.newMode === 'search'
-          ) {
-            return interaction.set('contactMode', 'view');
-          } else {
-            return interaction.set('contactMode', action.newMode);
-          }
-        });
+      return state.updateIn(targetPath, (interaction) => {
+        // InfoTab is always a view panel when in new interaction mode
+        if (
+          action.interactionId === 'creating-new-interaction' &&
+          action.newMode === 'search'
+        ) {
+          return interaction.set('contactMode', 'view');
+        } else {
+          return interaction.set('contactMode', action.newMode);
+        }
+      });
     }
     case SET_INTERACTION_QUERY: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state
-          .updateIn(['interactions', interactionIndex],
-            (interaction) => interaction.set('query', fromJS(action.query))
-          );
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.set('query', fromJS(action.query))
+        );
       } else {
         return state;
       }
     }
     case ADD_SEARCH_FILTER: {
       const selectedInteractionPath = getSelectedContactInteractionPath(state);
-      return state
-        .updateIn([...selectedInteractionPath, 'query'],
-          (interaction) => {
-            if (action.filterName === 'q') {
-              return fromJS({ [action.filterName]: action.value });
-            } else {
-              return interaction.set(action.filterName, action.value);
-            }
+      return state.updateIn(
+        [...selectedInteractionPath, 'query'],
+        (interaction) => {
+          if (action.filterName === 'q') {
+            return fromJS({ [action.filterName]: action.value });
+          } else {
+            return interaction.set(action.filterName, action.value);
           }
-        );
+        }
+      );
     }
     case REMOVE_SEARCH_FILTER: {
       const selectedInteractionPath = getSelectedContactInteractionPath(state);
       const queryPath = [...selectedInteractionPath, 'query'];
       if (action.filterName) {
-        return state
-          .updateIn(queryPath,
-            (query) => query.delete(action.filterName)
-          );
+        return state.updateIn(queryPath, (query) =>
+          query.delete(action.filterName)
+        );
       } else {
-        return state
-          .setIn(queryPath, fromJS({}));
+        return state.setIn(queryPath, fromJS({}));
       }
     }
     case SET_ASSIGNED_CONTACT: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => {
-                  const updatedInteraction = interaction.set('contact', fromJS(action.contact || {}));
-                  if (action.contact) {
-                    return updatedInteraction.set('contactMode', 'view');
-                  }
-                  return updatedInteraction;
-                }
-              )
-          );
+        return state.update('interactions', (interactions) =>
+          interactions.update(interactionIndex, (interaction) => {
+            const updatedInteraction = interaction.set(
+              'contact',
+              fromJS(action.contact || {})
+            );
+            if (action.contact) {
+              return updatedInteraction.set('contactMode', 'view');
+            }
+            return updatedInteraction;
+          })
+        );
       } else {
         return state;
       }
@@ -702,40 +962,57 @@ function agentDesktopReducer(state = initialState, action) {
       return state.setIn(target, action.tabIndex);
     }
     case SET_CONTACT_HISTORY_INTERACTION_DETAILS: {
-      return state.update('interactions',
-        (interactions) => interactions.map(
-          (interaction) => setContactInteractionDetails(interaction, action)
-        )).update(
-        'noInteractionContactPanel',
-        (noInteractionContactPanel) => setContactInteractionDetails(noInteractionContactPanel, action)
-      ).update(
-        'newInteractionPanel',
-        (newInteractionPanel) => setContactInteractionDetails(newInteractionPanel, action)
-      );
+      return state
+        .update('interactions', (interactions) =>
+          interactions.map((interaction) =>
+            setContactInteractionDetails(interaction, action)
+          )
+        )
+        .update('noInteractionContactPanel', (noInteractionContactPanel) =>
+          setContactInteractionDetails(noInteractionContactPanel, action)
+        )
+        .update('newInteractionPanel', (newInteractionPanel) =>
+          setContactInteractionDetails(newInteractionPanel, action)
+        );
     }
     case SET_CONTACT_INTERACTION_HISTORY: {
-      return state.update('interactions', (interactions) =>
-        interactions.map(
-          (interaction) => interaction.update('contact', (contact) => updateContactInteractionHistoryResults(contact, action))
+      return state
+        .update('interactions', (interactions) =>
+          interactions.map((interaction) =>
+            interaction.update('contact', (contact) =>
+              updateContactInteractionHistoryResults(contact, action)
+            )
+          )
         )
-      ).updateIn(['noInteractionContactPanel', 'contact'], (contact) =>
-        updateContactInteractionHistoryResults(contact, action)
-      ).updateIn(['newInteractionPanel', 'contact'], (contact) =>
-        updateContactInteractionHistoryResults(contact, action)
-      );
+        .updateIn(['noInteractionContactPanel', 'contact'], (contact) =>
+          updateContactInteractionHistoryResults(contact, action)
+        )
+        .updateIn(['newInteractionPanel', 'contact'], (contact) =>
+          updateContactInteractionHistoryResults(contact, action)
+        );
     }
     case SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING: {
       const target = getContactInteractionPath(state, action.interactionId);
       return state.updateIn(target, (interaction) => {
-        if (interaction.getIn(['contact', 'interactionHistory']) !== undefined) {
-          return interaction.updateIn(['contact', 'interactionHistory', 'results'], (interactionHistoryResults) =>
-            interactionHistoryResults.map((contactHistoryInteraction) => {
-              if (contactHistoryInteraction.get('interactionId') === action.contactHistoryInteractionId) {
-                return contactHistoryInteraction.set('interactionDetails', 'loading');
-              } else {
-                return contactHistoryInteraction;
-              }
-            })
+        if (
+          interaction.getIn(['contact', 'interactionHistory']) !== undefined
+        ) {
+          return interaction.updateIn(
+            ['contact', 'interactionHistory', 'results'],
+            (interactionHistoryResults) =>
+              interactionHistoryResults.map((contactHistoryInteraction) => {
+                if (
+                  contactHistoryInteraction.get('interactionId') ===
+                  action.contactHistoryInteractionId
+                ) {
+                  return contactHistoryInteraction.set(
+                    'interactionDetails',
+                    'loading'
+                  );
+                } else {
+                  return contactHistoryInteraction;
+                }
+              })
           );
         } else {
           return interaction;
@@ -743,95 +1020,129 @@ function agentDesktopReducer(state = initialState, action) {
       });
     }
     case UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS: {
-      return state.update('interactions',
-        (interactions) => interactions.map(
-          (interaction) => updateContactInteractionDetails(interaction, action)
-        )).update(
-        'noInteractionContactPanel',
-        (noInteractionContactPanel) => updateContactInteractionDetails(noInteractionContactPanel, action)
-      ).update(
-        'newInteractionPanel',
-        (newInteractionPanel) => updateContactInteractionDetails(newInteractionPanel, action)
-      );
+      return state
+        .update('interactions', (interactions) =>
+          interactions.map((interaction) =>
+            updateContactInteractionDetails(interaction, action)
+          )
+        )
+        .update('noInteractionContactPanel', (noInteractionContactPanel) =>
+          updateContactInteractionDetails(noInteractionContactPanel, action)
+        )
+        .update('newInteractionPanel', (newInteractionPanel) =>
+          updateContactInteractionDetails(newInteractionPanel, action)
+        );
     }
     case ADD_NOTES_TO_CONTACT_INTERACTION_HISTORY: {
-      return state.update(
-        'interactions',
-        (interactions) => interactions.map(
-          (interaction) => addContactInteractionNote(interaction, action)
+      return state
+        .update('interactions', (interactions) =>
+          interactions.map((interaction) =>
+            addContactInteractionNote(interaction, action)
+          )
         )
-      ).update(
-        'noInteractionContactPanel',
-        (noInteractionContactPanel) => addContactInteractionNote(noInteractionContactPanel, action)
-      ).update(
-        'newInteractionPanel',
-        (newInteractionPanel) => addContactInteractionNote(newInteractionPanel, action)
-      );
+        .update('noInteractionContactPanel', (noInteractionContactPanel) =>
+          addContactInteractionNote(noInteractionContactPanel, action)
+        )
+        .update('newInteractionPanel', (newInteractionPanel) =>
+          addContactInteractionNote(newInteractionPanel, action)
+        );
     }
     case UPDATE_CONTACT: {
-      return state.update('interactions', (interactions) => interactions.map((interaction) => {
-        if (interaction.getIn(['contact', 'id']) === action.updatedContact.id) {
-          return interaction.mergeIn(['contact'], fromJS(action.updatedContact));
-        }
-        return interaction;
-      })).updateIn(['noInteractionContactPanel', 'contact'], (contact) => {
-        if (contact && contact.get('id') === action.updatedContact.id) {
-          return contact.merge(fromJS(action.updatedContact));
-        }
-        return contact;
-      }).updateIn(['newInteractionPanel', 'contact'], (contact) => {
-        if (contact && contact.get('id') === action.updatedContact.id) {
-          return contact.merge(fromJS(action.updatedContact));
-        }
-        return contact;
-      });
+      return state
+        .update('interactions', (interactions) =>
+          interactions.map((interaction) => {
+            if (
+              interaction.getIn(['contact', 'id']) === action.updatedContact.id
+            ) {
+              return interaction.mergeIn(
+                ['contact'],
+                fromJS(action.updatedContact)
+              );
+            }
+            return interaction;
+          })
+        )
+        .updateIn(['noInteractionContactPanel', 'contact'], (contact) => {
+          if (contact && contact.get('id') === action.updatedContact.id) {
+            return contact.merge(fromJS(action.updatedContact));
+          }
+          return contact;
+        })
+        .updateIn(['newInteractionPanel', 'contact'], (contact) => {
+          if (contact && contact.get('id') === action.updatedContact.id) {
+            return contact.merge(fromJS(action.updatedContact));
+          }
+          return contact;
+        });
     }
     case REMOVE_CONTACT: {
-      return state.update('interactions', (interactions) => interactions.map((interaction) => {
-        if (interaction.getIn(['contact', 'id']) === action.contactId) {
-          return interaction.set('contact', fromJS({}));
-        }
-        return interaction;
-      })).update('noInteractionContactPanel', (noInteractionContactPanel) => {
-        if (noInteractionContactPanel.getIn(['contact', 'id']) === action.contactId) {
-          return noInteractionContactPanel.set('contact', fromJS({}));
-        }
-        return noInteractionContactPanel;
-      }).update('newInteractionPanel', (newInteractionPanel) => {
-        if (newInteractionPanel.getIn(['contact', 'id']) === action.contactId) {
-          return newInteractionPanel.set('contact', fromJS({}));
-        }
-        return newInteractionPanel;
-      });
+      return state
+        .update('interactions', (interactions) =>
+          interactions.map((interaction) => {
+            if (interaction.getIn(['contact', 'id']) === action.contactId) {
+              return interaction.set('contact', fromJS({}));
+            }
+            return interaction;
+          })
+        )
+        .update('noInteractionContactPanel', (noInteractionContactPanel) => {
+          if (
+            noInteractionContactPanel.getIn(['contact', 'id']) ===
+            action.contactId
+          ) {
+            return noInteractionContactPanel.set('contact', fromJS({}));
+          }
+          return noInteractionContactPanel;
+        })
+        .update('newInteractionPanel', (newInteractionPanel) => {
+          if (
+            newInteractionPanel.getIn(['contact', 'id']) === action.contactId
+          ) {
+            return newInteractionPanel.set('contact', fromJS({}));
+          }
+          return newInteractionPanel;
+        });
     }
     case ADD_MESSAGE: {
       if (!(action.message instanceof Message)) {
         throw new Error('ADD_MESSAGE message must be of type Message');
       }
-      const messageInteractionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const messageInteractionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (messageInteractionIndex !== -1) {
-        return state.updateIn(['interactions', messageInteractionIndex, 'messageHistory'], (messageHistory) =>
-          messageHistory.push(action.message)
+        return state.updateIn(
+          ['interactions', messageInteractionIndex, 'messageHistory'],
+          (messageHistory) => messageHistory.push(action.message)
         );
       } else {
         return state;
       }
     }
     case SELECT_INTERACTION: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
         return state
           .set('selectedInteractionId', action.interactionId)
           .update('interactions', (interactions) =>
             interactions.update(interactionIndex, (interaction) =>
-              interaction.set('messageHistory',
+              interaction.set(
+                'messageHistory',
                 interaction.get('messageHistory') !== undefined
-                ? interaction.get('messageHistory').map((messageHistoryItem) => messageHistoryItem.set('unread', false))
-                : undefined
+                  ? interaction
+                      .get('messageHistory')
+                      .map((messageHistoryItem) =>
+                        messageHistoryItem.set('unread', false)
+                      )
+                  : undefined
               )
             )
           );
@@ -842,177 +1153,249 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case SET_CUSTOM_FIELDS: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => interaction.set('customFields', action.customFields)
-              )
-          );
+        return state.update('interactions', (interactions) =>
+          interactions.update(interactionIndex, (interaction) =>
+            interaction.set('customFields', action.customFields)
+          )
+        );
       } else {
         return state;
       }
     }
     case SET_EMAIL_PLAIN_BODY: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       return state.updateIn(['interactions', interactionIndex], (interaction) =>
         interaction.set('emailPlainBody', action.body)
       );
     }
     case SET_EMAIL_HTML_BODY: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       return state.updateIn(['interactions', interactionIndex], (interaction) =>
         interaction.set('emailHtmlBody', action.body)
       );
     }
     case SET_EMAIL_DETAILS: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       return state.updateIn(['interactions', interactionIndex], (interaction) =>
         interaction.set('emailDetails', fromJS(action.details))
       );
     }
     case SET_EMAIL_ATTACHMENT_URL: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex, 'emailDetails', 'attachments'], (attachments) =>
-          attachments.map((attachment) => {
-            if (attachment.get('artifactFileId') === action.artifactFileId) {
-              return attachment.set('url', action.url);
-            } else {
-              return attachment;
-            }
-          })
+        return state.updateIn(
+          ['interactions', interactionIndex, 'emailDetails', 'attachments'],
+          (attachments) =>
+            attachments.map((attachment) => {
+              if (attachment.get('artifactFileId') === action.artifactFileId) {
+                return attachment.set('url', action.url);
+              } else {
+                return attachment;
+              }
+            })
         );
       } else {
         return state;
       }
     }
     case START_WARM_TRANSFERRING: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
-      if (interactionIndex !== -1 &&
-          action.transferringTo !== undefined &&
-          action.transferringTo.id !== undefined &&
-          action.transferringTo.type !== undefined &&
-          action.transferringTo.name !== undefined) {
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (
+        interactionIndex !== -1 &&
+        action.transferringTo !== undefined &&
+        action.transferringTo.id !== undefined &&
+        action.transferringTo.type !== undefined &&
+        action.transferringTo.name !== undefined
+      ) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
           interaction.update('warmTransfers', (warmTransfers) =>
-            warmTransfers.push(fromJS({ ...action.transferringTo, status: 'transferring' })))
+            warmTransfers.push(
+              fromJS({ ...action.transferringTo, status: 'transferring' })
+            )
+          )
         );
       } else {
         return state;
       }
     }
     case TRANSFER_CANCELLED: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) => {
-          const cancellingTransferIndex = interaction.get('warmTransfers').findIndex(
-            (warmTransfer) => warmTransfer.get('status') === 'transferring'
-          );
-          if (cancellingTransferIndex !== -1) {
-            return interaction.update('warmTransfers', (warmTransfers) =>
-              warmTransfers.delete(cancellingTransferIndex)
-            );
-          } else {
-            return interaction;
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) => {
+            const cancellingTransferIndex = interaction
+              .get('warmTransfers')
+              .findIndex(
+                (warmTransfer) => warmTransfer.get('status') === 'transferring'
+              );
+            if (cancellingTransferIndex !== -1) {
+              return interaction.update('warmTransfers', (warmTransfers) =>
+                warmTransfers.delete(cancellingTransferIndex)
+              );
+            } else {
+              return interaction;
+            }
           }
-        });
+        );
       } else {
         return state;
       }
     }
     case RESOURCE_ADDED: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.response.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.response.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) => {
-          const connectingTransferIndex = interaction.get('warmTransfers').findIndex(
-            (warmTransfer) => warmTransfer.get('status') === 'transferring'
-          );
-          if (connectingTransferIndex !== -1) {
-            return interaction.updateIn(['warmTransfers', connectingTransferIndex], (warmTransfer) =>
-              warmTransfer.set('status', 'connected')
-                .set('targetResource', action.response.extraParams.targetResource)
-            );
-          } else {
-            return interaction.update('warmTransfers', (warmTransfers) =>
-              warmTransfers.push(fromJS({
-                targetResource: action.response.extraParams.targetResource,
-                name: action.response.extraParams.displayName,
-                status: 'connected',
-              }))
-            );
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) => {
+            const connectingTransferIndex = interaction
+              .get('warmTransfers')
+              .findIndex(
+                (warmTransfer) => warmTransfer.get('status') === 'transferring'
+              );
+            if (connectingTransferIndex !== -1) {
+              return interaction.updateIn(
+                ['warmTransfers', connectingTransferIndex],
+                (warmTransfer) =>
+                  warmTransfer
+                    .set('status', 'connected')
+                    .set(
+                      'targetResource',
+                      action.response.extraParams.targetResource
+                    )
+              );
+            } else {
+              return interaction.update('warmTransfers', (warmTransfers) =>
+                warmTransfers.push(
+                  fromJS({
+                    targetResource: action.response.extraParams.targetResource,
+                    name: action.response.extraParams.displayName,
+                    status: 'connected',
+                  })
+                )
+              );
+            }
           }
-        });
+        );
       } else {
         return state;
       }
     }
     case UPDATE_RESOURCE_NAME: {
-      return state.update('interactions', (interactions) => interactions.map((interaction) => {
-        if (interaction.get('warmTransfers') !== undefined && interaction.get('warmTransfers').size > 0) {
-          return interaction.update('warmTransfers', (warmTransfers) => warmTransfers.map((warmTransfer) => {
-            if (warmTransfer.get('id') === action.response.result.id) {
-              const name = action.response.result.firstName || action.response.result.lastName ? `${action.response.result.firstName} ${action.response.result.lastName}` : action.response.result.email;
-              return warmTransfer.set('name', name);
-            } else {
-              return warmTransfer;
-            }
-          }));
-        } else {
-          return interaction;
-        }
-      }));
+      return state.update('interactions', (interactions) =>
+        interactions.map((interaction) => {
+          if (
+            interaction.get('warmTransfers') !== undefined &&
+            interaction.get('warmTransfers').size > 0
+          ) {
+            return interaction.update('warmTransfers', (warmTransfers) =>
+              warmTransfers.map((warmTransfer) => {
+                if (warmTransfer.get('id') === action.response.result.id) {
+                  const name = action.response.result.firstName ||
+                    action.response.result.lastName
+                    ? `${action.response.result.firstName} ${action.response
+                        .result.lastName}`
+                    : action.response.result.email;
+                  return warmTransfer.set('name', name);
+                } else {
+                  return warmTransfer;
+                }
+              })
+            );
+          } else {
+            return interaction;
+          }
+        })
+      );
     }
     case UPDATE_RESOURCE_STATUS: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex, 'warmTransfers'], (warmTransfers) => {
-          const resourceToUpdate = warmTransfers.findIndex((warmTransfer) =>
-            warmTransfer.get('targetResource') === action.targetResource
-          );
-          if (resourceToUpdate !== -1) {
-            return warmTransfers.update(resourceToUpdate, (warmTransfer) => {
-              if (!(action.statusKey === 'onHold' && action.statusValue === true)) {
-                return warmTransfer.set(action.statusKey, action.statusValue);
-              } else {
-                // Also set muted to false if resource is being resumed
-                return warmTransfer.set(action.statusKey, action.statusValue)
-                  .set('muted', false);
-              }
-            });
-          } else {
-            return warmTransfers;
+        return state.updateIn(
+          ['interactions', interactionIndex, 'warmTransfers'],
+          (warmTransfers) => {
+            const resourceToUpdate = warmTransfers.findIndex(
+              (warmTransfer) =>
+                warmTransfer.get('targetResource') === action.targetResource
+            );
+            if (resourceToUpdate !== -1) {
+              return warmTransfers.update(resourceToUpdate, (warmTransfer) => {
+                if (
+                  !(
+                    action.statusKey === 'onHold' && action.statusValue === true
+                  )
+                ) {
+                  return warmTransfer.set(action.statusKey, action.statusValue);
+                } else {
+                  // Also set muted to false if resource is being resumed
+                  return warmTransfer
+                    .set(action.statusKey, action.statusValue)
+                    .set('muted', false);
+                }
+              });
+            } else {
+              return warmTransfers;
+            }
           }
-        });
+        );
       } else {
         return state;
       }
     }
     case HOLD_ME: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
           interaction.set('meOnHold', true)
@@ -1022,195 +1405,227 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case RESUME_ME: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.set('meOnHold', false)
-            .set('muted', false)
+          interaction.set('meOnHold', false).set('muted', false)
         );
       } else {
         return state;
       }
     }
     case RESOURCE_REMOVED: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.response.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.response.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex, 'warmTransfers'], (warmTransfers) => {
-          const resourceToRemoveIndex = warmTransfers.findIndex((warmTransfer) =>
-            warmTransfer.get('targetResource') === action.response.extraParams.targetResource
-          );
-          if (resourceToRemoveIndex !== -1) {
-            return warmTransfers.delete(resourceToRemoveIndex);
-          } else {
-            return warmTransfers;
+        return state.updateIn(
+          ['interactions', interactionIndex, 'warmTransfers'],
+          (warmTransfers) => {
+            const resourceToRemoveIndex = warmTransfers.findIndex(
+              (warmTransfer) =>
+                warmTransfer.get('targetResource') ===
+                action.response.extraParams.targetResource
+            );
+            if (resourceToRemoveIndex !== -1) {
+              return warmTransfers.delete(resourceToRemoveIndex);
+            } else {
+              return warmTransfers;
+            }
           }
-        });
+        );
       } else {
         return state;
       }
     }
     case MUTE_CALL: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => interaction.set('muted', true)
-              )
-          );
+        return state.update('interactions', (interactions) =>
+          interactions.update(interactionIndex, (interaction) =>
+            interaction.set('muted', true)
+          )
+        );
       } else {
         return state;
       }
     }
     case UNMUTE_CALL: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => interaction.set('muted', false)
-              )
-          );
+        return state.update('interactions', (interactions) =>
+          interactions.update(interactionIndex, (interaction) =>
+            interaction.set('muted', false)
+          )
+        );
       } else {
         return state;
       }
     }
     case HOLD_CALL: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => interaction.set('onHold', true)
-              )
-          );
+        return state.update('interactions', (interactions) =>
+          interactions.update(interactionIndex, (interaction) =>
+            interaction.set('onHold', true)
+          )
+        );
       } else {
         return state;
       }
     }
     case RESUME_CALL: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => interaction.set('onHold', false)
-              )
-          );
+        return state.update('interactions', (interactions) =>
+          interactions.update(interactionIndex, (interaction) =>
+            interaction.set('onHold', false)
+          )
+        );
       } else {
         return state;
       }
     }
     case RECORD_CALL: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => interaction.set('recording', true)
-              )
-          );
+        return state.update('interactions', (interactions) =>
+          interactions.update(interactionIndex, (interaction) =>
+            interaction.set('recording', true)
+          )
+        );
       } else {
         return state;
       }
     }
     case STOP_RECORD_CALL: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => interaction.set('recording', false)
-              )
-          );
+        return state.update('interactions', (interactions) =>
+          interactions.update(interactionIndex, (interaction) =>
+            interaction.set('recording', false)
+          )
+        );
       } else {
         return state;
       }
     }
     case EMAIL_CREATE_REPLY: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
-      if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
-        return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => interaction.set('emailReply', fromJS({
-                  tos: interaction.get('emailDetails').get('from'),
-                  ccs: interaction.get('emailDetails').get('cc'),
-                  bccs: interaction.get('emailDetails').get('bcc'),
-                  subject: `RE: ${interaction.get('emailDetails').get('subject')}`,
-                  attachments: [],
-                  message: '',
-                }))
-              )
-          );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (
+        interactionIndex !== -1 &&
+        state.get('interactions').get(interactionIndex).get('channelType') ===
+          'email'
+      ) {
+        return state.update('interactions', (interactions) =>
+          interactions.update(interactionIndex, (interaction) =>
+            interaction.set(
+              'emailReply',
+              fromJS({
+                tos: interaction.get('emailDetails').get('from'),
+                ccs: interaction.get('emailDetails').get('cc'),
+                bccs: interaction.get('emailDetails').get('bcc'),
+                subject: `RE: ${interaction
+                  .get('emailDetails')
+                  .get('subject')}`,
+                attachments: [],
+                message: '',
+              })
+            )
+          )
+        );
       } else {
         return state;
       }
     }
     case EMAIL_CANCEL_REPLY: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
-      if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
-        return state
-          .update('interactions',
-            (interactions) =>
-              interactions.update(
-                interactionIndex,
-                (interaction) => interaction.set('emailReply', undefined)
-              )
-          );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (
+        interactionIndex !== -1 &&
+        state.get('interactions').get(interactionIndex).get('channelType') ===
+          'email'
+      ) {
+        return state.update('interactions', (interactions) =>
+          interactions.update(interactionIndex, (interaction) =>
+            interaction.set('emailReply', undefined)
+          )
+        );
       } else {
         return state;
       }
     }
     case EMAIL_ADD_ATTACHMENT: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
-      if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (
+        interactionIndex !== -1 &&
+        state.get('interactions').get(interactionIndex).get('channelType') ===
+          'email'
+      ) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
           interaction.updateIn(['emailReply', 'attachments'], (attachments) => {
             if (action.attachment.attachmentId === undefined) {
               return attachments.push(fromJS(action.attachment));
             } else {
-              const loadingAttachmentIndex = attachments.findIndex((attachment) =>
-                attachment.get('attachmentId') === undefined
+              const loadingAttachmentIndex = attachments.findIndex(
+                (attachment) => attachment.get('attachmentId') === undefined
               );
               if (loadingAttachmentIndex !== -1) {
-                return attachments.remove(loadingAttachmentIndex).push(fromJS(action.attachment));
+                return attachments
+                  .remove(loadingAttachmentIndex)
+                  .push(fromJS(action.attachment));
               } else {
                 return attachments.push(fromJS(action.attachment));
               }
@@ -1222,26 +1637,44 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case EMAIL_REMOVE_ATTACHMENT: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
-      if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
-        return state.updateIn(['interactions', interactionIndex, 'emailReply', 'attachments'], (attachments) =>
-          attachments.filter((attachment) =>
-            attachment.get('attachmentId') !== action.attachmentId
-          )
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (
+        interactionIndex !== -1 &&
+        state.get('interactions').get(interactionIndex).get('channelType') ===
+          'email'
+      ) {
+        return state.updateIn(
+          ['interactions', interactionIndex, 'emailReply', 'attachments'],
+          (attachments) =>
+            attachments.filter(
+              (attachment) =>
+                attachment.get('attachmentId') !== action.attachmentId
+            )
         );
       } else {
         return state;
       }
     }
     case EMAIL_UPDATE_REPLY: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
-      if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (
+        interactionIndex !== -1 &&
+        state.get('interactions').get(interactionIndex).get('channelType') ===
+          'email'
+      ) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.setIn(['emailReply', 'message'], action.reply.message)
+          interaction
+            .setIn(['emailReply', 'message'], action.reply.message)
             .setIn(['emailReply', 'tos'], new List(action.reply.tos))
             .setIn(['emailReply', 'ccs'], new List(action.reply.ccs))
             .setIn(['emailReply', 'bccs'], new List(action.reply.bccs))
@@ -1252,10 +1685,17 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case EMAIL_SEND_REPLY: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
-      if (interactionIndex !== -1 && state.get('interactions').get(interactionIndex).get('channelType') === 'email') {
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (
+        interactionIndex !== -1 &&
+        state.get('interactions').get(interactionIndex).get('channelType') ===
+          'email'
+      ) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
           interaction.set('sendingReply', true)
         );
@@ -1264,60 +1704,95 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case UPDATE_NOTE: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state.mergeIn(['interactions', interactionIndex, 'note'], action.note);
+        return state.mergeIn(
+          ['interactions', interactionIndex, 'note'],
+          action.note
+        );
       } else {
         return state;
       }
     }
     case UPDATE_SCRIPT_VALUES: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) => {
-          if (interaction.get('script') !== undefined) {
-            return interaction.setIn(['script', 'values'], action.scriptValueMap);
-          } else {
-            return interaction;
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) => {
+            if (interaction.get('script') !== undefined) {
+              return interaction.setIn(
+                ['script', 'values'],
+                action.scriptValueMap
+              );
+            } else {
+              return interaction;
+            }
           }
-        });
+        );
       } else {
         return state;
       }
     }
     case SET_DISPOSITION_DETAILS: {
-      const interactionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       if (interactionIndex !== -1) {
-        const categorizedDispositions = categorizeItems(action.dispositions, 'dispositions');
-        return state.setIn(['interactions', interactionIndex, 'dispositionDetails'], fromJS({
-          forceSelect: action.forceSelect,
-          dispositions: categorizedDispositions,
-          selected: [],
-        }));
+        const categorizedDispositions = categorizeItems(
+          action.dispositions,
+          'dispositions'
+        );
+        return state.setIn(
+          ['interactions', interactionIndex, 'dispositionDetails'],
+          fromJS({
+            forceSelect: action.forceSelect,
+            dispositions: categorizedDispositions,
+            selected: [],
+          })
+        );
       } else {
         return state;
       }
     }
     case SELECT_DISPOSITION: {
-      const selectedInteractionIndex = state.get('interactions').findIndex(
-        (interaction) => interaction.get('interactionId') === action.interactionId
-      );
+      const selectedInteractionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
       return state.setIn(
-        ['interactions', selectedInteractionIndex, 'dispositionDetails', 'selected'],
-        fromJS(action.disposition ? [action.disposition] : []),
+        [
+          'interactions',
+          selectedInteractionIndex,
+          'dispositionDetails',
+          'selected',
+        ],
+        fromJS(action.disposition ? [action.disposition] : [])
       );
     }
     case SELECT_CONTACT: {
-      return state.mergeIn(['noInteractionContactPanel'], fromJS({
-        contact: action.contact,
-        contactMode: 'view',
-      }));
+      return state.mergeIn(
+        ['noInteractionContactPanel'],
+        fromJS({
+          contact: action.contact,
+          contactMode: 'view',
+        })
+      );
     }
     case SHOW_CONTACTS_PANEL: {
       return state.set('isContactsPanelCollapsed', false);
@@ -1387,14 +1862,29 @@ function agentDesktopReducer(state = initialState, action) {
     case INIT_FORM: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('activeContactForm');
-      let updatedState = state.setIn([...target, 'contactForm'], fromJS(action.contactForm));
-      updatedState = updatedState.setIn([...target, 'formErrors'], fromJS(action.formErrors));
-      updatedState = updatedState.setIn([...target, 'showErrors'], fromJS(action.showErrors));
+      let updatedState = state.setIn(
+        [...target, 'contactForm'],
+        fromJS(action.contactForm)
+      );
+      updatedState = updatedState.setIn(
+        [...target, 'formErrors'],
+        fromJS(action.formErrors)
+      );
+      updatedState = updatedState.setIn(
+        [...target, 'showErrors'],
+        fromJS(action.showErrors)
+      );
       if (action.unusedFields) {
-        updatedState = updatedState.setIn([...target, 'unusedFields'], fromJS(action.unusedFields));
+        updatedState = updatedState.setIn(
+          [...target, 'unusedFields'],
+          fromJS(action.unusedFields)
+        );
       }
       if (action.selectedIndexes) {
-        updatedState = updatedState.setIn([...target, 'selectedIndexes'], fromJS(action.selectedIndexes));
+        updatedState = updatedState.setIn(
+          [...target, 'selectedIndexes'],
+          fromJS(action.selectedIndexes)
+        );
       }
       return updatedState;
     }

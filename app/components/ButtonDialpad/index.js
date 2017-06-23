@@ -13,7 +13,17 @@ import PropTypes from 'prop-types';
 
 import Button from 'components/Button';
 
-export const possibleTypes = ['topLeft', 'top', 'topRight', 'left', 'right', 'bottomLeft', 'bottom', 'bottomRight', 'middle'];
+export const possibleTypes = [
+  'topLeft',
+  'top',
+  'topRight',
+  'left',
+  'right',
+  'bottomLeft',
+  'bottom',
+  'bottomRight',
+  'middle',
+];
 
 const styles = {
   base: {

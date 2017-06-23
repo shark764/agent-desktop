@@ -15,7 +15,7 @@ function TextLink(props) {
   return (
     <div id={props.id} style={props.style}>
       <a href={props.link} target="_blank">
-        { props.text }
+        {props.text}
       </a>
     </div>
   );

@@ -41,11 +41,11 @@ export class PhoneControlsInactive extends BaseComponent {
 
   setShowDialpad = (showDialpad) => {
     this.setState({ showDialpad });
-  }
+  };
 
   toggleDialpad = () => {
     this.setShowDialpad(!this.state.showDialpad);
-  }
+  };
 
   phoneNumberUtil = PhoneNumberUtil.getInstance();
 
@@ -57,13 +57,15 @@ export class PhoneControlsInactive extends BaseComponent {
 
     let isValid = false;
     try {
-      isValid = this.phoneNumberUtil.isValidNumber(this.phoneNumberUtil.parse(formattedDialpadText, 'E164'));
+      isValid = this.phoneNumberUtil.isValidNumber(
+        this.phoneNumberUtil.parse(formattedDialpadText, 'E164')
+      );
     } catch (e) {
       // Do nothing, this just means it is invalid
     }
     this.setState({ dialpadTextValid: isValid });
     this.setState({ dialpadText: formattedDialpadText });
-  }
+  };
 
   call = () => {
     if (this.state.dialpadTextValid) {
@@ -71,7 +73,7 @@ export class PhoneControlsInactive extends BaseComponent {
       CxEngage.interactions.voice.dial({ phoneNumber: this.state.dialpadText });
       this.setState({ showDialpad: false });
     }
-  }
+  };
 
   styles = {
     base: {
@@ -94,7 +96,7 @@ export class PhoneControlsInactive extends BaseComponent {
       margin: '24px auto 0',
       width: '102px',
     },
-  }
+  };
 
   render() {
     let phoneControlsInactive;
@@ -103,9 +105,13 @@ export class PhoneControlsInactive extends BaseComponent {
         phoneControlsInactive = (
           <div>
             <div style={this.styles.phoneControlsContainer}>
-              <CircleIconButton id="dialpadButton" name="dialpad" onClick={this.toggleDialpad} />
+              <CircleIconButton
+                id="dialpadButton"
+                name="dialpad"
+                onClick={this.toggleDialpad}
+              />
             </div>
-            { this.state.showDialpad
+            {this.state.showDialpad
               ? <Dialpad
                 id="dialpad"
                 setDialpadText={this.setDialpadText}
@@ -116,26 +122,38 @@ export class PhoneControlsInactive extends BaseComponent {
                 active={false}
                 transfer={false}
               >
-                <Button id="callButton" text={messages.call} disabled={!this.state.dialpadTextValid} onClick={this.call} type="primaryBlue" style={this.styles.callButton} />
+                <Button
+                  id="callButton"
+                  text={messages.call}
+                  disabled={!this.state.dialpadTextValid}
+                  onClick={this.call}
+                  type="primaryBlue"
+                  style={this.styles.callButton}
+                />
               </Dialpad>
-              : undefined
-            }
+              : undefined}
           </div>
         );
       } else {
         phoneControlsInactive = (
           <div style={this.styles.phoneControlsContainer}>
-            <IconSVG style={this.styles.phoneControlsContainer} id="connectingToOutboundCallIcon" name="loading" />
+            <IconSVG
+              style={this.styles.phoneControlsContainer}
+              id="connectingToOutboundCallIcon"
+              name="loading"
+            />
           </div>
         );
       }
     } else {
-      phoneControlsInactive = <div style={this.styles.phoneControlsContainer}></div>;
+      phoneControlsInactive = (
+        <div style={this.styles.phoneControlsContainer} />
+      );
     }
 
     return (
       <div style={this.styles.base}>
-        { phoneControlsInactive }
+        {phoneControlsInactive}
       </div>
     );
   }
@@ -143,13 +161,17 @@ export class PhoneControlsInactive extends BaseComponent {
 
 const mapStateToProps = (state, props) => ({
   isAgentReady: selectIsAgentReady(state, props),
-  hasConnectingOutboundVoiceInteraction: selectHasConnectingOutboundVoiceInteraction(state, props),
+  hasConnectingOutboundVoiceInteraction: selectHasConnectingOutboundVoiceInteraction(
+    state,
+    props
+  ),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    startOutboundInteraction: (channelType) => dispatch(startOutboundInteraction(channelType)),
+    startOutboundInteraction: (channelType) =>
+      dispatch(startOutboundInteraction(channelType)),
     dispatch,
   };
 }
@@ -164,4 +186,6 @@ PhoneControlsInactive.propTypes = {
   }),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(PhoneControlsInactive));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  Radium(PhoneControlsInactive)
+);

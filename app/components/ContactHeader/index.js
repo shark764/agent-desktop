@@ -64,7 +64,7 @@ function ContactHeader(props) {
   function getBannerHeader(text) {
     return (
       <div style={styles.bannerHeader}>
-        <div style={styles.leftGutter}></div>
+        <div style={styles.leftGutter} />
         <div style={styles.bannerHeaderText}>
           {text}
         </div>
@@ -75,9 +75,8 @@ function ContactHeader(props) {
   function getViewControlHeader() {
     return (
       <div style={styles.controlHeader}>
-        {
-          props.showControls
-          && <div style={styles.buttonSet}>
+        {props.showControls &&
+          <div style={styles.buttonSet}>
             <Button
               id="contact-edit-btn"
               style={styles.leftButton}
@@ -92,8 +91,7 @@ function ContactHeader(props) {
               iconName="search"
               type="secondary"
             />
-          </div>
-        }
+          </div>}
       </div>
     );
   }
@@ -102,11 +100,17 @@ function ContactHeader(props) {
     case 'view':
       return getViewControlHeader();
     case 'create':
-      return getBannerHeader(<FormattedMessage {...messages.newContactBanner} />);
+      return getBannerHeader(
+        <FormattedMessage {...messages.newContactBanner} />
+      );
     case 'merge':
-      return getBannerHeader(<FormattedMessage {...messages.contactMergeBanner} />);
+      return getBannerHeader(
+        <FormattedMessage {...messages.contactMergeBanner} />
+      );
     case 'edit':
-      return getBannerHeader(<FormattedMessage {...messages.contactEditingBanner} />);
+      return getBannerHeader(
+        <FormattedMessage {...messages.contactEditingBanner} />
+      );
     case 'search':
     default:
       return null;

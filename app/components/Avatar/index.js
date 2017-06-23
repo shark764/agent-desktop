@@ -30,9 +30,25 @@ import customerAvatar15 from 'assets/avatars/CustomerAvatar15.png';
 import customerAvatar16 from 'assets/avatars/CustomerAvatar16.png';
 import customerAvatar17 from 'assets/avatars/CustomerAvatar17.png';
 
-const customerAvatars = [customerAvatar1, customerAvatar2, customerAvatar3, customerAvatar4, customerAvatar5, customerAvatar6,
-  customerAvatar7, customerAvatar8, customerAvatar9, customerAvatar10, customerAvatar11, customerAvatar12,
-  customerAvatar13, customerAvatar14, customerAvatar15, customerAvatar16, customerAvatar17];
+const customerAvatars = [
+  customerAvatar1,
+  customerAvatar2,
+  customerAvatar3,
+  customerAvatar4,
+  customerAvatar5,
+  customerAvatar6,
+  customerAvatar7,
+  customerAvatar8,
+  customerAvatar9,
+  customerAvatar10,
+  customerAvatar11,
+  customerAvatar12,
+  customerAvatar13,
+  customerAvatar14,
+  customerAvatar15,
+  customerAvatar16,
+  customerAvatar17,
+];
 
 const styles = {
   base: {
@@ -51,9 +67,7 @@ function Avatar(props) {
     }
   }
 
-  return (
-    <img src={getAvatar()} style={styles.base} alt="Avatar" />
-  );
+  return <img src={getAvatar()} style={styles.base} alt="Avatar" />;
 }
 
 Avatar.propTypes = {

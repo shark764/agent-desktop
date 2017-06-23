@@ -11,12 +11,7 @@ describe('<PopupDialog />', () => {
   describe('when given required props', () => {
     it('should render correctly', () => {
       const rendered = shallow(
-        <PopupDialog
-          id="mockId"
-          isVisible
-          hide={() => {}}
-          widthPx={1}
-        >
+        <PopupDialog id="mockId" isVisible hide={() => {}} widthPx={1}>
           <p>Mock Child</p>
         </PopupDialog>
       );

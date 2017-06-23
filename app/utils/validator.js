@@ -9,7 +9,9 @@ const phoneNumberUtil = PhoneNumberUtil.getInstance();
 export function isValidNumber(number) {
   let validNumber;
   try {
-    validNumber = phoneNumberUtil.isValidNumber(phoneNumberUtil.parse(number, 'E164'));
+    validNumber = phoneNumberUtil.isValidNumber(
+      phoneNumberUtil.parse(number, 'E164')
+    );
   } catch (e) {
     // This just means it is invalid
     validNumber = false;
@@ -18,9 +20,13 @@ export function isValidNumber(number) {
 }
 
 export function isValidEmail(email) {
-  return /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(email);
+  return /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(
+    email
+  );
 }
 
 export function isUUID(uuid) {
-  return /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(uuid);
+  return /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
+    uuid
+  );
 }

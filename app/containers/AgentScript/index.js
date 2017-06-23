@@ -88,16 +88,25 @@ class AgentScript extends BaseComponent {
     script.elements.forEach((element) => {
       switch (element.type) {
         case 'freeform':
-          newState[element.name] = script.values !== undefined && script.values[element.name] !== undefined ? script.values[element.name] : '';
+          newState[element.name] = script.values !== undefined &&
+            script.values[element.name] !== undefined
+            ? script.values[element.name]
+            : '';
           break;
         case 'dropdown':
         case 'scale':
-          newState[element.name] = script.values !== undefined && script.values[element.name] !== undefined ? script.values[element.name] : null;
+          newState[element.name] = script.values !== undefined &&
+            script.values[element.name] !== undefined
+            ? script.values[element.name]
+            : null;
           break;
         case 'checkbox': {
           const checkboxOptions = {};
           element.options.forEach((option) => {
-            checkboxOptions[option.value] = script.values !== undefined && script.values[option.value] !== undefined ? script.values[option.value] : false;
+            checkboxOptions[option.value] = script.values !== undefined &&
+              script.values[option.value] !== undefined
+              ? script.values[option.value]
+              : false;
           });
           newState[element.name] = checkboxOptions;
           break;
@@ -107,20 +116,27 @@ class AgentScript extends BaseComponent {
       }
     });
     return newState;
-  }
+  };
 
   getScript = () => {
     const scriptElements = [];
     this.props.script.elements.forEach((element) => {
       switch (element.type) {
         case 'text':
-          scriptElements.push(<TextBlob id={element.name} key={element.name} text={element.text} style={styles.element} />);
+          scriptElements.push(
+            <TextBlob
+              id={element.name}
+              key={element.name}
+              text={element.text}
+              style={styles.element}
+            />
+          );
           break;
         case 'freeform':
           scriptElements.push(
-            <div id={element.name} key={element.name} style={styles.element} >
+            <div id={element.name} key={element.name} style={styles.element}>
               <div>
-                { element.text }
+                {element.text}
               </div>
               <TextInput
                 id={`${element.name}-textInput`}
@@ -132,19 +148,23 @@ class AgentScript extends BaseComponent {
           );
           break;
         case 'dropdown': {
-          const dropdownOptions = element.options.map((option) =>
-            ({ value: option.value, label: option.name })
-          );
+          const dropdownOptions = element.options.map((option) => ({
+            value: option.value,
+            label: option.name,
+          }));
           scriptElements.push(
-            <div key={element.name} style={styles.element} >
+            <div key={element.name} style={styles.element}>
               <div>
-                { element.text }
+                {element.text}
               </div>
               <Select
                 id={element.name}
                 options={dropdownOptions}
                 value={this.state[element.name]}
-                onChange={(option) => this.setState({ [element.name]: option !== null ? option.value : null })}
+                onChange={(option) =>
+                  this.setState({
+                    [element.name]: option !== null ? option.value : null,
+                  })}
                 style={styles.select}
               />
             </div>
@@ -168,7 +188,15 @@ class AgentScript extends BaseComponent {
           );
           break;
         case 'image':
-          scriptElements.push(<Image id={element.name} key={element.name} src={element.value} placeholder={element.text} style={styles.element} />);
+          scriptElements.push(
+            <Image
+              id={element.name}
+              key={element.name}
+              src={element.value}
+              placeholder={element.text}
+              style={styles.element}
+            />
+          );
           break;
         case 'checkbox': {
           const checkboxes = element.options.map((option, index) =>
@@ -190,35 +218,56 @@ class AgentScript extends BaseComponent {
           scriptElements.push(
             <div key={element.id} style={styles.element}>
               <div>
-                { element.text }
+                {element.text}
               </div>
               <div style={styles.checkboxesContainer}>
-                { checkboxes }
+                {checkboxes}
               </div>
             </div>
           );
           break;
         }
         case 'link':
-          scriptElements.push(<TextLink id={element.name} key={element.name} link={element.href} text={element.text} style={styles.element} />);
+          scriptElements.push(
+            <TextLink
+              id={element.name}
+              key={element.name}
+              link={element.href}
+              text={element.text}
+              style={styles.element}
+            />
+          );
           break;
         default:
           throw new Error('Unknown script element type');
       }
     });
     return scriptElements;
-  }
+  };
 
   sendScript = () => {
-    console.log('Sending this script to SDK', { interactionId: this.props.interactionId, scriptId: this.props.script.id, answers: this.state });
-    CxEngage.interactions.sendScript({ interactionId: this.props.interactionId, scriptId: this.props.script.id, answers: this.state });
-  }
+    console.log('Sending this script to SDK', {
+      interactionId: this.props.interactionId,
+      scriptId: this.props.script.id,
+      answers: this.state,
+    });
+    CxEngage.interactions.sendScript({
+      interactionId: this.props.interactionId,
+      scriptId: this.props.script.id,
+      answers: this.state,
+    });
+  };
 
   render() {
     return (
       <div style={styles.base}>
         {this.getScript()}
-        <Button id="submitScriptButton" type="primaryBlue" text={messages.submit} onClick={this.sendScript} />
+        <Button
+          id="submitScriptButton"
+          type="primaryBlue"
+          text={messages.submit}
+          onClick={this.sendScript}
+        />
       </div>
     );
   }
@@ -233,7 +282,8 @@ AgentScript.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    updateScriptValues: (interactionId, scriptValueMap) => dispatch(updateScriptValues(interactionId, scriptValueMap)),
+    updateScriptValues: (interactionId, scriptValueMap) =>
+      dispatch(updateScriptValues(interactionId, scriptValueMap)),
     dispatch,
   };
 }

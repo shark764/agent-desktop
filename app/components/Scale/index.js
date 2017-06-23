@@ -37,9 +37,19 @@ function Scale(props) {
   for (let i = props.lowerBound; i <= props.upperBound; i += 1) {
     scaleRadios.push(
       <span key={`${props.id}-${i}`} style={styles.cell}>
-        <input id={`${props.id}-${i}-radio`} type="radio" checked={props.value === i} onChange={() => props.onChange(i)} style={styles.block} />
-        <label id={`${props.id}-${i}-label`} htmlFor={`${props.id}-${i}-radio`} style={styles.block}>
-          { i }
+        <input
+          id={`${props.id}-${i}-radio`}
+          type="radio"
+          checked={props.value === i}
+          onChange={() => props.onChange(i)}
+          style={styles.block}
+        />
+        <label
+          id={`${props.id}-${i}-label`}
+          htmlFor={`${props.id}-${i}-radio`}
+          style={styles.block}
+        >
+          {i}
         </label>
       </span>
     );
@@ -47,16 +57,16 @@ function Scale(props) {
   return (
     <div id={props.id} key={props.id} style={props.style}>
       <div style={styles.placeholder}>
-        { props.placeholder }
+        {props.placeholder}
       </div>
       <div style={styles.table}>
         <div style={styles.row}>
           <span style={styles.cell}>
-            { props.lowerBoundLabel }
+            {props.lowerBoundLabel}
           </span>
-          { scaleRadios }
+          {scaleRadios}
           <span style={styles.cell}>
-            { props.upperBoundLabel }
+            {props.upperBoundLabel}
           </span>
         </div>
       </div>

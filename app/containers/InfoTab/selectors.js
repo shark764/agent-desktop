@@ -14,11 +14,9 @@ const selectInfoTabDomain = () => (state) => state.get('infoTab');
  * Default selector used by InfoTab
  */
 
-const selectInfoTab = createSelector(
-  selectInfoTabDomain(),
-  (substate) => substate.toJS()
+const selectInfoTab = createSelector(selectInfoTabDomain(), (substate) =>
+  substate.toJS()
 );
-
 
 export default selectInfoTab;
 
@@ -29,55 +27,57 @@ export default selectInfoTab;
 const selectSidePanelDomain = (state) => state.get('sidePanel');
 const selectLanguageDomain = (state) => state.get('language');
 
-const selectAttributes = createSelector(
-  selectSidePanelDomain,
-  (sidePanel) => sidePanel.get('contactAttributes').toJS()
+const selectAttributes = createSelector(selectSidePanelDomain, (sidePanel) =>
+  sidePanel.get('contactAttributes').toJS()
 );
 
 const selectCurrentInteractionContactId = createSelector(
   [selectCurrentInteraction],
   (selectedCurrentInteraction) =>
-    selectedCurrentInteraction && selectedCurrentInteraction.contact && selectedCurrentInteraction.contact.id
+    selectedCurrentInteraction &&
+    selectedCurrentInteraction.contact &&
+    selectedCurrentInteraction.contact.id
 );
 
-const selectCheckedContacts = createSelector(
-  selectInfoTabDomain(),
-  (infoTab) => infoTab.get('checkedContacts').toJS()
+const selectCheckedContacts = createSelector(selectInfoTabDomain(), (infoTab) =>
+  infoTab.get('checkedContacts').toJS()
 );
 
 const selectExpandedQuery = createSelector(
   [selectCurrentInteraction, selectAttributes, selectLanguageDomain],
   (currentInteraction, attributes, language) => {
     const locale = language.get('locale');
-    return Object.keys(currentInteraction.query).map((filterName) => {
-      let attribute;
-      if (filterName === 'q') {
-        attribute = {
-          id: 'all',
-          label: {
-            'en-US': 'All',
-          },
-          objectName: 'q', // Fuzzy search query parameter
-        };
-      } else {
-        attribute = attributes.find((fullAttribute) => fullAttribute.objectName === filterName);
-      }
-      const label = attribute.label[locale] || filterName;
-      return (attribute)
-      ? { attribute, value: currentInteraction.query[filterName], label }
-      : false;
-    }).filter(Boolean);
+    return Object.keys(currentInteraction.query)
+      .map((filterName) => {
+        let attribute;
+        if (filterName === 'q') {
+          attribute = {
+            id: 'all',
+            label: {
+              'en-US': 'All',
+            },
+            objectName: 'q', // Fuzzy search query parameter
+          };
+        } else {
+          attribute = attributes.find(
+            (fullAttribute) => fullAttribute.objectName === filterName
+          );
+        }
+        const label = attribute.label[locale] || filterName;
+        return attribute
+          ? { attribute, value: currentInteraction.query[filterName], label }
+          : false;
+      })
+      .filter(Boolean);
   }
 );
 
-const selectCRMUnavailable = createSelector(
-  selectInfoTabDomain(),
-  (infoTab) => infoTab.get('crmUnavailable')
+const selectCRMUnavailable = createSelector(selectInfoTabDomain(), (infoTab) =>
+  infoTab.get('crmUnavailable')
 );
 
-const selectNotifications = createSelector(
-  selectInfoTabDomain(),
-  (infoTab) => infoTab.get('notifications')
+const selectNotifications = createSelector(selectInfoTabDomain(), (infoTab) =>
+  infoTab.get('notifications')
 );
 
 const selectNextNotificationId = createSelector(
@@ -85,34 +85,30 @@ const selectNextNotificationId = createSelector(
   (infoTab) => infoTab.get('nextNotificationId')
 );
 
-const selectLoading = createSelector(
-  selectInfoTabDomain(),
-  (infoTab) => infoTab.get('loading')
+const selectLoading = createSelector(selectInfoTabDomain(), (infoTab) =>
+  infoTab.get('loading')
 );
 
-const selectDeletionPending = createSelector(
-  selectInfoTabDomain(),
-  (infoTab) => infoTab.get('deletionPending')
+const selectDeletionPending = createSelector(selectInfoTabDomain(), (infoTab) =>
+  infoTab.get('deletionPending')
 );
 
-const selectConfirmingDelete = createSelector(
-  selectInfoTabDomain(),
-  (infoTab) => infoTab.get('confirmingDelete')
+const selectConfirmingDelete = createSelector(selectInfoTabDomain(), (infoTab) =>
+  infoTab.get('confirmingDelete')
 );
 
-const selectResults = createSelector(
-  selectInfoTabDomain(),
-  (infoTab) => infoTab.get('results').toJS()
+const selectResults = createSelector(selectInfoTabDomain(), (infoTab) =>
+  infoTab.get('results').toJS()
 );
 
 const selectResultsCount = createSelector(
   selectInfoTabDomain(),
-  (infoTab) => (infoTab.get('resultsCount') !== undefined ? infoTab.get('resultsCount') : -1)
+  (infoTab) =>
+    infoTab.get('resultsCount') !== undefined ? infoTab.get('resultsCount') : -1
 );
 
-const selectNextPage = createSelector(
-  selectInfoTabDomain(),
-  (infoTab) => infoTab.get('nextPage')
+const selectNextPage = createSelector(selectInfoTabDomain(), (infoTab) =>
+  infoTab.get('nextPage')
 );
 
 export {

@@ -128,25 +128,33 @@ class Interaction extends React.Component {
     this.state = {
       startTime: Date.now(),
       ageSeconds: 0,
-      msIntervalId: setInterval(
-        () => {
-          const ageSeconds = Math.round((Date.now() - this.state.startTime) / 1000);
-          if (this.props.status === 'wrapup' && (ageSeconds > this.props.wrapupTime)) {
-            if (!this.props.awaitingDisposition) {
-              CxEngage.interactions.endWrapup({ interactionId: this.props.interactionId });
-              clearInterval(this.state.msIntervalId);
-            }
+      msIntervalId: setInterval(() => {
+        const ageSeconds = Math.round(
+          (Date.now() - this.state.startTime) / 1000
+        );
+        if (
+          this.props.status === 'wrapup' &&
+          ageSeconds > this.props.wrapupTime
+        ) {
+          if (!this.props.awaitingDisposition) {
+            CxEngage.interactions.endWrapup({
+              interactionId: this.props.interactionId,
+            });
+            clearInterval(this.state.msIntervalId);
           }
-          this.setState({
-            ageSeconds,
-          });
-        }, 1000
-      ),
+        }
+        this.setState({
+          ageSeconds,
+        });
+      }, 1000),
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.status !== nextProps.status || this.props.previewText !== nextProps.previewText) {
+    if (
+      this.props.status !== nextProps.status ||
+      this.props.previewText !== nextProps.previewText
+    ) {
       this.setState({
         startTime: Date.now(),
         ageSeconds: 0,
@@ -161,17 +169,21 @@ class Interaction extends React.Component {
   getRemainingSeconds = () => {
     switch (this.props.status) {
       case 'pending':
-        return Math.max(Math.round((this.props.timeout - this.state.startTime) / 1000) - this.state.ageSeconds, 0);
+        return Math.max(
+          Math.round((this.props.timeout - this.state.startTime) / 1000) -
+            this.state.ageSeconds,
+          0
+        );
       default:
         if (this.state.ageSeconds < this.props.targetWrapupTime) {
-          return (this.props.targetWrapupTime - this.state.ageSeconds);
+          return this.props.targetWrapupTime - this.state.ageSeconds;
         } else if (this.state.ageSeconds < this.props.wrapupTime) {
-          return (this.props.wrapupTime - this.state.ageSeconds);
+          return this.props.wrapupTime - this.state.ageSeconds;
         } else {
           return 0;
         }
     }
-  }
+  };
 
   getTimer = () => {
     switch (this.props.status) {
@@ -189,21 +201,24 @@ class Interaction extends React.Component {
             return <Timer />;
         }
     }
-  }
+  };
 
   getTimerColor = () => {
     switch (this.props.status) {
       case 'pending':
         return '#23CEF5';
       case 'wrapup':
-        if (this.props.targetWrapupTime && (this.state.ageSeconds >= this.props.targetWrapupTime)) {
+        if (
+          this.props.targetWrapupTime &&
+          this.state.ageSeconds >= this.props.targetWrapupTime
+        ) {
           return '#FE4565';
         }
         return '#23CEF5';
       default:
         return 'white';
     }
-  }
+  };
 
   getPreviewText = () => {
     if (this.props.status === 'wrapup') {
@@ -214,8 +229,16 @@ class Interaction extends React.Component {
           </div>
           <div>
             <Progress
-              start={this.state.ageSeconds < this.props.targetWrapupTime ? this.state.startTime : this.state.startTime + (this.props.targetWrapupTime * 1000)}
-              finish={this.state.ageSeconds < this.props.targetWrapupTime ? this.state.startTime + (this.props.targetWrapupTime * 1000) : this.state.startTime + (this.props.wrapupTime * 1000)}
+              start={
+                this.state.ageSeconds < this.props.targetWrapupTime
+                  ? this.state.startTime
+                  : this.state.startTime + this.props.targetWrapupTime * 1000
+              }
+              finish={
+                this.state.ageSeconds < this.props.targetWrapupTime
+                  ? this.state.startTime + this.props.targetWrapupTime * 1000
+                  : this.state.startTime + this.props.wrapupTime * 1000
+              }
               barColor={this.getTimerColor()}
               style={{ width: '100%' }}
             />
@@ -236,26 +259,32 @@ class Interaction extends React.Component {
           style={styles.previewText}
           title={this.props.previewText}
         >
-          <p style={{ margin: 0 }} title={this.props.previewText}>{this.props.previewText}</p>
+          <p style={{ margin: 0 }} title={this.props.previewText}>
+            {this.props.previewText}
+          </p>
         </Dotdotdot>
       );
     }
-  }
+  };
 
   cancelInteraction = (e) => {
     // adding this to prevent other events from bubbling up - namely the
     // event to start the interaction which sits on the same div as the button
     e.stopPropagation();
     this.props.cancelClickToDial(this.props.interactionId);
-  }
+  };
 
   render() {
     if (this.props.status !== 'creating-new-interaction') {
-      const pendingPSTN = this.props.activeExtension.type === 'pstn' && this.props.status === 'pending' && this.props.channelType === 'voice';
+      const pendingPSTN =
+        this.props.activeExtension.type === 'pstn' &&
+        this.props.status === 'pending' &&
+        this.props.channelType === 'voice';
       const acceptMessage = pendingPSTN ? messages.PSTN : messages.accept;
       return (
         <div
-          id={`${this.props.status}InteractionContainer-${this.props.interactionId}`}
+          id={`${this.props.status}InteractionContainer-${this.props
+            .interactionId}`}
           className={`${this.props.status}InteractionContainer`}
           style={[
             styles.base,
@@ -271,7 +300,12 @@ class Interaction extends React.Component {
           <div style={styles.iconContainer}>
             <Icon name={this.props.icon} />
           </div>
-          <div style={[styles.mainContainer, styles.mainContainer[this.props.status]]}>
+          <div
+            style={[
+              styles.mainContainer,
+              styles.mainContainer[this.props.status],
+            ]}
+          >
             <div style={styles.headerContainer}>
               <div style={styles.from}>
                 {this.props.from}
@@ -280,30 +314,30 @@ class Interaction extends React.Component {
                 {this.getTimer()}
               </div>
             </div>
-            { this.getPreviewText() }
+            {this.getPreviewText()}
             {this.props.status === 'pending'
               ? <div style={styles.intentText}>
                 <FormattedMessage {...acceptMessage} />
-                { this.props.interactionDirection === 'outbound' && this.props.channelType === 'voice'
-                  ? <Button
-                    id="cancelInteractionBeforeActive"
-                    type="primaryRed"
-                    text={messages.cancelInteraction}
-                    style={styles.cancelInteractionBtn}
-                    onClick={this.cancelInteraction}
-                  />
-                : undefined
-              }
+                {this.props.interactionDirection === 'outbound' &&
+                    this.props.channelType === 'voice'
+                    ? <Button
+                      id="cancelInteractionBeforeActive"
+                      type="primaryRed"
+                      text={messages.cancelInteraction}
+                      style={styles.cancelInteractionBtn}
+                      onClick={this.cancelInteraction}
+                    />
+                    : undefined}
               </div>
-            : undefined
-            }
+              : undefined}
           </div>
         </div>
       );
     } else {
       return (
         <div
-          id={`${this.props.status}InteractionContainer-${this.props.interactionId}`}
+          id={`${this.props.status}InteractionContainer-${this.props
+            .interactionId}`}
           className={`${this.props.status}InteractionContainer`}
           style={[
             styles.base,
@@ -314,9 +348,13 @@ class Interaction extends React.Component {
           onClick={this.props.onClick}
           disabled={this.props.selected}
         >
-          <div style={styles.iconContainer}>
-          </div>
-          <div style={[styles.mainContainer, styles.mainContainer[this.props.status]]}>
+          <div style={styles.iconContainer} />
+          <div
+            style={[
+              styles.mainContainer,
+              styles.mainContainer[this.props.status],
+            ]}
+          >
             <div style={styles.headerContainer}>
               <div style={styles.from}>
                 New Interaction
@@ -338,7 +376,13 @@ Interaction.propTypes = {
   timeout: PropTypes.number,
   targetWrapupTime: PropTypes.number,
   wrapupTime: PropTypes.number,
-  status: PropTypes.oneOf(['pending', 'active', 'wrapup', 'creating-new-interaction', 'work-ended-pending-script']).isRequired,
+  status: PropTypes.oneOf([
+    'pending',
+    'active',
+    'wrapup',
+    'creating-new-interaction',
+    'work-ended-pending-script',
+  ]).isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
   selected: PropTypes.bool,
   onClick: PropTypes.func,
@@ -355,9 +399,12 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    cancelClickToDial: (interactionId) => dispatch(cancelClickToDial(interactionId)),
+    cancelClickToDial: (interactionId) =>
+      dispatch(cancelClickToDial(interactionId)),
     dispatch,
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(Interaction));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  Radium(Interaction)
+);

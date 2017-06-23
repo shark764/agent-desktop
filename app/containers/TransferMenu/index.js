@@ -28,7 +28,10 @@ import Tabs from 'components/Tabs';
 import TextInput from 'components/TextInput';
 import TimeStat from 'components/TimeStat';
 
-import { startWarmTransferring, setQueueTime } from 'containers/AgentDesktop/actions';
+import {
+  startWarmTransferring,
+  setQueueTime,
+} from 'containers/AgentDesktop/actions';
 import { selectAgentId } from 'containers/AgentDesktop/selectors';
 
 import { selectWarmTransfers, selectQueues } from './selectors';
@@ -38,7 +41,6 @@ const REFRESH_AGENTS_RATE = 5000;
 const REFRESH_QUEUES_RATE = 10000;
 
 export class TransferMenu extends BaseComponent {
-
   constructor(props) {
     super(props);
 
@@ -63,27 +65,35 @@ export class TransferMenu extends BaseComponent {
     }
     let isValid = false;
     try {
-      isValid = this.phoneNumberUtil.isValidNumber(this.phoneNumberUtil.parse(formattedDialpadText, 'E164'));
+      isValid = this.phoneNumberUtil.isValidNumber(
+        this.phoneNumberUtil.parse(formattedDialpadText, 'E164')
+      );
     } catch (e) {
       // Do nothing, this just means it is invalid
     }
     this.setState({ dialpadTextValid: isValid });
     this.setState({ dialpadText: formattedDialpadText });
-  }
+  };
 
   componentDidMount() {
     this.mounted = true;
 
     this.refreshQueueTimes();
-    CxEngage.entities.getUsers((error, topic, response) => this.setAgentsCallback(error, topic, response));
-    CxEngage.entities.getTransferLists((error, topic, response) => this.setTransferListsCallback(error, topic, response));
+    CxEngage.entities.getUsers((error, topic, response) =>
+      this.setAgentsCallback(error, topic, response)
+    );
+    CxEngage.entities.getTransferLists((error, topic, response) =>
+      this.setTransferListsCallback(error, topic, response)
+    );
 
     this.reloadQueuesInterval = setInterval(() => {
       this.refreshQueueTimes();
     }, REFRESH_QUEUES_RATE);
 
     this.reloadTransferablesInterval = setInterval(() => {
-      CxEngage.entities.getUsers((error, topic, response) => this.setAgentsCallback(error, topic, response));
+      CxEngage.entities.getUsers((error, topic, response) =>
+        this.setAgentsCallback(error, topic, response)
+      );
     }, REFRESH_AGENTS_RATE);
   }
 
@@ -95,82 +105,118 @@ export class TransferMenu extends BaseComponent {
 
   refreshQueueTimes = () => {
     this.props.queues.forEach((queue) => {
-      CxEngage.reporting.statQuery({ statistic: 'queue-time', queueId: queue.id }, (error, topic, response) => {
-        if (!error) {
-          console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
-          this.props.setQueueTime(queue.id, response[Object.keys(response)[0]].body.results.avg);
+      CxEngage.reporting.statQuery(
+        { statistic: 'queue-time', queueId: queue.id },
+        (error, topic, response) => {
+          if (!error) {
+            console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
+            this.props.setQueueTime(
+              queue.id,
+              response[Object.keys(response)[0]].body.results.avg
+            );
+          }
         }
-      });
+      );
     });
-  }
+  };
 
   refreshAgents = () => {
     this.setState({ agents: 'loading' });
-    CxEngage.entities.getUsers((error, topic, response) => this.setAgentsCallback(error, topic, response));
-  }
+    CxEngage.entities.getUsers((error, topic, response) =>
+      this.setAgentsCallback(error, topic, response)
+    );
+  };
 
   setAgentsCallback = (error, topic, response) => {
     if (!error) {
       console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
-      CxEngage.reporting.getCapacity({}, (capacityError, capacityTopic, capacityResponse) => {
-        console.log('[TransferMenu] CxEngage.subscribe()', capacityTopic, capacityResponse);
-        const agents = response.result.filter((agent) =>
-          // Filter ourself, pending users
-          agent.id !== this.props.agentId && agent.status === 'accepted'
-        ).map((agent) => ({
-          id: agent.id,
-          firstName: agent.firstName,
-          lastName: agent.lastName,
-          name: `${agent.firstName ? agent.firstName : ''} ${agent.lastName ? agent.lastName : ''}`,
-          // If there was an error with getCapactity, we have to assume ready agents are available
-          isAvailable: !capacityError ? this.isAgentAvailable(agent, capacityResponse.resourceCapacity) : agent.state === 'ready',
-        })).sort((agent1, agent2) => {
-          // Ready agents first, then sort by name alphabetically
-          if (agent1.isAvailable && !agent2.isAvailable) return -1;
-          if (!agent1.isAvailable && agent2.isAvailable) return 1;
-          if (agent1.firstName.toLowerCase() + agent1.lastName.toLowerCase() < agent2.firstName.toLowerCase() + agent2.lastName.toLowerCase()) return -1;
-          if (agent1.firstName.toLowerCase() + agent1.lastName.toLowerCase() > agent2.firstName.toLowerCase() + agent2.lastName.toLowerCase()) return 1;
-          return 0;
-        });
-        if (this.mounted) {
-          this.setState({
-            agents,
-          });
+      CxEngage.reporting.getCapacity(
+        {},
+        (capacityError, capacityTopic, capacityResponse) => {
+          console.log(
+            '[TransferMenu] CxEngage.subscribe()',
+            capacityTopic,
+            capacityResponse
+          );
+          const agents = response.result
+            .filter(
+              (agent) =>
+                // Filter ourself, pending users
+                agent.id !== this.props.agentId && agent.status === 'accepted'
+            )
+            .map((agent) => ({
+              id: agent.id,
+              firstName: agent.firstName,
+              lastName: agent.lastName,
+              name: `${agent.firstName ? agent.firstName : ''} ${agent.lastName
+                ? agent.lastName
+                : ''}`,
+              // If there was an error with getCapactity, we have to assume ready agents are available
+              isAvailable: !capacityError
+                ? this.isAgentAvailable(
+                    agent,
+                    capacityResponse.resourceCapacity
+                  )
+                : agent.state === 'ready',
+            }))
+            .sort((agent1, agent2) => {
+              // Ready agents first, then sort by name alphabetically
+              if (agent1.isAvailable && !agent2.isAvailable) return -1;
+              if (!agent1.isAvailable && agent2.isAvailable) return 1;
+              if (
+                agent1.firstName.toLowerCase() + agent1.lastName.toLowerCase() <
+                agent2.firstName.toLowerCase() + agent2.lastName.toLowerCase()
+              )
+                return -1;
+              if (
+                agent1.firstName.toLowerCase() + agent1.lastName.toLowerCase() >
+                agent2.firstName.toLowerCase() + agent2.lastName.toLowerCase()
+              )
+                return 1;
+              return 0;
+            });
+          if (this.mounted) {
+            this.setState({
+              agents,
+            });
+          }
         }
-      });
+      );
     }
-  }
+  };
 
   isAgentAvailable = (agent, resourceCapacities) => {
     if (agent.state !== 'ready') {
       return false;
     }
     let isAgentAvailable = false;
-    const agentCapacities = resourceCapacities.find((resourceCapacity) => resourceCapacity.resourceId === agent.id);
+    const agentCapacities = resourceCapacities.find(
+      (resourceCapacity) => resourceCapacity.resourceId === agent.id
+    );
     if (agentCapacities) {
-      const voiceCapacity = agentCapacities.capacity.find((agentCapacity) => Object.keys(agentCapacity.channels).includes('voice'));
+      const voiceCapacity = agentCapacities.capacity.find((agentCapacity) =>
+        Object.keys(agentCapacity.channels).includes('voice')
+      );
       if (voiceCapacity) {
         isAgentAvailable = voiceCapacity.allocation !== 'fully-allocated';
       }
     }
     return isAgentAvailable;
-  }
+  };
 
   setTransferListsCallback = (error, topic, response) => {
     console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
-    const transferLists = response.result.map((transferList) => (
-      {
-        id: transferList.id,
-        name: transferList.name,
-        endpoints: transferList.endpoints,
-      }
-    ));
+    const transferLists = response.result.map((transferList) => ({
+      id: transferList.id,
+      name: transferList.name,
+      endpoints: transferList.endpoints,
+    }));
     if (this.mounted) {
       this.setState({
         transferLists,
       });
     }
-  }
+  };
 
   styles = {
     transferListsContainer: {
@@ -270,16 +316,18 @@ export class TransferMenu extends BaseComponent {
       margin: '24px auto 0',
       width: '134px',
     },
-  }
+  };
 
   filterTransferListItems = (transferListItems) =>
     transferListItems.filter((transferListItem) => {
       if (this.state.transferSearchInput.trim() !== '') {
-        return transferListItem.name.toUpperCase().includes(this.state.transferSearchInput.toUpperCase());
+        return transferListItem.name
+          .toUpperCase()
+          .includes(this.state.transferSearchInput.toUpperCase());
       } else {
         return true;
       }
-    })
+    });
 
   transferTransferListItem = (name, contactType, endpoint) => {
     if (contactType === 'queue') {
@@ -291,11 +339,14 @@ export class TransferMenu extends BaseComponent {
       };
       this.transfer(name, undefined, undefined, transferExtension);
     }
-  }
+  };
 
   transferFromDialpad = () => {
-    this.transfer(this.state.dialpadText, undefined, undefined, { type: 'pstn', value: this.state.dialpadText });
-  }
+    this.transfer(this.state.dialpadText, undefined, undefined, {
+      type: 'pstn',
+      value: this.state.dialpadText,
+    });
+  };
 
   transfer = (name, resourceId, queueId, transferExtension) => {
     const interactionId = this.props.interactionId;
@@ -314,7 +365,9 @@ export class TransferMenu extends BaseComponent {
         id = transferExtension;
         type = 'transferExtension';
       } else {
-        throw new Error('warm transfer: neither resourceId, queueId, nor transferExtension passed in');
+        throw new Error(
+          'warm transfer: neither resourceId, queueId, nor transferExtension passed in'
+        );
       }
       const transferringTo = {
         id,
@@ -334,42 +387,61 @@ export class TransferMenu extends BaseComponent {
         transferType,
       });
     } else if (resourceId !== undefined) {
-      console.log('transferToResource()', interactionId, transferType, resourceId);
+      console.log(
+        'transferToResource()',
+        interactionId,
+        transferType,
+        resourceId
+      );
       CxEngage.interactions.voice.transferToResource({
         interactionId,
         resourceId,
         transferType,
       });
     } else if (transferExtension !== undefined) {
-      console.log('transferToExtension()', interactionId, transferType, transferExtension);
+      console.log(
+        'transferToExtension()',
+        interactionId,
+        transferType,
+        transferExtension
+      );
       CxEngage.interactions.voice.transferToExtension({
         interactionId,
         transferExtension,
         transferType,
       });
     } else {
-      throw new Error('neither resourceId, queueId, nor transferExtension passed in');
+      throw new Error(
+        'neither resourceId, queueId, nor transferExtension passed in'
+      );
     }
 
     this.props.setShowTransferMenu(false);
-  }
+  };
 
   toggleDialpad = () => {
-    this.setState({ showTransferListDialpad: !this.state.showTransferListDialpad });
-  }
+    this.setState({
+      showTransferListDialpad: !this.state.showTransferListDialpad,
+    });
+  };
 
   render() {
     const queues = this.filterTransferListItems(this.props.queues).map((queue) =>
-      <div id={queue.id} key={queue.id} className="queueTransferListItem" onClick={() => this.transfer(queue.name, undefined, queue.id)} style={this.styles.transferListItem} title={queue.name}>
+      <div
+        id={queue.id}
+        key={queue.id}
+        className="queueTransferListItem"
+        onClick={() => this.transfer(queue.name, undefined, queue.id)}
+        style={this.styles.transferListItem}
+        title={queue.name}
+      >
         <span style={this.styles.queueName}>
           {queue.name}
         </span>
         <span style={this.styles.averageQueueTime}>
-          {
-            queue.queueTime !== undefined
+          {queue.queueTime !== undefined
             ? <TimeStat time={queue.queueTime} unit="millis" />
-            : undefined
-          }
+            : undefined}
         </span>
       </div>
     );
@@ -377,10 +449,23 @@ export class TransferMenu extends BaseComponent {
     let agents;
     if (this.state.agents !== 'loading') {
       agents = this.filterTransferListItems(this.state.agents).map((agent) => {
-        if (this.props.warmTransfers.find((transfer) => transfer.id === agent.id)) {
+        if (
+          this.props.warmTransfers.find((transfer) => transfer.id === agent.id)
+        ) {
           return (
-            <div key={agent.id} id={agent.id} className="readyAgentTransferListItem" style={this.styles.inactiveTransferListItem} title={agent.name}>
-              <div style={[this.styles.agentStatusIcon, this.styles.agentAvailable]}></div>
+            <div
+              key={agent.id}
+              id={agent.id}
+              className="readyAgentTransferListItem"
+              style={this.styles.inactiveTransferListItem}
+              title={agent.name}
+            >
+              <div
+                style={[
+                  this.styles.agentStatusIcon,
+                  this.styles.agentAvailable,
+                ]}
+              />
               <span style={this.styles.agentName}>
                 {agent.name}
               </span>
@@ -388,8 +473,20 @@ export class TransferMenu extends BaseComponent {
           );
         } else if (agent.isAvailable) {
           return (
-            <div key={agent.id} id={agent.id} className="readyAgentTransferListItem" onClick={() => this.transfer(agent.name, agent.id)} style={this.styles.transferListItem} title={agent.name}>
-              <div style={[this.styles.agentStatusIcon, this.styles.agentAvailable]}></div>
+            <div
+              key={agent.id}
+              id={agent.id}
+              className="readyAgentTransferListItem"
+              onClick={() => this.transfer(agent.name, agent.id)}
+              style={this.styles.transferListItem}
+              title={agent.name}
+            >
+              <div
+                style={[
+                  this.styles.agentStatusIcon,
+                  this.styles.agentAvailable,
+                ]}
+              />
               <span style={this.styles.agentName}>
                 {agent.name}
               </span>
@@ -397,8 +494,19 @@ export class TransferMenu extends BaseComponent {
           );
         } else {
           return (
-            <div key={agent.id} id={agent.id} className="notReadyAgentTransferListItem" style={this.styles.inactiveTransferListItem} title={agent.name}>
-              <div style={[this.styles.agentStatusIcon, this.styles.agentUnavailable]}></div>
+            <div
+              key={agent.id}
+              id={agent.id}
+              className="notReadyAgentTransferListItem"
+              style={this.styles.inactiveTransferListItem}
+              title={agent.name}
+            >
+              <div
+                style={[
+                  this.styles.agentStatusIcon,
+                  this.styles.agentUnavailable,
+                ]}
+              />
               <span style={this.styles.agentName}>
                 {agent.name}
               </span>
@@ -425,42 +533,57 @@ export class TransferMenu extends BaseComponent {
         });
         const hierarchyList = [];
         hierarchyMap.forEach((transferListItems, hierarchy) => {
-          const filteredTransferListItems = this.filterTransferListItems(transferListItems)
+          const filteredTransferListItems = this.filterTransferListItems(
+            transferListItems
+          )
             .filter((transferListItem) => {
               if (this.state.transferTabIndex === 0) {
                 return transferListItem.warmTransfer !== undefined;
               } else {
                 return transferListItem.coldTransfer !== undefined;
               }
-            }).map((transferListItem) =>
+            })
+            .map((transferListItem) =>
               <div
                 id={`${transferList.id}-${hierarchy}-${transferListItem.name}`}
                 key={`${transferList.id}-${hierarchy}-${transferListItem.name}`}
                 className="tranferListItem"
-                onClick={() => this.transferTransferListItem(transferListItem.name, transferListItem.contactType, transferListItem.endpoint)}
+                onClick={() =>
+                  this.transferTransferListItem(
+                    transferListItem.name,
+                    transferListItem.contactType,
+                    transferListItem.endpoint
+                  )}
                 style={this.styles.transferListItem}
               >
-                { transferListItem.name }
+                {transferListItem.name}
               </div>
             );
           if (filteredTransferListItems.length > 0) {
             hierarchyList.push(
-              <div id={`${transferList.id}-${hierarchy}`} key={`${transferList.id}-${hierarchy}`} >
-                <div style={this.styles.hierarchy} >
-                  { hierarchy }
+              <div
+                id={`${transferList.id}-${hierarchy}`}
+                key={`${transferList.id}-${hierarchy}`}
+              >
+                <div style={this.styles.hierarchy}>
+                  {hierarchy}
                 </div>
-                { filteredTransferListItems }
+                {filteredTransferListItems}
               </div>
             );
           }
         });
         if (hierarchyList.length > 0) {
           transferLists.push(
-            <div id={transferList.id} key={transferList.id} style={this.styles.transferList}>
-              <div style={this.styles.transferListTitle} >
-                { transferList.name }
+            <div
+              id={transferList.id}
+              key={transferList.id}
+              style={this.styles.transferList}
+            >
+              <div style={this.styles.transferListTitle}>
+                {transferList.name}
               </div>
-              { hierarchyList }
+              {hierarchyList}
             </div>
           );
         }
@@ -471,7 +594,12 @@ export class TransferMenu extends BaseComponent {
 
     return (
       <div>
-        <Tabs id="transferTabs" type="small" selectedIndex={this.state.transferTabIndex} onSelect={(transferTabIndex) => this.setState({ transferTabIndex })} >
+        <Tabs
+          id="transferTabs"
+          type="small"
+          selectedIndex={this.state.transferTabIndex}
+          onSelect={(transferTabIndex) => this.setState({ transferTabIndex })}
+        >
           <TabList>
             <Tab>
               <FormattedMessage {...messages.addParticipant} />
@@ -480,66 +608,91 @@ export class TransferMenu extends BaseComponent {
               <FormattedMessage {...messages.transfer} />
             </Tab>
           </TabList>
-          <TabPanel></TabPanel>
-          <TabPanel></TabPanel>
+          <TabPanel />
+          <TabPanel />
         </Tabs>
         {!this.state.showTransferListDialpad
-        ? <div style={this.styles.transferListsContainer}>
-          <TextInput
-            id="transferSearchInput"
-            placeholder={messages.search}
-            cb={(transferSearchInput) => this.setState({ transferSearchInput })}
-            value={this.state.transferSearchInput}
-            style={this.styles.transferSearchInput}
-          />
-          <div style={this.styles.transferLists}>
-            { queues.length > 0
-              ? <div style={this.styles.transferList}>
-                <div style={this.styles.transferListTitle} >
-                  <FormattedMessage {...messages.queues} />
-                  <div id="refreshQueues" style={this.styles.refresh} onClick={() => this.refreshQueueTimes()}>&#8635;</div>
-                </div>
-                { queues }
-              </div>
-              : ''
-            }
-            { agents.length > 0
-              ? <div style={this.styles.transferList}>
-                <div style={this.styles.transferListTitle} >
-                  <FormattedMessage {...messages.agents} style={this.styles.transferListTitle} />
-                  <div id="refreshAgents" style={this.styles.refresh} onClick={() => this.refreshAgents()}>&#8635;</div>
-                </div>
-                { agents }
-              </div>
-              : ''
-            }
-            { transferLists }
+          ? <div style={this.styles.transferListsContainer}>
+            <TextInput
+              id="transferSearchInput"
+              placeholder={messages.search}
+              cb={(transferSearchInput) =>
+                  this.setState({ transferSearchInput })}
+              value={this.state.transferSearchInput}
+              style={this.styles.transferSearchInput}
+            />
+            <div style={this.styles.transferLists}>
+              {queues.length > 0
+                  ? <div style={this.styles.transferList}>
+                    <div style={this.styles.transferListTitle}>
+                      <FormattedMessage {...messages.queues} />
+                      <div
+                        id="refreshQueues"
+                        style={this.styles.refresh}
+                        onClick={() => this.refreshQueueTimes()}
+                      >
+                          &#8635;
+                        </div>
+                    </div>
+                    {queues}
+                  </div>
+                  : ''}
+              {agents.length > 0
+                  ? <div style={this.styles.transferList}>
+                    <div style={this.styles.transferListTitle}>
+                      <FormattedMessage
+                        {...messages.agents}
+                        style={this.styles.transferListTitle}
+                      />
+                      <div
+                        id="refreshAgents"
+                        style={this.styles.refresh}
+                        onClick={() => this.refreshAgents()}
+                      >
+                          &#8635;
+                        </div>
+                    </div>
+                    {agents}
+                  </div>
+                  : ''}
+              {transferLists}
+            </div>
           </div>
-        </div>
-        : <Dialpad
-          id="dialpad"
-          setDialpadText={this.setDialpadText}
-          onEnter={this.transferFromDialpad}
-          dialpadText={this.state.dialpadText}
-          toggle={this.toggleDialpad}
-          active
-          transfer
-        >
-          <Button
-            id="transferDialpadButton"
-            text={this.state.transferTabIndex === 0 ? messages.addParticipant : messages.transfer}
-            disabled={!this.state.dialpadTextValid}
-            onClick={this.transferFromDialpad}
-            type="primaryBlue"
-            style={this.styles.transferDialpadButton}
-          />
-        </Dialpad>
-        }
+          : <Dialpad
+            id="dialpad"
+            setDialpadText={this.setDialpadText}
+            onEnter={this.transferFromDialpad}
+            dialpadText={this.state.dialpadText}
+            toggle={this.toggleDialpad}
+            active
+            transfer
+          >
+            <Button
+              id="transferDialpadButton"
+              text={
+                  this.state.transferTabIndex === 0
+                    ? messages.addParticipant
+                    : messages.transfer
+                }
+              disabled={!this.state.dialpadTextValid}
+              onClick={this.transferFromDialpad}
+              type="primaryBlue"
+              style={this.styles.transferDialpadButton}
+            />
+          </Dialpad>}
         <div style={this.styles.dialpadButtonContainer}>
           <CircleIconButton
             id="transferDialpadButton"
-            name={this.state.showTransferListDialpad ? 'transfer_dark' : 'dialpad_dark'}
-            active={false} onClick={() => this.setState({ showTransferListDialpad: !this.state.showTransferListDialpad })}
+            name={
+              this.state.showTransferListDialpad
+                ? 'transfer_dark'
+                : 'dialpad_dark'
+            }
+            active={false}
+            onClick={() =>
+              this.setState({
+                showTransferListDialpad: !this.state.showTransferListDialpad,
+              })}
             style={this.styles.dialpadButton}
           />
         </div>
@@ -557,8 +710,10 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    startWarmTransferring: (interactionId, transferringTo) => dispatch(startWarmTransferring(interactionId, transferringTo)),
-    setQueueTime: (queueId, queueTime) => dispatch(setQueueTime(queueId, queueTime)),
+    startWarmTransferring: (interactionId, transferringTo) =>
+      dispatch(startWarmTransferring(interactionId, transferringTo)),
+    setQueueTime: (queueId, queueTime) =>
+      dispatch(setQueueTime(queueId, queueTime)),
     dispatch,
   };
 }
@@ -573,4 +728,6 @@ TransferMenu.propTypes = {
   setQueueTime: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(TransferMenu));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  Radium(TransferMenu)
+);

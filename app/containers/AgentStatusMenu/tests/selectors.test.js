@@ -15,9 +15,11 @@ describe('selectHasActiveInteractions', () => {
   describe('if an interaction is present with status work-accepting', () => {
     const mockState = fromJS({
       agentDesktop: {
-        interactions: [{
-          status: 'work-accepting',
-        }],
+        interactions: [
+          {
+            status: 'work-accepting',
+          },
+        ],
       },
     });
 
@@ -29,9 +31,11 @@ describe('selectHasActiveInteractions', () => {
   describe('if an interaction is present with status work-accepted', () => {
     const mockState = fromJS({
       agentDesktop: {
-        interactions: [{
-          status: 'work-accepted',
-        }],
+        interactions: [
+          {
+            status: 'work-accepted',
+          },
+        ],
       },
     });
 
@@ -43,9 +47,11 @@ describe('selectHasActiveInteractions', () => {
   describe('if no interaction is present with valid active status', () => {
     const mockState = fromJS({
       agentDesktop: {
-        interactions: [{
-          status: 'nonActiveStatus',
-        }],
+        interactions: [
+          {
+            status: 'nonActiveStatus',
+          },
+        ],
       },
     });
 
@@ -83,9 +89,11 @@ describe('selectHasActiveWrapup', () => {
   describe('if an interaction is present with status wrapup', () => {
     const mockState = fromJS({
       agentDesktop: {
-        interactions: [{
-          status: 'wrapup',
-        }],
+        interactions: [
+          {
+            status: 'wrapup',
+          },
+        ],
       },
     });
 
@@ -97,9 +105,11 @@ describe('selectHasActiveWrapup', () => {
   describe('if no interaction is present with status wrapup', () => {
     const mockState = fromJS({
       agentDesktop: {
-        interactions: [{
-          status: 'nonWrapupStatus',
-        }],
+        interactions: [
+          {
+            status: 'nonWrapupStatus',
+          },
+        ],
       },
     });
 

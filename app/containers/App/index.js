@@ -23,25 +23,84 @@ import Login from 'containers/Login';
 import NotificationBanner from 'components/NotificationBanner';
 import AgentDesktop from 'containers/AgentDesktop';
 
-import { setAvailableStats, statsReceived, toggleAgentMenu, initializeStats } from 'containers/Toolbar/actions';
+import {
+  setAvailableStats,
+  statsReceived,
+  toggleAgentMenu,
+  initializeStats,
+} from 'containers/Toolbar/actions';
 import { showLogin, logout } from 'containers/Login/actions';
-import { setContactLayout, setContactAttributes } from 'containers/SidePanel/actions';
-import { setLoginErrorAndReload, handleSDKError, addStatErrorId, removeStatErrorId, dismissError } from 'containers/Errors/actions';
+import {
+  setContactLayout,
+  setContactAttributes,
+} from 'containers/SidePanel/actions';
+import {
+  setLoginErrorAndReload,
+  handleSDKError,
+  addStatErrorId,
+  removeStatErrorId,
+  dismissError,
+} from 'containers/Errors/actions';
 
 import { selectAvailableStats } from 'containers/AgentStats/selectors';
 import { selectActivatedStatIds } from 'containers/Toolbar/selectors';
-import { selectCriticalError, selectErroredStatIds, selectNonCriticalError } from 'containers/Errors/selectors';
+import {
+  selectCriticalError,
+  selectErroredStatIds,
+  selectNonCriticalError,
+} from 'containers/Errors/selectors';
 import errorMessages from 'containers/Errors/messages';
 
 import { setCRMUnavailable } from 'containers/InfoTab/actions';
-import { setUserConfig, setExtensions, setPresence, addInteraction, workInitiated, addMessage, setMessageHistory, assignContact, loadContactInteractionHistory,
-  setContactHistoryInteractionDetails, updateContact, setInteractionQuery, setInteractionStatus, removeInteraction,
-  updateWrapupDetails, addScript, removeScript, selectInteraction, setCustomFields, setEmailPlainBody, setEmailHtmlBody, setEmailDetails, setEmailAttachmentUrl,
-  muteCall, unmuteCall, holdCall, resumeCall, recordCall, stopRecordCall,
-  transferCancelled, resourceAdded, updateResourceName, updateResourceStatus, holdMe, resumeMe, resourceRemoved, showRefreshRequired,
-  emailAddAttachment, setQueues, setDispositionDetails, selectDisposition, goNotReady } from 'containers/AgentDesktop/actions';
+import {
+  setUserConfig,
+  setExtensions,
+  setPresence,
+  addInteraction,
+  workInitiated,
+  addMessage,
+  setMessageHistory,
+  assignContact,
+  loadContactInteractionHistory,
+  setContactHistoryInteractionDetails,
+  updateContact,
+  setInteractionQuery,
+  setInteractionStatus,
+  removeInteraction,
+  updateWrapupDetails,
+  addScript,
+  removeScript,
+  selectInteraction,
+  setCustomFields,
+  setEmailPlainBody,
+  setEmailHtmlBody,
+  setEmailDetails,
+  setEmailAttachmentUrl,
+  muteCall,
+  unmuteCall,
+  holdCall,
+  resumeCall,
+  recordCall,
+  stopRecordCall,
+  transferCancelled,
+  resourceAdded,
+  updateResourceName,
+  updateResourceStatus,
+  holdMe,
+  resumeMe,
+  resourceRemoved,
+  showRefreshRequired,
+  emailAddAttachment,
+  setQueues,
+  setDispositionDetails,
+  selectDisposition,
+  goNotReady,
+} from 'containers/AgentDesktop/actions';
 
-import { selectAgentDesktopMap, selectLoginMap } from 'containers/AgentDesktop/selectors';
+import {
+  selectAgentDesktopMap,
+  selectLoginMap,
+} from 'containers/AgentDesktop/selectors';
 
 import { version as release } from '../../../package.json';
 
@@ -50,7 +109,6 @@ import sdkIgnoreTopics from './sdkIgnoreTopics';
 import sdkLogTopics from './sdkLogTopics';
 
 export class App extends React.Component {
-
   componentWillUnmount() {
     clearInterval(this.cacheCheckInterval);
   }
@@ -84,24 +142,28 @@ export class App extends React.Component {
         this.init();
       }
     });
-  }
+  };
 
   hideRefreshBanner = () => {
     this.props.showRefreshRequired(false);
-  }
+  };
 
   logoutAndReload = () => {
     try {
-      CxEngage.authentication.logout((error) => error && window.location.reload());
+      CxEngage.authentication.logout(
+        (error) => error && window.location.reload()
+      );
     } catch (e) {
       window.location.reload();
     }
-  }
+  };
 
-  checkStatErrors = (statsObject) => { // TODO: move into saga
+  checkStatErrors = (statsObject) => {
+    // TODO: move into saga
     this.props.activatedStatIds.forEach((statId) => {
-      const hasData = statsObject[statId] && (statsObject[statId].status === 200);
-      const hasNewError = statsObject[statId] && (statsObject[statId].status !== 200);
+      const hasData = statsObject[statId] && statsObject[statId].status === 200;
+      const hasNewError =
+        statsObject[statId] && statsObject[statId].status !== 200;
       const isErrored = this.props.erroredStatIds.includes(statId);
       if (hasNewError && !isErrored) {
         this.props.addStatErrorId(statId);
@@ -109,7 +171,7 @@ export class App extends React.Component {
         this.props.removeStatErrorId(statId);
       }
     });
-  }
+  };
 
   init = () => {
     let where;
@@ -136,20 +198,32 @@ export class App extends React.Component {
     // Initialize Remote Logging with Sentry.io
     // Check if environment === 'prod' to re-enable
     if (false) {
-      Raven.config('https://892f9eb6bb314a9da98b98372c518351@sentry.io/169686', {
-        release,
-        environment,
-        autoBreadcrumbs: {
-          xhr: false,
-        },
-        dataCallback: (data) => {
-          // Add state to extra data
-          (Object.assign({}, data).extra.appState = window.store.getState().toJS());
-        },
-      }).install();
+      Raven.config(
+        'https://892f9eb6bb314a9da98b98372c518351@sentry.io/169686',
+        {
+          release,
+          environment,
+          autoBreadcrumbs: {
+            xhr: false,
+          },
+          dataCallback: (data) => {
+            // Add state to extra data
+            Object.assign(
+              {},
+              data
+            ).extra.appState = window.store.getState().toJS();
+          },
+        }
+      ).install();
     }
 
-    const sdkConf = { baseUrl: `https://${where}`, logLevel, blastSqsOutput, environment, reportingRefreshRate };
+    const sdkConf = {
+      baseUrl: `https://${where}`,
+      logLevel,
+      blastSqsOutput,
+      environment,
+      reportingRefreshRate,
+    };
 
     CxEngage.initialize(sdkConf);
 
@@ -164,16 +238,29 @@ export class App extends React.Component {
         let topicUnhandled;
 
         switch (topic) {
-
           // SESSION
           case 'cxengage/session/state-change-response': {
-            if (!this.props.agentDesktop.presence && response.state === 'notready' && response.reasonId === null) {
-              const systemPresenceReasonsList = this.props.agentDesktop.userConfig
-                && this.props.agentDesktop.userConfig.reasonLists
-                && this.props.agentDesktop.userConfig.reasonLists.find((list) => list.name === 'System Presence Reasons');
-              const loggedInReason = systemPresenceReasonsList && systemPresenceReasonsList.reasons.find((reason) => reason.name === 'Logged in');
+            if (
+              !this.props.agentDesktop.presence &&
+              response.state === 'notready' &&
+              response.reasonId === null
+            ) {
+              const systemPresenceReasonsList =
+                this.props.agentDesktop.userConfig &&
+                this.props.agentDesktop.userConfig.reasonLists &&
+                this.props.agentDesktop.userConfig.reasonLists.find(
+                  (list) => list.name === 'System Presence Reasons'
+                );
+              const loggedInReason =
+                systemPresenceReasonsList &&
+                systemPresenceReasonsList.reasons.find(
+                  (reason) => reason.name === 'Logged in'
+                );
               if (loggedInReason) {
-                this.props.goNotReady(loggedInReason, systemPresenceReasonsList.id);
+                this.props.goNotReady(
+                  loggedInReason,
+                  systemPresenceReasonsList.id
+                );
               }
               this.props.setPresence(response);
             } else {
@@ -204,50 +291,102 @@ export class App extends React.Component {
 
           // INTERACTIONS
           case 'cxengage/interactions/work-initiated-received': {
-            const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response.interactionId);
+            const interaction = this.props.agentDesktop.interactions.find(
+              (availableInteraction) =>
+                availableInteraction.interactionId === response.interactionId
+            );
             if (interaction !== undefined) {
-              if (!(interaction.direction === 'outbound' && (interaction.channelType === 'sms' || interaction.channelType === 'email'))) {
+              if (
+                !(
+                  interaction.direction === 'outbound' &&
+                  (interaction.channelType === 'sms' ||
+                    interaction.channelType === 'email')
+                )
+              ) {
                 this.props.workInitiated(response);
               }
 
               // Attempt to auto-assign contact if it hasn't already been assigned (if it were started by click to outbound)
-              if (interaction && (interaction.channelType === 'voice' || interaction.channelType === 'sms' || interaction.channelType === 'email') && (interaction.contact === undefined || interaction.contact.id === undefined)) {
-                this.attemptContactSearch(response.customer, response.interactionId, true);
+              if (
+                interaction &&
+                (interaction.channelType === 'voice' ||
+                  interaction.channelType === 'sms' ||
+                  interaction.channelType === 'email') &&
+                (interaction.contact === undefined ||
+                  interaction.contact.id === undefined)
+              ) {
+                this.attemptContactSearch(
+                  response.customer,
+                  response.interactionId,
+                  true
+                );
               }
-              if (interaction.direction === 'outbound' && (interaction.channelType === 'sms' || interaction.channelType === 'email')) {
-                CxEngage.interactions.accept({ interactionId: response.interactionId });
+              if (
+                interaction.direction === 'outbound' &&
+                (interaction.channelType === 'sms' ||
+                  interaction.channelType === 'email')
+              ) {
+                CxEngage.interactions.accept({
+                  interactionId: response.interactionId,
+                });
               } else if (interaction.autoAnswer === true) {
                 this.acceptInteraction(response.interactionId);
               }
             } else {
-              console.warn('Interaction not found to initiate:', response.interactionId);
+              console.warn(
+                'Interaction not found to initiate:',
+                response.interactionId
+              );
             }
             break;
           }
           case 'cxengage/interactions/resource-hold-received': {
-            if (this.props.login.agent.userId === response.extraParams.targetResource) {
+            if (
+              this.props.login.agent.userId ===
+              response.extraParams.targetResource
+            ) {
               this.props.holdMe(response.interactionId);
             } else {
-              this.props.updateResourceStatus(response.interactionId, response.extraParams.targetResource, 'onHold', true);
+              this.props.updateResourceStatus(
+                response.interactionId,
+                response.extraParams.targetResource,
+                'onHold',
+                true
+              );
             }
             break;
           }
           case 'cxengage/interactions/resource-resume-received': {
-            if (this.props.login.agent.userId === response.extraParams.targetResource) {
+            if (
+              this.props.login.agent.userId ===
+              response.extraParams.targetResource
+            ) {
               this.props.resumeMe(response.interactionId);
             } else {
-              this.props.updateResourceStatus(response.interactionId, response.extraParams.targetResource, 'onHold', false);
+              this.props.updateResourceStatus(
+                response.interactionId,
+                response.extraParams.targetResource,
+                'onHold',
+                false
+              );
             }
             break;
           }
           case 'cxengage/interactions/disposition-codes-received': {
             if (response.dispositionCodes) {
-              this.props.setDispositionDetails(response.interactionId, response.dispositionCodes.dispositions, response.forceSelect);
+              this.props.setDispositionDetails(
+                response.interactionId,
+                response.dispositionCodes.dispositions,
+                response.forceSelect
+              );
             }
             break;
           }
           case 'cxengage/interactions/resource-added-received': {
-            if (this.props.login.agent.userId !== response.extraParams.targetResource) {
+            if (
+              this.props.login.agent.userId !==
+              response.extraParams.targetResource
+            ) {
               this.props.resourceAdded(response);
             }
             break;
@@ -268,11 +407,18 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/work-accepted-received': {
-            this.props.setInteractionStatus(response.interactionId, 'work-accepted', response);
+            this.props.setInteractionStatus(
+              response.interactionId,
+              'work-accepted',
+              response
+            );
             break;
           }
           case 'cxengage/interactions/custom-fields-received': {
-            this.props.setCustomFields(response.interactionId, response.customFields);
+            this.props.setCustomFields(
+              response.interactionId,
+              response.customFields
+            );
             break;
           }
           case 'cxengage/interactions/resource-removed-received': {
@@ -284,15 +430,22 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/enable-wrapup-acknowledged': {
-            this.props.updateWrapupDetails(response.interactionId, { wrapupEnabled: true });
+            this.props.updateWrapupDetails(response.interactionId, {
+              wrapupEnabled: true,
+            });
             break;
           }
           case 'cxengage/interactions/disable-wrapup-acknowledged': {
-            this.props.updateWrapupDetails(response.interactionId, { wrapupEnabled: false });
+            this.props.updateWrapupDetails(response.interactionId, {
+              wrapupEnabled: false,
+            });
             break;
           }
           case 'cxengage/interactions/script-received': {
-            this.props.addScript(response.interactionId, JSON.parse(response.script));
+            this.props.addScript(
+              response.interactionId,
+              JSON.parse(response.script)
+            );
             break;
           }
           case 'cxengage/interactions/send-script': {
@@ -300,24 +453,43 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/disposition-code-changed': {
-            this.props.selectDisposition(response.interactionId, response.disposition);
+            this.props.selectDisposition(
+              response.interactionId,
+              response.disposition
+            );
             break;
           }
 
           // INTERACTIONS/VOICE
           case 'cxengage/interactions/voice/resource-mute-received': {
-            if (response.extraParams.targetResource === this.props.login.agent.userId) {
+            if (
+              response.extraParams.targetResource ===
+              this.props.login.agent.userId
+            ) {
               this.props.muteCall(response.interactionId);
             } else {
-              this.props.updateResourceStatus(response.interactionId, response.extraParams.targetResource, 'muted', true);
+              this.props.updateResourceStatus(
+                response.interactionId,
+                response.extraParams.targetResource,
+                'muted',
+                true
+              );
             }
             break;
           }
           case 'cxengage/interactions/voice/resource-unmute-received': {
-            if (response.extraParams.targetResource === this.props.login.agent.userId) {
+            if (
+              response.extraParams.targetResource ===
+              this.props.login.agent.userId
+            ) {
               this.props.unmuteCall(response.interactionId);
             } else {
-              this.props.updateResourceStatus(response.interactionId, response.extraParams.targetResource, 'muted', false);
+              this.props.updateResourceStatus(
+                response.interactionId,
+                response.extraParams.targetResource,
+                'muted',
+                false
+              );
             }
             break;
           }
@@ -348,13 +520,33 @@ export class App extends React.Component {
 
           // INTERACTIONS/MESSAGING
           case 'cxengage/interactions/messaging/history-received': {
-            this.props.setMessageHistory(response, this.props.login.agent.userId);
+            this.props.setMessageHistory(
+              response,
+              this.props.login.agent.userId
+            );
             // attempt to auto-assign contact
-            const interaction = this.props.agentDesktop.interactions.find((availableInteraction) => availableInteraction.interactionId === response[0].to);
-            if (interaction !== undefined && interaction.channelType === 'messaging') {
-              const customerMessage = response.find((message) => message.metadata && message.metadata.type === 'customer'); // History has been coming in with initial customer issue message missing
-              if (customerMessage && customerMessage.metadata && customerMessage.metadata.name) {
-                this.attemptContactSearch(customerMessage.metadata.name, customerMessage.to, false);
+            const interaction = this.props.agentDesktop.interactions.find(
+              (availableInteraction) =>
+                availableInteraction.interactionId === response[0].to
+            );
+            if (
+              interaction !== undefined &&
+              interaction.channelType === 'messaging'
+            ) {
+              const customerMessage = response.find(
+                (message) =>
+                  message.metadata && message.metadata.type === 'customer'
+              ); // History has been coming in with initial customer issue message missing
+              if (
+                customerMessage &&
+                customerMessage.metadata &&
+                customerMessage.metadata.name
+              ) {
+                this.attemptContactSearch(
+                  customerMessage.metadata.name,
+                  customerMessage.to,
+                  false
+                );
               } else {
                 console.warn('customer name not found in:', interaction);
               }
@@ -362,7 +554,13 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/messaging/new-message-received': {
-            this.props.addMessage(response.to, new ResponseMessage(response, this.props.agentDesktop.selectedInteractionId));
+            this.props.addMessage(
+              response.to,
+              new ResponseMessage(
+                response,
+                this.props.agentDesktop.selectedInteractionId
+              )
+            );
             break;
           }
 
@@ -370,15 +568,37 @@ export class App extends React.Component {
           case 'cxengage/interactions/email/details-received': {
             this.props.setEmailDetails(response.interactionId, response.body);
             response.body.attachments.forEach((attachment) => {
-              CxEngage.interactions.email.getAttachmentUrl({ interactionId: response.interactionId, artifactId: response.body.artifactId, artifactFileId: attachment.artifactFileId }, (attachmentUrlError, attachmentUrlTopic, attachmentUrlResponse) => {
-                console.log('[AgentDesktop] CxEngage.subscribe()', attachmentUrlTopic, attachmentUrlResponse);
-                this.props.setEmailAttachmentUrl(response.interactionId, attachment.artifactFileId, attachmentUrlResponse.url);
-              });
+              CxEngage.interactions.email.getAttachmentUrl(
+                {
+                  interactionId: response.interactionId,
+                  artifactId: response.body.artifactId,
+                  artifactFileId: attachment.artifactFileId,
+                },
+                (
+                  attachmentUrlError,
+                  attachmentUrlTopic,
+                  attachmentUrlResponse
+                ) => {
+                  console.log(
+                    '[AgentDesktop] CxEngage.subscribe()',
+                    attachmentUrlTopic,
+                    attachmentUrlResponse
+                  );
+                  this.props.setEmailAttachmentUrl(
+                    response.interactionId,
+                    attachment.artifactFileId,
+                    attachmentUrlResponse.url
+                  );
+                }
+              );
             });
             break;
           }
           case 'cxengage/interactions/email/attachment-added': {
-            this.props.emailAddAttachment(response.interactionId, { attachmentId: response.attachmentId, name: response.filename });
+            this.props.emailAddAttachment(response.interactionId, {
+              attachmentId: response.attachmentId,
+              name: response.filename,
+            });
             break;
           }
           case 'cxengage/interactions/email/plain-body-received': {
@@ -419,12 +639,21 @@ export class App extends React.Component {
             const stats = { ...response };
             delete stats.status;
             Object.keys(stats).forEach((key) => {
-              stats[key].userFriendlyName = stats[key].userFriendlyName.replace(/(\sCount|Count of|Percentage of)/, '');
-              if (stats[key].userFriendlyName === 'Resource Conversation Starts') {
+              stats[key].userFriendlyName = stats[key].userFriendlyName.replace(
+                /(\sCount|Count of|Percentage of)/,
+                ''
+              );
+              if (
+                stats[key].userFriendlyName === 'Resource Conversation Starts'
+              ) {
                 stats[key].userFriendlyName = 'Conversation Starts';
               }
             });
-            this.props.setAvailableStats(stats, this.props.login.tenant.id, this.props.login.agent.userId);
+            this.props.setAvailableStats(
+              stats,
+              this.props.login.tenant.id,
+              this.props.login.agent.userId
+            );
             this.props.initializeStats();
             break;
           }
@@ -460,48 +689,79 @@ export class App extends React.Component {
           if (isLogTopic || !topicUnhandled) {
             console.log('[AgentDesktop] CxEngage.subscribe()', topic, response);
           } else {
-            console.warn('[AgentDesktop] CxEngage.subscribe(): No pub sub for', topic, response, error);
+            console.warn(
+              '[AgentDesktop] CxEngage.subscribe(): No pub sub for',
+              topic,
+              response,
+              error
+            );
           }
         }
       }
     });
-  }
+  };
 
   attemptContactSearch = (from, interactionId, exact) => {
-    CxEngage.contacts.search({ query: { q: exact ? encodeURIComponent(`"${from}"`) : encodeURIComponent(from) } }, (searchError, searchTopic, searchResponse) => {
-      if (searchError) {
-        this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
-      } else {
-        console.log('[AgentDesktop] CxEngage.subscribe()', searchTopic, searchResponse);
-        if (searchResponse.count === 1) { // if single contact found, auto assign to interaction
-          CxEngage.interactions.assignContact({
-            interactionId,
-            contactId: searchResponse.results[0].id,
-          }, (assignError, assignTopic, assignResponse) => {
-            console.log('[ContactsControl] CxEngage.subscribe()', assignTopic, assignResponse);
-            if (assignError) {
-              console.error('Assign error', assignError);
-              this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
-            } else {
-              this.props.loadContactInteractionHistory(searchResponse.results[0].id);
-              this.props.assignContact(interactionId, searchResponse.results[0]);
-            }
-          });
-        } else {
+    CxEngage.contacts.search(
+      {
+        query: {
+          q: exact ? encodeURIComponent(`"${from}"`) : encodeURIComponent(from),
+        },
+      },
+      (searchError, searchTopic, searchResponse) => {
+        if (searchError) {
           this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
+        } else {
+          console.log(
+            '[AgentDesktop] CxEngage.subscribe()',
+            searchTopic,
+            searchResponse
+          );
+          if (searchResponse.count === 1) {
+            // if single contact found, auto assign to interaction
+            CxEngage.interactions.assignContact(
+              {
+                interactionId,
+                contactId: searchResponse.results[0].id,
+              },
+              (assignError, assignTopic, assignResponse) => {
+                console.log(
+                  '[ContactsControl] CxEngage.subscribe()',
+                  assignTopic,
+                  assignResponse
+                );
+                if (assignError) {
+                  console.error('Assign error', assignError);
+                  this.props.setInteractionQuery(interactionId, {
+                    q: `"${from}"`,
+                  });
+                } else {
+                  this.props.loadContactInteractionHistory(
+                    searchResponse.results[0].id
+                  );
+                  this.props.assignContact(
+                    interactionId,
+                    searchResponse.results[0]
+                  );
+                }
+              }
+            );
+          } else {
+            this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
+          }
         }
       }
-    });
-  }
+    );
+  };
 
   selectInteraction = (interactionId) => {
     this.props.selectInteraction(interactionId);
-  }
+  };
 
   acceptInteraction = (interactionId) => {
     this.props.setInteractionStatus(interactionId, 'work-accepting');
     CxEngage.interactions.accept({ interactionId });
-  }
+  };
 
   styles = {
     base: {
@@ -560,12 +820,11 @@ export class App extends React.Component {
   };
 
   render() {
-    const refreshBannerIsVisible = (
-      this.props.agentDesktop.refreshRequired
-      && this.props.login.showLogin
-      && location.hostname !== 'localhost'
-      && location.hostname !== '127.0.0.1'
-    );
+    const refreshBannerIsVisible =
+      this.props.agentDesktop.refreshRequired &&
+      this.props.login.showLogin &&
+      location.hostname !== 'localhost' &&
+      location.hostname !== '127.0.0.1';
     let errorBanner;
     let errorDescriptionMessage;
     const errorInfo = this.props.criticalError || this.props.nonCriticalError;
@@ -573,7 +832,9 @@ export class App extends React.Component {
       const code = errorInfo.code;
       if (code && errorMessages[code]) {
         // Specific error message is found for this code
-        errorDescriptionMessage = this.props.intl.formatMessage(errorMessages[code]);
+        errorDescriptionMessage = this.props.intl.formatMessage(
+          errorMessages[code]
+        );
       } else if (errorInfo.message) {
         // Fallback to message provided by error (for SDK errors)
         errorDescriptionMessage = errorInfo.message;
@@ -587,37 +848,38 @@ export class App extends React.Component {
     }
 
     if (this.props.criticalError) {
-      errorBanner = (<NotificationBanner
-        id="critical-error-banner"
-        style={this.styles.notificationBanner}
-        titleMessage={messages.criticalError}
-        descriptionMessage={errorDescriptionMessage}
-        isError
-        rightLinkAction={this.logoutAndReload}
-        rightLinkMessage={messages.reload}
-      />);
+      errorBanner = (
+        <NotificationBanner
+          id="critical-error-banner"
+          style={this.styles.notificationBanner}
+          titleMessage={messages.criticalError}
+          descriptionMessage={errorDescriptionMessage}
+          isError
+          rightLinkAction={this.logoutAndReload}
+          rightLinkMessage={messages.reload}
+        />
+      );
     } else if (this.props.nonCriticalError) {
-      errorBanner = (<NotificationBanner
-        id="noncritical-error-banner"
-        style={this.styles.notificationBanner}
-        titleMessage={messages.nonCriticalError}
-        descriptionMessage={errorDescriptionMessage}
-        isError
-        dismiss={this.props.dismissError}
-      />);
+      errorBanner = (
+        <NotificationBanner
+          id="noncritical-error-banner"
+          style={this.styles.notificationBanner}
+          titleMessage={messages.nonCriticalError}
+          descriptionMessage={errorDescriptionMessage}
+          isError
+          dismiss={this.props.dismissError}
+        />
+      );
     }
     return (
       <div>
-        {
-          refreshBannerIsVisible &&
-          <RefreshBanner hide={this.hideRefreshBanner} />
-        }
-        { errorBanner }
-        {
-          this.props.login.showLogin || this.props.agentDesktop.presence === undefined
-            ? <Login />
-            : <AgentDesktop refreshBannerIsVisible={refreshBannerIsVisible} />
-        }
+        {refreshBannerIsVisible &&
+          <RefreshBanner hide={this.hideRefreshBanner} />}
+        {errorBanner}
+        {this.props.login.showLogin ||
+          this.props.agentDesktop.presence === undefined
+          ? <Login />
+          : <AgentDesktop refreshBannerIsVisible={refreshBannerIsVisible} />}
       </div>
     );
   }
@@ -639,54 +901,90 @@ function mapDispatchToProps(dispatch) {
     showLogin: (show) => dispatch(showLogin(show)),
     setUserConfig: (response) => dispatch(setUserConfig(response)),
     setExtensions: (response) => dispatch(setExtensions(response)),
-    updateWrapupDetails: (interactionId, wrapupDetails) => dispatch(updateWrapupDetails(interactionId, wrapupDetails)),
-    addScript: (interactionId, script) => dispatch(addScript(interactionId, script)),
+    updateWrapupDetails: (interactionId, wrapupDetails) =>
+      dispatch(updateWrapupDetails(interactionId, wrapupDetails)),
+    addScript: (interactionId, script) =>
+      dispatch(addScript(interactionId, script)),
     removeScript: (interactionId) => dispatch(removeScript(interactionId)),
     setPresence: (response) => dispatch(setPresence(response)),
-    setInteractionStatus: (interactionId, newStatus, response) => dispatch(setInteractionStatus(interactionId, newStatus, response)),
+    setInteractionStatus: (interactionId, newStatus, response) =>
+      dispatch(setInteractionStatus(interactionId, newStatus, response)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
     workInitiated: (response) => dispatch(workInitiated(response)),
-    removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
-    setMessageHistory: (response, agentId) => dispatch(setMessageHistory(response, agentId)),
-    assignContact: (interactionId, contact) => dispatch(assignContact(interactionId, contact)),
-    loadContactInteractionHistory: (contactId, page) => dispatch(loadContactInteractionHistory(contactId, page)),
-    setContactHistoryInteractionDetails: (response) => dispatch(setContactHistoryInteractionDetails(response)),
+    removeInteraction: (interactionId) =>
+      dispatch(removeInteraction(interactionId)),
+    setMessageHistory: (response, agentId) =>
+      dispatch(setMessageHistory(response, agentId)),
+    assignContact: (interactionId, contact) =>
+      dispatch(assignContact(interactionId, contact)),
+    loadContactInteractionHistory: (contactId, page) =>
+      dispatch(loadContactInteractionHistory(contactId, page)),
+    setContactHistoryInteractionDetails: (response) =>
+      dispatch(setContactHistoryInteractionDetails(response)),
     updateContact: (updatedContact) => dispatch(updateContact(updatedContact)),
-    addMessage: (interactionId, message) => dispatch(addMessage(interactionId, message)),
-    selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
+    addMessage: (interactionId, message) =>
+      dispatch(addMessage(interactionId, message)),
+    selectInteraction: (interactionId) =>
+      dispatch(selectInteraction(interactionId)),
     setContactLayout: (layout) => dispatch(setContactLayout(layout)),
-    setContactAttributes: (attributes) => dispatch(setContactAttributes(attributes)),
-    setInteractionQuery: (interactionId, query) => dispatch(setInteractionQuery(interactionId, query)),
-    setCustomFields: (interactionId, customFields) => dispatch(setCustomFields(interactionId, customFields)),
-    setEmailPlainBody: (interactionId, body) => dispatch(setEmailPlainBody(interactionId, body)),
-    setEmailHtmlBody: (interactionId, body) => dispatch(setEmailHtmlBody(interactionId, body)),
-    setEmailDetails: (interactionId, details) => dispatch(setEmailDetails(interactionId, details)),
-    setEmailAttachmentUrl: (interactionId, artifactFileId, url) => dispatch(setEmailAttachmentUrl(interactionId, artifactFileId, url)),
+    setContactAttributes: (attributes) =>
+      dispatch(setContactAttributes(attributes)),
+    setInteractionQuery: (interactionId, query) =>
+      dispatch(setInteractionQuery(interactionId, query)),
+    setCustomFields: (interactionId, customFields) =>
+      dispatch(setCustomFields(interactionId, customFields)),
+    setEmailPlainBody: (interactionId, body) =>
+      dispatch(setEmailPlainBody(interactionId, body)),
+    setEmailHtmlBody: (interactionId, body) =>
+      dispatch(setEmailHtmlBody(interactionId, body)),
+    setEmailDetails: (interactionId, details) =>
+      dispatch(setEmailDetails(interactionId, details)),
+    setEmailAttachmentUrl: (interactionId, artifactFileId, url) =>
+      dispatch(setEmailAttachmentUrl(interactionId, artifactFileId, url)),
     muteCall: (interactionId) => dispatch(muteCall(interactionId)),
     unmuteCall: (interactionId) => dispatch(unmuteCall(interactionId)),
     holdCall: (interactionId) => dispatch(holdCall(interactionId)),
     resumeCall: (interactionId) => dispatch(resumeCall(interactionId)),
     recordCall: (interactionId) => dispatch(recordCall(interactionId)),
     stopRecordCall: (interactionId) => dispatch(stopRecordCall(interactionId)),
-    transferCancelled: (interactionId) => dispatch(transferCancelled(interactionId)),
+    transferCancelled: (interactionId) =>
+      dispatch(transferCancelled(interactionId)),
     resourceAdded: (response) => dispatch(resourceAdded(response)),
     updateResourceName: (response) => dispatch(updateResourceName(response)),
-    updateResourceStatus: (interactionId, targetResource, statusKey, statusValue) => dispatch(updateResourceStatus(interactionId, targetResource, statusKey, statusValue)),
+    updateResourceStatus: (
+      interactionId,
+      targetResource,
+      statusKey,
+      statusValue
+    ) =>
+      dispatch(
+        updateResourceStatus(
+          interactionId,
+          targetResource,
+          statusKey,
+          statusValue
+        )
+      ),
     holdMe: (interactionId) => dispatch(holdMe(interactionId)),
     resumeMe: (interactionId) => dispatch(resumeMe(interactionId)),
     resourceRemoved: (response) => dispatch(resourceRemoved(response)),
-    emailAddAttachment: (interactionId, attachment) => dispatch(emailAddAttachment(interactionId, attachment)),
-    setAvailableStats: (stats, tenantId, userId) => dispatch(setAvailableStats(stats, tenantId, userId)),
+    emailAddAttachment: (interactionId, attachment) =>
+      dispatch(emailAddAttachment(interactionId, attachment)),
+    setAvailableStats: (stats, tenantId, userId) =>
+      dispatch(setAvailableStats(stats, tenantId, userId)),
     initializeStats: () => dispatch(initializeStats()),
     statsReceived: (stats) => dispatch(statsReceived(stats)),
     setQueues: (queues) => dispatch(setQueues(queues)),
-    setDispositionDetails: (interactionId, dispositions, forceSelect) => dispatch(setDispositionDetails(interactionId, dispositions, forceSelect)),
-    selectDisposition: (interactionId, disposition) => dispatch(selectDisposition(interactionId, disposition)),
+    setDispositionDetails: (interactionId, dispositions, forceSelect) =>
+      dispatch(setDispositionDetails(interactionId, dispositions, forceSelect)),
+    selectDisposition: (interactionId, disposition) =>
+      dispatch(selectDisposition(interactionId, disposition)),
     logout: () => dispatch(logout()),
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
-    setLoginErrorAndReload: (errorType) => dispatch(setLoginErrorAndReload(errorType)),
+    setLoginErrorAndReload: (errorType) =>
+      dispatch(setLoginErrorAndReload(errorType)),
     setCRMUnavailable: (reason) => dispatch(setCRMUnavailable(reason)),
     addStatErrorId: (statId) => dispatch(addStatErrorId(statId)),
     removeStatErrorId: (statId) => dispatch(removeStatErrorId(statId)),
@@ -761,4 +1059,6 @@ App.propTypes = {
   dismissError: PropTypes.func,
 };
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(App)));
+export default injectIntl(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(App))
+);

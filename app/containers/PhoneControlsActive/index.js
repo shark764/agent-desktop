@@ -45,61 +45,82 @@ export class PhoneControlsActive extends BaseComponent {
 
   setSelectedTransferResourceMenu = (selectedTransferResourceMenu) => {
     this.setState({ selectedTransferResourceMenu });
-  }
+  };
 
   setShowTransferMenu = (showTransferMenu) => {
     this.setState({
       showTransferMenu,
       showActiveInteractionDialpad: false,
     });
-  }
+  };
 
   setShowActiveInteractionDialpad = (showActiveInteractionDialpad) => {
     this.setState({
       showActiveInteractionDialpad,
       showTransferMenu: false,
     });
-  }
+  };
 
   setActiveInteractionDialpadText = (activeInteractionDialpadText) => {
     this.setState({ activeInteractionDialpadText });
-  }
+  };
 
   setRecording = () => {
     if (this.props.activeVoiceInteraction.recording) {
-      CxEngage.interactions.voice.stopRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
+      CxEngage.interactions.voice.stopRecording({
+        interactionId: this.props.activeVoiceInteraction.interactionId,
+      });
     } else {
-      CxEngage.interactions.voice.startRecording({ interactionId: this.props.activeVoiceInteraction.interactionId });
+      CxEngage.interactions.voice.startRecording({
+        interactionId: this.props.activeVoiceInteraction.interactionId,
+      });
     }
-  }
+  };
 
   endInteraction = () => {
-    CxEngage.interactions.end({ interactionId: this.props.activeVoiceInteraction.interactionId });
-  }
+    CxEngage.interactions.end({
+      interactionId: this.props.activeVoiceInteraction.interactionId,
+    });
+  };
 
   setMute = () => {
     if (this.props.activeVoiceInteraction.muted) {
-      CxEngage.interactions.voice.unmute({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
+      CxEngage.interactions.voice.unmute({
+        interactionId: this.props.activeVoiceInteraction.interactionId,
+        targetResourceId: this.props.agentId,
+      });
     } else {
-      CxEngage.interactions.voice.mute({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
+      CxEngage.interactions.voice.mute({
+        interactionId: this.props.activeVoiceInteraction.interactionId,
+        targetResourceId: this.props.agentId,
+      });
     }
-  }
+  };
 
   setHold = () => {
     if (this.props.activeVoiceInteraction.onHold) {
-      CxEngage.interactions.voice.customerResume({ interactionId: this.props.activeVoiceInteraction.interactionId });
+      CxEngage.interactions.voice.customerResume({
+        interactionId: this.props.activeVoiceInteraction.interactionId,
+      });
     } else {
-      CxEngage.interactions.voice.customerHold({ interactionId: this.props.activeVoiceInteraction.interactionId });
+      CxEngage.interactions.voice.customerHold({
+        interactionId: this.props.activeVoiceInteraction.interactionId,
+      });
     }
-  }
+  };
 
   toggleDialpad = () => {
-    this.setShowActiveInteractionDialpad(!this.state.showActiveInteractionDialpad);
-  }
+    this.setShowActiveInteractionDialpad(
+      !this.state.showActiveInteractionDialpad
+    );
+  };
 
   resumeMe = () => {
-    CxEngage.interactions.voice.resourceResume({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.agentId });
-  }
+    CxEngage.interactions.voice.resourceResume({
+      interactionId: this.props.activeVoiceInteraction.interactionId,
+      targetResourceId: this.props.agentId,
+    });
+  };
 
   styles = {
     base: {
@@ -154,22 +175,31 @@ export class PhoneControlsActive extends BaseComponent {
     warmTransfersContainer: {
       marginTop: '7px',
     },
-  }
+  };
 
   render() {
     let recordingContainer;
     if (this.props.activeVoiceInteraction.agentRecordingEnabled) {
       recordingContainer = (
         <div id="recordingContainer" style={this.styles.recordingContainer}>
-          <span style={this.styles.recordingText} >
+          <span style={this.styles.recordingText}>
             <FormattedMessage {...messages.recording} />
           </span>
-          <span style={{ float: 'right', verticalAlign: 'top', height: 20, marginTop: 2 }}>
-            <label htmlFor="toggleRecording" style={this.styles.toggleRecordingLabel}>
+          <span
+            style={{
+              float: 'right',
+              verticalAlign: 'top',
+              height: 20,
+              marginTop: 2,
+            }}
+          >
+            <label
+              htmlFor="toggleRecording"
+              style={this.styles.toggleRecordingLabel}
+            >
               {this.props.activeVoiceInteraction.recording
                 ? <FormattedMessage {...messages.on} />
-                : <FormattedMessage {...messages.off} />
-              }
+                : <FormattedMessage {...messages.off} />}
             </label>
             <Toggle
               id="toggleRecording"
@@ -181,7 +211,7 @@ export class PhoneControlsActive extends BaseComponent {
         </div>
       );
     } else {
-      recordingContainer = <div style={{ height: '6px', width: '100%' }}></div>;
+      recordingContainer = <div style={{ height: '6px', width: '100%' }} />;
     }
 
     let connectingTransfers = false;
@@ -196,23 +226,30 @@ export class PhoneControlsActive extends BaseComponent {
     });
     let warmTransfers;
     if (this.props.activeVoiceInteraction.warmTransfers.length > 0) {
-      const warmTransfersMapped = this.props.activeVoiceInteraction.warmTransfers.map((warmTransfer, index) =>
-        // the index being appended to the key is a temporary anti-pattern to protect us from
-        // duplicate keys now that queues and resource ID's both live in the props,
-        // will be addressed by CXV1-8563
-        <TransferResource
-          key={`${warmTransfer.targetResource ? warmTransfer.targetResource : warmTransfer.id}_${index}`}
-          activeVoiceInteraction={this.props.activeVoiceInteraction}
-          resource={warmTransfer}
-          resumeAllAvailable={resourcesOnHold > 1}
-          selectedTransferResourceMenu={this.state.selectedTransferResourceMenu}
-          setSelectedTransferResourceMenu={this.setSelectedTransferResourceMenu}
-          style={this.props.style}
-        />
+      const warmTransfersMapped = this.props.activeVoiceInteraction.warmTransfers.map(
+        (warmTransfer, index) =>
+          // the index being appended to the key is a temporary anti-pattern to protect us from
+          // duplicate keys now that queues and resource ID's both live in the props,
+          // will be addressed by CXV1-8563
+          <TransferResource
+            key={`${warmTransfer.targetResource
+              ? warmTransfer.targetResource
+              : warmTransfer.id}_${index}`}
+            activeVoiceInteraction={this.props.activeVoiceInteraction}
+            resource={warmTransfer}
+            resumeAllAvailable={resourcesOnHold > 1}
+            selectedTransferResourceMenu={
+              this.state.selectedTransferResourceMenu
+            }
+            setSelectedTransferResourceMenu={
+              this.setSelectedTransferResourceMenu
+            }
+            style={this.props.style}
+          />
       );
       warmTransfers = (
         <div style={this.styles.warmTransfersContainer}>
-          { warmTransfersMapped }
+          {warmTransfersMapped}
         </div>
       );
     }
@@ -222,36 +259,76 @@ export class PhoneControlsActive extends BaseComponent {
         {recordingContainer}
         <div style={this.styles.bottonRowContainer}>
           <div style={this.styles.center}>
-            <CircleIconButton id="endCallButton" name="endCall" onClick={this.endInteraction} style={this.styles.circleIconButtonRow} />
-            {
-              this.props.activeVoiceInteraction.meOnHold !== true
-              ? <CircleIconButton id="muteButton" name="mute" active={this.props.activeVoiceInteraction.muted} onClick={this.setMute} style={this.styles.circleIconButtonRow} />
-              : undefined
-            }
-            <CircleIconButton id="holdButton" name="hold" active={this.props.activeVoiceInteraction.onHold} onClick={this.setHold} style={this.styles.circleIconButtonRow} />
-            {
-              !connectingTransfers
-              ? <CircleIconButton id="transferButton" name="transfer" active={this.state.showTransferMenu} onClick={() => this.setShowTransferMenu(!this.state.showTransferMenu)} style={this.styles.circleIconButtonRow} />
-              : undefined
-            }
-            {
-              this.props.activeExtension.type !== 'pstn' &&
-              <CircleIconButton id="dialpadButton" name="dialpad" active={this.state.showActiveInteractionDialpad} onClick={() => this.setShowActiveInteractionDialpad(!this.state.showActiveInteractionDialpad)} style={this.styles.circleIconButtonRow} />
-            }
+            <CircleIconButton
+              id="endCallButton"
+              name="endCall"
+              onClick={this.endInteraction}
+              style={this.styles.circleIconButtonRow}
+            />
+            {this.props.activeVoiceInteraction.meOnHold !== true
+              ? <CircleIconButton
+                id="muteButton"
+                name="mute"
+                active={this.props.activeVoiceInteraction.muted}
+                onClick={this.setMute}
+                style={this.styles.circleIconButtonRow}
+              />
+              : undefined}
+            <CircleIconButton
+              id="holdButton"
+              name="hold"
+              active={this.props.activeVoiceInteraction.onHold}
+              onClick={this.setHold}
+              style={this.styles.circleIconButtonRow}
+            />
+            {!connectingTransfers
+              ? <CircleIconButton
+                id="transferButton"
+                name="transfer"
+                active={this.state.showTransferMenu}
+                onClick={() =>
+                    this.setShowTransferMenu(!this.state.showTransferMenu)}
+                style={this.styles.circleIconButtonRow}
+              />
+              : undefined}
+            {this.props.activeExtension.type !== 'pstn' &&
+              <CircleIconButton
+                id="dialpadButton"
+                name="dialpad"
+                active={this.state.showActiveInteractionDialpad}
+                onClick={() =>
+                  this.setShowActiveInteractionDialpad(
+                    !this.state.showActiveInteractionDialpad
+                  )}
+                style={this.styles.circleIconButtonRow}
+              />}
           </div>
         </div>
-        {
-          this.state.showTransferMenu && !connectingTransfers
+        {this.state.showTransferMenu && !connectingTransfers
           ? <div>
-            <div style={[this.props.style.topTriangle, this.styles.transferTopTriangle]}></div>
-            <div id="transfersContainer" style={[this.props.style.phoneControlsPopupMenu, this.styles.transferPhoneControlsPopupMenu]}>
-              <TransferMenu interactionId={this.props.activeVoiceInteraction.interactionId} setShowTransferMenu={this.setShowTransferMenu} />
+            <div
+              style={[
+                this.props.style.topTriangle,
+                this.styles.transferTopTriangle,
+              ]}
+            />
+            <div
+              id="transfersContainer"
+              style={[
+                this.props.style.phoneControlsPopupMenu,
+                this.styles.transferPhoneControlsPopupMenu,
+              ]}
+            >
+              <TransferMenu
+                interactionId={
+                    this.props.activeVoiceInteraction.interactionId
+                  }
+                setShowTransferMenu={this.setShowTransferMenu}
+              />
             </div>
           </div>
-          : undefined
-        }
-        {
-          this.state.showActiveInteractionDialpad
+          : undefined}
+        {this.state.showActiveInteractionDialpad
           ? <Dialpad
             id="activeInteractionDialpad"
             interactionId={this.props.activeVoiceInteraction.interactionId}
@@ -262,14 +339,18 @@ export class PhoneControlsActive extends BaseComponent {
             active
             transfer={false}
           />
-          : undefined
-        }
-        {
-          this.props.activeVoiceInteraction.meOnHold === true
-          ? <Button id="agentOnHoldButton" text={messages.onHold} mouseOverText={messages.resume} type="primaryRed" onClick={this.resumeMe} style={this.styles.meOnHold} />
-          : undefined
-        }
-        { warmTransfers }
+          : undefined}
+        {this.props.activeVoiceInteraction.meOnHold === true
+          ? <Button
+            id="agentOnHoldButton"
+            text={messages.onHold}
+            mouseOverText={messages.resume}
+            type="primaryRed"
+            onClick={this.resumeMe}
+            style={this.styles.meOnHold}
+          />
+          : undefined}
+        {warmTransfers}
       </div>
     );
   }
@@ -297,4 +378,6 @@ PhoneControlsActive.propTypes = {
   }),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(PhoneControlsActive));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  Radium(PhoneControlsActive)
+);

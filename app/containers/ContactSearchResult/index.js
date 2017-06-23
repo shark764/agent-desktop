@@ -24,7 +24,6 @@ import Checkbox from 'components/Checkbox';
 import ContactView from 'containers/ContactView';
 
 export class ContactSearchResult extends BaseComponent {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -78,18 +77,25 @@ export class ContactSearchResult extends BaseComponent {
 
   render() {
     return (
-      <div style={[this.styles.base, this.props.style, this.props.checked && this.styles.checkedContact]}>
-        <VelocityTransitionGroup enter={{ animation: 'transition.fadeIn', duration: '1000' }} leave={{ animation: 'transition.fadeOut', duration: '1000' }}>
-          {
-            !this.props.hideContactSelectCheckbox &&
+      <div
+        style={[
+          this.styles.base,
+          this.props.style,
+          this.props.checked && this.styles.checkedContact,
+        ]}
+      >
+        <VelocityTransitionGroup
+          enter={{ animation: 'transition.fadeIn', duration: '1000' }}
+          leave={{ animation: 'transition.fadeOut', duration: '1000' }}
+        >
+          {!this.props.hideContactSelectCheckbox &&
             <Checkbox
               style={this.styles.checkbox}
               id={this.props.contact.id}
               checked={this.props.checked}
               disabled={this.props.disableEditing}
               cb={this.props.selectContact}
-            />
-          }
+            />}
         </VelocityTransitionGroup>
         <ContactView
           contact={this.props.contact}
@@ -97,7 +103,10 @@ export class ContactSearchResult extends BaseComponent {
           showControls={!this.props.disableEditing}
           style={this.styles.contact}
         />
-        <div onClick={() => this.setState({ expanded: !this.state.expanded })} style={this.styles.expandToggle} >
+        <div
+          onClick={() => this.setState({ expanded: !this.state.expanded })}
+          style={this.styles.expandToggle}
+        >
           <span style={this.styles.ellip}>...</span>
         </div>
       </div>

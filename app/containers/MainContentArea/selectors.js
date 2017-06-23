@@ -11,6 +11,4 @@ const selectMessageTemplates = createSelector(
   (agentDesktop) => agentDesktop.get('userConfig').get('messageTemplates').toJS()
 );
 
-export {
-  selectMessageTemplates,
-};
+export { selectMessageTemplates };

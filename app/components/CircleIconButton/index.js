@@ -31,8 +31,17 @@ const styles = {
 
 function CircleIconButton(props) {
   return (
-    <button id={props.id} style={[styles.base, props.style]} onClick={props.onClick}>
-      <Icon id={`${props.id}-icon`} name={props.name} active={props.active} style={[styles.base, props.style, styles.icon]} />
+    <button
+      id={props.id}
+      style={[styles.base, props.style]}
+      onClick={props.onClick}
+    >
+      <Icon
+        id={`${props.id}-icon`}
+        name={props.name}
+        active={props.active}
+        style={[styles.base, props.style, styles.icon]}
+      />
     </button>
   );
 }

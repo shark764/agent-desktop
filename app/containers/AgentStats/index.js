@@ -23,7 +23,6 @@ import Stat from 'components/Stat';
 import { selectAvailableStats } from './selectors';
 
 export class AgentStats extends BaseComponent {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -43,15 +42,16 @@ export class AgentStats extends BaseComponent {
     button: {
       cursor: 'pointer',
     },
-  }
+  };
 
   removeStat = (stat) => {
     this.props.deactivateToolbarStat(stat);
     this.setState({ hoverIndex: -1 });
-  }
+  };
 
   generateStat = (stat, index, array) => {
-    const userFriendlyName = this.props.availableStats[stat.statOption].userFriendlyName;
+    const userFriendlyName = this.props.availableStats[stat.statOption]
+      .userFriendlyName;
     let key;
     if (stat.statSource === 'queue-id') {
       key = stat.statOption + stat.statSource + stat.statAggregate + stat.queue;
@@ -61,9 +61,15 @@ export class AgentStats extends BaseComponent {
     return (
       <div
         key={key}
-        onMouseOver={() => { this.setState({ hoverIndex: index }); }}
-        onFocus={() => { this.setState({ hoverIndex: index }); }}
-        onMouseLeave={() => { this.setState({ hoverIndex: -1 }); }}
+        onMouseOver={() => {
+          this.setState({ hoverIndex: index });
+        }}
+        onFocus={() => {
+          this.setState({ hoverIndex: index });
+        }}
+        onMouseLeave={() => {
+          this.setState({ hoverIndex: -1 });
+        }}
       >
         <Stat
           key={key}
@@ -77,7 +83,7 @@ export class AgentStats extends BaseComponent {
         />
       </div>
     );
-  }
+  };
 
   render() {
     return (

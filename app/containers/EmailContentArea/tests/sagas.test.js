@@ -2,9 +2,7 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
-import {
-  startOutboundEmailSaga,
-} from 'containers/EmailContentArea/sagas';
+import { startOutboundEmailSaga } from 'containers/EmailContentArea/sagas';
 
 describe('startOutboundEmailSaga', () => {
   global.CxEngage = {
@@ -23,7 +21,9 @@ describe('startOutboundEmailSaga', () => {
     expect(generator.next()).toMatchSnapshot();
   });
   it('should use the yielded SDK results to dispatch a startOutboundInteraction action with the correct args', () => {
-    expect(generator.next({ interactionId: 'mockId123456789' })).toMatchSnapshot();
+    expect(
+      generator.next({ interactionId: 'mockId123456789' })
+    ).toMatchSnapshot();
   });
   it('should use the yielded SDK results to dispatch a setInteractionStatus action with the correct args', () => {
     expect(generator.next()).toMatchSnapshot();

@@ -8,9 +8,7 @@
  *
  */
 
-import {
-  START_OUTBOUND_EMAIL,
-} from './constants';
+import { START_OUTBOUND_EMAIL } from './constants';
 
 export function startOutboundEmail(customer, contact) {
   return {

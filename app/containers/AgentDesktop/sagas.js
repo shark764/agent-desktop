@@ -9,11 +9,37 @@ import sdkCallToPromise from 'utils/sdkCallToPromise';
 import { isUUID } from 'utils/validator';
 
 import { getInteraction } from 'containers/ContactsControl/sagas';
-import { addContactNotification, addContactErrorNotification } from 'containers/ContactsControl/actions';
+import {
+  addContactNotification,
+  addContactErrorNotification,
+} from 'containers/ContactsControl/actions';
 import { selectCheckedContacts } from 'containers/InfoTab/selectors';
-import { clearSearchResults, setLoading, setDeletionPending, clearCheckedContacts } from 'containers/InfoTab/actions';
-import { LOAD_HISTORICAL_INTERACTION_BODY, LOAD_CONTACT_INTERACTION_HISTORY, CANCEL_CLICK_TO_DIAL, GO_NOT_READY, DELETE_CONTACTS, ASSIGN_CONTACT } from './constants';
-import { setContactMode, updateContactHistoryInteractionDetails, setContactInteractionHistory, removeContact, selectContact, setAssignedContact, newInteractionPanelSelectContact, setIsCancellingInteraction, showContactsPanel, setContactSaveLoading } from './actions';
+import {
+  clearSearchResults,
+  setLoading,
+  setDeletionPending,
+  clearCheckedContacts,
+} from 'containers/InfoTab/actions';
+import {
+  LOAD_HISTORICAL_INTERACTION_BODY,
+  LOAD_CONTACT_INTERACTION_HISTORY,
+  CANCEL_CLICK_TO_DIAL,
+  GO_NOT_READY,
+  DELETE_CONTACTS,
+  ASSIGN_CONTACT,
+} from './constants';
+import {
+  setContactMode,
+  updateContactHistoryInteractionDetails,
+  setContactInteractionHistory,
+  removeContact,
+  selectContact,
+  setAssignedContact,
+  newInteractionPanelSelectContact,
+  setIsCancellingInteraction,
+  showContactsPanel,
+  setContactSaveLoading,
+} from './actions';
 
 export function* loadHistoricalInteractionBody(action) {
   const body = {};
@@ -50,7 +76,9 @@ export function* loadHistoricalInteractionBody(action) {
         break;
     }
     if (Object.keys(body).length) {
-      yield put(updateContactHistoryInteractionDetails(action.interactionId, body));
+      yield put(
+        updateContactHistoryInteractionDetails(action.interactionId, body)
+      );
     }
   } catch (error) {
     console.error(error); // TODO fire error action?
@@ -76,8 +104,14 @@ export function* loadContactInteractions(action) {
 
   if (!contactQuery.page) {
     let earliestTimestamp;
-    if (contactInteractionHistoryDetails.total > contactInteractionHistoryDetails.results.length) {
-      contactQuery.page = Math.floor(contactInteractionHistoryDetails.total / contactInteractionHistoryDetails.limit);
+    if (
+      contactInteractionHistoryDetails.total >
+      contactInteractionHistoryDetails.results.length
+    ) {
+      contactQuery.page = Math.floor(
+        contactInteractionHistoryDetails.total /
+          contactInteractionHistoryDetails.limit
+      );
       try {
         const earliestContactInteractionDetails = yield call(
           sdkCallToPromise,
@@ -88,7 +122,9 @@ export function* loadContactInteractions(action) {
         earliestTimestamp =
           earliestContactInteractionDetails.results &&
           earliestContactInteractionDetails.results.length &&
-          earliestContactInteractionDetails.results[earliestContactInteractionDetails.results.length - 1].startTimestamp;
+          earliestContactInteractionDetails.results[
+            earliestContactInteractionDetails.results.length - 1
+          ].startTimestamp;
       } catch (error) {
         console.error(error);
       }
@@ -96,12 +132,19 @@ export function* loadContactInteractions(action) {
       earliestTimestamp =
         contactInteractionHistoryDetails.results &&
         contactInteractionHistoryDetails.results.length &&
-        contactInteractionHistoryDetails.results[contactInteractionHistoryDetails.results.length - 1].startTimestamp;
+        contactInteractionHistoryDetails.results[
+          contactInteractionHistoryDetails.results.length - 1
+        ].startTimestamp;
     }
     contactInteractionHistoryDetails.earliestTimestamp = earliestTimestamp;
   }
 
-  yield put(setContactInteractionHistory(action.contactId, contactInteractionHistoryDetails));
+  yield put(
+    setContactInteractionHistory(
+      action.contactId,
+      contactInteractionHistoryDetails
+    )
+  );
 }
 
 export function* cancelClickToDial(action) {
@@ -112,7 +155,7 @@ export function* cancelClickToDial(action) {
       sdkCallToPromise,
       CxEngage.interactions.voice.cancelDial,
       { interactionId: action.interactionId },
-      'AgentDesktop',
+      'AgentDesktop'
     );
   } catch (error) {
     console.error(error);
@@ -145,12 +188,14 @@ export function* goDeleteContacts() {
     yield put(setLoading(true));
     yield put(setDeletionPending(true));
     const checkedContacts = yield select(selectCheckedContacts);
-    const response = yield checkedContacts.map((contact) => call(
-      sdkCallToPromise,
-      CxEngage.contacts.delete,
-      { contactId: contact.id },
-      'AgentDesktop'
-    ));
+    const response = yield checkedContacts.map((contact) =>
+      call(
+        sdkCallToPromise,
+        CxEngage.contacts.delete,
+        { contactId: contact.id },
+        'AgentDesktop'
+      )
+    );
     yield checkedContacts
       .filter((contact, index) => response[index]) // Check API response is truthy
       .map((contact) => put(removeContact(contact.id)));
@@ -159,9 +204,18 @@ export function* goDeleteContacts() {
     yield put(clearCheckedContacts());
     yield put(setDeletionPending(false));
     yield put(setLoading(false));
-    yield put(addContactNotification({ messageType: checkedContacts.length > 1 ? 'deletedMultiple' : 'deleted' }));
+    yield put(
+      addContactNotification({
+        messageType: checkedContacts.length > 1 ? 'deletedMultiple' : 'deleted',
+      })
+    );
   } catch (error) {
-    yield put(addContactErrorNotification({ errorType: 'serverError', messageType: 'notDeleted' }));
+    yield put(
+      addContactErrorNotification({
+        errorType: 'serverError',
+        messageType: 'notDeleted',
+      })
+    );
     console.error(error);
   }
 }
@@ -182,14 +236,20 @@ export function* goAssignContact(action) {
         yield call(
           sdkCallToPromise,
           CxEngage.interactions.unassignContact,
-          { interactionId: interaction.interactionId, contactId: interaction.contact.id },
+          {
+            interactionId: interaction.interactionId,
+            contactId: interaction.contact.id,
+          },
           'AgentDesktop'
         );
       }
       yield call(
         sdkCallToPromise,
         CxEngage.interactions.assignContact,
-        { interactionId: interaction.interactionId, contactId: action.contact.id },
+        {
+          interactionId: interaction.interactionId,
+          contactId: action.contact.id,
+        },
         'AgentDesktop'
       );
       yield put(setAssignedContact(interaction.interactionId, action.contact)); // TODO: tidy up so errors can know if assign happened
@@ -197,7 +257,12 @@ export function* goAssignContact(action) {
     } catch (error) {
       yield put(setContactSaveLoading(interaction.interactionId, false));
       yield put(setContactMode(interaction.interactionId, 'search'));
-      yield put(addContactErrorNotification({ errorType: 'serverError', messageType: 'notAssigned' }));
+      yield put(
+        addContactErrorNotification({
+          errorType: 'serverError',
+          messageType: 'notAssigned',
+        })
+      );
       return;
     }
   }
@@ -210,7 +275,10 @@ export function* goAssignContact(action) {
 
 // Individual exports for testing
 export function* historicalInteractionBody() {
-  yield takeEvery(LOAD_HISTORICAL_INTERACTION_BODY, loadHistoricalInteractionBody);
+  yield takeEvery(
+    LOAD_HISTORICAL_INTERACTION_BODY,
+    loadHistoricalInteractionBody
+  );
 }
 
 export function* contactInteractionHistory() {

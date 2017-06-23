@@ -25,7 +25,6 @@ const styles = {
 };
 
 class ButtonSplitMenu extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -54,14 +53,15 @@ class ButtonSplitMenu extends React.Component {
             style={styles.dropdownButton}
           />
         </div>
-        {
-          this.state.showMenu && !this.props.disabled
-          ? <div id={`${this.props.id}-dropdown-menu`} onClick={() => this.setState({ showMenu: false })}>
-            { /* TODO put stuff here. props.children? Make a new component for menu items? */ }
-            TODO
-          </div>
-          : undefined
-        }
+        {this.state.showMenu && !this.props.disabled
+          ? <div
+            id={`${this.props.id}-dropdown-menu`}
+            onClick={() => this.setState({ showMenu: false })}
+          >
+            {/* TODO put stuff here. props.children? Make a new component for menu items? */}
+              TODO
+            </div>
+          : undefined}
       </div>
     );
   }

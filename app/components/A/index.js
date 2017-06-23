@@ -38,17 +38,16 @@ function A(props) {
       tabIndex={props.tabIndex}
       onClick={props.disabled ? null : props.onClick}
     >
-      {typeof props.text === 'string' ? props.text : <FormattedMessage {...props.text} />}
+      {typeof props.text === 'string'
+        ? props.text
+        : <FormattedMessage {...props.text} />}
     </a>
   );
 }
 
 A.propTypes = {
   style: PropTypes.object,
-  text: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]),
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   onClick: PropTypes.func,
   tabIndex: PropTypes.number,
   disabled: PropTypes.bool,

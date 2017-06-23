@@ -10,17 +10,12 @@ import { createSelector } from 'reselect';
 
 const selectToolbarDomain = (state) => state.get('toolbar');
 
-const selectEnabledStats = createSelector(
-  selectToolbarDomain,
-  (toolbar) => toolbar.get('enabledStats').toJS()
+const selectEnabledStats = createSelector(selectToolbarDomain, (toolbar) =>
+  toolbar.get('enabledStats').toJS()
 );
 
-const selectAvailableStats = createSelector(
-  selectToolbarDomain,
-  (toolbar) => toolbar.get('availableStats').toJS()
+const selectAvailableStats = createSelector(selectToolbarDomain, (toolbar) =>
+  toolbar.get('availableStats').toJS()
 );
 
-export {
-  selectEnabledStats,
-  selectAvailableStats,
-};
+export { selectEnabledStats, selectAvailableStats };

@@ -25,14 +25,13 @@ const errorHandler = (error, action, dispatch) => {
   dispatch(setCriticalError(null, error));
   console.error(error);
 };
-const reduxErrorMiddleware = (store) =>
-  (next) => (action) => {
-    try {
-      return next(action);
-    } catch (error) {
-      errorHandler(error, action, store.dispatch);
-      Raven.uninstall();
-      return store.getState();
-    }
-  };
+const reduxErrorMiddleware = (store) => (next) => (action) => {
+  try {
+    return next(action);
+  } catch (error) {
+    errorHandler(error, action, store.dispatch);
+    Raven.uninstall();
+    return store.getState();
+  }
+};
 export default reduxErrorMiddleware;

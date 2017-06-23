@@ -10,10 +10,7 @@ import FontAwesomeIcon from '../index';
 describe('<FontAwesomeIcon />', () => {
   it('should render correctly', () => {
     const rendered = shallow(
-      <FontAwesomeIcon
-        name={'globe'}
-        id={'globeIcon'}
-      />
+      <FontAwesomeIcon name={'globe'} id={'globeIcon'} />
     );
     expect(rendered).toMatchSnapshot();
   });
@@ -25,7 +22,9 @@ describe('<FontAwesomeIcon />', () => {
         alt={'testing icon'}
         style={{ color: 'blue' }}
         id={'globeIcon'}
-        onclick={() => { console.log('test'); }}
+        onclick={() => {
+          console.log('test');
+        }}
       />
     );
     expect(rendered).toMatchSnapshot();

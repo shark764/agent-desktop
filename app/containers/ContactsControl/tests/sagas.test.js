@@ -59,13 +59,15 @@ describe('getInteraction generator', () => {
 });
 
 describe('goEditContact Saga', () => {
-  const mockLayoutSections = [{
-    label: 'label',
-    attributes: [
-      { objectName: 'attribute1', default: 'attribute' },
-      { objectName: 'attribute2' },
-    ],
-  }];
+  const mockLayoutSections = [
+    {
+      label: 'label',
+      attributes: [
+        { objectName: 'attribute1', default: 'attribute' },
+        { objectName: 'attribute2' },
+      ],
+    },
+  ];
 
   describe('when action.contact is undefined', () => {
     let generator;
@@ -123,7 +125,10 @@ describe('goEditContact Saga', () => {
     });
 
     it('should set default values (or blank strings) for attributes created after contact is created', () => {
-      mockLayoutSections[0].attributes.push({ objectName: 'attribute3', default: 'A new value' });
+      mockLayoutSections[0].attributes.push({
+        objectName: 'attribute3',
+        default: 'A new value',
+      });
       mockLayoutSections[0].attributes.push({ objectName: 'attribute4' });
       generator.next();
       expect(generator.next(mockLayoutSections)).toMatchSnapshot();
@@ -182,7 +187,10 @@ describe('goMergeContacts saga', () => {
   });
 
   it('should set default values (or blank strings) for attributes created after contact is created', () => {
-    mockAttributeMap = mockAttributeMap.push({ objectName: 'attribute3', default: 'A new value' });
+    mockAttributeMap = mockAttributeMap.push({
+      objectName: 'attribute3',
+      default: 'A new value',
+    });
     mockAttributeMap = mockAttributeMap.push({ objectName: 'attribute4' });
     generator.next(mockAttributeMap);
     expect(generator.next()).toMatchSnapshot();
@@ -381,4 +389,3 @@ describe('goSubmitContactMerge Saga', () => {
     expect(generator.next()).toMatchSnapshot();
   });
 });
-

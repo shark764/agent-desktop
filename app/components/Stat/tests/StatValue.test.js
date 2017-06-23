@@ -12,14 +12,7 @@ let rendered;
 
 console.warn = jest.fn();
 
-const possibleAggregates = [
-  'count',
-  'percent',
-  'avg',
-  'max',
-  'min',
-  'total',
-];
+const possibleAggregates = ['count', 'percent', 'avg', 'max', 'min', 'total'];
 
 const aggregatesToTest = [...possibleAggregates, 'mockImpossibleAggregate'];
 
@@ -43,11 +36,7 @@ describe('<StatValue />', () => {
       describe('and isErrored is false', () => {
         beforeEach(() => {
           console.warn.mockClear();
-          rendered = shallow(
-            <StatValue
-              stat={mockStat}
-            />
-          );
+          rendered = shallow(<StatValue stat={mockStat} />);
         });
         shouldRenderCorrectlyTest();
         if (possibleAggregates.includes(aggregate)) {
@@ -64,11 +53,7 @@ describe('<StatValue />', () => {
         beforeEach(() => {
           console.warn.mockClear();
           mockStat.isErrored = true;
-          rendered = shallow(
-            <StatValue
-              stat={mockStat}
-            />
-          );
+          rendered = shallow(<StatValue stat={mockStat} />);
         });
         shouldRenderCorrectlyTest('should render with "-" instead of value');
       });

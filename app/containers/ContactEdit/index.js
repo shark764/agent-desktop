@@ -14,10 +14,28 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
 
-import { setFormIsDirty, setFormValidity, setShowError, setFormField, setFormError } from 'containers/AgentDesktop/actions';
+import {
+  setFormIsDirty,
+  setFormValidity,
+  setShowError,
+  setFormField,
+  setFormError,
+} from 'containers/AgentDesktop/actions';
 import { getSelectedInteractionId } from 'containers/AgentDesktop/selectors';
-import { selectShowCancelDialog, selectFormIsDirty, selectFormValidity, selectContactForm, selectFormErrors, selectShowErrors, selectContactSaveLoading } from 'containers/ContactsControl/selectors';
-import { setShowCancelDialog, submitContactCreate, submitContactEdit } from 'containers/ContactsControl/actions';
+import {
+  selectShowCancelDialog,
+  selectFormIsDirty,
+  selectFormValidity,
+  selectContactForm,
+  selectFormErrors,
+  selectShowErrors,
+  selectContactSaveLoading,
+} from 'containers/ContactsControl/selectors';
+import {
+  setShowCancelDialog,
+  submitContactCreate,
+  submitContactEdit,
+} from 'containers/ContactsControl/actions';
 
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
@@ -50,29 +68,35 @@ const styles = {
 };
 
 export class ContactEdit extends BaseComponent {
-
   handleInputChange = (newValue, event) => {
     this.props.setFormIsDirty(this.props.selectedInteractionId, true);
     this.setAttributeValue(event.target.name, newValue);
-  }
+  };
 
   handleInputClear = (event) => {
-    const targetInputElement = event.target.previousSibling ? event.target.previousSibling : event.target.parentElement.previousSibling;
+    const targetInputElement = event.target.previousSibling
+      ? event.target.previousSibling
+      : event.target.parentElement.previousSibling;
     const inputName = targetInputElement.name;
     this.props.setFormIsDirty(this.props.selectedInteractionId, true);
     this.setAttributeValue(inputName, '');
-  }
+  };
 
   showError = (name) => {
     if (!this.props.showErrors[name]) {
       this.props.setShowError(this.props.selectedInteractionId, name, true);
     }
-  }
+  };
 
   handleOnBlur = (event) => {
-    this.props.setFormValidity(this.props.selectedInteractionId, Object.keys(this.props.formErrors).every((key) => !this.props.formErrors[key]));
+    this.props.setFormValidity(
+      this.props.selectedInteractionId,
+      Object.keys(this.props.formErrors).every(
+        (key) => !this.props.formErrors[key]
+      )
+    );
     this.showError(event.target.name);
-  }
+  };
 
   handleSave = () => {
     switch (this.props.contactMode) {
@@ -84,27 +108,38 @@ export class ContactEdit extends BaseComponent {
         this.props.submitContactEdit(this.props.selectedInteractionId);
         break;
     }
-  }
+  };
 
   setAttributeValue = (name, newValue) => {
-    const attribute = this.props.attributes.find((attr) => attr.objectName === name);
+    const attribute = this.props.attributes.find(
+      (attr) => attr.objectName === name
+    );
     const stateUpdate = { ...this.props.formErrors };
     const cleanedInput = formatValue(attribute, newValue);
     const newError = getError(attribute, cleanedInput);
     stateUpdate[name] = newError;
-    this.props.setFormField(this.props.selectedInteractionId, name, cleanedInput);
+    this.props.setFormField(
+      this.props.selectedInteractionId,
+      name,
+      cleanedInput
+    );
     this.props.setFormError(this.props.selectedInteractionId, name, newError);
-    this.props.setFormValidity(this.props.selectedInteractionId, Object.keys(stateUpdate).every((key) => !stateUpdate[key]));
-  }
+    this.props.setFormValidity(
+      this.props.selectedInteractionId,
+      Object.keys(stateUpdate).every((key) => !stateUpdate[key])
+    );
+  };
 
   getSection = (section) =>
     <div style={styles.section} key={section.label[this.props.intl.locale]}>
       <ContactSectionHeader label={section.label[this.props.intl.locale]} />
       {section.attributes.map(this.getAttributeRow)}
-    </div>
+    </div>;
 
   getAttributeRow = (attribute) => {
-    const attributeLabel = `${attribute.label[this.props.intl.locale]}${attribute.mandatory ? '*' : ''}`;
+    const attributeLabel = `${attribute.label[
+      this.props.intl.locale
+    ]}${attribute.mandatory ? '*' : ''}`;
     return (
       <ContactInput
         key={attribute.id}
@@ -119,12 +154,12 @@ export class ContactEdit extends BaseComponent {
         formInput={this.props.contactForm[attribute.objectName]}
       />
     );
-  }
+  };
 
   render() {
     return (
       <div style={[this.props.style, styles.base]}>
-        { this.props.layoutSections.map(this.getSection) }
+        {this.props.layoutSections.map(this.getSection)}
         <div style={{ marginBottom: '28px', position: 'relative' }}>
           <ConfirmDialog
             questionMessage={messages.abandonChanges}
@@ -132,12 +167,20 @@ export class ContactEdit extends BaseComponent {
             rightAction={this.props.setNotEditing}
             isVisible={this.props.showCancelDialog}
             hide={() => this.props.setShowCancelDialog(false)}
-            style={{ position: 'absolute', left: (this.props.contactMode === 'edit') ? '112px' : '64px', bottom: '40px' }}
+            style={{
+              position: 'absolute',
+              left: this.props.contactMode === 'edit' ? '112px' : '64px',
+              bottom: '40px',
+            }}
           />
           <Button
             id="contactSaveBtn"
             style={styles.button}
-            disabled={this.props.loading || !this.props.formIsValid || !this.props.formIsDirty}
+            disabled={
+              this.props.loading ||
+              !this.props.formIsValid ||
+              !this.props.formIsDirty
+            }
             type="secondary"
             onClick={this.handleSave}
             text={
@@ -175,14 +218,22 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    setShowCancelDialog: (showCancelDialog) => dispatch(setShowCancelDialog(showCancelDialog)),
-    setFormIsDirty: (interactionId, formIsDirty) => dispatch(setFormIsDirty(interactionId, formIsDirty)),
-    setFormValidity: (interactionId, formIsValid) => dispatch(setFormValidity(interactionId, formIsValid)),
-    setShowError: (interactionId, field, error) => dispatch(setShowError(interactionId, field, error)),
-    setFormField: (interactionId, field, value) => dispatch(setFormField(interactionId, field, value)),
-    setFormError: (interactionId, field, error) => dispatch(setFormError(interactionId, field, error)),
-    submitContactCreate: (interactionId) => dispatch(submitContactCreate(interactionId)),
-    submitContactEdit: (interactionId) => dispatch(submitContactEdit(interactionId)),
+    setShowCancelDialog: (showCancelDialog) =>
+      dispatch(setShowCancelDialog(showCancelDialog)),
+    setFormIsDirty: (interactionId, formIsDirty) =>
+      dispatch(setFormIsDirty(interactionId, formIsDirty)),
+    setFormValidity: (interactionId, formIsValid) =>
+      dispatch(setFormValidity(interactionId, formIsValid)),
+    setShowError: (interactionId, field, error) =>
+      dispatch(setShowError(interactionId, field, error)),
+    setFormField: (interactionId, field, value) =>
+      dispatch(setFormField(interactionId, field, value)),
+    setFormError: (interactionId, field, error) =>
+      dispatch(setFormError(interactionId, field, error)),
+    submitContactCreate: (interactionId) =>
+      dispatch(submitContactCreate(interactionId)),
+    submitContactEdit: (interactionId) =>
+      dispatch(submitContactEdit(interactionId)),
     dispatch,
   };
 }
@@ -215,4 +266,6 @@ ContactEdit.propTypes = {
   selectedInteractionId: PropTypes.string,
 };
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactEdit)));
+export default injectIntl(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(ContactEdit))
+);

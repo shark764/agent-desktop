@@ -35,18 +35,25 @@ const styles = {
 };
 
 class MainContentArea extends BaseComponent {
-
   endInteraction = () => {
     if (this.props.selectedInteraction.status === 'wrapup') {
-      CxEngage.interactions.endWrapup({ interactionId: this.props.selectedInteraction.interactionId });
-    } else if (this.props.selectedInteraction.status === 'connecting-to-outbound' ||
-        this.props.selectedInteraction.status === 'initializing-outbound' ||
-        this.props.selectedInteraction.status === 'initialized-outbound') {
-      this.props.removeInteraction(this.props.selectedInteraction.interactionId);
+      CxEngage.interactions.endWrapup({
+        interactionId: this.props.selectedInteraction.interactionId,
+      });
+    } else if (
+      this.props.selectedInteraction.status === 'connecting-to-outbound' ||
+      this.props.selectedInteraction.status === 'initializing-outbound' ||
+      this.props.selectedInteraction.status === 'initialized-outbound'
+    ) {
+      this.props.removeInteraction(
+        this.props.selectedInteraction.interactionId
+      );
     } else {
-      CxEngage.interactions.end({ interactionId: this.props.selectedInteraction.interactionId });
+      CxEngage.interactions.end({
+        interactionId: this.props.selectedInteraction.interactionId,
+      });
     }
-  }
+  };
 
   render() {
     const selectedInteraction = this.props.selectedInteraction;
@@ -55,30 +62,55 @@ class MainContentArea extends BaseComponent {
     if (selectedInteraction) {
       if (selectedInteraction.status === 'creating-new-interaction') {
         content = <NewInteractionContentArea />;
-      } else if (selectedInteraction.channelType === 'messaging' || selectedInteraction.channelType === 'sms') {
-        const messageTemplates = this.props.messageTemplates.filter((messageTemplate) =>
-          messageTemplate.channels.includes(selectedInteraction.channelType)
+      } else if (
+        selectedInteraction.channelType === 'messaging' ||
+        selectedInteraction.channelType === 'sms'
+      ) {
+        const messageTemplates = this.props.messageTemplates.filter(
+          (messageTemplate) =>
+            messageTemplate.channels.includes(selectedInteraction.channelType)
         );
-        content = <MessagingContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} messageTemplates={messageTemplates} />;
+        content = (
+          <MessagingContentArea
+            selectedInteraction={selectedInteraction}
+            endInteraction={this.endInteraction}
+            messageTemplates={messageTemplates}
+          />
+        );
       } else if (selectedInteraction.channelType === 'email') {
-        const emailTemplates = this.props.messageTemplates.filter((messageTemplate) =>
-          messageTemplate.channels.includes(selectedInteraction.channelType)
+        const emailTemplates = this.props.messageTemplates.filter(
+          (messageTemplate) =>
+            messageTemplate.channels.includes(selectedInteraction.channelType)
         );
-        content = <EmailContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} emailTemplates={emailTemplates} />;
+        content = (
+          <EmailContentArea
+            selectedInteraction={selectedInteraction}
+            endInteraction={this.endInteraction}
+            emailTemplates={emailTemplates}
+          />
+        );
       } else if (selectedInteraction.channelType === 'voice') {
-        content = <VoiceContentArea selectedInteraction={selectedInteraction} endInteraction={this.endInteraction} />;
+        content = (
+          <VoiceContentArea
+            selectedInteraction={selectedInteraction}
+            endInteraction={this.endInteraction}
+          />
+        );
       } else {
-        throw new Error(`Unknown selected channelType: ${selectedInteraction.channelType}`);
+        throw new Error(
+          `Unknown selected channelType: ${selectedInteraction.channelType}`
+        );
       }
     }
 
     return (
       <div style={[styles.base, this.props.style]}>
-        {
-          content !== null
+        {content !== null
           ? content
-          : <WelcomeStats agent={this.props.agent} tenant={this.props.tenant} />
-        }
+          : <WelcomeStats
+            agent={this.props.agent}
+            tenant={this.props.tenant}
+          />}
       </div>
     );
   }
@@ -92,7 +124,8 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
+    removeInteraction: (interactionId) =>
+      dispatch(removeInteraction(interactionId)),
     dispatch,
   };
 }
@@ -106,4 +139,6 @@ MainContentArea.propTypes = {
   tenant: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(MainContentArea));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  Radium(MainContentArea)
+);

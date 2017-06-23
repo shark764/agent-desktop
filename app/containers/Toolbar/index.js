@@ -166,7 +166,6 @@ const styles = {
 };
 
 export class Toolbar extends BaseComponent {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -178,26 +177,29 @@ export class Toolbar extends BaseComponent {
 
   setStatusButtonHovered = (isStatusButtonHovered) => {
     this.setState({ isStatusButtonHovered });
-  }
+  };
 
   setConfigButtonHovered = (isConfigButtonHovered) => {
     this.setState({ isConfigButtonHovered });
-  }
+  };
 
   showStatusMenu = (show = true) => {
     this.props.toggleAgentMenu(show);
-  }
+  };
 
   showConfigMenu = (show = true) => {
     this.setState({ showConfigMenu: show });
-  }
+  };
 
   notReadyText = () => {
-    if (this.props.selectedPresenceReason.reason && !this.props.selectedPresenceReason.isSystemReason) {
+    if (
+      this.props.selectedPresenceReason.reason &&
+      !this.props.selectedPresenceReason.isSystemReason
+    ) {
       return <span>{this.props.selectedPresenceReason.reason}</span>;
     }
     return <FormattedMessage {...messages.notReady} />;
-  }
+  };
 
   getStatusMenuButtonStyle = () => {
     const statusButtonStyle = [];
@@ -217,7 +219,7 @@ export class Toolbar extends BaseComponent {
       }
     }
     return statusButtonStyle;
-  }
+  };
 
   getConfigMenuButtonStyle = () => {
     const configButtonStyle = [];
@@ -237,19 +239,22 @@ export class Toolbar extends BaseComponent {
       }
     }
     return configButtonStyle;
-  }
+  };
 
   getConnectionIconName = () => {
     const agentIsReady = this.props.readyState === 'ready';
     if (
-      ((this.props.showAgentStatusMenu && agentIsReady) || (!this.state.isStatusButtonHovered && agentIsReady))
-      || (!this.props.showAgentStatusMenu && this.state.isStatusButtonHovered && !agentIsReady)
+      (this.props.showAgentStatusMenu && agentIsReady) ||
+      (!this.state.isStatusButtonHovered && agentIsReady) ||
+      (!this.props.showAgentStatusMenu &&
+        this.state.isStatusButtonHovered &&
+        !agentIsReady)
     ) {
       return 'connected';
     } else {
       return 'not_connected';
     }
-  }
+  };
 
   render() {
     const agentIsReady = this.props.readyState === 'ready';
@@ -263,29 +268,46 @@ export class Toolbar extends BaseComponent {
         ]}
       >
         <div id="toolbar-container" style={[styles.container]}>
-          <div id="agent-button-container" style={[styles.statusButtonContainer]}>
+          <div
+            id="agent-button-container"
+            style={[styles.statusButtonContainer]}
+          >
             <button
               id="agent-button"
               key="status-button"
               style={this.getStatusMenuButtonStyle()}
-              onClick={() => this.showStatusMenu(!this.props.showAgentStatusMenu)}
+              onClick={() =>
+                this.showStatusMenu(!this.props.showAgentStatusMenu)}
               onMouseEnter={() => this.setStatusButtonHovered(true)}
               onMouseLeave={() => this.setStatusButtonHovered(false)}
             >
               <span id="agent-state" style={[styles.agentState]}>
                 <div style={styles.presenceTextContainer}>
-                  <Icon name={this.getConnectionIconName()} style={styles.connectionIcon} />
+                  <Icon
+                    name={this.getConnectionIconName()}
+                    style={styles.connectionIcon}
+                  />
                 </div>
                 <div style={styles.presenceTextContainer}>
-                  <span
-                    style={styles.presenceText}
-                  >
-                    { agentIsReady
+                  <span style={styles.presenceText}>
+                    {agentIsReady
                       ? <FormattedMessage {...messages.ready} />
-                      : this.notReadyText() }
+                      : this.notReadyText()}
                   </span>
-                  <span id="agent-timer-container-span" style={[styles.agentTimer, agentIsReady && { color: '#14778D' }]}>
-                    <Timer id="agent-timer-count" key={this.props.selectedPresenceReason.reason || this.props.readyState} />
+                  <span
+                    id="agent-timer-container-span"
+                    style={[
+                      styles.agentTimer,
+                      agentIsReady && { color: '#14778D' },
+                    ]}
+                  >
+                    <Timer
+                      id="agent-timer-count"
+                      key={
+                        this.props.selectedPresenceReason.reason ||
+                        this.props.readyState
+                      }
+                    />
                   </span>
                 </div>
               </span>
@@ -306,8 +328,14 @@ export class Toolbar extends BaseComponent {
             show={this.state.showConfigMenu}
             key={'agentConfigMenu'}
           />
-          <AgentStats queues={this.props.queues} readyState={this.props.readyState} />
-          <div id="config-button-container" style={styles.configButtonContainer}>
+          <AgentStats
+            queues={this.props.queues}
+            readyState={this.props.readyState}
+          />
+          <div
+            id="config-button-container"
+            style={styles.configButtonContainer}
+          >
             <button
               id="config-button"
               key="config-button"

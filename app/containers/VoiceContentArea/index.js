@@ -27,7 +27,6 @@ import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 import messages from './messages';
 
 export class VoiceContentArea extends BaseComponent {
-
   styles = {
     customField: {
       display: 'inline-block',
@@ -52,13 +51,19 @@ export class VoiceContentArea extends BaseComponent {
   };
 
   render() {
-    const isAccepting = this.props.selectedInteraction.status === 'work-accepting';
+    const isAccepting =
+      this.props.selectedInteraction.status === 'work-accepting';
 
-    const from = has(this.props.selectedInteraction, 'contact.attributes.name') ? this.props.selectedInteraction.contact.attributes.name : this.props.selectedInteraction.number;
+    const from = has(this.props.selectedInteraction, 'contact.attributes.name')
+      ? this.props.selectedInteraction.contact.attributes.name
+      : this.props.selectedInteraction.number;
 
     const details = this.props.selectedInteraction.customFields
       ? this.props.selectedInteraction.customFields.map((customField) =>
-        <div key={customField.label + customField.value} style={this.styles.customField}>
+        <div
+          key={customField.label + customField.value}
+          style={this.styles.customField}
+        >
           <div style={this.styles.customFieldLabel}>
             {customField.label}
           </div>
@@ -66,7 +71,7 @@ export class VoiceContentArea extends BaseComponent {
             {customField.value}
           </div>
         </div>
-      )
+        )
       : '';
 
     const wrappingUp = this.props.selectedInteraction.status === 'wrapup';
@@ -86,14 +91,25 @@ export class VoiceContentArea extends BaseComponent {
     if (this.props.selectedInteraction.script !== undefined) {
       content = (
         <div style={this.styles.content}>
-          <AgentScript interactionId={this.props.selectedInteraction.interactionId} script={this.props.selectedInteraction.script} />
+          <AgentScript
+            interactionId={this.props.selectedInteraction.interactionId}
+            script={this.props.selectedInteraction.script}
+          />
         </div>
       );
     } else {
-      content = <div id="noContent"></div>;
+      content = <div id="noContent" />;
     }
 
-    return <ContentArea interaction={this.props.selectedInteraction} from={from} buttons={buttons} details={details} content={content} />;
+    return (
+      <ContentArea
+        interaction={this.props.selectedInteraction}
+        from={from}
+        buttons={buttons}
+        details={details}
+        content={content}
+      />
+    );
   }
 }
 
@@ -114,4 +130,6 @@ VoiceContentArea.propTypes = {
   awaitingDisposition: PropTypes.bool.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(VoiceContentArea));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  Radium(VoiceContentArea)
+);

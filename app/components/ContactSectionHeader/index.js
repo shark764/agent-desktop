@@ -10,7 +10,6 @@
 
 import React, { PropTypes } from 'react';
 
-
 import Radium from 'radium';
 
 function ContactSectionHeader(props) {

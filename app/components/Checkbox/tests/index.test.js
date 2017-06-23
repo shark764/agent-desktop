@@ -43,10 +43,7 @@ describe('<Checkbox />', () => {
   describe('when no text is passed in', () => {
     it('should render correctly', () => {
       const rendered = shallow(
-        <Checkbox.WrappedComponent
-          id="mockId"
-          checked
-        />
+        <Checkbox.WrappedComponent id="mockId" checked />
       );
       expect(rendered).toMatchSnapshot();
     });

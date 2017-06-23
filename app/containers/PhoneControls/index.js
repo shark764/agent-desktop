@@ -22,7 +22,6 @@ import PhoneControlsActive from 'containers/PhoneControlsActive';
 import { selectActiveVoiceInteraction } from './selectors';
 
 export class PhoneControls extends BaseComponent {
-
   styles = {
     base: {
       backgroundColor: '#031417',
@@ -51,16 +50,17 @@ export class PhoneControls extends BaseComponent {
       zIndex: 2,
       padding: '25px 20px 20px',
     },
-  }
+  };
 
   render() {
     return (
       <div style={[this.styles.base, this.props.style]}>
-        {
-          this.props.activeVoiceInteraction
-          ? <PhoneControlsActive activeVoiceInteraction={this.props.activeVoiceInteraction} style={this.styles} />
-          : <PhoneControlsInactive style={this.styles} />
-        }
+        {this.props.activeVoiceInteraction
+          ? <PhoneControlsActive
+            activeVoiceInteraction={this.props.activeVoiceInteraction}
+            style={this.styles}
+          />
+          : <PhoneControlsInactive style={this.styles} />}
       </div>
     );
   }
@@ -82,4 +82,6 @@ PhoneControls.propTypes = {
   style: PropTypes.array,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(PhoneControls));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  Radium(PhoneControls)
+);

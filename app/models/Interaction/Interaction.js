@@ -5,10 +5,26 @@
 import { List, Map, fromJS } from 'immutable';
 
 export default class Interaction {
-  constructor({ interactionId, channelType, autoAnswer, direction, timeout, toolbarFeatures, recording, customerOnHold, status, customer, activeResources, contact, hideNewInteractionPanelOnWorkAccepted, contactMode }) {
+  constructor({
+    interactionId,
+    channelType,
+    autoAnswer,
+    direction,
+    timeout,
+    toolbarFeatures,
+    recording,
+    customerOnHold,
+    status,
+    customer,
+    activeResources,
+    contact,
+    hideNewInteractionPanelOnWorkAccepted,
+    contactMode,
+  }) {
     if (channelType === 'voice') {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
-      this.agentRecordingEnabled = toolbarFeatures && toolbarFeatures.recordingUpdate !== false;
+      this.agentRecordingEnabled =
+        toolbarFeatures && toolbarFeatures.recordingUpdate !== false;
       // recording and onHold can have been set by an incoming transfer
       this.recording = recording === true;
       this.onHold = customerOnHold === true;
@@ -24,10 +40,12 @@ export default class Interaction {
     if (channelType === 'email' && direction === 'outbound') {
       this.emailReply = new Map({
         message: '',
-        tos: new List([{
-          address: customer,
-          name: customer,
-        }]),
+        tos: new List([
+          {
+            address: customer,
+            name: customer,
+          },
+        ]),
         ccs: new List(),
         bccs: new List(),
         subject: '',
@@ -36,24 +54,27 @@ export default class Interaction {
     }
     this.channelType = channelType;
     this.direction = direction;
-    this.interactionId = interactionId || `${direction}-${channelType}-${customer}`;
+    this.interactionId =
+      interactionId || `${direction}-${channelType}-${customer}`;
     this.contactMode = contactMode || 'search';
     this.timeout = new Date(timeout).valueOf();
     this.autoAnswer = autoAnswer;
     this.status = status || 'work-offer';
     if (activeResources) {
-      this.warmTransfers = new List(activeResources.map((resource) => {
-        const mappedResource = Object.assign({}, resource);
-        mappedResource.targetResource = mappedResource.id;
-        mappedResource.status = 'connected';
-        if (mappedResource.externalResource) {
-          mappedResource.name = mappedResource.extension;
-        } else {
-          mappedResource.name = 'Agent';
-          CxEngage.entities.getUser({ resourceId: resource.id });
-        }
-        return new Map(mappedResource);
-      }));
+      this.warmTransfers = new List(
+        activeResources.map((resource) => {
+          const mappedResource = Object.assign({}, resource);
+          mappedResource.targetResource = mappedResource.id;
+          mappedResource.status = 'connected';
+          if (mappedResource.externalResource) {
+            mappedResource.name = mappedResource.extension;
+          } else {
+            mappedResource.name = 'Agent';
+            CxEngage.entities.getUser({ resourceId: resource.id });
+          }
+          return new Map(mappedResource);
+        })
+      );
     }
     this.wrapupDetails = new Map({
       wrapupUpdateAllowed: false,

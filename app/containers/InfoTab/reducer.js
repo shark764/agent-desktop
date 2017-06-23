@@ -50,7 +50,8 @@ function infoTabReducer(state = initialState, action) {
       let validResultsCount = action.response.count;
       if (action.response.page === state.get('nextPage')) {
         action.response.results.forEach((newResult) => {
-          if (newResult) { // search returns null for contact immediately after it's been deleted
+          if (newResult) {
+            // search returns null for contact immediately after it's been deleted
             results = results.push(fromJS(newResult));
           } else {
             validResultsCount -= 1;
@@ -68,31 +69,40 @@ function infoTabReducer(state = initialState, action) {
       return state.set('crmUnavailable', action.reason || 'generalError');
     case CHECK_CONTACT:
       currentContacts = state.get('checkedContacts');
-      return state
-        .set('checkedContacts', currentContacts.push(fromJS(action.contact)));
+      return state.set(
+        'checkedContacts',
+        currentContacts.push(fromJS(action.contact))
+      );
     case UNCHECK_CONTACT:
       currentContacts = state.get('checkedContacts');
-      return state
-        .set('checkedContacts', currentContacts.filter((contact) => contact.get('id') !== action.contact.id));
+      return state.set(
+        'checkedContacts',
+        currentContacts.filter(
+          (contact) => contact.get('id') !== action.contact.id
+        )
+      );
     case CLEAR_CHECKED_CONTACTS:
-      return state
-        .set('checkedContacts', new List());
+      return state.set('checkedContacts', new List());
     case ADD_NOTIFICATION:
       return state
-        .set('notifications', state.get('notifications').push(fromJS(action.notification)))
+        .set(
+          'notifications',
+          state.get('notifications').push(fromJS(action.notification))
+        )
         .set('nextNotificationId', action.notification.id + 1);
     case DISMISS_NOTIFICATION:
-      return state
-        .set('notifications', state.get('notifications').filter((notification) => notification.get('id') !== action.id));
+      return state.set(
+        'notifications',
+        state
+          .get('notifications')
+          .filter((notification) => notification.get('id') !== action.id)
+      );
     case SET_LOADING:
-      return state
-        .set('loading', action.loading);
+      return state.set('loading', action.loading);
     case SET_DELETION_PENDING:
-      return state
-        .set('deletionPending', action.deletionPending);
+      return state.set('deletionPending', action.deletionPending);
     case SET_CONFIRMING_DELETE:
-      return state
-        .set('confirmingDelete', action.confirmingDelete);
+      return state.set('confirmingDelete', action.confirmingDelete);
     default:
       return state;
   }

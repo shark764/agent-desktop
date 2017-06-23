@@ -28,15 +28,27 @@ const selectNoInteractionContactPanelContactsData = createSelector(
 );
 
 const getSelectedInteraction = createSelector(
-  [selectInteractions, getSelectedInteractionId, selectNewInteractionPanel, selectNoInteractionContactPanelContactsData],
-  (interactions, selectedInteractionId, newInteractionPanel, noInteractionContactPanelContactsData) => {
+  [
+    selectInteractions,
+    getSelectedInteractionId,
+    selectNewInteractionPanel,
+    selectNoInteractionContactPanelContactsData,
+  ],
+  (
+    interactions,
+    selectedInteractionId,
+    newInteractionPanel,
+    noInteractionContactPanelContactsData
+  ) => {
     if (typeof selectedInteractionId !== 'undefined') {
       if (selectedInteractionId === 'creating-new-interaction') {
         return newInteractionPanel.toJS();
       } else {
-        return interactions.toJS().find((interaction) =>
-          interaction.interactionId === selectedInteractionId
-        );
+        return interactions
+          .toJS()
+          .find(
+            (interaction) => interaction.interactionId === selectedInteractionId
+          );
       }
     }
     return noInteractionContactPanelContactsData.toJS();
@@ -46,7 +58,8 @@ const getSelectedInteraction = createSelector(
 const getSelectedInteractionIsVoice = createSelector(
   getSelectedInteraction,
   (selectedInteraction) =>
-    selectedInteraction !== undefined && selectedInteraction.channelType === 'voice'
+    selectedInteraction !== undefined &&
+    selectedInteraction.channelType === 'voice'
 );
 
 const getSelectedTabIndex = createSelector(
@@ -67,8 +80,7 @@ const getSelectedInteractionScript = createSelector(
 
 const getHasAssignedContact = createSelector(
   getSelectedInteraction,
-  (selectedInteraction) =>
-    has(selectedInteraction, 'contact.id')
+  (selectedInteraction) => has(selectedInteraction, 'contact.id')
 );
 
 export {
