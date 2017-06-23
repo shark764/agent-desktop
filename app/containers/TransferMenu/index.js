@@ -160,6 +160,7 @@ export class TransferMenu extends BaseComponent {
     console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
     const transferLists = response.result.map((transferList) => (
       {
+        id: transferList.id,
         name: transferList.name,
         endpoints: transferList.endpoints,
       }
@@ -359,7 +360,7 @@ export class TransferMenu extends BaseComponent {
 
   render() {
     const queues = this.filterTransferListItems(this.props.queues).map((queue) =>
-      <div key={queue.name} className="queueTransferListItem" onClick={() => this.transfer(queue.name, undefined, queue.id)} style={this.styles.transferListItem} title={queue.name}>
+      <div id={queue.id} key={queue.id} className="queueTransferListItem" onClick={() => this.transfer(queue.name, undefined, queue.id)} style={this.styles.transferListItem} title={queue.name}>
         <span style={this.styles.queueName}>
           {queue.name}
         </span>
@@ -433,7 +434,8 @@ export class TransferMenu extends BaseComponent {
               }
             }).map((transferListItem) =>
               <div
-                key={transferListItem.name}
+                id={`${transferList.id}-${hierarchy}-${transferListItem.name}`}
+                key={`${transferList.id}-${hierarchy}-${transferListItem.name}`}
                 className="tranferListItem"
                 onClick={() => this.transferTransferListItem(transferListItem.name, transferListItem.contactType, transferListItem.endpoint)}
                 style={this.styles.transferListItem}
@@ -443,7 +445,7 @@ export class TransferMenu extends BaseComponent {
             );
           if (filteredTransferListItems.length > 0) {
             hierarchyList.push(
-              <div key={hierarchy} >
+              <div id={`${transferList.id}-${hierarchy}`} key={`${transferList.id}-${hierarchy}`} >
                 <div style={this.styles.hierarchy} >
                   { hierarchy }
                 </div>
@@ -454,7 +456,7 @@ export class TransferMenu extends BaseComponent {
         });
         if (hierarchyList.length > 0) {
           transferLists.push(
-            <div key={transferList.name} style={this.styles.transferList}>
+            <div id={transferList.id} key={transferList.id} style={this.styles.transferList}>
               <div style={this.styles.transferListTitle} >
                 { transferList.name }
               </div>

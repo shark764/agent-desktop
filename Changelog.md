@@ -1,3 +1,6 @@
+### [0.42.8] (2017-06-23)
+* BUGFIX - Fix keys for transfer lists
+
 ### [0.42.7] (2017-06-23)
 * CXV1-10113 - Clean up checks we missed for the existence of assigned contacts
 
