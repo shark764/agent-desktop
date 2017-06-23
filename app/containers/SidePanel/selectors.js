@@ -3,6 +3,7 @@
  */
 
 import { createSelector } from 'reselect';
+import has from 'lodash/has';
 
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 
@@ -67,7 +68,7 @@ const getSelectedInteractionScript = createSelector(
 const getHasAssignedContact = createSelector(
   getSelectedInteraction,
   (selectedInteraction) =>
-    selectedInteraction !== undefined && selectedInteraction.contact !== undefined
+    has(selectedInteraction, 'contact.id')
 );
 
 export {

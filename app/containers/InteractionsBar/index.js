@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import Radium from 'radium';
+import has from 'lodash/has';
 
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
@@ -67,8 +68,8 @@ export class InteractionsBar extends BaseComponent {
         key={this.props.activeVoiceInteraction.interactionId}
         icon="voice"
         channelType={this.props.activeVoiceInteraction.channelType}
-        from={this.props.activeVoiceInteraction.contact !== undefined ? this.props.activeVoiceInteraction.contact.attributes.name : this.props.activeVoiceInteraction.number}
-        previewText={this.props.activeVoiceInteraction.contact !== undefined ? this.props.activeVoiceInteraction.number : undefined}
+        from={has(this.props.activeVoiceInteraction, 'contact.attributes.name') ? this.props.activeVoiceInteraction.contact.attributes.name : this.props.activeVoiceInteraction.number}
+        previewText={has(this.props.activeVoiceInteraction, 'contact.id') ? this.props.activeVoiceInteraction.number : undefined}
         status={activeVoiceInteractionStatus}
         targetWrapupTime={Number(this.props.activeVoiceInteraction.wrapupDetails.targetWrapupTime)}
         wrapupTime={Number(this.props.activeVoiceInteraction.wrapupDetails.wrapupTime)}

@@ -1,3 +1,6 @@
+### [0.42.7] (2017-06-23)
+* CXV1-10113 - Clean up checks we missed for the existence of assigned contacts
+
 ### [0.42.6] (2017-06-22)
 * CXV1-9912 - New saga unit tests
 
