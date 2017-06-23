@@ -108,7 +108,7 @@ export function* goAddContactErrorNotification(action) {
 }
 
 export function* goSubmitContactCreate(action) {
-  const interaction = yield getInteraction(action.interactionId);
+  const interaction = yield call(getInteraction, action.interactionId);
   const targetContactForm = interaction.activeContactForm;
   const contactForm = targetContactForm.contactForm;
   yield put(setContactSaveLoading(action.interactionId, true));
@@ -120,7 +120,7 @@ export function* goSubmitContactCreate(action) {
       'ContactsControl'
     );
     yield put(addContactNotificationAction({ messageType: 'created' }));
-    yield put(assignContact(interaction.interactionId, createdContact)); // loadOff
+    yield put(assignContact(action.interactionId, createdContact)); // loadOff
     yield put(setContactMode(action.interactionId, 'view'));
     yield put(setContactSaveLoading(action.interactionId, false));
     yield put(resetForm(action.interactionId));
@@ -132,7 +132,7 @@ export function* goSubmitContactCreate(action) {
 }
 
 export function* goSubmitContactEdit(action) {
-  const interaction = yield getInteraction(action.interactionId);
+  const interaction = yield call(getInteraction, action.interactionId);
   const targetContactForm = interaction.activeContactForm;
   const contactForm = targetContactForm.contactForm;
   const originalContacts = targetContactForm.editingContacts;
@@ -160,7 +160,7 @@ export function* goSubmitContactEdit(action) {
 }
 
 export function* goSubmitContactMerge(action) {
-  const interaction = yield getInteraction(action.interactionId);
+  const interaction = yield call(getInteraction, action.interactionId);
   const targetContactForm = interaction.activeContactForm;
   const contactForm = targetContactForm.contactForm;
   const originalContacts = targetContactForm.editingContacts;
@@ -175,7 +175,7 @@ export function* goSubmitContactMerge(action) {
     yield put(addContactNotificationAction({ messageType: 'merged' }));
     const interactionsList = yield select(selectInteractionsList);
     yield put(assignContact(action.interactionId, createdContact));
-    yield put(setContactMode(interaction.interactionId, 'view'));
+    yield put(setContactMode(action.interactionId, 'view'));
     yield interactionsList.toJS()
       .filter(
         (inter) =>

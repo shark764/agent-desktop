@@ -1,5 +1,165 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`getInteraction generator if interactionId is any other string should complete and yield the interaction with the specified id 1`] = `
+Object {
+  "done": true,
+  "value": Object {
+    "interactionId": "mockInteractionId",
+  },
+}
+`;
+
+exports[`getInteraction generator if interactionId is any other string should select the interaction List 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`getInteraction generator if interactionId is creating-new-interaction should complete and yield the selected interaction 1`] = `
+Object {
+  "done": true,
+  "value": "mockNewInteractionPanel",
+}
+`;
+
+exports[`getInteraction generator if interactionId is creating-new-interaction should select the new interaction contact panel 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`getInteraction generator if interactionId is undefined should complete and yield the selected interaction 1`] = `
+Object {
+  "done": true,
+  "value": "mockNoInteractionPanel",
+}
+`;
+
+exports[`getInteraction generator if interactionId is undefined should select the no interaction contact panel 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAddContactErrorNotification Saga should put the addNotification action with correct keys 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "notification": Object {
+          "id": 234,
+          "isError": true,
+          "mockNotificationInfo": "mockNotificationInfo",
+        },
+        "type": "app/InfoTab/ADD_NOTIFICATION",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAddContactErrorNotification Saga should select the next notification id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAddContactNotification Saga should delay for 3000ms 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        3000,
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAddContactNotification Saga should put the addNotification action with correct keys 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "notification": Object {
+          "id": 234,
+          "isError": false,
+          "mockNotificationInfo": "mockNotificationInfo",
+        },
+        "type": "app/InfoTab/ADD_NOTIFICATION",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAddContactNotification Saga should put the dismissNotification action with the selected id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "id": 234,
+        "type": "app/InfoTab/DISMISS_NOTIFICATION",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAddContactNotification Saga should select the next notification id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
 exports[`goEditContact Saga when action.contact is defined should init form with contact values 1`] = `
 Object {
   "done": false,
@@ -310,5 +470,455 @@ Object {
       "channel": null,
     },
   },
+}
+`;
+
+exports[`goSubmitContactCreate Saga should call the getInteraction generator with the interactionId 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "mockInteractionId",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactCreate Saga should call the promise util with the contact create SDK method and correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "mockContactCreate",
+        Object {
+          "attributes": "mockContactForm",
+        },
+        "ContactsControl",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactCreate Saga should put a addContactNotification action with correct message type 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "notificationInfo": Object {
+          "messageType": "created",
+        },
+        "type": "app/ContactsControl/ADD_CONTACT_NOTIFICATION",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactCreate Saga should put a contactAssign action with the created contact 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "contact": "mockCreatedContact",
+        "interactionId": "mockInteractionId",
+        "type": "app/AgentDesktop/ASSIGN_CONTACT",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactCreate Saga should put a resetForm action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockInteractionId",
+        "type": "app/ContactsControl/RESET_FORM",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactCreate Saga should put a set contact mode action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockInteractionId",
+        "newMode": "view",
+        "type": "app/AgentDesktop/SET_CONTACT_MODE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactCreate Saga should put a setContactSaveLoading false action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockInteractionId",
+        "isLoading": false,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactCreate Saga should put a setContactSaveLoading true action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockInteractionId",
+        "isLoading": true,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactEdit Saga should call the getInteraction generator with the interactionId 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "mockInteractionId",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactEdit Saga should call the promise util with the contact update SDK method and correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "mockContactUpdate",
+        Object {
+          "attributes": "mockContactForm",
+          "contactId": "mockContactId",
+        },
+        "ContactsControl",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactEdit Saga should put a addContactNotification action with correct message type 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "notificationInfo": Object {
+          "messageType": "saved",
+        },
+        "type": "app/ContactsControl/ADD_CONTACT_NOTIFICATION",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactEdit Saga should put a resetForm action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockInteractionId",
+        "type": "app/ContactsControl/RESET_FORM",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactEdit Saga should put a set contact mode action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockInteractionId",
+        "newMode": "search",
+        "type": "app/AgentDesktop/SET_CONTACT_MODE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactEdit Saga should put a setContactSaveLoading false action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockInteractionId",
+        "isLoading": false,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactEdit Saga should put a setContactSaveLoading true action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockInteractionId",
+        "isLoading": true,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactMerge Saga should call the getInteraction generator with the interactionId 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "mockInteractionId",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactMerge Saga should call the promise util with the contact merge SDK method and correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "mockContactMerge",
+        Object {
+          "attributes": "mockContactForm",
+          "contactIds": Array [
+            "mockContactId",
+            "mockContactId1",
+          ],
+        },
+        "ContactsControl",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactMerge Saga should put a addContactNotificationAction with correct message type 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "notificationInfo": Object {
+          "messageType": "merged",
+        },
+        "type": "app/ContactsControl/ADD_CONTACT_NOTIFICATION",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactMerge Saga should put a remove search filter action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "filterName": undefined,
+        "type": "app/AgentDesktop/REMOVE_SEARCH_FILTER",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactMerge Saga should put a resetForm action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockInteractionId",
+        "type": "app/ContactsControl/RESET_FORM",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactMerge Saga should put a set contact mode action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockInteractionId",
+        "newMode": "view",
+        "type": "app/AgentDesktop/SET_CONTACT_MODE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactMerge Saga should put a setContactSaveLoading false action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockInteractionId",
+        "isLoading": false,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactMerge Saga should put a setContactSaveLoading true action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockInteractionId",
+        "isLoading": true,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactMerge Saga should select the interactionsList 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactMerge Saga should yield an assign contact put for action interaction 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "contact": "mockNewContact",
+        "interactionId": "mockInteractionId",
+        "type": "app/AgentDesktop/ASSIGN_CONTACT",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSubmitContactMerge Saga should yield an assign contact put for each affected interaction 1`] = `
+Object {
+  "done": false,
+  "value": Array [
+    Object {
+      "@@redux-saga/IO": true,
+      "PUT": Object {
+        "action": Object {
+          "contact": "mockNewContact",
+          "interactionId": "mockInteractionId1",
+          "type": "app/AgentDesktop/ASSIGN_CONTACT",
+        },
+        "channel": null,
+      },
+    },
+  ],
 }
 `;
