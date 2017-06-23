@@ -139,6 +139,21 @@ you can upload to the [webpack analyzer](https://webpack.github.io/analyse/). Th
 analyzer will visualize your dependencies and chunks with detailed statistics
 about the bundle size.
 
+## Formatting
+
+```Shell
+npm run format:log
+```
+
+Runs the prettier + eslint and logs out any changes to be made.
+
+```Shell
+npm run format
+```
+
+Runs the prettier + eslint and writes any changes to disk.
+NOTE: this runs as a precommit hook if any js is touched
+
 ## Linting
 
 ```Shell
