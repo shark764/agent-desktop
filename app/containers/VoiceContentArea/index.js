@@ -12,6 +12,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+import has from 'lodash/has';
 
 import BaseComponent from 'components/BaseComponent';
 import { setCriticalError } from 'containers/Errors/actions';
@@ -53,7 +54,7 @@ export class VoiceContentArea extends BaseComponent {
   render() {
     const isAccepting = this.props.selectedInteraction.status === 'work-accepting';
 
-    const from = this.props.selectedInteraction.contact !== undefined ? this.props.selectedInteraction.contact.attributes.name : this.props.selectedInteraction.number;
+    const from = has(this.props.selectedInteraction, 'contact.attributes.name') ? this.props.selectedInteraction.contact.attributes.name : this.props.selectedInteraction.number;
 
     const details = this.props.selectedInteraction.customFields
       ? this.props.selectedInteraction.customFields.map((customField) =>
