@@ -24,17 +24,30 @@ import ContactMerge from 'containers/ContactMerge';
 import ContactSearch from 'containers/ContactSearch';
 import ContactView from 'containers/ContactView';
 
-import { showContactsPanel, assignContact, selectContact, loadContactInteractionHistory } from 'containers/AgentDesktop/actions';
+import {
+  showContactsPanel,
+  assignContact,
+  selectContact,
+  loadContactInteractionHistory,
+} from 'containers/AgentDesktop/actions';
 import { selectIsContactsPanelCollapsed } from 'containers/AgentDesktop/selectors';
 import { selectPopulatedLayout } from 'containers/ContactView/selectors';
-import selectInfoTab, { selectCheckedContacts, selectLoading, selectCurrentInteraction } from 'containers/InfoTab/selectors';
+import selectInfoTab, {
+  selectCheckedContacts,
+  selectLoading,
+  selectCurrentInteraction,
+} from 'containers/InfoTab/selectors';
 import { clearSearchResults, setLoading } from 'containers/InfoTab/actions';
 
-import { selectAttributes, selectShowCancelDialog, selectFormIsDirty, selectContactForm } from './selectors';
+import {
+  selectAttributes,
+  selectShowCancelDialog,
+  selectFormIsDirty,
+  selectContactForm,
+} from './selectors';
 import { setShowCancelDialog } from './actions';
 
 export class ContactsControl extends BaseComponent {
-
   styles = {
     mainContact: {
       marginTop: '8px',
@@ -60,59 +73,80 @@ export class ContactsControl extends BaseComponent {
 
   handleCancel = (event) => {
     event.preventDefault();
-    if (this.props.formIsDirty || this.props.selectedInteraction.contactMode === 'merge') {
+    if (
+      this.props.formIsDirty ||
+      this.props.selectedInteraction.contactMode === 'merge'
+    ) {
       this.props.setShowCancelDialog(true);
     } else {
       this.props.setNotEditing();
     }
-  }
+  };
 
   render() {
     let content;
-    if (this.props.loading && (this.props.selectedInteraction.contactMode === 'search')) {
+    if (
+      this.props.loading &&
+      this.props.selectedInteraction.contactMode === 'search'
+    ) {
       content = (
         <div id="loadingContainer" style={this.styles.loadingContainer}>
-          <IconSVG style={this.styles.loadingIcon} id="loadingIcon" name="loading" />
+          <IconSVG
+            style={this.styles.loadingIcon}
+            id="loadingIcon"
+            name="loading"
+          />
         </div>
       );
     } else {
       switch (this.props.selectedInteraction.contactMode) {
         case 'create':
         case 'edit': {
-          const contactId = this.props.editingContact && this.props.editingContact.id;
-          content = (<ContactEdit
-            setNotEditing={this.props.setNotEditing}
-            style={this.styles.mainContact}
-            contactId={contactId}
-            contact={this.props.editingContact}
-            handleCancel={this.handleCancel}
-            addNotification={this.props.addNotification}
-            contactMode={this.props.selectedInteraction.contactMode}
-          />);
+          const contactId =
+            this.props.editingContact && this.props.editingContact.id;
+          content = (
+            <ContactEdit
+              setNotEditing={this.props.setNotEditing}
+              style={this.styles.mainContact}
+              contactId={contactId}
+              contact={this.props.editingContact}
+              handleCancel={this.handleCancel}
+              addNotification={this.props.addNotification}
+              contactMode={this.props.selectedInteraction.contactMode}
+            />
+          );
           break;
         }
         case 'merge':
-          content = (<ContactMerge
-            setNotEditing={this.props.setNotEditing}
-            style={this.styles.mainContact}
-            handleCancel={this.handleCancel}
-            addNotification={this.props.addNotification}
-          />);
+          content = (
+            <ContactMerge
+              setNotEditing={this.props.setNotEditing}
+              style={this.styles.mainContact}
+              handleCancel={this.handleCancel}
+              addNotification={this.props.addNotification}
+            />
+          );
           break;
         case 'view':
-          content = (
-            this.props.selectedInteraction.contact && this.props.selectedInteraction.contact.id
-              ? (<ContactView
-                contact={this.props.selectedInteraction.contact}
-                style={this.styles.mainContact}
-              />)
-              : null
-          );
+          content = this.props.selectedInteraction.contact &&
+            this.props.selectedInteraction.contact.id
+            ? (<ContactView
+              contact={this.props.selectedInteraction.contact}
+              style={this.styles.mainContact}
+            />)
+            : null;
           break;
         case 'search':
         default:
-          if (this.props.selectedInteraction.interactionId !== 'creating-new-interaction') {
-            content = (<ContactSearch hideContactSelectCheckboxes={this.props.isCollapsed} />);
+          if (
+            this.props.selectedInteraction.interactionId !==
+            'creating-new-interaction'
+          ) {
+            content = (
+              <ContactSearch
+                hideContactSelectCheckboxes={this.props.isCollapsed}
+              />
+            );
           } else {
             content = null;
           }
@@ -168,12 +202,16 @@ function mapDispatchToProps(dispatch) {
     clearSearchResults: () => dispatch(clearSearchResults()),
     setLoading: (loading) => dispatch(setLoading(loading)),
     selectContact: (contact) => dispatch(selectContact(contact)),
-    loadContactInteractionHistory: (contactId, page) => dispatch(loadContactInteractionHistory(contactId, page)),
+    loadContactInteractionHistory: (contactId, page) =>
+      dispatch(loadContactInteractionHistory(contactId, page)),
     assignContact: (contact) => dispatch(assignContact(contact)),
-    setShowCancelDialog: (showCancelDialog) => dispatch(setShowCancelDialog(showCancelDialog)),
+    setShowCancelDialog: (showCancelDialog) =>
+      dispatch(setShowCancelDialog(showCancelDialog)),
     showContactsPanel: () => dispatch(showContactsPanel()),
     dispatch,
   };
 }
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactsControl)));
+export default injectIntl(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(ContactsControl))
+);

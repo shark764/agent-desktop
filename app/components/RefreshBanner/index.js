@@ -36,8 +36,12 @@ function RefreshBanner(props) {
 
   return (
     <div style={styles.base}>
-      <span onClick={() => location.reload()}><FormattedMessage {...messages.notification} /></span>
-      <span onClick={() => props.hide(false)} style={styles.close}><img id="hideRefreshBanner" alt={'close'} src={closeIcon} /></span>
+      <span onClick={() => location.reload()}>
+        <FormattedMessage {...messages.notification} />
+      </span>
+      <span onClick={() => props.hide(false)} style={styles.close}>
+        <img id="hideRefreshBanner" alt={'close'} src={closeIcon} />
+      </span>
     </div>
   );
 }

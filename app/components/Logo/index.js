@@ -39,5 +39,4 @@ Logo.propTypes = {
   style: PropTypes.object,
 };
 
-
 export default Radium(Logo);

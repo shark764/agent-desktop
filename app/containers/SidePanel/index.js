@@ -25,25 +25,35 @@ import AgentScript from 'containers/AgentScript';
 import InfoTab from 'containers/InfoTab';
 import ContactInteractionHistory from 'containers/ContactInteractionHistory';
 
-import { setSidePanelTabIndex, showContactsPanel, hideContactsPanel } from 'containers/AgentDesktop/actions';
+import {
+  setSidePanelTabIndex,
+  showContactsPanel,
+  hideContactsPanel,
+} from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
-import { getSelectedInteractionId, getSelectedInteractionIsVoice, getSelectedInteractionScript, getHasAssignedContact, getSelectedTabIndex } from './selectors';
+import {
+  getSelectedInteractionId,
+  getSelectedInteractionIsVoice,
+  getSelectedInteractionScript,
+  getHasAssignedContact,
+  getSelectedTabIndex,
+} from './selectors';
 
 const leftGutterPx = 52;
 const topBarHeightPx = 63;
 
 export class SidePanel extends BaseComponent {
-
   getPanelSizing = () => {
     const sizing = {
       width: this.props.openPx,
     };
     if (this.props.isCollapsed) {
-      sizing.transform = `translateX(${this.props.openPx - this.props.collapsedPx}px)`;
+      sizing.transform = `translateX(${this.props.openPx -
+        this.props.collapsedPx}px)`;
     }
     return sizing;
-  }
+  };
 
   styles = {
     outerShell: {
@@ -117,41 +127,61 @@ export class SidePanel extends BaseComponent {
     } else {
       this.props.hideContactsPanel();
     }
-  }
+  };
 
   render() {
     return (
-      <div style={[this.styles.outerShell, this.getPanelSizing(), this.props.style]}>
+      <div
+        style={[
+          this.styles.outerShell,
+          this.getPanelSizing(),
+          this.props.style,
+        ]}
+      >
         <div style={[this.styles.leftGutter]}>
           <div style={[this.styles.topGutterLeft]}>
             <IconCollapse
               id="sidePanelCollapse"
               onClick={this.handleCollapseClick}
-              style={[this.styles.iconCollapse, this.props.isCollapsed ? this.styles.right90 : this.styles.left90]}
+              style={[
+                this.styles.iconCollapse,
+                this.props.isCollapsed
+                  ? this.styles.right90
+                  : this.styles.left90,
+              ]}
             />
           </div>
-          <div style={this.styles.leftGutterSpacer}></div>
+          <div style={this.styles.leftGutterSpacer} />
         </div>
         <div id="sidePanelTabsContainer" style={this.styles.bodyWrapper}>
-          <Tabs topBarHeightPx={topBarHeightPx} style={this.styles.tabsOuter} tabsRootStyle={this.styles.tabsRoot} type="big" id="contactTabs" onSelect={(tabIndex) => this.props.setSidePanelTabIndex(this.props.selectedInteractionId, tabIndex)} selectedIndex={this.props.selectedTabIndex}>
+          <Tabs
+            topBarHeightPx={topBarHeightPx}
+            style={this.styles.tabsOuter}
+            tabsRootStyle={this.styles.tabsRoot}
+            type="big"
+            id="contactTabs"
+            onSelect={(tabIndex) =>
+              this.props.setSidePanelTabIndex(
+                this.props.selectedInteractionId,
+                tabIndex
+              )}
+            selectedIndex={this.props.selectedTabIndex}
+          >
             <TabList>
               <Tab>
                 <FormattedMessage {...messages.infoTab} />
               </Tab>
-              {
-                this.props.hasAssignedContact
+              {this.props.hasAssignedContact
                 ? <Tab>
                   <FormattedMessage {...messages.historyTab} />
                 </Tab>
-                : undefined
-              }
-              {
-                !this.props.selectedInteractionIsVoice && this.props.selectedInteractionScript !== undefined
+                : undefined}
+              {!this.props.selectedInteractionIsVoice &&
+                this.props.selectedInteractionScript !== undefined
                 ? <Tab>
                   <FormattedMessage {...messages.scriptsTab} />
                 </Tab>
-                : undefined
-              }
+                : undefined}
             </TabList>
             <TabPanel>
               <InfoTab
@@ -159,22 +189,22 @@ export class SidePanel extends BaseComponent {
                 style={this.styles.rightMargin}
               />
             </TabPanel>
-            {
-              this.props.hasAssignedContact
+            {this.props.hasAssignedContact
               ? <TabPanel>
                 <ContactInteractionHistory />
               </TabPanel>
-              : undefined
-            }
-            {
-              !this.props.selectedInteractionIsVoice && this.props.selectedInteractionScript !== undefined
+              : undefined}
+            {!this.props.selectedInteractionIsVoice &&
+              this.props.selectedInteractionScript !== undefined
               ? <TabPanel>
                 <div style={this.styles.agentScriptPanel}>
-                  <AgentScript interactionId={this.props.selectedInteractionId} script={this.props.selectedInteractionScript} />
+                  <AgentScript
+                    interactionId={this.props.selectedInteractionId}
+                    script={this.props.selectedInteractionScript}
+                  />
                 </div>
               </TabPanel>
-              : undefined
-            }
+              : undefined}
           </Tabs>
         </div>
       </div>
@@ -195,7 +225,8 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    setSidePanelTabIndex: (interactionId, tabIndex) => dispatch(setSidePanelTabIndex(interactionId, tabIndex)),
+    setSidePanelTabIndex: (interactionId, tabIndex) =>
+      dispatch(setSidePanelTabIndex(interactionId, tabIndex)),
     showContactsPanel: () => dispatch(showContactsPanel()),
     hideContactsPanel: () => dispatch(hideContactsPanel()),
     dispatch,

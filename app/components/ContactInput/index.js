@@ -88,7 +88,9 @@ function ContactInput(props) {
   };
 
   let value = props.formInput;
-  const inputError = props.showErrors[props.attribute.objectName] ? props.errors[props.attribute.objectName] : false;
+  const inputError = props.showErrors[props.attribute.objectName]
+    ? props.errors[props.attribute.objectName]
+    : false;
   switch (props.attribute.type) {
     case 'boolean':
       if (value === undefined) {
@@ -115,22 +117,32 @@ function ContactInput(props) {
           <div style={[styles.attributeName, props.inputLabelStyle]}>
             {props.attributeLabel}
           </div>
-          <div key={props.attribute.objectName} style={[styles.inputBox, styles.inputBorder, inputError && styles.inputErrorBorder, { marginLeft: props.hasRadio ? '-17px' : '' }, props.notSelected && styles.notSelected]}>
-            {
-              (value !== undefined)
-              && <TextInput
+          <div
+            key={props.attribute.objectName}
+            style={[
+              styles.inputBox,
+              styles.inputBorder,
+              inputError && styles.inputErrorBorder,
+              { marginLeft: props.hasRadio ? '-17px' : '' },
+              props.notSelected && styles.notSelected,
+            ]}
+          >
+            {value !== undefined &&
+              <TextInput
                 noBorder
                 disabled={props.notSelected}
                 cb={props.handleInputChange}
-                style={[styles.textInput, props.notSelected && styles.notSelected]}
+                style={[
+                  styles.textInput,
+                  props.notSelected && styles.notSelected,
+                ]}
                 id={`${props.attribute.objectName}Input`}
                 name={props.attribute.objectName}
                 value={value}
                 placeholder={props.attribute.label[props.intl.locale]}
                 autocomplete="off"
                 onBlur={props.handleOnBlur}
-              />
-            }
+              />}
             {value && value.length && !props.notSelected
               ? <Button
                 id={`${props.attribute.objectName}-clear-btn`}
@@ -142,8 +154,7 @@ function ContactInput(props) {
                 type="secondary"
                 onClick={props.handleInputClear}
               />
-              : undefined
-            }
+              : undefined}
           </div>
         </div>
       );

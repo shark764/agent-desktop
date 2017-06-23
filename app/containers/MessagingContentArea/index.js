@@ -31,7 +31,6 @@ import { initializeOutboundSms, sendOutboundSms } from './actions';
 import messages from './messages';
 
 export class MessagingContentArea extends BaseComponent {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -45,7 +44,10 @@ export class MessagingContentArea extends BaseComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.selectedInteraction.interactionId !== nextProps.selectedInteraction.interactionId) {
+    if (
+      this.props.selectedInteraction.interactionId !==
+      nextProps.selectedInteraction.interactionId
+    ) {
       this.setState({
         showMessageTemplateMenu: false,
         showMessageTemplateMenuByForwardSlash: false,
@@ -84,39 +86,72 @@ export class MessagingContentArea extends BaseComponent {
         messageTemplateFilter: undefined,
       });
     }
-  }
+  };
 
   handleKeyDown = (e) => {
     if (e.key === 'ArrowUp') {
-      let newSelectedMessageTemplateIndex = this.state.selectedMessageTemplateIndex;
+      let newSelectedMessageTemplateIndex = this.state
+        .selectedMessageTemplateIndex;
       if (!this.state.showMessageTemplateMenuByForwardSlash) {
-        newSelectedMessageTemplateIndex = this.state.selectedMessageTemplateIndex > 0 ? this.state.selectedMessageTemplateIndex - 1 : 0;
+        newSelectedMessageTemplateIndex = this.state
+          .selectedMessageTemplateIndex > 0
+          ? this.state.selectedMessageTemplateIndex - 1
+          : 0;
       } else {
         // If we're filtering based on "/" text, select the previous unfiltered one
-        for (let i = this.state.selectedMessageTemplateIndex - 1; i >= 0; i -= 1) {
-          if (this.props.messageTemplates[i].name.toUpperCase().includes(this.state.messageTemplateFilter.toUpperCase())) {
+        for (
+          let i = this.state.selectedMessageTemplateIndex - 1;
+          i >= 0;
+          i -= 1
+        ) {
+          if (
+            this.props.messageTemplates[i].name
+              .toUpperCase()
+              .includes(this.state.messageTemplateFilter.toUpperCase())
+          ) {
             newSelectedMessageTemplateIndex = i;
             break;
           }
         }
       }
-      this[`messageTemplate-${newSelectedMessageTemplateIndex}`].scrollIntoView();
-      this.setState({ selectedMessageTemplateIndex: newSelectedMessageTemplateIndex });
+      this[
+        `messageTemplate-${newSelectedMessageTemplateIndex}`
+      ].scrollIntoView();
+      this.setState({
+        selectedMessageTemplateIndex: newSelectedMessageTemplateIndex,
+      });
     } else if (e.key === 'ArrowDown') {
-      let newSelectedMessageTemplateIndex = this.state.selectedMessageTemplateIndex;
+      let newSelectedMessageTemplateIndex = this.state
+        .selectedMessageTemplateIndex;
       if (!this.state.showMessageTemplateMenuByForwardSlash) {
-        newSelectedMessageTemplateIndex = this.state.selectedMessageTemplateIndex < this.props.messageTemplates.length - 1 ? this.state.selectedMessageTemplateIndex + 1 : this.state.selectedMessageTemplateIndex;
+        newSelectedMessageTemplateIndex = this.state
+          .selectedMessageTemplateIndex <
+          this.props.messageTemplates.length - 1
+          ? this.state.selectedMessageTemplateIndex + 1
+          : this.state.selectedMessageTemplateIndex;
       } else {
         // If we're filtering based on "/" text, select the next unfiltered one
-        for (let i = this.state.selectedMessageTemplateIndex + 1; i < this.props.messageTemplates.length; i += 1) {
-          if (this.props.messageTemplates[i].name.toUpperCase().includes(this.state.messageTemplateFilter.toUpperCase())) {
+        for (
+          let i = this.state.selectedMessageTemplateIndex + 1;
+          i < this.props.messageTemplates.length;
+          i += 1
+        ) {
+          if (
+            this.props.messageTemplates[i].name
+              .toUpperCase()
+              .includes(this.state.messageTemplateFilter.toUpperCase())
+          ) {
             newSelectedMessageTemplateIndex = i;
             break;
           }
         }
       }
-      this[`messageTemplate-${newSelectedMessageTemplateIndex}`].scrollIntoView();
-      this.setState({ selectedMessageTemplateIndex: newSelectedMessageTemplateIndex });
+      this[
+        `messageTemplate-${newSelectedMessageTemplateIndex}`
+      ].scrollIntoView();
+      this.setState({
+        selectedMessageTemplateIndex: newSelectedMessageTemplateIndex,
+      });
     } else if (e.key === 'Enter') {
       this.addMessageTemplate();
     } else if (e.key === 'Escape') {
@@ -127,35 +162,46 @@ export class MessagingContentArea extends BaseComponent {
       });
       document.removeEventListener('keydown', this.handleKeyDown);
     }
-  }
+  };
 
   selectMessageTemplateIndex = (selectedMessageTemplateIndex) => {
     this.setState({ selectedMessageTemplateIndex });
-  }
+  };
 
   addMessageTemplate = () => {
     this.messageTextarea.focus();
     let newMessageText = this.state.messageText;
     if (this.state.showMessageTemplateMenuByForwardSlash) {
-      newMessageText = newMessageText.substring(0, newMessageText.lastIndexOf('/'));
+      newMessageText = newMessageText.substring(
+        0,
+        newMessageText.lastIndexOf('/')
+      );
     }
     this.setState({
-      messageText: `${newMessageText}${this.props.messageTemplates[this.state.selectedMessageTemplateIndex].template}`,
+      messageText: `${newMessageText}${this.props.messageTemplates[
+        this.state.selectedMessageTemplateIndex
+      ].template}`,
       showMessageTemplateMenu: false,
       showMessageTemplateMenuByForwardSlash: false,
       messageTemplateFilter: undefined,
     });
     document.removeEventListener('keydown', this.handleKeyDown);
-  }
+  };
 
   setMessageText = (messageText) => {
     // If we're filtering based on "/" text, reset the selected message template to the first unfiltered one
     let newSelectedMessageTemplateIndex;
     let newMessageTemplateFilter;
     if (this.state.showMessageTemplateMenuByForwardSlash) {
-      newMessageTemplateFilter = messageText.substring(messageText.lastIndexOf('/') + 1);
+      newMessageTemplateFilter = messageText.substring(
+        messageText.lastIndexOf('/') + 1
+      );
       for (let i = 0; i < this.props.messageTemplates.length; i += 1) {
-        if (this.props.messageTemplates[i].name.toUpperCase().includes(newMessageTemplateFilter.toUpperCase())) {
+        if (
+          this.props.messageTemplates[i].name
+            .toUpperCase()
+            .includes(newMessageTemplateFilter.toUpperCase())
+        ) {
           newSelectedMessageTemplateIndex = i;
           break;
         }
@@ -164,9 +210,12 @@ export class MessagingContentArea extends BaseComponent {
     this.setState({
       messageText,
       messageTemplateFilter: newMessageTemplateFilter,
-      selectedMessageTemplateIndex: newSelectedMessageTemplateIndex !== undefined ? newSelectedMessageTemplateIndex : this.state.selectedMessageTemplateIndex,
+      selectedMessageTemplateIndex: newSelectedMessageTemplateIndex !==
+        undefined
+        ? newSelectedMessageTemplateIndex
+        : this.state.selectedMessageTemplateIndex,
     });
-  }
+  };
 
   onMessageKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -175,10 +224,19 @@ export class MessagingContentArea extends BaseComponent {
         this.sendMessage();
       }
       return false;
-    } else if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && this.state.showMessageTemplateMenu) {
+    } else if (
+      (e.key === 'ArrowUp' || e.key === 'ArrowDown') &&
+      this.state.showMessageTemplateMenu
+    ) {
       e.preventDefault();
       return false;
-    } else if (e.key === '/' && this.props.messageTemplates && this.props.messageTemplates.length > 0 && !this.state.showMessageTemplateMenu && !this.state.showMessageTemplateMenuByForwardSlash) {
+    } else if (
+      e.key === '/' &&
+      this.props.messageTemplates &&
+      this.props.messageTemplates.length > 0 &&
+      !this.state.showMessageTemplateMenu &&
+      !this.state.showMessageTemplateMenuByForwardSlash
+    ) {
       this.setState({
         showMessageTemplateMenuByForwardSlash: true,
       });
@@ -187,14 +245,23 @@ export class MessagingContentArea extends BaseComponent {
     } else {
       return true;
     }
-  }
+  };
 
   sendMessage = () => {
     if (this.state.messageText.trim() !== '') {
       if (this.props.selectedInteraction.status === 'connecting-to-outbound') {
-        this.props.initializeOutboundSms(this.props.selectedInteraction.interactionId, this.props.selectedInteraction.customer, this.state.messageText);
-      } else if (this.props.selectedInteraction.status === 'initialized-outbound') {
-        this.props.sendOutboundSms(this.props.selectedInteraction.interactionId, this.state.messageText);
+        this.props.initializeOutboundSms(
+          this.props.selectedInteraction.interactionId,
+          this.props.selectedInteraction.customer,
+          this.state.messageText
+        );
+      } else if (
+        this.props.selectedInteraction.status === 'initialized-outbound'
+      ) {
+        this.props.sendOutboundSms(
+          this.props.selectedInteraction.interactionId,
+          this.state.messageText
+        );
       } else {
         CxEngage.interactions.messaging.sendMessage({
           interactionId: this.props.selectedInteraction.interactionId,
@@ -203,7 +270,7 @@ export class MessagingContentArea extends BaseComponent {
       }
       this.setMessageText('');
     }
-  }
+  };
 
   styles = {
     customField: {
@@ -321,12 +388,21 @@ export class MessagingContentArea extends BaseComponent {
     messageTextarea: {
       padding: '4px',
       resize: 'none',
-      width: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? 'calc(100% - 90px)' : 'calc(100% - 50px)',
-      borderRadius: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '0' : '3px 0 0 3px',
+      width: this.props.messageTemplates &&
+        this.props.messageTemplates.length > 0
+        ? 'calc(100% - 90px)'
+        : 'calc(100% - 50px)',
+      borderRadius: this.props.messageTemplates &&
+        this.props.messageTemplates.length > 0
+        ? '0'
+        : '3px 0 0 3px',
       borderTop: '1px solid #979797',
       borderBottom: '1px solid #979797',
       borderRight: 'none',
-      borderLeft: this.props.messageTemplates && this.props.messageTemplates.length > 0 ? 'none' : '1px solid #979797',
+      borderLeft: this.props.messageTemplates &&
+        this.props.messageTemplates.length > 0
+        ? 'none'
+        : '1px solid #979797',
     },
     messageButton: {
       height: 'calc(100% - 5px)',
@@ -339,10 +415,15 @@ export class MessagingContentArea extends BaseComponent {
   };
 
   render() {
-    const isLoading = this.props.selectedInteraction.status === 'work-accepting' || this.props.selectedInteraction.status === 'initializing-outbound';
+    const isLoading =
+      this.props.selectedInteraction.status === 'work-accepting' ||
+      this.props.selectedInteraction.status === 'initializing-outbound';
 
     let from;
-    if (this.props.selectedInteraction.contact && this.props.selectedInteraction.contact.id !== undefined) {
+    if (
+      this.props.selectedInteraction.contact &&
+      this.props.selectedInteraction.contact.id !== undefined
+    ) {
       from = this.props.selectedInteraction.contact.attributes.name;
     } else if (this.props.selectedInteraction.channelType === 'sms') {
       from = this.props.selectedInteraction.customer;
@@ -353,7 +434,10 @@ export class MessagingContentArea extends BaseComponent {
     let details;
     if (this.props.selectedInteraction.customFields) {
       details = this.props.selectedInteraction.customFields.map((customField) =>
-        <div key={customField.label + customField.value} style={this.styles.customField}>
+        <div
+          key={customField.label + customField.value}
+          style={this.styles.customField}
+        >
           <div style={this.styles.customFieldLabel}>
             {customField.label}
           </div>
@@ -388,116 +472,176 @@ export class MessagingContentArea extends BaseComponent {
         </div>
       );
     } else {
-      const messageHistory = this.props.selectedInteraction.messageHistory.map((message) => {
-        let messageFrom;
-        if ((message.type === 'customer' || message.type === 'message') && (this.props.selectedInteraction.contact !== undefined && this.props.selectedInteraction.contact.id !== undefined)) {
-          messageFrom = this.props.selectedInteraction.contact.attributes.name;
-        } else {
-          messageFrom = message.from;
-        }
-        return (
-          <div key={message.from + message.timestamp} style={this.styles.messageHistoryItem}>
-            {
-              message.type === 'system'
-              ? <span style={this.styles.systemMessage}>
-                {message.text}
-              </span>
-              : <div>
-                <div style={this.styles.avatarContainer}>
-                  <Avatar customerAvatarIndex={message.type === 'agent' ? undefined : this.props.selectedInteraction.customerAvatarIndex} />
-                </div>
-                <div style={this.styles.messageContainer}>
-                  <span style={this.styles.messageFrom}>
-                    {messageFrom}
-                  </span>
-                  <span style={this.styles.messageTime}>
-                    <FormattedTime value={new Date(message.timestamp)} />
-                  </span>
-                  <div style={this.styles.messageText}>
-                    {message.text}
+      const messageHistory = this.props.selectedInteraction.messageHistory.map(
+        (message) => {
+          let messageFrom;
+          if (
+            (message.type === 'customer' || message.type === 'message') &&
+            (this.props.selectedInteraction.contact !== undefined &&
+              this.props.selectedInteraction.contact.id !== undefined)
+          ) {
+            messageFrom = this.props.selectedInteraction.contact.attributes
+              .name;
+          } else {
+            messageFrom = message.from;
+          }
+          return (
+            <div
+              key={message.from + message.timestamp}
+              style={this.styles.messageHistoryItem}
+            >
+              {message.type === 'system'
+                ? <span style={this.styles.systemMessage}>
+                  {message.text}
+                </span>
+                : <div>
+                  <div style={this.styles.avatarContainer}>
+                    <Avatar
+                      customerAvatarIndex={
+                          message.type === 'agent'
+                            ? undefined
+                            : this.props.selectedInteraction.customerAvatarIndex
+                        }
+                    />
                   </div>
-                </div>
-              </div>
-            }
-          </div>
-        );
-      });
+                  <div style={this.styles.messageContainer}>
+                    <span style={this.styles.messageFrom}>
+                      {messageFrom}
+                    </span>
+                    <span style={this.styles.messageTime}>
+                      <FormattedTime value={new Date(message.timestamp)} />
+                    </span>
+                    <div style={this.styles.messageText}>
+                      {message.text}
+                    </div>
+                  </div>
+                </div>}
+            </div>
+          );
+        }
+      );
 
       content = (
         <div style={this.styles.messagingContainer}>
           <div id="message-history" style={this.styles.messageHistory}>
             {messageHistory}
           </div>
-          {
-            this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
+          {this.props.selectedInteraction.status !==
+            'work-ended-pending-script' &&
             <div style={this.styles.messageTextareaContainer}>
-              {
-                this.state.showMessageTemplateMenu
-                ? <div id="messageTemplatesContainer" style={[this.styles.messageTemplatesContainer, { bottom: 17 + this.state.messageTextareaHeight }]}>
+              {this.state.showMessageTemplateMenu
+                ? <div
+                  id="messageTemplatesContainer"
+                  style={[
+                    this.styles.messageTemplatesContainer,
+                      { bottom: 17 + this.state.messageTextareaHeight },
+                  ]}
+                >
                   <div style={this.styles.messageTemplatesHeader}>
                     <span style={this.styles.bold}>
                       <FormattedMessage {...messages.messagingTemplates} />
                     </span>
                     <span style={this.styles.right}>
                       <Icon name="arrow_up_down" />
-                      &nbsp;
+                        &nbsp;
                       <FormattedMessage {...messages.toNavigate} />
-                      &nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;
                       <Icon name="arrow_return" />
-                      &nbsp;
+                        &nbsp;
                       <FormattedMessage {...messages.toSelect} />
-                      &nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;
                       <span>
                         <span style={this.styles.bold}>
                           <FormattedMessage {...messages.esc} />
                         </span>
-                        &nbsp;
+                          &nbsp;
                         <FormattedMessage {...messages.toDismiss} />
                       </span>
                     </span>
                   </div>
                   <div style={this.styles.messageTemplates}>
-                    {
-                      this.props.messageTemplates.map((messageTemplate, messageTemplateIndex) => {
-                        if (!this.state.showMessageTemplateMenuByForwardSlash || !this.state.messageTemplateFilter || messageTemplate.name.toUpperCase().includes(this.state.messageTemplateFilter.toUpperCase())) {
-                          return (
-                            <div
-                              className="messageTemplate" key={messageTemplate.id} ref={(c) => { this[`messageTemplate-${messageTemplateIndex}`] = c; }}
-                              onClick={() => this.addMessageTemplate()}
-                              onFocus={() => this.selectMessageTemplateIndex(messageTemplateIndex)}
-                              onMouseOver={() => this.selectMessageTemplateIndex(messageTemplateIndex)}
-                              style={[this.styles.messageTemplate, this.state.selectedMessageTemplateIndex === messageTemplateIndex ? this.styles.selectedMessageTemplate : {}]}
-                            >
-                              <span style={this.styles.bold}>/{ messageTemplate.name }</span>&nbsp;&nbsp;&nbsp;
-                              <span>{ messageTemplate.template }</span>
-                            </div>
-                          );
-                        } else {
-                          return undefined;
+                    {this.props.messageTemplates.map(
+                        (messageTemplate, messageTemplateIndex) => {
+                          if (
+                            !this.state.showMessageTemplateMenuByForwardSlash ||
+                            !this.state.messageTemplateFilter ||
+                            messageTemplate.name
+                              .toUpperCase()
+                              .includes(
+                                this.state.messageTemplateFilter.toUpperCase()
+                              )
+                          ) {
+                            return (
+                              <div
+                                className="messageTemplate"
+                                key={messageTemplate.id}
+                                ref={(c) => {
+                                  this[
+                                    `messageTemplate-${messageTemplateIndex}`
+                                  ] = c;
+                                }}
+                                onClick={() => this.addMessageTemplate()}
+                                onFocus={() =>
+                                  this.selectMessageTemplateIndex(
+                                    messageTemplateIndex
+                                  )}
+                                onMouseOver={() =>
+                                  this.selectMessageTemplateIndex(
+                                    messageTemplateIndex
+                                  )}
+                                style={[
+                                  this.styles.messageTemplate,
+                                  this.state.selectedMessageTemplateIndex ===
+                                    messageTemplateIndex
+                                    ? this.styles.selectedMessageTemplate
+                                    : {},
+                                ]}
+                              >
+                                <span style={this.styles.bold}>
+                                  /{messageTemplate.name}
+                                </span>&nbsp;&nbsp;&nbsp;
+                                <span>{messageTemplate.template}</span>
+                              </div>
+                            );
+                          } else {
+                            return undefined;
+                          }
                         }
-                      })
-                    }
+                      )}
                   </div>
                 </div>
-                : undefined
-              }
-              {
-                this.props.messageTemplates && this.props.messageTemplates.length > 0
-                ? <Button id="templateMenuButton" disabled={this.props.selectedInteraction.status === 'wrapup'} onClick={this.toggleMessageTemplateMenu} type="secondary" style={this.styles.templateMenuButton}>
+                : undefined}
+              {this.props.messageTemplates &&
+                this.props.messageTemplates.length > 0
+                ? <Button
+                  id="templateMenuButton"
+                  disabled={
+                      this.props.selectedInteraction.status === 'wrapup'
+                    }
+                  onClick={this.toggleMessageTemplateMenu}
+                  type="secondary"
+                  style={this.styles.templateMenuButton}
+                >
                   <span>+</span>
                 </Button>
-                : undefined
-              }
+                : undefined}
               <style>
-                { /* This style is here because the Textarea library doesn't render the ':focus' Radium attribute */ }
-                {`#messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: ${this.props.messageTemplates && this.props.messageTemplates.length > 0 ? '0;' : '1px solid #23CEF5 !important;'}}`}
+                {/* This style is here because the Textarea library doesn't render the ':focus' Radium attribute */}
+                {`#messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: ${this
+                  .props.messageTemplates &&
+                  this.props.messageTemplates.length > 0
+                  ? '0;'
+                  : '1px solid #23CEF5 !important;'}}`}
               </style>
               <Textarea
                 minRows={2}
                 maxRows={4}
-                onHeightChange={(messageTextareaHeight) => this.setState({ messageTextareaHeight })}
+                onHeightChange={(messageTextareaHeight) =>
+                  this.setState({ messageTextareaHeight })}
                 id="messageTextarea"
-                ref={(textarea) => { this.messageTextarea = textarea; }}
+                ref={(textarea) => {
+                  this.messageTextarea = textarea;
+                }}
                 disabled={this.props.selectedInteraction.status === 'wrapup'}
                 style={this.styles.messageTextarea}
                 value={this.state.messageText}
@@ -513,13 +657,20 @@ export class MessagingContentArea extends BaseComponent {
                 style={this.styles.messageButton}
                 text={messages.send}
               />
-            </div>
-          }
+            </div>}
         </div>
       );
     }
 
-    return <ContentArea interaction={this.props.selectedInteraction} from={from} buttons={buttons} details={details} content={content} />;
+    return (
+      <ContentArea
+        interaction={this.props.selectedInteraction}
+        from={from}
+        buttons={buttons}
+        details={details}
+        content={content}
+      />
+    );
   }
 }
 
@@ -539,10 +690,14 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    initializeOutboundSms: (interactionId, phoneNumber, message) => dispatch(initializeOutboundSms(interactionId, phoneNumber, message)),
-    sendOutboundSms: (interactionId, message) => dispatch(sendOutboundSms(interactionId, message)),
+    initializeOutboundSms: (interactionId, phoneNumber, message) =>
+      dispatch(initializeOutboundSms(interactionId, phoneNumber, message)),
+    sendOutboundSms: (interactionId, message) =>
+      dispatch(sendOutboundSms(interactionId, message)),
     dispatch,
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(MessagingContentArea));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  Radium(MessagingContentArea)
+);

@@ -9,12 +9,7 @@ import Image from '../index';
 
 describe('<Image />', () => {
   it('should render correctly', () => {
-    const rendered = shallow(
-      <Image
-        id="mockId"
-        src="mockSource"
-      />
-    );
+    const rendered = shallow(<Image id="mockId" src="mockSource" />);
     expect(rendered).toMatchSnapshot();
   });
 });

@@ -53,21 +53,24 @@ const styles = {
 
 function PopupDialog(props) {
   styles.base.width = `${props.widthPx}px`;
-  styles.triangle.left = `${(typeof props.arrowLeftOffsetPx !== 'undefined') ? props.arrowLeftOffsetPx : Math.round(props.widthPx / 4)}px`;
+  styles.triangle.left = `${typeof props.arrowLeftOffsetPx !== 'undefined'
+    ? props.arrowLeftOffsetPx
+    : Math.round(props.widthPx / 4)}px`;
 
   return (
     <div>
-      {
-        // Transparent mask to catch click outside of dialog
-        props.isVisible && <div style={styles.mask} id="screen-mask" onClick={props.hide} />
-      }
-      <VelocityTransitionGroup enter={{ animation: 'transition.slideUpIn', duration: '100' }} leave={{ animation: 'transition.slideUpOut', duration: '100' }}>
-        { props.isVisible &&
+      {// Transparent mask to catch click outside of dialog
+      props.isVisible &&
+        <div style={styles.mask} id="screen-mask" onClick={props.hide} />}
+      <VelocityTransitionGroup
+        enter={{ animation: 'transition.slideUpIn', duration: '100' }}
+        leave={{ animation: 'transition.slideUpOut', duration: '100' }}
+      >
+        {props.isVisible &&
           <div id={props.id} style={[styles.base, props.style]}>
             <span style={[styles.triangle]} />
             {props.children}
-          </div>
-        }
+          </div>}
       </VelocityTransitionGroup>
     </div>
   );
@@ -75,13 +78,11 @@ function PopupDialog(props) {
 
 PopupDialog.propTypes = {
   id: PropTypes.string,
-  style: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array,
-  ]),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   widthPx: PropTypes.number.isRequired,
   arrowLeftOffsetPx: PropTypes.number,
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array])
+    .isRequired,
   isVisible: PropTypes.bool.isRequired,
   hide: PropTypes.func.isRequired,
 };

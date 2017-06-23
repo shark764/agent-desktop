@@ -9,11 +9,7 @@ import Select from '../index';
 
 describe('<Select />', () => {
   it('should render correctly', () => {
-    const rendered = shallow(
-      <Select
-        id="mockId"
-      />
-    );
+    const rendered = shallow(<Select id="mockId" />);
     expect(rendered).toMatchSnapshot();
   });
 });

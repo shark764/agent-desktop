@@ -23,46 +23,73 @@ import Timer from 'components/Timer';
 import messages from './messages';
 
 export class TransferResource extends BaseComponent {
-
   resourceControlsMenuToggle = () => {
-    if (this.props.selectedTransferResourceMenu !== this.props.resource.targetResource) {
-      this.props.setSelectedTransferResourceMenu(this.props.resource.targetResource);
+    if (
+      this.props.selectedTransferResourceMenu !==
+      this.props.resource.targetResource
+    ) {
+      this.props.setSelectedTransferResourceMenu(
+        this.props.resource.targetResource
+      );
     } else {
       this.props.setSelectedTransferResourceMenu(undefined);
     }
-  }
+  };
 
   cancelTransfer = (warmTransfer) => {
     if (warmTransfer.type === 'agent') {
-      CxEngage.interactions.voice.cancelResourceTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferResourceId: warmTransfer.id });
+      CxEngage.interactions.voice.cancelResourceTransfer({
+        transferType: 'warm',
+        interactionId: this.props.activeVoiceInteraction.interactionId,
+        transferResourceId: warmTransfer.id,
+      });
     } else if (warmTransfer.type === 'queue') {
-      CxEngage.interactions.voice.cancelQueueTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferQueueId: warmTransfer.id });
+      CxEngage.interactions.voice.cancelQueueTransfer({
+        transferType: 'warm',
+        interactionId: this.props.activeVoiceInteraction.interactionId,
+        transferQueueId: warmTransfer.id,
+      });
     } else if (warmTransfer.type === 'transferExtension') {
-      CxEngage.interactions.voice.cancelExtensionTransfer({ transferType: 'warm', interactionId: this.props.activeVoiceInteraction.interactionId, transferExtension: warmTransfer.id });
+      CxEngage.interactions.voice.cancelExtensionTransfer({
+        transferType: 'warm',
+        interactionId: this.props.activeVoiceInteraction.interactionId,
+        transferExtension: warmTransfer.id,
+      });
     } else {
       throw new Error(`Unhandled transfer type: ${warmTransfer.type}`);
     }
-  }
+  };
 
   hangUpResource = () => {
-    CxEngage.interactions.voice.resourceRemove({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
+    CxEngage.interactions.voice.resourceRemove({
+      interactionId: this.props.activeVoiceInteraction.interactionId,
+      targetResourceId: this.props.resource.targetResource,
+    });
     this.props.setSelectedTransferResourceMenu(undefined);
-  }
+  };
 
   holdResource = () => {
-    CxEngage.interactions.voice.resourceHold({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
+    CxEngage.interactions.voice.resourceHold({
+      interactionId: this.props.activeVoiceInteraction.interactionId,
+      targetResourceId: this.props.resource.targetResource,
+    });
     this.props.setSelectedTransferResourceMenu(undefined);
-  }
+  };
 
   resumeResource = () => {
-    CxEngage.interactions.voice.resourceResume({ interactionId: this.props.activeVoiceInteraction.interactionId, targetResourceId: this.props.resource.targetResource });
+    CxEngage.interactions.voice.resourceResume({
+      interactionId: this.props.activeVoiceInteraction.interactionId,
+      targetResourceId: this.props.resource.targetResource,
+    });
     this.props.setSelectedTransferResourceMenu(undefined);
-  }
+  };
 
   resumeAll = () => {
-    CxEngage.interactions.voice.resumeAll({ interactionId: this.props.activeVoiceInteraction.interactionId });
+    CxEngage.interactions.voice.resumeAll({
+      interactionId: this.props.activeVoiceInteraction.interactionId,
+    });
     this.props.setSelectedTransferResourceMenu(undefined);
-  }
+  };
 
   transfer = () => {
     CxEngage.interactions.voice.transferToResource({
@@ -71,7 +98,7 @@ export class TransferResource extends BaseComponent {
       resourceId: this.props.resource.targetResource,
     });
     this.props.setSelectedTransferResourceMenu(undefined);
-  }
+  };
 
   styles = {
     warmTransfer: {
@@ -146,7 +173,7 @@ export class TransferResource extends BaseComponent {
         backgroundColor: '#DEF8FE',
       },
     },
-  }
+  };
 
   render() {
     let status;
@@ -154,11 +181,26 @@ export class TransferResource extends BaseComponent {
     let transferStatusStyle;
     let icon;
     if (this.props.resource.status === 'transferring') {
-      icon = <span title={this.props.intl.formatMessage(messages.cancelTransfer)} onClick={() => this.cancelTransfer(this.props.resource)} style={this.styles.cancelTransfer}><Icon name="close" /></span>;
+      icon = (
+        <span
+          title={this.props.intl.formatMessage(messages.cancelTransfer)}
+          onClick={() => this.cancelTransfer(this.props.resource)}
+          style={this.styles.cancelTransfer}
+        >
+          <Icon name="close" />
+        </span>
+      );
       status = <FormattedMessage {...messages.connecting} />;
       transferStyle = this.styles.transferInProgress;
     } else if (this.props.resource.status === 'connected') {
-      icon = <div style={[this.styles.transferStatusIcon, this.styles.transferConnectedIcon]}></div>;
+      icon = (
+        <div
+          style={[
+            this.styles.transferStatusIcon,
+            this.styles.transferConnectedIcon,
+          ]}
+        />
+      );
       if (this.props.resource.onHold === true) {
         status = <FormattedMessage {...messages.onHold} />;
         transferStatusStyle = this.styles.transferConnectedWithStatus;
@@ -169,60 +211,113 @@ export class TransferResource extends BaseComponent {
         transferStatusStyle = this.styles.transferConnected;
       }
     } else {
-      throw new Error(`transfer status not valid: ${this.props.resource.status}`);
+      throw new Error(
+        `transfer status not valid: ${this.props.resource.status}`
+      );
     }
     return (
       <div>
-        <div id={`transfer-${this.props.resource.type}-${this.props.resource.id}`} style={[this.styles.warmTransfer, transferStyle]}>
-          { icon }
-          <span title={this.props.resource.name} style={[this.styles.transferName, transferStatusStyle]}>
-            { this.props.resource.name }
+        <div
+          id={`transfer-${this.props.resource.type}-${this.props.resource.id}`}
+          style={[this.styles.warmTransfer, transferStyle]}
+        >
+          {icon}
+          <span
+            title={this.props.resource.name}
+            style={[this.styles.transferName, transferStatusStyle]}
+          >
+            {this.props.resource.name}
           </span>
-          {
-            status
+          {status
             ? <span style={this.styles.transferStatus}>({status})</span>
-            : undefined
-          }
-          {
-            this.props.resource.status === 'connected'
-            ? <div className="resourceControlsMenuToggle" onClick={this.resourceControlsMenuToggle} style={this.styles.resourceControlsMenuToggle}>&#9660;</div>
-            : undefined
-          }
+            : undefined}
+          {this.props.resource.status === 'connected'
+            ? <div
+              className="resourceControlsMenuToggle"
+              onClick={this.resourceControlsMenuToggle}
+              style={this.styles.resourceControlsMenuToggle}
+            >
+                &#9660;
+              </div>
+            : undefined}
           <Timer format="mm:ss" style={this.styles.transferTimer} />
         </div>
-        {
-          this.props.resource.targetResource !== undefined && this.props.selectedTransferResourceMenu === this.props.resource.targetResource
-          ? <div id="resourceControlsMenu" >
-            <div style={[this.props.style.topTriangle, this.styles.topTriangle]}></div>
-            <div style={[this.props.style.phoneControlsPopupMenu, this.styles.phoneControlsPopupMenu]}>
-              {
-                this.props.resource.onHold !== true
-                ? <div id="holdResource" key="holdResource" title={this.props.intl.formatMessage(messages.holdDescription)} onClick={this.holdResource} style={this.styles.phoneControlsPopupMenuOption}>
-                  <FormattedMessage {...messages.hold} />
-                </div>
-                : <div>
-                  <div id="resumeResource" key="resumeResource" title={this.props.intl.formatMessage(messages.resumeDescription)} onClick={this.resumeResource} style={this.styles.phoneControlsPopupMenuOption}>
-                    <FormattedMessage {...messages.resume} />
+        {this.props.resource.targetResource !== undefined &&
+          this.props.selectedTransferResourceMenu ===
+            this.props.resource.targetResource
+          ? <div id="resourceControlsMenu">
+            <div
+              style={[this.props.style.topTriangle, this.styles.topTriangle]}
+            />
+            <div
+              style={[
+                this.props.style.phoneControlsPopupMenu,
+                this.styles.phoneControlsPopupMenu,
+              ]}
+            >
+              {this.props.resource.onHold !== true
+                  ? <div
+                    id="holdResource"
+                    key="holdResource"
+                    title={this.props.intl.formatMessage(
+                        messages.holdDescription
+                      )}
+                    onClick={this.holdResource}
+                    style={this.styles.phoneControlsPopupMenuOption}
+                  >
+                    <FormattedMessage {...messages.hold} />
                   </div>
-                  {
-                    this.props.resumeAllAvailable
-                    ? <div id="resumeAll" key="resumeAll" title={this.props.intl.formatMessage(messages.resumeAllDescription)} onClick={this.resumeAll} style={this.styles.phoneControlsPopupMenuOption}>
-                      <FormattedMessage {...messages.resumeAll} />
+                  : <div>
+                    <div
+                      id="resumeResource"
+                      key="resumeResource"
+                      title={this.props.intl.formatMessage(
+                          messages.resumeDescription
+                        )}
+                      onClick={this.resumeResource}
+                      style={this.styles.phoneControlsPopupMenuOption}
+                    >
+                      <FormattedMessage {...messages.resume} />
                     </div>
-                    : undefined
-                  }
-                </div>
-              }
-              <div id="transferResource" key="transferResource" title={this.props.intl.formatMessage(messages.transferDescription)} onClick={this.transfer} style={this.styles.phoneControlsPopupMenuOption}>
+                    {this.props.resumeAllAvailable
+                        ? <div
+                          id="resumeAll"
+                          key="resumeAll"
+                          title={this.props.intl.formatMessage(
+                              messages.resumeAllDescription
+                            )}
+                          onClick={this.resumeAll}
+                          style={this.styles.phoneControlsPopupMenuOption}
+                        >
+                          <FormattedMessage {...messages.resumeAll} />
+                        </div>
+                        : undefined}
+                  </div>}
+              <div
+                id="transferResource"
+                key="transferResource"
+                title={this.props.intl.formatMessage(
+                    messages.transferDescription
+                  )}
+                onClick={this.transfer}
+                style={this.styles.phoneControlsPopupMenuOption}
+              >
                 <FormattedMessage {...messages.transfer} />
               </div>
-              <div id="hangUpResource" key="hangUpResource" title={this.props.intl.formatMessage(messages.hangUpDescription)} onClick={this.hangUpResource} style={this.styles.phoneControlsPopupMenuOption}>
+              <div
+                id="hangUpResource"
+                key="hangUpResource"
+                title={this.props.intl.formatMessage(
+                    messages.hangUpDescription
+                  )}
+                onClick={this.hangUpResource}
+                style={this.styles.phoneControlsPopupMenuOption}
+              >
                 <FormattedMessage {...messages.hangUp} />
               </div>
             </div>
           </div>
-          : undefined
-        }
+          : undefined}
       </div>
     );
   }
@@ -248,4 +343,6 @@ TransferResource.propTypes = {
   }).isRequired,
 };
 
-export default injectIntl(connect(null, mapDispatchToProps)(Radium(TransferResource)));
+export default injectIntl(
+  connect(null, mapDispatchToProps)(Radium(TransferResource))
+);

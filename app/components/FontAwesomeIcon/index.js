@@ -22,7 +22,7 @@ function FontAwesomeIcon(props) {
       style={props.style}
       onClick={props.onclick}
       alt={props.alt || props.name}
-    ></i>
+    />
   );
 }
 

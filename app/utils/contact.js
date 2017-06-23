@@ -27,7 +27,7 @@ export const formatValue = (attributeToValidate, value) => {
 export const getError = (attributeToValidate, value) => {
   if (!value) return false;
   let error = false;
-  if (attributeToValidate.mandatory && (value.length < 1)) {
+  if (attributeToValidate.mandatory && value.length < 1) {
     error = 'errorRequired';
   } else if (value.length) {
     switch (attributeToValidate.type) {
@@ -46,7 +46,12 @@ export const getError = (attributeToValidate, value) => {
         }
         break;
       case 'link':
-        if (!isURL(value, { protocols: ['http', 'https'], require_protocol: true })) {
+        if (
+          !isURL(value, {
+            protocols: ['http', 'https'],
+            require_protocol: true,
+          })
+        ) {
           error = 'errorLink';
         }
         break;

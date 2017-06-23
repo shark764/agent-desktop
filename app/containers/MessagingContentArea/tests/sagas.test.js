@@ -11,7 +11,8 @@ describe('initializeOutboundSmsSaga', () => {
   global.CxEngage = {
     interactions: {
       messaging: {
-        initializeOutboundSms: 'CxEngage.interactions.messaging.initializeOutboundSms',
+        initializeOutboundSms:
+          'CxEngage.interactions.messaging.initializeOutboundSms',
       },
     },
   };
@@ -28,7 +29,9 @@ describe('initializeOutboundSmsSaga', () => {
     expect(generator.next()).toMatchSnapshot();
   });
   it('should use the yielded SDK results to dispatch an initializeOutboundSms action with the correct args', () => {
-    expect(generator.next({ interactionId: 'newInteractionId' })).toMatchSnapshot();
+    expect(
+      generator.next({ interactionId: 'newInteractionId' })
+    ).toMatchSnapshot();
   });
 });
 

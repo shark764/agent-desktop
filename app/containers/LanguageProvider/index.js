@@ -29,7 +29,11 @@ export class LanguageProvider extends React.PureComponent {
 
   render() {
     return (
-      <IntlProvider locale={this.props.locale} key={this.props.locale} messages={this.props.messages[this.props.locale]}>
+      <IntlProvider
+        locale={this.props.locale}
+        key={this.props.locale}
+        messages={this.props.messages[this.props.locale]}
+      >
         {React.Children.only(this.props.children)}
       </IntlProvider>
     );
@@ -42,11 +46,7 @@ LanguageProvider.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-
-const mapStateToProps = createSelector(
-  selectLocale(),
-  (locale) => ({ locale })
-);
+const mapStateToProps = createSelector(selectLocale(), (locale) => ({ locale }));
 
 function mapDispatchToProps(dispatch) {
   return {

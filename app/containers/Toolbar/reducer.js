@@ -33,32 +33,53 @@ function toolbarReducer(state = initialState, action) {
 
   switch (action.type) {
     case SHOW_AGENT_MENU:
-      return state
-        .set('showAgentStatusMenu', action.show);
+      return state.set('showAgentStatusMenu', action.show);
     case SET_AVAILABLE_STATS:
-      return state
-        .set('availableStats', fromJS(action.stats));
+      return state.set('availableStats', fromJS(action.stats));
     case REMOVE_STAT:
-      return state
-        .update('enabledStats', (enabledStats) => fromJS(enabledStats.filter((currentStat) => currentStat.get('statId') !== action.stat.statId)));
+      return state.update('enabledStats', (enabledStats) =>
+        fromJS(
+          enabledStats.filter(
+            (currentStat) => currentStat.get('statId') !== action.stat.statId
+          )
+        )
+      );
     case ADD_STAT:
-      return state
-        .update('enabledStats', (enabledStats) => fromJS([action.stat, ...enabledStats.filter((currentStat) => currentStat.get('statId') !== action.stat.statId)]));
+      return state.update('enabledStats', (enabledStats) =>
+        fromJS([
+          action.stat,
+          ...enabledStats.filter(
+            (currentStat) => currentStat.get('statId') !== action.stat.statId
+          ),
+        ])
+      );
     case REMOVE_TOOLBAR_STAT_ID:
-      return state
-        .update('toolbarStatIds', (toolbarStatIds) => fromJS(toolbarStatIds.filter((statId) => statId !== action.statId)));
+      return state.update('toolbarStatIds', (toolbarStatIds) =>
+        fromJS(toolbarStatIds.filter((statId) => statId !== action.statId))
+      );
     case ADD_TOOLBAR_STAT_ID:
-      return state
-        .update('toolbarStatIds', (toolbarStatIds) => fromJS([...toolbarStatIds.filter((statId) => statId !== action.statId), action.statId]));
+      return state.update('toolbarStatIds', (toolbarStatIds) =>
+        fromJS([
+          ...toolbarStatIds.filter((statId) => statId !== action.statId),
+          action.statId,
+        ])
+      );
     case ADD_WELCOME_STAT_ID:
-      return state
-        .update('welcomeStatIds', (welcomeStatIds) => fromJS([...welcomeStatIds.filter((statId) => statId !== action.statId), action.statId]));
+      return state.update('welcomeStatIds', (welcomeStatIds) =>
+        fromJS([
+          ...welcomeStatIds.filter((statId) => statId !== action.statId),
+          action.statId,
+        ])
+      );
     case STATS_RECEIVED:
       return state.update('enabledStats', (enabledStats) =>
         enabledStats.map((enabledStat) => {
           enabledStatId = enabledStat.get('statId');
           if (action.stats[enabledStatId]) {
-            return enabledStat.set('results', fromJS(action.stats[enabledStatId].body.results));
+            return enabledStat.set(
+              'results',
+              fromJS(action.stats[enabledStatId].body.results)
+            );
           }
           return enabledStat;
         })

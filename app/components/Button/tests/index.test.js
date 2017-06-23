@@ -28,21 +28,31 @@ describe('<Button />', () => {
 
   describe('when passed a border style', () => {
     it('should render correctly', () => {
-      const rendered = shallow(<Button type={'primaryBlue'} id="mockId" style={{ borderTop: 'thick double #ff0000' }} />);
+      const rendered = shallow(
+        <Button
+          type={'primaryBlue'}
+          id="mockId"
+          style={{ borderTop: 'thick double #ff0000' }}
+        />
+      );
       expect(rendered).toMatchSnapshot();
     });
   });
 
   describe('when button is icon', () => {
     it('should render correctly', () => {
-      const rendered = shallow(<Button type={'primaryBlue'} id="mockId" iconName={'close'} />);
+      const rendered = shallow(
+        <Button type={'primaryBlue'} id="mockId" iconName={'close'} />
+      );
       expect(rendered).toMatchSnapshot();
     });
   });
 
   describe('when passed text as a string', () => {
     it('should render correctly', () => {
-      const rendered = shallow(<Button type={'primaryBlue'} id="mockId" text={'testing!'} />);
+      const rendered = shallow(
+        <Button type={'primaryBlue'} id="mockId" text={'testing!'} />
+      );
       expect(rendered).toMatchSnapshot();
     });
   });
@@ -83,19 +93,16 @@ describe('<Button />', () => {
 
   describe('when it has children', () => {
     it('should render correctly', () => {
-      const rendered = shallow(<Button type={'primaryBlue'} id="mockId"><div>Test!</div></Button>);
+      const rendered = shallow(
+        <Button type={'primaryBlue'} id="mockId"><div>Test!</div></Button>
+      );
       expect(rendered).toMatchSnapshot();
     });
   });
 
   describe('on MouseLeave and MouseEnter events', () => {
     it('state.mouseOver should update correctly', () => {
-      const rendered = shallow(
-        <Button
-          type={'primaryBlue'}
-          id="mockId"
-        />
-      );
+      const rendered = shallow(<Button type={'primaryBlue'} id="mockId" />);
 
       rendered.find('#mockId').simulate('MouseEnter');
       expect(rendered.state('mouseOver')).toBe(true);

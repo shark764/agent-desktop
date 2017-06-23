@@ -229,7 +229,7 @@ function Icon(props) {
           props.active && styles[props.name].active,
           props.style,
         ]}
-      ></span>
+      />
     );
   } else {
     return (
@@ -237,11 +237,7 @@ function Icon(props) {
         id={props.id ? props.id : `${props.name}-icon`}
         onClick={props.onclick}
         src={styles[props.name].data.src}
-        style={[
-          styles.base,
-          styles[props.name],
-          props.style,
-        ]}
+        style={[styles.base, styles[props.name], props.style]}
         alt={props.alt || props.name}
         title={props.alt}
       />

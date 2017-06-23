@@ -26,9 +26,15 @@ const initialState = fromJS({
 function errorsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CRITICAL_ERROR:
-      return state.set('criticalError', fromJS({ ...action.error, topic: action.topic }));
+      return state.set(
+        'criticalError',
+        fromJS({ ...action.error, topic: action.topic })
+      );
     case SET_NON_CRITICAL_ERROR:
-      return state.set('nonCriticalError', fromJS({ ...action.error, topic: action.topic }));
+      return state.set(
+        'nonCriticalError',
+        fromJS({ ...action.error, topic: action.topic })
+      );
     case DISMISS_ERROR:
       return state.set('nonCriticalError', undefined);
     case ADD_STAT_ERROR_ID:

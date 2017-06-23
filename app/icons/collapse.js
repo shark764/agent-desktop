@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 
 import Radium from 'radium';
 
-class IconCollapse extends React.Component { // eslint-disable-line react/prefer-stateless-function
-
+// eslint-disable-next-line react/prefer-stateless-function
+class IconCollapse extends React.Component {
   render() {
     const color = '#4B4B4B';
 

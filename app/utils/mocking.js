@@ -37,7 +37,10 @@ export default function mockContact(channelType, liveInput) {
       name: positionPairs[mockIndex].name,
       title: positionPairs[mockIndex].title,
       marketSegment: positionPairs[mockIndex].marketSegment,
-      customerNumber: Array(8).fill(null).map(() => String(Math.random() * 10)[0]).join(''),
+      customerNumber: Array(8)
+        .fill(null)
+        .map(() => String(Math.random() * 10)[0])
+        .join(''),
       accountName: 'Mocks Incorporated',
       email: 'mock@mockinc.biz',
       age: 99,

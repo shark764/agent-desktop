@@ -15,7 +15,12 @@ import { FormattedMessage } from 'react-intl';
 
 import Icon from 'components/Icon';
 
-export const possibleTypes = ['primaryBlue', 'primaryBlueBig', 'primaryRed', 'secondary'];
+export const possibleTypes = [
+  'primaryBlue',
+  'primaryBlueBig',
+  'primaryRed',
+  'secondary',
+];
 
 const styles = {
   base: {
@@ -139,7 +144,6 @@ const styles = {
 };
 
 class Button extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -195,10 +199,7 @@ Button.propTypes = {
   children: PropTypes.element,
   tabIndex: PropTypes.number,
   type: PropTypes.oneOf(possibleTypes).isRequired,
-  style: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array,
-  ]),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   clear: PropTypes.bool,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,

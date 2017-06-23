@@ -22,10 +22,12 @@ class Resizable extends React.Component {
     };
 
     this.dividerPx = 11;
-    const dividerHandleOffsetPx = (this.dividerPx / 4) - 1;
+    const dividerHandleOffsetPx = this.dividerPx / 4 - 1;
     this.dividerPosition = 'absolute';
     this.dividerHandle1Offset = this.addPx(dividerHandleOffsetPx);
-    this.dividerHandle2Offset = this.addPx((this.dividerPx / 2) + dividerHandleOffsetPx);
+    this.dividerHandle2Offset = this.addPx(
+      this.dividerPx / 2 + dividerHandleOffsetPx
+    );
     this.dividerHandleStyle = {
       top: '50%',
       position: 'absolute',
@@ -39,7 +41,11 @@ class Resizable extends React.Component {
 
   componentDidMount() {
     this.addListeners();
-    this.wrapperElement.addEventListener('transitionend', this.handleTransitionEnd, true);
+    this.wrapperElement.addEventListener(
+      'transitionend',
+      this.handleTransitionEnd,
+      true
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -61,8 +67,10 @@ class Resizable extends React.Component {
   }
 
   getStyles = () => {
-    const elementSize = this.addPx(this.props.isDisabled ? this.props.disabledPx : this.props.px);
-    const dividerOffset = this.addPx(this.props.px - ((this.dividerPx / 2) + 1));
+    const elementSize = this.addPx(
+      this.props.isDisabled ? this.props.disabledPx : this.props.px
+    );
+    const dividerOffset = this.addPx(this.props.px - (this.dividerPx / 2 + 1));
     const userSelect = this.state.isResizing ? 'none' : 'auto';
     const styles = {
       left: {
@@ -114,7 +122,7 @@ class Resizable extends React.Component {
       },
     };
     return styles[this.props.direction];
-  }
+  };
 
   handleTransitionEnd = () => {
     if (!this.props.isDisabled && this.state.hideDivider) {
@@ -122,19 +130,19 @@ class Resizable extends React.Component {
         hideDivider: false,
       });
     }
-  }
+  };
 
   addListeners = () => {
     window.addEventListener('mouseup', this.handleMouseUp);
     window.addEventListener('mouseleave', this.stopResizing);
     window.addEventListener('mousemove', this.handleMouseMove);
-  }
+  };
 
   removeListeners = () => {
     window.removeEventListener('mouseup', this.handleMouseUp);
     window.removeEventListener('mouseleave', this.stopResizing);
     window.removeEventListener('mousemove', this.handleMouseMove);
-  }
+  };
 
   addPx = (numberOfPixels) => `${numberOfPixels}px`;
 
@@ -143,73 +151,89 @@ class Resizable extends React.Component {
       this.attemptResize(event);
       this.stopResizing();
     }
-  }
+  };
 
   handleMouseDown = (event) => {
-    if (!this.props.isDisabled && !this.state.isResizing && event.button !== 2) {
+    if (
+      !this.props.isDisabled &&
+      !this.state.isResizing &&
+      event.button !== 2
+    ) {
       this.startResizing(event);
     }
-  }
+  };
 
   handleMouseMove = (event) => {
     if (!this.props.isDisabled && this.state.isResizing) {
       this.attemptResize(event);
     }
-  }
+  };
 
   startResizing = (event) => {
     this.setState({
       isResizing: true,
-      initialMousePosition: this.props.direction === 'left' ? event.pageX : event.pageY,
+      initialMousePosition: this.props.direction === 'left'
+        ? event.pageX
+        : event.pageY,
     });
-  }
+  };
 
   stopResizing = () => {
     this.setState({
       isResizing: false,
     });
-  }
+  };
 
   resize = (newPx, newMousePosition) => {
     this.props.setPx(newPx);
     this.setState({
       initialMousePosition: newMousePosition,
     });
-  }
+  };
 
   attemptResize = (event) => {
-    const newMousePosition = this.props.direction === 'left' ? event.pageX : event.pageY;
-    const newPx = this.props.px + (this.state.initialMousePosition - newMousePosition);
+    const newMousePosition = this.props.direction === 'left'
+      ? event.pageX
+      : event.pageY;
+    const newPx =
+      this.props.px + (this.state.initialMousePosition - newMousePosition);
     let limitedNewPx = Math.min(this.props.maxPx, newPx);
     limitedNewPx = Math.max(this.props.minPx, limitedNewPx);
     if (limitedNewPx === newPx) {
       this.resize(newPx, newMousePosition);
     }
     return this.stopEvent(event);
-  }
+  };
 
   stopEvent = (event) => {
     if (event.stopPropagation) event.stopPropagation();
     if (event.preventDefault) event.preventDefault();
     return false;
-  }
+  };
 
   render() {
     const styles = this.getStyles();
     return (
-      <div style={[styles.wrapper, this.props.styles]} ref={(element) => { this.wrapperElement = element; }}>
+      <div
+        style={[styles.wrapper, this.props.styles]}
+        ref={(element) => {
+          this.wrapperElement = element;
+        }}
+      >
 
         {this.state.hideDivider
-          ?
-            ''
-          :
-            <div id={`${this.props.id}-handle`} style={styles.divider} onMouseDown={this.handleMouseDown} disabled={this.props.isDisabled}>
-              <span>
-                <div style={[this.dividerHandleStyle, styles.dividerHandle1]}></div>
-                <div style={[this.dividerHandleStyle, styles.dividerHandle2]}></div>
-              </span>
-            </div>
-        }
+          ? ''
+          : <div
+            id={`${this.props.id}-handle`}
+            style={styles.divider}
+            onMouseDown={this.handleMouseDown}
+            disabled={this.props.isDisabled}
+          >
+            <span>
+              <div style={[this.dividerHandleStyle, styles.dividerHandle1]} />
+              <div style={[this.dividerHandleStyle, styles.dividerHandle2]} />
+            </span>
+          </div>}
         {this.props.children}
       </div>
     );

@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 function TextBlob(props) {
   return (
     <div id={props.id} style={props.style}>
-      { props.text }
+      {props.text}
     </div>
   );
 }

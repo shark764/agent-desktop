@@ -10,9 +10,7 @@ import Dialog from '../index';
 describe('<Dialog />', () => {
   it('should render correctly', () => {
     const rendered = shallow(
-      <Dialog
-        id="mockId"
-      >
+      <Dialog id="mockId">
         <p>Mock Child</p>
       </Dialog>
     );

@@ -35,22 +35,27 @@ class ConfirmDialogLink extends React.Component {
 
   toggleShowConfirmDialog = () => {
     this.setState({ showConfirmDialog: !this.state.showConfirmDialog });
-  }
+  };
 
   leftAction = () => {
     this.props.leftAction();
     this.setState({ showConfirmDialog: false });
-  }
+  };
 
   rightAction = () => {
     this.props.rightAction();
     this.setState({ showConfirmDialog: false });
-  }
+  };
 
   render() {
     return (
       <div style={styles.base}>
-        <A id={this.props.id} disabled={this.props.disabled} onClick={this.toggleShowConfirmDialog} text={this.props.linkText} />
+        <A
+          id={this.props.id}
+          disabled={this.props.disabled}
+          onClick={this.toggleShowConfirmDialog}
+          text={this.props.linkText}
+        />
         <ConfirmDialog
           leftAction={this.leftAction}
           rightAction={this.rightAction}

@@ -6,12 +6,18 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 import Message from 'models/Message/Message';
-import { setInteractionStatus, initializeOutboundSms, addMessage } from 'containers/AgentDesktop/actions';
+import {
+  setInteractionStatus,
+  initializeOutboundSms,
+  addMessage,
+} from 'containers/AgentDesktop/actions';
 import { INITIALIZE_OUTBOUND_SMS, SEND_OUTBOUND_SMS } from './constants';
 
 export function* initializeOutboundSmsSaga(action) {
   try {
-    yield put(setInteractionStatus(action.interactionId, 'initializing-outbound'));
+    yield put(
+      setInteractionStatus(action.interactionId, 'initializing-outbound')
+    );
     const response = yield call(
       sdkCallToPromise,
       CxEngage.interactions.messaging.initializeOutboundSms,
@@ -21,7 +27,13 @@ export function* initializeOutboundSmsSaga(action) {
       },
       'MessagingContentArea'
     );
-    yield put(initializeOutboundSms(action.interactionId, response.interactionId, action.message));
+    yield put(
+      initializeOutboundSms(
+        action.interactionId,
+        response.interactionId,
+        action.message
+      )
+    );
   } catch (error) {
     console.error(error); // TODO
   }
@@ -42,7 +54,7 @@ export function* sendOutboundSms(action) {
       type: 'agent',
       from: 'Agent',
       text: action.message,
-      timestamp: (new Date(Date.now())).toISOString(),
+      timestamp: new Date(Date.now()).toISOString(),
       unread: false,
     });
     yield put(addMessage(action.interactionId, message));
@@ -61,7 +73,4 @@ export function* watchSendOutboundSms() {
 }
 
 // All sagas to be loaded
-export default [
-  watchInitializeOutboundSms,
-  watchSendOutboundSms,
-];
+export default [watchInitializeOutboundSms, watchSendOutboundSms];

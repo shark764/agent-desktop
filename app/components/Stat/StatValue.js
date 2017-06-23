@@ -12,7 +12,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TimeStat from 'components/TimeStat';
 
-
 function StatValue(props) {
   let value;
   if (props.stat.isErrored) {
@@ -31,10 +30,17 @@ function StatValue(props) {
       case 'max':
       case 'min':
       case 'total':
-        value = <TimeStat time={props.stat.results[props.stat.statAggregate]} unit="millis" />;
+        value = (
+          <TimeStat
+            time={props.stat.results[props.stat.statAggregate]}
+            unit="millis"
+          />
+        );
         break;
       default:
-        console.warn('[Agent Desktop] Agent statistic has unknown aggregate key.');
+        console.warn(
+          '[Agent Desktop] Agent statistic has unknown aggregate key.'
+        );
         value = '-';
     }
   }

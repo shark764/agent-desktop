@@ -26,13 +26,23 @@ import Toolbar from 'containers/Toolbar';
 
 import { showLogin, logout } from 'containers/Login/actions';
 
-import { selectCriticalError, selectNonCriticalError } from 'containers/Errors/selectors';
+import {
+  selectCriticalError,
+  selectNonCriticalError,
+} from 'containers/Errors/selectors';
 
-import { setInteractionStatus, selectInteraction, showContactsPanel } from './actions';
-import { selectAgentDesktopMap, selectLoginMap, selectIsContactsPanelCollapsed } from './selectors';
+import {
+  setInteractionStatus,
+  selectInteraction,
+  showContactsPanel,
+} from './actions';
+import {
+  selectAgentDesktopMap,
+  selectLoginMap,
+  selectIsContactsPanelCollapsed,
+} from './selectors';
 
 export class AgentDesktop extends BaseComponent {
-
   constructor(props) {
     super(props);
 
@@ -56,28 +66,31 @@ export class AgentDesktop extends BaseComponent {
   updateDimensions = () => {
     const documentElement = document.documentElement;
     const body = document.getElementsByTagName('body')[0];
-    const width = window.innerWidth || documentElement.clientWidth || body.clientWidth;
+    const width =
+      window.innerWidth || documentElement.clientWidth || body.clientWidth;
     this.setState({
       contactsPanelMaxPx: Math.max(width - 600, 600),
-      contactsPanelPx: this.state.contactsPanelPx > Math.max(width - 600, 600) ? Math.max(width - 600, 600) : this.state.contactsPanelPx,
+      contactsPanelPx: this.state.contactsPanelPx > Math.max(width - 600, 600)
+        ? Math.max(width - 600, 600)
+        : this.state.contactsPanelPx,
     });
-  }
+  };
 
   setContactsPanelWidth = (newWidth) => {
     this.setState({
       contactsPanelPx: newWidth,
     });
-  }
+  };
 
   selectInteraction = (interactionId) => {
     this.props.selectInteraction(interactionId);
     this.props.showContactsPanel();
-  }
+  };
 
   acceptInteraction = (interactionId) => {
     this.props.setInteractionStatus(interactionId, 'work-accepting');
     CxEngage.interactions.accept({ interactionId });
-  }
+  };
 
   styles = {
     base: {
@@ -148,20 +161,37 @@ export class AgentDesktop extends BaseComponent {
               this.styles.flexChildGrow,
               this.styles.parent,
               this.styles.topArea,
-              (this.props.criticalError || this.props.nonCriticalError) && this.styles.topAreaOneBanner,
-              (this.props.criticalError || this.props.nonCriticalError) && this.props.refreshBannerIsVisible && this.styles.topAreaTwoBanners,
+              (this.props.criticalError || this.props.nonCriticalError) &&
+                this.styles.topAreaOneBanner,
+              (this.props.criticalError || this.props.nonCriticalError) &&
+                this.props.refreshBannerIsVisible &&
+                this.styles.topAreaTwoBanners,
             ]}
           >
             <div style={[this.styles.leftArea]}>
               <PhoneControls style={[this.styles.phoneControls]} />
-              <InteractionsBar acceptInteraction={this.acceptInteraction} selectInteraction={this.selectInteraction} style={[this.styles.interactionsBar]} />
+              <InteractionsBar
+                acceptInteraction={this.acceptInteraction}
+                selectInteraction={this.selectInteraction}
+                style={[this.styles.interactionsBar]}
+              />
             </div>
             <MainContentArea
               agent={this.props.login.agent}
               tenant={this.props.login.tenant}
               style={{ flex: '1 1 auto' }}
             />
-            <Resizable id="crm-resizable" direction="left" setPx={this.setContactsPanelWidth} disabledPx={this.collapsedContactsPanelPx} px={this.state.contactsPanelPx} maxPx={this.state.contactsPanelMaxPx} minPx={500} isDisabled={this.props.isContactsPanelCollapsed} style={this.styles.topArea} />
+            <Resizable
+              id="crm-resizable"
+              direction="left"
+              setPx={this.setContactsPanelWidth}
+              disabledPx={this.collapsedContactsPanelPx}
+              px={this.state.contactsPanelPx}
+              maxPx={this.state.contactsPanelMaxPx}
+              minPx={500}
+              isDisabled={this.props.isContactsPanelCollapsed}
+              style={this.styles.topArea}
+            />
           </div>
           <Toolbar
             tenant={this.props.login.tenant}
@@ -173,8 +203,15 @@ export class AgentDesktop extends BaseComponent {
         <SidePanel
           style={[
             this.styles.topArea,
-            this.props.criticalError && { ...this.styles.topAreaOneBanner, ...this.styles.sidePanelOneBanner },
-            this.props.criticalError && this.props.refreshBannerIsVisible && { ...this.styles.topAreaTwoBanners, ...this.styles.sidePanelTwoBanners },
+            this.props.criticalError && {
+              ...this.styles.topAreaOneBanner,
+              ...this.styles.sidePanelOneBanner,
+            },
+            this.props.criticalError &&
+            this.props.refreshBannerIsVisible && {
+              ...this.styles.topAreaTwoBanners,
+              ...this.styles.sidePanelTwoBanners,
+            },
           ]}
           collapsedPx={this.collapsedContactsPanelPx}
           openPx={this.state.contactsPanelPx}
@@ -197,8 +234,10 @@ function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
     showLogin: (show) => dispatch(showLogin(show)),
-    setInteractionStatus: (interactionId, newStatus, response) => dispatch(setInteractionStatus(interactionId, newStatus, response)),
-    selectInteraction: (interactionId) => dispatch(selectInteraction(interactionId)),
+    setInteractionStatus: (interactionId, newStatus, response) =>
+      dispatch(setInteractionStatus(interactionId, newStatus, response)),
+    selectInteraction: (interactionId) =>
+      dispatch(selectInteraction(interactionId)),
     logout: () => dispatch(logout()),
     showContactsPanel: () => dispatch(showContactsPanel()),
     dispatch,
@@ -216,4 +255,6 @@ AgentDesktop.propTypes = {
   criticalError: PropTypes.any,
 };
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(AgentDesktop)));
+export default injectIntl(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(AgentDesktop))
+);

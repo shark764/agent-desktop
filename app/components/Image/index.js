@@ -23,7 +23,7 @@ function Image(props) {
   return (
     <div id={props.id} style={props.style}>
       <div>
-        { props.placeholder }
+        {props.placeholder}
       </div>
       <img src={props.src} alt="" style={styles.img} />
     </div>

@@ -37,7 +37,15 @@ import { changeLocale } from 'containers/LanguageProvider/actions';
 import { selectLocale } from 'containers/LanguageProvider/selectors';
 import selectLogin, { selectRefresh } from './selectors';
 import messages from './messages';
-import { loggingIn, loginError, loginSuccess, resetPassword, settingTenant, setTenant, tenantError } from './actions';
+import {
+  loggingIn,
+  loginError,
+  loginSuccess,
+  resetPassword,
+  settingTenant,
+  setTenant,
+  tenantError,
+} from './actions';
 const storage = window.localStorage;
 
 const styles = {
@@ -138,7 +146,6 @@ const styles = {
 };
 
 export class Login extends BaseComponent {
-
   constructor(props) {
     super(props);
     window.onbeforeunload = () => storage.removeItem('ADError'); // Prevent showing error on reload
@@ -166,14 +173,22 @@ export class Login extends BaseComponent {
 
   handleKeyPress = (e) => {
     // keyCode 13 === ENTER KEY
-    if (e.keyCode === 13 && !this.props.loading && !this.state.requestingPassword) {
-      if (this.props.logged_in && this.props.agent && this.props.agent.tenants.length > 1) {
+    if (
+      e.keyCode === 13 &&
+      !this.props.loading &&
+      !this.state.requestingPassword
+    ) {
+      if (
+        this.props.logged_in &&
+        this.props.agent &&
+        this.props.agent.tenants.length > 1
+      ) {
         this.onTenantSelect();
       } else {
         this.onLogin();
       }
     }
-  }
+  };
 
   getLoginTitle = () => {
     const parts = location.hostname.split('.');
@@ -181,103 +196,138 @@ export class Login extends BaseComponent {
       document.title = 'Mitel'; // Change title to match
 
       // Set favicon
-      const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+      const link =
+        document.querySelector("link[rel*='icon']") ||
+        document.createElement('link');
       link.type = 'image/x-icon';
       link.rel = 'shortcut icon';
       link.href = mitelFavicon;
       document.getElementsByTagName('head')[0].appendChild(link);
       // ------
 
-      return <Title id={messages.welcome.id} text={messages.welcomeNoProd} style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]} />;
+      return (
+        <Title
+          id={messages.welcome.id}
+          text={messages.welcomeNoProd}
+          style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]}
+        />
+      );
     } else {
-      return <Title id={messages.welcome.id} text={messages.welcome} style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]} />;
+      return (
+        <Title
+          id={messages.welcome.id}
+          text={messages.welcome}
+          style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]}
+        />
+      );
     }
-  }
+  };
 
   onLogin = () => {
     storage.removeItem('ADError');
     if (this.state.username.trim() !== '' && this.state.password !== '') {
       this.props.loggingIn();
-      CxEngage.authentication.login({
-        username: this.state.username.trim(),
-        password: this.state.password,
-      }, (error, topic, response) => {
-        if (!error) {
-          console.log('[Login] CxEngage.subscribe()', topic, response);
-          this.loginCB(response);
-        } else if (error.code === 3000) {
-          this.handleError();
+      CxEngage.authentication.login(
+        {
+          username: this.state.username.trim(),
+          password: this.state.password,
+        },
+        (error, topic, response) => {
+          if (!error) {
+            console.log('[Login] CxEngage.subscribe()', topic, response);
+            this.loginCB(response);
+          } else if (error.code === 3000) {
+            this.handleError();
+          }
         }
-      });
+      );
     } else {
       this.handleError();
     }
-  }
+  };
 
   onTenantSelect = () => {
     if (this.state.tenantId !== '-1') {
       this.props.settingTenant();
-      CxEngage.session.setActiveTenant({
-        tenantId: this.state.tenantId,
-      }, (error, topic, response) => {
-        console.log('[Login] CxEngage.subscribe()', topic, response);
+      CxEngage.session.setActiveTenant(
+        {
+          tenantId: this.state.tenantId,
+        },
+        (error, topic, response) => {
+          console.log('[Login] CxEngage.subscribe()', topic, response);
 
-        if (error !== null) { // General error check
-          if (error.code === 2000) {
-            this.props.tenantError(messages.noPermsError);
+          if (error !== null) {
+            // General error check
+            if (error.code === 2000) {
+              this.props.tenantError(messages.noPermsError);
+            }
+          } else {
+            this.props.setTenant(this.state.tenantId, this.state.tenantName);
           }
-        } else {
-          this.props.setTenant(this.state.tenantId, this.state.tenantName);
         }
-      });
+      );
     } else {
       this.setState({ noTenant: true });
     }
-  }
+  };
 
   setPassword = (password) => {
     this.setState({ password });
-  }
+  };
 
   setEmail = (email) => {
     this.setState({ email });
-  }
+  };
 
   setUser = (username) => {
     this.setState({ username });
-  }
+  };
 
   setRemember = (remember) => {
     this.setState({ remember });
     storage.setItem('remember', remember);
-  }
+  };
 
   getLoadingContent = () =>
-    <div id="loginContainerDiv" style={Object.assign({}, styles.container, { justifyContent: 'center' })}>
+    <div
+      id="loginContainerDiv"
+      style={Object.assign({}, styles.container, { justifyContent: 'center' })}
+    >
       <Logo style={{ marginTop: '50px' }} width="275px" />
       <IconSVG id="loadingIcon" name="loading" style={{ marginTop: '50px' }} />
-    </div>
+    </div>;
 
   getLoggedInContent = () => {
-    const tenantOptions = this.props.agent.tenants.map((tenant) =>
-      ({ value: tenant.tenantId, label: tenant.tenantName })
-    );
+    const tenantOptions = this.props.agent.tenants.map((tenant) => ({
+      value: tenant.tenantId,
+      label: tenant.tenantName,
+    }));
     return (
-      <div id="TSContainerDiv" style={Object.assign({}, styles.container, { justifyContent: 'center' })}>
+      <div
+        id="TSContainerDiv"
+        style={Object.assign({}, styles.container, {
+          justifyContent: 'center',
+        })}
+      >
         {this.state.noTenant
           ? <span style={[styles.error]}>
             <FormattedMessage style={styles.center} {...messages.noTenant} />
           </span>
-          : ''
-        }
+          : ''}
         {this.props.tenant_error
           ? <span id="tenantLoginError" style={[styles.error]}>
-            <FormattedMessage style={styles.center} {...this.props.tenant_error_message} />
+            <FormattedMessage
+              style={styles.center}
+              {...this.props.tenant_error_message}
+            />
           </span>
-          : ''
-        }
+          : ''}
         <Logo style={{ marginTop: '50px' }} width="275px" />
-        <Title id={messages.selectTenantMenu.id} text={messages.selectTenantMenu} style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]} />
+        <Title
+          id={messages.selectTenantMenu.id}
+          text={messages.selectTenantMenu}
+          style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]}
+        />
         <Select
           id={'app.login.selectTennant.selectbox'}
           style={{ width: '282px' }}
@@ -288,7 +338,8 @@ export class Login extends BaseComponent {
           clearable={false}
           placeholder={<FormattedMessage {...messages.selectTenant} />}
         />
-        { // Inbound / Outbound Select
+        {
+          // Inbound / Outbound Select
           // <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
         }
         <Button
@@ -300,7 +351,7 @@ export class Login extends BaseComponent {
         />
       </div>
     );
-  }
+  };
 
   getErrors = () => {
     const error = storage.getItem('ADError');
@@ -316,41 +367,53 @@ export class Login extends BaseComponent {
         case 'reasonListError':
           errorSpan = (
             <span id={`${error}:ERROR`} style={[styles.error]}>
-              <FormattedMessage style={styles.center} {...messages.reasonListError} />
+              <FormattedMessage
+                style={styles.center}
+                {...messages.reasonListError}
+              />
             </span>
           );
           break;
         case 'configLoadFailed':
           errorSpan = (
             <span id={`${error}:ERROR`} style={[styles.error]}>
-              <FormattedMessage style={styles.center} {...messages.configLoadFailed} />
+              <FormattedMessage
+                style={styles.center}
+                {...messages.configLoadFailed}
+              />
             </span>
           );
           break;
         default:
           errorSpan = (
             <span id={`${error}:ERROR`} style={[styles.error]}>
-              <FormattedMessage style={styles.center} {...messages.generalError} />
+              <FormattedMessage
+                style={styles.center}
+                {...messages.generalError}
+              />
             </span>
           );
           break;
       }
     }
     return errorSpan;
-  }
+  };
 
   getLoginContent = () =>
-    <div id="loginContainerDiv" style={Object.assign({}, styles.container, { justifyContent: 'center' })}>
+    <div
+      id="loginContainerDiv"
+      style={Object.assign({}, styles.container, { justifyContent: 'center' })}
+    >
       {this.props.tenant_error
         ? <span id="tenantLoginError" style={[styles.error]}>
-          <FormattedMessage style={styles.center} {...this.props.tenant_error_message} />
+          <FormattedMessage
+            style={styles.center}
+            {...this.props.tenant_error_message}
+          />
         </span>
-        : ''
-      }
+        : ''}
       <Logo style={{ marginTop: '50px' }} width="275px" />
-      {
-        this.getLoginTitle()
-      }
+      {this.getLoginTitle()}
       <TextInput
         id={messages.username.id}
         autoFocus={!this.state.remember}
@@ -386,44 +449,67 @@ export class Login extends BaseComponent {
         text={messages.signInButton}
         onClick={() => this.onLogin()}
       />
-      { /* Hide until we implement the feature
+      {/* Hide until we implement the feature
         <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
-      */ }
-    </div>
+      */}
+    </div>;
 
   getForgotContent = () =>
-    <div style={Object.assign({}, styles.container, { justifyContent: 'center' })}>
+    <div
+      style={Object.assign({}, styles.container, { justifyContent: 'center' })}
+    >
       <Logo style={{ marginTop: '50px' }} width="275px" />
-      <Title text={messages.forgot} style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]} />
-      <p style={{ width: '282px', textAlign: 'center' }} >{this.props.intl.formatMessage(messages.forgotInstructions)}</p>
-      <TextInput key={'email'} style={{ marginBottom: '11px' }} placeholder={messages.email} autocomplete="email" value={this.state.email} cb={this.setEmail} />
-      <Button type="primaryBlueBig" style={{ marginTop: '34px' }} text={messages.sendButton} onClick={this.sendForgotRequest} />
-      <A text={messages.return2Login} style={{ marginTop: '17px' }} onClick={this.unsetRequestingPassword} />
-    </div>
+      <Title
+        text={messages.forgot}
+        style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]}
+      />
+      <p style={{ width: '282px', textAlign: 'center' }}>
+        {this.props.intl.formatMessage(messages.forgotInstructions)}
+      </p>
+      <TextInput
+        key={'email'}
+        style={{ marginBottom: '11px' }}
+        placeholder={messages.email}
+        autocomplete="email"
+        value={this.state.email}
+        cb={this.setEmail}
+      />
+      <Button
+        type="primaryBlueBig"
+        style={{ marginTop: '34px' }}
+        text={messages.sendButton}
+        onClick={this.sendForgotRequest}
+      />
+      <A
+        text={messages.return2Login}
+        style={{ marginTop: '17px' }}
+        onClick={this.unsetRequestingPassword}
+      />
+    </div>;
 
   setRequestingPassword = () => {
     this.setState({ requestingPassword: true });
-  }
+  };
 
   setTenantId = (tenantId, tenantName) => {
     this.setState({ tenantId, tenantName });
-  }
+  };
 
   setDirection = (agentDirection) => {
     this.setState({ agentDirection });
-  }
+  };
 
   handleError = () => {
     this.props.loginError();
-  }
+  };
 
   unsetRequestingPassword = () => {
     this.setState({ requestingPassword: false });
-  }
+  };
 
   sendForgotRequest = () => {
     this.props.resetPassword({ email: this.state.email });
-  }
+  };
 
   loginCB = (agent) => {
     this.props.loginSuccess(agent);
@@ -440,21 +526,25 @@ export class Login extends BaseComponent {
       storage.setItem('email', '');
       storage.setItem('remember', false);
     }
-  }
+  };
 
   setLocalLocale = (locale) => {
     storage.setItem('locale', locale);
-  }
+  };
 
   toggleLanguageMenu = () => {
     this.setState({ showLanguage: !this.state.showLanguage });
-  }
+  };
 
   render() {
     let pageContent;
     if (this.props.loading) {
       pageContent = this.getLoadingContent();
-    } else if (this.props.logged_in && this.props.agent && this.props.agent.tenants.length > 1) {
+    } else if (
+      this.props.logged_in &&
+      this.props.agent &&
+      this.props.agent.tenants.length > 1
+    ) {
       pageContent = this.getLoggedInContent();
     } else if (this.state.requestingPassword) {
       pageContent = this.getForgotContent();
@@ -469,17 +559,44 @@ export class Login extends BaseComponent {
     }
 
     return (
-      <div style={[styles.base, this.props.refreshRequired && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' ? { height: 'calc(100vh - 2em)' } : { height: '100vh' }]}>
-        <div style={Object.assign({}, styles.container, { height: this.props.refreshRequired && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' ? 'calc(100vh - 2em)' : '100vh', minHeight: '800px' })}>
-          {
-            this.getErrors()
-          }
+      <div
+        style={[
+          styles.base,
+          this.props.refreshRequired &&
+            location.hostname !== 'localhost' &&
+            location.hostname !== '127.0.0.1'
+            ? { height: 'calc(100vh - 2em)' }
+            : { height: '100vh' },
+        ]}
+      >
+        <div
+          style={Object.assign({}, styles.container, {
+            height: this.props.refreshRequired &&
+              location.hostname !== 'localhost' &&
+              location.hostname !== '127.0.0.1'
+              ? 'calc(100vh - 2em)'
+              : '100vh',
+            minHeight: '800px',
+          })}
+        >
+          {this.getErrors()}
           <Dialog style={styles.center}>
             {pageContent}
           </Dialog>
           <div style={styles.languageMenu}>
-            <FontAwesomeIcon id={'localeIcon'} name={'globe'} style={styles.languageIcon} onclick={this.toggleLanguageMenu} />
-            <PopupDialog style={styles.languageDialog} isVisible={this.state.showLanguage} hide={this.toggleLanguageMenu} widthPx={200} arrowLeftOffsetPx={14}>
+            <FontAwesomeIcon
+              id={'localeIcon'}
+              name={'globe'}
+              style={styles.languageIcon}
+              onclick={this.toggleLanguageMenu}
+            />
+            <PopupDialog
+              style={styles.languageDialog}
+              isVisible={this.state.showLanguage}
+              hide={this.toggleLanguageMenu}
+              widthPx={200}
+              arrowLeftOffsetPx={14}
+            >
               <Select
                 id={'locale'}
                 style={styles.languageSelect}
@@ -550,4 +667,6 @@ Login.propTypes = {
   locale: PropTypes.string,
 };
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Login)));
+export default injectIntl(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(Login))
+);

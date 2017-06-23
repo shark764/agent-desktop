@@ -48,7 +48,7 @@ function Filter(props) {
     <div key={props.name} style={[styles.base, props.style]}>
       <span style={styles.filterName}>{`${props.name}:`}&nbsp;</span>
       <span style={styles.valueText}>{props.value}</span>
-      <Icon name="close" onclick={remove} style={styles.deleteFilterIcon}></Icon>
+      <Icon name="close" onclick={remove} style={styles.deleteFilterIcon} />
     </div>
   );
 }

@@ -54,46 +54,49 @@ class MenuDialogLink extends React.Component {
 
   toggleDialog = () => {
     this.setState({ showDialog: !this.state.showDialog });
-  }
+  };
 
   handleButtonAction = (buttonAction) => {
     buttonAction();
     this.toggleDialog();
-  }
+  };
 
   render() {
     const buttonWidthPx = 135;
     const numberOfOptions = this.props.options.length;
     return (
       <div style={styles.base}>
-        <A id={this.props.id} disabled={this.props.disabled} onClick={this.toggleDialog} text={this.props.linkText} />
+        <A
+          id={this.props.id}
+          disabled={this.props.disabled}
+          onClick={this.toggleDialog}
+          text={this.props.linkText}
+        />
         <div style={styles.dialogPosition}>
           <PopupDialog
             isVisible={this.state.showDialog}
             hide={this.toggleDialog}
             style={styles.dialog}
             widthPx={numberOfOptions * buttonWidthPx}
-            arrowLeftOffsetPx={(buttonWidthPx * 0.5) - 7}
+            arrowLeftOffsetPx={buttonWidthPx * 0.5 - 7}
             fadeContent
           >
             <div style={styles.container}>
-              {
-                this.props.options.map((option, index) =>
-                  <Button
-                    key={`menuOption-${index}`}
-                    id={`menuOption-${index}`}
-                    onClick={() => this.handleButtonAction(option.action)}
-                    disabled={option.disabled}
-                    type="secondary"
-                    style={[
-                      styles.button,
-                      { width: `${100 / numberOfOptions}%` },
-                      index > 0 ? styles.leftButtonBorder : {},
-                    ]}
-                    text={option.message}
-                  />
-                )
-              }
+              {this.props.options.map((option, index) =>
+                <Button
+                  key={`menuOption-${index}`}
+                  id={`menuOption-${index}`}
+                  onClick={() => this.handleButtonAction(option.action)}
+                  disabled={option.disabled}
+                  type="secondary"
+                  style={[
+                    styles.button,
+                    { width: `${100 / numberOfOptions}%` },
+                    index > 0 ? styles.leftButtonBorder : {},
+                  ]}
+                  text={option.message}
+                />
+              )}
             </div>
           </PopupDialog>
         </div>
@@ -111,7 +114,7 @@ MenuDialogLink.propTypes = {
       message: PropTypes.object,
       action: PropTypes.func,
       disabled: PropTypes.bool,
-    }),
+    })
   ).isRequired,
 };
 

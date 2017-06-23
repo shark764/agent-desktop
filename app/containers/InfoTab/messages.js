@@ -20,7 +20,8 @@ export default defineMessages({
   },
   crmUnavailableLayout: {
     id: 'app.containers.InfoTab.crmUnavailableLayout',
-    defaultMessage: 'Failed to load a valid contact layout, check tenant config.',
+    defaultMessage:
+      'Failed to load a valid contact layout, check tenant config.',
   },
   crmUnavailableAttribute: {
     id: 'app.containers.InfoTab.crmUnavailableAttribute',

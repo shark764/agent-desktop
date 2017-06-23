@@ -8,12 +8,7 @@ import { shallow } from 'enzyme';
 import TimerMinutes from '../index';
 
 const renderWithSeconds = (seconds) =>
-  shallow(
-    <TimerMinutes
-      id="mockId"
-      seconds={seconds}
-    />
-  );
+  shallow(<TimerMinutes id="mockId" seconds={seconds} />);
 
 describe('<TimerMinutes />', () => {
   describe('if seconds less than minute', () => {

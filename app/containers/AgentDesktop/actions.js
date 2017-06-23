@@ -196,8 +196,13 @@ export function closeNewInteractionPanel() {
   };
 }
 
-
-export function startOutboundInteraction(channelType, customer, contact, addedByNewInteractionPanel, interactionId) {
+export function startOutboundInteraction(
+  channelType,
+  customer,
+  contact,
+  addedByNewInteractionPanel,
+  interactionId
+) {
   return {
     type: START_OUTBOUND_INTERACTION,
     channelType,
@@ -222,7 +227,11 @@ export function setIsCancellingInteraction(interactionId) {
   };
 }
 
-export function initializeOutboundSms(placeholderInteractionId, interactionId, message) {
+export function initializeOutboundSms(
+  placeholderInteractionId,
+  interactionId,
+  message
+) {
   return {
     type: INITIALIZE_OUTBOUND_SMS,
     placeholderInteractionId,
@@ -313,7 +322,10 @@ export function setContactInteractionHistory(contactId, response) {
   };
 }
 
-export function setContactHistoryInteractionDetailsLoading(interactionId, contactHistoryInteractionId) {
+export function setContactHistoryInteractionDetailsLoading(
+  interactionId,
+  contactHistoryInteractionId
+) {
   return {
     type: SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
     interactionId,
@@ -344,7 +356,10 @@ export function loadHistoricalInteractionBody(interactionId, bodyType) {
   };
 }
 
-export function updateContactHistoryInteractionDetails(interactionId, interactionDetails) {
+export function updateContactHistoryInteractionDetails(
+  interactionId,
+  interactionDetails
+) {
   return {
     type: UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS,
     interactionId,
@@ -352,7 +367,10 @@ export function updateContactHistoryInteractionDetails(interactionId, interactio
   };
 }
 
-export function addNotesToContactInteractionHistory(contactHistoryInteractionId, response) {
+export function addNotesToContactInteractionHistory(
+  contactHistoryInteractionId,
+  response
+) {
   return {
     type: ADD_NOTES_TO_CONTACT_INTERACTION_HISTORY,
     contactHistoryInteractionId,
@@ -487,7 +505,12 @@ export function updateResourceName(response) {
   };
 }
 
-export function updateResourceStatus(interactionId, targetResource, statusKey, statusValue) {
+export function updateResourceStatus(
+  interactionId,
+  targetResource,
+  statusKey,
+  statusValue
+) {
   return {
     type: UPDATE_RESOURCE_STATUS,
     interactionId,
@@ -621,7 +644,11 @@ export function updateScriptValues(interactionId, scriptValueMap) {
   };
 }
 
-export function setDispositionDetails(interactionId, dispositions, forceSelect) {
+export function setDispositionDetails(
+  interactionId,
+  dispositions,
+  forceSelect
+) {
   return {
     type: SET_DISPOSITION_DETAILS,
     interactionId,
@@ -734,7 +761,14 @@ export function setContactSaveLoading(interactionId, isLoading) {
   };
 }
 
-export function initForm(interactionId, contactForm, formErrors, showErrors, unusedFields, selectedIndexes) {
+export function initForm(
+  interactionId,
+  contactForm,
+  formErrors,
+  showErrors,
+  unusedFields,
+  selectedIndexes
+) {
   return {
     type: INIT_FORM,
     interactionId,

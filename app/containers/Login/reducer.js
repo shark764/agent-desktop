@@ -36,8 +36,7 @@ function loginReducer(state = initialState, action) {
   switch (action.type) {
     case LOGGING_IN:
     case SETTING_TENANT:
-      return state
-        .set('loading', true);
+      return state.set('loading', true);
     case LOGIN_SUCCESS:
       return state
         .set('agent', fromJS(action.agent))
@@ -51,9 +50,7 @@ function loginReducer(state = initialState, action) {
         .set('showLogin', true)
         .set('loading', false);
     case LOGIN_ERROR:
-      return state
-        .set('login_error', true)
-        .set('loading', false);
+      return state.set('login_error', true).set('loading', false);
     case TENANT_ERROR:
       return state
         .set('tenant_error', true)
@@ -64,8 +61,7 @@ function loginReducer(state = initialState, action) {
         .set('tenant', fromJS({ id: action.id, name: action.name }))
         .set('tenant_error', false);
     case SHOW_LOGIN:
-      return state
-        .set('showLogin', action.show);
+      return state.set('showLogin', action.show);
     default:
       return state;
   }

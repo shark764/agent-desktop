@@ -9,13 +9,7 @@ import TimeStat from '../index';
 
 describe('<TimeStat />', () => {
   it('should render correctly', () => {
-    const rendered = shallow(
-      <TimeStat
-        id="mockId"
-        time={1}
-        unit="millis"
-      />
-    );
+    const rendered = shallow(<TimeStat id="mockId" time={1} unit="millis" />);
     expect(rendered).toMatchSnapshot();
   });
 });

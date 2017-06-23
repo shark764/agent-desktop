@@ -13,7 +13,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export class BaseComponent extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -26,7 +25,9 @@ export class BaseComponent extends React.Component {
       try {
         return oldRender.call(this);
       } catch (error) {
-        console.error(`${Object.getPrototypeOf(this.constructor).name} render error`);
+        console.error(
+          `${Object.getPrototypeOf(this.constructor).name} render error`
+        );
         console.error(error.stack);
         if (Raven.isSetup()) {
           Raven.captureException(error);

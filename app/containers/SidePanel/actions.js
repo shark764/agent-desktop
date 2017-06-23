@@ -8,10 +8,7 @@
  *
  */
 
-import {
-  SET_CONTACT_LAYOUT,
-  SET_CONTACT_ATTRIBUTES,
-} from './constants';
+import { SET_CONTACT_LAYOUT, SET_CONTACT_ATTRIBUTES } from './constants';
 
 export function setContactLayout(layout) {
   return {

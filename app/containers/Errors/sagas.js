@@ -9,13 +9,18 @@ import sdkCallToPromise from 'utils/sdkCallToPromise';
 import { setCRMUnavailable } from 'containers/InfoTab/actions';
 import { removeInvalidExtension } from 'containers/AgentDesktop/actions';
 import { HANDLE_SDK_ERROR, SET_LOGIN_ERROR_AND_RELOAD } from './constants';
-import { setCriticalError, setNonCriticalError, setLoginErrorAndReload as setLoginErrorAndReloadAction } from './actions';
+import {
+  setCriticalError,
+  setNonCriticalError,
+  setLoginErrorAndReload as setLoginErrorAndReloadAction,
+} from './actions';
 
 export function* goHandleSDKError(action) {
   const topic = action.topic;
   const error = action.error;
   console.warn('SDK Error:', topic, error);
-  if (error.code === 2000 || // Not enough tenant permissions. Handled in Login.
+  if (
+    error.code === 2000 || // Not enough tenant permissions. Handled in Login.
     error.code === 3000 || // Login authentication failed. Handled in Login.
     error.code === 12005 || // Failed to get capacity. Handled in TransferMenu.
     topic === 'cxengage/contacts/create-contact-response' || // Handled in ContactEdit
@@ -23,7 +28,8 @@ export function* goHandleSDKError(action) {
     topic === 'cxengage/contacts/merge-contacts-response' // Handled in ContactMerge
   ) {
     return; // Do nothing. Error UI handled in their own components.
-  } else if (error.code === 2005) { // Invalid extension provided
+  } else if (error.code === 2005) {
+    // Invalid extension provided
     yield put(removeInvalidExtension());
   } else if (topic === 'cxengage/contacts/list-layouts-response') {
     setCRMUnavailable('crmLayoutError');
@@ -80,7 +86,4 @@ export function* setLoginErrorAndReload() {
 }
 
 // All sagas to be loaded
-export default [
-  handleSDKError,
-  setLoginErrorAndReload,
-];
+export default [handleSDKError, setLoginErrorAndReload];

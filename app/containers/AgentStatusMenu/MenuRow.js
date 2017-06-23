@@ -64,7 +64,9 @@ const styles = {
 };
 
 function MenuRow(props) {
-  const rowText = typeof props.rowText === 'string' ? props.rowText : <FormattedMessage {...props.rowText} />;
+  const rowText = typeof props.rowText === 'string'
+    ? props.rowText
+    : <FormattedMessage {...props.rowText} />;
   const allowSelect = !props.isSelected && !props.disabled;
   const mainRow = (
     <div
@@ -81,16 +83,12 @@ function MenuRow(props) {
       <div style={styles.text}>
         {rowText}
       </div>
-      {
-        props.isSelected &&
-        <Icon name="checkStatus" alt="selected" style={styles.selectedIcon} />
-      }
-      {
-        props.hasSubMenu &&
+      {props.isSelected &&
+        <Icon name="checkStatus" alt="selected" style={styles.selectedIcon} />}
+      {props.hasSubMenu &&
         <div>
           &#9658;
-        </div>
-      }
+        </div>}
     </div>
   );
   if (!props.hasSubMenu) {
@@ -99,12 +97,10 @@ function MenuRow(props) {
   return (
     <div style={styles.submenuOuterContainer}>
       {mainRow}
-      {
-        props.isOpen
-        && <div style={styles.submenuContainer}>
-            {props.subMenuRows}
-          </div>
-      }
+      {props.isOpen &&
+        <div style={styles.submenuContainer}>
+          {props.subMenuRows}
+        </div>}
     </div>
   );
 }

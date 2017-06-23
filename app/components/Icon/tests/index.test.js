@@ -11,12 +11,7 @@ describe('<Icon />', () => {
   availableIcons.forEach((name) => {
     describe(`with name ${name}`, () => {
       it('should render correctly', () => {
-        const rendered = shallow(
-          <Icon
-            id="mockId"
-            name={name}
-          />
-        );
+        const rendered = shallow(<Icon id="mockId" name={name} />);
         expect(rendered).toMatchSnapshot();
       });
     });
@@ -25,13 +20,7 @@ describe('<Icon />', () => {
   availableIcons.forEach((name) => {
     describe(`with name ${name} and active prop`, () => {
       it('should render correctly', () => {
-        const rendered = shallow(
-          <Icon
-            id="mockId"
-            name={name}
-            active
-          />
-        );
+        const rendered = shallow(<Icon id="mockId" name={name} active />);
         expect(rendered).toMatchSnapshot();
       });
     });

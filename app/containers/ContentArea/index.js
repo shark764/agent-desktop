@@ -46,7 +46,10 @@ export class ContentArea extends BaseComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.interaction.interactionId !== nextProps.interaction.interactionId) {
+    if (
+      this.props.interaction.interactionId !==
+      nextProps.interaction.interactionId
+    ) {
       this.setState({
         showDispositionsList: false,
         notesPanelHeight: nextProps.interaction.note.notesPanelHeight,
@@ -66,7 +69,9 @@ export class ContentArea extends BaseComponent {
   }
 
   persistNote = (note, currentNotesPanelHeight) => {
-    const inContext = (this.mounted && this.props.interaction.interactionId === note.interactionId);
+    const inContext =
+      this.mounted &&
+      this.props.interaction.interactionId === note.interactionId;
     if (!inContext || !this.state.savingNote) {
       if (inContext) {
         this.setState({
@@ -81,7 +86,9 @@ export class ContentArea extends BaseComponent {
               savingNote: false,
             });
           }
-          if (topic.indexOf('cxengage/interactions/create-note-response') > -1) {
+          if (
+            topic.indexOf('cxengage/interactions/create-note-response') > -1
+          ) {
             this.props.updateNote(note.interactionId, {
               title: note.title,
               body: note.body,
@@ -98,12 +105,15 @@ export class ContentArea extends BaseComponent {
         }
       };
       if (this.props.interaction.note.noteId) {
-        CxEngage.interactions.updateNote({ noteId: this.props.interaction.note.noteId, ...note }, callback);
+        CxEngage.interactions.updateNote(
+          { noteId: this.props.interaction.note.noteId, ...note },
+          callback
+        );
       } else {
         CxEngage.interactions.createNote(note, callback);
       }
     }
-  }
+  };
 
   styles = {
     base: {
@@ -292,7 +302,7 @@ export class ContentArea extends BaseComponent {
     this.setState({
       notesPanelHeight: newHeight,
     });
-  }
+  };
 
   handleChange = (note) => {
     this.setState(note);
@@ -303,8 +313,11 @@ export class ContentArea extends BaseComponent {
       body: note.body || this.state.body,
       interactionId: this.props.interaction.interactionId,
     };
-    this.persistNoteIntervalId = setTimeout(() => this.persistNote(currentNote, currentNotesPanelHeight), 1500);
-  }
+    this.persistNoteIntervalId = setTimeout(
+      () => this.persistNote(currentNote, currentNotesPanelHeight),
+      1500
+    );
+  };
 
   toggleWrapup = () => {
     const wrapupToggleCallback = (error, topic, response) => {
@@ -313,40 +326,56 @@ export class ContentArea extends BaseComponent {
     };
     this.setState({ loadingWrapup: true });
     if (this.props.interaction.wrapupDetails.wrapupEnabled) {
-      CxEngage.interactions.disableWrapup({ interactionId: this.props.interaction.interactionId }, wrapupToggleCallback);
+      CxEngage.interactions.disableWrapup(
+        { interactionId: this.props.interaction.interactionId },
+        wrapupToggleCallback
+      );
     } else {
-      CxEngage.interactions.enableWrapup({ interactionId: this.props.interaction.interactionId }, wrapupToggleCallback);
+      CxEngage.interactions.enableWrapup(
+        { interactionId: this.props.interaction.interactionId },
+        wrapupToggleCallback
+      );
     }
-  }
+  };
 
   selectDisposition = (dispositionId) => {
     this.setState({
       loadingDisposition: true,
       showDispositionsList: false,
     });
-    CxEngage.interactions.selectDispositionCode({
-      interactionId: this.props.interaction.interactionId,
-      dispositionId,
-    }, (error, topic, response) => {
-      console.log('[ContentArea] CxEngage.subscribe()', topic, response);
-      this.setState({
-        loadingDisposition: false,
-      });
-    });
-  }
+    CxEngage.interactions.selectDispositionCode(
+      {
+        interactionId: this.props.interaction.interactionId,
+        dispositionId,
+      },
+      (error, topic, response) => {
+        console.log('[ContentArea] CxEngage.subscribe()', topic, response);
+        this.setState({
+          loadingDisposition: false,
+        });
+      }
+    );
+  };
 
   renderCategory = (category) =>
-    <div key={`category-${category.name}`} id={`category-${category.name}`} title={category.name}>
+    <div
+      key={`category-${category.name}`}
+      id={`category-${category.name}`}
+      title={category.name}
+    >
       <div style={this.styles.categoryName}>{category.name}</div>
       <div style={this.styles.dispositionsContainer}>
-        {
-          category.dispositions.map(this.renderDisposition)
-        }
+        {category.dispositions.map(this.renderDisposition)}
       </div>
-    </div>
+    </div>;
 
   renderDisposition = (disposition) =>
-    <div key={`disposition-${disposition.dispositionId}`} id={`disposition-${disposition.dispositionId}`} title={disposition.name} style={this.styles.selectableDisposition}>
+    <div
+      key={`disposition-${disposition.dispositionId}`}
+      id={`disposition-${disposition.dispositionId}`}
+      title={disposition.name}
+      style={this.styles.selectableDisposition}
+    >
       <Checkbox
         id={`${disposition.dispositionId}-checkbox`}
         text={disposition.name}
@@ -355,26 +384,31 @@ export class ContentArea extends BaseComponent {
         style={{ width: '100%' }}
         disabled={this.state.loadingDisposition}
       />
-    </div>
+    </div>;
 
   deselectDisposition = () => {
     this.setState({
       loadingDisposition: true,
     });
-    CxEngage.interactions.deselectDispositionCode({ interactionId: this.props.interaction.interactionId }, (error, topic, response) => {
-      console.log('[ContentArea] CxEngage.subscribe()', topic, response);
-      if (
-        !error &&
-        this.props.interaction.dispositionDetails.forceSelect &&
-        !this.props.interaction.wrapupDetails.wrapupEnabled
-      ) {
-        CxEngage.interactions.enableWrapup({ interactionId: response.interactionId });
+    CxEngage.interactions.deselectDispositionCode(
+      { interactionId: this.props.interaction.interactionId },
+      (error, topic, response) => {
+        console.log('[ContentArea] CxEngage.subscribe()', topic, response);
+        if (
+          !error &&
+          this.props.interaction.dispositionDetails.forceSelect &&
+          !this.props.interaction.wrapupDetails.wrapupEnabled
+        ) {
+          CxEngage.interactions.enableWrapup({
+            interactionId: response.interactionId,
+          });
+        }
+        this.setState({
+          loadingDisposition: false,
+        });
       }
-      this.setState({
-        loadingDisposition: false,
-      });
-    });
-  }
+    );
+  };
 
   getNewLabelChipBorderColor = () => {
     if (this.props.awaitingDisposition) {
@@ -384,7 +418,7 @@ export class ContentArea extends BaseComponent {
     } else {
       return '#F3F3F3';
     }
-  }
+  };
 
   render() {
     const { formatMessage } = this.props.intl;
@@ -398,31 +432,40 @@ export class ContentArea extends BaseComponent {
                   {this.props.from}
                 </div>
                 <div style={this.styles.rightHeaderContainer}>
-                  {this.props.interaction.status !== 'wrapup' && this.props.interaction.status !== 'work-ended-pending-script' &&
-                    <div id="wrapupContainer" style={this.styles.wrapupContainer}>
-                      <label htmlFor="wrapupToggle" style={this.styles.toggleWrapupLabel}>
-                        <FormattedMessage {...messages.wrapup} />
-                      </label>
-                      <Toggle
-                        id="toggleWrapup"
-                        icons={false}
-                        onChange={this.toggleWrapup}
-                        disabled={
+                  {this.props.interaction.status !== 'wrapup' &&
+                    this.props.interaction.status !==
+                      'work-ended-pending-script' &&
+                      <div
+                        id="wrapupContainer"
+                        style={this.styles.wrapupContainer}
+                      >
+                        <label
+                          htmlFor="wrapupToggle"
+                          style={this.styles.toggleWrapupLabel}
+                        >
+                          <FormattedMessage {...messages.wrapup} />
+                        </label>
+                        <Toggle
+                          id="toggleWrapup"
+                          icons={false}
+                          onChange={this.toggleWrapup}
+                          disabled={
                           this.state.loadingWrapup ||
-                          !this.props.interaction.wrapupDetails.wrapupUpdateAllowed || (
-                            this.props.interaction.dispositionDetails.forceSelect &&
-                            this.props.interaction.dispositionDetails.selected.length === 0
-                          )
+                          !this.props.interaction.wrapupDetails
+                            .wrapupUpdateAllowed ||
+                          (this.props.interaction.dispositionDetails
+                            .forceSelect &&
+                            this.props.interaction.dispositionDetails.selected
+                              .length === 0)
                         }
-                        checked={this.props.interaction.wrapupDetails.wrapupEnabled}
-                      />
-                    </div>
-                  }
+                          checked={
+                          this.props.interaction.wrapupDetails.wrapupEnabled
+                        }
+                        />
+                      </div>}
                   <div style={this.styles.buttons}>
-                    {
-                      this.props.interaction.status !== 'work-ended-pending-script' &&
-                      this.props.buttons
-                    }
+                    {this.props.interaction.status !==
+                      'work-ended-pending-script' && this.props.buttons}
                   </div>
                 </div>
               </div>
@@ -435,7 +478,16 @@ export class ContentArea extends BaseComponent {
             </div>
           </div>
         </div>
-        <Resizable id="notes-resizable" direction="top" setPx={this.setNotesPanelHeight} disabledPx={50} px={this.state.notesPanelHeight} maxPx={600} minPx={125} isDisabled={false} >
+        <Resizable
+          id="notes-resizable"
+          direction="top"
+          setPx={this.setNotesPanelHeight}
+          disabledPx={50}
+          px={this.state.notesPanelHeight}
+          maxPx={600}
+          minPx={125}
+          isDisabled={false}
+        >
           <div style={this.styles.notesArea}>
             <div style={this.styles.notesTitleContainer}>
               <FormattedMessage {...messages.notes} />
@@ -444,84 +496,121 @@ export class ContentArea extends BaseComponent {
                 placeholder={formatMessage(messages.notesTitlePlaceholder)}
                 value={this.state.title}
                 onChange={(e) => this.handleChange({ title: e.target.value })}
-                style={[this.styles.notesTitleInput, this.props.interaction.status === 'work-ended-pending-script' && this.styles.disabled]}
+                style={[
+                  this.styles.notesTitleInput,
+                  this.props.interaction.status ===
+                    'work-ended-pending-script' && this.styles.disabled,
+                ]}
                 maxLength="80"
-                readOnly={this.props.interaction.status === 'work-ended-pending-script'}
+                readOnly={
+                  this.props.interaction.status === 'work-ended-pending-script'
+                }
               />
             </div>
-            {
-              this.props.interaction.dispositionDetails.dispositions.length
-              ? <div id="selected-dispositions" style={this.styles.dispositionChipsContainer}>
-                {
-                  this.props.interaction.dispositionDetails.selected.map((disposition) =>
-                    <div
-                      id={`selected-disposition-${disposition.dispositionId}`}
-                      key={`selected-disposition-${disposition.dispositionId}`}
-                      title={disposition.name}
-                      style={[this.styles.dispositionChip]}
-                    >
-                      <span style={this.styles.dispositionLabelText}>
-                        { disposition.name !== undefined ? disposition.name.toUpperCase() : '' }
-                      </span>
-                      <Button
-                        id="delete-disposition-btn"
-                        style={this.styles.closeButton}
-                        clear
-                        iconName="close"
-                        type="secondary"
-                        onClick={this.deselectDisposition}
-                        disabled={this.state.loadingDisposition}
-                      />
-                    </div>
-                  )
-                }
-                {
-                  this.props.interaction.dispositionDetails.selected.length === 0 && this.props.interaction.status !== 'work-ended-pending-script'
+            {this.props.interaction.dispositionDetails.dispositions.length
+              ? <div
+                id="selected-dispositions"
+                style={this.styles.dispositionChipsContainer}
+              >
+                {this.props.interaction.dispositionDetails.selected.map(
+                    (disposition) =>
+                      <div
+                        id={`selected-disposition-${disposition.dispositionId}`}
+                        key={`selected-disposition-${disposition.dispositionId}`}
+                        title={disposition.name}
+                        style={[this.styles.dispositionChip]}
+                      >
+                        <span style={this.styles.dispositionLabelText}>
+                          {disposition.name !== undefined
+                            ? disposition.name.toUpperCase()
+                            : ''}
+                        </span>
+                        <Button
+                          id="delete-disposition-btn"
+                          style={this.styles.closeButton}
+                          clear
+                          iconName="close"
+                          type="secondary"
+                          onClick={this.deselectDisposition}
+                          disabled={this.state.loadingDisposition}
+                        />
+                      </div>
+                  )}
+                {this.props.interaction.dispositionDetails.selected.length ===
+                    0 &&
+                    this.props.interaction.status !==
+                      'work-ended-pending-script'
                     ? [
                       <div
-                        onClick={() => this.setState({ showDispositionsList: !this.state.showDispositionsList })}
+                        onClick={() =>
+                            this.setState({
+                              showDispositionsList: !this.state
+                                .showDispositionsList,
+                            })}
                         key="new-label-button"
                         id="new-label-button"
-                        style={[this.styles.dispositionChip, this.styles.dispositionNewLabel, { border: `1px solid ${this.getNewLabelChipBorderColor()}` }]}
+                        style={[
+                          this.styles.dispositionChip,
+                          this.styles.dispositionNewLabel,
+                          {
+                            border: `1px solid ${this.getNewLabelChipBorderColor()}`,
+                          },
+                        ]}
                       >
                         <IconSVG
                           name="add"
                           id="add-disposition-icon"
                           style={this.styles.addIcon}
                         />
-                        <span style={[this.styles.dispositionLabelText, { marginLeft: '5px', padding: '2.5px 0' }]}>
+                        <span
+                          style={[
+                            this.styles.dispositionLabelText,
+                              { marginLeft: '5px', padding: '2.5px 0' },
+                          ]}
+                        >
                           <FormattedMessage {...messages.disposition} />
                         </span>
                       </div>,
                       this.state.showDispositionsList
-                        ? <div id="dispositions-lists-container" key="dispositionsContainer" style={{ position: 'relative' }}>
-                          <div id="dispositions-lists" style={this.styles.dispositionList}>
-                            {
-                              this.props.interaction.dispositionDetails.dispositions.map((disposition) => {
-                                if (disposition.type === 'category') {
-                                  return this.renderCategory(disposition);
-                                }
-                                return this.renderDisposition(disposition);
-                              })
-                            }
+                          ? <div
+                            id="dispositions-lists-container"
+                            key="dispositionsContainer"
+                            style={{ position: 'relative' }}
+                          >
+                            <div
+                              id="dispositions-lists"
+                              style={this.styles.dispositionList}
+                            >
+                              {this.props.interaction.dispositionDetails.dispositions.map(
+                                  (disposition) => {
+                                    if (disposition.type === 'category') {
+                                      return this.renderCategory(disposition);
+                                    }
+                                    return this.renderDisposition(disposition);
+                                  }
+                                )}
+                            </div>
+                            <div style={this.styles.triangle} />
                           </div>
-                          <div style={this.styles.triangle}></div>
-                        </div>
-                        : undefined,
+                          : undefined,
                     ]
-                    : undefined
-                }
+                    : undefined}
               </div>
-              : undefined
-            }
+              : undefined}
             <textarea
               id="notesTextarea"
               placeholder={formatMessage(messages.notesPlaceholder)}
               value={this.state.body}
               onChange={(e) => this.handleChange({ body: e.target.value })}
-              style={[this.styles.notesTextarea, this.props.interaction.status === 'work-ended-pending-script' && this.styles.disabled]}
+              style={[
+                this.styles.notesTextarea,
+                this.props.interaction.status === 'work-ended-pending-script' &&
+                  this.styles.disabled,
+              ]}
               maxLength="65535"
-              readOnly={this.props.interaction.status === 'work-ended-pending-script'}
+              readOnly={
+                this.props.interaction.status === 'work-ended-pending-script'
+              }
             />
           </div>
         </Resizable>
@@ -548,9 +637,12 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    updateNote: (interactionId, note) => dispatch(updateNote(interactionId, note)),
+    updateNote: (interactionId, note) =>
+      dispatch(updateNote(interactionId, note)),
     dispatch,
   };
 }
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContentArea)));
+export default injectIntl(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(ContentArea))
+);

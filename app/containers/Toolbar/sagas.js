@@ -9,11 +9,25 @@ import statEqualityCheck from 'utils/statEqualityCheck';
 import { stats as welcomeStatsConfig } from 'containers/WelcomeStats/welcomeStatsConfig';
 
 import { selectQueues } from 'containers/AgentDesktop/selectors';
-import { selectEnabledStats, selectAvailableStats } from 'containers/AgentStats/selectors';
+import {
+  selectEnabledStats,
+  selectAvailableStats,
+} from 'containers/AgentStats/selectors';
 import { selectTenant, selectAgent } from 'containers/Login/selectors';
 import { selectWelcomeStatIds } from './selectors';
-import { removeStat, addStat, removeToolbarStatId, addToolbarStatId, addWelcomeStatId, activateToolbarStat as activateToolbarStatAction } from './actions';
-import { ACTIVATE_TOOLBAR_STAT, DEACTIVATE_TOOLBAR_STAT, INITIALIZE_STATS } from './constants';
+import {
+  removeStat,
+  addStat,
+  removeToolbarStatId,
+  addToolbarStatId,
+  addWelcomeStatId,
+  activateToolbarStat as activateToolbarStatAction,
+} from './actions';
+import {
+  ACTIVATE_TOOLBAR_STAT,
+  DEACTIVATE_TOOLBAR_STAT,
+  INITIALIZE_STATS,
+} from './constants';
 
 export function* getEnabledStat(stat) {
   const currentStats = yield select(selectEnabledStats);
@@ -73,7 +87,8 @@ export function* setStatSaved(stat, willSave) {
   const tenant = yield select(selectTenant);
   const agent = yield select(selectAgent);
   const localStorageKey = `agentDesktopStats.${tenant.id}.${agent.userId}`;
-  let savedStats = JSON.parse(window.localStorage.getItem(localStorageKey)) || [];
+  let savedStats =
+    JSON.parse(window.localStorage.getItem(localStorageKey)) || [];
   savedStats = savedStats.filter((item) => !statEqualityCheck(item, stat));
   if (willSave) {
     savedStats.push(stat);
@@ -100,7 +115,9 @@ export function* goActivateToolbarStat(action) {
     yield call(setStatSaved, action.stat, true);
     yield put(addToolbarStatId(enabledStat.statId));
   } else {
-    console.warn('[Agent Desktop] - Saved stat failed validation. Removing from saved stats.');
+    console.warn(
+      '[Agent Desktop] - Saved stat failed validation. Removing from saved stats.'
+    );
     setStatSaved(action.stat, false);
   }
 }
@@ -110,7 +127,7 @@ export function* goDeactivateToolbarStat(action) {
   if (enabledStat) {
     const welcomeStatIds = yield select(selectWelcomeStatIds());
     if (!welcomeStatIds.includes(enabledStat.statId)) {
-      yield (call(disableStat, enabledStat.statId));
+      yield call(disableStat, enabledStat.statId);
       yield put(removeStat(action.stat));
     }
   }
@@ -123,7 +140,8 @@ export function* goInitializeStats() {
   const tenant = yield select(selectTenant);
   const agent = yield select(selectAgent);
   const localStorageKey = `agentDesktopStats.${tenant.id}.${agent.userId}`;
-  const savedStats = JSON.parse(window.localStorage.getItem(localStorageKey)) || [];
+  const savedStats =
+    JSON.parse(window.localStorage.getItem(localStorageKey)) || [];
   yield savedStats.map((stat) => put(activateToolbarStatAction(stat)));
 }
 
@@ -137,18 +155,23 @@ export function* initializeStats() {
   yield takeEvery(INITIALIZE_STATS, goInitializeStats);
 }
 
-export default [
-  activateToolbarStat,
-  deactivateToolbarStat,
-  initializeStats,
-];
+export default [activateToolbarStat, deactivateToolbarStat, initializeStats];
 
 export function* validateStat(stat) {
   const availableStats = yield select(selectAvailableStats);
   const queues = yield select(selectQueues);
   const statExists = availableStats[stat.statOption];
-  const aggregateExists = statExists && Object.keys(availableStats[stat.statOption].responseKeys).includes(stat.statAggregate);
-  const filterExists = stat.statSource === 'tenant-id' || (statExists && availableStats[stat.statOption].optionalFilters.includes(stat.statSource));
+  const aggregateExists =
+    statExists &&
+    Object.keys(availableStats[stat.statOption].responseKeys).includes(
+      stat.statAggregate
+    );
+  const filterExists =
+    stat.statSource === 'tenant-id' ||
+    (statExists &&
+      availableStats[stat.statOption].optionalFilters.includes(
+        stat.statSource
+      ));
   let queueExists = true;
   if (stat.statSource === 'queue-id') {
     queueExists = queues.filter((queue) => queue.id === stat.queue).length;

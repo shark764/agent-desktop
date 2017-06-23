@@ -8,10 +8,7 @@
  *
  */
 
-import {
-  INITIALIZE_OUTBOUND_SMS,
-  SEND_OUTBOUND_SMS,
-} from './constants';
+import { INITIALIZE_OUTBOUND_SMS, SEND_OUTBOUND_SMS } from './constants';
 
 export function initializeOutboundSms(interactionId, phoneNumber, message) {
   return {

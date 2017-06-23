@@ -21,7 +21,12 @@ import { VelocityTransitionGroup } from 'velocity-react';
 import moment from 'moment';
 import 'assets/css/mediumdraft.min.css';
 import { Editor, createEditorState } from 'medium-draft';
-import { EditorState, convertFromHTML, ContentState, CompositeDecorator } from 'draft-js';
+import {
+  EditorState,
+  convertFromHTML,
+  ContentState,
+  CompositeDecorator,
+} from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
 
@@ -39,34 +44,37 @@ import TextInput from 'components/TextInput';
 
 import ContentArea from 'containers/ContentArea';
 
-import { emailCreateReply, emailCancelReply, emailAddAttachment, emailRemoveAttachment, emailUpdateReply, emailSendReply, removeInteraction } from 'containers/AgentDesktop/actions';
+import {
+  emailCreateReply,
+  emailCancelReply,
+  emailAddAttachment,
+  emailRemoveAttachment,
+  emailUpdateReply,
+  emailSendReply,
+  removeInteraction,
+} from 'containers/AgentDesktop/actions';
 import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
 
 function findImageEntities(contentBlock, callback, contentState) {
-  contentBlock.findEntityRanges(
-    (character) => {
-      const entityKey = character.getEntity();
-      return (
-        entityKey !== null &&
-        contentState.getEntity(entityKey).getType() === 'IMAGE'
-      );
-    },
-    callback
-  );
+  contentBlock.findEntityRanges((character) => {
+    const entityKey = character.getEntity();
+    return (
+      entityKey !== null &&
+      contentState.getEntity(entityKey).getType() === 'IMAGE'
+    );
+  }, callback);
 }
 
 const Image = (props) => {
-  const {
-    height,
-    src,
-    width,
-  } = props.contentState.getEntity(props.entityKey).getData(); // eslint-disable-line
+  /* eslint-disable react/prop-types */
+  const { height, src, width } = props.contentState
+    .getEntity(props.entityKey)
+    .getData();
+  /* eslint-enable react/prop-types */
 
-  return (
-    <img alt="" src={src} height={height} width={width} />
-  );
+  return <img alt="" src={src} height={height} width={width} />;
 };
 
 const decorator = new CompositeDecorator([
@@ -186,7 +194,6 @@ const styles = {
 };
 
 export class EmailContentArea extends BaseComponent {
-
   constructor(props) {
     super(props);
 
@@ -194,22 +201,36 @@ export class EmailContentArea extends BaseComponent {
       this.setState({ editorState });
     };
     this.state = {
-      subject: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.subject : '',
-      tos: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.tos : [],
+      subject: this.props.selectedInteraction.emailReply
+        ? this.props.selectedInteraction.emailReply.subject
+        : '',
+      tos: this.props.selectedInteraction.emailReply
+        ? this.props.selectedInteraction.emailReply.tos
+        : [],
       toInput: '',
-      ccs: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.ccs : [],
+      ccs: this.props.selectedInteraction.emailReply
+        ? this.props.selectedInteraction.emailReply.ccs
+        : [],
       ccInput: '',
-      bccs: this.props.selectedInteraction.emailReply ? this.props.selectedInteraction.emailReply.bccs : [],
+      bccs: this.props.selectedInteraction.emailReply
+        ? this.props.selectedInteraction.emailReply.bccs
+        : [],
       bccInput: '',
       selectedEmailTemplate: undefined,
       editorState: this.props.selectedInteraction.emailReply
-        ? EditorState.createWithContent(stateFromHTML(this.props.selectedInteraction.emailReply.message), decorator)
+        ? EditorState.createWithContent(
+            stateFromHTML(this.props.selectedInteraction.emailReply.message),
+            decorator
+          )
         : createEditorState(),
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.selectedInteraction.interactionId !== nextProps.selectedInteraction.interactionId) {
+    if (
+      this.props.selectedInteraction.interactionId !==
+      nextProps.selectedInteraction.interactionId
+    ) {
       if (this.props.selectedInteraction.emailReply) {
         this.emailUpdateReply();
       }
@@ -219,7 +240,10 @@ export class EmailContentArea extends BaseComponent {
           ccs: nextProps.selectedInteraction.emailReply.ccs,
           bccs: nextProps.selectedInteraction.emailReply.bccs,
           subject: nextProps.selectedInteraction.emailReply.subject,
-          editorState: EditorState.createWithContent(stateFromHTML(nextProps.selectedInteraction.emailReply.message), decorator),
+          editorState: EditorState.createWithContent(
+            stateFromHTML(nextProps.selectedInteraction.emailReply.message),
+            decorator
+          ),
         });
       } else {
         this.setState({
@@ -230,7 +254,10 @@ export class EmailContentArea extends BaseComponent {
           editorState: createEditorState(),
         });
       }
-    } else if (this.props.selectedInteraction.emailReply === undefined && nextProps.selectedInteraction.emailReply !== undefined) {
+    } else if (
+      this.props.selectedInteraction.emailReply === undefined &&
+      nextProps.selectedInteraction.emailReply !== undefined
+    ) {
       this.setState({
         tos: nextProps.selectedInteraction.emailReply.tos,
         ccs: nextProps.selectedInteraction.emailReply.ccs,
@@ -254,27 +281,34 @@ export class EmailContentArea extends BaseComponent {
       subject: this.state.subject,
       message: stateToHTML(this.state.editorState.getCurrentContent()),
     });
-  }
+  };
 
   onEmailCreateReply = () => {
-    CxEngage.interactions.email.agentReplyStarted({ interactionId: this.props.selectedInteraction.interactionId });
+    CxEngage.interactions.email.agentReplyStarted({
+      interactionId: this.props.selectedInteraction.interactionId,
+    });
     this.setState({
       editorState: createEditorState(),
     });
     this.props.emailCreateReply(this.props.selectedInteraction.interactionId);
-  }
+  };
 
   onEmailNoReply = () => {
-    CxEngage.interactions.email.agentNoReply({ interactionId: this.props.selectedInteraction.interactionId });
+    CxEngage.interactions.email.agentNoReply({
+      interactionId: this.props.selectedInteraction.interactionId,
+    });
     this.props.endInteraction();
-  }
+  };
 
   onCommaAddTo = (e) => {
     if (e.keyCode === 188) {
       e.preventDefault();
       if (isValidEmail(this.state.toInput)) {
         this.setState({
-          tos: this.state.tos.concat({ name: this.state.toInput, address: this.state.toInput }),
+          tos: this.state.tos.concat({
+            name: this.state.toInput,
+            address: this.state.toInput,
+          }),
           toInput: '',
         });
       }
@@ -282,14 +316,17 @@ export class EmailContentArea extends BaseComponent {
     } else {
       return true;
     }
-  }
+  };
 
   onCommaAddCc = (e) => {
     if (e.keyCode === 188) {
       e.preventDefault();
       if (isValidEmail(this.state.ccInput)) {
         this.setState({
-          ccs: this.state.ccs.concat({ name: this.state.ccInput, address: this.state.ccInput }),
+          ccs: this.state.ccs.concat({
+            name: this.state.ccInput,
+            address: this.state.ccInput,
+          }),
           ccInput: '',
         });
       }
@@ -297,14 +334,17 @@ export class EmailContentArea extends BaseComponent {
     } else {
       return true;
     }
-  }
+  };
 
   onCommaAddBcc = (e) => {
     if (e.keyCode === 188) {
       e.preventDefault();
       if (isValidEmail(this.state.bccInput)) {
         this.setState({
-          bccs: this.state.bccs.concat({ name: this.state.bccInput, address: this.state.bccInput }),
+          bccs: this.state.bccs.concat({
+            name: this.state.bccInput,
+            address: this.state.bccInput,
+          }),
           bccInput: '',
         });
       }
@@ -312,75 +352,96 @@ export class EmailContentArea extends BaseComponent {
     } else {
       return true;
     }
-  }
+  };
 
   onBlurAddTo = () => {
     if (isValidEmail(this.state.toInput)) {
       this.setState({
-        tos: this.state.tos.concat({ name: this.state.toInput, address: this.state.toInput }),
+        tos: this.state.tos.concat({
+          name: this.state.toInput,
+          address: this.state.toInput,
+        }),
         toInput: '',
       });
     }
-  }
+  };
 
   onBlurAddCc = () => {
     if (isValidEmail(this.state.ccInput)) {
       this.setState({
-        ccs: this.state.ccs.concat({ name: this.state.ccInput, address: this.state.ccInput }),
+        ccs: this.state.ccs.concat({
+          name: this.state.ccInput,
+          address: this.state.ccInput,
+        }),
         ccInput: '',
       });
     }
-  }
+  };
 
   onBlurAddBcc = () => {
     if (isValidEmail(this.state.bccInput)) {
       this.setState({
-        bccs: this.state.bccs.concat({ name: this.state.bccInput, address: this.state.bccInput }),
+        bccs: this.state.bccs.concat({
+          name: this.state.bccInput,
+          address: this.state.bccInput,
+        }),
         bccInput: '',
       });
     }
-  }
+  };
 
   removeTo = (toRemove) => {
     this.setState({
-      tos: this.state.tos.filter((to) =>
-        to !== toRemove
-      ),
+      tos: this.state.tos.filter((to) => to !== toRemove),
     });
-  }
+  };
 
   removeCc = (ccRemove) => {
     this.setState({
-      ccs: this.state.ccs.filter((cc) =>
-        cc !== ccRemove
-      ),
+      ccs: this.state.ccs.filter((cc) => cc !== ccRemove),
     });
-  }
+  };
 
   removeBcc = (bccRemove) => {
     this.setState({
-      bccs: this.state.bccs.filter((bcc) =>
-        bcc !== bccRemove
-      ),
+      bccs: this.state.bccs.filter((bcc) => bcc !== bccRemove),
     });
-  }
+  };
 
   addFilesToEmail = (fileList) => {
     for (let i = 0; i < fileList.length; i += 1) {
-      this.props.emailAddAttachment(this.props.selectedInteraction.interactionId, {});
-      CxEngage.interactions.email.addAttachment({ interactionId: this.props.selectedInteraction.interactionId, file: fileList[i] });
+      this.props.emailAddAttachment(
+        this.props.selectedInteraction.interactionId,
+        {}
+      );
+      CxEngage.interactions.email.addAttachment({
+        interactionId: this.props.selectedInteraction.interactionId,
+        file: fileList[i],
+      });
     }
-  }
+  };
 
   removeAttachment = (attachmentId) => {
-    this.props.emailRemoveAttachment(this.props.selectedInteraction.interactionId, attachmentId);
-    CxEngage.interactions.email.removeAttachment({ interactionId: this.props.selectedInteraction.interactionId, attachmentId });
-  }
+    this.props.emailRemoveAttachment(
+      this.props.selectedInteraction.interactionId,
+      attachmentId
+    );
+    CxEngage.interactions.email.removeAttachment({
+      interactionId: this.props.selectedInteraction.interactionId,
+      attachmentId,
+    });
+  };
 
   onTemplateChange = (value) => {
     let newEditorState;
     if (value !== null && value !== undefined) {
-      newEditorState = EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(value).contentBlocks, convertFromHTML(value).entityMap), decorator);
+      newEditorState = EditorState.createWithContent(
+        ContentState.createFromBlockArray(
+          convertFromHTML(value).contentBlocks,
+          convertFromHTML(value).entityMap
+        ),
+        decorator
+      );
     } else {
       newEditorState = createEditorState();
     }
@@ -388,7 +449,7 @@ export class EmailContentArea extends BaseComponent {
       selectedEmailTemplate: value,
       editorState: newEditorState,
     });
-  }
+  };
 
   sendEmail = () => {
     this.props.emailSendReply(this.props.selectedInteraction.interactionId);
@@ -402,16 +463,24 @@ export class EmailContentArea extends BaseComponent {
     };
 
     if (this.props.selectedInteraction.direction === 'outbound') {
-      emailReply.htmlBody = stateToHTML(this.state.editorState.getCurrentContent());
-      emailReply.plainTextBody = this.state.editorState.getCurrentContent().getPlainText();
+      emailReply.htmlBody = stateToHTML(
+        this.state.editorState.getCurrentContent()
+      );
+      emailReply.plainTextBody = this.state.editorState
+        .getCurrentContent()
+        .getPlainText();
     } else {
-      emailReply.htmlBody = stateToHTML(this.state.editorState.getCurrentContent()) + this.wrapEmailHistory(this.emailWithImages());
-      emailReply.plainTextBody = this.state.editorState.getCurrentContent().getPlainText() + this.props.selectedInteraction.emailPlainBody;
+      emailReply.htmlBody =
+        stateToHTML(this.state.editorState.getCurrentContent()) +
+        this.wrapEmailHistory(this.emailWithImages());
+      emailReply.plainTextBody =
+        this.state.editorState.getCurrentContent().getPlainText() +
+        this.props.selectedInteraction.emailPlainBody;
     }
 
     console.log('CxEngage.interactions.email.sendReply()', emailReply);
     CxEngage.interactions.email.sendReply(emailReply);
-  }
+  };
 
   emailWithImages = () => {
     const emailDetails = this.props.selectedInteraction.emailDetails;
@@ -428,7 +497,10 @@ export class EmailContentArea extends BaseComponent {
         imageId = '';
 
         attachment.headers.forEach((header) => {
-          if (header.contentDisposition && header.contentDisposition.slice(0, 6) === 'inline') {
+          if (
+            header.contentDisposition &&
+            header.contentDisposition.slice(0, 6) === 'inline'
+          ) {
             inlineContent = true;
           }
           if (header.contentId) {
@@ -440,23 +512,30 @@ export class EmailContentArea extends BaseComponent {
         if (inlineContent && srcStartIndex > -1) {
           bodyAfter = newEmailBody.slice(srcStartIndex);
           srcEndIndex = bodyAfter.indexOf('"') + srcStartIndex;
-          newEmailBody = [newEmailBody.slice(0, srcStartIndex), attachment.url, newEmailBody.slice(srcEndIndex)].join('');
+          newEmailBody = [
+            newEmailBody.slice(0, srcStartIndex),
+            attachment.url,
+            newEmailBody.slice(srcEndIndex),
+          ].join('');
         }
       });
     }
 
     return newEmailBody;
-  }
+  };
 
   wrapEmailHistory = (email) => {
-    const timestampFormatted = moment(this.props.selectedInteraction.emailDetails.dateSent).format('LL');
-    return (`
-      <p>On ${timestampFormatted} ${this.props.selectedInteraction.emailDetails.from[0].name} wrote:</p>
+    const timestampFormatted = moment(
+      this.props.selectedInteraction.emailDetails.dateSent
+    ).format('LL');
+    return `
+      <p>On ${timestampFormatted} ${this.props.selectedInteraction.emailDetails
+      .from[0].name} wrote:</p>
       <div style='border-left: 2px solid #979797; padding-left: 20px'>
         ${email}
       </div>
-    `);
-  }
+    `;
+  };
 
   render() {
     let from;
@@ -475,42 +554,56 @@ export class EmailContentArea extends BaseComponent {
     let details;
     let content;
 
-    if (this.props.selectedInteraction.sendingReply === true && this.props.selectedInteraction.status !== 'work-ended-pending-script') {
-      buttons = (
-        this.props.selectedInteraction.status === 'wrapup' ?
-          (<Button
-            id="endWrapup"
+    if (
+      this.props.selectedInteraction.sendingReply === true &&
+      this.props.selectedInteraction.status !== 'work-ended-pending-script'
+    ) {
+      buttons = this.props.selectedInteraction.status === 'wrapup'
+        ? (<Button
+          id="endWrapup"
+          type="primaryRed"
+          text={messages.endWrapup}
+          onClick={this.props.endInteraction}
+          disabled={this.props.awaitingDisposition}
+          style={{ marginRight: '8px' }}
+        />)
+        : (<div>
+          <Button
+            id="cancelEmail"
+            type="secondary"
+            style={{ marginRight: '5px' }}
+            text={messages.cancel}
+            onClick={() =>
+                this.props.emailCancelReply(
+                  this.props.selectedInteraction.interactionId
+                )}
+          />
+          <Button
+            id="sendEmail"
             type="primaryRed"
-            text={messages.endWrapup}
-            onClick={this.props.endInteraction}
-            disabled={this.props.awaitingDisposition}
-            style={{ marginRight: '8px' }}
-          />)
-          : (<div>
-            <Button
-              id="cancelEmail"
-              type="secondary"
-              style={{ marginRight: '5px' }}
-              text={messages.cancel}
-              onClick={() => this.props.emailCancelReply(this.props.selectedInteraction.interactionId)}
-            />
-            <Button
-              id="sendEmail"
-              type="primaryRed"
-              text={messages.send}
-              onClick={() => this.sendEmail()}
-              disabled
-            />
-          </div>)
-      );
-      details = <div></div>;
+            text={messages.send}
+            onClick={() => this.sendEmail()}
+            disabled
+          />
+        </div>);
+      details = <div />;
       if (this.props.selectedInteraction.status !== 'wrapup') {
         content = (
           <div key="wrapupSpinner">
-            <IconSVG style={styles.loadingSendingEmail} id="sendingReplyIcon" name="loading" />
+            <IconSVG
+              style={styles.loadingSendingEmail}
+              id="sendingReplyIcon"
+              name="loading"
+            />
             <div style={styles.centerText}>
-              <VelocityTransitionGroup runOnMount enter={{ animation: 'transition.slideUpIn', duration: '1000' }}>
-                <FormattedMessage key="replySpinner" {...messages.sendingEmail} />
+              <VelocityTransitionGroup
+                runOnMount
+                enter={{ animation: 'transition.slideUpIn', duration: '1000' }}
+              >
+                <FormattedMessage
+                  key="replySpinner"
+                  {...messages.sendingEmail}
+                />
               </VelocityTransitionGroup>
             </div>
           </div>
@@ -518,19 +611,33 @@ export class EmailContentArea extends BaseComponent {
       } else if (this.props.awaitingDisposition) {
         content = (
           <div key="wrapupSpinner">
-            <IconSVG style={styles.loadingSendingEmail} id="sendingReplyIcon" name="loading" />
+            <IconSVG
+              style={styles.loadingSendingEmail}
+              id="sendingReplyIcon"
+              name="loading"
+            />
             <div style={styles.centerText}>
-              <VelocityTransitionGroup runOnMount enter={{ animation: 'transition.slideUpIn', duration: '1000' }}>
-                <FormattedMessage key="dispoSpinner" {...messages.awaitingDisposition} />
+              <VelocityTransitionGroup
+                runOnMount
+                enter={{ animation: 'transition.slideUpIn', duration: '1000' }}
+              >
+                <FormattedMessage
+                  key="dispoSpinner"
+                  {...messages.awaitingDisposition}
+                />
               </VelocityTransitionGroup>
             </div>
           </div>
         );
       } else {
-        content = <div></div>;
+        content = <div />;
       }
     } else if (this.props.selectedInteraction.emailReply === undefined) {
-      if (this.props.selectedInteraction.emailDetails === undefined || (this.props.selectedInteraction.emailHtmlBody === undefined && this.props.selectedInteraction.emailPlainBody === undefined)) {
+      if (
+        this.props.selectedInteraction.emailDetails === undefined ||
+        (this.props.selectedInteraction.emailHtmlBody === undefined &&
+          this.props.selectedInteraction.emailPlainBody === undefined)
+      ) {
         buttons = (
           <Button
             id="replyEmailDisabled"
@@ -541,16 +648,15 @@ export class EmailContentArea extends BaseComponent {
           />
         );
       } else {
-        buttons = (
-          this.props.selectedInteraction.status === 'wrapup' ?
-            (<Button
-              id="endWrapup"
-              type="primaryRed"
-              text={messages.endWrapup}
-              onClick={this.props.endInteraction}
-              disabled={this.props.awaitingDisposition}
-              style={{ marginRight: '8px' }}
-            />)
+        buttons = this.props.selectedInteraction.status === 'wrapup'
+          ? (<Button
+            id="endWrapup"
+            type="primaryRed"
+            text={messages.endWrapup}
+            onClick={this.props.endInteraction}
+            disabled={this.props.awaitingDisposition}
+            style={{ marginRight: '8px' }}
+          />)
           : (<div>
             <Button
               id="endEmail"
@@ -565,11 +671,16 @@ export class EmailContentArea extends BaseComponent {
               text={messages.reply}
               onClick={this.onEmailCreateReply}
             />
-          </div>)
-        );
+          </div>);
       }
       if (this.props.selectedInteraction.emailDetails === undefined) {
-        details = <IconSVG style={styles.loadingCircle} id="loadingEmailDetails" name="loading" />;
+        details = (
+          <IconSVG
+            style={styles.loadingCircle}
+            id="loadingEmailDetails"
+            name="loading"
+          />
+        );
       } else {
         const tos = this.props.selectedInteraction.emailDetails.to.map((to) => {
           if (to.name && to.name !== to.address) {
@@ -585,13 +696,15 @@ export class EmailContentArea extends BaseComponent {
             return cc.address;
           }
         });
-        const bccs = this.props.selectedInteraction.emailDetails.bcc.map((bcc) => {
-          if (bcc.name && bcc.name !== bcc.address) {
-            return `${bcc.name} [${bcc.address}]`;
-          } else {
-            return bcc.address;
+        const bccs = this.props.selectedInteraction.emailDetails.bcc.map(
+          (bcc) => {
+            if (bcc.name && bcc.name !== bcc.address) {
+              return `${bcc.name} [${bcc.address}]`;
+            } else {
+              return bcc.address;
+            }
           }
-        });
+        );
         details = (
           <div>
             <div>
@@ -599,33 +712,29 @@ export class EmailContentArea extends BaseComponent {
                 <FormattedMessage {...messages.to} />
               </div>
               <div style={styles.detailsValue}>
-                { tos.join(', ') }
+                {tos.join(', ')}
               </div>
             </div>
-            {
-              ccs.length > 0
+            {ccs.length > 0
               ? <div>
                 <div style={styles.detailsField}>
                   <FormattedMessage {...messages.cc} />
                 </div>
                 <div style={styles.detailsValue}>
-                  { ccs.join(', ') }
+                  {ccs.join(', ')}
                 </div>
               </div>
-              : undefined
-            }
-            {
-              bccs.length > 0
+              : undefined}
+            {bccs.length > 0
               ? <div>
                 <div style={styles.detailsField}>
                   <FormattedMessage {...messages.bcc} />
                 </div>
                 <div style={styles.detailsValue}>
-                  { bccs.join(', ') }
+                  {bccs.join(', ')}
                 </div>
               </div>
-              : undefined
-            }
+              : undefined}
             <div>
               <div style={styles.detailsField}>
                 <FormattedMessage {...messages.subject} />
@@ -634,33 +743,48 @@ export class EmailContentArea extends BaseComponent {
                 {this.props.selectedInteraction.emailDetails.subject}
               </div>
             </div>
-            {
-              this.props.selectedInteraction.emailDetails.attachments !== undefined && this.props.selectedInteraction.emailDetails.attachments.length > 0
+            {this.props.selectedInteraction.emailDetails.attachments !==
+              undefined &&
+              this.props.selectedInteraction.emailDetails.attachments.length > 0
               ? <div style={styles.attachmentsContainer}>
-                {
-                  this.props.selectedInteraction.emailDetails.attachments.map((attachment, index) =>
-                    <a key={attachment.artifactFileId} id={`attachment-${index}`} className="attachment" href={attachment.url} download >
-                      <div style={styles.attachment} >
-                        {attachment.filename}
-                        {
-                          attachment.url === undefined
-                          ? <div style={{ display: 'inline-block', marginLeft: '6px' }}>
-                            <IconSVG style={styles.loadingAttachment} id={`loadingAttachment-${index}`} name="loading" />
-                          </div>
-                          : ''
-                        }
-                      </div>
-                    </a>
-                  )
-                }
+                {this.props.selectedInteraction.emailDetails.attachments.map(
+                    (attachment, index) =>
+                      <a
+                        key={attachment.artifactFileId}
+                        id={`attachment-${index}`}
+                        className="attachment"
+                        href={attachment.url}
+                        download
+                      >
+                        <div style={styles.attachment}>
+                          {attachment.filename}
+                          {attachment.url === undefined
+                            ? <div
+                              style={{
+                                display: 'inline-block',
+                                marginLeft: '6px',
+                              }}
+                            >
+                              <IconSVG
+                                style={styles.loadingAttachment}
+                                id={`loadingAttachment-${index}`}
+                                name="loading"
+                              />
+                            </div>
+                            : ''}
+                        </div>
+                      </a>
+                  )}
               </div>
-              : undefined
-            }
+              : undefined}
           </div>
         );
       }
 
-      if (this.props.selectedInteraction.emailHtmlBody === undefined && this.props.selectedInteraction.emailPlainBody === undefined) {
+      if (
+        this.props.selectedInteraction.emailHtmlBody === undefined &&
+        this.props.selectedInteraction.emailPlainBody === undefined
+      ) {
         content = (
           <div>
             <LoadingText />
@@ -671,14 +795,20 @@ export class EmailContentArea extends BaseComponent {
       } else if (this.props.selectedInteraction.emailHtmlBody !== undefined) {
         content = (
           <div>
-            { // eslint-disable-next-line react/no-danger
-            }<div id="emailContainer" style={styles.emailContent} dangerouslySetInnerHTML={{ __html: this.emailWithImages() }} />
+            {
+              // eslint-disable-next-line react/no-danger
+            }
+            <div
+              id="emailContainer"
+              style={styles.emailContent}
+              dangerouslySetInnerHTML={{ __html: this.emailWithImages() }}
+            />
           </div>
         );
       } else {
         content = (
           <div id="emailContainer" style={styles.emailContent}>
-            { this.props.selectedInteraction.emailPlainBody }
+            {this.props.selectedInteraction.emailPlainBody}
           </div>
         );
       }
@@ -691,14 +821,18 @@ export class EmailContentArea extends BaseComponent {
               type="primaryRed"
               style={{ marginRight: '8px' }}
               text={messages.cancel}
-              disabled={this.props.selectedInteraction.status !== 'work-accepted'}
+              disabled={
+                this.props.selectedInteraction.status !== 'work-accepted'
+              }
               onClick={this.props.endInteraction}
             />
             <Button
               id="sendOutboundEmail"
               type="primaryBlue"
               text={messages.send}
-              disabled={this.props.selectedInteraction.status !== 'work-accepted'}
+              disabled={
+                this.props.selectedInteraction.status !== 'work-accepted'
+              }
               onClick={() => this.sendEmail()}
             />
           </div>
@@ -722,7 +856,10 @@ export class EmailContentArea extends BaseComponent {
               type="primaryRed"
               style={{ marginRight: '8px' }}
               text={messages.cancel}
-              onClick={() => this.props.emailCancelReply(this.props.selectedInteraction.interactionId)}
+              onClick={() =>
+                this.props.emailCancelReply(
+                  this.props.selectedInteraction.interactionId
+                )}
             />
             <Button
               id="sendEmail"
@@ -734,9 +871,10 @@ export class EmailContentArea extends BaseComponent {
         );
       }
 
-      const emailTemplates = this.props.emailTemplates.map((emailTemplate) =>
-        ({ value: emailTemplate.template, label: emailTemplate.name })
-      );
+      const emailTemplates = this.props.emailTemplates.map((emailTemplate) => ({
+        value: emailTemplate.template,
+        label: emailTemplate.name,
+      }));
       details = (
         <div>
           <div style={styles.inputContainer}>
@@ -744,21 +882,29 @@ export class EmailContentArea extends BaseComponent {
               <FormattedMessage {...messages.to} />
             </div>
             <div style={styles.detailsValue}>
-              {
-                this.state.tos.map((to, index) =>
-                  <div key={`${index}-${to.address}`} id={`${index}-${to.address}`} style={styles.emailAddress}>
-                    { to.name && to.name !== to.address ? `${to.name} [${to.address}]` : to.address }
-                    {
-                      (this.props.selectedInteraction.direction === 'outbound' || index !== 0) && this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
-                      <span onClick={() => this.removeTo(to)} style={styles.emailAddressRemove}>
-                        &#10060;
-                      </span>
-                    }
-                  </div>
-                )
-              }
-              {
-                this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
+              {this.state.tos.map((to, index) =>
+                <div
+                  key={`${index}-${to.address}`}
+                  id={`${index}-${to.address}`}
+                  style={styles.emailAddress}
+                >
+                  {to.name && to.name !== to.address
+                    ? `${to.name} [${to.address}]`
+                    : to.address}
+                  {(this.props.selectedInteraction.direction === 'outbound' ||
+                    index !== 0) &&
+                    this.props.selectedInteraction.status !==
+                      'work-ended-pending-script' &&
+                      <span
+                        onClick={() => this.removeTo(to)}
+                        style={styles.emailAddressRemove}
+                      >
+                      &#10060;
+                    </span>}
+                </div>
+              )}
+              {this.props.selectedInteraction.status !==
+                'work-ended-pending-script' &&
                 <TextInput
                   id="emailToInput"
                   styleType="inlineInherit"
@@ -768,8 +914,7 @@ export class EmailContentArea extends BaseComponent {
                   cb={(toInput) => this.setState({ toInput })}
                   onKeyDown={(e) => this.onCommaAddTo(e)}
                   onBlur={() => this.onBlurAddTo()}
-                />
-              }
+                />}
             </div>
           </div>
           <div style={styles.inputContainer}>
@@ -777,21 +922,28 @@ export class EmailContentArea extends BaseComponent {
               <FormattedMessage {...messages.cc} />
             </div>
             <div style={styles.detailsValue}>
-              {
-                this.state.ccs.map((cc, index) =>
-                  <div key={`${index}-${cc.address}`} id={`${index}-${cc.address}`} style={styles.emailAddress}>
-                    { cc.name && cc.name !== cc.address ? `${cc.name} [${cc.address}]` : cc.address }
-                    {
-                      this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
-                      <span className="removeAddress" onClick={() => this.removeCc(cc)} style={styles.emailAddressRemove}>
-                        &#10060;
-                      </span>
-                    }
-                  </div>
-                )
-              }
-              {
-                this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
+              {this.state.ccs.map((cc, index) =>
+                <div
+                  key={`${index}-${cc.address}`}
+                  id={`${index}-${cc.address}`}
+                  style={styles.emailAddress}
+                >
+                  {cc.name && cc.name !== cc.address
+                    ? `${cc.name} [${cc.address}]`
+                    : cc.address}
+                  {this.props.selectedInteraction.status !==
+                    'work-ended-pending-script' &&
+                    <span
+                      className="removeAddress"
+                      onClick={() => this.removeCc(cc)}
+                      style={styles.emailAddressRemove}
+                    >
+                      &#10060;
+                    </span>}
+                </div>
+              )}
+              {this.props.selectedInteraction.status !==
+                'work-ended-pending-script' &&
                 <TextInput
                   id="emailCcInput"
                   styleType="inlineInherit"
@@ -801,8 +953,7 @@ export class EmailContentArea extends BaseComponent {
                   cb={(ccInput) => this.setState({ ccInput })}
                   onKeyDown={(e) => this.onCommaAddCc(e)}
                   onBlur={() => this.onBlurAddCc()}
-                />
-              }
+                />}
             </div>
           </div>
           <div style={styles.inputContainer}>
@@ -810,21 +961,28 @@ export class EmailContentArea extends BaseComponent {
               <FormattedMessage {...messages.bcc} />
             </div>
             <div style={styles.detailsValue}>
-              {
-                this.state.bccs.map((bcc, index) =>
-                  <div key={`${index}-${bcc.address}`} id={`${index}-${bcc.address}`} style={styles.emailAddress}>
-                    { bcc.name && bcc.name !== bcc.address ? `${bcc.name} [${bcc.address}]` : bcc.address }
-                    {
-                      this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
-                      <span className="removeAddress" onClick={() => this.removeBcc(bcc)} style={styles.emailAddressRemove}>
-                        &#10060;
-                      </span>
-                    }
-                  </div>
-                )
-              }
-              {
-                this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
+              {this.state.bccs.map((bcc, index) =>
+                <div
+                  key={`${index}-${bcc.address}`}
+                  id={`${index}-${bcc.address}`}
+                  style={styles.emailAddress}
+                >
+                  {bcc.name && bcc.name !== bcc.address
+                    ? `${bcc.name} [${bcc.address}]`
+                    : bcc.address}
+                  {this.props.selectedInteraction.status !==
+                    'work-ended-pending-script' &&
+                    <span
+                      className="removeAddress"
+                      onClick={() => this.removeBcc(bcc)}
+                      style={styles.emailAddressRemove}
+                    >
+                      &#10060;
+                    </span>}
+                </div>
+              )}
+              {this.props.selectedInteraction.status !==
+                'work-ended-pending-script' &&
                 <TextInput
                   id="emailBccInput"
                   styleType="inlineInherit"
@@ -834,8 +992,7 @@ export class EmailContentArea extends BaseComponent {
                   cb={(bccInput) => this.setState({ bccInput })}
                   onKeyDown={(e) => this.onCommaAddBcc(e)}
                   onBlur={() => this.onBlurAddBcc()}
-                />
-              }
+                />}
             </div>
           </div>
           <div style={styles.inputContainer}>
@@ -843,8 +1000,8 @@ export class EmailContentArea extends BaseComponent {
               <FormattedMessage {...messages.subject} />
             </div>
             <div style={styles.detailsValue}>
-              {
-                this.props.selectedInteraction.status !== 'work-ended-pending-script'
+              {this.props.selectedInteraction.status !==
+                'work-ended-pending-script'
                 ? <TextInput
                   id="subjectInput"
                   styleType="inlineInherit"
@@ -852,21 +1009,22 @@ export class EmailContentArea extends BaseComponent {
                   value={this.state.subject}
                   cb={(subject) => this.setState({ subject })}
                   style={{ width: '100%' }}
-                  readOnly={this.props.selectedInteraction.status === 'work-ended-pending-script'}
+                  readOnly={
+                      this.props.selectedInteraction.status ===
+                      'work-ended-pending-script'
+                    }
                 />
-                : this.state.subject
-              }
+                : this.state.subject}
             </div>
           </div>
-          {
-            this.props.emailTemplates.length > 0 &&
+          {this.props.emailTemplates.length > 0 &&
             <div>
               <div style={styles.detailsField}>
                 <FormattedMessage {...messages.template} />
               </div>
               <div style={styles.detailsValue}>
-                {
-                  this.props.selectedInteraction.status !== 'work-ended-pending-script'
+                {this.props.selectedInteraction.status !==
+                  'work-ended-pending-script'
                   ? <Select
                     id="emailTemplates"
                     style={styles.select}
@@ -875,51 +1033,61 @@ export class EmailContentArea extends BaseComponent {
                     options={emailTemplates}
                     onChange={(e) => this.onTemplateChange(e ? e.value : e)}
                   />
-                  : this.state.selectedEmailTemplate
-                }
+                  : this.state.selectedEmailTemplate}
               </div>
-            </div>
-          }
+            </div>}
           <div style={styles.attachmentsContainer}>
-            {
-              this.props.selectedInteraction.emailReply.attachments.map((attachment, index) =>
-                <div key={`${index}-${attachment.name}`} id={`${index}-${attachment.name}`} style={styles.attachment} >
-                  {
-                    attachment.attachmentId === undefined
+            {this.props.selectedInteraction.emailReply.attachments.map(
+              (attachment, index) =>
+                <div
+                  key={`${index}-${attachment.name}`}
+                  id={`${index}-${attachment.name}`}
+                  style={styles.attachment}
+                >
+                  {attachment.attachmentId === undefined
                     ? <div>Uploading...</div>
                     : <div>
                       <span style={styles.attachmentName}>
                         {attachment.name}
                       </span>
-                      {
-                        this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
-                        <span onClick={() => this.removeAttachment(attachment.attachmentId)} style={styles.attachmentRemove}>
-                          &#10060;
-                        </span>
-                      }
-                    </div>
-                  }
+                      {this.props.selectedInteraction.status !==
+                          'work-ended-pending-script' &&
+                          <span
+                            onClick={() =>
+                              this.removeAttachment(attachment.attachmentId)}
+                            style={styles.attachmentRemove}
+                          >
+                            &#10060;
+                          </span>}
+                    </div>}
                 </div>
-              )
-            }
-            {
-              this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
+            )}
+            {this.props.selectedInteraction.status !==
+              'work-ended-pending-script' &&
               <div>
-                <input id="attachmentFilePicker" type="file" multiple value="" onChange={(e) => this.addFilesToEmail(e.target.files)} style={{ display: 'none' }} />
-                <label id="attachmentFilePickerLabel" htmlFor="attachmentFilePicker">
+                <input
+                  id="attachmentFilePicker"
+                  type="file"
+                  multiple
+                  value=""
+                  onChange={(e) => this.addFilesToEmail(e.target.files)}
+                  style={{ display: 'none' }}
+                />
+                <label
+                  id="attachmentFilePickerLabel"
+                  htmlFor="attachmentFilePicker"
+                >
                   <div style={[styles.attachment, styles.addAttachment]}>
                     <Icon name="attachment" style={styles.attachmentIcon} />
-                    {
-                      this.props.selectedInteraction.emailReply.attachments.length === 0
+                    {this.props.selectedInteraction.emailReply.attachments
+                      .length === 0
                       ? <span style={styles.addAttachmentMessage}>
                         <FormattedMessage {...messages.addAttachment} />
                       </span>
-                      : undefined
-                    }
+                      : undefined}
                   </div>
                 </label>
-              </div>
-            }
+              </div>}
           </div>
         </div>
       );
@@ -928,15 +1096,26 @@ export class EmailContentArea extends BaseComponent {
       let emailReplyingTo;
 
       if (this.props.selectedInteraction.direction !== 'outbound') {
-        timestampFormatted = moment(this.props.selectedInteraction.emailDetails.dateSent).format('LL');
+        timestampFormatted = moment(
+          this.props.selectedInteraction.emailDetails.dateSent
+        ).format('LL');
         emailReplyingTo = (
-          <div className="md-RichEditor-editor" style={{ padding: '0 30px 20px' }}>
-            <p>On {timestampFormatted} {this.props.selectedInteraction.emailDetails.from[0].name} wrote:</p>
-            {
-              this.props.selectedInteraction.emailHtmlBody !== undefined
-              ? <blockquote className="md-RichEditor-blockquote" dangerouslySetInnerHTML={{ __html: this.emailWithImages() }}></blockquote>
-              : <blockquote className="md-RichEditor-blockquote">{ this.props.selectedInteraction.emailPlainBody }</blockquote>
-            }
+          <div
+            className="md-RichEditor-editor"
+            style={{ padding: '0 30px 20px' }}
+          >
+            <p>
+              On {timestampFormatted}{' '}
+              {this.props.selectedInteraction.emailDetails.from[0].name} wrote:
+            </p>
+            {this.props.selectedInteraction.emailHtmlBody !== undefined
+              ? <blockquote
+                className="md-RichEditor-blockquote"
+                dangerouslySetInnerHTML={{ __html: this.emailWithImages() }}
+              />
+              : <blockquote className="md-RichEditor-blockquote">
+                {this.props.selectedInteraction.emailPlainBody}
+              </blockquote>}
           </div>
         );
       }
@@ -946,7 +1125,10 @@ export class EmailContentArea extends BaseComponent {
         <div style={styles.richTextEditorContainer}>
           <Editor
             editorState={editorState}
-            editorEnabled={this.props.selectedInteraction.status !== 'work-ended-pending-script'}
+            editorEnabled={
+              this.props.selectedInteraction.status !==
+              'work-ended-pending-script'
+            }
             onChange={this.onChange}
             placeholder={this.props.intl.formatMessage(messages.addMessage)}
             sideButtons={[]}
@@ -997,12 +1179,20 @@ export class EmailContentArea extends BaseComponent {
               },
             ]}
           />
-          { emailReplyingTo }
+          {emailReplyingTo}
         </div>
       );
     }
 
-    return <ContentArea interaction={this.props.selectedInteraction} from={from} buttons={buttons} details={details} content={content} />;
+    return (
+      <ContentArea
+        interaction={this.props.selectedInteraction}
+        from={from}
+        buttons={buttons}
+        details={details}
+        content={content}
+      />
+    );
   }
 }
 
@@ -1027,15 +1217,23 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     setCriticalError: () => dispatch(setCriticalError()),
-    emailCreateReply: (interactionId) => dispatch(emailCreateReply(interactionId)),
-    emailCancelReply: (interactionId) => dispatch(emailCancelReply(interactionId)),
-    emailAddAttachment: (interactionId, attachment) => dispatch(emailAddAttachment(interactionId, attachment)),
-    emailRemoveAttachment: (interactionId, attachmentId) => dispatch(emailRemoveAttachment(interactionId, attachmentId)),
-    emailUpdateReply: (interactionId, reply) => dispatch(emailUpdateReply(interactionId, reply)),
+    emailCreateReply: (interactionId) =>
+      dispatch(emailCreateReply(interactionId)),
+    emailCancelReply: (interactionId) =>
+      dispatch(emailCancelReply(interactionId)),
+    emailAddAttachment: (interactionId, attachment) =>
+      dispatch(emailAddAttachment(interactionId, attachment)),
+    emailRemoveAttachment: (interactionId, attachmentId) =>
+      dispatch(emailRemoveAttachment(interactionId, attachmentId)),
+    emailUpdateReply: (interactionId, reply) =>
+      dispatch(emailUpdateReply(interactionId, reply)),
     emailSendReply: (interactionId) => dispatch(emailSendReply(interactionId)),
-    removeInteraction: (interactionId) => dispatch(removeInteraction(interactionId)),
+    removeInteraction: (interactionId) =>
+      dispatch(removeInteraction(interactionId)),
     dispatch,
   };
 }
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(EmailContentArea)));
+export default injectIntl(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(EmailContentArea))
+);

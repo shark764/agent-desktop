@@ -33,9 +33,25 @@ function Radio(props) {
   return (
     <span style={Object.assign({}, props.style)}>
       {props.options.map((option) =>
-        <span id={`agent-select-dir-1-${option.id}-container`} key={`agent-select-dir-1-${option.id}-container`} style={{ marginLeft: '24px' }}>
-          <input id={`agent-select-dir-1-${option.id}-input`} key={`agent-select-dir-${option.id}`} type="radio" checked={props.value === formatMessage(option)} onChange={() => props.cb(formatMessage(option))} />
-          <span id={`agent-select-dir-1-${option.id}-label`} key={`agent-select-dir-1-${option.id}-label`} style={styles.base}> {formatMessage(option)} </span>
+        <span
+          id={`agent-select-dir-1-${option.id}-container`}
+          key={`agent-select-dir-1-${option.id}-container`}
+          style={{ marginLeft: '24px' }}
+        >
+          <input
+            id={`agent-select-dir-1-${option.id}-input`}
+            key={`agent-select-dir-${option.id}`}
+            type="radio"
+            checked={props.value === formatMessage(option)}
+            onChange={() => props.cb(formatMessage(option))}
+          />
+          <span
+            id={`agent-select-dir-1-${option.id}-label`}
+            key={`agent-select-dir-1-${option.id}-label`}
+            style={styles.base}
+          >
+            {' '}{formatMessage(option)}{' '}
+          </span>
         </span>
       )}
     </span>

@@ -21,7 +21,7 @@ function Tabs(props) {
       paddingLeft: 0,
     },
     '[role=tab][aria-selected=true]:first-child::after': {
-      content: '\'\'',
+      content: "''",
       width: 'calc(100% - 12px)',
       left: '0px',
     },
@@ -48,92 +48,102 @@ function Tabs(props) {
     tabsStyleElement = (
       <Radium.Style
         scopeSelector={`#${props.id} .react-tabs`}
-        rules={Object.assign({
-          color: '#4B4B4B',
-          '[role=tablist]': {
-            backgroundColor: '#F3F3F3',
-            borderBottom: '1px solid #D0D0D0',
-            padding: '0 32px',
-            margin: '0',
-            maxHeight: 100,
-            boxSizing: 'border-box',
+        rules={Object.assign(
+          {
+            color: '#4B4B4B',
+            '[role=tablist]': {
+              backgroundColor: '#F3F3F3',
+              borderBottom: '1px solid #D0D0D0',
+              padding: '0 32px',
+              margin: '0',
+              maxHeight: 100,
+              boxSizing: 'border-box',
+            },
+            '[role=tab]': {
+              fontWeight: 'bold',
+              backgroundColor: '#F3F3F3',
+              display: 'inline-block',
+              border: '1px solid transparent',
+              borderBottom: 'none',
+              bottom: '-1px',
+              position: 'relative',
+              listStyle: 'none',
+              padding: '10px 12px',
+              marginBottom: '1px',
+              cursor: 'pointer',
+            },
+            '[role=tab][aria-selected=true]::after': {
+              content: "''",
+              width: 'calc(100% - 24px)',
+              left: '12px',
+              height: '3px',
+              background: '#4B4B4B',
+              position: 'absolute',
+              bottom: 0,
+            },
           },
-          '[role=tab]': {
-            fontWeight: 'bold',
-            backgroundColor: '#F3F3F3',
-            display: 'inline-block',
-            border: '1px solid transparent',
-            borderBottom: 'none',
-            bottom: '-1px',
-            position: 'relative',
-            listStyle: 'none',
-            padding: '10px 12px',
-            marginBottom: '1px',
-            cursor: 'pointer',
-          },
-          '[role=tab][aria-selected=true]::after': {
-            content: '\'\'',
-            width: 'calc(100% - 24px)',
-            left: '12px',
-            height: '3px',
-            background: '#4B4B4B',
-            position: 'absolute',
-            bottom: 0,
-          },
-        }, commonTabStyles)}
+          commonTabStyles
+        )}
       />
     );
   } else {
     tabsStyleElement = (
       <Radium.Style
         scopeSelector={`#${props.id} .react-tabs`}
-        rules={Object.assign({
-          color: '#4B4B4B',
-          '[role=tablist]': {
-            flexGrow: '0',
-            flexShrink: '0',
-            order: '0',
-            borderBottom: '1px solid #D0D0D0',
-            padding: '10px 5px 15px 0',
-            margin: '0',
-            height: `${props.topBarHeightPx}px`,
-            boxSizing: 'border-box',
+        rules={Object.assign(
+          {
+            color: '#4B4B4B',
+            '[role=tablist]': {
+              flexGrow: '0',
+              flexShrink: '0',
+              order: '0',
+              borderBottom: '1px solid #D0D0D0',
+              padding: '10px 5px 15px 0',
+              margin: '0',
+              height: `${props.topBarHeightPx}px`,
+              boxSizing: 'border-box',
+            },
+            '[role=tabpanel]': {
+              height: `calc(100% - ${props.topBarHeightPx}px)`,
+              alignSelf: 'stretch',
+            },
+            '[role=tab]': {
+              fontWeight: 'bold',
+              backgroundColor: '#FFFFFF',
+              display: 'inline-block',
+              border: '1px solid transparent',
+              borderBottom: 'none',
+              bottom: '-1px',
+              position: 'relative',
+              listStyle: 'none',
+              padding: '6px 12px',
+              cursor: 'pointer',
+            },
+            '[role=tab][aria-selected=true]::after': {
+              content: "''",
+              width: 'calc(100% - 24px)',
+              left: '12px',
+              height: '4px',
+              background: '#4B4B4B',
+              position: 'absolute',
+              bottom: '-14px',
+            },
           },
-          '[role=tabpanel]': {
-            height: `calc(100% - ${props.topBarHeightPx}px)`,
-            alignSelf: 'stretch',
-          },
-          '[role=tab]': {
-            fontWeight: 'bold',
-            backgroundColor: '#FFFFFF',
-            display: 'inline-block',
-            border: '1px solid transparent',
-            borderBottom: 'none',
-            bottom: '-1px',
-            position: 'relative',
-            listStyle: 'none',
-            padding: '6px 12px',
-            cursor: 'pointer',
-          },
-          '[role=tab][aria-selected=true]::after': {
-            content: '\'\'',
-            width: 'calc(100% - 24px)',
-            left: '12px',
-            height: '4px',
-            background: '#4B4B4B',
-            position: 'absolute',
-            bottom: '-14px',
-          },
-        }, commonTabStyles)}
+          commonTabStyles
+        )}
       />
     );
   }
 
   return (
     <div id={props.id} style={[props.style, { width: '100%' }]}>
-      { tabsStyleElement }
-      <ReactTabs selectedIndex={props.selectedIndex} onSelect={props.onSelect} style={props.tabsRootStyle}>
-        { props.children }
+      {tabsStyleElement}
+      <ReactTabs
+        selectedIndex={props.selectedIndex}
+        onSelect={props.onSelect}
+        style={props.tabsRootStyle}
+      >
+        {props.children}
       </ReactTabs>
     </div>
   );

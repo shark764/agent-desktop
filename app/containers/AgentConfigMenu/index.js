@@ -30,7 +30,6 @@ import messages from './messages';
 const MAXIMUM_STATS = 5;
 
 export class AgentConfigMenu extends BaseComponent {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +37,11 @@ export class AgentConfigMenu extends BaseComponent {
       statOption: 'resourceConversationStartsCount',
       statAggregate: 'count',
     };
-    this.sourceOptions = [{ value: 'resource-id', label: 'Agent' }, { value: 'queue-id', label: 'Queue' }, { value: 'tenant-id', label: 'Tenant' }];
+    this.sourceOptions = [
+      { value: 'resource-id', label: 'Agent' },
+      { value: 'queue-id', label: 'Queue' },
+      { value: 'tenant-id', label: 'Tenant' },
+    ];
   }
 
   styles = {
@@ -73,12 +76,12 @@ export class AgentConfigMenu extends BaseComponent {
       justifyContent: 'flex-end',
       color: 'red',
     },
-  }
+  };
 
   addStat = () => {
     this.props.activateToolbarStat(this.state);
     this.props.hideMenu();
-  }
+  };
 
   setStatSource = (value) => {
     this.setState({ statSource: value }, () => {
@@ -87,47 +90,51 @@ export class AgentConfigMenu extends BaseComponent {
       }
       this.setStatOption(this.getStats()[0].value);
     });
-  }
+  };
 
   setStatOption = (value) => {
     this.setState({ statOption: value }, () => {
       this.setStatAggregate(this.getAggregates()[0].value);
     });
-  }
+  };
 
   setStatAggregate = (value) => {
     this.setState({ statAggregate: value });
-  }
+  };
 
   setQueue = (value) => {
     this.setState({ queue: value });
-  }
+  };
 
   getQueues = () =>
-    this.props.queues.map((queue) =>
-      ({ value: queue.id, label: queue.name })
-    );
+    this.props.queues.map((queue) => ({ value: queue.id, label: queue.name }));
 
   getStats = () => {
     let stats;
     if (this.state.statSource === 'tenant-id') {
       stats = this.props.availableStats;
     } else {
-      stats = pickBy(this.props.availableStats, (stat) => stat.optionalFilters.includes(this.state.statSource));
+      stats = pickBy(this.props.availableStats, (stat) =>
+        stat.optionalFilters.includes(this.state.statSource)
+      );
     }
     return Object.keys(stats)
-        .map((key) => ({ value: key, label: stats[key].userFriendlyName }))
-        .sort((a, b) => {
-          if (a.label.toUpperCase() > b.label.toUpperCase()) {
-            return 1;
-          } else if (a.label.toUpperCase() < b.label.toUpperCase()) {
-            return -1;
-          } return 0;
-        });
-  }
+      .map((key) => ({ value: key, label: stats[key].userFriendlyName }))
+      .sort((a, b) => {
+        if (a.label.toUpperCase() > b.label.toUpperCase()) {
+          return 1;
+        } else if (a.label.toUpperCase() < b.label.toUpperCase()) {
+          return -1;
+        }
+        return 0;
+      });
+  };
 
   getAggregates = () =>
-    this.props.availableStats[this.state.statOption] && Object.keys(this.props.availableStats[this.state.statOption].responseKeys).map((key) => {
+    this.props.availableStats[this.state.statOption] &&
+    Object.keys(
+      this.props.availableStats[this.state.statOption].responseKeys
+    ).map((key) => {
       let label;
       if (key === 'avg') {
         label = 'average';
@@ -139,9 +146,18 @@ export class AgentConfigMenu extends BaseComponent {
 
   render() {
     return (
-      <PopupDialog id="statMenu" style={this.styles.statMenu} widthPx={230} arrowLeftOffsetPx={198} isVisible={this.props.show} hide={this.props.hideMenu}>
+      <PopupDialog
+        id="statMenu"
+        style={this.styles.statMenu}
+        widthPx={230}
+        arrowLeftOffsetPx={198}
+        isVisible={this.props.show}
+        hide={this.props.hideMenu}
+      >
         <div style={this.styles.menuGroup}>
-          <div style={this.styles.menuHeader}><FormattedMessage {...messages.source} /></div>
+          <div style={this.styles.menuHeader}>
+            <FormattedMessage {...messages.source} />
+          </div>
           <div style={this.styles.statOption}>
             <Select
               id="statSource"
@@ -153,9 +169,11 @@ export class AgentConfigMenu extends BaseComponent {
             />
           </div>
         </div>
-        {this.state.statSource === 'queue-id' ?
-          <div style={this.styles.menuGroup}>
-            <div style={this.styles.menuHeader}><FormattedMessage {...messages.queue} /></div>
+        {this.state.statSource === 'queue-id'
+          ? <div style={this.styles.menuGroup}>
+            <div style={this.styles.menuHeader}>
+              <FormattedMessage {...messages.queue} />
+            </div>
             <div style={this.styles.statOption}>
               <Select
                 id="queueSelect"
@@ -167,9 +185,11 @@ export class AgentConfigMenu extends BaseComponent {
               />
             </div>
           </div>
-        : ''}
+          : ''}
         <div style={this.styles.menuGroup}>
-          <div style={this.styles.menuHeader}><FormattedMessage {...messages.statistic} /></div>
+          <div style={this.styles.menuHeader}>
+            <FormattedMessage {...messages.statistic} />
+          </div>
           <div style={this.styles.statOption}>
             <Select
               id="statOption"
@@ -182,14 +202,17 @@ export class AgentConfigMenu extends BaseComponent {
           </div>
         </div>
         <div style={this.styles.menuGroup}>
-          <div style={this.styles.menuHeader}><FormattedMessage {...messages.aggregate} /></div>
+          <div style={this.styles.menuHeader}>
+            <FormattedMessage {...messages.aggregate} />
+          </div>
           <div style={this.styles.statOption}>
             <Select
               id="statAggregate"
               value={this.state.statAggregate}
               style={this.styles.select}
               options={this.getAggregates()}
-              onChange={(e) => this.setStatAggregate(e.value || '-1', e.label || '')}
+              onChange={(e) =>
+                this.setStatAggregate(e.value || '-1', e.label || '')}
               clearable={false}
             />
           </div>
@@ -197,7 +220,13 @@ export class AgentConfigMenu extends BaseComponent {
         <div style={this.styles.buttonContainer}>
           {this.props.toolbarStatIds.length === MAXIMUM_STATS
             ? <span><FormattedMessage {...messages.maxStats} /></span>
-            : <Button text={messages.add} id="toggleStat" style={this.styles.addButton} type="secondary" onClick={this.addStat} />}
+            : <Button
+              text={messages.add}
+              id="toggleStat"
+              style={this.styles.addButton}
+              type="secondary"
+              onClick={this.addStat}
+            />}
         </div>
       </PopupDialog>
     );
@@ -229,4 +258,6 @@ AgentConfigMenu.propTypes = {
   show: PropTypes.bool,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(AgentConfigMenu));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  Radium(AgentConfigMenu)
+);

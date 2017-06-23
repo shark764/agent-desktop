@@ -18,7 +18,4 @@ const selectContact = createSelector(
   (currentInteraction) => currentInteraction.contact
 );
 
-export {
-  getSelectedInteractionId,
-  selectContact,
-};
+export { getSelectedInteractionId, selectContact };

@@ -7,9 +7,8 @@ import { createSelector } from 'reselect';
 const selectLoginMap = (state) => state.get('login');
 const selectAgentDesktopMap = (state) => state.get('agentDesktop');
 
-const selectAgentId = createSelector(
-  selectLoginMap,
-  (login) => login.get('agent').get('userId')
+const selectAgentId = createSelector(selectLoginMap, (login) =>
+  login.get('agent').get('userId')
 );
 
 const selectIsAgentReady = createSelector(
@@ -30,9 +29,8 @@ const selectNewInteractionPanel = createSelector(
   selectAgentDesktopMap,
   (agentDesktop) => agentDesktop.get('newInteractionPanel')
 );
-const selectQueues = createSelector(
-  selectAgentDesktopMap,
-  (agentDesktop) => agentDesktop.get('queues').toJS()
+const selectQueues = createSelector(selectAgentDesktopMap, (agentDesktop) =>
+  agentDesktop.get('queues').toJS()
 );
 
 const selectNoInteractionContactPanel = createSelector(
@@ -52,31 +50,33 @@ const selectSelectedInteraction = createSelector(
       if (selectedInteractionId === 'creating-new-interaction') {
         return newInteractionPanel.toJS();
       } else {
-        return interactions.toJS().find((interaction) =>
-          interaction.interactionId === selectedInteractionId
-        );
+        return interactions
+          .toJS()
+          .find(
+            (interaction) => interaction.interactionId === selectedInteractionId
+          );
       }
     } else {
       return undefined;
     }
   }
- );
+);
 
 const selectAwaitingDisposition = createSelector(
   selectSelectedInteraction,
-  (interaction) => (
+  (interaction) =>
     typeof interaction !== 'undefined' &&
     interaction.status === 'wrapup' &&
     interaction.dispositionDetails.forceSelect &&
     interaction.dispositionDetails.selected.length === 0
-  )
 );
 
 const selectHasVoiceInteraction = createSelector(
   selectInteractionsList,
-  (interactions) => interactions.findIndex(
-    (interaction) => (interaction.get('channelType') === 'voice')
-  ) !== -1
+  (interactions) =>
+    interactions.findIndex(
+      (interaction) => interaction.get('channelType') === 'voice'
+    ) !== -1
 );
 
 const selectSmsInteractionNumbers = createSelector(
