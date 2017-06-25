@@ -36,6 +36,7 @@ function Select(props) {
         autofocus={props.autoFocus}
         clearable={props.clearable}
         placeholder={props.placeholder || 'Select...'}
+        tabIndex="0"
       />
     </div>
   );

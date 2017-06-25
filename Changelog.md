@@ -1,3 +1,6 @@
+### [0.42.10] (2017-06-23)
+* CXV1-9922 - Added locale icon to tabbing sequence on login screen
+
 ### [0.42.9] (2017-06-23)
 * INTERNAL - Added prettier formatting library
 

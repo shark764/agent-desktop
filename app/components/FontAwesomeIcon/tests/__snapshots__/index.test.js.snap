@@ -1,24 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<FontAwesomeIcon /> should render correctly 1`] = `
-<i
-  alt="globe"
-  className="fa fa-globe fa-2x"
-  id="globeIcon"
-/>
+<button
+  style={
+    Object {
+      "border": "none",
+      "padding": "0",
+    }
+  }
+  tabIndex={0}
+>
+  <i
+    alt="globe"
+    className="fa fa-globe fa-2x"
+    id="globeIcon"
+  />
+</button>
 `;
 
 exports[`<FontAwesomeIcon /> should render correctly with additional props 1`] = `
-<i
-  alt="testing icon"
-  className="fa fa-globe fa-3x"
-  data-radium={true}
-  id="globeIcon"
+<button
   onClick={[Function]}
   style={
     Object {
-      "color": "blue",
+      "border": "none",
+      "padding": "0",
     }
   }
-/>
+  tabIndex={0}
+>
+  <i
+    alt="testing icon"
+    className="fa fa-globe fa-3x"
+    id="globeIcon"
+    style={
+      Object {
+        "color": "blue",
+      }
+    }
+  />
+</button>
 `;
