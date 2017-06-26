@@ -1,5 +1,124 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`goAcceptWork if active resources exist should be done after calling getUser for each resource 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`goAcceptWork if active resources exist should call getUser for each active resource 1`] = `
+Object {
+  "done": false,
+  "value": Array [
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          "getUser",
+          Object {
+            "resourceId": "resource-1",
+          },
+          "AgentDesktop",
+        ],
+        "context": null,
+        "fn": [Function],
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          "getUser",
+          Object {
+            "resourceId": "resource-2",
+          },
+          "AgentDesktop",
+        ],
+        "context": null,
+        "fn": [Function],
+      },
+    },
+  ],
+}
+`;
+
+exports[`goAcceptWork if active resources exist should dispatch setActiveResources 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "activeResources": Array [
+          Object {
+            "id": "resource-1",
+          },
+          Object {
+            "id": "resource-2",
+          },
+        ],
+        "interactionId": "interaction-id",
+        "type": "app/AgentDesktop/SET_ACTIVE_RESOURCES",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAcceptWork if active resources exist should dispatch setInteractionStatus with work-accepted 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "interaction-id",
+        "newStatus": "work-accepted",
+        "response": Object {
+          "activeResources": Array [
+            Object {
+              "id": "resource-1",
+            },
+            Object {
+              "id": "resource-2",
+            },
+          ],
+        },
+        "type": "app/AgentDesktop/SET_INTERACTION_STATUS",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAcceptWork if no active resources exist should be done after dispatching action 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`goAcceptWork if no active resources exist should dispatch setInteractionStatus with work-accepted 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "interaction-id",
+        "newStatus": "work-accepted",
+        "response": Object {},
+        "type": "app/AgentDesktop/SET_INTERACTION_STATUS",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
 exports[`goDeleteContacts when action.reasonIds is an array of Ids should call the promise util with the SDK goDeleteContacts and the correct arguments 1`] = `
 Object {
   "done": false,

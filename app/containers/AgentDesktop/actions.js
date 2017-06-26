@@ -47,6 +47,8 @@ import {
   REMOVE_CONTACT,
   ADD_MESSAGE,
   SET_INTERACTION_STATUS,
+  SET_ACTIVE_RESOURCES,
+  WORK_ACCEPTED,
   ADD_SEARCH_FILTER,
   REMOVE_SEARCH_FILTER,
   REMOVE_INTERACTION,
@@ -417,6 +419,22 @@ export function setInteractionStatus(interactionId, newStatus, response) {
     type: SET_INTERACTION_STATUS,
     interactionId,
     newStatus,
+    response,
+  };
+}
+
+export function setActiveResources(interactionId, activeResources) {
+  return {
+    type: SET_ACTIVE_RESOURCES,
+    interactionId,
+    activeResources,
+  };
+}
+
+export function workAccepted(interactionId, response) {
+  return {
+    type: WORK_ACCEPTED,
+    interactionId,
     response,
   };
 }

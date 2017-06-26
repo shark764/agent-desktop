@@ -66,6 +66,7 @@ import {
   updateContact,
   setInteractionQuery,
   setInteractionStatus,
+  workAccepted,
   removeInteraction,
   updateWrapupDetails,
   addScript,
@@ -407,11 +408,7 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/work-accepted-received': {
-            this.props.setInteractionStatus(
-              response.interactionId,
-              'work-accepted',
-              response
-            );
+            this.props.workAccepted(response.interactionId, response);
             break;
           }
           case 'cxengage/interactions/custom-fields-received': {
@@ -909,6 +906,8 @@ function mapDispatchToProps(dispatch) {
     setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus, response) =>
       dispatch(setInteractionStatus(interactionId, newStatus, response)),
+    workAccepted: (interactionId, response) =>
+      dispatch(workAccepted(interactionId, response)),
     addInteraction: (interaction) => dispatch(addInteraction(interaction)),
     workInitiated: (response) => dispatch(workInitiated(response)),
     removeInteraction: (interactionId) =>
@@ -1000,6 +999,7 @@ App.propTypes = {
   setExtensions: PropTypes.func.isRequired,
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,
+  workAccepted: PropTypes.func.isRequired,
   updateWrapupDetails: PropTypes.func.isRequired,
   addScript: PropTypes.func.isRequired,
   removeScript: PropTypes.func.isRequired,

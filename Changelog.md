@@ -1,3 +1,6 @@
+### [0.42.13] (2017-06-27)
+* CXV1-10143 - Changed how active resources are handled on transfers
+
 ### [0.42.12] (2017-06-27)
 * CXV1-10115 - Fix error handling for selectors, mapStateToProps
 
