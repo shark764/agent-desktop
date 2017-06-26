@@ -8,4 +8,4 @@ Given `x.y.z`:
 
 * y = Incremented when release contains added UI or a new feature.
 
-* z = Incremented when a release contains a bugfix. No new functionality added to the user.
+* z = Incremented when a release contains a bugfix or minor UX improvment. No new functionality added to the user.

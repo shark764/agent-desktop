@@ -487,12 +487,20 @@ function agentDesktopReducer(state = initialState, action) {
                 .set('onHold', action.response.customerOnHold === true)
                 .set('recording', action.response.recording === true);
             }
-            // Remove isScriptOnly if we are accepting the work offer
             if (
               action.newStatus === 'work-accepting' &&
               updatedInteraction.get('isScriptOnly') === true
             ) {
+              // Remove isScriptOnly if we are accepting the work offer
               updatedInteraction = updatedInteraction.delete('isScriptOnly');
+              // Keep script in focus (voice will always be in focus, it's script is in MainContentArea)
+              if (updatedInteraction.get('channelType') !== 'voice') {
+                updatedInteraction = updatedInteraction.set(
+                  'sidePanelTabIndex',
+                  2
+                );
+                openContactsPanel = true;
+              }
             }
             return updatedInteraction;
           })
@@ -740,10 +748,27 @@ function agentDesktopReducer(state = initialState, action) {
             interaction.get('interactionId') === action.interactionId
         );
       if (interactionIndex > -1) {
-        return state.setIn(
-          ['interactions', interactionIndex, 'script'],
-          fromJS(action.script)
+        let openContactsPanel = false;
+        let newState = state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) => {
+            const newInteraction = interaction.set(
+              'script',
+              fromJS(action.script)
+            );
+            // Put script in focus (voice will always be in focus, it's script is in MainContentArea)
+            if (interaction.get('channelType') !== 'voice') {
+              openContactsPanel = true;
+              return newInteraction.set('sidePanelTabIndex', 2);
+            } else {
+              return newInteraction;
+            }
+          }
         );
+        if (openContactsPanel) {
+          newState = newState.set('isContactsPanelCollapsed', false);
+        }
+        return newState;
       } else {
         // 'script-only' is the main status we will use. isScriptOnly for when interactions receive a work offer, but still need to render the script in MainContentArea until it has been accepted
         const scriptInteraction = fromJS({
