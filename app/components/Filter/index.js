@@ -37,27 +37,31 @@ const styles = {
     textOverflow: 'ellipsis',
     maxWidth: '200px',
   },
+  iconDisabled: {
+    cursor: 'auto',
+    opacity: '0',
+  },
 };
 
 function Filter(props) {
-  function remove() {
-    props.remove(props.objectName);
-  }
-
   return (
     <div key={props.name} style={[styles.base, props.style]}>
       <span style={styles.filterName}>{`${props.name}:`}&nbsp;</span>
       <span style={styles.valueText}>{props.value}</span>
-      <Icon name="close" onclick={remove} style={styles.deleteFilterIcon} />
+      <Icon
+        name="close"
+        onclick={!props.disabled ? props.remove : null}
+        style={[styles.deleteFilterIcon, props.disabled && styles.iconDisabled]}
+      />
     </div>
   );
 }
 
 Filter.propTypes = {
-  objectName: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   remove: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
   style: PropTypes.object,
 };
 

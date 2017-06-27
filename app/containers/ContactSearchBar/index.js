@@ -27,6 +27,7 @@ import {
   removeSearchFilter,
   setContactMode,
 } from 'containers/AgentDesktop/actions';
+import { selectSearchPending } from 'containers/InfoTab/selectors';
 import { selectSearchableAttributes } from './selectors';
 import messages from './messages';
 
@@ -246,17 +247,19 @@ export class ContactSearchBar extends React.Component {
   };
 
   cancel = () => {
-    this.props.removeSearchFilter();
-    if (
-      this.props.selectedInteraction.contact !== undefined &&
-      this.props.selectedInteraction.contact.id !== undefined
-    ) {
-      this.props.setContactMode(
-        this.props.selectedInteraction.interactionId,
-        'view'
-      );
-    } else {
-      this.clearContactSearchForm();
+    if (!this.props.searchPending) {
+      this.props.removeSearchFilter();
+      if (
+        this.props.selectedInteraction.contact !== undefined &&
+        this.props.selectedInteraction.contact.id !== undefined
+      ) {
+        this.props.setContactMode(
+          this.props.selectedInteraction.interactionId,
+          'view'
+        );
+      } else {
+        this.clearContactSearchForm();
+      }
     }
   };
 
@@ -359,11 +362,15 @@ ContactSearchBar.propTypes = {
   searchableAttributes: PropTypes.array,
   removeSearchFilter: PropTypes.func.isRequired,
   setContactMode: React.PropTypes.func.isRequired,
+  searchPending: PropTypes.bool,
 };
 
-const mapStateToProps = (state, props) => ({
-  searchableAttributes: selectSearchableAttributes(state, props),
-});
+function mapStateToProps(state, props) {
+  return {
+    searchableAttributes: selectSearchableAttributes(state, props),
+    searchPending: selectSearchPending(state, props),
+  };
+}
 
 function mapDispatchToProps(dispatch) {
   return {

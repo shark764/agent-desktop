@@ -21,6 +21,7 @@ import {
   SET_LOADING,
   SET_DELETION_PENDING,
   SET_CONFIRMING_DELETE,
+  SET_SEARCH_PENDING,
 } from './constants';
 
 const initialState = fromJS({
@@ -33,6 +34,7 @@ const initialState = fromJS({
   nextNotificationId: 0,
   deletionPending: false,
   confirmingDelete: false,
+  searchPending: false,
 });
 
 let currentContacts;
@@ -103,6 +105,8 @@ function infoTabReducer(state = initialState, action) {
       return state.set('deletionPending', action.deletionPending);
     case SET_CONFIRMING_DELETE:
       return state.set('confirmingDelete', action.confirmingDelete);
+    case SET_SEARCH_PENDING:
+      return state.set('searchPending', action.searchPending);
     default:
       return state;
   }

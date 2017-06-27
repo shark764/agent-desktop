@@ -23,5 +23,6 @@ Object {
   "notifications": Array [],
   "results": Array [],
   "resultsCount": -1,
+  "searchPending": false,
 }
 `;

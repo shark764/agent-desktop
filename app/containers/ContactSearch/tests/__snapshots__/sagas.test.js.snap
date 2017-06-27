@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Helper Functions: createSearchQuery should create a query for the SDK 1`] = `
+Object {
+  "query": Object {
+    "email": "test%40email.com",
+    "name": "Test",
+    "page": 1,
+    "phone": "%22%2B15555555555%22",
+  },
+}
+`;
+
+exports[`goSearchContacts when a contact search is performed should be done 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`goSearchContacts when a contact search is performed should call CxEngage.contacts.search 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "search",
+        Object {
+          "query": Object {
+            "page": 1,
+            "q": "test",
+          },
+        },
+        "ContactSearch",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goSearchContacts when a contact search is performed should dispatch setSearchPending with false 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "searchPending": false,
+        "type": "app/InfoTab/SET_SEARCH_PENDING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSearchContacts when a contact search is performed should dispatch setSearchPending with true 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "searchPending": true,
+        "type": "app/InfoTab/SET_SEARCH_PENDING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSearchContacts when a contact search is performed should dispatch setSearchResults 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "response": undefined,
+        "type": "app/InfoTab/SET_SEARCH_RESULTS",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goSearchContacts when a contact search is performed should select deletionPending 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goSearchContacts when a contact search is performed should select loading 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goSearchContacts when a contact search is performed should select nextPage 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goSearchContacts when a contact search is performed should select selectedInteraction 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
