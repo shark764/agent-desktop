@@ -14,8 +14,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import has from 'lodash/has';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Button from 'components/Button';
 
@@ -26,7 +25,7 @@ import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
 
-export class VoiceContentArea extends BaseComponent {
+export class VoiceContentArea extends React.Component {
   styles = {
     customField: {
       display: 'inline-block',
@@ -115,7 +114,6 @@ export class VoiceContentArea extends BaseComponent {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     dispatch,
   };
 }
@@ -130,6 +128,6 @@ VoiceContentArea.propTypes = {
   awaitingDisposition: PropTypes.bool.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Radium(VoiceContentArea)
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(VoiceContentArea))
 );

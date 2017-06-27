@@ -15,6 +15,8 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import Dotdotdot from 'react-dotdotdot';
 
+import ErrorBoundary from 'components/ErrorBoundary';
+
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 import TimerMinutes from 'components/TimerMinutes';
@@ -122,7 +124,7 @@ const styles = {
   },
 };
 
-class Interaction extends React.Component {
+export class Interaction extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -405,6 +407,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Radium(Interaction)
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(Interaction))
 );

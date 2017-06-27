@@ -14,6 +14,8 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
 
+import ErrorBoundary from 'components/ErrorBoundary';
+
 import {
   setFormIsDirty,
   setFormValidity,
@@ -36,9 +38,6 @@ import {
   submitContactCreate,
   submitContactEdit,
 } from 'containers/ContactsControl/actions';
-
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
 
 import ContactSectionHeader from 'components/ContactSectionHeader';
 import ContactInput from 'components/ContactInput';
@@ -67,7 +66,7 @@ const styles = {
   },
 };
 
-export class ContactEdit extends BaseComponent {
+export class ContactEdit extends React.Component {
   handleInputChange = (newValue, event) => {
     this.props.setFormIsDirty(this.props.selectedInteractionId, true);
     this.setAttributeValue(event.target.name, newValue);
@@ -217,7 +216,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     setShowCancelDialog: (showCancelDialog) =>
       dispatch(setShowCancelDialog(showCancelDialog)),
     setFormIsDirty: (interactionId, formIsDirty) =>
@@ -239,7 +237,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 ContactEdit.propTypes = {
-  edit: PropTypes.func,
   layoutSections: PropTypes.array,
   attributes: PropTypes.array,
   loading: PropTypes.bool,
@@ -254,7 +251,6 @@ ContactEdit.propTypes = {
   formErrors: PropTypes.object,
   contactForm: PropTypes.object,
   setNotEditing: PropTypes.func,
-  addNotification: PropTypes.func,
   setFormField: PropTypes.func,
   setFormError: PropTypes.func,
   setShowCancelDialog: PropTypes.func,
@@ -266,6 +262,6 @@ ContactEdit.propTypes = {
   selectedInteractionId: PropTypes.string,
 };
 
-export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(ContactEdit))
+export default ErrorBoundary(
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactEdit)))
 );

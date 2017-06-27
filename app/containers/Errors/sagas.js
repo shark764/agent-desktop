@@ -19,7 +19,10 @@ export function* goHandleSDKError(action) {
   const topic = action.topic;
   const error = action.error;
   console.warn('SDK Error:', topic, error);
-  if (
+  if (error.code === 14000) {
+    // Error with logging
+    // TODO analytics
+  } else if (
     error.code === 2000 || // Not enough tenant permissions. Handled in Login.
     error.code === 3000 || // Login authentication failed. Handled in Login.
     error.code === 12005 || // Failed to get capacity. Handled in TransferMenu.

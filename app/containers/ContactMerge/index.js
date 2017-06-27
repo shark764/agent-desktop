@@ -13,8 +13,7 @@ import { connect } from 'react-redux';
 import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import ContactSectionHeader from 'components/ContactSectionHeader';
 import ContactInput from 'components/ContactInput';
@@ -22,9 +21,6 @@ import ConfirmDialog from 'components/ConfirmDialog';
 import Button from 'components/Button';
 
 import {
-  setContactMode,
-  removeContact,
-  removeSearchFilter,
   setFormValidity,
   setShowError,
   setFormField,
@@ -89,7 +85,7 @@ const styles = {
   },
 };
 
-export class ContactMerge extends BaseComponent {
+export class ContactMerge extends React.Component {
   handleSubmit = () => {
     this.props.submitContactMerge(this.props.selectedInteraction.interactionId);
     this.hideConfirmDialog();
@@ -425,9 +421,7 @@ ContactMerge.propTypes = {
   setFormValidity: PropTypes.func,
   contactForm: PropTypes.object,
   setNotEditing: PropTypes.func,
-  setContactMode: PropTypes.func,
   selectedInteraction: PropTypes.object,
-  addNotification: PropTypes.func,
   selectedIndexes: PropTypes.object,
   formErrors: PropTypes.object,
   setSelectedIndex: PropTypes.func,
@@ -435,13 +429,13 @@ ContactMerge.propTypes = {
   setUnusedField: PropTypes.func,
   setFormField: PropTypes.func,
   showErrors: PropTypes.object,
+  showConfirmDialog: PropTypes.bool,
   setShowError: PropTypes.func,
   unusedFields: PropTypes.object,
   loading: PropTypes.bool,
   formIsValid: PropTypes.bool,
   setShowCancelDialog: PropTypes.func,
-  removeContact: PropTypes.func,
-  removeSearchFilter: PropTypes.func,
+  setShowConfirmDialog: PropTypes.func,
   submitContactMerge: PropTypes.func,
 };
 
@@ -465,13 +459,10 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     setShowCancelDialog: (showCancelDialog) =>
       dispatch(setShowCancelDialog(showCancelDialog)),
     setShowConfirmDialog: (showConfirmDialog) =>
       dispatch(setShowConfirmDialog(showConfirmDialog)),
-    setContactMode: (interactionId, newMode) =>
-      dispatch(setContactMode(interactionId, newMode)),
     setFormValidity: (interactionId, formIsValid) =>
       dispatch(setFormValidity(interactionId, formIsValid)),
     setShowError: (interactionId, field, error) =>
@@ -484,14 +475,12 @@ function mapDispatchToProps(dispatch) {
       dispatch(setUnusedField(interactionId, field, value)),
     setSelectedIndex: (interactionId, field, index) =>
       dispatch(setSelectedIndex(interactionId, field, index)),
-    removeContact: (contact) => dispatch(removeContact(contact)),
-    removeSearchFilter: () => dispatch(removeSearchFilter()),
     submitContactMerge: (interactionId) =>
       dispatch(submitContactMerge(interactionId)),
     dispatch,
   };
 }
 
-export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(ContactMerge))
+export default ErrorBoundary(
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactMerge)))
 );

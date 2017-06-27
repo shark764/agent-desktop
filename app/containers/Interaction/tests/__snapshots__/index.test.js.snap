@@ -3,25 +3,32 @@
 exports[`<Interaction /> should render correctly 1`] = `
 <div
   className="pendingInteractionContainer"
-  data-radium={true}
   id="pendingInteractionContainer-undefined"
   style={
-    Object {
-      "backgroundColor": "#F3F3F3",
-      "borderBottom": "none",
-      "borderRadius": "3px",
-      "cursor": "pointer",
-      "display": "flex",
-      "height": "108px",
-      "justifyContent": "stretch",
-      "marginTop": "11px",
-      "padding": "20px 16px 0 16px",
-      "width": "100%",
-    }
+    Array [
+      Object {
+        "backgroundColor": "inherit",
+        "borderBottom": "1px solid #141414",
+        "borderRadius": "3px",
+        "cursor": "pointer",
+        "display": "flex",
+        "height": "108px",
+        "justifyContent": "stretch",
+        "padding": "20px 16px 0 16px",
+        "width": "100%",
+      },
+      undefined,
+      Object {
+        "backgroundColor": "#F3F3F3",
+        "borderBottom": "none",
+        "marginTop": "11px",
+      },
+      false,
+      undefined,
+    ]
   }
 >
   <div
-    data-radium={true}
     style={
       Object {
         "alignItems": "center",
@@ -37,19 +44,25 @@ exports[`<Interaction /> should render correctly 1`] = `
     />
   </div>
   <div
-    data-radium={true}
     style={
-      Object {
-        "display": "flex",
-        "flexDirection": "column",
-        "flexGrow": 1,
-        "marginLeft": "8px",
-        "maxWidth": "210px",
-      }
+      Array [
+        Object {
+          "display": "flex",
+          "flexDirection": "column",
+          "flexGrow": 1,
+          "marginLeft": "8px",
+          "maxWidth": "230px",
+          "pending": Object {
+            "maxWidth": "210px",
+          },
+        },
+        Object {
+          "maxWidth": "210px",
+        },
+      ]
     }
   >
     <div
-      data-radium={true}
       style={
         Object {
           "alignItems": "center",
@@ -61,7 +74,6 @@ exports[`<Interaction /> should render correctly 1`] = `
       }
     >
       <div
-        data-radium={true}
         style={
           Object {
             "flexGrow": 1,
@@ -75,14 +87,17 @@ exports[`<Interaction /> should render correctly 1`] = `
         }
       />
       <div
-        data-radium={true}
         style={
-          Object {
-            "color": "#23CEF5",
-            "flexGrow": 0,
-            "flexShrink": 0,
-            "marginLeft": "3px",
-          }
+          Array [
+            Object {
+              "flexGrow": 0,
+              "flexShrink": 0,
+              "marginLeft": "3px",
+            },
+            Object {
+              "color": "#23CEF5",
+            },
+          ]
         }
       >
         NaN
@@ -101,7 +116,6 @@ exports[`<Interaction /> should render correctly 1`] = `
       truncationChar="…"
     >
       <p
-        data-radium={true}
         style={
           Object {
             "margin": 0,
@@ -110,7 +124,6 @@ exports[`<Interaction /> should render correctly 1`] = `
       />
     </Dotdotdot>
     <div
-      data-radium={true}
       style={
         Object {
           "color": "#979797",

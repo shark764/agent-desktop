@@ -32,8 +32,7 @@ import { stateToHTML } from 'draft-js-export-html';
 
 import { isValidEmail } from 'utils/validator';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Button from 'components/Button';
 import Icon from 'components/Icon';
@@ -193,7 +192,7 @@ const styles = {
   },
 };
 
-export class EmailContentArea extends BaseComponent {
+export class EmailContentArea extends React.Component {
   constructor(props) {
     super(props);
 
@@ -1216,7 +1215,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     emailCreateReply: (interactionId) =>
       dispatch(emailCreateReply(interactionId)),
     emailCancelReply: (interactionId) =>
@@ -1234,6 +1232,8 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(EmailContentArea))
+export default ErrorBoundary(
+  injectIntl(
+    connect(mapStateToProps, mapDispatchToProps)(Radium(EmailContentArea))
+  )
 );

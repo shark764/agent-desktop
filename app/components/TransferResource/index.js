@@ -9,20 +9,18 @@
  */
 
 import React from 'react';
-import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 
 import messages from './messages';
 
-export class TransferResource extends BaseComponent {
+export class TransferResource extends React.Component {
   resourceControlsMenuToggle = () => {
     if (
       this.props.selectedTransferResourceMenu !==
@@ -323,13 +321,6 @@ export class TransferResource extends BaseComponent {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setCriticalError: () => dispatch(setCriticalError()),
-    dispatch,
-  };
-}
-
 TransferResource.propTypes = {
   intl: intlShape.isRequired,
   activeVoiceInteraction: PropTypes.object.isRequired,
@@ -343,6 +334,4 @@ TransferResource.propTypes = {
   }).isRequired,
 };
 
-export default injectIntl(
-  connect(null, mapDispatchToProps)(Radium(TransferResource))
-);
+export default ErrorBoundary(injectIntl(Radium(TransferResource)));

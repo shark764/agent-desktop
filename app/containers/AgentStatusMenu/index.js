@@ -14,8 +14,7 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Icon from 'components/Icon';
 import PopupDialog from 'components/PopupDialog';
@@ -98,7 +97,7 @@ const styles = {
   },
 };
 
-export class AgentStatusMenu extends BaseComponent {
+export class AgentStatusMenu extends React.Component {
   constructor(props) {
     super(props);
 
@@ -351,7 +350,6 @@ AgentStatusMenu.propTypes = {
   selectedPresenceReason: PropTypes.object.isRequired,
   showAgentStatusMenu: PropTypes.func,
   tenant: PropTypes.object,
-  // agentDirection: PropTypes.string,
   readyState: PropTypes.string,
   setActiveExtension: PropTypes.func.isRequired,
   goNotReady: PropTypes.func.isRequired,
@@ -369,13 +367,12 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     setActiveExtension: (extension) => dispatch(setActiveExtension(extension)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
     dispatch,
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Radium(AgentStatusMenu)
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStatusMenu))
 );

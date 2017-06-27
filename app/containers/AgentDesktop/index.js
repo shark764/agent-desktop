@@ -13,8 +13,7 @@ import { injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Resizable from 'components/Resizable';
 
@@ -23,8 +22,6 @@ import MainContentArea from 'containers/MainContentArea';
 import PhoneControls from 'containers/PhoneControls';
 import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
-
-import { showLogin, logout } from 'containers/Login/actions';
 
 import {
   selectCriticalError,
@@ -42,7 +39,7 @@ import {
   selectIsContactsPanelCollapsed,
 } from './selectors';
 
-export class AgentDesktop extends BaseComponent {
+export class AgentDesktop extends React.Component {
   constructor(props) {
     super(props);
 
@@ -232,13 +229,10 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
-    showLogin: (show) => dispatch(showLogin(show)),
     setInteractionStatus: (interactionId, newStatus, response) =>
       dispatch(setInteractionStatus(interactionId, newStatus, response)),
     selectInteraction: (interactionId) =>
       dispatch(selectInteraction(interactionId)),
-    logout: () => dispatch(logout()),
     showContactsPanel: () => dispatch(showContactsPanel()),
     dispatch,
   };
@@ -246,15 +240,16 @@ function mapDispatchToProps(dispatch) {
 
 AgentDesktop.propTypes = {
   refreshBannerIsVisible: PropTypes.bool,
-  setInteractionStatus: PropTypes.func.isRequired,
-  selectInteraction: PropTypes.func.isRequired,
-  // TODO when fixed in SDK
-  // logout: PropTypes.func.isRequired,
   login: PropTypes.object,
   agentDesktop: PropTypes.object,
+  isContactsPanelCollapsed: PropTypes.bool.isRequired,
   criticalError: PropTypes.any,
+  nonCriticalError: PropTypes.any,
+  setInteractionStatus: PropTypes.func.isRequired,
+  selectInteraction: PropTypes.func.isRequired,
+  showContactsPanel: PropTypes.func.isRequired,
 };
 
-export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(AgentDesktop))
+export default ErrorBoundary(
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(AgentDesktop)))
 );

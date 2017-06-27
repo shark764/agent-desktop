@@ -13,13 +13,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Radium from 'radium';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
-import {
-  closeNewInteractionPanel,
-  setContactMode,
-} from 'containers/AgentDesktop/actions';
+import { closeNewInteractionPanel } from 'containers/AgentDesktop/actions';
 
 import Button from 'components/Button';
 
@@ -47,42 +43,36 @@ const styles = {
   },
 };
 
-export class NewInteractionContentArea extends BaseComponent {
-  render() {
-    return (
-      <div style={styles.base}>
-        <div style={styles.buttonContainer}>
-          <Button
-            id="cancelNewInteractionButton"
-            type="secondary"
-            style={styles.button}
-            text={messages.cancel}
-            onClick={this.props.closeNewInteractionPanel}
-          />
-        </div>
-        <div style={styles.contacts}>
-          <ContactSearch />
-        </div>
+function NewInteractionContentArea(props) {
+  return (
+    <div style={styles.base}>
+      <div style={styles.buttonContainer}>
+        <Button
+          id="cancelNewInteractionButton"
+          type="secondary"
+          style={styles.button}
+          text={messages.cancel}
+          onClick={props.closeNewInteractionPanel}
+        />
       </div>
-    );
-  }
+      <div style={styles.contacts}>
+        <ContactSearch />
+      </div>
+    </div>
+  );
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     closeNewInteractionPanel: () => dispatch(closeNewInteractionPanel()),
-    setContactMode: (interactionId, newMode) =>
-      dispatch(setContactMode(interactionId, newMode)),
     dispatch,
   };
 }
 
 NewInteractionContentArea.propTypes = {
   closeNewInteractionPanel: PropTypes.func.isRequired,
-  setContactMode: PropTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(
-  Radium(NewInteractionContentArea)
+export default ErrorBoundary(
+  connect(null, mapDispatchToProps)(Radium(NewInteractionContentArea))
 );

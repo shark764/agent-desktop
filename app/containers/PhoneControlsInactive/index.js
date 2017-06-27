@@ -14,8 +14,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Button from 'components/Button';
 import CircleIconButton from 'components/CircleIconButton';
@@ -28,7 +27,7 @@ import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
 import messages from './messages';
 import { selectHasConnectingOutboundVoiceInteraction } from './selectors';
 
-export class PhoneControlsInactive extends BaseComponent {
+export class PhoneControlsInactive extends React.Component {
   constructor(props) {
     super(props);
 
@@ -169,7 +168,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     startOutboundInteraction: (channelType) =>
       dispatch(startOutboundInteraction(channelType)),
     dispatch,
@@ -180,12 +178,8 @@ PhoneControlsInactive.propTypes = {
   isAgentReady: PropTypes.bool.isRequired,
   hasConnectingOutboundVoiceInteraction: PropTypes.bool.isRequired,
   startOutboundInteraction: PropTypes.func.isRequired,
-  style: PropTypes.shape({
-    topTriangle: PropTypes.object.isRequired,
-    phoneControlsPopupMenu: PropTypes.object.isRequired,
-  }),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Radium(PhoneControlsInactive)
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(PhoneControlsInactive))
 );

@@ -6,12 +6,12 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { getIntlContext } from 'utils/test';
 
-import Interaction from '../index';
+import { Interaction } from '../index';
 
 describe('<Interaction />', () => {
   it('should render correctly', () => {
     const rendered = shallow(
-      <Interaction.WrappedComponent
+      <Interaction
         id="mockId"
         status="pending"
         awaitingDisposition

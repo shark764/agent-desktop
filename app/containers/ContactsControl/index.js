@@ -10,12 +10,10 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import IconSVG from 'components/IconSVG';
 
@@ -24,30 +22,17 @@ import ContactMerge from 'containers/ContactMerge';
 import ContactSearch from 'containers/ContactSearch';
 import ContactView from 'containers/ContactView';
 
-import {
-  showContactsPanel,
-  assignContact,
-  selectContact,
-  loadContactInteractionHistory,
-} from 'containers/AgentDesktop/actions';
+import { showContactsPanel } from 'containers/AgentDesktop/actions';
 import { selectIsContactsPanelCollapsed } from 'containers/AgentDesktop/selectors';
-import { selectPopulatedLayout } from 'containers/ContactView/selectors';
 import selectInfoTab, {
-  selectCheckedContacts,
   selectLoading,
   selectCurrentInteraction,
 } from 'containers/InfoTab/selectors';
-import { clearSearchResults, setLoading } from 'containers/InfoTab/actions';
 
-import {
-  selectAttributes,
-  selectShowCancelDialog,
-  selectFormIsDirty,
-  selectContactForm,
-} from './selectors';
+import { selectShowCancelDialog, selectFormIsDirty } from './selectors';
 import { setShowCancelDialog } from './actions';
 
-export class ContactsControl extends BaseComponent {
+export class ContactsControl extends React.Component {
   styles = {
     mainContact: {
       marginTop: '8px',
@@ -102,14 +87,10 @@ export class ContactsControl extends BaseComponent {
       switch (this.props.selectedInteraction.contactMode) {
         case 'create':
         case 'edit': {
-          const contactId =
-            this.props.editingContact && this.props.editingContact.id;
           content = (
             <ContactEdit
               setNotEditing={this.props.setNotEditing}
               style={this.styles.mainContact}
-              contactId={contactId}
-              contact={this.props.editingContact}
               handleCancel={this.handleCancel}
               addNotification={this.props.addNotification}
               contactMode={this.props.selectedInteraction.contactMode}
@@ -157,40 +138,22 @@ export class ContactsControl extends BaseComponent {
 }
 
 ContactsControl.propTypes = {
-  attributes: PropTypes.array.isRequired,
   selectedInteraction: PropTypes.object.isRequired,
-  intl: PropTypes.object.isRequired,
-  results: PropTypes.any,
-  resultsCount: PropTypes.number,
   loading: PropTypes.bool.isRequired,
-  setSearchResults: PropTypes.func,
-  clearSearchResults: PropTypes.func,
-  checkContact: PropTypes.func,
-  uncheckContact: PropTypes.func,
-  selectContact: PropTypes.func,
-  loadContactInteractionHistory: PropTypes.func,
-  assignContact: PropTypes.func,
-  setLoading: PropTypes.func,
   addNotification: PropTypes.func,
   formIsDirty: PropTypes.bool,
   setShowCancelDialog: PropTypes.func,
   setNotEditing: PropTypes.func,
-  checkedContacts: PropTypes.array,
-  layoutSections: PropTypes.array,
   showContactsPanel: PropTypes.func,
   isCollapsed: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state, props) {
   return {
-    attributes: selectAttributes(state, props),
     selectedInteraction: selectCurrentInteraction(state, props),
-    checkedContacts: selectCheckedContacts(state, props),
     loading: selectLoading(state, props),
     showCancelDialog: selectShowCancelDialog(state, props),
     formIsDirty: selectFormIsDirty(state, props),
-    contactForm: selectContactForm(state, props),
-    layoutSections: selectPopulatedLayout(state, props),
     isCollapsed: selectIsContactsPanelCollapsed(state, props),
     ...selectInfoTab(state, props),
   };
@@ -198,13 +161,6 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
-    clearSearchResults: () => dispatch(clearSearchResults()),
-    setLoading: (loading) => dispatch(setLoading(loading)),
-    selectContact: (contact) => dispatch(selectContact(contact)),
-    loadContactInteractionHistory: (contactId, page) =>
-      dispatch(loadContactInteractionHistory(contactId, page)),
-    assignContact: (contact) => dispatch(assignContact(contact)),
     setShowCancelDialog: (showCancelDialog) =>
       dispatch(setShowCancelDialog(showCancelDialog)),
     showContactsPanel: () => dispatch(showContactsPanel()),
@@ -212,6 +168,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default injectIntl(
+export default ErrorBoundary(
   connect(mapStateToProps, mapDispatchToProps)(Radium(ContactsControl))
 );

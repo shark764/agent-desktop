@@ -15,8 +15,7 @@ import Radium from 'radium';
 
 import { updateScriptValues } from 'containers/AgentDesktop/actions';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Button from 'components/Button';
 import CheckBox from 'components/Checkbox';
@@ -64,7 +63,7 @@ const styles = {
   },
 };
 
-class AgentScript extends BaseComponent {
+class AgentScript extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.mapScriptsFromProps();
@@ -281,11 +280,12 @@ AgentScript.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     updateScriptValues: (interactionId, scriptValueMap) =>
       dispatch(updateScriptValues(interactionId, scriptValueMap)),
     dispatch,
   };
 }
 
-export default connect(null, mapDispatchToProps)(Radium(AgentScript));
+export default ErrorBoundary(
+  connect(null, mapDispatchToProps)(Radium(AgentScript))
+);

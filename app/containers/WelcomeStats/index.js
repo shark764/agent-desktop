@@ -14,19 +14,17 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import ErrorBoundary from 'components/ErrorBoundary';
+
 import IconSVG from 'components/IconSVG';
-import BaseComponent from 'components/BaseComponent';
 import StatValue from 'components/Stat/StatValue';
 
-import { setCriticalError } from 'containers/Errors/actions';
-
-import { selectErroredStatIds } from 'containers/Errors/selectors';
 import { selectWelcomeStats } from 'containers/Toolbar/selectors';
 
 import messages from './messages';
 import { statKey, stats as welcomeStatsConfig } from './welcomeStatsConfig';
 
-export class WelcomeStats extends BaseComponent {
+export class WelcomeStats extends React.Component {
   styles = {
     welcome: {
       fontSize: '24px',
@@ -156,23 +154,19 @@ export class WelcomeStats extends BaseComponent {
 
 const mapStateToProps = (state, props) => ({
   welcomeStats: selectWelcomeStats(state, props),
-  erroredStatIds: selectErroredStatIds(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     dispatch,
   };
 }
 
 WelcomeStats.propTypes = {
   agent: PropTypes.object.isRequired,
-  tenant: PropTypes.object.isRequired,
   welcomeStats: PropTypes.object.isRequired,
-  erroredStatIds: PropTypes.array.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Radium(WelcomeStats)
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(WelcomeStats))
 );

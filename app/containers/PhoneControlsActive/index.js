@@ -17,8 +17,7 @@ import Radium from 'radium';
 import Toggle from 'react-toggle';
 import 'assets/css/react-toggle-style.css';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Button from 'components/Button';
 import CircleIconButton from 'components/CircleIconButton';
@@ -27,11 +26,11 @@ import Dialpad from 'components/Dialpad';
 import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
 import { selectAgentId } from 'containers/AgentDesktop/selectors';
 import TransferMenu from 'containers/TransferMenu';
-import TransferResource from 'containers/TransferResource';
+import TransferResource from 'components/TransferResource';
 
 import messages from './messages';
 
-export class PhoneControlsActive extends BaseComponent {
+export class PhoneControlsActive extends React.Component {
   constructor(props) {
     super(props);
 
@@ -363,7 +362,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     dispatch,
   };
 }
@@ -378,6 +376,6 @@ PhoneControlsActive.propTypes = {
   }),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Radium(PhoneControlsActive)
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(PhoneControlsActive))
 );

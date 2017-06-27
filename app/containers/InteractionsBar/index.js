@@ -15,8 +15,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import Radium from 'radium';
 import has from 'lodash/has';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import { selectIsAgentReady } from 'containers/AgentDesktop/selectors';
 import { openNewInteractionPanel } from 'containers/AgentDesktop/actions';
@@ -35,7 +34,7 @@ import {
 } from './selectors';
 import messages from './messages';
 
-export class InteractionsBar extends BaseComponent {
+export class InteractionsBar extends React.Component {
   styles = {
     base: {
       backgroundColor: '#072931',
@@ -342,7 +341,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     openNewInteractionPanel: () => dispatch(openNewInteractionPanel()),
     dispatch,
   };
@@ -358,8 +356,13 @@ InteractionsBar.propTypes = {
   selectInteraction: PropTypes.func.isRequired,
   selectedInteractionId: PropTypes.string,
   acceptInteraction: PropTypes.func,
+  newInteractionPanel: PropTypes.object.isRequired,
+  activeExtension: PropTypes.object,
+  openNewInteractionPanel: PropTypes.func.isRequired,
 };
 
-export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(InteractionsBar))
+export default ErrorBoundary(
+  injectIntl(
+    connect(mapStateToProps, mapDispatchToProps)(Radium(InteractionsBar))
+  )
 );

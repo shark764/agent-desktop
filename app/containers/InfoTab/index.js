@@ -13,8 +13,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import Radium from 'radium';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import ContactsControl from 'containers/ContactsControl';
 import ContactHeader from 'components/ContactHeader';
@@ -33,15 +32,10 @@ import selectInfoTab, {
   selectNextNotificationId,
   selectCRMUnavailable,
 } from './selectors';
-import {
-  addNotification,
-  dismissNotification,
-  setLoading,
-  setConfirmingDelete,
-} from './actions';
+import { addNotification, dismissNotification, setLoading } from './actions';
 import messages from './messages';
 
-export class InfoTab extends BaseComponent {
+export class InfoTab extends React.Component {
   styles = {
     base: {
       height: '100%',
@@ -184,9 +178,7 @@ InfoTab.propTypes = {
   style: React.PropTypes.object,
   selectedInteraction: React.PropTypes.object,
   setContactMode: React.PropTypes.func,
-  query: React.PropTypes.array,
   setLoading: React.PropTypes.func,
-  setConfirmingDelete: React.PropTypes.func,
   setShowCancelDialog: React.PropTypes.func,
   resetForm: React.PropTypes.func,
   nextNotificationId: React.PropTypes.number,
@@ -211,8 +203,6 @@ function mapDispatchToProps(dispatch) {
     addNotification: (notification) => dispatch(addNotification(notification)),
     dismissNotification: (id) => dispatch(dismissNotification(id)),
     setLoading: (loading) => dispatch(setLoading(loading)),
-    setConfirmingDelete: (confirmingDelete) =>
-      dispatch(setConfirmingDelete(confirmingDelete)),
     setShowCancelDialog: (showCancelDialog) =>
       dispatch(setShowCancelDialog(showCancelDialog)),
     setShowConfirmDialog: (showConfirmDialog) =>
@@ -222,11 +212,10 @@ function mapDispatchToProps(dispatch) {
     resetForm: () => dispatch(resetForm()),
     editContact: (interactionId, contact) =>
       dispatch(editContact(interactionId, contact)),
-    setCriticalError: () => dispatch(setCriticalError()),
     dispatch,
   };
 }
 
-export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(InfoTab))
+export default ErrorBoundary(
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(InfoTab)))
 );

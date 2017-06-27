@@ -14,8 +14,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import {
   startOutboundInteraction,
@@ -77,7 +76,7 @@ const styles = {
   },
 };
 
-export class ContactView extends BaseComponent {
+export class ContactView extends React.Component {
   editContact = () => {
     if (
       this.props.currentInteractionContactId &&
@@ -224,7 +223,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     editContact: (interactionId, contact) =>
       dispatch(editContact(interactionId, contact)),
     startOutboundInteraction: (
@@ -272,6 +270,6 @@ ContactView.propTypes = {
   currentInteraction: PropTypes.object,
 };
 
-export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(ContactView))
+export default ErrorBoundary(
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactView)))
 );

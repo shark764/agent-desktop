@@ -14,8 +14,7 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
@@ -165,7 +164,7 @@ const styles = {
   },
 };
 
-export class Toolbar extends BaseComponent {
+export class Toolbar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -364,7 +363,6 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     dispatch,
   };
@@ -382,4 +380,6 @@ Toolbar.propTypes = {
   selectedPresenceReason: PropTypes.object,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(Toolbar));
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(Toolbar))
+);

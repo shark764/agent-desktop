@@ -17,8 +17,7 @@ import Autocomplete from 'react-autocomplete';
 
 import search from 'assets/icons/search.png';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
@@ -31,7 +30,7 @@ import {
 import { selectSearchableAttributes } from './selectors';
 import messages from './messages';
 
-export class ContactSearchBar extends BaseComponent {
+export class ContactSearchBar extends React.Component {
   constructor(props) {
     super(props);
 
@@ -349,8 +348,13 @@ ContactSearchBar.propTypes = {
   query: PropTypes.array,
   style: PropTypes.object,
   resultsCount: PropTypes.number,
+  addFilter: PropTypes.func.isRequired,
+  selectedInteraction: PropTypes.object.isRequired,
+  setSearchInputElement: PropTypes.func.isRequired,
+  focusSearchInputElement: PropTypes.func.isRequired,
+  searchableAttributes: PropTypes.array,
   removeSearchFilter: PropTypes.func.isRequired,
-  setContactMode: React.PropTypes.func,
+  setContactMode: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -359,7 +363,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     addFilter: (filterName, value) =>
       dispatch(addSearchFilter(filterName, value)),
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
@@ -369,6 +372,8 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(ContactSearchBar))
+export default ErrorBoundary(
+  injectIntl(
+    connect(mapStateToProps, mapDispatchToProps)(Radium(ContactSearchBar))
+  )
 );

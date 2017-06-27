@@ -15,8 +15,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import pickBy from 'lodash/pickBy';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import { activateToolbarStat } from 'containers/Toolbar/actions';
 
@@ -29,7 +28,7 @@ import messages from './messages';
 
 const MAXIMUM_STATS = 5;
 
-export class AgentConfigMenu extends BaseComponent {
+export class AgentConfigMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -242,7 +241,6 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     activateToolbarStat: (stat) => dispatch(activateToolbarStat(stat)),
     dispatch,
   };
@@ -253,11 +251,10 @@ AgentConfigMenu.propTypes = {
   toolbarStatIds: PropTypes.array,
   availableStats: PropTypes.object,
   queues: PropTypes.array,
-  currentAgent: PropTypes.object,
   hideMenu: PropTypes.func,
   show: PropTypes.bool,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Radium(AgentConfigMenu)
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(AgentConfigMenu))
 );
