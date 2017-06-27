@@ -1,3 +1,6 @@
+### [0.42.11] (2017-06-26)
+* CXV1-10121 - Bumped SDK version to 5.3.9
+
 ### [0.42.10] (2017-06-23)
 * CXV1-9922 - Added locale icon to tabbing sequence on login screen
 

@@ -20,7 +20,7 @@ Object {
 }
 `;
 
-exports[`handleError Saga fatal level errors should call setCriticalError 1`] = `
+exports[`handleError Saga session fatal level errors should call setCriticalError 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -29,7 +29,7 @@ Object {
       "action": Object {
         "error": Object {
           "code": "mockErrorCode",
-          "level": "fatal",
+          "level": "session-fatal",
         },
         "topic": "mockErrorTopic",
         "type": "app/Errors/SET_CRITICAL_ERROR",
