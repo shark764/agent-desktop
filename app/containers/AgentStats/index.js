@@ -13,8 +13,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import { deactivateToolbarStat } from 'containers/Toolbar/actions';
 import { selectToolbarStats } from 'containers/Toolbar/selectors';
@@ -22,7 +21,7 @@ import { selectToolbarStats } from 'containers/Toolbar/selectors';
 import Stat from 'components/Stat';
 import { selectAvailableStats } from './selectors';
 
-export class AgentStats extends BaseComponent {
+export class AgentStats extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -103,7 +102,6 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     deactivateToolbarStat: (stat) => dispatch(deactivateToolbarStat(stat)),
     dispatch,
   };
@@ -117,4 +115,6 @@ AgentStats.propTypes = {
   readyState: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStats));
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStats))
+);

@@ -5,21 +5,19 @@ import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 import InfiniteScroll from 'react-infinite-scroller';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Button from 'components/Button';
 import ContactBulkActions from 'components/ContactBulkActions';
+import ContactSearchResult from 'components/ContactSearchResult';
 import Filter from 'components/Filter';
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 
 import ContactSearchBar from 'containers/ContactSearchBar';
-import ContactSearchResult from 'containers/ContactSearchResult';
 
 import {
   removeSearchFilter,
-  setContactMode,
   deleteContacts,
   setSidePanelTabIndex,
 } from 'containers/AgentDesktop/actions';
@@ -39,7 +37,6 @@ import {
   setSearchResults,
   checkContact,
   uncheckContact,
-  setLoading,
   setConfirmingDelete,
   clearSearchResults,
   clearCheckedContacts,
@@ -122,7 +119,7 @@ const styles = {
   },
 };
 
-export class ContactSearch extends BaseComponent {
+export class ContactSearch extends React.Component {
   componentWillMount() {
     this.props.clearSearchResults();
     this.props.clearCheckedContacts();
@@ -370,11 +367,9 @@ ContactSearch.propTypes = {
   checkContact: PropTypes.func.isRequired,
   uncheckContact: PropTypes.func.isRequired,
   newContact: PropTypes.func.isRequired,
-  setLoading: PropTypes.func.isRequired,
   deleteContacts: PropTypes.func.isRequired,
   setConfirmingDelete: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
-  setContactMode: PropTypes.func.isRequired,
   setSidePanelTabIndex: PropTypes.func.isRequired,
   mergeContacts: PropTypes.func,
 };
@@ -395,27 +390,23 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     setSearchResults: (filter) => dispatch(setSearchResults(filter)),
     clearSearchResults: () => dispatch(clearSearchResults()),
     clearCheckedContacts: () => dispatch(clearCheckedContacts()),
     checkContact: (contact) => dispatch(checkContact(contact)),
     uncheckContact: (contact) => dispatch(uncheckContact(contact)),
     newContact: (interactionId) => dispatch(newContact(interactionId)),
-    setLoading: (loading) => dispatch(setLoading(loading)),
     deleteContacts: () => dispatch(deleteContacts()),
     setConfirmingDelete: (confirmingDelete) =>
       dispatch(setConfirmingDelete(confirmingDelete)),
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
     setSidePanelTabIndex: (interactionId, sidePanelTabIndex) =>
       dispatch(setSidePanelTabIndex(interactionId, sidePanelTabIndex)),
-    setContactMode: (interactionId, newMode) =>
-      dispatch(setContactMode(interactionId, newMode)),
     mergeContacts: (interactionId) => dispatch(mergeContacts(interactionId)),
     dispatch,
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Radium(ContactSearch)
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(ContactSearch))
 );

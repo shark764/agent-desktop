@@ -16,8 +16,7 @@ import Radium from 'radium';
 import IconCollapse from 'icons/collapse';
 import { FormattedMessage } from 'react-intl';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Tabs from 'components/Tabs';
 
@@ -43,7 +42,7 @@ import {
 const leftGutterPx = 52;
 const topBarHeightPx = 63;
 
-export class SidePanel extends BaseComponent {
+export class SidePanel extends React.Component {
   getPanelSizing = () => {
     const sizing = {
       width: this.props.openPx,
@@ -224,7 +223,6 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     setSidePanelTabIndex: (interactionId, tabIndex) =>
       dispatch(setSidePanelTabIndex(interactionId, tabIndex)),
     showContactsPanel: () => dispatch(showContactsPanel()),
@@ -248,4 +246,6 @@ SidePanel.propTypes = {
   setSidePanelTabIndex: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(SidePanel));
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(SidePanel))
+);

@@ -10,20 +10,18 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Radium from 'radium';
 
 import 'velocity-animate';
 import 'velocity-animate/velocity.ui';
 import { VelocityTransitionGroup } from 'velocity-react';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Checkbox from 'components/Checkbox';
 import ContactView from 'containers/ContactView';
 
-export class ContactSearchResult extends BaseComponent {
+export class ContactSearchResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -123,11 +121,4 @@ ContactSearchResult.propTypes = {
   contact: PropTypes.object.isRequired,
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setCriticalError: () => dispatch(setCriticalError()),
-    dispatch,
-  };
-}
-
-export default connect(null, mapDispatchToProps)(Radium(ContactSearchResult));
+export default ErrorBoundary(Radium(ContactSearchResult));

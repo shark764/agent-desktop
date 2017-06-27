@@ -13,15 +13,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import PhoneControlsInactive from 'containers/PhoneControlsInactive';
 import PhoneControlsActive from 'containers/PhoneControlsActive';
 
 import { selectActiveVoiceInteraction } from './selectors';
 
-export class PhoneControls extends BaseComponent {
+export class PhoneControls extends React.Component {
   styles = {
     base: {
       backgroundColor: '#031417',
@@ -60,7 +59,7 @@ export class PhoneControls extends BaseComponent {
             activeVoiceInteraction={this.props.activeVoiceInteraction}
             style={this.styles}
           />
-          : <PhoneControlsInactive style={this.styles} />}
+          : <PhoneControlsInactive />}
       </div>
     );
   }
@@ -72,7 +71,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     dispatch,
   };
 }
@@ -82,6 +80,6 @@ PhoneControls.propTypes = {
   style: PropTypes.array,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Radium(PhoneControls)
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(PhoneControls))
 );

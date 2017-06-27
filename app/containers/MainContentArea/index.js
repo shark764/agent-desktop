@@ -13,8 +13,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import NewInteractionContentArea from 'containers/NewInteractionContentArea';
 import MessagingContentArea from 'containers/MessagingContentArea';
@@ -34,7 +33,7 @@ const styles = {
   },
 };
 
-class MainContentArea extends BaseComponent {
+class MainContentArea extends React.Component {
   endInteraction = () => {
     if (this.props.selectedInteraction.status === 'wrapup') {
       CxEngage.interactions.endWrapup({
@@ -123,7 +122,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     removeInteraction: (interactionId) =>
       dispatch(removeInteraction(interactionId)),
     dispatch,
@@ -139,6 +137,6 @@ MainContentArea.propTypes = {
   tenant: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Radium(MainContentArea)
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(MainContentArea))
 );

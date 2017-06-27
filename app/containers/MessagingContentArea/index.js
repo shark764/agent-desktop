@@ -15,8 +15,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage, FormattedTime } from 'react-intl';
 import Textarea from 'react-textarea-autosize';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Avatar from 'components/Avatar';
 import Button from 'components/Button';
@@ -30,7 +29,7 @@ import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 import { initializeOutboundSms, sendOutboundSms } from './actions';
 import messages from './messages';
 
-export class MessagingContentArea extends BaseComponent {
+export class MessagingContentArea extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -689,7 +688,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     initializeOutboundSms: (interactionId, phoneNumber, message) =>
       dispatch(initializeOutboundSms(interactionId, phoneNumber, message)),
     sendOutboundSms: (interactionId, message) =>
@@ -698,6 +696,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Radium(MessagingContentArea)
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(MessagingContentArea))
 );

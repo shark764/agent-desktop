@@ -25,7 +25,9 @@ function FontAwesomeIcon(props) {
     <button style={styles.button} onClick={props.onclick} tabIndex={0}>
       <i
         id={props.id ? props.id : `${props.name}-icon`}
-        className={`fa fa-${props.name} fa-${props.faSize ? props.faSize : '2'}x`}
+        className={`fa fa-${props.name} fa-${props.faSize
+          ? props.faSize
+          : '2'}x`}
         style={props.style}
         onClick={props.onclick}
         alt={props.alt || props.name}

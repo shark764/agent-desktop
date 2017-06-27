@@ -15,8 +15,7 @@ import Radium from 'radium';
 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Dialog from 'components/Dialog';
 import Logo from 'components/Logo';
@@ -145,7 +144,7 @@ const styles = {
   },
 };
 
-export class Login extends BaseComponent {
+export class Login extends React.Component {
   constructor(props) {
     super(props);
     window.onbeforeunload = () => storage.removeItem('ADError'); // Prevent showing error on reload
@@ -606,7 +605,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     resetPassword: (email) => dispatch(resetPassword(email)),
     loggingIn: () => dispatch(loggingIn()),
     loginSuccess: (agent) => dispatch(loginSuccess(agent)),
@@ -639,6 +637,6 @@ Login.propTypes = {
   locale: PropTypes.string,
 };
 
-export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(Login))
+export default ErrorBoundary(
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Login)))
 );

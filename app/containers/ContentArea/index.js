@@ -15,8 +15,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import Toggle from 'react-toggle';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Resizable from 'components/Resizable';
 import Checkbox from 'components/Checkbox';
@@ -28,7 +27,7 @@ import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
 
-export class ContentArea extends BaseComponent {
+export class ContentArea extends React.Component {
   constructor(props) {
     super(props);
 
@@ -636,13 +635,12 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     updateNote: (interactionId, note) =>
       dispatch(updateNote(interactionId, note)),
     dispatch,
   };
 }
 
-export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(ContentArea))
+export default ErrorBoundary(
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContentArea)))
 );

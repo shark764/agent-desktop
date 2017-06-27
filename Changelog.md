@@ -1,3 +1,6 @@
+### [0.42.12] (2017-06-27)
+* CXV1-10115 - Fix error handling for selectors, mapStateToProps
+
 ### [0.42.11] (2017-06-26)
 * CXV1-10121 - Bumped SDK version to 5.3.9
 

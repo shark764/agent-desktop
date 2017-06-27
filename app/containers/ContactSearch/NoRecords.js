@@ -9,8 +9,7 @@ import Radium from 'radium';
 import { connect } from 'react-redux';
 import { isValidNumber } from 'utils/validator';
 
-import BaseComponent from 'components/BaseComponent';
-import { setCriticalError } from 'containers/Errors/actions';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Button from 'components/Button';
 import Icon from 'components/Icon';
@@ -69,7 +68,7 @@ const styles = {
   },
 };
 
-export class NoRecords extends BaseComponent {
+export class NoRecords extends React.Component {
   constructor(props) {
     super(props);
     // If we only have one key that's value is a valid phone number, set it in state so we can render the outbound buttons
@@ -208,7 +207,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCriticalError: () => dispatch(setCriticalError()),
     startOutboundInteraction: (
       channelType,
       customer,
@@ -229,10 +227,14 @@ function mapDispatchToProps(dispatch) {
 
 NoRecords.propTypes = {
   query: PropTypes.object.isRequired,
+  newContact: PropTypes.func.isRequired,
   isAgentReady: PropTypes.bool.isRequired,
   hasVoiceInteraction: PropTypes.bool.isRequired,
   smsInteractionNumbers: PropTypes.array.isRequired,
-  newContact: PropTypes.func.isRequired,
+  selectedInteractionIsCreatingNewInteraction: PropTypes.bool.isRequired,
+  startOutboundInteraction: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radium(NoRecords));
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(Radium(NoRecords))
+);
