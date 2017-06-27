@@ -22,9 +22,9 @@ describe('handleError Saga', () => {
     };
     generator = goHandleSDKError(mockAction);
   });
-  describe('fatal level errors', () => {
+  describe('session fatal level errors', () => {
     beforeEach(() => {
-      mockAction.error.level = 'fatal';
+      mockAction.error.level = 'session-fatal';
     });
     it('should call setCriticalError', () => {
       expect(generator.next()).toMatchSnapshot();

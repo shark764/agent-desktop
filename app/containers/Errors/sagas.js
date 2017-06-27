@@ -42,7 +42,7 @@ export function* goHandleSDKError(action) {
     return;
   }
 
-  if (error.level === 'fatal') {
+  if (error.level === 'session-fatal') {
     yield put(setCriticalError(topic, error));
   } else if (error.level === 'error') {
     yield put(setNonCriticalError(topic, error));
