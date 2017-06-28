@@ -12,11 +12,8 @@ export default class Interaction {
     direction,
     timeout,
     toolbarFeatures,
-    recording,
-    customerOnHold,
     status,
     customer,
-    activeResources,
     contact,
     hideNewInteractionPanelOnWorkAccepted,
     contactMode,
@@ -25,9 +22,6 @@ export default class Interaction {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
       this.agentRecordingEnabled =
         toolbarFeatures && toolbarFeatures.recordingUpdate !== false;
-      // recording and onHold can have been set by an incoming transfer
-      this.recording = recording === true;
-      this.onHold = customerOnHold === true;
       this.muted = false;
       this.warmTransfers = new List();
     } else if (channelType === 'sms' || channelType === 'messaging') {
@@ -60,22 +54,6 @@ export default class Interaction {
     this.timeout = new Date(timeout).valueOf();
     this.autoAnswer = autoAnswer;
     this.status = status || 'work-offer';
-    if (activeResources) {
-      this.warmTransfers = new List(
-        activeResources.map((resource) => {
-          const mappedResource = Object.assign({}, resource);
-          mappedResource.targetResource = mappedResource.id;
-          mappedResource.status = 'connected';
-          if (mappedResource.externalResource) {
-            mappedResource.name = mappedResource.extension;
-          } else {
-            mappedResource.name = 'Agent';
-            CxEngage.entities.getUser({ resourceId: resource.id });
-          }
-          return new Map(mappedResource);
-        })
-      );
-    }
     this.wrapupDetails = new Map({
       wrapupUpdateAllowed: false,
       wrapupEnabled: false,

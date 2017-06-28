@@ -7,6 +7,7 @@ import {
   loadContactInteractions,
   goNotReady,
   goDeleteContacts,
+  goAcceptWork,
 } from 'containers/AgentDesktop/sagas';
 
 describe('loadHistoricalInteractionBody Saga', () => {
@@ -218,6 +219,53 @@ describe('goDeleteContacts', () => {
         generator.next(mockCheckedContacts);
         expect(generator.next(mockDeleteResponses)).toMatchSnapshot();
       });
+    });
+  });
+});
+
+describe('goAcceptWork', () => {
+  let generator;
+  beforeAll(() => {
+    global.CxEngage = {
+      entities: {
+        getUser: 'getUser',
+      },
+    };
+  });
+  describe('if no active resources exist', () => {
+    beforeAll(() => {
+      generator = goAcceptWork({
+        interactionId: 'interaction-id',
+        response: {},
+      });
+    });
+    it('should dispatch setInteractionStatus with work-accepted', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should be done after dispatching action', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+  });
+  describe('if active resources exist', () => {
+    beforeAll(() => {
+      generator = goAcceptWork({
+        interactionId: 'interaction-id',
+        response: {
+          activeResources: [{ id: 'resource-1' }, { id: 'resource-2' }],
+        },
+      });
+    });
+    it('should dispatch setInteractionStatus with work-accepted', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should dispatch setActiveResources', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should call getUser for each active resource', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should be done after calling getUser for each resource', () => {
+      expect(generator.next()).toMatchSnapshot();
     });
   });
 });

@@ -9,6 +9,7 @@ import ResponseMessage from 'models/Message/ResponseMessage';
 
 import {
   SET_INTERACTION_STATUS,
+  SET_ACTIVE_RESOURCES,
   START_OUTBOUND_INTERACTION,
   INITIALIZE_OUTBOUND_SMS,
   ADD_INTERACTION,
@@ -16,6 +17,7 @@ import {
   ADD_SCRIPT,
   REMOVE_SCRIPT,
   REMOVE_INTERACTION,
+  UPDATE_RESOURCE_NAME,
 } from '../constants';
 import agentDesktopReducer from '../reducer';
 
@@ -123,51 +125,64 @@ describe('agentDesktopReducer', () => {
         });
       });
     });
-    describe('if response includes conference details', () => {
+    describe("if interaction is of channelType 'voice' and action contains a response object", () => {
       beforeEach(() => {
-        action.newStatus = 'work-accepting';
+        initialState.interactions = [
+          {
+            interactionId: 'test-interaction-id',
+            status: 'status',
+            channelType: 'voice',
+          },
+        ];
         action.response = {
           customerOnHold: true,
-          recording: true,
-          activeResources: [
-            {
-              id: 'resource-id-2',
-              muted: true,
-              onHold: true,
-            },
-          ],
+          recording: false,
         };
       });
-      describe('if the interaction has is a voice interaction with existing different conference details', () => {
-        beforeEach(() => {
-          initialState.interactions = [
-            {
-              interactionId: 'test-interaction-id',
-              status: 'work-offer',
-              channelType: 'voice',
-              // These will be updated
-              onHold: false,
-              recording: false,
-              warmTransfers: [
-                {
-                  // Action does not include 'resource-id-1'. It will be removed.
-                  targetResource: 'resource-id-1',
-                  muted: false,
-                  onHold: false,
-                },
-                {
-                  targetResource: 'resource-id-2',
-                  // These will be updated
-                  muted: false,
-                  onHold: false,
-                },
-              ],
-            },
-          ];
-        });
-        it('updates the conference participants and details', () => {
-          runReducerAndExpectSnapshot();
-        });
+      it('sets onHold and recording parameters', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+  });
+
+  describe('SET_ACTIVE_RESOURCES', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 'interaction-id',
+          },
+          {
+            interactionId: 'a-different-interaction',
+          },
+        ],
+      };
+      action = {
+        type: SET_ACTIVE_RESOURCES,
+        interactionId: 'interaction-id',
+        activeResources: [
+          {
+            id: 'external-resource-id',
+            externalResource: true,
+            extension: 'external-resource',
+          },
+          {
+            id: 'internal-resource-id',
+          },
+        ],
+      };
+    });
+    describe('if interaction no longer exists', () => {
+      beforeEach(() => {
+        initialState.interactions.shift();
+      });
+      it('does nothing', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('if interaction exists', () => {
+      it('sets the active resources', () => {
+        runReducerAndExpectSnapshot();
       });
     });
   });
@@ -491,6 +506,54 @@ describe('agentDesktopReducer', () => {
       });
       it('does nothing', () => {
         runReducerAndExpectSnapshot();
+      });
+    });
+  });
+
+  describe('UPDATE_RESOURCE_NAME', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            warmTransfers: [{ id: 'resource-id-1' }, { id: 'resource-id-2' }],
+          },
+          {
+            warmTransfers: [{ id: 'resource-id-2' }],
+          },
+        ],
+      };
+      action = {
+        type: UPDATE_RESOURCE_NAME,
+        response: {
+          result: {
+            id: 'resource-id-2',
+            email: 'tester@testingson.com',
+          },
+        },
+      };
+    });
+    describe('if resource is not present on interactions', () => {
+      beforeEach(() => {
+        action.response.result.id = 'not-there';
+      });
+      it('does nothing', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('if resource is present on interactions', () => {
+      describe('if resource has no name properties', () => {
+        it("sets the name of the resource to be the resource's email", () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+      describe('if resource has name properties', () => {
+        beforeEach(() => {
+          action.response.result.firstName = 'Tester';
+          action.response.result.lastName = 'Testingson';
+        });
+        it('sets the name of the resource', () => {
+          runReducerAndExpectSnapshot();
+        });
       });
     });
   });

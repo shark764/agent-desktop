@@ -26,6 +26,7 @@ import {
   SET_QUEUE_TIME,
   SET_PRESENCE,
   SET_INTERACTION_STATUS,
+  SET_ACTIVE_RESOURCES,
   OPEN_NEW_INTERACTION_PANEL,
   NEW_INTERACTION_PANEL_SELECT_CONTACT,
   CLOSE_NEW_INTERACTION_PANEL,
@@ -477,7 +478,6 @@ function agentDesktopReducer(state = initialState, action) {
               'status',
               action.newStatus
             );
-            // If we're accepting an existing voice conference, make any updates that have happened to the participants since the work offer
             if (
               interaction.get('channelType') === 'voice' &&
               action.response !== undefined
@@ -486,46 +486,6 @@ function agentDesktopReducer(state = initialState, action) {
               updatedInteraction = updatedInteraction
                 .set('onHold', action.response.customerOnHold === true)
                 .set('recording', action.response.recording === true);
-              // Remove any resources that are no longer on the interaction
-              if (action.response.activeResources) {
-                updatedInteraction = updatedInteraction.update(
-                  'warmTransfers',
-                  (warmTransfers) =>
-                    warmTransfers.filter((warmTransfer) => {
-                      let containsResource = false;
-                      action.response.activeResources.forEach((resource) => {
-                        if (
-                          resource.id === warmTransfer.get('targetResource')
-                        ) {
-                          containsResource = true;
-                        }
-                      });
-                      return containsResource;
-                    })
-                );
-                // Update muted and onHolds that have changed
-                action.response.activeResources.forEach((resource) => {
-                  const resourceIndex = updatedInteraction
-                    .get('warmTransfers')
-                    .findIndex(
-                      (warmTransfer) =>
-                        warmTransfer.get('targetResource') === resource.id
-                    );
-                  if (resourceIndex !== -1) {
-                    updatedInteraction = updatedInteraction.updateIn(
-                      ['warmTransfers', resourceIndex],
-                      (warmTransfer) =>
-                        warmTransfer
-                          .set('muted', resource.muted)
-                          .set('onHold', resource.onHold)
-                    );
-                  } else {
-                    throw new Error(
-                      `Resource not found to update: ${resource.id}`
-                    );
-                  }
-                });
-              }
             }
             return updatedInteraction;
           })
@@ -561,6 +521,35 @@ function agentDesktopReducer(state = initialState, action) {
           );
         }
         return newState;
+      }
+      return state;
+    }
+    case SET_ACTIVE_RESOURCES: {
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.set(
+            'warmTransfers',
+            new List(
+              action.activeResources.map((resource) => {
+                const mappedResource = Object.assign({}, resource);
+                mappedResource.targetResource = mappedResource.id;
+                mappedResource.status = 'connected';
+                if (mappedResource.externalResource) {
+                  mappedResource.name = mappedResource.extension;
+                } else {
+                  mappedResource.name = 'Agent';
+                }
+                return new Map(mappedResource);
+              })
+            )
+          )
+        );
       }
       return state;
     }

@@ -27,6 +27,7 @@ import {
   GO_NOT_READY,
   DELETE_CONTACTS,
   ASSIGN_CONTACT,
+  WORK_ACCEPTED,
 } from './constants';
 import {
   setContactMode,
@@ -39,6 +40,8 @@ import {
   setIsCancellingInteraction,
   showContactsPanel,
   setContactSaveLoading,
+  setInteractionStatus,
+  setActiveResources,
 } from './actions';
 
 export function* loadHistoricalInteractionBody(action) {
@@ -273,6 +276,27 @@ export function* goAssignContact(action) {
   yield put(setContactSaveLoading(interaction.interactionId, false));
 }
 
+export function* goAcceptWork(action) {
+  yield put(
+    setInteractionStatus(action.interactionId, 'work-accepted', action.response)
+  );
+  if (action.response.activeResources) {
+    yield put(
+      setActiveResources(action.interactionId, action.response.activeResources)
+    );
+    yield action.response.activeResources.map((resource) =>
+      call(
+        sdkCallToPromise,
+        CxEngage.entities.getUser,
+        {
+          resourceId: resource.id,
+        },
+        'AgentDesktop'
+      )
+    );
+  }
+}
+
 // Individual exports for testing
 export function* historicalInteractionBody() {
   yield takeEvery(
@@ -301,6 +325,10 @@ export function* assignContact() {
   yield takeEvery(ASSIGN_CONTACT, goAssignContact);
 }
 
+export function* workAccepted() {
+  yield takeEvery(WORK_ACCEPTED, goAcceptWork);
+}
+
 // All sagas to be loaded
 export default [
   historicalInteractionBody,
@@ -309,4 +337,5 @@ export default [
   deleteContacts,
   assignContact,
   cancelDial,
+  workAccepted,
 ];

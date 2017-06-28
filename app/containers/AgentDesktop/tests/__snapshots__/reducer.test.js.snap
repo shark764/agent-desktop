@@ -34,9 +34,7 @@ Object {
         "notesPanelHeight": 300,
         "title": "",
       },
-      "onHold": false,
       "query": Object {},
-      "recording": false,
       "sidePanelTabIndex": 0,
       "status": "work-offer",
       "timeout": NaN,
@@ -99,9 +97,7 @@ Object {
         "notesPanelHeight": 300,
         "title": "",
       },
-      "onHold": false,
       "query": Object {},
-      "recording": true,
       "sidePanelTabIndex": 0,
       "status": "work-offer",
       "timeout": NaN,
@@ -280,6 +276,45 @@ Object {
 }
 `;
 
+exports[`agentDesktopReducer SET_ACTIVE_RESOURCES if interaction exists sets the active resources 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "interactionId": "interaction-id",
+      "warmTransfers": Array [
+        Object {
+          "extension": "external-resource",
+          "externalResource": true,
+          "id": "external-resource-id",
+          "name": "external-resource",
+          "status": "connected",
+          "targetResource": "external-resource-id",
+        },
+        Object {
+          "id": "internal-resource-id",
+          "name": "Agent",
+          "status": "connected",
+          "targetResource": "internal-resource-id",
+        },
+      ],
+    },
+    Object {
+      "interactionId": "a-different-interaction",
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_ACTIVE_RESOURCES if interaction no longer exists does nothing 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "interactionId": "a-different-interaction",
+    },
+  ],
+}
+`;
+
 exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if no interaction is currently selected selects the interaction 1`] = `
 Object {
   "interactions": Array [
@@ -292,25 +327,18 @@ Object {
 }
 `;
 
-exports[`agentDesktopReducer SET_INTERACTION_STATUS if response includes conference details if the interaction has is a voice interaction with existing different conference details updates the conference participants and details 1`] = `
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if action contains a response object sets the appropriate parameters 1`] = `
 Object {
   "interactions": Array [
     Object {
       "channelType": "voice",
       "interactionId": "test-interaction-id",
       "onHold": true,
-      "recording": true,
-      "status": "work-accepting",
-      "warmTransfers": Array [
-        Object {
-          "muted": true,
-          "onHold": true,
-          "targetResource": "resource-id-2",
-        },
-      ],
+      "recording": false,
+      "status": undefined,
     },
   ],
-  "selectedInteractionId": "test-interaction-id",
+  "selectedInteractionId": undefined,
 }
 `;
 
@@ -410,6 +438,82 @@ Object {
     },
   ],
   "selectedInteractionId": "outbound-sms-+15064701234",
+}
+`;
+
+exports[`agentDesktopReducer UPDATE_RESOURCE_NAME if resource is not present on interactions does nothing 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "warmTransfers": Array [
+        Object {
+          "id": "resource-id-1",
+        },
+        Object {
+          "id": "resource-id-2",
+        },
+      ],
+    },
+    Object {
+      "warmTransfers": Array [
+        Object {
+          "id": "resource-id-2",
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer UPDATE_RESOURCE_NAME if resource is present on interactions if resource has name properties sets the name of the resource 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "warmTransfers": Array [
+        Object {
+          "id": "resource-id-1",
+        },
+        Object {
+          "id": "resource-id-2",
+          "name": "Tester Testingson",
+        },
+      ],
+    },
+    Object {
+      "warmTransfers": Array [
+        Object {
+          "id": "resource-id-2",
+          "name": "Tester Testingson",
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer UPDATE_RESOURCE_NAME if resource is present on interactions if resource has no name properties sets the name of the resource to be the resource's email 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "warmTransfers": Array [
+        Object {
+          "id": "resource-id-1",
+        },
+        Object {
+          "id": "resource-id-2",
+          "name": "tester@testingson.com",
+        },
+      ],
+    },
+    Object {
+      "warmTransfers": Array [
+        Object {
+          "id": "resource-id-2",
+          "name": "tester@testingson.com",
+        },
+      ],
+    },
+  ],
 }
 `;
 
