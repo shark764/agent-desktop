@@ -119,19 +119,20 @@ export class ContactSearchBar extends React.Component {
       boxSizing: 'border-box',
     },
     inputBox: {
-      backgroundColor: '#ffffff',
+      backgroundColor: '#fff',
       backgroundImage: `url(${search})`,
       backgroundPosition: '10px 10px',
       backgroundRepeat: 'no-repeat',
       backgroundSize: '16px',
       padding: '3px 3px 3px 40px',
       height: '36px',
-      borderRadius: '2px 0 0 3px',
-      border: 'solid 1px #979797',
       ':focus': {
         boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
-        border: 'solid 1px #23CEF5',
+        borderColor: '#23CEF5',
       },
+      borderStyle: 'solid',
+      borderWidth: '1px',
+      borderColor: '#979797',
       maxWidth: '100%',
       display: 'flex',
       alignItems: 'center',
@@ -153,24 +154,19 @@ export class ContactSearchBar extends React.Component {
     pendingFilterInput: {
       padding: '0 11px 0 0',
     },
+    noBg: {
+      backgroundColor: '#fff',
+      borderWidth: 0,
+    },
     closeButton: {
       margin: '0',
-      alignSelf: 'auto',
-      borderTop: '1px solid #979797',
-      borderRight: '1px solid #979797',
-      borderBottom: '1px solid #979797',
-      borderLeft: '0',
-      borderRadius: '0 2px 2px 0',
       order: '1',
-      flex: '0 0 auto',
-      height: '36px',
-      width: '66px',
-      ':focus': {
-        boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
-        borderTop: '1px solid #23CEF5',
-        borderRight: '1px solid #23CEF5',
-        borderBottom: '1px solid #23CEF5',
-      },
+      flexGrow: '0',
+      flexShrink: '0',
+      border: 'none',
+      background: 'none',
+      ':hover': this.noBg,
+      ':active': this.noBg,
     },
     highlightedFilter: {
       background: '#E4E4E4',
@@ -188,14 +184,14 @@ export class ContactSearchBar extends React.Component {
       left: '-41px',
       top: '32px',
       position: 'absolute',
-      background: '#FFFFFF',
+      background: '#fff',
       borderRadius: '0 0 0 2px',
       border: '1px solid #E4E4E4',
       borderTop: 'none',
       zIndex: '10',
     },
     filterDropdownRow: {
-      background: '#FFFFFF',
+      background: '#fff',
       borderRadius: '0 0 0 2px',
       padding: '5px 12px',
     },
@@ -223,6 +219,14 @@ export class ContactSearchBar extends React.Component {
   matchFilterToTerm = (state, value) =>
     this.getLabel(state).toLowerCase().indexOf(value.toLowerCase()) !== -1;
 
+  clearContactSearchForm = () => {
+    this.setState({
+      pendingFilter: false,
+      pendingFilterValue: '',
+      autocompleteValue: '',
+    });
+  };
+
   handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.pendingFilter) {
@@ -231,19 +235,11 @@ export class ContactSearchBar extends React.Component {
           this.state.pendingFilter.objectName,
           this.state.pendingFilterValue
         );
-        this.setState({
-          pendingFilter: false,
-          pendingFilterValue: '',
-          autocompleteValue: '',
-        });
+        this.clearContactSearchForm();
       }
     } else if (this.state.autocompleteValue.length > 0) {
       this.props.addFilter('q', this.state.autocompleteValue);
-      this.setState({
-        pendingFilter: false,
-        pendingFilterValue: '',
-        autocompleteValue: '',
-      });
+      this.clearContactSearchForm();
     }
     return false;
   };
@@ -258,6 +254,8 @@ export class ContactSearchBar extends React.Component {
         this.props.selectedInteraction.interactionId,
         'view'
       );
+    } else {
+      this.clearContactSearchForm();
     }
   };
 
@@ -287,6 +285,9 @@ export class ContactSearchBar extends React.Component {
   };
 
   render() {
+    const hideDisplayClearBtn =
+      this.state.autocompleteValue.length > 0 || this.state.pendingFilter;
+
     return (
       <form id="search-form" onSubmit={this.handleSubmit}>
         <div id="contactSearchBar" style={[this.styles.base, this.props.style]}>
@@ -329,14 +330,17 @@ export class ContactSearchBar extends React.Component {
             <div style={this.styles.resultsCount}>
               {this.getResultsCountText()}
             </div>
+
+            {hideDisplayClearBtn &&
+              <Button
+                id="exit-search-btn"
+                style={this.styles.closeButton}
+                iconName="close"
+                type="secondary"
+                onClick={this.cancel}
+              />}
           </div>
-          <Button
-            id="exit-search-btn"
-            style={this.styles.closeButton}
-            iconName="close"
-            type="secondary"
-            onClick={this.cancel}
-          />
+
         </div>
       </form>
     );
