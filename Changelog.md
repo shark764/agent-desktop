@@ -1,3 +1,7 @@
+### [0.42.15] (2017-06-28)
+* BUGFIX - fix dial pad in transfer menu
+* CXV1-10025 - Log all errors to kibana via sdk
+
 ### [0.42.14] (2017-06-28)
 * BUGFIX - Ignore SDK error 14000 (failed to save logs)
 

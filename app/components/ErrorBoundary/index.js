@@ -26,6 +26,9 @@ export default function ErrorBoundary(WrappedComponent) {
     // eslint-disable-next-line camelcase
     unstable_handleError(error, info) {
       console.error(error, info);
+      if (CxEngage !== undefined) {
+        CxEngage.logging.error(error, info);
+      }
       this.setState({ error });
       this.props.setCriticalError(null, error);
       // TODO send error and info to analytics

@@ -418,12 +418,6 @@ export class TransferMenu extends React.Component {
     this.props.setShowTransferMenu(false);
   };
 
-  toggleDialpad = () => {
-    this.setState({
-      showTransferListDialpad: !this.state.showTransferListDialpad,
-    });
-  };
-
   render() {
     const queues = this.filterTransferListItems(this.props.queues).map((queue) =>
       <div
@@ -657,15 +651,15 @@ export class TransferMenu extends React.Component {
               {transferLists}
             </div>
           </div>
-          : <Dialpad
-            id="dialpad"
-            setDialpadText={this.setDialpadText}
-            onEnter={this.transferFromDialpad}
-            dialpadText={this.state.dialpadText}
-            toggle={this.toggleDialpad}
-            active
-            transfer
-          >
+          : <div style={this.styles.dialpadContainer}>
+            <Dialpad
+              id="dialpad"
+              setDialpadText={this.setDialpadText}
+              onEnter={this.transferFromDialpad}
+              dialpadText={this.state.dialpadText}
+              active={false}
+              transfer
+            />
             <Button
               id="transferDialpadButton"
               text={
@@ -678,7 +672,7 @@ export class TransferMenu extends React.Component {
               type="primaryBlue"
               style={this.styles.transferDialpadButton}
             />
-          </Dialpad>}
+          </div>}
         <div style={this.styles.dialpadButtonContainer}>
           <CircleIconButton
             id="transferDialpadButton"

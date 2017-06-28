@@ -8,16 +8,7 @@ exports[`<Dialpad /> when given required props should render correctly 1`] = `
     data-radium={true}
     style={
       Object {
-        "borderBottom": "10px solid white",
-        "borderLeft": "8px solid transparent",
-        "borderRight": "8px solid transparent",
-        "borderTop": "none",
-        "height": "0px",
         "marginLeft": "134px",
-        "marginTop": "4px",
-        "position": "absolute",
-        "width": "0px",
-        "zIndex": 3,
       }
     }
   />
@@ -155,16 +146,7 @@ exports[`<Dialpad /> when inCall prop set to true should render correctly 1`] = 
     data-radium={true}
     style={
       Object {
-        "borderBottom": "10px solid white",
-        "borderLeft": "8px solid transparent",
-        "borderRight": "8px solid transparent",
-        "borderTop": "none",
-        "height": "0px",
         "marginLeft": "134px",
-        "marginTop": "4px",
-        "position": "absolute",
-        "width": "0px",
-        "zIndex": 3,
       }
     }
   />
