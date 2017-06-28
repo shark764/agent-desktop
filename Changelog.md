@@ -1,3 +1,6 @@
+### [0.43.1] (2017-06-28)
+* CXV1-10075 - Got exit-search-btn working for contact search input field
+
 ### [0.43.0] (2017-06-28)
 * CXV1-9981 - Show script by itself it it is received before or after an interaction.
 
