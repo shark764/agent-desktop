@@ -1,3 +1,6 @@
+### [0.42.14] (2017-06-28)
+* BUGFIX - Ignore SDK error 14000 (failed to save logs)
+
 ### [0.42.13] (2017-06-27)
 * CXV1-10143 - Changed how active resources are handled on transfers
 

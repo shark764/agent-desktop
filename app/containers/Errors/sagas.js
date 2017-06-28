@@ -22,6 +22,7 @@ export function* goHandleSDKError(action) {
   if (error.code === 14000) {
     // Error with logging
     // TODO analytics
+    return;
   } else if (
     error.code === 2000 || // Not enough tenant permissions. Handled in Login.
     error.code === 3000 || // Login authentication failed. Handled in Login.
