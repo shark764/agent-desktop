@@ -327,7 +327,7 @@ Object {
 }
 `;
 
-exports[`agentDesktopReducer SET_INTERACTION_STATUS if action contains a response object sets the appropriate parameters 1`] = `
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if interaction is of channelType 'voice' and action contains a response object sets onHold and recording parameters 1`] = `
 Object {
   "interactions": Array [
     Object {
