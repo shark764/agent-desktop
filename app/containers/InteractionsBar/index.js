@@ -167,10 +167,13 @@ export class InteractionsBar extends React.Component {
         }
 
         let status;
-        if (activeInteraction.status === 'wrapup') {
-          status = 'wrapup';
-        } else if (activeInteraction.status === 'work-ended-pending-script') {
-          status = 'work-ended-pending-script';
+        if (activeInteraction.isScriptOnly) {
+          status = 'script-only';
+        } else if (
+          activeInteraction.status === 'wrapup' ||
+          activeInteraction.status === 'work-ended-pending-script'
+        ) {
+          status = activeInteraction.status;
         } else {
           status = 'active';
         }
@@ -187,10 +190,16 @@ export class InteractionsBar extends React.Component {
             channelType={activeInteraction.channelType}
             previewText={text}
             status={status}
-            targetWrapupTime={Number(
-              activeInteraction.wrapupDetails.targetWrapupTime
-            )}
-            wrapupTime={Number(activeInteraction.wrapupDetails.wrapupTime)}
+            targetWrapupTime={
+              activeInteraction.wrapupDetails
+                ? Number(activeInteraction.wrapupDetails.targetWrapupTime)
+                : undefined
+            }
+            wrapupTime={
+              activeInteraction.wrapupDetails
+                ? Number(activeInteraction.wrapupDetails.wrapupTime)
+                : undefined
+            }
             selected={
               this.props.selectedInteractionId ===
               activeInteraction.interactionId

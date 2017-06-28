@@ -277,7 +277,42 @@ export class Interaction extends React.Component {
   };
 
   render() {
-    if (this.props.status !== 'creating-new-interaction') {
+    if (
+      this.props.status === 'creating-new-interaction' ||
+      this.props.status === 'script-only'
+    ) {
+      return (
+        <div
+          id={`${this.props.status}InteractionContainer-${this.props
+            .interactionId}`}
+          className={`${this.props.status}InteractionContainer`}
+          style={[
+            styles.base,
+            this.props.selected && styles.selectedBase,
+            styles.newInteractionBase,
+          ]}
+          key={this.props.interactionId}
+          onClick={this.props.onClick}
+          disabled={this.props.selected}
+        >
+          <div style={styles.iconContainer} />
+          <div
+            style={[
+              styles.mainContainer,
+              styles.mainContainer[this.props.status],
+            ]}
+          >
+            <div style={styles.headerContainer}>
+              <div style={styles.from}>
+                {this.props.status === 'creating-new-interaction'
+                  ? <FormattedMessage {...messages.newInteraction} />
+                  : <FormattedMessage {...messages.script} />}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
       const pendingPSTN =
         this.props.activeExtension.type === 'pstn' &&
         this.props.status === 'pending' &&
@@ -335,36 +370,6 @@ export class Interaction extends React.Component {
           </div>
         </div>
       );
-    } else {
-      return (
-        <div
-          id={`${this.props.status}InteractionContainer-${this.props
-            .interactionId}`}
-          className={`${this.props.status}InteractionContainer`}
-          style={[
-            styles.base,
-            this.props.selected && styles.selectedBase,
-            styles.newInteractionBase,
-          ]}
-          key={this.props.interactionId}
-          onClick={this.props.onClick}
-          disabled={this.props.selected}
-        >
-          <div style={styles.iconContainer} />
-          <div
-            style={[
-              styles.mainContainer,
-              styles.mainContainer[this.props.status],
-            ]}
-          >
-            <div style={styles.headerContainer}>
-              <div style={styles.from}>
-                New Interaction
-              </div>
-            </div>
-          </div>
-        </div>
-      );
     }
   }
 }
@@ -384,6 +389,7 @@ Interaction.propTypes = {
     'wrapup',
     'creating-new-interaction',
     'work-ended-pending-script',
+    'script-only',
   ]).isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
   selected: PropTypes.bool,

@@ -78,6 +78,13 @@ const getSelectedInteractionScript = createSelector(
   }
 );
 
+const getSelectedInteractionIsScriptOnly = createSelector(
+  getSelectedInteraction,
+  (selectedInteraction) =>
+    selectedInteraction !== undefined &&
+    selectedInteraction.isScriptOnly === true
+);
+
 const getHasAssignedContact = createSelector(
   getSelectedInteraction,
   (selectedInteraction) => has(selectedInteraction, 'contact.id')
@@ -88,6 +95,7 @@ export {
   getSelectedInteraction,
   getSelectedInteractionIsVoice,
   getSelectedInteractionScript,
+  getSelectedInteractionIsScriptOnly,
   getHasAssignedContact,
   getSelectedTabIndex,
 };

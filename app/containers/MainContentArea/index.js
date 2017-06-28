@@ -15,6 +15,7 @@ import Radium from 'radium';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
+import AgentScript from 'containers/AgentScript';
 import NewInteractionContentArea from 'containers/NewInteractionContentArea';
 import MessagingContentArea from 'containers/MessagingContentArea';
 import EmailContentArea from 'containers/EmailContentArea';
@@ -61,6 +62,14 @@ class MainContentArea extends React.Component {
     if (selectedInteraction) {
       if (selectedInteraction.status === 'creating-new-interaction') {
         content = <NewInteractionContentArea />;
+      } else if (selectedInteraction.isScriptOnly === true) {
+        content = (
+          <AgentScript
+            interactionId={selectedInteraction.interactionId}
+            script={selectedInteraction.script}
+            style={{ padding: '30px' }}
+          />
+        );
       } else if (
         selectedInteraction.channelType === 'messaging' ||
         selectedInteraction.channelType === 'sms'

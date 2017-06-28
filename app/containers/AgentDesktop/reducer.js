@@ -487,6 +487,13 @@ function agentDesktopReducer(state = initialState, action) {
                 .set('onHold', action.response.customerOnHold === true)
                 .set('recording', action.response.recording === true);
             }
+            // Remove isScriptOnly if we are accepting the work offer
+            if (
+              action.newStatus === 'work-accepting' &&
+              updatedInteraction.get('isScriptOnly') === true
+            ) {
+              updatedInteraction = updatedInteraction.delete('isScriptOnly');
+            }
             return updatedInteraction;
           })
           .set(
@@ -682,13 +689,17 @@ function agentDesktopReducer(state = initialState, action) {
             action.response.channelType === 'email')
         )
       ) {
-        // If interaction was already added by START_OUTBOUND_INTERACTION, replace it; otherwise, just push it to the list
+        // If interaction was already added by START_OUTBOUND_INTERACTION or ADD_SCRIPT, replace it; otherwise, just push it to the list
         const interactionIndex = state
           .get('interactions')
           .findIndex(
             (interaction) =>
-              interaction.get('direction') === 'outbound' &&
-              interaction.get('channelType') === action.response.channelType
+              (interaction.get('direction') === 'outbound' &&
+                interaction.get('channelType') ===
+                  action.response.channelType) ||
+              (interaction.get('interactionId') ===
+                action.response.interactionId &&
+                interaction.get('status') === 'script-only')
           );
         const interactionToAdd = new Map(new Interaction(action.response));
         if (interactionIndex !== -1) {
@@ -734,7 +745,25 @@ function agentDesktopReducer(state = initialState, action) {
           fromJS(action.script)
         );
       } else {
-        return state;
+        // 'script-only' is the main status we will use. isScriptOnly for when interactions receive a work offer, but still need to render the script in MainContentArea until it has been accepted
+        const scriptInteraction = fromJS({
+          interactionId: action.interactionId,
+          status: 'script-only',
+          isScriptOnly: true,
+          script: action.script,
+          sidePanelTabIndex: 0,
+          query: {},
+          contact: {},
+          activeContactForm: activeContactFormBlank,
+        });
+        return state
+          .update('interactions', (interactions) =>
+            interactions.push(scriptInteraction)
+          )
+          .set(
+            'selectedInteractionId',
+            state.get('selectedInteractionId') || action.interactionId
+          );
       }
     }
     case REMOVE_SCRIPT: {
@@ -745,10 +774,15 @@ function agentDesktopReducer(state = initialState, action) {
             interaction.get('interactionId') === action.interactionId
         );
       if (interactionIndex > -1) {
-        // Remove the interaction if the script is the only thing left to do
+        const interactionStatus = state.getIn([
+          'interactions',
+          interactionIndex,
+          'status',
+        ]);
+        // Remove the interaction if the script is the only thing to do
         if (
-          state.getIn(['interactions', interactionIndex, 'status']) ===
-          'work-ended-pending-script'
+          interactionStatus === 'work-ended-pending-script' ||
+          interactionStatus === 'script-only'
         ) {
           return removeInteractionAndSetNextSelectedInteraction(
             state,
@@ -825,9 +859,10 @@ function agentDesktopReducer(state = initialState, action) {
             (interaction) =>
               interaction.get('interactionId') === action.interactionId
           );
-        return state.setIn(
-          ['interactions', interactionIndex, 'status'],
-          'work-ended-pending-script'
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction
+            .set('status', 'work-ended-pending-script')
+            .set('contactMode', 'view')
         );
       } else {
         return state;
