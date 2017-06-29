@@ -59,6 +59,11 @@ export class InteractionsBar extends React.Component {
     }
   };
 
+  awaitingDisposition = (interaction) =>
+    interaction.status === 'wrapup' &&
+    interaction.dispositionDetails.forceSelect &&
+    interaction.dispositionDetails.selected.length === 0;
+
   render() {
     let activeVoiceInteractionStatus;
     if (this.props.activeVoiceInteraction) {
@@ -79,6 +84,9 @@ export class InteractionsBar extends React.Component {
         key={this.props.activeVoiceInteraction.interactionId}
         icon="voice"
         channelType={this.props.activeVoiceInteraction.channelType}
+        awaitingDisposition={this.awaitingDisposition(
+            this.props.activeVoiceInteraction
+          )}
         from={
             has(this.props.activeVoiceInteraction, 'contact.attributes.name')
               ? this.props.activeVoiceInteraction.contact.attributes.name
@@ -188,6 +196,7 @@ export class InteractionsBar extends React.Component {
                 : activeInteraction.customer
             }
             channelType={activeInteraction.channelType}
+            awaitingDisposition={this.awaitingDisposition(activeInteraction)}
             previewText={text}
             status={status}
             targetWrapupTime={
