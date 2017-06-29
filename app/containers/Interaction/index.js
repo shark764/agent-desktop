@@ -24,7 +24,6 @@ import Progress from 'components/Progress';
 import Button from 'components/Button';
 import { cancelClickToDial } from 'containers/AgentDesktop/actions';
 
-import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
 
 import messages from './messages';
@@ -388,7 +387,7 @@ Interaction.propTypes = {
     'work-ended-pending-script',
     'script-only',
   ]).isRequired,
-  awaitingDisposition: PropTypes.bool.isRequired,
+  awaitingDisposition: PropTypes.bool,
   selected: PropTypes.bool,
   onClick: PropTypes.func,
   activeExtension: PropTypes.object.isRequired,
@@ -398,7 +397,6 @@ Interaction.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  awaitingDisposition: selectAwaitingDisposition(state, props),
   activeExtension: selectActiveExtension(state, props),
 });
 

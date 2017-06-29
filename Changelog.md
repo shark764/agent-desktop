@@ -1,3 +1,6 @@
+### [0.43.4] (2017-06-29)
+* CXV1-10218: Fixed bug that was ending interactions before required disposition was submitted when new interaction is created
+
 ### [0.43.3] (2017-06-29)
 * CXV1-10159: Prevent wrap up restart on contact assignment
 
