@@ -1,3 +1,6 @@
+### [0.43.2] (2017-06-29)
+* CXV1-9979: Focus script when added
+
 ### [0.43.1] (2017-06-28)
 * CXV1-10075 - Got exit-search-btn working for contact search input field
 
