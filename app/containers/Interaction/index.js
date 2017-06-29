@@ -153,10 +153,7 @@ export class Interaction extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      this.props.status !== nextProps.status ||
-      this.props.previewText !== nextProps.previewText
-    ) {
+    if (this.props.status !== 'wrapup' && nextProps.status === 'wrapup') {
       this.setState({
         startTime: Date.now(),
         ageSeconds: 0,
