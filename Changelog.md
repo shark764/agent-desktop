@@ -1,3 +1,6 @@
+### [0.43.3] (2017-06-29)
+* CXV1-10159: Prevent wrap up restart on contact assignment
+
 ### [0.43.2] (2017-06-29)
 * CXV1-9979: Focus script when added
 
