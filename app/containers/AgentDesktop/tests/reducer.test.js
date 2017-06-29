@@ -17,6 +17,7 @@ import {
   ADD_SCRIPT,
   REMOVE_SCRIPT,
   REMOVE_INTERACTION,
+  REMOVE_INTERACTION_HARD,
   UPDATE_RESOURCE_NAME,
 } from '../constants';
 import agentDesktopReducer from '../reducer';
@@ -547,6 +548,46 @@ describe('agentDesktopReducer', () => {
         initialState.interactions[0].script = { scriptItem: 'something' };
       });
       it('sets the status to "work-ended-pending-script"', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('interaction is not there', () => {
+      beforeEach(() => {
+        action.interactionId = 'not-the-right-id';
+      });
+      it('does nothing', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+  });
+
+  describe('REMOVE_INTERACTION_HARD', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 'test-interaction-id',
+          },
+        ],
+      };
+      action = {
+        type: REMOVE_INTERACTION_HARD,
+        interactionId: 'test-interaction-id',
+      };
+    });
+    describe('interaction is the selected interaction', () => {
+      beforeEach(() => {
+        initialState.selectedInteractionId = 'test-interaction-id';
+        initialState.interactions.push({
+          interactionId: 'first-interaction-id',
+          channelType: 'sms',
+        });
+        initialState.interactions.push({
+          interactionId: 'second-interaction-id',
+          channelType: 'email',
+        });
+      });
+      it('removes the interaction and selectes the next one', () => {
         runReducerAndExpectSnapshot();
       });
     });

@@ -7,7 +7,10 @@ import { takeEvery, put, call } from 'redux-saga/effects';
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 
 import { setCRMUnavailable } from 'containers/InfoTab/actions';
-import { removeInvalidExtension } from 'containers/AgentDesktop/actions';
+import {
+  removeInvalidExtension,
+  removeInteractionHard,
+} from 'containers/AgentDesktop/actions';
 import { HANDLE_SDK_ERROR, SET_LOGIN_ERROR_AND_RELOAD } from './constants';
 import {
   setCriticalError,
@@ -50,6 +53,8 @@ export function* goHandleSDKError(action) {
     yield put(setCriticalError(topic, error));
   } else if (error.level === 'error') {
     yield put(setNonCriticalError(topic, error));
+  } else if (error.level === 'interaction-fatal') {
+    yield put(removeInteractionHard(error.data.interactionId));
   }
 }
 
