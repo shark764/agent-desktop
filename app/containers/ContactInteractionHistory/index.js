@@ -264,7 +264,9 @@ export class ContactInteractionHistory extends React.Component {
   };
 
   addControlsListAttribute = (element) => {
-    element.setAttribute('controlslist', 'nodownload'); // controlslist attribute not currently supported in React!
+    if (element) {
+      element.setAttribute('controlslist', 'nodownload'); // controlslist attribute not currently supported in React!
+    }
   };
 
   interactionBody = (interactionDetails) => {

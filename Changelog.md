@@ -1,3 +1,6 @@
+### [0.43.5] (2017-06-29)
+* CXV1-10097: Fix error with audio element causing history tab to break
+
 ### [0.43.4] (2017-06-29)
 * CXV1-10218: Fixed bug that was ending interactions before required disposition was submitted when new interaction is created
 
