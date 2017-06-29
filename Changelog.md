@@ -1,6 +1,24 @@
-### [0.42.15] (2017-06-28)
+### [0.43.6] (2017-06-29)
 * BUGFIX - fix dial pad in transfer menu
 * CXV1-10025 - Log all errors to kibana via sdk
+
+### [0.43.5] (2017-06-29)
+* CXV1-10097: Fix error with audio element causing history tab to break
+
+### [0.43.4] (2017-06-29)
+* CXV1-10218: Fixed bug that was ending interactions before required disposition was submitted when new interaction is created
+
+### [0.43.3] (2017-06-29)
+* CXV1-10159: Prevent wrap up restart on contact assignment
+
+### [0.43.2] (2017-06-29)
+* CXV1-9979: Focus script when added
+
+### [0.43.1] (2017-06-28)
+* CXV1-10075 - Got exit-search-btn working for contact search input field
+
+### [0.43.0] (2017-06-28)
+* CXV1-9981 - Show script by itself it it is received before or after an interaction.
 
 ### [0.42.14] (2017-06-28)
 * BUGFIX - Ignore SDK error 14000 (failed to save logs)

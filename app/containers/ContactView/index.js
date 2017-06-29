@@ -96,10 +96,11 @@ export class ContactView extends React.Component {
 
   getAttributeRow = (attribute) => {
     const attributeLabel = `${attribute.label[this.props.intl.locale]}`;
-    const attributeValue = this.props.contact.attributes &&
+    const attributeValue =
+      this.props.contact.attributes &&
       this.props.contact.attributes[attribute.objectName]
-      ? this.props.contact.attributes[attribute.objectName]
-      : '';
+        ? this.props.contact.attributes[attribute.objectName]
+        : '';
     return (
       <ContactAttribute
         key={attribute.id}
@@ -156,7 +157,8 @@ export class ContactView extends React.Component {
     const inInteractionContext =
       this.props.selectedInteraction &&
       this.props.selectedInteraction.interactionId &&
-      !this.props.selectedInteractionIsCreatingNewInteraction;
+      !this.props.selectedInteractionIsCreatingNewInteraction &&
+      this.props.selectedInteraction.status !== 'script-only';
     return (
       <div style={[this.props.style, styles.base]}>
         <div style={styles.header}>

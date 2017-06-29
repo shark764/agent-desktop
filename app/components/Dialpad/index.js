@@ -85,11 +85,14 @@ function Dialpad(props) {
 
   return (
     <div>
+      {!props.transfer
+        ? <div id="dialpadMask" style={styles.mask} onClick={props.toggle} />
+        : undefined}
       {!props.transfer &&
-        <div id="dialpadMask" style={styles.mask} onClick={props.toggle} /> &&
         <div
+          id="dialpadtriangle"
           style={[
-            !props.transfer && props.active ? styles.topTriangle : undefined,
+            !props.transfer ? styles.topTriangle : undefined,
             !props.transfer && props.active
               ? styles.activeVoiceInteractionDialpadTopTriangle
               : styles.inactiveVoiceInteractionDialpadTopTriangle,

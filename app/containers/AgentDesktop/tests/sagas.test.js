@@ -7,6 +7,7 @@ import {
   loadContactInteractions,
   goNotReady,
   goDeleteContacts,
+  goAssignContact,
   goAcceptWork,
 } from 'containers/AgentDesktop/sagas';
 
@@ -219,6 +220,178 @@ describe('goDeleteContacts', () => {
         generator.next(mockCheckedContacts);
         expect(generator.next(mockDeleteResponses)).toMatchSnapshot();
       });
+    });
+  });
+});
+
+describe('goAssignContact', () => {
+  let generator;
+  describe('target is noInteractionContactPanel', () => {
+    beforeAll(() => {
+      generator = goAssignContact({
+        interactionId: undefined,
+        contact: { id: 'mock-contact-id' },
+      });
+    });
+    it('calls getInteraction with the interaction id', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('puts setContactSaveLoading to true', () => {
+      expect(generator.next({ interactionId: undefined })).toMatchSnapshot();
+    });
+    it('puts selectContact', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls loadContactInteractions with the contact id', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('puts setContactSaveLoading to false', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('is done', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+  });
+
+  describe('target is "creating-new-interaction" panel', () => {
+    beforeAll(() => {
+      generator = goAssignContact({
+        interactionId: 'creating-new-interaction',
+        contact: { id: 'mock-contact-id' },
+      });
+    });
+    it('calls getInteraction with the interaction id', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('puts setContactSaveLoading to true', () => {
+      expect(
+        generator.next({ interactionId: 'creating-new-interaction' })
+      ).toMatchSnapshot();
+    });
+    it('puts newInteractionPanelSelectContact', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('puts showContactsPanel', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls loadContactInteractions with the contact id', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('puts setContactSaveLoading to false', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('is done', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+  });
+
+  describe('target is non-UUID interaction (outbound)', () => {
+    beforeAll(() => {
+      generator = goAssignContact({
+        interactionId: 'non-uuid',
+        contact: { id: 'mock-contact-id' },
+      });
+    });
+    it('calls getInteraction with the interaction id', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('puts setContactSaveLoading to true', () => {
+      expect(generator.next({ interactionId: 'non-uuid' })).toMatchSnapshot();
+    });
+    it('puts setAssignedContact', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls loadContactInteractions with the contact id', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('puts setContactSaveLoading to false', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('is done', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+  });
+
+  describe('target is script-only interaction', () => {
+    beforeAll(() => {
+      generator = goAssignContact({
+        interactionId: '6a94e45e-5c37-11e7-907b-a6006ad3dba0',
+        contact: { id: 'mock-contact-id' },
+      });
+    });
+    it('calls getInteraction with the interaction id', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('puts setContactSaveLoading to true', () => {
+      expect(
+        generator.next({
+          interactionId: '6a94e45e-5c37-11e7-907b-a6006ad3dba0',
+          status: 'script-only',
+        })
+      ).toMatchSnapshot();
+    });
+    it('puts setAssignedContact', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls loadContactInteractions with the contact id', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('puts setContactSaveLoading to false', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('is done', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+  });
+
+  describe('target is interaction with contactMode of search', () => {
+    beforeAll(() => {
+      generator = goAssignContact({
+        interactionId: '6a94e45e-5c37-11e7-907b-a6006ad3dba0',
+        contact: { id: 'mock-contact-id' },
+      });
+      global.CxEngage = {
+        interactions: {
+          unassignContact: 'unassignContact',
+          assignContact: 'assignContact',
+        },
+      };
+    });
+    it('calls getInteraction with the interaction id', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('puts setContactSaveLoading to true', () => {
+      expect(
+        generator.next({
+          interactionId: '6a94e45e-5c37-11e7-907b-a6006ad3dba0',
+          contact: { id: 'old-contact-id' },
+          contactMode: 'search',
+        })
+      ).toMatchSnapshot();
+    });
+    it('calls CxEngage.interactions.unassignContact to old contact', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls CxEngage.interactions.assignContact to new contact', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('puts setAssignedContact', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('puts addContactNotification', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('puts setContactMode to search', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls loadContactInteractions with the contact id', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('puts setContactSaveLoading to false', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('is done', () => {
+      expect(generator.next()).toMatchSnapshot();
     });
   });
 });

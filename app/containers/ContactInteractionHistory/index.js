@@ -264,7 +264,9 @@ export class ContactInteractionHistory extends React.Component {
   };
 
   addControlsListAttribute = (element) => {
-    element.setAttribute('controlslist', 'nodownload'); // controlslist attribute not currently supported in React!
+    if (element) {
+      element.setAttribute('controlslist', 'nodownload'); // controlslist attribute not currently supported in React!
+    }
   };
 
   interactionBody = (interactionDetails) => {
@@ -306,13 +308,14 @@ export class ContactInteractionHistory extends React.Component {
         break;
       case 'sms':
       case 'messaging':
-        transcriptItems = typeof interactionDetails.transcript === 'undefined'
-          ? (<IconSVG
-            id="loadingRecordings"
-            name="loading"
-            style={this.styles.loadingInteractionDetails}
-          />)
-          : interactionDetails.transcript &&
+        transcriptItems =
+          typeof interactionDetails.transcript === 'undefined'
+            ? (<IconSVG
+              id="loadingRecordings"
+              name="loading"
+              style={this.styles.loadingInteractionDetails}
+            />)
+            : interactionDetails.transcript &&
               interactionDetails.transcript.map &&
               interactionDetails.transcript.map((transcriptItem, index) => {
                 const messageType =
@@ -403,13 +406,14 @@ export class ContactInteractionHistory extends React.Component {
         interaction.interactionDetails.agents.map((segment) => {
           let duration;
           const hasNotes = segment.noteTitle !== null;
-          const notes = segment.note !== undefined
-            ? segment.note.body
-            : (<IconSVG
-              id="loadingNote"
-              name="loading"
-              style={this.styles.loadingInteractionDetails}
-            />);
+          const notes =
+            segment.note !== undefined
+              ? segment.note.body
+              : (<IconSVG
+                id="loadingNote"
+                name="loading"
+                style={this.styles.loadingInteractionDetails}
+              />);
           if (
             segment.conversationStartTimestamp &&
             segment.conversationEndTimestamp

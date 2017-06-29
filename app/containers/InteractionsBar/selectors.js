@@ -28,7 +28,8 @@ const selectActiveNonVoiceInteractions = createSelector(
             interaction.status === 'creating-new-interaction' ||
             interaction.status === 'connecting-to-outbound' ||
             interaction.status === 'initializing-outbound' ||
-            interaction.status === 'initialized-outbound') &&
+            interaction.status === 'initialized-outbound' ||
+            interaction.isScriptOnly === true) &&
           interaction.channelType !== 'voice'
       )
 );

@@ -102,6 +102,34 @@ describe('agentDesktopReducer', () => {
           runReducerAndExpectSnapshot();
         });
       });
+      describe('if interaction is "isScriptOnly"', () => {
+        beforeEach(() => {
+          initialState.interactions = [
+            {
+              interactionId: 'test-interaction-id',
+              status: 'work-offer',
+              isScriptOnly: true,
+              script: { id: 'mock-script-id' },
+            },
+          ];
+        });
+        describe('if interaction is voice', () => {
+          beforeEach(() => {
+            initialState.interactions[0].channelType = 'voice';
+          });
+          it('deletes "isScriptOnly"', () => {
+            runReducerAndExpectSnapshot();
+          });
+        });
+        describe('if interaction is not voice', () => {
+          beforeEach(() => {
+            initialState.interactions[0].channelType = 'sms';
+          });
+          it('deletes "isScriptOnly" and focuses script tab', () => {
+            runReducerAndExpectSnapshot();
+          });
+        });
+      });
     });
     describe("if setting an interaction's status to wrapup", () => {
       beforeEach(() => {
@@ -381,16 +409,38 @@ describe('agentDesktopReducer', () => {
       };
     });
     describe('interaction is there', () => {
-      it('adds the script', () => {
-        runReducerAndExpectSnapshot();
+      describe('interaction is voice', () => {
+        beforeEach(() => {
+          initialState.interactions[0].channelType = 'voice';
+        });
+        it('adds the script', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+      describe('interaction is not voice', () => {
+        beforeEach(() => {
+          initialState.interactions[0].channelType = 'messaging';
+        });
+        it('adds the script and sets focus to the script tab', () => {
+          runReducerAndExpectSnapshot();
+        });
       });
     });
     describe('interaction is not there', () => {
       beforeEach(() => {
-        action.interactionId = 'not-the-right-id';
+        initialState.selectedInteractionId = 'test-interaction-id';
+        action.interactionId = 'new-interaction-id';
       });
-      it('does nothing', () => {
+      it('adds a "script-only" interaction', () => {
         runReducerAndExpectSnapshot();
+      });
+      describe('no existing/selected interactions', () => {
+        beforeEach(() => {
+          initialState = { interactions: [] };
+        });
+        it('adds also selects the interaction', () => {
+          runReducerAndExpectSnapshot();
+        });
       });
     });
   });

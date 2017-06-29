@@ -71,9 +71,10 @@ export function* loadHistoricalInteractionBody(action) {
         if (transcriptUrl) {
           transcriptResponse = yield call(axios.get, transcriptUrl);
         }
-        body.transcript = transcriptResponse && transcriptResponse.data
-          ? transcriptResponse.data
-          : [];
+        body.transcript =
+          transcriptResponse && transcriptResponse.data
+            ? transcriptResponse.data
+            : [];
         break;
       default:
         break;
@@ -231,7 +232,10 @@ export function* goAssignContact(action) {
   } else if (interaction.interactionId === 'creating-new-interaction') {
     yield put(newInteractionPanelSelectContact(action.contact));
     yield put(showContactsPanel());
-  } else if (!isUUID(interaction.interactionId)) {
+  } else if (
+    !isUUID(interaction.interactionId) ||
+    interaction.status === 'script-only'
+  ) {
     yield put(setAssignedContact(interaction.interactionId, action.contact));
   } else {
     try {

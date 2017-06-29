@@ -136,7 +136,7 @@ exports[`<Interaction /> should render correctly 1`] = `
     >
       <FormattedMessage
         defaultMessage="Click to accept interaction"
-        id="app.containers.InteractionsBar.accept"
+        id="app.containers.Interaction.accept"
         values={Object {}}
       />
     </div>

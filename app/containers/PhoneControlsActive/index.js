@@ -114,6 +114,10 @@ export class PhoneControlsActive extends React.Component {
     );
   };
 
+  toggleTransferMenu = () => {
+    this.setShowTransferMenu(!this.state.showTransferMenu);
+  };
+
   resumeMe = () => {
     CxEngage.interactions.voice.resourceResume({
       interactionId: this.props.activeVoiceInteraction.interactionId,
@@ -152,6 +156,14 @@ export class PhoneControlsActive extends React.Component {
     },
     activeVoiceInteractionDialpadTopTriangle: {
       marginLeft: '219px',
+    },
+    mask: {
+      position: 'fixed',
+      top: '0px',
+      left: '0px',
+      height: '100vh',
+      width: '100vw',
+      zIndex: '2',
     },
     transferTopTriangle: {
       marginLeft: '177px',
@@ -285,8 +297,7 @@ export class PhoneControlsActive extends React.Component {
                 id="transferButton"
                 name="transfer"
                 active={this.state.showTransferMenu}
-                onClick={() =>
-                    this.setShowTransferMenu(!this.state.showTransferMenu)}
+                onClick={this.toggleTransferMenu}
                 style={this.styles.circleIconButtonRow}
               />
               : undefined}
@@ -295,16 +306,18 @@ export class PhoneControlsActive extends React.Component {
                 id="dialpadButton"
                 name="dialpad"
                 active={this.state.showActiveInteractionDialpad}
-                onClick={() =>
-                  this.setShowActiveInteractionDialpad(
-                    !this.state.showActiveInteractionDialpad
-                  )}
+                onClick={this.toggleDialpad}
                 style={this.styles.circleIconButtonRow}
               />}
           </div>
         </div>
         {this.state.showTransferMenu && !connectingTransfers
           ? <div>
+            <div
+              id="transferMask"
+              style={this.styles.mask}
+              onClick={this.toggleTransferMenu}
+            />
             <div
               style={[
                 this.props.style.topTriangle,

@@ -30,7 +30,9 @@ import messages from './messages';
 
 const styles = {
   base: {
-    margin: '30px 30px 30px 0',
+    backgroundColor: '#FFFFFF',
+    minHeight: '100%',
+    padding: '30px 30px 30px 0',
   },
   textInput: {
     width: '100%',
@@ -87,25 +89,28 @@ class AgentScript extends React.Component {
     script.elements.forEach((element) => {
       switch (element.type) {
         case 'freeform':
-          newState[element.name] = script.values !== undefined &&
+          newState[element.name] =
+            script.values !== undefined &&
             script.values[element.name] !== undefined
-            ? script.values[element.name]
-            : '';
+              ? script.values[element.name]
+              : '';
           break;
         case 'dropdown':
         case 'scale':
-          newState[element.name] = script.values !== undefined &&
+          newState[element.name] =
+            script.values !== undefined &&
             script.values[element.name] !== undefined
-            ? script.values[element.name]
-            : null;
+              ? script.values[element.name]
+              : null;
           break;
         case 'checkbox': {
           const checkboxOptions = {};
           element.options.forEach((option) => {
-            checkboxOptions[option.value] = script.values !== undefined &&
+            checkboxOptions[option.value] =
+              script.values !== undefined &&
               script.values[option.value] !== undefined
-              ? script.values[option.value]
-              : false;
+                ? script.values[option.value]
+                : false;
           });
           newState[element.name] = checkboxOptions;
           break;
@@ -259,7 +264,7 @@ class AgentScript extends React.Component {
 
   render() {
     return (
-      <div style={styles.base}>
+      <div style={[styles.base, this.props.style]}>
         {this.getScript()}
         <Button
           id="submitScriptButton"
@@ -273,6 +278,7 @@ class AgentScript extends React.Component {
 }
 
 AgentScript.propTypes = {
+  style: PropTypes.object,
   script: PropTypes.object.isRequired,
   interactionId: PropTypes.string.isRequired,
   updateScriptValues: PropTypes.func.isRequired,

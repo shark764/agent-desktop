@@ -119,6 +119,566 @@ Object {
 }
 `;
 
+exports[`goAssignContact target is "creating-new-interaction" panel calls getInteraction with the interaction id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "creating-new-interaction",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is "creating-new-interaction" panel calls loadContactInteractions with the contact id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        Object {
+          "contactId": "mock-contact-id",
+        },
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is "creating-new-interaction" panel is done 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`goAssignContact target is "creating-new-interaction" panel puts newInteractionPanelSelectContact 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "contact": Object {
+          "id": "mock-contact-id",
+        },
+        "type": "app/AgentDesktop/NEW_INTERACTION_PANEL_SELECT_CONTACT",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is "creating-new-interaction" panel puts setContactSaveLoading to false 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "creating-new-interaction",
+        "isLoading": false,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is "creating-new-interaction" panel puts setContactSaveLoading to true 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "creating-new-interaction",
+        "isLoading": true,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is "creating-new-interaction" panel puts showContactsPanel 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "type": "app/AgentDesktop/SHOW_CONTACTS_PANEL",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is interaction with contactMode of search calls CxEngage.interactions.assignContact to new contact 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "assignContact",
+        Object {
+          "contactId": "mock-contact-id",
+          "interactionId": "6a94e45e-5c37-11e7-907b-a6006ad3dba0",
+        },
+        "AgentDesktop",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is interaction with contactMode of search calls CxEngage.interactions.unassignContact to old contact 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "unassignContact",
+        Object {
+          "contactId": "old-contact-id",
+          "interactionId": "6a94e45e-5c37-11e7-907b-a6006ad3dba0",
+        },
+        "AgentDesktop",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is interaction with contactMode of search calls getInteraction with the interaction id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "6a94e45e-5c37-11e7-907b-a6006ad3dba0",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is interaction with contactMode of search calls loadContactInteractions with the contact id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        Object {
+          "contactId": "mock-contact-id",
+        },
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is interaction with contactMode of search is done 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`goAssignContact target is interaction with contactMode of search puts addContactNotification 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "notificationInfo": Object {
+          "messageType": "assigned",
+        },
+        "type": "app/ContactsControl/ADD_CONTACT_NOTIFICATION",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is interaction with contactMode of search puts setAssignedContact 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "contact": Object {
+          "id": "mock-contact-id",
+        },
+        "interactionId": "6a94e45e-5c37-11e7-907b-a6006ad3dba0",
+        "type": "app/AgentDesktop/SET_ASSIGNED_CONTACT",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is interaction with contactMode of search puts setContactMode to search 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "6a94e45e-5c37-11e7-907b-a6006ad3dba0",
+        "newMode": "view",
+        "type": "app/AgentDesktop/SET_CONTACT_MODE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is interaction with contactMode of search puts setContactSaveLoading to false 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "6a94e45e-5c37-11e7-907b-a6006ad3dba0",
+        "isLoading": false,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is interaction with contactMode of search puts setContactSaveLoading to true 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "6a94e45e-5c37-11e7-907b-a6006ad3dba0",
+        "isLoading": true,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is noInteractionContactPanel calls getInteraction with the interaction id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        undefined,
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is noInteractionContactPanel calls loadContactInteractions with the contact id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        Object {
+          "contactId": "mock-contact-id",
+        },
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is noInteractionContactPanel is done 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`goAssignContact target is noInteractionContactPanel puts selectContact 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "contact": Object {
+          "id": "mock-contact-id",
+        },
+        "type": "app/AgentDesktop/SELECT_CONTACT",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is noInteractionContactPanel puts setContactSaveLoading to false 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": undefined,
+        "isLoading": false,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is noInteractionContactPanel puts setContactSaveLoading to true 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": undefined,
+        "isLoading": true,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is non-UUID interaction (outbound) calls getInteraction with the interaction id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "non-uuid",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is non-UUID interaction (outbound) calls loadContactInteractions with the contact id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        Object {
+          "contactId": "mock-contact-id",
+        },
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is non-UUID interaction (outbound) is done 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`goAssignContact target is non-UUID interaction (outbound) puts setAssignedContact 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "contact": Object {
+          "id": "mock-contact-id",
+        },
+        "interactionId": "non-uuid",
+        "type": "app/AgentDesktop/SET_ASSIGNED_CONTACT",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is non-UUID interaction (outbound) puts setContactSaveLoading to false 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "non-uuid",
+        "isLoading": false,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is non-UUID interaction (outbound) puts setContactSaveLoading to true 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "non-uuid",
+        "isLoading": true,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is script-only interaction calls getInteraction with the interaction id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "6a94e45e-5c37-11e7-907b-a6006ad3dba0",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is script-only interaction calls loadContactInteractions with the contact id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        Object {
+          "contactId": "mock-contact-id",
+        },
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is script-only interaction is done 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`goAssignContact target is script-only interaction puts setAssignedContact 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "contact": Object {
+          "id": "mock-contact-id",
+        },
+        "interactionId": "6a94e45e-5c37-11e7-907b-a6006ad3dba0",
+        "type": "app/AgentDesktop/SET_ASSIGNED_CONTACT",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is script-only interaction puts setContactSaveLoading to false 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "6a94e45e-5c37-11e7-907b-a6006ad3dba0",
+        "isLoading": false,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAssignContact target is script-only interaction puts setContactSaveLoading to true 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "6a94e45e-5c37-11e7-907b-a6006ad3dba0",
+        "isLoading": true,
+        "type": "app/ContactsControl/SET_CONTACT_SAVE_LOADING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
 exports[`goDeleteContacts when action.reasonIds is an array of Ids should call the promise util with the SDK goDeleteContacts and the correct arguments 1`] = `
 Object {
   "done": false,

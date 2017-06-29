@@ -59,6 +59,11 @@ export class InteractionsBar extends React.Component {
     }
   };
 
+  awaitingDisposition = (interaction) =>
+    interaction.status === 'wrapup' &&
+    interaction.dispositionDetails.forceSelect &&
+    interaction.dispositionDetails.selected.length === 0;
+
   render() {
     let activeVoiceInteractionStatus;
     if (this.props.activeVoiceInteraction) {
@@ -79,6 +84,9 @@ export class InteractionsBar extends React.Component {
         key={this.props.activeVoiceInteraction.interactionId}
         icon="voice"
         channelType={this.props.activeVoiceInteraction.channelType}
+        awaitingDisposition={this.awaitingDisposition(
+            this.props.activeVoiceInteraction
+          )}
         from={
             has(this.props.activeVoiceInteraction, 'contact.attributes.name')
               ? this.props.activeVoiceInteraction.contact.attributes.name
@@ -102,7 +110,7 @@ export class InteractionsBar extends React.Component {
           }
         onClick={
             this.props.selectedInteractionId !==
-              this.props.activeVoiceInteraction.interactionId
+            this.props.activeVoiceInteraction.interactionId
               ? () =>
                   this.props.selectInteraction(
                     this.props.activeVoiceInteraction.interactionId
@@ -125,8 +133,8 @@ export class InteractionsBar extends React.Component {
           from = activeInteraction.customer
             ? activeInteraction.customer
             : activeInteraction.messageHistory &&
-                activeInteraction.messageHistory[0] &&
-                activeInteraction.messageHistory[0].from;
+              activeInteraction.messageHistory[0] &&
+              activeInteraction.messageHistory[0].from;
 
           // use the last non-system message
           if (activeInteraction.messageHistory) {
@@ -167,10 +175,13 @@ export class InteractionsBar extends React.Component {
         }
 
         let status;
-        if (activeInteraction.status === 'wrapup') {
-          status = 'wrapup';
-        } else if (activeInteraction.status === 'work-ended-pending-script') {
-          status = 'work-ended-pending-script';
+        if (activeInteraction.isScriptOnly) {
+          status = 'script-only';
+        } else if (
+          activeInteraction.status === 'wrapup' ||
+          activeInteraction.status === 'work-ended-pending-script'
+        ) {
+          status = activeInteraction.status;
         } else {
           status = 'active';
         }
@@ -185,19 +196,26 @@ export class InteractionsBar extends React.Component {
                 : activeInteraction.customer
             }
             channelType={activeInteraction.channelType}
+            awaitingDisposition={this.awaitingDisposition(activeInteraction)}
             previewText={text}
             status={status}
-            targetWrapupTime={Number(
-              activeInteraction.wrapupDetails.targetWrapupTime
-            )}
-            wrapupTime={Number(activeInteraction.wrapupDetails.wrapupTime)}
+            targetWrapupTime={
+              activeInteraction.wrapupDetails
+                ? Number(activeInteraction.wrapupDetails.targetWrapupTime)
+                : undefined
+            }
+            wrapupTime={
+              activeInteraction.wrapupDetails
+                ? Number(activeInteraction.wrapupDetails.wrapupTime)
+                : undefined
+            }
             selected={
               this.props.selectedInteractionId ===
               activeInteraction.interactionId
             }
             onClick={
               this.props.selectedInteractionId !==
-                activeInteraction.interactionId
+              activeInteraction.interactionId
                 ? () =>
                     this.props.selectInteraction(
                       activeInteraction.interactionId
@@ -220,7 +238,7 @@ export class InteractionsBar extends React.Component {
         }
         onClick={
           this.props.selectedInteractionId !==
-            this.props.newInteractionPanel.interactionId
+          this.props.newInteractionPanel.interactionId
             ? () =>
                 this.props.selectInteraction(
                   this.props.newInteractionPanel.interactionId
@@ -238,14 +256,16 @@ export class InteractionsBar extends React.Component {
           pendingInteraction.channelType === 'messaging' ||
           pendingInteraction.channelType === 'sms'
         ) {
-          from = pendingInteraction.messageHistory &&
+          from =
+            pendingInteraction.messageHistory &&
             pendingInteraction.messageHistory.length > 0
-            ? pendingInteraction.messageHistory[0].from
-            : '';
-          text = pendingInteraction.messageHistory &&
+              ? pendingInteraction.messageHistory[0].from
+              : '';
+          text =
+            pendingInteraction.messageHistory &&
             pendingInteraction.messageHistory.length > 0
-            ? pendingInteraction.messageHistory[0].text
-            : '';
+              ? pendingInteraction.messageHistory[0].text
+              : '';
           icon = 'message_new';
         } else if (pendingInteraction.channelType === 'email') {
           from = pendingInteraction.customer;

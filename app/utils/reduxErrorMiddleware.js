@@ -19,12 +19,14 @@ const errorHandler = (error, action, dispatch) => {
       Raven.uninstall();
     } else {
       console.error('Redux Threw An Error:', error, ' Action: ', action);
-      CxEngage.logging.error(
-        'Redux Threw An Error:',
-        error,
-        ' Action: ',
-        action
-      );
+      if (CxEngage !== undefined) {
+        CxEngage.logging.error(
+          'Redux Threw An Error:',
+          error,
+          ' Action: ',
+          action
+        );
+      }
     }
     reduxHasErrored = true; // Hacky solution to raven errors still firing after uninstall.
   }
