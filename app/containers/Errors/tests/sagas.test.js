@@ -38,6 +38,15 @@ describe('handleError Saga', () => {
       expect(generator.next()).toMatchSnapshot();
     });
   });
+  describe('interaction fatal level errors', () => {
+    beforeEach(() => {
+      mockAction.error.level = 'interaction-fatal';
+      mockAction.error.data = { interactionId: 'mock-interaction-id' };
+    });
+    it('should call removeInteractionHard', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+  });
   describe('other level errors', () => {
     beforeEach(() => {
       mockAction.error.level = 'warning';
