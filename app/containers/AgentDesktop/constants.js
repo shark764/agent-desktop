@@ -39,6 +39,8 @@ export const INITIALIZE_OUTBOUND_SMS =
 export const ADD_INTERACTION = 'app/AgentDesktop/ADD_INTERACTION';
 export const WORK_INITIATED = 'app/AgentDesktop/WORK_INITIATED';
 export const REMOVE_INTERACTION = 'app/AgentDesktop/REMOVE_INTERACTION';
+export const REMOVE_INTERACTION_HARD =
+  'app/AgentDesktop/REMOVE_INTERACTION_HARD';
 export const SET_INTERACTION_QUERY = 'app/AgentDesktop/SET_INTERACTION_QUERY';
 export const ADD_SEARCH_FILTER = 'app/AgentDesktop/ADD_SEARCH_FILTER';
 export const REMOVE_SEARCH_FILTER = 'app/AgentDesktop/REMOVE_SEARCH_FILTER';

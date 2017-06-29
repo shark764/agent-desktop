@@ -52,6 +52,7 @@ import {
   ADD_SEARCH_FILTER,
   REMOVE_SEARCH_FILTER,
   REMOVE_INTERACTION,
+  REMOVE_INTERACTION_HARD,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
   SET_EMAIL_PLAIN_BODY,
@@ -442,6 +443,13 @@ export function workAccepted(interactionId, response) {
 export function removeInteraction(interactionId) {
   return {
     type: REMOVE_INTERACTION,
+    interactionId,
+  };
+}
+
+export function removeInteractionHard(interactionId) {
+  return {
+    type: REMOVE_INTERACTION_HARD,
     interactionId,
   };
 }

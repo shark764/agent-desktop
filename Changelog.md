@@ -1,6 +1,9 @@
-### [0.43.6] (2017-06-29)
+### [0.43.7] (2017-06-29)
 * BUGFIX - fix dial pad in transfer menu
 * CXV1-10025 - Log all errors to kibana via sdk
+
+### [0.43.6] (2017-06-29)
+* CXV1-9785: Remove interaction on interaction-fatal error from SDK
 
 ### [0.43.5] (2017-06-29)
 * CXV1-10097: Fix error with audio element causing history tab to break

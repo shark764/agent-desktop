@@ -316,6 +316,32 @@ Object {
 }
 `;
 
+exports[`agentDesktopReducer REMOVE_INTERACTION_HARD interaction is not there does nothing 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "interactionId": "test-interaction-id",
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_INTERACTION_HARD interaction is the selected interaction removes the interaction and selectes the next one 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "channelType": "sms",
+      "interactionId": "first-interaction-id",
+    },
+    Object {
+      "channelType": "email",
+      "interactionId": "second-interaction-id",
+    },
+  ],
+  "selectedInteractionId": "first-interaction-id",
+}
+`;
+
 exports[`agentDesktopReducer REMOVE_SCRIPT interaction is not there does nothing 1`] = `
 Object {
   "interactions": Array [
