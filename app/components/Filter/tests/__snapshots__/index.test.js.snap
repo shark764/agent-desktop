@@ -42,10 +42,13 @@ exports[`<Filter /> should render correctly 1`] = `
     name="close"
     onclick={[Function]}
     style={
-      Object {
-        "cursor": "pointer",
-        "margin": "0 10px",
-      }
+      Array [
+        Object {
+          "cursor": "pointer",
+          "margin": "0 10px",
+        },
+        undefined,
+      ]
     }
   />
 </div>

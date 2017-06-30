@@ -19,3 +19,4 @@ export const DISMISS_NOTIFICATION = 'app/InfoTab/DISMISS_NOTIFICATION';
 export const SET_LOADING = 'app/InfoTab/SET_LOADING';
 export const SET_DELETION_PENDING = 'app/InfoTab/SET_DELETION_PENDING';
 export const SET_CONFIRMING_DELETE = 'app/InfoTab/SET_CONFIRMING_DELETE';
+export const SET_SEARCH_PENDING = 'app/InfoTab/SET_SEARCH_PENDING';

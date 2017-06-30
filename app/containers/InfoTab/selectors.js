@@ -97,6 +97,10 @@ const selectConfirmingDelete = createSelector(selectInfoTabDomain(), (infoTab) =
   infoTab.get('confirmingDelete')
 );
 
+const selectSearchPending = createSelector(selectInfoTabDomain(), (infoTab) =>
+  infoTab.get('searchPending')
+);
+
 const selectResults = createSelector(selectInfoTabDomain(), (infoTab) =>
   infoTab.get('results').toJS()
 );
@@ -124,6 +128,7 @@ export {
   selectLoading,
   selectDeletionPending,
   selectConfirmingDelete,
+  selectSearchPending,
   selectResults,
   selectResultsCount,
   selectNextPage,

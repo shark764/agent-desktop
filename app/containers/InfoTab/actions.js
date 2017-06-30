@@ -20,6 +20,7 @@ import {
   SET_LOADING,
   SET_DELETION_PENDING,
   SET_CONFIRMING_DELETE,
+  SET_SEARCH_PENDING,
 } from './constants';
 
 export function setCRMUnavailable(reason) {
@@ -94,5 +95,12 @@ export function setConfirmingDelete(confirmingDelete) {
   return {
     type: SET_CONFIRMING_DELETE,
     confirmingDelete,
+  };
+}
+
+export function setSearchPending(searchPending) {
+  return {
+    type: SET_SEARCH_PENDING,
+    searchPending,
   };
 }

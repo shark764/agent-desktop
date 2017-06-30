@@ -26,21 +26,21 @@ import { mergeContacts, newContact } from 'containers/ContactsControl/actions';
 import {
   selectResults,
   selectResultsCount,
-  selectNextPage,
   selectCheckedContacts,
   selectLoading,
   selectConfirmingDelete,
   selectDeletionPending,
+  selectSearchPending,
   selectExpandedQuery,
 } from 'containers/InfoTab/selectors';
 import {
-  setSearchResults,
   checkContact,
   uncheckContact,
   setConfirmingDelete,
   clearSearchResults,
   clearCheckedContacts,
 } from 'containers/InfoTab/actions';
+import { searchContacts } from './actions';
 
 import messages from './messages';
 import NoRecords from './NoRecords';
@@ -152,39 +152,6 @@ export class ContactSearch extends React.Component {
     }
   }
 
-  searchContacts = () => {
-    if (!this.props.loading || this.props.deletionPending) {
-      const encodedQuery = {};
-      Object.keys(this.props.selectedInteraction.query).forEach((queryName) => {
-        const queryToEncode = this.props.selectedInteraction.query[queryName];
-        const queryNoQuotes = queryToEncode.replace(/"/g, '');
-        let finalQuery = queryNoQuotes;
-
-        // here we are looking for queries that either start and end with double-quotes,
-        // or are telephone queries. If they are either, then put double quotes around
-        // them so that the sdk does an exact string match instead of the default partial match
-        if (/^".*"$/.test(queryToEncode) || queryName === 'phone') {
-          finalQuery = `"${queryNoQuotes}"`;
-        }
-
-        encodedQuery[queryName] = encodeURIComponent(finalQuery);
-      });
-      CxEngage.contacts.search(
-        { query: Object.assign(encodedQuery, { page: this.props.nextPage }) },
-        (error, topic, response) => {
-          if (!error) {
-            console.log(
-              '[ContactsControl] CxEngage.subscribe()',
-              topic,
-              response
-            );
-            this.props.setSearchResults(response);
-          }
-        }
-      );
-    }
-  };
-
   setMerging = () => {
     this.props.mergeContacts(this.props.selectedInteraction.interactionId);
     this.props.setSidePanelTabIndex(
@@ -259,7 +226,7 @@ export class ContactSearch extends React.Component {
           <div style={styles.infiniteScrollContainer}>
             <InfiniteScroll
               key="infinite-scroll"
-              loadMore={this.searchContacts}
+              loadMore={this.props.searchContacts}
               hasMore={
                 this.props.resultsCount === -1 ||
                 this.props.results.length < this.props.resultsCount
@@ -323,12 +290,12 @@ export class ContactSearch extends React.Component {
             {this.props.query.map((filter) =>
               <Filter
                 key={filter.attribute.objectName}
-                objectName={filter.attribute.objectName}
                 name={filter.label}
                 value={filter.value}
                 remove={() =>
                   this.props.removeSearchFilter(filter.attribute.objectName)}
                 style={styles.filter}
+                disabled={this.props.searchPending}
               />
             )}
           </div>
@@ -355,13 +322,13 @@ ContactSearch.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,
   results: PropTypes.any,
   resultsCount: PropTypes.number,
-  nextPage: PropTypes.number,
   checkedContacts: PropTypes.array,
   loading: PropTypes.bool.isRequired,
   deletionPending: PropTypes.bool,
   confirmingDelete: PropTypes.bool,
+  searchPending: PropTypes.bool,
   query: PropTypes.array,
-  setSearchResults: PropTypes.func.isRequired,
+  searchContacts: PropTypes.func.isRequired,
   clearSearchResults: PropTypes.func.isRequired,
   clearCheckedContacts: PropTypes.func.isRequired,
   checkContact: PropTypes.func.isRequired,
@@ -379,18 +346,18 @@ function mapStateToProps(state, props) {
     selectedInteraction: getSelectedInteraction(state, props),
     results: selectResults(state, props),
     resultsCount: selectResultsCount(state, props),
-    nextPage: selectNextPage(state, props),
     checkedContacts: selectCheckedContacts(state, props),
     loading: selectLoading(state, props),
     deletionPending: selectDeletionPending(state, props),
     confirmingDelete: selectConfirmingDelete(state, props),
+    searchPending: selectSearchPending(state, props),
     query: selectExpandedQuery(state, props),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setSearchResults: (filter) => dispatch(setSearchResults(filter)),
+    searchContacts: () => dispatch(searchContacts()),
     clearSearchResults: () => dispatch(clearSearchResults()),
     clearCheckedContacts: () => dispatch(clearCheckedContacts()),
     checkContact: (contact) => dispatch(checkContact(contact)),

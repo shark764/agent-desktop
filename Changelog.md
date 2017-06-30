@@ -1,3 +1,6 @@
+### [0.43.8] (2017-06-29)
+* CXV1-9982 - Disable Filter Remove on search pending
+
 ### [0.43.7] (2017-06-29)
 * BUGFIX - fix dial pad in transfer menu
 * CXV1-10025 - Log all errors to kibana via sdk
