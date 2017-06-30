@@ -66,9 +66,6 @@ const styles = {
   inactiveVoiceInteractionDialpadPhoneControlsPopupMenu: {
     height: '394px',
   },
-  transfer: {
-    padding: '24px 12px',
-  },
 };
 
 function Dialpad(props) {
@@ -88,22 +85,26 @@ function Dialpad(props) {
 
   return (
     <div>
-      <div id="dialpadMask" style={styles.mask} onClick={props.toggle} />
+      {!props.transfer
+        ? <div id="dialpadMask" style={styles.mask} onClick={props.toggle} />
+        : undefined}
+      {!props.transfer &&
+        <div
+          id="dialpadtriangle"
+          style={[
+            !props.transfer ? styles.topTriangle : undefined,
+            !props.transfer && props.active
+              ? styles.activeVoiceInteractionDialpadTopTriangle
+              : styles.inactiveVoiceInteractionDialpadTopTriangle,
+          ]}
+        />}
       <div
         style={[
-          styles.topTriangle,
-          props.active
-            ? styles.activeVoiceInteractionDialpadTopTriangle
-            : styles.inactiveVoiceInteractionDialpadTopTriangle,
-        ]}
-      />
-      <div
-        style={[
-          styles.phoneControlsPopupMenu,
-          props.active
-            ? styles.activeVoiceInteractionDialpadPhoneControlsPopupMenu
-            : styles.inactiveVoiceInteractionDialpadPhoneControlsPopupMenu,
-          props.transfer ? styles.transfer : undefined,
+          !props.transfer && styles.phoneControlsPopupMenu,
+          !props.transfer &&
+            (props.active
+              ? styles.activeVoiceInteractionDialpadPhoneControlsPopupMenu
+              : styles.inactiveVoiceInteractionDialpadPhoneControlsPopupMenu),
         ]}
       >
         <div id={props.id} style={{ zIndex: '4' }}>
@@ -205,7 +206,7 @@ Dialpad.propTypes = {
   interactionId: PropTypes.string,
   inCall: PropTypes.bool,
   children: PropTypes.element,
-  toggle: PropTypes.func.isRequired,
+  toggle: PropTypes.func,
   active: PropTypes.bool.isRequired,
   transfer: PropTypes.bool.isRequired,
 };

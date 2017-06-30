@@ -42,4 +42,5 @@ export default [
   'cxengage/contacts/delete-contact-response', // Handled in InfoTab
   'cxengage/contacts/merge-contacts-response', // Handled in ContactMerge
   'cxengage/interactions/email/start-outbound-email', // Handled in EmailContentArea saga
+  'cxengage/logging/error', // Handled in App container index
 ];

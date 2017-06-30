@@ -230,6 +230,14 @@ export class App extends React.Component {
 
     Raven.setTagsContext({ sdkVersion: CxEngage.version });
 
+    window.onerror = (errorMsg, url, lineNumber, column, errorObj) => {
+      CxEngage.logging.error(
+        `Error: ${errorMsg} Script: ${url} Line: ${lineNumber} Column: ${column} StackTrace: ${JSON.stringify(
+          errorObj
+        )} ReduxState: ${JSON.stringify(window.store)}`
+      );
+    };
+
     CxEngage.subscribe('cxengage', (error, topic, response) => {
       if (error) {
         this.props.handleSDKError(error, topic);

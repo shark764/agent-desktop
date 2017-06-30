@@ -20,6 +20,7 @@ exports[`<Dialpad /> when given required props should render correctly 1`] = `
   />
   <div
     data-radium={true}
+    id="dialpadtriangle"
     style={
       Object {
         "borderBottom": "10px solid white",
@@ -181,6 +182,7 @@ exports[`<Dialpad /> when inCall prop set to true should render correctly 1`] = 
   />
   <div
     data-radium={true}
+    id="dialpadtriangle"
     style={
       Object {
         "borderBottom": "10px solid white",
