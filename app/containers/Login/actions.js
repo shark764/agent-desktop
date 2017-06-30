@@ -13,6 +13,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_ERROR,
   TENANT_ERROR,
+  SERVICE_ERROR,
   RESET_PASSWORD,
   SHOW_LOGIN,
   SETTING_TENANT,
@@ -49,6 +50,12 @@ export function tenantError(error) {
   return {
     type: TENANT_ERROR,
     error,
+  };
+}
+
+export function serviceError() {
+  return {
+    type: SERVICE_ERROR,
   };
 }
 

@@ -71,10 +71,9 @@ export function* loadHistoricalInteractionBody(action) {
         if (transcriptUrl) {
           transcriptResponse = yield call(axios.get, transcriptUrl);
         }
-        body.transcript =
-          transcriptResponse && transcriptResponse.data
-            ? transcriptResponse.data
-            : [];
+        body.transcript = transcriptResponse && transcriptResponse.data
+          ? transcriptResponse.data
+          : [];
         break;
       default:
         break;

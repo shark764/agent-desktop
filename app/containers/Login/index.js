@@ -34,6 +34,7 @@ import mitelFavicon from 'assets/favicons/mitel.png';
 import { mappedLocales } from 'i18n';
 import { changeLocale } from 'containers/LanguageProvider/actions';
 import { selectLocale } from 'containers/LanguageProvider/selectors';
+import { handleSDKError } from 'containers/Errors/actions';
 import selectLogin, { selectRefresh } from './selectors';
 import messages from './messages';
 import {
@@ -208,13 +209,13 @@ export class Login extends React.Component {
           if (!error) {
             console.log('[Login] CxEngage.subscribe()', topic, response);
             this.loginCB(response);
-          } else if (error.code === 3000) {
-            this.handleError();
+          } else {
+            this.props.handleSDKError(error, topic);
           }
         }
       );
     } else {
-      this.handleError();
+      this.props.loginError();
     }
   };
 
@@ -330,8 +331,14 @@ export class Login extends React.Component {
     let errorSpan;
     if (this.props.login_error) {
       errorSpan = (
-        <span id={messages.error.id} style={[styles.error]}>
-          <FormattedMessage style={styles.center} {...messages.error} />
+        <span id={messages.loginCreds.id} style={[styles.error]}>
+          <FormattedMessage style={styles.center} {...messages.loginCreds} />
+        </span>
+      );
+    } else if (this.props.service_error) {
+      errorSpan = (
+        <span id={messages.serviceError.id} style={[styles.error]}>
+          <FormattedMessage style={styles.center} {...messages.serviceError} />
         </span>
       );
     } else if (error !== null) {
@@ -606,6 +613,7 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     resetPassword: (email) => dispatch(resetPassword(email)),
+    handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
     loggingIn: () => dispatch(loggingIn()),
     loginSuccess: (agent) => dispatch(loginSuccess(agent)),
     loginError: () => dispatch(loginError()),
@@ -620,6 +628,7 @@ function mapDispatchToProps(dispatch) {
 Login.propTypes = {
   intl: intlShape.isRequired,
   resetPassword: PropTypes.func.isRequired,
+  handleSDKError: PropTypes.func.isRequired,
   loggingIn: PropTypes.func.isRequired,
   loginSuccess: PropTypes.func.isRequired,
   loginError: PropTypes.func.isRequired,
@@ -632,6 +641,7 @@ Login.propTypes = {
   tenant_error_message: PropTypes.object,
   tenant_error: PropTypes.bool,
   tenantError: PropTypes.func.isRequired,
+  service_error: PropTypes.bool,
   refreshRequired: PropTypes.bool.isRequired,
   changeLocale: PropTypes.func,
   locale: PropTypes.string,

@@ -352,7 +352,7 @@ export class Interaction extends React.Component {
               ? <div style={styles.intentText}>
                 <FormattedMessage {...acceptMessage} />
                 {this.props.interactionDirection === 'outbound' &&
-                  this.props.channelType === 'voice'
+                    this.props.channelType === 'voice'
                     ? <Button
                       id="cancelInteractionBeforeActive"
                       type="primaryRed"

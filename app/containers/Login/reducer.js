@@ -14,6 +14,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_ERROR,
   TENANT_ERROR,
+  SERVICE_ERROR,
   SHOW_LOGIN,
   SETTING_TENANT,
   SET_TENANT,
@@ -56,6 +57,8 @@ function loginReducer(state = initialState, action) {
         .set('tenant_error', true)
         .set('loading', false)
         .set('tenant_error_message', fromJS(action.error));
+    case SERVICE_ERROR:
+      return state.set('service_error', true).set('loading', false);
     case SET_TENANT:
       return state
         .set('tenant', fromJS({ id: action.id, name: action.name }))

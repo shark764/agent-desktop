@@ -67,10 +67,9 @@ export class AgentDesktop extends React.Component {
       window.innerWidth || documentElement.clientWidth || body.clientWidth;
     this.setState({
       contactsPanelMaxPx: Math.max(width - 600, 600),
-      contactsPanelPx:
-        this.state.contactsPanelPx > Math.max(width - 600, 600)
-          ? Math.max(width - 600, 600)
-          : this.state.contactsPanelPx,
+      contactsPanelPx: this.state.contactsPanelPx > Math.max(width - 600, 600)
+        ? Math.max(width - 600, 600)
+        : this.state.contactsPanelPx,
     });
   };
 

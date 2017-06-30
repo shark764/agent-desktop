@@ -172,7 +172,7 @@ export class SidePanel extends React.Component {
             // If selectedTabIndex is 2 (script), but we aren't showing 3 tabs because there isn't an assigned contact to show the contact history tab for, set tab index to where script actually is
             selectedIndex={
               this.props.selectedTabIndex === 2 &&
-              !this.props.hasAssignedContact
+                !this.props.hasAssignedContact
                 ? 1
                 : this.props.selectedTabIndex
             }
