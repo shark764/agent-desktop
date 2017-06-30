@@ -89,28 +89,25 @@ class AgentScript extends React.Component {
     script.elements.forEach((element) => {
       switch (element.type) {
         case 'freeform':
-          newState[element.name] =
-            script.values !== undefined &&
+          newState[element.name] = script.values !== undefined &&
             script.values[element.name] !== undefined
-              ? script.values[element.name]
-              : '';
+            ? script.values[element.name]
+            : '';
           break;
         case 'dropdown':
         case 'scale':
-          newState[element.name] =
-            script.values !== undefined &&
+          newState[element.name] = script.values !== undefined &&
             script.values[element.name] !== undefined
-              ? script.values[element.name]
-              : null;
+            ? script.values[element.name]
+            : null;
           break;
         case 'checkbox': {
           const checkboxOptions = {};
           element.options.forEach((option) => {
-            checkboxOptions[option.value] =
-              script.values !== undefined &&
+            checkboxOptions[option.value] = script.values !== undefined &&
               script.values[option.value] !== undefined
-                ? script.values[option.value]
-                : false;
+              ? script.values[option.value]
+              : false;
           });
           newState[element.name] = checkboxOptions;
           break;

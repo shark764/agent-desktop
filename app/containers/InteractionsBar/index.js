@@ -110,7 +110,7 @@ export class InteractionsBar extends React.Component {
           }
         onClick={
             this.props.selectedInteractionId !==
-            this.props.activeVoiceInteraction.interactionId
+              this.props.activeVoiceInteraction.interactionId
               ? () =>
                   this.props.selectInteraction(
                     this.props.activeVoiceInteraction.interactionId
@@ -133,8 +133,8 @@ export class InteractionsBar extends React.Component {
           from = activeInteraction.customer
             ? activeInteraction.customer
             : activeInteraction.messageHistory &&
-              activeInteraction.messageHistory[0] &&
-              activeInteraction.messageHistory[0].from;
+                activeInteraction.messageHistory[0] &&
+                activeInteraction.messageHistory[0].from;
 
           // use the last non-system message
           if (activeInteraction.messageHistory) {
@@ -215,7 +215,7 @@ export class InteractionsBar extends React.Component {
             }
             onClick={
               this.props.selectedInteractionId !==
-              activeInteraction.interactionId
+                activeInteraction.interactionId
                 ? () =>
                     this.props.selectInteraction(
                       activeInteraction.interactionId
@@ -238,7 +238,7 @@ export class InteractionsBar extends React.Component {
         }
         onClick={
           this.props.selectedInteractionId !==
-          this.props.newInteractionPanel.interactionId
+            this.props.newInteractionPanel.interactionId
             ? () =>
                 this.props.selectInteraction(
                   this.props.newInteractionPanel.interactionId
@@ -256,16 +256,14 @@ export class InteractionsBar extends React.Component {
           pendingInteraction.channelType === 'messaging' ||
           pendingInteraction.channelType === 'sms'
         ) {
-          from =
-            pendingInteraction.messageHistory &&
+          from = pendingInteraction.messageHistory &&
             pendingInteraction.messageHistory.length > 0
-              ? pendingInteraction.messageHistory[0].from
-              : '';
-          text =
-            pendingInteraction.messageHistory &&
+            ? pendingInteraction.messageHistory[0].from
+            : '';
+          text = pendingInteraction.messageHistory &&
             pendingInteraction.messageHistory.length > 0
-              ? pendingInteraction.messageHistory[0].text
-              : '';
+            ? pendingInteraction.messageHistory[0].text
+            : '';
           icon = 'message_new';
         } else if (pendingInteraction.channelType === 'email') {
           from = pendingInteraction.customer;

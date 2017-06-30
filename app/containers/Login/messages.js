@@ -86,9 +86,13 @@ export default defineMessages({
     defaultMessage:
       'Access to this site requires separate permission from Serenova, LLC. This site contains confidential information, and may also contain content and enable interaction with users from third-party sites subject to different terms that are outside of Serenova\'s control. By using or accessing this site, you have agreed to the Terms of Service as outlined in the Master Service Agreement ("Agreement"). A copy of this Agreement is available from your Serenova contact.',
   },
-  error: {
-    id: 'app.containers.Login.error',
+  loginCreds: {
+    id: 'app.containers.Login.loginCreds',
     defaultMessage: "The username or password you've entered is not correct",
+  },
+  serviceError: {
+    id: 'app.containers.Login.serviceError',
+    defaultMessage: 'Cannot login due to service issues',
   },
   generalError: {
     id: 'app.containers.Login.generalError',

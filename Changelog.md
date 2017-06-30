@@ -1,3 +1,6 @@
+### [0.43.9] (2017-06-30)
+* CXV1-9913 - Added service error message on login
+
 ### [0.43.8] (2017-06-29)
 * CXV1-9982 - Disable Filter Remove on search pending
 

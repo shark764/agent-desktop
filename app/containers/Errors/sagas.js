@@ -7,6 +7,7 @@ import { takeEvery, put, call } from 'redux-saga/effects';
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 
 import { setCRMUnavailable } from 'containers/InfoTab/actions';
+import { loginError, serviceError } from 'containers/Login/actions';
 import {
   removeInvalidExtension,
   removeInteractionHard,
@@ -28,7 +29,6 @@ export function* goHandleSDKError(action) {
     return;
   } else if (
     error.code === 2000 || // Not enough tenant permissions. Handled in Login.
-    error.code === 3000 || // Login authentication failed. Handled in Login.
     error.code === 12005 || // Failed to get capacity. Handled in TransferMenu.
     topic === 'cxengage/contacts/create-contact-response' || // Handled in ContactEdit
     topic === 'cxengage/contacts/update-contact-response' || // Handled in ContactEdit
@@ -39,13 +39,21 @@ export function* goHandleSDKError(action) {
     // Invalid extension provided
     yield put(removeInvalidExtension());
   } else if (topic === 'cxengage/contacts/list-layouts-response') {
-    setCRMUnavailable('crmLayoutError');
+    yield put(setCRMUnavailable('crmLayoutError'));
     return;
   } else if (topic === 'cxengage/contacts/list-attributes-response') {
-    setCRMUnavailable('crmAttributeError');
+    yield put(setCRMUnavailable('crmAttributeError'));
     return;
   } else if (topic === 'cxengage/session/config-details') {
-    setLoginErrorAndReloadAction('configLoadFailed');
+    yield put(setLoginErrorAndReloadAction('configLoadFailed'));
+    return;
+  } else if (error.code === 3000) {
+    if (action.error.data.apiResponse.status === 401) {
+      yield put(loginError());
+      return;
+    } else {
+      yield put(serviceError());
+    }
     return;
   }
 
