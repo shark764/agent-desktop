@@ -366,6 +366,18 @@ Object {
 }
 `;
 
+exports[`agentDesktopReducer REMOVE_SCRIPT interaction is there the interaction has isScriptOnly removes the script, removes isScriptOnly, and selects the next interaction 1`] = `
+Object {
+  "interactions": Array [
+    Object {
+      "interactionId": "test-interaction-id",
+      "script": undefined,
+    },
+  ],
+  "selectedInteractionId": undefined,
+}
+`;
+
 exports[`agentDesktopReducer REMOVE_SCRIPT interaction is there the interaction has status of "work-ended-pending-script" removes the interaction 1`] = `
 Object {
   "interactions": Array [],

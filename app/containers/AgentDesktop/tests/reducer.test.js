@@ -465,6 +465,15 @@ describe('agentDesktopReducer', () => {
       it('removes the script', () => {
         runReducerAndExpectSnapshot();
       });
+      describe('the interaction has isScriptOnly', () => {
+        beforeEach(() => {
+          initialState.interactions[0].isScriptOnly = true;
+          initialState.selectedInteractionId = 'test-interaction-id';
+        });
+        it('removes the script, removes isScriptOnly, and selects the next interaction', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
       describe('the interaction has status of "work-ended-pending-script"', () => {
         beforeEach(() => {
           initialState.interactions[0].status = 'work-ended-pending-script';

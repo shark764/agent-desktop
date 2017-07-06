@@ -324,10 +324,7 @@ const updateContactInteractionHistoryResults = (contact, action) => {
   }
 };
 
-const removeInteractionAndSetNextSelectedInteraction = (
-  state,
-  interactionId
-) => {
+const getNextSelectedInteractionId = (state, interactionId) => {
   // If the interaction being removed is the selected interaction, select the next interaction (voice, first non-voice)
   let nextSelectedInteractionId;
   if (state.get('selectedInteractionId') === interactionId) {
@@ -357,7 +354,17 @@ const removeInteractionAndSetNextSelectedInteraction = (
   } else {
     nextSelectedInteractionId = state.get('selectedInteractionId');
   }
+  return nextSelectedInteractionId;
+};
 
+const removeInteractionAndSetNextSelectedInteraction = (
+  state,
+  interactionId
+) => {
+  const nextSelectedInteractionId = getNextSelectedInteractionId(
+    state,
+    interactionId
+  );
   // Remove interaction and set next selectedInteractionId
   return state
     .set(
@@ -774,11 +781,8 @@ function agentDesktopReducer(state = initialState, action) {
     case REMOVE_SCRIPT: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex > -1) {
-        const interactionStatus = state.getIn([
-          'interactions',
-          interactionIndex,
-          'status',
-        ]);
+        const interaction = state.getIn(['interactions', interactionIndex]);
+        const interactionStatus = interaction.get('status');
         // Remove the interaction if the script is the only thing to do
         if (
           interactionStatus === 'work-ended-pending-script' ||
@@ -788,6 +792,18 @@ function agentDesktopReducer(state = initialState, action) {
             state,
             action.interactionId
           );
+        } else if (interaction.get('isScriptOnly')) {
+          // Case where work is offered in between receiving and sending a script
+          return state
+            .updateIn(['interactions', interactionIndex], (interactionToUpdate) =>
+              interactionToUpdate
+                .set('script', undefined)
+                .delete('isScriptOnly')
+            )
+            .set(
+              'selectedInteractionId',
+              getNextSelectedInteractionId(state, action.interactionId)
+            );
         } else {
           return state.setIn(
             ['interactions', interactionIndex, 'script'],
