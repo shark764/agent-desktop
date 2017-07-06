@@ -1,3 +1,6 @@
+### [0.43.10] (2017-07-06)
+* CXV1-10348 - Fix sending scripts while being presented parallel work offer
+
 ### [0.43.9] (2017-06-30)
 * CXV1-9913 - Added service error message on login
 
