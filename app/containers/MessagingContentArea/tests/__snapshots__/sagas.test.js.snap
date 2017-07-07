@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`initializeOutboundSmsSaga should call the promise util with the SDK initializeOutboundSms and the correct arguments 1`] = `
+exports[`initializeOutboundSmsForMessagingSaga should call the promise util with the SDK initializeOutboundSms and the correct arguments 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -21,7 +21,7 @@ Object {
 }
 `;
 
-exports[`initializeOutboundSmsSaga should dispatch a setInteractionStatus action to set to "initializing-outbound" 1`] = `
+exports[`initializeOutboundSmsForMessagingSaga should dispatch a setInteractionStatus action to set to "initializing-outbound" 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -39,7 +39,7 @@ Object {
 }
 `;
 
-exports[`initializeOutboundSmsSaga should use the yielded SDK results to dispatch an initializeOutboundSms action with the correct args 1`] = `
+exports[`initializeOutboundSmsForMessagingSaga should use the yielded SDK results to dispatch an initializeOutboundSms action with the correct args 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -49,7 +49,7 @@ Object {
         "interactionId": "newInteractionId",
         "message": "message",
         "placeholderInteractionId": "interactionId",
-        "type": "app/AgentDesktop/INITIALIZE_OUTBOUND_SMS",
+        "type": "app/AgentDesktop/INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP",
       },
       "channel": null,
     },

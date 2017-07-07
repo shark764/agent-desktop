@@ -26,7 +26,7 @@ import {
   START_OUTBOUND_INTERACTION,
   CANCEL_CLICK_TO_DIAL,
   SET_IS_CANCELLING_INTERACTION,
-  INITIALIZE_OUTBOUND_SMS,
+  INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
   ADD_INTERACTION,
   WORK_INITIATED,
   SET_INTERACTION_QUERY,
@@ -230,13 +230,13 @@ export function setIsCancellingInteraction(interactionId) {
   };
 }
 
-export function initializeOutboundSms(
+export function initializeOutboundSmsForAgentDesktop(
   placeholderInteractionId,
   interactionId,
   message
 ) {
   return {
-    type: INITIALIZE_OUTBOUND_SMS,
+    type: INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
     placeholderInteractionId,
     interactionId,
     message,

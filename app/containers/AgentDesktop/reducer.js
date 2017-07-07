@@ -33,7 +33,7 @@ import {
   NEW_INTERACTION_PANEL_SELECT_CONTACT,
   CLOSE_NEW_INTERACTION_PANEL,
   START_OUTBOUND_INTERACTION,
-  INITIALIZE_OUTBOUND_SMS,
+  INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
   ADD_INTERACTION,
   WORK_INITIATED,
   SET_IS_CANCELLING_INTERACTION,
@@ -653,7 +653,7 @@ function agentDesktopReducer(state = initialState, action) {
           })
       );
     }
-    case INITIALIZE_OUTBOUND_SMS: {
+    case INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP: {
       const interactionIndex = getInteractionIndex(
         state,
         action.placeholderInteractionId
@@ -687,7 +687,7 @@ function agentDesktopReducer(state = initialState, action) {
         );
     }
     case ADD_INTERACTION: {
-      // Don't re-add outbound SMS interaction. It was already added by INITIALIZE_OUTBOUND_SMS.
+      // Don't re-add outbound SMS interaction. It was already added by INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP.
       // Don't re-add outbound Email interaction. It was already added by START_OUTBOUND_EMAIL.
       if (
         !(

@@ -1,3 +1,6 @@
+### [0.43.13] (2017-07-10)
+* CXV1-10342 - Fix issue with outgoing SMS messages with only one message not making it into history
+
 ### [0.43.12] (2017-07-10)
 * INTERNAL - run format on all files with updated deps
 * INTERNAL - tweak precommit format run to only run on staged files

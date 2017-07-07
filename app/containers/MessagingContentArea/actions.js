@@ -8,13 +8,22 @@
  *
  */
 
-import { INITIALIZE_OUTBOUND_SMS, SEND_OUTBOUND_SMS } from './constants';
+import {
+  INITIALIZE_OUTBOUND_SMS_FROM_MESSAGING,
+  SEND_OUTBOUND_SMS,
+} from './constants';
 
-export function initializeOutboundSms(interactionId, phoneNumber, message) {
+export function initializeOutboundSmsFromMessaging(
+  interactionId,
+  phoneNumber,
+  contactId,
+  message
+) {
   return {
-    type: INITIALIZE_OUTBOUND_SMS,
+    type: INITIALIZE_OUTBOUND_SMS_FROM_MESSAGING,
     interactionId,
     phoneNumber,
+    contactId,
     message,
   };
 }
