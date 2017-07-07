@@ -35,7 +35,7 @@ import { mappedLocales } from 'i18n';
 import { changeLocale } from 'containers/LanguageProvider/actions';
 import { selectLocale } from 'containers/LanguageProvider/selectors';
 import { handleSDKError } from 'containers/Errors/actions';
-import selectLogin, { selectRefresh } from './selectors';
+import selectLogin from './selectors';
 import messages from './messages';
 import {
   loggingIn,
@@ -51,7 +51,7 @@ const storage = window.localStorage;
 const styles = {
   base: {
     width: '100vw',
-    height: '100vh',
+    height: '100%',
     minHeight: '800px',
     backgroundColor: '#072931',
     fontSize: '16px',
@@ -538,26 +538,15 @@ export class Login extends React.Component {
     }
 
     return (
-      <div
-        style={[
-          styles.base,
-          this.props.refreshRequired &&
-          location.hostname !== 'localhost' &&
-          location.hostname !== '127.0.0.1'
-            ? { height: 'calc(100vh - 2em)' }
-            : { height: '100vh' },
-        ]}
-      >
+      <div style={styles.base}>
         <div
-          style={Object.assign({}, styles.container, {
-            height:
-              this.props.refreshRequired &&
-              location.hostname !== 'localhost' &&
-              location.hostname !== '127.0.0.1'
-                ? 'calc(100vh - 2em)'
-                : '100vh',
-            minHeight: '800px',
-          })}
+          style={[
+            styles.container,
+            {
+              height: '100%',
+              minHeight: '800px',
+            },
+          ]}
         >
           {this.getErrors()}
           <Dialog style={styles.center}>
@@ -607,7 +596,6 @@ export class Login extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   ...selectLogin(state, props),
-  refreshRequired: selectRefresh(state, props),
   locale: selectLocale()(state),
 });
 
@@ -643,7 +631,6 @@ Login.propTypes = {
   tenant_error: PropTypes.bool,
   tenantError: PropTypes.func.isRequired,
   service_error: PropTypes.bool,
-  refreshRequired: PropTypes.bool.isRequired,
   changeLocale: PropTypes.func,
   locale: PropTypes.string,
 };

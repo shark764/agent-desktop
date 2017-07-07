@@ -198,7 +198,7 @@ Button.propTypes = {
   iconName: PropTypes.string,
   children: PropTypes.element,
   tabIndex: PropTypes.number,
-  type: PropTypes.oneOf(possibleTypes).isRequired,
+  type: PropTypes.oneOf(possibleTypes),
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   clear: PropTypes.bool,
   disabled: PropTypes.bool,

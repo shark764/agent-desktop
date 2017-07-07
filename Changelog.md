@@ -1,3 +1,6 @@
+### [0.43.20] (2017-07-11)
+* Bugfix for error banner over InfoTab
+
 ### [0.43.19] (2017-07-11)
 * INTERNAL - add IDs for testing
 

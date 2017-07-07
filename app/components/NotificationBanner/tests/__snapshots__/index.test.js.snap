@@ -42,8 +42,9 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
     mockMessage
   </div>
   <Button
+    clear={true}
     iconName="close"
-    id="mockIderror-dismiss-btn"
+    id="mockId-dismiss-btn"
     onClick={[Function]}
     style={
       Object {
@@ -54,7 +55,6 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
       }
     }
     tabIndex={0}
-    type="primaryRed"
   />
 </div>
 `;
