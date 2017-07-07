@@ -22,6 +22,7 @@ import { Provider } from 'react-redux';
 import LanguageProvider from 'containers/LanguageProvider';
 import configureStore from 'store';
 
+import ContextProvider from 'containers/ContextProvider';
 import App from 'containers/App';
 
 // Import the CSS reset, which HtmlWebpackPlugin transfers to the build folder
@@ -37,7 +38,9 @@ const render = (translatedMessages) => {
   ReactDOM.render(
     <Provider store={store}>
       <LanguageProvider messages={translatedMessages}>
-        <App />
+        <ContextProvider>
+          <App />
+        </ContextProvider>
       </LanguageProvider>
     </Provider>,
     document.getElementById('app')

@@ -488,6 +488,8 @@ export class Login extends React.Component {
   };
 
   render() {
+    console.log('toolbarMode:', this.context.toolbarMode);
+
     let pageContent;
     if (this.props.loading) {
       pageContent = this.getLoadingContent();
@@ -605,6 +607,10 @@ Login.propTypes = {
   service_error: PropTypes.bool,
   changeLocale: PropTypes.func,
   locale: PropTypes.string,
+};
+
+Login.contextTypes = {
+  toolbarMode: PropTypes.bool,
 };
 
 export default ErrorBoundary(
