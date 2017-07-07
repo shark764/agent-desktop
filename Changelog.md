@@ -1,3 +1,6 @@
+### [0.43.11] (2017-07-07)
+* Bump SDK version to 5.3.10
+
 ### [0.43.10] (2017-07-06)
 * CXV1-10348 - Fix sending scripts while being presented parallel work offer
 
