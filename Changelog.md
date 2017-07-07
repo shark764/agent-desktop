@@ -1,3 +1,6 @@
+### [0.43.22] (2017-07-12)
+* CXV1-10329 - Allow work-cancel on outbound email (prevents wrap up mode)
+
 ### [0.43.21] (2017-07-12)
 * CXV1-10347 - Error handling for no extensions
 

@@ -22,6 +22,7 @@ export default [
   'cxengage/interactions/messaging/transcript-received', // Handled in historicalInteractionBody saga
   'cxengage/interactions/create-note-response', // Handled in ContentArea
   'cxengage/interactions/update-note-response', // Handled in ContentArea
+  'cxengage/interactions/send-custom-interrupt-acknowledged', // Handled in ContentArea
   'cxengage/interactions/end-wrapup-acknowledged', // Ignore - comes with a work-ended.
   'cxengage/interactions/voice/send-digits-acknowledged', // Handled in Dialpad
   'cxengage/interactions/get-notes-response', // Handled in contactInteractionHistory
