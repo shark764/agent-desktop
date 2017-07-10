@@ -1,3 +1,7 @@
+### [0.43.12] (2017-07-10)
+* INTERNAL - run format on all files with updated deps
+* INTERNAL - tweak precommit format run to only run on staged files
+
 ### [0.43.11] (2017-07-07)
 * Bump SDK version to 5.3.10
 

@@ -52,8 +52,9 @@ export class ContactSearchBar extends React.Component {
     this.resizeFilterDropdownMenu();
   }
 
-  getLabel = (attribute) => // TODO: Dynamically load translations and use intl.formatMessage
-    attribute.label[this.props.intl.locale] || attribute.objectName;
+  getLabel = (
+    attribute // TODO: Dynamically load translations and use intl.formatMessage
+  ) => attribute.label[this.props.intl.locale] || attribute.objectName;
 
   getAvailableFilters = () => {
     if (this.props.query.length && this.props.query[0].attribute.id === 'all') {

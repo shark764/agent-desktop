@@ -227,7 +227,9 @@ export class TransferResource extends React.Component {
             {this.props.resource.name}
           </span>
           {status
-            ? <span style={this.styles.transferStatus}>({status})</span>
+            ? <span style={this.styles.transferStatus}>
+                ({status})
+              </span>
             : undefined}
           {this.props.resource.status === 'connected'
             ? <div
@@ -241,8 +243,8 @@ export class TransferResource extends React.Component {
           <Timer format="mm:ss" style={this.styles.transferTimer} />
         </div>
         {this.props.resource.targetResource !== undefined &&
-          this.props.selectedTransferResourceMenu ===
-            this.props.resource.targetResource
+        this.props.selectedTransferResourceMenu ===
+          this.props.resource.targetResource
           ? <div id="resourceControlsMenu">
             <div
               style={[this.props.style.topTriangle, this.styles.topTriangle]}

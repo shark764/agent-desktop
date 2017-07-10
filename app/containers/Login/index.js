@@ -542,19 +542,20 @@ export class Login extends React.Component {
         style={[
           styles.base,
           this.props.refreshRequired &&
-            location.hostname !== 'localhost' &&
-            location.hostname !== '127.0.0.1'
+          location.hostname !== 'localhost' &&
+          location.hostname !== '127.0.0.1'
             ? { height: 'calc(100vh - 2em)' }
             : { height: '100vh' },
         ]}
       >
         <div
           style={Object.assign({}, styles.container, {
-            height: this.props.refreshRequired &&
+            height:
+              this.props.refreshRequired &&
               location.hostname !== 'localhost' &&
               location.hostname !== '127.0.0.1'
-              ? 'calc(100vh - 2em)'
-              : '100vh',
+                ? 'calc(100vh - 2em)'
+                : '100vh',
             minHeight: '800px',
           })}
         >

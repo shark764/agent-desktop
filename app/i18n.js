@@ -17,9 +17,10 @@ import enUsTranslationMessages from './translations/en-US.json';
 addLocaleData(enLocaleData);
 
 export const formatTranslationMessages = (locale, messages) => {
-  const defaultFormattedMessages = locale !== DEFAULT_LOCALE
-    ? formatTranslationMessages(DEFAULT_LOCALE, enUsTranslationMessages)
-    : {};
+  const defaultFormattedMessages =
+    locale !== DEFAULT_LOCALE
+      ? formatTranslationMessages(DEFAULT_LOCALE, enUsTranslationMessages)
+      : {};
   const formattedMessages = {};
   const messageKeys = Object.keys(messages);
   messageKeys.forEach((messageKey) => {

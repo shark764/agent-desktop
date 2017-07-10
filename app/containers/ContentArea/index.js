@@ -362,7 +362,9 @@ export class ContentArea extends React.Component {
       id={`category-${category.name}`}
       title={category.name}
     >
-      <div style={this.styles.categoryName}>{category.name}</div>
+      <div style={this.styles.categoryName}>
+        {category.name}
+      </div>
       <div style={this.styles.dispositionsContainer}>
         {category.dispositions.map(this.renderDisposition)}
       </div>
@@ -537,8 +539,7 @@ export class ContentArea extends React.Component {
                   )}
                 {this.props.interaction.dispositionDetails.selected.length ===
                     0 &&
-                    this.props.interaction.status !==
-                      'work-ended-pending-script'
+                  this.props.interaction.status !== 'work-ended-pending-script'
                     ? [
                       <div
                         onClick={() =>

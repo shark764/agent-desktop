@@ -92,10 +92,10 @@ export class MessagingContentArea extends React.Component {
       let newSelectedMessageTemplateIndex = this.state
         .selectedMessageTemplateIndex;
       if (!this.state.showMessageTemplateMenuByForwardSlash) {
-        newSelectedMessageTemplateIndex = this.state
-          .selectedMessageTemplateIndex > 0
-          ? this.state.selectedMessageTemplateIndex - 1
-          : 0;
+        newSelectedMessageTemplateIndex =
+          this.state.selectedMessageTemplateIndex > 0
+            ? this.state.selectedMessageTemplateIndex - 1
+            : 0;
       } else {
         // If we're filtering based on "/" text, select the previous unfiltered one
         for (
@@ -123,11 +123,11 @@ export class MessagingContentArea extends React.Component {
       let newSelectedMessageTemplateIndex = this.state
         .selectedMessageTemplateIndex;
       if (!this.state.showMessageTemplateMenuByForwardSlash) {
-        newSelectedMessageTemplateIndex = this.state
-          .selectedMessageTemplateIndex <
+        newSelectedMessageTemplateIndex =
+          this.state.selectedMessageTemplateIndex <
           this.props.messageTemplates.length - 1
-          ? this.state.selectedMessageTemplateIndex + 1
-          : this.state.selectedMessageTemplateIndex;
+            ? this.state.selectedMessageTemplateIndex + 1
+            : this.state.selectedMessageTemplateIndex;
       } else {
         // If we're filtering based on "/" text, select the next unfiltered one
         for (
@@ -209,10 +209,10 @@ export class MessagingContentArea extends React.Component {
     this.setState({
       messageText,
       messageTemplateFilter: newMessageTemplateFilter,
-      selectedMessageTemplateIndex: newSelectedMessageTemplateIndex !==
-        undefined
-        ? newSelectedMessageTemplateIndex
-        : this.state.selectedMessageTemplateIndex,
+      selectedMessageTemplateIndex:
+        newSelectedMessageTemplateIndex !== undefined
+          ? newSelectedMessageTemplateIndex
+          : this.state.selectedMessageTemplateIndex,
     });
   };
 
@@ -387,21 +387,21 @@ export class MessagingContentArea extends React.Component {
     messageTextarea: {
       padding: '4px',
       resize: 'none',
-      width: this.props.messageTemplates &&
-        this.props.messageTemplates.length > 0
-        ? 'calc(100% - 90px)'
-        : 'calc(100% - 50px)',
-      borderRadius: this.props.messageTemplates &&
-        this.props.messageTemplates.length > 0
-        ? '0'
-        : '3px 0 0 3px',
+      width:
+        this.props.messageTemplates && this.props.messageTemplates.length > 0
+          ? 'calc(100% - 90px)'
+          : 'calc(100% - 50px)',
+      borderRadius:
+        this.props.messageTemplates && this.props.messageTemplates.length > 0
+          ? '0'
+          : '3px 0 0 3px',
       borderTop: '1px solid #979797',
       borderBottom: '1px solid #979797',
       borderRight: 'none',
-      borderLeft: this.props.messageTemplates &&
-        this.props.messageTemplates.length > 0
-        ? 'none'
-        : '1px solid #979797',
+      borderLeft:
+        this.props.messageTemplates && this.props.messageTemplates.length > 0
+          ? 'none'
+          : '1px solid #979797',
     },
     messageButton: {
       height: 'calc(100% - 5px)',
@@ -591,7 +591,7 @@ export class MessagingContentArea extends React.Component {
                                 style={[
                                   this.styles.messageTemplate,
                                   this.state.selectedMessageTemplateIndex ===
-                                    messageTemplateIndex
+                                  messageTemplateIndex
                                     ? this.styles.selectedMessageTemplate
                                     : {},
                                 ]}
@@ -611,7 +611,7 @@ export class MessagingContentArea extends React.Component {
                 </div>
                 : undefined}
               {this.props.messageTemplates &&
-                this.props.messageTemplates.length > 0
+              this.props.messageTemplates.length > 0
                 ? <Button
                   id="templateMenuButton"
                   disabled={
@@ -628,7 +628,7 @@ export class MessagingContentArea extends React.Component {
                 {/* This style is here because the Textarea library doesn't render the ':focus' Radium attribute */}
                 {`#messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: ${this
                   .props.messageTemplates &&
-                  this.props.messageTemplates.length > 0
+                this.props.messageTemplates.length > 0
                   ? '0;'
                   : '1px solid #23CEF5 !important;'}}`}
               </style>

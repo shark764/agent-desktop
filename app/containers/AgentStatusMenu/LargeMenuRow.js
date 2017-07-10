@@ -73,12 +73,14 @@ const styles = {
 };
 
 function LargeMenuRow(props) {
-  const titleText = typeof props.titleText === 'string'
-    ? props.titleText
-    : props.intl.formatMessage(props.titleText);
-  const mainText = typeof props.mainText === 'string'
-    ? props.mainText
-    : props.intl.formatMessage(props.mainText);
+  const titleText =
+    typeof props.titleText === 'string'
+      ? props.titleText
+      : props.intl.formatMessage(props.titleText);
+  const mainText =
+    typeof props.mainText === 'string'
+      ? props.mainText
+      : props.intl.formatMessage(props.mainText);
   const mainRow = (
     <div
       id={props.id}
@@ -99,10 +101,7 @@ function LargeMenuRow(props) {
           {mainText}
         </div>
       </div>
-      {props.hasSubMenu &&
-        <div>
-          &#9658;
-        </div>}
+      {props.hasSubMenu && <div>&#9658;</div>}
     </div>
   );
   if (!props.hasSubMenu) {

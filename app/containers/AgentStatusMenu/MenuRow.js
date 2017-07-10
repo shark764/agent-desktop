@@ -64,9 +64,10 @@ const styles = {
 };
 
 function MenuRow(props) {
-  const rowText = typeof props.rowText === 'string'
-    ? props.rowText
-    : <FormattedMessage {...props.rowText} />;
+  const rowText =
+    typeof props.rowText === 'string'
+      ? props.rowText
+      : <FormattedMessage {...props.rowText} />;
   const allowSelect = !props.isSelected && !props.disabled;
   const mainRow = (
     <div
@@ -85,10 +86,7 @@ function MenuRow(props) {
       </div>
       {props.isSelected &&
         <Icon name="checkStatus" alt="selected" style={styles.selectedIcon} />}
-      {props.hasSubMenu &&
-        <div>
-          &#9658;
-        </div>}
+      {props.hasSubMenu && <div>&#9658;</div>}
     </div>
   );
   if (!props.hasSubMenu) {

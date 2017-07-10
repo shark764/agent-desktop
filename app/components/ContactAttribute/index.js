@@ -77,7 +77,11 @@ function ContactAttribute(props) {
       );
       break;
     case 'link':
-      content = <a href={value} target="_blank">{value}</a>;
+      content = (
+        <a href={value} target="_blank">
+          {value}
+        </a>
+      );
       break;
     case 'boolean':
       content = (

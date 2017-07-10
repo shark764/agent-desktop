@@ -63,9 +63,10 @@ export function* getInteraction(interactionId) {
 }
 
 export function* goEditContact(action) {
-  const contactAttributes = action.contact && action.contact.attributes
-    ? action.contact.attributes
-    : {};
+  const contactAttributes =
+    action.contact && action.contact.attributes
+      ? action.contact.attributes
+      : {};
   const layoutSections = yield select(selectPopulatedLayout);
   const contactForm = {};
   const formErrors = {};
