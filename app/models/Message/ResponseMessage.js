@@ -24,9 +24,8 @@ export default class ResponseMessage extends Message {
       messageFrom = 'Agent';
     } else {
       messageType = metadata != null ? metadata.type : type;
-      messageFrom = metadata != null && metadata.name != null
-        ? metadata.name
-        : from;
+      messageFrom =
+        metadata != null && metadata.name != null ? metadata.name : from;
     }
     super({ type: messageType, from: messageFrom, text, timestamp, unread });
   }

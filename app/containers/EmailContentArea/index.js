@@ -557,34 +557,35 @@ export class EmailContentArea extends React.Component {
       this.props.selectedInteraction.sendingReply === true &&
       this.props.selectedInteraction.status !== 'work-ended-pending-script'
     ) {
-      buttons = this.props.selectedInteraction.status === 'wrapup'
-        ? (<Button
-          id="endWrapup"
-          type="primaryRed"
-          text={messages.endWrapup}
-          onClick={this.props.endInteraction}
-          disabled={this.props.awaitingDisposition}
-          style={{ marginRight: '8px' }}
-        />)
-        : (<div>
-          <Button
-            id="cancelEmail"
-            type="secondary"
-            style={{ marginRight: '5px' }}
-            text={messages.cancel}
-            onClick={() =>
-                this.props.emailCancelReply(
-                  this.props.selectedInteraction.interactionId
-                )}
-          />
-          <Button
-            id="sendEmail"
+      buttons =
+        this.props.selectedInteraction.status === 'wrapup'
+          ? (<Button
+            id="endWrapup"
             type="primaryRed"
-            text={messages.send}
-            onClick={() => this.sendEmail()}
-            disabled
-          />
-        </div>);
+            text={messages.endWrapup}
+            onClick={this.props.endInteraction}
+            disabled={this.props.awaitingDisposition}
+            style={{ marginRight: '8px' }}
+          />)
+          : (<div>
+            <Button
+              id="cancelEmail"
+              type="secondary"
+              style={{ marginRight: '5px' }}
+              text={messages.cancel}
+              onClick={() =>
+                  this.props.emailCancelReply(
+                    this.props.selectedInteraction.interactionId
+                  )}
+            />
+            <Button
+              id="sendEmail"
+              type="primaryRed"
+              text={messages.send}
+              onClick={() => this.sendEmail()}
+              disabled
+            />
+          </div>);
       details = <div />;
       if (this.props.selectedInteraction.status !== 'wrapup') {
         content = (
@@ -647,30 +648,31 @@ export class EmailContentArea extends React.Component {
           />
         );
       } else {
-        buttons = this.props.selectedInteraction.status === 'wrapup'
-          ? (<Button
-            id="endWrapup"
-            type="primaryRed"
-            text={messages.endWrapup}
-            onClick={this.props.endInteraction}
-            disabled={this.props.awaitingDisposition}
-            style={{ marginRight: '8px' }}
-          />)
-          : (<div>
-            <Button
-              id="endEmail"
+        buttons =
+          this.props.selectedInteraction.status === 'wrapup'
+            ? (<Button
+              id="endWrapup"
               type="primaryRed"
-              text={messages.noReply}
-              onClick={this.onEmailNoReply}
+              text={messages.endWrapup}
+              onClick={this.props.endInteraction}
+              disabled={this.props.awaitingDisposition}
               style={{ marginRight: '8px' }}
-            />
-            <Button
-              id="replyEmail"
-              type="primaryBlue"
-              text={messages.reply}
-              onClick={this.onEmailCreateReply}
-            />
-          </div>);
+            />)
+            : (<div>
+              <Button
+                id="endEmail"
+                type="primaryRed"
+                text={messages.noReply}
+                onClick={this.onEmailNoReply}
+                style={{ marginRight: '8px' }}
+              />
+              <Button
+                id="replyEmail"
+                type="primaryBlue"
+                text={messages.reply}
+                onClick={this.onEmailCreateReply}
+              />
+            </div>);
       }
       if (this.props.selectedInteraction.emailDetails === undefined) {
         details = (
@@ -744,7 +746,7 @@ export class EmailContentArea extends React.Component {
             </div>
             {this.props.selectedInteraction.emailDetails.attachments !==
               undefined &&
-              this.props.selectedInteraction.emailDetails.attachments.length > 0
+            this.props.selectedInteraction.emailDetails.attachments.length > 0
               ? <div style={styles.attachmentsContainer}>
                 {this.props.selectedInteraction.emailDetails.attachments.map(
                     (attachment, index) =>
@@ -1000,7 +1002,7 @@ export class EmailContentArea extends React.Component {
             </div>
             <div style={styles.detailsValue}>
               {this.props.selectedInteraction.status !==
-                'work-ended-pending-script'
+              'work-ended-pending-script'
                 ? <TextInput
                   id="subjectInput"
                   styleType="inlineInherit"
@@ -1023,7 +1025,7 @@ export class EmailContentArea extends React.Component {
               </div>
               <div style={styles.detailsValue}>
                 {this.props.selectedInteraction.status !==
-                  'work-ended-pending-script'
+                'work-ended-pending-script'
                   ? <Select
                     id="emailTemplates"
                     style={styles.select}

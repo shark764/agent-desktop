@@ -172,9 +172,8 @@ class Resizable extends React.Component {
   startResizing = (event) => {
     this.setState({
       isResizing: true,
-      initialMousePosition: this.props.direction === 'left'
-        ? event.pageX
-        : event.pageY,
+      initialMousePosition:
+        this.props.direction === 'left' ? event.pageX : event.pageY,
     });
   };
 
@@ -192,9 +191,8 @@ class Resizable extends React.Component {
   };
 
   attemptResize = (event) => {
-    const newMousePosition = this.props.direction === 'left'
-      ? event.pageX
-      : event.pageY;
+    const newMousePosition =
+      this.props.direction === 'left' ? event.pageX : event.pageY;
     const newPx =
       this.props.px + (this.state.initialMousePosition - newMousePosition);
     let limitedNewPx = Math.min(this.props.maxPx, newPx);
@@ -220,7 +218,6 @@ class Resizable extends React.Component {
           this.wrapperElement = element;
         }}
       >
-
         {this.state.hideDivider
           ? ''
           : <div

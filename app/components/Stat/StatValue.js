@@ -44,7 +44,11 @@ function StatValue(props) {
         value = '-';
     }
   }
-  return <span>{value}</span>;
+  return (
+    <span>
+      {value}
+    </span>
+  );
 }
 
 StatValue.propTypes = {

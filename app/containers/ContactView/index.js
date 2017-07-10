@@ -96,10 +96,11 @@ export class ContactView extends React.Component {
 
   getAttributeRow = (attribute) => {
     const attributeLabel = `${attribute.label[this.props.intl.locale]}`;
-    const attributeValue = this.props.contact.attributes &&
+    const attributeValue =
+      this.props.contact.attributes &&
       this.props.contact.attributes[attribute.objectName]
-      ? this.props.contact.attributes[attribute.objectName]
-      : '';
+        ? this.props.contact.attributes[attribute.objectName]
+        : '';
     return (
       <ContactAttribute
         key={attribute.id}

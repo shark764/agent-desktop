@@ -94,7 +94,9 @@ describe('<Button />', () => {
   describe('when it has children', () => {
     it('should render correctly', () => {
       const rendered = shallow(
-        <Button type={'primaryBlue'} id="mockId"><div>Test!</div></Button>
+        <Button type={'primaryBlue'} id="mockId">
+          <div>Test!</div>
+        </Button>
       );
       expect(rendered).toMatchSnapshot();
     });

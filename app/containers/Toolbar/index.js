@@ -195,7 +195,11 @@ export class Toolbar extends React.Component {
       this.props.selectedPresenceReason.reason &&
       !this.props.selectedPresenceReason.isSystemReason
     ) {
-      return <span>{this.props.selectedPresenceReason.reason}</span>;
+      return (
+        <span>
+          {this.props.selectedPresenceReason.reason}
+        </span>
+      );
     }
     return <FormattedMessage {...messages.notReady} />;
   };

@@ -882,7 +882,7 @@ export class App extends React.Component {
           <RefreshBanner hide={this.hideRefreshBanner} />}
         {errorBanner}
         {this.props.login.showLogin ||
-          this.props.agentDesktop.presence === undefined
+        this.props.agentDesktop.presence === undefined
           ? <Login />
           : <AgentDesktop refreshBannerIsVisible={refreshBannerIsVisible} />}
       </div>

@@ -218,7 +218,9 @@ export class AgentConfigMenu extends React.Component {
         </div>
         <div style={this.styles.buttonContainer}>
           {this.props.toolbarStatIds.length === MAXIMUM_STATS
-            ? <span><FormattedMessage {...messages.maxStats} /></span>
+            ? <span>
+              <FormattedMessage {...messages.maxStats} />
+            </span>
             : <Button
               text={messages.add}
               id="toggleStat"

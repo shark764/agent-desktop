@@ -29,7 +29,12 @@ function TimerMinutes({ seconds }) {
     timeDisplay = Math.floor(minutes / 60);
     timeUnit = <FormattedMessage {...messages.hours} />;
   }
-  return <span>{timeDisplay}{timeUnit}</span>;
+  return (
+    <span>
+      {timeDisplay}
+      {timeUnit}
+    </span>
+  );
 }
 
 TimerMinutes.propTypes = {
