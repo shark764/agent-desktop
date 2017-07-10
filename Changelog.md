@@ -1,3 +1,7 @@
+### [0.43.14] (2017-07-10)
+* Bump SDK version to 5.3.12
+* BUGFIX - available stats call error, resolved with SDK update
+
 ### [0.43.13] (2017-07-10)
 * CXV1-10342 - Fix issue with outgoing SMS messages with only one message not making it into history
 
