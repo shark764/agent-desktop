@@ -26,7 +26,7 @@ import ContentArea from 'containers/ContentArea';
 
 import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
-import { initializeOutboundSms, sendOutboundSms } from './actions';
+import { initializeOutboundSmsFromMessaging, sendOutboundSms } from './actions';
 import messages from './messages';
 
 export class MessagingContentArea extends React.Component {
@@ -249,9 +249,12 @@ export class MessagingContentArea extends React.Component {
   sendMessage = () => {
     if (this.state.messageText.trim() !== '') {
       if (this.props.selectedInteraction.status === 'connecting-to-outbound') {
-        this.props.initializeOutboundSms(
+        this.props.initializeOutboundSmsFromMessaging(
           this.props.selectedInteraction.interactionId,
           this.props.selectedInteraction.customer,
+          this.props.selectedInteraction.contact
+            ? this.props.selectedInteraction.contact.id
+            : null,
           this.state.messageText
         );
       } else if (
@@ -678,7 +681,7 @@ MessagingContentArea.propTypes = {
   messageTemplates: PropTypes.array.isRequired,
   endInteraction: PropTypes.func.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
-  initializeOutboundSms: PropTypes.func.isRequired,
+  initializeOutboundSmsFromMessaging: PropTypes.func.isRequired,
   sendOutboundSms: PropTypes.func.isRequired,
 };
 
@@ -688,8 +691,20 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    initializeOutboundSms: (interactionId, phoneNumber, message) =>
-      dispatch(initializeOutboundSms(interactionId, phoneNumber, message)),
+    initializeOutboundSmsFromMessaging: (
+      interactionId,
+      phoneNumber,
+      contactId,
+      message
+    ) =>
+      dispatch(
+        initializeOutboundSmsFromMessaging(
+          interactionId,
+          phoneNumber,
+          contactId,
+          message
+        )
+      ),
     sendOutboundSms: (interactionId, message) =>
       dispatch(sendOutboundSms(interactionId, message)),
     dispatch,

@@ -231,7 +231,7 @@ Object {
 }
 `;
 
-exports[`agentDesktopReducer INITIALIZE_OUTBOUND_SMS sets the interactionId, updates the selectedInteractionId, updates the status, and adds the message 1`] = `
+exports[`agentDesktopReducer INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP sets the interactionId, updates the selectedInteractionId, updates the status, and adds the message 1`] = `
 Object {
   "interactions": Array [
     Object {

@@ -3,11 +3,11 @@
  */
 
 import {
-  initializeOutboundSmsSaga,
+  initializeOutboundSmsForMessagingSaga,
   sendOutboundSms,
 } from 'containers/MessagingContentArea/sagas';
 
-describe('initializeOutboundSmsSaga', () => {
+describe('initializeOutboundSmsForMessagingSaga', () => {
   global.CxEngage = {
     interactions: {
       messaging: {
@@ -21,7 +21,7 @@ describe('initializeOutboundSmsSaga', () => {
     phoneNumber: 'phoneNumber',
     message: 'message',
   };
-  const generator = initializeOutboundSmsSaga(mockAction);
+  const generator = initializeOutboundSmsForMessagingSaga(mockAction);
   it('should dispatch a setInteractionStatus action to set to "initializing-outbound"', () => {
     expect(generator.next()).toMatchSnapshot();
   });

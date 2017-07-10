@@ -11,7 +11,7 @@ import {
   SET_INTERACTION_STATUS,
   SET_ACTIVE_RESOURCES,
   START_OUTBOUND_INTERACTION,
-  INITIALIZE_OUTBOUND_SMS,
+  INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
   ADD_INTERACTION,
   ADD_MESSAGE,
   ADD_SCRIPT,
@@ -240,7 +240,7 @@ describe('agentDesktopReducer', () => {
     });
   });
 
-  describe('INITIALIZE_OUTBOUND_SMS', () => {
+  describe('INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP', () => {
     beforeEach(() => {
       initialState = {
         interactions: [
@@ -253,7 +253,7 @@ describe('agentDesktopReducer', () => {
         selectedInteractionId: 'outbound-sms-+15064702497',
       };
       action = {
-        type: INITIALIZE_OUTBOUND_SMS,
+        type: INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
         placeholderInteractionId: 'outbound-sms-+15064702497',
         interactionId: 'newInteractionId',
         message: 'new message!',

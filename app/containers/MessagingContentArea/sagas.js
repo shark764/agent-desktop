@@ -8,12 +8,18 @@ import sdkCallToPromise from 'utils/sdkCallToPromise';
 import Message from 'models/Message/Message';
 import {
   setInteractionStatus,
-  initializeOutboundSms,
+  initializeOutboundSmsForAgentDesktop,
   addMessage,
+  setContactMode,
 } from 'containers/AgentDesktop/actions';
-import { INITIALIZE_OUTBOUND_SMS, SEND_OUTBOUND_SMS } from './constants';
+import { addContactNotification } from 'containers/ContactsControl/actions';
 
-export function* initializeOutboundSmsSaga(action) {
+import {
+  INITIALIZE_OUTBOUND_SMS_FROM_MESSAGING,
+  SEND_OUTBOUND_SMS,
+} from './constants';
+
+export function* initializeOutboundSmsForMessagingSaga(action) {
   try {
     yield put(
       setInteractionStatus(action.interactionId, 'initializing-outbound')
@@ -28,12 +34,28 @@ export function* initializeOutboundSmsSaga(action) {
       'MessagingContentArea'
     );
     yield put(
-      initializeOutboundSms(
+      initializeOutboundSmsForAgentDesktop(
         action.interactionId,
         response.interactionId,
         action.message
       )
     );
+    // if the SMS was sent to a user in our contacts
+    // pull up that user's contact data in the side panel
+    if (action.contactId) {
+      yield call(
+        sdkCallToPromise,
+        CxEngage.interactions.assignContact,
+        {
+          interactionId: response.interactionId,
+          contactId: action.contactId,
+        },
+        'MessagingContentArea'
+      );
+
+      yield put(setContactMode(response.interactionId, 'view'));
+      yield put(addContactNotification({ messageType: 'assigned' }));
+    }
   } catch (error) {
     console.error(error); // TODO
   }
@@ -65,7 +87,10 @@ export function* sendOutboundSms(action) {
 
 // Individual exports for testing
 export function* watchInitializeOutboundSms() {
-  yield takeEvery(INITIALIZE_OUTBOUND_SMS, initializeOutboundSmsSaga);
+  yield takeEvery(
+    INITIALIZE_OUTBOUND_SMS_FROM_MESSAGING,
+    initializeOutboundSmsForMessagingSaga
+  );
 }
 
 export function* watchSendOutboundSms() {
