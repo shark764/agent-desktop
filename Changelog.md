@@ -1,3 +1,6 @@
+### [0.43.16] (2017-07-11)
+* Bump SDK version to 5.3.13, temporary fix for CXV1-10345
+
 ### [0.43.15] (2017-07-11)
 * INTERNAL - add IDs for testing
 
