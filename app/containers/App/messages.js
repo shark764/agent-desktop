@@ -22,4 +22,8 @@ export default defineMessages({
     id: 'app.containers.App.nonCriticalError',
     defaultMessage: 'Error!',
   },
+  newVersion: {
+    id: 'app.components.NotificationBanner.newVersion',
+    defaultMessage: 'There is a new version available! Click to refresh.',
+  },
 });

@@ -91,9 +91,6 @@ export class AgentDesktop extends React.Component {
   };
 
   styles = {
-    base: {
-      // styles
-    },
     parent: {
       alignItems: 'stretch',
       display: 'flex',
@@ -101,6 +98,7 @@ export class AgentDesktop extends React.Component {
       flexWrap: 'nowrap',
       justifyContent: 'flex-start',
       alignContent: 'stretch',
+      height: '100%',
     },
     columnParent: {
       flexDirection: 'column',
@@ -125,20 +123,8 @@ export class AgentDesktop extends React.Component {
       height: '54px',
     },
     topArea: {
-      height: 'calc(100vh - 54px)',
+      height: 'calc(100% - 54px)',
       borderBottom: '1px solid #141414',
-    },
-    topAreaOneBanner: {
-      height: 'calc(100vh - 54px - 28px)',
-    },
-    topAreaTwoBanners: {
-      height: 'calc(100vh - 54px - 80px)',
-    },
-    sidePanelOneBanner: {
-      top: '40px',
-    },
-    sidePanelTwoBanners: {
-      top: '80px',
     },
   };
 
@@ -159,11 +145,6 @@ export class AgentDesktop extends React.Component {
               this.styles.flexChildGrow,
               this.styles.parent,
               this.styles.topArea,
-              (this.props.criticalError || this.props.nonCriticalError) &&
-                this.styles.topAreaOneBanner,
-              (this.props.criticalError || this.props.nonCriticalError) &&
-                this.props.refreshBannerIsVisible &&
-                this.styles.topAreaTwoBanners,
             ]}
           >
             <div style={[this.styles.leftArea]}>
@@ -197,24 +178,16 @@ export class AgentDesktop extends React.Component {
             agentDirection={this.props.agentDesktop.direction}
             style={[this.styles.flexChildGrow, this.styles.toolbar]}
           />
+          <SidePanel
+            style={{
+              height: `calc(100vh - 54px - ${this.props.bannerCount * 28}px)`,
+              top: `${this.props.bannerCount * 28}px`,
+            }}
+            collapsedPx={this.collapsedContactsPanelPx}
+            openPx={this.state.contactsPanelPx}
+            isCollapsed={this.props.isContactsPanelCollapsed}
+          />
         </div>
-        <SidePanel
-          style={[
-            this.styles.topArea,
-            this.props.criticalError && {
-              ...this.styles.topAreaOneBanner,
-              ...this.styles.sidePanelOneBanner,
-            },
-            this.props.criticalError &&
-            this.props.refreshBannerIsVisible && {
-              ...this.styles.topAreaTwoBanners,
-              ...this.styles.sidePanelTwoBanners,
-            },
-          ]}
-          collapsedPx={this.collapsedContactsPanelPx}
-          openPx={this.state.contactsPanelPx}
-          isCollapsed={this.props.isContactsPanelCollapsed}
-        />
       </span>
     );
   }
@@ -240,15 +213,13 @@ function mapDispatchToProps(dispatch) {
 }
 
 AgentDesktop.propTypes = {
-  refreshBannerIsVisible: PropTypes.bool,
   login: PropTypes.object,
   agentDesktop: PropTypes.object,
   isContactsPanelCollapsed: PropTypes.bool.isRequired,
-  criticalError: PropTypes.any,
-  nonCriticalError: PropTypes.any,
   setInteractionStatus: PropTypes.func.isRequired,
   selectInteraction: PropTypes.func.isRequired,
   showContactsPanel: PropTypes.func.isRequired,
+  bannerCount: PropTypes.number,
 };
 
 export default ErrorBoundary(

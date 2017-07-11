@@ -17,8 +17,6 @@ import axios from 'axios';
 
 import ResponseMessage from 'models/Message/ResponseMessage';
 
-import RefreshBanner from 'components/RefreshBanner';
-
 import Login from 'containers/Login';
 import NotificationBanner from 'components/NotificationBanner';
 import AgentDesktop from 'containers/AgentDesktop';
@@ -769,70 +767,37 @@ export class App extends React.Component {
   };
 
   styles = {
-    base: {
-      // styles
-    },
-    parent: {
-      alignItems: 'stretch',
-      display: 'flex',
-      flexDirection: 'row',
-      flexWrap: 'nowrap',
-      justifyContent: 'flex-start',
-      alignContent: 'stretch',
-    },
-    columnParent: {
-      flexDirection: 'column',
-    },
-    flexChildGrow: {
-      flex: '1 0 auto',
-    },
-    leftArea: {
-      flex: '0 0 auto',
-      width: '283px',
-      display: 'flex',
-      flexFlow: 'column',
-    },
-    phoneControls: {
-      flex: '0 0 auto',
-    },
-    interactionsBar: {
-      flex: '1 0 auto',
-    },
-    toolbar: {
-      flex: '0 0 auto',
-      height: '54px',
-    },
-    topArea: {
-      height: 'calc(100vh - 54px)',
-      borderBottom: '1px solid #141414',
-    },
-    topAreaOneBanner: {
-      height: 'calc(100vh - 54px - 35px)',
-    },
-    topAreaTwoBanners: {
-      height: 'calc(100vh - 54px - 70px)',
-    },
     notificationBanner: {
       position: 'relative',
       zIndex: 20,
     },
-    sidePanelOneBanner: {
-      top: '35px',
-    },
-    sidePanelTwoBanners: {
-      top: '70px',
-    },
   };
 
   render() {
+    const banners = [];
     const refreshBannerIsVisible =
       this.props.agentDesktop.refreshRequired &&
       this.props.login.showLogin &&
       location.hostname !== 'localhost' &&
       location.hostname !== '127.0.0.1';
-    let errorBanner;
     let errorDescriptionMessage;
     const errorInfo = this.props.criticalError || this.props.nonCriticalError;
+
+    if (refreshBannerIsVisible) {
+      banners.push(
+        <NotificationBanner
+          key={messages.newVersion.id}
+          id="version-refresh-banner"
+          descriptionMessage={messages.newVersion}
+          descriptionStyle={{
+            textAlign: 'center',
+          }}
+          fullBannerAction={() => location.reload()}
+          dismiss={this.hideRefreshBanner}
+        />
+      );
+    }
+
     if (errorInfo) {
       const code = errorInfo.code;
       if (code && errorMessages[code]) {
@@ -853,8 +818,9 @@ export class App extends React.Component {
     }
 
     if (this.props.criticalError) {
-      errorBanner = (
+      banners.push(
         <NotificationBanner
+          key={messages.criticalError.id}
           id="critical-error-banner"
           style={this.styles.notificationBanner}
           titleMessage={messages.criticalError}
@@ -865,8 +831,9 @@ export class App extends React.Component {
         />
       );
     } else if (this.props.nonCriticalError) {
-      errorBanner = (
+      banners.push(
         <NotificationBanner
+          key={messages.nonCriticalError.id}
           id="noncritical-error-banner"
           style={this.styles.notificationBanner}
           titleMessage={messages.nonCriticalError}
@@ -878,13 +845,15 @@ export class App extends React.Component {
     }
     return (
       <div>
-        {refreshBannerIsVisible &&
-          <RefreshBanner hide={this.hideRefreshBanner} />}
-        {errorBanner}
-        {this.props.login.showLogin ||
-        this.props.agentDesktop.presence === undefined
-          ? <Login />
-          : <AgentDesktop refreshBannerIsVisible={refreshBannerIsVisible} />}
+        <div style={{ height: `${28 * banners.length}px` }}>
+          {banners}
+        </div>
+        <div style={{ height: `calc(100vh - ${28 * banners.length}px)` }}>
+          {this.props.login.showLogin ||
+            this.props.agentDesktop.presence === undefined
+            ? <Login />
+            : <AgentDesktop bannerCount={banners.length} />}
+        </div>
       </div>
     );
   }
