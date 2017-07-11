@@ -1,3 +1,6 @@
+### [0.43.18] (2017-07-11)
+* Bump SDK version to 5.3.16
+
 ### [0.43.17] (2017-07-11)
 * Bump SDK version to 5.3.14, fixes CXV1-10394
 
