@@ -447,17 +447,22 @@ export class ContactInteractionHistory extends React.Component {
             >
               <Icon name={icon} style={this.styles.segmentChannelIcon} />
               <div style={this.styles.segmentContent}>
-                <div className="noteTitle" style={this.styles.segmentTitle}>
+                <div
+                  id="noteTitle"
+                  className="noteTitle"
+                  style={this.styles.segmentTitle}
+                >
                   {segment.noteTitle}
                 </div>
-                <div className="agentName">
+                <div id="agentName" className="agentName">
                   {segment.agentName}
                 </div>
-                <div className="duration">
+                <div id="duration" className="duration">
                   {duration}
                 </div>
                 {segment.dispositionName !== null
                   ? <span
+                    id="dispositionName"
                     className="dispositionName"
                     style={this.styles.disposition}
                     title="Disposition"
@@ -466,7 +471,11 @@ export class ContactInteractionHistory extends React.Component {
                   </span>
                   : undefined}
                 {expandedView
-                  ? <div style={this.styles.segmentMessage}>
+                  ? <div
+                    id="notesBody"
+                    className="notesBody"
+                    style={this.styles.segmentMessage}
+                  >
                     {hasNotes ? notes : undefined}
                   </div>
                   : undefined}
