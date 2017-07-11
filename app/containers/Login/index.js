@@ -592,10 +592,10 @@ export class Login extends React.Component {
             </PopupDialog>
           </div>
           <div style={styles.copyright}>
-            <div style={styles.copyrightText}>
+            <div style={styles.copyrightText} id="serenova_copyright">
               <FormattedMessage {...messages.copyright} />
             </div>
-            <div style={styles.legalText}>
+            <div style={styles.legalText} id="serenova_legal">
               <FormattedMessage {...messages.legal} />
             </div>
           </div>
