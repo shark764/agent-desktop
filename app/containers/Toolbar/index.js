@@ -292,7 +292,7 @@ export class Toolbar extends React.Component {
                   />
                 </div>
                 <div style={styles.presenceTextContainer}>
-                  <span style={styles.presenceText}>
+                  <span style={styles.presenceText} id="agent_presence_reason">
                     {agentIsReady
                       ? <FormattedMessage {...messages.ready} />
                       : this.notReadyText()}
