@@ -28,7 +28,7 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
       }
     }
   >
-    mockMessage
+    mock message
      
   </div>
   <div
@@ -39,7 +39,7 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
       }
     }
   >
-    mockMessage
+    mock message
   </div>
   <Button
     clear={true}

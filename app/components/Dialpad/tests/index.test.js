@@ -15,6 +15,8 @@ describe('<Dialpad />', () => {
           id="mockId"
           dialpadText="mockDialpadText"
           setDialpadText={() => {}}
+          transfer={false}
+          active={false}
         />
       );
       expect(rendered).toMatchSnapshot();
@@ -29,6 +31,8 @@ describe('<Dialpad />', () => {
           dialpadText="mockDialpadText"
           setDialpadText={() => {}}
           inCall
+          transfer={false}
+          active={false}
         />
       );
       expect(rendered).toMatchSnapshot();
