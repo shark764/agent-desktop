@@ -353,16 +353,6 @@ export class Login extends React.Component {
             </span>
           );
           break;
-        case 'configLoadFailed':
-          errorSpan = (
-            <span id={`${error}:ERROR`} style={[styles.error]}>
-              <FormattedMessage
-                style={styles.center}
-                {...messages.configLoadFailed}
-              />
-            </span>
-          );
-          break;
         default:
           errorSpan = (
             <span id={`${error}:ERROR`} style={[styles.error]}>

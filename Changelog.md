@@ -1,3 +1,6 @@
+### [0.43.21] (2017-07-12)
+* CXV1-10347 - Error handling for no extensions
+
 ### [0.43.20] (2017-07-11)
 * Bugfix for error banner over InfoTab
 
