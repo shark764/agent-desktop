@@ -48,6 +48,17 @@ class MainContentArea extends React.Component {
       this.props.removeInteraction(
         this.props.selectedInteraction.interactionId
       );
+    } else if (
+      this.props.selectedInteraction.channelType === 'email' &&
+      this.props.selectedInteraction.direction === 'outbound'
+    ) {
+      CxEngage.interactions.sendCustomInterrupt({
+        interactionId: this.props.selectedInteraction.interactionId,
+        interruptType: 'work-cancel',
+        interruptBody: {
+          resourceId: this.props.agent.userId,
+        },
+      });
     } else {
       CxEngage.interactions.end({
         interactionId: this.props.selectedInteraction.interactionId,
