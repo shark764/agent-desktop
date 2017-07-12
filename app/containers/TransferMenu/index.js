@@ -192,7 +192,8 @@ export class TransferMenu extends React.Component {
     const agentCapacities = resourceCapacities.find(
       (resourceCapacity) => resourceCapacity.resourceId === agent.id
     );
-    if (agentCapacities) {
+    // If there is no capacity (null) for the agent, they are not available
+    if (agentCapacities && agentCapacities.capacity) {
       const voiceCapacity = agentCapacities.capacity.find((agentCapacity) =>
         Object.keys(agentCapacity.channels).includes('voice')
       );
