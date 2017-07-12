@@ -1,3 +1,6 @@
+### [0.43.24] (2017-07-12)
+* CXV1-9907 - Added flow signal for email reply cancel
+
 ### [0.43.23] (2017-07-12)
 * CXV1-9950 - Handle null capacity for agents
 
