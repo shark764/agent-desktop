@@ -108,8 +108,4 @@ export default defineMessages({
     defaultMessage:
       'No presence reason lists available on tenant, please talk to your administrator.',
   },
-  configLoadFailed: {
-    id: 'app.containers.Login.configLoadFailed',
-    defaultMessage: 'Failed to get user configuration. Please try again.',
-  },
 });

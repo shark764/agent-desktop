@@ -13,11 +13,7 @@ import {
   removeInteractionHard,
 } from 'containers/AgentDesktop/actions';
 import { HANDLE_SDK_ERROR, SET_LOGIN_ERROR_AND_RELOAD } from './constants';
-import {
-  setCriticalError,
-  setNonCriticalError,
-  setLoginErrorAndReload as setLoginErrorAndReloadAction,
-} from './actions';
+import { setCriticalError, setNonCriticalError } from './actions';
 
 export function* goHandleSDKError(action) {
   const topic = action.topic;
@@ -43,9 +39,6 @@ export function* goHandleSDKError(action) {
     return;
   } else if (topic === 'cxengage/contacts/list-attributes-response') {
     yield put(setCRMUnavailable('crmAttributeError'));
-    return;
-  } else if (topic === 'cxengage/session/config-details') {
-    yield put(setLoginErrorAndReloadAction('configLoadFailed'));
     return;
   } else if (error.code === 3000) {
     if (action.error.data.apiResponse.status === 401) {
