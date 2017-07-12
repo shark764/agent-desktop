@@ -44,4 +44,7 @@ export default [
   'cxengage/contacts/merge-contacts-response', // Handled in ContactMerge
   'cxengage/interactions/email/start-outbound-email', // Handled in EmailContentArea saga
   'cxengage/logging/error', // Handled in App container index
+  'cxengage/interactions/email/agent-reply-started-acknowledged', // Ignore
+  'cxengage/interactions/email/agent-cancel-reply-acknowledged', // Ignore
+  'cxengage/interactions/email/agent-no-reply-acknowledged', // Ignore
 ];
