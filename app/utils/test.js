@@ -4,6 +4,7 @@
 
 import { IntlProvider } from 'react-intl';
 import enUS from 'translations/en-US.json';
+enUS['app.test.mockMessage'] = 'mock message'; // Mock message we can use in tests
 
 export const getIntlContext = () => {
   // Construct a new `IntlProvider` instance by passing `props` and
