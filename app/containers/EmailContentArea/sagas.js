@@ -8,7 +8,9 @@ import sdkCallToPromise from 'utils/sdkCallToPromise';
 import {
   setInteractionStatus,
   startOutboundInteraction,
+  setContactMode,
 } from 'containers/AgentDesktop/actions';
+import { addContactNotification } from 'containers/ContactsControl/actions';
 import { START_OUTBOUND_EMAIL } from './constants';
 
 export function* startOutboundEmailSaga(action) {
@@ -33,6 +35,21 @@ export function* startOutboundEmailSaga(action) {
     yield put(
       setInteractionStatus(response.interactionId, 'initialized-outbound')
     );
+
+    if (action.contact.id) {
+      yield call(
+        sdkCallToPromise,
+        CxEngage.interactions.assignContact,
+        {
+          interactionId: response.interactionId,
+          contactId: action.contact.id,
+        },
+        'EmailContentArea'
+      );
+
+      yield put(setContactMode(response.interactionId, 'view'));
+      yield put(addContactNotification({ messageType: 'assigned' }));
+    }
   } catch (e) {
     // Handled in Errors Sagas
   }
