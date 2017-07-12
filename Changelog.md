@@ -1,3 +1,6 @@
+### [0.43.25] (2017-07-12)
+* CXV1-10384 - Fix issue with outgoing email messages with only one message not making it into history
+
 ### [0.43.24] (2017-07-12)
 * CXV1-9907 - Added flow signal for email reply cancel
 

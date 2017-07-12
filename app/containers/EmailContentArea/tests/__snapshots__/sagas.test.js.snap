@@ -1,5 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`startOutboundEmailSaga should add the notification bar that tells the user that a contact has been assigned to the interaction 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "notificationInfo": Object {
+          "messageType": "assigned",
+        },
+        "type": "app/ContactsControl/ADD_CONTACT_NOTIFICATION",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
 exports[`startOutboundEmailSaga should call the promise util with the SDK startOutboundEmailSaga and the correct arguments 1`] = `
 Object {
   "done": false,
@@ -10,6 +28,44 @@ Object {
         "CxEngage.interactions.email.startOutboundEmail",
         Object {
           "address": "email@test.com",
+        },
+        "EmailContentArea",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`startOutboundEmailSaga should set the contact mode to view 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockId123456789",
+        "newMode": "view",
+        "type": "app/AgentDesktop/SET_CONTACT_MODE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`startOutboundEmailSaga should use the yielded SDK results to assign email interaction to the correct contact 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        undefined,
+        Object {
+          "contactId": "12345-6789",
+          "interactionId": "mockId123456789",
         },
         "EmailContentArea",
       ],
@@ -47,7 +103,9 @@ Object {
       "action": Object {
         "addedByNewInteractionPanel": false,
         "channelType": "email",
-        "contact": "mockContact123",
+        "contact": Object {
+          "id": "12345-6789",
+        },
         "customer": "email@test.com",
         "interactionId": "mockId123456789",
         "type": "app/AgentDesktop/START_OUTBOUND_INTERACTION",
