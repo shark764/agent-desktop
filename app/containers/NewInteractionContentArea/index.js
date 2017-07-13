@@ -32,7 +32,7 @@ const styles = {
   },
   contacts: {
     height: '100%',
-    overflowY: 'auto',
+    overflowY: 'hidden',
     display: 'flex',
   },
   buttonContainer: {

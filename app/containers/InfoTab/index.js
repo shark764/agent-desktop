@@ -45,7 +45,7 @@ export class InfoTab extends React.Component {
       position: 'relative',
     },
     contacts: {
-      overflowY: 'auto',
+      overflowY: 'hidden',
       boxSizing: 'content-box',
       flexGrow: '1',
       flexShrink: '1',
