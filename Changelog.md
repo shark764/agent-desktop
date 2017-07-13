@@ -1,3 +1,6 @@
+### [0.43.32] (2017-07-13)
+* CXV1-10329 - Force agent into wrap up if force disposition is on and no disposition is selected
+
 ### [0.43.31] (2017-07-13)
 * CXV1-10345 - Bump SDK to 5.3.21
 
