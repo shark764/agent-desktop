@@ -10,7 +10,6 @@
 
 import {
   HANDLE_SDK_ERROR,
-  SET_LOGIN_ERROR_AND_RELOAD,
   SET_CRITICAL_ERROR,
   SET_NON_CRITICAL_ERROR,
   DISMISS_ERROR,
@@ -24,13 +23,6 @@ export function handleSDKError(error, topic) {
     error,
     topic,
     // TODO: InitAction, canRetry
-  };
-}
-
-export function setLoginErrorAndReload(errorType) {
-  return {
-    type: SET_LOGIN_ERROR_AND_RELOAD,
-    errorType,
   };
 }
 

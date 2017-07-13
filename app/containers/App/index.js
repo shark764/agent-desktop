@@ -33,7 +33,7 @@ import {
   setContactAttributes,
 } from 'containers/SidePanel/actions';
 import {
-  setLoginErrorAndReload,
+  setCriticalError,
   handleSDKError,
   addStatErrorId,
   removeStatErrorId,
@@ -196,6 +196,7 @@ export class App extends React.Component {
 
     // Initialize Remote Logging with Sentry.io
     // Check if environment === 'prod' to re-enable
+    // eslint-disable-next-line no-constant-condition
     if (false) {
       Raven.config(
         'https://892f9eb6bb314a9da98b98372c518351@sentry.io/169686',
@@ -277,10 +278,11 @@ export class App extends React.Component {
           }
           case 'cxengage/session/config-details': {
             if (response.reasonLists.length < 2) {
-              this.props.setLoginErrorAndReload('reasonListError');
-            } else {
-              this.props.setUserConfig(response);
+              this.props.setCriticalError({ code: 'AD-1000' });
+            } else if (response.extensions.length < 1) {
+              this.props.setCriticalError({ code: 'AD-1001' });
             }
+            this.props.setUserConfig(response);
             break;
           }
           case 'cxengage/session/extension-list': {
@@ -859,7 +861,10 @@ export class App extends React.Component {
         </div>
         <div style={{ height: `calc(100vh - ${28 * banners.length}px)` }}>
           {this.props.login.showLogin ||
-            this.props.agentDesktop.presence === undefined
+            this.props.agentDesktop.presence === undefined ||
+            (this.props.criticalError &&
+              this.props.criticalError.code &&
+              this.props.criticalError.code.includes('AD-100'))
             ? <Login />
             : <AgentDesktop bannerCount={banners.length} />}
         </div>
@@ -968,8 +973,7 @@ function mapDispatchToProps(dispatch) {
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
-    setLoginErrorAndReload: (errorType) =>
-      dispatch(setLoginErrorAndReload(errorType)),
+    setCriticalError: (error) => dispatch(setCriticalError(undefined, error)),
     setCRMUnavailable: (reason) => dispatch(setCRMUnavailable(reason)),
     addStatErrorId: (statId) => dispatch(addStatErrorId(statId)),
     removeStatErrorId: (statId) => dispatch(removeStatErrorId(statId)),
@@ -1031,7 +1035,7 @@ App.propTypes = {
   toggleAgentMenu: PropTypes.func.isRequired,
   goNotReady: PropTypes.func.isRequired,
   handleSDKError: PropTypes.func.isRequired,
-  setLoginErrorAndReload: PropTypes.func.isRequired,
+  setCriticalError: PropTypes.func.isRequired,
   setCRMUnavailable: PropTypes.func.isRequired,
   addStatErrorId: PropTypes.func.isRequired,
   removeStatErrorId: PropTypes.func.isRequired,
