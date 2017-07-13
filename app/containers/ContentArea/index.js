@@ -57,6 +57,15 @@ export class ContentArea extends React.Component {
         savingNote: false,
       });
     }
+    if (
+      nextProps.interaction.dispositionDetails.forceSelect &&
+      nextProps.interaction.dispositionDetails.selected.length === 0 &&
+      !nextProps.interaction.wrapupDetails.wrapupEnabled
+    ) {
+      CxEngage.interactions.enableWrapup({
+        interactionId: nextProps.interaction.interactionId,
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -395,15 +404,6 @@ export class ContentArea extends React.Component {
       { interactionId: this.props.interaction.interactionId },
       (error, topic, response) => {
         console.log('[ContentArea] CxEngage.subscribe()', topic, response);
-        if (
-          !error &&
-          this.props.interaction.dispositionDetails.forceSelect &&
-          !this.props.interaction.wrapupDetails.wrapupEnabled
-        ) {
-          CxEngage.interactions.enableWrapup({
-            interactionId: response.interactionId,
-          });
-        }
         this.setState({
           loadingDisposition: false,
         });
@@ -539,7 +539,8 @@ export class ContentArea extends React.Component {
                   )}
                 {this.props.interaction.dispositionDetails.selected.length ===
                     0 &&
-                  this.props.interaction.status !== 'work-ended-pending-script'
+                    this.props.interaction.status !==
+                      'work-ended-pending-script'
                     ? [
                       <div
                         onClick={() =>
