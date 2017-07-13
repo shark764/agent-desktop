@@ -1,3 +1,6 @@
+### [0.43.28] (2017-07-13)
+* Bump SDK version to 5.3.20, fixes CXV1-10348
+
 ### [0.43.27] (2017-07-13)
 * CXV1-10395 - Move permissions check to Agent Desktop
 
