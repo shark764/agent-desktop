@@ -1,3 +1,6 @@
+### [0.43.30] (2017-07-13)
+* CXV1-10395 - Auto-reject work-items
+
 ### [0.43.29] (2017-07-13)
 * CXV1-10434 - Fixes issue with AD getting stuck on outbound voice failure
 
