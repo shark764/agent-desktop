@@ -2,7 +2,7 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
-import { takeEvery, put, call } from 'redux-saga/effects';
+import { takeEvery, put, call, select } from 'redux-saga/effects';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 
@@ -12,6 +12,7 @@ import {
   removeInvalidExtension,
   removeInteractionHard,
 } from 'containers/AgentDesktop/actions';
+import { selectPendingActiveVoiceInteraction } from 'containers/InteractionsBar/selectors';
 import { HANDLE_SDK_ERROR, SET_LOGIN_ERROR_AND_RELOAD } from './constants';
 import { setCriticalError, setNonCriticalError } from './actions';
 
@@ -40,6 +41,13 @@ export function* goHandleSDKError(action) {
   } else if (topic === 'cxengage/contacts/list-attributes-response') {
     yield put(setCRMUnavailable('crmAttributeError'));
     return;
+  } else if (topic === 'cxengage/interactions/voice/dial-send-acknowledged') {
+    const currentFailedVoiceInteraction = yield select(
+      selectPendingActiveVoiceInteraction
+    );
+    yield put(
+      removeInteractionHard(currentFailedVoiceInteraction.interactionId)
+    );
   } else if (error.code === 3000) {
     if (action.error.data.apiResponse.status === 401) {
       yield put(loginError());
