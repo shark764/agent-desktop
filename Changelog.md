@@ -1,3 +1,6 @@
+### [0.43.34] (2017-07-13)
+* CXV1-9923 - Prevent flicker on checking contact
+
 ### [0.43.33] (2017-07-13)
 * CXV1-10461 - Add no extensions error handling. Started implementing AD codes.
 
