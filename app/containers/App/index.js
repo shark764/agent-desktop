@@ -409,8 +409,17 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/work-offer-received': {
-            this.props.toggleAgentMenu(false);
-            this.props.addInteraction(response);
+            if (response.channelType === 'work-item') {
+              // Auto reject work-items
+              CxEngage.interactions.sendCustomInterrupt({
+                interruptType: 'resource-disconnect',
+                interactionId: response.interactionId,
+                interruptBody: { resourceId: this.props.login.agent.userId },
+              });
+            } else {
+              this.props.toggleAgentMenu(false);
+              this.props.addInteraction(response);
+            }
             break;
           }
           case 'cxengage/interactions/work-accepted-received': {
