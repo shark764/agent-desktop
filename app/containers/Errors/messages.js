@@ -15,6 +15,14 @@ export default defineMessages({
     defaultMessage:
       'An unknown error has occurred. Please try to finish your work as you may need to refresh the page to continue.',
   },
+  'AD-1000': {
+    id: 'app.containers.Errors.AD-1000',
+    defaultMessage: 'No presence reason lists were found for this tenant.',
+  },
+  'AD-1001': {
+    id: 'app.containers.Errors.AD-1001',
+    defaultMessage: 'No extensions were found for this user.',
+  },
   2001: {
     id: 'app.containers.Errors.2001',
     defaultMessage: 'Failed to get user configuration. Please try again.',

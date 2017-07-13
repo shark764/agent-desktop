@@ -149,7 +149,6 @@ const styles = {
 export class Login extends React.Component {
   constructor(props) {
     super(props);
-    window.onbeforeunload = () => storage.removeItem('ADError'); // Prevent showing error on reload
     this.state = {
       username: storage.getItem('email') || '',
       password: '',
@@ -198,7 +197,6 @@ export class Login extends React.Component {
   };
 
   onLogin = () => {
-    storage.removeItem('ADError');
     if (this.state.username.trim() !== '' && this.state.password !== '') {
       this.props.loggingIn();
       CxEngage.authentication.login(
@@ -335,7 +333,6 @@ export class Login extends React.Component {
   };
 
   getErrors = () => {
-    const error = storage.getItem('ADError');
     let errorSpan;
     if (this.props.login_error) {
       errorSpan = (
@@ -349,29 +346,6 @@ export class Login extends React.Component {
           <FormattedMessage style={styles.center} {...messages.serviceError} />
         </span>
       );
-    } else if (error !== null) {
-      switch (error) {
-        case 'reasonListError':
-          errorSpan = (
-            <span id={`${error}:ERROR`} style={[styles.error]}>
-              <FormattedMessage
-                style={styles.center}
-                {...messages.reasonListError}
-              />
-            </span>
-          );
-          break;
-        default:
-          errorSpan = (
-            <span id={`${error}:ERROR`} style={[styles.error]}>
-              <FormattedMessage
-                style={styles.center}
-                {...messages.generalError}
-              />
-            </span>
-          );
-          break;
-      }
     }
     return errorSpan;
   };

@@ -1,3 +1,6 @@
+### [0.43.33] (2017-07-13)
+* CXV1-10461 - Add no extensions error handling. Started implementing AD codes.
+
 ### [0.43.32] (2017-07-13)
 * CXV1-10329 - Force agent into wrap up if force disposition is on and no disposition is selected
 

@@ -2,9 +2,7 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
-import { takeEvery, put, call, select } from 'redux-saga/effects';
-
-import sdkCallToPromise from 'utils/sdkCallToPromise';
+import { takeEvery, put, select } from 'redux-saga/effects';
 
 import { setCRMUnavailable } from 'containers/InfoTab/actions';
 import { loginError, serviceError } from 'containers/Login/actions';
@@ -13,7 +11,7 @@ import {
   removeInteractionHard,
 } from 'containers/AgentDesktop/actions';
 import { selectPendingActiveVoiceInteraction } from 'containers/InteractionsBar/selectors';
-import { HANDLE_SDK_ERROR, SET_LOGIN_ERROR_AND_RELOAD } from './constants';
+import { HANDLE_SDK_ERROR } from './constants';
 import { setCriticalError, setNonCriticalError } from './actions';
 
 export function* goHandleSDKError(action) {
@@ -67,41 +65,9 @@ export function* goHandleSDKError(action) {
   }
 }
 
-export function* goSetLoginErrorAndReload(action) {
-  window.onbeforeunload = null; // clear error clearer set in Login
-  window.localStorage.setItem('ADError', action.errorType); // Consume in Login component
-  try {
-    yield call(
-      sdkCallToPromise,
-      CxEngage.authentication.logout,
-      undefined,
-      'Errors'
-    );
-    // Set logout on session-started incase session hadn't yet started
-    yield call(
-      sdkCallToPromise,
-      CxEngage.subscribe,
-      'cxengage/session/started',
-      'Errors'
-    );
-    yield call(
-      sdkCallToPromise,
-      CxEngage.authentication.logout,
-      undefined,
-      'Errors'
-    );
-  } catch (error) {
-    window.location.reload();
-  }
-}
-
 export function* handleSDKError() {
   yield takeEvery(HANDLE_SDK_ERROR, goHandleSDKError);
 }
 
-export function* setLoginErrorAndReload() {
-  yield takeEvery(SET_LOGIN_ERROR_AND_RELOAD, goSetLoginErrorAndReload);
-}
-
 // All sagas to be loaded
-export default [handleSDKError, setLoginErrorAndReload];
+export default [handleSDKError];
