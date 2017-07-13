@@ -1,3 +1,6 @@
+### [0.43.27] (2017-07-13)
+* CXV1-10395 - Move permissions check to Agent Desktop
+
 ### [0.43.26] (2017-07-12)
 * INTERNAL - Fix test errors
 
