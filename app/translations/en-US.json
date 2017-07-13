@@ -135,7 +135,6 @@
   "app.containers.Interaction.script": "Script",
   "app.containers.Interaction.wrapup": "WRAP UP",
   "app.containers.InteractionsBar.newInteraction": "New Interaction",
-  "app.containers.Login.configLoadFailed": "Failed to get user configuration. Please try again.",
   "app.containers.Login.copyright": "Copyright © 2015-{year} Serenova, LLC (\"Serenova\"). All rights reserved.",
   "app.containers.Login.email": "Email",
   "app.containers.Login.forgot": "Forgot your password?",

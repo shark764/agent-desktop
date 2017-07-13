@@ -46,6 +46,7 @@ import {
   setTenant,
   tenantError,
 } from './actions';
+import requiredPermissions from './permissions';
 const storage = window.localStorage;
 
 const styles = {
@@ -222,23 +223,30 @@ export class Login extends React.Component {
   onTenantSelect = () => {
     if (this.state.tenantId !== '-1') {
       this.props.settingTenant();
-      CxEngage.session.setActiveTenant(
-        {
-          tenantId: this.state.tenantId,
-        },
-        (error, topic, response) => {
-          console.log('[Login] CxEngage.subscribe()', topic, response);
-
-          if (error !== null) {
-            // General error check
-            if (error.code === 2000) {
-              this.props.tenantError(messages.noPermsError);
-            }
-          } else {
-            this.props.setTenant(this.state.tenantId, this.state.tenantName);
-          }
-        }
+      const selectingTenant = this.props.agent.tenants.find(
+        (tenant) => tenant.tenantId === this.state.tenantId
       );
+      if (
+        selectingTenant &&
+        selectingTenant.tenantPermissions &&
+        requiredPermissions.every((permission) =>
+          selectingTenant.tenantPermissions.includes(permission)
+        )
+      ) {
+        CxEngage.session.setActiveTenant(
+          {
+            tenantId: this.state.tenantId,
+          },
+          (error, topic, response) => {
+            console.log('[Login] CxEngage.subscribe()', topic, response);
+            if (!error) {
+              this.props.setTenant(this.state.tenantId, this.state.tenantName);
+            }
+          }
+        );
+      } else {
+        this.props.tenantError(messages.noPermsError);
+      }
     } else {
       this.setState({ noTenant: true });
     }
