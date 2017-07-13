@@ -1,3 +1,6 @@
+### [0.43.29] (2017-07-13)
+* CXV1-10434 - Fixes issue with AD getting stuck on outbound voice failure
+
 ### [0.43.28] (2017-07-13)
 * Bump SDK version to 5.3.20, fixes CXV1-10348
 

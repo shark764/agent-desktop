@@ -49,6 +49,18 @@ const selectActiveVoiceInteraction = createSelector(
       )
 );
 
+const selectPendingActiveVoiceInteraction = createSelector(
+  selectInteractions,
+  (interactions) =>
+    interactions
+      .toJS()
+      .find(
+        (interaction) =>
+          interaction.status === 'connecting-to-outbound' &&
+          interaction.channelType === 'voice'
+      )
+);
+
 const selectNewInteractionPanel = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) => agentDesktop.get('newInteractionPanel').toJS()
@@ -72,6 +84,7 @@ export {
   getSelectedInteractionId,
   selectActiveNonVoiceInteractions,
   selectActiveVoiceInteraction,
+  selectPendingActiveVoiceInteraction,
   selectNewInteractionPanel,
   selectPendingInteractions,
 };

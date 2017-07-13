@@ -47,6 +47,18 @@ describe('handleError Saga', () => {
       expect(generator.next()).toMatchSnapshot();
     });
   });
+  describe('outbound voice interaction fails to connect', () => {
+    beforeEach(() => {
+      mockAction.error.level = 'error';
+      mockAction.topic = 'cxengage/interactions/voice/dial-send-acknowledged';
+    });
+    it('should select the failed voice interaction and remove it', () => {
+      expect(generator.next()).toMatchSnapshot();
+      expect(
+        generator.next({ interactionId: 'test-interaction-id' })
+      ).toMatchSnapshot();
+    });
+  });
   describe('other level errors', () => {
     beforeEach(() => {
       mockAction.error.level = 'warning';

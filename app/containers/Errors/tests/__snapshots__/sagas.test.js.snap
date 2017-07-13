@@ -43,6 +43,35 @@ Object {
 }
 `;
 
+exports[`handleError Saga outbound voice interaction fails to connect should select the failed voice interaction and remove it 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`handleError Saga outbound voice interaction fails to connect should select the failed voice interaction and remove it 2`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "test-interaction-id",
+        "type": "app/AgentDesktop/REMOVE_INTERACTION_HARD",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
 exports[`handleError Saga session fatal level errors should call setCriticalError 1`] = `
 Object {
   "done": false,
