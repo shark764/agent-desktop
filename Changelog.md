@@ -1,3 +1,6 @@
+### [0.43.38] (2017-07-14)
+* BUGFIX - Fix error where messaging interactions are accepted before messaging history has arrived.
+
 ### [0.43.37] (2017-07-14)
 * BUGFIX - Fix displaying of SDK errors
 
