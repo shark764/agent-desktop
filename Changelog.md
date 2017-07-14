@@ -1,3 +1,6 @@
+### [0.43.36] (2017-07-13)
+* CXV1-10467 - add refresh banner to all screens on version bump
+
 ### [0.43.35] (2017-07-13)
 * CXV1-10329 - fix disposition and wrapup state stuff
 

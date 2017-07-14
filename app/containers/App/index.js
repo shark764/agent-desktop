@@ -788,7 +788,6 @@ export class App extends React.Component {
     const banners = [];
     const refreshBannerIsVisible =
       this.props.agentDesktop.refreshRequired &&
-      this.props.login.showLogin &&
       location.hostname !== 'localhost' &&
       location.hostname !== '127.0.0.1';
     let errorDescriptionMessage;
@@ -861,10 +860,10 @@ export class App extends React.Component {
         </div>
         <div style={{ height: `calc(100vh - ${28 * banners.length}px)` }}>
           {this.props.login.showLogin ||
-            this.props.agentDesktop.presence === undefined ||
-            (this.props.criticalError &&
-              this.props.criticalError.code &&
-              this.props.criticalError.code.includes('AD-100'))
+          this.props.agentDesktop.presence === undefined ||
+          (this.props.criticalError &&
+            this.props.criticalError.code &&
+            this.props.criticalError.code.includes('AD-100'))
             ? <Login />
             : <AgentDesktop bannerCount={banners.length} />}
         </div>
