@@ -1,3 +1,6 @@
+### [0.43.39] (2017-07-14)
+* CXV1-10434 - Fatal Error on Interactions Handling
+
 ### [0.43.38] (2017-07-14)
 * BUGFIX - Fix error where messaging interactions are accepted before messaging history has arrived.
 

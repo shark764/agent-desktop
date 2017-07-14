@@ -30,7 +30,7 @@ export default function ErrorBoundary(WrappedComponent) {
         CxEngage.logging.error(error, info);
       }
       this.setState({ error });
-      this.props.setCriticalError(null, error);
+      this.props.setCriticalError();
       // TODO send error and info to analytics
     }
 

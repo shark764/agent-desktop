@@ -810,7 +810,12 @@ export class App extends React.Component {
 
     if (errorInfo) {
       const code = errorInfo.code;
-      if (code && errorMessages[code]) {
+      const interactionFatal = errorInfo.interactionFatal;
+      if (interactionFatal) {
+        errorDescriptionMessage = this.props.intl.formatMessage(
+          errorMessages.interactionFailed
+        );
+      } else if (code && errorMessages[code]) {
         // Specific error message is found for this code
         errorDescriptionMessage = this.props.intl.formatMessage(
           errorMessages[code]
@@ -973,7 +978,7 @@ function mapDispatchToProps(dispatch) {
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
-    setCriticalError: (error) => dispatch(setCriticalError(undefined, error)),
+    setCriticalError: (error) => dispatch(setCriticalError(error)),
     setCRMUnavailable: (reason) => dispatch(setCRMUnavailable(reason)),
     addStatErrorId: (statId) => dispatch(addStatErrorId(statId)),
     removeStatErrorId: (statId) => dispatch(removeStatErrorId(statId)),

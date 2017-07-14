@@ -10,13 +10,17 @@ import {
   removeInvalidExtension,
   removeInteractionHard,
 } from 'containers/AgentDesktop/actions';
-import { selectPendingActiveVoiceInteraction } from 'containers/InteractionsBar/selectors';
+import {
+  selectPendingActiveVoiceInteraction,
+  selectPendingActiveSmsInteraction,
+} from 'containers/InteractionsBar/selectors';
 import { HANDLE_SDK_ERROR } from './constants';
 import { setCriticalError, setNonCriticalError } from './actions';
 
 export function* goHandleSDKError(action) {
   const topic = action.topic;
   const error = action.error;
+  let forceFatalInteraction;
   console.warn('SDK Error:', topic, error);
   if (error.code === 14000) {
     // Error with logging
@@ -40,12 +44,16 @@ export function* goHandleSDKError(action) {
     yield put(setCRMUnavailable('crmAttributeError'));
     return;
   } else if (topic === 'cxengage/interactions/voice/dial-send-acknowledged') {
-    const currentFailedVoiceInteraction = yield select(
-      selectPendingActiveVoiceInteraction
-    );
-    yield put(
-      removeInteractionHard(currentFailedVoiceInteraction.interactionId)
-    );
+    forceFatalInteraction = yield select(selectPendingActiveVoiceInteraction);
+  } else if (
+    topic === 'cxengage/interactions/messaging/initialize-outbound-sms-response'
+  ) {
+    forceFatalInteraction = yield select(selectPendingActiveSmsInteraction);
+  } else if (
+    topic ===
+    'cxengage/errors/error/failed-to-create-outbound-email-interaction'
+  ) {
+    forceFatalInteraction = true;
   } else if (error.code === 3000) {
     if (action.error.data.apiResponse.status === 401) {
       yield put(loginError());
@@ -56,12 +64,22 @@ export function* goHandleSDKError(action) {
     return;
   }
 
-  if (error.level === 'session-fatal') {
-    yield put(setCriticalError(topic, error));
-  } else if (error.level === 'error') {
-    yield put(setNonCriticalError(topic, error));
-  } else if (error.level === 'interaction-fatal') {
+  // Fallback Error Handling if not dealt with above
+
+  // Fatal Interaction Removal
+  if (error.level === 'interaction-fatal') {
     yield put(removeInteractionHard(error.data.interactionId));
+  } else if (forceFatalInteraction) {
+    yield put(removeInteractionHard(forceFatalInteraction.interactionId));
+  }
+
+  // Error Banner Notifications
+  if (error.level === 'interaction-fatal' || forceFatalInteraction) {
+    yield put(setNonCriticalError(error, true));
+  } else if (error.level === 'session-fatal') {
+    yield put(setCriticalError(error));
+  } else if (error.level === 'error') {
+    yield put(setNonCriticalError(error));
   }
 }
 

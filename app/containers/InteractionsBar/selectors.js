@@ -56,8 +56,22 @@ const selectPendingActiveVoiceInteraction = createSelector(
       .toJS()
       .find(
         (interaction) =>
-          interaction.status === 'connecting-to-outbound' &&
+          (interaction.status === 'initializing-outbound' ||
+          interaction.status === 'connecting-to-outbound') &&
           interaction.channelType === 'voice'
+      )
+);
+
+const selectPendingActiveSmsInteraction = createSelector(
+  selectInteractions,
+  (interactions) =>
+    interactions
+      .toJS()
+      .find(
+        (interaction) =>
+          (interaction.status === 'initializing-outbound' ||
+          interaction.status === 'connecting-to-outbound') &&
+          interaction.channelType === 'sms'
       )
 );
 
@@ -85,6 +99,7 @@ export {
   selectActiveNonVoiceInteractions,
   selectActiveVoiceInteraction,
   selectPendingActiveVoiceInteraction,
+  selectPendingActiveSmsInteraction,
   selectNewInteractionPanel,
   selectPendingInteractions,
 };
