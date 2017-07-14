@@ -477,7 +477,8 @@ function agentDesktopReducer(state = initialState, action) {
       if (interactionIndex !== -1) {
         let openContactsPanel;
         const automaticallySelectInteraction =
-          action.newStatus === 'work-accepting' &&
+          (action.newStatus === 'work-accepting' ||
+            action.newStatus === 'work-accepted') &&
           state.get('selectedInteractionId') === undefined;
         let hideNewInteractionPanelOnWorkAccepted = false;
         let newState = state

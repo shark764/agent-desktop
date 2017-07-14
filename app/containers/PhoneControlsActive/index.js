@@ -293,7 +293,7 @@ export class PhoneControlsActive extends React.Component {
                   onClick={this.setHold}
                   style={this.styles.circleIconButtonRow}
                 />
-                {connectingTransfers &&
+                {!connectingTransfers &&
                 <CircleIconButton
                   id="transferButton"
                   name="transfer"
