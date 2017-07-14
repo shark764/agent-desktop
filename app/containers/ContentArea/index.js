@@ -57,15 +57,6 @@ export class ContentArea extends React.Component {
         savingNote: false,
       });
     }
-    if (
-      nextProps.interaction.dispositionDetails.forceSelect &&
-      nextProps.interaction.dispositionDetails.selected.length === 0 &&
-      !nextProps.interaction.wrapupDetails.wrapupEnabled
-    ) {
-      CxEngage.interactions.enableWrapup({
-        interactionId: nextProps.interaction.interactionId,
-      });
-    }
   }
 
   componentWillUnmount() {
@@ -451,13 +442,8 @@ export class ContentArea extends React.Component {
                           icons={false}
                           onChange={this.toggleWrapup}
                           disabled={
-                          this.state.loadingWrapup ||
                           !this.props.interaction.wrapupDetails
-                            .wrapupUpdateAllowed ||
-                          (this.props.interaction.dispositionDetails
-                            .forceSelect &&
-                            this.props.interaction.dispositionDetails.selected
-                              .length === 0)
+                            .wrapupUpdateAllowed || this.state.loadingWrapup
                         }
                           checked={
                           this.props.interaction.wrapupDetails.wrapupEnabled
@@ -539,8 +525,7 @@ export class ContentArea extends React.Component {
                   )}
                 {this.props.interaction.dispositionDetails.selected.length ===
                     0 &&
-                    this.props.interaction.status !==
-                      'work-ended-pending-script'
+                  this.props.interaction.status !== 'work-ended-pending-script'
                     ? [
                       <div
                         onClick={() =>

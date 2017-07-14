@@ -1,3 +1,6 @@
+### [0.43.35] (2017-07-13)
+* CXV1-10329 - fix disposition and wrapup state stuff
+
 ### [0.43.34] (2017-07-13)
 * CXV1-9923 - Prevent flicker on checking contact
 
