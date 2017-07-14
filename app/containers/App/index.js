@@ -425,11 +425,6 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/work-accepted-received': {
-            if (response.wrapupDetails.autoWrapup && !response.wrapupDetails.wrapupEnabled) {
-              CxEngage.interactions.enableWrapup({
-                interactionId: response.interactionId,
-              });
-            }
             this.props.workAccepted(response.interactionId, response);
             break;
           }
