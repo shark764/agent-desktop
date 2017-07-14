@@ -24,11 +24,6 @@ import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
 import {
-  selectCriticalError,
-  selectNonCriticalError,
-} from 'containers/Errors/selectors';
-
-import {
   setInteractionStatus,
   selectInteraction,
   showContactsPanel,
@@ -196,8 +191,6 @@ export class AgentDesktop extends React.Component {
 const mapStateToProps = (state, props) => ({
   login: selectLoginMap(state, props).toJS(),
   agentDesktop: selectAgentDesktopMap(state, props).toJS(),
-  criticalError: selectCriticalError(state, props),
-  nonCriticalError: selectNonCriticalError(state, props),
   isContactsPanelCollapsed: selectIsContactsPanelCollapsed(state, props),
 });
 

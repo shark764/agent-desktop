@@ -56,4 +56,8 @@ export default defineMessages({
     defaultMessage:
       'Outbound email failed. Please try again or refresh your browser.',
   },
+  interactionFailed: {
+    id: 'app.components.Errors.interactionFailed',
+    defaultMessage: 'Your interaction failed, please try again. If this issue continues please contact your administrator.',
+  },
 });

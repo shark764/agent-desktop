@@ -30,7 +30,7 @@ const errorHandler = (error, action, dispatch) => {
     }
     reduxHasErrored = true; // Hacky solution to raven errors still firing after uninstall.
   }
-  dispatch(setCriticalError(null, error));
+  dispatch(setCriticalError(error));
   console.error(error);
 };
 const reduxErrorMiddleware = (store) => (next) => (action) => {

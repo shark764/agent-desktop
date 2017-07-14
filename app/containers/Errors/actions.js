@@ -26,19 +26,18 @@ export function handleSDKError(error, topic) {
   };
 }
 
-export function setCriticalError(topic, error) {
+export function setCriticalError(error) {
   return {
     type: SET_CRITICAL_ERROR,
-    topic,
     error,
   };
 }
 
-export function setNonCriticalError(topic, error) {
+export function setNonCriticalError(error, interactionFatal) {
   return {
     type: SET_NON_CRITICAL_ERROR,
-    topic,
     error,
+    interactionFatal,
   };
 }
 

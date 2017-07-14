@@ -4,6 +4,7 @@
   "app.components.ContactAttribute.call": "Call",
   "app.components.ContactAttribute.email": "Compose Email",
   "app.components.ContactAttribute.sms": "SMS",
+  "app.components.Errors.interactionFailed": "Your interaction failed, please try again. If this issue continues please contact your administrator.",
   "app.components.InfoTab.assigned": "Interaction assigned to contact.",
   "app.components.InfoTab.created": "Contact created.",
   "app.components.InfoTab.deleted": "Contact deleted.",
