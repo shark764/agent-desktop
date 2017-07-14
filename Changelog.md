@@ -1,3 +1,6 @@
+### [0.43.37] (2017-07-14)
+* BUGFIX - Fix displaying of SDK errors
+
 ### [0.43.36] (2017-07-13)
 * CXV1-10467 - add refresh banner to all screens on version bump
 
