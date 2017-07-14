@@ -10,9 +10,7 @@
 
 import { fromJS, Map, List } from 'immutable';
 
-import Interaction, {
-  activeContactFormBlank,
-} from 'models/Interaction/Interaction';
+import Interaction, { activeContactFormBlank } from 'models/Interaction/Interaction';
 import Message from 'models/Message/Message';
 import ResponseMessage from 'models/Message/ResponseMessage';
 
@@ -265,28 +263,38 @@ const setContactInteractionDetails = (interaction, action) =>
     }
   );
 
-const updateContactInteractionDetails = (interaction, action) =>
-  interaction.updateIn(
-    ['contact', 'interactionHistory', 'results'],
-    (interactionHistory) => {
-      if (typeof interactionHistory === 'undefined') {
-        return interactionHistory;
-      }
-      return interactionHistory.map((contactHistoryInteraction) => {
-        if (
-          contactHistoryInteraction.get('interactionId') ===
-          action.interactionId
-        ) {
-          return contactHistoryInteraction.mergeIn(
-            ['interactionDetails'],
-            fromJS(action.interactionDetails)
-          );
-        } else {
-          return contactHistoryInteraction;
+const updateContactInteractionDetails = (interaction, action) => {
+  if (
+    interaction.get('contact') !== undefined &&
+    interaction.getIn(['contact', 'interactionHistory']) !== undefined &&
+    interaction.getIn(['contact', 'interactionHistory', 'results']) !==
+      undefined
+  ) {
+    return interaction.updateIn(
+      ['contact', 'interactionHistory', 'results'],
+      (interactionHistory) => {
+        if (typeof interactionHistory === 'undefined') {
+          return interactionHistory;
         }
-      });
-    }
-  );
+        return interactionHistory.map((contactHistoryInteraction) => {
+          if (
+            contactHistoryInteraction.get('interactionId') ===
+            action.interactionId
+          ) {
+            return contactHistoryInteraction.mergeIn(
+              ['interactionDetails'],
+              fromJS(action.interactionDetails)
+            );
+          } else {
+            return contactHistoryInteraction;
+          }
+        });
+      }
+    );
+  } else {
+    return interaction;
+  }
+};
 
 const updateContactInteractionHistoryResults = (contact, action) => {
   if (contact !== undefined && contact.get('id') === action.contactId) {
@@ -1330,12 +1338,11 @@ function agentDesktopReducer(state = initialState, action) {
             return interaction.update('warmTransfers', (warmTransfers) =>
               warmTransfers.map((warmTransfer) => {
                 if (warmTransfer.get('id') === action.response.result.id) {
-                  const name =
-                    action.response.result.firstName ||
+                  const name = action.response.result.firstName ||
                     action.response.result.lastName
-                      ? `${action.response.result.firstName} ${action.response
-                          .result.lastName}`
-                      : action.response.result.email;
+                    ? `${action.response.result.firstName} ${action.response
+                        .result.lastName}`
+                    : action.response.result.email;
                   return warmTransfer.set('name', name);
                 } else {
                   return warmTransfer;
