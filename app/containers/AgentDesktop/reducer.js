@@ -1170,6 +1170,9 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case SELECT_INTERACTION: {
+      if (!action.interactionId) {
+        return state.set('selectedInteractionId', undefined);
+      }
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state

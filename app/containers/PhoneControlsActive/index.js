@@ -276,39 +276,41 @@ export class PhoneControlsActive extends React.Component {
               onClick={this.endInteraction}
               style={this.styles.circleIconButtonRow}
             />
-            {this.props.activeVoiceInteraction.meOnHold !== true
-              ? <CircleIconButton
-                id="muteButton"
-                name="mute"
-                active={this.props.activeVoiceInteraction.muted}
-                onClick={this.setMute}
-                style={this.styles.circleIconButtonRow}
-              />
+            {this.props.activeVoiceInteraction.status !== 'fatal'
+              ? <span>
+                {this.props.activeVoiceInteraction.meOnHold !== true &&
+                <CircleIconButton
+                  id="muteButton"
+                  name="mute"
+                  active={this.props.activeVoiceInteraction.muted}
+                  onClick={this.setMute}
+                  style={this.styles.circleIconButtonRow}
+                />}
+                <CircleIconButton
+                  id="holdButton"
+                  name="hold"
+                  active={this.props.activeVoiceInteraction.onHold}
+                  onClick={this.setHold}
+                  style={this.styles.circleIconButtonRow}
+                />
+                {connectingTransfers &&
+                <CircleIconButton
+                  id="transferButton"
+                  name="transfer"
+                  active={this.state.showTransferMenu}
+                  onClick={this.toggleTransferMenu}
+                  style={this.styles.circleIconButtonRow}
+                />}
+                {this.props.activeExtension.type !== 'pstn' &&
+                <CircleIconButton
+                  id="dialpadButton"
+                  name="dialpad"
+                  active={this.state.showActiveInteractionDialpad}
+                  onClick={this.toggleDialpad}
+                  style={this.styles.circleIconButtonRow}
+                />}
+              </span>
               : undefined}
-            <CircleIconButton
-              id="holdButton"
-              name="hold"
-              active={this.props.activeVoiceInteraction.onHold}
-              onClick={this.setHold}
-              style={this.styles.circleIconButtonRow}
-            />
-            {!connectingTransfers
-              ? <CircleIconButton
-                id="transferButton"
-                name="transfer"
-                active={this.state.showTransferMenu}
-                onClick={this.toggleTransferMenu}
-                style={this.styles.circleIconButtonRow}
-              />
-              : undefined}
-            {this.props.activeExtension.type !== 'pstn' &&
-              <CircleIconButton
-                id="dialpadButton"
-                name="dialpad"
-                active={this.state.showActiveInteractionDialpad}
-                onClick={this.toggleDialpad}
-                style={this.styles.circleIconButtonRow}
-              />}
           </div>
         </div>
         {this.state.showTransferMenu && !connectingTransfers

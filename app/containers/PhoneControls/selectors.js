@@ -17,7 +17,8 @@ const selectActiveVoiceInteraction = createSelector(
       .toJS()
       .find(
         (interaction) =>
-          interaction.status === 'work-accepted' &&
+          (interaction.status === 'work-accepted' ||
+            interaction.status === 'fatal') &&
           interaction.channelType === 'voice'
       );
     return activeVoiceInteraction;

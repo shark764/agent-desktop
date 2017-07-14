@@ -1,3 +1,6 @@
+### [0.43.42] (2017-07-14)
+* BUGFIX - Handle voice interaction on interaction fatal gracefully
+
 ### [0.43.41] (2017-07-14)
 * BUGFIX - Don't blow up on interaction history transcript/recording updates out of order.
 
