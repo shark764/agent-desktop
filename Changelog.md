@@ -1,3 +1,6 @@
+### [0.43.41] (2017-07-14)
+* BUGFIX - Don't blow up on interaction history transcript/recording updates out of order.
+
 ### [0.43.40] (2017-07-14)
 * CXV1-9785 - Bump SDK to 5.3.22, fixes twilio connection staying open for agent on interaction 404
 
