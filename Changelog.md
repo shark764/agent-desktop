@@ -1,3 +1,6 @@
+### [0.43.40] (2017-07-14)
+* CXV1-9785 - Bump SDK to 5.3.22, fixes twilio connection staying open for agent on interaction 404
+
 ### [0.43.39] (2017-07-14)
 * CXV1-10434 - Fatal Error on Interactions Handling
 
