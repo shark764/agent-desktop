@@ -9,8 +9,11 @@ import { loginError, serviceError } from 'containers/Login/actions';
 import {
   removeInvalidExtension,
   removeInteractionHard,
+  setInteractionStatus,
+  selectInteraction,
 } from 'containers/AgentDesktop/actions';
 import {
+  selectActiveVoiceInteraction,
   selectPendingActiveVoiceInteraction,
   selectPendingActiveSmsInteraction,
 } from 'containers/InteractionsBar/selectors';
@@ -54,6 +57,25 @@ export function* goHandleSDKError(action) {
     'cxengage/errors/error/failed-to-create-outbound-email-interaction'
   ) {
     forceFatalInteraction = true;
+  } else if (
+    error.level === 'interaction-fatal' &&
+    topic !== 'cxengage/interactions/voice/force-killed-twilio-connection' &&
+    error.context === 'voice'
+  ) {
+    const fatalVoiceInteraction = yield select(selectActiveVoiceInteraction);
+    if (
+      error.data &&
+      error.data.interactionId &&
+      fatalVoiceInteraction &&
+      fatalVoiceInteraction.interactionId === error.data.interactionId
+    ) {
+      yield put(
+        setInteractionStatus(fatalVoiceInteraction.interactionId, 'fatal')
+      );
+      yield put(selectInteraction(undefined));
+      yield put(setNonCriticalError(error));
+      return;
+    }
   } else if (error.code === 3000) {
     if (action.error.data.apiResponse.status === 401) {
       yield put(loginError());
