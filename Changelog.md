@@ -1,3 +1,6 @@
+### [0.43.43] (2017-07-14)
+* BUGFIX - Focus PSTN on accept. Bring back transfer button.
+
 ### [0.43.42] (2017-07-14)
 * BUGFIX - Handle voice interaction on interaction fatal gracefully
 
