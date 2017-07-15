@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "0.43.43",
+  "version": "0.43.44",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -243,7 +243,7 @@
     "express": "4.15.3",
     "font-awesome": "4.7.0",
     "google-libphonenumber": "2.0.15",
-    "immutable": "3.8.1",
+    "immutable": "v4.0.0-rc.2",
     "intl": "1.2.5",
     "ip": "1.1.5",
     "lodash": "4.17.4",
