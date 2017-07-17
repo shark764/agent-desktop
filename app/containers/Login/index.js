@@ -62,6 +62,11 @@ const styles = {
     color: '#494949',
     overflowY: 'auto',
   },
+  toolbarBase: {
+    backgroundColor: '#FFFFFF',
+    height: '100%',
+    paddingTop: '120px',
+  },
   center: {
     order: '0',
     flex: '0 0 auto',
@@ -438,6 +443,36 @@ export class Login extends React.Component {
       />
     </div>;
 
+  getLanguageSelect = () =>
+    <div style={styles.languageMenu}>
+      <FontAwesomeIcon
+        id={'localeIcon'}
+        name={'globe'}
+        style={styles.languageIcon}
+        onclick={this.toggleLanguageMenu}
+      />
+      <PopupDialog
+        style={styles.languageDialog}
+        isVisible={this.state.showLanguage}
+        hide={this.toggleLanguageMenu}
+        widthPx={200}
+        arrowLeftOffsetPx={14}
+      >
+        <Select
+          id={'locale'}
+          style={styles.languageSelect}
+          value={this.props.locale}
+          options={mappedLocales}
+          onChange={(e) => {
+            this.props.changeLocale(e.value);
+            this.setLocalLocale(e.value);
+            this.toggleLanguageMenu();
+          }}
+          clearable={false}
+        />
+      </PopupDialog>
+    </div>;
+
   setRequestingPassword = () => {
     this.setState({ requestingPassword: true });
   };
@@ -488,8 +523,6 @@ export class Login extends React.Component {
   };
 
   render() {
-    console.log('toolbarMode:', this.context.toolbarMode);
-
     let pageContent;
     if (this.props.loading) {
       pageContent = this.getLoadingContent();
@@ -511,60 +544,42 @@ export class Login extends React.Component {
       styles.base.backgroundColor = '#002855';
     }
 
-    return (
-      <div style={styles.base}>
-        <div
-          style={[
-            styles.container,
-            {
-              height: '100%',
-              minHeight: '800px',
-            },
-          ]}
-        >
-          {this.getErrors()}
-          <Dialog style={styles.center}>
-            {pageContent}
-          </Dialog>
-          <div style={styles.languageMenu}>
-            <FontAwesomeIcon
-              id={'localeIcon'}
-              name={'globe'}
-              style={styles.languageIcon}
-              onclick={this.toggleLanguageMenu}
-            />
-            <PopupDialog
-              style={styles.languageDialog}
-              isVisible={this.state.showLanguage}
-              hide={this.toggleLanguageMenu}
-              widthPx={200}
-              arrowLeftOffsetPx={14}
-            >
-              <Select
-                id={'locale'}
-                style={styles.languageSelect}
-                value={this.props.locale}
-                options={mappedLocales}
-                onChange={(e) => {
-                  this.props.changeLocale(e.value);
-                  this.setLocalLocale(e.value);
-                  this.toggleLanguageMenu();
-                }}
-                clearable={false}
-              />
-            </PopupDialog>
-          </div>
-          <div style={styles.copyright}>
-            <div style={styles.copyrightText} id="serenova_copyright">
-              <FormattedMessage {...messages.copyright} />
-            </div>
-            <div style={styles.legalText} id="serenova_legal">
-              <FormattedMessage {...messages.legal} />
+    if (this.context.toolbarMode) {
+      return (
+        <div style={styles.toolbarBase}>
+          {pageContent}
+          {this.getLanguageSelect()}
+        </div>
+      );
+    } else {
+      return (
+        <div style={styles.base}>
+          <div
+            style={[
+              styles.container,
+              {
+                height: '100%',
+                minHeight: '800px',
+              },
+            ]}
+          >
+            {this.getErrors()}
+            <Dialog style={styles.center}>
+              {pageContent}
+            </Dialog>
+            {this.getLanguageSelect()}
+            <div style={styles.copyright}>
+              <div style={styles.copyrightText} id="serenova_copyright">
+                <FormattedMessage {...messages.copyright} />
+              </div>
+              <div style={styles.legalText} id="serenova_legal">
+                <FormattedMessage {...messages.legal} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

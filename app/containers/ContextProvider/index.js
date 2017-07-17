@@ -1,4 +1,7 @@
 /*
+ * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ */
+/*
  *
  * ContextProvider
  *
@@ -7,33 +10,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export class ContextProvider extends React.Component { // eslint-disable-line react/prefer-stateless-function
-
+export class ContextProvider extends React.Component {
   getChildContext() {
-    let toolbarMode = false;
-
-    if (window.location.pathname === '/toolbar') {
-      toolbarMode = true;
-    }
-
     return {
-      toolbarMode,
+      toolbarMode: window.location.pathname === '/toolbar',
     };
   }
 
   render() {
-    return (
-      <div>
-        { this.props.children }
-      </div>
-    );
+    return this.props.children;
   }
 }
 
 ContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
 
 ContextProvider.childContextTypes = {
   toolbarMode: PropTypes.bool,
