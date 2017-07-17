@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ContextProvider /> should set toolbarMode flag correctly 1`] = `
+<ContextProvider>
+  <TestApp>
+    <div>
+      Desktop
+    </div>
+  </TestApp>
+</ContextProvider>
+`;
+
+exports[`<ContextProvider /> should set toolbarMode flag correctly when url for toolbar is hit 1`] = `
+<ContextProvider>
+  <TestApp>
+    <div>
+      Toolbar
+    </div>
+  </TestApp>
+</ContextProvider>
+`;
