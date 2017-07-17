@@ -17,6 +17,7 @@ describe('startOutboundEmailSaga', () => {
     contact: {
       id: '12345-6789',
     },
+    addedByNewInteractionPanel: true,
   };
   const generator = startOutboundEmailSaga(mockAction);
   it('should call the promise util with the SDK startOutboundEmailSaga and the correct arguments', () => {
@@ -38,5 +39,5 @@ describe('startOutboundEmailSaga', () => {
   });
   it('should add the notification bar that tells the user that a contact has been assigned to the interaction', () => {
     expect(generator.next()).toMatchSnapshot();
-  });  
+  });
 });

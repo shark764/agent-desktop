@@ -10,7 +10,9 @@
 
 import { fromJS, Map, List } from 'immutable';
 
-import Interaction, { activeContactFormBlank } from 'models/Interaction/Interaction';
+import Interaction, {
+  activeContactFormBlank,
+} from 'models/Interaction/Interaction';
 import Message from 'models/Message/Message';
 import ResponseMessage from 'models/Message/ResponseMessage';
 
@@ -652,7 +654,8 @@ function agentDesktopReducer(state = initialState, action) {
           )
           .update('newInteractionPanel', (newInteractionPanel) => {
             if (
-              action.channelType === 'sms' &&
+              (action.channelType === 'sms' ||
+                action.channelType === 'email') &&
               action.addedByNewInteractionPanel
             ) {
               return fromJS(blankNewInteractionPanel);
@@ -1342,11 +1345,12 @@ function agentDesktopReducer(state = initialState, action) {
             return interaction.update('warmTransfers', (warmTransfers) =>
               warmTransfers.map((warmTransfer) => {
                 if (warmTransfer.get('id') === action.response.result.id) {
-                  const name = action.response.result.firstName ||
+                  const name =
+                    action.response.result.firstName ||
                     action.response.result.lastName
-                    ? `${action.response.result.firstName} ${action.response
-                        .result.lastName}`
-                    : action.response.result.email;
+                      ? `${action.response.result.firstName} ${action.response
+                          .result.lastName}`
+                      : action.response.result.email;
                   return warmTransfer.set('name', name);
                 } else {
                   return warmTransfer;

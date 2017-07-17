@@ -101,7 +101,7 @@ Object {
     "@@redux-saga/IO": true,
     "PUT": Object {
       "action": Object {
-        "addedByNewInteractionPanel": false,
+        "addedByNewInteractionPanel": true,
         "channelType": "email",
         "contact": Object {
           "id": "12345-6789",

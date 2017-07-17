@@ -143,7 +143,11 @@ export class ContactView extends React.Component {
   };
 
   startEmail = (value) => {
-    this.props.startOutboundEmail(value, this.props.contact);
+    this.props.startOutboundEmail(
+      value,
+      this.props.contact,
+      this.props.selectedInteractionIsCreatingNewInteraction
+    );
   };
 
   assignContact = () => {
@@ -241,8 +245,10 @@ function mapDispatchToProps(dispatch) {
           addedByNewInteractionPanel
         )
       ),
-    startOutboundEmail: (customer, contact) =>
-      dispatch(startOutboundEmail(customer, contact)),
+    startOutboundEmail: (customer, contact, addedByNewInteractionPanel) =>
+      dispatch(
+        startOutboundEmail(customer, contact, addedByNewInteractionPanel)
+      ),
     assignContact: (interactionId, contact) =>
       dispatch(assignContact(interactionId, contact)),
     dispatch,

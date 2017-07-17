@@ -1,3 +1,6 @@
+### [0.43.44] (2017-07-17)
+* CXV1-10468 - Close new interaction panel on click to email.
+
 ### [0.43.44] (2017-07-15)
 * Upgrade Immutable library for improved keypath error messages.
 
