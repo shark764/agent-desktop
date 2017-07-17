@@ -28,7 +28,7 @@ export function* startOutboundEmailSaga(action) {
         'email',
         action.customer,
         action.contact,
-        false,
+        action.addedByNewInteractionPanel,
         response.interactionId
       )
     );
