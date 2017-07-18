@@ -1,6 +1,7 @@
 ### [Unreleased] ()
 * CXV1-9000 - Added Context Flag based on url + tests
-* CXV1-9003 - Toolbar styling for Login
+* CXV1-9001 - Toolbar styling for Login
+* CXV1-9003 - Toolbar styling for Messaging interactions (templates)
 
 ### [1.0.1] (2017-07-18)
 * CXV1-10571 - Fix critical error on contact history from click to email

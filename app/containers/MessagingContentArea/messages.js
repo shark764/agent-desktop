@@ -24,11 +24,11 @@ export default defineMessages({
   },
   toNavigate: {
     id: 'app.containers.MessagingContentArea.toNavigate',
-    defaultMessage: 'to navigate',
+    defaultMessage: 'navigate',
   },
   toSelect: {
     id: 'app.containers.MessagingContentArea.toSelect',
-    defaultMessage: 'to select',
+    defaultMessage: 'select',
   },
   esc: {
     id: 'app.containers.MessagingContentArea.esc',
@@ -36,7 +36,7 @@ export default defineMessages({
   },
   toDismiss: {
     id: 'app.containers.MessagingContentArea.toDismiss',
-    defaultMessage: 'to dismiss',
+    defaultMessage: 'dismiss',
   },
   send: {
     id: 'app.containers.MessagingContentArea.send',

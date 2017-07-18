@@ -3,6 +3,7 @@
  */
 
 import cloneDeep from 'lodash/cloneDeep';
+import { activeContactFormBlank } from 'models/Interaction/Interaction';
 
 const processedDispositionDetails = {
   dispositions: [
@@ -687,6 +688,7 @@ const smsInteractionWithLotsOfMessagesAndScript = {
   },
   sidePanelTabIndex: 0,
   dispositionDetails: processedDispositionDetails,
+  activeContactForm: activeContactFormBlank,
   script: {
     elements: [
       {
@@ -766,7 +768,7 @@ const smsInteractionWithLotsOfMessagesAndScript = {
       timestamp: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString(),
       unread: false,
     }, {
-      text: 'this is a test',
+      text: 'long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long',
       from: '+15552213456',
       type: 'sms',
       timestamp: new Date().toISOString(),
