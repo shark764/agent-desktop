@@ -77,6 +77,7 @@ const voiceInteraction = {
   number: '+3134126623',
   query: {},
   dispositionDetails: processedDispositionDetails,
+  activeContactForm: activeContactFormBlank,
   wrapupDetails: {
     wrapupUpdateAllowed: true,
     wrapupEnabled: true,
@@ -100,6 +101,7 @@ const voiceInteractionWithTransfersAndScripts = {
   number: '+3134126623',
   query: {},
   dispositionDetails: processedDispositionDetails,
+  activeContactForm: activeContactFormBlank,
   wrapupDetails: {
     wrapupUpdateAllowed: true,
     wrapupEnabled: true,
