@@ -69,7 +69,7 @@ export default class Interaction {
       title: '',
       notesPanelHeight: 300,
     });
-    this.contact = contact ? new Map(contact) : undefined;
+    this.contact = contact ? fromJS(contact) : undefined;
     this.query = new Map();
     this.sidePanelTabIndex = 0;
     if (hideNewInteractionPanelOnWorkAccepted !== undefined) {

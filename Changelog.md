@@ -1,3 +1,6 @@
+### [1.0.1] (2017-07-18)
+* CXV1-10571 - Fix critical error on contact history from click to email
+
 ### [1.0.0] (2017-07-17)
 * 1.0.0 !!!!!
 
