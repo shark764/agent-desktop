@@ -1,16 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<CircleIconButton /> should render correctly 1`] = `
-<button
+exports[`<CircleIconButton /> should correctly render HTML (or a component) that was inserted inside of the component using the innerElement prop 1`] = `
+<div
   data-radium={true}
   id="mockId"
   onBlur={[Function]}
   onClick={[Function]}
   onFocus={[Function]}
+  role="button"
   style={
     Object {
       "border": "none",
       "borderRadius": "50%",
+      "display": "inline-block",
       "outline": "none",
       "padding": 0,
     }
@@ -27,15 +29,60 @@ exports[`<CircleIconButton /> should render correctly 1`] = `
           },
           "border": "none",
           "borderRadius": "50%",
+          "display": "inline-block",
           "outline": "none",
           "padding": 0,
         },
         undefined,
-        Object {
-          "margin": "none",
-        },
+        undefined,
       ]
     }
   />
-</button>
+  <div>
+    <div>
+      Inner Element
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<CircleIconButton /> should render correctly 1`] = `
+<div
+  data-radium={true}
+  id="mockId"
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  role="button"
+  style={
+    Object {
+      "border": "none",
+      "borderRadius": "50%",
+      "display": "inline-block",
+      "outline": "none",
+      "padding": 0,
+    }
+  }
+>
+  <Icon
+    id="mockId-icon"
+    name="config"
+    style={
+      Array [
+        Object {
+          ":focus": Object {
+            "border": "none",
+          },
+          "border": "none",
+          "borderRadius": "50%",
+          "display": "inline-block",
+          "outline": "none",
+          "padding": 0,
+        },
+        undefined,
+        undefined,
+      ]
+    }
+  />
+</div>
 `;

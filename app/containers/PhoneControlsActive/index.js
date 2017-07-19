@@ -153,6 +153,7 @@ export class PhoneControlsActive extends React.Component {
     },
     circleIconButtonRow: {
       padding: '0 1.5px',
+      position: 'relative',
     },
     activeVoiceInteractionDialpadTopTriangle: {
       marginLeft: '219px',
@@ -186,6 +187,33 @@ export class PhoneControlsActive extends React.Component {
     warmTransfersContainer: {
       marginTop: '7px',
     },
+    dialpadInnerStyles: {
+      left: '-154px',
+    },
+    dialpadTriangleStyles: {
+      left: '-207px',
+    },
+  };
+
+  renderDialPad = (showDialpad) => {
+    if (showDialpad) {
+      return (
+        <Dialpad
+          id="activeInteractionDialpad"
+          interactionId={this.props.activeVoiceInteraction.interactionId}
+          setDialpadText={this.setActiveInteractionDialpadText}
+          dialpadText={this.state.activeInteractionDialpadText}
+          inCall
+          toggle={this.toggleDialpad}
+          active
+          transfer={false}
+          dialpadInnerStyles={this.styles.dialpadInnerStyles}
+          dialpadTriangleStyles={this.styles.dialpadTriangleStyles}
+        />
+      );
+    }
+
+    return null;
   };
 
   render() {
@@ -308,6 +336,9 @@ export class PhoneControlsActive extends React.Component {
                   active={this.state.showActiveInteractionDialpad}
                   onClick={this.toggleDialpad}
                   style={this.styles.circleIconButtonRow}
+                  innerElement={this.renderDialPad(
+                        this.state.showActiveInteractionDialpad
+                      )}
                 />}
               </span>
               : undefined}
@@ -341,18 +372,6 @@ export class PhoneControlsActive extends React.Component {
               />
             </div>
           </div>
-          : undefined}
-        {this.state.showActiveInteractionDialpad
-          ? <Dialpad
-            id="activeInteractionDialpad"
-            interactionId={this.props.activeVoiceInteraction.interactionId}
-            setDialpadText={this.setActiveInteractionDialpadText}
-            dialpadText={this.state.activeInteractionDialpadText}
-            inCall
-            toggle={this.toggleDialpad}
-            active
-            transfer={false}
-          />
           : undefined}
         {this.props.activeVoiceInteraction.meOnHold === true
           ? <Button

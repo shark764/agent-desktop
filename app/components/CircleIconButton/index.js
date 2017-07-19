@@ -23,18 +23,20 @@ const styles = {
     ':focus': {
       border: 'none',
     },
-  },
-  icon: {
-    margin: 'none',
+    display: 'inline-block',
   },
 };
 
 function CircleIconButton(props) {
   return (
-    <button
+    // using a div instead of a button here since we're now allowing
+    // HTML into the button for the purpose of more simpler dynamic
+    // positioning, using "role" attribute for semantics and accessibility
+    <div
       id={props.id}
       style={[styles.base, props.style]}
       onClick={props.onClick}
+      role="button"
     >
       <Icon
         id={`${props.id}-icon`}
@@ -42,7 +44,12 @@ function CircleIconButton(props) {
         active={props.active}
         style={[styles.base, props.style, styles.icon]}
       />
-    </button>
+      { props.innerElement &&
+        <div>
+          {props.innerElement}
+        </div>
+      }
+    </div>
   );
 }
 
@@ -51,6 +58,7 @@ CircleIconButton.propTypes = {
   name: PropTypes.string.isRequired,
   style: PropTypes.object,
   active: PropTypes.bool,
+  innerElement: PropTypes.element,
   onClick: PropTypes.func.isRequired,
 };
 

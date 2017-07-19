@@ -96,6 +96,7 @@ function Dialpad(props) {
             !props.transfer && props.active
               ? styles.activeVoiceInteractionDialpadTopTriangle
               : styles.inactiveVoiceInteractionDialpadTopTriangle,
+            props.dialpadTriangleStyles,
           ]}
         />}
       <div
@@ -105,6 +106,7 @@ function Dialpad(props) {
             (props.active
               ? styles.activeVoiceInteractionDialpadPhoneControlsPopupMenu
               : styles.inactiveVoiceInteractionDialpadPhoneControlsPopupMenu),
+          props.dialpadInnerStyles,
         ]}
       >
         <div id={props.id} style={{ zIndex: '4' }}>
@@ -209,6 +211,8 @@ Dialpad.propTypes = {
   toggle: PropTypes.func,
   active: PropTypes.bool.isRequired,
   transfer: PropTypes.bool.isRequired,
+  dialpadInnerStyles: PropTypes.object,
+  dialpadTriangleStyles: PropTypes.object,
 };
 
 export default Radium(Dialpad);
