@@ -1,4 +1,5 @@
 ### [Unreleased] ()
+* BUGFIX - SDK version bump to 5.3.27-SNAPSHOT
 * CXV1-9000 - Added Context Flag based on url + tests
 * CXV1-9001 - Toolbar styling for Login
 * CXV1-9003 - Toolbar styling for Messaging interactions (templates)
