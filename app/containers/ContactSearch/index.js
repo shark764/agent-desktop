@@ -169,9 +169,9 @@ export class ContactSearch extends React.Component {
   };
 
   getLoader = () =>
-    <div id="loadingContainer" style={styles.loading}>
+    (<div id="loadingContainer" style={styles.loading}>
       <IconSVG style={styles.loadingIcon} id="loadingIcon" name="loading" />
-    </div>;
+    </div>);
 
   setSearchInputElement = (element) => {
     if (element) {
@@ -288,7 +288,7 @@ export class ContactSearch extends React.Component {
           />
           <div style={styles.filtersWrapper}>
             {this.props.query.map((filter) =>
-              <Filter
+              (<Filter
                 key={filter.attribute.objectName}
                 name={filter.label}
                 value={filter.value}
@@ -296,7 +296,7 @@ export class ContactSearch extends React.Component {
                   this.props.removeSearchFilter(filter.attribute.objectName)}
                 style={styles.filter}
                 disabled={this.props.searchPending}
-              />
+              />)
             )}
           </div>
         </div>

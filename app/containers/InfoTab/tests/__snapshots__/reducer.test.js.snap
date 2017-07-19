@@ -1,28 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`infoTabReducer SET_CRM_UNAVAILABLE if reason is a string sets crmUnavailable to the reason 1`] = `
-Object {
-  "crmUnavailable": "mockReason",
+Immutable.Map {
+  crmUnavailable: "mockReason",
 }
 `;
 
 exports[`infoTabReducer SET_CRM_UNAVAILABLE if reason is undefined sets crmUnavailable to generalError 1`] = `
-Object {
-  "crmUnavailable": "generalError",
+Immutable.Map {
+  crmUnavailable: "generalError",
 }
 `;
 
 exports[`infoTabReducer returns the initial state 1`] = `
-Object {
-  "checkedContacts": Array [],
-  "confirmingDelete": false,
-  "deletionPending": false,
-  "loading": false,
-  "nextNotificationId": 0,
-  "nextPage": 1,
-  "notifications": Array [],
-  "results": Array [],
-  "resultsCount": -1,
-  "searchPending": false,
+Immutable.Map {
+  nextPage: 1,
+  notifications: Immutable.List [
+  ],
+  deletionPending: false,
+  confirmingDelete: false,
+  searchPending: false,
+  results: Immutable.List [
+  ],
+  nextNotificationId: 0,
+  resultsCount: -1,
+  checkedContacts: Immutable.List [
+  ],
+  loading: false,
 }
 `;

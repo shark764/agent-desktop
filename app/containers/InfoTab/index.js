@@ -111,7 +111,7 @@ export class InfoTab extends React.Component {
   };
 
   crmUnavailableBanner = () =>
-    <div style={[this.props.style, this.styles.base]}>
+    (<div style={[this.props.style, this.styles.base]}>
       <NotificationBanner
         id="crm-unavailable-banner"
         key="crm-unavailable-banner"
@@ -122,7 +122,7 @@ export class InfoTab extends React.Component {
         }
         isError
       />
-    </div>;
+    </div>);
 
   render() {
     if (this.props.crmUnavailable) {
@@ -133,7 +133,7 @@ export class InfoTab extends React.Component {
     return (
       <div style={[this.props.style, this.styles.base]}>
         {this.props.notifications.map((notification, index) =>
-          <NotificationBanner
+          (<NotificationBanner
             id={`contactNotification${index}`}
             key={notification.id}
             style={this.styles.notificationBanner}
@@ -146,7 +146,7 @@ export class InfoTab extends React.Component {
               messages[notification.messageType] || messages.notSaved
             }
             isError={notification.isError}
-          />
+          />)
         )}
         <ContactHeader
           editAssignedContact={this.editAssignedContact}

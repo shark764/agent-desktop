@@ -327,7 +327,7 @@ export class PhoneControlsActive extends React.Component {
           // the index being appended to the key is a temporary anti-pattern to protect us from
           // duplicate keys now that queues and resource ID's both live in the props,
           // will be addressed by CXV1-8563
-          <TransferResource
+          (<TransferResource
             key={`${warmTransfer.targetResource
               ? warmTransfer.targetResource
               : warmTransfer.id}_${index}`}
@@ -341,7 +341,7 @@ export class PhoneControlsActive extends React.Component {
               this.setSelectedTransferResourceMenu
             }
             style={this.props.style}
-          />
+          />)
       );
       warmTransfers = (
         <div style={this.styles.warmTransfersContainer}>

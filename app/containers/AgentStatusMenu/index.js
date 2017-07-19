@@ -287,7 +287,7 @@ export class AgentStatusMenu extends React.Component {
             disabled={this.props.readyState === 'ready'}
             isOpen={this.state.showPathwayMenu}
             subMenuRows={this.props.extensions.map((extension) =>
-              <MenuRow
+              (<MenuRow
                 key={extension.value}
                 id={extension.value}
                 rowText={extension.description}
@@ -296,7 +296,7 @@ export class AgentStatusMenu extends React.Component {
                   this.setState({ showPathwayMenu: false });
                   this.props.showAgentStatusMenu(false);
                 }}
-              />
+              />)
             )}
             style={{ borderBottom: 'solid 1px #e4e4e4' }}
           />

@@ -273,13 +273,13 @@ export class Login extends React.Component {
   };
 
   getLoadingContent = () =>
-    <div
+    (<div
       id="loginContainerDiv"
       style={Object.assign({}, styles.container, { justifyContent: 'center' })}
     >
       <Logo style={{ marginTop: '50px' }} width="275px" />
       <IconSVG id="loadingIcon" name="loading" style={{ marginTop: '50px' }} />
-    </div>;
+    </div>);
 
   getLoggedInContent = () => {
     const tenantOptions = this.props.agent.tenants.map((tenant) => ({
@@ -356,7 +356,7 @@ export class Login extends React.Component {
   };
 
   getLoginContent = () =>
-    <div
+    (<div
       id="loginContainerDiv"
       style={Object.assign({}, styles.container, { justifyContent: 'center' })}
     >
@@ -408,10 +408,10 @@ export class Login extends React.Component {
       {/* Hide until we implement the feature
         <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
       */}
-    </div>;
+    </div>);
 
   getForgotContent = () =>
-    <div
+    (<div
       style={Object.assign({}, styles.container, { justifyContent: 'center' })}
     >
       <Logo style={{ marginTop: '50px' }} width="275px" />
@@ -441,10 +441,10 @@ export class Login extends React.Component {
         style={{ marginTop: '17px' }}
         onClick={this.unsetRequestingPassword}
       />
-    </div>;
+    </div>);
 
   getLanguageSelect = () =>
-    <div style={styles.languageMenu}>
+    (<div style={styles.languageMenu}>
       <FontAwesomeIcon
         id={'localeIcon'}
         name={'globe'}
@@ -471,7 +471,7 @@ export class Login extends React.Component {
           clearable={false}
         />
       </PopupDialog>
-    </div>;
+    </div>);
 
   setRequestingPassword = () => {
     this.setState({ requestingPassword: true });

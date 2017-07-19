@@ -83,7 +83,7 @@ class MenuDialogLink extends React.Component {
           >
             <div style={styles.container}>
               {this.props.options.map((option, index) =>
-                <Button
+                (<Button
                   key={`menuOption-${index}`}
                   id={`menuOption-${index}`}
                   onClick={() => this.handleButtonAction(option.action)}
@@ -95,7 +95,7 @@ class MenuDialogLink extends React.Component {
                     index > 0 ? styles.leftButtonBorder : {},
                   ]}
                   text={option.message}
-                />
+                />)
               )}
             </div>
           </PopupDialog>
