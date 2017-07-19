@@ -357,7 +357,7 @@ export class ContentArea extends React.Component {
   };
 
   renderCategory = (category) =>
-    <div
+    (<div
       key={`category-${category.name}`}
       id={`category-${category.name}`}
       title={category.name}
@@ -368,10 +368,10 @@ export class ContentArea extends React.Component {
       <div style={this.styles.dispositionsContainer}>
         {category.dispositions.map(this.renderDisposition)}
       </div>
-    </div>;
+    </div>);
 
   renderDisposition = (disposition) =>
-    <div
+    (<div
       key={`disposition-${disposition.dispositionId}`}
       id={`disposition-${disposition.dispositionId}`}
       title={disposition.name}
@@ -385,7 +385,7 @@ export class ContentArea extends React.Component {
         style={{ width: '100%' }}
         disabled={this.state.loadingDisposition}
       />
-    </div>;
+    </div>);
 
   deselectDisposition = () => {
     this.setState({
@@ -441,7 +441,7 @@ export class ContentArea extends React.Component {
           >
             {this.props.interaction.dispositionDetails.selected.map(
                 (disposition) =>
-                  <div
+                  (<div
                     id={`selected-disposition-${disposition.dispositionId}`}
                     key={`selected-disposition-${disposition.dispositionId}`}
                     title={disposition.name}
@@ -461,7 +461,7 @@ export class ContentArea extends React.Component {
                       onClick={this.deselectDisposition}
                       disabled={this.state.loadingDisposition}
                     />
-                  </div>
+                  </div>)
               )}
             {this.props.interaction.dispositionDetails.selected.length ===
                 0 &&

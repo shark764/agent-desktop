@@ -277,14 +277,14 @@ export class ContactInteractionHistory extends React.Component {
         return <FormattedMessage {...messages.noRecordings} />;
       }
       return recordings.map((recordingUrl) =>
-        <audio
+        (<audio
           key={recordingUrl}
           src={recordingUrl}
           ref={this.addControlsListAttribute}
           style={this.styles.audio}
           controls
           onContextMenu={(event) => event.preventDefault()}
-        />
+        />)
       );
     };
     switch (interactionDetails.channelType) {

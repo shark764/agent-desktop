@@ -128,7 +128,7 @@ export class MessagingContentArea extends React.Component {
     let details;
     if (this.props.selectedInteraction.customFields) {
       details = this.props.selectedInteraction.customFields.map((customField) =>
-        <div
+        (<div
           key={customField.label + customField.value}
           style={this.styles.customField}
         >
@@ -138,7 +138,7 @@ export class MessagingContentArea extends React.Component {
           <div style={this.styles.customFieldValue}>
             {customField.value}
           </div>
-        </div>
+        </div>)
       );
     } else {
       details = '';

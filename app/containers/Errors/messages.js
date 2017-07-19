@@ -58,6 +58,7 @@ export default defineMessages({
   },
   interactionFailed: {
     id: 'app.components.Errors.interactionFailed',
-    defaultMessage: 'Your interaction failed, please try again. If this issue continues please contact your administrator.',
+    defaultMessage:
+      'Your interaction failed, please try again. If this issue continues please contact your administrator.',
   },
 });

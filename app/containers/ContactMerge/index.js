@@ -347,10 +347,10 @@ export class ContactMerge extends React.Component {
   };
 
   generateSection = (section) =>
-    <div style={styles.section} key={section.label[this.props.intl.locale]}>
+    (<div style={styles.section} key={section.label[this.props.intl.locale]}>
       <ContactSectionHeader label={section.label[this.props.intl.locale]} />
       {section.attributes.map(this.generateAttributeRow)}
-    </div>;
+    </div>);
 
   showConfirmDialog = () => {
     this.props.setShowConfirmDialog(true);

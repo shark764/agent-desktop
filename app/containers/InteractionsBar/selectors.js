@@ -57,7 +57,7 @@ const selectPendingActiveVoiceInteraction = createSelector(
       .find(
         (interaction) =>
           (interaction.status === 'initializing-outbound' ||
-          interaction.status === 'connecting-to-outbound') &&
+            interaction.status === 'connecting-to-outbound') &&
           interaction.channelType === 'voice'
       )
 );
@@ -70,7 +70,7 @@ const selectPendingActiveSmsInteraction = createSelector(
       .find(
         (interaction) =>
           (interaction.status === 'initializing-outbound' ||
-          interaction.status === 'connecting-to-outbound') &&
+            interaction.status === 'connecting-to-outbound') &&
           interaction.channelType === 'sms'
       )
 );

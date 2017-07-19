@@ -59,7 +59,7 @@ export class VoiceContentArea extends React.Component {
 
     const details = this.props.selectedInteraction.customFields
       ? this.props.selectedInteraction.customFields.map((customField) =>
-        <div
+        (<div
           key={customField.label + customField.value}
           style={this.styles.customField}
         >
@@ -69,7 +69,7 @@ export class VoiceContentArea extends React.Component {
           <div style={this.styles.customFieldValue}>
             {customField.value}
           </div>
-        </div>
+        </div>)
         )
       : '';
 

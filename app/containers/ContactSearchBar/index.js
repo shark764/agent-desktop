@@ -103,7 +103,7 @@ export class ContactSearchBar extends React.Component {
   };
 
   createDropdownItem = (item, isHighlighted) =>
-    <div
+    (<div
       key={item.id}
       style={Object.assign(
         {},
@@ -112,7 +112,7 @@ export class ContactSearchBar extends React.Component {
       )}
     >
       {this.getLabel(item)}
-    </div>;
+    </div>);
 
   styles = {
     base: {

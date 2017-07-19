@@ -421,7 +421,7 @@ export class TransferMenu extends React.Component {
 
   render() {
     const queues = this.filterTransferListItems(this.props.queues).map((queue) =>
-      <div
+      (<div
         id={queue.id}
         key={queue.id}
         className="queueTransferListItem"
@@ -437,7 +437,7 @@ export class TransferMenu extends React.Component {
             ? <TimeStat time={queue.queueTime} unit="millis" />
             : undefined}
         </span>
-      </div>
+      </div>)
     );
 
     let agents;
@@ -538,7 +538,7 @@ export class TransferMenu extends React.Component {
               }
             })
             .map((transferListItem) =>
-              <div
+              (<div
                 id={`${transferList.id}-${hierarchy}-${transferListItem.name}`}
                 key={`${transferList.id}-${hierarchy}-${transferListItem.name}`}
                 className="tranferListItem"
@@ -551,7 +551,7 @@ export class TransferMenu extends React.Component {
                 style={this.styles.transferListItem}
               >
                 {transferListItem.name}
-              </div>
+              </div>)
             );
           if (filteredTransferListItems.length > 0) {
             hierarchyList.push(
