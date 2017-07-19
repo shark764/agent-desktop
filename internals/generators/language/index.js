@@ -1,24 +1,31 @@
-/*
- * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
- */
-
 /**
  * Language Generator
  */
+const fs = require('fs');
 const exec = require('child_process').exec;
+
+function languageIsSupported(language) {
+  try {
+    fs.accessSync(`app/translations/${language}.json`, fs.F_OK);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
 
 module.exports = {
   description: 'Add a language',
   prompts: [{
     type: 'input',
     name: 'language',
-    message: 'What is the language you want to add i18n support for (e.g. "fr-FR", "en-US")?',
-    default: 'fr-FR',
+    message: 'What is the language you want to add i18n support for (e.g. "fr", "de")?',
+    default: 'fr',
     validate: (value) => {
-      if ((/.+/).test(value) && value.length === 5) {
-        return true;
+      if ((/.+/).test(value) && value.length === 2) {
+        return languageIsSupported(value) ? `The language "${value}" is already supported.` : true;
       }
-      return '5 character language specifier is required';
+
+      return '2 character language specifier is required';
     },
   }],
 
@@ -75,6 +82,7 @@ module.exports = {
           }
           process.stdout.write(result);
         });
+        return 'modify translation messages';
       }
     );
 
