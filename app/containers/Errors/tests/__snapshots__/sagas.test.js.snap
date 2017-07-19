@@ -20,7 +20,34 @@ Object {
 }
 `;
 
-exports[`handleError Saga interaction fatal level errors should call removeInteractionHard 1`] = `
+exports[`handleError Saga interaction fatal level errors and interaction is not there should be done 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`handleError Saga interaction fatal level errors and interaction is not there should call select the interactions list to see if we have the interaction 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`handleError Saga interaction fatal level errors and interaction is there should be done 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`handleError Saga interaction fatal level errors and interaction is there should call removeInteractionHard 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -29,6 +56,42 @@ Object {
       "action": Object {
         "interactionId": "mock-interaction-id",
         "type": "app/AgentDesktop/REMOVE_INTERACTION_HARD",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`handleError Saga interaction fatal level errors and interaction is there should call select the interactions list to see if we have the interaction 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`handleError Saga interaction fatal level errors and interaction is there should set a non critical error with interactionFatal flag 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "error": Object {
+          "code": "mockErrorCode",
+          "data": Object {
+            "interactionId": "mock-interaction-id",
+          },
+          "level": "interaction-fatal",
+        },
+        "interactionFatal": true,
+        "type": "app/Errors/SET_NON_CRITICAL_ERROR",
       },
       "channel": null,
     },
