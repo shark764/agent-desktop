@@ -121,6 +121,9 @@ export class AgentDesktop extends React.Component {
       height: 'calc(100% - 54px)',
       borderBottom: '1px solid #141414',
     },
+    topAreaToolbar: {
+      height: 'calc(100% - 118px)',
+    },
   };
 
   render() {
@@ -140,21 +143,37 @@ export class AgentDesktop extends React.Component {
               this.styles.flexChildGrow,
               this.styles.parent,
               this.styles.topArea,
+              this.context.toolbarMode && this.styles.topAreaToolbar,
             ]}
           >
-            <div style={[this.styles.leftArea]}>
-              <PhoneControls style={[this.styles.phoneControls]} />
-              <InteractionsBar
-                acceptInteraction={this.acceptInteraction}
-                selectInteraction={this.selectInteraction}
-                style={[this.styles.interactionsBar]}
-              />
+            <div
+              style={{
+                flex: '1 1 auto',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              {this.context.toolbarMode &&
+                <PhoneControls
+                  style={[this.styles.phoneControls, { flex: '0' }]}
+                />}
+              <div style={{ display: 'flex', flex: '1' }}>
+                <div style={[this.styles.leftArea]}>
+                  {!this.context.toolbarMode &&
+                    <PhoneControls style={[this.styles.phoneControls]} />}
+                  <InteractionsBar
+                    acceptInteraction={this.acceptInteraction}
+                    selectInteraction={this.selectInteraction}
+                    style={[this.styles.interactionsBar]}
+                  />
+                </div>
+                <MainContentArea
+                  agent={this.props.login.agent}
+                  tenant={this.props.login.tenant}
+                  style={{ flex: '1 1 auto' }}
+                />
+              </div>
             </div>
-            <MainContentArea
-              agent={this.props.login.agent}
-              tenant={this.props.login.tenant}
-              style={{ flex: '1 1 auto' }}
-            />
             <Resizable
               id="crm-resizable"
               direction="left"
@@ -162,7 +181,7 @@ export class AgentDesktop extends React.Component {
               disabledPx={this.collapsedContactsPanelPx}
               px={this.state.contactsPanelPx}
               maxPx={this.state.contactsPanelMaxPx}
-              minPx={500}
+              minPx={400}
               isDisabled={this.props.isContactsPanelCollapsed}
               style={this.styles.topArea}
             />
@@ -213,6 +232,10 @@ AgentDesktop.propTypes = {
   selectInteraction: PropTypes.func.isRequired,
   showContactsPanel: PropTypes.func.isRequired,
   bannerCount: PropTypes.number,
+};
+
+AgentDesktop.contextTypes = {
+  toolbarMode: PropTypes.bool,
 };
 
 export default ErrorBoundary(

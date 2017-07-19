@@ -10,6 +10,10 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
+  rec: {
+    id: 'app.containers.PhoneControls.rec',
+    defaultMessage: 'REC',
+  },
   recording: {
     id: 'app.containers.PhoneControls.recording',
     defaultMessage: 'Recording',

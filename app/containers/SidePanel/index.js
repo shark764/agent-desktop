@@ -131,7 +131,7 @@ export class SidePanel extends React.Component {
 
   render() {
     const renderScriptTab =
-      !this.props.selectedInteractionIsVoice &&
+      (this.context.toolbarMode || !this.props.selectedInteractionIsVoice) &&
       this.props.selectedInteractionScript !== undefined &&
       !this.props.selectedInteractionIsScriptOnly;
     return (
@@ -254,6 +254,10 @@ SidePanel.propTypes = {
   selectedTabIndex: PropTypes.number.isRequired,
   hasAssignedContact: PropTypes.bool.isRequired,
   setSidePanelTabIndex: PropTypes.func.isRequired,
+};
+
+SidePanel.contextTypes = {
+  toolbarMode: PropTypes.bool,
 };
 
 export default ErrorBoundary(
