@@ -31,12 +31,13 @@ function CircleIconButton(props) {
   return (
     // using a div instead of a button here since we're now allowing
     // HTML into the button for the purpose of more simpler dynamic
-    // positioning, using "role" attribute for semantics and accessibility
+    // positioning, using "role" & "tabindex" attributes for semantics and accessibility
     <div
       id={props.id}
       style={[styles.base, props.style]}
       onClick={props.onClick}
       role="button"
+      tabIndex={0}
     >
       <Icon
         id={`${props.id}-icon`}
@@ -44,11 +45,10 @@ function CircleIconButton(props) {
         active={props.active}
         style={[styles.base, props.style, styles.icon]}
       />
-      { props.innerElement &&
+      {props.innerElement &&
         <div>
           {props.innerElement}
-        </div>
-      }
+        </div>}
     </div>
   );
 }

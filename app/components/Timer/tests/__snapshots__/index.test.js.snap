@@ -10,6 +10,7 @@ exports[`<Timer /> should render correctly 1`] = `
       "setDelay": [Function],
       "stop": [Function],
       "tick": 0,
+      "timestamp": 0,
     }
   }
 />
