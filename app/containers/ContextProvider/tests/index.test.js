@@ -12,19 +12,30 @@ import { ContextProvider } from '../index';
 class TestApp extends React.Component {
   render() {
     if (this.context.toolbarMode) {
-      return <div>Toolbar</div>;
+      return (
+        <div>
+          Toolbar
+          {this.context.crmEnabled && <div>CRM Enabled</div>}
+        </div>
+      );
     } else {
-      return <div>Desktop</div>;
+      return (
+        <div>
+          Desktop
+          {this.context.crmEnabled && <div>CRM Enabled</div>}
+        </div>
+      );
     }
   }
 }
 
 TestApp.contextTypes = {
   toolbarMode: PropTypes.bool,
+  crmEnabled: PropTypes.bool,
 };
 
 describe('<ContextProvider />', () => {
-  it('should set toolbarMode flag correctly', () => {
+  it('should set context flags correctly for desktop url', () => {
     const rendered = mount(
       <ContextProvider>
         <TestApp />
@@ -32,10 +43,10 @@ describe('<ContextProvider />', () => {
     );
     expect(rendered).toMatchSnapshot();
   });
-  it('should set toolbarMode flag correctly when url for toolbar is hit', () => {
-    Object.defineProperty(window.location, 'pathname', {
+  it('should set flags correctly when url for toolbar is hit', () => {
+    Object.defineProperty(window.location, 'href', {
       writable: true,
-      value: '/toolbar',
+      value: 'https://dev-tb2.cxengagelabs.net/',
     });
     const rendered = mount(
       <ContextProvider>
