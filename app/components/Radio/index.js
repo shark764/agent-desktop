@@ -33,7 +33,7 @@ function Radio(props) {
   return (
     <span style={Object.assign({}, props.style)}>
       {props.options.map((option) =>
-        <span
+        (<span
           id={`agent-select-dir-1-${option.id}-container`}
           key={`agent-select-dir-1-${option.id}-container`}
           style={{ marginLeft: '24px' }}
@@ -52,7 +52,7 @@ function Radio(props) {
           >
             {' '}{formatMessage(option)}{' '}
           </span>
-        </span>
+        </span>)
       )}
     </span>
   );

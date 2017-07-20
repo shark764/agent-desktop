@@ -116,7 +116,7 @@ export class WelcomeStats extends React.Component {
   };
 
   getStatDisplay = (stat, index) =>
-    <div
+    (<div
       style={[this.styles.statContainer, { order: index }]}
       key={stat[statKey]}
     >
@@ -126,14 +126,14 @@ export class WelcomeStats extends React.Component {
       <div style={this.styles.statVal}>
         {this.getStatBody(this.props.welcomeStats[stat[statKey]])}
       </div>
-    </div>;
+    </div>);
 
   getLoadingIcon = () =>
-    <IconSVG
+    (<IconSVG
       style={this.styles.loadingIcon}
       id="loadingIcon"
       name="loadingWhite"
-    />;
+    />);
 
   render() {
     return (

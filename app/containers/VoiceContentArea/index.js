@@ -59,7 +59,7 @@ export class VoiceContentArea extends React.Component {
 
     const details = this.props.selectedInteraction.customFields
       ? this.props.selectedInteraction.customFields.map((customField) =>
-        <div
+        (<div
           key={customField.label + customField.value}
           style={this.styles.customField}
         >
@@ -69,7 +69,7 @@ export class VoiceContentArea extends React.Component {
           <div style={this.styles.customFieldValue}>
             {customField.value}
           </div>
-        </div>
+        </div>)
         )
       : '';
 
@@ -87,7 +87,10 @@ export class VoiceContentArea extends React.Component {
     );
 
     let content;
-    if (this.props.selectedInteraction.script !== undefined) {
+    if (
+      !this.context.toolbarMode &&
+      this.props.selectedInteraction.script !== undefined
+    ) {
       content = (
         <div style={this.styles.content}>
           <AgentScript
@@ -96,10 +99,7 @@ export class VoiceContentArea extends React.Component {
           />
         </div>
       );
-    } else {
-      content = <div id="noContent" />;
     }
-
     return (
       <ContentArea
         interaction={this.props.selectedInteraction}
@@ -126,6 +126,10 @@ VoiceContentArea.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,
   endInteraction: PropTypes.func.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
+};
+
+VoiceContentArea.contextTypes = {
+  toolbarMode: PropTypes.bool,
 };
 
 export default ErrorBoundary(

@@ -8,6 +8,8 @@
 
 ### [1.0.2] (2017-07-19)
 * CXV1-10603 - Ignore interaction-fatal errors if we do not have the interaction.
+* CXV1-9002 - Toolbar styling for Voice
+* INTERNAL - update dependencies
 
 ### [1.0.1] (2017-07-18)
 * CXV1-10571 - Fix critical error on contact history from click to email

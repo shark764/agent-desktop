@@ -1,9 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Errors Reducer returns the initial state 1`] = `
-Object {
-  "stats": Object {
-    "erroredIds": Array [],
+Immutable.Map {
+  stats: Immutable.Map {
+    erroredIds: Immutable.List [
+    ],
   },
 }
 `;

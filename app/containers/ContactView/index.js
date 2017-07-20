@@ -118,10 +118,10 @@ export class ContactView extends React.Component {
   };
 
   getSection = (section) =>
-    <div style={styles.section} key={section.label[this.props.intl.locale]}>
+    (<div style={styles.section} key={section.label[this.props.intl.locale]}>
       <ContactSectionHeader label={section.label[this.props.intl.locale]} />
       {section.attributes.map(this.getAttributeRow)}
-    </div>;
+    </div>);
 
   startCall = (number) => {
     this.props.startOutboundInteraction(

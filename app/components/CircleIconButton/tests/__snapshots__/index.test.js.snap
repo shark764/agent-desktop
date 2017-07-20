@@ -17,6 +17,7 @@ exports[`<CircleIconButton /> should correctly render HTML (or a component) that
       "padding": 0,
     }
   }
+  tabIndex={0}
 >
   <Icon
     id="mockId-icon"
@@ -63,6 +64,7 @@ exports[`<CircleIconButton /> should render correctly 1`] = `
       "padding": 0,
     }
   }
+  tabIndex={0}
 >
   <Icon
     id="mockId-icon"

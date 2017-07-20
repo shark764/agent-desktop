@@ -10,6 +10,8 @@ import Timer from '../index';
 describe('<Timer />', () => {
   it('should render correctly', () => {
     const rendered = shallow(<Timer id="mockId" />);
+    const props = rendered.props();
+    props.timer.timestamp = 0;
     expect(rendered).toMatchSnapshot();
   });
 });

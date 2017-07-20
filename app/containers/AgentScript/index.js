@@ -204,7 +204,7 @@ class AgentScript extends React.Component {
           break;
         case 'checkbox': {
           const checkboxes = element.options.map((option, index) =>
-            <CheckBox
+            (<CheckBox
               style={styles.indivCheckbox}
               labelStyle={styles.checkboxLabel}
               checkboxInputStyle={styles.checkboxInput}
@@ -217,7 +217,7 @@ class AgentScript extends React.Component {
                 newState[element.name][option.value] = checked;
                 this.setState(newState);
               }}
-            />
+            />)
           );
           scriptElements.push(
             <div key={element.id} style={styles.element}>

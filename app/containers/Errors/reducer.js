@@ -26,10 +26,7 @@ const initialState = fromJS({
 function errorsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CRITICAL_ERROR:
-      return state.set(
-        'criticalError',
-        fromJS({ ...action.error })
-      );
+      return state.set('criticalError', fromJS({ ...action.error }));
     case SET_NON_CRITICAL_ERROR:
       return state.set(
         'nonCriticalError',
