@@ -2,13 +2,14 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
+import { fromJS, List } from 'immutable';
 import { goHandleSDKError } from 'containers/Errors/sagas';
 
 describe('handleError Saga', () => {
   let generator;
   let mockAction;
   beforeAll(() => {
-    global.console = { warn: jest.fn() };
+    global.console.warn = jest.fn();
     mockAction = {
       error: {
         code: 'mockErrorCode',
@@ -42,14 +43,38 @@ describe('handleError Saga', () => {
       expect(generator.next()).toMatchSnapshot();
     });
   });
-  describe('interaction fatal level errors', () => {
+  describe('interaction fatal level errors and interaction is there', () => {
     beforeAll(() => {
       mockAction.error.level = 'interaction-fatal';
       mockAction.error.data = { interactionId: 'mock-interaction-id' };
       generator = goHandleSDKError(mockAction);
     });
-    it('should call removeInteractionHard', () => {
+    it('should call select the interactions list to see if we have the interaction', () => {
       expect(generator.next()).toMatchSnapshot();
+    });
+    it('should call removeInteractionHard', () => {
+      expect(
+        generator.next(fromJS([{ interactionId: 'mock-interaction-id' }]))
+      ).toMatchSnapshot();
+    });
+    it('should set a non critical error with interactionFatal flag', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should be done', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+  });
+  describe('interaction fatal level errors and interaction is not there', () => {
+    beforeAll(() => {
+      mockAction.error.level = 'interaction-fatal';
+      mockAction.error.data = { interactionId: 'mock-interaction-id' };
+      generator = goHandleSDKError(mockAction);
+    });
+    it('should call select the interactions list to see if we have the interaction', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should be done', () => {
+      expect(generator.next(new List())).toMatchSnapshot();
     });
   });
   describe('outbound voice interaction fails to connect', () => {

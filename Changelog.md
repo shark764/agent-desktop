@@ -4,6 +4,10 @@
 * CXV1-9001 - Toolbar styling for Login
 * CXV1-9003 - Toolbar styling for Messaging interactions (templates)
 * CXV1-9292 - Modified circle icon component so that a popup component could be inserted inside of it and retain its position relative to the button (as opposed to making dynamic positioning changes via JS if the button's position changes)
+* INTERNAL - Add localization and locales
+
+### [1.0.2] (2017-07-19)
+* CXV1-10603 - Ignore interaction-fatal errors if we do not have the interaction.
 * CXV1-9002 - Toolbar styling for Voice
 * INTERNAL - update dependencies
 * CXV1-9004 - Added context flag for CrmEnabled, hide crm tabs in side panel, and updated url to tb2 for flags

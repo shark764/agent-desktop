@@ -12,8 +12,8 @@ import {
   setInteractionStatus,
   selectInteraction,
 } from 'containers/AgentDesktop/actions';
+import { selectInteractionsList } from 'containers/AgentDesktop/selectors';
 import {
-  selectActiveVoiceInteraction,
   selectPendingActiveVoiceInteraction,
   selectPendingActiveSmsInteraction,
 } from 'containers/InteractionsBar/selectors';
@@ -59,22 +59,38 @@ export function* goHandleSDKError(action) {
     forceFatalInteraction = true;
   } else if (
     error.level === 'interaction-fatal' &&
-    topic !== 'cxengage/interactions/voice/force-killed-twilio-connection' &&
-    error.context === 'voice'
+    error.data &&
+    error.data.interactionId
   ) {
-    const fatalVoiceInteraction = yield select(selectActiveVoiceInteraction);
-    if (
-      error.data &&
-      error.data.interactionId &&
-      fatalVoiceInteraction &&
-      fatalVoiceInteraction.interactionId === error.data.interactionId
-    ) {
-      yield put(
-        setInteractionStatus(fatalVoiceInteraction.interactionId, 'fatal')
+    const interactionsList = yield select(selectInteractionsList);
+    const erroredInteraction = interactionsList
+      .toJS()
+      .find(
+        (interaction) => interaction.interactionId === error.data.interactionId
       );
-      yield put(selectInteraction(undefined));
-      yield put(setNonCriticalError(error));
+    if (!erroredInteraction) {
+      // If we do not have the interaction that errored, ignore
+      console.warn(
+        'Received interaction-fatal, but interation does not exist. Ignoring.'
+      );
       return;
+    }
+    if (
+      topic !== 'cxengage/interactions/voice/force-killed-twilio-connection' &&
+      error.context === 'voice'
+    ) {
+      if (
+        erroredInteraction &&
+        erroredInteraction.channelType === 'voice' &&
+        erroredInteraction.interactionId === error.data.interactionId
+      ) {
+        yield put(
+          setInteractionStatus(erroredInteraction.interactionId, 'fatal')
+        );
+        yield put(selectInteraction(undefined));
+        yield put(setNonCriticalError(error));
+        return;
+      }
     }
   } else if (error.code === 3000) {
     if (action.error.data.apiResponse.status === 401) {
