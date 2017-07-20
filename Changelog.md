@@ -5,6 +5,7 @@
 * CXV1-9003 - Toolbar styling for Messaging interactions (templates)
 * CXV1-9292 - Modified circle icon component so that a popup component could be inserted inside of it and retain its position relative to the button (as opposed to making dynamic positioning changes via JS if the button's position changes)
 * INTERNAL - Add localization and locales
+* CXV1-10646 - Fix Dialpad and TransferMenu popups
 
 ### [1.0.2] (2017-07-19)
 * CXV1-10603 - Ignore interaction-fatal errors if we do not have the interaction.
