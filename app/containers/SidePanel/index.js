@@ -178,28 +178,32 @@ export class SidePanel extends React.Component {
             }
           >
             <TabList>
-              <Tab>
-                <FormattedMessage {...messages.infoTab} />
-              </Tab>
-              {this.props.hasAssignedContact &&
+              {this.context.crmEnabled && [
                 <Tab>
-                  <FormattedMessage {...messages.historyTab} />
-                </Tab>}
+                  <FormattedMessage {...messages.infoTab} />
+                </Tab>,
+                this.props.hasAssignedContact &&
+                  <Tab>
+                    <FormattedMessage {...messages.historyTab} />
+                  </Tab>,
+              ]}
               {renderScriptTab &&
                 <Tab>
                   <FormattedMessage {...messages.scriptsTab} />
                 </Tab>}
             </TabList>
-            <TabPanel>
-              <InfoTab
-                isCollapsed={this.props.isCollapsed}
-                style={this.styles.rightMargin}
-              />
-            </TabPanel>
-            {this.props.hasAssignedContact &&
+            {this.context.crmEnabled && [
               <TabPanel>
-                <ContactInteractionHistory />
-              </TabPanel>}
+                <InfoTab
+                  isCollapsed={this.props.isCollapsed}
+                  style={this.styles.rightMargin}
+                />
+              </TabPanel>,
+              this.props.hasAssignedContact &&
+                <TabPanel>
+                  <ContactInteractionHistory />
+                </TabPanel>,
+            ]}
             {renderScriptTab &&
               <TabPanel>
                 <div style={this.styles.agentScriptPanel}>
@@ -258,6 +262,7 @@ SidePanel.propTypes = {
 
 SidePanel.contextTypes = {
   toolbarMode: PropTypes.bool,
+  crmEnabled: PropTypes.bool,
 };
 
 export default ErrorBoundary(
