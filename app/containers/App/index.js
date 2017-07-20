@@ -716,56 +716,60 @@ export class App extends React.Component {
   };
 
   attemptContactSearch = (from, interactionId, exact) => {
-    CxEngage.contacts.search(
-      {
-        query: {
-          q: exact ? encodeURIComponent(`"${from}"`) : encodeURIComponent(from),
+    if (this.context.crmEnabled) {
+      CxEngage.contacts.search(
+        {
+          query: {
+            q: exact
+              ? encodeURIComponent(`"${from}"`)
+              : encodeURIComponent(from),
+          },
         },
-      },
-      (searchError, searchTopic, searchResponse) => {
-        if (searchError) {
-          this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
-        } else {
-          console.log(
-            '[AgentDesktop] CxEngage.subscribe()',
-            searchTopic,
-            searchResponse
-          );
-          if (searchResponse.count === 1) {
-            // if single contact found, auto assign to interaction
-            CxEngage.interactions.assignContact(
-              {
-                interactionId,
-                contactId: searchResponse.results[0].id,
-              },
-              (assignError, assignTopic, assignResponse) => {
-                console.log(
-                  '[ContactsControl] CxEngage.subscribe()',
-                  assignTopic,
-                  assignResponse
-                );
-                if (assignError) {
-                  console.error('Assign error', assignError);
-                  this.props.setInteractionQuery(interactionId, {
-                    q: `"${from}"`,
-                  });
-                } else {
-                  this.props.loadContactInteractionHistory(
-                    searchResponse.results[0].id
-                  );
-                  this.props.assignContact(
-                    interactionId,
-                    searchResponse.results[0]
-                  );
-                }
-              }
-            );
-          } else {
+        (searchError, searchTopic, searchResponse) => {
+          if (searchError) {
             this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
+          } else {
+            console.log(
+              '[AgentDesktop] CxEngage.subscribe()',
+              searchTopic,
+              searchResponse
+            );
+            if (searchResponse.count === 1) {
+              // if single contact found, auto assign to interaction
+              CxEngage.interactions.assignContact(
+                {
+                  interactionId,
+                  contactId: searchResponse.results[0].id,
+                },
+                (assignError, assignTopic, assignResponse) => {
+                  console.log(
+                    '[ContactsControl] CxEngage.subscribe()',
+                    assignTopic,
+                    assignResponse
+                  );
+                  if (assignError) {
+                    console.error('Assign error', assignError);
+                    this.props.setInteractionQuery(interactionId, {
+                      q: `"${from}"`,
+                    });
+                  } else {
+                    this.props.loadContactInteractionHistory(
+                      searchResponse.results[0].id
+                    );
+                    this.props.assignContact(
+                      interactionId,
+                      searchResponse.results[0]
+                    );
+                  }
+                }
+              );
+            } else {
+              this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
+            }
           }
         }
-      }
-    );
+      );
+    }
   };
 
   selectInteraction = (interactionId) => {
@@ -1052,6 +1056,10 @@ App.propTypes = {
   criticalError: PropTypes.any,
   nonCriticalError: PropTypes.any,
   dismissError: PropTypes.func,
+};
+
+App.contextTypes = {
+  crmEnabled: PropTypes.bool,
 };
 
 export default injectIntl(

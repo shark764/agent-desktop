@@ -1,6 +1,7 @@
 /*
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
+
 /*
  *
  * ContextProvider
@@ -13,7 +14,8 @@ import PropTypes from 'prop-types';
 export class ContextProvider extends React.Component {
   getChildContext() {
     return {
-      toolbarMode: window.location.pathname === '/toolbar',
+      toolbarMode: window.location.href.indexOf('tb2') !== -1,
+      crmEnabled: window.location.href.indexOf('tb2') === -1,
     };
   }
 
@@ -28,6 +30,7 @@ ContextProvider.propTypes = {
 
 ContextProvider.childContextTypes = {
   toolbarMode: PropTypes.bool,
+  crmEnabled: PropTypes.bool,
 };
 
 export default ContextProvider;

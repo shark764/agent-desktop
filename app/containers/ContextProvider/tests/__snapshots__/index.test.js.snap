@@ -1,16 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ContextProvider /> should set toolbarMode flag correctly 1`] = `
+exports[`<ContextProvider /> should set context flags correctly for desktop url 1`] = `
 <ContextProvider>
   <TestApp>
     <div>
       Desktop
+      <div>
+        CRM Enabled
+      </div>
     </div>
   </TestApp>
 </ContextProvider>
 `;
 
-exports[`<ContextProvider /> should set toolbarMode flag correctly when url for toolbar is hit 1`] = `
+exports[`<ContextProvider /> should set flags correctly when url for toolbar is hit 1`] = `
 <ContextProvider>
   <TestApp>
     <div>
