@@ -34,7 +34,7 @@ import { isValidEmail } from 'utils/validator';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
-import Button from 'components/Button';
+import ButtonLayout from 'components/ButtonLayout';
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 import LoadingText from 'components/LoadingText';
@@ -483,7 +483,6 @@ export class EmailContentArea extends React.Component {
         this.state.editorState.getCurrentContent().getPlainText() +
         this.props.selectedInteraction.emailPlainBody;
     }
-
     console.log('CxEngage.interactions.email.sendReply()', emailReply);
     CxEngage.interactions.email.sendReply(emailReply);
   };
@@ -556,40 +555,45 @@ export class EmailContentArea extends React.Component {
       }
     }
 
-    let buttons;
     let details;
     let content;
+    let buttonConfig = [];
 
     if (
       this.props.selectedInteraction.sendingReply === true &&
       this.props.selectedInteraction.status !== 'work-ended-pending-script'
     ) {
-      buttons =
-        this.props.selectedInteraction.status === 'wrapup'
-          ? (<Button
-            id="endWrapup"
-            type="primaryRed"
-            text={messages.endWrapup}
-            onClick={this.props.endInteraction}
-            disabled={this.props.awaitingDisposition}
-            style={{ marginRight: '8px' }}
-          />)
-          : (<div>
-            <Button
-              id="cancelEmail"
-              type="secondary"
-              style={{ marginRight: '5px' }}
-              text={messages.cancel}
-              onClick={this.onEmailCancelReply}
-            />
-            <Button
-              id="sendEmail"
-              type="primaryRed"
-              text={messages.send}
-              onClick={() => this.sendEmail()}
-              disabled
-            />
-          </div>);
+      if (this.props.selectedInteraction.status === 'wrapup') {
+        buttonConfig = [
+          {
+            id: 'endWrapup',
+            type: 'primaryRed',
+            text: messages.endWrapup,
+            onClick: this.props.endInteraction,
+            disabled: this.props.awaitingDisposition,
+            style: { marginRight: '8px' },
+          },
+        ];
+      } else {
+        buttonConfig = [
+          {
+            id: 'cancelEmail',
+            type: 'secondary',
+            style: { marginRight: '8px' },
+            text: messages.cancel,
+            onClick: this.onEmailCancelReply,
+          },
+          {
+            id: 'sendEmail',
+            type: 'primaryRed',
+            text: messages.send,
+            onClick: () => this.sendEmail(),
+            disabled: true,
+            isMainBtn: true,
+          },
+        ];
+      }
+
       details = <div />;
       if (this.props.selectedInteraction.status !== 'wrapup') {
         content = (
@@ -642,41 +646,43 @@ export class EmailContentArea extends React.Component {
         (this.props.selectedInteraction.emailHtmlBody === undefined &&
           this.props.selectedInteraction.emailPlainBody === undefined)
       ) {
-        buttons = (
-          <Button
-            id="replyEmailDisabled"
-            key="replyEmailDisabled"
-            type="primaryBlue"
-            text={messages.reply}
-            disabled
-          />
-        );
+        buttonConfig = [
+          {
+            id: 'replyEmailDisabled',
+            key: 'replyEmailDisabled',
+            type: 'primaryBlue',
+            text: messages.reply,
+            disabled: true,
+          },
+        ];
+      } else if (this.props.selectedInteraction.status === 'wrapup') {
+        buttonConfig = [
+          {
+            id: 'endWrapup',
+            type: 'primaryRed',
+            text: messages.endWrapup,
+            onClick: this.props.endInteraction,
+            disabled: this.props.awaitingDisposition,
+            style: { marginRight: '8px' },
+          },
+        ];
       } else {
-        buttons =
-          this.props.selectedInteraction.status === 'wrapup'
-            ? (<Button
-              id="endWrapup"
-              type="primaryRed"
-              text={messages.endWrapup}
-              onClick={this.props.endInteraction}
-              disabled={this.props.awaitingDisposition}
-              style={{ marginRight: '8px' }}
-            />)
-            : (<div>
-              <Button
-                id="endEmail"
-                type="primaryRed"
-                text={messages.noReply}
-                onClick={this.onEmailNoReply}
-                style={{ marginRight: '8px' }}
-              />
-              <Button
-                id="replyEmail"
-                type="primaryBlue"
-                text={messages.reply}
-                onClick={this.onEmailCreateReply}
-              />
-            </div>);
+        buttonConfig = [
+          {
+            id: 'endEmail',
+            type: 'primaryRed',
+            text: messages.noReply,
+            onClick: this.onEmailNoReply,
+            style: { marginRight: '8px' },
+          },
+          {
+            id: 'replyEmail',
+            type: 'primaryBlue',
+            text: messages.reply,
+            onClick: this.onEmailCreateReply,
+            isMainBtn: true,
+          },
+        ];
       }
       if (this.props.selectedInteraction.emailDetails === undefined) {
         details = (
@@ -819,58 +825,53 @@ export class EmailContentArea extends React.Component {
       }
     } else {
       if (this.props.selectedInteraction.direction === 'outbound') {
-        buttons = (
-          <div>
-            <Button
-              id="cancelOutboundEmail"
-              type="primaryRed"
-              style={{ marginRight: '8px' }}
-              text={messages.cancel}
-              disabled={
-                this.props.selectedInteraction.status !== 'work-accepted'
-              }
-              onClick={this.props.endInteraction}
-            />
-            <Button
-              id="sendOutboundEmail"
-              type="primaryBlue"
-              text={messages.send}
-              disabled={
-                this.props.selectedInteraction.status !== 'work-accepted'
-              }
-              onClick={() => this.sendEmail()}
-            />
-          </div>
-        );
+        buttonConfig = [
+          {
+            id: 'cancelOutboundEmail',
+            type: 'primaryRed',
+            text: messages.cancel,
+            onClick: this.props.endInteraction,
+            disabled: this.props.selectedInteraction.status !== 'work-accepted',
+            style: { marginRight: '8px' },
+          },
+          {
+            id: 'sendOutboundEmail',
+            type: 'primaryBlue',
+            text: messages.send,
+            onClick: () => this.sendEmail(),
+            disabled: this.props.selectedInteraction.status !== 'work-accepted',
+            style: { marginRight: '8px' },
+            isMainBtn: true,
+          },
+        ];
       } else if (this.props.selectedInteraction.status === 'wrapup') {
-        buttons = (
-          <Button
-            id="endWrapup"
-            type="primaryRed"
-            text={messages.endWrapup}
-            onClick={this.props.endInteraction}
-            disabled={this.props.awaitingDisposition}
-            style={{ marginRight: '8px' }}
-          />
-        );
+        buttonConfig = [
+          {
+            id: 'endWrapup',
+            type: 'primaryRed',
+            text: messages.endWrapup,
+            onClick: this.props.endInteraction,
+            disabled: this.props.awaitingDisposition,
+            style: { marginRight: '8px' },
+          },
+        ];
       } else {
-        buttons = (
-          <div>
-            <Button
-              id="cancelEmail"
-              type="primaryRed"
-              style={{ marginRight: '8px' }}
-              text={messages.cancel}
-              onClick={this.onEmailCancelReply}
-            />
-            <Button
-              id="sendEmail"
-              type="primaryBlue"
-              text={messages.send}
-              onClick={() => this.sendEmail()}
-            />
-          </div>
-        );
+        buttonConfig = [
+          {
+            id: 'cancelEmail',
+            type: 'primaryRed',
+            text: messages.cancel,
+            onClick: this.onEmailCancelReply,
+            style: { marginRight: '8px' },
+          },
+          {
+            id: 'sendEmail',
+            type: 'primaryBlue',
+            text: messages.send,
+            onClick: () => this.sendEmail(),
+            isMainBtn: true,
+          },
+        ];
       }
 
       const emailTemplates = this.props.emailTemplates.map((emailTemplate) => ({
@@ -1185,6 +1186,8 @@ export class EmailContentArea extends React.Component {
         </div>
       );
     }
+
+    const buttons = <ButtonLayout buttonConfig={buttonConfig} />;
 
     return (
       <ContentArea

@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ButtonLayout /> when only passed button config data and IS NOT set to toolbar mode should render correctly 1`] = `
+<span>
+  <Button
+    disabled={false}
+    id="test-id-1"
+    onClick={[Function]}
+    style={
+      Object {
+        "marginRight": "8px",
+      }
+    }
+    tabIndex={0}
+    text={
+      Object {
+        "defaultMessage": "Send",
+        "id": "app.containers.EmailContentArea.send",
+      }
+    }
+    type="primaryRed"
+  />
+  <Button
+    disabled={false}
+    id="test-id-2"
+    isMainBtn={true}
+    onClick={[Function]}
+    style={
+      Object {
+        "marginRight": "8px",
+      }
+    }
+    tabIndex={0}
+    text={
+      Object {
+        "defaultMessage": "Send",
+        "id": "app.containers.EmailContentArea.send",
+      }
+    }
+    type="primaryBlue"
+  />
+</span>
+`;
+
+exports[`<ButtonLayout /> when only passed button config data and IS set to toolbar mode should render correctly 1`] = `
+<ButtonSplitMenu
+  buttonConfig={
+    Array [
+      Object {
+        "disabled": false,
+        "id": "test-id-1",
+        "onClick": [Function],
+        "style": Object {
+          "marginRight": "8px",
+        },
+        "text": Object {
+          "defaultMessage": "Send",
+          "id": "app.containers.EmailContentArea.send",
+        },
+        "type": "primaryRed",
+      },
+      Object {
+        "disabled": false,
+        "id": "test-id-2",
+        "isMainBtn": true,
+        "onClick": [Function],
+        "style": Object {
+          "marginRight": "8px",
+        },
+        "text": Object {
+          "defaultMessage": "Send",
+          "id": "app.containers.EmailContentArea.send",
+        },
+        "type": "primaryBlue",
+      },
+    ]
+  }
+/>
+`;
