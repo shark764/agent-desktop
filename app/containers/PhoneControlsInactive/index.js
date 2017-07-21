@@ -84,17 +84,38 @@ export class PhoneControlsInactive extends React.Component {
       margin: '0 auto',
       display: 'block',
     },
-    dialpadTopTriangle: {
-      marginLeft: '134px',
-    },
-    dialpadPhoneControlsPopupMenu: {
-      height: '394px',
-    },
     callButton: {
       display: 'block',
       margin: '24px auto 0',
       width: '102px',
     },
+  };
+
+  renderDialpad = () => {
+    if (this.state.showDialpad) {
+      return (
+        <Dialpad
+          id="dialpad"
+          setDialpadText={this.setDialpadText}
+          dialpadText={this.state.dialpadText}
+          onEnter={this.call}
+          inCall={false}
+          toggle={this.toggleDialpad}
+          transfer={false}
+        >
+          <Button
+            id="callButton"
+            text={messages.call}
+            disabled={!this.state.dialpadTextValid}
+            onClick={this.call}
+            type="primaryBlue"
+            style={this.styles.callButton}
+          />
+        </Dialpad>
+      );
+    } else {
+      return null;
+    }
   };
 
   render() {
@@ -108,29 +129,9 @@ export class PhoneControlsInactive extends React.Component {
                 id="dialpadButton"
                 name="dialpad"
                 onClick={this.toggleDialpad}
+                innerElement={this.renderDialpad()}
               />
             </div>
-            {this.state.showDialpad
-              ? <Dialpad
-                id="dialpad"
-                setDialpadText={this.setDialpadText}
-                dialpadText={this.state.dialpadText}
-                onEnter={this.call}
-                inCall={false}
-                toggle={this.toggleDialpad}
-                active={false}
-                transfer={false}
-              >
-                <Button
-                  id="callButton"
-                  text={messages.call}
-                  disabled={!this.state.dialpadTextValid}
-                  onClick={this.call}
-                  type="primaryBlue"
-                  style={this.styles.callButton}
-                />
-              </Dialpad>
-              : undefined}
           </div>
         );
       } else {

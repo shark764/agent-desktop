@@ -159,7 +159,6 @@ export class PhoneControlsActive extends React.Component {
     },
     circleIconButtonRow: {
       padding: '0 1.5px',
-      position: 'relative',
     },
     activeVoiceInteractionDialpadTopTriangle: {
       marginLeft: '219px',
@@ -194,15 +193,9 @@ export class PhoneControlsActive extends React.Component {
     warmTransfersContainer: {
       marginTop: '7px',
     },
-    dialpadInnerStyles: {
-      left: '-145px',
-    },
-    dialpadTriangleStyles: {
-      left: '-207px',
-    },
   };
 
-  renderDialPad = (showDialpad) => {
+  renderDialpad = (showDialpad) => {
     if (showDialpad) {
       return (
         <Dialpad
@@ -212,10 +205,7 @@ export class PhoneControlsActive extends React.Component {
           dialpadText={this.state.activeInteractionDialpadText}
           inCall
           toggle={this.toggleDialpad}
-          active
           transfer={false}
-          dialpadInnerStyles={this.styles.dialpadInnerStyles}
-          dialpadTriangleStyles={this.styles.dialpadTriangleStyles}
         />
       );
     }
@@ -394,7 +384,7 @@ export class PhoneControlsActive extends React.Component {
                     active={this.state.showActiveInteractionDialpad}
                     onClick={this.toggleDialpad}
                     style={this.styles.circleIconButtonRow}
-                    innerElement={this.renderDialPad(
+                    innerElement={this.renderDialpad(
                       this.state.showActiveInteractionDialpad
                     )}
                   />}

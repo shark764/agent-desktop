@@ -5,7 +5,6 @@ exports[`<CircleIconButton /> should correctly render HTML (or a component) that
   data-radium={true}
   id="mockId"
   onBlur={[Function]}
-  onClick={[Function]}
   onFocus={[Function]}
   role="button"
   style={
@@ -15,6 +14,7 @@ exports[`<CircleIconButton /> should correctly render HTML (or a component) that
       "display": "inline-block",
       "outline": "none",
       "padding": 0,
+      "position": "relative",
     }
   }
   tabIndex={0}
@@ -22,6 +22,7 @@ exports[`<CircleIconButton /> should correctly render HTML (or a component) that
   <Icon
     id="mockId-icon"
     name="config"
+    onclick={[Function]}
     style={
       Array [
         Object {
@@ -33,6 +34,7 @@ exports[`<CircleIconButton /> should correctly render HTML (or a component) that
           "display": "inline-block",
           "outline": "none",
           "padding": 0,
+          "position": "relative",
         },
         undefined,
         undefined,
@@ -52,7 +54,6 @@ exports[`<CircleIconButton /> should render correctly 1`] = `
   data-radium={true}
   id="mockId"
   onBlur={[Function]}
-  onClick={[Function]}
   onFocus={[Function]}
   role="button"
   style={
@@ -62,6 +63,7 @@ exports[`<CircleIconButton /> should render correctly 1`] = `
       "display": "inline-block",
       "outline": "none",
       "padding": 0,
+      "position": "relative",
     }
   }
   tabIndex={0}
@@ -69,6 +71,7 @@ exports[`<CircleIconButton /> should render correctly 1`] = `
   <Icon
     id="mockId-icon"
     name="config"
+    onclick={[Function]}
     style={
       Array [
         Object {
@@ -80,6 +83,7 @@ exports[`<CircleIconButton /> should render correctly 1`] = `
           "display": "inline-block",
           "outline": "none",
           "padding": 0,
+          "position": "relative",
         },
         undefined,
         undefined,

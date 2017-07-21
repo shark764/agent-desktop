@@ -293,11 +293,11 @@ const voiceInteractionWithTransfersAndScripts = {
       status: 'connected',
       muted: true,
       targetResource: 'targetResource2',
-    }, {
-      id: '33333',
-      type: 'pstn',
-      name: 'Some PSTN number',
-      status: 'transferring',
+    // }, {
+    //   id: '33333',
+    //   type: 'pstn',
+    //   name: 'Some PSTN number',
+    //   status: 'transferring',
     },
   ],
 };

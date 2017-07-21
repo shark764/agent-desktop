@@ -24,6 +24,7 @@ const styles = {
       border: 'none',
     },
     display: 'inline-block',
+    position: 'relative',
   },
 };
 
@@ -35,7 +36,6 @@ function CircleIconButton(props) {
     <div
       id={props.id}
       style={[styles.base, props.style]}
-      onClick={props.onClick}
       role="button"
       tabIndex={0}
     >
@@ -44,6 +44,7 @@ function CircleIconButton(props) {
         name={props.name}
         active={props.active}
         style={[styles.base, props.style, styles.icon]}
+        onclick={props.onClick}
       />
       {props.innerElement &&
         <div>

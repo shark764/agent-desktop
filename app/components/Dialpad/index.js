@@ -29,7 +29,7 @@ const styles = {
     left: '0px',
     height: '100vh',
     width: '100vw',
-    zIndex: '2',
+    zIndex: 2,
   },
   topTriangle: {
     width: '0px',
@@ -39,32 +39,21 @@ const styles = {
     borderRight: '8px solid transparent',
     borderBottom: '10px solid white',
     position: 'absolute',
-    marginTop: '4px',
-    zIndex: 3,
+    left: '12px',
+    zIndex: 4,
   },
   phoneControlsPopupMenu: {
     width: '282px',
-    margin: '10px 0 0 14px',
     backgroundColor: '#FFFFFF',
     color: '#4B4B4B',
     boxShadow: '0 0 6px 0 rgba(0,0,0,0.23)',
     borderRadius: '3px',
     overflow: 'hidden',
     position: 'absolute',
-    zIndex: 2,
+    left: '-130px',
+    top: '52px',
+    zIndex: 3,
     padding: '25px 20px 20px',
-  },
-  activeVoiceInteractionDialpadTopTriangle: {
-    marginLeft: '219px',
-  },
-  activeVoiceInteractionDialpadPhoneControlsPopupMenu: {
-    height: '339px',
-  },
-  inactiveVoiceInteractionDialpadTopTriangle: {
-    marginLeft: '134px',
-  },
-  inactiveVoiceInteractionDialpadPhoneControlsPopupMenu: {
-    height: '394px',
   },
 };
 
@@ -89,26 +78,8 @@ function Dialpad(props) {
         ? <div id="dialpadMask" style={styles.mask} onClick={props.toggle} />
         : undefined}
       {!props.transfer &&
-        <div
-          id="dialpadtriangle"
-          style={[
-            !props.transfer ? styles.topTriangle : undefined,
-            !props.transfer && props.active
-              ? styles.activeVoiceInteractionDialpadTopTriangle
-              : styles.inactiveVoiceInteractionDialpadTopTriangle,
-            props.dialpadTriangleStyles,
-          ]}
-        />}
-      <div
-        style={[
-          !props.transfer && styles.phoneControlsPopupMenu,
-          !props.transfer &&
-            (props.active
-              ? styles.activeVoiceInteractionDialpadPhoneControlsPopupMenu
-              : styles.inactiveVoiceInteractionDialpadPhoneControlsPopupMenu),
-          props.dialpadInnerStyles,
-        ]}
-      >
+        <div id="dialpadtriangle" style={styles.topTriangle} />}
+      <div style={[!props.transfer && styles.phoneControlsPopupMenu]}>
         <div id={props.id} style={{ zIndex: '4' }}>
           <TextInput
             id={`${props.id}TextInput`}
@@ -209,10 +180,7 @@ Dialpad.propTypes = {
   inCall: PropTypes.bool,
   children: PropTypes.element,
   toggle: PropTypes.func,
-  active: PropTypes.bool.isRequired,
   transfer: PropTypes.bool.isRequired,
-  dialpadInnerStyles: PropTypes.object,
-  dialpadTriangleStyles: PropTypes.object,
 };
 
 export default Radium(Dialpad);
