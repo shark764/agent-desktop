@@ -29,6 +29,7 @@ const initialState = fromJS({
   // agent: {
   //   fistName: 'Tom',
   //   lastName: 'Tucker',
+  //   userId: 'Id',
   // },
   // tenant: {},
 });

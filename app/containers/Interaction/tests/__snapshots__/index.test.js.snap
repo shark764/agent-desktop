@@ -4,6 +4,9 @@ exports[`<Interaction /> should render correctly 1`] = `
 <div
   className="pendingInteractionContainer"
   id="pendingInteractionContainer-undefined"
+  onFocus={null}
+  onMouseLeave={null}
+  onMouseOver={null}
   style={
     Array [
       Object {
@@ -18,11 +21,13 @@ exports[`<Interaction /> should render correctly 1`] = `
         "width": "100%",
       },
       undefined,
+      undefined,
       Object {
         "backgroundColor": "#F3F3F3",
         "borderBottom": "none",
         "marginTop": "11px",
       },
+      undefined,
       false,
       undefined,
     ]

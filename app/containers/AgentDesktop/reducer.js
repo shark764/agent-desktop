@@ -116,7 +116,10 @@ const blankNewInteractionPanel = {
 
 const initialState = fromJS({
   // Uncomment to allow login screen to be hidden
-  // presence: 'notReady',
+  // presence: 'ready',
+  // userConfig: {
+  //   messageTemplates: [],
+  // },
   interactions: [
     // Un-comment out below (and the above imports) to mock interactions (only use one voice interaction at a time):
     // outboundConnectingVoiceInteraction,

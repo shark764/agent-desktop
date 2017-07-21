@@ -26,6 +26,7 @@ import email from 'assets/icons/email.png';
 import emailNew from 'assets/icons/email_new.png';
 import emailDark from 'assets/icons/email_dark.png';
 import voice from 'assets/icons/voice.png';
+import voiceWhite from 'assets/icons/inactive_voice_white.png';
 import voiceDark from 'assets/icons/voice_dark.png';
 import connected from 'assets/icons/connected.png';
 import notConnected from 'assets/icons/not_connected.png';
@@ -62,6 +63,7 @@ export const availableIcons = [
   'transfer',
   'transfer_dark',
   'voice',
+  'voice_white',
   'voice_dark',
   'add_interaction',
 ];
@@ -133,6 +135,11 @@ const styles = {
   },
   voice_dark: {
     data: { src: voiceDark },
+    height: '20px',
+    width: '16px',
+  },
+  voice_white: {
+    data: { src: voiceWhite },
     height: '20px',
     width: '16px',
   },

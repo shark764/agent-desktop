@@ -1,3 +1,6 @@
+### [Unreleased]
+* CXV1-9011 - Toolbar view of new interaction handling
+
 ### [1.1.0] (2017-07-21)
 * BUGFIX - SDK version bump to 5.3.27-SNAPSHOT
 * CXV1-9000 - Added Context Flag based on url + tests
@@ -6,12 +9,12 @@
 * CXV1-9292 - Modified circle icon component so that a popup component could be inserted inside of it and retain its position relative to the button (as opposed to making dynamic positioning changes via JS if the button's position changes)
 * INTERNAL - Add localization and locales
 * CXV1-10646 - Fix Dialpad and TransferMenu popups
-
-### [1.0.2] (2017-07-19)
-* CXV1-10603 - Ignore interaction-fatal errors if we do not have the interaction.
 * CXV1-9002 - Toolbar styling for Voice
 * INTERNAL - update dependencies
 * CXV1-9004 - Added context flag for CrmEnabled, hide crm tabs in side panel, and updated url to tb2 for flags
+
+### [1.0.2] (2017-07-19)
+* CXV1-10603 - Ignore interaction-fatal errors if we do not have the interaction.
 
 ### [1.0.1] (2017-07-18)
 * CXV1-10571 - Fix critical error on contact history from click to email

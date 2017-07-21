@@ -40,6 +40,11 @@ const styles = {
     justifyContent: 'stretch',
     backgroundColor: 'inherit',
   },
+  baseToolbar: {
+    height: '89px',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
   pstnBase: {
     cursor: 'default',
   },
@@ -47,6 +52,13 @@ const styles = {
     borderBottom: 'none',
     marginTop: '11px',
     backgroundColor: '#F3F3F3',
+  },
+  pendingBaseToolbar: {
+    backgroundColor: '#23CEF5',
+    padding: '33px 16px 0 16px',
+    ':hover': {
+      backgroundColor: '#1FB8DC',
+    },
   },
   selectedBase: {
     backgroundColor: '#0B424E',
@@ -97,6 +109,12 @@ const styles = {
     flexGrow: 0,
     flexShrink: 0,
   },
+  timerToolbar: {
+    marginTop: '7px',
+    fontSize: '12px',
+    lineHeight: '14px',
+    fontWeight: '600',
+  },
   iconContainer: {
     width: '20px',
     height: '20px',
@@ -121,6 +139,45 @@ const styles = {
     pointerEvents: 'none',
     cursor: 'default',
   },
+  hoverElement: {
+    position: 'absolute',
+    left: '64px',
+  },
+  hoverTriangle: {
+    borderWidth: '8px',
+    borderStyle: 'solid',
+    borderColor: '#FFF transparent transparent #FFF',
+    borderImage: 'initial',
+    transform: 'rotate(-45deg)',
+    borderRadius: '3px',
+    boxShadow: '-6px -6px 6px -4px rgba(0,0,0,0.29)',
+    width: '0px',
+    height: '0px',
+    zIndex: '2',
+    position: 'relative',
+  },
+  hoverBox: {
+    backgroundColor: '#FFF',
+    borderRadius: '3px',
+    boxShadow: '0 2px 3px 0 rgba(0,0,0,0.17)',
+    padding: '14px 28px',
+    position: 'relative',
+    bottom: '27px',
+    left: '7px',
+    minWidth: '140px',
+    maxWidth: '300px',
+  },
+  hoverBoxWithContact: {
+    bottom: '40px',
+  },
+  hoverBoxText: {
+    margin: '0',
+    whiteSpace: 'nowrap',
+  },
+  hoverBoxContact: {
+    fontSize: '16px',
+    fontWeight: 'bold',
+  },
 };
 
 export class Interaction extends React.Component {
@@ -137,9 +194,9 @@ export class Interaction extends React.Component {
           this.props.status === 'wrapup' &&
           ageSeconds > this.props.wrapupTime
         ) {
-          if (!this.props.awaitingDisposition) {
+          if (!this.awaitingDisposition(this.props.interaction)) {
             CxEngage.interactions.endWrapup({
-              interactionId: this.props.interactionId,
+              interactionId: this.props.interaction.interactionId,
             });
             clearInterval(this.state.msIntervalId);
           }
@@ -164,12 +221,19 @@ export class Interaction extends React.Component {
     clearInterval(this.state.msIntervalId);
   }
 
+  awaitingDisposition = (interaction) =>
+    interaction.status === 'wrapup' &&
+    interaction.dispositionDetails &&
+    interaction.dispositionDetails.forceSelect &&
+    interaction.dispositionDetails.selected.length === 0;
+
   getRemainingSeconds = () => {
     switch (this.props.status) {
       case 'pending':
         return Math.max(
-          Math.round((this.props.timeout - this.state.startTime) / 1000) -
-            this.state.ageSeconds,
+          Math.round(
+            (this.props.interaction.timeout - this.state.startTime) / 1000
+          ) - this.state.ageSeconds,
           0
         );
       default:
@@ -189,7 +253,7 @@ export class Interaction extends React.Component {
       case 'pending':
         return this.getRemainingSeconds();
       default:
-        switch (this.props.channelType) {
+        switch (this.props.interaction.channelType) {
           case 'sms':
           case 'messaging':
           case 'email':
@@ -204,7 +268,7 @@ export class Interaction extends React.Component {
   getTimerColor = () => {
     switch (this.props.status) {
       case 'pending':
-        return '#23CEF5';
+        return this.context.toolbarMode ? 'white' : '#23CEF5';
       case 'wrapup':
         if (
           this.props.targetWrapupTime &&
@@ -269,7 +333,17 @@ export class Interaction extends React.Component {
     // adding this to prevent other events from bubbling up - namely the
     // event to start the interaction which sits on the same div as the button
     e.stopPropagation();
-    this.props.cancelClickToDial(this.props.interactionId);
+    this.props.cancelClickToDial(this.props.interaction.interactionId);
+  };
+
+  handleMouseOver = () => {
+    if (!this.state.hover) {
+      this.setState({ hover: true });
+    }
+  };
+
+  handleMouseLeave = () => {
+    this.setState({ hover: false });
   };
 
   render() {
@@ -279,15 +353,16 @@ export class Interaction extends React.Component {
     ) {
       return (
         <div
-          id={`${this.props.status}InteractionContainer-${this.props
+          id={`${this.props.status}InteractionContainer-${this.props.interaction
             .interactionId}`}
           className={`${this.props.status}InteractionContainer`}
           style={[
             styles.base,
+            this.context.toolbarMode && styles.baseToolbar,
             this.props.selected && styles.selectedBase,
             styles.newInteractionBase,
           ]}
-          key={this.props.interactionId}
+          key={this.props.interaction.interactionId}
           onClick={this.props.onClick}
           disabled={this.props.selected}
         >
@@ -312,58 +387,95 @@ export class Interaction extends React.Component {
       const pendingPSTN =
         this.props.activeExtension.type === 'pstn' &&
         this.props.status === 'pending' &&
-        this.props.channelType === 'voice';
+        this.props.interaction.channelType === 'voice';
       const acceptMessage = pendingPSTN ? messages.PSTN : messages.accept;
       return (
         <div
-          id={`${this.props.status}InteractionContainer-${this.props
+          id={`${this.props.status}InteractionContainer-${this.props.interaction
             .interactionId}`}
           className={`${this.props.status}InteractionContainer`}
           style={[
             styles.base,
+            this.context.toolbarMode && styles.baseToolbar,
             this.props.selected && styles.selectedBase,
             this.props.status === 'pending' && styles.pendingBase,
+            this.context.toolbarMode &&
+              this.props.status === 'pending' &&
+              styles.pendingBaseToolbar,
             pendingPSTN && styles.pstnBase,
-            this.props.isCanceled && styles.cancelInteractionInProgress,
+            this.props.interaction.isCancellingInteraction &&
+              styles.cancelInteractionInProgress,
           ]}
-          key={this.props.interactionId}
+          key={this.props.interaction.interactionId}
           onClick={this.props.onClick}
+          onMouseOver={this.context.toolbarMode ? this.handleMouseOver : null}
+          onFocus={this.context.toolbarMode ? this.handleMouseOver : null}
+          onMouseLeave={this.context.toolbarMode ? this.handleMouseLeave : null}
           disabled={this.props.selected}
         >
           <div style={styles.iconContainer}>
             <Icon name={this.props.icon} />
           </div>
-          <div
-            style={[
-              styles.mainContainer,
-              styles.mainContainer[this.props.status],
-            ]}
-          >
-            <div style={styles.headerContainer}>
-              <div style={styles.from}>
-                {this.props.from}
-              </div>
-              <div style={[styles.timer, { color: this.getTimerColor() }]}>
-                {this.getTimer()}
-              </div>
+          {this.context.toolbarMode
+            ? <div
+              style={[styles.timerToolbar, { color: this.getTimerColor() }]}
+            >
+              {this.getTimer()}
             </div>
-            {this.getPreviewText()}
-            {this.props.status === 'pending'
-              ? <div style={styles.intentText}>
-                <FormattedMessage {...acceptMessage} />
-                {this.props.interactionDirection === 'outbound' &&
-                  this.props.channelType === 'voice'
-                    ? <Button
-                      id="cancelInteractionBeforeActive"
-                      type="primaryRed"
-                      text={messages.cancelInteraction}
-                      style={styles.cancelInteractionBtn}
-                      onClick={this.cancelInteraction}
-                    />
-                    : undefined}
+            : <div
+              style={[
+                styles.mainContainer,
+                styles.mainContainer[this.props.status],
+              ]}
+            >
+              <div style={styles.headerContainer}>
+                <div style={styles.from}>
+                  {this.props.from}
+                </div>
+                <div style={[styles.timer, { color: this.getTimerColor() }]}>
+                  {this.getTimer()}
+                </div>
               </div>
-              : undefined}
-          </div>
+              {this.getPreviewText()}
+              {this.props.status === 'pending'
+                  ? <div style={styles.intentText}>
+                    <FormattedMessage {...acceptMessage} />
+                    {this.props.interaction.interactionDirection ===
+                        'outbound' &&
+                      this.props.interaction.channelType === 'voice'
+                        ? <Button
+                          id="cancelInteractionBeforeActive"
+                          type="primaryRed"
+                          text={messages.cancelInteraction}
+                          style={styles.cancelInteractionBtn}
+                          onClick={this.cancelInteraction}
+                        />
+                        : undefined}
+                  </div>
+                  : undefined}
+            </div>}
+          {this.state.hover &&
+            this.props.status === 'pending' &&
+            <div style={styles.hoverElement}>
+              <div style={styles.hoverTriangle} />
+              <div
+                style={[
+                  styles.hoverBox,
+                  this.props.interaction.contact && styles.hoverBoxWithContact,
+                ]}
+              >
+                {this.props.interaction.contact
+                  ? <div>
+                    <p style={[styles.hoverBoxText, styles.hoverBoxContact]}>
+                      {this.props.from}
+                    </p>
+                    <p style={styles.hoverBoxText}>
+                      {this.props.contactPoint}
+                    </p>
+                  </div>
+                  : this.props.from}
+              </div>
+            </div>}
         </div>
       );
     }
@@ -371,12 +483,9 @@ export class Interaction extends React.Component {
 }
 
 Interaction.propTypes = {
-  interactionId: PropTypes.string,
   from: PropTypes.string,
   previewText: PropTypes.string,
-  channelType: PropTypes.string,
   icon: PropTypes.string,
-  timeout: PropTypes.number,
   targetWrapupTime: PropTypes.number,
   wrapupTime: PropTypes.number,
   status: PropTypes.oneOf([
@@ -387,18 +496,28 @@ Interaction.propTypes = {
     'work-ended-pending-script',
     'script-only',
   ]).isRequired,
-  awaitingDisposition: PropTypes.bool,
   selected: PropTypes.bool,
   onClick: PropTypes.func,
   activeExtension: PropTypes.object.isRequired,
-  isCanceled: PropTypes.bool,
-  interactionDirection: PropTypes.string,
   cancelClickToDial: PropTypes.func,
+  contactPoint: PropTypes.string,
+  interaction: PropTypes.shape({
+    interactionId: PropTypes.string,
+    timeout: PropTypes.number,
+    channelType: PropTypes.string,
+    isCancellingInteraction: PropTypes.bool,
+    interactionDirection: PropTypes.string,
+    contact: PropTypes.object,
+  }).isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
   activeExtension: selectActiveExtension(state, props),
 });
+
+Interaction.contextTypes = {
+  toolbarMode: PropTypes.bool,
+};
 
 function mapDispatchToProps(dispatch) {
   return {

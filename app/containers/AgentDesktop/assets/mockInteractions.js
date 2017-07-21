@@ -72,10 +72,16 @@ const outboundConnectingVoiceInteraction = {
 const voiceInteraction = {
   channelType: 'voice',
   interactionId: 'voice-interaction-1',
-  status: 'work-accepted', // 'wrapup', // 'work-offer',
-  timeout: Date.now() + 60000,
+  status: 'work-accepted', // 'wrapup', // 'work-initiated',
+  timeout: Date.now() + 70000,
   number: '+3134126623',
+  contact: {
+    attributes: {
+      name: 'Jazz Finner'
+    },
+  },
   query: {},
+  autoAnswer: false,
   dispositionDetails: processedDispositionDetails,
   activeContactForm: activeContactFormBlank,
   wrapupDetails: {
@@ -307,7 +313,8 @@ const emailInteraction = {
   channelType: 'email',
   interactionId: '0000000-0000-0000-0000-222222222222',
   customer: 'jclowater@serenova.com',
-  status: 'work-accepted', // 'work-offer', 'work-ended-pending-script'
+  autoAnswer: false,
+  status: 'work-accepted', // 'work-initiated', 'work-ended-pending-script'
   timeout: Date.now() + 60000,
   dispositionDetails: processedDispositionDetails,
   wrapupDetails: {
@@ -675,6 +682,8 @@ const smsInteractionWithLotsOfMessagesAndScript = {
   customerAvatarIndex: 5,
   interactionId: 'smsInteractionWithLotsOfMessagesAndScript',
   status: 'work-accepted',
+  autoAnswer: false,
+  timeout: Date.now() + 60000,
   customer: '+15552213456',
   query: {},
   wrapupDetails: {
