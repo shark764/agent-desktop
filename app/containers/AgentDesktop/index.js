@@ -151,6 +151,7 @@ export class AgentDesktop extends React.Component {
                 flex: '1 1 auto',
                 display: 'flex',
                 flexDirection: 'column',
+                position: 'relative',
               }}
             >
               {this.context.toolbarMode &&

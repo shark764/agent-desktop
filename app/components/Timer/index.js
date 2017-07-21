@@ -34,9 +34,9 @@ function Timer(props) {
 
 Timer.propTypes = {
   timer: PropTypes.object,
+  timeSince: PropTypes.number,
   format: PropTypes.string,
   style: PropTypes.object,
-  timeSince: PropTypes.number,
 };
 
 export default timer(1000)(Timer);

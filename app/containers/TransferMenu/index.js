@@ -236,6 +236,11 @@ export class TransferMenu extends React.Component {
       maxHeight: 'calc(100vh - 330px)',
       overflowY: 'auto',
       minHeight: '76px',
+      textAlign: 'left',
+    },
+    transferListsToolbar: {
+      maxHeight: undefined,
+      height: 'calc(100vh - 292px)',
     },
     transferList: {
       marginTop: '12px',
@@ -615,7 +620,12 @@ export class TransferMenu extends React.Component {
               value={this.state.transferSearchInput}
               style={this.styles.transferSearchInput}
             />
-            <div style={this.styles.transferLists}>
+            <div
+              style={[
+                this.styles.transferLists,
+                this.context.toolbarMode && this.styles.transferListsToolbar,
+              ]}
+            >
               {queues.length > 0
                   ? <div style={this.styles.transferList}>
                     <div style={this.styles.transferListTitle}>
@@ -719,6 +729,10 @@ TransferMenu.propTypes = {
   queues: PropTypes.array.isRequired,
   startWarmTransferring: PropTypes.func.isRequired,
   setQueueTime: PropTypes.func.isRequired,
+};
+
+TransferMenu.contextTypes = {
+  toolbarMode: PropTypes.bool,
 };
 
 export default ErrorBoundary(

@@ -442,6 +442,48 @@ exports[`<Icon /> with name email_new should render correctly 1`] = `
 />
 `;
 
+exports[`<Icon /> with name end_call_resource and active prop should render correctly 1`] = `
+<span
+  className="active"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundSize": "72px 24px",
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "24px",
+      "width": "24px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name end_call_resource should render correctly 1`] = `
+<span
+  className=""
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundSize": "72px 24px",
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "24px",
+      "width": "24px",
+    }
+  }
+/>
+`;
+
 exports[`<Icon /> with name endCall and active prop should render correctly 1`] = `
 <span
   className="active"
@@ -518,6 +560,49 @@ exports[`<Icon /> with name hold should render correctly 1`] = `
       "display": "block",
       "height": "40px",
       "width": "40px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name hold_resource and active prop should render correctly 1`] = `
+<span
+  className="active"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundPosition": "-48px 0",
+      "backgroundSize": "72px 24px",
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "24px",
+      "width": "24px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name hold_resource should render correctly 1`] = `
+<span
+  className=""
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundSize": "72px 24px",
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "24px",
+      "width": "24px",
     }
   }
 />
@@ -688,6 +773,49 @@ exports[`<Icon /> with name not_connected should render correctly 1`] = `
 />
 `;
 
+exports[`<Icon /> with name resources and active prop should render correctly 1`] = `
+<span
+  className="active"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundPosition": "-80px 0",
+      "backgroundSize": "120px 40px",
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "40px",
+      "width": "40px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name resources should render correctly 1`] = `
+<span
+  className=""
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundSize": "120px 40px",
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "40px",
+      "width": "40px",
+    }
+  }
+/>
+`;
+
 exports[`<Icon /> with name search and active prop should render correctly 1`] = `
 <img
   alt="search"
@@ -799,6 +927,48 @@ exports[`<Icon /> with name transfer_dark should render correctly 1`] = `
       "display": "block",
       "height": "40px",
       "width": "40px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name transfer_resource and active prop should render correctly 1`] = `
+<span
+  className="active"
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundSize": "72px 24px",
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "24px",
+      "width": "24px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name transfer_resource should render correctly 1`] = `
+<span
+  className=""
+  data-radium={true}
+  id="mockId"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "backgroundImage": "url(test-file-stub)",
+      "backgroundSize": "72px 24px",
+      "borderRadius": "50%",
+      "cursor": "pointer",
+      "display": "block",
+      "height": "24px",
+      "width": "24px",
     }
   }
 />

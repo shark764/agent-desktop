@@ -583,7 +583,8 @@ function agentDesktopReducer(state = initialState, action) {
                 } else {
                   mappedResource.name = 'Agent';
                 }
-                return new Map(mappedResource);
+                mappedResource.addedTimestamp = Date.now();
+                return fromJS(mappedResource);
               })
             )
           )
@@ -1270,7 +1271,11 @@ function agentDesktopReducer(state = initialState, action) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
           interaction.update('warmTransfers', (warmTransfers) =>
             warmTransfers.push(
-              fromJS({ ...action.transferringTo, status: 'transferring' })
+              fromJS({
+                ...action.transferringTo,
+                status: 'transferring',
+                addedTimestamp: Date.now(),
+              })
             )
           )
         );
@@ -1334,6 +1339,7 @@ function agentDesktopReducer(state = initialState, action) {
                     targetResource: action.response.extraParams.targetResource,
                     name: action.response.extraParams.displayName,
                     status: 'connected',
+                    addedTimestamp: Date.now(),
                   })
                 )
               );

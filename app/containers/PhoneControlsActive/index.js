@@ -10,7 +10,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
@@ -36,15 +36,12 @@ export class PhoneControlsActive extends React.Component {
 
     this.state = {
       showTransferMenu: false,
-      selectedTransferResourceMenu: undefined,
       showActiveInteractionDialpad: false,
       activeInteractionDialpadText: '',
+      // showActiveResourcesMenu is the flag to show the menu of all active resources on the call (only used for toolbarMode)
+      showActiveResourcesMenu: false,
     };
   }
-
-  setSelectedTransferResourceMenu = (selectedTransferResourceMenu) => {
-    this.setState({ selectedTransferResourceMenu });
-  };
 
   setShowTransferMenu = (showTransferMenu) => {
     this.setState({
@@ -53,15 +50,24 @@ export class PhoneControlsActive extends React.Component {
     });
   };
 
-  setShowActiveInteractionDialpad = (showActiveInteractionDialpad) => {
+  setActiveInteractionDialpadText = (activeInteractionDialpadText) => {
+    this.setState({ activeInteractionDialpadText });
+  };
+
+  toggleDialpad = () => {
     this.setState({
-      showActiveInteractionDialpad,
-      showTransferMenu: false,
+      showActiveInteractionDialpad: !this.state.showActiveInteractionDialpad,
     });
   };
 
-  setActiveInteractionDialpadText = (activeInteractionDialpadText) => {
-    this.setState({ activeInteractionDialpadText });
+  toggleTransferMenu = () => {
+    this.setShowTransferMenu(!this.state.showTransferMenu);
+  };
+
+  toggleActiveResourcesMenu = () => {
+    this.setState({
+      showActiveResourcesMenu: !this.state.showActiveResourcesMenu,
+    });
   };
 
   setRecording = () => {
@@ -108,14 +114,10 @@ export class PhoneControlsActive extends React.Component {
     }
   };
 
-  toggleDialpad = () => {
-    this.setShowActiveInteractionDialpad(
-      !this.state.showActiveInteractionDialpad
-    );
-  };
-
-  toggleTransferMenu = () => {
-    this.setShowTransferMenu(!this.state.showTransferMenu);
+  resumeAll = () => {
+    CxEngage.interactions.voice.resumeAll({
+      interactionId: this.props.activeVoiceInteraction.interactionId,
+    });
   };
 
   resumeMe = () => {
@@ -169,19 +171,43 @@ export class PhoneControlsActive extends React.Component {
       left: '0px',
       height: '100vh',
       width: '100vw',
-      zIndex: '2',
+      zIndex: 3,
+    },
+    topTriangle: {
+      width: '0px',
+      height: '0px',
+      borderTop: 'none',
+      borderLeft: '8px solid transparent',
+      borderRight: '8px solid transparent',
+      borderBottom: '10px solid white',
+      position: 'absolute',
+      marginTop: '4px',
+      left: '14px',
+      zIndex: 4,
     },
     transferTopTriangle: {
-      left: '14px',
       borderBottom: '10px solid #F3F3F3',
     },
     activeVoiceInteractionDialpadPhoneControlsPopupMenu: {
       height: '339px',
     },
     transferPhoneControlsPopupMenu: {
-      padding: 0,
+      width: '282px',
+      marginTop: '10px',
+      backgroundColor: '#FFFFFF',
+      color: '#4B4B4B',
+      boxShadow: '0 0 6px 0 rgba(0,0,0,0.23)',
+      borderRadius: '3px',
+      overflow: 'hidden',
+      position: 'absolute',
+      zIndex: 3,
       fontSize: '14px',
-      left: '-138px',
+      left: '-119px',
+    },
+    transferPhoneControlsPopupMenuToolbar: {
+      left: 0,
+      width: '100%',
+      borderRadius: 0,
     },
     meOnHold: {
       width: '255px',
@@ -190,8 +216,33 @@ export class PhoneControlsActive extends React.Component {
       borderRadius: '9px',
       textAlign: 'center',
     },
+    meOnHoldToolbar: {
+      width: '100%',
+      margin: 0,
+      borderRadius: 0,
+      position: 'absolute',
+      zIndex: 2,
+      boxShadow: '0 0 6px 0 rgba(0,0,0,0.37)',
+    },
     warmTransfersContainer: {
-      marginTop: '7px',
+      position: 'absolute',
+      backgroundColor: '#FFFFFF',
+      color: '#4B4B4B',
+      zIndex: 3,
+      marginTop: '10px',
+      textAlign: 'left',
+      padding: '20px',
+      maxHeight: 'calc(100% - 63px)',
+      overflowY: 'auto',
+      left: '10px',
+      width: '400px',
+      borderRadius: '3px',
+      boxShadow: '0 0 6px 0 rgba(0,0,0,0.23)',
+    },
+    warmTransfersContainerToolbar: {
+      left: 0,
+      width: '100%',
+      borderRadius: 0,
     },
   };
 
@@ -212,35 +263,41 @@ export class PhoneControlsActive extends React.Component {
     return null;
   };
 
-  renderTransferMenu = () => {
+  renderTopTriangle = () => <div style={this.styles.topTriangle} />;
+
+  renderTopTriangleTransferMenu = () =>
+    <div style={[this.styles.topTriangle, this.styles.transferTopTriangle]} />;
+
+  renderTransferMenu = () =>
+    (<span>
+      <div
+        id="transferMask"
+        style={this.styles.mask}
+        onClick={this.toggleTransferMenu}
+      />
+      {!this.context.toolbarMode && this.renderTopTriangleTransferMenu()}
+      <div
+        id="transfersContainer"
+        style={[
+          this.styles.transferPhoneControlsPopupMenu,
+          this.context.toolbarMode &&
+            this.styles.transferPhoneControlsPopupMenuToolbar,
+        ]}
+      >
+        <TransferMenu
+          interactionId={this.props.activeVoiceInteraction.interactionId}
+          setShowTransferMenu={this.setShowTransferMenu}
+        />
+      </div>
+    </span>);
+
+  renderTransferMenuTypes = (forIcon) => {
     if (this.state.showTransferMenu) {
-      return (
-        <div>
-          <div
-            id="transferMask"
-            style={this.styles.mask}
-            onClick={this.toggleTransferMenu}
-          />
-          <div
-            style={[
-              this.props.style.topTriangle,
-              this.styles.transferTopTriangle,
-            ]}
-          />
-          <div
-            id="transfersContainer"
-            style={[
-              this.props.style.phoneControlsPopupMenu,
-              this.styles.transferPhoneControlsPopupMenu,
-            ]}
-          >
-            <TransferMenu
-              interactionId={this.props.activeVoiceInteraction.interactionId}
-              setShowTransferMenu={this.setShowTransferMenu}
-            />
-          </div>
-        </div>
-      );
+      if (forIcon && this.context.toolbarMode) {
+        return this.renderTopTriangleTransferMenu();
+      } else {
+        return this.renderTransferMenu();
+      }
     } else {
       return null;
     }
@@ -323,18 +380,16 @@ export class PhoneControlsActive extends React.Component {
               : warmTransfer.id}_${index}`}
             activeVoiceInteraction={this.props.activeVoiceInteraction}
             resource={warmTransfer}
-            resumeAllAvailable={resourcesOnHold > 1}
-            selectedTransferResourceMenu={
-              this.state.selectedTransferResourceMenu
-            }
-            setSelectedTransferResourceMenu={
-              this.setSelectedTransferResourceMenu
-            }
-            style={this.props.style}
           />)
       );
       warmTransfers = (
-        <div style={this.styles.warmTransfersContainer}>
+        <div
+          style={[
+            this.styles.warmTransfersContainer,
+            this.context.toolbarMode &&
+              this.styles.warmTransfersContainerToolbar,
+          ]}
+        >
           {warmTransfersMapped}
         </div>
       );
@@ -369,14 +424,17 @@ export class PhoneControlsActive extends React.Component {
                   style={this.styles.circleIconButtonRow}
                 />
                 {!connectingTransfers &&
-                  <CircleIconButton
-                    id="transferButton"
-                    name="transfer"
-                    active={this.state.showTransferMenu}
-                    onClick={this.toggleTransferMenu}
-                    style={this.styles.circleIconButtonRow}
-                    innerElement={this.renderTransferMenu()}
-                  />}
+                  <span>
+                    <CircleIconButton
+                      id="transferButton"
+                      name="transfer"
+                      active={this.state.showTransferMenu}
+                      onClick={this.toggleTransferMenu}
+                      style={this.styles.circleIconButtonRow}
+                      innerElement={this.renderTransferMenuTypes(true)}
+                    />
+                    {this.context.toolbarMode && this.renderTransferMenuTypes()}
+                  </span>}
                 {this.props.activeExtension.type !== 'pstn' &&
                   <CircleIconButton
                     id="dialpadButton"
@@ -388,19 +446,58 @@ export class PhoneControlsActive extends React.Component {
                       this.state.showActiveInteractionDialpad
                     )}
                   />}
+                {warmTransfers !== undefined &&
+                  <span>
+                    <CircleIconButton
+                      id="resourcesButton"
+                      name="resources"
+                      active={this.state.showActiveResourcesMenu}
+                      onClick={this.toggleActiveResourcesMenu}
+                      style={this.styles.circleIconButtonRow}
+                      innerElement={
+                        this.state.showActiveResourcesMenu
+                          ? this.renderTopTriangle()
+                          : null
+                      }
+                    />
+                    {this.state.showActiveResourcesMenu &&
+                      <div>
+                        <div
+                          id="activeResourcesMenuMask"
+                          style={this.styles.mask}
+                          onClick={this.toggleActiveResourcesMenu}
+                        />
+                        {warmTransfers}
+                      </div>}
+                  </span>}
               </span>}
           </div>
         </div>
-        {this.props.activeVoiceInteraction.meOnHold === true &&
+        {resourcesOnHold > 1 &&
+          <Button
+            id="resumeAll"
+            text={messages.resumeAll}
+            title={this.props.intl.formatMessage(messages.resumeAllDescription)}
+            type="primaryRed"
+            onClick={this.resumeAll}
+            style={[
+              this.styles.meOnHold,
+              this.context.toolbarMode && this.styles.meOnHoldToolbar,
+            ]}
+          />}
+        {resourcesOnHold <= 1 &&
+          this.props.activeVoiceInteraction.meOnHold === true &&
           <Button
             id="agentOnHoldButton"
             text={messages.onHold}
             mouseOverText={messages.resume}
             type="primaryRed"
             onClick={this.resumeMe}
-            style={this.styles.meOnHold}
+            style={[
+              this.styles.meOnHold,
+              this.context.toolbarMode && this.styles.meOnHoldToolbar,
+            ]}
           />}
-        {warmTransfers}
       </div>
     );
   }
@@ -411,20 +508,11 @@ const mapStateToProps = (state, props) => ({
   activeExtension: selectActiveExtension(state, props),
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
 PhoneControlsActive.propTypes = {
+  intl: intlShape.isRequired,
   agentId: PropTypes.string.isRequired,
   activeVoiceInteraction: PropTypes.object,
   activeExtension: PropTypes.object,
-  style: PropTypes.shape({
-    topTriangle: PropTypes.object.isRequired,
-    phoneControlsPopupMenu: PropTypes.object.isRequired,
-  }),
 };
 
 PhoneControlsActive.contextTypes = {
@@ -432,5 +520,5 @@ PhoneControlsActive.contextTypes = {
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(PhoneControlsActive))
+  connect(mapStateToProps)(injectIntl(Radium(PhoneControlsActive)))
 );

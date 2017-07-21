@@ -34,4 +34,12 @@ export default defineMessages({
     id: 'app.containers.PhoneControls.resume',
     defaultMessage: 'Resume',
   },
+  resumeAll: {
+    id: 'app.containers.TransferResource.resumeAll',
+    defaultMessage: 'Resume All',
+  },
+  resumeAllDescription: {
+    id: 'app.containers.TransferResource.resumeAllDescription',
+    defaultMessage: 'Take all participants off hold',
+  },
 });
