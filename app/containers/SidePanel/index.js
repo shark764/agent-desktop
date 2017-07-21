@@ -179,33 +179,33 @@ export class SidePanel extends React.Component {
           >
             <TabList>
               {this.context.crmEnabled && [
-                <Tab>
+                <Tab key="info">
                   <FormattedMessage {...messages.infoTab} />
                 </Tab>,
                 this.props.hasAssignedContact &&
-                  <Tab>
+                  <Tab key="history">
                     <FormattedMessage {...messages.historyTab} />
                   </Tab>,
               ]}
               {renderScriptTab &&
-                <Tab>
+                <Tab key="scripts">
                   <FormattedMessage {...messages.scriptsTab} />
                 </Tab>}
             </TabList>
             {this.context.crmEnabled && [
-              <TabPanel>
+              <TabPanel key="info1">
                 <InfoTab
                   isCollapsed={this.props.isCollapsed}
                   style={this.styles.rightMargin}
                 />
               </TabPanel>,
               this.props.hasAssignedContact &&
-                <TabPanel>
+                <TabPanel key="history1">
                   <ContactInteractionHistory />
                 </TabPanel>,
             ]}
             {renderScriptTab &&
-              <TabPanel>
+              <TabPanel key="scripts1">
                 <div style={this.styles.agentScriptPanel}>
                   <AgentScript
                     interactionId={this.props.selectedInteractionId}

@@ -180,6 +180,7 @@
   "app.containers.PhoneControls.off": "WYŁĄCZENIE",
   "app.containers.PhoneControls.on": "WŁĄCZENIE",
   "app.containers.PhoneControls.onHold": "W trakcie wstrzymania",
+  "app.containers.PhoneControls.rec": "",
   "app.containers.PhoneControls.recording": "Rejestracja",
   "app.containers.PhoneControls.resume": "Kontynuuj",
   "app.containers.SidePanel.editing": "Edytowanie rekordu klienta",

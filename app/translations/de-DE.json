@@ -180,6 +180,7 @@
   "app.containers.PhoneControls.off": "EIN",
   "app.containers.PhoneControls.on": "AUS",
   "app.containers.PhoneControls.onHold": "In Warteschleife",
+  "app.containers.PhoneControls.rec": "",
   "app.containers.PhoneControls.recording": "Aufnahme",
   "app.containers.PhoneControls.resume": "Fortsetzen",
   "app.containers.SidePanel.editing": "Kundendatensatz wird bearbeitet",

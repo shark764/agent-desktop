@@ -4816,10 +4816,6 @@ js-base64@^2.1.9:
   version "2.1.9"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/js-base64/-/js-base64-2.1.9.tgz#f0e80ae039a4bd654b5f281fc93f04a914a7fcce"
 
-js-stylesheet@^0.0.1:
-  version "0.0.1"
-  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/js-stylesheet/-/js-stylesheet-0.0.1.tgz#12cc1451220e454184b46de3b098c0d154762c38"
-
 js-tokens@^3.0.0:
   version "3.0.2"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
@@ -6747,7 +6743,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@15.5.10, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.8:
+prop-types@15.5.10, prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.8:
   version "15.5.10"
   resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
@@ -6877,11 +6873,12 @@ react-addons-test-utils@15.4.2:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
 
-react-autocomplete@1.4.1:
-  version "1.4.1"
-  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-autocomplete/-/react-autocomplete-1.4.1.tgz#2cf52a53d5a02400421898321e80e64847b40eca"
+react-autocomplete@1.5.10:
+  version "1.5.10"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-autocomplete/-/react-autocomplete-1.5.10.tgz#43e7c0e8958df7841dc1a163d174c5b7b82439c8"
   dependencies:
     dom-scroll-into-view "1.0.1"
+    prop-types "^15.5.10"
 
 react-deep-force-update@^1.0.0:
   version "1.0.1"
@@ -6910,9 +6907,11 @@ react-helmet@5.1.3:
     prop-types "^15.5.4"
     react-side-effect "^1.1.0"
 
-"react-infinite-scroller@https://github.com/liveops/react-infinite-scroller":
-  version "1.0.7"
-  resolved "https://github.com/liveops/react-infinite-scroller#80faf0974d1c40e071ce3d777d7368438072a1e2"
+react-infinite-scroller@1.0.14:
+  version "1.0.14"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-infinite-scroller/-/react-infinite-scroller-1.0.14.tgz#ffe54321f4a93f70885d4b064600a9fd5a8e5be2"
+  dependencies:
+    prop-types "^15.5.8"
 
 react-input-autosize@1.1.4, react-input-autosize@^1.1.3:
   version "1.1.4"
@@ -6971,12 +6970,12 @@ react-svg@2.1.21:
   dependencies:
     svg-injector "^1.1.3"
 
-react-tabs@0.8.2:
-  version "0.8.2"
-  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-tabs/-/react-tabs-0.8.2.tgz#7928e822361b61eb7f53164daf86ad7ee98ef539"
+react-tabs@1.1.0:
+  version "1.1.0"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-tabs/-/react-tabs-1.1.0.tgz#f1e3d6136e1d89f70f5ef8835468a2f03a54777a"
   dependencies:
     classnames "^2.2.0"
-    js-stylesheet "^0.0.1"
+    prop-types "^15.5.0"
 
 react-tether@0.5.7:
   version "0.5.7"
@@ -6985,9 +6984,9 @@ react-tether@0.5.7:
     prop-types "^15.5.8"
     tether "^1.3.7"
 
-react-textarea-autosize@4.1.0:
-  version "4.1.0"
-  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-textarea-autosize/-/react-textarea-autosize-4.1.0.tgz#e3c3c29b3e0bd975065f5346a8681ec3640f4055"
+react-textarea-autosize@5.0.7:
+  version "5.0.7"
+  resolved "http://nexus.cxengagelabs.net/content/groups/npm-all/react-textarea-autosize/-/react-textarea-autosize-5.0.7.tgz#cad511cf1111ab1482fbc8bd679d5d41e8e52b1f"
   dependencies:
     prop-types "^15.5.8"
 

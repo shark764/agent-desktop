@@ -458,8 +458,8 @@ export class MessagingTextArea extends React.Component {
           onHeightChange={(messageTextareaHeight) =>
             this.setState({ messageTextareaHeight })}
           id="messageTextarea"
-          ref={(textarea) => {
-            this.messageTextarea = textarea;
+          inputRef={(input) => {
+            this.messageTextarea = input;
           }}
           disabled={this.props.selectedInteraction.status === 'wrapup'}
           style={

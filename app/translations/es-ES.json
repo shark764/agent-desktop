@@ -180,6 +180,7 @@
   "app.containers.PhoneControls.off": "DESACTIVADO",
   "app.containers.PhoneControls.on": "ACTIVADO",
   "app.containers.PhoneControls.onHold": "En espera",
+  "app.containers.PhoneControls.rec": "",
   "app.containers.PhoneControls.recording": "Grabación",
   "app.containers.PhoneControls.resume": "Reanudar",
   "app.containers.SidePanel.editing": "Editando registro de cliente",
