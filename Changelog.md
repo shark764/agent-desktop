@@ -1,4 +1,4 @@
-### [Unreleased] ()
+### [1.1.0] (2017-07-21)
 * BUGFIX - SDK version bump to 5.3.27-SNAPSHOT
 * CXV1-9000 - Added Context Flag based on url + tests
 * CXV1-9001 - Toolbar styling for Login
