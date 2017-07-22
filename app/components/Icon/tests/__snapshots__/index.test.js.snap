@@ -835,3 +835,35 @@ exports[`<Icon /> with name voice_dark should render correctly 1`] = `
   }
 />
 `;
+
+exports[`<Icon /> with name voice_white and active prop should render correctly 1`] = `
+<img
+  alt="voice_white"
+  data-radium={true}
+  id="mockId"
+  src="test-file-stub"
+  style={
+    Object {
+      "cursor": "pointer",
+      "height": "20px",
+      "width": "16px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name voice_white should render correctly 1`] = `
+<img
+  alt="voice_white"
+  data-radium={true}
+  id="mockId"
+  src="test-file-stub"
+  style={
+    Object {
+      "cursor": "pointer",
+      "height": "20px",
+      "width": "16px",
+    }
+  }
+/>
+`;

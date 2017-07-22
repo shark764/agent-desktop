@@ -107,6 +107,9 @@ export class AgentDesktop extends React.Component {
       display: 'flex',
       flexFlow: 'column',
     },
+    leftAreaToolbar: {
+      width: '72px',
+    },
     phoneControls: {
       flex: '0 0 auto',
     },
@@ -158,7 +161,12 @@ export class AgentDesktop extends React.Component {
                   style={[this.styles.phoneControls, { flex: '0' }]}
                 />}
               <div style={{ display: 'flex', flex: '1' }}>
-                <div style={[this.styles.leftArea]}>
+                <div
+                  style={[
+                    this.styles.leftArea,
+                    this.context.toolbarMode && this.styles.leftAreaToolbar,
+                  ]}
+                >
                   {!this.context.toolbarMode &&
                     <PhoneControls style={[this.styles.phoneControls]} />}
                   <InteractionsBar

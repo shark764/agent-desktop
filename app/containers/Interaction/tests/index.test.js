@@ -18,6 +18,7 @@ describe('<Interaction />', () => {
         icon="config"
         intl={getIntlContext()}
         activeExtension={{}}
+        interaction={{}}
       />
     );
     expect(rendered).toMatchSnapshot();

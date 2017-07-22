@@ -59,11 +59,6 @@ export class InteractionsBar extends React.Component {
     }
   };
 
-  awaitingDisposition = (interaction) =>
-    interaction.status === 'wrapup' &&
-    interaction.dispositionDetails.forceSelect &&
-    interaction.dispositionDetails.selected.length === 0;
-
   render() {
     let activeVoiceInteractionStatus;
     if (this.props.activeVoiceInteraction) {
@@ -80,13 +75,9 @@ export class InteractionsBar extends React.Component {
 
     const activeVoiceInteraction = this.props.activeVoiceInteraction
       ? (<Interaction
-        interactionId={this.props.activeVoiceInteraction.interactionId}
+        interaction={this.props.activeVoiceInteraction}
         key={this.props.activeVoiceInteraction.interactionId}
         icon="voice"
-        channelType={this.props.activeVoiceInteraction.channelType}
-        awaitingDisposition={this.awaitingDisposition(
-            this.props.activeVoiceInteraction
-          )}
         from={
             has(this.props.activeVoiceInteraction, 'contact.attributes.name')
               ? this.props.activeVoiceInteraction.contact.attributes.name
@@ -189,14 +180,12 @@ export class InteractionsBar extends React.Component {
         return (
           <Interaction
             {...{ from, icon }}
-            interactionId={activeInteraction.interactionId}
+            interaction={activeInteraction}
             key={
               activeInteraction.interactionId
                 ? activeInteraction.interactionId
                 : activeInteraction.customer
             }
-            channelType={activeInteraction.channelType}
-            awaitingDisposition={this.awaitingDisposition(activeInteraction)}
             previewText={text}
             status={status}
             targetWrapupTime={
@@ -230,7 +219,7 @@ export class InteractionsBar extends React.Component {
     const newInteraction =
       this.props.newInteractionPanel.visible &&
       <Interaction
-        interactionId={this.props.newInteractionPanel.interactionId}
+        interaction={{ id: this.props.newInteractionPanel.interactionId }}
         status={this.props.newInteractionPanel.status}
         selected={
           this.props.selectedInteractionId ===
@@ -252,6 +241,7 @@ export class InteractionsBar extends React.Component {
         let icon;
         let from;
         let text;
+        let contactPoint;
         if (
           pendingInteraction.channelType === 'messaging' ||
           pendingInteraction.channelType === 'sms'
@@ -266,35 +256,36 @@ export class InteractionsBar extends React.Component {
             pendingInteraction.messageHistory.length > 0
               ? pendingInteraction.messageHistory[0].text
               : '';
-          icon = 'message_new';
+          icon = this.context.toolbarMode ? 'message' : 'message_new';
         } else if (pendingInteraction.channelType === 'email') {
           from = pendingInteraction.customer;
-          icon = 'email_new';
+          icon = this.context.toolbarMode ? 'email' : 'email_new';
         } else if (pendingInteraction.channelType === 'voice') {
           from = pendingInteraction.number;
-          icon = 'voice';
+          icon = this.context.toolbarMode ? 'voice_white' : 'voice';
         }
         // Set from to the contact name if available
         if (
           pendingInteraction.contact !== undefined &&
           pendingInteraction.contact.attributes !== undefined
         ) {
+          // we still want to hold on to the phone number or email address
+          // to show in the hover state for toolbar, so we'll pass it as contactPoint
+          contactPoint = from;
           from = pendingInteraction.contact.attributes.name;
         }
 
         return (
           <Interaction
             {...{ icon, from }}
-            interactionId={pendingInteraction.interactionId}
+            interaction={pendingInteraction}
+            contactPoint={contactPoint || from}
             key={pendingInteraction.interactionId}
-            channelType={pendingInteraction.channelType}
             previewText={text}
             status="pending"
-            timeout={pendingInteraction.timeout}
             onClick={() =>
               this.acceptInteraction(pendingInteraction.interactionId)}
             interactionDirection={pendingInteraction.direction}
-            isCanceled={pendingInteraction.isCancellingInteraction}
           />
         );
       }
@@ -379,6 +370,10 @@ InteractionsBar.propTypes = {
   newInteractionPanel: PropTypes.object.isRequired,
   activeExtension: PropTypes.object,
   openNewInteractionPanel: PropTypes.func.isRequired,
+};
+
+InteractionsBar.contextTypes = {
+  toolbarMode: PropTypes.bool,
 };
 
 export default ErrorBoundary(
