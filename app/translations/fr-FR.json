@@ -180,6 +180,7 @@
   "app.containers.PhoneControls.off": "INACTIF",
   "app.containers.PhoneControls.on": "ACTIF",
   "app.containers.PhoneControls.onHold": "En attente",
+  "app.containers.PhoneControls.rec": "",
   "app.containers.PhoneControls.recording": "Enregistrement",
   "app.containers.PhoneControls.resume": "Reprendre",
   "app.containers.SidePanel.editing": "Modification de l'enregistrement client",

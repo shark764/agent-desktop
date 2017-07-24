@@ -14,29 +14,27 @@ import Radium from 'radium';
 import { Tabs as ReactTabs } from 'react-tabs';
 
 function Tabs(props) {
-  ReactTabs.setUseDefaultStyles(false);
-
   const commonTabStyles = {
-    '[role=tab]:first-child': {
+    '.react-tabs__tab:first-child': {
       paddingLeft: 0,
     },
-    '[role=tab][aria-selected=true]:first-child::after': {
+    '.react-tabs__tab--selected:first-child::after': {
       content: "''",
       width: 'calc(100% - 12px)',
       left: '0px',
     },
-    '[role=tab][aria-selected=false]': {
+    '.react-tabs__tab:not(.react-tabs__tab--selected)': {
       color: '#979797',
     },
-    '[role=tab][aria-disabled=true]': {
+    '.react-tabs__tab--disabled': {
       cursor: 'default',
     },
-    '[role=tab]:focus': {
+    '.react-tabs__tab:focus': {
       boxShadow: '0 0 0',
       border: 'none',
       outline: 'none',
     },
-    '[role=tab]:focus::after': {
+    '.react-tabs__tab:focus::after': {
       boxShadow: '0 0 5px hsl(208, 99%, 50%)',
       borderColor: 'hsl(208, 99%, 50%)',
       outline: 'none',
@@ -51,7 +49,7 @@ function Tabs(props) {
         rules={Object.assign(
           {
             color: '#4B4B4B',
-            '[role=tablist]': {
+            '.react-tabs__tab-list': {
               backgroundColor: '#F3F3F3',
               borderBottom: '1px solid #D0D0D0',
               padding: '0 32px',
@@ -59,7 +57,7 @@ function Tabs(props) {
               maxHeight: 100,
               boxSizing: 'border-box',
             },
-            '[role=tab]': {
+            '.react-tabs__tab': {
               fontWeight: 'bold',
               backgroundColor: '#F3F3F3',
               display: 'inline-block',
@@ -72,7 +70,7 @@ function Tabs(props) {
               marginBottom: '1px',
               cursor: 'pointer',
             },
-            '[role=tab][aria-selected=true]::after': {
+            '.react-tabs__tab--selected::after': {
               content: "''",
               width: 'calc(100% - 24px)',
               left: '12px',
@@ -93,7 +91,7 @@ function Tabs(props) {
         rules={Object.assign(
           {
             color: '#4B4B4B',
-            '[role=tablist]': {
+            '.react-tabs__tab-list': {
               flexGrow: '0',
               flexShrink: '0',
               order: '0',
@@ -103,11 +101,11 @@ function Tabs(props) {
               height: `${props.topBarHeightPx}px`,
               boxSizing: 'border-box',
             },
-            '[role=tabpanel]': {
+            '.react-tabs__tab-panel--selected': {
               height: `calc(100% - ${props.topBarHeightPx}px)`,
               alignSelf: 'stretch',
             },
-            '[role=tab]': {
+            '.react-tabs__tab': {
               fontWeight: 'bold',
               backgroundColor: '#FFFFFF',
               display: 'inline-block',
@@ -119,7 +117,7 @@ function Tabs(props) {
               padding: '6px 12px',
               cursor: 'pointer',
             },
-            '[role=tab][aria-selected=true]::after': {
+            '.react-tabs__tab--selected::after': {
               content: "''",
               width: 'calc(100% - 24px)',
               left: '12px',

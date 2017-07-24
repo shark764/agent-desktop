@@ -180,6 +180,7 @@
   "app.containers.PhoneControls.off": "ARRÊT",
   "app.containers.PhoneControls.on": "MARCHE",
   "app.containers.PhoneControls.onHold": "En attente",
+  "app.containers.PhoneControls.rec": "",
   "app.containers.PhoneControls.recording": "Enregistrement",
   "app.containers.PhoneControls.resume": "Reprendre",
   "app.containers.SidePanel.editing": "Modification de l'enregistrement de client",

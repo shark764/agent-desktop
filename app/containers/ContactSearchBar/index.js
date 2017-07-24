@@ -266,12 +266,6 @@ export class ContactSearchBar extends React.Component {
     }
   };
 
-  handleAutocompleteRef = (component) => {
-    if (component && component.refs) {
-      this.props.setSearchInputElement(component.refs.input);
-    }
-  };
-
   getResultsCountText = () => {
     let resultsCountText;
     if (this.props.resultsCount === 1) {
@@ -332,7 +326,7 @@ export class ContactSearchBar extends React.Component {
                   ...this.styles.filterDropdown,
                   width: `${this.state.filterMenuWidth}px`,
                 }}
-                ref={this.handleAutocompleteRef}
+                ref={this.props.setSearchInputElement}
               />}
             <div style={this.styles.resultsCount}>
               {this.getResultsCountText()}
@@ -364,7 +358,7 @@ ContactSearchBar.propTypes = {
   focusSearchInputElement: PropTypes.func.isRequired,
   searchableAttributes: PropTypes.array,
   removeSearchFilter: PropTypes.func.isRequired,
-  setContactMode: React.PropTypes.func.isRequired,
+  setContactMode: PropTypes.func.isRequired,
   searchPending: PropTypes.bool,
 };
 

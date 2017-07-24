@@ -9,6 +9,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import Radium from 'radium';
@@ -176,18 +177,18 @@ export class InfoTab extends React.Component {
 }
 
 InfoTab.propTypes = {
-  crmUnavailable: React.PropTypes.string,
-  style: React.PropTypes.object,
-  selectedInteraction: React.PropTypes.object,
-  setContactMode: React.PropTypes.func,
-  setLoading: React.PropTypes.func,
-  setShowCancelDialog: React.PropTypes.func,
-  resetForm: React.PropTypes.func,
-  nextNotificationId: React.PropTypes.number,
-  dismissNotification: React.PropTypes.func,
-  addNotification: React.PropTypes.func,
-  notifications: React.PropTypes.array,
-  editContact: React.PropTypes.func,
+  crmUnavailable: PropTypes.string,
+  style: PropTypes.object,
+  selectedInteraction: PropTypes.object,
+  setContactMode: PropTypes.func,
+  setLoading: PropTypes.func,
+  setShowCancelDialog: PropTypes.func,
+  resetForm: PropTypes.func,
+  nextNotificationId: PropTypes.number,
+  dismissNotification: PropTypes.func,
+  addNotification: PropTypes.func,
+  notifications: PropTypes.array,
+  editContact: PropTypes.func,
 };
 
 function mapStateToProps(state, props) {

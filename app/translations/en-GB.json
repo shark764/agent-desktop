@@ -180,6 +180,7 @@
   "app.containers.PhoneControls.off": "OFF",
   "app.containers.PhoneControls.on": "ON",
   "app.containers.PhoneControls.onHold": "On Hold",
+  "app.containers.PhoneControls.rec": "",
   "app.containers.PhoneControls.recording": "Recording",
   "app.containers.PhoneControls.resume": "Resume",
   "app.containers.SidePanel.editing": "Editing Customer Record",

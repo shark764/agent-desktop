@@ -13,7 +13,7 @@ exports[`<Tabs /> with type big should render correctly 1`] = `
   <Style
     rules={
       Object {
-        "[role=tab]": Object {
+        ".react-tabs__tab": Object {
           "backgroundColor": "#FFFFFF",
           "border": "1px solid transparent",
           "borderBottom": "none",
@@ -25,26 +25,10 @@ exports[`<Tabs /> with type big should render correctly 1`] = `
           "padding": "6px 12px",
           "position": "relative",
         },
-        "[role=tab]:first-child": Object {
-          "paddingLeft": 0,
-        },
-        "[role=tab]:focus": Object {
-          "border": "none",
-          "boxShadow": "0 0 0",
-          "outline": "none",
-        },
-        "[role=tab]:focus::after": Object {
-          "borderColor": "hsl(208, 99%, 50%)",
-          "boxShadow": "0 0 5px hsl(208, 99%, 50%)",
-          "outline": "none",
-        },
-        "[role=tab][aria-disabled=true]": Object {
+        ".react-tabs__tab--disabled": Object {
           "cursor": "default",
         },
-        "[role=tab][aria-selected=false]": Object {
-          "color": "#979797",
-        },
-        "[role=tab][aria-selected=true]::after": Object {
+        ".react-tabs__tab--selected::after": Object {
           "background": "#4B4B4B",
           "bottom": "-14px",
           "content": "''",
@@ -53,12 +37,12 @@ exports[`<Tabs /> with type big should render correctly 1`] = `
           "position": "absolute",
           "width": "calc(100% - 24px)",
         },
-        "[role=tab][aria-selected=true]:first-child::after": Object {
+        ".react-tabs__tab--selected:first-child::after": Object {
           "content": "''",
           "left": "0px",
           "width": "calc(100% - 12px)",
         },
-        "[role=tablist]": Object {
+        ".react-tabs__tab-list": Object {
           "borderBottom": "1px solid #D0D0D0",
           "boxSizing": "border-box",
           "flexGrow": "0",
@@ -68,9 +52,25 @@ exports[`<Tabs /> with type big should render correctly 1`] = `
           "order": "0",
           "padding": "10px 5px 15px 0",
         },
-        "[role=tabpanel]": Object {
+        ".react-tabs__tab-panel--selected": Object {
           "alignSelf": "stretch",
           "height": "calc(100% - undefinedpx)",
+        },
+        ".react-tabs__tab:first-child": Object {
+          "paddingLeft": 0,
+        },
+        ".react-tabs__tab:focus": Object {
+          "border": "none",
+          "boxShadow": "0 0 0",
+          "outline": "none",
+        },
+        ".react-tabs__tab:focus::after": Object {
+          "borderColor": "hsl(208, 99%, 50%)",
+          "boxShadow": "0 0 5px hsl(208, 99%, 50%)",
+          "outline": "none",
+        },
+        ".react-tabs__tab:not(.react-tabs__tab--selected)": Object {
+          "color": "#979797",
         },
         "color": "#4B4B4B",
       }
@@ -78,9 +78,10 @@ exports[`<Tabs /> with type big should render correctly 1`] = `
     scopeSelector="#mockId .react-tabs"
   />
   <Tabs
-    focus={false}
+    defaultFocus={false}
+    defaultIndex={null}
     forceRenderTabPanel={false}
-    selectedIndex={-1}
+    selectedIndex={null}
   />
 </div>
 `;
@@ -98,7 +99,7 @@ exports[`<Tabs /> with type small should render correctly 1`] = `
   <Style
     rules={
       Object {
-        "[role=tab]": Object {
+        ".react-tabs__tab": Object {
           "backgroundColor": "#F3F3F3",
           "border": "1px solid transparent",
           "borderBottom": "none",
@@ -111,26 +112,10 @@ exports[`<Tabs /> with type small should render correctly 1`] = `
           "padding": "10px 12px",
           "position": "relative",
         },
-        "[role=tab]:first-child": Object {
-          "paddingLeft": 0,
-        },
-        "[role=tab]:focus": Object {
-          "border": "none",
-          "boxShadow": "0 0 0",
-          "outline": "none",
-        },
-        "[role=tab]:focus::after": Object {
-          "borderColor": "hsl(208, 99%, 50%)",
-          "boxShadow": "0 0 5px hsl(208, 99%, 50%)",
-          "outline": "none",
-        },
-        "[role=tab][aria-disabled=true]": Object {
+        ".react-tabs__tab--disabled": Object {
           "cursor": "default",
         },
-        "[role=tab][aria-selected=false]": Object {
-          "color": "#979797",
-        },
-        "[role=tab][aria-selected=true]::after": Object {
+        ".react-tabs__tab--selected::after": Object {
           "background": "#4B4B4B",
           "bottom": 0,
           "content": "''",
@@ -139,12 +124,12 @@ exports[`<Tabs /> with type small should render correctly 1`] = `
           "position": "absolute",
           "width": "calc(100% - 24px)",
         },
-        "[role=tab][aria-selected=true]:first-child::after": Object {
+        ".react-tabs__tab--selected:first-child::after": Object {
           "content": "''",
           "left": "0px",
           "width": "calc(100% - 12px)",
         },
-        "[role=tablist]": Object {
+        ".react-tabs__tab-list": Object {
           "backgroundColor": "#F3F3F3",
           "borderBottom": "1px solid #D0D0D0",
           "boxSizing": "border-box",
@@ -152,15 +137,32 @@ exports[`<Tabs /> with type small should render correctly 1`] = `
           "maxHeight": 100,
           "padding": "0 32px",
         },
+        ".react-tabs__tab:first-child": Object {
+          "paddingLeft": 0,
+        },
+        ".react-tabs__tab:focus": Object {
+          "border": "none",
+          "boxShadow": "0 0 0",
+          "outline": "none",
+        },
+        ".react-tabs__tab:focus::after": Object {
+          "borderColor": "hsl(208, 99%, 50%)",
+          "boxShadow": "0 0 5px hsl(208, 99%, 50%)",
+          "outline": "none",
+        },
+        ".react-tabs__tab:not(.react-tabs__tab--selected)": Object {
+          "color": "#979797",
+        },
         "color": "#4B4B4B",
       }
     }
     scopeSelector="#mockId .react-tabs"
   />
   <Tabs
-    focus={false}
+    defaultFocus={false}
+    defaultIndex={null}
     forceRenderTabPanel={false}
-    selectedIndex={-1}
+    selectedIndex={null}
   />
 </div>
 `;
