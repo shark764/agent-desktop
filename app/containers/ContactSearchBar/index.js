@@ -358,7 +358,7 @@ ContactSearchBar.propTypes = {
   focusSearchInputElement: PropTypes.func.isRequired,
   searchableAttributes: PropTypes.array,
   removeSearchFilter: PropTypes.func.isRequired,
-  setContactMode: React.PropTypes.func.isRequired,
+  setContactMode: PropTypes.func.isRequired,
   searchPending: PropTypes.bool,
 };
 
