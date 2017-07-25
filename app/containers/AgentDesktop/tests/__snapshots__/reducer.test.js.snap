@@ -57,6 +57,7 @@ Immutable.Map {
     },
   ],
   selectedInteractionId: undefined,
+  isInteractionsBarCollapsed: false,
 }
 `;
 
@@ -133,6 +134,7 @@ Immutable.Map {
     },
   ],
   selectedInteractionId: undefined,
+  isInteractionsBarCollapsed: false,
 }
 `;
 
@@ -308,6 +310,7 @@ Immutable.Map {
   interactions: Immutable.List [
   ],
   selectedInteractionId: "other-interaction-id",
+  isInteractionsBarCollapsed: false,
 }
 `;
 
@@ -324,6 +327,7 @@ Immutable.Map {
     },
   ],
   selectedInteractionId: "first-interaction-id",
+  isInteractionsBarCollapsed: false,
 }
 `;
 
@@ -340,6 +344,7 @@ Immutable.Map {
     },
   ],
   selectedInteractionId: "voice-interaction-id",
+  isInteractionsBarCollapsed: false,
 }
 `;
 
@@ -366,6 +371,7 @@ Immutable.Map {
     },
   ],
   selectedInteractionId: "first-interaction-id",
+  isInteractionsBarCollapsed: false,
 }
 `;
 
@@ -410,6 +416,7 @@ Immutable.Map {
   interactions: Immutable.List [
   ],
   selectedInteractionId: undefined,
+  isInteractionsBarCollapsed: true,
 }
 `;
 
@@ -462,6 +469,22 @@ Immutable.Map {
       script: Immutable.Map {
         id: "mock-script-id",
       },
+    },
+  ],
+  selectedInteractionId: "test-interaction-id",
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if interaction is channel type voice adds a timestamp for timeAccepted 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+      status: "work-accepting",
+      channelType: "voice",
+      timeAccepted: 0,
+      onHold: false,
+      recording: false,
     },
   ],
   selectedInteractionId: "test-interaction-id",
@@ -686,6 +709,7 @@ Immutable.Map {
   ],
   queues: Immutable.List [
   ],
+  isInteractionsBarCollapsed: true,
   isContactsPanelCollapsed: true,
   newInteractionPanel: Immutable.Map {
     interactionId: "creating-new-interaction",

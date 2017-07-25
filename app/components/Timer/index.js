@@ -18,7 +18,13 @@ function Timer(props) {
   if (!props.format) {
     format = 'HH:mm:ss';
   }
-  const time = moment.duration(props.timer.tick * 1000);
+  let duration;
+  if (props.timeSince !== undefined) {
+    duration = props.timer.timestamp - props.timeSince;
+  } else {
+    duration = props.timer.tick * 1000;
+  }
+  const time = moment.duration(duration);
   return (
     <span style={props.style}>
       {moment.utc(time.asMilliseconds()).format(format)}
@@ -30,6 +36,7 @@ Timer.propTypes = {
   timer: PropTypes.object,
   format: PropTypes.string,
   style: PropTypes.object,
+  timeSince: PropTypes.number,
 };
 
 export default timer(1000)(Timer);

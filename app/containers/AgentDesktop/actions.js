@@ -87,6 +87,8 @@ import {
   SHOW_REFRESH_NOTIF,
   SHOW_CONTACTS_PANEL,
   HIDE_CONTACTS_PANEL,
+  SHOW_INTERACTIONS_BAR,
+  HIDE_INTERACTIONS_BAR,
   SET_FORM_IS_DIRTY,
   SET_FORM_VALIDITY,
   SET_FORM_FIELD,
@@ -707,6 +709,18 @@ export function showContactsPanel() {
 export function hideContactsPanel() {
   return {
     type: HIDE_CONTACTS_PANEL,
+  };
+}
+
+export function showInteractionsBar() {
+  return {
+    type: SHOW_INTERACTIONS_BAR,
+  };
+}
+
+export function hideInteractionsBar() {
+  return {
+    type: HIDE_INTERACTIONS_BAR,
   };
 }
 

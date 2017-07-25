@@ -163,7 +163,7 @@ export class ContentArea extends React.Component {
       flexFlow: 'column',
       height: '100%',
       backgroundColor: '#E4E4E4',
-      padding: '5px',
+      padding: '5px 11px',
     },
     notesTitleContainer: {
       display: 'flex',

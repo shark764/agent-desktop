@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CollapseInteractionsButton /> should render correctly 1`] = `
+<div
+  data-radium={true}
+  onClick={[Function]}
+  style={
+    Object {
+      "backgroundColor": "#072931",
+      "borderBottom": "1px solid black",
+      "borderRadius": "3px",
+      "borderRight": "1px solid black",
+      "borderTop": "1px solid black",
+      "bottom": "50%",
+      "cursor": "pointer",
+      "height": "75px",
+      "left": "72px",
+      "position": "absolute",
+      "transition": "left 0.3s linear",
+      "zIndex": "2",
+    }
+  }
+>
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "borderColor": "#FFF transparent transparent #FFF",
+        "borderImage": "initial",
+        "borderRadius": "3px",
+        "borderStyle": "solid",
+        "borderWidth": "6px",
+        "boxShadow": "-6px -6px 6px -4px rgba(0,0,0,0.29)",
+        "left": "25%",
+        "position": "relative",
+        "right": "0",
+        "top": "45%",
+        "transform": "rotate(-45deg)",
+      }
+    }
+  />
+</div>
+`;
