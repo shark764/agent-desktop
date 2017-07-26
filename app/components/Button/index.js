@@ -157,7 +157,15 @@ class Button extends React.Component {
       if (this.props.iconName) {
         inner = <Icon name={this.props.iconName} />;
       } else if (typeof this.props.text === 'object') {
-        inner = <FormattedMessage {...this.props.text} />;
+        if (this.props.hasSubButtons) {
+          inner = (
+            <span>
+              <FormattedMessage {...this.props.text} /> {this.props.children}
+            </span>
+          );
+        } else {
+          inner = <FormattedMessage {...this.props.text} />;
+        }
       } else if (typeof this.props.text === 'string') {
         inner = this.props.text;
       } else {
@@ -204,6 +212,7 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   id: PropTypes.string.isRequired,
+  hasSubButtons: PropTypes.bool,
 };
 
 Button.defaultProps = {
