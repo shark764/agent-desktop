@@ -34,7 +34,7 @@ import {
   SET_CONTACT_MODE,
   ASSIGN_CONTACT,
   SET_ASSIGNED_CONTACT,
-  SET_SIDE_PANEL_TAB_INDEX,
+  SELECT_SIDE_PANEL_TAB,
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS,
@@ -309,11 +309,11 @@ export function setAssignedContact(interactionId, contact) {
   };
 }
 
-export function setSidePanelTabIndex(interactionId, tabIndex) {
+export function selectSidePanelTab(interactionId, tabName) {
   return {
-    type: SET_SIDE_PANEL_TAB_INDEX,
+    type: SELECT_SIDE_PANEL_TAB,
     interactionId,
-    tabIndex,
+    tabName,
   };
 }
 

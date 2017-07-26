@@ -19,7 +19,7 @@ import ContactSearchBar from 'containers/ContactSearchBar';
 import {
   removeSearchFilter,
   deleteContacts,
-  setSidePanelTabIndex,
+  selectSidePanelTab,
 } from 'containers/AgentDesktop/actions';
 import { getSelectedInteraction } from 'containers/SidePanel/selectors';
 import { mergeContacts, newContact } from 'containers/ContactsControl/actions';
@@ -154,17 +154,17 @@ export class ContactSearch extends React.Component {
 
   setMerging = () => {
     this.props.mergeContacts(this.props.selectedInteraction.interactionId);
-    this.props.setSidePanelTabIndex(
+    this.props.selectSidePanelTab(
       this.props.selectedInteraction.interactionId,
-      0
+      'info'
     );
   };
 
   newContact = () => {
     this.props.newContact(this.props.selectedInteraction.interactionId);
-    this.props.setSidePanelTabIndex(
+    this.props.selectSidePanelTab(
       this.props.selectedInteraction.interactionId,
-      0
+      'info'
     );
   };
 
@@ -337,7 +337,7 @@ ContactSearch.propTypes = {
   deleteContacts: PropTypes.func.isRequired,
   setConfirmingDelete: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
-  setSidePanelTabIndex: PropTypes.func.isRequired,
+  selectSidePanelTab: PropTypes.func.isRequired,
   mergeContacts: PropTypes.func,
 };
 
@@ -367,8 +367,8 @@ function mapDispatchToProps(dispatch) {
     setConfirmingDelete: (confirmingDelete) =>
       dispatch(setConfirmingDelete(confirmingDelete)),
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
-    setSidePanelTabIndex: (interactionId, sidePanelTabIndex) =>
-      dispatch(setSidePanelTabIndex(interactionId, sidePanelTabIndex)),
+    selectSidePanelTab: (interactionId, tabName) =>
+      dispatch(selectSidePanelTab(interactionId, tabName)),
     mergeContacts: (interactionId) => dispatch(mergeContacts(interactionId)),
     dispatch,
   };

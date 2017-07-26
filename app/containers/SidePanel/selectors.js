@@ -62,9 +62,9 @@ const getSelectedInteractionIsVoice = createSelector(
     selectedInteraction.channelType === 'voice'
 );
 
-const getSelectedTabIndex = createSelector(
+const getSelectedSidePanelTab = createSelector(
   getSelectedInteraction,
-  (selectedInteraction) => selectedInteraction.sidePanelTabIndex
+  (selectedInteraction) => selectedInteraction.selectedSidePanelTab
 );
 
 const getSelectedInteractionScript = createSelector(
@@ -97,5 +97,5 @@ export {
   getSelectedInteractionScript,
   getSelectedInteractionIsScriptOnly,
   getHasAssignedContact,
-  getSelectedTabIndex,
+  getSelectedSidePanelTab,
 };

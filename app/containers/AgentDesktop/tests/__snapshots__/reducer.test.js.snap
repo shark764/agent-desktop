@@ -9,9 +9,9 @@ Immutable.Map {
       warmTransfers: Immutable.List [
       ],
       contactMode: "search",
+      selectedSidePanelTab: "info",
       query: Immutable.Map {
       },
-      sidePanelTabIndex: 0,
       muted: false,
       dispositionDetails: Immutable.Map {
         forceSelect: false,
@@ -85,9 +85,9 @@ Immutable.Map {
       warmTransfers: Immutable.List [
       ],
       contactMode: "search",
+      selectedSidePanelTab: "info",
       query: Immutable.Map {
       },
-      sidePanelTabIndex: 0,
       muted: false,
       dispositionDetails: Immutable.Map {
         forceSelect: false,
@@ -177,7 +177,7 @@ Immutable.Map {
       script: Immutable.Map {
         scriptItem: "something",
       },
-      sidePanelTabIndex: 0,
+      selectedSidePanelTab: "info",
       query: Immutable.Map {
       },
       contact: Immutable.Map {
@@ -215,7 +215,7 @@ Immutable.Map {
       script: Immutable.Map {
         scriptItem: "something",
       },
-      sidePanelTabIndex: 0,
+      selectedSidePanelTab: "info",
       query: Immutable.Map {
       },
       contact: Immutable.Map {
@@ -243,28 +243,12 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer ADD_SCRIPT interaction is there interaction is not voice adds the script and sets focus to the script tab 1`] = `
+exports[`agentDesktopReducer ADD_SCRIPT interaction is there adds the script 1`] = `
 Immutable.Map {
   interactions: Immutable.List [
     Immutable.Map {
       interactionId: "test-interaction-id",
       channelType: "messaging",
-      script: Immutable.Map {
-        scriptItem: "something",
-      },
-      sidePanelTabIndex: 2,
-    },
-  ],
-  isContactsPanelCollapsed: false,
-}
-`;
-
-exports[`agentDesktopReducer ADD_SCRIPT interaction is there interaction is voice adds the script 1`] = `
-Immutable.Map {
-  interactions: Immutable.List [
-    Immutable.Map {
-      interactionId: "test-interaction-id",
-      channelType: "voice",
       script: Immutable.Map {
         scriptItem: "something",
       },
@@ -468,25 +452,7 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if interaction is "isScriptOnly" if interaction is not voice deletes "isScriptOnly" and focuses script tab 1`] = `
-Immutable.Map {
-  interactions: Immutable.List [
-    Immutable.Map {
-      interactionId: "test-interaction-id",
-      status: "work-accepting",
-      channelType: "sms",
-      script: Immutable.Map {
-        id: "mock-script-id",
-      },
-      sidePanelTabIndex: 2,
-    },
-  ],
-  selectedInteractionId: "test-interaction-id",
-  isContactsPanelCollapsed: false,
-}
-`;
-
-exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if interaction is "isScriptOnly" if interaction is voice deletes "isScriptOnly" 1`] = `
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if interaction is "isScriptOnly" deletes "isScriptOnly" 1`] = `
 Immutable.Map {
   interactions: Immutable.List [
     Immutable.Map {
@@ -586,9 +552,9 @@ Immutable.Map {
       },
       timeout: NaN,
       contactMode: "search",
+      selectedSidePanelTab: "info",
       query: Immutable.Map {
       },
-      sidePanelTabIndex: 0,
       dispositionDetails: Immutable.Map {
         forceSelect: false,
         dispositions: Immutable.List [
@@ -725,7 +691,7 @@ Immutable.Map {
     interactionId: "creating-new-interaction",
     status: "creating-new-interaction",
     visible: false,
-    sidePanelTabIndex: 0,
+    selectedSidePanelTab: "info",
     contactMode: "view",
     query: Immutable.Map {
     },
@@ -755,7 +721,7 @@ Immutable.Map {
     contactMode: "search",
     query: Immutable.Map {
     },
-    sidePanelTabIndex: 0,
+    selectedSidePanelTab: "info",
     activeContactForm: Immutable.Map {
       contactForm: Immutable.Map {
       },

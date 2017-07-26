@@ -79,6 +79,11 @@ const selectWelcomeStats = createSelector(
   }
 );
 
+const selectReadyState = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) => agentDesktop.get('presence')
+);
+
 const selectActivatedStatIds = createSelector(
   selectToolbarStatIds(),
   selectWelcomeStatIds(),
@@ -90,6 +95,7 @@ export {
   selectToolbarDomain,
   selectToolbarStats,
   selectWelcomeStats,
+  selectReadyState,
   selectQueues,
   selectCurrentAgent,
   selectToolbarStatIds,

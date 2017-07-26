@@ -1,4 +1,5 @@
 ### [Unreleased]
+* CXV1-9006 - Toolbar view of scripts
 * CXV1-9011 - Toolbar view of new interaction handling
 * CXV1-9005 - Created split-button with submenu for use in toolbar view of email 
 

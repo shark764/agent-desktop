@@ -18,7 +18,13 @@ import has from 'lodash/has';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import { selectIsAgentReady } from 'containers/AgentDesktop/selectors';
-import { openNewInteractionPanel } from 'containers/AgentDesktop/actions';
+import {
+  openNewInteractionPanel,
+  setInteractionStatus,
+  showContactsPanel,
+  selectSidePanelTab,
+  selectInteraction,
+} from 'containers/AgentDesktop/actions';
 
 import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
 
@@ -47,16 +53,25 @@ export class InteractionsBar extends React.Component {
     },
   };
 
+  selectInteraction = (interactionId) => {
+    this.props.selectInteraction(interactionId);
+    this.props.showContactsPanel();
+  };
+
   acceptInteraction = (interactionId) => {
     const interaction = this.props.pendingInteractions.find(
-      (item) => item.interactionId === interactionId
+      (availableInteraction) =>
+        availableInteraction.interactionId === interactionId
     );
-    const disallow =
-      this.props.activeExtension.type === 'pstn' &&
-      interaction.channelType === 'voice';
-    if (!disallow) {
-      this.props.acceptInteraction(interactionId);
+    this.props.setInteractionStatus(interactionId, 'work-accepting');
+    if (
+      interaction.isScriptOnly === true &&
+      (interaction.channelType !== 'voice' || this.context.toolbarMode)
+    ) {
+      this.props.selectSidePanelTab(interactionId, 'script');
+      this.props.showContactsPanel();
     }
+    CxEngage.interactions.accept({ interactionId });
   };
 
   render() {
@@ -103,7 +118,7 @@ export class InteractionsBar extends React.Component {
             this.props.selectedInteractionId !==
             this.props.activeVoiceInteraction.interactionId
               ? () =>
-                  this.props.selectInteraction(
+                  this.selectInteraction(
                     this.props.activeVoiceInteraction.interactionId
                   )
               : undefined
@@ -353,6 +368,13 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     openNewInteractionPanel: () => dispatch(openNewInteractionPanel()),
+    setInteractionStatus: (interactionId, newStatus, response) =>
+      dispatch(setInteractionStatus(interactionId, newStatus, response)),
+    selectSidePanelTab: (interactionId, tabName) =>
+      dispatch(selectSidePanelTab(interactionId, tabName)),
+    selectInteraction: (interactionId) =>
+      dispatch(selectInteraction(interactionId)),
+    showContactsPanel: () => dispatch(showContactsPanel()),
     dispatch,
   };
 }
@@ -365,10 +387,11 @@ InteractionsBar.propTypes = {
   activeNonVoiceInteractions: PropTypes.array.isRequired,
   activeVoiceInteraction: PropTypes.object,
   selectInteraction: PropTypes.func.isRequired,
+  selectSidePanelTab: PropTypes.func.isRequired,
   selectedInteractionId: PropTypes.string,
-  acceptInteraction: PropTypes.func,
+  setInteractionStatus: PropTypes.func.isRequired,
+  showContactsPanel: PropTypes.func.isRequired,
   newInteractionPanel: PropTypes.object.isRequired,
-  activeExtension: PropTypes.object,
   openNewInteractionPanel: PropTypes.func.isRequired,
 };
 

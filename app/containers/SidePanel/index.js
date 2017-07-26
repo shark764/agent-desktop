@@ -25,7 +25,7 @@ import InfoTab from 'containers/InfoTab';
 import ContactInteractionHistory from 'containers/ContactInteractionHistory';
 
 import {
-  setSidePanelTabIndex,
+  selectSidePanelTab,
   showContactsPanel,
   hideContactsPanel,
 } from 'containers/AgentDesktop/actions';
@@ -37,7 +37,7 @@ import {
   getSelectedInteractionScript,
   getSelectedInteractionIsScriptOnly,
   getHasAssignedContact,
-  getSelectedTabIndex,
+  getSelectedSidePanelTab,
 } from './selectors';
 
 const leftGutterPx = 52;
@@ -129,11 +129,46 @@ export class SidePanel extends React.Component {
     }
   };
 
-  render() {
+  getTabsData = () => {
     const renderScriptTab =
       (this.context.toolbarMode || !this.props.selectedInteractionIsVoice) &&
       this.props.selectedInteractionScript !== undefined &&
       !this.props.selectedInteractionIsScriptOnly;
+    const tabs = [
+      {
+        name: 'info',
+        tabInner:
+          this.context.crmEnabled &&
+          <InfoTab
+            isCollapsed={this.props.isCollapsed}
+            style={this.styles.rightMargin}
+          />,
+      },
+      {
+        name: 'history',
+        tabInner:
+          this.context.crmEnabled &&
+          this.props.hasAssignedContact &&
+          <ContactInteractionHistory />,
+      },
+      {
+        name: 'script',
+        tabInner:
+          renderScriptTab &&
+          <div style={this.styles.agentScriptPanel}>
+            <AgentScript
+              interactionId={this.props.selectedInteractionId}
+              script={this.props.selectedInteractionScript}
+            />
+          </div>,
+      },
+    ];
+    // filter out any tabs with falsey inner
+    return tabs.filter((tab) => tab.tabInner);
+  };
+
+  render() {
+    const tabsData = this.getTabsData();
     return (
       <div
         style={[
@@ -165,54 +200,26 @@ export class SidePanel extends React.Component {
             type="big"
             id="contactTabs"
             onSelect={(tabIndex) =>
-              this.props.setSidePanelTabIndex(
+              this.props.selectSidePanelTab(
                 this.props.selectedInteractionId,
-                tabIndex
+                tabsData[tabIndex].name
               )}
-            // If selectedTabIndex is 2 (script), but we aren't showing 3 tabs because there isn't an assigned contact to show the contact history tab for, set tab index to where script actually is
-            selectedIndex={
-              this.props.selectedTabIndex === 2 &&
-              !this.props.hasAssignedContact
-                ? 1
-                : this.props.selectedTabIndex
-            }
+            selectedIndex={tabsData.findIndex(
+              (tabData) => tabData.name === this.props.selectedSidePanelTab
+            )}
           >
             <TabList>
-              {this.context.crmEnabled && [
-                <Tab key="info">
-                  <FormattedMessage {...messages.infoTab} />
-                </Tab>,
-                this.props.hasAssignedContact &&
-                  <Tab key="history">
-                    <FormattedMessage {...messages.historyTab} />
-                  </Tab>,
-              ]}
-              {renderScriptTab &&
-                <Tab key="scripts">
-                  <FormattedMessage {...messages.scriptsTab} />
-                </Tab>}
+              {tabsData.map((tabData) =>
+                (<Tab key={tabData.name}>
+                  <FormattedMessage {...messages[`${tabData.name}Tab`]} />
+                </Tab>)
+              )}
             </TabList>
-            {this.context.crmEnabled && [
-              <TabPanel key="info1">
-                <InfoTab
-                  isCollapsed={this.props.isCollapsed}
-                  style={this.styles.rightMargin}
-                />
-              </TabPanel>,
-              this.props.hasAssignedContact &&
-                <TabPanel key="history1">
-                  <ContactInteractionHistory />
-                </TabPanel>,
-            ]}
-            {renderScriptTab &&
-              <TabPanel key="scripts1">
-                <div style={this.styles.agentScriptPanel}>
-                  <AgentScript
-                    interactionId={this.props.selectedInteractionId}
-                    script={this.props.selectedInteractionScript}
-                  />
-                </div>
-              </TabPanel>}
+            {tabsData.map((tabData) =>
+              (<TabPanel key={tabData.name}>
+                {tabData.tabInner}
+              </TabPanel>)
+            )}
           </Tabs>
         </div>
       </div>
@@ -230,14 +237,14 @@ function mapStateToProps(state, props) {
       props
     ),
     hasAssignedContact: getHasAssignedContact(state, props),
-    selectedTabIndex: getSelectedTabIndex(state, props),
+    selectedSidePanelTab: getSelectedSidePanelTab(state, props),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setSidePanelTabIndex: (interactionId, tabIndex) =>
-      dispatch(setSidePanelTabIndex(interactionId, tabIndex)),
+    selectSidePanelTab: (interactionId, tabName) =>
+      dispatch(selectSidePanelTab(interactionId, tabName)),
     showContactsPanel: () => dispatch(showContactsPanel()),
     hideContactsPanel: () => dispatch(hideContactsPanel()),
     dispatch,
@@ -255,9 +262,10 @@ SidePanel.propTypes = {
   selectedInteractionIsVoice: PropTypes.bool,
   selectedInteractionScript: PropTypes.object,
   selectedInteractionIsScriptOnly: PropTypes.bool,
-  selectedTabIndex: PropTypes.number.isRequired,
+  selectedSidePanelTab: PropTypes.oneOf(['info', 'history', 'script'])
+    .isRequired,
   hasAssignedContact: PropTypes.bool.isRequired,
-  setSidePanelTabIndex: PropTypes.func.isRequired,
+  selectSidePanelTab: PropTypes.func.isRequired,
 };
 
 SidePanel.contextTypes = {

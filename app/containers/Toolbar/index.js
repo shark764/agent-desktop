@@ -25,7 +25,11 @@ import AgentConfigMenu from 'containers/AgentConfigMenu';
 import { selectSelectedPresenceReason } from 'containers/AgentStatusMenu/selectors';
 
 import { toggleAgentMenu } from './actions';
-import selectToolbar, { selectQueues, selectCurrentAgent } from './selectors';
+import selectToolbar, {
+  selectQueues,
+  selectCurrentAgent,
+  selectReadyState,
+} from './selectors';
 import messages from './messages';
 
 const styles = {
@@ -322,7 +326,6 @@ export class Toolbar extends React.Component {
             tenant={this.props.tenant}
             readyState={this.props.readyState}
             showAgentStatusMenu={this.showStatusMenu}
-            agentDirection={this.props.agentDirection}
           />
           <AgentConfigMenu
             queues={this.props.queues}
@@ -361,6 +364,7 @@ function mapStateToProps(state, props) {
     queues: selectQueues(state, props),
     currentAgent: selectCurrentAgent(state, props),
     selectedPresenceReason: selectSelectedPresenceReason(state, props),
+    readyState: selectReadyState(state, props),
     ...selectToolbar()(state, props),
   };
 }
@@ -376,7 +380,6 @@ Toolbar.propTypes = {
   style: PropTypes.array,
   readyState: PropTypes.string,
   tenant: PropTypes.object,
-  agentDirection: PropTypes.string,
   queues: PropTypes.array,
   currentAgent: PropTypes.object,
   showAgentStatusMenu: PropTypes.bool,

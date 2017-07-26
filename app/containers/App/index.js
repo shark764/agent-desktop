@@ -70,6 +70,9 @@ import {
   addScript,
   removeScript,
   selectInteraction,
+  selectSidePanelTab,
+  showContactsPanel,
+  hideContactsPanel,
   setCustomFields,
   setEmailPlainBody,
   setEmailHtmlBody,
@@ -460,9 +463,31 @@ export class App extends React.Component {
               response.interactionId,
               JSON.parse(response.script)
             );
+            const interaction = this.props.agentDesktop.interactions.find(
+              (availableInteraction) =>
+                availableInteraction.interactionId === response.interactionId
+            );
+            if (
+              interaction.channelType !== 'voice' ||
+              this.context.toolbarMode
+            ) {
+              this.props.selectSidePanelTab(response.interactionId, 'script');
+              this.props.showContactsPanel();
+            }
             break;
           }
           case 'cxengage/interactions/send-script': {
+            const interaction = this.props.agentDesktop.interactions.find(
+              (availableInteraction) =>
+                availableInteraction.interactionId === response
+            );
+            if (!this.context.toolbarMode) {
+              if (interaction.channelType !== 'voice') {
+                this.props.selectSidePanelTab(response, 'info');
+              }
+            } else {
+              this.props.hideContactsPanel();
+            }
             this.props.removeScript(response);
             break;
           }
@@ -777,7 +802,18 @@ export class App extends React.Component {
   };
 
   acceptInteraction = (interactionId) => {
+    const interaction = this.props.agentDesktop.interactions.find(
+      (availableInteraction) =>
+        availableInteraction.interactionId === interactionId
+    );
     this.props.setInteractionStatus(interactionId, 'work-accepting');
+    if (
+      interaction.isScriptOnly === true &&
+      (interaction.channelType !== 'voice' || this.context.toolbarMode)
+    ) {
+      this.props.selectSidePanelTab(interactionId, 'script');
+      this.props.showContactsPanel();
+    }
     CxEngage.interactions.accept({ interactionId });
   };
 
@@ -978,6 +1014,10 @@ function mapDispatchToProps(dispatch) {
       dispatch(setDispositionDetails(interactionId, dispositions, forceSelect)),
     selectDisposition: (interactionId, disposition) =>
       dispatch(selectDisposition(interactionId, disposition)),
+    selectSidePanelTab: (interactionId, tabName) =>
+      dispatch(selectSidePanelTab(interactionId, tabName)),
+    showContactsPanel: () => dispatch(showContactsPanel()),
+    hideContactsPanel: () => dispatch(hideContactsPanel()),
     logout: () => dispatch(logout()),
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
@@ -1039,6 +1079,9 @@ App.propTypes = {
   setQueues: PropTypes.func.isRequired,
   setDispositionDetails: PropTypes.func.isRequired,
   selectDisposition: PropTypes.func.isRequired,
+  selectSidePanelTab: PropTypes.func.isRequired,
+  showContactsPanel: PropTypes.func.isRequired,
+  hideContactsPanel: PropTypes.func.isRequired,
   initializeStats: PropTypes.func.isRequired,
   showRefreshRequired: PropTypes.func.isRequired,
   toggleAgentMenu: PropTypes.func.isRequired,
@@ -1060,6 +1103,7 @@ App.propTypes = {
 
 App.contextTypes = {
   crmEnabled: PropTypes.bool,
+  toolbarMode: PropTypes.bool,
 };
 
 export default injectIntl(
