@@ -18,7 +18,7 @@ export default defineMessages({
     id: 'app.containers.SidePanel.historyTab',
     defaultMessage: 'History',
   },
-  scriptsTab: {
+  scriptTab: {
     id: 'app.containers.SidePanel.scriptsTab',
     defaultMessage: 'Script',
   },

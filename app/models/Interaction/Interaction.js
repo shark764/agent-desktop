@@ -71,7 +71,7 @@ export default class Interaction {
     });
     this.contact = contact ? fromJS(contact) : undefined;
     this.query = new Map();
-    this.sidePanelTabIndex = 0;
+    this.selectedSidePanelTab = 'info';
     if (hideNewInteractionPanelOnWorkAccepted !== undefined) {
       this.hideNewInteractionPanelOnWorkAccepted = hideNewInteractionPanelOnWorkAccepted;
     }

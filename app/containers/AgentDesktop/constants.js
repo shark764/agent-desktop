@@ -48,8 +48,7 @@ export const SET_MESSAGE_HISTORY = 'app/AgentDesktop/SET_MESSAGE_HISTORY';
 export const SET_CONTACT_MODE = 'app/AgentDesktop/SET_CONTACT_MODE';
 export const SET_ASSIGNED_CONTACT = 'app/AgentDesktop/SET_ASSIGNED_CONTACT';
 export const ASSIGN_CONTACT = 'app/AgentDesktop/ASSIGN_CONTACT';
-export const SET_SIDE_PANEL_TAB_INDEX =
-  'app/AgentDesktop/SET_SIDE_PANEL_TAB_INDEX';
+export const SELECT_SIDE_PANEL_TAB = 'app/AgentDesktop/SELECT_SIDE_PANEL_TAB';
 export const LOAD_CONTACT_INTERACTION_HISTORY =
   'app/AgentDesktop/LOAD_CONTACT_INTERACTION_HISTORY';
 export const SET_CONTACT_INTERACTION_HISTORY =

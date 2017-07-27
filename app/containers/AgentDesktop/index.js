@@ -24,11 +24,6 @@ import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
 import {
-  setInteractionStatus,
-  selectInteraction,
-  showContactsPanel,
-} from './actions';
-import {
   selectAgentDesktopMap,
   selectLoginMap,
   selectIsContactsPanelCollapsed,
@@ -73,16 +68,6 @@ export class AgentDesktop extends React.Component {
     this.setState({
       contactsPanelPx: newWidth,
     });
-  };
-
-  selectInteraction = (interactionId) => {
-    this.props.selectInteraction(interactionId);
-    this.props.showContactsPanel();
-  };
-
-  acceptInteraction = (interactionId) => {
-    this.props.setInteractionStatus(interactionId, 'work-accepting');
-    CxEngage.interactions.accept({ interactionId });
   };
 
   styles = {
@@ -169,11 +154,7 @@ export class AgentDesktop extends React.Component {
                 >
                   {!this.context.toolbarMode &&
                     <PhoneControls style={[this.styles.phoneControls]} />}
-                  <InteractionsBar
-                    acceptInteraction={this.acceptInteraction}
-                    selectInteraction={this.selectInteraction}
-                    style={[this.styles.interactionsBar]}
-                  />
+                  <InteractionsBar style={[this.styles.interactionsBar]} />
                 </div>
                 <MainContentArea
                   agent={this.props.login.agent}
@@ -196,8 +177,6 @@ export class AgentDesktop extends React.Component {
           </div>
           <Toolbar
             tenant={this.props.login.tenant}
-            readyState={this.props.agentDesktop.presence}
-            agentDirection={this.props.agentDesktop.direction}
             style={[this.styles.flexChildGrow, this.styles.toolbar]}
           />
           <SidePanel
@@ -221,24 +200,9 @@ const mapStateToProps = (state, props) => ({
   isContactsPanelCollapsed: selectIsContactsPanelCollapsed(state, props),
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setInteractionStatus: (interactionId, newStatus, response) =>
-      dispatch(setInteractionStatus(interactionId, newStatus, response)),
-    selectInteraction: (interactionId) =>
-      dispatch(selectInteraction(interactionId)),
-    showContactsPanel: () => dispatch(showContactsPanel()),
-    dispatch,
-  };
-}
-
 AgentDesktop.propTypes = {
   login: PropTypes.object,
-  agentDesktop: PropTypes.object,
   isContactsPanelCollapsed: PropTypes.bool.isRequired,
-  setInteractionStatus: PropTypes.func.isRequired,
-  selectInteraction: PropTypes.func.isRequired,
-  showContactsPanel: PropTypes.func.isRequired,
   bannerCount: PropTypes.number,
 };
 
@@ -247,5 +211,5 @@ AgentDesktop.contextTypes = {
 };
 
 export default ErrorBoundary(
-  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(AgentDesktop)))
+  injectIntl(connect(mapStateToProps)(Radium(AgentDesktop)))
 );

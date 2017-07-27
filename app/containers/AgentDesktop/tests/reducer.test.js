@@ -113,22 +113,10 @@ describe('agentDesktopReducer', () => {
               script: { id: 'mock-script-id' },
             },
           ];
+          initialState.interactions[0].channelType = 'voice';
         });
-        describe('if interaction is voice', () => {
-          beforeEach(() => {
-            initialState.interactions[0].channelType = 'voice';
-          });
-          it('deletes "isScriptOnly"', () => {
-            runReducerAndExpectSnapshot();
-          });
-        });
-        describe('if interaction is not voice', () => {
-          beforeEach(() => {
-            initialState.interactions[0].channelType = 'sms';
-          });
-          it('deletes "isScriptOnly" and focuses script tab', () => {
-            runReducerAndExpectSnapshot();
-          });
+        it('deletes "isScriptOnly"', () => {
+          runReducerAndExpectSnapshot();
         });
       });
     });
@@ -410,21 +398,11 @@ describe('agentDesktopReducer', () => {
       };
     });
     describe('interaction is there', () => {
-      describe('interaction is voice', () => {
-        beforeEach(() => {
-          initialState.interactions[0].channelType = 'voice';
-        });
-        it('adds the script', () => {
-          runReducerAndExpectSnapshot();
-        });
+      beforeEach(() => {
+        initialState.interactions[0].channelType = 'messaging';
       });
-      describe('interaction is not voice', () => {
-        beforeEach(() => {
-          initialState.interactions[0].channelType = 'messaging';
-        });
-        it('adds the script and sets focus to the script tab', () => {
-          runReducerAndExpectSnapshot();
-        });
+      it('adds the script', () => {
+        runReducerAndExpectSnapshot();
       });
     });
     describe('interaction is not there', () => {

@@ -91,7 +91,7 @@ const voiceInteraction = {
     targetWrapupTime: '30',
   },
   warmTransfers: [],
-  sidePanelTabIndex: 0,
+  selectedSidePanelTab: 'info',
   note: {
     body: '',
     title: '',
@@ -274,7 +274,7 @@ const voiceInteractionWithTransfersAndScripts = {
     id: '522ca8e2-3edc-497e-a03b-ed34b6608a0c',
     name: 'script',
   },
-  sidePanelTabIndex: 0,
+  selectedSidePanelTab: 'info',
   note: {
     body: '',
     title: '',
@@ -324,7 +324,7 @@ const emailInteraction = {
     targetWrapupTime: '10',
   },
   query: {},
-  sidePanelTabIndex: 0,
+  selectedSidePanelTab: 'info',
   note: {
     body: '',
     title: '',
@@ -697,7 +697,7 @@ const smsInteractionWithLotsOfMessagesAndScript = {
     title: '',
     notesPanelHeight: 300,
   },
-  sidePanelTabIndex: 0,
+  selectedSidePanelTab: 'info',
   dispositionDetails: processedDispositionDetails,
   activeContactForm: activeContactFormBlank,
   script: {

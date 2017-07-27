@@ -45,7 +45,7 @@ import {
   SET_MESSAGE_HISTORY,
   SET_CONTACT_MODE,
   SET_ASSIGNED_CONTACT,
-  SET_SIDE_PANEL_TAB_INDEX,
+  SELECT_SIDE_PANEL_TAB,
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS,
@@ -107,7 +107,7 @@ const blankNewInteractionPanel = {
   interactionId: 'creating-new-interaction',
   status: 'creating-new-interaction',
   visible: false,
-  sidePanelTabIndex: 0,
+  selectedSidePanelTab: 'info',
   contactMode: 'view',
   query: {},
   activeContactForm: activeContactFormBlank,
@@ -132,7 +132,7 @@ const initialState = fromJS({
   noInteractionContactPanel: {
     contactMode: 'search',
     query: {},
-    sidePanelTabIndex: 0,
+    selectedSidePanelTab: 'info',
     activeContactForm: activeContactFormBlank,
     contact: {},
   },
@@ -513,14 +513,6 @@ function agentDesktopReducer(state = initialState, action) {
             ) {
               // Remove isScriptOnly if we are accepting the work offer
               updatedInteraction = updatedInteraction.delete('isScriptOnly');
-              // Keep script in focus (voice will always be in focus, it's script is in MainContentArea)
-              if (updatedInteraction.get('channelType') !== 'voice') {
-                updatedInteraction = updatedInteraction.set(
-                  'sidePanelTabIndex',
-                  2
-                );
-                openContactsPanel = true;
-              }
             }
             return updatedInteraction;
           })
@@ -752,27 +744,9 @@ function agentDesktopReducer(state = initialState, action) {
     case ADD_SCRIPT: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex > -1) {
-        let openContactsPanel = false;
-        let newState = state.updateIn(
-          ['interactions', interactionIndex],
-          (interaction) => {
-            const newInteraction = interaction.set(
-              'script',
-              fromJS(action.script)
-            );
-            // Put script in focus (voice will always be in focus, it's script is in MainContentArea)
-            if (interaction.get('channelType') !== 'voice') {
-              openContactsPanel = true;
-              return newInteraction.set('sidePanelTabIndex', 2);
-            } else {
-              return newInteraction;
-            }
-          }
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.set('script', fromJS(action.script))
         );
-        if (openContactsPanel) {
-          newState = newState.set('isContactsPanelCollapsed', false);
-        }
-        return newState;
       } else {
         // 'script-only' is the main status we will use. isScriptOnly for when interactions receive a work offer, but still need to render the script in MainContentArea until it has been accepted
         const scriptInteraction = fromJS({
@@ -780,7 +754,7 @@ function agentDesktopReducer(state = initialState, action) {
           status: 'script-only',
           isScriptOnly: true,
           script: action.script,
-          sidePanelTabIndex: 0,
+          selectedSidePanelTab: 'info',
           query: {},
           contact: {},
           activeContactForm: activeContactFormBlank,
@@ -1010,10 +984,10 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case SET_SIDE_PANEL_TAB_INDEX: {
+    case SELECT_SIDE_PANEL_TAB: {
       const target = getContactInteractionPath(state, action.interactionId);
-      target.push('sidePanelTabIndex');
-      return state.setIn(target, action.tabIndex);
+      target.push('selectedSidePanelTab');
+      return state.setIn(target, action.tabName);
     }
     case SET_CONTACT_HISTORY_INTERACTION_DETAILS: {
       return state
