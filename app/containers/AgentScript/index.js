@@ -31,8 +31,11 @@ import messages from './messages';
 const styles = {
   base: {
     backgroundColor: '#FFFFFF',
-    minHeight: '100%',
+    height: '100%',
     padding: '30px 30px 30px 0',
+    overflowY: 'auto',
+    wordWrap: 'break-word',
+    overflowWrap: 'break-word',
   },
   textInput: {
     width: '100%',
@@ -161,16 +164,17 @@ class AgentScript extends React.Component {
               <div>
                 {element.text}
               </div>
-              <Select
-                id={element.name}
-                options={dropdownOptions}
-                value={this.state[element.name]}
-                onChange={(option) =>
-                  this.setState({
-                    [element.name]: option !== null ? option.value : null,
-                  })}
-                style={styles.select}
-              />
+              <div style={styles.select}>
+                <Select
+                  id={element.name}
+                  options={dropdownOptions}
+                  value={this.state[element.name]}
+                  onChange={(option) =>
+                    this.setState({
+                      [element.name]: option !== null ? option.value : null,
+                    })}
+                />
+              </div>
             </div>
           );
           break;

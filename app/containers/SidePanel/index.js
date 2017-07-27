@@ -101,6 +101,7 @@ export class SidePanel extends React.Component {
       display: 'flex',
       order: '1',
       flexGrow: '1',
+      overflow: 'hidden',
     },
     tabsOuter: {
       flexGrow: '1',
@@ -110,11 +111,6 @@ export class SidePanel extends React.Component {
     },
     tabsRoot: {
       height: '100%',
-    },
-    agentScriptPanel: {
-      height: '100%',
-      width: '100%',
-      overflowY: 'auto',
     },
     rightMargin: {
       marginRight: '26px',
@@ -155,12 +151,10 @@ export class SidePanel extends React.Component {
         name: 'script',
         tabInner:
           renderScriptTab &&
-          <div style={this.styles.agentScriptPanel}>
-            <AgentScript
-              interactionId={this.props.selectedInteractionId}
-              script={this.props.selectedInteractionScript}
-            />
-          </div>,
+          <AgentScript
+            interactionId={this.props.selectedInteractionId}
+            script={this.props.selectedInteractionScript}
+          />,
       },
     ];
     // filter out any tabs with falsey inner
