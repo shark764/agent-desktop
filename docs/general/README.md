@@ -49,14 +49,6 @@ for complete modularity. Unique generated class names keep the specificity low
 while eliminating style clashes. Ship only the styles that are used on the
 visible page for the best performance.
 
-## Industry-standard routing
-
-Thanks to [react-router] with [react-router-redux],
-this is easy as pie and the url is auto-synced to your application state!
-
-[react-router]: https://github.com/reactjs/react-router
-[react-router-redux]: https://github.com/reactjs/react-router-redux
-
 ## Offline-first
 
 The next frontier in performant web apps: availability without a network

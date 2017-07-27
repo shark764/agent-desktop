@@ -38,36 +38,27 @@ import { take, call, put, select } from 'redux-saga/effects';
 
 // Your sagas for this container
 export default [
-  sagaName,
+  sagaOne,
 ];
 
 // Individual exports for testing
-export function* sagaName() {
+export function* sagaOne() {
 
 }
 ```
 
-Then, in your `routes.js`, add injection for the newly added saga:
+Then, in your `sagas.js`, add forking for the newly added saga:
 
 ```JS
-getComponent(nextState, cb) {
-  const importModules = Promise.all([
-    System.import('containers/YourComponent/reducer'),
-    System.import('containers/YourComponent/sagas'),
-    System.import('containers/YourComponent'),
-  ]);
-
-  const renderRoute = loadModule(cb);
-
-  importModules.then(([reducer, sagas, component]) => {
-    injectReducer('home', reducer.default);
-    injectSagas(sagas.default); // Inject the saga
-
-    renderRoute(component);
-  });
-
-  importModules.catch(errorLoading);
-},
+import sagaName from 'containers/containerName/sagas';
+export default function* rootSaga() {
+  const allSagas = [
+    ...sagaName
+  ];
+  for (let i = 0; i < allSagas.length; i += 1) {
+    yield fork(allSagas[i]);
+  }
+}
 ```
 
 Now add as many sagas to your `sagas.js` file as you want!

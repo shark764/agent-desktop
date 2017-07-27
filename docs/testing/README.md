@@ -12,9 +12,9 @@ understand that!
 We also support [remote testing](remote-testing.md) your local application,
 which is quite awesome, so definitely check that out!
 
-## Usage with this app
+## Usage with this boilerplate
 
-To test your application do the following:
+To test your application started with this boilerplate do the following:
 
 1. Sprinkle `.test.js` files directly next to the parts of your application you
    want to test. (Or in `test/` subdirectories, it doesn't really matter as long
