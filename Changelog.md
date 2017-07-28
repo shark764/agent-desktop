@@ -1,8 +1,9 @@
 ### [Unreleased]
 * CXV1-9006 - Toolbar view of scripts
 * CXV1-9011 - Toolbar view of new interaction handling
-* CXV1-9005 - Created split-button with submenu for use in toolbar view of email 
+* CXV1-9005 - Created split-button with submenu for use in toolbar view of email
 * CXV1-9007 - Hide interaction bar based on number of interactions
+* CXV1-9014 - Added side panel styling, hide side panel when no script, and added button to open side panel when collapsed in toolbarMode
 
 ### [1.1.0] (2017-07-21)
 * BUGFIX - SDK version bump to 5.3.27-SNAPSHOT

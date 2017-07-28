@@ -228,21 +228,23 @@ class ButtonSplitMenu extends React.Component {
 }
 
 ButtonSplitMenu.propTypes = {
-  buttonConfig: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.any,
-    mouseOverText: PropTypes.object,
-    iconName: PropTypes.string,
-    children: PropTypes.element,
-    tabIndex: PropTypes.number,
-    type: PropTypes.oneOf(possibleTypes),
-    style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-    clear: PropTypes.bool,
-    disabled: PropTypes.bool,
-    onClick: PropTypes.func,
-    id: PropTypes.string.isRequired,
-    isMainBtn: PropTypes.bool,
-    hasSubButtons: PropTypes.bool,
-  })).isRequired,
+  buttonConfig: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.any,
+      mouseOverText: PropTypes.object,
+      iconName: PropTypes.string,
+      children: PropTypes.element,
+      tabIndex: PropTypes.number,
+      type: PropTypes.oneOf(possibleTypes),
+      style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+      clear: PropTypes.bool,
+      disabled: PropTypes.bool,
+      onClick: PropTypes.func,
+      id: PropTypes.string.isRequired,
+      isMainBtn: PropTypes.bool,
+      hasSubButtons: PropTypes.bool,
+    })
+  ).isRequired,
 };
 
 export default Radium(ButtonSplitMenu);

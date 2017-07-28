@@ -44,6 +44,7 @@ export class InfoTab extends React.Component {
       flexDirection: 'column',
       alignItems: 'stretch',
       position: 'relative',
+      marginRight: '26px',
     },
     contacts: {
       overflowY: 'hidden',
@@ -112,7 +113,7 @@ export class InfoTab extends React.Component {
   };
 
   crmUnavailableBanner = () =>
-    (<div style={[this.props.style, this.styles.base]}>
+    (<div style={[this.styles.base]}>
       <NotificationBanner
         id="crm-unavailable-banner"
         key="crm-unavailable-banner"
@@ -132,7 +133,7 @@ export class InfoTab extends React.Component {
     const showCheckboxes =
       this.props.selectedInteraction.contactMode === 'search';
     return (
-      <div style={[this.props.style, this.styles.base]}>
+      <div style={[this.styles.base]}>
         {this.props.notifications.map((notification, index) =>
           (<NotificationBanner
             id={`contactNotification${index}`}
@@ -178,7 +179,6 @@ export class InfoTab extends React.Component {
 
 InfoTab.propTypes = {
   crmUnavailable: PropTypes.string,
-  style: PropTypes.object,
   selectedInteraction: PropTypes.object,
   setContactMode: PropTypes.func,
   setLoading: PropTypes.func,

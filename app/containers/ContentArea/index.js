@@ -22,6 +22,8 @@ import Checkbox from 'components/Checkbox';
 import IconSVG from 'components/IconSVG';
 import Button from 'components/Button';
 
+import SidePanelToolbarBtn from 'containers/SidePanelToolbarBtn';
+
 import { updateNote } from 'containers/AgentDesktop/actions';
 import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
@@ -279,6 +281,7 @@ export class ContentArea extends React.Component {
       display: 'flex',
       alignItems: 'center',
       flexShrink: 0,
+      marginLeft: 'auto',
     },
     toggleWrapupLabel: {
       marginRight: '5px',
@@ -584,6 +587,7 @@ export class ContentArea extends React.Component {
                       'work-ended-pending-script' && this.props.buttons}
                   </div>
                 </div>
+                <SidePanelToolbarBtn />
               </div>
               <div style={this.styles.details}>
                 {this.props.details}
