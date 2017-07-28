@@ -23,6 +23,18 @@ export default defineMessages({
     id: 'app.containers.Errors.AD-1001',
     defaultMessage: 'No extensions were found for this user.',
   },
+  'AD-1002': {
+    id: 'app.containers.Errors.AD-1002',
+    defaultMessage: 'The username or password you have entered is not correct.',
+  },
+  'AD-1003': {
+    id: 'app.containers.Errors.AD-1003',
+    defaultMessage: 'You must first select a tenant.',
+  },
+  'AD-1004': {
+    id: 'app.containers.Errors.AD-1004',
+    defaultMessage: 'You have insufficient permissions to access tenant.',
+  },
   2001: {
     id: 'app.containers.Errors.2001',
     defaultMessage: 'Failed to get user configuration. Please try again.',
@@ -50,6 +62,10 @@ export default defineMessages({
     id: 'app.containers.Errors.2007',
     defaultMessage:
       'Reason code selected is invalid. Please select a different reason code.',
+  },
+  3000: {
+    id: 'app.containers.Errors.3000',
+    defaultMessage: 'Cannot login due to service issues.',
   },
   10002: {
     id: 'app.containers.Errors.10002',

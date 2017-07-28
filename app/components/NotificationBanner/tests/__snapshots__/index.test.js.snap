@@ -36,8 +36,12 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
     style={
       Object {
         "flexGrow": 1,
+        "overflow": "hidden",
+        "textOverflow": "ellipsis",
+        "whiteSpace": "nowrap",
       }
     }
+    title="mock message"
   >
     mock message
   </div>

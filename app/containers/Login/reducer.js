@@ -11,10 +11,8 @@
 import { fromJS } from 'immutable';
 import {
   LOGGING_IN,
+  ERROR_OCCURRED,
   LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  TENANT_ERROR,
-  SERVICE_ERROR,
   SHOW_LOGIN,
   SETTING_TENANT,
   SET_TENANT,
@@ -39,11 +37,12 @@ function loginReducer(state = initialState, action) {
     case LOGGING_IN:
     case SETTING_TENANT:
       return state.set('loading', true);
+    case ERROR_OCCURRED:
+      return state.set('loading', false);
     case LOGIN_SUCCESS:
       return state
         .set('agent', fromJS(action.agent))
         .set('logged_in', true)
-        .set('login_error', false)
         .set('loading', false);
     case LOGOUT:
       return state
@@ -51,19 +50,8 @@ function loginReducer(state = initialState, action) {
         .set('logged_in', false)
         .set('showLogin', true)
         .set('loading', false);
-    case LOGIN_ERROR:
-      return state.set('login_error', true).set('loading', false);
-    case TENANT_ERROR:
-      return state
-        .set('tenant_error', true)
-        .set('loading', false)
-        .set('tenant_error_message', fromJS(action.error));
-    case SERVICE_ERROR:
-      return state.set('service_error', true).set('loading', false);
     case SET_TENANT:
-      return state
-        .set('tenant', fromJS({ id: action.id, name: action.name }))
-        .set('tenant_error', false);
+      return state.set('tenant', fromJS({ id: action.id, name: action.name }));
     case SHOW_LOGIN:
       return state.set('showLogin', action.show);
     default:

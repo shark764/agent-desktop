@@ -34,17 +34,16 @@ import mitelFavicon from 'assets/favicons/mitel.png';
 import { mappedLocales } from 'i18n';
 import { changeLocale } from 'containers/LanguageProvider/actions';
 import { selectLocale } from 'containers/LanguageProvider/selectors';
-import { handleSDKError } from 'containers/Errors/actions';
+import { setNonCriticalError } from 'containers/Errors/actions';
 import selectLogin from './selectors';
 import messages from './messages';
 import {
   loggingIn,
-  loginError,
+  errorOccurred,
   loginSuccess,
   resetPassword,
   settingTenant,
   setTenant,
-  tenantError,
 } from './actions';
 import requiredPermissions from './permissions';
 const storage = window.localStorage;
@@ -79,23 +78,6 @@ const styles = {
     justifyContent: 'center',
     alignContent: 'stretch',
     alignItems: 'center',
-  },
-  error: {
-    borderRadius: '3px 3px 0 0',
-    backgroundColor: '#FE4565',
-    width: '542px',
-    color: '#FFFFFF',
-    fontWeight: 'lighter',
-    textAlign: 'center',
-    paddingTop: '3px',
-    paddingBottom: '3px',
-    position: 'relative',
-    top: '0px',
-    marginBottom: '-27px',
-    lineHeight: '1.5em',
-  },
-  errorTenant: {
-    top: '-361.4px',
   },
   copyright: {
     width: '65vw',
@@ -163,7 +145,6 @@ export class Login extends React.Component {
       tenantId: '-1',
       tenantName: '',
       agentDirection: props.intl.formatMessage(messages.inbound),
-      noTenant: false,
       showLanguage: false,
     };
   }
@@ -202,30 +183,25 @@ export class Login extends React.Component {
   };
 
   onLogin = () => {
-    if (this.state.username.trim() !== '' && this.state.password !== '') {
-      this.props.loggingIn();
-      CxEngage.authentication.login(
-        {
-          username: this.state.username.trim(),
-          password: this.state.password,
-        },
-        (error, topic, response) => {
-          if (!error) {
-            console.log('[Login] CxEngage.subscribe()', topic, response);
-            this.loginCB(response);
-          } else {
-            this.props.handleSDKError(error, topic);
-          }
+    this.props.loggingIn();
+    CxEngage.authentication.login(
+      {
+        username: this.state.username.trim(),
+        password: this.state.password,
+      },
+      (error, topic, response) => {
+        if (!error) {
+          console.log('[Login] CxEngage.subscribe()', topic, response);
+          this.loginCB(response);
+        } else {
+          this.props.errorOccurred();
         }
-      );
-    } else {
-      this.props.loginError();
-    }
+      }
+    );
   };
 
   onTenantSelect = () => {
     if (this.state.tenantId !== '-1') {
-      this.props.settingTenant();
       const selectingTenant = this.props.agent.tenants.find(
         (tenant) => tenant.tenantId === this.state.tenantId
       );
@@ -236,6 +212,7 @@ export class Login extends React.Component {
           selectingTenant.tenantPermissions.includes(permission)
         )
       ) {
+        this.props.settingTenant();
         CxEngage.session.setActiveTenant(
           {
             tenantId: this.state.tenantId,
@@ -244,14 +221,16 @@ export class Login extends React.Component {
             console.log('[Login] CxEngage.subscribe()', topic, response);
             if (!error) {
               this.props.setTenant(this.state.tenantId, this.state.tenantName);
+            } else {
+              this.props.errorOccurred();
             }
           }
         );
       } else {
-        this.props.tenantError(messages.noPermsError);
+        this.props.setNonCriticalError({ code: 'AD-1004' });
       }
     } else {
-      this.setState({ noTenant: true });
+      this.props.setNonCriticalError({ code: 'AD-1003' });
     }
   };
 
@@ -293,19 +272,6 @@ export class Login extends React.Component {
           justifyContent: 'center',
         })}
       >
-        {this.state.noTenant
-          ? <span style={[styles.error]}>
-            <FormattedMessage style={styles.center} {...messages.noTenant} />
-          </span>
-          : ''}
-        {this.props.tenant_error
-          ? <span id="tenantLoginError" style={[styles.error]}>
-            <FormattedMessage
-              style={styles.center}
-              {...this.props.tenant_error_message}
-            />
-          </span>
-          : ''}
         <Logo style={{ marginTop: '50px' }} width="275px" />
         <Title
           id={messages.selectTenantMenu.id}
@@ -337,37 +303,11 @@ export class Login extends React.Component {
     );
   };
 
-  getErrors = () => {
-    let errorSpan;
-    if (this.props.login_error) {
-      errorSpan = (
-        <span id={messages.loginCreds.id} style={[styles.error]}>
-          <FormattedMessage style={styles.center} {...messages.loginCreds} />
-        </span>
-      );
-    } else if (this.props.service_error) {
-      errorSpan = (
-        <span id={messages.serviceError.id} style={[styles.error]}>
-          <FormattedMessage style={styles.center} {...messages.serviceError} />
-        </span>
-      );
-    }
-    return errorSpan;
-  };
-
   getLoginContent = () =>
     (<div
       id="loginContainerDiv"
       style={Object.assign({}, styles.container, { justifyContent: 'center' })}
     >
-      {this.props.tenant_error
-        ? <span id="tenantLoginError" style={[styles.error]}>
-          <FormattedMessage
-            style={styles.center}
-            {...this.props.tenant_error_message}
-          />
-        </span>
-        : ''}
       <Logo style={{ marginTop: '50px' }} width="275px" />
       {this.getLoginTitle()}
       <TextInput
@@ -485,10 +425,6 @@ export class Login extends React.Component {
     this.setState({ agentDirection });
   };
 
-  handleError = () => {
-    this.props.loginError();
-  };
-
   unsetRequestingPassword = () => {
     this.setState({ requestingPassword: false });
   };
@@ -563,7 +499,6 @@ export class Login extends React.Component {
               },
             ]}
           >
-            {this.getErrors()}
             <Dialog style={styles.center}>
               {pageContent}
             </Dialog>
@@ -591,14 +526,13 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     resetPassword: (email) => dispatch(resetPassword(email)),
-    handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
     loggingIn: () => dispatch(loggingIn()),
     loginSuccess: (agent) => dispatch(loginSuccess(agent)),
-    loginError: () => dispatch(loginError()),
+    errorOccurred: () => dispatch(errorOccurred()),
     settingTenant: () => dispatch(settingTenant()),
     setTenant: (id, name) => dispatch(setTenant(id, name)),
-    tenantError: (error) => dispatch(tenantError(error)),
     changeLocale: (locale) => dispatch(changeLocale(locale)),
+    setNonCriticalError: (error) => dispatch(setNonCriticalError(error)),
     dispatch,
   };
 }
@@ -606,20 +540,15 @@ function mapDispatchToProps(dispatch) {
 Login.propTypes = {
   intl: intlShape.isRequired,
   resetPassword: PropTypes.func.isRequired,
-  handleSDKError: PropTypes.func.isRequired,
   loggingIn: PropTypes.func.isRequired,
   loginSuccess: PropTypes.func.isRequired,
-  loginError: PropTypes.func.isRequired,
+  errorOccurred: PropTypes.func.isRequired,
   settingTenant: PropTypes.func.isRequired,
   setTenant: PropTypes.func.isRequired,
+  setNonCriticalError: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-  login_error: PropTypes.bool,
   logged_in: PropTypes.bool,
   agent: PropTypes.object,
-  tenant_error_message: PropTypes.object,
-  tenant_error: PropTypes.bool,
-  tenantError: PropTypes.func.isRequired,
-  service_error: PropTypes.bool,
   changeLocale: PropTypes.func,
   locale: PropTypes.string,
 };

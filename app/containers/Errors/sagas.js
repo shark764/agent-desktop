@@ -5,7 +5,6 @@
 import { takeEvery, put, select } from 'redux-saga/effects';
 
 import { setCRMUnavailable } from 'containers/InfoTab/actions';
-import { loginError, serviceError } from 'containers/Login/actions';
 import {
   removeInvalidExtension,
   removeInteractionHard,
@@ -92,14 +91,12 @@ export function* goHandleSDKError(action) {
         return;
       }
     }
-  } else if (error.code === 3000) {
-    if (action.error.data.apiResponse.status === 401) {
-      yield put(loginError());
-      return;
-    } else {
-      yield put(serviceError());
-    }
-    return;
+  } else if (
+    error.code === 3000 &&
+    action.error.data.apiResponse.status === 401
+  ) {
+    // Custom error for invalid user credentials
+    error.code = 'AD-1002';
   }
 
   // Fallback Error Handling if not dealt with above

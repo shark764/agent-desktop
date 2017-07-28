@@ -71,10 +71,6 @@ export default defineMessages({
     id: 'app.containers.Login.selectTenant',
     defaultMessage: 'Select Tenant...',
   },
-  noTenant: {
-    id: 'app.containers.Login.noTenant',
-    defaultMessage: 'You must first select a tenant',
-  },
   copyright: {
     id: 'app.containers.Login.copyright',
     defaultMessage:
@@ -85,22 +81,5 @@ export default defineMessages({
     id: 'app.containers.Login.legal',
     defaultMessage:
       'Access to this site requires separate permission from Serenova, LLC. This site contains confidential information, and may also contain content and enable interaction with users from third-party sites subject to different terms that are outside of Serenova\'s control. By using or accessing this site, you have agreed to the Terms of Service as outlined in the Master Service Agreement ("Agreement"). A copy of this Agreement is available from your Serenova contact.',
-  },
-  loginCreds: {
-    id: 'app.containers.Login.loginCreds',
-    defaultMessage: "The username or password you've entered is not correct",
-  },
-  serviceError: {
-    id: 'app.containers.Login.serviceError',
-    defaultMessage: 'Cannot login due to service issues',
-  },
-  generalError: {
-    id: 'app.containers.Login.generalError',
-    defaultMessage:
-      'You were logged out because an error has occured, please log in again. If this persists, please contact support',
-  },
-  noPermsError: {
-    id: 'app.containers.Login.noPermsError',
-    defaultMessage: 'You have insufficient permissions to access tenant',
   },
 });
