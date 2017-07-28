@@ -39,6 +39,9 @@ const styles = {
   },
   descriptionMessage: {
     flexGrow: 1,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   rightLinkText: {
     textDecoration: 'underline',
@@ -56,6 +59,10 @@ const styles = {
 };
 
 function NotificationBanner(props) {
+  const descriptionMessage =
+    typeof props.descriptionMessage === 'object'
+      ? props.intl.formatMessage(props.descriptionMessage)
+      : props.descriptionMessage;
   return (
     <div
       id={props.id}
@@ -73,10 +80,9 @@ function NotificationBanner(props) {
           props.descriptionStyle,
         ]}
         onClick={props.fullBannerAction}
+        title={descriptionMessage}
       >
-        {typeof props.descriptionMessage === 'object'
-          ? props.intl.formatMessage(props.descriptionMessage)
-          : props.descriptionMessage}
+        {descriptionMessage}
       </div>
       {props.rightLinkAction &&
         <div onClick={props.rightLinkAction} style={styles.rightLinkText}>

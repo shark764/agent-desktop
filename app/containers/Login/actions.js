@@ -10,10 +10,8 @@
 
 import {
   LOGGING_IN,
+  ERROR_OCCURRED,
   LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  TENANT_ERROR,
-  SERVICE_ERROR,
   RESET_PASSWORD,
   SHOW_LOGIN,
   SETTING_TENANT,
@@ -27,6 +25,12 @@ export function loggingIn() {
   };
 }
 
+export function errorOccurred() {
+  return {
+    type: ERROR_OCCURRED,
+  };
+}
+
 export function loginSuccess(agent) {
   return {
     type: LOGIN_SUCCESS,
@@ -37,25 +41,6 @@ export function loginSuccess(agent) {
 export function logout() {
   return {
     type: LOGOUT,
-  };
-}
-
-export function loginError() {
-  return {
-    type: LOGIN_ERROR,
-  };
-}
-
-export function tenantError(error) {
-  return {
-    type: TENANT_ERROR,
-    error,
-  };
-}
-
-export function serviceError() {
-  return {
-    type: SERVICE_ERROR,
   };
 }
 
