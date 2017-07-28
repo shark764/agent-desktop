@@ -14,8 +14,7 @@ import Radium from 'radium';
 
 const styles = {
   img: {
-    maxWidth: '400px',
-    maxHeight: '400px',
+    maxWidth: '100%',
   },
 };
 

@@ -101,7 +101,7 @@ import {
   RESET_FORM,
 } from './constants';
 
-// import { outboundConnectingVoiceInteraction, voiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithLotsOfMessagesAndScript2 } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
+// import { outboundConnectingVoiceInteraction, voiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithLotsOfMessagesAndScript2, scriptOnly } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
 
 const blankNewInteractionPanel = {
   interactionId: 'creating-new-interaction',
@@ -128,6 +128,7 @@ const initialState = fromJS({
     // emailInteraction,
     // smsInteractionWithLotsOfMessagesAndScript,
     // smsInteractionWithLotsOfMessagesAndScript2,
+    // scriptOnly,
   ],
   noInteractionContactPanel: {
     contactMode: 'search',

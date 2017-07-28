@@ -12,8 +12,7 @@ exports[`<Image /> should render correctly 1`] = `
     src="mockSource"
     style={
       Object {
-        "maxHeight": "400px",
-        "maxWidth": "400px",
+        "maxWidth": "100%",
       }
     }
   />

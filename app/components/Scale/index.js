@@ -17,19 +17,18 @@ function Scale(props) {
     placeholder: {
       marginBottom: '3px',
     },
-    table: {
-      display: 'table',
-    },
-    row: {
-      display: 'table-row',
-    },
     cell: {
-      display: 'table-cell',
-      verticalAlign: 'top',
-      paddingRight: '5px',
+      paddingRight: '10px',
+      position: 'relative',
+      height: '35px',
+      display: 'inline-block',
     },
-    block: {
-      display: 'block',
+    label: {
+      position: 'absolute',
+      top: '15px',
+      left: '-4px',
+      width: '20px',
+      textAlign: 'center',
     },
   };
 
@@ -42,12 +41,11 @@ function Scale(props) {
           type="radio"
           checked={props.value === i}
           onChange={() => props.onChange(i)}
-          style={styles.block}
         />
         <label
           id={`${props.id}-${i}-label`}
           htmlFor={`${props.id}-${i}-radio`}
-          style={styles.block}
+          style={styles.label}
         >
           {i}
         </label>
@@ -59,16 +57,14 @@ function Scale(props) {
       <div style={styles.placeholder}>
         {props.placeholder}
       </div>
-      <div style={styles.table}>
-        <div style={styles.row}>
-          <span style={styles.cell}>
-            {props.lowerBoundLabel}
-          </span>
-          {scaleRadios}
-          <span style={styles.cell}>
-            {props.upperBoundLabel}
-          </span>
-        </div>
+      <div>
+        <span style={styles.cell}>
+          {props.lowerBoundLabel}
+        </span>
+        {scaleRadios}
+        <span style={styles.cell}>
+          {props.upperBoundLabel}
+        </span>
       </div>
     </div>
   );
