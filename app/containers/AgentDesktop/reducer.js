@@ -88,6 +88,8 @@ import {
   SHOW_REFRESH_NOTIF,
   SHOW_CONTACTS_PANEL,
   HIDE_CONTACTS_PANEL,
+  SHOW_INTERACTIONS_BAR,
+  HIDE_INTERACTIONS_BAR,
   SET_FORM_IS_DIRTY,
   SET_FORM_VALIDITY,
   SET_FORM_FIELD,
@@ -145,6 +147,7 @@ const initialState = fromJS({
   presenceReasonLists: [],
   presenceReason: {},
   isContactsPanelCollapsed: true,
+  isInteractionsBarCollapsed: true,
 });
 
 const getInteractionIndex = (state, interactionId) =>
@@ -391,7 +394,8 @@ const removeInteractionAndSetNextSelectedInteraction = (
           (interaction) => interaction.get('interactionId') === interactionId
         )
     )
-    .set('selectedInteractionId', nextSelectedInteractionId);
+    .set('selectedInteractionId', nextSelectedInteractionId)
+    .set('isInteractionsBarCollapsed', !nextSelectedInteractionId);
 };
 
 function agentDesktopReducer(state = initialState, action) {
@@ -503,6 +507,12 @@ function agentDesktopReducer(state = initialState, action) {
               interaction.get('channelType') === 'voice' &&
               action.response !== undefined
             ) {
+              if (action.newStatus === 'work-accepting') {
+                updatedInteraction = updatedInteraction.set(
+                  'timeAccepted',
+                  Date.now()
+                );
+              }
               // Update customerOnHold and recording
               updatedInteraction = updatedInteraction
                 .set('onHold', action.response.customerOnHold === true)
@@ -718,15 +728,16 @@ function agentDesktopReducer(state = initialState, action) {
           );
         const interactionToAdd = new Map(new Interaction(action.response));
         if (interactionIndex !== -1) {
-          return state.mergeIn(
-            ['interactions', interactionIndex],
-            interactionToAdd
-          );
+          return state
+            .mergeIn(['interactions', interactionIndex], interactionToAdd)
+            .set('isInteractionsBarCollapsed', false);
         } else {
-          return state.set(
-            'interactions',
-            state.get('interactions').push(interactionToAdd)
-          );
+          return state
+            .set(
+              'interactions',
+              state.get('interactions').push(interactionToAdd)
+            )
+            .set('isInteractionsBarCollapsed', false);
         }
       } else {
         return state;
@@ -1698,6 +1709,12 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case HIDE_CONTACTS_PANEL: {
       return state.set('isContactsPanelCollapsed', true);
+    }
+    case SHOW_INTERACTIONS_BAR: {
+      return state.set('isInteractionsBarCollapsed', false);
+    }
+    case HIDE_INTERACTIONS_BAR: {
+      return state.set('isInteractionsBarCollapsed', true);
     }
     case SET_FORM_IS_DIRTY: {
       const target = getContactInteractionPath(state, action.interactionId);

@@ -97,6 +97,11 @@ const selectIsContactsPanelCollapsed = createSelector(
   (agentDesktop) => agentDesktop.get('isContactsPanelCollapsed')
 );
 
+const selectIsInteractionsBarCollapsed = createSelector(
+  selectAgentDesktopMap,
+  (agentDesktop) => agentDesktop.get('isInteractionsBarCollapsed')
+);
+
 export {
   selectAgentId,
   selectIsAgentReady,
@@ -112,4 +117,5 @@ export {
   selectSmsInteractionNumbers,
   selectQueues,
   selectIsContactsPanelCollapsed,
+  selectIsInteractionsBarCollapsed,
 };

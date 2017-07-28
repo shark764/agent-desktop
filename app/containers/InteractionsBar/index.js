@@ -17,7 +17,6 @@ import has from 'lodash/has';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
-import { selectIsAgentReady } from 'containers/AgentDesktop/selectors';
 import {
   openNewInteractionPanel,
   setInteractionStatus,
@@ -25,6 +24,10 @@ import {
   selectSidePanelTab,
   selectInteraction,
 } from 'containers/AgentDesktop/actions';
+import {
+  selectIsAgentReady,
+  selectIsInteractionsBarCollapsed,
+} from 'containers/AgentDesktop/selectors';
 
 import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
 
@@ -316,6 +319,7 @@ export class InteractionsBar extends React.Component {
             color: '#FFFFFF',
             height: 'calc(100% - 47px)',
             overflowY: 'auto',
+            overflowX: 'hidden',
           }}
         >
           {activeVoiceInteraction}
@@ -342,13 +346,20 @@ export class InteractionsBar extends React.Component {
         >
           {this.props.isAgentReady &&
             !this.props.newInteractionPanel.visible &&
-            <Icon
-              id="newInteraction"
-              name="add_interaction"
-              alt={this.props.intl.formatMessage(messages.newInteraction)}
-              onclick={this.props.openNewInteractionPanel}
-              style={{ display: 'block', margin: '0 auto' }}
-            />}
+            (!this.context.toolbarMode ||
+              !this.props.isInteractionsBarCollapsed) &&
+              <Icon
+                id="newInteraction"
+                name="add_interaction"
+                alt={this.props.intl.formatMessage(messages.newInteraction)}
+                onclick={this.props.openNewInteractionPanel}
+                style={{
+                  display: 'block',
+                  margin: '0 auto',
+                  position: 'relative',
+                  zIndex: '0',
+                }}
+              />}
         </div>
       </div>
     );
@@ -363,6 +374,7 @@ const mapStateToProps = (state, props) => ({
   selectedInteractionId: getSelectedInteractionId(state, props),
   newInteractionPanel: selectNewInteractionPanel(state, props),
   activeExtension: selectActiveExtension(state, props),
+  isInteractionsBarCollapsed: selectIsInteractionsBarCollapsed(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -393,6 +405,7 @@ InteractionsBar.propTypes = {
   showContactsPanel: PropTypes.func.isRequired,
   newInteractionPanel: PropTypes.object.isRequired,
   openNewInteractionPanel: PropTypes.func.isRequired,
+  isInteractionsBarCollapsed: PropTypes.bool.isRequired,
 };
 
 InteractionsBar.contextTypes = {

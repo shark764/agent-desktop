@@ -119,6 +119,21 @@ describe('agentDesktopReducer', () => {
           runReducerAndExpectSnapshot();
         });
       });
+      describe('if interaction is channel type voice', () => {
+        beforeEach(() => {
+          initialState.interactions = [
+            {
+              interactionId: 'test-interaction-id',
+              status: 'work-offer',
+              channelType: 'voice',
+            },
+          ];
+          action.response = {};
+        });
+        it('adds a timestamp for timeAccepted', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
     });
     describe("if setting an interaction's status to wrapup", () => {
       beforeEach(() => {

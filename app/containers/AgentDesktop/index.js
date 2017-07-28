@@ -16,6 +16,7 @@ import Radium from 'radium';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import Resizable from 'components/Resizable';
+import CollapseInteractionsButton from 'components/CollapseInteractionsButton';
 
 import InteractionsBar from 'containers/InteractionsBar';
 import MainContentArea from 'containers/MainContentArea';
@@ -23,10 +24,17 @@ import PhoneControls from 'containers/PhoneControls';
 import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
+import { selectShowCollapseButton } from 'containers/InteractionsBar/selectors';
+
+import {
+  showInteractionsBar,
+  hideInteractionsBar,
+} from './actions';
 import {
   selectAgentDesktopMap,
   selectLoginMap,
   selectIsContactsPanelCollapsed,
+  selectIsInteractionsBarCollapsed,
 } from './selectors';
 
 export class AgentDesktop extends React.Component {
@@ -70,6 +78,14 @@ export class AgentDesktop extends React.Component {
     });
   };
 
+  toggleInteractionsBar = () => {
+    if (this.props.isInteractionsBarCollapsed) {
+      this.props.showInteractionsBar();
+    } else {
+      this.props.hideInteractionsBar();
+    }
+  };
+
   styles = {
     parent: {
       alignItems: 'stretch',
@@ -91,9 +107,15 @@ export class AgentDesktop extends React.Component {
       width: '283px',
       display: 'flex',
       flexFlow: 'column',
+      height: '100%',
+      backgroundColor: '#072931',
     },
     leftAreaToolbar: {
+      transition: 'width 0.3s linear',
       width: '72px',
+    },
+    leftAreaCollapsed: {
+      width: '0px',
     },
     phoneControls: {
       flex: '0 0 auto',
@@ -150,12 +172,25 @@ export class AgentDesktop extends React.Component {
                   style={[
                     this.styles.leftArea,
                     this.context.toolbarMode && this.styles.leftAreaToolbar,
+                    this.context.toolbarMode &&
+                      this.props.isInteractionsBarCollapsed &&
+                      this.styles.leftAreaCollapsed,
                   ]}
                 >
                   {!this.context.toolbarMode &&
                     <PhoneControls style={[this.styles.phoneControls]} />}
-                  <InteractionsBar style={[this.styles.interactionsBar]} />
+                  {(!this.context.toolbarMode ||
+                    !this.props.isInteractionsBarCollapsed) &&
+                    <InteractionsBar
+                      style={[this.styles.interactionsBar]}
+                    />}
                 </div>
+                {this.context.toolbarMode &&
+                  this.props.showCollapseButton &&
+                  <CollapseInteractionsButton
+                    toggleInteractionsBar={this.toggleInteractionsBar}
+                    isCollapsed={this.props.isInteractionsBarCollapsed}
+                  />}
                 <MainContentArea
                   agent={this.props.login.agent}
                   tenant={this.props.login.tenant}
@@ -198,12 +233,26 @@ const mapStateToProps = (state, props) => ({
   login: selectLoginMap(state, props).toJS(),
   agentDesktop: selectAgentDesktopMap(state, props).toJS(),
   isContactsPanelCollapsed: selectIsContactsPanelCollapsed(state, props),
+  isInteractionsBarCollapsed: selectIsInteractionsBarCollapsed(state, props),
+  showCollapseButton: selectShowCollapseButton(state, props),
 });
+
+function mapDispatchToProps(dispatch) {
+  return {
+    showInteractionsBar: () => dispatch(showInteractionsBar()),
+    hideInteractionsBar: () => dispatch(hideInteractionsBar()),
+    dispatch,
+  };
+}
 
 AgentDesktop.propTypes = {
   login: PropTypes.object,
   isContactsPanelCollapsed: PropTypes.bool.isRequired,
   bannerCount: PropTypes.number,
+  isInteractionsBarCollapsed: PropTypes.bool.isRequired,
+  showInteractionsBar: PropTypes.func.isRequired,
+  hideInteractionsBar: PropTypes.func.isRequired,
+  showCollapseButton: PropTypes.bool.isRequired,
 };
 
 AgentDesktop.contextTypes = {
@@ -211,5 +260,5 @@ AgentDesktop.contextTypes = {
 };
 
 export default ErrorBoundary(
-  injectIntl(connect(mapStateToProps)(Radium(AgentDesktop)))
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(AgentDesktop)))
 );

@@ -153,7 +153,7 @@ const styles = {
     boxShadow: '-6px -6px 6px -4px rgba(0,0,0,0.29)',
     width: '0px',
     height: '0px',
-    zIndex: '2',
+    zIndex: '3',
     position: 'relative',
   },
   hoverBox: {
@@ -166,6 +166,7 @@ const styles = {
     left: '7px',
     minWidth: '140px',
     maxWidth: '300px',
+    zIndex: '2',
   },
   hoverBoxWithContact: {
     bottom: '40px',
@@ -260,7 +261,7 @@ export class Interaction extends React.Component {
             return <TimerMinutes seconds={this.state.ageSeconds} />;
           case 'voice':
           default:
-            return <Timer />;
+            return <Timer timeSince={this.props.interaction.timeAccepted} />;
         }
     }
   };
@@ -508,6 +509,7 @@ Interaction.propTypes = {
     isCancellingInteraction: PropTypes.bool,
     interactionDirection: PropTypes.string,
     contact: PropTypes.object,
+    timeAccepted: PropTypes.instanceOf(Date),
   }).isRequired,
 };
 
