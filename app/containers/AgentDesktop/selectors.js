@@ -102,6 +102,16 @@ const selectIsInteractionsBarCollapsed = createSelector(
   (agentDesktop) => agentDesktop.get('isInteractionsBarCollapsed')
 );
 
+const selectCustomFields = createSelector(
+  selectSelectedInteraction,
+  (interaction) => interaction.customFields
+);
+
+const selectCustomFieldsCollapsed = createSelector(
+  selectSelectedInteraction,
+  (interaction) => interaction.customFieldsCollapsed
+);
+
 export {
   selectAgentId,
   selectIsAgentReady,
@@ -118,4 +128,6 @@ export {
   selectQueues,
   selectIsContactsPanelCollapsed,
   selectIsInteractionsBarCollapsed,
+  selectCustomFields,
+  selectCustomFieldsCollapsed,
 };

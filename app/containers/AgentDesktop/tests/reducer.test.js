@@ -18,6 +18,7 @@ import {
   REMOVE_SCRIPT,
   REMOVE_INTERACTION,
   REMOVE_INTERACTION_HARD,
+  TOGGLE_CUSTOM_FIELDS,
   UPDATE_RESOURCE_NAME,
 } from '../constants';
 import agentDesktopReducer from '../reducer';
@@ -600,6 +601,24 @@ describe('agentDesktopReducer', () => {
       it('does nothing', () => {
         runReducerAndExpectSnapshot();
       });
+    });
+  });
+
+  describe('TOGGLE_CUSTOM_FIELDS', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          { interactionId: 'mockInteraction1', customFieldsCollapsed: false },
+          { interactionId: 'mockInteraction2', customFieldsCollapsed: false },
+        ],
+      };
+      action = {
+        type: TOGGLE_CUSTOM_FIELDS,
+        interactionId: 'mockInteraction2',
+      };
+    });
+    it('should toggle customFieldsCollapsed on the appropriate interaction', () => {
+      runReducerAndExpectSnapshot();
     });
   });
 

@@ -46,6 +46,7 @@ export default class Interaction {
         attachments: new List(),
       });
     }
+    this.customFieldsCollapsed = true;
     this.channelType = channelType;
     this.direction = direction;
     this.interactionId =

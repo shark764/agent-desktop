@@ -258,6 +258,21 @@ const voiceInteraction = {
     title: '',
     notesPanelHeight: 300,
   },
+  customFields: [
+    {
+      label: 'Field 1',
+      value: 'Value 1',
+    },
+    {
+      label: 'Field 2',
+      value: 'Value 2',
+    },
+    {
+      label: 'Field 3',
+      value: 'Value 3',
+    },
+  ],
+  customFieldsCollapsed: true,
 };
 
 const voiceInteractionWithTransfersAndScripts = {
@@ -680,6 +695,45 @@ const emailInteraction = {
 };
 
 const smsInteractionWithLotsOfMessagesAndScript = {
+  customFields: [
+    {
+      label: 'Field 1',
+      value: 'Value 1',
+    },
+    {
+      label: 'Field 2',
+      value: 'Value 2',
+    },
+    {
+      label: 'Field 3',
+      value: 'Value 3',
+    },
+    {
+      label: 'Field 4',
+      value: 'Value 4',
+    },
+    {
+      label: 'Field 5',
+      value: 'Value 5',
+    },
+    {
+      label: 'Field 6',
+      value: 'Value 6',
+    },
+    {
+      label: 'Field 7',
+      value: 'Value 7',
+    },
+    {
+      label: 'Field 8',
+      value: 'Value 8',
+    },
+    {
+      label: 'Field 9',
+      value: 'Value 9',
+    },
+  ],
+  customFieldsCollapsed: true,
   channelType: 'sms',
   customerAvatarIndex: 5,
   interactionId: 'smsInteractionWithLotsOfMessagesAndScript',

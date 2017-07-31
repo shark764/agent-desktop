@@ -12,6 +12,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import caret from 'assets/icons/caret.png';
 import checkStatus from 'assets/icons/check_status.png';
 import config from 'assets/icons/config.png';
 import search from 'assets/icons/search.png';
@@ -43,6 +44,7 @@ export const availableIcons = [
   'arrow_return',
   'arrow_up_down',
   'attachment',
+  'caret',
   'checkStatus',
   'close',
   'config',
@@ -71,6 +73,11 @@ export const availableIcons = [
 const styles = {
   base: {
     cursor: 'pointer',
+  },
+  caret: {
+    data: { src: caret },
+    height: '6px',
+    width: '10px',
   },
   config: {
     data: { src: config },

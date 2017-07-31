@@ -70,6 +70,7 @@ export const REMOVE_CONTACT = 'app/AgentDesktop/REMOVE_CONTACT';
 export const ADD_MESSAGE = 'app/AgentDesktop/ADD_MESSAGE';
 export const SELECT_INTERACTION = 'app/AgentDesktop/SELECT_INTERACTION';
 export const SET_CUSTOM_FIELDS = 'app/AgentDesktop/SET_CUSTOM_FIELDS';
+export const TOGGLE_CUSTOM_FIELDS = 'app/AgentDesktop/TOGGLE_CUSTOM_FIELDS';
 export const SET_EMAIL_PLAIN_BODY = 'app/AgentDesktop/SET_EMAIL_PLAIN_BODY';
 export const SET_EMAIL_HTML_BODY = 'app/AgentDesktop/SET_EMAIL_HTML_BODY';
 export const SET_EMAIL_DETAILS = 'app/AgentDesktop/SET_EMAIL_DETAILS';

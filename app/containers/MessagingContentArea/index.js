@@ -19,6 +19,7 @@ import ErrorBoundary from 'components/ErrorBoundary';
 import Avatar from 'components/Avatar';
 import Button from 'components/Button';
 import LoadingText from 'components/LoadingText';
+import CustomFields from 'containers/CustomFields';
 
 import ContentArea from 'containers/ContentArea';
 
@@ -42,19 +43,6 @@ export class MessagingContentArea extends React.Component {
   }
 
   styles = {
-    customField: {
-      display: 'inline-block',
-      width: '50%',
-    },
-    customFieldLabel: {
-      color: '#979797',
-      display: 'inline-block',
-      width: '90px',
-    },
-    customFieldValue: {
-      display: 'inline-block',
-      width: 'calc(100% - 90px)',
-    },
     messageHistoryItem: {
       marginBottom: '10px',
     },
@@ -127,19 +115,7 @@ export class MessagingContentArea extends React.Component {
 
     let details;
     if (this.props.selectedInteraction.customFields) {
-      details = this.props.selectedInteraction.customFields.map((customField) =>
-        (<div
-          key={customField.label + customField.value}
-          style={this.styles.customField}
-        >
-          <div style={this.styles.customFieldLabel}>
-            {customField.label}
-          </div>
-          <div style={this.styles.customFieldValue}>
-            {customField.value}
-          </div>
-        </div>)
-      );
+      details = <CustomFields />;
     } else {
       details = '';
     }

@@ -57,6 +57,7 @@ import {
   ADD_MESSAGE,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
+  TOGGLE_CUSTOM_FIELDS,
   SET_EMAIL_PLAIN_BODY,
   SET_EMAIL_HTML_BODY,
   SET_EMAIL_DETAILS,
@@ -1196,6 +1197,21 @@ function agentDesktopReducer(state = initialState, action) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
             interaction.set('customFields', action.customFields)
+          )
+        );
+      } else {
+        return state;
+      }
+    }
+    case TOGGLE_CUSTOM_FIELDS: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.update('interactions', (interactions) =>
+          interactions.update(interactionIndex, (interaction) =>
+            interaction.set(
+              'customFieldsCollapsed',
+              !interaction.get('customFieldsCollapsed')
+            )
           )
         );
       } else {
