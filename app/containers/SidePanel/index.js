@@ -49,8 +49,12 @@ export class SidePanel extends React.Component {
       width: this.props.openPx,
     };
     if (this.props.isCollapsed) {
-      sizing.transform = `translateX(${this.props.openPx -
-        this.props.collapsedPx}px)`;
+      if (this.context.toolbarMode) {
+        sizing.right = `-${this.props.openPx}px`;
+      } else {
+        sizing.transform = `translateX(${this.props.openPx -
+          this.props.collapsedPx}px)`;
+      }
     }
     return sizing;
   };
@@ -59,6 +63,7 @@ export class SidePanel extends React.Component {
     outerShell: {
       backgroundColor: '#FFFFFF',
       borderLeft: '1px solid #D0D0D0',
+      borderBottom: '1px solid black',
       position: 'fixed',
       right: 0,
       top: 0,
@@ -82,6 +87,7 @@ export class SidePanel extends React.Component {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      cursor: 'pointer',
     },
     leftGutterSpacer: {
       order: '1',
@@ -95,7 +101,6 @@ export class SidePanel extends React.Component {
     },
     iconCollapse: {
       height: '19px',
-      cursor: 'pointer',
     },
     bodyWrapper: {
       display: 'flex',
@@ -111,9 +116,6 @@ export class SidePanel extends React.Component {
     },
     tabsRoot: {
       height: '100%',
-    },
-    rightMargin: {
-      marginRight: '26px',
     },
   };
 
@@ -135,10 +137,7 @@ export class SidePanel extends React.Component {
         name: 'info',
         tabInner:
           this.context.crmEnabled &&
-          <InfoTab
-            isCollapsed={this.props.isCollapsed}
-            style={this.styles.rightMargin}
-          />,
+          <InfoTab isCollapsed={this.props.isCollapsed} />,
       },
       {
         name: 'history',
@@ -163,19 +162,32 @@ export class SidePanel extends React.Component {
 
   render() {
     const tabsData = this.getTabsData();
+    const phoneControlsHeight = 64;
+    const containerStyles = {
+      height: `calc(100vh - 54px - ${this.props.bannerCount * 28}px ${this
+        .context.toolbarMode
+        ? `- ${phoneControlsHeight}px`
+        : ''})`,
+      top: `calc(${this.props.bannerCount * 28}px ${this.context.toolbarMode
+        ? `+ ${phoneControlsHeight}px`
+        : ''})`,
+    };
     return (
       <div
         style={[
           this.styles.outerShell,
           this.getPanelSizing(),
+          containerStyles,
           this.props.style,
         ]}
       >
         <div style={[this.styles.leftGutter]}>
-          <div style={[this.styles.topGutterLeft]}>
+          <div
+            id="sidePanelCollapse"
+            onClick={this.handleCollapseClick}
+            style={[this.styles.topGutterLeft]}
+          >
             <IconCollapse
-              id="sidePanelCollapse"
-              onClick={this.handleCollapseClick}
               style={[
                 this.styles.iconCollapse,
                 this.props.isCollapsed
@@ -246,10 +258,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 SidePanel.propTypes = {
-  style: PropTypes.array,
   isCollapsed: PropTypes.bool,
   openPx: PropTypes.number,
   collapsedPx: PropTypes.number,
+  bannerCount: PropTypes.number,
+  style: PropTypes.array,
   hideContactsPanel: PropTypes.func,
   showContactsPanel: PropTypes.func,
   selectedInteractionId: PropTypes.string,

@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SidePanelToolbarBtn /> should not render 1`] = `
+<ContextProvider>
+  <SidePanelToolbarBtn
+    isContactsPanelCollapsed={true}
+    selectedInteractionIsScriptOnly={false}
+    selectedInteractionScript={
+      Object {
+        "testing": "testing",
+      }
+    }
+  />
+</ContextProvider>
+`;
+
+exports[`<SidePanelToolbarBtn /> should render correctly 1`] = `
+<ContextProvider>
+  <SidePanelToolbarBtn
+    isContactsPanelCollapsed={true}
+    selectedInteractionIsScriptOnly={false}
+    selectedInteractionScript={
+      Object {
+        "testing": "testing",
+      }
+    }
+  >
+    <div
+      id="SidePanelToolbarBtn"
+      onClick={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderBottom": "1px solid #D0D0D0",
+          "borderLeft": "1px solid #D0D0D0",
+          "borderTop": "1px solid #D0D0D0",
+          "cursor": "pointer",
+          "display": "flex",
+          "height": "60px",
+          "justifyContent": "center",
+          "position": "relative",
+          "right": "-20px",
+          "width": "50px",
+        }
+      }
+    >
+      <IconCollapse
+        style={
+          Array [
+            Object {
+              "height": "19px",
+              "transform": "rotate(90deg)",
+            },
+          ]
+        }
+      >
+        <svg
+          data-radium={true}
+          style={
+            Object {
+              "enableBackground": "new 0 0 20 20",
+              "height": "19px",
+              "transform": "rotate(90deg)",
+            }
+          }
+          version="1.1"
+          viewBox="0 0 20 20"
+          x="0px"
+          y="0px"
+        >
+          <style
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": ".st3{fill:none;stroke:#4B4B4B;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
+                            .st4{fill:none;stroke:#4B4B4B;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}",
+              }
+            }
+            type="text/css"
+          />
+          <polyline
+            className="st3"
+            points="6,10 10,13.5 14,10"
+          />
+          <line
+            className="st3"
+            x1="10"
+            x2="10"
+            y1="2.5"
+            y2="12.5"
+          />
+          <line
+            className="st4"
+            x1="1.6"
+            x2="18.2"
+            y1="18"
+            y2="18"
+          />
+        </svg>
+      </IconCollapse>
+    </div>
+  </SidePanelToolbarBtn>
+</ContextProvider>
+`;

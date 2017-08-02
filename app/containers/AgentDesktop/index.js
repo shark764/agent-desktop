@@ -26,10 +26,7 @@ import Toolbar from 'containers/Toolbar';
 
 import { selectShowCollapseButton } from 'containers/InteractionsBar/selectors';
 
-import {
-  showInteractionsBar,
-  hideInteractionsBar,
-} from './actions';
+import { showInteractionsBar, hideInteractionsBar } from './actions';
 import {
   selectAgentDesktopMap,
   selectLoginMap,
@@ -181,9 +178,7 @@ export class AgentDesktop extends React.Component {
                     <PhoneControls style={[this.styles.phoneControls]} />}
                   {(!this.context.toolbarMode ||
                     !this.props.isInteractionsBarCollapsed) &&
-                    <InteractionsBar
-                      style={[this.styles.interactionsBar]}
-                    />}
+                    <InteractionsBar style={[this.styles.interactionsBar]} />}
                 </div>
                 {this.context.toolbarMode &&
                   this.props.showCollapseButton &&
@@ -196,32 +191,29 @@ export class AgentDesktop extends React.Component {
                   tenant={this.props.login.tenant}
                   style={{ flex: '1 1 auto' }}
                 />
+                <Resizable
+                  id="crm-resizable"
+                  direction="left"
+                  setPx={this.setContactsPanelWidth}
+                  disabledPx={this.collapsedContactsPanelPx}
+                  px={this.state.contactsPanelPx}
+                  maxPx={this.state.contactsPanelMaxPx}
+                  minPx={400}
+                  isDisabled={this.props.isContactsPanelCollapsed}
+                  style={this.styles.topArea}
+                />
               </div>
             </div>
-            <Resizable
-              id="crm-resizable"
-              direction="left"
-              setPx={this.setContactsPanelWidth}
-              disabledPx={this.collapsedContactsPanelPx}
-              px={this.state.contactsPanelPx}
-              maxPx={this.state.contactsPanelMaxPx}
-              minPx={400}
-              isDisabled={this.props.isContactsPanelCollapsed}
-              style={this.styles.topArea}
-            />
           </div>
           <Toolbar
             tenant={this.props.login.tenant}
             style={[this.styles.flexChildGrow, this.styles.toolbar]}
           />
           <SidePanel
-            style={{
-              height: `calc(100vh - 54px - ${this.props.bannerCount * 28}px)`,
-              top: `${this.props.bannerCount * 28}px`,
-            }}
-            collapsedPx={this.collapsedContactsPanelPx}
-            openPx={this.state.contactsPanelPx}
             isCollapsed={this.props.isContactsPanelCollapsed}
+            openPx={this.state.contactsPanelPx}
+            collapsedPx={this.collapsedContactsPanelPx}
+            bannerCount={this.props.bannerCount}
           />
         </div>
       </span>

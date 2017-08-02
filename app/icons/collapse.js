@@ -39,7 +39,7 @@ class IconCollapse extends React.Component {
 }
 
 IconCollapse.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   style: PropTypes.object,
   onClick: PropTypes.func,
 };

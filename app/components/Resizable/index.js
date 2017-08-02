@@ -57,6 +57,11 @@ class Resizable extends React.Component {
         });
       } else {
         this.addListeners();
+        if (this.context.toolbarMode) {
+          this.setState({
+            hideDivider: false,
+          });
+        }
       }
     }
     return nextProps;
@@ -72,6 +77,10 @@ class Resizable extends React.Component {
     );
     const dividerOffset = this.addPx(this.props.px - (this.dividerPx / 2 + 1));
     const userSelect = this.state.isResizing ? 'none' : 'auto';
+    const phoneControlsHeight = 64;
+    const dividerHeight = `calc(100% - 54px ${this.context.toolbarMode
+      ? `- ${phoneControlsHeight}px`
+      : ''})`;
     const styles = {
       left: {
         wrapper: {
@@ -83,9 +92,9 @@ class Resizable extends React.Component {
         },
         divider: {
           width: this.addPx(this.dividerPx),
-          height: 'calc(100% - 54px)',
+          height: dividerHeight,
           right: dividerOffset,
-          top: '0',
+          top: `${this.context.toolbarMode ? '64px' : '0'}`,
           position: this.dividerPosition,
           cursor: 'ew-resize',
           zIndex: '2',
@@ -121,6 +130,13 @@ class Resizable extends React.Component {
         },
       },
     };
+    if (this.context.toolbarMode) {
+      styles.left.wrapper.transition = '';
+      if (this.props.isDisabled) {
+        styles.left.wrapper.width = '0px';
+        styles.left.wrapper.borderLeft = '0px';
+      }
+    }
     return styles[this.props.direction];
   };
 
@@ -248,6 +264,10 @@ Resizable.propTypes = {
   maxPx: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
   styles: PropTypes.object,
+};
+
+Resizable.contextTypes = {
+  toolbarMode: PropTypes.bool,
 };
 
 export default Radium(Resizable);
