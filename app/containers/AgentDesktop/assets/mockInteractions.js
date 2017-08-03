@@ -813,6 +813,14 @@ const smsInteractionWithLotsOfMessagesAndScript = {
 
 const smsInteractionWithLotsOfMessagesAndScript2 = cloneDeep(smsInteractionWithLotsOfMessagesAndScript);
 smsInteractionWithLotsOfMessagesAndScript2.interactionId = 'smsInteractionWithLotsOfMessagesAndScript2';
+const smsInteractionWithLotsOfMessagesAndScript3 = cloneDeep(smsInteractionWithLotsOfMessagesAndScript);
+smsInteractionWithLotsOfMessagesAndScript3.interactionId = 'smsInteractionWithLotsOfMessagesAndScript3';
+const smsInteractionWithLotsOfMessagesAndScript4 = cloneDeep(smsInteractionWithLotsOfMessagesAndScript);
+smsInteractionWithLotsOfMessagesAndScript4.interactionId = 'smsInteractionWithLotsOfMessagesAndScript4';
+const smsInteractionWithLotsOfMessagesAndScript5 = cloneDeep(smsInteractionWithLotsOfMessagesAndScript);
+smsInteractionWithLotsOfMessagesAndScript5.interactionId = 'smsInteractionWithLotsOfMessagesAndScript5';
+const smsInteractionWithLotsOfMessagesAndScript6 = cloneDeep(smsInteractionWithLotsOfMessagesAndScript);
+smsInteractionWithLotsOfMessagesAndScript6.interactionId = 'smsInteractionWithLotsOfMessagesAndScript6';
 
 const scriptOnly = {
   interactionId: 'scriptOnlyInteraction',
@@ -832,5 +840,9 @@ export {
   emailInteraction,
   smsInteractionWithLotsOfMessagesAndScript,
   smsInteractionWithLotsOfMessagesAndScript2,
+  smsInteractionWithLotsOfMessagesAndScript3,
+  smsInteractionWithLotsOfMessagesAndScript4,
+  smsInteractionWithLotsOfMessagesAndScript5,
+  smsInteractionWithLotsOfMessagesAndScript6,
   scriptOnly,
 };

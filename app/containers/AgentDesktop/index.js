@@ -104,7 +104,6 @@ export class AgentDesktop extends React.Component {
       width: '283px',
       display: 'flex',
       flexFlow: 'column',
-      height: '100%',
       backgroundColor: '#072931',
     },
     leftAreaToolbar: {
@@ -113,12 +112,6 @@ export class AgentDesktop extends React.Component {
     },
     leftAreaCollapsed: {
       width: '0px',
-    },
-    phoneControls: {
-      flex: '0 0 auto',
-    },
-    interactionsBar: {
-      flex: '1 0 auto',
     },
     toolbar: {
       flex: '0 0 auto',
@@ -161,9 +154,7 @@ export class AgentDesktop extends React.Component {
               }}
             >
               {this.context.toolbarMode &&
-                <PhoneControls
-                  style={[this.styles.phoneControls, { flex: '0' }]}
-                />}
+                <PhoneControls style={{ flex: '0' }} />}
               <div style={{ display: 'flex', flex: '1' }}>
                 <div
                   style={[
@@ -175,10 +166,10 @@ export class AgentDesktop extends React.Component {
                   ]}
                 >
                   {!this.context.toolbarMode &&
-                    <PhoneControls style={[this.styles.phoneControls]} />}
+                    <PhoneControls style={{ flexShrink: '0' }} />}
                   {(!this.context.toolbarMode ||
                     !this.props.isInteractionsBarCollapsed) &&
-                    <InteractionsBar style={[this.styles.interactionsBar]} />}
+                    <InteractionsBar style={{ flexGrow: '1' }} />}
                 </div>
                 {this.context.toolbarMode &&
                   this.props.showCollapseButton &&

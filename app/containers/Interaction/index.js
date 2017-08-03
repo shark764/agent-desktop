@@ -34,14 +34,17 @@ const styles = {
     padding: '20px 16px 0 16px',
     borderRadius: '3px',
     height: '108px',
-    width: '100%',
+    width: '283px',
     borderBottom: '1px solid #141414',
     display: 'flex',
     justifyContent: 'stretch',
     backgroundColor: 'inherit',
+    position: 'relative',
   },
   baseToolbar: {
     height: '89px',
+    width: '72px',
+    padding: '20px 0 0 0',
     flexDirection: 'column',
     alignItems: 'center',
   },
@@ -50,8 +53,8 @@ const styles = {
   },
   pendingBase: {
     borderBottom: 'none',
-    marginTop: '11px',
     backgroundColor: '#F3F3F3',
+    color: '#4B4B4B',
   },
   pendingBaseToolbar: {
     backgroundColor: '#23CEF5',
@@ -62,9 +65,6 @@ const styles = {
   },
   selectedBase: {
     backgroundColor: '#0B424E',
-  },
-  newInteractionBase: {
-    height: '60px',
   },
   mainContainer: {
     marginLeft: '8px',
@@ -141,7 +141,7 @@ const styles = {
   },
   hoverElement: {
     position: 'absolute',
-    left: '64px',
+    left: '77px',
   },
   hoverTriangle: {
     borderWidth: '8px',
@@ -150,7 +150,7 @@ const styles = {
     borderImage: 'initial',
     transform: 'rotate(-45deg)',
     borderRadius: '3px',
-    boxShadow: '-6px -6px 6px -4px rgba(0,0,0,0.29)',
+    boxShadow: '-6px -6px 6px -5px rgba(0,0,0,0.29)',
     width: '0px',
     height: '0px',
     zIndex: '3',
@@ -159,7 +159,7 @@ const styles = {
   hoverBox: {
     backgroundColor: '#FFF',
     borderRadius: '3px',
-    boxShadow: '0 2px 3px 0 rgba(0,0,0,0.17)',
+    boxShadow: '0 0 3px 0 rgba(0,0,0,0.17)',
     padding: '14px 28px',
     position: 'relative',
     bottom: '27px',
@@ -361,7 +361,6 @@ export class Interaction extends React.Component {
             styles.base,
             this.context.toolbarMode && styles.baseToolbar,
             this.props.selected && styles.selectedBase,
-            styles.newInteractionBase,
           ]}
           key={this.props.interaction.interactionId}
           onClick={this.props.onClick}
