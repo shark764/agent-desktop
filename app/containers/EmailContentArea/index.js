@@ -42,6 +42,7 @@ import Select from 'components/Select';
 import TextInput from 'components/TextInput';
 
 import ContentArea from 'containers/ContentArea';
+import CustomFields from 'containers/CustomFields';
 
 import {
   emailCreateReply,
@@ -95,7 +96,7 @@ const styles = {
     width: 'calc(100% - 90px)',
     minHeight: '1.8em',
   },
-  attachmentsContainer: {
+  detailsContainer: {
     borderTop: '1px solid #D0D0D0',
     marginTop: '10px',
     paddingTop: '10px',
@@ -754,10 +755,14 @@ export class EmailContentArea extends React.Component {
                 {this.props.selectedInteraction.emailDetails.subject}
               </div>
             </div>
+            {this.props.selectedInteraction.customFields &&
+              <div style={styles.detailsContainer}>
+                <CustomFields />
+              </div>}
             {this.props.selectedInteraction.emailDetails.attachments !==
               undefined &&
             this.props.selectedInteraction.emailDetails.attachments.length > 0
-              ? <div style={styles.attachmentsContainer}>
+              ? <div style={styles.detailsContainer}>
                 {this.props.selectedInteraction.emailDetails.attachments.map(
                     (attachment, index) =>
                       (<a
@@ -1039,7 +1044,7 @@ export class EmailContentArea extends React.Component {
                   : this.state.selectedEmailTemplate}
               </div>
             </div>}
-          <div style={styles.attachmentsContainer}>
+          <div style={styles.detailsContainer}>
             {this.props.selectedInteraction.emailReply.attachments.map(
               (attachment, index) =>
                 (<div
