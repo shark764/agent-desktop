@@ -1,0 +1,1136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CustomFields /> Desktop mode should render correctly with 3 or less fields 1`] = `
+<ContextProvider>
+  <CustomFields
+    customFields={
+      Array [
+        Object {
+          "label": "Test Label",
+          "value": "Test Value",
+        },
+        Object {
+          "label": "Test Label 2",
+          "value": "Test Value 2",
+        },
+        Object {
+          "label": "Test Label 3",
+          "value": "Test Value 3",
+        },
+      ]
+    }
+    customFieldsCollapsed={true}
+    interactionId="mockId"
+    toggleCustomFields={[Function]}
+  >
+    <div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "inline-block",
+              "width": "50%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label"
+        >
+          Test Label
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value"
+        >
+          Test Value
+        </div>
+      </div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "inline-block",
+              "width": "50%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label 2"
+        >
+          Test Label 2
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value 2"
+        >
+          Test Value 2
+        </div>
+      </div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "inline-block",
+              "width": "50%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label 3"
+        >
+          Test Label 3
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value 3"
+        >
+          Test Value 3
+        </div>
+      </div>
+    </div>
+  </CustomFields>
+</ContextProvider>
+`;
+
+exports[`<CustomFields /> Desktop mode should render correctly with between 3 and 6 fields 1`] = `
+<ContextProvider>
+  <CustomFields
+    customFields={
+      Array [
+        Object {
+          "label": "Test Label",
+          "value": "Test Value",
+        },
+        Object {
+          "label": "Test Label 2",
+          "value": "Test Value 2",
+        },
+        Object {
+          "label": "Test Label 3",
+          "value": "Test Value 3",
+        },
+        Object {
+          "label": "Test Label 4",
+          "value": "Test Value 4",
+        },
+      ]
+    }
+    customFieldsCollapsed={true}
+    interactionId="mockId"
+    toggleCustomFields={[Function]}
+  >
+    <div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "inline-block",
+              "width": "50%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label"
+        >
+          Test Label
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value"
+        >
+          Test Value
+        </div>
+      </div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "inline-block",
+              "width": "50%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label 2"
+        >
+          Test Label 2
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value 2"
+        >
+          Test Value 2
+        </div>
+      </div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "inline-block",
+              "width": "50%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label 3"
+        >
+          Test Label 3
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value 3"
+        >
+          Test Value 3
+        </div>
+      </div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "inline-block",
+              "width": "50%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label 4"
+        >
+          Test Label 4
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value 4"
+        >
+          Test Value 4
+        </div>
+      </div>
+    </div>
+  </CustomFields>
+</ContextProvider>
+`;
+
+exports[`<CustomFields /> Desktop mode should render correctly with more than 6 fields 1`] = `
+<ContextProvider>
+  <CustomFields
+    customFields={
+      Array [
+        Object {
+          "label": "Test Label",
+          "value": "Test Value",
+        },
+        Object {
+          "label": "Test Label 2",
+          "value": "Test Value 2",
+        },
+        Object {
+          "label": "Test Label 3",
+          "value": "Test Value 3",
+        },
+        Object {
+          "label": "Test Label 4",
+          "value": "Test Value 4",
+        },
+        Object {
+          "label": "Test Label 5",
+          "value": "Test Value 5",
+        },
+        Object {
+          "label": "Test Label 6",
+          "value": "Test Value 6",
+        },
+        Object {
+          "label": "Test Label 7",
+          "value": "Test Value 7",
+        },
+      ]
+    }
+    customFieldsCollapsed={true}
+    interactionId="mockId"
+    toggleCustomFields={[Function]}
+  >
+    <div
+      style={
+        Array [
+          Object {
+            "height": "45px",
+            "transition": "height 0.3s ease-out",
+          },
+          false,
+        ]
+      }
+    >
+      <div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "width": "50%",
+              },
+              false,
+              false,
+            ]
+          }
+        >
+          <div
+            style={
+              Object {
+                "color": "#979797",
+                "display": "inline-block",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "90px",
+              }
+            }
+            title="Test Label"
+          >
+            Test Label
+          </div>
+          <div
+            style={
+              Array [
+                Object {
+                  "display": "inline-block",
+                  "maxWidth": "600px",
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "calc(100% - 90px)",
+                },
+                false,
+              ]
+            }
+            title="Test Value"
+          >
+            Test Value
+          </div>
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "width": "50%",
+              },
+              Object {
+                "display": "inline-block",
+                "width": "45%",
+              },
+              false,
+            ]
+          }
+        >
+          <div
+            style={
+              Object {
+                "color": "#979797",
+                "display": "inline-block",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "90px",
+              }
+            }
+            title="Test Label 2"
+          >
+            Test Label 2
+          </div>
+          <div
+            style={
+              Array [
+                Object {
+                  "display": "inline-block",
+                  "maxWidth": "600px",
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "calc(100% - 90px)",
+                },
+                Object {
+                  "width": "calc(90% - 90px)",
+                },
+              ]
+            }
+            title="Test Value 2"
+          >
+            Test Value 2
+          </div>
+        </div>
+        <Icon
+          name="caret"
+          onclick={[Function]}
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+              },
+              false,
+            ]
+          }
+        >
+          <img
+            alt="caret"
+            data-radium={true}
+            id="caret-icon"
+            onClick={[Function]}
+            src="test-file-stub"
+            style={
+              Object {
+                "cursor": "pointer",
+                "display": "inline-block",
+                "height": "6px",
+                "width": "10px",
+              }
+            }
+          />
+        </Icon>
+      </div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "inline-block",
+              "width": "50%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label 3"
+        >
+          Test Label 3
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value 3"
+        >
+          Test Value 3
+        </div>
+      </div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "inline-block",
+              "width": "50%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label 4"
+        >
+          Test Label 4
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value 4"
+        >
+          Test Value 4
+        </div>
+      </div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "inline-block",
+              "width": "50%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label 5"
+        >
+          Test Label 5
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value 5"
+        >
+          Test Value 5
+        </div>
+      </div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "inline-block",
+              "width": "50%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label 6"
+        >
+          Test Label 6
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value 6"
+        >
+          Test Value 6
+        </div>
+      </div>
+    </div>
+  </CustomFields>
+</ContextProvider>
+`;
+
+exports[`<CustomFields /> Toolbar mode should render correctly with 3 or less fields 1`] = `
+<ContextProvider>
+  <CustomFields
+    customFields={
+      Array [
+        Object {
+          "label": "Test Label",
+          "value": "Test Value",
+        },
+        Object {
+          "label": "Test Label 2",
+          "value": "Test Value 2",
+        },
+        Object {
+          "label": "Test Label 3",
+          "value": "Test Value 3",
+        },
+      ]
+    }
+    customFieldsCollapsed={true}
+    interactionId="mockId"
+    toggleCustomFields={[Function]}
+  >
+    <div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "block",
+              "width": "100%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label"
+        >
+          Test Label
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value"
+        >
+          Test Value
+        </div>
+      </div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "block",
+              "width": "100%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label 2"
+        >
+          Test Label 2
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value 2"
+        >
+          Test Value 2
+        </div>
+      </div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "block",
+              "width": "100%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label 3"
+        >
+          Test Label 3
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value 3"
+        >
+          Test Value 3
+        </div>
+      </div>
+    </div>
+  </CustomFields>
+</ContextProvider>
+`;
+
+exports[`<CustomFields /> Toolbar mode should render correctly with more than 3 fields 1`] = `
+<ContextProvider>
+  <CustomFields
+    customFields={
+      Array [
+        Object {
+          "label": "Test Label",
+          "value": "Test Value",
+        },
+        Object {
+          "label": "Test Label 2",
+          "value": "Test Value 2",
+        },
+        Object {
+          "label": "Test Label 3",
+          "value": "Test Value 3",
+        },
+        Object {
+          "label": "Test Label 4",
+          "value": "Test Value 4",
+        },
+      ]
+    }
+    customFieldsCollapsed={true}
+    interactionId="mockId"
+    toggleCustomFields={[Function]}
+  >
+    <div
+      style={
+        Array [
+          Object {
+            "height": "45px",
+            "transition": "height 0.3s ease-out",
+          },
+          false,
+        ]
+      }
+    >
+      <div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "block",
+                "width": "100%",
+              },
+              Object {
+                "display": "inline-block",
+                "width": "45%",
+              },
+              Object {
+                "width": "90%",
+              },
+            ]
+          }
+        >
+          <div
+            style={
+              Object {
+                "color": "#979797",
+                "display": "inline-block",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "90px",
+              }
+            }
+            title="Test Label"
+          >
+            Test Label
+          </div>
+          <div
+            style={
+              Array [
+                Object {
+                  "display": "inline-block",
+                  "maxWidth": "600px",
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "calc(100% - 90px)",
+                },
+                Object {
+                  "width": "calc(90% - 90px)",
+                },
+              ]
+            }
+            title="Test Value"
+          >
+            Test Value
+          </div>
+        </div>
+        <Icon
+          name="caret"
+          onclick={[Function]}
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+              },
+              false,
+            ]
+          }
+        >
+          <img
+            alt="caret"
+            data-radium={true}
+            id="caret-icon"
+            onClick={[Function]}
+            src="test-file-stub"
+            style={
+              Object {
+                "cursor": "pointer",
+                "display": "inline-block",
+                "height": "6px",
+                "width": "10px",
+              }
+            }
+          />
+        </Icon>
+      </div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "block",
+              "width": "100%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label 2"
+        >
+          Test Label 2
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value 2"
+        >
+          Test Value 2
+        </div>
+      </div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "block",
+              "width": "100%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
+              "display": "inline-block",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label 3"
+        >
+          Test Label 3
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value 3"
+        >
+          Test Value 3
+        </div>
+      </div>
+    </div>
+  </CustomFields>
+</ContextProvider>
+`;

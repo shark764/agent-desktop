@@ -24,6 +24,7 @@ Immutable.Map {
       },
       autoAnswer: undefined,
       interactionId: "test-interaction-id",
+      customFieldsCollapsed: true,
       note: Immutable.Map {
         body: "",
         title: "",
@@ -101,6 +102,7 @@ Immutable.Map {
       },
       autoAnswer: undefined,
       interactionId: "test-interaction-id",
+      customFieldsCollapsed: true,
       note: Immutable.Map {
         body: "",
         title: "",
@@ -590,6 +592,7 @@ Immutable.Map {
       autoAnswer: undefined,
       messageHistory: Array [],
       interactionId: "outbound-sms-+15064701234",
+      customFieldsCollapsed: true,
       note: Immutable.Map {
         body: "",
         title: "",
@@ -624,6 +627,21 @@ Immutable.Map {
     },
   ],
   selectedInteractionId: "outbound-sms-+15064701234",
+}
+`;
+
+exports[`agentDesktopReducer TOGGLE_CUSTOM_FIELDS should toggle customFieldsCollapsed on the appropriate interaction 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "mockInteraction1",
+      customFieldsCollapsed: false,
+    },
+    Immutable.Map {
+      interactionId: "mockInteraction2",
+      customFieldsCollapsed: true,
+    },
+  ],
 }
 `;
 

@@ -55,6 +55,7 @@ import {
   REMOVE_INTERACTION_HARD,
   SELECT_INTERACTION,
   SET_CUSTOM_FIELDS,
+  TOGGLE_CUSTOM_FIELDS,
   SET_EMAIL_PLAIN_BODY,
   SET_EMAIL_HTML_BODY,
   SELECT_CONTACT,
@@ -468,6 +469,13 @@ export function setCustomFields(interactionId, customFields) {
     type: SET_CUSTOM_FIELDS,
     interactionId,
     customFields,
+  };
+}
+
+export function toggleCustomFields(interactionId) {
+  return {
+    type: TOGGLE_CUSTOM_FIELDS,
+    interactionId,
   };
 }
 

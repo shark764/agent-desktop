@@ -17,6 +17,7 @@ import has from 'lodash/has';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import Button from 'components/Button';
+import CustomFields from 'containers/CustomFields';
 
 import AgentScript from 'containers/AgentScript';
 import ContentArea from 'containers/ContentArea';
@@ -27,19 +28,6 @@ import messages from './messages';
 
 export class VoiceContentArea extends React.Component {
   styles = {
-    customField: {
-      display: 'inline-block',
-      width: '50%',
-    },
-    customFieldLabel: {
-      color: '#979797',
-      display: 'inline-block',
-      width: '90px',
-    },
-    customFieldValue: {
-      display: 'inline-block',
-      width: 'calc(100% - 90px)',
-    },
     content: {
       position: 'absolute',
       height: '100%',
@@ -58,19 +46,7 @@ export class VoiceContentArea extends React.Component {
       : this.props.selectedInteraction.number;
 
     const details = this.props.selectedInteraction.customFields
-      ? this.props.selectedInteraction.customFields.map((customField) =>
-        (<div
-          key={customField.label + customField.value}
-          style={this.styles.customField}
-        >
-          <div style={this.styles.customFieldLabel}>
-            {customField.label}
-          </div>
-          <div style={this.styles.customFieldValue}>
-            {customField.value}
-          </div>
-        </div>)
-        )
+      ? <CustomFields />
       : '';
 
     const wrappingUp = this.props.selectedInteraction.status === 'wrapup';
