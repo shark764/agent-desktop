@@ -51,7 +51,6 @@ import {
   emailRemoveAttachment,
   emailUpdateReply,
   emailSendReply,
-  removeInteraction,
 } from 'containers/AgentDesktop/actions';
 import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
@@ -1237,8 +1236,6 @@ function mapDispatchToProps(dispatch) {
     emailUpdateReply: (interactionId, reply) =>
       dispatch(emailUpdateReply(interactionId, reply)),
     emailSendReply: (interactionId) => dispatch(emailSendReply(interactionId)),
-    removeInteraction: (interactionId) =>
-      dispatch(removeInteraction(interactionId)),
     dispatch,
   };
 }
