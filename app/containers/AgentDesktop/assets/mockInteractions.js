@@ -216,6 +216,21 @@ const script = {
   name: 'script',
 };
 
+const customFields = [
+  {
+    label: 'Field 1',
+    value: 'Value 1',
+  },
+  {
+    label: 'Field 2',
+    value: 'Value 2',
+  },
+  {
+    label: 'Field 3',
+    value: 'Value 3',
+  },
+];
+
 const outboundConnectingVoiceInteraction = {
   interactionId: 'outbound-voice-interaction-1',
   channelType: 'voice',
@@ -258,20 +273,7 @@ const voiceInteraction = {
     title: '',
     notesPanelHeight: 300,
   },
-  customFields: [
-    {
-      label: 'Field 1',
-      value: 'Value 1',
-    },
-    {
-      label: 'Field 2',
-      value: 'Value 2',
-    },
-    {
-      label: 'Field 3',
-      value: 'Value 3',
-    },
-  ],
+  customFields,
   customFieldsCollapsed: true,
 };
 
@@ -327,6 +329,8 @@ const voiceInteractionWithTransfersAndScripts = {
 
 // Remove emailDetails and emailHtmlBody to mock loading states.
 const emailInteraction = {
+  customFields,
+  customFieldsCollapsed: true,
   channelType: 'email',
   interactionId: '0000000-0000-0000-0000-222222222222',
   customer: 'jclowater@serenova.com',
@@ -695,44 +699,7 @@ const emailInteraction = {
 };
 
 const smsInteractionWithLotsOfMessagesAndScript = {
-  customFields: [
-    {
-      label: 'Field 1',
-      value: 'Value 1',
-    },
-    {
-      label: 'Field 2',
-      value: 'Value 2',
-    },
-    {
-      label: 'Field 3',
-      value: 'Value 3',
-    },
-    {
-      label: 'Field 4',
-      value: 'Value 4',
-    },
-    {
-      label: 'Field 5',
-      value: 'Value 5',
-    },
-    {
-      label: 'Field 6',
-      value: 'Value 6',
-    },
-    {
-      label: 'Field 7',
-      value: 'Value 7',
-    },
-    {
-      label: 'Field 8',
-      value: 'Value 8',
-    },
-    {
-      label: 'Field 9',
-      value: 'Value 9',
-    },
-  ],
+  customFields,
   customFieldsCollapsed: true,
   channelType: 'sms',
   customerAvatarIndex: 5,
