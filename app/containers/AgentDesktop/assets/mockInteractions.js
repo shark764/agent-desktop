@@ -753,62 +753,68 @@ const smsInteractionWithLotsOfMessagesAndScript = {
     {
       text: 'this is a test',
       from: '+15552213456',
-      type: 'sms',
+      type: 'message',
       timestamp: new Date(new Date().setDate(new Date().getDate() - 9)).toISOString(),
       unread: false,
     }, {
       text: 'this is a test',
       from: '+15552213456',
-      type: 'sms',
+      type: 'message',
       timestamp: new Date(new Date().setDate(new Date().getDate() - 8)).toISOString(),
       unread: false,
     }, {
       text: 'this is a test',
       from: '+15552213456',
-      type: 'sms',
+      type: 'message',
       timestamp: new Date(new Date().setDate(new Date().getDate() - 7)).toISOString(),
       unread: false,
     }, {
       text: 'this is a test',
       from: '+15552213456',
-      type: 'sms',
+      type: 'message',
       timestamp: new Date(new Date().setDate(new Date().getDate() - 6)).toISOString(),
       unread: false,
     }, {
       text: 'this is a test',
       from: '+15552213456',
-      type: 'sms',
+      type: 'message',
       timestamp: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString(),
       unread: false,
     }, {
       text: 'this is a test',
       from: '+15552213456',
-      type: 'sms',
+      type: 'message',
       timestamp: new Date(new Date().setDate(new Date().getDate() - 4)).toISOString(),
       unread: false,
     }, {
       text: 'this is a test',
       from: '+15552213456',
-      type: 'sms',
+      type: 'message',
       timestamp: new Date(new Date().setDate(new Date().getDate() - 3)).toISOString(),
       unread: false,
     }, {
       text: 'this is a test',
       from: '+15552213456',
-      type: 'sms',
+      type: 'message',
       timestamp: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(),
       unread: false,
     }, {
       text: 'this is a test',
       from: '+15552213456',
-      type: 'sms',
+      type: 'message',
       timestamp: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString(),
       unread: false,
     }, {
       text: 'long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long',
       from: '+15552213456',
-      type: 'sms',
+      type: 'message',
       timestamp: new Date().toISOString(),
+      unread: false,
+    }, {
+      text: 'this is a test',
+      from: 'Agent',
+      type: 'agent',
+      timestamp: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
       unread: false,
     },
   ],
@@ -824,6 +830,12 @@ const smsInteractionWithLotsOfMessagesAndScript5 = cloneDeep(smsInteractionWithL
 smsInteractionWithLotsOfMessagesAndScript5.interactionId = 'smsInteractionWithLotsOfMessagesAndScript5';
 const smsInteractionWithLotsOfMessagesAndScript6 = cloneDeep(smsInteractionWithLotsOfMessagesAndScript);
 smsInteractionWithLotsOfMessagesAndScript6.interactionId = 'smsInteractionWithLotsOfMessagesAndScript6';
+
+const smsInteractionWithUnrespondedMessageAndScript = cloneDeep(smsInteractionWithLotsOfMessagesAndScript);
+smsInteractionWithUnrespondedMessageAndScript.interactionId = 'smsInteractionWithUnrespondedMessageAndScript';
+smsInteractionWithUnrespondedMessageAndScript.messageHistory.splice(6);
+const smsInteractionWithUnrespondedMessageAndScript2 = cloneDeep(smsInteractionWithUnrespondedMessageAndScript);
+smsInteractionWithUnrespondedMessageAndScript2.interactionId = 'smsInteractionWithUnrespondedMessageAndScript2';
 
 const scriptOnly = {
   interactionId: 'scriptOnlyInteraction',
@@ -847,5 +859,7 @@ export {
   smsInteractionWithLotsOfMessagesAndScript4,
   smsInteractionWithLotsOfMessagesAndScript5,
   smsInteractionWithLotsOfMessagesAndScript6,
+  smsInteractionWithUnrespondedMessageAndScript,
+  smsInteractionWithUnrespondedMessageAndScript2,
   scriptOnly,
 };

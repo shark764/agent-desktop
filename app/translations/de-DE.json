@@ -142,6 +142,8 @@
   "app.containers.Interaction.script": "Skript",
   "app.containers.Interaction.wrapup": "NACHBEARBEITEN",
   "app.containers.InteractionsBar.newInteraction": "Neue Interaktion",
+  "app.containers.InteractionsBar.pendingInteraction": "",
+  "app.containers.InteractionsBar.unrespondedMessage": "",
   "app.containers.Login.copyright": "Copyright © 2015-{year} Serenova, LLC („Serenova“). Alle Rechte vorbehalten.",
   "app.containers.Login.email": "E-Mail",
   "app.containers.Login.forgot": "Haben Sie Ihr Kennwort vergessen?",
