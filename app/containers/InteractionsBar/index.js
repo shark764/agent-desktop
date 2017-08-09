@@ -44,15 +44,36 @@ import {
 import messages from './messages';
 
 export class InteractionsBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showTopScrollShadow: false,
+      showBottomScrollShadow: false,
+    };
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateScrollItems);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateScrollItems);
+  }
+
+  componentDidUpdate() {
+    this.updateScrollItems();
+  }
+
   styles = {
     base: {
       backgroundColor: '#072931',
-      color: '#4B4B4B',
-      position: 'relative',
+      color: '#FFFFFF',
       width: '100%',
       fontSize: '14px',
       lineHeight: '14px',
       boxShadow: 'inset 0 0 6px 1px rgba(0,0,0,0.3)',
+      display: 'flex',
+      flexDirection: 'column',
     },
   };
 
@@ -75,6 +96,35 @@ export class InteractionsBar extends React.Component {
       this.props.showContactsPanel();
     }
     CxEngage.interactions.accept({ interactionId });
+  };
+
+  updateScrollItems = () => {
+    const scrollableHeight = this.interactionsScrollContainer.scrollHeight;
+    const viewableHeight = this.interactionsScrollContainer.clientHeight;
+    const scrollTopPosition = this.interactionsScrollContainer.scrollTop;
+
+    let showTopScrollShadow = false;
+    let showBottomScrollShadow = false;
+
+    // If there are enough interactions to make it scrollable
+    if (scrollableHeight > viewableHeight) {
+      // If not at the top of the container
+      if (scrollTopPosition > 0) {
+        showTopScrollShadow = true;
+      }
+      // If not at the bottom of the container
+      if (scrollTopPosition + viewableHeight < scrollableHeight) {
+        showBottomScrollShadow = true;
+      }
+    }
+
+    // Update if need to show/hide the shadows
+    if (
+      showTopScrollShadow !== this.state.showTopScrollShadow ||
+      showBottomScrollShadow !== this.state.showBottomScrollShadow
+    ) {
+      this.setState({ showTopScrollShadow, showBottomScrollShadow });
+    }
   };
 
   render() {
@@ -311,43 +361,56 @@ export class InteractionsBar extends React.Component {
 
     return (
       <div style={[this.styles.base, this.props.style]}>
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            width: '100%',
-            color: '#FFFFFF',
-            height: 'calc(100% - 47px)',
-            overflowY: 'auto',
-            overflowX: 'hidden',
-          }}
-        >
+        <div style={{ flexShrink: 0 }}>
           {activeVoiceInteraction}
+        </div>
+        {this.state.showTopScrollShadow &&
+          <div
+            id="topScrollShadow"
+            style={{
+              paddingBottom: '20px',
+              marginBottom: '-20px',
+              background:
+                'linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)',
+            }}
+          />}
+        <div
+          ref={(interactionsScrollContainer) => {
+            this.interactionsScrollContainer = interactionsScrollContainer;
+          }}
+          style={{
+            overflowY: 'auto',
+            flexGrow: '1',
+            paddingRight: '250px',
+            marginRight: '-250px',
+          }}
+          onScroll={this.updateScrollItems}
+        >
           {activeNonVoiceInteractions}
           {newInteraction}
-        </div>
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 47,
-            width: '100%',
-            padding: '11px',
-          }}
-        >
           {pendingInteractions}
         </div>
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            width: '100%',
-            padding: '11px',
-          }}
-        >
-          {this.props.isAgentReady &&
-            !this.props.newInteractionPanel.visible &&
-            (!this.context.toolbarMode ||
-              !this.props.isInteractionsBarCollapsed) &&
+        {this.state.showBottomScrollShadow &&
+          <div
+            id="bottomScrollShadow"
+            style={{
+              paddingTop: '20px',
+              marginTop: '-20px',
+              background:
+                'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)',
+              zIndex: 1,
+            }}
+          />}
+        {this.props.isAgentReady &&
+          !this.props.newInteractionPanel.visible &&
+          (!this.context.toolbarMode ||
+            !this.props.isInteractionsBarCollapsed) &&
+            <div
+              style={{
+                padding: '11px',
+                flexShrink: 0,
+              }}
+            >
               <Icon
                 id="newInteraction"
                 name="add_interaction"
@@ -359,8 +422,8 @@ export class InteractionsBar extends React.Component {
                   position: 'relative',
                   zIndex: '0',
                 }}
-              />}
-        </div>
+              />
+            </div>}
       </div>
     );
   }
@@ -393,7 +456,7 @@ function mapDispatchToProps(dispatch) {
 
 InteractionsBar.propTypes = {
   intl: intlShape.isRequired,
-  style: PropTypes.array,
+  style: PropTypes.object,
   isAgentReady: PropTypes.bool.isRequired,
   pendingInteractions: PropTypes.array.isRequired,
   activeNonVoiceInteractions: PropTypes.array.isRequired,

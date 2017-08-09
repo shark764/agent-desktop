@@ -77,7 +77,7 @@ function mapDispatchToProps(dispatch) {
 
 PhoneControls.propTypes = {
   activeVoiceInteraction: PropTypes.object,
-  style: PropTypes.array,
+  style: PropTypes.object,
 };
 
 export default ErrorBoundary(
