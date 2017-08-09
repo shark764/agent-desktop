@@ -45,8 +45,7 @@ class MainContentArea extends React.Component {
       });
     } else if (
       this.props.selectedInteraction.status === 'connecting-to-outbound' ||
-      this.props.selectedInteraction.status === 'initializing-outbound' ||
-      this.props.selectedInteraction.status === 'initialized-outbound'
+      this.props.selectedInteraction.status === 'initializing-outbound'
     ) {
       this.props.removeInteraction(
         this.props.selectedInteraction.interactionId

@@ -6,6 +6,7 @@
 * CXV1-9014 - Added side panel styling, hide side panel when no script, and added button to open side panel when collapsed in toolbarMode
 * CXV1-9013 - Toolbar view of custom fields && add custom fields to email interactions
 * CXV1-10710 - Interaction bar overflow
+* CXV1-10156 - Trigger end interaction when agent ends chat before receiving customer reply
 
 ### [1.1.0] (2017-07-21)
 * BUGFIX - SDK version bump to 5.3.27-SNAPSHOT
