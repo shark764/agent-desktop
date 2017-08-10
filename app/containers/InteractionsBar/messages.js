@@ -14,4 +14,12 @@ export default defineMessages({
     id: 'app.containers.InteractionsBar.newInteraction',
     defaultMessage: 'New Interaction',
   },
+  pendingInteraction: {
+    id: 'app.containers.InteractionsBar.pendingInteraction',
+    defaultMessage: 'Pending Interaction',
+  },
+  unrespondedMessage: {
+    id: 'app.containers.InteractionsBar.unrespondedMessage',
+    defaultMessage: 'Unresponded Message',
+  },
 });

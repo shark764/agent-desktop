@@ -15,6 +15,8 @@ import { injectIntl, intlShape } from 'react-intl';
 import Radium from 'radium';
 import has from 'lodash/has';
 
+import { lastMessageFromInteraction } from 'utils/interaction';
+
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import {
@@ -44,12 +46,19 @@ import {
 import messages from './messages';
 
 export class InteractionsBar extends React.Component {
-  constructor(props) {
+  constructor(props, context) {
     super(props);
     this.state = {
       showTopScrollShadow: false,
       showBottomScrollShadow: false,
+      showPendingInteractionOverflow: false,
+      showUnrespondedMessageBelowOverflow: false,
     };
+    this.interactionHeight = context.toolbarMode ? 89 : 108;
+    this.unrespondedInteractionScrollNotificationThreshold = 40;
+    this.pendingInteractionScrollNotificationThreshold = context.toolbarMode
+      ? 20
+      : 40;
   }
 
   componentDidMount() {
@@ -105,26 +114,116 @@ export class InteractionsBar extends React.Component {
 
     let showTopScrollShadow = false;
     let showBottomScrollShadow = false;
+    let showUnrespondedMessageAboveOverflow = false;
+    let showPendingInteractionOverflow = false;
+    let showUnrespondedMessageBelowOverflow = false;
 
     // If there are enough interactions to make it scrollable
     if (scrollableHeight > viewableHeight) {
       // If not at the top of the container
       if (scrollTopPosition > 0) {
         showTopScrollShadow = true;
+        // If there is an unresponsed message above scroll view
+        if (this.hasUnrespondedMessagesAboveScrollView()) {
+          showUnrespondedMessageAboveOverflow = true;
+        }
       }
       // If not at the bottom of the container
       if (scrollTopPosition + viewableHeight < scrollableHeight) {
         showBottomScrollShadow = true;
+        // If there is a pending interaction below scroll view
+        if (
+          this.props.pendingInteractions.length > 0 &&
+          scrollableHeight - (scrollTopPosition + viewableHeight) >
+            this.interactionHeight -
+              this.pendingInteractionScrollNotificationThreshold
+        ) {
+          showPendingInteractionOverflow = true;
+          // If there is an unresponded message below scroll view
+        } else if (this.hasUnrespondedMessagesBelowScrollView()) {
+          showUnrespondedMessageBelowOverflow = true;
+        }
       }
     }
 
-    // Update if need to show/hide the shadows
+    // Update if there have been changes
     if (
       showTopScrollShadow !== this.state.showTopScrollShadow ||
-      showBottomScrollShadow !== this.state.showBottomScrollShadow
+      showBottomScrollShadow !== this.state.showBottomScrollShadow ||
+      showUnrespondedMessageAboveOverflow !==
+        this.state.showUnrespondedMessageAboveOverflow ||
+      showPendingInteractionOverflow !==
+        this.state.showPendingInteractionOverflow ||
+      showUnrespondedMessageBelowOverflow !==
+        this.state.showUnrespondedMessageBelowOverflow
     ) {
-      this.setState({ showTopScrollShadow, showBottomScrollShadow });
+      this.setState({
+        showTopScrollShadow,
+        showBottomScrollShadow,
+        showUnrespondedMessageAboveOverflow,
+        showPendingInteractionOverflow,
+        showUnrespondedMessageBelowOverflow,
+      });
     }
+  };
+
+  hasUnrespondedMessagesAboveScrollView = () => {
+    let firstUnrespondedMessagePosition;
+    for (let i = 0; i < this.props.activeNonVoiceInteractions.length; i += 1) {
+      const lastMessageFromThisInteraction = lastMessageFromInteraction(
+        this.props.activeNonVoiceInteractions[i]
+      );
+      if (
+        lastMessageFromThisInteraction &&
+        (lastMessageFromThisInteraction.type === 'customer' ||
+          lastMessageFromThisInteraction.type === 'message')
+      ) {
+        firstUnrespondedMessagePosition = i;
+        break;
+      }
+    }
+    return (
+      firstUnrespondedMessagePosition !== undefined &&
+      firstUnrespondedMessagePosition * this.interactionHeight +
+        this.unrespondedInteractionScrollNotificationThreshold <
+        this.interactionsScrollContainer.scrollTop
+    );
+  };
+
+  hasUnrespondedMessagesBelowScrollView = () => {
+    let lastUnrespondedMessagePosition;
+    for (
+      let i = this.props.activeNonVoiceInteractions.length - 1;
+      i >= 0;
+      i -= 1
+    ) {
+      const lastMessageFromThisInteraction = lastMessageFromInteraction(
+        this.props.activeNonVoiceInteractions[i]
+      );
+      if (
+        lastMessageFromThisInteraction &&
+        (lastMessageFromThisInteraction.type === 'customer' ||
+          lastMessageFromThisInteraction.type === 'message')
+      ) {
+        lastUnrespondedMessagePosition = i;
+        break;
+      }
+    }
+    return (
+      lastUnrespondedMessagePosition !== undefined &&
+      lastUnrespondedMessagePosition * this.interactionHeight +
+        this.unrespondedInteractionScrollNotificationThreshold >
+        this.interactionsScrollContainer.clientHeight +
+          this.interactionsScrollContainer.scrollTop
+    );
+  };
+
+  scrollToTop = () => {
+    this.interactionsScrollContainer.scrollTop = 0;
+  };
+
+  scrollToBottom = () => {
+    this.interactionsScrollContainer.scrollTop = this.interactionsScrollContainer.scrollHeight;
   };
 
   render() {
@@ -195,19 +294,12 @@ export class InteractionsBar extends React.Component {
               activeInteraction.messageHistory[0] &&
               activeInteraction.messageHistory[0].from;
 
-          // use the last non-system message
-          if (activeInteraction.messageHistory) {
-            for (
-              let i = activeInteraction.messageHistory.length - 1;
-              i >= 0;
-              i -= 1
-            ) {
-              if (activeInteraction.messageHistory[i].type !== 'system') {
-                text = activeInteraction.messageHistory[i].text;
-                type = activeInteraction.messageHistory[i].type;
-                break;
-              }
-            }
+          const lastMessageFromThisInteraction = lastMessageFromInteraction(
+            activeInteraction
+          );
+          if (lastMessageFromThisInteraction) {
+            text = lastMessageFromThisInteraction.text;
+            type = lastMessageFromThisInteraction.type;
           }
           // if the last message was from the customer, show the 'new' icon
           if (type === 'customer' || type === 'message') {
@@ -374,6 +466,29 @@ export class InteractionsBar extends React.Component {
                 'linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)',
             }}
           />}
+        {this.state.showUnrespondedMessageAboveOverflow &&
+          <div
+            id="unrespondedMessageAboveOverflow"
+            style={{
+              padding: '5px 0 8px',
+              margin: '0 10px -23px 8px',
+              borderRadius: '0 0 5px 5px',
+              backgroundColor: '#14778D',
+              zIndex: 2,
+              cursor: 'pointer',
+            }}
+            title={this.props.intl.formatMessage(messages.unrespondedMessage)}
+            onClick={this.scrollToTop}
+          >
+            <Icon
+              name="caret_white"
+              style={{
+                display: 'block',
+                margin: '0 auto',
+                transform: 'rotate(180deg)',
+              }}
+            />
+          </div>}
         <div
           ref={(interactionsScrollContainer) => {
             this.interactionsScrollContainer = interactionsScrollContainer;
@@ -383,13 +498,54 @@ export class InteractionsBar extends React.Component {
             flexGrow: '1',
             paddingRight: '250px',
             marginRight: '-250px',
+            display: 'flex',
+            flexDirection: 'column',
           }}
           onScroll={this.updateScrollItems}
         >
           {activeNonVoiceInteractions}
           {newInteraction}
+          <div style={{ flexGrow: 1 }} />
           {pendingInteractions}
         </div>
+        {this.state.showPendingInteractionOverflow &&
+          <div
+            id="pendingInteractionOverflow"
+            style={{
+              padding: '8px 0 5px',
+              margin: '-23px 10px 0 8px',
+              borderRadius: '5px 5px 0 0',
+              backgroundColor: '#23CEF5',
+              zIndex: 2,
+              cursor: 'pointer',
+            }}
+            title={this.props.intl.formatMessage(messages.pendingInteraction)}
+            onClick={this.scrollToBottom}
+          >
+            <Icon
+              name="caret_white"
+              style={{ display: 'block', margin: '0 auto' }}
+            />
+          </div>}
+        {this.state.showUnrespondedMessageBelowOverflow &&
+          <div
+            id="unrespondedMessageBelowOverflow"
+            style={{
+              padding: '8px 0 5px',
+              margin: '-23px 10px 0 8px',
+              borderRadius: '5px 5px 0 0',
+              backgroundColor: '#14778D',
+              zIndex: 2,
+              cursor: 'pointer',
+            }}
+            title={this.props.intl.formatMessage(messages.unrespondedMessage)}
+            onClick={this.scrollToBottom}
+          >
+            <Icon
+              name="caret_white"
+              style={{ display: 'block', margin: '0 auto' }}
+            />
+          </div>}
         {this.state.showBottomScrollShadow &&
           <div
             id="bottomScrollShadow"

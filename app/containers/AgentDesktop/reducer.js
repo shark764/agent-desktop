@@ -104,7 +104,7 @@ import {
   RESET_FORM,
 } from './constants';
 
-// import { outboundConnectingVoiceInteraction, voiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithLotsOfMessagesAndScript2, smsInteractionWithLotsOfMessagesAndScript3, smsInteractionWithLotsOfMessagesAndScript4, smsInteractionWithLotsOfMessagesAndScript5, smsInteractionWithLotsOfMessagesAndScript6, scriptOnly } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
+// import { outboundConnectingVoiceInteraction, voiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithUnrespondedMessageAndScript, smsInteractionWithUnrespondedMessageAndScript2, smsInteractionWithLotsOfMessagesAndScript2, smsInteractionWithLotsOfMessagesAndScript3, smsInteractionWithLotsOfMessagesAndScript4, smsInteractionWithLotsOfMessagesAndScript5, smsInteractionWithLotsOfMessagesAndScript6, scriptOnly } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
 
 const blankNewInteractionPanel = {
   interactionId: 'creating-new-interaction',
@@ -130,11 +130,13 @@ const initialState = fromJS({
     // voiceInteractionWithTransfersAndScripts,
     // emailInteraction,
     // smsInteractionWithLotsOfMessagesAndScript,
+    // smsInteractionWithUnrespondedMessageAndScript,
     // smsInteractionWithLotsOfMessagesAndScript2,
     // smsInteractionWithLotsOfMessagesAndScript3,
     // smsInteractionWithLotsOfMessagesAndScript4,
     // smsInteractionWithLotsOfMessagesAndScript5,
     // smsInteractionWithLotsOfMessagesAndScript6,
+    // smsInteractionWithUnrespondedMessageAndScript2,
     // scriptOnly,
   ],
   noInteractionContactPanel: {

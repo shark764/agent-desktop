@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import caret from 'assets/icons/caret.png';
+import caretWhite from 'assets/icons/caret_white.png';
 import checkStatus from 'assets/icons/check_status.png';
 import config from 'assets/icons/config.png';
 import search from 'assets/icons/search.png';
@@ -47,6 +48,7 @@ export const availableIcons = [
   'arrow_up_down',
   'attachment',
   'caret',
+  'caret_white',
   'checkStatus',
   'close',
   'config',
@@ -83,6 +85,11 @@ const styles = {
     data: { src: caret },
     height: '6px',
     width: '10px',
+  },
+  caret_white: {
+    data: { src: caretWhite },
+    height: '10px',
+    width: '18px',
   },
   config: {
     data: { src: config },

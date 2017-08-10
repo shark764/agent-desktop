@@ -40,6 +40,7 @@ const styles = {
     justifyContent: 'stretch',
     backgroundColor: 'inherit',
     position: 'relative',
+    flexShrink: 0,
   },
   baseToolbar: {
     height: '89px',
@@ -142,6 +143,7 @@ const styles = {
   hoverElement: {
     position: 'absolute',
     left: '77px',
+    top: '30px',
   },
   hoverTriangle: {
     borderWidth: '8px',
