@@ -193,6 +193,7 @@ class Button extends React.Component {
         disabled={this.props.disabled}
         onMouseEnter={() => this.setState({ mouseOver: true })}
         onMouseLeave={() => this.setState({ mouseOver: false })}
+        title={this.props.title}
       >
         {inner}
       </button>
@@ -213,6 +214,7 @@ Button.propTypes = {
   onClick: PropTypes.func,
   id: PropTypes.string.isRequired,
   hasSubButtons: PropTypes.bool,
+  title: PropTypes.string,
 };
 
 Button.defaultProps = {

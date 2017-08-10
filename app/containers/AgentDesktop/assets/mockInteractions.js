@@ -311,6 +311,7 @@ const voiceInteractionWithTransfersAndScripts = {
       status: 'connected',
       onHold: true,
       targetResource: 'targetResource1',
+      addedTimestamp: Date.now() - 10000,
     }, {
       id: '22222',
       type: 'queue',
@@ -318,11 +319,13 @@ const voiceInteractionWithTransfersAndScripts = {
       status: 'connected',
       muted: true,
       targetResource: 'targetResource2',
+      addedTimestamp: Date.now() - 5000,
     // }, {
     //   id: '33333',
     //   type: 'pstn',
     //   name: 'Some PSTN number',
     //   status: 'transferring',
+    //   addedTimestamp: Date.now(),
     },
   ],
 };

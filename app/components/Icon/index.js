@@ -39,8 +39,10 @@ import transferDarkSprite from 'assets/icons/transfer_dark_sprite.png';
 import dialpadSprite from 'assets/icons/dialpad_sprite.png';
 import dialpadDarkSprite from 'assets/icons/dialpad_dark_sprite.png';
 import addInteraction from 'assets/icons/add_interaction.png';
+import resourcesSprite from 'assets/icons/resources_sprite.png';
 
 export const availableIcons = [
+  'add_interaction',
   'arrow_return',
   'arrow_up_down',
   'attachment',
@@ -55,19 +57,22 @@ export const availableIcons = [
   'email_dark',
   'email_new',
   'endCall',
+  'end_call_resource',
   'hold',
+  'hold_resource',
   'message',
   'message_dark',
   'message_new',
   'mute',
   'not_connected',
+  'resources',
   'search',
   'transfer',
   'transfer_dark',
+  'transfer_resource',
   'voice',
   'voice_white',
   'voice_dark',
-  'add_interaction',
 ];
 
 const styles = {
@@ -168,6 +173,15 @@ const styles = {
       backgroundPosition: '-80px 0',
     },
   },
+  end_call_resource: {
+    height: '24px',
+    width: '24px',
+    backgroundSize: '72px 24px',
+    backgroundImage: `url(${endCallSprite})`,
+    ':hover': {
+      backgroundPosition: '-24px 0',
+    },
+  },
   mute: {
     backgroundImage: `url(${muteSprite})`,
     ':hover': {
@@ -184,6 +198,18 @@ const styles = {
     },
     active: {
       backgroundPosition: '-80px 0',
+    },
+  },
+  hold_resource: {
+    height: '24px',
+    width: '24px',
+    backgroundSize: '72px 24px',
+    backgroundImage: `url(${holdSprite})`,
+    ':hover': {
+      backgroundPosition: '-24px 0',
+    },
+    active: {
+      backgroundPosition: '-48px 0',
     },
   },
   transfer: {
@@ -205,6 +231,15 @@ const styles = {
       backgroundPosition: '-80px 0',
     },
   },
+  transfer_resource: {
+    height: '24px',
+    width: '24px',
+    backgroundSize: '72px 24px',
+    backgroundImage: `url(${transferSprite})`,
+    ':hover': {
+      backgroundPosition: '-24px 0',
+    },
+  },
   dialpad: {
     backgroundImage: `url(${dialpadSprite})`,
     ':hover': {
@@ -217,6 +252,16 @@ const styles = {
   dialpad_dark: {
     backgroundSize: '120px 40px',
     backgroundImage: `url(${dialpadDarkSprite})`,
+    ':hover': {
+      backgroundPosition: '-40px 0',
+    },
+    active: {
+      backgroundPosition: '-80px 0',
+    },
+  },
+  resources: {
+    backgroundSize: '120px 40px',
+    backgroundImage: `url(${resourcesSprite})`,
     ':hover': {
       backgroundPosition: '-40px 0',
     },

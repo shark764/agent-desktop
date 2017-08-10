@@ -7,6 +7,7 @@
 * CXV1-9013 - Toolbar view of custom fields && add custom fields to email interactions
 * CXV1-10710 - Interaction bar overflow
 * CXV1-10156 - Trigger end interaction when agent ends chat before receiving customer reply
+* CXV1-9012 - Transfer controls UI updates for Toolbar and AgentDesktop
 
 ### [1.1.0] (2017-07-21)
 * BUGFIX - SDK version bump to 5.3.27-SNAPSHOT
