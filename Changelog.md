@@ -11,6 +11,7 @@
 * CXV1-11193 - Hover box for active interactions
 * CXV1-10579 - Update error banner styling
 * SDK bump - Fixes CXV1-11151
+* CXV1-9144 - Toolbar view of wrapups
 
 ### [1.1.0] (2017-07-21)
 * BUGFIX - SDK version bump to 5.3.27-SNAPSHOT

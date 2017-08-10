@@ -511,15 +511,18 @@ function agentDesktopReducer(state = initialState, action) {
               action.newStatus
             );
             if (
+              action.newStatus === 'work-accepting' &&
+              interaction.get('channelType') === 'voice'
+            ) {
+              updatedInteraction = updatedInteraction.set(
+                'timeAccepted',
+                Date.now()
+              );
+            }
+            if (
               interaction.get('channelType') === 'voice' &&
               action.response !== undefined
             ) {
-              if (action.newStatus === 'work-accepting') {
-                updatedInteraction = updatedInteraction.set(
-                  'timeAccepted',
-                  Date.now()
-                );
-              }
               // Update customerOnHold and recording
               updatedInteraction = updatedInteraction
                 .set('onHold', action.response.customerOnHold === true)
@@ -560,9 +563,12 @@ function agentDesktopReducer(state = initialState, action) {
             'wrapupTime',
           ]);
           const newTimeout = Date.now() + wrapupTimeout * 1000;
-          newState = newState.setIn(
-            ['interactions', interactionIndex, 'timeout'],
-            newTimeout
+          newState = newState.updateIn(
+            ['interactions', interactionIndex],
+            (interaction) =>
+              interaction
+                .set('timeout', newTimeout)
+                .set('wrapupStarted', Date.now())
           );
         }
         return newState;
