@@ -14,7 +14,7 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
       "flexShrink": 0,
       "fontSize": "14px",
       "height": "28px",
-      "padding": "0 30px",
+      "padding": "0 15px",
       "width": "100%",
     }
   }
@@ -23,8 +23,9 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
     data-radium={true}
     style={
       Object {
+        "flexShrink": 0,
         "fontWeight": "600",
-        "marginRight": "24px",
+        "marginRight": "7px",
       }
     }
   >
@@ -56,6 +57,8 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
         "borderLeft": "0",
         "borderRight": "0",
         "borderTop": "0",
+        "marginTop": "-4px",
+        "padding": "0 0 0 4px",
       }
     }
     tabIndex={0}

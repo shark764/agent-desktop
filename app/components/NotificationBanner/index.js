@@ -23,7 +23,7 @@ const styles = {
     width: '100%',
     height: '28px',
     fontSize: '14px',
-    padding: '0 30px',
+    padding: '0 15px',
     display: 'flex',
     alignItems: 'center',
     color: 'white',
@@ -34,8 +34,9 @@ const styles = {
     backgroundColor: '#FE4565',
   },
   titleText: {
+    flexShrink: 0,
     fontWeight: '600',
-    marginRight: '24px',
+    marginRight: '7px',
   },
   descriptionMessage: {
     flexGrow: 1,
@@ -44,6 +45,7 @@ const styles = {
     textOverflow: 'ellipsis',
   },
   rightLinkText: {
+    flexShrink: 0,
     textDecoration: 'underline',
     cursor: 'pointer',
   },
@@ -52,6 +54,8 @@ const styles = {
     borderRight: '0',
     borderBottom: '0',
     borderLeft: '0',
+    padding: '0 0 0 4px',
+    marginTop: '-4px',
   },
   fullBannerAction: {
     cursor: 'pointer',

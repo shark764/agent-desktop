@@ -9,6 +9,7 @@
 * CXV1-10156 - Trigger end interaction when agent ends chat before receiving customer reply
 * CXV1-9012 - Transfer controls UI updates for Toolbar and AgentDesktop
 * CXV1-11193 - Hover box for active interactions
+* CXV1-10579 - Update error banner styling
 * SDK bump - Fixes CXV1-11151
 
 ### [1.1.0] (2017-07-21)
