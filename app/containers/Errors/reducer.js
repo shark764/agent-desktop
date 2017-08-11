@@ -18,6 +18,7 @@ import {
 } from './constants';
 
 const initialState = fromJS({
+  // criticalError: { genericError: 'ok' },
   stats: {
     erroredIds: [],
   },
