@@ -160,6 +160,7 @@ const styles = {
   },
   hoverBox: {
     backgroundColor: '#FFF',
+    color: '#4B4B4B',
     borderRadius: '3px',
     boxShadow: '0 0 3px 0 rgba(0,0,0,0.17)',
     padding: '14px 28px',
@@ -169,9 +170,6 @@ const styles = {
     minWidth: '140px',
     maxWidth: '300px',
     zIndex: '2',
-  },
-  hoverBoxWithContact: {
-    bottom: '40px',
   },
   hoverBoxText: {
     margin: '0',
@@ -285,7 +283,7 @@ export class Interaction extends React.Component {
     }
   };
 
-  getPreviewText = () => {
+  getDetails = () => {
     if (this.props.status === 'wrapup') {
       return (
         <div style={[styles.wrapupContainer, { color: this.getTimerColor() }]}>
@@ -317,20 +315,21 @@ export class Interaction extends React.Component {
         </div>
       );
     } else {
-      return (
-        <Dotdotdot
-          clamp={2}
-          className="previewText"
-          style={styles.previewText}
-          title={this.props.previewText}
-        >
-          <p style={{ margin: 0 }} title={this.props.previewText}>
-            {this.props.previewText}
-          </p>
-        </Dotdotdot>
-      );
+      return this.getPreviewText();
     }
   };
+
+  getPreviewText = () =>
+    (<Dotdotdot
+      clamp={2}
+      className="previewText"
+      style={styles.previewText}
+      title={this.props.previewText}
+    >
+      <p style={{ margin: 0 }} title={this.props.previewText}>
+        {this.props.previewText}
+      </p>
+    </Dotdotdot>);
 
   cancelInteraction = (e) => {
     // adding this to prevent other events from bubbling up - namely the
@@ -438,7 +437,7 @@ export class Interaction extends React.Component {
                   {this.getTimer()}
                 </div>
               </div>
-              {this.getPreviewText()}
+              {this.getDetails()}
               {this.props.status === 'pending'
                   ? <div style={styles.intentText}>
                     <FormattedMessage {...acceptMessage} />
@@ -457,16 +456,12 @@ export class Interaction extends React.Component {
                   : undefined}
             </div>}
           {this.state.hover &&
-            this.props.status === 'pending' &&
-            <div style={styles.hoverElement}>
-              <div style={styles.hoverTriangle} />
-              <div
-                style={[
-                  styles.hoverBox,
-                  this.props.interaction.contact && styles.hoverBoxWithContact,
-                ]}
-              >
-                {this.props.interaction.contact
+            (this.props.status === 'pending' ||
+              this.props.status === 'active') &&
+              <div style={styles.hoverElement}>
+                <div style={styles.hoverTriangle} />
+                <div style={styles.hoverBox}>
+                  {this.props.interaction.contact
                   ? <div>
                     <p style={[styles.hoverBoxText, styles.hoverBoxContact]}>
                       {this.props.from}
@@ -475,9 +470,12 @@ export class Interaction extends React.Component {
                       {this.props.contactPoint}
                     </p>
                   </div>
-                  : this.props.from}
-              </div>
-            </div>}
+                  : <p style={[styles.hoverBoxText, styles.hoverBoxContact]}>
+                    {this.props.from}
+                  </p>}
+                  {this.getPreviewText()}
+                </div>
+              </div>}
         </div>
       );
     }

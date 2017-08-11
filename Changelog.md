@@ -8,6 +8,7 @@
 * CXV1-10710 - Interaction bar overflow shadows and notifications for unresponded messages and pending interactions
 * CXV1-10156 - Trigger end interaction when agent ends chat before receiving customer reply
 * CXV1-9012 - Transfer controls UI updates for Toolbar and AgentDesktop
+* CXV1-11193 - Hover box for active interactions
 
 ### [1.1.0] (2017-07-21)
 * BUGFIX - SDK version bump to 5.3.27-SNAPSHOT

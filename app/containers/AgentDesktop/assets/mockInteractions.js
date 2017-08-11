@@ -341,6 +341,7 @@ const emailInteraction = {
   status: 'work-accepted', // 'work-initiated', 'work-ended-pending-script'
   timeout: Date.now() + 60000,
   dispositionDetails: processedDispositionDetails,
+  activeContactForm: activeContactFormBlank,
   wrapupDetails: {
     wrapupUpdateAllowed: true,
     wrapupEnabled: true,
