@@ -469,10 +469,11 @@ Immutable.Map {
     Immutable.Map {
       interactionId: "test-interaction-id",
       status: "work-accepting",
-      channelType: "voice",
+      timeAccepted: 0,
       script: Immutable.Map {
         id: "mock-script-id",
       },
+      channelType: "voice",
     },
   ],
   selectedInteractionId: "test-interaction-id",
@@ -550,7 +551,7 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer SET_INTERACTION_STATUS if setting an interaction's status to wrapup if the interaction has wrapupDetails updates the timeout 1`] = `
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if setting an interaction's status to wrapup if the interaction has wrapupDetails updates the timeout and sets wrapupStarted 1`] = `
 Immutable.Map {
   interactions: Immutable.List [
     Immutable.Map {
@@ -560,6 +561,7 @@ Immutable.Map {
       wrapupDetails: Immutable.Map {
         wrapupTime: 30,
       },
+      wrapupStarted: 0,
     },
   ],
   selectedInteractionId: undefined,

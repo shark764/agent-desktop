@@ -153,7 +153,7 @@ describe('agentDesktopReducer', () => {
             },
           ];
         });
-        it('updates the timeout', () => {
+        it('updates the timeout and sets wrapupStarted', () => {
           runReducerAndExpectSnapshot();
         });
       });

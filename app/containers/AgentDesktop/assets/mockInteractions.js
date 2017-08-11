@@ -849,6 +849,11 @@ const scriptOnly = {
   activeContactForm: activeContactFormBlank
 }
 
+const smsWithWrapup = cloneDeep(smsInteractionWithUnrespondedMessageAndScript);
+smsWithWrapup.status = 'wrapup';
+smsWithWrapup.wrapupStarted = Date.now();
+smsWithWrapup.interactionId = 'smsWithWrapup';
+
 export {
   outboundConnectingVoiceInteraction,
   voiceInteraction,
@@ -863,4 +868,5 @@ export {
   smsInteractionWithUnrespondedMessageAndScript,
   smsInteractionWithUnrespondedMessageAndScript2,
   scriptOnly,
+  smsWithWrapup,
 };

@@ -45,9 +45,10 @@ const styles = {
   baseToolbar: {
     height: '89px',
     width: '72px',
-    padding: '20px 0 0 0',
+    padding: '0 0 0 0',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'space-evenly',
   },
   pstnBase: {
     cursor: 'default',
@@ -115,6 +116,16 @@ const styles = {
     fontSize: '12px',
     lineHeight: '14px',
     fontWeight: '600',
+  },
+  wrapUpTimerToolbar: {
+    position: 'absolute',
+    left: '0',
+    bottom: '0',
+    width: '6px',
+    transition: 'height 1s linear',
+  },
+  wrapupToolbar: {
+    fontSize: '13px',
   },
   iconContainer: {
     width: '20px',
@@ -185,8 +196,16 @@ export class Interaction extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startTime: Date.now(),
-      ageSeconds: 0,
+      startTime:
+        this.props.status === 'wrapup'
+          ? this.props.interaction.wrapupStarted
+          : Date.now(),
+      ageSeconds:
+        this.props.status === 'wrapup'
+          ? Math.round(
+              (Date.now() - this.props.interaction.wrapupStarted) / 1000
+            )
+          : 0,
       msIntervalId: setInterval(() => {
         const ageSeconds = Math.round(
           (Date.now() - this.state.startTime) / 1000
@@ -212,8 +231,10 @@ export class Interaction extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.status !== 'wrapup' && nextProps.status === 'wrapup') {
       this.setState({
-        startTime: Date.now(),
-        ageSeconds: 0,
+        startTime: nextProps.interaction.wrapupStarted,
+        ageSeconds: Math.round(
+          (Date.now() - nextProps.interaction.wrapupStarted) / 1000
+        ),
       });
     }
   }
@@ -280,6 +301,18 @@ export class Interaction extends React.Component {
         return '#23CEF5';
       default:
         return 'white';
+    }
+  };
+
+  getTimerHeight = () => {
+    // subtract one second from remaining seconds to account for CSS transition
+    const remainingSeconds = this.getRemainingSeconds() - 1;
+    if (this.state.ageSeconds < this.props.targetWrapupTime) {
+      return `${remainingSeconds / this.props.targetWrapupTime * 100}%`;
+    } else {
+      return `${remainingSeconds /
+        (this.props.wrapupTime - this.props.targetWrapupTime) *
+        100}%`;
     }
   };
 
@@ -414,16 +447,35 @@ export class Interaction extends React.Component {
           onMouseLeave={this.context.toolbarMode ? this.handleMouseLeave : null}
           disabled={this.props.selected}
         >
+          {this.context.toolbarMode &&
+          this.props.status === 'wrapup' && [
+            <div
+              key={`${this.props.interaction.interactionId}-wrapupTimerBar`}
+              style={[
+                styles.wrapUpTimerToolbar,
+                {
+                  backgroundColor: this.getTimerColor(),
+                  height: this.getTimerHeight(),
+                },
+              ]}
+            />,
+            <div
+              key={`${this.props.interaction.interactionId}-wrapupTimer`}
+              style={[styles.wrapupToolbar, { color: this.getTimerColor() }]}
+            >
+              {this.getTimer()}
+            </div>,
+          ]}
           <div style={styles.iconContainer}>
             <Icon name={this.props.icon} />
           </div>
-          {this.context.toolbarMode
-            ? <div
-              style={[styles.timerToolbar, { color: this.getTimerColor() }]}
-            >
+          {this.context.toolbarMode &&
+            this.props.status !== 'wrapup' &&
+            <div style={[styles.timerToolbar, { color: this.getTimerColor() }]}>
               {this.getTimer()}
-            </div>
-            : <div
+            </div>}
+          {!this.context.toolbarMode &&
+            <div
               style={[
                 styles.mainContainer,
                 styles.mainContainer[this.props.status],
@@ -439,21 +491,21 @@ export class Interaction extends React.Component {
               </div>
               {this.getDetails()}
               {this.props.status === 'pending'
-                  ? <div style={styles.intentText}>
-                    <FormattedMessage {...acceptMessage} />
-                    {this.props.interaction.interactionDirection ===
-                        'outbound' &&
-                      this.props.interaction.channelType === 'voice'
-                        ? <Button
-                          id="cancelInteractionBeforeActive"
-                          type="primaryRed"
-                          text={messages.cancelInteraction}
-                          style={styles.cancelInteractionBtn}
-                          onClick={this.cancelInteraction}
-                        />
-                        : undefined}
-                  </div>
-                  : undefined}
+                ? <div style={styles.intentText}>
+                  <FormattedMessage {...acceptMessage} />
+                  {this.props.interaction.interactionDirection ===
+                      'outbound' &&
+                    this.props.interaction.channelType === 'voice'
+                      ? <Button
+                        id="cancelInteractionBeforeActive"
+                        type="primaryRed"
+                        text={messages.cancelInteraction}
+                        style={styles.cancelInteractionBtn}
+                        onClick={this.cancelInteraction}
+                      />
+                      : undefined}
+                </div>
+                : undefined}
             </div>}
           {this.state.hover &&
             (this.props.status === 'pending' ||
@@ -508,7 +560,8 @@ Interaction.propTypes = {
     isCancellingInteraction: PropTypes.bool,
     interactionDirection: PropTypes.string,
     contact: PropTypes.object,
-    timeAccepted: PropTypes.instanceOf(Date),
+    timeAccepted: PropTypes.number,
+    wrapupStarted: PropTypes.number,
   }).isRequired,
 };
 
