@@ -10,6 +10,7 @@
 * CXV1-9012 - Transfer controls UI updates for Toolbar and AgentDesktop
 * CXV1-11193 - Hover box for active interactions
 * CXV1-10579 - Update error banner styling
+* CXV1-11075 - cleanup, not actual fix. Remove unneeded radium state from AgentScript
 * SDK bump - Fixes CXV1-11151
 * CXV1-9144 - Toolbar view of wrapups
 
