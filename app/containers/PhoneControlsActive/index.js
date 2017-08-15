@@ -24,7 +24,10 @@ import CircleIconButton from 'components/CircleIconButton';
 import Dialpad from 'components/Dialpad';
 
 import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
-import { selectAgentId } from 'containers/AgentDesktop/selectors';
+import {
+  selectAgentId,
+  selectQueuesSet,
+} from 'containers/AgentDesktop/selectors';
 import TransferMenu from 'containers/TransferMenu';
 import TransferResource from 'components/TransferResource';
 
@@ -61,6 +64,9 @@ export class PhoneControlsActive extends React.Component {
   };
 
   toggleTransferMenu = () => {
+    if (!this.props.queuesSet) {
+      CxEngage.entities.getQueues();
+    }
     this.setShowTransferMenu(!this.state.showTransferMenu);
   };
 
@@ -506,6 +512,7 @@ export class PhoneControlsActive extends React.Component {
 const mapStateToProps = (state, props) => ({
   agentId: selectAgentId(state, props),
   activeExtension: selectActiveExtension(state, props),
+  queuesSet: selectQueuesSet(state, props),
 });
 
 PhoneControlsActive.propTypes = {
@@ -513,6 +520,7 @@ PhoneControlsActive.propTypes = {
   agentId: PropTypes.string.isRequired,
   activeVoiceInteraction: PropTypes.object,
   activeExtension: PropTypes.object,
+  queuesSet: PropTypes.bool,
 };
 
 PhoneControlsActive.contextTypes = {

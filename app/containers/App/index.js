@@ -293,7 +293,10 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/session/started': {
-            CxEngage.entities.getQueues();
+            if (Object.keys(this.props.availableStats).length === 0) {
+              CxEngage.reporting.getAvailableStats();
+              this.props.showLogin(false);
+            }
             break;
           }
           case 'cxengage/session/ended': {
@@ -713,11 +716,6 @@ export class App extends React.Component {
           }
           case 'cxengage/entities/get-queues-response': {
             this.props.setQueues(response.result);
-            // If this is the first time calling getQueues (from session-started), load the availableStats
-            if (Object.keys(this.props.availableStats).length === 0) {
-              CxEngage.reporting.getAvailableStats();
-              this.props.showLogin(false);
-            }
             break;
           }
           default: {

@@ -33,6 +33,10 @@ const selectQueues = createSelector(selectAgentDesktopMap, (agentDesktop) =>
   agentDesktop.get('queues').toJS()
 );
 
+const selectQueuesSet = createSelector(selectAgentDesktopMap, (agentDesktop) =>
+  agentDesktop.get('queuesSet')
+);
+
 const selectNoInteractionContactPanel = createSelector(
   selectAgentDesktopMap,
   (agentDesktop) => agentDesktop.get('noInteractionContactPanel').toJS()
@@ -126,6 +130,7 @@ export {
   selectHasVoiceInteraction,
   selectSmsInteractionNumbers,
   selectQueues,
+  selectQueuesSet,
   selectIsContactsPanelCollapsed,
   selectIsInteractionsBarCollapsed,
   selectCustomFields,

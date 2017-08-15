@@ -8,7 +8,10 @@ import statEqualityCheck from 'utils/statEqualityCheck';
 
 import { stats as welcomeStatsConfig } from 'containers/WelcomeStats/welcomeStatsConfig';
 
-import { selectQueues } from 'containers/AgentDesktop/selectors';
+import {
+  selectQueues,
+  selectQueuesSet,
+} from 'containers/AgentDesktop/selectors';
 import {
   selectEnabledStats,
   selectAvailableStats,
@@ -159,7 +162,6 @@ export default [activateToolbarStat, deactivateToolbarStat, initializeStats];
 
 export function* validateStat(stat) {
   const availableStats = yield select(selectAvailableStats);
-  const queues = yield select(selectQueues);
   const statExists = availableStats[stat.statOption];
   const aggregateExists =
     statExists &&
@@ -174,6 +176,11 @@ export function* validateStat(stat) {
       ));
   let queueExists = true;
   if (stat.statSource === 'queue-id') {
+    const queuesSet = yield select(selectQueuesSet);
+    if (!queuesSet) {
+      yield call(sdkCallToPromise, CxEngage.entities.getQueues, {}, 'Toolbar');
+    }
+    const queues = yield select(selectQueues);
     queueExists = queues.filter((queue) => queue.id === stat.queue).length;
   }
   return aggregateExists && filterExists && queueExists;

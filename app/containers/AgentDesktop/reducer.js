@@ -454,7 +454,7 @@ function agentDesktopReducer(state = initialState, action) {
       );
     }
     case SET_QUEUES:
-      return state.set('queues', fromJS(action.queues));
+      return state.set('queues', fromJS(action.queues)).set('queuesSet', true);
     case SET_QUEUE_TIME: {
       const queueIndex = state
         .get('queues')

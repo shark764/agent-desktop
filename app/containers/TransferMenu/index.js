@@ -78,8 +78,9 @@ export class TransferMenu extends React.Component {
     this.mounted = true;
 
     this.refreshQueueTimes();
-    CxEngage.entities.getUsers((error, topic, response) =>
-      this.setAgentsCallback(error, topic, response)
+    CxEngage.entities.getUsers(
+      { excludeOffline: true },
+      this.setAgentsCallback
     );
     CxEngage.entities.getTransferLists((error, topic, response) =>
       this.setTransferListsCallback(error, topic, response)
@@ -90,8 +91,9 @@ export class TransferMenu extends React.Component {
     }, REFRESH_QUEUES_RATE);
 
     this.reloadTransferablesInterval = setInterval(() => {
-      CxEngage.entities.getUsers((error, topic, response) =>
-        this.setAgentsCallback(error, topic, response)
+      CxEngage.entities.getUsers(
+        { excludeOffline: true },
+        this.setAgentsCallback
       );
     }, REFRESH_AGENTS_RATE);
   }
@@ -121,8 +123,9 @@ export class TransferMenu extends React.Component {
 
   refreshAgents = () => {
     this.setState({ agents: 'loading' });
-    CxEngage.entities.getUsers((error, topic, response) =>
-      this.setAgentsCallback(error, topic, response)
+    CxEngage.entities.getUsers(
+      { excludeOffline: true },
+      this.setAgentsCallback
     );
   };
 
