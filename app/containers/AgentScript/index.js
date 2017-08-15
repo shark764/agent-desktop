@@ -11,7 +11,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Radium from 'radium';
 
 import { updateScriptValues } from 'containers/AgentDesktop/actions';
 
@@ -296,6 +295,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default ErrorBoundary(
-  connect(null, mapDispatchToProps)(Radium(AgentScript))
-);
+export default ErrorBoundary(connect(null, mapDispatchToProps)(AgentScript));
