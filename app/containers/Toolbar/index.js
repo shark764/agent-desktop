@@ -22,6 +22,8 @@ import AgentStatusMenu from 'containers/AgentStatusMenu';
 import AgentStats from 'containers/AgentStats';
 import AgentConfigMenu from 'containers/AgentConfigMenu';
 
+import { selectQueuesSet } from 'containers/AgentDesktop/selectors';
+
 import { selectSelectedPresenceReason } from 'containers/AgentStatusMenu/selectors';
 
 import { toggleAgentMenu } from './actions';
@@ -191,6 +193,9 @@ export class Toolbar extends React.Component {
   };
 
   showConfigMenu = (show = true) => {
+    if (!this.props.queuesSet) {
+      CxEngage.entities.getQueues();
+    }
     this.setState({ showConfigMenu: show });
   };
 
@@ -365,6 +370,7 @@ function mapStateToProps(state, props) {
     currentAgent: selectCurrentAgent(state, props),
     selectedPresenceReason: selectSelectedPresenceReason(state, props),
     readyState: selectReadyState(state, props),
+    queuesSet: selectQueuesSet(state, props),
     ...selectToolbar()(state, props),
   };
 }
@@ -385,6 +391,7 @@ Toolbar.propTypes = {
   showAgentStatusMenu: PropTypes.bool,
   toggleAgentMenu: PropTypes.func,
   selectedPresenceReason: PropTypes.object,
+  queuesSet: PropTypes.bool,
 };
 
 export default ErrorBoundary(

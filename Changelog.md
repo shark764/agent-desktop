@@ -13,6 +13,7 @@
 * CXV1-11075 - cleanup, not actual fix. Remove unneeded radium state from AgentScript
 * SDK bump - Fixes CXV1-11151
 * CXV1-9144 - Toolbar view of wrapups
+* CXV1-11049 - Remove extraneous /queues calls, add excludeOffline to TransferMenu /users call
 
 ### [1.1.0] (2017-07-21)
 * BUGFIX - SDK version bump to 5.3.27-SNAPSHOT
