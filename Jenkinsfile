@@ -55,7 +55,8 @@ else if (pwd ==~ /.*master.*/ || pwd ==~ /.*hotfix.*/ || pwd ==~ /.*develop.*/ |
             b.setDisplayName("${build_version}")
           }
           stage ('Build') { // Build Website
-            b.build()
+            sh 'npm install'
+            sh 'npm run build'
             sh 'mv app/assets/favicons/favicon.ico build/favicon.ico'
           }
           stage ('Push') { // Publish to S3
