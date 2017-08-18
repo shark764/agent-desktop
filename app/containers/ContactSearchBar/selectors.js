@@ -22,15 +22,7 @@ const selectAttributes = createSelector(selectSidePanelDomain, (sidePanel) =>
 const selectSearchableAttributes = createSelector(
   [selectLayout, selectAttributes],
   (layout, attributes) => {
-    const searchableAttributes = [
-      {
-        id: 'all',
-        label: {
-          'en-US': 'All',
-        },
-        objectName: 'q', // Fuzzy search query parameter
-      },
-    ];
+    const searchableAttributes = [];
     if (typeof layout !== 'undefined' && typeof attributes !== 'undefined') {
       // don't panic, layout / attributes haven't loaded yet
       layout.get('layout').toJS().map((section) =>

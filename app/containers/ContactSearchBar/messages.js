@@ -18,4 +18,8 @@ export default defineMessages({
     id: 'app.containers.ContactsSearchBar.results',
     defaultMessage: '{count} Results',
   },
+  all: {
+    id: 'app.containers.ContactsSearchBar.all',
+    defaultMessage: 'All',
+  },
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -290,7 +290,11 @@ export class ContactSearch extends React.Component {
             {this.props.query.map((filter) =>
               (<Filter
                 key={filter.attribute.objectName}
-                name={filter.label}
+                name={
+                  filter.attribute && filter.attribute.id === 'all'
+                    ? this.props.intl.formatMessage(messages.all)
+                    : filter.label
+                }
                 value={filter.value}
                 remove={() =>
                   this.props.removeSearchFilter(filter.attribute.objectName)}
@@ -318,6 +322,7 @@ export class ContactSearch extends React.Component {
 }
 
 ContactSearch.propTypes = {
+  intl: intlShape.isRequired,
   hideContactSelectCheckboxes: PropTypes.bool,
   selectedInteraction: PropTypes.object.isRequired,
   results: PropTypes.any,
@@ -375,5 +380,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(ContactSearch))
+  injectIntl(
+    connect(mapStateToProps, mapDispatchToProps)(Radium(ContactSearch))
+  )
 );

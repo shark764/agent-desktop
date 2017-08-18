@@ -1,0 +1,203 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`goValidateContactLayoutTranslations saga if locale is missing in attribute should add the notification 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "notification": Object {
+          "id": undefined,
+          "messageType": "contactLayoutMissingLocaleTranslations",
+        },
+        "type": "app/InfoTab/ADD_NOTIFICATION",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if locale is missing in attribute should be finished 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if locale is missing in attribute should select attributes 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if locale is missing in attribute should select layout 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if locale is missing in attribute should select locale 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if locale is missing in attribute should select the next notification id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if locale is missing in layout should add the notification 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "notification": Object {
+          "id": undefined,
+          "messageType": "contactLayoutMissingLocaleTranslations",
+        },
+        "type": "app/InfoTab/ADD_NOTIFICATION",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if locale is missing in layout should be finished 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if locale is missing in layout should select attributes 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if locale is missing in layout should select layout 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if locale is missing in layout should select locale 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if locale is missing in layout should select the next notification id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if no locales are missing should be finished 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if no locales are missing should select attributes 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if no locales are missing should select layout 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goValidateContactLayoutTranslations saga if no locales are missing should select locale 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;

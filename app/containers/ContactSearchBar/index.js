@@ -15,6 +15,8 @@ import Radium from 'radium';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Autocomplete from 'react-autocomplete';
 
+import { getLocaleLabel } from 'utils/contact';
+
 import search from 'assets/icons/search.png';
 
 import ErrorBoundary from 'components/ErrorBoundary';
@@ -52,16 +54,26 @@ export class ContactSearchBar extends React.Component {
     this.resizeFilterDropdownMenu();
   }
 
-  getLabel = (
-    attribute // TODO: Dynamically load translations and use intl.formatMessage
-  ) => attribute.label[this.props.intl.locale] || attribute.objectName;
+  getLabel = (attribute) => getLocaleLabel(attribute, this.props.intl.locale);
+
+  getSearchableAttributes = () =>
+    [
+      {
+        id: 'all',
+        label: {
+          all: this.props.intl.formatMessage(messages.all),
+        },
+        // Fuzzy search query parameter
+        objectName: 'q',
+      },
+    ].concat(this.props.searchableAttributes);
 
   getAvailableFilters = () => {
     if (this.props.query.length && this.props.query[0].attribute.id === 'all') {
       // Don't show other filters when 'all' is selected
       return [];
     }
-    const filteredFilters = this.props.searchableAttributes.filter(
+    const filteredFilters = this.getSearchableAttributes().filter(
       (possibleFilter) =>
         this.props.query.findIndex(
           (searchFilter) =>
@@ -70,8 +82,6 @@ export class ContactSearchBar extends React.Component {
     );
     return filteredFilters;
   };
-
-  getItemValue = (item) => this.getLabel(item);
 
   resizeFilterDropdownMenu = () => {
     const newInputDivWidth =
@@ -212,7 +222,7 @@ export class ContactSearchBar extends React.Component {
   handleFilterSelect = (itemName) => {
     this.setState(
       {
-        pendingFilter: this.props.searchableAttributes.find(
+        pendingFilter: this.getSearchableAttributes().find(
           (filter) => this.getLabel(filter) === itemName
         ),
         autoCompleteValue: '',
@@ -313,7 +323,7 @@ export class ContactSearchBar extends React.Component {
                 value={this.state.autocompleteValue}
                 items={this.getAvailableFilters()}
                 renderItem={this.createDropdownItem}
-                getItemValue={this.getItemValue}
+                getItemValue={this.getLabel}
                 shouldItemRender={this.matchFilterToTerm}
                 onChange={(event, value) =>
                     this.setState({ autocompleteValue: value })}

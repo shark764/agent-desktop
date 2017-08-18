@@ -21,6 +21,7 @@ import {
   SET_DELETION_PENDING,
   SET_CONFIRMING_DELETE,
   SET_SEARCH_PENDING,
+  VALIDATE_CONTACT_LAYOUT_TRANSLATIONS,
 } from './constants';
 
 export function setCRMUnavailable(reason) {
@@ -102,5 +103,11 @@ export function setSearchPending(searchPending) {
   return {
     type: SET_SEARCH_PENDING,
     searchPending,
+  };
+}
+
+export function validateContactLayoutTranslations() {
+  return {
+    type: VALIDATE_CONTACT_LAYOUT_TRANSLATIONS,
   };
 }

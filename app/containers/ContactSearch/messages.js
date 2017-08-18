@@ -30,4 +30,8 @@ export default defineMessages({
     id: 'app.containers.ContactsSearch.createRecord',
     defaultMessage: 'Create New Record',
   },
+  all: {
+    id: 'app.containers.ContactsSearch.all',
+    defaultMessage: 'All',
+  },
 });
