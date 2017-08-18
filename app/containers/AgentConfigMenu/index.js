@@ -10,7 +10,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import pickBy from 'lodash/pickBy';
@@ -33,13 +33,11 @@ export class AgentConfigMenu extends React.Component {
     super(props);
     this.state = {
       statSource: 'resource-id',
-      statOption: 'resourceConversationStartsCount',
-      statAggregate: 'count',
     };
     this.sourceOptions = [
-      { value: 'resource-id', label: 'Agent' },
-      { value: 'queue-id', label: 'Queue' },
-      { value: 'tenant-id', label: 'Tenant' },
+      { value: 'resource-id', label: props.intl.formatMessage(messages.agent) },
+      { value: 'queue-id', label: props.intl.formatMessage(messages.queue) },
+      { value: 'tenant-id', label: props.intl.formatMessage(messages.tenant) },
     ];
   }
 
@@ -117,31 +115,32 @@ export class AgentConfigMenu extends React.Component {
         stat.optionalFilters.includes(this.state.statSource)
       );
     }
-    return Object.keys(stats)
-      .map((key) => ({ value: key, label: stats[key].userFriendlyName }))
-      .sort((a, b) => {
-        if (a.label.toUpperCase() > b.label.toUpperCase()) {
-          return 1;
-        } else if (a.label.toUpperCase() < b.label.toUpperCase()) {
-          return -1;
-        }
-        return 0;
-      });
+    return (
+      Object.keys(stats)
+        // Some stats userFriendlyName start with a space. Remove that if it is there.
+        .map((key) => ({
+          value: key,
+          label:
+            stats[key].userFriendlyName[0] !== ' '
+              ? stats[key].userFriendlyName
+              : stats[key].userFriendlyName.slice(1),
+        }))
+        .sort((a, b) => {
+          if (a.label.toUpperCase() > b.label.toUpperCase()) {
+            return 1;
+          } else if (a.label.toUpperCase() < b.label.toUpperCase()) {
+            return -1;
+          }
+          return 0;
+        })
+    );
   };
 
   getAggregates = () =>
     this.props.availableStats[this.state.statOption] &&
     Object.keys(
       this.props.availableStats[this.state.statOption].responseKeys
-    ).map((key) => {
-      let label;
-      if (key === 'avg') {
-        label = 'average';
-      } else {
-        label = key;
-      }
-      return { value: key, label: label[0].toUpperCase() + label.slice(1) };
-    });
+    ).map((key) => ({ value: key, label: key[0].toUpperCase() + key.slice(1) }));
 
   render() {
     return (
@@ -249,6 +248,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 AgentConfigMenu.propTypes = {
+  intl: intlShape.isRequired,
   activateToolbarStat: PropTypes.func,
   toolbarStatIds: PropTypes.array,
   availableStats: PropTypes.object,
@@ -258,5 +258,7 @@ AgentConfigMenu.propTypes = {
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(AgentConfigMenu))
+  injectIntl(
+    connect(mapStateToProps, mapDispatchToProps)(Radium(AgentConfigMenu))
+  )
 );

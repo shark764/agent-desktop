@@ -691,11 +691,7 @@ export class App extends React.Component {
                 stats[key].userFriendlyName = 'Conversation Starts';
               }
             });
-            this.props.setAvailableStats(
-              stats,
-              this.props.login.tenant.id,
-              this.props.login.agent.userId
-            );
+            this.props.setAvailableStats(stats);
             this.props.initializeStats();
             break;
           }

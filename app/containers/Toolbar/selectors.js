@@ -68,13 +68,11 @@ const selectWelcomeStats = createSelector(
   selectEnabledStats(),
   (welcomeStatIds, enabledStats) => {
     const welcomeStats = {};
-    enabledStats
-      .toJS()
-      .forEach(
-        (stat) =>
-          welcomeStatIds.includes(stat.statId) &&
-          (welcomeStats[stat[welcomeStatKey]] = stat)
-      );
+    enabledStats.toJS().forEach((stat) => {
+      if (welcomeStatIds.includes(stat.statId)) {
+        welcomeStats[stat[welcomeStatKey]] = stat;
+      }
+    });
     return welcomeStats;
   }
 );
