@@ -14,9 +14,17 @@ export default defineMessages({
     id: 'app.containers.AgentConfigMenu.source',
     defaultMessage: 'Source',
   },
+  agent: {
+    id: 'app.containers.AgentConfigMenu.agent',
+    defaultMessage: 'Agent',
+  },
   queue: {
     id: 'app.containers.AgentConfigMenu.queue',
     defaultMessage: 'Queue',
+  },
+  tenant: {
+    id: 'app.containers.AgentConfigMenu.tenant',
+    defaultMessage: 'Tenant',
   },
   statistic: {
     id: 'app.containers.AgentConfigMenu.statistic',

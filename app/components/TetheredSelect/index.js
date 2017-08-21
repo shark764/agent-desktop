@@ -27,7 +27,7 @@ class TetheredSelect extends Select {
       return undefined;
     }
 
-    /** this.wrapper comes from the ref of the main Select component (super.render()) **/
+    /* this.wrapper comes from the ref of the main Select component (super.render()) */
     const selectWidth = this.wrapper ? this.wrapper.offsetWidth : null;
 
     return (

@@ -22,12 +22,10 @@ import {
   INITIALIZE_STATS,
 } from './constants';
 
-export function setAvailableStats(stats, tenantId, userId) {
+export function setAvailableStats(stats) {
   return {
     type: SET_AVAILABLE_STATS,
     stats,
-    tenantId,
-    userId,
   };
 }
 
