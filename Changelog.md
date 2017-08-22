@@ -16,6 +16,7 @@
 * CXV1-11049 - Remove extraneous /queues calls, add excludeOffline to TransferMenu /users call
 * CXV1-11131 - Fix stats issues with localisation
 * CXV1-11157 - Fix contact madatory field validation
+* CXV1-9003 - Fix toolbar messaging templates menu width 
 
 ### [1.1.0] (2017-07-21)
 * BUGFIX - SDK version bump to 5.3.27-SNAPSHOT

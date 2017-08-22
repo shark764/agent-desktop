@@ -36,6 +36,7 @@ const styles = {
   },
   messageTemplatesContainerToolbar: {
     left: 0,
+    width: '100%',
   },
   messageTemplatesHeader: {
     backgroundColor: '#E4E4E4',
