@@ -336,7 +336,7 @@ const emailInteraction = {
   customFieldsCollapsed: true,
   channelType: 'email',
   interactionId: '0000000-0000-0000-0000-222222222222',
-  customer: 'jclowater@serenova.com',
+  customer: 'jclowater-longlonglonglonglonglonglonglonglonglong@serenova.com',
   autoAnswer: false,
   status: 'work-accepted', // 'work-initiated', 'work-ended-pending-script'
   timeout: Date.now() + 60000,

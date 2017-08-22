@@ -154,7 +154,7 @@ const styles = {
   hoverElement: {
     position: 'absolute',
     left: '77px',
-    top: '30px',
+    top: 0,
   },
   hoverTriangle: {
     borderWidth: '8px',
@@ -168,6 +168,7 @@ const styles = {
     height: '0px',
     zIndex: '3',
     position: 'relative',
+    bottom: '-34px',
   },
   hoverBox: {
     backgroundColor: '#FFF',
@@ -176,7 +177,6 @@ const styles = {
     boxShadow: '0 0 3px 0 rgba(0,0,0,0.17)',
     padding: '14px 28px',
     position: 'relative',
-    bottom: '27px',
     left: '7px',
     minWidth: '140px',
     maxWidth: '300px',
@@ -185,6 +185,8 @@ const styles = {
   hoverBoxText: {
     margin: '0',
     whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
   hoverBoxContact: {
     fontSize: '16px',
