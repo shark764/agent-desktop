@@ -43,7 +43,7 @@ import ContactSectionHeader from 'components/ContactSectionHeader';
 import ContactInput from 'components/ContactInput';
 import Button from 'components/Button';
 import ConfirmDialog from 'components/ConfirmDialog';
-import { formatValue, getError } from 'utils/contact';
+import { formatValue, getError, getLocaleLabel } from 'utils/contact';
 
 import { selectPopulatedLayout } from 'containers/ContactView/selectors';
 import { selectAttributes } from 'containers/ContactSearchBar/selectors';
@@ -129,16 +129,22 @@ export class ContactEdit extends React.Component {
     );
   };
 
-  getSection = (section) =>
-    (<div style={styles.section} key={section.label[this.props.intl.locale]}>
-      <ContactSectionHeader label={section.label[this.props.intl.locale]} />
+  getSection = (section, index) =>
+    (<div
+      style={styles.section}
+      key={section.label[this.props.intl.locale] || index}
+    >
+      <ContactSectionHeader
+        label={getLocaleLabel(section, this.props.intl.locale)}
+      />
       {section.attributes.map(this.getAttributeRow)}
     </div>);
 
   getAttributeRow = (attribute) => {
-    const attributeLabel = `${attribute.label[
+    const attributeLabel = `${getLocaleLabel(
+      attribute,
       this.props.intl.locale
-    ]}${attribute.mandatory ? '*' : ''}`;
+    )}${attribute.mandatory ? '*' : ''}`;
     return (
       <ContactInput
         key={attribute.id}

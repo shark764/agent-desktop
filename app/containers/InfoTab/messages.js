@@ -91,4 +91,8 @@ export default defineMessages({
     id: 'app.containers.InfoTab.networkError',
     defaultMessage: 'Network Error',
   },
+  contactLayoutMissingLocaleTranslations: {
+    id: 'app.containers.InfoTab.contactLayoutMissingLocaleTranslations',
+    defaultMessage: 'There are missing translations for the contact layout',
+  },
 });

@@ -11,7 +11,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
 import Radium from 'radium';
 
 import ErrorBoundary from 'components/ErrorBoundary';
@@ -220,5 +219,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default ErrorBoundary(
-  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(InfoTab)))
+  connect(mapStateToProps, mapDispatchToProps)(Radium(InfoTab))
 );

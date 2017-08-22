@@ -11,6 +11,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { getLocaleLabel } from 'utils/contact';
+
 import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
 import TextInput from 'components/TextInput';
@@ -139,7 +141,7 @@ function ContactInput(props) {
                 id={`${props.attribute.objectName}Input`}
                 name={props.attribute.objectName}
                 value={value}
-                placeholder={props.attribute.label[props.intl.locale]}
+                placeholder={getLocaleLabel(props.attribute, props.intl.locale)}
                 autocomplete="off"
                 onBlur={props.handleOnBlur}
               />}

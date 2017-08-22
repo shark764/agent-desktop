@@ -10,7 +10,7 @@
 import Raven from 'raven-js';
 import React from 'react';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import axios from 'axios';
@@ -49,7 +49,10 @@ import {
 } from 'containers/Errors/selectors';
 import errorMessages from 'containers/Errors/messages';
 
-import { setCRMUnavailable } from 'containers/InfoTab/actions';
+import {
+  setCRMUnavailable,
+  validateContactLayoutTranslations,
+} from 'containers/InfoTab/actions';
 import {
   setUserConfig,
   setExtensions,
@@ -657,15 +660,18 @@ export class App extends React.Component {
             const activeLayouts = response.filter((layout) => layout.active);
             if (activeLayouts.length === 0) {
               this.props.setCRMUnavailable('crmUnavailableLayout');
+              break;
             } else if (activeLayouts.length > 1) {
               console.warn('More than one layout found. Only using first one.');
             }
             this.props.setContactLayout(activeLayouts[0]);
+            this.props.validateContactLayoutTranslations();
             break;
           }
           case 'cxengage/contacts/list-attributes-response': {
             if (response.length === 0) {
               this.props.setCRMUnavailable('crmUnavailableAttribute');
+              break;
             }
             this.props.setContactAttributes(response);
             break;
@@ -1015,6 +1021,8 @@ function mapDispatchToProps(dispatch) {
     logout: () => dispatch(logout()),
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
+    validateContactLayoutTranslations: () =>
+      dispatch(validateContactLayoutTranslations()),
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
     setCriticalError: (error) => dispatch(setCriticalError(error)),
     setCRMUnavailable: (reason) => dispatch(setCRMUnavailable(reason)),
@@ -1026,7 +1034,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 App.propTypes = {
-  intl: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
   showLogin: PropTypes.func.isRequired,
   setUserConfig: PropTypes.func.isRequired,
   setExtensions: PropTypes.func.isRequired,
@@ -1080,6 +1088,7 @@ App.propTypes = {
   showRefreshRequired: PropTypes.func.isRequired,
   toggleAgentMenu: PropTypes.func.isRequired,
   goNotReady: PropTypes.func.isRequired,
+  validateContactLayoutTranslations: PropTypes.func.isRequired,
   handleSDKError: PropTypes.func.isRequired,
   setCriticalError: PropTypes.func.isRequired,
   setCRMUnavailable: PropTypes.func.isRequired,

@@ -123,10 +123,9 @@ const styles = {
     marginBottom: '11px',
   },
   rememberMe: {
-    marginLeft: '-9.35em',
     marginBottom: '11px',
     marginTop: '15px',
-    width: '130px',
+    width: '282px',
   },
   actionButton: {
     marginTop: '34px',

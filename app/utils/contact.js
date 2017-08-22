@@ -68,3 +68,18 @@ export const getError = (attributeToValidate, value) => {
   }
   return error;
 };
+
+export const getLocaleLabel = (attribute, locale) => {
+  if (attribute.label[locale] !== undefined) {
+    return attribute.label[locale];
+  } else if (attribute.label.all !== undefined) {
+    // Special case for 'All'. We have our own local translation for it we use.
+    return attribute.label.all;
+  } else if (attribute.objectName !== undefined) {
+    // Fallback for attributes
+    return attribute.objectName;
+  } else {
+    // Fallback for section headers
+    return '';
+  }
+};

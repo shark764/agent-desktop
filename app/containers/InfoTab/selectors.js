@@ -27,6 +27,14 @@ export default selectInfoTab;
 const selectSidePanelDomain = (state) => state.get('sidePanel');
 const selectLanguageDomain = (state) => state.get('language');
 
+const selectLocale = createSelector(selectLanguageDomain, (language) =>
+  language.get('locale')
+);
+
+const selectLayout = createSelector(selectSidePanelDomain, (sidePanel) =>
+  sidePanel.get('contactLayout').toJS()
+);
+
 const selectAttributes = createSelector(selectSidePanelDomain, (sidePanel) =>
   sidePanel.get('contactAttributes').toJS()
 );
@@ -53,9 +61,7 @@ const selectExpandedQuery = createSelector(
         if (filterName === 'q') {
           attribute = {
             id: 'all',
-            label: {
-              'en-US': 'All',
-            },
+            label: {},
             objectName: 'q', // Fuzzy search query parameter
           };
         } else {
@@ -118,6 +124,8 @@ const selectNextPage = createSelector(selectInfoTabDomain(), (infoTab) =>
 export {
   selectCRMUnavailable,
   selectInfoTabDomain,
+  selectLocale,
+  selectLayout,
   selectAttributes,
   selectCurrentInteraction,
   selectCurrentInteractionContactId,
