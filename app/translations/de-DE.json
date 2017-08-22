@@ -83,6 +83,7 @@
   "app.containers.ContactsSearch.call": "ANRUF",
   "app.containers.ContactsSearch.createRecord": "Neuen Datensatz erstellen",
   "app.containers.ContactsSearch.noRecords": "Keine Aufnahmen gefunden",
+  "app.containers.ContactsSearch.operator": "",
   "app.containers.ContactsSearch.or": "ODER",
   "app.containers.ContactsSearch.searchCRM": "CRM-Datenbank durchsuchen",
   "app.containers.ContactsSearchBar.all": "",

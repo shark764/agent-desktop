@@ -83,6 +83,7 @@
   "app.containers.ContactsSearch.call": "LLAMAR",
   "app.containers.ContactsSearch.createRecord": "Crear nuevo registro",
   "app.containers.ContactsSearch.noRecords": "No se han encontrado registros",
+  "app.containers.ContactsSearch.operator": "",
   "app.containers.ContactsSearch.or": "O",
   "app.containers.ContactsSearch.searchCRM": "Buscar en la base de datos CRM",
   "app.containers.ContactsSearchBar.all": "",
