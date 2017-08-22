@@ -496,8 +496,8 @@ export class InteractionsBar extends React.Component {
           style={{
             overflowY: 'auto',
             flexGrow: '1',
-            paddingRight: '250px',
-            marginRight: '-250px',
+            paddingRight: '320px',
+            marginRight: '-320px',
             display: 'flex',
             flexDirection: 'column',
           }}
