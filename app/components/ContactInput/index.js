@@ -29,7 +29,7 @@ function ContactInput(props) {
       paddingBottom: '2px',
       paddingLeft: '5px',
       height: '21px',
-      borderRadius: '2px 0 0 3px',
+      borderRadius: '2px',
       maxWidth: '100%',
       display: 'flex',
       alignItems: 'center',
