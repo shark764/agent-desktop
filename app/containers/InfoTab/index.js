@@ -52,8 +52,6 @@ export class InfoTab extends React.Component {
       flexShrink: '1',
       position: 'relative',
       display: 'flex',
-    },
-    checkboxSpacing: {
       marginLeft: '-52px',
     },
     loading: {
@@ -129,8 +127,6 @@ export class InfoTab extends React.Component {
     if (this.props.crmUnavailable) {
       return this.crmUnavailableBanner();
     }
-    const showCheckboxes =
-      this.props.selectedInteraction.contactMode === 'search';
     return (
       <div style={[this.styles.base]}>
         {this.props.notifications.map((notification, index) =>
@@ -160,12 +156,7 @@ export class InfoTab extends React.Component {
               'work-ended-pending-script'
           }
         />
-        <div
-          style={[
-            this.styles.contacts,
-            showCheckboxes && this.styles.checkboxSpacing,
-          ]}
-        >
+        <div style={this.styles.contacts}>
           <ContactsControl
             setNotEditing={this.setNotEditing}
             addNotification={this.addNotification}

@@ -43,7 +43,7 @@ export class AgentConfigMenu extends React.Component {
 
   styles = {
     statMenu: {
-      position: 'fixed',
+      position: 'absolute',
       width: '230px',
       right: '2px',
       bottom: '56px',

@@ -44,7 +44,6 @@ export class ContactSearchResult extends React.Component {
     },
     contact: {
       marginBottom: '5px',
-      overflowY: 'hidden',
     },
     expandToggle: {
       borderRadius: '2px',

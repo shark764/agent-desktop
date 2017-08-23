@@ -43,9 +43,9 @@ const styles = {
   },
   container: {
     display: 'flex',
-    overflow: 'hidden',
   },
   statusButtonContainer: {
+    position: 'relative',
     order: '0',
     flex: '0 1 auto',
     width: '277px',
@@ -98,6 +98,7 @@ const styles = {
     backgroundColor: '#093742',
   },
   configButtonContainer: {
+    position: 'relative',
     order: '0',
     flex: '0 1 52px',
     alignSelf: 'auto',
@@ -280,10 +281,7 @@ export class Toolbar extends React.Component {
         ]}
       >
         <div id="toolbar-container" style={[styles.container]}>
-          <div
-            id="agent-button-container"
-            style={[styles.statusButtonContainer]}
-          >
+          <div id="agent-button-container" style={styles.statusButtonContainer}>
             <button
               id="agent-button"
               key="status-button"
@@ -324,21 +322,14 @@ export class Toolbar extends React.Component {
                 </div>
               </span>
             </button>
+            <AgentStatusMenu
+              show={this.props.showAgentStatusMenu}
+              key={'agentStatusMenu'}
+              tenant={this.props.tenant}
+              readyState={this.props.readyState}
+              showAgentStatusMenu={this.showStatusMenu}
+            />
           </div>
-          <AgentStatusMenu
-            show={this.props.showAgentStatusMenu}
-            key={'agentStatusMenu'}
-            tenant={this.props.tenant}
-            readyState={this.props.readyState}
-            showAgentStatusMenu={this.showStatusMenu}
-          />
-          <AgentConfigMenu
-            queues={this.props.queues}
-            currentAgent={this.props.currentAgent}
-            hideMenu={() => this.showConfigMenu(false)}
-            show={this.state.showConfigMenu}
-            key={'agentConfigMenu'}
-          />
           <AgentStats
             queues={this.props.queues}
             readyState={this.props.readyState}
@@ -357,6 +348,13 @@ export class Toolbar extends React.Component {
             >
               <Icon id="config-icon" name="config" style={{ width: '22px' }} />
             </button>
+            <AgentConfigMenu
+              queues={this.props.queues}
+              currentAgent={this.props.currentAgent}
+              hideMenu={() => this.showConfigMenu(false)}
+              show={this.state.showConfigMenu}
+              key={'agentConfigMenu'}
+            />
           </div>
         </div>
       </div>

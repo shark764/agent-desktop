@@ -53,6 +53,7 @@ const styles = {
     color: '#4B4B4B',
     fontSize: '14px',
     lineHeight: '20px',
+    paddingLeft: '52px',
   },
   header: {
     borderBottom: '1px solid #E4E4E4',
@@ -71,8 +72,14 @@ const styles = {
     textOverflow: 'ellipsis',
     flexShrink: '1',
   },
+  buttonGroup: {
+    display: 'flex',
+  },
   controlButton: {
     marginLeft: '10px',
+  },
+  attributes: {
+    overflowY: 'hidden',
   },
 };
 
@@ -171,7 +178,7 @@ export class ContactView extends React.Component {
               this.props.contact.attributes.name}
           </div>
           {this.props.showControls &&
-            <div>
+            <div style={styles.buttonGroup}>
               <Button
                 id={`assignBtn${this.props.contact.id}`}
                 disabled={
@@ -201,11 +208,13 @@ export class ContactView extends React.Component {
               />
             </div>}
         </div>
-        {this.props.showCompactView
-          ? this.props.compactLayoutAttributes.attributes.map(
-              this.getAttributeRow
-            )
-          : this.props.layoutSections.map(this.getSection)}
+        <div style={styles.attributes}>
+          {this.props.showCompactView
+            ? this.props.compactLayoutAttributes.attributes.map(
+                this.getAttributeRow
+              )
+            : this.props.layoutSections.map(this.getSection)}
+        </div>
       </div>
     );
   }

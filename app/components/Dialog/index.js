@@ -14,8 +14,6 @@ import Radium from 'radium';
 
 const styles = {
   base: {
-    width: '542px',
-    height: '543px',
     borderRadius: '3px',
     backgroundColor: '#ffffff',
     boxShadow: '0 0 6px 0 rgba(0, 0, 0, 0.09)',

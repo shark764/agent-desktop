@@ -38,7 +38,7 @@ import {
 
 const styles = {
   menuPosition: {
-    position: 'fixed',
+    position: 'absolute',
     left: '2px',
     bottom: '56px',
     zIndex: '2',

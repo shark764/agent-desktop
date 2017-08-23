@@ -40,38 +40,32 @@ import {
   getSelectedSidePanelTab,
 } from './selectors';
 
-const leftGutterPx = 52;
+const leftGutterPx = 51;
 const topBarHeightPx = 63;
 
 export class SidePanel extends React.Component {
-  getPanelSizing = () => {
-    const sizing = {
-      width: this.props.openPx,
-    };
-    if (this.props.isCollapsed) {
-      if (this.context.toolbarMode) {
-        sizing.right = `-${this.props.openPx}px`;
-      } else {
-        sizing.transform = `translateX(${this.props.openPx -
-          this.props.collapsedPx}px)`;
-      }
+  componentWillReceiveProps(nextProps) {
+    if (
+      this.context.toolbarMode &&
+      this.props.selectedInteractionId !== nextProps.selectedInteractionId &&
+      this.getTabsData().length > 0
+    ) {
+      this.props.hideContactsPanel();
     }
-    return sizing;
-  };
+  }
 
   styles = {
     outerShell: {
       backgroundColor: '#FFFFFF',
-      borderLeft: '1px solid #D0D0D0',
-      borderBottom: '1px solid black',
-      position: 'fixed',
       right: 0,
       top: 0,
-      height: '100vh',
+      height: '100%',
+      width: '100%',
       transition: 'transform 1s',
       display: 'flex',
       flexWrap: 'no-wrap',
       zIndex: '1',
+      borderLeft: '1px solid #D0D0D0',
     },
     leftGutter: {
       width: `${leftGutterPx}px`,
@@ -102,11 +96,18 @@ export class SidePanel extends React.Component {
     iconCollapse: {
       height: '19px',
     },
+    iconCollapseContainer: {
+      zIndex: '100',
+    },
     bodyWrapper: {
       display: 'flex',
       order: '1',
       flexGrow: '1',
       overflow: 'hidden',
+      transition: 'opacity 1s cubic-bezier(1,0,.5,1)',
+      opacity: '1',
+      marginLeft: '-50px',
+      paddingLeft: '50px',
     },
     tabsOuter: {
       flexGrow: '1',
@@ -116,6 +117,10 @@ export class SidePanel extends React.Component {
     },
     tabsRoot: {
       height: '100%',
+    },
+    hideContent: {
+      transition: 'opacity 1s cubic-bezier(0,1,0,1)',
+      opacity: '0',
     },
   };
 
@@ -162,30 +167,21 @@ export class SidePanel extends React.Component {
 
   render() {
     const tabsData = this.getTabsData();
-    const phoneControlsHeight = 64;
-    const containerStyles = {
-      height: `calc(100vh - 54px - ${this.props.bannerCount * 28}px ${this
-        .context.toolbarMode
-        ? `- ${phoneControlsHeight}px`
-        : ''})`,
-      top: `calc(${this.props.bannerCount * 28}px ${this.context.toolbarMode
-        ? `+ ${phoneControlsHeight}px`
-        : ''})`,
-    };
+    if (this.context.toolbarMode && this.props.isCollapsed) {
+      this.styles.leftGutter.width = 0;
+    } else {
+      this.styles.leftGutter.width = `${leftGutterPx}px`;
+    }
     return (
-      <div
-        style={[
-          this.styles.outerShell,
-          this.getPanelSizing(),
-          containerStyles,
-          this.props.style,
-        ]}
-      >
+      <div style={[this.styles.outerShell, this.props.style]}>
         <div style={[this.styles.leftGutter]}>
           <div
             id="sidePanelCollapse"
             onClick={this.handleCollapseClick}
-            style={[this.styles.topGutterLeft]}
+            style={[
+              this.styles.topGutterLeft,
+              this.styles.iconCollapseContainer,
+            ]}
           >
             <IconCollapse
               style={[
@@ -198,7 +194,13 @@ export class SidePanel extends React.Component {
           </div>
           <div style={this.styles.leftGutterSpacer} />
         </div>
-        <div id="sidePanelTabsContainer" style={this.styles.bodyWrapper}>
+        <div
+          id="sidePanelTabsContainer"
+          style={[
+            this.styles.bodyWrapper,
+            this.props.isCollapsed ? this.styles.hideContent : {},
+          ]}
+        >
           <Tabs
             topBarHeightPx={topBarHeightPx}
             style={this.styles.tabsOuter}
@@ -259,9 +261,6 @@ function mapDispatchToProps(dispatch) {
 
 SidePanel.propTypes = {
   isCollapsed: PropTypes.bool,
-  openPx: PropTypes.number,
-  collapsedPx: PropTypes.number,
-  bannerCount: PropTypes.number,
   style: PropTypes.array,
   hideContactsPanel: PropTypes.func,
   showContactsPanel: PropTypes.func,

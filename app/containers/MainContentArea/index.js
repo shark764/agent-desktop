@@ -31,7 +31,6 @@ const styles = {
   base: {
     backgroundColor: '#072931',
     color: '#4B4B4B',
-    boxShadow: '0 0 6px 1px rgba(0,0,0,0.3)',
     position: 'relative',
     zIndex: '1',
   },

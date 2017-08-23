@@ -50,28 +50,32 @@ const storage = window.localStorage;
 
 const styles = {
   base: {
-    width: '100vw',
     height: '100%',
-    minHeight: '800px',
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr 550px 1fr 1fr',
+    gridTemplateRows: '1fr 540px 1fr',
+    gridTemplateAreas: `
+      "    .      .        .       .       . "
+      "    .      .      main      .       . "
+      " locale  legal    legal   legal     . "
+    `,
     backgroundColor: '#072931',
     fontSize: '16px',
     fontWeight: 'normal',
     fontStyle: 'normal',
     fontStretch: 'normal',
     color: '#494949',
-    overflowY: 'auto',
   },
-  toolbarBase: {
-    backgroundColor: '#FFFFFF',
+  dialogContentContainer: {
+    padding: '50px',
     height: '100%',
-    paddingTop: '120px',
+    display: 'grid',
+    gridTemplateRows: '1fr 4fr',
+    justifyContent: 'center',
+    alignContent: 'stretch',
+    alignItems: 'center',
   },
-  center: {
-    order: '0',
-    flex: '0 0 auto',
-    alignSelf: 'auto',
-  },
-  container: {
+  dialogContent: {
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'nowrap',
@@ -79,30 +83,65 @@ const styles = {
     alignContent: 'stretch',
     alignItems: 'center',
   },
+  toolbarBase: {
+    height: '100%',
+    width: '100%',
+    display: 'grid',
+    gridTemplateRows: '1fr 540px 1fr',
+    gridTemplateAreas: `
+      "    .   "
+      "  main  "
+      " locale "
+    `,
+    backgroundColor: '#FFFFFF',
+  },
+  content: {
+    gridArea: 'main',
+    justifySelf: 'stretch',
+  },
+  logo: {
+    width: '275px',
+    alignSelf: 'end',
+  },
+  usernameInput: {
+    marginBottom: '11px',
+  },
+  rememberMe: {
+    marginLeft: '-82px',
+    marginBottom: '11px',
+    marginTop: '15px',
+    width: '200px',
+  },
+  actionButton: {
+    marginTop: '34px',
+  },
   copyright: {
-    width: '65vw',
-    position: 'absolute',
-    bottom: '1em',
+    gridArea: 'legal',
+    alignSelf: 'end',
+    width: '100%',
+    marginBottom: '15px',
     color: '#FFFFFF',
     textAlign: 'center',
   },
   copyrightText: {
     marginBottom: '1em',
     display: 'block',
-    position: 'relative',
   },
   legalText: {
     fontSize: '10px',
   },
   languageMenu: {
-    position: 'absolute',
-    left: '1.4em',
-    bottom: '1em',
+    position: 'relative',
+    gridArea: 'locale',
+    justifySelf: 'start',
+    alignSelf: 'end',
+    marginLeft: '1.4em',
+    marginBottom: '1em',
   },
   languageDialog: {
-    position: 'fixed',
-    bottom: '55px',
-    left: '4px',
+    position: 'absolute',
+    bottom: '38px',
+    left: '-17px',
   },
   languageSelect: {
     width: '180px',
@@ -118,17 +157,6 @@ const styles = {
       textShadow: '0px 1px 1px #ccc',
       cursor: 'pointer',
     },
-  },
-  usernameInput: {
-    marginBottom: '11px',
-  },
-  rememberMe: {
-    marginBottom: '11px',
-    marginTop: '15px',
-    width: '282px',
-  },
-  actionButton: {
-    marginTop: '34px',
   },
 };
 
@@ -167,7 +195,7 @@ export class Login extends React.Component {
         <Title
           id={messages.welcome.id}
           text={messages.welcomeNoProd}
-          style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]}
+          style={[{ paddingBottom: '23px' }, styles.center]}
         />
       );
     } else {
@@ -175,7 +203,7 @@ export class Login extends React.Component {
         <Title
           id={messages.welcome.id}
           text={messages.welcome}
-          style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]}
+          style={[{ paddingBottom: '23px' }, styles.center]}
         />
       );
     }
@@ -251,112 +279,107 @@ export class Login extends React.Component {
   };
 
   getLoadingContent = () =>
-    (<div
-      id="loginContainerDiv"
-      style={Object.assign({}, styles.container, { justifyContent: 'center' })}
-    >
-      <Logo style={{ marginTop: '50px' }} width="275px" />
-      <IconSVG id="loadingIcon" name="loading" style={{ marginTop: '50px' }} />
+    (<div id="loginContainerDiv" style={styles.dialogContentContainer}>
+      <Logo style={styles.logo} />
+      <div style={styles.dialogContent}>
+        <IconSVG id="loadingIcon" name="loading" />
+      </div>
     </div>);
 
   getLoggedInContent = () => {
-    const tenantOptions = this.props.agent.tenants.map((tenant) => ({
-      value: tenant.tenantId,
-      label: tenant.tenantName,
-    }));
+    const tenantOptions = this.props.agent.tenants
+      .filter((tenant) => tenant.tenantActive)
+      .map((tenant) => ({
+        value: tenant.tenantId,
+        label: tenant.tenantName,
+      }));
     return (
-      <div
-        id="TSContainerDiv"
-        style={Object.assign({}, styles.container, {
-          justifyContent: 'center',
-        })}
-      >
-        <Logo style={{ marginTop: '50px' }} width="275px" />
-        <Title
-          id={messages.selectTenantMenu.id}
-          text={messages.selectTenantMenu}
-          style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]}
-        />
-        <Select
-          id={'app.login.selectTennant.selectbox'}
-          style={{ width: '282px' }}
-          value={this.state.tenantId}
-          onChange={(e) => this.setTenantId(e.value || '-1', e.label || '')}
-          options={tenantOptions}
-          autoFocus
-          clearable={false}
-          placeholder={<FormattedMessage {...messages.selectTenant} />}
-        />
-        {
-          // Inbound / Outbound Select
-          // <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
-        }
-        <Button
-          id={messages.selectButton.id}
-          type="primaryBlueBig"
-          style={styles.actionButton}
-          text={messages.selectButton}
-          onClick={() => this.onTenantSelect()}
-        />
+      <div id="TSContainerDiv" style={styles.dialogContentContainer}>
+        <Logo style={styles.logo} />
+        <div style={styles.dialogContent}>
+          <Title
+            id={messages.selectTenantMenu.id}
+            text={messages.selectTenantMenu}
+            style={[{ paddingBottom: '23px' }, styles.center]}
+          />
+          <Select
+            id={'app.login.selectTennant.selectbox'}
+            style={{ width: '282px' }}
+            value={this.state.tenantId}
+            onChange={(e) => this.setTenantId(e.value || '-1', e.label || '')}
+            options={tenantOptions}
+            autoFocus
+            clearable={false}
+            placeholder={<FormattedMessage {...messages.selectTenant} />}
+          />
+          {
+            // Inbound / Outbound Select
+            // <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
+          }
+          <Button
+            id={messages.selectButton.id}
+            type="primaryBlueBig"
+            style={styles.actionButton}
+            text={messages.selectButton}
+            onClick={() => this.onTenantSelect()}
+          />
+        </div>
       </div>
     );
   };
 
   getLoginContent = () =>
-    (<div
-      id="loginContainerDiv"
-      style={Object.assign({}, styles.container, { justifyContent: 'center' })}
-    >
-      <Logo style={{ marginTop: '50px' }} width="275px" />
-      {this.getLoginTitle()}
-      <TextInput
-        id={messages.username.id}
-        autoFocus={!this.state.remember}
-        key={'username'}
-        style={styles.usernameInput}
-        placeholder={messages.username}
-        autocomplete="email"
-        value={this.state.username}
-        cb={this.setUser}
-      />
-      <TextInput
-        id={messages.password.id}
-        autoFocus={this.state.remember}
-        key={'password'}
-        type="password"
-        placeholder={messages.password}
-        autocomplete="password"
-        value={this.state.password}
-        cb={this.setPassword}
-        onEnter={this.onLogin}
-      />
-      <CheckBox
-        id={messages.rememberMe.id}
-        style={styles.rememberMe}
-        checked={this.state.remember}
-        text={messages.rememberMe}
-        cb={this.setRemember}
-      />
-      <Button
-        id={messages.signInButton.id}
-        type="primaryBlueBig"
-        style={styles.actionButton}
-        text={messages.signInButton}
-        onClick={() => this.onLogin()}
-      />
-      {/* Hide until we implement the feature
-        <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
-      */}
+    (<div id="loginContainerDiv" style={styles.dialogContentContainer}>
+      <Logo style={styles.logo} />
+      <div style={styles.dialogContent}>
+        {this.getLoginTitle()}
+        <TextInput
+          id={messages.username.id}
+          autoFocus={!this.state.remember}
+          key={'username'}
+          style={styles.usernameInput}
+          placeholder={messages.username}
+          autocomplete="email"
+          value={this.state.username}
+          cb={this.setUser}
+        />
+        <TextInput
+          id={messages.password.id}
+          autoFocus={this.state.remember}
+          key={'password'}
+          type="password"
+          placeholder={messages.password}
+          autocomplete="password"
+          value={this.state.password}
+          cb={this.setPassword}
+          onEnter={this.onLogin}
+        />
+        <CheckBox
+          id={messages.rememberMe.id}
+          style={styles.rememberMe}
+          checked={this.state.remember}
+          text={messages.rememberMe}
+          cb={this.setRemember}
+        />
+        <Button
+          id={messages.signInButton.id}
+          type="primaryBlueBig"
+          style={styles.actionButton}
+          text={messages.signInButton}
+          onClick={() => this.onLogin()}
+        />
+        {/* Hide until we implement the feature
+          <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
+        */}
+      </div>
     </div>);
 
   getForgotContent = () =>
-    (<div
-      style={Object.assign({}, styles.container, { justifyContent: 'center' })}
-    >
-      <Logo style={{ marginTop: '50px' }} width="275px" />
+    (<div style={styles.dialogContentContainer}>
+      <Logo style={styles.logo} />
       <Title
         text={messages.forgot}
-        style={[{ paddingBottom: '23px', marginTop: '39px' }, styles.center]}
+        style={[{ paddingBottom: '23px' }, styles.center]}
       />
       <p style={{ width: '282px', textAlign: 'center' }}>
         {this.props.intl.formatMessage(messages.forgotInstructions)}
@@ -434,8 +457,9 @@ export class Login extends React.Component {
 
   loginCB = (agent) => {
     this.props.loginSuccess(agent);
-    if (agent.tenants.length === 1) {
-      this.setTenantId(agent.tenants[0].tenantId, agent.tenants[0].tenantName);
+    const activeTenants = agent.tenants.filter((tenant) => tenant.tenantActive);
+    if (activeTenants.length === 1) {
+      this.setTenantId(activeTenants[0].tenantId, activeTenants[0].tenantName);
       this.onTenantSelect();
     }
     if (this.state.remember) {
@@ -482,33 +506,25 @@ export class Login extends React.Component {
     if (this.context.toolbarMode) {
       return (
         <div style={styles.toolbarBase}>
-          {pageContent}
+          <div style={styles.content}>
+            {pageContent}
+          </div>
           {this.getLanguageSelect()}
         </div>
       );
     } else {
       return (
         <div style={styles.base}>
-          <div
-            style={[
-              styles.container,
-              {
-                height: '100%',
-                minHeight: '800px',
-              },
-            ]}
-          >
-            <Dialog style={styles.center}>
-              {pageContent}
-            </Dialog>
-            {this.getLanguageSelect()}
-            <div style={styles.copyright}>
-              <div style={styles.copyrightText} id="serenova_copyright">
-                <FormattedMessage {...messages.copyright} />
-              </div>
-              <div style={styles.legalText} id="serenova_legal">
-                <FormattedMessage {...messages.legal} />
-              </div>
+          <Dialog style={styles.content}>
+            {pageContent}
+          </Dialog>
+          {this.getLanguageSelect()}
+          <div style={styles.copyright}>
+            <div style={styles.copyrightText} id="serenova_copyright">
+              <FormattedMessage {...messages.copyright} />
+            </div>
+            <div style={styles.legalText} id="serenova_legal">
+              <FormattedMessage {...messages.legal} />
             </div>
           </div>
         </div>

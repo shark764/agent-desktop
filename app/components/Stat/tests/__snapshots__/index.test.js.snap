@@ -10,6 +10,7 @@ exports[`<Stat /> should render correctly 1`] = `
     Object {
       "height": "54px",
       "paddingTop": "13px",
+      "position": "relative",
       "width": "104px",
     }
   }
@@ -27,7 +28,7 @@ exports[`<Stat /> should render correctly 1`] = `
           "boxShadow": "0 0 6px 1px rgba(0,0,0,0.29)",
           "padding": "10px 13px",
           "position": "absolute",
-          "right": "19px",
+          "right": "-30px",
           "width": "166px",
           "zIndex": "2",
         }
@@ -107,7 +108,7 @@ exports[`<Stat /> should render correctly 1`] = `
           "boxShadow": "-6px -6px 6px -4px rgba(0,0,0,0.29)",
           "height": "0px",
           "position": "absolute",
-          "right": "95px",
+          "right": "65px",
           "transform": "rotate(-134deg)",
           "width": "0px",
           "zIndex": "2",
@@ -126,7 +127,7 @@ exports[`<Stat /> should render correctly 1`] = `
           "cursor": "pointer",
           "fontSize": "12px",
           "position": "absolute",
-          "right": "60px",
+          "right": "10px",
           "zIndex": "2",
         }
       }

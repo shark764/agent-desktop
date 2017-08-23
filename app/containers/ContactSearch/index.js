@@ -57,7 +57,7 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     flexShrink: '0',
-    paddingLeft: '54px',
+    paddingLeft: '52px',
   },
   contactSearchBar: {
     paddingTop: '19px',
