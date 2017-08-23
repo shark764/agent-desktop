@@ -9,23 +9,26 @@ import { getIntlContext } from 'utils/test';
 import Stat from '../index';
 
 describe('<Stat />', () => {
+  const rendered = shallow(
+    <Stat
+      intl={getIntlContext()}
+      userFriendlyName="mockName"
+      index={1}
+      stat={{
+        statAggregate: 'mockStatAggregate',
+        statSource: 'resource-id',
+      }}
+      removeStat={() => {}}
+      readyState="mockReadyState"
+      queues={[]}
+      canShowDetails
+    />
+  );
   it('should render correctly', () => {
-    const rendered = shallow(
-      <Stat
-        id="mockId"
-        intl={getIntlContext()}
-        userFriendlyName="mockName"
-        hover
-        index={1}
-        stat={{
-          statAggregate: 'mockStatAggregate',
-          statSource: 'resource-id',
-        }}
-        removeStat={() => {}}
-        readyState="mockReadyState"
-        queues={[]}
-      />
-    );
+    expect(rendered).toMatchSnapshot();
+  });
+  it('should show hover details on mouse over', () => {
+    rendered.find('.stat-box').simulate('MouseOver');
     expect(rendered).toMatchSnapshot();
   });
 });

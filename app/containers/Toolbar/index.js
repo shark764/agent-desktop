@@ -48,32 +48,18 @@ const styles = {
     position: 'relative',
     order: '0',
     flex: '0 1 auto',
-    width: '277px',
+    width: '200px',
     height: '54px',
   },
-  statusButtonNR: {
+  statusButton: {
     cursor: 'pointer',
-    marginLeft: '8px',
-    marginTop: '3px',
+    margin: '4px 3px 0',
     display: 'flex',
     paddingRight: '23px',
     paddingTop: '8px',
     paddingBottom: '8px',
     outline: 'none',
-    height: '47px',
-    minWidth: '160px',
-    border: 'none',
-  },
-  statusButtonR: {
-    cursor: 'pointer',
-    marginLeft: '8px',
-    marginTop: '3px',
-    display: 'flex',
-    paddingRight: '23px',
-    paddingTop: '8px',
-    paddingBottom: '8px',
-    outline: 'none',
-    height: '47px',
+    height: '46px',
     minWidth: '160px',
     border: 'none',
   },
@@ -215,21 +201,17 @@ export class Toolbar extends React.Component {
   };
 
   getStatusMenuButtonStyle = () => {
-    const statusButtonStyle = [];
+    const statusButtonStyle = [styles.statusButton];
     if (this.props.readyState === 'ready') {
-      statusButtonStyle.push(styles.statusButtonR);
       if (this.props.showAgentStatusMenu) {
         statusButtonStyle.push(styles.openButtonR);
       } else if (this.state.isStatusButtonHovered) {
         statusButtonStyle.push(styles.hoverButtonR);
       }
-    } else {
-      statusButtonStyle.push(styles.statusButtonNR);
-      if (this.props.showAgentStatusMenu) {
-        statusButtonStyle.push(styles.openButtonNR);
-      } else if (this.state.isStatusButtonHovered) {
-        statusButtonStyle.push(styles.hoverButtonNR);
-      }
+    } else if (this.props.showAgentStatusMenu) {
+      statusButtonStyle.push(styles.openButtonNR);
+    } else if (this.state.isStatusButtonHovered) {
+      statusButtonStyle.push(styles.hoverButtonNR);
     }
     return statusButtonStyle;
   };
@@ -280,7 +262,7 @@ export class Toolbar extends React.Component {
           this.props.style,
         ]}
       >
-        <div id="toolbar-container" style={[styles.container]}>
+        <div id="toolbar-container" style={styles.container}>
           <div id="agent-button-container" style={styles.statusButtonContainer}>
             <button
               id="agent-button"
