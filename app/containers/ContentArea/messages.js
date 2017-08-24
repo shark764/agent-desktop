@@ -22,10 +22,6 @@ export default defineMessages({
     id: 'app.containers.ContentArea.notesPlaceholder',
     defaultMessage: 'Enter interaction notes here',
   },
-  wrapup: {
-    id: 'app.containers.ContentArea.wrapup',
-    defaultMessage: 'Wrap Up',
-  },
   disposition: {
     id: 'app.containers.ContentArea.disposition',
     defaultMessage: 'Disposition',
