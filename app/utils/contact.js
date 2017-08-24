@@ -28,7 +28,7 @@ export const getError = (attributeToValidate, value) => {
   let error = false;
   if (
     attributeToValidate.mandatory &&
-    (value === undefined || value.length < 1)
+    (value === undefined || value.trim().length < 1)
   ) {
     error = 'errorRequired';
   } else if (value !== undefined && value.length) {
