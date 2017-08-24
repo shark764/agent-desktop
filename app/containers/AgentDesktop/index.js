@@ -7,6 +7,7 @@
  * AgentDesktop
  *
  */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
@@ -35,15 +36,19 @@ import {
 } from './selectors';
 
 export class AgentDesktop extends React.Component {
-  constructor(props) {
+  constructor(props, context) {
     super(props);
 
     this.collapsedContactsPanelPx = 52;
-    this.defaultContactsPanelPx = 600;
+    if (context.toolbarMode) {
+      this.defaultContactsPanelPx = 350;
+    } else {
+      this.defaultContactsPanelPx = 500;
+    }
 
     this.state = {
       contactsPanelPx: this.defaultContactsPanelPx,
-      contactsPanelMaxPx: Math.max(window.innerWidth - 600, 600),
+      contactsPanelMaxPx: context.toolbarMode ? 400 : window.innerWidth / 2,
     };
   }
 
@@ -61,11 +66,8 @@ export class AgentDesktop extends React.Component {
     const width =
       window.innerWidth || documentElement.clientWidth || body.clientWidth;
     this.setState({
-      contactsPanelMaxPx: Math.max(width - 600, 600),
-      contactsPanelPx:
-        this.state.contactsPanelPx > Math.max(width - 600, 600)
-          ? Math.max(width - 600, 600)
-          : this.state.contactsPanelPx,
+      contactsPanelPx: this.defaultContactsPanelPx,
+      contactsPanelMaxPx: this.context.toolbarMode ? 400 : width / 2,
     });
   };
 
@@ -85,13 +87,14 @@ export class AgentDesktop extends React.Component {
 
   styles = {
     parent: {
-      alignItems: 'stretch',
+      height: '100%',
+      width: '100%',
       display: 'flex',
       flexDirection: 'row',
       flexWrap: 'nowrap',
       justifyContent: 'flex-start',
       alignContent: 'stretch',
-      height: '100%',
+      alignItems: 'stretch',
     },
     columnParent: {
       flexDirection: 'column',
@@ -128,87 +131,75 @@ export class AgentDesktop extends React.Component {
 
   render() {
     return (
-      <span>
+      <div
+        id="desktop-container"
+        style={[this.styles.parent, this.styles.columnParent]}
+      >
         <div
-          id="desktop-container"
+          id="top-area"
           style={[
             this.styles.flexChildGrow,
             this.styles.parent,
-            this.styles.columnParent,
+            this.styles.topArea,
+            this.context.toolbarMode && this.styles.topAreaToolbar,
           ]}
         >
           <div
-            id="top-area"
-            style={[
-              this.styles.flexChildGrow,
-              this.styles.parent,
-              this.styles.topArea,
-              this.context.toolbarMode && this.styles.topAreaToolbar,
-            ]}
+            style={{
+              flex: '1 1 auto',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
           >
-            <div
-              style={{
-                flex: '1 1 auto',
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'relative',
-              }}
-            >
-              {this.context.toolbarMode &&
-                <PhoneControls style={{ flex: '0' }} />}
-              <div style={{ display: 'flex', flex: '1' }}>
-                <div
-                  style={[
-                    this.styles.leftArea,
-                    this.context.toolbarMode && this.styles.leftAreaToolbar,
-                    this.context.toolbarMode &&
-                      this.props.isInteractionsBarCollapsed &&
-                      this.styles.leftAreaCollapsed,
-                  ]}
-                >
-                  {!this.context.toolbarMode &&
-                    <PhoneControls style={{ flexShrink: '0' }} />}
-                  {(!this.context.toolbarMode ||
-                    !this.props.isInteractionsBarCollapsed) &&
-                    <InteractionsBar style={{ flexGrow: '1' }} />}
-                </div>
-                {this.context.toolbarMode &&
-                  this.props.showCollapseButton &&
-                  <CollapseInteractionsButton
-                    toggleInteractionsBar={this.toggleInteractionsBar}
-                    isCollapsed={this.props.isInteractionsBarCollapsed}
-                  />}
-                <MainContentArea
-                  agent={this.props.login.agent}
-                  tenant={this.props.login.tenant}
-                  style={{ flex: '1 1 auto' }}
-                />
-                <Resizable
-                  id="crm-resizable"
-                  direction="left"
-                  setPx={this.setContactsPanelWidth}
-                  disabledPx={this.collapsedContactsPanelPx}
-                  px={this.state.contactsPanelPx}
-                  maxPx={this.state.contactsPanelMaxPx}
-                  minPx={400}
-                  isDisabled={this.props.isContactsPanelCollapsed}
-                  style={this.styles.topArea}
-                />
+            {this.context.toolbarMode &&
+              <PhoneControls style={{ flex: '0' }} />}
+            <div style={{ display: 'flex', flex: '1' }}>
+              <div
+                style={[
+                  this.styles.leftArea,
+                  this.context.toolbarMode && this.styles.leftAreaToolbar,
+                  this.context.toolbarMode &&
+                    this.props.isInteractionsBarCollapsed &&
+                    this.styles.leftAreaCollapsed,
+                ]}
+              >
+                {!this.context.toolbarMode &&
+                  <PhoneControls style={{ flexShrink: '0' }} />}
+                {(!this.context.toolbarMode ||
+                  !this.props.isInteractionsBarCollapsed) &&
+                  <InteractionsBar style={{ flexGrow: '1' }} />}
               </div>
+              {this.context.toolbarMode &&
+                this.props.showCollapseButton &&
+                <CollapseInteractionsButton
+                  toggleInteractionsBar={this.toggleInteractionsBar}
+                  isCollapsed={this.props.isInteractionsBarCollapsed}
+                />}
+              <MainContentArea
+                agent={this.props.login.agent}
+                tenant={this.props.login.tenant}
+                style={{ flex: '1 1 auto' }}
+              />
+              <Resizable
+                id="crm-resizable"
+                direction="left"
+                setPx={this.setContactsPanelWidth}
+                disabledPx={this.collapsedContactsPanelPx}
+                px={this.state.contactsPanelPx}
+                maxPx={this.state.contactsPanelMaxPx}
+                minPx={300}
+                isDisabled={this.props.isContactsPanelCollapsed}
+              >
+                <SidePanel isCollapsed={this.props.isContactsPanelCollapsed} />
+              </Resizable>
             </div>
           </div>
-          <Toolbar
-            tenant={this.props.login.tenant}
-            style={[this.styles.flexChildGrow, this.styles.toolbar]}
-          />
-          <SidePanel
-            isCollapsed={this.props.isContactsPanelCollapsed}
-            openPx={this.state.contactsPanelPx}
-            collapsedPx={this.collapsedContactsPanelPx}
-            bannerCount={this.props.bannerCount}
-          />
         </div>
-      </span>
+        <Toolbar
+          tenant={this.props.login.tenant}
+          style={[this.styles.flexChildGrow, this.styles.toolbar]}
+        />
+      </div>
     );
   }
 }
@@ -232,7 +223,6 @@ function mapDispatchToProps(dispatch) {
 AgentDesktop.propTypes = {
   login: PropTypes.object,
   isContactsPanelCollapsed: PropTypes.bool.isRequired,
-  bannerCount: PropTypes.number,
   isInteractionsBarCollapsed: PropTypes.bool.isRequired,
   showInteractionsBar: PropTypes.func.isRequired,
   hideInteractionsBar: PropTypes.func.isRequired,

@@ -9,8 +9,6 @@ exports[`<Dialog /> should render correctly 1`] = `
       "backgroundColor": "#ffffff",
       "borderRadius": "3px",
       "boxShadow": "0 0 6px 0 rgba(0, 0, 0, 0.09)",
-      "height": "543px",
-      "width": "542px",
     }
   }
 >

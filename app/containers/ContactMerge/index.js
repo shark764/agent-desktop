@@ -68,6 +68,7 @@ const styles = {
     alignSelf: 'stretch',
     flexGrow: '1',
     flexShrink: '0',
+    paddingLeft: '52px',
   },
   button: {
     float: 'left',

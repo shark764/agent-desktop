@@ -56,6 +56,7 @@ const styles = {
     color: '#4B4B4B',
     fontSize: '14px',
     lineHeight: '20px',
+    paddingLeft: '52px',
   },
   section: {
     marginBottom: '28px',

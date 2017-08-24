@@ -7,6 +7,7 @@
  * AgentDesktop
  *
  */
+
 import Raven from 'raven-js';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -105,6 +106,7 @@ import {
 import {
   selectAgentDesktopMap,
   selectLoginMap,
+  selectIsContactsPanelCollapsed,
 } from 'containers/AgentDesktop/selectors';
 
 import { version as release } from '../../../package.json';
@@ -818,10 +820,39 @@ export class App extends React.Component {
   };
 
   styles = {
-    notificationBanner: {
-      position: 'relative',
-      zIndex: 20,
+    base: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
+    desktop: {
+      height: '100vh',
+      width: '100vw',
+    },
+    toolbarModeCollapsed: {
+      height: '800px',
+      width: '400px',
+    },
+    toolbarModeExpanded: {
+      height: '800px',
+      width: '800px',
+    },
+    notificationBanner: {
+      flex: '1 0 content',
+      alignSelf: 'flex-start',
+    },
+  };
+
+  getToolbarSizing = () => {
+    if (this.context.toolbarMode) {
+      if (this.props.isSidePanelCollapsed) {
+        return this.styles.toolbarModeCollapsed;
+      } else {
+        return this.styles.toolbarModeExpanded;
+      }
+    }
+    return {};
   };
 
   render() {
@@ -899,20 +930,18 @@ export class App extends React.Component {
       );
     }
     return (
-      <div>
-        <div style={{ height: `${28 * banners.length}px` }}>
-          {banners}
-        </div>
-        <div style={{ height: `calc(100vh - ${28 * banners.length}px)` }}>
-          {this.props.login.showLogin ||
-          this.props.agentDesktop.presence === undefined ||
-          // If error code is AD-100X, keep them in Login, or else AgentDesktop will break
-          (this.props.criticalError &&
-            this.props.criticalError.code &&
-            this.props.criticalError.code.toString().includes('AD-100'))
-            ? <Login />
-            : <AgentDesktop bannerCount={banners.length} />}
-        </div>
+      <div
+        style={[this.styles.base, this.styles.desktop, this.getToolbarSizing()]}
+      >
+        {banners}
+        {this.props.login.showLogin ||
+        this.props.agentDesktop.presence === undefined ||
+        // If error code is AD-100X, keep them in Login, or else AgentDesktop will break
+        (this.props.criticalError &&
+          this.props.criticalError.code &&
+          this.props.criticalError.code.toString().includes('AD-100'))
+          ? <Login />
+          : <AgentDesktop />}
       </div>
     );
   }
@@ -926,6 +955,7 @@ const mapStateToProps = (state, props) => ({
   activatedStatIds: selectActivatedStatIds(state, props).toJS(),
   erroredStatIds: selectErroredStatIds(state, props),
   nonCriticalError: selectNonCriticalError(state, props),
+  isSidePanelCollapsed: selectIsContactsPanelCollapsed(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -1101,6 +1131,7 @@ App.propTypes = {
   erroredStatIds: PropTypes.array,
   criticalError: PropTypes.any,
   nonCriticalError: PropTypes.any,
+  isSidePanelCollapsed: PropTypes.bool,
   dismissError: PropTypes.func,
 };
 

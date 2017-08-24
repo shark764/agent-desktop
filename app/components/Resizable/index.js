@@ -57,6 +57,7 @@ class Resizable extends React.Component {
         });
       } else {
         this.addListeners();
+        // Toolbar Mode to Kill Transition for left ( side panel )
         if (this.context.toolbarMode) {
           this.setState({
             hideDivider: false,
@@ -77,22 +78,19 @@ class Resizable extends React.Component {
     );
     const dividerOffset = this.addPx(this.props.px - (this.dividerPx / 2 + 1));
     const userSelect = this.state.isResizing ? 'none' : 'auto';
-    const phoneControlsHeight = 64;
-    const dividerHeight = `calc(100% - 54px ${this.context.toolbarMode
-      ? `- ${phoneControlsHeight}px`
-      : ''})`;
+
     const styles = {
       left: {
         wrapper: {
+          position: 'relative',
           width: elementSize,
           transition: this.state.isResizing ? '' : 'width 1s',
           userSelect,
-          borderLeft: '1px solid #D0D0D0',
           flex: '0 0 auto',
         },
         divider: {
           width: this.addPx(this.dividerPx),
-          height: dividerHeight,
+          height: '100%',
           right: dividerOffset,
           top: `${this.context.toolbarMode ? '64px' : '0'}`,
           position: this.dividerPosition,
@@ -130,6 +128,7 @@ class Resizable extends React.Component {
         },
       },
     };
+    // Toolbar Mode to Kill Transition for left ( side panel )
     if (this.context.toolbarMode) {
       styles.left.wrapper.transition = '';
       if (this.props.isDisabled) {
@@ -229,7 +228,7 @@ class Resizable extends React.Component {
     const styles = this.getStyles();
     return (
       <div
-        style={[styles.wrapper, this.props.styles]}
+        style={[styles.wrapper, this.props.style]}
         ref={(element) => {
           this.wrapperElement = element;
         }}
@@ -263,7 +262,7 @@ Resizable.propTypes = {
   minPx: PropTypes.number.isRequired,
   maxPx: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
-  styles: PropTypes.object,
+  style: PropTypes.object,
 };
 
 Resizable.contextTypes = {

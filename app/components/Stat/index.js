@@ -20,6 +20,7 @@ import messages from './messages';
 function Stat(props) {
   const styles = {
     statBox: {
+      position: 'relative',
       width: '104px',
       height: '54px',
       paddingTop: '13px',
@@ -60,7 +61,7 @@ function Stat(props) {
     hoverBox: {
       position: 'absolute',
       bottom: '66px',
-      right: `${(props.index - 1) * 104 + 19}px`,
+      right: `${(props.index - 1) * 104 - 30}px`,
       zIndex: '2',
       width: '166px',
       borderRadius: '8px',
@@ -79,7 +80,7 @@ function Stat(props) {
     },
     statRemove: {
       position: 'absolute',
-      right: `${(props.index - 1) * 104 + 60}px`,
+      right: `${(props.index - 1) * 104 + 10}px`,
       bottom: '30px',
       fontSize: '12px',
       zIndex: '2',
@@ -93,7 +94,7 @@ function Stat(props) {
       position: 'absolute',
       width: '0px',
       height: '0px',
-      right: `${(props.index - 1) * 104 + 95}px`,
+      right: `${(props.index - 1) * 104 + 65}px`,
       bottom: '60px',
       borderWidth: '8px',
       borderStyle: 'solid',

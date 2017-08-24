@@ -93,7 +93,7 @@ const styles = {
   detailsValue: {
     display: 'inline-block',
     width: 'calc(100% - 90px)',
-    minHeight: '1.8em',
+    minHeight: '1.5em',
   },
   detailsContainer: {
     borderTop: '1px solid #D0D0D0',
