@@ -71,6 +71,7 @@ const styles = {
     height: '100%',
     display: 'grid',
     gridTemplateRows: '1fr 4fr',
+    gridTemplateColumns: '100%',
     justifyContent: 'center',
     alignContent: 'stretch',
     alignItems: 'center',
@@ -101,7 +102,7 @@ const styles = {
   },
   logo: {
     width: '275px',
-    alignSelf: 'end',
+    margin: 'auto',
   },
   usernameInput: {
     marginBottom: '11px',
