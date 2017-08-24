@@ -4,19 +4,111 @@ exports[`<Stat /> should render correctly 1`] = `
 <div
   className="stat-box"
   data-radium={true}
+  onFocus={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
+  onMouseOver={[Function]}
   style={
     Object {
       "height": "54px",
+      "maxWidth": "104px",
+      "minWidth": "104px",
       "paddingTop": "13px",
       "position": "relative",
       "width": "104px",
     }
   }
 >
-  <span
+  <div
+    className="stat-value"
     data-radium={true}
+    style={
+      Object {
+        "color": "#FFFFFF",
+        "fontSize": "16px",
+        "fontWeight": "bold",
+        "height": "19px",
+        "lineHeight": "19px",
+        "textAlign": "center",
+      }
+    }
+  >
+    <div
+      data-radium={true}
+      id="loadingContainer"
+      style={
+        Object {
+          "display": "flex",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <IconSVG
+        id="loadingIcon"
+        name="loadingWhite"
+        style={
+          Object {
+            "height": "15px",
+            "position": "relative",
+            "top": "-5px",
+          }
+        }
+      />
+    </div>
+  </div>
+  <div
+    className="agent-stat"
+    data-radium={true}
+    style={
+      Object {
+        "color": "#FFFFFF",
+        "fontSize": "12px",
+        "fontWeight": "600",
+        "height": "10px",
+        "lineHeight": "10px",
+        "overflow": "hidden",
+        "padding": "0 4px",
+        "textAlign": "center",
+        "textOverflow": "ellipsis",
+        "whiteSpace": "nowrap",
+        "width": "100%",
+      }
+    }
+  >
+    mockName
+  </div>
+</div>
+`;
+
+exports[`<Stat /> should show hover details on mouse over 1`] = `
+<div
+  className="stat-box"
+  data-radium={true}
+  onFocus={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
+  style={
+    Object {
+      "boxShadow": "inset 0 0 6px 1px rgba(0,0,0,0.34)",
+      "height": "54px",
+      "maxWidth": "104px",
+      "minWidth": "104px",
+      "paddingTop": "13px",
+      "position": "relative",
+      "width": "104px",
+    }
+  }
+>
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "bottom": "60px",
+        "position": "absolute",
+        "zIndex": 2,
+      }
+    }
   >
     <div
       data-radium={true}
@@ -24,12 +116,13 @@ exports[`<Stat /> should render correctly 1`] = `
         Object {
           "backgroundColor": "#FFFFFF",
           "borderRadius": "8px",
-          "bottom": "66px",
+          "bottom": "-9px",
           "boxShadow": "0 0 6px 1px rgba(0,0,0,0.29)",
+          "overflowWrap": "break-word",
           "padding": "10px 13px",
-          "position": "absolute",
-          "right": "-30px",
-          "width": "166px",
+          "position": "relative",
+          "width": "104px",
+          "wordWrap": "break-word",
           "zIndex": "2",
         }
       }
@@ -95,7 +188,7 @@ exports[`<Stat /> should render correctly 1`] = `
         MockStatAggregate
       </div>
     </div>
-    <span
+    <div
       data-radium={true}
       style={
         Object {
@@ -104,36 +197,35 @@ exports[`<Stat /> should render correctly 1`] = `
           "borderRadius": "3px",
           "borderStyle": "solid",
           "borderWidth": "8px",
-          "bottom": "60px",
           "boxShadow": "-6px -6px 6px -4px rgba(0,0,0,0.29)",
           "height": "0px",
-          "position": "absolute",
-          "right": "65px",
+          "left": "44px",
+          "position": "relative",
           "transform": "rotate(-134deg)",
           "width": "0px",
           "zIndex": "2",
         }
       }
     />
-    <span
-      data-radium={true}
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-      style={
-        Object {
-          "bottom": "30px",
-          "color": "#FFFFFF",
-          "cursor": "pointer",
-          "fontSize": "12px",
-          "position": "absolute",
-          "right": "10px",
-          "zIndex": "2",
-        }
+  </div>
+  <span
+    data-radium={true}
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+    style={
+      Object {
+        "color": "#FFFFFF",
+        "cursor": "pointer",
+        "fontSize": "12px",
+        "position": "absolute",
+        "right": "10px",
+        "top": "6px",
+        "zIndex": "2",
       }
-    >
-      X
-    </span>
+    }
+  >
+    X
   </span>
   <div
     className="stat-value"
