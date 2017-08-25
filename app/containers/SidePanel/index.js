@@ -26,8 +26,8 @@ import ContactInteractionHistory from 'containers/ContactInteractionHistory';
 
 import {
   selectSidePanelTab,
-  showContactsPanel,
-  hideContactsPanel,
+  showSidePanel,
+  hideSidePanel,
 } from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
@@ -44,16 +44,6 @@ const leftGutterPx = 51;
 const topBarHeightPx = 63;
 
 export class SidePanel extends React.Component {
-  componentWillReceiveProps(nextProps) {
-    if (
-      this.context.toolbarMode &&
-      this.props.selectedInteractionId !== nextProps.selectedInteractionId &&
-      this.getTabsData().length > 0
-    ) {
-      this.props.hideContactsPanel();
-    }
-  }
-
   styles = {
     outerShell: {
       backgroundColor: '#FFFFFF',
@@ -126,9 +116,9 @@ export class SidePanel extends React.Component {
 
   handleCollapseClick = () => {
     if (this.props.isCollapsed) {
-      this.props.showContactsPanel();
+      this.props.showSidePanel(this.props.selectedInteractionId);
     } else {
-      this.props.hideContactsPanel();
+      this.props.hideSidePanel(this.props.selectedInteractionId);
     }
   };
 
@@ -253,8 +243,8 @@ function mapDispatchToProps(dispatch) {
   return {
     selectSidePanelTab: (interactionId, tabName) =>
       dispatch(selectSidePanelTab(interactionId, tabName)),
-    showContactsPanel: () => dispatch(showContactsPanel()),
-    hideContactsPanel: () => dispatch(hideContactsPanel()),
+    showSidePanel: (interactionId) => dispatch(showSidePanel(interactionId)),
+    hideSidePanel: (interactionId) => dispatch(hideSidePanel(interactionId)),
     dispatch,
   };
 }
@@ -262,8 +252,8 @@ function mapDispatchToProps(dispatch) {
 SidePanel.propTypes = {
   isCollapsed: PropTypes.bool,
   style: PropTypes.array,
-  hideContactsPanel: PropTypes.func,
-  showContactsPanel: PropTypes.func,
+  showSidePanel: PropTypes.func,
+  hideSidePanel: PropTypes.func,
   selectedInteractionId: PropTypes.string,
   selectedInteractionIsVoice: PropTypes.bool,
   selectedInteractionScript: PropTypes.object,

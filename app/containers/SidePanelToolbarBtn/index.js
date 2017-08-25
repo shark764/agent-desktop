@@ -17,12 +17,12 @@ import IconCollapse from 'icons/collapse';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import {
-  showContactsPanel,
+  showSidePanel,
   selectSidePanelTab,
 } from 'containers/AgentDesktop/actions';
 
 import {
-  selectIsContactsPanelCollapsed,
+  selectIsSidePanelCollapsed,
   getSelectedInteractionId,
 } from 'containers/AgentDesktop/selectors';
 import {
@@ -53,14 +53,14 @@ const styles = {
 
 export class SidePanelToolbarBtn extends React.Component {
   handleClick = () => {
-    this.props.showContactsPanel();
     this.props.selectSidePanelTab(this.props.selectedInteractionId, 'script');
+    this.props.showSidePanel(this.props.selectedInteractionId);
   };
 
   render() {
     if (
       this.context.toolbarMode &&
-      this.props.isContactsPanelCollapsed &&
+      this.props.isSidePanelCollapsed &&
       this.props.selectedInteractionScript !== undefined &&
       !this.props.selectedInteractionIsScriptOnly
     ) {
@@ -81,7 +81,7 @@ export class SidePanelToolbarBtn extends React.Component {
 
 function mapStateToProps(state, props) {
   return {
-    isContactsPanelCollapsed: selectIsContactsPanelCollapsed(state, props),
+    isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
     selectedInteractionScript: getSelectedInteractionScript(state, props),
     selectedInteractionIsScriptOnly: getSelectedInteractionIsScriptOnly(
       state,
@@ -93,7 +93,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    showContactsPanel: () => dispatch(showContactsPanel()),
+    showSidePanel: (interactionId) => dispatch(showSidePanel(interactionId)),
     selectSidePanelTab: (interactionId, tabName) =>
       dispatch(selectSidePanelTab(interactionId, tabName)),
     dispatch,
@@ -101,11 +101,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 SidePanelToolbarBtn.propTypes = {
-  isContactsPanelCollapsed: PropTypes.bool,
+  isSidePanelCollapsed: PropTypes.bool,
   selectedInteractionScript: PropTypes.object,
   selectedInteractionIsScriptOnly: PropTypes.bool,
   selectedInteractionId: PropTypes.string,
-  showContactsPanel: PropTypes.func,
+  showSidePanel: PropTypes.func,
   selectSidePanelTab: PropTypes.func,
 };
 

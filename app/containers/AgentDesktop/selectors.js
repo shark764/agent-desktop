@@ -47,9 +47,19 @@ const selectNewInteractionContactPanel = createSelector(
   (agentDesktop) => agentDesktop.get('newInteractionPanel').toJS()
 );
 
-const selectSelectedInteraction = createSelector(
-  [selectNewInteractionPanel, selectInteractionsList, getSelectedInteractionId],
-  (newInteractionPanel, interactions, selectedInteractionId) => {
+const getSelectedInteraction = createSelector(
+  [
+    selectNewInteractionPanel,
+    selectInteractionsList,
+    getSelectedInteractionId,
+    selectNoInteractionContactPanel,
+  ],
+  (
+    newInteractionPanel,
+    interactions,
+    selectedInteractionId,
+    noInteractionContactPanel
+  ) => {
     if (selectedInteractionId !== undefined) {
       if (selectedInteractionId === 'creating-new-interaction') {
         return newInteractionPanel.toJS();
@@ -61,15 +71,15 @@ const selectSelectedInteraction = createSelector(
           );
       }
     } else {
-      return undefined;
+      return noInteractionContactPanel;
     }
   }
 );
 
 const selectAwaitingDisposition = createSelector(
-  selectSelectedInteraction,
+  getSelectedInteraction,
   (interaction) =>
-    typeof interaction !== 'undefined' &&
+    interaction !== undefined &&
     interaction.status === 'wrapup' &&
     interaction.dispositionDetails.forceSelect &&
     interaction.dispositionDetails.selected.length === 0
@@ -96,9 +106,9 @@ const selectSmsInteractionNumbers = createSelector(
   }
 );
 
-const selectIsContactsPanelCollapsed = createSelector(
-  selectAgentDesktopMap,
-  (agentDesktop) => agentDesktop.get('isContactsPanelCollapsed')
+const selectIsSidePanelCollapsed = createSelector(
+  getSelectedInteraction,
+  (interaction) => interaction.isSidePanelCollapsed === true
 );
 
 const selectIsInteractionsBarCollapsed = createSelector(
@@ -107,12 +117,12 @@ const selectIsInteractionsBarCollapsed = createSelector(
 );
 
 const selectCustomFields = createSelector(
-  selectSelectedInteraction,
+  getSelectedInteraction,
   (interaction) => interaction.customFields
 );
 
 const selectCustomFieldsCollapsed = createSelector(
-  selectSelectedInteraction,
+  getSelectedInteraction,
   (interaction) => interaction.customFieldsCollapsed
 );
 
@@ -125,13 +135,13 @@ export {
   selectAgentDesktopMap,
   selectNoInteractionContactPanel,
   selectNewInteractionContactPanel,
-  selectSelectedInteraction,
+  getSelectedInteraction,
   selectAwaitingDisposition,
   selectHasVoiceInteraction,
   selectSmsInteractionNumbers,
   selectQueues,
   selectQueuesSet,
-  selectIsContactsPanelCollapsed,
+  selectIsSidePanelCollapsed,
   selectIsInteractionsBarCollapsed,
   selectCustomFields,
   selectCustomFieldsCollapsed,

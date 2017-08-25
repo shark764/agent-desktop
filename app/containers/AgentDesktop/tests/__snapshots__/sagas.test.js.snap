@@ -212,14 +212,15 @@ Object {
 }
 `;
 
-exports[`goAssignContact target is "creating-new-interaction" panel puts showContactsPanel 1`] = `
+exports[`goAssignContact target is "creating-new-interaction" panel puts showSidePanel 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
     "PUT": Object {
       "action": Object {
-        "type": "app/AgentDesktop/SHOW_CONTACTS_PANEL",
+        "interactionId": "creating-new-interaction",
+        "type": "app/AgentDesktop/SHOW_SIDE_PANEL",
       },
       "channel": null,
     },

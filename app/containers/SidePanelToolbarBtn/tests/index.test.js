@@ -17,7 +17,7 @@ describe('<SidePanelToolbarBtn />', () => {
     const rendered = mount(
       <ContextProvider>
         <SidePanelToolbarBtn
-          isContactsPanelCollapsed
+          isSidePanelCollapsed
           selectedInteractionScript={{ testing: 'testing' }}
           selectedInteractionIsScriptOnly={false}
         />
@@ -33,7 +33,7 @@ describe('<SidePanelToolbarBtn />', () => {
     const rendered = mount(
       <ContextProvider>
         <SidePanelToolbarBtn
-          isContactsPanelCollapsed
+          isSidePanelCollapsed
           selectedInteractionScript={{ testing: 'testing' }}
           selectedInteractionIsScriptOnly={false}
         />

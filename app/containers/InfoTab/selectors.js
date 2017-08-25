@@ -3,7 +3,7 @@
  */
 
 import { createSelector } from 'reselect';
-import { getSelectedInteraction as selectCurrentInteraction } from 'containers/SidePanel/selectors';
+import { getSelectedInteraction as selectCurrentInteraction } from 'containers/AgentDesktop/selectors';
 
 /**
  * Direct selector to the infoTab state domain

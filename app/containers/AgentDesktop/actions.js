@@ -86,8 +86,8 @@ import {
   SET_DISPOSITION_DETAILS,
   SELECT_DISPOSITION,
   SHOW_REFRESH_NOTIF,
-  SHOW_CONTACTS_PANEL,
-  HIDE_CONTACTS_PANEL,
+  SHOW_SIDE_PANEL,
+  HIDE_SIDE_PANEL,
   SHOW_INTERACTIONS_BAR,
   HIDE_INTERACTIONS_BAR,
   SET_FORM_IS_DIRTY,
@@ -708,15 +708,17 @@ export function showRefreshRequired(show) {
   };
 }
 
-export function showContactsPanel() {
+export function showSidePanel(interactionId) {
   return {
-    type: SHOW_CONTACTS_PANEL,
+    type: SHOW_SIDE_PANEL,
+    interactionId,
   };
 }
 
-export function hideContactsPanel() {
+export function hideSidePanel(interactionId) {
   return {
-    type: HIDE_CONTACTS_PANEL,
+    type: HIDE_SIDE_PANEL,
+    interactionId,
   };
 }
 

@@ -21,7 +21,7 @@ import {
   deleteContacts,
   selectSidePanelTab,
 } from 'containers/AgentDesktop/actions';
-import { getSelectedInteraction } from 'containers/SidePanel/selectors';
+import { getSelectedInteraction } from 'containers/AgentDesktop/selectors';
 import { mergeContacts, newContact } from 'containers/ContactsControl/actions';
 import {
   selectResults,

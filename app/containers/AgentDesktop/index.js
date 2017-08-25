@@ -31,7 +31,7 @@ import { showInteractionsBar, hideInteractionsBar } from './actions';
 import {
   selectAgentDesktopMap,
   selectLoginMap,
-  selectIsContactsPanelCollapsed,
+  selectIsSidePanelCollapsed,
   selectIsInteractionsBarCollapsed,
 } from './selectors';
 
@@ -39,16 +39,16 @@ export class AgentDesktop extends React.Component {
   constructor(props, context) {
     super(props);
 
-    this.collapsedContactsPanelPx = 52;
+    this.collapsedSidePanelPx = 52;
     if (context.toolbarMode) {
-      this.defaultContactsPanelPx = 350;
+      this.defaultSidePanelPx = 350;
     } else {
-      this.defaultContactsPanelPx = 500;
+      this.defaultSidePanelPx = 500;
     }
 
     this.state = {
-      contactsPanelPx: this.defaultContactsPanelPx,
-      contactsPanelMaxPx: context.toolbarMode ? 400 : window.innerWidth / 2,
+      sidePanelPx: this.defaultSidePanelPx,
+      sidePanelMaxPx: context.toolbarMode ? 400 : window.innerWidth / 2,
     };
   }
 
@@ -66,14 +66,14 @@ export class AgentDesktop extends React.Component {
     const width =
       window.innerWidth || documentElement.clientWidth || body.clientWidth;
     this.setState({
-      contactsPanelPx: this.defaultContactsPanelPx,
-      contactsPanelMaxPx: this.context.toolbarMode ? 400 : width / 2,
+      sidePanelPx: this.defaultSidePanelPx,
+      sidePanelMaxPx: this.context.toolbarMode ? 400 : width / 2,
     });
   };
 
-  setContactsPanelWidth = (newWidth) => {
+  setSidePanelWidth = (newWidth) => {
     this.setState({
-      contactsPanelPx: newWidth,
+      sidePanelPx: newWidth,
     });
   };
 
@@ -183,14 +183,14 @@ export class AgentDesktop extends React.Component {
               <Resizable
                 id="crm-resizable"
                 direction="left"
-                setPx={this.setContactsPanelWidth}
-                disabledPx={this.collapsedContactsPanelPx}
-                px={this.state.contactsPanelPx}
-                maxPx={this.state.contactsPanelMaxPx}
+                setPx={this.setSidePanelWidth}
+                disabledPx={this.collapsedSidePanelPx}
+                px={this.state.sidePanelPx}
+                maxPx={this.state.sidePanelMaxPx}
                 minPx={300}
-                isDisabled={this.props.isContactsPanelCollapsed}
+                isDisabled={this.props.isSidePanelCollapsed}
               >
-                <SidePanel isCollapsed={this.props.isContactsPanelCollapsed} />
+                <SidePanel isCollapsed={this.props.isSidePanelCollapsed} />
               </Resizable>
             </div>
           </div>
@@ -207,7 +207,7 @@ export class AgentDesktop extends React.Component {
 const mapStateToProps = (state, props) => ({
   login: selectLoginMap(state, props).toJS(),
   agentDesktop: selectAgentDesktopMap(state, props).toJS(),
-  isContactsPanelCollapsed: selectIsContactsPanelCollapsed(state, props),
+  isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
   isInteractionsBarCollapsed: selectIsInteractionsBarCollapsed(state, props),
   showCollapseButton: selectShowCollapseButton(state, props),
 });
@@ -222,7 +222,7 @@ function mapDispatchToProps(dispatch) {
 
 AgentDesktop.propTypes = {
   login: PropTypes.object,
-  isContactsPanelCollapsed: PropTypes.bool.isRequired,
+  isSidePanelCollapsed: PropTypes.bool.isRequired,
   isInteractionsBarCollapsed: PropTypes.bool.isRequired,
   showInteractionsBar: PropTypes.func.isRequired,
   hideInteractionsBar: PropTypes.func.isRequired,

@@ -22,7 +22,7 @@ import ErrorBoundary from 'components/ErrorBoundary';
 import {
   openNewInteractionPanel,
   setInteractionStatus,
-  showContactsPanel,
+  showSidePanel,
   selectSidePanelTab,
   selectInteraction,
 } from 'containers/AgentDesktop/actions';
@@ -88,7 +88,6 @@ export class InteractionsBar extends React.Component {
 
   selectInteraction = (interactionId) => {
     this.props.selectInteraction(interactionId);
-    this.props.showContactsPanel();
   };
 
   acceptInteraction = (interactionId) => {
@@ -102,7 +101,7 @@ export class InteractionsBar extends React.Component {
       (interaction.channelType !== 'voice' || this.context.toolbarMode)
     ) {
       this.props.selectSidePanelTab(interactionId, 'script');
-      this.props.showContactsPanel();
+      this.props.showSidePanel(interactionId);
     }
     CxEngage.interactions.accept({ interactionId });
   };
@@ -605,7 +604,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(selectSidePanelTab(interactionId, tabName)),
     selectInteraction: (interactionId) =>
       dispatch(selectInteraction(interactionId)),
-    showContactsPanel: () => dispatch(showContactsPanel()),
+    showSidePanel: (interactionId) => dispatch(showSidePanel(interactionId)),
     dispatch,
   };
 }
@@ -621,7 +620,7 @@ InteractionsBar.propTypes = {
   selectSidePanelTab: PropTypes.func.isRequired,
   selectedInteractionId: PropTypes.string,
   setInteractionStatus: PropTypes.func.isRequired,
-  showContactsPanel: PropTypes.func.isRequired,
+  showSidePanel: PropTypes.func.isRequired,
   newInteractionPanel: PropTypes.object.isRequired,
   openNewInteractionPanel: PropTypes.func.isRequired,
   isInteractionsBarCollapsed: PropTypes.bool.isRequired,
