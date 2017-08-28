@@ -17,6 +17,7 @@ import ErrorBoundary from 'components/ErrorBoundary';
 
 import Icon from 'components/Icon';
 
+import { selectIsSidePanelCollapsed } from 'containers/AgentDesktop/selectors';
 import { deactivateToolbarStat } from 'containers/Toolbar/actions';
 import { selectToolbarStats } from 'containers/Toolbar/selectors';
 
@@ -85,7 +86,11 @@ export class AgentStats extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.toolbarStats.length !== this.props.toolbarStats.length) {
+    if (
+      prevProps.toolbarStats.length !== this.props.toolbarStats.length ||
+      (this.context.toolbarMode &&
+        prevProps.isSidePanelCollapsed !== this.props.isSidePanelCollapsed)
+    ) {
       if (prevProps.toolbarStats.length < this.props.toolbarStats.length) {
         // Scroll to the left to see newly added stat
         this.statsScrollContainer.scrollLeft = 0;
@@ -254,6 +259,7 @@ function mapStateToProps(state, props) {
   return {
     toolbarStats: selectToolbarStats(state, props),
     availableStats: selectAvailableStats(state, props),
+    isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
   };
 }
 
@@ -267,9 +273,14 @@ function mapDispatchToProps(dispatch) {
 AgentStats.propTypes = {
   toolbarStats: PropTypes.array,
   availableStats: PropTypes.object,
+  isSidePanelCollapsed: PropTypes.bool,
   queues: PropTypes.array,
   deactivateToolbarStat: PropTypes.func.isRequired,
   readyState: PropTypes.string.isRequired,
+};
+
+AgentStats.contextTypes = {
+  toolbarMode: PropTypes.bool,
 };
 
 export default ErrorBoundary(

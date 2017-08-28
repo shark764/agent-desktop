@@ -25,7 +25,6 @@ const styles = {
     height: '54px',
     paddingTop: '13px',
     position: 'relative',
-    overflowX: 'hidden',
   },
   statBoxHover: {
     boxShadow: 'inset 0 0 6px 1px rgba(0,0,0,0.34)',
@@ -51,14 +50,11 @@ const styles = {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
   },
-  loading: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
   loadingIcon: {
     position: 'relative',
     top: '-5px',
     height: '15px',
+    width: '15px',
   },
   hoverElement: {
     position: 'absolute',
@@ -83,7 +79,8 @@ const styles = {
     position: 'relative',
     zIndex: '2',
     bottom: '-9px',
-    width: '104px',
+    left: '3px',
+    width: '98px',
     borderRadius: '8px',
     padding: '10px 13px',
     backgroundColor: '#FFFFFF',
@@ -214,7 +211,7 @@ export class Stat extends React.Component {
         <div className="stat-value" style={styles.statValue}>
           {this.props.stat.results || this.props.stat.isErrored
             ? <StatValue stat={this.props.stat} />
-            : <div id="loadingContainer" style={styles.loading}>
+            : <div id="loadingContainer">
               <IconSVG
                 style={styles.loadingIcon}
                 id="loadingIcon"
