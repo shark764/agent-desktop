@@ -13,7 +13,6 @@ exports[`<Stat /> should render correctly 1`] = `
       "height": "54px",
       "maxWidth": "104px",
       "minWidth": "104px",
-      "overflowX": "hidden",
       "paddingTop": "13px",
       "position": "relative",
       "width": "104px",
@@ -35,14 +34,7 @@ exports[`<Stat /> should render correctly 1`] = `
     }
   >
     <div
-      data-radium={true}
       id="loadingContainer"
-      style={
-        Object {
-          "display": "flex",
-          "justifyContent": "center",
-        }
-      }
     >
       <IconSVG
         id="loadingIcon"
@@ -52,6 +44,7 @@ exports[`<Stat /> should render correctly 1`] = `
             "height": "15px",
             "position": "relative",
             "top": "-5px",
+            "width": "15px",
           }
         }
       />
@@ -95,7 +88,6 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
       "height": "54px",
       "maxWidth": "104px",
       "minWidth": "104px",
-      "overflowX": "hidden",
       "paddingTop": "13px",
       "position": "relative",
       "width": "104px",
@@ -120,10 +112,11 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
           "borderRadius": "8px",
           "bottom": "-9px",
           "boxShadow": "0 0 6px 1px rgba(0,0,0,0.29)",
+          "left": "3px",
           "overflowWrap": "break-word",
           "padding": "10px 13px",
           "position": "relative",
-          "width": "104px",
+          "width": "98px",
           "wordWrap": "break-word",
           "zIndex": "2",
         }
@@ -244,14 +237,7 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
     }
   >
     <div
-      data-radium={true}
       id="loadingContainer"
-      style={
-        Object {
-          "display": "flex",
-          "justifyContent": "center",
-        }
-      }
     >
       <IconSVG
         id="loadingIcon"
@@ -261,6 +247,7 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
             "height": "15px",
             "position": "relative",
             "top": "-5px",
+            "width": "15px",
           }
         }
       />
