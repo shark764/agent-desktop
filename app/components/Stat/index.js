@@ -25,6 +25,7 @@ const styles = {
     height: '54px',
     paddingTop: '13px',
     position: 'relative',
+    overflowX: 'hidden',
   },
   statBoxHover: {
     boxShadow: 'inset 0 0 6px 1px rgba(0,0,0,0.34)',

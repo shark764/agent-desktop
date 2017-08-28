@@ -48,7 +48,7 @@ const styles = {
     position: 'relative',
     order: '0',
     flex: '0 1 auto',
-    width: '200px',
+    width: '192px',
     height: '54px',
   },
   statusButton: {
