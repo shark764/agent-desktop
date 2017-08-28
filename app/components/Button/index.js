@@ -11,7 +11,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import Icon from 'components/Icon';
 
@@ -143,7 +143,7 @@ const styles = {
   },
 };
 
-class Button extends React.Component {
+export class Button extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -175,6 +175,14 @@ class Button extends React.Component {
       inner = <FormattedMessage {...this.props.mouseOverText} />;
     }
 
+    let title = this.props.title;
+    if (
+      typeof this.props.title === 'object' &&
+      Object.prototype.hasOwnProperty.call(this.props.title, 'id')
+    ) {
+      title = this.props.intl.formatMessage(this.props.title);
+    }
+
     return (
       <button
         id={this.props.id}
@@ -193,7 +201,7 @@ class Button extends React.Component {
         disabled={this.props.disabled}
         onMouseEnter={() => this.setState({ mouseOver: true })}
         onMouseLeave={() => this.setState({ mouseOver: false })}
-        title={this.props.title}
+        title={title}
       >
         {inner}
       </button>
@@ -202,6 +210,7 @@ class Button extends React.Component {
 }
 
 Button.propTypes = {
+  intl: intlShape,
   text: PropTypes.any,
   mouseOverText: PropTypes.object,
   iconName: PropTypes.string,
@@ -214,11 +223,11 @@ Button.propTypes = {
   onClick: PropTypes.func,
   id: PropTypes.string.isRequired,
   hasSubButtons: PropTypes.bool,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 Button.defaultProps = {
   tabIndex: 0,
 };
 
-export default Radium(Button);
+export default injectIntl(Radium(Button));

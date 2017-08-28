@@ -23,6 +23,7 @@ import {
   OPEN_NEW_INTERACTION_PANEL,
   NEW_INTERACTION_PANEL_SELECT_CONTACT,
   CLOSE_NEW_INTERACTION_PANEL,
+  SET_NEW_INTERACTION_PANEL_FORM_INPUT,
   START_OUTBOUND_INTERACTION,
   CANCEL_CLICK_TO_DIAL,
   SET_IS_CANCELLING_INTERACTION,
@@ -183,9 +184,10 @@ export function goNotReady(reason, listId) {
   };
 }
 
-export function openNewInteractionPanel() {
+export function openNewInteractionPanel(isSidePanelCollapsed) {
   return {
     type: OPEN_NEW_INTERACTION_PANEL,
+    isSidePanelCollapsed,
   };
 }
 
@@ -199,6 +201,13 @@ export function newInteractionPanelSelectContact(contact) {
 export function closeNewInteractionPanel() {
   return {
     type: CLOSE_NEW_INTERACTION_PANEL,
+  };
+}
+
+export function setNewInteractionPanelFormInput(input) {
+  return {
+    type: SET_NEW_INTERACTION_PANEL_FORM_INPUT,
+    input,
   };
 }
 

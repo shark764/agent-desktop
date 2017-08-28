@@ -44,7 +44,7 @@ exports[`<MenuDialogLink /> when A is clicked on should render correctly 1`] = `
           }
         }
       >
-        <Button
+        <InjectIntl(Button)
           id="menuOption-0"
           onClick={[Function]}
           style={
@@ -61,7 +61,6 @@ exports[`<MenuDialogLink /> when A is clicked on should render correctly 1`] = `
               Object {},
             ]
           }
-          tabIndex={0}
           text={
             Object {
               "defaultMessage": "Testing",
@@ -120,7 +119,7 @@ exports[`<MenuDialogLink /> when dialog not active should render correctly 1`] =
           }
         }
       >
-        <Button
+        <InjectIntl(Button)
           id="menuOption-0"
           onClick={[Function]}
           style={
@@ -137,7 +136,6 @@ exports[`<MenuDialogLink /> when dialog not active should render correctly 1`] =
               Object {},
             ]
           }
-          tabIndex={0}
           text={
             Object {
               "defaultMessage": "Testing",

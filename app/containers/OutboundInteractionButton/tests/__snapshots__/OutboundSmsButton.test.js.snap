@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<OutboundSmsButton /> should be disabled when phone number is in existing sms interactions 1`] = `
+<Connect(ErrorBoundaryComponent)
+  channelType="sms"
+  endpoint="+15064701234"
+  isEnabled={false}
+  title={
+    Object {
+      "defaultMessage": "SMS number is used in existing interaction",
+      "id": "app.containers.OutboundInteractionButtons.numberInUse",
+    }
+  }
+/>
+`;
+
+exports[`<OutboundSmsButton /> should be disabled with invalid phone number 1`] = `
+<Connect(ErrorBoundaryComponent)
+  channelType="sms"
+  endpoint="invalid"
+  isEnabled={false}
+  title={
+    Object {
+      "defaultMessage": "Enter a valid phone number",
+      "id": "app.containers.OutboundInteractionButtons.enterValidPhone",
+    }
+  }
+/>
+`;
+
+exports[`<OutboundSmsButton /> should be enabled with valid phone number and phone number not in existing sms interactions 1`] = `
+<Connect(ErrorBoundaryComponent)
+  channelType="sms"
+  endpoint="+15064702497"
+  isEnabled={true}
+  title="+15064702497"
+/>
+`;

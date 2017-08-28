@@ -32,6 +32,7 @@ import {
   OPEN_NEW_INTERACTION_PANEL,
   NEW_INTERACTION_PANEL_SELECT_CONTACT,
   CLOSE_NEW_INTERACTION_PANEL,
+  SET_NEW_INTERACTION_PANEL_FORM_INPUT,
   START_OUTBOUND_INTERACTION,
   INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
   ADD_INTERACTION,
@@ -116,6 +117,8 @@ const blankNewInteractionPanel = {
   query: {},
   activeContactForm: activeContactFormBlank,
   contact: {},
+  // newInteractionFormInput is used for creating new interactions when the crm is disabled
+  newInteractionFormInput: '',
 };
 
 const initialState = fromJS({
@@ -603,7 +606,11 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case OPEN_NEW_INTERACTION_PANEL: {
       return state
-        .setIn(['newInteractionPanel', 'visible'], true)
+        .update('newInteractionPanel', (newInteractionPanel) =>
+          newInteractionPanel
+            .set('visible', true)
+            .set('isSidePanelCollapsed', action.isSidePanelCollapsed === true)
+        )
         .set(
           'selectedInteractionId',
           state.getIn(['newInteractionPanel', 'interactionId'])
@@ -644,6 +651,12 @@ function agentDesktopReducer(state = initialState, action) {
       return state
         .set('newInteractionPanel', fromJS(blankNewInteractionPanel))
         .set('selectedInteractionId', nextSelectedInteractionId);
+    }
+    case SET_NEW_INTERACTION_PANEL_FORM_INPUT: {
+      return state.setIn(
+        ['newInteractionPanel', 'newInteractionFormInput'],
+        action.input
+      );
     }
     case START_OUTBOUND_INTERACTION: {
       const outboundInteraction = new Map(

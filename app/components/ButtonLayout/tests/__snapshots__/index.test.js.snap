@@ -13,7 +13,7 @@ exports[`<ButtonLayout /> when only passed button config data and IS NOT set to 
       }
     }
   >
-    <Button
+    <InjectIntl(Button)
       disabled={false}
       id="test-id-1"
       onClick={[Function]}
@@ -22,7 +22,6 @@ exports[`<ButtonLayout /> when only passed button config data and IS NOT set to 
           "marginRight": "8px",
         }
       }
-      tabIndex={0}
       text={
         Object {
           "defaultMessage": "Send",
@@ -41,7 +40,7 @@ exports[`<ButtonLayout /> when only passed button config data and IS NOT set to 
       }
     }
   >
-    <Button
+    <InjectIntl(Button)
       disabled={false}
       id="test-id-2"
       isMainBtn={true}
@@ -51,7 +50,6 @@ exports[`<ButtonLayout /> when only passed button config data and IS NOT set to 
           "marginRight": "8px",
         }
       }
-      tabIndex={0}
       text={
         Object {
           "defaultMessage": "Send",

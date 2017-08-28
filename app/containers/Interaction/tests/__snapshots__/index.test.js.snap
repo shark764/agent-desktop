@@ -52,21 +52,15 @@ exports[`<Interaction /> should render correctly 1`] = `
   </div>
   <div
     style={
-      Array [
-        Object {
-          "display": "flex",
-          "flexDirection": "column",
-          "flexGrow": 1,
-          "marginLeft": "8px",
-          "maxWidth": "230px",
-          "pending": Object {
-            "maxWidth": "210px",
-          },
-        },
-        Object {
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+        "flexGrow": 1,
+        "maxWidth": "230px",
+        "pending": Object {
           "maxWidth": "210px",
         },
-      ]
+      }
     }
   >
     <div

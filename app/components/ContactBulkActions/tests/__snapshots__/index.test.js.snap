@@ -14,9 +14,8 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
   }
 >
   <div>
-    <Button
+    <InjectIntl(Button)
       id="createNewRecord"
-      tabIndex={0}
       text={
         Object {
           "defaultMessage": "New Record",
@@ -90,7 +89,7 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
           }
         }
       />
-      <Button
+      <InjectIntl(Button)
         id="delete-btn"
         onClick={[Function]}
         style={
@@ -98,7 +97,6 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
             "marginLeft": "10px",
           }
         }
-        tabIndex={0}
         text={
           Object {
             "defaultMessage": "Delete",
@@ -137,14 +135,13 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
     runOnMount={false}
   >
     <div>
-      <Button
+      <InjectIntl(Button)
         id="merge"
         style={
           Object {
             "marginLeft": "10px",
           }
         }
-        tabIndex={0}
         text={
           Object {
             "defaultMessage": "Merge",

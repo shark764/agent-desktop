@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ButtonDialpad /> with type bottom should render correctly 1`] = `
-<Button
+<InjectIntl(Button)
   id="mockId"
   onClick={[Function]}
   style={
@@ -22,14 +22,13 @@ exports[`<ButtonDialpad /> with type bottom should render correctly 1`] = `
       false,
     ]
   }
-  tabIndex={0}
   text="mockText"
   type="secondary"
 />
 `;
 
 exports[`<ButtonDialpad /> with type bottomLeft should render correctly 1`] = `
-<Button
+<InjectIntl(Button)
   id="mockId"
   onClick={[Function]}
   style={
@@ -54,14 +53,13 @@ exports[`<ButtonDialpad /> with type bottomLeft should render correctly 1`] = `
       },
     ]
   }
-  tabIndex={0}
   text="mockText"
   type="secondary"
 />
 `;
 
 exports[`<ButtonDialpad /> with type bottomRight should render correctly 1`] = `
-<Button
+<InjectIntl(Button)
   id="mockId"
   onClick={[Function]}
   style={
@@ -84,14 +82,13 @@ exports[`<ButtonDialpad /> with type bottomRight should render correctly 1`] = `
       false,
     ]
   }
-  tabIndex={0}
   text="mockText"
   type="secondary"
 />
 `;
 
 exports[`<ButtonDialpad /> with type left should render correctly 1`] = `
-<Button
+<InjectIntl(Button)
   id="mockId"
   onClick={[Function]}
   style={
@@ -114,14 +111,13 @@ exports[`<ButtonDialpad /> with type left should render correctly 1`] = `
       false,
     ]
   }
-  tabIndex={0}
   text="mockText"
   type="secondary"
 />
 `;
 
 exports[`<ButtonDialpad /> with type middle should render correctly 1`] = `
-<Button
+<InjectIntl(Button)
   id="mockId"
   onClick={[Function]}
   style={
@@ -142,14 +138,13 @@ exports[`<ButtonDialpad /> with type middle should render correctly 1`] = `
       false,
     ]
   }
-  tabIndex={0}
   text="mockText"
   type="secondary"
 />
 `;
 
 exports[`<ButtonDialpad /> with type right should render correctly 1`] = `
-<Button
+<InjectIntl(Button)
   id="mockId"
   onClick={[Function]}
   style={
@@ -170,14 +165,13 @@ exports[`<ButtonDialpad /> with type right should render correctly 1`] = `
       false,
     ]
   }
-  tabIndex={0}
   text="mockText"
   type="secondary"
 />
 `;
 
 exports[`<ButtonDialpad /> with type top should render correctly 1`] = `
-<Button
+<InjectIntl(Button)
   id="mockId"
   onClick={[Function]}
   style={
@@ -202,14 +196,13 @@ exports[`<ButtonDialpad /> with type top should render correctly 1`] = `
       false,
     ]
   }
-  tabIndex={0}
   text="mockText"
   type="secondary"
 />
 `;
 
 exports[`<ButtonDialpad /> with type topLeft should render correctly 1`] = `
-<Button
+<InjectIntl(Button)
   id="mockId"
   onClick={[Function]}
   style={
@@ -236,14 +229,13 @@ exports[`<ButtonDialpad /> with type topLeft should render correctly 1`] = `
       },
     ]
   }
-  tabIndex={0}
   text="mockText"
   type="secondary"
 />
 `;
 
 exports[`<ButtonDialpad /> with type topRight should render correctly 1`] = `
-<Button
+<InjectIntl(Button)
   id="mockId"
   onClick={[Function]}
   style={
@@ -268,7 +260,6 @@ exports[`<ButtonDialpad /> with type topRight should render correctly 1`] = `
       false,
     ]
   }
-  tabIndex={0}
   text="mockText"
   type="secondary"
 />

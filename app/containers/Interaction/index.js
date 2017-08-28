@@ -69,7 +69,6 @@ const styles = {
     backgroundColor: '#0B424E',
   },
   mainContainer: {
-    marginLeft: '8px',
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
@@ -366,6 +365,18 @@ export class Interaction extends React.Component {
       </p>
     </Dotdotdot>);
 
+  getLabel = () => {
+    if (this.props.status === 'creating-new-interaction') {
+      if (this.context.toolbarMode) {
+        return <Icon name="add_interaction" />;
+      } else {
+        return <FormattedMessage {...messages.newInteraction} />;
+      }
+    } else {
+      return <FormattedMessage {...messages.script} />;
+    }
+  };
+
   cancelInteraction = (e) => {
     // adding this to prevent other events from bubbling up - namely the
     // event to start the interaction which sits on the same div as the button
@@ -403,17 +414,10 @@ export class Interaction extends React.Component {
           disabled={this.props.selected}
         >
           <div style={styles.iconContainer} />
-          <div
-            style={[
-              styles.mainContainer,
-              styles.mainContainer[this.props.status],
-            ]}
-          >
+          <div style={[styles.mainContainer, { marginLeft: 0 }]}>
             <div style={styles.headerContainer}>
               <div style={styles.from}>
-                {this.props.status === 'creating-new-interaction'
-                  ? <FormattedMessage {...messages.newInteraction} />
-                  : <FormattedMessage {...messages.script} />}
+                {this.getLabel()}
               </div>
             </div>
           </div>
@@ -477,12 +481,7 @@ export class Interaction extends React.Component {
               {this.getTimer()}
             </div>}
           {!this.context.toolbarMode &&
-            <div
-              style={[
-                styles.mainContainer,
-                styles.mainContainer[this.props.status],
-              ]}
-            >
+            <div style={styles.mainContainer}>
               <div style={styles.headerContainer}>
                 <div style={styles.from}>
                   {this.props.from}

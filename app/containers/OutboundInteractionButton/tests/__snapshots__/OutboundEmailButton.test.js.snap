@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<OutboundEmailButton /> should be disabled when email is in existing email interactions 1`] = `
+<Connect(ErrorBoundaryComponent)
+  channelType="email"
+  endpoint="test@serenova.com"
+  isEnabled={false}
+  title={
+    Object {
+      "defaultMessage": "Email is used in existing interaction",
+      "id": "app.containers.OutboundInteractionButtons.emailInUse",
+    }
+  }
+/>
+`;
+
+exports[`<OutboundEmailButton /> should be disabled with invalid email 1`] = `
+<Connect(ErrorBoundaryComponent)
+  channelType="email"
+  endpoint="invalid"
+  isEnabled={false}
+  title={
+    Object {
+      "defaultMessage": "Enter a valid email",
+      "id": "app.containers.OutboundInteractionButtons.enterValidEmail",
+    }
+  }
+/>
+`;
+
+exports[`<OutboundEmailButton /> should be enabled with valid email and email not in existing email interactions 1`] = `
+<Connect(ErrorBoundaryComponent)
+  channelType="email"
+  endpoint="test@serenova.com"
+  isEnabled={true}
+  title="test@serenova.com"
+/>
+`;

@@ -27,7 +27,7 @@ const getSelectedInteractionId = createSelector(
 );
 const selectNewInteractionPanel = createSelector(
   selectAgentDesktopMap,
-  (agentDesktop) => agentDesktop.get('newInteractionPanel')
+  (agentDesktop) => agentDesktop.get('newInteractionPanel').toJS()
 );
 const selectQueues = createSelector(selectAgentDesktopMap, (agentDesktop) =>
   agentDesktop.get('queues').toJS()
@@ -40,11 +40,6 @@ const selectQueuesSet = createSelector(selectAgentDesktopMap, (agentDesktop) =>
 const selectNoInteractionContactPanel = createSelector(
   selectAgentDesktopMap,
   (agentDesktop) => agentDesktop.get('noInteractionContactPanel').toJS()
-);
-
-const selectNewInteractionContactPanel = createSelector(
-  selectAgentDesktopMap,
-  (agentDesktop) => agentDesktop.get('newInteractionPanel').toJS()
 );
 
 const getSelectedInteraction = createSelector(
@@ -62,7 +57,7 @@ const getSelectedInteraction = createSelector(
   ) => {
     if (selectedInteractionId !== undefined) {
       if (selectedInteractionId === 'creating-new-interaction') {
-        return newInteractionPanel.toJS();
+        return newInteractionPanel;
       } else {
         return interactions
           .toJS()
@@ -106,6 +101,19 @@ const selectSmsInteractionNumbers = createSelector(
   }
 );
 
+const selectInteractionEmails = createSelector(
+  selectInteractionsList,
+  (interactions) => {
+    const interactionEmails = [];
+    interactions.forEach((interaction) => {
+      if (interaction.get('channelType') === 'email') {
+        interactionEmails.push(interaction.get('customer'));
+      }
+    });
+    return interactionEmails;
+  }
+);
+
 const selectIsSidePanelCollapsed = createSelector(
   getSelectedInteraction,
   (interaction) => interaction.isSidePanelCollapsed === true
@@ -134,11 +142,12 @@ export {
   selectLoginMap,
   selectAgentDesktopMap,
   selectNoInteractionContactPanel,
-  selectNewInteractionContactPanel,
+  selectNewInteractionPanel,
   getSelectedInteraction,
   selectAwaitingDisposition,
   selectHasVoiceInteraction,
   selectSmsInteractionNumbers,
+  selectInteractionEmails,
   selectQueues,
   selectQueuesSet,
   selectIsSidePanelCollapsed,

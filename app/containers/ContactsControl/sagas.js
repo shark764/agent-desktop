@@ -29,7 +29,7 @@ import {
 import {
   selectInteractionsList,
   selectNoInteractionContactPanel,
-  selectNewInteractionContactPanel,
+  selectNewInteractionPanel,
 } from 'containers/AgentDesktop/selectors';
 import {
   addContactNotification as addContactNotificationAction,
@@ -51,7 +51,7 @@ export function* getInteraction(interactionId) {
   if (!interactionId) {
     interaction = yield select(selectNoInteractionContactPanel);
   } else if (interactionId === 'creating-new-interaction') {
-    interaction = yield select(selectNewInteractionContactPanel);
+    interaction = yield select(selectNewInteractionPanel);
   } else {
     const interactionsList = yield select(selectInteractionsList);
     const interactionMap = interactionsList.find(

@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<OutboundCallButton /> should be disabled when there is a voice interaction 1`] = `
+<Connect(ErrorBoundaryComponent)
+  channelType="voice"
+  endpoint="+15064702497"
+  isEnabled={false}
+  title={
+    Object {
+      "defaultMessage": "A voice interaction already exists",
+      "id": "app.containers.OutboundInteractionButtons.voiceInteractionAlreadyExists",
+    }
+  }
+/>
+`;
+
+exports[`<OutboundCallButton /> should be disabled with invalid phone number 1`] = `
+<Connect(ErrorBoundaryComponent)
+  channelType="voice"
+  endpoint="invalid"
+  isEnabled={false}
+  title={
+    Object {
+      "defaultMessage": "Enter a valid phone number",
+      "id": "app.containers.OutboundInteractionButtons.enterValidPhone",
+    }
+  }
+/>
+`;
+
+exports[`<OutboundCallButton /> should be enabled with valid phone number and no voice interaction 1`] = `
+<Connect(ErrorBoundaryComponent)
+  channelType="voice"
+  endpoint="+15064702497"
+  isEnabled={true}
+  title="+15064702497"
+/>
+`;

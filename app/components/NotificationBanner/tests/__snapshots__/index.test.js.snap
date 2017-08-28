@@ -46,7 +46,7 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
   >
     mock message
   </div>
-  <Button
+  <InjectIntl(Button)
     clear={true}
     iconName="close"
     id="mockId-dismiss-btn"
@@ -61,7 +61,6 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
         "padding": "0 0 0 4px",
       }
     }
-    tabIndex={0}
   />
 </div>
 `;

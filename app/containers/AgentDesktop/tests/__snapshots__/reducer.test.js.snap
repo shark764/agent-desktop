@@ -587,6 +587,14 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer SET_NEW_INTERACTION_PANEL_FORM_INPUT sets the input in newInteractionPanel 1`] = `
+Immutable.Map {
+  newInteractionPanel: Immutable.Map {
+    newInteractionFormInput: "new input",
+  },
+}
+`;
+
 exports[`agentDesktopReducer START_OUTBOUND_INTERACTION adds a new outbound interaction with a generated interactionId, channelType, customer, and contact 1`] = `
 Immutable.Map {
   interactions: Immutable.List [
@@ -763,6 +771,7 @@ Immutable.Map {
     visible: false,
     status: "creating-new-interaction",
     isSidePanelCollapsed: false,
+    newInteractionFormInput: "",
     activeContactForm: Immutable.Map {
       contactForm: Immutable.Map {
       },

@@ -18,14 +18,6 @@ export default defineMessages({
     id: 'app.containers.ContactsSearch.noRecords',
     defaultMessage: 'No records found',
   },
-  call: {
-    id: 'app.containers.ContactsSearch.call',
-    defaultMessage: 'CALL',
-  },
-  sms: {
-    id: 'app.containers.ContactsSearch.sms',
-    defaultMessage: 'SMS',
-  },
   createRecord: {
     id: 'app.containers.ContactsSearch.createRecord',
     defaultMessage: 'Create New Record',
