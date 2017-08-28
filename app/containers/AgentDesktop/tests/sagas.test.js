@@ -271,7 +271,7 @@ describe('goAssignContact', () => {
     it('puts newInteractionPanelSelectContact', () => {
       expect(generator.next()).toMatchSnapshot();
     });
-    it('puts showContactsPanel', () => {
+    it('puts showSidePanel', () => {
       expect(generator.next()).toMatchSnapshot();
     });
     it('calls loadContactInteractions with the contact id', () => {

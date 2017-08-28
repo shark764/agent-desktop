@@ -75,8 +75,8 @@ import {
   removeScript,
   selectInteraction,
   selectSidePanelTab,
-  showContactsPanel,
-  hideContactsPanel,
+  showSidePanel,
+  hideSidePanel,
   setCustomFields,
   setEmailPlainBody,
   setEmailHtmlBody,
@@ -106,7 +106,7 @@ import {
 import {
   selectAgentDesktopMap,
   selectLoginMap,
-  selectIsContactsPanelCollapsed,
+  selectIsSidePanelCollapsed,
 } from 'containers/AgentDesktop/selectors';
 
 import { version as release } from '../../../package.json';
@@ -437,6 +437,9 @@ export class App extends React.Component {
           }
           case 'cxengage/interactions/work-accepted-received': {
             this.props.workAccepted(response.interactionId, response);
+            if (!this.context.toolbarMode) {
+              this.props.showSidePanel(response.interactionId);
+            }
             break;
           }
           case 'cxengage/interactions/custom-fields-received': {
@@ -476,11 +479,11 @@ export class App extends React.Component {
                 availableInteraction.interactionId === response.interactionId
             );
             if (
-              interaction.channelType !== 'voice' ||
-              this.context.toolbarMode
+              !interaction.isScriptOnly &&
+              (interaction.channelType !== 'voice' || this.context.toolbarMode)
             ) {
               this.props.selectSidePanelTab(response.interactionId, 'script');
-              this.props.showContactsPanel();
+              this.props.showSidePanel(interaction.interactionId);
             }
             break;
           }
@@ -494,7 +497,7 @@ export class App extends React.Component {
                 this.props.selectSidePanelTab(response, 'info');
               }
             } else {
-              this.props.hideContactsPanel();
+              this.props.hideSidePanel(interaction.interactionId);
             }
             this.props.removeScript(response);
             break;
@@ -814,7 +817,7 @@ export class App extends React.Component {
       (interaction.channelType !== 'voice' || this.context.toolbarMode)
     ) {
       this.props.selectSidePanelTab(interactionId, 'script');
-      this.props.showContactsPanel();
+      this.props.showSidePanel(interactionId);
     }
     CxEngage.interactions.accept({ interactionId });
   };
@@ -955,7 +958,7 @@ const mapStateToProps = (state, props) => ({
   activatedStatIds: selectActivatedStatIds(state, props).toJS(),
   erroredStatIds: selectErroredStatIds(state, props),
   nonCriticalError: selectNonCriticalError(state, props),
-  isSidePanelCollapsed: selectIsContactsPanelCollapsed(state, props),
+  isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -1046,8 +1049,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(selectDisposition(interactionId, disposition)),
     selectSidePanelTab: (interactionId, tabName) =>
       dispatch(selectSidePanelTab(interactionId, tabName)),
-    showContactsPanel: () => dispatch(showContactsPanel()),
-    hideContactsPanel: () => dispatch(hideContactsPanel()),
+    showSidePanel: (interactionId) => dispatch(showSidePanel(interactionId)),
+    hideSidePanel: (interactionId) => dispatch(hideSidePanel(interactionId)),
     logout: () => dispatch(logout()),
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
@@ -1112,8 +1115,8 @@ App.propTypes = {
   setDispositionDetails: PropTypes.func.isRequired,
   selectDisposition: PropTypes.func.isRequired,
   selectSidePanelTab: PropTypes.func.isRequired,
-  showContactsPanel: PropTypes.func.isRequired,
-  hideContactsPanel: PropTypes.func.isRequired,
+  showSidePanel: PropTypes.func.isRequired,
+  hideSidePanel: PropTypes.func.isRequired,
   initializeStats: PropTypes.func.isRequired,
   showRefreshRequired: PropTypes.func.isRequired,
   toggleAgentMenu: PropTypes.func.isRequired,

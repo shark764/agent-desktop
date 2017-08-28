@@ -22,8 +22,7 @@ import ContactMerge from 'containers/ContactMerge';
 import ContactSearch from 'containers/ContactSearch';
 import ContactView from 'containers/ContactView';
 
-import { showContactsPanel } from 'containers/AgentDesktop/actions';
-import { selectIsContactsPanelCollapsed } from 'containers/AgentDesktop/selectors';
+import { selectIsSidePanelCollapsed } from 'containers/AgentDesktop/selectors';
 import selectInfoTab, {
   selectLoading,
   selectCurrentInteraction,
@@ -48,13 +47,6 @@ export class ContactsControl extends React.Component {
       paddingTop: '50px',
     },
   };
-
-  componentWillReceiveProps(nextProps) {
-    const newMode = nextProps.selectedInteraction.contactMode;
-    if (newMode !== this.props.selectedInteraction.contactMode) {
-      this.props.showContactsPanel();
-    }
-  }
 
   handleCancel = (event) => {
     event.preventDefault();
@@ -145,7 +137,6 @@ ContactsControl.propTypes = {
   formIsDirty: PropTypes.bool,
   setShowCancelDialog: PropTypes.func,
   setNotEditing: PropTypes.func,
-  showContactsPanel: PropTypes.func,
   isCollapsed: PropTypes.bool.isRequired,
 };
 
@@ -155,7 +146,7 @@ function mapStateToProps(state, props) {
     loading: selectLoading(state, props),
     showCancelDialog: selectShowCancelDialog(state, props),
     formIsDirty: selectFormIsDirty(state, props),
-    isCollapsed: selectIsContactsPanelCollapsed(state, props),
+    isCollapsed: selectIsSidePanelCollapsed(state, props),
     ...selectInfoTab(state, props),
   };
 }
@@ -164,7 +155,6 @@ function mapDispatchToProps(dispatch) {
   return {
     setShowCancelDialog: (showCancelDialog) =>
       dispatch(setShowCancelDialog(showCancelDialog)),
-    showContactsPanel: () => dispatch(showContactsPanel()),
     dispatch,
   };
 }

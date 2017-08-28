@@ -5,54 +5,13 @@
 import { createSelector } from 'reselect';
 import has from 'lodash/has';
 
-const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
+import { getSelectedInteraction } from 'containers/AgentDesktop/selectors';
 
-const selectInteractions = createSelector(
-  selectAgentDesktopDomain,
-  (agentDesktop) => agentDesktop.get('interactions')
-);
+const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 
 const getSelectedInteractionId = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) => agentDesktop.get('selectedInteractionId')
-);
-
-const selectNewInteractionPanel = createSelector(
-  selectAgentDesktopDomain,
-  (agentDesktop) => agentDesktop.get('newInteractionPanel')
-);
-
-const selectNoInteractionContactPanelContactsData = createSelector(
-  selectAgentDesktopDomain,
-  (agentDesktop) => agentDesktop.get('noInteractionContactPanel')
-);
-
-const getSelectedInteraction = createSelector(
-  [
-    selectInteractions,
-    getSelectedInteractionId,
-    selectNewInteractionPanel,
-    selectNoInteractionContactPanelContactsData,
-  ],
-  (
-    interactions,
-    selectedInteractionId,
-    newInteractionPanel,
-    noInteractionContactPanelContactsData
-  ) => {
-    if (typeof selectedInteractionId !== 'undefined') {
-      if (selectedInteractionId === 'creating-new-interaction') {
-        return newInteractionPanel.toJS();
-      } else {
-        return interactions
-          .toJS()
-          .find(
-            (interaction) => interaction.interactionId === selectedInteractionId
-          );
-      }
-    }
-    return noInteractionContactPanelContactsData.toJS();
-  }
 );
 
 const getSelectedInteractionIsVoice = createSelector(
@@ -92,7 +51,6 @@ const getHasAssignedContact = createSelector(
 
 export {
   getSelectedInteractionId,
-  getSelectedInteraction,
   getSelectedInteractionIsVoice,
   getSelectedInteractionScript,
   getSelectedInteractionIsScriptOnly,

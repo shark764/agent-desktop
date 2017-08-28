@@ -31,6 +31,7 @@ Immutable.Map {
         notesPanelHeight: 300,
       },
       status: "work-offer",
+      isSidePanelCollapsed: true,
       agentRecordingEnabled: undefined,
       wrapupDetails: Immutable.Map {
         wrapupUpdateAllowed: false,
@@ -109,6 +110,7 @@ Immutable.Map {
         notesPanelHeight: 300,
       },
       status: "work-offer",
+      isSidePanelCollapsed: true,
       agentRecordingEnabled: undefined,
       wrapupDetails: Immutable.Map {
         wrapupUpdateAllowed: false,
@@ -175,17 +177,18 @@ Immutable.Map {
       interactionId: "test-interaction-id",
     },
     Immutable.Map {
-      interactionId: "new-interaction-id",
-      status: "script-only",
-      isScriptOnly: true,
-      script: Immutable.Map {
-        scriptItem: "something",
+      contact: Immutable.Map {
       },
+      isScriptOnly: true,
       selectedSidePanelTab: "info",
       query: Immutable.Map {
       },
-      contact: Immutable.Map {
+      script: Immutable.Map {
+        scriptItem: "something",
       },
+      interactionId: "new-interaction-id",
+      status: "script-only",
+      isSidePanelCollapsed: true,
       activeContactForm: Immutable.Map {
         contactForm: Immutable.Map {
         },
@@ -206,6 +209,7 @@ Immutable.Map {
     },
   ],
   selectedInteractionId: "test-interaction-id",
+  isInteractionsBarCollapsed: false,
 }
 `;
 
@@ -213,17 +217,18 @@ exports[`agentDesktopReducer ADD_SCRIPT interaction is not there no existing/sel
 Immutable.Map {
   interactions: Immutable.List [
     Immutable.Map {
-      interactionId: "new-interaction-id",
-      status: "script-only",
-      isScriptOnly: true,
-      script: Immutable.Map {
-        scriptItem: "something",
+      contact: Immutable.Map {
       },
+      isScriptOnly: true,
       selectedSidePanelTab: "info",
       query: Immutable.Map {
       },
-      contact: Immutable.Map {
+      script: Immutable.Map {
+        scriptItem: "something",
       },
+      interactionId: "new-interaction-id",
+      status: "script-only",
+      isSidePanelCollapsed: true,
       activeContactForm: Immutable.Map {
         contactForm: Immutable.Map {
         },
@@ -244,6 +249,7 @@ Immutable.Map {
     },
   ],
   selectedInteractionId: "new-interaction-id",
+  isInteractionsBarCollapsed: false,
 }
 `;
 
@@ -603,6 +609,7 @@ Immutable.Map {
         notesPanelHeight: 300,
       },
       status: "connecting-to-outbound",
+      isSidePanelCollapsed: true,
       customerAvatarIndex: 0,
       wrapupDetails: Immutable.Map {
         wrapupUpdateAllowed: false,
@@ -732,15 +739,17 @@ Immutable.Map {
   queues: Immutable.List [
   ],
   isInteractionsBarCollapsed: true,
-  isContactsPanelCollapsed: true,
   newInteractionPanel: Immutable.Map {
-    interactionId: "creating-new-interaction",
-    status: "creating-new-interaction",
-    visible: false,
-    selectedSidePanelTab: "info",
+    contact: Immutable.Map {
+    },
     contactMode: "view",
+    selectedSidePanelTab: "info",
     query: Immutable.Map {
     },
+    interactionId: "creating-new-interaction",
+    visible: false,
+    status: "creating-new-interaction",
+    isSidePanelCollapsed: false,
     activeContactForm: Immutable.Map {
       contactForm: Immutable.Map {
       },
@@ -758,8 +767,6 @@ Immutable.Map {
       },
       saveLoading: false,
     },
-    contact: Immutable.Map {
-    },
   },
   extensions: Immutable.List [
   ],
@@ -767,6 +774,7 @@ Immutable.Map {
     contactMode: "search",
     query: Immutable.Map {
     },
+    isSidePanelCollapsed: true,
     selectedSidePanelTab: "info",
     activeContactForm: Immutable.Map {
       contactForm: Immutable.Map {

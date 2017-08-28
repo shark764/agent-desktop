@@ -3,7 +3,7 @@
  */
 
 import { createSelector } from 'reselect';
-import { selectSelectedInteraction } from 'containers/AgentDesktop/selectors';
+import { getSelectedInteraction } from 'containers/AgentDesktop/selectors';
 
 /**
  * Direct selector to the contactsControl state domain
@@ -27,7 +27,7 @@ const selectNoInteractionContactPanelContactsData = createSelector(
 );
 
 const getSelectedInteractionIsCreatingNewInteraction = createSelector(
-  selectSelectedInteraction,
+  getSelectedInteraction,
   (selectedInteraction) =>
     selectedInteraction !== undefined &&
     selectedInteraction.interactionId === 'creating-new-interaction'
@@ -44,7 +44,7 @@ const selectShowConfirmDialog = createSelector(
 );
 
 const selectCurrentInteraction = createSelector(
-  [selectSelectedInteraction, selectNoInteractionContactPanelContactsData],
+  [getSelectedInteraction, selectNoInteractionContactPanelContactsData],
   (selectedInteraction, floatingNoInteractionData) => {
     if (selectedInteraction) {
       return selectedInteraction;

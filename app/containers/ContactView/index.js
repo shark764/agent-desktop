@@ -24,7 +24,7 @@ import {
   selectIsAgentReady,
   selectHasVoiceInteraction,
   selectSmsInteractionNumbers,
-  selectSelectedInteraction,
+  getSelectedInteraction,
 } from 'containers/AgentDesktop/selectors';
 import {
   selectLoading,
@@ -222,7 +222,7 @@ export class ContactView extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   loading: selectLoading(state, props),
-  selectedInteraction: selectSelectedInteraction(state, props),
+  selectedInteraction: getSelectedInteraction(state, props),
   currentInteractionContactId: selectCurrentInteractionContactId(state, props),
   layoutSections: selectPopulatedLayout(state, props),
   compactLayoutAttributes: selectPopulatedCompactAttributes(state, props),

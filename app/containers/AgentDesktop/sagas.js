@@ -38,7 +38,7 @@ import {
   setAssignedContact,
   newInteractionPanelSelectContact,
   setIsCancellingInteraction,
-  showContactsPanel,
+  showSidePanel,
   setContactSaveLoading,
   setInteractionStatus,
   setActiveResources,
@@ -231,7 +231,7 @@ export function* goAssignContact(action) {
     yield put(selectContact(action.contact));
   } else if (interaction.interactionId === 'creating-new-interaction') {
     yield put(newInteractionPanelSelectContact(action.contact));
-    yield put(showContactsPanel());
+    yield put(showSidePanel(interaction.interactionId));
   } else if (
     !isUUID(interaction.interactionId) ||
     interaction.status === 'script-only'

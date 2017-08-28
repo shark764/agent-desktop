@@ -74,6 +74,7 @@ describe('selectAwaitingDisposition', () => {
             },
           },
         ],
+        noInteractionContactPanel: {},
       },
     });
     expect(selectAwaitingDisposition(mockedState)).toEqual(true);

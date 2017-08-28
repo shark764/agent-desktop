@@ -23,7 +23,7 @@ import VoiceContentArea from 'containers/VoiceContentArea';
 import WelcomeStats from 'containers/WelcomeStats';
 
 import { removeInteraction } from 'containers/AgentDesktop/actions';
-import { selectSelectedInteraction } from 'containers/AgentDesktop/selectors';
+import { getSelectedInteraction } from 'containers/AgentDesktop/selectors';
 
 import { selectMessageTemplates } from './selectors';
 
@@ -116,7 +116,7 @@ class MainContentArea extends React.Component {
             endInteraction={this.endInteraction}
           />
         );
-      } else {
+      } else if (selectedInteraction.interactionId) {
         throw new Error(
           `Unknown selected channelType: ${selectedInteraction.channelType}`
         );
@@ -137,7 +137,7 @@ class MainContentArea extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  selectedInteraction: selectSelectedInteraction(state, props),
+  selectedInteraction: getSelectedInteraction(state, props),
   messageTemplates: selectMessageTemplates(state, props),
 });
 

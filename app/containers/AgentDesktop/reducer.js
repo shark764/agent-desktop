@@ -87,8 +87,8 @@ import {
   SET_DISPOSITION_DETAILS,
   SELECT_DISPOSITION,
   SHOW_REFRESH_NOTIF,
-  SHOW_CONTACTS_PANEL,
-  HIDE_CONTACTS_PANEL,
+  SHOW_SIDE_PANEL,
+  HIDE_SIDE_PANEL,
   SHOW_INTERACTIONS_BAR,
   HIDE_INTERACTIONS_BAR,
   SET_FORM_IS_DIRTY,
@@ -110,6 +110,7 @@ const blankNewInteractionPanel = {
   interactionId: 'creating-new-interaction',
   status: 'creating-new-interaction',
   visible: false,
+  isSidePanelCollapsed: false,
   selectedSidePanelTab: 'info',
   contactMode: 'view',
   query: {},
@@ -142,6 +143,7 @@ const initialState = fromJS({
   noInteractionContactPanel: {
     contactMode: 'search',
     query: {},
+    isSidePanelCollapsed: true,
     selectedSidePanelTab: 'info',
     activeContactForm: activeContactFormBlank,
     contact: {},
@@ -153,7 +155,6 @@ const initialState = fromJS({
   refreshRequired: false,
   presenceReasonLists: [],
   presenceReason: {},
-  isContactsPanelCollapsed: true,
   isInteractionsBarCollapsed: true,
 });
 
@@ -492,7 +493,6 @@ function agentDesktopReducer(state = initialState, action) {
     case SET_INTERACTION_STATUS: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
-        let openContactsPanel;
         const automaticallySelectInteraction =
           (action.newStatus === 'work-accepting' ||
             action.newStatus === 'work-accepted') &&
@@ -500,9 +500,6 @@ function agentDesktopReducer(state = initialState, action) {
         let hideNewInteractionPanelOnWorkAccepted = false;
         let newState = state
           .updateIn(['interactions', interactionIndex], (interaction) => {
-            openContactsPanel =
-              action.newStatus === 'work-accepted' &&
-              interaction.get('contact');
             hideNewInteractionPanelOnWorkAccepted = interaction.get(
               'hideNewInteractionPanelOnWorkAccepted'
             );
@@ -551,9 +548,6 @@ function agentDesktopReducer(state = initialState, action) {
           newState = newState
             .set('selectedInteractionId', action.interactionId)
             .set('newInteractionPanel', fromJS(blankNewInteractionPanel));
-        }
-        if (openContactsPanel) {
-          newState = newState.set('isContactsPanelCollapsed', false);
         }
         if (action.newStatus === 'wrapup') {
           const wrapupTimeout = state.getIn([
@@ -780,6 +774,7 @@ function agentDesktopReducer(state = initialState, action) {
           status: 'script-only',
           isScriptOnly: true,
           script: action.script,
+          isSidePanelCollapsed: true,
           selectedSidePanelTab: 'info',
           query: {},
           contact: {},
@@ -792,7 +787,8 @@ function agentDesktopReducer(state = initialState, action) {
           .set(
             'selectedInteractionId',
             state.get('selectedInteractionId') || action.interactionId
-          );
+          )
+          .set('isInteractionsBarCollapsed', false);
       }
     }
     case REMOVE_SCRIPT: {
@@ -1713,19 +1709,9 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case SELECT_DISPOSITION: {
-      const selectedInteractionIndex = state
-        .get('interactions')
-        .findIndex(
-          (interaction) =>
-            interaction.get('interactionId') === action.interactionId
-        );
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
       return state.setIn(
-        [
-          'interactions',
-          selectedInteractionIndex,
-          'dispositionDetails',
-          'selected',
-        ],
+        ['interactions', interactionIndex, 'dispositionDetails', 'selected'],
         fromJS(action.disposition ? [action.disposition] : [])
       );
     }
@@ -1738,11 +1724,15 @@ function agentDesktopReducer(state = initialState, action) {
         })
       );
     }
-    case SHOW_CONTACTS_PANEL: {
-      return state.set('isContactsPanelCollapsed', false);
+    case SHOW_SIDE_PANEL: {
+      const target = getContactInteractionPath(state, action.interactionId);
+      target.push('isSidePanelCollapsed');
+      return state.setIn(target, false);
     }
-    case HIDE_CONTACTS_PANEL: {
-      return state.set('isContactsPanelCollapsed', true);
+    case HIDE_SIDE_PANEL: {
+      const target = getContactInteractionPath(state, action.interactionId);
+      target.push('isSidePanelCollapsed');
+      return state.setIn(target, true);
     }
     case SHOW_INTERACTIONS_BAR: {
       return state.set('isInteractionsBarCollapsed', false);
