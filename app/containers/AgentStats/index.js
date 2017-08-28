@@ -103,7 +103,11 @@ export class AgentStats extends React.Component {
     const viewableWidth = this.statsScrollContainer.clientWidth;
     const scrollLeftPosition = this.statsScrollContainer.scrollLeft;
 
-    if (scrollableWidth >= viewableWidth) {
+    if (
+      this.props.toolbarStats &&
+      this.props.toolbarStats.length > 0 &&
+      scrollableWidth >= viewableWidth
+    ) {
       let statsHiddenLeft = false;
       let statsHiddenRight = false;
       if (scrollLeftPosition > 0) {
