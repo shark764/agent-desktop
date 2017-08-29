@@ -241,7 +241,7 @@ export class PhoneControlsActive extends React.Component {
       marginTop: '10px',
       textAlign: 'left',
       padding: '20px',
-      maxHeight: 'calc(100% - 63px)',
+      maxHeight: '650px',
       overflowY: 'auto',
       left: '10px',
       width: '400px',
