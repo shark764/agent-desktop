@@ -243,7 +243,7 @@ export class TransferMenu extends React.Component {
     },
     transferListsToolbar: {
       maxHeight: undefined,
-      height: 'calc(100vh - 292px)',
+      height: '400px',
     },
     transferList: {
       marginTop: '12px',

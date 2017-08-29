@@ -9,6 +9,7 @@
  */
 
 import React from 'react';
+import Radium from 'radium';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -295,4 +296,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default ErrorBoundary(connect(null, mapDispatchToProps)(AgentScript));
+export default ErrorBoundary(
+  connect(null, mapDispatchToProps)(Radium(AgentScript))
+);
