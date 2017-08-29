@@ -136,6 +136,10 @@ export class PhoneControlsActive extends React.Component {
   styles = {
     base: {
       padding: '9px 0',
+      position: 'relative',
+    },
+    toolbarBase: {
+      padding: '9px 0 0 0',
     },
     recordingContainer: {
       padding: '0 12px 14px',
@@ -226,12 +230,10 @@ export class PhoneControlsActive extends React.Component {
       width: '100%',
       margin: 0,
       borderRadius: 0,
-      position: 'absolute',
       zIndex: 2,
       boxShadow: '0 0 6px 0 rgba(0,0,0,0.37)',
     },
     warmTransfersContainer: {
-      position: 'absolute',
       backgroundColor: '#FFFFFF',
       color: '#4B4B4B',
       zIndex: 3,
@@ -402,7 +404,14 @@ export class PhoneControlsActive extends React.Component {
     }
 
     return (
-      <div style={this.styles.base}>
+      <div
+        style={[
+          this.styles.base,
+          this.context.toolbarMode &&
+            resourcesOnHold &&
+            this.styles.toolbarBase,
+        ]}
+      >
         {recordingContainer}
         <div style={this.styles.bottonRowContainer}>
           <div style={this.styles.center}>
