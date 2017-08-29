@@ -848,7 +848,10 @@ export class App extends React.Component {
   };
 
   getToolbarSizing = () => {
-    if (this.context.toolbarMode) {
+    if (
+      this.context.toolbarMode &&
+      window.location.hash.includes('forceToolbarDimensions')
+    ) {
       if (this.props.isSidePanelCollapsed) {
         return this.styles.toolbarModeCollapsed;
       } else {

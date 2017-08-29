@@ -11,6 +11,10 @@ A single screen web app built in React for handling inbound and outbound interac
 
 Now you're ready to rumble!
 
+## Toolbar mode
+- Add "tb2" to your URL to use toolbar mode (ex. http://localhost:3000/tb2)
+- To force the dimensions of the toolbar to 400x800 and 800x800, add "#forceToolbarDimensions" to the URL (ex. http://localhost:3000/tb2#forceToolbarDimensions)
+
 ## Documentation
 
 - [Intro](docs/general): What's included and why
