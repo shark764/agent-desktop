@@ -234,6 +234,7 @@ export class PhoneControlsActive extends React.Component {
       boxShadow: '0 0 6px 0 rgba(0,0,0,0.37)',
     },
     warmTransfersContainer: {
+      position: 'absolute',
       backgroundColor: '#FFFFFF',
       color: '#4B4B4B',
       zIndex: 3,
