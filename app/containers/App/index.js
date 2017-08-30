@@ -134,7 +134,7 @@ export class App extends React.Component {
   loadConf = () => {
     axios({
       method: 'get',
-      url: `${window.location.href}config.json`,
+      url: `${window.location.origin}/config.json`,
     }).then((res) => {
       if (typeof res.data !== 'undefined') {
         if (window.ADconf !== undefined) {
