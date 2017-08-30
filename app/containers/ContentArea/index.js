@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import Toggle from 'react-toggle';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
@@ -21,11 +20,11 @@ import Resizable from 'components/Resizable';
 import Checkbox from 'components/Checkbox';
 import IconSVG from 'components/IconSVG';
 import Button from 'components/Button';
-
-import SidePanelToolbarBtn from 'containers/SidePanelToolbarBtn';
+import ContentAreaTop from 'containers/ContentAreaTop';
 
 import { updateNote } from 'containers/AgentDesktop/actions';
 import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
+import { buttonConfigPropTypes } from 'components/ButtonLayout';
 
 import messages from './messages';
 
@@ -321,25 +320,6 @@ export class ContentArea extends React.Component {
     );
   };
 
-  toggleWrapup = () => {
-    const wrapupToggleCallback = (error, topic, response) => {
-      console.log('[AgentDesktop] CxEngage.subscribe()', topic, response);
-      this.setState({ loadingWrapup: false });
-    };
-    this.setState({ loadingWrapup: true });
-    if (this.props.interaction.wrapupDetails.wrapupEnabled) {
-      CxEngage.interactions.disableWrapup(
-        { interactionId: this.props.interaction.interactionId },
-        wrapupToggleCallback
-      );
-    } else {
-      CxEngage.interactions.enableWrapup(
-        { interactionId: this.props.interaction.interactionId },
-        wrapupToggleCallback
-      );
-    }
-  };
-
   selectDisposition = (dispositionId) => {
     this.setState({
       loadingDisposition: true,
@@ -551,44 +531,11 @@ export class ContentArea extends React.Component {
         <div style={this.styles.mainContent}>
           <div style={this.styles.base}>
             <div style={this.styles.header}>
-              <div style={this.styles.fromButtonsContainer}>
-                <div style={this.styles.from}>
-                  {this.props.from}
-                </div>
-                <div style={this.styles.rightHeaderContainer}>
-                  {this.props.interaction.status !== 'wrapup' &&
-                    this.props.interaction.status !==
-                      'work-ended-pending-script' &&
-                      <div
-                        id="wrapupContainer"
-                        style={this.styles.wrapupContainer}
-                      >
-                        <label
-                          htmlFor="wrapupToggle"
-                          style={this.styles.toggleWrapupLabel}
-                        >
-                          <FormattedMessage {...messages.wrapup} />
-                        </label>
-                        <Toggle
-                          id="toggleWrapup"
-                          icons={false}
-                          onChange={this.toggleWrapup}
-                          disabled={
-                          !this.props.interaction.wrapupDetails
-                            .wrapupUpdateAllowed || this.state.loadingWrapup
-                        }
-                          checked={
-                          this.props.interaction.wrapupDetails.wrapupEnabled
-                        }
-                        />
-                      </div>}
-                  <div style={this.styles.buttons}>
-                    {this.props.interaction.status !==
-                      'work-ended-pending-script' && this.props.buttons}
-                  </div>
-                </div>
-                <SidePanelToolbarBtn />
-              </div>
+              <ContentAreaTop
+                interaction={this.props.interaction}
+                from={this.props.from}
+                buttonConfig={this.props.buttonConfig}
+              />
               <div style={this.styles.details}>
                 {this.props.details}
               </div>
@@ -622,8 +569,8 @@ ContentArea.propTypes = {
   intl: intlShape.isRequired,
   updateNote: PropTypes.func.isRequired,
   interaction: PropTypes.object.isRequired,
-  from: PropTypes.node.isRequired,
-  buttons: PropTypes.node.isRequired,
+  from: PropTypes.node,
+  buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes)).isRequired,
   details: PropTypes.node.isRequired,
   content: PropTypes.node,
   awaitingDisposition: PropTypes.bool.isRequired,

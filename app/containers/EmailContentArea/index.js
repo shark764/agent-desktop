@@ -34,7 +34,6 @@ import { isValidEmail } from 'utils/validator';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
-import ButtonLayout from 'components/ButtonLayout';
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 import LoadingText from 'components/LoadingText';
@@ -571,7 +570,6 @@ export class EmailContentArea extends React.Component {
             text: messages.endWrapup,
             onClick: this.props.endInteraction,
             disabled: this.props.awaitingDisposition,
-            style: { marginRight: '8px' },
           },
         ];
       } else {
@@ -579,7 +577,6 @@ export class EmailContentArea extends React.Component {
           {
             id: 'cancelEmail',
             type: 'secondary',
-            style: { marginRight: '8px' },
             text: messages.cancel,
             onClick: this.onEmailCancelReply,
           },
@@ -663,7 +660,6 @@ export class EmailContentArea extends React.Component {
             text: messages.endWrapup,
             onClick: this.props.endInteraction,
             disabled: this.props.awaitingDisposition,
-            style: { marginRight: '8px' },
           },
         ];
       } else {
@@ -673,7 +669,6 @@ export class EmailContentArea extends React.Component {
             type: 'primaryRed',
             text: messages.noReply,
             onClick: this.onEmailNoReply,
-            style: { marginRight: '8px' },
           },
           {
             id: 'replyEmail',
@@ -836,7 +831,6 @@ export class EmailContentArea extends React.Component {
             text: messages.cancel,
             onClick: this.props.endInteraction,
             disabled: this.props.selectedInteraction.status !== 'work-accepted',
-            style: { marginRight: '8px' },
           },
           {
             id: 'sendOutboundEmail',
@@ -844,7 +838,6 @@ export class EmailContentArea extends React.Component {
             text: messages.send,
             onClick: () => this.sendEmail(),
             disabled: this.props.selectedInteraction.status !== 'work-accepted',
-            style: { marginRight: '8px' },
             isMainBtn: true,
           },
         ];
@@ -856,7 +849,6 @@ export class EmailContentArea extends React.Component {
             text: messages.endWrapup,
             onClick: this.props.endInteraction,
             disabled: this.props.awaitingDisposition,
-            style: { marginRight: '8px' },
           },
         ];
       } else {
@@ -866,7 +858,6 @@ export class EmailContentArea extends React.Component {
             type: 'primaryRed',
             text: messages.cancel,
             onClick: this.onEmailCancelReply,
-            style: { marginRight: '8px' },
           },
           {
             id: 'sendEmail',
@@ -1191,13 +1182,11 @@ export class EmailContentArea extends React.Component {
       );
     }
 
-    const buttons = <ButtonLayout buttonConfig={buttonConfig} />;
-
     return (
       <ContentArea
         interaction={this.props.selectedInteraction}
         from={from}
-        buttons={buttons}
+        buttonConfig={buttonConfig}
         details={details}
         content={content}
       />

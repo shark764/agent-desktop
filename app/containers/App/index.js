@@ -460,12 +460,14 @@ export class App extends React.Component {
           case 'cxengage/interactions/enable-wrapup-acknowledged': {
             this.props.updateWrapupDetails(response.interactionId, {
               wrapupEnabled: true,
+              loadingWrapupStatusUpdate: false,
             });
             break;
           }
           case 'cxengage/interactions/disable-wrapup-acknowledged': {
             this.props.updateWrapupDetails(response.interactionId, {
               wrapupEnabled: false,
+              loadingWrapupStatusUpdate: false,
             });
             break;
           }

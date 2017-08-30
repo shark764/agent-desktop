@@ -180,6 +180,36 @@ exports[`<Icon /> with name caret_white should render correctly 1`] = `
 />
 `;
 
+exports[`<Icon /> with name checkMark and active prop should render correctly 1`] = `
+<img
+  alt="checkMark"
+  data-radium={true}
+  id="mockId"
+  src="test-file-stub"
+  style={
+    Object {
+      "cursor": "pointer",
+      "height": "25px",
+    }
+  }
+/>
+`;
+
+exports[`<Icon /> with name checkMark should render correctly 1`] = `
+<img
+  alt="checkMark"
+  data-radium={true}
+  id="mockId"
+  src="test-file-stub"
+  style={
+    Object {
+      "cursor": "pointer",
+      "height": "25px",
+    }
+  }
+/>
+`;
+
 exports[`<Icon /> with name checkStatus and active prop should render correctly 1`] = `
 <img
   alt="checkStatus"

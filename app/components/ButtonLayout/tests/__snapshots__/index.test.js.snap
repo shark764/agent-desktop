@@ -1,44 +1,66 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ButtonLayout /> when only passed button config data and IS NOT set to toolbar mode should render correctly 1`] = `
-<span>
-  <Button
-    disabled={false}
-    id="test-id-1"
-    onClick={[Function]}
+<span
+  data-radium={true}
+>
+  <span
+    data-radium={true}
     style={
       Object {
-        "marginRight": "8px",
+        "display": "inline-block",
+        "margin": "0 8px 0 0",
       }
     }
-    tabIndex={0}
-    text={
-      Object {
-        "defaultMessage": "Send",
-        "id": "app.containers.EmailContentArea.send",
+  >
+    <Button
+      disabled={false}
+      id="test-id-1"
+      onClick={[Function]}
+      style={
+        Object {
+          "marginRight": "8px",
+        }
       }
-    }
-    type="primaryRed"
-  />
-  <Button
-    disabled={false}
-    id="test-id-2"
-    isMainBtn={true}
-    onClick={[Function]}
+      tabIndex={0}
+      text={
+        Object {
+          "defaultMessage": "Send",
+          "id": "app.containers.EmailContentArea.send",
+        }
+      }
+      type="primaryRed"
+    />
+  </span>
+  <span
+    data-radium={true}
     style={
       Object {
-        "marginRight": "8px",
+        "display": "inline-block",
+        "margin": "0 8px 0 0",
       }
     }
-    tabIndex={0}
-    text={
-      Object {
-        "defaultMessage": "Send",
-        "id": "app.containers.EmailContentArea.send",
+  >
+    <Button
+      disabled={false}
+      id="test-id-2"
+      isMainBtn={true}
+      onClick={[Function]}
+      style={
+        Object {
+          "marginRight": "8px",
+        }
       }
-    }
-    type="primaryBlue"
-  />
+      tabIndex={0}
+      text={
+        Object {
+          "defaultMessage": "Send",
+          "id": "app.containers.EmailContentArea.send",
+        }
+      }
+      type="primaryBlue"
+    />
+  </span>
 </span>
 `;
 

@@ -24,7 +24,7 @@ import messages from './messages';
 import Radium from 'radium';
 {{/if}}
 
-export class {{ properCase name }} extends React.{{{ component }}} { // eslint-disable-line react/prefer-stateless-function
+export class {{ properCase name }} extends React.{{{ component }}} { 
   {{#if wantCSS}}
   styles = {
     base: {

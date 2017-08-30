@@ -17,7 +17,6 @@ import { FormattedTime } from 'react-intl';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import Avatar from 'components/Avatar';
-import Button from 'components/Button';
 import LoadingText from 'components/LoadingText';
 import CustomFields from 'containers/CustomFields';
 
@@ -122,16 +121,16 @@ export class MessagingContentArea extends React.Component {
 
     const wrappingUp = this.props.selectedInteraction.status === 'wrapup';
 
-    const buttons = (
-      <Button
-        id={wrappingUp ? 'wrapup-button' : 'end-chat-button'}
-        key={wrappingUp ? 'wrapup-button' : 'end-chat-button'}
-        type="primaryBlue"
-        text={wrappingUp ? messages.endWrapup : messages.endChat}
-        onClick={this.props.endInteraction}
-        disabled={isLoading || this.props.awaitingDisposition}
-      />
-    );
+    const buttonConfig = [
+      {
+        id: wrappingUp ? 'wrapup-button' : 'end-chat-button',
+        type: 'primaryBlue',
+        text: wrappingUp ? messages.endWrapup : messages.endChat,
+        onClick: this.props.endInteraction,
+        disabled: isLoading || this.props.awaitingDisposition,
+        isMainBtn: true,
+      },
+    ];
 
     let content;
     if (isLoading) {
@@ -210,7 +209,7 @@ export class MessagingContentArea extends React.Component {
       <ContentArea
         interaction={this.props.selectedInteraction}
         from={from}
-        buttons={buttons}
+        buttonConfig={buttonConfig}
         details={details}
         content={content}
       />

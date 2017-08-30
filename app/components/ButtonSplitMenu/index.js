@@ -33,14 +33,16 @@
        },
      ];
 
-     <ButtonLayout buttonConfig={buttonConfig} />
+     <ButtonSplitMenu buttonConfig={buttonConfig} />
   */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 
-import Button, { possibleTypes } from 'components/Button';
+import Button from 'components/Button';
+import ButtonSplitMenuItem from 'components/ButtonSplitMenuItem';
+
+import { buttonConfigPropTypes } from 'components/ButtonLayout';
 
 const styles = {
   buttonContainer: {
@@ -75,7 +77,7 @@ const styles = {
   },
   subBtn: {
     padding: '10px 7px',
-    margin: 0,
+    margin: '0',
     fontSize: '14px',
     lineHeight: '17px',
     cursor: 'pointer',
@@ -89,7 +91,7 @@ const styles = {
       boxShadow: 'none',
     },
     padding: '0 10px',
-    marginLeft: '10px',
+    margin: '0 0 0 10px',
   },
   hasToggle: {
     borderRadius: '3px 0 0 3px',
@@ -115,20 +117,31 @@ class ButtonSplitMenu extends React.Component {
     };
   }
 
+  hideSubMenu = () => {
+    this.setState({
+      showSubMenu: false,
+    });
+  };
+
   renderSubMenu(subButtons, hideShowSubMenu) {
     if (hideShowSubMenu) {
       return (
         <span style={styles.buttonContainer}>
           <ul style={styles.subMenu}>
             {subButtons.map((subBtn) =>
-              (<li
+              (<ButtonSplitMenuItem
                 key={subBtn.id}
-                style={styles.subBtn}
-                onClick={subBtn.onClick}
-                id={`button-submenu-${subBtn.id}`}
-              >
-                <FormattedMessage {...subBtn.text} />
-              </li>)
+                id={`submenu-${subBtn.id}`}
+                customStyles={[
+                  styles.subBtn,
+                  subBtn.style && subBtn.style,
+                  subBtn.activeSubButtonStyle && subBtn.activeSubButtonStyle,
+                  7,
+                ]}
+                clickCallback={subBtn.onClick}
+                hideSubMenu={this.hideSubMenu}
+                text={subBtn.text}
+              />)
             )}
           </ul>
         </span>
@@ -228,23 +241,8 @@ class ButtonSplitMenu extends React.Component {
 }
 
 ButtonSplitMenu.propTypes = {
-  buttonConfig: PropTypes.arrayOf(
-    PropTypes.shape({
-      text: PropTypes.any,
-      mouseOverText: PropTypes.object,
-      iconName: PropTypes.string,
-      children: PropTypes.element,
-      tabIndex: PropTypes.number,
-      type: PropTypes.oneOf(possibleTypes),
-      style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-      clear: PropTypes.bool,
-      disabled: PropTypes.bool,
-      onClick: PropTypes.func,
-      id: PropTypes.string.isRequired,
-      isMainBtn: PropTypes.bool,
-      hasSubButtons: PropTypes.bool,
-    })
-  ).isRequired,
+  buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes))
+    .isRequired,
 };
 
 export default Radium(ButtonSplitMenu);

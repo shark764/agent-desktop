@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ContentAreaTop /> should render correctly 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "center",
+      "borderBottom": "1px solid #D0D0D0",
+      "display": "flex",
+      "justifyContent": "space-between",
+      "padding": "10px 5px",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "display": "inline-block",
+        "fontSize": "20px",
+        "fontWeight": "bold",
+        "overflow": "hidden",
+        "textOverflow": "ellipsis",
+        "whiteSpace": "nowrap",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexShrink": 0,
+      }
+    }
+  >
+    <div
+      id="wrapupContainer"
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+        }
+      }
+    >
+      <label
+        htmlFor="wrapupToggle"
+        style={
+          Object {
+            "marginRight": "5px",
+          }
+        }
+      >
+        <FormattedMessage
+          defaultMessage="Wrap Up"
+          id="app.containers.ContentAreaTop.wrapup"
+          values={Object {}}
+        />
+      </label>
+      <Toggle
+        checked={false}
+        disabled={true}
+        icons={false}
+        id="toggleWrapup"
+        onChange={[Function]}
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "marginLeft": "10px",
+        }
+      }
+    >
+      <div>
+        <ButtonLayout
+          buttonConfig={
+            Array [
+              Object {
+                "disabled": false,
+                "id": "test-id-1",
+                "onClick": [Function],
+                "style": Object {
+                  "marginRight": "8px",
+                },
+                "text": Object {
+                  "defaultMessage": "Send",
+                  "id": "app.containers.EmailContentArea.send",
+                },
+                "type": "primaryRed",
+              },
+              Object {
+                "disabled": false,
+                "id": "test-id-2",
+                "isMainBtn": true,
+                "onClick": [Function],
+                "style": Object {
+                  "marginRight": "8px",
+                },
+                "text": Object {
+                  "defaultMessage": "Send",
+                  "id": "app.containers.EmailContentArea.send",
+                },
+                "type": "primaryBlue",
+              },
+            ]
+          }
+        />
+      </div>
+    </div>
+  </div>
+  <Connect(ErrorBoundaryComponent) />
+</div>
+`;

@@ -13,8 +13,8 @@ const buttonConfig = [
     id: 'test-id-1',
     type: 'primaryRed',
     text: {
-      id: 'app.containers.EmailContentArea.send',
-      defaultMessage: 'Send',
+      id: 'app.containers.ContentAreaTop.wrapupOn',
+      defaultMessage: 'Wrap Up On',
     },
     onClick: mockFunc,
     disabled: false,
@@ -26,8 +26,8 @@ const buttonConfig = [
     id: 'test-id-2',
     type: 'primaryBlue',
     text: {
-      id: 'app.containers.EmailContentArea.send',
-      defaultMessage: 'Send',
+      id: 'app.containers.ContentAreaTop.wrapupOff',
+      defaultMessage: 'Wrap Up Off',
     },
     onClick: mockFunc,
     disabled: false,
@@ -90,20 +90,6 @@ describe('<ButtonSplitMenu />', () => {
 
       rendered.find('.button-dropdown-click-mask').simulate('click');
       expect(rendered.state('showSubMenu')).toBe(true);
-    });
-  });
-
-  describe('when submenu button is clicked', () => {
-    it('it should fire the onClick function', () => {
-      const rendered = shallow(
-        <ButtonSplitMenu buttonConfig={buttonConfig} />,
-        { context: {} }
-      );
-
-      rendered.setContext({ toolbarMode: true });
-      rendered.setState({ showSubMenu: true });
-      rendered.find('li').simulate('click');
-      expect(mockFunc).toBeCalled();
     });
   });
 });

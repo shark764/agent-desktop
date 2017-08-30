@@ -16,7 +16,6 @@ import has from 'lodash/has';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
-import Button from 'components/Button';
 import CustomFields from 'containers/CustomFields';
 
 import AgentScript from 'containers/AgentScript';
@@ -51,16 +50,16 @@ export class VoiceContentArea extends React.Component {
 
     const wrappingUp = this.props.selectedInteraction.status === 'wrapup';
 
-    const buttons = (
-      <Button
-        id={wrappingUp ? 'wrapup-button' : 'hang-up-button'}
-        key={wrappingUp ? 'wrapup-button' : 'end-chat-button'}
-        type="primaryRed"
-        text={wrappingUp ? messages.endWrapup : messages.hangUp}
-        onClick={this.props.endInteraction}
-        disabled={isAccepting || this.props.awaitingDisposition}
-      />
-    );
+    const buttonConfig = [
+      {
+        id: wrappingUp ? 'wrapup-button' : 'hang-up-button',
+        type: 'primaryRed',
+        text: wrappingUp ? messages.endWrapup : messages.hangUp,
+        onClick: this.props.endInteraction,
+        disabled: isAccepting || this.props.awaitingDisposition,
+        isMainBtn: true,
+      },
+    ];
 
     let content;
     if (
@@ -80,7 +79,7 @@ export class VoiceContentArea extends React.Component {
       <ContentArea
         interaction={this.props.selectedInteraction}
         from={from}
-        buttons={buttons}
+        buttonConfig={buttonConfig}
         details={details}
         content={content}
       />

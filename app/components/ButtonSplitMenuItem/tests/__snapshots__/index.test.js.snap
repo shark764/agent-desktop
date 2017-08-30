@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ButtonSplitMenuItem /> when passed required properties should render correctly 1`] = `
+<li
+  id="button-submenu-listitem-mockId"
+  onClick={[Function]}
+>
+  <FormattedMessage
+    defaultMessage="Wrap Up On"
+    id="app.containers.ContentAreaTop.wrapupOn"
+    values={Object {}}
+  />
+</li>
+`;
