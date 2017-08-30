@@ -87,7 +87,7 @@ export class SidePanel extends React.Component {
       height: '19px',
     },
     iconCollapseContainer: {
-      zIndex: '100',
+      zIndex: '1',
     },
     bodyWrapper: {
       display: 'flex',

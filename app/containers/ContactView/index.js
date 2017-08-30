@@ -78,9 +78,6 @@ const styles = {
   controlButton: {
     marginLeft: '10px',
   },
-  attributes: {
-    overflowY: 'hidden',
-  },
 };
 
 export class ContactView extends React.Component {
@@ -208,7 +205,7 @@ export class ContactView extends React.Component {
               />
             </div>}
         </div>
-        <div style={styles.attributes}>
+        <div>
           {this.props.showCompactView
             ? this.props.compactLayoutAttributes.attributes.map(
                 this.getAttributeRow
