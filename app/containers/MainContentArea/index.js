@@ -129,7 +129,6 @@ class MainContentArea extends React.Component {
           ? content
           : <WelcomeStats
             agent={this.props.agent}
-            tenant={this.props.tenant}
           />}
       </div>
     );
@@ -155,7 +154,6 @@ MainContentArea.propTypes = {
   removeInteraction: PropTypes.func.isRequired,
   style: PropTypes.array,
   agent: PropTypes.object.isRequired,
-  tenant: PropTypes.object.isRequired,
 };
 
 export default ErrorBoundary(

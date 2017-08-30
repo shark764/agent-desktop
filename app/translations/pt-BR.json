@@ -216,6 +216,7 @@
   "app.containers.VoiceContentArea.endWrapup": "Encerramento",
   "app.containers.VoiceContentArea.hangUp": "Desligar o telefone",
   "app.containers.WelcomeStats.customerSatisfactionScore": "Satisfação do cliente",
+  "app.containers.WelcomeStats.performance": "",
   "app.containers.WelcomeStats.resourceHandleTime": "Tempo médio de procedimento",
   "app.containers.WelcomeStats.welcome": "Seja bem-vindo,",
   "app.containers.WelcomeStats.workAcceptedCount": "Interações diárias"

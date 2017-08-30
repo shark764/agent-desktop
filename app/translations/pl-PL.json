@@ -216,6 +216,7 @@
   "app.containers.VoiceContentArea.endWrapup": "Zakończ podsumowanie",
   "app.containers.VoiceContentArea.hangUp": "Zakończ rozmowę",
   "app.containers.WelcomeStats.customerSatisfactionScore": "Zadowolenie klienta",
+  "app.containers.WelcomeStats.performance": "",
   "app.containers.WelcomeStats.resourceHandleTime": "Średni czas obsługi",
   "app.containers.WelcomeStats.welcome": "Witaj,",
   "app.containers.WelcomeStats.workAcceptedCount": "Codzienne interakcje"

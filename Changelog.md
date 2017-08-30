@@ -28,6 +28,7 @@
 * CXV1-11145 - Contact input placeholders without translations fallback
 * CXV1-10779 - Add programatic resize functionality
 * CXV1-9010 - Toolbar styling of stats
+* CXV1-10659 - Toolbar styling of summary screen
 
 ### [1.1.0] (2017-07-21)
 * BUGFIX - SDK version bump to 5.3.27-SNAPSHOT
