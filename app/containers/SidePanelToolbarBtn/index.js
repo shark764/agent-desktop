@@ -44,6 +44,8 @@ const styles = {
     borderLeft: '1px solid #D0D0D0',
     right: '-20px',
     cursor: 'pointer',
+    marginTop: '-15px',
+    marginBottom: '-11px',
   },
   iconCollapse: {
     height: '19px',
