@@ -240,7 +240,7 @@ export class ContentArea extends React.Component {
       position: 'absolute',
       zIndex: 11,
       bottom: '35px',
-      left: '-160px',
+      left: '-115px',
       backgroundColor: '#FFFFFF',
       boxShadow: '0 0 6px 1px rgba(0,0,0,0.14)',
       borderRadius: '3px',
@@ -570,7 +570,8 @@ ContentArea.propTypes = {
   updateNote: PropTypes.func.isRequired,
   interaction: PropTypes.object.isRequired,
   from: PropTypes.node,
-  buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes)).isRequired,
+  buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes))
+    .isRequired,
   details: PropTypes.node.isRequired,
   content: PropTypes.node,
   awaitingDisposition: PropTypes.bool.isRequired,
