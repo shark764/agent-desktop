@@ -90,9 +90,9 @@ class Resizable extends React.Component {
         },
         divider: {
           width: this.addPx(this.dividerPx),
-          height: '100%',
+          height: 'calc(100% - 64px)',
           right: dividerOffset,
-          top: `${this.context.toolbarMode ? '64px' : '0'}`,
+          top: '64px',
           position: this.dividerPosition,
           cursor: 'ew-resize',
           zIndex: '2',
