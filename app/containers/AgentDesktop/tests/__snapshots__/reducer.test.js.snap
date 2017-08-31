@@ -356,6 +356,19 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer REMOVE_INTERACTION interaction without a script only pending interaction exist selects nothing 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "first-interaction-id",
+      channelType: "sms",
+    },
+  ],
+  selectedInteractionId: undefined,
+  isInteractionsBarCollapsed: true,
+}
+`;
+
 exports[`agentDesktopReducer REMOVE_INTERACTION_HARD interaction is not there does nothing 1`] = `
 Immutable.Map {
   interactions: Immutable.List [

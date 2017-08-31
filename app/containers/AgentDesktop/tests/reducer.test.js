@@ -537,6 +537,17 @@ describe('agentDesktopReducer', () => {
           });
         });
       });
+      describe('only pending interaction exist', () => {
+        beforeEach(() => {
+          initialState.interactions.push({
+            interactionId: 'first-interaction-id',
+            channelType: 'sms',
+          });
+        });
+        it('selects nothing', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
       describe('interaction is not the selected interaction', () => {
         beforeEach(() => {
           initialState.selectedInteractionId = 'other-interaction-id';
