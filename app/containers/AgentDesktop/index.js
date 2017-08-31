@@ -177,7 +177,6 @@ export class AgentDesktop extends React.Component {
                 />}
               <MainContentArea
                 agent={this.props.login.agent}
-                tenant={this.props.login.tenant}
                 style={{ flex: '1 1 auto' }}
               />
               <Resizable

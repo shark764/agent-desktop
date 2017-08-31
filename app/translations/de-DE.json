@@ -216,6 +216,7 @@
   "app.containers.VoiceContentArea.endWrapup": "Nachbearbeitung beenden",
   "app.containers.VoiceContentArea.hangUp": "Auflegen",
   "app.containers.WelcomeStats.customerSatisfactionScore": "Kundenzufriedenheit",
+  "app.containers.WelcomeStats.performance": "",
   "app.containers.WelcomeStats.resourceHandleTime": "Durchschnittliche Bearbeitungszeit",
   "app.containers.WelcomeStats.welcome": "Willkommen,",
   "app.containers.WelcomeStats.workAcceptedCount": "Interaktionen pro Tag"

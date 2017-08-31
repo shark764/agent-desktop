@@ -1,0 +1,491 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<WelcomeStats /> should render correctly in agent desktop mode 1`] = `
+<div
+  style={
+    Object {
+      "borderRadius": "10px",
+      "fontSize": "24px",
+      "height": "300px",
+      "lineHeight": "23px",
+      "margin": "50px",
+      "padding": "1em",
+      "position": "relative",
+      "textAlign": "inherit",
+      "top": "6%",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "color": "#14778D",
+        "fontWeight": "bold",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Welcome, "
+      id="app.containers.WelcomeStats.welcome"
+      values={Object {}}
+    />
+  </span>
+  <span
+    style={
+      Object {
+        "color": "white",
+        "display": "block",
+        "left": "1em",
+        "position": "relative",
+        "top": "0.5em",
+      }
+    }
+  >
+    Avner
+     
+    Flippenbaum
+  </span>
+  <div
+    id="statContainer"
+    style={
+      Object {
+        "alignItems": "stretch",
+        "borderRadius": "3px",
+        "boxShadow": "inset rgba(0, 0, 0, .75) 0px 0px 10px -2px",
+        "display": "flex",
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "justifyContent": "flex-start",
+        "lineHeight": "1.15em",
+        "margin": "0 auto",
+        "padding": "0 1em",
+        "position": "relative",
+        "textAlign": "center",
+        "top": "3em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "color": "#607b81",
+          "flex": "3 100%",
+          "fontSize": "16px",
+          "padding": "1.65em 0 2em",
+          "textAlign": "center",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="PERFORMANCE"
+        id="app.containers.WelcomeStats.performance"
+        values={Object {}}
+      />
+    </div>
+    <div
+      style={
+        Array [
+          Object {
+            "order": 0,
+          },
+          Object {
+            "flex": 1,
+            "flexBias": "100%",
+            "height": "95px",
+            "margin": "0 auto",
+          },
+        ]
+      }
+    >
+      <div
+        style={
+          Object {
+            "color": "#FFF",
+            "fontSize": "35px",
+            "fontWeight": "bold",
+            "position": "relative",
+          }
+        }
+      >
+        <IconSVG
+          id="loadingIcon"
+          name="loadingWhite"
+          style={
+            Object {
+              "height": "20px",
+              "position": "relative",
+              "top": "-5px",
+            }
+          }
+        />
+      </div>
+      <div
+        style={
+          Object {
+            "color": "#FFF",
+            "fontSize": "15px",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        <FormattedMessage
+          defaultMessage="Average Handle Time"
+          id="app.containers.WelcomeStats.resourceHandleTime"
+          values={Object {}}
+        />
+      </div>
+    </div>
+    <div
+      style={
+        Array [
+          Object {
+            "order": 1,
+          },
+          Object {
+            "flex": 1,
+            "flexBias": "100%",
+            "height": "95px",
+            "margin": "0 auto",
+          },
+        ]
+      }
+    >
+      <div
+        style={
+          Object {
+            "color": "#FFF",
+            "fontSize": "35px",
+            "fontWeight": "bold",
+            "position": "relative",
+          }
+        }
+      >
+        <IconSVG
+          id="loadingIcon"
+          name="loadingWhite"
+          style={
+            Object {
+              "height": "20px",
+              "position": "relative",
+              "top": "-5px",
+            }
+          }
+        />
+      </div>
+      <div
+        style={
+          Object {
+            "color": "#FFF",
+            "fontSize": "15px",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        <FormattedMessage
+          defaultMessage="Daily Interactions"
+          id="app.containers.WelcomeStats.workAcceptedCount"
+          values={Object {}}
+        />
+      </div>
+    </div>
+    <div
+      style={
+        Array [
+          Object {
+            "order": 2,
+          },
+          Object {
+            "flex": 1,
+            "flexBias": "100%",
+            "height": "95px",
+            "margin": "0 auto",
+          },
+        ]
+      }
+    >
+      <div
+        style={
+          Object {
+            "color": "#FFF",
+            "fontSize": "35px",
+            "fontWeight": "bold",
+            "position": "relative",
+          }
+        }
+      >
+        <IconSVG
+          id="loadingIcon"
+          name="loadingWhite"
+          style={
+            Object {
+              "height": "20px",
+              "position": "relative",
+              "top": "-5px",
+            }
+          }
+        />
+      </div>
+      <div
+        style={
+          Object {
+            "color": "#FFF",
+            "fontSize": "15px",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        <FormattedMessage
+          defaultMessage="Customer Satisfaction"
+          id="app.containers.WelcomeStats.customerSatisfactionScore"
+          values={Object {}}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<WelcomeStats /> should render correctly in toolbar mode 1`] = `
+<div
+  style={
+    Object {
+      "borderRadius": "10px",
+      "fontSize": "24px",
+      "height": "inherit",
+      "lineHeight": "23px",
+      "margin": "0 10px 10px",
+      "padding": "1em",
+      "position": "relative",
+      "textAlign": "center",
+      "top": 0,
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "color": "#14778D",
+        "fontWeight": "bold",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Welcome, "
+      id="app.containers.WelcomeStats.welcome"
+      values={Object {}}
+    />
+  </span>
+  <span
+    style={
+      Object {
+        "color": "white",
+        "display": "block",
+        "left": 0,
+        "position": "relative",
+        "top": "0.5em",
+      }
+    }
+  >
+    Avner
+     
+    Flippenbaum
+  </span>
+  <div
+    id="statContainer"
+    style={
+      Object {
+        "alignItems": "stretch",
+        "borderRadius": "3px",
+        "boxShadow": "inset rgba(0, 0, 0, .75) 0px 0px 10px -2px",
+        "display": "flex",
+        "flexDirection": "column",
+        "flexWrap": "wrap",
+        "justifyContent": "flex-start",
+        "lineHeight": "1.15em",
+        "margin": "0 auto",
+        "padding": "0 1em",
+        "position": "relative",
+        "textAlign": "center",
+        "top": "2.45em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "color": "#607b81",
+          "flex": "1",
+          "fontSize": "16px",
+          "padding": "1.65em 0 2em",
+          "textAlign": "center",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="PERFORMANCE"
+        id="app.containers.WelcomeStats.performance"
+        values={Object {}}
+      />
+    </div>
+    <div
+      style={
+        Array [
+          Object {
+            "order": 0,
+          },
+          Object {
+            "flex": 1,
+            "flexBias": "100%",
+            "height": "110px",
+            "margin": "0 auto",
+          },
+        ]
+      }
+    >
+      <div
+        style={
+          Object {
+            "color": "#FFF",
+            "fontSize": "35px",
+            "fontWeight": "bold",
+            "position": "relative",
+          }
+        }
+      >
+        <IconSVG
+          id="loadingIcon"
+          name="loadingWhite"
+          style={
+            Object {
+              "height": "20px",
+              "position": "relative",
+              "top": "-5px",
+            }
+          }
+        />
+      </div>
+      <div
+        style={
+          Object {
+            "color": "#FFF",
+            "fontSize": "15px",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        <FormattedMessage
+          defaultMessage="Average Handle Time"
+          id="app.containers.WelcomeStats.resourceHandleTime"
+          values={Object {}}
+        />
+      </div>
+    </div>
+    <div
+      style={
+        Array [
+          Object {
+            "order": 1,
+          },
+          Object {
+            "flex": 1,
+            "flexBias": "100%",
+            "height": "110px",
+            "margin": "0 auto",
+          },
+        ]
+      }
+    >
+      <div
+        style={
+          Object {
+            "color": "#FFF",
+            "fontSize": "35px",
+            "fontWeight": "bold",
+            "position": "relative",
+          }
+        }
+      >
+        <IconSVG
+          id="loadingIcon"
+          name="loadingWhite"
+          style={
+            Object {
+              "height": "20px",
+              "position": "relative",
+              "top": "-5px",
+            }
+          }
+        />
+      </div>
+      <div
+        style={
+          Object {
+            "color": "#FFF",
+            "fontSize": "15px",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        <FormattedMessage
+          defaultMessage="Daily Interactions"
+          id="app.containers.WelcomeStats.workAcceptedCount"
+          values={Object {}}
+        />
+      </div>
+    </div>
+    <div
+      style={
+        Array [
+          Object {
+            "order": 2,
+          },
+          Object {
+            "flex": 1,
+            "flexBias": "100%",
+            "height": "110px",
+            "margin": "0 auto",
+          },
+        ]
+      }
+    >
+      <div
+        style={
+          Object {
+            "color": "#FFF",
+            "fontSize": "35px",
+            "fontWeight": "bold",
+            "position": "relative",
+          }
+        }
+      >
+        <IconSVG
+          id="loadingIcon"
+          name="loadingWhite"
+          style={
+            Object {
+              "height": "20px",
+              "position": "relative",
+              "top": "-5px",
+            }
+          }
+        />
+      </div>
+      <div
+        style={
+          Object {
+            "color": "#FFF",
+            "fontSize": "15px",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        <FormattedMessage
+          defaultMessage="Customer Satisfaction"
+          id="app.containers.WelcomeStats.customerSatisfactionScore"
+          values={Object {}}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

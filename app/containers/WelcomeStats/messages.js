@@ -14,6 +14,10 @@ export default defineMessages({
     id: 'app.containers.WelcomeStats.welcome',
     defaultMessage: 'Welcome, ',
   },
+  performance: {
+    id: 'app.containers.WelcomeStats.performance',
+    defaultMessage: 'PERFORMANCE',
+  },
   resourceHandleTime: {
     id: 'app.containers.WelcomeStats.resourceHandleTime',
     defaultMessage: 'Average Handle Time',

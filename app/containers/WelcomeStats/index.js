@@ -28,34 +28,40 @@ export class WelcomeStats extends React.Component {
   styles = {
     welcome: {
       fontSize: '24px',
-      color: '#50686E',
       lineHeight: '23px',
       position: 'relative',
-      top: '25vh',
-      height: '300px',
-      margin: '50px',
+      top: this.context.toolbarMode ? 0 : '6%',
+      height: this.context.toolbarMode ? 'inherit' : '300px',
+      margin: this.context.toolbarMode ? '0 10px 10px' : '50px',
       padding: '1em',
       borderRadius: '10px',
+      textAlign: this.context.toolbarMode ? 'center' : 'inherit',
+    },
+    greetingText: {
+      fontWeight: 'bold',
+      color: '#14778D',
     },
     agentName: {
       display: 'block',
       position: 'relative',
       top: '0.5em',
-      left: '1em',
+      left: this.context.toolbarMode ? 0 : '1em',
       color: 'white',
     },
     statsContainer: {
       display: 'flex',
       flexWrap: 'wrap',
-      flexDirection: 'row',
+      flexDirection: this.context.toolbarMode ? 'column' : 'row',
       justifyContent: 'flex-start',
       alignItems: 'stretch',
-      width: '90%',
       margin: '0 auto',
       textAlign: 'center',
       position: 'relative',
-      top: '3em',
+      top: this.context.toolbarMode ? '2.45em' : '3em',
       lineHeight: '1.15em',
+      borderRadius: '3px',
+      boxShadow: 'inset rgba(0, 0, 0, .75) 0px 0px 10px -2px',
+      padding: '0 1em',
     },
     stat: {
       position: 'relative',
@@ -65,40 +71,27 @@ export class WelcomeStats extends React.Component {
     },
     statVal: {
       position: 'relative',
-      color: 'white',
-      top: '1em',
+      color: '#FFF',
+      fontWeight: 'bold',
+      fontSize: '35px',
     },
-    statLeft: {
-      order: '1',
-      flexBias: '100%',
-      height: '200px',
-      width: '30%',
-      margin: '0 auto',
+    statsSubHead: {
+      textAlign: 'center',
+      fontSize: '16px',
+      color: '#607b81',
+      padding: '1.65em 0 2em',
+      flex: this.context.toolbarMode ? '1' : '3 100%',
     },
-    statMid: {
-      order: '3',
+    indivStats: {
       flexBias: '100%',
-      height: '200px',
-      width: '30%',
-      margin: '0 auto',
-    },
-    statRight: {
-      order: '2',
-      flexBias: '100%',
-      height: '200px',
-      width: '30%',
-      margin: '0 auto',
-    },
-    statContainer: {
-      order: '2',
-      flexBias: '100%',
-      height: '200px',
-      width: '30%',
+      height: this.context.toolbarMode ? '110px' : '95px',
+      flex: 1,
       margin: '0 auto',
     },
     statTitle: {
-      fontWeight: 'bold',
-      color: 'rgb(20, 119, 141)',
+      color: '#FFF',
+      fontSize: '15px',
+      fontWeight: 'normal',
     },
     loadingIcon: {
       height: '20px',
@@ -116,15 +109,13 @@ export class WelcomeStats extends React.Component {
   };
 
   getStatDisplay = (stat, index) =>
-    (<div
-      style={[this.styles.statContainer, { order: index }]}
-      key={stat[statKey]}
-    >
-      <div style={this.styles.statTitle}>
-        <FormattedMessage {...messages[stat[statKey]]} />
-      </div>
+
+    (<div style={[{ order: index }, this.styles.indivStats]} key={stat[statKey]}>
       <div style={this.styles.statVal}>
         {this.getStatBody(this.props.welcomeStats[stat[statKey]])}
+      </div>
+      <div style={this.styles.statTitle}>
+        <FormattedMessage {...messages[stat[statKey]]} />
       </div>
     </div>);
 
@@ -138,13 +129,17 @@ export class WelcomeStats extends React.Component {
   render() {
     return (
       <div style={this.styles.welcome}>
-        <span style={this.styles.statTitle}>
+        <span style={this.styles.greetingText}>
           <FormattedMessage {...messages.welcome} />
         </span>
         <span style={this.styles.agentName}>
           {this.props.agent.firstName} {this.props.agent.lastName}
         </span>
         <div id="statContainer" style={this.styles.statsContainer}>
+          <div style={this.styles.statsSubHead}>
+            <FormattedMessage {...messages.performance} />
+          </div>
+
           {welcomeStatsConfig.map(this.getStatDisplay)}
         </div>
       </div>
@@ -165,6 +160,10 @@ function mapDispatchToProps(dispatch) {
 WelcomeStats.propTypes = {
   agent: PropTypes.object.isRequired,
   welcomeStats: PropTypes.object.isRequired,
+};
+
+WelcomeStats.contextTypes = {
+  toolbarMode: PropTypes.bool,
 };
 
 export default ErrorBoundary(

@@ -216,6 +216,7 @@
   "app.containers.VoiceContentArea.endWrapup": "End Wrap Up",
   "app.containers.VoiceContentArea.hangUp": "Hang Up",
   "app.containers.WelcomeStats.customerSatisfactionScore": "Customer Satisfaction",
+  "app.containers.WelcomeStats.performance": "",
   "app.containers.WelcomeStats.resourceHandleTime": "Average Handle Time",
   "app.containers.WelcomeStats.welcome": "Welcome,",
   "app.containers.WelcomeStats.workAcceptedCount": "Daily Interactions"
