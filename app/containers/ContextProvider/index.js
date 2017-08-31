@@ -15,7 +15,6 @@ export class ContextProvider extends React.Component {
   getChildContext() {
     return {
       toolbarMode: window.location.href.indexOf('tb2') !== -1,
-      crmEnabled: window.location.href.indexOf('tb2') === -1,
     };
   }
 
@@ -30,7 +29,6 @@ ContextProvider.propTypes = {
 
 ContextProvider.childContextTypes = {
   toolbarMode: PropTypes.bool,
-  crmEnabled: PropTypes.bool,
 };
 
 export default ContextProvider;

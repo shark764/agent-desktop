@@ -108,6 +108,7 @@ import {
   selectLoginMap,
   selectIsSidePanelCollapsed,
 } from 'containers/AgentDesktop/selectors';
+import { selectHasCrmPermissions } from './selectors';
 
 import { version as release } from '../../../package.json';
 
@@ -748,7 +749,7 @@ export class App extends React.Component {
   };
 
   attemptContactSearch = (from, interactionId, exact) => {
-    if (this.context.crmEnabled) {
+    if (!this.context.toolbarMode && this.props.hasCrmPermissions) {
       CxEngage.contacts.search(
         {
           query: {
@@ -964,6 +965,7 @@ const mapStateToProps = (state, props) => ({
   erroredStatIds: selectErroredStatIds(state, props),
   nonCriticalError: selectNonCriticalError(state, props),
   isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
+  hasCrmPermissions: selectHasCrmPermissions(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -1140,11 +1142,11 @@ App.propTypes = {
   criticalError: PropTypes.any,
   nonCriticalError: PropTypes.any,
   isSidePanelCollapsed: PropTypes.bool,
+  hasCrmPermissions: PropTypes.bool,
   dismissError: PropTypes.func,
 };
 
 App.contextTypes = {
-  crmEnabled: PropTypes.bool,
   toolbarMode: PropTypes.bool,
 };
 

@@ -35,6 +35,7 @@ import { mappedLocales } from 'i18n';
 import { changeLocale } from 'containers/LanguageProvider/actions';
 import { selectLocale } from 'containers/LanguageProvider/selectors';
 import { setNonCriticalError } from 'containers/Errors/actions';
+import { requiredPermissions } from 'containers/App/permissions';
 import selectLogin from './selectors';
 import messages from './messages';
 import {
@@ -45,7 +46,6 @@ import {
   settingTenant,
   setTenant,
 } from './actions';
-import requiredPermissions from './permissions';
 const storage = window.localStorage;
 
 const styles = {

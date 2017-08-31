@@ -24,12 +24,13 @@ const initialState = fromJS({
   showLogin: true,
   // Uncomment below to hide login screen
   // showLogin: false,
-  // agent: {
-  //   fistName: 'Tom',
-  //   lastName: 'Tucker',
-  //   userId: 'Id',
-  // },
-  // tenant: {},
+  agent: {
+    // fistName: 'Tom',
+    // lastName: 'Tucker',
+    // userId: 'Id',
+    tenants: [],
+  },
+  tenant: { id: '' },
 });
 
 function loginReducer(state = initialState, action) {
