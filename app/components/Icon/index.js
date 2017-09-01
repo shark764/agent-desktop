@@ -42,6 +42,7 @@ import dialpadSprite from 'assets/icons/dialpad_sprite.png';
 import dialpadDarkSprite from 'assets/icons/dialpad_dark_sprite.png';
 import addInteraction from 'assets/icons/add_interaction.png';
 import resourcesSprite from 'assets/icons/resources_sprite.png';
+import scriptOnly from 'assets/icons/script.png';
 
 export const availableIcons = [
   'add_interaction',
@@ -71,6 +72,7 @@ export const availableIcons = [
   'not_connected',
   'resources',
   'search',
+  'script',
   'transfer',
   'transfer_dark',
   'transfer_resource',
@@ -133,6 +135,11 @@ const styles = {
     data: { src: attachment },
     height: '16px',
     width: '16px',
+  },
+  script: {
+    data: { src: scriptOnly },
+    height: '22px',
+    width: '26px',
   },
   message: {
     data: { src: message },

@@ -320,6 +320,13 @@ export class InteractionsBar extends React.Component {
           icon = 'email';
         }
 
+        if (
+          activeInteraction.status === 'work-ended-pending-script' ||
+          activeInteraction.status === 'script-only'
+        ) {
+          icon = 'script';
+        }
+
         // Set from to the contact name if available
         if (
           activeInteraction.contact !== undefined &&

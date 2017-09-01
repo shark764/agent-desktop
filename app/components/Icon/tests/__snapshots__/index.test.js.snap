@@ -565,6 +565,22 @@ exports[`<Icon /> with name resources should render correctly 1`] = `
 />
 `;
 
+exports[`<Icon /> with name script should render correctly 1`] = `
+<img
+  alt="script"
+  data-radium={true}
+  id="mockId"
+  src="test-file-stub"
+  style={
+    Object {
+      "cursor": "pointer",
+      "height": "22px",
+      "width": "26px",
+    }
+  }
+/>
+`;
+
 exports[`<Icon /> with name search should render correctly 1`] = `
 <img
   alt="search"
