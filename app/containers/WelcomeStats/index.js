@@ -30,7 +30,7 @@ export class WelcomeStats extends React.Component {
       fontSize: '24px',
       lineHeight: '23px',
       position: 'relative',
-      top: this.context.toolbarMode ? 0 : '6%',
+      top: this.context.toolbarMode ? 0 : '9%',
       height: this.context.toolbarMode ? 'inherit' : '300px',
       margin: this.context.toolbarMode ? '0 10px 10px' : '50px',
       padding: '1em',
