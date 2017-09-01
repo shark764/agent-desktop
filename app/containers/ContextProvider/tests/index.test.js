@@ -12,26 +12,15 @@ import { ContextProvider } from '../index';
 class TestApp extends React.Component {
   render() {
     if (this.context.toolbarMode) {
-      return (
-        <div>
-          Toolbar
-          {this.context.crmEnabled && <div>CRM Enabled</div>}
-        </div>
-      );
+      return <div>Toolbar</div>;
     } else {
-      return (
-        <div>
-          Desktop
-          {this.context.crmEnabled && <div>CRM Enabled</div>}
-        </div>
-      );
+      return <div>Desktop</div>;
     }
   }
 }
 
 TestApp.contextTypes = {
   toolbarMode: PropTypes.bool,
-  crmEnabled: PropTypes.bool,
 };
 
 describe('<ContextProvider />', () => {

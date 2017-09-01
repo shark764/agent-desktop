@@ -4,5 +4,12 @@ exports[`loginReducer returns the initial state 1`] = `
 Immutable.Map {
   loading: false,
   showLogin: true,
+  agent: Immutable.Map {
+    tenants: Immutable.List [
+    ],
+  },
+  tenant: Immutable.Map {
+    id: "",
+  },
 }
 `;

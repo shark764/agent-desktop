@@ -1,4 +1,6 @@
-const requiredPermissions = [
+export const requiredPermissions = ['ARTIFACTS_CREATE_ALL'];
+
+export const crmPermissions = [
   'CONTACTS_CREATE',
   'CONTACTS_UPDATE',
   'CONTACTS_READ',
@@ -6,7 +8,4 @@ const requiredPermissions = [
   'CONTACTS_LAYOUTS_READ',
   'CONTACTS_ASSIGN_INTERACTION',
   'CONTACTS_INTERACTION_HISTORY_READ',
-  'ARTIFACTS_CREATE_ALL',
 ];
-
-export default requiredPermissions;

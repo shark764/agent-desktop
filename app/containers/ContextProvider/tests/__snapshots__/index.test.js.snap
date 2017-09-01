@@ -5,9 +5,6 @@ exports[`<ContextProvider /> should set context flags correctly for desktop url 
   <TestApp>
     <div>
       Desktop
-      <div>
-        CRM Enabled
-      </div>
     </div>
   </TestApp>
 </ContextProvider>

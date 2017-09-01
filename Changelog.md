@@ -5,6 +5,8 @@
 * CXV1-11423 - Replace Wrapup Toggle Switch in Toolbar with Options in Button Submenu
 * CXV1-10659 - Toolbar styling of summary screen
 * CXV1-10518 - Prevent ending interactions auto selecting pending interactions
+* CXV1-11408 - Moved crm flag into a selector that uses agent permissions for selected tenant
+* CXV1-11407 - Removed contact permissions check on tenant select
 
 ### [1.2.0] (2017-08-25)
 * CXV1-9006 - Toolbar view of scripts

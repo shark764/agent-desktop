@@ -29,6 +29,7 @@ import {
   showSidePanel,
   hideSidePanel,
 } from 'containers/AgentDesktop/actions';
+import { selectHasCrmPermissions } from 'containers/App/selectors';
 
 import messages from './messages';
 import {
@@ -131,13 +132,15 @@ export class SidePanel extends React.Component {
       {
         name: 'info',
         tabInner:
-          this.context.crmEnabled &&
+          !this.context.toolbarMode &&
+          this.props.hasCrmPermissions &&
           <InfoTab isCollapsed={this.props.isCollapsed} />,
       },
       {
         name: 'history',
         tabInner:
-          this.context.crmEnabled &&
+          !this.context.toolbarMode &&
+          this.props.hasCrmPermissions &&
           this.props.hasAssignedContact &&
           <ContactInteractionHistory />,
       },
@@ -237,6 +240,7 @@ function mapStateToProps(state, props) {
     ),
     hasAssignedContact: getHasAssignedContact(state, props),
     selectedSidePanelTab: getSelectedSidePanelTab(state, props),
+    hasCrmPermissions: selectHasCrmPermissions(state, props),
   };
 }
 
@@ -263,11 +267,11 @@ SidePanel.propTypes = {
     .isRequired,
   hasAssignedContact: PropTypes.bool.isRequired,
   selectSidePanelTab: PropTypes.func.isRequired,
+  hasCrmPermissions: PropTypes.bool.isRequired,
 };
 
 SidePanel.contextTypes = {
   toolbarMode: PropTypes.bool,
-  crmEnabled: PropTypes.bool,
 };
 
 export default ErrorBoundary(
