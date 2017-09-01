@@ -1,0 +1,227 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<OutboundInteractionButton /> is disabled isEnabled prop type is false 1`] = `
+<InjectIntl(Button)
+  disabled={true}
+  id="voiceNewInteractionButton"
+  onClick={[Function]}
+  style={
+    Array [
+      Object {
+        "display": "block",
+        "fontSize": "15px",
+        "margin": "0 auto 10px",
+        "width": "280px",
+      },
+      undefined,
+    ]
+  }
+  title="Voice interaction already exists"
+  type="secondary"
+>
+  <div>
+    <Icon
+      name="voice_dark"
+      style={
+        Object {
+          "cursor": "inherit",
+          "display": "inline-block",
+          "marginRight": "10px",
+          "verticalAlign": "top",
+        }
+      }
+    />
+    <FormattedMessage
+      defaultMessage="CALL"
+      id="app.containers.ContactsSearch.call"
+      values={Object {}}
+    />
+  </div>
+</InjectIntl(Button)>
+`;
+
+exports[`<OutboundInteractionButton /> is disabled when agent is not ready 1`] = `
+<InjectIntl(Button)
+  disabled={true}
+  id="voiceNewInteractionButton"
+  onClick={[Function]}
+  style={
+    Array [
+      Object {
+        "display": "block",
+        "fontSize": "15px",
+        "margin": "0 auto 10px",
+        "width": "280px",
+      },
+      undefined,
+    ]
+  }
+  title={
+    Object {
+      "defaultMessage": "You must be in the ready state",
+      "id": "app.containers.OutboundInteractionButtons.mustBeReady",
+    }
+  }
+  type="secondary"
+>
+  <div>
+    <Icon
+      name="voice_dark"
+      style={
+        Object {
+          "cursor": "inherit",
+          "display": "inline-block",
+          "marginRight": "10px",
+          "verticalAlign": "top",
+        }
+      }
+    />
+    <FormattedMessage
+      defaultMessage="CALL"
+      id="app.containers.ContactsSearch.call"
+      values={Object {}}
+    />
+  </div>
+</InjectIntl(Button)>
+`;
+
+exports[`<OutboundInteractionButton /> renders correctly for email channel 1`] = `
+<InjectIntl(Button)
+  disabled={false}
+  id="emailNewInteractionButton"
+  onClick={[Function]}
+  style={
+    Array [
+      Object {
+        "display": "block",
+        "fontSize": "15px",
+        "margin": "0 auto 10px",
+        "width": "280px",
+      },
+      false,
+    ]
+  }
+  title="test@serenova.com"
+  type="secondary"
+>
+  <div>
+    <Icon
+      name="email_dark"
+      style={
+        Object {
+          "cursor": "inherit",
+          "display": "inline-block",
+          "marginRight": "10px",
+          "verticalAlign": "top",
+        }
+      }
+    />
+    <span
+      style={
+        Object {
+          "display": "inline-block",
+          "maxWidth": "210px",
+          "overflowX": "hidden",
+          "textOverflow": "ellipsis",
+        }
+      }
+    >
+      test@serenova.com
+    </span>
+  </div>
+</InjectIntl(Button)>
+`;
+
+exports[`<OutboundInteractionButton /> renders correctly for sms channel 1`] = `
+<InjectIntl(Button)
+  disabled={false}
+  id="smsNewInteractionButton"
+  onClick={[Function]}
+  style={
+    Array [
+      Object {
+        "display": "block",
+        "fontSize": "15px",
+        "margin": "0 auto 10px",
+        "width": "280px",
+      },
+      false,
+    ]
+  }
+  title="+15064701234"
+  type="secondary"
+>
+  <div>
+    <Icon
+      name="message_dark"
+      style={
+        Object {
+          "cursor": "inherit",
+          "display": "inline-block",
+          "marginRight": "10px",
+          "verticalAlign": "top",
+        }
+      }
+    />
+    <span
+      style={
+        Object {
+          "display": "inline-block",
+          "maxWidth": "210px",
+          "overflowX": "hidden",
+          "textOverflow": "ellipsis",
+        }
+      }
+    >
+      +15064701234
+    </span>
+  </div>
+</InjectIntl(Button)>
+`;
+
+exports[`<OutboundInteractionButton /> renders correctly for voice channel 1`] = `
+<InjectIntl(Button)
+  disabled={false}
+  id="voiceNewInteractionButton"
+  onClick={[Function]}
+  style={
+    Array [
+      Object {
+        "display": "block",
+        "fontSize": "15px",
+        "margin": "0 auto 10px",
+        "width": "280px",
+      },
+      false,
+    ]
+  }
+  title="+15064701234"
+  type="secondary"
+>
+  <div>
+    <Icon
+      name="voice_dark"
+      style={
+        Object {
+          "cursor": "inherit",
+          "display": "inline-block",
+          "marginRight": "10px",
+          "verticalAlign": "top",
+        }
+      }
+    />
+    <span
+      style={
+        Object {
+          "display": "inline-block",
+          "maxWidth": "210px",
+          "overflowX": "hidden",
+          "textOverflow": "ellipsis",
+        }
+      }
+    >
+      +15064701234
+    </span>
+  </div>
+</InjectIntl(Button)>
+`;

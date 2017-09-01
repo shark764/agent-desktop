@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NewInteractionForm /> should render correctly 1`] = `
+<div
+  style={
+    Object {
+      "paddingLeft": "20px",
+      "width": "100%",
+    }
+  }
+>
+  <InjectIntl(TextInput)
+    cb={[Function]}
+    id="newInteractionFormInput"
+    placeholder={
+      Object {
+        "defaultMessage": "Enter a valid phone number or email",
+        "id": "app.containers.NewInteractionContentArea.newInteractionFormInstructions",
+      }
+    }
+    style={
+      Object {
+        "marginTop": "50px",
+        "width": "100%",
+      }
+    }
+    value=""
+  />
+  <hr
+    style={
+      Object {
+        "margin": "30px 25%",
+        "width": "50%",
+      }
+    }
+  />
+  <Connect(ErrorBoundaryComponent)
+    phoneNumber=""
+  />
+  <Connect(ErrorBoundaryComponent)
+    email=""
+  />
+</div>
+`;

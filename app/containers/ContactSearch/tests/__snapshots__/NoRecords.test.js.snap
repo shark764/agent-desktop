@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NoRecords /> should render with outbound buttons when a valid phone number is passed in as the only query parameter 1`] = `
+<div
+  style={
+    Object {
+      "paddingLeft": "52px",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "marginBottom": "30px",
+        "textAlign": "center",
+      }
+    }
+  >
+    - 
+    <FormattedMessage
+      defaultMessage="No records found"
+      id="app.containers.ContactsSearch.noRecords"
+      values={Object {}}
+    />
+     -
+  </div>
+  <div
+    style={
+      Object {
+        "borderTop": "1px solid #D0D0D0",
+        "paddingTop": "30px",
+      }
+    }
+  >
+    <Connect(ErrorBoundaryComponent)
+      phoneNumber="+15064701234"
+    />
+    <Connect(ErrorBoundaryComponent)
+      phoneNumber="+15064701234"
+    />
+    <div
+      style={
+        Object {
+          "alignItems": "center",
+          "color": "#979797",
+          "display": "flex",
+          "flex": "1",
+          "flexDirection": "column",
+          "marginBottom": "8px",
+          "marginTop": "8px",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="OR"
+        id="app.containers.ContactsSearch.or"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "center",
+      }
+    }
+  >
+    <InjectIntl(Button)
+      id="createNewRecord"
+      onClick={[Function]}
+      text={
+        Object {
+          "defaultMessage": "Create New Record",
+          "id": "app.containers.ContactsSearch.createRecord",
+        }
+      }
+      type="secondary"
+    />
+  </div>
+</div>
+`;
+
+exports[`<NoRecords /> should render without outbound buttons by default 1`] = `
+<div
+  style={
+    Object {
+      "paddingLeft": "52px",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "marginBottom": "30px",
+        "textAlign": "center",
+      }
+    }
+  >
+    - 
+    <FormattedMessage
+      defaultMessage="No records found"
+      id="app.containers.ContactsSearch.noRecords"
+      values={Object {}}
+    />
+     -
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "center",
+      }
+    }
+  >
+    <InjectIntl(Button)
+      id="createNewRecord"
+      onClick={[Function]}
+      text={
+        Object {
+          "defaultMessage": "Create New Record",
+          "id": "app.containers.ContactsSearch.createRecord",
+        }
+      }
+      type="secondary"
+    />
+  </div>
+</div>
+`;

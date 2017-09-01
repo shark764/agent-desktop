@@ -106,6 +106,10 @@ export class InteractionsBar extends React.Component {
     CxEngage.interactions.accept({ interactionId });
   };
 
+  openNewInteractionPanel = () => {
+    this.props.openNewInteractionPanel(this.context.toolbarMode);
+  };
+
   updateScrollItems = () => {
     const scrollableHeight = this.interactionsScrollContainer.scrollHeight;
     const viewableHeight = this.interactionsScrollContainer.clientHeight;
@@ -570,7 +574,7 @@ export class InteractionsBar extends React.Component {
                 id="newInteraction"
                 name="add_interaction"
                 alt={this.props.intl.formatMessage(messages.newInteraction)}
-                onclick={this.props.openNewInteractionPanel}
+                onclick={this.openNewInteractionPanel}
                 style={{
                   display: 'block',
                   margin: '0 auto',
@@ -597,7 +601,8 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    openNewInteractionPanel: () => dispatch(openNewInteractionPanel()),
+    openNewInteractionPanel: (isSidePanelCollapsed) =>
+      dispatch(openNewInteractionPanel(isSidePanelCollapsed)),
     setInteractionStatus: (interactionId, newStatus, response) =>
       dispatch(setInteractionStatus(interactionId, newStatus, response)),
     selectSidePanelTab: (interactionId, tabName) =>

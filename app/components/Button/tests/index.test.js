@@ -11,7 +11,9 @@ describe('<Button />', () => {
   possibleTypes.forEach((type) => {
     describe(`with type ${type}`, () => {
       it('should render correctly', () => {
-        const rendered = shallow(<Button type={type} id="mockId" />);
+        const rendered = shallow(
+          <Button.WrappedComponent type={type} id="mockId" />
+        );
         expect(rendered).toMatchSnapshot();
       });
     });
@@ -20,7 +22,9 @@ describe('<Button />', () => {
   possibleTypes.forEach((type) => {
     describe(`with type ${type} and disabled`, () => {
       it('should render correctly', () => {
-        const rendered = shallow(<Button type={type} id="mockId" disabled />);
+        const rendered = shallow(
+          <Button.WrappedComponent type={type} id="mockId" disabled />
+        );
         expect(rendered).toMatchSnapshot();
       });
     });
@@ -29,7 +33,7 @@ describe('<Button />', () => {
   describe('when passed a border style', () => {
     it('should render correctly', () => {
       const rendered = shallow(
-        <Button
+        <Button.WrappedComponent
           type={'primaryBlue'}
           id="mockId"
           style={{ borderTop: 'thick double #ff0000' }}
@@ -42,7 +46,11 @@ describe('<Button />', () => {
   describe('when button is icon', () => {
     it('should render correctly', () => {
       const rendered = shallow(
-        <Button type={'primaryBlue'} id="mockId" iconName={'close'} />
+        <Button.WrappedComponent
+          type={'primaryBlue'}
+          id="mockId"
+          iconName={'close'}
+        />
       );
       expect(rendered).toMatchSnapshot();
     });
@@ -51,7 +59,11 @@ describe('<Button />', () => {
   describe('when passed text as a string', () => {
     it('should render correctly', () => {
       const rendered = shallow(
-        <Button type={'primaryBlue'} id="mockId" text={'testing!'} />
+        <Button.WrappedComponent
+          type={'primaryBlue'}
+          id="mockId"
+          text={'testing!'}
+        />
       );
       expect(rendered).toMatchSnapshot();
     });
@@ -60,7 +72,7 @@ describe('<Button />', () => {
   describe('when passed text as a obj', () => {
     it('should render correctly', () => {
       const rendered = shallow(
-        <Button
+        <Button.WrappedComponent
           type={'primaryBlue'}
           id="mockId"
           text={{
@@ -76,7 +88,7 @@ describe('<Button />', () => {
   describe('when passed mouseOverText and is hovered', () => {
     it('should render correctly', () => {
       const rendered = shallow(
-        <Button
+        <Button.WrappedComponent
           type={'primaryBlue'}
           id="mockId"
           mouseOverText={{
@@ -94,9 +106,9 @@ describe('<Button />', () => {
   describe('when it has children', () => {
     it('should render correctly', () => {
       const rendered = shallow(
-        <Button type={'primaryBlue'} id="mockId">
+        <Button.WrappedComponent type={'primaryBlue'} id="mockId">
           <div>Test!</div>
-        </Button>
+        </Button.WrappedComponent>
       );
       expect(rendered).toMatchSnapshot();
     });
@@ -104,7 +116,9 @@ describe('<Button />', () => {
 
   describe('on MouseLeave and MouseEnter events', () => {
     it('state.mouseOver should update correctly', () => {
-      const rendered = shallow(<Button type={'primaryBlue'} id="mockId" />);
+      const rendered = shallow(
+        <Button.WrappedComponent type={'primaryBlue'} id="mockId" />
+      );
 
       rendered.find('#mockId').simulate('MouseEnter');
       expect(rendered.state('mouseOver')).toBe(true);

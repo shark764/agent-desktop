@@ -10,6 +10,7 @@ import ResponseMessage from 'models/Message/ResponseMessage';
 import {
   SET_INTERACTION_STATUS,
   SET_ACTIVE_RESOURCES,
+  SET_NEW_INTERACTION_PANEL_FORM_INPUT,
   START_OUTBOUND_INTERACTION,
   INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
   ADD_INTERACTION,
@@ -217,6 +218,23 @@ describe('agentDesktopReducer', () => {
       it('sets the active resources', () => {
         runReducerAndExpectSnapshot();
       });
+    });
+  });
+
+  describe('SET_NEW_INTERACTION_PANEL_FORM_INPUT', () => {
+    beforeEach(() => {
+      initialState = {
+        newInteractionPanel: {
+          newInteractionFormInput: '',
+        },
+      };
+      action = {
+        type: SET_NEW_INTERACTION_PANEL_FORM_INPUT,
+        input: 'new input',
+      };
+    });
+    it('sets the input in newInteractionPanel', () => {
+      runReducerAndExpectSnapshot();
     });
   });
 

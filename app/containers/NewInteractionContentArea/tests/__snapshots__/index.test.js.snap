@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NewInteractionContentArea /> should render <ContactSearch /> when not in toolbar mode, having crm permissions 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "#FFFFFF",
+      "display": "flex",
+      "flexDirection": "column",
+      "height": "100%",
+      "paddingRight": "20px",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "padding": "13px 0",
+      }
+    }
+  >
+    <InjectIntl(Button)
+      id="cancelNewInteractionButton"
+      onClick={[Function]}
+      style={
+        Object {
+          "float": "right",
+        }
+      }
+      text={
+        Object {
+          "defaultMessage": "Cancel",
+          "id": "app.containers.NewInteractionContentArea.cancel",
+        }
+      }
+      type="secondary"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "height": "100%",
+        "overflowY": "hidden",
+      }
+    }
+  >
+    <Connect(ErrorBoundaryComponent) />
+  </div>
+</div>
+`;
+
+exports[`<NewInteractionContentArea /> should render <NewInteractionForm /> when in toolbar mode 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "#FFFFFF",
+      "display": "flex",
+      "flexDirection": "column",
+      "height": "100%",
+      "paddingRight": "20px",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "padding": "13px 0",
+      }
+    }
+  >
+    <InjectIntl(Button)
+      id="cancelNewInteractionButton"
+      onClick={[Function]}
+      style={
+        Object {
+          "float": "right",
+        }
+      }
+      text={
+        Object {
+          "defaultMessage": "Cancel",
+          "id": "app.containers.NewInteractionContentArea.cancel",
+        }
+      }
+      type="secondary"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "height": "100%",
+        "overflowY": "hidden",
+      }
+    }
+  >
+    <Connect(ErrorBoundaryComponent) />
+  </div>
+</div>
+`;

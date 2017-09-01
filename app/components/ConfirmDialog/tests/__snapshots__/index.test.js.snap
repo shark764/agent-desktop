@@ -36,7 +36,7 @@ exports[`<ConfirmDialog /> should render correctly 1`] = `
           ]
         }
       >
-        <Button
+        <InjectIntl(Button)
           id="leftConfirmButton"
           onClick={[Function]}
           style={
@@ -48,7 +48,6 @@ exports[`<ConfirmDialog /> should render correctly 1`] = `
               "width": "50%",
             }
           }
-          tabIndex={0}
           text={
             Object {
               "defaultMessage": "No",
@@ -57,7 +56,7 @@ exports[`<ConfirmDialog /> should render correctly 1`] = `
           }
           type="secondary"
         />
-        <Button
+        <InjectIntl(Button)
           id="rightConfirmButton"
           onClick={[Function]}
           style={
@@ -70,7 +69,6 @@ exports[`<ConfirmDialog /> should render correctly 1`] = `
               "width": "50%",
             }
           }
-          tabIndex={0}
           text={
             Object {
               "defaultMessage": "Yes",

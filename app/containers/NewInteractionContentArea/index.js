@@ -16,10 +16,12 @@ import Radium from 'radium';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import { closeNewInteractionPanel } from 'containers/AgentDesktop/actions';
+import { selectHasCrmPermissions } from 'containers/App/selectors';
 
 import Button from 'components/Button';
 
 import ContactSearch from 'containers/ContactSearch';
+import NewInteractionForm from './NewInteractionForm';
 import messages from './messages';
 
 const styles = {
@@ -43,7 +45,7 @@ const styles = {
   },
 };
 
-function NewInteractionContentArea(props) {
+export function NewInteractionContentArea(props, context) {
   return (
     <div style={styles.base}>
       <div style={styles.buttonContainer}>
@@ -56,11 +58,17 @@ function NewInteractionContentArea(props) {
         />
       </div>
       <div style={styles.contacts}>
-        <ContactSearch />
+        {!context.toolbarMode && props.hasCrmPermissions
+          ? <ContactSearch />
+          : <NewInteractionForm />}
       </div>
     </div>
   );
 }
+
+const mapStateToProps = (state, props) => ({
+  hasCrmPermissions: selectHasCrmPermissions(state, props),
+});
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -70,9 +78,16 @@ function mapDispatchToProps(dispatch) {
 }
 
 NewInteractionContentArea.propTypes = {
+  hasCrmPermissions: PropTypes.bool,
   closeNewInteractionPanel: PropTypes.func.isRequired,
 };
 
+NewInteractionContentArea.contextTypes = {
+  toolbarMode: PropTypes.bool,
+};
+
 export default ErrorBoundary(
-  connect(null, mapDispatchToProps)(Radium(NewInteractionContentArea))
+  connect(mapStateToProps, mapDispatchToProps)(
+    Radium(NewInteractionContentArea)
+  )
 );
