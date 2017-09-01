@@ -360,7 +360,11 @@ const getNextSelectedInteractionId = (state, interactionId) => {
       .find((interaction) => interaction.get('interactionId') === interactionId);
     const currentVoiceInteraction = state
       .get('interactions')
-      .find((interaction) => interaction.get('channelType') === 'voice');
+      .find(
+        (interaction) =>
+          interaction.get('channelType') === 'voice' &&
+          !['work-offer', 'work-initiated'].includes(interaction.get('status'))
+      );
     if (
       interactionBeingRemoved.get('channelType') !== 'voice' &&
       currentVoiceInteraction
@@ -372,7 +376,10 @@ const getNextSelectedInteractionId = (state, interactionId) => {
         .find(
           (interaction) =>
             interaction.get('channelType') !== 'voice' &&
-            interaction.get('interactionId') !== interactionId
+            interaction.get('interactionId') !== interactionId &&
+            !['work-offer', 'work-initiated'].includes(
+              interaction.get('status')
+            )
         );
       nextSelectedInteractionId = firstNonVoiceInteraction
         ? firstNonVoiceInteraction.get('interactionId')

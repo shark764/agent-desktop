@@ -3,6 +3,8 @@
 * CXV1-9010 - Fix stats overflow for toolbar restricted dimensions on side panel collapse
 * CXV1-10779 - Fix resize for active phone panel and scripts only
 * CXV1-11423 - Replace Wrapup Toggle Switch in Toolbar with Options in Button Submenu
+* CXV1-10659 - Toolbar styling of summary screen
+* CXV1-10518 - Prevent ending interactions auto selecting pending interactions
 
 ### [1.2.0] (2017-08-25)
 * CXV1-9006 - Toolbar view of scripts
@@ -28,7 +30,6 @@
 * CXV1-11145 - Contact input placeholders without translations fallback
 * CXV1-10779 - Add programatic resize functionality
 * CXV1-9010 - Toolbar styling of stats
-* CXV1-10659 - Toolbar styling of summary screen
 
 ### [1.1.0] (2017-07-21)
 * BUGFIX - SDK version bump to 5.3.27-SNAPSHOT
