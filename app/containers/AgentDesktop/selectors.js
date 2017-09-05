@@ -119,6 +119,10 @@ const selectIsSidePanelCollapsed = createSelector(
   (interaction) => interaction.isSidePanelCollapsed === true
 );
 
+const selectSidePanelPx = createSelector(selectAgentDesktopMap, (agentDesktop) =>
+  agentDesktop.get('sidePanelPx')
+);
+
 const selectIsInteractionsBarCollapsed = createSelector(
   selectAgentDesktopMap,
   (agentDesktop) => agentDesktop.get('isInteractionsBarCollapsed')
@@ -151,6 +155,7 @@ export {
   selectQueues,
   selectQueuesSet,
   selectIsSidePanelCollapsed,
+  selectSidePanelPx,
   selectIsInteractionsBarCollapsed,
   selectCustomFields,
   selectCustomFieldsCollapsed,

@@ -37,6 +37,7 @@ exports[`<SidePanelToolbarBtn /> should render correctly 1`] = `
           "borderTop": "1px solid #D0D0D0",
           "cursor": "pointer",
           "display": "flex",
+          "flexShrink": 0,
           "height": "60px",
           "justifyContent": "center",
           "marginBottom": "-11px",

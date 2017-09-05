@@ -27,11 +27,16 @@ import Toolbar from 'containers/Toolbar';
 
 import { selectShowCollapseButton } from 'containers/InteractionsBar/selectors';
 
-import { showInteractionsBar, hideInteractionsBar } from './actions';
+import {
+  showInteractionsBar,
+  hideInteractionsBar,
+  setSidePanelPx,
+} from './actions';
 import {
   selectAgentDesktopMap,
   selectLoginMap,
   selectIsSidePanelCollapsed,
+  selectSidePanelPx,
   selectIsInteractionsBarCollapsed,
 } from './selectors';
 
@@ -45,11 +50,6 @@ export class AgentDesktop extends React.Component {
     } else {
       this.defaultSidePanelPx = 500;
     }
-
-    this.state = {
-      sidePanelPx: this.defaultSidePanelPx,
-      sidePanelMaxPx: context.toolbarMode ? 400 : window.innerWidth / 2,
-    };
   }
 
   componentWillUnmount() {
@@ -57,6 +57,10 @@ export class AgentDesktop extends React.Component {
   }
 
   componentWillMount() {
+    this.props.setSidePanelPx(
+      this.defaultSidePanelPx,
+      this.context.toolbarMode ? 400 : window.innerWidth / 2
+    );
     window.addEventListener('resize', this.updateDimensions);
   }
 
@@ -65,16 +69,10 @@ export class AgentDesktop extends React.Component {
     const body = document.getElementsByTagName('body')[0];
     const width =
       window.innerWidth || documentElement.clientWidth || body.clientWidth;
-    this.setState({
-      sidePanelPx: this.defaultSidePanelPx,
-      sidePanelMaxPx: this.context.toolbarMode ? 400 : width / 2,
-    });
-  };
-
-  setSidePanelWidth = (newWidth) => {
-    this.setState({
-      sidePanelPx: newWidth,
-    });
+    this.props.setSidePanelPx(
+      this.defaultSidePanelPx,
+      this.context.toolbarMode ? 400 : width / 2
+    );
   };
 
   toggleInteractionsBar = () => {
@@ -182,10 +180,10 @@ export class AgentDesktop extends React.Component {
               <Resizable
                 id="crm-resizable"
                 direction="left"
-                setPx={this.setSidePanelWidth}
+                setPx={this.props.setSidePanelPx}
                 disabledPx={this.collapsedSidePanelPx}
-                px={this.state.sidePanelPx}
-                maxPx={this.state.sidePanelMaxPx}
+                px={this.props.sidePanelPx}
+                maxPx={this.props.sidePanelMaxPx}
                 minPx={300}
                 isDisabled={this.props.isSidePanelCollapsed}
               >
@@ -207,6 +205,8 @@ const mapStateToProps = (state, props) => ({
   login: selectLoginMap(state, props).toJS(),
   agentDesktop: selectAgentDesktopMap(state, props).toJS(),
   isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
+  sidePanelPx: selectSidePanelPx(state, props),
+  sidePanelMaxPx: selectAgentDesktopMap(state, props).toJS().sidePanelMaxPx,
   isInteractionsBarCollapsed: selectIsInteractionsBarCollapsed(state, props),
   showCollapseButton: selectShowCollapseButton(state, props),
 });
@@ -215,6 +215,7 @@ function mapDispatchToProps(dispatch) {
   return {
     showInteractionsBar: () => dispatch(showInteractionsBar()),
     hideInteractionsBar: () => dispatch(hideInteractionsBar()),
+    setSidePanelPx: (sidePanelPx) => dispatch(setSidePanelPx(sidePanelPx)),
     dispatch,
   };
 }
@@ -222,10 +223,13 @@ function mapDispatchToProps(dispatch) {
 AgentDesktop.propTypes = {
   login: PropTypes.object,
   isSidePanelCollapsed: PropTypes.bool.isRequired,
+  sidePanelPx: PropTypes.number.isRequired,
+  sidePanelMaxPx: PropTypes.number.isRequired,
   isInteractionsBarCollapsed: PropTypes.bool.isRequired,
+  showCollapseButton: PropTypes.bool.isRequired,
   showInteractionsBar: PropTypes.func.isRequired,
   hideInteractionsBar: PropTypes.func.isRequired,
-  showCollapseButton: PropTypes.bool.isRequired,
+  setSidePanelPx: PropTypes.func.isRequired,
 };
 
 AgentDesktop.contextTypes = {

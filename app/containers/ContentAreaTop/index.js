@@ -22,6 +22,11 @@ import ErrorBoundary from 'components/ErrorBoundary';
 import SidePanelToolbarBtn from 'containers/SidePanelToolbarBtn';
 import ButtonLayout, { buttonConfigPropTypes } from 'components/ButtonLayout';
 
+import {
+  selectIsSidePanelCollapsed,
+  selectSidePanelPx,
+  selectIsInteractionsBarCollapsed,
+} from 'containers/AgentDesktop/selectors';
 import { updateWrapupDetails } from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
@@ -82,20 +87,20 @@ export class ContentAreaTop extends React.Component {
     this.props.updateWrapupDetails(interactionId, {
       loadingWrapupStatusUpdate: true,
     });
-  }
+  };
 
   enableWrapup = () => {
     this.setWrapupToggleStatusStart(this.props.interaction.interactionId);
-    CxEngage.interactions.enableWrapup(
-      { interactionId: this.props.interaction.interactionId },
-    );
+    CxEngage.interactions.enableWrapup({
+      interactionId: this.props.interaction.interactionId,
+    });
   };
 
   disableWrapup = () => {
     this.setWrapupToggleStatusStart(this.props.interaction.interactionId);
-    CxEngage.interactions.disableWrapup(
-      { interactionId: this.props.interaction.interactionId },
-    );
+    CxEngage.interactions.disableWrapup({
+      interactionId: this.props.interaction.interactionId,
+    });
   };
 
   toggleWrapup = () => {
@@ -143,7 +148,6 @@ export class ContentAreaTop extends React.Component {
           style: this.props.interaction.wrapupDetails.loadingWrapupStatusUpdate
             ? this.styles.wrapupStatusUpdateInProgress
             : {},
-
         },
       ];
       return <ButtonLayout buttonConfig={buttonConfigWithWrapup} />;
@@ -154,7 +158,20 @@ export class ContentAreaTop extends React.Component {
 
   render() {
     return (
-      <div style={this.styles.fromButtonsContainer}>
+      <div
+        style={[
+          this.styles.fromButtonsContainer,
+          {
+            minWidth: '290px',
+            maxWidth: `calc(100vw - ${this.props.isSidePanelCollapsed
+              ? 0
+              : this.props.sidePanelPx}px - ${this.props
+              .isInteractionsBarCollapsed
+              ? 0
+              : 72}px - 30px)`,
+          },
+        ]}
+      >
         <div style={this.styles.from}>
           {this.props.from}
         </div>
@@ -186,12 +203,12 @@ export class ContentAreaTop extends React.Component {
             </div>}
           <div style={this.styles.buttons}>
             {this.props.interaction.status !== 'work-ended-pending-script' &&
-            <div>
-              {this.generateButtons(
-                this.props.interaction,
-                this.props.buttonConfig
-              )}
-            </div>}
+              <div>
+                {this.generateButtons(
+                  this.props.interaction,
+                  this.props.buttonConfig
+                )}
+              </div>}
           </div>
         </div>
         <SidePanelToolbarBtn />
@@ -203,7 +220,11 @@ export class ContentAreaTop extends React.Component {
 ContentAreaTop.propTypes = {
   interaction: PropTypes.object.isRequired,
   from: PropTypes.node,
-  buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes)).isRequired,
+  buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes))
+    .isRequired,
+  isSidePanelCollapsed: PropTypes.bool.isRequired,
+  sidePanelPx: PropTypes.number.isRequired,
+  isInteractionsBarCollapsed: PropTypes.bool.isRequired,
   updateWrapupDetails: PropTypes.func,
 };
 
@@ -211,13 +232,19 @@ ContentAreaTop.contextTypes = {
   toolbarMode: PropTypes.bool,
 };
 
+const mapStateToProps = (state, props) => ({
+  isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
+  sidePanelPx: selectSidePanelPx(state, props),
+  isInteractionsBarCollapsed: selectIsInteractionsBarCollapsed(state, props),
+});
+
 function mapDispatchToProps(dispatch) {
   return {
     updateWrapupDetails: (interactionId, wrapupDetails) =>
       dispatch(updateWrapupDetails(interactionId, wrapupDetails)),
-  }
+  };
 }
 
 export default ErrorBoundary(
-  connect(null, mapDispatchToProps)(Radium(ContentAreaTop))
+  connect(mapStateToProps, mapDispatchToProps)(Radium(ContentAreaTop))
 );

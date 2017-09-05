@@ -90,6 +90,7 @@ import {
   SHOW_REFRESH_NOTIF,
   SHOW_SIDE_PANEL,
   HIDE_SIDE_PANEL,
+  SET_SIDE_PANEL_PX,
   SHOW_INTERACTIONS_BAR,
   HIDE_INTERACTIONS_BAR,
   SET_FORM_IS_DIRTY,
@@ -159,6 +160,8 @@ const initialState = fromJS({
   presenceReasonLists: [],
   presenceReason: {},
   isInteractionsBarCollapsed: true,
+  sidePanelPx: 500,
+  sidePanelMaxPx: 500,
 });
 
 const getInteractionIndex = (state, interactionId) =>
@@ -1753,6 +1756,15 @@ function agentDesktopReducer(state = initialState, action) {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('isSidePanelCollapsed');
       return state.setIn(target, true);
+    }
+    case SET_SIDE_PANEL_PX: {
+      if (action.sidePanelMaxPx) {
+        return state
+          .set('sidePanelPx', action.sidePanelPx)
+          .set('sidePanelMaxPx', action.sidePanelMaxPx);
+      } else {
+        return state.set('sidePanelPx', action.sidePanelPx);
+      }
     }
     case SHOW_INTERACTIONS_BAR: {
       return state.set('isInteractionsBarCollapsed', false);

@@ -32,6 +32,7 @@ import {
 
 const styles = {
   base: {
+    flexShrink: 0,
     display: 'flex',
     position: 'relative',
     height: '60px',

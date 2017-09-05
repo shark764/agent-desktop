@@ -89,6 +89,7 @@ import {
   SHOW_REFRESH_NOTIF,
   SHOW_SIDE_PANEL,
   HIDE_SIDE_PANEL,
+  SET_SIDE_PANEL_PX,
   SHOW_INTERACTIONS_BAR,
   HIDE_INTERACTIONS_BAR,
   SET_FORM_IS_DIRTY,
@@ -728,6 +729,13 @@ export function hideSidePanel(interactionId) {
   return {
     type: HIDE_SIDE_PANEL,
     interactionId,
+  };
+}
+export function setSidePanelPx(sidePanelPx, sidePanelMaxPx) {
+  return {
+    type: SET_SIDE_PANEL_PX,
+    sidePanelPx,
+    sidePanelMaxPx,
   };
 }
 

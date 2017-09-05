@@ -792,6 +792,7 @@ Immutable.Map {
   },
   extensions: Immutable.List [
   ],
+  sidePanelPx: 500,
   noInteractionContactPanel: Immutable.Map {
     contactMode: "search",
     query: Immutable.Map {
@@ -825,5 +826,6 @@ Immutable.Map {
   refreshRequired: false,
   presenceReason: Immutable.Map {
   },
+  sidePanelMaxPx: 500,
 }
 `;

@@ -3,13 +3,19 @@
 exports[`<ContentAreaTop /> should render correctly 1`] = `
 <div
   style={
-    Object {
-      "alignItems": "center",
-      "borderBottom": "1px solid #D0D0D0",
-      "display": "flex",
-      "justifyContent": "space-between",
-      "padding": "10px 5px",
-    }
+    Array [
+      Object {
+        "alignItems": "center",
+        "borderBottom": "1px solid #D0D0D0",
+        "display": "flex",
+        "justifyContent": "space-between",
+        "padding": "10px 5px",
+      },
+      Object {
+        "maxWidth": "calc(100vw - 500px - 72px - 30px)",
+        "minWidth": "290px",
+      },
+    ]
   }
 >
   <div
