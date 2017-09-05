@@ -55,6 +55,9 @@ describe('<ContentAreaTop />', () => {
         id="mockId"
         interaction={mockInteraction}
         buttonConfig={buttonConfig}
+        isSidePanelCollapsed={false}
+        sidePanelPx={500}
+        isInteractionsBarCollapsed={false}
       />
     );
     expect(rendered).toMatchSnapshot();

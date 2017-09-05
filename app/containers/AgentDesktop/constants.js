@@ -108,6 +108,7 @@ export const SELECT_DISPOSITION = 'app/AgentDesktop/SELECT_DISPOSITION';
 export const SHOW_REFRESH_NOTIF = 'app/AgentDesktop/SHOW_REFRESH_NOTIF';
 export const SHOW_SIDE_PANEL = 'app/AgentDesktop/SHOW_SIDE_PANEL';
 export const HIDE_SIDE_PANEL = 'app/AgentDesktop/HIDE_SIDE_PANEL';
+export const SET_SIDE_PANEL_PX = 'app/AgentDesktop/SET_SIDE_PANEL_PX';
 export const SHOW_INTERACTIONS_BAR = 'app/AgentDesktop/SHOW_INTERACTIONS_BAR';
 export const HIDE_INTERACTIONS_BAR = 'app/AgentDesktop/HIDE_INTERACTIONS_BAR';
 export const SET_FORM_IS_DIRTY = 'app/ContactsControl/SET_FORM_IS_DIRTY';

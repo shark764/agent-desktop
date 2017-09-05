@@ -8,6 +8,7 @@
 * CXV1-11408 - Moved crm flag into a selector that uses agent permissions for selected tenant
 * CXV1-11407 - Removed contact permissions check on tenant select
 * CXV1-11204 - Toolbar mode for new interaction panel
+* CXV1-11351 - Interaction from overflow
 
 ### [1.2.0] (2017-08-25)
 * CXV1-9006 - Toolbar view of scripts

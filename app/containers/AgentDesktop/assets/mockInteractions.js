@@ -349,7 +349,8 @@ const emailInteraction = {
     targetWrapupTime: '10',
   },
   query: {},
-  selectedSidePanelTab: 'info',
+  selectedSidePanelTab: 'script',
+  script: script,
   note: {
     body: '',
     title: '',
