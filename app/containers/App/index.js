@@ -475,7 +475,8 @@ export class App extends React.Component {
           case 'cxengage/interactions/script-received': {
             this.props.addScript(
               response.interactionId,
-              JSON.parse(response.script)
+              JSON.parse(response.script),
+              response.scriptId
             );
             const interaction = this.props.agentDesktop.interactions.find(
               (availableInteraction) =>
@@ -976,8 +977,8 @@ function mapDispatchToProps(dispatch) {
     setExtensions: (response) => dispatch(setExtensions(response)),
     updateWrapupDetails: (interactionId, wrapupDetails) =>
       dispatch(updateWrapupDetails(interactionId, wrapupDetails)),
-    addScript: (interactionId, script) =>
-      dispatch(addScript(interactionId, script)),
+    addScript: (interactionId, script, scriptId) =>
+      dispatch(addScript(interactionId, script, scriptId)),
     removeScript: (interactionId) => dispatch(removeScript(interactionId)),
     setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus, response) =>

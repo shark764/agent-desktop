@@ -428,14 +428,15 @@ describe('agentDesktopReducer', () => {
       action = {
         type: ADD_SCRIPT,
         interactionId: 'test-interaction-id',
-        script: { scriptItem: 'something' },
+        script: { scriptItem: 'something', id: 'garbage-useless-id' },
+        scriptId: 'actual-script-id',
       };
     });
     describe('interaction is there', () => {
       beforeEach(() => {
         initialState.interactions[0].channelType = 'messaging';
       });
-      it('adds the script', () => {
+      it('adds the script and replaces the id', () => {
         runReducerAndExpectSnapshot();
       });
     });

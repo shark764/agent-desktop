@@ -786,9 +786,11 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case ADD_SCRIPT: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
+      const script = fromJS(action.script).set('id', action.scriptId);
       if (interactionIndex > -1) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.set('script', fromJS(action.script))
+        return state.setIn(
+          ['interactions', interactionIndex, 'script'],
+          script
         );
       } else {
         // 'script-only' is the main status we will use. isScriptOnly for when interactions receive a work offer, but still need to render the script in MainContentArea until it has been accepted
@@ -796,7 +798,7 @@ function agentDesktopReducer(state = initialState, action) {
           interactionId: action.interactionId,
           status: 'script-only',
           isScriptOnly: true,
-          script: action.script,
+          script,
           isSidePanelCollapsed: true,
           selectedSidePanelTab: 'info',
           query: {},
