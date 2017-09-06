@@ -215,7 +215,8 @@ function mapDispatchToProps(dispatch) {
   return {
     showInteractionsBar: () => dispatch(showInteractionsBar()),
     hideInteractionsBar: () => dispatch(hideInteractionsBar()),
-    setSidePanelPx: (sidePanelPx) => dispatch(setSidePanelPx(sidePanelPx)),
+    setSidePanelPx: (sidePanelPx, sidePanelMaxPx) =>
+      dispatch(setSidePanelPx(sidePanelPx, sidePanelMaxPx)),
     dispatch,
   };
 }
