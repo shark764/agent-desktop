@@ -127,11 +127,12 @@ export function updateWrapupDetails(interactionId, wrapupDetails) {
   };
 }
 
-export function addScript(interactionId, script) {
+export function addScript(interactionId, script, scriptId) {
   return {
     type: ADD_SCRIPT,
     interactionId,
     script,
+    scriptId,
   };
 }
 

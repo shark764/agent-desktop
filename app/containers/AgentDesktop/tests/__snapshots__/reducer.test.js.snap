@@ -185,6 +185,7 @@ Immutable.Map {
       },
       script: Immutable.Map {
         scriptItem: "something",
+        id: "actual-script-id",
       },
       interactionId: "new-interaction-id",
       status: "script-only",
@@ -225,6 +226,7 @@ Immutable.Map {
       },
       script: Immutable.Map {
         scriptItem: "something",
+        id: "actual-script-id",
       },
       interactionId: "new-interaction-id",
       status: "script-only",
@@ -253,7 +255,7 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer ADD_SCRIPT interaction is there adds the script 1`] = `
+exports[`agentDesktopReducer ADD_SCRIPT interaction is there adds the script and replaces the id 1`] = `
 Immutable.Map {
   interactions: Immutable.List [
     Immutable.Map {
@@ -261,6 +263,7 @@ Immutable.Map {
       channelType: "messaging",
       script: Immutable.Map {
         scriptItem: "something",
+        id: "actual-script-id",
       },
     },
   ],
