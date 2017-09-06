@@ -239,7 +239,11 @@ export function* goAssignContact(action) {
     yield put(setAssignedContact(interaction.interactionId, action.contact));
   } else {
     try {
-      if (interaction.contact && interaction.contact.id) {
+      if (
+        interaction.contact &&
+        interaction.contact.id &&
+        !action.skipUnassign
+      ) {
         yield call(
           sdkCallToPromise,
           CxEngage.interactions.unassignContact,

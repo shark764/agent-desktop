@@ -1,20 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`startOutboundEmailSaga should add the notification bar that tells the user that a contact has been assigned to the interaction 1`] = `
+exports[`startOutboundEmailSaga should be done 1`] = `
 Object {
-  "done": false,
-  "value": Object {
-    "@@redux-saga/IO": true,
-    "PUT": Object {
-      "action": Object {
-        "notificationInfo": Object {
-          "messageType": "assigned",
-        },
-        "type": "app/ContactsControl/ADD_CONTACT_NOTIFICATION",
-      },
-      "channel": null,
-    },
-  },
+  "done": true,
+  "value": undefined,
 }
 `;
 
@@ -38,23 +27,6 @@ Object {
 }
 `;
 
-exports[`startOutboundEmailSaga should set the contact mode to view 1`] = `
-Object {
-  "done": false,
-  "value": Object {
-    "@@redux-saga/IO": true,
-    "PUT": Object {
-      "action": Object {
-        "interactionId": "mockId123456789",
-        "newMode": "view",
-        "type": "app/AgentDesktop/SET_CONTACT_MODE",
-      },
-      "channel": null,
-    },
-  },
-}
-`;
-
 exports[`startOutboundEmailSaga should use the yielded SDK results to assign email interaction to the correct contact 1`] = `
 Object {
   "done": false,
@@ -62,12 +34,13 @@ Object {
     "@@redux-saga/IO": true,
     "CALL": Object {
       "args": Array [
-        undefined,
         Object {
-          "contactId": "12345-6789",
+          "contact": Object {
+            "id": "12345-6789",
+          },
           "interactionId": "mockId123456789",
+          "skipUnassign": true,
         },
-        "EmailContentArea",
       ],
       "context": null,
       "fn": [Function],
@@ -108,6 +81,7 @@ Object {
         },
         "customer": "email@test.com",
         "interactionId": "mockId123456789",
+        "openSidePanel": true,
         "type": "app/AgentDesktop/START_OUTBOUND_INTERACTION",
       },
       "channel": null,

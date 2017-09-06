@@ -34,10 +34,7 @@ describe('startOutboundEmailSaga', () => {
   it('should use the yielded SDK results to assign email interaction to the correct contact', () => {
     expect(generator.next()).toMatchSnapshot();
   });
-  it('should set the contact mode to view', () => {
-    expect(generator.next()).toMatchSnapshot();
-  });
-  it('should add the notification bar that tells the user that a contact has been assigned to the interaction', () => {
+  it('should be done', () => {
     expect(generator.next()).toMatchSnapshot();
   });
 });
