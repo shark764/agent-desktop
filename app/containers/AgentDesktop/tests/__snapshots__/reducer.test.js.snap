@@ -4,7 +4,6 @@ exports[`agentDesktopReducer ADD_INTERACTION adding an inbound interaction adds 
 Immutable.Map {
   interactions: Immutable.List [
     Immutable.Map {
-      contact: undefined,
       timeout: NaN,
       warmTransfers: Immutable.List [
       ],
@@ -290,6 +289,93 @@ Immutable.Map {
     },
   ],
   selectedInteractionId: "newInteractionId",
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_CONTACT if a contact is deleted when there are no interactions present nothing happens 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+  ],
+  newInteractionPanel: Immutable.Map {
+  },
+  noInteractionContactPanel: Immutable.Map {
+  },
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_CONTACT if an interaction is in progress and no interaction panel is open will delete as normal 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id-",
+    },
+  ],
+  noInteractionContactPanel: Immutable.Map {
+  },
+  newInteractionPanel: Immutable.Map {
+  },
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_CONTACT if an interaction is in progress and the new interaction panel is open will delete as normal 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id-1",
+    },
+  ],
+  newInteractionPanel: Immutable.Map {
+  },
+  noInteractionContactPanel: Immutable.Map {
+  },
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_CONTACT if an interaction is in progress, and no contact is assigned to that interaction, when one of the contacts is removed will remove the targeted contact as normal 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+    },
+  ],
+  newInteractionPanel: Immutable.Map {
+  },
+  noInteractionContactPanel: Immutable.Map {
+  },
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_CONTACT if one or more interactions are in progress, and one of the contacts is removed if multiple interactions are in progress, and the assigned contact is removed will remove the targeted contact as normal 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id-1",
+    },
+    Immutable.Map {
+      interactionId: "test-interaction-id-2",
+      contact: Immutable.Map {
+        id: "test-contact-id-2",
+      },
+    },
+  ],
+  newInteractionPanel: Immutable.Map {
+  },
+  noInteractionContactPanel: Immutable.Map {
+  },
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_CONTACT if one or more interactions are in progress, and one of the contacts is removed if one interaction is in progress, and the assigned contact is removed will remove the targeted contact as normal 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id-1",
+    },
+  ],
+  newInteractionPanel: Immutable.Map {
+  },
+  noInteractionContactPanel: Immutable.Map {
+  },
 }
 `;
 
@@ -766,8 +852,6 @@ Immutable.Map {
   ],
   isInteractionsBarCollapsed: true,
   newInteractionPanel: Immutable.Map {
-    contact: Immutable.Map {
-    },
     contactMode: "view",
     selectedSidePanelTab: "info",
     query: Immutable.Map {
@@ -820,8 +904,6 @@ Immutable.Map {
       formErrors: Immutable.Map {
       },
       saveLoading: false,
-    },
-    contact: Immutable.Map {
     },
   },
   presenceReasonLists: Immutable.List [

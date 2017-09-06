@@ -20,6 +20,7 @@ import {
   REMOVE_INTERACTION,
   REMOVE_INTERACTION_HARD,
   TOGGLE_CUSTOM_FIELDS,
+  REMOVE_CONTACT,
   UPDATE_RESOURCE_NAME,
 } from '../constants';
 import agentDesktopReducer from '../reducer';
@@ -698,6 +699,107 @@ describe('agentDesktopReducer', () => {
         it('sets the name of the resource', () => {
           runReducerAndExpectSnapshot();
         });
+      });
+    });
+  });
+
+  describe('REMOVE_CONTACT', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [],
+        newInteractionPanel: {},
+        noInteractionContactPanel: {},
+      };
+      action = {
+        type: REMOVE_CONTACT,
+        contactId: 'test-contact-id',
+      };
+    });
+    describe('if a contact is deleted when there are no interactions present', () => {
+      it('nothing happens', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('if an interaction is in progress, and no contact is assigned to that interaction, when one of the contacts is removed', () => {
+      beforeEach(() => {
+        initialState = {
+          interactions: [
+            {
+              interactionId: 'test-interaction-id',
+            },
+          ],
+          newInteractionPanel: {},
+          noInteractionContactPanel: {},
+        };
+      });
+      it('will remove the targeted contact as normal', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('if one or more interactions are in progress, and one of the contacts is removed', () => {
+      beforeEach(() => {
+        initialState = {
+          interactions: [
+            {
+              interactionId: 'test-interaction-id-1',
+              contact: { id: 'test-contact-id' },
+            },
+          ],
+          newInteractionPanel: {},
+          noInteractionContactPanel: {},
+        };
+      });
+      describe('if one interaction is in progress, and the assigned contact is removed', () => {
+        it('will remove the targeted contact as normal', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+      describe('if multiple interactions are in progress, and the assigned contact is removed', () => {
+        beforeEach(() => {
+          initialState.interactions.push({
+            interactionId: 'test-interaction-id-2',
+            contact: { id: 'test-contact-id-2' },
+          });
+        });
+        it('will remove the targeted contact as normal', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+    });
+    describe('if an interaction is in progress and the new interaction panel is open', () => {
+      beforeEach(() => {
+        initialState = {
+          interactions: [
+            {
+              interactionId: 'test-interaction-id-1',
+            },
+          ],
+          newInteractionPanel: {
+            contact: { id: 'test-contact-id' },
+          },
+          noInteractionContactPanel: {},
+        };
+      });
+      it('will delete as normal', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('if an interaction is in progress and no interaction panel is open', () => {
+      beforeEach(() => {
+        initialState = {
+          interactions: [
+            {
+              interactionId: 'test-interaction-id-',
+            },
+          ],
+          noInteractionContactPanel: {
+            contact: { id: 'test-contact-id' },
+          },
+          newInteractionPanel: {},
+        };
+      });
+      it('will delete as normal', () => {
+        runReducerAndExpectSnapshot();
       });
     });
   });

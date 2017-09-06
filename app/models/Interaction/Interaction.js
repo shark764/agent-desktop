@@ -71,7 +71,9 @@ export default class Interaction {
       title: '',
       notesPanelHeight: 300,
     });
-    this.contact = contact ? fromJS(contact) : undefined;
+    if (contact) {
+      this.contact = fromJS(contact);
+    }
     this.query = new Map();
     this.isSidePanelCollapsed =
       isSidePanelCollapsed !== undefined ? isSidePanelCollapsed : true;
