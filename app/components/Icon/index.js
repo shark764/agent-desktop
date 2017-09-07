@@ -79,6 +79,17 @@ export const availableIcons = [
   'voice_dark',
 ];
 
+export const availableIconsWithActive = [
+  'mute',
+  'hold',
+  'hold_resource',
+  'transfer',
+  'transfer_dark',
+  'dialpad',
+  'dialpad_dark',
+  'resources',
+];
+
 const styles = {
   base: {
     cursor: 'pointer',
