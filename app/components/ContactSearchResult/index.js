@@ -41,9 +41,9 @@ export class ContactSearchResult extends React.Component {
       flexDirection: 'column',
       alignContent: 'stretch',
       position: 'relative',
-      overflowX: 'hidden',
     },
     contact: {
+      overflowX: 'hidden',
       marginBottom: '5px',
       paddingLeft: '0',
     },
