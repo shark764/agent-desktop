@@ -17,6 +17,7 @@ export default class Interaction {
     contact,
     hideNewInteractionPanelOnWorkAccepted,
     contactMode,
+    isSidePanelCollapsed,
   }) {
     if (channelType === 'voice') {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
@@ -72,7 +73,8 @@ export default class Interaction {
     });
     this.contact = contact ? fromJS(contact) : undefined;
     this.query = new Map();
-    this.isSidePanelCollapsed = true;
+    this.isSidePanelCollapsed =
+      isSidePanelCollapsed !== undefined ? isSidePanelCollapsed : true;
     this.selectedSidePanelTab = 'info';
     if (hideNewInteractionPanelOnWorkAccepted !== undefined) {
       this.hideNewInteractionPanelOnWorkAccepted = hideNewInteractionPanelOnWorkAccepted;

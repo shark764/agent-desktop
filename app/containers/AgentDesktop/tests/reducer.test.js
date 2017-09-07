@@ -321,7 +321,9 @@ describe('agentDesktopReducer', () => {
               interactionId: 'test-interaction-id',
               channelType: 'voice',
               direction: 'outbound',
-              // Missing recording
+              contact: { id: 'test-contact-id' },
+              contactMode: 'view',
+              isSidePanelCollapsed: false,
             },
           ];
         });

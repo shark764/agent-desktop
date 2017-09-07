@@ -83,11 +83,13 @@ exports[`agentDesktopReducer ADD_INTERACTION adding an outbound voice interactio
 Immutable.Map {
   interactions: Immutable.List [
     Immutable.Map {
-      contact: undefined,
+      contact: Immutable.Map {
+        id: "test-contact-id",
+      },
       timeout: NaN,
       warmTransfers: Immutable.List [
       ],
-      contactMode: "search",
+      contactMode: "view",
       selectedSidePanelTab: "info",
       query: Immutable.Map {
       },
@@ -110,7 +112,7 @@ Immutable.Map {
         notesPanelHeight: 300,
       },
       status: "work-offer",
-      isSidePanelCollapsed: true,
+      isSidePanelCollapsed: false,
       agentRecordingEnabled: undefined,
       wrapupDetails: Immutable.Map {
         wrapupUpdateAllowed: false,
@@ -610,7 +612,7 @@ Immutable.Map {
         },
       },
       timeout: NaN,
-      contactMode: "search",
+      contactMode: "view",
       selectedSidePanelTab: "info",
       query: Immutable.Map {
       },

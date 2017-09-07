@@ -8,9 +8,8 @@ import sdkCallToPromise from 'utils/sdkCallToPromise';
 import {
   setInteractionStatus,
   startOutboundInteraction,
-  setContactMode,
 } from 'containers/AgentDesktop/actions';
-import { addContactNotification } from 'containers/ContactsControl/actions';
+import { goAssignContact } from 'containers/AgentDesktop/sagas';
 import { START_OUTBOUND_EMAIL } from './constants';
 
 export function* startOutboundEmailSaga(action) {
@@ -29,7 +28,8 @@ export function* startOutboundEmailSaga(action) {
         action.customer,
         action.contact,
         action.addedByNewInteractionPanel,
-        response.interactionId
+        response.interactionId,
+        true
       )
     );
     yield put(
@@ -37,18 +37,11 @@ export function* startOutboundEmailSaga(action) {
     );
 
     if (action.contact.id) {
-      yield call(
-        sdkCallToPromise,
-        CxEngage.interactions.assignContact,
-        {
-          interactionId: response.interactionId,
-          contactId: action.contact.id,
-        },
-        'EmailContentArea'
-      );
-
-      yield put(setContactMode(response.interactionId, 'view'));
-      yield put(addContactNotification({ messageType: 'assigned' }));
+      yield call(goAssignContact, {
+        interactionId: response.interactionId,
+        contact: action.contact,
+        skipUnassign: true,
+      });
     }
   } catch (e) {
     // Handled in Errors Sagas

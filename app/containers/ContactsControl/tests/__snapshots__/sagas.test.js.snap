@@ -536,6 +536,7 @@ Object {
       "action": Object {
         "contact": "mockCreatedContact",
         "interactionId": "mockInteractionId",
+        "skipUnassign": undefined,
         "type": "app/AgentDesktop/ASSIGN_CONTACT",
       },
       "channel": null,
@@ -896,6 +897,7 @@ Object {
       "action": Object {
         "contact": "mockNewContact",
         "interactionId": "mockInteractionId",
+        "skipUnassign": undefined,
         "type": "app/AgentDesktop/ASSIGN_CONTACT",
       },
       "channel": null,
@@ -914,6 +916,7 @@ Object {
         "action": Object {
           "contact": "mockNewContact",
           "interactionId": "mockInteractionId1",
+          "skipUnassign": undefined,
           "type": "app/AgentDesktop/ASSIGN_CONTACT",
         },
         "channel": null,

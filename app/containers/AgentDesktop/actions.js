@@ -218,7 +218,8 @@ export function startOutboundInteraction(
   customer,
   contact,
   addedByNewInteractionPanel,
-  interactionId
+  interactionId,
+  openSidePanel
 ) {
   return {
     type: START_OUTBOUND_INTERACTION,
@@ -227,6 +228,7 @@ export function startOutboundInteraction(
     contact,
     addedByNewInteractionPanel,
     interactionId,
+    openSidePanel,
   };
 }
 
@@ -307,11 +309,12 @@ export function setMessageHistory(response, agentId) {
   };
 }
 
-export function assignContact(interactionId, contact) {
+export function assignContact(interactionId, contact, skipUnassign) {
   return {
     type: ASSIGN_CONTACT,
     interactionId,
     contact,
+    skipUnassign,
   };
 }
 

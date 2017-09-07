@@ -18,6 +18,7 @@ import ErrorBoundary from 'components/ErrorBoundary';
 
 import {
   startOutboundInteraction,
+  loadContactInteractionHistory,
   assignContact,
 } from 'containers/AgentDesktop/actions';
 import {
@@ -132,8 +133,13 @@ export class ContactView extends React.Component {
       'voice',
       number,
       this.props.contact,
-      this.props.selectedInteractionIsCreatingNewInteraction
+      this.props.selectedInteractionIsCreatingNewInteraction,
+      undefined,
+      true
     );
+    if (!this.props.contact.history) {
+      this.props.loadContactInteractionHistory(this.props.contact.id);
+    }
     CxEngage.interactions.voice.dial({ phoneNumber: number });
   };
 
@@ -142,8 +148,13 @@ export class ContactView extends React.Component {
       'sms',
       number,
       this.props.contact,
-      this.props.selectedInteractionIsCreatingNewInteraction
+      this.props.selectedInteractionIsCreatingNewInteraction,
+      undefined,
+      true
     );
+    if (!this.props.contact.history) {
+      this.props.loadContactInteractionHistory(this.props.contact.id);
+    }
   };
 
   startEmail = (value) => {
@@ -241,16 +252,22 @@ function mapDispatchToProps(dispatch) {
       channelType,
       customer,
       contact,
-      addedByNewInteractionPanel
+      addedByNewInteractionPanel,
+      interactionId,
+      openSidePanel
     ) =>
       dispatch(
         startOutboundInteraction(
           channelType,
           customer,
           contact,
-          addedByNewInteractionPanel
+          addedByNewInteractionPanel,
+          interactionId,
+          openSidePanel
         )
       ),
+    loadContactInteractionHistory: (contactId) =>
+      dispatch(loadContactInteractionHistory(contactId)),
     startOutboundEmail: (customer, contact, addedByNewInteractionPanel) =>
       dispatch(
         startOutboundEmail(customer, contact, addedByNewInteractionPanel)
@@ -280,6 +297,7 @@ ContactView.propTypes = {
   selectedInteractionIsCreatingNewInteraction: PropTypes.bool.isRequired,
   editContact: PropTypes.func.isRequired,
   startOutboundInteraction: PropTypes.func.isRequired,
+  loadContactInteractionHistory: PropTypes.func.isRequired,
   startOutboundEmail: PropTypes.func.isRequired,
   currentInteraction: PropTypes.object,
 };

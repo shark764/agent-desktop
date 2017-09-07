@@ -668,12 +668,14 @@ function agentDesktopReducer(state = initialState, action) {
           channelType: action.channelType,
           customer: action.customer,
           contact: action.contact,
+          isSidePanelCollapsed: !action.openSidePanel,
           // We don't want to hide the new interaction panel for outbound voice until the interaction has been accepted because
           // the voice interation is not 'selectable' until then and we want to avoid the contact panel 'flicker' in between
           hideNewInteractionPanelOnWorkAccepted:
             action.addedByNewInteractionPanel && action.channelType === 'voice',
           direction: 'outbound',
           status: 'connecting-to-outbound',
+          contactMode: action.contact !== undefined ? 'view' : 'search',
         })
       );
       return (
@@ -757,8 +759,13 @@ function agentDesktopReducer(state = initialState, action) {
                 action.response.interactionId &&
                 interaction.get('status') === 'script-only')
           );
-        const interactionToAdd = new Map(new Interaction(action.response));
+        let interactionToAdd = new Map(new Interaction(action.response));
         if (interactionIndex !== -1) {
+          // Keep existing contact, contact mode, and side panel collapsed values
+          interactionToAdd = interactionToAdd
+            .delete('contact')
+            .delete('contactMode')
+            .delete('isSidePanelCollapsed');
           return state
             .mergeIn(['interactions', interactionIndex], interactionToAdd)
             .set('isInteractionsBarCollapsed', false);
@@ -786,6 +793,7 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case ADD_SCRIPT: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
+      // Replace useless script id with actual one needed for the SDK
       const script = fromJS(action.script).set('id', action.scriptId);
       if (interactionIndex > -1) {
         return state.setIn(

@@ -73,6 +73,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     maxWidth: '230px',
+    marginLeft: '8px',
     pending: {
       maxWidth: '210px',
     },
