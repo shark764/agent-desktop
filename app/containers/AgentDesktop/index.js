@@ -184,7 +184,7 @@ export class AgentDesktop extends React.Component {
                 disabledPx={this.collapsedSidePanelPx}
                 px={this.props.sidePanelPx}
                 maxPx={this.props.sidePanelMaxPx}
-                minPx={300}
+                minPx={this.context.toolbarMode ? 300 : 400}
                 isDisabled={this.props.isSidePanelCollapsed}
               >
                 <SidePanel isCollapsed={this.props.isSidePanelCollapsed} />
