@@ -10,6 +10,7 @@
 * CXV1-11204 - Toolbar mode for new interaction panel
 * CXV1-11351 - Interaction from overflow
 * CXV1-11481 - Update script ID passed in on submit for SDK major version bump
+* CXV1-11462 - Fix contact outbound controls on small side panel
 
 ### [1.2.0] (2017-08-25)
 * CXV1-9006 - Toolbar view of scripts

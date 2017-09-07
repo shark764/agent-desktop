@@ -18,8 +18,9 @@ exports[`<MenuDialogLink /> when A is clicked on should render correctly 1`] = `
     style={
       Object {
         "bottom": "20px",
-        "left": "-10px",
+        "left": "-55px",
         "position": "absolute",
+        "width": 0,
       }
     }
   >
@@ -29,9 +30,14 @@ exports[`<MenuDialogLink /> when A is clicked on should render correctly 1`] = `
       hide={[Function]}
       isVisible={true}
       style={
-        Object {
-          "borderRadius": "none",
-        }
+        Array [
+          Object {
+            "borderRadius": "none",
+          },
+          Object {
+            "left": -0,
+          },
+        ]
       }
       widthPx={135}
     >
@@ -93,8 +99,9 @@ exports[`<MenuDialogLink /> when dialog not active should render correctly 1`] =
     style={
       Object {
         "bottom": "20px",
-        "left": "-10px",
+        "left": "-55px",
         "position": "absolute",
+        "width": 0,
       }
     }
   >
@@ -104,9 +111,14 @@ exports[`<MenuDialogLink /> when dialog not active should render correctly 1`] =
       hide={[Function]}
       isVisible={false}
       style={
-        Object {
-          "borderRadius": "none",
-        }
+        Array [
+          Object {
+            "borderRadius": "none",
+          },
+          Object {
+            "left": -0,
+          },
+        ]
       }
       widthPx={135}
     >

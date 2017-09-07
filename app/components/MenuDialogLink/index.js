@@ -22,7 +22,8 @@ const styles = {
   dialogPosition: {
     position: 'absolute',
     bottom: '20px',
-    left: '-10px',
+    left: '-55px',
+    width: 0,
   },
   dialog: {
     borderRadius: 'none',
@@ -76,9 +77,12 @@ class MenuDialogLink extends React.Component {
           <PopupDialog
             isVisible={this.state.showDialog}
             hide={this.toggleDialog}
-            style={styles.dialog}
+            style={[
+              styles.dialog,
+              { left: -(numberOfOptions - 1) * buttonWidthPx * 0.5 },
+            ]}
             widthPx={numberOfOptions * buttonWidthPx}
-            arrowLeftOffsetPx={buttonWidthPx * 0.5 - 7}
+            arrowLeftOffsetPx={numberOfOptions * buttonWidthPx * 0.5 - 7}
             fadeContent
           >
             <div style={styles.container}>
