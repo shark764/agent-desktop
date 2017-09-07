@@ -12,6 +12,8 @@
 * CXV1-11481 - Update script ID passed in on submit for SDK major version bump
 * CXV1-11462 - Fix contact outbound controls on small side panel
 * CXV1-10589 - Fix unselected outbound contact assigning
+* CXV1-10657 - Add new Icon for script only interactions
+* CXV1-10658 - Collapsible status menu dropdowns
 
 ### [1.2.0] (2017-08-25)
 * CXV1-9006 - Toolbar view of scripts

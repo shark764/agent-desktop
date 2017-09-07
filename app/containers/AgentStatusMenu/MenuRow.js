@@ -33,6 +33,9 @@ const styles = {
   },
   text: {
     flexGrow: 1,
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflowX: 'hidden',
   },
   openMenuRoot: {
     backgroundColor: '#DEF8FE',
