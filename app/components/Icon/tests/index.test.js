@@ -5,7 +5,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Icon, { availableIcons } from '../index';
+import Icon, { availableIcons, availableIconsWithActive } from '../index';
 
 describe('<Icon />', () => {
   availableIcons.forEach((name) => {
@@ -17,7 +17,7 @@ describe('<Icon />', () => {
     });
   });
 
-  availableIcons.forEach((name) => {
+  availableIconsWithActive.forEach((name) => {
     describe(`with name ${name} and active prop`, () => {
       it('should render correctly', () => {
         const rendered = shallow(<Icon id="mockId" name={name} active />);

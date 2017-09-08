@@ -1,36 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Icon /> with name add_interaction and active prop should render correctly 1`] = `
-<img
-  alt="add_interaction"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-    }
-  }
-/>
-`;
-
 exports[`<Icon /> with name add_interaction should render correctly 1`] = `
 <img
   alt="add_interaction"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-    }
-  }
-/>
-`;
-
-exports[`<Icon /> with name arrow_return and active prop should render correctly 1`] = `
-<img
-  alt="arrow_return"
   data-radium={true}
   id="mockId"
   src="test-file-stub"
@@ -56,20 +28,6 @@ exports[`<Icon /> with name arrow_return should render correctly 1`] = `
 />
 `;
 
-exports[`<Icon /> with name arrow_up_down and active prop should render correctly 1`] = `
-<img
-  alt="arrow_up_down"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-    }
-  }
-/>
-`;
-
 exports[`<Icon /> with name arrow_up_down should render correctly 1`] = `
 <img
   alt="arrow_up_down"
@@ -79,22 +37,6 @@ exports[`<Icon /> with name arrow_up_down should render correctly 1`] = `
   style={
     Object {
       "cursor": "pointer",
-    }
-  }
-/>
-`;
-
-exports[`<Icon /> with name attachment and active prop should render correctly 1`] = `
-<img
-  alt="attachment"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "16px",
-      "width": "16px",
     }
   }
 />
@@ -116,22 +58,6 @@ exports[`<Icon /> with name attachment should render correctly 1`] = `
 />
 `;
 
-exports[`<Icon /> with name caret and active prop should render correctly 1`] = `
-<img
-  alt="caret"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "6px",
-      "width": "10px",
-    }
-  }
-/>
-`;
-
 exports[`<Icon /> with name caret should render correctly 1`] = `
 <img
   alt="caret"
@@ -143,22 +69,6 @@ exports[`<Icon /> with name caret should render correctly 1`] = `
       "cursor": "pointer",
       "height": "6px",
       "width": "10px",
-    }
-  }
-/>
-`;
-
-exports[`<Icon /> with name caret_white and active prop should render correctly 1`] = `
-<img
-  alt="caret_white"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "10px",
-      "width": "18px",
     }
   }
 />
@@ -180,21 +90,6 @@ exports[`<Icon /> with name caret_white should render correctly 1`] = `
 />
 `;
 
-exports[`<Icon /> with name checkMark and active prop should render correctly 1`] = `
-<img
-  alt="checkMark"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "25px",
-    }
-  }
-/>
-`;
-
 exports[`<Icon /> with name checkMark should render correctly 1`] = `
 <img
   alt="checkMark"
@@ -205,21 +100,6 @@ exports[`<Icon /> with name checkMark should render correctly 1`] = `
     Object {
       "cursor": "pointer",
       "height": "25px",
-    }
-  }
-/>
-`;
-
-exports[`<Icon /> with name checkStatus and active prop should render correctly 1`] = `
-<img
-  alt="checkStatus"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "17px",
     }
   }
 />
@@ -240,20 +120,6 @@ exports[`<Icon /> with name checkStatus should render correctly 1`] = `
 />
 `;
 
-exports[`<Icon /> with name close and active prop should render correctly 1`] = `
-<img
-  alt="close"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-    }
-  }
-/>
-`;
-
 exports[`<Icon /> with name close should render correctly 1`] = `
 <img
   alt="close"
@@ -268,37 +134,9 @@ exports[`<Icon /> with name close should render correctly 1`] = `
 />
 `;
 
-exports[`<Icon /> with name config and active prop should render correctly 1`] = `
-<img
-  alt="config"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-    }
-  }
-/>
-`;
-
 exports[`<Icon /> with name config should render correctly 1`] = `
 <img
   alt="config"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-    }
-  }
-/>
-`;
-
-exports[`<Icon /> with name connected and active prop should render correctly 1`] = `
-<img
-  alt="connected"
   data-radium={true}
   id="mockId"
   src="test-file-stub"
@@ -408,22 +246,6 @@ exports[`<Icon /> with name dialpad_dark should render correctly 1`] = `
 />
 `;
 
-exports[`<Icon /> with name email and active prop should render correctly 1`] = `
-<img
-  alt="email"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "15px",
-      "width": "18px",
-    }
-  }
-/>
-`;
-
 exports[`<Icon /> with name email should render correctly 1`] = `
 <img
   alt="email"
@@ -435,22 +257,6 @@ exports[`<Icon /> with name email should render correctly 1`] = `
       "cursor": "pointer",
       "height": "15px",
       "width": "18px",
-    }
-  }
-/>
-`;
-
-exports[`<Icon /> with name email_dark and active prop should render correctly 1`] = `
-<img
-  alt="email_dark"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "17px",
-      "width": "20px",
     }
   }
 />
@@ -472,22 +278,6 @@ exports[`<Icon /> with name email_dark should render correctly 1`] = `
 />
 `;
 
-exports[`<Icon /> with name email_new and active prop should render correctly 1`] = `
-<img
-  alt="email_new"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "15px",
-      "width": "18px",
-    }
-  }
-/>
-`;
-
 exports[`<Icon /> with name email_new should render correctly 1`] = `
 <img
   alt="email_new"
@@ -499,27 +289,6 @@ exports[`<Icon /> with name email_new should render correctly 1`] = `
       "cursor": "pointer",
       "height": "15px",
       "width": "18px",
-    }
-  }
-/>
-`;
-
-exports[`<Icon /> with name end_call_resource and active prop should render correctly 1`] = `
-<span
-  className="active"
-  data-radium={true}
-  id="mockId"
-  onMouseEnter={[Function]}
-  onMouseLeave={[Function]}
-  style={
-    Object {
-      "backgroundImage": "url(test-file-stub)",
-      "backgroundSize": "72px 24px",
-      "borderRadius": "50%",
-      "cursor": "pointer",
-      "display": "block",
-      "height": "24px",
-      "width": "24px",
     }
   }
 />
@@ -541,26 +310,6 @@ exports[`<Icon /> with name end_call_resource should render correctly 1`] = `
       "display": "block",
       "height": "24px",
       "width": "24px",
-    }
-  }
-/>
-`;
-
-exports[`<Icon /> with name endCall and active prop should render correctly 1`] = `
-<span
-  className="active"
-  data-radium={true}
-  id="mockId"
-  onMouseEnter={[Function]}
-  onMouseLeave={[Function]}
-  style={
-    Object {
-      "backgroundImage": "url(test-file-stub)",
-      "borderRadius": "50%",
-      "cursor": "pointer",
-      "display": "block",
-      "height": "40px",
-      "width": "40px",
     }
   }
 />
@@ -670,22 +419,6 @@ exports[`<Icon /> with name hold_resource should render correctly 1`] = `
 />
 `;
 
-exports[`<Icon /> with name message and active prop should render correctly 1`] = `
-<img
-  alt="message"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "15px",
-      "width": "18px",
-    }
-  }
-/>
-`;
-
 exports[`<Icon /> with name message should render correctly 1`] = `
 <img
   alt="message"
@@ -702,22 +435,6 @@ exports[`<Icon /> with name message should render correctly 1`] = `
 />
 `;
 
-exports[`<Icon /> with name message_dark and active prop should render correctly 1`] = `
-<img
-  alt="message_dark"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "20px",
-      "width": "20px",
-    }
-  }
-/>
-`;
-
 exports[`<Icon /> with name message_dark should render correctly 1`] = `
 <img
   alt="message_dark"
@@ -729,22 +446,6 @@ exports[`<Icon /> with name message_dark should render correctly 1`] = `
       "cursor": "pointer",
       "height": "20px",
       "width": "20px",
-    }
-  }
-/>
-`;
-
-exports[`<Icon /> with name message_new and active prop should render correctly 1`] = `
-<img
-  alt="message_new"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "15px",
-      "width": "18px",
     }
   }
 />
@@ -807,20 +508,6 @@ exports[`<Icon /> with name mute should render correctly 1`] = `
 />
 `;
 
-exports[`<Icon /> with name not_connected and active prop should render correctly 1`] = `
-<img
-  alt="not_connected"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-    }
-  }
-/>
-`;
-
 exports[`<Icon /> with name not_connected should render correctly 1`] = `
 <img
   alt="not_connected"
@@ -873,22 +560,6 @@ exports[`<Icon /> with name resources should render correctly 1`] = `
       "display": "block",
       "height": "40px",
       "width": "40px",
-    }
-  }
-/>
-`;
-
-exports[`<Icon /> with name search and active prop should render correctly 1`] = `
-<img
-  alt="search"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "16px",
-      "width": "16px",
     }
   }
 />
@@ -994,27 +665,6 @@ exports[`<Icon /> with name transfer_dark should render correctly 1`] = `
 />
 `;
 
-exports[`<Icon /> with name transfer_resource and active prop should render correctly 1`] = `
-<span
-  className="active"
-  data-radium={true}
-  id="mockId"
-  onMouseEnter={[Function]}
-  onMouseLeave={[Function]}
-  style={
-    Object {
-      "backgroundImage": "url(test-file-stub)",
-      "backgroundSize": "72px 24px",
-      "borderRadius": "50%",
-      "cursor": "pointer",
-      "display": "block",
-      "height": "24px",
-      "width": "24px",
-    }
-  }
-/>
-`;
-
 exports[`<Icon /> with name transfer_resource should render correctly 1`] = `
 <span
   className=""
@@ -1036,22 +686,6 @@ exports[`<Icon /> with name transfer_resource should render correctly 1`] = `
 />
 `;
 
-exports[`<Icon /> with name voice and active prop should render correctly 1`] = `
-<img
-  alt="voice"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "20px",
-      "width": "16px",
-    }
-  }
-/>
-`;
-
 exports[`<Icon /> with name voice should render correctly 1`] = `
 <img
   alt="voice"
@@ -1068,41 +702,9 @@ exports[`<Icon /> with name voice should render correctly 1`] = `
 />
 `;
 
-exports[`<Icon /> with name voice_dark and active prop should render correctly 1`] = `
-<img
-  alt="voice_dark"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "20px",
-      "width": "16px",
-    }
-  }
-/>
-`;
-
 exports[`<Icon /> with name voice_dark should render correctly 1`] = `
 <img
   alt="voice_dark"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
-      "height": "20px",
-      "width": "16px",
-    }
-  }
-/>
-`;
-
-exports[`<Icon /> with name voice_white and active prop should render correctly 1`] = `
-<img
-  alt="voice_white"
   data-radium={true}
   id="mockId"
   src="test-file-stub"

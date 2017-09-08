@@ -14,6 +14,9 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import Collapsible from 'components/Collapsible';
+import 'assets/css/collapsible.css';
+
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import Icon from 'components/Icon';
@@ -37,11 +40,14 @@ import {
 } from './selectors';
 
 const styles = {
-  menuPosition: {
+  base: {
     position: 'absolute',
     left: '2px',
     bottom: '56px',
     zIndex: '2',
+    width: '396px',
+    borderRadius: '8px',
+    margin: '0',
   },
   baseMenuContainer: {
     padding: '3px 0',
@@ -95,6 +101,13 @@ const styles = {
   notReadyLinkContainer: {
     padding: '14px 24px 10px 24px',
   },
+  subMenuRows: {
+    ':hover': {
+      backgroundColor: '#DEF8FE',
+      cursor: 'pointer',
+    },
+    padding: '5px 25px 0',
+  },
 };
 
 export class AgentStatusMenu extends React.Component {
@@ -102,9 +115,9 @@ export class AgentStatusMenu extends React.Component {
     super(props);
 
     this.state = {
-      showReasonMenuInfo: {},
       clearHoverInt: 0,
       statusLoading: false,
+      expandedMenu: '',
     };
   }
 
@@ -116,6 +129,14 @@ export class AgentStatusMenu extends React.Component {
       this.setState({ statusLoading: false });
     }
   }
+
+  setCollapsibleMenus = (menuId) => {
+    if (this.state.expandedMenu === '' || this.state.expandedMenu !== menuId) {
+      this.setState({ expandedMenu: menuId });
+    } else {
+      this.setState({ expandedMenu: '' });
+    }
+  };
 
   clearHover = () => {
     // Longstanding radium bug where mouseleave event is never triggered https://github.com/FormidableLabs/radium/issues/524
@@ -137,7 +158,6 @@ export class AgentStatusMenu extends React.Component {
         newPresence
       );
     }
-    this.setState({ showReasonMenuInfo: {} });
     this.props.showAgentStatusMenu(false);
   };
 
@@ -152,6 +172,7 @@ export class AgentStatusMenu extends React.Component {
     const selectReason = () => {
       this.changePresence('notready', reason, listId);
       this.clearHover();
+      this.setCollapsibleMenus();
     };
     return (
       <MenuRow
@@ -179,31 +200,24 @@ export class AgentStatusMenu extends React.Component {
           this.props.selectedPresenceReason.reasonId === reason.reasonId &&
           this.props.selectedPresenceReason.listId === listId
       ) > -1;
-    const isDropdownOpen =
-      this.state.showReasonMenuInfo.listId === listId &&
-      this.state.showReasonMenuInfo.index === categoryIndex;
     const elementId = `${listId}-${categoryIndex}`;
     return (
-      <MenuRow
+      <Collapsible
         id={elementId}
-        key={elementId + this.state.clearHoverInt}
-        rowText={category.name}
-        onSelect={() => {
-          this.setState({
-            showPathwayMenu: false,
-            showReasonMenuInfo: isDropdownOpen
-              ? {}
-              : { listId, index: categoryIndex },
-          });
-        }}
+        key={elementId}
+        trigger={category.name}
         style={[containsSelected && styles.selectedCategory]}
-        isOpen={isDropdownOpen}
-        hasSubMenu
-        subMenuRows={category.reasons.map(
+        classParentString={
+          containsSelected ? 'CollapsibleReasonBold' : 'CollapsibleReason'
+        }
+        open={this.state.expandedMenu === elementId}
+        handleTriggerClick={() => this.setCollapsibleMenus(elementId)}
+      >
+        {category.reasons.map(
           (reason) => this.renderReason(reason, listId),
           this
         )}
-      />
+      </Collapsible>
     );
   };
 
@@ -241,11 +255,9 @@ export class AgentStatusMenu extends React.Component {
     return (
       <PopupDialog
         id="agentStatusMenu"
-        style={styles.menuPosition}
+        style={styles.base}
         isVisible={this.props.show}
         hide={() => {
-          this.setState({ showPathwayMenu: false });
-          this.setState({ showReasonMenuInfo: {} });
           this.props.showAgentStatusMenu(false);
         }}
         widthPx={303}
@@ -273,33 +285,29 @@ export class AgentStatusMenu extends React.Component {
             titleText={messages.mode}
             mainText={messages.inbound}
           />
-          <LargeMenuRow
+          <Collapsible
             id="agentMenuPathway"
-            titleText={messages.activeVoicePath}
-            mainText={this.props.activeExtension.description}
-            hasSubMenu
-            onClick={() => {
-              this.setState({
-                showReasonMenuInfo: {},
-                showPathwayMenu: !this.state.showPathwayMenu,
-              });
-            }}
-            disabled={this.props.readyState === 'ready'}
-            isOpen={this.state.showPathwayMenu}
-            subMenuRows={this.props.extensions.map((extension) =>
-              (<MenuRow
+            triggerHeader="Active Voice Pathway"
+            trigger={this.props.activeExtension.description}
+            triggerDisabled={this.props.readyState === 'ready'}
+            open={this.state.expandedMenu === 'agentVoicePathway'}
+            handleTriggerClick={() =>
+              this.setCollapsibleMenus('agentVoicePathway')}
+          >
+            {this.props.extensions.map((extension) =>
+              (<div
                 key={extension.value}
-                id={extension.value}
-                rowText={extension.description}
-                onSelect={() => {
+                style={styles.subMenuRows}
+                onClick={() => {
                   this.props.setActiveExtension(extension);
-                  this.setState({ showPathwayMenu: false });
                   this.props.showAgentStatusMenu(false);
+                  this.setCollapsibleMenus();
                 }}
-              />)
+              >
+                {extension.description}
+              </div>)
             )}
-            style={{ borderBottom: 'solid 1px #e4e4e4' }}
-          />
+          </Collapsible>
           <div
             id="agentNotReadyState"
             style={[
