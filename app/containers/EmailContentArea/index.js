@@ -93,6 +93,7 @@ const styles = {
     display: 'inline-block',
     width: 'calc(100% - 90px)',
     minHeight: '1.5em',
+    wordBreak: 'break-all',
   },
   detailsContainer: {
     borderTop: '1px solid #D0D0D0',
