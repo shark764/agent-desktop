@@ -296,7 +296,7 @@ export class AgentStatusMenu extends React.Component {
           >
             {this.props.extensions.map((extension) =>
               (<div
-                key={extension.value}
+                key={`${extension.provider}-${extension.value}`}
                 style={styles.subMenuRows}
                 onClick={() => {
                   this.props.setActiveExtension(extension);

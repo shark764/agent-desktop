@@ -1,11 +1,11 @@
 # Versioning
 
+Taken from a combination of https://softwareengineering.stackexchange.com/a/226277 and https://stackoverflow.com/a/22214169
+
 Given `x.y.z`:
 
-* x = Incremented when all planned functionality for a major iniative has been complete.
+* x = Incremented when release contains a major UI/functionality update (ex. new interface design/layout) or all planned functionality for a major iniative has been complete.
 
-* y = Incremented when a release candidate has been cut from develop.
+* y = Incremented when release contains added UI or a new feature.
 
-* z = Incremented for hotfixes to master or release candidates.
-
-See http://nvie.com/posts/a-successful-git-branching-model/ for structure of master, develop, and release branches.
+* z = Incremented when a release contains a bugfix. No new functionality added to the user.

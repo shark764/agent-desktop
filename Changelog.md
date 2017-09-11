@@ -1,4 +1,4 @@
-### [Unreleased]
+### [1.3.0] (2017-09-11)
 * CXV1-11110 - Make side panel collapse interaction specific. Only automatically open side panel on accepted interaction (when CRM is enabled) and script received for interaction
 * CXV1-9010 - Fix stats overflow for toolbar restricted dimensions on side panel collapse
 * CXV1-10779 - Fix resize for active phone panel and scripts only
@@ -15,7 +15,7 @@
 * CXV1-10658 - Collapsible status menu dropdowns
 * CXV1-10671 - Fixed error caused by deleting a contact that matches an ongoing interaction
 * CXV1-10459 - Fixed wrapping issue with long strings in email subjects
-* CXV1-10657 - Add new Icon for script only interactions 
+* CXV1-10657 - Add new Icon for script only interactions
 
 ### [1.2.0] (2017-08-25)
 * CXV1-9006 - Toolbar view of scripts
