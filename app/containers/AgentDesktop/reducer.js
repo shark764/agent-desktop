@@ -117,7 +117,6 @@ const blankNewInteractionPanel = {
   contactMode: 'view',
   query: {},
   activeContactForm: activeContactFormBlank,
-  contact: {},
   // newInteractionFormInput is used for creating new interactions when the crm is disabled
   newInteractionFormInput: '',
 };
@@ -150,7 +149,6 @@ const initialState = fromJS({
     isSidePanelCollapsed: true,
     selectedSidePanelTab: 'info',
     activeContactForm: activeContactFormBlank,
-    contact: {},
   },
   newInteractionPanel: blankNewInteractionPanel,
   queues: [],
@@ -620,11 +618,12 @@ function agentDesktopReducer(state = initialState, action) {
         );
     }
     case NEW_INTERACTION_PANEL_SELECT_CONTACT: {
-      return state.update('newInteractionPanel', (newInteractionPanel) =>
-        newInteractionPanel
-          .set('contact', fromJS(action.contact || {}))
-          .set('contactMode', 'view')
-      );
+      return state
+        .update('newInteractionPanel', (newInteractionPanel) =>
+          newInteractionPanel
+            .set('contact', fromJS(action.contact))
+            .set('contactMode', 'view')
+        );
     }
     case CLOSE_NEW_INTERACTION_PANEL: {
       let nextSelectedInteractionId;
@@ -1163,7 +1162,7 @@ function agentDesktopReducer(state = initialState, action) {
         .update('interactions', (interactions) =>
           interactions.map((interaction) => {
             if (interaction.getIn(['contact', 'id']) === action.contactId) {
-              return interaction.set('contact', fromJS({}));
+              return interaction.delete('contact');
             }
             return interaction;
           })
@@ -1173,7 +1172,7 @@ function agentDesktopReducer(state = initialState, action) {
             noInteractionContactPanel.getIn(['contact', 'id']) ===
             action.contactId
           ) {
-            return noInteractionContactPanel.set('contact', fromJS({}));
+            return noInteractionContactPanel.delete('contact');
           }
           return noInteractionContactPanel;
         })
@@ -1181,7 +1180,7 @@ function agentDesktopReducer(state = initialState, action) {
           if (
             newInteractionPanel.getIn(['contact', 'id']) === action.contactId
           ) {
-            return newInteractionPanel.set('contact', fromJS({}));
+            return newInteractionPanel.delete('contact');
           }
           return newInteractionPanel;
         });
