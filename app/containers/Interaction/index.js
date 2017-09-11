@@ -301,6 +301,8 @@ export class Interaction extends React.Component {
           return '#FE4565';
         }
         return '#23CEF5';
+      case 'work-ended-pending-script':
+        return '#FE4565';
       default:
         return 'white';
     }
@@ -309,7 +311,10 @@ export class Interaction extends React.Component {
   getTimerHeight = () => {
     // subtract one second from remaining seconds to account for CSS transition
     const remainingSeconds = this.getRemainingSeconds() - 1;
-    if (this.state.ageSeconds < this.props.targetWrapupTime) {
+
+    if (this.props.status === 'work-ended-pending-script') {
+      return '100%';
+    } else if (this.state.ageSeconds < this.props.targetWrapupTime) {
       return `${remainingSeconds / this.props.targetWrapupTime * 100}%`;
     } else {
       return `${remainingSeconds /
