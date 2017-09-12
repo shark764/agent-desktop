@@ -13,6 +13,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import 'assets/css/collapsible.css';
+
 import Icon from 'components/Icon';
 
 const styles = {
@@ -214,7 +216,7 @@ class Collapsible extends Component {
             <div className={'Collapsible__trigger-header'}>
               {this.props.triggerHeader}
             </div>
-            <div className={triggerClassString.trim()}>
+            <div className={triggerClassString.trim()} title={trigger}>
               {trigger}
             </div>
           </div>

@@ -84,7 +84,7 @@ function MenuRow(props) {
       ]}
       onClick={allowSelect && props.onSelect}
     >
-      <div style={styles.text}>
+      <div style={styles.text} title={rowText}>
         {rowText}
       </div>
       {props.isSelected &&

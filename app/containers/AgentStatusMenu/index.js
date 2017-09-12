@@ -14,11 +14,9 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import Collapsible from 'components/Collapsible';
-import 'assets/css/collapsible.css';
-
 import ErrorBoundary from 'components/ErrorBoundary';
 
+import Collapsible from 'components/Collapsible';
 import Icon from 'components/Icon';
 import PopupDialog from 'components/PopupDialog';
 
@@ -51,8 +49,8 @@ const styles = {
   },
   baseMenuContainer: {
     padding: '3px 0',
-    display: 'flex',
-    flexDirection: 'column',
+    maxHeight: '700px',
+    overflowY: 'auto',
   },
   itemText: {
     flexGrow: 1,
@@ -65,16 +63,17 @@ const styles = {
   presenceLinkContainer: {
     color: '#363636',
     textTransform: 'capitalize',
-    width: '303px',
     padding: '10px 24px',
     display: 'flex',
   },
   listTitle: {
     color: '#979797',
     textTransform: 'capitalize',
-    width: '303px',
     padding: '10px 24px 0 24px',
-    display: 'flex',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    width: '100%',
   },
   inactivePresence: {
     textDecoration: 'underline',
@@ -107,6 +106,10 @@ const styles = {
       cursor: 'pointer',
     },
     padding: '5px 25px 0',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    width: '100%',
   },
 };
 
@@ -226,10 +229,9 @@ export class AgentStatusMenu extends React.Component {
       id={`notReadyStateTitle-${reasonList.id}`}
       key={`notReadyStateTitle-${reasonList.id}`}
       style={styles.listTitle}
+      title={reasonList.name}
     >
-      <div>
-        {reasonList.name}
-      </div>
+      {reasonList.name}
     </div>,
     <div
       key={`reasonListTitleBottom-${reasonList.id}`}
