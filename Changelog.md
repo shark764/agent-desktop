@@ -1,3 +1,6 @@
+### [1.3.2] (2017-09-12)
+* CXV1-10658 - Status menu overflow/ellipsis fixes
+
 ### [1.3.1] (2017-09-12)
 * CXV1-10657 - Toolbar view script interaction fixes
 

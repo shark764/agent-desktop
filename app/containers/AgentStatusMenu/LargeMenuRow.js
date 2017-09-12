@@ -45,7 +45,7 @@ const styles = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    width: '230px',
+    width: '303px',
   },
   availableMenu: {
     backgroundColor: '#FFFFFF',

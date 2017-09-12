@@ -42,7 +42,15 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 230px;
+  width: 303px;
+}
+
+.CollapsibleReason__trigger {
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 303px;
 }
 
 .CollapsibleReasonBold__trigger {
@@ -62,8 +70,8 @@
 
 .CollapsibleReason__contentInner,
 .CollapsibleReasonBold__contentInner {
-  padding-left: 5px;
+  padding: 5px 0 5px 5px;
   max-height: 150px;
   overflow-x: auto;
-  box-shadow: inset 5px 0 5px #cecece;
+  box-shadow: inset 0px 0 7px 1px #cecece;
 }
