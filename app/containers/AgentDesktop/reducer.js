@@ -618,12 +618,11 @@ function agentDesktopReducer(state = initialState, action) {
         );
     }
     case NEW_INTERACTION_PANEL_SELECT_CONTACT: {
-      return state
-        .update('newInteractionPanel', (newInteractionPanel) =>
-          newInteractionPanel
-            .set('contact', fromJS(action.contact))
-            .set('contactMode', 'view')
-        );
+      return state.update('newInteractionPanel', (newInteractionPanel) =>
+        newInteractionPanel
+          .set('contact', fromJS(action.contact))
+          .set('contactMode', 'view')
+      );
     }
     case CLOSE_NEW_INTERACTION_PANEL: {
       let nextSelectedInteractionId;
@@ -1395,7 +1394,11 @@ function agentDesktopReducer(state = initialState, action) {
           ) {
             return interaction.update('warmTransfers', (warmTransfers) =>
               warmTransfers.map((warmTransfer) => {
-                if (warmTransfer.get('id') === action.response.result.id) {
+                if (
+                  warmTransfer.get('id') === action.response.result.id ||
+                  warmTransfer.get('targetResource') ===
+                    action.response.result.id
+                ) {
                   const name =
                     action.response.result.firstName ||
                     action.response.result.lastName

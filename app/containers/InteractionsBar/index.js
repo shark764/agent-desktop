@@ -231,6 +231,7 @@ export class InteractionsBar extends React.Component {
 
   render() {
     let activeVoiceInteractionStatus;
+    let activeVoiceInteractionIcon;
     if (this.props.activeVoiceInteraction) {
       if (this.props.activeVoiceInteraction.status === 'wrapup') {
         activeVoiceInteractionStatus = 'wrapup';
@@ -241,13 +242,22 @@ export class InteractionsBar extends React.Component {
       } else {
         activeVoiceInteractionStatus = 'active';
       }
+      if (
+        this.props.activeVoiceInteraction.status ===
+          'work-ended-pending-script' ||
+        this.props.activeVoiceInteraction.status === 'script-only'
+      ) {
+        activeVoiceInteractionIcon = 'script';
+      } else {
+        activeVoiceInteractionIcon = 'voice';
+      }
     }
 
     const activeVoiceInteraction = this.props.activeVoiceInteraction
       ? (<Interaction
         interaction={this.props.activeVoiceInteraction}
         key={this.props.activeVoiceInteraction.interactionId}
-        icon="voice"
+        icon={activeVoiceInteractionIcon}
         from={
             has(this.props.activeVoiceInteraction, 'contact.attributes.name')
               ? this.props.activeVoiceInteraction.contact.attributes.name
