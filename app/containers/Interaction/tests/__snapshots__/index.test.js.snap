@@ -35,20 +35,20 @@ exports[`<Interaction /> should render correctly 1`] = `
     ]
   }
 >
-  <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "height": "20px",
-        "justifyContent": "center",
-        "width": "20px",
+  <div>
+    <div
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "justifyContent": "center",
+        }
       }
-    }
-  >
-    <Icon
-      name="config"
-    />
+    >
+      <Icon
+        name="config"
+      />
+    </div>
   </div>
   <div
     style={
@@ -110,7 +110,6 @@ exports[`<Interaction /> should render correctly 1`] = `
       className="previewText"
       style={
         Object {
-          "height": "36px",
           "lineHeight": "18px",
           "marginTop": "5px",
         }

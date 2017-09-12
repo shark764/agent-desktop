@@ -1,3 +1,6 @@
+### [1.3.1] (2017-09-12)
+* CXV1-10657 - Toolbar view script interaction fixes
+
 ### [1.3.0] (2017-09-11)
 * CXV1-11110 - Make side panel collapse interaction specific. Only automatically open side panel on accepted interaction (when CRM is enabled) and script received for interaction
 * CXV1-9010 - Fix stats overflow for toolbar restricted dimensions on side panel collapse
