@@ -863,16 +863,21 @@ function agentDesktopReducer(state = initialState, action) {
         state,
         action.response.interactionId
       );
-      return state.updateIn(['interactions', interactionIndex], (interaction) =>
-        interaction
-          .set('status', 'work-initiated')
-          .set(
+      return state.updateIn(['interactions', interactionIndex], (interaction) => {
+        let newInteraction = interaction.set('status', 'work-initiated');
+        if (interaction.get('channelType') === 'voice') {
+          newInteraction = newInteraction.set(
             'number',
-            interaction.get('channelType') === 'voice'
-              ? action.response.customer
-              : undefined
-          )
-      );
+            action.response.customer
+          );
+        } else if (interaction.get('channelType') === 'sms') {
+          newInteraction = newInteraction.set(
+            'customer',
+            action.response.customer
+          );
+        }
+        return newInteraction;
+      });
     }
     case SET_IS_CANCELLING_INTERACTION: {
       // setting "isCancellingInteraction" flag so that we can give the user

@@ -14,6 +14,7 @@ import {
   START_OUTBOUND_INTERACTION,
   INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
   ADD_INTERACTION,
+  WORK_INITIATED,
   ADD_MESSAGE,
   ADD_SCRIPT,
   REMOVE_SCRIPT,
@@ -350,6 +351,57 @@ describe('agentDesktopReducer', () => {
         action.response.recording = true;
       });
       it('is ignored', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+  });
+
+  describe('WORK_INITIATED', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 'voice-interaction-id',
+            channelType: 'voice',
+          },
+          {
+            interactionId: 'sms-interaction-id',
+            channelType: 'sms',
+          },
+          {
+            interactionId: 'email-interaction-id',
+            channelType: 'email',
+          },
+        ],
+      };
+      action = {
+        type: WORK_INITIATED,
+        response: {
+          customer: 'new-customer',
+        },
+      };
+    });
+    describe('initializing voice interaction', () => {
+      beforeEach(() => {
+        action.response.interactionId = 'voice-interaction-id';
+      });
+      it('sets status to work-initiated and number to customer', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('initializing sms interaction', () => {
+      beforeEach(() => {
+        action.response.interactionId = 'sms-interaction-id';
+      });
+      it('sets status to work-initiated and customer', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('initializing neither voice nor sms interaction', () => {
+      beforeEach(() => {
+        action.response.interactionId = 'email-interaction-id';
+      });
+      it('sets status to work-initiated', () => {
         runReducerAndExpectSnapshot();
       });
     });
