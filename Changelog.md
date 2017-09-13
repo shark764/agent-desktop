@@ -1,3 +1,6 @@
+### [1.3.6] (2017-09-13)
+* CXV1-11570 - Fix "from" for inbound SMS interactions with no contact
+
 ### [1.3.5] (2017-09-13)
 * CXV1-11566 - Fix onClick of pending PSTN interactions
 

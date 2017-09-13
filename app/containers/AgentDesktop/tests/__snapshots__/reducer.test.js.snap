@@ -844,6 +844,68 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer WORK_INITIATED initializing neither voice nor sms interaction sets status to work-initiated 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "voice-interaction-id",
+      channelType: "voice",
+    },
+    Immutable.Map {
+      interactionId: "sms-interaction-id",
+      channelType: "sms",
+    },
+    Immutable.Map {
+      interactionId: "email-interaction-id",
+      channelType: "email",
+      status: "work-initiated",
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer WORK_INITIATED initializing sms interaction sets status to work-initiated and customer 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "voice-interaction-id",
+      channelType: "voice",
+    },
+    Immutable.Map {
+      interactionId: "sms-interaction-id",
+      channelType: "sms",
+      status: "work-initiated",
+      customer: "new-customer",
+    },
+    Immutable.Map {
+      interactionId: "email-interaction-id",
+      channelType: "email",
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer WORK_INITIATED initializing voice interaction sets status to work-initiated and number to customer 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "voice-interaction-id",
+      channelType: "voice",
+      status: "work-initiated",
+      number: "new-customer",
+    },
+    Immutable.Map {
+      interactionId: "sms-interaction-id",
+      channelType: "sms",
+    },
+    Immutable.Map {
+      interactionId: "email-interaction-id",
+      channelType: "email",
+    },
+  ],
+}
+`;
+
 exports[`agentDesktopReducer returns the correct initial state 1`] = `
 Immutable.Map {
   interactions: Immutable.List [
