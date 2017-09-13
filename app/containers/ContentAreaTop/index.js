@@ -22,10 +22,13 @@ import ErrorBoundary from 'components/ErrorBoundary';
 import SidePanelToolbarBtn from 'containers/SidePanelToolbarBtn';
 import ButtonLayout, { buttonConfigPropTypes } from 'components/ButtonLayout';
 
+import { selectHasCrmPermissions } from 'containers/App/selectors';
+import { getSelectedInteractionIsScriptOnly } from 'containers/SidePanel/selectors';
 import {
   selectIsSidePanelCollapsed,
   selectSidePanelPx,
   selectIsInteractionsBarCollapsed,
+  getSelectedInteraction,
 } from 'containers/AgentDesktop/selectors';
 import { updateWrapupDetails } from 'containers/AgentDesktop/actions';
 
@@ -157,18 +160,39 @@ export class ContentAreaTop extends React.Component {
   };
 
   render() {
+    // This is all to solve the overflow ellipsis issue in the from container
+    let sidePanelHasTabs = false;
+    if (
+      (this.props.hasCrmPermissions && !this.context.toolbarMode) ||
+      (this.props.selectedInteractionHasScripts &&
+        !this.props.selectedInteractionIsScriptOnly)
+    ) {
+      sidePanelHasTabs = true;
+    }
+
+    let sidePanelSpacingInPx = 0;
+    if (sidePanelHasTabs) {
+      if (!this.props.isSidePanelCollapsed) {
+        sidePanelSpacingInPx += this.props.sidePanelPx;
+      }
+      if (!this.props.isInteractionsBarCollapsed) {
+        if (this.context.toolbarMode) {
+          sidePanelSpacingInPx += 72;
+        } else {
+          sidePanelSpacingInPx += 283;
+        }
+      }
+    } else {
+      sidePanelSpacingInPx = 0;
+    }
+
     return (
       <div
         style={[
           this.styles.fromButtonsContainer,
           {
             minWidth: '290px',
-            maxWidth: `calc(100vw - ${this.props.isSidePanelCollapsed
-              ? 0
-              : this.props.sidePanelPx}px - ${this.props
-              .isInteractionsBarCollapsed
-              ? 0
-              : 72}px - 30px)`,
+            maxWidth: `calc(100vw - ${sidePanelSpacingInPx}px - 30px)`,
           },
         ]}
       >
@@ -222,9 +246,12 @@ ContentAreaTop.propTypes = {
   from: PropTypes.node,
   buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes))
     .isRequired,
+  hasCrmPermissions: PropTypes.bool,
+  selectedInteractionIsScriptOnly: PropTypes.bool,
   isSidePanelCollapsed: PropTypes.bool.isRequired,
   sidePanelPx: PropTypes.number.isRequired,
   isInteractionsBarCollapsed: PropTypes.bool.isRequired,
+  selectedInteractionHasScripts: PropTypes.bool,
   updateWrapupDetails: PropTypes.func,
 };
 
@@ -233,9 +260,17 @@ ContentAreaTop.contextTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
+  hasCrmPermissions: selectHasCrmPermissions(state, props),
+  selectedInteractionIsScriptOnly: getSelectedInteractionIsScriptOnly(
+    state,
+    props
+  ),
   isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
   sidePanelPx: selectSidePanelPx(state, props),
   isInteractionsBarCollapsed: selectIsInteractionsBarCollapsed(state, props),
+  selectedInteractionHasScripts:
+    getSelectedInteraction(state, props) &&
+    getSelectedInteraction(state, props).script !== undefined,
 });
 
 function mapDispatchToProps(dispatch) {

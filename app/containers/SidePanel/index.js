@@ -44,77 +44,77 @@ import {
 const leftGutterPx = 51;
 const topBarHeightPx = 63;
 
-export class SidePanel extends React.Component {
-  styles = {
-    outerShell: {
-      backgroundColor: '#FFFFFF',
-      right: 0,
-      top: 0,
-      height: '100%',
-      width: '100%',
-      transition: 'transform 1s',
-      display: 'flex',
-      flexWrap: 'no-wrap',
-      zIndex: '1',
-      borderLeft: '1px solid #D0D0D0',
-    },
-    leftGutter: {
-      width: `${leftGutterPx}px`,
-      display: 'flex',
-      flexDirection: 'column',
-      flexGrow: '0',
-      flexShrink: 0,
-    },
-    topGutterLeft: {
-      borderBottom: '1px solid #D0D0D0',
-      margin: '0',
-      height: `${topBarHeightPx}px`,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      cursor: 'pointer',
-    },
-    leftGutterSpacer: {
-      order: '1',
-      flexGrow: '1',
-    },
-    left90: {
-      transform: 'rotate(-90deg)',
-    },
-    right90: {
-      transform: 'rotate(90deg)',
-    },
-    iconCollapse: {
-      height: '19px',
-    },
-    iconCollapseContainer: {
-      zIndex: '1',
-    },
-    bodyWrapper: {
-      display: 'flex',
-      order: '1',
-      flexGrow: '1',
-      overflow: 'hidden',
-      transition: 'opacity 1s cubic-bezier(1,0,.5,1)',
-      opacity: '1',
-      marginLeft: '-50px',
-      paddingLeft: '50px',
-    },
-    tabsOuter: {
-      flexGrow: '1',
-      alignSelf: 'stretch',
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    tabsRoot: {
-      height: '100%',
-    },
-    hideContent: {
-      transition: 'opacity 1s cubic-bezier(0,1,0,1)',
-      opacity: '0',
-    },
-  };
+const styles = {
+  outerShell: {
+    backgroundColor: '#FFFFFF',
+    right: 0,
+    top: 0,
+    height: '100%',
+    width: '100%',
+    transition: 'transform 1s',
+    display: 'flex',
+    flexWrap: 'no-wrap',
+    zIndex: '1',
+    borderLeft: '1px solid #D0D0D0',
+  },
+  leftGutter: {
+    width: `${leftGutterPx}px`,
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: '0',
+    flexShrink: 0,
+  },
+  topGutterLeft: {
+    borderBottom: '1px solid #D0D0D0',
+    margin: '0',
+    height: `${topBarHeightPx}px`,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+  },
+  leftGutterSpacer: {
+    order: '1',
+    flexGrow: '1',
+  },
+  left90: {
+    transform: 'rotate(-90deg)',
+  },
+  right90: {
+    transform: 'rotate(90deg)',
+  },
+  iconCollapse: {
+    height: '19px',
+  },
+  iconCollapseContainer: {
+    zIndex: '1',
+  },
+  bodyWrapper: {
+    display: 'flex',
+    order: '1',
+    flexGrow: '1',
+    overflow: 'hidden',
+    transition: 'opacity 1s cubic-bezier(1,0,.5,1)',
+    opacity: '1',
+    marginLeft: '-50px',
+    paddingLeft: '50px',
+  },
+  tabsOuter: {
+    flexGrow: '1',
+    alignSelf: 'stretch',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  tabsRoot: {
+    height: '100%',
+  },
+  hideContent: {
+    transition: 'opacity 1s cubic-bezier(0,1,0,1)',
+    opacity: '0',
+  },
+};
 
+export class SidePanel extends React.Component {
   handleCollapseClick = () => {
     if (this.props.isCollapsed) {
       this.props.showSidePanel(this.props.selectedInteractionId);
@@ -160,45 +160,34 @@ export class SidePanel extends React.Component {
 
   render() {
     const tabsData = this.getTabsData();
-    if (this.context.toolbarMode && this.props.isCollapsed) {
-      this.styles.leftGutter.width = 0;
-      this.styles.outerShell.borderLeft = 0;
-    } else {
-      this.styles.leftGutter.width = `${leftGutterPx}px`;
-    }
     return (
-      <div style={[this.styles.outerShell, this.props.style]}>
-        <div style={[this.styles.leftGutter]}>
+      <div style={[styles.outerShell, this.props.style]}>
+        <div style={[styles.leftGutter]}>
           <div
             id="sidePanelCollapse"
             onClick={this.handleCollapseClick}
-            style={[
-              this.styles.topGutterLeft,
-              this.styles.iconCollapseContainer,
-            ]}
+            style={[styles.topGutterLeft, styles.iconCollapseContainer]}
           >
             <IconCollapse
               style={[
-                this.styles.iconCollapse,
-                this.props.isCollapsed
-                  ? this.styles.right90
-                  : this.styles.left90,
+                styles.iconCollapse,
+                this.props.isCollapsed ? styles.right90 : styles.left90,
               ]}
             />
           </div>
-          <div style={this.styles.leftGutterSpacer} />
+          <div style={styles.leftGutterSpacer} />
         </div>
         <div
           id="sidePanelTabsContainer"
           style={[
-            this.styles.bodyWrapper,
-            this.props.isCollapsed ? this.styles.hideContent : {},
+            styles.bodyWrapper,
+            this.props.isCollapsed ? styles.hideContent : {},
           ]}
         >
           <Tabs
             topBarHeightPx={topBarHeightPx}
-            style={this.styles.tabsOuter}
-            tabsRootStyle={this.styles.tabsRoot}
+            style={styles.tabsOuter}
+            tabsRootStyle={styles.tabsRoot}
             type="big"
             id="contactTabs"
             onSelect={(tabIndex) =>

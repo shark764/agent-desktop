@@ -27,6 +27,9 @@ import Toolbar from 'containers/Toolbar';
 
 import { selectShowCollapseButton } from 'containers/InteractionsBar/selectors';
 
+import { selectHasCrmPermissions } from 'containers/App/selectors';
+import { getSelectedInteractionIsScriptOnly } from 'containers/SidePanel/selectors';
+
 import {
   showInteractionsBar,
   hideInteractionsBar,
@@ -38,6 +41,7 @@ import {
   selectIsSidePanelCollapsed,
   selectSidePanelPx,
   selectIsInteractionsBarCollapsed,
+  getSelectedInteraction,
 } from './selectors';
 
 export class AgentDesktop extends React.Component {
@@ -128,6 +132,15 @@ export class AgentDesktop extends React.Component {
   };
 
   render() {
+    let sidePanelHasTabs = false;
+    if (
+      (this.props.hasCrmPermissions && !this.context.toolbarMode) ||
+      (this.props.selectedInteractionHasScripts &&
+        !this.props.selectedInteractionIsScriptOnly)
+    ) {
+      sidePanelHasTabs = true;
+    }
+
     return (
       <div
         id="desktop-container"
@@ -177,18 +190,19 @@ export class AgentDesktop extends React.Component {
                 agent={this.props.login.agent}
                 style={{ flex: '1 1 auto' }}
               />
-              <Resizable
-                id="crm-resizable"
-                direction="left"
-                setPx={this.props.setSidePanelPx}
-                disabledPx={this.collapsedSidePanelPx}
-                px={this.props.sidePanelPx}
-                maxPx={this.props.sidePanelMaxPx}
-                minPx={this.context.toolbarMode ? 300 : 400}
-                isDisabled={this.props.isSidePanelCollapsed}
-              >
-                <SidePanel isCollapsed={this.props.isSidePanelCollapsed} />
-              </Resizable>
+              {sidePanelHasTabs &&
+                <Resizable
+                  id="crm-resizable"
+                  direction="left"
+                  setPx={this.props.setSidePanelPx}
+                  disabledPx={this.collapsedSidePanelPx}
+                  px={this.props.sidePanelPx}
+                  maxPx={this.props.sidePanelMaxPx}
+                  minPx={this.context.toolbarMode ? 300 : 400}
+                  isDisabled={this.props.isSidePanelCollapsed}
+                >
+                  <SidePanel isCollapsed={this.props.isSidePanelCollapsed} />
+                </Resizable>}
             </div>
           </div>
         </div>
@@ -208,7 +222,15 @@ const mapStateToProps = (state, props) => ({
   sidePanelPx: selectSidePanelPx(state, props),
   sidePanelMaxPx: selectAgentDesktopMap(state, props).toJS().sidePanelMaxPx,
   isInteractionsBarCollapsed: selectIsInteractionsBarCollapsed(state, props),
+  selectedInteractionHasScripts:
+    getSelectedInteraction(state, props) &&
+    getSelectedInteraction(state, props).script !== undefined,
   showCollapseButton: selectShowCollapseButton(state, props),
+  hasCrmPermissions: selectHasCrmPermissions(state, props),
+  selectedInteractionIsScriptOnly: getSelectedInteractionIsScriptOnly(
+    state,
+    props
+  ),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -227,7 +249,10 @@ AgentDesktop.propTypes = {
   sidePanelPx: PropTypes.number.isRequired,
   sidePanelMaxPx: PropTypes.number.isRequired,
   isInteractionsBarCollapsed: PropTypes.bool.isRequired,
+  selectedInteractionHasScripts: PropTypes.bool,
   showCollapseButton: PropTypes.bool.isRequired,
+  hasCrmPermissions: PropTypes.bool.isRequired,
+  selectedInteractionIsScriptOnly: PropTypes.bool.isRequired,
   showInteractionsBar: PropTypes.func.isRequired,
   hideInteractionsBar: PropTypes.func.isRequired,
   setSidePanelPx: PropTypes.func.isRequired,
