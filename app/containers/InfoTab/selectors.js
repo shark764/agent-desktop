@@ -64,12 +64,6 @@ const selectExpandedQuery = createSelector(
             label: {},
             objectName: 'q', // Fuzzy search query parameter
           };
-        } else if (filterName === 'op') {
-          attribute = {
-            id: 'operator',
-            label: {},
-            objectName: 'op', // Operator parameter (ex. and)
-          };
         } else {
           attribute = attributes.find(
             (fullAttribute) => fullAttribute.objectName === filterName

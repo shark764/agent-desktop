@@ -185,16 +185,6 @@ export class ContactSearch extends React.Component {
     }
   };
 
-  getFilterName = (filter) => {
-    if (filter.attribute && filter.attribute.id === 'all') {
-      return this.props.intl.formatMessage(messages.all);
-    } else if (filter.attribute && filter.attribute.id === 'operator') {
-      return this.props.intl.formatMessage(messages.operator);
-    } else {
-      return filter.label;
-    }
-  };
-
   render() {
     const isEditing = !['search', 'view'].includes(
       this.props.selectedInteraction.contactMode
@@ -300,7 +290,11 @@ export class ContactSearch extends React.Component {
             {this.props.query.map((filter) =>
               (<Filter
                 key={filter.attribute.objectName}
-                name={this.getFilterName(filter)}
+                name={
+                  filter.attribute && filter.attribute.id === 'all'
+                    ? this.props.intl.formatMessage(messages.all)
+                    : filter.label
+                }
                 value={filter.value}
                 remove={() =>
                   this.props.removeSearchFilter(filter.attribute.objectName)}

@@ -83,7 +83,6 @@
   "app.containers.ContactsSearch.call": "POŁĄCZ",
   "app.containers.ContactsSearch.createRecord": "Utwórz nowy rekord",
   "app.containers.ContactsSearch.noRecords": "Nie znaleziono rekordów",
-  "app.containers.ContactsSearch.operator": "",
   "app.containers.ContactsSearch.or": "LUB",
   "app.containers.ContactsSearch.searchCRM": "Przeszukaj bazę danych CRM",
   "app.containers.ContactsSearchBar.all": "",
