@@ -864,7 +864,7 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer WORK_INITIATED initializing sms interaction sets status to work-initiated and customer 1`] = `
+exports[`agentDesktopReducer WORK_INITIATED initializing sms interaction sets status to work-initiated and customer with plus 1`] = `
 Immutable.Map {
   interactions: Immutable.List [
     Immutable.Map {
@@ -875,7 +875,7 @@ Immutable.Map {
       interactionId: "sms-interaction-id",
       channelType: "sms",
       status: "work-initiated",
-      customer: "new-customer",
+      customer: "+new-customer",
     },
     Immutable.Map {
       interactionId: "email-interaction-id",
