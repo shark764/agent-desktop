@@ -50,8 +50,8 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
-  pstnBase: {
-    cursor: 'default',
+  pendingPstn: {
+    pointerEvents: 'none',
   },
   pendingBase: {
     borderBottom: 'none',
@@ -147,7 +147,6 @@ const styles = {
   cancelInteractionInProgress: {
     opacity: '.75',
     pointerEvents: 'none',
-    cursor: 'default',
   },
   hoverElement: {
     position: 'absolute',
@@ -431,7 +430,7 @@ export class Interaction extends React.Component {
           this.context.toolbarMode &&
             this.props.status === 'pending' &&
             styles.pendingBaseToolbar,
-          pendingPSTN && styles.pstnBase,
+          pendingPSTN && styles.pendingPstn,
           this.props.interaction.isCancellingInteraction &&
             styles.cancelInteractionInProgress,
         ]}
