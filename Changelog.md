@@ -1,3 +1,6 @@
+### [1.3.5] (2017-09-13)
+* CXV1-11566 - Fix onClick of pending PSTN interactions
+
 ### [1.3.4] (2017-09-12)
 * CXV1-9423 - Update screen pop
 
