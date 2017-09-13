@@ -1,3 +1,6 @@
+### [1.3.4] (2017-09-12)
+* CXV1-9423 - Update screen pop
+
 ### [1.3.3] (2017-09-12)
 * CXV1-10657 - Script icon for voice pending script
 * CXV1-11567 - Filter disabled queues from transfer lists and stats
