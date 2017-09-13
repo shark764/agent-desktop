@@ -409,6 +409,11 @@ export class App extends React.Component {
               response.extraParams.targetResource
             ) {
               this.props.resourceAdded(response);
+              if (!response.extraParams.externalResource) {
+                CxEngage.entities.getUser({
+                  resourceId: response.extraParams.targetResource,
+                });
+              }
             }
             break;
           }
@@ -726,7 +731,7 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/entities/get-queues-response': {
-            this.props.setQueues(response.result);
+            this.props.setQueues(response.result.filter((queue) => queue.active));
             break;
           }
           default: {
