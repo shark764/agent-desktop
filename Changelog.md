@@ -1,3 +1,6 @@
+### [1.3.7] (2017-09-13)
+* CXV1-9423 - Revert screen pop update
+
 ### [1.3.6] (2017-09-13)
 * CXV1-11570 - Fix "from" for inbound SMS interactions with no contact
 
