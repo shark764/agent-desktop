@@ -28,7 +28,10 @@ import Toolbar from 'containers/Toolbar';
 import { selectShowCollapseButton } from 'containers/InteractionsBar/selectors';
 
 import { selectHasCrmPermissions } from 'containers/App/selectors';
-import { getSelectedInteractionIsScriptOnly } from 'containers/SidePanel/selectors';
+import {
+  getSelectedInteractionIsScriptOnly,
+  getSelectedInteractionIsVoice,
+} from 'containers/SidePanel/selectors';
 
 import {
   showInteractionsBar,
@@ -136,7 +139,9 @@ export class AgentDesktop extends React.Component {
     if (
       (this.props.hasCrmPermissions && !this.context.toolbarMode) ||
       (this.props.selectedInteractionHasScripts &&
-        !this.props.selectedInteractionIsScriptOnly)
+        !this.props.selectedInteractionIsScriptOnly &&
+        !this.props.selectedInteractionIsVoice) ||
+      (this.context.toolbarMode && this.props.selectedInteractionIsVoice)
     ) {
       sidePanelHasTabs = true;
     }
@@ -231,6 +236,7 @@ const mapStateToProps = (state, props) => ({
     state,
     props
   ),
+  selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -253,6 +259,7 @@ AgentDesktop.propTypes = {
   showCollapseButton: PropTypes.bool.isRequired,
   hasCrmPermissions: PropTypes.bool.isRequired,
   selectedInteractionIsScriptOnly: PropTypes.bool.isRequired,
+  selectedInteractionIsVoice: PropTypes.bool.isRequired,
   showInteractionsBar: PropTypes.func.isRequired,
   hideInteractionsBar: PropTypes.func.isRequired,
   setSidePanelPx: PropTypes.func.isRequired,

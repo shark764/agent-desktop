@@ -160,6 +160,12 @@ export class SidePanel extends React.Component {
 
   render() {
     const tabsData = this.getTabsData();
+    if (this.context.toolbarMode && this.props.isCollapsed) {
+      styles.leftGutter.width = 0;
+      styles.outerShell.borderLeft = 0;
+    } else {
+      styles.leftGutter.width = `${leftGutterPx}px`;
+    }
     return (
       <div style={[styles.outerShell, this.props.style]}>
         <div style={[styles.leftGutter]}>
