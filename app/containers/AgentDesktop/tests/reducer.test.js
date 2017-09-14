@@ -393,7 +393,7 @@ describe('agentDesktopReducer', () => {
       beforeEach(() => {
         action.response.interactionId = 'sms-interaction-id';
       });
-      it('sets status to work-initiated and customer', () => {
+      it('sets status to work-initiated and customer with plus', () => {
         runReducerAndExpectSnapshot();
       });
     });

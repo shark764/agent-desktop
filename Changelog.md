@@ -1,3 +1,6 @@
+### [1.3.9] (2017-09-13)
+* CXV1-11570 - Add + to customer for inbound SMS interactions
+
 ### [1.3.8] (2017-09-13)
 * CXV1-11408 - Hide side panel when no tabs are available
 

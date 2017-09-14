@@ -873,7 +873,7 @@ function agentDesktopReducer(state = initialState, action) {
         } else if (interaction.get('channelType') === 'sms') {
           newInteraction = newInteraction.set(
             'customer',
-            action.response.customer
+            `+${action.response.customer}`
           );
         }
         return newInteraction;
