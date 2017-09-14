@@ -735,6 +735,7 @@ export function hideSidePanel(interactionId) {
     interactionId,
   };
 }
+
 export function setSidePanelPx(sidePanelPx, sidePanelMaxPx) {
   return {
     type: SET_SIDE_PANEL_PX,

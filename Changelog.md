@@ -1,3 +1,6 @@
+### [1.3.8] (2017-09-13)
+* CXV1-11408 - Hide side panel when no tabs are available
+
 ### [1.3.7] (2017-09-13)
 * CXV1-9423 - Revert screen pop update
 
