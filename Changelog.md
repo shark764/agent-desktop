@@ -1,4 +1,7 @@
-### [1.3.9] (2017-09-13)
+### [1.3.10] (2017-09-14)
+* CXV1-11408 - Side panel adjustments for voice and hiding side panel
+
+### [1.3.9] (2017-09-14)
 * CXV1-11570 - Add + to customer for inbound SMS interactions
 
 ### [1.3.8] (2017-09-13)

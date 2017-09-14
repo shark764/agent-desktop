@@ -23,7 +23,10 @@ import SidePanelToolbarBtn from 'containers/SidePanelToolbarBtn';
 import ButtonLayout, { buttonConfigPropTypes } from 'components/ButtonLayout';
 
 import { selectHasCrmPermissions } from 'containers/App/selectors';
-import { getSelectedInteractionIsScriptOnly } from 'containers/SidePanel/selectors';
+import {
+  getSelectedInteractionIsScriptOnly,
+  getSelectedInteractionIsVoice,
+} from 'containers/SidePanel/selectors';
 import {
   selectIsSidePanelCollapsed,
   selectSidePanelPx,
@@ -165,7 +168,9 @@ export class ContentAreaTop extends React.Component {
     if (
       (this.props.hasCrmPermissions && !this.context.toolbarMode) ||
       (this.props.selectedInteractionHasScripts &&
-        !this.props.selectedInteractionIsScriptOnly)
+        !this.props.selectedInteractionIsScriptOnly &&
+        !this.props.selectedInteractionIsVoice) ||
+      (this.context.toolbarMode && this.props.selectedInteractionIsVoice)
     ) {
       sidePanelHasTabs = true;
     }
@@ -248,6 +253,7 @@ ContentAreaTop.propTypes = {
     .isRequired,
   hasCrmPermissions: PropTypes.bool,
   selectedInteractionIsScriptOnly: PropTypes.bool,
+  selectedInteractionIsVoice: PropTypes.bool,
   isSidePanelCollapsed: PropTypes.bool.isRequired,
   sidePanelPx: PropTypes.number.isRequired,
   isInteractionsBarCollapsed: PropTypes.bool.isRequired,
@@ -265,6 +271,7 @@ const mapStateToProps = (state, props) => ({
     state,
     props
   ),
+  selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
   isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
   sidePanelPx: selectSidePanelPx(state, props),
   isInteractionsBarCollapsed: selectIsInteractionsBarCollapsed(state, props),
