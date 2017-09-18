@@ -1,3 +1,6 @@
+### [1.3.11] (2017-09-18)
+* NO-TICKET - Dismiss Error Banner on Login Success
+
 ### [1.3.10] (2017-09-14)
 * CXV1-11408 - Side panel adjustments for voice and hiding side panel
 
