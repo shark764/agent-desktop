@@ -193,7 +193,10 @@ export class App extends React.Component {
       logLevel = window.ADconf.logLevel;
       blastSqsOutput = window.ADconf.blastSqsOutput;
       reportingRefreshRate = window.ADconf.refreshRate;
-    } else if (location.hostname === 'localhost') {
+    } else if (
+      location.hostname === 'localhost' ||
+      location.hostname.includes('ngrok')
+    ) {
       where = 'dev-api.cxengagelabs.net/v1/';
       environment = 'dev';
       logLevel = 'debug';
@@ -233,6 +236,12 @@ export class App extends React.Component {
       environment,
       reportingRefreshRate,
     };
+    const crmModule = new URL(window.location.href).searchParams.get(
+      'crmModule'
+    );
+    if (crmModule) {
+      sdkConf.crmModule = crmModule;
+    }
 
     CxEngage.initialize(sdkConf);
 
@@ -692,6 +701,12 @@ export class App extends React.Component {
           }
           case 'cxengage/contacts/update-contact-response': {
             this.props.updateContact(response);
+            break;
+          }
+
+          // ZENDESK
+          case 'cxengage/zendesk/zendesk-initialization': {
+            CxEngage.zendesk.setDimensions({ width: 400, height: 800 });
             break;
           }
 

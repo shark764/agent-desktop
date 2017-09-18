@@ -1,3 +1,6 @@
+### [1.3.12] (2017-09-19)
+* CXV1-11480 - Init zendesk
+
 ### [1.3.11] (2017-09-18)
 * NO-TICKET - Dismiss Error Banner on Login Success
 
