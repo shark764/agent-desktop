@@ -48,4 +48,5 @@ export default [
   'cxengage/interactions/email/agent-reply-started-acknowledged', // Ignore
   'cxengage/interactions/email/agent-cancel-reply-acknowledged', // Ignore
   'cxengage/interactions/email/agent-no-reply-acknowledged', // Ignore
+  'cxengage/zendesk/set-dimensions-response', // Ignore
 ];

@@ -4,6 +4,8 @@
 - [Tool Configuration](files.md)
 - [Server Configurations](server-configs.md)
 - [Messaging Demo](messaging-demo.md)
+- [Setting Up CRM Locally]
+  - [Zendesk](zendesk-local-setup.md)
 - [FAQ](faq.md)
 - [Gotchas](gotchas.md)
 
