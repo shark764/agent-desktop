@@ -266,6 +266,7 @@ export class PhoneControlsActive extends React.Component {
           inCall
           toggle={this.toggleDialpad}
           transfer={false}
+          dialpadPosition={this.props.dialpadPosition}
         />
       );
     }
@@ -531,6 +532,7 @@ PhoneControlsActive.propTypes = {
   activeVoiceInteraction: PropTypes.object,
   activeExtension: PropTypes.object,
   queuesSet: PropTypes.bool,
+  dialpadPosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 PhoneControlsActive.contextTypes = {

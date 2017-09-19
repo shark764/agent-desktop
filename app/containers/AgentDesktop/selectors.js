@@ -128,6 +128,11 @@ const selectIsInteractionsBarCollapsed = createSelector(
   (agentDesktop) => agentDesktop.get('isInteractionsBarCollapsed')
 );
 
+const selectCrmModule = createSelector(
+  selectAgentDesktopMap,
+  (agentDesktop) => agentDesktop.get('crmModule')
+);
+
 const selectCustomFields = createSelector(
   getSelectedInteraction,
   (interaction) => interaction.customFields
@@ -157,6 +162,7 @@ export {
   selectIsSidePanelCollapsed,
   selectSidePanelPx,
   selectIsInteractionsBarCollapsed,
+  selectCrmModule,
   selectCustomFields,
   selectCustomFieldsCollapsed,
 };

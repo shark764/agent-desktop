@@ -30,6 +30,7 @@ import {
   hideSidePanel,
 } from 'containers/AgentDesktop/actions';
 import { selectHasCrmPermissions } from 'containers/App/selectors';
+import { selectCrmModule } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
 import {
@@ -117,8 +118,14 @@ const styles = {
 export class SidePanel extends React.Component {
   handleCollapseClick = () => {
     if (this.props.isCollapsed) {
+      if (this.props.crmModule === 'zendesk') {
+        CxEngage.zendesk.setDimensions({ width: 800, height: 800 });
+      }
       this.props.showSidePanel(this.props.selectedInteractionId);
     } else {
+      if (this.props.crmModule === 'zendesk') {
+        CxEngage.zendesk.setDimensions({ width: 400, height: 800 });
+      }
       this.props.hideSidePanel(this.props.selectedInteractionId);
     }
   };
@@ -236,6 +243,7 @@ function mapStateToProps(state, props) {
     hasAssignedContact: getHasAssignedContact(state, props),
     selectedSidePanelTab: getSelectedSidePanelTab(state, props),
     hasCrmPermissions: selectHasCrmPermissions(state, props),
+    crmModule: selectCrmModule(state, props),
   };
 }
 
@@ -263,6 +271,7 @@ SidePanel.propTypes = {
   hasAssignedContact: PropTypes.bool.isRequired,
   selectSidePanelTab: PropTypes.func.isRequired,
   hasCrmPermissions: PropTypes.bool.isRequired,
+  crmModule: PropTypes.string,
 };
 
 SidePanel.contextTypes = {

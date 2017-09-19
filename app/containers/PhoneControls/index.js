@@ -34,6 +34,7 @@ export class PhoneControls extends React.Component {
         {this.props.activeVoiceInteraction
           ? <PhoneControlsActive
             activeVoiceInteraction={this.props.activeVoiceInteraction}
+            dialpadPosition={this.context.toolbarMode && '-165px'}
           />
           : <PhoneControlsInactive />}
       </div>
@@ -54,6 +55,10 @@ function mapDispatchToProps(dispatch) {
 PhoneControls.propTypes = {
   activeVoiceInteraction: PropTypes.object,
   style: PropTypes.object,
+};
+
+PhoneControls.contextTypes = {
+  toolbarMode: PropTypes.bool,
 };
 
 export default ErrorBoundary(

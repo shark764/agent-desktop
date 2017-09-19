@@ -26,6 +26,7 @@ import { updateNote } from 'containers/AgentDesktop/actions';
 import {
   selectAgentDesktopMap,
   selectAwaitingDisposition,
+  selectCrmModule,
 } from 'containers/AgentDesktop/selectors';
 import { buttonConfigPropTypes } from 'components/ButtonLayout';
 
@@ -622,9 +623,9 @@ ContentArea.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  crmModule: selectAgentDesktopMap(state, props).get('crmModule'),
   zendeskActiveTab: selectAgentDesktopMap(state, props).get('zendeskActiveTab'),
   awaitingDisposition: selectAwaitingDisposition(state, props),
+  crmModule: selectCrmModule(state, props),
 });
 
 function mapDispatchToProps(dispatch) {

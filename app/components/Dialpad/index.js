@@ -50,8 +50,8 @@ const styles = {
     borderRadius: '3px',
     overflow: 'hidden',
     position: 'absolute',
-    left: '-130px',
     top: '52px',
+    left: '-130px',
     zIndex: 3,
     padding: '25px 20px 20px',
   },
@@ -79,7 +79,14 @@ function Dialpad(props) {
         : undefined}
       {!props.transfer &&
         <div id="dialpadtriangle" style={styles.topTriangle} />}
-      <div style={[!props.transfer && styles.phoneControlsPopupMenu]}>
+      <div
+        style={[
+          !props.transfer && styles.phoneControlsPopupMenu,
+          props.dialpadPosition !== undefined && {
+            left: props.dialpadPosition,
+          },
+        ]}
+      >
         <div id={props.id} style={{ zIndex: '4' }}>
           <TextInput
             id={`${props.id}TextInput`}
@@ -181,6 +188,7 @@ Dialpad.propTypes = {
   children: PropTypes.element,
   toggle: PropTypes.func,
   transfer: PropTypes.bool.isRequired,
+  dialpadPosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default Radium(Dialpad);
