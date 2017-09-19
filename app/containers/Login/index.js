@@ -34,7 +34,7 @@ import mitelFavicon from 'assets/favicons/mitel.png';
 import { mappedLocales } from 'i18n';
 import { changeLocale } from 'containers/LanguageProvider/actions';
 import { selectLocale } from 'containers/LanguageProvider/selectors';
-import { setNonCriticalError } from 'containers/Errors/actions';
+import { setNonCriticalError, dismissError } from 'containers/Errors/actions';
 import { requiredPermissions } from 'containers/App/permissions';
 import selectLogin from './selectors';
 import messages from './messages';
@@ -219,6 +219,7 @@ export class Login extends React.Component {
       },
       (error, topic, response) => {
         if (!error) {
+          this.props.dismissError();
           console.log('[Login] CxEngage.subscribe()', topic, response);
           this.loginCB(response);
         } else {
@@ -549,6 +550,7 @@ function mapDispatchToProps(dispatch) {
     setTenant: (id, name) => dispatch(setTenant(id, name)),
     changeLocale: (locale) => dispatch(changeLocale(locale)),
     setNonCriticalError: (error) => dispatch(setNonCriticalError(error)),
+    dismissError: () => dispatch(dismissError()),
     dispatch,
   };
 }
@@ -562,6 +564,7 @@ Login.propTypes = {
   settingTenant: PropTypes.func.isRequired,
   setTenant: PropTypes.func.isRequired,
   setNonCriticalError: PropTypes.func.isRequired,
+  dismissError: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   logged_in: PropTypes.bool,
   agent: PropTypes.object,
