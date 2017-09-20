@@ -23,7 +23,10 @@ import Button from 'components/Button';
 import ContentAreaTop from 'containers/ContentAreaTop';
 
 import { updateNote } from 'containers/AgentDesktop/actions';
-import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
+import {
+  selectAgentDesktopMap,
+  selectAwaitingDisposition,
+} from 'containers/AgentDesktop/selectors';
 import { buttonConfigPropTypes } from 'components/ButtonLayout';
 
 import messages from './messages';
@@ -525,7 +528,31 @@ export class ContentArea extends React.Component {
     );
   };
 
+  zendeskAssign = () => {
+    if (this.props.zendeskActiveTab) {
+      if (this.props.zendeskActiveTab.get('type') === 'user') {
+        CxEngage.zendesk.assignContact({
+          interactionId: this.props.interaction.interactionId,
+        });
+      } else if (this.props.zendeskActiveTab.get('type') === 'ticket') {
+        CxEngage.zendesk.assignRelatedTo({
+          interactionId: this.props.interaction.interactionId,
+        });
+      }
+    }
+  };
+
   render() {
+    let buttonConfig = this.props.buttonConfig;
+    if (this.props.zendeskActiveTab) {
+      buttonConfig = buttonConfig.concat({
+        id: 'zendeskAssign',
+        type: 'secondary',
+        text: messages.assign,
+        onClick: this.zendeskAssign,
+      });
+    }
+
     return (
       <div style={this.styles.base}>
         <div style={this.styles.mainContent}>
@@ -534,7 +561,7 @@ export class ContentArea extends React.Component {
               <ContentAreaTop
                 interaction={this.props.interaction}
                 from={this.props.from}
-                buttonConfig={this.props.buttonConfig}
+                buttonConfig={buttonConfig}
               />
               <div style={this.styles.details}>
                 {this.props.details}
@@ -567,17 +594,19 @@ export class ContentArea extends React.Component {
 
 ContentArea.propTypes = {
   intl: intlShape.isRequired,
-  updateNote: PropTypes.func.isRequired,
   interaction: PropTypes.object.isRequired,
   from: PropTypes.node,
   buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes))
     .isRequired,
   details: PropTypes.node.isRequired,
   content: PropTypes.node,
+  zendeskActiveTab: PropTypes.object.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
+  updateNote: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
+  zendeskActiveTab: selectAgentDesktopMap(state, props).get('zendeskActiveTab'),
   awaitingDisposition: selectAwaitingDisposition(state, props),
 });
 

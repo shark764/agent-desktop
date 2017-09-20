@@ -88,6 +88,7 @@
   "app.containers.ContactsSearchBar.all": "",
   "app.containers.ContactsSearchBar.result": "1 wynik",
   "app.containers.ContactsSearchBar.results": "Liczba wyników: {count}",
+  "app.containers.ContentArea.assign": "",
   "app.containers.ContentArea.disposition": "Dyspozycja",
   "app.containers.ContentArea.notes": "Uwagi",
   "app.containers.ContentArea.notesPlaceholder": "Wprowadź tutaj uwagi dotyczące interakcji",

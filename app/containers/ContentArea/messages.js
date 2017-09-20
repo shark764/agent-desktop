@@ -10,6 +10,10 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
+  assign: {
+    id: 'app.containers.ContentArea.assign',
+    defaultMessage: 'Assign',
+  },
   notes: {
     id: 'app.containers.ContentArea.notes',
     defaultMessage: 'Notes',

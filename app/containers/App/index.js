@@ -101,6 +101,8 @@ import {
   setDispositionDetails,
   selectDisposition,
   goNotReady,
+  setCrmModule,
+  setZendeskActiveTab,
 } from 'containers/AgentDesktop/actions';
 
 import {
@@ -240,7 +242,12 @@ export class App extends React.Component {
       'crmModule'
     );
     if (crmModule) {
-      sdkConf.crmModule = crmModule;
+      if (crmModule === 'zendesk') {
+        sdkConf.crmModule = crmModule;
+        this.props.setCrmModule(crmModule);
+      } else {
+        console.error(`Unsupported crm module: ${crmModule}`);
+      }
     }
 
     CxEngage.initialize(sdkConf);
@@ -709,6 +716,18 @@ export class App extends React.Component {
             CxEngage.zendesk.setDimensions({ width: 400, height: 800 });
             break;
           }
+          case 'cxengage/zendesk/active-tab-changed': {
+            if (response.userId !== undefined) {
+              this.props.setZendeskActiveTab('user', response.userId);
+            } else if (response.ticketId !== undefined) {
+              this.props.setZendeskActiveTab('ticket', response.ticketId);
+            } else {
+              console.error(
+                `Neither userId nor ticketId found in active-tab-changed response: ${response}`
+              );
+            }
+            break;
+          }
 
           // REPORTING
           case 'cxengage/reporting/get-available-stats-response': {
@@ -1090,6 +1109,8 @@ function mapDispatchToProps(dispatch) {
     addStatErrorId: (statId) => dispatch(addStatErrorId(statId)),
     removeStatErrorId: (statId) => dispatch(removeStatErrorId(statId)),
     dismissError: () => dispatch(dismissError()),
+    setCrmModule: (crmModule) => dispatch(setCrmModule(crmModule)),
+    setZendeskActiveTab: (type, id) => dispatch(setZendeskActiveTab(type, id)),
     dispatch,
   };
 }
@@ -1165,6 +1186,8 @@ App.propTypes = {
   isSidePanelCollapsed: PropTypes.bool,
   hasCrmPermissions: PropTypes.bool,
   dismissError: PropTypes.func,
+  setCrmModule: PropTypes.func.isRequired,
+  setZendeskActiveTab: PropTypes.func.isRequired,
 };
 
 App.contextTypes = {
