@@ -17,6 +17,8 @@ import Message from 'models/Message/Message';
 import ResponseMessage from 'models/Message/ResponseMessage';
 
 import {
+  SET_CRM_MODULE,
+  SET_ZENDESK_ACTIVE_TAB,
   SET_USER_CONFIG,
   SET_EXTENSIONS,
   UPDATE_WRAPUP_DETAILS,
@@ -419,6 +421,13 @@ const removeInteractionAndSetNextSelectedInteraction = (
 
 function agentDesktopReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_CRM_MODULE:
+      return state.set('crmModule', action.crmModule);
+    case SET_ZENDESK_ACTIVE_TAB:
+      return state.set(
+        'zendeskActiveTab',
+        fromJS({ type: action.tabType, id: action.id })
+      );
     case SHOW_REFRESH_NOTIF:
       return state.set('refreshRequired', action.show);
     case SET_USER_CONFIG: {

@@ -9,6 +9,8 @@
  */
 
 import {
+  SET_CRM_MODULE,
+  SET_ZENDESK_ACTIVE_TAB,
   SET_USER_CONFIG,
   SET_EXTENSIONS,
   UPDATE_WRAPUP_DETAILS,
@@ -104,6 +106,21 @@ import {
   INIT_FORM,
   RESET_FORM,
 } from './constants';
+
+export function setCrmModule(crmModule) {
+  return {
+    type: SET_CRM_MODULE,
+    crmModule,
+  };
+}
+
+export function setZendeskActiveTab(tabType, id) {
+  return {
+    type: SET_ZENDESK_ACTIVE_TAB,
+    tabType,
+    id,
+  };
+}
 
 export function setUserConfig(response) {
   return {

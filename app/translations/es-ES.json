@@ -88,6 +88,7 @@
   "app.containers.ContactsSearchBar.all": "",
   "app.containers.ContactsSearchBar.result": "1 resultado",
   "app.containers.ContactsSearchBar.results": "{count} resultados",
+  "app.containers.ContentArea.assign": "",
   "app.containers.ContentArea.disposition": "Disposición",
   "app.containers.ContentArea.notes": "Notas",
   "app.containers.ContentArea.notesPlaceholder": "Introduzca aquí las notas de la interacción",

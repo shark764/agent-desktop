@@ -8,6 +8,8 @@
  *
  */
 
+export const SET_CRM_MODULE = 'app/AgentDesktop/SET_CRM_MODULE';
+export const SET_ZENDESK_ACTIVE_TAB = 'app/AgentDesktop/SET_ZENDESK_ACTIVE_TAB';
 export const SET_USER_CONFIG = 'app/AgentDesktop/SET_USER_CONFIG';
 export const SET_EXTENSIONS = 'app/AgentDesktop/SET_EXTENSIONS';
 export const SET_ACTIVE_EXTENSION = 'app/AgentDesktop/SET_ACTIVE_EXTENSION';

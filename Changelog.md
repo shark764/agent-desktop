@@ -1,3 +1,6 @@
+### [1.4.0] (2017-09-20)
+* CXV1-11610 - Add zendesk assign button
+
 ### [1.3.12] (2017-09-19)
 * CXV1-11480 - Init zendesk
 
