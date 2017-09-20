@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import Button, { possibleTypes } from 'components/Button';
-import ButtonSplitMenu from 'components/ButtonSplitMenu';
+import ButtonMenu from 'components/ButtonMenu';
 
 const styles = {
   indivButtonContainer: {
@@ -24,7 +24,12 @@ const styles = {
 
 function ButtonLayout(props, context) {
   if (context.toolbarMode && props.buttonConfig.length > 1) {
-    return <ButtonSplitMenu buttonConfig={props.buttonConfig} />;
+    return (
+      <ButtonMenu
+        buttonConfig={props.buttonConfig}
+        {...props.buttonMenuConfig}
+      />
+    );
   } else {
     return (
       <span>
@@ -55,12 +60,17 @@ export const buttonConfigPropTypes = {
   id: PropTypes.string.isRequired,
   isMainBtn: PropTypes.bool,
   hasSubButtons: PropTypes.bool,
-  activeSubButtonStyle: PropTypes.object,
+  isSelected: PropTypes.bool,
 };
 
 ButtonLayout.propTypes = {
   buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes))
     .isRequired,
+  buttonMenuConfig: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    type: PropTypes.string,
+    text: PropTypes.any,
+  }).isRequired,
 };
 
 ButtonLayout.contextTypes = {

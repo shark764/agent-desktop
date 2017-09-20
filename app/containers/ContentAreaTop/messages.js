@@ -22,4 +22,8 @@ export default defineMessages({
     id: 'app.containers.ContentAreaTop.wrapupOff',
     defaultMessage: 'Wrap Up Off',
   },
+  actions: {
+    id: 'app.containers.ContentAreaTop.actions',
+    defaultMessage: 'Actions',
+  },
 });

@@ -110,6 +110,16 @@ exports[`<ContentAreaTop /> should render correctly 1`] = `
               },
             ]
           }
+          buttonMenuConfig={
+            Object {
+              "id": "actionsButton",
+              "text": Object {
+                "defaultMessage": "Actions",
+                "id": "app.containers.ContentAreaTop.actions",
+              },
+              "type": "primaryBlue",
+            }
+          }
         />
       </div>
     </div>

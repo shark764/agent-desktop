@@ -37,6 +37,7 @@ import {
   SET_CONTACT_MODE,
   ASSIGN_CONTACT,
   SET_ASSIGNED_CONTACT,
+  DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
   SELECT_SIDE_PANEL_TAB,
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
@@ -340,6 +341,13 @@ export function setAssignedContact(interactionId, contact) {
     type: SET_ASSIGNED_CONTACT,
     interactionId,
     contact,
+  };
+}
+
+export function dismissContactWasAssignedNotification(interactionId) {
+  return {
+    type: DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
+    interactionId,
   };
 }
 

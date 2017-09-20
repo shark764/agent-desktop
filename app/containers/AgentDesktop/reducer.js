@@ -48,6 +48,7 @@ import {
   SET_MESSAGE_HISTORY,
   SET_CONTACT_MODE,
   SET_ASSIGNED_CONTACT,
+  DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
   SELECT_SIDE_PANEL_TAB,
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
@@ -1041,11 +1042,27 @@ function agentDesktopReducer(state = initialState, action) {
               'contact',
               fromJS(action.contact || {})
             );
-            if (action.contact) {
+            if (state.get('crmModule') === 'zendesk') {
+              return updatedInteraction.set(
+                'contactWasAssignedNotification',
+                true
+              );
+            } else if (action.contact) {
               return updatedInteraction.set('contactMode', 'view');
             }
             return updatedInteraction;
           })
+        );
+      } else {
+        return state;
+      }
+    }
+    case DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.setIn(
+          ['interactions', interactionIndex, 'contactWasAssignedNotification'],
+          false
         );
       } else {
         return state;

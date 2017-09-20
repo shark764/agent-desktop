@@ -63,7 +63,7 @@ exports[`<ButtonLayout /> when only passed button config data and IS NOT set to 
 `;
 
 exports[`<ButtonLayout /> when only passed button config data and IS set to toolbar mode should render correctly 1`] = `
-<ButtonSplitMenu
+<ButtonMenu
   buttonConfig={
     Array [
       Object {
@@ -95,5 +95,8 @@ exports[`<ButtonLayout /> when only passed button config data and IS set to tool
       },
     ]
   }
+  id="testId"
+  text="testText"
+  type="primaryBlue"
 />
 `;

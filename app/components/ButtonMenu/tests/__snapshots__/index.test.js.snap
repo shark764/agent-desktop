@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ButtonMenu /> with required props and text should render correctly 1`] = `
+<div
+  data-radium={true}
+>
+  <span
+    data-radium={true}
+    style={
+      Object {
+        "position": "relative",
+        "zIndex": 10,
+      }
+    }
+  >
+    <InjectIntl(Button)
+      hasSubButtons={true}
+      id="buttonMenuId"
+      onClick={[Function]}
+      style={
+        Object {
+          "padding": "9px 0px 9px 17px",
+        }
+      }
+      text="test text"
+      type="primaryBlue"
+    >
+      <i
+        className="fa fa-caret-down"
+        data-radium={true}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        style={
+          Object {
+            "borderLeft": "1px #FFFFFF solid",
+            "margin": "0 0 0 10px",
+            "padding": "0 10px",
+          }
+        }
+      />
+    </InjectIntl(Button)>
+  </span>
+</div>
+`;
