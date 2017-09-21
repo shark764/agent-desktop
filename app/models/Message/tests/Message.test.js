@@ -46,21 +46,16 @@ describe('Message', () => {
       });
       expect(message).toMatchSnapshot();
     });
-    it('should error when "text" is not passed in', () => {
-      let error;
-      try {
-        // eslint-disable-next-line no-new
-        new Message({
-          type: 'type',
-          from: 'from',
-          // text: 'text',
-          timestamp: 'timestamp',
-          unread: false,
-        });
-      } catch (e) {
-        error = e;
-      }
-      expect(error.message).toEqual('text is required');
+    it('should set "text" to empty when "text" is not passed in', () => {
+      // eslint-disable-next-line no-new
+      const message = new Message({
+        type: 'type',
+        from: 'from',
+        // text: 'text',
+        timestamp: 'timestamp',
+        unread: false,
+      });
+      expect(message).toMatchSnapshot();
     });
     it('should error when "timestamp" is not passed in', () => {
       let error;

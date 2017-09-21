@@ -19,3 +19,13 @@ Object {
   "unread": false,
 }
 `;
+
+exports[`Message constructor should set "text" to empty when "text" is not passed in 1`] = `
+Object {
+  "from": "from",
+  "text": "",
+  "timestamp": "timestamp",
+  "type": "type",
+  "unread": false,
+}
+`;

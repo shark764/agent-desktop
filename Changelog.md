@@ -1,3 +1,6 @@
+### [1.4.1] (2017-09-21)
+* NO-TICKET - Handle messages with null body
+
 ### [1.4.0] (2017-09-20)
 * CXV1-11610 - Add zendesk assign button
 

@@ -13,17 +13,33 @@ export default class Message extends Immutable.Record({
 }) {
   constructor({ type, from, text, timestamp, unread }) {
     let messageFrom;
+    let messageText;
     if (type == null) {
       throw new Error('type is required');
     }
     if (from == null) {
       messageFrom = '';
-      console.warn('from is required');
+      console.warn('from was not found', {
+        type,
+        from,
+        text,
+        timestamp,
+        unread,
+      });
     } else {
       messageFrom = from;
     }
     if (text == null) {
-      throw new Error('text is required');
+      messageText = '';
+      console.warn('text was not found', {
+        type,
+        from,
+        text,
+        timestamp,
+        unread,
+      });
+    } else {
+      messageText = text;
     }
     if (timestamp == null) {
       throw new Error('timestamp is required');
@@ -31,6 +47,6 @@ export default class Message extends Immutable.Record({
     if (unread == null) {
       throw new Error('unread is required');
     }
-    super({ type, from: messageFrom, text, timestamp, unread });
+    super({ type, from: messageFrom, text: messageText, timestamp, unread });
   }
 }
