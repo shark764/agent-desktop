@@ -34,7 +34,7 @@ export class PhoneControls extends React.Component {
         {this.props.activeVoiceInteraction
           ? <PhoneControlsActive
             activeVoiceInteraction={this.props.activeVoiceInteraction}
-            dialpadPosition={this.context.toolbarMode && '-165px'}
+            dialpadPosition={this.context.toolbarMode ? '-165px' : undefined}
           />
           : <PhoneControlsInactive />}
       </div>

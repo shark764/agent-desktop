@@ -26,4 +26,8 @@ export default defineMessages({
     id: 'app.containers.ContactsSearch.all',
     defaultMessage: 'All',
   },
+  operator: {
+    id: 'app.containers.ContactsSearch.operator',
+    defaultMessage: 'Operator',
+  },
 });

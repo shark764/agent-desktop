@@ -346,21 +346,6 @@ export class App extends React.Component {
                 this.props.workInitiated(response);
               }
 
-              // Attempt to auto-assign contact if it hasn't already been assigned (if it were started by click to outbound)
-              if (
-                interaction &&
-                (interaction.channelType === 'voice' ||
-                  interaction.channelType === 'sms' ||
-                  interaction.channelType === 'email') &&
-                (interaction.contact === undefined ||
-                  interaction.contact.id === undefined)
-              ) {
-                this.attemptContactSearch(
-                  response.customer,
-                  response.interactionId,
-                  true
-                );
-              }
               if (
                 interaction.direction === 'outbound' &&
                 (interaction.channelType === 'sms' ||
@@ -547,6 +532,80 @@ export class App extends React.Component {
             );
             break;
           }
+          case 'cxengage/interactions/screen-pop-received': {
+            // Ignore screen pop v1
+            if (response.version !== 'v2') {
+              console.log('Ignoring non v2 screen-pop');
+              break;
+            }
+            if (response.popType === 'external-url') {
+              // If width or height are null, window.open uses browser defaults
+              const width = response.size ? response.size.width : null;
+              const height = response.size ? response.size.height : null;
+              if (response.newWindow) {
+                window.open(
+                  response.popUri,
+                  'targetWindow',
+                  `width=${width},height=${height}`
+                );
+              } else {
+                window.open(response.popUri);
+              }
+              // Only do internal screen pop and search and pop when not in crm mode, since there is no crm (yet...)
+            } else if (
+              !this.context.toolbarMode &&
+              this.props.hasCrmPermissions
+            ) {
+              // Internal screen pop: retrieve specific contact
+              if (response.popType === 'url') {
+                CxEngage.contacts.get(
+                  { contactId: response.popUri },
+                  (contactGetError, contactGetTopic, contactGetResponse) => {
+                    if (!contactGetError) {
+                      console.log(
+                        '[AgentDesktop] CxEngage.subscribe()',
+                        contactGetTopic,
+                        contactGetResponse
+                      );
+                      this.props.assignContact(
+                        response.interactionId,
+                        contactGetResponse
+                      );
+                    }
+                  }
+                );
+              } else if (response.popType === 'search-pop') {
+                if (response.searchType === 'strict') {
+                  if (response.filterType === 'or') {
+                    this.attemptContactSearch(
+                      response.filter,
+                      response.interactionId
+                    );
+                  } else if (response.filterType === 'and') {
+                    this.attemptContactSearch(
+                      Object.assign({ op: 'and' }, response.filter),
+                      response.interactionId
+                    );
+                  } else {
+                    console.error(
+                      `Unhandled filterType: ${response.filterType}`
+                    );
+                  }
+                } else if (response.searchType === 'fuzzy') {
+                  const fuzzySearchString = response.terms.join(' ');
+                  this.attemptContactSearch(
+                    { q: fuzzySearchString },
+                    response.interactionId
+                  );
+                } else {
+                  console.error(`Unhandled searchType: ${response.searchType}`);
+                }
+              } else {
+                console.error(`Unhandled pop type: ${response.popType}`);
+              }
+            }
+            break;
+          }
 
           // INTERACTIONS/VOICE
           case 'cxengage/interactions/voice/resource-mute-received': {
@@ -612,33 +671,6 @@ export class App extends React.Component {
               response,
               this.props.login.agent.userId
             );
-            // attempt to auto-assign contact
-            const interaction = this.props.agentDesktop.interactions.find(
-              (availableInteraction) =>
-                availableInteraction.interactionId === response[0].to
-            );
-            if (
-              interaction !== undefined &&
-              interaction.channelType === 'messaging'
-            ) {
-              const customerMessage = response.find(
-                (message) =>
-                  message.metadata && message.metadata.type === 'customer'
-              ); // History has been coming in with initial customer issue message missing
-              if (
-                customerMessage &&
-                customerMessage.metadata &&
-                customerMessage.metadata.name
-              ) {
-                this.attemptContactSearch(
-                  customerMessage.metadata.name,
-                  customerMessage.to,
-                  false
-                );
-              } else {
-                console.warn('customer name not found in:', interaction);
-              }
-            }
             break;
           }
           case 'cxengage/interactions/messaging/new-message-received': {
@@ -815,61 +847,51 @@ export class App extends React.Component {
     });
   };
 
-  attemptContactSearch = (from, interactionId, exact) => {
-    if (!this.context.toolbarMode && this.props.hasCrmPermissions) {
-      CxEngage.contacts.search(
-        {
-          query: {
-            q: exact
-              ? encodeURIComponent(`"${from}"`)
-              : encodeURIComponent(from),
-          },
-        },
-        (searchError, searchTopic, searchResponse) => {
-          if (searchError) {
-            this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
-          } else {
-            console.log(
-              '[AgentDesktop] CxEngage.subscribe()',
-              searchTopic,
-              searchResponse
-            );
-            if (searchResponse.count === 1) {
-              // if single contact found, auto assign to interaction
-              CxEngage.interactions.assignContact(
-                {
-                  interactionId,
-                  contactId: searchResponse.results[0].id,
-                },
-                (assignError, assignTopic, assignResponse) => {
-                  console.log(
-                    '[ContactsControl] CxEngage.subscribe()',
-                    assignTopic,
-                    assignResponse
+  attemptContactSearch = (query, interactionId) => {
+    CxEngage.contacts.search(
+      { query },
+      (searchError, searchTopic, searchResponse) => {
+        if (searchError) {
+          this.props.setInteractionQuery(interactionId, query);
+        } else {
+          console.log(
+            '[AgentDesktop] CxEngage.subscribe()',
+            searchTopic,
+            searchResponse
+          );
+          if (searchResponse.count === 1) {
+            // If single contact found, auto assign to interaction
+            CxEngage.interactions.assignContact(
+              {
+                interactionId,
+                contactId: searchResponse.results[0].id,
+              },
+              (assignError, assignTopic, assignResponse) => {
+                console.log(
+                  '[ContactsControl] CxEngage.subscribe()',
+                  assignTopic,
+                  assignResponse
+                );
+                if (assignError) {
+                  console.error('Assign error', assignError);
+                  this.props.setInteractionQuery(interactionId, query);
+                } else {
+                  this.props.loadContactInteractionHistory(
+                    searchResponse.results[0].id
                   );
-                  if (assignError) {
-                    console.error('Assign error', assignError);
-                    this.props.setInteractionQuery(interactionId, {
-                      q: `"${from}"`,
-                    });
-                  } else {
-                    this.props.loadContactInteractionHistory(
-                      searchResponse.results[0].id
-                    );
-                    this.props.assignContact(
-                      interactionId,
-                      searchResponse.results[0]
-                    );
-                  }
+                  this.props.assignContact(
+                    interactionId,
+                    searchResponse.results[0]
+                  );
                 }
-              );
-            } else {
-              this.props.setInteractionQuery(interactionId, { q: `"${from}"` });
-            }
+              }
+            );
+          } else {
+            this.props.setInteractionQuery(interactionId, query);
           }
         }
-      );
-    }
+      }
+    );
   };
 
   selectInteraction = (interactionId) => {

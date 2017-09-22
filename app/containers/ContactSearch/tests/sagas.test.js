@@ -2,10 +2,8 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
-import {
-  goSearchContacts,
-  createSearchQuery,
-} from 'containers/ContactSearch/sagas';
+import { goSearchContacts } from 'containers/ContactSearch/sagas';
+import { createSearchQuery } from 'utils/contact';
 
 describe('goSearchContacts', () => {
   let generator;

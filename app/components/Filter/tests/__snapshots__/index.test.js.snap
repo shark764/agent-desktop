@@ -35,6 +35,7 @@ exports[`<Filter /> should render correctly 1`] = `
         "whiteSpace": "nowrap",
       }
     }
+    title="mockValue"
   >
     mockValue
   </span>
