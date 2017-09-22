@@ -1,4 +1,7 @@
-### [1.4.4] (2017-09-12)
+### [1.4.5] (2017-09-22)
+* CXV1-11406 - Pass locale to SDK for reporting translations
+
+### [1.4.4] (2017-09-22)
 * CXV1-9423 - Update screen pop (again)
 
 ### [1.4.3] (2017-09-21)

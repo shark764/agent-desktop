@@ -22,6 +22,7 @@ import Login from 'containers/Login';
 import NotificationBanner from 'components/NotificationBanner';
 import AgentDesktop from 'containers/AgentDesktop';
 
+import { selectLocale } from 'containers/LanguageProvider/selectors';
 import {
   setAvailableStats,
   statsReceived,
@@ -240,6 +241,7 @@ export class App extends React.Component {
       blastSqsOutput,
       environment,
       reportingRefreshRate,
+      locale: this.props.locale,
     };
     const crmModule = new URL(window.location.href).searchParams.get(
       'crmModule'
@@ -1048,6 +1050,7 @@ export class App extends React.Component {
 const mapStateToProps = (state, props) => ({
   login: selectLoginMap(state, props).toJS(),
   agentDesktop: selectAgentDesktopMap(state, props).toJS(),
+  locale: selectLocale()(state),
   availableStats: selectAvailableStats(state, props),
   criticalError: selectCriticalError(state, props),
   activatedStatIds: selectActivatedStatIds(state, props).toJS(),
@@ -1171,6 +1174,7 @@ function mapDispatchToProps(dispatch) {
 
 App.propTypes = {
   intl: intlShape.isRequired,
+  locale: PropTypes.string,
   showLogin: PropTypes.func.isRequired,
   setUserConfig: PropTypes.func.isRequired,
   setExtensions: PropTypes.func.isRequired,
