@@ -1,3 +1,6 @@
+### [1.4.2] (2017-09-21)
+* CXV1-11610 - UI for assigning zendesk
+
 ### [1.4.1] (2017-09-21)
 * NO-TICKET - Handle messages with null body
 

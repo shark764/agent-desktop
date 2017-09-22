@@ -4,7 +4,7 @@
 
 /**
 *
-* ButtonSplitMenu
+* ButtonMenu
 *
 */
 
@@ -33,14 +33,14 @@
        },
      ];
 
-     <ButtonSplitMenu buttonConfig={buttonConfig} />
+     <ButtonMenu buttonConfig={buttonConfig} />
   */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import Button from 'components/Button';
-import ButtonSplitMenuItem from 'components/ButtonSplitMenuItem';
+import ButtonMenuItem from 'components/ButtonMenuItem';
 
 import { buttonConfigPropTypes } from 'components/ButtonLayout';
 
@@ -48,20 +48,6 @@ const styles = {
   buttonContainer: {
     position: 'relative',
     zIndex: 10,
-  },
-  clickMask: {
-    position: 'absolute',
-    right: 0,
-    height: '34px',
-    zIndex: 100,
-    top: '-7px',
-    width: '25px',
-  },
-  clickMaskDisabled: {
-    cursor: 'default',
-  },
-  clickMaskEnabled: {
-    cursor: 'pointer',
   },
   subMenu: {
     listStyle: 'none',
@@ -94,9 +80,7 @@ const styles = {
     margin: '0 0 0 10px',
   },
   hasToggle: {
-    borderRadius: '3px 0 0 3px',
     padding: '9px 0px 9px 17px',
-    position: 'relative',
   },
   outerClickMask: {
     position: 'fixed',
@@ -108,7 +92,7 @@ const styles = {
   },
 };
 
-class ButtonSplitMenu extends React.Component {
+class ButtonMenu extends React.Component {
   constructor(props) {
     super(props);
 
@@ -129,15 +113,11 @@ class ButtonSplitMenu extends React.Component {
         <span style={styles.buttonContainer}>
           <ul style={styles.subMenu}>
             {subButtons.map((subBtn) =>
-              (<ButtonSplitMenuItem
+              (<ButtonMenuItem
                 key={subBtn.id}
                 id={`submenu-${subBtn.id}`}
-                customStyles={[
-                  styles.subBtn,
-                  subBtn.style && subBtn.style,
-                  subBtn.activeSubButtonStyle && subBtn.activeSubButtonStyle,
-                  7,
-                ]}
+                customStyles={[styles.subBtn, subBtn.style && subBtn.style, 7]}
+                isSelected={subBtn.isSelected}
                 clickCallback={subBtn.onClick}
                 hideSubMenu={this.hideSubMenu}
                 text={subBtn.text}
@@ -166,18 +146,7 @@ class ButtonSplitMenu extends React.Component {
   }
 
   renderButtons(buttons) {
-    let mainButton = {};
-
-    // create a new array with everything but the main button
-    const subButtons = buttons.filter((button) => {
-      if (button.isMainBtn) {
-        // ...and, when we find the main button, assign it!
-        mainButton = button;
-      }
-      return !button.isMainBtn;
-    });
-
-    if (mainButton && subButtons) {
+    if (buttons) {
       return (
         <span style={styles.buttonContainer}>
           {this.state.showSubMenu &&
@@ -190,44 +159,25 @@ class ButtonSplitMenu extends React.Component {
               }}
             />}
           <Button
-            id={`${mainButton.id}-main-button`}
-            type={mainButton.type}
-            text={mainButton.text}
-            disabled={mainButton.disabled}
-            onClick={mainButton.onClick}
-            key={mainButton.id}
-            hasSubButtons={!!subButtons}
+            id={this.props.id}
+            key={this.props.id}
+            type={this.props.type}
+            text={this.props.text}
+            onClick={() => {
+              this.setState({
+                showSubMenu: !this.state.showSubMenu,
+              });
+            }}
+            hasSubButtons={!!buttons}
             style={styles.hasToggle}
           >
-            {this.renderSubMenuToggleArrow(mainButton.id, !!subButtons)}
+            {this.renderSubMenuToggleArrow(this.props.id, !!buttons)}
           </Button>
-          <div
-            className="button-dropdown-click-mask"
-            style={[
-              styles.clickMask,
-              !mainButton.disabled
-                ? styles.clickMaskEnabled
-                : styles.clickMaskDisabled,
-            ]}
-            onClick={() => {
-              if (!mainButton.disabled) {
-                this.setState({
-                  showSubMenu: !this.state.showSubMenu,
-                });
-              }
-            }}
-          >
-            &nbsp;
-          </div>
-
-          {this.renderSubMenu(subButtons, this.state.showSubMenu)}
+          {this.renderSubMenu(buttons, this.state.showSubMenu)}
         </span>
       );
     } else {
-      throw new Error(
-        `mainButton and subButtons not found in config ${this.props
-          .buttonConfig}`
-      );
+      throw new Error(`buttons not found in config ${this.props.buttonConfig}`);
     }
   }
 
@@ -240,9 +190,12 @@ class ButtonSplitMenu extends React.Component {
   }
 }
 
-ButtonSplitMenu.propTypes = {
+ButtonMenu.propTypes = {
   buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes))
     .isRequired,
+  id: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  text: PropTypes.any,
 };
 
-export default Radium(ButtonSplitMenu);
+export default Radium(ButtonMenu);

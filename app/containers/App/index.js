@@ -63,6 +63,8 @@ import {
   addMessage,
   setMessageHistory,
   assignContact,
+  setAssignedContact,
+  dismissContactWasAssignedNotification,
   loadContactInteractionHistory,
   setContactHistoryInteractionDetails,
   updateContact,
@@ -728,6 +730,20 @@ export class App extends React.Component {
             }
             break;
           }
+          case 'cxengage/zendesk/contact-assignment-acknowledged':
+          case 'cxengage/zendesk/related-to-assignment-acknowledged': {
+            const contact =
+              topic === 'cxengage/zendesk/contact-assignment-acknowledged'
+                ? { type: 'user', id: response.externalCrmContact }
+                : { type: 'ticket', id: response.externalCrmRelatedTo };
+            this.props.setAssignedContact(response.interactionId, contact);
+            setTimeout(() => {
+              this.props.dismissContactWasAssignedNotification(
+                response.interactionId
+              );
+            }, 5000);
+            break;
+          }
 
           // REPORTING
           case 'cxengage/reporting/get-available-stats-response': {
@@ -1032,6 +1048,10 @@ function mapDispatchToProps(dispatch) {
       dispatch(setMessageHistory(response, agentId)),
     assignContact: (interactionId, contact) =>
       dispatch(assignContact(interactionId, contact)),
+    setAssignedContact: (interactionId, contact) =>
+      dispatch(setAssignedContact(interactionId, contact)),
+    dismissContactWasAssignedNotification: (interactionId) =>
+      dispatch(dismissContactWasAssignedNotification(interactionId)),
     loadContactInteractionHistory: (contactId, page) =>
       dispatch(loadContactInteractionHistory(contactId, page)),
     setContactHistoryInteractionDetails: (response) =>
@@ -1131,6 +1151,8 @@ App.propTypes = {
   removeInteraction: PropTypes.func.isRequired,
   setMessageHistory: PropTypes.func.isRequired,
   assignContact: PropTypes.func.isRequired,
+  setAssignedContact: PropTypes.func.isRequired,
+  dismissContactWasAssignedNotification: PropTypes.func.isRequired,
   loadContactInteractionHistory: PropTypes.func.isRequired,
   setContactHistoryInteractionDetails: PropTypes.func.isRequired,
   updateContact: PropTypes.func.isRequired,

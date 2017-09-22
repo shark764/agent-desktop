@@ -29,6 +29,7 @@ import {
 } from 'containers/AgentDesktop/selectors';
 import { buttonConfigPropTypes } from 'components/ButtonLayout';
 
+import CrmRecordNotification from './CrmRecordNotification';
 import messages from './messages';
 
 export class ContentArea extends React.Component {
@@ -545,11 +546,18 @@ export class ContentArea extends React.Component {
   render() {
     let buttonConfig = this.props.buttonConfig;
     if (this.props.zendeskActiveTab) {
+      const isSelected =
+        this.props.interaction.contact &&
+        this.props.interaction.contact.type ===
+          this.props.zendeskActiveTab.get('type') &&
+        this.props.interaction.contact.id ===
+          this.props.zendeskActiveTab.get('id');
       buttonConfig = buttonConfig.concat({
         id: 'zendeskAssign',
         type: 'secondary',
         text: messages.assign,
         onClick: this.zendeskAssign,
+        isSelected,
       });
     }
 
@@ -557,6 +565,13 @@ export class ContentArea extends React.Component {
       <div style={this.styles.base}>
         <div style={this.styles.mainContent}>
           <div style={this.styles.base}>
+            {this.props.crmModule &&
+              <CrmRecordNotification
+                contactWasAssignedNotification={
+                  this.props.interaction.contactWasAssignedNotification
+                }
+                interactionId={this.props.interaction.interactionId}
+              />}
             <div style={this.styles.header}>
               <ContentAreaTop
                 interaction={this.props.interaction}
@@ -600,12 +615,14 @@ ContentArea.propTypes = {
     .isRequired,
   details: PropTypes.node.isRequired,
   content: PropTypes.node,
-  zendeskActiveTab: PropTypes.object.isRequired,
+  crmModule: PropTypes.string,
+  zendeskActiveTab: PropTypes.object,
   awaitingDisposition: PropTypes.bool.isRequired,
   updateNote: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
+  crmModule: selectAgentDesktopMap(state, props).get('crmModule'),
   zendeskActiveTab: selectAgentDesktopMap(state, props).get('zendeskActiveTab'),
   awaitingDisposition: selectAwaitingDisposition(state, props),
 });

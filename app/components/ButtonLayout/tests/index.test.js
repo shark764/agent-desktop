@@ -37,19 +37,36 @@ const buttonConfig = [
   },
 ];
 
+const buttonMenuConfig = {
+  id: 'testId',
+  type: 'primaryBlue',
+  text: 'testText',
+};
+
 describe('<ButtonLayout />', () => {
   describe('when only passed button config data and IS NOT set to toolbar mode', () => {
     it('should render correctly', () => {
-      const rendered = shallow(<ButtonLayout buttonConfig={buttonConfig} />);
+      const rendered = shallow(
+        <ButtonLayout
+          buttonConfig={buttonConfig}
+          buttonMenuConfig={buttonMenuConfig}
+        />
+      );
       expect(rendered).toMatchSnapshot();
     });
   });
 
   describe('when only passed button config data and IS set to toolbar mode', () => {
     it('should render correctly', () => {
-      const rendered = shallow(<ButtonLayout buttonConfig={buttonConfig} />, {
-        context: {},
-      });
+      const rendered = shallow(
+        <ButtonLayout
+          buttonConfig={buttonConfig}
+          buttonMenuConfig={buttonMenuConfig}
+        />,
+        {
+          context: {},
+        }
+      );
 
       rendered.setContext({ toolbarMode: true });
       expect(rendered).toMatchSnapshot();

@@ -30,4 +30,12 @@ export default defineMessages({
     id: 'app.containers.ContentArea.disposition',
     defaultMessage: 'Disposition',
   },
+  noRecordLinked: {
+    id: 'app.containers.ContentArea.noRecordLinked',
+    defaultMessage: 'No record linked.',
+  },
+  recordLinked: {
+    id: 'app.containers.ContentArea.recordLinked',
+    defaultMessage: 'Record linked!',
+  },
 });

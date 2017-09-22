@@ -15,8 +15,6 @@ import Radium from 'radium';
 import Toggle from 'react-toggle';
 import { FormattedMessage } from 'react-intl';
 
-import checkMark from 'assets/icons/checkMark.png';
-
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import SidePanelToolbarBtn from 'containers/SidePanelToolbarBtn';
@@ -69,20 +67,6 @@ export class ContentAreaTop extends React.Component {
     toggleWrapupLabel: {
       marginRight: '5px',
     },
-    selectedOption: {
-      pointerEvents: 'none',
-      backgroundImage: `url(${checkMark})`,
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: '90% center',
-      backgroundColor: '#fff',
-      // since there is a default hover color we're using for the dropdowns,
-      // we need to explicitly override that in order to prevent
-      // it from displaying.
-      ':hover': {
-        backgroundColor: '#fff',
-      },
-      backgroundSize: '20px',
-    },
     wrapupStatusUpdateInProgress: {
       pointerEvents: 'none',
       opacity: '.5',
@@ -118,6 +102,7 @@ export class ContentAreaTop extends React.Component {
   };
 
   generateButtons = (interaction, buttons) => {
+    let buttonConfig = buttons;
     if (
       this.context.toolbarMode &&
       interaction.status !== 'wrapup' &&
@@ -125,7 +110,7 @@ export class ContentAreaTop extends React.Component {
     ) {
       // if we're in toolbar mode and creating a drop-down button
       // w/wrapup status options
-      const buttonConfigWithWrapup = [
+      buttonConfig = [
         // take the existing list of buttons...
         ...buttons.slice(),
         // ...and append to that list the wrapup enable/disable dropdown items
@@ -135,9 +120,7 @@ export class ContentAreaTop extends React.Component {
           onClick: this.enableWrapup,
           // here is where we add the style for indicating whether a
           // wrapup status is active or inactive
-          activeSubButtonStyle: interaction.wrapupDetails.wrapupEnabled
-            ? this.styles.selectedOption
-            : {},
+          isSelected: interaction.wrapupDetails.wrapupEnabled,
           // this conditional style property creates a disabled UI for while the
           // wrapup status update is happening
           style: this.props.interaction.wrapupDetails.loadingWrapupStatusUpdate
@@ -148,18 +131,24 @@ export class ContentAreaTop extends React.Component {
           id: 'wrapup-off-submenu-item',
           text: messages.wrapupOff,
           onClick: this.disableWrapup,
-          activeSubButtonStyle: !interaction.wrapupDetails.wrapupEnabled
-            ? this.styles.selectedOption
-            : {},
+          isSelected: !interaction.wrapupDetails.wrapupEnabled,
           style: this.props.interaction.wrapupDetails.loadingWrapupStatusUpdate
             ? this.styles.wrapupStatusUpdateInProgress
             : {},
         },
       ];
-      return <ButtonLayout buttonConfig={buttonConfigWithWrapup} />;
     }
 
-    return <ButtonLayout buttonConfig={buttons} />;
+    return (
+      <ButtonLayout
+        buttonConfig={buttonConfig}
+        buttonMenuConfig={{
+          id: 'actionsButton',
+          type: 'primaryBlue',
+          text: messages.actions,
+        }}
+      />
+    );
   };
 
   render() {

@@ -5,24 +5,25 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { ButtonSplitMenuItem } from '../index';
+import { ButtonMenuItem } from '../index';
 
-describe('<ButtonSplitMenuItem />', () => {
-
+describe('<ButtonMenuItem />', () => {
   const mockFunc = jest.fn();
   const mockText = {
     id: 'app.containers.ContentAreaTop.wrapupOn',
     defaultMessage: 'Wrap Up On',
-  }
+  };
 
   describe('when passed required properties', () => {
     it('should render correctly', () => {
       const rendered = shallow(
-        <ButtonSplitMenuItem
+        <ButtonMenuItem
           id="mockId"
           clickCallback={mockFunc}
           hideSubMenu={mockFunc}
           text={mockText}
+          customStyles={{ custom: 'style' }}
+          isSelected
         />
       );
       expect(rendered).toMatchSnapshot();
@@ -31,7 +32,7 @@ describe('<ButtonSplitMenuItem />', () => {
     describe('when submenu button is clicked', () => {
       it('it should fire the onClick function', () => {
         const rendered = shallow(
-          <ButtonSplitMenuItem
+          <ButtonMenuItem
             id="mockId"
             clickCallback={mockFunc}
             hideSubMenu={mockFunc}
