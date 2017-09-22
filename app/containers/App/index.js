@@ -111,6 +111,7 @@ import {
   selectAgentDesktopMap,
   selectLoginMap,
   selectIsSidePanelCollapsed,
+  selectCrmModule,
 } from 'containers/AgentDesktop/selectors';
 import { selectHasCrmPermissions } from './selectors';
 
@@ -511,6 +512,11 @@ export class App extends React.Component {
             ) {
               this.props.selectSidePanelTab(response.interactionId, 'script');
               this.props.showSidePanel(interaction.interactionId);
+
+              // updating outer window width for when embedded in Zendesk CRM
+              if (this.props.crmModule === 'zendesk') {
+                CxEngage.zendesk.setDimensions({ width: 800, height: 800 });
+              }
             }
             break;
           }
@@ -525,6 +531,11 @@ export class App extends React.Component {
               }
             } else {
               this.props.hideSidePanel(interaction.interactionId);
+
+              // updating outer window width for when embedded in Zendesk CRM
+              if (this.props.crmModule === 'zendesk') {
+                CxEngage.zendesk.setDimensions({ width: 400, height: 800 });
+              }
             }
             this.props.removeScript(response);
             break;
@@ -1022,6 +1033,7 @@ const mapStateToProps = (state, props) => ({
   nonCriticalError: selectNonCriticalError(state, props),
   isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
   hasCrmPermissions: selectHasCrmPermissions(state, props),
+  crmModule: selectCrmModule(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -1210,6 +1222,7 @@ App.propTypes = {
   dismissError: PropTypes.func,
   setCrmModule: PropTypes.func.isRequired,
   setZendeskActiveTab: PropTypes.func.isRequired,
+  crmModule: PropTypes.string,
 };
 
 App.contextTypes = {
