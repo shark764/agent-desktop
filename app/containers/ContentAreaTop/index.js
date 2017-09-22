@@ -165,19 +165,13 @@ export class ContentAreaTop extends React.Component {
     }
 
     let sidePanelSpacingInPx = 0;
-    if (sidePanelHasTabs) {
-      if (!this.props.isSidePanelCollapsed) {
-        sidePanelSpacingInPx += this.props.sidePanelPx;
-      }
-      if (!this.props.isInteractionsBarCollapsed) {
-        if (this.context.toolbarMode) {
-          sidePanelSpacingInPx += 72;
-        } else {
-          sidePanelSpacingInPx += 283;
-        }
-      }
-    } else {
-      sidePanelSpacingInPx = 0;
+    if (sidePanelHasTabs && !this.props.isSidePanelCollapsed) {
+      sidePanelSpacingInPx += this.props.sidePanelPx;
+    }
+    if (!this.context.toolbarMode) {
+      sidePanelSpacingInPx += 283;
+    } else if (!this.props.isInteractionsBarCollapsed) {
+      sidePanelSpacingInPx += 72;
     }
 
     return (

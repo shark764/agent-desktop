@@ -111,6 +111,10 @@ const styles = {
     margin: '4px 10px 0 0',
     verticalAlign: 'top',
     border: '1px solid transparent',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    maxWidth: '200px',
   },
   addAttachment: {
     cursor: 'pointer',

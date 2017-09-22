@@ -49,7 +49,7 @@ function Filter(props) {
       <span style={styles.filterName}>
         {`${props.name}:`}&nbsp;
       </span>
-      <span style={styles.valueText}>
+      <span title={props.value} style={styles.valueText}>
         {props.value}
       </span>
       <Icon

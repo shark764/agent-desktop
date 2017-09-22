@@ -533,6 +533,11 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/screen-pop-received': {
+            // Ignore screen pop v1
+            if (response.version !== 'v2') {
+              console.log('Ignoring non v2 screen-pop');
+              break;
+            }
             if (response.popType === 'external-url') {
               // If width or height are null, window.open uses browser defaults
               const width = response.size ? response.size.width : null;
