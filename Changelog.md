@@ -1,3 +1,6 @@
+### [1.4.9] (2017-09-25)
+* CXV1-10529 - Updated AD/TB2 to respond buttons on user widget for zendesk integration
+
 ### [1.4.8] (2017-09-25)
 * CXV1-11408 - Fix AgentDesktop login
 
