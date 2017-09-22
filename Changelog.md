@@ -1,3 +1,6 @@
+### [1.4.4] (2017-09-12)
+* CXV1-9423 - Update screen pop (again)
+
 ### [1.4.3] (2017-09-21)
 * CXV1-11622 - Implement auto resize of Zendesk toolbar modal
 
