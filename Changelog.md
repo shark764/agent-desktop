@@ -1,3 +1,6 @@
+### [1.4.7] (2017-09-25)
+* CXV1-10521 - Hide notes panel for zendesk
+
 ### [1.4.6] (2017-09-22)
 * CXV1-11408 - Revert being able to login to Skylight (non-toolbar) without CRM permissions
 

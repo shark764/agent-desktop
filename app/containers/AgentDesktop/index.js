@@ -45,6 +45,7 @@ import {
   selectSidePanelPx,
   selectIsInteractionsBarCollapsed,
   getSelectedInteraction,
+  selectCrmModule,
 } from './selectors';
 
 export class AgentDesktop extends React.Component {
@@ -141,7 +142,9 @@ export class AgentDesktop extends React.Component {
       (this.props.selectedInteractionHasScripts &&
         !this.props.selectedInteractionIsScriptOnly &&
         !this.props.selectedInteractionIsVoice) ||
-      (this.context.toolbarMode && this.props.selectedInteractionIsVoice)
+      (this.context.toolbarMode &&
+        this.props.selectedInteractionIsVoice &&
+        this.props.crmModule !== 'zendesk')
     ) {
       sidePanelHasTabs = true;
     }
@@ -230,6 +233,7 @@ const mapStateToProps = (state, props) => ({
   selectedInteractionHasScripts:
     getSelectedInteraction(state, props) &&
     getSelectedInteraction(state, props).script !== undefined,
+  crmModule: selectCrmModule(state, props),
   showCollapseButton: selectShowCollapseButton(state, props),
   hasCrmPermissions: selectHasCrmPermissions(state, props),
   selectedInteractionIsScriptOnly: getSelectedInteractionIsScriptOnly(
@@ -256,6 +260,7 @@ AgentDesktop.propTypes = {
   sidePanelMaxPx: PropTypes.number.isRequired,
   isInteractionsBarCollapsed: PropTypes.bool.isRequired,
   selectedInteractionHasScripts: PropTypes.bool,
+  crmModule: PropTypes.string,
   showCollapseButton: PropTypes.bool.isRequired,
   hasCrmPermissions: PropTypes.bool.isRequired,
   selectedInteractionIsScriptOnly: PropTypes.bool.isRequired,

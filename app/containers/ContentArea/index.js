@@ -562,6 +562,11 @@ export class ContentArea extends React.Component {
       });
     }
 
+    let notesDisabled = false;
+    if (this.context.toolbarMode && this.props.crmModule === 'zendesk') {
+      notesDisabled = true;
+    }
+
     return (
       <div style={this.styles.base}>
         <div style={this.styles.mainContent}>
@@ -589,20 +594,24 @@ export class ContentArea extends React.Component {
               </div>}
           </div>
         </div>
-        {this.props.content
-          ? <Resizable
-            id="notes-resizable"
-            direction="top"
-            setPx={this.setNotesPanelHeight}
-            disabledPx={50}
-            px={this.state.notesPanelHeight}
-            maxPx={600}
-            minPx={125}
-            isDisabled={false}
-          >
-            {this.getNotesContent()}
-          </Resizable>
-          : this.getNotesContent()}
+        {!notesDisabled
+          ? [
+            this.props.content
+                ? <Resizable
+                  id="notes-resizable"
+                  direction="top"
+                  setPx={this.setNotesPanelHeight}
+                  disabledPx={50}
+                  px={this.state.notesPanelHeight}
+                  maxPx={600}
+                  minPx={125}
+                  isDisabled={false}
+                >
+                  {this.getNotesContent()}
+                </Resizable>
+                : this.getNotesContent(),
+          ]
+          : undefined}
       </div>
     );
   }
@@ -620,6 +629,10 @@ ContentArea.propTypes = {
   zendeskActiveTab: PropTypes.object,
   awaitingDisposition: PropTypes.bool.isRequired,
   updateNote: PropTypes.func.isRequired,
+};
+
+ContentArea.contextTypes = {
+  toolbarMode: PropTypes.bool,
 };
 
 const mapStateToProps = (state, props) => ({
