@@ -605,6 +605,8 @@ export class App extends React.Component {
               } else {
                 console.error(`Unhandled pop type: ${response.popType}`);
               }
+            } else {
+              console.log('Ignoring screen-pop. Not using skylight CRM');
             }
             break;
           }
