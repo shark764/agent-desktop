@@ -1,3 +1,6 @@
+### [1.4.10] (2017-09-25)
+* CXV1-11567 - Refresh queues on transfer popup
+
 ### [1.4.9] (2017-09-25)
 * CXV1-10529 - Updated AD/TB2 to respond buttons on user widget for zendesk integration
 
