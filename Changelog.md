@@ -1,3 +1,6 @@
+### [1.4.8] (2017-09-25)
+* CXV1-11408 - Fix AgentDesktop login
+
 ### [1.4.7] (2017-09-25)
 * CXV1-10521 - Hide notes panel for zendesk
 
