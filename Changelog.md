@@ -1,3 +1,6 @@
+### [1.4.6] (2017-09-22)
+* CXV1-11408 - Revert being able to login to Skylight (non-toolbar) without CRM permissions
+
 ### [1.4.5] (2017-09-22)
 * CXV1-11406 - Pass locale to SDK for reporting translations
 
