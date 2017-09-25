@@ -51,13 +51,13 @@ const styles = {
     overflow: 'hidden',
     position: 'absolute',
     top: '52px',
-    left: '-130px',
+    left: '-110px',
     zIndex: 3,
     padding: '25px 20px 20px',
   },
 };
 
-function Dialpad(props) {
+function Dialpad(props, context) {
   function buttonPress(num) {
     props.setDialpadText(`${props.dialpadText}${num}`);
     if (props.interactionId !== undefined) {
@@ -72,6 +72,22 @@ function Dialpad(props) {
     }
   }
 
+  let updatedDialerPosition;
+  if (context.toolbarMode) {
+    // use a custom position for the dialer if we're specifying one
+    // (toolbar during a call being an example)
+    if (props.dialpadPosition !== undefined) {
+      updatedDialerPosition = props.dialpadPosition;
+    } else {
+      // otherwise, this is the default position for the
+      // dialer in toolbar
+      updatedDialerPosition = '-130px';
+    }
+  } else {
+    // and here is the position for the dialer in AD
+    updatedDialerPosition = styles.phoneControlsPopupMenu.left;
+  }
+
   return (
     <div>
       {!props.transfer
@@ -82,8 +98,8 @@ function Dialpad(props) {
       <div
         style={[
           !props.transfer && styles.phoneControlsPopupMenu,
-          props.dialpadPosition !== undefined && {
-            left: props.dialpadPosition,
+          {
+            left: updatedDialerPosition,
           },
         ]}
       >
@@ -189,6 +205,10 @@ Dialpad.propTypes = {
   toggle: PropTypes.func,
   transfer: PropTypes.bool.isRequired,
   dialpadPosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
+
+Dialpad.contextTypes = {
+  toolbarMode: PropTypes.bool,
 };
 
 export default Radium(Dialpad);

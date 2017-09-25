@@ -1,3 +1,6 @@
+### [1.4.15] (2017-09-27)
+* CXV1-11622 - Implement auto resize of Zendesk toolbar modal when switching between interactions
+
 ### [1.4.14] (2017-09-27)
 * CXV1-10521 - Show dispositions when notes are hidden in Zendesk mode
 * Bump SDK version for Zendesk stuff
