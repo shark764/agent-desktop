@@ -594,24 +594,22 @@ export class ContentArea extends React.Component {
               </div>}
           </div>
         </div>
-        {!notesDisabled
-          ? [
-            this.props.content
-                ? <Resizable
-                  id="notes-resizable"
-                  direction="top"
-                  setPx={this.setNotesPanelHeight}
-                  disabledPx={50}
-                  px={this.state.notesPanelHeight}
-                  maxPx={600}
-                  minPx={125}
-                  isDisabled={false}
-                >
-                  {this.getNotesContent()}
-                </Resizable>
-                : this.getNotesContent(),
-          ]
-          : undefined}
+        {!notesDisabled && [
+          this.props.content
+            ? <Resizable
+              id="notes-resizable"
+              direction="top"
+              setPx={this.setNotesPanelHeight}
+              disabledPx={50}
+              px={this.state.notesPanelHeight}
+              maxPx={600}
+              minPx={125}
+              isDisabled={false}
+            >
+              {this.getNotesContent()}
+            </Resizable>
+            : this.getNotesContent(),
+        ]}
       </div>
     );
   }

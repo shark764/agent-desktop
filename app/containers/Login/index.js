@@ -35,8 +35,10 @@ import { mappedLocales } from 'i18n';
 import { changeLocale } from 'containers/LanguageProvider/actions';
 import { selectLocale } from 'containers/LanguageProvider/selectors';
 import { setNonCriticalError, dismissError } from 'containers/Errors/actions';
-import { selectHasCrmPermissions } from 'containers/App/selectors';
-import { requiredPermissions } from 'containers/App/permissions';
+import {
+  requiredPermissions,
+  crmPermissions,
+} from 'containers/App/permissions';
 import selectLogin from './selectors';
 import messages from './messages';
 import {
@@ -242,7 +244,10 @@ export class Login extends React.Component {
           selectingTenant.tenantPermissions.includes(permission)
         ) &&
         (this.context.toolbarMode ||
-          (!this.context.toolbarMode && this.props.hasCrmPermissions))
+          (!this.context.toolbarMode &&
+            crmPermissions.every((permission) =>
+              selectingTenant.tenantPermissions.includes(permission)
+            )))
       ) {
         this.props.settingTenant();
         CxEngage.session.setActiveTenant(
@@ -542,7 +547,6 @@ export class Login extends React.Component {
 const mapStateToProps = (state, props) => ({
   ...selectLogin(state, props),
   locale: selectLocale()(state),
-  hasCrmPermissions: selectHasCrmPermissions(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -575,7 +579,6 @@ Login.propTypes = {
   agent: PropTypes.object,
   changeLocale: PropTypes.func,
   locale: PropTypes.string,
-  hasCrmPermissions: PropTypes.bool.isRequired,
 };
 
 Login.contextTypes = {
