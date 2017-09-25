@@ -55,6 +55,7 @@ import {
   setCRMUnavailable,
   validateContactLayoutTranslations,
 } from 'containers/InfoTab/actions';
+import { startOutboundEmail } from 'containers/EmailContentArea/actions';
 import {
   setUserConfig,
   setExtensions,
@@ -106,6 +107,7 @@ import {
   goNotReady,
   setCrmModule,
   setZendeskActiveTab,
+  startOutboundInteraction,
 } from 'containers/AgentDesktop/actions';
 
 import {
@@ -791,6 +793,33 @@ export class App extends React.Component {
             }, 5000);
             break;
           }
+          case 'cxengage/zendesk/click-to-dial-requested':
+          case 'cxengage/zendesk/click-to-sms-requested': {
+            let channelType;
+
+            if (topic === 'cxengage/zendesk/click-to-dial-requested') {
+              channelType = 'voice';
+            } else {
+              channelType = 'sms';
+            }
+
+            this.props.startOutboundInteraction(
+              channelType,
+              response.endpoint,
+            );
+            if (channelType === 'voice') {
+              CxEngage.interactions.voice.dial({
+                phoneNumber: response.endpoint,
+              });
+            }
+            break;
+          }
+          case 'cxengage/zendesk/click-to-email-requested': {
+            this.props.startOutboundEmail(
+              response.endpoint,
+            );
+            break;
+          }
 
           // REPORTING
           case 'cxengage/reporting/get-available-stats-response': {
@@ -1170,6 +1199,24 @@ function mapDispatchToProps(dispatch) {
     dismissError: () => dispatch(dismissError()),
     setCrmModule: (crmModule) => dispatch(setCrmModule(crmModule)),
     setZendeskActiveTab: (type, id) => dispatch(setZendeskActiveTab(type, id)),
+    startOutboundInteraction: (
+      channelType,
+      customer,
+      contact,
+      addedByNewInteractionPanel
+    ) =>
+      dispatch(
+        startOutboundInteraction(
+          channelType,
+          customer,
+          contact,
+          addedByNewInteractionPanel
+        )
+      ),
+    startOutboundEmail: (customer, contact, addedByNewInteractionPanel) =>
+      dispatch(
+        startOutboundEmail(customer, contact, addedByNewInteractionPanel)
+      ),
     dispatch,
   };
 }
@@ -1251,6 +1298,8 @@ App.propTypes = {
   setCrmModule: PropTypes.func.isRequired,
   setZendeskActiveTab: PropTypes.func.isRequired,
   crmModule: PropTypes.string,
+  startOutboundInteraction: PropTypes.func.isRequired,
+  startOutboundEmail: PropTypes.func.isRequired,
 };
 
 App.contextTypes = {
