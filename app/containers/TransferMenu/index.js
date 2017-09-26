@@ -77,7 +77,7 @@ export class TransferMenu extends React.Component {
   componentDidMount() {
     this.mounted = true;
 
-    this.refreshQueueTimes();
+    this.refreshQueues();
     CxEngage.entities.getUsers(
       { excludeOffline: true },
       this.setAgentsCallback
@@ -87,7 +87,7 @@ export class TransferMenu extends React.Component {
     );
 
     this.reloadQueuesInterval = setInterval(() => {
-      this.refreshQueueTimes();
+      this.refreshQueues();
     }, REFRESH_QUEUES_RATE);
 
     this.reloadTransferablesInterval = setInterval(() => {
@@ -104,20 +104,26 @@ export class TransferMenu extends React.Component {
     clearInterval(this.reloadTransferablesInterval);
   }
 
-  refreshQueueTimes = () => {
-    this.props.queues.forEach((queue) => {
-      CxEngage.reporting.statQuery(
-        { statistic: 'queue-time', queueId: queue.id },
-        (error, topic, response) => {
-          if (!error) {
-            console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
-            this.props.setQueueTime(
-              queue.id,
-              response[Object.keys(response)[0]].body.results.avg
-            );
+  refreshQueues = () => {
+    CxEngage.entities.getQueues(() => {
+      this.props.queues.forEach((queue) => {
+        CxEngage.reporting.statQuery(
+          { statistic: 'queue-time', queueId: queue.id },
+          (error, topic, response) => {
+            if (!error) {
+              console.log(
+                '[TransferMenu] CxEngage.subscribe()',
+                topic,
+                response
+              );
+              this.props.setQueueTime(
+                queue.id,
+                response[Object.keys(response)[0]].body.results.avg
+              );
+            }
           }
-        }
-      );
+        );
+      });
     });
   };
 
@@ -636,7 +642,7 @@ export class TransferMenu extends React.Component {
                       <div
                         id="refreshQueues"
                         style={this.styles.refresh}
-                        onClick={() => this.refreshQueueTimes()}
+                        onClick={() => this.refreshQueues()}
                       >
                           &#8635;
                         </div>
