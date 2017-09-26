@@ -27,6 +27,7 @@ import {
   selectInteraction,
 } from 'containers/AgentDesktop/actions';
 import {
+  selectCrmModule,
   selectIsAgentReady,
   selectIsInteractionsBarCollapsed,
 } from 'containers/AgentDesktop/selectors';
@@ -88,6 +89,18 @@ export class InteractionsBar extends React.Component {
 
   selectInteraction = (interactionId) => {
     this.props.selectInteraction(interactionId);
+  };
+
+  focusInteraction = (interaction) => {
+    if (
+      this.props.crmModule === 'zendesk' &&
+      interaction.contact &&
+      interaction.contact.id
+    ) {
+      CxEngage.zendesk.focusInteraction({
+        interactionId: interaction.interactionId,
+      });
+    }
   };
 
   acceptInteraction = (interactionId) => {
@@ -282,10 +295,12 @@ export class InteractionsBar extends React.Component {
         onClick={
             this.props.selectedInteractionId !==
             this.props.activeVoiceInteraction.interactionId
-              ? () =>
-                  this.selectInteraction(
+              ? () => {
+                this.selectInteraction(
                     this.props.activeVoiceInteraction.interactionId
-                  )
+                  );
+                this.focusInteraction(this.props.activeVoiceInteraction);
+              }
               : undefined
           }
       />)
@@ -385,10 +400,12 @@ export class InteractionsBar extends React.Component {
             onClick={
               this.props.selectedInteractionId !==
               activeInteraction.interactionId
-                ? () =>
-                    this.props.selectInteraction(
+                ? () => {
+                  this.props.selectInteraction(
                       activeInteraction.interactionId
-                    )
+                    );
+                  this.focusInteraction(activeInteraction);
+                }
                 : undefined
             }
           />
@@ -606,6 +623,7 @@ export class InteractionsBar extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
+  crmModule: selectCrmModule(state, props),
   isAgentReady: selectIsAgentReady(state, props),
   pendingInteractions: selectPendingInteractions(state, props),
   activeVoiceInteraction: selectActiveVoiceInteraction(state, props),
@@ -634,6 +652,7 @@ function mapDispatchToProps(dispatch) {
 InteractionsBar.propTypes = {
   intl: intlShape.isRequired,
   style: PropTypes.object,
+  crmModule: PropTypes.string,
   isAgentReady: PropTypes.bool.isRequired,
   pendingInteractions: PropTypes.array.isRequired,
   activeNonVoiceInteractions: PropTypes.array.isRequired,
