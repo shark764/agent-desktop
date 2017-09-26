@@ -783,8 +783,16 @@ export class App extends React.Component {
           case 'cxengage/zendesk/related-to-assignment-acknowledged': {
             const contact =
               topic === 'cxengage/zendesk/contact-assignment-acknowledged'
-                ? { type: 'user', id: response.externalCrmContact }
-                : { type: 'ticket', id: response.externalCrmRelatedTo };
+                ? {
+                  type: 'user',
+                  id: response.externalCrmContact,
+                  attributes: { name: response.user.name },
+                }
+                : {
+                  type: 'ticket',
+                  id: response.externalCrmRelatedTo,
+                  attributes: { name: response.ticket.subject },
+                };
             this.props.setAssignedContact(response.interactionId, contact);
             setTimeout(() => {
               this.props.dismissContactWasAssignedNotification(
@@ -803,10 +811,7 @@ export class App extends React.Component {
               channelType = 'sms';
             }
 
-            this.props.startOutboundInteraction(
-              channelType,
-              response.endpoint,
-            );
+            this.props.startOutboundInteraction(channelType, response.endpoint);
             if (channelType === 'voice') {
               CxEngage.interactions.voice.dial({
                 phoneNumber: response.endpoint,
@@ -815,9 +820,7 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/zendesk/click-to-email-requested': {
-            this.props.startOutboundEmail(
-              response.endpoint,
-            );
+            this.props.startOutboundEmail(response.endpoint);
             break;
           }
 

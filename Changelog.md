@@ -1,3 +1,7 @@
+### [1.4.11] (2017-09-26)
+* CXV1-11610 - Added names to assigned users and tickets
+* CXV1-10523 - Implemented Zendesk tab experience
+
 ### [1.4.10] (2017-09-25)
 * CXV1-11567 - Refresh queues on transfer popup
 
