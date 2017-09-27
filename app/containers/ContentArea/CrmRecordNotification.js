@@ -32,6 +32,7 @@ const styles = {
   },
   noRecord: {
     backgroundColor: '#FE4565',
+    borderTop: '1px #000000 solid',
   },
   dismissRecordLinked: {
     float: 'right',

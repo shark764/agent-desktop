@@ -53,6 +53,7 @@ function CollapseInteractionsButton(props) {
 
   return (
     <div
+      id="toggleInteractionsBar"
       style={[styles.base, !props.isCollapsed && styles.expandedBase]}
       onClick={props.toggleInteractionsBar}
     >

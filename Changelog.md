@@ -1,3 +1,9 @@
+### [1.4.14] (2017-09-27)
+* CXV1-10521 - Show dispositions when notes are hidden in Zendesk mode
+* Bump SDK version for Zendesk stuff
+* Id for interaction panel button
+* CXV1-11663 - Manually remove outbound interaction that customer has not yet replied to (instead of waiting for flow signal)
+
 ### [1.4.13] (2017-09-27)
 * NO TICKET - Handle contact interaction history errors better
 

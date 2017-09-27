@@ -3,6 +3,7 @@
 exports[`<CollapseInteractionsButton /> should render correctly 1`] = `
 <div
   data-radium={true}
+  id="toggleInteractionsBar"
   onClick={[Function]}
   style={
     Object {
