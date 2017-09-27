@@ -779,10 +779,11 @@ export class App extends React.Component {
             }
             break;
           }
+          case 'cxengage/zendesk/internal-pop-received':
           case 'cxengage/zendesk/contact-assignment-acknowledged':
           case 'cxengage/zendesk/related-to-assignment-acknowledged': {
             const contact =
-              topic === 'cxengage/zendesk/contact-assignment-acknowledged'
+              response.user !== undefined
                 ? {
                   type: 'user',
                   id: response.externalCrmContact,
