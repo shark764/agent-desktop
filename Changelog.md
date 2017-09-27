@@ -1,3 +1,6 @@
+### [1.4.13] (2017-09-27)
+* NO TICKET - Handle contact interaction history errors better
+
 ### [1.4.12] (2017-09-26)
 * CXV1-10537 - Handle contact assignment on transfers in Zendesk
 
