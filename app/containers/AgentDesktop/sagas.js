@@ -102,21 +102,17 @@ export function* loadContactInteractions(action) {
       contactQuery,
       'AgentDesktop'
     );
-  } catch (error) {
-    console.error(error);
-  }
 
-  if (!contactQuery.page) {
-    let earliestTimestamp;
-    if (
-      contactInteractionHistoryDetails.total >
-      contactInteractionHistoryDetails.results.length
-    ) {
-      contactQuery.page = Math.floor(
-        contactInteractionHistoryDetails.total /
-          contactInteractionHistoryDetails.limit
-      );
-      try {
+    if (!contactQuery.page) {
+      let earliestTimestamp;
+      if (
+        contactInteractionHistoryDetails.total >
+        contactInteractionHistoryDetails.results.length
+      ) {
+        contactQuery.page = Math.floor(
+          contactInteractionHistoryDetails.total /
+            contactInteractionHistoryDetails.limit
+        );
         const earliestContactInteractionDetails = yield call(
           sdkCallToPromise,
           CxEngage.reporting.getContactInteractionHistory,
@@ -129,26 +125,26 @@ export function* loadContactInteractions(action) {
           earliestContactInteractionDetails.results[
             earliestContactInteractionDetails.results.length - 1
           ].startTimestamp;
-      } catch (error) {
-        console.error(error);
+      } else {
+        earliestTimestamp =
+          contactInteractionHistoryDetails.results &&
+          contactInteractionHistoryDetails.results.length &&
+          contactInteractionHistoryDetails.results[
+            contactInteractionHistoryDetails.results.length - 1
+          ].startTimestamp;
       }
-    } else {
-      earliestTimestamp =
-        contactInteractionHistoryDetails.results &&
-        contactInteractionHistoryDetails.results.length &&
-        contactInteractionHistoryDetails.results[
-          contactInteractionHistoryDetails.results.length - 1
-        ].startTimestamp;
+      contactInteractionHistoryDetails.earliestTimestamp = earliestTimestamp;
     }
-    contactInteractionHistoryDetails.earliestTimestamp = earliestTimestamp;
-  }
 
-  yield put(
-    setContactInteractionHistory(
-      action.contactId,
-      contactInteractionHistoryDetails
-    )
-  );
+    yield put(
+      setContactInteractionHistory(
+        action.contactId,
+        contactInteractionHistoryDetails
+      )
+    );
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export function* cancelClickToDial(action) {
