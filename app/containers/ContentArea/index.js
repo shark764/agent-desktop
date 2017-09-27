@@ -199,7 +199,7 @@ export class ContentArea extends React.Component {
       fontSize: '12px',
       padding: '2px 7px',
       marginLeft: '10px',
-      border: '1px solid transparent',
+      border: '1px solid #E4E4E4',
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -396,7 +396,7 @@ export class ContentArea extends React.Component {
     } else if (this.state.showDispositionsList) {
       return '#97979';
     } else {
-      return '#F3F3F3';
+      return '#E4E4E4';
     }
   };
 
@@ -422,95 +422,7 @@ export class ContentArea extends React.Component {
             }
           />
         </div>
-        {this.props.interaction.dispositionDetails.dispositions.length
-          ? <div
-            id="selected-dispositions"
-            style={this.styles.dispositionChipsContainer}
-          >
-            {this.props.interaction.dispositionDetails.selected.map(
-                (disposition) =>
-                  (<div
-                    id={`selected-disposition-${disposition.dispositionId}`}
-                    key={`selected-disposition-${disposition.dispositionId}`}
-                    title={disposition.name}
-                    style={[this.styles.dispositionChip]}
-                  >
-                    <span style={this.styles.dispositionLabelText}>
-                      {disposition.name !== undefined
-                        ? disposition.name.toUpperCase()
-                        : ''}
-                    </span>
-                    <Button
-                      id="delete-disposition-btn"
-                      style={this.styles.closeButton}
-                      clear
-                      iconName="close"
-                      type="secondary"
-                      onClick={this.deselectDisposition}
-                      disabled={this.state.loadingDisposition}
-                    />
-                  </div>)
-              )}
-            {this.props.interaction.dispositionDetails.selected.length ===
-                0 &&
-              this.props.interaction.status !== 'work-ended-pending-script'
-                ? [
-                  <div
-                    onClick={() =>
-                        this.setState({
-                          showDispositionsList: !this.state
-                            .showDispositionsList,
-                        })}
-                    key="new-label-button"
-                    id="new-label-button"
-                    style={[
-                      this.styles.dispositionChip,
-                      this.styles.dispositionNewLabel,
-                      {
-                        border: `1px solid ${this.getNewLabelChipBorderColor()}`,
-                      },
-                    ]}
-                  >
-                    <IconSVG
-                      name="add"
-                      id="add-disposition-icon"
-                      style={this.styles.addIcon}
-                    />
-                    <span
-                      style={[
-                        this.styles.dispositionLabelText,
-                          { marginLeft: '5px', padding: '2.5px 0' },
-                      ]}
-                    >
-                      <FormattedMessage {...messages.disposition} />
-                    </span>
-                  </div>,
-                  this.state.showDispositionsList
-                      ? <div
-                        id="dispositions-lists-container"
-                        key="dispositionsContainer"
-                        style={{ position: 'relative' }}
-                      >
-                        <div
-                          id="dispositions-lists"
-                          style={this.styles.dispositionList}
-                        >
-                          {this.props.interaction.dispositionDetails.dispositions.map(
-                              (disposition) => {
-                                if (disposition.type === 'category') {
-                                  return this.renderCategory(disposition);
-                                }
-                                return this.renderDisposition(disposition);
-                              }
-                            )}
-                        </div>
-                        <div style={this.styles.triangle} />
-                      </div>
-                      : undefined,
-                ]
-                : undefined}
-          </div>
-          : undefined}
+        {this.getDispositionsContent()}
         <textarea
           id="notesTextarea"
           placeholder={formatMessage(messages.notesPlaceholder)}
@@ -529,6 +441,87 @@ export class ContentArea extends React.Component {
       </div>
     );
   };
+
+  getDispositionsContent = () =>
+    this.props.interaction.dispositionDetails.dispositions.length &&
+    <div
+      id="selected-dispositions"
+      style={this.styles.dispositionChipsContainer}
+    >
+      {this.props.interaction.dispositionDetails.selected.map((disposition) =>
+        (<div
+          id={`selected-disposition-${disposition.dispositionId}`}
+          key={`selected-disposition-${disposition.dispositionId}`}
+          title={disposition.name}
+          style={this.styles.dispositionChip}
+        >
+          <span style={this.styles.dispositionLabelText}>
+            {disposition.name !== undefined
+              ? disposition.name.toUpperCase()
+              : ''}
+          </span>
+          <Button
+            id="delete-disposition-btn"
+            style={this.styles.closeButton}
+            clear
+            iconName="close"
+            type="secondary"
+            onClick={this.deselectDisposition}
+            disabled={this.state.loadingDisposition}
+          />
+        </div>)
+      )}
+      {this.props.interaction.dispositionDetails.selected.length === 0 &&
+      this.props.interaction.status !== 'work-ended-pending-script' && [
+        <div
+          onClick={() =>
+            this.setState({
+              showDispositionsList: !this.state.showDispositionsList,
+            })}
+          key="new-label-button"
+          id="new-label-button"
+          style={[
+            this.styles.dispositionChip,
+            this.styles.dispositionNewLabel,
+            {
+              border: `1px solid ${this.getNewLabelChipBorderColor()}`,
+            },
+          ]}
+        >
+          <IconSVG
+            name="add"
+            id="add-disposition-icon"
+            style={this.styles.addIcon}
+          />
+          <span
+            style={[
+              this.styles.dispositionLabelText,
+              { marginLeft: '5px', padding: '2.5px 0' },
+            ]}
+          >
+            <FormattedMessage {...messages.disposition} />
+          </span>
+        </div>,
+        this.state.showDispositionsList &&
+          <div
+            id="dispositions-lists-container"
+            key="dispositionsContainer"
+            style={{ position: 'relative' }}
+          >
+            <div id="dispositions-lists" style={this.styles.dispositionList}>
+              {this.props.interaction.dispositionDetails.dispositions.map(
+                (disposition) => {
+                  if (disposition.type === 'category') {
+                    return this.renderCategory(disposition);
+                  }
+                  return this.renderDisposition(disposition);
+                }
+              )}
+            </div>
+            <div style={this.styles.triangle} />
+          </div>,
+      ]}
+    </div>;
 
   zendeskAssign = () => {
     if (this.props.zendeskActiveTab) {
@@ -591,6 +584,10 @@ export class ContentArea extends React.Component {
             {this.props.content &&
               <div style={this.styles.content}>
                 {this.props.content}
+              </div>}
+            {notesDisabled &&
+              <div style={{ paddingTop: '15px', marginTop: 'auto' }}>
+                {this.getDispositionsContent()}
               </div>}
           </div>
         </div>

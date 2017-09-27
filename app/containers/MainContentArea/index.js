@@ -64,6 +64,12 @@ class MainContentArea extends React.Component {
       CxEngage.interactions.end({
         interactionId: this.props.selectedInteraction.interactionId,
       });
+      // FIXME We shouldn't have to do this. Flow should be sending us a work-ended back, but it is not currently.
+      if (this.props.selectedInteraction.status === 'initialized-outbound') {
+        this.props.removeInteraction(
+          this.props.selectedInteraction.interactionId
+        );
+      }
     }
   };
 
@@ -125,11 +131,7 @@ class MainContentArea extends React.Component {
 
     return (
       <div style={[styles.base, this.props.style]}>
-        {content !== null
-          ? content
-          : <WelcomeStats
-            agent={this.props.agent}
-          />}
+        {content !== null ? content : <WelcomeStats agent={this.props.agent} />}
       </div>
     );
   }
