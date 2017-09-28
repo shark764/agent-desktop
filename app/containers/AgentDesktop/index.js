@@ -46,6 +46,7 @@ import {
   selectIsInteractionsBarCollapsed,
   getSelectedInteraction,
   selectCrmModule,
+  selectExpandWindowForCrm,
 } from './selectors';
 
 export class AgentDesktop extends React.Component {
@@ -70,6 +71,17 @@ export class AgentDesktop extends React.Component {
       this.context.toolbarMode ? 400 : window.innerWidth / 2
     );
     window.addEventListener('resize', this.updateDimensions);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.expandWindowForCrm !== this.props.expandWindowForCrm) {
+      CxEngage.zendesk.setDimensions(
+        {
+          width: nextProps.expandWindowForCrm ? 800 : 400,
+          height: 800,
+        }
+      );
+    }
   }
 
   updateDimensions = () => {
@@ -241,6 +253,7 @@ const mapStateToProps = (state, props) => ({
     props
   ),
   selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
+  expandWindowForCrm: selectExpandWindowForCrm(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -268,6 +281,7 @@ AgentDesktop.propTypes = {
   showInteractionsBar: PropTypes.func.isRequired,
   hideInteractionsBar: PropTypes.func.isRequired,
   setSidePanelPx: PropTypes.func.isRequired,
+  expandWindowForCrm: PropTypes.bool,
 };
 
 AgentDesktop.contextTypes = {

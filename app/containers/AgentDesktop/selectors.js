@@ -143,6 +143,19 @@ const selectCustomFieldsCollapsed = createSelector(
   (interaction) => interaction.customFieldsCollapsed
 );
 
+const selectExpandWindowForCrm = createSelector(
+  [
+    selectCrmModule,
+    selectIsSidePanelCollapsed,
+    getSelectedInteraction,
+  ],
+  (crmModule, panelCollapsed, interaction) =>
+    crmModule === 'zendesk' &&
+    !panelCollapsed.isSidePanelCollapsed &&
+    interaction.script !== undefined
+);
+
+
 export {
   selectAgentId,
   selectIsAgentReady,
@@ -165,4 +178,5 @@ export {
   selectCrmModule,
   selectCustomFields,
   selectCustomFieldsCollapsed,
+  selectExpandWindowForCrm,
 };

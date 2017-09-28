@@ -24,7 +24,6 @@ import {
 import {
   selectIsSidePanelCollapsed,
   getSelectedInteractionId,
-  selectCrmModule,
 } from 'containers/AgentDesktop/selectors';
 import {
   getSelectedInteractionScript,
@@ -59,11 +58,6 @@ export class SidePanelToolbarBtn extends React.Component {
   handleClick = () => {
     this.props.selectSidePanelTab(this.props.selectedInteractionId, 'script');
     this.props.showSidePanel(this.props.selectedInteractionId);
-
-    // updating outer window width for when embedded in Zendesk CRM
-    if (this.props.crmModule === 'zendesk') {
-      CxEngage.zendesk.setDimensions({ width: 800, height: 800 });
-    }
   };
 
   render() {
@@ -97,7 +91,6 @@ function mapStateToProps(state, props) {
       props
     ),
     selectedInteractionId: getSelectedInteractionId(state, props),
-    crmModule: selectCrmModule(state, props),
   };
 }
 
@@ -117,7 +110,6 @@ SidePanelToolbarBtn.propTypes = {
   selectedInteractionId: PropTypes.string,
   showSidePanel: PropTypes.func,
   selectSidePanelTab: PropTypes.func,
-  crmModule: PropTypes.string,
 };
 
 SidePanelToolbarBtn.contextTypes = {

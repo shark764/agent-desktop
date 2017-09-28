@@ -87,10 +87,6 @@ export class InteractionsBar extends React.Component {
     },
   };
 
-  selectInteraction = (interactionId) => {
-    this.props.selectInteraction(interactionId);
-  };
-
   focusInteraction = (interaction) => {
     if (
       this.props.crmModule === 'zendesk' &&
@@ -296,7 +292,7 @@ export class InteractionsBar extends React.Component {
             this.props.selectedInteractionId !==
             this.props.activeVoiceInteraction.interactionId
               ? () => {
-                this.selectInteraction(
+                this.props.selectInteraction(
                     this.props.activeVoiceInteraction.interactionId
                   );
                 this.focusInteraction(this.props.activeVoiceInteraction);
