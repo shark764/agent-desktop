@@ -1,3 +1,7 @@
+### [1.4.16] (2017-09-28)
+* CXV1-9423 - Fix search queries for screen pops (encode query)
+* Fix React key warning
+
 ### [1.4.15] (2017-09-27)
 * CXV1-11622 - Implement auto resize of Zendesk toolbar modal when switching between interactions
 

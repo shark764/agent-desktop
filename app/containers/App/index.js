@@ -15,6 +15,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import axios from 'axios';
+import { createSearchQuery } from 'utils/contact';
 
 import ResponseMessage from 'models/Message/ResponseMessage';
 
@@ -67,7 +68,6 @@ import {
   assignContact,
   setAssignedContact,
   dismissContactWasAssignedNotification,
-  loadContactInteractionHistory,
   setContactHistoryInteractionDetails,
   updateContact,
   setInteractionQuery,
@@ -875,7 +875,7 @@ export class App extends React.Component {
 
   attemptContactSearch = (query, interactionId) => {
     CxEngage.contacts.search(
-      { query },
+      createSearchQuery(query),
       (searchError, searchTopic, searchResponse) => {
         if (searchError) {
           this.props.setInteractionQuery(interactionId, query);
@@ -887,34 +887,9 @@ export class App extends React.Component {
           );
           if (searchResponse.count === 1) {
             // If single contact found, auto assign to interaction
-            CxEngage.interactions.assignContact(
-              {
-                interactionId,
-                contactId: searchResponse.results[0].id,
-              },
-              (assignError, assignTopic, assignResponse) => {
-                console.log(
-                  '[ContactsControl] CxEngage.subscribe()',
-                  assignTopic,
-                  assignResponse
-                );
-                if (assignError) {
-                  console.error('Assign error', assignError);
-                  this.props.setInteractionQuery(interactionId, query);
-                } else {
-                  this.props.loadContactInteractionHistory(
-                    searchResponse.results[0].id
-                  );
-                  this.props.assignContact(
-                    interactionId,
-                    searchResponse.results[0]
-                  );
-                }
-              }
-            );
-          } else {
-            this.props.setInteractionQuery(interactionId, query);
+            this.props.assignContact(interactionId, searchResponse.results[0]);
           }
+          this.props.setInteractionQuery(interactionId, query);
         }
       }
     );
@@ -1112,8 +1087,6 @@ function mapDispatchToProps(dispatch) {
       dispatch(setAssignedContact(interactionId, contact)),
     dismissContactWasAssignedNotification: (interactionId) =>
       dispatch(dismissContactWasAssignedNotification(interactionId)),
-    loadContactInteractionHistory: (contactId, page) =>
-      dispatch(loadContactInteractionHistory(contactId, page)),
     setContactHistoryInteractionDetails: (response) =>
       dispatch(setContactHistoryInteractionDetails(response)),
     updateContact: (updatedContact) => dispatch(updateContact(updatedContact)),
@@ -1232,7 +1205,6 @@ App.propTypes = {
   assignContact: PropTypes.func.isRequired,
   setAssignedContact: PropTypes.func.isRequired,
   dismissContactWasAssignedNotification: PropTypes.func.isRequired,
-  loadContactInteractionHistory: PropTypes.func.isRequired,
   setContactHistoryInteractionDetails: PropTypes.func.isRequired,
   updateContact: PropTypes.func.isRequired,
   addMessage: PropTypes.func.isRequired,

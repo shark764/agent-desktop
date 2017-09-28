@@ -101,6 +101,8 @@ export function createSearchQuery(query, nextPage) {
     encodedQuery[queryName] = encodeURIComponent(finalQuery);
   });
   return {
-    query: Object.assign(encodedQuery, { page: nextPage }),
+    query: Object.assign(encodedQuery, {
+      page: nextPage !== undefined ? nextPage : 1,
+    }),
   };
 }
