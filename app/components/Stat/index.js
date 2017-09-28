@@ -139,11 +139,19 @@ export class Stat extends React.Component {
       case 'resource-id':
         source = 'Agent';
         break;
-      case 'queue-id':
-        source = this.props.queues.filter(
+      case 'queue-id': {
+        const sourceData = this.props.queues.find(
           (queue) => queue.id === this.props.stat.queue
-        )[0].name;
+        );
+
+        // in the event that a queue is disabled,
+        // don't grab the name
+        source =
+          sourceData && sourceData.name
+            ? sourceData.name
+            : <FormattedMessage {...messages.disabledQueue} />;
         break;
+      }
       case 'tenant-id':
         source = 'Tenant';
         break;

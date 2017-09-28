@@ -1,3 +1,6 @@
+### [1.4.17] (2017-09-28)
+* CXV1-11567 - Fix bug with disabled queue stats breaking AD upon initiating transfer
+
 ### [1.4.16] (2017-09-28)
 * CXV1-9423 - Fix search queries for screen pops (encode query)
 * Fix React key warning
