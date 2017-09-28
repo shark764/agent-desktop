@@ -14,6 +14,7 @@
   "app.components.NotificationBanner.newVersion": "There is a new version available! Click to refresh.",
   "app.components.NotificationBanner.tryAgain": "Try again.",
   "app.components.Stat.aggregate": "Aggregate",
+  "app.components.Stat.disabledQueue": "(Queue disabled, name not available)",
   "app.components.Stat.source": "Source",
   "app.components.Stat.statistic": "Statistic",
   "app.components.TimerMinutes.hours": "h",

@@ -14,6 +14,7 @@
   "app.components.NotificationBanner.newVersion": "Une nouvelle version est disponible! Cliquez pour actualiser.",
   "app.components.NotificationBanner.tryAgain": "Réessayez.",
   "app.components.Stat.aggregate": "Agréger",
+  "app.components.Stat.disabledQueue": "",
   "app.components.Stat.source": "Source",
   "app.components.Stat.statistic": "Statistique",
   "app.components.TimerMinutes.hours": "h",

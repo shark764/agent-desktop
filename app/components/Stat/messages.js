@@ -22,4 +22,8 @@ export default defineMessages({
     id: 'app.components.Stat.aggregate',
     defaultMessage: 'Aggregate',
   },
+  disabledQueue: {
+    id: 'app.components.Stat.disabledQueue',
+    defaultMessage: '(Queue disabled, name not available)',
+  },
 });
