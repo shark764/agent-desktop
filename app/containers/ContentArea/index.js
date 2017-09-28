@@ -403,7 +403,7 @@ export class ContentArea extends React.Component {
   getNotesContent = () => {
     const { formatMessage } = this.props.intl;
     return (
-      <div style={this.styles.notesArea}>
+      <div key="notesArea" style={this.styles.notesArea}>
         <div style={this.styles.notesTitleContainer}>
           <FormattedMessage {...messages.notes} />
           <input
@@ -595,6 +595,7 @@ export class ContentArea extends React.Component {
           this.props.content
             ? <Resizable
               id="notes-resizable"
+              key="notes-resizable"
               direction="top"
               setPx={this.setNotesPanelHeight}
               disabledPx={50}
