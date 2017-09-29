@@ -781,7 +781,12 @@ export class App extends React.Component {
                 : {
                   type: 'ticket',
                   id: response.externalCrmRelatedTo,
-                  attributes: { name: response.ticket.subject },
+                  attributes: {
+                    name:
+                        response.ticket.subject !== null
+                          ? response.ticket.subject
+                          : response.ticket.description,
+                  },
                 };
             this.props.setAssignedContact(response.interactionId, contact);
             setTimeout(() => {

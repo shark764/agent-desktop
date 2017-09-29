@@ -54,8 +54,13 @@ export function NewInteractionForm(props) {
       />
       <hr style={styles.hr} />
       {!isValidEmail(props.input) &&
-        <OutboundSmsButton phoneNumber={props.input} />}
-      {!isValidNumber(props.input) &&
+        <OutboundSmsButton
+          phoneNumber={
+            isValidNumber(`+${props.input}`) ? `+${props.input}` : props.input
+          }
+        />}
+      {!isValidNumber(`+${props.input}`) &&
+        !isValidNumber(props.input) &&
         <OutboundEmailButton email={props.input} />}
     </div>
   );

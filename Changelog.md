@@ -1,3 +1,7 @@
+### [1.4.18] (2017-09-29)
+* CXV1-11665 - Allow outbound SMS to perform witout manual "+" input
+* CXV1-11726 - Fallback to description for Zendesk ticket name if subject is null
+
 ### [1.4.17] (2017-09-28)
 * CXV1-11567 - Fix bug with disabled queue stats breaking AD upon initiating transfer
 
