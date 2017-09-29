@@ -47,10 +47,13 @@ export class NoRecords extends React.Component {
     // If we only have one key that's value is a valid phone number, use it
     if (Object.keys(this.props.query).length === 1) {
       const phoneNumber = this.props.query[Object.keys(this.props.query)[0]];
-      return isValidNumber(phoneNumber) ? phoneNumber : undefined;
-    } else {
-      return undefined;
+      if (isValidNumber(phoneNumber)) {
+        return phoneNumber;
+      } else if (isValidNumber(`+${phoneNumber}`)) {
+        return `+${phoneNumber}`;
+      }
     }
+    return undefined;
   };
 
   render() {
