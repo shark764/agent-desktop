@@ -57,7 +57,6 @@ export class VoiceContentArea extends React.Component {
         text: wrappingUp ? messages.endWrapup : messages.hangUp,
         onClick: this.props.endInteraction,
         disabled: isAccepting || this.props.awaitingDisposition,
-        isMainBtn: true,
       },
     ];
 

@@ -128,7 +128,6 @@ export class MessagingContentArea extends React.Component {
         text: wrappingUp ? messages.endWrapup : messages.endChat,
         onClick: this.props.endInteraction,
         disabled: isLoading || this.props.awaitingDisposition,
-        isMainBtn: true,
       },
     ];
 

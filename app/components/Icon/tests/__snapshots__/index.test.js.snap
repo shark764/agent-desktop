@@ -90,9 +90,9 @@ exports[`<Icon /> with name caret_white should render correctly 1`] = `
 />
 `;
 
-exports[`<Icon /> with name checkMark should render correctly 1`] = `
+exports[`<Icon /> with name checkStatus should render correctly 1`] = `
 <img
-  alt="checkMark"
+  alt="checkStatus"
   data-radium={true}
   id="mockId"
   src="test-file-stub"

@@ -1,3 +1,6 @@
+### [1.7.0] (2017-10-13)
+* CXV1-11752 - Updated Actions Button Dropdown to rich menu
+
 ### [1.6.10] (2017-10-13)
 - Attempt to accept interactions that we cannot find when doing click to dial.
 
