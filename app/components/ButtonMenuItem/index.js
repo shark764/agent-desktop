@@ -30,6 +30,10 @@ const styles = {
     },
     backgroundSize: '20px',
   },
+  disabledOption: {
+    pointerEvents: 'none',
+    opacity: '.5',
+  },
 };
 
 export class ButtonMenuItem extends React.Component {
@@ -45,6 +49,7 @@ export class ButtonMenuItem extends React.Component {
         style={[
           this.props.customStyles,
           this.props.isSelected && styles.selectedOption,
+          this.props.disabled && styles.disabledOption,
         ]}
         id={`button-submenu-listitem-${this.props.id}`}
         onClick={this.executeOnClick}
@@ -62,6 +67,7 @@ ButtonMenuItem.propTypes = {
   text: PropTypes.any,
   clickCallback: PropTypes.func,
   hideSubMenu: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 export default Radium(ButtonMenuItem);

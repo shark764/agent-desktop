@@ -1,3 +1,6 @@
+### [1.4.22] (2017-10-03)
+* CXV1-11728 -Toolbar 2.0 Zendesk - Fix Outbound Assign Behavior
+
 ### [1.4.21] (2017-10-03)
 * CXV1-11622 - Fix resize of Zendesk toolbar modal for scripts
 

@@ -20,6 +20,7 @@ exports[`<ButtonMenuItem /> when passed required properties should render correc
         "backgroundSize": "20px",
         "pointerEvents": "none",
       },
+      undefined,
     ]
   }
 >

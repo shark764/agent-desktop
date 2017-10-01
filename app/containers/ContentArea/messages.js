@@ -14,6 +14,10 @@ export default defineMessages({
     id: 'app.containers.ContentArea.assign',
     defaultMessage: 'Assign',
   },
+  assigned: {
+    id: 'app.containers.ContentArea.assigned',
+    defaultMessage: 'Assigned',
+  },
   notes: {
     id: 'app.containers.ContentArea.notes',
     defaultMessage: 'Notes',
