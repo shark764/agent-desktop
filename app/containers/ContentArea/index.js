@@ -443,7 +443,7 @@ export class ContentArea extends React.Component {
   };
 
   getDispositionsContent = () =>
-    this.props.interaction.dispositionDetails.dispositions.length &&
+    this.props.interaction.dispositionDetails.dispositions.length > 0 &&
     <div
       id="selected-dispositions"
       style={this.styles.dispositionChipsContainer}

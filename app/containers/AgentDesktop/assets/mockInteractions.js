@@ -52,7 +52,7 @@ const processedDispositionDetails = {
     }
   ],
   forceSelect: true,
-    selected: []
+  selected: []
 };
 
 const script = {

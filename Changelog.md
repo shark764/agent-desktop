@@ -1,3 +1,7 @@
+### [1.4.20] (2017-10-02)
+* CXV1-11727 - Fix rendering of no dispositions
+* CXV1-11665 - Fix formatting of outbound numbers with '+' already in them
+
 ### [1.4.19] (2017-10-02)
 * CXV1-11729 - Fix auto-hiding interactions bar logic
 

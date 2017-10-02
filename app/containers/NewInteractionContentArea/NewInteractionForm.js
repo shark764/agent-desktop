@@ -56,7 +56,12 @@ export function NewInteractionForm(props) {
       {!isValidEmail(props.input) &&
         <OutboundSmsButton
           phoneNumber={
-            isValidNumber(`+${props.input}`) ? `+${props.input}` : props.input
+            // automatically prepend '+' if it makes it a valid number
+            props.input &&
+            props.input[0] !== '+' &&
+            isValidNumber(`+${props.input}`)
+              ? `+${props.input}`
+              : props.input
           }
         />}
       {!isValidNumber(`+${props.input}`) &&
