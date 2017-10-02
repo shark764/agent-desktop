@@ -407,6 +407,9 @@ Immutable.Map {
 exports[`agentDesktopReducer REMOVE_INTERACTION interaction without a script interaction is not the selected interaction keeps the selectedInteractionId the same 1`] = `
 Immutable.Map {
   interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "other-interaction-id",
+    },
   ],
   selectedInteractionId: "other-interaction-id",
   isInteractionsBarCollapsed: false,
@@ -456,7 +459,7 @@ Immutable.Map {
     },
   ],
   selectedInteractionId: undefined,
-  isInteractionsBarCollapsed: true,
+  isInteractionsBarCollapsed: false,
 }
 `;
 

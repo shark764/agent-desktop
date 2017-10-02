@@ -625,6 +625,9 @@ describe('agentDesktopReducer', () => {
       describe('interaction is not the selected interaction', () => {
         beforeEach(() => {
           initialState.selectedInteractionId = 'other-interaction-id';
+          initialState.interactions.push({
+            interactionId: 'other-interaction-id',
+          });
         });
         it('keeps the selectedInteractionId the same', () => {
           runReducerAndExpectSnapshot();

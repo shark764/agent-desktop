@@ -1,3 +1,6 @@
+### [1.4.19] (2017-10-02)
+* CXV1-11729 - Fix auto-hiding interactions bar logic
+
 ### [1.4.18] (2017-09-29)
 * CXV1-11665 - Allow outbound SMS to perform witout manual "+" input
 * CXV1-11726 - Fallback to description for Zendesk ticket name if subject is null
