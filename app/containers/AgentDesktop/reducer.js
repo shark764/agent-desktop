@@ -406,18 +406,16 @@ const removeInteractionAndSetNextSelectedInteraction = (
     state,
     interactionId
   );
+  const filteredInteractions = state
+    .get('interactions')
+    .filterNot(
+      (interaction) => interaction.get('interactionId') === interactionId
+    );
   // Remove interaction and set next selectedInteractionId
   return state
-    .set(
-      'interactions',
-      state
-        .get('interactions')
-        .filterNot(
-          (interaction) => interaction.get('interactionId') === interactionId
-        )
-    )
+    .set('interactions', filteredInteractions)
     .set('selectedInteractionId', nextSelectedInteractionId)
-    .set('isInteractionsBarCollapsed', !nextSelectedInteractionId);
+    .set('isInteractionsBarCollapsed', filteredInteractions.size === 0);
 };
 
 function agentDesktopReducer(state = initialState, action) {
