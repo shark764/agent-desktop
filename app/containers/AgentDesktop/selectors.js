@@ -128,9 +128,8 @@ const selectIsInteractionsBarCollapsed = createSelector(
   (agentDesktop) => agentDesktop.get('isInteractionsBarCollapsed')
 );
 
-const selectCrmModule = createSelector(
-  selectAgentDesktopMap,
-  (agentDesktop) => agentDesktop.get('crmModule')
+const selectCrmModule = createSelector(selectAgentDesktopMap, (agentDesktop) =>
+  agentDesktop.get('crmModule')
 );
 
 const selectCustomFields = createSelector(
@@ -144,17 +143,13 @@ const selectCustomFieldsCollapsed = createSelector(
 );
 
 const selectExpandWindowForCrm = createSelector(
-  [
-    selectCrmModule,
-    selectIsSidePanelCollapsed,
-    getSelectedInteraction,
-  ],
+  [selectCrmModule, selectIsSidePanelCollapsed, getSelectedInteraction],
   (crmModule, panelCollapsed, interaction) =>
     crmModule === 'zendesk' &&
-    !panelCollapsed.isSidePanelCollapsed &&
-    interaction.script !== undefined
+    !panelCollapsed &&
+    interaction.script !== undefined &&
+    !interaction.isScriptOnly
 );
-
 
 export {
   selectAgentId,
