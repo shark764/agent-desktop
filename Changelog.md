@@ -1,3 +1,7 @@
+### [1.4.24] (2017-10-04)
+* CXV1-11622 - Fix resize of Zendesk toolbar modal for voice interactions with scripts
+* CXV1-10523 - Bump SDK to fix zendesk focus tab
+
 ### [1.4.23] (2017-10-04)
 * CXV1-11649 - No hover state on add participant
 
