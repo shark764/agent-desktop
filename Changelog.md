@@ -1,3 +1,6 @@
+### [1.4.21] (2017-10-03)
+* CXV1-11622 - Fix resize of Zendesk toolbar modal for scripts
+
 ### [1.4.20] (2017-10-02)
 * CXV1-11727 - Fix rendering of no dispositions
 * CXV1-11665 - Fix formatting of outbound numbers with '+' already in them
