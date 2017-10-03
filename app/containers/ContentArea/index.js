@@ -14,6 +14,8 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import { isUUID } from 'utils/validator';
+
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import Resizable from 'components/Resizable';
@@ -549,9 +551,15 @@ export class ContentArea extends React.Component {
       buttonConfig = buttonConfig.concat({
         id: 'zendeskAssign',
         type: 'secondary',
-        text: messages.assign,
+        text: isSelected
+          ? messages.assigned
+          : messages.assign,
         onClick: this.zendeskAssign,
         isSelected,
+        // isUUID only returns true once we have passed through a series
+        // of states that take us from the attempt to connect to outbound
+        // up until the interaction has has actually started and has a interactionId. 
+        disabled: !isUUID(this.props.interaction.interactionId),
       });
     }
 

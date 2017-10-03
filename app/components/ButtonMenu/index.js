@@ -121,6 +121,7 @@ class ButtonMenu extends React.Component {
                 clickCallback={subBtn.onClick}
                 hideSubMenu={this.hideSubMenu}
                 text={subBtn.text}
+                disabled={subBtn.disabled}
               />)
             )}
           </ul>
