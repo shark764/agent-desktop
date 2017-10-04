@@ -55,6 +55,15 @@ export default defineMessages({
     id: 'app.containers.Login.rememberMe',
     defaultMessage: 'Remember Me',
   },
+  toolbarHasBeenLaunched: {
+    id: 'app.containers.Login.toolbarHasBeenLaunched',
+    defaultMessage:
+      'Toolbar has been launched in a new window. You can no longer login from here.',
+  },
+  youMayClose: {
+    id: 'app.containers.Login.youMayClose',
+    defaultMessage: 'You may now close this window.',
+  },
   inbound: {
     id: 'app.containers.Login.inbound',
     defaultMessage: 'Inbound',

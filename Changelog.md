@@ -1,3 +1,6 @@
+### [1.5.0] (2017-10-04)
+* CXV1-11816 - Popup standalone toolbar link/mode
+
 ### [1.4.26] (2017-10-05)
 * NO-TICKET - Remove all selectable languages except english
 

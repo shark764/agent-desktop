@@ -143,9 +143,14 @@ const selectCustomFieldsCollapsed = createSelector(
 );
 
 const selectExpandWindowForCrm = createSelector(
-  [selectCrmModule, selectIsSidePanelCollapsed, getSelectedInteraction],
-  (crmModule, panelCollapsed, interaction) =>
-    crmModule === 'zendesk' &&
+  [
+    selectAgentDesktopMap,
+    selectCrmModule,
+    selectIsSidePanelCollapsed,
+    getSelectedInteraction,
+  ],
+  (agentDesktop, crmModule, panelCollapsed, interaction) =>
+    (crmModule === 'zendesk' || agentDesktop.get('standalonePopup')) &&
     !panelCollapsed &&
     interaction.script !== undefined &&
     interaction.channelType !== 'voice' &&
