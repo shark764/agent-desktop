@@ -65,8 +65,8 @@ exports[`<Dialpad /> when given required props should render correctly 1`] = `
       <InjectIntl(TextInput)
         autoFocus={true}
         cb={[Function]}
-        disabled={false}
         id="mockIdTextInput"
+        onKeyDown={[Function]}
         style={
           Object {
             "height": "32px",
@@ -226,8 +226,8 @@ exports[`<Dialpad /> when inCall prop set to true should render correctly 1`] = 
       <InjectIntl(TextInput)
         autoFocus={true}
         cb={[Function]}
-        disabled={true}
         id="mockIdTextInput"
+        onKeyDown={[Function]}
         style={
           Object {
             "height": "32px",
