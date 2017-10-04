@@ -1,3 +1,6 @@
+### [1.4.23] (2017-10-04)
+* CXV1-11649 - No hover state on add participant
+
 ### [1.4.22] (2017-10-03)
 * CXV1-11728 -Toolbar 2.0 Zendesk - Fix Outbound Assign Behavior
 
