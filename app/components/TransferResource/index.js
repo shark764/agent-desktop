@@ -22,21 +22,6 @@ import Timer from 'components/Timer';
 import messages from './messages';
 
 export class TransferResource extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      resourceHovered: false,
-    };
-  }
-
-  setResourceHovered = () => {
-    this.setState({ resourceHovered: true });
-  };
-
-  setResourceUnhovered = () => {
-    this.setState({ resourceHovered: false });
-  };
-
   cancelTransfer = (warmTransfer) => {
     if (warmTransfer.type === 'agent') {
       CxEngage.interactions.voice.cancelResourceTransfer({
@@ -143,7 +128,8 @@ export class TransferResource extends React.Component {
       float: 'right',
     },
     transferTimer: {
-      float: 'right',
+      display: 'block',
+      marginLeft: '23px',
       fontSize: '14px',
       fontWeight: 'normal',
       marginTop: '2px',
@@ -196,8 +182,6 @@ export class TransferResource extends React.Component {
     return (
       <div
         id={`transfer-${this.props.resource.type}-${this.props.resource.id}`}
-        onMouseEnter={this.setResourceHovered}
-        onMouseLeave={this.setResourceUnhovered}
         style={[this.styles.warmTransfer, transferStyle]}
       >
         {icon}
@@ -211,37 +195,35 @@ export class TransferResource extends React.Component {
           <span style={this.styles.transferStatus}>
             ({status})
           </span>}
-        {this.props.resource.targetResource !== undefined &&
-        this.state.resourceHovered
-          ? <span
-            id="resourceControlsMenu"
-            style={this.styles.resourceControlsMenu}
-          >
-            <CircleIconButton
-              id="hangUpResource"
-              name="end_call_resource"
-              onClick={this.hangUpResource}
-              style={this.styles.phoneControlsButton}
-            />
-            <CircleIconButton
-              id="holdResource"
-              name="hold_resource"
-              active={this.props.resource.onHold}
-              onClick={this.holdResource}
-              style={this.styles.phoneControlsButton}
-            />
-            <CircleIconButton
-              id="transferResource"
-              name="transfer_resource"
-              onClick={this.transfer}
-              style={this.styles.phoneControlsButton}
-            />
-          </span>
-          : <Timer
-            format="mm:ss"
-            style={this.styles.transferTimer}
-            timeSince={this.props.resource.addedTimestamp}
-          />}
+        <span
+          id="resourceControlsMenu"
+          style={this.styles.resourceControlsMenu}
+        >
+          <CircleIconButton
+            id="hangUpResource"
+            name="end_call_resource"
+            onClick={this.hangUpResource}
+            style={this.styles.phoneControlsButton}
+          />
+          <CircleIconButton
+            id="holdResource"
+            name="hold_resource"
+            active={this.props.resource.onHold}
+            onClick={this.holdResource}
+            style={this.styles.phoneControlsButton}
+          />
+          <CircleIconButton
+            id="transferResource"
+            name="transfer_resource"
+            onClick={this.transfer}
+            style={this.styles.phoneControlsButton}
+          />
+        </span>
+        <Timer
+          format="mm:ss"
+          style={this.styles.transferTimer}
+          timeSince={this.props.resource.addedTimestamp}
+        />
       </div>
     );
   }
