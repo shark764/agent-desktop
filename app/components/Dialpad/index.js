@@ -58,8 +58,8 @@ const styles = {
 };
 
 function Dialpad(props, context) {
-  function buttonPress(num) {
-    props.setDialpadText(`${props.dialpadText}${num}`);
+  function buttonPress(num, fromKeyboard) {
+    if (!fromKeyboard) props.setDialpadText(`${props.dialpadText}${num}`);
     if (props.interactionId !== undefined) {
       CxEngage.interactions.voice.sendDigits(
         { interactionId: props.interactionId, digit: num },
@@ -69,6 +69,58 @@ function Dialpad(props, context) {
           }
         }
       );
+    }
+  }
+  function inputKeyDown(event) {
+    if (props.inCall) {
+      const keyboardNumbers = new Map([
+        ['48', '0'],
+        ['49', '1'],
+        ['50', '2'],
+        ['51', '3'],
+        ['52', '4'],
+        ['53', '5'],
+        ['54', '6'],
+        ['55', '7'],
+        ['56', '8'],
+        ['57', '9'],
+        ['96', '0'],
+        ['97', '1'],
+        ['98', '2'],
+        ['99', '3'],
+        ['100', '4'],
+        ['101', '5'],
+        ['102', '6'],
+        ['103', '7'],
+        ['104', '8'],
+        ['105', '9'],
+      ]);
+      const allowedbuttons = new Map([
+        ['46', 'delete'],
+        ['8', 'backspace'],
+        ['36', 'left'],
+        ['37', 'up'],
+        ['38', 'right'],
+        ['39', 'down'],
+      ]);
+      if (event.keyCode === 51 && event.shiftKey) {
+        buttonPress('#', true);
+      } else if (event.keyCode === 56 && event.shiftKey) {
+        buttonPress('*', true);
+      } else if (event.keyCode === 106) {
+        buttonPress('*', true);
+      } else if (event.keyCode >= 48 && event.keyCode <= 57 && event.shiftKey) {
+        event.preventDefault();
+      } else if (
+        (event.keyCode >= 48 && event.keyCode <= 57) ||
+        (event.keyCode >= 96 && event.keyCode <= 105)
+      ) {
+        buttonPress(keyboardNumbers.get(event.keyCode.toString()), true);
+      } else if (allowedbuttons.get(event.keyCode.toString()) !== undefined) {
+        // Normal keyboard input operation , let the user move and delete chars
+      } else {
+        event.preventDefault();
+      }
     }
   }
 
@@ -107,7 +159,7 @@ function Dialpad(props, context) {
           <TextInput
             id={`${props.id}TextInput`}
             cb={props.setDialpadText}
-            disabled={props.inCall || false}
+            onKeyDown={(event) => inputKeyDown(event)}
             onEnter={props.onEnter}
             value={props.dialpadText}
             style={styles.dialpadText}
