@@ -10,6 +10,7 @@
 
 import {
   SET_CRM_MODULE,
+  SET_STANDALONE_POPUP,
   SET_ZENDESK_ACTIVE_TAB,
   SET_USER_CONFIG,
   SET_EXTENSIONS,
@@ -112,6 +113,12 @@ export function setCrmModule(crmModule) {
   return {
     type: SET_CRM_MODULE,
     crmModule,
+  };
+}
+
+export function setStandalonePopup() {
+  return {
+    type: SET_STANDALONE_POPUP,
   };
 }
 

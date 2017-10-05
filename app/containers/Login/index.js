@@ -39,9 +39,14 @@ import {
   requiredPermissions,
   crmPermissions,
 } from 'containers/App/permissions';
+import {
+  selectAgentDesktopMap,
+  selectCrmModule,
+} from 'containers/AgentDesktop/selectors';
 import selectLogin from './selectors';
 import messages from './messages';
 import {
+  setInitiatedStandalonePopup,
   loggingIn,
   errorOccurred,
   loginSuccess,
@@ -93,9 +98,9 @@ const styles = {
     display: 'grid',
     gridTemplateRows: '1fr 540px 1fr',
     gridTemplateAreas: `
-      "    .   "
-      "  main  "
-      " locale "
+      " standalonePopup "
+      "      main       "
+      "     locale      "
     `,
     backgroundColor: '#FFFFFF',
   },
@@ -492,6 +497,15 @@ export class Login extends React.Component {
     this.setState({ showLanguage: !this.state.showLanguage });
   };
 
+  openStandalonePopup = () => {
+    window.open(
+      `${window.location.href}?standalonePopup=true`,
+      'toolbar',
+      'width=400,height=800'
+    );
+    this.props.setInitiatedStandalonePopup();
+  };
+
   render() {
     let pageContent;
     if (this.props.loading) {
@@ -504,6 +518,20 @@ export class Login extends React.Component {
       pageContent = this.getLoggedInContent();
     } else if (this.state.requestingPassword) {
       pageContent = this.getForgotContent();
+    } else if (this.props.initiatedStandalonePopup) {
+      pageContent = (
+        <div style={styles.dialogContentContainer}>
+          <Logo style={styles.logo} />
+          <div style={{ textAlign: 'center' }}>
+            <div>
+              <FormattedMessage {...messages.toolbarHasBeenLaunched} />
+            </div>
+            <div>
+              <FormattedMessage {...messages.youMayClose} />
+            </div>
+          </div>
+        </div>
+      );
     } else {
       pageContent = this.getLoginContent();
     }
@@ -517,10 +545,27 @@ export class Login extends React.Component {
     if (this.context.toolbarMode) {
       return (
         <div style={styles.toolbarBase}>
+          {!this.props.crmModule &&
+            !this.props.isStandalonePopup &&
+            !this.props.initiatedStandalonePopup &&
+            <div style={{ gridArea: 'standalonePopup' }}>
+              <div style={{ float: 'right', margin: '1em 1.4em 0 0' }}>
+                <FontAwesomeIcon
+                  id={'standalonePopupIcon'}
+                  name={'window-restore'}
+                  style={{
+                    color: 'gray',
+                    cursor: 'pointer',
+                    fontSize: '1.5em',
+                  }}
+                  onclick={this.openStandalonePopup}
+                />
+              </div>
+            </div>}
           <div style={styles.content}>
             {pageContent}
           </div>
-          {this.getLanguageSelect()}
+          {!this.props.initiatedStandalonePopup && this.getLanguageSelect()}
         </div>
       );
     } else {
@@ -547,10 +592,13 @@ export class Login extends React.Component {
 const mapStateToProps = (state, props) => ({
   ...selectLogin(state, props),
   locale: selectLocale()(state),
+  crmModule: selectCrmModule(state, props),
+  isStandalonePopup: selectAgentDesktopMap(state, props).get('standalonePopup'),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
+    setInitiatedStandalonePopup: () => dispatch(setInitiatedStandalonePopup()),
     resetPassword: (email) => dispatch(resetPassword(email)),
     loggingIn: () => dispatch(loggingIn()),
     loginSuccess: (agent) => dispatch(loginSuccess(agent)),
@@ -566,6 +614,7 @@ function mapDispatchToProps(dispatch) {
 
 Login.propTypes = {
   intl: intlShape.isRequired,
+  setInitiatedStandalonePopup: PropTypes.func.isRequired,
   resetPassword: PropTypes.func.isRequired,
   loggingIn: PropTypes.func.isRequired,
   loginSuccess: PropTypes.func.isRequired,
@@ -579,6 +628,9 @@ Login.propTypes = {
   agent: PropTypes.object,
   changeLocale: PropTypes.func,
   locale: PropTypes.string,
+  crmModule: PropTypes.string,
+  isStandalonePopup: PropTypes.bool,
+  initiatedStandalonePopup: PropTypes.bool,
 };
 
 Login.contextTypes = {

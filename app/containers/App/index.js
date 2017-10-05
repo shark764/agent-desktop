@@ -106,6 +106,7 @@ import {
   selectDisposition,
   goNotReady,
   setCrmModule,
+  setStandalonePopup,
   setZendeskActiveTab,
   startOutboundInteraction,
 } from 'containers/AgentDesktop/actions';
@@ -113,7 +114,6 @@ import {
 import {
   selectAgentDesktopMap,
   selectLoginMap,
-  selectIsSidePanelCollapsed,
 } from 'containers/AgentDesktop/selectors';
 import { selectHasCrmPermissions } from './selectors';
 
@@ -254,6 +254,12 @@ export class App extends React.Component {
       } else {
         console.error(`Unsupported crm module: ${crmModule}`);
       }
+    }
+    const standalonePopup = new URL(window.location.href).searchParams.get(
+      'standalonePopup'
+    );
+    if (standalonePopup) {
+      this.props.setStandalonePopup();
     }
 
     CxEngage.initialize(sdkConf);
@@ -945,20 +951,6 @@ export class App extends React.Component {
     },
   };
 
-  getToolbarSizing = () => {
-    if (
-      this.context.toolbarMode &&
-      window.location.hash.includes('forceToolbarDimensions')
-    ) {
-      if (this.props.isSidePanelCollapsed) {
-        return this.styles.toolbarModeCollapsed;
-      } else {
-        return this.styles.toolbarModeExpanded;
-      }
-    }
-    return {};
-  };
-
   render() {
     const banners = [];
     const refreshBannerIsVisible =
@@ -1034,9 +1026,7 @@ export class App extends React.Component {
       );
     }
     return (
-      <div
-        style={[this.styles.base, this.styles.desktop, this.getToolbarSizing()]}
-      >
+      <div style={[this.styles.base, this.styles.desktop]}>
         {banners}
         {this.props.login.showLogin ||
         this.props.agentDesktop.presence === undefined ||
@@ -1060,7 +1050,6 @@ const mapStateToProps = (state, props) => ({
   activatedStatIds: selectActivatedStatIds(state, props).toJS(),
   erroredStatIds: selectErroredStatIds(state, props),
   nonCriticalError: selectNonCriticalError(state, props),
-  isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
   hasCrmPermissions: selectHasCrmPermissions(state, props),
 });
 
@@ -1168,6 +1157,7 @@ function mapDispatchToProps(dispatch) {
     removeStatErrorId: (statId) => dispatch(removeStatErrorId(statId)),
     dismissError: () => dispatch(dismissError()),
     setCrmModule: (crmModule) => dispatch(setCrmModule(crmModule)),
+    setStandalonePopup: () => dispatch(setStandalonePopup()),
     setZendeskActiveTab: (type, id) => dispatch(setZendeskActiveTab(type, id)),
     startOutboundInteraction: (
       channelType,
@@ -1261,10 +1251,10 @@ App.propTypes = {
   erroredStatIds: PropTypes.array,
   criticalError: PropTypes.any,
   nonCriticalError: PropTypes.any,
-  isSidePanelCollapsed: PropTypes.bool,
   hasCrmPermissions: PropTypes.bool,
   dismissError: PropTypes.func,
   setCrmModule: PropTypes.func.isRequired,
+  setStandalonePopup: PropTypes.func.isRequired,
   setZendeskActiveTab: PropTypes.func.isRequired,
   startOutboundInteraction: PropTypes.func.isRequired,
   startOutboundEmail: PropTypes.func.isRequired,

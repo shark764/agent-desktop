@@ -18,6 +18,7 @@ import ResponseMessage from 'models/Message/ResponseMessage';
 
 import {
   SET_CRM_MODULE,
+  SET_STANDALONE_POPUP,
   SET_ZENDESK_ACTIVE_TAB,
   SET_USER_CONFIG,
   SET_EXTENSIONS,
@@ -422,6 +423,8 @@ function agentDesktopReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CRM_MODULE:
       return state.set('crmModule', action.crmModule);
+    case SET_STANDALONE_POPUP:
+      return state.set('standalonePopup', true);
     case SET_ZENDESK_ACTIVE_TAB:
       return state.set(
         'zendeskActiveTab',

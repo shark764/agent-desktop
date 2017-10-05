@@ -10,6 +10,7 @@
 
 import { fromJS } from 'immutable';
 import {
+  SET_INITIATED_STANDALONE_POPUP,
   LOGGING_IN,
   ERROR_OCCURRED,
   LOGIN_SUCCESS,
@@ -35,6 +36,8 @@ const initialState = fromJS({
 
 function loginReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_INITIATED_STANDALONE_POPUP:
+      return state.set('initiatedStandalonePopup', true);
     case LOGGING_IN:
     case SETTING_TENANT:
       return state.set('loading', true);

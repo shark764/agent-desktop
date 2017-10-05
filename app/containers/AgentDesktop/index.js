@@ -75,12 +75,16 @@ export class AgentDesktop extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.expandWindowForCrm !== this.props.expandWindowForCrm) {
-      CxEngage.zendesk.setDimensions(
-        {
-          width: nextProps.expandWindowForCrm ? 800 : 400,
-          height: 800,
-        }
-      );
+      const width = nextProps.expandWindowForCrm ? 800 : 400;
+      const height = 800;
+      if (this.props.crmModule === 'zendesk') {
+        CxEngage.zendesk.setDimensions({
+          width,
+          height,
+        });
+      } else if (this.props.isStandalonePopup) {
+        window.resizeTo(width, height);
+      }
     }
   }
 
@@ -246,6 +250,7 @@ const mapStateToProps = (state, props) => ({
     getSelectedInteraction(state, props) &&
     getSelectedInteraction(state, props).script !== undefined,
   crmModule: selectCrmModule(state, props),
+  isStandalonePopup: selectAgentDesktopMap(state, props).get('standalonePopup'),
   showCollapseButton: selectShowCollapseButton(state, props),
   hasCrmPermissions: selectHasCrmPermissions(state, props),
   selectedInteractionIsScriptOnly: getSelectedInteractionIsScriptOnly(
@@ -274,6 +279,7 @@ AgentDesktop.propTypes = {
   isInteractionsBarCollapsed: PropTypes.bool.isRequired,
   selectedInteractionHasScripts: PropTypes.bool,
   crmModule: PropTypes.string,
+  isStandalonePopup: PropTypes.bool,
   showCollapseButton: PropTypes.bool.isRequired,
   hasCrmPermissions: PropTypes.bool.isRequired,
   selectedInteractionIsScriptOnly: PropTypes.bool.isRequired,

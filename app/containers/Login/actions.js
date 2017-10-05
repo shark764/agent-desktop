@@ -9,6 +9,7 @@
  */
 
 import {
+  SET_INITIATED_STANDALONE_POPUP,
   LOGGING_IN,
   ERROR_OCCURRED,
   LOGIN_SUCCESS,
@@ -18,6 +19,12 @@ import {
   SET_TENANT,
   LOGOUT,
 } from './constants';
+
+export function setInitiatedStandalonePopup() {
+  return {
+    type: SET_INITIATED_STANDALONE_POPUP,
+  };
+}
 
 export function loggingIn() {
   return {
