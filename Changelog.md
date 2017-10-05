@@ -1,3 +1,6 @@
+### [1.5.2] (2017-10-05)
+* CXV1-11788 - Fix assigned button status on transfers
+
 ### [1.5.1] (2017-10-05)
 * CXV1-11827 - Move script into main content area and remove notes for voice interactions in toolbar standlaone (like zendesk)
 

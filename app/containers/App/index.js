@@ -781,12 +781,12 @@ export class App extends React.Component {
               response.user !== undefined
                 ? {
                   type: 'user',
-                  id: response.externalCrmContact,
+                  id: response.user.id,
                   attributes: { name: response.user.name },
                 }
                 : {
                   type: 'ticket',
-                  id: response.externalCrmRelatedTo,
+                  id: response.ticket.id,
                   attributes: {
                     name:
                         response.ticket.subject !== null
