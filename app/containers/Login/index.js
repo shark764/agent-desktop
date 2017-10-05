@@ -31,7 +31,7 @@ import PopupDialog from 'components/PopupDialog';
 import mitelFavicon from 'assets/favicons/mitel.png';
 // import Radio from 'components/Radio';
 
-import { mappedLocales } from 'i18n';
+// import { mappedLocales } from 'i18n';
 import { changeLocale } from 'containers/LanguageProvider/actions';
 import { selectLocale } from 'containers/LanguageProvider/selectors';
 import { setNonCriticalError, dismissError } from 'containers/Errors/actions';
@@ -434,7 +434,7 @@ export class Login extends React.Component {
           id={'locale'}
           style={styles.languageSelect}
           value={this.props.locale}
-          options={mappedLocales}
+          options={[{ value: 'en-US', label: 'English (US)' }]} // mappedLocales
           onChange={(e) => {
             this.props.changeLocale(e.value);
             this.setLocalLocale(e.value);

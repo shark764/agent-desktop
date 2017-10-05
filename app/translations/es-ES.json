@@ -91,6 +91,7 @@
   "app.containers.ContactsSearchBar.result": "1 resultado",
   "app.containers.ContactsSearchBar.results": "{count} resultados",
   "app.containers.ContentArea.assign": "",
+  "app.containers.ContentArea.assigned": "",
   "app.containers.ContentArea.disposition": "Disposición",
   "app.containers.ContentArea.noRecordLinked": "",
   "app.containers.ContentArea.notes": "Notas",
