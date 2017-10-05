@@ -476,6 +476,8 @@ export class Login extends React.Component {
     if (activeTenants.length === 1) {
       this.setTenantId(activeTenants[0].tenantId, activeTenants[0].tenantName);
       this.onTenantSelect();
+    } else if (activeTenants.length === 0) {
+      this.props.setNonCriticalError({ code: 'AD-1005' });
     }
     if (this.state.remember) {
       storage.setItem('name', `${agent['first-name']}, ${agent['last-name']}`);

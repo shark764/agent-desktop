@@ -1,3 +1,6 @@
+### [1.5.3] (2017-10-05)
+* CXV1-11521 - Agent gets error if they try to log into disabled default tenant
+
 ### [1.5.2] (2017-10-05)
 * CXV1-11788 - Fix assigned button status on transfers
 
