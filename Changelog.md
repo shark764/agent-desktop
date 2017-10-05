@@ -1,4 +1,7 @@
-### [1.5.0] (2017-10-04)
+### [1.5.1] (2017-10-05)
+* CXV1-11827 - Move script into main content area and remove notes for voice interactions in toolbar standlaone (like zendesk)
+
+### [1.5.0] (2017-10-05)
 * CXV1-11816 - Popup standalone toolbar link/mode
 
 ### [1.4.26] (2017-10-05)

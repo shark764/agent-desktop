@@ -28,6 +28,7 @@ import {
 import {
   getSelectedInteractionScript,
   getSelectedInteractionIsScriptOnly,
+  getSelectedInteractionIsVoice,
 } from 'containers/SidePanel/selectors';
 
 const styles = {
@@ -65,7 +66,8 @@ export class SidePanelToolbarBtn extends React.Component {
       this.context.toolbarMode &&
       this.props.isSidePanelCollapsed &&
       this.props.selectedInteractionScript !== undefined &&
-      !this.props.selectedInteractionIsScriptOnly
+      !this.props.selectedInteractionIsScriptOnly &&
+      !this.props.selectedInteractionIsVoice
     ) {
       return (
         <div
@@ -90,6 +92,7 @@ function mapStateToProps(state, props) {
       state,
       props
     ),
+    selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
     selectedInteractionId: getSelectedInteractionId(state, props),
   };
 }
@@ -107,6 +110,7 @@ SidePanelToolbarBtn.propTypes = {
   isSidePanelCollapsed: PropTypes.bool,
   selectedInteractionScript: PropTypes.object,
   selectedInteractionIsScriptOnly: PropTypes.bool,
+  selectedInteractionIsVoice: PropTypes.bool,
   selectedInteractionId: PropTypes.string,
   showSidePanel: PropTypes.func,
   selectSidePanelTab: PropTypes.func,
