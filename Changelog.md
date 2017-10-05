@@ -1,3 +1,6 @@
+### [1.4.26] (2017-10-05)
+* NO-TICKET - Remove all selectable languages except english
+
 ### [1.4.25] (2017-10-04)
 * CXV1-11579 - While on call you can now use keyboard to send dtmf tones
 
