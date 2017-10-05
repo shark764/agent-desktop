@@ -30,7 +30,6 @@ import {
   selectSidePanelPx,
   selectIsInteractionsBarCollapsed,
   getSelectedInteraction,
-  selectCrmModule,
 } from 'containers/AgentDesktop/selectors';
 import { updateWrapupDetails } from 'containers/AgentDesktop/actions';
 
@@ -159,10 +158,7 @@ export class ContentAreaTop extends React.Component {
       (this.props.hasCrmPermissions && !this.context.toolbarMode) ||
       (this.props.selectedInteractionHasScripts &&
         !this.props.selectedInteractionIsScriptOnly &&
-        !this.props.selectedInteractionIsVoice) ||
-      (this.context.toolbarMode &&
-        this.props.selectedInteractionIsVoice &&
-        this.props.crmModule !== 'zendesk')
+        !this.props.selectedInteractionIsVoice)
     ) {
       sidePanelHasTabs = true;
     }
@@ -239,7 +235,6 @@ ContentAreaTop.propTypes = {
     .isRequired,
   hasCrmPermissions: PropTypes.bool,
   selectedInteractionIsScriptOnly: PropTypes.bool,
-  crmModule: PropTypes.string,
   selectedInteractionIsVoice: PropTypes.bool,
   isSidePanelCollapsed: PropTypes.bool.isRequired,
   sidePanelPx: PropTypes.number.isRequired,
@@ -258,7 +253,6 @@ const mapStateToProps = (state, props) => ({
     state,
     props
   ),
-  crmModule: selectCrmModule(state, props),
   selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
   isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
   sidePanelPx: selectSidePanelPx(state, props),

@@ -551,20 +551,18 @@ export class ContentArea extends React.Component {
       buttonConfig = buttonConfig.concat({
         id: 'zendeskAssign',
         type: 'secondary',
-        text: isSelected
-          ? messages.assigned
-          : messages.assign,
+        text: isSelected ? messages.assigned : messages.assign,
         onClick: this.zendeskAssign,
         isSelected,
         // isUUID only returns true once we have passed through a series
         // of states that take us from the attempt to connect to outbound
-        // up until the interaction has has actually started and has a interactionId. 
+        // up until the interaction has has actually started and has a interactionId.
         disabled: !isUUID(this.props.interaction.interactionId),
       });
     }
 
     let notesDisabled = false;
-    if (this.context.toolbarMode && this.props.crmModule === 'zendesk') {
+    if (this.context.toolbarMode) {
       notesDisabled = true;
     }
 

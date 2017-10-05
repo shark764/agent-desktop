@@ -21,10 +21,7 @@ import CustomFields from 'containers/CustomFields';
 import AgentScript from 'containers/AgentScript';
 import ContentArea from 'containers/ContentArea';
 
-import {
-  selectAwaitingDisposition,
-  selectCrmModule,
-} from 'containers/AgentDesktop/selectors';
+import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
 
@@ -65,10 +62,7 @@ export class VoiceContentArea extends React.Component {
     ];
 
     let content;
-    if (
-      this.props.selectedInteraction.script !== undefined &&
-      (!this.context.toolbarMode || this.props.crmModule === 'zendesk')
-    ) {
+    if (this.props.selectedInteraction.script !== undefined) {
       content = (
         <div style={this.styles.content}>
           <AgentScript
@@ -98,14 +92,12 @@ function mapDispatchToProps(dispatch) {
 
 const mapStateToProps = (state, props) => ({
   awaitingDisposition: selectAwaitingDisposition(state, props),
-  crmModule: selectCrmModule(state, props),
 });
 
 VoiceContentArea.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,
   endInteraction: PropTypes.func.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
-  crmModule: PropTypes.string,
 };
 
 VoiceContentArea.contextTypes = {
