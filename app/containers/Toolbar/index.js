@@ -26,6 +26,8 @@ import { selectQueuesSet } from 'containers/AgentDesktop/selectors';
 
 import { selectSelectedPresenceReason } from 'containers/AgentStatusMenu/selectors';
 
+import { selectHasInteractions } from 'containers/InteractionsBar/selectors';
+
 import { toggleAgentMenu } from './actions';
 import selectToolbar, {
   selectQueues,
@@ -186,6 +188,16 @@ export class Toolbar extends React.Component {
     this.setState({ showConfigMenu: show });
   };
 
+  resetAgentTimer = () => {
+    if (this.props.selectedPresenceReason.reason) {
+      return `Presence Timer - ${this.props.selectedPresenceReason.reason}`;
+    } else if (this.props.hasInteractions) {
+      return 'Work Allocated Timer';
+    } else {
+      return 'Idle Timer';
+    }
+  };
+
   notReadyText = () => {
     if (
       this.props.selectedPresenceReason.reason &&
@@ -295,10 +307,7 @@ export class Toolbar extends React.Component {
                   >
                     <Timer
                       id="agent-timer-count"
-                      key={
-                        this.props.selectedPresenceReason.reason ||
-                        this.props.readyState
-                      }
+                      key={this.resetAgentTimer()}
                     />
                   </span>
                 </div>
@@ -349,6 +358,7 @@ function mapStateToProps(state, props) {
     queues: selectQueues(state, props),
     currentAgent: selectCurrentAgent(state, props),
     selectedPresenceReason: selectSelectedPresenceReason(state, props),
+    hasInteractions: selectHasInteractions(state, props),
     readyState: selectReadyState(state, props),
     queuesSet: selectQueuesSet(state, props),
     ...selectToolbar()(state, props),
@@ -371,6 +381,7 @@ Toolbar.propTypes = {
   showAgentStatusMenu: PropTypes.bool,
   toggleAgentMenu: PropTypes.func,
   selectedPresenceReason: PropTypes.object,
+  hasInteractions: PropTypes.bool,
   queuesSet: PropTypes.bool,
 };
 
