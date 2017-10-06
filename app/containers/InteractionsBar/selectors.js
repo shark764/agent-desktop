@@ -87,6 +87,7 @@ const selectPendingInteractions = createSelector(
         (interaction.autoAnswer === false || interaction.autoAnswer === null) &&
         (interaction.channelType === 'voice' ||
           interaction.channelType === 'email' ||
+          interaction.channelType === 'work-item' ||
           interaction.messageHistory !== undefined)
     )
 );

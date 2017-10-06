@@ -84,12 +84,6 @@ export class VoiceContentArea extends React.Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
 const mapStateToProps = (state, props) => ({
   awaitingDisposition: selectAwaitingDisposition(state, props),
 });
@@ -100,10 +94,6 @@ VoiceContentArea.propTypes = {
   awaitingDisposition: PropTypes.bool.isRequired,
 };
 
-VoiceContentArea.contextTypes = {
-  toolbarMode: PropTypes.bool,
-};
-
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(VoiceContentArea))
+  connect(mapStateToProps)(Radium(VoiceContentArea))
 );

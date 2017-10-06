@@ -441,17 +441,8 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/work-offer-received': {
-            if (response.channelType === 'work-item') {
-              // Auto reject work-items
-              CxEngage.interactions.sendCustomInterrupt({
-                interruptType: 'resource-disconnect',
-                interactionId: response.interactionId,
-                interruptBody: { resourceId: this.props.login.agent.userId },
-              });
-            } else {
-              this.props.toggleAgentMenu(false);
-              this.props.addInteraction(response);
-            }
+            this.props.toggleAgentMenu(false);
+            this.props.addInteraction(response);
             break;
           }
           case 'cxengage/interactions/work-accepted-received': {
@@ -535,6 +526,14 @@ export class App extends React.Component {
             // Ignore screen pop v1
             if (response.version !== 'v2') {
               console.log('Ignoring non v2 screen-pop');
+              break;
+            }
+            const interaction = this.props.agentDesktop.interactions.find(
+              (availableInteraction) =>
+                availableInteraction.interactionId === response.interactionId
+            );
+            if (interaction && interaction.channelType === 'work-item') {
+              console.log('Ignoring screen-pop for work-items');
               break;
             }
             if (response.popType === 'external-url') {

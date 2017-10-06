@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<WorkItemContentArea /> should render correctly 1`] = `
+<Connect(ErrorBoundaryComponent)
+  buttonConfig={
+    Array [
+      Object {
+        "disabled": false,
+        "id": "end-button",
+        "onClick": [Function],
+        "text": Object {
+          "defaultMessage": "End",
+          "id": "app.containers.WorkItemContentArea.end",
+        },
+        "type": "primaryRed",
+      },
+    ]
+  }
+  content={
+    <div
+      style={
+        Object {
+          "height": "100%",
+          "overflowY": "auto",
+          "padding": "17px",
+          "position": "absolute",
+          "width": "100%",
+        }
+      }
+    >
+      <Connect(ErrorBoundaryComponent)
+        interactionId="mock-interaction-1"
+        script={
+          Object {
+            "something": "something",
+          }
+        }
+      />
+    </div>
+  }
+  details={<Connect(ErrorBoundaryComponent) />}
+  from="Contact name - Test subject"
+  interaction={
+    Object {
+      "channelType": "work-item",
+      "contact": Object {
+        "attributes": Object {
+          "name": "Contact name",
+        },
+      },
+      "customFields": Array [
+        Object {
+          "label": "label",
+          "value": "value",
+        },
+      ],
+      "interactionId": "mock-interaction-1",
+      "script": Object {
+        "something": "something",
+      },
+      "status": "work-accepted",
+      "subject": "Test subject",
+    }
+  }
+/>
+`;

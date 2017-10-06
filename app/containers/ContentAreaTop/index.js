@@ -183,7 +183,7 @@ export class ContentAreaTop extends React.Component {
           },
         ]}
       >
-        <div style={this.styles.from}>
+        <div style={this.styles.from} title={this.props.from}>
           {this.props.from}
         </div>
         <div style={this.styles.rightHeaderContainer}>

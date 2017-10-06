@@ -1,3 +1,6 @@
+### [1.6.0] (2017-10-06)
+* CXV1-11840 - Work items
+
 ### [1.5.4] (2017-10-06)
 * CXV1-11784 - Reset agent timer when idle and keep it going while on interactions
 

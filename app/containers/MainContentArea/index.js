@@ -20,6 +20,7 @@ import NewInteractionContentArea from 'containers/NewInteractionContentArea';
 import MessagingContentArea from 'containers/MessagingContentArea';
 import EmailContentArea from 'containers/EmailContentArea';
 import VoiceContentArea from 'containers/VoiceContentArea';
+import WorkItemContentArea from 'containers/WorkItemContentArea';
 import WelcomeStats from 'containers/WelcomeStats';
 
 import { removeInteraction } from 'containers/AgentDesktop/actions';
@@ -122,8 +123,15 @@ class MainContentArea extends React.Component {
             endInteraction={this.endInteraction}
           />
         );
+      } else if (selectedInteraction.channelType === 'work-item') {
+        content = (
+          <WorkItemContentArea
+            selectedInteraction={selectedInteraction}
+            endInteraction={this.endInteraction}
+          />
+        );
       } else if (selectedInteraction.interactionId) {
-        throw new Error(
+        console.error(
           `Unknown selected channelType: ${selectedInteraction.channelType}`
         );
       }

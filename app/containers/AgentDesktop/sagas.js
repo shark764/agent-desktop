@@ -222,6 +222,12 @@ export function* goDeleteContacts() {
 
 export function* goAssignContact(action) {
   const interaction = yield call(getInteraction, action.interactionId);
+  if (!interaction) {
+    console.warn(
+      `Interaction not found: ${action.interactionId} . Aborting goAssignContact`
+    );
+    return;
+  }
   yield put(setContactSaveLoading(interaction.interactionId, true));
   if (interaction.interactionId === undefined) {
     yield put(selectContact(action.contact));
