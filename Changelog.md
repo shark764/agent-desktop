@@ -1,3 +1,6 @@
+### [1.5.4] (2017-10-06)
+* CXV1-11784 - Reset agent timer when idle and keep it going while on interactions
+
 ### [1.5.3] (2017-10-05)
 * CXV1-11521 - Agent gets error if they try to log into disabled default tenant
 

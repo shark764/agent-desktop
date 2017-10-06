@@ -45,6 +45,11 @@ const selectActiveVoiceInteraction = createSelector(
     )
 );
 
+const selectHasInteractions = createSelector(
+  selectInteractions,
+  (interactions) => interactions.length > 0
+);
+
 const selectPendingActiveVoiceInteraction = createSelector(
   selectInteractions,
   (interactions) =>
@@ -96,6 +101,7 @@ export {
   getSelectedInteractionId,
   selectActiveNonVoiceInteractions,
   selectActiveVoiceInteraction,
+  selectHasInteractions,
   selectPendingActiveVoiceInteraction,
   selectPendingActiveSmsInteraction,
   selectNewInteractionPanel,
