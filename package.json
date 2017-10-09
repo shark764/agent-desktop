@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.6.7",
+  "version": "1.6.8",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -45,7 +45,8 @@
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=test jest --coverage",
     "test:file": "cross-env NODE_ENV=test jest",
-    "test:watch": "cross-env NODE_ENV=test jest --watchAll"
+    "test:watch": "cross-env NODE_ENV=test jest --watchAll",
+    "zendesk": "bash tasks/zendesk.sh"
   },
   "lint-staged": {
     "*.js": [

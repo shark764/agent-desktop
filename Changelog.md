@@ -1,3 +1,6 @@
+### [1.6.8] (2017-10-13)
+* CXV1-11859 - Create Bash Script to Automate Zendesk Dev Environment Setup
+
 ### [1.6.7] (2017-10-13)
 * Un-hide languages; update translations; enable sentry for dev, qe, staging;
 
