@@ -150,7 +150,7 @@ const styles = {
   },
   hoverElement: {
     position: 'absolute',
-    left: '77px',
+    left: '68px', // TODO: Improve hover action of element so that delete button can easily be accessed on hover
     top: 0,
   },
   hoverTriangle: {
@@ -369,7 +369,7 @@ export class Interaction extends React.Component {
   };
 
   getPreviewText = () =>
-    (<Dotdotdot
+    <Dotdotdot
       clamp={2}
       className="previewText"
       style={styles.previewText}
@@ -378,7 +378,7 @@ export class Interaction extends React.Component {
       <p style={{ margin: 0 }} title={this.props.previewText}>
         {this.props.previewText}
       </p>
-    </Dotdotdot>);
+    </Dotdotdot>;
 
   getLabel = () => {
     if (this.props.status === 'creating-new-interaction') {
@@ -433,6 +433,7 @@ export class Interaction extends React.Component {
           pendingPSTN && styles.pendingPstn,
           this.props.interaction.isCancellingInteraction &&
             styles.cancelInteractionInProgress,
+          { marginRight: '50px' },
         ]}
         key={this.props.interaction.interactionId}
         onClick={this.props.onClick}
@@ -530,6 +531,19 @@ export class Interaction extends React.Component {
                   {this.props.from}
                 </p>}
               {this.getDetails()}
+              {this.context.toolbarMode &&
+                this.props.interaction.direction === 'outbound' &&
+                this.props.interaction.channelType === 'voice' &&
+                <Button
+                  id="cancelInteractionBeforeActive"
+                  type="primaryRed"
+                  text={messages.cancelInteraction}
+                  style={Object.assign({}, styles.cancelInteractionBtn, {
+                    position: 'relative',
+                    marginLeft: '50%',
+                  })}
+                  onClick={this.cancelInteraction}
+                />}
             </div>
           </div>}
       </div>
@@ -561,7 +575,7 @@ Interaction.propTypes = {
     timeout: PropTypes.number,
     channelType: PropTypes.string,
     isCancellingInteraction: PropTypes.bool,
-    interactionDirection: PropTypes.string,
+    direction: PropTypes.string,
     contact: PropTypes.object,
     timeAccepted: PropTypes.number,
     wrapupStarted: PropTypes.number,

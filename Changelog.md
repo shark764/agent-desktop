@@ -1,3 +1,6 @@
+### [1.6.3] (2017-10-10)
+* Add Fix CXV1-11849 to TB2 - Fix bug w/cancel button not appearing for outbound interactions
+
 ### [1.6.2] (2017-10-10)
 * CXV1-11849 - Fix bug w/cancel button not appearing for outbound interactions
 
