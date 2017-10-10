@@ -31,6 +31,8 @@ import emailDark from 'assets/icons/email_dark.png';
 import voice from 'assets/icons/voice.png';
 import voiceWhite from 'assets/icons/inactive_voice_white.png';
 import voiceDark from 'assets/icons/voice_dark.png';
+import workItem from 'assets/icons/work_item.png';
+import workItemNew from 'assets/icons/work_item_new.png';
 import connected from 'assets/icons/connected.png';
 import notConnected from 'assets/icons/not_connected.png';
 import endCallSprite from 'assets/icons/end_call_sprite.png';
@@ -79,6 +81,8 @@ export const availableIcons = [
   'voice',
   'voice_white',
   'voice_dark',
+  'work_item',
+  'work_item_new',
 ];
 
 export const availableIconsWithActive = [
@@ -185,6 +189,16 @@ const styles = {
     data: { src: voiceWhite },
     height: '20px',
     width: '16px',
+  },
+  work_item: {
+    data: { src: workItem },
+    height: '20px',
+    width: '20px',
+  },
+  work_item_new: {
+    data: { src: workItemNew },
+    height: '20px',
+    width: '20px',
   },
   connected: {
     data: { src: connected },

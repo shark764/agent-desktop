@@ -339,6 +339,13 @@ export class InteractionsBar extends React.Component {
             ? activeInteraction.emailDetails.subject
             : '';
           icon = 'email';
+        } else if (activeInteraction.channelType === 'work-item') {
+          from = activeInteraction.subject;
+          icon = 'work_item';
+        } else {
+          throw new Error(
+            `Invalid channelType: ${activeInteraction.channelType}`
+          );
         }
 
         if (
@@ -456,6 +463,13 @@ export class InteractionsBar extends React.Component {
         } else if (pendingInteraction.channelType === 'voice') {
           from = pendingInteraction.number;
           icon = this.context.toolbarMode ? 'voice_white' : 'voice';
+        } else if (pendingInteraction.channelType === 'work-item') {
+          from = pendingInteraction.subject;
+          icon = this.context.toolbarMode ? 'work_item' : 'work_item_new';
+        } else {
+          throw new Error(
+            `Invalid channelType: ${pendingInteraction.channelType}`
+          );
         }
         // Set from to the contact name if available
         if (

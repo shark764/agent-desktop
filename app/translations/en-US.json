@@ -230,5 +230,7 @@
   "app.containers.WelcomeStats.performance": "PERFORMANCE",
   "app.containers.WelcomeStats.resourceHandleTime": "Average Handle Time",
   "app.containers.WelcomeStats.welcome": "Welcome,",
-  "app.containers.WelcomeStats.workAcceptedCount": "Daily Interactions"
+  "app.containers.WelcomeStats.workAcceptedCount": "Daily Interactions",
+  "app.containers.WorkItemContentArea.end": "End",
+  "app.containers.WorkItemContentArea.endWrapup": "End Wrap Up"
 }
