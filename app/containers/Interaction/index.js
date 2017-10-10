@@ -502,7 +502,7 @@ export class Interaction extends React.Component {
             {this.props.status === 'pending' &&
               <div style={styles.intentText}>
                 <FormattedMessage {...acceptMessage} />
-                {this.props.interaction.interactionDirection === 'outbound' &&
+                {this.props.interaction.direction === 'outbound' &&
                   this.props.interaction.channelType === 'voice' &&
                   <Button
                     id="cancelInteractionBeforeActive"
