@@ -1,3 +1,6 @@
+### [1.6.1] (2017-10-10)
+* CXV1-11840 - Fix work items icon in contact interaction history
+
 ### [1.6.0] (2017-10-06)
 * CXV1-11840 - Work items
 

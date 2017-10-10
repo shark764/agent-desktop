@@ -400,6 +400,12 @@ export class ContactInteractionHistory extends React.Component {
         icon = 'message_dark';
       } else if (interaction.interactionDetails.channelType === 'email') {
         icon = 'email_dark';
+      } else if (interaction.interactionDetails.channelType === 'work-item') {
+        icon = 'work_item_dark';
+      } else {
+        throw new Error(
+          `Invalid channelType: ${interaction.interactionDetails.channelType}`
+        );
       }
       const segmentData =
         interaction.interactionDetails.agents &&
