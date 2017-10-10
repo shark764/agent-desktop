@@ -1,3 +1,6 @@
+### [1.6.2] (2017-10-10)
+* CXV1-11849 - Fix bug w/cancel button not appearing for outbound interactions
+
 ### [1.6.1] (2017-10-10)
 * CXV1-11840 - Fix work items icon in contact interaction history
 
