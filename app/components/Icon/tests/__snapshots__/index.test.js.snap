@@ -766,6 +766,22 @@ exports[`<Icon /> with name work_item should render correctly 1`] = `
 />
 `;
 
+exports[`<Icon /> with name work_item_dark should render correctly 1`] = `
+<img
+  alt="work_item_dark"
+  data-radium={true}
+  id="mockId"
+  src="test-file-stub"
+  style={
+    Object {
+      "cursor": "pointer",
+      "height": "20px",
+      "width": "20px",
+    }
+  }
+/>
+`;
+
 exports[`<Icon /> with name work_item_new should render correctly 1`] = `
 <img
   alt="work_item_new"
