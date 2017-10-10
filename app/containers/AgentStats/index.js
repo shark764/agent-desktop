@@ -155,6 +155,15 @@ export class AgentStats extends React.Component {
         this.statsScrollContainer.scrollLeft +
           this.statsScrollContainer.clientWidth +
           1;
+    // If the stat is the last one (right-most) or is on the right edge of the scroll container, move stat details to the left
+    const detailsPosition =
+      this.props.toolbarStats.length - 1 === index ||
+      (this.statsScrollContainer &&
+        (index + 1) * 104 >=
+          this.statsScrollContainer.scrollLeft +
+            this.statsScrollContainer.clientWidth)
+        ? 'left'
+        : 'right';
 
     return (
       <Stat
@@ -165,7 +174,9 @@ export class AgentStats extends React.Component {
         queues={this.props.queues}
         removeStat={this.removeStat}
         readyState={this.props.readyState}
-        canShowDetails={leftOfStatIsVisible && rightOfStatIsVisible}
+        detailsPosition={
+          leftOfStatIsVisible && rightOfStatIsVisible && detailsPosition
+        }
       />
     );
   };

@@ -32,6 +32,9 @@ exports[`<Interaction /> should render correctly 1`] = `
       undefined,
       false,
       undefined,
+      Object {
+        "marginRight": "50px",
+      },
     ]
   }
 >

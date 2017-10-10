@@ -1,3 +1,6 @@
+### [1.6.4] (2017-10-11)
+* CXV1-11588 - Make stat details bigger, position appropriately
+
 ### [1.6.3] (2017-10-10)
 * Add Fix CXV1-11849 to TB2 - Fix bug w/cancel button not appearing for outbound interactions
 

@@ -369,7 +369,7 @@ export class Interaction extends React.Component {
   };
 
   getPreviewText = () =>
-    <Dotdotdot
+    (<Dotdotdot
       clamp={2}
       className="previewText"
       style={styles.previewText}
@@ -378,7 +378,7 @@ export class Interaction extends React.Component {
       <p style={{ margin: 0 }} title={this.props.previewText}>
         {this.props.previewText}
       </p>
-    </Dotdotdot>;
+    </Dotdotdot>);
 
   getLabel = () => {
     if (this.props.status === 'creating-new-interaction') {

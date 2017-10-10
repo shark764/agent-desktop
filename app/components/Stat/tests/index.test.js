@@ -21,7 +21,7 @@ describe('<Stat />', () => {
       removeStat={() => {}}
       readyState="mockReadyState"
       queues={[]}
-      canShowDetails
+      detailsPosition="right"
     />
   );
   it('should render correctly', () => {
