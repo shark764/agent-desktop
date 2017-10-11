@@ -1,3 +1,6 @@
+### [1.6.5] (2017-10-11)
+* CXV1-11860 - Look for desktop in url to decide if tb2
+
 ### [1.6.4] (2017-10-11)
 * CXV1-11588 - Make stat details bigger, position appropriately
 
