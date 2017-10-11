@@ -80,7 +80,7 @@ const styles = {
     zIndex: '2',
     bottom: '-9px',
     left: '3px',
-    width: '98px',
+    width: '130px',
     borderRadius: '8px',
     padding: '10px 13px',
     backgroundColor: '#FFFFFF',
@@ -170,16 +170,21 @@ export class Stat extends React.Component {
         className="stat-box"
         style={[
           styles.statBox,
-          this.props.canShowDetails && this.state.hover && styles.statBoxHover,
+          this.props.detailsPosition && this.state.hover && styles.statBoxHover,
         ]}
         onMouseEnter={this.handleMouseOver}
         onMouseOver={this.handleMouseOver}
         onFocus={this.handleMouseOver}
         onMouseLeave={this.handleMouseLeave}
       >
-        {this.props.canShowDetails &&
+        {this.props.detailsPosition &&
           this.state.hover &&
-          <div style={styles.hoverElement}>
+          <div
+            style={[
+              styles.hoverElement,
+              this.props.detailsPosition === 'left' && { left: '-32px' },
+            ]}
+          >
             <div style={styles.hoverBox}>
               <div style={styles.hoverHeader}>
                 <FormattedMessage {...messages.source} />:
@@ -200,9 +205,14 @@ export class Stat extends React.Component {
                 {aggregate}
               </div>
             </div>
-            <div style={styles.hoverBoxTriangle} />
+            <div
+              style={[
+                styles.hoverBoxTriangle,
+                this.props.detailsPosition === 'left' && { left: '76px' },
+              ]}
+            />
           </div>}
-        {this.props.canShowDetails &&
+        {this.props.detailsPosition &&
           this.state.hover &&
           <span
             key={this.props.index}
@@ -248,7 +258,7 @@ Stat.propTypes = {
   removeStat: PropTypes.func.isRequired,
   readyState: PropTypes.string.isRequired,
   queues: PropTypes.array.isRequired,
-  canShowDetails: PropTypes.bool,
+  detailsPosition: PropTypes.oneOf([false, 'left', 'right']),
 };
 
 export default Radium(Stat);

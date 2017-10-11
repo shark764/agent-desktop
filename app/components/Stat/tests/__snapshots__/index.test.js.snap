@@ -116,7 +116,7 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
           "overflowWrap": "break-word",
           "padding": "10px 13px",
           "position": "relative",
-          "width": "98px",
+          "width": "130px",
           "wordWrap": "break-word",
           "zIndex": "2",
         }
