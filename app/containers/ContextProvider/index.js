@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 export class ContextProvider extends React.Component {
   getChildContext() {
     return {
-      toolbarMode: window.location.href.indexOf('tb2') !== -1,
+      toolbarMode: window.location.href.indexOf('desktop') === -1,
     };
   }
 
