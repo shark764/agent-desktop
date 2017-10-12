@@ -1,3 +1,6 @@
+### [1.6.6] (2017-10-12)
+* CXV1-11588 - Fixed bug with single stat getting cut off
+
 ### [1.6.5] (2017-10-11)
 * CXV1-11860 - Look for desktop in url to decide if tb2
 
