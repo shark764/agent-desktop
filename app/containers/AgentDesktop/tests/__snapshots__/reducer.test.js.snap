@@ -975,6 +975,9 @@ Immutable.Map {
   ],
   activeExtension: Immutable.Map {
   },
+  agentDirection: Immutable.Map {
+    direction: "inbound",
+  },
   refreshRequired: false,
   presenceReason: Immutable.Map {
   },

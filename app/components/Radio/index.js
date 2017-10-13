@@ -25,7 +25,10 @@ function Radio(props) {
       fontStyle: 'normal',
       fontStretch: 'normal',
       color: '#494949',
-      marginLeft: '0.5em',
+      verticalAlign: 'middle',
+    },
+    radio: {
+      marginTop: '-1px',
       verticalAlign: 'middle',
     },
   };
@@ -36,7 +39,7 @@ function Radio(props) {
         (<span
           id={`agent-select-dir-1-${option.id}-container`}
           key={`agent-select-dir-1-${option.id}-container`}
-          style={{ marginLeft: '24px' }}
+          style={{ margin: '0px 12px 0px 12px' }}
         >
           <input
             id={`agent-select-dir-1-${option.id}-input`}
@@ -44,6 +47,7 @@ function Radio(props) {
             type="radio"
             checked={props.value === formatMessage(option)}
             onChange={() => props.cb(formatMessage(option))}
+            style={styles.radio}
           />
           <span
             id={`agent-select-dir-1-${option.id}-label`}

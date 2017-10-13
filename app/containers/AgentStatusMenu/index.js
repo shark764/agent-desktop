@@ -35,6 +35,7 @@ import {
   selectSelectedPresenceReason,
   selectPresenceReasonLists,
   selectHasActiveWrapup,
+  selectAgentDirection,
 } from './selectors';
 
 const styles = {
@@ -282,13 +283,57 @@ export class AgentStatusMenu extends React.Component {
             titleText={messages.tenant}
             mainText={this.props.tenant.name}
           />
-          <LargeMenuRow
-            id="agentMenuMode"
-            titleText={messages.mode}
-            mainText={messages.inbound}
-          />
           <Collapsible
-            id="agentMenuPathway"
+            className="agentDirectionMenu"
+            triggerHeader="Mode"
+            trigger={this.props.agentDirection.direction}
+            triggerDisabled={this.props.readyState === 'ready'}
+            open={this.state.expandedMenu === 'agentDirection'}
+            handleTriggerClick={() =>
+              this.setCollapsibleMenus('agentDirection')}
+          >
+            <div
+              id="agentDirectionInbound"
+              key={`Inbound`}
+              style={styles.subMenuRows}
+              disabled={this.props.agentDirection.direction === 'inbound'}
+              onClick={() => {
+                CxEngage.session.setDirection({ direction: 'inbound' });
+                this.setCollapsibleMenus();
+              }}
+            >
+              Inbound
+              {this.props.agentDirection.direction === 'inbound'
+                ? <Icon
+                  name="checkStatus"
+                  alt="selected"
+                  style={{ float: 'right' }}
+                />
+                : false}
+            </div>
+
+            <div
+              id="agentDirectionOutbound"
+              key={`Outbound`}
+              style={styles.subMenuRows}
+              disabled={this.props.agentDirection.direction === 'outbound'}
+              onClick={() => {
+                CxEngage.session.setDirection({ direction: 'outbound' });
+                this.setCollapsibleMenus();
+              }}
+            >
+              Outbound
+              {this.props.agentDirection.direction === 'outbound'
+                ? <Icon
+                  name="checkStatus"
+                  alt="selected"
+                  style={{ float: 'right' }}
+                />
+                : false}
+            </div>
+          </Collapsible>
+          <Collapsible
+            className="agentMenuPathway"
             triggerHeader="Active Voice Pathway"
             trigger={this.props.activeExtension.description}
             triggerDisabled={this.props.readyState === 'ready'}
@@ -298,6 +343,7 @@ export class AgentStatusMenu extends React.Component {
           >
             {this.props.extensions.map((extension) =>
               (<div
+                id={`${extension.provider}-${extension.value}`}
                 key={`${extension.provider}-${extension.value}`}
                 style={styles.subMenuRows}
                 onClick={() => {
@@ -364,6 +410,7 @@ AgentStatusMenu.propTypes = {
   setActiveExtension: PropTypes.func.isRequired,
   goNotReady: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
+  agentDirection: PropTypes.any,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -373,6 +420,7 @@ const mapStateToProps = (state, props) => ({
   hasActiveWrapup: selectHasActiveWrapup(state, props),
   selectedPresenceReason: selectSelectedPresenceReason(state, props),
   presenceReasonLists: selectPresenceReasonLists(state, props),
+  agentDirection: selectAgentDirection(state, props),
 });
 
 function mapDispatchToProps(dispatch) {

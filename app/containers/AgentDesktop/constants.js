@@ -116,6 +116,7 @@ export const HIDE_SIDE_PANEL = 'app/AgentDesktop/HIDE_SIDE_PANEL';
 export const SET_SIDE_PANEL_PX = 'app/AgentDesktop/SET_SIDE_PANEL_PX';
 export const SHOW_INTERACTIONS_BAR = 'app/AgentDesktop/SHOW_INTERACTIONS_BAR';
 export const HIDE_INTERACTIONS_BAR = 'app/AgentDesktop/HIDE_INTERACTIONS_BAR';
+export const SET_AGENT_DIRECTION = 'app/AgentDesktop/SET_AGENT_DURECTION';
 export const SET_FORM_IS_DIRTY = 'app/ContactsControl/SET_FORM_IS_DIRTY';
 export const SET_FORM_VALIDITY = 'app/ContactsControl/SET_FORM_VALIDITY';
 export const SET_FORM_FIELD = 'app/ContactsControl/SET_FORM_FIELD';

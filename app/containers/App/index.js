@@ -59,6 +59,7 @@ import {
 import { startOutboundEmail } from 'containers/EmailContentArea/actions';
 import {
   setUserConfig,
+  setAgentDirection,
   setExtensions,
   setPresence,
   addInteraction,
@@ -324,6 +325,10 @@ export class App extends React.Component {
           }
           case 'cxengage/session/extension-list': {
             this.props.setExtensions(response);
+            break;
+          }
+          case 'cxengage/session/set-direction-response': {
+            this.props.setAgentDirection(response);
             break;
           }
           case 'cxengage/session/started': {
@@ -1057,6 +1062,7 @@ function mapDispatchToProps(dispatch) {
     showRefreshRequired: (show) => dispatch(showRefreshRequired(show)),
     showLogin: (show) => dispatch(showLogin(show)),
     setUserConfig: (response) => dispatch(setUserConfig(response)),
+    setAgentDirection: (response) => dispatch(setAgentDirection(response)),
     setExtensions: (response) => dispatch(setExtensions(response)),
     updateWrapupDetails: (interactionId, wrapupDetails) =>
       dispatch(updateWrapupDetails(interactionId, wrapupDetails)),
@@ -1185,6 +1191,7 @@ App.propTypes = {
   locale: PropTypes.string,
   showLogin: PropTypes.func.isRequired,
   setUserConfig: PropTypes.func.isRequired,
+  setAgentDirection: PropTypes.any,
   setExtensions: PropTypes.func.isRequired,
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,

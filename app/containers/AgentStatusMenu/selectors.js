@@ -49,6 +49,11 @@ const selectSelectedPresenceReason = createSelector(
   (agentDesktop) => agentDesktop.get('presenceReason').toJS()
 );
 
+const selectAgentDirection = createSelector(
+  selectAgentDesktopDomain,
+  (agentDesktop) => agentDesktop.get('agentDirection').toJS()
+);
+
 export {
   selectHasActiveInteractions,
   selectExtensions,
@@ -56,4 +61,5 @@ export {
   selectHasActiveWrapup,
   selectPresenceReasonLists,
   selectSelectedPresenceReason,
+  selectAgentDirection,
 };
