@@ -28,8 +28,8 @@ exports[`<CustomFields /> Desktop mode should render correctly with 3 or less fi
         style={
           Array [
             Object {
-              "display": "inline-block",
-              "width": "50%",
+              "display": "block",
+              "width": "100%",
             },
             false,
             false,
@@ -74,8 +74,8 @@ exports[`<CustomFields /> Desktop mode should render correctly with 3 or less fi
         style={
           Array [
             Object {
-              "display": "inline-block",
-              "width": "50%",
+              "display": "block",
+              "width": "100%",
             },
             false,
             false,
@@ -120,8 +120,8 @@ exports[`<CustomFields /> Desktop mode should render correctly with 3 or less fi
         style={
           Array [
             Object {
-              "display": "inline-block",
-              "width": "50%",
+              "display": "block",
+              "width": "100%",
             },
             false,
             false,
@@ -194,59 +194,106 @@ exports[`<CustomFields /> Desktop mode should render correctly with between 3 an
     interactionId="mockId"
     toggleCustomFields={[Function]}
   >
-    <div>
-      <div
-        style={
-          Array [
-            Object {
-              "display": "inline-block",
-              "width": "50%",
-            },
-            false,
-            false,
-          ]
-        }
-      >
-        <div
-          style={
-            Object {
-              "color": "#979797",
-              "display": "inline-block",
-              "overflow": "hidden",
-              "textOverflow": "ellipsis",
-              "whiteSpace": "nowrap",
-              "width": "90px",
-            }
-          }
-          title="Test Label"
-        >
-          Test Label
-        </div>
+    <div
+      style={
+        Array [
+          Object {
+            "height": "45px",
+            "transition": "height 0.3s ease-out",
+          },
+          false,
+        ]
+      }
+    >
+      <div>
         <div
           style={
             Array [
               Object {
+                "display": "block",
+                "width": "100%",
+              },
+              Object {
                 "display": "inline-block",
-                "maxWidth": "600px",
+                "width": "45%",
+              },
+              Object {
+                "width": "90%",
+              },
+            ]
+          }
+        >
+          <div
+            style={
+              Object {
+                "color": "#979797",
+                "display": "inline-block",
                 "overflow": "hidden",
                 "textOverflow": "ellipsis",
                 "whiteSpace": "nowrap",
-                "width": "calc(100% - 90px)",
+                "width": "90px",
+              }
+            }
+            title="Test Label"
+          >
+            Test Label
+          </div>
+          <div
+            style={
+              Array [
+                Object {
+                  "display": "inline-block",
+                  "maxWidth": "600px",
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "calc(100% - 90px)",
+                },
+                Object {
+                  "width": "calc(90% - 90px)",
+                },
+              ]
+            }
+            title="Test Value"
+          >
+            Test Value
+          </div>
+        </div>
+        <Icon
+          name="caret"
+          onclick={[Function]}
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
               },
               false,
             ]
           }
-          title="Test Value"
         >
-          Test Value
-        </div>
+          <img
+            alt="caret"
+            data-radium={true}
+            id="caret-icon"
+            onClick={[Function]}
+            src="test-file-stub"
+            style={
+              Object {
+                "cursor": "pointer",
+                "display": "inline-block",
+                "height": "6px",
+                "width": "10px",
+              }
+            }
+          />
+        </Icon>
       </div>
       <div
         style={
           Array [
             Object {
-              "display": "inline-block",
-              "width": "50%",
+              "display": "block",
+              "width": "100%",
             },
             false,
             false,
@@ -291,8 +338,8 @@ exports[`<CustomFields /> Desktop mode should render correctly with between 3 an
         style={
           Array [
             Object {
-              "display": "inline-block",
-              "width": "50%",
+              "display": "block",
+              "width": "100%",
             },
             false,
             false,
@@ -331,52 +378,6 @@ exports[`<CustomFields /> Desktop mode should render correctly with between 3 an
           title="Test Value 3"
         >
           Test Value 3
-        </div>
-      </div>
-      <div
-        style={
-          Array [
-            Object {
-              "display": "inline-block",
-              "width": "50%",
-            },
-            false,
-            false,
-          ]
-        }
-      >
-        <div
-          style={
-            Object {
-              "color": "#979797",
-              "display": "inline-block",
-              "overflow": "hidden",
-              "textOverflow": "ellipsis",
-              "whiteSpace": "nowrap",
-              "width": "90px",
-            }
-          }
-          title="Test Label 4"
-        >
-          Test Label 4
-        </div>
-        <div
-          style={
-            Array [
-              Object {
-                "display": "inline-block",
-                "maxWidth": "600px",
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "calc(100% - 90px)",
-              },
-              false,
-            ]
-          }
-          title="Test Value 4"
-        >
-          Test Value 4
         </div>
       </div>
     </div>
@@ -439,11 +440,16 @@ exports[`<CustomFields /> Desktop mode should render correctly with more than 6 
           style={
             Array [
               Object {
-                "display": "inline-block",
-                "width": "50%",
+                "display": "block",
+                "width": "100%",
               },
-              false,
-              false,
+              Object {
+                "display": "inline-block",
+                "width": "45%",
+              },
+              Object {
+                "width": "90%",
+              },
             ]
           }
         >
@@ -473,63 +479,14 @@ exports[`<CustomFields /> Desktop mode should render correctly with more than 6 
                   "whiteSpace": "nowrap",
                   "width": "calc(100% - 90px)",
                 },
-                false,
-              ]
-            }
-            title="Test Value"
-          >
-            Test Value
-          </div>
-        </div>
-        <div
-          style={
-            Array [
-              Object {
-                "display": "inline-block",
-                "width": "50%",
-              },
-              Object {
-                "display": "inline-block",
-                "width": "45%",
-              },
-              false,
-            ]
-          }
-        >
-          <div
-            style={
-              Object {
-                "color": "#979797",
-                "display": "inline-block",
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "90px",
-              }
-            }
-            title="Test Label 2"
-          >
-            Test Label 2
-          </div>
-          <div
-            style={
-              Array [
-                Object {
-                  "display": "inline-block",
-                  "maxWidth": "600px",
-                  "overflow": "hidden",
-                  "textOverflow": "ellipsis",
-                  "whiteSpace": "nowrap",
-                  "width": "calc(100% - 90px)",
-                },
                 Object {
                   "width": "calc(90% - 90px)",
                 },
               ]
             }
-            title="Test Value 2"
+            title="Test Value"
           >
-            Test Value 2
+            Test Value
           </div>
         </div>
         <Icon
@@ -565,8 +522,54 @@ exports[`<CustomFields /> Desktop mode should render correctly with more than 6 
         style={
           Array [
             Object {
+              "display": "block",
+              "width": "100%",
+            },
+            false,
+            false,
+          ]
+        }
+      >
+        <div
+          style={
+            Object {
+              "color": "#979797",
               "display": "inline-block",
-              "width": "50%",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+              "width": "90px",
+            }
+          }
+          title="Test Label 2"
+        >
+          Test Label 2
+        </div>
+        <div
+          style={
+            Array [
+              Object {
+                "display": "inline-block",
+                "maxWidth": "600px",
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "calc(100% - 90px)",
+              },
+              false,
+            ]
+          }
+          title="Test Value 2"
+        >
+          Test Value 2
+        </div>
+      </div>
+      <div
+        style={
+          Array [
+            Object {
+              "display": "block",
+              "width": "100%",
             },
             false,
             false,
@@ -605,144 +608,6 @@ exports[`<CustomFields /> Desktop mode should render correctly with more than 6 
           title="Test Value 3"
         >
           Test Value 3
-        </div>
-      </div>
-      <div
-        style={
-          Array [
-            Object {
-              "display": "inline-block",
-              "width": "50%",
-            },
-            false,
-            false,
-          ]
-        }
-      >
-        <div
-          style={
-            Object {
-              "color": "#979797",
-              "display": "inline-block",
-              "overflow": "hidden",
-              "textOverflow": "ellipsis",
-              "whiteSpace": "nowrap",
-              "width": "90px",
-            }
-          }
-          title="Test Label 4"
-        >
-          Test Label 4
-        </div>
-        <div
-          style={
-            Array [
-              Object {
-                "display": "inline-block",
-                "maxWidth": "600px",
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "calc(100% - 90px)",
-              },
-              false,
-            ]
-          }
-          title="Test Value 4"
-        >
-          Test Value 4
-        </div>
-      </div>
-      <div
-        style={
-          Array [
-            Object {
-              "display": "inline-block",
-              "width": "50%",
-            },
-            false,
-            false,
-          ]
-        }
-      >
-        <div
-          style={
-            Object {
-              "color": "#979797",
-              "display": "inline-block",
-              "overflow": "hidden",
-              "textOverflow": "ellipsis",
-              "whiteSpace": "nowrap",
-              "width": "90px",
-            }
-          }
-          title="Test Label 5"
-        >
-          Test Label 5
-        </div>
-        <div
-          style={
-            Array [
-              Object {
-                "display": "inline-block",
-                "maxWidth": "600px",
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "calc(100% - 90px)",
-              },
-              false,
-            ]
-          }
-          title="Test Value 5"
-        >
-          Test Value 5
-        </div>
-      </div>
-      <div
-        style={
-          Array [
-            Object {
-              "display": "inline-block",
-              "width": "50%",
-            },
-            false,
-            false,
-          ]
-        }
-      >
-        <div
-          style={
-            Object {
-              "color": "#979797",
-              "display": "inline-block",
-              "overflow": "hidden",
-              "textOverflow": "ellipsis",
-              "whiteSpace": "nowrap",
-              "width": "90px",
-            }
-          }
-          title="Test Label 6"
-        >
-          Test Label 6
-        </div>
-        <div
-          style={
-            Array [
-              Object {
-                "display": "inline-block",
-                "maxWidth": "600px",
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "calc(100% - 90px)",
-              },
-              false,
-            ]
-          }
-          title="Test Value 6"
-        >
-          Test Value 6
         </div>
       </div>
     </div>

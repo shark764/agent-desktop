@@ -251,7 +251,7 @@ Dialpad.propTypes = {
   onEnter: PropTypes.func,
   dialpadText: PropTypes.string.isRequired,
   setDialpadText: PropTypes.func.isRequired,
-  interactionId: PropTypes.string,
+  interactionId: PropTypes.string, // eslint-disable-line
   inCall: PropTypes.bool,
   children: PropTypes.element,
   toggle: PropTypes.func,

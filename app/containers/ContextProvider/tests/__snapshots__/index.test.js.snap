@@ -4,7 +4,7 @@ exports[`<ContextProvider /> should set context flags correctly for desktop url 
 <ContextProvider>
   <TestApp>
     <div>
-      Desktop
+      Toolbar
     </div>
   </TestApp>
 </ContextProvider>
