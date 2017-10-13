@@ -1,3 +1,6 @@
+### [1.6.10] (2017-10-13)
+- Attempt to accept interactions that we cannot find when doing click to dial.
+
 ### [1.6.9] (2017-10-13)
 * CXV1-11858 - Enabled switch to outbound mode
 
