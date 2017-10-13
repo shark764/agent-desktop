@@ -1,5 +1,8 @@
-### [1.7.1] (2017-10-13)
+### [1.7.2] (2017-10-13)
 - CXV1-11861 - Force Agents to select a language.
+
+### [1.7.1] (2017-10-13)
+* Allow agent direction changes while ready
 
 ### [1.7.0] (2017-10-13)
 * CXV1-11752 - Updated Actions Button Dropdown to rich menu
