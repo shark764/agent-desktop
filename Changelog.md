@@ -1,3 +1,6 @@
+### [1.7.1] (2017-10-13)
+* Allow agent direction changes while ready
+
 ### [1.7.0] (2017-10-13)
 * CXV1-11752 - Updated Actions Button Dropdown to rich menu
 
