@@ -1,3 +1,6 @@
+### [1.6.7] (2017-10-13)
+* Un-hide languages; update translations; enable sentry for dev, qe, staging;
+
 ### [1.6.6] (2017-10-12)
 * CXV1-11588 - Fixed bug with single stat getting cut off
 

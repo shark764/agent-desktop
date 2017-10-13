@@ -68,7 +68,7 @@ const styles = {
   singleStat: {
     minWidth: '150px',
     justifyContent: 'flex-end',
-  }
+  },
 };
 
 export class AgentStats extends React.Component {
@@ -229,7 +229,7 @@ export class AgentStats extends React.Component {
           }}
           style={[
             styles.statsScrollContainer,
-            this.props.toolbarStats.length === 1 && styles.singleStat
+            this.props.toolbarStats.length === 1 && styles.singleStat,
           ]}
         >
           {this.props.toolbarStats.map(this.generateStat)}
