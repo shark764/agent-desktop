@@ -106,6 +106,7 @@ import {
   SET_SELECTED_INDEX,
   SET_EDITING_CONTACTS,
   SET_CONTACT_SAVE_LOADING,
+  SET_AGENT_DIRECTION,
   INIT_FORM,
   RESET_FORM,
 } from './constants';
@@ -164,6 +165,7 @@ const initialState = fromJS({
   isInteractionsBarCollapsed: true,
   sidePanelPx: 500,
   sidePanelMaxPx: 500,
+  agentDirection: { direction: 'inbound' },
 });
 
 const getInteractionIndex = (state, interactionId) =>
@@ -430,6 +432,8 @@ function agentDesktopReducer(state = initialState, action) {
         'zendeskActiveTab',
         fromJS({ type: action.tabType, id: action.id })
       );
+    case SET_AGENT_DIRECTION:
+      return state.set('agentDirection', fromJS(action.response));
     case SHOW_REFRESH_NOTIF:
       return state.set('refreshRequired', action.show);
     case SET_USER_CONFIG: {

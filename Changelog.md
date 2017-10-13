@@ -1,3 +1,6 @@
+### [1.6.9] (2017-10-13)
+* CXV1-11858 - Enabled switch to outbound mode
+
 ### [1.6.8] (2017-10-13)
 * CXV1-11859 - Create Bash Script to Automate Zendesk Dev Environment Setup
 

@@ -107,6 +107,7 @@ import {
   SET_CONTACT_SAVE_LOADING,
   INIT_FORM,
   RESET_FORM,
+  SET_AGENT_DIRECTION,
 } from './constants';
 
 export function setCrmModule(crmModule) {
@@ -133,6 +134,13 @@ export function setZendeskActiveTab(tabType, id) {
 export function setUserConfig(response) {
   return {
     type: SET_USER_CONFIG,
+    response,
+  };
+}
+
+export function setAgentDirection(response) {
+  return {
+    type: SET_AGENT_DIRECTION,
     response,
   };
 }
