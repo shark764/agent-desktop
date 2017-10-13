@@ -284,10 +284,33 @@ export class AgentStatusMenu extends React.Component {
             mainText={this.props.tenant.name}
           />
           <Collapsible
+            className="agentMenuPathway"
+            triggerHeader="Active Voice Pathway"
+            trigger={this.props.activeExtension.description}
+            triggerDisabled={this.props.readyState === 'ready'}
+            open={this.state.expandedMenu === 'agentVoicePathway'}
+            handleTriggerClick={() =>
+              this.setCollapsibleMenus('agentVoicePathway')}
+          >
+            {this.props.extensions.map((extension) =>
+              (<div
+                id={`${extension.provider}-${extension.value}`}
+                key={`${extension.provider}-${extension.value}`}
+                style={styles.subMenuRows}
+                onClick={() => {
+                  this.props.setActiveExtension(extension);
+                  this.props.showAgentStatusMenu(false);
+                  this.setCollapsibleMenus();
+                }}
+              >
+                {extension.description}
+              </div>)
+            )}
+          </Collapsible>
+          <Collapsible
             className="agentDirectionMenu"
             triggerHeader="Mode"
             trigger={this.props.agentDirection.direction}
-            triggerDisabled={this.props.readyState === 'ready'}
             open={this.state.expandedMenu === 'agentDirection'}
             handleTriggerClick={() =>
               this.setCollapsibleMenus('agentDirection')}
@@ -331,30 +354,6 @@ export class AgentStatusMenu extends React.Component {
                 />
                 : false}
             </div>
-          </Collapsible>
-          <Collapsible
-            className="agentMenuPathway"
-            triggerHeader="Active Voice Pathway"
-            trigger={this.props.activeExtension.description}
-            triggerDisabled={this.props.readyState === 'ready'}
-            open={this.state.expandedMenu === 'agentVoicePathway'}
-            handleTriggerClick={() =>
-              this.setCollapsibleMenus('agentVoicePathway')}
-          >
-            {this.props.extensions.map((extension) =>
-              (<div
-                id={`${extension.provider}-${extension.value}`}
-                key={`${extension.provider}-${extension.value}`}
-                style={styles.subMenuRows}
-                onClick={() => {
-                  this.props.setActiveExtension(extension);
-                  this.props.showAgentStatusMenu(false);
-                  this.setCollapsibleMenus();
-                }}
-              >
-                {extension.description}
-              </div>)
-            )}
           </Collapsible>
           <div
             id="agentNotReadyState"
