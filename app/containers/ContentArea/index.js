@@ -550,17 +550,19 @@ export class ContentArea extends React.Component {
         this.props.interaction.contact.id ===
           this.props.zendeskActiveTab.get('id');
 
-      const zendeskAssignBtnConfig = [{
-        id: 'zendeskAssign',
-        type: 'secondary',
-        text: isSelected ? messages.assigned : messages.assign,
-        onClick: this.zendeskAssign,
-        isSelected,
-        // isUUID only returns true once we have passed through a series
-        // of states that take us from the attempt to connect to outbound
-        // up until the interaction has has actually started and has a interactionId.
-        disabled: !isUUID(this.props.interaction.interactionId),
-      }];
+      const zendeskAssignBtnConfig = [
+        {
+          id: 'zendeskAssign',
+          type: 'secondary',
+          text: isSelected ? messages.assigned : messages.assign,
+          onClick: this.zendeskAssign,
+          isSelected,
+          // isUUID only returns true once we have passed through a series
+          // of states that take us from the attempt to connect to outbound
+          // up until the interaction has has actually started and has a interactionId.
+          disabled: !isUUID(this.props.interaction.interactionId),
+        },
+      ];
 
       buttonConfig = zendeskAssignBtnConfig.concat(buttonConfig);
     }

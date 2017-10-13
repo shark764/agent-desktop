@@ -184,8 +184,7 @@ class ButtonMenu extends React.Component {
                 checked={wrapupToggle.checked}
                 style={styles.toggleWrapup}
               />
-            </div>
-          }
+            </div>}
           <ul style={styles.menuButtons}>
             {subButtons.map((subBtn) =>
               (<ButtonMenuItem

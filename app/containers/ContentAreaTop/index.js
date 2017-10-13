@@ -114,10 +114,7 @@ export class ContentAreaTop extends React.Component {
 
     // if a wrapup toggle is needed for the button menu, then add
     // its settings to the menuItems
-    if (
-      this.context.toolbarMode &&
-      interaction.status !== 'wrapup'
-    ) {
+    if (this.context.toolbarMode && interaction.status !== 'wrapup') {
       menuItems.wrapupToggleConfig = {
         toggleId: 'wrapup-toggle-on-actions-menu',
         icons: false,

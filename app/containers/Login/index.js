@@ -446,6 +446,7 @@ export class Login extends React.Component {
             this.toggleLanguageMenu();
           }}
           clearable={false}
+          backspaceRemoves={false}
         />
       </PopupDialog>
     </div>);
