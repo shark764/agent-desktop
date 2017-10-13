@@ -34,7 +34,6 @@ describe('<ContentAreaTop />', () => {
       style: {
         marginRight: '8px',
       },
-      isMainBtn: true,
     },
   ];
 

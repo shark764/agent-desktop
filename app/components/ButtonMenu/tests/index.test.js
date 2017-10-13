@@ -8,35 +8,75 @@ import { shallow } from 'enzyme';
 import ButtonMenu from '../index';
 
 const mockFunc = jest.fn();
-const buttonConfig = [
-  {
-    id: 'test-id-1',
-    type: 'primaryRed',
-    text: {
-      id: 'app.containers.ContentAreaTop.wrapupOn',
-      defaultMessage: 'Wrap Up On',
+
+const menuItems = {
+  buttonConfig: [
+    {
+      id: 'test-id-1',
+      type: 'primaryRed',
+      text: {
+        id: 'app.containers.EmailContentArea.send',
+        defaultMessage: 'Send',
+      },
+      onClick: mockFunc,
+      disabled: false,
+      style: {
+        marginRight: '8px',
+      },
     },
-    onClick: mockFunc,
-    disabled: false,
-    style: {
-      marginRight: '8px',
+    {
+      id: 'test-id-2',
+      type: 'primaryBlue',
+      text: {
+        id: 'app.containers.EmailContentArea.send',
+        defaultMessage: 'Send',
+      },
+      onClick: mockFunc,
+      disabled: false,
+      style: {
+        marginRight: '8px',
+      },
     },
+  ],
+  wrapupToggleConfig: {
+    toggleId: 'toggle-test-id',
+    icons: false,
+    onChange: mockFunc,
+    toggleDisabled: false,
+    checked: true,
   },
-  {
-    id: 'test-id-2',
-    type: 'primaryBlue',
-    text: {
-      id: 'app.containers.ContentAreaTop.wrapupOff',
-      defaultMessage: 'Wrap Up Off',
+};
+
+const menuItemsNoToggle = {
+  buttonConfig: [
+    {
+      id: 'test-id-1',
+      type: 'primaryRed',
+      text: {
+        id: 'app.containers.EmailContentArea.send',
+        defaultMessage: 'Send',
+      },
+      onClick: mockFunc,
+      disabled: false,
+      style: {
+        marginRight: '8px',
+      },
     },
-    onClick: mockFunc,
-    disabled: false,
-    style: {
-      marginRight: '8px',
+    {
+      id: 'test-id-2',
+      type: 'primaryBlue',
+      text: {
+        id: 'app.containers.EmailContentArea.send',
+        defaultMessage: 'Send',
+      },
+      onClick: mockFunc,
+      disabled: false,
+      style: {
+        marginRight: '8px',
+      },
     },
-    isMainBtn: true,
-  },
-];
+  ],
+};
 
 describe('<ButtonMenu />', () => {
   describe('with required props and text', () => {
@@ -46,26 +86,48 @@ describe('<ButtonMenu />', () => {
           id="buttonMenuId"
           type="primaryBlue"
           text="test text"
-          buttonConfig={buttonConfig}
+          menuItems={menuItems}
         />
       );
+
       expect(rendered).toMatchSnapshot();
     });
-  });
 
-  describe('when dropdown-button click mask is clicked', () => {
-    it('should display the submenu', () => {
+    it('in toolbar mode, should render the menu containing the wrapup toggle switch if we are passing valid values to the wrapupToggleConfig', () => {
       const rendered = shallow(
         <ButtonMenu
           id="buttonMenuId"
           type="primaryBlue"
           text="test text"
-          buttonConfig={buttonConfig}
-        />
+          menuItems={menuItems}
+        />,
+        {
+          context: {},
+        }
       );
 
+      rendered.setContext({ toolbarMode: true });
       rendered.find('#buttonMenuId').simulate('click');
       expect(rendered.state('showSubMenu')).toBe(true);
+      expect(rendered.find('#toggle-test-id').exists()).toBe(true);
+    });
+
+    it('in toolbar mode, should NOT render the wrapup toggle switch if there is no wrapupToggleConfig data passed to menuItems', () => {
+      const rendered = shallow(
+        <ButtonMenu
+          id="buttonMenuId"
+          type="primaryBlue"
+          text="test text"
+          menuItems={menuItemsNoToggle}
+        />,
+        {
+          context: {},
+        }
+      );
+
+      rendered.setContext({ toolbarMode: true });
+      rendered.find('#buttonMenuId').simulate('click');
+      expect(rendered.find('#toggle-test-id').exists()).toBe(false);
     });
   });
 });

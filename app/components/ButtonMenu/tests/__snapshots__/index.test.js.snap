@@ -3,15 +3,14 @@
 exports[`<ButtonMenu /> with required props and text should render correctly 1`] = `
 <div
   data-radium={true}
+  style={
+    Object {
+      "textAlign": "right",
+    }
+  }
 >
   <span
     data-radium={true}
-    style={
-      Object {
-        "position": "relative",
-        "zIndex": 10,
-      }
-    }
   >
     <InjectIntl(Button)
       hasSubButtons={true}

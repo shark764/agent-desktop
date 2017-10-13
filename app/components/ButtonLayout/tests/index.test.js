@@ -7,35 +7,43 @@ import { shallow } from 'enzyme';
 
 import ButtonLayout from '../index';
 
-const buttonConfig = [
-  {
-    id: 'test-id-1',
-    type: 'primaryRed',
-    text: {
-      id: 'app.containers.EmailContentArea.send',
-      defaultMessage: 'Send',
+const menuItems = {
+  buttonConfig: [
+    {
+      id: 'test-id-1',
+      type: 'primaryRed',
+      text: {
+        id: 'app.containers.EmailContentArea.send',
+        defaultMessage: 'Send',
+      },
+      onClick: () => {},
+      disabled: false,
+      style: {
+        marginRight: '8px',
+      },
     },
-    onClick: () => {},
-    disabled: false,
-    style: {
-      marginRight: '8px',
+    {
+      id: 'test-id-2',
+      type: 'primaryBlue',
+      text: {
+        id: 'app.containers.EmailContentArea.send',
+        defaultMessage: 'Send',
+      },
+      onClick: () => {},
+      disabled: false,
+      style: {
+        marginRight: '8px',
+      },
     },
+  ],
+  wrapupToggleConfig: {
+    toggleId: 'toggle-id',
+    icons: false,
+    onChange: () => {},
+    toggleDisabled: false,
+    checked: true,
   },
-  {
-    id: 'test-id-2',
-    type: 'primaryBlue',
-    text: {
-      id: 'app.containers.EmailContentArea.send',
-      defaultMessage: 'Send',
-    },
-    onClick: () => {},
-    disabled: false,
-    style: {
-      marginRight: '8px',
-    },
-    isMainBtn: true,
-  },
-];
+};
 
 const buttonMenuConfig = {
   id: 'testId',
@@ -44,11 +52,11 @@ const buttonMenuConfig = {
 };
 
 describe('<ButtonLayout />', () => {
-  describe('when only passed button config data and IS NOT set to toolbar mode', () => {
+  describe('when IS NOT set to toolbar mode', () => {
     it('should render correctly', () => {
       const rendered = shallow(
         <ButtonLayout
-          buttonConfig={buttonConfig}
+          menuItems={menuItems}
           buttonMenuConfig={buttonMenuConfig}
         />
       );
@@ -56,11 +64,11 @@ describe('<ButtonLayout />', () => {
     });
   });
 
-  describe('when only passed button config data and IS set to toolbar mode', () => {
+  describe('when IS set to toolbar mode', () => {
     it('should render correctly', () => {
       const rendered = shallow(
         <ButtonLayout
-          buttonConfig={buttonConfig}
+          menuItems={menuItems}
           buttonMenuConfig={buttonMenuConfig}
         />,
         {

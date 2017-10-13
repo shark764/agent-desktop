@@ -15,7 +15,6 @@ import Radium from 'radium';
 import caret from 'assets/icons/caret.png';
 import caretWhite from 'assets/icons/caret_white.png';
 import checkStatus from 'assets/icons/check_status.png';
-import checkMark from 'assets/icons/checkMark.png';
 import config from 'assets/icons/config.png';
 import search from 'assets/icons/search.png';
 import close from 'assets/icons/close.png';
@@ -55,7 +54,6 @@ export const availableIcons = [
   'caret',
   'caret_white',
   'checkStatus',
-  'checkMark',
   'close',
   'config',
   'connected',
@@ -123,10 +121,6 @@ const styles = {
   checkStatus: {
     data: { src: checkStatus },
     height: '17px',
-  },
-  checkMark: {
-    data: { src: checkMark },
-    height: '25px',
   },
   close: {
     data: { src: close },

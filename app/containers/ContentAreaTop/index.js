@@ -54,6 +54,7 @@ export class ContentAreaTop extends React.Component {
     },
     buttons: {
       marginLeft: '10px',
+      position: 'relative',
     },
     rightHeaderContainer: {
       display: 'flex',
@@ -102,52 +103,31 @@ export class ContentAreaTop extends React.Component {
   };
 
   generateButtons = (interaction, buttons) => {
-    let buttonConfig = buttons;
-    if (
-      this.context.toolbarMode &&
-      interaction.status !== 'wrapup' &&
-      interaction.wrapupDetails.wrapupUpdateAllowed
-    ) {
-      // if we're in toolbar mode and creating a drop-down button
-      // w/wrapup status options
-      buttonConfig = [
-        // take the existing list of buttons...
-        ...buttons.slice(),
-        // ...and append to that list the wrapup enable/disable dropdown items
-        {
-          id: 'wrapup-on-submenu-item',
-          text: messages.wrapupOn,
-          onClick: this.enableWrapup,
-          // here is where we add the style for indicating whether a
-          // wrapup status is active or inactive
-          isSelected: interaction.wrapupDetails.wrapupEnabled,
-          // this conditional style property creates a disabled UI for while the
-          // wrapup status update is happening
-          style: this.props.interaction.wrapupDetails.loadingWrapupStatusUpdate
-            ? this.styles.wrapupStatusUpdateInProgress
-            : {},
-        },
-        {
-          id: 'wrapup-off-submenu-item',
-          text: messages.wrapupOff,
-          onClick: this.disableWrapup,
-          isSelected: !interaction.wrapupDetails.wrapupEnabled,
-          style: this.props.interaction.wrapupDetails.loadingWrapupStatusUpdate
-            ? this.styles.wrapupStatusUpdateInProgress
-            : {},
-        },
-      ];
+    const menuItems = {};
+    menuItems.buttonConfig = buttons;
+
+    const buttonMenuConfig = {
+      id: 'actionsButton',
+      type: 'primaryBlue',
+      text: messages.actions,
+    };
+
+    // if a wrapup toggle is needed for the button menu, then add
+    // its settings to the menuItems
+    if (this.context.toolbarMode && interaction.status !== 'wrapup') {
+      menuItems.wrapupToggleConfig = {
+        toggleId: 'wrapup-toggle-on-actions-menu',
+        icons: false,
+        onChange: this.toggleWrapup,
+        toggleDisabled:
+          !this.props.interaction.wrapupDetails.wrapupUpdateAllowed ||
+          this.props.interaction.wrapupDetails.loadingWrapupStatusUpdate,
+        checked: this.props.interaction.wrapupDetails.wrapupEnabled,
+      };
     }
 
     return (
-      <ButtonLayout
-        buttonConfig={buttonConfig}
-        buttonMenuConfig={{
-          id: 'actionsButton',
-          type: 'primaryBlue',
-          text: messages.actions,
-        }}
-      />
+      <ButtonLayout menuItems={menuItems} buttonMenuConfig={buttonMenuConfig} />
     );
   };
 
