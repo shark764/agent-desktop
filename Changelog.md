@@ -1,3 +1,6 @@
+### [1.6.11] (2017-10-13)
+- CXV1-11861 - Force Agents to select a language.
+
 ### [1.6.10] (2017-10-13)
 - Attempt to accept interactions that we cannot find when doing click to dial.
 

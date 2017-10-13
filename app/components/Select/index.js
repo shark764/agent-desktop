@@ -35,6 +35,7 @@ function Select(props) {
         options={props.options}
         autofocus={props.autoFocus}
         clearable={props.clearable}
+        backspaceRemoves={props.backspaceRemoves}
         placeholder={props.placeholder || 'Select...'}
         tabIndex="0"
       />
@@ -50,6 +51,7 @@ Select.propTypes = {
   autoFocus: PropTypes.bool,
   id: PropTypes.string.isRequired,
   clearable: PropTypes.bool,
+  backspaceRemoves: PropTypes.bool,
   placeholder: PropTypes.object,
   type: PropTypes.oneOf(['inline-small']),
 };
