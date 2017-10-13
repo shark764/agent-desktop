@@ -541,6 +541,7 @@ export class ContentArea extends React.Component {
 
   render() {
     let buttonConfig = this.props.buttonConfig;
+
     if (this.props.zendeskActiveTab) {
       const isSelected =
         this.props.interaction.contact &&
@@ -548,7 +549,8 @@ export class ContentArea extends React.Component {
           this.props.zendeskActiveTab.get('type') &&
         this.props.interaction.contact.id ===
           this.props.zendeskActiveTab.get('id');
-      buttonConfig = buttonConfig.concat({
+
+      const zendeskAssignBtnConfig = [{
         id: 'zendeskAssign',
         type: 'secondary',
         text: isSelected ? messages.assigned : messages.assign,
@@ -558,7 +560,9 @@ export class ContentArea extends React.Component {
         // of states that take us from the attempt to connect to outbound
         // up until the interaction has has actually started and has a interactionId.
         disabled: !isUUID(this.props.interaction.interactionId),
-      });
+      }];
+
+      buttonConfig = zendeskAssignBtnConfig.concat(buttonConfig);
     }
 
     let notesDisabled = false;

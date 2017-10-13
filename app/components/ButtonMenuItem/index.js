@@ -13,12 +13,14 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { FormattedMessage } from 'react-intl';
 
-import checkMark from 'assets/icons/checkMark.png';
+import checkStatus from 'assets/icons/check_status.png';
 
 const styles = {
   selectedOption: {
+    cursor: 'not-allowed',
     pointerEvents: 'none',
-    backgroundImage: `url(${checkMark})`,
+    opacity: '.65',
+    backgroundImage: `url(${checkStatus})`,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: '90% center',
     backgroundColor: '#fff',
@@ -29,10 +31,12 @@ const styles = {
       backgroundColor: '#fff',
     },
     backgroundSize: '20px',
+    padding: '7px 25% 7px 10px',
   },
   disabledOption: {
+    cursor: 'not-allowed',
     pointerEvents: 'none',
-    opacity: '.5',
+    opacity: '.65',
   },
 };
 

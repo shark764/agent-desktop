@@ -23,17 +23,14 @@ const styles = {
 };
 
 function ButtonLayout(props, context) {
-  if (context.toolbarMode && props.buttonConfig.length > 1) {
+  if (context.toolbarMode) {
     return (
-      <ButtonMenu
-        buttonConfig={props.buttonConfig}
-        {...props.buttonMenuConfig}
-      />
+      <ButtonMenu menuItems={props.menuItems} {...props.buttonMenuConfig} />
     );
   } else {
     return (
       <span>
-        {props.buttonConfig.map((val) =>
+        {props.menuItems.buttonConfig.map((val) =>
           (<span
             style={styles.indivButtonContainer}
             key={`btn-container-${val.id}`}
@@ -45,6 +42,14 @@ function ButtonLayout(props, context) {
     );
   }
 }
+
+const wrapupToggleConfigPropTypes = {
+  toggleId: PropTypes.string.isRequired,
+  icons: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+  toggleDisabled: PropTypes.bool,
+  checked: PropTypes.bool.isRequired,
+};
 
 export const buttonConfigPropTypes = {
   text: PropTypes.any,
@@ -58,14 +63,17 @@ export const buttonConfigPropTypes = {
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   id: PropTypes.string.isRequired,
-  isMainBtn: PropTypes.bool,
   hasSubButtons: PropTypes.bool,
   isSelected: PropTypes.bool,
 };
 
+export const menuItemsPropTypes = {
+  buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes)),
+  wrapupToggleConfig: PropTypes.shape(wrapupToggleConfigPropTypes),
+};
+
 ButtonLayout.propTypes = {
-  buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes))
-    .isRequired,
+  menuItems: PropTypes.shape(menuItemsPropTypes),
   buttonMenuConfig: PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string,

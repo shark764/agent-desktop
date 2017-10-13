@@ -591,7 +591,6 @@ export class EmailContentArea extends React.Component {
             text: messages.send,
             onClick: () => this.sendEmail(),
             disabled: true,
-            isMainBtn: true,
           },
         ];
       }
@@ -680,7 +679,6 @@ export class EmailContentArea extends React.Component {
             type: 'primaryBlue',
             text: messages.reply,
             onClick: this.onEmailCreateReply,
-            isMainBtn: true,
           },
         ];
       }
@@ -843,7 +841,6 @@ export class EmailContentArea extends React.Component {
             text: messages.send,
             onClick: () => this.sendEmail(),
             disabled: this.props.selectedInteraction.status !== 'work-accepted',
-            isMainBtn: true,
           },
         ];
       } else if (this.props.selectedInteraction.status === 'wrapup') {
@@ -869,7 +866,6 @@ export class EmailContentArea extends React.Component {
             type: 'primaryBlue',
             text: messages.send,
             onClick: () => this.sendEmail(),
-            isMainBtn: true,
           },
         ];
       }
