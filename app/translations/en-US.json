@@ -25,6 +25,7 @@
   "app.components.contactBulkActions.deleteContacts": "Delete {count} Contacts?",
   "app.components.contactBulkActions.merge": "Merge",
   "app.components.contactBulkActions.newRecord": "New Record",
+  "app.components.ButtonMenu.wrapup": "Wrap Up",
   "app.containers.AgentConfigMenu.add": "Add",
   "app.containers.AgentConfigMenu.agent": "Agent",
   "app.containers.AgentConfigMenu.aggregate": "Aggregate",
