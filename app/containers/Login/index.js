@@ -17,6 +17,8 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
+import { urlHash, clearUrlHash } from 'utils/url';
+
 import Dialog from 'components/Dialog';
 import Logo from 'components/Logo';
 import Title from 'components/Title';
@@ -75,7 +77,7 @@ const styles = {
     color: '#494949',
   },
   dialogContentContainer: {
-    padding: '50px',
+    padding: '50px 50px 30px',
     height: '100%',
     display: 'grid',
     gridTemplateRows: '1fr 4fr',
@@ -108,6 +110,9 @@ const styles = {
     gridArea: 'main',
     justifySelf: 'stretch',
   },
+  contentTitle: {
+    paddingBottom: '23px',
+  },
   logo: {
     width: '275px',
     margin: 'auto',
@@ -122,6 +127,9 @@ const styles = {
     width: '200px',
   },
   actionButton: {
+    marginTop: '34px',
+  },
+  ssoLink: {
     marginTop: '34px',
   },
   copyright: {
@@ -176,8 +184,10 @@ export class Login extends React.Component {
       username: storage.getItem('email') || '',
       password: '',
       email: storage.getItem('email') || '',
+      ssoEmail: '',
       remember: storage.getItem('remember') === 'true',
       requestingPassword: false,
+      usingSingleSignOn: false,
       tenantId: '-1',
       tenantName: '',
       agentDirection: props.intl.formatMessage(messages.inbound),
@@ -185,37 +195,40 @@ export class Login extends React.Component {
     };
   }
 
-  getLoginTitle = () => {
-    const parts = location.hostname.split('.');
-    if (parts[0].indexOf('mitel') !== -1) {
-      document.title = 'Mitel'; // Change title to match
-
-      // Set favicon
-      const link =
-        document.querySelector("link[rel*='icon']") ||
-        document.createElement('link');
-      link.type = 'image/x-icon';
-      link.rel = 'shortcut icon';
-      link.href = mitelFavicon;
-      document.getElementsByTagName('head')[0].appendChild(link);
-      // ------
-
-      return (
-        <Title
-          id={messages.welcome.id}
-          text={messages.welcomeNoProd}
-          style={[{ paddingBottom: '23px' }, styles.center]}
-        />
-      );
-    } else {
-      return (
-        <Title
-          id={messages.welcome.id}
-          text={messages.welcome}
-          style={[{ paddingBottom: '23px' }, styles.center]}
-        />
-      );
+  componentWillMount() {
+    const urlHashObj = urlHash();
+    if (urlHashObj.access_token) {
+      this.ssoRedirectSuccess();
+    } else if (urlHashObj.error) {
+      console.log('SSO Login Error:', urlHashObj);
+      this.props.setNonCriticalError({ code: 'ssoFailed' });
     }
+  }
+
+  // REMOVE after sso is ready for everyone
+  ssoFlag = () => window.location.href.indexOf('sso') > -1;
+
+  loginWithSso = () => {
+    CxEngage.authentication.getAuthInfo({ username: this.state.ssoEmail });
+  };
+
+  ssoRedirectSuccess = () => {
+    const isCognitoReady = setInterval(() => {
+      if (this.props.cognitoReady) {
+        CxEngage.authentication.ssoLogin((error, topic, response) => {
+          if (!error) {
+            this.props.dismissError();
+            clearUrlHash();
+            console.log('[SSO-Login] CxEngage.subscribe()', topic, response);
+            this.loginCB(response);
+          } else {
+            this.props.errorOccurred();
+          }
+        });
+        clearInterval(isCognitoReady);
+      }
+    }, 500);
+    this.props.loggingIn();
   };
 
   onLogin = () => {
@@ -288,9 +301,46 @@ export class Login extends React.Component {
     this.setState({ username });
   };
 
+  setSsoEmail = (ssoEmail) => {
+    this.setState({ ssoEmail });
+  };
+
   setRemember = (remember) => {
     this.setState({ remember });
     storage.setItem('remember', remember);
+  };
+
+  getLoginTitle = () => {
+    const parts = location.hostname.split('.');
+    if (parts[0].indexOf('mitel') !== -1) {
+      document.title = 'Mitel'; // Change title to match
+
+      // Set favicon
+      const link =
+        document.querySelector("link[rel*='icon']") ||
+        document.createElement('link');
+      link.type = 'image/x-icon';
+      link.rel = 'shortcut icon';
+      link.href = mitelFavicon;
+      document.getElementsByTagName('head')[0].appendChild(link);
+      // ------
+
+      return (
+        <Title
+          id={messages.welcome.id}
+          text={messages.welcomeNoProd}
+          style={styles.contentTitle}
+        />
+      );
+    } else {
+      return (
+        <Title
+          id={messages.welcome.id}
+          text={messages.welcome}
+          style={styles.contentTitle}
+        />
+      );
+    }
   };
 
   getLoadingContent = () =>
@@ -315,7 +365,7 @@ export class Login extends React.Component {
           <Title
             id={messages.selectTenantMenu.id}
             text={messages.selectTenantMenu}
-            style={[{ paddingBottom: '23px' }, styles.center]}
+            style={styles.contentTitle}
           />
           <Select
             id={'app.login.selectTennant.selectbox'}
@@ -383,19 +433,60 @@ export class Login extends React.Component {
           text={messages.signInButton}
           onClick={() => this.onLogin()}
         />
+        {this.ssoFlag() &&
+          <A
+            id={messages.ssoSignIn.id}
+            style={styles.ssoLink}
+            onClick={() => this.toggleUsingSingleSignOn()}
+            text={messages.ssoSignIn}
+          />}
         {/* Hide until we implement the feature
           <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
         */}
       </div>
     </div>);
 
+  getSingleSignOnContent = () =>
+    (<div id="ssoContainer" style={styles.dialogContentContainer}>
+      <Logo style={styles.logo} />
+      <div style={styles.dialogContent}>
+        <Title
+          id={messages.ssoSignIn.id}
+          text={messages.ssoSignIn}
+          style={styles.contentTitle}
+        />
+        <div style={{ paddingBottom: '23px', textAlign: 'center' }}>
+          <FormattedMessage {...messages.ssoSignInDescription} />
+        </div>
+        <TextInput
+          id={messages.email.id}
+          autoFocus
+          key={'email'}
+          placeholder={messages.email}
+          autocomplete="email"
+          value={this.state.ssoEmail}
+          cb={this.setSsoEmail}
+        />
+        <Button
+          id={messages.nextButton.id}
+          type="primaryBlueBig"
+          style={styles.actionButton}
+          text={messages.nextButton}
+          onClick={() => this.loginWithSso()}
+        />
+        <A
+          id={messages.return2Login.id}
+          style={styles.ssoLink}
+          onClick={() => this.toggleUsingSingleSignOn()}
+          text={messages.return2Login}
+        />
+      </div>
+    </div>);
+
   getForgotContent = () =>
     (<div style={styles.dialogContentContainer}>
       <Logo style={styles.logo} />
-      <Title
-        text={messages.forgot}
-        style={[{ paddingBottom: '23px' }, styles.center]}
-      />
+      <Title text={messages.forgot} style={styles.contentTitle} />
       <p style={{ width: '282px', textAlign: 'center' }}>
         {this.props.intl.formatMessage(messages.forgotInstructions)}
       </p>
@@ -471,6 +562,10 @@ export class Login extends React.Component {
     this.props.resetPassword({ email: this.state.email });
   };
 
+  toggleUsingSingleSignOn = () => {
+    this.setState({ usingSingleSignOn: !this.state.usingSingleSignOn });
+  };
+
   loginCB = (agent) => {
     this.props.loginSuccess(agent);
     const activeTenants = agent.tenants.filter((tenant) => tenant.tenantActive);
@@ -481,11 +576,9 @@ export class Login extends React.Component {
       this.props.setNonCriticalError({ code: 'AD-1005' });
     }
     if (this.state.remember) {
-      storage.setItem('name', `${agent['first-name']}, ${agent['last-name']}`);
       storage.setItem('email', agent.username);
       storage.setItem('remember', true);
     } else {
-      storage.setItem('name', '');
       storage.setItem('email', '');
       storage.setItem('remember', false);
     }
@@ -521,6 +614,8 @@ export class Login extends React.Component {
       pageContent = this.getLoggedInContent();
     } else if (this.state.requestingPassword) {
       pageContent = this.getForgotContent();
+    } else if (this.state.usingSingleSignOn) {
+      pageContent = this.getSingleSignOnContent();
     } else if (this.props.initiatedStandalonePopup) {
       pageContent = (
         <div style={styles.dialogContentContainer}>
@@ -597,6 +692,7 @@ const mapStateToProps = (state, props) => ({
   locale: selectLocale()(state),
   crmModule: selectCrmModule(state, props),
   isStandalonePopup: selectAgentDesktopMap(state, props).get('standalonePopup'),
+  cognitoReady: state.get('login').get('cognitoReady'),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -634,6 +730,7 @@ Login.propTypes = {
   crmModule: PropTypes.string,
   isStandalonePopup: PropTypes.bool,
   initiatedStandalonePopup: PropTypes.bool,
+  cognitoReady: PropTypes.bool,
 };
 
 Login.contextTypes = {

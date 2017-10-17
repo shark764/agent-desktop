@@ -18,6 +18,19 @@ export default defineMessages({
     id: 'app.containers.Login.welcomeNoProd',
     defaultMessage: 'Sign in',
   },
+  ssoSignIn: {
+    id: 'app.containers.Login.ssoSignInTitle',
+    defaultMessage: 'Sign in with SSO',
+  },
+  ssoSignInDescription: {
+    id: 'app.containers.Login.ssoSignInDescription',
+    defaultMessage:
+      "Enter your email address and we'll redirect you to your company's login",
+  },
+  nextButton: {
+    id: 'app.containers.Login.nextButton',
+    defaultMessage: 'Next',
+  },
   forgot: {
     id: 'app.containers.Login.forgot',
     defaultMessage: 'Forgot your password?',

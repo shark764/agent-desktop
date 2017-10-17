@@ -30,7 +30,7 @@ import {
   toggleAgentMenu,
   initializeStats,
 } from 'containers/Toolbar/actions';
-import { showLogin, logout } from 'containers/Login/actions';
+import { showLogin, logout, setCognitoReady } from 'containers/Login/actions';
 import {
   setContactLayout,
   setContactAttributes,
@@ -284,6 +284,11 @@ export class App extends React.Component {
         let topicUnhandled;
 
         switch (topic) {
+          // AUTHENTICATION
+          case 'cxengage/authentication/cognito-initialized-response': {
+            this.props.setCognitoReady();
+            break;
+          }
           // SESSION
           case 'cxengage/session/state-change-response': {
             if (
@@ -1156,6 +1161,7 @@ function mapDispatchToProps(dispatch) {
     showSidePanel: (interactionId) => dispatch(showSidePanel(interactionId)),
     hideSidePanel: (interactionId) => dispatch(hideSidePanel(interactionId)),
     logout: () => dispatch(logout()),
+    setCognitoReady: () => dispatch(setCognitoReady()),
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
     validateContactLayoutTranslations: () =>
@@ -1245,6 +1251,7 @@ App.propTypes = {
   selectSidePanelTab: PropTypes.func.isRequired,
   showSidePanel: PropTypes.func.isRequired,
   hideSidePanel: PropTypes.func.isRequired,
+  setCognitoReady: PropTypes.func.isRequired,
   initializeStats: PropTypes.func.isRequired,
   showRefreshRequired: PropTypes.func.isRequired,
   toggleAgentMenu: PropTypes.func.isRequired,
