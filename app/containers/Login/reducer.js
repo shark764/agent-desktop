@@ -18,6 +18,7 @@ import {
   SETTING_TENANT,
   SET_TENANT,
   LOGOUT,
+  SET_COGNITO_READY,
 } from './constants';
 
 const initialState = fromJS({
@@ -32,6 +33,7 @@ const initialState = fromJS({
     tenants: [],
   },
   tenant: { id: '' },
+  cognitoReady: false,
 });
 
 function loginReducer(state = initialState, action) {
@@ -58,6 +60,8 @@ function loginReducer(state = initialState, action) {
       return state.set('tenant', fromJS({ id: action.id, name: action.name }));
     case SHOW_LOGIN:
       return state.set('showLogin', action.show);
+    case SET_COGNITO_READY:
+      return state.set('cognitoReady', true);
     default:
       return state;
   }

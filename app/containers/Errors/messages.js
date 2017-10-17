@@ -82,4 +82,9 @@ export default defineMessages({
     defaultMessage:
       'Your interaction failed, please try again. If this issue continues please contact your administrator.',
   },
+  ssoFailed: {
+    id: 'app.components.Errors.ssoFailed',
+    defaultMessage:
+      'SSO Login Failed, please try again. If this issue continues please contact your administrator.',
+  },
 });
