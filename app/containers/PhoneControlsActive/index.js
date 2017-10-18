@@ -30,6 +30,7 @@ import {
 } from 'containers/AgentDesktop/selectors';
 import TransferMenu from 'containers/TransferMenu';
 import TransferResource from 'components/TransferResource';
+import { setInteractionStatus } from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
 
@@ -86,6 +87,13 @@ export class PhoneControlsActive extends React.Component {
         interactionId: this.props.activeVoiceInteraction.interactionId,
       });
     }
+  };
+
+  confirmEndInteraction = () => {
+    this.props.setInteractionStatus(
+      this.props.activeVoiceInteraction.interactionId,
+      'end-requested'
+    );
   };
 
   endInteraction = () => {
@@ -420,7 +428,7 @@ export class PhoneControlsActive extends React.Component {
             <CircleIconButton
               id="endCallButton"
               name="endCall"
-              onClick={this.endInteraction}
+              onClick={this.confirmEndInteraction}
               style={this.styles.circleIconButtonRow}
             />
             {this.props.activeVoiceInteraction.status !== 'fatal' &&
@@ -526,6 +534,14 @@ const mapStateToProps = (state, props) => ({
   queuesSet: selectQueuesSet(state, props),
 });
 
+function mapDispatchToProps(dispatch) {
+  return {
+    setInteractionStatus: (interactionId, status) =>
+      dispatch(setInteractionStatus(interactionId, status)),
+    dispatch,
+  };
+}
+
 PhoneControlsActive.propTypes = {
   intl: intlShape.isRequired,
   agentId: PropTypes.string.isRequired,
@@ -533,6 +549,7 @@ PhoneControlsActive.propTypes = {
   activeExtension: PropTypes.object,
   queuesSet: PropTypes.bool,
   dialpadPosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setInteractionStatus: PropTypes.func.isRequired,
 };
 
 PhoneControlsActive.contextTypes = {
@@ -540,5 +557,7 @@ PhoneControlsActive.contextTypes = {
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps)(injectIntl(Radium(PhoneControlsActive)))
+  injectIntl(
+    connect(mapStateToProps, mapDispatchToProps)(Radium(PhoneControlsActive))
+  )
 );

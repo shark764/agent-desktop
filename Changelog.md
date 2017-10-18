@@ -1,3 +1,6 @@
+### [1.7.4] (2017-10-18)
+* CXV1-11757 - Confirm dialog for ending interactions
+
 ### [1.7.3] (2017-10-17)
 * CXV1-10844 - Single Sign On
 

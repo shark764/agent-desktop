@@ -23,7 +23,7 @@ import VoiceContentArea from 'containers/VoiceContentArea';
 import WorkItemContentArea from 'containers/WorkItemContentArea';
 import WelcomeStats from 'containers/WelcomeStats';
 
-import { removeInteraction } from 'containers/AgentDesktop/actions';
+import { setInteractionStatus } from 'containers/AgentDesktop/actions';
 import { getSelectedInteraction } from 'containers/AgentDesktop/selectors';
 
 import { selectMessageTemplates } from './selectors';
@@ -39,39 +39,10 @@ const styles = {
 
 class MainContentArea extends React.Component {
   endInteraction = () => {
-    if (this.props.selectedInteraction.status === 'wrapup') {
-      CxEngage.interactions.endWrapup({
-        interactionId: this.props.selectedInteraction.interactionId,
-      });
-    } else if (
-      this.props.selectedInteraction.status === 'connecting-to-outbound' ||
-      this.props.selectedInteraction.status === 'initializing-outbound'
-    ) {
-      this.props.removeInteraction(
-        this.props.selectedInteraction.interactionId
-      );
-    } else if (
-      this.props.selectedInteraction.channelType === 'email' &&
-      this.props.selectedInteraction.direction === 'outbound'
-    ) {
-      CxEngage.interactions.sendCustomInterrupt({
-        interactionId: this.props.selectedInteraction.interactionId,
-        interruptType: 'work-cancel',
-        interruptBody: {
-          resourceId: this.props.agent.userId,
-        },
-      });
-    } else {
-      CxEngage.interactions.end({
-        interactionId: this.props.selectedInteraction.interactionId,
-      });
-      // FIXME We shouldn't have to do this. Flow should be sending us a work-ended back, but it is not currently.
-      if (this.props.selectedInteraction.status === 'initialized-outbound') {
-        this.props.removeInteraction(
-          this.props.selectedInteraction.interactionId
-        );
-      }
-    }
+    this.props.setInteractionStatus(
+      this.props.selectedInteraction.interactionId,
+      'end-requested'
+    );
   };
 
   render() {
@@ -113,6 +84,7 @@ class MainContentArea extends React.Component {
           <EmailContentArea
             selectedInteraction={selectedInteraction}
             endInteraction={this.endInteraction}
+            agent={this.props.agent}
             emailTemplates={emailTemplates}
           />
         );
@@ -152,8 +124,8 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    removeInteraction: (interactionId) =>
-      dispatch(removeInteraction(interactionId)),
+    setInteractionStatus: (interactionId, status) =>
+      dispatch(setInteractionStatus(interactionId, status)),
     dispatch,
   };
 }
@@ -161,9 +133,9 @@ function mapDispatchToProps(dispatch) {
 MainContentArea.propTypes = {
   selectedInteraction: PropTypes.object,
   messageTemplates: PropTypes.array,
-  removeInteraction: PropTypes.func.isRequired,
   style: PropTypes.array,
   agent: PropTypes.object.isRequired,
+  setInteractionStatus: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(

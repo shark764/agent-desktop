@@ -21,6 +21,7 @@ const selectActiveNonVoiceInteractions = createSelector(
       (interaction) =>
         (interaction.status === 'work-accepting' ||
           interaction.status === 'work-accepted' ||
+          interaction.status === 'end-requested' ||
           interaction.status === 'wrapup' ||
           interaction.status === 'work-ended-pending-script' ||
           interaction.status === 'creating-new-interaction' ||
@@ -39,6 +40,7 @@ const selectActiveVoiceInteraction = createSelector(
       (interaction) =>
         (interaction.status === 'work-accepting' ||
           interaction.status === 'work-accepted' ||
+          interaction.status === 'end-requested' ||
           interaction.status === 'wrapup' ||
           interaction.status === 'work-ended-pending-script') &&
         interaction.channelType === 'voice'

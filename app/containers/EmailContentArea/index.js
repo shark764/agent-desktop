@@ -1190,6 +1190,7 @@ export class EmailContentArea extends React.Component {
         buttonConfig={buttonConfig}
         details={details}
         content={content}
+        agent={this.props.agent}
       />
     );
   }
@@ -1207,6 +1208,7 @@ EmailContentArea.propTypes = {
   emailSendReply: PropTypes.func.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
   emailTemplates: PropTypes.array.isRequired,
+  agent: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({

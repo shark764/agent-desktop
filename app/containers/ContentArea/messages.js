@@ -42,4 +42,20 @@ export default defineMessages({
     id: 'app.containers.ContentArea.recordLinked',
     defaultMessage: 'Record linked!',
   },
+  confirmDialog1: {
+    id: 'app.containers.ContentArea.confirmDialog1',
+    defaultMessage: 'Are you sure you want to end the interaction?',
+  },
+  confirmDialog2: {
+    id: 'app.containers.ContentArea.confirmDialog2',
+    defaultMessage: 'This action cannot be undone.',
+  },
+  cancelButton: {
+    id: 'app.containers.ContentArea.cancelEndButton',
+    defaultMessage: 'Cancel',
+  },
+  confirmButton: {
+    id: 'app.containers.ContentArea.confirmEndButton',
+    defaultMessage: 'Confirm',
+  },
 });

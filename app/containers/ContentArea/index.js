@@ -24,7 +24,11 @@ import IconSVG from 'components/IconSVG';
 import Button from 'components/Button';
 import ContentAreaTop from 'containers/ContentAreaTop';
 
-import { updateNote } from 'containers/AgentDesktop/actions';
+import {
+  updateNote,
+  setInteractionStatus,
+  removeInteraction,
+} from 'containers/AgentDesktop/actions';
 import {
   selectAgentDesktopMap,
   selectAwaitingDisposition,
@@ -304,6 +308,49 @@ export class ContentArea extends React.Component {
       width: '16px',
       height: '16px',
     },
+    confirmDialog: {
+      display: 'grid',
+      height: 'calc(100% - 50px)',
+    },
+    confirmDialogInnerDiv: {
+      margin: 'auto',
+      textAlign: 'center',
+      color: 'white',
+    },
+    confirmDialogWrapper: {
+      position: 'absolute',
+      height: '100%',
+      width: '100%',
+      zIndex: 10,
+      backgroundColor: 'rgba(16, 60, 78, 0.8)',
+    },
+    blueQuestionMark: {
+      borderRadius: '50%',
+      backgroundColor: '#23cef5',
+      width: '20px',
+      display: 'inline-block',
+      margin: '10px',
+    },
+    blueLine: {
+      height: '1px',
+      width: '50px',
+      marginBottom: '18px',
+      backgroundColor: '#23cef5',
+      display: 'inline-block',
+      position: 'relative',
+      top: '13px',
+    },
+    confirmButtons: {
+      backgroundColor: 'white',
+      padding: '7px 40px',
+      border: 'none',
+      margin: '15px',
+      position: 'relative',
+      bottom: '30px',
+      ':hover': {
+        cursor: 'pointer',
+      },
+    },
   };
 
   setNotesPanelHeight = (newHeight) => {
@@ -444,6 +491,54 @@ export class ContentArea extends React.Component {
     );
   };
 
+  getConfirmContent = () =>
+    this.props.interaction.status === 'end-requested'
+      ? <div style={this.styles.confirmDialogWrapper}>
+        <div style={this.styles.confirmDialog}>
+          <div style={this.styles.confirmDialogInnerDiv}>
+            <FormattedMessage
+              {...messages.confirmDialog1}
+              id="confirmDialog1"
+            />
+            <div style={{ width: '100%' }}>
+              <div style={this.styles.blueLine} />
+              <div style={this.styles.blueQuestionMark}>?</div>
+              <div style={this.styles.blueLine} />
+            </div>
+            <FormattedMessage
+              {...messages.confirmDialog2}
+              id="confirmDialog2"
+              style={{ fontWeight: 'bold' }}
+            />
+          </div>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <button
+            key="cancelButton"
+            style={this.styles.confirmButtons}
+            onClick={() => this.cancelConfirmEnd()}
+            id="cancelEndButton"
+          >
+            <FormattedMessage
+              {...messages.cancelButton}
+              id="cancelEndButton"
+            />
+          </button>
+          <button
+            key="confirmButton"
+            style={this.styles.confirmButtons}
+            onClick={() => this.confirmEnd()}
+            id="confirmEndButton"
+          >
+            <FormattedMessage
+              {...messages.confirmButton}
+              id="confirmEndButton"
+            />
+          </button>
+        </div>
+      </div>
+      : null;
+
   getDispositionsContent = () =>
     this.props.interaction.dispositionDetails.dispositions.length > 0 &&
     <div
@@ -539,9 +634,48 @@ export class ContentArea extends React.Component {
     }
   };
 
+  confirmEnd = () => {
+    if (this.props.interaction.status === 'wrapup') {
+      CxEngage.interactions.endWrapup({
+        interactionId: this.props.interaction.interactionId,
+      });
+    } else if (
+      this.props.interaction.status === 'connecting-to-outbound' ||
+      this.props.interaction.status === 'initializing-outbound'
+    ) {
+      this.props.removeInteraction(this.props.interaction.interactionId);
+    } else if (
+      this.props.interaction.channelType === 'email' &&
+      this.props.interaction.direction === 'outbound'
+    ) {
+      CxEngage.interactions.sendCustomInterrupt({
+        interactionId: this.props.interaction.interactionId,
+        interruptType: 'work-cancel',
+        interruptBody: {
+          resourceId: this.props.agent.userId,
+        },
+      });
+    } else if (!isUUID(this.props.interaction.interactionId)) {
+      this.props.removeInteraction(this.props.interaction.interactionId);
+    } else {
+      CxEngage.interactions.end({
+        interactionId: this.props.interaction.interactionId,
+      });
+      // FIXME We shouldn't have to do this. Flow should be sending us a work-ended back, but it is not currently.
+      if (this.props.interaction.status === 'initialized-outbound') {
+        this.props.removeInteraction(this.props.interaction.interactionId);
+      }
+    }
+  };
+  cancelConfirmEnd = () => {
+    this.props.setInteractionStatus(
+      this.props.interaction.interactionId,
+      'work-accepted'
+    );
+  };
+
   render() {
     let buttonConfig = this.props.buttonConfig;
-
     if (this.props.zendeskActiveTab) {
       const isSelected =
         this.props.interaction.contact &&
@@ -549,77 +683,83 @@ export class ContentArea extends React.Component {
           this.props.zendeskActiveTab.get('type') &&
         this.props.interaction.contact.id ===
           this.props.zendeskActiveTab.get('id');
-
-      const zendeskAssignBtnConfig = [
-        {
-          id: 'zendeskAssign',
-          type: 'secondary',
-          text: isSelected ? messages.assigned : messages.assign,
-          onClick: this.zendeskAssign,
-          isSelected,
-          // isUUID only returns true once we have passed through a series
-          // of states that take us from the attempt to connect to outbound
-          // up until the interaction has has actually started and has a interactionId.
-          disabled: !isUUID(this.props.interaction.interactionId),
-        },
-      ];
-
-      buttonConfig = zendeskAssignBtnConfig.concat(buttonConfig);
+      buttonConfig = buttonConfig.concat({
+        id: 'zendeskAssign',
+        type: 'secondary',
+        text: isSelected ? messages.assigned : messages.assign,
+        onClick: this.zendeskAssign,
+        isSelected,
+        // isUUID only returns true once we have passed through a series
+        // of states that take us from the attempt to connect to outbound
+        // up until the interaction has has actually started and has a interactionId.
+        disabled: !isUUID(this.props.interaction.interactionId),
+      });
     }
 
     let notesDisabled = false;
     if (this.context.toolbarMode) {
       notesDisabled = true;
     }
-
     return (
-      <div style={this.styles.base}>
-        <div style={this.styles.mainContent}>
-          <div style={this.styles.base}>
-            {this.props.crmModule &&
-              <CrmRecordNotification
-                contactWasAssignedNotification={
-                  this.props.interaction.contactWasAssignedNotification
-                }
-                interactionId={this.props.interaction.interactionId}
-              />}
-            <div style={this.styles.header}>
-              <ContentAreaTop
-                interaction={this.props.interaction}
-                from={this.props.from}
-                buttonConfig={buttonConfig}
-              />
-              <div style={this.styles.details}>
-                {this.props.details}
+      <div style={{ height: '100%' }}>
+        {this.getConfirmContent()}
+        <div
+          style={[
+            this.styles.base,
+            {
+              filter: `blur(${this.props.interaction.status === 'end-requested'
+                ? '1'
+                : '0'}px)`,
+            },
+          ]}
+        >
+          <div style={this.styles.mainContent}>
+            <div style={this.styles.base}>
+              {this.props.crmModule &&
+                <CrmRecordNotification
+                  contactWasAssignedNotification={
+                    this.props.interaction.contactWasAssignedNotification
+                  }
+                  interactionId={this.props.interaction.interactionId}
+                />}
+              <div style={this.styles.header}>
+                <ContentAreaTop
+                  interaction={this.props.interaction}
+                  from={this.props.from}
+                  buttonConfig={buttonConfig}
+                />
+                <div style={this.styles.details}>
+                  {this.props.details}
+                </div>
               </div>
+              {this.props.content &&
+                <div style={this.styles.content}>
+                  {this.props.content}
+                </div>}
+              {notesDisabled &&
+                <div style={{ paddingTop: '15px', marginTop: 'auto' }}>
+                  {this.getDispositionsContent()}
+                </div>}
             </div>
-            {this.props.content &&
-              <div style={this.styles.content}>
-                {this.props.content}
-              </div>}
-            {notesDisabled &&
-              <div style={{ paddingTop: '15px', marginTop: 'auto' }}>
-                {this.getDispositionsContent()}
-              </div>}
           </div>
+          {!notesDisabled && [
+            this.props.content
+              ? <Resizable
+                id="notes-resizable"
+                key="notes-resizable"
+                direction="top"
+                setPx={this.setNotesPanelHeight}
+                disabledPx={50}
+                px={this.state.notesPanelHeight}
+                maxPx={600}
+                minPx={125}
+                isDisabled={false}
+              >
+                {this.getNotesContent()}
+              </Resizable>
+              : this.getNotesContent(),
+          ]}
         </div>
-        {!notesDisabled && [
-          this.props.content
-            ? <Resizable
-              id="notes-resizable"
-              key="notes-resizable"
-              direction="top"
-              setPx={this.setNotesPanelHeight}
-              disabledPx={50}
-              px={this.state.notesPanelHeight}
-              maxPx={600}
-              minPx={125}
-              isDisabled={false}
-            >
-              {this.getNotesContent()}
-            </Resizable>
-            : this.getNotesContent(),
-        ]}
       </div>
     );
   }
@@ -637,6 +777,9 @@ ContentArea.propTypes = {
   zendeskActiveTab: PropTypes.object,
   awaitingDisposition: PropTypes.bool.isRequired,
   updateNote: PropTypes.func.isRequired,
+  setInteractionStatus: PropTypes.func.isRequired,
+  removeInteraction: PropTypes.func.isRequired,
+  agent: PropTypes.object,
 };
 
 ContentArea.contextTypes = {
@@ -653,6 +796,10 @@ function mapDispatchToProps(dispatch) {
   return {
     updateNote: (interactionId, note) =>
       dispatch(updateNote(interactionId, note)),
+    removeInteraction: (interactionId) =>
+      dispatch(removeInteraction(interactionId)),
+    setInteractionStatus: (interactionId, status) =>
+      dispatch(setInteractionStatus(interactionId, status)),
     dispatch,
   };
 }
