@@ -1,3 +1,6 @@
+### [1.7.5] (2017-10-20)
+* SDK Bump
+
 ### [1.7.4] (2017-10-18)
 * CXV1-11757 - Confirm dialog for ending interactions
 
