@@ -13,8 +13,10 @@ import { fromJS } from 'immutable';
 import { DEFAULT_LOCALE } from 'containers/AgentDesktop/constants';
 import { CHANGE_LOCALE } from './constants';
 
+const storage = window.localStorage;
+
 const initialState = fromJS({
-  locale: DEFAULT_LOCALE,
+  locale: storage.getItem('locale') || DEFAULT_LOCALE,
 });
 
 function languageProviderReducer(state = initialState, action) {

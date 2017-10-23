@@ -597,7 +597,7 @@ export class Login extends React.Component {
 
   setLocalLocale = (locale) => {
     storage.setItem('locale', locale);
-    CxEngage.session.setLocale({ locale });
+    location.reload();
   };
 
   toggleLanguageMenu = () => {
