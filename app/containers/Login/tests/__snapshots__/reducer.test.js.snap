@@ -11,6 +11,5 @@ Immutable.Map {
   tenant: Immutable.Map {
     id: "",
   },
-  cognitoReady: false,
 }
 `;

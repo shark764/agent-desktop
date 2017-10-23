@@ -19,4 +19,3 @@ export const SHOW_LOGIN = 'app/Login/SHOW_LOGIN';
 export const SETTING_TENANT = 'app/Login/SETTING_TENANT';
 export const SET_TENANT = 'app/Login/SET_TENANT';
 export const LOGOUT = 'app/Login/LOGOUT';
-export const SET_COGNITO_READY = 'app/Login/SET_COGNITO_READY';

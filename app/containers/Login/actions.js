@@ -18,7 +18,6 @@ import {
   SETTING_TENANT,
   SET_TENANT,
   LOGOUT,
-  SET_COGNITO_READY,
 } from './constants';
 
 export function setInitiatedStandalonePopup() {
@@ -77,11 +76,5 @@ export function showLogin(show) {
   return {
     type: SHOW_LOGIN,
     show,
-  };
-}
-
-export function setCognitoReady() {
-  return {
-    type: SET_COGNITO_READY,
   };
 }
