@@ -17,7 +17,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
-import { urlHash, clearUrlHash } from 'utils/url';
+import { clearUrlHash } from 'utils/url';
 
 import Dialog from 'components/Dialog';
 import Logo from 'components/Logo';
@@ -195,40 +195,51 @@ export class Login extends React.Component {
     };
   }
 
-  componentWillMount() {
-    const urlHashObj = urlHash();
-    if (urlHashObj.access_token) {
-      this.ssoRedirectSuccess();
-    } else if (urlHashObj.error) {
-      console.log('SSO Login Error:', urlHashObj);
-      this.props.setNonCriticalError({ code: 'ssoFailed' });
-    }
+  componentDidMount() {
+    const waitingOnSdk = setInterval(() => {
+      if (CxEngage.subscribe) {
+        CxEngage.subscribe(
+          'cxengage/authentication',
+          (authError, authTopic) => {
+            if (authError) {
+              // Handled in App
+            } else {
+              switch (authTopic) {
+                case 'cxengage/authentication/cognito-initialized-response': {
+                  CxEngage.authentication.ssoLogin((error, topic, response) => {
+                    if (!error) {
+                      this.props.dismissError();
+                      clearUrlHash();
+                      console.log(
+                        '[SSO-Login] CxEngage.subscribe()',
+                        topic,
+                        response
+                      );
+                      this.loginCB(response);
+                    } else {
+                      this.props.errorOccurred();
+                    }
+                  });
+                  break;
+                }
+                default: {
+                  // Do Nothing
+                }
+              }
+            }
+          }
+        );
+        clearInterval(waitingOnSdk);
+      }
+    }, 200);
   }
 
   // REMOVE after sso is ready for everyone
   ssoFlag = () => window.location.href.indexOf('sso') > -1;
 
   loginWithSso = () => {
-    CxEngage.authentication.getAuthInfo({ username: this.state.ssoEmail });
-  };
-
-  ssoRedirectSuccess = () => {
-    const isCognitoReady = setInterval(() => {
-      if (this.props.cognitoReady) {
-        CxEngage.authentication.ssoLogin((error, topic, response) => {
-          if (!error) {
-            this.props.dismissError();
-            clearUrlHash();
-            console.log('[SSO-Login] CxEngage.subscribe()', topic, response);
-            this.loginCB(response);
-          } else {
-            this.props.errorOccurred();
-          }
-        });
-        clearInterval(isCognitoReady);
-      }
-    }, 500);
     this.props.loggingIn();
+    CxEngage.authentication.getAuthInfo({ username: this.state.ssoEmail });
   };
 
   onLogin = () => {
@@ -692,7 +703,6 @@ const mapStateToProps = (state, props) => ({
   locale: selectLocale()(state),
   crmModule: selectCrmModule(state, props),
   isStandalonePopup: selectAgentDesktopMap(state, props).get('standalonePopup'),
-  cognitoReady: state.get('login').get('cognitoReady'),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -730,7 +740,6 @@ Login.propTypes = {
   crmModule: PropTypes.string,
   isStandalonePopup: PropTypes.bool,
   initiatedStandalonePopup: PropTypes.bool,
-  cognitoReady: PropTypes.bool,
 };
 
 Login.contextTypes = {
