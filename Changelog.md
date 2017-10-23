@@ -1,3 +1,6 @@
+### [1.7.8] (2017-10-23)
+* CXV1-11897 Open zendesk app when interaction comes in
+
 ### [1.7.7] (2017-10-23)
 * Hotfix for Locale bugs
 

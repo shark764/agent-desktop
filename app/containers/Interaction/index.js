@@ -23,6 +23,7 @@ import TimerMinutes from 'components/TimerMinutes';
 import Progress from 'components/Progress';
 import Button from 'components/Button';
 import { cancelClickToDial } from 'containers/AgentDesktop/actions';
+import { selectCrmModule } from 'containers/AgentDesktop/selectors';
 
 import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
 
@@ -236,6 +237,10 @@ export class Interaction extends React.Component {
         ),
       });
     }
+  }
+  componentWillMount() {
+    if (this.props.crmModule === 'zendesk')
+      CxEngage.zendesk.setVisibility({ visibility: true });
   }
 
   componentWillUnmount() {
@@ -570,6 +575,7 @@ Interaction.propTypes = {
   activeExtension: PropTypes.object.isRequired,
   cancelClickToDial: PropTypes.func,
   contactPoint: PropTypes.string,
+  crmModule: PropTypes.string,
   interaction: PropTypes.shape({
     interactionId: PropTypes.string,
     timeout: PropTypes.number,
@@ -584,6 +590,7 @@ Interaction.propTypes = {
 
 const mapStateToProps = (state, props) => ({
   activeExtension: selectActiveExtension(state, props),
+  crmModule: selectCrmModule(state, props),
 });
 
 Interaction.contextTypes = {
