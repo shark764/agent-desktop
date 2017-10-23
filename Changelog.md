@@ -1,3 +1,6 @@
+### [1.7.7] (2017-10-23)
+* Hotfix for Locale bugs
+
 ### [1.7.6] (2017-10-23)
 * SSO pub sub fixes
 
