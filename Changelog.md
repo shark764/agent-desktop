@@ -1,3 +1,6 @@
+### [1.7.9] (2017-10-23)
+* CXV1-11757 - Confirm dialog for ending interactions now excludes wrapup
+
 ### [1.7.8] (2017-10-23)
 * CXV1-11897 Open zendesk app when interaction comes in
 

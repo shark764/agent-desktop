@@ -24,6 +24,8 @@ export const UPDATE_WRAPUP_DETAILS = 'app/AgentDesktop/UPDATE_WRAPUP_DETAILS';
 export const ADD_SCRIPT = 'app/AgentDesktop/ADD_SCRIPT';
 export const REMOVE_SCRIPT = 'app/AgentDesktop/REMOVE_SCRIPT';
 export const SET_INTERACTION_STATUS = 'app/AgentDesktop/SET_INTERACTION_STATUS';
+export const SET_INTERACTION_CONFIRMATION =
+  'app/AgentDesktop/SET_INTERACTION_CONFIRMATION';
 export const SET_ACTIVE_RESOURCES = 'app/AgentDesktop/SET_ACTIVE_RESOURCES';
 export const WORK_ACCEPTED = 'app/AgentDesktop/WORK_ACCEPTED';
 export const OPEN_NEW_INTERACTION_PANEL =

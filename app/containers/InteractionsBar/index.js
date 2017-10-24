@@ -25,6 +25,7 @@ import {
   showSidePanel,
   selectSidePanelTab,
   selectInteraction,
+  hideInteractionsBar,
 } from 'containers/AgentDesktop/actions';
 import {
   selectCrmModule,
@@ -100,6 +101,9 @@ export class InteractionsBar extends React.Component {
   };
 
   acceptInteraction = (interactionId) => {
+    if (this.context.toolbarMode) {
+      this.props.hideInteractionsBar();
+    }
     const interaction = this.props.pendingInteractions.find(
       (availableInteraction) =>
         availableInteraction.interactionId === interactionId
@@ -655,6 +659,7 @@ function mapDispatchToProps(dispatch) {
     selectInteraction: (interactionId) =>
       dispatch(selectInteraction(interactionId)),
     showSidePanel: (interactionId) => dispatch(showSidePanel(interactionId)),
+    hideInteractionsBar: () => dispatch(hideInteractionsBar()),
     dispatch,
   };
 }
@@ -675,6 +680,7 @@ InteractionsBar.propTypes = {
   newInteractionPanel: PropTypes.object.isRequired,
   openNewInteractionPanel: PropTypes.func.isRequired,
   isInteractionsBarCollapsed: PropTypes.bool.isRequired,
+  hideInteractionsBar: PropTypes.func.isRequired,
 };
 
 InteractionsBar.contextTypes = {
