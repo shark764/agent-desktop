@@ -31,6 +31,7 @@ import {
   SET_QUEUE_TIME,
   SET_PRESENCE,
   SET_INTERACTION_STATUS,
+  SET_INTERACTION_CONFIRMATION,
   SET_ACTIVE_RESOURCES,
   OPEN_NEW_INTERACTION_PANEL,
   NEW_INTERACTION_PANEL_SELECT_CONTACT,
@@ -591,6 +592,23 @@ function agentDesktopReducer(state = initialState, action) {
                 .set('wrapupStarted', Date.now())
           );
         }
+        return newState;
+      }
+      return state;
+    }
+    case SET_INTERACTION_CONFIRMATION: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        const newState = state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) => {
+            const updatedInteraction = interaction.set(
+              'endConfirmation',
+              action.newStatus
+            );
+            return updatedInteraction;
+          }
+        );
         return newState;
       }
       return state;

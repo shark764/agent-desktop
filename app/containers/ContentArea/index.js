@@ -26,7 +26,7 @@ import ContentAreaTop from 'containers/ContentAreaTop';
 
 import {
   updateNote,
-  setInteractionStatus,
+  setInteractionConfirmation,
   removeInteraction,
 } from 'containers/AgentDesktop/actions';
 import {
@@ -349,6 +349,7 @@ export class ContentArea extends React.Component {
       bottom: '30px',
       ':hover': {
         cursor: 'pointer',
+        boxShadow: `0px 0px 10px rgb(35, 205, 244)`,
       },
     },
   };
@@ -491,25 +492,20 @@ export class ContentArea extends React.Component {
     );
   };
 
-  getConfirmContent = () =>
-    this.props.interaction.status === 'end-requested'
+  getConfirmContent = () => {
+    const { formatMessage } = this.props.intl;
+    return this.props.interaction.endConfirmation === true &&
+    this.props.interaction.status !== 'wrapup'
       ? <div style={this.styles.confirmDialogWrapper}>
         <div style={this.styles.confirmDialog}>
           <div style={this.styles.confirmDialogInnerDiv}>
-            <FormattedMessage
-              {...messages.confirmDialog1}
-              id="confirmDialog1"
-            />
+            {formatMessage(messages.confirmDialog1)}
             <div style={{ width: '100%' }}>
               <div style={this.styles.blueLine} />
               <div style={this.styles.blueQuestionMark}>?</div>
               <div style={this.styles.blueLine} />
             </div>
-            <FormattedMessage
-              {...messages.confirmDialog2}
-              id="confirmDialog2"
-              style={{ fontWeight: 'bold' }}
-            />
+            {formatMessage(messages.confirmDialog2)}
           </div>
         </div>
         <div style={{ textAlign: 'center' }}>
@@ -518,11 +514,9 @@ export class ContentArea extends React.Component {
             style={this.styles.confirmButtons}
             onClick={() => this.cancelConfirmEnd()}
             id="cancelEndButton"
+            autoFocus
           >
-            <FormattedMessage
-              {...messages.cancelButton}
-              id="cancelEndButton"
-            />
+            {formatMessage(messages.cancelButton)}
           </button>
           <button
             key="confirmButton"
@@ -530,14 +524,12 @@ export class ContentArea extends React.Component {
             onClick={() => this.confirmEnd()}
             id="confirmEndButton"
           >
-            <FormattedMessage
-              {...messages.confirmButton}
-              id="confirmEndButton"
-            />
+            {formatMessage(messages.confirmButton)}
           </button>
         </div>
       </div>
       : null;
+  };
 
   getDispositionsContent = () =>
     this.props.interaction.dispositionDetails.dispositions.length > 0 &&
@@ -635,11 +627,7 @@ export class ContentArea extends React.Component {
   };
 
   confirmEnd = () => {
-    if (this.props.interaction.status === 'wrapup') {
-      CxEngage.interactions.endWrapup({
-        interactionId: this.props.interaction.interactionId,
-      });
-    } else if (
+    if (
       this.props.interaction.status === 'connecting-to-outbound' ||
       this.props.interaction.status === 'initializing-outbound'
     ) {
@@ -668,9 +656,9 @@ export class ContentArea extends React.Component {
     }
   };
   cancelConfirmEnd = () => {
-    this.props.setInteractionStatus(
+    this.props.setInteractionConfirmation(
       this.props.interaction.interactionId,
-      'work-accepted'
+      false
     );
   };
 
@@ -707,7 +695,8 @@ export class ContentArea extends React.Component {
           style={[
             this.styles.base,
             {
-              filter: `blur(${this.props.interaction.status === 'end-requested'
+              filter: `blur(${this.props.interaction.endConfirmation === true &&
+              this.props.interaction.status !== 'wrapup'
                 ? '1'
                 : '0'}px)`,
             },
@@ -777,7 +766,7 @@ ContentArea.propTypes = {
   zendeskActiveTab: PropTypes.object,
   awaitingDisposition: PropTypes.bool.isRequired,
   updateNote: PropTypes.func.isRequired,
-  setInteractionStatus: PropTypes.func.isRequired,
+  setInteractionConfirmation: PropTypes.func.isRequired,
   removeInteraction: PropTypes.func.isRequired,
   agent: PropTypes.object,
 };
@@ -798,8 +787,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(updateNote(interactionId, note)),
     removeInteraction: (interactionId) =>
       dispatch(removeInteraction(interactionId)),
-    setInteractionStatus: (interactionId, status) =>
-      dispatch(setInteractionStatus(interactionId, status)),
+    setInteractionConfirmation: (interactionId, status) =>
+      dispatch(setInteractionConfirmation(interactionId, status)),
     dispatch,
   };
 }

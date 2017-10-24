@@ -30,7 +30,7 @@ import {
 } from 'containers/AgentDesktop/selectors';
 import TransferMenu from 'containers/TransferMenu';
 import TransferResource from 'components/TransferResource';
-import { setInteractionStatus } from 'containers/AgentDesktop/actions';
+import { setInteractionConfirmation } from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
 
@@ -90,16 +90,10 @@ export class PhoneControlsActive extends React.Component {
   };
 
   confirmEndInteraction = () => {
-    this.props.setInteractionStatus(
+    this.props.setInteractionConfirmation(
       this.props.activeVoiceInteraction.interactionId,
-      'end-requested'
+      true
     );
-  };
-
-  endInteraction = () => {
-    CxEngage.interactions.end({
-      interactionId: this.props.activeVoiceInteraction.interactionId,
-    });
   };
 
   setMute = () => {
@@ -536,8 +530,8 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setInteractionStatus: (interactionId, status) =>
-      dispatch(setInteractionStatus(interactionId, status)),
+    setInteractionConfirmation: (interactionId, status) =>
+      dispatch(setInteractionConfirmation(interactionId, status)),
     dispatch,
   };
 }
@@ -549,7 +543,7 @@ PhoneControlsActive.propTypes = {
   activeExtension: PropTypes.object,
   queuesSet: PropTypes.bool,
   dialpadPosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  setInteractionStatus: PropTypes.func.isRequired,
+  setInteractionConfirmation: PropTypes.func.isRequired,
 };
 
 PhoneControlsActive.contextTypes = {

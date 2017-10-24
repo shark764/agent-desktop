@@ -23,7 +23,7 @@ import VoiceContentArea from 'containers/VoiceContentArea';
 import WorkItemContentArea from 'containers/WorkItemContentArea';
 import WelcomeStats from 'containers/WelcomeStats';
 
-import { setInteractionStatus } from 'containers/AgentDesktop/actions';
+import { setInteractionConfirmation } from 'containers/AgentDesktop/actions';
 import { getSelectedInteraction } from 'containers/AgentDesktop/selectors';
 
 import { selectMessageTemplates } from './selectors';
@@ -39,10 +39,16 @@ const styles = {
 
 class MainContentArea extends React.Component {
   endInteraction = () => {
-    this.props.setInteractionStatus(
-      this.props.selectedInteraction.interactionId,
-      'end-requested'
-    );
+    if (this.props.selectedInteraction.status === 'wrapup') {
+      CxEngage.interactions.endWrapup({
+        interactionId: this.props.selectedInteraction.interactionId,
+      });
+    } else {
+      this.props.setInteractionConfirmation(
+        this.props.selectedInteraction.interactionId,
+        true
+      );
+    }
   };
 
   render() {
@@ -124,8 +130,8 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setInteractionStatus: (interactionId, status) =>
-      dispatch(setInteractionStatus(interactionId, status)),
+    setInteractionConfirmation: (interactionId, status) =>
+      dispatch(setInteractionConfirmation(interactionId, status)),
     dispatch,
   };
 }
@@ -135,7 +141,7 @@ MainContentArea.propTypes = {
   messageTemplates: PropTypes.array,
   style: PropTypes.array,
   agent: PropTypes.object.isRequired,
-  setInteractionStatus: PropTypes.func.isRequired,
+  setInteractionConfirmation: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(

@@ -52,6 +52,7 @@ import {
   REMOVE_CONTACT,
   ADD_MESSAGE,
   SET_INTERACTION_STATUS,
+  SET_INTERACTION_CONFIRMATION,
   SET_ACTIVE_RESOURCES,
   WORK_ACCEPTED,
   ADD_SEARCH_FILTER,
@@ -475,6 +476,15 @@ export function addMessage(interactionId, message) {
 export function setInteractionStatus(interactionId, newStatus, response) {
   return {
     type: SET_INTERACTION_STATUS,
+    interactionId,
+    newStatus,
+    response,
+  };
+}
+
+export function setInteractionConfirmation(interactionId, newStatus, response) {
+  return {
+    type: SET_INTERACTION_CONFIRMATION,
     interactionId,
     newStatus,
     response,
