@@ -22,11 +22,6 @@ In addition to the 2 packages listed above as required, you'll also need to have
 3. You'll be offered a series of prompts comprised mostly of "yes or no" questions, or requests to paste a value from another terminal window. Multiple terminal windows will be popping out as well to independently handle the multiple processes/local servers you'll need to run simultaneously.
 
 4. At the end of the process, you'll end up with the zip file in the root of zendesk-managed-package-v2 named "zendesk.zip" which you'll be uploading to the Zendesk admin panel. Go to https://liveops-test1.zendesk.com/agent/admin/apps/manage and update your app with the new zip file.
-
-**NOTE:**
-* This task does *not* swap out the remotely-hosted modal.html file with your local one (in zendesk-managed-package-v2/assets). In order to do that, you'll need to replace the URL in the following line of code with the same domain and path (up to the file name, of course) that you're using in the manifest.json for the widgets: [the link to the modal](https://github.com/liveops/cxengage-javascript-sdk/blob/master/src/cljs/cxengage_javascript_sdk/modules/zendesk.cljs#L262)
-
-* At the time of writing, this has only been tested on a Linux/Ubuntu and Mac systems, not 100% sure if any adjustments would need to be made for Windows(?).
 ---
 ## MANUAL SETUP ##
 
