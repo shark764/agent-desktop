@@ -34,45 +34,11 @@ if [[ !($allinstalled =~ ^([yY][eE][sS]|[yY])+$) ]]
 fi
 
 echo " "
-echo "**************************************"
-echo "* GENERATE THE COMPILED THE SDK FILE *"
-echo "**************************************"
-echo "Is this your first time running the SDK locally, or would you like to create a new build of the SDK for any reason? (y/N)"
-read makeprodrelease
-if [[ ($makeprodrelease =~ ^([yY][eE][sS]|[yY])+$) ]]
-  then
-    xterm -e 'cd ./../cxengage-javascript-sdk;boot make-prod-release' &
-  else
-    xterm -e 'cd ./../cxengage-javascript-sdk;boot dev' &
-fi
-xterm -e 'cd ./../cxengage-javascript-sdk/release;http-server' &
-
-echo " "
-echo "***************************************"
-echo "* LAUNCH THE SDK ON YOUR LOCAL SERVER *"
-echo "***************************************"
-echo "Once your new http server for cxengage-javascript-sdk has completed booting up, copy the port number from your new server, and paste here:"
-read cxengageport
-xterm -e "ngrok http $cxengageport" &
-
-echo " "
-echo "************************************************"
-echo "* UPDATE AGENT DESKTOP TO USE THE NEW SDK FILE *"
-echo "************************************************"
-echo "Here we are updating the index.html for TB2, but we'll be making a backup of the file (index.html.bk) which you can use to revert index.html before creating a PR."
-echo " "
-echo "Anyhow, once the ngrok window for your new cxengage-javascript-sdk has loaded and is online, find the terminal window for this ngrok, and copy the string of numbers between the 'https://' and '.ngrok.io', and paste here:"
-read sdkurl
-cd ./app
-cp index.html index.html.bk
-sed -i -e "s#https.*.main\.js#https://$sdkurl.ngrok.io/main.js#g" index.html
-
-echo " "
 echo "***************************************"
 echo "* LAUNCH TOOLBAR ON YOUR LOCAL SERVER *"
 echo "***************************************"
 xterm -e 'ngrok http 3000' &
-cd ./../../zendesk-managed-package-v2
+cd ./../zendesk-managed-package-v2
 echo "Once the ngrok window has loaded and is online, find the terminal window for *port 3000*, and copy the string of numbers between the 'https://' and '.ngrok.io', and paste here:"
 read ngid1
 touch manifest.tmp.json
@@ -92,20 +58,54 @@ echo " "
 echo "********************************************************************"
 echo "* UPDATE ZENDESK APP WITH NGROK URL POINTING TO LOCAL WIDGET FILES *"
 echo "********************************************************************"
-cd ./../zendesk-managed-package-v2
 echo "Once the ngrok window has loaded and is online, copy the string of numbers between the 'https://' and '.ngrok.io', and paste here:"
 read ngid2
 sed -i -e "s/ngid2/$ngid2/g" manifest.tmp.json
+cd ./../cxengage-javascript-sdk/src/cljs/cxengage_javascript_sdk/modules
+sed -i -e "s#https:\/\/sdk.cxengage.net\/zendesk.*.modal\.html#https://$ngid2.ngrok.io/assets/modal.html#g" zendesk.cljs
+
+echo " "
+echo "**************************************"
+echo "* GENERATE THE COMPILED THE SDK FILE *"
+echo "**************************************"
+cd ../../../..
+boot make-prod-release
+echo "Hit Y when the build is complete"
+read iscomplete
+if [[ ($iscomplete =~ ^([yY][eE][sS]|[yY])+$) ]]
+  then
+    xterm -e 'cd ./../cxengage-javascript-sdk/release;http-server' &
+fi
+
+echo " "
+echo "***************************************"
+echo "* LAUNCH THE SDK ON YOUR LOCAL SERVER *"
+echo "***************************************"
+echo "Once your new http server for cxengage-javascript-sdk has completed booting up, copy the port number from your new server, and paste here:"
+read cxengageport
+xterm -e "ngrok http $cxengageport" &
+
+echo " "
+echo "************************************************"
+echo "* UPDATE AGENT DESKTOP TO USE THE NEW SDK FILE *"
+echo "************************************************"
+echo "Here we are updating the index.html for TB2, but we'll be making a backup of the file (index.html.bk) which you can use to revert index.html before creating a PR."
+echo " "
+echo "Anyhow, once the ngrok window for your new cxengage-javascript-sdk has loaded and is online, find the terminal window for this ngrok, and copy the string of numbers between the 'https://' and '.ngrok.io', and paste here:"
+read sdkurl
+cd ./../agent-desktop/app
+cp index.html index.html.bk
+sed -i -e "s#https.*.main\.js#https://$sdkurl.ngrok.io/main.js#g" index.html
 
 echo " "
 echo "*******************************************************"
 echo "* GENERATE ZIP FILE FOR UPLOAD TO ZENDESK ADMIN PANEL *"
 echo "*******************************************************"
 echo "Don't worry, making a backup of the manifest.json (manifest.json.bk) which you can use to revert the file before creating a PR"
+cd ./../../zendesk-managed-package-v2
 cp manifest.json manifest.json.bk
 cp manifest.tmp.json manifest.json
 rm -rf manifest.tmp.json
-cd ./../zendesk-managed-package-v2
 zip -r zendesk.zip *
 echo "Congratulations! Your Zendesk app is now ready to deploy!"
 

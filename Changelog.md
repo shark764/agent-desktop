@@ -1,3 +1,6 @@
+### [1.7.12] (2017-10-25)
+* CXV1-11859 - Fixed Bash Script to Automate Zendesk Dev Environment Setup
+
 ### [1.7.11] (2017-10-25)
 * CXV1-10844 - ZD SSO resize on login
 
