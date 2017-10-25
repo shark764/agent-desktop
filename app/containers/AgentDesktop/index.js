@@ -49,6 +49,12 @@ import {
   selectExpandWindowForCrm,
 } from './selectors';
 
+import {
+  DEFAULT_TOOLBAR_WIDTH,
+  EXPANDED_TOOLBAR_WIDTH,
+  DEFAULT_TOOLBAR_HEIGHT,
+} from './constants';
+
 export class AgentDesktop extends React.Component {
   constructor(props, context) {
     super(props);
@@ -68,15 +74,17 @@ export class AgentDesktop extends React.Component {
   componentWillMount() {
     this.props.setSidePanelPx(
       this.defaultSidePanelPx,
-      this.context.toolbarMode ? 400 : window.innerWidth / 2
+      this.context.toolbarMode ? DEFAULT_TOOLBAR_WIDTH : window.innerWidth / 2
     );
     window.addEventListener('resize', this.updateDimensions);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.expandWindowForCrm !== this.props.expandWindowForCrm) {
-      const width = nextProps.expandWindowForCrm ? 800 : 400;
-      const height = 800;
+      const width = nextProps.expandWindowForCrm
+        ? EXPANDED_TOOLBAR_WIDTH
+        : DEFAULT_TOOLBAR_WIDTH;
+      const height = DEFAULT_TOOLBAR_HEIGHT;
       if (this.props.crmModule === 'zendesk') {
         CxEngage.zendesk.setDimensions({
           width,
@@ -95,7 +103,7 @@ export class AgentDesktop extends React.Component {
       window.innerWidth || documentElement.clientWidth || body.clientWidth;
     this.props.setSidePanelPx(
       this.defaultSidePanelPx,
-      this.context.toolbarMode ? 400 : width / 2
+      this.context.toolbarMode ? DEFAULT_TOOLBAR_WIDTH : width / 2
     );
   };
 
