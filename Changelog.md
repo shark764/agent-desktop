@@ -1,4 +1,7 @@
-### [1.7.9] (2017-10-23)
+### [1.7.10] (2017-10-25)
+* CXV1-10567 - Can remove click-to-email target from To: field
+
+### [1.7.9] (2017-10-24)
 * CXV1-11757 - Confirm dialog for ending interactions now excludes wrapup
 
 ### [1.7.8] (2017-10-23)

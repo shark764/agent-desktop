@@ -892,14 +892,16 @@ export class EmailContentArea extends React.Component {
                     : to.address}
                   {(this.props.selectedInteraction.direction === 'outbound' ||
                     index !== 0) &&
-                    this.props.selectedInteraction.status !==
-                      'work-ended-pending-script' &&
-                      <span
-                        onClick={() => this.removeTo(to)}
-                        style={styles.emailAddressRemove}
-                      >
-                      &#10060;
-                    </span>}
+                  this.props.selectedInteraction.status !==
+                    'work-ended-pending-script' &&
+                  index !== 0
+                    ? <span
+                      onClick={() => this.removeTo(to)}
+                      style={styles.emailAddressRemove}
+                    >
+                      {' '}&#10060;{' '}
+                    </span>
+                    : null}
                 </div>)
               )}
               {this.props.selectedInteraction.status !==
