@@ -1,3 +1,6 @@
+### [1.7.13] (2017-10-25)
+* Code Refactor Toolbar sizing defaults into constants
+
 ### [1.7.12] (2017-10-25)
 * CXV1-11859 - Fixed Bash Script to Automate Zendesk Dev Environment Setup
 

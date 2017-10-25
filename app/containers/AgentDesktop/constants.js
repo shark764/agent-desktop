@@ -133,3 +133,7 @@ export const INIT_FORM = 'app/ContactsControl/INIT_FORM';
 export const RESET_FORM = 'app/ContactsControl/RESET_FORM';
 
 export const DEFAULT_LOCALE = 'en-US';
+
+export const DEFAULT_TOOLBAR_WIDTH = 400;
+export const EXPANDED_TOOLBAR_WIDTH = 800;
+export const DEFAULT_TOOLBAR_HEIGHT = 800;

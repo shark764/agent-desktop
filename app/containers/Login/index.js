@@ -19,6 +19,11 @@ import ErrorBoundary from 'components/ErrorBoundary';
 
 import { clearUrlHash } from 'utils/url';
 
+import {
+  DEFAULT_TOOLBAR_WIDTH,
+  DEFAULT_TOOLBAR_HEIGHT,
+} from 'containers/AgentDesktop/constants';
+
 import Dialog from 'components/Dialog';
 import Logo from 'components/Logo';
 import Title from 'components/Title';
@@ -210,8 +215,8 @@ export class Login extends React.Component {
                     if (!error) {
                       if (this.props.crmModule === 'zendesk') {
                         CxEngage.zendesk.setDimensions({
-                          width: 400,
-                          height: 800,
+                          width: DEFAULT_TOOLBAR_WIDTH,
+                          height: DEFAULT_TOOLBAR_HEIGHT,
                         });
                       }
                       clearUrlHash();
@@ -247,7 +252,7 @@ export class Login extends React.Component {
     if (this.props.crmModule === 'zendesk') {
       CxEngage.zendesk.setDimensions({
         width: 1200,
-        height: 800,
+        height: DEFAULT_TOOLBAR_HEIGHT,
       });
     }
     CxEngage.authentication.getAuthInfo({ username: this.state.ssoEmail });
@@ -619,7 +624,7 @@ export class Login extends React.Component {
     window.open(
       `${window.location.href}?standalonePopup=true`,
       'toolbar',
-      'width=400,height=800'
+      `width=${DEFAULT_TOOLBAR_WIDTH},height=${DEFAULT_TOOLBAR_HEIGHT}`
     );
     this.props.setInitiatedStandalonePopup();
   };

@@ -17,6 +17,12 @@ import Radium from 'radium';
 import axios from 'axios';
 import { createSearchQuery } from 'utils/contact';
 
+import {
+  DEFAULT_TOOLBAR_WIDTH,
+  EXPANDED_TOOLBAR_WIDTH,
+  DEFAULT_TOOLBAR_HEIGHT,
+} from 'containers/AgentDesktop/constants';
+
 import ResponseMessage from 'models/Message/ResponseMessage';
 
 import Login from 'containers/Login';
@@ -768,7 +774,10 @@ export class App extends React.Component {
 
           // ZENDESK
           case 'cxengage/zendesk/zendesk-initialization': {
-            CxEngage.zendesk.setDimensions({ width: 400, height: 800 });
+            CxEngage.zendesk.setDimensions({
+              width: DEFAULT_TOOLBAR_WIDTH,
+              height: DEFAULT_TOOLBAR_HEIGHT,
+            });
             break;
           }
           case 'cxengage/zendesk/active-tab-changed': {
@@ -947,12 +956,12 @@ export class App extends React.Component {
       width: '100vw',
     },
     toolbarModeCollapsed: {
-      height: '800px',
-      width: '400px',
+      height: `${DEFAULT_TOOLBAR_HEIGHT}px`,
+      width: `${DEFAULT_TOOLBAR_WIDTH}px`,
     },
     toolbarModeExpanded: {
-      height: '800px',
-      width: '800px',
+      height: `${DEFAULT_TOOLBAR_HEIGHT}px`,
+      width: `${EXPANDED_TOOLBAR_WIDTH}px`,
     },
     notificationBanner: {
       flex: '1 0 content',
