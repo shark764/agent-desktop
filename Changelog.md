@@ -1,3 +1,6 @@
+### [1.7.11] (2017-10-25)
+* CXV1-10844 - ZD SSO resize on login
+
 ### [1.7.10] (2017-10-25)
 * CXV1-10567 - Can remove click-to-email target from To: field
 
