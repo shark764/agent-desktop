@@ -208,7 +208,12 @@ export class Login extends React.Component {
                 case 'cxengage/authentication/cognito-initialized-response': {
                   CxEngage.authentication.ssoLogin((error, topic, response) => {
                     if (!error) {
-                      this.props.dismissError();
+                      if (this.props.crmModule === 'zendesk') {
+                        CxEngage.zendesk.setDimensions({
+                          width: 400,
+                          height: 800,
+                        });
+                      }
                       clearUrlHash();
                       console.log(
                         '[SSO-Login] CxEngage.subscribe()',
@@ -239,6 +244,12 @@ export class Login extends React.Component {
 
   loginWithSso = () => {
     this.props.loggingIn();
+    if (this.props.crmModule === 'zendesk') {
+      CxEngage.zendesk.setDimensions({
+        width: 1200,
+        height: 800,
+      });
+    }
     CxEngage.authentication.getAuthInfo({ username: this.state.ssoEmail });
   };
 
