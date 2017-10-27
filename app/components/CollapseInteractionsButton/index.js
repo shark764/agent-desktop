@@ -13,15 +13,14 @@ import PropTypes from 'prop-types';
 
 import Radium from 'radium';
 
+import './styles.css';
+
 function CollapseInteractionsButton(props) {
   const styles = {
     base: {
-      borderTop: '1px solid black',
-      borderRight: '1px solid black',
-      borderBottom: '1px solid black',
-      borderRadius: '3px',
+      borderRadius: '0px 3px 3px 0px',
+      backgroundColor: 'rgba(7, 41, 49, 0.75)',
       height: '75px',
-      backgroundColor: '#072931',
       position: 'absolute',
       bottom: '50%',
       cursor: 'pointer',
@@ -31,6 +30,7 @@ function CollapseInteractionsButton(props) {
     },
     expandedBase: {
       left: '72px',
+      backgroundColor: 'rgba(7, 41, 49, 0.75)',
     },
     triangle: {
       borderWidth: '6px',
@@ -39,10 +39,10 @@ function CollapseInteractionsButton(props) {
       borderImage: 'initial',
       transform: 'rotate(135deg)',
       borderRadius: '3px',
-      boxShadow: '-6px -6px 6px -4px rgba(0,0,0,0.29)',
       position: 'relative',
-      top: '45%',
+      top: '43%',
       right: '25%',
+      margin: '2px',
     },
     expandedTriangle: {
       transform: 'rotate(-45deg)',
@@ -53,6 +53,7 @@ function CollapseInteractionsButton(props) {
 
   return (
     <div
+      // TODO:className={(props.isCollapsed && props.hasUnrespondedInteractions)? "pendingInteraction" : "interactionNotPending"}
       id="toggleInteractionsBar"
       style={[styles.base, !props.isCollapsed && styles.expandedBase]}
       onClick={props.toggleInteractionsBar}
@@ -67,6 +68,7 @@ function CollapseInteractionsButton(props) {
 CollapseInteractionsButton.propTypes = {
   isCollapsed: PropTypes.bool.isRequired,
   toggleInteractionsBar: PropTypes.func.isRequired,
+  // hasUnrespondedInteractions: PropTypes.bool,
 };
 
 export default Radium(CollapseInteractionsButton);

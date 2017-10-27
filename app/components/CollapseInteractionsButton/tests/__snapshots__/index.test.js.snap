@@ -2,7 +2,6 @@
 
 exports[`<CollapseInteractionsButton /> should render correctly 1`] = `
 <div
-  className="interactionNotPending"
   data-radium={true}
   id="toggleInteractionsBar"
   onClick={[Function]}

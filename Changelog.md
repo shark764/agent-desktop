@@ -1,5 +1,5 @@
 ### [1.7.14] (2017-10-27)
-* Setting interaction toggle to allways on
+* Setting interaction toggle to always on
 
 ### [1.7.13] (2017-10-25)
 * Code Refactor Toolbar sizing defaults into constants

@@ -90,10 +90,16 @@ export class PhoneControlsActive extends React.Component {
   };
 
   confirmEndInteraction = () => {
-    this.props.setInteractionConfirmation(
-      this.props.activeVoiceInteraction.interactionId,
-      true
-    );
+    if (this.props.activeVoiceInteraction.status === 'fatal') {
+      CxEngage.interactions.end({
+        interactionId: this.props.activeVoiceInteraction.interactionId,
+      });
+    } else {
+      this.props.setInteractionConfirmation(
+        this.props.activeVoiceInteraction.interactionId,
+        true
+      );
+    }
   };
 
   setMute = () => {
