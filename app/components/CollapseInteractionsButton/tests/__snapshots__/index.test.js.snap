@@ -2,16 +2,14 @@
 
 exports[`<CollapseInteractionsButton /> should render correctly 1`] = `
 <div
+  className="interactionNotPending"
   data-radium={true}
   id="toggleInteractionsBar"
   onClick={[Function]}
   style={
     Object {
-      "backgroundColor": "#072931",
-      "borderBottom": "1px solid black",
-      "borderRadius": "3px",
-      "borderRight": "1px solid black",
-      "borderTop": "1px solid black",
+      "backgroundColor": "rgba(7, 41, 49, 0.75)",
+      "borderRadius": "0px 3px 3px 0px",
       "bottom": "50%",
       "cursor": "pointer",
       "height": "75px",
@@ -31,11 +29,11 @@ exports[`<CollapseInteractionsButton /> should render correctly 1`] = `
         "borderRadius": "3px",
         "borderStyle": "solid",
         "borderWidth": "6px",
-        "boxShadow": "-6px -6px 6px -4px rgba(0,0,0,0.29)",
         "left": "25%",
+        "margin": "2px",
         "position": "relative",
         "right": "0",
-        "top": "45%",
+        "top": "43%",
         "transform": "rotate(-45deg)",
       }
     }

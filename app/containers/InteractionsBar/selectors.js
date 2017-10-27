@@ -21,7 +21,6 @@ const selectActiveNonVoiceInteractions = createSelector(
       (interaction) =>
         (interaction.status === 'work-accepting' ||
           interaction.status === 'work-accepted' ||
-          interaction.status === 'end-requested' ||
           interaction.status === 'wrapup' ||
           interaction.status === 'work-ended-pending-script' ||
           interaction.status === 'creating-new-interaction' ||
@@ -40,7 +39,6 @@ const selectActiveVoiceInteraction = createSelector(
       (interaction) =>
         (interaction.status === 'work-accepting' ||
           interaction.status === 'work-accepted' ||
-          interaction.status === 'end-requested' ||
           interaction.status === 'wrapup' ||
           interaction.status === 'work-ended-pending-script') &&
         interaction.channelType === 'voice'
@@ -96,8 +94,10 @@ const selectPendingInteractions = createSelector(
 
 const selectShowCollapseButton = createSelector(
   [selectPendingInteractions, selectInteractions],
-  (pendingInteractions, interactions) =>
-    !pendingInteractions.length && interactions.length < 2
+  () => true
+  // TODO: this keeps changing due to product so we'll keep this selector and just retrun true for now
+  // CXV1-11975
+  // !pendingInteractions.length // && interactions.length < 2
 );
 
 export {
