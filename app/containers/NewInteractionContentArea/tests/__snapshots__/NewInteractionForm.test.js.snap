@@ -21,6 +21,7 @@ exports[`<NewInteractionForm /> should render correctly 1`] = `
     style={
       Object {
         "marginTop": "50px",
+        "textAlign": "center",
         "width": "100%",
       }
     }

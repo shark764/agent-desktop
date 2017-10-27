@@ -495,7 +495,8 @@ export class ContentArea extends React.Component {
   getConfirmContent = () => {
     const { formatMessage } = this.props.intl;
     return this.props.interaction.endConfirmation === true &&
-    this.props.interaction.status !== 'wrapup'
+    this.props.interaction.status !== 'wrapup' &&
+    this.props.interaction.status !== 'work-ended-pending-script'
       ? <div style={this.styles.confirmDialogWrapper}>
         <div style={this.styles.confirmDialog}>
           <div style={this.styles.confirmDialogInnerDiv}>
@@ -696,7 +697,8 @@ export class ContentArea extends React.Component {
             this.styles.base,
             {
               filter: `blur(${this.props.interaction.endConfirmation === true &&
-              this.props.interaction.status !== 'wrapup'
+              this.props.interaction.status !== 'wrapup' &&
+              this.props.interaction.status !== 'work-ended-pending-script'
                 ? '1'
                 : '0'}px)`,
             },

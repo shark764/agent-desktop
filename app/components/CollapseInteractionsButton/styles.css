@@ -1,0 +1,35 @@
+  
+  .pendingInteraction {
+	background: rgba(35, 209, 244, 0.685);
+	box-shadow: 0 0 0 rgba(35,205,244, 0.4);
+	animation: pendingInteraction 2s infinite;
+  }
+  .interactionNotPending {
+	background-color: rgba(7, 41, 49, 0.75);
+  }
+  
+  @-webkit-keyframes pendingInteraction {
+	0% {
+	  -webkit-box-shadow: 0 0 0 0 rgba(35,205,244, 0.4);
+	}
+	70% {
+		-webkit-box-shadow: 0 0 0 15px rgba(35,205,244, 0);
+	}
+	100% {
+		-webkit-box-shadow: 0 0 0 0 rgba(35,205,244, 0);
+	}
+  }
+  @keyframes pendingInteraction {
+	0% {
+	  -moz-box-shadow: 0 0 0 0 rgba(35,205,244, 0.4);
+	  box-shadow: 0 0 0 0 rgba(35,205,244, 0.4);
+	}
+	70% {
+		-moz-box-shadow: 0 0 0 15px rgba(35,205,244, 0);
+		box-shadow: 0 0 0 15px rgba(35,205,244, 0);
+	}
+	100% {
+		-moz-box-shadow: 0 0 0 0 rgba(35,205,244, 0);
+		box-shadow: 0 0 0 0 rgba(35,205,244, 0);
+	}
+  }

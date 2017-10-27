@@ -35,6 +35,7 @@ const styles = {
   input: {
     marginTop: '50px',
     width: '100%',
+    textAlign: 'center',
   },
   hr: {
     width: '50%',
