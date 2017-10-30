@@ -1,3 +1,6 @@
+### [1.7.15] (2017-10-30)
+* SDK bump for CXV1-11804
+
 ### [1.7.14] (2017-10-27)
 * Setting interaction toggle to always on
 
