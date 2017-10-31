@@ -755,7 +755,6 @@ function agentDesktopReducer(state = initialState, action) {
                     from: 'Agent',
                     type: 'agent',
                     timestamp: new Date(Date.now()).toISOString(),
-                    unread: false,
                   })
                 )
               )
@@ -1262,24 +1261,10 @@ function agentDesktopReducer(state = initialState, action) {
         return state.set('selectedInteractionId', undefined);
       }
       const interactionIndex = getInteractionIndex(state, action.interactionId);
-      if (interactionIndex !== -1) {
-        return state
-          .set('selectedInteractionId', action.interactionId)
-          .update('interactions', (interactions) =>
-            interactions.update(interactionIndex, (interaction) =>
-              interaction.set(
-                'messageHistory',
-                interaction.get('messageHistory') !== undefined
-                  ? interaction
-                      .get('messageHistory')
-                      .map((messageHistoryItem) =>
-                        messageHistoryItem.set('unread', false)
-                      )
-                  : undefined
-              )
-            )
-          );
-      } else if (action.interactionId === 'creating-new-interaction') {
+      if (
+        interactionIndex !== -1 ||
+        action.interactionId === 'creating-new-interaction'
+      ) {
         return state.set('selectedInteractionId', action.interactionId);
       } else {
         return state;

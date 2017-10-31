@@ -346,16 +346,15 @@ export class InteractionsBar extends React.Component {
         } else if (activeInteraction.channelType === 'work-item') {
           from = activeInteraction.subject;
           icon = 'work_item';
+        } else if (activeInteraction.status === 'script-only') {
+          icon = 'script';
         } else {
           throw new Error(
-            `Invalid channelType: ${activeInteraction.channelType}`
+            `Invalid channelType/status: ${activeInteraction.channelType}/${activeInteraction.status}`
           );
         }
 
-        if (
-          activeInteraction.status === 'work-ended-pending-script' ||
-          activeInteraction.status === 'script-only'
-        ) {
+        if (activeInteraction.status === 'work-ended-pending-script') {
           icon = 'script';
         }
 

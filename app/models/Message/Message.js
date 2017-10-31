@@ -9,9 +9,8 @@ export default class Message extends Immutable.Record({
   from: '',
   text: '',
   timestamp: new Date().toISOString(),
-  unread: false,
 }) {
-  constructor({ type, from, text, timestamp, unread }) {
+  constructor({ type, from, text, timestamp }) {
     let messageFrom;
     let messageText;
     if (type == null) {
@@ -24,7 +23,6 @@ export default class Message extends Immutable.Record({
         from,
         text,
         timestamp,
-        unread,
       });
     } else {
       messageFrom = from;
@@ -36,7 +34,6 @@ export default class Message extends Immutable.Record({
         from,
         text,
         timestamp,
-        unread,
       });
     } else {
       messageText = text;
@@ -44,9 +41,6 @@ export default class Message extends Immutable.Record({
     if (timestamp == null) {
       throw new Error('timestamp is required');
     }
-    if (unread == null) {
-      throw new Error('unread is required');
-    }
-    super({ type, from: messageFrom, text: messageText, timestamp, unread });
+    super({ type, from: messageFrom, text: messageText, timestamp });
   }
 }

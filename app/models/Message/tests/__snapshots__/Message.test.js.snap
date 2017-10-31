@@ -6,7 +6,6 @@ Object {
   "text": "text",
   "timestamp": "timestamp",
   "type": "type",
-  "unread": false,
 }
 `;
 
@@ -16,7 +15,6 @@ Object {
   "text": "text",
   "timestamp": "timestamp",
   "type": "type",
-  "unread": false,
 }
 `;
 
@@ -26,6 +24,5 @@ Object {
   "text": "",
   "timestamp": "timestamp",
   "type": "type",
-  "unread": false,
 }
 `;

@@ -382,11 +382,6 @@ export class App extends React.Component {
                 'Interaction not found to initiate:',
                 response.interactionId
               );
-              console.warn(
-                'Trying to accept the interaction anyway',
-                response.interactionId
-              );
-              this.acceptInteraction(response.interactionId);
             }
             break;
           }

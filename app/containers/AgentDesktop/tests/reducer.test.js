@@ -430,7 +430,6 @@ describe('agentDesktopReducer', () => {
           from: 'Agent',
           text: 'test message',
           timestamp: new Date(0).toISOString(),
-          unread: false,
         });
       });
       it('is added', () => {
