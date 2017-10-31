@@ -281,7 +281,6 @@ Immutable.Map {
           "text": "new message!",
           "timestamp": "1970-01-01T00:00:00.000Z",
           "type": "agent",
-          "unread": false,
         },
       ],
       interactionId: "newInteractionId",

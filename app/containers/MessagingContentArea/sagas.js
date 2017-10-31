@@ -77,7 +77,6 @@ export function* sendOutboundSms(action) {
       from: 'Agent',
       text: action.message,
       timestamp: new Date(Date.now()).toISOString(),
-      unread: false,
     });
     yield put(addMessage(action.interactionId, message));
   } catch (error) {

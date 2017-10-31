@@ -15,7 +15,6 @@ describe('Message', () => {
         from: 'from',
         text: 'text',
         timestamp: 'timestamp',
-        unread: false,
       });
       expect(message).toMatchSnapshot();
     });
@@ -28,7 +27,6 @@ describe('Message', () => {
           from: 'from',
           text: 'text',
           timestamp: 'timestamp',
-          unread: false,
         });
       } catch (e) {
         error = e;
@@ -42,7 +40,6 @@ describe('Message', () => {
         // from: 'from',
         text: 'text',
         timestamp: 'timestamp',
-        unread: false,
       });
       expect(message).toMatchSnapshot();
     });
@@ -53,7 +50,6 @@ describe('Message', () => {
         from: 'from',
         // text: 'text',
         timestamp: 'timestamp',
-        unread: false,
       });
       expect(message).toMatchSnapshot();
     });
@@ -66,28 +62,11 @@ describe('Message', () => {
           from: 'from',
           text: 'text',
           // timestamp: 'timestamp',
-          unread: false,
         });
       } catch (e) {
         error = e;
       }
       expect(error.message).toEqual('timestamp is required');
-    });
-    it('should error when "unread" is not passed in', () => {
-      let error;
-      try {
-        // eslint-disable-next-line no-new
-        new Message({
-          type: 'type',
-          from: 'from',
-          text: 'text',
-          timestamp: 'timestamp',
-          // unread: false,
-        });
-      } catch (e) {
-        error = e;
-      }
-      expect(error.message).toEqual('unread is required');
     });
   });
 });

@@ -1,3 +1,8 @@
+### [1.7.16] (2017-10-31)
+* Remove unused 'unread' property from messages
+* Fix error thrown for 'script-only' interactions
+* Remove unnecessary auto-accept
+
 ### [1.7.15] (2017-10-30)
 * SDK bump for CXV1-11804
 

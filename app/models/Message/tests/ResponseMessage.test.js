@@ -34,21 +34,6 @@ describe('ResponseMessage', () => {
       });
       expect(message).toMatchSnapshot();
     });
-    it('should construct unread as true when selectedInteractionId is different', () => {
-      const message = new ResponseMessage(
-        {
-          to: 'interaction-id',
-          type: 'type',
-          from: 'from',
-          body: {
-            text: 'text',
-          },
-          timestamp: 'timestamp',
-        },
-        'another-interaction-id'
-      );
-      expect(message).toMatchSnapshot();
-    });
     it('should construct with "agent" type and "Agent" from when from is userId', () => {
       const message = new ResponseMessage(
         {
