@@ -121,6 +121,7 @@ import {
 import {
   selectAgentDesktopMap,
   selectLoginMap,
+  selectCrmModule,
 } from 'containers/AgentDesktop/selectors';
 import { selectHasCrmPermissions } from './selectors';
 
@@ -685,6 +686,14 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/messaging/new-message-received': {
+            if (
+              response.metadata.type === 'customer' ||
+              response.metadata.type === 'message' ||
+              response.metadata.type === 'system'
+            ) {
+              if (this.props.crmModule === 'zendesk')
+                CxEngage.zendesk.setVisibility({ visibility: true });
+            }
             this.props.addMessage(
               response.to,
               new ResponseMessage(
@@ -1064,6 +1073,7 @@ const mapStateToProps = (state, props) => ({
   erroredStatIds: selectErroredStatIds(state, props),
   nonCriticalError: selectNonCriticalError(state, props),
   hasCrmPermissions: selectHasCrmPermissions(state, props),
+  crmModule: selectCrmModule(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -1269,6 +1279,7 @@ App.propTypes = {
   hasCrmPermissions: PropTypes.bool,
   dismissError: PropTypes.func,
   setCrmModule: PropTypes.func.isRequired,
+  crmModule: PropTypes.string,
   setStandalonePopup: PropTypes.func.isRequired,
   setZendeskActiveTab: PropTypes.func.isRequired,
   startOutboundInteraction: PropTypes.func.isRequired,

@@ -25,6 +25,85 @@ const getSelectedInteractionId = createSelector(
   selectAgentDesktopMap,
   (agentDesktop) => agentDesktop.get('selectedInteractionId')
 );
+
+const selectHasUnrespondedInteractions = createSelector(
+  [selectInteractionsList],
+  (interactions) => {
+    const interactionArray = interactions.toJS();
+    const wasFound = interactionArray.findIndex(
+      (interaction) =>
+        interaction.channelType !== 'voice' &&
+        interaction.channelType !== 'work-offer' &&
+        interaction.channelType !== 'email' &&
+        interaction.messageHistory.length &&
+        (interaction.messageHistory[interaction.messageHistory.length - 1]
+          .type === 'customer' ||
+          interaction.messageHistory[interaction.messageHistory.length - 1]
+            .type === 'message' ||
+          interaction.messageHistory[interaction.messageHistory.length - 1]
+            .type === 'system')
+    );
+    if (wasFound >= 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+);
+
+const selectPreviousInteraction = createSelector(
+  [selectInteractionsList, getSelectedInteractionId],
+  (interactions, id) => {
+    const interactionArray = interactions.toJS();
+    const voiceInteractionIndex = interactionArray.findIndex(
+      (interaction) => interaction.channelType === 'voice'
+    );
+    if (voiceInteractionIndex >= 0) {
+      const voiceInteraction = interactionArray.splice(
+        voiceInteractionIndex,
+        1
+      )[0];
+      interactionArray.unshift(voiceInteraction);
+    }
+    const startAt = interactionArray.findIndex(
+      (interaction) => interaction.interactionId === id
+    );
+    if (interactionArray[startAt - 1] === undefined || startAt === 0) {
+      return id;
+    } else {
+      return interactionArray[startAt - 1].interactionId;
+    }
+  }
+);
+
+const selectNextInteraction = createSelector(
+  [selectInteractionsList, getSelectedInteractionId],
+  (interactions, id) => {
+    const interactionArray = interactions.toJS();
+    const voiceInteractionIndex = interactionArray.findIndex(
+      (interaction) => interaction.channelType === 'voice'
+    );
+    if (voiceInteractionIndex >= 0) {
+      const voiceInteraction = interactionArray.splice(
+        voiceInteractionIndex,
+        1
+      )[0];
+      interactionArray.unshift(voiceInteraction);
+    }
+    const startAt = interactionArray.findIndex(
+      (interaction) => interaction.interactionId === id
+    );
+    if (
+      interactionArray[startAt + 1] === undefined ||
+      interactionArray.length === startAt + 1
+    ) {
+      return id;
+    } else {
+      return interactionArray[startAt + 1].interactionId;
+    }
+  }
+);
+
 const selectNewInteractionPanel = createSelector(
   selectAgentDesktopMap,
   (agentDesktop) => agentDesktop.get('newInteractionPanel').toJS()
@@ -180,4 +259,7 @@ export {
   selectCustomFields,
   selectCustomFieldsCollapsed,
   selectExpandWindowForCrm,
+  selectPreviousInteraction,
+  selectNextInteraction,
+  selectHasUnrespondedInteractions,
 };

@@ -37,6 +37,8 @@ import {
   showInteractionsBar,
   hideInteractionsBar,
   setSidePanelPx,
+  selectInteraction,
+  openNewInteractionPanel,
 } from './actions';
 import {
   selectAgentDesktopMap,
@@ -45,8 +47,11 @@ import {
   selectSidePanelPx,
   selectIsInteractionsBarCollapsed,
   getSelectedInteraction,
+  selectPreviousInteraction,
+  selectNextInteraction,
   selectCrmModule,
   selectExpandWindowForCrm,
+  selectHasUnrespondedInteractions,
 } from './selectors';
 
 import {
@@ -77,6 +82,41 @@ export class AgentDesktop extends React.Component {
       this.context.toolbarMode ? DEFAULT_TOOLBAR_WIDTH : window.innerWidth / 2
     );
     window.addEventListener('resize', this.updateDimensions);
+  }
+
+  componentDidMount() {
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.ctrlKey) {
+          // 37 is left arrow
+          if (e.which === 37 && !this.props.isInteractionsBarCollapsed)
+            this.toggleInteractionsBar();
+          // 38 is right arrow
+          if (e.which === 39 && this.props.isInteractionsBarCollapsed)
+            this.toggleInteractionsBar();
+          // 37 is up arrow
+          if (e.which === 38) {
+            if (this.props.selectedInteractionId !== undefined) {
+              this.props.selectInteraction(
+                this.props.selectPreviousInteraction
+              );
+            }
+          }
+          // 40 is down arrow
+          if (e.which === 40) {
+            if (this.props.selectedInteractionId !== undefined) {
+              this.props.selectInteraction(this.props.selectNextInteraction);
+            }
+          }
+          // 13 is enter key
+          if (e.which === 13) {
+            this.props.openNewInteractionPanel();
+          }
+        }
+      },
+      true
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -214,6 +254,9 @@ export class AgentDesktop extends React.Component {
                 <CollapseInteractionsButton
                   toggleInteractionsBar={this.toggleInteractionsBar}
                   isCollapsed={this.props.isInteractionsBarCollapsed}
+                  hasUnrespondedInteractions={
+                    this.props.selectHasUnrespondedInteractions
+                  }
                 />}
               <MainContentArea
                 agent={this.props.login.agent}
@@ -248,12 +291,20 @@ const mapStateToProps = (state, props) => ({
   login: selectLoginMap(state, props).toJS(),
   agentDesktop: selectAgentDesktopMap(state, props).toJS(),
   isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
+  selectHasUnrespondedInteractions: selectHasUnrespondedInteractions(
+    state,
+    props
+  ),
   sidePanelPx: selectSidePanelPx(state, props),
   sidePanelMaxPx: selectAgentDesktopMap(state, props).toJS().sidePanelMaxPx,
   isInteractionsBarCollapsed: selectIsInteractionsBarCollapsed(state, props),
+  selectPreviousInteraction: selectPreviousInteraction(state, props),
+  selectNextInteraction: selectNextInteraction(state, props),
   selectedInteractionHasScripts:
     getSelectedInteraction(state, props) &&
     getSelectedInteraction(state, props).script !== undefined,
+  selectedInteractionId:
+    getSelectedInteraction(state, props).interactionId || undefined,
   crmModule: selectCrmModule(state, props),
   isStandalonePopup: selectAgentDesktopMap(state, props).get('standalonePopup'),
   showCollapseButton: selectShowCollapseButton(state, props),
@@ -270,6 +321,9 @@ function mapDispatchToProps(dispatch) {
   return {
     showInteractionsBar: () => dispatch(showInteractionsBar()),
     hideInteractionsBar: () => dispatch(hideInteractionsBar()),
+    selectInteraction: (interactionId) =>
+      dispatch(selectInteraction(interactionId)),
+    openNewInteractionPanel: () => dispatch(openNewInteractionPanel()),
     setSidePanelPx: (sidePanelPx, sidePanelMaxPx) =>
       dispatch(setSidePanelPx(sidePanelPx, sidePanelMaxPx)),
     dispatch,
@@ -293,6 +347,12 @@ AgentDesktop.propTypes = {
   hideInteractionsBar: PropTypes.func.isRequired,
   setSidePanelPx: PropTypes.func.isRequired,
   expandWindowForCrm: PropTypes.bool,
+  selectInteraction: PropTypes.func.isRequired,
+  selectedInteractionId: PropTypes.string,
+  selectPreviousInteraction: PropTypes.any,
+  selectNextInteraction: PropTypes.any,
+  openNewInteractionPanel: PropTypes.func.isRequired,
+  selectHasUnrespondedInteractions: PropTypes.bool.isRequired,
 };
 
 AgentDesktop.contextTypes = {

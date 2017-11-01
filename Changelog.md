@@ -1,3 +1,8 @@
+### [1.7.17] (2017-10-31)
+* CXV1-11962 - Cancel Outbound Button Showing on Active Interaction Container on Hover
+* CXV1-11975 - Accepting Multiple Interactions Causes Interaction Side Panel to Close With No Way to Access Other Interactions
+* CXV1-11906 - Work Offers For Sms and Messaging Being Offered Without a Name or Message Body
+
 ### [1.7.16] (2017-10-31)
 * Remove unused 'unread' property from messages
 * Fix error thrown for 'script-only' interactions

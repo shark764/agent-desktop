@@ -12,6 +12,9 @@ import {
   selectHasVoiceInteraction,
   selectSmsInteractionNumbers,
   selectInteractionEmails,
+  selectNextInteraction,
+  selectPreviousInteraction,
+  selectHasUnrespondedInteractions,
 } from '../selectors';
 
 describe('selectInteractionsList', () => {
@@ -82,6 +85,100 @@ describe('selectAwaitingDisposition', () => {
       },
     });
     expect(selectAwaitingDisposition(mockedState)).toEqual(true);
+  });
+});
+
+describe('select next and previous interactions', () => {
+  const mockInteractions = [
+    { channelType: 'sms', interactionId: 'a' },
+    { channelType: 'voice', interactionId: 'b' },
+    { channelType: 'sms', interactionId: 'c' },
+    { channelType: 'sms', interactionId: 'd' },
+  ];
+
+  it('should return the next interaction id', () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: mockInteractions,
+        selectedInteractionId: 'c',
+      },
+    });
+    expect(selectNextInteraction(mockedState)).toEqual('d');
+  });
+
+  it('should return the previous interaction id', () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: mockInteractions,
+        selectedInteractionId: 'd',
+      },
+    });
+    expect(selectPreviousInteraction(mockedState)).toEqual('c');
+  });
+
+  it('should correctly move the voice interaction to the start of the array', () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: mockInteractions,
+        selectedInteractionId: 'c',
+      },
+    });
+    expect(selectPreviousInteraction(mockedState)).toEqual('a');
+  });
+});
+
+describe('selectHasUnrespondedInteractions', () => {
+  const mockInteractions = [
+    {
+      channelType: 'sms',
+      interactionId: 'a',
+      messageHistory: [{ type: 'agent' }],
+    },
+    { channelType: 'voice', interactionId: 'b' },
+    {
+      channelType: 'sms',
+      interactionId: 'c',
+      messageHistory: [{ type: 'agent' }],
+    },
+  ];
+
+  it('should return true if any interaction has an unresponded message', () => {
+    mockInteractions.push({
+      channelType: 'sms',
+      interactionId: 'd',
+      messageHistory: [{ type: 'customer' }],
+    });
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: mockInteractions,
+      },
+    });
+    expect(selectHasUnrespondedInteractions(mockedState)).toEqual(true);
+  });
+
+  it('should return false if all interactions are responded to', () => {
+    mockInteractions.splice(mockInteractions.length - 1, 1);
+    mockInteractions.push({
+      channelType: 'sms',
+      interactionId: 'd',
+      messageHistory: [{ type: 'agent' }],
+    });
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: mockInteractions,
+      },
+    });
+    expect(selectHasUnrespondedInteractions(mockedState)).toEqual(false);
+  });
+  it('should ignore all email , work-items, and voice interactions and return true or false on chat/messages only', () => {
+    mockInteractions.push({ channelType: 'email', interactionId: 'e' });
+    mockInteractions.push({ channelType: 'work-offer', interactionId: 'f' });
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: mockInteractions,
+      },
+    });
+    expect(selectHasUnrespondedInteractions(mockedState)).toEqual(false);
   });
 });
 
