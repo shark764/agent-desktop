@@ -246,24 +246,34 @@ class AgentScript extends React.Component {
             />
           );
           break;
+        case 'iframe':
+          scriptElements.push(
+            <iframe
+              id={element.name}
+              key={element.name}
+              title={element.text}
+              src={element.src}
+              height={element.height}
+              width={element.width}
+              style={styles.element}
+            />
+          );
+          break;
         default:
-          throw new Error('Unknown script element type');
+          throw console.error(`Unknown script element type: ${element.type}`);
       }
     });
     return scriptElements;
   };
 
   sendScript = () => {
-    console.log('Sending this script to SDK', {
+    const script = {
       interactionId: this.props.interactionId,
       scriptId: this.props.script.id,
       answers: this.state,
-    });
-    CxEngage.interactions.sendScript({
-      interactionId: this.props.interactionId,
-      scriptId: this.props.script.id,
-      answers: this.state,
-    });
+    };
+    console.log('[AgentScript] Sending this script to SDK', script);
+    CxEngage.interactions.sendScript(script);
   };
 
   render() {
