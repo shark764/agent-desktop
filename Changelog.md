@@ -1,3 +1,6 @@
+### [1.8.0] (2017-11-01)
+* CXV1-11878 - Support iframes in scripts
+
 ### [1.7.17] (2017-10-31)
 * CXV1-11962 - Cancel Outbound Button Showing on Active Interaction Container on Hover
 * CXV1-11975 - Accepting Multiple Interactions Causes Interaction Side Panel to Close With No Way to Access Other Interactions
