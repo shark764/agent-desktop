@@ -510,6 +510,7 @@ export class Interaction extends React.Component {
                 <FormattedMessage {...acceptMessage} />
                 {this.props.interaction.direction === 'outbound' &&
                   this.props.interaction.channelType === 'voice' &&
+                  this.props.interaction.status === 'work-initiated' &&
                   <Button
                     id="cancelInteractionBeforeActive"
                     type="primaryRed"
@@ -539,6 +540,7 @@ export class Interaction extends React.Component {
               {this.context.toolbarMode &&
                 this.props.interaction.direction === 'outbound' &&
                 this.props.interaction.channelType === 'voice' &&
+                this.props.interaction.status === 'work-initiated' &&
                 <Button
                   id="cancelInteractionBeforeActive"
                   type="primaryRed"
@@ -585,6 +587,7 @@ Interaction.propTypes = {
     contact: PropTypes.object,
     timeAccepted: PropTypes.number,
     wrapupStarted: PropTypes.number,
+    status: PropTypes.string,
   }).isRequired,
 };
 

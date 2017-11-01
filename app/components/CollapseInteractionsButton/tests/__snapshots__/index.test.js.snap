@@ -2,12 +2,12 @@
 
 exports[`<CollapseInteractionsButton /> should render correctly 1`] = `
 <div
+  className="interactionNotPending"
   data-radium={true}
   id="toggleInteractionsBar"
   onClick={[Function]}
   style={
     Object {
-      "backgroundColor": "rgba(7, 41, 49, 0.75)",
       "borderRadius": "0px 3px 3px 0px",
       "bottom": "50%",
       "cursor": "pointer",
