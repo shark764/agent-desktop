@@ -4,7 +4,9 @@
 
 export default [
   'cxengage/authentication/login-response', // Handled in Login component
-  'cxengage/authentication/cognito-initialized-response', // Handled in Login component
+  'cxengage/authentication/auth-info-response', // Handled in Login component
+  'cxengage/authentication/cognito-auth-response', // Handled in Login component
+  'cxengage/authentication/identity-window-response', // Handled in Login component
   'cxengage/contacts/get-contact-response', // Handled in App callback
   'cxengage/entities/get-users-response', // Handled in TransferMenu
   'cxengage/entities/get-transfer-lists-response', // Handled in TransferMenu

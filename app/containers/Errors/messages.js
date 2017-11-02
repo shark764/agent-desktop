@@ -68,9 +68,37 @@ export default defineMessages({
     defaultMessage:
       'Reason code selected is invalid. Please select a different reason code.',
   },
+  2010: {
+    id: 'app.containers.Errors.2010',
+    defaultMessage: 'Unable to retrieve tenant data.',
+  },
+  2011: {
+    id: 'app.containers.Errors.2011',
+    defaultMessage: 'Unable to retrieve region data.',
+  },
   3000: {
     id: 'app.containers.Errors.3000',
     defaultMessage: 'Cannot login due to service issues.',
+  },
+  3001: {
+    id: 'app.containers.Errors.3001',
+    defaultMessage: 'Cannot logout due to service issues.',
+  },
+  3002: {
+    id: 'app.containers.Errors.3002',
+    defaultMessage: 'Cannot login due to a bad request.',
+  },
+  3003: {
+    id: 'app.containers.Errors.3003',
+    defaultMessage: 'Cannot login. SSO initialization failed.',
+  },
+  3004: {
+    id: 'app.containers.Errors.3004',
+    defaultMessage: 'Failed to authenticate with SSO.',
+  },
+  3005: {
+    id: 'app.containers.Errors.3005',
+    defaultMessage: 'Failed to retrieve SSO authentication information.',
   },
   10002: {
     id: 'app.containers.Errors.10002',

@@ -11,6 +11,7 @@
 export const SET_INITIATED_STANDALONE_POPUP =
   'app/Login/SET_INITIATED_STANDALONE_POPUP';
 export const LOGGING_IN = 'app/Login/LOGGING_IN';
+export const SET_LOADING = 'app/Login/SET_LOADING';
 export const ERROR_OCCURRED = 'app/Login/ERROR_OCCURRED';
 export const LOGIN_SUCCESS = 'app/Login/LOGIN_SUCCESS';
 export const INIT_SDK = 'app/Login/INIT_SDK';

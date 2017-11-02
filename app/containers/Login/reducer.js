@@ -12,6 +12,7 @@ import { fromJS } from 'immutable';
 import {
   SET_INITIATED_STANDALONE_POPUP,
   LOGGING_IN,
+  SET_LOADING,
   ERROR_OCCURRED,
   LOGIN_SUCCESS,
   SHOW_LOGIN,
@@ -41,13 +42,12 @@ function loginReducer(state = initialState, action) {
     case LOGGING_IN:
     case SETTING_TENANT:
       return state.set('loading', true);
+    case SET_LOADING:
+      return state.set('loading', action.loading);
     case ERROR_OCCURRED:
       return state.set('loading', false);
     case LOGIN_SUCCESS:
-      return state
-        .set('agent', fromJS(action.agent))
-        .set('logged_in', true)
-        .set('loading', false);
+      return state.set('agent', fromJS(action.agent)).set('logged_in', true);
     case LOGOUT:
       return state
         .set('agent', {})
