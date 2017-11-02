@@ -1,3 +1,6 @@
+### [1.8.1] (2017-11-02)
+* Fix script-only interactions critical error on render
+
 ### [1.8.0] (2017-11-01)
 * CXV1-11878 - Support iframes in scripts
 
