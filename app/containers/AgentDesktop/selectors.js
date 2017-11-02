@@ -32,9 +32,7 @@ const selectHasUnrespondedInteractions = createSelector(
     const interactionArray = interactions.toJS();
     const wasFound = interactionArray.findIndex(
       (interaction) =>
-        interaction.channelType !== 'voice' &&
-        interaction.channelType !== 'work-offer' &&
-        interaction.channelType !== 'email' &&
+        interaction.messageHistory &&
         interaction.messageHistory.length &&
         (interaction.messageHistory[interaction.messageHistory.length - 1]
           .type === 'customer' ||
