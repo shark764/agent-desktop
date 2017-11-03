@@ -1,3 +1,6 @@
+### [1.8.5] (2017-11-04)
+* Fix sms conversations breaking
+
 ### [1.8.4] (2017-11-04)
 * CXV1-11976 - Refactoring SSO to use separate identity window
 * CXV1-12014 - Removed code that clears url hash so we do not clear '#sso' flag
