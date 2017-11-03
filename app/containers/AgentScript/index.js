@@ -248,15 +248,15 @@ class AgentScript extends React.Component {
           break;
         case 'iframe':
           scriptElements.push(
-            <iframe
-              id={element.name}
-              key={element.name}
-              title={element.text}
-              src={element.src}
-              height={element.height}
-              width={element.width}
-              style={styles.element}
-            />
+            <div id={element.name} key={element.name} style={styles.element}>
+              {element.text}
+              <iframe
+                title={element.text}
+                src={element.src}
+                height={element.height}
+                width={element.width}
+              />
+            </div>
           );
           break;
         default:
