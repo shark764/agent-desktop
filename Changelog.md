@@ -1,5 +1,8 @@
+### [1.8.3] (2017-11-04)
+* Add iframe placeholder text
+
 ### [1.8.2] (2017-11-03)
-* Fix sms issues ,conversations ending
+* Fix sms issues, conversations ending
 
 ### [1.8.1] (2017-11-02)
 * Fix script-only interactions critical error on render
