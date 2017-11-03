@@ -11,6 +11,7 @@
 import {
   SET_INITIATED_STANDALONE_POPUP,
   LOGGING_IN,
+  SET_LOADING,
   ERROR_OCCURRED,
   LOGIN_SUCCESS,
   RESET_PASSWORD,
@@ -29,6 +30,13 @@ export function setInitiatedStandalonePopup() {
 export function loggingIn() {
   return {
     type: LOGGING_IN,
+  };
+}
+
+export function setLoading(loading) {
+  return {
+    type: SET_LOADING,
+    loading,
   };
 }
 

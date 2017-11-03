@@ -17,8 +17,6 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
-import { clearUrlHash } from 'utils/url';
-
 import {
   DEFAULT_TOOLBAR_WIDTH,
   DEFAULT_TOOLBAR_HEIGHT,
@@ -55,6 +53,7 @@ import messages from './messages';
 import {
   setInitiatedStandalonePopup,
   loggingIn,
+  setLoading,
   errorOccurred,
   loginSuccess,
   resetPassword,
@@ -205,31 +204,42 @@ export class Login extends React.Component {
       if (CxEngage.subscribe) {
         CxEngage.subscribe(
           'cxengage/authentication',
-          (authError, authTopic) => {
-            if (authError) {
+          (error, topic, response) => {
+            if (error) {
+              this.props.setLoading(false);
               // Handled in App
             } else {
-              switch (authTopic) {
-                case 'cxengage/authentication/cognito-initialized-response': {
-                  CxEngage.authentication.ssoLogin((error, topic, response) => {
-                    if (!error) {
-                      if (this.props.crmModule === 'zendesk') {
-                        CxEngage.zendesk.setDimensions({
-                          width: DEFAULT_TOOLBAR_WIDTH,
-                          height: DEFAULT_TOOLBAR_HEIGHT,
-                        });
+              switch (topic) {
+                case 'cxengage/authentication/auth-info-response': {
+                  CxEngage.authentication.popIdentityPage();
+                  break;
+                }
+                case 'cxengage/authentication/cognito-auth-response': {
+                  if (response) {
+                    CxEngage.authentication.login(
+                      {
+                        token: response,
+                      },
+                      (cbError, cbTopic, cbResponse) => {
+                        if (!cbError) {
+                          console.log(
+                            '[SSO-Login] CxEngage.subscribe()',
+                            cbTopic,
+                            cbResponse
+                          );
+                          this.loginCB(cbResponse);
+                        } else {
+                          this.props.errorOccurred();
+                        }
                       }
-                      clearUrlHash();
-                      console.log(
-                        '[SSO-Login] CxEngage.subscribe()',
-                        topic,
-                        response
-                      );
-                      this.loginCB(response);
-                    } else {
-                      this.props.errorOccurred();
-                    }
-                  });
+                    );
+                  }
+                  break;
+                }
+                // This will fire when the window is closed by the agent
+                // This will act as a CANCEL
+                case 'cxengage/authentication/identity-window-response': {
+                  this.props.setLoading(false);
                   break;
                 }
                 default: {
@@ -248,13 +258,7 @@ export class Login extends React.Component {
   ssoFlag = () => window.location.href.indexOf('sso') > -1;
 
   loginWithSso = () => {
-    this.props.loggingIn();
-    if (this.props.crmModule === 'zendesk') {
-      CxEngage.zendesk.setDimensions({
-        width: 1200,
-        height: DEFAULT_TOOLBAR_HEIGHT,
-      });
-    }
+    this.props.setLoading(true);
     CxEngage.authentication.getAuthInfo({ username: this.state.ssoEmail });
   };
 
@@ -600,7 +604,10 @@ export class Login extends React.Component {
       this.setTenantId(activeTenants[0].tenantId, activeTenants[0].tenantName);
       this.onTenantSelect();
     } else if (activeTenants.length === 0) {
+      this.props.setLoading(false);
       this.props.setNonCriticalError({ code: 'AD-1005' });
+    } else {
+      this.props.setLoading(false);
     }
     if (this.state.remember) {
       storage.setItem('email', agent.username);
@@ -726,6 +733,7 @@ function mapDispatchToProps(dispatch) {
     setInitiatedStandalonePopup: () => dispatch(setInitiatedStandalonePopup()),
     resetPassword: (email) => dispatch(resetPassword(email)),
     loggingIn: () => dispatch(loggingIn()),
+    setLoading: (loading) => dispatch(setLoading(loading)),
     loginSuccess: (agent) => dispatch(loginSuccess(agent)),
     errorOccurred: () => dispatch(errorOccurred()),
     settingTenant: () => dispatch(settingTenant()),
@@ -742,6 +750,7 @@ Login.propTypes = {
   setInitiatedStandalonePopup: PropTypes.func.isRequired,
   resetPassword: PropTypes.func.isRequired,
   loggingIn: PropTypes.func.isRequired,
+  setLoading: PropTypes.func.isRequired,
   loginSuccess: PropTypes.func.isRequired,
   errorOccurred: PropTypes.func.isRequired,
   settingTenant: PropTypes.func.isRequired,
