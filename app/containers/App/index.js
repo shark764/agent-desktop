@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import axios from 'axios';
 import { createSearchQuery } from 'utils/contact';
+import { isUUID } from 'utils/validator';
 
 import {
   DEFAULT_TOOLBAR_WIDTH,
@@ -686,13 +687,8 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/messaging/new-message-received': {
-            if (
-              response.metadata.type === 'customer' ||
-              response.metadata.type === 'message' ||
-              response.metadata.type === 'system'
-            ) {
-              if (this.props.crmModule === 'zendesk')
-                CxEngage.zendesk.setVisibility({ visibility: true });
+            if (isUUID(response.from) === false && this.props.crmModule === 'zendesk') {
+              CxEngage.zendesk.setVisibility({ visibility: true });
             }
             this.props.addMessage(
               response.to,
@@ -703,7 +699,7 @@ export class App extends React.Component {
             );
             break;
           }
-
+            
           // INTERACTIONS/EMAIL
           case 'cxengage/interactions/email/details-received': {
             this.props.setEmailDetails(response.interactionId, response.body);
