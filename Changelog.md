@@ -1,5 +1,8 @@
+### [1.8.9] (2017-11-06)
+* CXV1-12044 - Hide participant phone controls until connected
+
 ### [1.8.8] (2017-11-06)
-* Only show cancel button on initial outbound dial (not on transfers)
+* CXV1-12044 - Only show cancel button on initial outbound dial (not on transfers)
 
 ### [1.8.7] (2017-11-06)
 * Refactor svg icons to be more consistent
