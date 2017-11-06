@@ -44,6 +44,7 @@ import {
   selectActiveNonVoiceInteractions,
   getSelectedInteractionId,
   selectNewInteractionPanel,
+  selectHasOnlyOneInteraction,
 } from './selectors';
 import messages from './messages';
 
@@ -101,7 +102,7 @@ export class InteractionsBar extends React.Component {
   };
 
   acceptInteraction = (interactionId) => {
-    if (this.context.toolbarMode) {
+    if (this.context.toolbarMode && this.props.selectHasOnlyOneInteraction) {
       this.props.hideInteractionsBar();
     }
     const interaction = this.props.pendingInteractions.find(
@@ -645,6 +646,7 @@ const mapStateToProps = (state, props) => ({
   newInteractionPanel: selectNewInteractionPanel(state, props),
   activeExtension: selectActiveExtension(state, props),
   isInteractionsBarCollapsed: selectIsInteractionsBarCollapsed(state, props),
+  selectHasOnlyOneInteraction: selectHasOnlyOneInteraction(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -680,6 +682,7 @@ InteractionsBar.propTypes = {
   openNewInteractionPanel: PropTypes.func.isRequired,
   isInteractionsBarCollapsed: PropTypes.bool.isRequired,
   hideInteractionsBar: PropTypes.func.isRequired,
+  selectHasOnlyOneInteraction: PropTypes.bool.isRequired,
 };
 
 InteractionsBar.contextTypes = {
