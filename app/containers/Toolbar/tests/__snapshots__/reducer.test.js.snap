@@ -1,15 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`toolbarReducer returns the initial state 1`] = `
-Immutable.Map {
-  welcomeStatIds: Immutable.List [
-  ],
-  toolbarStatIds: Immutable.List [
-  ],
-  enabledStats: Immutable.List [
-  ],
-  availableStats: Immutable.Map {
-  },
-  showAgentStatusMenu: false,
+Object {
+  "availableStats": Object {},
+  "enabledStats": Array [],
+  "showAgentStatusMenu": false,
+  "toolbarStatIds": Array [],
+  "welcomeStatIds": Array [],
 }
 `;

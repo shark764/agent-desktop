@@ -1,15 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`loginReducer returns the initial state 1`] = `
-Immutable.Map {
-  loading: false,
-  showLogin: true,
-  agent: Immutable.Map {
-    tenants: Immutable.List [
-    ],
+Object {
+  "agent": Object {
+    "tenants": Array [],
   },
-  tenant: Immutable.Map {
-    id: "",
+  "loading": false,
+  "showLogin": true,
+  "tenant": Object {
+    "id": "",
   },
 }
 `;

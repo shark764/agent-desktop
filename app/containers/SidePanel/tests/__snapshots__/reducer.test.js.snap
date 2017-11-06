@@ -1,12 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`sidePanelReducer returns the initial state 1`] = `
-Immutable.Map {
-  contactLayout: Immutable.Map {
-    layout: Immutable.List [
-    ],
+Object {
+  "contactAttributes": Array [],
+  "contactLayout": Object {
+    "layout": Array [],
   },
-  contactAttributes: Immutable.List [
-  ],
 }
 `;

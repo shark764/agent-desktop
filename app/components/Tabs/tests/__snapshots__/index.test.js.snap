@@ -78,10 +78,9 @@ exports[`<Tabs /> with type big should render correctly 1`] = `
     scopeSelector="#mockId .react-tabs"
   />
   <Tabs
-    defaultFocus={false}
-    defaultIndex={null}
+    focus={false}
     forceRenderTabPanel={false}
-    selectedIndex={null}
+    selectedIndex={-1}
   />
 </div>
 `;
@@ -159,10 +158,9 @@ exports[`<Tabs /> with type small should render correctly 1`] = `
     scopeSelector="#mockId .react-tabs"
   />
   <Tabs
-    defaultFocus={false}
-    defaultIndex={null}
+    focus={false}
     forceRenderTabPanel={false}
-    selectedIndex={null}
+    selectedIndex={-1}
   />
 </div>
 `;

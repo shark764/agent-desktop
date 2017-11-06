@@ -1,4 +1,7 @@
-### [1.8.7] (2017-11-06)
+### [1.8.9] (2017-11-06)
+* CXV1-12044 - Hide participant phone controls until connected
+
+### [1.8.8] (2017-11-06)
 * Refactor svg icons to be more consistent
 
 ### [1.8.6] (2017-11-03)

@@ -195,30 +195,31 @@ export class TransferResource extends React.Component {
           <span style={this.styles.transferStatus}>
             ({status})
           </span>}
-        <span
-          id="resourceControlsMenu"
-          style={this.styles.resourceControlsMenu}
-        >
-          <CircleIconButton
-            id="hangUpResource"
-            name="end_call_resource"
-            onClick={this.hangUpResource}
-            style={this.styles.phoneControlsButton}
-          />
-          <CircleIconButton
-            id="holdResource"
-            name="hold_resource"
-            active={this.props.resource.onHold}
-            onClick={this.holdResource}
-            style={this.styles.phoneControlsButton}
-          />
-          <CircleIconButton
-            id="transferResource"
-            name="transfer_resource"
-            onClick={this.transfer}
-            style={this.styles.phoneControlsButton}
-          />
-        </span>
+        {this.props.resource.status === 'connected' &&
+          <span
+            id="resourceControlsMenu"
+            style={this.styles.resourceControlsMenu}
+          >
+            <CircleIconButton
+              id="hangUpResource"
+              name="end_call_resource"
+              onClick={this.hangUpResource}
+              style={this.styles.phoneControlsButton}
+            />
+            <CircleIconButton
+              id="holdResource"
+              name="hold_resource"
+              active={this.props.resource.onHold}
+              onClick={this.holdResource}
+              style={this.styles.phoneControlsButton}
+            />
+            <CircleIconButton
+              id="transferResource"
+              name="transfer_resource"
+              onClick={this.transfer}
+              style={this.styles.phoneControlsButton}
+            />
+          </span>}
         <Timer
           format="mm:ss"
           style={this.styles.transferTimer}
