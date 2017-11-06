@@ -689,6 +689,76 @@ Object {
 }
 `;
 
+exports[`agentDesktopReducer START_OUTBOUND_INTERACTION voice adds a new outbound interaction with a generated interactionId, channelType, customer, hideNewInteractionPanelOnWorkAccepted, and initiatedByCurrentAgent 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      contact: Immutable.Map {
+        id: "test-contact-id",
+        attributes: Immutable.Map {
+          name: "Josh Clowater",
+          email: "jclowater@serenova.com",
+        },
+      },
+      timeout: NaN,
+      warmTransfers: Immutable.List [
+      ],
+      contactMode: "view",
+      selectedSidePanelTab: "info",
+      hideNewInteractionPanelOnWorkAccepted: true,
+      query: Immutable.Map {
+      },
+      muted: false,
+      dispositionDetails: Immutable.Map {
+        forceSelect: false,
+        dispositions: Immutable.List [
+        ],
+        categories: Immutable.List [
+        ],
+        selected: Immutable.List [
+        ],
+      },
+      autoAnswer: undefined,
+      interactionId: "outbound-voice-+15064701234",
+      customFieldsCollapsed: true,
+      initiatedByCurrentAgent: true,
+      note: Immutable.Map {
+        body: "",
+        title: "",
+        notesPanelHeight: 300,
+      },
+      status: "connecting-to-outbound",
+      isSidePanelCollapsed: true,
+      agentRecordingEnabled: undefined,
+      wrapupDetails: Immutable.Map {
+        wrapupUpdateAllowed: false,
+        wrapupEnabled: false,
+      },
+      channelType: "voice",
+      activeContactForm: Immutable.Map {
+        contactForm: Immutable.Map {
+        },
+        formIsDirty: false,
+        selectedIndexes: Immutable.Map {
+        },
+        showErrors: Immutable.Map {
+        },
+        editingContacts: Immutable.List [
+        ],
+        formIsValid: false,
+        unusedFields: Immutable.Map {
+        },
+        formErrors: Immutable.Map {
+        },
+        saveLoading: false,
+      },
+      direction: "outbound",
+    },
+  ],
+  selectedInteractionId: undefined,
+}
+`;
+
 exports[`agentDesktopReducer TOGGLE_CUSTOM_FIELDS should toggle customFieldsCollapsed on the appropriate interaction 1`] = `
 Object {
   "interactions": Array [

@@ -704,6 +704,9 @@ function agentDesktopReducer(state = initialState, action) {
           // the voice interation is not 'selectable' until then and we want to avoid the contact panel 'flicker' in between
           hideNewInteractionPanelOnWorkAccepted:
             action.addedByNewInteractionPanel && action.channelType === 'voice',
+          // initiatedByCurrentAgent so we know if we should render the 'Cancel' button
+          initiatedByCurrentAgent:
+            action.channelType === 'voice' ? true : undefined,
           direction: 'outbound',
           status: 'connecting-to-outbound',
           contactMode: action.contact !== undefined ? 'view' : 'search',

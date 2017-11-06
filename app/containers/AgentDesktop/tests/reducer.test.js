@@ -246,21 +246,45 @@ describe('agentDesktopReducer', () => {
         interactions: [],
         selectedInteractionId: undefined,
       };
-      action = {
-        type: START_OUTBOUND_INTERACTION,
-        channelType: 'sms',
-        customer: '+15064701234',
-        contact: {
-          id: 'test-contact-id',
-          attributes: {
-            name: 'Josh Clowater',
-            email: 'jclowater@serenova.com',
-          },
-        },
-      };
     });
-    it('adds a new outbound interaction with a generated interactionId, channelType, customer, and contact', () => {
-      runReducerAndExpectSnapshot();
+    describe('sms', () => {
+      beforeEach(() => {
+        action = {
+          type: START_OUTBOUND_INTERACTION,
+          channelType: 'sms',
+          customer: '+15064701234',
+          contact: {
+            id: 'test-contact-id',
+            attributes: {
+              name: 'Josh Clowater',
+              email: 'jclowater@serenova.com',
+            },
+          },
+        };
+      });
+      it('adds a new outbound interaction with a generated interactionId, channelType, customer, and contact', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('voice', () => {
+      beforeEach(() => {
+        action = {
+          type: START_OUTBOUND_INTERACTION,
+          channelType: 'voice',
+          addedByNewInteractionPanel: true,
+          customer: '+15064701234',
+          contact: {
+            id: 'test-contact-id',
+            attributes: {
+              name: 'Josh Clowater',
+              email: 'jclowater@serenova.com',
+            },
+          },
+        };
+      });
+      it('adds a new outbound interaction with a generated interactionId, channelType, customer, hideNewInteractionPanelOnWorkAccepted, and initiatedByCurrentAgent', () => {
+        runReducerAndExpectSnapshot();
+      });
     });
   });
 

@@ -16,6 +16,7 @@ export default class Interaction {
     customer,
     contact,
     hideNewInteractionPanelOnWorkAccepted,
+    initiatedByCurrentAgent,
     contactMode,
     isSidePanelCollapsed,
     subject,
@@ -81,6 +82,9 @@ export default class Interaction {
     this.selectedSidePanelTab = 'info';
     if (hideNewInteractionPanelOnWorkAccepted !== undefined) {
       this.hideNewInteractionPanelOnWorkAccepted = hideNewInteractionPanelOnWorkAccepted;
+    }
+    if (initiatedByCurrentAgent !== undefined) {
+      this.initiatedByCurrentAgent = initiatedByCurrentAgent;
     }
     this.activeContactForm = fromJS(activeContactFormBlank);
     if (subject) {
