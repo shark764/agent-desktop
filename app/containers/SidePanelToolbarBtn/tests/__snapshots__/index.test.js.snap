@@ -3,6 +3,7 @@
 exports[`<SidePanelToolbarBtn /> should not render 1`] = `
 <ContextProvider>
   <SidePanelToolbarBtn
+    hasAssignedContact={false}
     isSidePanelCollapsed={true}
     selectedInteractionIsScriptOnly={false}
     selectedInteractionScript={
@@ -17,6 +18,7 @@ exports[`<SidePanelToolbarBtn /> should not render 1`] = `
 exports[`<SidePanelToolbarBtn /> should render correctly 1`] = `
 <ContextProvider>
   <SidePanelToolbarBtn
+    hasAssignedContact={true}
     isSidePanelCollapsed={true}
     selectedInteractionIsScriptOnly={false}
     selectedInteractionScript={

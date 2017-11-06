@@ -21,9 +21,7 @@ import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 
 import { getSelectedInteractionId } from 'containers/ContactInteractionHistory/selectors';
-import {
-  setContactHistoryInteractionDetailsLoading,
-} from 'containers/AgentDesktop/actions';
+import { setContactHistoryInteractionDetailsLoading } from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
 
@@ -191,11 +189,13 @@ export class ContactInteractionHistoryItem extends React.Component {
             <div>
               {interactionDetails.audioRecordings !== undefined
                 ? audioRecordings(interactionDetails.audioRecordings)
-                : <div style={styles.loadingInteractionDetails} ><IconSVG
-                  id="loadingRecordings"
-                  name="loading"
-                  width="50px"
-                /></div>}
+                : <div style={styles.loadingInteractionDetails}>
+                  <IconSVG
+                    id="loadingRecordings"
+                    name="loading"
+                    width="50px"
+                  />
+                </div>}
             </div>
           </div>
         );
@@ -204,11 +204,9 @@ export class ContactInteractionHistoryItem extends React.Component {
       case 'messaging':
         transcriptItems =
           typeof interactionDetails.transcript === 'undefined'
-            ? (<div style={styles.loadingInteractionDetails}><IconSVG
-              id="loadingTranscripts"
-              name="loading"
-              width="50px"
-            /></div>)
+            ? (<div style={styles.loadingInteractionDetails}>
+              <IconSVG id="loadingTranscripts" name="loading" width="50px" />
+            </div>)
             : interactionDetails.transcript &&
               interactionDetails.transcript.map &&
               interactionDetails.transcript.map((transcriptItem, index) => {
@@ -278,11 +276,9 @@ export class ContactInteractionHistoryItem extends React.Component {
     const expandedView = this.props.interactionIndex === undefined;
     if (interaction.interactionDetails === 'loading') {
       interactionDetails = (
-        <div style={styles.loadingInteractionDetails}><IconSVG
-          id="loadingContactHistoryIcon"
-          name="loading"
-          width="50px"
-        /></div>
+        <div style={styles.loadingInteractionDetails}>
+          <IconSVG id="loadingContactHistoryIcon" name="loading" width="50px" />
+        </div>
       );
     } else if (interaction.interactionDetails !== undefined) {
       let icon;
@@ -310,11 +306,9 @@ export class ContactInteractionHistoryItem extends React.Component {
           const notes =
             segment.note !== undefined
               ? segment.note.body
-              : (<div style={styles.loadingInteractionDetails}><IconSVG
-                id="loadingNote"
-                name="loading"
-                width="50px"
-              /></div>);
+              : (<div style={styles.loadingInteractionDetails}>
+                <IconSVG id="loadingNote" name="loading" width="50px" />
+              </div>);
           if (
             segment.conversationStartTimestamp &&
             segment.conversationEndTimestamp
@@ -392,10 +386,11 @@ export class ContactInteractionHistoryItem extends React.Component {
             : <div
               className="expand"
               style={styles.expand}
-              onClick={() => this.props.selectInteraction(this.props.interactionIndex)}
+              onClick={() =>
+                  this.props.selectInteraction(this.props.interactionIndex)}
             >
-              &#9679;&#9679;&#9679;
-            </div>}
+                &#9679;&#9679;&#9679;
+              </div>}
         </div>
       );
     }
@@ -425,8 +420,15 @@ export class ContactInteractionHistoryItem extends React.Component {
               {moment(interaction.startTimestamp).fromNow()}
             </div>}
           <div>
-            {interaction.directionName},&nbsp;{interaction.lastQueueName}
+            {interaction.directionName}
           </div>
+          <div>
+            {interaction.lastQueueName}
+          </div>
+          {interaction.csat &&
+            <div>
+              <FormattedMessage {...messages.customerSatisfaction} />:&nbsp;{interaction.csat}
+            </div>}
           {interaction.lastDispositionName &&
             <div
               style={[
@@ -441,19 +443,12 @@ export class ContactInteractionHistoryItem extends React.Component {
             >
               {interaction.lastDispositionName}
             </div>}
-          {interaction.csat &&
-            <div>
-              <FormattedMessage {...messages.customerSatisfaction} />:&nbsp;{interaction.csat}
-            </div>}
           <div>
             {moment(interaction.startTimestamp).format('LLL')}
           </div>
         </div>
         {interactionDetails &&
-          <div
-            className="interactionDetails"
-            style={styles.interactionDetails}
-          >
+          <div className="interactionDetails" style={styles.interactionDetails}>
             {interactionDetails}
           </div>}
       </div>
@@ -491,4 +486,8 @@ ContactInteractionHistoryItem.propTypes = {
   setContactHistoryInteractionDetailsLoading: PropTypes.func.isRequired,
 };
 
-export default ErrorBoundary(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactInteractionHistoryItem)));
+export default ErrorBoundary(
+  connect(mapStateToProps, mapDispatchToProps)(
+    Radium(ContactInteractionHistoryItem)
+  )
+);

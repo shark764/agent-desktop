@@ -31,6 +31,7 @@ import { selectHasCrmPermissions } from 'containers/App/selectors';
 import {
   getSelectedInteractionIsScriptOnly,
   getSelectedInteractionIsVoice,
+  getHasAssignedContact,
 } from 'containers/SidePanel/selectors';
 
 import {
@@ -66,7 +67,7 @@ export class AgentDesktop extends React.Component {
 
     this.collapsedSidePanelPx = 52;
     if (context.toolbarMode) {
-      this.defaultSidePanelPx = 350;
+      this.defaultSidePanelPx = 400;
     } else {
       this.defaultSidePanelPx = 500;
     }
@@ -203,9 +204,10 @@ export class AgentDesktop extends React.Component {
     let sidePanelHasTabs = false;
     if (
       (this.props.hasCrmPermissions && !this.context.toolbarMode) ||
-      (this.props.selectedInteractionHasScripts &&
+      ((this.props.selectedInteractionHasScripts &&
         !this.props.selectedInteractionIsScriptOnly &&
-        !this.props.selectedInteractionIsVoice)
+        !this.props.selectedInteractionIsVoice) ||
+        this.props.selectedInteractionHasAssignedContact)
     ) {
       sidePanelHasTabs = true;
     }
@@ -270,7 +272,7 @@ export class AgentDesktop extends React.Component {
                   disabledPx={this.collapsedSidePanelPx}
                   px={this.props.sidePanelPx}
                   maxPx={this.props.sidePanelMaxPx}
-                  minPx={this.context.toolbarMode ? 300 : 400}
+                  minPx={this.context.toolbarMode ? 350 : 400}
                   isDisabled={this.props.isSidePanelCollapsed}
                 >
                   <SidePanel isCollapsed={this.props.isSidePanelCollapsed} />
@@ -314,6 +316,7 @@ const mapStateToProps = (state, props) => ({
     props
   ),
   selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
+  selectedInteractionHasAssignedContact: getHasAssignedContact(state, props),
   expandWindowForCrm: selectExpandWindowForCrm(state, props),
 });
 
@@ -343,6 +346,7 @@ AgentDesktop.propTypes = {
   hasCrmPermissions: PropTypes.bool.isRequired,
   selectedInteractionIsScriptOnly: PropTypes.bool.isRequired,
   selectedInteractionIsVoice: PropTypes.bool.isRequired,
+  selectedInteractionHasAssignedContact: PropTypes.bool.isRequired,
   showInteractionsBar: PropTypes.func.isRequired,
   hideInteractionsBar: PropTypes.func.isRequired,
   setSidePanelPx: PropTypes.func.isRequired,

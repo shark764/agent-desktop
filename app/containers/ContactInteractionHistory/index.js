@@ -23,13 +23,15 @@ import ContactInteractionHistoryItem from 'containers/ContactInteractionHistoryI
 
 import {
   setContactInteractionHistory,
+  setCrmInteractionHistory,
   addNotesToContactInteractionHistory,
   loadHistoricalInteractionBody,
   loadContactInteractionHistory,
+  loadCrmInteractionHistory,
 } from 'containers/AgentDesktop/actions';
-
-import messages from './messages';
+import { selectCrmModule } from 'containers/AgentDesktop/selectors';
 import { selectContact } from './selectors';
+import messages from './messages';
 
 const styles = {
   loading: {
@@ -71,17 +73,39 @@ export class ContactInteractionHistory extends React.Component {
   }
 
   refreshContactInteractionHistory = () => {
-    this.props.setContactInteractionHistory(this.props.contactId, {
-      results: undefined,
-    });
-    this.props.loadContactInteractionHistory(this.props.contactId);
+    if (this.props.crmModule === undefined) {
+      this.props.setContactInteractionHistory(this.props.contactId, {
+        results: undefined,
+      });
+      this.props.loadContactInteractionHistory(this.props.contactId);
+    } else {
+      this.props.setCrmInteractionHistory(
+        this.props.contactSubType,
+        this.props.contactId,
+        {
+          results: undefined,
+        }
+      );
+      this.props.loadCrmInteractionHistory(
+        this.props.contactSubType,
+        this.props.contactId
+      );
+    }
   };
 
   loadMoreContactInteractionHistory = () => {
-    this.props.loadContactInteractionHistory(
-      this.props.contactId,
-      this.props.contactInteractionHistory.nextPage
-    );
+    if (this.props.crmModule === undefined) {
+      this.props.loadContactInteractionHistory(
+        this.props.contactId,
+        this.props.contactInteractionHistory.nextPage
+      );
+    } else {
+      this.props.loadCrmInteractionHistory(
+        this.props.contactSubType,
+        this.props.contactId,
+        this.props.contactInteractionHistory.nextPage
+      );
+    }
   };
 
   selectInteraction = (selectedInteractionIndex) => {
@@ -90,6 +114,7 @@ export class ContactInteractionHistory extends React.Component {
         selectedInteractionIndex
       ];
       const needsNotes =
+        this.props.crmModule === undefined &&
         interaction.interactionDetails.agents.findIndex(
           (agent) => agent.noteTitle !== null && agent.note === undefined
         ) !== -1;
@@ -202,7 +227,11 @@ export class ContactInteractionHistory extends React.Component {
             this.props.contactInteractionHistory.total
           }
           loader={
-            <IconSVG id="loadingContactHistoryIcon" name="loading" width="80px" />
+            <IconSVG
+              id="loadingContactHistoryIcon"
+              name="loading"
+              width="80px"
+            />
           }
           useWindow={false}
         >
@@ -217,11 +246,17 @@ export class ContactInteractionHistory extends React.Component {
     if (this.state.selectedInteractionIndex === undefined) {
       content = this.getInteractionHistoryList();
     } else {
-      content = (<ContactInteractionHistoryItem
-        interaction={this.props.contactInteractionHistory.results[this.state.selectedInteractionIndex]}
-        contactName={this.props.contactName}
-        selectInteraction={this.selectInteraction}
-      />)
+      content = (
+        <ContactInteractionHistoryItem
+          interaction={
+            this.props.contactInteractionHistory.results[
+              this.state.selectedInteractionIndex
+            ]
+          }
+          contactName={this.props.contactName}
+          selectInteraction={this.selectInteraction}
+        />
+      );
     }
     return (
       <div style={[styles.base, this.props.style]}>
@@ -234,7 +269,9 @@ export class ContactInteractionHistory extends React.Component {
 function mapStateToProps(state, props) {
   const contact = selectContact(state, props);
   return {
+    crmModule: selectCrmModule(state, props),
     contactId: contact.id,
+    contactSubType: contact.type,
     contactName: contact.attributes.name,
     contactInteractionHistory: contact.interactionHistory,
   };
@@ -244,6 +281,8 @@ function mapDispatchToProps(dispatch) {
   return {
     setContactInteractionHistory: (contactId, response) =>
       dispatch(setContactInteractionHistory(contactId, response)),
+    setCrmInteractionHistory: (subType, id, response) =>
+      dispatch(setCrmInteractionHistory(subType, id, response)),
     addNotesToContactInteractionHistory: (
       contactHistoryInteractionId,
       response
@@ -258,18 +297,25 @@ function mapDispatchToProps(dispatch) {
       dispatch(loadHistoricalInteractionBody(interactionId, bodyType)),
     loadContactInteractionHistory: (contactId, page) =>
       dispatch(loadContactInteractionHistory(contactId, page)),
+    loadCrmInteractionHistory: (subType, id, page) =>
+      dispatch(loadCrmInteractionHistory(subType, id, page)),
     dispatch,
   };
 }
 
 ContactInteractionHistory.propTypes = {
-  contactId: PropTypes.string.isRequired,
+  crmModule: PropTypes.string,
+  contactId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
+  contactSubType: PropTypes.string,
   contactName: PropTypes.string.isRequired,
   contactInteractionHistory: PropTypes.object,
   setContactInteractionHistory: PropTypes.func.isRequired,
+  setCrmInteractionHistory: PropTypes.func.isRequired,
   addNotesToContactInteractionHistory: PropTypes.func.isRequired,
   loadHistoricalInteractionBody: PropTypes.func.isRequired,
   loadContactInteractionHistory: PropTypes.func.isRequired,
+  loadCrmInteractionHistory: PropTypes.func.isRequired,
   style: PropTypes.object,
 };
 

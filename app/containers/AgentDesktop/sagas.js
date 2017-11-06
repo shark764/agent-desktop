@@ -23,16 +23,19 @@ import {
 import {
   LOAD_HISTORICAL_INTERACTION_BODY,
   LOAD_CONTACT_INTERACTION_HISTORY,
+  LOAD_CRM_INTERACTION_HISTORY,
   CANCEL_CLICK_TO_DIAL,
   GO_NOT_READY,
   DELETE_CONTACTS,
   ASSIGN_CONTACT,
   WORK_ACCEPTED,
 } from './constants';
+import { selectCrmModule } from './selectors';
 import {
   setContactMode,
   updateContactHistoryInteractionDetails,
   setContactInteractionHistory,
+  setCrmInteractionHistory,
   removeContact,
   selectContact,
   setAssignedContact,
@@ -90,13 +93,12 @@ export function* loadHistoricalInteractionBody(action) {
 }
 
 export function* loadContactInteractions(action) {
-  let contactInteractionHistoryDetails;
-  const contactQuery = { contactId: action.contactId };
-  if (typeof action.page !== 'undefined') {
-    contactQuery.page = action.page;
-  }
   try {
-    contactInteractionHistoryDetails = yield call(
+    const contactQuery = { contactId: action.contactId };
+    if (typeof action.page !== 'undefined') {
+      contactQuery.page = action.page;
+    }
+    const contactInteractionHistoryDetails = yield call(
       sdkCallToPromise,
       CxEngage.reporting.getContactInteractionHistory,
       contactQuery,
@@ -140,6 +142,69 @@ export function* loadContactInteractions(action) {
       setContactInteractionHistory(
         action.contactId,
         contactInteractionHistoryDetails
+      )
+    );
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export function* loadCrmInteractions(action) {
+  try {
+    const crm = yield select(selectCrmModule);
+    const query = { crm, subType: action.subType, id: action.id };
+    if (action.page !== undefined) {
+      query.page = action.page;
+    }
+    const crmInteractionHistoryDetails = yield call(
+      sdkCallToPromise,
+      CxEngage.reporting.getCrmInteractions,
+      query,
+      'AgentDesktop'
+    );
+
+    if (crmInteractionHistoryDetails.results == null) {
+      crmInteractionHistoryDetails.results = [];
+    }
+
+    if (!query.page) {
+      let earliestTimestamp;
+      if (
+        crmInteractionHistoryDetails.total >
+        crmInteractionHistoryDetails.results.length
+      ) {
+        query.page = Math.floor(
+          crmInteractionHistoryDetails.total /
+            crmInteractionHistoryDetails.limit
+        );
+        const earliestCrmInteractionDetails = yield call(
+          sdkCallToPromise,
+          CxEngage.reporting.getCrmInteractions,
+          query,
+          'AgentDesktop'
+        );
+        earliestTimestamp =
+          earliestCrmInteractionDetails.results &&
+          earliestCrmInteractionDetails.results.length &&
+          earliestCrmInteractionDetails.results[
+            earliestCrmInteractionDetails.results.length - 1
+          ].startTimestamp;
+      } else {
+        earliestTimestamp =
+          crmInteractionHistoryDetails.results &&
+          crmInteractionHistoryDetails.results.length &&
+          crmInteractionHistoryDetails.results[
+            crmInteractionHistoryDetails.results.length - 1
+          ].startTimestamp;
+      }
+      crmInteractionHistoryDetails.earliestTimestamp = earliestTimestamp;
+    }
+
+    yield put(
+      setCrmInteractionHistory(
+        action.subType,
+        action.id,
+        crmInteractionHistoryDetails
       )
     );
   } catch (error) {
@@ -319,6 +384,10 @@ export function* contactInteractionHistory() {
   yield takeEvery(LOAD_CONTACT_INTERACTION_HISTORY, loadContactInteractions);
 }
 
+export function* crmInteractionHistory() {
+  yield takeEvery(LOAD_CRM_INTERACTION_HISTORY, loadCrmInteractions);
+}
+
 export function* notReady() {
   yield takeEvery(GO_NOT_READY, goNotReady);
 }
@@ -343,6 +412,7 @@ export function* workAccepted() {
 export default [
   historicalInteractionBody,
   contactInteractionHistory,
+  crmInteractionHistory,
   notReady,
   deleteContacts,
   assignContact,
