@@ -304,10 +304,6 @@ export class ContentArea extends React.Component {
     categoryName: {
       fontWeight: '600',
     },
-    addIcon: {
-      width: '16px',
-      height: '16px',
-    },
     confirmDialog: {
       display: 'grid',
       height: 'calc(100% - 50px)',
@@ -578,19 +574,15 @@ export class ContentArea extends React.Component {
             },
           ]}
         >
-          <IconSVG
-            name="add"
-            id="add-disposition-icon"
-            style={this.styles.addIcon}
-          />
-          <span
+          <IconSVG name="add" id="add-disposition-icon" width="16px" color="grey" />
+          <div
             style={[
               this.styles.dispositionLabelText,
               { marginLeft: '5px', padding: '2.5px 0' },
             ]}
           >
             <FormattedMessage {...messages.disposition} />
-          </span>
+          </div>
         </div>,
         this.state.showDispositionsList &&
           <div

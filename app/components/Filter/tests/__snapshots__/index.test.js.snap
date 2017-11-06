@@ -39,18 +39,22 @@ exports[`<Filter /> should render correctly 1`] = `
   >
     mockValue
   </span>
-  <Icon
-    name="close"
-    onclick={[Function]}
+  <div
+    data-radium={true}
+    onClick={[Function]}
     style={
-      Array [
-        Object {
-          "cursor": "pointer",
-          "margin": "0 10px",
-        },
-        undefined,
-      ]
+      Object {
+        "cursor": "pointer",
+        "margin": "0 10px",
+      }
     }
-  />
+  >
+    <IconSVG
+      color="grey"
+      id="removeFilterIcon"
+      name="close"
+      width="12px"
+    />
+  </div>
 </div>
 `;

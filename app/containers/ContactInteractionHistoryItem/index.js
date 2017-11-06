@@ -51,10 +51,7 @@ const styles = {
     marginTop: '5px',
   },
   loadingInteractionDetails: {
-    margin: '0 auto',
-    display: 'block',
     marginTop: '12px',
-    height: '40px',
   },
   interactionDetails: {
     borderTop: '1px solid #E4E4E4',
@@ -194,11 +191,11 @@ export class ContactInteractionHistoryItem extends React.Component {
             <div>
               {interactionDetails.audioRecordings !== undefined
                 ? audioRecordings(interactionDetails.audioRecordings)
-                : <IconSVG
+                : <div style={styles.loadingInteractionDetails} ><IconSVG
                   id="loadingRecordings"
                   name="loading"
-                  style={styles.loadingInteractionDetails}
-                />}
+                  width="50px"
+                /></div>}
             </div>
           </div>
         );
@@ -207,11 +204,11 @@ export class ContactInteractionHistoryItem extends React.Component {
       case 'messaging':
         transcriptItems =
           typeof interactionDetails.transcript === 'undefined'
-            ? (<IconSVG
+            ? (<div style={styles.loadingInteractionDetails}><IconSVG
               id="loadingTranscripts"
               name="loading"
-              style={styles.loadingInteractionDetails}
-            />)
+              width="50px"
+            /></div>)
             : interactionDetails.transcript &&
               interactionDetails.transcript.map &&
               interactionDetails.transcript.map((transcriptItem, index) => {
@@ -281,11 +278,11 @@ export class ContactInteractionHistoryItem extends React.Component {
     const expandedView = this.props.interactionIndex === undefined;
     if (interaction.interactionDetails === 'loading') {
       interactionDetails = (
-        <IconSVG
+        <div style={styles.loadingInteractionDetails}><IconSVG
           id="loadingContactHistoryIcon"
           name="loading"
-          style={styles.loadingInteractionDetails}
-        />
+          width="50px"
+        /></div>
       );
     } else if (interaction.interactionDetails !== undefined) {
       let icon;
@@ -313,11 +310,11 @@ export class ContactInteractionHistoryItem extends React.Component {
           const notes =
             segment.note !== undefined
               ? segment.note.body
-              : (<IconSVG
+              : (<div style={styles.loadingInteractionDetails}><IconSVG
                 id="loadingNote"
                 name="loading"
-                style={styles.loadingInteractionDetails}
-              />);
+                width="50px"
+              /></div>);
           if (
             segment.conversationStartTimestamp &&
             segment.conversationEndTimestamp

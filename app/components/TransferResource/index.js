@@ -16,7 +16,7 @@ import Radium from 'radium';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import CircleIconButton from 'components/CircleIconButton';
-import Icon from 'components/Icon';
+import IconSVG from 'components/Icon';
 import Timer from 'components/Timer';
 
 import messages from './messages';
@@ -151,7 +151,7 @@ export class TransferResource extends React.Component {
           onClick={() => this.cancelTransfer(this.props.resource)}
           style={this.styles.cancelTransfer}
         >
-          <Icon name="close" />
+          <IconSVG id="cancelTransferIcon" name="close" />
         </span>
       );
       status = <FormattedMessage {...messages.connecting} />;

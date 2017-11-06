@@ -55,6 +55,7 @@ const styles = {
     top: '-5px',
     height: '15px',
     width: '15px',
+    display: 'inline-block',
   },
   hoverElement: {
     position: 'absolute',
@@ -224,17 +225,14 @@ export class Stat extends React.Component {
               this.props.removeStat(this.props.stat);
             }}
           >
-            X
+            <IconSVG id="closeStatIcon" name="close" width="10px" />
           </span>}
         <div className="stat-value" style={styles.statValue}>
           {this.props.stat.results || this.props.stat.isErrored
             ? <StatValue stat={this.props.stat} />
-            : <div id="loadingContainer">
-              <IconSVG
-                style={styles.loadingIcon}
-                id="loadingIcon"
-                name="loadingWhite"
-              />
+            :
+            <div id="loadingContainer" style={styles.loadingIcon}>
+              <IconSVG id="loadingIcon" name="loadingWhite" />
             </div>}
         </div>
         <div className="agent-stat" style={styles.statName}>

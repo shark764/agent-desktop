@@ -378,7 +378,7 @@ export class Login extends React.Component {
     (<div id="loginContainerDiv" style={styles.dialogContentContainer}>
       <Logo style={styles.logo} />
       <div style={styles.dialogContent}>
-        <IconSVG id="loadingIcon" name="loading" />
+        <IconSVG id="loadingIcon" name="loading" width="100px" />
       </div>
     </div>);
 

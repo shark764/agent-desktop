@@ -107,17 +107,21 @@ exports[`<WelcomeStats /> should render correctly in agent desktop mode 1`] = `
           }
         }
       >
-        <IconSVG
-          id="loadingIcon"
-          name="loadingWhite"
+        <div
           style={
             Object {
-              "height": "20px",
+              "display": "inline-block",
               "position": "relative",
               "top": "-5px",
             }
           }
-        />
+        >
+          <IconSVG
+            id="loadingIcon"
+            name="loadingWhite"
+            width="40px"
+          />
+        </div>
       </div>
       <div
         style={
@@ -160,17 +164,21 @@ exports[`<WelcomeStats /> should render correctly in agent desktop mode 1`] = `
           }
         }
       >
-        <IconSVG
-          id="loadingIcon"
-          name="loadingWhite"
+        <div
           style={
             Object {
-              "height": "20px",
+              "display": "inline-block",
               "position": "relative",
               "top": "-5px",
             }
           }
-        />
+        >
+          <IconSVG
+            id="loadingIcon"
+            name="loadingWhite"
+            width="40px"
+          />
+        </div>
       </div>
       <div
         style={
@@ -213,17 +221,21 @@ exports[`<WelcomeStats /> should render correctly in agent desktop mode 1`] = `
           }
         }
       >
-        <IconSVG
-          id="loadingIcon"
-          name="loadingWhite"
+        <div
           style={
             Object {
-              "height": "20px",
+              "display": "inline-block",
               "position": "relative",
               "top": "-5px",
             }
           }
-        />
+        >
+          <IconSVG
+            id="loadingIcon"
+            name="loadingWhite"
+            width="40px"
+          />
+        </div>
       </div>
       <div
         style={
@@ -352,17 +364,21 @@ exports[`<WelcomeStats /> should render correctly in toolbar mode 1`] = `
           }
         }
       >
-        <IconSVG
-          id="loadingIcon"
-          name="loadingWhite"
+        <div
           style={
             Object {
-              "height": "20px",
+              "display": "inline-block",
               "position": "relative",
               "top": "-5px",
             }
           }
-        />
+        >
+          <IconSVG
+            id="loadingIcon"
+            name="loadingWhite"
+            width="40px"
+          />
+        </div>
       </div>
       <div
         style={
@@ -405,17 +421,21 @@ exports[`<WelcomeStats /> should render correctly in toolbar mode 1`] = `
           }
         }
       >
-        <IconSVG
-          id="loadingIcon"
-          name="loadingWhite"
+        <div
           style={
             Object {
-              "height": "20px",
+              "display": "inline-block",
               "position": "relative",
               "top": "-5px",
             }
           }
-        />
+        >
+          <IconSVG
+            id="loadingIcon"
+            name="loadingWhite"
+            width="40px"
+          />
+        </div>
       </div>
       <div
         style={
@@ -458,17 +478,21 @@ exports[`<WelcomeStats /> should render correctly in toolbar mode 1`] = `
           }
         }
       >
-        <IconSVG
-          id="loadingIcon"
-          name="loadingWhite"
+        <div
           style={
             Object {
-              "height": "20px",
+              "display": "inline-block",
               "position": "relative",
               "top": "-5px",
             }
           }
-        />
+        >
+          <IconSVG
+            id="loadingIcon"
+            name="loadingWhite"
+            width="40px"
+          />
+        </div>
       </div>
       <div
         style={

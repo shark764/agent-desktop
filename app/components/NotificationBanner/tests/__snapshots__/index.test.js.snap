@@ -46,21 +46,12 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
   >
     mock message
   </div>
-  <InjectIntl(Button)
+  <IconSVG
     clear={true}
-    iconName="close"
     id="mockId-dismiss-btn"
+    name="close"
     onClick={[Function]}
-    style={
-      Object {
-        "borderBottom": "0",
-        "borderLeft": "0",
-        "borderRight": "0",
-        "borderTop": "0",
-        "marginTop": "-4px",
-        "padding": "0 0 0 4px",
-      }
-    }
+    width="20px"
   />
 </div>
 `;

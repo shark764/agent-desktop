@@ -1,3 +1,6 @@
+### [1.8.7] (2017-11-06)
+* Refactor svg icons to be more consistent
+
 ### [1.8.6] (2017-11-03)
 * CXV1-11917 - Refactor item component from ContactInteractionHistory
 
