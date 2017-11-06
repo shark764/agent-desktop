@@ -118,6 +118,7 @@ exports[`<Interaction /> should render correctly 1`] = `
         }
       }
       truncationChar="…"
+      useNativeClamp={true}
     >
       <p
         style={

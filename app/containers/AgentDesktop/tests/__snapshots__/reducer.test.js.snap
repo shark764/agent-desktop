@@ -1,228 +1,270 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`agentDesktopReducer ADD_INTERACTION adding an inbound interaction adds it 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "activeContactForm": Object {
-        "contactForm": Object {},
-        "editingContacts": Array [],
-        "formErrors": Object {},
-        "formIsDirty": false,
-        "formIsValid": false,
-        "saveLoading": false,
-        "selectedIndexes": Object {},
-        "showErrors": Object {},
-        "unusedFields": Object {},
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      timeout: NaN,
+      warmTransfers: Immutable.List [
+      ],
+      contactMode: "search",
+      selectedSidePanelTab: "info",
+      query: Immutable.Map {
       },
-      "agentRecordingEnabled": undefined,
-      "autoAnswer": undefined,
-      "channelType": "voice",
-      "contactMode": "search",
-      "customFieldsCollapsed": true,
-      "direction": "inbound",
-      "dispositionDetails": Object {
-        "categories": Array [],
-        "dispositions": Array [],
-        "forceSelect": false,
-        "selected": Array [],
+      muted: false,
+      dispositionDetails: Immutable.Map {
+        forceSelect: false,
+        dispositions: Immutable.List [
+        ],
+        categories: Immutable.List [
+        ],
+        selected: Immutable.List [
+        ],
       },
-      "interactionId": "test-interaction-id",
-      "isSidePanelCollapsed": true,
-      "muted": false,
-      "note": Object {
-        "body": "",
-        "notesPanelHeight": 300,
-        "title": "",
+      autoAnswer: undefined,
+      interactionId: "test-interaction-id",
+      customFieldsCollapsed: true,
+      note: Immutable.Map {
+        body: "",
+        title: "",
+        notesPanelHeight: 300,
       },
-      "query": Object {},
-      "selectedSidePanelTab": "info",
-      "status": "work-offer",
-      "timeout": NaN,
-      "warmTransfers": Array [],
-      "wrapupDetails": Object {
-        "wrapupEnabled": false,
-        "wrapupUpdateAllowed": false,
+      status: "work-offer",
+      isSidePanelCollapsed: true,
+      agentRecordingEnabled: undefined,
+      wrapupDetails: Immutable.Map {
+        wrapupUpdateAllowed: false,
+        wrapupEnabled: false,
       },
+      channelType: "voice",
+      activeContactForm: Immutable.Map {
+        contactForm: Immutable.Map {
+        },
+        formIsDirty: false,
+        selectedIndexes: Immutable.Map {
+        },
+        showErrors: Immutable.Map {
+        },
+        editingContacts: Immutable.List [
+        ],
+        formIsValid: false,
+        unusedFields: Immutable.Map {
+        },
+        formErrors: Immutable.Map {
+        },
+        saveLoading: false,
+      },
+      direction: "inbound",
     },
   ],
-  "isInteractionsBarCollapsed": false,
-  "selectedInteractionId": undefined,
+  selectedInteractionId: undefined,
+  isInteractionsBarCollapsed: false,
 }
 `;
 
 exports[`agentDesktopReducer ADD_INTERACTION adding an outbound email interaction is ignored 1`] = `
-Object {
-  "interactions": Array [],
-  "selectedInteractionId": undefined,
+Immutable.Map {
+  interactions: Immutable.List [
+  ],
+  selectedInteractionId: undefined,
 }
 `;
 
 exports[`agentDesktopReducer ADD_INTERACTION adding an outbound sms interaction is ignored 1`] = `
-Object {
-  "interactions": Array [],
-  "selectedInteractionId": undefined,
+Immutable.Map {
+  interactions: Immutable.List [
+  ],
+  selectedInteractionId: undefined,
 }
 `;
 
 exports[`agentDesktopReducer ADD_INTERACTION adding an outbound voice interaction with new attributes when the interaction is present updates the interaction 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "activeContactForm": Object {
-        "contactForm": Object {},
-        "editingContacts": Array [],
-        "formErrors": Object {},
-        "formIsDirty": false,
-        "formIsValid": false,
-        "saveLoading": false,
-        "selectedIndexes": Object {},
-        "showErrors": Object {},
-        "unusedFields": Object {},
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      contact: Immutable.Map {
+        id: "test-contact-id",
       },
-      "agentRecordingEnabled": undefined,
-      "autoAnswer": undefined,
-      "channelType": "voice",
-      "contact": Object {
-        "id": "test-contact-id",
+      timeout: NaN,
+      warmTransfers: Immutable.List [
+      ],
+      contactMode: "view",
+      selectedSidePanelTab: "info",
+      query: Immutable.Map {
       },
-      "contactMode": "view",
-      "customFieldsCollapsed": true,
-      "direction": "outbound",
-      "dispositionDetails": Object {
-        "categories": Array [],
-        "dispositions": Array [],
-        "forceSelect": false,
-        "selected": Array [],
+      muted: false,
+      dispositionDetails: Immutable.Map {
+        forceSelect: false,
+        dispositions: Immutable.List [
+        ],
+        categories: Immutable.List [
+        ],
+        selected: Immutable.List [
+        ],
       },
-      "interactionId": "test-interaction-id",
-      "isSidePanelCollapsed": false,
-      "muted": false,
-      "note": Object {
-        "body": "",
-        "notesPanelHeight": 300,
-        "title": "",
+      autoAnswer: undefined,
+      interactionId: "test-interaction-id",
+      customFieldsCollapsed: true,
+      note: Immutable.Map {
+        body: "",
+        title: "",
+        notesPanelHeight: 300,
       },
-      "query": Object {},
-      "selectedSidePanelTab": "info",
-      "status": "work-offer",
-      "timeout": NaN,
-      "warmTransfers": Array [],
-      "wrapupDetails": Object {
-        "wrapupEnabled": false,
-        "wrapupUpdateAllowed": false,
+      status: "work-offer",
+      isSidePanelCollapsed: false,
+      agentRecordingEnabled: undefined,
+      wrapupDetails: Immutable.Map {
+        wrapupUpdateAllowed: false,
+        wrapupEnabled: false,
       },
+      channelType: "voice",
+      activeContactForm: Immutable.Map {
+        contactForm: Immutable.Map {
+        },
+        formIsDirty: false,
+        selectedIndexes: Immutable.Map {
+        },
+        showErrors: Immutable.Map {
+        },
+        editingContacts: Immutable.List [
+        ],
+        formIsValid: false,
+        unusedFields: Immutable.Map {
+        },
+        formErrors: Immutable.Map {
+        },
+        saveLoading: false,
+      },
+      direction: "outbound",
     },
   ],
-  "isInteractionsBarCollapsed": false,
-  "selectedInteractionId": undefined,
+  selectedInteractionId: undefined,
+  isInteractionsBarCollapsed: false,
 }
 `;
 
 exports[`agentDesktopReducer ADD_MESSAGE Message is added 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "channelType": "sms",
-      "direction": "inbound",
-      "interactionId": "test-interaction-id",
-      "messageHistory": Array [],
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+      direction: "inbound",
+      channelType: "sms",
+      messageHistory: Immutable.List [
+      ],
     },
   ],
 }
 `;
 
 exports[`agentDesktopReducer ADD_MESSAGE ResponseMessage is added 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "channelType": "sms",
-      "direction": "inbound",
-      "interactionId": "test-interaction-id",
-      "messageHistory": Array [],
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+      direction: "inbound",
+      channelType: "sms",
+      messageHistory: Immutable.List [
+      ],
     },
   ],
 }
 `;
 
 exports[`agentDesktopReducer ADD_SCRIPT interaction is not there adds a "script-only" interaction 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "test-interaction-id",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
     },
-    Object {
-      "activeContactForm": Object {
-        "contactForm": Object {},
-        "editingContacts": Array [],
-        "formErrors": Object {},
-        "formIsDirty": false,
-        "formIsValid": false,
-        "saveLoading": false,
-        "selectedIndexes": Object {},
-        "showErrors": Object {},
-        "unusedFields": Object {},
+    Immutable.Map {
+      contact: Immutable.Map {
       },
-      "contact": Object {},
-      "interactionId": "new-interaction-id",
-      "isScriptOnly": true,
-      "isSidePanelCollapsed": true,
-      "query": Object {},
-      "script": Object {
-        "id": "actual-script-id",
-        "scriptItem": "something",
+      isScriptOnly: true,
+      selectedSidePanelTab: "info",
+      query: Immutable.Map {
       },
-      "selectedSidePanelTab": "info",
-      "status": "script-only",
+      script: Immutable.Map {
+        scriptItem: "something",
+        id: "actual-script-id",
+      },
+      interactionId: "new-interaction-id",
+      status: "script-only",
+      isSidePanelCollapsed: true,
+      activeContactForm: Immutable.Map {
+        contactForm: Immutable.Map {
+        },
+        formIsDirty: false,
+        selectedIndexes: Immutable.Map {
+        },
+        showErrors: Immutable.Map {
+        },
+        editingContacts: Immutable.List [
+        ],
+        formIsValid: false,
+        unusedFields: Immutable.Map {
+        },
+        formErrors: Immutable.Map {
+        },
+        saveLoading: false,
+      },
     },
   ],
-  "isInteractionsBarCollapsed": false,
-  "selectedInteractionId": "test-interaction-id",
+  selectedInteractionId: "test-interaction-id",
+  isInteractionsBarCollapsed: false,
 }
 `;
 
 exports[`agentDesktopReducer ADD_SCRIPT interaction is not there no existing/selected interactions adds also selects the interaction 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "activeContactForm": Object {
-        "contactForm": Object {},
-        "editingContacts": Array [],
-        "formErrors": Object {},
-        "formIsDirty": false,
-        "formIsValid": false,
-        "saveLoading": false,
-        "selectedIndexes": Object {},
-        "showErrors": Object {},
-        "unusedFields": Object {},
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      contact: Immutable.Map {
       },
-      "contact": Object {},
-      "interactionId": "new-interaction-id",
-      "isScriptOnly": true,
-      "isSidePanelCollapsed": true,
-      "query": Object {},
-      "script": Object {
-        "id": "actual-script-id",
-        "scriptItem": "something",
+      isScriptOnly: true,
+      selectedSidePanelTab: "info",
+      query: Immutable.Map {
       },
-      "selectedSidePanelTab": "info",
-      "status": "script-only",
+      script: Immutable.Map {
+        scriptItem: "something",
+        id: "actual-script-id",
+      },
+      interactionId: "new-interaction-id",
+      status: "script-only",
+      isSidePanelCollapsed: true,
+      activeContactForm: Immutable.Map {
+        contactForm: Immutable.Map {
+        },
+        formIsDirty: false,
+        selectedIndexes: Immutable.Map {
+        },
+        showErrors: Immutable.Map {
+        },
+        editingContacts: Immutable.List [
+        ],
+        formIsValid: false,
+        unusedFields: Immutable.Map {
+        },
+        formErrors: Immutable.Map {
+        },
+        saveLoading: false,
+      },
     },
   ],
-  "isInteractionsBarCollapsed": false,
-  "selectedInteractionId": "new-interaction-id",
+  selectedInteractionId: "new-interaction-id",
+  isInteractionsBarCollapsed: false,
 }
 `;
 
 exports[`agentDesktopReducer ADD_SCRIPT interaction is there adds the script and replaces the id 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "channelType": "messaging",
-      "interactionId": "test-interaction-id",
-      "script": Object {
-        "id": "actual-script-id",
-        "scriptItem": "something",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+      channelType: "messaging",
+      script: Immutable.Map {
+        scriptItem: "something",
+        id: "actual-script-id",
       },
     },
   ],
@@ -230,11 +272,10 @@ Object {
 `;
 
 exports[`agentDesktopReducer INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP sets the interactionId, updates the selectedInteractionId, updates the status, and adds the message 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "newInteractionId",
-      "messageHistory": Array [
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      messageHistory: Immutable.List [
         Object {
           "from": "Agent",
           "text": "new message!",
@@ -242,205 +283,219 @@ Object {
           "type": "agent",
         },
       ],
-      "status": "initialized-outbound",
+      interactionId: "newInteractionId",
+      status: "initialized-outbound",
     },
   ],
-  "selectedInteractionId": "newInteractionId",
+  selectedInteractionId: "newInteractionId",
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_CONTACT if a contact is deleted when there are no interactions present nothing happens 1`] = `
-Object {
-  "interactions": Array [],
-  "newInteractionPanel": Object {},
-  "noInteractionContactPanel": Object {},
+Immutable.Map {
+  interactions: Immutable.List [
+  ],
+  newInteractionPanel: Immutable.Map {
+  },
+  noInteractionContactPanel: Immutable.Map {
+  },
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_CONTACT if an interaction is in progress and no interaction panel is open will delete as normal 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "test-interaction-id-",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id-",
     },
   ],
-  "newInteractionPanel": Object {},
-  "noInteractionContactPanel": Object {},
+  noInteractionContactPanel: Immutable.Map {
+  },
+  newInteractionPanel: Immutable.Map {
+  },
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_CONTACT if an interaction is in progress and the new interaction panel is open will delete as normal 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "test-interaction-id-1",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id-1",
     },
   ],
-  "newInteractionPanel": Object {},
-  "noInteractionContactPanel": Object {},
+  newInteractionPanel: Immutable.Map {
+  },
+  noInteractionContactPanel: Immutable.Map {
+  },
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_CONTACT if an interaction is in progress, and no contact is assigned to that interaction, when one of the contacts is removed will remove the targeted contact as normal 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "test-interaction-id",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
     },
   ],
-  "newInteractionPanel": Object {},
-  "noInteractionContactPanel": Object {},
+  newInteractionPanel: Immutable.Map {
+  },
+  noInteractionContactPanel: Immutable.Map {
+  },
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_CONTACT if one or more interactions are in progress, and one of the contacts is removed if multiple interactions are in progress, and the assigned contact is removed will remove the targeted contact as normal 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "test-interaction-id-1",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id-1",
     },
-    Object {
-      "contact": Object {
-        "id": "test-contact-id-2",
+    Immutable.Map {
+      interactionId: "test-interaction-id-2",
+      contact: Immutable.Map {
+        id: "test-contact-id-2",
       },
-      "interactionId": "test-interaction-id-2",
     },
   ],
-  "newInteractionPanel": Object {},
-  "noInteractionContactPanel": Object {},
+  newInteractionPanel: Immutable.Map {
+  },
+  noInteractionContactPanel: Immutable.Map {
+  },
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_CONTACT if one or more interactions are in progress, and one of the contacts is removed if one interaction is in progress, and the assigned contact is removed will remove the targeted contact as normal 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "test-interaction-id-1",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id-1",
     },
   ],
-  "newInteractionPanel": Object {},
-  "noInteractionContactPanel": Object {},
+  newInteractionPanel: Immutable.Map {
+  },
+  noInteractionContactPanel: Immutable.Map {
+  },
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_INTERACTION interaction is not there does nothing 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "test-interaction-id",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
     },
   ],
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_INTERACTION interaction with a script sets the status to "work-ended-pending-script" 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "contactMode": "view",
-      "interactionId": "test-interaction-id",
-      "script": Object {
-        "scriptItem": "something",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+      script: Immutable.Map {
+        scriptItem: "something",
       },
-      "status": "work-ended-pending-script",
+      status: "work-ended-pending-script",
+      contactMode: "view",
     },
   ],
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_INTERACTION interaction without a script interaction is not the selected interaction keeps the selectedInteractionId the same 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "other-interaction-id",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "other-interaction-id",
     },
   ],
-  "isInteractionsBarCollapsed": false,
-  "selectedInteractionId": "other-interaction-id",
+  selectedInteractionId: "other-interaction-id",
+  isInteractionsBarCollapsed: false,
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_INTERACTION interaction without a script interaction is the selected interaction only non-voice interactions exist selects the first non-voice interaction 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "channelType": "sms",
-      "interactionId": "first-interaction-id",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "first-interaction-id",
+      channelType: "sms",
     },
-    Object {
-      "channelType": "email",
-      "interactionId": "second-interaction-id",
+    Immutable.Map {
+      interactionId: "second-interaction-id",
+      channelType: "email",
     },
   ],
-  "isInteractionsBarCollapsed": false,
-  "selectedInteractionId": "first-interaction-id",
+  selectedInteractionId: "first-interaction-id",
+  isInteractionsBarCollapsed: false,
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_INTERACTION interaction without a script interaction is the selected interaction voice interaction exists selects the voice interaction 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "channelType": "sms",
-      "interactionId": "sms-interaction-id",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "sms-interaction-id",
+      channelType: "sms",
     },
-    Object {
-      "channelType": "voice",
-      "interactionId": "voice-interaction-id",
+    Immutable.Map {
+      interactionId: "voice-interaction-id",
+      channelType: "voice",
     },
   ],
-  "isInteractionsBarCollapsed": false,
-  "selectedInteractionId": "voice-interaction-id",
+  selectedInteractionId: "voice-interaction-id",
+  isInteractionsBarCollapsed: false,
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_INTERACTION interaction without a script only pending interaction exist selects nothing 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "channelType": "sms",
-      "interactionId": "first-interaction-id",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "first-interaction-id",
+      channelType: "sms",
     },
   ],
-  "isInteractionsBarCollapsed": false,
-  "selectedInteractionId": undefined,
+  selectedInteractionId: undefined,
+  isInteractionsBarCollapsed: false,
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_INTERACTION_HARD interaction is not there does nothing 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "test-interaction-id",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
     },
   ],
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_INTERACTION_HARD interaction is the selected interaction removes the interaction and selectes the next one 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "channelType": "sms",
-      "interactionId": "first-interaction-id",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "first-interaction-id",
+      channelType: "sms",
     },
-    Object {
-      "channelType": "email",
-      "interactionId": "second-interaction-id",
+    Immutable.Map {
+      interactionId: "second-interaction-id",
+      channelType: "email",
     },
   ],
-  "isInteractionsBarCollapsed": false,
-  "selectedInteractionId": "first-interaction-id",
+  selectedInteractionId: "first-interaction-id",
+  isInteractionsBarCollapsed: false,
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_SCRIPT interaction is not there does nothing 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "test-interaction-id",
-      "script": Object {
-        "scriptItem": "something",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+      script: Immutable.Map {
+        scriptItem: "something",
       },
     },
   ],
@@ -448,244 +503,255 @@ Object {
 `;
 
 exports[`agentDesktopReducer REMOVE_SCRIPT interaction is there removes the script 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "test-interaction-id",
-      "script": undefined,
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+      script: undefined,
     },
   ],
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_SCRIPT interaction is there the interaction has isScriptOnly removes the script, removes isScriptOnly, and selects the next interaction 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "test-interaction-id",
-      "script": undefined,
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+      script: undefined,
     },
   ],
-  "selectedInteractionId": undefined,
+  selectedInteractionId: undefined,
 }
 `;
 
 exports[`agentDesktopReducer REMOVE_SCRIPT interaction is there the interaction has status of "work-ended-pending-script" removes the interaction 1`] = `
-Object {
-  "interactions": Array [],
-  "isInteractionsBarCollapsed": true,
-  "selectedInteractionId": undefined,
+Immutable.Map {
+  interactions: Immutable.List [
+  ],
+  selectedInteractionId: undefined,
+  isInteractionsBarCollapsed: true,
 }
 `;
 
 exports[`agentDesktopReducer SET_ACTIVE_RESOURCES if interaction exists sets the active resources 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "interaction-id",
-      "warmTransfers": Array [
-        Object {
-          "addedTimestamp": 0,
-          "extension": "external-resource",
-          "externalResource": true,
-          "id": "external-resource-id",
-          "name": "external-resource",
-          "status": "connected",
-          "targetResource": "external-resource-id",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "interaction-id",
+      warmTransfers: Immutable.List [
+        Immutable.Map {
+          id: "external-resource-id",
+          externalResource: true,
+          extension: "external-resource",
+          targetResource: "external-resource-id",
+          status: "connected",
+          name: "external-resource",
+          addedTimestamp: 0,
         },
-        Object {
-          "addedTimestamp": 0,
-          "id": "internal-resource-id",
-          "name": "Agent",
-          "status": "connected",
-          "targetResource": "internal-resource-id",
+        Immutable.Map {
+          id: "internal-resource-id",
+          targetResource: "internal-resource-id",
+          status: "connected",
+          name: "Agent",
+          addedTimestamp: 0,
         },
       ],
     },
-    Object {
-      "interactionId": "a-different-interaction",
+    Immutable.Map {
+      interactionId: "a-different-interaction",
     },
   ],
 }
 `;
 
 exports[`agentDesktopReducer SET_ACTIVE_RESOURCES if interaction no longer exists does nothing 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "a-different-interaction",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "a-different-interaction",
     },
   ],
 }
 `;
 
 exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if interaction is "isScriptOnly" deletes "isScriptOnly" 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "channelType": "voice",
-      "interactionId": "test-interaction-id",
-      "script": Object {
-        "id": "mock-script-id",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+      status: "work-accepting",
+      timeAccepted: 0,
+      script: Immutable.Map {
+        id: "mock-script-id",
       },
-      "status": "work-accepting",
-      "timeAccepted": 0,
+      channelType: "voice",
     },
   ],
-  "selectedInteractionId": "test-interaction-id",
+  selectedInteractionId: "test-interaction-id",
 }
 `;
 
 exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if interaction is channel type voice adds a timestamp for timeAccepted 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "channelType": "voice",
-      "interactionId": "test-interaction-id",
-      "onHold": false,
-      "recording": false,
-      "status": "work-accepting",
-      "timeAccepted": 0,
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+      status: "work-accepting",
+      channelType: "voice",
+      timeAccepted: 0,
+      onHold: false,
+      recording: false,
     },
   ],
-  "selectedInteractionId": "test-interaction-id",
+  selectedInteractionId: "test-interaction-id",
 }
 `;
 
 exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if no interaction is currently selected selects the interaction 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "test-interaction-id",
-      "status": "work-accepting",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+      status: "work-accepting",
     },
   ],
-  "selectedInteractionId": "test-interaction-id",
+  selectedInteractionId: "test-interaction-id",
 }
 `;
 
 exports[`agentDesktopReducer SET_INTERACTION_STATUS if interaction is of channelType 'voice' and action contains a response object sets onHold and recording parameters 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "channelType": "voice",
-      "interactionId": "test-interaction-id",
-      "onHold": true,
-      "recording": false,
-      "status": undefined,
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+      status: undefined,
+      channelType: "voice",
+      onHold: true,
+      recording: false,
     },
   ],
-  "selectedInteractionId": undefined,
+  selectedInteractionId: undefined,
 }
 `;
 
 exports[`agentDesktopReducer SET_INTERACTION_STATUS if setting a new status if there are multiple interactions updates the correct interaction's status 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "test-interaction-id",
-      "status": "new status",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+      status: "new status",
     },
-    Object {
-      "interactionId": "other-interaction-id",
-      "status": "other-status-id",
+    Immutable.Map {
+      interactionId: "other-interaction-id",
+      status: "other-status-id",
     },
   ],
-  "selectedInteractionId": undefined,
+  selectedInteractionId: undefined,
 }
 `;
 
 exports[`agentDesktopReducer SET_INTERACTION_STATUS if setting a new status if there the interaction does not exist makes no change 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "other-interaction-id",
-      "status": "other-status-id",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "other-interaction-id",
+      status: "other-status-id",
     },
   ],
-  "selectedInteractionId": undefined,
+  selectedInteractionId: undefined,
 }
 `;
 
 exports[`agentDesktopReducer SET_INTERACTION_STATUS if setting an interaction's status to wrapup if the interaction has wrapupDetails updates the timeout and sets wrapupStarted 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "interactionId": "test-interaction-id",
-      "status": "wrapup",
-      "timeout": 30000,
-      "wrapupDetails": Object {
-        "wrapupTime": 30,
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "test-interaction-id",
+      status: "wrapup",
+      timeout: 30000,
+      wrapupDetails: Immutable.Map {
+        wrapupTime: 30,
       },
-      "wrapupStarted": 0,
+      wrapupStarted: 0,
     },
   ],
-  "selectedInteractionId": undefined,
+  selectedInteractionId: undefined,
 }
 `;
 
 exports[`agentDesktopReducer SET_NEW_INTERACTION_PANEL_FORM_INPUT sets the input in newInteractionPanel 1`] = `
-Object {
-  "newInteractionPanel": Object {
-    "newInteractionFormInput": "new input",
+Immutable.Map {
+  newInteractionPanel: Immutable.Map {
+    newInteractionFormInput: "new input",
   },
 }
 `;
 
-exports[`agentDesktopReducer START_OUTBOUND_INTERACTION adds a new outbound interaction with a generated interactionId, channelType, customer, and contact 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "activeContactForm": Object {
-        "contactForm": Object {},
-        "editingContacts": Array [],
-        "formErrors": Object {},
-        "formIsDirty": false,
-        "formIsValid": false,
-        "saveLoading": false,
-        "selectedIndexes": Object {},
-        "showErrors": Object {},
-        "unusedFields": Object {},
-      },
-      "autoAnswer": undefined,
-      "channelType": "sms",
-      "contact": Object {
-        "attributes": Object {
-          "email": "jclowater@serenova.com",
-          "name": "Josh Clowater",
+exports[`agentDesktopReducer START_OUTBOUND_INTERACTION sms adds a new outbound interaction with a generated interactionId, channelType, customer, and contact 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      contact: Immutable.Map {
+        id: "test-contact-id",
+        attributes: Immutable.Map {
+          name: "Josh Clowater",
+          email: "jclowater@serenova.com",
         },
-        "id": "test-contact-id",
       },
-      "contactMode": "view",
-      "customFieldsCollapsed": true,
-      "customer": "+15064701234",
-      "customerAvatarIndex": 0,
-      "direction": "outbound",
-      "dispositionDetails": Object {
-        "categories": Array [],
-        "dispositions": Array [],
-        "forceSelect": false,
-        "selected": Array [],
+      timeout: NaN,
+      contactMode: "view",
+      selectedSidePanelTab: "info",
+      query: Immutable.Map {
       },
-      "interactionId": "outbound-sms-+15064701234",
-      "isSidePanelCollapsed": true,
-      "messageHistory": Array [],
-      "note": Object {
-        "body": "",
-        "notesPanelHeight": 300,
-        "title": "",
+      dispositionDetails: Immutable.Map {
+        forceSelect: false,
+        dispositions: Immutable.List [
+        ],
+        categories: Immutable.List [
+        ],
+        selected: Immutable.List [
+        ],
       },
-      "query": Object {},
-      "selectedSidePanelTab": "info",
-      "status": "connecting-to-outbound",
-      "timeout": NaN,
-      "wrapupDetails": Object {
-        "wrapupEnabled": false,
-        "wrapupUpdateAllowed": false,
+      autoAnswer: undefined,
+      messageHistory: Array [],
+      interactionId: "outbound-sms-+15064701234",
+      customFieldsCollapsed: true,
+      note: Immutable.Map {
+        body: "",
+        title: "",
+        notesPanelHeight: 300,
       },
+      status: "connecting-to-outbound",
+      isSidePanelCollapsed: true,
+      customerAvatarIndex: 0,
+      wrapupDetails: Immutable.Map {
+        wrapupUpdateAllowed: false,
+        wrapupEnabled: false,
+      },
+      channelType: "sms",
+      activeContactForm: Immutable.Map {
+        contactForm: Immutable.Map {
+        },
+        formIsDirty: false,
+        selectedIndexes: Immutable.Map {
+        },
+        showErrors: Immutable.Map {
+        },
+        editingContacts: Immutable.List [
+        ],
+        formIsValid: false,
+        unusedFields: Immutable.Map {
+        },
+        formErrors: Immutable.Map {
+        },
+        saveLoading: false,
+      },
+      customer: "+15064701234",
+      direction: "outbound",
     },
   ],
-  "selectedInteractionId": "outbound-sms-+15064701234",
+  selectedInteractionId: "outbound-sms-+15064701234",
 }
 `;
 
@@ -760,37 +826,37 @@ Immutable.Map {
 `;
 
 exports[`agentDesktopReducer TOGGLE_CUSTOM_FIELDS should toggle customFieldsCollapsed on the appropriate interaction 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "customFieldsCollapsed": false,
-      "interactionId": "mockInteraction1",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "mockInteraction1",
+      customFieldsCollapsed: false,
     },
-    Object {
-      "customFieldsCollapsed": true,
-      "interactionId": "mockInteraction2",
+    Immutable.Map {
+      interactionId: "mockInteraction2",
+      customFieldsCollapsed: true,
     },
   ],
 }
 `;
 
 exports[`agentDesktopReducer UPDATE_RESOURCE_NAME if resource is not present on interactions does nothing 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "warmTransfers": Array [
-        Object {
-          "id": "resource-id-1",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      warmTransfers: Immutable.List [
+        Immutable.Map {
+          id: "resource-id-1",
         },
-        Object {
-          "id": "resource-id-2",
+        Immutable.Map {
+          id: "resource-id-2",
         },
       ],
     },
-    Object {
-      "warmTransfers": Array [
-        Object {
-          "id": "resource-id-2",
+    Immutable.Map {
+      warmTransfers: Immutable.List [
+        Immutable.Map {
+          id: "resource-id-2",
         },
       ],
     },
@@ -799,24 +865,24 @@ Object {
 `;
 
 exports[`agentDesktopReducer UPDATE_RESOURCE_NAME if resource is present on interactions if resource has name properties sets the name of the resource 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "warmTransfers": Array [
-        Object {
-          "id": "resource-id-1",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      warmTransfers: Immutable.List [
+        Immutable.Map {
+          id: "resource-id-1",
         },
-        Object {
-          "id": "resource-id-2",
-          "name": "Tester Testingson",
+        Immutable.Map {
+          id: "resource-id-2",
+          name: "Tester Testingson",
         },
       ],
     },
-    Object {
-      "warmTransfers": Array [
-        Object {
-          "id": "resource-id-2",
-          "name": "Tester Testingson",
+    Immutable.Map {
+      warmTransfers: Immutable.List [
+        Immutable.Map {
+          id: "resource-id-2",
+          name: "Tester Testingson",
         },
       ],
     },
@@ -825,24 +891,24 @@ Object {
 `;
 
 exports[`agentDesktopReducer UPDATE_RESOURCE_NAME if resource is present on interactions if resource has no name properties sets the name of the resource to be the resource's email 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "warmTransfers": Array [
-        Object {
-          "id": "resource-id-1",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      warmTransfers: Immutable.List [
+        Immutable.Map {
+          id: "resource-id-1",
         },
-        Object {
-          "id": "resource-id-2",
-          "name": "tester@testingson.com",
+        Immutable.Map {
+          id: "resource-id-2",
+          name: "tester@testingson.com",
         },
       ],
     },
-    Object {
-      "warmTransfers": Array [
-        Object {
-          "id": "resource-id-2",
-          "name": "tester@testingson.com",
+    Immutable.Map {
+      warmTransfers: Immutable.List [
+        Immutable.Map {
+          id: "resource-id-2",
+          name: "tester@testingson.com",
         },
       ],
     },
@@ -851,119 +917,139 @@ Object {
 `;
 
 exports[`agentDesktopReducer WORK_INITIATED initializing neither voice nor sms interaction sets status to work-initiated 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "channelType": "voice",
-      "interactionId": "voice-interaction-id",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "voice-interaction-id",
+      channelType: "voice",
     },
-    Object {
-      "channelType": "sms",
-      "interactionId": "sms-interaction-id",
+    Immutable.Map {
+      interactionId: "sms-interaction-id",
+      channelType: "sms",
     },
-    Object {
-      "channelType": "email",
-      "interactionId": "email-interaction-id",
-      "status": "work-initiated",
+    Immutable.Map {
+      interactionId: "email-interaction-id",
+      channelType: "email",
+      status: "work-initiated",
     },
   ],
 }
 `;
 
 exports[`agentDesktopReducer WORK_INITIATED initializing sms interaction sets status to work-initiated and customer with plus 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "channelType": "voice",
-      "interactionId": "voice-interaction-id",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "voice-interaction-id",
+      channelType: "voice",
     },
-    Object {
-      "channelType": "sms",
-      "customer": "+new-customer",
-      "interactionId": "sms-interaction-id",
-      "status": "work-initiated",
+    Immutable.Map {
+      interactionId: "sms-interaction-id",
+      channelType: "sms",
+      status: "work-initiated",
+      customer: "+new-customer",
     },
-    Object {
-      "channelType": "email",
-      "interactionId": "email-interaction-id",
+    Immutable.Map {
+      interactionId: "email-interaction-id",
+      channelType: "email",
     },
   ],
 }
 `;
 
 exports[`agentDesktopReducer WORK_INITIATED initializing voice interaction sets status to work-initiated and number to customer 1`] = `
-Object {
-  "interactions": Array [
-    Object {
-      "channelType": "voice",
-      "interactionId": "voice-interaction-id",
-      "number": "new-customer",
-      "status": "work-initiated",
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "voice-interaction-id",
+      channelType: "voice",
+      status: "work-initiated",
+      number: "new-customer",
     },
-    Object {
-      "channelType": "sms",
-      "interactionId": "sms-interaction-id",
+    Immutable.Map {
+      interactionId: "sms-interaction-id",
+      channelType: "sms",
     },
-    Object {
-      "channelType": "email",
-      "interactionId": "email-interaction-id",
+    Immutable.Map {
+      interactionId: "email-interaction-id",
+      channelType: "email",
     },
   ],
 }
 `;
 
 exports[`agentDesktopReducer returns the correct initial state 1`] = `
-Object {
-  "activeExtension": Object {},
-  "agentDirection": Object {
-    "direction": "inbound",
-  },
-  "extensions": Array [],
-  "interactions": Array [],
-  "isInteractionsBarCollapsed": true,
-  "newInteractionPanel": Object {
-    "activeContactForm": Object {
-      "contactForm": Object {},
-      "editingContacts": Array [],
-      "formErrors": Object {},
-      "formIsDirty": false,
-      "formIsValid": false,
-      "saveLoading": false,
-      "selectedIndexes": Object {},
-      "showErrors": Object {},
-      "unusedFields": Object {},
+Immutable.Map {
+  interactions: Immutable.List [
+  ],
+  queues: Immutable.List [
+  ],
+  isInteractionsBarCollapsed: true,
+  newInteractionPanel: Immutable.Map {
+    contactMode: "view",
+    selectedSidePanelTab: "info",
+    query: Immutable.Map {
     },
-    "contactMode": "view",
-    "interactionId": "creating-new-interaction",
-    "isSidePanelCollapsed": false,
-    "newInteractionFormInput": "",
-    "query": Object {},
-    "selectedSidePanelTab": "info",
-    "status": "creating-new-interaction",
-    "visible": false,
-  },
-  "noInteractionContactPanel": Object {
-    "activeContactForm": Object {
-      "contactForm": Object {},
-      "editingContacts": Array [],
-      "formErrors": Object {},
-      "formIsDirty": false,
-      "formIsValid": false,
-      "saveLoading": false,
-      "selectedIndexes": Object {},
-      "showErrors": Object {},
-      "unusedFields": Object {},
+    interactionId: "creating-new-interaction",
+    visible: false,
+    status: "creating-new-interaction",
+    isSidePanelCollapsed: false,
+    newInteractionFormInput: "",
+    activeContactForm: Immutable.Map {
+      contactForm: Immutable.Map {
+      },
+      formIsDirty: false,
+      selectedIndexes: Immutable.Map {
+      },
+      showErrors: Immutable.Map {
+      },
+      editingContacts: Immutable.List [
+      ],
+      formIsValid: false,
+      unusedFields: Immutable.Map {
+      },
+      formErrors: Immutable.Map {
+      },
+      saveLoading: false,
     },
-    "contactMode": "search",
-    "isSidePanelCollapsed": true,
-    "query": Object {},
-    "selectedSidePanelTab": "info",
   },
-  "presenceReason": Object {},
-  "presenceReasonLists": Array [],
-  "queues": Array [],
-  "refreshRequired": false,
-  "sidePanelMaxPx": 500,
-  "sidePanelPx": 500,
+  extensions: Immutable.List [
+  ],
+  sidePanelPx: 500,
+  noInteractionContactPanel: Immutable.Map {
+    contactMode: "search",
+    query: Immutable.Map {
+    },
+    isSidePanelCollapsed: true,
+    selectedSidePanelTab: "info",
+    activeContactForm: Immutable.Map {
+      contactForm: Immutable.Map {
+      },
+      formIsDirty: false,
+      selectedIndexes: Immutable.Map {
+      },
+      showErrors: Immutable.Map {
+      },
+      editingContacts: Immutable.List [
+      ],
+      formIsValid: false,
+      unusedFields: Immutable.Map {
+      },
+      formErrors: Immutable.Map {
+      },
+      saveLoading: false,
+    },
+  },
+  presenceReasonLists: Immutable.List [
+  ],
+  activeExtension: Immutable.Map {
+  },
+  agentDirection: Immutable.Map {
+    direction: "inbound",
+  },
+  refreshRequired: false,
+  presenceReason: Immutable.Map {
+  },
+  sidePanelMaxPx: 500,
 }
 `;

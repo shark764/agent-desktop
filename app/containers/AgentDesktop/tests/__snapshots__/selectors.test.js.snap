@@ -1,25 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`selectAgentDesktopMap should select the agentDesktop domain 1`] = `
-Object {
-  "interactions": Array [
+Immutable.Map {
+  interactions: Immutable.List [
     "mockInteraction",
   ],
 }
 `;
 
 exports[`selectInteractionsList should select interactions on the AgentDesktop domain 1`] = `
-Array [
-  Object {
-    "interactionId": "mockId",
+Immutable.List [
+  Immutable.Map {
+    interactionId: "mockId",
   },
 ]
 `;
 
 exports[`selectLoginMap should select the login domain 1`] = `
-Object {
-  "agent": Object {
-    "userId": "mockId",
+Immutable.Map {
+  agent: Immutable.Map {
+    userId: "mockId",
   },
 }
 `;
