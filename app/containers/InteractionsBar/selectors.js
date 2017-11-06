@@ -50,6 +50,11 @@ const selectHasInteractions = createSelector(
   (interactions) => interactions.length > 0
 );
 
+const selectHasOnlyOneInteraction = createSelector(
+  selectInteractions,
+  (interactions) => interactions.length === 1
+);
+
 const selectPendingActiveVoiceInteraction = createSelector(
   selectInteractions,
   (interactions) =>
@@ -110,4 +115,5 @@ export {
   selectNewInteractionPanel,
   selectPendingInteractions,
   selectShowCollapseButton,
+  selectHasOnlyOneInteraction,
 };

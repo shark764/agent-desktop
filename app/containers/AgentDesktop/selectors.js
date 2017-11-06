@@ -27,8 +27,8 @@ const getSelectedInteractionId = createSelector(
 );
 
 const selectHasUnrespondedInteractions = createSelector(
-  [selectInteractionsList],
-  (interactions) => {
+  [selectInteractionsList, getSelectedInteractionId],
+  (interactions, id) => {
     const interactionArray = interactions.toJS();
     const wasFound = interactionArray.findIndex(
       (interaction) =>
@@ -39,7 +39,8 @@ const selectHasUnrespondedInteractions = createSelector(
           interaction.messageHistory[interaction.messageHistory.length - 1]
             .type === 'message' ||
           interaction.messageHistory[interaction.messageHistory.length - 1]
-            .type === 'system')
+            .type === 'system') &&
+        interaction.interactionId !== id
     );
     if (wasFound >= 0) {
       return true;

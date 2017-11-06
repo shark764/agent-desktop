@@ -172,7 +172,7 @@ class ButtonMenu extends React.Component {
         <div style={styles.menuContainer}>
           <div style={styles.dropdownMenuPopoutArrow} />
           {wrapupToggle &&
-            <div>
+            <div id="wrapupContainer">
               <label htmlFor="wrapupToggle" style={styles.toggleWrapupLabel}>
                 <FormattedMessage {...messages.wrapup} />
               </label>

@@ -1,3 +1,7 @@
+### [1.8.10] (2017-11-06)
+* CXV1-12045 - Interactions panel updates
+* CXV1-12049 - wrapupContainer Missing When In Skylight Mode
+
 ### [1.8.9] (2017-11-06)
 * CXV1-12044 - Hide participant phone controls until connected
 
