@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { injectIntl } from 'react-intl';
 
-import Button from 'components/Button';
+import IconSVG from 'components/IconSVG';
 
 import messages from './messages';
 
@@ -95,13 +95,7 @@ function NotificationBanner(props) {
           )}
         </div>}
       {props.dismiss &&
-        <Button
-          id={`${props.id}-dismiss-btn`}
-          style={styles.closeButton}
-          iconName="close"
-          onClick={props.dismiss}
-          clear
-        />}
+        <IconSVG name="close" id={`${props.id}-dismiss-btn`} width="20px" onClick={props.dismiss} clear />}
     </div>
   );
 }

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { injectIntl } from 'react-intl';
 
-import Icon from 'components/Icon';
+import IconSVG from 'components/IconSVG';
 
 const styles = {
   base: {
@@ -52,11 +52,7 @@ function Filter(props) {
       <span title={props.value} style={styles.valueText}>
         {props.value}
       </span>
-      <Icon
-        name="close"
-        onclick={!props.disabled ? props.remove : null}
-        style={[styles.deleteFilterIcon, props.disabled && styles.iconDisabled]}
-      />
+      <div style={[styles.deleteFilterIcon, props.disabled && styles.iconDisabled]} onClick={!props.disabled ? props.remove : null}><IconSVG id="removeFilterIcon" name="close" width="12px" color="grey" /></div>
     </div>
   );
 }

@@ -34,19 +34,21 @@ exports[`<Stat /> should render correctly 1`] = `
     }
   >
     <div
+      data-radium={true}
       id="loadingContainer"
+      style={
+        Object {
+          "display": "inline-block",
+          "height": "15px",
+          "position": "relative",
+          "top": "-5px",
+          "width": "15px",
+        }
+      }
     >
       <IconSVG
         id="loadingIcon"
         name="loadingWhite"
-        style={
-          Object {
-            "height": "15px",
-            "position": "relative",
-            "top": "-5px",
-            "width": "15px",
-          }
-        }
       />
     </div>
   </div>
@@ -220,7 +222,11 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
       }
     }
   >
-    X
+    <IconSVG
+      id="closeStatIcon"
+      name="close"
+      width="10px"
+    />
   </span>
   <div
     className="stat-value"
@@ -237,19 +243,21 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
     }
   >
     <div
+      data-radium={true}
       id="loadingContainer"
+      style={
+        Object {
+          "display": "inline-block",
+          "height": "15px",
+          "position": "relative",
+          "top": "-5px",
+          "width": "15px",
+        }
+      }
     >
       <IconSVG
         id="loadingIcon"
         name="loadingWhite"
-        style={
-          Object {
-            "height": "15px",
-            "position": "relative",
-            "top": "-5px",
-            "width": "15px",
-          }
-        }
       />
     </div>
   </div>

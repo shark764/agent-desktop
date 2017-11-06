@@ -179,11 +179,7 @@ export class ContactInteractionHistory extends React.Component {
   getInteractionHistoryList = () => {
     if (this.props.contactInteractionHistory === undefined) {
       return (
-        <IconSVG
-          id="loadingContactHistoryIcon"
-          name="loading"
-          style={styles.loading}
-        />
+        <IconSVG id="loadingContactHistoryIcon" name="loading" width="80px" />
       );
     } else {
       const interactions = this.props.contactInteractionHistory.results.map(
@@ -206,11 +202,7 @@ export class ContactInteractionHistory extends React.Component {
             this.props.contactInteractionHistory.total
           }
           loader={
-            <IconSVG
-              id="loadingContactHistoryIcon"
-              name="loading"
-              style={styles.loading}
-            />
+            <IconSVG id="loadingContactHistoryIcon" name="loading" width="80px" />
           }
           useWindow={false}
         >

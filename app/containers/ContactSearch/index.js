@@ -78,9 +78,6 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
   },
-  loadingIcon: {
-    height: '60px',
-  },
   contactResult: {
     marginBottom: '14px',
     alignSelf: 'stretch',
@@ -170,7 +167,7 @@ export class ContactSearch extends React.Component {
 
   getLoader = () =>
     (<div id="loadingContainer" style={styles.loading}>
-      <IconSVG style={styles.loadingIcon} id="loadingIcon" name="loading" />
+      <IconSVG width="80px" id="loadingIcon" name="loading" />
     </div>);
 
   setSearchInputElement = (element) => {

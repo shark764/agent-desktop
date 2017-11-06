@@ -68,11 +68,7 @@ export class ContactsControl extends React.Component {
     ) {
       content = (
         <div id="loadingContainer" style={this.styles.loadingContainer}>
-          <IconSVG
-            style={this.styles.loadingIcon}
-            id="loadingIcon"
-            name="loading"
-          />
+          <IconSVG id="loadingIcon" name="loading" width="80px" />
         </div>
       );
     } else {

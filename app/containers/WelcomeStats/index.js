@@ -94,7 +94,7 @@ export class WelcomeStats extends React.Component {
       fontWeight: 'normal',
     },
     loadingIcon: {
-      height: '20px',
+      display: 'inline-block',
       position: 'relative',
       top: '-5px',
     },
@@ -105,8 +105,7 @@ export class WelcomeStats extends React.Component {
       return <StatValue stat={filledStat} />;
     } else {
       return this.getLoadingIcon();
-    }
-  };
+    }};
 
   getStatDisplay = (stat, index) =>
 
@@ -120,11 +119,9 @@ export class WelcomeStats extends React.Component {
     </div>);
 
   getLoadingIcon = () =>
-    (<IconSVG
-      style={this.styles.loadingIcon}
-      id="loadingIcon"
-      name="loadingWhite"
-    />);
+    (<div style={this.styles.loadingIcon}>
+      <IconSVG id="loadingIcon" name="loadingWhite" width="40px" />
+    </div>);
 
   render() {
     return (
