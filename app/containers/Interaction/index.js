@@ -511,6 +511,7 @@ export class Interaction extends React.Component {
                 {this.props.interaction.direction === 'outbound' &&
                   this.props.interaction.channelType === 'voice' &&
                   this.props.interaction.status === 'work-initiated' &&
+                  this.props.interaction.initiatedByCurrentAgent &&
                   <Button
                     id="cancelInteractionBeforeActive"
                     type="primaryRed"
@@ -588,6 +589,7 @@ Interaction.propTypes = {
     timeAccepted: PropTypes.number,
     wrapupStarted: PropTypes.number,
     status: PropTypes.string,
+    initiatedByCurrentAgent: PropTypes.bool,
   }).isRequired,
 };
 
