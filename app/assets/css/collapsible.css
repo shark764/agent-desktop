@@ -38,7 +38,6 @@
   font-size: 18px;
   color: rgb(75, 75, 75);
   font-weight: bold;
-  text-transform: capitalize;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -46,7 +45,6 @@
 }
 
 .CollapsibleReason__trigger {
-  text-transform: capitalize;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

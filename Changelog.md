@@ -1,3 +1,6 @@
+### [1.8.11] (2017-11-07)
+* Remove auto capitalization of strings
+
 ### [1.8.10] (2017-11-06)
 * CXV1-12045 - Interactions panel updates
 * CXV1-12049 - wrapupContainer Missing When In Skylight Mode

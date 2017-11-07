@@ -63,13 +63,11 @@ const styles = {
   },
   presenceLinkContainer: {
     color: '#363636',
-    textTransform: 'capitalize',
     padding: '10px 24px',
     display: 'flex',
   },
   listTitle: {
     color: '#979797',
-    textTransform: 'capitalize',
     padding: '10px 24px 0 24px',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
