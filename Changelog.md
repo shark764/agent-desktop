@@ -1,3 +1,6 @@
+### [1.8.13] (2017-11-07)
+* CXV1-11905 - Active Voice Pathway is Missing Check Mark for Chosen Selection
+
 ### [1.8.12] (2017-11-07)
 * Remove auto capitalization of strings
 
