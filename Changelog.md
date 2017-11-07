@@ -1,3 +1,6 @@
+### [1.8.14] (2017-11-07)
+* CXV1-11795 - Collapsing Interaction Panel While in Interaction Causes Scroll Bars
+
 ### [1.8.13] (2017-11-07)
 * CXV1-11905 - Active Voice Pathway is Missing Check Mark for Chosen Selection
 
