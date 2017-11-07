@@ -981,29 +981,36 @@ function agentDesktopReducer(state = initialState, action) {
           .get('interactions')
           .findIndex(
             (interaction) =>
-              interaction.get('interactionId') === action.response[0].channelId
+              interaction.get('interactionId') === action.response[0].to
           );
-        const messageInteraction = state.getIn([
-          'interactions',
-          messageInteractionIndex,
-        ]);
-        if (messageInteraction) {
-          const messageHistoryItems = new List(
-            action.response.map(
-              (messageHistoryItem) =>
-                new ResponseMessage(
-                  messageHistoryItem,
-                  state.get('selectedInteractionId'),
-                  action.agentId
-                )
-            )
-          );
-          return state.updateIn(
-            ['interactions', messageInteractionIndex],
-            (interaction) =>
-              interaction.set('messageHistory', messageHistoryItems)
-          );
+        if (messageInteractionIndex >= 0) {
+          const messageInteraction = state.getIn([
+            'interactions',
+            messageInteractionIndex,
+          ]);
+          if (messageInteraction) {
+            const messageHistoryItems = new List(
+              action.response.map(
+                (messageHistoryItem) =>
+                  new ResponseMessage(
+                    messageHistoryItem,
+                    state.get('selectedInteractionId'),
+                    action.agentId
+                  )
+              )
+            );
+            return state.updateIn(
+              ['interactions', messageInteractionIndex],
+              (interaction) =>
+                interaction.set('messageHistory', messageHistoryItems)
+            );
+          } else {
+            return state;
+          }
         } else {
+          console.warn(
+            'Interaction history could not get assigned to an interaction.'
+          );
           return state;
         }
       } else {

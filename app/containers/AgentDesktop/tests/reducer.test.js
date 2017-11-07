@@ -11,6 +11,7 @@ import {
   SET_INTERACTION_STATUS,
   SET_ACTIVE_RESOURCES,
   SET_NEW_INTERACTION_PANEL_FORM_INPUT,
+  SET_MESSAGE_HISTORY,
   START_OUTBOUND_INTERACTION,
   INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
   ADD_INTERACTION,
@@ -240,6 +241,52 @@ describe('agentDesktopReducer', () => {
     });
   });
 
+  describe('SET_MESSAGE_HISTORY', () => {
+    global.console.warn = jest.fn();
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          { interactionId: 'a', messageHistory: [] },
+          { interactionId: 'b', messageHistory: [] },
+        ],
+      };
+    });
+    it('Adds 1 message to interaction history', () => {
+      const next = agentDesktopReducer(fromJS(initialState), {
+        type: SET_MESSAGE_HISTORY,
+        response: [
+          {
+            type: 'customer',
+            from: 'bb bbb',
+            text: 'My issue: bbbbb',
+            timestamp: '2017-11-07T16:55:48.495Z',
+            to: 'b',
+          },
+        ],
+      });
+      expect(next.toJS().interactions[0].messageHistory.length).toEqual(0);
+      expect(next.toJS().interactions[1].messageHistory.length).toEqual(1);
+    });
+    it('fails to find the interaction to add the history to', () => {
+      const next = agentDesktopReducer(fromJS(initialState), {
+        type: SET_MESSAGE_HISTORY,
+        response: [
+          {
+            type: 'customer',
+            from: 'bb bbb',
+            text: 'My issue: bbbbb',
+            timestamp: '2017-11-07T16:55:48.495Z',
+            to: 'f',
+          },
+        ],
+      });
+      expect(console.warn.mock.calls[1]).toEqual([
+        'Interaction history could not get assigned to an interaction.',
+      ]);
+      expect(next.toJS().interactions[0].messageHistory.length).toEqual(0);
+      expect(next.toJS().interactions[1].messageHistory.length).toEqual(0);
+    });
+  });
   describe('START_OUTBOUND_INTERACTION', () => {
     beforeEach(() => {
       initialState = {
