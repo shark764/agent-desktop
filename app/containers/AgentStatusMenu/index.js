@@ -297,11 +297,17 @@ export class AgentStatusMenu extends React.Component {
                 style={styles.subMenuRows}
                 onClick={() => {
                   this.props.setActiveExtension(extension);
-                  this.props.showAgentStatusMenu(false);
                   this.setCollapsibleMenus();
                 }}
               >
                 {extension.description}
+                {this.props.activeExtension.description ===
+                  extension.description &&
+                  <Icon
+                    name="checkStatus"
+                    alt="selected"
+                    style={{ float: 'right' }}
+                  />}
               </div>)
             )}
           </Collapsible>
