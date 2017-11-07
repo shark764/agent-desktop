@@ -40,7 +40,8 @@ const selectHasUnrespondedInteractions = createSelector(
             .type === 'message' ||
           interaction.messageHistory[interaction.messageHistory.length - 1]
             .type === 'system') &&
-        interaction.interactionId !== id
+        interaction.interactionId !== id &&
+        interaction.status !== 'work-ended-pending-script'
     );
     if (wasFound >= 0) {
       return true;

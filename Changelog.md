@@ -1,5 +1,9 @@
-### [1.8.11] (2017-11-07)
+### [1.8.12] (2017-11-07)
 * Remove auto capitalization of strings
+
+### [1.8.11] (2017-11-07)
+* CXV1-11906 - Work Offers For Sms and Messaging Being Offered Without a Name or Message Body
+* CXV1-12035 - Testing of Interactions Panel Buttons Pulse Functionality.
 
 ### [1.8.10] (2017-11-06)
 * CXV1-12045 - Interactions panel updates
