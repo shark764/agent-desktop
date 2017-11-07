@@ -41,7 +41,6 @@ const styles = {
     color: '#4B4B4B',
     fontWeight: 'bold',
     display: 'inline',
-    textTransform: 'capitalize',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
