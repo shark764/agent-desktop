@@ -18,13 +18,12 @@ import Dotdotdot from 'react-dotdotdot';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import Icon from 'components/Icon';
+import Progress from 'components/Progress';
 import Timer from 'components/Timer';
 import TimerMinutes from 'components/TimerMinutes';
-import Progress from 'components/Progress';
-import Button from 'components/Button';
-import { cancelClickToDial } from 'containers/AgentDesktop/actions';
-import { selectCrmModule } from 'containers/AgentDesktop/selectors';
+import CancelButton from 'containers/Interaction/CancelButton';
 
+import { selectCrmModule } from 'containers/AgentDesktop/selectors';
 import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
 
 import messages from './messages';
@@ -139,11 +138,6 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-  },
-  cancelInteractionBtn: {
-    margin: '10px 0 0 auto',
-    padding: '.25em .5em',
-    maxWidth: '65px',
   },
   cancelInteractionInProgress: {
     opacity: '.75',
@@ -399,13 +393,6 @@ export class Interaction extends React.Component {
     }
   };
 
-  cancelInteraction = (e) => {
-    // adding this to prevent other events from bubbling up - namely the
-    // event to start the interaction which sits on the same div as the button
-    e.stopPropagation();
-    this.props.cancelClickToDial(this.props.interaction.interactionId);
-  };
-
   handleMouseOver = () => {
     if (!this.state.hover) {
       this.setState({ hover: true });
@@ -508,17 +495,7 @@ export class Interaction extends React.Component {
             {this.props.status === 'pending' &&
               <div style={styles.intentText}>
                 <FormattedMessage {...acceptMessage} />
-                {this.props.interaction.direction === 'outbound' &&
-                  this.props.interaction.channelType === 'voice' &&
-                  this.props.interaction.status === 'work-initiated' &&
-                  this.props.interaction.initiatedByCurrentAgent &&
-                  <Button
-                    id="cancelInteractionBeforeActive"
-                    type="primaryRed"
-                    text={messages.cancelInteraction}
-                    style={styles.cancelInteractionBtn}
-                    onClick={this.cancelInteraction}
-                  />}
+                <CancelButton interaction={this.props.interaction} />
               </div>}
           </div>}
         {this.state.hover &&
@@ -539,18 +516,12 @@ export class Interaction extends React.Component {
                 </p>}
               {this.getDetails()}
               {this.context.toolbarMode &&
-                this.props.interaction.direction === 'outbound' &&
-                this.props.interaction.channelType === 'voice' &&
-                this.props.interaction.status === 'work-initiated' &&
-                <Button
-                  id="cancelInteractionBeforeActive"
-                  type="primaryRed"
-                  text={messages.cancelInteraction}
-                  style={Object.assign({}, styles.cancelInteractionBtn, {
+                <CancelButton
+                  interaction={this.props.interaction}
+                  style={{
                     position: 'relative',
-                    marginLeft: '50%',
-                  })}
-                  onClick={this.cancelInteraction}
+                    margin: '10px 0 0 50%',
+                  }}
                 />}
             </div>
           </div>}
@@ -576,7 +547,6 @@ Interaction.propTypes = {
   selected: PropTypes.bool,
   onClick: PropTypes.func,
   activeExtension: PropTypes.object.isRequired,
-  cancelClickToDial: PropTypes.func,
   contactPoint: PropTypes.string,
   crmModule: PropTypes.string,
   interaction: PropTypes.shape({
@@ -602,14 +572,4 @@ Interaction.contextTypes = {
   toolbarMode: PropTypes.bool,
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-    cancelClickToDial: (interactionId) =>
-      dispatch(cancelClickToDial(interactionId)),
-    dispatch,
-  };
-}
-
-export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(Interaction))
-);
+export default ErrorBoundary(connect(mapStateToProps)(Radium(Interaction)));

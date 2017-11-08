@@ -4,6 +4,7 @@
 
 export default [
   'cxengage/interactions/email/send-reply', // Just using work-ended
+  'cxengage/interactions/voice/customer-transfer-acknowledged', // Just using cxengage/interactions/voice/transfer-connected
   'cxengage/interactions/voice/dial-send-acknowledged', // Just using cxengage/interactions/work-offer-received
   'cxengage/interactions/voice/start-recording-acknowledged', // Just using cxengage/interactions/voice/recording-start-received
   'cxengage/interactions/voice/stop-recording-acknowledged', // Just using cxengage/interactions/voice/recording-end-received
