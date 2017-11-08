@@ -213,7 +213,7 @@ export class AgentDesktop extends React.Component {
     return (
       <div
         id="desktop-container"
-        style={[this.styles.parent, this.styles.columnParent]}
+        style={[this.styles.parent, this.styles.columnParent, {overflow: this.context.toolbarMode? 'hidden' : 'auto'}]}
       >
         <div
           id="top-area"
