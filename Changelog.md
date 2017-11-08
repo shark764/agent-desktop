@@ -1,3 +1,6 @@
+### [1.9.2] (2017-11-08)
+* CXV1-12007 - Allow the front end to handle when agent has multiple PSTN that are the same.
+
 ### [1.9.1] (2017-11-08)
 * CXV1-12015 - Cached login type for logout redirect
 * CXV1-12017 - Added SSO Remember me

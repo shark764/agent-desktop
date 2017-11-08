@@ -290,10 +290,14 @@ export class AgentStatusMenu extends React.Component {
             handleTriggerClick={() =>
               this.setCollapsibleMenus('agentVoicePathway')}
           >
-            {this.props.extensions.map((extension) =>
+            {this.props.extensions.map((extension, index) =>
               (<div
-                id={`${extension.provider}-${extension.value}`}
-                key={`${extension.provider}-${extension.value}`}
+                id={`${extension.provider === undefined
+                  ? extension.type
+                  : extension.provider}-${extension.value}-${index}`}
+                key={`${extension.provider === undefined
+                  ? extension.type
+                  : extension.provider}-${extension.value}-${index}`}
                 style={styles.subMenuRows}
                 onClick={() => {
                   this.props.setActiveExtension(extension);
