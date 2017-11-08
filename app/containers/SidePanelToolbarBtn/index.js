@@ -29,6 +29,7 @@ import {
   getSelectedInteractionScript,
   getSelectedInteractionIsScriptOnly,
   getSelectedInteractionIsVoice,
+  getHasAssignedContact,
 } from 'containers/SidePanel/selectors';
 
 const styles = {
@@ -57,7 +58,18 @@ const styles = {
 
 export class SidePanelToolbarBtn extends React.Component {
   handleClick = () => {
-    this.props.selectSidePanelTab(this.props.selectedInteractionId, 'script');
+    if (
+      this.props.selectedInteractionScript !== undefined &&
+      !this.props.selectedInteractionIsScriptOnly &&
+      !this.props.selectedInteractionIsVoice
+    ) {
+      this.props.selectSidePanelTab(this.props.selectedInteractionId, 'script');
+    } else {
+      this.props.selectSidePanelTab(
+        this.props.selectedInteractionId,
+        'history'
+      );
+    }
     this.props.showSidePanel(this.props.selectedInteractionId);
   };
 
@@ -65,9 +77,10 @@ export class SidePanelToolbarBtn extends React.Component {
     if (
       this.context.toolbarMode &&
       this.props.isSidePanelCollapsed &&
-      this.props.selectedInteractionScript !== undefined &&
-      !this.props.selectedInteractionIsScriptOnly &&
-      !this.props.selectedInteractionIsVoice
+      ((this.props.selectedInteractionScript !== undefined &&
+        !this.props.selectedInteractionIsScriptOnly &&
+        !this.props.selectedInteractionIsVoice) ||
+        this.props.hasAssignedContact)
     ) {
       return (
         <div
@@ -94,6 +107,7 @@ function mapStateToProps(state, props) {
     ),
     selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
     selectedInteractionId: getSelectedInteractionId(state, props),
+    hasAssignedContact: getHasAssignedContact(state, props),
   };
 }
 
@@ -112,6 +126,7 @@ SidePanelToolbarBtn.propTypes = {
   selectedInteractionIsScriptOnly: PropTypes.bool,
   selectedInteractionIsVoice: PropTypes.bool,
   selectedInteractionId: PropTypes.string,
+  hasAssignedContact: PropTypes.bool.isRequired,
   showSidePanel: PropTypes.func,
   selectSidePanelTab: PropTypes.func,
 };

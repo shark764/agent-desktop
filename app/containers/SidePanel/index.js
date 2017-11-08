@@ -139,8 +139,8 @@ export class SidePanel extends React.Component {
       {
         name: 'history',
         tabInner:
-          !this.context.toolbarMode &&
-          this.props.hasCrmPermissions &&
+          (this.context.toolbarMode ||
+            (!this.context.toolbarMode && this.props.hasCrmPermissions)) &&
           this.props.hasAssignedContact &&
           <ContactInteractionHistory />,
       },

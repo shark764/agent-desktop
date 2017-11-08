@@ -41,9 +41,11 @@ import {
   DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
   SELECT_SIDE_PANEL_TAB,
   SET_CONTACT_INTERACTION_HISTORY,
+  SET_CRM_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS,
   LOAD_CONTACT_INTERACTION_HISTORY,
+  LOAD_CRM_INTERACTION_HISTORY,
   LOAD_HISTORICAL_INTERACTION_BODY,
   UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS,
   ADD_NOTES_TO_CONTACT_INTERACTION_HISTORY,
@@ -383,6 +385,15 @@ export function setContactInteractionHistory(contactId, response) {
   };
 }
 
+export function setCrmInteractionHistory(subType, id, response) {
+  return {
+    type: SET_CRM_INTERACTION_HISTORY,
+    subType,
+    id,
+    response,
+  };
+}
+
 export function setContactHistoryInteractionDetailsLoading(
   interactionId,
   contactHistoryInteractionId
@@ -405,6 +416,15 @@ export function loadContactInteractionHistory(contactId, page) {
   return {
     type: LOAD_CONTACT_INTERACTION_HISTORY,
     contactId,
+    page,
+  };
+}
+
+export function loadCrmInteractionHistory(subType, id, page) {
+  return {
+    type: LOAD_CRM_INTERACTION_HISTORY,
+    subType,
+    id,
     page,
   };
 }

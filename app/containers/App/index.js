@@ -117,6 +117,7 @@ import {
   setStandalonePopup,
   setZendeskActiveTab,
   startOutboundInteraction,
+  loadCrmInteractionHistory,
 } from 'containers/AgentDesktop/actions';
 
 import {
@@ -687,7 +688,10 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/messaging/new-message-received': {
-            if (isUUID(response.from) === false && this.props.crmModule === 'zendesk') {
+            if (
+              isUUID(response.from) === false &&
+              this.props.crmModule === 'zendesk'
+            ) {
               CxEngage.zendesk.setVisibility({ visibility: true });
             }
             this.props.addMessage(
@@ -699,7 +703,7 @@ export class App extends React.Component {
             );
             break;
           }
-            
+
           // INTERACTIONS/EMAIL
           case 'cxengage/interactions/email/details-received': {
             this.props.setEmailDetails(response.interactionId, response.body);
@@ -781,13 +785,13 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/zendesk/active-tab-changed': {
-            if (response.userId !== undefined) {
-              this.props.setZendeskActiveTab('user', response.userId);
-            } else if (response.ticketId !== undefined) {
-              this.props.setZendeskActiveTab('ticket', response.ticketId);
+            if (response.user !== undefined) {
+              this.props.setZendeskActiveTab('user', response.user.id);
+            } else if (response.ticket !== undefined) {
+              this.props.setZendeskActiveTab('ticket', response.ticket.id);
             } else {
               console.error(
-                `Neither userId nor ticketId found in active-tab-changed response: ${response}`
+                `Neither user nor ticket found in active-tab-changed response: ${response}`
               );
             }
             break;
@@ -795,29 +799,61 @@ export class App extends React.Component {
           case 'cxengage/zendesk/internal-pop-received':
           case 'cxengage/zendesk/contact-assignment-acknowledged':
           case 'cxengage/zendesk/related-to-assignment-acknowledged': {
-            const contact =
-              response.user !== undefined
-                ? {
+            let contact;
+            if (topic === 'cxengage/zendesk/internal-pop-received') {
+              if (response.user !== undefined) {
+                contact = {
                   type: 'user',
                   id: response.user.id,
                   attributes: { name: response.user.name },
-                }
-                : {
+                };
+              } else if (response.ticket !== undefined) {
+                contact = {
                   type: 'ticket',
                   id: response.ticket.id,
                   attributes: {
                     name:
-                        response.ticket.subject !== null
-                          ? response.ticket.subject
-                          : response.ticket.description,
+                      response.ticket.subject !== null
+                        ? response.ticket.subject
+                        : response.ticket.description,
                   },
                 };
+              } else {
+                console.error(
+                  `Neither user nor ticket found in ${topic} response: ${response}`
+                );
+                break;
+              }
+            } else if (response.hookSubType === 'user')
+              contact = {
+                type: 'user',
+                id: response.id,
+                attributes: { name: response.name },
+              };
+            else if (response.hookSubType === 'ticket') {
+              contact = {
+                type: 'ticket',
+                id: response.id,
+                attributes: {
+                  name:
+                    response.subject !== null
+                      ? response.subject
+                      : response.description,
+                },
+              };
+            } else {
+              console.error(
+                `Neither user nor ticket found in ${topic} response: ${response}`
+              );
+              break;
+            }
             this.props.setAssignedContact(response.interactionId, contact);
             setTimeout(() => {
               this.props.dismissContactWasAssignedNotification(
                 response.interactionId
               );
             }, 5000);
+            this.props.loadCrmInteractionHistory(contact.type, contact.id);
             break;
           }
           case 'cxengage/zendesk/click-to-dial-requested':
@@ -1197,6 +1233,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(
         startOutboundEmail(customer, contact, addedByNewInteractionPanel)
       ),
+    loadCrmInteractionHistory: (subType, id, page) =>
+      dispatch(loadCrmInteractionHistory(subType, id, page)),
     dispatch,
   };
 }
@@ -1280,6 +1318,7 @@ App.propTypes = {
   setZendeskActiveTab: PropTypes.func.isRequired,
   startOutboundInteraction: PropTypes.func.isRequired,
   startOutboundEmail: PropTypes.func.isRequired,
+  loadCrmInteractionHistory: PropTypes.func.isRequired,
 };
 
 App.contextTypes = {

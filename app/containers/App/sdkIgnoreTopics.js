@@ -42,6 +42,7 @@ export default [
   'cxengage/session/state-change-request-acknowledged', // Ignore
   'cxengage/session/tenant-list', // Using tenants from login-response
   'cxengage/reporting/get-contact-interaction-history-response', // Handled in contactInteractionHistory saga
+  'cxengage/reporting/get-crm-interactions-response', // Handled in loadCrmInteractions (AgentDesktop) saga
   'cxengage/contacts/search-contacts-response', // Handled in InfoTab & AgentDesktop callback
   'cxengage/contacts/create-contact-response', // Handled in ContactEdit
   'cxengage/contacts/update-contact-response', // Handled in ContactEdit

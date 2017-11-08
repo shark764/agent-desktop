@@ -20,6 +20,7 @@ describe('<SidePanelToolbarBtn />', () => {
           isSidePanelCollapsed
           selectedInteractionScript={{ testing: 'testing' }}
           selectedInteractionIsScriptOnly={false}
+          hasAssignedContact
         />
       </ContextProvider>
     );
@@ -36,6 +37,7 @@ describe('<SidePanelToolbarBtn />', () => {
           isSidePanelCollapsed
           selectedInteractionScript={{ testing: 'testing' }}
           selectedInteractionIsScriptOnly={false}
+          hasAssignedContact={false}
         />
       </ContextProvider>
     );

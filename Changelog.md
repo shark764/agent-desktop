@@ -1,3 +1,6 @@
+### [1.9.0] (2017-11-07)
+* CXV1-11917 - Zendesk history. Updated zendesk tab change and assign.
+
 ### [1.8.14] (2017-11-07)
 * CXV1-11795 - Collapsing Interaction Panel While in Interaction Causes Scroll Bars
 

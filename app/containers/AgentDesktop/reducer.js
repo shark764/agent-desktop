@@ -53,6 +53,7 @@ import {
   DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
   SELECT_SIDE_PANEL_TAB,
   SET_CONTACT_INTERACTION_HISTORY,
+  SET_CRM_INTERACTION_HISTORY,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
   SET_CONTACT_HISTORY_INTERACTION_DETAILS,
   UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS,
@@ -325,12 +326,17 @@ const updateContactInteractionDetails = (interaction, action) => {
 };
 
 const updateContactInteractionHistoryResults = (contact, action) => {
-  if (contact !== undefined && contact.get('id') === action.contactId) {
+  if (
+    contact !== undefined &&
+    (contact.get('id') === action.contactId ||
+      (contact.get('id') === action.id &&
+        contact.get('type') === action.subType))
+  ) {
     return contact.update('interactionHistory', (interactionHistory) => {
-      if (typeof action.response.results === 'undefined') {
+      if (action.response.results === undefined) {
         return action.response.results;
       } else if (
-        typeof interactionHistory === 'undefined' ||
+        interactionHistory === undefined ||
         action.response.page === interactionHistory.get('nextPage')
       ) {
         const existingResults = interactionHistory
@@ -344,13 +350,34 @@ const updateContactInteractionHistoryResults = (contact, action) => {
         }
         const earliestTimestamp =
           existingEarliestTimestamp || action.response.earliestTimestamp;
+
+        // Update results (keys) for crm interactions
+        const updatedResults = action.response.results.map((result) => {
+          const updatedResult = Object.assign(result, {});
+          if (updatedResult.direction !== undefined) {
+            updatedResult.directionName =
+              updatedResult.direction.charAt(0).toUpperCase() +
+              updatedResult.direction.slice(1);
+            delete updatedResult.direction;
+          }
+          if (updatedResult.dispositionName !== undefined) {
+            updatedResult.lastDispositionName = updatedResult.dispositionName;
+            delete updatedResult.dispositionName;
+          }
+          if (updatedResult.queues !== undefined) {
+            updatedResult.lastQueueName =
+              updatedResult.queues[updatedResult.queues.length - 1].queueName;
+          }
+          return updatedResult;
+        });
+
         return new Map({
           nextPage: action.response.page + 1,
           page: action.response.page,
           total: action.response.total,
           results: existingResults
-            ? existingResults.concat(fromJS(action.response.results))
-            : fromJS(action.response.results),
+            ? existingResults.concat(fromJS(updatedResults))
+            : fromJS(updatedResults),
           earliestTimestamp,
         });
       } else {
@@ -1134,6 +1161,15 @@ function agentDesktopReducer(state = initialState, action) {
         .updateIn(['newInteractionPanel', 'contact'], (contact) =>
           updateContactInteractionHistoryResults(contact, action)
         );
+    }
+    case SET_CRM_INTERACTION_HISTORY: {
+      return state.update('interactions', (interactions) =>
+        interactions.map((interaction) =>
+          interaction.update('contact', (contact) =>
+            updateContactInteractionHistoryResults(contact, action)
+          )
+        )
+      );
     }
     case SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING: {
       const target = getContactInteractionPath(state, action.interactionId);
