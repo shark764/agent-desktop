@@ -1,3 +1,6 @@
+### [1.9.3] (2017-11-08)
+* CXV1-12068 - Refactor and fix cancel button rendering for outbound voice transfers
+
 ### [1.9.2] (2017-11-08)
 * CXV1-12007 - Allow the front end to handle when agent has multiple PSTN that are the same.
 

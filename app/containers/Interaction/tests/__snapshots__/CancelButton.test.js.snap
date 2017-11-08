@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CancelButton /> should not render when passed in other 1`] = `null`;
+
+exports[`<CancelButton /> should render when passed in outbound voice 1`] = `
+<InjectIntl(Button)
+  id="cancelInteractionBeforeActive"
+  onClick={[Function]}
+  style={
+    Array [
+      Object {
+        "margin": "10px 0 0 auto",
+        "maxWidth": "65px",
+        "padding": ".25em .5em",
+      },
+      Object {
+        "customStyle": "awesome",
+      },
+    ]
+  }
+  text={
+    Object {
+      "defaultMessage": "CANCEL",
+      "id": "app.containers.Interaction.cancelInteraction",
+    }
+  }
+  type="primaryRed"
+/>
+`;

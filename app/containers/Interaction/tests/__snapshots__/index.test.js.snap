@@ -144,6 +144,9 @@ exports[`<Interaction /> should render correctly 1`] = `
         id="app.containers.Interaction.accept"
         values={Object {}}
       />
+      <Connect(CancelButton)
+        interaction={Object {}}
+      />
     </div>
   </div>
 </div>
