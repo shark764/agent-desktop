@@ -12,7 +12,9 @@ import infoTab from 'containers/InfoTab/reducer';
 import contactsControl from 'containers/ContactsControl/reducer';
 import errors from 'containers/Errors/reducer';
 
-export default combineReducers({
+import { LOGOUT } from 'containers/Login/constants';
+
+const appReducer = combineReducers({
   language,
   login,
   agentDesktop,
@@ -22,3 +24,14 @@ export default combineReducers({
   contactsControl,
   errors,
 });
+
+const rootReducer = (state, action) => {
+  let newState = state;
+  if (action.type === LOGOUT) {
+    newState = undefined;
+  }
+
+  return appReducer(newState, action);
+};
+
+export default rootReducer;

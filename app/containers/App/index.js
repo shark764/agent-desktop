@@ -348,7 +348,7 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/session/ended': {
-            window.location.reload();
+            this.props.logout();
             break;
           }
 
@@ -1293,6 +1293,7 @@ App.propTypes = {
   selectSidePanelTab: PropTypes.func.isRequired,
   showSidePanel: PropTypes.func.isRequired,
   hideSidePanel: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
   initializeStats: PropTypes.func.isRequired,
   showRefreshRequired: PropTypes.func.isRequired,
   toggleAgentMenu: PropTypes.func.isRequired,

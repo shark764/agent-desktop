@@ -34,7 +34,6 @@ import IconSVG from 'components/IconSVG';
 import FontAwesomeIcon from 'components/FontAwesomeIcon';
 import PopupDialog from 'components/PopupDialog';
 import mitelFavicon from 'assets/favicons/mitel.png';
-// import Radio from 'components/Radio';
 
 import { mappedLocales } from 'i18n';
 import { changeLocale } from 'containers/LanguageProvider/actions';
@@ -52,14 +51,15 @@ import selectLogin from './selectors';
 import messages from './messages';
 import {
   setInitiatedStandalonePopup,
-  loggingIn,
   setLoading,
   errorOccurred,
   loginSuccess,
   resetPassword,
   settingTenant,
   setTenant,
+  setDisplayState,
 } from './actions';
+import { CX_LOGIN, SSO_LOGIN, FORGOT_PASSWORD } from './constants';
 const storage = window.localStorage;
 
 const styles = {
@@ -185,19 +185,27 @@ export class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: storage.getItem('email') || '',
-      password: '',
       email: storage.getItem('email') || '',
-      ssoEmail: '',
-      remember: storage.getItem('remember') === 'true',
-      requestingPassword: false,
-      usingSingleSignOn: false,
+      rememberEmail: storage.getItem('rememberEmail') === 'true',
+      password: '',
+      ssoEmail: storage.getItem('ssoEmail') || '',
+      rememberSsoEmail: storage.getItem('rememberSsoEmail') === 'true',
+      forgotPasswordEmail: storage.getItem('email') || '',
       tenantId: '-1',
       tenantName: '',
-      agentDirection: props.intl.formatMessage(messages.inbound),
       showLanguage: false,
     };
   }
+
+  componentWillMount() {
+    if (storage.getItem('login_type') === CX_LOGIN) {
+      this.props.setDisplayState(CX_LOGIN);
+    } else if (storage.getItem('login_type') === SSO_LOGIN) {
+      this.props.setDisplayState(SSO_LOGIN);
+    }
+  }
+
+  // Login Logic
 
   componentDidMount() {
     const waitingOnSdk = setInterval(() => {
@@ -263,10 +271,10 @@ export class Login extends React.Component {
   };
 
   onLogin = () => {
-    this.props.loggingIn();
+    this.props.setLoading(true);
     CxEngage.authentication.login(
       {
-        username: this.state.username.trim(),
+        username: this.state.email.trim(),
         password: this.state.password,
       },
       (error, topic, response) => {
@@ -279,6 +287,34 @@ export class Login extends React.Component {
         }
       }
     );
+  };
+
+  loginCB = (agent) => {
+    this.props.loginSuccess(agent);
+    const activeTenants = agent.tenants.filter((tenant) => tenant.tenantActive);
+    if (activeTenants.length === 1) {
+      this.setTenantId(activeTenants[0].tenantId, activeTenants[0].tenantName);
+      this.onTenantSelect();
+    } else if (activeTenants.length === 0) {
+      this.props.setLoading(false);
+      this.props.setNonCriticalError({ code: 'AD-1005' });
+    } else {
+      this.props.setLoading(false);
+    }
+    if (this.state.rememberEmail) {
+      storage.setItem('email', agent.username);
+      storage.setItem('remember', true);
+    } else {
+      storage.setItem('email', '');
+      storage.setItem('remember', false);
+    }
+    if (this.state.rememberSsoEmail) {
+      storage.setItem('ssoEmail', agent.username);
+      storage.setItem('remember', true);
+    } else {
+      storage.setItem('ssoEmail', '');
+      storage.setItem('remember', false);
+    }
   };
 
   onTenantSelect = () => {
@@ -320,26 +356,82 @@ export class Login extends React.Component {
     }
   };
 
+  // TODO: Needs SDK call and reducer function when implemented
+  sendForgotRequest = () => {
+    this.props.resetPassword({ email: this.state.forgotPasswordEmail });
+  };
+
+  // Locale Update
+  setLocalLocale = (locale) => {
+    storage.setItem('locale', locale);
+    location.reload();
+  };
+
+  // Standalone Popup
+  openStandalonePopup = () => {
+    window.open(
+      `${window.location.href}?standalonePopup=true`,
+      'toolbar',
+      `width=${DEFAULT_TOOLBAR_WIDTH},height=${DEFAULT_TOOLBAR_HEIGHT}`
+    );
+    this.props.setInitiatedStandalonePopup();
+  };
+
+  // Local Container State
+  // TODO: Lift state into redux
+
   setPassword = (password) => {
     this.setState({ password });
+  };
+
+  setforgotPasswordEmail = (setforgotPasswordEmail) => {
+    this.setState({ setforgotPasswordEmail });
   };
 
   setEmail = (email) => {
     this.setState({ email });
   };
 
-  setUser = (username) => {
-    this.setState({ username });
-  };
-
   setSsoEmail = (ssoEmail) => {
     this.setState({ ssoEmail });
   };
 
-  setRemember = (remember) => {
-    this.setState({ remember });
-    storage.setItem('remember', remember);
+  setRememberEmail = (rememberEmail) => {
+    this.setState({ rememberEmail });
+    storage.setItem('rememberEmail', rememberEmail);
   };
+
+  setRememberSsoEmail = (rememberSsoEmail) => {
+    this.setState({ rememberSsoEmail });
+    storage.setItem('rememberSsoEmail', rememberSsoEmail);
+  };
+
+  setTenantId = (tenantId, tenantName) => {
+    this.setState({ tenantId, tenantName });
+  };
+
+  toggleLanguageMenu = () => {
+    this.setState({ showLanguage: !this.state.showLanguage });
+  };
+
+  // Display States
+
+  showCxLogin = () => {
+    storage.setItem('login_type', CX_LOGIN);
+    this.props.setDisplayState(CX_LOGIN);
+  };
+
+  showSsoLogin = () => {
+    storage.setItem('login_type', SSO_LOGIN);
+    this.props.setDisplayState(SSO_LOGIN);
+  };
+
+  showForgotPassword = () => {
+    this.props.setDisplayState(FORGOT_PASSWORD);
+  };
+
+  // Layout components
+  // TODO: Break out into separate ui view components
 
   getLoginTitle = () => {
     const parts = location.hostname.split('.');
@@ -408,10 +500,6 @@ export class Login extends React.Component {
             clearable={false}
             placeholder={<FormattedMessage {...messages.selectTenant} />}
           />
-          {
-            // Inbound / Outbound Select
-            // <Radio key={'direction-select'} style={{ marginTop: '20px' }} autocomplete="email" value={this.state.agentDirection} cb={this.setDirection} options={[messages.inbound, messages.outbound]} />
-          }
           <Button
             id={messages.selectButton.id}
             type="primaryBlueBig"
@@ -431,17 +519,17 @@ export class Login extends React.Component {
         {this.getLoginTitle()}
         <TextInput
           id={messages.username.id}
-          autoFocus={!this.state.remember}
+          autoFocus={!this.state.rememberEmail}
           key={'username'}
           style={styles.usernameInput}
           placeholder={messages.username}
           autocomplete="email"
-          value={this.state.username}
-          cb={this.setUser}
+          value={this.state.email}
+          cb={this.setEmail}
         />
         <TextInput
           id={messages.password.id}
-          autoFocus={this.state.remember}
+          autoFocus={this.state.rememberEmail}
           key={'password'}
           type="password"
           placeholder={messages.password}
@@ -453,9 +541,9 @@ export class Login extends React.Component {
         <CheckBox
           id={messages.rememberMe.id}
           style={styles.rememberMe}
-          checked={this.state.remember}
+          checked={this.state.rememberEmail}
           text={messages.rememberMe}
-          cb={this.setRemember}
+          cb={this.setRememberEmail}
         />
         <Button
           id={messages.signInButton.id}
@@ -468,11 +556,11 @@ export class Login extends React.Component {
           <A
             id={messages.ssoSignIn.id}
             style={styles.ssoLink}
-            onClick={() => this.toggleUsingSingleSignOn()}
+            onClick={this.showSsoLogin}
             text={messages.ssoSignIn}
           />}
         {/* Hide until we implement the feature
-          <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.setRequestingPassword()} />
+          <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.showForgotPassword()} />
         */}
       </div>
     </div>);
@@ -498,6 +586,13 @@ export class Login extends React.Component {
           value={this.state.ssoEmail}
           cb={this.setSsoEmail}
         />
+        <CheckBox
+          id={messages.rememberMe.id}
+          style={styles.rememberMe}
+          checked={this.state.rememberSsoEmail}
+          text={messages.rememberMe}
+          cb={this.setRememberSsoEmail}
+        />
         <Button
           id={messages.nextButton.id}
           type="primaryBlueBig"
@@ -508,7 +603,7 @@ export class Login extends React.Component {
         <A
           id={messages.return2Login.id}
           style={styles.ssoLink}
-          onClick={() => this.toggleUsingSingleSignOn()}
+          onClick={this.showCxLogin}
           text={messages.return2Login}
         />
       </div>
@@ -526,8 +621,8 @@ export class Login extends React.Component {
         style={{ marginBottom: '11px' }}
         placeholder={messages.email}
         autocomplete="email"
-        value={this.state.email}
-        cb={this.setEmail}
+        value={this.state.forgotPasswordEmail}
+        cb={this.setforgotPasswordEmail}
       />
       <Button
         type="primaryBlueBig"
@@ -538,7 +633,7 @@ export class Login extends React.Component {
       <A
         text={messages.return2Login}
         style={{ marginTop: '17px' }}
-        onClick={this.unsetRequestingPassword}
+        onClick={this.showCxLogin}
       />
     </div>);
 
@@ -573,69 +668,6 @@ export class Login extends React.Component {
       </PopupDialog>
     </div>);
 
-  setRequestingPassword = () => {
-    this.setState({ requestingPassword: true });
-  };
-
-  setTenantId = (tenantId, tenantName) => {
-    this.setState({ tenantId, tenantName });
-  };
-
-  setDirection = (agentDirection) => {
-    this.setState({ agentDirection });
-  };
-
-  unsetRequestingPassword = () => {
-    this.setState({ requestingPassword: false });
-  };
-
-  sendForgotRequest = () => {
-    this.props.resetPassword({ email: this.state.email });
-  };
-
-  toggleUsingSingleSignOn = () => {
-    this.setState({ usingSingleSignOn: !this.state.usingSingleSignOn });
-  };
-
-  loginCB = (agent) => {
-    this.props.loginSuccess(agent);
-    const activeTenants = agent.tenants.filter((tenant) => tenant.tenantActive);
-    if (activeTenants.length === 1) {
-      this.setTenantId(activeTenants[0].tenantId, activeTenants[0].tenantName);
-      this.onTenantSelect();
-    } else if (activeTenants.length === 0) {
-      this.props.setLoading(false);
-      this.props.setNonCriticalError({ code: 'AD-1005' });
-    } else {
-      this.props.setLoading(false);
-    }
-    if (this.state.remember) {
-      storage.setItem('email', agent.username);
-      storage.setItem('remember', true);
-    } else {
-      storage.setItem('email', '');
-      storage.setItem('remember', false);
-    }
-  };
-
-  setLocalLocale = (locale) => {
-    storage.setItem('locale', locale);
-    location.reload();
-  };
-
-  toggleLanguageMenu = () => {
-    this.setState({ showLanguage: !this.state.showLanguage });
-  };
-
-  openStandalonePopup = () => {
-    window.open(
-      `${window.location.href}?standalonePopup=true`,
-      'toolbar',
-      `width=${DEFAULT_TOOLBAR_WIDTH},height=${DEFAULT_TOOLBAR_HEIGHT}`
-    );
-    this.props.setInitiatedStandalonePopup();
-  };
-
   render() {
     let pageContent;
     if (this.props.loading) {
@@ -646,9 +678,9 @@ export class Login extends React.Component {
       this.props.agent.tenants.length > 1
     ) {
       pageContent = this.getLoggedInContent();
-    } else if (this.state.requestingPassword) {
+    } else if (this.props.displayState === FORGOT_PASSWORD) {
       pageContent = this.getForgotContent();
-    } else if (this.state.usingSingleSignOn) {
+    } else if (this.props.displayState === SSO_LOGIN) {
       pageContent = this.getSingleSignOnContent();
     } else if (this.props.initiatedStandalonePopup) {
       pageContent = (
@@ -732,12 +764,12 @@ function mapDispatchToProps(dispatch) {
   return {
     setInitiatedStandalonePopup: () => dispatch(setInitiatedStandalonePopup()),
     resetPassword: (email) => dispatch(resetPassword(email)),
-    loggingIn: () => dispatch(loggingIn()),
     setLoading: (loading) => dispatch(setLoading(loading)),
     loginSuccess: (agent) => dispatch(loginSuccess(agent)),
     errorOccurred: () => dispatch(errorOccurred()),
     settingTenant: () => dispatch(settingTenant()),
     setTenant: (id, name) => dispatch(setTenant(id, name)),
+    setDisplayState: (displayState) => dispatch(setDisplayState(displayState)),
     changeLocale: (locale) => dispatch(changeLocale(locale)),
     setNonCriticalError: (error) => dispatch(setNonCriticalError(error)),
     dismissError: () => dispatch(dismissError()),
@@ -749,14 +781,15 @@ Login.propTypes = {
   intl: intlShape.isRequired,
   setInitiatedStandalonePopup: PropTypes.func.isRequired,
   resetPassword: PropTypes.func.isRequired,
-  loggingIn: PropTypes.func.isRequired,
   setLoading: PropTypes.func.isRequired,
   loginSuccess: PropTypes.func.isRequired,
   errorOccurred: PropTypes.func.isRequired,
   settingTenant: PropTypes.func.isRequired,
   setTenant: PropTypes.func.isRequired,
+  setDisplayState: PropTypes.func.isRequired,
   setNonCriticalError: PropTypes.func.isRequired,
   dismissError: PropTypes.func.isRequired,
+  displayState: PropTypes.string,
   loading: PropTypes.bool,
   logged_in: PropTypes.bool,
   agent: PropTypes.object,

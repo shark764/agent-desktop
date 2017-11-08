@@ -10,7 +10,6 @@
 
 import {
   SET_INITIATED_STANDALONE_POPUP,
-  LOGGING_IN,
   SET_LOADING,
   ERROR_OCCURRED,
   LOGIN_SUCCESS,
@@ -18,18 +17,13 @@ import {
   SHOW_LOGIN,
   SETTING_TENANT,
   SET_TENANT,
+  SET_DISPLAY_STATE,
   LOGOUT,
 } from './constants';
 
 export function setInitiatedStandalonePopup() {
   return {
     type: SET_INITIATED_STANDALONE_POPUP,
-  };
-}
-
-export function loggingIn() {
-  return {
-    type: LOGGING_IN,
   };
 }
 
@@ -50,12 +44,6 @@ export function loginSuccess(agent) {
   return {
     type: LOGIN_SUCCESS,
     agent,
-  };
-}
-
-export function logout() {
-  return {
-    type: LOGOUT,
   };
 }
 
@@ -84,5 +72,18 @@ export function showLogin(show) {
   return {
     type: SHOW_LOGIN,
     show,
+  };
+}
+
+export function setDisplayState(displayState) {
+  return {
+    type: SET_DISPLAY_STATE,
+    displayState,
+  };
+}
+
+export function logout() {
+  return {
+    type: LOGOUT,
   };
 }
