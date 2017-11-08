@@ -1,7 +1,13 @@
-### [1.9.0] (2017-11-07)
+### [1.9.1] (2017-11-08)
+* CXV1-12015 - Cached login type for logout redirect
+* CXV1-12017 - Added SSO Remember me
+* Login Container Refactors
+* Logout Refactors
+
+### [1.9.0] (2017-11-08)
 * CXV1-11917 - Zendesk history. Updated zendesk tab change and assign.
 
-### [1.8.14] (2017-11-07)
+### [1.8.14] (2017-11-08)
 * CXV1-11795 - Collapsing Interaction Panel While in Interaction Causes Scroll Bars
 
 ### [1.8.13] (2017-11-07)

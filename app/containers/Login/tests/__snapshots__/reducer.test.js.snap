@@ -2,6 +2,7 @@
 
 exports[`loginReducer returns the initial state 1`] = `
 Immutable.Map {
+  displayState: "CX_LOGIN",
   loading: false,
   showLogin: true,
   agent: Immutable.Map {

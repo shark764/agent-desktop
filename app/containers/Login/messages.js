@@ -50,7 +50,7 @@ export default defineMessages({
   },
   return2Login: {
     id: 'app.containers.Login.return2Login',
-    defaultMessage: 'Return to Login',
+    defaultMessage: 'Sign in with email and password',
   },
   email: {
     id: 'app.containers.Login.email',
@@ -76,14 +76,6 @@ export default defineMessages({
   youMayClose: {
     id: 'app.containers.Login.youMayClose',
     defaultMessage: 'You may now close this window.',
-  },
-  inbound: {
-    id: 'app.containers.Login.inbound',
-    defaultMessage: 'Inbound',
-  },
-  outbound: {
-    id: 'app.containers.Login.outbound',
-    defaultMessage: 'Outbound',
   },
   selectTenantMenu: {
     id: 'app.containers.Login.selectTenantMenu',
