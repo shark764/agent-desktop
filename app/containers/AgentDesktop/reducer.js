@@ -50,7 +50,9 @@ import {
   SET_MESSAGE_HISTORY,
   SET_CONTACT_MODE,
   SET_ASSIGNED_CONTACT,
+  UNASSIGN_CONTACT,
   DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
+  DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION,
   SELECT_SIDE_PANEL_TAB,
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CRM_INTERACTION_HISTORY,
@@ -1103,8 +1105,8 @@ function agentDesktopReducer(state = initialState, action) {
             );
             if (state.get('crmModule') === 'zendesk') {
               return updatedInteraction.set(
-                'contactWasAssignedNotification',
-                true
+                'contactAssignedNotification',
+                'contactWasAssigned'
               );
             } else if (action.contact) {
               return updatedInteraction.set('contactMode', 'view');
@@ -1116,13 +1118,37 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+    case UNASSIGN_CONTACT: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction
+            .delete('contact')
+            .set('contactAssignedNotification', 'contactWasUnassigned')
+        );
+      } else {
+        return state;
+      }
+    }
     case DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.setIn(
-          ['interactions', interactionIndex, 'contactWasAssignedNotification'],
+          ['interactions', interactionIndex, 'contactAssignedNotification'],
           false
         );
+      } else {
+        return state;
+      }
+    }
+    case DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.deleteIn([
+          'interactions',
+          interactionIndex,
+          'contactAssignedNotification',
+        ]);
       } else {
         return state;
       }

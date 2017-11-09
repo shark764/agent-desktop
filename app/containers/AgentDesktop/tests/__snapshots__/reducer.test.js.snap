@@ -271,6 +271,27 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION sets contactAssignedNotification to false 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "mockInteraction1",
+      contactAssignedNotification: false,
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION removes contactAssignedNotification 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "mockInteraction1",
+    },
+  ],
+}
+`;
+
 exports[`agentDesktopReducer INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP sets the interactionId, updates the selectedInteractionId, updates the status, and adds the message 1`] = `
 Immutable.Map {
   interactions: Immutable.List [
@@ -575,6 +596,41 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer SET_ASSIGNED_CONTACT no crmModule (Desktop) adds the contact and sets contactMode to view 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "mockInteraction1",
+      contact: Immutable.Map {
+        id: "mockContactId",
+        attributes: Immutable.Map {
+          name: "mockContactName",
+        },
+      },
+      contactMode: "view",
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_ASSIGNED_CONTACT zendesk crmModule adds the contact and sets contactAssignedNotification 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "mockInteraction1",
+      contact: Immutable.Map {
+        id: "mockContactId",
+        attributes: Immutable.Map {
+          name: "mockContactName",
+        },
+      },
+      contactAssignedNotification: "contactWasAssigned",
+    },
+  ],
+  crmModule: "zendesk",
+}
+`;
+
 exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if interaction is "isScriptOnly" deletes "isScriptOnly" 1`] = `
 Immutable.Map {
   interactions: Immutable.List [
@@ -835,6 +891,17 @@ Immutable.Map {
     Immutable.Map {
       interactionId: "mockInteraction2",
       customFieldsCollapsed: true,
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer UNASSIGN_CONTACT removes contact and sets contactAssignedNotification 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      interactionId: "mockInteraction1",
+      contactAssignedNotification: "contactWasUnassigned",
     },
   ],
 }

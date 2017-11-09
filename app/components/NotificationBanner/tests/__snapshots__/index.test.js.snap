@@ -51,7 +51,12 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
     id="mockId-dismiss-btn"
     name="close"
     onClick={[Function]}
-    width="20px"
+    style={
+      Object {
+        "flexShrink": 0,
+        "width": "20px",
+      }
+    }
   />
 </div>
 `;

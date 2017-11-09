@@ -18,6 +18,10 @@ export default defineMessages({
     id: 'app.containers.ContentArea.assigned',
     defaultMessage: 'Assigned',
   },
+  unassign: {
+    id: 'app.containers.ContentArea.unassign',
+    defaultMessage: 'Unassign',
+  },
   notes: {
     id: 'app.containers.ContentArea.notes',
     defaultMessage: 'Notes',
@@ -41,6 +45,10 @@ export default defineMessages({
   recordLinked: {
     id: 'app.containers.ContentArea.recordLinked',
     defaultMessage: 'Record linked!',
+  },
+  recordUnlinked: {
+    id: 'app.containers.ContentArea.recordUnlinked',
+    defaultMessage: 'Record unlinked',
   },
   confirmDialog1: {
     id: 'app.containers.ContentArea.confirmDialog1',

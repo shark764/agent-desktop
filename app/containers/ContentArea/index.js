@@ -574,7 +574,12 @@ export class ContentArea extends React.Component {
             },
           ]}
         >
-          <IconSVG name="add" id="add-disposition-icon" width="16px" color="grey" />
+          <IconSVG
+            name="add"
+            id="add-disposition-icon"
+            width="16px"
+            color="grey"
+          />
           <div
             style={[
               this.styles.dispositionLabelText,
@@ -615,6 +620,34 @@ export class ContentArea extends React.Component {
         CxEngage.zendesk.assignRelatedTo({
           interactionId: this.props.interaction.interactionId,
         });
+      } else {
+        console.error(
+          `Cannot assign to active tab of type: ${this.props.zendeskActiveTab.get(
+            'type'
+          )}`
+        );
+      }
+    }
+  };
+
+  zendeskUnassign = () => {
+    if (
+      this.props.zendeskActiveTab &&
+      this.props.interaction.contact !== undefined
+    ) {
+      if (this.props.interaction.contact.type === 'user') {
+        CxEngage.zendesk.unassignContact({
+          interactionId: this.props.interaction.interactionId,
+        });
+      } else if (this.props.interaction.contact.type === 'ticket') {
+        CxEngage.zendesk.unassignRelatedTo({
+          interactionId: this.props.interaction.interactionId,
+        });
+      } else {
+        console.error(
+          `Cannot unassign contact of type: ${this.props.interaction.contact
+            .type}`
+        );
       }
     }
   };
@@ -658,17 +691,31 @@ export class ContentArea extends React.Component {
   render() {
     let buttonConfig = this.props.buttonConfig;
     if (this.props.zendeskActiveTab) {
-      const isSelected =
-        this.props.interaction.contact &&
-        this.props.interaction.contact.type ===
-          this.props.zendeskActiveTab.get('type') &&
-        this.props.interaction.contact.id ===
-          this.props.zendeskActiveTab.get('id');
+      let isSelected = false;
+      let text;
+      let onClick;
+      if (this.props.interaction.contact !== undefined) {
+        if (
+          this.props.interaction.contact.type ===
+            this.props.zendeskActiveTab.get('type') &&
+          this.props.interaction.contact.id ===
+            this.props.zendeskActiveTab.get('id')
+        ) {
+          text = messages.unassign;
+          onClick = this.zendeskUnassign;
+        } else {
+          text = messages.assigned;
+          isSelected = true;
+        }
+      } else {
+        text = messages.assign;
+        onClick = this.zendeskAssign;
+      }
       buttonConfig = buttonConfig.concat({
         id: 'zendeskAssign',
         type: 'secondary',
-        text: isSelected ? messages.assigned : messages.assign,
-        onClick: this.zendeskAssign,
+        text,
+        onClick,
         isSelected,
         // isUUID only returns true once we have passed through a series
         // of states that take us from the attempt to connect to outbound
@@ -700,8 +747,8 @@ export class ContentArea extends React.Component {
             <div style={this.styles.base}>
               {this.props.crmModule &&
                 <CrmRecordNotification
-                  contactWasAssignedNotification={
-                    this.props.interaction.contactWasAssignedNotification
+                  contactAssignedNotification={
+                    this.props.interaction.contactAssignedNotification
                   }
                   interactionId={this.props.interaction.interactionId}
                 />}

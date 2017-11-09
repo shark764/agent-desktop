@@ -2,6 +2,7 @@
 
 exports[`<IconSVG /> with name add should render correctly 1`] = `
 <div
+  data-radium={true}
   id="mockId"
   style={
     Object {
@@ -13,11 +14,13 @@ exports[`<IconSVG /> with name add should render correctly 1`] = `
   }
 >
   <svg
+    data-radium={true}
     viewBox="0 0 40 40"
   >
      
     <path
       d="M 20,30 L 20,10 M 10,20 L 30,20 "
+      data-radium={true}
       style={
         Object {
           "fill": "transparent",
@@ -33,6 +36,7 @@ exports[`<IconSVG /> with name add should render correctly 1`] = `
 
 exports[`<IconSVG /> with name close should render correctly 1`] = `
 <div
+  data-radium={true}
   id="mockId"
   style={
     Object {
@@ -44,11 +48,13 @@ exports[`<IconSVG /> with name close should render correctly 1`] = `
   }
 >
   <svg
+    data-radium={true}
     viewBox="0 0 40 40"
   >
      
     <path
       d="M 10,10 L 30,30 M 30,10 L 10,30"
+      data-radium={true}
       style={
         Object {
           "fill": "transparent",
@@ -64,6 +70,7 @@ exports[`<IconSVG /> with name close should render correctly 1`] = `
 
 exports[`<IconSVG /> with name dialpad should render correctly 1`] = `
 <div
+  data-radium={true}
   id="mockId"
   style={
     Object {
@@ -75,6 +82,7 @@ exports[`<IconSVG /> with name dialpad should render correctly 1`] = `
   }
 >
   <svg
+    data-radium={true}
     viewBox="0 0 20 20"
     x="0px"
     y="0px"
@@ -130,6 +138,7 @@ exports[`<IconSVG /> with name dialpad should render correctly 1`] = `
 
 exports[`<IconSVG /> with name loading should render correctly 1`] = `
 <div
+  data-radium={true}
   id="mockId"
   style={
     Object {
@@ -142,6 +151,7 @@ exports[`<IconSVG /> with name loading should render correctly 1`] = `
 >
   <svg
     className="uil-ring"
+    data-radium={true}
     preserveAspectRatio="xMidYMid"
     viewBox="0 0 100 100"
     xmlns="http://www.w3.org/2000/svg"
@@ -154,8 +164,11 @@ exports[`<IconSVG /> with name loading should render correctly 1`] = `
       x="0"
       y="0"
     />
-    <defs>
+    <defs
+      data-radium={true}
+    >
       <filter
+        data-radium={true}
         height="300%"
         id="uil-ring-shadow"
         width="300%"
@@ -200,6 +213,7 @@ exports[`<IconSVG /> with name loading should render correctly 1`] = `
 
 exports[`<IconSVG /> with name loadingWhite should render correctly 1`] = `
 <div
+  data-radium={true}
   id="mockId"
   style={
     Object {
@@ -212,6 +226,7 @@ exports[`<IconSVG /> with name loadingWhite should render correctly 1`] = `
 >
   <svg
     className="uil-ring"
+    data-radium={true}
     preserveAspectRatio="xMidYMid"
     viewBox="0 0 100 100"
     xmlns="http://www.w3.org/2000/svg"
@@ -224,8 +239,11 @@ exports[`<IconSVG /> with name loadingWhite should render correctly 1`] = `
       x="0"
       y="0"
     />
-    <defs>
+    <defs
+      data-radium={true}
+    >
       <filter
+        data-radium={true}
         height="300%"
         id="uil-ring-shadow"
         width="300%"

@@ -75,7 +75,9 @@ import {
   setMessageHistory,
   assignContact,
   setAssignedContact,
+  unassignContact,
   dismissContactWasAssignedNotification,
+  dismissContactWasUnassignedNotification,
   setContactHistoryInteractionDetails,
   updateContact,
   setInteractionQuery,
@@ -856,6 +858,16 @@ export class App extends React.Component {
             this.props.loadCrmInteractionHistory(contact.type, contact.id);
             break;
           }
+          case 'cxengage/zendesk/contact-unassignment-acknowledged':
+          case 'cxengage/zendesk/related-to-unassignment-acknowledged': {
+            this.props.unassignContact(response.interactionId);
+            setTimeout(() => {
+              this.props.dismissContactWasUnassignedNotification(
+                response.interactionId
+              );
+            }, 5000);
+            break;
+          }
           case 'cxengage/zendesk/click-to-dial-requested':
           case 'cxengage/zendesk/click-to-sms-requested': {
             let channelType;
@@ -1135,8 +1147,11 @@ function mapDispatchToProps(dispatch) {
       dispatch(assignContact(interactionId, contact)),
     setAssignedContact: (interactionId, contact) =>
       dispatch(setAssignedContact(interactionId, contact)),
+    unassignContact: (interactionId) => dispatch(unassignContact(interactionId)),
     dismissContactWasAssignedNotification: (interactionId) =>
       dispatch(dismissContactWasAssignedNotification(interactionId)),
+    dismissContactWasUnassignedNotification: (interactionId) =>
+      dispatch(dismissContactWasUnassignedNotification(interactionId)),
     setContactHistoryInteractionDetails: (response) =>
       dispatch(setContactHistoryInteractionDetails(response)),
     updateContact: (updatedContact) => dispatch(updateContact(updatedContact)),
@@ -1258,7 +1273,9 @@ App.propTypes = {
   setMessageHistory: PropTypes.func.isRequired,
   assignContact: PropTypes.func.isRequired,
   setAssignedContact: PropTypes.func.isRequired,
+  unassignContact: PropTypes.func.isRequired,
   dismissContactWasAssignedNotification: PropTypes.func.isRequired,
+  dismissContactWasUnassignedNotification: PropTypes.func.isRequired,
   setContactHistoryInteractionDetails: PropTypes.func.isRequired,
   updateContact: PropTypes.func.isRequired,
   addMessage: PropTypes.func.isRequired,

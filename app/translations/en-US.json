@@ -104,6 +104,8 @@
   "app.containers.ContentArea.notesPlaceholder": "Enter interaction notes here",
   "app.containers.ContentArea.notesTitlePlaceholder": "Untitled Interaction",
   "app.containers.ContentArea.recordLinked": "Record linked!",
+  "app.containers.ContentArea.recordUnlinked": "Record unlinked",
+  "app.containers.ContentArea.unassign": "Unassign",
   "app.containers.ContentAreaTop.actions": "Actions",
   "app.containers.ContentAreaTop.wrapup": "Wrap Up",
   "app.containers.ContentAreaTop.wrapupOff": "Wrap Up Off",

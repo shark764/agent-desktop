@@ -104,6 +104,8 @@
   "app.containers.ContentArea.notesPlaceholder": "Wprowadź tutaj uwagi dotyczące interakcji",
   "app.containers.ContentArea.notesTitlePlaceholder": "Interakcja bez tytułu",
   "app.containers.ContentArea.recordLinked": "",
+  "app.containers.ContentArea.recordUnlinked": "",
+  "app.containers.ContentArea.unassign": "",
   "app.containers.ContentAreaTop.actions": "",
   "app.containers.ContentAreaTop.wrapup": "Podsumowanie",
   "app.containers.ContentAreaTop.wrapupOff": "Podsumowanie wyłączone",

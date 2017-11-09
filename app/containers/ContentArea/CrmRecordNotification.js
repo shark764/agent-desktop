@@ -12,7 +12,10 @@ import ErrorBoundary from 'components/ErrorBoundary';
 
 import Button from 'components/Button';
 
-import { dismissContactWasAssignedNotification } from 'containers/AgentDesktop/actions';
+import {
+  dismissContactWasAssignedNotification,
+  dismissContactWasUnassignedNotification,
+} from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
 
@@ -44,19 +47,41 @@ export class CrmRecordNotification extends React.Component {
     this.props.dismissContactWasAssignedNotification(this.props.interactionId);
   };
 
+  dismissContactWasUnassignedNotification = () => {
+    this.props.dismissContactWasUnassignedNotification(
+      this.props.interactionId
+    );
+  };
+
   render() {
-    if (this.props.contactWasAssignedNotification === false) {
+    if (this.props.contactAssignedNotification === false) {
       // Notification was dismissed
       return null;
-    } else if (this.props.contactWasAssignedNotification === true) {
+    } else if (typeof this.props.contactAssignedNotification === 'string') {
+      let message;
+      let onClick;
+      if (this.props.contactAssignedNotification === 'contactWasAssigned') {
+        message = <FormattedMessage {...messages.recordLinked} />;
+        onClick = this.dismissContactWasAssignedNotification;
+      } else if (
+        this.props.contactAssignedNotification === 'contactWasUnassigned'
+      ) {
+        message = <FormattedMessage {...messages.recordUnlinked} />;
+        onClick = this.dismissContactWasUnassignedNotification;
+      } else {
+        console.error(
+          `Invalid contactWasAssignedNotification: ${this.props
+            .contactAssignedNotification}`
+        );
+      }
       return (
         <div style={[styles.base, styles.contactWasAssignedNotification]}>
-          <FormattedMessage {...messages.recordLinked} />
+          {message}
           <Button
             id="dismissRecordLinked"
             style={styles.dismissRecordLinked}
             iconName="close"
-            onClick={this.dismissContactWasAssignedNotification}
+            onClick={onClick}
             clear
           />
         </div>
@@ -72,15 +97,21 @@ export class CrmRecordNotification extends React.Component {
 }
 
 CrmRecordNotification.propTypes = {
-  contactWasAssignedNotification: PropTypes.bool,
-  interactionId: PropTypes.string,
+  contactAssignedNotification: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+  ]),
+  interactionId: PropTypes.string.isRequired,
   dismissContactWasAssignedNotification: PropTypes.func.isRequired,
+  dismissContactWasUnassignedNotification: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     dismissContactWasAssignedNotification: (interactionId) =>
       dispatch(dismissContactWasAssignedNotification(interactionId)),
+    dismissContactWasUnassignedNotification: (interactionId) =>
+      dispatch(dismissContactWasUnassignedNotification(interactionId)),
     dispatch,
   };
 }
