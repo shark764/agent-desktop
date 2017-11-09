@@ -38,7 +38,9 @@ import {
   SET_CONTACT_MODE,
   ASSIGN_CONTACT,
   SET_ASSIGNED_CONTACT,
+  UNASSIGN_CONTACT,
   DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
+  DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION,
   SELECT_SIDE_PANEL_TAB,
   SET_CONTACT_INTERACTION_HISTORY,
   SET_CRM_INTERACTION_HISTORY,
@@ -362,9 +364,23 @@ export function setAssignedContact(interactionId, contact) {
   };
 }
 
+export function unassignContact(interactionId) {
+  return {
+    type: UNASSIGN_CONTACT,
+    interactionId,
+  };
+}
+
 export function dismissContactWasAssignedNotification(interactionId) {
   return {
     type: DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
+    interactionId,
+  };
+}
+
+export function dismissContactWasUnassignedNotification(interactionId) {
+  return {
+    type: DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION,
     interactionId,
   };
 }

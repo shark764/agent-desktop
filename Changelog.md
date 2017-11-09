@@ -1,3 +1,6 @@
+### [1.10.0] (2017-11-09)
+* CXV1-12070 - Add ability to unassign ticket/user from interaction. Update so only unassiged interactions can be assigned ticket/user.
+
 ### [1.9.3] (2017-11-08)
 * CXV1-12068 - Refactor and fix cancel button rendering for outbound voice transfers
 

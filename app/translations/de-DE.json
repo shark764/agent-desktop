@@ -104,6 +104,8 @@
   "app.containers.ContentArea.notesPlaceholder": "Interaktionshinweise hier eingeben",
   "app.containers.ContentArea.notesTitlePlaceholder": "Unbenannte Interaktionen",
   "app.containers.ContentArea.recordLinked": "",
+  "app.containers.ContentArea.recordUnlinked": "",
+  "app.containers.ContentArea.unassign": "",
   "app.containers.ContentAreaTop.actions": "",
   "app.containers.ContentAreaTop.wrapup": "Nachbearbeiten",
   "app.containers.ContentAreaTop.wrapupOff": "Nachbearbeitung aus",

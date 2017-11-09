@@ -104,6 +104,8 @@
   "app.containers.ContentArea.notesPlaceholder": "Introduzca aquí las notas de la interacción",
   "app.containers.ContentArea.notesTitlePlaceholder": "Interacción sin título",
   "app.containers.ContentArea.recordLinked": "",
+  "app.containers.ContentArea.recordUnlinked": "",
+  "app.containers.ContentArea.unassign": "",
   "app.containers.ContentAreaTop.actions": "",
   "app.containers.ContentAreaTop.wrapup": "Finalizar",
   "app.containers.ContentAreaTop.wrapupOff": "Finalización desactivada",

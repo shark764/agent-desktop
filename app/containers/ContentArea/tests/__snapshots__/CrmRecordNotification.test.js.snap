@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CrmRecordNotification /> should not render contactAssignedNotification = false 1`] = `null`;
+
+exports[`<CrmRecordNotification /> should render noRecordLinked when passed in undefined contactAssignedNotification 1`] = `
+<div
+  style={
+    Array [
+      Object {
+        "borderBottom": "1px solid #D0D0D0",
+        "color": "#FFFFFF",
+        "fontSize": "15px",
+        "fontWeight": "bold",
+        "margin": "-5px -5px 0 -5px",
+        "padding": "4px 0",
+        "textAlign": "center",
+        "zIndex": 1,
+      },
+      Object {
+        "backgroundColor": "#FE4565",
+        "borderTop": "1px #000000 solid",
+      },
+    ]
+  }
+>
+  <FormattedMessage
+    defaultMessage="No record linked."
+    id="app.containers.ContentArea.noRecordLinked"
+    values={Object {}}
+  />
+</div>
+`;
+
+exports[`<CrmRecordNotification /> should render when passed in valid contactAssignedNotification 1`] = `
+<div
+  style={
+    Array [
+      Object {
+        "borderBottom": "1px solid #D0D0D0",
+        "color": "#FFFFFF",
+        "fontSize": "15px",
+        "fontWeight": "bold",
+        "margin": "-5px -5px 0 -5px",
+        "padding": "4px 0",
+        "textAlign": "center",
+        "zIndex": 1,
+      },
+      Object {
+        "backgroundColor": "#23cdf4",
+      },
+    ]
+  }
+>
+  <FormattedMessage
+    defaultMessage="Record linked!"
+    id="app.containers.ContentArea.recordLinked"
+    values={Object {}}
+  />
+  <InjectIntl(Button)
+    clear={true}
+    iconName="close"
+    id="dismissRecordLinked"
+    onClick={[Function]}
+    style={
+      Object {
+        "float": "right",
+      }
+    }
+  />
+</div>
+`;

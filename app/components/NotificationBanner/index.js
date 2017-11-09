@@ -73,7 +73,7 @@ function NotificationBanner(props) {
       style={[styles.base, props.isError && styles.baseError, props.style]}
     >
       {props.titleMessage &&
-        <div key="1" style={styles.titleText}>
+        <div style={styles.titleText}>
           {props.intl.formatMessage(props.titleMessage)}
           &nbsp;
         </div>}
@@ -95,7 +95,13 @@ function NotificationBanner(props) {
           )}
         </div>}
       {props.dismiss &&
-        <IconSVG name="close" id={`${props.id}-dismiss-btn`} width="20px" onClick={props.dismiss} clear />}
+        <IconSVG
+          name="close"
+          id={`${props.id}-dismiss-btn`}
+          onClick={props.dismiss}
+          clear
+          style={{ width: '20px', flexShrink: 0 }}
+        />}
     </div>
   );
 }

@@ -21,6 +21,10 @@ import {
   REMOVE_SCRIPT,
   REMOVE_INTERACTION,
   REMOVE_INTERACTION_HARD,
+  SET_ASSIGNED_CONTACT,
+  UNASSIGN_CONTACT,
+  DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
+  DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION,
   TOGGLE_CUSTOM_FIELDS,
   REMOVE_CONTACT,
   UPDATE_RESOURCE_NAME,
@@ -759,6 +763,90 @@ describe('agentDesktopReducer', () => {
       it('does nothing', () => {
         runReducerAndExpectSnapshot();
       });
+    });
+  });
+
+  describe('SET_ASSIGNED_CONTACT', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [{ interactionId: 'mockInteraction1' }],
+      };
+      action = {
+        type: SET_ASSIGNED_CONTACT,
+        interactionId: 'mockInteraction1',
+        contact: {
+          id: 'mockContactId',
+          attributes: { name: 'mockContactName' },
+        },
+      };
+    });
+    describe('no crmModule (Desktop)', () => {
+      it('adds the contact and sets contactMode to view', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('zendesk crmModule', () => {
+      beforeEach(() => {
+        initialState.crmModule = 'zendesk';
+      });
+      it('adds the contact and sets contactAssignedNotification', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+  });
+
+  describe('UNASSIGN_CONTACT', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 'mockInteraction1',
+            contact: { id: 'mockContactId' },
+          },
+        ],
+      };
+      action = {
+        type: UNASSIGN_CONTACT,
+        interactionId: 'mockInteraction1',
+      };
+    });
+    it('removes contact and sets contactAssignedNotification', () => {
+      runReducerAndExpectSnapshot();
+    });
+  });
+
+  describe('DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [{ interactionId: 'mockInteraction1' }],
+      };
+      action = {
+        type: DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
+        interactionId: 'mockInteraction1',
+      };
+    });
+    it('sets contactAssignedNotification to false', () => {
+      runReducerAndExpectSnapshot();
+    });
+  });
+
+  describe('DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 'mockInteraction1',
+            contactAssignedNotification: 'something',
+          },
+        ],
+      };
+      action = {
+        type: DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION,
+        interactionId: 'mockInteraction1',
+      };
+    });
+    it('removes contactAssignedNotification', () => {
+      runReducerAndExpectSnapshot();
     });
   });
 

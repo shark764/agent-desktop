@@ -104,6 +104,8 @@
   "app.containers.ContentArea.notesPlaceholder": "Insira as observações de interação aqui",
   "app.containers.ContentArea.notesTitlePlaceholder": "Interação sem título",
   "app.containers.ContentArea.recordLinked": "",
+  "app.containers.ContentArea.recordUnlinked": "",
+  "app.containers.ContentArea.unassign": "",
   "app.containers.ContentAreaTop.actions": "",
   "app.containers.ContentAreaTop.wrapup": "Encerrar",
   "app.containers.ContentAreaTop.wrapupOff": "Desativar encerramento",
