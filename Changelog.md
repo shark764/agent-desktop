@@ -1,3 +1,6 @@
+### [1.10.1] (2017-11-13)
+* CXV1-12079 - SDK bump for SSO fix
+
 ### [1.10.0] (2017-11-09)
 * CXV1-12070 - Add ability to unassign ticket/user from interaction. Update so only unassiged interactions can be assigned ticket/user.
 
