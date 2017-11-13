@@ -1,3 +1,9 @@
+###[1.11.0] (2017-11-13)
+* CXV1-9688 - Dynamically load SDK CRM modules
+* CXV1-9626 - TB2 - SF - Show click to dial/sms/email screen in toolbar on phone/email click
+* CXV1-9621 - TB2 - SF - Show toolbar if hidden on new work offer
+* CXV1-11691 - Unify UX for starting an interaction from search
+
 ### [1.10.1] (2017-11-13)
 * CXV1-12079 - SDK bump for SSO fix
 
