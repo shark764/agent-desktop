@@ -671,6 +671,7 @@ function agentDesktopReducer(state = initialState, action) {
       return state
         .update('newInteractionPanel', (newInteractionPanel) =>
           newInteractionPanel
+            .set('newInteractionFormInput', action.optionalInput)
             .set('visible', true)
             .set('isSidePanelCollapsed', action.isSidePanelCollapsed === true)
         )

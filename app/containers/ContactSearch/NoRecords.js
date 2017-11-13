@@ -6,13 +6,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
-import { isValidNumber } from 'utils/validator';
+import { isValidNumber, isValidEmail } from 'utils/validator';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import Button from 'components/Button';
 import OutboundCallButton from 'containers/OutboundInteractionButton/OutboundCallButton';
 import OutboundSmsButton from 'containers/OutboundInteractionButton/OutboundSmsButton';
+import OutboundEmailButton from 'containers/OutboundInteractionButton/OutboundEmailButton';
 
 import messages from './messages';
 
@@ -51,7 +52,18 @@ export class NoRecords extends React.Component {
         return phoneNumber;
       } else if (isValidNumber(`+${phoneNumber}`)) {
         return `+${phoneNumber}`;
+      } else if (isValidNumber(`+1${phoneNumber}`)) {
+        return `+1${phoneNumber}`;
       }
+    }
+    return undefined;
+  };
+
+  getEmailAddress = () => {
+    // If we only have one key that's value is a valid email, use it
+    if (Object.keys(this.props.query).length === 1) {
+      const email = this.props.query[Object.keys(this.props.query)[0]];
+      if (isValidEmail(email)) return email;
     }
     return undefined;
   };
@@ -62,10 +74,14 @@ export class NoRecords extends React.Component {
         <div style={styles.noRecordsMessage}>
           - <FormattedMessage {...messages.noRecords} /> -
         </div>
-        {this.getPhoneNumber() &&
+        {(this.getPhoneNumber() || this.getEmailAddress()) &&
           <div style={styles.outboundInteractionButtons}>
-            <OutboundCallButton phoneNumber={this.getPhoneNumber()} />
-            <OutboundSmsButton phoneNumber={this.getPhoneNumber()} />
+            {this.getPhoneNumber() &&
+              <OutboundCallButton phoneNumber={this.getPhoneNumber()} />}
+            {this.getPhoneNumber() &&
+              <OutboundSmsButton phoneNumber={this.getPhoneNumber()} />}
+            {this.getEmailAddress() &&
+              <OutboundEmailButton email={this.getEmailAddress()} />}
             <div style={styles.orText}>
               <FormattedMessage {...messages.or} />
             </div>

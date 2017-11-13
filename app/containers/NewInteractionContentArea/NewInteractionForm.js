@@ -21,6 +21,7 @@ import TextInput from 'components/TextInput';
 
 import OutboundEmailButton from 'containers/OutboundInteractionButton/OutboundEmailButton';
 import OutboundSmsButton from 'containers/OutboundInteractionButton/OutboundSmsButton';
+import OutboundCallButton from 'containers/OutboundInteractionButton/OutboundCallButton';
 
 import { setNewInteractionPanelFormInput } from 'containers/AgentDesktop/actions';
 import { selectNewInteractionPanel } from 'containers/AgentDesktop/selectors';
@@ -43,6 +44,16 @@ const styles = {
   },
 };
 
+const formatPhoneNumber = (input) => {
+  if (input[0] !== '+' && isValidNumber(`+${input}`)) {
+    return `+${input}`;
+  } else if (isValidNumber(`+1${input}`)) {
+    return `+1 ${input}`;
+  } else {
+    return input;
+  }
+};
+
 export function NewInteractionForm(props) {
   return (
     <div style={styles.base}>
@@ -55,18 +66,10 @@ export function NewInteractionForm(props) {
       />
       <hr style={styles.hr} />
       {!isValidEmail(props.input) &&
-        <OutboundSmsButton
-          phoneNumber={
-            // automatically prepend '+' if it makes it a valid number
-            props.input &&
-            props.input[0] !== '+' &&
-            isValidNumber(`+${props.input}`)
-              ? `+${props.input}`
-              : props.input
-          }
-        />}
-      {!isValidNumber(`+${props.input}`) &&
-        !isValidNumber(props.input) &&
+        <OutboundCallButton phoneNumber={formatPhoneNumber(props.input)} />}
+      {!isValidEmail(props.input) &&
+        <OutboundSmsButton phoneNumber={formatPhoneNumber(props.input)} />}
+      {!isValidNumber(formatPhoneNumber(props.input)) &&
         <OutboundEmailButton email={props.input} />}
     </div>
   );

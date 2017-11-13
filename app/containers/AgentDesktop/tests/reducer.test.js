@@ -28,6 +28,7 @@ import {
   TOGGLE_CUSTOM_FIELDS,
   REMOVE_CONTACT,
   UPDATE_RESOURCE_NAME,
+  OPEN_NEW_INTERACTION_PANEL,
 } from '../constants';
 import agentDesktopReducer from '../reducer';
 
@@ -241,6 +242,26 @@ describe('agentDesktopReducer', () => {
       };
     });
     it('sets the input in newInteractionPanel', () => {
+      runReducerAndExpectSnapshot();
+    });
+  });
+
+  describe('OPEN_NEW_INTERACTION_PANEL', () => {
+    beforeEach(() => {
+      initialState = { newInteractionPanel: {} };
+      action = {
+        type: OPEN_NEW_INTERACTION_PANEL,
+        isSidePanelCollapsed: true,
+      };
+    });
+    it('Opens the new interaction panel with text from a click to dial', () => {
+      initialState.newInteractionPanel.newInteractionFormInput = '';
+      action.optionalInput = 'new input yo';
+      runReducerAndExpectSnapshot();
+    });
+    it('Opens the new interaction panel allowing the default param to set value to null', () => {
+      initialState.newInteractionPanel.newInteractionFormInput = 'old input yo';
+      action.optionalInput = '';
       runReducerAndExpectSnapshot();
     });
   });

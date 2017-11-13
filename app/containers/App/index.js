@@ -120,6 +120,7 @@ import {
   setZendeskActiveTab,
   startOutboundInteraction,
   loadCrmInteractionHistory,
+  openNewInteractionPanel,
 } from 'containers/AgentDesktop/actions';
 
 import {
@@ -259,13 +260,16 @@ export class App extends React.Component {
     const crmModule = new URL(window.location.href).searchParams.get(
       'crmModule'
     );
-    if (crmModule) {
-      if (crmModule === 'zendesk') {
-        sdkConf.crmModule = crmModule;
-        this.props.setCrmModule(crmModule);
-      } else {
-        console.error(`Unsupported crm module: ${crmModule}`);
-      }
+    if (
+      crmModule &&
+      (crmModule === 'zendesk' ||
+        crmModule === 'salesforce-classic' ||
+        crmModule === 'salesforce-lightning')
+    ) {
+      sdkConf.crmModule = crmModule;
+      this.props.setCrmModule(crmModule);
+    } else {
+      console.error(`Unsupported crm module: ${crmModule}`);
     }
     const standalonePopup = new URL(window.location.href).searchParams.get(
       'standalonePopup'
@@ -696,6 +700,19 @@ export class App extends React.Component {
             ) {
               CxEngage.zendesk.setVisibility({ visibility: true });
             }
+            if (
+              isUUID(response.from) === false &&
+              this.props.crmModule === 'salesforce-classic'
+            ) {
+              CxEngage.salesforceClassic.setVisibility({ visibility: true });
+            }
+            if (
+              isUUID(response.from) === false &&
+              this.props.crmModule === 'salesforce-lightning'
+            ) {
+              CxEngage.salesforceLightning.setVisibility({ visibility: true });
+            }
+
             this.props.addMessage(
               response.to,
               new ResponseMessage(
@@ -775,6 +792,23 @@ export class App extends React.Component {
           }
           case 'cxengage/contacts/update-contact-response': {
             this.props.updateContact(response);
+            break;
+          }
+
+          // SALESFORCE
+          case 'cxengage/salesforce-classic/initialize-complete': {
+            CxEngage.salesforceClassic.setDimensions({
+              height: 800,
+              width: 400,
+            });
+            break;
+          }
+          case 'cxengage/salesforce-classic/on-click-to-interaction': {
+            CxEngage.salesforceClassic.setVisibility({ visibility: true });
+            this.props.openNewInteractionPanel(
+              this.context.toolbarMode,
+              response.number
+            );
             break;
           }
 
@@ -1122,6 +1156,8 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    openNewInteractionPanel: (isSidePanelCollapsed, optionalInput) =>
+      dispatch(openNewInteractionPanel(isSidePanelCollapsed, optionalInput)),
     showRefreshRequired: (show) => dispatch(showRefreshRequired(show)),
     showLogin: (show) => dispatch(showLogin(show)),
     setUserConfig: (response) => dispatch(setUserConfig(response)),
@@ -1337,6 +1373,7 @@ App.propTypes = {
   startOutboundInteraction: PropTypes.func.isRequired,
   startOutboundEmail: PropTypes.func.isRequired,
   loadCrmInteractionHistory: PropTypes.func.isRequired,
+  openNewInteractionPanel: PropTypes.func.isRequired,
 };
 
 App.contextTypes = {

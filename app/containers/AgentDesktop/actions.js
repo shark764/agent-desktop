@@ -224,10 +224,14 @@ export function goNotReady(reason, listId) {
   };
 }
 
-export function openNewInteractionPanel(isSidePanelCollapsed) {
+export function openNewInteractionPanel(
+  isSidePanelCollapsed,
+  optionalInput = ''
+) {
   return {
     type: OPEN_NEW_INTERACTION_PANEL,
     isSidePanelCollapsed,
+    optionalInput,
   };
 }
 

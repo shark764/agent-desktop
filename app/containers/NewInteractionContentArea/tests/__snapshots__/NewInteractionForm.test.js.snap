@@ -39,6 +39,9 @@ exports[`<NewInteractionForm /> should render correctly 1`] = `
     phoneNumber=""
   />
   <Connect(ErrorBoundaryComponent)
+    phoneNumber=""
+  />
+  <Connect(ErrorBoundaryComponent)
     email=""
   />
 </div>

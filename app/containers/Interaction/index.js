@@ -235,6 +235,10 @@ export class Interaction extends React.Component {
   componentWillMount() {
     if (this.props.crmModule === 'zendesk')
       CxEngage.zendesk.setVisibility({ visibility: true });
+    if (this.props.crmModule === 'salesforce-classic')
+      CxEngage.salesforceClassic.setVisibility({ visibility: true });
+    if (this.props.crmModule === 'salesforce-lightning')
+      CxEngage.salesforceLightning.setVisibility({ visibility: true });
   }
 
   componentWillUnmount() {

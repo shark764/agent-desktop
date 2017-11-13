@@ -312,6 +312,28 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer OPEN_NEW_INTERACTION_PANEL Opens the new interaction panel allowing the default param to set value to null 1`] = `
+Immutable.Map {
+  newInteractionPanel: Immutable.Map {
+    newInteractionFormInput: "",
+    visible: true,
+    isSidePanelCollapsed: true,
+  },
+  selectedInteractionId: undefined,
+}
+`;
+
+exports[`agentDesktopReducer OPEN_NEW_INTERACTION_PANEL Opens the new interaction panel with text from a click to dial 1`] = `
+Immutable.Map {
+  newInteractionPanel: Immutable.Map {
+    newInteractionFormInput: "new input yo",
+    visible: true,
+    isSidePanelCollapsed: true,
+  },
+  selectedInteractionId: undefined,
+}
+`;
+
 exports[`agentDesktopReducer REMOVE_CONTACT if a contact is deleted when there are no interactions present nothing happens 1`] = `
 Immutable.Map {
   interactions: Immutable.List [
