@@ -131,6 +131,16 @@ export class AgentDesktop extends React.Component {
           width,
           height,
         });
+      } else if (this.props.crmModule === 'salesforce-classic') {
+        CxEngage.salesforceClassic.setDimensions({
+          width,
+          height,
+        });
+      } else if (this.props.crmModule === 'salesforce-lightning') {
+        CxEngage.salesforceLightning.setDimensions({
+          width,
+          height,
+        });
       } else if (this.props.isStandalonePopup) {
         window.resizeTo(width, height);
       }

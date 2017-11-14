@@ -1,4 +1,7 @@
-###[1.11.0] (2017-11-13)
+### [1.11.1] (2017-11-14)
+* CXV1-12088 - TB2 - SF classic resize on scripts
+
+### [1.11.0] (2017-11-13)
 * CXV1-9688 - Dynamically load SDK CRM modules
 * CXV1-9626 - TB2 - SF - Show click to dial/sms/email screen in toolbar on phone/email click
 * CXV1-9621 - TB2 - SF - Show toolbar if hidden on new work offer

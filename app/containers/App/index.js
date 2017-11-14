@@ -260,16 +260,13 @@ export class App extends React.Component {
     const crmModule = new URL(window.location.href).searchParams.get(
       'crmModule'
     );
-    if (
-      crmModule &&
-      (crmModule === 'zendesk' ||
-        crmModule === 'salesforce-classic' ||
-        crmModule === 'salesforce-lightning')
-    ) {
-      sdkConf.crmModule = crmModule;
-      this.props.setCrmModule(crmModule);
-    } else {
-      console.error(`Unsupported crm module: ${crmModule}`);
+    if(crmModule) {
+      if(crmModule === 'zendesk' || crmModule === 'salesforce-classic' || crmModule === 'salesforce-lightning') {
+        sdkConf.crmModule = crmModule;
+        this.props.setCrmModule(crmModule);
+      } else {
+        console.error(`Unsupported crm module: ${crmModule}`);
+      }
     }
     const standalonePopup = new URL(window.location.href).searchParams.get(
       'standalonePopup'
