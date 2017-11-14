@@ -26,6 +26,7 @@ import {
   DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
   DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION,
   TOGGLE_CUSTOM_FIELDS,
+  UPDATE_CONTACT,
   REMOVE_CONTACT,
   UPDATE_RESOURCE_NAME,
   OPEN_NEW_INTERACTION_PANEL,
@@ -933,6 +934,72 @@ describe('agentDesktopReducer', () => {
         it('sets the name of the resource', () => {
           runReducerAndExpectSnapshot();
         });
+      });
+    });
+  });
+
+  describe('UPDATE_CONTACT', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [],
+        newInteractionPanel: {},
+        noInteractionContactPanel: {},
+      };
+      action = {
+        type: UPDATE_CONTACT,
+        updatedContact: {
+          id: 'test-contact-id',
+          name: 'new name',
+        },
+      };
+    });
+    describe('there is the same contact in all interactions', () => {
+      beforeEach(() => {
+        initialState = {
+          interactions: [
+            {
+              contact: { id: 'test-contact-id' },
+            },
+          ],
+          newInteractionPanel: { contact: { id: 'test-contact-id' } },
+          noInteractionContactPanel: { contact: { id: 'test-contact-id' } },
+        };
+      });
+      it('adds the new contact attributes to the contacts', () => {
+        runReducerAndExpectSnapshot();
+      });
+      describe("the contact id doesn't match", () => {
+        beforeEach(() => {
+          action.updatedContact.id = 'mismatch-contact-id';
+        });
+        it('does nothing', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+    });
+    describe('there is the same contact id, with different type in interactions', () => {
+      beforeEach(() => {
+        initialState = {
+          interactions: [
+            {
+              contact: {
+                id: 123,
+                type: 'user',
+              },
+            },
+            {
+              contact: {
+                id: 123,
+                type: 'ticket',
+              },
+            },
+          ],
+        };
+        action.updatedContact.id = 123;
+        action.contactType = 'user';
+      });
+      it('updates the contact with the matching', () => {
+        runReducerAndExpectSnapshot();
       });
     });
   });
