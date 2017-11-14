@@ -929,6 +929,73 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer UPDATE_CONTACT there is the same contact id, with different type in interactions updates the contact with the matching 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      contact: Immutable.Map {
+        id: 123,
+        type: "user",
+        name: "new name",
+      },
+    },
+    Immutable.Map {
+      contact: Immutable.Map {
+        id: 123,
+        type: "ticket",
+      },
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer UPDATE_CONTACT there is the same contact in all interactions adds the new contact attributes to the contacts 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      contact: Immutable.Map {
+        id: "test-contact-id",
+        name: "new name",
+      },
+    },
+  ],
+  newInteractionPanel: Immutable.Map {
+    contact: Immutable.Map {
+      id: "test-contact-id",
+      name: "new name",
+    },
+  },
+  noInteractionContactPanel: Immutable.Map {
+    contact: Immutable.Map {
+      id: "test-contact-id",
+      name: "new name",
+    },
+  },
+}
+`;
+
+exports[`agentDesktopReducer UPDATE_CONTACT there is the same contact in all interactions the contact id doesn't match does nothing 1`] = `
+Immutable.Map {
+  interactions: Immutable.List [
+    Immutable.Map {
+      contact: Immutable.Map {
+        id: "test-contact-id",
+      },
+    },
+  ],
+  newInteractionPanel: Immutable.Map {
+    contact: Immutable.Map {
+      id: "test-contact-id",
+    },
+  },
+  noInteractionContactPanel: Immutable.Map {
+    contact: Immutable.Map {
+      id: "test-contact-id",
+    },
+  },
+}
+`;
+
 exports[`agentDesktopReducer UPDATE_RESOURCE_NAME if resource is not present on interactions does nothing 1`] = `
 Immutable.Map {
   interactions: Immutable.List [

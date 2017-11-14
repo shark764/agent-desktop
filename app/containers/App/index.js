@@ -921,6 +921,25 @@ export class App extends React.Component {
             this.props.startOutboundEmail(response.endpoint);
             break;
           }
+          case 'cxengage/zendesk/user-update':
+          case 'cxengage/zendesk/ticket-update': {
+            let type;
+            if (topic === 'cxengage/zendesk/user-update') {
+              type = 'user';
+            } else {
+              type = 'ticket';
+            }
+            this.props.updateContact(
+              {
+                id: response.id,
+                attributes: {
+                  name: response.name,
+                },
+              },
+              type
+            );
+            break;
+          }
 
           // REPORTING
           case 'cxengage/reporting/get-available-stats-response': {
@@ -1187,7 +1206,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(dismissContactWasUnassignedNotification(interactionId)),
     setContactHistoryInteractionDetails: (response) =>
       dispatch(setContactHistoryInteractionDetails(response)),
-    updateContact: (updatedContact) => dispatch(updateContact(updatedContact)),
+    updateContact: (updatedContact, contactType) =>
+      dispatch(updateContact(updatedContact, contactType)),
     addMessage: (interactionId, message) =>
       dispatch(addMessage(interactionId, message)),
     selectInteraction: (interactionId) =>

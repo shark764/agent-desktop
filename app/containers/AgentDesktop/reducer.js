@@ -1259,7 +1259,10 @@ function agentDesktopReducer(state = initialState, action) {
         .update('interactions', (interactions) =>
           interactions.map((interaction) => {
             if (
-              interaction.getIn(['contact', 'id']) === action.updatedContact.id
+              interaction.getIn(['contact', 'id']) ===
+                action.updatedContact.id &&
+              (action.contactType === undefined ||
+                interaction.getIn(['contact', 'type']) === action.contactType)
             ) {
               return interaction.mergeIn(
                 ['contact'],

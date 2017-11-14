@@ -479,10 +479,11 @@ export function addNotesToContactInteractionHistory(
   };
 }
 
-export function updateContact(updatedContact) {
+export function updateContact(updatedContact, contactType) {
   return {
     type: UPDATE_CONTACT,
     updatedContact,
+    contactType,
   };
 }
 
