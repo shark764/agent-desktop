@@ -1,3 +1,6 @@
+### [1.11.4] (2017-11-15)
+* CXV1-12124 - TB2 - ZD - Focus Zendesk user/ticket when interaction is selected
+
 ### [1.11.3] (2017-11-15)
 * CXV1-12070 - TB2 - ZD - Update color of unassigned notification to red. Fix notifications dismiss sync error (when assigning too quickly).
 * CXV1-11917 - TB2 - ZD - Fix username width when only history tab is present.

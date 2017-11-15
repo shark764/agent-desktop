@@ -293,17 +293,17 @@ export class InteractionsBar extends React.Component {
             this.props.selectedInteractionId ===
             this.props.activeVoiceInteraction.interactionId
           }
-        onClick={
-            this.props.selectedInteractionId !==
-            this.props.activeVoiceInteraction.interactionId
-              ? () => {
-                this.props.selectInteraction(
-                    this.props.activeVoiceInteraction.interactionId
-                  );
-                this.focusInteraction(this.props.activeVoiceInteraction);
-              }
-              : undefined
+        onClick={() => {
+          if (
+              this.props.selectedInteractionId !==
+              this.props.activeVoiceInteraction.interactionId
+            ) {
+            this.props.selectInteraction(
+                this.props.activeVoiceInteraction.interactionId
+              );
           }
+          this.focusInteraction(this.props.activeVoiceInteraction);
+        }}
       />)
       : '';
 
@@ -404,17 +404,15 @@ export class InteractionsBar extends React.Component {
               this.props.selectedInteractionId ===
               activeInteraction.interactionId
             }
-            onClick={
-              this.props.selectedInteractionId !==
-              activeInteraction.interactionId
-                ? () => {
-                  this.props.selectInteraction(
-                      activeInteraction.interactionId
-                    );
-                  this.focusInteraction(activeInteraction);
-                }
-                : undefined
-            }
+            onClick={() => {
+              if (
+                this.props.selectedInteractionId !==
+                activeInteraction.interactionId
+              ) {
+                this.props.selectInteraction(activeInteraction.interactionId);
+              }
+              this.focusInteraction(activeInteraction);
+            }}
           />
         );
       }
