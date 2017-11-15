@@ -33,7 +33,6 @@ exports[`<FontAwesomeIcon /> should render correctly with additional props 1`] =
     alt="testing icon"
     className="fa fa-globe fa-3x"
     id="globeIcon"
-    onClick={[Function]}
     style={
       Object {
         "color": "blue",

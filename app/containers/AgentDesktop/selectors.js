@@ -108,6 +108,12 @@ const selectNewInteractionPanel = createSelector(
   selectAgentDesktopMap,
   (agentDesktop) => agentDesktop.get('newInteractionPanel').toJS()
 );
+
+const selectCurrentCrmItemHistoryPanel = createSelector(
+  selectAgentDesktopMap,
+  (agentDesktop) => agentDesktop.get('currentCrmItemHistoryPanel').toJS()
+);
+
 const selectQueues = createSelector(selectAgentDesktopMap, (agentDesktop) =>
   agentDesktop.get('queues').toJS()
 );
@@ -124,12 +130,14 @@ const selectNoInteractionContactPanel = createSelector(
 const getSelectedInteraction = createSelector(
   [
     selectNewInteractionPanel,
+    selectCurrentCrmItemHistoryPanel,
     selectInteractionsList,
     getSelectedInteractionId,
     selectNoInteractionContactPanel,
   ],
   (
     newInteractionPanel,
+    currentCrmItemHistoryPanel,
     interactions,
     selectedInteractionId,
     noInteractionContactPanel
@@ -137,6 +145,8 @@ const getSelectedInteraction = createSelector(
     if (selectedInteractionId !== undefined) {
       if (selectedInteractionId === 'creating-new-interaction') {
         return newInteractionPanel;
+      } else if (selectedInteractionId === 'current-crm-item-history') {
+        return currentCrmItemHistoryPanel;
       } else {
         return interactions
           .toJS()

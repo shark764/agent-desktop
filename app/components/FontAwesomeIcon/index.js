@@ -29,8 +29,8 @@ function FontAwesomeIcon(props) {
           ? props.faSize
           : '2'}x`}
         style={props.style}
-        onClick={props.onclick}
         alt={props.alt || props.name}
+        title={props.title}
       />
     </button>
   );
@@ -40,6 +40,7 @@ FontAwesomeIcon.propTypes = {
   name: PropTypes.string.isRequired,
   faSize: PropTypes.string,
   alt: PropTypes.string,
+  title: PropTypes.string,
   style: PropTypes.object,
   id: PropTypes.string.isRequired,
   onclick: PropTypes.func,

@@ -36,6 +36,7 @@ import {
   OPEN_NEW_INTERACTION_PANEL,
   NEW_INTERACTION_PANEL_SELECT_CONTACT,
   CLOSE_NEW_INTERACTION_PANEL,
+  CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL,
   SET_NEW_INTERACTION_PANEL_FORM_INPUT,
   START_OUTBOUND_INTERACTION,
   INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
@@ -130,6 +131,12 @@ const blankNewInteractionPanel = {
   newInteractionFormInput: '',
 };
 
+const blankCurrentCrmItemHistoryPanel = {
+  interactionId: 'current-crm-item-history',
+  status: 'current-crm-item-history',
+  isSidePanelCollapsed: true,
+};
+
 const initialState = fromJS({
   // Uncomment to allow login screen to be hidden
   // presence: 'ready',
@@ -160,6 +167,7 @@ const initialState = fromJS({
     activeContactForm: activeContactFormBlank,
   },
   newInteractionPanel: blankNewInteractionPanel,
+  currentCrmItemHistoryPanel: blankCurrentCrmItemHistoryPanel,
   queues: [],
   extensions: [],
   activeExtension: {},
@@ -406,6 +414,7 @@ const getNextSelectedInteractionId = (state, interactionId) => {
           !['work-offer', 'work-initiated'].includes(interaction.get('status'))
       );
     if (
+      interactionBeingRemoved &&
       interactionBeingRemoved.get('channelType') !== 'voice' &&
       currentVoiceInteraction
     ) {
@@ -458,10 +467,25 @@ function agentDesktopReducer(state = initialState, action) {
     case SET_STANDALONE_POPUP:
       return state.set('standalonePopup', true);
     case SET_ZENDESK_ACTIVE_TAB:
-      return state.set(
-        'zendeskActiveTab',
-        fromJS({ type: action.tabType, id: action.id })
-      );
+      if (
+        state.getIn(['zendeskActiveTab', 'id']) !== action.id ||
+        state.getIn(['zendeskActiveTab', 'type']) !== action.tabType
+      ) {
+        return state.set(
+          'zendeskActiveTab',
+          fromJS({
+            type: action.tabType,
+            id: action.id,
+            attributes: { name: action.name },
+          })
+        );
+      } else {
+        // Don't clear interactionHistory if it is the same. Just update name in case it changed.
+        return state.setIn(
+          ['zendeskActiveTab', 'attributes', 'name'],
+          action.name
+        );
+      }
     case SET_AGENT_DIRECTION:
       return state.set('agentDirection', fromJS(action.response));
     case SHOW_REFRESH_NOTIF:
@@ -688,33 +712,23 @@ function agentDesktopReducer(state = initialState, action) {
       );
     }
     case CLOSE_NEW_INTERACTION_PANEL: {
-      let nextSelectedInteractionId;
-      const currentVoiceInteraction = state
-        .get('interactions')
-        .find(
-          (interaction) =>
-            interaction.get('channelType') === 'voice' &&
-            interaction.get('status') !== 'connecting-to-outbound'
-        );
-      if (currentVoiceInteraction) {
-        nextSelectedInteractionId = currentVoiceInteraction.get(
-          'interactionId'
-        );
-      } else {
-        const firstNonVoiceInteraction = state
-          .get('interactions')
-          .find(
-            (interaction) =>
-              interaction.get('channelType') !== 'voice' &&
-              interaction.get('interactionId') !== action.interactionId
-          );
-        nextSelectedInteractionId = firstNonVoiceInteraction
-          ? firstNonVoiceInteraction.get('interactionId')
-          : undefined;
-      }
       return state
         .set('newInteractionPanel', fromJS(blankNewInteractionPanel))
-        .set('selectedInteractionId', nextSelectedInteractionId);
+        .set(
+          'selectedInteractionId',
+          getNextSelectedInteractionId(state, 'creating-new-interaction')
+        );
+    }
+    case CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL: {
+      return state
+        .set(
+          'currentCrmItemHistoryPanel',
+          fromJS(blankCurrentCrmItemHistoryPanel)
+        )
+        .set(
+          'selectedInteractionId',
+          getNextSelectedInteractionId(state, 'current-crm-item-history')
+        );
     }
     case SET_NEW_INTERACTION_PANEL_FORM_INPUT: {
       return state.setIn(
@@ -1204,13 +1218,17 @@ function agentDesktopReducer(state = initialState, action) {
         );
     }
     case SET_CRM_INTERACTION_HISTORY: {
-      return state.update('interactions', (interactions) =>
-        interactions.map((interaction) =>
-          interaction.update('contact', (contact) =>
-            updateContactInteractionHistoryResults(contact, action)
+      return state
+        .update('interactions', (interactions) =>
+          interactions.map((interaction) =>
+            interaction.update('contact', (contact) =>
+              updateContactInteractionHistoryResults(contact, action)
+            )
           )
         )
-      );
+        .update('zendeskActiveTab', (zendeskActiveTab) =>
+          updateContactInteractionHistoryResults(zendeskActiveTab, action)
+        );
     }
     case SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING: {
       const target = getContactInteractionPath(state, action.interactionId);
@@ -1269,7 +1287,7 @@ function agentDesktopReducer(state = initialState, action) {
         );
     }
     case UPDATE_CONTACT: {
-      return state
+      let newState = state
         .update('interactions', (interactions) =>
           interactions.map((interaction) => {
             if (
@@ -1298,6 +1316,19 @@ function agentDesktopReducer(state = initialState, action) {
           }
           return contact;
         });
+      if (newState.get('zendeskActiveTab') !== undefined) {
+        newState = newState.update('zendeskActiveTab', (zendeskActiveTab) => {
+          if (
+            zendeskActiveTab.get('id') === action.updatedContact.id &&
+            zendeskActiveTab.get('type') === action.contactType
+          ) {
+            return zendeskActiveTab.merge(fromJS(action.updatedContact));
+          } else {
+            return zendeskActiveTab;
+          }
+        });
+      }
+      return newState;
     }
     case REMOVE_CONTACT: {
       return state
@@ -1353,7 +1384,8 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 ||
-        action.interactionId === 'creating-new-interaction'
+        action.interactionId === 'creating-new-interaction' ||
+        action.interactionId === 'current-crm-item-history'
       ) {
         return state.set('selectedInteractionId', action.interactionId);
       } else {

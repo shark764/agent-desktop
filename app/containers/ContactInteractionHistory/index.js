@@ -39,14 +39,15 @@ const styles = {
     display: 'block',
   },
   base: {
-    padding: '28px 26px 26px 0',
+    padding: '26px 26px 0 0',
     fontSize: '14px',
-    height: '100%',
     overflowY: 'auto',
   },
   interactionsHeaderContainer: {
     fontSize: '15px',
     marginBottom: '19px',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   interactionsHeader: {
     display: 'inline-block',

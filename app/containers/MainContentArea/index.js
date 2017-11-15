@@ -16,6 +16,7 @@ import Radium from 'radium';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import AgentScript from 'containers/AgentScript';
+import CurrentCrmItemHistoryContentArea from 'containers/CurrentCrmItemHistoryContentArea';
 import NewInteractionContentArea from 'containers/NewInteractionContentArea';
 import MessagingContentArea from 'containers/MessagingContentArea';
 import EmailContentArea from 'containers/EmailContentArea';
@@ -58,6 +59,8 @@ class MainContentArea extends React.Component {
     if (selectedInteraction) {
       if (selectedInteraction.status === 'creating-new-interaction') {
         content = <NewInteractionContentArea />;
+      } else if (selectedInteraction.status === 'current-crm-item-history') {
+        content = <CurrentCrmItemHistoryContentArea />;
       } else if (selectedInteraction.isScriptOnly === true) {
         content = (
           <AgentScript

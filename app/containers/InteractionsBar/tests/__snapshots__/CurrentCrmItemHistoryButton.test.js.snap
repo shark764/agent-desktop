@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CurrentCrmItemHistoryButton /> should render correctly 1`] = `
+<div
+  onClick={[Function]}
+  style={
+    Array [
+      Object {
+        "cursor": "pointer",
+        "flexShrink": 0,
+        "padding": "13px",
+      },
+      Object {
+        "backgroundColor": "#0B424E",
+      },
+    ]
+  }
+  title="Search interaction history for: test-name"
+>
+  <FontAwesomeIcon
+    id="currentCrmItemHistoryButton"
+    name="history"
+    style={
+      Object {
+        "color": "white",
+        "cursor": "pointer",
+        "fontSize": "1.5em",
+        "padding": "5px 12px",
+      }
+    }
+  />
+</div>
+`;

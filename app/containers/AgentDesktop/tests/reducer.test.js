@@ -8,6 +8,7 @@ import Message from 'models/Message/Message';
 import ResponseMessage from 'models/Message/ResponseMessage';
 
 import {
+  SET_ZENDESK_ACTIVE_TAB,
   SET_INTERACTION_STATUS,
   SET_ACTIVE_RESOURCES,
   SET_NEW_INTERACTION_PANEL_FORM_INPUT,
@@ -30,6 +31,8 @@ import {
   REMOVE_CONTACT,
   UPDATE_RESOURCE_NAME,
   OPEN_NEW_INTERACTION_PANEL,
+  CLOSE_NEW_INTERACTION_PANEL,
+  CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL,
 } from '../constants';
 import agentDesktopReducer from '../reducer';
 
@@ -48,6 +51,34 @@ describe('agentDesktopReducer', () => {
   const runReducerAndExpectSnapshot = () => {
     expect(agentDesktopReducer(fromJS(initialState), action)).toMatchSnapshot();
   };
+
+  describe('SET_ZENDESK_ACTIVE_TAB', () => {
+    beforeEach(() => {
+      initialState = {};
+      action = {
+        type: SET_ZENDESK_ACTIVE_TAB,
+        id: 123,
+        tabType: 'user',
+        name: 'test-name',
+      };
+    });
+    it('sets the zendeskActiveTab correctly', () => {
+      runReducerAndExpectSnapshot();
+    });
+    describe('when the id and type match the already stored value', () => {
+      beforeEach(() => {
+        initialState.zendeskActiveTab = {
+          id: 123,
+          type: 'user',
+          attributes: { name: 'previous-name' },
+          interactionHistory: 'history stuff here',
+        };
+      });
+      it('only updates the name', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+  });
 
   describe('SET_INTERACTION_STATUS', () => {
     beforeEach(() => {
@@ -999,11 +1030,15 @@ describe('agentDesktopReducer', () => {
               },
             },
           ],
+          zendeskActiveTab: {
+            id: 123,
+            type: 'user',
+          },
         };
         action.updatedContact.id = 123;
         action.contactType = 'user';
       });
-      it('updates the contact with the matching', () => {
+      it('updates the contact in interactions and zendeskActiveTab with the matching', () => {
         runReducerAndExpectSnapshot();
       });
     });
@@ -1107,6 +1142,38 @@ describe('agentDesktopReducer', () => {
       it('will delete as normal', () => {
         runReducerAndExpectSnapshot();
       });
+    });
+  });
+
+  describe('CLOSE_NEW_INTERACTION_PANEL', () => {
+    beforeEach(() => {
+      initialState = {
+        newInteractionPanel: 'initialState',
+        selectedInteractionId: 'creating-new-interaction',
+        interactions: [],
+      };
+      action = {
+        type: CLOSE_NEW_INTERACTION_PANEL,
+      };
+    });
+    it('resets newInteractionPanel and selects the next interactionId', () => {
+      runReducerAndExpectSnapshot();
+    });
+  });
+
+  describe('CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL', () => {
+    beforeEach(() => {
+      initialState = {
+        currentCrmItemHistoryPanel: 'initialState',
+        selectedInteractionId: 'current-crm-item-history',
+        interactions: [],
+      };
+      action = {
+        type: CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL,
+      };
+    });
+    it('resets currentCrmItemHistoryPanel and selects the next interactionId', () => {
+      runReducerAndExpectSnapshot();
     });
   });
 });

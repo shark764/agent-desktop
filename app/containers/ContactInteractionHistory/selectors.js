@@ -4,18 +4,19 @@
 
 import { createSelector } from 'reselect';
 
-import { selectCurrentInteraction } from 'containers/InfoTab/selectors';
+import { getSelectedInteraction } from 'containers/AgentDesktop/selectors';
 
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 
-const getSelectedInteractionId = createSelector(
-  selectAgentDesktopDomain,
-  (agentDesktop) => agentDesktop.get('selectedInteractionId')
-);
-
 const selectContact = createSelector(
-  [selectCurrentInteraction],
-  (currentInteraction) => currentInteraction.contact
+  [selectAgentDesktopDomain, getSelectedInteraction],
+  (agentDesktop, currentInteraction) => {
+    if (currentInteraction.interactionId === 'current-crm-item-history') {
+      return agentDesktop.get('zendeskActiveTab').toJS();
+    } else {
+      return currentInteraction.contact;
+    }
+  }
 );
 
-export { getSelectedInteractionId, selectContact };
+export { selectContact };

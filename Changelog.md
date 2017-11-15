@@ -1,3 +1,6 @@
+### [1.12.0] (2017-11-20)
+* CXV1-12112 - TB2 - ZD - Interaction history for zendesk active tab
+
 ### [1.11.5] (2017-11-17)
 * CXV1-12017 - Logout changes to fix bug with sso (revert refactor from 1.9.1)
 * Fixed loading state bug when signing in with sso
