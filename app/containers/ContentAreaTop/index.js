@@ -24,6 +24,7 @@ import { selectHasCrmPermissions } from 'containers/App/selectors';
 import {
   getSelectedInteractionIsScriptOnly,
   getSelectedInteractionIsVoice,
+  getHasAssignedContact,
 } from 'containers/SidePanel/selectors';
 import {
   selectIsSidePanelCollapsed,
@@ -138,7 +139,8 @@ export class ContentAreaTop extends React.Component {
       (this.props.hasCrmPermissions && !this.context.toolbarMode) ||
       (this.props.selectedInteractionHasScripts &&
         !this.props.selectedInteractionIsScriptOnly &&
-        !this.props.selectedInteractionIsVoice)
+        !this.props.selectedInteractionIsVoice) ||
+      this.props.hasAssignedContact
     ) {
       sidePanelHasTabs = true;
     }
@@ -220,6 +222,7 @@ ContentAreaTop.propTypes = {
   sidePanelPx: PropTypes.number.isRequired,
   isInteractionsBarCollapsed: PropTypes.bool.isRequired,
   selectedInteractionHasScripts: PropTypes.bool,
+  hasAssignedContact: PropTypes.bool.isRequired,
   updateWrapupDetails: PropTypes.func,
 };
 
@@ -240,6 +243,7 @@ const mapStateToProps = (state, props) => ({
   selectedInteractionHasScripts:
     getSelectedInteraction(state, props) &&
     getSelectedInteraction(state, props).script !== undefined,
+  hasAssignedContact: getHasAssignedContact(state, props),
 });
 
 function mapDispatchToProps(dispatch) {

@@ -57,6 +57,7 @@ describe('<ContentAreaTop />', () => {
         isSidePanelCollapsed={false}
         sidePanelPx={500}
         isInteractionsBarCollapsed={false}
+        hasAssignedContact={false}
       />
     );
     expect(rendered).toMatchSnapshot();

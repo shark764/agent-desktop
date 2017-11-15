@@ -21,6 +21,7 @@ import messages from './messages';
 
 const styles = {
   base: {
+    backgroundColor: '#FE4565',
     color: '#FFFFFF',
     textAlign: 'center',
     margin: '-5px -5px 0 -5px',
@@ -30,11 +31,10 @@ const styles = {
     borderBottom: '1px solid #D0D0D0',
     zIndex: 1,
   },
-  contactWasAssignedNotification: {
+  contactWasAssigned: {
     backgroundColor: '#23cdf4',
   },
   noRecord: {
-    backgroundColor: '#FE4565',
     borderTop: '1px #000000 solid',
   },
   dismissRecordLinked: {
@@ -60,9 +60,11 @@ export class CrmRecordNotification extends React.Component {
     } else if (typeof this.props.contactAssignedNotification === 'string') {
       let message;
       let onClick;
+      let contactWasAssignedNotificationStyle;
       if (this.props.contactAssignedNotification === 'contactWasAssigned') {
         message = <FormattedMessage {...messages.recordLinked} />;
         onClick = this.dismissContactWasAssignedNotification;
+        contactWasAssignedNotificationStyle = styles.contactWasAssigned;
       } else if (
         this.props.contactAssignedNotification === 'contactWasUnassigned'
       ) {
@@ -75,7 +77,7 @@ export class CrmRecordNotification extends React.Component {
         );
       }
       return (
-        <div style={[styles.base, styles.contactWasAssignedNotification]}>
+        <div style={[styles.base, contactWasAssignedNotificationStyle]}>
           {message}
           <Button
             id="dismissRecordLinked"

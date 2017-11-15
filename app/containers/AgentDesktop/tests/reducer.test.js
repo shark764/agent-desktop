@@ -840,7 +840,12 @@ describe('agentDesktopReducer', () => {
   describe('DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION', () => {
     beforeEach(() => {
       initialState = {
-        interactions: [{ interactionId: 'mockInteraction1' }],
+        interactions: [
+          {
+            interactionId: 'mockInteraction1',
+            contactAssignedNotification: 'contactWasAssigned',
+          },
+        ],
       };
       action = {
         type: DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
@@ -858,7 +863,7 @@ describe('agentDesktopReducer', () => {
         interactions: [
           {
             interactionId: 'mockInteraction1',
-            contactAssignedNotification: 'something',
+            contactAssignedNotification: 'contactWasUnassigned',
           },
         ],
       };

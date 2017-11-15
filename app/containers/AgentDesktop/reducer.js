@@ -1133,7 +1133,14 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
-      if (interactionIndex !== -1) {
+      if (
+        interactionIndex !== -1 &&
+        state.getIn([
+          'interactions',
+          interactionIndex,
+          'contactAssignedNotification',
+        ]) === 'contactWasAssigned'
+      ) {
         return state.setIn(
           ['interactions', interactionIndex, 'contactAssignedNotification'],
           false
@@ -1144,7 +1151,14 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
-      if (interactionIndex !== -1) {
+      if (
+        interactionIndex !== -1 &&
+        state.getIn([
+          'interactions',
+          interactionIndex,
+          'contactAssignedNotification',
+        ]) === 'contactWasUnassigned'
+      ) {
         return state.deleteIn([
           'interactions',
           interactionIndex,
