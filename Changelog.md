@@ -1,3 +1,7 @@
+### [1.11.3] (2017-11-15)
+* CXV1-12070 - TB2 - ZD - Update color of unassigned notification to red. Fix notifications dismiss sync error (when assigning too quickly).
+* CXV1-11917 - TB2 - ZD - Fix username width when only history tab is present.
+
 ### [1.11.2] (2017-11-14)
 * CXV1-12013 - TB2 - ZD - Update user/ticket name when updated in Zendesk
 
