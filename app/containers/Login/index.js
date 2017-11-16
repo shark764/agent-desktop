@@ -55,7 +55,6 @@ import {
   errorOccurred,
   loginSuccess,
   resetPassword,
-  settingTenant,
   setTenant,
   setDisplayState,
 } from './actions';
@@ -194,6 +193,7 @@ export class Login extends React.Component {
       tenantId: '-1',
       tenantName: '',
       showLanguage: false,
+      identityWindowSuccessful: false,
     };
   }
 
@@ -208,6 +208,7 @@ export class Login extends React.Component {
   // Login Logic
 
   componentDidMount() {
+    console.log('***agent on load', this.state.agent);
     const waitingOnSdk = setInterval(() => {
       if (CxEngage.subscribe) {
         CxEngage.subscribe(
@@ -223,6 +224,7 @@ export class Login extends React.Component {
                   break;
                 }
                 case 'cxengage/authentication/cognito-auth-response': {
+                  this.setState({ identityWindowSuccessful: true });
                   if (response) {
                     CxEngage.authentication.login(
                       {
@@ -247,7 +249,12 @@ export class Login extends React.Component {
                 // This will fire when the window is closed by the agent
                 // This will act as a CANCEL
                 case 'cxengage/authentication/identity-window-response': {
-                  this.props.setLoading(false);
+                  // identityWindowSuccessful
+                  // false = agent closed the window
+                  // true = the window was closed due to a successful auth
+                  if (!this.state.identityWindowSuccessful) {
+                    this.props.setLoading(false);
+                  }
                   break;
                 }
                 default: {
@@ -302,18 +309,14 @@ export class Login extends React.Component {
       this.props.setLoading(false);
     }
     if (this.state.rememberEmail) {
-      storage.setItem('email', agent.username);
-      storage.setItem('remember', true);
+      storage.setItem('email', this.state.email);
     } else {
       storage.setItem('email', '');
-      storage.setItem('remember', false);
     }
     if (this.state.rememberSsoEmail) {
-      storage.setItem('ssoEmail', agent.username);
-      storage.setItem('remember', true);
+      storage.setItem('ssoEmail', this.state.ssoEmail);
     } else {
       storage.setItem('ssoEmail', '');
-      storage.setItem('remember', false);
     }
   };
 
@@ -334,7 +337,7 @@ export class Login extends React.Component {
               selectingTenant.tenantPermissions.includes(permission)
             )))
       ) {
-        this.props.settingTenant();
+        this.props.setLoading(true);
         CxEngage.session.setActiveTenant(
           {
             tenantId: this.state.tenantId,
@@ -767,7 +770,6 @@ function mapDispatchToProps(dispatch) {
     setLoading: (loading) => dispatch(setLoading(loading)),
     loginSuccess: (agent) => dispatch(loginSuccess(agent)),
     errorOccurred: () => dispatch(errorOccurred()),
-    settingTenant: () => dispatch(settingTenant()),
     setTenant: (id, name) => dispatch(setTenant(id, name)),
     setDisplayState: (displayState) => dispatch(setDisplayState(displayState)),
     changeLocale: (locale) => dispatch(changeLocale(locale)),
@@ -784,7 +786,6 @@ Login.propTypes = {
   setLoading: PropTypes.func.isRequired,
   loginSuccess: PropTypes.func.isRequired,
   errorOccurred: PropTypes.func.isRequired,
-  settingTenant: PropTypes.func.isRequired,
   setTenant: PropTypes.func.isRequired,
   setDisplayState: PropTypes.func.isRequired,
   setNonCriticalError: PropTypes.func.isRequired,

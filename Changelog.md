@@ -1,3 +1,8 @@
+### [1.11.5] (2017-11-17)
+* CXV1-12017 - Logout changes to fix bug with sso (revert refactor from 1.9.1)
+* Fixed loading state bug when signing in with sso
+* Refactor loading state method
+
 ### [1.11.4] (2017-11-15)
 * CXV1-12124 - TB2 - ZD - Focus Zendesk user/ticket when interaction is selected
 
