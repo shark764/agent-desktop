@@ -37,7 +37,7 @@ import {
   toggleAgentMenu,
   initializeStats,
 } from 'containers/Toolbar/actions';
-import { showLogin, logout } from 'containers/Login/actions';
+import { showLogin } from 'containers/Login/actions';
 import {
   setContactLayout,
   setContactAttributes,
@@ -260,8 +260,12 @@ export class App extends React.Component {
     const crmModule = new URL(window.location.href).searchParams.get(
       'crmModule'
     );
-    if(crmModule) {
-      if(crmModule === 'zendesk' || crmModule === 'salesforce-classic' || crmModule === 'salesforce-lightning') {
+    if (crmModule) {
+      if (
+        crmModule === 'zendesk' ||
+        crmModule === 'salesforce-classic' ||
+        crmModule === 'salesforce-lightning'
+      ) {
         sdkConf.crmModule = crmModule;
         this.props.setCrmModule(crmModule);
       } else {
@@ -351,7 +355,14 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/session/ended': {
-            this.props.logout();
+            window.location.reload();
+
+            // TODO: Refactor logout
+            // 1. this.props.logout() will reset all redux state
+            // 2. We still need to unsubscribe to sdk on componentWillUnmount
+            // 3. This will require moving all pub subs to <AD/> from <App/>
+
+            // this.props.logout();
             break;
           }
 
@@ -1269,7 +1280,6 @@ function mapDispatchToProps(dispatch) {
       dispatch(selectSidePanelTab(interactionId, tabName)),
     showSidePanel: (interactionId) => dispatch(showSidePanel(interactionId)),
     hideSidePanel: (interactionId) => dispatch(hideSidePanel(interactionId)),
-    logout: () => dispatch(logout()),
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
     validateContactLayoutTranslations: () =>
@@ -1363,7 +1373,6 @@ App.propTypes = {
   selectSidePanelTab: PropTypes.func.isRequired,
   showSidePanel: PropTypes.func.isRequired,
   hideSidePanel: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
   initializeStats: PropTypes.func.isRequired,
   showRefreshRequired: PropTypes.func.isRequired,
   toggleAgentMenu: PropTypes.func.isRequired,

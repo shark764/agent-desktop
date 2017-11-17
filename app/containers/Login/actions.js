@@ -15,7 +15,6 @@ import {
   LOGIN_SUCCESS,
   RESET_PASSWORD,
   SHOW_LOGIN,
-  SETTING_TENANT,
   SET_TENANT,
   SET_DISPLAY_STATE,
   LOGOUT,
@@ -44,12 +43,6 @@ export function loginSuccess(agent) {
   return {
     type: LOGIN_SUCCESS,
     agent,
-  };
-}
-
-export function settingTenant() {
-  return {
-    type: SETTING_TENANT,
   };
 }
 

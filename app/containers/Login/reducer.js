@@ -15,7 +15,6 @@ import {
   ERROR_OCCURRED,
   LOGIN_SUCCESS,
   SHOW_LOGIN,
-  SETTING_TENANT,
   SET_TENANT,
   SET_DISPLAY_STATE,
   CX_LOGIN,
@@ -42,8 +41,6 @@ function loginReducer(state = initialState, action) {
       return state.set('initiatedStandalonePopup', true);
     case SET_DISPLAY_STATE:
       return state.set('displayState', action.displayState);
-    case SETTING_TENANT:
-      return state.set('loading', true);
     case SET_LOADING:
       return state.set('loading', action.loading);
     case ERROR_OCCURRED:
