@@ -22,4 +22,8 @@ export default defineMessages({
     id: 'app.containers.InteractionsBar.unrespondedMessage',
     defaultMessage: 'Unresponded Message',
   },
+  currentCrmItemHistory: {
+    id: 'app.containers.InteractionsBar.currentCrmItemHistory',
+    defaultMessage: 'Search interaction history for:',
+  },
 });

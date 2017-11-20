@@ -26,6 +26,7 @@ import {
   OPEN_NEW_INTERACTION_PANEL,
   NEW_INTERACTION_PANEL_SELECT_CONTACT,
   CLOSE_NEW_INTERACTION_PANEL,
+  CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL,
   SET_NEW_INTERACTION_PANEL_FORM_INPUT,
   START_OUTBOUND_INTERACTION,
   CANCEL_CLICK_TO_DIAL,
@@ -128,11 +129,12 @@ export function setStandalonePopup() {
   };
 }
 
-export function setZendeskActiveTab(tabType, id) {
+export function setZendeskActiveTab(tabType, id, name) {
   return {
     type: SET_ZENDESK_ACTIVE_TAB,
     tabType,
     id,
+    name,
   };
 }
 
@@ -245,6 +247,12 @@ export function newInteractionPanelSelectContact(contact) {
 export function closeNewInteractionPanel() {
   return {
     type: CLOSE_NEW_INTERACTION_PANEL,
+  };
+}
+
+export function closeCurrentCrmItemHistoryPanel() {
+  return {
+    type: CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL,
   };
 }
 

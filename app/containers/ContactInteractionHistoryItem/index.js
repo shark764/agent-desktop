@@ -20,7 +20,7 @@ import ErrorBoundary from 'components/ErrorBoundary';
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 
-import { getSelectedInteractionId } from 'containers/ContactInteractionHistory/selectors';
+import { getSelectedInteractionId } from 'containers/AgentDesktop/selectors';
 import { setContactHistoryInteractionDetailsLoading } from 'containers/AgentDesktop/actions';
 
 import messages from './messages';

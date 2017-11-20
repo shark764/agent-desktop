@@ -830,9 +830,19 @@ export class App extends React.Component {
           }
           case 'cxengage/zendesk/active-tab-changed': {
             if (response.user !== undefined) {
-              this.props.setZendeskActiveTab('user', response.user.id);
+              this.props.setZendeskActiveTab(
+                'user',
+                response.user.id,
+                response.user.name
+              );
             } else if (response.ticket !== undefined) {
-              this.props.setZendeskActiveTab('ticket', response.ticket.id);
+              this.props.setZendeskActiveTab(
+                'ticket',
+                response.ticket.id,
+                response.ticket.subject !== null
+                  ? response.ticket.subject
+                  : response.ticket.description
+              );
             } else {
               console.error(
                 `Neither user nor ticket found in active-tab-changed response: ${response}`
@@ -1292,7 +1302,8 @@ function mapDispatchToProps(dispatch) {
     dismissError: () => dispatch(dismissError()),
     setCrmModule: (crmModule) => dispatch(setCrmModule(crmModule)),
     setStandalonePopup: () => dispatch(setStandalonePopup()),
-    setZendeskActiveTab: (type, id) => dispatch(setZendeskActiveTab(type, id)),
+    setZendeskActiveTab: (type, id, name) =>
+      dispatch(setZendeskActiveTab(type, id, name)),
     startOutboundInteraction: (
       channelType,
       customer,

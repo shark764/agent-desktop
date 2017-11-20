@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CurrentCrmItemHistoryContentArea /> should render correctly 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "#FFFFFF",
+      "display": "flex",
+      "flexDirection": "column",
+      "height": "100%",
+      "padding": "20px 0 0 20px",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexShrink": 0,
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "marginRight": "5px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "marginBottom": "5px",
+          }
+        }
+      >
+        <FormattedMessage
+          defaultMessage="Interaction history for:"
+          id="app.containers.CurrentCrmItemHistoryContentArea.interactionHistoryFor"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="crmItemName"
+        title="test-name"
+      >
+        <Dotdotdot
+          clamp={3}
+          truncationChar="…"
+          useNativeClamp={true}
+        >
+          test-name
+        </Dotdotdot>
+      </div>
+    </div>
+    <InjectIntl(Button)
+      id="cancelCurrentCrmItemHistoryButton"
+      onClick={[Function]}
+      style={
+        Object {
+          "float": "right",
+          "height": "35px",
+          "marginRight": "20px",
+        }
+      }
+      text={
+        Object {
+          "defaultMessage": "Cancel",
+          "id": "app.containers.CurrentCrmItemHistoryContentArea.cancel",
+        }
+      }
+      type="secondary"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexGrow": 1,
+      }
+    }
+  >
+    <Connect(ErrorBoundaryComponent)
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    />
+  </div>
+</div>
+`;

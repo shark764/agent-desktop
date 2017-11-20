@@ -3,6 +3,7 @@
  */
 
 import { createSelector } from 'reselect';
+import { getSelectedInteraction } from 'containers/AgentDesktop/selectors';
 
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 const selectInteractions = createSelector(
@@ -105,6 +106,18 @@ const selectShowCollapseButton = createSelector(
   // !pendingInteractions.length // && interactions.length < 2
 );
 
+const selectShowCurrentCrmItemHistoryButton = createSelector(
+  [selectAgentDesktopDomain, getSelectedInteraction],
+  (agentDesktop, selectedInteraction) =>
+    agentDesktop.get('zendeskActiveTab') !== undefined &&
+    selectedInteraction.interactionId !== 'current-crm-item-history' &&
+    (selectedInteraction.contact === undefined ||
+      agentDesktop.getIn(['zendeskActiveTab', 'id']) !==
+        selectedInteraction.contact.id ||
+      agentDesktop.getIn(['zendeskActiveTab', 'type']) !==
+        selectedInteraction.contact.type)
+);
+
 export {
   getSelectedInteractionId,
   selectActiveNonVoiceInteractions,
@@ -116,4 +129,5 @@ export {
   selectPendingInteractions,
   selectShowCollapseButton,
   selectHasOnlyOneInteraction,
+  selectShowCurrentCrmItemHistoryButton,
 };

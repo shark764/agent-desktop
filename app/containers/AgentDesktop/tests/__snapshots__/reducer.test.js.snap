@@ -271,6 +271,55 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL resets currentCrmItemHistoryPanel and selects the next interactionId 1`] = `
+Immutable.Map {
+  currentCrmItemHistoryPanel: Immutable.Map {
+    interactionId: "current-crm-item-history",
+    status: "current-crm-item-history",
+    isSidePanelCollapsed: true,
+  },
+  selectedInteractionId: undefined,
+  interactions: Immutable.List [
+  ],
+}
+`;
+
+exports[`agentDesktopReducer CLOSE_NEW_INTERACTION_PANEL resets newInteractionPanel and selects the next interactionId 1`] = `
+Immutable.Map {
+  newInteractionPanel: Immutable.Map {
+    contactMode: "view",
+    selectedSidePanelTab: "info",
+    query: Immutable.Map {
+    },
+    interactionId: "creating-new-interaction",
+    visible: false,
+    status: "creating-new-interaction",
+    isSidePanelCollapsed: false,
+    newInteractionFormInput: "",
+    activeContactForm: Immutable.Map {
+      contactForm: Immutable.Map {
+      },
+      formIsDirty: false,
+      selectedIndexes: Immutable.Map {
+      },
+      showErrors: Immutable.Map {
+      },
+      editingContacts: Immutable.List [
+      ],
+      formIsValid: false,
+      unusedFields: Immutable.Map {
+      },
+      formErrors: Immutable.Map {
+      },
+      saveLoading: false,
+    },
+  },
+  selectedInteractionId: undefined,
+  interactions: Immutable.List [
+  ],
+}
+`;
+
 exports[`agentDesktopReducer DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION sets contactAssignedNotification to false 1`] = `
 Immutable.Map {
   interactions: Immutable.List [
@@ -766,6 +815,31 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer SET_ZENDESK_ACTIVE_TAB sets the zendeskActiveTab correctly 1`] = `
+Immutable.Map {
+  zendeskActiveTab: Immutable.Map {
+    type: "user",
+    id: 123,
+    attributes: Immutable.Map {
+      name: "test-name",
+    },
+  },
+}
+`;
+
+exports[`agentDesktopReducer SET_ZENDESK_ACTIVE_TAB when the id and type match the already stored value only updates the name 1`] = `
+Immutable.Map {
+  zendeskActiveTab: Immutable.Map {
+    id: 123,
+    type: "user",
+    attributes: Immutable.Map {
+      name: "test-name",
+    },
+    interactionHistory: "history stuff here",
+  },
+}
+`;
+
 exports[`agentDesktopReducer START_OUTBOUND_INTERACTION sms adds a new outbound interaction with a generated interactionId, channelType, customer, and contact 1`] = `
 Immutable.Map {
   interactions: Immutable.List [
@@ -929,7 +1003,7 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer UPDATE_CONTACT there is the same contact id, with different type in interactions updates the contact with the matching 1`] = `
+exports[`agentDesktopReducer UPDATE_CONTACT there is the same contact id, with different type in interactions updates the contact in interactions and zendeskActiveTab with the matching 1`] = `
 Immutable.Map {
   interactions: Immutable.List [
     Immutable.Map {
@@ -946,6 +1020,11 @@ Immutable.Map {
       },
     },
   ],
+  zendeskActiveTab: Immutable.Map {
+    id: 123,
+    type: "user",
+    name: "new name",
+  },
 }
 `;
 
@@ -1140,6 +1219,11 @@ Immutable.Map {
   ],
   queues: Immutable.List [
   ],
+  currentCrmItemHistoryPanel: Immutable.Map {
+    interactionId: "current-crm-item-history",
+    status: "current-crm-item-history",
+    isSidePanelCollapsed: true,
+  },
   isInteractionsBarCollapsed: true,
   newInteractionPanel: Immutable.Map {
     contactMode: "view",

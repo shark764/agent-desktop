@@ -142,7 +142,7 @@ export class SidePanel extends React.Component {
           (this.context.toolbarMode ||
             (!this.context.toolbarMode && this.props.hasCrmPermissions)) &&
           this.props.hasAssignedContact &&
-          <ContactInteractionHistory />,
+          <ContactInteractionHistory style={{ height: '100%' }} />,
       },
       {
         name: 'script',

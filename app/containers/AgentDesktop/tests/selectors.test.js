@@ -82,6 +82,7 @@ describe('selectAwaitingDisposition', () => {
         ],
         noInteractionContactPanel: {},
         newInteractionPanel: {},
+        currentCrmItemHistoryPanel: {},
       },
     });
     expect(selectAwaitingDisposition(mockedState)).toEqual(true);

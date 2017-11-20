@@ -36,6 +36,7 @@ import {
 import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
 
 import Icon from 'components/Icon';
+import CurrentCrmItemHistoryButton from 'containers/InteractionsBar/CurrentCrmItemHistoryButton';
 import Interaction from 'containers/Interaction';
 
 import {
@@ -629,6 +630,7 @@ export class InteractionsBar extends React.Component {
                 }}
               />
             </div>}
+        <CurrentCrmItemHistoryButton />
       </div>
     );
   }
