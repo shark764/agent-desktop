@@ -1,3 +1,6 @@
+### [1.12.2] (2017-11-20)
+* CXV1-12166 - TB2 - ZD - SDK bump to fix the active tab being set on inital load
+
 ### [1.12.0] (2017-11-20)
 * CXV1-12112 - TB2 - ZD - Interaction history for zendesk active tab
 
