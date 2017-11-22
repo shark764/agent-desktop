@@ -521,7 +521,7 @@ export class App extends React.Component {
             );
             if (
               !interaction.isScriptOnly &&
-              (interaction.channelType !== 'voice' || this.context.toolbarMode)
+              interaction.channelType !== 'voice'
             ) {
               this.props.selectSidePanelTab(response.interactionId, 'script');
               this.props.showSidePanel(interaction.interactionId);
