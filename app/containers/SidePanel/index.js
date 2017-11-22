@@ -125,7 +125,7 @@ export class SidePanel extends React.Component {
 
   getTabsData = () => {
     const renderScriptTab =
-      (this.context.toolbarMode || !this.props.selectedInteractionIsVoice) &&
+      !this.props.selectedInteractionIsVoice &&
       this.props.selectedInteractionScript !== undefined &&
       !this.props.selectedInteractionIsScriptOnly;
     const tabs = [

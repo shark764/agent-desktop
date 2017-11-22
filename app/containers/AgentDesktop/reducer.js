@@ -1119,10 +1119,9 @@ function agentDesktopReducer(state = initialState, action) {
               fromJS(action.contact || {})
             );
             if (state.get('crmModule') === 'zendesk') {
-              return updatedInteraction.set(
-                'contactAssignedNotification',
-                'contactWasAssigned'
-              );
+              return updatedInteraction
+                .set('contactAssignedNotification', 'contactWasAssigned')
+                .set('selectedSidePanelTab', 'history');
             } else if (action.contact) {
               return updatedInteraction.set('contactMode', 'view');
             }
@@ -1140,6 +1139,7 @@ function agentDesktopReducer(state = initialState, action) {
           interaction
             .delete('contact')
             .set('contactAssignedNotification', 'contactWasUnassigned')
+            .set('selectedSidePanelTab', 'script')
         );
       } else {
         return state;

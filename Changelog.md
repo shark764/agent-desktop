@@ -1,3 +1,7 @@
+### [1.12.3] (2017-11-22)
+* CXV1-12169 - TB - ZD - Hide script tab for voice interactions in toolbar mode with assigned contact (history)
+* CXV1-12128 - TB - ZD - Fix selected tab on contact assign/unassign
+
 ### [1.12.2] (2017-11-22)
 * CXV1-12015 - UI Fix, When redirecting while logging in agent, do not show username/password page
 

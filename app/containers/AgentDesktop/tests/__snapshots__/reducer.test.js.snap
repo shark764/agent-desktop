@@ -696,6 +696,7 @@ Immutable.Map {
         },
       },
       contactAssignedNotification: "contactWasAssigned",
+      selectedSidePanelTab: "history",
     },
   ],
   crmModule: "zendesk",
@@ -998,6 +999,7 @@ Immutable.Map {
     Immutable.Map {
       interactionId: "mockInteraction1",
       contactAssignedNotification: "contactWasUnassigned",
+      selectedSidePanelTab: "script",
     },
   ],
 }
