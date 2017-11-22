@@ -237,7 +237,7 @@ export class Login extends React.Component {
                             cbTopic,
                             cbResponse
                           );
-                          this.loginCB(cbResponse);
+                          this.loginCB(cbResponse, true);
                         } else {
                           this.props.errorOccurred();
                         }
@@ -296,10 +296,13 @@ export class Login extends React.Component {
     );
   };
 
-  loginCB = (agent) => {
+  loginCB = (agent, sso = false) => {
     this.props.loginSuccess(agent);
     const activeTenants = agent.tenants.filter((tenant) => tenant.tenantActive);
     if (activeTenants.length === 1) {
+      if (sso) {
+        this.props.setLoading(true);
+      }
       this.setTenantId(activeTenants[0].tenantId, activeTenants[0].tenantName);
       this.onTenantSelect();
     } else if (activeTenants.length === 0) {

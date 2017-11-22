@@ -1,4 +1,7 @@
-### [1.12.2] (2017-11-20)
+### [1.12.2] (2017-11-22)
+* CXV1-12015 - UI Fix, When redirecting while logging in agent, do not show username/password page
+
+### [1.12.1] (2017-11-20)
 * CXV1-12166 - TB2 - ZD - SDK bump to fix the active tab being set on inital load
 
 ### [1.12.0] (2017-11-20)
