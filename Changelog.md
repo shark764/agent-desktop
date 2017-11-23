@@ -1,3 +1,7 @@
+### [1.12.4] (2017-11-23)
+* CXV1-12107 - TB2 - Fix positioning of pending interaction popup (for interactions with long previews)
+* Added message for SMS/messaging preview while message history is being loaded 
+
 ### [1.12.3] (2017-11-22)
 * CXV1-12169 - TB - ZD - Hide script tab for voice interactions in toolbar mode with assigned contact (history)
 * CXV1-12128 - TB - ZD - Fix selected tab on contact assign/unassign

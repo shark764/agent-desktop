@@ -145,6 +145,7 @@ const styles = {
   },
   hoverElement: {
     position: 'absolute',
+    height: '88px',
     left: '68px', // TODO: Improve hover action of element so that delete button can easily be accessed on hover
     top: 0,
   },
@@ -160,7 +161,7 @@ const styles = {
     height: '0px',
     zIndex: '4',
     position: 'relative',
-    bottom: '-30px',
+    bottom: '-16px',
   },
   hoverBox: {
     backgroundColor: '#FFF',
@@ -232,6 +233,7 @@ export class Interaction extends React.Component {
       });
     }
   }
+
   componentWillMount() {
     if (this.props.crmModule === 'zendesk')
       CxEngage.zendesk.setVisibility({ visibility: true });
@@ -504,8 +506,20 @@ export class Interaction extends React.Component {
           </div>}
         {this.state.hover &&
           <div style={styles.hoverElement}>
-            <div style={styles.hoverTriangle} />
-            <div style={styles.hoverBox}>
+            <div
+              style={[
+                styles.hoverTriangle,
+                this.props.status === 'pending' && { bottom: '-54px' },
+              ]}
+            />
+            <div
+              style={[
+                styles.hoverBox,
+                this.props.status === 'pending'
+                  ? { bottom: '22px' }
+                  : { top: '-12px' },
+              ]}
+            >
               {this.props.interaction.contact
                 ? <div>
                   <p style={[styles.hoverBoxText, styles.hoverBoxTitle]}>

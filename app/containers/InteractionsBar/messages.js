@@ -26,4 +26,8 @@ export default defineMessages({
     id: 'app.containers.InteractionsBar.currentCrmItemHistory',
     defaultMessage: 'Search interaction history for:',
   },
+  retrievingMessages: {
+    id: 'app.containers.InteractionsBar.retrievingMessages',
+    defaultMessage: 'Retrieving messages...',
+  },
 });

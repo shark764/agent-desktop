@@ -330,6 +330,8 @@ export class InteractionsBar extends React.Component {
           if (lastMessageFromThisInteraction) {
             text = lastMessageFromThisInteraction.text;
             type = lastMessageFromThisInteraction.type;
+          } else {
+            text = this.props.intl.formatMessage(messages.retrievingMessages);
           }
           // if the last message was from the customer, show the 'new' icon
           if (type === 'customer' || type === 'message') {
@@ -458,7 +460,7 @@ export class InteractionsBar extends React.Component {
             pendingInteraction.messageHistory &&
             pendingInteraction.messageHistory.length > 0
               ? pendingInteraction.messageHistory[0].text
-              : '';
+              : this.props.intl.formatMessage(messages.retrievingMessages);
           icon = this.context.toolbarMode ? 'message' : 'message_new';
         } else if (pendingInteraction.channelType === 'email') {
           from = pendingInteraction.customer;

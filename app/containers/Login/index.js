@@ -208,7 +208,6 @@ export class Login extends React.Component {
   // Login Logic
 
   componentDidMount() {
-    console.log('***agent on load', this.state.agent);
     const waitingOnSdk = setInterval(() => {
       if (CxEngage.subscribe) {
         CxEngage.subscribe(
