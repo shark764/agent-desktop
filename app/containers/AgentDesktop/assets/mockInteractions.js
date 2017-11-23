@@ -725,7 +725,7 @@ const smsInteractionWithLotsOfMessagesAndScript = {
     title: '',
     notesPanelHeight: 300,
   },
-  selectedSidePanelTab: 'info',
+  selectedSidePanelTab: 'script',
   dispositionDetails: processedDispositionDetails,
   activeContactForm: activeContactFormBlank,
   script: {
@@ -753,7 +753,7 @@ const smsInteractionWithLotsOfMessagesAndScript = {
   },
   messageHistory: [
     {
-      text: 'this is a test',
+      text: 'this is a test long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long',
       from: '+15552213456',
       type: 'message',
       timestamp: new Date(new Date().setDate(new Date().getDate() - 9)).toISOString(),
@@ -803,7 +803,7 @@ const smsInteractionWithLotsOfMessagesAndScript = {
       type: 'message',
       timestamp: new Date().toISOString(),
     }, {
-      text: 'this is a test',
+      text: 'this is a long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long test',
       from: 'Agent',
       type: 'agent',
       timestamp: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),

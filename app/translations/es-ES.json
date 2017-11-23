@@ -175,6 +175,7 @@
   "app.containers.InteractionsBar.currentCrmItemHistory": "",
   "app.containers.InteractionsBar.newInteraction": "Nueva interacción",
   "app.containers.InteractionsBar.pendingInteraction": "Interacción pendiente",
+  "app.containers.InteractionsBar.retrievingMessages": "",
   "app.containers.InteractionsBar.unrespondedMessage": "Mensaje no contestado",
   "app.containers.Login.copyright": "Copyright © 2015-{year} Serenova, LLC (\"Serenova\"). Reservados todos los derechos.",
   "app.containers.Login.email": "Correo electrónico",
