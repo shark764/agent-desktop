@@ -1,3 +1,6 @@
+### [1.12.5] (2017-11-23)
+* CXV1-12160 - Fix spacing of script checkboxes
+
 ### [1.12.4] (2017-11-23)
 * CXV1-12107 - TB2 - Fix positioning of pending interaction popup (for interactions with long previews)
 * Added message for SMS/messaging preview while message history is being loaded 

@@ -49,22 +49,15 @@ const styles = {
   },
   checkboxesContainer: {
     display: 'flex',
-    flexFlow: 'row wrap',
+    flexFlow: 'column wrap',
     position: 'relative',
-  },
-  indivCheckbox: {
-    display: 'inline-block',
-    margin: '15px 0 0',
-    flexBasis: '33%',
-    verticalAlign: 'top',
-    paddingRight: '1%',
   },
   checkboxLabel: {
     whiteSpace: 'normal',
   },
   checkboxInput: {
     verticalAlign: 'top',
-    margin: '5px 5px 0 0',
+    marginTop: '5px',
   },
 };
 
@@ -209,7 +202,6 @@ class AgentScript extends React.Component {
         case 'checkbox': {
           const checkboxes = element.options.map((option, index) =>
             (<CheckBox
-              style={styles.indivCheckbox}
               labelStyle={styles.checkboxLabel}
               checkboxInputStyle={styles.checkboxInput}
               id={`${option.value}_${index}`}

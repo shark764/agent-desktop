@@ -3,6 +3,11 @@
 exports[`<Checkbox /> when given required props, intl, and text should render correctly 1`] = `
 <span
   data-radium={true}
+  style={
+    Object {
+      "display": "flex",
+    }
+  }
 >
   <input
     checked={true}
@@ -12,6 +17,7 @@ exports[`<Checkbox /> when given required props, intl, and text should render co
     onChange={[Function]}
     style={
       Object {
+        "flexShrink": 0,
         "height": "14px",
         "verticalAlign": "middle",
         "width": "14px",
@@ -32,7 +38,6 @@ exports[`<Checkbox /> when given required props, intl, and text should render co
         "fontStyle": "normal",
         "fontWeight": "normal",
         "marginLeft": "0.5em",
-        "maxWidth": "calc(100% - 25px)",
         "overflow": "hidden",
         "textOverflow": "ellipsis",
         "verticalAlign": "middle",
@@ -48,6 +53,11 @@ exports[`<Checkbox /> when given required props, intl, and text should render co
 exports[`<Checkbox /> when no text is passed in should render correctly 1`] = `
 <span
   data-radium={true}
+  style={
+    Object {
+      "display": "flex",
+    }
+  }
 >
   <input
     checked={true}
@@ -57,6 +67,7 @@ exports[`<Checkbox /> when no text is passed in should render correctly 1`] = `
     onChange={[Function]}
     style={
       Object {
+        "flexShrink": 0,
         "height": "14px",
         "verticalAlign": "middle",
         "width": "14px",
@@ -71,6 +82,11 @@ exports[`<Checkbox /> when no text is passed in should render correctly 1`] = `
 exports[`<Checkbox /> when passed a text obj should render correctly 1`] = `
 <span
   data-radium={true}
+  style={
+    Object {
+      "display": "flex",
+    }
+  }
 >
   <input
     checked={true}
@@ -80,6 +96,7 @@ exports[`<Checkbox /> when passed a text obj should render correctly 1`] = `
     onChange={[Function]}
     style={
       Object {
+        "flexShrink": 0,
         "height": "14px",
         "verticalAlign": "middle",
         "width": "14px",
@@ -100,7 +117,6 @@ exports[`<Checkbox /> when passed a text obj should render correctly 1`] = `
         "fontStyle": "normal",
         "fontWeight": "normal",
         "marginLeft": "0.5em",
-        "maxWidth": "calc(100% - 25px)",
         "overflow": "hidden",
         "textOverflow": "ellipsis",
         "verticalAlign": "middle",

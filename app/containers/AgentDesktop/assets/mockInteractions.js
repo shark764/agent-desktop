@@ -172,7 +172,7 @@ const script = {
           value: 'wow4'
         },
         {
-          name: 'Cinnamon Toast Crunch',
+          name: 'long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long ',
           value: 'wow5'
         },
         {

@@ -14,6 +14,9 @@ import Radium from 'radium';
 import { injectIntl, intlShape } from 'react-intl';
 
 const styles = {
+  base: {
+    display: 'flex',
+  },
   label: {
     fontSize: '16px',
     fontWeight: 'normal',
@@ -25,10 +28,10 @@ const styles = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    maxWidth: 'calc(100% - 25px)',
     display: 'inline-block',
   },
   checkbox: {
+    flexShrink: 0,
     verticalAlign: 'middle',
     height: '14px',
     width: '14px',
@@ -61,7 +64,7 @@ function Checkbox(props) {
   }
 
   return (
-    <span style={props.style}>
+    <span style={[styles.base, props.style]}>
       <input
         id={props.id}
         tabIndex={props.tabIndex}
