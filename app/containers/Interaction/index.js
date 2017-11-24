@@ -169,7 +169,7 @@ const styles = {
     borderRadius: '3px',
     boxShadow: '0 0 3px 0 rgba(0,0,0,0.17)',
     padding: '14px 28px',
-    position: 'relative',
+    position: 'absolute',
     left: '7px',
     minWidth: '170px',
     maxWidth: '300px',
@@ -516,8 +516,8 @@ export class Interaction extends React.Component {
               style={[
                 styles.hoverBox,
                 this.props.status === 'pending'
-                  ? { bottom: '22px' }
-                  : { top: '-12px' },
+                  ? { bottom: '0px' }
+                  : { top: '4px' },
               ]}
             >
               {this.props.interaction.contact
