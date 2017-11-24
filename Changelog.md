@@ -1,3 +1,6 @@
+### [1.12.7] (2017-11-24)
+* CXV1-11841 - Show assigned contact's name for email interactions
+
 ### [1.12.6] (2017-11-24)
 * CXV1-11916 - TB2 - ZD - Ignore Zendesk outbound requests when one is already ongoing
 * CXV1-12107 - TB2 - Proper fix for interaction popup preview
