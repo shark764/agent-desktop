@@ -1,9 +1,13 @@
+### [1.12.6] (2017-11-24)
+* CXV1-11916 - TB2 - ZD - Ignore Zendesk outbound requests when one is already ongoing
+* CXV1-12107 - TB2 - Proper fix for interaction popup preview
+
 ### [1.12.5] (2017-11-23)
 * CXV1-12160 - Fix spacing of script checkboxes
 
 ### [1.12.4] (2017-11-23)
 * CXV1-12107 - TB2 - Fix positioning of pending interaction popup (for interactions with long previews)
-* Added message for SMS/messaging preview while message history is being loaded 
+* Added message for SMS/messaging preview while message history is being loaded
 
 ### [1.12.3] (2017-11-22)
 * CXV1-12169 - TB - ZD - Hide script tab for voice interactions in toolbar mode with assigned contact (history)

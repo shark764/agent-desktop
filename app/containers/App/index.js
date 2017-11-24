@@ -920,26 +920,50 @@ export class App extends React.Component {
             }, 5000);
             break;
           }
-          case 'cxengage/zendesk/click-to-dial-requested':
-          case 'cxengage/zendesk/click-to-sms-requested': {
-            let channelType;
-
-            if (topic === 'cxengage/zendesk/click-to-dial-requested') {
-              channelType = 'voice';
-            } else {
-              channelType = 'sms';
-            }
-
-            this.props.startOutboundInteraction(channelType, response.endpoint);
-            if (channelType === 'voice') {
+          case 'cxengage/zendesk/click-to-dial-requested': {
+            const existingVoiceInteraction = this.props.agentDesktop.interactions.find(
+              (interaction) => interaction.channelType === 'voice'
+            );
+            if (existingVoiceInteraction === undefined) {
+              this.props.startOutboundInteraction('voice', response.endpoint);
               CxEngage.interactions.voice.dial({
                 phoneNumber: response.endpoint,
               });
+            } else {
+              console.log(
+                'Voice call already in progress. Ignoring click-to-dial-requested.'
+              );
+            }
+            break;
+          }
+          case 'cxengage/zendesk/click-to-sms-requested': {
+            const existingMatchingSmsInteraction = this.props.agentDesktop.interactions.find(
+              (interaction) =>
+                interaction.channelType === 'sms' &&
+                interaction.customer === response.endpoint
+            );
+            if (existingMatchingSmsInteraction === undefined) {
+              this.props.startOutboundInteraction('sms', response.endpoint);
+            } else {
+              console.log(
+                `SMS interaction already in progress for ${response.endpoint}. Ignoring click-to-sms-requested.`
+              );
             }
             break;
           }
           case 'cxengage/zendesk/click-to-email-requested': {
-            this.props.startOutboundEmail(response.endpoint);
+            const existingMatchingEmailInteraction = this.props.agentDesktop.interactions.find(
+              (interaction) =>
+                interaction.channelType === 'email' &&
+                interaction.customer === response.endpoint
+            );
+            if (existingMatchingEmailInteraction === undefined) {
+              this.props.startOutboundEmail(response.endpoint);
+            } else {
+              console.log(
+                `Email interaction already in progress for ${response.endpoint}. Ignoring click-to-email-requested.`
+              );
+            }
             break;
           }
           case 'cxengage/zendesk/user-update':
