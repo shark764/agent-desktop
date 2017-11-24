@@ -132,7 +132,7 @@ const styles = {
     display: 'inline-block',
   },
   attachmentRemove: {
-    whiteSpace:'nowrap',
+    whiteSpace: 'nowrap',
   },
   loadingCircle: {
     margin: '0 auto',
@@ -141,7 +141,7 @@ const styles = {
     width: 50,
   },
   loadingAttachment: {
-    display: 'inline-block', 
+    display: 'inline-block',
     marginLeft: '6px',
     height: 14,
     width: 14,
@@ -167,7 +167,7 @@ const styles = {
   },
   emailAddress: {
     display: 'inline-block',
-    whiteSpace:'nowrap',
+    whiteSpace: 'nowrap',
     backgroundColor: '#FFFFFF',
     border: '1px solid #D0D0D0',
     borderRadius: '3px',
@@ -175,8 +175,8 @@ const styles = {
     marginRight: '6px',
   },
   emailAddressRemove: {
-    display:'inline-block',
-    marginLeft: '5px', 
+    display: 'inline-block',
+    marginLeft: '5px',
   },
   select: {
     height: '20px',
@@ -548,7 +548,10 @@ export class EmailContentArea extends React.Component {
       from = this.props.selectedInteraction.customer;
     } else {
       const emailFrom = this.props.selectedInteraction.emailDetails.from[0];
-      if (emailFrom.name !== emailFrom.address) {
+      if (this.props.selectedInteraction.contact !== undefined) {
+        from = `${this.props.selectedInteraction.contact.attributes
+          .name} [${emailFrom.address}]`;
+      } else if (emailFrom.name !== emailFrom.address) {
         from = `${emailFrom.name} [${emailFrom.address}]`;
       } else {
         from = emailFrom.address;
@@ -597,7 +600,10 @@ export class EmailContentArea extends React.Component {
           <div key="wrapupSpinner" style={styles.loadingSendingEmail}>
             <IconSVG id="sendingReplyIcon" name="loading" />
             <div style={styles.centerText}>
-              <VelocityTransitionGroup runOnMount enter={{ animation: 'transition.slideUpIn', duration: '1000' }}>
+              <VelocityTransitionGroup
+                runOnMount
+                enter={{ animation: 'transition.slideUpIn', duration: '1000' }}
+              >
                 <FormattedMessage
                   key="replySpinner"
                   {...messages.sendingEmail}
@@ -611,7 +617,10 @@ export class EmailContentArea extends React.Component {
           <div key="wrapupSpinner" style={styles.loadingSendingEmail}>
             <IconSVG id="sendingReplyIcon" name="loading" />
             <div style={styles.centerText}>
-              <VelocityTransitionGroup runOnMount enter={{ animation: 'transition.slideUpIn', duration: '1000' }}>
+              <VelocityTransitionGroup
+                runOnMount
+                enter={{ animation: 'transition.slideUpIn', duration: '1000' }}
+              >
                 <FormattedMessage
                   key="dispoSpinner"
                   {...messages.awaitingDisposition}
@@ -753,7 +762,10 @@ export class EmailContentArea extends React.Component {
                           {attachment.filename}
                           {attachment.url === undefined &&
                             <div style={styles.loadingAttachment}>
-                              <IconSVG id={`loadingAttachment-${index}`} name="loading" />
+                              <IconSVG
+                                id={`loadingAttachment-${index}`}
+                                name="loading"
+                              />
                             </div>}
                         </div>
                       </a>)
@@ -862,15 +874,20 @@ export class EmailContentArea extends React.Component {
                     : to.address}
                   {(this.props.selectedInteraction.direction === 'outbound' ||
                     index !== 0) &&
-                  this.props.selectedInteraction.status !==
-                    'work-ended-pending-script' &&
-                  index !== 0 &&
+                    this.props.selectedInteraction.status !==
+                      'work-ended-pending-script' &&
+                    index !== 0 &&
                     <span
                       onClick={() => this.removeTo(to)}
                       style={styles.emailAddressRemove}
                     >
-                      <IconSVG id="removeToAddressIcon" name="close" color="grey" width="12px"  />
-                      </span>}
+                      <IconSVG
+                        id="removeToAddressIcon"
+                        name="close"
+                        color="grey"
+                        width="12px"
+                      />
+                    </span>}
                 </div>)
               )}
               {this.props.selectedInteraction.status !==
@@ -908,7 +925,12 @@ export class EmailContentArea extends React.Component {
                       onClick={() => this.removeCc(cc)}
                       style={styles.emailAddressRemove}
                     >
-                      <IconSVG id="removeCcAddressIcon" name="close" color="grey" width="12px" />
+                      <IconSVG
+                        id="removeCcAddressIcon"
+                        name="close"
+                        color="grey"
+                        width="12px"
+                      />
                     </span>}
                 </div>)
               )}
@@ -947,7 +969,12 @@ export class EmailContentArea extends React.Component {
                       onClick={() => this.removeBcc(bcc)}
                       style={styles.emailAddressRemove}
                     >
-                      <IconSVG id="removeBccAddressIcon" name="close" color="grey" width="12px" />
+                      <IconSVG
+                        id="removeBccAddressIcon"
+                        name="close"
+                        color="grey"
+                        width="12px"
+                      />
                     </span>}
                 </div>)
               )}
@@ -1009,15 +1036,35 @@ export class EmailContentArea extends React.Component {
           <div style={styles.detailsContainer}>
             {this.props.selectedInteraction.emailReply.attachments.map(
               (attachment, index) =>
-                (<div key={`${index}-${attachment.name}`} id={`${index}-${attachment.name}`} style={styles.attachment}>
-                  {attachment.attachmentId === undefined? <div>Uploading...</div> :
-                  <div>
-                    <div style={styles.attachmentName}>{attachment.name}</div>
-                    {this.props.selectedInteraction.status !== 'work-ended-pending-script' &&
-                      <div onClick={() => this.removeAttachment(attachment.attachmentId)} style={{display:'inline-block',marginLeft: '5px'}}>
-                        <IconSVG id="removeAttachmentIcon"name="close" color="grey" width="12px" />
-                      </div>}
-                  </div>}
+                (<div
+                  key={`${index}-${attachment.name}`}
+                  id={`${index}-${attachment.name}`}
+                  style={styles.attachment}
+                >
+                  {attachment.attachmentId === undefined
+                    ? <div>Uploading...</div>
+                    : <div>
+                      <div style={styles.attachmentName}>
+                        {attachment.name}
+                      </div>
+                      {this.props.selectedInteraction.status !==
+                          'work-ended-pending-script' &&
+                          <div
+                            onClick={() =>
+                              this.removeAttachment(attachment.attachmentId)}
+                            style={{
+                              display: 'inline-block',
+                              marginLeft: '5px',
+                            }}
+                          >
+                            <IconSVG
+                              id="removeAttachmentIcon"
+                              name="close"
+                              color="grey"
+                              width="12px"
+                            />
+                          </div>}
+                    </div>}
                 </div>)
             )}
             {this.props.selectedInteraction.status !==
