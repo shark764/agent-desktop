@@ -477,7 +477,14 @@ function agentDesktopReducer(state = initialState, action) {
     case SET_STANDALONE_POPUP:
       return state.set('standalonePopup', true);
     case SET_CRM_ACTIVE_TAB:
-      if (
+      if (action.tabType === undefined) {
+        return state
+          .delete('crmActiveTab')
+          .set(
+            'selectedInteractionId',
+            getNextSelectedInteractionId(state, 'current-crm-item-history')
+          );
+      } else if (
         state.getIn(['crmActiveTab', 'contact', 'id']) !== action.id ||
         state.getIn(['crmActiveTab', 'contact', 'type']) !== action.tabType
       ) {

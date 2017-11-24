@@ -1000,9 +1000,11 @@ export class App extends React.Component {
                   ? response.ticket.subject
                   : response.ticket.description
               );
+            } else if (Object.keys(response).length === 0) {
+              this.props.setCrmActiveTab(undefined);
             } else {
               console.error(
-                `Neither user nor ticket found in active-tab-changed response: ${
+                `Neither user, ticket, nor blank tab found in active-tab-changed response: ${
                   response
                 }`
               );
