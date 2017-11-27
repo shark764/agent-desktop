@@ -118,8 +118,9 @@ const selectQueues = createSelector(selectAgentDesktopMap, (agentDesktop) =>
   agentDesktop.get('queues').toJS()
 );
 
-const selectQueuesSet = createSelector(selectAgentDesktopMap, (agentDesktop) =>
-  agentDesktop.get('queuesSet')
+const selectQueuesSet = createSelector(
+  selectAgentDesktopMap,
+  (agentDesktop) => agentDesktop.get('queuesSet') || false
 );
 
 const selectNoInteractionContactPanel = createSelector(

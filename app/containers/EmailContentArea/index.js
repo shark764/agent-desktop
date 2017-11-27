@@ -865,7 +865,7 @@ export class EmailContentArea extends React.Component {
             <div style={styles.detailsValue}>
               {this.state.tos.map((to, index) =>
                 (<div
-                  key={`${index}-${to.address}`}
+                  key={`${index}-${to.address}`} // eslint-disable-line
                   id={`${index}-${to.address}`}
                   style={styles.emailAddress}
                 >
@@ -911,7 +911,7 @@ export class EmailContentArea extends React.Component {
             <div style={styles.detailsValue}>
               {this.state.ccs.map((cc, index) =>
                 (<div
-                  key={`${index}-${cc.address}`}
+                  key={`${index}-${cc.address}`} // eslint-disable-line
                   id={`${index}-${cc.address}`}
                   style={styles.emailAddress}
                 >
@@ -955,7 +955,7 @@ export class EmailContentArea extends React.Component {
             <div style={styles.detailsValue}>
               {this.state.bccs.map((bcc, index) =>
                 (<div
-                  key={`${index}-${bcc.address}`}
+                  key={`${index}-${bcc.address}`} // eslint-disable-line
                   id={`${index}-${bcc.address}`}
                   style={styles.emailAddress}
                 >
@@ -1037,7 +1037,7 @@ export class EmailContentArea extends React.Component {
             {this.props.selectedInteraction.emailReply.attachments.map(
               (attachment, index) =>
                 (<div
-                  key={`${index}-${attachment.name}`}
+                  key={`${index}-${attachment.name}`} // eslint-disable-line
                   id={`${index}-${attachment.name}`}
                   style={styles.attachment}
                 >

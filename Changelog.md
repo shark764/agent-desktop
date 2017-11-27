@@ -1,3 +1,7 @@
+### [1.13.0] (2017-11-21)
+* CXV1-11758 - Add non-voice transfer menu
+* CXV1-11758 - Keyboard controls for transfer menu
+
 ### [1.12.8] (2017-11-27)
 * CXV1-12147 - Fix pop out button flashing on CRM reload
 

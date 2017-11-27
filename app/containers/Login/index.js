@@ -590,6 +590,7 @@ export class Login extends React.Component {
           autocomplete="email"
           value={this.state.ssoEmail}
           cb={this.setSsoEmail}
+          onEnter={this.loginWithSso}
         />
         <CheckBox
           id={messages.rememberMe.id}
@@ -603,7 +604,7 @@ export class Login extends React.Component {
           type="primaryBlueBig"
           style={styles.actionButton}
           text={messages.nextButton}
-          onClick={() => this.loginWithSso()}
+          onClick={this.loginWithSso}
         />
         <A
           id={messages.return2Login.id}

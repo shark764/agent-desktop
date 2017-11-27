@@ -258,7 +258,11 @@ Collapsible.propTypes = {
   onClose: PropTypes.func,
   onOpening: PropTypes.func,
   onClosing: PropTypes.func,
-  trigger: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  trigger: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+    PropTypes.object,
+  ]),
   triggerWhenOpen: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   triggerDisabled: PropTypes.bool,
   lazyRender: PropTypes.bool,

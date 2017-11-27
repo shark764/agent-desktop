@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DesktopActionsButtons /> should render correctly 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+      "flexShrink": 0,
+    }
+  }
+>
+  <Connect(WrapUpToggle)
+    interaction={
+      Object {
+        "interactionId": "aaa",
+        "status": "work-accepted",
+      }
+    }
+    type=""
+  />
+  <InjectIntl(Button)
+    id="transferButton"
+    onClick={[Function]}
+    style={
+      Object {
+        "marginRight": "10px",
+        "padding": "9px 17px",
+      }
+    }
+    text={
+      Object {
+        "defaultMessage": "Transfer",
+        "id": "app.containers.DesktopActionsButtons.TransferButton",
+      }
+    }
+    title="transfer"
+    type="secondary"
+  />
+  <InjectIntl(Button)
+    id="end-chat-button"
+    onClick={[Function]}
+    style={
+      Object {
+        "marginRight": "10px",
+      }
+    }
+    text="End Chat"
+    type="primaryBlue"
+  />
+</div>
+`;

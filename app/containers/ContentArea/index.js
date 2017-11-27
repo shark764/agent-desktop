@@ -34,7 +34,6 @@ import {
   selectAwaitingDisposition,
   selectCrmModule,
 } from 'containers/AgentDesktop/selectors';
-import { buttonConfigPropTypes } from 'components/ButtonLayout';
 
 import CrmRecordNotification from './CrmRecordNotification';
 import messages from './messages';
@@ -795,12 +794,26 @@ export class ContentArea extends React.Component {
   }
 }
 
+export const buttonConfigPropTypes = {
+  text: PropTypes.any,
+  mouseOverText: PropTypes.object,
+  iconName: PropTypes.string,
+  children: PropTypes.element,
+  tabIndex: PropTypes.number,
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  clear: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
+  id: PropTypes.string.isRequired,
+  hasSubButtons: PropTypes.bool,
+  isSelected: PropTypes.bool,
+};
+
 ContentArea.propTypes = {
   intl: intlShape.isRequired,
   interaction: PropTypes.object.isRequired,
   from: PropTypes.node,
-  buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes))
-    .isRequired,
+  buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes)),
   details: PropTypes.node.isRequired,
   content: PropTypes.node,
   crmModule: PropTypes.string,

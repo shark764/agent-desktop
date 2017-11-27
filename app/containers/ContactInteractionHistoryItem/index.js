@@ -233,7 +233,7 @@ export class ContactInteractionHistoryItem extends React.Component {
                 }
                 return (
                   <div
-                    key={`${transcriptItem.payload.id}-${index}`}
+                    key={`${transcriptItem.payload.id}-${index}`} // eslint-disable-line
                     id={`transcriptItem${index}`}
                     style={styles.transcriptItem}
                   >

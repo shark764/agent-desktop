@@ -137,12 +137,15 @@ export class PhoneControlsInactive extends React.Component {
       } else {
         phoneControlsInactive = (
           <div style={this.styles.phoneControlsContainer}>
-            <IconSVG id="connectingToOutboundCallIcon" name="loadingWhite" width="40px" />
+            <IconSVG
+              id="connectingToOutboundCallIcon"
+              name="loadingWhite"
+              width="40px"
+            />
           </div>
-          );
+        );
       }
-    } 
-    else {
+    } else {
       phoneControlsInactive = (
         <div style={this.styles.phoneControlsContainer} />
       );

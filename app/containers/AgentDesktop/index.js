@@ -26,6 +26,7 @@ import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
 
 import { selectShowCollapseButton } from 'containers/InteractionsBar/selectors';
+import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
 
 import { selectHasCrmPermissions } from 'containers/App/selectors';
 import {
@@ -111,8 +112,16 @@ export class AgentDesktop extends React.Component {
             }
           }
           // 13 is enter key
-          if (e.which === 13) {
+          if (e.which === 13 && !e.altKey) {
             this.props.openNewInteractionPanel();
+          }
+          // 13 is enter key
+          if (e.which === 13 && e.altKey) {
+            if (this.props.activeExtension !== undefined) {
+              CxEngage.session.goReady({
+                extensionValue: this.props.activeExtension.value,
+              });
+            }
           }
         }
       },
@@ -225,7 +234,11 @@ export class AgentDesktop extends React.Component {
     return (
       <div
         id="desktop-container"
-        style={[this.styles.parent, this.styles.columnParent, {overflow: this.context.toolbarMode? 'hidden' : 'auto'}]}
+        style={[
+          this.styles.parent,
+          this.styles.columnParent,
+          { overflow: this.context.toolbarMode ? 'hidden' : 'auto' },
+        ]}
       >
         <div
           id="top-area"
@@ -328,6 +341,7 @@ const mapStateToProps = (state, props) => ({
   selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
   selectedInteractionHasAssignedContact: getHasAssignedContact(state, props),
   expandWindowForCrm: selectExpandWindowForCrm(state, props),
+  activeExtension: selectActiveExtension(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -367,6 +381,7 @@ AgentDesktop.propTypes = {
   selectNextInteraction: PropTypes.any,
   openNewInteractionPanel: PropTypes.func.isRequired,
   selectHasUnrespondedInteractions: PropTypes.bool.isRequired,
+  activeExtension: PropTypes.object,
 };
 
 AgentDesktop.contextTypes = {

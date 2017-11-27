@@ -295,7 +295,7 @@ export class AgentStatusMenu extends React.Component {
                 id={`${extension.provider === undefined
                   ? extension.type
                   : extension.provider}-${extension.value}-${index}`}
-                key={`${extension.provider === undefined
+                key={`${extension.provider === undefined // eslint-disable-line
                   ? extension.type
                   : extension.provider}-${extension.value}-${index}`}
                 style={styles.subMenuRows}
@@ -318,7 +318,11 @@ export class AgentStatusMenu extends React.Component {
           <Collapsible
             className="agentDirectionMenu"
             triggerHeader="Mode"
-            trigger={this.props.agentDirection.direction}
+            trigger={
+              this.props.agentDirection.direction === 'inbound'
+                ? 'Inbound'
+                : 'Outbound'
+            }
             open={this.state.expandedMenu === 'agentDirection'}
             handleTriggerClick={() =>
               this.setCollapsibleMenus('agentDirection')}
@@ -333,7 +337,7 @@ export class AgentStatusMenu extends React.Component {
                 this.setCollapsibleMenus();
               }}
             >
-              Inbound
+              <FormattedMessage {...messages.inbound} />
               {this.props.agentDirection.direction === 'inbound'
                 ? <Icon
                   name="checkStatus"
@@ -353,7 +357,7 @@ export class AgentStatusMenu extends React.Component {
                 this.setCollapsibleMenus();
               }}
             >
-              Outbound
+              <FormattedMessage {...messages.outbound} />
               {this.props.agentDirection.direction === 'outbound'
                 ? <Icon
                   name="checkStatus"
@@ -394,7 +398,7 @@ export class AgentStatusMenu extends React.Component {
                 styles.inactivePresence,
                 this.state.statusLoading && styles.disabledPresenceUpdate,
               ]}
-              onClick={!this.state.statusLoading && this.goReady}
+              onClick={!this.state.statusLoading ? this.goReady : undefined}
             >
               <FormattedMessage {...messages.ready} />
             </div>}

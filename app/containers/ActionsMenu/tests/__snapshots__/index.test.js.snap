@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ContentAreaTop /> should render correctly 1`] = `
+<div>
+  <InjectIntl(Button)
+    hasSubMenu={true}
+    id="actionsButton"
+    onClick={[Function]}
+    text={
+      Object {
+        "defaultMessage": "Actions",
+        "id": "app.containers.ActionsMenu.actionsButton",
+      }
+    }
+    title="actionsButton"
+    type="primaryBlue"
+  />
+</div>
+`;

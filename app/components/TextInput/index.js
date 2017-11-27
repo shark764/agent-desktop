@@ -99,7 +99,7 @@ function TextInput(props) {
           props.onEnter();
         }
       }}
-      onKeyDown={props.onKeyDown || ''}
+      onKeyDown={props.onKeyDown}
       autoFocus={props.autoFocus}
       onBlur={props.onBlur}
       disabled={props.disabled}

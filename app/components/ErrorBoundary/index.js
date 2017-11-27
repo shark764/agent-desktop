@@ -23,6 +23,7 @@ export default function ErrorBoundary(WrappedComponent) {
       this.state = { error: null };
     }
 
+    // TODO: react 16 ...   componentDidCatch(error, info) {
     // eslint-disable-next-line camelcase
     unstable_handleError(error, info) {
       console.error(error, info);

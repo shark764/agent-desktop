@@ -30,4 +30,12 @@ export default defineMessages({
     id: 'app.containers.TransferMenu.agents',
     defaultMessage: 'Agents',
   },
+  checking: {
+    id: 'app.containers.TransferMenu.checking',
+    defaultMessage: 'Checking Availability...',
+  },
+  loadingTransferLists: {
+    id: 'app.containers.TransferMenu.loadingTransferLists',
+    defaultMessage: 'Loading Transfer Lists',
+  },
 });

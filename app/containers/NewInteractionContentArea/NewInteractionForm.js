@@ -63,6 +63,7 @@ export function NewInteractionForm(props) {
         value={props.input}
         style={styles.input}
         placeholder={messages.newInteractionFormInstructions}
+        autoFocus
       />
       <hr style={styles.hr} />
       {!isValidEmail(props.input) &&

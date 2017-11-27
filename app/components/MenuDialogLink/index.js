@@ -88,7 +88,7 @@ class MenuDialogLink extends React.Component {
             <div style={styles.container}>
               {this.props.options.map((option, index) =>
                 (<Button
-                  key={`menuOption-${index}`}
+                  key={`menuOption-${index}`} // eslint-disable-line
                   id={`menuOption-${index}`}
                   onClick={() => this.handleButtonAction(option.action)}
                   disabled={option.disabled}
