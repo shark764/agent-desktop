@@ -745,7 +745,7 @@ export class ContentArea extends React.Component {
         >
           <div style={this.styles.mainContent}>
             <div style={this.styles.base}>
-              {this.props.crmModule &&
+              {this.props.crmModule !== 'none' &&
                 <CrmRecordNotification
                   contactAssignedNotification={
                     this.props.interaction.contactAssignedNotification

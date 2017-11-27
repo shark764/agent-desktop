@@ -74,7 +74,7 @@ export class ContactInteractionHistory extends React.Component {
   }
 
   refreshContactInteractionHistory = () => {
-    if (this.props.crmModule === undefined) {
+    if (this.props.crmModule === 'none') {
       this.props.setContactInteractionHistory(this.props.contactId, {
         results: undefined,
       });
@@ -95,7 +95,7 @@ export class ContactInteractionHistory extends React.Component {
   };
 
   loadMoreContactInteractionHistory = () => {
-    if (this.props.crmModule === undefined) {
+    if (this.props.crmModule === 'none') {
       this.props.loadContactInteractionHistory(
         this.props.contactId,
         this.props.contactInteractionHistory.nextPage
@@ -115,7 +115,7 @@ export class ContactInteractionHistory extends React.Component {
         selectedInteractionIndex
       ];
       const needsNotes =
-        this.props.crmModule === undefined &&
+        this.props.crmModule === 'none' &&
         interaction.interactionDetails.agents.findIndex(
           (agent) => agent.noteTitle !== null && agent.note === undefined
         ) !== -1;
