@@ -714,7 +714,7 @@ export class Login extends React.Component {
     if (this.context.toolbarMode) {
       return (
         <div style={styles.toolbarBase}>
-          {!this.props.crmModule &&
+          {this.props.crmModule === false &&
             !this.props.isStandalonePopup &&
             !this.props.initiatedStandalonePopup &&
             <div style={{ gridArea: 'standalonePopup' }}>

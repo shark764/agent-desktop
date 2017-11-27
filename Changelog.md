@@ -1,3 +1,6 @@
+### [1.12.8] (2017-11-27)
+* CXV1-12147 - Fix pop out button flashing on CRM reload
+
 ### [1.12.7] (2017-11-24)
 * CXV1-11841 - Show assigned contact's name for email interactions
 

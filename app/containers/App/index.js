@@ -269,8 +269,13 @@ export class App extends React.Component {
         sdkConf.crmModule = crmModule;
         this.props.setCrmModule(crmModule);
       } else {
-        console.error(`Unsupported crm module: ${crmModule}`);
+        console.error(
+          `Unsupported CRM module: ${crmModule}. Supported CRM modules are: zendesk, salesforce-classic, salesforce-lightning`
+        );
+        this.props.setCrmModule('none');
       }
+    } else {
+      this.props.setCrmModule('none');
     }
     const standalonePopup = new URL(window.location.href).searchParams.get(
       'standalonePopup'
@@ -702,23 +707,16 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/messaging/new-message-received': {
-            if (
-              isUUID(response.from) === false &&
-              this.props.crmModule === 'zendesk'
-            ) {
-              CxEngage.zendesk.setVisibility({ visibility: true });
-            }
-            if (
-              isUUID(response.from) === false &&
-              this.props.crmModule === 'salesforce-classic'
-            ) {
-              CxEngage.salesforceClassic.setVisibility({ visibility: true });
-            }
-            if (
-              isUUID(response.from) === false &&
-              this.props.crmModule === 'salesforce-lightning'
-            ) {
-              CxEngage.salesforceLightning.setVisibility({ visibility: true });
+            if (isUUID(response.from) === false) {
+              if (this.props.crmModule === 'zendesk') {
+                CxEngage.zendesk.setVisibility({ visibility: true });
+              } else if (this.props.crmModule === 'salesforce-classic') {
+                CxEngage.salesforceClassic.setVisibility({ visibility: true });
+              } else if (this.props.crmModule === 'salesforce-lightning') {
+                CxEngage.salesforceLightning.setVisibility({
+                  visibility: true,
+                });
+              }
             }
 
             this.props.addMessage(
