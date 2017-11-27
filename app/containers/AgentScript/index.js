@@ -205,7 +205,7 @@ class AgentScript extends React.Component {
               labelStyle={styles.checkboxLabel}
               checkboxInputStyle={styles.checkboxInput}
               id={`${option.value}_${index}`}
-              key={`${element.id}_${index}`}
+              key={`${element.id}_${index}`} // eslint-disable-line
               text={option.name}
               checked={this.state[element.name][option.value]}
               cb={(checked) => {

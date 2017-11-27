@@ -391,9 +391,8 @@ export class PhoneControlsActive extends React.Component {
         (warmTransfer, index) =>
           // the index being appended to the key is a temporary anti-pattern to protect us from
           // duplicate keys now that queues and resource ID's both live in the props,
-          // will be addressed by CXV1-8563
           (<TransferResource
-            key={`${warmTransfer.targetResource
+            key={`${warmTransfer.targetResource // eslint-disable-line
               ? warmTransfer.targetResource
               : warmTransfer.id}_${index}`}
             activeVoiceInteraction={this.props.activeVoiceInteraction}

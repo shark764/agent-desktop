@@ -82,7 +82,7 @@ function MenuRow(props) {
         props.disabled && styles.disabled,
         props.style,
       ]}
-      onClick={allowSelect && props.onSelect}
+      onClick={allowSelect ? props.onSelect : undefined}
     >
       <div style={styles.text} title={rowText}>
         {rowText}

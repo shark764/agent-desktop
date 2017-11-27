@@ -141,6 +141,15 @@ const styles = {
     boxSizing: 'borderBox',
     padding: 'auto',
   },
+  mainBtnDropdownArrow: {
+    borderLeft: '1px #FFFFFF solid',
+    ':focus': {
+      boxShadow: 'none',
+    },
+    padding: '0 10px',
+    marginLeft: '10px',
+    marginRight: '-15px',
+  },
 };
 
 export class Button extends React.Component {
@@ -204,6 +213,12 @@ export class Button extends React.Component {
         title={title}
       >
         {inner}
+        {this.props.hasSubMenu &&
+          <i
+            style={styles.mainBtnDropdownArrow}
+            className="fa fa-caret-down"
+            key="fa-caret-down"
+          />}
       </button>
     );
   }
@@ -224,6 +239,7 @@ Button.propTypes = {
   id: PropTypes.string.isRequired,
   hasSubButtons: PropTypes.bool,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  hasSubMenu: PropTypes.bool,
 };
 
 Button.defaultProps = {

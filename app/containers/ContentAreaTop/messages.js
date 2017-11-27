@@ -23,7 +23,15 @@ export default defineMessages({
     defaultMessage: 'Wrap Up Off',
   },
   actions: {
-    id: 'app.containers.ContentAreaTop.actions',
+    id: 'app.containers.ContentAreaTop.actionsButton',
     defaultMessage: 'Actions',
+  },
+  cancel: {
+    id: 'app.containers.ContentAreaTop.CancelButton',
+    defaultMessage: 'Cancel',
+  },
+  transfer: {
+    id: 'app.containers.ContentAreaTop.TransferButton',
+    defaultMessage: 'Transfer',
   },
 });

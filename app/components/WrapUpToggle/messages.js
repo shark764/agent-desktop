@@ -3,15 +3,15 @@
  */
 
 /*
- * ButtonMenu Messages
+ * WrapUpToggle Messages
  *
- * This contains the non-dynamic text for the ButtonMenu component.
+ * This contains all the text for the WrapUpToggle component.
  */
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   wrapup: {
-    id: 'app.components.ButtonMenu.wrapup',
+    id: 'app.containers.WrapUpToggle.wrapup',
     defaultMessage: 'Wrap Up',
   },
 });

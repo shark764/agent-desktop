@@ -10,6 +10,7 @@ exports[`<NewInteractionForm /> should render correctly 1`] = `
   }
 >
   <InjectIntl(TextInput)
+    autoFocus={true}
     cb={[Function]}
     id="newInteractionFormInput"
     placeholder={

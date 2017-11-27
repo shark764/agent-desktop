@@ -230,8 +230,7 @@ export class Stat extends React.Component {
         <div className="stat-value" style={styles.statValue}>
           {this.props.stat.results || this.props.stat.isErrored
             ? <StatValue stat={this.props.stat} />
-            :
-            <div id="loadingContainer" style={styles.loadingIcon}>
+            : <div id="loadingContainer" style={styles.loadingIcon}>
               <IconSVG id="loadingIcon" name="loadingWhite" />
             </div>}
         </div>

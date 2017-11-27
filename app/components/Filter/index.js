@@ -52,7 +52,12 @@ function Filter(props) {
       <span title={props.value} style={styles.valueText}>
         {props.value}
       </span>
-      <div style={[styles.deleteFilterIcon, props.disabled && styles.iconDisabled]} onClick={!props.disabled ? props.remove : null}><IconSVG id="removeFilterIcon" name="close" width="12px" color="grey" /></div>
+      <div
+        style={[styles.deleteFilterIcon, props.disabled && styles.iconDisabled]}
+        onClick={!props.disabled ? props.remove : null}
+      >
+        <IconSVG id="removeFilterIcon" name="close" width="12px" color="grey" />
+      </div>
     </div>
   );
 }

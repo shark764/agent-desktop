@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<WrapUpToggle /> should render correctly 1`] = `
+<div
+  id="wrapupContainer"
+  style={
+    Object {
+      "minWidth": "113px",
+      "paddingRight": "15px",
+    }
+  }
+>
+  <label
+    htmlFor="wrapupToggle"
+    style={
+      Object {
+        "marginRight": "10px",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Wrap Up"
+      id="app.containers.WrapUpToggle.wrapup"
+      values={Object {}}
+    />
+  </label>
+  <Toggle
+    disabled={true}
+    icons={
+      Object {
+        "checked": <Component />,
+        "unchecked": <Component />,
+      }
+    }
+    id="wrapUpToggle"
+    onChange={[Function]}
+  />
+</div>
+`;

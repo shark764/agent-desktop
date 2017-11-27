@@ -105,10 +105,10 @@ export class WelcomeStats extends React.Component {
       return <StatValue stat={filledStat} />;
     } else {
       return this.getLoadingIcon();
-    }};
+    }
+  };
 
   getStatDisplay = (stat, index) =>
-
     (<div style={[{ order: index }, this.styles.indivStats]} key={stat[statKey]}>
       <div style={this.styles.statVal}>
         {this.getStatBody(this.props.welcomeStats[stat[statKey]])}
