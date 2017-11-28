@@ -1,9 +1,12 @@
+### [1.13.3] (2017-11-28)
+* CXV1-12243 - Hide actions menu in interaction pending script state
+
 ### [1.13.2] (2017-11-28)
-* CXV1-11754 - Fix console errors after non-voice transfer
+* CXV1-12227 - Fix console errors after non-voice transfer
 
 ### [1.13.1] (2017-11-28)
 * CXV1-12147 - quick fix for missing pop out window icon
-* CXV1-11754 - quick fix for transfer list not loading
+* CXV1-12222 - quick fix for transfer list not loading
 
 ### [1.13.0] (2017-11-27)
 * CXV1-11754 - Add non-voice transfer menu
