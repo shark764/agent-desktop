@@ -490,7 +490,9 @@ export class TransferMenu extends React.Component {
       );
     }
 
-    this.props.setShowTransferMenu(false);
+    if (this.props.setShowTransferMenu) {
+      this.props.setShowTransferMenu(false);
+    }
   };
 
   render() {

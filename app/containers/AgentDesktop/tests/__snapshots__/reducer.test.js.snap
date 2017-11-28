@@ -853,6 +853,8 @@ Immutable.Map {
         },
       },
       timeout: NaN,
+      warmTransfers: Immutable.List [
+      ],
       contactMode: "view",
       selectedSidePanelTab: "info",
       query: Immutable.Map {
