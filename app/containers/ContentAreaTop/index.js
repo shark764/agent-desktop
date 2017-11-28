@@ -108,15 +108,15 @@ export class ContentAreaTop extends React.Component {
         </div>
         <div>
           {this.props.interaction.status !== 'work-ended-pending-script' &&
-          !this.context.toolbarMode
-            ? <DesktopActionsButtons
-              interaction={this.props.interaction}
-              buttonConfig={this.props.buttonConfig}
-            />
-            : <ActionsMenu
-              interaction={this.props.interaction}
-              buttonConfig={this.props.buttonConfig}
-            />}
+            (!this.context.toolbarMode
+              ? <DesktopActionsButtons
+                interaction={this.props.interaction}
+                buttonConfig={this.props.buttonConfig}
+              />
+              : <ActionsMenu
+                interaction={this.props.interaction}
+                buttonConfig={this.props.buttonConfig}
+              />)}
         </div>
         <SidePanelToolbarBtn />
       </div>
