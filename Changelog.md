@@ -1,3 +1,6 @@
+### [1.13.2] (2017-11-28)
+* CXV1-11754 - Fix console errors after non-voice transfer
+
 ### [1.13.1] (2017-11-28)
 * CXV1-12147 - quick fix for missing pop out window icon
 * CXV1-11754 - quick fix for transfer list not loading

@@ -26,7 +26,6 @@ export default class Interaction {
       this.agentRecordingEnabled =
         toolbarFeatures && toolbarFeatures.recordingUpdate !== false;
       this.muted = false;
-      this.warmTransfers = new List();
     } else if (channelType === 'sms' || channelType === 'messaging') {
       this.customerAvatarIndex = Math.floor(Math.random() * 17);
       this.messageHistory = [];
@@ -49,6 +48,7 @@ export default class Interaction {
         attachments: new List(),
       });
     }
+    this.warmTransfers = new List();
     this.customFieldsCollapsed = true;
     this.channelType = channelType;
     this.direction = direction;
