@@ -1,5 +1,9 @@
-### [1.13.0] (2017-11-21)
-* CXV1-11758 - Add non-voice transfer menu
+### [1.13.1] (2017-11-28)
+* CXV1-12147 - quick fix for missing pop out window icon
+* CXV1-11754 - quick fix for transfer list not loading
+
+### [1.13.0] (2017-11-27)
+* CXV1-11754 - Add non-voice transfer menu
 * CXV1-11758 - Keyboard controls for transfer menu
 
 ### [1.12.8] (2017-11-27)

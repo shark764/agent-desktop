@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ContentAreaTop /> should render correctly 1`] = `
+exports[`<ActionsMenu /> should render correctly 1`] = `
 <div>
   <InjectIntl(Button)
     hasSubMenu={true}

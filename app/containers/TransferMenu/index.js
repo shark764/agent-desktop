@@ -663,9 +663,9 @@ export class TransferMenu extends React.Component {
           }
         });
       } else {
-        transferLists = this.props.nonVoice
-          ? null
-          : messages.loadingTransferLists;
+        transferLists =
+          !this.props.nonVoice &&
+          <FormattedMessage {...messages.loadingTransferLists} />;
       }
     }
 
