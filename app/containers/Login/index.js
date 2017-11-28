@@ -496,7 +496,7 @@ export class Login extends React.Component {
             style={styles.contentTitle}
           />
           <Select
-            id={'app.login.selectTennant.selectbox'}
+            id="app.login.selectTennant.selectbox"
             style={{ width: '282px' }}
             value={this.state.tenantId}
             onChange={(e) => this.setTenantId(e.value || '-1', e.label || '')}
@@ -525,7 +525,7 @@ export class Login extends React.Component {
         <TextInput
           id={messages.username.id}
           autoFocus={!this.state.rememberEmail}
-          key={'username'}
+          key="username"
           style={styles.usernameInput}
           placeholder={messages.username}
           autocomplete="email"
@@ -535,7 +535,7 @@ export class Login extends React.Component {
         <TextInput
           id={messages.password.id}
           autoFocus={this.state.rememberEmail}
-          key={'password'}
+          key="password"
           type="password"
           placeholder={messages.password}
           autocomplete="password"
@@ -585,7 +585,7 @@ export class Login extends React.Component {
         <TextInput
           id={messages.email.id}
           autoFocus
-          key={'email'}
+          key="email"
           placeholder={messages.email}
           autocomplete="email"
           value={this.state.ssoEmail}
@@ -623,7 +623,7 @@ export class Login extends React.Component {
         {this.props.intl.formatMessage(messages.forgotInstructions)}
       </p>
       <TextInput
-        key={'email'}
+        key="email"
         style={{ marginBottom: '11px' }}
         placeholder={messages.email}
         autocomplete="email"
@@ -646,8 +646,8 @@ export class Login extends React.Component {
   getLanguageSelect = () =>
     (<div style={styles.languageMenu}>
       <FontAwesomeIcon
-        id={'localeIcon'}
-        name={'globe'}
+        id="localeIcon"
+        name="globe"
         style={styles.languageIcon}
         onclick={this.toggleLanguageMenu}
       />
@@ -659,7 +659,7 @@ export class Login extends React.Component {
         arrowLeftOffsetPx={14}
       >
         <Select
-          id={'locale'}
+          id="locale"
           style={styles.languageSelect}
           value={this.props.locale}
           options={mappedLocales} // mappedLocales
@@ -715,14 +715,14 @@ export class Login extends React.Component {
     if (this.context.toolbarMode) {
       return (
         <div style={styles.toolbarBase}>
-          {this.props.crmModule === false &&
+          {this.props.crmModule === 'none' &&
             !this.props.isStandalonePopup &&
             !this.props.initiatedStandalonePopup &&
             <div style={{ gridArea: 'standalonePopup' }}>
               <div style={{ float: 'right', margin: '1em 1.4em 0 0' }}>
                 <FontAwesomeIcon
-                  id={'standalonePopupIcon'}
-                  name={'window-restore'}
+                  id="standalonePopupIcon"
+                  name="window-restore"
                   style={{
                     color: 'gray',
                     cursor: 'pointer',
