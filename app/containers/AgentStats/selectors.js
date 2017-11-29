@@ -5,8 +5,8 @@
 import { createSelector } from 'reselect';
 
 /**
-* Other specific selectors
-*/
+ * Other specific selectors
+ */
 
 const selectToolbarDomain = (state) => state.get('toolbar');
 

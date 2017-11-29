@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* Filter
-*
-*/
+ *
+ * Filter
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -46,9 +46,7 @@ const styles = {
 function Filter(props) {
   return (
     <div key={props.name} style={[styles.base, props.style]}>
-      <span style={styles.filterName}>
-        {`${props.name}:`}&nbsp;
-      </span>
+      <span style={styles.filterName}>{`${props.name}:`}&nbsp;</span>
       <span title={props.value} style={styles.valueText}>
         {props.value}
       </span>

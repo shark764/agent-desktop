@@ -268,45 +268,47 @@ export class InteractionsBar extends React.Component {
       }
     }
 
-    const activeVoiceInteraction = this.props.activeVoiceInteraction
-      ? (<Interaction
+    const activeVoiceInteraction = this.props.activeVoiceInteraction ? (
+      <Interaction
         interaction={this.props.activeVoiceInteraction}
         key={this.props.activeVoiceInteraction.interactionId}
         icon={activeVoiceInteractionIcon}
         from={
-            has(this.props.activeVoiceInteraction, 'contact.attributes.name')
-              ? this.props.activeVoiceInteraction.contact.attributes.name
-              : this.props.activeVoiceInteraction.number
-          }
+          has(this.props.activeVoiceInteraction, 'contact.attributes.name')
+            ? this.props.activeVoiceInteraction.contact.attributes.name
+            : this.props.activeVoiceInteraction.number
+        }
         previewText={
-            has(this.props.activeVoiceInteraction, 'contact.id')
-              ? this.props.activeVoiceInteraction.number
-              : undefined
-          }
+          has(this.props.activeVoiceInteraction, 'contact.id')
+            ? this.props.activeVoiceInteraction.number
+            : undefined
+        }
         status={activeVoiceInteractionStatus}
         targetWrapupTime={Number(
-            this.props.activeVoiceInteraction.wrapupDetails.targetWrapupTime
-          )}
+          this.props.activeVoiceInteraction.wrapupDetails.targetWrapupTime
+        )}
         wrapupTime={Number(
-            this.props.activeVoiceInteraction.wrapupDetails.wrapupTime
-          )}
+          this.props.activeVoiceInteraction.wrapupDetails.wrapupTime
+        )}
         selected={
-            this.props.selectedInteractionId ===
-            this.props.activeVoiceInteraction.interactionId
-          }
+          this.props.selectedInteractionId ===
+          this.props.activeVoiceInteraction.interactionId
+        }
         onClick={() => {
           if (
-              this.props.selectedInteractionId !==
-              this.props.activeVoiceInteraction.interactionId
-            ) {
+            this.props.selectedInteractionId !==
+            this.props.activeVoiceInteraction.interactionId
+          ) {
             this.props.selectInteraction(
-                this.props.activeVoiceInteraction.interactionId
-              );
+              this.props.activeVoiceInteraction.interactionId
+            );
           }
           this.focusInteraction(this.props.activeVoiceInteraction);
         }}
-      />)
-      : '';
+      />
+    ) : (
+      ''
+    );
 
     const activeNonVoiceInteractions = this.props.activeNonVoiceInteractions.map(
       (activeInteraction) => {
@@ -354,7 +356,9 @@ export class InteractionsBar extends React.Component {
           icon = 'script';
         } else {
           throw new Error(
-            `Invalid channelType/status: ${activeInteraction.channelType}/${activeInteraction.status}`
+            `Invalid channelType/status: ${activeInteraction.channelType}/${
+              activeInteraction.status
+            }`
           );
         }
 
@@ -421,8 +425,7 @@ export class InteractionsBar extends React.Component {
       }
     );
 
-    const newInteraction =
-      this.props.newInteractionPanel.visible &&
+    const newInteraction = this.props.newInteractionPanel.visible && (
       <Interaction
         interaction={{ id: this.props.newInteractionPanel.interactionId }}
         status={this.props.newInteractionPanel.status}
@@ -434,12 +437,13 @@ export class InteractionsBar extends React.Component {
           this.props.selectedInteractionId !==
           this.props.newInteractionPanel.interactionId
             ? () =>
-                this.props.selectInteraction(
-                  this.props.newInteractionPanel.interactionId
-                )
+              this.props.selectInteraction(
+                this.props.newInteractionPanel.interactionId
+              )
             : undefined
         }
-      />;
+      />
+    );
 
     const pendingInteractions = this.props.pendingInteractions.map(
       (pendingInteraction) => {
@@ -496,7 +500,8 @@ export class InteractionsBar extends React.Component {
             previewText={text}
             status="pending"
             onClick={() =>
-              this.acceptInteraction(pendingInteraction.interactionId)}
+              this.acceptInteraction(pendingInteraction.interactionId)
+            }
             interactionDirection={pendingInteraction.direction}
           />
         );
@@ -505,10 +510,8 @@ export class InteractionsBar extends React.Component {
 
     return (
       <div style={[this.styles.base, this.props.style]}>
-        <div style={{ flexShrink: 0 }}>
-          {activeVoiceInteraction}
-        </div>
-        {this.state.showTopScrollShadow &&
+        <div style={{ flexShrink: 0 }}>{activeVoiceInteraction}</div>
+        {this.state.showTopScrollShadow && (
           <div
             id="topScrollShadow"
             style={{
@@ -517,8 +520,9 @@ export class InteractionsBar extends React.Component {
               background:
                 'linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)',
             }}
-          />}
-        {this.state.showUnrespondedMessageAboveOverflow &&
+          />
+        )}
+        {this.state.showUnrespondedMessageAboveOverflow && (
           <div
             id="unrespondedMessageAboveOverflow"
             style={{
@@ -540,7 +544,8 @@ export class InteractionsBar extends React.Component {
                 transform: 'rotate(180deg)',
               }}
             />
-          </div>}
+          </div>
+        )}
         <div
           ref={(interactionsScrollContainer) => {
             this.interactionsScrollContainer = interactionsScrollContainer;
@@ -560,7 +565,7 @@ export class InteractionsBar extends React.Component {
           <div style={{ flexGrow: 1 }} />
           {pendingInteractions}
         </div>
-        {this.state.showPendingInteractionOverflow &&
+        {this.state.showPendingInteractionOverflow && (
           <div
             id="pendingInteractionOverflow"
             style={{
@@ -578,8 +583,9 @@ export class InteractionsBar extends React.Component {
               name="caret_white"
               style={{ display: 'block', margin: '0 auto' }}
             />
-          </div>}
-        {this.state.showUnrespondedMessageBelowOverflow &&
+          </div>
+        )}
+        {this.state.showUnrespondedMessageBelowOverflow && (
           <div
             id="unrespondedMessageBelowOverflow"
             style={{
@@ -597,8 +603,9 @@ export class InteractionsBar extends React.Component {
               name="caret_white"
               style={{ display: 'block', margin: '0 auto' }}
             />
-          </div>}
-        {this.state.showBottomScrollShadow &&
+          </div>
+        )}
+        {this.state.showBottomScrollShadow && (
           <div
             id="bottomScrollShadow"
             style={{
@@ -608,11 +615,12 @@ export class InteractionsBar extends React.Component {
                 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)',
               zIndex: 1,
             }}
-          />}
+          />
+        )}
         {this.props.isAgentReady &&
           !this.props.newInteractionPanel.visible &&
           (!this.context.toolbarMode ||
-            !this.props.isInteractionsBarCollapsed) &&
+            !this.props.isInteractionsBarCollapsed) && (
             <div
               style={{
                 padding: '11px',
@@ -631,7 +639,8 @@ export class InteractionsBar extends React.Component {
                   zIndex: '0',
                 }}
               />
-            </div>}
+            </div>
+          )}
         <CurrentCrmItemHistoryButton />
       </div>
     );

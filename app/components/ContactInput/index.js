@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* ContactInput
-*
-*/
+ *
+ * ContactInput
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -100,9 +100,7 @@ function ContactInput(props) {
       }
       return (
         <div style={styles.attributeRow} key={props.attribute.id}>
-          <div style={styles.attributeName}>
-            {props.attributeLabel}
-          </div>
+          <div style={styles.attributeName}>{props.attributeLabel}</div>
           <Checkbox
             id={`${props.attribute.objectName}Checkbox`}
             name={props.attribute.objectName}
@@ -129,7 +127,7 @@ function ContactInput(props) {
               props.notSelected && styles.notSelected,
             ]}
           >
-            {value !== undefined &&
+            {value !== undefined && (
               <TextInput
                 noBorder
                 disabled={props.notSelected}
@@ -144,9 +142,10 @@ function ContactInput(props) {
                 placeholder={getLocaleLabel(props.attribute, props.intl.locale)}
                 autocomplete="off"
                 onBlur={props.handleOnBlur}
-              />}
-            {value && value.length && !props.notSelected
-              ? <Button
+              />
+            )}
+            {value && value.length && !props.notSelected ? (
+              <Button
                 id={`${props.attribute.objectName}-clear-btn`}
                 tabIndex={-1}
                 name={props.attribute.objectName}
@@ -156,7 +155,9 @@ function ContactInput(props) {
                 type="secondary"
                 onClick={props.handleInputClear}
               />
-              : undefined}
+            ) : (
+              undefined
+            )}
           </div>
         </div>
       );

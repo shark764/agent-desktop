@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* Button
-*
-*/
+ *
+ * Button
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -184,12 +184,14 @@ export class Button extends React.Component {
       inner = <FormattedMessage {...this.props.mouseOverText} />;
     }
 
-    let title = this.props.title;
+    let title;
     if (
       typeof this.props.title === 'object' &&
       Object.prototype.hasOwnProperty.call(this.props.title, 'id')
     ) {
       title = this.props.intl.formatMessage(this.props.title);
+    } else {
+      title = this.props.title;
     }
 
     return (
@@ -213,12 +215,13 @@ export class Button extends React.Component {
         title={title}
       >
         {inner}
-        {this.props.hasSubMenu &&
+        {this.props.hasSubMenu && (
           <i
             style={styles.mainBtnDropdownArrow}
             className="fa fa-caret-down"
             key="fa-caret-down"
-          />}
+          />
+        )}
       </button>
     );
   }

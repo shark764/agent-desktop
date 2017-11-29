@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* Logo
-*
-*/
+ *
+ * Logo
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -16,7 +16,7 @@ import serenova from './Serenova.png';
 import mitel from './Mitel.png';
 
 function Logo(props) {
-  const parts = location.hostname.split('.');
+  const parts = window.location.hostname.split('.');
   let logo;
   if (parts[0].indexOf('mitel') !== -1) {
     logo = mitel;

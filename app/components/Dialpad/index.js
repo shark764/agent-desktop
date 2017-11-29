@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* Dialpad
-*
-*/
+ *
+ * Dialpad
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -142,11 +142,14 @@ function Dialpad(props, context) {
 
   return (
     <div>
-      {!props.transfer
-        ? <div id="dialpadMask" style={styles.mask} onClick={props.toggle} />
-        : undefined}
-      {!props.transfer &&
-        <div id="dialpadtriangle" style={styles.topTriangle} />}
+      {!props.transfer ? (
+        <div id="dialpadMask" style={styles.mask} onClick={props.toggle} />
+      ) : (
+        undefined
+      )}
+      {!props.transfer && (
+        <div id="dialpadtriangle" style={styles.topTriangle} />
+      )}
       <div
         style={[
           !props.transfer && styles.phoneControlsPopupMenu,

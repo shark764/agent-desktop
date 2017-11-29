@@ -240,9 +240,9 @@ export class ContactMerge extends React.Component {
     const attribute = this.props.attributes.find(
       (attr) => attr.id === attributeId
     );
-    const attributeLabel = `${attribute.label[
-      this.props.intl.locale
-    ]}${attribute.mandatory ? '*' : ''}`;
+    const attributeLabel = `${attribute.label[this.props.intl.locale]}${
+      attribute.mandatory ? '*' : ''
+    }`;
     const firstValue =
       this.props.editingContacts[0].attributes[attribute.objectName] || '';
     const secondValue =
@@ -348,11 +348,12 @@ export class ContactMerge extends React.Component {
     );
   };
 
-  generateSection = (section) =>
-    (<div style={styles.section} key={section.label[this.props.intl.locale]}>
+  generateSection = (section) => (
+    <div style={styles.section} key={section.label[this.props.intl.locale]}>
       <ContactSectionHeader label={section.label[this.props.intl.locale]} />
       {section.attributes.map(this.generateAttributeRow)}
-    </div>);
+    </div>
+  );
 
   showConfirmDialog = () => {
     this.props.setShowConfirmDialog(true);

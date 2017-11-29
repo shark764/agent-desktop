@@ -7,11 +7,13 @@ import { shallow } from 'enzyme';
 import { WrapUpToggle } from '../index';
 
 describe('<WrapUpToggle />', () => {
-  const interaction = { interactionId: 'aaa', status: 'work-accepted', wrapupDetails: {} };
+  const interaction = {
+    interactionId: 'aaa',
+    status: 'work-accepted',
+    wrapupDetails: {},
+  };
   it('should render correctly', () => {
-    const rendered = shallow(
-      <WrapUpToggle interaction={interaction} />
-    );
+    const rendered = shallow(<WrapUpToggle interaction={interaction} />);
     expect(rendered).toMatchSnapshot();
   });
 });

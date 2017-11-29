@@ -38,9 +38,11 @@ const styles = {
 export function WorkItemContentArea(props) {
   const isAccepting = props.selectedInteraction.status === 'work-accepting';
 
-  const from = `${has(props.selectedInteraction, 'contact.attributes.name')
-    ? `${props.selectedInteraction.contact.attributes.name} - `
-    : ''}${props.selectedInteraction.subject}`;
+  const from = `${
+    has(props.selectedInteraction, 'contact.attributes.name')
+      ? `${props.selectedInteraction.contact.attributes.name} - `
+      : ''
+  }${props.selectedInteraction.subject}`;
 
   const details = props.selectedInteraction.customFields && <CustomFields />;
 

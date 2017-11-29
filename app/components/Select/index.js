@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* Select
-*
-*/
+ *
+ * Select
+ *
+ */
 
 import React from 'react';
 import TetheredSelect from 'components/TetheredSelect';

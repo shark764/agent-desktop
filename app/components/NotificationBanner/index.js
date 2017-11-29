@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* NotificationBanner
-*
-*/
+ *
+ * NotificationBanner
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -72,11 +72,12 @@ function NotificationBanner(props) {
       id={props.id}
       style={[styles.base, props.isError && styles.baseError, props.style]}
     >
-      {props.titleMessage &&
+      {props.titleMessage && (
         <div style={styles.titleText}>
           {props.intl.formatMessage(props.titleMessage)}
           &nbsp;
-        </div>}
+        </div>
+      )}
       <div
         style={[
           styles.descriptionMessage,
@@ -88,20 +89,22 @@ function NotificationBanner(props) {
       >
         {descriptionMessage}
       </div>
-      {props.rightLinkAction &&
+      {props.rightLinkAction && (
         <div onClick={props.rightLinkAction} style={styles.rightLinkText}>
           {props.intl.formatMessage(
             props.rightLinkMessage || messages.tryAgain
           )}
-        </div>}
-      {props.dismiss &&
+        </div>
+      )}
+      {props.dismiss && (
         <IconSVG
           name="close"
           id={`${props.id}-dismiss-btn`}
           onClick={props.dismiss}
           clear
           style={{ width: '20px', flexShrink: 0 }}
-        />}
+        />
+      )}
     </div>
   );
 }

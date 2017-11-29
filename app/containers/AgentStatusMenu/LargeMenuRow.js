@@ -93,9 +93,7 @@ function LargeMenuRow(props) {
       onClick={!props.disabled && props.onClick}
     >
       <div style={styles.textContainer}>
-        <div style={[styles.titleText]}>
-          {titleText}
-        </div>
+        <div style={[styles.titleText]}>{titleText}</div>
         <div title={mainText} style={[styles.mainText]}>
           {mainText}
         </div>
@@ -109,10 +107,9 @@ function LargeMenuRow(props) {
   return (
     <div style={styles.submenuOuterContainer}>
       {mainRow}
-      {props.isOpen &&
-        <div style={styles.submenuContainer}>
-          {props.subMenuRows}
-        </div>}
+      {props.isOpen && (
+        <div style={styles.submenuContainer}>{props.subMenuRows}</div>
+      )}
     </div>
   );
 }

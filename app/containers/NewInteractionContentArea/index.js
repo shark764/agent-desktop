@@ -58,9 +58,11 @@ export function NewInteractionContentArea(props, context) {
         />
       </div>
       <div style={styles.contacts}>
-        {!context.toolbarMode && props.hasCrmPermissions
-          ? <ContactSearch />
-          : <NewInteractionForm />}
+        {!context.toolbarMode && props.hasCrmPermissions ? (
+          <ContactSearch />
+        ) : (
+          <NewInteractionForm />
+        )}
       </div>
     </div>
   );

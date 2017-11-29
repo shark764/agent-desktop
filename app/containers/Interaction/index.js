@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* Interaction
-*
-*/
+ *
+ * Interaction
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -198,8 +198,8 @@ export class Interaction extends React.Component {
       ageSeconds:
         this.props.status === 'wrapup'
           ? Math.round(
-              (Date.now() - this.props.interaction.wrapupStarted) / 1000
-            )
+            (Date.now() - this.props.interaction.wrapupStarted) / 1000
+          )
           : 0,
       msIntervalId: setInterval(() => {
         const ageSeconds = Math.round(
@@ -374,8 +374,8 @@ export class Interaction extends React.Component {
     }
   };
 
-  getPreviewText = () =>
-    (<Dotdotdot
+  getPreviewText = () => (
+    <Dotdotdot
       clamp={2}
       className="previewText"
       style={styles.previewText}
@@ -384,7 +384,8 @@ export class Interaction extends React.Component {
       <p style={{ margin: 0 }} title={this.props.previewText}>
         {this.props.previewText}
       </p>
-    </Dotdotdot>);
+    </Dotdotdot>
+  );
 
   getLabel = () => {
     if (this.props.status === 'creating-new-interaction') {
@@ -418,8 +419,9 @@ export class Interaction extends React.Component {
     const acceptMessage = pendingPSTN ? messages.PSTN : messages.accept;
     return (
       <div
-        id={`${this.props.status}InteractionContainer-${this.props.interaction
-          .interactionId}`}
+        id={`${this.props.status}InteractionContainer-${
+          this.props.interaction.interactionId
+        }`}
         className={`${this.props.status}InteractionContainer`}
         style={[
           styles.base,
@@ -443,7 +445,7 @@ export class Interaction extends React.Component {
       >
         {this.context.toolbarMode && [
           this.props.status === 'wrapup' ||
-            (this.props.status === 'work-ended-pending-script' &&
+            (this.props.status === 'work-ended-pending-script' && (
               <div
                 key={`${this.props.interaction.interactionId}-timerBar`}
                 style={[
@@ -453,45 +455,46 @@ export class Interaction extends React.Component {
                     height: this.getTimerHeight(),
                   },
                 ]}
-              />),
-          this.props.status === 'wrapup' &&
+              />
+            )),
+          this.props.status === 'wrapup' && (
             <div
               key={`${this.props.interaction.interactionId}-wrapupTimer`}
               style={[styles.wrapupToolbar, { color: this.getTimerColor() }]}
             >
               {this.getTimer()}
-            </div>,
+            </div>
+          ),
         ]}
         {this.props.status === 'creating-new-interaction' ||
-        this.props.status === 'script-only'
-          ? <div>
-            <div style={styles.iconContainer} />
-            <div style={[styles.mainContainer, { marginLeft: 0 }]}>
-              <div style={styles.headerContainer}>
-                <div style={styles.from}>
-                  {this.getLabel()}
+        this.props.status === 'script-only' ? (
+            <div>
+              <div style={styles.iconContainer} />
+              <div style={[styles.mainContainer, { marginLeft: 0 }]}>
+                <div style={styles.headerContainer}>
+                  <div style={styles.from}>{this.getLabel()}</div>
                 </div>
               </div>
             </div>
-          </div>
-          : <div>
-            <div style={styles.iconContainer}>
-              <Icon name={this.props.icon} />
+          ) : (
+            <div>
+              <div style={styles.iconContainer}>
+                <Icon name={this.props.icon} />
+              </div>
+              {this.context.toolbarMode &&
+              this.props.status !== 'wrapup' && (
+                  <div
+                    style={[styles.timerToolbar, { color: this.getTimerColor() }]}
+                  >
+                    {this.getTimer()}
+                  </div>
+                )}
             </div>
-            {this.context.toolbarMode &&
-                this.props.status !== 'wrapup' &&
-                <div
-                  style={[styles.timerToolbar, { color: this.getTimerColor() }]}
-                >
-                  {this.getTimer()}
-                </div>}
-          </div>}
-        {!this.context.toolbarMode &&
+          )}
+        {!this.context.toolbarMode && (
           <div style={styles.mainContainer}>
             <div style={styles.headerContainer}>
-              <div style={styles.from}>
-                {this.props.from}
-              </div>
+              <div style={styles.from}>{this.props.from}</div>
               <div style={[styles.timer, { color: this.getTimerColor() }]}>
                 {this.getTimer()}
               </div>
@@ -499,13 +502,15 @@ export class Interaction extends React.Component {
             {this.props.status !== 'creating-new-interaction' &&
               this.props.status !== 'script-only' &&
               this.getDetails()}
-            {this.props.status === 'pending' &&
+            {this.props.status === 'pending' && (
               <div style={styles.intentText}>
                 <FormattedMessage {...acceptMessage} />
                 <CancelButton interaction={this.props.interaction} />
-              </div>}
-          </div>}
-        {this.state.hover &&
+              </div>
+            )}
+          </div>
+        )}
+        {this.state.hover && (
           <div style={styles.hoverElement}>
             <div
               style={[
@@ -521,29 +526,31 @@ export class Interaction extends React.Component {
                   : { top: '4px' },
               ]}
             >
-              {this.props.interaction.contact
-                ? <div>
+              {this.props.interaction.contact ? (
+                <div>
                   <p style={[styles.hoverBoxText, styles.hoverBoxTitle]}>
                     {this.props.from}
                   </p>
-                  <p style={styles.hoverBoxText}>
-                    {this.props.contactPoint}
-                  </p>
+                  <p style={styles.hoverBoxText}>{this.props.contactPoint}</p>
                 </div>
-                : <p style={[styles.hoverBoxText, styles.hoverBoxTitle]}>
+              ) : (
+                <p style={[styles.hoverBoxText, styles.hoverBoxTitle]}>
                   {this.props.from}
-                </p>}
+                </p>
+              )}
               {this.getDetails()}
-              {this.context.toolbarMode &&
+              {this.context.toolbarMode && (
                 <CancelButton
                   interaction={this.props.interaction}
                   style={{
                     position: 'relative',
                     margin: '10px 0 0 50%',
                   }}
-                />}
+                />
+              )}
             </div>
-          </div>}
+          </div>
+        )}
       </div>
     );
   }

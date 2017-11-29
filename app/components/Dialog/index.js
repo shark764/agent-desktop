@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* Dialog
-*
-*/
+ *
+ * Dialog
+ *
+ */
 
 import React, { Children } from 'react';
 import PropTypes from 'prop-types';

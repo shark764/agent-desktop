@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* ConfirmDialog
-*
-*/
+ *
+ * ConfirmDialog
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -64,10 +64,11 @@ function ConfirmDialog(props) {
         fadeContent
       >
         <div style={styles.container}>
-          {props.questionMessage &&
+          {props.questionMessage && (
             <div style={styles.questionContainer}>
               <FormattedMessage {...props.questionMessage} />
-            </div>}
+            </div>
+          )}
           <div
             style={[
               styles.buttonContainer,

@@ -5,7 +5,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { ActionsMenu }  from '../index';
+import { ActionsMenu } from '../index';
 
 describe('<ActionsMenu />', () => {
   const buttonConfig = [
@@ -50,10 +50,7 @@ describe('<ActionsMenu />', () => {
 
   it('should render correctly', () => {
     const rendered = shallow(
-      <ActionsMenu
-        interaction={mockInteraction}
-        buttonConfig={buttonConfig}
-      />
+      <ActionsMenu interaction={mockInteraction} buttonConfig={buttonConfig} />
     );
     expect(rendered).toMatchSnapshot();
   });

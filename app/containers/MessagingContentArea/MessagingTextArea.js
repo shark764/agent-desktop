@@ -245,9 +245,10 @@ export class MessagingTextArea extends React.Component {
       );
     }
     this.setState({
-      messageText: `${newMessageText}${this.props.messageTemplates[
-        this.state.selectedMessageTemplateIndex
-      ].template}`,
+      messageText: `${newMessageText}${
+        this.props.messageTemplates[this.state.selectedMessageTemplateIndex]
+          .template
+      }`,
       showMessageTemplateMenu: false,
       showMessageTemplateMenuByForwardSlash: false,
       messageTemplateFilter: undefined,
@@ -345,19 +346,19 @@ export class MessagingTextArea extends React.Component {
   render() {
     return (
       <div style={styles.messageTextareaContainer}>
-        {this.state.showMessageTemplateMenu
-          ? <div
+        {this.state.showMessageTemplateMenu ? (
+          <div
             id="messageTemplatesContainer"
             style={[
               styles.messageTemplatesContainer,
               this.context.toolbarMode
-                  ? styles.messageTemplatesContainerToolbar
-                  : styles.messageTemplatesContainerAgentDesktop,
+                ? styles.messageTemplatesContainerToolbar
+                : styles.messageTemplatesContainerAgentDesktop,
               this.context.toolbarMode && {
                 height: `calc(100% - ${14 +
-                    this.state.messageTextareaHeight}px)`,
+                  this.state.messageTextareaHeight}px)`,
               },
-                { bottom: 14 + this.state.messageTextareaHeight },
+              { bottom: 14 + this.state.messageTextareaHeight },
             ]}
           >
             <div style={styles.messageTemplatesHeader}>
@@ -366,98 +367,101 @@ export class MessagingTextArea extends React.Component {
               </span>
               <span style={styles.right}>
                 <Icon name="arrow_up_down" />
-                  &nbsp;
+                &nbsp;
                 <FormattedMessage {...messages.toNavigate} />
-                  &nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;
                 <Icon name="arrow_return" />
-                  &nbsp;
+                &nbsp;
                 <FormattedMessage {...messages.toSelect} />
-                  &nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;
                 <span>
                   <span style={styles.bold}>
                     <FormattedMessage {...messages.esc} />
                   </span>
-                  {!this.context.toolbarMode &&
-                  <span>
-                        &nbsp;
-                    <FormattedMessage {...messages.toDismiss} />
-                  </span>}
+                  {!this.context.toolbarMode && (
+                    <span>
+                      &nbsp;
+                      <FormattedMessage {...messages.toDismiss} />
+                    </span>
+                  )}
                 </span>
               </span>
             </div>
             <div style={styles.messageTemplates}>
               {this.props.messageTemplates.map(
-                  (messageTemplate, messageTemplateIndex) => {
-                    if (
-                      !this.state.showMessageTemplateMenuByForwardSlash ||
-                      !this.state.messageTemplateFilter ||
-                      messageTemplate.name
-                        .toUpperCase()
-                        .includes(
-                          this.state.messageTemplateFilter.toUpperCase()
-                        )
-                    ) {
-                      return (
-                        <div
-                          className="messageTemplate"
-                          key={messageTemplate.id}
-                          ref={(c) => {
-                            this[`messageTemplate-${messageTemplateIndex}`] = c;
-                          }}
-                          onClick={() => this.addMessageTemplate()}
-                          onFocus={() =>
-                            this.selectMessageTemplateIndex(
-                              messageTemplateIndex
-                            )}
-                          onMouseOver={() =>
-                            this.selectMessageTemplateIndex(
-                              messageTemplateIndex
-                            )}
-                          style={[
-                            styles.messageTemplate,
-                            this.state.selectedMessageTemplateIndex ===
-                            messageTemplateIndex
-                              ? styles.selectedMessageTemplate
-                              : {},
-                          ]}
-                        >
-                          <span style={styles.bold}>
-                            /{messageTemplate.name}
-                          </span>&nbsp;&nbsp;&nbsp;
-                          <span>{messageTemplate.template}</span>
-                        </div>
-                      );
-                    } else {
-                      return undefined;
-                    }
+                (messageTemplate, messageTemplateIndex) => {
+                  if (
+                    !this.state.showMessageTemplateMenuByForwardSlash ||
+                    !this.state.messageTemplateFilter ||
+                    messageTemplate.name
+                      .toUpperCase()
+                      .includes(this.state.messageTemplateFilter.toUpperCase())
+                  ) {
+                    return (
+                      <div
+                        className="messageTemplate"
+                        key={messageTemplate.id}
+                        ref={(c) => {
+                          this[`messageTemplate-${messageTemplateIndex}`] = c;
+                        }}
+                        onClick={() => this.addMessageTemplate()}
+                        onFocus={() =>
+                          this.selectMessageTemplateIndex(messageTemplateIndex)
+                        }
+                        onMouseOver={() =>
+                          this.selectMessageTemplateIndex(messageTemplateIndex)
+                        }
+                        style={[
+                          styles.messageTemplate,
+                          this.state.selectedMessageTemplateIndex ===
+                          messageTemplateIndex
+                            ? styles.selectedMessageTemplate
+                            : {},
+                        ]}
+                      >
+                        <span style={styles.bold}>/{messageTemplate.name}</span>&nbsp;&nbsp;&nbsp;
+                        <span>{messageTemplate.template}</span>
+                      </div>
+                    );
+                  } else {
+                    return undefined;
                   }
-                )}
+                }
+              )}
             </div>
           </div>
-          : undefined}
-        {this.props.messageTemplates && this.props.messageTemplates.length > 0
-          ? <Button
-            id="templateMenuButton"
-            disabled={this.props.selectedInteraction.status === 'wrapup'}
-            onClick={this.toggleMessageTemplateMenu}
-            type="secondary"
-            style={styles.templateMenuButton}
-          >
-            <span>+</span>
-          </Button>
-          : undefined}
+        ) : (
+          undefined
+        )}
+        {this.props.messageTemplates &&
+        this.props.messageTemplates.length > 0 ? (
+            <Button
+              id="templateMenuButton"
+              disabled={this.props.selectedInteraction.status === 'wrapup'}
+              onClick={this.toggleMessageTemplateMenu}
+              type="secondary"
+              style={styles.templateMenuButton}
+            >
+              <span>+</span>
+            </Button>
+          ) : (
+            undefined
+          )}
         <style>
           {/* This style is here because the Textarea library doesn't render the ':focus' Radium attribute */}
-          {`#messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: ${this
-            .props.messageTemplates && this.props.messageTemplates.length > 0
-            ? '0;'
-            : '1px solid #23CEF5 !important;'}}`}
+          {`#messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: ${
+            this.props.messageTemplates &&
+            this.props.messageTemplates.length > 0
+              ? '0;'
+              : '1px solid #23CEF5 !important;'
+          }}`}
         </style>
         <Textarea
           minRows={2}
           maxRows={4}
           onHeightChange={(messageTextareaHeight) =>
-            this.setState({ messageTextareaHeight })}
+            this.setState({ messageTextareaHeight })
+          }
           id="messageTextarea"
           inputRef={(input) => {
             this.messageTextarea = input;

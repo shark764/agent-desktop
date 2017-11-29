@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* CircleIconButton
-*
-*/
+ *
+ * CircleIconButton
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -46,10 +46,7 @@ function CircleIconButton(props) {
         style={[styles.base, props.style, styles.icon]}
         onclick={props.onClick}
       />
-      {props.innerElement &&
-        <div>
-          {props.innerElement}
-        </div>}
+      {props.innerElement && <div>{props.innerElement}</div>}
     </div>
   );
 }

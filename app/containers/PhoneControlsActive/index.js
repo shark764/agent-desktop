@@ -283,11 +283,12 @@ export class PhoneControlsActive extends React.Component {
 
   renderTopTriangle = () => <div style={this.styles.topTriangle} />;
 
-  renderTopTriangleTransferMenu = () =>
-    <div style={[this.styles.topTriangle, this.styles.transferTopTriangle]} />;
+  renderTopTriangleTransferMenu = () => (
+    <div style={[this.styles.topTriangle, this.styles.transferTopTriangle]} />
+  );
 
-  renderTransferMenu = () =>
-    (<span>
+  renderTransferMenu = () => (
+    <span>
       <div
         id="transferMask"
         style={this.styles.mask}
@@ -307,7 +308,8 @@ export class PhoneControlsActive extends React.Component {
           setShowTransferMenu={this.setShowTransferMenu}
         />
       </div>
-    </span>);
+    </span>
+  );
 
   renderTransferMenuTypes = (forIcon) => {
     if (this.state.showTransferMenu) {
@@ -359,9 +361,11 @@ export class PhoneControlsActive extends React.Component {
                 htmlFor="toggleRecording"
                 style={this.styles.toggleRecordingLabel}
               >
-                {this.props.activeVoiceInteraction.recording
-                  ? <FormattedMessage {...messages.on} />
-                  : <FormattedMessage {...messages.off} />}
+                {this.props.activeVoiceInteraction.recording ? (
+                  <FormattedMessage {...messages.on} />
+                ) : (
+                  <FormattedMessage {...messages.off} />
+                )}
               </label>
               <Toggle
                 id="toggleRecording"
@@ -388,16 +392,19 @@ export class PhoneControlsActive extends React.Component {
     let warmTransfers;
     if (this.props.activeVoiceInteraction.warmTransfers.length > 0) {
       const warmTransfersMapped = this.props.activeVoiceInteraction.warmTransfers.map(
-        (warmTransfer, index) =>
+        (warmTransfer, index) => (
           // the index being appended to the key is a temporary anti-pattern to protect us from
           // duplicate keys now that queues and resource ID's both live in the props,
-          (<TransferResource
-            key={`${warmTransfer.targetResource // eslint-disable-line
-              ? warmTransfer.targetResource
-              : warmTransfer.id}_${index}`}
+          <TransferResource
+            key={`${
+              warmTransfer.targetResource // eslint-disable-line
+                ? warmTransfer.targetResource
+                : warmTransfer.id
+            }_${index}`}
             activeVoiceInteraction={this.props.activeVoiceInteraction}
             resource={warmTransfer}
-          />)
+          />
+        )
       );
       warmTransfers = (
         <div
@@ -430,16 +437,17 @@ export class PhoneControlsActive extends React.Component {
               onClick={this.confirmEndInteraction}
               style={this.styles.circleIconButtonRow}
             />
-            {this.props.activeVoiceInteraction.status !== 'fatal' &&
+            {this.props.activeVoiceInteraction.status !== 'fatal' && (
               <span>
-                {this.props.activeVoiceInteraction.meOnHold !== true &&
+                {this.props.activeVoiceInteraction.meOnHold !== true && (
                   <CircleIconButton
                     id="muteButton"
                     name="mute"
                     active={this.props.activeVoiceInteraction.muted}
                     onClick={this.setMute}
                     style={this.styles.circleIconButtonRow}
-                  />}
+                  />
+                )}
                 <CircleIconButton
                   id="holdButton"
                   name="hold"
@@ -447,7 +455,7 @@ export class PhoneControlsActive extends React.Component {
                   onClick={this.setHold}
                   style={this.styles.circleIconButtonRow}
                 />
-                {!connectingTransfers &&
+                {!connectingTransfers && (
                   <span>
                     <CircleIconButton
                       id="transferButton"
@@ -458,8 +466,9 @@ export class PhoneControlsActive extends React.Component {
                       innerElement={this.renderTransferMenuTypes(true)}
                     />
                     {this.context.toolbarMode && this.renderTransferMenuTypes()}
-                  </span>}
-                {this.props.activeExtension.type !== 'pstn' &&
+                  </span>
+                )}
+                {this.props.activeExtension.type !== 'pstn' && (
                   <CircleIconButton
                     id="dialpadButton"
                     name="dialpad"
@@ -469,8 +478,9 @@ export class PhoneControlsActive extends React.Component {
                     innerElement={this.renderDialpad(
                       this.state.showActiveInteractionDialpad
                     )}
-                  />}
-                {warmTransfers !== undefined &&
+                  />
+                )}
+                {warmTransfers !== undefined && (
                   <span>
                     <CircleIconButton
                       id="resourcesButton"
@@ -484,7 +494,7 @@ export class PhoneControlsActive extends React.Component {
                           : null
                       }
                     />
-                    {this.state.showActiveResourcesMenu &&
+                    {this.state.showActiveResourcesMenu && (
                       <div>
                         <div
                           id="activeResourcesMenuMask"
@@ -492,12 +502,15 @@ export class PhoneControlsActive extends React.Component {
                           onClick={this.toggleActiveResourcesMenu}
                         />
                         {warmTransfers}
-                      </div>}
-                  </span>}
-              </span>}
+                      </div>
+                    )}
+                  </span>
+                )}
+              </span>
+            )}
           </div>
         </div>
-        {resourcesOnHold > 1 &&
+        {resourcesOnHold > 1 && (
           <Button
             id="resumeAll"
             text={messages.resumeAll}
@@ -508,20 +521,22 @@ export class PhoneControlsActive extends React.Component {
               this.styles.meOnHold,
               this.context.toolbarMode && this.styles.meOnHoldToolbar,
             ]}
-          />}
+          />
+        )}
         {resourcesOnHold <= 1 &&
-          this.props.activeVoiceInteraction.meOnHold === true &&
-          <Button
-            id="agentOnHoldButton"
-            text={messages.onHold}
-            mouseOverText={messages.resume}
-            type="primaryRed"
-            onClick={this.resumeMe}
-            style={[
-              this.styles.meOnHold,
-              this.context.toolbarMode && this.styles.meOnHoldToolbar,
-            ]}
-          />}
+          this.props.activeVoiceInteraction.meOnHold === true && (
+            <Button
+              id="agentOnHoldButton"
+              text={messages.onHold}
+              mouseOverText={messages.resume}
+              type="primaryRed"
+              onClick={this.resumeMe}
+              style={[
+                this.styles.meOnHold,
+                this.context.toolbarMode && this.styles.meOnHoldToolbar,
+              ]}
+            />
+          )}
       </div>
     );
   }

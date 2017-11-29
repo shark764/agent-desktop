@@ -74,18 +74,22 @@ export class NoRecords extends React.Component {
         <div style={styles.noRecordsMessage}>
           - <FormattedMessage {...messages.noRecords} /> -
         </div>
-        {(this.getPhoneNumber() || this.getEmailAddress()) &&
+        {(this.getPhoneNumber() || this.getEmailAddress()) && (
           <div style={styles.outboundInteractionButtons}>
-            {this.getPhoneNumber() &&
-              <OutboundCallButton phoneNumber={this.getPhoneNumber()} />}
-            {this.getPhoneNumber() &&
-              <OutboundSmsButton phoneNumber={this.getPhoneNumber()} />}
-            {this.getEmailAddress() &&
-              <OutboundEmailButton email={this.getEmailAddress()} />}
+            {this.getPhoneNumber() && (
+              <OutboundCallButton phoneNumber={this.getPhoneNumber()} />
+            )}
+            {this.getPhoneNumber() && (
+              <OutboundSmsButton phoneNumber={this.getPhoneNumber()} />
+            )}
+            {this.getEmailAddress() && (
+              <OutboundEmailButton email={this.getEmailAddress()} />
+            )}
             <div style={styles.orText}>
               <FormattedMessage {...messages.or} />
             </div>
-          </div>}
+          </div>
+        )}
         <div style={styles.createRecordBtn}>
           <Button
             id="createNewRecord"

@@ -174,22 +174,27 @@ export class ContactInteractionHistory extends React.Component {
         style={styles.interactionsHeaderContainer}
       >
         <div id="interactionsSince" style={styles.interactionsHeader}>
-          {interactionsTotal > 0
-            ? <div>
+          {interactionsTotal > 0 ? (
+            <div>
               {interactionsTotal}
-                &nbsp;
-              {interactionsTotal > 1
-                  ? <FormattedMessage {...messages.interactions} />
-                  : <FormattedMessage {...messages.interaction} />}
-              {earliestTimestamp &&
-              <span>
-                    &nbsp;
-                <FormattedMessage {...messages.since} />
-                    &nbsp;
-                {moment(earliestTimestamp).format('LL')}
-              </span>}
+              &nbsp;
+              {interactionsTotal > 1 ? (
+                <FormattedMessage {...messages.interactions} />
+              ) : (
+                <FormattedMessage {...messages.interaction} />
+              )}
+              {earliestTimestamp && (
+                <span>
+                  &nbsp;
+                  <FormattedMessage {...messages.since} />
+                  &nbsp;
+                  {moment(earliestTimestamp).format('LL')}
+                </span>
+              )}
             </div>
-            : <FormattedMessage {...messages.noPastInteractions} />}
+          ) : (
+            <FormattedMessage {...messages.noPastInteractions} />
+          )}
         </div>
         <div
           id="refreshContactInteractionHistory"
@@ -209,14 +214,15 @@ export class ContactInteractionHistory extends React.Component {
       );
     } else {
       const interactions = this.props.contactInteractionHistory.results.map(
-        (interaction, interactionIndex) =>
-          (<ContactInteractionHistoryItem
+        (interaction, interactionIndex) => (
+          <ContactInteractionHistoryItem
             key={interaction.interactionId}
             interaction={interaction}
             interactionIndex={interactionIndex}
             contactName={this.props.contactName}
             selectInteraction={this.selectInteraction}
-          />)
+          />
+        )
       );
       return [
         this.getInteractionHistoryHeader(),
@@ -259,11 +265,7 @@ export class ContactInteractionHistory extends React.Component {
         />
       );
     }
-    return (
-      <div style={[styles.base, this.props.style]}>
-        {content}
-      </div>
-    );
+    return <div style={[styles.base, this.props.style]}>{content}</div>;
   }
 }
 

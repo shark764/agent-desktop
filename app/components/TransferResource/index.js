@@ -191,11 +191,8 @@ export class TransferResource extends React.Component {
         >
           {this.props.resource.name}
         </span>
-        {status &&
-          <span style={this.styles.transferStatus}>
-            ({status})
-          </span>}
-        {this.props.resource.status === 'connected' &&
+        {status && <span style={this.styles.transferStatus}>({status})</span>}
+        {this.props.resource.status === 'connected' && (
           <span
             id="resourceControlsMenu"
             style={this.styles.resourceControlsMenu}
@@ -219,7 +216,8 @@ export class TransferResource extends React.Component {
               onClick={this.transfer}
               style={this.styles.phoneControlsButton}
             />
-          </span>}
+          </span>
+        )}
         <Timer
           format="mm:ss"
           style={this.styles.transferTimer}

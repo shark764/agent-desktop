@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* Resizable
-*
-*/
+ *
+ * Resizable
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -233,9 +233,10 @@ class Resizable extends React.Component {
           this.wrapperElement = element;
         }}
       >
-        {this.state.hideDivider
-          ? ''
-          : <div
+        {this.state.hideDivider ? (
+          ''
+        ) : (
+          <div
             id={`${this.props.id}-handle`}
             style={styles.divider}
             onMouseDown={this.handleMouseDown}
@@ -245,7 +246,8 @@ class Resizable extends React.Component {
               <div style={[this.dividerHandleStyle, styles.dividerHandle1]} />
               <div style={[this.dividerHandleStyle, styles.dividerHandle2]} />
             </span>
-          </div>}
+          </div>
+        )}
         {this.props.children}
       </div>
     );

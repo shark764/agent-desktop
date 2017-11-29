@@ -76,7 +76,7 @@ function dependencyHandlers() {
     ];
   }
 
-  const dllPath = path.resolve(process.cwd(), dllPlugin.path || 'node_modules/react-boilerplate-dlls');
+  const dllPath = path.resolve(process.cwd(), dllPlugin.path);
 
   /**
    * All production dependencies listed in package.json
@@ -93,7 +93,10 @@ function dependencyHandlers() {
   return [
     new webpack.DllReferencePlugin({
       context: process.cwd(),
-      manifest: require(manifestPath), // eslint-disable-line global-require
+      manifest: {
+        name: 'agentDesktopDeps',
+        content: require(manifestPath),
+      },
     }),
   ];
 }

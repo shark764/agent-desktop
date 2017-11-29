@@ -3,12 +3,12 @@
  */
 
 /**
-*
-* ErrorBoundary
-* A higher order component to wrap other components in to handle render and selector errors.
-* https://github.com/facebook/react/issues/2461#issuecomment-311077975
-*
-*/
+ *
+ * ErrorBoundary
+ * A higher order component to wrap other components in to handle render and selector errors.
+ * https://github.com/facebook/react/issues/2461#issuecomment-311077975
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';

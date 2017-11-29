@@ -109,8 +109,8 @@ export class InfoTab extends React.Component {
     this.props.addNotification({ id, errorType, messageType, isError });
   };
 
-  crmUnavailableBanner = () =>
-    (<div style={[this.styles.base]}>
+  crmUnavailableBanner = () => (
+    <div style={[this.styles.base]}>
       <NotificationBanner
         id="crm-unavailable-banner"
         key="crm-unavailable-banner"
@@ -121,7 +121,8 @@ export class InfoTab extends React.Component {
         }
         isError
       />
-    </div>);
+    </div>
+  );
 
   render() {
     if (this.props.crmUnavailable) {
@@ -129,8 +130,8 @@ export class InfoTab extends React.Component {
     }
     return (
       <div style={[this.styles.base]}>
-        {this.props.notifications.map((notification, index) =>
-          (<NotificationBanner
+        {this.props.notifications.map((notification, index) => (
+          <NotificationBanner
             id={`contactNotification${index}`}
             key={notification.id}
             style={this.styles.notificationBanner}
@@ -143,8 +144,8 @@ export class InfoTab extends React.Component {
               messages[notification.messageType] || messages.notSaved
             }
             isError={notification.isError}
-          />)
-        )}
+          />
+        ))}
         <ContactHeader
           editAssignedContact={this.editAssignedContact}
           contactMode={this.props.selectedInteraction.contactMode}

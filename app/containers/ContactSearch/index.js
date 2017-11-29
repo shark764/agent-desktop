@@ -165,10 +165,11 @@ export class ContactSearch extends React.Component {
     );
   };
 
-  getLoader = () =>
-    (<div id="loadingContainer" style={styles.loading}>
+  getLoader = () => (
+    <div id="loadingContainer" style={styles.loading}>
       <IconSVG width="80px" id="loadingIcon" name="loading" />
-    </div>);
+    </div>
+  );
 
   setSearchInputElement = (element) => {
     if (element) {
@@ -294,31 +295,33 @@ export class ContactSearch extends React.Component {
             focusSearchInputElement={this.focusSearchInputElement}
           />
           <div style={styles.filtersWrapper}>
-            {this.props.query.map((filter) =>
-              (<Filter
+            {this.props.query.map((filter) => (
+              <Filter
                 key={filter.attribute.objectName}
                 name={this.getFilterName(filter)}
                 value={filter.value}
                 remove={() =>
-                  this.props.removeSearchFilter(filter.attribute.objectName)}
+                  this.props.removeSearchFilter(filter.attribute.objectName)
+                }
                 style={styles.filter}
                 disabled={this.props.searchPending}
-              />)
-            )}
+              />
+            ))}
           </div>
         </div>
         {results}
         {this.props.results.length > 0 &&
           !this.props.loading &&
-          !isEditing &&
-          <ContactBulkActions
-            newContact={this.newContact}
-            selectedContacts={this.props.checkedContacts}
-            deleteContacts={this.props.deleteContacts}
-            confirmingDelete={this.props.confirmingDelete}
-            setMerging={this.setMerging}
-            setConfirmingDelete={this.props.setConfirmingDelete}
-          />}
+          !isEditing && (
+            <ContactBulkActions
+              newContact={this.newContact}
+              selectedContacts={this.props.checkedContacts}
+              deleteContacts={this.props.deleteContacts}
+              confirmingDelete={this.props.confirmingDelete}
+              setMerging={this.setMerging}
+              setConfirmingDelete={this.props.setConfirmingDelete}
+            />
+          )}
       </div>
     );
   }

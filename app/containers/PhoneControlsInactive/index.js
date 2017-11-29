@@ -151,11 +151,7 @@ export class PhoneControlsInactive extends React.Component {
       );
     }
 
-    return (
-      <div style={this.styles.base}>
-        {phoneControlsInactive}
-      </div>
-    );
+    return <div style={this.styles.base}>{phoneControlsInactive}</div>;
   }
 }
 

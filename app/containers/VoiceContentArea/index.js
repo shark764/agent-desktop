@@ -44,9 +44,11 @@ export class VoiceContentArea extends React.Component {
       ? this.props.selectedInteraction.contact.attributes.name
       : this.props.selectedInteraction.number;
 
-    const details = this.props.selectedInteraction.customFields
-      ? <CustomFields />
-      : '';
+    const details = this.props.selectedInteraction.customFields ? (
+      <CustomFields />
+    ) : (
+      ''
+    );
 
     const wrappingUp = this.props.selectedInteraction.status === 'wrapup';
 

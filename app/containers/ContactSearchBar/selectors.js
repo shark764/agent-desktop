@@ -25,25 +25,28 @@ const selectSearchableAttributes = createSelector(
     const searchableAttributes = [];
     if (typeof layout !== 'undefined' && typeof attributes !== 'undefined') {
       // don't panic, layout / attributes haven't loaded yet
-      layout.get('layout').toJS().map((section) =>
-        section.attributes.forEach((attributeId) => {
-          if (
-            searchableAttributes.indexOf(
-              (searchableAttribute) => searchableAttribute.id === attributeId
-            ) > -1
-          ) {
-            return;
-          }
-          const mappedAttribute = attributes.find(
-            (attribute) => attribute.get('id') === attributeId
-          );
-          if (mappedAttribute !== undefined) {
-            searchableAttributes.push(mappedAttribute.toJS());
-          } else {
-            throw new Error('Could not map attribute');
-          }
-        })
-      );
+      layout
+        .get('layout')
+        .toJS()
+        .map((section) =>
+          section.attributes.forEach((attributeId) => {
+            if (
+              searchableAttributes.indexOf(
+                (searchableAttribute) => searchableAttribute.id === attributeId
+              ) > -1
+            ) {
+              return;
+            }
+            const mappedAttribute = attributes.find(
+              (attribute) => attribute.get('id') === attributeId
+            );
+            if (mappedAttribute !== undefined) {
+              searchableAttributes.push(mappedAttribute.toJS());
+            } else {
+              throw new Error('Could not map attribute');
+            }
+          })
+        );
     }
     return searchableAttributes;
   }

@@ -66,12 +66,15 @@ export function NewInteractionForm(props) {
         autoFocus
       />
       <hr style={styles.hr} />
-      {!isValidEmail(props.input) &&
-        <OutboundCallButton phoneNumber={formatPhoneNumber(props.input)} />}
-      {!isValidEmail(props.input) &&
-        <OutboundSmsButton phoneNumber={formatPhoneNumber(props.input)} />}
-      {!isValidNumber(formatPhoneNumber(props.input)) &&
-        <OutboundEmailButton email={props.input} />}
+      {!isValidEmail(props.input) && (
+        <OutboundCallButton phoneNumber={formatPhoneNumber(props.input)} />
+      )}
+      {!isValidEmail(props.input) && (
+        <OutboundSmsButton phoneNumber={formatPhoneNumber(props.input)} />
+      )}
+      {!isValidNumber(formatPhoneNumber(props.input)) && (
+        <OutboundEmailButton email={props.input} />
+      )}
     </div>
   );
 }

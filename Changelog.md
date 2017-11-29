@@ -1,3 +1,6 @@
+### [1.13.4] (2017-11-29)
+* Updated repos dependencies patch and minor version to get rolling to react 16
+
 ### [1.13.3] (2017-11-28)
 * CXV1-12243 - Hide actions menu in interaction pending script state
 

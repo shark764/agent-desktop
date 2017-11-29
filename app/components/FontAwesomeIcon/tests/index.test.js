@@ -9,19 +9,17 @@ import FontAwesomeIcon from '../index';
 
 describe('<FontAwesomeIcon />', () => {
   it('should render correctly', () => {
-    const rendered = shallow(
-      <FontAwesomeIcon name={'globe'} id={'globeIcon'} />
-    );
+    const rendered = shallow(<FontAwesomeIcon name="globe" id="globeIcon" />);
     expect(rendered).toMatchSnapshot();
   });
   it('should render correctly with additional props', () => {
     const rendered = shallow(
       <FontAwesomeIcon
-        name={'globe'}
-        faSize={'3'}
-        alt={'testing icon'}
+        name="globe"
+        faSize="3"
+        alt="testing icon"
         style={{ color: 'blue' }}
-        id={'globeIcon'}
+        id="globeIcon"
         onclick={() => {
           console.log('test');
         }}

@@ -14,25 +14,33 @@ const selectAttributes = createSelector(selectSidePanelDomain, (sidePanel) =>
 );
 const selectCompactLayoutSection = createSelector(
   selectSidePanelDomain,
-  (sidePanel) => sidePanel.get('contactLayout').get('layout').get(0).toJS()
+  (sidePanel) =>
+    sidePanel
+      .get('contactLayout')
+      .get('layout')
+      .get(0)
+      .toJS()
 );
 const selectPopulatedLayout = createSelector(
   [selectLayout, selectAttributes],
   (layout, attributes) =>
-    layout.get('layout').toJS().map((section) =>
-      Object.assign(section, {
-        attributes: section.attributes.map((attributeId) => {
-          const mappedAttribute = attributes.find(
-            (attribute) => attribute.id === attributeId
-          );
-          if (mappedAttribute !== undefined) {
-            return mappedAttribute;
-          } else {
-            throw new Error(`Could not map attribute ${attributeId}`);
-          }
-        }),
-      })
-    )
+    layout
+      .get('layout')
+      .toJS()
+      .map((section) =>
+        Object.assign(section, {
+          attributes: section.attributes.map((attributeId) => {
+            const mappedAttribute = attributes.find(
+              (attribute) => attribute.id === attributeId
+            );
+            if (mappedAttribute !== undefined) {
+              return mappedAttribute;
+            } else {
+              throw new Error(`Could not map attribute ${attributeId}`);
+            }
+          }),
+        })
+      )
 );
 const selectPopulatedCompactAttributes = createSelector(
   [selectCompactLayoutSection, selectAttributes],

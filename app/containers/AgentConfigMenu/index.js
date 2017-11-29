@@ -167,8 +167,8 @@ export class AgentConfigMenu extends React.Component {
             />
           </div>
         </div>
-        {this.state.statSource === 'queue-id'
-          ? <div style={this.styles.menuGroup}>
+        {this.state.statSource === 'queue-id' ? (
+          <div style={this.styles.menuGroup}>
             <div style={this.styles.menuHeader}>
               <FormattedMessage {...messages.queue} />
             </div>
@@ -183,7 +183,9 @@ export class AgentConfigMenu extends React.Component {
               />
             </div>
           </div>
-          : ''}
+        ) : (
+          ''
+        )}
         <div style={this.styles.menuGroup}>
           <div style={this.styles.menuHeader}>
             <FormattedMessage {...messages.statistic} />
@@ -210,23 +212,26 @@ export class AgentConfigMenu extends React.Component {
               style={this.styles.select}
               options={this.getAggregates()}
               onChange={(e) =>
-                this.setStatAggregate(e.value || '-1', e.label || '')}
+                this.setStatAggregate(e.value || '-1', e.label || '')
+              }
               clearable={false}
             />
           </div>
         </div>
         <div style={this.styles.buttonContainer}>
-          {this.props.toolbarStatIds.length === MAXIMUM_STATS
-            ? <span>
+          {this.props.toolbarStatIds.length === MAXIMUM_STATS ? (
+            <span>
               <FormattedMessage {...messages.maxStats} />
             </span>
-            : <Button
+          ) : (
+            <Button
               text={messages.add}
               id="toggleStat"
               style={this.styles.addButton}
               type="secondary"
               onClick={this.addStat}
-            />}
+            />
+          )}
         </div>
       </PopupDialog>
     );
