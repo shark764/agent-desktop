@@ -1,3 +1,6 @@
+### [1.13.5] (2017-11-29)
+* CXV1-11391 - Transferring to an Agent That has Already Logged out or is Away Does Not Time Out.
+
 ### [1.13.4] (2017-11-29)
 * Updated repos dependencies patch and minor version to get rolling to react 16
 

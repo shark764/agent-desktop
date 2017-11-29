@@ -46,7 +46,7 @@ export class TransferMenu extends React.Component {
     this.mounted = false;
 
     this.state = {
-      transferTabIndex: 0,
+      transferTabIndex: this.props.nonVoice ? 1 : 0,
       transferSearchInput: '',
       agents: 'loading',
       transferLists: 'loading',
@@ -133,20 +133,24 @@ export class TransferMenu extends React.Component {
       { excludeOffline: true },
       this.setAgentsCallback
     );
-    CxEngage.entities.getTransferLists((error, topic, response) =>
-      this.setTransferListsCallback(error, topic, response)
-    );
+    if (!this.props.nonVoice) {
+      CxEngage.entities.getTransferLists((error, topic, response) =>
+        this.setTransferListsCallback(error, topic, response)
+      );
+    }
 
     this.reloadQueuesInterval = setInterval(() => {
       this.refreshQueues();
     }, REFRESH_QUEUES_RATE);
 
-    this.reloadTransferablesInterval = setInterval(() => {
-      CxEngage.entities.getUsers(
-        { excludeOffline: true },
-        this.setAgentsCallback
-      );
-    }, REFRESH_AGENTS_RATE);
+    if (this.state.transferTabIndex === 0) {
+      this.reloadTransferablesInterval = setInterval(() => {
+        CxEngage.entities.getUsers(
+          { excludeOffline: true },
+          this.setAgentsCallback
+        );
+      }, REFRESH_AGENTS_RATE);
+    }
   }
 
   componentWillUnmount() {
@@ -520,72 +524,74 @@ export class TransferMenu extends React.Component {
     );
 
     let agents;
-    if (this.state.agents !== 'loading') {
-      agents = this.filterTransferListItems(this.state.agents).map((agent) => {
-        if (
-          this.props.warmTransfers &&
-          this.props.warmTransfers.find((transfer) => transfer.id === agent.id)
-        ) {
-          return (
-            <div
-              key={agent.id}
-              id={agent.id}
-              className="readyAgentTransferListItem"
-              style={this.styles.inactiveTransferListItem}
-              title={agent.name}
-            >
+    if (this.state.transferTabIndex === 0) {
+      if (this.state.agents !== 'loading') {
+        agents = this.filterTransferListItems(this.state.agents).map((agent) => {
+          if (
+            this.props.warmTransfers &&
+            this.props.warmTransfers.find((transfer) => transfer.id === agent.id)
+          ) {
+            return (
               <div
-                style={[
-                  this.styles.agentStatusIcon,
-                  this.styles.agentAvailable,
-                ]}
-              />
-              <span style={this.styles.agentName}>{agent.name}</span>
-            </div>
-          );
-        } else if (agent.isAvailable) {
-          return (
-            <div
-              key={agent.id}
-              id={agent.id}
-              className="readyAgentTransferListItem transferItem"
-              onClick={() => this.transfer(agent.name, agent.id)}
-              style={this.styles.transferListItem}
-              title={agent.name}
-              tabIndex="0" // eslint-disable-line
-            >
+                key={agent.id}
+                id={agent.id}
+                className="readyAgentTransferListItem"
+                style={this.styles.inactiveTransferListItem}
+                title={agent.name}
+              >
+                <div
+                  style={[
+                    this.styles.agentStatusIcon,
+                    this.styles.agentAvailable,
+                  ]}
+                />
+                <span style={this.styles.agentName}>{agent.name}</span>
+              </div>
+            );
+          } else if (agent.isAvailable) {
+            return (
               <div
-                style={[
-                  this.styles.agentStatusIcon,
-                  this.styles.agentAvailable,
-                ]}
-              />
-              <span style={this.styles.agentName}>{agent.name}</span>
-            </div>
-          );
-        } else {
-          return (
-            <div
-              key={agent.id}
-              id={agent.id}
-              className="notReadyAgentTransferListItem transferItem"
-              style={this.styles.inactiveTransferListItem}
-              title={agent.name}
-              tabIndex="0" // eslint-disable-line
-            >
+                key={agent.id}
+                id={agent.id}
+                className="readyAgentTransferListItem transferItem"
+                onClick={() => this.transfer(agent.name, agent.id)}
+                style={this.styles.transferListItem}
+                title={agent.name}
+                tabIndex="0" // eslint-disable-line
+              >
+                <div
+                  style={[
+                    this.styles.agentStatusIcon,
+                    this.styles.agentAvailable,
+                  ]}
+                />
+                <span style={this.styles.agentName}>{agent.name}</span>
+              </div>
+            );
+          } else {
+            return (
               <div
-                style={[
-                  this.styles.agentStatusIcon,
-                  this.styles.agentUnavailable,
-                ]}
-              />
-              <span style={this.styles.agentName}>{agent.name}</span>
-            </div>
-          );
-        }
-      });
-    } else if (this.state.agents === 'loading') {
-      agents = <FormattedMessage {...messages.checking} />;
+                key={agent.id}
+                id={agent.id}
+                className="notReadyAgentTransferListItem transferItem"
+                style={this.styles.inactiveTransferListItem}
+                title={agent.name}
+                tabIndex="0" // eslint-disable-line
+              >
+                <div
+                  style={[
+                    this.styles.agentStatusIcon,
+                    this.styles.agentUnavailable,
+                  ]}
+                />
+                <span style={this.styles.agentName}>{agent.name}</span>
+              </div>
+            );
+          }
+        });
+      } else if (this.state.agents === 'loading') {
+        agents = <FormattedMessage {...messages.checking} />;
+      }
     }
 
     let transferLists;
@@ -620,8 +626,9 @@ export class TransferMenu extends React.Component {
                     transferListItem.name
                   }`}
                   key={`${transferList.id}-${hierarchy}-${
+                    // eslint-disable-line
                     transferListItem.name
-                  }`} // eslint-disable-line
+                  }`}
                   className="tranferListItem transferItem"
                   onClick={() =>
                     this.transferTransferListItem(
@@ -726,7 +733,7 @@ export class TransferMenu extends React.Component {
               ) : (
                 ''
               )}
-              {
+              {this.state.transferTabIndex === 0 && (
                 <div style={this.styles.transferList}>
                   <div style={this.styles.transferListTitle}>
                     <FormattedMessage
@@ -743,7 +750,7 @@ export class TransferMenu extends React.Component {
                   </div>
                   {agents}
                 </div>
-              }
+              )}
               {transferLists}
             </div>
           </div>
