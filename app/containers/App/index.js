@@ -73,6 +73,7 @@ import {
   workInitiated,
   addMessage,
   setMessageHistory,
+  updateMessageHistoryAgentName,
   assignContact,
   setAssignedContact,
   unassignContact,
@@ -460,9 +461,16 @@ export class App extends React.Component {
             ) {
               this.props.resourceAdded(response);
               if (!response.extraParams.externalResource) {
-                CxEngage.entities.getUser({
-                  resourceId: response.extraParams.targetResource,
-                });
+                CxEngage.entities.getUser(
+                  {
+                    resourceId: response.extraParams.targetResource,
+                  },
+                  (getUserError, getUserTopic, getUserResponse) => {
+                    if (!getUserError) {
+                      this.props.updateResourceName(getUserResponse);
+                    }
+                  }
+                );
               }
             }
             break;
@@ -704,10 +712,36 @@ export class App extends React.Component {
 
           // INTERACTIONS/MESSAGING
           case 'cxengage/interactions/messaging/history-received': {
-            this.props.setMessageHistory(
-              response,
-              this.props.login.agent.userId
-            );
+            if (response && response.length > 0) {
+              this.props.setMessageHistory(response);
+              const interactionId = response[0].to;
+              const agents = [];
+              response.forEach((messageHistoryItem) => {
+                if (
+                  messageHistoryItem.metadata &&
+                  messageHistoryItem.metadata.type === 'agent' &&
+                  messageHistoryItem.from !== this.props.login.agent.userId &&
+                  !agents.includes(messageHistoryItem.from)
+                ) {
+                  agents.push(messageHistoryItem.from);
+                  CxEngage.entities.getUser(
+                    {
+                      resourceId: messageHistoryItem.from,
+                    },
+                    (getUserError, getUserTopic, getUserResponse) => {
+                      if (!getUserError) {
+                        this.props.updateMessageHistoryAgentName(
+                          interactionId,
+                          getUserResponse.result
+                        );
+                      }
+                    }
+                  );
+                }
+              });
+            } else {
+              console.warn(`No message history: ${response}`);
+            }
             break;
           }
           case 'cxengage/interactions/messaging/new-message-received': {
@@ -1029,10 +1063,6 @@ export class App extends React.Component {
           }
 
           // ENTITIES
-          case 'cxengage/entities/get-user-response': {
-            this.props.updateResourceName(response);
-            break;
-          }
           case 'cxengage/entities/get-queues-response': {
             this.props.setQueues(response.result.filter((queue) => queue.active));
             break;
@@ -1252,8 +1282,9 @@ function mapDispatchToProps(dispatch) {
     workInitiated: (response) => dispatch(workInitiated(response)),
     removeInteraction: (interactionId) =>
       dispatch(removeInteraction(interactionId)),
-    setMessageHistory: (response, agentId) =>
-      dispatch(setMessageHistory(response, agentId)),
+    setMessageHistory: (response) => dispatch(setMessageHistory(response)),
+    updateMessageHistoryAgentName: (interactionId, response) =>
+      dispatch(updateMessageHistoryAgentName(interactionId, response)),
     assignContact: (interactionId, contact) =>
       dispatch(assignContact(interactionId, contact)),
     setAssignedContact: (interactionId, contact) =>
@@ -1383,6 +1414,7 @@ App.propTypes = {
   workInitiated: PropTypes.func.isRequired,
   removeInteraction: PropTypes.func.isRequired,
   setMessageHistory: PropTypes.func.isRequired,
+  updateMessageHistoryAgentName: PropTypes.func.isRequired,
   assignContact: PropTypes.func.isRequired,
   setAssignedContact: PropTypes.func.isRequired,
   unassignContact: PropTypes.func.isRequired,

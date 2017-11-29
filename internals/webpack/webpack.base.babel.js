@@ -38,10 +38,24 @@ module.exports = (options) => ({
       },
     }, {
       test: /\.(jpg|png|gif)$/,
-      loaders: [
-        'file-loader',
-        'image-webpack-loader?{progressive:true, pngquant:{quality: "65-90", speed: 4}}',
-      ],
+      loaders: ['file-loader?context=src/images&name=images/[path][name].[ext]', {
+        loader: 'image-webpack-loader',
+        query: {
+          mozjpeg: {
+            progressive: true,
+          },
+          gifsicle: {
+            interlaced: false,
+          },
+          optipng: {
+            optimizationLevel: 4,
+          },
+          pngquant: {
+            quality: '75-90',
+            speed: 3,
+          },
+        },
+      }],
     }, {
       test: /\.html$/,
       loader: 'html-loader',

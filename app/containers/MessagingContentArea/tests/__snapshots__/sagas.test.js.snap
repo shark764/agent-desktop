@@ -87,6 +87,7 @@ Object {
       "action": Object {
         "interactionId": "interactionId",
         "message": Immutable.Record {
+          "id": "no-id",
           "type": "agent",
           "from": "Agent",
           "text": "message",

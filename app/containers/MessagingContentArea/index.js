@@ -22,6 +22,7 @@ import CustomFields from 'containers/CustomFields';
 
 import ContentArea from 'containers/ContentArea';
 
+import { selectAgent } from 'containers/Login/selectors';
 import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
 
 import MessagingTextArea from './MessagingTextArea';
@@ -150,6 +151,8 @@ export class MessagingContentArea extends React.Component {
           ) {
             messageFrom = this.props.selectedInteraction.contact.attributes
               .name;
+          } else if (message.type === 'agent' && message.from === this.props.agentId) {
+            messageFrom = 'Agent';
           } else {
             messageFrom = message.from;
           }
@@ -217,19 +220,15 @@ MessagingContentArea.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,
   endInteraction: PropTypes.func.isRequired,
   messageTemplates: PropTypes.array.isRequired,
+  agentId: PropTypes.string.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
+  agentId: selectAgent(state, props).userId,
   awaitingDisposition: selectAwaitingDisposition(state, props),
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(MessagingContentArea))
+  connect(mapStateToProps)(Radium(MessagingContentArea))
 );

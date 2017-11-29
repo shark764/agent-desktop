@@ -1,3 +1,6 @@
+### [1.13.10] (2017-12-4)
+* CXV1-12247: Add other (transferred by) agent's name into message history
+
 ### [1.13.9] (2017-12-1)
 * CXV1-12214 - Agent Messaging Content Disappears When Switching Between interactions
 

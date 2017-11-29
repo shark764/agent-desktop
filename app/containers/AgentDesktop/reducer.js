@@ -49,6 +49,7 @@ import {
   REMOVE_SEARCH_FILTER,
   SET_INTERACTION_QUERY,
   SET_MESSAGE_HISTORY,
+  UPDATE_MESSAGE_HISTORY_AGENT_NAME,
   SET_CONTACT_MODE,
   SET_ASSIGNED_CONTACT,
   UNASSIGN_CONTACT,
@@ -1032,43 +1033,80 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case SET_MESSAGE_HISTORY: {
-      if (action.response && action.response.length > 0) {
-        const messageInteractionIndex = state
-          .get('interactions')
-          .findIndex(
+      const messageInteractionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.response[0].to
+        );
+      if (messageInteractionIndex >= 0) {
+        const messageInteraction = state.getIn([
+          'interactions',
+          messageInteractionIndex,
+        ]);
+        if (messageInteraction) {
+          // Remove any pseudo local outbound messages we have in local state
+          let messageHistoryItems = messageInteraction
+            .get('messageHistory')
+            .filter(
+              (messageHistoryItem) => messageHistoryItem.get('id') !== 'no-id'
+            );
+
+          // Add messages that are not already in list
+          action.response
+            .filter(
+              (message) =>
+                messageHistoryItems.findIndex(
+                  (messageHistoryItem) =>
+                    messageHistoryItem.get('id') === message.id
+                ) === -1
+            )
+            .forEach((message) => {
+              messageHistoryItems = messageHistoryItems.push(
+                new ResponseMessage(message)
+              );
+            });
+
+          return state.updateIn(
+            ['interactions', messageInteractionIndex],
             (interaction) =>
-              interaction.get('interactionId') === action.response[0].to
+              interaction.set('messageHistory', messageHistoryItems)
           );
-        if (messageInteractionIndex >= 0) {
-          const messageInteraction = state.getIn([
-            'interactions',
-            messageInteractionIndex,
-          ]);
-          if (messageInteraction) {
-            const messageHistoryItems = new List(
-              action.response.map(
-                (messageHistoryItem) =>
-                  new ResponseMessage(
-                    messageHistoryItem,
-                    state.get('selectedInteractionId'),
-                    action.agentId
-                  )
-              )
-            );
-            return state.updateIn(
-              ['interactions', messageInteractionIndex],
-              (interaction) =>
-                interaction.set('messageHistory', messageHistoryItems)
-            );
-          } else {
-            return state;
-          }
         } else {
-          console.warn(
-            'Interaction history could not get assigned to an interaction.'
-          );
           return state;
         }
+      } else {
+        console.warn(
+          'Interaction history could not get assigned to an interaction. No matching interactionId.'
+        );
+        return state;
+      }
+    }
+    case UPDATE_MESSAGE_HISTORY_AGENT_NAME: {
+      const interactionIndex = state
+        .get('interactions')
+        .findIndex(
+          (interaction) =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (interactionIndex >= 0) {
+        return state.updateIn(
+          ['interactions', interactionIndex, 'messageHistory'],
+          (messageHistory) =>
+            messageHistory.map((messageHistoryItem) => {
+              if (
+                messageHistoryItem.get('type') === 'agent' &&
+                messageHistoryItem.get('from') === action.user.id
+              ) {
+                return messageHistoryItem.set(
+                  'from',
+                  `${action.user.firstName} ${action.user.lastName}`
+                );
+              } else {
+                return messageHistoryItem;
+              }
+            })
+        );
       } else {
         return state;
       }
