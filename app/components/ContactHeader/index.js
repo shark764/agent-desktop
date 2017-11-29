@@ -4,10 +4,10 @@
 
 /* eslint react/prop-types: 0 */
 /**
-*
-* ContactHeader
-*
-*/
+ *
+ * ContactHeader
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -65,9 +65,7 @@ function ContactHeader(props) {
     return (
       <div style={styles.bannerHeader}>
         <div style={styles.leftGutter} />
-        <div style={styles.bannerHeaderText}>
-          {text}
-        </div>
+        <div style={styles.bannerHeaderText}>{text}</div>
       </div>
     );
   }
@@ -75,7 +73,7 @@ function ContactHeader(props) {
   function getViewControlHeader() {
     return (
       <div style={styles.controlHeader}>
-        {props.showControls &&
+        {props.showControls && (
           <div style={styles.buttonSet}>
             <Button
               id="contact-edit-btn"
@@ -91,7 +89,8 @@ function ContactHeader(props) {
               iconName="search"
               type="secondary"
             />
-          </div>}
+          </div>
+        )}
       </div>
     );
   }

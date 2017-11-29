@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* DesktopActionsButtons
-*
-*/
+ *
+ * DesktopActionsButtons
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -93,9 +93,10 @@ class DesktopActionsButtons extends React.Component {
       <div style={styles.rightHeaderContainer}>
         {!this.context.toolbarMode &&
           this.props.interaction.status !== 'wrapup' &&
-          this.props.interaction.status !== 'work-ended-pending-script' &&
-          <WrapUpToggle interaction={this.props.interaction} type="" />}
-        {this.state.showTransferMenu &&
+          this.props.interaction.status !== 'work-ended-pending-script' && (
+            <WrapUpToggle interaction={this.props.interaction} type="" />
+          )}
+        {this.state.showTransferMenu && (
           <div className="transferMenuPopOut" style={styles.transferMenuPopOut}>
             <TransferMenu
               interactionId={this.props.interaction.interactionId}
@@ -110,8 +111,9 @@ class DesktopActionsButtons extends React.Component {
               text={messages.cancel}
               onClick={this.toggleTransferMenu}
             />
-          </div>}
-        {this.props.interaction.channelType !== 'voice' &&
+          </div>
+        )}
+        {this.props.interaction.channelType !== 'voice' && (
           <Button
             style={{ marginRight: '10px', padding: '9px 17px' }}
             type="secondary"
@@ -119,9 +121,10 @@ class DesktopActionsButtons extends React.Component {
             id="transferButton"
             text={messages.transfer}
             onClick={this.toggleTransferMenu}
-          />}
-        {this.props.buttonConfig.map((button) =>
-          (<Button
+          />
+        )}
+        {this.props.buttonConfig.map((button) => (
+          <Button
             key={button.id}
             style={{ marginRight: '10px' }}
             id={button.id}
@@ -129,8 +132,8 @@ class DesktopActionsButtons extends React.Component {
             text={button.text}
             icons={button.icons}
             onClick={button.onClick}
-          />)
-        )}
+          />
+        ))}
       </div>
     );
   }

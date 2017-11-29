@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* A
-*
-*/
+ *
+ * A
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -38,9 +38,11 @@ function A(props) {
       tabIndex={props.tabIndex}
       onClick={props.disabled ? null : props.onClick}
     >
-      {typeof props.text === 'string'
-        ? props.text
-        : <FormattedMessage {...props.text} />}
+      {typeof props.text === 'string' ? (
+        props.text
+      ) : (
+        <FormattedMessage {...props.text} />
+      )}
     </a>
   );
 }

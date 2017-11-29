@@ -87,14 +87,15 @@ export class ContactSearchResult extends React.Component {
           enter={{ animation: 'transition.fadeIn', duration: '1000' }}
           leave={{ animation: 'transition.fadeOut', duration: '1000' }}
         >
-          {!this.props.hideContactSelectCheckbox &&
+          {!this.props.hideContactSelectCheckbox && (
             <Checkbox
               style={this.styles.checkbox}
               id={this.props.contact.id}
               checked={this.props.checked}
               disabled={this.props.disableEditing}
               cb={this.props.selectContact}
-            />}
+            />
+          )}
         </VelocityTransitionGroup>
         <ContactView
           contact={this.props.contact}

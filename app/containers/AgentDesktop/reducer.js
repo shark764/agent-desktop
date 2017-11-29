@@ -1563,8 +1563,9 @@ function agentDesktopReducer(state = initialState, action) {
                   const name =
                     action.response.result.firstName ||
                     action.response.result.lastName
-                      ? `${action.response.result.firstName} ${action.response
-                          .result.lastName}`
+                      ? `${action.response.result.firstName} ${
+                        action.response.result.lastName
+                      }`
                       : action.response.result.email;
                   return warmTransfer.set('name', name);
                 } else {
@@ -1733,8 +1734,10 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
-        state.get('interactions').get(interactionIndex).get('channelType') ===
-          'email'
+        state
+          .get('interactions')
+          .get(interactionIndex)
+          .get('channelType') === 'email'
       ) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
@@ -1761,8 +1764,10 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
-        state.get('interactions').get(interactionIndex).get('channelType') ===
-          'email'
+        state
+          .get('interactions')
+          .get(interactionIndex)
+          .get('channelType') === 'email'
       ) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
@@ -1777,8 +1782,10 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
-        state.get('interactions').get(interactionIndex).get('channelType') ===
-          'email'
+        state
+          .get('interactions')
+          .get(interactionIndex)
+          .get('channelType') === 'email'
       ) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
           interaction.updateIn(['emailReply', 'attachments'], (attachments) => {
@@ -1806,8 +1813,10 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
-        state.get('interactions').get(interactionIndex).get('channelType') ===
-          'email'
+        state
+          .get('interactions')
+          .get(interactionIndex)
+          .get('channelType') === 'email'
       ) {
         return state.updateIn(
           ['interactions', interactionIndex, 'emailReply', 'attachments'],
@@ -1825,8 +1834,10 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
-        state.get('interactions').get(interactionIndex).get('channelType') ===
-          'email'
+        state
+          .get('interactions')
+          .get(interactionIndex)
+          .get('channelType') === 'email'
       ) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
           interaction
@@ -1844,8 +1855,10 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
-        state.get('interactions').get(interactionIndex).get('channelType') ===
-          'email'
+        state
+          .get('interactions')
+          .get(interactionIndex)
+          .get('channelType') === 'email'
       ) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
           interaction.set('sendingReply', true)

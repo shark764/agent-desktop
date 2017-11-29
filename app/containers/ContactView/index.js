@@ -122,11 +122,12 @@ export class ContactView extends React.Component {
     );
   };
 
-  getSection = (section) =>
-    (<div style={styles.section} key={section.label[this.props.intl.locale]}>
+  getSection = (section) => (
+    <div style={styles.section} key={section.label[this.props.intl.locale]}>
       <ContactSectionHeader label={section.label[this.props.intl.locale]} />
       {section.attributes.map(this.getAttributeRow)}
-    </div>);
+    </div>
+  );
 
   startCall = (number) => {
     this.props.startOutboundInteraction(
@@ -185,7 +186,7 @@ export class ContactView extends React.Component {
             {this.props.contact.attributes &&
               this.props.contact.attributes.name}
           </div>
-          {this.props.showControls &&
+          {this.props.showControls && (
             <div style={styles.buttonGroup}>
               <Button
                 id={`assignBtn${this.props.contact.id}`}
@@ -214,13 +215,14 @@ export class ContactView extends React.Component {
                 text={this.props.intl.formatMessage(messages.editButton)}
                 style={styles.controlButton}
               />
-            </div>}
+            </div>
+          )}
         </div>
         <div>
           {this.props.showCompactView
             ? this.props.compactLayoutAttributes.attributes.map(
-                this.getAttributeRow
-              )
+              this.getAttributeRow
+            )
             : this.props.layoutSections.map(this.getSection)}
         </div>
       </div>

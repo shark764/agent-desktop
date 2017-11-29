@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* ContactSectionHeader
-*
-*/
+ *
+ * ContactSectionHeader
+ *
+ */
 
 import React from 'react';
 
@@ -24,11 +24,7 @@ function ContactSectionHeader(props) {
     },
   };
 
-  return (
-    <div style={styles.base}>
-      {props.label}
-    </div>
-  );
+  return <div style={styles.base}>{props.label}</div>;
 }
 
 ContactSectionHeader.propTypes = {

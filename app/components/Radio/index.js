@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* Radio
-*
-*/
+ *
+ * Radio
+ *
+ */
 
 import React from 'react';
 
@@ -35,8 +35,8 @@ function Radio(props) {
 
   return (
     <span style={Object.assign({}, props.style)}>
-      {props.options.map((option) =>
-        (<span
+      {props.options.map((option) => (
+        <span
           id={`agent-select-dir-1-${option.id}-container`}
           key={`agent-select-dir-1-${option.id}-container`}
           style={{ margin: '0px 12px 0px 12px' }}
@@ -54,10 +54,11 @@ function Radio(props) {
             key={`agent-select-dir-1-${option.id}-label`}
             style={styles.base}
           >
-            {' '}{formatMessage(option)}{' '}
+            {' '}
+            {formatMessage(option)}{' '}
           </span>
-        </span>)
-      )}
+        </span>
+      ))}
     </span>
   );
 }

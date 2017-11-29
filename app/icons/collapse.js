@@ -26,8 +26,12 @@ class IconCollapse extends React.Component {
         <style
           type="text/css"
           dangerouslySetInnerHTML={{
-            __html: `.st3{fill:none;stroke:${color};stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
-              .st4{fill:none;stroke:${color};stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}`,
+            __html: `.st3{fill:none;stroke:${
+              color
+            };stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
+              .st4{fill:none;stroke:${
+      color
+      };stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}`,
           }}
         />
         <polyline className="st3" points="6,10 10,13.5 14,10" />

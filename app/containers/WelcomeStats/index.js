@@ -108,20 +108,22 @@ export class WelcomeStats extends React.Component {
     }
   };
 
-  getStatDisplay = (stat, index) =>
-    (<div style={[{ order: index }, this.styles.indivStats]} key={stat[statKey]}>
+  getStatDisplay = (stat, index) => (
+    <div style={[{ order: index }, this.styles.indivStats]} key={stat[statKey]}>
       <div style={this.styles.statVal}>
         {this.getStatBody(this.props.welcomeStats[stat[statKey]])}
       </div>
       <div style={this.styles.statTitle}>
         <FormattedMessage {...messages[stat[statKey]]} />
       </div>
-    </div>);
+    </div>
+  );
 
-  getLoadingIcon = () =>
-    (<div style={this.styles.loadingIcon}>
+  getLoadingIcon = () => (
+    <div style={this.styles.loadingIcon}>
       <IconSVG id="loadingIcon" name="loadingWhite" width="40px" />
-    </div>);
+    </div>
+  );
 
   render() {
     return (

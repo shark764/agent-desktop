@@ -130,8 +130,8 @@ export class ContactEdit extends React.Component {
     );
   };
 
-  getSection = (section, index) =>
-    (<div
+  getSection = (section, index) => (
+    <div
       style={styles.section}
       key={section.label[this.props.intl.locale] || index}
     >
@@ -139,7 +139,8 @@ export class ContactEdit extends React.Component {
         label={getLocaleLabel(section, this.props.intl.locale)}
       />
       {section.attributes.map(this.getAttributeRow)}
-    </div>);
+    </div>
+  );
 
   getAttributeRow = (attribute) => {
     const attributeLabel = `${getLocaleLabel(

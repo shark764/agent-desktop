@@ -265,17 +265,19 @@ export class AgentStatusMenu extends React.Component {
         arrowLeftOffsetPx={51}
       >
         <div style={styles.baseMenuContainer}>
-          {this.props.hasActiveInteractions || this.props.hasActiveWrapup
-            ? <div id="agentLogoutLink" style={styles.presenceLinkContainer}>
+          {this.props.hasActiveInteractions || this.props.hasActiveWrapup ? (
+            <div id="agentLogoutLink" style={styles.presenceLinkContainer}>
               <FormattedMessage {...messages.logout} />
             </div>
-            : <div
+          ) : (
+            <div
               id="agentLogoutLink"
               style={[styles.presenceLinkContainer, styles.inactivePresence]}
               onClick={this.logoutAndCloseMenu}
             >
               <FormattedMessage {...messages.logout} />
-            </div>}
+            </div>
+          )}
           <LargeMenuRow
             id="agentMenuTenant"
             titleText={messages.tenant}
@@ -288,16 +290,22 @@ export class AgentStatusMenu extends React.Component {
             triggerDisabled={this.props.readyState === 'ready'}
             open={this.state.expandedMenu === 'agentVoicePathway'}
             handleTriggerClick={() =>
-              this.setCollapsibleMenus('agentVoicePathway')}
+              this.setCollapsibleMenus('agentVoicePathway')
+            }
           >
-            {this.props.extensions.map((extension, index) =>
-              (<div
-                id={`${extension.provider === undefined
-                  ? extension.type
-                  : extension.provider}-${extension.value}-${index}`}
-                key={`${extension.provider === undefined // eslint-disable-line
-                  ? extension.type
-                  : extension.provider}-${extension.value}-${index}`}
+            {this.props.extensions.map((extension, index) => (
+              <div
+                id={`${
+                  extension.provider === undefined
+                    ? extension.type
+                    : extension.provider
+                }-${extension.value}-${index}`}
+                key={`${
+                  // eslint-disable-line
+                  extension.provider === undefined
+                    ? extension.type
+                    : extension.provider
+                }-${extension.value}-${index}`}
                 style={styles.subMenuRows}
                 onClick={() => {
                   this.props.setActiveExtension(extension);
@@ -306,14 +314,15 @@ export class AgentStatusMenu extends React.Component {
               >
                 {extension.description}
                 {this.props.activeExtension.description ===
-                  extension.description &&
-                  <Icon
-                    name="checkStatus"
-                    alt="selected"
-                    style={{ float: 'right' }}
-                  />}
-              </div>)
-            )}
+                  extension.description && (
+                    <Icon
+                      name="checkStatus"
+                      alt="selected"
+                      style={{ float: 'right' }}
+                    />
+                  )}
+              </div>
+            ))}
           </Collapsible>
           <Collapsible
             className="agentDirectionMenu"
@@ -325,11 +334,12 @@ export class AgentStatusMenu extends React.Component {
             }
             open={this.state.expandedMenu === 'agentDirection'}
             handleTriggerClick={() =>
-              this.setCollapsibleMenus('agentDirection')}
+              this.setCollapsibleMenus('agentDirection')
+            }
           >
             <div
               id="agentDirectionInbound"
-              key={`Inbound`}
+              key="Inbound"
               style={styles.subMenuRows}
               disabled={this.props.agentDirection.direction === 'inbound'}
               onClick={() => {
@@ -338,18 +348,20 @@ export class AgentStatusMenu extends React.Component {
               }}
             >
               <FormattedMessage {...messages.inbound} />
-              {this.props.agentDirection.direction === 'inbound'
-                ? <Icon
+              {this.props.agentDirection.direction === 'inbound' ? (
+                <Icon
                   name="checkStatus"
                   alt="selected"
                   style={{ float: 'right' }}
                 />
-                : false}
+              ) : (
+                false
+              )}
             </div>
 
             <div
               id="agentDirectionOutbound"
-              key={`Outbound`}
+              key="Outbound"
               style={styles.subMenuRows}
               disabled={this.props.agentDirection.direction === 'outbound'}
               onClick={() => {
@@ -358,13 +370,15 @@ export class AgentStatusMenu extends React.Component {
               }}
             >
               <FormattedMessage {...messages.outbound} />
-              {this.props.agentDirection.direction === 'outbound'
-                ? <Icon
+              {this.props.agentDirection.direction === 'outbound' ? (
+                <Icon
                   name="checkStatus"
                   alt="selected"
                   style={{ float: 'right' }}
                 />
-                : false}
+              ) : (
+                false
+              )}
             </div>
           </Collapsible>
           <div
@@ -377,8 +391,8 @@ export class AgentStatusMenu extends React.Component {
             {this.props.presenceReasonLists.map(this.renderList, this)}
           </div>
           <div style={[styles.narrowDivider, { padding: '7px 24px 0 24px' }]} />
-          {this.props.readyState === 'ready'
-            ? <div
+          {this.props.readyState === 'ready' ? (
+            <div
               id="readyStateLink"
               style={[styles.presenceLinkContainer, styles.activePresence]}
             >
@@ -391,7 +405,8 @@ export class AgentStatusMenu extends React.Component {
                 style={styles.selectedIcon}
               />
             </div>
-            : <div
+          ) : (
+            <div
               id="readyStateLink"
               style={[
                 styles.presenceLinkContainer,
@@ -401,7 +416,8 @@ export class AgentStatusMenu extends React.Component {
               onClick={!this.state.statusLoading ? this.goReady : undefined}
             >
               <FormattedMessage {...messages.ready} />
-            </div>}
+            </div>
+          )}
         </div>
       </PopupDialog>
     );

@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* Collapsible
-*
-*/
+ *
+ * Collapsible
+ *
+ */
 
 /* eslint-disable */
 
@@ -54,8 +54,9 @@ class Collapsible extends Component {
         isClosed: true,
         shouldSwitchAutoOnNextCycle: false,
         height: 0,
-        transition: `height ${this.props.transitionTime}ms ${this.props
-          .easing}`,
+        transition: `height ${this.props.transitionTime}ms ${
+          this.props.easing
+        }`,
         hasBeenOpened: false,
         overflow: 'hidden',
         inTransition: false,
@@ -192,19 +193,22 @@ class Collapsible extends Component {
 
     // Construct CSS classes strings
     const triggerClassString = `${this.props.classParentString}__trigger`;
-    const triggerContainerClassString = `${this.props
-      .classParentString}__trigger-container ${openClass} ${disabledClass} ${this
-      .state.isClosed
-      ? this.props.triggerClassName
-      : this.props.triggerOpenedClassName}`;
-    const parentClassString = `${this.props.classParentString} ${this.state
-      .isClosed
-      ? this.props.className
-      : this.props.openedClassName}`;
-    const outerClassString = `${this.props
-      .classParentString}__contentOuter ${this.props.contentOuterClassName}`;
-    const innerClassString = `${this.props
-      .classParentString}__contentInner ${this.props.contentInnerClassName}`;
+    const triggerContainerClassString = `${
+      this.props.classParentString
+    }__trigger-container ${openClass} ${disabledClass} ${
+      this.state.isClosed
+        ? this.props.triggerClassName
+        : this.props.triggerOpenedClassName
+    }`;
+    const parentClassString = `${this.props.classParentString} ${
+      this.state.isClosed ? this.props.className : this.props.openedClassName
+    }`;
+    const outerClassString = `${this.props.classParentString}__contentOuter ${
+      this.props.contentOuterClassName
+    }`;
+    const innerClassString = `${this.props.classParentString}__contentInner ${
+      this.props.contentInnerClassName
+    }`;
 
     return (
       <div className={parentClassString.trim()}>

@@ -72,8 +72,9 @@ export class CrmRecordNotification extends React.Component {
         onClick = this.dismissContactWasUnassignedNotification;
       } else {
         console.error(
-          `Invalid contactWasAssignedNotification: ${this.props
-            .contactAssignedNotification}`
+          `Invalid contactWasAssignedNotification: ${
+            this.props.contactAssignedNotification
+          }`
         );
       }
       return (

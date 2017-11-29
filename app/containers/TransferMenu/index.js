@@ -208,15 +208,15 @@ export class TransferMenu extends React.Component {
               id: agent.id,
               firstName: agent.firstName,
               lastName: agent.lastName,
-              name: `${agent.firstName ? agent.firstName : ''} ${agent.lastName
-                ? agent.lastName
-                : ''}`,
+              name: `${agent.firstName ? agent.firstName : ''} ${
+                agent.lastName ? agent.lastName : ''
+              }`,
               // If there was an error with getCapactity, we have to assume ready agents are available
               isAvailable: !capacityError
                 ? this.isAgentAvailable(
-                    agent,
-                    capacityResponse.resourceCapacity
-                  )
+                  agent,
+                  capacityResponse.resourceCapacity
+                )
                 : agent.state === 'ready',
             }))
             .sort((agent1, agent2) => {
@@ -496,25 +496,27 @@ export class TransferMenu extends React.Component {
   };
 
   render() {
-    const queues = this.filterTransferListItems(this.props.queues).map((queue) =>
-      (<div
-        id={queue.id}
-        key={queue.id}
-        className="queueTransferListItem transferItem"
-        onClick={() => this.transfer(queue.name, undefined, queue.id)}
-        style={this.styles.transferListItem}
-        title={queue.name}
-        tabIndex="0" // eslint-disable-line
-      >
-        <span style={this.styles.queueName}>
-          {queue.name}
-        </span>
-        <span style={this.styles.averageQueueTime}>
-          {queue.queueTime !== undefined
-            ? <TimeStat time={queue.queueTime} unit="millis" />
-            : undefined}
-        </span>
-      </div>)
+    const queues = this.filterTransferListItems(this.props.queues).map(
+      (queue) => (
+        <div
+          id={queue.id}
+          key={queue.id}
+          className="queueTransferListItem transferItem"
+          onClick={() => this.transfer(queue.name, undefined, queue.id)}
+          style={this.styles.transferListItem}
+          title={queue.name}
+          tabIndex="0" // eslint-disable-line
+        >
+          <span style={this.styles.queueName}>{queue.name}</span>
+          <span style={this.styles.averageQueueTime}>
+            {queue.queueTime !== undefined ? (
+              <TimeStat time={queue.queueTime} unit="millis" />
+            ) : (
+              undefined
+            )}
+          </span>
+        </div>
+      )
     );
 
     let agents;
@@ -538,9 +540,7 @@ export class TransferMenu extends React.Component {
                   this.styles.agentAvailable,
                 ]}
               />
-              <span style={this.styles.agentName}>
-                {agent.name}
-              </span>
+              <span style={this.styles.agentName}>{agent.name}</span>
             </div>
           );
         } else if (agent.isAvailable) {
@@ -560,9 +560,7 @@ export class TransferMenu extends React.Component {
                   this.styles.agentAvailable,
                 ]}
               />
-              <span style={this.styles.agentName}>
-                {agent.name}
-              </span>
+              <span style={this.styles.agentName}>{agent.name}</span>
             </div>
           );
         } else {
@@ -581,9 +579,7 @@ export class TransferMenu extends React.Component {
                   this.styles.agentUnavailable,
                 ]}
               />
-              <span style={this.styles.agentName}>
-                {agent.name}
-              </span>
+              <span style={this.styles.agentName}>{agent.name}</span>
             </div>
           );
         }
@@ -618,32 +614,35 @@ export class TransferMenu extends React.Component {
                   return transferListItem.coldTransfer !== undefined;
                 }
               })
-              .map((transferListItem) =>
-                (<div
-                  id={`${transferList.id}-${hierarchy}-${transferListItem.name}`}
-                  key={`${transferList.id}-${hierarchy}-${transferListItem.name}`} // eslint-disable-line
+              .map((transferListItem) => (
+                <div
+                  id={`${transferList.id}-${hierarchy}-${
+                    transferListItem.name
+                  }`}
+                  key={`${transferList.id}-${hierarchy}-${
+                    transferListItem.name
+                  }`} // eslint-disable-line
                   className="tranferListItem transferItem"
                   onClick={() =>
                     this.transferTransferListItem(
                       transferListItem.name,
                       transferListItem.contactType,
                       transferListItem.endpoint
-                    )}
+                    )
+                  }
                   style={this.styles.transferListItem}
                   tabIndex="0" // eslint-disable-line
                 >
                   {transferListItem.name}
-                </div>)
-              );
+                </div>
+              ));
             if (filteredTransferListItems.length > 0) {
               hierarchyList.push(
                 <div
                   id={`${transferList.id}-${hierarchy}`}
                   key={`${transferList.id}-${hierarchy}`} // eslint-disable-line
                 >
-                  <div style={this.styles.hierarchy}>
-                    {hierarchy}
-                  </div>
+                  <div style={this.styles.hierarchy}>{hierarchy}</div>
                   {filteredTransferListItems}
                 </div>
               );
@@ -665,15 +664,15 @@ export class TransferMenu extends React.Component {
           }
         });
       } else {
-        transferLists =
-          !this.props.nonVoice &&
-          <FormattedMessage {...messages.loadingTransferLists} />;
+        transferLists = !this.props.nonVoice && (
+          <FormattedMessage {...messages.loadingTransferLists} />
+        );
       }
     }
 
     return (
       <div>
-        {!this.props.nonVoice &&
+        {!this.props.nonVoice && (
           <Tabs
             id="transferTabs"
             type="small"
@@ -690,14 +689,14 @@ export class TransferMenu extends React.Component {
             </TabList>
             <TabPanel />
             <TabPanel />
-          </Tabs>}
-        {!this.state.showTransferListDialpad
-          ? <div style={this.styles.transferListsContainer}>
+          </Tabs>
+        )}
+        {!this.state.showTransferListDialpad ? (
+          <div style={this.styles.transferListsContainer}>
             <TextInput
               id="transferSearchInput"
               placeholder={messages.search}
-              cb={(transferSearchInput) =>
-                  this.setState({ transferSearchInput })}
+              cb={(transferSearchInput) => this.setState({ transferSearchInput })}
               value={this.state.transferSearchInput}
               style={this.styles.transferSearchInput}
               autoFocus
@@ -710,21 +709,23 @@ export class TransferMenu extends React.Component {
                 this.props.nonVoice && this.styles.nonVoiceTransferList,
               ]}
             >
-              {queues.length > 0
-                  ? <div style={this.styles.transferList}>
-                    <div style={this.styles.transferListTitle}>
-                      <FormattedMessage {...messages.queues} />
-                      <div
-                        id="refreshQueues"
-                        style={this.styles.refresh}
-                        onClick={() => this.refreshQueues()}
-                      >
-                          &#8635;
-                        </div>
+              {queues.length > 0 ? (
+                <div style={this.styles.transferList}>
+                  <div style={this.styles.transferListTitle}>
+                    <FormattedMessage {...messages.queues} />
+                    <div
+                      id="refreshQueues"
+                      style={this.styles.refresh}
+                      onClick={() => this.refreshQueues()}
+                    >
+                      &#8635;
                     </div>
-                    {queues}
                   </div>
-                  : ''}
+                  {queues}
+                </div>
+              ) : (
+                ''
+              )}
               {
                 <div style={this.styles.transferList}>
                   <div style={this.styles.transferListTitle}>
@@ -737,16 +738,17 @@ export class TransferMenu extends React.Component {
                       style={this.styles.refresh}
                       onClick={() => this.refreshAgents()}
                     >
-                        &#8635;
-                      </div>
+                      &#8635;
+                    </div>
                   </div>
                   {agents}
                 </div>
-                }
+              }
               {transferLists}
             </div>
           </div>
-          : <div style={this.styles.dialpadContainer}>
+        ) : (
+          <div style={this.styles.dialpadContainer}>
             <Dialpad
               id="dialpad"
               setDialpadText={this.setDialpadText}
@@ -758,17 +760,18 @@ export class TransferMenu extends React.Component {
             <Button
               id="transferDialpadButton"
               text={
-                  this.state.transferTabIndex === 0
-                    ? messages.addParticipant
-                    : messages.transfer
-                }
+                this.state.transferTabIndex === 0
+                  ? messages.addParticipant
+                  : messages.transfer
+              }
               disabled={!this.state.dialpadTextValid}
               onClick={this.transferFromDialpad}
               type="primaryBlue"
               style={this.styles.transferDialpadButton}
             />
-          </div>}
-        {!this.props.nonVoice &&
+          </div>
+        )}
+        {!this.props.nonVoice && (
           <div style={this.styles.dialpadButtonContainer}>
             <CircleIconButton
               id="transferDialpadButton"
@@ -781,10 +784,12 @@ export class TransferMenu extends React.Component {
               onClick={() =>
                 this.setState({
                   showTransferListDialpad: !this.state.showTransferListDialpad,
-                })}
+                })
+              }
               style={this.styles.dialpadButton}
             />
-          </div>}
+          </div>
+        )}
       </div>
     );
   }

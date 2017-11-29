@@ -256,8 +256,9 @@ export class AgentDesktop extends React.Component {
               flexDirection: 'column',
             }}
           >
-            {this.context.toolbarMode &&
-              <PhoneControls style={{ flex: '0' }} />}
+            {this.context.toolbarMode && (
+              <PhoneControls style={{ flex: '0' }} />
+            )}
             <div style={{ display: 'flex', flex: '1' }}>
               <div
                 style={[
@@ -268,26 +269,29 @@ export class AgentDesktop extends React.Component {
                     this.styles.leftAreaCollapsed,
                 ]}
               >
-                {!this.context.toolbarMode &&
-                  <PhoneControls style={{ flexShrink: '0' }} />}
+                {!this.context.toolbarMode && (
+                  <PhoneControls style={{ flexShrink: '0' }} />
+                )}
                 {(!this.context.toolbarMode ||
-                  !this.props.isInteractionsBarCollapsed) &&
-                  <InteractionsBar style={{ flexGrow: '1' }} />}
+                  !this.props.isInteractionsBarCollapsed) && (
+                    <InteractionsBar style={{ flexGrow: '1' }} />
+                  )}
               </div>
               {this.context.toolbarMode &&
-                this.props.showCollapseButton &&
-                <CollapseInteractionsButton
-                  toggleInteractionsBar={this.toggleInteractionsBar}
-                  isCollapsed={this.props.isInteractionsBarCollapsed}
-                  hasUnrespondedInteractions={
-                    this.props.selectHasUnrespondedInteractions
-                  }
-                />}
+                this.props.showCollapseButton && (
+                  <CollapseInteractionsButton
+                    toggleInteractionsBar={this.toggleInteractionsBar}
+                    isCollapsed={this.props.isInteractionsBarCollapsed}
+                    hasUnrespondedInteractions={
+                      this.props.selectHasUnrespondedInteractions
+                    }
+                  />
+                )}
               <MainContentArea
                 agent={this.props.login.agent}
                 style={{ flex: '1 1 auto' }}
               />
-              {sidePanelHasTabs &&
+              {sidePanelHasTabs && (
                 <Resizable
                   id="crm-resizable"
                   direction="left"
@@ -299,7 +303,8 @@ export class AgentDesktop extends React.Component {
                   isDisabled={this.props.isSidePanelCollapsed}
                 >
                   <SidePanel isCollapsed={this.props.isSidePanelCollapsed} />
-                </Resizable>}
+                </Resizable>
+              )}
             </div>
           </div>
         </div>

@@ -369,7 +369,7 @@ export class Login extends React.Component {
   // Locale Update
   setLocalLocale = (locale) => {
     storage.setItem('locale', locale);
-    location.reload();
+    window.location.reload();
   };
 
   // Standalone Popup
@@ -439,7 +439,7 @@ export class Login extends React.Component {
   // TODO: Break out into separate ui view components
 
   getLoginTitle = () => {
-    const parts = location.hostname.split('.');
+    const parts = window.location.hostname.split('.');
     if (parts[0].indexOf('mitel') !== -1) {
       document.title = 'Mitel'; // Change title to match
 
@@ -471,13 +471,14 @@ export class Login extends React.Component {
     }
   };
 
-  getLoadingContent = () =>
-    (<div id="loginContainerDiv" style={styles.dialogContentContainer}>
+  getLoadingContent = () => (
+    <div id="loginContainerDiv" style={styles.dialogContentContainer}>
       <Logo style={styles.logo} />
       <div style={styles.dialogContent}>
         <IconSVG id="loadingIcon" name="loading" width="100px" />
       </div>
-    </div>);
+    </div>
+  );
 
   getLoggedInContent = () => {
     const tenantOptions = this.props.agent.tenants
@@ -517,8 +518,8 @@ export class Login extends React.Component {
     );
   };
 
-  getLoginContent = () =>
-    (<div id="loginContainerDiv" style={styles.dialogContentContainer}>
+  getLoginContent = () => (
+    <div id="loginContainerDiv" style={styles.dialogContentContainer}>
       <Logo style={styles.logo} />
       <div style={styles.dialogContent}>
         {this.getLoginTitle()}
@@ -557,21 +558,23 @@ export class Login extends React.Component {
           text={messages.signInButton}
           onClick={() => this.onLogin()}
         />
-        {this.ssoFlag() &&
+        {this.ssoFlag() && (
           <A
             id={messages.ssoSignIn.id}
             style={styles.ssoLink}
             onClick={this.showSsoLogin}
             text={messages.ssoSignIn}
-          />}
+          />
+        )}
         {/* Hide until we implement the feature
           <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.showForgotPassword()} />
         */}
       </div>
-    </div>);
+    </div>
+  );
 
-  getSingleSignOnContent = () =>
-    (<div id="ssoContainer" style={styles.dialogContentContainer}>
+  getSingleSignOnContent = () => (
+    <div id="ssoContainer" style={styles.dialogContentContainer}>
       <Logo style={styles.logo} />
       <div style={styles.dialogContent}>
         <Title
@@ -613,10 +616,11 @@ export class Login extends React.Component {
           text={messages.return2Login}
         />
       </div>
-    </div>);
+    </div>
+  );
 
-  getForgotContent = () =>
-    (<div style={styles.dialogContentContainer}>
+  getForgotContent = () => (
+    <div style={styles.dialogContentContainer}>
       <Logo style={styles.logo} />
       <Title text={messages.forgot} style={styles.contentTitle} />
       <p style={{ width: '282px', textAlign: 'center' }}>
@@ -641,10 +645,11 @@ export class Login extends React.Component {
         style={{ marginTop: '17px' }}
         onClick={this.showCxLogin}
       />
-    </div>);
+    </div>
+  );
 
-  getLanguageSelect = () =>
-    (<div style={styles.languageMenu}>
+  getLanguageSelect = () => (
+    <div style={styles.languageMenu}>
       <FontAwesomeIcon
         id="localeIcon"
         name="globe"
@@ -672,7 +677,8 @@ export class Login extends React.Component {
           backspaceRemoves={false}
         />
       </PopupDialog>
-    </div>);
+    </div>
+  );
 
   render() {
     let pageContent;
@@ -707,7 +713,7 @@ export class Login extends React.Component {
     }
 
     // Mitel Branding Color Swap
-    const parts = location.hostname.split('.');
+    const parts = window.location.hostname.split('.');
     if (parts[0].indexOf('mitel') !== -1) {
       styles.base.backgroundColor = '#002855';
     }
@@ -717,33 +723,30 @@ export class Login extends React.Component {
         <div style={styles.toolbarBase}>
           {this.props.crmModule === 'none' &&
             !this.props.isStandalonePopup &&
-            !this.props.initiatedStandalonePopup &&
-            <div style={{ gridArea: 'standalonePopup' }}>
-              <div style={{ float: 'right', margin: '1em 1.4em 0 0' }}>
-                <FontAwesomeIcon
-                  id="standalonePopupIcon"
-                  name="window-restore"
-                  style={{
-                    color: 'gray',
-                    cursor: 'pointer',
-                    fontSize: '1.5em',
-                  }}
-                  onclick={this.openStandalonePopup}
-                />
+            !this.props.initiatedStandalonePopup && (
+              <div style={{ gridArea: 'standalonePopup' }}>
+                <div style={{ float: 'right', margin: '1em 1.4em 0 0' }}>
+                  <FontAwesomeIcon
+                    id="standalonePopupIcon"
+                    name="window-restore"
+                    style={{
+                      color: 'gray',
+                      cursor: 'pointer',
+                      fontSize: '1.5em',
+                    }}
+                    onclick={this.openStandalonePopup}
+                  />
+                </div>
               </div>
-            </div>}
-          <div style={styles.content}>
-            {pageContent}
-          </div>
+            )}
+          <div style={styles.content}>{pageContent}</div>
           {!this.props.initiatedStandalonePopup && this.getLanguageSelect()}
         </div>
       );
     } else {
       return (
         <div style={styles.base}>
-          <Dialog style={styles.content}>
-            {pageContent}
-          </Dialog>
+          <Dialog style={styles.content}>{pageContent}</Dialog>
           {this.getLanguageSelect()}
           <div style={styles.copyright}>
             <div style={styles.copyrightText} id="serenova_copyright">

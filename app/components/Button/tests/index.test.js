@@ -34,7 +34,7 @@ describe('<Button />', () => {
     it('should render correctly', () => {
       const rendered = shallow(
         <Button.WrappedComponent
-          type={'primaryBlue'}
+          type="primaryBlue"
           id="mockId"
           style={{ borderTop: 'thick double #ff0000' }}
         />
@@ -47,9 +47,9 @@ describe('<Button />', () => {
     it('should render correctly', () => {
       const rendered = shallow(
         <Button.WrappedComponent
-          type={'primaryBlue'}
+          type="primaryBlue"
           id="mockId"
-          iconName={'close'}
+          iconName="close"
         />
       );
       expect(rendered).toMatchSnapshot();
@@ -60,9 +60,9 @@ describe('<Button />', () => {
     it('should render correctly', () => {
       const rendered = shallow(
         <Button.WrappedComponent
-          type={'primaryBlue'}
+          type="primaryBlue"
           id="mockId"
-          text={'testing!'}
+          text="testing!"
         />
       );
       expect(rendered).toMatchSnapshot();
@@ -73,7 +73,7 @@ describe('<Button />', () => {
     it('should render correctly', () => {
       const rendered = shallow(
         <Button.WrappedComponent
-          type={'primaryBlue'}
+          type="primaryBlue"
           id="mockId"
           text={{
             id: 'app.containers.PhoneControls.on',
@@ -89,7 +89,7 @@ describe('<Button />', () => {
     it('should render correctly', () => {
       const rendered = shallow(
         <Button.WrappedComponent
-          type={'primaryBlue'}
+          type="primaryBlue"
           id="mockId"
           mouseOverText={{
             id: 'app.containers.PhoneControls.on',
@@ -106,7 +106,7 @@ describe('<Button />', () => {
   describe('when it has children', () => {
     it('should render correctly', () => {
       const rendered = shallow(
-        <Button.WrappedComponent type={'primaryBlue'} id="mockId">
+        <Button.WrappedComponent type="primaryBlue" id="mockId">
           <div>Test!</div>
         </Button.WrappedComponent>
       );
@@ -117,7 +117,7 @@ describe('<Button />', () => {
   describe('on MouseLeave and MouseEnter events', () => {
     it('state.mouseOver should update correctly', () => {
       const rendered = shallow(
-        <Button.WrappedComponent type={'primaryBlue'} id="mockId" />
+        <Button.WrappedComponent type="primaryBlue" id="mockId" />
       );
 
       rendered.find('#mockId').simulate('MouseEnter');

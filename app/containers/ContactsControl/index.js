@@ -99,12 +99,12 @@ export class ContactsControl extends React.Component {
         case 'view':
           content =
             this.props.selectedInteraction.contact &&
-            this.props.selectedInteraction.contact.id
-              ? (<ContactView
-                contact={this.props.selectedInteraction.contact}
-                style={this.styles.mainContact}
-              />)
-              : null;
+            this.props.selectedInteraction.contact.id ? (
+                <ContactView
+                  contact={this.props.selectedInteraction.contact}
+                  style={this.styles.mainContact}
+                />
+              ) : null;
           break;
         case 'search':
         default:

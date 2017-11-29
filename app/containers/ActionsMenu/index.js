@@ -25,7 +25,6 @@ import { buttonConfigPropTypes } from 'containers/ContentArea';
 // Messages:
 import messages from './messages';
 
-
 // Styles:
 const styles = {
   subMenu: {
@@ -128,7 +127,7 @@ export class ActionsMenu extends React.Component {
           onClick={this.toggleSubMenu}
           hasSubMenu
         />
-        {this.state.showSubMenu &&
+        {this.state.showSubMenu && (
           <div
             className="SubMenu"
             style={
@@ -139,17 +138,19 @@ export class ActionsMenu extends React.Component {
           >
             <div style={styles.dropdownMenuPopoutArrow} />
             {this.props.interaction.status !== 'wrapup' &&
-              !this.state.showTransferMenu &&
-              <WrapUpToggle
-                interaction={this.props.interaction}
-                type="actionsMenu"
-              />}
-            {this.state.showTransferMenu &&
+              !this.state.showTransferMenu && (
+                <WrapUpToggle
+                  interaction={this.props.interaction}
+                  type="actionsMenu"
+                />
+              )}
+            {this.state.showTransferMenu && (
               <TransferMenu
                 interactionId={this.props.interaction.interactionId}
                 nonVoice
-              />}
-            {this.props.interaction.channelType !== 'voice' &&
+              />
+            )}
+            {this.props.interaction.channelType !== 'voice' && (
               <Button
                 style={styles.toolbarActionsButtons}
                 type="secondary"
@@ -161,10 +162,11 @@ export class ActionsMenu extends React.Component {
                     : messages.transfer
                 }
                 onClick={this.toggleTransferMenu}
-              />}
+              />
+            )}
             {!this.state.showTransferMenu &&
-              this.props.buttonConfig.map((button) =>
-                (<Button
+              this.props.buttonConfig.map((button) => (
+                <Button
                   style={styles.toolbarActionsButtons}
                   key={button.id}
                   id={button.id}
@@ -172,9 +174,10 @@ export class ActionsMenu extends React.Component {
                   text={button.text}
                   icons={button.icons}
                   onClick={button.onClick}
-                />)
-              )}
-          </div>}
+                />
+              ))}
+          </div>
+        )}
       </div>
     );
   }

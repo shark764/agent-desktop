@@ -289,7 +289,9 @@ export function* goAssignContact(action) {
   const interaction = yield call(getInteraction, action.interactionId);
   if (!interaction) {
     console.warn(
-      `Interaction not found: ${action.interactionId} . Aborting goAssignContact`
+      `Interaction not found: ${
+        action.interactionId
+      } . Aborting goAssignContact`
     );
     return;
   }

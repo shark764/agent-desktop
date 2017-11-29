@@ -31,12 +31,14 @@ export class PhoneControls extends React.Component {
   render() {
     return (
       <div style={[this.styles.base, this.props.style]}>
-        {this.props.activeVoiceInteraction
-          ? <PhoneControlsActive
+        {this.props.activeVoiceInteraction ? (
+          <PhoneControlsActive
             activeVoiceInteraction={this.props.activeVoiceInteraction}
             dialpadPosition={this.context.toolbarMode ? '-165px' : undefined}
           />
-          : <PhoneControlsInactive />}
+        ) : (
+          <PhoneControlsInactive />
+        )}
       </div>
     );
   }

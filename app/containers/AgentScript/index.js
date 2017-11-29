@@ -135,9 +135,7 @@ class AgentScript extends React.Component {
         case 'freeform':
           scriptElements.push(
             <div id={element.name} key={element.name} style={styles.element}>
-              <div>
-                {element.text}
-              </div>
+              <div>{element.text}</div>
               <TextInput
                 id={`${element.name}-textInput`}
                 value={this.state[element.name]}
@@ -154,9 +152,7 @@ class AgentScript extends React.Component {
           }));
           scriptElements.push(
             <div key={element.name} style={styles.element}>
-              <div>
-                {element.text}
-              </div>
+              <div>{element.text}</div>
               <div style={styles.select}>
                 <Select
                   id={element.name}
@@ -165,7 +161,8 @@ class AgentScript extends React.Component {
                   onChange={(option) =>
                     this.setState({
                       [element.name]: option !== null ? option.value : null,
-                    })}
+                    })
+                  }
                 />
               </div>
             </div>
@@ -200,8 +197,8 @@ class AgentScript extends React.Component {
           );
           break;
         case 'checkbox': {
-          const checkboxes = element.options.map((option, index) =>
-            (<CheckBox
+          const checkboxes = element.options.map((option, index) => (
+            <CheckBox
               labelStyle={styles.checkboxLabel}
               checkboxInputStyle={styles.checkboxInput}
               id={`${option.value}_${index}`}
@@ -213,16 +210,12 @@ class AgentScript extends React.Component {
                 newState[element.name][option.value] = checked;
                 this.setState(newState);
               }}
-            />)
-          );
+            />
+          ));
           scriptElements.push(
             <div key={element.id} style={styles.element}>
-              <div>
-                {element.text}
-              </div>
-              <div style={styles.checkboxesContainer}>
-                {checkboxes}
-              </div>
+              <div>{element.text}</div>
+              <div style={styles.checkboxesContainer}>{checkboxes}</div>
             </div>
           );
           break;

@@ -1,12 +1,12 @@
 /*
- * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
- */
+* Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+*/
 
 /*
- *
- * EmailContentArea
- *
- */
+*
+* EmailContentArea
+*
+*/
 
 import React from 'react';
 import { connect } from 'react-redux';
@@ -218,9 +218,9 @@ export class EmailContentArea extends React.Component {
       selectedEmailTemplate: undefined,
       editorState: this.props.selectedInteraction.emailReply
         ? EditorState.createWithContent(
-            stateFromHTML(this.props.selectedInteraction.emailReply.message),
-            decorator
-          )
+          stateFromHTML(this.props.selectedInteraction.emailReply.message),
+          decorator
+        )
         : createEditorState(),
     };
   }
@@ -534,8 +534,9 @@ export class EmailContentArea extends React.Component {
       this.props.selectedInteraction.emailDetails.dateSent
     ).format('LL');
     return `
-      <p>On ${timestampFormatted} ${this.props.selectedInteraction.emailDetails
-      .from[0].name} wrote:</p>
+      <p>On ${timestampFormatted} ${
+      this.props.selectedInteraction.emailDetails.from[0].name
+    } wrote:</p>
       <div style='border-left: 2px solid #979797; padding-left: 20px'>
         ${email}
       </div>
@@ -549,8 +550,9 @@ export class EmailContentArea extends React.Component {
     } else {
       const emailFrom = this.props.selectedInteraction.emailDetails.from[0];
       if (this.props.selectedInteraction.contact !== undefined) {
-        from = `${this.props.selectedInteraction.contact.attributes
-          .name} [${emailFrom.address}]`;
+        from = `${this.props.selectedInteraction.contact.attributes.name} [${
+          emailFrom.address
+        }]`;
       } else if (emailFrom.name !== emailFrom.address) {
         from = `${emailFrom.name} [${emailFrom.address}]`;
       } else {
@@ -709,30 +711,28 @@ export class EmailContentArea extends React.Component {
               <div style={styles.detailsField}>
                 <FormattedMessage {...messages.to} />
               </div>
-              <div style={styles.detailsValue}>
-                {tos.join(', ')}
-              </div>
+              <div style={styles.detailsValue}>{tos.join(', ')}</div>
             </div>
-            {ccs.length > 0
-              ? <div>
+            {ccs.length > 0 ? (
+              <div>
                 <div style={styles.detailsField}>
                   <FormattedMessage {...messages.cc} />
                 </div>
-                <div style={styles.detailsValue}>
-                  {ccs.join(', ')}
-                </div>
+                <div style={styles.detailsValue}>{ccs.join(', ')}</div>
               </div>
-              : undefined}
-            {bccs.length > 0
-              ? <div>
+            ) : (
+              undefined
+            )}
+            {bccs.length > 0 ? (
+              <div>
                 <div style={styles.detailsField}>
                   <FormattedMessage {...messages.bcc} />
                 </div>
-                <div style={styles.detailsValue}>
-                  {bccs.join(', ')}
-                </div>
+                <div style={styles.detailsValue}>{bccs.join(', ')}</div>
               </div>
-              : undefined}
+            ) : (
+              undefined
+            )}
             <div>
               <div style={styles.detailsField}>
                 <FormattedMessage {...messages.subject} />
@@ -741,17 +741,19 @@ export class EmailContentArea extends React.Component {
                 {this.props.selectedInteraction.emailDetails.subject}
               </div>
             </div>
-            {this.props.selectedInteraction.customFields &&
+            {this.props.selectedInteraction.customFields && (
               <div style={styles.detailsContainer}>
                 <CustomFields />
-              </div>}
+              </div>
+            )}
             {this.props.selectedInteraction.emailDetails.attachments !==
               undefined &&
-            this.props.selectedInteraction.emailDetails.attachments.length > 0
-              ? <div style={styles.detailsContainer}>
-                {this.props.selectedInteraction.emailDetails.attachments.map(
-                    (attachment, index) =>
-                      (<a
+            this.props.selectedInteraction.emailDetails.attachments.length >
+              0 ? (
+                <div style={styles.detailsContainer}>
+                  {this.props.selectedInteraction.emailDetails.attachments.map(
+                    (attachment, index) => (
+                      <a
                         key={attachment.artifactFileId}
                         id={`attachment-${index}`}
                         className="attachment"
@@ -760,18 +762,22 @@ export class EmailContentArea extends React.Component {
                       >
                         <div style={styles.attachment}>
                           {attachment.filename}
-                          {attachment.url === undefined &&
+                          {attachment.url === undefined && (
                             <div style={styles.loadingAttachment}>
                               <IconSVG
                                 id={`loadingAttachment-${index}`}
                                 name="loading"
                               />
-                            </div>}
+                            </div>
+                          )}
                         </div>
-                      </a>)
+                      </a>
+                    )
                   )}
-              </div>
-              : undefined}
+                </div>
+              ) : (
+                undefined
+              )}
           </div>
         );
       }
@@ -863,8 +869,8 @@ export class EmailContentArea extends React.Component {
               <FormattedMessage {...messages.to} />
             </div>
             <div style={styles.detailsValue}>
-              {this.state.tos.map((to, index) =>
-                (<div
+              {this.state.tos.map((to, index) => (
+                <div
                   key={`${index}-${to.address}`} // eslint-disable-line
                   id={`${index}-${to.address}`}
                   style={styles.emailAddress}
@@ -876,32 +882,34 @@ export class EmailContentArea extends React.Component {
                     index !== 0) &&
                     this.props.selectedInteraction.status !==
                       'work-ended-pending-script' &&
-                    index !== 0 &&
-                    <span
-                      onClick={() => this.removeTo(to)}
-                      style={styles.emailAddressRemove}
-                    >
-                      <IconSVG
-                        id="removeToAddressIcon"
-                        name="close"
-                        color="grey"
-                        width="12px"
-                      />
-                    </span>}
-                </div>)
-              )}
+                    index !== 0 && (
+                      <span
+                        onClick={() => this.removeTo(to)}
+                        style={styles.emailAddressRemove}
+                      >
+                        <IconSVG
+                          id="removeToAddressIcon"
+                          name="close"
+                          color="grey"
+                          width="12px"
+                        />
+                      </span>
+                    )}
+                </div>
+              ))}
               {this.props.selectedInteraction.status !==
-                'work-ended-pending-script' &&
-                <TextInput
-                  id="emailToInput"
-                  styleType="inlineInherit"
-                  noBorder
-                  placeholder="…"
-                  value={this.state.toInput}
-                  cb={(toInput) => this.setState({ toInput })}
-                  onKeyDown={(e) => this.onCommaAddTo(e)}
-                  onBlur={() => this.onBlurAddTo()}
-                />}
+                'work-ended-pending-script' && (
+                  <TextInput
+                    id="emailToInput"
+                    styleType="inlineInherit"
+                    noBorder
+                    placeholder="…"
+                    value={this.state.toInput}
+                    cb={(toInput) => this.setState({ toInput })}
+                    onKeyDown={(e) => this.onCommaAddTo(e)}
+                    onBlur={() => this.onBlurAddTo()}
+                  />
+                )}
             </div>
           </div>
           <div style={styles.inputContainer}>
@@ -909,8 +917,8 @@ export class EmailContentArea extends React.Component {
               <FormattedMessage {...messages.cc} />
             </div>
             <div style={styles.detailsValue}>
-              {this.state.ccs.map((cc, index) =>
-                (<div
+              {this.state.ccs.map((cc, index) => (
+                <div
                   key={`${index}-${cc.address}`} // eslint-disable-line
                   id={`${index}-${cc.address}`}
                   style={styles.emailAddress}
@@ -919,33 +927,35 @@ export class EmailContentArea extends React.Component {
                     ? `${cc.name} [${cc.address}]`
                     : cc.address}
                   {this.props.selectedInteraction.status !==
-                    'work-ended-pending-script' &&
-                    <span
-                      className="removeAddress"
-                      onClick={() => this.removeCc(cc)}
-                      style={styles.emailAddressRemove}
-                    >
-                      <IconSVG
-                        id="removeCcAddressIcon"
-                        name="close"
-                        color="grey"
-                        width="12px"
-                      />
-                    </span>}
-                </div>)
-              )}
+                    'work-ended-pending-script' && (
+                      <span
+                        className="removeAddress"
+                        onClick={() => this.removeCc(cc)}
+                        style={styles.emailAddressRemove}
+                      >
+                        <IconSVG
+                          id="removeCcAddressIcon"
+                          name="close"
+                          color="grey"
+                          width="12px"
+                        />
+                      </span>
+                    )}
+                </div>
+              ))}
               {this.props.selectedInteraction.status !==
-                'work-ended-pending-script' &&
-                <TextInput
-                  id="emailCcInput"
-                  styleType="inlineInherit"
-                  noBorder
-                  placeholder="…"
-                  value={this.state.ccInput}
-                  cb={(ccInput) => this.setState({ ccInput })}
-                  onKeyDown={(e) => this.onCommaAddCc(e)}
-                  onBlur={() => this.onBlurAddCc()}
-                />}
+                'work-ended-pending-script' && (
+                  <TextInput
+                    id="emailCcInput"
+                    styleType="inlineInherit"
+                    noBorder
+                    placeholder="…"
+                    value={this.state.ccInput}
+                    cb={(ccInput) => this.setState({ ccInput })}
+                    onKeyDown={(e) => this.onCommaAddCc(e)}
+                    onBlur={() => this.onBlurAddCc()}
+                  />
+                )}
             </div>
           </div>
           <div style={styles.inputContainer}>
@@ -953,8 +963,8 @@ export class EmailContentArea extends React.Component {
               <FormattedMessage {...messages.bcc} />
             </div>
             <div style={styles.detailsValue}>
-              {this.state.bccs.map((bcc, index) =>
-                (<div
+              {this.state.bccs.map((bcc, index) => (
+                <div
                   key={`${index}-${bcc.address}`} // eslint-disable-line
                   id={`${index}-${bcc.address}`}
                   style={styles.emailAddress}
@@ -963,33 +973,35 @@ export class EmailContentArea extends React.Component {
                     ? `${bcc.name} [${bcc.address}]`
                     : bcc.address}
                   {this.props.selectedInteraction.status !==
-                    'work-ended-pending-script' &&
-                    <span
-                      className="removeAddress"
-                      onClick={() => this.removeBcc(bcc)}
-                      style={styles.emailAddressRemove}
-                    >
-                      <IconSVG
-                        id="removeBccAddressIcon"
-                        name="close"
-                        color="grey"
-                        width="12px"
-                      />
-                    </span>}
-                </div>)
-              )}
+                    'work-ended-pending-script' && (
+                      <span
+                        className="removeAddress"
+                        onClick={() => this.removeBcc(bcc)}
+                        style={styles.emailAddressRemove}
+                      >
+                        <IconSVG
+                          id="removeBccAddressIcon"
+                          name="close"
+                          color="grey"
+                          width="12px"
+                        />
+                      </span>
+                    )}
+                </div>
+              ))}
               {this.props.selectedInteraction.status !==
-                'work-ended-pending-script' &&
-                <TextInput
-                  id="emailBccInput"
-                  styleType="inlineInherit"
-                  noBorder
-                  placeholder="…"
-                  value={this.state.bccInput}
-                  cb={(bccInput) => this.setState({ bccInput })}
-                  onKeyDown={(e) => this.onCommaAddBcc(e)}
-                  onBlur={() => this.onBlurAddBcc()}
-                />}
+                'work-ended-pending-script' && (
+                  <TextInput
+                    id="emailBccInput"
+                    styleType="inlineInherit"
+                    noBorder
+                    placeholder="…"
+                    value={this.state.bccInput}
+                    cb={(bccInput) => this.setState({ bccInput })}
+                    onKeyDown={(e) => this.onCommaAddBcc(e)}
+                    onBlur={() => this.onBlurAddBcc()}
+                  />
+                )}
             </div>
           </div>
           <div style={styles.inputContainer}>
@@ -998,60 +1010,65 @@ export class EmailContentArea extends React.Component {
             </div>
             <div style={styles.detailsValue}>
               {this.props.selectedInteraction.status !==
-              'work-ended-pending-script'
-                ? <TextInput
-                  id="subjectInput"
-                  styleType="inlineInherit"
-                  placeholder="…"
-                  value={this.state.subject}
-                  cb={(subject) => this.setState({ subject })}
-                  style={{ width: '100%' }}
-                  readOnly={
+              'work-ended-pending-script' ? (
+                  <TextInput
+                    id="subjectInput"
+                    styleType="inlineInherit"
+                    placeholder="…"
+                    value={this.state.subject}
+                    cb={(subject) => this.setState({ subject })}
+                    style={{ width: '100%' }}
+                    readOnly={
                       this.props.selectedInteraction.status ===
-                      'work-ended-pending-script'
+                    'work-ended-pending-script'
                     }
-                />
-                : this.state.subject}
+                  />
+                ) : (
+                  this.state.subject
+                )}
             </div>
           </div>
-          {this.props.emailTemplates.length > 0 &&
+          {this.props.emailTemplates.length > 0 && (
             <div>
               <div style={styles.detailsField}>
                 <FormattedMessage {...messages.template} />
               </div>
               <div style={styles.detailsValue}>
                 {this.props.selectedInteraction.status !==
-                'work-ended-pending-script'
-                  ? <Select
-                    id="emailTemplates"
-                    style={styles.select}
-                    type="inline-small"
-                    value={this.state.selectedEmailTemplate}
-                    options={emailTemplates}
-                    onChange={(e) => this.onTemplateChange(e ? e.value : e)}
-                  />
-                  : this.state.selectedEmailTemplate}
+                'work-ended-pending-script' ? (
+                    <Select
+                      id="emailTemplates"
+                      style={styles.select}
+                      type="inline-small"
+                      value={this.state.selectedEmailTemplate}
+                      options={emailTemplates}
+                      onChange={(e) => this.onTemplateChange(e ? e.value : e)}
+                    />
+                  ) : (
+                    this.state.selectedEmailTemplate
+                  )}
               </div>
-            </div>}
+            </div>
+          )}
           <div style={styles.detailsContainer}>
             {this.props.selectedInteraction.emailReply.attachments.map(
-              (attachment, index) =>
-                (<div
+              (attachment, index) => (
+                <div
                   key={`${index}-${attachment.name}`} // eslint-disable-line
                   id={`${index}-${attachment.name}`}
                   style={styles.attachment}
                 >
-                  {attachment.attachmentId === undefined
-                    ? <div>Uploading...</div>
-                    : <div>
-                      <div style={styles.attachmentName}>
-                        {attachment.name}
-                      </div>
+                  {attachment.attachmentId === undefined ? (
+                    <div>Uploading...</div>
+                  ) : (
+                    <div>
+                      <div style={styles.attachmentName}>{attachment.name}</div>
                       {this.props.selectedInteraction.status !==
-                          'work-ended-pending-script' &&
+                        'work-ended-pending-script' && (
                           <div
                             onClick={() =>
-                              this.removeAttachment(attachment.attachmentId)}
+                              this.removeAttachment(attachment.attachmentId)
+                            }
                             style={{
                               display: 'inline-block',
                               marginLeft: '5px',
@@ -1063,36 +1080,42 @@ export class EmailContentArea extends React.Component {
                               color="grey"
                               width="12px"
                             />
-                          </div>}
-                    </div>}
-                </div>)
+                          </div>
+                        )}
+                    </div>
+                  )}
+                </div>
+              )
             )}
             {this.props.selectedInteraction.status !==
-              'work-ended-pending-script' &&
-              <div>
-                <input
-                  id="attachmentFilePicker"
-                  type="file"
-                  multiple
-                  value=""
-                  onChange={(e) => this.addFilesToEmail(e.target.files)}
-                  style={{ display: 'none' }}
-                />
-                <label
-                  id="attachmentFilePickerLabel"
-                  htmlFor="attachmentFilePicker"
-                >
-                  <div style={[styles.attachment, styles.addAttachment]}>
-                    <Icon name="attachment" style={styles.attachmentIcon} />
-                    {this.props.selectedInteraction.emailReply.attachments
-                      .length === 0
-                      ? <span style={styles.addAttachmentMessage}>
-                        <FormattedMessage {...messages.addAttachment} />
-                      </span>
-                      : undefined}
-                  </div>
-                </label>
-              </div>}
+              'work-ended-pending-script' && (
+                <div>
+                  <input
+                    id="attachmentFilePicker"
+                    type="file"
+                    multiple
+                    value=""
+                    onChange={(e) => this.addFilesToEmail(e.target.files)}
+                    style={{ display: 'none' }}
+                  />
+                  <label
+                    id="attachmentFilePickerLabel"
+                    htmlFor="attachmentFilePicker"
+                  >
+                    <div style={[styles.attachment, styles.addAttachment]}>
+                      <Icon name="attachment" style={styles.attachmentIcon} />
+                      {this.props.selectedInteraction.emailReply.attachments
+                        .length === 0 ? (
+                          <span style={styles.addAttachmentMessage}>
+                            <FormattedMessage {...messages.addAttachment} />
+                          </span>
+                        ) : (
+                          undefined
+                        )}
+                    </div>
+                  </label>
+                </div>
+              )}
           </div>
         </div>
       );
@@ -1113,14 +1136,16 @@ export class EmailContentArea extends React.Component {
               On {timestampFormatted}{' '}
               {this.props.selectedInteraction.emailDetails.from[0].name} wrote:
             </p>
-            {this.props.selectedInteraction.emailHtmlBody !== undefined
-              ? <blockquote
+            {this.props.selectedInteraction.emailHtmlBody !== undefined ? (
+              <blockquote
                 className="md-RichEditor-blockquote"
                 dangerouslySetInnerHTML={{ __html: this.emailWithImages() }}
               />
-              : <blockquote className="md-RichEditor-blockquote">
+            ) : (
+              <blockquote className="md-RichEditor-blockquote">
                 {this.props.selectedInteraction.emailPlainBody}
-              </blockquote>}
+              </blockquote>
+            )}
           </div>
         );
       }

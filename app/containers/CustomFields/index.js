@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* CustomFields
-*
-*/
+ *
+ * CustomFields
+ *
+ */
 
 import React from 'react';
 import { connect } from 'react-redux';
@@ -141,11 +141,7 @@ export class CustomFields extends React.Component {
         </div>
       );
     }
-    return (
-      <div>
-        {mappedFields}
-      </div>
-    );
+    return <div>{mappedFields}</div>;
   }
 }
 

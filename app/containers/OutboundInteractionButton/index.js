@@ -99,11 +99,13 @@ export class OutboundInteractionButton extends React.Component {
       >
         <div>
           <Icon name={this.getIconName()} style={styles.startInteractionIcon} />
-          {!this.isEnabled()
-            ? <FormattedMessage {...messages[this.props.channelType]} />
-            : <span style={styles.startInteractionValue}>
+          {!this.isEnabled() ? (
+            <FormattedMessage {...messages[this.props.channelType]} />
+          ) : (
+            <span style={styles.startInteractionValue}>
               {this.props.endpoint}
-            </span>}
+            </span>
+          )}
         </div>
       </Button>
     );

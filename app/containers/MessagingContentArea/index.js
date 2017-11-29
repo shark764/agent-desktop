@@ -158,32 +158,28 @@ export class MessagingContentArea extends React.Component {
               key={message.from + message.timestamp}
               style={this.styles.messageHistoryItem}
             >
-              {message.type === 'system'
-                ? <span style={this.styles.systemMessage}>
-                  {message.text}
-                </span>
-                : <div>
+              {message.type === 'system' ? (
+                <span style={this.styles.systemMessage}>{message.text}</span>
+              ) : (
+                <div>
                   <div style={this.styles.avatarContainer}>
                     <Avatar
                       customerAvatarIndex={
-                          message.type === 'agent'
-                            ? undefined
-                            : this.props.selectedInteraction.customerAvatarIndex
-                        }
+                        message.type === 'agent'
+                          ? undefined
+                          : this.props.selectedInteraction.customerAvatarIndex
+                      }
                     />
                   </div>
                   <div style={this.styles.messageContainer}>
-                    <span style={this.styles.messageFrom}>
-                      {messageFrom}
-                    </span>
+                    <span style={this.styles.messageFrom}>{messageFrom}</span>
                     <span style={this.styles.messageTime}>
                       <FormattedTime value={new Date(message.timestamp)} />
                     </span>
-                    <div style={this.styles.messageText}>
-                      {message.text}
-                    </div>
+                    <div style={this.styles.messageText}>{message.text}</div>
                   </div>
-                </div>}
+                </div>
+              )}
             </div>
           );
         }
@@ -195,11 +191,12 @@ export class MessagingContentArea extends React.Component {
             {messageHistory}
           </div>
           {this.props.selectedInteraction.status !==
-            'work-ended-pending-script' &&
-            <MessagingTextArea
-              selectedInteraction={this.props.selectedInteraction}
-              messageTemplates={this.props.messageTemplates}
-            />}
+            'work-ended-pending-script' && (
+              <MessagingTextArea
+                selectedInteraction={this.props.selectedInteraction}
+                messageTemplates={this.props.messageTemplates}
+              />
+            )}
         </div>
       );
     }

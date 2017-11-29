@@ -42,7 +42,6 @@ export class ContactSearchBar extends React.Component {
       pendingFilterValue: '',
       autocompleteValue: '',
       filterMenuWidth: 0,
-      filterMenuRightOffset: 0,
     };
   }
 
@@ -112,8 +111,8 @@ export class ContactSearchBar extends React.Component {
     }
   };
 
-  createDropdownItem = (item, isHighlighted) =>
-    (<div
+  createDropdownItem = (item, isHighlighted) => (
+    <div
       key={item.id}
       style={Object.assign(
         {},
@@ -122,7 +121,8 @@ export class ContactSearchBar extends React.Component {
       )}
     >
       {this.getLabel(item)}
-    </div>);
+    </div>
+  );
 
   styles = {
     base: {
@@ -232,7 +232,9 @@ export class ContactSearchBar extends React.Component {
   };
 
   matchFilterToTerm = (state, value) =>
-    this.getLabel(state).toLowerCase().indexOf(value.toLowerCase()) !== -1;
+    this.getLabel(state)
+      .toLowerCase()
+      .indexOf(value.toLowerCase()) !== -1;
 
   clearContactSearchForm = () => {
     this.setState({
@@ -303,8 +305,8 @@ export class ContactSearchBar extends React.Component {
       <form id="search-form" onSubmit={this.handleSubmit}>
         <div id="contactSearchBar" style={[this.styles.base, this.props.style]}>
           <div ref={this.setinputDivElement} style={this.styles.inputBox}>
-            {this.state.pendingFilter
-              ? <span style={this.styles.inputWrapper}>
+            {this.state.pendingFilter ? (
+              <span style={this.styles.inputWrapper}>
                 <span style={this.styles.filterName}>
                   {`${this.getLabel(this.state.pendingFilter)}:`}&nbsp;
                 </span>
@@ -314,19 +316,22 @@ export class ContactSearchBar extends React.Component {
                   onKeyDown={this.handleFilterValueInputKey}
                   style={[this.styles.input, this.styles.pendingFilterInput]}
                   cb={(pendingFilterValue) =>
-                      this.setState({ pendingFilterValue })}
+                    this.setState({ pendingFilterValue })
+                  }
                   value={this.state.pendingFilterValue}
                   handleInputRef={this.props.setSearchInputElement}
                 />
               </span>
-              : <Autocomplete
+            ) : (
+              <Autocomplete
                 value={this.state.autocompleteValue}
                 items={this.getAvailableFilters()}
                 renderItem={this.createDropdownItem}
                 getItemValue={this.getLabel}
                 shouldItemRender={this.matchFilterToTerm}
                 onChange={(event, value) =>
-                    this.setState({ autocompleteValue: value })}
+                  this.setState({ autocompleteValue: value })
+                }
                 onSelect={this.handleFilterSelect}
                 inputProps={{
                   style: this.styles.input,
@@ -337,19 +342,21 @@ export class ContactSearchBar extends React.Component {
                   width: `${this.state.filterMenuWidth}px`,
                 }}
                 ref={this.props.setSearchInputElement}
-              />}
+              />
+            )}
             <div style={this.styles.resultsCount}>
               {this.getResultsCountText()}
             </div>
 
-            {hideDisplayClearBtn &&
+            {hideDisplayClearBtn && (
               <Button
                 id="exit-search-btn"
                 style={this.styles.closeButton}
                 iconName="close"
                 type="secondary"
                 onClick={this.cancel}
-              />}
+              />
+            )}
           </div>
         </div>
       </form>

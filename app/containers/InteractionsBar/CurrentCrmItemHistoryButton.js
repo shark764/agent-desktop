@@ -34,34 +34,35 @@ export class CurrentCrmItemHistoryButton extends React.Component {
 
   render() {
     return (
-      this.props.showCurrentCrmItemHistoryButton &&
-      <div
-        title={`${this.props.intl.formatMessage(
-          messages.currentCrmItemHistory
-        )} ${this.props.zendeskActiveTab.getIn(['attributes', 'name'])}`}
-        style={[
-          {
-            padding: '13px',
-            flexShrink: 0,
-            cursor: 'pointer',
-          },
-          this.props.selectedInteractionId === 'current-crm-item-history' && {
-            backgroundColor: '#0B424E',
-          },
-        ]}
-        onClick={this.selectCurrentCrmItemHistory}
-      >
-        <FontAwesomeIcon
-          id="currentCrmItemHistoryButton"
-          name="history"
-          style={{
-            color: 'white',
-            fontSize: '1.5em',
-            padding: '5px 12px',
-            cursor: 'pointer',
-          }}
-        />
-      </div>
+      this.props.showCurrentCrmItemHistoryButton && (
+        <div
+          title={`${this.props.intl.formatMessage(
+            messages.currentCrmItemHistory
+          )} ${this.props.zendeskActiveTab.getIn(['attributes', 'name'])}`}
+          style={[
+            {
+              padding: '13px',
+              flexShrink: 0,
+              cursor: 'pointer',
+            },
+            this.props.selectedInteractionId === 'current-crm-item-history' && {
+              backgroundColor: '#0B424E',
+            },
+          ]}
+          onClick={this.selectCurrentCrmItemHistory}
+        >
+          <FontAwesomeIcon
+            id="currentCrmItemHistoryButton"
+            name="history"
+            style={{
+              color: 'white',
+              fontSize: '1.5em',
+              padding: '5px 12px',
+              cursor: 'pointer',
+            }}
+          />
+        </div>
+      )
     );
   }
 }

@@ -16,7 +16,7 @@ describe('<Checkbox />', () => {
           id="mockId"
           intl={getIntlContext()}
           checked
-          text={'testing!'}
+          text="testing!"
         />
       );
       expect(rendered).toMatchSnapshot();

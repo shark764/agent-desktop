@@ -7,7 +7,10 @@ import { createSelector } from 'reselect';
 import { crmPermissions } from './permissions';
 
 const agentTenantListSelector = (state) =>
-  state.get('login').get('agent').get('tenants');
+  state
+    .get('login')
+    .get('agent')
+    .get('tenants');
 const selectedTenantSelector = (state) => state.get('login').get('tenant');
 
 const getCurrentTenantPermissions = createSelector(

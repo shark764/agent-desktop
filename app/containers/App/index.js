@@ -214,8 +214,8 @@ export class App extends React.Component {
       blastSqsOutput = window.ADconf.blastSqsOutput;
       reportingRefreshRate = window.ADconf.refreshRate;
     } else if (
-      location.hostname === 'localhost' ||
-      location.hostname.includes('ngrok')
+      window.location.hostname === 'localhost' ||
+      window.location.hostname.includes('ngrok')
     ) {
       where = 'dev-api.cxengagelabs.net/v1/';
       environment = 'dev';
@@ -270,7 +270,9 @@ export class App extends React.Component {
         this.props.setCrmModule(crmModule);
       } else {
         console.error(
-          `Unsupported CRM module: ${crmModule}. Supported CRM modules are: zendesk, salesforce-classic, salesforce-lightning`
+          `Unsupported CRM module: ${
+            crmModule
+          }. Supported CRM modules are: zendesk, salesforce-classic, salesforce-lightning`
         );
         this.props.setCrmModule('none');
       }
@@ -290,9 +292,11 @@ export class App extends React.Component {
 
     window.onerror = (errorMsg, url, lineNumber, column, errorObj) => {
       CxEngage.logging.error(
-        `Error: ${errorMsg} Script: ${url} Line: ${lineNumber} Column: ${column} StackTrace: ${JSON.stringify(
-          errorObj
-        )} ReduxState: ${JSON.stringify(window.store)}`
+        `Error: ${errorMsg} Script: ${url} Line: ${lineNumber} Column: ${
+          column
+        } StackTrace: ${JSON.stringify(errorObj)} ReduxState: ${JSON.stringify(
+          window.store
+        )}`
       );
     };
 
@@ -843,7 +847,9 @@ export class App extends React.Component {
               );
             } else {
               console.error(
-                `Neither user nor ticket found in active-tab-changed response: ${response}`
+                `Neither user nor ticket found in active-tab-changed response: ${
+                  response
+                }`
               );
             }
             break;
@@ -872,7 +878,9 @@ export class App extends React.Component {
                 };
               } else {
                 console.error(
-                  `Neither user nor ticket found in ${topic} response: ${response}`
+                  `Neither user nor ticket found in ${topic} response: ${
+                    response
+                  }`
                 );
                 break;
               }
@@ -895,7 +903,9 @@ export class App extends React.Component {
               };
             } else {
               console.error(
-                `Neither user nor ticket found in ${topic} response: ${response}`
+                `Neither user nor ticket found in ${topic} response: ${
+                  response
+                }`
               );
               break;
             }
@@ -944,7 +954,9 @@ export class App extends React.Component {
               this.props.startOutboundInteraction('sms', response.endpoint);
             } else {
               console.log(
-                `SMS interaction already in progress for ${response.endpoint}. Ignoring click-to-sms-requested.`
+                `SMS interaction already in progress for ${
+                  response.endpoint
+                }. Ignoring click-to-sms-requested.`
               );
             }
             break;
@@ -959,7 +971,9 @@ export class App extends React.Component {
               this.props.startOutboundEmail(response.endpoint);
             } else {
               console.log(
-                `Email interaction already in progress for ${response.endpoint}. Ignoring click-to-email-requested.`
+                `Email interaction already in progress for ${
+                  response.endpoint
+                }. Ignoring click-to-email-requested.`
               );
             }
             break;
@@ -1114,8 +1128,8 @@ export class App extends React.Component {
     const banners = [];
     const refreshBannerIsVisible =
       this.props.agentDesktop.refreshRequired &&
-      location.hostname !== 'localhost' &&
-      location.hostname !== '127.0.0.1';
+      window.location.hostname !== 'localhost' &&
+      window.location.hostname !== '127.0.0.1';
     let errorDescriptionMessage;
     const errorInfo = this.props.criticalError || this.props.nonCriticalError;
 
@@ -1128,7 +1142,7 @@ export class App extends React.Component {
           descriptionStyle={{
             textAlign: 'center',
           }}
-          fullBannerAction={() => location.reload()}
+          fullBannerAction={() => window.location.reload()}
           dismiss={this.hideRefreshBanner}
         />
       );
@@ -1192,9 +1206,11 @@ export class App extends React.Component {
         // If error code is AD-100X, keep them in Login, or else AgentDesktop will break
         (this.props.criticalError &&
           this.props.criticalError.code &&
-          this.props.criticalError.code.toString().includes('AD-100'))
-          ? <Login />
-          : <AgentDesktop />}
+          this.props.criticalError.code.toString().includes('AD-100')) ? (
+            <Login />
+          ) : (
+            <AgentDesktop />
+          )}
       </div>
     );
   }

@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* ContactBulkActions
-*
-*/
+ *
+ * ContactBulkActions
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -65,7 +65,7 @@ function ContactBulkActions(props) {
         }}
         leave={{ animation: 'transition.slideDownOut', duration: '100' }}
       >
-        {props.selectedContacts.length >= 1 &&
+        {props.selectedContacts.length >= 1 && (
           <div key="delete-btn-container">
             <ConfirmDialog
               questionMessage={
@@ -89,7 +89,8 @@ function ContactBulkActions(props) {
               text={messages.delete}
               type="secondary"
             />
-          </div>}
+          </div>
+        )}
       </VelocityTransitionGroup>
       <VelocityTransitionGroup
         enter={{
@@ -100,7 +101,7 @@ function ContactBulkActions(props) {
         }}
         leave={{ animation: 'transition.slideDownOut', duration: '100' }}
       >
-        {props.selectedContacts.length === 2 &&
+        {props.selectedContacts.length === 2 && (
           <div key="merge-btn-container">
             <Button
               style={{ marginLeft: '10px' }}
@@ -110,7 +111,8 @@ function ContactBulkActions(props) {
               text={messages.merge}
               type="secondary"
             />
-          </div>}
+          </div>
+        )}
       </VelocityTransitionGroup>
     </div>
   );

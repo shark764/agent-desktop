@@ -203,11 +203,7 @@ export class Toolbar extends React.Component {
       this.props.selectedPresenceReason.reason &&
       !this.props.selectedPresenceReason.isSystemReason
     ) {
-      return (
-        <span>
-          {this.props.selectedPresenceReason.reason}
-        </span>
-      );
+      return <span>{this.props.selectedPresenceReason.reason}</span>;
     }
     return <FormattedMessage {...messages.notReady} />;
   };
@@ -281,7 +277,8 @@ export class Toolbar extends React.Component {
               key="status-button"
               style={this.getStatusMenuButtonStyle()}
               onClick={() =>
-                this.showStatusMenu(!this.props.showAgentStatusMenu)}
+                this.showStatusMenu(!this.props.showAgentStatusMenu)
+              }
               onMouseEnter={() => this.setStatusButtonHovered(true)}
               onMouseLeave={() => this.setStatusButtonHovered(false)}
             >
@@ -294,9 +291,11 @@ export class Toolbar extends React.Component {
                 </div>
                 <div style={styles.presenceTextContainer}>
                   <span style={styles.presenceText} id="agent_presence_reason">
-                    {agentIsReady
-                      ? <FormattedMessage {...messages.ready} />
-                      : this.notReadyText()}
+                    {agentIsReady ? (
+                      <FormattedMessage {...messages.ready} />
+                    ) : (
+                      this.notReadyText()
+                    )}
                   </span>
                   <span
                     id="agent-timer-container-span"
@@ -315,7 +314,7 @@ export class Toolbar extends React.Component {
             </button>
             <AgentStatusMenu
               show={this.props.showAgentStatusMenu}
-              key={'agentStatusMenu'}
+              key="agentStatusMenu"
               tenant={this.props.tenant}
               readyState={this.props.readyState}
               showAgentStatusMenu={this.showStatusMenu}
@@ -344,7 +343,7 @@ export class Toolbar extends React.Component {
               currentAgent={this.props.currentAgent}
               hideMenu={() => this.showConfigMenu(false)}
               show={this.state.showConfigMenu}
-              key={'agentConfigMenu'}
+              key="agentConfigMenu"
             />
           </div>
         </div>

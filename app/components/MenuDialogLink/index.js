@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* MenuDialogLink
-*
-*/
+ *
+ * MenuDialogLink
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -86,8 +86,8 @@ class MenuDialogLink extends React.Component {
             fadeContent
           >
             <div style={styles.container}>
-              {this.props.options.map((option, index) =>
-                (<Button
+              {this.props.options.map((option, index) => (
+                <Button
                   key={`menuOption-${index}`} // eslint-disable-line
                   id={`menuOption-${index}`}
                   onClick={() => this.handleButtonAction(option.action)}
@@ -99,8 +99,8 @@ class MenuDialogLink extends React.Component {
                     index > 0 ? styles.leftButtonBorder : {},
                   ]}
                   text={option.message}
-                />)
-              )}
+                />
+              ))}
             </div>
           </PopupDialog>
         </div>

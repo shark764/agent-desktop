@@ -389,22 +389,21 @@ export class ContentArea extends React.Component {
     );
   };
 
-  renderCategory = (category) =>
-    (<div
+  renderCategory = (category) => (
+    <div
       key={`category-${category.name}`}
       id={`category-${category.name}`}
       title={category.name}
     >
-      <div style={this.styles.categoryName}>
-        {category.name}
-      </div>
+      <div style={this.styles.categoryName}>{category.name}</div>
       <div style={this.styles.dispositionsContainer}>
         {category.dispositions.map(this.renderDisposition)}
       </div>
-    </div>);
+    </div>
+  );
 
-  renderDisposition = (disposition) =>
-    (<div
+  renderDisposition = (disposition) => (
+    <div
       key={`disposition-${disposition.dispositionId}`}
       id={`disposition-${disposition.dispositionId}`}
       title={disposition.name}
@@ -418,7 +417,8 @@ export class ContentArea extends React.Component {
         style={{ width: '100%' }}
         disabled={this.state.loadingDisposition}
       />
-    </div>);
+    </div>
+  );
 
   deselectDisposition = () => {
     this.setState({
@@ -490,124 +490,130 @@ export class ContentArea extends React.Component {
   getConfirmContent = () => {
     const { formatMessage } = this.props.intl;
     return this.props.interaction.endConfirmation === true &&
-    this.props.interaction.status !== 'wrapup' &&
-    this.props.interaction.status !== 'work-ended-pending-script'
-      ? <div style={this.styles.confirmDialogWrapper}>
-        <div style={this.styles.confirmDialog}>
-          <div style={this.styles.confirmDialogInnerDiv}>
-            {formatMessage(messages.confirmDialog1)}
-            <div style={{ width: '100%' }}>
-              <div style={this.styles.blueLine} />
-              <div style={this.styles.blueQuestionMark}>?</div>
-              <div style={this.styles.blueLine} />
+      this.props.interaction.status !== 'wrapup' &&
+      this.props.interaction.status !== 'work-ended-pending-script' ? (
+        <div style={this.styles.confirmDialogWrapper}>
+          <div style={this.styles.confirmDialog}>
+            <div style={this.styles.confirmDialogInnerDiv}>
+              {formatMessage(messages.confirmDialog1)}
+              <div style={{ width: '100%' }}>
+                <div style={this.styles.blueLine} />
+                <div style={this.styles.blueQuestionMark}>?</div>
+                <div style={this.styles.blueLine} />
+              </div>
+              {formatMessage(messages.confirmDialog2)}
             </div>
-            {formatMessage(messages.confirmDialog2)}
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <button
+              key="cancelButton"
+              style={this.styles.confirmButtons}
+              onClick={() => this.cancelConfirmEnd()}
+              id="cancelEndButton"
+              autoFocus
+            >
+              {formatMessage(messages.cancelButton)}
+            </button>
+            <button
+              key="confirmButton"
+              style={this.styles.confirmButtons}
+              onClick={() => this.confirmEnd()}
+              id="confirmEndButton"
+            >
+              {formatMessage(messages.confirmButton)}
+            </button>
           </div>
         </div>
-        <div style={{ textAlign: 'center' }}>
-          <button
-            key="cancelButton"
-            style={this.styles.confirmButtons}
-            onClick={() => this.cancelConfirmEnd()}
-            id="cancelEndButton"
-            autoFocus
-          >
-            {formatMessage(messages.cancelButton)}
-          </button>
-          <button
-            key="confirmButton"
-            style={this.styles.confirmButtons}
-            onClick={() => this.confirmEnd()}
-            id="confirmEndButton"
-          >
-            {formatMessage(messages.confirmButton)}
-          </button>
-        </div>
-      </div>
-      : null;
+      ) : null;
   };
 
   getDispositionsContent = () =>
-    this.props.interaction.dispositionDetails.dispositions.length > 0 &&
-    <div
-      id="selected-dispositions"
-      style={this.styles.dispositionChipsContainer}
-    >
-      {this.props.interaction.dispositionDetails.selected.map((disposition) =>
-        (<div
-          id={`selected-disposition-${disposition.dispositionId}`}
-          key={`selected-disposition-${disposition.dispositionId}`}
-          title={disposition.name}
-          style={this.styles.dispositionChip}
-        >
-          <span style={this.styles.dispositionLabelText}>
-            {disposition.name !== undefined
-              ? disposition.name.toUpperCase()
-              : ''}
-          </span>
-          <Button
-            id="delete-disposition-btn"
-            style={this.styles.closeButton}
-            clear
-            iconName="close"
-            type="secondary"
-            onClick={this.deselectDisposition}
-            disabled={this.state.loadingDisposition}
-          />
-        </div>)
-      )}
-      {this.props.interaction.dispositionDetails.selected.length === 0 &&
-      this.props.interaction.status !== 'work-ended-pending-script' && [
-        <div
-          onClick={() =>
-            this.setState({
-              showDispositionsList: !this.state.showDispositionsList,
-            })}
-          key="new-label-button"
-          id="new-label-button"
-          style={[
-            this.styles.dispositionChip,
-            this.styles.dispositionNewLabel,
-            {
-              border: `1px solid ${this.getNewLabelChipBorderColor()}`,
-            },
-          ]}
-        >
-          <IconSVG
-            name="add"
-            id="add-disposition-icon"
-            width="16px"
-            color="grey"
-          />
+    this.props.interaction.dispositionDetails.dispositions.length > 0 && (
+      <div
+        id="selected-dispositions"
+        style={this.styles.dispositionChipsContainer}
+      >
+        {this.props.interaction.dispositionDetails.selected.map((disposition) => (
           <div
-            style={[
-              this.styles.dispositionLabelText,
-              { marginLeft: '5px', padding: '2.5px 0' },
-            ]}
+            id={`selected-disposition-${disposition.dispositionId}`}
+            key={`selected-disposition-${disposition.dispositionId}`}
+            title={disposition.name}
+            style={this.styles.dispositionChip}
           >
-            <FormattedMessage {...messages.disposition} />
+            <span style={this.styles.dispositionLabelText}>
+              {disposition.name !== undefined
+                ? disposition.name.toUpperCase()
+                : ''}
+            </span>
+            <Button
+              id="delete-disposition-btn"
+              style={this.styles.closeButton}
+              clear
+              iconName="close"
+              type="secondary"
+              onClick={this.deselectDisposition}
+              disabled={this.state.loadingDisposition}
+            />
           </div>
-        </div>,
-        this.state.showDispositionsList &&
-          <div
-            id="dispositions-lists-container"
-            key="dispositionsContainer"
-            style={{ position: 'relative' }}
-          >
-            <div id="dispositions-lists" style={this.styles.dispositionList}>
-              {this.props.interaction.dispositionDetails.dispositions.map(
-                (disposition) => {
-                  if (disposition.type === 'category') {
-                    return this.renderCategory(disposition);
-                  }
-                  return this.renderDisposition(disposition);
-                }
-              )}
-            </div>
-            <div style={this.styles.triangle} />
-          </div>,
-      ]}
-    </div>;
+        ))}
+        {this.props.interaction.dispositionDetails.selected.length === 0 &&
+          this.props.interaction.status !== 'work-ended-pending-script' && [
+            <div
+              onClick={() =>
+                this.setState({
+                  showDispositionsList: !this.state.showDispositionsList,
+                })
+              }
+              key="new-label-button"
+              id="new-label-button"
+              style={[
+                this.styles.dispositionChip,
+                this.styles.dispositionNewLabel,
+                {
+                  border: `1px solid ${this.getNewLabelChipBorderColor()}`,
+                },
+              ]}
+            >
+              <IconSVG
+                name="add"
+                id="add-disposition-icon"
+                width="16px"
+                color="grey"
+              />
+              <div
+                style={[
+                  this.styles.dispositionLabelText,
+                  { marginLeft: '5px', padding: '2.5px 0' },
+                ]}
+              >
+                <FormattedMessage {...messages.disposition} />
+              </div>
+            </div>,
+            this.state.showDispositionsList && (
+              <div
+                id="dispositions-lists-container"
+                key="dispositionsContainer"
+                style={{ position: 'relative' }}
+              >
+                <div
+                  id="dispositions-lists"
+                  style={this.styles.dispositionList}
+                >
+                  {this.props.interaction.dispositionDetails.dispositions.map(
+                    (disposition) => {
+                      if (disposition.type === 'category') {
+                        return this.renderCategory(disposition);
+                      }
+                      return this.renderDisposition(disposition);
+                    }
+                  )}
+                </div>
+                <div style={this.styles.triangle} />
+              </div>
+            ),
+          ]}
+      </div>
+    );
 
   zendeskAssign = () => {
     if (this.props.zendeskActiveTab) {
@@ -644,8 +650,9 @@ export class ContentArea extends React.Component {
         });
       } else {
         console.error(
-          `Cannot unassign contact of type: ${this.props.interaction.contact
-            .type}`
+          `Cannot unassign contact of type: ${
+            this.props.interaction.contact.type
+          }`
         );
       }
     }
@@ -734,46 +741,47 @@ export class ContentArea extends React.Component {
           style={[
             this.styles.base,
             {
-              filter: `blur(${this.props.interaction.endConfirmation === true &&
-              this.props.interaction.status !== 'wrapup' &&
-              this.props.interaction.status !== 'work-ended-pending-script'
-                ? '1'
-                : '0'}px)`,
+              filter: `blur(${
+                this.props.interaction.endConfirmation === true &&
+                this.props.interaction.status !== 'wrapup' &&
+                this.props.interaction.status !== 'work-ended-pending-script'
+                  ? '1'
+                  : '0'
+              }px)`,
             },
           ]}
         >
           <div style={this.styles.mainContent}>
             <div style={this.styles.base}>
-              {this.props.crmModule !== 'none' &&
+              {this.props.crmModule !== 'none' && (
                 <CrmRecordNotification
                   contactAssignedNotification={
                     this.props.interaction.contactAssignedNotification
                   }
                   interactionId={this.props.interaction.interactionId}
-                />}
+                />
+              )}
               <div style={this.styles.header}>
                 <ContentAreaTop
                   interaction={this.props.interaction}
                   from={this.props.from}
                   buttonConfig={buttonConfig}
                 />
-                <div style={this.styles.details}>
-                  {this.props.details}
-                </div>
+                <div style={this.styles.details}>{this.props.details}</div>
               </div>
-              {this.props.content &&
-                <div style={this.styles.content}>
-                  {this.props.content}
-                </div>}
-              {notesDisabled &&
+              {this.props.content && (
+                <div style={this.styles.content}>{this.props.content}</div>
+              )}
+              {notesDisabled && (
                 <div style={{ paddingTop: '15px', marginTop: 'auto' }}>
                   {this.getDispositionsContent()}
-                </div>}
+                </div>
+              )}
             </div>
           </div>
           {!notesDisabled && [
-            this.props.content
-              ? <Resizable
+            this.props.content ? (
+              <Resizable
                 id="notes-resizable"
                 key="notes-resizable"
                 direction="top"
@@ -786,7 +794,9 @@ export class ContentArea extends React.Component {
               >
                 {this.getNotesContent()}
               </Resizable>
-              : this.getNotesContent(),
+            ) : (
+              this.getNotesContent()
+            ),
           ]}
         </div>
       </div>

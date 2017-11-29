@@ -168,16 +168,16 @@ export class ContactInteractionHistoryItem extends React.Component {
       if (recordings.length === 0) {
         return <FormattedMessage {...messages.noRecordings} />;
       }
-      return recordings.map((recordingUrl) =>
-        (<audio
+      return recordings.map((recordingUrl) => (
+        <audio
           key={recordingUrl}
           src={recordingUrl}
           ref={this.addControlsListAttribute}
           style={styles.audio}
           controls
           onContextMenu={(event) => event.preventDefault()}
-        />)
-      );
+        />
+      ));
     };
     switch (interactionDetails.channelType) {
       case 'voice':
@@ -187,15 +187,13 @@ export class ContactInteractionHistoryItem extends React.Component {
               <FormattedMessage {...messages.audioRecording} />
             </div>
             <div>
-              {interactionDetails.audioRecordings !== undefined
-                ? audioRecordings(interactionDetails.audioRecordings)
-                : <div style={styles.loadingInteractionDetails}>
-                  <IconSVG
-                    id="loadingRecordings"
-                    name="loading"
-                    width="50px"
-                  />
-                </div>}
+              {interactionDetails.audioRecordings !== undefined ? (
+                audioRecordings(interactionDetails.audioRecordings)
+              ) : (
+                <div style={styles.loadingInteractionDetails}>
+                  <IconSVG id="loadingRecordings" name="loading" width="50px" />
+                </div>
+              )}
             </div>
           </div>
         );
@@ -203,63 +201,66 @@ export class ContactInteractionHistoryItem extends React.Component {
       case 'sms':
       case 'messaging':
         transcriptItems =
-          typeof interactionDetails.transcript === 'undefined'
-            ? (<div style={styles.loadingInteractionDetails}>
+          typeof interactionDetails.transcript === 'undefined' ? (
+            <div style={styles.loadingInteractionDetails}>
               <IconSVG id="loadingTranscripts" name="loading" width="50px" />
-            </div>)
-            : interactionDetails.transcript &&
-              interactionDetails.transcript.map &&
-              interactionDetails.transcript.map((transcriptItem, index) => {
-                const messageType =
-                  (transcriptItem.payload.metadata &&
-                    transcriptItem.payload.metadata.type) ||
-                  transcriptItem.payload.type;
-                let messageFrom = transcriptItem.payload.from;
-                if (messageType === 'agent') {
-                  interactionDetails.agents.forEach((agent) => {
-                    if (agent.resourceId === transcriptItem.payload.from) {
-                      messageFrom = agent.agentName;
-                    }
-                  });
-                } else if (
-                  interactionDetails.customer === transcriptItem.payload.from
-                ) {
-                  messageFrom = this.props.contactName;
-                } else if (
-                  transcriptItem.payload.metadata &&
-                  transcriptItem.payload.metadata.name
-                ) {
-                  messageFrom = transcriptItem.payload.metadata.name;
-                }
-                return (
-                  <div
-                    key={`${transcriptItem.payload.id}-${index}`} // eslint-disable-line
-                    id={`transcriptItem${index}`}
-                    style={styles.transcriptItem}
-                  >
-                    <span style={styles.messageFrom}>
-                      {messageFrom}
-                    </span>
-                    <span style={styles.messageTime}>
-                      <FormattedTime
-                        value={new Date(Number(transcriptItem.timestamp))}
-                      />
-                    </span>
-                    <div style={styles.messageText}>
-                      {transcriptItem.payload.body.text}
-                    </div>
+            </div>
+          ) : (
+            interactionDetails.transcript &&
+            interactionDetails.transcript.map &&
+            interactionDetails.transcript.map((transcriptItem, index) => {
+              const messageType =
+                (transcriptItem.payload.metadata &&
+                  transcriptItem.payload.metadata.type) ||
+                transcriptItem.payload.type;
+              let messageFrom = transcriptItem.payload.from;
+              if (messageType === 'agent') {
+                interactionDetails.agents.forEach((agent) => {
+                  if (agent.resourceId === transcriptItem.payload.from) {
+                    messageFrom = agent.agentName;
+                  }
+                });
+              } else if (
+                interactionDetails.customer === transcriptItem.payload.from
+              ) {
+                messageFrom = this.props.contactName;
+              } else if (
+                transcriptItem.payload.metadata &&
+                transcriptItem.payload.metadata.name
+              ) {
+                messageFrom = transcriptItem.payload.metadata.name;
+              }
+              return (
+                <div
+                  key={`${transcriptItem.payload.id}-${index}`} // eslint-disable-line
+                  id={`transcriptItem${index}`}
+                  style={styles.transcriptItem}
+                >
+                  <span style={styles.messageFrom}>{messageFrom}</span>
+                  <span style={styles.messageTime}>
+                    <FormattedTime
+                      value={new Date(Number(transcriptItem.timestamp))}
+                    />
+                  </span>
+                  <div style={styles.messageText}>
+                    {transcriptItem.payload.body.text}
                   </div>
-                );
-              });
+                </div>
+              );
+            })
+          );
         transcript = (
           <div style={styles.transcript}>
             <div style={styles.transcriptTitle}>
               <FormattedMessage {...messages.transcript} />
             </div>
             <div style={styles.segmentMessage}>
-              {Array.isArray(transcriptItems) && transcriptItems.length === 0
-                ? <FormattedMessage {...messages.noTranscript} />
-                : transcriptItems}
+              {Array.isArray(transcriptItems) &&
+              transcriptItems.length === 0 ? (
+                  <FormattedMessage {...messages.noTranscript} />
+                ) : (
+                  transcriptItems
+                )}
             </div>
           </div>
         );
@@ -304,11 +305,13 @@ export class ContactInteractionHistoryItem extends React.Component {
           let duration;
           const hasNotes = segment.noteTitle !== null;
           const notes =
-            segment.note !== undefined
-              ? segment.note.body
-              : (<div style={styles.loadingInteractionDetails}>
+            segment.note !== undefined ? (
+              segment.note.body
+            ) : (
+              <div style={styles.loadingInteractionDetails}>
                 <IconSVG id="loadingNote" name="loading" width="50px" />
-              </div>);
+              </div>
+            );
           if (
             segment.conversationStartTimestamp &&
             segment.conversationEndTimestamp
@@ -337,7 +340,9 @@ export class ContactInteractionHistoryItem extends React.Component {
           return (
             <div
               className="segment"
-              key={`${segment.resourceId}-${segment.conversationStartTimestamp}`}
+              key={`${segment.resourceId}-${
+                segment.conversationStartTimestamp
+              }`}
               style={styles.segment}
             >
               <Icon name={icon} style={styles.segmentChannelIcon} />
@@ -355,7 +360,7 @@ export class ContactInteractionHistoryItem extends React.Component {
                 <div id="duration" className="duration">
                   {duration}
                 </div>
-                {segment.dispositionName !== null &&
+                {segment.dispositionName !== null && (
                   <span
                     id="dispositionName"
                     className="dispositionName"
@@ -363,15 +368,17 @@ export class ContactInteractionHistoryItem extends React.Component {
                     title="Disposition"
                   >
                     {segment.dispositionName}
-                  </span>}
-                {expandedView &&
+                  </span>
+                )}
+                {expandedView && (
                   <div
                     id="notesBody"
                     className="notesBody"
                     style={styles.segmentMessage}
                   >
                     {hasNotes && notes}
-                  </div>}
+                  </div>
+                )}
               </div>
             </div>
           );
@@ -379,18 +386,21 @@ export class ContactInteractionHistoryItem extends React.Component {
       interactionDetails = (
         <div>
           {segmentData}
-          {expandedView
-            ? <div style={styles.interactionBody}>
+          {expandedView ? (
+            <div style={styles.interactionBody}>
               {this.interactionBody(interaction.interactionDetails)}
             </div>
-            : <div
+          ) : (
+            <div
               className="expand"
               style={styles.expand}
               onClick={() =>
-                  this.props.selectInteraction(this.props.interactionIndex)}
+                this.props.selectInteraction(this.props.interactionIndex)
+              }
             >
-                &#9679;&#9679;&#9679;
-              </div>}
+              &#9679;&#9679;&#9679;
+            </div>
+          )}
         </div>
       );
     }
@@ -410,26 +420,27 @@ export class ContactInteractionHistoryItem extends React.Component {
         }
       >
         <div style={styles.interactionHeader}>
-          {expandedView
-            ? <Icon
+          {expandedView ? (
+            <Icon
               name="close"
               style={styles.closeIcon}
               onclick={() => this.props.selectInteraction(undefined)}
             />
-            : <div style={styles.interactionDaysAgo}>
+          ) : (
+            <div style={styles.interactionDaysAgo}>
               {moment(interaction.startTimestamp).fromNow()}
-            </div>}
-          <div>
-            {interaction.directionName}
-          </div>
-          <div>
-            {interaction.lastQueueName}
-          </div>
-          {interaction.csat &&
+            </div>
+          )}
+          <div>{interaction.directionName}</div>
+          <div>{interaction.lastQueueName}</div>
+          {interaction.csat && (
             <div>
-              <FormattedMessage {...messages.customerSatisfaction} />:&nbsp;{interaction.csat}
-            </div>}
-          {interaction.lastDispositionName &&
+              <FormattedMessage {...messages.customerSatisfaction} />:&nbsp;{
+                interaction.csat
+              }
+            </div>
+          )}
+          {interaction.lastDispositionName && (
             <div
               style={[
                 styles.disposition,
@@ -442,15 +453,15 @@ export class ContactInteractionHistoryItem extends React.Component {
               ]}
             >
               {interaction.lastDispositionName}
-            </div>}
-          <div>
-            {moment(interaction.startTimestamp).format('LLL')}
-          </div>
+            </div>
+          )}
+          <div>{moment(interaction.startTimestamp).format('LLL')}</div>
         </div>
-        {interactionDetails &&
+        {interactionDetails && (
           <div className="interactionDetails" style={styles.interactionDetails}>
             {interactionDetails}
-          </div>}
+          </div>
+        )}
       </div>
     );
   }

@@ -188,20 +188,20 @@ export class AgentStats extends React.Component {
   render() {
     return (
       <div style={styles.statsContainer}>
-        {this.state.statsHiddenLeft &&
+        {this.state.statsHiddenLeft && (
           <div
             style={{
               paddingRight: '30px',
               marginRight: '-30px',
-              background: `linear-gradient(to left, rgba(255,255,255,0) 0%, rgba(0,0,0,${this
-                .props.readyState === 'ready'
-                ? '0.7'
-                : '0.4'}) 100%)`,
+              background: `linear-gradient(to left, rgba(255,255,255,0) 0%, rgba(0,0,0,${
+                this.props.readyState === 'ready' ? '0.7' : '0.4'
+              }) 100%)`,
               zIndex: 1,
               height: '100%',
             }}
-          />}
-        {this.state.statsHiddenLeft &&
+          />
+        )}
+        {this.state.statsHiddenLeft && (
           <div
             id="scrollStatsLeft"
             key="scrollStatsLeft"
@@ -221,7 +221,8 @@ export class AgentStats extends React.Component {
                 transform: 'rotate(90deg)',
               }}
             />
-          </div>}
+          </div>
+        )}
         <div
           id="agent-stats"
           ref={(statsScrollContainer) => {
@@ -234,20 +235,20 @@ export class AgentStats extends React.Component {
         >
           {this.props.toolbarStats.map(this.generateStat)}
         </div>
-        {this.state.statsHiddenRight &&
+        {this.state.statsHiddenRight && (
           <div
             style={{
               paddingLeft: '30px',
               marginLeft: '-30px',
-              background: `linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(0,0,0,${this
-                .props.readyState === 'ready'
-                ? '0.7'
-                : '0.4'}) 100%)`,
+              background: `linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(0,0,0,${
+                this.props.readyState === 'ready' ? '0.7' : '0.4'
+              }) 100%)`,
               zIndex: 1,
               height: '100%',
             }}
-          />}
-        {this.state.statsHiddenRight &&
+          />
+        )}
+        {this.state.statsHiddenRight && (
           <div
             id="scrollStatsRight"
             key="scrollStatsRight"
@@ -267,7 +268,8 @@ export class AgentStats extends React.Component {
                 transform: 'rotate(-90deg)',
               }}
             />
-          </div>}
+          </div>
+        )}
       </div>
     );
   }

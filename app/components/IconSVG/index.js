@@ -3,10 +3,10 @@
  */
 
 /**
-*
-* Icon
-*
-*/
+ *
+ * Icon
+ *
+ */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -134,7 +134,8 @@ function IconSVG(props) {
     case 'add':
       icon = (
         <svg viewBox="0 0 40 40">
-          {' '}<path
+          {' '}
+          <path
             style={{
               stroke: props.color || 'white',
               fill: 'transparent',
@@ -149,7 +150,8 @@ function IconSVG(props) {
     case 'close':
       icon = (
         <svg viewBox="0 0 40 40">
-          {' '}<path
+          {' '}
+          <path
             style={{
               stroke: props.color || 'white',
               fill: 'transparent',
@@ -175,7 +177,11 @@ function IconSVG(props) {
           <style
             type="text/css"
             dangerouslySetInnerHTML={{
-              __html: `.st3{fill:none;stroke:${props.color};stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;} .st4{fill:none;stroke:${props.color};stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}`,
+              __html: `.st3{fill:none;stroke:${
+                props.color
+              };stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;} .st4{fill:none;stroke:${
+                props.color
+              };stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}`,
             }}
           />
           <polyline className="st3" points="6,10 10,13.5 14,10" />

@@ -131,27 +131,27 @@ export class SidePanel extends React.Component {
     const tabs = [
       {
         name: 'info',
-        tabInner:
-          !this.context.toolbarMode &&
-          this.props.hasCrmPermissions &&
-          <InfoTab isCollapsed={this.props.isCollapsed} />,
+        tabInner: !this.context.toolbarMode &&
+          this.props.hasCrmPermissions && (
+          <InfoTab isCollapsed={this.props.isCollapsed} />
+        ),
       },
       {
         name: 'history',
-        tabInner:
-          (this.context.toolbarMode ||
-            (!this.context.toolbarMode && this.props.hasCrmPermissions)) &&
-          this.props.hasAssignedContact &&
-          <ContactInteractionHistory style={{ height: '100%' }} />,
+        tabInner: (this.context.toolbarMode ||
+          (!this.context.toolbarMode && this.props.hasCrmPermissions)) &&
+          this.props.hasAssignedContact && (
+          <ContactInteractionHistory style={{ height: '100%' }} />
+        ),
       },
       {
         name: 'script',
-        tabInner:
-          renderScriptTab &&
+        tabInner: renderScriptTab && (
           <AgentScript
             interactionId={this.props.selectedInteractionId}
             script={this.props.selectedInteractionScript}
-          />,
+          />
+        ),
       },
     ];
     // filter out any tabs with falsey inner
@@ -200,23 +200,22 @@ export class SidePanel extends React.Component {
               this.props.selectSidePanelTab(
                 this.props.selectedInteractionId,
                 tabsData[tabIndex].name
-              )}
+              )
+            }
             selectedIndex={tabsData.findIndex(
               (tabData) => tabData.name === this.props.selectedSidePanelTab
             )}
           >
             <TabList>
-              {tabsData.map((tabData) =>
-                (<Tab key={tabData.name}>
+              {tabsData.map((tabData) => (
+                <Tab key={tabData.name}>
                   <FormattedMessage {...messages[`${tabData.name}Tab`]} />
-                </Tab>)
-              )}
+                </Tab>
+              ))}
             </TabList>
-            {tabsData.map((tabData) =>
-              (<TabPanel key={tabData.name}>
-                {tabData.tabInner}
-              </TabPanel>)
-            )}
+            {tabsData.map((tabData) => (
+              <TabPanel key={tabData.name}>{tabData.tabInner}</TabPanel>
+            ))}
           </Tabs>
         </div>
       </div>
