@@ -754,10 +754,13 @@ Immutable.Map {
 exports[`agentDesktopReducer SET_ZENDESK_ACTIVE_TAB sets the zendeskActiveTab correctly 1`] = `
 Immutable.Map {
   "zendeskActiveTab": Immutable.Map {
-    "type": "user",
-    "id": 123,
-    "attributes": Immutable.Map {
-      "name": "test-name",
+    "interactionId": "current-crm-item-history",
+    "contact": Immutable.Map {
+      "type": "user",
+      "id": 123,
+      "attributes": Immutable.Map {
+        "name": "test-name",
+      },
     },
   },
 }
@@ -766,12 +769,14 @@ Immutable.Map {
 exports[`agentDesktopReducer SET_ZENDESK_ACTIVE_TAB when the id and type match the already stored value only updates the name 1`] = `
 Immutable.Map {
   "zendeskActiveTab": Immutable.Map {
-    "id": 123,
-    "type": "user",
-    "attributes": Immutable.Map {
-      "name": "test-name",
+    "interactionId": "current-crm-item-history",
+    "contact": Immutable.Map {
+      "type": "user",
+      "id": 123,
+      "attributes": Immutable.Map {
+        "name": "test-name",
+      },
     },
-    "interactionHistory": "history stuff here",
   },
 }
 `;
@@ -938,9 +943,11 @@ Immutable.Map {
     },
   ],
   "zendeskActiveTab": Immutable.Map {
-    "id": 123,
-    "type": "user",
-    "name": "new name",
+    "contact": Immutable.Map {
+      "id": 123,
+      "type": "user",
+      "name": "new name",
+    },
   },
 }
 `;

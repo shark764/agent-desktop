@@ -210,6 +210,8 @@ const getContactInteractionPath = (state, interactionId) => {
   let target;
   if (interactionId === 'creating-new-interaction') {
     target = ['newInteractionPanel'];
+  } else if (interactionId === 'current-crm-item-history') {
+    target = ['zendeskActiveTab'];
   } else if (interactionIndex === -1) {
     target = ['noInteractionContactPanel'];
   } else {
@@ -277,33 +279,39 @@ const addContactInteractionNote = (interaction, action) =>
     }
   );
 
-const setContactInteractionDetails = (interaction, action) =>
-  interaction.updateIn(
-    ['contact', 'interactionHistory'],
-    (interactionHistory) => {
-      if (typeof interactionHistory === 'undefined') {
-        return interactionHistory;
+const setContactInteractionDetails = (interaction, action) => {
+  if (interaction !== undefined) {
+    return interaction.updateIn(
+      ['contact', 'interactionHistory'],
+      (interactionHistory) => {
+        if (typeof interactionHistory === 'undefined') {
+          return interactionHistory;
+        }
+        return interactionHistory.update('results', (interactionHistoryResults) =>
+          interactionHistoryResults.map((contactHistoryInteraction) => {
+            if (
+              contactHistoryInteraction.get('interactionId') ===
+              action.response.details.interactionId
+            ) {
+              return contactHistoryInteraction.set(
+                'interactionDetails',
+                fromJS(action.response.details)
+              );
+            } else {
+              return contactHistoryInteraction;
+            }
+          })
+        );
       }
-      return interactionHistory.update('results', (interactionHistoryResults) =>
-        interactionHistoryResults.map((contactHistoryInteraction) => {
-          if (
-            contactHistoryInteraction.get('interactionId') ===
-            action.response.details.interactionId
-          ) {
-            return contactHistoryInteraction.set(
-              'interactionDetails',
-              fromJS(action.response.details)
-            );
-          } else {
-            return contactHistoryInteraction;
-          }
-        })
-      );
-    }
-  );
+    );
+  } else {
+    return undefined;
+  }
+};
 
 const updateContactInteractionDetails = (interaction, action) => {
   if (
+    interaction !== undefined &&
     interaction.get('contact') !== undefined &&
     interaction.getIn(['contact', 'interactionHistory']) !== undefined &&
     interaction.getIn(['contact', 'interactionHistory', 'results']) !==
@@ -468,21 +476,24 @@ function agentDesktopReducer(state = initialState, action) {
       return state.set('standalonePopup', true);
     case SET_ZENDESK_ACTIVE_TAB:
       if (
-        state.getIn(['zendeskActiveTab', 'id']) !== action.id ||
-        state.getIn(['zendeskActiveTab', 'type']) !== action.tabType
+        state.getIn(['zendeskActiveTab', 'contact', 'id']) !== action.id ||
+        state.getIn(['zendeskActiveTab', 'contact', 'type']) !== action.tabType
       ) {
         return state.set(
           'zendeskActiveTab',
           fromJS({
-            type: action.tabType,
-            id: action.id,
-            attributes: { name: action.name },
+            interactionId: 'current-crm-item-history',
+            contact: {
+              type: action.tabType,
+              id: action.id,
+              attributes: { name: action.name },
+            },
           })
         );
       } else {
         // Don't clear interactionHistory if it is the same. Just update name in case it changed.
         return state.setIn(
-          ['zendeskActiveTab', 'attributes', 'name'],
+          ['zendeskActiveTab', 'contact', 'attributes', 'name'],
           action.name
         );
       }
@@ -1199,6 +1210,9 @@ function agentDesktopReducer(state = initialState, action) {
         )
         .update('newInteractionPanel', (newInteractionPanel) =>
           setContactInteractionDetails(newInteractionPanel, action)
+        )
+        .update('zendeskActiveTab', (zendeskActiveTab) =>
+          setContactInteractionDetails(zendeskActiveTab, action)
         );
     }
     case SET_CONTACT_INTERACTION_HISTORY: {
@@ -1226,8 +1240,11 @@ function agentDesktopReducer(state = initialState, action) {
             )
           )
         )
-        .update('zendeskActiveTab', (zendeskActiveTab) =>
-          updateContactInteractionHistoryResults(zendeskActiveTab, action)
+        .updateIn(['zendeskActiveTab', 'contact'], (zendeskActiveTabContact) =>
+          updateContactInteractionHistoryResults(
+            zendeskActiveTabContact,
+            action
+          )
         );
     }
     case SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING: {
@@ -1269,6 +1286,9 @@ function agentDesktopReducer(state = initialState, action) {
           updateContactInteractionDetails(noInteractionContactPanel, action)
         )
         .update('newInteractionPanel', (newInteractionPanel) =>
+          updateContactInteractionDetails(newInteractionPanel, action)
+        )
+        .updateIn(['zendeskActiveTab'], (newInteractionPanel) =>
           updateContactInteractionDetails(newInteractionPanel, action)
         );
     }
@@ -1317,16 +1337,19 @@ function agentDesktopReducer(state = initialState, action) {
           return contact;
         });
       if (newState.get('zendeskActiveTab') !== undefined) {
-        newState = newState.update('zendeskActiveTab', (zendeskActiveTab) => {
-          if (
-            zendeskActiveTab.get('id') === action.updatedContact.id &&
-            zendeskActiveTab.get('type') === action.contactType
-          ) {
-            return zendeskActiveTab.merge(fromJS(action.updatedContact));
-          } else {
-            return zendeskActiveTab;
+        newState = newState.updateIn(
+          ['zendeskActiveTab', 'contact'],
+          (zendeskActiveTab) => {
+            if (
+              zendeskActiveTab.get('id') === action.updatedContact.id &&
+              zendeskActiveTab.get('type') === action.contactType
+            ) {
+              return zendeskActiveTab.merge(fromJS(action.updatedContact));
+            } else {
+              return zendeskActiveTab;
+            }
           }
-        });
+        );
       }
       return newState;
     }

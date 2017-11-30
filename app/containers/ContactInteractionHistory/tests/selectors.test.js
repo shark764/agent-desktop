@@ -17,7 +17,7 @@ describe('selectContact', () => {
             contact: { id: 'interaction-contact-id' },
           },
         ],
-        zendeskActiveTab: { id: 'zendeskActiveTab-contact-id' },
+        zendeskActiveTab: { contact: { id: 'zendeskActiveTab-contact-id' } },
         selectedInteractionId: 'test-interaction-id',
         currentCrmItemHistoryPanel: {
           interactionId: 'current-crm-item-history',

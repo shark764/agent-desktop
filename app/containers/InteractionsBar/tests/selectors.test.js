@@ -16,7 +16,7 @@ describe('selectShowCurrentCrmItemHistoryButton', () => {
             interactionId: 'test-interaction-id',
           },
         ],
-        zendeskActiveTab: { id: 123, type: 'user' },
+        zendeskActiveTab: { contact: { id: 123, type: 'user' } },
         selectedInteractionId: 'test-interaction-id',
         currentCrmItemHistoryPanel: {
           interactionId: 'current-crm-item-history',

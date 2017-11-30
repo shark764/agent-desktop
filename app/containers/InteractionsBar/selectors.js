@@ -112,9 +112,9 @@ const selectShowCurrentCrmItemHistoryButton = createSelector(
     agentDesktop.get('zendeskActiveTab') !== undefined &&
     selectedInteraction.interactionId !== 'current-crm-item-history' &&
     (selectedInteraction.contact === undefined ||
-      agentDesktop.getIn(['zendeskActiveTab', 'id']) !==
+      agentDesktop.getIn(['zendeskActiveTab', 'contact', 'id']) !==
         selectedInteraction.contact.id ||
-      agentDesktop.getIn(['zendeskActiveTab', 'type']) !==
+      agentDesktop.getIn(['zendeskActiveTab', 'contact', 'type']) !==
         selectedInteraction.contact.type)
 );
 

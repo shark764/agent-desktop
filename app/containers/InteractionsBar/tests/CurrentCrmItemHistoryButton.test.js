@@ -15,10 +15,12 @@ describe('<CurrentCrmItemHistoryButton />', () => {
       <CurrentCrmItemHistoryButton
         intl={getIntlContext()}
         zendeskActiveTab={fromJS({
-          id: 123,
-          type: 'user',
-          attributes: {
-            name: 'test-name',
+          contact: {
+            id: 123,
+            type: 'user',
+            attributes: {
+              name: 'test-name',
+            },
           },
         })}
         selectedInteractionId="current-crm-item-history"
