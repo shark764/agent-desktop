@@ -30,7 +30,6 @@ const styles = {
     marginLeft: '10%',
     display: 'inline-block',
     marginBottom: '15px',
-    marginTop: '15px',
   },
   wrapupContainerDesktopActionsMenu: {
     paddingRight: '15px',
@@ -84,15 +83,24 @@ export class WrapUpToggle extends React.Component {
         <label htmlFor="wrapupToggle" style={styles.wrapUpLabel}>
           <FormattedMessage {...messages.wrapup} />
         </label>
-        <Toggle
-          id="wrapUpToggle"
-          onChange={this.toggleWrapup}
-          disabled={
-            !this.props.interaction.wrapupDetails.wrapupUpdateAllowed ||
-            this.props.interaction.wrapupDetails.loadingWrapupStatusUpdate
+        <div
+          style={
+            this.props.type === 'actionsMenu' && {
+              float: 'right',
+              marginTop: '5px',
+            }
           }
-          checked={this.props.interaction.wrapupDetails.wrapupEnabled}
-        />
+        >
+          <Toggle
+            id="wrapUpToggle"
+            onChange={this.toggleWrapup}
+            disabled={
+              !this.props.interaction.wrapupDetails.wrapupUpdateAllowed ||
+              this.props.interaction.wrapupDetails.loadingWrapupStatusUpdate
+            }
+            checked={this.props.interaction.wrapupDetails.wrapupEnabled}
+          />
+        </div>
       </div>
     );
   }

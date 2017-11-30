@@ -19,24 +19,32 @@ exports[`<DesktopActionsButtons /> should render correctly 1`] = `
     }
     type=""
   />
-  <InjectIntl(Button)
-    id="transferButton"
-    onClick={[Function]}
+  <div
     style={
       Object {
-        "marginRight": "10px",
-        "padding": "9px 17px",
+        "position": "relative",
       }
     }
-    text={
-      Object {
-        "defaultMessage": "Transfer",
-        "id": "app.containers.DesktopActionsButtons.TransferButton",
+  >
+    <InjectIntl(Button)
+      id="transferButton"
+      onClick={[Function]}
+      style={
+        Object {
+          "marginRight": "10px",
+          "padding": "9px 17px",
+        }
       }
-    }
-    title="transfer"
-    type="secondary"
-  />
+      text={
+        Object {
+          "defaultMessage": "Transfer",
+          "id": "app.containers.DesktopActionsButtons.TransferButton",
+        }
+      }
+      title="transfer"
+      type="secondary"
+    />
+  </div>
   <InjectIntl(Button)
     id="end-chat-button"
     key="end-chat-button"
