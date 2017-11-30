@@ -21,6 +21,7 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
 >
   <div
     data-radium={true}
+    key=".0"
     style={
       Object {
         "flexShrink": 0,
@@ -34,6 +35,7 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
   </div>
   <div
     data-radium={true}
+    key=".1"
     style={
       Object {
         "flexGrow": 1,
@@ -49,6 +51,7 @@ exports[`<NotificationBanner /> should render correctly 1`] = `
   <IconSVG
     clear={true}
     id="mockId-dismiss-btn"
+    key=".3"
     name="close"
     onClick={[Function]}
     style={

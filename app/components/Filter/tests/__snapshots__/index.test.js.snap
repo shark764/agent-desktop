@@ -3,6 +3,7 @@
 exports[`<Filter /> should render correctly 1`] = `
 <div
   data-radium={true}
+  key="mockName"
   style={
     Object {
       "alignItems": "center",
@@ -16,6 +17,7 @@ exports[`<Filter /> should render correctly 1`] = `
 >
   <span
     data-radium={true}
+    key=".0"
     style={
       Object {
         "fontWeight": "bold",
@@ -27,6 +29,7 @@ exports[`<Filter /> should render correctly 1`] = `
   </span>
   <span
     data-radium={true}
+    key=".1"
     style={
       Object {
         "maxWidth": "200px",
@@ -41,6 +44,7 @@ exports[`<Filter /> should render correctly 1`] = `
   </span>
   <div
     data-radium={true}
+    key=".2"
     onClick={[Function]}
     style={
       Object {

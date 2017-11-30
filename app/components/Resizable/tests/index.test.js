@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
 import Resizable from '../index';
 
@@ -13,7 +13,7 @@ describe('<Resizable />', () => {
   directions.forEach((direction) => {
     describe(`with direction ${direction}`, () => {
       it('should render correctly', () => {
-        const rendered = shallow(
+        const rendered = mount(
           <Resizable
             id="mockId"
             direction={direction}

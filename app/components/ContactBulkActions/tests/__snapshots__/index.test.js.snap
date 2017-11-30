@@ -13,7 +13,9 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
     }
   }
 >
-  <div>
+  <div
+    key=".$new-btn-container"
+  >
     <InjectIntl(Button)
       id="createNewRecord"
       text={
@@ -44,6 +46,7 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
         "display": "",
       }
     }
+    key=".1"
     leave={
       Object {
         "animation": "transition.slideDownOut",
@@ -54,10 +57,12 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
   >
     <div
       data-radium={true}
+      key="delete-btn-container"
     >
       <ConfirmDialog
         hide={[Function]}
         isVisible={false}
+        key=".0"
         leftAction={[Function]}
         leftMessage={
           Object {
@@ -91,6 +96,7 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
       />
       <InjectIntl(Button)
         id="delete-btn"
+        key=".1"
         onClick={[Function]}
         style={
           Object {
@@ -126,6 +132,7 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
         "display": "",
       }
     }
+    key=".2"
     leave={
       Object {
         "animation": "transition.slideDownOut",
@@ -134,9 +141,12 @@ exports[`<ContactBulkActions /> should render correctly 1`] = `
     }
     runOnMount={false}
   >
-    <div>
+    <div
+      key="merge-btn-container"
+    >
       <InjectIntl(Button)
         id="merge"
+        key="merge"
         style={
           Object {
             "marginLeft": "10px",

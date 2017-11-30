@@ -66,7 +66,11 @@ class DesktopActionsButtons extends React.Component {
 
   hotKeys = (e) => {
     // 27 is esc on the keyboard
-    if (e.which === 27 && this.state.showTransferMenu === true) {
+    if (
+      e.which === 27 &&
+      this.state.showTransferMenu === true &&
+      this.props.interaction.direction !== 'outbound'
+    ) {
       this.toggleTransferMenu();
     }
     if (e.altKey) {
@@ -113,16 +117,17 @@ class DesktopActionsButtons extends React.Component {
             />
           </div>
         )}
-        {this.props.interaction.channelType !== 'voice' && (
-          <Button
-            style={{ marginRight: '10px', padding: '9px 17px' }}
-            type="secondary"
-            title="transfer"
-            id="transferButton"
-            text={messages.transfer}
-            onClick={this.toggleTransferMenu}
-          />
-        )}
+        {this.props.interaction.channelType !== 'voice' &&
+          this.props.interaction.direction !== 'outbound' && (
+            <Button
+              style={{ marginRight: '10px', padding: '9px 17px' }}
+              type="secondary"
+              title="transfer"
+              id="transferButton"
+              text={messages.transfer}
+              onClick={this.toggleTransferMenu}
+            />
+          )}
         {this.props.buttonConfig.map((button) => (
           <Button
             key={button.id}

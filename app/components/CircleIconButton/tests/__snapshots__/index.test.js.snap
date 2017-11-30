@@ -21,6 +21,7 @@ exports[`<CircleIconButton /> should correctly render HTML (or a component) that
 >
   <Icon
     id="mockId-icon"
+    key=".0"
     name="config"
     onclick={[Function]}
     style={
@@ -41,7 +42,9 @@ exports[`<CircleIconButton /> should correctly render HTML (or a component) that
       ]
     }
   />
-  <div>
+  <div
+    key=".1"
+  >
     <div>
       Inner Element
     </div>
@@ -70,6 +73,7 @@ exports[`<CircleIconButton /> should render correctly 1`] = `
 >
   <Icon
     id="mockId-icon"
+    key=".0"
     name="config"
     onclick={[Function]}
     style={

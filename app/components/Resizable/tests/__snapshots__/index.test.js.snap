@@ -1,30 +1,52 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Resizable /> with direction left should render correctly 1`] = `
-<div
-  data-radium={true}
-  style={
-    Object {
-      "flex": "0 0 auto",
-      "position": "relative",
-      "transition": "width 1s",
-      "userSelect": "auto",
-      "width": "1px",
+<Resizable
+  direction="left"
+  disabledPx={1}
+  id="mockId"
+  isDisabled={true}
+  maxPx={4}
+  minPx={3}
+  px={2}
+  setPx={[Function]}
+>
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "flex": "0 0 auto",
+        "position": "relative",
+        "transition": "width 1s",
+        "userSelect": "auto",
+        "width": "1px",
+      }
     }
-  }
-/>
+  />
+</Resizable>
 `;
 
 exports[`<Resizable /> with direction top should render correctly 1`] = `
-<div
-  data-radium={true}
-  style={
-    Object {
-      "borderTop": "1px solid #D0D0D0",
-      "height": "1px",
-      "position": "relative",
-      "userSelect": "auto",
+<Resizable
+  direction="top"
+  disabledPx={1}
+  id="mockId"
+  isDisabled={true}
+  maxPx={4}
+  minPx={3}
+  px={2}
+  setPx={[Function]}
+>
+  <div
+    data-radium={true}
+    style={
+      Object {
+        "borderTop": "1px solid #D0D0D0",
+        "height": "1px",
+        "position": "relative",
+        "userSelect": "auto",
+      }
     }
-  }
-/>
+  />
+</Resizable>
 `;

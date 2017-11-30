@@ -14,6 +14,7 @@ exports[`<Checkbox /> when given required props, intl, and text should render co
     data-radium={true}
     disabled={true}
     id="mockId"
+    key=".0"
     onChange={[Function]}
     style={
       Object {
@@ -29,6 +30,7 @@ exports[`<Checkbox /> when given required props, intl, and text should render co
   <label
     data-radium={true}
     htmlFor="mockId"
+    key=".1"
     style={
       Object {
         "color": "#494949",
@@ -64,6 +66,7 @@ exports[`<Checkbox /> when no text is passed in should render correctly 1`] = `
     data-radium={true}
     disabled={true}
     id="mockId"
+    key=".0"
     onChange={[Function]}
     style={
       Object {
@@ -93,6 +96,7 @@ exports[`<Checkbox /> when passed a text obj should render correctly 1`] = `
     data-radium={true}
     disabled={true}
     id="mockId"
+    key=".0"
     onChange={[Function]}
     style={
       Object {
@@ -108,6 +112,7 @@ exports[`<Checkbox /> when passed a text obj should render correctly 1`] = `
   <label
     data-radium={true}
     htmlFor="mockId"
+    key=".1"
     style={
       Object {
         "color": "#494949",

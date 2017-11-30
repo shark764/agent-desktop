@@ -7,6 +7,7 @@ exports[`<PopupDialog /> when given required props and arrowLeftOffsetPx should 
   <div
     data-radium={true}
     id="screen-mask"
+    key=".0"
     onClick={[Function]}
     style={
       Object {
@@ -36,6 +37,7 @@ exports[`<PopupDialog /> when given required props and arrowLeftOffsetPx should 
         "display": "",
       }
     }
+    key=".1"
     leave={
       Object {
         "animation": "transition.slideUpOut",
@@ -62,6 +64,7 @@ exports[`<PopupDialog /> when given required props and arrowLeftOffsetPx should 
     >
       <span
         data-radium={true}
+        key=".0"
         style={
           Object {
             "borderColor": "#FFF transparent transparent #FFF",
@@ -80,7 +83,9 @@ exports[`<PopupDialog /> when given required props and arrowLeftOffsetPx should 
           }
         }
       />
-      <p>
+      <p
+        key=".1"
+      >
         Mock Child
       </p>
     </div>
@@ -95,6 +100,7 @@ exports[`<PopupDialog /> when given required props should render correctly 1`] =
   <div
     data-radium={true}
     id="screen-mask"
+    key=".0"
     onClick={[Function]}
     style={
       Object {
@@ -124,6 +130,7 @@ exports[`<PopupDialog /> when given required props should render correctly 1`] =
         "display": "",
       }
     }
+    key=".1"
     leave={
       Object {
         "animation": "transition.slideUpOut",
@@ -150,6 +157,7 @@ exports[`<PopupDialog /> when given required props should render correctly 1`] =
     >
       <span
         data-radium={true}
+        key=".0"
         style={
           Object {
             "borderColor": "#FFF transparent transparent #FFF",
@@ -168,7 +176,9 @@ exports[`<PopupDialog /> when given required props should render correctly 1`] =
           }
         }
       />
-      <p>
+      <p
+        key=".1"
+      >
         Mock Child
       </p>
     </div>

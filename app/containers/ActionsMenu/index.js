@@ -82,7 +82,11 @@ export class ActionsMenu extends React.Component {
   // HotKeys:
   hotKeys = (e) => {
     // 27 is letter T on the keyboard
-    if (e.which === 27 && this.state.showTransferMenu === true) {
+    if (
+      e.which === 27 &&
+      this.state.showTransferMenu === true &&
+      this.props.interaction.direction !== 'outbound'
+    ) {
       this.toggleTransferMenu();
       if (this.state.showSubMenu) {
         this.toggleSubMenu();
@@ -150,20 +154,21 @@ export class ActionsMenu extends React.Component {
                 nonVoice
               />
             )}
-            {this.props.interaction.channelType !== 'voice' && (
-              <Button
-                style={styles.toolbarActionsButtons}
-                type="secondary"
-                title="transfer"
-                id="transferButton"
-                text={
-                  this.state.showTransferMenu
-                    ? messages.cancel
-                    : messages.transfer
-                }
-                onClick={this.toggleTransferMenu}
-              />
-            )}
+            {this.props.interaction.channelType !== 'voice' &&
+              this.props.interaction.direction !== 'outbound' && (
+                <Button
+                  style={styles.toolbarActionsButtons}
+                  type="secondary"
+                  title="transfer"
+                  id="transferButton"
+                  text={
+                    this.state.showTransferMenu
+                      ? messages.cancel
+                      : messages.transfer
+                  }
+                  onClick={this.toggleTransferMenu}
+                />
+              )}
             {!this.state.showTransferMenu &&
               this.props.buttonConfig.map((button) => (
                 <Button

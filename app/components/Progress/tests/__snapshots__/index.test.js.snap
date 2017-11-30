@@ -12,6 +12,7 @@ exports[`<Progress /> should render correctly 1`] = `
     <path
       d="M 1,1 L 99,1"
       fillOpacity="0"
+      key=".0"
       stroke="#031417"
       strokeLinecap="round"
       strokeWidth="2"
@@ -20,6 +21,7 @@ exports[`<Progress /> should render correctly 1`] = `
       d="M 1,1 L 99,1"
       data-radium={true}
       fillOpacity="0"
+      key=".1"
       strokeLinecap="round"
       strokeWidth="2"
       style={

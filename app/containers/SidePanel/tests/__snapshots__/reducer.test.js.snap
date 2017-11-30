@@ -2,11 +2,9 @@
 
 exports[`sidePanelReducer returns the initial state 1`] = `
 Immutable.Map {
-  contactLayout: Immutable.Map {
-    layout: Immutable.List [
-    ],
+  "contactLayout": Immutable.Map {
+    "layout": Immutable.List [],
   },
-  contactAttributes: Immutable.List [
-  ],
+  "contactAttributes": Immutable.List [],
 }
 `;

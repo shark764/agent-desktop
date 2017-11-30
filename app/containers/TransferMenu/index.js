@@ -85,7 +85,7 @@ export class TransferMenu extends React.Component {
       this.setState({ focusedElementIndex: -1 });
     }
     // 37 is up arrow
-    if (e.which === 38) {
+    if (e.which === 38 && availableTransferItems.length !== 0) {
       if (this.state.focusedElementIndex === 0) {
         availableTransferItems[lastTransferItem].focus();
         this.setState({ focusedElementIndex: lastTransferItem });
@@ -97,7 +97,7 @@ export class TransferMenu extends React.Component {
       }
     }
     // 40 is down arrow
-    if (e.which === 40) {
+    if (e.which === 40 && availableTransferItems.length !== 0) {
       if (this.state.focusedElementIndex === -1) {
         availableTransferItems[0].focus();
         this.setState({ focusedElementIndex: 0 });

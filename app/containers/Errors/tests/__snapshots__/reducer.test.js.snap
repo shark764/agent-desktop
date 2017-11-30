@@ -2,9 +2,8 @@
 
 exports[`Errors Reducer returns the initial state 1`] = `
 Immutable.Map {
-  stats: Immutable.Map {
-    erroredIds: Immutable.List [
-    ],
+  "stats": Immutable.Map {
+    "erroredIds": Immutable.List [],
   },
 }
 `;
