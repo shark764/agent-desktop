@@ -29,9 +29,9 @@ import messages from './messages';
 const styles = {
   subMenu: {
     position: 'absolute',
+    paddingTop: '17px',
     background: 'white',
-    right: '8px',
-    top: '45px',
+    right: '-11px',
     zIndex: 3,
     width: '188px',
     boxShadow: '0px 0px 2px 0px rgba(42, 45, 41, 0.63)',
@@ -39,8 +39,7 @@ const styles = {
   subMenuExpanded: {
     position: 'absolute',
     background: 'white',
-    right: '8px',
-    top: '45px',
+    right: '-11px',
     zIndex: 3,
     width: '300px',
     boxShadow: '0px 0px 2px 0px rgba(42, 45, 41, 0.63)',
@@ -68,6 +67,14 @@ const styles = {
     right: '19px',
     top: '-1px',
   },
+  clickMask: {
+    position: 'fixed',
+    top: '0px',
+    left: '0px',
+    width: '100%',
+    height: '100%',
+    zIndex: 2,
+  },
 };
 
 export class ActionsMenu extends React.Component {
@@ -85,7 +92,8 @@ export class ActionsMenu extends React.Component {
     if (
       e.which === 27 &&
       this.state.showTransferMenu === true &&
-      this.props.interaction.direction !== 'outbound'
+      this.props.interaction.direction !== 'outbound' &&
+      this.props.interaction.status !== 'wrapup'
     ) {
       this.toggleTransferMenu();
       if (this.state.showSubMenu) {
@@ -122,7 +130,10 @@ export class ActionsMenu extends React.Component {
   // FinalRender:
   render() {
     return (
-      <div>
+      <div style={{ position: 'relative' }}>
+        {this.state.showSubMenu && (
+          <div style={styles.clickMask} onClick={this.toggleSubMenu} />
+        )}
         <Button
           type="primaryBlue"
           title="actionsButton"
@@ -155,7 +166,8 @@ export class ActionsMenu extends React.Component {
               />
             )}
             {this.props.interaction.channelType !== 'voice' &&
-              this.props.interaction.direction !== 'outbound' && (
+              this.props.interaction.direction !== 'outbound' &&
+              this.props.interaction.status !== 'wrapup' && (
                 <Button
                   style={styles.toolbarActionsButtons}
                   type="secondary"

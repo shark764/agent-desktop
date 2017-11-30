@@ -44,7 +44,9 @@ const styles = {
   transferMenuPopOut: {
     background: 'white',
     position: 'absolute',
-    top: '52px',
+    minWidth: '300px',
+    top: '37px',
+    left: '-133px',
     zIndex: 3,
     boxShadow: '0px 0px 2px 0px rgba(42, 45, 41, 0.63)',
   },
@@ -53,6 +55,14 @@ const styles = {
     marginLeft: '10%',
     marginBottom: '20px',
     marginTop: '25px',
+  },
+  clickMask: {
+    position: 'fixed',
+    top: '0px',
+    left: '0px',
+    width: '100%',
+    height: '100%',
+    zIndex: 2,
   },
 };
 
@@ -69,7 +79,8 @@ class DesktopActionsButtons extends React.Component {
     if (
       e.which === 27 &&
       this.state.showTransferMenu === true &&
-      this.props.interaction.direction !== 'outbound'
+      this.props.interaction.direction !== 'outbound' &&
+      this.props.interaction.status !== 'wrapup'
     ) {
       this.toggleTransferMenu();
     }
@@ -95,38 +106,47 @@ class DesktopActionsButtons extends React.Component {
   render() {
     return (
       <div style={styles.rightHeaderContainer}>
+        {this.state.showTransferMenu && (
+          <div style={styles.clickMask} onClick={this.toggleTransferMenu} />
+        )}
         {!this.context.toolbarMode &&
           this.props.interaction.status !== 'wrapup' &&
           this.props.interaction.status !== 'work-ended-pending-script' && (
             <WrapUpToggle interaction={this.props.interaction} type="" />
           )}
-        {this.state.showTransferMenu && (
-          <div className="transferMenuPopOut" style={styles.transferMenuPopOut}>
-            <TransferMenu
-              interactionId={this.props.interaction.interactionId}
-              nonVoice
-            />
-            <div style={styles.dropdownMenuPopoutArrow} />
-            <Button
-              style={styles.cancelTransferButton}
-              type="secondary"
-              title="cancel"
-              id="cancelTransferButton"
-              text={messages.cancel}
-              onClick={this.toggleTransferMenu}
-            />
-          </div>
-        )}
         {this.props.interaction.channelType !== 'voice' &&
-          this.props.interaction.direction !== 'outbound' && (
-            <Button
-              style={{ marginRight: '10px', padding: '9px 17px' }}
-              type="secondary"
-              title="transfer"
-              id="transferButton"
-              text={messages.transfer}
-              onClick={this.toggleTransferMenu}
-            />
+          this.props.interaction.direction !== 'outbound' &&
+          this.props.interaction.status !== 'wrapup' && (
+            <div style={{ position: 'relative' }}>
+              <Button
+                style={{ marginRight: '10px', padding: '9px 17px' }}
+                type="secondary"
+                title="transfer"
+                id="transferButton"
+                text={messages.transfer}
+                onClick={this.toggleTransferMenu}
+              />
+              {this.state.showTransferMenu && (
+                <div
+                  className="transferMenuPopOut"
+                  style={styles.transferMenuPopOut}
+                >
+                  <TransferMenu
+                    interactionId={this.props.interaction.interactionId}
+                    nonVoice
+                  />
+                  <div style={styles.dropdownMenuPopoutArrow} />
+                  <Button
+                    style={styles.cancelTransferButton}
+                    type="secondary"
+                    title="cancel"
+                    id="cancelTransferButton"
+                    text={messages.cancel}
+                    onClick={this.toggleTransferMenu}
+                  />
+                </div>
+              )}
+            </div>
           )}
         {this.props.buttonConfig.map((button) => (
           <Button

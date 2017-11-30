@@ -434,18 +434,16 @@ export class MessagingTextArea extends React.Component {
           undefined
         )}
         {this.props.messageTemplates &&
-        this.props.messageTemplates.length > 0 ? (
+          this.props.messageTemplates.length > 0 &&
+          this.props.selectedInteraction.status !== 'wrapup' && (
             <Button
               id="templateMenuButton"
-              disabled={this.props.selectedInteraction.status === 'wrapup'}
               onClick={this.toggleMessageTemplateMenu}
               type="secondary"
               style={styles.templateMenuButton}
             >
               <span>+</span>
             </Button>
-          ) : (
-            undefined
           )}
         <style>
           {/* This style is here because the Textarea library doesn't render the ':focus' Radium attribute */}
@@ -456,36 +454,38 @@ export class MessagingTextArea extends React.Component {
               : '1px solid #23CEF5 !important;'
           }}`}
         </style>
-        <Textarea
-          minRows={2}
-          maxRows={4}
-          onHeightChange={(messageTextareaHeight) =>
-            this.setState({ messageTextareaHeight })
-          }
-          id="messageTextarea"
-          inputRef={(input) => {
-            this.messageTextarea = input;
-          }}
-          disabled={this.props.selectedInteraction.status === 'wrapup'}
-          style={
-            this.props.messageTemplates &&
-            this.props.messageTemplates.length > 0
-              ? styles.messageTextareaWithTemplates
-              : styles.messageTextarea
-          }
-          value={this.state.messageText}
-          onChange={(e) => this.setMessageText(e.target.value)}
-          onKeyDown={this.onMessageKeyDown}
-          autoFocus
-        />
-        <Button
-          id="sendMessageButton"
-          disabled={this.props.selectedInteraction.status === 'wrapup'}
-          onClick={this.sendMessage}
-          type="secondary"
-          style={styles.messageButton}
-          text={messages.send}
-        />
+        {this.props.selectedInteraction.status !== 'wrapup' && (
+          <Textarea
+            minRows={2}
+            maxRows={4}
+            onHeightChange={(messageTextareaHeight) =>
+              this.setState({ messageTextareaHeight })
+            }
+            id="messageTextarea"
+            inputRef={(input) => {
+              this.messageTextarea = input;
+            }}
+            style={
+              this.props.messageTemplates &&
+              this.props.messageTemplates.length > 0
+                ? styles.messageTextareaWithTemplates
+                : styles.messageTextarea
+            }
+            value={this.state.messageText}
+            onChange={(e) => this.setMessageText(e.target.value)}
+            onKeyDown={this.onMessageKeyDown}
+            autoFocus
+          />
+        )}
+        {this.props.selectedInteraction.status !== 'wrapup' && (
+          <Button
+            id="sendMessageButton"
+            onClick={this.sendMessage}
+            type="secondary"
+            style={styles.messageButton}
+            text={messages.send}
+          />
+        )}
       </div>
     );
   }

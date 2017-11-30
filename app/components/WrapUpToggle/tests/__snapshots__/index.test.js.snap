@@ -24,16 +24,20 @@ exports[`<WrapUpToggle /> should render correctly 1`] = `
       values={Object {}}
     />
   </label>
-  <Toggle
-    disabled={true}
-    icons={
-      Object {
-        "checked": <Unknown />,
-        "unchecked": <Unknown />,
+  <div
+    style={false}
+  >
+    <Toggle
+      disabled={true}
+      icons={
+        Object {
+          "checked": <Unknown />,
+          "unchecked": <Unknown />,
+        }
       }
-    }
-    id="wrapUpToggle"
-    onChange={[Function]}
-  />
+      id="wrapUpToggle"
+      onChange={[Function]}
+    />
+  </div>
 </div>
 `;
