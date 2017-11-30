@@ -12,6 +12,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import Radium from 'radium';
 
 import { isUUID } from 'utils/validator';
@@ -48,7 +49,6 @@ export class ContentArea extends React.Component {
       title: this.props.interaction.note.title,
       showDispositionsList: false,
       loadingDisposition: false,
-      loadingWrapup: false,
       savingNote: false,
     };
 
@@ -617,18 +617,20 @@ export class ContentArea extends React.Component {
 
   zendeskAssign = () => {
     if (this.props.zendeskActiveTab) {
-      if (this.props.zendeskActiveTab.get('type') === 'user') {
+      if (this.props.zendeskActiveTab.getIn(['contact', 'type']) === 'user') {
         CxEngage.zendesk.assignContact({
           interactionId: this.props.interaction.interactionId,
         });
-      } else if (this.props.zendeskActiveTab.get('type') === 'ticket') {
+      } else if (
+        this.props.zendeskActiveTab.getIn(['contact', 'type']) === 'ticket'
+      ) {
         CxEngage.zendesk.assignRelatedTo({
           interactionId: this.props.interaction.interactionId,
         });
       } else {
         console.error(
-          `Cannot assign to active tab of type: ${this.props.zendeskActiveTab.get(
-            'type'
+          `Cannot assign to active tab of type: ${this.props.zendeskActiveTab.getIn(
+            ['contact', 'type']
           )}`
         );
       }
@@ -695,7 +697,7 @@ export class ContentArea extends React.Component {
   };
 
   render() {
-    let buttonConfig = this.props.buttonConfig;
+    let { buttonConfig } = this.props;
     if (this.props.zendeskActiveTab) {
       let isSelected = false;
       let text;
@@ -703,9 +705,9 @@ export class ContentArea extends React.Component {
       if (this.props.interaction.contact !== undefined) {
         if (
           this.props.interaction.contact.type ===
-            this.props.zendeskActiveTab.get('type') &&
+            this.props.zendeskActiveTab.getIn(['contact', 'type']) &&
           this.props.interaction.contact.id ===
-            this.props.zendeskActiveTab.get('id')
+            this.props.zendeskActiveTab.getIn(['contact', 'id'])
         ) {
           text = messages.unassign;
           onClick = this.zendeskUnassign;
@@ -827,7 +829,15 @@ ContentArea.propTypes = {
   details: PropTypes.node.isRequired,
   content: PropTypes.node,
   crmModule: PropTypes.string,
-  zendeskActiveTab: PropTypes.object,
+  zendeskActiveTab: ImmutablePropTypes.mapContains({
+    contact: ImmutablePropTypes.mapContains({
+      id: PropTypes.number.isRequired,
+      type: PropTypes.string.isRequired,
+      attributes: ImmutablePropTypes.mapContains({
+        name: PropTypes.string,
+      }).isRequired,
+    }).isRequired,
+  }).isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
   updateNote: PropTypes.func.isRequired,
   setInteractionConfirmation: PropTypes.func.isRequired,

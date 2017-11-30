@@ -12,7 +12,7 @@ describe('<CurrentCrmItemHistoryContentArea />', () => {
   it('should render correctly', () => {
     const rendered = shallow(
       <CurrentCrmItemHistoryContentArea
-        zendeskActiveTab={fromJS({
+        zendeskActiveTabContact={fromJS({
           id: 123,
           type: 'user',
           attributes: {

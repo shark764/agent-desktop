@@ -38,7 +38,11 @@ export class CurrentCrmItemHistoryButton extends React.Component {
         <div
           title={`${this.props.intl.formatMessage(
             messages.currentCrmItemHistory
-          )} ${this.props.zendeskActiveTab.getIn(['attributes', 'name'])}`}
+          )} ${this.props.zendeskActiveTab.getIn([
+            'contact',
+            'attributes',
+            'name',
+          ])}`}
           style={[
             {
               padding: '13px',
@@ -87,10 +91,12 @@ function mapDispatchToProps(dispatch) {
 CurrentCrmItemHistoryButton.propTypes = {
   intl: intlShape.isRequired,
   zendeskActiveTab: ImmutablePropTypes.mapContains({
-    id: PropTypes.number.isRequired,
-    type: PropTypes.string.isRequired,
-    attributes: ImmutablePropTypes.mapContains({
-      name: PropTypes.string,
+    contact: ImmutablePropTypes.mapContains({
+      id: PropTypes.number.isRequired,
+      type: PropTypes.string.isRequired,
+      attributes: ImmutablePropTypes.mapContains({
+        name: PropTypes.string,
+      }).isRequired,
     }).isRequired,
   }),
   selectedInteractionId: PropTypes.string,

@@ -63,22 +63,22 @@ export class CurrentCrmItemHistoryContentArea extends React.Component {
   componentWillMount() {
     // Load history when component is displayed and has not previously been loaded
     this.props.loadCrmInteractionHistory(
-      this.props.zendeskActiveTab.get('type'),
-      this.props.zendeskActiveTab.get('id')
+      this.props.zendeskActiveTabContact.get('type'),
+      this.props.zendeskActiveTabContact.get('id')
     );
   }
 
   componentWillReceiveProps(nextProps) {
     // Update history when active tab changes
     if (
-      this.props.zendeskActiveTab.get('id') !==
-        nextProps.zendeskActiveTab.get('id') ||
-      this.props.zendeskActiveTab.get('type') !==
-        nextProps.zendeskActiveTab.get('type')
+      this.props.zendeskActiveTabContact.get('id') !==
+        nextProps.zendeskActiveTabContact.get('id') ||
+      this.props.zendeskActiveTabContact.get('type') !==
+        nextProps.zendeskActiveTabContact.get('type')
     ) {
       this.props.loadCrmInteractionHistory(
-        nextProps.zendeskActiveTab.get('type'),
-        nextProps.zendeskActiveTab.get('id')
+        nextProps.zendeskActiveTabContact.get('type'),
+        nextProps.zendeskActiveTabContact.get('id')
       );
     }
   }
@@ -93,10 +93,16 @@ export class CurrentCrmItemHistoryContentArea extends React.Component {
             </div>
             <div
               className="crmItemName"
-              title={this.props.zendeskActiveTab.getIn(['attributes', 'name'])}
+              title={this.props.zendeskActiveTabContact.getIn([
+                'attributes',
+                'name',
+              ])}
             >
               <Dotdotdot clamp={3}>
-                {this.props.zendeskActiveTab.getIn(['attributes', 'name'])}
+                {this.props.zendeskActiveTabContact.getIn([
+                  'attributes',
+                  'name',
+                ])}
               </Dotdotdot>
             </div>
           </div>
@@ -117,7 +123,10 @@ export class CurrentCrmItemHistoryContentArea extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  zendeskActiveTab: selectAgentDesktopMap(state, props).get('zendeskActiveTab'),
+  zendeskActiveTabContact: selectAgentDesktopMap(state, props).getIn([
+    'zendeskActiveTab',
+    'contact',
+  ]),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -131,7 +140,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 CurrentCrmItemHistoryContentArea.propTypes = {
-  zendeskActiveTab: ImmutablePropTypes.mapContains({
+  zendeskActiveTabContact: ImmutablePropTypes.mapContains({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     attributes: ImmutablePropTypes.mapContains({

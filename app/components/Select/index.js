@@ -33,7 +33,7 @@ function Select(props) {
         name="form-field-name"
         value={props.value}
         options={props.options}
-        autofocus={props.autoFocus}
+        autoFocus={props.autoFocus}
         clearable={props.clearable}
         backspaceRemoves={props.backspaceRemoves}
         placeholder={props.placeholder || 'Select...'}

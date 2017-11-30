@@ -1031,8 +1031,10 @@ describe('agentDesktopReducer', () => {
             },
           ],
           zendeskActiveTab: {
-            id: 123,
-            type: 'user',
+            contact: {
+              id: 123,
+              type: 'user',
+            },
           },
         };
         action.updatedContact.id = 123;

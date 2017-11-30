@@ -1,3 +1,6 @@
+### [1.13.7] (2017-11-30)
+* CXV1-12257 - Show interaction history details for zendesk active tab
+
 ### [1.13.6] (2017-11-30)
 * CXV1-11754 - Add non-voice transfer menu
 * CXV1-11758 - Keyboard controls for transfer menu
