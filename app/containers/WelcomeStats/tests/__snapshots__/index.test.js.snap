@@ -83,6 +83,7 @@ exports[`<WelcomeStats /> should render correctly in agent desktop mode 1`] = `
       />
     </div>
     <div
+      key="resourceHandleTime"
       style={
         Array [
           Object {
@@ -140,6 +141,7 @@ exports[`<WelcomeStats /> should render correctly in agent desktop mode 1`] = `
       </div>
     </div>
     <div
+      key="workAcceptedCount"
       style={
         Array [
           Object {
@@ -197,6 +199,7 @@ exports[`<WelcomeStats /> should render correctly in agent desktop mode 1`] = `
       </div>
     </div>
     <div
+      key="customerSatisfactionScore"
       style={
         Array [
           Object {
@@ -340,6 +343,7 @@ exports[`<WelcomeStats /> should render correctly in toolbar mode 1`] = `
       />
     </div>
     <div
+      key="resourceHandleTime"
       style={
         Array [
           Object {
@@ -397,6 +401,7 @@ exports[`<WelcomeStats /> should render correctly in toolbar mode 1`] = `
       </div>
     </div>
     <div
+      key="workAcceptedCount"
       style={
         Array [
           Object {
@@ -454,6 +459,7 @@ exports[`<WelcomeStats /> should render correctly in toolbar mode 1`] = `
       </div>
     </div>
     <div
+      key="customerSatisfactionScore"
       style={
         Array [
           Object {

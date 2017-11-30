@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<CrmRecordNotification /> should not render contactAssignedNotification = false 1`] = `null`;
+exports[`<CrmRecordNotification /> should not render contactAssignedNotification = false 1`] = `""`;
 
 exports[`<CrmRecordNotification /> should render noRecordLinked when passed in undefined contactAssignedNotification 1`] = `
 <div

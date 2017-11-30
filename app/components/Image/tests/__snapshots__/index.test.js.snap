@@ -5,10 +5,13 @@ exports[`<Image /> should render correctly 1`] = `
   data-radium={true}
   id="mockId"
 >
-  <div />
+  <div
+    key=".0"
+  />
   <img
     alt=""
     data-radium={true}
+    key=".1"
     src="mockSource"
     style={
       Object {

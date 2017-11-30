@@ -2,14 +2,10 @@
 
 exports[`toolbarReducer returns the initial state 1`] = `
 Immutable.Map {
-  welcomeStatIds: Immutable.List [
-  ],
-  toolbarStatIds: Immutable.List [
-  ],
-  enabledStats: Immutable.List [
-  ],
-  availableStats: Immutable.Map {
-  },
-  showAgentStatusMenu: false,
+  "welcomeStatIds": Immutable.List [],
+  "toolbarStatIds": Immutable.List [],
+  "enabledStats": Immutable.List [],
+  "availableStats": Immutable.Map {},
+  "showAgentStatusMenu": false,
 }
 `;

@@ -12,7 +12,9 @@ exports[`<Dialog /> should render correctly 1`] = `
     }
   }
 >
-  <p>
+  <p
+    key=".$.0"
+  >
     Mock Child
   </p>
 </div>

@@ -32,7 +32,7 @@ export class Progress extends React.Component {
     this.setState({
       current: Date.now(),
     });
-    this.requestAnimationId = requestAnimationFrame(this.update);
+    this.requestAnimationId = window.requestAnimationFrame(this.update);
   };
 
   getBarStyle = () => {

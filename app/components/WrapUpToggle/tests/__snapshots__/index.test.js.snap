@@ -28,8 +28,8 @@ exports[`<WrapUpToggle /> should render correctly 1`] = `
     disabled={true}
     icons={
       Object {
-        "checked": <Component />,
-        "unchecked": <Component />,
+        "checked": <Unknown />,
+        "unchecked": <Unknown />,
       }
     }
     id="wrapUpToggle"

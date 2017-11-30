@@ -22,6 +22,7 @@ exports[`<Stat /> should render correctly 1`] = `
   <div
     className="stat-value"
     data-radium={true}
+    key=".2"
     style={
       Object {
         "color": "#FFFFFF",
@@ -55,6 +56,7 @@ exports[`<Stat /> should render correctly 1`] = `
   <div
     className="agent-stat"
     data-radium={true}
+    key=".3"
     style={
       Object {
         "color": "#FFFFFF",
@@ -98,6 +100,7 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
 >
   <div
     data-radium={true}
+    key=".0"
     style={
       Object {
         "bottom": "60px",
@@ -108,6 +111,7 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
   >
     <div
       data-radium={true}
+      key=".0"
       style={
         Object {
           "backgroundColor": "#FFFFFF",
@@ -126,6 +130,7 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
     >
       <div
         data-radium={true}
+        key=".0"
         style={
           Object {
             "color": "#979797",
@@ -137,15 +142,19 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
         <FormattedMessage
           defaultMessage="Source"
           id="app.components.Stat.source"
+          key=".0"
           values={Object {}}
         />
         :
       </div>
-      <div>
+      <div
+        key=".1"
+      >
         Agent
       </div>
       <div
         data-radium={true}
+        key=".2"
         style={
           Object {
             "color": "#979797",
@@ -157,15 +166,19 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
         <FormattedMessage
           defaultMessage="Statistic"
           id="app.components.Stat.statistic"
+          key=".0"
           values={Object {}}
         />
         :
       </div>
-      <div>
+      <div
+        key=".3"
+      >
         mockName
       </div>
       <div
         data-radium={true}
+        key=".4"
         style={
           Object {
             "color": "#979797",
@@ -177,16 +190,20 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
         <FormattedMessage
           defaultMessage="Aggregate"
           id="app.components.Stat.aggregate"
+          key=".0"
           values={Object {}}
         />
         :
       </div>
-      <div>
+      <div
+        key=".5"
+      >
         MockStatAggregate
       </div>
     </div>
     <div
       data-radium={true}
+      key=".1"
       style={
         Object {
           "borderColor": "#FFF transparent transparent #FFF",
@@ -207,6 +224,7 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
   </div>
   <span
     data-radium={true}
+    key=".$1"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
@@ -231,6 +249,7 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
   <div
     className="stat-value"
     data-radium={true}
+    key=".2"
     style={
       Object {
         "color": "#FFFFFF",
@@ -264,6 +283,7 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
   <div
     className="agent-stat"
     data-radium={true}
+    key=".3"
     style={
       Object {
         "color": "#FFFFFF",

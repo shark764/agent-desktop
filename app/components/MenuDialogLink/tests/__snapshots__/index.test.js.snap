@@ -52,6 +52,7 @@ exports[`<MenuDialogLink /> when A is clicked on should render correctly 1`] = `
       >
         <InjectIntl(Button)
           id="menuOption-0"
+          key="menuOption-0"
           onClick={[Function]}
           style={
             Array [
@@ -133,6 +134,7 @@ exports[`<MenuDialogLink /> when dialog not active should render correctly 1`] =
       >
         <InjectIntl(Button)
           id="menuOption-0"
+          key="menuOption-0"
           onClick={[Function]}
           style={
             Array [

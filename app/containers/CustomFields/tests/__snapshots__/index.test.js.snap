@@ -25,6 +25,7 @@ exports[`<CustomFields /> Desktop mode should render correctly with 3 or less fi
   >
     <div>
       <div
+        key="Test LabelTest Value"
         style={
           Array [
             Object {
@@ -71,6 +72,7 @@ exports[`<CustomFields /> Desktop mode should render correctly with 3 or less fi
         </div>
       </div>
       <div
+        key="Test Label 2Test Value 2"
         style={
           Array [
             Object {
@@ -117,6 +119,7 @@ exports[`<CustomFields /> Desktop mode should render correctly with 3 or less fi
         </div>
       </div>
       <div
+        key="Test Label 3Test Value 3"
         style={
           Array [
             Object {
@@ -207,6 +210,7 @@ exports[`<CustomFields /> Desktop mode should render correctly with between 3 an
     >
       <div>
         <div
+          key="Test LabelTest Value"
           style={
             Array [
               Object {
@@ -289,6 +293,7 @@ exports[`<CustomFields /> Desktop mode should render correctly with between 3 an
         </Icon>
       </div>
       <div
+        key="Test Label 2Test Value 2"
         style={
           Array [
             Object {
@@ -335,6 +340,7 @@ exports[`<CustomFields /> Desktop mode should render correctly with between 3 an
         </div>
       </div>
       <div
+        key="Test Label 3Test Value 3"
         style={
           Array [
             Object {
@@ -437,6 +443,7 @@ exports[`<CustomFields /> Desktop mode should render correctly with more than 6 
     >
       <div>
         <div
+          key="Test LabelTest Value"
           style={
             Array [
               Object {
@@ -519,6 +526,7 @@ exports[`<CustomFields /> Desktop mode should render correctly with more than 6 
         </Icon>
       </div>
       <div
+        key="Test Label 2Test Value 2"
         style={
           Array [
             Object {
@@ -565,6 +573,7 @@ exports[`<CustomFields /> Desktop mode should render correctly with more than 6 
         </div>
       </div>
       <div
+        key="Test Label 3Test Value 3"
         style={
           Array [
             Object {
@@ -640,6 +649,7 @@ exports[`<CustomFields /> Toolbar mode should render correctly with 3 or less fi
   >
     <div>
       <div
+        key="Test LabelTest Value"
         style={
           Array [
             Object {
@@ -686,6 +696,7 @@ exports[`<CustomFields /> Toolbar mode should render correctly with 3 or less fi
         </div>
       </div>
       <div
+        key="Test Label 2Test Value 2"
         style={
           Array [
             Object {
@@ -732,6 +743,7 @@ exports[`<CustomFields /> Toolbar mode should render correctly with 3 or less fi
         </div>
       </div>
       <div
+        key="Test Label 3Test Value 3"
         style={
           Array [
             Object {
@@ -822,6 +834,7 @@ exports[`<CustomFields /> Toolbar mode should render correctly with more than 3 
     >
       <div>
         <div
+          key="Test LabelTest Value"
           style={
             Array [
               Object {
@@ -904,6 +917,7 @@ exports[`<CustomFields /> Toolbar mode should render correctly with more than 3 
         </Icon>
       </div>
       <div
+        key="Test Label 2Test Value 2"
         style={
           Array [
             Object {
@@ -950,6 +964,7 @@ exports[`<CustomFields /> Toolbar mode should render correctly with more than 3 
         </div>
       </div>
       <div
+        key="Test Label 3Test Value 3"
         style={
           Array [
             Object {

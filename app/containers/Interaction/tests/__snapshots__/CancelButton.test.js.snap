@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<CancelButton /> should not render when passed in other 1`] = `null`;
+exports[`<CancelButton /> should not render when passed in other 1`] = `""`;
 
 exports[`<CancelButton /> should render when passed in outbound voice 1`] = `
 <InjectIntl(Button)

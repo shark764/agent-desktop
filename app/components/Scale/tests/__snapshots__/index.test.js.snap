@@ -4,9 +4,11 @@ exports[`<Scale /> should render correctly 1`] = `
 <div
   data-radium={true}
   id="mockId"
+  key="mockId"
 >
   <div
     data-radium={true}
+    key=".0"
     style={
       Object {
         "marginBottom": "3px",
@@ -15,9 +17,11 @@ exports[`<Scale /> should render correctly 1`] = `
   />
   <div
     data-radium={true}
+    key=".1"
   >
     <span
       data-radium={true}
+      key=".0"
       style={
         Object {
           "display": "inline-block",
@@ -29,6 +33,7 @@ exports[`<Scale /> should render correctly 1`] = `
     />
     <span
       data-radium={true}
+      key=".1:$mockId-1"
       style={
         Object {
           "display": "inline-block",
@@ -41,6 +46,7 @@ exports[`<Scale /> should render correctly 1`] = `
       <input
         checked={false}
         id="mockId-1-radio"
+        key=".0"
         onChange={[Function]}
         type="radio"
       />
@@ -48,6 +54,7 @@ exports[`<Scale /> should render correctly 1`] = `
         data-radium={true}
         htmlFor="mockId-1-radio"
         id="mockId-1-label"
+        key=".1"
         style={
           Object {
             "left": "-4px",
@@ -63,6 +70,7 @@ exports[`<Scale /> should render correctly 1`] = `
     </span>
     <span
       data-radium={true}
+      key=".1:$mockId-2"
       style={
         Object {
           "display": "inline-block",
@@ -75,6 +83,7 @@ exports[`<Scale /> should render correctly 1`] = `
       <input
         checked={false}
         id="mockId-2-radio"
+        key=".0"
         onChange={[Function]}
         type="radio"
       />
@@ -82,6 +91,7 @@ exports[`<Scale /> should render correctly 1`] = `
         data-radium={true}
         htmlFor="mockId-2-radio"
         id="mockId-2-label"
+        key=".1"
         style={
           Object {
             "left": "-4px",
@@ -97,6 +107,7 @@ exports[`<Scale /> should render correctly 1`] = `
     </span>
     <span
       data-radium={true}
+      key=".2"
       style={
         Object {
           "display": "inline-block",

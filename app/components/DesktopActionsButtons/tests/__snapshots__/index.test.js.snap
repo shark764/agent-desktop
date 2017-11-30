@@ -39,6 +39,7 @@ exports[`<DesktopActionsButtons /> should render correctly 1`] = `
   />
   <InjectIntl(Button)
     id="end-chat-button"
+    key="end-chat-button"
     onClick={[Function]}
     style={
       Object {

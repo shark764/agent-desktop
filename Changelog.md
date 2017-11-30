@@ -1,3 +1,8 @@
+### [1.13.6] (2017-11-30)
+* CXV1-11754 - Add non-voice transfer menu
+* CXV1-11758 - Keyboard controls for transfer menu
+* upgrading enzyme and jest test frameworks
+
 ### [1.13.5] (2017-11-29)
 * CXV1-11391 - Transferring to an Agent That has Already Logged out or is Away Does Not Time Out.
 

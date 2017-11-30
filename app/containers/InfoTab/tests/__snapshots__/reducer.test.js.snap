@@ -2,30 +2,27 @@
 
 exports[`infoTabReducer SET_CRM_UNAVAILABLE if reason is a string sets crmUnavailable to the reason 1`] = `
 Immutable.Map {
-  crmUnavailable: "mockReason",
+  "crmUnavailable": "mockReason",
 }
 `;
 
 exports[`infoTabReducer SET_CRM_UNAVAILABLE if reason is undefined sets crmUnavailable to generalError 1`] = `
 Immutable.Map {
-  crmUnavailable: "generalError",
+  "crmUnavailable": "generalError",
 }
 `;
 
 exports[`infoTabReducer returns the initial state 1`] = `
 Immutable.Map {
-  nextPage: 1,
-  notifications: Immutable.List [
-  ],
-  deletionPending: false,
-  confirmingDelete: false,
-  searchPending: false,
-  results: Immutable.List [
-  ],
-  nextNotificationId: 0,
-  resultsCount: -1,
-  checkedContacts: Immutable.List [
-  ],
-  loading: false,
+  "nextPage": 1,
+  "notifications": Immutable.List [],
+  "deletionPending": false,
+  "confirmingDelete": false,
+  "searchPending": false,
+  "results": Immutable.List [],
+  "nextNotificationId": 0,
+  "resultsCount": -1,
+  "checkedContacts": Immutable.List [],
+  "loading": false,
 }
 `;

@@ -1,28 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ResponseMessage constructor should construct properly with metadata 1`] = `
-Object {
+Immutable.Record {
+  "type": "metadata.type",
   "from": "metadata.name",
   "text": "text",
   "timestamp": "timestamp",
-  "type": "metadata.type",
 }
 `;
 
 exports[`ResponseMessage constructor should construct properly with minimum params 1`] = `
-Object {
+Immutable.Record {
+  "type": "type",
   "from": "from",
   "text": "text",
   "timestamp": "timestamp",
-  "type": "type",
 }
 `;
 
 exports[`ResponseMessage constructor should construct with "agent" type and "Agent" from when from is userId 1`] = `
-Object {
+Immutable.Record {
+  "type": "agent",
   "from": "Agent",
   "text": "text",
   "timestamp": "timestamp",
-  "type": "agent",
 }
 `;

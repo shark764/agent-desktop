@@ -11,6 +11,7 @@ exports[`<Tabs /> with type big should render correctly 1`] = `
   }
 >
   <Style
+    key=".0"
     rules={
       Object {
         ".react-tabs__tab": Object {
@@ -81,6 +82,7 @@ exports[`<Tabs /> with type big should render correctly 1`] = `
     defaultFocus={false}
     defaultIndex={null}
     forceRenderTabPanel={false}
+    key=".1"
     selectedIndex={null}
   />
 </div>
@@ -97,6 +99,7 @@ exports[`<Tabs /> with type small should render correctly 1`] = `
   }
 >
   <Style
+    key=".0"
     rules={
       Object {
         ".react-tabs__tab": Object {
@@ -162,6 +165,7 @@ exports[`<Tabs /> with type small should render correctly 1`] = `
     defaultFocus={false}
     defaultIndex={null}
     forceRenderTabPanel={false}
+    key=".1"
     selectedIndex={null}
   />
 </div>

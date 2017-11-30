@@ -7,6 +7,7 @@ exports[`<Dialpad /> when given required props should render correctly 1`] = `
   <div
     data-radium={true}
     id="dialpadMask"
+    key=".0"
     style={
       Object {
         "height": "100vh",
@@ -21,6 +22,7 @@ exports[`<Dialpad /> when given required props should render correctly 1`] = `
   <div
     data-radium={true}
     id="dialpadtriangle"
+    key=".1"
     style={
       Object {
         "borderBottom": "10px solid white",
@@ -37,6 +39,7 @@ exports[`<Dialpad /> when given required props should render correctly 1`] = `
   />
   <div
     data-radium={true}
+    key=".2"
     style={
       Object {
         "backgroundColor": "#FFFFFF",
@@ -66,6 +69,7 @@ exports[`<Dialpad /> when given required props should render correctly 1`] = `
         autoFocus={true}
         cb={[Function]}
         id="mockIdTextInput"
+        key=".0"
         onKeyDown={[Function]}
         style={
           Object {
@@ -77,6 +81,7 @@ exports[`<Dialpad /> when given required props should render correctly 1`] = `
       />
       <div
         data-radium={true}
+        key=".1"
         style={
           Object {
             "marginTop": "13px",
@@ -85,72 +90,84 @@ exports[`<Dialpad /> when given required props should render correctly 1`] = `
       >
         <ButtonDialpad
           id="mockId1Button"
+          key=".0"
           onClick={[Function]}
           text="1"
           type="topLeft"
         />
         <ButtonDialpad
           id="mockId2Button"
+          key=".1"
           onClick={[Function]}
           text="2"
           type="top"
         />
         <ButtonDialpad
           id="mockId3Button"
+          key=".2"
           onClick={[Function]}
           text="3"
           type="topRight"
         />
         <ButtonDialpad
           id="mockId4Button"
+          key=".3"
           onClick={[Function]}
           text="4"
           type="left"
         />
         <ButtonDialpad
           id="mockId5Button"
+          key=".4"
           onClick={[Function]}
           text="5"
           type="middle"
         />
         <ButtonDialpad
           id="mockId6Button"
+          key=".5"
           onClick={[Function]}
           text="6"
           type="right"
         />
         <ButtonDialpad
           id="mockId7Button"
+          key=".6"
           onClick={[Function]}
           text="7"
           type="left"
         />
         <ButtonDialpad
           id="mockId8Button"
+          key=".7"
           onClick={[Function]}
           text="8"
           type="middle"
         />
         <ButtonDialpad
           id="mockId9Button"
+          key=".8"
           onClick={[Function]}
           text="9"
           type="right"
         />
         <ButtonDialpad
           id="mockIdStarButton"
+          key=".9"
           onClick={[Function]}
           text="*"
           type="bottomLeft"
         />
         <ButtonDialpad
           id="mockId0Button"
+          key=".a"
           onClick={[Function]}
           text="0"
           type="bottom"
         />
         <ButtonDialpad
           id="mockIdNumberButton"
+          key=".b"
           onClick={[Function]}
           text="#"
           type="bottomRight"
@@ -168,6 +185,7 @@ exports[`<Dialpad /> when inCall prop set to true should render correctly 1`] = 
   <div
     data-radium={true}
     id="dialpadMask"
+    key=".0"
     style={
       Object {
         "height": "100vh",
@@ -182,6 +200,7 @@ exports[`<Dialpad /> when inCall prop set to true should render correctly 1`] = 
   <div
     data-radium={true}
     id="dialpadtriangle"
+    key=".1"
     style={
       Object {
         "borderBottom": "10px solid white",
@@ -198,6 +217,7 @@ exports[`<Dialpad /> when inCall prop set to true should render correctly 1`] = 
   />
   <div
     data-radium={true}
+    key=".2"
     style={
       Object {
         "backgroundColor": "#FFFFFF",
@@ -227,6 +247,7 @@ exports[`<Dialpad /> when inCall prop set to true should render correctly 1`] = 
         autoFocus={true}
         cb={[Function]}
         id="mockIdTextInput"
+        key=".0"
         onKeyDown={[Function]}
         style={
           Object {
@@ -238,6 +259,7 @@ exports[`<Dialpad /> when inCall prop set to true should render correctly 1`] = 
       />
       <div
         data-radium={true}
+        key=".1"
         style={
           Object {
             "marginTop": "13px",
@@ -246,72 +268,84 @@ exports[`<Dialpad /> when inCall prop set to true should render correctly 1`] = 
       >
         <ButtonDialpad
           id="mockId1Button"
+          key=".0"
           onClick={[Function]}
           text="1"
           type="topLeft"
         />
         <ButtonDialpad
           id="mockId2Button"
+          key=".1"
           onClick={[Function]}
           text="2"
           type="top"
         />
         <ButtonDialpad
           id="mockId3Button"
+          key=".2"
           onClick={[Function]}
           text="3"
           type="topRight"
         />
         <ButtonDialpad
           id="mockId4Button"
+          key=".3"
           onClick={[Function]}
           text="4"
           type="left"
         />
         <ButtonDialpad
           id="mockId5Button"
+          key=".4"
           onClick={[Function]}
           text="5"
           type="middle"
         />
         <ButtonDialpad
           id="mockId6Button"
+          key=".5"
           onClick={[Function]}
           text="6"
           type="right"
         />
         <ButtonDialpad
           id="mockId7Button"
+          key=".6"
           onClick={[Function]}
           text="7"
           type="left"
         />
         <ButtonDialpad
           id="mockId8Button"
+          key=".7"
           onClick={[Function]}
           text="8"
           type="middle"
         />
         <ButtonDialpad
           id="mockId9Button"
+          key=".8"
           onClick={[Function]}
           text="9"
           type="right"
         />
         <ButtonDialpad
           id="mockIdStarButton"
+          key=".9"
           onClick={[Function]}
           text="*"
           type="bottomLeft"
         />
         <ButtonDialpad
           id="mockId0Button"
+          key=".a"
           onClick={[Function]}
           text="0"
           type="bottom"
         />
         <ButtonDialpad
           id="mockIdNumberButton"
+          key=".b"
           onClick={[Function]}
           text="#"
           type="bottomRight"
