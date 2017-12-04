@@ -1,0 +1,275 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MessagingTextArea /> should render correctly under connecting-to-outbound 1`] = `
+<div
+  style={
+    Object {
+      "flex": "0 1 50px",
+      "maxHeight": "95px",
+    }
+  }
+>
+  <style>
+    #messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: 1px solid #23CEF5 !important;}
+  </style>
+  <TextareaAutosize
+    autoFocus={true}
+    id="messageTextarea"
+    inputRef={[Function]}
+    maxRows={4}
+    minRows={2}
+    onChange={[Function]}
+    onHeightChange={[Function]}
+    onKeyDown={[Function]}
+    style={
+      Object {
+        "borderBottom": "1px solid #979797",
+        "borderLeft": "1px solid #979797",
+        "borderRadius": "3px 0 0 3px",
+        "borderRight": "none",
+        "borderTop": "1px solid #979797",
+        "padding": "4px",
+        "resize": "none",
+        "width": "calc(100% - 50px)",
+      }
+    }
+    useCacheForDOMMeasurements={false}
+    value=""
+  />
+  <InjectIntl(Button)
+    id="sendMessageButton"
+    onClick={[Function]}
+    style={
+      Object {
+        "borderRadius": "0 3px 3px 0",
+        "fontSize": "11px",
+        "height": "calc(100% - 5px)",
+        "padding": 0,
+        "verticalAlign": "top",
+        "width": "50px",
+      }
+    }
+    text={
+      Object {
+        "defaultMessage": "Send",
+        "id": "app.containers.MessagingContentArea.send",
+      }
+    }
+    type="secondary"
+  />
+</div>
+`;
+
+exports[`<MessagingTextArea /> should render correctly under initialized-outbound 1`] = `
+<div
+  style={
+    Object {
+      "flex": "0 1 50px",
+      "maxHeight": "95px",
+    }
+  }
+>
+  <style>
+    #messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: 1px solid #23CEF5 !important;}
+  </style>
+  <TextareaAutosize
+    autoFocus={true}
+    id="messageTextarea"
+    inputRef={[Function]}
+    maxRows={4}
+    minRows={2}
+    onChange={[Function]}
+    onHeightChange={[Function]}
+    onKeyDown={[Function]}
+    style={
+      Object {
+        "borderBottom": "1px solid #979797",
+        "borderLeft": "1px solid #979797",
+        "borderRadius": "3px 0 0 3px",
+        "borderRight": "none",
+        "borderTop": "1px solid #979797",
+        "padding": "4px",
+        "resize": "none",
+        "width": "calc(100% - 50px)",
+      }
+    }
+    useCacheForDOMMeasurements={false}
+    value=""
+  />
+  <InjectIntl(Button)
+    id="sendMessageButton"
+    onClick={[Function]}
+    style={
+      Object {
+        "borderRadius": "0 3px 3px 0",
+        "fontSize": "11px",
+        "height": "calc(100% - 5px)",
+        "padding": 0,
+        "verticalAlign": "top",
+        "width": "50px",
+      }
+    }
+    text={
+      Object {
+        "defaultMessage": "Send",
+        "id": "app.containers.MessagingContentArea.send",
+      }
+    }
+    type="secondary"
+  />
+</div>
+`;
+
+exports[`<MessagingTextArea /> should render correctly under work-accepted 1`] = `
+<div
+  style={
+    Object {
+      "flex": "0 1 50px",
+      "maxHeight": "95px",
+    }
+  }
+>
+  <style>
+    #messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: 1px solid #23CEF5 !important;}
+  </style>
+  <TextareaAutosize
+    autoFocus={true}
+    id="messageTextarea"
+    inputRef={[Function]}
+    maxRows={4}
+    minRows={2}
+    onChange={[Function]}
+    onHeightChange={[Function]}
+    onKeyDown={[Function]}
+    style={
+      Object {
+        "borderBottom": "1px solid #979797",
+        "borderLeft": "1px solid #979797",
+        "borderRadius": "3px 0 0 3px",
+        "borderRight": "none",
+        "borderTop": "1px solid #979797",
+        "padding": "4px",
+        "resize": "none",
+        "width": "calc(100% - 50px)",
+      }
+    }
+    useCacheForDOMMeasurements={false}
+    value=""
+  />
+  <InjectIntl(Button)
+    id="sendMessageButton"
+    onClick={[Function]}
+    style={
+      Object {
+        "borderRadius": "0 3px 3px 0",
+        "fontSize": "11px",
+        "height": "calc(100% - 5px)",
+        "padding": 0,
+        "verticalAlign": "top",
+        "width": "50px",
+      }
+    }
+    text={
+      Object {
+        "defaultMessage": "Send",
+        "id": "app.containers.MessagingContentArea.send",
+      }
+    }
+    type="secondary"
+  />
+</div>
+`;
+
+exports[`<MessagingTextArea /> should render correctly under wrapup 1`] = `
+<div
+  style={
+    Object {
+      "flex": "0 1 50px",
+      "maxHeight": "95px",
+    }
+  }
+>
+  <style>
+    #messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: 1px solid #23CEF5 !important;}
+  </style>
+</div>
+`;
+
+exports[`<MessagingTextArea /> should render correctly with message templates 1`] = `
+<div
+  style={
+    Object {
+      "flex": "0 1 50px",
+      "maxHeight": "95px",
+    }
+  }
+>
+  <InjectIntl(Button)
+    id="templateMenuButton"
+    onClick={[Function]}
+    style={
+      Object {
+        "borderRadius": "3px 0 0 3px",
+        "fontSize": "24px",
+        "height": "calc(100% - 5px)",
+        "padding": 0,
+        "verticalAlign": "top",
+        "width": "40px",
+      }
+    }
+    type="secondary"
+  >
+    <span>
+      +
+    </span>
+  </InjectIntl(Button)>
+  <style>
+    #messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: 0;}
+  </style>
+  <TextareaAutosize
+    autoFocus={true}
+    id="messageTextarea"
+    inputRef={[Function]}
+    maxRows={4}
+    minRows={2}
+    onChange={[Function]}
+    onHeightChange={[Function]}
+    onKeyDown={[Function]}
+    style={
+      Object {
+        "borderBottom": "1px solid #979797",
+        "borderLeft": "none",
+        "borderRadius": "0",
+        "borderRight": "none",
+        "borderTop": "1px solid #979797",
+        "padding": "4px",
+        "resize": "none",
+        "width": "calc(100% - 90px)",
+      }
+    }
+    useCacheForDOMMeasurements={false}
+    value=""
+  />
+  <InjectIntl(Button)
+    id="sendMessageButton"
+    onClick={[Function]}
+    style={
+      Object {
+        "borderRadius": "0 3px 3px 0",
+        "fontSize": "11px",
+        "height": "calc(100% - 5px)",
+        "padding": 0,
+        "verticalAlign": "top",
+        "width": "50px",
+      }
+    }
+    text={
+      Object {
+        "defaultMessage": "Send",
+        "id": "app.containers.MessagingContentArea.send",
+      }
+    }
+    type="secondary"
+  />
+</div>
+`;

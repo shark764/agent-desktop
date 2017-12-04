@@ -114,7 +114,16 @@ import {
   INIT_FORM,
   RESET_FORM,
   SET_AGENT_DIRECTION,
+  SAVE_MESSAGE_STATE,
 } from './constants';
+
+export function saveMessageState(interactionId, message) {
+  return {
+    type: SAVE_MESSAGE_STATE,
+    interactionId,
+    message,
+  };
+}
 
 export function setCrmModule(crmModule) {
   return {

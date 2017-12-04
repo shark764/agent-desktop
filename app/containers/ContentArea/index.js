@@ -837,7 +837,7 @@ ContentArea.propTypes = {
         name: PropTypes.string,
       }).isRequired,
     }).isRequired,
-  }).isRequired,
+  }),
   awaitingDisposition: PropTypes.bool.isRequired,
   updateNote: PropTypes.func.isRequired,
   setInteractionConfirmation: PropTypes.func.isRequired,
