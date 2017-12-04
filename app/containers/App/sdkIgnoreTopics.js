@@ -10,6 +10,7 @@ export default [
   'cxengage/contacts/get-contact-response', // Handled in App callback
   'cxengage/entities/get-users-response', // Handled in TransferMenu
   'cxengage/entities/get-transfer-lists-response', // Handled in TransferMenu
+  'cxengage/entities/get-user-response', // Handled in calls to CxEngage.entities.getUser
   'cxengage/logging/logs-saved', // Ignore
   'cxengage/interactions/accept-acknowledged', // Using cxengage/interactions/work-accepted instead
   'cxengage/interactions/end-acknowledged', // Using cxengage/interactions/work-ended instead

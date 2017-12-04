@@ -55,6 +55,7 @@ export const SET_INTERACTION_QUERY = 'app/AgentDesktop/SET_INTERACTION_QUERY';
 export const ADD_SEARCH_FILTER = 'app/AgentDesktop/ADD_SEARCH_FILTER';
 export const REMOVE_SEARCH_FILTER = 'app/AgentDesktop/REMOVE_SEARCH_FILTER';
 export const SET_MESSAGE_HISTORY = 'app/AgentDesktop/SET_MESSAGE_HISTORY';
+export const UPDATE_MESSAGE_HISTORY_AGENT_NAME = 'app/AgentDesktop/UPDATE_MESSAGE_HISTORY_AGENT_NAME';
 export const SET_CONTACT_MODE = 'app/AgentDesktop/SET_CONTACT_MODE';
 export const SET_ASSIGNED_CONTACT = 'app/AgentDesktop/SET_ASSIGNED_CONTACT';
 export const UNASSIGN_CONTACT = 'app/AgentDesktop/UNASSIGN_CONTACT';

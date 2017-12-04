@@ -12,11 +12,12 @@ import {
   SET_INTERACTION_STATUS,
   SET_ACTIVE_RESOURCES,
   SET_NEW_INTERACTION_PANEL_FORM_INPUT,
-  SET_MESSAGE_HISTORY,
   START_OUTBOUND_INTERACTION,
   INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
   ADD_INTERACTION,
   WORK_INITIATED,
+  SET_MESSAGE_HISTORY,
+  UPDATE_MESSAGE_HISTORY_AGENT_NAME,
   ADD_MESSAGE,
   ADD_SCRIPT,
   REMOVE_SCRIPT,
@@ -327,52 +328,7 @@ describe('agentDesktopReducer', () => {
       expect(next.toJS().interactions[1].currentMessage).toEqual('hey');
     });
   });
-  describe('SET_MESSAGE_HISTORY', () => {
-    global.console.warn = jest.fn();
-    beforeEach(() => {
-      initialState = {
-        interactions: [
-          { interactionId: 'a', messageHistory: [] },
-          { interactionId: 'b', messageHistory: [] },
-        ],
-      };
-    });
-    it('Adds 1 message to interaction history', () => {
-      const next = agentDesktopReducer(fromJS(initialState), {
-        type: SET_MESSAGE_HISTORY,
-        response: [
-          {
-            type: 'customer',
-            from: 'bb bbb',
-            text: 'My issue: bbbbb',
-            timestamp: '2017-11-07T16:55:48.495Z',
-            to: 'b',
-          },
-        ],
-      });
-      expect(next.toJS().interactions[0].messageHistory.length).toEqual(0);
-      expect(next.toJS().interactions[1].messageHistory.length).toEqual(1);
-    });
-    it('fails to find the interaction to add the history to', () => {
-      const next = agentDesktopReducer(fromJS(initialState), {
-        type: SET_MESSAGE_HISTORY,
-        response: [
-          {
-            type: 'customer',
-            from: 'bb bbb',
-            text: 'My issue: bbbbb',
-            timestamp: '2017-11-07T16:55:48.495Z',
-            to: 'f',
-          },
-        ],
-      });
-      expect(console.warn.mock.calls[1]).toEqual([
-        'Interaction history could not get assigned to an interaction.',
-      ]);
-      expect(next.toJS().interactions[0].messageHistory.length).toEqual(0);
-      expect(next.toJS().interactions[1].messageHistory.length).toEqual(0);
-    });
-  });
+
   describe('START_OUTBOUND_INTERACTION', () => {
     beforeEach(() => {
       initialState = {
@@ -561,6 +517,123 @@ describe('agentDesktopReducer', () => {
       it('sets status to work-initiated', () => {
         runReducerAndExpectSnapshot();
       });
+    });
+  });
+
+  describe('SET_MESSAGE_HISTORY', () => {
+    global.console.warn = jest.fn();
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 'interaction-id',
+            messageHistory: [],
+          },
+        ],
+      };
+      action = {
+        type: SET_MESSAGE_HISTORY,
+        response: [
+          {
+            to: 'interaction-id',
+            id: 'message-id',
+            type: 'agent',
+            from: 'Agent Name',
+            body: {
+              text: 'new message',
+            },
+            timestamp: new Date(0).toISOString(),
+          },
+        ],
+      };
+    });
+    it('adds the message to the history', () => {
+      runReducerAndExpectSnapshot();
+    });
+    describe('when there is no matching interaction id', () => {
+      beforeEach(() => {
+        action.response[0].to = 'non-matching-interaction-id';
+      });
+      it('console.warns and does nothing', () => {
+        runReducerAndExpectSnapshot();
+        expect(console.warn.mock.calls[0]).toEqual([
+          'Interaction history could not get assigned to an interaction. No matching interactionId.',
+        ]);
+      });
+    });
+    describe('when a message already exists with the same id as the one being added', () => {
+      beforeEach(() => {
+        initialState.interactions[0].messageHistory = [
+          {
+            to: 'interaction-id',
+            id: 'message-id',
+            type: 'agent',
+            from: 'Agent Name',
+            text: 'previous message',
+          },
+        ];
+      });
+      it('does not add it', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('when a message exists with an id of "no-id"', () => {
+      beforeEach(() => {
+        initialState.interactions[0].messageHistory = [
+          {
+            to: 'interaction-id',
+            id: 'no-id',
+            type: 'agent',
+            from: 'Agent Name',
+          },
+        ];
+      });
+      it('the message with id "no-id" is removed', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+  });
+
+  describe('UPDATE_MESSAGE_HISTORY_AGENT_NAME', () => {
+    beforeEach(() => {
+      const messageHistory = [
+        {
+          type: 'agent',
+          from: '123',
+        },
+        {
+          type: 'agent',
+          from: 'non-matching-from',
+        },
+        {
+          type: 'customer',
+          from: '123',
+        },
+      ];
+      initialState = {
+        interactions: [
+          {
+            interactionId: 'interaction-id',
+            messageHistory,
+          },
+          {
+            interactionId: 'non-matching-interaction-id',
+            messageHistory,
+          },
+        ],
+      };
+      action = {
+        type: UPDATE_MESSAGE_HISTORY_AGENT_NAME,
+        interactionId: 'interaction-id',
+        user: {
+          id: '123',
+          firstName: 'First',
+          lastName: 'Last',
+        },
+      };
+    });
+    it('only updates the name of the agent with matching id in the interaction', () => {
+      runReducerAndExpectSnapshot();
     });
   });
 

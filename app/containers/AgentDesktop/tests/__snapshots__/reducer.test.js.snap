@@ -296,6 +296,7 @@ Immutable.Map {
     Immutable.Map {
       "messageHistory": Immutable.List [
         Immutable.Record {
+          "id": "no-id",
           "type": "agent",
           "from": "Agent",
           "text": "new message!",
@@ -743,6 +744,74 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer SET_MESSAGE_HISTORY adds the message to the history 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "interaction-id",
+      "messageHistory": Immutable.List [
+        Immutable.Record {
+          "id": "message-id",
+          "type": "agent",
+          "from": "Agent Name",
+          "text": "new message",
+          "timestamp": "1970-01-01T00:00:00.000Z",
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_MESSAGE_HISTORY when a message already exists with the same id as the one being added does not add it 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "interaction-id",
+      "messageHistory": Immutable.List [
+        Immutable.Map {
+          "to": "interaction-id",
+          "id": "message-id",
+          "type": "agent",
+          "from": "Agent Name",
+          "text": "previous message",
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_MESSAGE_HISTORY when a message exists with an id of "no-id" the message with id "no-id" is removed 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "interaction-id",
+      "messageHistory": Immutable.List [
+        Immutable.Record {
+          "id": "message-id",
+          "type": "agent",
+          "from": "Agent Name",
+          "text": "new message",
+          "timestamp": "1970-01-01T00:00:00.000Z",
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_MESSAGE_HISTORY when there is no matching interaction id console.warns and does nothing 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "interaction-id",
+      "messageHistory": Immutable.List [],
+    },
+  ],
+}
+`;
+
 exports[`agentDesktopReducer SET_NEW_INTERACTION_PANEL_FORM_INPUT sets the input in newInteractionPanel 1`] = `
 Immutable.Map {
   "newInteractionPanel": Immutable.Map {
@@ -804,7 +873,7 @@ Immutable.Map {
         "selected": Immutable.List [],
       },
       "autoAnswer": undefined,
-      "messageHistory": Array [],
+      "messageHistory": Immutable.List [],
       "interactionId": "outbound-sms-+15064701234",
       "customFieldsCollapsed": true,
       "note": Immutable.Map {
@@ -996,6 +1065,47 @@ Immutable.Map {
       "id": "test-contact-id",
     },
   },
+}
+`;
+
+exports[`agentDesktopReducer UPDATE_MESSAGE_HISTORY_AGENT_NAME only updates the name of the agent with matching id in the interaction 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "interaction-id",
+      "messageHistory": Immutable.List [
+        Immutable.Map {
+          "type": "agent",
+          "from": "First Last",
+        },
+        Immutable.Map {
+          "type": "agent",
+          "from": "non-matching-from",
+        },
+        Immutable.Map {
+          "type": "customer",
+          "from": "123",
+        },
+      ],
+    },
+    Immutable.Map {
+      "interactionId": "non-matching-interaction-id",
+      "messageHistory": Immutable.List [
+        Immutable.Map {
+          "type": "agent",
+          "from": "123",
+        },
+        Immutable.Map {
+          "type": "agent",
+          "from": "non-matching-from",
+        },
+        Immutable.Map {
+          "type": "customer",
+          "from": "123",
+        },
+      ],
+    },
+  ],
 }
 `;
 

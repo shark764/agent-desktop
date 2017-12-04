@@ -28,7 +28,7 @@ export default class Interaction {
       this.muted = false;
     } else if (channelType === 'sms' || channelType === 'messaging') {
       this.customerAvatarIndex = Math.floor(Math.random() * 17);
-      this.messageHistory = [];
+      this.messageHistory = new List();
     }
     if (channelType === 'email' || channelType === 'sms') {
       this.customer = customer;

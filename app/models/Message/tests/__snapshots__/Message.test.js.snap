@@ -2,6 +2,7 @@
 
 exports[`Message constructor should construct properly 1`] = `
 Immutable.Record {
+  "id": "id",
   "type": "type",
   "from": "from",
   "text": "text",
@@ -11,6 +12,7 @@ Immutable.Record {
 
 exports[`Message constructor should set "from" to empty string when "from" is not passed in 1`] = `
 Immutable.Record {
+  "id": "id",
   "type": "type",
   "from": "",
   "text": "text",
@@ -18,8 +20,19 @@ Immutable.Record {
 }
 `;
 
+exports[`Message constructor should set "no-id" as an id when one is not passed in 1`] = `
+Immutable.Record {
+  "id": "no-id",
+  "type": "type",
+  "from": "from",
+  "text": "text",
+  "timestamp": "timestamp",
+}
+`;
+
 exports[`Message constructor should set "text" to empty when "text" is not passed in 1`] = `
 Immutable.Record {
+  "id": "id",
   "type": "type",
   "from": "from",
   "text": "",

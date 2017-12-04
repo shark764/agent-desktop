@@ -36,6 +36,7 @@ import {
   WORK_INITIATED,
   SET_INTERACTION_QUERY,
   SET_MESSAGE_HISTORY,
+  UPDATE_MESSAGE_HISTORY_AGENT_NAME,
   SET_CONTACT_MODE,
   ASSIGN_CONTACT,
   SET_ASSIGNED_CONTACT,
@@ -360,11 +361,18 @@ export function setContactMode(interactionId, newMode) {
   };
 }
 
-export function setMessageHistory(response, agentId) {
+export function setMessageHistory(response) {
   return {
     type: SET_MESSAGE_HISTORY,
     response,
-    agentId,
+  };
+}
+
+export function updateMessageHistoryAgentName(interactionId, user) {
+  return {
+    type: UPDATE_MESSAGE_HISTORY_AGENT_NAME,
+    interactionId,
+    user,
   };
 }
 

@@ -2,6 +2,7 @@
 
 exports[`ResponseMessage constructor should construct properly with metadata 1`] = `
 Immutable.Record {
+  "id": "id",
   "type": "metadata.type",
   "from": "metadata.name",
   "text": "text",
@@ -11,6 +12,7 @@ Immutable.Record {
 
 exports[`ResponseMessage constructor should construct properly with minimum params 1`] = `
 Immutable.Record {
+  "id": "id",
   "type": "type",
   "from": "from",
   "text": "text",
@@ -18,10 +20,11 @@ Immutable.Record {
 }
 `;
 
-exports[`ResponseMessage constructor should construct with "agent" type and "Agent" from when from is userId 1`] = `
+exports[`ResponseMessage constructor should construct with "agent" type and from when metadata.type is "agent" 1`] = `
 Immutable.Record {
+  "id": "id",
   "type": "agent",
-  "from": "Agent",
+  "from": "userId",
   "text": "text",
   "timestamp": "timestamp",
 }

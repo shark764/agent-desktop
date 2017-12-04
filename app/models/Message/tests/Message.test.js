@@ -11,6 +11,17 @@ describe('Message', () => {
     });
     it('should construct properly', () => {
       const message = new Message({
+        id: 'id',
+        type: 'type',
+        from: 'from',
+        text: 'text',
+        timestamp: 'timestamp',
+      });
+      expect(message).toMatchSnapshot();
+    });
+    it('should set "no-id" as an id when one is not passed in', () => {
+      const message = new Message({
+        // id: 'id',
         type: 'type',
         from: 'from',
         text: 'text',
@@ -23,6 +34,7 @@ describe('Message', () => {
       try {
         // eslint-disable-next-line no-new
         new Message({
+          id: 'id',
           // type: 'type',
           from: 'from',
           text: 'text',
@@ -34,8 +46,9 @@ describe('Message', () => {
       expect(error.message).toEqual('type is required');
     });
     it('should set "from" to empty string when "from" is not passed in', () => {
+      // eslint-disable-next-line no-new
       const message = new Message({
-        // eslint-disable-line no-new
+        id: 'id',
         type: 'type',
         // from: 'from',
         text: 'text',
@@ -46,6 +59,7 @@ describe('Message', () => {
     it('should set "text" to empty when "text" is not passed in', () => {
       // eslint-disable-next-line no-new
       const message = new Message({
+        id: 'id',
         type: 'type',
         from: 'from',
         // text: 'text',
@@ -58,6 +72,7 @@ describe('Message', () => {
       try {
         // eslint-disable-next-line no-new
         new Message({
+          id: 'id',
           type: 'type',
           from: 'from',
           text: 'text',

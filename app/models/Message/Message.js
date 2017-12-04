@@ -5,12 +5,13 @@
 import Immutable from 'immutable';
 
 export default class Message extends Immutable.Record({
+  id: 'no-id',
   type: '',
   from: '',
   text: '',
   timestamp: new Date().toISOString(),
 }) {
-  constructor({ type, from, text, timestamp }) {
+  constructor({ id, type, from, text, timestamp }) {
     let messageFrom;
     let messageText;
     if (type == null) {
@@ -41,6 +42,6 @@ export default class Message extends Immutable.Record({
     if (timestamp == null) {
       throw new Error('timestamp is required');
     }
-    super({ type, from: messageFrom, text: messageText, timestamp });
+    super({ id, type, from: messageFrom, text: messageText, timestamp });
   }
 }
