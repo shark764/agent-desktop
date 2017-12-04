@@ -33,6 +33,7 @@ import {
   OPEN_NEW_INTERACTION_PANEL,
   CLOSE_NEW_INTERACTION_PANEL,
   CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL,
+  SAVE_MESSAGE_STATE,
 } from '../constants';
 import agentDesktopReducer from '../reducer';
 
@@ -298,6 +299,34 @@ describe('agentDesktopReducer', () => {
     });
   });
 
+  describe('SET_MESSAGE_STATE', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          { interactionId: 'a', currentMessage: 'hello' },
+          { interactionId: 'b' },
+        ],
+      };
+    });
+    it('set the current message on the first interaction with an existing message', () => {
+      const next = agentDesktopReducer(fromJS(initialState), {
+        type: SAVE_MESSAGE_STATE,
+        interactionId: 'a',
+        message: 'hey',
+      });
+      expect(next.toJS().interactions[0].currentMessage).toEqual('hey');
+      expect(next.toJS().interactions[1].currentMessage).toEqual(undefined);
+    });
+    it('set the current message on the second interaction with no existing message', () => {
+      const next = agentDesktopReducer(fromJS(initialState), {
+        type: SAVE_MESSAGE_STATE,
+        interactionId: 'b',
+        message: 'hey',
+      });
+      expect(next.toJS().interactions[0].currentMessage).toEqual('hello');
+      expect(next.toJS().interactions[1].currentMessage).toEqual('hey');
+    });
+  });
   describe('SET_MESSAGE_HISTORY', () => {
     global.console.warn = jest.fn();
     beforeEach(() => {

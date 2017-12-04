@@ -114,6 +114,7 @@ import {
   SET_AGENT_DIRECTION,
   INIT_FORM,
   RESET_FORM,
+  SAVE_MESSAGE_STATE,
 } from './constants';
 
 // import { outboundConnectingVoiceInteraction, voiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithUnrespondedMessageAndScript, smsInteractionWithUnrespondedMessageAndScript2, smsInteractionWithLotsOfMessagesAndScript2, smsInteractionWithLotsOfMessagesAndScript3, smsInteractionWithLotsOfMessagesAndScript4, smsInteractionWithLotsOfMessagesAndScript5, smsInteractionWithLotsOfMessagesAndScript6, scriptOnly } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
@@ -1896,6 +1897,16 @@ function agentDesktopReducer(state = initialState, action) {
         return state.mergeIn(
           ['interactions', interactionIndex, 'note'],
           action.note
+        );
+      } else {
+        return state;
+      }
+    }
+    case SAVE_MESSAGE_STATE: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.set('currentMessage', action.message)
         );
       } else {
         return state;

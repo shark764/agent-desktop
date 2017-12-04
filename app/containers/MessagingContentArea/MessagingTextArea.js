@@ -14,6 +14,7 @@ import ErrorBoundary from 'components/ErrorBoundary';
 import Button from 'components/Button';
 import Icon from 'components/Icon';
 
+import { saveMessageState } from 'containers/AgentDesktop/actions';
 import { initializeOutboundSmsFromMessaging, sendOutboundSms } from './actions';
 import messages from './messages';
 
@@ -113,7 +114,6 @@ export class MessagingTextArea extends React.Component {
       showMessageTemplateMenuByForwardSlash: false,
       messageTemplateFilter: undefined,
       selectedMessageTemplateIndex: 0,
-      messageText: '',
       messageTextareaHeight: 50,
     };
   }
@@ -128,7 +128,6 @@ export class MessagingTextArea extends React.Component {
         showMessageTemplateMenuByForwardSlash: false,
         messageTemplateFilter: undefined,
         selectedMessageTemplateIndex: 0,
-        messageText: '',
         messageTextareaHeight: 50,
       });
     }
@@ -237,18 +236,21 @@ export class MessagingTextArea extends React.Component {
 
   addMessageTemplate = () => {
     this.messageTextarea.focus();
-    let newMessageText = this.state.messageText;
+    let newMessageText = this.props.selectedInteraction.currentMessage;
     if (this.state.showMessageTemplateMenuByForwardSlash) {
       newMessageText = newMessageText.substring(
         0,
         newMessageText.lastIndexOf('/')
       );
     }
-    this.setState({
-      messageText: `${newMessageText}${
+    this.props.saveMesssageState(
+      this.props.selectedInteraction.interactionId,
+      `${newMessageText}${
         this.props.messageTemplates[this.state.selectedMessageTemplateIndex]
           .template
-      }`,
+      }`
+    );
+    this.setState({
       showMessageTemplateMenu: false,
       showMessageTemplateMenuByForwardSlash: false,
       messageTemplateFilter: undefined,
@@ -276,13 +278,16 @@ export class MessagingTextArea extends React.Component {
       }
     }
     this.setState({
-      messageText,
       messageTemplateFilter: newMessageTemplateFilter,
       selectedMessageTemplateIndex:
         newSelectedMessageTemplateIndex !== undefined
           ? newSelectedMessageTemplateIndex
           : this.state.selectedMessageTemplateIndex,
     });
+    this.props.saveMesssageState(
+      this.props.selectedInteraction.interactionId,
+      messageText
+    );
   };
 
   onMessageKeyDown = (e) => {
@@ -316,7 +321,10 @@ export class MessagingTextArea extends React.Component {
   };
 
   sendMessage = () => {
-    if (this.state.messageText.trim() !== '') {
+    if (
+      this.props.selectedInteraction.currentMessage &&
+      this.props.selectedInteraction.currentMessage.trim() !== ''
+    ) {
       if (this.props.selectedInteraction.status === 'connecting-to-outbound') {
         this.props.initializeOutboundSmsFromMessaging(
           this.props.selectedInteraction.interactionId,
@@ -324,22 +332,25 @@ export class MessagingTextArea extends React.Component {
           this.props.selectedInteraction.contact
             ? this.props.selectedInteraction.contact.id
             : null,
-          this.state.messageText
+          this.props.selectedInteraction.currentMessage
         );
       } else if (
         this.props.selectedInteraction.status === 'initialized-outbound'
       ) {
         this.props.sendOutboundSms(
           this.props.selectedInteraction.interactionId,
-          this.state.messageText
+          this.props.selectedInteraction.currentMessage
         );
       } else {
         CxEngage.interactions.messaging.sendMessage({
           interactionId: this.props.selectedInteraction.interactionId,
-          message: this.state.messageText,
+          message: this.props.selectedInteraction.currentMessage,
         });
       }
-      this.setMessageText('');
+      this.props.saveMesssageState(
+        this.props.selectedInteraction.interactionId,
+        ''
+      );
     }
   };
 
@@ -471,7 +482,7 @@ export class MessagingTextArea extends React.Component {
                 ? styles.messageTextareaWithTemplates
                 : styles.messageTextarea
             }
-            value={this.state.messageText}
+            value={this.props.selectedInteraction.currentMessage || ''}
             onChange={(e) => this.setMessageText(e.target.value)}
             onKeyDown={this.onMessageKeyDown}
             autoFocus
@@ -509,6 +520,8 @@ function mapDispatchToProps(dispatch) {
       ),
     sendOutboundSms: (interactionId, message) =>
       dispatch(sendOutboundSms(interactionId, message)),
+    saveMesssageState: (interactionId, message) =>
+      dispatch(saveMessageState(interactionId, message)),
     dispatch,
   };
 }
@@ -518,6 +531,7 @@ MessagingTextArea.propTypes = {
   messageTemplates: PropTypes.array.isRequired,
   initializeOutboundSmsFromMessaging: PropTypes.func.isRequired,
   sendOutboundSms: PropTypes.func.isRequired,
+  saveMesssageState: PropTypes.func.isRequired,
 };
 
 MessagingTextArea.contextTypes = {

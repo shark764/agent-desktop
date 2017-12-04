@@ -1,10 +1,12 @@
+### [1.13.9] (2017-12-1)
+* CXV1-12214 - Agent Messaging Content Disappears When Switching Between interactions
+
 ### [1.13.8] (2017-11-30)
 * CXV1-11754 - Add non-voice transfer menu
 * CXV1-11758 - Keyboard controls for transfer menu
 * CXV1-12275 - Message text box in wrap up should be hidden not disabled
 * CXV1-12235 - Zendesk- change Padding/Margin size of the subMenu div (i.e under the Actions Button)
 * CXV1-12269 - Non-Voice Transfers - turning wrapup off breaks transfer menu content
-
 
 ### [1.13.7] (2017-11-30)
 * CXV1-12257 - Show interaction history details for zendesk active tab
