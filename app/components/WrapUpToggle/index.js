@@ -38,6 +38,10 @@ const styles = {
   wrapUpLabel: {
     marginRight: '10px',
   },
+  togglePosition: {
+    float: 'right',
+    marginTop: '5px',
+  },
 };
 
 export class WrapUpToggle extends React.Component {
@@ -83,14 +87,7 @@ export class WrapUpToggle extends React.Component {
         <label htmlFor="wrapupToggle" style={styles.wrapUpLabel}>
           <FormattedMessage {...messages.wrapup} />
         </label>
-        <div
-          style={
-            this.props.type === 'actionsMenu' && {
-              float: 'right',
-              marginTop: '5px',
-            }
-          }
-        >
+        <div style={styles.togglePosition}>
           <Toggle
             id="wrapUpToggle"
             onChange={this.toggleWrapup}
