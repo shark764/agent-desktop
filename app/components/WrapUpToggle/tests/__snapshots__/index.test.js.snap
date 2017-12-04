@@ -25,7 +25,12 @@ exports[`<WrapUpToggle /> should render correctly 1`] = `
     />
   </label>
   <div
-    style={false}
+    style={
+      Object {
+        "float": "right",
+        "marginTop": "5px",
+      }
+    }
   >
     <Toggle
       disabled={true}

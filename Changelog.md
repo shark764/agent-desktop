@@ -1,3 +1,6 @@
+### [1.13.12] (2017-12-4)
+* CXV1-CXV1-12293 - Upgrade to React breaks Desktop with a critical Error
+
 ### [1.13.11] (2017-12-4)
 * CXV1-12283 - SDK bump to fix MQTT not ending on work-ended 
 
