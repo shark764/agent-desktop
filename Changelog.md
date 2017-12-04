@@ -1,3 +1,6 @@
+### [1.13.11] (2017-12-4)
+* CXV1-12283 - SDK bump to fix MQTT not ending on work-ended 
+
 ### [1.13.10] (2017-12-4)
 * CXV1-12247: Add other (transferred by) agent's name into message history
 
