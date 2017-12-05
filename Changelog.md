@@ -1,8 +1,12 @@
+### [1.13.13] (2017-12-5)
+* CXV1-12283 - SDK bump to fix MQTT not ending on wrapup-started
+* Fix moment locale warning
+
 ### [1.13.12] (2017-12-4)
 * CXV1-CXV1-12293 - Upgrade to React breaks Desktop with a critical Error
 
 ### [1.13.11] (2017-12-4)
-* CXV1-12283 - SDK bump to fix MQTT not ending on work-ended 
+* CXV1-12283 - SDK bump to fix MQTT not ending on work-ended
 
 ### [1.13.10] (2017-12-4)
 * CXV1-12247: Add other (transferred by) agent's name into message history
