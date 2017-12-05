@@ -86,6 +86,9 @@ module.exports = (options) => ({
     new webpack.NamedModulesPlugin(),
   ]),
   resolve: {
+    alias: {
+      'moment$': 'moment/moment',
+    },
     modules: (options.resolve && options.resolve.modules) || ['app', 'node_modules'],
     extensions: [
       '.js',
