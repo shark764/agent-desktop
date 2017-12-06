@@ -12,7 +12,7 @@ const selectContact = createSelector(
   [selectAgentDesktopDomain, getSelectedInteraction],
   (agentDesktop, currentInteraction) => {
     if (currentInteraction.interactionId === 'current-crm-item-history') {
-      return agentDesktop.getIn(['zendeskActiveTab', 'contact']).toJS();
+      return agentDesktop.getIn(['crmActiveTab', 'contact']).toJS();
     } else {
       return currentInteraction.contact;
     }

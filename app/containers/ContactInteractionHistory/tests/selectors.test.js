@@ -17,7 +17,7 @@ describe('selectContact', () => {
             contact: { id: 'interaction-contact-id' },
           },
         ],
-        zendeskActiveTab: { contact: { id: 'zendeskActiveTab-contact-id' } },
+        crmActiveTab: { contact: { id: 'crmActiveTab-contact-id' } },
         selectedInteractionId: 'test-interaction-id',
         currentCrmItemHistoryPanel: {
           interactionId: 'current-crm-item-history',
@@ -30,13 +30,11 @@ describe('selectContact', () => {
   it('selects the contact of the selected interaction', () => {
     expect(selectContact(mockedState).id).toEqual('interaction-contact-id');
   });
-  it('selects zendeskActiveTab when ', () => {
+  it('selects crmActiveTab when ', () => {
     mockedState = mockedState.setIn(
       ['agentDesktop', 'selectedInteractionId'],
       'current-crm-item-history'
     );
-    expect(selectContact(mockedState).id).toEqual(
-      'zendeskActiveTab-contact-id'
-    );
+    expect(selectContact(mockedState).id).toEqual('crmActiveTab-contact-id');
   });
 });

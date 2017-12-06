@@ -639,6 +639,44 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer SET_CRM_ACTIVE_TAB sets the zendeskActiveTab correctly 1`] = `
+Immutable.Map {
+  "crmActiveTab": Immutable.Map {
+    "interactionId": "current-crm-item-history",
+    "contact": Immutable.Map {
+      "type": "user",
+      "id": 123,
+      "attributes": Immutable.Map {
+        "name": "test-name",
+      },
+    },
+  },
+}
+`;
+
+exports[`agentDesktopReducer SET_CRM_ACTIVE_TAB when the id and type match the already stored value only updates the name 1`] = `
+Immutable.Map {
+  "zendeskActiveTab": Immutable.Map {
+    "id": 123,
+    "type": "user",
+    "attributes": Immutable.Map {
+      "name": "previous-name",
+    },
+    "interactionHistory": "history stuff here",
+  },
+  "crmActiveTab": Immutable.Map {
+    "interactionId": "current-crm-item-history",
+    "contact": Immutable.Map {
+      "type": "user",
+      "id": 123,
+      "attributes": Immutable.Map {
+        "name": "test-name",
+      },
+    },
+  },
+}
+`;
+
 exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if interaction is "isScriptOnly" deletes "isScriptOnly" 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
@@ -820,36 +858,6 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer SET_ZENDESK_ACTIVE_TAB sets the zendeskActiveTab correctly 1`] = `
-Immutable.Map {
-  "zendeskActiveTab": Immutable.Map {
-    "interactionId": "current-crm-item-history",
-    "contact": Immutable.Map {
-      "type": "user",
-      "id": 123,
-      "attributes": Immutable.Map {
-        "name": "test-name",
-      },
-    },
-  },
-}
-`;
-
-exports[`agentDesktopReducer SET_ZENDESK_ACTIVE_TAB when the id and type match the already stored value only updates the name 1`] = `
-Immutable.Map {
-  "zendeskActiveTab": Immutable.Map {
-    "interactionId": "current-crm-item-history",
-    "contact": Immutable.Map {
-      "type": "user",
-      "id": 123,
-      "attributes": Immutable.Map {
-        "name": "test-name",
-      },
-    },
-  },
-}
-`;
-
 exports[`agentDesktopReducer START_OUTBOUND_INTERACTION sms adds a new outbound interaction with a generated interactionId, channelType, customer, and contact 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
@@ -1015,7 +1023,6 @@ Immutable.Map {
     "contact": Immutable.Map {
       "id": 123,
       "type": "user",
-      "name": "new name",
     },
   },
 }
@@ -1257,6 +1264,13 @@ Immutable.Map {
     "isSidePanelCollapsed": true,
   },
   "isInteractionsBarCollapsed": true,
+  "crmActiveTab": Immutable.Map {
+    "contact": Immutable.Map {
+      "attributes": Immutable.Map {
+        "name": undefined,
+      },
+    },
+  },
   "newInteractionPanel": Immutable.Map {
     "contactMode": "view",
     "selectedSidePanelTab": "info",

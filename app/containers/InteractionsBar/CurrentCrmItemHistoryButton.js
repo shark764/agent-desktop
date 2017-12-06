@@ -38,7 +38,7 @@ export class CurrentCrmItemHistoryButton extends React.Component {
         <div
           title={`${this.props.intl.formatMessage(
             messages.currentCrmItemHistory
-          )} ${this.props.zendeskActiveTab.getIn([
+          )} ${this.props.crmActiveTab.getIn([
             'contact',
             'attributes',
             'name',
@@ -72,7 +72,7 @@ export class CurrentCrmItemHistoryButton extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  zendeskActiveTab: selectAgentDesktopMap(state, props).get('zendeskActiveTab'),
+  crmActiveTab: selectAgentDesktopMap(state, props).get('crmActiveTab'),
   selectedInteractionId: getSelectedInteractionId(state, props),
   showCurrentCrmItemHistoryButton: selectShowCurrentCrmItemHistoryButton(
     state,
@@ -90,7 +90,7 @@ function mapDispatchToProps(dispatch) {
 
 CurrentCrmItemHistoryButton.propTypes = {
   intl: intlShape.isRequired,
-  zendeskActiveTab: ImmutablePropTypes.mapContains({
+  crmActiveTab: ImmutablePropTypes.mapContains({
     contact: ImmutablePropTypes.mapContains({
       id: PropTypes.number.isRequired,
       type: PropTypes.string.isRequired,

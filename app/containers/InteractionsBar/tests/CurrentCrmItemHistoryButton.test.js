@@ -14,7 +14,7 @@ describe('<CurrentCrmItemHistoryButton />', () => {
     const rendered = shallow(
       <CurrentCrmItemHistoryButton
         intl={getIntlContext()}
-        zendeskActiveTab={fromJS({
+        crmActiveTab={fromJS({
           contact: {
             id: 123,
             type: 'user',
