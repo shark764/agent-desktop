@@ -1,3 +1,7 @@
+### [1.13.14] (2017-12-6)
+* CXV1-12247 - SDK bump to fix facebook customer "from" name
+* CXV1-12250 - SDK bump to fix receiving scripts before work offers and getting interactions with unsubmitted scripts back (transferred)
+
 ### [1.13.13] (2017-12-5)
 * CXV1-12283 - SDK bump to fix MQTT not ending on wrapup-started
 * Fix moment locale warning
@@ -9,7 +13,7 @@
 * CXV1-12283 - SDK bump to fix MQTT not ending on work-ended
 
 ### [1.13.10] (2017-12-4)
-* CXV1-12247: Add other (transferred by) agent's name into message history
+* CXV1-12247 - Add other (transferred by) agent's name into message history
 
 ### [1.13.9] (2017-12-1)
 * CXV1-12214 - Agent Messaging Content Disappears When Switching Between interactions
