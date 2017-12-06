@@ -240,7 +240,7 @@ const selectExpandWindowForCrm = createSelector(
     getSelectedInteraction,
   ],
   (agentDesktop, crmModule, panelCollapsed, interaction) =>
-    (crmModule === 'zendesk' || agentDesktop.get('standalonePopup')) &&
+    (crmModule || agentDesktop.get('standalonePopup')) &&
     !panelCollapsed &&
     ((interaction.script !== undefined &&
       interaction.channelType !== 'voice' &&

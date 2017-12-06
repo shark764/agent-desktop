@@ -8,7 +8,7 @@ import Message from 'models/Message/Message';
 import ResponseMessage from 'models/Message/ResponseMessage';
 
 import {
-  SET_ZENDESK_ACTIVE_TAB,
+  SET_CRM_ACTIVE_TAB,
   SET_INTERACTION_STATUS,
   SET_ACTIVE_RESOURCES,
   SET_NEW_INTERACTION_PANEL_FORM_INPUT,
@@ -54,11 +54,11 @@ describe('agentDesktopReducer', () => {
     expect(agentDesktopReducer(fromJS(initialState), action)).toMatchSnapshot();
   };
 
-  describe('SET_ZENDESK_ACTIVE_TAB', () => {
+  describe('SET_CRM_ACTIVE_TAB', () => {
     beforeEach(() => {
       initialState = {};
       action = {
-        type: SET_ZENDESK_ACTIVE_TAB,
+        type: SET_CRM_ACTIVE_TAB,
         id: 123,
         tabType: 'user',
         name: 'test-name',

@@ -11,7 +11,7 @@
 import {
   SET_CRM_MODULE,
   SET_STANDALONE_POPUP,
-  SET_ZENDESK_ACTIVE_TAB,
+  SET_CRM_ACTIVE_TAB,
   SET_USER_CONFIG,
   SET_EXTENSIONS,
   UPDATE_WRAPUP_DETAILS,
@@ -141,7 +141,7 @@ export function setStandalonePopup() {
 
 export function setZendeskActiveTab(tabType, id, name) {
   return {
-    type: SET_ZENDESK_ACTIVE_TAB,
+    type: SET_CRM_ACTIVE_TAB,
     tabType,
     id,
     name,

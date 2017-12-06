@@ -99,6 +99,22 @@ export class InteractionsBar extends React.Component {
       CxEngage.zendesk.focusInteraction({
         interactionId: interaction.interactionId,
       });
+    } else if (
+      this.props.crmModule === 'salesforce-classic' &&
+      interaction.contact &&
+      interaction.contact.id
+    ) {
+      CxEngage.salesforceClassic.focusInteraction({
+        interactionId: interaction.interactionId,
+      });
+    } else if (
+      this.props.crmModule === 'salesforce-lightning' &&
+      interaction.contact &&
+      interaction.contact.id
+    ) {
+      CxEngage.salesforceLightning.focusInteraction({
+        interactionId: interaction.interactionId,
+      });
     }
   };
 

@@ -1,3 +1,8 @@
+### [1.14.0] (2017-12-6)
+* CXV1-9624 - TB2 - SF - Assign SF contact from within toolbar
+* CXV1-9618 - Click on the interaction in Toolbar, tab comes in focus in service cloud
+* CXV1-12088 - TB2 - SF classic resize on scripts
+
 ### [1.13.14] (2017-12-6)
 * CXV1-12247 - SDK bump to fix facebook customer "from" name
 * CXV1-12250 - SDK bump to fix receiving scripts before work offers and getting interactions with unsubmitted scripts back (transferred)
