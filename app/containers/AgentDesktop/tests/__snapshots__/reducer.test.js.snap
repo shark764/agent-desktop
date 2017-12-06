@@ -614,7 +614,8 @@ Immutable.Map {
           "name": "mockContactName",
         },
       },
-      "contactMode": "view",
+      "contactAssignedNotification": "contactWasAssigned",
+      "selectedSidePanelTab": "history",
     },
   ],
 }
@@ -1264,13 +1265,6 @@ Immutable.Map {
     "isSidePanelCollapsed": true,
   },
   "isInteractionsBarCollapsed": true,
-  "crmActiveTab": Immutable.Map {
-    "contact": Immutable.Map {
-      "attributes": Immutable.Map {
-        "name": undefined,
-      },
-    },
-  },
   "newInteractionPanel": Immutable.Map {
     "contactMode": "view",
     "selectedSidePanelTab": "info",

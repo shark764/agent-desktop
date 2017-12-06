@@ -1,3 +1,6 @@
+### [1.14.1] (2017-12-6)
+* Proper check of crmModdule !== 'none'
+
 ### [1.14.0] (2017-12-6)
 * CXV1-9624 - TB2 - SF - Assign SF contact from within toolbar
 * CXV1-9618 - Click on the interaction in Toolbar, tab comes in focus in service cloud

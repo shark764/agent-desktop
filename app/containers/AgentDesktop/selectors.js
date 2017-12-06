@@ -240,7 +240,7 @@ const selectExpandWindowForCrm = createSelector(
     getSelectedInteraction,
   ],
   (agentDesktop, crmModule, panelCollapsed, interaction) =>
-    (crmModule || agentDesktop.get('standalonePopup')) &&
+    (crmModule !== 'none' || agentDesktop.get('standalonePopup')) &&
     !panelCollapsed &&
     ((interaction.script !== undefined &&
       interaction.channelType !== 'voice' &&
