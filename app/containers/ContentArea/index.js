@@ -616,20 +616,20 @@ export class ContentArea extends React.Component {
     );
 
   zendeskAssign = () => {
-    if (this.props.zendeskActiveTab) {
-      if (this.props.zendeskActiveTab.getIn(['contact', 'type']) === 'user') {
+    if (this.props.crmActiveTab) {
+      if (this.props.crmActiveTab.getIn(['contact', 'type']) === 'user') {
         CxEngage.zendesk.assignContact({
           interactionId: this.props.interaction.interactionId,
         });
       } else if (
-        this.props.zendeskActiveTab.getIn(['contact', 'type']) === 'ticket'
+        this.props.crmActiveTab.getIn(['contact', 'type']) === 'ticket'
       ) {
         CxEngage.zendesk.assignRelatedTo({
           interactionId: this.props.interaction.interactionId,
         });
       } else {
         console.error(
-          `Cannot assign to active tab of type: ${this.props.zendeskActiveTab.getIn(
+          `Cannot assign to active tab of type: ${this.props.crmActiveTab.getIn(
             ['contact', 'type']
           )}`
         );
@@ -639,7 +639,7 @@ export class ContentArea extends React.Component {
 
   zendeskUnassign = () => {
     if (
-      this.props.zendeskActiveTab &&
+      this.props.crmActiveTab &&
       this.props.interaction.contact !== undefined
     ) {
       if (this.props.interaction.contact.type === 'user') {
@@ -657,6 +657,35 @@ export class ContentArea extends React.Component {
           }`
         );
       }
+    }
+  };
+
+  salesforceAssign = () => {
+    if (this.props.crmModule === 'salesforce-classic') {
+      CxEngage.salesforceClassic.assign({
+        interactionId: `${this.props.interaction.interactionId}`,
+      });
+    } else {
+      CxEngage.salesforceLightning.assign({
+        interactionId: `${this.props.interaction.interactionId}`,
+      });
+    }
+  };
+
+  salesforceUnassign = () => {
+    if (
+      this.props.crmModule === 'salesforce-classic' &&
+      this.props.interaction.contact !== undefined
+    ) {
+      CxEngage.salesforceClassic.unassign({
+        interactionId: this.props.interaction.interactionId,
+        objectId: this.props.interaction.contact.id,
+      });
+    } else {
+      CxEngage.salesforceLightning.unassign({
+        interactionId: this.props.interaction.interactionId,
+        objectId: this.props.interaction.contact.id,
+      });
     }
   };
 
@@ -698,16 +727,16 @@ export class ContentArea extends React.Component {
 
   render() {
     let { buttonConfig } = this.props;
-    if (this.props.zendeskActiveTab) {
+    if (this.props.crmActiveTab) {
       let isSelected = false;
       let text;
       let onClick;
       if (this.props.interaction.contact !== undefined) {
         if (
           this.props.interaction.contact.type ===
-            this.props.zendeskActiveTab.getIn(['contact', 'type']) &&
+            this.props.crmActiveTab.getIn(['contact', 'type']) &&
           this.props.interaction.contact.id ===
-            this.props.zendeskActiveTab.getIn(['contact', 'id'])
+            this.props.crmActiveTab.getIn(['contact', 'id'])
         ) {
           text = messages.unassign;
           onClick = this.zendeskUnassign;
@@ -720,7 +749,41 @@ export class ContentArea extends React.Component {
         onClick = this.zendeskAssign;
       }
       buttonConfig = buttonConfig.concat({
-        id: 'zendeskAssign',
+        id: 'crmAssign',
+        type: 'secondary',
+        text,
+        onClick,
+        isSelected,
+        // isUUID only returns true once we have passed through a series
+        // of states that take us from the attempt to connect to outbound
+        // up until the interaction has has actually started and has a interactionId.
+        disabled: !isUUID(this.props.interaction.interactionId),
+      });
+    }
+
+    // TODO: this button wont be needed once sdk give us an active tab changed subscription for salesforce classic and lightning
+    // combine the below into the button directly above once sdk work is completed
+    if (this.props.crmModule && !this.props.crmActiveTab) {
+      let isSelected = false;
+      let text;
+      let onClick;
+      if (this.props.interaction.contact !== undefined) {
+        if (
+          this.props.interaction.contact.type &&
+          this.props.interaction.contact.id
+        ) {
+          text = messages.unassign;
+          onClick = this.salesforceUnassign;
+        } else {
+          text = messages.assigned;
+          isSelected = true;
+        }
+      } else {
+        text = messages.assign;
+        onClick = this.salesforceAssign;
+      }
+      buttonConfig = buttonConfig.concat({
+        id: 'crmAssign',
         type: 'secondary',
         text,
         onClick,
@@ -829,7 +892,7 @@ ContentArea.propTypes = {
   details: PropTypes.node.isRequired,
   content: PropTypes.node,
   crmModule: PropTypes.string,
-  zendeskActiveTab: ImmutablePropTypes.mapContains({
+  crmActiveTab: ImmutablePropTypes.mapContains({
     contact: ImmutablePropTypes.mapContains({
       id: PropTypes.number.isRequired,
       type: PropTypes.string.isRequired,
@@ -850,7 +913,7 @@ ContentArea.contextTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  zendeskActiveTab: selectAgentDesktopMap(state, props).get('zendeskActiveTab'),
+  crmActiveTab: selectAgentDesktopMap(state, props).get('crmActiveTab'),
   awaitingDisposition: selectAwaitingDisposition(state, props),
   crmModule: selectCrmModule(state, props),
 });

@@ -16,7 +16,7 @@ describe('selectShowCurrentCrmItemHistoryButton', () => {
             interactionId: 'test-interaction-id',
           },
         ],
-        zendeskActiveTab: { contact: { id: 123, type: 'user' } },
+        crmActiveTab: { contact: { id: 123, type: 'user' } },
         selectedInteractionId: 'test-interaction-id',
         currentCrmItemHistoryPanel: {
           interactionId: 'current-crm-item-history',
@@ -43,8 +43,8 @@ describe('selectShowCurrentCrmItemHistoryButton', () => {
     );
     expect(selectShowCurrentCrmItemHistoryButton(mockedState)).toEqual(false);
   });
-  it('not shown when no zendeskActiveTab', () => {
-    mockedState = mockedState.deleteIn(['agentDesktop', 'zendeskActiveTab']);
+  it('not shown when no crmActiveTab', () => {
+    mockedState = mockedState.deleteIn(['agentDesktop', 'crmActiveTab']);
     expect(selectShowCurrentCrmItemHistoryButton(mockedState)).toEqual(false);
   });
   it('not shown when selectedInteraction is current-crm-item-history', () => {

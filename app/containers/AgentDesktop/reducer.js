@@ -19,7 +19,7 @@ import ResponseMessage from 'models/Message/ResponseMessage';
 import {
   SET_CRM_MODULE,
   SET_STANDALONE_POPUP,
-  SET_ZENDESK_ACTIVE_TAB,
+  SET_CRM_ACTIVE_TAB,
   SET_USER_CONFIG,
   SET_EXTENSIONS,
   UPDATE_WRAPUP_DETAILS,
@@ -213,7 +213,7 @@ const getContactInteractionPath = (state, interactionId) => {
   if (interactionId === 'creating-new-interaction') {
     target = ['newInteractionPanel'];
   } else if (interactionId === 'current-crm-item-history') {
-    target = ['zendeskActiveTab'];
+    target = ['crmActiveTab'];
   } else if (interactionIndex === -1) {
     target = ['noInteractionContactPanel'];
   } else {
@@ -476,13 +476,13 @@ function agentDesktopReducer(state = initialState, action) {
       return state.set('crmModule', action.crmModule);
     case SET_STANDALONE_POPUP:
       return state.set('standalonePopup', true);
-    case SET_ZENDESK_ACTIVE_TAB:
+    case SET_CRM_ACTIVE_TAB:
       if (
-        state.getIn(['zendeskActiveTab', 'contact', 'id']) !== action.id ||
-        state.getIn(['zendeskActiveTab', 'contact', 'type']) !== action.tabType
+        state.getIn(['crmActiveTab', 'contact', 'id']) !== action.id ||
+        state.getIn(['crmActiveTab', 'contact', 'type']) !== action.tabType
       ) {
         return state.set(
-          'zendeskActiveTab',
+          'crmActiveTab',
           fromJS({
             interactionId: 'current-crm-item-history',
             contact: {
@@ -495,7 +495,7 @@ function agentDesktopReducer(state = initialState, action) {
       } else {
         // Don't clear interactionHistory if it is the same. Just update name in case it changed.
         return state.setIn(
-          ['zendeskActiveTab', 'contact', 'attributes', 'name'],
+          ['crmActiveTab', 'contact', 'attributes', 'name'],
           action.name
         );
       }
@@ -1168,7 +1168,7 @@ function agentDesktopReducer(state = initialState, action) {
               'contact',
               fromJS(action.contact || {})
             );
-            if (state.get('crmModule') === 'zendesk') {
+            if (state.get('crmModule')) {
               return updatedInteraction
                 .set('contactAssignedNotification', 'contactWasAssigned')
                 .set('selectedSidePanelTab', 'history');
@@ -1250,8 +1250,8 @@ function agentDesktopReducer(state = initialState, action) {
         .update('newInteractionPanel', (newInteractionPanel) =>
           setContactInteractionDetails(newInteractionPanel, action)
         )
-        .update('zendeskActiveTab', (zendeskActiveTab) =>
-          setContactInteractionDetails(zendeskActiveTab, action)
+        .update('crmActiveTab', (crmActiveTab) =>
+          setContactInteractionDetails(crmActiveTab, action)
         );
     }
     case SET_CONTACT_INTERACTION_HISTORY: {
@@ -1279,7 +1279,7 @@ function agentDesktopReducer(state = initialState, action) {
             )
           )
         )
-        .updateIn(['zendeskActiveTab', 'contact'], (zendeskActiveTabContact) =>
+        .updateIn(['crmActiveTab', 'contact'], (zendeskActiveTabContact) =>
           updateContactInteractionHistoryResults(
             zendeskActiveTabContact,
             action
@@ -1327,7 +1327,7 @@ function agentDesktopReducer(state = initialState, action) {
         .update('newInteractionPanel', (newInteractionPanel) =>
           updateContactInteractionDetails(newInteractionPanel, action)
         )
-        .updateIn(['zendeskActiveTab'], (newInteractionPanel) =>
+        .updateIn(['crmActiveTab'], (newInteractionPanel) =>
           updateContactInteractionDetails(newInteractionPanel, action)
         );
     }
@@ -1375,17 +1375,17 @@ function agentDesktopReducer(state = initialState, action) {
           }
           return contact;
         });
-      if (newState.get('zendeskActiveTab') !== undefined) {
+      if (newState.get('crmActiveTab') !== undefined) {
         newState = newState.updateIn(
-          ['zendeskActiveTab', 'contact'],
-          (zendeskActiveTab) => {
+          ['crmActiveTab', 'contact'],
+          (crmActiveTab) => {
             if (
-              zendeskActiveTab.get('id') === action.updatedContact.id &&
-              zendeskActiveTab.get('type') === action.contactType
+              crmActiveTab.get('id') === action.updatedContact.id &&
+              crmActiveTab.get('type') === action.contactType
             ) {
-              return zendeskActiveTab.merge(fromJS(action.updatedContact));
+              return crmActiveTab.merge(fromJS(action.updatedContact));
             } else {
-              return zendeskActiveTab;
+              return crmActiveTab;
             }
           }
         );

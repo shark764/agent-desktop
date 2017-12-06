@@ -855,6 +855,41 @@ export class App extends React.Component {
             );
             break;
           }
+          case 'cxengage/salesforce-classic/contact-assignment-acknowledged': {
+            let contact;
+            if (response.hookSubType !== null) {
+              contact = {
+                type: response.hookSubType.toLowerCase(),
+                id: response.hookId,
+                attributes: { name: response.hookName },
+              };
+
+              this.props.setAssignedContact(response.interactionId, contact);
+              setTimeout(() => {
+                this.props.dismissContactWasAssignedNotification(
+                  response.interactionId
+                );
+              }, 5000);
+              this.props.loadCrmInteractionHistory(contact.type, contact.id);
+              break;
+            } else {
+              console.error(
+                `Not an applicable assignment option on the current active tab,  Topic: ${
+                  topic
+                } Response: ${response.toString()}`
+              );
+              break;
+            }
+          }
+          case 'cxengage/salesforce-classic/contact-unassignment-acknowledged': {
+            this.props.unassignContact(response.interactionId);
+            setTimeout(() => {
+              this.props.dismissContactWasUnassignedNotification(
+                response.interactionId
+              );
+            }, 5000);
+            break;
+          }
 
           // ZENDESK
           case 'cxengage/zendesk/zendesk-initialization': {

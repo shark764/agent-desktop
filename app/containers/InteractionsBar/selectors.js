@@ -109,12 +109,12 @@ const selectShowCollapseButton = createSelector(
 const selectShowCurrentCrmItemHistoryButton = createSelector(
   [selectAgentDesktopDomain, getSelectedInteraction],
   (agentDesktop, selectedInteraction) =>
-    agentDesktop.get('zendeskActiveTab') !== undefined &&
+    agentDesktop.get('crmActiveTab') !== undefined &&
     selectedInteraction.interactionId !== 'current-crm-item-history' &&
     (selectedInteraction.contact === undefined ||
-      agentDesktop.getIn(['zendeskActiveTab', 'contact', 'id']) !==
+      agentDesktop.getIn(['crmActiveTab', 'contact', 'id']) !==
         selectedInteraction.contact.id ||
-      agentDesktop.getIn(['zendeskActiveTab', 'contact', 'type']) !==
+      agentDesktop.getIn(['crmActiveTab', 'contact', 'type']) !==
         selectedInteraction.contact.type)
 );
 

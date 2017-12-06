@@ -124,7 +124,7 @@ export class CurrentCrmItemHistoryContentArea extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   zendeskActiveTabContact: selectAgentDesktopMap(state, props).getIn([
-    'zendeskActiveTab',
+    'crmActiveTab',
     'contact',
   ]),
 });
