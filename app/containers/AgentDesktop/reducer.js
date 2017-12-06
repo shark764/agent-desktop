@@ -1168,7 +1168,7 @@ function agentDesktopReducer(state = initialState, action) {
               'contact',
               fromJS(action.contact || {})
             );
-            if (state.get('crmModule')) {
+            if (state.get('crmModule') !== 'none') {
               return updatedInteraction
                 .set('contactAssignedNotification', 'contactWasAssigned')
                 .set('selectedSidePanelTab', 'history');
