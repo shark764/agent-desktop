@@ -1,3 +1,6 @@
+### [1.14.2] (2017-12-7)
+* CXV1-11875 - SDK bump to fix zendesk results modal popping for outbound email and sms interactions
+
 ### [1.14.1] (2017-12-6)
 * Proper check of crmModdule !== 'none'
 
