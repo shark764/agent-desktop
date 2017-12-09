@@ -1,17 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ActionsMenu /> should render correctly 1`] = `
-<div
-  style={
-    Object {
-      "position": "relative",
-    }
-  }
->
+<div>
   <InjectIntl(Button)
     hasSubMenu={true}
     id="actionsButton"
     onClick={[Function]}
+    subMenuOpen={false}
     text={
       Object {
         "defaultMessage": "Actions",

@@ -31,7 +31,7 @@ const styles = {
     position: 'absolute',
     paddingTop: '17px',
     background: 'white',
-    right: '-11px',
+    right: '10px',
     zIndex: 3,
     width: '188px',
     boxShadow: '0px 0px 2px 0px rgba(42, 45, 41, 0.63)',
@@ -39,7 +39,7 @@ const styles = {
   subMenuExpanded: {
     position: 'absolute',
     background: 'white',
-    right: '-11px',
+    right: '10px',
     zIndex: 3,
     width: '300px',
     boxShadow: '0px 0px 2px 0px rgba(42, 45, 41, 0.63)',
@@ -51,21 +51,6 @@ const styles = {
     marginBottom: '15px',
     width: '80%',
     marginLeft: '10%',
-  },
-  dropdownMenuPopoutArrow: {
-    borderWidth: '9px',
-    borderStyle: 'solid',
-    borderColor: '#FFF transparent transparent #FFF',
-    borderImage: 'initial',
-    transform: 'rotate(45deg)',
-    borderRadius: '3px',
-    boxShadow: '-6px -6px 6px -5px rgba(0,0,0,0.29)',
-    width: '0px',
-    height: '0px',
-    zIndex: '3',
-    position: 'absolute',
-    right: '19px',
-    top: '-1px',
   },
   clickMask: {
     position: 'fixed',
@@ -130,7 +115,7 @@ export class ActionsMenu extends React.Component {
   // FinalRender:
   render() {
     return (
-      <div style={{ position: 'relative' }}>
+      <div>
         {this.state.showSubMenu && (
           <div style={styles.clickMask} onClick={this.toggleSubMenu} />
         )}
@@ -141,6 +126,7 @@ export class ActionsMenu extends React.Component {
           text={messages.actions}
           onClick={this.toggleSubMenu}
           hasSubMenu
+          subMenuOpen={this.state.showSubMenu}
         />
         {this.state.showSubMenu && (
           <div
@@ -151,7 +137,6 @@ export class ActionsMenu extends React.Component {
                 : styles.subMenu
             }
           >
-            <div style={styles.dropdownMenuPopoutArrow} />
             {this.props.interaction.status !== 'wrapup' &&
               !this.state.showTransferMenu && (
                 <WrapUpToggle
@@ -191,6 +176,7 @@ export class ActionsMenu extends React.Component {
                   text={button.text}
                   icons={button.icons}
                   onClick={button.onClick}
+                  disabled={button.disabled}
                 />
               ))}
           </div>

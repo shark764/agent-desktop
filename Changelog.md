@@ -1,3 +1,8 @@
+### [1.14.3] (2017-12-9)
+* CXV1-12380 - Non-Voice Transfers - Transfer List Menu shrinks in Zendesk if the interaction is assigned to a contact
+* CXV1-12359 - Toolbar 2.0 Zendesk - "Assigned" Button Should Not Be A Clickable Button
+* CXV1-12354 - Toolbar 2.0 Zendesk - Outbound Sms Should Have Assign Button Hidden until Message is Sent
+
 ### [1.14.2] (2017-12-7)
 * CXV1-11875 - SDK bump to fix zendesk results modal popping for outbound email and sms interactions
 
