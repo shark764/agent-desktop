@@ -139,7 +139,7 @@ export function setStandalonePopup() {
   };
 }
 
-export function setZendeskActiveTab(tabType, id, name) {
+export function setCrmActiveTab(tabType, id, name) {
   return {
     type: SET_CRM_ACTIVE_TAB,
     tabType,

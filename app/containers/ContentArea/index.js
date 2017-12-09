@@ -339,7 +339,6 @@ export class ContentArea extends React.Component {
       backgroundColor: 'white',
       padding: '7px 40px',
       border: 'none',
-      margin: '15px',
       position: 'relative',
       bottom: '30px',
       ':hover': {
@@ -504,7 +503,7 @@ export class ContentArea extends React.Component {
               {formatMessage(messages.confirmDialog2)}
             </div>
           </div>
-          <div style={{ textAlign: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
             <button
               key="cancelButton"
               style={this.styles.confirmButtons}
@@ -727,10 +726,11 @@ export class ContentArea extends React.Component {
 
   render() {
     let { buttonConfig } = this.props;
-    if (this.props.crmActiveTab) {
+    if (this.props.crmActiveTab !== undefined) {
       let isSelected = false;
       let text;
       let onClick;
+      let disabled = !isUUID(this.props.interaction.interactionId);
       if (this.props.interaction.contact !== undefined) {
         if (
           this.props.interaction.contact.type ===
@@ -743,6 +743,7 @@ export class ContentArea extends React.Component {
         } else {
           text = messages.assigned;
           isSelected = true;
+          disabled = true;
         }
       } else {
         text = messages.assign;
@@ -757,16 +758,20 @@ export class ContentArea extends React.Component {
         // isUUID only returns true once we have passed through a series
         // of states that take us from the attempt to connect to outbound
         // up until the interaction has has actually started and has a interactionId.
-        disabled: !isUUID(this.props.interaction.interactionId),
+        disabled,
       });
     }
 
     // TODO: this button wont be needed once sdk give us an active tab changed subscription for salesforce classic and lightning
     // combine the below into the button directly above once sdk work is completed
-    if (this.props.crmModule && !this.props.crmActiveTab) {
+    if (
+      this.props.crmModule !== 'none' &&
+      this.props.crmActiveTab === undefined
+    ) {
       let isSelected = false;
       let text;
       let onClick;
+      let disabled = !isUUID(this.props.interaction.interactionId);
       if (this.props.interaction.contact !== undefined) {
         if (
           this.props.interaction.contact.type &&
@@ -777,6 +782,7 @@ export class ContentArea extends React.Component {
         } else {
           text = messages.assigned;
           isSelected = true;
+          disabled = true;
         }
       } else {
         text = messages.assign;
@@ -791,7 +797,7 @@ export class ContentArea extends React.Component {
         // isUUID only returns true once we have passed through a series
         // of states that take us from the attempt to connect to outbound
         // up until the interaction has has actually started and has a interactionId.
-        disabled: !isUUID(this.props.interaction.interactionId),
+        disabled,
       });
     }
 

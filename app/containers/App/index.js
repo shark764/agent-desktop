@@ -118,7 +118,7 @@ import {
   goNotReady,
   setCrmModule,
   setStandalonePopup,
-  setZendeskActiveTab,
+  setCrmActiveTab,
   startOutboundInteraction,
   loadCrmInteractionHistory,
   openNewInteractionPanel,
@@ -901,13 +901,13 @@ export class App extends React.Component {
           }
           case 'cxengage/zendesk/active-tab-changed': {
             if (response.user !== undefined) {
-              this.props.setZendeskActiveTab(
+              this.props.setCrmActiveTab(
                 'user',
                 response.user.id,
                 response.user.name
               );
             } else if (response.ticket !== undefined) {
-              this.props.setZendeskActiveTab(
+              this.props.setCrmActiveTab(
                 'ticket',
                 response.ticket.id,
                 response.ticket.subject !== null
@@ -1406,8 +1406,8 @@ function mapDispatchToProps(dispatch) {
     dismissError: () => dispatch(dismissError()),
     setCrmModule: (crmModule) => dispatch(setCrmModule(crmModule)),
     setStandalonePopup: () => dispatch(setStandalonePopup()),
-    setZendeskActiveTab: (type, id, name) =>
-      dispatch(setZendeskActiveTab(type, id, name)),
+    setCrmActiveTab: (type, id, name) =>
+      dispatch(setCrmActiveTab(type, id, name)),
     startOutboundInteraction: (
       channelType,
       customer,
@@ -1511,7 +1511,7 @@ App.propTypes = {
   setCrmModule: PropTypes.func.isRequired,
   crmModule: PropTypes.string,
   setStandalonePopup: PropTypes.func.isRequired,
-  setZendeskActiveTab: PropTypes.func.isRequired,
+  setCrmActiveTab: PropTypes.func.isRequired,
   startOutboundInteraction: PropTypes.func.isRequired,
   startOutboundEmail: PropTypes.func.isRequired,
   loadCrmInteractionHistory: PropTypes.func.isRequired,

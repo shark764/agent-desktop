@@ -150,6 +150,21 @@ const styles = {
     marginLeft: '10px',
     marginRight: '-15px',
   },
+  dropdownMenuPopoutArrow: {
+    borderWidth: '9px',
+    borderStyle: 'solid',
+    borderColor: '#FFF transparent transparent #FFF',
+    borderImage: 'initial',
+    transform: 'rotate(45deg)',
+    borderRadius: '3px',
+    boxShadow: '-6px -6px 6px -5px rgba(0,0,0,0.29)',
+    width: '0px',
+    height: '0px',
+    zIndex: '4',
+    position: 'absolute',
+    right: '8px',
+    top: '32px',
+  },
 };
 
 export class Button extends React.Component {
@@ -205,6 +220,7 @@ export class Button extends React.Component {
           this.props.disabled && styles.disabled,
           this.props.iconName && styles.isIcon,
           this.props.clear && styles.clear,
+          this.props.subMenuOpen && { position: 'relative' },
           this.props.style,
         ]}
         tabIndex={this.props.tabIndex}
@@ -221,6 +237,9 @@ export class Button extends React.Component {
             className="fa fa-caret-down"
             key="fa-caret-down"
           />
+        )}
+        {this.props.subMenuOpen && (
+          <div style={styles.dropdownMenuPopoutArrow} />
         )}
       </button>
     );
@@ -243,6 +262,7 @@ Button.propTypes = {
   hasSubButtons: PropTypes.bool,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   hasSubMenu: PropTypes.bool,
+  subMenuOpen: PropTypes.bool,
 };
 
 Button.defaultProps = {

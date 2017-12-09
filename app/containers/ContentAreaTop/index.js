@@ -106,17 +106,19 @@ export class ContentAreaTop extends React.Component {
         <div style={styles.from} title={this.props.from}>
           {this.props.from}
         </div>
-        <div>
+        <div style={{ marginLeft: 'auto' }}>
           {this.props.interaction.status !== 'work-ended-pending-script' &&
-            (!this.context.toolbarMode
-              ? <DesktopActionsButtons
+            (!this.context.toolbarMode ? (
+              <DesktopActionsButtons
                 interaction={this.props.interaction}
                 buttonConfig={this.props.buttonConfig}
               />
-              : <ActionsMenu
+            ) : (
+              <ActionsMenu
                 interaction={this.props.interaction}
                 buttonConfig={this.props.buttonConfig}
-              />)}
+              />
+            ))}
         </div>
         <SidePanelToolbarBtn />
       </div>

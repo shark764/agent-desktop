@@ -30,7 +30,13 @@ exports[`<ContentAreaTop /> should render correctly 1`] = `
       }
     }
   />
-  <div>
+  <div
+    style={
+      Object {
+        "marginLeft": "auto",
+      }
+    }
+  >
     <DesktopActionsButtons
       buttonConfig={
         Array [
