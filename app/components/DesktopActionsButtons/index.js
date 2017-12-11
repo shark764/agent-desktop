@@ -133,6 +133,7 @@ class DesktopActionsButtons extends React.Component {
                 >
                   <TransferMenu
                     interactionId={this.props.interaction.interactionId}
+                    setShowTransferMenu={this.toggleTransferMenu}
                     nonVoice
                   />
                   <div style={styles.dropdownMenuPopoutArrow} />
