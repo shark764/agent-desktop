@@ -73,6 +73,12 @@ export class ContactInteractionHistory extends React.Component {
     };
   }
 
+  componentWillReceiveProps(props) {
+    if (props.contactId !== this.props.contactId) {
+      this.setState({ selectedInteractionIndex: undefined });
+    }
+  }
+
   refreshContactInteractionHistory = () => {
     if (this.props.crmModule === 'none') {
       this.props.setContactInteractionHistory(this.props.contactId, {
