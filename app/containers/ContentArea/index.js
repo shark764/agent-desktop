@@ -256,7 +256,7 @@ export class ContentArea extends React.Component {
       borderRadius: '3px',
       fontSize: '16px',
       padding: '10px 0 10px 15px',
-      maxHeight: '400px',
+      maxHeight: '130px',
       overflowY: 'auto',
     },
     triangle: {
@@ -413,7 +413,7 @@ export class ContentArea extends React.Component {
         text={disposition.name}
         checked={false}
         cb={() => this.selectDisposition(disposition.dispositionId)}
-        style={{ width: '100%' }}
+        style={{ width: '100%', alignItems: 'center' }}
         disabled={this.state.loadingDisposition}
       />
     </div>
@@ -726,7 +726,7 @@ export class ContentArea extends React.Component {
 
   render() {
     let { buttonConfig } = this.props;
-    if (this.props.crmActiveTab !== undefined) {
+    if (this.props.crmActiveTab !== undefined && this.context.toolbarMode) {
       let isSelected = false;
       let text;
       let onClick;
@@ -766,7 +766,9 @@ export class ContentArea extends React.Component {
     // combine the below into the button directly above once sdk work is completed
     if (
       this.props.crmModule !== 'none' &&
-      this.props.crmActiveTab === undefined
+      this.props.crmModule !== 'zendesk' &&
+      this.props.crmActiveTab === undefined &&
+      this.context.toolbarMode
     ) {
       let isSelected = false;
       let text;

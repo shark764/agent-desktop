@@ -1,3 +1,6 @@
+### [1.14.4] (2017-12-11)
+* CXV1-12390 - Skylight Disposition List scaling
+
 ### [1.14.3] (2017-12-9)
 * CXV1-12380 - Non-Voice Transfers - Transfer List Menu shrinks in Zendesk if the interaction is assigned to a contact
 * CXV1-12359 - Toolbar 2.0 Zendesk - "Assigned" Button Should Not Be A Clickable Button
