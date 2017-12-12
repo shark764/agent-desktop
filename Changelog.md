@@ -1,3 +1,6 @@
+### [1.14.6] (2017-12-12)
+* CXV1-12411 - Click-to-Email - Cannot cancel email without error
+
 ### [1.14.5] (2017-12-11)
 * CXV1-12319 - Viewing the Messaging Transcript of a Record in Zendesk and Switching Tabs Causes Critical Error
 

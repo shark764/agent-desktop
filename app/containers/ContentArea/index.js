@@ -698,13 +698,19 @@ export class ContentArea extends React.Component {
       this.props.interaction.channelType === 'email' &&
       this.props.interaction.direction === 'outbound'
     ) {
-      CxEngage.interactions.sendCustomInterrupt({
-        interactionId: this.props.interaction.interactionId,
-        interruptType: 'work-cancel',
-        interruptBody: {
-          resourceId: this.props.agent.userId,
+      CxEngage.interactions.sendCustomInterrupt(
+        {
+          interactionId: this.props.interaction.interactionId,
+          interruptType: 'work-cancel',
+          interruptBody: {
+            resourceId: this.props.agent.userId,
+          },
         },
-      });
+        (err, topic, response) => {
+          console.log('[ContentArea] CxEngage.subscribe()', topic, response);
+          this.props.removeInteraction(this.props.interaction.interactionId);
+        }
+      );
     } else if (!isUUID(this.props.interaction.interactionId)) {
       this.props.removeInteraction(this.props.interaction.interactionId);
     } else {
