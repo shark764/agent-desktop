@@ -152,17 +152,16 @@ Immutable.Map {
       "interactionId": "test-interaction-id",
     },
     Immutable.Map {
-      "contact": Immutable.Map {},
+      "interactionId": "new-interaction-id",
+      "status": "script-only",
       "isScriptOnly": true,
-      "selectedSidePanelTab": "info",
-      "query": Immutable.Map {},
       "script": Immutable.Map {
         "scriptItem": "something",
         "id": "actual-script-id",
       },
-      "interactionId": "new-interaction-id",
-      "status": "script-only",
       "isSidePanelCollapsed": true,
+      "selectedSidePanelTab": "info",
+      "query": Immutable.Map {},
       "activeContactForm": Immutable.Map {
         "contactForm": Immutable.Map {},
         "formIsDirty": false,
@@ -185,17 +184,16 @@ exports[`agentDesktopReducer ADD_SCRIPT interaction is not there no existing/sel
 Immutable.Map {
   "interactions": Immutable.List [
     Immutable.Map {
-      "contact": Immutable.Map {},
+      "interactionId": "new-interaction-id",
+      "status": "script-only",
       "isScriptOnly": true,
-      "selectedSidePanelTab": "info",
-      "query": Immutable.Map {},
       "script": Immutable.Map {
         "scriptItem": "something",
         "id": "actual-script-id",
       },
-      "interactionId": "new-interaction-id",
-      "status": "script-only",
       "isSidePanelCollapsed": true,
+      "selectedSidePanelTab": "info",
+      "query": Immutable.Map {},
       "activeContactForm": Immutable.Map {
         "contactForm": Immutable.Map {},
         "formIsDirty": false,

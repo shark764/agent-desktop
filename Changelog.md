@@ -1,3 +1,6 @@
+### [1.14.7] (2017-12-12)
+* Fixed CRM assign button when script happens before interaction 
+
 ### [1.14.6] (2017-12-12)
 * CXV1-12411 - Click-to-Email - Cannot cancel email without error
 
