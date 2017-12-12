@@ -900,7 +900,6 @@ function agentDesktopReducer(state = initialState, action) {
           isSidePanelCollapsed: true,
           selectedSidePanelTab: 'info',
           query: {},
-          contact: {},
           activeContactForm: activeContactFormBlank,
         });
         return state
