@@ -1,5 +1,8 @@
+### [1.14.7] (2017-12-13)
+* SDK bump for fixes to CXV1-12238, CXV1-12238, and CXV1-12422
+
 ### [1.14.7] (2017-12-12)
-* Fixed CRM assign button when script happens before interaction 
+* Fixed CRM assign button when script happens before interaction
 
 ### [1.14.6] (2017-12-12)
 * CXV1-12411 - Click-to-Email - Cannot cancel email without error
@@ -19,7 +22,7 @@
 * CXV1-11875 - SDK bump to fix zendesk results modal popping for outbound email and sms interactions
 
 ### [1.14.1] (2017-12-6)
-* Proper check of crmModdule !== 'none'
+* Proper check of crmModule !== 'none'
 
 ### [1.14.0] (2017-12-6)
 * CXV1-9624 - TB2 - SF - Assign SF contact from within toolbar

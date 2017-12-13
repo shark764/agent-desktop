@@ -857,7 +857,7 @@ export class App extends React.Component {
           }
           case 'cxengage/salesforce-classic/contact-assignment-acknowledged': {
             let contact;
-            if (response.hookSubType !== null) {
+            if (response.hookSubType !== null && response.hookId) {
               contact = {
                 type: response.hookSubType.toLowerCase(),
                 id: response.hookId,
@@ -876,7 +876,8 @@ export class App extends React.Component {
               console.error(
                 `Not an applicable assignment option on the current active tab,  Topic: ${
                   topic
-                } Response: ${response.toString()}`
+                } Response:`,
+                response
               );
               break;
             }
