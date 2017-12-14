@@ -839,11 +839,11 @@ export class App extends React.Component {
             break;
           }
 
-          // SALESFORCE
+          // SALESFORCE CLASSIC
           case 'cxengage/salesforce-classic/initialize-complete': {
             CxEngage.salesforceClassic.setDimensions({
-              height: 800,
-              width: 400,
+              height: DEFAULT_TOOLBAR_HEIGHT,
+              width: DEFAULT_TOOLBAR_WIDTH,
             });
             break;
           }
@@ -859,11 +859,10 @@ export class App extends React.Component {
             let contact;
             if (response.hookSubType !== null && response.hookId) {
               contact = {
-                type: response.hookSubType.toLowerCase(),
+                type: response.hookSubType,
                 id: response.hookId,
                 attributes: { name: response.hookName },
               };
-
               this.props.setAssignedContact(response.interactionId, contact);
               setTimeout(() => {
                 this.props.dismissContactWasAssignedNotification(
@@ -876,7 +875,7 @@ export class App extends React.Component {
               console.error(
                 `Not an applicable assignment option on the current active tab,  Topic: ${
                   topic
-                } Response:`,
+                }  Response:`,
                 response
               );
               break;
@@ -889,6 +888,88 @@ export class App extends React.Component {
                 response.interactionId
               );
             }, 5000);
+            break;
+          }
+          case 'cxengage/salesforce-classic/active-tab-changed': {
+            if (response.object !== undefined) {
+              this.props.setCrmActiveTab(
+                response.object,
+                response.objectId,
+                response.objectName
+              );
+            } else {
+              console.error(
+                `No salesforce object found in ${topic} response:`,
+                response
+              );
+            }
+            break;
+          }
+
+          // SALESFORCE LIGHTNING
+          case 'cxengage/salesforce-lightning/initialize-complete': {
+            CxEngage.salesforceLightning.setDimensions({
+              height: DEFAULT_TOOLBAR_HEIGHT,
+              width: DEFAULT_TOOLBAR_WIDTH,
+            });
+            break;
+          }
+          case 'cxengage/salesforce-lightning/on-click-to-interaction': {
+            CxEngage.salesforceLightning.setVisibility({ visibility: true });
+            this.props.openNewInteractionPanel(
+              this.context.toolbarMode,
+              response.number
+            );
+            break;
+          }
+          case 'cxengage/salesforce-lightning/contact-assignment-acknowledged': {
+            let contact;
+            if (response.hookSubType !== null && response.hookId) {
+              contact = {
+                type: response.hookSubType,
+                id: response.hookId,
+                attributes: { name: response.hookName },
+              };
+              this.props.setAssignedContact(response.interactionId, contact);
+              setTimeout(() => {
+                this.props.dismissContactWasAssignedNotification(
+                  response.interactionId
+                );
+              }, 5000);
+              this.props.loadCrmInteractionHistory(contact.type, contact.id);
+              break;
+            } else {
+              console.error(
+                `Not an applicable assignment option on the current active tab,  Topic: ${
+                  topic
+                }  Response:`,
+                response
+              );
+              break;
+            }
+          }
+          case 'cxengage/salesforce-lightning/contact-unassignment-acknowledged': {
+            this.props.unassignContact(response.interactionId);
+            setTimeout(() => {
+              this.props.dismissContactWasUnassignedNotification(
+                response.interactionId
+              );
+            }, 5000);
+            break;
+          }
+          case 'cxengage/salesforce-lightning/active-tab-changed': {
+            if (response.object !== undefined) {
+              this.props.setCrmActiveTab(
+                response.object,
+                response.objectId,
+                response.objectName
+              );
+            } else {
+              console.error(
+                `No salesforce object found in ${topic} response:`,
+                response
+              );
+            }
             break;
           }
 

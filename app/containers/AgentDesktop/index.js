@@ -114,6 +114,15 @@ export class AgentDesktop extends React.Component {
           // 13 is enter key
           if (e.which === 13 && !e.altKey) {
             this.props.openNewInteractionPanel();
+            if (this.props.crmModule === 'zendesk') {
+              CxEngage.zendesk.setVisibility({ visibility: true });
+            } else if (this.props.crmModule === 'salesforce-classic') {
+              CxEngage.salesforceClassic.setVisibility({ visibility: true });
+            } else if (this.props.crmModule === 'salesforce-lightning') {
+              CxEngage.salesforceLightning.setVisibility({
+                visibility: true,
+              });
+            }
           }
           // 13 is enter key
           if (e.which === 13 && e.altKey) {

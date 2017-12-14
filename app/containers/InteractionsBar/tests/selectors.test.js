@@ -17,6 +17,7 @@ describe('selectShowCurrentCrmItemHistoryButton', () => {
           },
         ],
         crmActiveTab: { contact: { id: 123, type: 'user' } },
+        crmModule: 'zendesk',
         selectedInteractionId: 'test-interaction-id',
         currentCrmItemHistoryPanel: {
           interactionId: 'current-crm-item-history',

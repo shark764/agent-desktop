@@ -29,6 +29,7 @@ import {
   showSidePanel,
   hideSidePanel,
 } from 'containers/AgentDesktop/actions';
+import { selectCrmModule } from 'containers/AgentDesktop/selectors';
 import { selectHasCrmPermissions } from 'containers/App/selectors';
 
 import messages from './messages';
@@ -140,7 +141,9 @@ export class SidePanel extends React.Component {
         name: 'history',
         tabInner: (this.context.toolbarMode ||
           (!this.context.toolbarMode && this.props.hasCrmPermissions)) &&
-          this.props.hasAssignedContact && (
+          this.props.hasAssignedContact &&
+          this.props.crmModule !== 'salesforce-classic' &&
+          this.props.crmModule !== 'salesforce-lightning' && (
           <ContactInteractionHistory style={{ height: '100%' }} />
         ),
       },
@@ -235,6 +238,7 @@ function mapStateToProps(state, props) {
     hasAssignedContact: getHasAssignedContact(state, props),
     selectedSidePanelTab: getSelectedSidePanelTab(state, props),
     hasCrmPermissions: selectHasCrmPermissions(state, props),
+    crmModule: selectCrmModule(state, props),
   };
 }
 
@@ -262,6 +266,7 @@ SidePanel.propTypes = {
   hasAssignedContact: PropTypes.bool.isRequired,
   selectSidePanelTab: PropTypes.func.isRequired,
   hasCrmPermissions: PropTypes.bool.isRequired,
+  crmModule: PropTypes.string,
 };
 
 SidePanel.contextTypes = {

@@ -1,3 +1,9 @@
+### [1.14.8] (2017-12-14)
+* CXV1-12344 - Auto assign interactions on screen pop
+* CXV1-12366 - History Tab + button should not show while in Salesforce
+* CXV1-12367 - Interaction Should Only be Unassignable While on Assigned Tab in Salesforce
+* CXV1-12425 - Map sdks active tab changes in front end for auto assignments
+
 ### [1.14.7] (2017-12-13)
 * SDK bump for fixes to CXV1-12238, CXV1-12238, and CXV1-12422
 

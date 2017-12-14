@@ -46,6 +46,7 @@ import {
   getSelectedInteractionId,
   selectNewInteractionPanel,
   selectHasOnlyOneInteraction,
+  selectShowCurrentCrmItemHistoryButton,
 } from './selectors';
 import messages from './messages';
 
@@ -657,7 +658,9 @@ export class InteractionsBar extends React.Component {
               />
             </div>
           )}
-        <CurrentCrmItemHistoryButton />
+        {this.props.showCurrentCrmItemHistoryButton && (
+          <CurrentCrmItemHistoryButton />
+        )}
       </div>
     );
   }
@@ -674,6 +677,10 @@ const mapStateToProps = (state, props) => ({
   activeExtension: selectActiveExtension(state, props),
   isInteractionsBarCollapsed: selectIsInteractionsBarCollapsed(state, props),
   selectHasOnlyOneInteraction: selectHasOnlyOneInteraction(state, props),
+  showCurrentCrmItemHistoryButton: selectShowCurrentCrmItemHistoryButton(
+    state,
+    props
+  ),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -710,6 +717,7 @@ InteractionsBar.propTypes = {
   isInteractionsBarCollapsed: PropTypes.bool.isRequired,
   hideInteractionsBar: PropTypes.func.isRequired,
   selectHasOnlyOneInteraction: PropTypes.bool.isRequired,
+  showCurrentCrmItemHistoryButton: PropTypes.bool.isRequired,
 };
 
 InteractionsBar.contextTypes = {
