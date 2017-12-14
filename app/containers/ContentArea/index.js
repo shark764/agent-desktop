@@ -708,7 +708,9 @@ export class ContentArea extends React.Component {
         },
         (err, topic, response) => {
           console.log('[ContentArea] CxEngage.subscribe()', topic, response);
-          this.props.removeInteraction(this.props.interaction.interactionId);
+          if (!err) {
+            this.props.removeInteraction(this.props.interaction.interactionId);
+          }
         }
       );
     } else if (!isUUID(this.props.interaction.interactionId)) {
@@ -732,7 +734,11 @@ export class ContentArea extends React.Component {
 
   render() {
     let { buttonConfig } = this.props;
-    if (this.props.crmActiveTab !== undefined && this.context.toolbarMode) {
+    if (
+      this.props.crmActiveTab !== undefined &&
+      this.props.crmActiveTab.getIn(['contact', 'id']) !== '' &&
+      this.context.toolbarMode
+    ) {
       let isSelected = false;
       let text;
       let onClick;
@@ -745,7 +751,10 @@ export class ContentArea extends React.Component {
             this.props.crmActiveTab.getIn(['contact', 'id'])
         ) {
           text = messages.unassign;
-          onClick = this.zendeskUnassign;
+          onClick =
+            this.props.crmModule === 'zendesk'
+              ? this.zendeskUnassign
+              : this.salesforceUnassign;
         } else {
           text = messages.assigned;
           isSelected = true;
@@ -753,48 +762,10 @@ export class ContentArea extends React.Component {
         }
       } else {
         text = messages.assign;
-        onClick = this.zendeskAssign;
-      }
-      buttonConfig = buttonConfig.concat({
-        id: 'crmAssign',
-        type: 'secondary',
-        text,
-        onClick,
-        isSelected,
-        // isUUID only returns true once we have passed through a series
-        // of states that take us from the attempt to connect to outbound
-        // up until the interaction has has actually started and has a interactionId.
-        disabled,
-      });
-    }
-
-    // TODO: this button wont be needed once sdk give us an active tab changed subscription for salesforce classic and lightning
-    // combine the below into the button directly above once sdk work is completed
-    if (
-      this.props.crmModule !== 'none' &&
-      this.props.crmModule !== 'zendesk' &&
-      this.props.crmActiveTab === undefined &&
-      this.context.toolbarMode
-    ) {
-      let isSelected = false;
-      let text;
-      let onClick;
-      let disabled = !isUUID(this.props.interaction.interactionId);
-      if (this.props.interaction.contact !== undefined) {
-        if (
-          this.props.interaction.contact.type &&
-          this.props.interaction.contact.id
-        ) {
-          text = messages.unassign;
-          onClick = this.salesforceUnassign;
-        } else {
-          text = messages.assigned;
-          isSelected = true;
-          disabled = true;
-        }
-      } else {
-        text = messages.assign;
-        onClick = this.salesforceAssign;
+        onClick =
+          this.props.crmModule === 'zendesk'
+            ? this.zendeskAssign
+            : this.salesforceAssign;
       }
       buttonConfig = buttonConfig.concat({
         id: 'crmAssign',
@@ -908,7 +879,10 @@ ContentArea.propTypes = {
   crmModule: PropTypes.string,
   crmActiveTab: ImmutablePropTypes.mapContains({
     contact: ImmutablePropTypes.mapContains({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.oneOfType([
+        PropTypes.string.isRequired,
+        PropTypes.number.isRequired,
+      ]),
       type: PropTypes.string.isRequired,
       attributes: ImmutablePropTypes.mapContains({
         name: PropTypes.string,
