@@ -20,6 +20,7 @@ export default class Interaction {
     contactMode,
     isSidePanelCollapsed,
     subject,
+    toolbarMode,
   }) {
     if (channelType === 'voice') {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
@@ -71,7 +72,7 @@ export default class Interaction {
     this.note = new Map({
       body: '',
       title: '',
-      notesPanelHeight: 300,
+      notesPanelHeight: toolbarMode ? 180 : 300,
     });
     if (contact) {
       this.contact = fromJS(contact);

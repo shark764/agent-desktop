@@ -1,3 +1,6 @@
+### [1.14.10] (2017-12-15)
+* CXV1-12378 - Salesforce Classic - Notes Section Should be Included in Skylight
+
 ### [1.14.8] (2017-12-14)
 * CXV1-12344 - Auto assign interactions on screen pop
 * CXV1-12366 - History Tab + button should not show while in Salesforce
