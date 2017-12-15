@@ -781,7 +781,7 @@ export class ContentArea extends React.Component {
     }
 
     let notesDisabled = false;
-    if (this.context.toolbarMode) {
+    if (this.props.crmModule === 'zendesk') {
       notesDisabled = true;
     }
     return (
