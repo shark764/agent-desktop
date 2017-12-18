@@ -1349,7 +1349,15 @@ export class App extends React.Component {
       );
     }
     return (
-      <div style={[this.styles.base, this.styles.desktop]}>
+      <div
+        style={[
+          this.styles.base,
+          this.styles.desktop,
+          this.props.crmModule === 'salesforce-lightning' && {
+            paddingBottom: '40px',
+          },
+        ]}
+      >
         {banners}
         {this.props.login.showLogin ||
         this.props.agentDesktop.presence === undefined ||

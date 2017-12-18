@@ -1,3 +1,6 @@
+### [1.14.11] (2017-12-18)
+* SDK bump for fixes to CXV1-12427
+
 ### [1.14.10] (2017-12-15)
 * CXV1-12378 - Salesforce Classic - Notes Section Should be Included in Skylight
 
