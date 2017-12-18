@@ -1,3 +1,6 @@
+### [1.14.12] (2017-12-18)
+* SDK bump for better fixes to CXV1-12427
+
 ### [1.14.11] (2017-12-18)
 * SDK bump for fixes to CXV1-12427
 
