@@ -58,4 +58,5 @@ export default [
   'cxengage/zendesk/set-dimensions-response', // Ignore
   'cxengage/salesforce-classic/set-dimensions-response', // Ignore
   'cxengage/salesforce-classic/set-visibility-response', // Ignore
+  'cxengage/salesforce-lightning/set-dimensions-response', // Ignore
 ];
