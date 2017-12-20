@@ -311,6 +311,7 @@ export class ContentArea extends React.Component {
       margin: 'auto',
       textAlign: 'center',
       color: 'white',
+      padding: '0 20px',
     },
     confirmDialogWrapper: {
       position: 'absolute',

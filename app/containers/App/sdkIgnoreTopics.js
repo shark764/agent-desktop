@@ -59,4 +59,5 @@ export default [
   'cxengage/salesforce-classic/set-dimensions-response', // Ignore
   'cxengage/salesforce-classic/set-visibility-response', // Ignore
   'cxengage/salesforce-lightning/set-dimensions-response', // Ignore
+  'cxengage/salesforce-lightning/set-visibility-response', // Ignore
 ];

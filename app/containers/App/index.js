@@ -961,11 +961,14 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/salesforce-lightning/active-tab-changed': {
-            if (response.object !== undefined) {
+            if (
+              response.hookSubType !== undefined &&
+              response.hookId !== undefined
+            ) {
               this.props.setCrmActiveTab(
-                response.object,
-                response.objectId,
-                response.objectName
+                response.hookSubType,
+                response.hookId,
+                response.hookName
               );
             } else {
               console.error(

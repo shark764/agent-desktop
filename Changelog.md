@@ -1,3 +1,6 @@
+### [1.15.0] (2017-12-20)
+* CXV1-12292 - Salesforce lightning active tab, assign, unassign and focus
+
 ### [1.14.13] (2017-12-19)
 * CXV1-12449 - A Check is NOT Made for Different Version of a Phone Number When Making a Click to SMS
 * CXV1-12366 - History Tab + button should not show while in Salesforce
