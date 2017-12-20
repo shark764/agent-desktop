@@ -184,7 +184,9 @@ const selectSmsInteractionNumbers = createSelector(
     const smsInteractionNumbers = [];
     interactions.forEach((interaction) => {
       if (interaction.get('channelType') === 'sms') {
-        smsInteractionNumbers.push(interaction.get('customer'));
+        smsInteractionNumbers.push(
+          `+${interaction.get('customer').replace(/\D+/g, '')}`
+        );
       }
     });
     return smsInteractionNumbers;

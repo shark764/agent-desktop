@@ -1,3 +1,7 @@
+### [1.14.13] (2017-12-19)
+* CXV1-12449 - A Check is NOT Made for Different Version of a Phone Number When Making a Click to SMS
+* CXV1-12366 - History Tab + button should not show while in Salesforce
+
 ### [1.14.12] (2017-12-18)
 * SDK bump for better fixes to CXV1-12427
 
