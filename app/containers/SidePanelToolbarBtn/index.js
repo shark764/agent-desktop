@@ -24,6 +24,7 @@ import {
 import {
   selectIsSidePanelCollapsed,
   getSelectedInteractionId,
+  selectCrmModule,
 } from 'containers/AgentDesktop/selectors';
 import {
   getSelectedInteractionScript,
@@ -80,7 +81,7 @@ export class SidePanelToolbarBtn extends React.Component {
       ((this.props.selectedInteractionScript !== undefined &&
         !this.props.selectedInteractionIsScriptOnly &&
         !this.props.selectedInteractionIsVoice) ||
-        this.props.hasAssignedContact)
+        (this.props.crmModule === 'zendesk' && this.props.hasAssignedContact))
     ) {
       return (
         <div
@@ -108,6 +109,7 @@ function mapStateToProps(state, props) {
     selectedInteractionIsVoice: getSelectedInteractionIsVoice(state, props),
     selectedInteractionId: getSelectedInteractionId(state, props),
     hasAssignedContact: getHasAssignedContact(state, props),
+    crmModule: selectCrmModule(state, props),
   };
 }
 
@@ -129,6 +131,7 @@ SidePanelToolbarBtn.propTypes = {
   hasAssignedContact: PropTypes.bool.isRequired,
   showSidePanel: PropTypes.func,
   selectSidePanelTab: PropTypes.func,
+  crmModule: PropTypes.string,
 };
 
 SidePanelToolbarBtn.contextTypes = {

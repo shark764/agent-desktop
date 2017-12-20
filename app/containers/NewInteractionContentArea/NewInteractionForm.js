@@ -45,12 +45,15 @@ const styles = {
 };
 
 const formatPhoneNumber = (input) => {
-  if (input[0] !== '+' && isValidNumber(`+${input}`)) {
-    return `+${input}`;
-  } else if (isValidNumber(`+1${input}`)) {
-    return `+1 ${input}`;
+  const formattedInput = input.replace(/\D+/g, '');
+  if (isValidNumber(`+${formattedInput}`)) {
+    return `+${formattedInput}`;
+  } else if (isValidNumber(`+1${formattedInput}`)) {
+    return `+1${formattedInput}`;
+  } else if (isValidNumber(`+44${formattedInput}`)) {
+    return `+44${formattedInput}`;
   } else {
-    return input;
+    return formattedInput;
   }
 };
 
