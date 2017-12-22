@@ -1,3 +1,6 @@
+### [1.15.1] (2017-12-20)
+* CXV1-12292 - Salesforce lightning screen pops
+
 ### [1.15.0] (2017-12-20)
 * CXV1-12292 - Salesforce lightning active tab, assign, unassign and focus
 
