@@ -273,7 +273,22 @@ export class Login extends React.Component {
 
   loginWithSso = () => {
     this.props.setLoading(true);
-    CxEngage.authentication.getAuthInfo({ username: this.state.ssoEmail });
+
+    // We have to open this window in the onClick handler to prevent it from being a blocked popup
+    // SDK proceeds uses this window with the name "cxengageSsoWindow"
+    const ssoWindow = window.open(
+      '',
+      'cxengageSsoWindow',
+      'width=500,height=500'
+    );
+    CxEngage.authentication.getAuthInfo(
+      { username: this.state.ssoEmail },
+      (error) => {
+        if (error) {
+          ssoWindow.close();
+        }
+      }
+    );
   };
 
   onLogin = () => {
