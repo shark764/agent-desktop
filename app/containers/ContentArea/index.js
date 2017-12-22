@@ -880,11 +880,8 @@ ContentArea.propTypes = {
   crmModule: PropTypes.string,
   crmActiveTab: ImmutablePropTypes.mapContains({
     contact: ImmutablePropTypes.mapContains({
-      id: PropTypes.oneOfType([
-        PropTypes.string.isRequired,
-        PropTypes.number.isRequired,
-      ]),
-      type: PropTypes.string.isRequired,
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      type: PropTypes.string,
       attributes: ImmutablePropTypes.mapContains({
         name: PropTypes.string,
       }).isRequired,
