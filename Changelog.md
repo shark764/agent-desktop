@@ -1,3 +1,6 @@
+### [1.15.2] (2017-12-22)
+* CXV1-12330 - Fix SSO popup window from being blocked by popup blocker
+
 ### [1.15.1] (2017-12-20)
 * CXV1-12292 - Salesforce lightning screen pops
 
