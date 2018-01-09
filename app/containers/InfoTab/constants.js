@@ -15,6 +15,8 @@ export const CHECK_CONTACT = 'app/InfoTab/CHECK_CONTACT';
 export const UNCHECK_CONTACT = 'app/InfoTab/UNCHECK_CONTACT';
 export const CLEAR_CHECKED_CONTACTS = 'app/InfoTab/CLEAR_CHECKED_CONTACTS';
 export const ADD_NOTIFICATION = 'app/InfoTab/ADD_NOTIFICATION';
+export const ADD_ONE_TIME_NOTIFICATION =
+  'app/InfoTab/ADD_ONE_TIME_NOTIFICATION';
 export const DISMISS_NOTIFICATION = 'app/InfoTab/DISMISS_NOTIFICATION';
 export const SET_LOADING = 'app/InfoTab/SET_LOADING';
 export const SET_DELETION_PENDING = 'app/InfoTab/SET_DELETION_PENDING';

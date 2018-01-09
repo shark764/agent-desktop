@@ -19,6 +19,7 @@ Immutable.Map {
   "deletionPending": false,
   "confirmingDelete": false,
   "searchPending": false,
+  "oneTimeNotifications": Immutable.List [],
   "results": Immutable.List [],
   "nextNotificationId": 0,
   "resultsCount": -1,

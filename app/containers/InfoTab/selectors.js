@@ -92,6 +92,11 @@ const selectNotifications = createSelector(selectInfoTabDomain(), (infoTab) =>
   infoTab.get('notifications')
 );
 
+const selectOneTimeNotifications = createSelector(
+  selectInfoTabDomain(),
+  (infoTab) => infoTab.get('oneTimeNotifications')
+);
+
 const selectNextNotificationId = createSelector(
   selectInfoTabDomain(),
   (infoTab) => infoTab.get('nextNotificationId')
@@ -105,8 +110,9 @@ const selectDeletionPending = createSelector(selectInfoTabDomain(), (infoTab) =>
   infoTab.get('deletionPending')
 );
 
-const selectConfirmingDelete = createSelector(selectInfoTabDomain(), (infoTab) =>
-  infoTab.get('confirmingDelete')
+const selectConfirmingDelete = createSelector(
+  selectInfoTabDomain(),
+  (infoTab) => infoTab.get('confirmingDelete')
 );
 
 const selectSearchPending = createSelector(selectInfoTabDomain(), (infoTab) =>
@@ -138,6 +144,7 @@ export {
   selectCheckedContacts,
   selectExpandedQuery,
   selectNotifications,
+  selectOneTimeNotifications,
   selectNextNotificationId,
   selectLoading,
   selectDeletionPending,
