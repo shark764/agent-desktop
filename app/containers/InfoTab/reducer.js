@@ -17,6 +17,7 @@ import {
   UNCHECK_CONTACT,
   CLEAR_CHECKED_CONTACTS,
   ADD_NOTIFICATION,
+  ADD_ONE_TIME_NOTIFICATION,
   DISMISS_NOTIFICATION,
   SET_LOADING,
   SET_DELETION_PENDING,
@@ -31,6 +32,9 @@ const initialState = fromJS({
   resultsCount: -1,
   checkedContacts: [],
   notifications: [],
+  // oneTimeNotifications
+  // Used as a bucket to check against before adding another notification
+  oneTimeNotifications: [],
   nextNotificationId: 0,
   deletionPending: false,
   confirmingDelete: false,
@@ -92,6 +96,10 @@ function infoTabReducer(state = initialState, action) {
           state.get('notifications').push(fromJS(action.notification))
         )
         .set('nextNotificationId', action.notification.id + 1);
+    case ADD_ONE_TIME_NOTIFICATION:
+      return state.update('oneTimeNotifications', (oneTimeNotifications) =>
+        oneTimeNotifications.push(fromJS(action.oneTimeNotification))
+      );
     case DISMISS_NOTIFICATION:
       return state.set(
         'notifications',

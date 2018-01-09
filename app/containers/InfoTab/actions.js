@@ -16,6 +16,7 @@ import {
   UNCHECK_CONTACT,
   CLEAR_CHECKED_CONTACTS,
   ADD_NOTIFICATION,
+  ADD_ONE_TIME_NOTIFICATION,
   DISMISS_NOTIFICATION,
   SET_LOADING,
   SET_DELETION_PENDING,
@@ -68,6 +69,13 @@ export function addNotification(notification) {
   return {
     type: ADD_NOTIFICATION,
     notification,
+  };
+}
+
+export function addOneTimeNotification(oneTimeNotification) {
+  return {
+    type: ADD_ONE_TIME_NOTIFICATION,
+    oneTimeNotification,
   };
 }
 

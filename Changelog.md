@@ -1,3 +1,6 @@
+### [1.15.3] (2018-1-9)
+* CXV1-12141 One Time Banner for contact translation error
+
 ### [1.15.2] (2017-12-22)
 * CXV1-12330 - Fix SSO popup window from being blocked by popup blocker
 
