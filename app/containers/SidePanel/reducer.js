@@ -9,7 +9,7 @@
  */
 
 import { fromJS } from 'immutable';
-import { SET_CONTACT_LAYOUT, SET_CONTACT_ATTRIBUTES } from './constants';
+import * as ACTIONS from './constants';
 
 const initialState = fromJS({
   contactLayout: { layout: [] },
@@ -20,9 +20,9 @@ const initialState = fromJS({
 
 function sidePanelReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_CONTACT_LAYOUT:
+    case ACTIONS.SET_CONTACT_LAYOUT:
       return state.set('contactLayout', fromJS(action.layout));
-    case SET_CONTACT_ATTRIBUTES:
+    case ACTIONS.SET_CONTACT_ATTRIBUTES:
       return state.set('contactAttributes', fromJS(action.attributes));
     default:
       return state;

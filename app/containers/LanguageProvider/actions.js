@@ -8,11 +8,11 @@
  *
  */
 
-import { CHANGE_LOCALE } from './constants';
+import * as ACTIONS from './constants';
 
 export function changeLocale(languageLocale) {
   return {
-    type: CHANGE_LOCALE,
+    type: ACTIONS.CHANGE_LOCALE,
     locale: languageLocale,
   };
 }

@@ -8,17 +8,17 @@
  *
  */
 
-import { SET_CONTACT_LAYOUT, SET_CONTACT_ATTRIBUTES } from './constants';
+import * as ACTIONS from './constants';
 
 export function setContactLayout(layout) {
   return {
-    type: SET_CONTACT_LAYOUT,
+    type: ACTIONS.SET_CONTACT_LAYOUT,
     layout,
   };
 }
 export function setContactAttributes(attributes) {
   return {
-    type: SET_CONTACT_ATTRIBUTES,
+    type: ACTIONS.SET_CONTACT_ATTRIBUTES,
     attributes,
   };
 }

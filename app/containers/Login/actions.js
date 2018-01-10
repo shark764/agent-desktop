@@ -8,47 +8,37 @@
  *
  */
 
-import {
-  SET_INITIATED_STANDALONE_POPUP,
-  SET_LOADING,
-  ERROR_OCCURRED,
-  LOGIN_SUCCESS,
-  RESET_PASSWORD,
-  SHOW_LOGIN,
-  SET_TENANT,
-  SET_DISPLAY_STATE,
-  LOGOUT,
-} from './constants';
+import * as ACTIONS from './constants';
 
 export function setInitiatedStandalonePopup() {
   return {
-    type: SET_INITIATED_STANDALONE_POPUP,
+    type: ACTIONS.SET_INITIATED_STANDALONE_POPUP,
   };
 }
 
 export function setLoading(loading) {
   return {
-    type: SET_LOADING,
+    type: ACTIONS.SET_LOADING,
     loading,
   };
 }
 
 export function errorOccurred() {
   return {
-    type: ERROR_OCCURRED,
+    type: ACTIONS.ERROR_OCCURRED,
   };
 }
 
 export function loginSuccess(agent) {
   return {
-    type: LOGIN_SUCCESS,
+    type: ACTIONS.LOGIN_SUCCESS,
     agent,
   };
 }
 
 export function setTenant(id, name) {
   return {
-    type: SET_TENANT,
+    type: ACTIONS.SET_TENANT,
     id,
     name,
   };
@@ -56,27 +46,27 @@ export function setTenant(id, name) {
 
 export function resetPassword(email) {
   return {
-    type: RESET_PASSWORD,
+    type: ACTIONS.RESET_PASSWORD,
     email,
   };
 }
 
 export function showLogin(show) {
   return {
-    type: SHOW_LOGIN,
+    type: ACTIONS.SHOW_LOGIN,
     show,
   };
 }
 
 export function setDisplayState(displayState) {
   return {
-    type: SET_DISPLAY_STATE,
+    type: ACTIONS.SET_DISPLAY_STATE,
     displayState,
   };
 }
 
 export function logout() {
   return {
-    type: LOGOUT,
+    type: ACTIONS.LOGOUT,
   };
 }

@@ -9,21 +9,7 @@
  */
 
 import { fromJS, List } from 'immutable';
-import {
-  SET_CRM_UNAVAILABLE,
-  SET_SEARCH_RESULTS,
-  CLEAR_SEARCH_RESULTS,
-  CHECK_CONTACT,
-  UNCHECK_CONTACT,
-  CLEAR_CHECKED_CONTACTS,
-  ADD_NOTIFICATION,
-  ADD_ONE_TIME_NOTIFICATION,
-  DISMISS_NOTIFICATION,
-  SET_LOADING,
-  SET_DELETION_PENDING,
-  SET_CONFIRMING_DELETE,
-  SET_SEARCH_PENDING,
-} from './constants';
+import * as ACTIONS from './constants';
 
 const initialState = fromJS({
   results: [],
@@ -45,13 +31,13 @@ let currentContacts;
 
 function infoTabReducer(state = initialState, action) {
   switch (action.type) {
-    case CLEAR_SEARCH_RESULTS: {
+    case ACTIONS.CLEAR_SEARCH_RESULTS: {
       return state
         .set('results', new List())
         .set('nextPage', 1)
         .set('resultsCount', -1);
     }
-    case SET_SEARCH_RESULTS: {
+    case ACTIONS.SET_SEARCH_RESULTS: {
       let results = state.get('results');
       let validResultsCount = action.response.count;
       if (action.response.page === state.get('nextPage')) {
@@ -71,15 +57,15 @@ function infoTabReducer(state = initialState, action) {
         return state;
       }
     }
-    case SET_CRM_UNAVAILABLE:
+    case ACTIONS.SET_CRM_UNAVAILABLE:
       return state.set('crmUnavailable', action.reason || 'generalError');
-    case CHECK_CONTACT:
+    case ACTIONS.CHECK_CONTACT:
       currentContacts = state.get('checkedContacts');
       return state.set(
         'checkedContacts',
         currentContacts.push(fromJS(action.contact))
       );
-    case UNCHECK_CONTACT:
+    case ACTIONS.UNCHECK_CONTACT:
       currentContacts = state.get('checkedContacts');
       return state.set(
         'checkedContacts',
@@ -87,33 +73,33 @@ function infoTabReducer(state = initialState, action) {
           (contact) => contact.get('id') !== action.contact.id
         )
       );
-    case CLEAR_CHECKED_CONTACTS:
+    case ACTIONS.CLEAR_CHECKED_CONTACTS:
       return state.set('checkedContacts', new List());
-    case ADD_NOTIFICATION:
+    case ACTIONS.ADD_NOTIFICATION:
       return state
         .set(
           'notifications',
           state.get('notifications').push(fromJS(action.notification))
         )
         .set('nextNotificationId', action.notification.id + 1);
-    case ADD_ONE_TIME_NOTIFICATION:
+    case ACTIONS.ADD_ONE_TIME_NOTIFICATION:
       return state.update('oneTimeNotifications', (oneTimeNotifications) =>
         oneTimeNotifications.push(fromJS(action.oneTimeNotification))
       );
-    case DISMISS_NOTIFICATION:
+    case ACTIONS.DISMISS_NOTIFICATION:
       return state.set(
         'notifications',
         state
           .get('notifications')
           .filter((notification) => notification.get('id') !== action.id)
       );
-    case SET_LOADING:
+    case ACTIONS.SET_LOADING:
       return state.set('loading', action.loading);
-    case SET_DELETION_PENDING:
+    case ACTIONS.SET_DELETION_PENDING:
       return state.set('deletionPending', action.deletionPending);
-    case SET_CONFIRMING_DELETE:
+    case ACTIONS.SET_CONFIRMING_DELETE:
       return state.set('confirmingDelete', action.confirmingDelete);
-    case SET_SEARCH_PENDING:
+    case ACTIONS.SET_SEARCH_PENDING:
       return state.set('searchPending', action.searchPending);
     default:
       return state;
