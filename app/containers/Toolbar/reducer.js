@@ -9,16 +9,7 @@
  */
 
 import { fromJS } from 'immutable';
-import {
-  SET_AVAILABLE_STATS,
-  STATS_RECEIVED,
-  SHOW_AGENT_MENU,
-  REMOVE_STAT,
-  ADD_STAT,
-  REMOVE_TOOLBAR_STAT_ID,
-  ADD_TOOLBAR_STAT_ID,
-  ADD_WELCOME_STAT_ID,
-} from './constants';
+import * as ACTIONS from './constants';
 
 const initialState = fromJS({
   welcomeStatIds: [],
@@ -32,11 +23,11 @@ function toolbarReducer(state = initialState, action) {
   let enabledStatId;
 
   switch (action.type) {
-    case SHOW_AGENT_MENU:
+    case ACTIONS.SHOW_AGENT_MENU:
       return state.set('showAgentStatusMenu', action.show);
-    case SET_AVAILABLE_STATS:
+    case ACTIONS.SET_AVAILABLE_STATS:
       return state.set('availableStats', fromJS(action.stats));
-    case REMOVE_STAT:
+    case ACTIONS.REMOVE_STAT:
       return state.update('enabledStats', (enabledStats) =>
         fromJS(
           enabledStats.filter(
@@ -44,7 +35,7 @@ function toolbarReducer(state = initialState, action) {
           )
         )
       );
-    case ADD_STAT:
+    case ACTIONS.ADD_STAT:
       return state.update('enabledStats', (enabledStats) =>
         fromJS([
           action.stat,
@@ -53,25 +44,25 @@ function toolbarReducer(state = initialState, action) {
           ),
         ])
       );
-    case REMOVE_TOOLBAR_STAT_ID:
+    case ACTIONS.REMOVE_TOOLBAR_STAT_ID:
       return state.update('toolbarStatIds', (toolbarStatIds) =>
         fromJS(toolbarStatIds.filter((statId) => statId !== action.statId))
       );
-    case ADD_TOOLBAR_STAT_ID:
+    case ACTIONS.ADD_TOOLBAR_STAT_ID:
       return state.update('toolbarStatIds', (toolbarStatIds) =>
         fromJS([
           ...toolbarStatIds.filter((statId) => statId !== action.statId),
           action.statId,
         ])
       );
-    case ADD_WELCOME_STAT_ID:
+    case ACTIONS.ADD_WELCOME_STAT_ID:
       return state.update('welcomeStatIds', (welcomeStatIds) =>
         fromJS([
           ...welcomeStatIds.filter((statId) => statId !== action.statId),
           action.statId,
         ])
       );
-    case STATS_RECEIVED:
+    case ACTIONS.STATS_RECEIVED:
       return state.update('enabledStats', (enabledStats) =>
         enabledStats.map((enabledStat) => {
           enabledStatId = enabledStat.get('statId');

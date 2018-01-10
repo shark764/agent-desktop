@@ -8,114 +8,99 @@
  *
  */
 
-import {
-  SET_CRM_UNAVAILABLE,
-  CLEAR_SEARCH_RESULTS,
-  SET_SEARCH_RESULTS,
-  CHECK_CONTACT,
-  UNCHECK_CONTACT,
-  CLEAR_CHECKED_CONTACTS,
-  ADD_NOTIFICATION,
-  ADD_ONE_TIME_NOTIFICATION,
-  DISMISS_NOTIFICATION,
-  SET_LOADING,
-  SET_DELETION_PENDING,
-  SET_CONFIRMING_DELETE,
-  SET_SEARCH_PENDING,
-  VALIDATE_CONTACT_LAYOUT_TRANSLATIONS,
-} from './constants';
+import * as ACTIONS from './constants';
 
 export function setCRMUnavailable(reason) {
   return {
-    type: SET_CRM_UNAVAILABLE,
+    type: ACTIONS.SET_CRM_UNAVAILABLE,
     reason,
   };
 }
 
 export function clearSearchResults() {
   return {
-    type: CLEAR_SEARCH_RESULTS,
+    type: ACTIONS.CLEAR_SEARCH_RESULTS,
   };
 }
 
 export function setSearchResults(response) {
   return {
-    type: SET_SEARCH_RESULTS,
+    type: ACTIONS.SET_SEARCH_RESULTS,
     response,
   };
 }
 
 export function checkContact(contact) {
   return {
-    type: CHECK_CONTACT,
+    type: ACTIONS.CHECK_CONTACT,
     contact,
   };
 }
 
 export function uncheckContact(contact) {
   return {
-    type: UNCHECK_CONTACT,
+    type: ACTIONS.UNCHECK_CONTACT,
     contact,
   };
 }
 
 export function clearCheckedContacts() {
   return {
-    type: CLEAR_CHECKED_CONTACTS,
+    type: ACTIONS.CLEAR_CHECKED_CONTACTS,
   };
 }
 
 export function addNotification(notification) {
   return {
-    type: ADD_NOTIFICATION,
+    type: ACTIONS.ADD_NOTIFICATION,
     notification,
   };
 }
 
 export function addOneTimeNotification(oneTimeNotification) {
   return {
-    type: ADD_ONE_TIME_NOTIFICATION,
+    type: ACTIONS.ADD_ONE_TIME_NOTIFICATION,
     oneTimeNotification,
   };
 }
 
 export function dismissNotification(id) {
   return {
-    type: DISMISS_NOTIFICATION,
+    type: ACTIONS.DISMISS_NOTIFICATION,
     id,
   };
 }
 
 export function setLoading(loading) {
   return {
-    type: SET_LOADING,
+    type: ACTIONS.SET_LOADING,
     loading,
   };
 }
 
 export function setDeletionPending(deletionPending) {
   return {
-    type: SET_DELETION_PENDING,
+    type: ACTIONS.SET_DELETION_PENDING,
     deletionPending,
   };
 }
 
 export function setConfirmingDelete(confirmingDelete) {
   return {
-    type: SET_CONFIRMING_DELETE,
+    type: ACTIONS.SET_CONFIRMING_DELETE,
     confirmingDelete,
   };
 }
 
 export function setSearchPending(searchPending) {
   return {
-    type: SET_SEARCH_PENDING,
+    type: ACTIONS.SET_SEARCH_PENDING,
     searchPending,
   };
 }
 
 export function validateContactLayoutTranslations() {
   return {
-    type: VALIDATE_CONTACT_LAYOUT_TRANSLATIONS,
+    type: ACTIONS.VALIDATE_CONTACT_LAYOUT_TRANSLATIONS,
   };
 }

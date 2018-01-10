@@ -1,3 +1,6 @@
+### [1.15.6] (2018-1-10)
+* TechDebt , es6 syntax for easier imports of actions
+
 ### [1.15.5] (2018-1-10)
 * CXV1-11841 - Handle clearing the active tab in Zendesk when the active tab is blank
 

@@ -8,18 +8,11 @@
  *
  */
 
-import {
-  HANDLE_SDK_ERROR,
-  SET_CRITICAL_ERROR,
-  SET_NON_CRITICAL_ERROR,
-  DISMISS_ERROR,
-  ADD_STAT_ERROR_ID,
-  REMOVE_STAT_ERROR_ID,
-} from './constants';
+import * as ACTIONS from './constants';
 
 export function handleSDKError(error, topic) {
   return {
-    type: HANDLE_SDK_ERROR,
+    type: ACTIONS.HANDLE_SDK_ERROR,
     error,
     topic,
     // TODO: InitAction, canRetry
@@ -28,14 +21,14 @@ export function handleSDKError(error, topic) {
 
 export function setCriticalError(error) {
   return {
-    type: SET_CRITICAL_ERROR,
+    type: ACTIONS.SET_CRITICAL_ERROR,
     error,
   };
 }
 
 export function setNonCriticalError(error, interactionFatal) {
   return {
-    type: SET_NON_CRITICAL_ERROR,
+    type: ACTIONS.SET_NON_CRITICAL_ERROR,
     error,
     interactionFatal,
   };
@@ -43,20 +36,20 @@ export function setNonCriticalError(error, interactionFatal) {
 
 export function dismissError() {
   return {
-    type: DISMISS_ERROR,
+    type: ACTIONS.DISMISS_ERROR,
   };
 }
 
 export function addStatErrorId(statId) {
   return {
-    type: ADD_STAT_ERROR_ID,
+    type: ACTIONS.ADD_STAT_ERROR_ID,
     statId,
   };
 }
 
 export function removeStatErrorId(statId) {
   return {
-    type: REMOVE_STAT_ERROR_ID,
+    type: ACTIONS.REMOVE_STAT_ERROR_ID,
     statId,
   };
 }

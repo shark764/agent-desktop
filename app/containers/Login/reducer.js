@@ -9,19 +9,10 @@
  */
 
 import { fromJS } from 'immutable';
-import {
-  SET_INITIATED_STANDALONE_POPUP,
-  SET_LOADING,
-  ERROR_OCCURRED,
-  LOGIN_SUCCESS,
-  SHOW_LOGIN,
-  SET_TENANT,
-  SET_DISPLAY_STATE,
-  CX_LOGIN,
-} from './constants';
+import * as ACTIONS from './constants';
 
 const initialState = fromJS({
-  displayState: CX_LOGIN,
+  displayState: ACTIONS.CX_LOGIN,
   loading: false,
   showLogin: true,
   // Uncomment below to hide login screen
@@ -37,19 +28,19 @@ const initialState = fromJS({
 
 function loginReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_INITIATED_STANDALONE_POPUP:
+    case ACTIONS.SET_INITIATED_STANDALONE_POPUP:
       return state.set('initiatedStandalonePopup', true);
-    case SET_DISPLAY_STATE:
+    case ACTIONS.SET_DISPLAY_STATE:
       return state.set('displayState', action.displayState);
-    case SET_LOADING:
+    case ACTIONS.SET_LOADING:
       return state.set('loading', action.loading);
-    case ERROR_OCCURRED:
+    case ACTIONS.ERROR_OCCURRED:
       return state.set('loading', false);
-    case LOGIN_SUCCESS:
+    case ACTIONS.LOGIN_SUCCESS:
       return state.set('agent', fromJS(action.agent)).set('logged_in', true);
-    case SET_TENANT:
+    case ACTIONS.SET_TENANT:
       return state.set('tenant', fromJS({ id: action.id, name: action.name }));
-    case SHOW_LOGIN:
+    case ACTIONS.SHOW_LOGIN:
       return state.set('showLogin', action.show);
     default:
       return state;

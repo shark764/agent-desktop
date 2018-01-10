@@ -10,113 +10,11 @@
 
 import { fromJS, Map, List } from 'immutable';
 
-import Interaction, {
-  activeContactFormBlank,
-} from 'models/Interaction/Interaction';
+import Interaction, { activeContactFormBlank } from 'models/Interaction/Interaction';
 import Message from 'models/Message/Message';
 import ResponseMessage from 'models/Message/ResponseMessage';
 
-import {
-  SET_CRM_MODULE,
-  SET_STANDALONE_POPUP,
-  SET_CRM_ACTIVE_TAB,
-  SET_USER_CONFIG,
-  SET_EXTENSIONS,
-  UPDATE_WRAPUP_DETAILS,
-  ADD_SCRIPT,
-  REMOVE_SCRIPT,
-  SET_ACTIVE_EXTENSION,
-  REMOVE_INVALID_EXTENSION,
-  SET_QUEUES,
-  SET_QUEUE_TIME,
-  SET_PRESENCE,
-  SET_INTERACTION_STATUS,
-  SET_INTERACTION_CONFIRMATION,
-  SET_ACTIVE_RESOURCES,
-  OPEN_NEW_INTERACTION_PANEL,
-  NEW_INTERACTION_PANEL_SELECT_CONTACT,
-  CLOSE_NEW_INTERACTION_PANEL,
-  CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL,
-  SET_NEW_INTERACTION_PANEL_FORM_INPUT,
-  START_OUTBOUND_INTERACTION,
-  INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
-  ADD_INTERACTION,
-  WORK_INITIATED,
-  SET_IS_CANCELLING_INTERACTION,
-  REMOVE_INTERACTION,
-  REMOVE_INTERACTION_HARD,
-  ADD_SEARCH_FILTER,
-  REMOVE_SEARCH_FILTER,
-  SET_INTERACTION_QUERY,
-  SET_MESSAGE_HISTORY,
-  UPDATE_MESSAGE_HISTORY_AGENT_NAME,
-  SET_CONTACT_MODE,
-  SET_ASSIGNED_CONTACT,
-  UNASSIGN_CONTACT,
-  DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
-  DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION,
-  SELECT_SIDE_PANEL_TAB,
-  SET_CONTACT_INTERACTION_HISTORY,
-  SET_CRM_INTERACTION_HISTORY,
-  SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING,
-  SET_CONTACT_HISTORY_INTERACTION_DETAILS,
-  UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS,
-  ADD_NOTES_TO_CONTACT_INTERACTION_HISTORY,
-  UPDATE_CONTACT,
-  SELECT_CONTACT,
-  REMOVE_CONTACT,
-  ADD_MESSAGE,
-  SELECT_INTERACTION,
-  SET_CUSTOM_FIELDS,
-  TOGGLE_CUSTOM_FIELDS,
-  SET_EMAIL_PLAIN_BODY,
-  SET_EMAIL_HTML_BODY,
-  SET_EMAIL_DETAILS,
-  SET_EMAIL_ATTACHMENT_URL,
-  START_WARM_TRANSFERRING,
-  TRANSFER_CANCELLED,
-  RESOURCE_ADDED,
-  UPDATE_RESOURCE_NAME,
-  UPDATE_RESOURCE_STATUS,
-  HOLD_ME,
-  RESUME_ME,
-  RESOURCE_REMOVED,
-  MUTE_CALL,
-  UNMUTE_CALL,
-  HOLD_CALL,
-  RESUME_CALL,
-  RECORD_CALL,
-  STOP_RECORD_CALL,
-  EMAIL_CREATE_REPLY,
-  EMAIL_ADD_ATTACHMENT,
-  EMAIL_REMOVE_ATTACHMENT,
-  EMAIL_UPDATE_REPLY,
-  EMAIL_CANCEL_REPLY,
-  EMAIL_SEND_REPLY,
-  UPDATE_NOTE,
-  UPDATE_SCRIPT_VALUES,
-  SET_DISPOSITION_DETAILS,
-  SELECT_DISPOSITION,
-  SHOW_REFRESH_NOTIF,
-  SHOW_SIDE_PANEL,
-  HIDE_SIDE_PANEL,
-  SET_SIDE_PANEL_PX,
-  SHOW_INTERACTIONS_BAR,
-  HIDE_INTERACTIONS_BAR,
-  SET_FORM_IS_DIRTY,
-  SET_FORM_VALIDITY,
-  SET_FORM_FIELD,
-  SET_FORM_ERROR,
-  SET_SHOW_ERROR,
-  SET_UNUSED_FIELD,
-  SET_SELECTED_INDEX,
-  SET_EDITING_CONTACTS,
-  SET_CONTACT_SAVE_LOADING,
-  SET_AGENT_DIRECTION,
-  INIT_FORM,
-  RESET_FORM,
-  SAVE_MESSAGE_STATE,
-} from './constants';
+import * as ACTIONS from './constants';
 
 // import { outboundConnectingVoiceInteraction, voiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithUnrespondedMessageAndScript, smsInteractionWithUnrespondedMessageAndScript2, smsInteractionWithLotsOfMessagesAndScript2, smsInteractionWithLotsOfMessagesAndScript3, smsInteractionWithLotsOfMessagesAndScript4, smsInteractionWithLotsOfMessagesAndScript5, smsInteractionWithLotsOfMessagesAndScript6, scriptOnly } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
 
@@ -472,11 +370,11 @@ const removeInteractionAndSetNextSelectedInteraction = (
 
 function agentDesktopReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_CRM_MODULE:
+    case ACTIONS.SET_CRM_MODULE:
       return state.set('crmModule', action.crmModule);
-    case SET_STANDALONE_POPUP:
+    case ACTIONS.SET_STANDALONE_POPUP:
       return state.set('standalonePopup', true);
-    case SET_CRM_ACTIVE_TAB:
+    case ACTIONS.SET_CRM_ACTIVE_TAB:
       if (action.tabType === undefined) {
         return state
           .delete('crmActiveTab')
@@ -506,11 +404,11 @@ function agentDesktopReducer(state = initialState, action) {
           action.name
         );
       }
-    case SET_AGENT_DIRECTION:
+    case ACTIONS.SET_AGENT_DIRECTION:
       return state.set('agentDirection', fromJS(action.response));
-    case SHOW_REFRESH_NOTIF:
+    case ACTIONS.SHOW_REFRESH_NOTIF:
       return state.set('refreshRequired', action.show);
-    case SET_USER_CONFIG: {
+    case ACTIONS.SET_USER_CONFIG: {
       const presenceReasonLists = action.response.reasonLists.filter(
         (list) => list.active === true
       );
@@ -532,7 +430,7 @@ function agentDesktopReducer(state = initialState, action) {
       }
       return newState;
     }
-    case SET_EXTENSIONS:
+    case ACTIONS.SET_EXTENSIONS:
       return (
         state
           // Set active extension to the first available one if it isn't set
@@ -544,9 +442,9 @@ function agentDesktopReducer(state = initialState, action) {
           )
           .set('extensions', fromJS(action.response.extensions))
       );
-    case SET_ACTIVE_EXTENSION:
+    case ACTIONS.SET_ACTIVE_EXTENSION:
       return state.set('activeExtension', fromJS(action.activeExtension));
-    case REMOVE_INVALID_EXTENSION: {
+    case ACTIONS.REMOVE_INVALID_EXTENSION: {
       const selectedExtensionValue = state.get('activeExtension').get('value');
       return state.update('extensions', (extensions) =>
         extensions.filter(
@@ -554,9 +452,9 @@ function agentDesktopReducer(state = initialState, action) {
         )
       );
     }
-    case SET_QUEUES:
+    case ACTIONS.SET_QUEUES:
       return state.set('queues', fromJS(action.queues)).set('queuesSet', true);
-    case SET_QUEUE_TIME: {
+    case ACTIONS.SET_QUEUE_TIME: {
       const queueIndex = state
         .get('queues')
         .findIndex((queue) => queue.get('id') === action.queueId);
@@ -569,7 +467,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case SET_PRESENCE: {
+    case ACTIONS.SET_PRESENCE: {
       const systemPresenceReasonList = state
         .get('presenceReasonLists')
         .find(
@@ -590,7 +488,7 @@ function agentDesktopReducer(state = initialState, action) {
         })
       );
     }
-    case SET_INTERACTION_STATUS: {
+    case ACTIONS.SET_INTERACTION_STATUS: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         const automaticallySelectInteraction =
@@ -669,7 +567,7 @@ function agentDesktopReducer(state = initialState, action) {
       }
       return state;
     }
-    case SET_INTERACTION_CONFIRMATION: {
+    case ACTIONS.SET_INTERACTION_CONFIRMATION: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         const newState = state.updateIn(
@@ -686,7 +584,7 @@ function agentDesktopReducer(state = initialState, action) {
       }
       return state;
     }
-    case SET_ACTIVE_RESOURCES: {
+    case ACTIONS.SET_ACTIVE_RESOURCES: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
@@ -711,7 +609,7 @@ function agentDesktopReducer(state = initialState, action) {
       }
       return state;
     }
-    case OPEN_NEW_INTERACTION_PANEL: {
+    case ACTIONS.OPEN_NEW_INTERACTION_PANEL: {
       return state
         .update('newInteractionPanel', (newInteractionPanel) =>
           newInteractionPanel
@@ -724,14 +622,14 @@ function agentDesktopReducer(state = initialState, action) {
           state.getIn(['newInteractionPanel', 'interactionId'])
         );
     }
-    case NEW_INTERACTION_PANEL_SELECT_CONTACT: {
+    case ACTIONS.NEW_INTERACTION_PANEL_SELECT_CONTACT: {
       return state.update('newInteractionPanel', (newInteractionPanel) =>
         newInteractionPanel
           .set('contact', fromJS(action.contact))
           .set('contactMode', 'view')
       );
     }
-    case CLOSE_NEW_INTERACTION_PANEL: {
+    case ACTIONS.CLOSE_NEW_INTERACTION_PANEL: {
       return state
         .set('newInteractionPanel', fromJS(blankNewInteractionPanel))
         .set(
@@ -739,7 +637,7 @@ function agentDesktopReducer(state = initialState, action) {
           getNextSelectedInteractionId(state, 'creating-new-interaction')
         );
     }
-    case CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL: {
+    case ACTIONS.CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL: {
       return state
         .set(
           'currentCrmItemHistoryPanel',
@@ -750,13 +648,13 @@ function agentDesktopReducer(state = initialState, action) {
           getNextSelectedInteractionId(state, 'current-crm-item-history')
         );
     }
-    case SET_NEW_INTERACTION_PANEL_FORM_INPUT: {
+    case ACTIONS.SET_NEW_INTERACTION_PANEL_FORM_INPUT: {
       return state.setIn(
         ['newInteractionPanel', 'newInteractionFormInput'],
         action.input
       );
     }
-    case START_OUTBOUND_INTERACTION: {
+    case ACTIONS.START_OUTBOUND_INTERACTION: {
       const outboundInteraction = new Map(
         new Interaction({
           interactionId: action.interactionId,
@@ -802,7 +700,7 @@ function agentDesktopReducer(state = initialState, action) {
           })
       );
     }
-    case INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP: {
+    case ACTIONS.INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP: {
       const interactionIndex = getInteractionIndex(
         state,
         action.placeholderInteractionId
@@ -834,7 +732,7 @@ function agentDesktopReducer(state = initialState, action) {
             : state.get('selectedInteractionId')
         );
     }
-    case ADD_INTERACTION: {
+    case ACTIONS.ADD_INTERACTION: {
       // Don't re-add outbound SMS interaction. It was already added by INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP.
       // Don't re-add outbound Email interaction. It was already added by START_OUTBOUND_EMAIL.
       if (
@@ -878,7 +776,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case UPDATE_WRAPUP_DETAILS: {
+    case ACTIONS.UPDATE_WRAPUP_DETAILS: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex > -1) {
         return state.mergeIn(
@@ -888,7 +786,7 @@ function agentDesktopReducer(state = initialState, action) {
       }
       return state;
     }
-    case ADD_SCRIPT: {
+    case ACTIONS.ADD_SCRIPT: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       // Replace useless script id with actual one needed for the SDK
       const script = fromJS(action.script).set('id', action.scriptId);
@@ -920,7 +818,7 @@ function agentDesktopReducer(state = initialState, action) {
           .set('isInteractionsBarCollapsed', false);
       }
     }
-    case REMOVE_SCRIPT: {
+    case ACTIONS.REMOVE_SCRIPT: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex > -1) {
         const interaction = state.getIn(['interactions', interactionIndex]);
@@ -956,7 +854,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case WORK_INITIATED: {
+    case ACTIONS.WORK_INITIATED: {
       const interactionIndex = getInteractionIndex(
         state,
         action.response.interactionId
@@ -977,7 +875,7 @@ function agentDesktopReducer(state = initialState, action) {
         return newInteraction;
       });
     }
-    case SET_IS_CANCELLING_INTERACTION: {
+    case ACTIONS.SET_IS_CANCELLING_INTERACTION: {
       // setting "isCancellingInteraction" flag so that we can give the user
       // instant visual/UI feedback while we wait for the sdk to do its magic
       const interactionIndex = getInteractionIndex(state, action.interactionId);
@@ -989,7 +887,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case REMOVE_INTERACTION: {
+    case ACTIONS.REMOVE_INTERACTION: {
       const interactionToRemove = state
         .get('interactions')
         .find(
@@ -1022,7 +920,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case REMOVE_INTERACTION_HARD: {
+    case ACTIONS.REMOVE_INTERACTION_HARD: {
       const interactionIndexToRemove = state
         .get('interactions')
         .findIndex(
@@ -1038,7 +936,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case SET_MESSAGE_HISTORY: {
+    case ACTIONS.SET_MESSAGE_HISTORY: {
       const messageInteractionIndex = state
         .get('interactions')
         .findIndex(
@@ -1088,7 +986,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case UPDATE_MESSAGE_HISTORY_AGENT_NAME: {
+    case ACTIONS.UPDATE_MESSAGE_HISTORY_AGENT_NAME: {
       const interactionIndex = state
         .get('interactions')
         .findIndex(
@@ -1117,7 +1015,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case SET_CONTACT_MODE: {
+    case ACTIONS.SET_CONTACT_MODE: {
       const targetPath = getContactInteractionPath(state, action.interactionId);
       return state.updateIn(targetPath, (interaction) => {
         // InfoTab is always a view panel when in new interaction mode
@@ -1131,7 +1029,7 @@ function agentDesktopReducer(state = initialState, action) {
         }
       });
     }
-    case SET_INTERACTION_QUERY: {
+    case ACTIONS.SET_INTERACTION_QUERY: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
@@ -1141,7 +1039,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case ADD_SEARCH_FILTER: {
+    case ACTIONS.ADD_SEARCH_FILTER: {
       const selectedInteractionPath = getSelectedContactInteractionPath(state);
       return state.updateIn(
         [...selectedInteractionPath, 'query'],
@@ -1154,7 +1052,7 @@ function agentDesktopReducer(state = initialState, action) {
         }
       );
     }
-    case REMOVE_SEARCH_FILTER: {
+    case ACTIONS.REMOVE_SEARCH_FILTER: {
       const selectedInteractionPath = getSelectedContactInteractionPath(state);
       const queryPath = [...selectedInteractionPath, 'query'];
       if (action.filterName) {
@@ -1165,7 +1063,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state.setIn(queryPath, fromJS({}));
       }
     }
-    case SET_ASSIGNED_CONTACT: {
+    case ACTIONS.SET_ASSIGNED_CONTACT: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
@@ -1193,7 +1091,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case UNASSIGN_CONTACT: {
+    case ACTIONS.UNASSIGN_CONTACT: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
@@ -1206,7 +1104,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION: {
+    case ACTIONS.DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
@@ -1224,7 +1122,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION: {
+    case ACTIONS.DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
@@ -1243,12 +1141,12 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case SELECT_SIDE_PANEL_TAB: {
+    case ACTIONS.SELECT_SIDE_PANEL_TAB: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('selectedSidePanelTab');
       return state.setIn(target, action.tabName);
     }
-    case SET_CONTACT_HISTORY_INTERACTION_DETAILS: {
+    case ACTIONS.SET_CONTACT_HISTORY_INTERACTION_DETAILS: {
       return state
         .update('interactions', (interactions) =>
           interactions.map((interaction) =>
@@ -1265,7 +1163,7 @@ function agentDesktopReducer(state = initialState, action) {
           setContactInteractionDetails(crmActiveTab, action)
         );
     }
-    case SET_CONTACT_INTERACTION_HISTORY: {
+    case ACTIONS.SET_CONTACT_INTERACTION_HISTORY: {
       return state
         .update('interactions', (interactions) =>
           interactions.map((interaction) =>
@@ -1281,7 +1179,7 @@ function agentDesktopReducer(state = initialState, action) {
           updateContactInteractionHistoryResults(contact, action)
         );
     }
-    case SET_CRM_INTERACTION_HISTORY: {
+    case ACTIONS.SET_CRM_INTERACTION_HISTORY: {
       return state
         .update('interactions', (interactions) =>
           interactions.map((interaction) =>
@@ -1297,7 +1195,7 @@ function agentDesktopReducer(state = initialState, action) {
           )
         );
     }
-    case SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING: {
+    case ACTIONS.SET_CONTACT_HISTORY_INTERACTION_DETAILS_LOADING: {
       const target = getContactInteractionPath(state, action.interactionId);
       return state.updateIn(target, (interaction) => {
         if (
@@ -1325,7 +1223,7 @@ function agentDesktopReducer(state = initialState, action) {
         }
       });
     }
-    case UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS: {
+    case ACTIONS.UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS: {
       return state
         .update('interactions', (interactions) =>
           interactions.map((interaction) =>
@@ -1342,7 +1240,7 @@ function agentDesktopReducer(state = initialState, action) {
           updateContactInteractionDetails(newInteractionPanel, action)
         );
     }
-    case ADD_NOTES_TO_CONTACT_INTERACTION_HISTORY: {
+    case ACTIONS.ADD_NOTES_TO_CONTACT_INTERACTION_HISTORY: {
       return state
         .update('interactions', (interactions) =>
           interactions.map((interaction) =>
@@ -1356,7 +1254,7 @@ function agentDesktopReducer(state = initialState, action) {
           addContactInteractionNote(newInteractionPanel, action)
         );
     }
-    case UPDATE_CONTACT: {
+    case ACTIONS.UPDATE_CONTACT: {
       let newState = state
         .update('interactions', (interactions) =>
           interactions.map((interaction) => {
@@ -1403,7 +1301,7 @@ function agentDesktopReducer(state = initialState, action) {
       }
       return newState;
     }
-    case REMOVE_CONTACT: {
+    case ACTIONS.REMOVE_CONTACT: {
       return state
         .update('interactions', (interactions) =>
           interactions.map((interaction) => {
@@ -1431,7 +1329,7 @@ function agentDesktopReducer(state = initialState, action) {
           return newInteractionPanel;
         });
     }
-    case ADD_MESSAGE: {
+    case ACTIONS.ADD_MESSAGE: {
       if (!(action.message instanceof Message)) {
         throw new Error('ADD_MESSAGE message must be of type Message');
       }
@@ -1450,7 +1348,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case SELECT_INTERACTION: {
+    case ACTIONS.SELECT_INTERACTION: {
       if (!action.interactionId) {
         return state.set('selectedInteractionId', undefined);
       }
@@ -1465,7 +1363,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case SET_CUSTOM_FIELDS: {
+    case ACTIONS.SET_CUSTOM_FIELDS: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
@@ -1477,7 +1375,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case TOGGLE_CUSTOM_FIELDS: {
+    case ACTIONS.TOGGLE_CUSTOM_FIELDS: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
@@ -1492,25 +1390,25 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case SET_EMAIL_PLAIN_BODY: {
+    case ACTIONS.SET_EMAIL_PLAIN_BODY: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       return state.updateIn(['interactions', interactionIndex], (interaction) =>
         interaction.set('emailPlainBody', action.body)
       );
     }
-    case SET_EMAIL_HTML_BODY: {
+    case ACTIONS.SET_EMAIL_HTML_BODY: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       return state.updateIn(['interactions', interactionIndex], (interaction) =>
         interaction.set('emailHtmlBody', action.body)
       );
     }
-    case SET_EMAIL_DETAILS: {
+    case ACTIONS.SET_EMAIL_DETAILS: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       return state.updateIn(['interactions', interactionIndex], (interaction) =>
         interaction.set('emailDetails', fromJS(action.details))
       );
     }
-    case SET_EMAIL_ATTACHMENT_URL: {
+    case ACTIONS.SET_EMAIL_ATTACHMENT_URL: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
@@ -1528,7 +1426,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case START_WARM_TRANSFERRING: {
+    case ACTIONS.START_WARM_TRANSFERRING: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
@@ -1552,7 +1450,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case TRANSFER_CANCELLED: {
+    case ACTIONS.TRANSFER_CANCELLED: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
@@ -1576,7 +1474,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case RESOURCE_ADDED: {
+    case ACTIONS.RESOURCE_ADDED: {
       const interactionIndex = getInteractionIndex(
         state,
         action.response.interactionId
@@ -1619,7 +1517,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case UPDATE_RESOURCE_NAME: {
+    case ACTIONS.UPDATE_RESOURCE_NAME: {
       return state.update('interactions', (interactions) =>
         interactions.map((interaction) => {
           if (
@@ -1652,7 +1550,7 @@ function agentDesktopReducer(state = initialState, action) {
         })
       );
     }
-    case UPDATE_RESOURCE_STATUS: {
+    case ACTIONS.UPDATE_RESOURCE_STATUS: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
@@ -1686,7 +1584,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case HOLD_ME: {
+    case ACTIONS.HOLD_ME: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
@@ -1696,7 +1594,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case RESUME_ME: {
+    case ACTIONS.RESUME_ME: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
@@ -1706,7 +1604,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case RESOURCE_REMOVED: {
+    case ACTIONS.RESOURCE_REMOVED: {
       const interactionIndex = getInteractionIndex(
         state,
         action.response.interactionId
@@ -1731,7 +1629,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case MUTE_CALL: {
+    case ACTIONS.MUTE_CALL: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
@@ -1743,7 +1641,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case UNMUTE_CALL: {
+    case ACTIONS.UNMUTE_CALL: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
@@ -1755,7 +1653,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case HOLD_CALL: {
+    case ACTIONS.HOLD_CALL: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
@@ -1767,7 +1665,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case RESUME_CALL: {
+    case ACTIONS.RESUME_CALL: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
@@ -1779,7 +1677,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case RECORD_CALL: {
+    case ACTIONS.RECORD_CALL: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
@@ -1791,7 +1689,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case STOP_RECORD_CALL: {
+    case ACTIONS.STOP_RECORD_CALL: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
@@ -1803,7 +1701,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case EMAIL_CREATE_REPLY: {
+    case ACTIONS.EMAIL_CREATE_REPLY: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
@@ -1833,7 +1731,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case EMAIL_CANCEL_REPLY: {
+    case ACTIONS.EMAIL_CANCEL_REPLY: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
@@ -1851,7 +1749,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case EMAIL_ADD_ATTACHMENT: {
+    case ACTIONS.EMAIL_ADD_ATTACHMENT: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
@@ -1882,7 +1780,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case EMAIL_REMOVE_ATTACHMENT: {
+    case ACTIONS.EMAIL_REMOVE_ATTACHMENT: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
@@ -1903,7 +1801,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case EMAIL_UPDATE_REPLY: {
+    case ACTIONS.EMAIL_UPDATE_REPLY: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
@@ -1924,7 +1822,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case EMAIL_SEND_REPLY: {
+    case ACTIONS.EMAIL_SEND_REPLY: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
@@ -1940,7 +1838,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case UPDATE_NOTE: {
+    case ACTIONS.UPDATE_NOTE: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.mergeIn(
@@ -1951,7 +1849,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case SAVE_MESSAGE_STATE: {
+    case ACTIONS.SAVE_MESSAGE_STATE: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(['interactions', interactionIndex], (interaction) =>
@@ -1961,7 +1859,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case UPDATE_SCRIPT_VALUES: {
+    case ACTIONS.UPDATE_SCRIPT_VALUES: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
@@ -1981,7 +1879,7 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case SET_DISPOSITION_DETAILS: {
+    case ACTIONS.SET_DISPOSITION_DETAILS: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         const categorizedDispositions = categorizeItems(
@@ -2000,14 +1898,14 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-    case SELECT_DISPOSITION: {
+    case ACTIONS.SELECT_DISPOSITION: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       return state.setIn(
         ['interactions', interactionIndex, 'dispositionDetails', 'selected'],
         fromJS(action.disposition ? [action.disposition] : [])
       );
     }
-    case SELECT_CONTACT: {
+    case ACTIONS.SELECT_CONTACT: {
       return state.mergeIn(
         ['noInteractionContactPanel'],
         fromJS({
@@ -2016,17 +1914,17 @@ function agentDesktopReducer(state = initialState, action) {
         })
       );
     }
-    case SHOW_SIDE_PANEL: {
+    case ACTIONS.SHOW_SIDE_PANEL: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('isSidePanelCollapsed');
       return state.setIn(target, false);
     }
-    case HIDE_SIDE_PANEL: {
+    case ACTIONS.HIDE_SIDE_PANEL: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('isSidePanelCollapsed');
       return state.setIn(target, true);
     }
-    case SET_SIDE_PANEL_PX: {
+    case ACTIONS.SET_SIDE_PANEL_PX: {
       if (action.sidePanelMaxPx) {
         return state
           .set('sidePanelPx', action.sidePanelPx)
@@ -2035,72 +1933,72 @@ function agentDesktopReducer(state = initialState, action) {
         return state.set('sidePanelPx', action.sidePanelPx);
       }
     }
-    case SHOW_INTERACTIONS_BAR: {
+    case ACTIONS.SHOW_INTERACTIONS_BAR: {
       return state.set('isInteractionsBarCollapsed', false);
     }
-    case HIDE_INTERACTIONS_BAR: {
+    case ACTIONS.HIDE_INTERACTIONS_BAR: {
       return state.set('isInteractionsBarCollapsed', true);
     }
-    case SET_FORM_IS_DIRTY: {
+    case ACTIONS.SET_FORM_IS_DIRTY: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('activeContactForm');
       target.push('formIsDirty');
       return state.setIn(target, action.formIsDirty);
     }
-    case SET_FORM_VALIDITY: {
+    case ACTIONS.SET_FORM_VALIDITY: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('activeContactForm');
       target.push('formIsValid');
       return state.setIn(target, action.formIsValid);
     }
-    case SET_FORM_FIELD: {
+    case ACTIONS.SET_FORM_FIELD: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('activeContactForm');
       target.push('contactForm');
       target.push(action.field);
       return state.setIn(target, action.value);
     }
-    case SET_FORM_ERROR: {
+    case ACTIONS.SET_FORM_ERROR: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('activeContactForm');
       target.push('formErrors');
       target.push(action.field);
       return state.setIn(target, action.error);
     }
-    case SET_SHOW_ERROR: {
+    case ACTIONS.SET_SHOW_ERROR: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('activeContactForm');
       target.push('showErrors');
       target.push(action.field);
       return state.setIn(target, action.error);
     }
-    case SET_UNUSED_FIELD: {
+    case ACTIONS.SET_UNUSED_FIELD: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('activeContactForm');
       target.push('unusedFields');
       target.push(action.field);
       return state.setIn(target, action.value);
     }
-    case SET_SELECTED_INDEX: {
+    case ACTIONS.SET_SELECTED_INDEX: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('activeContactForm');
       target.push('selectedIndexes');
       target.push(action.field);
       return state.setIn(target, action.index);
     }
-    case SET_EDITING_CONTACTS: {
+    case ACTIONS.SET_EDITING_CONTACTS: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('activeContactForm');
       target.push('editingContacts');
       return state.setIn(target, fromJS(action.contacts));
     }
-    case SET_CONTACT_SAVE_LOADING: {
+    case ACTIONS.SET_CONTACT_SAVE_LOADING: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('activeContactForm');
       target.push('saveLoading');
       return state.setIn(target, action.isLoading);
     }
-    case INIT_FORM: {
+    case ACTIONS.INIT_FORM: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('activeContactForm');
       let updatedState = state.setIn(
@@ -2129,7 +2027,7 @@ function agentDesktopReducer(state = initialState, action) {
       }
       return updatedState;
     }
-    case RESET_FORM: {
+    case ACTIONS.RESET_FORM: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('activeContactForm');
       return state.setIn(target, fromJS(activeContactFormBlank));
