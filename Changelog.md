@@ -1,3 +1,6 @@
+### [1.15.5] (2018-1-10)
+* CXV1-11841 - Handle clearing the active tab in Zendesk when the active tab is blank
+
 ### [1.15.4] (2018-1-10)
 * CXV1-12479 - Skylight - Actions Menu Should Close When "Reply" is Clicked During an Email Interaction
 * CXV1-12478 - Salesforce Classic - Assigning an Interaction Takes Focus Off Script
