@@ -1,3 +1,9 @@
+### [1.15.4] (2018-1-10)
+* CXV1-12479 - Skylight - Actions Menu Should Close When "Reply" is Clicked During an Email Interaction
+* CXV1-12478 - Salesforce Classic - Assigning an Interaction Takes Focus Off Script
+* CXV1-12534 - Login page still remembers and goes to SSO login without SSO flag in URL
+* CXV1-12511 - Toolbar popout doesn't work on SSO login
+
 ### [1.15.3] (2018-1-9)
 * CXV1-12141 One Time Banner for contact translation error
 

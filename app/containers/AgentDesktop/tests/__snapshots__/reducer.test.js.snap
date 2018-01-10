@@ -612,10 +612,46 @@ Immutable.Map {
           "name": "mockContactName",
         },
       },
-      "contactAssignedNotification": "contactWasAssigned",
-      "selectedSidePanelTab": "history",
+      "contactMode": "view",
     },
   ],
+  "crmModule": "none",
+}
+`;
+
+exports[`agentDesktopReducer SET_ASSIGNED_CONTACT salesforce-classic crmModule adds the contact and sets contactAssignedNotification 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "mockInteraction1",
+      "contact": Immutable.Map {
+        "id": "mockContactId",
+        "attributes": Immutable.Map {
+          "name": "mockContactName",
+        },
+      },
+      "contactAssignedNotification": "contactWasAssigned",
+    },
+  ],
+  "crmModule": "salesforce-classic",
+}
+`;
+
+exports[`agentDesktopReducer SET_ASSIGNED_CONTACT salesforce-lightning crmModule adds the contact and sets contactAssignedNotification 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "mockInteraction1",
+      "contact": Immutable.Map {
+        "id": "mockContactId",
+        "attributes": Immutable.Map {
+          "name": "mockContactName",
+        },
+      },
+      "contactAssignedNotification": "contactWasAssigned",
+    },
+  ],
+  "crmModule": "salesforce-lightning",
 }
 `;
 
