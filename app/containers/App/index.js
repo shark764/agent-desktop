@@ -872,7 +872,6 @@ export class App extends React.Component {
                   response.interactionId
                 );
               }, 5000);
-              this.props.loadCrmInteractionHistory(contact.type, contact.id);
               break;
             } else {
               console.error(
@@ -939,7 +938,6 @@ export class App extends React.Component {
                   response.interactionId
                 );
               }, 5000);
-              this.props.loadCrmInteractionHistory(contact.type, contact.id);
               break;
             } else {
               console.error(

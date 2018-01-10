@@ -164,7 +164,11 @@ export class ActionsMenu extends React.Component {
                       ? messages.cancel
                       : messages.transfer
                   }
-                  onClick={this.toggleTransferMenu}
+                  onClick={
+                    this.state.showTransferMenu
+                      ? this.toggleSubMenu
+                      : this.toggleTransferMenu
+                  }
                 />
               )}
             {!this.state.showTransferMenu &&
@@ -176,7 +180,10 @@ export class ActionsMenu extends React.Component {
                   type={this.context.toolbarMode ? 'secondary' : button.type}
                   text={button.text}
                   icons={button.icons}
-                  onClick={button.onClick}
+                  onClick={() => {
+                    button.onClick();
+                    this.toggleSubMenu();
+                  }}
                   disabled={button.disabled}
                 />
               ))}

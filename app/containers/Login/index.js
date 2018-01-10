@@ -198,10 +198,11 @@ export class Login extends React.Component {
   }
 
   componentWillMount() {
-    if (storage.getItem('login_type') === CX_LOGIN) {
-      this.props.setDisplayState(CX_LOGIN);
-    } else if (storage.getItem('login_type') === SSO_LOGIN) {
+    if (storage.getItem('login_type') === SSO_LOGIN) {
+      window.location = '#sso';
       this.props.setDisplayState(SSO_LOGIN);
+    } else if (storage.getItem('login_type') === CX_LOGIN) {
+      this.props.setDisplayState(CX_LOGIN);
     }
   }
 
@@ -707,8 +708,6 @@ export class Login extends React.Component {
       pageContent = this.getLoggedInContent();
     } else if (this.props.displayState === FORGOT_PASSWORD) {
       pageContent = this.getForgotContent();
-    } else if (this.props.displayState === SSO_LOGIN) {
-      pageContent = this.getSingleSignOnContent();
     } else if (this.props.initiatedStandalonePopup) {
       pageContent = (
         <div style={styles.dialogContentContainer}>
@@ -723,6 +722,8 @@ export class Login extends React.Component {
           </div>
         </div>
       );
+    } else if (this.props.displayState === SSO_LOGIN) {
+      pageContent = this.getSingleSignOnContent();
     } else {
       pageContent = this.getLoginContent();
     }
@@ -738,6 +739,7 @@ export class Login extends React.Component {
         <div style={styles.toolbarBase}>
           {this.props.crmModule === 'none' &&
             !this.props.isStandalonePopup &&
+            window.location.hash.indexOf('standalonePopup') === -1 &&
             !this.props.initiatedStandalonePopup && (
               <div style={{ gridArea: 'standalonePopup' }}>
                 <div style={{ float: 'right', margin: '1em 1.4em 0 0' }}>

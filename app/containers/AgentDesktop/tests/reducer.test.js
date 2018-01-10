@@ -937,14 +937,25 @@ describe('agentDesktopReducer', () => {
     });
     describe('no crmModule (Desktop)', () => {
       it('adds the contact and sets contactMode to view', () => {
+        initialState.crmModule = 'none';
         runReducerAndExpectSnapshot();
       });
     });
     describe('zendesk crmModule', () => {
-      beforeEach(() => {
-        initialState.crmModule = 'zendesk';
-      });
       it('adds the contact and sets contactAssignedNotification', () => {
+        initialState.crmModule = 'zendesk';
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('salesforce-classic crmModule', () => {
+      it('adds the contact and sets contactAssignedNotification', () => {
+        initialState.crmModule = 'salesforce-classic';
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('salesforce-lightning crmModule', () => {
+      it('adds the contact and sets contactAssignedNotification', () => {
+        initialState.crmModule = 'salesforce-lightning';
         runReducerAndExpectSnapshot();
       });
     });
