@@ -1,3 +1,6 @@
+### [1.15.7] (2018-1-11)
+* SDK bump for CXV1-12010
+
 ### [1.15.6] (2018-1-10)
 * TechDebt , es6 syntax for easier imports of actions
 
