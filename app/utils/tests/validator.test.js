@@ -28,5 +28,14 @@ describe('validator', () => {
     it('returns false for invalid uuids', () => {
       expect(isUUID('9b3e4ddf-bb30-4ee3-912c-dfa7ab0fb7b11')).toEqual(false);
     });
+    it('returns false for undefined as a string', () => {
+      expect(isUUID('undefined')).toEqual(false);
+    });
+    it('returns false for undefined as a value', () => {
+      expect(isUUID(undefined)).toEqual(false);
+    });
+    it('returns false for null as a value', () => {
+      expect(isUUID(null)).toEqual(false);
+    });
   });
 });

@@ -16,4 +16,6 @@ export default [
   'cxengage/interactions/voice/resource-hold-acknowledged', // Just using cxengage/interactions/voice/resource-hold-received
   'cxengage/interactions/voice/resource-resume-acknowledged', // Just using cxengage/interactions/voice/resource-resume-received
   'cxengage/zendesk/search-and-pop-no-results-received', // Do nothing for this case
+  'cxengage/interactions/focus-acknowledged', // Do nothing for this case
+  'cxengage/interactions/unfocus-acknowledged', // Do nothing for this case
 ];

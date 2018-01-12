@@ -8,6 +8,8 @@ import createSagaMiddleware from 'redux-saga';
 import reducer from 'reducers';
 import rootSaga from 'sagas';
 import reduxErrorMiddleware from 'utils/reduxErrorMiddleware';
+import watch from 'redux-watch';
+import watchers from 'watchers';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -31,6 +33,15 @@ export default function configureStore(initialState = {}) {
     fromJS(initialState),
     composeEnhancers(...enhancers)
   );
+
+  watchers.forEach((watcher) => {
+    const watcherName = watch(() => store.getState().toJS(), watcher.statePath);
+    store.subscribe(
+      watcherName((newVal, oldVal) => {
+        watcher.watchAction(newVal, oldVal);
+      })
+    );
+  });
 
   sagaMiddleware.run(rootSaga);
 

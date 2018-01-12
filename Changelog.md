@@ -1,3 +1,6 @@
+### [1.15.8] (2018-1-12)
+* CXV1-12547 - interaction focus reporting time
+
 ### [1.15.7] (2018-1-11)
 * SDK bump for CXV1-12010
 
