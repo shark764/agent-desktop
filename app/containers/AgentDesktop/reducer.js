@@ -10,7 +10,9 @@
 
 import { fromJS, Map, List } from 'immutable';
 
-import Interaction, { activeContactFormBlank } from 'models/Interaction/Interaction';
+import Interaction, {
+  activeContactFormBlank,
+} from 'models/Interaction/Interaction';
 import Message from 'models/Message/Message';
 import ResponseMessage from 'models/Message/ResponseMessage';
 
@@ -1743,6 +1745,24 @@ function agentDesktopReducer(state = initialState, action) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
             interaction.set('emailReply', undefined)
+          )
+        );
+      } else {
+        return state;
+      }
+    }
+    case ACTIONS.EMAIL_CAN_SEND_REPLY: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (
+        interactionIndex !== -1 &&
+        state
+          .get('interactions')
+          .get(interactionIndex)
+          .get('channelType') === 'email'
+      ) {
+        return state.update('interactions', (interactions) =>
+          interactions.update(interactionIndex, (interaction) =>
+            interaction.set('canSendReply', true)
           )
         );
       } else {

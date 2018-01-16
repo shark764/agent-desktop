@@ -488,7 +488,7 @@ export class EmailContentArea extends React.Component {
   };
 
   emailWithImages = () => {
-    const emailDetails = this.props.selectedInteraction.emailDetails;
+    const { emailDetails } = this.props.selectedInteraction;
     let newEmailBody = this.props.selectedInteraction.emailHtmlBody;
     let srcStartIndex;
     let bodyAfter;
@@ -828,7 +828,9 @@ export class EmailContentArea extends React.Component {
             type: 'primaryBlue',
             text: messages.send,
             onClick: () => this.sendEmail(),
-            disabled: this.props.selectedInteraction.status !== 'work-accepted',
+            disabled:
+              this.props.selectedInteraction.status !== 'work-accepted' ||
+              this.props.selectedInteraction.canSendReply !== true,
           },
         ];
       } else if (this.props.selectedInteraction.status === 'wrapup') {
@@ -854,6 +856,7 @@ export class EmailContentArea extends React.Component {
             type: 'primaryBlue',
             text: messages.send,
             onClick: () => this.sendEmail(),
+            disabled: this.props.selectedInteraction.canSendReply !== true,
           },
         ];
       }

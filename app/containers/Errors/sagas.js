@@ -20,8 +20,8 @@ import { HANDLE_SDK_ERROR } from './constants';
 import { setCriticalError, setNonCriticalError } from './actions';
 
 export function* goHandleSDKError(action) {
-  const topic = action.topic;
-  const error = action.error;
+  const { topic } = action;
+  const { error } = action;
   let forceFatalInteraction;
   console.warn('SDK Error:', topic, error);
   if (error.code === 14000) {
@@ -33,7 +33,9 @@ export function* goHandleSDKError(action) {
     error.code === 12005 || // Failed to get capacity. Handled in TransferMenu.
     topic === 'cxengage/contacts/create-contact-response' || // Handled in ContactEdit
     topic === 'cxengage/contacts/update-contact-response' || // Handled in ContactEdit
-    topic === 'cxengage/contacts/merge-contacts-response' // Handled in ContactMerge
+    topic === 'cxengage/contacts/merge-contacts-response' || // Handled in ContactMerge
+    topic === 'cxengage/interactions/unfocus-acknowledged' || // Not needed to be shown to agent
+    topic === 'cxengage/interactions/unfocus-acknowledged' // Not needed to be shown to agent
   ) {
     return; // Do nothing. Error UI handled in their own components.
   } else if (error.code === 2005) {
