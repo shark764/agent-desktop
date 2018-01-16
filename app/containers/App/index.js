@@ -111,6 +111,7 @@ import {
   resumeMe,
   resourceRemoved,
   showRefreshRequired,
+  emailCanSendReply,
   emailAddAttachment,
   setQueues,
   setDispositionDetails,
@@ -800,6 +801,10 @@ export class App extends React.Component {
             });
             break;
           }
+          case 'cxengage/interactions/email/email-reply-artifact-created': {
+            this.props.emailCanSendReply(response.interactionId);
+            break;
+          }
           case 'cxengage/interactions/email/attachment-added': {
             this.props.emailAddAttachment(response.interactionId, {
               attachmentId: response.attachmentId,
@@ -1475,6 +1480,8 @@ function mapDispatchToProps(dispatch) {
     holdMe: (interactionId) => dispatch(holdMe(interactionId)),
     resumeMe: (interactionId) => dispatch(resumeMe(interactionId)),
     resourceRemoved: (response) => dispatch(resourceRemoved(response)),
+    emailCanSendReply: (interactionId) =>
+      dispatch(emailCanSendReply(interactionId)),
     emailAddAttachment: (interactionId, attachment) =>
       dispatch(emailAddAttachment(interactionId, attachment)),
     setAvailableStats: (stats, tenantId, userId) =>
@@ -1576,6 +1583,7 @@ App.propTypes = {
   holdMe: PropTypes.func.isRequired,
   resumeMe: PropTypes.func.isRequired,
   resourceRemoved: PropTypes.func.isRequired,
+  emailCanSendReply: PropTypes.func.isRequired,
   emailAddAttachment: PropTypes.func.isRequired,
   setAvailableStats: PropTypes.func.isRequired,
   statsReceived: PropTypes.func.isRequired,

@@ -3,6 +3,7 @@
  */
 
 export default [
+  'cxengage/interactions/email/artifact-received', // Do nothing for this case
   'cxengage/interactions/email/send-reply', // Just using work-ended
   'cxengage/interactions/voice/customer-transfer-acknowledged', // Just using cxengage/interactions/voice/transfer-connected
   'cxengage/interactions/voice/dial-send-acknowledged', // Just using cxengage/interactions/work-offer-received

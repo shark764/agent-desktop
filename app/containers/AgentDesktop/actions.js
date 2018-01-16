@@ -648,6 +648,13 @@ export function emailCreateReply(interactionId) {
   };
 }
 
+export function emailCanSendReply(interactionId) {
+  return {
+    type: ACTIONS.EMAIL_CAN_SEND_REPLY,
+    interactionId,
+  };
+}
+
 export function emailAddAttachment(interactionId, attachment) {
   return {
     type: ACTIONS.EMAIL_ADD_ATTACHMENT,
