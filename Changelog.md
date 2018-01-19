@@ -1,3 +1,6 @@
+### [1.15.11] (2018-1-19)
+* SDK bump for fix to CXV1-11510
+
 ### [1.15.10] (2018-1-16)
 * CXV1-10482 - Disable sending emails until artifact has been created
 
