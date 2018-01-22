@@ -23,6 +23,10 @@ if (pwd ==~ /.*_PR-.*/ ) { // Run if Pull Request
             pr_version = readFile('version')
             p.setDisplayName("${pr_version}")
           }
+          stage ('Test') {
+            sh 'npm install'
+            sh 'npm run test'
+          }
           stage ('Notify Success') { // Hipchat Success
             p.hipchatSuccess("${service}", "${pr_version}")
           }
