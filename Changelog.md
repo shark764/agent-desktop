@@ -1,3 +1,6 @@
+### [1.15.12] (2018-1-22)
+* Run tests for PRs
+
 ### [1.15.11] (2018-1-19)
 * SDK bump for fix to CXV1-11510
 
