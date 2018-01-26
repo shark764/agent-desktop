@@ -1,3 +1,6 @@
+### [1.15.14] (2018-1-26)
+* SDK bump for possible fix to CXV1-12715
+
 ### [1.15.13] (2018-1-26)
 * CXV1-10834 - Implement ability to select ALL tenants associated with an email address regardless of IDP and all necessary reauthentication behavior
 
