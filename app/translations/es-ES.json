@@ -195,6 +195,7 @@
   "app.containers.Login.selectButton": "Seleccionar",
   "app.containers.Login.selectTenant": "Seleccionar abonado...",
   "app.containers.Login.selectTenantMenu": "Seleccione un abonado",
+  "app.containers.Login.selectTenantReauthTitle": "",
   "app.containers.Login.signInButton": "Iniciar sesión",
   "app.containers.Login.ssoSignInDescription": "",
   "app.containers.Login.ssoSignInTitle": "",

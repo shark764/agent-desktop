@@ -12,6 +12,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+import { has, pick } from 'lodash';
+
+import signIn from 'assets/icons/fa_sign_in.png';
 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
@@ -38,7 +41,11 @@ import mitelFavicon from 'assets/favicons/mitel.png';
 import { mappedLocales } from 'i18n';
 import { changeLocale } from 'containers/LanguageProvider/actions';
 import { selectLocale } from 'containers/LanguageProvider/selectors';
-import { setNonCriticalError, dismissError } from 'containers/Errors/actions';
+import {
+  setNonCriticalError,
+  dismissError,
+  handleSDKError,
+} from 'containers/Errors/actions';
 import {
   requiredPermissions,
   crmPermissions,
@@ -54,11 +61,13 @@ import {
   setLoading,
   errorOccurred,
   loginSuccess,
+  setAccountTenants,
   resetPassword,
   setTenant,
   setDisplayState,
 } from './actions';
 import { CX_LOGIN, SSO_LOGIN, FORGOT_PASSWORD } from './constants';
+
 const storage = window.localStorage;
 
 const styles = {
@@ -178,6 +187,14 @@ const styles = {
       cursor: 'pointer',
     },
   },
+  reauthOption: {
+    backgroundColor: '#ccc',
+    backgroundImage: `url(${signIn})`,
+    backgroundPosition: '5%',
+    paddingLeft: '33px',
+    marginLeft: '2%',
+    borderBottom: '1px solid #000',
+  },
 };
 
 export class Login extends React.Component {
@@ -190,6 +207,9 @@ export class Login extends React.Component {
       ssoEmail: storage.getItem('ssoEmail') || '',
       rememberSsoEmail: storage.getItem('rememberSsoEmail') === 'true',
       forgotPasswordEmail: storage.getItem('email') || '',
+      savedTenant: storage.getItem('savedTenant')
+        ? JSON.parse(storage.getItem('savedTenant'))
+        : {},
       tenantId: '-1',
       tenantName: '',
       showLanguage: false,
@@ -237,7 +257,7 @@ export class Login extends React.Component {
                             cbTopic,
                             cbResponse
                           );
-                          this.loginCB(cbResponse, true);
+                          this.loginCB(cbResponse);
                         } else {
                           this.props.errorOccurred();
                         }
@@ -298,6 +318,8 @@ export class Login extends React.Component {
       {
         username: this.state.email.trim(),
         password: this.state.password,
+        // the ttl property is for testing token expiration behavior only
+        // ttl: 30,
       },
       (error, topic, response) => {
         if (!error) {
@@ -311,48 +333,85 @@ export class Login extends React.Component {
     );
   };
 
-  loginCB = (agent, sso = false) => {
-    this.props.loginSuccess(agent);
-    const activeTenants = agent.tenants.filter((tenant) => tenant.tenantActive);
-    if (activeTenants.length === 1) {
-      if (sso) {
-        this.props.setLoading(true);
+  loginCB = (agent) => {
+    CxEngage.session.getTenantDetails((error, topic, response) => {
+      if (!error) {
+        console.log(
+          '[Login] CxEngage.session.getTenantDetails()',
+          topic,
+          response
+        );
+        this.props.setAccountTenants(response.details);
+        const savedTenant = this.state.savedTenant;
+        const hasSavedTenant = Object.keys(savedTenant).length === 2;
+        const targetTenantData = hasSavedTenant
+          ? savedTenant
+          : response.details[0];
+        if (response.details.length === 1 || hasSavedTenant) {
+          this.setTenantId(targetTenantData.tenantId, targetTenantData.name);
+          this.onTenantSelect();
+          if (hasSavedTenant) {
+            storage.removeItem('savedTenant');
+          }
+        } else if (response.details.length === 0) {
+          this.props.setLoading(false);
+          this.props.setNonCriticalError({ code: 'AD-1005' });
+        } else {
+          this.setTenantId('-1', '');
+          this.props.setLoading(false);
+        }
+
+        if (this.state.rememberEmail) {
+          storage.setItem('email', this.state.email);
+        } else {
+          storage.setItem('email', '');
+        }
+        if (this.state.rememberSsoEmail) {
+          storage.setItem('ssoEmail', this.state.ssoEmail);
+        } else {
+          storage.setItem('ssoEmail', '');
+        }
       }
-      this.setTenantId(activeTenants[0].tenantId, activeTenants[0].tenantName);
-      this.onTenantSelect();
-    } else if (activeTenants.length === 0) {
-      this.props.setLoading(false);
-      this.props.setNonCriticalError({ code: 'AD-1005' });
-    } else {
-      this.props.setLoading(false);
-    }
-    if (this.state.rememberEmail) {
-      storage.setItem('email', this.state.email);
-    } else {
-      storage.setItem('email', '');
-    }
-    if (this.state.rememberSsoEmail) {
-      storage.setItem('ssoEmail', this.state.ssoEmail);
-    } else {
-      storage.setItem('ssoEmail', '');
-    }
+    });
+
+    this.props.loginSuccess(agent);
   };
 
   onTenantSelect = () => {
     if (this.state.tenantId !== '-1') {
-      const selectingTenant = this.props.agent.tenants.find(
+      const selectingTenant = this.props.agent.accountTenants.find(
         (tenant) => tenant.tenantId === this.state.tenantId
       );
+
+      // if this tenant is not available to use without reauth,
+      // store the tenant we will be logging into, and refresh the page
+      if (selectingTenant && this.requiresReauth(selectingTenant)) {
+        this.setRememberTenant(selectingTenant);
+
+        if (selectingTenant.password) {
+          this.showCxLogin();
+        } else {
+          this.showSsoLogin();
+        }
+
+        window.location.reload();
+        return;
+      }
+
+      const fullTenantData = this.props.agent.tenants.find(
+        (tenant) => tenant.tenantId === selectingTenant.tenantId
+      );
+
       if (
-        selectingTenant &&
-        selectingTenant.tenantPermissions &&
+        fullTenantData &&
+        fullTenantData.tenantPermissions &&
         requiredPermissions.every((permission) =>
-          selectingTenant.tenantPermissions.includes(permission)
+          fullTenantData.tenantPermissions.includes(permission)
         ) &&
         (this.context.toolbarMode ||
           (!this.context.toolbarMode &&
             crmPermissions.every((permission) =>
-              selectingTenant.tenantPermissions.includes(permission)
+              fullTenantData.tenantPermissions.includes(permission)
             )))
       ) {
         this.props.setLoading(true);
@@ -427,6 +486,13 @@ export class Login extends React.Component {
     storage.setItem('rememberSsoEmail', rememberSsoEmail);
   };
 
+  setRememberTenant = (savedTenant) => {
+    const filteredTenant = JSON.stringify(
+      pick(savedTenant, ['tenantId', 'name'])
+    );
+    storage.setItem('savedTenant', filteredTenant);
+  };
+
   setTenantId = (tenantId, tenantName) => {
     this.setState({ tenantId, tenantName });
   };
@@ -449,6 +515,63 @@ export class Login extends React.Component {
 
   showForgotPassword = () => {
     this.props.setDisplayState(FORGOT_PASSWORD);
+  };
+
+  requiresReauth = (currentTenant) => {
+    // if it is SSO
+    if (this.props.displayState === SSO_LOGIN) {
+      // make sure that this is one of the active tenants
+      const agentTenant = this.props.agent.tenants.find(
+        (tenant) => tenant.tenantId === currentTenant.tenantId
+      );
+      if (agentTenant) {
+        let tenantActiveBool;
+
+        if (typeof agentTenant.tenantActive !== 'boolean') {
+          // if we are searching through the accountTenants
+          // array (as opposed to the tenants array, then we won't have
+          // the tenantActive boolean property we need - so grab it!
+          const accountTenant = this.props.agent.accountTenants.find(
+            (tenant) => tenant.tenantId === agentTenant.tenantId
+          );
+
+          tenantActiveBool = accountTenant.tenantActive;
+        } else {
+          tenantActiveBool = agentTenant.tenantActive;
+        }
+
+        // if this is an active tenant, then no need to reauthenticate
+        if (tenantActiveBool) {
+          return false;
+        }
+
+        return true;
+      } else {
+        return true;
+      }
+    } else {
+      // if it's not SSO, then make sure that there is a password associated
+      // with both the selected tenant AND the one you're trying to navigate to
+      const targetTenant = this.props.agent.accountTenants.find(
+        (tenantObj) => tenantObj.tenantId === currentTenant.tenantId
+      );
+      return !(
+        targetTenant &&
+        !!targetTenant.password &&
+        !!this.state.password
+      );
+    }
+  };
+
+  setTenantOptionStyle = (currentTenant) => {
+    if (
+      has(this.props, 'agent.accountTenants') &&
+      this.requiresReauth(currentTenant)
+    ) {
+      return styles.reauthOption;
+    }
+
+    return undefined;
   };
 
   // Layout components
@@ -497,12 +620,23 @@ export class Login extends React.Component {
   );
 
   getLoggedInContent = () => {
-    const tenantOptions = this.props.agent.tenants
-      .filter((tenant) => tenant.tenantActive)
+    if (!has(this.props, 'agent.accountTenants')) {
+      return false;
+    }
+
+    // get everything but the selected item
+    const tenantOptions = this.props.agent.accountTenants
+      .filter((tenant) => tenant.active)
       .map((tenant) => ({
         value: tenant.tenantId,
-        label: tenant.tenantName,
+        label: tenant.name,
+        style: this.setTenantOptionStyle(tenant),
+        className: 'account-tenant',
+        title: this.requiresReauth(tenant)
+          ? this.props.intl.formatMessage(messages.authRequired)
+          : '',
       }));
+
     return (
       <div id="TSContainerDiv" style={styles.dialogContentContainer}>
         <Logo style={styles.logo} />
@@ -702,8 +836,8 @@ export class Login extends React.Component {
       pageContent = this.getLoadingContent();
     } else if (
       this.props.logged_in &&
-      this.props.agent &&
-      this.props.agent.tenants.length > 1
+      has(this.props, 'agent.accountTenants') &&
+      this.props.agent.accountTenants.length
     ) {
       pageContent = this.getLoggedInContent();
     } else if (this.props.displayState === FORGOT_PASSWORD) {
@@ -792,12 +926,14 @@ function mapDispatchToProps(dispatch) {
     resetPassword: (email) => dispatch(resetPassword(email)),
     setLoading: (loading) => dispatch(setLoading(loading)),
     loginSuccess: (agent) => dispatch(loginSuccess(agent)),
+    setAccountTenants: (tenants) => dispatch(setAccountTenants(tenants)),
     errorOccurred: () => dispatch(errorOccurred()),
     setTenant: (id, name) => dispatch(setTenant(id, name)),
     setDisplayState: (displayState) => dispatch(setDisplayState(displayState)),
     changeLocale: (locale) => dispatch(changeLocale(locale)),
     setNonCriticalError: (error) => dispatch(setNonCriticalError(error)),
     dismissError: () => dispatch(dismissError()),
+    handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
     dispatch,
   };
 }
@@ -808,11 +944,13 @@ Login.propTypes = {
   resetPassword: PropTypes.func.isRequired,
   setLoading: PropTypes.func.isRequired,
   loginSuccess: PropTypes.func.isRequired,
+  setAccountTenants: PropTypes.func.isRequired,
   errorOccurred: PropTypes.func.isRequired,
   setTenant: PropTypes.func.isRequired,
   setDisplayState: PropTypes.func.isRequired,
   setNonCriticalError: PropTypes.func.isRequired,
   dismissError: PropTypes.func.isRequired,
+  handleSDKError: PropTypes.func.isRequired,
   displayState: PropTypes.string,
   loading: PropTypes.bool,
   logged_in: PropTypes.bool,

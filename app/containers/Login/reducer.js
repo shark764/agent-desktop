@@ -38,6 +38,8 @@ function loginReducer(state = initialState, action) {
       return state.set('loading', false);
     case ACTIONS.LOGIN_SUCCESS:
       return state.set('agent', fromJS(action.agent)).set('logged_in', true);
+    case ACTIONS.SET_ACCOUNT_TENANTS:
+      return state.setIn(['agent', 'accountTenants'], action.tenants);
     case ACTIONS.SET_TENANT:
       return state.set('tenant', fromJS({ id: action.id, name: action.name }));
     case ACTIONS.SHOW_LOGIN:
