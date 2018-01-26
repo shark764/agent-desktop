@@ -85,6 +85,10 @@ export default defineMessages({
     id: 'app.containers.Login.selectTenant',
     defaultMessage: 'Select Tenant...',
   },
+  authRequired: {
+    id: 'app.containers.Login.selectTenantReauthTitle',
+    defaultMessage: 'Authentication is required to switch to this tenant',
+  },
   copyright: {
     id: 'app.containers.Login.copyright',
     defaultMessage:

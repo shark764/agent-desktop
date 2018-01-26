@@ -195,6 +195,7 @@
   "app.containers.Login.selectButton": "Wybierz",
   "app.containers.Login.selectTenant": "Wybierz dzierżawcę...",
   "app.containers.Login.selectTenantMenu": "Wybierz dzierżawcę",
+  "app.containers.Login.selectTenantReauthTitle": "",
   "app.containers.Login.signInButton": "Zaloguj się",
   "app.containers.Login.ssoSignInDescription": "",
   "app.containers.Login.ssoSignInTitle": "",

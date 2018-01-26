@@ -13,6 +13,7 @@ export const SET_INITIATED_STANDALONE_POPUP =
 export const SET_LOADING = 'app/Login/SET_LOADING';
 export const ERROR_OCCURRED = 'app/Login/ERROR_OCCURRED';
 export const LOGIN_SUCCESS = 'app/Login/LOGIN_SUCCESS';
+export const SET_ACCOUNT_TENANTS = 'app/Login/SET_ACCOUNT_TENANTS';
 export const INIT_SDK = 'app/Login/INIT_SDK';
 export const RESET_PASSWORD = 'app/Login/RESET_PASSWORD';
 export const SHOW_LOGIN = 'app/Login/SHOW_LOGIN';

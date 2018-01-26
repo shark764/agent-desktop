@@ -36,6 +36,13 @@ export function loginSuccess(agent) {
   };
 }
 
+export function setAccountTenants(tenants) {
+  return {
+    type: ACTIONS.SET_ACCOUNT_TENANTS,
+    tenants,
+  };
+}
+
 export function setTenant(id, name) {
   return {
     type: ACTIONS.SET_TENANT,
