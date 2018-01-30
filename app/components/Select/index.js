@@ -9,10 +9,12 @@
  */
 
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import TetheredSelect from 'components/TetheredSelect';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import './react-select.css';
+import messages from './messages';
 
 const styles = {
   base: {
@@ -33,10 +35,19 @@ function Select(props) {
         name="form-field-name"
         value={props.value}
         options={props.options}
+        noResultsText={
+          props.noResultsText || (
+            <FormattedMessage {...messages.noResultsText} />
+          )
+        }
         autoFocus={props.autoFocus}
         clearable={props.clearable}
         backspaceRemoves={props.backspaceRemoves}
-        placeholder={props.placeholder || 'Select...'}
+        placeholder={
+          props.placeholder || (
+            <FormattedMessage {...messages.selectPlaceholder} />
+          )
+        }
         tabIndex="0"
       />
     </div>
@@ -48,6 +59,7 @@ Select.propTypes = {
   onChange: PropTypes.func,
   options: PropTypes.array,
   value: PropTypes.string,
+  noResultsText: PropTypes.object,
   autoFocus: PropTypes.bool,
   id: PropTypes.string.isRequired,
   clearable: PropTypes.bool,

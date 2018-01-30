@@ -229,6 +229,8 @@
   "app.containers.PhoneControls.rec": "ENR",
   "app.containers.PhoneControls.recording": "Enregistrement",
   "app.containers.PhoneControls.resume": "Reprendre",
+  "app.containers.Select.noResultsText": "",
+  "app.containers.Select.selectPlaceholder": "",
   "app.containers.SidePanel.editing": "Modification de l'enregistrement client",
   "app.containers.SidePanel.historyTab": "Historique",
   "app.containers.SidePanel.infoTab": "Informations",

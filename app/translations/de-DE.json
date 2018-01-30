@@ -229,6 +229,8 @@
   "app.containers.PhoneControls.rec": "REC",
   "app.containers.PhoneControls.recording": "Aufnahme",
   "app.containers.PhoneControls.resume": "Fortsetzen",
+  "app.containers.Select.noResultsText": "",
+  "app.containers.Select.selectPlaceholder": "",
   "app.containers.SidePanel.editing": "Kundendatensatz wird bearbeitet",
   "app.containers.SidePanel.historyTab": "Verlauf",
   "app.containers.SidePanel.infoTab": "Info",

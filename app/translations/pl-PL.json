@@ -229,6 +229,8 @@
   "app.containers.PhoneControls.rec": "NAG",
   "app.containers.PhoneControls.recording": "Rejestracja",
   "app.containers.PhoneControls.resume": "Kontynuuj",
+  "app.containers.Select.noResultsText": "",
+  "app.containers.Select.selectPlaceholder": "",
   "app.containers.SidePanel.editing": "Edytowanie rekordu klienta",
   "app.containers.SidePanel.historyTab": "Historia",
   "app.containers.SidePanel.infoTab": "Informacja",
