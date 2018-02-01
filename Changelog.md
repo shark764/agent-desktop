@@ -1,3 +1,6 @@
+### [1.15.16] (2018-2-1)
+* CXV1-11646 - Updated the noResultsText, for when there is no data to display in Select elements, and the placeholder for them as well, and to bring the information from translation files, using the react-select built-in options.
+
 ### [1.15.15] (2018-02-01)
 * SDK bump for CXV1-12750
 

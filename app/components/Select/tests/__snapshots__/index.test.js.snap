@@ -30,14 +30,26 @@ exports[`<Select /> should render correctly 1`] = `
     menuRenderer={[Function]}
     multi={false}
     name="form-field-name"
-    noResultsText="No results found"
+    noResultsText={
+      <FormattedMessage
+        defaultMessage="No results found"
+        id="app.containers.Select.noResultsText"
+        values={Object {}}
+      />
+    }
     onBlurResetsInput={true}
     onCloseResetsInput={true}
     onSelectResetsInput={true}
     openOnClick={true}
     optionComponent={[Function]}
     pageSize={5}
-    placeholder="Select..."
+    placeholder={
+      <FormattedMessage
+        defaultMessage="Select..."
+        id="app.containers.Select.selectPlaceholder"
+        values={Object {}}
+      />
+    }
     removeSelected={true}
     required={false}
     rtl={false}

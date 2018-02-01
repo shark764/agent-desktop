@@ -229,6 +229,8 @@
   "app.containers.PhoneControls.rec": "GRAVAR",
   "app.containers.PhoneControls.recording": "Gravando",
   "app.containers.PhoneControls.resume": "Retomar",
+  "app.containers.Select.noResultsText": "",
+  "app.containers.Select.selectPlaceholder": "",
   "app.containers.SidePanel.editing": "Editar registro de cliente",
   "app.containers.SidePanel.historyTab": "Histórico",
   "app.containers.SidePanel.infoTab": "Informações",
