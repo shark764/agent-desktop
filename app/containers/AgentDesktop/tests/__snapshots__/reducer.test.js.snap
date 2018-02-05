@@ -51,6 +51,66 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer ADD_INTERACTION adding an inbound interaction when outbound interactions exist adds it. doesn't affect outbound interaction. 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "other-interaction-id",
+      "channelType": "email",
+      "direction": "outbound",
+      "contact": Immutable.Map {
+        "id": "test-contact-id",
+      },
+      "contactMode": "view",
+      "isSidePanelCollapsed": false,
+    },
+    Immutable.Map {
+      "timeout": NaN,
+      "warmTransfers": Immutable.List [],
+      "contactMode": "search",
+      "selectedSidePanelTab": "info",
+      "query": Immutable.Map {},
+      "dispositionDetails": Immutable.Map {
+        "forceSelect": false,
+        "dispositions": Immutable.List [],
+        "categories": Immutable.List [],
+        "selected": Immutable.List [],
+      },
+      "autoAnswer": undefined,
+      "interactionId": "test-interaction-id",
+      "customFieldsCollapsed": true,
+      "note": Immutable.Map {
+        "body": "",
+        "title": "",
+        "notesPanelHeight": 300,
+      },
+      "status": "work-offer",
+      "isSidePanelCollapsed": true,
+      "wrapupDetails": Immutable.Map {
+        "wrapupUpdateAllowed": false,
+        "wrapupEnabled": false,
+      },
+      "channelType": "email",
+      "activeContactForm": Immutable.Map {
+        "contactForm": Immutable.Map {},
+        "formIsDirty": false,
+        "selectedIndexes": Immutable.Map {},
+        "showErrors": Immutable.Map {},
+        "editingContacts": Immutable.List [],
+        "formIsValid": false,
+        "unusedFields": Immutable.Map {},
+        "formErrors": Immutable.Map {},
+        "saveLoading": false,
+      },
+      "customer": undefined,
+      "direction": "inbound",
+    },
+  ],
+  "selectedInteractionId": undefined,
+  "isInteractionsBarCollapsed": false,
+}
+`;
+
 exports[`agentDesktopReducer ADD_INTERACTION adding an outbound email interaction is ignored 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [],
