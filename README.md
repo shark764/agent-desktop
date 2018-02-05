@@ -2,18 +2,15 @@
 A single screen web app built in React for handling inbound and outbound interactions across multiple channels, with integrated CRM functionality.
 
 ## Quick start
+1. Fork this repo using GitHub or clone by using `git clone git@github.com:liveops/agent-desktop.git`
+2. run `npm install` to get your dependencies
+3. run `npm start` to start a development instance
 
-1. Clone this repo using `git clone git@github.com:liveops/agent-desktop.git`
-2. install yarn globally `npm -g install yarn`
-3. `cd agent-desktop`
-4. run `yarn`
-5. run `npm start`
+## Desktop mode
+- Add "desktop" to your URL to use desktop mode (ex. http://localhost:3000/desktop)
 
-Now you're ready to rumble!
-
-## Toolbar mode
-- Add "tb2" to your URL to use toolbar mode (ex. http://localhost:3000/tb2)
-- To force the dimensions of the toolbar to 400x800 and 800x800, add "#forceToolbarDimensions" to the URL (ex. http://localhost:3000/tb2#forceToolbarDimensions)
+## CRM integrations
+- To use in a CRM integration, include "crmModule=your-crm-module" in the URL (ex. http://localhost:3000?crmModule=salesforce-classic)
 
 ## Documentation
 

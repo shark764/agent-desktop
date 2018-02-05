@@ -1,3 +1,7 @@
+### [1.15.19] (2018-02-05)
+* SDK bump for CXV1-12834, CXV1-11915, and CXV1-12707
+* README update
+
 ### [1.15.18] (2018-02-05)
 * CXV1-12658 - Fix logic around adding inbound interactions
 
