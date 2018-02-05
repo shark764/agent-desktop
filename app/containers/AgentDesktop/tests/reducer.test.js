@@ -423,6 +423,25 @@ describe('agentDesktopReducer', () => {
         runReducerAndExpectSnapshot();
       });
     });
+    describe('adding an inbound interaction when outbound interactions exist', () => {
+      beforeEach(() => {
+        action.response.channelType = 'email';
+        action.response.direction = 'inbound';
+        initialState.interactions = [
+          {
+            interactionId: 'other-interaction-id',
+            channelType: 'email',
+            direction: 'outbound',
+            contact: { id: 'test-contact-id' },
+            contactMode: 'view',
+            isSidePanelCollapsed: false,
+          },
+        ];
+      });
+      it("adds it. doesn't affect outbound interaction.", () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
     describe('adding an outbound voice interaction with new attributes', () => {
       beforeEach(() => {
         action.response.channelType = 'voice';

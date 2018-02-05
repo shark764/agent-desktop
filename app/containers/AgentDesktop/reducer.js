@@ -749,11 +749,11 @@ function agentDesktopReducer(state = initialState, action) {
           .get('interactions')
           .findIndex(
             (interaction) =>
-              (interaction.get('direction') === 'outbound' &&
+              interaction.get('interactionId') ===
+                action.response.interactionId &&
+              ((interaction.get('direction') === 'outbound' &&
                 interaction.get('channelType') ===
                   action.response.channelType) ||
-              (interaction.get('interactionId') ===
-                action.response.interactionId &&
                 interaction.get('status') === 'script-only')
           );
         let interactionToAdd = new Map(new Interaction(action.response));
