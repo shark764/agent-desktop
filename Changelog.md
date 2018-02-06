@@ -1,3 +1,7 @@
+### [1.15.20] (2018-02-06)
+* CXV1-12830 - Fixed display of work items (salesforce cases) with undefined subject
+* CXV1-12749 - Fix timer for work items
+
 ### [1.15.19] (2018-02-05)
 * SDK bump for CXV1-12834, CXV1-11915, and CXV1-12707
 * README update

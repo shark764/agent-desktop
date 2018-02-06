@@ -12,6 +12,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+import { injectIntl, intlShape } from 'react-intl';
 import has from 'lodash/has';
 
 import ErrorBoundary from 'components/ErrorBoundary';
@@ -42,7 +43,11 @@ export function WorkItemContentArea(props) {
     has(props.selectedInteraction, 'contact.attributes.name')
       ? `${props.selectedInteraction.contact.attributes.name} - `
       : ''
-  }${props.selectedInteraction.subject}`;
+  }${
+    props.selectedInteraction.subject
+      ? props.selectedInteraction.subject
+      : `(${props.intl.formatMessage(messages.noSubject)})`
+  }`;
 
   const details = props.selectedInteraction.customFields && <CustomFields />;
 
@@ -85,11 +90,12 @@ const mapStateToProps = (state, props) => ({
 });
 
 WorkItemContentArea.propTypes = {
+  intl: intlShape.isRequired,
   selectedInteraction: PropTypes.object.isRequired,
   endInteraction: PropTypes.func.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps)(Radium(WorkItemContentArea))
+  injectIntl(connect(mapStateToProps)(Radium(WorkItemContentArea)))
 );
