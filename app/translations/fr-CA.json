@@ -264,5 +264,6 @@
   "app.containers.WelcomeStats.workAcceptedCount": "Interactions quotidiennes",
   "app.containers.WorkItemContentArea.end": "",
   "app.containers.WorkItemContentArea.endWrapup": "",
+  "app.containers.WorkItemContentArea.noSubject": "",
   "app.containers.WrapUpToggle.wrapup": ""
 }

@@ -284,10 +284,18 @@ export class Interaction extends React.Component {
           case 'sms':
           case 'messaging':
           case 'email':
+          case 'work-item':
             return <TimerMinutes seconds={this.state.ageSeconds} />;
           case 'voice':
-          default:
             return <Timer timeSince={this.props.interaction.timeAccepted} />;
+          default: {
+            console.error(
+              `Channel type timer not handled for: ${
+                this.props.interaction.channelType
+              }`
+            );
+            return '';
+          }
         }
     }
   };
