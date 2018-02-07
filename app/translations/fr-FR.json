@@ -190,6 +190,7 @@
   "app.containers.Login.legal": "L'accès à ce site nécessite une autorisation distincte de Serenova, LLC. Ce site contient des informations confidentielles et peut également comporter du contenu et autoriser l'interaction avec les utilisateurs de sites tiers, soumis à des conditions différentes sur lesquelles Serenova n'exerce aucun contrôle. En utilisant ou en accédant à ce site, vous acceptez les conditions d'utilisation telles que décrites dans le Contrat cadre de services (« Contrat »). Vous pouvez demander une copie dudit Contrat à votre contact Serenova.",
   "app.containers.Login.nextButton": "",
   "app.containers.Login.password": "Mot de passe",
+  "app.containers.Login.privacy": "",
   "app.containers.Login.rememberMe": "Se souvenir de moi",
   "app.containers.Login.return2Login": "",
   "app.containers.Login.selectButton": "Sélectionner",
