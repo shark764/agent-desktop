@@ -5,13 +5,31 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Timer from '../index';
+import { Timer } from '../index';
 
 describe('<Timer />', () => {
-  it('should render correctly', () => {
-    const rendered = shallow(<Timer id="mockId" />);
-    const props = rendered.props();
-    props.timer.timestamp = 0;
-    expect(rendered).toMatchSnapshot();
+  describe('timeSince is defined', () => {
+    const timer = shallow(
+      <Timer timeSince={-60000} timer={{ timestamp: 0 }} />
+    );
+    it('uses the difference of the timer', () => {
+      expect(timer).toMatchSnapshot();
+    });
+  });
+
+  describe('timeSince is not defined', () => {
+    const timer = shallow(<Timer timer={{ tick: 5 }} />);
+    it('uses the tick from the timer', () => {
+      expect(timer).toMatchSnapshot();
+    });
+  });
+
+  describe('format and style passed in', () => {
+    const timer = shallow(
+      <Timer format="mm:ss" timer={{ tick: 5 }} style={{ float: 'right' }} />
+    );
+    it('is used to format the time and style the component', () => {
+      expect(timer).toMatchSnapshot();
+    });
   });
 });

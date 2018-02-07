@@ -1,3 +1,6 @@
+### [1.15.21] (2018-02-07)
+* CXV1-12848 - Fix non-voice timer being reset on interaction bar collapse
+
 ### [1.15.20] (2018-02-06)
 * CXV1-12830 - Fixed display of work items (salesforce cases) with undefined subject
 * CXV1-12749 - Fix timer for work items

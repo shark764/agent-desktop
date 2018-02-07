@@ -811,6 +811,7 @@ Immutable.Map {
     Immutable.Map {
       "interactionId": "test-interaction-id",
       "status": "work-accepting",
+      "timeAccepted": 0,
     },
   ],
   "selectedInteractionId": "test-interaction-id",

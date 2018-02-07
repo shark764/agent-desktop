@@ -507,10 +507,7 @@ function agentDesktopReducer(state = initialState, action) {
               'status',
               action.newStatus
             );
-            if (
-              action.newStatus === 'work-accepting' &&
-              interaction.get('channelType') === 'voice'
-            ) {
+            if (action.newStatus === 'work-accepting') {
               updatedInteraction = updatedInteraction.set(
                 'timeAccepted',
                 Date.now()

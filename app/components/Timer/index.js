@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 import timer from 'react-timer-hoc';
 import moment from 'moment';
 
-function Timer(props) {
-  let format = props.format;
+export function Timer(props) {
+  let { format } = props;
   if (!props.format) {
     format = 'HH:mm:ss';
   }
@@ -33,7 +33,7 @@ function Timer(props) {
 }
 
 Timer.propTypes = {
-  timer: PropTypes.object,
+  timer: PropTypes.object.isRequired,
   timeSince: PropTypes.number,
   format: PropTypes.string,
   style: PropTypes.object,
