@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<TimerMinutes /> if seconds equal hour should render correctly 1`] = `
+exports[`<TimerMinutes /> timeSince difference greater than an hour should render in hours "h" 1`] = `
 <span>
-  1
+  2
   <FormattedMessage
     defaultMessage="h"
     id="app.components.TimerMinutes.hours"
@@ -11,22 +11,22 @@ exports[`<TimerMinutes /> if seconds equal hour should render correctly 1`] = `
 </span>
 `;
 
-exports[`<TimerMinutes /> if seconds equal minute should render correctly 1`] = `
+exports[`<TimerMinutes /> timeSince difference less than a minute should render "Just now" 1`] = `
 <span>
-  1
   <FormattedMessage
-    defaultMessage="m"
-    id="app.components.TimerMinutes.minutes"
+    defaultMessage="Just Now"
+    id="app.components.TimerMinutes.justNow"
     values={Object {}}
   />
 </span>
 `;
 
-exports[`<TimerMinutes /> if seconds less than minute should render correctly 1`] = `
+exports[`<TimerMinutes /> timeSince difference less than an hour should render in minutes "m" 1`] = `
 <span>
+  2
   <FormattedMessage
-    defaultMessage="Just Now"
-    id="app.components.TimerMinutes.justNow"
+    defaultMessage="m"
+    id="app.components.TimerMinutes.minutes"
     values={Object {}}
   />
 </span>

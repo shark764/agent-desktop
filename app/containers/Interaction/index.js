@@ -285,7 +285,9 @@ export class Interaction extends React.Component {
           case 'messaging':
           case 'email':
           case 'work-item':
-            return <TimerMinutes seconds={this.state.ageSeconds} />;
+            return (
+              <TimerMinutes timeSince={this.props.interaction.timeAccepted} />
+            );
           case 'voice':
             return <Timer timeSince={this.props.interaction.timeAccepted} />;
           default: {

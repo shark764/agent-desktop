@@ -1,17 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Timer /> should render correctly 1`] = `
-<Timer
-  id="mockId"
-  timer={
+exports[`<Timer /> format and style passed in is used to format the time and style the component 1`] = `
+<span
+  style={
     Object {
-      "delay": 1000,
-      "resume": [Function],
-      "setDelay": [Function],
-      "stop": [Function],
-      "tick": 0,
-      "timestamp": 0,
+      "float": "right",
     }
   }
-/>
+>
+  00:05
+</span>
+`;
+
+exports[`<Timer /> timeSince is defined uses the difference of the timer 1`] = `
+<span>
+  00:01:00
+</span>
+`;
+
+exports[`<Timer /> timeSince is not defined uses the tick from the timer 1`] = `
+<span>
+  00:00:05
+</span>
 `;
