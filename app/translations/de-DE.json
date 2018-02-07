@@ -190,6 +190,7 @@
   "app.containers.Login.legal": "Für den Zugriff auf diese Seite ist eine gesonderte Genehmigung durch Serenova, LLC erforderlich. Diese Seite enthält vertrauliche Informationen und kann Inhalte von Seiten Dritter enthalten sowie Interaktionen mit Benutzern von Seiten Dritter ermöglichen, die unterschiedlichen Geschäftsbedingungen unterliegen, welche außerhalb der Kontrolle von Serenova liegen. Bei Zugriff auf diese Seite stimmen Sie den Nutzungsbedingungen wie im Dienstleistungsrahmenvertrag („Vertrag“) beschrieben zu. Eine Kopie dieses Vertrags ist auf Anfrage bei Ihrem Serenova-Ansprechpartner erhältlich.",
   "app.containers.Login.nextButton": "",
   "app.containers.Login.password": "Kennwort",
+  "app.containers.Login.privacy": "",
   "app.containers.Login.rememberMe": "Anmeldeinformationen speichern",
   "app.containers.Login.return2Login": "",
   "app.containers.Login.selectButton": "Auswählen",

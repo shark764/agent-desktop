@@ -190,6 +190,7 @@
   "app.containers.Login.legal": "Para acceder a este sitio se requiere un permiso aparte de Serenova, LLC. Este sitio contiene información confidencial y también puede incluir contenido y permitir la interacción con usuarios de sitios de terceros sujetos a otras condiciones que escapan al control de Serenova. Al utilizar o acceder a este sitio, ha aceptado las Condiciones de servicio definidas en el Contrato de servicio marco (\"Contrato\"). Su contacto de Serenova le facilitará una copia de este Contrato.",
   "app.containers.Login.nextButton": "",
   "app.containers.Login.password": "Contraseña",
+  "app.containers.Login.privacy": "",
   "app.containers.Login.rememberMe": "Recordarme",
   "app.containers.Login.return2Login": "",
   "app.containers.Login.selectButton": "Seleccionar",

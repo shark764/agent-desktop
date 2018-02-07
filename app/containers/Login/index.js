@@ -77,9 +77,9 @@ const styles = {
     gridTemplateColumns: '1fr 1fr 550px 1fr 1fr',
     gridTemplateRows: '1fr 540px 1fr',
     gridTemplateAreas: `
-      "    .      .        .       .       . "
-      "    .      .      main      .       . "
-      " locale  legal    legal   legal     . "
+      "    .      .        .       .       .    "
+      "    .      .      main      .       .    "
+      " locale  legal    legal   legal  privacy "
     `,
     backgroundColor: '#072931',
     fontSize: '16px',
@@ -112,9 +112,9 @@ const styles = {
     display: 'grid',
     gridTemplateRows: '1fr 540px 1fr',
     gridTemplateAreas: `
-      " standalonePopup "
-      "      main       "
-      "     locale      "
+      " standalonePopup standalonePopup standalonePopup "
+      "      main            main            main       "
+      "     locale             .            privacy     "
     `,
     backgroundColor: '#FFFFFF',
   },
@@ -186,6 +186,18 @@ const styles = {
       textShadow: '0px 1px 1px #ccc',
       cursor: 'pointer',
     },
+  },
+  privacy: {
+    gridArea: 'privacy',
+    margin: '0 15px 15px 0',
+    textAlign: 'right',
+    alignSelf: 'end',
+  },
+  privacyLink: {
+    color: '#FFFFFF',
+  },
+  privacyLinkToolbar: {
+    color: '#494949',
   },
   reauthOption: {
     backgroundColor: '#ccc',
@@ -342,7 +354,7 @@ export class Login extends React.Component {
           response
         );
         this.props.setAccountTenants(response.details);
-        const savedTenant = this.state.savedTenant;
+        const { savedTenant } = this.state;
         const hasSavedTenant = Object.keys(savedTenant).length === 2;
         const targetTenantData = hasSavedTenant
           ? savedTenant
@@ -892,6 +904,15 @@ export class Login extends React.Component {
             )}
           <div style={styles.content}>{pageContent}</div>
           {!this.props.initiatedStandalonePopup && this.getLanguageSelect()}
+          <div style={styles.privacy}>
+            <a
+              target="_blank"
+              href="https://www.serenova.com/privacy"
+              style={styles.privacyLinkToolbar}
+            >
+              <FormattedMessage {...messages.privacy} />
+            </a>
+          </div>
         </div>
       );
     } else {
@@ -906,6 +927,15 @@ export class Login extends React.Component {
             <div style={styles.legalText} id="serenova_legal">
               <FormattedMessage {...messages.legal} />
             </div>
+          </div>
+          <div style={styles.privacy}>
+            <a
+              target="_blank"
+              href="https://www.serenova.com/privacy"
+              style={styles.privacyLink}
+            >
+              <FormattedMessage {...messages.privacy} />
+            </a>
           </div>
         </div>
       );

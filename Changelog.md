@@ -1,3 +1,6 @@
+### [1.15.22] (2018-02-07)
+* CXV1-12853 - Privacy policy link added to login page
+
 ### [1.15.21] (2018-02-07)
 * CXV1-12848 - Fix non-voice timer being reset on interaction bar collapse
 
