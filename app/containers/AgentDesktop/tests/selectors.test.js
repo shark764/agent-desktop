@@ -15,7 +15,42 @@ import {
   selectNextInteraction,
   selectPreviousInteraction,
   selectHasUnrespondedInteractions,
+  areInteractionsInWrapup,
 } from '../selectors';
+
+describe('areInteractionsInWrapup ', () => {
+  it('should return true if any interaction is in wrapup', () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: [
+          {
+            status: 'wrapup',
+          },
+          {
+            status: 'not wrapup',
+          },
+        ],
+      },
+    });
+    expect(areInteractionsInWrapup(mockedState)).toEqual(true);
+  });
+
+  it('should return false if no interactions are in wrapup', () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: [
+          {
+            status: 'not wrapup',
+          },
+          {
+            status: 'not wrapup',
+          },
+        ],
+      },
+    });
+    expect(areInteractionsInWrapup(mockedState)).toEqual(false);
+  });
+});
 
 describe('selectInteractionsList', () => {
   it('should select interactions on the AgentDesktop domain', () => {

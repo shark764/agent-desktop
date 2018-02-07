@@ -54,6 +54,7 @@ import {
   selectCrmModule,
   selectExpandWindowForCrm,
   selectHasUnrespondedInteractions,
+  areInteractionsInWrapup,
 } from './selectors';
 
 import {
@@ -294,6 +295,7 @@ export class AgentDesktop extends React.Component {
                     hasUnrespondedInteractions={
                       this.props.selectHasUnrespondedInteractions
                     }
+                    isOnWrapUp={this.props.areInteractionsInWrapup}
                   />
                 )}
               <MainContentArea
@@ -356,6 +358,7 @@ const mapStateToProps = (state, props) => ({
   selectedInteractionHasAssignedContact: getHasAssignedContact(state, props),
   expandWindowForCrm: selectExpandWindowForCrm(state, props),
   activeExtension: selectActiveExtension(state, props),
+  areInteractionsInWrapup: areInteractionsInWrapup(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -396,6 +399,7 @@ AgentDesktop.propTypes = {
   openNewInteractionPanel: PropTypes.func.isRequired,
   selectHasUnrespondedInteractions: PropTypes.bool.isRequired,
   activeExtension: PropTypes.object,
+  areInteractionsInWrapup: PropTypes.bool,
 };
 
 AgentDesktop.contextTypes = {

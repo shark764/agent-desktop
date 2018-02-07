@@ -52,7 +52,8 @@ function CollapseInteractionsButton(props) {
   return (
     <div
       className={
-        props.isCollapsed && props.hasUnrespondedInteractions
+        props.isCollapsed &&
+        (props.hasUnrespondedInteractions || props.isOnWrapUp)
           ? 'pendingInteraction'
           : 'interactionNotPending'
       }
@@ -71,6 +72,7 @@ CollapseInteractionsButton.propTypes = {
   isCollapsed: PropTypes.bool.isRequired,
   toggleInteractionsBar: PropTypes.func.isRequired,
   hasUnrespondedInteractions: PropTypes.bool,
+  isOnWrapUp: PropTypes.bool,
 };
 
 export default Radium(CollapseInteractionsButton);
