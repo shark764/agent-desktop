@@ -250,6 +250,17 @@ const selectExpandWindowForCrm = createSelector(
       interaction.contact !== undefined)
 );
 
+const areInteractionsInWrapup = createSelector(
+  [selectInteractionsList, getSelectedInteractionId],
+  (interactions) => {
+    const interactionArrayWrapup = interactions.toJS();
+    const wasFoundWrapup = interactionArrayWrapup.findIndex(
+      (interaction) => interaction.status === 'wrapup'
+    );
+    return wasFoundWrapup >= 0;
+  }
+);
+
 export {
   selectAgentId,
   selectIsAgentReady,
@@ -276,4 +287,5 @@ export {
   selectPreviousInteraction,
   selectNextInteraction,
   selectHasUnrespondedInteractions,
+  areInteractionsInWrapup,
 };

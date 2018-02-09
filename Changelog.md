@@ -1,3 +1,7 @@
+### [1.15.23] (2018-02-07)
+* CXV1-11624 - Clicking Hold Button in TB2 makes Global Phone Controls Bar Slightly Move
+* CXV1-12271 - Toolbar 2.0 - let the Agents know clearly that they are in wrapup mode
+
 ### [1.15.22] (2018-02-07)
 * CXV1-12853 - Privacy policy link added to login page
 

@@ -147,7 +147,7 @@ export class PhoneControlsActive extends React.Component {
       position: 'relative',
     },
     toolbarBase: {
-      padding: '9px 0 0 0',
+      padding: '9px 0',
     },
     recordingContainer: {
       padding: '0 12px 14px',
