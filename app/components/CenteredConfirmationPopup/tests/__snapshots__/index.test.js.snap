@@ -1,0 +1,286 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CenteredConfirmationPopup /> should render as expected with no password field 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "rgba(5, 30, 36, .75)",
+      "bottom": 0,
+      "display": "flex",
+      "flexDirection": "row",
+      "height": "100%",
+      "left": 0,
+      "position": "fixed",
+      "right": 0,
+      "top": 0,
+      "width": "100%",
+      "zIndex": 1000,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#FFFFFF",
+        "borderRadius": "3px",
+        "boxShadow": "0 0 6px 0 rgba(0,0,0,0.09)",
+        "display": "flex",
+        "height": "363px",
+        "justifyContent": "center",
+        "margin": "auto",
+        "width": "455px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "textAlign": "center",
+          "width": "80%",
+        }
+      }
+    >
+      <TextBlob
+        id="passwordFieldDesc"
+        style={
+          Object {
+            "fontWeight": "bold",
+            "marginBottom": "10px",
+          }
+        }
+        text="Test description here"
+      />
+      <span
+        style={
+          Object {
+            "display": "flex",
+            "justifyContent": "center",
+            "marginRight": "10px",
+          }
+        }
+      >
+        <InjectIntl(Button)
+          disabled={false}
+          id="test123"
+          onClick={[Function]}
+          style={
+            Object {
+              "marginRight": "15px",
+              "width": "45%",
+            }
+          }
+          text="login"
+          type="testButtonType"
+        />
+        <InjectIntl(Button)
+          id="test345"
+          onClick={[Function]}
+          text="logout"
+          type="testButtonType"
+        />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<CenteredConfirmationPopup /> should render correctly when a user types in the password field 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "rgba(5, 30, 36, .75)",
+      "bottom": 0,
+      "display": "flex",
+      "flexDirection": "row",
+      "height": "100%",
+      "left": 0,
+      "position": "fixed",
+      "right": 0,
+      "top": 0,
+      "width": "100%",
+      "zIndex": 1000,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#FFFFFF",
+        "borderRadius": "3px",
+        "boxShadow": "0 0 6px 0 rgba(0,0,0,0.09)",
+        "display": "flex",
+        "height": "363px",
+        "justifyContent": "center",
+        "margin": "auto",
+        "width": "455px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "textAlign": "center",
+          "width": "80%",
+        }
+      }
+    >
+      <TextBlob
+        id="passwordFieldDesc"
+        style={
+          Object {
+            "fontWeight": "bold",
+            "marginBottom": "10px",
+          }
+        }
+        text="Test description here"
+      />
+      <InjectIntl(TextInput)
+        autoFocus={true}
+        cb={[Function]}
+        id="passwordField"
+        key="password"
+        onEnter={[Function]}
+        style={
+          Object {
+            "marginBottom": "15px",
+            "width": "100%",
+          }
+        }
+        type="password"
+        value="testPassword"
+      />
+      <span
+        style={
+          Object {
+            "display": "flex",
+            "justifyContent": "center",
+            "marginRight": "10px",
+          }
+        }
+      >
+        <InjectIntl(Button)
+          disabled={false}
+          id="test123"
+          onClick={[Function]}
+          style={
+            Object {
+              "marginRight": "15px",
+              "width": "45%",
+            }
+          }
+          text="login"
+          type="testButtonType"
+        />
+        <InjectIntl(Button)
+          id="test345"
+          onClick={[Function]}
+          text="logout"
+          type="testButtonType"
+        />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<CenteredConfirmationPopup /> should render correctly with a password field 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "rgba(5, 30, 36, .75)",
+      "bottom": 0,
+      "display": "flex",
+      "flexDirection": "row",
+      "height": "100%",
+      "left": 0,
+      "position": "fixed",
+      "right": 0,
+      "top": 0,
+      "width": "100%",
+      "zIndex": 1000,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#FFFFFF",
+        "borderRadius": "3px",
+        "boxShadow": "0 0 6px 0 rgba(0,0,0,0.09)",
+        "display": "flex",
+        "height": "363px",
+        "justifyContent": "center",
+        "margin": "auto",
+        "width": "455px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "textAlign": "center",
+          "width": "80%",
+        }
+      }
+    >
+      <TextBlob
+        id="passwordFieldDesc"
+        style={
+          Object {
+            "fontWeight": "bold",
+            "marginBottom": "10px",
+          }
+        }
+        text="Test description here"
+      />
+      <InjectIntl(TextInput)
+        autoFocus={true}
+        cb={[Function]}
+        id="passwordField"
+        key="password"
+        onEnter={[Function]}
+        style={
+          Object {
+            "marginBottom": "15px",
+            "width": "100%",
+          }
+        }
+        type="password"
+        value=""
+      />
+      <span
+        style={
+          Object {
+            "display": "flex",
+            "justifyContent": "center",
+            "marginRight": "10px",
+          }
+        }
+      >
+        <InjectIntl(Button)
+          disabled={true}
+          id="test345"
+          onClick={[Function]}
+          style={
+            Object {
+              "marginRight": "15px",
+              "width": "45%",
+            }
+          }
+          text="logout"
+          type="testButtonType"
+        />
+        <InjectIntl(Button)
+          id="test123"
+          onClick={[Function]}
+          text="login"
+          type="testButtonType"
+        />
+      </span>
+    </div>
+  </div>
+</div>
+`;

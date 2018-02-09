@@ -144,7 +144,10 @@ export const SET_CONTACT_SAVE_LOADING =
   'app/ContactsControl/SET_CONTACT_SAVE_LOADING';
 export const INIT_FORM = 'app/ContactsControl/INIT_FORM';
 export const RESET_FORM = 'app/ContactsControl/RESET_FORM';
+export const SHOW_CONFIRMATION_POPUP_GO_READY = 'app/AgentDesktop/SHOW_CONFIRMATION_POPUP_GO_READY';
+export const SHOW_LOGIN_POPUP = 'app/AgentDesktop/SHOW_LOGIN_POPUP';
 
+export const REAUTH_POPUP_OPTIONS = 'REAUTH_POPUP_OPTIONS';
 export const DEFAULT_LOCALE = 'en-US';
 
 export const DEFAULT_TOOLBAR_WIDTH = 400;
