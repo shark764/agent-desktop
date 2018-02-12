@@ -40,6 +40,7 @@ export default [
   'cxengage/reporting/stat-subscription-added', // Handled by Toolbar
   'cxengage/reporting/stat-subscription-removed', // Handled by Toolbar
   'cxengage/session/heartbeat-response', // Ignore
+  'cxengage/session/get-tenant-details', // Handled in Login component
   'cxengage/session/set-active-tenant-response', // Handled in Login component
   'cxengage/session/state-change-request-acknowledged', // Ignore
   'cxengage/session/tenant-list', // Using tenants from login-response
