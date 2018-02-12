@@ -263,6 +263,7 @@
   "app.containers.TransferResource.transferDescription": "Przełączenie na uczestnika",
   "app.containers.VoiceContentArea.endWrapup": "Zakończ podsumowanie",
   "app.containers.VoiceContentArea.hangUp": "Zakończ rozmowę",
+  "app.containers.VoiceInteractionNotifications.callbackRequest": "",
   "app.containers.WelcomeStats.customerSatisfactionScore": "Zadowolenie klienta",
   "app.containers.WelcomeStats.performance": "WYDAJNOŚĆ",
   "app.containers.WelcomeStats.resourceHandleTime": "Średni czas obsługi",

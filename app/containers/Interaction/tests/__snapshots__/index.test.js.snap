@@ -18,6 +18,7 @@ exports[`<Interaction /> should render correctly 1`] = `
         "flexShrink": 0,
         "height": "108px",
         "justifyContent": "stretch",
+        "marginRight": "50px",
         "padding": "20px 16px 0 16px",
         "position": "relative",
         "width": "283px",
@@ -32,9 +33,6 @@ exports[`<Interaction /> should render correctly 1`] = `
       undefined,
       false,
       undefined,
-      Object {
-        "marginRight": "50px",
-      },
     ]
   }
 >
@@ -48,8 +46,8 @@ exports[`<Interaction /> should render correctly 1`] = `
         }
       }
     >
-      <Icon
-        name="config"
+      <InteractionIcon
+        interaction={Object {}}
       />
     </div>
   </div>
@@ -59,8 +57,8 @@ exports[`<Interaction /> should render correctly 1`] = `
         "display": "flex",
         "flexDirection": "column",
         "flexGrow": 1,
-        "marginLeft": "8px",
         "maxWidth": "230px",
+        "paddingLeft": "8px",
         "pending": Object {
           "maxWidth": "210px",
         },

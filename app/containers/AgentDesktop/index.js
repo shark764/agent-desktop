@@ -24,6 +24,7 @@ import MainContentArea from 'containers/MainContentArea';
 import PhoneControls from 'containers/PhoneControls';
 import SidePanel from 'containers/SidePanel';
 import Toolbar from 'containers/Toolbar';
+import VoiceInteractionNotifications from 'containers/VoiceInteractionNotifications';
 
 import { selectShowCollapseButton } from 'containers/InteractionsBar/selectors';
 import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
@@ -167,7 +168,7 @@ export class AgentDesktop extends React.Component {
   }
 
   updateDimensions = () => {
-    const documentElement = document.documentElement;
+    const { documentElement } = document;
     const body = document.getElementsByTagName('body')[0];
     const width =
       window.innerWidth || documentElement.clientWidth || body.clientWidth;
@@ -266,6 +267,7 @@ export class AgentDesktop extends React.Component {
               flexDirection: 'column',
             }}
           >
+            <VoiceInteractionNotifications />
             {this.context.toolbarMode && (
               <PhoneControls style={{ flex: '0' }} />
             )}

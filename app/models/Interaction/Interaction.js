@@ -3,6 +3,8 @@
  */
 
 import { List, Map, fromJS } from 'immutable';
+import moment from 'moment';
+import { generateUUID } from 'utils/uuid';
 
 export default class Interaction {
   constructor({
@@ -22,6 +24,7 @@ export default class Interaction {
     subject,
     toolbarMode,
     timeAccepted,
+    callbackRequest,
   }) {
     if (channelType === 'voice') {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
@@ -95,6 +98,27 @@ export default class Interaction {
     if (timeAccepted) {
       this.timeAccepted = timeAccepted;
     }
+
+    let notifications = new List();
+    if (callbackRequest) {
+      notifications = notifications.push(
+        new Map({
+          id: generateUUID(),
+          messageKey: 'callbackRequest',
+          messageValues: new Map({
+            callbackNumber: callbackRequest.callbackNumber,
+            waitingFor: callbackRequest.callbackRequestedTime
+              ? `${moment(Date.now()).diff(
+                moment(callbackRequest.callbackRequestedTime),
+                'seconds'
+              )}s`
+              : '0s',
+          }),
+          isDimissable: true,
+        })
+      );
+    }
+    this.notifications = notifications;
   }
 }
 

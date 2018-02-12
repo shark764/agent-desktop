@@ -887,3 +887,11 @@ export function resetForm(interactionId) {
     interactionId,
   };
 }
+
+export function dismissInteractionNotification(interactionId, notificationId) {
+  return {
+    type: ACTIONS.DISMISS_INTERACTION_NOTIFICATION,
+    interactionId,
+    notificationId,
+  };
+}

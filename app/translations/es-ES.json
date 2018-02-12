@@ -263,6 +263,7 @@
   "app.containers.TransferResource.transferDescription": "Transferir a participante",
   "app.containers.VoiceContentArea.endWrapup": "Concluir finalización",
   "app.containers.VoiceContentArea.hangUp": "Colgar",
+  "app.containers.VoiceInteractionNotifications.callbackRequest": "",
   "app.containers.WelcomeStats.customerSatisfactionScore": "Satisfacción del consumidor",
   "app.containers.WelcomeStats.performance": "RENDIMIENTO",
   "app.containers.WelcomeStats.resourceHandleTime": "Tiempo operativo medio",

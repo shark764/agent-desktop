@@ -2,7 +2,7 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
-import { takeEvery, call, put, select } from 'redux-saga/effects';
+import { takeEvery, call, put, select, all } from 'redux-saga/effects';
 import axios from 'axios';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
@@ -253,12 +253,14 @@ export function* goDeleteContacts() {
     yield put(setLoading(true));
     yield put(setDeletionPending(true));
     const checkedContacts = yield select(selectCheckedContacts);
-    const response = yield checkedContacts.map((contact) =>
-      call(
-        sdkCallToPromise,
-        CxEngage.contacts.delete,
-        { contactId: contact.id },
-        'AgentDesktop'
+    const response = yield all(
+      checkedContacts.map((contact) =>
+        call(
+          sdkCallToPromise,
+          CxEngage.contacts.delete,
+          { contactId: contact.id },
+          'AgentDesktop'
+        )
       )
     );
     yield checkedContacts
@@ -361,14 +363,16 @@ export function* goAcceptWork(action) {
     yield put(
       setActiveResources(action.interactionId, action.response.activeResources)
     );
-    yield action.response.activeResources.map((resource) =>
-      call(
-        sdkCallToPromise,
-        CxEngage.entities.getUser,
-        {
-          resourceId: resource.id,
-        },
-        'AgentDesktop'
+    yield all(
+      action.response.activeResources.map((resource) =>
+        call(
+          sdkCallToPromise,
+          CxEngage.entities.getUser,
+          {
+            resourceId: resource.id,
+          },
+          'AgentDesktop'
+        )
       )
     );
   }

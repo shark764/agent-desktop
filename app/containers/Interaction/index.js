@@ -22,6 +22,7 @@ import Progress from 'components/Progress';
 import Timer from 'components/Timer';
 import TimerMinutes from 'components/TimerMinutes';
 import CancelButton from 'containers/Interaction/CancelButton';
+import InteractionIcon from 'containers/Interaction/InteractionIcon';
 
 import { selectCrmModule } from 'containers/AgentDesktop/selectors';
 import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
@@ -41,6 +42,7 @@ const styles = {
     backgroundColor: 'inherit',
     position: 'relative',
     flexShrink: 0,
+    marginRight: '50px',
   },
   baseToolbar: {
     height: '89px',
@@ -73,7 +75,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     maxWidth: '230px',
-    marginLeft: '8px',
+    paddingLeft: '8px',
     pending: {
       maxWidth: '210px',
     },
@@ -400,7 +402,7 @@ export class Interaction extends React.Component {
         return <FormattedMessage {...messages.newInteraction} />;
       }
     } else if (this.context.toolbarMode) {
-      return <Icon name={this.props.icon} />;
+      return <InteractionIcon interaction={this.props.interaction} />;
     } else {
       return <FormattedMessage {...messages.script} />;
     }
@@ -439,7 +441,6 @@ export class Interaction extends React.Component {
           pendingPSTN && styles.pendingPstn,
           this.props.interaction.isCancellingInteraction &&
             styles.cancelInteractionInProgress,
-          { marginRight: '50px' },
         ]}
         key={this.props.interaction.interactionId}
         onClick={!pendingPSTN ? this.props.onClick : null}
@@ -484,7 +485,7 @@ export class Interaction extends React.Component {
           ) : (
             <div>
               <div style={styles.iconContainer}>
-                <Icon name={this.props.icon} />
+                <InteractionIcon interaction={this.props.interaction} />
               </div>
               {this.context.toolbarMode &&
               this.props.status !== 'wrapup' && (
@@ -531,28 +532,20 @@ export class Interaction extends React.Component {
                   : { top: '4px' },
               ]}
             >
-              {this.props.interaction.contact ? (
-                <div>
-                  <p style={[styles.hoverBoxText, styles.hoverBoxTitle]}>
-                    {this.props.from}
-                  </p>
-                  <p style={styles.hoverBoxText}>{this.props.contactPoint}</p>
-                </div>
-              ) : (
-                <p style={[styles.hoverBoxText, styles.hoverBoxTitle]}>
-                  {this.props.from}
-                </p>
+              <p style={[styles.hoverBoxText, styles.hoverBoxTitle]}>
+                {this.props.from}
+              </p>
+              {this.props.interaction.contact && (
+                <p style={styles.hoverBoxText}>{this.props.contactPoint}</p>
               )}
               {this.getDetails()}
-              {this.context.toolbarMode && (
-                <CancelButton
-                  interaction={this.props.interaction}
-                  style={{
-                    position: 'relative',
-                    margin: '10px 0 0 50%',
-                  }}
-                />
-              )}
+              <CancelButton
+                interaction={this.props.interaction}
+                style={{
+                  position: 'relative',
+                  margin: '10px 0 0 50%',
+                }}
+              />
             </div>
           </div>
         )}

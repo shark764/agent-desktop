@@ -1328,8 +1328,7 @@ export class App extends React.Component {
     }
 
     if (errorInfo) {
-      const code = errorInfo.code;
-      const interactionFatal = errorInfo.interactionFatal;
+      const { code, interactionFatal }  = errorInfo;
       if (interactionFatal) {
         errorDescriptionMessage = this.props.intl.formatMessage(
           errorMessages.interactionFailed

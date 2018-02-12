@@ -35,6 +35,7 @@ import {
   CLOSE_NEW_INTERACTION_PANEL,
   CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL,
   SAVE_MESSAGE_STATE,
+  DISMISS_INTERACTION_NOTIFICATION,
 } from '../constants';
 import agentDesktopReducer from '../reducer';
 
@@ -1308,6 +1309,45 @@ describe('agentDesktopReducer', () => {
       };
     });
     it('resets currentCrmItemHistoryPanel and selects the next interactionId', () => {
+      runReducerAndExpectSnapshot();
+    });
+  });
+
+  describe('DISMISS_INTERACTION_NOTIFICATION', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 1,
+            notifications: [
+              {
+                id: 'a',
+              },
+              {
+                id: 'b',
+              },
+            ],
+          },
+          {
+            interactionId: 2,
+            notifications: [
+              {
+                id: 'a',
+              },
+              {
+                id: 'b',
+              },
+            ],
+          },
+        ],
+      };
+      action = {
+        type: DISMISS_INTERACTION_NOTIFICATION,
+        interactionId: 2,
+        notificationId: 'b',
+      };
+    });
+    it('removes the correct notification from the specified interaction', () => {
       runReducerAndExpectSnapshot();
     });
   });

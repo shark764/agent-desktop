@@ -2,7 +2,7 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
-import { takeEvery, select, call, put } from 'redux-saga/effects';
+import { takeEvery, select, call, put, all } from 'redux-saga/effects';
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 import statEqualityCheck from 'utils/statEqualityCheck';
 
@@ -139,13 +139,13 @@ export function* goDeactivateToolbarStat(action) {
 }
 
 export function* goInitializeStats() {
-  yield welcomeStatsConfig.map((stat) => call(goActivateWelcomeStat, stat));
+  yield all(welcomeStatsConfig.map((stat) => call(goActivateWelcomeStat, stat)));
   const tenant = yield select(selectTenant);
   const agent = yield select(selectAgent);
   const localStorageKey = `agentDesktopStats.${tenant.id}.${agent.userId}`;
   const savedStats =
     JSON.parse(window.localStorage.getItem(localStorageKey)) || [];
-  yield savedStats.map((stat) => put(activateToolbarStatAction(stat)));
+  yield all(savedStats.map((stat) => put(activateToolbarStatAction(stat))));
 }
 
 export function* activateToolbarStat() {

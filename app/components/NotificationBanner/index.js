@@ -62,51 +62,62 @@ const styles = {
   },
 };
 
-function NotificationBanner(props) {
-  const descriptionMessage =
-    typeof props.descriptionMessage === 'object'
-      ? props.intl.formatMessage(props.descriptionMessage)
-      : props.descriptionMessage;
-  return (
-    <div
-      id={props.id}
-      style={[styles.base, props.isError && styles.baseError, props.style]}
-    >
-      {props.titleMessage && (
-        <div style={styles.titleText}>
-          {props.intl.formatMessage(props.titleMessage)}
-          &nbsp;
-        </div>
-      )}
+export class NotificationBanner extends React.Component {
+
+  dismiss = () => {
+    if (this.props.dismissArguments && this.props.dismissArguments.length) {
+      this.props.dismiss(...this.props.dismissArguments);
+    } else {
+      this.props.dismiss();
+    }
+  };
+
+  render() {
+    const descriptionMessage =
+      typeof this.props.descriptionMessage === 'object'
+        ? this.props.intl.formatMessage(this.props.descriptionMessage)
+        : this.props.descriptionMessage;
+    return (
       <div
-        style={[
-          styles.descriptionMessage,
-          props.fullBannerAction && styles.fullBannerAction,
-          props.descriptionStyle,
-        ]}
-        onClick={props.fullBannerAction}
-        title={descriptionMessage}
+        id={this.props.id}
+        style={[styles.base, this.props.isError && styles.baseError, this.props.style]}
       >
-        {descriptionMessage}
-      </div>
-      {props.rightLinkAction && (
-        <div onClick={props.rightLinkAction} style={styles.rightLinkText}>
-          {props.intl.formatMessage(
-            props.rightLinkMessage || messages.tryAgain
-          )}
+        {this.props.titleMessage && (
+          <div style={styles.titleText}>
+            {this.props.intl.formatMessage(this.props.titleMessage)}
+            &nbsp;
+          </div>
+        )}
+        <div
+          style={[
+            styles.descriptionMessage,
+            this.props.fullBannerAction && styles.fullBannerAction,
+            this.props.descriptionStyle,
+          ]}
+          onClick={this.props.fullBannerAction}
+          title={descriptionMessage}
+        >
+          {descriptionMessage}
         </div>
-      )}
-      {props.dismiss && (
-        <IconSVG
-          name="close"
-          id={`${props.id}-dismiss-btn`}
-          onClick={props.dismiss}
-          clear
-          style={{ width: '20px', flexShrink: 0 }}
-        />
-      )}
-    </div>
-  );
+        {this.props.rightLinkAction && (
+          <div onClick={this.props.rightLinkAction} style={styles.rightLinkText}>
+            {this.props.intl.formatMessage(
+              this.props.rightLinkMessage || messages.tryAgain
+            )}
+          </div>
+        )}
+        {this.props.dismiss && (
+          <IconSVG
+            name="close"
+            id={`${this.props.id}-dismiss-btn`}
+            onClick={this.dismiss}
+            clear
+            style={{ width: '20px', flexShrink: 0 }}
+          />
+        )}
+      </div>
+    );
+  }
 }
 
 NotificationBanner.propTypes = {
@@ -118,6 +129,7 @@ NotificationBanner.propTypes = {
   descriptionMessage: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
     .isRequired,
   dismiss: PropTypes.func,
+  dismissArguments: PropTypes.array,
   isError: PropTypes.bool,
   rightLinkAction: PropTypes.func,
   rightLinkMessage: PropTypes.object,

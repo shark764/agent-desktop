@@ -9,6 +9,7 @@ Immutable.Map {
       "contactMode": "search",
       "selectedSidePanelTab": "info",
       "query": Immutable.Map {},
+      "notifications": Immutable.List [],
       "muted": false,
       "dispositionDetails": Immutable.Map {
         "forceSelect": false,
@@ -70,6 +71,7 @@ Immutable.Map {
       "contactMode": "search",
       "selectedSidePanelTab": "info",
       "query": Immutable.Map {},
+      "notifications": Immutable.List [],
       "dispositionDetails": Immutable.Map {
         "forceSelect": false,
         "dispositions": Immutable.List [],
@@ -137,6 +139,7 @@ Immutable.Map {
       "contactMode": "view",
       "selectedSidePanelTab": "info",
       "query": Immutable.Map {},
+      "notifications": Immutable.List [],
       "muted": false,
       "dispositionDetails": Immutable.Map {
         "forceSelect": false,
@@ -343,6 +346,32 @@ Immutable.Map {
   "interactions": Immutable.List [
     Immutable.Map {
       "interactionId": "mockInteraction1",
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer DISMISS_INTERACTION_NOTIFICATION removes the correct notification from the specified interaction 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": 1,
+      "notifications": Immutable.List [
+        Immutable.Map {
+          "id": "a",
+        },
+        Immutable.Map {
+          "id": "b",
+        },
+      ],
+    },
+    Immutable.Map {
+      "interactionId": 2,
+      "notifications": Immutable.List [
+        Immutable.Map {
+          "id": "a",
+        },
+      ],
     },
   ],
 }
@@ -970,6 +999,7 @@ Immutable.Map {
       "contactMode": "view",
       "selectedSidePanelTab": "info",
       "query": Immutable.Map {},
+      "notifications": Immutable.List [],
       "dispositionDetails": Immutable.Map {
         "forceSelect": false,
         "dispositions": Immutable.List [],
@@ -1029,6 +1059,7 @@ Immutable.Map {
       "selectedSidePanelTab": "info",
       "hideNewInteractionPanelOnWorkAccepted": true,
       "query": Immutable.Map {},
+      "notifications": Immutable.List [],
       "muted": false,
       "dispositionDetails": Immutable.Map {
         "forceSelect": false,

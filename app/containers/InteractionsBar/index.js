@@ -263,7 +263,6 @@ export class InteractionsBar extends React.Component {
 
   render() {
     let activeVoiceInteractionStatus;
-    let activeVoiceInteractionIcon;
     if (this.props.activeVoiceInteraction) {
       if (this.props.activeVoiceInteraction.status === 'wrapup') {
         activeVoiceInteractionStatus = 'wrapup';
@@ -274,22 +273,11 @@ export class InteractionsBar extends React.Component {
       } else {
         activeVoiceInteractionStatus = 'active';
       }
-      if (
-        this.props.activeVoiceInteraction.status ===
-          'work-ended-pending-script' ||
-        this.props.activeVoiceInteraction.status === 'script-only'
-      ) {
-        activeVoiceInteractionIcon = 'script';
-      } else {
-        activeVoiceInteractionIcon = 'voice';
-      }
     }
 
     const activeVoiceInteraction = this.props.activeVoiceInteraction ? (
       <Interaction
         interaction={this.props.activeVoiceInteraction}
-        key={this.props.activeVoiceInteraction.interactionId}
-        icon={activeVoiceInteractionIcon}
         from={
           has(this.props.activeVoiceInteraction, 'contact.attributes.name')
             ? this.props.activeVoiceInteraction.contact.attributes.name
@@ -329,10 +317,8 @@ export class InteractionsBar extends React.Component {
 
     const activeNonVoiceInteractions = this.props.activeNonVoiceInteractions.map(
       (activeInteraction) => {
-        let icon;
         let from;
         let text;
-        let type;
         if (
           activeInteraction.channelType === 'messaging' ||
           activeInteraction.channelType === 'sms'
@@ -347,16 +333,9 @@ export class InteractionsBar extends React.Component {
             activeInteraction
           );
           if (lastMessageFromThisInteraction) {
-            text = lastMessageFromThisInteraction.text;
-            type = lastMessageFromThisInteraction.type;
+            ({ text } = lastMessageFromThisInteraction);
           } else {
             text = this.props.intl.formatMessage(messages.retrievingMessages);
-          }
-          // if the last message was from the customer, show the 'new' icon
-          if (type === 'customer' || type === 'message') {
-            icon = 'message_new';
-          } else {
-            icon = 'message';
           }
         } else if (activeInteraction.channelType === 'email') {
           from = activeInteraction.emailDetails
@@ -365,22 +344,8 @@ export class InteractionsBar extends React.Component {
           text = activeInteraction.emailDetails
             ? activeInteraction.emailDetails.subject
             : '';
-          icon = 'email';
         } else if (activeInteraction.channelType === 'work-item') {
           from = activeInteraction.subject;
-          icon = 'work_item';
-        } else if (activeInteraction.status === 'script-only') {
-          icon = 'script';
-        } else {
-          throw new Error(
-            `Invalid channelType/status: ${activeInteraction.channelType}/${
-              activeInteraction.status
-            }`
-          );
-        }
-
-        if (activeInteraction.status === 'work-ended-pending-script') {
-          icon = 'script';
         }
 
         // Set from to the contact name if available
@@ -398,14 +363,14 @@ export class InteractionsBar extends React.Component {
           activeInteraction.status === 'wrapup' ||
           activeInteraction.status === 'work-ended-pending-script'
         ) {
-          status = activeInteraction.status;
+          ({ status } = activeInteraction);
         } else {
           status = 'active';
         }
 
         return (
           <Interaction
-            {...{ from, icon }}
+            from={from}
             interaction={activeInteraction}
             key={
               activeInteraction.interactionId
@@ -464,7 +429,6 @@ export class InteractionsBar extends React.Component {
 
     const pendingInteractions = this.props.pendingInteractions.map(
       (pendingInteraction) => {
-        let icon;
         let from;
         let text;
         let contactPoint;
@@ -482,20 +446,12 @@ export class InteractionsBar extends React.Component {
             pendingInteraction.messageHistory.length > 0
               ? pendingInteraction.messageHistory[0].text
               : this.props.intl.formatMessage(messages.retrievingMessages);
-          icon = this.context.toolbarMode ? 'message' : 'message_new';
         } else if (pendingInteraction.channelType === 'email') {
           from = pendingInteraction.customer;
-          icon = this.context.toolbarMode ? 'email' : 'email_new';
         } else if (pendingInteraction.channelType === 'voice') {
           from = pendingInteraction.number;
-          icon = this.context.toolbarMode ? 'voice_white' : 'voice';
         } else if (pendingInteraction.channelType === 'work-item') {
           from = pendingInteraction.subject;
-          icon = this.context.toolbarMode ? 'work_item' : 'work_item_new';
-        } else {
-          throw new Error(
-            `Invalid channelType: ${pendingInteraction.channelType}`
-          );
         }
         // Set from to the contact name if available
         if (
@@ -510,7 +466,7 @@ export class InteractionsBar extends React.Component {
 
         return (
           <Interaction
-            {...{ icon, from }}
+            from={from}
             interaction={pendingInteraction}
             contactPoint={contactPoint || from}
             key={pendingInteraction.interactionId}

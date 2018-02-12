@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Interaction outbound email sets emailReply 1`] = `
+Immutable.Map {
+  "message": "",
+  "tos": Immutable.List [
+    Object {
+      "address": undefined,
+      "name": undefined,
+    },
+  ],
+  "ccs": Immutable.List [],
+  "bccs": Immutable.List [],
+  "subject": "",
+  "attachments": Immutable.List [],
+}
+`;
+
+exports[`Interaction with all the params adds the params to the object 1`] = `
+Interaction {
+  "activeContactForm": Immutable.Map {
+    "contactForm": Immutable.Map {},
+    "formIsDirty": false,
+    "selectedIndexes": Immutable.Map {},
+    "showErrors": Immutable.Map {},
+    "editingContacts": Immutable.List [],
+    "formIsValid": false,
+    "unusedFields": Immutable.Map {},
+    "formErrors": Immutable.Map {},
+    "saveLoading": false,
+  },
+  "autoAnswer": true,
+  "channelType": "mock-channel-type",
+  "contact": Immutable.Map {
+    "id": "mock-contact-id",
+  },
+  "contactMode": "mock-contact-mode",
+  "customFieldsCollapsed": true,
+  "direction": "mock-direction",
+  "dispositionDetails": Immutable.Map {
+    "forceSelect": false,
+    "dispositions": Immutable.List [],
+    "categories": Immutable.List [],
+    "selected": Immutable.List [],
+  },
+  "hideNewInteractionPanelOnWorkAccepted": true,
+  "initiatedByCurrentAgent": true,
+  "interactionId": "mock-interaction-id",
+  "isSidePanelCollapsed": false,
+  "note": Immutable.Map {
+    "body": "",
+    "title": "",
+    "notesPanelHeight": 180,
+  },
+  "notifications": Immutable.List [
+    Immutable.Map {
+      "id": "mock-uuid",
+      "messageKey": "callbackRequest",
+      "messageValues": Immutable.Map {
+        "callbackNumber": "mock-callback-number",
+        "waitingFor": "0s",
+      },
+      "isDimissable": true,
+    },
+  ],
+  "query": Immutable.Map {},
+  "selectedSidePanelTab": "info",
+  "status": "mock-status",
+  "subject": "mock-subject",
+  "timeAccepted": "mock-time-accepted",
+  "timeout": 0,
+  "warmTransfers": Immutable.List [],
+  "wrapupDetails": Immutable.Map {
+    "wrapupUpdateAllowed": false,
+    "wrapupEnabled": false,
+  },
+}
+`;
+
+exports[`Interaction with no params sets defaults, ignores appropriate undefineds 1`] = `
+Interaction {
+  "activeContactForm": Immutable.Map {
+    "contactForm": Immutable.Map {},
+    "formIsDirty": false,
+    "selectedIndexes": Immutable.Map {},
+    "showErrors": Immutable.Map {},
+    "editingContacts": Immutable.List [],
+    "formIsValid": false,
+    "unusedFields": Immutable.Map {},
+    "formErrors": Immutable.Map {},
+    "saveLoading": false,
+  },
+  "autoAnswer": undefined,
+  "channelType": undefined,
+  "contactMode": "search",
+  "customFieldsCollapsed": true,
+  "direction": undefined,
+  "dispositionDetails": Immutable.Map {
+    "forceSelect": false,
+    "dispositions": Immutable.List [],
+    "categories": Immutable.List [],
+    "selected": Immutable.List [],
+  },
+  "interactionId": "undefined-undefined-undefined",
+  "isSidePanelCollapsed": true,
+  "note": Immutable.Map {
+    "body": "",
+    "title": "",
+    "notesPanelHeight": 300,
+  },
+  "notifications": Immutable.List [],
+  "query": Immutable.Map {},
+  "selectedSidePanelTab": "info",
+  "status": "work-offer",
+  "timeout": NaN,
+  "warmTransfers": Immutable.List [],
+  "wrapupDetails": Immutable.Map {
+    "wrapupUpdateAllowed": false,
+    "wrapupEnabled": false,
+  },
+}
+`;
