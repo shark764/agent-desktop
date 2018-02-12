@@ -1,3 +1,6 @@
+### [1.15.25] (2018-02-12)
+* CXV1-12726 - Enable cancel button for outbound PSTN work offers
+
 ### [1.15.24] (2018-02-12)
 * CXV1-12848 - Fix outbound non-voice interaction timers
 * CXV1-12867, CXV1-12869, CXV1-12868 - Fix outbound voice interactions being merged into state
