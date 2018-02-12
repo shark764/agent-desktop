@@ -455,6 +455,7 @@ describe('agentDesktopReducer', () => {
               interactionId: 'test-interaction-id',
               channelType: 'voice',
               direction: 'outbound',
+              status: 'connecting-to-outbound',
               contact: { id: 'test-contact-id' },
               contactMode: 'view',
               isSidePanelCollapsed: false,

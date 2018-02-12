@@ -291,11 +291,6 @@ export class Interaction extends React.Component {
           case 'voice':
             return <Timer timeSince={this.props.interaction.timeAccepted} />;
           default: {
-            console.error(
-              `Channel type timer not handled for: ${
-                this.props.interaction.channelType
-              }`
-            );
             return '';
           }
         }

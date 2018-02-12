@@ -1,10 +1,10 @@
 {
   "name": "agent-desktop",
-  "version": "1.15.23",
+  "version": "1.15.24",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
-    "url": "git@github.com:liveops/agent-desktop.git"
+    "url": "git@github.com:SerenovaLLC/agent-desktop.git"
   },
   "engines": {
     "npm": ">=3"
@@ -266,7 +266,7 @@
     "intl": "1.2.5",
     "ip": "1.1.5",
     "lodash": "4.17.4",
-    "medium-draft": "https://github.com/liveops/medium-draft",
+    "medium-draft": "https://github.com/SerenovaLLC/medium-draft",
     "minimist": "1.2.0",
     "moment": "2.19.3",
     "prop-types": "15.6.0",

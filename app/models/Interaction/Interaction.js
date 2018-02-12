@@ -21,6 +21,7 @@ export default class Interaction {
     isSidePanelCollapsed,
     subject,
     toolbarMode,
+    timeAccepted,
   }) {
     if (channelType === 'voice') {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
@@ -90,6 +91,9 @@ export default class Interaction {
     this.activeContactForm = fromJS(activeContactFormBlank);
     if (subject) {
       this.subject = subject;
+    }
+    if (timeAccepted) {
+      this.timeAccepted = timeAccepted;
     }
   }
 }

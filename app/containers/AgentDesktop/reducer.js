@@ -668,6 +668,8 @@ function agentDesktopReducer(state = initialState, action) {
           // initiatedByCurrentAgent so we know if we should render the 'Cancel' button
           initiatedByCurrentAgent:
             action.channelType === 'voice' ? true : undefined,
+          // voice interactions have their timeAccepted set when they have their status set to 'work-accepting'
+          timeAccepted: action.channelType !== 'voice' ? Date.now() : undefined,
           direction: 'outbound',
           status: 'connecting-to-outbound',
           contactMode: action.contact !== undefined ? 'view' : 'search',
@@ -741,18 +743,26 @@ function agentDesktopReducer(state = initialState, action) {
             action.response.channelType === 'email')
         )
       ) {
-        // If interaction was already added by START_OUTBOUND_INTERACTION or ADD_SCRIPT, replace it; otherwise, just push it to the list
+        // If interaction was a voice interaction already added by START_OUTBOUND_INTERACTION or ADD_SCRIPT, replace it; otherwise, just push it to the list
         const interactionIndex = state
           .get('interactions')
-          .findIndex(
-            (interaction) =>
-              interaction.get('interactionId') ===
-                action.response.interactionId &&
-              ((interaction.get('direction') === 'outbound' &&
-                interaction.get('channelType') ===
-                  action.response.channelType) ||
-                interaction.get('status') === 'script-only')
-          );
+          .findIndex((interaction) => {
+            if (
+              action.response.direction === 'outbound' &&
+              action.response.channelType === 'voice'
+            ) {
+              return (
+                interaction.get('channelType') === 'voice' &&
+                interaction.get('status') === 'connecting-to-outbound'
+              );
+            } else {
+              return (
+                interaction.get('interactionId') ===
+                  action.response.interactionId &&
+                interaction.get('status') === 'script-only'
+              );
+            }
+          });
         let interactionToAdd = new Map(new Interaction(action.response));
         if (interactionIndex !== -1) {
           // Keep existing contact, contact mode, and side panel collapsed values
@@ -765,9 +775,8 @@ function agentDesktopReducer(state = initialState, action) {
             .set('isInteractionsBarCollapsed', false);
         } else {
           return state
-            .set(
-              'interactions',
-              state.get('interactions').push(interactionToAdd)
+            .update('interactions', (interactions) =>
+              interactions.push(interactionToAdd)
             )
             .set('isInteractionsBarCollapsed', false);
         }
