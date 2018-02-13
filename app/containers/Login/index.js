@@ -353,6 +353,17 @@ export class Login extends React.Component {
           topic,
           response
         );
+
+        response.details.sort((a, b) => {
+          if (a.name.toLowerCase() > b.name.toLowerCase()) {
+            return 1;
+          }
+          if (a.name.toLowerCase() < b.name.toLowerCase()) {
+            return -1;
+          }
+          return 0;
+        });
+
         this.props.setAccountTenants(response.details);
         const { savedTenant } = this.state;
         const hasSavedTenant = Object.keys(savedTenant).length === 2;

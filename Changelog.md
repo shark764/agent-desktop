@@ -1,3 +1,6 @@
+### [1.15.26] (2018-02-13)
+* CXV1-12085 - Skylight issue - tenant drop-down list not sorted by alpha order
+
 ### [1.15.25] (2018-02-12)
 * CXV1-12726 - Enable cancel button for outbound PSTN work offers
 
