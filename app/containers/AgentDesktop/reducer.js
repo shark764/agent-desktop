@@ -80,6 +80,13 @@ const initialState = fromJS({
   sidePanelPx: 500,
   sidePanelMaxPx: 500,
   agentDirection: { direction: 'inbound' },
+  expirationPromptReauth: {
+    showConfirmationPopupGoReady: false,
+  },
+  loginPopup: {
+    reauthPassword: '',
+    showLoginPopup: false,
+  },
 });
 
 const getInteractionIndex = (state, interactionId) =>
@@ -2057,6 +2064,12 @@ function agentDesktopReducer(state = initialState, action) {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('activeContactForm');
       return state.setIn(target, fromJS(activeContactFormBlank));
+    }
+    case ACTIONS.SHOW_CONFIRMATION_POPUP_GO_READY: {
+      return state.set('expirationPromptReauth', new Map(action.popupConfig));
+    }
+    case ACTIONS.SHOW_LOGIN_POPUP: {
+      return state.set('loginPopup', new Map(action.popupConfig));
     }
     default:
       return state;

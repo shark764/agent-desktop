@@ -23,6 +23,7 @@ import ErrorBoundary from 'components/ErrorBoundary';
 import {
   DEFAULT_TOOLBAR_WIDTH,
   DEFAULT_TOOLBAR_HEIGHT,
+  REAUTH_POPUP_OPTIONS,
 } from 'containers/AgentDesktop/constants';
 
 import Dialog from 'components/Dialog';
@@ -47,6 +48,10 @@ import {
   handleSDKError,
 } from 'containers/Errors/actions';
 import {
+  selectCriticalError,
+  selectNonCriticalError,
+} from 'containers/Errors/selectors';
+import {
   requiredPermissions,
   crmPermissions,
 } from 'containers/App/permissions';
@@ -54,6 +59,7 @@ import {
   selectAgentDesktopMap,
   selectCrmModule,
 } from 'containers/AgentDesktop/selectors';
+import { showLoginPopup } from 'containers/AgentDesktop/actions';
 import selectLogin from './selectors';
 import messages from './messages';
 import {
@@ -226,6 +232,9 @@ export class Login extends React.Component {
       tenantName: '',
       showLanguage: false,
       identityWindowSuccessful: false,
+      expiredSessionReauth: storage.getItem(REAUTH_POPUP_OPTIONS)
+        ? JSON.parse(storage.getItem(REAUTH_POPUP_OPTIONS))
+        : {},
     };
   }
 
@@ -238,10 +247,39 @@ export class Login extends React.Component {
     }
   }
 
-  // Login Logic
+  componentWillReceiveProps(nextProps) {
+    const reauthPassword = nextProps.loginPopup.get('reauthPassword');
+    if (
+      reauthPassword &&
+      reauthPassword.length
+    ) {
+      this.setState({
+        password: reauthPassword,
+      }, () => {
+        this.onLogin();
+        this.props.showLoginPopup({
+          reauthPassword: '',
+          showLoginPopup: false,
+        });
+      });
+    }
+  }
 
+  // Login Logic
   componentDidMount() {
     const waitingOnSdk = setInterval(() => {
+      // if we are re-logging in after an expired session, then skip the entire
+      // reauth user flow and just log the user in
+      if (this.isReauthFromExpiredSession()) {
+        if (this.state.expiredSessionReauth.isSso === true) {
+          this.loginWithSso();
+        } else {
+          this.props.showLoginPopup({
+            showLoginPopup: true,
+          });
+        }
+      }
+
       if (CxEngage.subscribe) {
         CxEngage.subscribe(
           'cxengage/authentication',
@@ -269,7 +307,10 @@ export class Login extends React.Component {
                             cbTopic,
                             cbResponse
                           );
-                          this.loginCB(cbResponse);
+                          const agentData = Object.assign({}, cbResponse, {
+                            isSso: true,
+                          });
+                          this.loginCB(agentData);
                         } else {
                           this.props.errorOccurred();
                         }
@@ -307,6 +348,12 @@ export class Login extends React.Component {
   loginWithSso = () => {
     this.props.setLoading(true);
 
+    this.useDebugTokenExpiration();
+
+    const username = this.isReauthFromExpiredSession()
+      ? this.state.expiredSessionReauth.expiredSessionUsername
+      : this.state.ssoEmail;
+
     // We have to open this window in the onClick handler to prevent it from being a blocked popup
     // SDK proceeds uses this window with the name "cxengageSsoWindow"
     const ssoWindow = window.open(
@@ -315,31 +362,80 @@ export class Login extends React.Component {
       'width=500,height=500'
     );
     CxEngage.authentication.getAuthInfo(
-      { username: this.state.ssoEmail },
+      { username },
       (error) => {
         if (error) {
+          storage.removeItem(REAUTH_POPUP_OPTIONS);
           ssoWindow.close();
         }
       }
     );
   };
 
+  // for the sake of testing the token expiration behavior, we can add
+  // a "debugToken" query parameter to the url where we specify a number
+  // of seconds until the token expires.
+  // For example, to force the token to expire after 60 seconds, use this
+  // URL: http://localhost:3000/?debugToken=60&desktop
+  // NOTE: will ONLY work w/CxEngage logins for now, for sso debugging, need to
+  // use hard-coded workarounds for testing (see example of that in AgentStatusMenu)
+  useDebugTokenExpiration = () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('debugToken')) {
+      storage.setItem('debugTokenVal', params.get('debugToken'));
+    } else {
+      storage.removeItem('debugTokenVal');
+    }
+  };
+
+  setLoginParams = (credentials) => {
+    // if we have a valid debug token value...
+    if (
+      storage.getItem('debugTokenVal') &&
+      typeof Number(storage.getItem('debugTokenVal')) === 'number'
+    ) {
+      // add ttl to the credentials
+      return Object.assign({}, credentials, {
+        ttl: Number(storage.getItem('debugTokenVal')),
+      });
+    }
+
+    // otherwise, just return the credentials without changing anything
+    return credentials;
+  };
+
   onLogin = () => {
     this.props.setLoading(true);
+    this.useDebugTokenExpiration();
+
+    let username;
+    if (this.isReauthFromExpiredSession()) {
+      username = this.state.expiredSessionReauth.expiredSessionUsername;
+    } else {
+      username = this.state.email.trim();
+    }
+
+    const password = this.state.password;
+
+    const loginCredentials = {
+      username,
+      password,
+    }
+
     CxEngage.authentication.login(
-      {
-        username: this.state.email.trim(),
-        password: this.state.password,
-        // the ttl property is for testing token expiration behavior only
-        // ttl: 30,
-      },
+      this.setLoginParams(loginCredentials),
       (error, topic, response) => {
         if (!error) {
           this.props.dismissError();
           console.log('[Login] CxEngage.subscribe()', topic, response);
           this.loginCB(response);
         } else {
+          this.setState({
+            expiredSessionReauth: {},
+          });
+          this.props.setLoading(false);
           this.props.errorOccurred();
+          storage.removeItem(REAUTH_POPUP_OPTIONS);
         }
       }
     );
@@ -365,17 +461,25 @@ export class Login extends React.Component {
         });
 
         this.props.setAccountTenants(response.details);
-        const { savedTenant } = this.state;
-        const hasSavedTenant = Object.keys(savedTenant).length === 2;
-        const targetTenantData = hasSavedTenant
-          ? savedTenant
-          : response.details[0];
-        if (response.details.length === 1 || hasSavedTenant) {
+        let targetTenantData = {};
+
+        if (this.isReauthFromExpiredSession()) {
+          targetTenantData = this.state.expiredSessionReauth;
+        } else if (Object.keys(this.state.savedTenant).length === 2) {
+          targetTenantData = this.state.savedTenant;
+        } else if (response.details.length){
+          targetTenantData = response.details.find((val) => val.tenantId ===  this.state.tenantId);
+        }
+
+        if (targetTenantData) {
           this.setTenantId(targetTenantData.tenantId, targetTenantData.name);
           this.onTenantSelect();
-          if (hasSavedTenant) {
-            storage.removeItem('savedTenant');
-          }
+
+          storage.removeItem('savedTenant');
+          storage.removeItem(REAUTH_POPUP_OPTIONS);
+          this.setState({
+            expiredSessionReauth: {},
+          });
         } else if (response.details.length === 0) {
           this.props.setLoading(false);
           this.props.setNonCriticalError({ code: 'AD-1005' });
@@ -398,6 +502,10 @@ export class Login extends React.Component {
     });
 
     this.props.loginSuccess(agent);
+
+    if (!this.isReauthFromExpiredSession) {
+      this.props.setLoading(false);
+    }
   };
 
   onTenantSelect = () => {
@@ -540,6 +648,8 @@ export class Login extends React.Component {
     this.props.setDisplayState(FORGOT_PASSWORD);
   };
 
+  isReauthFromExpiredSession = () => this.state.expiredSessionReauth.expiredSessionUsername && this.state.expiredSessionReauth.expiredSessionUsername.length;
+
   requiresReauth = (currentTenant) => {
     // if it is SSO
     if (this.props.displayState === SSO_LOGIN) {
@@ -552,13 +662,13 @@ export class Login extends React.Component {
 
         if (typeof agentTenant.tenantActive !== 'boolean') {
           // if we are searching through the accountTenants
-          // array (as opposed to the tenants array, then we won't have
+          // array (as opposed to the tenants array), then we won't have
           // the tenantActive boolean property we need - so grab it!
           const accountTenant = this.props.agent.accountTenants.find(
             (tenant) => tenant.tenantId === agentTenant.tenantId
           );
 
-          tenantActiveBool = accountTenant.tenantActive;
+          tenantActiveBool = accountTenant.active;
         } else {
           tenantActiveBool = agentTenant.tenantActive;
         }
@@ -691,60 +801,82 @@ export class Login extends React.Component {
     );
   };
 
-  getLoginContent = () => (
-    <div id="loginContainerDiv" style={styles.dialogContentContainer}>
-      <Logo style={styles.logo} />
-      <div style={styles.dialogContent}>
-        {this.getLoginTitle()}
-        <TextInput
-          id={messages.username.id}
-          autoFocus={!this.state.rememberEmail}
-          key="username"
-          style={styles.usernameInput}
-          placeholder={messages.username}
-          autocomplete="email"
-          value={this.state.email}
-          cb={this.setEmail}
+  getLoginContent = () => {
+    // if this is a reauth from expired session, we don't need to show
+    // the login fields, as we are logging in in the background, so just show
+    // the loading spinner...
+    if ((
+      this.isReauthFromExpiredSession() &&
+      !(
+        this.props.criticalError ||
+        this.props.nonCriticalError
+      )) ||
+      this.props.loading
+    ) {
+      this.getLoadingContent();
+    }
+
+    // ...otherwise, of course show the login fields
+    return (
+      <div
+        id="loginContainerDiv"
+        style={styles.dialogContentContainer}
+      >
+        <Logo
+          style={styles.logo}
         />
-        <TextInput
-          id={messages.password.id}
-          autoFocus={this.state.rememberEmail}
-          key="password"
-          type="password"
-          placeholder={messages.password}
-          autocomplete="password"
-          value={this.state.password}
-          cb={this.setPassword}
-          onEnter={this.onLogin}
-        />
-        <CheckBox
-          id={messages.rememberMe.id}
-          style={styles.rememberMe}
-          checked={this.state.rememberEmail}
-          text={messages.rememberMe}
-          cb={this.setRememberEmail}
-        />
-        <Button
-          id={messages.signInButton.id}
-          type="primaryBlueBig"
-          style={styles.actionButton}
-          text={messages.signInButton}
-          onClick={() => this.onLogin()}
-        />
-        {this.ssoFlag() && (
-          <A
-            id={messages.ssoSignIn.id}
-            style={styles.ssoLink}
-            onClick={this.showSsoLogin}
-            text={messages.ssoSignIn}
+        <div style={styles.dialogContent}>
+          {this.getLoginTitle()}
+          <TextInput
+            id={messages.username.id}
+            autoFocus={!this.state.rememberEmail}
+            key="username"
+            style={styles.usernameInput}
+            placeholder={messages.username}
+            autocomplete="email"
+            value={this.state.email}
+            cb={this.setEmail}
           />
-        )}
-        {/* Hide until we implement the feature
-          <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.showForgotPassword()} />
-        */}
+          <TextInput
+            id={messages.password.id}
+            autoFocus={this.state.rememberEmail}
+            key="password"
+            type="password"
+            placeholder={messages.password}
+            autocomplete="password"
+            value={this.state.password}
+            cb={this.setPassword}
+            onEnter={this.onLogin}
+          />
+          <CheckBox
+            id={messages.rememberMe.id}
+            style={styles.rememberMe}
+            checked={this.state.rememberEmail}
+            text={messages.rememberMe}
+            cb={this.setRememberEmail}
+          />
+          <Button
+            id={messages.signInButton.id}
+            type="primaryBlueBig"
+            style={styles.actionButton}
+            text={messages.signInButton}
+            onClick={() => this.onLogin()}
+          />
+          {this.ssoFlag() && (
+            <A
+              id={messages.ssoSignIn.id}
+              style={styles.ssoLink}
+              onClick={this.showSsoLogin}
+              text={messages.ssoSignIn}
+            />
+          )}
+          {/* Hide until we implement the feature
+            <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.showForgotPassword()} />
+          */}
+        </div>
       </div>
-    </div>
-  );
+    )
+  };
 
   getSingleSignOnContent = () => (
     <div id="ssoContainer" style={styles.dialogContentContainer}>
@@ -855,6 +987,7 @@ export class Login extends React.Component {
 
   render() {
     let pageContent;
+
     if (this.props.loading) {
       pageContent = this.getLoadingContent();
     } else if (
@@ -959,6 +1092,9 @@ const mapStateToProps = (state, props) => ({
   locale: selectLocale()(state),
   crmModule: selectCrmModule(state, props),
   isStandalonePopup: selectAgentDesktopMap(state, props).get('standalonePopup'),
+  criticalError: selectCriticalError(state, props),
+  nonCriticalError: selectNonCriticalError(state, props),
+  loginPopup: selectAgentDesktopMap(state, props).get('loginPopup'),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -975,6 +1111,8 @@ function mapDispatchToProps(dispatch) {
     setNonCriticalError: (error) => dispatch(setNonCriticalError(error)),
     dismissError: () => dispatch(dismissError()),
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
+    showLoginPopup: (popupConfig) =>
+      dispatch(showLoginPopup(popupConfig)),
     dispatch,
   };
 }
@@ -1001,6 +1139,10 @@ Login.propTypes = {
   crmModule: PropTypes.string,
   isStandalonePopup: PropTypes.bool,
   initiatedStandalonePopup: PropTypes.bool,
+  criticalError: PropTypes.any,
+  nonCriticalError: PropTypes.any,
+  showLoginPopup: PropTypes.func.isRequired,
+  loginPopup: PropTypes.object,
 };
 
 Login.contextTypes = {

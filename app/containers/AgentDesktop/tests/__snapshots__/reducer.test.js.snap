@@ -1354,10 +1354,17 @@ exports[`agentDesktopReducer returns the correct initial state 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [],
   "queues": Immutable.List [],
+  "loginPopup": Immutable.Map {
+    "reauthPassword": "",
+    "showLoginPopup": false,
+  },
   "currentCrmItemHistoryPanel": Immutable.Map {
     "interactionId": "current-crm-item-history",
     "status": "current-crm-item-history",
     "isSidePanelCollapsed": true,
+  },
+  "expirationPromptReauth": Immutable.Map {
+    "showConfirmationPopupGoReady": false,
   },
   "isInteractionsBarCollapsed": true,
   "newInteractionPanel": Immutable.Map {

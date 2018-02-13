@@ -10,19 +10,23 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+
+import expireToken from 'utils/token';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import Collapsible from 'components/Collapsible';
 import Icon from 'components/Icon';
 import PopupDialog from 'components/PopupDialog';
+import { selectAgent } from 'containers/Login/selectors';
 
 import {
   setActiveExtension,
   goNotReady,
+  showConfirmationPopupGoReady,
 } from 'containers/AgentDesktop/actions';
 
 import LargeMenuRow from './LargeMenuRow';
@@ -37,6 +41,8 @@ import {
   selectHasActiveWrapup,
   selectAgentDirection,
 } from './selectors';
+
+const storage = window.localStorage;
 
 const styles = {
   base: {
@@ -120,6 +126,7 @@ export class AgentStatusMenu extends React.Component {
       clearHoverInt: 0,
       statusLoading: false,
       expandedMenu: '',
+      showDisplayReauthConfirm: false,
     };
   }
 
@@ -164,7 +171,29 @@ export class AgentStatusMenu extends React.Component {
   };
 
   goReady = () => {
-    this.changePresence('ready');
+    // Check if the current time is later than the expiration time
+    // minus the 9 hours, since this ensures that you will never be
+    // booted off while in "Ready" mode due to an expired
+    // token during a typical work day
+    const debugTokenVal = storage.getItem('debugTokenVal');
+    const token = CxEngage.session.getToken();
+    if (expireToken(token, 9, this.props.agent.isSso, debugTokenVal)) {
+      this.props.showAgentStatusMenu(false);
+
+      // if we have less than 9 hours until the token expires, let's grab
+      // a new token with this reauth modal!
+      this.props.showConfirmationPopupGoReady({
+        showConfirmationPopupGoReady: true,
+        propertiesForLocalStorage: {
+          isSso: !!this.props.agent.isSso,
+          expiredSessionUsername: this.props.agent.username,
+          tenantId: this.props.tenant.id,
+          name: this.props.tenant.name,
+        },
+      });
+    } else {
+      this.changePresence('ready');
+    }
   };
 
   renderReason = (reason, listId, includeSectionName) => {
@@ -248,7 +277,9 @@ export class AgentStatusMenu extends React.Component {
   ];
 
   logoutAndCloseMenu = () => {
-    CxEngage.authentication.logout((error) => error && window.location.reload());
+    CxEngage.authentication.logout(
+      (error) => error && window.location.reload()
+    );
     this.props.showAgentStatusMenu(false);
   };
 
@@ -425,6 +456,7 @@ export class AgentStatusMenu extends React.Component {
 }
 
 AgentStatusMenu.propTypes = {
+  intl: intlShape.isRequired,
   hasActiveInteractions: PropTypes.bool.isRequired,
   extensions: PropTypes.array.isRequired,
   activeExtension: PropTypes.object.isRequired,
@@ -436,8 +468,10 @@ AgentStatusMenu.propTypes = {
   readyState: PropTypes.string,
   setActiveExtension: PropTypes.func.isRequired,
   goNotReady: PropTypes.func.isRequired,
+  showConfirmationPopupGoReady: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
   agentDirection: PropTypes.any,
+  agent: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -448,16 +482,19 @@ const mapStateToProps = (state, props) => ({
   selectedPresenceReason: selectSelectedPresenceReason(state, props),
   presenceReasonLists: selectPresenceReasonLists(state, props),
   agentDirection: selectAgentDirection(state, props),
+  agent: selectAgent(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     setActiveExtension: (extension) => dispatch(setActiveExtension(extension)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
+    showConfirmationPopupGoReady: (popupConfig) =>
+      dispatch(showConfirmationPopupGoReady(popupConfig)),
     dispatch,
   };
 }
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStatusMenu))
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStatusMenu)))
 );

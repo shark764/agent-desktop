@@ -848,6 +848,20 @@ export function setContactSaveLoading(interactionId, isLoading) {
   };
 }
 
+export function showConfirmationPopupGoReady(popupConfig) {
+  return {
+    type: ACTIONS.SHOW_CONFIRMATION_POPUP_GO_READY,
+    popupConfig,
+  };
+}
+
+export function showLoginPopup(popupConfig) {
+  return {
+    type: ACTIONS.SHOW_LOGIN_POPUP,
+    popupConfig,
+  };
+}
+
 export function initForm(
   interactionId,
   contactForm,

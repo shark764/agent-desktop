@@ -21,7 +21,7 @@ function TextBlob(props) {
 
 TextBlob.propTypes = {
   id: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   style: PropTypes.object,
 };
 

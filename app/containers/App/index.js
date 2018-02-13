@@ -28,6 +28,9 @@ import ResponseMessage from 'models/Message/ResponseMessage';
 
 import Login from 'containers/Login';
 import NotificationBanner from 'components/NotificationBanner';
+import ConfirmationPopupGoReady from 'containers/ConfirmationPopupGoReady';
+import LoginPopup from 'containers/LoginPopup';
+
 import AgentDesktop from 'containers/AgentDesktop';
 
 import { selectLocale } from 'containers/LanguageProvider/selectors';
@@ -1282,6 +1285,24 @@ export class App extends React.Component {
     },
   };
 
+  // display the popup confirmation for reauthorizing the user
+  // in the event of a token expiration
+  displayReauthPopup = () => {
+    if (this.props.expirationPromptReauth.get('showConfirmationPopupGoReady')) {
+      return (
+        <ConfirmationPopupGoReady
+          propertiesForLocalStorage={this.props.expirationPromptReauth.get('propertiesForLocalStorage')}
+        />
+      )
+    } else if (this.props.loginPopup.get('showLoginPopup')) {
+      return (
+        <LoginPopup />
+      )
+    }
+
+    return null;
+  }
+
   render() {
     const banners = [];
     const refreshBannerIsVisible =
@@ -1377,6 +1398,8 @@ export class App extends React.Component {
           ) : (
             <AgentDesktop />
           )}
+
+        {this.displayReauthPopup()}
       </div>
     );
   }
@@ -1393,6 +1416,8 @@ const mapStateToProps = (state, props) => ({
   nonCriticalError: selectNonCriticalError(state, props),
   hasCrmPermissions: selectHasCrmPermissions(state, props),
   crmModule: selectCrmModule(state, props),
+  loginPopup: selectAgentDesktopMap(state, props).get('loginPopup'),
+  expirationPromptReauth: selectAgentDesktopMap(state, props).get('expirationPromptReauth'),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -1620,6 +1645,8 @@ App.propTypes = {
   startOutboundEmail: PropTypes.func.isRequired,
   loadCrmInteractionHistory: PropTypes.func.isRequired,
   openNewInteractionPanel: PropTypes.func.isRequired,
+  loginPopup: PropTypes.object,
+  expirationPromptReauth: PropTypes.object,
 };
 
 App.contextTypes = {

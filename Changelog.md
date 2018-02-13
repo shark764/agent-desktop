@@ -1,3 +1,6 @@
+### [1.16.0] (2018-02-11)
+* CXV1-12741: SSO - AD/TB2: Force logout upon set to "Ready" if token has 9 or less hours left on it
+
 ### [1.15.26] (2018-02-13)
 * CXV1-12085 - Skylight issue - tenant drop-down list not sorted by alpha order
 
