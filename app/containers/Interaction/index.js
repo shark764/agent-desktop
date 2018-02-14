@@ -51,7 +51,7 @@ const styles = {
     justifyContent: 'space-evenly',
   },
   pendingPstn: {
-    pointerEvents: 'none',
+    cursor: 'default',
   },
   pendingBase: {
     borderBottom: 'none',
@@ -442,7 +442,7 @@ export class Interaction extends React.Component {
           { marginRight: '50px' },
         ]}
         key={this.props.interaction.interactionId}
-        onClick={this.props.onClick}
+        onClick={!pendingPSTN ? this.props.onClick : null}
         onMouseOver={this.context.toolbarMode ? this.handleMouseOver : null}
         onFocus={this.context.toolbarMode ? this.handleMouseOver : null}
         onMouseLeave={this.context.toolbarMode ? this.handleMouseLeave : null}

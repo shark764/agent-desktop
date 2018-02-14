@@ -1,3 +1,6 @@
+### [1.16.1] (2018-02-14)
+* CXV1-12726: Fix onhover for PSTN pending interactions in toolbar
+
 ### [1.16.0] (2018-02-11)
 * CXV1-12741: SSO - AD/TB2: Force logout upon set to "Ready" if token has 9 or less hours left on it
 
