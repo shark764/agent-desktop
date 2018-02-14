@@ -24,7 +24,7 @@ const styles = {
     margin: '10px 0 0 auto',
     padding: '.25em .5em',
     maxWidth: '65px',
-    pointerEvents: 'auto',
+    cursor: 'pointer',
   },
 };
 
