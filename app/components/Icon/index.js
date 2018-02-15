@@ -255,7 +255,8 @@ const styles = {
       backgroundPosition: '-24px 0',
     },
     active: {
-      backgroundPosition: '-48px 0',
+      opacity: '0.5',
+      filter: 'alpha(opacity=50)',
     },
   },
   transfer: {

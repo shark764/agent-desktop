@@ -99,21 +99,6 @@ exports[`<Icon /> with name checkStatus should render correctly 1`] = `
   style={
     Object {
       "cursor": "pointer",
-      "height": "25px",
-    }
-  }
-/>
-`;
-
-exports[`<Icon /> with name checkStatus should render correctly 1`] = `
-<img
-  alt="checkStatus"
-  data-radium={true}
-  id="mockId"
-  src="test-file-stub"
-  style={
-    Object {
-      "cursor": "pointer",
       "height": "17px",
     }
   }
@@ -386,12 +371,13 @@ exports[`<Icon /> with name hold_resource and active prop should render correctl
   style={
     Object {
       "backgroundImage": "url(test-file-stub)",
-      "backgroundPosition": "-48px 0",
       "backgroundSize": "72px 24px",
       "borderRadius": "50%",
       "cursor": "pointer",
       "display": "block",
+      "filter": "alpha(opacity=50)",
       "height": "24px",
+      "opacity": "0.5",
       "width": "24px",
     }
   }
