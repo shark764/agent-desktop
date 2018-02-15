@@ -468,7 +468,11 @@ export class Login extends React.Component {
         } else if (Object.keys(this.state.savedTenant).length === 2) {
           targetTenantData = this.state.savedTenant;
         } else if (response.details.length){
-          targetTenantData = response.details.find((val) => val.tenantId ===  this.state.tenantId);
+          if (response.details.length === 1) {
+            targetTenantData = response.details[0];
+          } else {
+            targetTenantData = response.details.find((val) => val.tenantId ===  this.state.tenantId);
+          }
         }
 
         if (targetTenantData) {

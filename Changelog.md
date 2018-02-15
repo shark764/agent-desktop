@@ -1,3 +1,6 @@
+### [1.16.2] (2018-02-15)
+* CXV1-12741: Add back in the functionality that skips tenant select if there is only 1 tenant 
+
 ### [1.16.1] (2018-02-14)
 * CXV1-12726: Fix onhover for PSTN pending interactions in toolbar
 
