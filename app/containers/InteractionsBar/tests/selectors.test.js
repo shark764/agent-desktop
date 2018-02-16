@@ -3,11 +3,186 @@
  */
 
 import { fromJS } from 'immutable';
-import { selectShowCurrentCrmItemHistoryButton } from '../selectors';
+import {
+  selectActiveNonVoiceInteractions,
+  selectActiveVoiceInteraction,
+  selectShowCurrentCrmItemHistoryButton,
+} from '../selectors';
 
-let mockedState;
+describe('selectActiveNonVoiceInteractions', () => {
+  describe('voice interactions', () => {
+    let mockedState;
+    beforeEach(() => {
+      mockedState = fromJS({
+        agentDesktop: {
+          interactions: [
+            {
+              channelType: 'voice',
+              status: 'work-ended-pending-script',
+            },
+            {
+              channelType: 'voice',
+              status: 'work-accepted',
+            },
+          ],
+        },
+      });
+    });
+    it('select with status of work-ended-pending-script', () => {
+      expect(selectActiveNonVoiceInteractions(mockedState)).toMatchSnapshot();
+    });
+  });
+
+  describe('non voice interactions', () => {
+    let mockedState;
+    beforeEach(() => {
+      mockedState = fromJS({
+        agentDesktop: {
+          interactions: [
+            // Selected:
+            {
+              status: 'work-accepting',
+            },
+            {
+              status: 'work-accepted',
+            },
+            {
+              status: 'wrapup',
+            },
+            {
+              status: 'work-ended-pending-script',
+            },
+            {
+              status: 'creating-new-interaction',
+            },
+            {
+              status: 'connecting-to-outbound',
+            },
+            {
+              status: 'initializing-outbound',
+            },
+            {
+              status: 'initialized-outbound',
+            },
+            {
+              isScriptOnly: true,
+            },
+            // Filtered:
+            {
+              status: 'non-active-status',
+            },
+            {
+              isScriptOnly: false,
+            },
+          ],
+        },
+      });
+    });
+    it('select "active" statuses', () => {
+      expect(selectActiveNonVoiceInteractions(mockedState)).toMatchSnapshot();
+    });
+  });
+
+  describe('non voice interactions and voice interactions', () => {
+    let mockedState;
+    beforeEach(() => {
+      mockedState = fromJS({
+        agentDesktop: {
+          interactions: [
+            {
+              channelType: 'sms',
+              status: 'work-accepted',
+            },
+            {
+              channelType: 'voice',
+              status: 'work-ended-pending-script',
+            },
+          ],
+        },
+      });
+    });
+    it('puts voice interactions at beginning of list', () => {
+      expect(selectActiveNonVoiceInteractions(mockedState)).toMatchSnapshot();
+    });
+  });
+});
+
+describe('selectActiveVoiceInteraction', () => {
+  describe('active voice interactions', () => {
+    describe('work-accepting', () => {
+      const mockedState = fromJS({
+        agentDesktop: {
+          interactions: [
+            {
+              channelType: 'voice',
+              status: 'work-accepting',
+            },
+          ],
+        },
+      });
+      it('selects', () => {
+        expect(selectActiveVoiceInteraction(mockedState)).toMatchSnapshot();
+      });
+    });
+
+    describe('work-accepted', () => {
+      const mockedState = fromJS({
+        agentDesktop: {
+          interactions: [
+            {
+              channelType: 'voice',
+              status: 'work-accepted',
+            },
+          ],
+        },
+      });
+      it('selects', () => {
+        expect(selectActiveVoiceInteraction(mockedState)).toMatchSnapshot();
+      });
+    });
+
+    describe('wrapup', () => {
+      const mockedState = fromJS({
+        agentDesktop: {
+          interactions: [
+            {
+              channelType: 'voice',
+              status: 'wrapup',
+            },
+          ],
+        },
+      });
+      it('selects', () => {
+        expect(selectActiveVoiceInteraction(mockedState)).toMatchSnapshot();
+      });
+    });
+  });
+
+  describe('non active voice interactions', () => {
+    let mockedState;
+    beforeEach(() => {
+      mockedState = fromJS({
+        agentDesktop: {
+          interactions: [
+            {
+              channelType: 'voice',
+              status: 'non-active-status',
+            },
+            {
+              status: 'work-accepted',
+            },
+          ],
+        },
+      });
+    });
+    it("doesn't select", () => {
+      expect(selectActiveVoiceInteraction(mockedState)).toEqual(undefined);
+    });
+  });
+});
 
 describe('selectShowCurrentCrmItemHistoryButton', () => {
+  let mockedState;
   beforeEach(() => {
     mockedState = fromJS({
       agentDesktop: {
