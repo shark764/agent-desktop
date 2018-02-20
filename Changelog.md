@@ -1,3 +1,6 @@
+### [1.17.0] (2018-02-15)
+* CXV1-12837 - Queue callback notification
+
 ### [1.16.3] (2018-02-15)
 * CXV1-12067: Adding Participant and Placing them on Hold Causes a White Button on a White Background
 

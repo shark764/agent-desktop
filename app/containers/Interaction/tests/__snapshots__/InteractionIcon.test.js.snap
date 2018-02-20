@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Interaction /> email renders email icon 1`] = `
+<Icon
+  name="email"
+/>
+`;
+
+exports[`<Interaction /> email with work-initiated status in toolbarMode renders email icon 1`] = `
+<Icon
+  name="email"
+/>
+`;
+
+exports[`<Interaction /> email with work-initiated status renders new email icon 1`] = `
+<Icon
+  name="email_new"
+/>
+`;
+
+exports[`<Interaction /> messaging/sms messaging renders message icon 1`] = `
+<Icon
+  name="message"
+/>
+`;
+
+exports[`<Interaction /> messaging/sms messaging with non work-initiated status and last message is from customer renders new message icon 1`] = `
+<Icon
+  name="message_new"
+/>
+`;
+
+exports[`<Interaction /> messaging/sms messaging with work-initiated status and not in toolbar mode renders new message icon 1`] = `
+<Icon
+  name="message_new"
+/>
+`;
+
+exports[`<Interaction /> messaging/sms sms renders message icon 1`] = `
+<Icon
+  name="message"
+/>
+`;
+
+exports[`<Interaction /> voice renders default blue voice icon 1`] = `
+<VoiceIconSVG
+  color="blue"
+  type="default"
+/>
+`;
+
+exports[`<Interaction /> voice with callback notification renders callback voice icon 1`] = `
+<VoiceIconSVG
+  color="blue"
+  type="callback"
+/>
+`;
+
+exports[`<Interaction /> voice with work-initiated status and in toolbar mode renders white voice icon 1`] = `
+<VoiceIconSVG
+  color="white"
+  type="default"
+/>
+`;
+
+exports[`<Interaction /> work-item renders work-item icon 1`] = `
+<Icon
+  name="work_item"
+/>
+`;
+
+exports[`<Interaction /> work-item with work-initiated status in toolbarMode renders work-item icon 1`] = `
+<Icon
+  name="work_item"
+/>
+`;
+
+exports[`<Interaction /> work-item with work-initiated status renders new work-item icon 1`] = `
+<Icon
+  name="work_item_new"
+/>
+`;

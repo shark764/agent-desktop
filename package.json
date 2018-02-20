@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.16.3",
+  "version": "1.17.0",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -256,6 +256,7 @@
     "chalk": "2.3.0",
     "compression": "1.7.1",
     "cross-env": "5.1.1",
+    "cx-ui-components": "0.0.7",
     "draft-js-export-html": "1.2.0",
     "draft-js-import-html": "1.2.1",
     "empty-module": "0.0.2",

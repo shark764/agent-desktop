@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VoiceInteractionNotifications /> with no notifications renders nothing 1`] = `""`;
+
+exports[`<VoiceInteractionNotifications /> with notification renders correctly 1`] = `
+Array [
+  <InjectIntl(NotificationBanner)
+    descriptionMessage="Callback call number: +15061234567. Waiting for 10s."
+    descriptionStyle={
+      Object {
+        "textAlign": "center",
+      }
+    }
+    dismiss={[Function]}
+    dismissArguments={
+      Array [
+        "mockInteractionId",
+        "callbackRequest-id",
+      ]
+    }
+    id="callbackRequest"
+    key="callbackRequest-id"
+  />,
+]
+`;

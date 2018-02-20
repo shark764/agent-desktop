@@ -17,5 +17,3 @@ export const getIntlContext = () => {
   const { intl } = intlProvider.getChildContext();
   return intl;
 };
-
-export default { getIntlContext };

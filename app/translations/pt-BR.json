@@ -263,6 +263,7 @@
   "app.containers.TransferResource.transferDescription": "Transferir para participante",
   "app.containers.VoiceContentArea.endWrapup": "Encerramento",
   "app.containers.VoiceContentArea.hangUp": "Desligar o telefone",
+  "app.containers.VoiceInteractionNotifications.callbackRequest": "",
   "app.containers.WelcomeStats.customerSatisfactionScore": "Satisfação do cliente",
   "app.containers.WelcomeStats.performance": "DESEMPENHO",
   "app.containers.WelcomeStats.resourceHandleTime": "Tempo médio de procedimento",

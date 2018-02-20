@@ -2071,6 +2071,17 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.SHOW_LOGIN_POPUP: {
       return state.set('loginPopup', new Map(action.popupConfig));
     }
+    case ACTIONS.DISMISS_INTERACTION_NOTIFICATION: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.updateIn(
+          ['interactions', interactionIndex, 'notifications'],
+          (notifications) => notifications.filterNot((notification) => notification.get('id') === action.notificationId)
+        );
+      } else {
+        return state;
+      }
+    }
     default:
       return state;
   }

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`selectActiveVoiceInteraction there are voice and non-voice interactions returns the voice interaction 1`] = `
+Immutable.Map {
+  "channelType": "voice",
+  "status": "work-initiated",
+}
+`;
+
+exports[`selectActiveVoiceInteraction voice interaction is work-accepted returns the voice interaction 1`] = `
+Immutable.Map {
+  "channelType": "voice",
+  "status": "work-accepted",
+}
+`;
+
+exports[`selectActiveVoiceInteraction voice interaction is work-accepting returns the voice interaction 1`] = `
+Immutable.Map {
+  "channelType": "voice",
+  "status": "work-accepting",
+}
+`;
