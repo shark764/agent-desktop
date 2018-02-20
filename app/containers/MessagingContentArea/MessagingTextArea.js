@@ -276,14 +276,14 @@ export class MessagingTextArea extends React.Component {
           break;
         }
       }
+      this.setState({
+        messageTemplateFilter: newMessageTemplateFilter,
+        selectedMessageTemplateIndex:
+          newSelectedMessageTemplateIndex !== undefined
+            ? newSelectedMessageTemplateIndex
+            : this.state.selectedMessageTemplateIndex,
+      });
     }
-    this.setState({
-      messageTemplateFilter: newMessageTemplateFilter,
-      selectedMessageTemplateIndex:
-        newSelectedMessageTemplateIndex !== undefined
-          ? newSelectedMessageTemplateIndex
-          : this.state.selectedMessageTemplateIndex,
-    });
     this.props.saveMesssageState(
       this.props.selectedInteraction.interactionId,
       messageText
@@ -482,7 +482,7 @@ export class MessagingTextArea extends React.Component {
                 ? styles.messageTextareaWithTemplates
                 : styles.messageTextarea
             }
-            value={this.props.selectedInteraction.currentMessage || ''}
+            value={this.props.selectedInteraction.currentMessage}
             onChange={(e) => this.setMessageText(e.target.value)}
             onKeyDown={this.onMessageKeyDown}
             autoFocus
