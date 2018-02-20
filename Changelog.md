@@ -1,3 +1,7 @@
+### [1.17.2] (2018-02-20)
+* CXV1-12729 - Fix messaging text area cursor going to end of input on every change
+* CXV1-12730 - Fix "undefined" being prepended to message templates
+
 ### [1.17.1] (2018-02-20)
 * CXV1-12809 - Continute to show voice interactions with pending script after a new voice interaction comes in
 

@@ -71,6 +71,9 @@ describe('Interaction', () => {
     it('sets customer to the value passed in', () => {
       expect(interaction.customer).toEqual('mock-customer');
     });
+    it('sets currentMessage to ""', () => {
+      expect(interaction.currentMessage).toEqual('');
+    });
   });
 
   describe('messaging', () => {
@@ -82,6 +85,9 @@ describe('Interaction', () => {
     });
     it('sets messageHistory to an empty list', () => {
       expect(interaction.messageHistory).toEqual(new List());
+    });
+    it('sets currentMessage to ""', () => {
+      expect(interaction.currentMessage).toEqual('');
     });
   });
 

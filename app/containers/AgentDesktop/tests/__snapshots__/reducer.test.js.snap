@@ -1010,6 +1010,7 @@ Immutable.Map {
       "messageHistory": Immutable.List [],
       "interactionId": "outbound-sms-+15064701234",
       "customFieldsCollapsed": true,
+      "currentMessage": "",
       "note": Immutable.Map {
         "body": "",
         "title": "",
