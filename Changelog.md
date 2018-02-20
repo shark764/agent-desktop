@@ -1,3 +1,6 @@
+### [1.17.1] (2018-02-20)
+* CXV1-12809 - Continute to show voice interactions with pending script after a new voice interaction comes in
+
 ### [1.17.0] (2018-02-15)
 * CXV1-12837 - Queue callback notification
 

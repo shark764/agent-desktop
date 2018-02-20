@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`selectActiveNonVoiceInteractions non voice interactions and voice interactions puts voice interactions at beginning of list 1`] = `
+Array [
+  Object {
+    "channelType": "voice",
+    "status": "work-ended-pending-script",
+  },
+  Object {
+    "channelType": "sms",
+    "status": "work-accepted",
+  },
+]
+`;
+
+exports[`selectActiveNonVoiceInteractions non voice interactions select "active" statuses 1`] = `
+Array [
+  Object {
+    "status": "work-accepting",
+  },
+  Object {
+    "status": "work-accepted",
+  },
+  Object {
+    "status": "wrapup",
+  },
+  Object {
+    "status": "work-ended-pending-script",
+  },
+  Object {
+    "status": "creating-new-interaction",
+  },
+  Object {
+    "status": "connecting-to-outbound",
+  },
+  Object {
+    "status": "initializing-outbound",
+  },
+  Object {
+    "status": "initialized-outbound",
+  },
+  Object {
+    "isScriptOnly": true,
+  },
+]
+`;
+
+exports[`selectActiveNonVoiceInteractions voice interactions select with status of work-ended-pending-script 1`] = `
+Array [
+  Object {
+    "channelType": "voice",
+    "status": "work-ended-pending-script",
+  },
+]
+`;
+
+exports[`selectActiveVoiceInteraction active voice interactions work-accepted selects 1`] = `
+Object {
+  "channelType": "voice",
+  "status": "work-accepted",
+}
+`;
+
+exports[`selectActiveVoiceInteraction active voice interactions work-accepting selects 1`] = `
+Object {
+  "channelType": "voice",
+  "status": "work-accepting",
+}
+`;
+
+exports[`selectActiveVoiceInteraction active voice interactions wrapup selects 1`] = `
+Object {
+  "channelType": "voice",
+  "status": "wrapup",
+}
+`;

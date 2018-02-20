@@ -17,8 +17,16 @@ const getSelectedInteractionId = createSelector(
 
 const selectActiveNonVoiceInteractions = createSelector(
   selectInteractions,
-  (interactions) =>
-    interactions.filter(
+  (interactions) => {
+    // We can have multiple voice interactions if they are in the 'work-ended-pending-script' state.
+    // We get the voice interactions separately so they stay at the top of the list,
+    // to prevent them from shooting down the list when transitioning from active to 'work-ended-pending-script'.
+    const voiceInteractionsPendingScript = interactions.filter(
+      (interaction) =>
+        interaction.channelType === 'voice' &&
+        interaction.status === 'work-ended-pending-script'
+    );
+    const activeNonVoiceInteraction = interactions.filter(
       (interaction) =>
         (interaction.status === 'work-accepting' ||
           interaction.status === 'work-accepted' ||
@@ -30,7 +38,9 @@ const selectActiveNonVoiceInteractions = createSelector(
           interaction.status === 'initialized-outbound' ||
           interaction.isScriptOnly === true) &&
         interaction.channelType !== 'voice'
-    )
+    );
+    return voiceInteractionsPendingScript.concat(activeNonVoiceInteraction);
+  }
 );
 
 const selectActiveVoiceInteraction = createSelector(
@@ -40,8 +50,7 @@ const selectActiveVoiceInteraction = createSelector(
       (interaction) =>
         (interaction.status === 'work-accepting' ||
           interaction.status === 'work-accepted' ||
-          interaction.status === 'wrapup' ||
-          interaction.status === 'work-ended-pending-script') &&
+          interaction.status === 'wrapup') &&
         interaction.channelType === 'voice'
     )
 );
