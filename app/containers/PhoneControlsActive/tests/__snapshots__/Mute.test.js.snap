@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Mute /> with false meOnHold renders icon 1`] = `
+<CircleIconButton
+  active={false}
+  id="muteButton"
+  name="mute"
+  onClick={[Function]}
+  style={
+    Object {
+      "padding": "0 1.5px",
+    }
+  }
+/>
+`;
+
+exports[`<Mute /> with meOnHold renders nothing 1`] = `""`;

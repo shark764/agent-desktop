@@ -15,11 +15,23 @@ Array [
     dismissArguments={
       Array [
         "mockInteractionId",
-        "callbackRequest-id",
+        "callbackRequest",
       ]
     }
     id="callbackRequest"
-    key="callbackRequest-id"
+    key="callbackRequest"
+  />,
+  <InjectIntl(NotificationBanner)
+    descriptionMessage="Collecting customer information. Call controls have been disabled until this process is complete."
+    descriptionStyle={
+      Object {
+        "textAlign": "center",
+      }
+    }
+    dismiss={null}
+    dismissArguments={Array []}
+    id="collectingCustomerInformation"
+    key="collectingCustomerInformation"
   />,
 ]
 `;

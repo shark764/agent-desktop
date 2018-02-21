@@ -427,7 +427,7 @@ export class TransferMenu extends React.Component {
   };
 
   transfer = (name, resourceId, queueId, transferExtension) => {
-    const interactionId = this.props.interactionId;
+    const { interactionId } = this.props;
     let transferType;
     if (this.state.transferTabIndex === 0 && !this.props.nonVoice) {
       transferType = 'warm';
@@ -601,7 +601,7 @@ export class TransferMenu extends React.Component {
         this.state.transferLists.forEach((transferList) => {
           const hierarchyMap = new Map();
           transferList.endpoints.forEach((transferListItem) => {
-            const hierarchy = transferListItem.hierarchy;
+            const { hierarchy } = transferListItem;
             if (!hierarchyMap.has(hierarchy)) {
               hierarchyMap.set(hierarchy, [transferListItem]);
             } else {

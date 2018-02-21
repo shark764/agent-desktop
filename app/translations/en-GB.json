@@ -264,6 +264,7 @@
   "app.containers.VoiceContentArea.endWrapup": "End Wrap Up",
   "app.containers.VoiceContentArea.hangUp": "Hang Up",
   "app.containers.VoiceInteractionNotifications.callbackRequest": "",
+  "app.containers.VoiceInteractionNotifications.collectingCustomerInformation": "",
   "app.containers.WelcomeStats.customerSatisfactionScore": "Customer Satisfaction",
   "app.containers.WelcomeStats.performance": "PERFORMANCE",
   "app.containers.WelcomeStats.resourceHandleTime": "Average Handle Time",

@@ -599,6 +599,14 @@ export function resourceRemoved(response) {
   };
 }
 
+export function updateCallControls(interactionId, callControls) {
+  return {
+    type: ACTIONS.UPDATE_CALL_CONTROLS,
+    interactionId,
+    callControls,
+  };
+}
+
 export function muteCall(interactionId) {
   return {
     type: ACTIONS.MUTE_CALL,
@@ -888,10 +896,18 @@ export function resetForm(interactionId) {
   };
 }
 
-export function dismissInteractionNotification(interactionId, notificationId) {
+export function addInteractionNotification(interactionId, messageKey) {
   return {
-    type: ACTIONS.DISMISS_INTERACTION_NOTIFICATION,
+    type: ACTIONS.ADD_INTERACTION_NOTIFICATION,
     interactionId,
-    notificationId,
+    messageKey,
+  };
+}
+
+export function removeInteractionNotification(interactionId, messageKey) {
+  return {
+    type: ACTIONS.REMOVE_INTERACTION_NOTIFICATION,
+    interactionId,
+    messageKey,
   };
 }

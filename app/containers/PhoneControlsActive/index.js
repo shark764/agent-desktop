@@ -10,27 +10,24 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import Toggle from 'react-toggle';
-import 'assets/css/react-toggle-style.css';
-
 import ErrorBoundary from 'components/ErrorBoundary';
+
+import { selectAgentId } from 'containers/AgentDesktop/selectors';
 
 import Button from 'components/Button';
 import CircleIconButton from 'components/CircleIconButton';
-import Dialpad from 'components/Dialpad';
-
-import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
-import {
-  selectAgentId,
-  selectQueuesSet,
-} from 'containers/AgentDesktop/selectors';
-import TransferMenu from 'containers/TransferMenu';
 import TransferResource from 'components/TransferResource';
-import { setInteractionConfirmation } from 'containers/AgentDesktop/actions';
+
+import Dialpad from 'containers/PhoneControlsActive/Dialpad';
+import EndCall from 'containers/PhoneControlsActive/EndCall';
+import Hold from 'containers/PhoneControlsActive/Hold';
+import Mute from 'containers/PhoneControlsActive/Mute';
+import Recording from 'containers/PhoneControlsActive/Recording';
+import Transfer from 'containers/PhoneControlsActive/Transfer';
 
 import messages from './messages';
 
@@ -39,93 +36,15 @@ export class PhoneControlsActive extends React.Component {
     super(props);
 
     this.state = {
-      showTransferMenu: false,
-      showActiveInteractionDialpad: false,
-      activeInteractionDialpadText: '',
       // showActiveResourcesMenu is the flag to show the menu of all active resources on the call (only used for toolbarMode)
       showActiveResourcesMenu: false,
     };
   }
 
-  setShowTransferMenu = (showTransferMenu) => {
-    this.setState({
-      showTransferMenu,
-      showActiveInteractionDialpad: false,
-    });
-  };
-
-  setActiveInteractionDialpadText = (activeInteractionDialpadText) => {
-    this.setState({ activeInteractionDialpadText });
-  };
-
-  toggleDialpad = () => {
-    this.setState({
-      showActiveInteractionDialpad: !this.state.showActiveInteractionDialpad,
-    });
-  };
-
-  toggleTransferMenu = () => {
-    if (!this.props.queuesSet) {
-      CxEngage.entities.getQueues();
-    }
-    this.setShowTransferMenu(!this.state.showTransferMenu);
-  };
-
   toggleActiveResourcesMenu = () => {
     this.setState({
       showActiveResourcesMenu: !this.state.showActiveResourcesMenu,
     });
-  };
-
-  setRecording = () => {
-    if (this.props.activeVoiceInteraction.recording) {
-      CxEngage.interactions.voice.stopRecording({
-        interactionId: this.props.activeVoiceInteraction.interactionId,
-      });
-    } else {
-      CxEngage.interactions.voice.startRecording({
-        interactionId: this.props.activeVoiceInteraction.interactionId,
-      });
-    }
-  };
-
-  confirmEndInteraction = () => {
-    if (this.props.activeVoiceInteraction.status === 'fatal') {
-      CxEngage.interactions.end({
-        interactionId: this.props.activeVoiceInteraction.interactionId,
-      });
-    } else {
-      this.props.setInteractionConfirmation(
-        this.props.activeVoiceInteraction.interactionId,
-        true
-      );
-    }
-  };
-
-  setMute = () => {
-    if (this.props.activeVoiceInteraction.muted) {
-      CxEngage.interactions.voice.unmute({
-        interactionId: this.props.activeVoiceInteraction.interactionId,
-        targetResourceId: this.props.agentId,
-      });
-    } else {
-      CxEngage.interactions.voice.mute({
-        interactionId: this.props.activeVoiceInteraction.interactionId,
-        targetResourceId: this.props.agentId,
-      });
-    }
-  };
-
-  setHold = () => {
-    if (this.props.activeVoiceInteraction.onHold) {
-      CxEngage.interactions.voice.customerResume({
-        interactionId: this.props.activeVoiceInteraction.interactionId,
-      });
-    } else {
-      CxEngage.interactions.voice.customerHold({
-        interactionId: this.props.activeVoiceInteraction.interactionId,
-      });
-    }
   };
 
   resumeAll = () => {
@@ -146,27 +65,6 @@ export class PhoneControlsActive extends React.Component {
       padding: '9px 0',
       position: 'relative',
     },
-    toolbarBase: {
-      padding: '9px 0',
-    },
-    recordingContainer: {
-      padding: '0 12px 14px',
-    },
-    recordingContainerToolbar: {
-      position: 'absolute',
-      right: '20px',
-      fontSize: '12px',
-      fontWeight: 'bold',
-    },
-    recordingText: {
-      fontSize: '14px',
-    },
-    toggleRecordingLabel: {
-      fontSize: '12px',
-      verticalAlign: 'top',
-      lineHeight: '21px',
-      marginRight: '3px',
-    },
     bottonRowContainer: {
       height: 40,
       width: '100%',
@@ -179,9 +77,6 @@ export class PhoneControlsActive extends React.Component {
     },
     circleIconButtonRow: {
       padding: '0 1.5px',
-    },
-    activeVoiceInteractionDialpadTopTriangle: {
-      marginLeft: '219px',
     },
     mask: {
       position: 'fixed',
@@ -202,30 +97,6 @@ export class PhoneControlsActive extends React.Component {
       marginTop: '4px',
       left: '14px',
       zIndex: 4,
-    },
-    transferTopTriangle: {
-      borderBottom: '10px solid #F3F3F3',
-    },
-    activeVoiceInteractionDialpadPhoneControlsPopupMenu: {
-      height: '339px',
-    },
-    transferPhoneControlsPopupMenu: {
-      width: '282px',
-      marginTop: '10px',
-      backgroundColor: '#FFFFFF',
-      color: '#4B4B4B',
-      boxShadow: '0 0 6px 0 rgba(0,0,0,0.23)',
-      borderRadius: '3px',
-      overflow: 'hidden',
-      position: 'absolute',
-      zIndex: 3,
-      fontSize: '14px',
-      left: '-119px',
-    },
-    transferPhoneControlsPopupMenuToolbar: {
-      left: 0,
-      width: '100%',
-      borderRadius: 0,
     },
     meOnHold: {
       width: '255px',
@@ -263,122 +134,7 @@ export class PhoneControlsActive extends React.Component {
     },
   };
 
-  renderDialpad = (showDialpad) => {
-    if (showDialpad) {
-      return (
-        <Dialpad
-          id="activeInteractionDialpad"
-          interactionId={this.props.activeVoiceInteraction.interactionId}
-          setDialpadText={this.setActiveInteractionDialpadText}
-          dialpadText={this.state.activeInteractionDialpadText}
-          inCall
-          toggle={this.toggleDialpad}
-          transfer={false}
-          dialpadPosition={this.props.dialpadPosition}
-        />
-      );
-    }
-    return null;
-  };
-
-  renderTopTriangle = () => <div style={this.styles.topTriangle} />;
-
-  renderTopTriangleTransferMenu = () => (
-    <div style={[this.styles.topTriangle, this.styles.transferTopTriangle]} />
-  );
-
-  renderTransferMenu = () => (
-    <span>
-      <div
-        id="transferMask"
-        style={this.styles.mask}
-        onClick={this.toggleTransferMenu}
-      />
-      {!this.context.toolbarMode && this.renderTopTriangleTransferMenu()}
-      <div
-        id="transfersContainer"
-        style={[
-          this.styles.transferPhoneControlsPopupMenu,
-          this.context.toolbarMode &&
-            this.styles.transferPhoneControlsPopupMenuToolbar,
-        ]}
-      >
-        <TransferMenu
-          interactionId={this.props.activeVoiceInteraction.interactionId}
-          setShowTransferMenu={this.setShowTransferMenu}
-        />
-      </div>
-    </span>
-  );
-
-  renderTransferMenuTypes = (forIcon) => {
-    if (this.state.showTransferMenu) {
-      if (forIcon && this.context.toolbarMode) {
-        return this.renderTopTriangleTransferMenu();
-      } else {
-        return this.renderTransferMenu();
-      }
-    } else {
-      return null;
-    }
-  };
-
   render() {
-    let recordingContainer;
-    if (this.props.activeVoiceInteraction.agentRecordingEnabled) {
-      if (this.context.toolbarMode) {
-        recordingContainer = (
-          <div
-            id="recordingContainer"
-            style={this.styles.recordingContainerToolbar}
-          >
-            <div>
-              <FormattedMessage {...messages.rec} />
-            </div>
-            <Toggle
-              id="toggleRecording"
-              icons={false}
-              onChange={this.setRecording}
-              checked={this.props.activeVoiceInteraction.recording}
-            />
-          </div>
-        );
-      } else {
-        recordingContainer = (
-          <div id="recordingContainer" style={this.styles.recordingContainer}>
-            <span style={this.styles.recordingText}>
-              <FormattedMessage {...messages.recording} />
-            </span>
-            <span
-              style={{
-                float: 'right',
-                verticalAlign: 'top',
-                height: 20,
-                marginTop: 2,
-              }}
-            >
-              <label
-                htmlFor="toggleRecording"
-                style={this.styles.toggleRecordingLabel}
-              >
-                {this.props.activeVoiceInteraction.recording ? (
-                  <FormattedMessage {...messages.on} />
-                ) : (
-                  <FormattedMessage {...messages.off} />
-                )}
-              </label>
-              <Toggle
-                id="toggleRecording"
-                icons={false}
-                onChange={this.setRecording}
-                checked={this.props.activeVoiceInteraction.recording}
-              />
-            </span>
-          </div>
-        );
-      }
-    }
-
     let connectingTransfers = false;
     let resourcesOnHold = this.props.activeVoiceInteraction.onHold ? 1 : 0;
     this.props.activeVoiceInteraction.warmTransfers.forEach((warmTransfer) => {
@@ -397,7 +153,7 @@ export class PhoneControlsActive extends React.Component {
           // duplicate keys now that queues and resource ID's both live in the props,
           <TransferResource
             key={`${
-              warmTransfer.targetResource // eslint-disable-line
+              warmTransfer.targetResource
                 ? warmTransfer.targetResource
                 : warmTransfer.id
             }_${index}`}
@@ -420,66 +176,68 @@ export class PhoneControlsActive extends React.Component {
     }
 
     return (
-      <div
-        style={[
-          this.styles.base,
-          this.context.toolbarMode &&
-            resourcesOnHold &&
-            this.styles.toolbarBase,
-        ]}
-      >
-        {recordingContainer}
+      <div style={this.styles.base}>
+        {this.props.activeVoiceInteraction.status !== 'fatal' && (
+          <Recording
+            interactionId={this.props.activeVoiceInteraction.interactionId}
+            isRecording={this.props.activeVoiceInteraction.recording}
+            agentRecordingEnabled={
+              this.props.activeVoiceInteraction.agentRecordingEnabled
+            }
+            preventAgentRecordingUpdate={
+              this.props.activeVoiceInteraction.callControls
+                ? this.props.activeVoiceInteraction.callControls
+                  .preventAgentRecordingUpdate
+                : false
+            }
+          />
+        )}
         <div style={this.styles.bottonRowContainer}>
           <div style={this.styles.center}>
-            <CircleIconButton
-              id="endCallButton"
-              name="endCall"
-              onClick={this.confirmEndInteraction}
-              style={this.styles.circleIconButtonRow}
+            <EndCall
+              interactionId={this.props.activeVoiceInteraction.interactionId}
+              interactionStatusIsFatal={
+                this.props.activeVoiceInteraction.status === 'fatal'
+              }
             />
             {this.props.activeVoiceInteraction.status !== 'fatal' && (
               <span>
-                {this.props.activeVoiceInteraction.meOnHold !== true && (
-                  <CircleIconButton
-                    id="muteButton"
-                    name="mute"
-                    active={this.props.activeVoiceInteraction.muted}
-                    onClick={this.setMute}
-                    style={this.styles.circleIconButtonRow}
-                  />
-                )}
-                <CircleIconButton
-                  id="holdButton"
-                  name="hold"
-                  active={this.props.activeVoiceInteraction.onHold}
-                  onClick={this.setHold}
-                  style={this.styles.circleIconButtonRow}
+                <Mute
+                  interactionId={
+                    this.props.activeVoiceInteraction.interactionId
+                  }
+                  isMuted={this.props.activeVoiceInteraction.muted}
+                  meOnHold={this.props.activeVoiceInteraction.meOnHold}
                 />
-                {!connectingTransfers && (
-                  <span>
-                    <CircleIconButton
-                      id="transferButton"
-                      name="transfer"
-                      active={this.state.showTransferMenu}
-                      onClick={this.toggleTransferMenu}
-                      style={this.styles.circleIconButtonRow}
-                      innerElement={this.renderTransferMenuTypes(true)}
-                    />
-                    {this.context.toolbarMode && this.renderTransferMenuTypes()}
-                  </span>
-                )}
-                {this.props.activeExtension.type !== 'pstn' && (
-                  <CircleIconButton
-                    id="dialpadButton"
-                    name="dialpad"
-                    active={this.state.showActiveInteractionDialpad}
-                    onClick={this.toggleDialpad}
-                    style={this.styles.circleIconButtonRow}
-                    innerElement={this.renderDialpad(
-                      this.state.showActiveInteractionDialpad
-                    )}
-                  />
-                )}
+                <Hold
+                  interactionId={
+                    this.props.activeVoiceInteraction.interactionId
+                  }
+                  isOnHold={this.props.activeVoiceInteraction.onHold}
+                  canUpdateHold={
+                    this.props.activeVoiceInteraction.callControls
+                      ? this.props.activeVoiceInteraction.callControls
+                        .holdUpdate
+                      : true
+                  }
+                />
+                <Transfer
+                  interactionId={
+                    this.props.activeVoiceInteraction.interactionId
+                  }
+                  canTransfer={
+                    this.props.activeVoiceInteraction.callControls
+                      ? this.props.activeVoiceInteraction.callControls
+                        .transferUpdate
+                      : true
+                  }
+                  connectingTransfers={connectingTransfers}
+                />
+                <Dialpad
+                  interactionId={
+                    this.props.activeVoiceInteraction.interactionId
+                  }
+                />
                 {warmTransfers !== undefined && (
                   <span>
                     <CircleIconButton
@@ -489,9 +247,9 @@ export class PhoneControlsActive extends React.Component {
                       onClick={this.toggleActiveResourcesMenu}
                       style={this.styles.circleIconButtonRow}
                       innerElement={
-                        this.state.showActiveResourcesMenu
-                          ? this.renderTopTriangle()
-                          : null
+                        this.state.showActiveResourcesMenu ? (
+                          <div style={this.styles.topTriangle} />
+                        ) : null
                       }
                     />
                     {this.state.showActiveResourcesMenu && (
@@ -544,26 +302,12 @@ export class PhoneControlsActive extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   agentId: selectAgentId(state, props),
-  activeExtension: selectActiveExtension(state, props),
-  queuesSet: selectQueuesSet(state, props),
 });
-
-function mapDispatchToProps(dispatch) {
-  return {
-    setInteractionConfirmation: (interactionId, status) =>
-      dispatch(setInteractionConfirmation(interactionId, status)),
-    dispatch,
-  };
-}
 
 PhoneControlsActive.propTypes = {
   intl: intlShape.isRequired,
   agentId: PropTypes.string.isRequired,
   activeVoiceInteraction: PropTypes.object,
-  activeExtension: PropTypes.object,
-  queuesSet: PropTypes.bool,
-  dialpadPosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  setInteractionConfirmation: PropTypes.func.isRequired,
 };
 
 PhoneControlsActive.contextTypes = {
@@ -571,7 +315,5 @@ PhoneControlsActive.contextTypes = {
 };
 
 export default ErrorBoundary(
-  injectIntl(
-    connect(mapStateToProps, mapDispatchToProps)(Radium(PhoneControlsActive))
-  )
+  injectIntl(connect(mapStateToProps)(Radium(PhoneControlsActive)))
 );

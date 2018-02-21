@@ -264,6 +264,7 @@
   "app.containers.VoiceContentArea.endWrapup": "End Wrap Up",
   "app.containers.VoiceContentArea.hangUp": "Hang Up",
   "app.containers.VoiceInteractionNotifications.callbackRequest": "Callback call number: {callbackNumber}. Waiting for {waitingFor}.",
+  "app.containers.VoiceInteractionNotifications.collectingCustomerInformation": "Collecting customer information. Call controls have been disabled until this process is complete.",
   "app.containers.WelcomeStats.customerSatisfactionScore": "Customer Satisfaction",
   "app.containers.WelcomeStats.performance": "PERFORMANCE",
   "app.containers.WelcomeStats.resourceHandleTime": "Average Handle Time",

@@ -54,7 +54,6 @@ Interaction {
   },
   "notifications": Immutable.List [
     Immutable.Map {
-      "id": "mock-uuid",
       "messageKey": "callbackRequest",
       "messageValues": Immutable.Map {
         "callbackNumber": "mock-callback-number",

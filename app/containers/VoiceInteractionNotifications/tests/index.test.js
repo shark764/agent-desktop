@@ -13,13 +13,16 @@ describe('<VoiceInteractionNotifications />', () => {
   describe('with notification', () => {
     const notifications = new List([
       new Map({
-        id: 'callbackRequest-id',
         messageKey: 'callbackRequest',
         messageValues: new Map({
           callbackNumber: '+15061234567',
           waitingFor: '10s',
         }),
         isDimissable: true,
+      }),
+      new Map({
+        messageKey: 'collectingCustomerInformation',
+        isDimissable: false,
       }),
     ]);
     it('renders correctly', () => {
@@ -29,8 +32,8 @@ describe('<VoiceInteractionNotifications />', () => {
             intl={getIntlContext()}
             interactionId="mockInteractionId"
             notifications={notifications}
-            dismissInteractionNotification={() =>
-              console.log('dismissInteractionNotification()')
+            removeInteractionNotification={() =>
+              console.log('removeInteractionNotification()')
             }
           />
         )
@@ -43,8 +46,8 @@ describe('<VoiceInteractionNotifications />', () => {
         shallow(
           <VoiceInteractionNotifications
             intl={getIntlContext()}
-            dismissInteractionNotification={() =>
-              console.log('dismissInteractionNotification()')
+            removeInteractionNotification={() =>
+              console.log('removeInteractionNotification()')
             }
           />
         )

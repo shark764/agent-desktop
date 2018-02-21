@@ -264,6 +264,7 @@
   "app.containers.VoiceContentArea.endWrapup": "Terminer le post-appel",
   "app.containers.VoiceContentArea.hangUp": "Raccrocher",
   "app.containers.VoiceInteractionNotifications.callbackRequest": "",
+  "app.containers.VoiceInteractionNotifications.collectingCustomerInformation": "",
   "app.containers.WelcomeStats.customerSatisfactionScore": "Satisfaction client",
   "app.containers.WelcomeStats.performance": "PERFORMANCE",
   "app.containers.WelcomeStats.resourceHandleTime": "Temps de traitement moyen",

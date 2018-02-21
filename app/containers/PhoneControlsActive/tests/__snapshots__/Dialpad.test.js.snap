@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Dialpad /> activeExtensionIsNotPstn clicking the icon renders the icon and DialpadComponent 1`] = `
+<CircleIconButton
+  active={true}
+  id="dialpadButton"
+  innerElement={
+    <Dialpad
+      dialpadPosition={undefined}
+      dialpadText=""
+      id="activeInteractionDialpad"
+      inCall={true}
+      interactionId="mock-interaction-id"
+      setDialpadText={[Function]}
+      toggle={[Function]}
+      transfer={false}
+    />
+  }
+  name="dialpad"
+  onClick={[Function]}
+  style={
+    Object {
+      "padding": "0 1.5px",
+    }
+  }
+/>
+`;
+
+exports[`<Dialpad /> activeExtensionIsNotPstn is false renders nothing 1`] = `""`;
+
+exports[`<Dialpad /> activeExtensionIsNotPstn on load renders the icon 1`] = `
+<CircleIconButton
+  active={false}
+  id="dialpadButton"
+  innerElement={null}
+  name="dialpad"
+  onClick={[Function]}
+  style={
+    Object {
+      "padding": "0 1.5px",
+    }
+  }
+/>
+`;

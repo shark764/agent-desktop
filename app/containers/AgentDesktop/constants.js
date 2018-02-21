@@ -106,6 +106,7 @@ export const UPDATE_RESOURCE_STATUS = 'app/AgentDesktop/UPDATE_RESOURCE_STATUS';
 export const HOLD_ME = 'app/AgentDesktop/HOLD_ME';
 export const RESUME_ME = 'app/AgentDesktop/RESUME_ME';
 export const RESOURCE_REMOVED = 'app/AgentDesktop/RESOURCE_REMOVED';
+export const UPDATE_CALL_CONTROLS = 'app/AgentDesktop/UPDATE_CALL_CONTROLS';
 export const MUTE_CALL = 'app/AgentDesktop/MUTE_CALL';
 export const UNMUTE_CALL = 'app/AgentDesktop/UNMUTE_CALL';
 export const HOLD_CALL = 'app/AgentDesktop/HOLD_CALL';
@@ -144,9 +145,13 @@ export const SET_CONTACT_SAVE_LOADING =
   'app/ContactsControl/SET_CONTACT_SAVE_LOADING';
 export const INIT_FORM = 'app/ContactsControl/INIT_FORM';
 export const RESET_FORM = 'app/ContactsControl/RESET_FORM';
-export const SHOW_CONFIRMATION_POPUP_GO_READY = 'app/AgentDesktop/SHOW_CONFIRMATION_POPUP_GO_READY';
+export const SHOW_CONFIRMATION_POPUP_GO_READY =
+  'app/AgentDesktop/SHOW_CONFIRMATION_POPUP_GO_READY';
 export const SHOW_LOGIN_POPUP = 'app/AgentDesktop/SHOW_LOGIN_POPUP';
-export const DISMISS_INTERACTION_NOTIFICATION = 'app/AgentDesktop/DISMISS_INTERACTION_NOTIFICATION';
+export const ADD_INTERACTION_NOTIFICATION =
+  'app/AgentDesktop/ADD_INTERACTION_NOTIFICATION';
+export const REMOVE_INTERACTION_NOTIFICATION =
+  'app/AgentDesktop/REMOVE_INTERACTION_NOTIFICATION';
 
 export const REAUTH_POPUP_OPTIONS = 'REAUTH_POPUP_OPTIONS';
 export const DEFAULT_LOCALE = 'en-US';
