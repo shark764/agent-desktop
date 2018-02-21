@@ -1,3 +1,7 @@
+### [1.17.3] (2018-02-21)
+* CXV1-12837 - Fix time formatting for queue callback
+* SDK bump for CXV1-12732
+
 ### [1.17.2] (2018-02-20)
 * CXV1-12729 - Fix messaging text area cursor going to end of input on every change
 * CXV1-12730 - Fix "undefined" being prepended to message templates
