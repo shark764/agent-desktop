@@ -3,8 +3,8 @@
  */
 
 import { List, Map, fromJS } from 'immutable';
-import moment from 'moment';
 import { generateUUID } from 'utils/uuid';
+import { timeSince } from 'utils/time';
 
 export default class Interaction {
   constructor({
@@ -108,12 +108,7 @@ export default class Interaction {
           messageKey: 'callbackRequest',
           messageValues: new Map({
             callbackNumber: callbackRequest.callbackNumber,
-            waitingFor: callbackRequest.callbackRequestedTime
-              ? `${moment(Date.now()).diff(
-                moment(callbackRequest.callbackRequestedTime),
-                'seconds'
-              )}s`
-              : '0s',
+            waitingFor: timeSince(callbackRequest.callbackRequestedTime),
           }),
           isDimissable: true,
         })
