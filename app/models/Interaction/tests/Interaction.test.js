@@ -1,10 +1,8 @@
 import { List } from 'immutable';
-import * as uuid from 'utils/uuid';
 import Interaction from '../Interaction';
 
 Date.now = jest.fn(() => 0);
 Math.random = jest.fn(() => 0.99);
-uuid.generateUUID = jest.fn(() => 'mock-uuid');
 
 describe('Interaction', () => {
   describe('with all the params', () => {

@@ -8,7 +8,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 
-import { dismissInteractionNotification } from 'containers/AgentDesktop/actions';
+import { removeInteractionNotification } from 'containers/AgentDesktop/actions';
 import {
   selectActiveVoiceInteractionId,
   selectActiveVoiceInteractionNotifications,
@@ -32,18 +32,20 @@ export class VoiceInteractionNotifications extends React.PureComponent {
           notification.messageValues
         );
         const dismiss = notification.isDimissable
-          ? this.props.dismissInteractionNotification
+          ? this.props.removeInteractionNotification
           : null;
         return (
           <NotificationBanner
-            key={notification.id}
+            key={notification.messageKey}
             id={notification.messageKey}
             descriptionMessage={message}
             descriptionStyle={{
               textAlign: 'center',
             }}
             dismiss={dismiss}
-            dismissArguments={[this.props.interactionId, notification.id]}
+            dismissArguments={
+              dismiss ? [this.props.interactionId, notification.messageKey] : []
+            }
           />
         );
       });
@@ -58,13 +60,12 @@ VoiceInteractionNotifications.propTypes = {
   interactionId: PropTypes.string,
   notifications: ImmutablePropTypes.listOf(
     ImmutablePropTypes.contains({
-      id: PropTypes.string.isRequired,
       messageKey: PropTypes.string.isRequired,
       messageValues: ImmutablePropTypes.map,
       isDimissable: PropTypes.bool.isRequired,
     })
   ),
-  dismissInteractionNotification: PropTypes.func.isRequired,
+  removeInteractionNotification: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -74,8 +75,8 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dismissInteractionNotification: (interactionId, notificationId) =>
-      dispatch(dismissInteractionNotification(interactionId, notificationId)),
+    removeInteractionNotification: (interactionId, messageKey) =>
+      dispatch(removeInteractionNotification(interactionId, messageKey)),
     dispatch,
   };
 }

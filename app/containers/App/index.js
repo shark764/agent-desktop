@@ -100,6 +100,7 @@ import {
   setEmailHtmlBody,
   setEmailDetails,
   setEmailAttachmentUrl,
+  updateCallControls,
   muteCall,
   unmuteCall,
   holdCall,
@@ -126,6 +127,8 @@ import {
   startOutboundInteraction,
   loadCrmInteractionHistory,
   openNewInteractionPanel,
+  addInteractionNotification,
+  removeInteractionNotification,
 } from 'containers/AgentDesktop/actions';
 
 import {
@@ -215,8 +218,7 @@ export class App extends React.Component {
     if (typeof window.ADconf !== 'undefined') {
       where = window.ADconf.api;
       environment = window.ADconf.env;
-      logLevel = window.ADconf.logLevel;
-      blastSqsOutput = window.ADconf.blastSqsOutput;
+      ({ logLevel, blastSqsOutput } = window.ADconf);
       reportingRefreshRate = window.ADconf.refreshRate;
     } else if (
       window.location.hostname === 'localhost' ||
@@ -377,6 +379,32 @@ export class App extends React.Component {
             // 3. This will require moving all pub subs to <AD/> from <App/>
 
             // this.props.logout();
+            break;
+          }
+
+          // NOTIFICATIONS
+          case 'cxengage/notifications/show-banner': {
+            if (response.interactionId && response.extraParams) {
+              const extraParamsKeys = Object.keys(response.extraParams);
+              extraParamsKeys.forEach((extraParam) => {
+                if (response.extraParams[extraParam]) {
+                  this.props.addInteractionNotification(
+                    response.interactionId,
+                    extraParam
+                  );
+                } else {
+                  this.props.removeInteractionNotification(
+                    response.interactionId,
+                    extraParam
+                  );
+                }
+              });
+            } else {
+              console.error(
+                'Missing interactions id and extraParams:',
+                response
+              );
+            }
             break;
           }
 
@@ -660,6 +688,13 @@ export class App extends React.Component {
           }
 
           // INTERACTIONS/VOICE
+          case 'cxengage/interactions/voice/update-call-controls': {
+            this.props.updateCallControls(
+              response.interactionId,
+              response.extraParams
+            );
+            break;
+          }
           case 'cxengage/interactions/voice/resource-mute-received': {
             if (
               response.extraParams.targetResource ===
@@ -1291,17 +1326,17 @@ export class App extends React.Component {
     if (this.props.expirationPromptReauth.get('showConfirmationPopupGoReady')) {
       return (
         <ConfirmationPopupGoReady
-          propertiesForLocalStorage={this.props.expirationPromptReauth.get('propertiesForLocalStorage')}
+          propertiesForLocalStorage={this.props.expirationPromptReauth.get(
+            'propertiesForLocalStorage'
+          )}
         />
-      )
+      );
     } else if (this.props.loginPopup.get('showLoginPopup')) {
-      return (
-        <LoginPopup />
-      )
+      return <LoginPopup />;
     }
 
     return null;
-  }
+  };
 
   render() {
     const banners = [];
@@ -1328,7 +1363,7 @@ export class App extends React.Component {
     }
 
     if (errorInfo) {
-      const { code, interactionFatal }  = errorInfo;
+      const { code, interactionFatal } = errorInfo;
       if (interactionFatal) {
         errorDescriptionMessage = this.props.intl.formatMessage(
           errorMessages.interactionFailed
@@ -1416,7 +1451,9 @@ const mapStateToProps = (state, props) => ({
   hasCrmPermissions: selectHasCrmPermissions(state, props),
   crmModule: selectCrmModule(state, props),
   loginPopup: selectAgentDesktopMap(state, props).get('loginPopup'),
-  expirationPromptReauth: selectAgentDesktopMap(state, props).get('expirationPromptReauth'),
+  expirationPromptReauth: selectAgentDesktopMap(state, props).get(
+    'expirationPromptReauth'
+  ),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -1477,6 +1514,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(setEmailDetails(interactionId, details)),
     setEmailAttachmentUrl: (interactionId, artifactFileId, url) =>
       dispatch(setEmailAttachmentUrl(interactionId, artifactFileId, url)),
+    updateCallControls: (interactionId, callControls) =>
+      dispatch(updateCallControls(interactionId, callControls)),
     muteCall: (interactionId) => dispatch(muteCall(interactionId)),
     unmuteCall: (interactionId) => dispatch(unmuteCall(interactionId)),
     holdCall: (interactionId) => dispatch(holdCall(interactionId)),
@@ -1555,6 +1594,10 @@ function mapDispatchToProps(dispatch) {
       ),
     loadCrmInteractionHistory: (subType, id, page) =>
       dispatch(loadCrmInteractionHistory(subType, id, page)),
+    addInteractionNotification: (interactionId, messageKey) =>
+      dispatch(addInteractionNotification(interactionId, messageKey)),
+    removeInteractionNotification: (interactionId, messageKey) =>
+      dispatch(removeInteractionNotification(interactionId, messageKey)),
     dispatch,
   };
 }
@@ -1594,6 +1637,7 @@ App.propTypes = {
   setEmailHtmlBody: PropTypes.func.isRequired,
   setEmailDetails: PropTypes.func.isRequired,
   setEmailAttachmentUrl: PropTypes.func.isRequired,
+  updateCallControls: PropTypes.func.isRequired,
   muteCall: PropTypes.func.isRequired,
   unmuteCall: PropTypes.func.isRequired,
   holdCall: PropTypes.func.isRequired,
@@ -1627,6 +1671,8 @@ App.propTypes = {
   setCRMUnavailable: PropTypes.func.isRequired,
   addStatErrorId: PropTypes.func.isRequired,
   removeStatErrorId: PropTypes.func.isRequired,
+  addInteractionNotification: PropTypes.func.isRequired,
+  removeInteractionNotification: PropTypes.func.isRequired,
   login: PropTypes.object,
   agentDesktop: PropTypes.object,
   availableStats: PropTypes.object,

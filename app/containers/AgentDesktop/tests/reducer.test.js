@@ -31,11 +31,13 @@ import {
   UPDATE_CONTACT,
   REMOVE_CONTACT,
   UPDATE_RESOURCE_NAME,
+  UPDATE_CALL_CONTROLS,
   OPEN_NEW_INTERACTION_PANEL,
   CLOSE_NEW_INTERACTION_PANEL,
   CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL,
   SAVE_MESSAGE_STATE,
-  DISMISS_INTERACTION_NOTIFICATION,
+  ADD_INTERACTION_NOTIFICATION,
+  REMOVE_INTERACTION_NOTIFICATION,
 } from '../constants';
 import agentDesktopReducer from '../reducer';
 
@@ -1108,6 +1110,31 @@ describe('agentDesktopReducer', () => {
     });
   });
 
+  describe('UPDATE_CALL_CONTROLS', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: '1',
+          },
+          {
+            interactionId: '2',
+          },
+        ],
+      };
+      action = {
+        type: UPDATE_CALL_CONTROLS,
+        interactionId: '2',
+        callControls: {
+          callControlsKey: false,
+        },
+      };
+    });
+    it('updates the call controls on the specified interaction', () => {
+      runReducerAndExpectSnapshot();
+    });
+  });
+
   describe('UPDATE_CONTACT', () => {
     beforeEach(() => {
       initialState = {
@@ -1313,7 +1340,32 @@ describe('agentDesktopReducer', () => {
     });
   });
 
-  describe('DISMISS_INTERACTION_NOTIFICATION', () => {
+  describe('ADD_INTERACTION_NOTIFICATION', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 1,
+            notifications: [],
+          },
+          {
+            interactionId: 2,
+            notifications: [],
+          },
+        ],
+      };
+      action = {
+        type: ADD_INTERACTION_NOTIFICATION,
+        interactionId: 2,
+        messageKey: 'b',
+      };
+    });
+    it('removes the correct notification from the specified interaction', () => {
+      runReducerAndExpectSnapshot();
+    });
+  });
+
+  describe('REMOVE_INTERACTION_NOTIFICATION', () => {
     beforeEach(() => {
       initialState = {
         interactions: [
@@ -1321,10 +1373,10 @@ describe('agentDesktopReducer', () => {
             interactionId: 1,
             notifications: [
               {
-                id: 'a',
+                messageKey: 'a',
               },
               {
-                id: 'b',
+                messageKey: 'b',
               },
             ],
           },
@@ -1332,19 +1384,19 @@ describe('agentDesktopReducer', () => {
             interactionId: 2,
             notifications: [
               {
-                id: 'a',
+                messageKey: 'a',
               },
               {
-                id: 'b',
+                messageKey: 'b',
               },
             ],
           },
         ],
       };
       action = {
-        type: DISMISS_INTERACTION_NOTIFICATION,
+        type: REMOVE_INTERACTION_NOTIFICATION,
         interactionId: 2,
-        notificationId: 'b',
+        messageKey: 'b',
       };
     });
     it('removes the correct notification from the specified interaction', () => {

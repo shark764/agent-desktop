@@ -1644,6 +1644,16 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+    case ACTIONS.UPDATE_CALL_CONTROLS: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex], (interaction) =>
+          interaction.set('callControls', fromJS(action.callControls))
+        );
+      } else {
+        return state;
+      }
+    }
     case ACTIONS.MUTE_CALL: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
@@ -2071,12 +2081,33 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.SHOW_LOGIN_POPUP: {
       return state.set('loginPopup', new Map(action.popupConfig));
     }
-    case ACTIONS.DISMISS_INTERACTION_NOTIFICATION: {
+    case ACTIONS.ADD_INTERACTION_NOTIFICATION: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex, 'notifications'],
-          (notifications) => notifications.filterNot((notification) => notification.get('id') === action.notificationId)
+          (notifications) =>
+            notifications.push(
+              new Map({
+                messageKey: action.messageKey,
+                isDimissable: false,
+              })
+            )
+        );
+      } else {
+        return state;
+      }
+    }
+    case ACTIONS.REMOVE_INTERACTION_NOTIFICATION: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.updateIn(
+          ['interactions', interactionIndex, 'notifications'],
+          (notifications) =>
+            notifications.filterNot(
+              (notification) =>
+                notification.get('messageKey') === action.messageKey
+            )
         );
       } else {
         return state;

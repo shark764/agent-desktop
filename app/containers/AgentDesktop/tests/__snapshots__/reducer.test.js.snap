@@ -182,6 +182,26 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer ADD_INTERACTION_NOTIFICATION removes the correct notification from the specified interaction 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": 1,
+      "notifications": Immutable.List [],
+    },
+    Immutable.Map {
+      "interactionId": 2,
+      "notifications": Immutable.List [
+        Immutable.Map {
+          "messageKey": "b",
+          "isDimissable": false,
+        },
+      ],
+    },
+  ],
+}
+`;
+
 exports[`agentDesktopReducer ADD_MESSAGE Message is added 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
@@ -346,32 +366,6 @@ Immutable.Map {
   "interactions": Immutable.List [
     Immutable.Map {
       "interactionId": "mockInteraction1",
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer DISMISS_INTERACTION_NOTIFICATION removes the correct notification from the specified interaction 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": 1,
-      "notifications": Immutable.List [
-        Immutable.Map {
-          "id": "a",
-        },
-        Immutable.Map {
-          "id": "b",
-        },
-      ],
-    },
-    Immutable.Map {
-      "interactionId": 2,
-      "notifications": Immutable.List [
-        Immutable.Map {
-          "id": "a",
-        },
-      ],
     },
   ],
 }
@@ -602,6 +596,32 @@ Immutable.Map {
   ],
   "selectedInteractionId": "first-interaction-id",
   "isInteractionsBarCollapsed": false,
+}
+`;
+
+exports[`agentDesktopReducer REMOVE_INTERACTION_NOTIFICATION removes the correct notification from the specified interaction 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": 1,
+      "notifications": Immutable.List [
+        Immutable.Map {
+          "messageKey": "a",
+        },
+        Immutable.Map {
+          "messageKey": "b",
+        },
+      ],
+    },
+    Immutable.Map {
+      "interactionId": 2,
+      "notifications": Immutable.List [
+        Immutable.Map {
+          "messageKey": "a",
+        },
+      ],
+    },
+  ],
 }
 `;
 
@@ -1125,6 +1145,22 @@ Immutable.Map {
       "interactionId": "mockInteraction1",
       "contactAssignedNotification": "contactWasUnassigned",
       "selectedSidePanelTab": "script",
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer UPDATE_CALL_CONTROLS updates the call controls on the specified interaction 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "1",
+    },
+    Immutable.Map {
+      "interactionId": "2",
+      "callControls": Immutable.Map {
+        "callControlsKey": false,
+      },
     },
   ],
 }

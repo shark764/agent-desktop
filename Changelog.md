@@ -1,3 +1,6 @@
+### [1.18.0] (2018-02-23)
+* CXV1-12185 - Eckoh notification banner and hidden phone controls
+
 ### [1.17.3] (2018-02-21)
 * CXV1-12837 - Fix time formatting for queue callback
 * SDK bump for CXV1-12732

@@ -1,0 +1,178 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Transfer /> with canTransfer and false connectingTransfers on load only renders icon 1`] = `
+<span>
+  <CircleIconButton
+    active={false}
+    id="transferButton"
+    innerElement={null}
+    name="transfer"
+    onClick={[Function]}
+    style={
+      Object {
+        "padding": "0 1.5px",
+      }
+    }
+  />
+</span>
+`;
+
+exports[`<Transfer /> with canTransfer and false connectingTransfers with showTransferMenu in toolbarMode renders correctly 1`] = `
+<span>
+  <CircleIconButton
+    active={true}
+    id="transferButton"
+    innerElement={
+      <div
+        style={
+          Object {
+            "borderBottom": "10px solid #F3F3F3",
+            "borderLeft": "8px solid transparent",
+            "borderRight": "8px solid transparent",
+            "borderTop": "none",
+            "height": "0px",
+            "left": "14px",
+            "marginTop": "4px",
+            "position": "absolute",
+            "width": "0px",
+            "zIndex": 4,
+          }
+        }
+      />
+    }
+    name="transfer"
+    onClick={[Function]}
+    style={
+      Object {
+        "padding": "0 1.5px",
+      }
+    }
+  />
+  <span>
+    <div
+      id="transferMask"
+      onClick={[Function]}
+      style={
+        Object {
+          "height": "100vh",
+          "left": "0px",
+          "position": "fixed",
+          "top": "0px",
+          "width": "100vw",
+          "zIndex": 3,
+        }
+      }
+    />
+    <div
+      id="transfersContainer"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderRadius": "3px",
+            "boxShadow": "0 0 6px 0 rgba(0,0,0,0.23)",
+            "color": "#4B4B4B",
+            "fontSize": "14px",
+            "left": "-119px",
+            "marginTop": "10px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "282px",
+            "zIndex": 3,
+          },
+          Object {
+            "borderRadius": 0,
+            "left": 0,
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Connect(ErrorBoundaryComponent)
+        interactionId="mock-interaction-id"
+        setShowTransferMenu={[Function]}
+      />
+    </div>
+  </span>
+</span>
+`;
+
+exports[`<Transfer /> with canTransfer and false connectingTransfers with showTransferMenu not in toolbarMode renders correctly 1`] = `
+<span>
+  <CircleIconButton
+    active={true}
+    id="transferButton"
+    innerElement={
+      <span>
+        <div
+          id="transferMask"
+          onClick={[Function]}
+          style={
+            Object {
+              "height": "100vh",
+              "left": "0px",
+              "position": "fixed",
+              "top": "0px",
+              "width": "100vw",
+              "zIndex": 3,
+            }
+          }
+        />
+        <div
+          style={
+            Object {
+              "borderBottom": "10px solid #F3F3F3",
+              "borderLeft": "8px solid transparent",
+              "borderRight": "8px solid transparent",
+              "borderTop": "none",
+              "height": "0px",
+              "left": "14px",
+              "marginTop": "4px",
+              "position": "absolute",
+              "width": "0px",
+              "zIndex": 4,
+            }
+          }
+        />
+        <div
+          id="transfersContainer"
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderRadius": "3px",
+                "boxShadow": "0 0 6px 0 rgba(0,0,0,0.23)",
+                "color": "#4B4B4B",
+                "fontSize": "14px",
+                "left": "-119px",
+                "marginTop": "10px",
+                "overflow": "hidden",
+                "position": "absolute",
+                "width": "282px",
+                "zIndex": 3,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Connect(ErrorBoundaryComponent)
+            interactionId="mock-interaction-id"
+            setShowTransferMenu={[Function]}
+          />
+        </div>
+      </span>
+    }
+    name="transfer"
+    onClick={[Function]}
+    style={
+      Object {
+        "padding": "0 1.5px",
+      }
+    }
+  />
+</span>
+`;
+
+exports[`<Transfer /> with connectingTransfers renders nothing 1`] = `""`;
+
+exports[`<Transfer /> with false canTransfer renders nothing 1`] = `""`;

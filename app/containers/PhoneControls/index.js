@@ -34,7 +34,6 @@ export class PhoneControls extends React.Component {
         {this.props.activeVoiceInteraction ? (
           <PhoneControlsActive
             activeVoiceInteraction={this.props.activeVoiceInteraction}
-            dialpadPosition={this.context.toolbarMode ? '-165px' : undefined}
           />
         ) : (
           <PhoneControlsInactive />
@@ -48,21 +47,9 @@ const mapStateToProps = (state, props) => ({
   activeVoiceInteraction: selectActiveVoiceInteraction(state, props),
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
 PhoneControls.propTypes = {
   activeVoiceInteraction: PropTypes.object,
   style: PropTypes.object,
 };
 
-PhoneControls.contextTypes = {
-  toolbarMode: PropTypes.bool,
-};
-
-export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(PhoneControls))
-);
+export default ErrorBoundary(connect(mapStateToProps)(Radium(PhoneControls)));

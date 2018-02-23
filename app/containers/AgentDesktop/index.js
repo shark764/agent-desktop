@@ -265,6 +265,7 @@ export class AgentDesktop extends React.Component {
               flex: '1 1 auto',
               display: 'flex',
               flexDirection: 'column',
+              width: '100%',
             }}
           >
             <VoiceInteractionNotifications />

@@ -3,7 +3,6 @@
  */
 
 import { List, Map, fromJS } from 'immutable';
-import { generateUUID } from 'utils/uuid';
 import { timeSince } from 'utils/time';
 
 export default class Interaction {
@@ -104,7 +103,6 @@ export default class Interaction {
     if (callbackRequest) {
       notifications = notifications.push(
         new Map({
-          id: generateUUID(),
           messageKey: 'callbackRequest',
           messageValues: new Map({
             callbackNumber: callbackRequest.callbackNumber,

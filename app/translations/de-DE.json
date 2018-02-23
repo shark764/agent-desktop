@@ -264,6 +264,7 @@
   "app.containers.VoiceContentArea.endWrapup": "Nachbearbeitung beenden",
   "app.containers.VoiceContentArea.hangUp": "Auflegen",
   "app.containers.VoiceInteractionNotifications.callbackRequest": "",
+  "app.containers.VoiceInteractionNotifications.collectingCustomerInformation": "",
   "app.containers.WelcomeStats.customerSatisfactionScore": "Kundenzufriedenheit",
   "app.containers.WelcomeStats.performance": "LEISTUNG",
   "app.containers.WelcomeStats.resourceHandleTime": "Durchschnittliche Bearbeitungszeit",

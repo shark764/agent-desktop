@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Hold /> with canUpdateHold renders icon 1`] = `
+<CircleIconButton
+  active={false}
+  id="holdButton"
+  name="hold"
+  onClick={[Function]}
+  style={
+    Object {
+      "padding": "0 1.5px",
+    }
+  }
+/>
+`;
+
+exports[`<Hold /> with false canUpdateHold renders nothing 1`] = `""`;
