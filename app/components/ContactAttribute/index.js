@@ -94,9 +94,23 @@ function ContactAttribute(props) {
     default:
       content = value;
   }
+
+  let langAtt;
+  if (props.attributeLabel === 'undefined') {
+    if (props.attribute.label['en-US'] !== undefined) {
+      langAtt = props.attribute.label['en-US'];
+    } else if (props.attribute.label['en-GB'] !== undefined) {
+      langAtt = props.attribute.label['en-GB'];
+    } else {
+      langAtt = props.attribute.label[Object.keys(props.attribute.label)[0]];
+    }
+  } else {
+    langAtt = props.attributeLabel;
+  }
+
   return (
     <div style={styles.attributeRow} key={props.attribute.id}>
-      <div style={styles.attributeName}>{props.attributeLabel}</div>
+      <div style={styles.attributeName}>{langAtt}</div>
       <div style={[styles.attributeValue]}>{content}</div>
     </div>
   );

@@ -63,7 +63,6 @@ const styles = {
 };
 
 export class NotificationBanner extends React.Component {
-
   dismiss = () => {
     if (this.props.dismissArguments && this.props.dismissArguments.length) {
       this.props.dismiss(...this.props.dismissArguments);
@@ -80,7 +79,11 @@ export class NotificationBanner extends React.Component {
     return (
       <div
         id={this.props.id}
-        style={[styles.base, this.props.isError && styles.baseError, this.props.style]}
+        style={[
+          styles.base,
+          this.props.isError && styles.baseError,
+          this.props.style,
+        ]}
       >
         {this.props.titleMessage && (
           <div style={styles.titleText}>
@@ -100,7 +103,10 @@ export class NotificationBanner extends React.Component {
           {descriptionMessage}
         </div>
         {this.props.rightLinkAction && (
-          <div onClick={this.props.rightLinkAction} style={styles.rightLinkText}>
+          <div
+            onClick={this.props.rightLinkAction}
+            style={styles.rightLinkText}
+          >
             {this.props.intl.formatMessage(
               this.props.rightLinkMessage || messages.tryAgain
             )}
