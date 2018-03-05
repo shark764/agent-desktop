@@ -158,6 +158,7 @@ class DesktopActionsButtons extends React.Component {
             text={button.text}
             icons={button.icons}
             onClick={button.onClick}
+            disabled={button.disabled}
           />
         ))}
       </div>
