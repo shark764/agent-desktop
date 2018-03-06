@@ -1,3 +1,6 @@
+### [1.18.1] (2018-03-05)
+* CXV1-13137 - Fixed issue that allowed the user to end wrapup without selecting a disposition - even if Flow is set to force the user to select a disposition
+
 ### [1.18.0] (2018-02-23)
 * CXV1-12185 - Eckoh notification banner and hidden phone controls
 

@@ -1,6 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<DesktopActionsButtons /> should render correctly 1`] = `
+exports[`<DesktopActionsButtons /> with the required props being passed in... should render the button as DISABLED as per the buttonConfig object 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+      "flexShrink": 0,
+    }
+  }
+>
+  <InjectIntl(Button)
+    disabled={true}
+    id="wrapup-button"
+    key="wrapup-button"
+    onClick={[Function]}
+    style={
+      Object {
+        "marginRight": "10px",
+      }
+    }
+    text="End Wrapup"
+    type="primaryRed"
+  />
+</div>
+`;
+
+exports[`<DesktopActionsButtons /> with the required props being passed in... should render the button as ENABLED as per the buttonConfig object 1`] = `
 <div
   style={
     Object {
@@ -46,16 +72,17 @@ exports[`<DesktopActionsButtons /> should render correctly 1`] = `
     />
   </div>
   <InjectIntl(Button)
-    id="end-chat-button"
-    key="end-chat-button"
+    disabled={false}
+    id="hang-up-button"
+    key="hang-up-button"
     onClick={[Function]}
     style={
       Object {
         "marginRight": "10px",
       }
     }
-    text="End Chat"
-    type="primaryBlue"
+    text="Hang Up"
+    type="primaryRed"
   />
 </div>
 `;
