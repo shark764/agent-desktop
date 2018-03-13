@@ -24,4 +24,3 @@ export const LOGOUT = 'app/Login/LOGOUT';
 // Display States
 export const CX_LOGIN = 'CX_LOGIN';
 export const SSO_LOGIN = 'SSO_LOGIN';
-export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';

@@ -1,0 +1,589 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders CXEngage Legal in Non-Dev desktop 1`] = `
+<div
+  data-radium={true}
+  style={
+    Object {
+      "alignSelf": "end",
+      "color": "#FFFFFF",
+      "gridArea": "legal",
+      "marginBottom": "15px",
+      "textAlign": "center",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    data-radium={true}
+    id="serenova_copyright"
+    key=".0"
+    style={
+      Object {
+        "display": "block",
+        "marginBottom": "1em",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      id="app.containers.Login.copyright"
+      values={
+        Object {
+          "year": 2018,
+        }
+      }
+    />
+  </div>
+  <div
+    data-radium={true}
+    id="serenova_legal"
+    key=".1"
+    style={
+      Object {
+        "fontSize": "13px",
+        "textAlign": "center",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="By acessing the Service, you agree to the following terms: "
+      id="app.containers.Login.legal"
+      key=".0"
+      values={Object {}}
+    />
+    <a
+      data-radium={true}
+      href="https://legal.cxengage.net/cxengage-legal/index.html"
+      key=".1"
+      style={
+        Object {
+          "color": "#FFFFFF",
+        }
+      }
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Link"
+        id="app.containers.Login.legalLabel"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders CXEngage Legal in Non-Dev toolbarMode 1`] = `
+<div
+  data-radium={true}
+  style={
+    Object {
+      "alignSelf": "end",
+      "color": "#000000",
+      "gridArea": "legal",
+      "marginBottom": "15px",
+      "marginTop": "-10px",
+      "textAlign": "center",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    data-radium={true}
+    id="serenova_copyright"
+    key=".0"
+    style={
+      Object {
+        "display": "block",
+        "marginBottom": "1em",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      id="app.containers.Login.copyright"
+      values={
+        Object {
+          "year": 2018,
+        }
+      }
+    />
+  </div>
+  <div
+    data-radium={true}
+    id="serenova_legal"
+    key=".1"
+    style={
+      Object {
+        "fontSize": "13px",
+        "textAlign": "center",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="By acessing the Service, you agree to the following terms: "
+      id="app.containers.Login.legal"
+      key=".0"
+      values={Object {}}
+    />
+    <a
+      data-radium={true}
+      href="https://legal.cxengage.net/cxengage-legal/index.html"
+      key=".1"
+      style={
+        Object {
+          "color": "#000000",
+        }
+      }
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Link"
+        id="app.containers.Login.legalLabel"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders Mitel Legal in Non-Dev desktop 1`] = `
+<div
+  data-radium={true}
+  style={
+    Object {
+      "alignSelf": "end",
+      "color": "#FFFFFF",
+      "gridArea": "legal",
+      "marginBottom": "15px",
+      "textAlign": "center",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    data-radium={true}
+    id="serenova_copyright"
+    key=".0"
+    style={
+      Object {
+        "display": "block",
+        "marginBottom": "1em",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      id="app.containers.Login.copyright"
+      values={
+        Object {
+          "year": 2018,
+        }
+      }
+    />
+  </div>
+  <div
+    data-radium={true}
+    id="serenova_legal"
+    key=".1"
+    style={
+      Object {
+        "fontSize": "13px",
+        "textAlign": "center",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="By acessing the Service, you agree to the following terms: "
+      id="app.containers.Login.legal"
+      key=".0"
+      values={Object {}}
+    />
+    <a
+      data-radium={true}
+      href="https://legal.cxengage.net/mitel-legal/index.html"
+      key=".1"
+      style={
+        Object {
+          "color": "#FFFFFF",
+        }
+      }
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Link"
+        id="app.containers.Login.legalLabel"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders Mitel Legal in Non-Dev toolbarMode 1`] = `
+<div
+  data-radium={true}
+  style={
+    Object {
+      "alignSelf": "end",
+      "color": "#000000",
+      "gridArea": "legal",
+      "marginBottom": "15px",
+      "marginTop": "-10px",
+      "textAlign": "center",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    data-radium={true}
+    id="serenova_copyright"
+    key=".0"
+    style={
+      Object {
+        "display": "block",
+        "marginBottom": "1em",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      id="app.containers.Login.copyright"
+      values={
+        Object {
+          "year": 2018,
+        }
+      }
+    />
+  </div>
+  <div
+    data-radium={true}
+    id="serenova_legal"
+    key=".1"
+    style={
+      Object {
+        "fontSize": "13px",
+        "textAlign": "center",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="By acessing the Service, you agree to the following terms: "
+      id="app.containers.Login.legal"
+      key=".0"
+      values={Object {}}
+    />
+    <a
+      data-radium={true}
+      href="https://legal.cxengage.net/mitel-legal/index.html"
+      key=".1"
+      style={
+        Object {
+          "color": "#000000",
+        }
+      }
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Link"
+        id="app.containers.Login.legalLabel"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`<LegalCopyright /> LegalCopyright in desktop renders CXEngage Legal in desktop 1`] = `
+<div
+  data-radium={true}
+  style={
+    Object {
+      "alignSelf": "end",
+      "color": "#FFFFFF",
+      "gridArea": "legal",
+      "marginBottom": "15px",
+      "textAlign": "center",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    data-radium={true}
+    id="serenova_copyright"
+    key=".0"
+    style={
+      Object {
+        "display": "block",
+        "marginBottom": "1em",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      id="app.containers.Login.copyright"
+      values={
+        Object {
+          "year": 2018,
+        }
+      }
+    />
+  </div>
+  <div
+    data-radium={true}
+    id="serenova_legal"
+    key=".1"
+    style={
+      Object {
+        "fontSize": "13px",
+        "textAlign": "center",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="By acessing the Service, you agree to the following terms: "
+      id="app.containers.Login.legal"
+      key=".0"
+      values={Object {}}
+    />
+    <a
+      data-radium={true}
+      href="https://legal.cxengagelabs.net/cxengage-legal/index.html"
+      key=".1"
+      style={
+        Object {
+          "color": "#FFFFFF",
+        }
+      }
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Link"
+        id="app.containers.Login.legalLabel"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`<LegalCopyright /> LegalCopyright in desktop renders Mitel Legal in desktop 1`] = `
+<div
+  data-radium={true}
+  style={
+    Object {
+      "alignSelf": "end",
+      "color": "#FFFFFF",
+      "gridArea": "legal",
+      "marginBottom": "15px",
+      "textAlign": "center",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    data-radium={true}
+    id="serenova_copyright"
+    key=".0"
+    style={
+      Object {
+        "display": "block",
+        "marginBottom": "1em",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      id="app.containers.Login.copyright"
+      values={
+        Object {
+          "year": 2018,
+        }
+      }
+    />
+  </div>
+  <div
+    data-radium={true}
+    id="serenova_legal"
+    key=".1"
+    style={
+      Object {
+        "fontSize": "13px",
+        "textAlign": "center",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="By acessing the Service, you agree to the following terms: "
+      id="app.containers.Login.legal"
+      key=".0"
+      values={Object {}}
+    />
+    <a
+      data-radium={true}
+      href="https://legal.cxengagelabs.net/mitel-legal/index.html"
+      key=".1"
+      style={
+        Object {
+          "color": "#FFFFFF",
+        }
+      }
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Link"
+        id="app.containers.Login.legalLabel"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`<LegalCopyright /> LegalCopyright in toolbarMode renders CXEngage Legal in toolbarMode 1`] = `
+<div
+  data-radium={true}
+  style={
+    Object {
+      "alignSelf": "end",
+      "color": "#000000",
+      "gridArea": "legal",
+      "marginBottom": "15px",
+      "marginTop": "-10px",
+      "textAlign": "center",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    data-radium={true}
+    id="serenova_copyright"
+    key=".0"
+    style={
+      Object {
+        "display": "block",
+        "marginBottom": "1em",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      id="app.containers.Login.copyright"
+      values={
+        Object {
+          "year": 2018,
+        }
+      }
+    />
+  </div>
+  <div
+    data-radium={true}
+    id="serenova_legal"
+    key=".1"
+    style={
+      Object {
+        "fontSize": "13px",
+        "textAlign": "center",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="By acessing the Service, you agree to the following terms: "
+      id="app.containers.Login.legal"
+      key=".0"
+      values={Object {}}
+    />
+    <a
+      data-radium={true}
+      href="https://legal.cxengagelabs.net/cxengage-legal/index.html"
+      key=".1"
+      style={
+        Object {
+          "color": "#000000",
+        }
+      }
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Link"
+        id="app.containers.Login.legalLabel"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`<LegalCopyright /> LegalCopyright in toolbarMode renders Mitel Legal in toolbarMode 1`] = `
+<div
+  data-radium={true}
+  style={
+    Object {
+      "alignSelf": "end",
+      "color": "#000000",
+      "gridArea": "legal",
+      "marginBottom": "15px",
+      "marginTop": "-10px",
+      "textAlign": "center",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    data-radium={true}
+    id="serenova_copyright"
+    key=".0"
+    style={
+      Object {
+        "display": "block",
+        "marginBottom": "1em",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      id="app.containers.Login.copyright"
+      values={
+        Object {
+          "year": 2018,
+        }
+      }
+    />
+  </div>
+  <div
+    data-radium={true}
+    id="serenova_legal"
+    key=".1"
+    style={
+      Object {
+        "fontSize": "13px",
+        "textAlign": "center",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="By acessing the Service, you agree to the following terms: "
+      id="app.containers.Login.legal"
+      key=".0"
+      values={Object {}}
+    />
+    <a
+      data-radium={true}
+      href="https://legal.cxengagelabs.net/mitel-legal/index.html"
+      key=".1"
+      style={
+        Object {
+          "color": "#000000",
+        }
+      }
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Link"
+        id="app.containers.Login.legalLabel"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;

@@ -31,15 +31,6 @@ export default defineMessages({
     id: 'app.containers.Login.nextButton',
     defaultMessage: 'Next',
   },
-  forgot: {
-    id: 'app.containers.Login.forgot',
-    defaultMessage: 'Forgot your password?',
-  },
-  forgotInstructions: {
-    id: 'app.containers.Login.forgotInstructions',
-    defaultMessage:
-      "Enter your email address and we'll send you a link to change your password",
-  },
   selectButton: {
     id: 'app.containers.Login.selectButton',
     defaultMessage: 'Select',
@@ -88,17 +79,6 @@ export default defineMessages({
   authRequired: {
     id: 'app.containers.Login.selectTenantReauthTitle',
     defaultMessage: 'Authentication is required to switch to this tenant',
-  },
-  copyright: {
-    id: 'app.containers.Login.copyright',
-    defaultMessage:
-      'Copyright © 2015-{year} Serenova, LLC ("Serenova"). All rights reserved.',
-    values: { year: new Date().getFullYear() },
-  },
-  legal: {
-    id: 'app.containers.Login.legal',
-    defaultMessage:
-      'Access to this site requires separate permission from Serenova, LLC. This site contains confidential information, and may also contain content and enable interaction with users from third-party sites subject to different terms that are outside of Serenova\'s control. By using or accessing this site, you have agreed to the Terms of Service as outlined in the Master Service Agreement ("Agreement"). A copy of this Agreement is available from your Serenova contact.',
   },
   privacy: {
     id: 'app.containers.Login.privacy',

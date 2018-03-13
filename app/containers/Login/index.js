@@ -38,6 +38,7 @@ import IconSVG from 'components/IconSVG';
 import FontAwesomeIcon from 'components/FontAwesomeIcon';
 import PopupDialog from 'components/PopupDialog';
 import mitelFavicon from 'assets/favicons/mitel.png';
+import LegalCopyright from 'components/LegalCopyright';
 
 import { mappedLocales } from 'i18n';
 import { changeLocale } from 'containers/LanguageProvider/actions';
@@ -72,13 +73,14 @@ import {
   setTenant,
   setDisplayState,
 } from './actions';
-import { CX_LOGIN, SSO_LOGIN, FORGOT_PASSWORD } from './constants';
+import { CX_LOGIN, SSO_LOGIN } from './constants';
 
 const storage = window.localStorage;
 
 const styles = {
   base: {
     height: '100%',
+    width: '100%',
     display: 'grid',
     gridTemplateColumns: '1fr 1fr 550px 1fr 1fr',
     gridTemplateRows: '1fr 540px 1fr',
@@ -130,6 +132,7 @@ const styles = {
   },
   contentTitle: {
     paddingBottom: '23px',
+    marginTop: '20px',
   },
   logo: {
     width: '275px',
@@ -149,21 +152,7 @@ const styles = {
   },
   ssoLink: {
     marginTop: '34px',
-  },
-  copyright: {
-    gridArea: 'legal',
-    alignSelf: 'end',
-    width: '100%',
-    marginBottom: '15px',
-    color: '#FFFFFF',
     textAlign: 'center',
-  },
-  copyrightText: {
-    marginBottom: '1em',
-    display: 'block',
-  },
-  legalText: {
-    fontSize: '10px',
   },
   languageMenu: {
     position: 'relative',
@@ -224,7 +213,6 @@ export class Login extends React.Component {
       password: '',
       ssoEmail: storage.getItem('ssoEmail') || '',
       rememberSsoEmail: storage.getItem('rememberSsoEmail') === 'true',
-      forgotPasswordEmail: storage.getItem('email') || '',
       savedTenant: storage.getItem('savedTenant')
         ? JSON.parse(storage.getItem('savedTenant'))
         : {},
@@ -249,19 +237,19 @@ export class Login extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const reauthPassword = nextProps.loginPopup.get('reauthPassword');
-    if (
-      reauthPassword &&
-      reauthPassword.length
-    ) {
-      this.setState({
-        password: reauthPassword,
-      }, () => {
-        this.onLogin();
-        this.props.showLoginPopup({
-          reauthPassword: '',
-          showLoginPopup: false,
-        });
-      });
+    if (reauthPassword && reauthPassword.length) {
+      this.setState(
+        {
+          password: reauthPassword,
+        },
+        () => {
+          this.onLogin();
+          this.props.showLoginPopup({
+            reauthPassword: '',
+            showLoginPopup: false,
+          });
+        }
+      );
     }
   }
 
@@ -361,15 +349,12 @@ export class Login extends React.Component {
       'cxengageSsoWindow',
       'width=500,height=500'
     );
-    CxEngage.authentication.getAuthInfo(
-      { username },
-      (error) => {
-        if (error) {
-          storage.removeItem(REAUTH_POPUP_OPTIONS);
-          ssoWindow.close();
-        }
+    CxEngage.authentication.getAuthInfo({ username }, (error) => {
+      if (error) {
+        storage.removeItem(REAUTH_POPUP_OPTIONS);
+        ssoWindow.close();
       }
-    );
+    });
   };
 
   // for the sake of testing the token expiration behavior, we can add
@@ -420,7 +405,7 @@ export class Login extends React.Component {
     const loginCredentials = {
       username,
       password,
-    }
+    };
 
     CxEngage.authentication.login(
       this.setLoginParams(loginCredentials),
@@ -467,11 +452,13 @@ export class Login extends React.Component {
           targetTenantData = this.state.expiredSessionReauth;
         } else if (Object.keys(this.state.savedTenant).length === 2) {
           targetTenantData = this.state.savedTenant;
-        } else if (response.details.length){
+        } else if (response.details.length) {
           if (response.details.length === 1) {
             targetTenantData = response.details[0];
           } else {
-            targetTenantData = response.details.find((val) => val.tenantId ===  this.state.tenantId);
+            targetTenantData = response.details.find(
+              (val) => val.tenantId === this.state.tenantId
+            );
           }
         }
 
@@ -571,11 +558,6 @@ export class Login extends React.Component {
     }
   };
 
-  // TODO: Needs SDK call and reducer function when implemented
-  sendForgotRequest = () => {
-    this.props.resetPassword({ email: this.state.forgotPasswordEmail });
-  };
-
   // Locale Update
   setLocalLocale = (locale) => {
     storage.setItem('locale', locale);
@@ -597,10 +579,6 @@ export class Login extends React.Component {
 
   setPassword = (password) => {
     this.setState({ password });
-  };
-
-  setforgotPasswordEmail = (setforgotPasswordEmail) => {
-    this.setState({ setforgotPasswordEmail });
   };
 
   setEmail = (email) => {
@@ -648,11 +626,9 @@ export class Login extends React.Component {
     this.props.setDisplayState(SSO_LOGIN);
   };
 
-  showForgotPassword = () => {
-    this.props.setDisplayState(FORGOT_PASSWORD);
-  };
-
-  isReauthFromExpiredSession = () => this.state.expiredSessionReauth.expiredSessionUsername && this.state.expiredSessionReauth.expiredSessionUsername.length;
+  isReauthFromExpiredSession = () =>
+    this.state.expiredSessionReauth.expiredSessionUsername &&
+    this.state.expiredSessionReauth.expiredSessionUsername.length;
 
   requiresReauth = (currentTenant) => {
     // if it is SSO
@@ -809,12 +785,9 @@ export class Login extends React.Component {
     // if this is a reauth from expired session, we don't need to show
     // the login fields, as we are logging in in the background, so just show
     // the loading spinner...
-    if ((
-      this.isReauthFromExpiredSession() &&
-      !(
-        this.props.criticalError ||
-        this.props.nonCriticalError
-      )) ||
+    if (
+      (this.isReauthFromExpiredSession() &&
+        !(this.props.criticalError || this.props.nonCriticalError)) ||
       this.props.loading
     ) {
       this.getLoadingContent();
@@ -822,13 +795,8 @@ export class Login extends React.Component {
 
     // ...otherwise, of course show the login fields
     return (
-      <div
-        id="loginContainerDiv"
-        style={styles.dialogContentContainer}
-      >
-        <Logo
-          style={styles.logo}
-        />
+      <div id="loginContainerDiv" style={styles.dialogContentContainer}>
+        <Logo style={styles.logo} />
         <div style={styles.dialogContent}>
           {this.getLoginTitle()}
           <TextInput
@@ -874,12 +842,9 @@ export class Login extends React.Component {
               text={messages.ssoSignIn}
             />
           )}
-          {/* Hide until we implement the feature
-            <A id={messages.forgot.id} text={messages.forgot} style={{ marginTop: '17px' }} onClick={() => this.showForgotPassword()} />
-          */}
         </div>
       </div>
-    )
+    );
   };
 
   getSingleSignOnContent = () => (
@@ -928,35 +893,6 @@ export class Login extends React.Component {
     </div>
   );
 
-  getForgotContent = () => (
-    <div style={styles.dialogContentContainer}>
-      <Logo style={styles.logo} />
-      <Title text={messages.forgot} style={styles.contentTitle} />
-      <p style={{ width: '282px', textAlign: 'center' }}>
-        {this.props.intl.formatMessage(messages.forgotInstructions)}
-      </p>
-      <TextInput
-        key="email"
-        style={{ marginBottom: '11px' }}
-        placeholder={messages.email}
-        autocomplete="email"
-        value={this.state.forgotPasswordEmail}
-        cb={this.setforgotPasswordEmail}
-      />
-      <Button
-        type="primaryBlueBig"
-        style={{ marginTop: '34px' }}
-        text={messages.sendButton}
-        onClick={this.sendForgotRequest}
-      />
-      <A
-        text={messages.return2Login}
-        style={{ marginTop: '17px' }}
-        onClick={this.showCxLogin}
-      />
-    </div>
-  );
-
   getLanguageSelect = () => (
     <div style={styles.languageMenu}>
       <FontAwesomeIcon
@@ -1000,8 +936,6 @@ export class Login extends React.Component {
       this.props.agent.accountTenants.length
     ) {
       pageContent = this.getLoggedInContent();
-    } else if (this.props.displayState === FORGOT_PASSWORD) {
-      pageContent = this.getForgotContent();
     } else if (this.props.initiatedStandalonePopup) {
       pageContent = (
         <div style={styles.dialogContentContainer}>
@@ -1050,7 +984,10 @@ export class Login extends React.Component {
                 </div>
               </div>
             )}
-          <div style={styles.content}>{pageContent}</div>
+          <div style={styles.content}>
+            {pageContent}
+            {!this.props.initiatedStandalonePopup && <LegalCopyright />}
+          </div>
           {!this.props.initiatedStandalonePopup && this.getLanguageSelect()}
           <div style={styles.privacy}>
             <a
@@ -1068,14 +1005,7 @@ export class Login extends React.Component {
         <div style={styles.base}>
           <Dialog style={styles.content}>{pageContent}</Dialog>
           {this.getLanguageSelect()}
-          <div style={styles.copyright}>
-            <div style={styles.copyrightText} id="serenova_copyright">
-              <FormattedMessage {...messages.copyright} />
-            </div>
-            <div style={styles.legalText} id="serenova_legal">
-              <FormattedMessage {...messages.legal} />
-            </div>
-          </div>
+          <LegalCopyright />
           <div style={styles.privacy}>
             <a
               target="_blank"
@@ -1115,8 +1045,7 @@ function mapDispatchToProps(dispatch) {
     setNonCriticalError: (error) => dispatch(setNonCriticalError(error)),
     dismissError: () => dispatch(dismissError()),
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
-    showLoginPopup: (popupConfig) =>
-      dispatch(showLoginPopup(popupConfig)),
+    showLoginPopup: (popupConfig) => dispatch(showLoginPopup(popupConfig)),
     dispatch,
   };
 }
