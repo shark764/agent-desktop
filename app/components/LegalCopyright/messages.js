@@ -19,7 +19,7 @@ export default defineMessages({
   legal: {
     id: 'app.containers.Login.legal',
     defaultMessage:
-      'By acessing the Service, you agree to the following terms: ',
+      'By accessing the Service, you agree to the following terms: ',
   },
   legalLabel: {
     id: 'app.containers.Login.legalLabel',

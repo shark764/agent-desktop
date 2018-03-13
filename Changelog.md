@@ -1,3 +1,6 @@
+### [1.19.1] (2018-03-13)
+* CXV1-13204 Fixed spelling mistake in Legal Language
+
 ### [1.19.0] (2018-03-06)
 * CXV1-12821/CXV1-12824  Added Legal Disclaimer links to all portal access or access related places
 

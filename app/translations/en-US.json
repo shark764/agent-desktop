@@ -188,7 +188,7 @@
   "app.containers.InteractionsBar.unrespondedMessage": "Unresponded Message",
   "app.containers.Login.copyright": "Copyright © 2015-{year} Serenova, LLC (\"Serenova\"). All rights reserved.",
   "app.containers.Login.email": "Email",
-  "app.containers.Login.legal": "By acessing the Service, you agree to the following terms: ",
+  "app.containers.Login.legal": "By accessing the Service, you agree to the following terms: ",
   "app.containers.Login.legalLabel": "Link",
   "app.containers.Login.nextButton": "Next",
   "app.containers.Login.password": "Password",
