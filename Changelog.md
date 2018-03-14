@@ -1,3 +1,6 @@
+### [1.19.2] (2018-03-14)
+* CXV1-11862 - When no Language is present, searching contacts shows undefined values
+
 ### [1.19.1] (2018-03-13)
 * CXV1-13204 Fixed spelling mistake in Legal Language
 
