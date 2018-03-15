@@ -1,3 +1,6 @@
+### [1.19.5] (2018-03-20)
+* CXV1-11862 - when customer sends an email with empty subject, change subject from null to an empty empty string in the json response
+
 ### [1.19.4] (2018-03-19)
 * CXV1-12424 - Added code to present Presence Reasons ordered in the same way they have been previously configured by an admin.
 

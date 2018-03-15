@@ -1743,9 +1743,11 @@ function agentDesktopReducer(state = initialState, action) {
                 tos: interaction.get('emailDetails').get('from'),
                 ccs: interaction.get('emailDetails').get('cc'),
                 bccs: interaction.get('emailDetails').get('bcc'),
-                subject: `RE: ${interaction
-                  .get('emailDetails')
-                  .get('subject')}`,
+                subject: `RE: ${
+                  interaction.get('emailDetails').get('subject') !== null
+                    ? interaction.get('emailDetails').get('subject')
+                    : ''
+                }`,
                 attachments: [],
                 message: '',
               })
