@@ -1,3 +1,6 @@
+### [1.19.7] (2018-03-19)
+* CXV1-12929 - Fixed script presentation bug with outbound interactions starting with script break upon
+
 ### [1.19.5] (2018-03-20)
 * CXV1-13263 - Update agent-desktop Jenkins build
 

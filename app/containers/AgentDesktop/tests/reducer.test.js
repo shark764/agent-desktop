@@ -39,7 +39,7 @@ import {
   ADD_INTERACTION_NOTIFICATION,
   REMOVE_INTERACTION_NOTIFICATION,
 } from '../constants';
-import agentDesktopReducer from '../reducer';
+import agentDesktopReducer, { getNextSelectedInteractionId } from '../reducer';
 
 describe('agentDesktopReducer', () => {
   // Override so snapshots stay the same
@@ -1401,6 +1401,74 @@ describe('agentDesktopReducer', () => {
     });
     it('removes the correct notification from the specified interaction', () => {
       runReducerAndExpectSnapshot();
+    });
+  });
+
+  /* REDUCER SHARED FUNCTIONS TESTS */
+  describe('getNextSelectedInteractionId() correctly sets the next selected interaction', () => {
+    beforeEach(() => {
+      initialState = {
+        selectedInteractionId: 'test-voice-interaction-id',
+        interactions: [
+          {
+            interactionId: 'test-voice-interaction-id',
+            channelType: 'voice',
+            status: 'connecting-to-outbound',
+          },
+          {
+            interactionId: 'test-sms-interaction-id',
+            channelType: 'sms',
+            status: 'work-initiated',
+          },
+          {
+            interactionId: 'test-script-interaction-id',
+            status: 'script-only',
+          },
+        ],
+      };
+    });
+
+    it('returns the voice interaction id as the next selected interactionId when there is a script', () => {
+      const newSelectedInteractionId = getNextSelectedInteractionId(
+        fromJS(initialState),
+        'test-script-interaction-id'
+      );
+
+      expect(newSelectedInteractionId).toEqual('test-voice-interaction-id');
+    });
+
+    it('returns the sms interaction id as the next selected interaction id while a voice call is not yet connected', () => {
+      const newSelectedInteractionId = getNextSelectedInteractionId(
+        fromJS(initialState),
+        'test-sms-interaction-id'
+      );
+
+      expect(newSelectedInteractionId).toEqual('test-voice-interaction-id');
+    });
+
+    it('returns the sms interaction id as the next selected interactionId when a voice call is connected', () => {
+      initialState = {
+        selectedInteractionId: 'test-sms-interaction-id',
+        interactions: [
+          {
+            interactionId: 'test-voice-interaction-id',
+            channelType: 'voice',
+            status: 'connected',
+          },
+          {
+            interactionId: 'test-sms-interaction-id',
+            channelType: 'sms',
+            status: 'work-initiated',
+          },
+        ],
+      };
+
+      const newSelectedInteractionId = getNextSelectedInteractionId(
+        fromJS(initialState),
+        'test-voice-interaction-id'
+      );
+
+      expect(newSelectedInteractionId).toEqual('test-sms-interaction-id');
     });
   });
 });
