@@ -1,3 +1,6 @@
+### [1.19.4] (2018-03-19)
+* CXV1-12424 - Added code to present Presence Reasons ordered in the same way they have been previously configured by an admin.
+
 ### [1.19.2] (2018-03-14)
 * CXV1-11862 - When no Language is present, searching contacts shows undefined values
 
