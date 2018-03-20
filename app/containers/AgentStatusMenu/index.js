@@ -266,20 +266,20 @@ export class AgentStatusMenu extends React.Component {
       style={[styles.narrowDivider, { margin: '5px 24px' }]}
     />,
     <div key={`reasonListBody-${reasonList.id}`}>
-      {reasonList.reasons.map((reasonData, index) => {
-        if (reasonData.type === 'category') {
-          return this.renderCategory(reasonData, reasonList.id, index);
-        } else {
-          return this.renderReason(reasonData, reasonList.id);
-        }
-      })}
+      {reasonList.reasons
+        .sort((a, b) => a.sortOrder - b.sortOrder)
+        .map((reasonData, index) => {
+          if (reasonData.type === 'category') {
+            return this.renderCategory(reasonData, reasonList.id, index);
+          } else {
+            return this.renderReason(reasonData, reasonList.id);
+          }
+        })}
     </div>,
   ];
 
   logoutAndCloseMenu = () => {
-    CxEngage.authentication.logout(
-      (error) => error && window.location.reload()
-    );
+    CxEngage.authentication.logout((error) => error && window.location.reload());
     this.props.showAgentStatusMenu(false);
   };
 
@@ -496,5 +496,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default ErrorBoundary(
-  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStatusMenu)))
+  injectIntl(
+    connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStatusMenu))
+  )
 );
