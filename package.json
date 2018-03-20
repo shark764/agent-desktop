@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.19.5",
+  "version": "1.19.6",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -344,6 +344,7 @@
     "image-webpack-loader": "3.4.2",
     "imports-loader": "0.7.1",
     "jest": "21.2.1",
+    "jest-cli": "21.2.1",
     "json-loader": "0.5.7",
     "lint-staged": "5.0.0",
     "ngrok": "2.2.24",

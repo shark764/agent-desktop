@@ -10,8 +10,6 @@ ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 COPY . /home/node/app
 RUN chown -R node /home/node/app
 
-RUN npm install -g gulp
-
 RUN usermod -u 106 node
 
 USER node
