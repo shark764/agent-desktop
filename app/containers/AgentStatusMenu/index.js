@@ -270,6 +270,7 @@ export class AgentStatusMenu extends React.Component {
         .sort((a, b) => a.sortOrder - b.sortOrder)
         .map((reasonData, index) => {
           if (reasonData.type === 'category') {
+            reasonData.reasons.sort((c, d) => c.sortOrder - d.sortOrder);
             return this.renderCategory(reasonData, reasonList.id, index);
           } else {
             return this.renderReason(reasonData, reasonList.id);

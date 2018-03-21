@@ -1,3 +1,6 @@
+### [1.19.9] (2018-03-21)
+* CXV1-12424 - Fixed order for Presence Reasons within Categories
+
 ### [1.19.8] (2018-03-21)
 * CXV1-13269 - Added corrected color to buttons, with hover, focus, selection changes to match Mitel branding
 * CXV1-13268 - Changed page title to "MiCloud Engage" for Mitel Sites
