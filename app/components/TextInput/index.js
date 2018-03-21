@@ -70,6 +70,16 @@ function TextInput(props) {
     }
   }
 
+  if (window.location.hostname.split('.')[0].indexOf('mitel') !== -1) {
+    styles.base[':focus'] = {
+      boxShadow: '0 0 6px 1px rgba(0, 0, 0, 0.12)',
+      borderTop: 'solid 1px #00a1f4',
+      borderRight: 'solid 1px #00a1f4',
+      borderBottom: 'solid 1px #00a1f4',
+      borderLeft: 'solid 1px #00a1f4',
+    };
+  }
+
   function getPlaceholder() {
     if (typeof props.placeholder === 'string') {
       return props.placeholder;

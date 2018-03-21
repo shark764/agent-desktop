@@ -1,3 +1,7 @@
+### [1.19.8] (2018-03-21)
+* CXV1-13269 - Added corrected color to buttons, with hover, focus, selection changes to match Mitel branding
+* CXV1-13268 - Changed page title to "MiCloud Engage" for Mitel Sites
+
 ### [1.19.7] (2018-03-19)
 * CXV1-12929 - Fixed script presentation bug with outbound interactions starting with script break upon
 

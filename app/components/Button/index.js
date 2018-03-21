@@ -37,6 +37,21 @@ const styles = {
     boxSizing: undefined,
     outline: 'none',
   },
+  MitelStyle: {
+    backgroundColor: '#00a1f4',
+    ':focus': {
+      boxShadow: '0 0 1em #61b2dc',
+    },
+    ':hover': {
+      backgroundColor: '#0f7fb9',
+    },
+    ':active': {
+      backgroundColor: '#1a668e',
+    },
+    disabled: {
+      backgroundColor: '#7cb8d8',
+    },
+  },
   primaryBlue: {
     backgroundColor: '#23cdf4',
     ':focus': {
@@ -177,6 +192,14 @@ export class Button extends React.Component {
 
   render() {
     let inner;
+    let mitelStyle;
+
+    if (window.location.hostname.split('.')[0].indexOf('mitel') !== -1) {
+      mitelStyle = true;
+    } else {
+      mitelStyle = false;
+    }
+
     if (!this.props.mouseOverText || !this.state.mouseOver) {
       if (this.props.iconName) {
         inner = <Icon name={this.props.iconName} />;
@@ -216,6 +239,7 @@ export class Button extends React.Component {
         style={[
           styles.base,
           styles[this.props.type],
+          mitelStyle && styles.MitelStyle,
           this.props.disabled && styles[this.props.type].disabled,
           this.props.disabled && styles.disabled,
           this.props.iconName && styles.isIcon,

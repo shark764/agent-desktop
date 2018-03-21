@@ -693,7 +693,7 @@ export class Login extends React.Component {
   getLoginTitle = () => {
     const parts = window.location.hostname.split('.');
     if (parts[0].indexOf('mitel') !== -1) {
-      document.title = 'Mitel'; // Change title to match
+      document.title = 'MiCloud Engage'; // Change title to match
 
       // Set favicon
       const link =
