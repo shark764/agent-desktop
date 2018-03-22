@@ -20,11 +20,24 @@ import IconSVG from 'components/IconSVG';
 import StatValue from 'components/Stat/StatValue';
 
 import { selectWelcomeStats } from 'containers/Toolbar/selectors';
+import { selectCrmModule } from 'containers/AgentDesktop/selectors';
 
 import messages from './messages';
 import { statKey, stats as welcomeStatsConfig } from './welcomeStatsConfig';
 
 export class WelcomeStats extends React.Component {
+  setStatsTopPosition = () => {
+    if (this.context.toolbarMode) {
+      if (this.props.crmModule === 'salesforce-lightning') {
+        return '2em';
+      }
+
+      return '2.45em';
+    }
+
+    return '3em';
+  };
+
   styles = {
     welcome: {
       fontSize: '24px',
@@ -57,7 +70,7 @@ export class WelcomeStats extends React.Component {
       margin: '0 auto',
       textAlign: 'center',
       position: 'relative',
-      top: this.context.toolbarMode ? '2.45em' : '3em',
+      top: this.setStatsTopPosition(),
       lineHeight: '1.15em',
       borderRadius: '3px',
       boxShadow: 'inset rgba(0, 0, 0, .75) 0px 0px 10px -2px',
@@ -148,6 +161,7 @@ export class WelcomeStats extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   welcomeStats: selectWelcomeStats(state, props),
+  crmModule: selectCrmModule(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -159,6 +173,7 @@ function mapDispatchToProps(dispatch) {
 WelcomeStats.propTypes = {
   agent: PropTypes.object.isRequired,
   welcomeStats: PropTypes.object.isRequired,
+  crmModule: PropTypes.string,
 };
 
 WelcomeStats.contextTypes = {
