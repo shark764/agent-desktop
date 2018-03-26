@@ -162,6 +162,10 @@ const styles = {
     marginLeft: '1.4em',
     marginBottom: '1em',
   },
+  languageMenuSfLightning: {
+    marginTop: '4.5em',
+    marginBottom: '1em',
+  },
   languageDialog: {
     position: 'absolute',
     bottom: '38px',
@@ -187,6 +191,9 @@ const styles = {
     margin: '0 15px 15px 0',
     textAlign: 'right',
     alignSelf: 'end',
+  },
+  privacySfLightning: {
+    margin: '0 15px 22px 0',
   },
   privacyLink: {
     color: '#FFFFFF',
@@ -894,7 +901,13 @@ export class Login extends React.Component {
   );
 
   getLanguageSelect = () => (
-    <div style={styles.languageMenu}>
+    <div
+      style={[
+        styles.languageMenu,
+        this.props.crmModule === 'salesforce-lightning' &&
+          styles.languageMenuSfLightning,
+      ]}
+    >
       <FontAwesomeIcon
         id="localeIcon"
         name="globe"
@@ -989,7 +1002,13 @@ export class Login extends React.Component {
             {!this.props.initiatedStandalonePopup && <LegalCopyright />}
           </div>
           {!this.props.initiatedStandalonePopup && this.getLanguageSelect()}
-          <div style={styles.privacy}>
+          <div
+            style={[
+              styles.privacy,
+              this.props.crmModule === 'salesforce-lightning' &&
+                styles.privacySfLightning,
+            ]}
+          >
             <a
               target="_blank"
               href="https://www.serenova.com/privacy"

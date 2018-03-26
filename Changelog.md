@@ -1,3 +1,6 @@
+### [1.20.0] (2018-03-22)
+* CXV1-13077 - Fixed Salesforce Lightening toolbar height
+
 ### [1.19.9] (2018-03-21)
 * CXV1-12424 - Fixed order for Presence Reasons within Categories
 
