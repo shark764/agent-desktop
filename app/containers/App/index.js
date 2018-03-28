@@ -17,6 +17,7 @@ import Radium from 'radium';
 import axios from 'axios';
 import { createSearchQuery } from 'utils/contact';
 import { isUUID } from 'utils/validator';
+import crmCssAdapter from 'utils/crmCssAdapter';
 
 import {
   DEFAULT_TOOLBAR_WIDTH,
@@ -277,9 +278,7 @@ export class App extends React.Component {
         this.props.setCrmModule(crmModule);
       } else {
         console.error(
-          `Unsupported CRM module: ${
-            crmModule
-          }. Supported CRM modules are: zendesk, salesforce-classic, salesforce-lightning`
+          `Unsupported CRM module: ${crmModule}. Supported CRM modules are: zendesk, salesforce-classic, salesforce-lightning`
         );
         this.props.setCrmModule('none');
       }
@@ -299,11 +298,9 @@ export class App extends React.Component {
 
     window.onerror = (errorMsg, url, lineNumber, column, errorObj) => {
       CxEngage.logging.error(
-        `Error: ${errorMsg} Script: ${url} Line: ${lineNumber} Column: ${
-          column
-        } StackTrace: ${JSON.stringify(errorObj)} ReduxState: ${JSON.stringify(
-          window.store
-        )}`
+        `Error: ${errorMsg} Script: ${url} Line: ${lineNumber} Column: ${column} StackTrace: ${JSON.stringify(
+          errorObj
+        )} ReduxState: ${JSON.stringify(window.store)}`
       );
     };
 
@@ -793,8 +790,12 @@ export class App extends React.Component {
               } else if (this.props.crmModule === 'salesforce-classic') {
                 CxEngage.salesforceClassic.setVisibility({ visibility: true });
               } else if (this.props.crmModule === 'salesforce-lightning') {
-                CxEngage.salesforceLightning.setVisibility({
-                  visibility: true,
+                CxEngage.salesforceLightning.isVisible((e, t, r) => {
+                  if (!r) {
+                    CxEngage.salesforceLightning.setVisibility({
+                      visibility: true,
+                    });
+                  }
                 });
               }
             }
@@ -918,9 +919,7 @@ export class App extends React.Component {
               break;
             } else {
               console.error(
-                `Not an applicable assignment option on the current active tab,  Topic: ${
-                  topic
-                }  Response:`,
+                `Not an applicable assignment option on the current active tab,  Topic: ${topic}  Response:`,
                 response
               );
               break;
@@ -960,7 +959,14 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/salesforce-lightning/on-click-to-interaction': {
-            CxEngage.salesforceLightning.setVisibility({ visibility: true });
+            CxEngage.salesforceLightning.isVisible((e, t, r) => {
+              if (!r) {
+                CxEngage.salesforceLightning.setVisibility({
+                  visibility: true,
+                });
+              }
+            });
+
             this.props.openNewInteractionPanel(
               this.context.toolbarMode,
               response.number
@@ -984,9 +990,7 @@ export class App extends React.Component {
               break;
             } else {
               console.error(
-                `Not an applicable assignment option on the current active tab,  Topic: ${
-                  topic
-                }  Response:`,
+                `Not an applicable assignment option on the current active tab,  Topic: ${topic}  Response:`,
                 response
               );
               break;
@@ -1047,9 +1051,7 @@ export class App extends React.Component {
               this.props.setCrmActiveTab(undefined);
             } else {
               console.error(
-                `Neither user, ticket, nor blank tab found in active-tab-changed response: ${
-                  response
-                }`
+                `Neither user, ticket, nor blank tab found in active-tab-changed response: ${response}`
               );
             }
             break;
@@ -1078,9 +1080,7 @@ export class App extends React.Component {
                 };
               } else {
                 console.error(
-                  `Neither user nor ticket found in ${topic} response: ${
-                    response
-                  }`
+                  `Neither user nor ticket found in ${topic} response: ${response}`
                 );
                 break;
               }
@@ -1103,9 +1103,7 @@ export class App extends React.Component {
               };
             } else {
               console.error(
-                `Neither user nor ticket found in ${topic} response: ${
-                  response
-                }`
+                `Neither user nor ticket found in ${topic} response: ${response}`
               );
               break;
             }
@@ -1230,7 +1228,9 @@ export class App extends React.Component {
 
           // ENTITIES
           case 'cxengage/entities/get-queues-response': {
-            this.props.setQueues(response.result.filter((queue) => queue.active));
+            this.props.setQueues(
+              response.result.filter((queue) => queue.active)
+            );
             break;
           }
           default: {
@@ -1306,6 +1306,9 @@ export class App extends React.Component {
       height: '100vh',
       width: '100vw',
     },
+    desktopSfLightning: {
+      paddingBottom: '40px',
+    },
     toolbarModeCollapsed: {
       height: `${DEFAULT_TOOLBAR_HEIGHT}px`,
       width: `${DEFAULT_TOOLBAR_WIDTH}px`,
@@ -1339,6 +1342,8 @@ export class App extends React.Component {
   };
 
   render() {
+    crmCssAdapter(this.styles, ['desktop'], this.props.crmModule);
+
     const banners = [];
     const refreshBannerIsVisible =
       this.props.agentDesktop.refreshRequired &&
@@ -1412,15 +1417,7 @@ export class App extends React.Component {
       );
     }
     return (
-      <div
-        style={[
-          this.styles.base,
-          this.styles.desktop,
-          this.props.crmModule === 'salesforce-lightning' && {
-            paddingBottom: '40px',
-          },
-        ]}
-      >
+      <div style={[this.styles.base, this.styles.desktop]}>
         {banners}
         {this.props.login.showLogin ||
         this.props.agentDesktop.presence === undefined ||
@@ -1486,7 +1483,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(assignContact(interactionId, contact)),
     setAssignedContact: (interactionId, contact) =>
       dispatch(setAssignedContact(interactionId, contact)),
-    unassignContact: (interactionId) => dispatch(unassignContact(interactionId)),
+    unassignContact: (interactionId) =>
+      dispatch(unassignContact(interactionId)),
     dismissContactWasAssignedNotification: (interactionId) =>
       dispatch(dismissContactWasAssignedNotification(interactionId)),
     dismissContactWasUnassignedNotification: (interactionId) =>

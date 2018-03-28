@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import expireToken from 'utils/token';
+import crmCssAdapter from 'utils/crmCssAdapter';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
@@ -22,6 +23,7 @@ import Collapsible from 'components/Collapsible';
 import Icon from 'components/Icon';
 import PopupDialog from 'components/PopupDialog';
 import { selectAgent } from 'containers/Login/selectors';
+import { selectCrmModule } from 'containers/AgentDesktop/selectors';
 
 import {
   setActiveExtension,
@@ -58,6 +60,9 @@ const styles = {
     padding: '3px 0',
     maxHeight: '700px',
     overflowY: 'auto',
+  },
+  baseMenuContainerSfLightning: {
+    maxHeight: '500px',
   },
   itemText: {
     flexGrow: 1,
@@ -285,6 +290,12 @@ export class AgentStatusMenu extends React.Component {
   };
 
   render() {
+    crmCssAdapter(
+      styles,
+      ['baseMenuContainer'],
+      this.props.crmModule
+    );
+
     return (
       <PopupDialog
         id="agentStatusMenu"
@@ -473,6 +484,7 @@ AgentStatusMenu.propTypes = {
   show: PropTypes.bool.isRequired,
   agentDirection: PropTypes.any,
   agent: PropTypes.object.isRequired,
+  crmModule: PropTypes.string,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -484,6 +496,7 @@ const mapStateToProps = (state, props) => ({
   presenceReasonLists: selectPresenceReasonLists(state, props),
   agentDirection: selectAgentDirection(state, props),
   agent: selectAgent(state, props),
+  crmModule: selectCrmModule(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
