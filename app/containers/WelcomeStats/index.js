@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import ErrorBoundary from 'components/ErrorBoundary';
+import crmCssAdapter from 'utils/crmCssAdapter';
 
 import IconSVG from 'components/IconSVG';
 import StatValue from 'components/Stat/StatValue';
@@ -76,6 +77,9 @@ export class WelcomeStats extends React.Component {
       boxShadow: 'inset rgba(0, 0, 0, .75) 0px 0px 10px -2px',
       padding: '0 1em',
     },
+    statsContainerSfLightning: {
+      top: '1.5em',
+    },
     stat: {
       position: 'relative',
       top: '2em',
@@ -100,6 +104,10 @@ export class WelcomeStats extends React.Component {
       height: this.context.toolbarMode ? '110px' : '95px',
       flex: 1,
       margin: '0 auto',
+    },
+    indivStatsSfLightning: {
+      height: 'auto',
+      margin: '0 auto 20px',
     },
     statTitle: {
       color: '#FFF',
@@ -139,6 +147,14 @@ export class WelcomeStats extends React.Component {
   );
 
   render() {
+    // update the css if we are inside of a CRM so it will
+    // display properly within their UI
+    crmCssAdapter(
+      this.styles,
+      ['statsContainer', 'indivStats'],
+      this.props.crmModule
+    );
+
     return (
       <div style={this.styles.welcome}>
         <span style={this.styles.greetingText}>

@@ -43,6 +43,7 @@ const styles = {
   copyrightToolbar: {
     color: '#000000',
     marginTop: '-10px',
+    padding: '0 30px',
   },
   legalLinkToolbar: {
     color: '#000000',

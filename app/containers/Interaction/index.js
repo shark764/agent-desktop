@@ -242,7 +242,13 @@ export class Interaction extends React.Component {
     } else if (this.props.crmModule === 'salesforce-classic') {
       CxEngage.salesforceClassic.setVisibility({ visibility: true });
     } else if (this.props.crmModule === 'salesforce-lightning') {
-      CxEngage.salesforceLightning.setVisibility({ visibility: true });
+      CxEngage.salesforceLightning.isVisible((e, t, r) => {
+        if (!r) {
+          CxEngage.salesforceLightning.setVisibility({
+            visibility: true,
+          });
+        }
+      });
     }
   }
 

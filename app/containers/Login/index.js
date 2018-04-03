@@ -15,6 +15,7 @@ import Radium from 'radium';
 import { has, pick } from 'lodash';
 
 import signIn from 'assets/icons/fa_sign_in.png';
+import crmCssAdapter from 'utils/crmCssAdapter';
 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
@@ -106,6 +107,10 @@ const styles = {
     alignContent: 'stretch',
     alignItems: 'center',
   },
+  dialogContentContainerSfLightning: {
+    padding: '0 50px 30px',
+    height: '80%',
+  },
   dialogContent: {
     display: 'flex',
     flexDirection: 'column',
@@ -125,6 +130,9 @@ const styles = {
       "     locale             .            privacy     "
     `,
     backgroundColor: '#FFFFFF',
+  },
+  toolbarBaseSfLightning: {
+    gridTemplateRows: '1fr 540px 0 1fr',
   },
   content: {
     gridArea: 'main',
@@ -163,8 +171,8 @@ const styles = {
     marginBottom: '1em',
   },
   languageMenuSfLightning: {
-    marginTop: '4.5em',
-    marginBottom: '1em',
+    marginTop: '0',
+    marginBottom: '0',
   },
   languageDialog: {
     position: 'absolute',
@@ -191,9 +199,6 @@ const styles = {
     margin: '0 15px 15px 0',
     textAlign: 'right',
     alignSelf: 'end',
-  },
-  privacySfLightning: {
-    margin: '0 15px 22px 0',
   },
   privacyLink: {
     color: '#FFFFFF',
@@ -260,8 +265,8 @@ export class Login extends React.Component {
     }
   }
 
-  // Login Logic
   componentDidMount() {
+    // Login Logic
     const waitingOnSdk = setInterval(() => {
       // if we are re-logging in after an expired session, then skip the entire
       // reauth user flow and just log the user in
@@ -731,7 +736,10 @@ export class Login extends React.Component {
   };
 
   getLoadingContent = () => (
-    <div id="loginContainerDiv" style={styles.dialogContentContainer}>
+    <div 
+      id="loginContainerDiv" 
+      style={styles.dialogContentContainer}
+    >
       <Logo style={styles.logo} />
       <div style={styles.dialogContent}>
         <IconSVG id="loadingIcon" name="loading" width="100px" />
@@ -902,11 +910,7 @@ export class Login extends React.Component {
 
   getLanguageSelect = () => (
     <div
-      style={[
-        styles.languageMenu,
-        this.props.crmModule === 'salesforce-lightning' &&
-          styles.languageMenuSfLightning,
-      ]}
+      style={styles.languageMenu}
     >
       <FontAwesomeIcon
         id="localeIcon"
@@ -939,6 +943,14 @@ export class Login extends React.Component {
   );
 
   render() {
+    crmCssAdapter(
+      styles,
+      ['dialogContentContainer',
+        'languageMenu',
+        'toolbarBase'], 
+      this.props.crmModule
+    );
+
     let pageContent;
 
     if (this.props.loading) {
@@ -1003,11 +1015,7 @@ export class Login extends React.Component {
           </div>
           {!this.props.initiatedStandalonePopup && this.getLanguageSelect()}
           <div
-            style={[
-              styles.privacy,
-              this.props.crmModule === 'salesforce-lightning' &&
-                styles.privacySfLightning,
-            ]}
+            style={styles.privacy}
           >
             <a
               target="_blank"
