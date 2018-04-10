@@ -109,7 +109,7 @@ const styles = {
   },
   dialogContentContainerSfLightning: {
     padding: '0 50px 30px',
-    height: '80%',
+    height: '78%',
   },
   dialogContent: {
     display: 'flex',
@@ -172,7 +172,7 @@ const styles = {
   },
   languageMenuSfLightning: {
     marginTop: '0',
-    marginBottom: '0',
+    marginBottom: '4px',
   },
   languageDialog: {
     position: 'absolute',
@@ -736,10 +736,7 @@ export class Login extends React.Component {
   };
 
   getLoadingContent = () => (
-    <div 
-      id="loginContainerDiv" 
-      style={styles.dialogContentContainer}
-    >
+    <div id="loginContainerDiv" style={styles.dialogContentContainer}>
       <Logo style={styles.logo} />
       <div style={styles.dialogContent}>
         <IconSVG id="loadingIcon" name="loading" width="100px" />
@@ -909,9 +906,7 @@ export class Login extends React.Component {
   );
 
   getLanguageSelect = () => (
-    <div
-      style={styles.languageMenu}
-    >
+    <div style={styles.languageMenu}>
       <FontAwesomeIcon
         id="localeIcon"
         name="globe"
@@ -945,9 +940,7 @@ export class Login extends React.Component {
   render() {
     crmCssAdapter(
       styles,
-      ['dialogContentContainer',
-        'languageMenu',
-        'toolbarBase'], 
+      ['dialogContentContainer', 'languageMenu', 'toolbarBase'],
       this.props.crmModule
     );
 
@@ -1014,9 +1007,7 @@ export class Login extends React.Component {
             {!this.props.initiatedStandalonePopup && <LegalCopyright />}
           </div>
           {!this.props.initiatedStandalonePopup && this.getLanguageSelect()}
-          <div
-            style={styles.privacy}
-          >
+          <div style={styles.privacy}>
             <a
               target="_blank"
               href="https://www.serenova.com/privacy"

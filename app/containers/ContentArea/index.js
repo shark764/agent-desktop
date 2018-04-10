@@ -842,6 +842,7 @@ export class ContentArea extends React.Component {
                 maxPx={600}
                 minPx={125}
                 isDisabled={false}
+                crmModule={this.props.crmModule}
               >
                 {this.getNotesContent()}
               </Resizable>
