@@ -1,6 +1,9 @@
+### [1.20.3] (2018-04-11)
+* CXV1-13508 - Skylight - Notes text box can be dragged up and makes it cover other elements
+
 ### [1.20.2] (2018-04-09)
 * CXV1-13077 - Fixed issue with SMS view not fitting properly in to 615 SF Lightning height
-* CXV1-12495 - Fixed issue where SF Lightning toolbar was not popping open if a call came in while it was shut. 
+* CXV1-12495 - Fixed issue where SF Lightning toolbar was not popping open if a call came in while it was shut.
 
 ### [1.20.1] (2018-03-29)
 * CXV1-13077 - Created and implemented new utility function to dynamically update toolbar css for CRM implementations
