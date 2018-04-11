@@ -1,3 +1,6 @@
+## [1.20.14] (2018-05-14)
+* CXV1-12936 - Cannot "Scroll" when creating new contact in Skylight Desktop CRM
+
 ### [1.20.13] (2018-05-04)
 * CXV1-12142 - Switching from Script Tab and Returning Causes Script to be at Top Again
 

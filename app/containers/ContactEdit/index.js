@@ -57,6 +57,7 @@ const styles = {
     fontSize: '14px',
     lineHeight: '20px',
     paddingLeft: '52px',
+    overflow: 'auto',
   },
   section: {
     marginBottom: '28px',
