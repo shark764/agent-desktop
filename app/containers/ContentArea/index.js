@@ -839,7 +839,7 @@ export class ContentArea extends React.Component {
                 setPx={this.setNotesPanelHeight}
                 disabledPx={50}
                 px={this.state.notesPanelHeight}
-                maxPx={600}
+                maxPx={504}
                 minPx={125}
                 isDisabled={false}
                 crmModule={this.props.crmModule}
