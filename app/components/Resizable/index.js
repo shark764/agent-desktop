@@ -73,9 +73,15 @@ class Resizable extends React.Component {
   }
 
   getStyles = () => {
+    // need to allow for reduced height when in Salesforce Lightning
+    const elementSizeEnabledPx =
+      this.props.crmModule && this.props.crmModule === 'salesforce-lightning'
+        ? this.props.px - 29
+        : this.props.px;
     const elementSize = this.addPx(
-      this.props.isDisabled ? this.props.disabledPx : this.props.px
+      this.props.isDisabled ? this.props.disabledPx : elementSizeEnabledPx
     );
+
     const dividerOffset = this.addPx(this.props.px - (this.dividerPx / 2 + 1));
     const userSelect = this.state.isResizing ? 'none' : 'auto';
 
@@ -265,6 +271,7 @@ Resizable.propTypes = {
   maxPx: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
   style: PropTypes.object,
+  crmModule: PropTypes.string,
 };
 
 Resizable.contextTypes = {

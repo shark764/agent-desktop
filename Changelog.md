@@ -1,3 +1,7 @@
+### [1.20.2] (2018-04-09)
+* CXV1-13077 - Fixed issue with SMS view not fitting properly in to 615 SF Lightning height
+* CXV1-12495 - Fixed issue where SF Lightning toolbar was not popping open if a call came in while it was shut. 
+
 ### [1.20.1] (2018-03-29)
 * CXV1-13077 - Created and implemented new utility function to dynamically update toolbar css for CRM implementations
 * CXV1-12495 - Fixed issue where interactions coming into salesforce lightning we causing the toolbar to flash out and then back in
