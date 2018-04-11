@@ -50,6 +50,7 @@ export class ContentArea extends React.Component {
       showDispositionsList: false,
       loadingDisposition: false,
       savingNote: false,
+      maxPx: 500,
     };
 
     this.mounted = false;
@@ -71,10 +72,26 @@ export class ContentArea extends React.Component {
   }
 
   componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
     this.mounted = false;
   }
 
+  updateDimensions = () => {
+    const height = this.contenAreaTopPx.clientHeight;
+    const heightWin = window.innerHeight;
+    const newMaxPx = Math.round(heightWin - height - 135);
+    this.setState({
+      maxPx: newMaxPx,
+      notesPanelHeight:
+        this.state.notesPanelHeight > newMaxPx
+          ? newMaxPx
+          : this.state.notesPanelHeight,
+    });
+  };
+
   componentDidMount() {
+    this.updateDimensions();
+    window.addEventListener('resize', this.updateDimensions);
     this.mounted = true;
   }
 
@@ -533,29 +550,31 @@ export class ContentArea extends React.Component {
         id="selected-dispositions"
         style={this.styles.dispositionChipsContainer}
       >
-        {this.props.interaction.dispositionDetails.selected.map((disposition) => (
-          <div
-            id={`selected-disposition-${disposition.dispositionId}`}
-            key={`selected-disposition-${disposition.dispositionId}`}
-            title={disposition.name}
-            style={this.styles.dispositionChip}
-          >
-            <span style={this.styles.dispositionLabelText}>
-              {disposition.name !== undefined
-                ? disposition.name.toUpperCase()
-                : ''}
-            </span>
-            <Button
-              id="delete-disposition-btn"
-              style={this.styles.closeButton}
-              clear
-              iconName="close"
-              type="secondary"
-              onClick={this.deselectDisposition}
-              disabled={this.state.loadingDisposition}
-            />
-          </div>
-        ))}
+        {this.props.interaction.dispositionDetails.selected.map(
+          (disposition) => (
+            <div
+              id={`selected-disposition-${disposition.dispositionId}`}
+              key={`selected-disposition-${disposition.dispositionId}`}
+              title={disposition.name}
+              style={this.styles.dispositionChip}
+            >
+              <span style={this.styles.dispositionLabelText}>
+                {disposition.name !== undefined
+                  ? disposition.name.toUpperCase()
+                  : ''}
+              </span>
+              <Button
+                id="delete-disposition-btn"
+                style={this.styles.closeButton}
+                clear
+                iconName="close"
+                type="secondary"
+                onClick={this.deselectDisposition}
+                disabled={this.state.loadingDisposition}
+              />
+            </div>
+          )
+        )}
         {this.props.interaction.dispositionDetails.selected.length === 0 &&
           this.props.interaction.status !== 'work-ended-pending-script' && [
             <div
@@ -812,7 +831,12 @@ export class ContentArea extends React.Component {
                   interactionId={this.props.interaction.interactionId}
                 />
               )}
-              <div style={this.styles.header}>
+              <div
+                style={this.styles.header}
+                ref={(el) => {
+                  this.contenAreaTopPx = el;
+                }}
+              >
                 <ContentAreaTop
                   interaction={this.props.interaction}
                   from={this.props.from}
@@ -839,7 +863,7 @@ export class ContentArea extends React.Component {
                 setPx={this.setNotesPanelHeight}
                 disabledPx={50}
                 px={this.state.notesPanelHeight}
-                maxPx={504}
+                maxPx={this.state.maxPx}
                 minPx={125}
                 isDisabled={false}
                 crmModule={this.props.crmModule}

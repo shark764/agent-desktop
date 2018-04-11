@@ -1,3 +1,6 @@
+### [1.20.5] (2018-04-20)
+* CXV1-13508 - Skylight - Notes text box can be dragged up and makes it cover other elements (updated)
+
 ### [1.20.4] (2018-04-13)
 * CXV1-13412 - Transfer menu freezes when tenant has a lot of queues
 * Removed source maps from production build
