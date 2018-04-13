@@ -470,18 +470,17 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case ACTIONS.SET_QUEUES:
       return state.set('queues', fromJS(action.queues)).set('queuesSet', true);
-    case ACTIONS.SET_QUEUE_TIME: {
-      const queueIndex = state
-        .get('queues')
-        .findIndex((queue) => queue.get('id') === action.queueId);
-      if (queueIndex !== -1) {
-        return state.setIn(
-          ['queues', queueIndex, 'queueTime'],
-          action.queueTime
-        );
-      } else {
-        return state;
-      }
+    case ACTIONS.SET_QUEUES_TIME: {
+      return state.update('queues', (queues) =>
+        queues.map((queue) => {
+          const updatedQueueData = action.queueData[queue.get('id')];
+          if (updatedQueueData) {
+            return queue.set('queueTime', updatedQueueData.body.results.avg);
+          } else {
+            return queue;
+          }
+        })
+      );
     }
     case ACTIONS.SET_PRESENCE: {
       const systemPresenceReasonList = state

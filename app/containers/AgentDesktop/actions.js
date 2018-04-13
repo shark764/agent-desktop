@@ -105,11 +105,10 @@ export function setQueues(queues) {
   };
 }
 
-export function setQueueTime(queueId, queueTime) {
+export function setQueuesTime(queueData) {
   return {
-    type: ACTIONS.SET_QUEUE_TIME,
-    queueId,
-    queueTime,
+    type: ACTIONS.SET_QUEUES_TIME,
+    queueData,
   };
 }
 

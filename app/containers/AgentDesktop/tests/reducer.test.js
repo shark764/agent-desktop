@@ -38,6 +38,7 @@ import {
   SAVE_MESSAGE_STATE,
   ADD_INTERACTION_NOTIFICATION,
   REMOVE_INTERACTION_NOTIFICATION,
+  SET_QUEUES_TIME,
 } from '../constants';
 import agentDesktopReducer, { getNextSelectedInteractionId } from '../reducer';
 
@@ -1400,6 +1401,32 @@ describe('agentDesktopReducer', () => {
       };
     });
     it('removes the correct notification from the specified interaction', () => {
+      runReducerAndExpectSnapshot();
+    });
+  });
+
+  describe('SET_QUEUES_TIME', () => {
+    beforeEach(() => {
+      initialState = {
+        queues: [{
+          id: "test-queue-uuid",
+          queueTime: 0,
+        }],
+      };
+      action = {
+        type: SET_QUEUES_TIME,
+        queueData: {
+          "test-queue-uuid": {
+            body: {
+              results: {
+                avg: 32,
+              },
+            },
+          },
+        },
+      };
+    });
+    it('updates the current queue time to reflect the new average wait time', () => {
       runReducerAndExpectSnapshot();
     });
   });
