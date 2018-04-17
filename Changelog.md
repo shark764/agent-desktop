@@ -1,3 +1,6 @@
+### [1.20.12] (2018-05-02)
+* CXV1-12083 - A Scripts Scrolling is not Interaction Specific
+
 ### [1.20.11] (2018-04-28)
 * Updated the SDK to v6.20.1
 
@@ -51,7 +54,7 @@
 * CXV1-13263 - Update agent-desktop Jenkins build
 
 ### [1.19.5] (2018-03-20)(BROKEN)
-* CXV1-11862 - when customer sends an email with empty subject, change subject from null to an empty empty string in the json response
+* CXV1-12839 - when customer sends an email with empty subject, change subject from null to an empty empty string in the json response
 
 ### [1.19.4] (2018-03-19)(BROKEN)
 * CXV1-12424 - Added code to present Presence Reasons ordered in the same way they have been previously configured by an admin.
