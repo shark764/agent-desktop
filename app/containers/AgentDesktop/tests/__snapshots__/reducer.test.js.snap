@@ -1003,6 +1003,17 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer SET_QUEUES_TIME updates the current queue time to reflect the new average wait time 1`] = `
+Immutable.Map {
+  "queues": Immutable.List [
+    Immutable.Map {
+      "id": "test-queue-uuid",
+      "queueTime": 32,
+    },
+  ],
+}
+`;
+
 exports[`agentDesktopReducer START_OUTBOUND_INTERACTION sms adds a new outbound interaction with a generated interactionId, channelType, customer, and contact 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [

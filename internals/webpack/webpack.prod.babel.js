@@ -17,7 +17,6 @@ module.exports = require('./webpack.base.babel')({
   output: {
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].chunk.js',
-    sourceMapFilename: "[name].[chunkhash].js.map",
   },
 
   plugins: [
@@ -52,7 +51,4 @@ module.exports = require('./webpack.base.babel')({
     // Add Legal Banner to top of Prod minified js
     new webpack.BannerPlugin('Copyright © 2015-2017 Serenova, LLC. All rights reserved.'),
   ],
-
-  // Emit a source map for easier debugging
-  devtool: 'source-map',
 });
