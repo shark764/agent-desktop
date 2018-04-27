@@ -1,3 +1,6 @@
+### [1.20.6] (2018-04-26)
+* Updated the SDK to v6.19.0
+
 ### [1.20.5] (2018-04-20)
 * CXV1-13508 - Skylight - Notes text box can be dragged up and makes it cover other elements (updated)
 
