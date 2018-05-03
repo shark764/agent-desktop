@@ -708,11 +708,12 @@ export function updateNote(interactionId, note) {
   };
 }
 
-export function updateScriptValues(interactionId, scriptValueMap) {
+export function updateScriptValues(interactionId, scriptValueMap, position) {
   return {
     type: ACTIONS.UPDATE_SCRIPT_VALUES,
     interactionId,
     scriptValueMap,
+    position,
   };
 }
 

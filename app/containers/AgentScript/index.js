@@ -73,9 +73,18 @@ class AgentScript extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.interactionId !== nextProps.interactionId) {
-      this.props.updateScriptValues(this.props.interactionId, this.state);
+      this.props.updateScriptValues(
+        this.props.interactionId,
+        this.state,
+        this.scriptContainer.scrollTop
+      );
       this.setState(this.mapScriptsFromProps());
+      this.scriptContainer.scrollTop = nextProps.script.scrollPosition || 0;
     }
+  }
+
+  componentDidMount() {
+    this.scriptContainer.scrollTop = this.props.script.scrollPosition || 0;
   }
 
   mapScriptsFromProps = () => {
@@ -263,7 +272,12 @@ class AgentScript extends React.Component {
 
   render() {
     return (
-      <div style={[styles.base, this.props.style]}>
+      <div
+        style={[styles.base, this.props.style]}
+        ref={(el) => {
+          this.scriptContainer = el;
+        }}
+      >
         {this.getScript()}
         <Button
           id="submitScriptButton"
@@ -285,8 +299,10 @@ AgentScript.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateScriptValues: (interactionId, scriptValueMap) =>
-      dispatch(updateScriptValues(interactionId, scriptValueMap)),
+    updateScriptValues: (interactionId, scriptValueMap, scrollPosition) =>
+      dispatch(
+        updateScriptValues(interactionId, scriptValueMap, scrollPosition)
+      ),
     dispatch,
   };
 }
