@@ -1,3 +1,6 @@
+### [1.20.13] (2018-05-04)
+* CXV1-12142 - Switching from Script Tab and Returning Causes Script to be at Top Again
+
 ### [1.20.12] (2018-05-02)
 * CXV1-12083 - A Scripts Scrolling is not Interaction Specific
 
