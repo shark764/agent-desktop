@@ -68,7 +68,11 @@ class AgentScript extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.updateScriptValues(this.props.interactionId, this.state);
+    this.props.updateScriptValues(
+      this.props.interactionId,
+      this.state,
+      this.scriptContainer.scrollTop
+    );
   }
 
   componentWillReceiveProps(nextProps) {
