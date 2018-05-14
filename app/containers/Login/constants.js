@@ -24,3 +24,17 @@ export const LOGOUT = 'app/Login/LOGOUT';
 // Display States
 export const CX_LOGIN = 'CX_LOGIN';
 export const SSO_LOGIN = 'SSO_LOGIN';
+
+// Deep Links
+export const DEEPLINK_USERNAME_TENANTID_IDP = 'DEEPLINK_USERNAME_TENANTID_IDP';
+export const DEEPLINK_USERNAME_TENANTID = 'DEEPLINK_USERNAME_TENANTID';
+export const DEEPLINK_USERNAME_IDP = 'DEEPLINK_USERNAME_IDP';
+export const DEEPLINK_TENANTID_IDP = 'DEEPLINK_TENANTID_IDP';
+export const DEEPLINK_TENANTID = 'DEEPLINK_TENANTID';
+
+export const DEEPLINK_QUERY_PARAMS = [
+  'username',
+  'tenantid',
+  'idp',
+  'tenantididp',
+]
