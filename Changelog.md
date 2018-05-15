@@ -1,3 +1,6 @@
+## [1.20.15] (2018-05-14)
+* CXV1-12532 - Filtered out Outbound-only agents from Transfer list
+
 ## [1.20.14] (2018-05-14)
 * CXV1-12936 - Cannot "Scroll" when creating new contact in Skylight Desktop CRM
 

@@ -198,12 +198,32 @@ export class TransferMenu extends React.Component {
             capacityTopic,
             capacityResponse
           );
+
           const agents = response.result
-            .filter(
-              (agent) =>
-                // Filter ourself, pending users
-                agent.id !== this.props.agentId && agent.status === 'accepted'
-            )
+            .filter((agent) => {
+              // find the agent's capacity in the corresponding capacity
+              // response object
+              let agentCapacity = {};
+
+              // if there is no 500 error from trying to get the capacity,
+              // let's get the data we need to determine direction
+              if (!capacityError && capacityResponse) {
+                agentCapacity = capacityResponse.resourceCapacity.find(
+                  (resource) => resource.agentId === agent.id
+                );
+              } else {
+                // if we don't have any info on the capacity, let's just
+                // include the agent to be on the safe side
+                agentCapacity.direction = 'inbound';
+              }
+
+              // Filter ourself, pending users, and outbound-only agents
+              return (
+                agent.id !== this.props.agentId &&
+                agent.status === 'accepted' &&
+                agentCapacity.direction === 'inbound'
+              );
+            })
             .map((agent) => ({
               id: agent.id,
               firstName: agent.firstName,
