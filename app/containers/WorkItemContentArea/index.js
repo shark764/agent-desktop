@@ -67,10 +67,7 @@ export function WorkItemContentArea(props) {
   if (props.selectedInteraction.script !== undefined) {
     content = (
       <div style={styles.content}>
-        <AgentScript
-          interactionId={props.selectedInteraction.interactionId}
-          script={props.selectedInteraction.script}
-        />
+        <AgentScript />
       </div>
     );
   }

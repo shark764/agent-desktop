@@ -150,10 +150,7 @@ export class SidePanel extends React.Component {
       {
         name: 'script',
         tabInner: renderScriptTab && (
-          <AgentScript
-            interactionId={this.props.selectedInteractionId}
-            script={this.props.selectedInteractionScript}
-          />
+          <AgentScript />
         ),
       },
     ];

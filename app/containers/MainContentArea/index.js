@@ -63,8 +63,6 @@ class MainContentArea extends React.Component {
       } else if (selectedInteraction.isScriptOnly === true) {
         content = (
           <AgentScript
-            interactionId={selectedInteraction.interactionId}
-            script={selectedInteraction.script}
             style={{ padding: '30px' }}
           />
         );

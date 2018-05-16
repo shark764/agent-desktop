@@ -66,10 +66,7 @@ export class VoiceContentArea extends React.Component {
     if (this.props.selectedInteraction.script !== undefined) {
       content = (
         <div style={this.styles.content}>
-          <AgentScript
-            interactionId={this.props.selectedInteraction.interactionId}
-            script={this.props.selectedInteraction.script}
-          />
+          <AgentScript />
         </div>
       );
     }

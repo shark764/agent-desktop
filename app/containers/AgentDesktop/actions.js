@@ -708,12 +708,20 @@ export function updateNote(interactionId, note) {
   };
 }
 
-export function updateScriptValues(interactionId, scriptValueMap, position) {
+export function updateScriptValue(interactionId, elementName, newValue) {
   return {
-    type: ACTIONS.UPDATE_SCRIPT_VALUES,
+    type: ACTIONS.UPDATE_SCRIPT_VALUE,
     interactionId,
-    scriptValueMap,
-    position,
+    elementName,
+    newValue,
+  };
+}
+
+export function updateScriptScrollPosition(interactionId, scrollPosition) {
+  return {
+    type: ACTIONS.UPDATE_SCRIPT_SCROLL_POSITION,
+    interactionId,
+    scrollPosition,
   };
 }
 

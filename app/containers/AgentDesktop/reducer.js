@@ -14,6 +14,7 @@ import Interaction, {
   activeContactFormBlank,
 } from 'models/Interaction/Interaction';
 import Message from 'models/Message/Message';
+import Script from 'models/Script/Script';
 import ResponseMessage from 'models/Message/ResponseMessage';
 
 import * as ACTIONS from './constants';
@@ -196,20 +197,22 @@ const setContactInteractionDetails = (interaction, action) => {
         if (typeof interactionHistory === 'undefined') {
           return interactionHistory;
         }
-        return interactionHistory.update('results', (interactionHistoryResults) =>
-          interactionHistoryResults.map((contactHistoryInteraction) => {
-            if (
-              contactHistoryInteraction.get('interactionId') ===
-              action.response.details.interactionId
-            ) {
-              return contactHistoryInteraction.set(
-                'interactionDetails',
-                fromJS(action.response.details)
-              );
-            } else {
-              return contactHistoryInteraction;
-            }
-          })
+        return interactionHistory.update(
+          'results',
+          (interactionHistoryResults) =>
+            interactionHistoryResults.map((contactHistoryInteraction) => {
+              if (
+                contactHistoryInteraction.get('interactionId') ===
+                action.response.details.interactionId
+              ) {
+                return contactHistoryInteraction.set(
+                  'interactionDetails',
+                  fromJS(action.response.details)
+                );
+              } else {
+                return contactHistoryInteraction;
+              }
+            })
         );
       }
     );
@@ -323,7 +326,9 @@ export const getNextSelectedInteractionId = (state, interactionId) => {
   if (state.get('selectedInteractionId') === interactionId) {
     const interactionBeingRemoved = state
       .get('interactions')
-      .find((interaction) => interaction.get('interactionId') === interactionId);
+      .find(
+        (interaction) => interaction.get('interactionId') === interactionId
+      );
     const currentVoiceInteraction = state
       .get('interactions')
       .find(
@@ -499,6 +504,7 @@ function agentDesktopReducer(state = initialState, action) {
         })
       );
     }
+
     case ACTIONS.SET_INTERACTION_STATUS: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
@@ -595,24 +601,26 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.SET_ACTIVE_RESOURCES: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.set(
-            'warmTransfers',
-            new List(
-              action.activeResources.map((resource) => {
-                const mappedResource = Object.assign({}, resource);
-                mappedResource.targetResource = mappedResource.id;
-                mappedResource.status = 'connected';
-                if (mappedResource.externalResource) {
-                  mappedResource.name = mappedResource.extension;
-                } else {
-                  mappedResource.name = 'Agent';
-                }
-                mappedResource.addedTimestamp = Date.now();
-                return fromJS(mappedResource);
-              })
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) =>
+            interaction.set(
+              'warmTransfers',
+              new List(
+                action.activeResources.map((resource) => {
+                  const mappedResource = Object.assign({}, resource);
+                  mappedResource.targetResource = mappedResource.id;
+                  mappedResource.status = 'connected';
+                  if (mappedResource.externalResource) {
+                    mappedResource.name = mappedResource.extension;
+                  } else {
+                    mappedResource.name = 'Agent';
+                  }
+                  mappedResource.addedTimestamp = Date.now();
+                  return fromJS(mappedResource);
+                })
+              )
             )
-          )
         );
       }
       return state;
@@ -806,11 +814,11 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.ADD_SCRIPT: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       // Replace useless script id with actual one needed for the SDK
-      const script = fromJS(action.script).set('id', action.scriptId);
+      const script = { ...action.script, id: action.scriptId };
       if (interactionIndex > -1) {
         return state.setIn(
           ['interactions', interactionIndex, 'script'],
-          script
+          new Script(script)
         );
       } else {
         // 'script-only' is the main status we will use. isScriptOnly for when interactions receive a work offer, but still need to render the script in MainContentArea until it has been accepted
@@ -818,7 +826,7 @@ function agentDesktopReducer(state = initialState, action) {
           interactionId: action.interactionId,
           status: 'script-only',
           isScriptOnly: true,
-          script,
+          script: new Script(script),
           isSidePanelCollapsed: true,
           selectedSidePanelTab: 'info',
           query: {},
@@ -852,10 +860,12 @@ function agentDesktopReducer(state = initialState, action) {
         } else if (interaction.get('isScriptOnly')) {
           // Case where work is offered in between receiving and sending a script
           return state
-            .updateIn(['interactions', interactionIndex], (interactionToUpdate) =>
-              interactionToUpdate
-                .set('script', undefined)
-                .delete('isScriptOnly')
+            .updateIn(
+              ['interactions', interactionIndex],
+              (interactionToUpdate) =>
+                interactionToUpdate
+                  .set('script', undefined)
+                  .delete('isScriptOnly')
             )
             .set(
               'selectedInteractionId',
@@ -876,29 +886,33 @@ function agentDesktopReducer(state = initialState, action) {
         state,
         action.response.interactionId
       );
-      return state.updateIn(['interactions', interactionIndex], (interaction) => {
-        let newInteraction = interaction.set('status', 'work-initiated');
-        if (interaction.get('channelType') === 'voice') {
-          newInteraction = newInteraction.set(
-            'number',
-            action.response.customer
-          );
-        } else if (interaction.get('channelType') === 'sms') {
-          newInteraction = newInteraction.set(
-            'customer',
-            `+${action.response.customer}`
-          );
+      return state.updateIn(
+        ['interactions', interactionIndex],
+        (interaction) => {
+          let newInteraction = interaction.set('status', 'work-initiated');
+          if (interaction.get('channelType') === 'voice') {
+            newInteraction = newInteraction.set(
+              'number',
+              action.response.customer
+            );
+          } else if (interaction.get('channelType') === 'sms') {
+            newInteraction = newInteraction.set(
+              'customer',
+              `+${action.response.customer}`
+            );
+          }
+          return newInteraction;
         }
-        return newInteraction;
-      });
+      );
     }
     case ACTIONS.SET_IS_CANCELLING_INTERACTION: {
       // setting "isCancellingInteraction" flag so that we can give the user
       // instant visual/UI feedback while we wait for the sdk to do its magic
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.set('isCancellingInteraction', true)
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) => interaction.set('isCancellingInteraction', true)
         );
       } else {
         return state;
@@ -911,31 +925,30 @@ function agentDesktopReducer(state = initialState, action) {
           (interaction) =>
             interaction.get('interactionId') === action.interactionId
         );
-      if (
-        interactionToRemove !== undefined &&
-        interactionToRemove.get('script') === undefined
-      ) {
-        return removeInteractionAndSetNextSelectedInteraction(
-          state,
-          action.interactionId
-        );
-        // If the interaction still has a script, set the interaction's state to indicate this so it can be "disabled" until the script is complete
-      } else if (
-        interactionToRemove !== undefined &&
-        interactionToRemove.get('script') !== undefined
-      ) {
-        const interactionIndex = getInteractionIndex(
-          state,
-          action.interactionId
-        );
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction
-            .set('status', 'work-ended-pending-script')
-            .set('contactMode', 'view')
-        );
-      } else {
-        return state;
+      if (interactionToRemove !== undefined) {
+        if (
+          interactionToRemove.get('script') !== undefined &&
+          interactionToRemove.get('script').autoScriptDismisss !== true
+        ) {
+          const interactionIndex = getInteractionIndex(
+            state,
+            action.interactionId
+          );
+          return state.updateIn(
+            ['interactions', interactionIndex],
+            (interaction) =>
+              interaction
+                .set('status', 'work-ended-pending-script')
+                .set('contactMode', 'view')
+          );
+        } else {
+          return removeInteractionAndSetNextSelectedInteraction(
+            state,
+            action.interactionId
+          );
+        }
       }
+      return state;
     }
     case ACTIONS.REMOVE_INTERACTION_HARD: {
       const interactionIndexToRemove = state
@@ -1049,8 +1062,9 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.SET_INTERACTION_QUERY: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.set('query', fromJS(action.query))
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) => interaction.set('query', fromJS(action.query))
         );
       } else {
         return state;
@@ -1111,11 +1125,13 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.UNASSIGN_CONTACT: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction
-            .delete('contact')
-            .set('contactAssignedNotification', 'contactWasUnassigned')
-            .set('selectedSidePanelTab', 'script')
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) =>
+            interaction
+              .delete('contact')
+              .set('contactAssignedNotification', 'contactWasUnassigned')
+              .set('selectedSidePanelTab', 'script')
         );
       } else {
         return state;
@@ -1452,16 +1468,18 @@ function agentDesktopReducer(state = initialState, action) {
         action.transferringTo.type !== undefined &&
         action.transferringTo.name !== undefined
       ) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.update('warmTransfers', (warmTransfers) =>
-            warmTransfers.push(
-              fromJS({
-                ...action.transferringTo,
-                status: 'transferring',
-                addedTimestamp: Date.now(),
-              })
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) =>
+            interaction.update('warmTransfers', (warmTransfers) =>
+              warmTransfers.push(
+                fromJS({
+                  ...action.transferringTo,
+                  status: 'transferring',
+                  addedTimestamp: Date.now(),
+                })
+              )
             )
-          )
         );
       } else {
         return state;
@@ -1604,8 +1622,9 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.HOLD_ME: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.set('meOnHold', true)
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) => interaction.set('meOnHold', true)
         );
       } else {
         return state;
@@ -1614,8 +1633,10 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.RESUME_ME: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.set('meOnHold', false).set('muted', false)
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) =>
+            interaction.set('meOnHold', false).set('muted', false)
         );
       } else {
         return state;
@@ -1649,8 +1670,10 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.UPDATE_CALL_CONTROLS: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.set('callControls', fromJS(action.callControls))
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) =>
+            interaction.set('callControls', fromJS(action.callControls))
         );
       } else {
         return state;
@@ -1805,23 +1828,28 @@ function agentDesktopReducer(state = initialState, action) {
           .get(interactionIndex)
           .get('channelType') === 'email'
       ) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.updateIn(['emailReply', 'attachments'], (attachments) => {
-            if (action.attachment.attachmentId === undefined) {
-              return attachments.push(fromJS(action.attachment));
-            } else {
-              const loadingAttachmentIndex = attachments.findIndex(
-                (attachment) => attachment.get('attachmentId') === undefined
-              );
-              if (loadingAttachmentIndex !== -1) {
-                return attachments
-                  .remove(loadingAttachmentIndex)
-                  .push(fromJS(action.attachment));
-              } else {
-                return attachments.push(fromJS(action.attachment));
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) =>
+            interaction.updateIn(
+              ['emailReply', 'attachments'],
+              (attachments) => {
+                if (action.attachment.attachmentId === undefined) {
+                  return attachments.push(fromJS(action.attachment));
+                } else {
+                  const loadingAttachmentIndex = attachments.findIndex(
+                    (attachment) => attachment.get('attachmentId') === undefined
+                  );
+                  if (loadingAttachmentIndex !== -1) {
+                    return attachments
+                      .remove(loadingAttachmentIndex)
+                      .push(fromJS(action.attachment));
+                  } else {
+                    return attachments.push(fromJS(action.attachment));
+                  }
+                }
               }
-            }
-          })
+            )
         );
       } else {
         return state;
@@ -1857,13 +1885,15 @@ function agentDesktopReducer(state = initialState, action) {
           .get(interactionIndex)
           .get('channelType') === 'email'
       ) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction
-            .setIn(['emailReply', 'message'], action.reply.message)
-            .setIn(['emailReply', 'tos'], new List(action.reply.tos))
-            .setIn(['emailReply', 'ccs'], new List(action.reply.ccs))
-            .setIn(['emailReply', 'bccs'], new List(action.reply.bccs))
-            .setIn(['emailReply', 'subject'], action.reply.subject)
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) =>
+            interaction
+              .setIn(['emailReply', 'message'], action.reply.message)
+              .setIn(['emailReply', 'tos'], new List(action.reply.tos))
+              .setIn(['emailReply', 'ccs'], new List(action.reply.ccs))
+              .setIn(['emailReply', 'bccs'], new List(action.reply.bccs))
+              .setIn(['emailReply', 'subject'], action.reply.subject)
         );
       } else {
         return state;
@@ -1878,8 +1908,9 @@ function agentDesktopReducer(state = initialState, action) {
           .get(interactionIndex)
           .get('channelType') === 'email'
       ) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.set('sendingReply', true)
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) => interaction.set('sendingReply', true)
         );
       } else {
         return state;
@@ -1899,23 +1930,45 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.SAVE_MESSAGE_STATE: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex], (interaction) =>
-          interaction.set('currentMessage', action.message)
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) => interaction.set('currentMessage', action.message)
         );
       } else {
         return state;
       }
     }
-    case ACTIONS.UPDATE_SCRIPT_VALUES: {
+    case ACTIONS.UPDATE_SCRIPT_VALUE: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex],
           (interaction) => {
             if (interaction.get('script') !== undefined) {
-              return interaction
-                .setIn(['script', 'values'], action.scriptValueMap)
-                .setIn(['script', 'scrollPosition'], action.position);
+              return interaction.setIn(
+                ['script', 'values', action.elementName],
+                action.newValue
+              );
+            } else {
+              return interaction;
+            }
+          }
+        );
+      } else {
+        return state;
+      }
+    }
+    case ACTIONS.UPDATE_SCRIPT_SCROLL_POSITION: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) => {
+            if (interaction.get('script') !== undefined) {
+              return interaction.setIn(
+                ['script', 'scrollTop'],
+                action.scrollPosition
+              );
             } else {
               return interaction;
             }

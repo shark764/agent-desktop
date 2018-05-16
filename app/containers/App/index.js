@@ -37,6 +37,7 @@ import LoginPopup from 'containers/LoginPopup';
 import AgentDesktop from 'containers/AgentDesktop';
 
 import { selectLocale } from 'containers/LanguageProvider/selectors';
+import { sendScript } from 'containers/AgentScript/actions';
 import {
   setAvailableStats,
   statsReceived,
@@ -526,6 +527,21 @@ export class App extends React.Component {
           }
           case 'cxengage/interactions/work-rejected-received':
           case 'cxengage/interactions/work-ended-received': {
+            const interaction = this.props.agentDesktop.interactions.find(
+              (availableInteraction) =>
+                availableInteraction.interactionId === response.interactionId
+            );
+            if (
+              interaction &&
+              interaction.script &&
+              interaction.script.autoScriptDismiss
+            ) {
+              this.props.sendScript(
+                response.interactionId,
+                interaction.script,
+                true
+              );
+            }
             this.props.removeInteraction(response.interactionId);
             break;
           }
@@ -1482,6 +1498,8 @@ function mapDispatchToProps(dispatch) {
     addScript: (interactionId, script, scriptId) =>
       dispatch(addScript(interactionId, script, scriptId)),
     removeScript: (interactionId) => dispatch(removeScript(interactionId)),
+    sendScript: (interactionId, script, dismissed) =>
+      dispatch(sendScript(interactionId, script, dismissed)),
     setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus, response) =>
       dispatch(setInteractionStatus(interactionId, newStatus, response)),
@@ -1622,6 +1640,7 @@ App.propTypes = {
   setUserConfig: PropTypes.func.isRequired,
   setAgentDirection: PropTypes.any,
   setExtensions: PropTypes.func.isRequired,
+  sendScript: PropTypes.func.isRequired,
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,
   workAccepted: PropTypes.func.isRequired,

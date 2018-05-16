@@ -238,9 +238,14 @@ Immutable.Map {
       "interactionId": "new-interaction-id",
       "status": "script-only",
       "isScriptOnly": true,
-      "script": Immutable.Map {
-        "scriptItem": "something",
+      "script": Immutable.Record {
         "id": "actual-script-id",
+        "name": "no-name",
+        "elements": Immutable.List [],
+        "values": Immutable.Map {},
+        "autoScriptDismiss": false,
+        "scriptReporting": false,
+        "scrollTop": 0,
       },
       "isSidePanelCollapsed": true,
       "selectedSidePanelTab": "info",
@@ -270,9 +275,14 @@ Immutable.Map {
       "interactionId": "new-interaction-id",
       "status": "script-only",
       "isScriptOnly": true,
-      "script": Immutable.Map {
-        "scriptItem": "something",
+      "script": Immutable.Record {
         "id": "actual-script-id",
+        "name": "no-name",
+        "elements": Immutable.List [],
+        "values": Immutable.Map {},
+        "autoScriptDismiss": false,
+        "scriptReporting": false,
+        "scrollTop": 0,
       },
       "isSidePanelCollapsed": true,
       "selectedSidePanelTab": "info",
@@ -301,9 +311,14 @@ Immutable.Map {
     Immutable.Map {
       "interactionId": "test-interaction-id",
       "channelType": "messaging",
-      "script": Immutable.Map {
-        "scriptItem": "something",
+      "script": Immutable.Record {
         "id": "actual-script-id",
+        "name": "no-name",
+        "elements": Immutable.List [],
+        "values": Immutable.Map {},
+        "autoScriptDismiss": false,
+        "scriptReporting": false,
+        "scrollTop": 0,
       },
     },
   ],
