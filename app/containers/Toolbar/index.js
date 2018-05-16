@@ -20,7 +20,7 @@ import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 import AgentStatusMenu from 'containers/AgentStatusMenu';
 import AgentStats from 'containers/AgentStats';
-import AgentConfigMenu from 'containers/AgentConfigMenu';
+import AgentPreferencesMenu from 'containers/AgentPreferencesMenu';
 
 import { selectQueuesSet } from 'containers/AgentDesktop/selectors';
 
@@ -29,11 +29,7 @@ import { selectSelectedPresenceReason } from 'containers/AgentStatusMenu/selecto
 import { selectHasInteractions } from 'containers/InteractionsBar/selectors';
 
 import { toggleAgentMenu } from './actions';
-import selectToolbar, {
-  selectQueues,
-  selectCurrentAgent,
-  selectReadyState,
-} from './selectors';
+import selectToolbar, { selectQueues, selectReadyState } from './selectors';
 import messages from './messages';
 
 const styles = {
@@ -330,7 +326,6 @@ export class Toolbar extends React.Component {
           >
             <button
               id="config-button"
-              key="config-button"
               style={this.getConfigMenuButtonStyle()}
               onClick={() => this.showConfigMenu(!this.state.showConfigMenu)}
               onMouseEnter={() => this.setConfigButtonHovered(true)}
@@ -338,12 +333,9 @@ export class Toolbar extends React.Component {
             >
               <Icon id="config-icon" name="config" style={{ width: '22px' }} />
             </button>
-            <AgentConfigMenu
-              queues={this.props.queues}
-              currentAgent={this.props.currentAgent}
+            <AgentPreferencesMenu
               hideMenu={() => this.showConfigMenu(false)}
-              show={this.state.showConfigMenu}
-              key="agentConfigMenu"
+              isVisible={this.state.showConfigMenu}
             />
           </div>
         </div>
@@ -355,7 +347,6 @@ export class Toolbar extends React.Component {
 function mapStateToProps(state, props) {
   return {
     queues: selectQueues(state, props),
-    currentAgent: selectCurrentAgent(state, props),
     selectedPresenceReason: selectSelectedPresenceReason(state, props),
     hasInteractions: selectHasInteractions(state, props),
     readyState: selectReadyState(state, props),
@@ -376,7 +367,6 @@ Toolbar.propTypes = {
   readyState: PropTypes.string,
   tenant: PropTypes.object,
   queues: PropTypes.array,
-  currentAgent: PropTypes.object,
   showAgentStatusMenu: PropTypes.bool,
   toggleAgentMenu: PropTypes.func,
   selectedPresenceReason: PropTypes.object,

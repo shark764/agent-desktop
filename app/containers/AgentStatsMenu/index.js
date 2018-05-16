@@ -4,7 +4,7 @@
 
 /*
  *
- * AgentConfigMenu
+ * AgentStatsMenu
  *
  */
 
@@ -19,16 +19,19 @@ import ErrorBoundary from 'components/ErrorBoundary';
 
 import { activateToolbarStat } from 'containers/Toolbar/actions';
 
-import PopupDialog from 'components/PopupDialog';
 import Select from 'components/Select';
 import Button from 'components/Button';
 import { selectAvailableStats } from 'containers/AgentStats/selectors';
-import { selectToolbarStatIds } from 'containers/Toolbar/selectors';
+import {
+  selectToolbarStatIds,
+  selectQueues,
+  selectCurrentAgent,
+} from 'containers/Toolbar/selectors';
 import messages from './messages';
 
 const MAXIMUM_STATS = 5;
 
-export class AgentConfigMenu extends React.Component {
+export class AgentStatsMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,15 +45,6 @@ export class AgentConfigMenu extends React.Component {
   }
 
   styles = {
-    statMenu: {
-      position: 'absolute',
-      width: '230px',
-      right: '2px',
-      bottom: '56px',
-      margin: '10px',
-      color: '#4b4b4b',
-      padding: '10px 13px',
-    },
     menuGroup: {
       paddingBottom: '11px',
     },
@@ -77,7 +71,6 @@ export class AgentConfigMenu extends React.Component {
 
   addStat = () => {
     this.props.activateToolbarStat(this.state);
-    this.props.hideMenu();
   };
 
   setStatSource = (value) => {
@@ -140,18 +133,14 @@ export class AgentConfigMenu extends React.Component {
     this.props.availableStats[this.state.statOption] &&
     Object.keys(
       this.props.availableStats[this.state.statOption].responseKeys
-    ).map((key) => ({ value: key, label: key[0].toUpperCase() + key.slice(1) }));
+    ).map((key) => ({
+      value: key,
+      label: key[0].toUpperCase() + key.slice(1),
+    }));
 
   render() {
     return (
-      <PopupDialog
-        id="statMenu"
-        style={this.styles.statMenu}
-        widthPx={230}
-        arrowLeftOffsetPx={198}
-        isVisible={this.props.show}
-        hide={this.props.hideMenu}
-      >
+      <div id="statMenu">
         <div style={this.styles.menuGroup}>
           <div style={this.styles.menuHeader}>
             <FormattedMessage {...messages.source} />
@@ -167,7 +156,7 @@ export class AgentConfigMenu extends React.Component {
             />
           </div>
         </div>
-        {this.state.statSource === 'queue-id' ? (
+        {this.state.statSource === 'queue-id' && (
           <div style={this.styles.menuGroup}>
             <div style={this.styles.menuHeader}>
               <FormattedMessage {...messages.queue} />
@@ -183,8 +172,6 @@ export class AgentConfigMenu extends React.Component {
               />
             </div>
           </div>
-        ) : (
-          ''
         )}
         <div style={this.styles.menuGroup}>
           <div style={this.styles.menuHeader}>
@@ -233,7 +220,7 @@ export class AgentConfigMenu extends React.Component {
             />
           )}
         </div>
-      </PopupDialog>
+      </div>
     );
   }
 }
@@ -242,6 +229,8 @@ function mapStateToProps(state, props) {
   return {
     toolbarStatIds: selectToolbarStatIds()(state, props).toJS(),
     availableStats: selectAvailableStats(state, props),
+    queues: selectQueues(state, props),
+    currentAgent: selectCurrentAgent(state, props),
   };
 }
 
@@ -252,18 +241,17 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-AgentConfigMenu.propTypes = {
+AgentStatsMenu.propTypes = {
   intl: intlShape.isRequired,
   activateToolbarStat: PropTypes.func,
   toolbarStatIds: PropTypes.array,
   availableStats: PropTypes.object,
   queues: PropTypes.array,
-  hideMenu: PropTypes.func,
   show: PropTypes.bool,
 };
 
 export default ErrorBoundary(
   injectIntl(
-    connect(mapStateToProps, mapDispatchToProps)(Radium(AgentConfigMenu))
+    connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStatsMenu))
   )
 );

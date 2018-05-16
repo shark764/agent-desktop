@@ -3,43 +3,43 @@
  */
 
 /*
- * AgentConfigMenu Messages
+ * AgentStatsMenu Messages
  *
- * This contains all the text for the AgentConfigMenu container.
+ * This contains all the text for the AgentStatsMenu container.
  */
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   source: {
-    id: 'app.containers.AgentConfigMenu.source',
+    id: 'app.containers.AgentStatsMenu.source',
     defaultMessage: 'Source',
   },
   agent: {
-    id: 'app.containers.AgentConfigMenu.agent',
+    id: 'app.containers.AgentStatsMenu.agent',
     defaultMessage: 'Agent',
   },
   queue: {
-    id: 'app.containers.AgentConfigMenu.queue',
+    id: 'app.containers.AgentStatsMenu.queue',
     defaultMessage: 'Queue',
   },
   tenant: {
-    id: 'app.containers.AgentConfigMenu.tenant',
+    id: 'app.containers.AgentStatsMenu.tenant',
     defaultMessage: 'Tenant',
   },
   statistic: {
-    id: 'app.containers.AgentConfigMenu.statistic',
+    id: 'app.containers.AgentStatsMenu.statistic',
     defaultMessage: 'Statistic',
   },
   aggregate: {
-    id: 'app.containers.AgentConfigMenu.aggregate',
+    id: 'app.containers.AgentStatsMenu.aggregate',
     defaultMessage: 'Aggregate',
   },
   maxStats: {
-    id: 'app.containers.AgentConfigMenu.maxStats',
+    id: 'app.containers.AgentStatsMenu.maxStats',
     defaultMessage: 'Maximum Stats Enabled',
   },
   add: {
-    id: 'app.containers.AgentConfigMenu.add',
+    id: 'app.containers.AgentStatsMenu.add',
     defaultMessage: 'Add',
   },
 });
