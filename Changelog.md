@@ -1,3 +1,6 @@
+## [1.21.2] (2018-05-16)
+* The status menu working in all heights
+
 ### [1.21.1] (2018-05-16)
 * CXV1-11589 - Agents weren't able to access Skylight from IE11 browsers
 

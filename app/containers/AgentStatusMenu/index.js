@@ -58,11 +58,8 @@ const styles = {
   },
   baseMenuContainer: {
     padding: '3px 0',
-    maxHeight: '700px',
+    maxHeight: 'calc(100vh - 60px)',
     overflowY: 'auto',
-  },
-  baseMenuContainerSfLightning: {
-    maxHeight: '500px',
   },
   itemText: {
     flexGrow: 1,
@@ -285,16 +282,14 @@ export class AgentStatusMenu extends React.Component {
   ];
 
   logoutAndCloseMenu = () => {
-    CxEngage.authentication.logout((error) => error && window.location.reload());
+    CxEngage.authentication.logout(
+      (error) => error && window.location.reload()
+    );
     this.props.showAgentStatusMenu(false);
   };
 
   render() {
-    crmCssAdapter(
-      styles,
-      ['baseMenuContainer'],
-      this.props.crmModule
-    );
+    crmCssAdapter(styles, ['baseMenuContainer'], this.props.crmModule);
 
     return (
       <PopupDialog
@@ -401,7 +396,6 @@ export class AgentStatusMenu extends React.Component {
                 false
               )}
             </div>
-
             <div
               id="agentDirectionOutbound"
               key="Outbound"
