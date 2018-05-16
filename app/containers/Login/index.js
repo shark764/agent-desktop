@@ -377,11 +377,13 @@ export class Login extends React.Component {
   // NOTE: will ONLY work w/CxEngage logins for now, for sso debugging, need to
   // use hard-coded workarounds for testing (see example of that in AgentStatusMenu)
   useDebugTokenExpiration = () => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.has('debugToken')) {
-      storage.setItem('debugTokenVal', params.get('debugToken'));
-    } else {
-      storage.removeItem('debugTokenVal');
+    if (window.URLSearchParams) {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('debugToken')) {
+        storage.setItem('debugTokenVal', params.get('debugToken'));
+      } else {
+        storage.removeItem('debugTokenVal');
+      }
     }
   };
 
