@@ -1,3 +1,6 @@
+### [1.21.1] (2018-05-16)
+* CXV1-11589 - Agents weren't able to access Skylight from IE11 browsers
+
 ### [1.21.0] (2018-05-15)
 * CXV1-13940 - Preference menu
 * CXV1-13941 - Moved stats menu into preference menu
