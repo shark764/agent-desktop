@@ -1,3 +1,6 @@
+## [1.21.3] (2018-05-17)
+* CXV1-12936 - Cannot "Scroll" when creating new contact in Skylight Desktop CRM, the CRM info in the contact menu add scroll  
+
 ## [1.21.2] (2018-05-16)
 * The status menu working in all heights
 
