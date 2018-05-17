@@ -53,6 +53,7 @@ export class InfoTab extends React.Component {
       position: 'relative',
       display: 'flex',
       marginLeft: '-52px',
+      overflow: 'auto',
     },
     loading: {
       display: 'flex',
