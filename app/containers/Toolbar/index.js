@@ -35,9 +35,11 @@ import messages from './messages';
 const styles = {
   readyBase: {
     backgroundColor: '#072931',
+    zIndex: '1',
   },
   notReadyBase: {
     backgroundColor: '#FE4565',
+    zIndex: '1',
   },
   container: {
     display: 'flex',

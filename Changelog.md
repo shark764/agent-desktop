@@ -1,5 +1,9 @@
+## [1.21.5] (2018-05-18)
+* CXV1-13273 - Unable to remove the Agent Stats from Skylight toolbar.
+
 ## [1.21.4] (2018-05-17)
 * CXV1-13489 - Hold button doesn't update when mouse is over button 
+
 
 ## [1.21.3] (2018-05-17)
 * CXV1-12936 - Cannot "Scroll" when creating new contact in Skylight Desktop CRM, the CRM info in the contact menu add scroll  
