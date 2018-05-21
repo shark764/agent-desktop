@@ -1,3 +1,6 @@
+### [1.21.6] (2018-05-21)
+* CXV1-11589 - Agents weren't able to access Skylight from IE11 browsers (Finally fixed)
+
 ## [1.21.5] (2018-05-18)
 * CXV1-13273 - Unable to remove the Agent Stats from Skylight toolbar.
 
