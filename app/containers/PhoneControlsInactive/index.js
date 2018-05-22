@@ -56,7 +56,7 @@ export class PhoneControlsInactive extends React.Component {
 
     let isValid = false;
     try {
-      isValid = this.phoneNumberUtil.isValidNumber(
+      isValid = this.phoneNumberUtil.isPossibleNumber(
         this.phoneNumberUtil.parse(formattedDialpadText, 'E164')
       );
     } catch (e) {
