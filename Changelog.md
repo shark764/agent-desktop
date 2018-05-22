@@ -1,3 +1,6 @@
+### [1.21.7] (2018-05-21)
+* CXV1-13395 - Relaxed phone number validation
+
 ### [1.21.6] (2018-05-21)
 * CXV1-11589 - Agents weren't able to access Skylight from IE11 browsers (Finally fixed)
 
@@ -5,8 +8,7 @@
 * CXV1-13273 - Unable to remove the Agent Stats from Skylight toolbar.
 
 ## [1.21.4] (2018-05-17)
-* CXV1-13489 - Hold button doesn't update when mouse is over button 
-
+* CXV1-13489 - Hold button doesn't update when mouse is over button
 
 ## [1.21.3] (2018-05-17)
 * CXV1-12936 - Cannot "Scroll" when creating new contact in Skylight Desktop CRM, the CRM info in the contact menu add scroll  

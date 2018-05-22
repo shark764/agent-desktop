@@ -9,7 +9,7 @@ const phoneNumberUtil = PhoneNumberUtil.getInstance();
 export function isValidNumber(number) {
   let validNumber;
   try {
-    validNumber = phoneNumberUtil.isValidNumber(
+    validNumber = phoneNumberUtil.isPossibleNumber(
       phoneNumberUtil.parse(number, 'E164')
     );
   } catch (e) {
