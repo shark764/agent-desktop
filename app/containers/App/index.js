@@ -15,6 +15,8 @@ import { injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import axios from 'axios';
+// IE11 compatibility polyfill
+import { URL } from 'url-polyfill';
 import { createSearchQuery } from 'utils/contact';
 import { isUUID } from 'utils/validator';
 import crmCssAdapter from 'utils/crmCssAdapter';
@@ -216,6 +218,8 @@ export class App extends React.Component {
     let logLevel;
     let blastSqsOutput;
     let reportingRefreshRate;
+    let crmModule;
+    let standalonePopup;
     if (typeof window.ADconf !== 'undefined') {
       where = window.ADconf.api;
       environment = window.ADconf.env;
@@ -265,9 +269,14 @@ export class App extends React.Component {
       reportingRefreshRate,
       locale: this.props.locale,
     };
-    const crmModule = new URL(window.location.href).searchParams.get(
-      'crmModule'
-    );
+
+    if (window.URL) {
+      crmModule = new window.URL(window.location.href).searchParams.get(
+        'crmModule'
+      );
+    } else {
+      crmModule = new URL(window.location.href).searchParams.get('crmModule');
+    }
     if (crmModule) {
       if (
         crmModule === 'zendesk' ||
@@ -285,9 +294,15 @@ export class App extends React.Component {
     } else {
       this.props.setCrmModule('none');
     }
-    const standalonePopup = new URL(window.location.href).searchParams.get(
-      'standalonePopup'
-    );
+    if (window.URL) {
+      standalonePopup = new window.URL(window.location.href).searchParams.get(
+        'standalonePopup'
+      );
+    } else {
+      standalonePopup = new URL(window.location.href).searchParams.get(
+        'standalonePopup'
+      );
+    }
     if (standalonePopup) {
       this.props.setStandalonePopup();
     }
