@@ -6,7 +6,7 @@ import {
   urlParamsToObj,
   removeDeepLinkParams,
   getDeepLinkLogin,
-} from 'utils/deepLinks';
+} from 'utils/url';
 
 describe('urlParamsToObj', () => {
   beforeEach(() => {

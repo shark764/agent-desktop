@@ -1,3 +1,6 @@
+### [1.23.4] (2018-05-25)
+* CXV1-14045 - Removed sso flag on login link, changed sso flag to a query param
+
 ### [1.23.3] (2018-05-24)
 * CXV1-12664 - Fix popup blocker and non-deep link login bugs
 
