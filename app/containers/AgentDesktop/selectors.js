@@ -161,6 +161,17 @@ const getSelectedInteraction = createSelector(
   }
 );
 
+const selectCurrentScript = createSelector(
+  getSelectedInteraction,
+  (interaction) => {
+    if (interaction !== undefined && interaction.script !== undefined) {
+      return interaction.script;
+    } else {
+      return {};
+    }
+  }
+);
+
 const selectAwaitingDisposition = createSelector(
   getSelectedInteraction,
   (interaction) =>
@@ -271,6 +282,7 @@ export {
   selectNoInteractionContactPanel,
   selectNewInteractionPanel,
   getSelectedInteraction,
+  selectCurrentScript,
   selectAwaitingDisposition,
   selectHasVoiceInteraction,
   selectSmsInteractionNumbers,

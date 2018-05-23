@@ -13,7 +13,17 @@ import Radium from 'radium';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { updateScriptValues } from 'containers/AgentDesktop/actions';
+import { fromJS } from 'immutable';
+
+import {
+  updateScriptValue,
+  updateScriptScrollPosition,
+} from 'containers/AgentDesktop/actions';
+
+import {
+  getSelectedInteractionId,
+  selectCurrentScript,
+} from 'containers/AgentDesktop/selectors';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
@@ -26,6 +36,7 @@ import TextBlob from 'components/TextBlob';
 import TextInput from 'components/TextInput';
 import Select from 'components/Select';
 
+import { sendScript } from './actions';
 import messages from './messages';
 
 const styles = {
@@ -62,78 +73,64 @@ const styles = {
 };
 
 class AgentScript extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = this.mapScriptsFromProps();
-  }
-
   componentWillUnmount() {
-    this.props.updateScriptValues(
-      this.props.interactionId,
-      this.state,
-      this.scriptContainer.scrollTop
+    this.scriptContainer.removeEventListener(
+      'scroll',
+      this.handleScrollUpdates
     );
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.interactionId !== nextProps.interactionId) {
-      this.props.updateScriptValues(
-        this.props.interactionId,
-        this.state,
-        this.scriptContainer.scrollTop
-      );
-      this.setState(this.mapScriptsFromProps());
-      this.scriptContainer.scrollTop = nextProps.script.scrollPosition || 0;
+      this.scriptContainer.scrollTop = nextProps.script.scrollTop;
     }
   }
 
   componentDidMount() {
-    this.scriptContainer.scrollTop = this.props.script.scrollPosition || 0;
+    if (this.scriptContainer) {
+      this.scriptContainer.scrollTop = this.props.script.scrollTop;
+      this.scriptContainer.addEventListener('scroll', this.handleScrollUpdates);
+    }
   }
 
-  mapScriptsFromProps = () => {
-    const { script } = this.props;
-    const newState = {};
-
-    script.elements.forEach((element) => {
-      switch (element.type) {
-        case 'freeform':
-          newState[element.name] =
-            script.values !== undefined &&
-            script.values[element.name] !== undefined
-              ? script.values[element.name]
-              : '';
-          break;
-        case 'dropdown':
-        case 'scale':
-          newState[element.name] =
-            script.values !== undefined &&
-            script.values[element.name] !== undefined
-              ? script.values[element.name]
-              : null;
-          break;
-        case 'checkbox': {
-          const checkboxOptions = {};
-          element.options.forEach((option) => {
-            checkboxOptions[option.value] =
-              script.values !== undefined &&
-              script.values[option.value] !== undefined
-                ? script.values[option.value]
-                : false;
-          });
-          newState[element.name] = checkboxOptions;
-          break;
-        }
-        default:
-          break;
-      }
-    });
-    return newState;
+  handleScrollUpdates = () => {
+    this.props.updateScriptScrollPosition(
+      this.props.interactionId,
+      this.scriptContainer.scrollTop
+    );
   };
 
-  getScript = () => {
+  handleScriptInput = ({ element, newValue, option }) => {
+    let updatedValue;
+
+    switch (element.type) {
+      case 'checkbox':
+        updatedValue = this.props.script.values[element.name];
+        updatedValue[option.value] = newValue;
+        updatedValue = fromJS(updatedValue);
+        break;
+      case 'dropdown':
+        updatedValue = option !== null ? option.value : null;
+        break;
+      default:
+        updatedValue = newValue;
+    }
+
+    this.props.updateScriptValue(
+      this.props.interactionId,
+      element.name,
+      updatedValue
+    );
+  };
+
+  handleSendingScript = () => {
+    this.props.sendScript(this.props.interactionId, this.props.script, false);
+  };
+
+  mappedScriptElements = () => {
+    const { script } = this.props;
     const scriptElements = [];
-    this.props.script.elements.forEach((element) => {
+    script.elements.forEach((element) => {
       switch (element.type) {
         case 'text':
           scriptElements.push(
@@ -151,8 +148,13 @@ class AgentScript extends React.Component {
               <div>{element.text}</div>
               <TextInput
                 id={`${element.name}-textInput`}
-                value={this.state[element.name]}
-                cb={(value) => this.setState({ [element.name]: value })}
+                value={script.values[element.name]}
+                cb={(newValue) =>
+                  this.handleScriptInput({
+                    element,
+                    newValue,
+                  })
+                }
                 style={styles.textInput}
               />
             </div>
@@ -170,10 +172,11 @@ class AgentScript extends React.Component {
                 <Select
                   id={element.name}
                   options={dropdownOptions}
-                  value={this.state[element.name]}
+                  value={script.values[element.name]}
                   onChange={(option) =>
-                    this.setState({
-                      [element.name]: option !== null ? option.value : null,
+                    this.handleScriptInput({
+                      element,
+                      option,
                     })
                   }
                 />
@@ -191,8 +194,13 @@ class AgentScript extends React.Component {
               lowerBoundLabel={element.lowerBoundLabel}
               upperBound={element.upperBound}
               upperBoundLabel={element.upperBoundLabel}
-              value={this.state[element.name]}
-              onChange={(value) => this.setState({ [element.name]: value })}
+              value={script.values[element.name]}
+              onChange={(newValue) =>
+                this.handleScriptInput({
+                  element,
+                  newValue,
+                })
+              }
               placeholder={element.text}
               style={styles.element}
             />
@@ -217,12 +225,14 @@ class AgentScript extends React.Component {
               id={`${option.value}_${index}`}
               key={`${element.id}_${index}`} // eslint-disable-line
               text={option.name}
-              checked={this.state[element.name][option.value]}
-              cb={(checked) => {
-                const newState = Object.assign({}, this.state);
-                newState[element.name][option.value] = checked;
-                this.setState(newState);
-              }}
+              checked={script.values[element.name][option.value]}
+              cb={(newValue) =>
+                this.handleScriptInput({
+                  element,
+                  newValue,
+                  option,
+                })
+              }
             />
           ));
           scriptElements.push(
@@ -264,16 +274,6 @@ class AgentScript extends React.Component {
     return scriptElements;
   };
 
-  sendScript = () => {
-    const script = {
-      interactionId: this.props.interactionId,
-      scriptId: this.props.script.id,
-      answers: this.state,
-    };
-    console.log('[AgentScript] Sending this script to SDK', script);
-    CxEngage.interactions.sendScript(script);
-  };
-
   render() {
     return (
       <div
@@ -282,12 +282,12 @@ class AgentScript extends React.Component {
           this.scriptContainer = el;
         }}
       >
-        {this.getScript()}
+        {this.mappedScriptElements()}
         <Button
           id="submitScriptButton"
           type="primaryBlue"
           text={messages.submit}
-          onClick={this.sendScript}
+          onClick={this.handleSendingScript}
         />
       </div>
     );
@@ -298,19 +298,28 @@ AgentScript.propTypes = {
   style: PropTypes.object,
   script: PropTypes.object.isRequired,
   interactionId: PropTypes.string.isRequired,
-  updateScriptValues: PropTypes.func.isRequired,
+  updateScriptValue: PropTypes.func.isRequired,
+  updateScriptScrollPosition: PropTypes.func.isRequired,
+  sendScript: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state, props) => ({
+  interactionId: getSelectedInteractionId(state, props),
+  script: selectCurrentScript(state, props),
+});
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateScriptValues: (interactionId, scriptValueMap, scrollPosition) =>
-      dispatch(
-        updateScriptValues(interactionId, scriptValueMap, scrollPosition)
-      ),
+    updateScriptValue: (interactionId, elementName, newValue) =>
+      dispatch(updateScriptValue(interactionId, elementName, newValue)),
+    updateScriptScrollPosition: (interactionId, scrollPosition) =>
+      dispatch(updateScriptScrollPosition(interactionId, scrollPosition)),
+    sendScript: (interactionId, script, dismissed) =>
+      dispatch(sendScript(interactionId, script, dismissed)),
     dispatch,
   };
 }
 
 export default ErrorBoundary(
-  connect(null, mapDispatchToProps)(Radium(AgentScript))
+  connect(mapStateToProps, mapDispatchToProps)(Radium(AgentScript))
 );

@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Script constructor should construct properly 1`] = `
+Immutable.Record {
+  "id": "special-id",
+  "name": "special-name",
+  "elements": Array [
+    Object {
+      "name": "text-name",
+      "type": "text",
+    },
+    Object {
+      "name": "freeform-input-name",
+      "type": "freeform",
+    },
+    Object {
+      "name": "checkbox-input-name",
+      "options": Array [
+        Object {
+          "value": "checkbox1",
+        },
+        Object {
+          "value": "checkbox2",
+        },
+      ],
+      "type": "checkbox-input",
+    },
+    Object {
+      "name": "dropdown-name",
+      "type": "dropdown",
+    },
+    Object {
+      "name": "scale-name",
+      "type": "scale",
+    },
+  ],
+  "values": Immutable.Map {
+    "freeform-input-name": "",
+    "dropdown-name": null,
+    "scale-name": null,
+  },
+  "autoScriptDismiss": true,
+  "scriptReporting": true,
+  "scrollTop": 0,
+}
+`;

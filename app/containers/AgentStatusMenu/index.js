@@ -41,6 +41,7 @@ import {
   selectSelectedPresenceReason,
   selectPresenceReasonLists,
   selectHasActiveWrapup,
+  selectHasActiveScript,
   selectAgentDirection,
 } from './selectors';
 
@@ -303,19 +304,21 @@ export class AgentStatusMenu extends React.Component {
         arrowLeftOffsetPx={51}
       >
         <div style={styles.baseMenuContainer}>
-          {this.props.hasActiveInteractions || this.props.hasActiveWrapup ? (
-            <div id="agentLogoutLink" style={styles.presenceLinkContainer}>
-              <FormattedMessage {...messages.logout} />
-            </div>
-          ) : (
-            <div
-              id="agentLogoutLink"
-              style={[styles.presenceLinkContainer, styles.inactivePresence]}
-              onClick={this.logoutAndCloseMenu}
-            >
-              <FormattedMessage {...messages.logout} />
-            </div>
-          )}
+          {this.props.hasActiveInteractions ||
+          this.props.hasActiveWrapup ||
+          this.props.hasActiveScript ? (
+              <div id="agentLogoutLink" style={styles.presenceLinkContainer}>
+                <FormattedMessage {...messages.logout} />
+              </div>
+            ) : (
+              <div
+                id="agentLogoutLink"
+                style={[styles.presenceLinkContainer, styles.inactivePresence]}
+                onClick={this.logoutAndCloseMenu}
+              >
+                <FormattedMessage {...messages.logout} />
+              </div>
+            )}
           <LargeMenuRow
             id="agentMenuTenant"
             titleText={messages.tenant}
@@ -467,6 +470,7 @@ AgentStatusMenu.propTypes = {
   extensions: PropTypes.array.isRequired,
   activeExtension: PropTypes.object.isRequired,
   hasActiveWrapup: PropTypes.bool.isRequired,
+  hasActiveScript: PropTypes.bool.isRequired,
   presenceReasonLists: PropTypes.array.isRequired,
   selectedPresenceReason: PropTypes.object.isRequired,
   showAgentStatusMenu: PropTypes.func,
@@ -486,6 +490,7 @@ const mapStateToProps = (state, props) => ({
   extensions: selectExtensions(state, props),
   activeExtension: selectActiveExtension(state, props),
   hasActiveWrapup: selectHasActiveWrapup(state, props),
+  hasActiveScript: selectHasActiveScript(state, props),
   selectedPresenceReason: selectSelectedPresenceReason(state, props),
   presenceReasonLists: selectPresenceReasonLists(state, props),
   agentDirection: selectAgentDirection(state, props),

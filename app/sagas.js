@@ -12,6 +12,7 @@ import errorSagas from 'containers/Errors/sagas';
 import infoTabSagas from 'containers/InfoTab/sagas';
 import contactSagas from 'containers/ContactsControl/sagas';
 import contactSearchSagas from 'containers/ContactSearch/sagas';
+import agentScriptSagas from 'containers/AgentScript/sagas';
 
 export default function* rootSaga() {
   const allSagas = [
@@ -23,6 +24,7 @@ export default function* rootSaga() {
     ...infoTabSagas,
     ...contactSagas,
     ...contactSearchSagas,
+    ...agentScriptSagas,
   ];
   for (let i = 0; i < allSagas.length; i += 1) {
     yield fork(allSagas[i]);

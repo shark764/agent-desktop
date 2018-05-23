@@ -1,3 +1,7 @@
+### [1.23.0] (2018-05-23)
+* CXV1-13512 - Handle "Auto Dismiss" script setting + reporting signals
+* CXV1-13044 - Agents can Log Out while having script submissions pending
+
 ### [1.22.1] (2018-05-23)
 * CXV1-13273 - Unable to remove the Agent Stats from Skylight toolbar
 
