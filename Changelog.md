@@ -1,3 +1,6 @@
+### [1.22.1] (2018-05-23)
+* CXV1-13273 - Unable to remove the Agent Stats from Skylight toolbar
+
 ### [1.22.0] (2018-05-22)
 * CXV1-12664 - Implement Updated Deep Link Handling for AD/TB2
 
@@ -7,7 +10,7 @@
 ### [1.21.7] (2018-05-21) (Broken)
 * CXV1-13395 - Relaxed phone number validation
 
-### [1.21.6] (2018-05-21)
+## [1.21.6] (2018-05-21) (Broken)
 * CXV1-11589 - Agents weren't able to access Skylight from IE11 browsers (Finally fixed)
 
 ### [1.21.5] (2018-05-18) (Broken)
@@ -17,7 +20,7 @@
 * CXV1-13489 - Hold button doesn't update when mouse is over button
 
 ### [1.21.3] (2018-05-17)
-* CXV1-12936 - Cannot "Scroll" when creating new contact in Skylight Desktop CRM, the CRM info in the contact menu add scroll
+* CXV1-12936 - Cannot "Scroll" when creating new contact in Skylight Desktop CRM, the CRM info in the contact menu add scroll  
 
 ### [1.21.2] (2018-05-16)
 * The status menu working in all heights

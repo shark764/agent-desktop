@@ -34,7 +34,6 @@ const styles = {
     backgroundColor: '#072931',
     color: '#4B4B4B',
     position: 'relative',
-    zIndex: '1',
   },
 };
 
