@@ -1,19 +1,22 @@
-## [1.21.7] (2018-05-21) (Broken)
+### [1.21.8] (2018-05-23)
+* CXV1-13273 - Revert breaking change from [1.21.5](https://github.com/SerenovaLLC/agent-desktop/commit/c54fb41390622efc4c67725a1dc58a61162384ac)
+
+### [1.21.7] (2018-05-21) (Broken)
 * CXV1-13395 - Relaxed phone number validation
 
 ## [1.21.6] (2018-05-21) (Broken)
 * CXV1-11589 - Agents weren't able to access Skylight from IE11 browsers (Finally fixed)
 
-## [1.21.5] (2018-05-18) (Broken)
+### [1.21.5] (2018-05-18) (Broken)
 * CXV1-13273 - Unable to remove the Agent Stats from Skylight toolbar.
 
-## [1.21.4] (2018-05-17)
+### [1.21.4] (2018-05-17)
 * CXV1-13489 - Hold button doesn't update when mouse is over button
 
-## [1.21.3] (2018-05-17)
+### [1.21.3] (2018-05-17)
 * CXV1-12936 - Cannot "Scroll" when creating new contact in Skylight Desktop CRM, the CRM info in the contact menu add scroll  
 
-## [1.21.2] (2018-05-16)
+### [1.21.2] (2018-05-16)
 * The status menu working in all heights
 
 ### [1.21.1] (2018-05-16)
@@ -23,10 +26,10 @@
 * CXV1-13940 - Preference menu
 * CXV1-13941 - Moved stats menu into preference menu
 
-## [1.20.15] (2018-05-14)
+### [1.20.15] (2018-05-14)
 * CXV1-12532 - Filtered out Outbound-only agents from Transfer list
 
-## [1.20.14] (2018-05-14)
+### [1.20.14] (2018-05-14)
 * CXV1-12936 - Cannot "Scroll" when creating new contact in Skylight Desktop CRM
 
 ### [1.20.13] (2018-05-04)
