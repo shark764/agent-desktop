@@ -261,6 +261,8 @@ export class Login extends React.Component {
       this.props.setDisplayState(SSO_LOGIN);
     } else if (storage.getItem('login_type') === CX_LOGIN) {
       this.props.setDisplayState(CX_LOGIN);
+    } else if (this.ssoFlag()) {
+      this.props.setDisplayState(SSO_LOGIN);
     }
 
     // if any of the SSO-triggering query params are present, let's do SSO!

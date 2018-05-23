@@ -1,3 +1,6 @@
+### [1.23.1] (2018-05-23)
+* CXV1-14045 - #sso in URL takes user directly to email-only login form
+
 ### [1.23.0] (2018-05-23)
 * CXV1-13512 - Handle "Auto Dismiss" script setting + reporting signals
 * CXV1-13044 - Agents can Log Out while having script submissions pending
