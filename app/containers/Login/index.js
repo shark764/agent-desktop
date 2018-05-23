@@ -17,6 +17,12 @@ import { has, pick } from 'lodash';
 import signIn from 'assets/icons/fa_sign_in.png';
 import crmCssAdapter from 'utils/crmCssAdapter';
 
+import {
+  urlParamsToObj,
+  removeDeepLinkParams,
+  getDeepLinkLogin,
+} from 'utils/deepLinks';
+
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import ErrorBoundary from 'components/ErrorBoundary';
@@ -74,7 +80,15 @@ import {
   setTenant,
   setDisplayState,
 } from './actions';
-import { CX_LOGIN, SSO_LOGIN } from './constants';
+import {
+  CX_LOGIN,
+  SSO_LOGIN,
+  DEEPLINK_USERNAME_TENANTID_IDP,
+  DEEPLINK_USERNAME_TENANTID,
+  DEEPLINK_USERNAME_IDP,
+  DEEPLINK_TENANTID_IDP,
+  DEEPLINK_TENANTID,
+} from './constants';
 
 const storage = window.localStorage;
 
@@ -235,6 +249,9 @@ export class Login extends React.Component {
       expiredSessionReauth: storage.getItem(REAUTH_POPUP_OPTIONS)
         ? JSON.parse(storage.getItem(REAUTH_POPUP_OPTIONS))
         : {},
+      deepLinksParamList: null,
+      deepLinksAuthInfo: null,
+      idpId: '',
     };
   }
 
@@ -245,6 +262,9 @@ export class Login extends React.Component {
     } else if (storage.getItem('login_type') === CX_LOGIN) {
       this.props.setDisplayState(CX_LOGIN);
     }
+
+    // if any of the SSO-triggering query params are present, let's do SSO!
+    this.setDeepLinkProperties();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -270,8 +290,14 @@ export class Login extends React.Component {
     const waitingOnSdk = setInterval(() => {
       // if we are re-logging in after an expired session, then skip the entire
       // reauth user flow and just log the user in
-      if (this.isReauthFromExpiredSession()) {
-        if (this.state.expiredSessionReauth.isSso === true) {
+      if (
+        this.isReauthFromExpiredSession() ||
+        this.isDeepLinkAuthentication()
+      ) {
+        if (
+          this.state.expiredSessionReauth.isSso === true ||
+          this.isDeepLinkAuthentication()
+        ) {
           this.loginWithSso();
         } else {
           this.props.showLoginPopup({
@@ -325,6 +351,7 @@ export class Login extends React.Component {
                   // identityWindowSuccessful
                   // false = agent closed the window
                   // true = the window was closed due to a successful auth
+
                   if (!this.state.identityWindowSuccessful) {
                     this.props.setLoading(false);
                   }
@@ -347,12 +374,7 @@ export class Login extends React.Component {
 
   loginWithSso = () => {
     this.props.setLoading(true);
-
     this.useDebugTokenExpiration();
-
-    const username = this.isReauthFromExpiredSession()
-      ? this.state.expiredSessionReauth.expiredSessionUsername
-      : this.state.ssoEmail;
 
     // We have to open this window in the onClick handler to prevent it from being a blocked popup
     // SDK proceeds uses this window with the name "cxengageSsoWindow"
@@ -361,12 +383,27 @@ export class Login extends React.Component {
       'cxengageSsoWindow',
       'width=500,height=500'
     );
-    CxEngage.authentication.getAuthInfo({ username }, (error) => {
+
+    CxEngage.authentication.getAuthInfo(this.getAuthParams(), (error) => {
       if (error) {
         storage.removeItem(REAUTH_POPUP_OPTIONS);
         ssoWindow.close();
       }
     });
+  };
+
+  getAuthParams = () => {
+    // if we are logging in based on a deep link...
+    if (this.state.deepLinksAuthInfo) {
+      return this.state.deepLinksAuthInfo;
+    }
+
+    // ...otherwise just use the username
+    return {
+      username: this.isReauthFromExpiredSession()
+        ? this.state.expiredSessionReauth.expiredSessionUsername
+        : this.state.ssoEmail,
+    };
   };
 
   // for the sake of testing the token expiration behavior, we can add
@@ -414,7 +451,7 @@ export class Login extends React.Component {
       username = this.state.email.trim();
     }
 
-    const password = this.state.password;
+    const { password } = this.state;
 
     const loginCredentials = {
       username,
@@ -485,6 +522,13 @@ export class Login extends React.Component {
           this.setState({
             expiredSessionReauth: {},
           });
+        } else if (this.state.deepLinksParamList === DEEPLINK_USERNAME_IDP) {
+          const defaultTenantName = response.details.find(
+            (tenant) => agent.defaultTenant === tenant.tenantId
+          ).name;
+
+          this.setTenantId(agent.defaultTenant, defaultTenantName);
+          this.onTenantSelect();
         } else if (response.details.length === 0) {
           this.props.setLoading(false);
           this.props.setNonCriticalError({ code: 'AD-1005' });
@@ -492,6 +536,8 @@ export class Login extends React.Component {
           this.setTenantId('-1', '');
           this.props.setLoading(false);
         }
+
+        removeDeepLinkParams();
 
         if (this.state.rememberEmail) {
           storage.setItem('email', this.state.email);
@@ -507,8 +553,10 @@ export class Login extends React.Component {
     });
 
     this.props.loginSuccess(agent);
-
-    if (!this.isReauthFromExpiredSession) {
+    if (
+      !this.isReauthFromExpiredSession() &&
+      !this.isDeepLinkAuthentication()
+    ) {
       this.props.setLoading(false);
     }
   };
@@ -521,7 +569,11 @@ export class Login extends React.Component {
 
       // if this tenant is not available to use without reauth,
       // store the tenant we will be logging into, and refresh the page
-      if (selectingTenant && this.requiresReauth(selectingTenant)) {
+      if (
+        selectingTenant &&
+        this.requiresReauth(selectingTenant) &&
+        !this.isDeepLinkAuthentication()
+      ) {
         this.setRememberTenant(selectingTenant);
 
         if (selectingTenant.password) {
@@ -643,6 +695,88 @@ export class Login extends React.Component {
   isReauthFromExpiredSession = () =>
     this.state.expiredSessionReauth.expiredSessionUsername &&
     this.state.expiredSessionReauth.expiredSessionUsername.length;
+
+  setDeepLinkProperties = () => {
+    const urlParamsObj = urlParamsToObj();
+    // the auth params object is the argument we'll need to
+    // pass into CxEngage.authentication.getAuthInfo
+    let authParams = {};
+    // the stateProperties params object updates the local state, which
+    // many of the other methods in this component rely upon
+    let stateProperties = {};
+
+    this.setState({
+      deepLinksParamList: getDeepLinkLogin(),
+    });
+
+    switch (getDeepLinkLogin()) {
+      case DEEPLINK_USERNAME_TENANTID: {
+        stateProperties = {
+          ssoEmail: urlParamsObj.username,
+          tenantId: urlParamsObj.tenantid,
+        };
+
+        authParams = {
+          tenantId: urlParamsObj.tenantid,
+        };
+        break;
+      }
+      case DEEPLINK_USERNAME_TENANTID_IDP: {
+        stateProperties = {
+          ssoEmail: urlParamsObj.username,
+          tenantId: urlParamsObj.tenantid,
+          idpId: urlParamsObj.idp,
+        };
+
+        authParams = {
+          tenantId: urlParamsObj.tenantid,
+          idpId: urlParamsObj.idp,
+        };
+        break;
+      }
+      case DEEPLINK_USERNAME_IDP: {
+        stateProperties = {
+          ssoEmail: urlParamsObj.username,
+        };
+
+        authParams = {
+          username: urlParamsObj.username,
+        };
+        break;
+      }
+      case DEEPLINK_TENANTID_IDP: {
+        stateProperties = authParams = {
+          tenantId: urlParamsObj.tenantid,
+          idpId: urlParamsObj.idp,
+        };
+        break;
+      }
+      case DEEPLINK_TENANTID:
+        stateProperties = authParams = {
+          tenantId: urlParamsObj.tenantid,
+        };
+        break;
+      default:
+      // do nothing
+    }
+
+    this.setState({
+      ...stateProperties,
+      deepLinksAuthInfo: authParams,
+    });
+  };
+
+  isDeepLinkAuthentication = () => {
+    const urlParamsObj = urlParamsToObj();
+    // check to see if any of the SSO-triggering query params are present
+    return (
+      Object.keys(urlParamsObj).length &&
+      (urlParamsObj.username ||
+        urlParamsObj.tenantid ||
+        urlParamsObj.idp ||
+        urlParamsObj.tenantididp)
+    );
+  };
 
   requiresReauth = (currentTenant) => {
     // if it is SSO
@@ -800,9 +934,9 @@ export class Login extends React.Component {
     // the login fields, as we are logging in in the background, so just show
     // the loading spinner...
     if (
-      (this.isReauthFromExpiredSession() &&
-        !(this.props.criticalError || this.props.nonCriticalError)) ||
-      this.props.loading
+      (this.isReauthFromExpiredSession() || this.isDeepLinkAuthentication()) &&
+      (!(this.props.criticalError || this.props.nonCriticalError) ||
+        this.props.loading)
     ) {
       this.getLoadingContent();
     }
