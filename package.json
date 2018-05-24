@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.23.6",
+  "version": "1.23.7",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -186,7 +186,13 @@
       "jsx-a11y/anchor-has-content": 0,
       "jsx-a11y/aria-props": 2,
       "jsx-a11y/anchor-is-valid": 0,
-      "prefer-destructuring": 1,
+      "prefer-destructuring": [
+        1,
+        {
+          "object": true,
+          "array": false
+        }
+      ],
       "react/jsx-indent": 0,
       "jsx-a11y/heading-has-content": 0,
       "jsx-a11y/click-events-have-key-events": 0,
@@ -205,7 +211,6 @@
       "no-console": 0,
       "no-use-before-define": 0,
       "prefer-template": 2,
-      "prefer-destructuring": [1, {"object": true, "array": false}],
       "class-methods-use-this": 0,
       "react/forbid-prop-types": 0,
       "react/jsx-first-prop-new-line": [

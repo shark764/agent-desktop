@@ -162,6 +162,13 @@ const styles = {
     overflowY: 'auto',
     padding: '19px 23px',
   },
+  emailContentFrame: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    overflowY: 'auto',
+    border: '0',
+  },
   inputContainer: {
     marginBottom: '2px',
   },
@@ -271,6 +278,29 @@ export class EmailContentArea extends React.Component {
       this.emailUpdateReply();
     }
   }
+
+  componentDidMount() {
+    this.updateIframe();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.selectedInteraction.interactionId !==
+      this.props.selectedInteraction.interactionId
+    ) {
+      this.updateIframe();
+    }
+  }
+
+  updateIframe = () => {
+    const document = this.iframeEmail.contentDocument;
+    document.body.innerHTML = this.emailWithImages();
+  };
+
+  updateIframeEmail = (el) => {
+    this.iframeEmail = el;
+    return this.iframeEmail;
+  };
 
   emailUpdateReply = () => {
     this.props.emailUpdateReply(this.props.selectedInteraction.interactionId, {
@@ -796,13 +826,10 @@ export class EmailContentArea extends React.Component {
       } else if (this.props.selectedInteraction.emailHtmlBody !== undefined) {
         content = (
           <div>
-            {
-              // eslint-disable-next-line react/no-danger
-            }
-            <div
-              id="emailContainer"
-              style={styles.emailContent}
-              dangerouslySetInnerHTML={{ __html: this.emailWithImages() }}
+            <iframe
+              title="emailFrame"
+              ref={this.updateIframeEmail}
+              style={styles.emailContentFrame}
             />
           </div>
         );
