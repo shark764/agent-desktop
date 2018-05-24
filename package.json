@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.23.1",
+  "version": "1.23.2",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -205,6 +205,7 @@
       "no-console": 0,
       "no-use-before-define": 0,
       "prefer-template": 2,
+      "prefer-destructuring": [1, {"object": true, "array": false}],
       "class-methods-use-this": 0,
       "react/forbid-prop-types": 0,
       "react/jsx-first-prop-new-line": [

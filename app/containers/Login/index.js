@@ -251,7 +251,8 @@ export class Login extends React.Component {
         : {},
       deepLinksParamList: null,
       deepLinksAuthInfo: null,
-      idpId: '',
+      // idpId may be used later
+      idpId: '', // eslint-disable-line react/no-unused-state
     };
   }
 
@@ -510,7 +511,7 @@ export class Login extends React.Component {
             targetTenantData = response.details[0];
           } else {
             targetTenantData = response.details.find(
-              (val) => val.tenantId === this.state.tenantId
+              (tenant) => tenant.tenantId === this.state.tenantId
             );
           }
         }
@@ -535,7 +536,19 @@ export class Login extends React.Component {
           this.props.setLoading(false);
           this.props.setNonCriticalError({ code: 'AD-1005' });
         } else {
-          this.setTenantId('-1', '');
+          if (agent.defaultTenant) {
+            const defaultTenant = response.details.find(
+              (tenant) => tenant.tenantId === agent.defaultTenant
+            );
+            // check that the default tenant is in the results, on the off chance they no longer belong to the default tenant
+            if (defaultTenant) {
+              this.setTenantId(defaultTenant.tenantId, defaultTenant.name);
+            } else {
+              this.setTenantId('-1', '');
+            }
+          } else {
+            this.setTenantId('-1', '');
+          }
           this.props.setLoading(false);
         }
 
@@ -555,12 +568,6 @@ export class Login extends React.Component {
     });
 
     this.props.loginSuccess(agent);
-    if (
-      !this.isReauthFromExpiredSession() &&
-      !this.isDeepLinkAuthentication()
-    ) {
-      this.props.setLoading(false);
-    }
   };
 
   onTenantSelect = () => {
