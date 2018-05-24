@@ -253,6 +253,7 @@ export class Login extends React.Component {
       deepLinksAuthInfo: null,
       // idpId may be used later
       idpId: '', // eslint-disable-line react/no-unused-state
+      ssoPopupBlocked: false,
     };
   }
 
@@ -376,6 +377,10 @@ export class Login extends React.Component {
   ssoFlag = () => window.location.href.indexOf('sso') > -1;
 
   loginWithSso = () => {
+    if (this.state.ssoPopupBlocked) {
+      this.setState({ ssoPopupBlocked: false });
+    }
+
     this.props.setLoading(true);
     this.useDebugTokenExpiration();
 
@@ -387,12 +392,20 @@ export class Login extends React.Component {
       'width=500,height=500'
     );
 
-    CxEngage.authentication.getAuthInfo(this.getAuthParams(), (error) => {
-      if (error) {
-        storage.removeItem(REAUTH_POPUP_OPTIONS);
-        ssoWindow.close();
-      }
-    });
+    if (
+      !ssoWindow ||
+      ssoWindow.closed ||
+      typeof ssoWindow.closed === 'undefined'
+    ) {
+      this.setState({ ssoPopupBlocked: true });
+    } else {
+      CxEngage.authentication.getAuthInfo(this.getAuthParams(), (error) => {
+        if (error) {
+          storage.removeItem(REAUTH_POPUP_OPTIONS);
+          ssoWindow.close();
+        }
+      });
+    }
   };
 
   getAuthParams = () => {
@@ -706,7 +719,13 @@ export class Login extends React.Component {
     this.state.expiredSessionReauth.expiredSessionUsername.length;
 
   setDeepLinkProperties = () => {
+    // if we are not logging in via deep link, then bail outta here!
+    if (!this.isDeepLinkAuthentication()) {
+      return;
+    }
+
     const urlParamsObj = urlParamsToObj();
+
     // the auth params object is the argument we'll need to
     // pass into CxEngage.authentication.getAuthInfo
     let authParams = {};
@@ -1004,6 +1023,22 @@ export class Login extends React.Component {
     );
   };
 
+  getPopupBlockedContent = () => (
+    <div id="ssoContainer" style={styles.dialogContentContainer}>
+      <Logo style={styles.logo} />
+      <div style={styles.dialogContent}>
+        <Button
+          id={messages.nextButton.id}
+          type="primaryBlueBig"
+          style={styles.actionButton}
+          text={messages.signInButton}
+          onClick={this.loginWithSso}
+          onEnter={this.loginWithSso}
+        />
+      </div>
+    </div>
+  );
+
   getSingleSignOnContent = () => (
     <div id="ssoContainer" style={styles.dialogContentContainer}>
       <Logo style={styles.logo} />
@@ -1091,7 +1126,9 @@ export class Login extends React.Component {
 
     let pageContent;
 
-    if (this.props.loading) {
+    if (this.state.ssoPopupBlocked) {
+      pageContent = this.getPopupBlockedContent();
+    } else if (this.props.loading) {
       pageContent = this.getLoadingContent();
     } else if (
       this.props.logged_in &&

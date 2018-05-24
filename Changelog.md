@@ -1,3 +1,6 @@
+### [1.23.3] (2018-05-24)
+* CXV1-12664 - Fix popup blocker and non-deep link login bugs
+
 ### [1.23.2] (2018-05-24)
 * CXV1-12384 - Preselect user's default tenant when logging in
 
