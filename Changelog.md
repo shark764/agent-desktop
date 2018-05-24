@@ -1,3 +1,6 @@
+### [1.23.2] (2018-05-24)
+* CXV1-12384 - Preselect user's default tenant when logging in
+
 ### [1.23.1] (2018-05-23)
 * CXV1-14045 - #sso in URL takes user directly to email-only login form
 
