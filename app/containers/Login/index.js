@@ -296,8 +296,11 @@ export class Login extends React.Component {
         this.isDeepLinkAuthentication()
       ) {
         if (
-          this.state.expiredSessionReauth.isSso === true ||
-          this.isDeepLinkAuthentication()
+          (
+            this.state.expiredSessionReauth.isSso === true ||
+            this.isDeepLinkAuthentication()
+          ) &&
+          this.props.displayState === SSO_LOGIN
         ) {
           this.loginWithSso();
         } else {
@@ -607,6 +610,12 @@ export class Login extends React.Component {
           this.showSsoLogin();
         }
 
+        const updatedQueryParams = `tenantid=${selectingTenant.tenantId}`;
+        window.history.pushState(
+          '',
+          document.title,
+          `${window.location.pathname}?${updatedQueryParams}${window.location.hash}`
+        );
         window.location.reload();
         return;
       }
