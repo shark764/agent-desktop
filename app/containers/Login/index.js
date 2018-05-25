@@ -21,7 +21,7 @@ import {
   urlParamsToObj,
   removeDeepLinkParams,
   getDeepLinkLogin,
-} from 'utils/deepLinks';
+} from 'utils/url';
 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
@@ -258,13 +258,10 @@ export class Login extends React.Component {
   }
 
   componentWillMount() {
-    if (storage.getItem('login_type') === SSO_LOGIN) {
-      window.location = '#sso';
+    if (this.ssoFlag() || storage.getItem('login_type') === SSO_LOGIN) {
       this.props.setDisplayState(SSO_LOGIN);
     } else if (storage.getItem('login_type') === CX_LOGIN) {
       this.props.setDisplayState(CX_LOGIN);
-    } else if (this.ssoFlag()) {
-      this.props.setDisplayState(SSO_LOGIN);
     }
 
     // if any of the SSO-triggering query params are present, let's do SSO!
@@ -373,8 +370,14 @@ export class Login extends React.Component {
     }, 200);
   }
 
-  // REMOVE after sso is ready for everyone
-  ssoFlag = () => window.location.href.indexOf('sso') > -1;
+  ssoFlag = () => {
+    const queryObj = urlParamsToObj();
+    if (queryObj.sso && queryObj.sso === 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   loginWithSso = () => {
     if (this.state.ssoPopupBlocked) {
@@ -1010,14 +1013,12 @@ export class Login extends React.Component {
             text={messages.signInButton}
             onClick={() => this.onLogin()}
           />
-          {this.ssoFlag() && (
-            <A
-              id={messages.ssoSignIn.id}
-              style={styles.ssoLink}
-              onClick={this.showSsoLogin}
-              text={messages.ssoSignIn}
-            />
-          )}
+          <A
+            id={messages.ssoSignIn.id}
+            style={styles.ssoLink}
+            onClick={this.showSsoLogin}
+            text={messages.ssoSignIn}
+          />
         </div>
       </div>
     );
