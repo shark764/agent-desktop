@@ -1,3 +1,6 @@
+### [1.23.6] (2018-05-28)
+* CXV1-13643 - Skylight toolbar cut off in SalesForce
+
 ### [1.23.5] (2018-05-25)
 * CXV1-13567 - Fixed issues that were making it impossible to successfully log into tenants that required reauthentication
 
