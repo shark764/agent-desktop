@@ -1,3 +1,6 @@
+### [1.23.5] (2018-05-25)
+* CXV1-13567 - Fixed issues that were making it impossible to successfully log into tenants that required reauthentication
+
 ### [1.23.4] (2018-05-25)
 * CXV1-14045 - Removed sso flag on login link, changed sso flag to a query param
 
@@ -36,7 +39,7 @@
 * CXV1-13489 - Hold button doesn't update when mouse is over button
 
 ### [1.21.3] (2018-05-17)
-* CXV1-12936 - Cannot "Scroll" when creating new contact in Skylight Desktop CRM, the CRM info in the contact menu add scroll  
+* CXV1-12936 - Cannot "Scroll" when creating new contact in Skylight Desktop CRM, the CRM info in the contact menu add scroll
 
 ### [1.21.2] (2018-05-16)
 * The status menu working in all heights
