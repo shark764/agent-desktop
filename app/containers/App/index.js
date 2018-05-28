@@ -920,7 +920,6 @@ export class App extends React.Component {
           // SALESFORCE CLASSIC
           case 'cxengage/salesforce-classic/initialize-complete': {
             CxEngage.salesforceClassic.setDimensions({
-              height: DEFAULT_TOOLBAR_HEIGHT,
               width: DEFAULT_TOOLBAR_WIDTH,
             });
             break;
@@ -984,7 +983,6 @@ export class App extends React.Component {
           // SALESFORCE LIGHTNING
           case 'cxengage/salesforce-lightning/initialize-complete': {
             CxEngage.salesforceLightning.setDimensions({
-              height: DEFAULT_TOOLBAR_HEIGHT,
               width: DEFAULT_TOOLBAR_WIDTH,
             });
             break;
