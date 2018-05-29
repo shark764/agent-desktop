@@ -1,3 +1,6 @@
+### [1.23.7] (2018-05-29)
+* CXV1-13852 - Scripts - Global CSS in Emails affects Skylight.
+
 ### [1.23.6] (2018-05-28)
 * CXV1-13643 - Skylight toolbar cut off in SalesForce
 
