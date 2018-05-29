@@ -283,13 +283,8 @@ export class EmailContentArea extends React.Component {
     this.updateIframe();
   }
 
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.selectedInteraction.interactionId !==
-      this.props.selectedInteraction.interactionId
-    ) {
-      this.updateIframe();
-    }
+  componentDidUpdate() {
+    this.updateIframe();
   }
 
   updateIframe = () => {
@@ -1167,9 +1162,11 @@ export class EmailContentArea extends React.Component {
               {this.props.selectedInteraction.emailDetails.from[0].name} wrote:
             </p>
             {this.props.selectedInteraction.emailHtmlBody !== undefined ? (
-              <blockquote
+              <iframe
                 className="md-RichEditor-blockquote"
-                dangerouslySetInnerHTML={{ __html: this.emailWithImages() }}
+                style={styles.emailContentFrame}
+                title="emailFrame"
+                ref={this.updateIframeEmail}
               />
             ) : (
               <blockquote className="md-RichEditor-blockquote">

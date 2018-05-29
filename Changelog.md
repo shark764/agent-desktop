@@ -1,3 +1,6 @@
+### [1.23.8] (2018-05-29)
+* CXV1-13852 - fixed bug about problem with the reply button in the email content.
+
 ### [1.23.7] (2018-05-29)
 * CXV1-13852 - Scripts - Global CSS in Emails affects Skylight.
 
