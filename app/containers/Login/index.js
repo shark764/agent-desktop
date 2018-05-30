@@ -112,41 +112,32 @@ const styles = {
     color: '#494949',
   },
   dialogContentContainer: {
-    padding: '50px 50px 30px',
+    padding: '0 50px',
     height: '100%',
-    display: 'grid',
-    gridTemplateRows: '1fr 4fr',
-    gridTemplateColumns: '100%',
+    display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
-    alignContent: 'stretch',
-    alignItems: 'center',
-  },
-  dialogContentContainerSfLightning: {
-    padding: '0 50px 30px',
-    height: '78%',
   },
   dialogContent: {
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'nowrap',
-    justifyContent: 'center',
-    alignContent: 'stretch',
     alignItems: 'center',
+    height: '367px',
   },
   toolbarBase: {
     height: '100%',
     width: '100%',
     display: 'grid',
-    gridTemplateRows: '1fr 540px 1fr',
+    // 0px standalonePopup to allow main to squish into its area on small screen heights
+    gridTemplateRows: '0px 1fr 100px 50px',
     gridTemplateAreas: `
       " standalonePopup standalonePopup standalonePopup "
       "      main            main            main       "
+      "     legal            legal          legal       "
       "     locale             .            privacy     "
     `,
     backgroundColor: '#FFFFFF',
-  },
-  toolbarBaseSfLightning: {
-    gridTemplateRows: '1fr 540px 0 1fr',
   },
   content: {
     gridArea: 'main',
@@ -154,26 +145,24 @@ const styles = {
   },
   contentTitle: {
     paddingBottom: '23px',
-    marginTop: '20px',
   },
   logo: {
     width: '275px',
-    margin: 'auto',
   },
   usernameInput: {
-    marginBottom: '11px',
+    marginBottom: '10px',
   },
   rememberMe: {
     marginLeft: '-82px',
-    marginBottom: '11px',
+    marginBottom: '10px',
     marginTop: '15px',
     width: '200px',
   },
-  actionButton: {
-    marginTop: '34px',
+  onTenantSelectButton: {
+    marginTop: '20px',
   },
   ssoLink: {
-    marginTop: '34px',
+    marginTop: '10px',
     textAlign: 'center',
   },
   languageMenu: {
@@ -296,10 +285,8 @@ export class Login extends React.Component {
         this.isDeepLinkAuthentication()
       ) {
         if (
-          (
-            this.state.expiredSessionReauth.isSso === true ||
-            this.isDeepLinkAuthentication()
-          ) &&
+          (this.state.expiredSessionReauth.isSso === true ||
+            this.isDeepLinkAuthentication()) &&
           this.props.displayState === SSO_LOGIN
         ) {
           this.loginWithSso();
@@ -524,7 +511,9 @@ export class Login extends React.Component {
         if (this.isReauthFromExpiredSession()) {
           targetTenantData = this.state.expiredSessionReauth;
         } else if (Object.keys(this.state.savedTenant).length === 2) {
-          targetTenantData = this.state.savedTenant;
+          targetTenantData = response.details.find(
+            (tenant) => tenant.tenantId === this.state.tenantId
+          );
         } else if (response.details.length) {
           if (response.details.length === 1) {
             targetTenantData = response.details[0];
@@ -614,7 +603,9 @@ export class Login extends React.Component {
         window.history.pushState(
           '',
           document.title,
-          `${window.location.pathname}?${updatedQueryParams}${window.location.hash}`
+          `${window.location.pathname}?${updatedQueryParams}${
+            window.location.hash
+          }`
         );
         window.location.reload();
         return;
@@ -913,8 +904,8 @@ export class Login extends React.Component {
 
   getLoadingContent = () => (
     <div id="loginContainerDiv" style={styles.dialogContentContainer}>
-      <Logo style={styles.logo} />
       <div style={styles.dialogContent}>
+        <Logo style={styles.logo} />
         <IconSVG id="loadingIcon" name="loading" width="100px" />
       </div>
     </div>
@@ -940,8 +931,8 @@ export class Login extends React.Component {
 
     return (
       <div id="TSContainerDiv" style={styles.dialogContentContainer}>
-        <Logo style={styles.logo} />
         <div style={styles.dialogContent}>
+          <Logo style={styles.logo} />
           <Title
             id={messages.selectTenantMenu.id}
             text={messages.selectTenantMenu}
@@ -960,9 +951,9 @@ export class Login extends React.Component {
           <Button
             id={messages.selectButton.id}
             type="primaryBlueBig"
-            style={styles.actionButton}
+            style={styles.onTenantSelectButton}
             text={messages.selectButton}
-            onClick={() => this.onTenantSelect()}
+            onClick={this.onTenantSelect}
           />
         </div>
       </div>
@@ -984,8 +975,8 @@ export class Login extends React.Component {
     // ...otherwise, of course show the login fields
     return (
       <div id="loginContainerDiv" style={styles.dialogContentContainer}>
-        <Logo style={styles.logo} />
         <div style={styles.dialogContent}>
+          <Logo style={styles.logo} />
           {this.getLoginTitle()}
           <TextInput
             id={messages.username.id}
@@ -1018,7 +1009,6 @@ export class Login extends React.Component {
           <Button
             id={messages.signInButton.id}
             type="primaryBlueBig"
-            style={styles.actionButton}
             text={messages.signInButton}
             onClick={() => this.onLogin()}
           />
@@ -1035,12 +1025,11 @@ export class Login extends React.Component {
 
   getPopupBlockedContent = () => (
     <div id="ssoContainer" style={styles.dialogContentContainer}>
-      <Logo style={styles.logo} />
       <div style={styles.dialogContent}>
+        <Logo style={styles.logo} />
         <Button
           id={messages.nextButton.id}
           type="primaryBlueBig"
-          style={styles.actionButton}
           text={messages.signInButton}
           onClick={this.loginWithSso}
           onEnter={this.loginWithSso}
@@ -1051,8 +1040,8 @@ export class Login extends React.Component {
 
   getSingleSignOnContent = () => (
     <div id="ssoContainer" style={styles.dialogContentContainer}>
-      <Logo style={styles.logo} />
       <div style={styles.dialogContent}>
+        <Logo style={styles.logo} />
         <Title
           id={messages.ssoSignIn.id}
           text={messages.ssoSignIn}
@@ -1081,7 +1070,6 @@ export class Login extends React.Component {
         <Button
           id={messages.nextButton.id}
           type="primaryBlueBig"
-          style={styles.actionButton}
           text={messages.nextButton}
           onClick={this.loginWithSso}
         />
@@ -1194,10 +1182,8 @@ export class Login extends React.Component {
                 </div>
               </div>
             )}
-          <div style={styles.content}>
-            {pageContent}
-            {!this.props.initiatedStandalonePopup && <LegalCopyright />}
-          </div>
+          <div style={styles.content}>{pageContent}</div>
+          {!this.props.initiatedStandalonePopup && <LegalCopyright />}
           {!this.props.initiatedStandalonePopup && this.getLanguageSelect()}
           <div style={styles.privacy}>
             <a

@@ -8,7 +8,6 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders CXEngage Lega
       "alignSelf": "end",
       "color": "#FFFFFF",
       "gridArea": "legal",
-      "marginBottom": "15px",
       "textAlign": "center",
       "width": "100%",
     }
@@ -42,6 +41,7 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders CXEngage Lega
     style={
       Object {
         "fontSize": "13px",
+        "marginBottom": "1em",
         "textAlign": "center",
       }
     }
@@ -81,8 +81,6 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders CXEngage Lega
       "alignSelf": "end",
       "color": "#000000",
       "gridArea": "legal",
-      "marginBottom": "15px",
-      "marginTop": "-10px",
       "padding": "0 30px",
       "textAlign": "center",
       "width": "100%",
@@ -117,6 +115,7 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders CXEngage Lega
     style={
       Object {
         "fontSize": "13px",
+        "marginBottom": "1em",
         "textAlign": "center",
       }
     }
@@ -156,7 +155,6 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders Mitel Legal i
       "alignSelf": "end",
       "color": "#FFFFFF",
       "gridArea": "legal",
-      "marginBottom": "15px",
       "textAlign": "center",
       "width": "100%",
     }
@@ -190,6 +188,7 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders Mitel Legal i
     style={
       Object {
         "fontSize": "13px",
+        "marginBottom": "1em",
         "textAlign": "center",
       }
     }
@@ -229,8 +228,6 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders Mitel Legal i
       "alignSelf": "end",
       "color": "#000000",
       "gridArea": "legal",
-      "marginBottom": "15px",
-      "marginTop": "-10px",
       "padding": "0 30px",
       "textAlign": "center",
       "width": "100%",
@@ -265,6 +262,7 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders Mitel Legal i
     style={
       Object {
         "fontSize": "13px",
+        "marginBottom": "1em",
         "textAlign": "center",
       }
     }
@@ -304,7 +302,6 @@ exports[`<LegalCopyright /> LegalCopyright in desktop renders CXEngage Legal in 
       "alignSelf": "end",
       "color": "#FFFFFF",
       "gridArea": "legal",
-      "marginBottom": "15px",
       "textAlign": "center",
       "width": "100%",
     }
@@ -338,6 +335,7 @@ exports[`<LegalCopyright /> LegalCopyright in desktop renders CXEngage Legal in 
     style={
       Object {
         "fontSize": "13px",
+        "marginBottom": "1em",
         "textAlign": "center",
       }
     }
@@ -377,7 +375,6 @@ exports[`<LegalCopyright /> LegalCopyright in desktop renders Mitel Legal in des
       "alignSelf": "end",
       "color": "#FFFFFF",
       "gridArea": "legal",
-      "marginBottom": "15px",
       "textAlign": "center",
       "width": "100%",
     }
@@ -411,6 +408,7 @@ exports[`<LegalCopyright /> LegalCopyright in desktop renders Mitel Legal in des
     style={
       Object {
         "fontSize": "13px",
+        "marginBottom": "1em",
         "textAlign": "center",
       }
     }
@@ -450,8 +448,6 @@ exports[`<LegalCopyright /> LegalCopyright in toolbarMode renders CXEngage Legal
       "alignSelf": "end",
       "color": "#000000",
       "gridArea": "legal",
-      "marginBottom": "15px",
-      "marginTop": "-10px",
       "padding": "0 30px",
       "textAlign": "center",
       "width": "100%",
@@ -486,6 +482,7 @@ exports[`<LegalCopyright /> LegalCopyright in toolbarMode renders CXEngage Legal
     style={
       Object {
         "fontSize": "13px",
+        "marginBottom": "1em",
         "textAlign": "center",
       }
     }
@@ -525,8 +522,6 @@ exports[`<LegalCopyright /> LegalCopyright in toolbarMode renders Mitel Legal in
       "alignSelf": "end",
       "color": "#000000",
       "gridArea": "legal",
-      "marginBottom": "15px",
-      "marginTop": "-10px",
       "padding": "0 30px",
       "textAlign": "center",
       "width": "100%",
@@ -561,6 +556,7 @@ exports[`<LegalCopyright /> LegalCopyright in toolbarMode renders Mitel Legal in
     style={
       Object {
         "fontSize": "13px",
+        "marginBottom": "1em",
         "textAlign": "center",
       }
     }

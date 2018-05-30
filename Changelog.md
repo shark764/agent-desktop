@@ -1,3 +1,6 @@
+### [1.23.9] (2018-05-30)
+* CXV1-14193 - Updated login page to fit in lower screen resolution
+
 ### [1.23.8] (2018-05-29)
 * CXV1-13852 - fixed bug about problem with the reply button in the email content.
 
