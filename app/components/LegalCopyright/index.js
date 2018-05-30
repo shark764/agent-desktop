@@ -25,7 +25,6 @@ const styles = {
     gridArea: 'legal',
     alignSelf: 'end',
     width: '100%',
-    marginBottom: '15px',
     color: '#FFFFFF',
     textAlign: 'center',
   },
@@ -34,6 +33,7 @@ const styles = {
     display: 'block',
   },
   legalText: {
+    marginBottom: '1em',
     fontSize: '13px',
     textAlign: 'center',
   },
@@ -42,7 +42,6 @@ const styles = {
   },
   copyrightToolbar: {
     color: '#000000',
-    marginTop: '-10px',
     padding: '0 30px',
   },
   legalLinkToolbar: {
