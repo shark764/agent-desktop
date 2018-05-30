@@ -112,6 +112,8 @@ const styles = {
   hideContent: {
     transition: 'opacity 1s cubic-bezier(0,1,0,1)',
     opacity: '0',
+    marginLeft: 0,
+    paddingLeft: 0,
   },
 };
 
@@ -149,9 +151,7 @@ export class SidePanel extends React.Component {
       },
       {
         name: 'script',
-        tabInner: renderScriptTab && (
-          <AgentScript />
-        ),
+        tabInner: renderScriptTab && <AgentScript />,
       },
     ];
     // filter out any tabs with falsey inner
@@ -187,7 +187,7 @@ export class SidePanel extends React.Component {
           id="sidePanelTabsContainer"
           style={[
             styles.bodyWrapper,
-            this.props.isCollapsed ? styles.hideContent : {},
+            this.props.isCollapsed && styles.hideContent,
           ]}
         >
           <Tabs
