@@ -512,7 +512,7 @@ export class Login extends React.Component {
           targetTenantData = this.state.expiredSessionReauth;
         } else if (Object.keys(this.state.savedTenant).length === 2) {
           targetTenantData = response.details.find(
-            (tenant) => tenant.tenantId === this.state.tenantId
+            (tenant) => tenant.tenantId === this.state.savedTenant.tenantId
           );
         } else if (response.details.length) {
           if (response.details.length === 1) {
@@ -1137,13 +1137,15 @@ export class Login extends React.Component {
     } else if (this.props.initiatedStandalonePopup) {
       pageContent = (
         <div style={styles.dialogContentContainer}>
-          <Logo style={styles.logo} />
-          <div style={{ textAlign: 'center' }}>
-            <div>
-              <FormattedMessage {...messages.toolbarHasBeenLaunched} />
-            </div>
-            <div>
-              <FormattedMessage {...messages.youMayClose} />
+          <div style={styles.dialogContent}>
+            <Logo style={styles.logo} />
+            <div style={{ textAlign: 'center' }}>
+              <div>
+                <FormattedMessage {...messages.toolbarHasBeenLaunched} />
+              </div>
+              <div>
+                <FormattedMessage {...messages.youMayClose} />
+              </div>
             </div>
           </div>
         </div>
