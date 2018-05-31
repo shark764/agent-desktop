@@ -1,3 +1,6 @@
+### [1.23.13] (2018-06-01)
+* CXV1-13643 - Fixed SalesForce(Classic and Lightning) setHeight() issue where previously set heights were cached and not overwritten.
+
 ### [1.23.12] (2018-06-01)
 * CXV1-13823 - Firefox - CRM Scroll bars cause entire page to move.
 
