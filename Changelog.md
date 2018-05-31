@@ -1,3 +1,6 @@
+### [1.23.11] (2018-06-01)
+* CXV1-14237 - Fix issue caused that was causing all direct deep links to force display of CxEngage Login password modal
+
 ### [1.23.10] (2018-05-31)
 * CXV1-14193 - Fix popped out toolbar logo position (introduced in 1.23.9)
 * CXV1-13567 - Fix tenant change after SSO login
