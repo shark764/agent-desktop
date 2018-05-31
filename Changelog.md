@@ -1,3 +1,6 @@
+### [1.23.12] (2018-06-01)
+* CXV1-13823 - Firefox - CRM Scroll bars cause entire page to move.
+
 ### [1.23.11] (2018-06-01)
 * CXV1-14237 - Fix issue caused that was causing all direct deep links to force display of CxEngage Login password modal
 
