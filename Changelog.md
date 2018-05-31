@@ -1,3 +1,6 @@
+### [1.23.18] (2018-06-04)
+* CXV1-11144 - Fixed Script Freeform input does not show default text in agent desktop
+
 ### [1.23.17] (2018-06-04)
 * CXV1-14194 - Fixed SalesForce Welcome stats page not showing properly on lower screen resolutions (height of 768)
 

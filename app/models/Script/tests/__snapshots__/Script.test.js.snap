@@ -12,6 +12,7 @@ Immutable.Record {
     Object {
       "name": "freeform-input-name",
       "type": "freeform",
+      "value": "freeform-input-value",
     },
     Object {
       "name": "checkbox-input-name",
@@ -35,7 +36,7 @@ Immutable.Record {
     },
   ],
   "values": Immutable.Map {
-    "freeform-input-name": "",
+    "freeform-input-name": "freeform-input-value",
     "dropdown-name": null,
     "scale-name": null,
   },
