@@ -1,3 +1,7 @@
+### [1.23.10] (2018-05-31)
+* CXV1-14193 - Fix popped out toolbar logo position (introduced in 1.23.9)
+* CXV1-13567 - Fix tenant change after SSO login
+
 ### [1.23.9] (2018-05-30)
 * CXV1-14193 - Updated login page to fit in lower screen resolution
 
