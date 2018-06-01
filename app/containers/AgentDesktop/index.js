@@ -270,7 +270,7 @@ export class AgentDesktop extends React.Component {
             {this.context.toolbarMode && (
               <PhoneControls style={{ flex: '0' }} />
             )}
-            <div style={{ display: 'flex', flex: '1' }}>
+            <div style={{ display: 'flex', flex: '1', minHeight: '0' }}>
               <div
                 style={[
                   this.styles.leftArea,
@@ -408,5 +408,10 @@ AgentDesktop.contextTypes = {
 };
 
 export default ErrorBoundary(
-  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(AgentDesktop)))
+  injectIntl(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Radium(AgentDesktop))
+  )
 );
