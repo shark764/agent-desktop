@@ -596,18 +596,19 @@ export class Login extends React.Component {
         if (selectingTenant.password) {
           this.showCxLogin();
         } else {
+
           this.showSsoLogin();
+          window.history.pushState(
+            '',
+            document.title,
+            `${window.location.pathname}?tenantid=${selectingTenant.tenantId}${
+              window.location.hash
+            }`
+          );
         }
 
-        const updatedQueryParams = `tenantid=${selectingTenant.tenantId}`;
-        window.history.pushState(
-          '',
-          document.title,
-          `${window.location.pathname}?${updatedQueryParams}${
-            window.location.hash
-          }`
-        );
         window.location.reload();
+
         return;
       }
 
@@ -726,6 +727,8 @@ export class Login extends React.Component {
     if (!this.isDeepLinkAuthentication()) {
       return;
     }
+
+    this.props.setDisplayState(SSO_LOGIN);
 
     const urlParamsObj = urlParamsToObj();
 
