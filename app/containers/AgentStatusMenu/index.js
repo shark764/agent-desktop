@@ -62,6 +62,10 @@ const styles = {
     maxHeight: 'calc(100vh - 60px)',
     overflowY: 'auto',
   },
+  // Used by crmCssAdapter
+  baseMenuContainerSfLightning: {
+    maxHeight: 'calc(100vh - 100px)',
+  },
   itemText: {
     flexGrow: 1,
   },
@@ -129,7 +133,6 @@ export class AgentStatusMenu extends React.Component {
       clearHoverInt: 0,
       statusLoading: false,
       expandedMenu: '',
-      showDisplayReauthConfirm: false,
     };
   }
 
@@ -341,8 +344,8 @@ export class AgentStatusMenu extends React.Component {
                     ? extension.type
                     : extension.provider
                 }-${extension.value}-${index}`}
+                // eslint-disable-next-line
                 key={`${
-                  // eslint-disable-line
                   extension.provider === undefined
                     ? extension.type
                     : extension.provider
