@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Interaction in toolbar mode sets notesPanelHeight to the correct value 1`] = `180`;
+
 exports[`Interaction outbound email sets emailReply 1`] = `
 Immutable.Map {
   "message": "",
@@ -50,7 +52,7 @@ Interaction {
   "note": Immutable.Map {
     "body": "",
     "title": "",
-    "notesPanelHeight": 180,
+    "notesPanelHeight": 300,
   },
   "notifications": Immutable.List [
     Immutable.Map {

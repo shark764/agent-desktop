@@ -23,7 +23,7 @@ Immutable.Map {
       "note": Immutable.Map {
         "body": "",
         "title": "",
-        "notesPanelHeight": 300,
+        "notesPanelHeight": 180,
       },
       "status": "work-offer",
       "isSidePanelCollapsed": true,
@@ -84,7 +84,7 @@ Immutable.Map {
       "note": Immutable.Map {
         "body": "",
         "title": "",
-        "notesPanelHeight": 300,
+        "notesPanelHeight": 180,
       },
       "status": "work-offer",
       "isSidePanelCollapsed": true,
@@ -153,7 +153,7 @@ Immutable.Map {
       "note": Immutable.Map {
         "body": "",
         "title": "",
-        "notesPanelHeight": 300,
+        "notesPanelHeight": 180,
       },
       "status": "work-offer",
       "isSidePanelCollapsed": false,
@@ -1060,7 +1060,7 @@ Immutable.Map {
       "note": Immutable.Map {
         "body": "",
         "title": "",
-        "notesPanelHeight": 300,
+        "notesPanelHeight": 180,
       },
       "status": "connecting-to-outbound",
       "isSidePanelCollapsed": true,
@@ -1121,7 +1121,7 @@ Immutable.Map {
       "note": Immutable.Map {
         "body": "",
         "title": "",
-        "notesPanelHeight": 300,
+        "notesPanelHeight": 180,
       },
       "status": "connecting-to-outbound",
       "isSidePanelCollapsed": true,

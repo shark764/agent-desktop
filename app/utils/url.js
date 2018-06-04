@@ -11,6 +11,12 @@ import {
   DEEPLINK_TENANTID,
 } from '../containers/Login/constants';
 
+const toolbar = window.location.href.indexOf('desktop') === -1;
+
+export function isToolbar() {
+  return toolbar;
+}
+
 /*
  * urlParamsToObj
  *

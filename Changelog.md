@@ -1,3 +1,6 @@
+### [1.23.15] (2018-06-01)
+* CXV1-14195 - Fix default height of notes panel for outbound interactions in toolbar mode
+
 ### [1.23.14] (2018-06-01)
 * CXV1-14196 - Fix side panel overflow in toolbar mode
 
