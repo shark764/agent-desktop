@@ -4,6 +4,7 @@
 
 import { List, Map, fromJS } from 'immutable';
 import { timeSince } from 'utils/time';
+import { isToolbar } from 'utils/url';
 
 export default class Interaction {
   constructor({
@@ -21,7 +22,6 @@ export default class Interaction {
     contactMode,
     isSidePanelCollapsed,
     subject,
-    toolbarMode,
     timeAccepted,
     callbackRequest,
   }) {
@@ -76,7 +76,7 @@ export default class Interaction {
     this.note = new Map({
       body: '',
       title: '',
-      notesPanelHeight: toolbarMode ? 180 : 300,
+      notesPanelHeight: isToolbar() ? 180 : 300,
     });
     if (contact) {
       this.contact = fromJS(contact);

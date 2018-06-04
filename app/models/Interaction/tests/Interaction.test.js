@@ -1,8 +1,12 @@
 import { List } from 'immutable';
+import { isToolbar } from 'utils/url';
 import Interaction from '../Interaction';
 
 Date.now = jest.fn(() => 0);
 Math.random = jest.fn(() => 0.99);
+
+jest.mock('utils/url');
+isToolbar.mockImplementation(() => false);
 
 describe('Interaction', () => {
   describe('with all the params', () => {
@@ -21,7 +25,6 @@ describe('Interaction', () => {
       contactMode: 'mock-contact-mode',
       isSidePanelCollapsed: false,
       subject: 'mock-subject',
-      toolbarMode: true,
       timeAccepted: 'mock-time-accepted',
       callbackRequest: {
         callbackNumber: 'mock-callback-number',
@@ -37,6 +40,16 @@ describe('Interaction', () => {
     const interaction = new Interaction({});
     it('sets defaults, ignores appropriate undefineds', () => {
       expect(interaction).toMatchSnapshot();
+    });
+  });
+
+  describe('in toolbar mode', () => {
+    beforeEach(() => {
+      isToolbar.mockImplementationOnce(() => true);
+    });
+    it('sets notesPanelHeight to the correct value', () => {
+      const interaction = new Interaction({});
+      expect(interaction.note.get('notesPanelHeight')).toMatchSnapshot();
     });
   });
 

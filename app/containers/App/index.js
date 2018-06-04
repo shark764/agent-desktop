@@ -547,9 +547,6 @@ export class App extends React.Component {
           }
           case 'cxengage/interactions/work-offer-received': {
             this.props.toggleAgentMenu(false);
-            if (this.context.toolbarMode) {
-              response.toolbarMode = true;
-            }
             this.props.addInteraction(response);
             break;
           }
