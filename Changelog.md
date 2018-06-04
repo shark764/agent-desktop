@@ -1,3 +1,6 @@
+### [1.23.17] (2018-06-04)
+* CXV1-14194 - Fixed SalesForce Welcome stats page not showing properly on lower screen resolutions (height of 768)
+
 ### [1.23.16] (2018-06-04)
 * CXV1-14035 - Fix height of status menu in salesforce lightning
 
