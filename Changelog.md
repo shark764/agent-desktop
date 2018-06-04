@@ -1,3 +1,6 @@
+### [1.23.16] (2018-06-04)
+* CXV1-14035 - Fix height of status menu in salesforce lightning
+
 ### [1.23.15] (2018-06-01)
 * CXV1-14195 - Fix default height of notes panel for outbound interactions in toolbar mode
 
