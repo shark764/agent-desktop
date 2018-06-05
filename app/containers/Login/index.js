@@ -70,6 +70,7 @@ import {
   selectCrmModule,
 } from 'containers/AgentDesktop/selectors';
 import { showLoginPopup } from 'containers/AgentDesktop/actions';
+import { initializeNotificatonPreferences } from 'containers/AgentNotificationsMenu/actions';
 import selectLogin from './selectors';
 import messages from './messages';
 import {
@@ -650,6 +651,7 @@ export class Login extends React.Component {
             console.log('[Login] CxEngage.subscribe()', topic, response);
             if (!error) {
               this.props.setTenant(this.state.tenantId, this.state.tenantName);
+              this.props.initializeNotificatonPreferences();
             } else {
               this.props.errorOccurred();
             }
@@ -1302,6 +1304,8 @@ function mapDispatchToProps(dispatch) {
     dismissError: () => dispatch(dismissError()),
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
     showLoginPopup: (popupConfig) => dispatch(showLoginPopup(popupConfig)),
+    initializeNotificatonPreferences: () =>
+      dispatch(initializeNotificatonPreferences()),
     dispatch,
   };
 }
@@ -1319,6 +1323,7 @@ Login.propTypes = {
   setNonCriticalError: PropTypes.func.isRequired,
   dismissError: PropTypes.func.isRequired,
   handleSDKError: PropTypes.func.isRequired,
+  initializeNotificatonPreferences: PropTypes.func.isRequired,
   displayState: PropTypes.string,
   loading: PropTypes.bool,
   logged_in: PropTypes.bool,

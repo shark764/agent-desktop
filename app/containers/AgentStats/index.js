@@ -145,8 +145,7 @@ export class AgentStats extends React.Component {
   };
 
   generateStat = (stat, index) => {
-    const userFriendlyName = this.props.availableStats[stat.statOption]
-      .userFriendlyName;
+    const { userFriendlyName } = this.props.availableStats[stat.statOption];
     let key;
     if (stat.statSource === 'queue-id') {
       key = stat.statOption + stat.statSource + stat.statAggregate + stat.queue;

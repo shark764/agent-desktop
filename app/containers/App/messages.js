@@ -23,7 +23,11 @@ export default defineMessages({
     defaultMessage: 'Error!',
   },
   newVersion: {
-    id: 'app.components.NotificationBanner.newVersion',
+    id: 'app.containers.App.newVersion',
     defaultMessage: 'There is a new version available! Click to refresh.',
+  },
+  newInteraction: {
+    id: 'app.containers.App.newInteraction',
+    defaultMessage: 'New interaction!',
   },
 });

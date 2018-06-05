@@ -278,7 +278,7 @@
     "minimist": "1.2.0",
     "moment": "2.19.3",
     "prop-types": "15.6.0",
-    "radium": "0.19.6",
+    "radium": "0.23.0",
     "raven-js": "3.20.1",
     "react": "16.2.0",
     "react-autocomplete": "1.7.2",

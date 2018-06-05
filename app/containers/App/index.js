@@ -20,6 +20,14 @@ import { URL } from 'url-polyfill';
 import { createSearchQuery } from 'utils/contact';
 import { isUUID } from 'utils/validator';
 import crmCssAdapter from 'utils/crmCssAdapter';
+import { hasBrowserNotifcationsFeatureFlag } from 'utils/url';
+
+import voiceIcon from 'assets/icons/voice.png';
+import messageIcon from 'assets/icons/message_new.png';
+import emailIcon from 'assets/icons/email_new.png';
+import workItemIcon from 'assets/icons/work_item_new.png';
+
+import notificationSound from 'assets/sounds/SynthDoubleHit.wav';
 
 import {
   DEFAULT_TOOLBAR_WIDTH,
@@ -57,6 +65,10 @@ import {
   dismissError,
 } from 'containers/Errors/actions';
 
+import {
+  selectAudioPreferences,
+  selectVisualPreferences,
+} from 'containers/AgentNotificationsMenu/selectors';
 import { selectAvailableStats } from 'containers/AgentStats/selectors';
 import { selectActivatedStatIds } from 'containers/Toolbar/selectors';
 import {
@@ -162,10 +174,22 @@ export class App extends React.Component {
         e.returnValue = true;
       }
     });
+
+    if (
+      hasBrowserNotifcationsFeatureFlag() &&
+      window.parent === window &&
+      Notification.permission !== 'granted' &&
+      Notification.permission !== 'denied'
+    ) {
+      Notification.requestPermission();
+    }
   }
 
   loadConf = () => {
-    const relativeUrl = window.location.href.substr(0, window.location.href.lastIndexOf("/"));
+    const relativeUrl = window.location.href.substr(
+      0,
+      window.location.href.lastIndexOf('/')
+    );
     axios({
       method: 'get',
       url: `${relativeUrl}/config.json`,
@@ -449,6 +473,48 @@ export class App extends React.Component {
                 });
               } else if (interaction.autoAnswer === true) {
                 this.acceptInteraction(response.interactionId);
+              }
+
+              if (hasBrowserNotifcationsFeatureFlag()) {
+                if (
+                  window.parent === window &&
+                  Notification.permission === 'granted' &&
+                  this.props.visualNotificationsEnabled
+                ) {
+                  let icon;
+                  if (interaction.channelType === 'voice') {
+                    icon = voiceIcon;
+                  } else if (
+                    interaction.channelType === 'messaging' ||
+                    interaction.channelType === 'sms'
+                  ) {
+                    icon = messageIcon;
+                  } else if (interaction.channelType === 'email') {
+                    icon = emailIcon;
+                  } else if (interaction.channelType === 'work-item') {
+                    icon = workItemIcon;
+                  }
+                  let body;
+                  if (
+                    interaction.channelType !== 'messaging' &&
+                    interaction.channelType !== 'work-item'
+                  ) {
+                    body = response.customer;
+                  }
+                  const notification = new Notification(
+                    this.props.intl.formatMessage(messages.newInteraction),
+                    { body, icon }
+                  );
+                  setTimeout(() => {
+                    notification.close();
+                  }, 5000);
+                }
+                if (
+                  interaction.channelType !== 'voice' &&
+                  this.props.audioNotificationsEnabled
+                ) {
+                  new Audio(notificationSound).play();
+                }
               }
             } else {
               console.warn(
@@ -1478,6 +1544,8 @@ const mapStateToProps = (state, props) => ({
   expirationPromptReauth: selectAgentDesktopMap(state, props).get(
     'expirationPromptReauth'
   ),
+  audioNotificationsEnabled: selectAudioPreferences(state, props),
+  visualNotificationsEnabled: selectVisualPreferences(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -1720,6 +1788,8 @@ App.propTypes = {
   openNewInteractionPanel: PropTypes.func.isRequired,
   loginPopup: PropTypes.object,
   expirationPromptReauth: PropTypes.object,
+  audioNotificationsEnabled: PropTypes.bool,
+  visualNotificationsEnabled: PropTypes.bool,
 };
 
 App.contextTypes = {

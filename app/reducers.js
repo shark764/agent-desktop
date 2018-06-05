@@ -11,6 +11,7 @@ import sidePanel from 'containers/SidePanel/reducer';
 import infoTab from 'containers/InfoTab/reducer';
 import contactsControl from 'containers/ContactsControl/reducer';
 import errors from 'containers/Errors/reducer';
+import notificationPreferences from 'containers/AgentNotificationsMenu/reducer';
 
 import { LOGOUT } from 'containers/Login/constants';
 
@@ -23,6 +24,7 @@ const appReducer = combineReducers({
   infoTab,
   contactsControl,
   errors,
+  notificationPreferences,
 });
 
 const rootReducer = (state, action) => {

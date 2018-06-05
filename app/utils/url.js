@@ -104,3 +104,6 @@ export function getDeepLinkLogin() {
 
   return null;
 }
+
+export const hasBrowserNotifcationsFeatureFlag = () =>
+  urlParamsToObj().browsernotifications !== undefined;
