@@ -640,15 +640,12 @@ export class TransferMenu extends React.Component {
                   return transferListItem.coldTransfer !== undefined;
                 }
               })
-              .map((transferListItem) => (
+              .map((transferListItem, transferListItemIndex) => (
                 <div
-                  id={`${transferList.id}-${hierarchy}-${
-                    transferListItem.name
-                  }`}
-                  key={`${transferList.id}-${hierarchy}-${
-                    // eslint-disable-line
-                    transferListItem.name
-                  }`}
+                  id={`transferListItem-${transferListItemIndex}`}
+                  // The list is static, so we can just use the index as the key
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`transferListItem-${transferListItemIndex}`}
                   className="tranferListItem transferItem"
                   onClick={() =>
                     this.transferTransferListItem(
