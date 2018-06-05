@@ -110,7 +110,7 @@ export class WelcomeStats extends React.Component {
     indivStats: {
       flexBias: '100%',
       height: this.setIndivStatsHeight(),
-      flex: 1,
+      flex: 'auto',
       margin: '0 auto',
     },
     statTitle: {
@@ -193,5 +193,8 @@ WelcomeStats.contextTypes = {
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(WelcomeStats))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(WelcomeStats))
 );
