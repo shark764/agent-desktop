@@ -28,7 +28,10 @@ import { statKey, stats as welcomeStatsConfig } from './welcomeStatsConfig';
 export class WelcomeStats extends React.Component {
   setStatsTopPosition = () => {
     if (this.context.toolbarMode) {
-      if (this.props.crmModule === 'salesforce-lightning') {
+      if (
+        this.props.crmModule === 'salesforce-lightning' ||
+        this.props.crmModule === 'zendesk'
+      ) {
         return '1em';
       }
 
@@ -40,7 +43,10 @@ export class WelcomeStats extends React.Component {
 
   setIndivStatsHeight = () => {
     if (this.context.toolbarMode) {
-      if (this.props.crmModule === 'salesforce-lightning') {
+      if (
+        this.props.crmModule === 'salesforce-lightning' ||
+        this.props.crmModule === 'zendesk'
+      ) {
         return '65px';
       }
 

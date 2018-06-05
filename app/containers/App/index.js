@@ -1121,7 +1121,6 @@ export class App extends React.Component {
           case 'cxengage/zendesk/zendesk-initialization': {
             CxEngage.zendesk.setDimensions({
               width: DEFAULT_TOOLBAR_WIDTH,
-              height: DEFAULT_TOOLBAR_HEIGHT,
             });
             break;
           }

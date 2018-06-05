@@ -149,7 +149,6 @@ export class AgentDesktop extends React.Component {
       if (this.props.crmModule === 'zendesk') {
         CxEngage.zendesk.setDimensions({
           width,
-          height,
         });
       } else if (this.props.crmModule === 'salesforce-classic') {
         CxEngage.salesforceClassic.setDimensions({
@@ -408,10 +407,5 @@ AgentDesktop.contextTypes = {
 };
 
 export default ErrorBoundary(
-  injectIntl(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(Radium(AgentDesktop))
-  )
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(AgentDesktop)))
 );

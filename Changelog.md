@@ -1,3 +1,6 @@
+### [1.25.16] (2018-06-20)
+* CXV1-12423 - Skylight for Zendesk window not properly resizing (SDK version bump)
+
 ### [1.25.15] (2018-06-27)
 * CXV1-12836 - Fixed repeated Fields when handling 2 Email interactions simultaneously.
 
