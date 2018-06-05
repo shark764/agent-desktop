@@ -1,3 +1,6 @@
+### [1.23.21] (2018-06-05)
+* CXV1-14057 - Home page information are not displayed well.
+
 ### [1.23.20] (2018-06-05)
 * CXV1-13900 - Allow transfer list items to have the same name
 
