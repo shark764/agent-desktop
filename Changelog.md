@@ -1,3 +1,6 @@
+### [1.23.20] (2018-06-05)
+* CXV1-13900 - Allow transfer list items to have the same name
+
 ### [1.23.19] (2018-06-05)
 * Allow previewing PRs to help code review
 
