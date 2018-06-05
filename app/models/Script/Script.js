@@ -28,7 +28,7 @@ export default class Script extends Immutable.Record({
       elements.forEach((element) => {
         switch (element.type) {
           case 'freeform':
-            scriptValues[element.name] = '';
+            scriptValues[element.name] = element.value;
             break;
           case 'dropdown':
           case 'scale':

@@ -16,6 +16,7 @@ describe('Script', () => {
         },{
           type: 'freeform',
           name: 'freeform-input-name',
+          value: 'freeform-input-value',
         },{
           type: 'checkbox-input',
           name: 'checkbox-input-name',
