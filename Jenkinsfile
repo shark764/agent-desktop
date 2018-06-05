@@ -9,6 +9,7 @@ import frontend
 
 def service = 'Agent-Desktop'
 def docker_tag = BUILD_TAG.toLowerCase()
+def pr = env.CHANGE_ID
 def c = new common()
 def h = new hipchat()
 def n = new node()
@@ -37,6 +38,27 @@ pipeline {
         sh "docker run --rm --mount type=bind,src=$HOME/.ssh,dst=/home/node/.ssh,readonly --mount type=bind,src=${pwd}/build,dst=/home/node/mount ${docker_tag}"
       }
     }
+    stage ('Preview PR') {
+      when { changeRequest() }
+      steps {
+        sh "aws s3 rm s3://frontend-prs.cxengagelabs.net/tb2/${pr}/ --recursive"
+        sh "sed -i 's/\\\"\\/main/\\\"\\/tb2\\/${pr}\\/main/g' build/index.html"
+        sh "mv build/config_pr.json build/config.json"
+        sh "aws s3 sync build/ s3://frontend-prs.cxengagelabs.net/tb2/${pr}/ --delete"
+        script {
+          f.invalidate("E23K7T1ARU8K88")
+          hipchatSend(color: 'GREEN',
+                      credentialId: 'HipChat-API-Token',
+                      message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy})</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a> <br/><a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop Preview</a>",
+                      notify: true,
+                      room: 'frontendprs',
+                      sendAs: 'Jenkins',
+                      server: 'api.hipchat.com',
+                      textFormat: false,
+                      v2enabled: false)
+        }
+      }
+    }
     stage ('Push to Github') {
       when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
       steps {
@@ -47,7 +69,7 @@ pipeline {
         script {
           if (build_version.contains("SNAPSHOT")) {
             sh "if git tag --list | grep ${build_version}; then git tag -d ${build_version}; git push origin :refs/tags/${build_version}; fi"
-          } 
+          }
         }
         sh "git tag -a ${build_version} -m 'release ${build_version}, Jenkins tagged ${BUILD_TAG}'"
         sh "git push origin ${build_version}"

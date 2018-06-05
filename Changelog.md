@@ -1,3 +1,6 @@
+### [1.23.19] (2018-06-05)
+* Allow previewing PRs to help code review
+
 ### [1.23.18] (2018-06-04)
 * CXV1-11144 - Fixed Script Freeform input does not show default text in agent desktop
 
