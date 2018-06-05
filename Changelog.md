@@ -1,3 +1,6 @@
+### [1.23.24] (2018-06-06)
+* Add QE step after code review
+
 ### [1.23.23] (2018-06-06)
 * CXV1-14061 - Allow transfer list items to have the same name
 
