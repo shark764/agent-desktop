@@ -132,6 +132,7 @@ const styles = {
     fontSize: '16px',
     fontWeight: 'bold',
     lineHeight: '19px',
+    height: '19px',
     color: '#FFFFFF',
     position: 'relative',
   },
@@ -375,5 +376,8 @@ Toolbar.propTypes = {
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(Toolbar))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(Toolbar))
 );

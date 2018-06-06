@@ -1,3 +1,6 @@
+### [1.23.22] (2018-06-06)
+* CXV1-14061 - Current State Name seems cut off using IE11 and Edge.
+
 ### [1.23.21] (2018-06-05)
 * CXV1-14057 - Home page information are not displayed well.
 
