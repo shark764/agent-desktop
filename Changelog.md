@@ -1,10 +1,13 @@
-### [1.23.22] (2018-06-06)
+### [1.23.23] (2018-06-06)
+* CXV1-14061 - Allow transfer list items to have the same name
+
+### [1.23.22] (2018-06-06) (Broken)
 * CXV1-14061 - Current State Name seems cut off using IE11 and Edge.
 
-### [1.23.21] (2018-06-05)
+### [1.23.21] (2018-06-05) (Broken)
 * CXV1-14057 - Home page information are not displayed well.
 
-### [1.23.20] (2018-06-05)
+### [1.23.20] (2018-06-05) (Broken)
 * CXV1-13900 - Allow transfer list items to have the same name
 
 ### [1.23.19] (2018-06-05)

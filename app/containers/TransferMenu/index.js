@@ -642,10 +642,14 @@ export class TransferMenu extends React.Component {
               })
               .map((transferListItem, transferListItemIndex) => (
                 <div
-                  id={`transferListItem-${transferListItemIndex}`}
+                  id={`${
+                    transferList.id
+                  }-${hierarchy}-${transferListItemIndex}`}
                   // The list is static, so we can just use the index as the key
                   // eslint-disable-next-line react/no-array-index-key
-                  key={`transferListItem-${transferListItemIndex}`}
+                  key={`${
+                    transferList.id
+                  }-${hierarchy}-${transferListItemIndex}`}
                   className="tranferListItem transferItem"
                   onClick={() =>
                     this.transferTransferListItem(
@@ -664,7 +668,9 @@ export class TransferMenu extends React.Component {
               hierarchyList.push(
                 <div
                   id={`${transferList.id}-${hierarchy}`}
-                  key={`${transferList.id}-${hierarchy}`} // eslint-disable-line
+                  // hierarchy is not the array index. it is the key of the map.
+                  // eslint-disable-next-line
+                  key={`${transferList.id}-${hierarchy}`}
                 >
                   <div style={this.styles.hierarchy}>{hierarchy}</div>
                   {filteredTransferListItems}
