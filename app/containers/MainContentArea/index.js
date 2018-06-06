@@ -61,11 +61,7 @@ class MainContentArea extends React.Component {
       } else if (selectedInteraction.status === 'current-crm-item-history') {
         content = <CurrentCrmItemHistoryContentArea />;
       } else if (selectedInteraction.isScriptOnly === true) {
-        content = (
-          <AgentScript
-            style={{ padding: '30px' }}
-          />
-        );
+        content = <AgentScript style={{ padding: '30px' }} />;
       } else if (
         selectedInteraction.channelType === 'messaging' ||
         selectedInteraction.channelType === 'sms'

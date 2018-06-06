@@ -173,6 +173,12 @@ const styles = {
     overflowY: 'auto',
     border: '0',
   },
+  emailContentFrameReply: {
+    position: 'absolute',
+    width: 'calc(100% - 30px)',
+    overflowY: 'auto',
+    border: '0',
+  },
   inputContainer: {
     marginBottom: '2px',
   },
@@ -292,8 +298,12 @@ export class EmailContentArea extends React.Component {
   }
 
   updateIframe = () => {
-    const document = this.iframeEmail.contentDocument;
-    document.body.innerHTML = this.emailWithImages();
+    if (this.iframeEmail !== undefined) {
+      const document = this.iframeEmail.contentDocument;
+      document.body.innerHTML = this.emailWithImages();
+      const height = this.iframeEmail.contentWindow.document.body.scrollHeight;
+      this.iframeEmail.style.height = `${height}px`;
+    }
   };
 
   updateIframeEmail = (el) => {
@@ -1170,8 +1180,7 @@ export class EmailContentArea extends React.Component {
             </p>
             {this.props.selectedInteraction.emailHtmlBody !== undefined ? (
               <iframe
-                className="md-RichEditor-blockquote"
-                style={styles.emailContentFrame}
+                style={styles.emailContentFrameReply}
                 title="emailFrame"
                 ref={this.updateIframeEmail}
               />

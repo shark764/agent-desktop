@@ -185,6 +185,7 @@ export class ContentArea extends React.Component {
       position: 'relative',
       backgroundColor: '#FFFFFF',
       border: '1px solid #E4E4E4',
+      overflowY: 'auto',
     },
     notesArea: {
       display: 'flex',
