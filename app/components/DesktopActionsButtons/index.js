@@ -159,6 +159,8 @@ class DesktopActionsButtons extends React.Component {
             icons={button.icons}
             onClick={button.onClick}
             disabled={button.disabled}
+            tooltipText={button.tooltipText}
+            tooltipOffset="{'left': 10}"
           />
         ))}
       </div>

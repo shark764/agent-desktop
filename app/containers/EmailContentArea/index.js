@@ -51,7 +51,11 @@ import {
   emailUpdateReply,
   emailSendReply,
 } from 'containers/AgentDesktop/actions';
-import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
+import {
+  selectAwaitingDisposition,
+  selectIsEndWrapupDisabled,
+} from 'containers/AgentDesktop/selectors';
+import { selectWrapupBtnTooltipText } from 'containers/ContentAreaTop/selectors';
 
 import messages from './messages';
 
@@ -600,7 +604,8 @@ export class EmailContentArea extends React.Component {
             type: 'primaryRed',
             text: messages.endWrapup,
             onClick: this.props.endInteraction,
-            disabled: this.props.awaitingDisposition,
+            disabled: this.props.isEndWrapupDisabled,
+            tooltipText: this.props.wrapupBtnTooltipText,
           },
         ];
       } else {
@@ -681,7 +686,8 @@ export class EmailContentArea extends React.Component {
             type: 'primaryRed',
             text: messages.endWrapup,
             onClick: this.props.endInteraction,
-            disabled: this.props.awaitingDisposition,
+            disabled: this.props.isEndWrapupDisabled,
+            tooltipText: this.props.wrapupBtnTooltipText,
           },
         ];
       } else {
@@ -862,7 +868,8 @@ export class EmailContentArea extends React.Component {
             type: 'primaryRed',
             text: messages.endWrapup,
             onClick: this.props.endInteraction,
-            disabled: this.props.awaitingDisposition,
+            disabled: this.props.isEndWrapupDisabled,
+            tooltipText: this.props.wrapupBtnTooltipText,
           },
         ];
       } else {
@@ -1265,12 +1272,16 @@ EmailContentArea.propTypes = {
   emailUpdateReply: PropTypes.func.isRequired,
   emailSendReply: PropTypes.func.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
+  isEndWrapupDisabled: PropTypes.bool.isRequired,
+  wrapupBtnTooltipText: PropTypes.string.isRequired,
   emailTemplates: PropTypes.array.isRequired,
   agent: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
   awaitingDisposition: selectAwaitingDisposition(state, props),
+  isEndWrapupDisabled: selectIsEndWrapupDisabled(state, props),
+  wrapupBtnTooltipText: selectWrapupBtnTooltipText(state, props),
 });
 
 function mapDispatchToProps(dispatch) {

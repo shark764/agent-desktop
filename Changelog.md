@@ -1,3 +1,6 @@
+### [1.24.0] (2018-06-06)
+* CXV1-14075 - Added in wrapup UI for scripts auto dismissal
+
 ### [1.23.24] (2018-06-06)
 * Add QE step after code review
 

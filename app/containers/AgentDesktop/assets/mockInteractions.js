@@ -4,6 +4,7 @@
 
 import cloneDeep from 'lodash/cloneDeep';
 import { activeContactFormBlank } from 'models/Interaction/Interaction';
+import Script from 'models/Script/Script';
 
 const processedDispositionDetails = {
   dispositions: [
@@ -55,7 +56,7 @@ const processedDispositionDetails = {
   selected: []
 };
 
-const script = {
+const script = new Script({
   elements: [
     {
       type: 'text',
@@ -214,7 +215,7 @@ const script = {
   ],
   id: '522ca8e2-3edc-497e-a03b-ed34b6608a0c',
   name: 'script',
-};
+});
 
 const customFields = [
   {
@@ -728,7 +729,7 @@ const smsInteractionWithLotsOfMessagesAndScript = {
   selectedSidePanelTab: 'script',
   dispositionDetails: processedDispositionDetails,
   activeContactForm: activeContactFormBlank,
-  script: {
+  script: new Script({
     elements: [
       {
         type: 'text',
@@ -750,7 +751,7 @@ const smsInteractionWithLotsOfMessagesAndScript = {
     ],
     id: '522ca8e2-3edc-497e-a03b-ed34b6608a0c',
     name: 'script',
-  },
+  }),
   messageHistory: [
     {
       text: 'this is a test long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long',

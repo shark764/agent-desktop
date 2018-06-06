@@ -21,75 +21,88 @@ import CustomFields from 'containers/CustomFields';
 import AgentScript from 'containers/AgentScript';
 import ContentArea from 'containers/ContentArea';
 
-import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
+import {
+  selectAwaitingScript,
+  selectIsEndWrapupDisabled,
+} from 'containers/AgentDesktop/selectors';
+
+import { selectWrapupBtnTooltipText } from 'containers/ContentAreaTop/selectors';
 
 import messages from './messages';
 
-export class VoiceContentArea extends React.Component {
-  styles = {
-    content: {
-      position: 'absolute',
-      height: '100%',
-      width: '100%',
-      overflowY: 'auto',
-      padding: '17px',
+const styles = {
+  content: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    overflowY: 'auto',
+    padding: '17px',
+  },
+  highlightContent: {
+    border: '1px solid #FE4565',
+  },
+};
+
+export function VoiceContentArea(props) {
+  const from = has(props.selectedInteraction, 'contact.attributes.name')
+    ? props.selectedInteraction.contact.attributes.name
+    : props.selectedInteraction.number;
+
+  const details = props.selectedInteraction.customFields ? (
+    <CustomFields />
+  ) : (
+    ''
+  );
+
+  const wrappingUp = props.selectedInteraction.status === 'wrapup';
+
+  const buttonConfig = [
+    {
+      id: wrappingUp ? 'wrapup-button' : 'hang-up-button',
+      type: 'primaryRed',
+      text: wrappingUp ? messages.endWrapup : messages.hangUp,
+      onClick: props.endInteraction,
+      disabled: props.isEndWrapupDisabled,
+      tooltipText: props.wrapupBtnTooltipText,
     },
-  };
+  ];
 
-  render() {
-    const isAccepting =
-      this.props.selectedInteraction.status === 'work-accepting';
-
-    const from = has(this.props.selectedInteraction, 'contact.attributes.name')
-      ? this.props.selectedInteraction.contact.attributes.name
-      : this.props.selectedInteraction.number;
-
-    const details = this.props.selectedInteraction.customFields ? (
-      <CustomFields />
-    ) : (
-      ''
-    );
-
-    const wrappingUp = this.props.selectedInteraction.status === 'wrapup';
-
-    const buttonConfig = [
-      {
-        id: wrappingUp ? 'wrapup-button' : 'hang-up-button',
-        type: 'primaryRed',
-        text: wrappingUp ? messages.endWrapup : messages.hangUp,
-        onClick: this.props.endInteraction,
-        disabled: isAccepting || this.props.awaitingDisposition,
-      },
-    ];
-
-    let content;
-    if (this.props.selectedInteraction.script !== undefined) {
-      content = (
-        <div style={this.styles.content}>
-          <AgentScript />
-        </div>
-      );
-    }
-    return (
-      <ContentArea
-        interaction={this.props.selectedInteraction}
-        from={from}
-        buttonConfig={buttonConfig}
-        details={details}
-        content={content}
-      />
+  let content;
+  if (props.selectedInteraction.script !== undefined) {
+    content = (
+      <div
+        style={[
+          styles.content,
+          props.awaitingScript && styles.highlightContent,
+        ]}
+      >
+        <AgentScript />
+      </div>
     );
   }
+  return (
+    <ContentArea
+      interaction={props.selectedInteraction}
+      from={from}
+      buttonConfig={buttonConfig}
+      details={details}
+      content={content}
+    />
+  );
 }
 
 const mapStateToProps = (state, props) => ({
-  awaitingDisposition: selectAwaitingDisposition(state, props),
+  awaitingScript: selectAwaitingScript(state, props),
+  wrapupBtnTooltipText: selectWrapupBtnTooltipText(state, props),
+  isEndWrapupDisabled: selectIsEndWrapupDisabled(state, props),
 });
 
 VoiceContentArea.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,
   endInteraction: PropTypes.func.isRequired,
-  awaitingDisposition: PropTypes.bool.isRequired,
+  awaitingScript: PropTypes.bool.isRequired,
+  wrapupBtnTooltipText: PropTypes.object.isRequired,
+  isEndWrapupDisabled: PropTypes.bool.isRequired,
 };
 
 export default ErrorBoundary(

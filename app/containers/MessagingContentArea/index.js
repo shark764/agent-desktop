@@ -23,7 +23,9 @@ import CustomFields from 'containers/CustomFields';
 import ContentArea from 'containers/ContentArea';
 
 import { selectAgent } from 'containers/Login/selectors';
-import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
+import { selectIsEndWrapupDisabled } from 'containers/AgentDesktop/selectors';
+
+import { selectWrapupBtnTooltipText } from 'containers/ContentAreaTop/selectors';
 
 import MessagingTextArea from './MessagingTextArea';
 import messages from './messages';
@@ -128,7 +130,8 @@ export class MessagingContentArea extends React.Component {
         type: 'primaryBlue',
         text: wrappingUp ? messages.endWrapup : messages.endChat,
         onClick: this.props.endInteraction,
-        disabled: isLoading || this.props.awaitingDisposition,
+        disabled: this.props.isEndWrapupDisabled,
+        tooltipText: this.props.wrapupBtnTooltipText,
       },
     ];
 
@@ -151,7 +154,10 @@ export class MessagingContentArea extends React.Component {
           ) {
             messageFrom = this.props.selectedInteraction.contact.attributes
               .name;
-          } else if (message.type === 'agent' && message.from === this.props.agentId) {
+          } else if (
+            message.type === 'agent' &&
+            message.from === this.props.agentId
+          ) {
             messageFrom = 'Agent';
           } else {
             messageFrom = message.from;
@@ -221,12 +227,14 @@ MessagingContentArea.propTypes = {
   endInteraction: PropTypes.func.isRequired,
   messageTemplates: PropTypes.array.isRequired,
   agentId: PropTypes.string.isRequired,
-  awaitingDisposition: PropTypes.bool.isRequired,
+  isEndWrapupDisabled: PropTypes.bool.isRequired,
+  wrapupBtnTooltipText: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
   agentId: selectAgent(state, props).userId,
-  awaitingDisposition: selectAwaitingDisposition(state, props),
+  isEndWrapupDisabled: selectIsEndWrapupDisabled(state, props),
+  wrapupBtnTooltipText: selectWrapupBtnTooltipText(state, props),
 });
 
 export default ErrorBoundary(

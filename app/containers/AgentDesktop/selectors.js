@@ -181,6 +181,24 @@ const selectAwaitingDisposition = createSelector(
     interaction.dispositionDetails.selected.length === 0
 );
 
+const selectAwaitingScript = createSelector(
+  getSelectedInteraction,
+  (interaction) =>
+    interaction !== undefined &&
+    interaction.status === 'wrapup' &&
+    interaction.script !== undefined &&
+    !interaction.script.autoScriptDismiss &&
+    interaction.dispositionDetails.forceSelect
+);
+
+const selectIsEndWrapupDisabled = createSelector(
+  [getSelectedInteraction, selectAwaitingDisposition, selectAwaitingScript],
+  (interaction, awaitingDisposition, awaitingScript) =>
+    (interaction !== undefined && interaction.status === 'work-accepting') ||
+    awaitingDisposition ||
+    awaitingScript
+);
+
 const selectHasVoiceInteraction = createSelector(
   selectInteractionsList,
   (interactions) =>
@@ -222,8 +240,9 @@ const selectIsSidePanelCollapsed = createSelector(
   (interaction) => interaction.isSidePanelCollapsed === true
 );
 
-const selectSidePanelPx = createSelector(selectAgentDesktopMap, (agentDesktop) =>
-  agentDesktop.get('sidePanelPx')
+const selectSidePanelPx = createSelector(
+  selectAgentDesktopMap,
+  (agentDesktop) => agentDesktop.get('sidePanelPx')
 );
 
 const selectIsInteractionsBarCollapsed = createSelector(
@@ -284,6 +303,8 @@ export {
   getSelectedInteraction,
   selectCurrentScript,
   selectAwaitingDisposition,
+  selectAwaitingScript,
+  selectIsEndWrapupDisabled,
   selectHasVoiceInteraction,
   selectSmsInteractionNumbers,
   selectInteractionEmails,
