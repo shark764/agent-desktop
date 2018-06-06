@@ -1,3 +1,6 @@
+### [1.24.1] (2018-06-06)
+* CXV1-13852 - Scripts - Global CSS in Emails affects Skylight, fixed some bug in the content area email
+
 ### [1.24.0] (2018-06-06)
 * CXV1-14075 - Added in wrapup UI for scripts auto dismissal
 
