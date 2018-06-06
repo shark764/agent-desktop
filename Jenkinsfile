@@ -47,9 +47,9 @@ pipeline {
         sh "aws s3 sync build/ s3://frontend-prs.cxengagelabs.net/tb2/${pr}/ --delete"
         script {
           f.invalidate("E23K7T1ARU8K88")
-          hipchatSend(color: 'GREEN',
+          hipchatSend(color: 'GRAY',
                       credentialId: 'HipChat-API-Token',
-                      message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy}) is ready for review</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a> <br/><a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop Preview</a>",
+                      message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy}) is ready for review</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a> <br/><a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 Dev Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop Dev Preview</a>",
                       notify: true,
                       room: 'frontendprs',
                       sendAs: 'Jenkins',
@@ -71,9 +71,28 @@ pipeline {
           sh "aws s3 sync build/ s3://frontend-prs.cxengagelabs.net/tb2/${pr}/ --delete"
           script {
             f.invalidate("E23K7T1ARU8K88")
+            hipchatSend(color: 'YELLOW',
+                        credentialId: 'HipChat-API-Token',
+                        message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy}) is ready for QE</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a> <br/><a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 QE Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop QE Preview</a>",
+                        notify: true,
+                        room: 'frontendprs',
+                        sendAs: 'Jenkins',
+                        server: 'api.hipchat.com',
+                        textFormat: false,
+                        v2enabled: false)
+          }
+        }
+      }
+    }
+    stage ('QE Approval') {
+      when { changeRequest() }
+      steps {
+        timeout(time: 5, unit: 'DAYS') {
+          script {
+            input message: 'Testing complete?', submittedParameter: 'submitter'
             hipchatSend(color: 'GREEN',
                         credentialId: 'HipChat-API-Token',
-                        message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy}) is ready for QE</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a> <br/><a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop Preview</a>",
+                        message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy}) is ready to be merged</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a>",
                         notify: true,
                         room: 'frontendprs',
                         sendAs: 'Jenkins',
