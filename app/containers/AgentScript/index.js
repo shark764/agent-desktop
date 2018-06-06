@@ -72,7 +72,7 @@ const styles = {
   },
 };
 
-class AgentScript extends React.Component {
+export class AgentScript extends React.Component {
   componentWillUnmount() {
     this.scriptContainer.removeEventListener(
       'scroll',

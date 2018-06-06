@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Tooltip /> should render correctly 1`] = `
+<div
+  data-for="mockId"
+  data-tip={true}
+  id="mockWrapper"
+>
+  <Tooltip
+    effect="solid"
+    id="mockId"
+    place="bottom"
+    text={
+      Object {
+        "defaultMessage": "mockMsg",
+        "id": "mockId",
+      }
+    }
+    type="error"
+  />
+</div>
+`;

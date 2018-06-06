@@ -117,6 +117,8 @@
   "app.containers.ContentAreaTop.CancelButton": "Cancel",
   "app.containers.ContentAreaTop.TransferButton": "Transfer",
   "app.containers.ContentAreaTop.actionsButton": "Actions",
+  "app.containers.ContentAreaTop.awaitingDisposition": "Waiting on Disposition",
+  "app.containers.ContentAreaTop.awaitingScript": "Waiting on Unfinished Script",
   "app.containers.ContentAreaTop.wrapup": "Wrap Up",
   "app.containers.ContentAreaTop.wrapupOff": "Wrap Up Off",
   "app.containers.ContentAreaTop.wrapupOn": "Wrap Up On",

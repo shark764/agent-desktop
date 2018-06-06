@@ -14,6 +14,7 @@ import Radium from 'radium';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import Icon from 'components/Icon';
+import Tooltip from 'components/Tooltip';
 
 export const possibleTypes = [
   'primaryBlue',
@@ -233,39 +234,52 @@ export class Button extends React.Component {
     }
 
     return (
-      <button
-        id={this.props.id}
-        type="button"
-        style={[
-          styles.base,
-          styles[this.props.type],
-          mitelStyle && styles.MitelStyle,
-          this.props.disabled && styles[this.props.type].disabled,
-          this.props.disabled && styles.disabled,
-          this.props.iconName && styles.isIcon,
-          this.props.clear && styles.clear,
-          this.props.subMenuOpen && { position: 'relative' },
-          this.props.style,
-        ]}
-        tabIndex={this.props.tabIndex}
-        onClick={this.props.onClick}
-        disabled={this.props.disabled}
-        onMouseEnter={() => this.setState({ mouseOver: true })}
-        onMouseLeave={() => this.setState({ mouseOver: false })}
-        title={title}
+      <div
+        data-tip
+        data-for={this.props.tooltipText.id}
+        data-offset={this.props.tooltipOffset}
       >
-        {inner}
-        {this.props.hasSubMenu && (
-          <i
-            style={styles.mainBtnDropdownArrow}
-            className="fa fa-caret-down"
-            key="fa-caret-down"
+        <button
+          id={this.props.id}
+          type="button"
+          style={[
+            styles.base,
+            styles[this.props.type],
+            mitelStyle && styles.MitelStyle,
+            this.props.disabled && styles[this.props.type].disabled,
+            this.props.disabled && styles.disabled,
+            this.props.iconName && styles.isIcon,
+            this.props.clear && styles.clear,
+            this.props.subMenuOpen && { position: 'relative' },
+            this.props.style,
+          ]}
+          tabIndex={this.props.tabIndex}
+          onClick={this.props.onClick}
+          disabled={this.props.disabled}
+          onMouseEnter={() => this.setState({ mouseOver: true })}
+          onMouseLeave={() => this.setState({ mouseOver: false })}
+          title={title}
+        >
+          {inner}
+          {this.props.hasSubMenu && (
+            <i
+              style={styles.mainBtnDropdownArrow}
+              className="fa fa-caret-down"
+              key="fa-caret-down"
+            />
+          )}
+          {this.props.subMenuOpen && (
+            <div style={styles.dropdownMenuPopoutArrow} />
+          )}
+        </button>
+
+        {this.props.tooltipText.id && (
+          <Tooltip
+            text={this.props.tooltipText}
+            id={this.props.tooltipText.id}
           />
         )}
-        {this.props.subMenuOpen && (
-          <div style={styles.dropdownMenuPopoutArrow} />
-        )}
-      </button>
+      </div>
     );
   }
 }
@@ -287,10 +301,19 @@ Button.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   hasSubMenu: PropTypes.bool,
   subMenuOpen: PropTypes.bool,
+  tooltipText: PropTypes.shape({
+    id: PropTypes.string,
+    defaultMessage: PropTypes.string,
+  }),
+  tooltipOffset: PropTypes.string,
 };
 
 Button.defaultProps = {
   tabIndex: 0,
+  tooltipText: {
+    id: '',
+    defaultMessage: '',
+  },
 };
 
 export default injectIntl(Radium(Button));

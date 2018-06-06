@@ -117,6 +117,8 @@
   "app.containers.ContentAreaTop.CancelButton": "",
   "app.containers.ContentAreaTop.TransferButton": "",
   "app.containers.ContentAreaTop.actionsButton": "",
+  "app.containers.ContentAreaTop.awaitingDisposition": "",
+  "app.containers.ContentAreaTop.awaitingScript": "",
   "app.containers.ContentAreaTop.wrapup": "Post-appel",
   "app.containers.ContentAreaTop.wrapupOff": "Post-appel inactif",
   "app.containers.ContentAreaTop.wrapupOn": "Post-appel actif",

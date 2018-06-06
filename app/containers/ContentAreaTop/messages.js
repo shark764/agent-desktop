@@ -34,4 +34,12 @@ export default defineMessages({
     id: 'app.containers.ContentAreaTop.TransferButton',
     defaultMessage: 'Transfer',
   },
+  awaitingDisposition: {
+    id: 'app.containers.ContentAreaTop.awaitingDisposition',
+    defaultMessage: 'Waiting on Disposition',
+  },
+  awaitingScript: {
+    id: 'app.containers.ContentAreaTop.awaitingScript',
+    defaultMessage: 'Waiting on Unfinished Script',
+  },
 });

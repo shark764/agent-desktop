@@ -185,6 +185,8 @@ export class ActionsMenu extends React.Component {
                     this.toggleSubMenu();
                   }}
                   disabled={button.disabled}
+                  tooltipText={button.tooltipText}
+                  tooltipOffset="{'top': 16}"
                 />
               ))}
           </div>

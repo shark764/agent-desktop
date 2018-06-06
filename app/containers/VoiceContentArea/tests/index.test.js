@@ -4,11 +4,10 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-import { getIntlContext } from 'utils/test';
 
-import { WorkItemContentArea } from '../index';
+import { VoiceContentArea } from '../index';
 
-describe('<WorkItemContentArea />', () => {
+describe('<VoiceContentArea />', () => {
   const mockInteraction = {
     interactionId: 'mock-interaction-1',
     status: 'work-accepted',
@@ -19,26 +18,9 @@ describe('<WorkItemContentArea />', () => {
     contact: { attributes: { name: 'Contact name' } },
   };
 
-  it('should render correctly with contact and subject', () => {
+  it('should render correctly', () => {
     const rendered = shallow(
-      <WorkItemContentArea
-        intl={getIntlContext()}
-        selectedInteraction={mockInteraction}
-        endInteraction={() => {}}
-        awaitingScript={false}
-        isEndWrapupDisabled={false}
-        wrapupBtnTooltipText={{}}
-      />
-    );
-    expect(rendered).toMatchSnapshot();
-  });
-
-  it('should render correctly with neither contact nor subject', () => {
-    mockInteraction.subject = undefined;
-    mockInteraction.contact = undefined;
-    const rendered = shallow(
-      <WorkItemContentArea
-        intl={getIntlContext()}
+      <VoiceContentArea
         selectedInteraction={mockInteraction}
         endInteraction={() => {}}
         awaitingScript={false}
@@ -51,13 +33,12 @@ describe('<WorkItemContentArea />', () => {
 
   it('should render correctly when waiting on script', () => {
     const rendered = shallow(
-      <WorkItemContentArea
-        intl={getIntlContext()}
+      <VoiceContentArea
         selectedInteraction={mockInteraction}
         endInteraction={() => {}}
         awaitingScript
         isEndWrapupDisabled
-        wrapupBtnTooltipText={{ id: 'mockId', defaultMessage: 'mock message' }}
+        wrapupBtnTooltipText={{ id: 'testId', defaultMessage: 'test message' }}
       />
     );
     expect(rendered).toMatchSnapshot();

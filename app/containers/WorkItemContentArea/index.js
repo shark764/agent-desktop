@@ -22,7 +22,12 @@ import CustomFields from 'containers/CustomFields';
 import AgentScript from 'containers/AgentScript';
 import ContentArea from 'containers/ContentArea';
 
-import { selectAwaitingDisposition } from 'containers/AgentDesktop/selectors';
+import {
+  selectAwaitingScript,
+  selectIsEndWrapupDisabled,
+} from 'containers/AgentDesktop/selectors';
+
+import { selectWrapupBtnTooltipText } from 'containers/ContentAreaTop/selectors';
 
 import messages from './messages';
 
@@ -34,11 +39,12 @@ const styles = {
     overflowY: 'auto',
     padding: '17px',
   },
+  highlightContent: {
+    border: '1px solid #FE4565',
+  },
 };
 
 export function WorkItemContentArea(props) {
-  const isAccepting = props.selectedInteraction.status === 'work-accepting';
-
   const from = `${
     has(props.selectedInteraction, 'contact.attributes.name')
       ? `${props.selectedInteraction.contact.attributes.name} - `
@@ -59,14 +65,20 @@ export function WorkItemContentArea(props) {
       type: 'primaryRed',
       text: wrappingUp ? messages.endWrapup : messages.end,
       onClick: props.endInteraction,
-      disabled: isAccepting || props.awaitingDisposition,
+      disabled: props.isEndWrapupDisabled,
+      tooltipText: props.wrapupBtnTooltipText,
     },
   ];
 
   let content;
   if (props.selectedInteraction.script !== undefined) {
     content = (
-      <div style={styles.content}>
+      <div
+        style={[
+          styles.content,
+          props.awaitingScript && styles.highlightContent,
+        ]}
+      >
         <AgentScript />
       </div>
     );
@@ -83,14 +95,18 @@ export function WorkItemContentArea(props) {
 }
 
 const mapStateToProps = (state, props) => ({
-  awaitingDisposition: selectAwaitingDisposition(state, props),
+  awaitingScript: selectAwaitingScript(state, props),
+  wrapupBtnTooltipText: selectWrapupBtnTooltipText(state, props),
+  isEndWrapupDisabled: selectIsEndWrapupDisabled(state, props),
 });
 
 WorkItemContentArea.propTypes = {
   intl: intlShape.isRequired,
   selectedInteraction: PropTypes.object.isRequired,
   endInteraction: PropTypes.func.isRequired,
-  awaitingDisposition: PropTypes.bool.isRequired,
+  awaitingScript: PropTypes.bool.isRequired,
+  wrapupBtnTooltipText: PropTypes.object.isRequired,
+  isEndWrapupDisabled: PropTypes.bool.isRequired,
 };
 
 export default ErrorBoundary(
