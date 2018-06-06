@@ -49,13 +49,38 @@ pipeline {
           f.invalidate("E23K7T1ARU8K88")
           hipchatSend(color: 'GREEN',
                       credentialId: 'HipChat-API-Token',
-                      message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy})</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a> <br/><a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop Preview</a>",
+                      message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy}) is ready for review</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a> <br/><a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop Preview</a>",
                       notify: true,
                       room: 'frontendprs',
                       sendAs: 'Jenkins',
                       server: 'api.hipchat.com',
                       textFormat: false,
                       v2enabled: false)
+        }
+      }
+    }
+    stage ('Ready for QE') {
+      when { changeRequest() }
+      steps {
+        timeout(time: 5, unit: 'DAYS') {
+          script {
+            input message: 'Ready for QE?', submittedParameter: 'submitter'
+          }
+          sh "aws s3 rm s3://frontend-prs.cxengagelabs.net/tb2/${pr}/ --recursive"
+          sh "sed -i 's/dev/qe/g' build/config.json"
+          sh "aws s3 sync build/ s3://frontend-prs.cxengagelabs.net/tb2/${pr}/ --delete"
+          script {
+            f.invalidate("E23K7T1ARU8K88")
+            hipchatSend(color: 'GREEN',
+                        credentialId: 'HipChat-API-Token',
+                        message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy}) is ready for QE</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a> <br/><a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop Preview</a>",
+                        notify: true,
+                        room: 'frontendprs',
+                        sendAs: 'Jenkins',
+                        server: 'api.hipchat.com',
+                        textFormat: false,
+                        v2enabled: false)
+          }
         }
       }
     }
