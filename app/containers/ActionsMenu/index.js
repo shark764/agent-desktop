@@ -186,7 +186,7 @@ export class ActionsMenu extends React.Component {
                   }}
                   disabled={button.disabled}
                   tooltipText={button.tooltipText}
-                  tooltipOffset="{'top': 16}"
+                  tooltipOffset="{'bottom': 10}"
                 />
               ))}
           </div>

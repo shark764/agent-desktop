@@ -15,7 +15,9 @@ const selectWrapupBtnTooltipText = createSelector(
   selectAwaitingDisposition,
   selectAwaitingScript,
   (awaitingDisposition, awaitingScript) => {
-    if (awaitingDisposition) {
+    if (awaitingDisposition && awaitingScript) {
+      return messages.awaitingDispositionAndScript;
+    } else if (awaitingDisposition) {
       return messages.awaitingDisposition;
     } else if (awaitingScript) {
       return messages.awaitingScript;

@@ -24,6 +24,9 @@ export const possibleTypes = [
 ];
 
 const styles = {
+  wrapper: {
+    display: 'inline',
+  },
   base: {
     borderRadius: '3px',
     borderWidth: '0px',
@@ -235,6 +238,7 @@ export class Button extends React.Component {
 
     return (
       <div
+        style={styles.wrapper}
         data-tip
         data-for={this.props.tooltipText.id}
         data-offset={this.props.tooltipOffset}

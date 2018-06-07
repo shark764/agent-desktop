@@ -1,5 +1,8 @@
+### [1.24.5] (2018-06-11)
+* CXV1-14289 - Updated button to fix dialpad, added extra message for tooltip for clarity wrapups.
+
 ### [1.24.4] (2018-06-07)
-* CXV1-11144: Script Freeform input does not show default text in agent desktop / Set default freeform textInput value to string empty on Script.js model.
+* CXV1-11144 - Script Freeform input does not show default text in agent desktop / Set default freeform textInput value to string empty on Script.js model.
 
 ### [1.24.3] (2018-06-07)
 * CXV1-14061 - Current State Name seems cut off using IE11 and Edge.

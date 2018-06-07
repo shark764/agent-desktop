@@ -10,29 +10,9 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  wrapup: {
-    id: 'app.containers.ContentAreaTop.wrapup',
-    defaultMessage: 'Wrap Up',
-  },
-  wrapupOn: {
-    id: 'app.containers.ContentAreaTop.wrapupOn',
-    defaultMessage: 'Wrap Up On',
-  },
-  wrapupOff: {
-    id: 'app.containers.ContentAreaTop.wrapupOff',
-    defaultMessage: 'Wrap Up Off',
-  },
-  actions: {
-    id: 'app.containers.ContentAreaTop.actionsButton',
-    defaultMessage: 'Actions',
-  },
-  cancel: {
-    id: 'app.containers.ContentAreaTop.CancelButton',
-    defaultMessage: 'Cancel',
-  },
-  transfer: {
-    id: 'app.containers.ContentAreaTop.TransferButton',
-    defaultMessage: 'Transfer',
+  awaitingDispositionAndScript: {
+    id: 'app.containers.ContentAreaTop.awaitingDispositionAndScript',
+    defaultMessage: 'Waiting on Disposition and Script',
   },
   awaitingDisposition: {
     id: 'app.containers.ContentAreaTop.awaitingDisposition',
