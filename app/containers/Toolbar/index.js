@@ -132,7 +132,7 @@ const styles = {
     fontSize: '16px',
     fontWeight: 'bold',
     lineHeight: '19px',
-    height: '19px',
+    height: '14px',
     color: '#FFFFFF',
     position: 'relative',
   },
@@ -143,6 +143,7 @@ const styles = {
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
+    lineHeight: 'normal',
   },
   presenceTextContainer: {
     display: 'flex',

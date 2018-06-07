@@ -1,3 +1,6 @@
+### [1.24.3] (2018-06-07)
+* CXV1-14061 - Current State Name seems cut off using IE11 and Edge.
+
 ### [1.24.2] (2018-06-06)
 * Add testing complete step to pipeline
 
