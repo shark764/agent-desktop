@@ -5,6 +5,11 @@ exports[`<Button /> when button is icon should render correctly 1`] = `
   data-for=""
   data-radium={true}
   data-tip={true}
+  style={
+    Object {
+      "display": "inline",
+    }
+  }
 >
   <button
     data-radium={true}
@@ -49,6 +54,11 @@ exports[`<Button /> when it has children should render correctly 1`] = `
   data-for=""
   data-radium={true}
   data-tip={true}
+  style={
+    Object {
+      "display": "inline",
+    }
+  }
 >
   <button
     data-radium={true}
@@ -94,6 +104,11 @@ exports[`<Button /> when passed a border style should render correctly 1`] = `
   data-for=""
   data-radium={true}
   data-tip={true}
+  style={
+    Object {
+      "display": "inline",
+    }
+  }
 >
   <button
     data-radium={true}
@@ -134,6 +149,11 @@ exports[`<Button /> when passed mouseOverText and is hovered should render corre
   data-for=""
   data-radium={true}
   data-tip={true}
+  style={
+    Object {
+      "display": "inline",
+    }
+  }
 >
   <button
     data-radium={true}
@@ -180,6 +200,11 @@ exports[`<Button /> when passed text as a obj should render correctly 1`] = `
   data-for=""
   data-radium={true}
   data-tip={true}
+  style={
+    Object {
+      "display": "inline",
+    }
+  }
 >
   <button
     data-radium={true}
@@ -226,6 +251,11 @@ exports[`<Button /> when passed text as a string should render correctly 1`] = `
   data-for=""
   data-radium={true}
   data-tip={true}
+  style={
+    Object {
+      "display": "inline",
+    }
+  }
 >
   <button
     data-radium={true}
@@ -267,6 +297,11 @@ exports[`<Button /> with type primaryBlue and disabled should render correctly 1
   data-for=""
   data-radium={true}
   data-tip={true}
+  style={
+    Object {
+      "display": "inline",
+    }
+  }
 >
   <button
     data-radium={true}
@@ -307,6 +342,11 @@ exports[`<Button /> with type primaryBlue should render correctly 1`] = `
   data-for=""
   data-radium={true}
   data-tip={true}
+  style={
+    Object {
+      "display": "inline",
+    }
+  }
 >
   <button
     data-radium={true}
@@ -346,6 +386,11 @@ exports[`<Button /> with type primaryBlueBig and disabled should render correctl
   data-for=""
   data-radium={true}
   data-tip={true}
+  style={
+    Object {
+      "display": "inline",
+    }
+  }
 >
   <button
     data-radium={true}
@@ -386,6 +431,11 @@ exports[`<Button /> with type primaryBlueBig should render correctly 1`] = `
   data-for=""
   data-radium={true}
   data-tip={true}
+  style={
+    Object {
+      "display": "inline",
+    }
+  }
 >
   <button
     data-radium={true}
@@ -425,6 +475,11 @@ exports[`<Button /> with type primaryRed and disabled should render correctly 1`
   data-for=""
   data-radium={true}
   data-tip={true}
+  style={
+    Object {
+      "display": "inline",
+    }
+  }
 >
   <button
     data-radium={true}
@@ -465,6 +520,11 @@ exports[`<Button /> with type primaryRed should render correctly 1`] = `
   data-for=""
   data-radium={true}
   data-tip={true}
+  style={
+    Object {
+      "display": "inline",
+    }
+  }
 >
   <button
     data-radium={true}
@@ -504,6 +564,11 @@ exports[`<Button /> with type secondary and disabled should render correctly 1`]
   data-for=""
   data-radium={true}
   data-tip={true}
+  style={
+    Object {
+      "display": "inline",
+    }
+  }
 >
   <button
     data-radium={true}
@@ -548,6 +613,11 @@ exports[`<Button /> with type secondary should render correctly 1`] = `
   data-for=""
   data-radium={true}
   data-tip={true}
+  style={
+    Object {
+      "display": "inline",
+    }
+  }
 >
   <button
     data-radium={true}

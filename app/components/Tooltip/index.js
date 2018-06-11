@@ -29,9 +29,9 @@ import Radium from 'radium';
 import ReactTooltip from 'react-tooltip';
 
 const styles = {
-  defaultTheme: {
-    color: '#ff6e00 !important',
-    backgroundColor: 'orange !important',
+  message: {
+    maxWidth: '150px',
+    textAlign: 'center',
   },
 };
 
@@ -42,9 +42,10 @@ function Tooltip(props) {
       type={props.type}
       effect={props.effect}
       place={props.place}
-      style={styles.defaultTheme}
     >
-      <FormattedMessage {...props.text} />
+      <div style={styles.message}>
+        <FormattedMessage {...props.text} />
+      </div>
     </ReactTooltip>
   );
 }
