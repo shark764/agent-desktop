@@ -158,6 +158,9 @@ const styles = {
     marginTop: '15px',
     width: '200px',
   },
+  rememberMeCheckbox: {
+    marginTop: '4px',
+  },
   onTenantSelectButton: {
     marginTop: '20px',
   },
@@ -243,6 +246,7 @@ export class Login extends React.Component {
       // idpId may be used later
       idpId: '', // eslint-disable-line react/no-unused-state
       ssoPopupBlocked: false,
+      makeDefaultTenant: false,
     };
   }
 
@@ -580,6 +584,13 @@ export class Login extends React.Component {
 
   onTenantSelect = () => {
     if (this.state.tenantId !== '-1') {
+      // Set Default Tenant
+      if (this.state.makeDefaultTenant) {
+        CxEngage.authentication.updateDefaultTenant({
+          tenantId: this.state.tenantId,
+        });
+      }
+
       const selectingTenant = this.props.agent.accountTenants.find(
         (tenant) => tenant.tenantId === this.state.tenantId
       );
@@ -596,7 +607,6 @@ export class Login extends React.Component {
         if (selectingTenant.password) {
           this.showCxLogin();
         } else {
-
           this.showSsoLogin();
           window.history.pushState(
             '',
@@ -681,6 +691,14 @@ export class Login extends React.Component {
     this.setState({ ssoEmail });
   };
 
+  setLoginType = (loginType) => {
+    this.setState({ loginType });
+  };
+
+  toggleMakeDefaultTenant = () => {
+    this.setState({ makeDefaultTenant: !this.state.makeDefaultTenant });
+  };
+
   setRememberEmail = (rememberEmail) => {
     this.setState({ rememberEmail });
     storage.setItem('rememberEmail', rememberEmail);
@@ -699,6 +717,10 @@ export class Login extends React.Component {
   };
 
   setTenantId = (tenantId, tenantName) => {
+    // reset makeDefaultTenant on new tenant selection
+    if (this.state.makeDefaultTenant) {
+      this.setState({ makeDefaultTenant: false });
+    }
     this.setState({ tenantId, tenantName });
   };
 
@@ -869,6 +891,25 @@ export class Login extends React.Component {
     return undefined;
   };
 
+  canSetAsDefaultTenant = () => {
+    const selectedTenantId = this.state.tenantId;
+    const defaultTenantId = this.props.agent.defaultTenant;
+    const loginType = this.props.displayState;
+
+    // If is was a CX login
+    if (loginType === 'CX_LOGIN') {
+      return false;
+    }
+
+    // Selected is already set as default
+    if (selectedTenantId === defaultTenantId) {
+      return false;
+    }
+
+    // Otherwise can select as default
+    return true;
+  };
+
   // Layout components
   // TODO: Break out into separate ui view components
 
@@ -951,6 +992,16 @@ export class Login extends React.Component {
             clearable={false}
             placeholder={<FormattedMessage {...messages.selectTenant} />}
           />
+          {this.canSetAsDefaultTenant() && (
+            <CheckBox
+              id={messages.setDefaultTenant.id}
+              style={styles.rememberMe}
+              checkboxInputStyle={styles.rememberMeCheckbox}
+              checked={this.state.makeDefaultTenant}
+              text={messages.setDefaultTenant}
+              cb={this.toggleMakeDefaultTenant}
+            />
+          )}
           <Button
             id={messages.selectButton.id}
             type="primaryBlueBig"
@@ -1005,6 +1056,7 @@ export class Login extends React.Component {
           <CheckBox
             id={messages.rememberMe.id}
             style={styles.rememberMe}
+            checkboxInputStyle={styles.rememberMeCheckbox}
             checked={this.state.rememberEmail}
             text={messages.rememberMe}
             cb={this.setRememberEmail}
@@ -1066,6 +1118,7 @@ export class Login extends React.Component {
         <CheckBox
           id={messages.rememberMe.id}
           style={styles.rememberMe}
+          checkboxInputStyle={styles.rememberMeCheckbox}
           checked={this.state.rememberSsoEmail}
           text={messages.rememberMe}
           cb={this.setRememberSsoEmail}

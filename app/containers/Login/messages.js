@@ -84,4 +84,8 @@ export default defineMessages({
     id: 'app.containers.Login.privacy',
     defaultMessage: 'Privacy Policy',
   },
+  setDefaultTenant: {
+    id: 'app.containers.Login.setDefaultTenant',
+    defaultMessage: 'Set as Default Tenant',
+  },
 });

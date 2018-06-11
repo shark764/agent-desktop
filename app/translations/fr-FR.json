@@ -199,6 +199,7 @@
   "app.containers.Login.selectTenant": "Sélectionner le locataire…",
   "app.containers.Login.selectTenantMenu": "Veuillez sélectionner un locataire",
   "app.containers.Login.selectTenantReauthTitle": "",
+  "app.containers.Login.setDefaultTenant": "",
   "app.containers.Login.signInButton": "Se connecter",
   "app.containers.Login.signOutButton": "",
   "app.containers.Login.ssoSignInDescription": "",
