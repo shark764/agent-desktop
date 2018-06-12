@@ -1,3 +1,6 @@
+### [1.25.0] (2018-06-11)
+* Added default tenant selector on SSO login
+
 ### [1.24.5] (2018-06-11)
 * CXV1-14289 - Updated button to fix dialpad, added extra message for tooltip for clarity wrapups.
 

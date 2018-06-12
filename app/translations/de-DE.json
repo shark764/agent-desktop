@@ -199,6 +199,7 @@
   "app.containers.Login.selectTenant": "Mandant auswählen ...",
   "app.containers.Login.selectTenantMenu": "Bitte wählen Sie einen Mandanten aus.",
   "app.containers.Login.selectTenantReauthTitle": "",
+  "app.containers.Login.setDefaultTenant": "",
   "app.containers.Login.signInButton": "Anmelden",
   "app.containers.Login.signOutButton": "",
   "app.containers.Login.ssoSignInDescription": "",

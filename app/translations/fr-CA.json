@@ -199,6 +199,7 @@
   "app.containers.Login.selectTenant": "Sélectionner le client...",
   "app.containers.Login.selectTenantMenu": "Veuillez sélectionner un client",
   "app.containers.Login.selectTenantReauthTitle": "",
+  "app.containers.Login.setDefaultTenant": "",
   "app.containers.Login.signInButton": "Connexion",
   "app.containers.Login.signOutButton": "",
   "app.containers.Login.ssoSignInDescription": "",

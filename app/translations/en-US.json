@@ -199,6 +199,7 @@
   "app.containers.Login.selectTenant": "Select Tenant...",
   "app.containers.Login.selectTenantMenu": "Please Select a Tenant",
   "app.containers.Login.selectTenantReauthTitle": "Authentication is required to switch to this tenant",
+  "app.containers.Login.setDefaultTenant": "Set as Default Tenant",
   "app.containers.Login.signInButton": "Sign In",
   "app.containers.Login.signOutButton": "Sign Out",
   "app.containers.Login.ssoSignInDescription": "Enter your email address and we'll redirect you to your company's login",
