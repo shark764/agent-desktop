@@ -298,7 +298,7 @@ export class EmailContentArea extends React.Component {
   }
 
   updateIframe = () => {
-    if (this.iframeEmail !== undefined) {
+    if (this.iframeEmail) {
       const document = this.iframeEmail.contentDocument;
       document.body.innerHTML = this.emailWithImages();
       const height = this.iframeEmail.contentWindow.document.body.scrollHeight;
