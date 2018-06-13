@@ -1,3 +1,6 @@
+### [1.25.3] (2018-06-12)
+* CXV1-14338 - Show tenant selection on while logging in with deep link
+
 ### [1.25.1] (2018-06-12)
 * CXV1-13852 - Scripts - Global CSS in Emails affects Skylight, fixed bug when user send answer and the email
 

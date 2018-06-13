@@ -537,13 +537,6 @@ export class Login extends React.Component {
           this.setState({
             expiredSessionReauth: {},
           });
-        } else if (this.state.deepLinksParamList === DEEPLINK_USERNAME_IDP) {
-          const defaultTenantName = response.details.find(
-            (tenant) => agent.defaultTenant === tenant.tenantId
-          ).name;
-
-          this.setTenantId(agent.defaultTenant, defaultTenantName);
-          this.onTenantSelect();
         } else if (response.details.length === 0) {
           this.props.setLoading(false);
           this.props.setNonCriticalError({ code: 'AD-1005' });
