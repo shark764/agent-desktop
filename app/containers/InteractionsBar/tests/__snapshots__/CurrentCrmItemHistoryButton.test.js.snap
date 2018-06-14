@@ -23,7 +23,6 @@ exports[`<CurrentCrmItemHistoryButton /> should render correctly 1`] = `
     style={
       Object {
         "color": "white",
-        "cursor": "pointer",
         "fontSize": "1.5em",
         "padding": "5px 12px",
       }

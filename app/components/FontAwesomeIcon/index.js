@@ -17,6 +17,7 @@ const styles = {
   button: {
     border: 'none',
     padding: '0',
+    cursor: 'pointer',
   },
 };
 

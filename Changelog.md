@@ -1,3 +1,7 @@
+### [1.25.5] (2018-06-14)
+* CXV1-14321 & CXV1-14322 - Fix button styling for non-tooltip buttons
+* CXV1-14331 - Fix positioning of toolbar popout button
+
 ### [1.25.4] (2018-06-14)
 * Revert CXV1-12532 (Needs to be reimplemented as a user preference)
 

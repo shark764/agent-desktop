@@ -5,6 +5,7 @@ exports[`<FontAwesomeIcon /> should render correctly 1`] = `
   style={
     Object {
       "border": "none",
+      "cursor": "pointer",
       "padding": "0",
     }
   }
@@ -24,6 +25,7 @@ exports[`<FontAwesomeIcon /> should render correctly with additional props 1`] =
   style={
     Object {
       "border": "none",
+      "cursor": "pointer",
       "padding": "0",
     }
   }

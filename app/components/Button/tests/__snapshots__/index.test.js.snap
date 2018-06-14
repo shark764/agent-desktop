@@ -1,657 +1,489 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Button /> when button is icon should render correctly 1`] = `
-<div
-  data-for=""
+<button
   data-radium={true}
-  data-tip={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   style={
     Object {
-      "display": "inline",
+      "backgroundColor": "#23cdf4",
+      "borderRadius": "3px",
+      "borderWidth": "0px",
+      "boxSizing": "borderBox",
+      "color": "#FFFFFF",
+      "cursor": "pointer",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "auto",
     }
   }
+  tabIndex={0}
+  type="button"
 >
-  <button
-    data-radium={true}
-    id="mockId"
+  <Icon
     key=".0"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#23cdf4",
-        "borderRadius": "3px",
-        "borderWidth": "0px",
-        "boxSizing": "borderBox",
-        "color": "#FFFFFF",
-        "cursor": "pointer",
-        "fontSize": "13px",
-        "fontStretch": "normal",
-        "fontStyle": "normal",
-        "fontWeight": "bold",
-        "outline": "none",
-        "padding": "auto",
-      }
-    }
-    tabIndex={0}
-    type="button"
-  >
-    <Icon
-      key=".0"
-      name="close"
-    />
-  </button>
-</div>
+    name="close"
+  />
+</button>
 `;
 
 exports[`<Button /> when it has children should render correctly 1`] = `
-<div
-  data-for=""
+<button
   data-radium={true}
-  data-tip={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   style={
     Object {
-      "display": "inline",
+      "backgroundColor": "#23cdf4",
+      "borderRadius": "3px",
+      "borderWidth": "0px",
+      "boxSizing": undefined,
+      "color": "#FFFFFF",
+      "cursor": "pointer",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "9px 17px",
     }
   }
+  tabIndex={0}
+  type="button"
 >
-  <button
-    data-radium={true}
-    id="mockId"
+  <div
     key=".0"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#23cdf4",
-        "borderRadius": "3px",
-        "borderWidth": "0px",
-        "boxSizing": undefined,
-        "color": "#FFFFFF",
-        "cursor": "pointer",
-        "fontSize": "13px",
-        "fontStretch": "normal",
-        "fontStyle": "normal",
-        "fontWeight": "bold",
-        "outline": "none",
-        "padding": "9px 17px",
-      }
-    }
-    tabIndex={0}
-    type="button"
   >
-    <div
-      key=".0"
-    >
-      Test!
-    </div>
-  </button>
-</div>
+    Test!
+  </div>
+</button>
 `;
 
 exports[`<Button /> when passed a border style should render correctly 1`] = `
-<div
-  data-for=""
+<button
   data-radium={true}
-  data-tip={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   style={
     Object {
-      "display": "inline",
+      "backgroundColor": "#23cdf4",
+      "borderRadius": "3px",
+      "borderTop": "thick double #ff0000",
+      "borderWidth": "0px",
+      "boxSizing": undefined,
+      "color": "#FFFFFF",
+      "cursor": "pointer",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "9px 17px",
     }
   }
->
-  <button
-    data-radium={true}
-    id="mockId"
-    key=".0"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#23cdf4",
-        "borderRadius": "3px",
-        "borderTop": "thick double #ff0000",
-        "borderWidth": "0px",
-        "boxSizing": undefined,
-        "color": "#FFFFFF",
-        "cursor": "pointer",
-        "fontSize": "13px",
-        "fontStretch": "normal",
-        "fontStyle": "normal",
-        "fontWeight": "bold",
-        "outline": "none",
-        "padding": "9px 17px",
-      }
-    }
-    tabIndex={0}
-    type="button"
-  />
-</div>
+  tabIndex={0}
+  type="button"
+/>
 `;
 
 exports[`<Button /> when passed mouseOverText and is hovered should render correctly 1`] = `
-<div
-  data-for=""
+<button
   data-radium={true}
-  data-tip={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   style={
     Object {
-      "display": "inline",
+      "backgroundColor": "#1FB8DC",
+      "borderRadius": "3px",
+      "borderWidth": "0px",
+      "boxSizing": undefined,
+      "color": "#FFFFFF",
+      "cursor": "pointer",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "9px 17px",
     }
   }
+  tabIndex={0}
+  type="button"
 >
-  <button
-    data-radium={true}
-    id="mockId"
+  <FormattedMessage
+    defaultMessage="ON"
+    id="app.containers.PhoneControls.on"
     key=".0"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#1FB8DC",
-        "borderRadius": "3px",
-        "borderWidth": "0px",
-        "boxSizing": undefined,
-        "color": "#FFFFFF",
-        "cursor": "pointer",
-        "fontSize": "13px",
-        "fontStretch": "normal",
-        "fontStyle": "normal",
-        "fontWeight": "bold",
-        "outline": "none",
-        "padding": "9px 17px",
-      }
-    }
-    tabIndex={0}
-    type="button"
-  >
-    <FormattedMessage
-      defaultMessage="ON"
-      id="app.containers.PhoneControls.on"
-      key=".0"
-      values={Object {}}
-    />
-  </button>
-</div>
+    values={Object {}}
+  />
+</button>
 `;
 
 exports[`<Button /> when passed text as a obj should render correctly 1`] = `
-<div
-  data-for=""
+<button
   data-radium={true}
-  data-tip={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   style={
     Object {
-      "display": "inline",
+      "backgroundColor": "#23cdf4",
+      "borderRadius": "3px",
+      "borderWidth": "0px",
+      "boxSizing": undefined,
+      "color": "#FFFFFF",
+      "cursor": "pointer",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "9px 17px",
     }
   }
+  tabIndex={0}
+  type="button"
 >
-  <button
-    data-radium={true}
-    id="mockId"
+  <FormattedMessage
+    defaultMessage="ON"
+    id="app.containers.PhoneControls.on"
     key=".0"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#23cdf4",
-        "borderRadius": "3px",
-        "borderWidth": "0px",
-        "boxSizing": undefined,
-        "color": "#FFFFFF",
-        "cursor": "pointer",
-        "fontSize": "13px",
-        "fontStretch": "normal",
-        "fontStyle": "normal",
-        "fontWeight": "bold",
-        "outline": "none",
-        "padding": "9px 17px",
-      }
-    }
-    tabIndex={0}
-    type="button"
-  >
-    <FormattedMessage
-      defaultMessage="ON"
-      id="app.containers.PhoneControls.on"
-      key=".0"
-      values={Object {}}
-    />
-  </button>
-</div>
+    values={Object {}}
+  />
+</button>
 `;
 
 exports[`<Button /> when passed text as a string should render correctly 1`] = `
-<div
-  data-for=""
+<button
   data-radium={true}
-  data-tip={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   style={
     Object {
-      "display": "inline",
+      "backgroundColor": "#23cdf4",
+      "borderRadius": "3px",
+      "borderWidth": "0px",
+      "boxSizing": undefined,
+      "color": "#FFFFFF",
+      "cursor": "pointer",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "9px 17px",
     }
   }
+  tabIndex={0}
+  type="button"
 >
-  <button
-    data-radium={true}
-    id="mockId"
-    key=".0"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#23cdf4",
-        "borderRadius": "3px",
-        "borderWidth": "0px",
-        "boxSizing": undefined,
-        "color": "#FFFFFF",
-        "cursor": "pointer",
-        "fontSize": "13px",
-        "fontStretch": "normal",
-        "fontStyle": "normal",
-        "fontWeight": "bold",
-        "outline": "none",
-        "padding": "9px 17px",
-      }
-    }
-    tabIndex={0}
-    type="button"
-  >
-    testing!
-  </button>
-</div>
+  testing!
+</button>
 `;
 
 exports[`<Button /> with type primaryBlue and disabled should render correctly 1`] = `
-<div
-  data-for=""
+<button
   data-radium={true}
-  data-tip={true}
+  disabled={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   style={
     Object {
-      "display": "inline",
+      "backgroundColor": "#8BE1F4",
+      "borderRadius": "3px",
+      "borderWidth": "0px",
+      "boxSizing": undefined,
+      "color": "#FFFFFF",
+      "cursor": "default",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "9px 17px",
     }
   }
->
-  <button
-    data-radium={true}
-    disabled={true}
-    id="mockId"
-    key=".0"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#8BE1F4",
-        "borderRadius": "3px",
-        "borderWidth": "0px",
-        "boxSizing": undefined,
-        "color": "#FFFFFF",
-        "cursor": "default",
-        "fontSize": "13px",
-        "fontStretch": "normal",
-        "fontStyle": "normal",
-        "fontWeight": "bold",
-        "outline": "none",
-        "padding": "9px 17px",
-      }
-    }
-    tabIndex={0}
-    type="button"
-  />
-</div>
+  tabIndex={0}
+  type="button"
+/>
 `;
 
 exports[`<Button /> with type primaryBlue should render correctly 1`] = `
-<div
-  data-for=""
+<button
   data-radium={true}
-  data-tip={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   style={
     Object {
-      "display": "inline",
+      "backgroundColor": "#23cdf4",
+      "borderRadius": "3px",
+      "borderWidth": "0px",
+      "boxSizing": undefined,
+      "color": "#FFFFFF",
+      "cursor": "pointer",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "9px 17px",
     }
   }
->
-  <button
-    data-radium={true}
-    id="mockId"
-    key=".0"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#23cdf4",
-        "borderRadius": "3px",
-        "borderWidth": "0px",
-        "boxSizing": undefined,
-        "color": "#FFFFFF",
-        "cursor": "pointer",
-        "fontSize": "13px",
-        "fontStretch": "normal",
-        "fontStyle": "normal",
-        "fontWeight": "bold",
-        "outline": "none",
-        "padding": "9px 17px",
-      }
-    }
-    tabIndex={0}
-    type="button"
-  />
-</div>
+  tabIndex={0}
+  type="button"
+/>
 `;
 
 exports[`<Button /> with type primaryBlueBig and disabled should render correctly 1`] = `
-<div
-  data-for=""
+<button
   data-radium={true}
-  data-tip={true}
+  disabled={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   style={
     Object {
-      "display": "inline",
+      "backgroundColor": "#8BE1F4",
+      "borderRadius": "8px",
+      "borderWidth": "0px",
+      "boxSizing": undefined,
+      "color": "#FFFFFF",
+      "cursor": "default",
+      "fontSize": "16px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "14px 28px",
     }
   }
->
-  <button
-    data-radium={true}
-    disabled={true}
-    id="mockId"
-    key=".0"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#8BE1F4",
-        "borderRadius": "8px",
-        "borderWidth": "0px",
-        "boxSizing": undefined,
-        "color": "#FFFFFF",
-        "cursor": "default",
-        "fontSize": "16px",
-        "fontStretch": "normal",
-        "fontStyle": "normal",
-        "fontWeight": "bold",
-        "outline": "none",
-        "padding": "14px 28px",
-      }
-    }
-    tabIndex={0}
-    type="button"
-  />
-</div>
+  tabIndex={0}
+  type="button"
+/>
 `;
 
 exports[`<Button /> with type primaryBlueBig should render correctly 1`] = `
-<div
-  data-for=""
+<button
   data-radium={true}
-  data-tip={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   style={
     Object {
-      "display": "inline",
+      "backgroundColor": "#23cdf4",
+      "borderRadius": "8px",
+      "borderWidth": "0px",
+      "boxSizing": undefined,
+      "color": "#FFFFFF",
+      "cursor": "pointer",
+      "fontSize": "16px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "14px 28px",
     }
   }
->
-  <button
-    data-radium={true}
-    id="mockId"
-    key=".0"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#23cdf4",
-        "borderRadius": "8px",
-        "borderWidth": "0px",
-        "boxSizing": undefined,
-        "color": "#FFFFFF",
-        "cursor": "pointer",
-        "fontSize": "16px",
-        "fontStretch": "normal",
-        "fontStyle": "normal",
-        "fontWeight": "bold",
-        "outline": "none",
-        "padding": "14px 28px",
-      }
-    }
-    tabIndex={0}
-    type="button"
-  />
-</div>
+  tabIndex={0}
+  type="button"
+/>
 `;
 
 exports[`<Button /> with type primaryRed and disabled should render correctly 1`] = `
-<div
-  data-for=""
+<button
   data-radium={true}
-  data-tip={true}
+  disabled={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   style={
     Object {
-      "display": "inline",
+      "backgroundColor": "#F99CAC",
+      "borderRadius": "3px",
+      "borderWidth": "0px",
+      "boxSizing": undefined,
+      "color": "#FFFFFF",
+      "cursor": "default",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "9px 17px",
     }
   }
->
-  <button
-    data-radium={true}
-    disabled={true}
-    id="mockId"
-    key=".0"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#F99CAC",
-        "borderRadius": "3px",
-        "borderWidth": "0px",
-        "boxSizing": undefined,
-        "color": "#FFFFFF",
-        "cursor": "default",
-        "fontSize": "13px",
-        "fontStretch": "normal",
-        "fontStyle": "normal",
-        "fontWeight": "bold",
-        "outline": "none",
-        "padding": "9px 17px",
-      }
-    }
-    tabIndex={0}
-    type="button"
-  />
-</div>
+  tabIndex={0}
+  type="button"
+/>
 `;
 
 exports[`<Button /> with type primaryRed should render correctly 1`] = `
-<div
-  data-for=""
+<button
   data-radium={true}
-  data-tip={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   style={
     Object {
-      "display": "inline",
+      "backgroundColor": "#FE4565",
+      "borderRadius": "3px",
+      "borderWidth": "0px",
+      "boxSizing": undefined,
+      "color": "#FFFFFF",
+      "cursor": "pointer",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "bold",
+      "outline": "none",
+      "padding": "9px 17px",
     }
   }
->
-  <button
-    data-radium={true}
-    id="mockId"
-    key=".0"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#FE4565",
-        "borderRadius": "3px",
-        "borderWidth": "0px",
-        "boxSizing": undefined,
-        "color": "#FFFFFF",
-        "cursor": "pointer",
-        "fontSize": "13px",
-        "fontStretch": "normal",
-        "fontStyle": "normal",
-        "fontWeight": "bold",
-        "outline": "none",
-        "padding": "9px 17px",
-      }
-    }
-    tabIndex={0}
-    type="button"
-  />
-</div>
+  tabIndex={0}
+  type="button"
+/>
 `;
 
 exports[`<Button /> with type secondary and disabled should render correctly 1`] = `
-<div
-  data-for=""
+<button
   data-radium={true}
-  data-tip={true}
+  disabled={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   style={
     Object {
-      "display": "inline",
+      "backgroundColor": "#FFFFFF",
+      "borderBottom": "1px solid #C5C5C5",
+      "borderLeft": "1px solid #C5C5C5",
+      "borderRadius": "2px",
+      "borderRight": "1px solid #C5C5C5",
+      "borderTop": "1px solid #C5C5C5",
+      "borderWidth": "0px",
+      "boxSizing": undefined,
+      "color": "#C5C5C5",
+      "cursor": "default",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "",
+      "outline": "none",
+      "padding": "9px 17px",
     }
   }
->
-  <button
-    data-radium={true}
-    disabled={true}
-    id="mockId"
-    key=".0"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#FFFFFF",
-        "borderBottom": "1px solid #C5C5C5",
-        "borderLeft": "1px solid #C5C5C5",
-        "borderRadius": "2px",
-        "borderRight": "1px solid #C5C5C5",
-        "borderTop": "1px solid #C5C5C5",
-        "borderWidth": "0px",
-        "boxSizing": undefined,
-        "color": "#C5C5C5",
-        "cursor": "default",
-        "fontSize": "13px",
-        "fontStretch": "normal",
-        "fontStyle": "normal",
-        "fontWeight": "",
-        "outline": "none",
-        "padding": "9px 17px",
-      }
-    }
-    tabIndex={0}
-    type="button"
-  />
-</div>
+  tabIndex={0}
+  type="button"
+/>
 `;
 
 exports[`<Button /> with type secondary should render correctly 1`] = `
-<div
-  data-for=""
+<button
   data-radium={true}
-  data-tip={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
   style={
     Object {
-      "display": "inline",
+      "backgroundColor": "#FFFFFF",
+      "borderBottom": "1px solid #979797",
+      "borderLeft": "1px solid #979797",
+      "borderRadius": "2px",
+      "borderRight": "1px solid #979797",
+      "borderTop": "1px solid #979797",
+      "borderWidth": "0px",
+      "boxSizing": undefined,
+      "color": "#4B4B4B",
+      "cursor": "pointer",
+      "fontSize": "13px",
+      "fontStretch": "normal",
+      "fontStyle": "normal",
+      "fontWeight": "",
+      "outline": "none",
+      "padding": "9px 17px",
     }
   }
->
-  <button
-    data-radium={true}
-    id="mockId"
-    key=".0"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#FFFFFF",
-        "borderBottom": "1px solid #979797",
-        "borderLeft": "1px solid #979797",
-        "borderRadius": "2px",
-        "borderRight": "1px solid #979797",
-        "borderTop": "1px solid #979797",
-        "borderWidth": "0px",
-        "boxSizing": undefined,
-        "color": "#4B4B4B",
-        "cursor": "pointer",
-        "fontSize": "13px",
-        "fontStretch": "normal",
-        "fontStyle": "normal",
-        "fontWeight": "",
-        "outline": "none",
-        "padding": "9px 17px",
-      }
-    }
-    tabIndex={0}
-    type="button"
-  />
-</div>
+  tabIndex={0}
+  type="button"
+/>
 `;
