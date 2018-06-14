@@ -1,3 +1,6 @@
+### [1.25.4] (2018-06-14)
+* Revert CXV1-12532 (Needs to be reimplemented as a user preference)
+
 ### [1.25.3] (2018-06-12)
 * CXV1-14338 - Show tenant selection on while logging in with deep link
 
