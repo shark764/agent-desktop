@@ -187,8 +187,7 @@ const selectAwaitingScript = createSelector(
     interaction !== undefined &&
     interaction.status === 'wrapup' &&
     interaction.script !== undefined &&
-    !interaction.script.autoScriptDismiss &&
-    interaction.dispositionDetails.forceSelect
+    !interaction.script.autoScriptDismiss
 );
 
 const selectIsEndWrapupDisabled = createSelector(

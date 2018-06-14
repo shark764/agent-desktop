@@ -52,7 +52,7 @@ class MainContentArea extends React.Component {
   };
 
   render() {
-    const selectedInteraction = this.props.selectedInteraction;
+    const { selectedInteraction } = this.props;
 
     let content = null;
     if (selectedInteraction) {

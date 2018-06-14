@@ -209,14 +209,14 @@ export class Interaction extends React.Component {
         );
         if (
           this.props.status === 'wrapup' &&
-          ageSeconds > this.props.wrapupTime
+          ageSeconds > this.props.wrapupTime &&
+          !this.awaitingDisposition(this.props.interaction) &&
+          !this.awaitingScript(this.props.interaction)
         ) {
-          if (!this.awaitingDisposition(this.props.interaction)) {
-            CxEngage.interactions.endWrapup({
-              interactionId: this.props.interaction.interactionId,
-            });
-            clearInterval(this.state.msIntervalId);
-          }
+          CxEngage.interactions.endWrapup({
+            interactionId: this.props.interaction.interactionId,
+          });
+          clearInterval(this.state.msIntervalId);
         }
         this.setState({
           ageSeconds,
@@ -257,10 +257,12 @@ export class Interaction extends React.Component {
   }
 
   awaitingDisposition = (interaction) =>
-    interaction.status === 'wrapup' &&
     interaction.dispositionDetails &&
     interaction.dispositionDetails.forceSelect &&
     interaction.dispositionDetails.selected.length === 0;
+
+  awaitingScript = (interaction) =>
+    interaction.script !== undefined && !interaction.script.autoScriptDismiss;
 
   getRemainingSeconds = () => {
     switch (this.props.status) {

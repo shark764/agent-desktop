@@ -1,3 +1,7 @@
+### [1.25.6] (2018-06-14)
+* CXV1-14075 - Fixed cases around scripts in wrap up
+* CXV1-14314 - Default script reporting to true
+
 ### [1.25.5] (2018-06-14)
 * CXV1-14321 & CXV1-14322 - Fix button styling for non-tooltip buttons
 * CXV1-14331 - Fix positioning of toolbar popout button

@@ -11,7 +11,7 @@ import {
 
 import messages from './messages';
 
-const selectWrapupBtnTooltipText = createSelector(
+export const selectWrapupBtnTooltipText = createSelector(
   selectAwaitingDisposition,
   selectAwaitingScript,
   (awaitingDisposition, awaitingScript) => {
@@ -26,5 +26,3 @@ const selectWrapupBtnTooltipText = createSelector(
     }
   }
 );
-
-export { selectWrapupBtnTooltipText };
