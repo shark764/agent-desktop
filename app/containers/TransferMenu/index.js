@@ -325,6 +325,7 @@ export class TransferMenu extends React.Component {
       padding: '6px 4px',
     },
     transferListItem: {
+      display: 'flex',
       padding: '6px 8px',
       height: '32px',
       borderRadius: '3px',
@@ -343,22 +344,22 @@ export class TransferMenu extends React.Component {
       height: '32px',
     },
     queueName: {
-      width: '175px',
-      display: 'inline-block',
+      flexBasis: '100%',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
     },
     averageQueueTime: {
+      marginLeft: 'auto',
+      flexShrink: 0,
       fontWeight: 600,
-      float: 'right',
     },
     agentStatusIcon: {
       height: '8px',
       width: '8px',
       borderRadius: '4px',
       display: 'inline-block',
-      margin: '0 15px 6px 0',
+      margin: '0 15px 1px 0',
     },
     agentAvailable: {
       backgroundColor: '#23CEF5',
@@ -367,8 +368,7 @@ export class TransferMenu extends React.Component {
       border: '1px solid #979797',
     },
     agentName: {
-      width: '175px',
-      display: 'inline-block',
+      flexGrow: '1',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
@@ -838,5 +838,8 @@ TransferMenu.contextTypes = {
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(TransferMenu))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(TransferMenu))
 );

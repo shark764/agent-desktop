@@ -1,3 +1,6 @@
+### [1.25.7] (2018-06-15)
+* CXV1-14291 - Long time values don't display properly in transfer list
+
 ### [1.25.6] (2018-06-14)
 * CXV1-14075 - Fixed cases around scripts in wrap up
 * CXV1-14314 - Default script reporting to true
