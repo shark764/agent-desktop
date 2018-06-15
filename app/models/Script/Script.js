@@ -10,7 +10,7 @@ export default class Script extends Immutable.Record({
   elements: new List(),
   values: new Map(),
   autoScriptDismiss: false,
-  scriptReporting: false,
+  scriptReporting: true,
   scrollTop: 0,
 }) {
   constructor({

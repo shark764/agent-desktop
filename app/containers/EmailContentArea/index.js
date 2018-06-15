@@ -1282,7 +1282,7 @@ EmailContentArea.propTypes = {
   emailSendReply: PropTypes.func.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
   isEndWrapupDisabled: PropTypes.bool.isRequired,
-  wrapupBtnTooltipText: PropTypes.string.isRequired,
+  wrapupBtnTooltipText: PropTypes.object.isRequired,
   emailTemplates: PropTypes.array.isRequired,
   agent: PropTypes.object.isRequired,
 };

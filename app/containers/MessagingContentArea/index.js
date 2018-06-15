@@ -228,7 +228,7 @@ MessagingContentArea.propTypes = {
   messageTemplates: PropTypes.array.isRequired,
   agentId: PropTypes.string.isRequired,
   isEndWrapupDisabled: PropTypes.bool.isRequired,
-  wrapupBtnTooltipText: PropTypes.string.isRequired,
+  wrapupBtnTooltipText: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({

@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.25.5",
+  "version": "1.25.6",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -10,6 +10,7 @@
     "npm": ">=3"
   },
   "author": "Serenova",
+  "license": "UNLICENSED",
   "scripts": {
     "analyze:clean": "rimraf stats.json",
     "preanalyze": "npm run analyze:clean",
