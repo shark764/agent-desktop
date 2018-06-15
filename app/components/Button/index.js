@@ -41,7 +41,7 @@ const styles = {
     boxSizing: undefined,
     outline: 'none',
   },
-  MitelStyle: {
+  mitelStyle: {
     backgroundColor: '#00a1f4',
     ':focus': {
       boxShadow: '0 0 1em #61b2dc',
@@ -196,13 +196,6 @@ export class Button extends React.Component {
 
   render() {
     let inner;
-    let mitelStyle;
-
-    if (window.location.hostname.split('.')[0].indexOf('mitel') !== -1) {
-      mitelStyle = true;
-    } else {
-      mitelStyle = false;
-    }
 
     if (!this.props.mouseOverText || !this.state.mouseOver) {
       if (this.props.iconName) {
@@ -233,58 +226,66 @@ export class Button extends React.Component {
     ) {
       title = this.props.intl.formatMessage(this.props.title);
     } else {
-      title = this.props.title;
+      ({ title } = this.props);
     }
 
-    return (
-      <div
-        style={styles.wrapper}
-        data-tip
-        data-for={this.props.tooltipText.id}
-        data-offset={this.props.tooltipOffset}
-      >
-        <button
-          id={this.props.id}
-          type="button"
-          style={[
-            styles.base,
-            styles[this.props.type],
-            mitelStyle && styles.MitelStyle,
-            this.props.disabled && styles[this.props.type].disabled,
-            this.props.disabled && styles.disabled,
-            this.props.iconName && styles.isIcon,
-            this.props.clear && styles.clear,
-            this.props.subMenuOpen && { position: 'relative' },
-            this.props.style,
-          ]}
-          tabIndex={this.props.tabIndex}
-          onClick={this.props.onClick}
-          disabled={this.props.disabled}
-          onMouseEnter={() => this.setState({ mouseOver: true })}
-          onMouseLeave={() => this.setState({ mouseOver: false })}
-          title={title}
-        >
-          {inner}
-          {this.props.hasSubMenu && (
-            <i
-              style={styles.mainBtnDropdownArrow}
-              className="fa fa-caret-down"
-              key="fa-caret-down"
-            />
-          )}
-          {this.props.subMenuOpen && (
-            <div style={styles.dropdownMenuPopoutArrow} />
-          )}
-        </button>
+    const mitelStyle =
+      window.location.hostname.split('.')[0].indexOf('mitel') !== -1;
 
-        {this.props.tooltipText.id && (
+    const button = (
+      <button
+        id={this.props.id}
+        type="button"
+        style={[
+          styles.base,
+          styles[this.props.type],
+          mitelStyle && styles.mitelStyle,
+          this.props.disabled && styles[this.props.type].disabled,
+          this.props.disabled && styles.disabled,
+          this.props.iconName && styles.isIcon,
+          this.props.clear && styles.clear,
+          this.props.subMenuOpen && { position: 'relative' },
+          this.props.style,
+        ]}
+        tabIndex={this.props.tabIndex}
+        onClick={this.props.onClick}
+        disabled={this.props.disabled}
+        onMouseEnter={() => this.setState({ mouseOver: true })}
+        onMouseLeave={() => this.setState({ mouseOver: false })}
+        title={title}
+      >
+        {inner}
+        {this.props.hasSubMenu && (
+          <i
+            style={styles.mainBtnDropdownArrow}
+            className="fa fa-caret-down"
+            key="fa-caret-down"
+          />
+        )}
+        {this.props.subMenuOpen && (
+          <div style={styles.dropdownMenuPopoutArrow} />
+        )}
+      </button>
+    );
+
+    if (this.props.tooltipText.id) {
+      return (
+        <div
+          style={styles.wrapper}
+          data-tip
+          data-for={this.props.tooltipText.id}
+          data-offset={this.props.tooltipOffset}
+        >
+          {button}
           <Tooltip
             text={this.props.tooltipText}
             id={this.props.tooltipText.id}
           />
-        )}
-      </div>
-    );
+        </div>
+      );
+    } else {
+      return button;
+    }
   }
 }
 

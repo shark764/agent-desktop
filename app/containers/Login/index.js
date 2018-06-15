@@ -129,10 +129,8 @@ const styles = {
     height: '100%',
     width: '100%',
     display: 'grid',
-    // 0px standalonePopup to allow main to squish into its area on small screen heights
-    gridTemplateRows: '0px 1fr 100px 50px',
+    gridTemplateRows: '1fr 100px 50px',
     gridTemplateAreas: `
-      " standalonePopup standalonePopup standalonePopup "
       "      main            main            main       "
       "     legal            legal          legal       "
       "     locale             .            privacy     "
@@ -197,7 +195,6 @@ const styles = {
     ':hover': {
       color: '#f3f3f3',
       textShadow: '0px 1px 1px #ccc',
-      cursor: 'pointer',
     },
   },
   privacy: {
@@ -1214,26 +1211,25 @@ export class Login extends React.Component {
     if (this.context.toolbarMode) {
       return (
         <div style={styles.toolbarBase}>
-          {this.props.crmModule === 'none' &&
-            !this.props.isStandalonePopup &&
-            window.location.hash.indexOf('standalonePopup') === -1 &&
-            !this.props.initiatedStandalonePopup && (
-              <div style={{ gridArea: 'standalonePopup' }}>
+          <div style={styles.content}>
+            {this.props.crmModule === 'none' &&
+              !this.props.isStandalonePopup &&
+              window.location.hash.indexOf('standalonePopup') === -1 &&
+              !this.props.initiatedStandalonePopup && (
                 <div style={{ float: 'right', margin: '1em 1.4em 0 0' }}>
                   <FontAwesomeIcon
                     id="standalonePopupIcon"
                     name="window-restore"
                     style={{
                       color: 'gray',
-                      cursor: 'pointer',
                       fontSize: '1.5em',
                     }}
                     onclick={this.openStandalonePopup}
                   />
                 </div>
-              </div>
-            )}
-          <div style={styles.content}>{pageContent}</div>
+              )}
+            {pageContent}
+          </div>
           {!this.props.initiatedStandalonePopup && <LegalCopyright />}
           {!this.props.initiatedStandalonePopup && this.getLanguageSelect()}
           <div style={styles.privacy}>

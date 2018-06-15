@@ -54,7 +54,6 @@ export class CurrentCrmItemHistoryButton extends React.Component {
             color: 'white',
             fontSize: '1.5em',
             padding: '5px 12px',
-            cursor: 'pointer',
           }}
         />
       </div>
