@@ -47,6 +47,8 @@ import PopupDialog from 'components/PopupDialog';
 import mitelFavicon from 'assets/favicons/mitel.png';
 import LegalCopyright from 'components/LegalCopyright';
 
+import { isIeEleven } from 'utils/browser';
+
 import { mappedLocales } from 'i18n';
 import { changeLocale } from 'containers/LanguageProvider/actions';
 import { selectLocale } from 'containers/LanguageProvider/selectors';
@@ -96,7 +98,7 @@ const styles = {
   base: {
     height: '100%',
     width: '100%',
-    display: 'grid',
+    display: isIeEleven() ? '-ms-grid' : 'grid',
     gridTemplateColumns: '1fr 1fr 550px 1fr 1fr',
     gridTemplateRows: '1fr 540px 1fr',
     gridTemplateAreas: `
@@ -104,6 +106,8 @@ const styles = {
       "    .      .      main      .       .    "
       " locale  legal    legal   legal  privacy "
     `,
+    msGridColumns: '1fr 1fr 550px 1fr 1fr',
+    msGridRows: '1fr 540px 1fr',
     backgroundColor: '#072931',
     fontSize: '16px',
     fontWeight: 'normal',
@@ -140,6 +144,9 @@ const styles = {
   content: {
     gridArea: 'main',
     justifySelf: 'stretch',
+    alignSelf: 'stretch',
+    msGridColumn: '3',
+    msGridRow: '2',
   },
   contentTitle: {
     paddingBottom: '23px',
@@ -173,6 +180,8 @@ const styles = {
     alignSelf: 'end',
     marginLeft: '1.4em',
     marginBottom: '1em',
+    msGridColumn: '1',
+    msGridRow: '4',
   },
   languageMenuSfLightning: {
     marginTop: '0',
@@ -202,6 +211,8 @@ const styles = {
     margin: '0 15px 15px 0',
     textAlign: 'right',
     alignSelf: 'end',
+    msGridColumn: '5',
+    msGridRow: '4',
   },
   privacyLink: {
     color: '#FFFFFF',
@@ -1326,5 +1337,10 @@ Login.contextTypes = {
 };
 
 export default ErrorBoundary(
-  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Login)))
+  injectIntl(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Radium(Login))
+  )
 );
