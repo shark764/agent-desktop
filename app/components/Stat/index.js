@@ -13,6 +13,8 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import { isIeEleven } from 'utils/browser';
+
 import IconSVG from 'components/IconSVG';
 import StatValue from './StatValue';
 import messages from './messages';
@@ -101,7 +103,7 @@ const styles = {
   statRemove: {
     position: 'absolute',
     right: '10px',
-    top: '6px',
+    top: isIeEleven() ? '-60px' : '6px',
     fontSize: '12px',
     zIndex: '2',
     cursor: 'pointer',

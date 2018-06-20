@@ -1,3 +1,6 @@
+### [1.25.9] (2018-06-20)
+* CXV1-14239 - Agent Stats from Skylight toolbar does not work properly using IE11.
+
 ### [1.24.8] (2018-06-11)
 * New PRs updates now automatically cancel previous pipeline builds
 

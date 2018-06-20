@@ -21,6 +21,8 @@ import { selectIsSidePanelCollapsed } from 'containers/AgentDesktop/selectors';
 import { deactivateToolbarStat } from 'containers/Toolbar/actions';
 import { selectToolbarStats } from 'containers/Toolbar/selectors';
 
+import { isIeEleven } from 'utils/browser';
+
 import Stat from 'components/Stat';
 import { selectAvailableStats } from './selectors';
 
@@ -62,6 +64,7 @@ const styles = {
   statsScrollContainer: {
     display: 'flex',
     overflowX: 'hidden',
+    overflowY: isIeEleven() ? 'hidden' : 'visible',
     paddingTop: '300px',
     marginTop: '-300px',
   },
@@ -304,5 +307,8 @@ AgentStats.contextTypes = {
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStats))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(AgentStats))
 );
