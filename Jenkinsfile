@@ -15,6 +15,25 @@ def h = new hipchat()
 def n = new node()
 def f = new frontend()
 
+@NonCPS
+def stop_previous_builds(job_name, build_num) {
+  def job = Jenkins.instance.getItemByFullName(job_name)
+  def new_builds = job.getNewBuilds()
+
+  for (int i = 0; i < new_builds.size(); i++) {
+    def build = new_builds.get(i);
+    if (build.getNumber().toInteger() != build_num) {
+      if (build.isBuilding()) {
+        build.doStop()
+      }
+    }
+  }
+}
+
+try {
+  stop_previous_builds(env.JOB_NAME, env.BUILD_NUMBER.toInteger())
+} catch (Exception e) {}
+
 node(){
   pwd = pwd()
 }

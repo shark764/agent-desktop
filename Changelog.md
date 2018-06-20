@@ -1,3 +1,6 @@
+### [1.24.8] (2018-06-11)
+* New PRs updates now automatically cancel previous pipeline builds
+
 ### [1.25.7] (2018-06-15)
 * CXV1-14291 - Long time values don't display properly in transfer list
 
