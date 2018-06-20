@@ -27,6 +27,8 @@ const styles = {
     width: '100%',
     color: '#FFFFFF',
     textAlign: 'center',
+    msGridColumn: '3',
+    msGridRow: '4',
   },
   copyrightText: {
     marginBottom: '1em',

@@ -1,3 +1,6 @@
+### [1.25.10] (2018-06-20)
+* CXV1-14046 - White box for credentials is expanded into the login page using IE 11 browser.
+
 ### [1.25.9] (2018-06-20)
 * CXV1-14239 - Agent Stats from Skylight toolbar does not work properly using IE11.
 
