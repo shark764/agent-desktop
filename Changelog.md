@@ -1,3 +1,6 @@
+### [1.25.15] (2018-06-27)
+* CXV1-12836 - Fixed repeated Fields when handling 2 Email interactions simultaneously.
+
 ### [1.25.14] (2018-06-20)
 * CXV1-14008 - SDK bump for Module to detect when the microphone is enabled within the browser
 
@@ -7,7 +10,6 @@
 ### [1.25.12] (2018-06-22)
 * CXV1-14325 - Fix for loading icon should be centered
 * CXV1-14326 - Fix for login form is squished towards the top
-
 
 ### [1.25.11] (2018-06-20)
 * CXV1-12424 - Skylight Lists (Presence/Disposition) are not ordered as configured
