@@ -132,7 +132,7 @@ const getContactInteractionPath = (state, interactionId) => {
 
 const categorizeItems = (rawItems, name) => {
   const categorizedItems = [];
-  rawItems.sort((a, b) => a.sortOrder > b.sortOrder).forEach((item) => {
+  rawItems.forEach((item) => {
     if (item.hierarchy[0]) {
       const existingCategoryIndex = categorizedItems.findIndex(
         (category) => category.name === item.hierarchy[0]
@@ -148,6 +148,22 @@ const categorizeItems = (rawItems, name) => {
       }
     } else {
       categorizedItems.push(item);
+    }
+  });
+
+  categorizedItems.sort((a, b) => {
+    if (a.type === 'category' && b.type === 'category') {
+      a[name].sort((c, d) => c.sortOrder - d.sortOrder);
+      b[name].sort((c, d) => c.sortOrder - d.sortOrder);
+      return a[name][0].sortOrder - b[name][0].sortOrder;
+    } else if (a.type === 'category') {
+      a[name].sort((c, d) => c.sortOrder - d.sortOrder);
+      return a[name][0].sortOrder - b.sortOrder;
+    } else if (b.type === 'category') {
+      b[name].sort((c, d) => c.sortOrder - d.sortOrder);
+      return a.sortOrder - b[name][0].sortOrder;
+    } else {
+      return a.sortOrder - b.sortOrder;
     }
   });
   return categorizedItems;

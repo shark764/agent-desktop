@@ -1,3 +1,6 @@
+### [1.25.11] (2018-06-20)
+* CXV1-12424 - Skylight Lists (Presence/Disposition) are not ordered as configured
+
 ### [1.25.10] (2018-06-20)
 * CXV1-14046 - White box for credentials is expanded into the login page using IE 11 browser.
 

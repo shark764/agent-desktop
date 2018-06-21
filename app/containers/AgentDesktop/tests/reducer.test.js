@@ -39,6 +39,8 @@ import {
   ADD_INTERACTION_NOTIFICATION,
   REMOVE_INTERACTION_NOTIFICATION,
   SET_QUEUES_TIME,
+  SET_USER_CONFIG,
+  SET_DISPOSITION_DETAILS,
 } from '../constants';
 import agentDesktopReducer, { getNextSelectedInteractionId } from '../reducer';
 
@@ -1408,15 +1410,17 @@ describe('agentDesktopReducer', () => {
   describe('SET_QUEUES_TIME', () => {
     beforeEach(() => {
       initialState = {
-        queues: [{
-          id: "test-queue-uuid",
-          queueTime: 0,
-        }],
+        queues: [
+          {
+            id: 'test-queue-uuid',
+            queueTime: 0,
+          },
+        ],
       };
       action = {
         type: SET_QUEUES_TIME,
         queueData: {
-          "test-queue-uuid": {
+          'test-queue-uuid': {
             body: {
               results: {
                 avg: 32,
@@ -1427,6 +1431,207 @@ describe('agentDesktopReducer', () => {
       };
     });
     it('updates the current queue time to reflect the new average wait time', () => {
+      runReducerAndExpectSnapshot();
+    });
+  });
+
+  describe('SET_USER_CONFIG', () => {
+    beforeEach(() => {
+      initialState = {};
+      action = {
+        type: SET_USER_CONFIG,
+        response: {
+          reasonLists: [
+            {
+              active: true,
+              reasons: [
+                {
+                  name: 'f',
+                  sortOrder: 6,
+                  hierarchy: [],
+                },
+                {
+                  name: 'i',
+                  sortOrder: 9,
+                  hierarchy: [],
+                },
+                {
+                  name: 'c',
+                  sortOrder: 3,
+                  hierarchy: ['Test1'],
+                },
+                {
+                  name: 'a',
+                  sortOrder: 1,
+                  hierarchy: [],
+                },
+                {
+                  name: 'g',
+                  sortOrder: 7,
+                  hierarchy: [],
+                },
+                {
+                  name: 'k',
+                  sortOrder: 11,
+                  hierarchy: ['Test2'],
+                },
+                {
+                  name: 'n',
+                  sortOrder: 14,
+                  hierarchy: ['Test3'],
+                },
+                {
+                  name: 'b',
+                  sortOrder: 2,
+                  hierarchy: [],
+                },
+                {
+                  name: 'e',
+                  sortOrder: 5,
+                  hierarchy: [],
+                },
+                {
+                  name: 'd',
+                  sortOrder: 4,
+                  hierarchy: ['Test1'],
+                },
+                {
+                  name: 'l',
+                  sortOrder: 12,
+                  hierarchy: ['Test2'],
+                },
+                {
+                  name: 'h',
+                  sortOrder: 8,
+                  hierarchy: [],
+                },
+                {
+                  name: 'm',
+                  sortOrder: 13,
+                  hierarchy: ['Test3'],
+                },
+                {
+                  name: 'j',
+                  sortOrder: 10,
+                  hierarchy: [],
+                },
+              ],
+            },
+            {
+              active: false,
+              reasons: [
+                {
+                  name: "doesn't matter",
+                  sortOrder: 1,
+                  hierarchy: [],
+                },
+                {
+                  name: "I don't care",
+                  sortOrder: 2,
+                  hierarchy: [],
+                },
+              ],
+            },
+          ],
+        },
+      };
+    });
+    it('shows the presence reasons list ordered as it was ordered on the configuration', () => {
+      runReducerAndExpectSnapshot();
+    });
+  });
+
+  describe('SET_DISPOSITION_DETAILS', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 1,
+          },
+          {
+            interactionId: 2,
+          },
+        ],
+      };
+      action = {
+        interactionId: 1,
+        type: SET_DISPOSITION_DETAILS,
+        forceSelect: 'Some random action',
+        dispositions: [
+          {
+            name: 'f',
+            sortOrder: 6,
+            hierarchy: [],
+          },
+          {
+            name: 'i',
+            sortOrder: 9,
+            hierarchy: [],
+          },
+          {
+            name: 'c',
+            sortOrder: 3,
+            hierarchy: ['Test1'],
+          },
+          {
+            name: 'a',
+            sortOrder: 1,
+            hierarchy: [],
+          },
+          {
+            name: 'g',
+            sortOrder: 7,
+            hierarchy: [],
+          },
+          {
+            name: 'k',
+            sortOrder: 11,
+            hierarchy: ['Test2'],
+          },
+          {
+            name: 'n',
+            sortOrder: 14,
+            hierarchy: ['Test3'],
+          },
+          {
+            name: 'b',
+            sortOrder: 2,
+            hierarchy: [],
+          },
+          {
+            name: 'e',
+            sortOrder: 5,
+            hierarchy: [],
+          },
+          {
+            name: 'd',
+            sortOrder: 4,
+            hierarchy: ['Test1'],
+          },
+          {
+            name: 'l',
+            sortOrder: 12,
+            hierarchy: ['Test2'],
+          },
+          {
+            name: 'h',
+            sortOrder: 8,
+            hierarchy: [],
+          },
+          {
+            name: 'm',
+            sortOrder: 13,
+            hierarchy: ['Test3'],
+          },
+          {
+            name: 'j',
+            sortOrder: 10,
+            hierarchy: [],
+          },
+        ],
+      };
+    });
+    it('shows the dispositions list ordered as it was ordered on the configuration', () => {
       runReducerAndExpectSnapshot();
     });
   });

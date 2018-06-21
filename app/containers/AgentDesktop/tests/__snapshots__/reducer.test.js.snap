@@ -836,6 +836,125 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer SET_DISPOSITION_DETAILS shows the dispositions list ordered as it was ordered on the configuration 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": 1,
+      "dispositionDetails": Immutable.Map {
+        "forceSelect": "Some random action",
+        "dispositions": Immutable.List [
+          Immutable.Map {
+            "name": "a",
+            "sortOrder": 1,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "b",
+            "sortOrder": 2,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "Test1",
+            "dispositions": Immutable.List [
+              Immutable.Map {
+                "name": "c",
+                "sortOrder": 3,
+                "hierarchy": Immutable.List [
+                  "Test1",
+                ],
+              },
+              Immutable.Map {
+                "name": "d",
+                "sortOrder": 4,
+                "hierarchy": Immutable.List [
+                  "Test1",
+                ],
+              },
+            ],
+            "type": "category",
+          },
+          Immutable.Map {
+            "name": "e",
+            "sortOrder": 5,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "f",
+            "sortOrder": 6,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "g",
+            "sortOrder": 7,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "h",
+            "sortOrder": 8,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "i",
+            "sortOrder": 9,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "j",
+            "sortOrder": 10,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "Test2",
+            "dispositions": Immutable.List [
+              Immutable.Map {
+                "name": "k",
+                "sortOrder": 11,
+                "hierarchy": Immutable.List [
+                  "Test2",
+                ],
+              },
+              Immutable.Map {
+                "name": "l",
+                "sortOrder": 12,
+                "hierarchy": Immutable.List [
+                  "Test2",
+                ],
+              },
+            ],
+            "type": "category",
+          },
+          Immutable.Map {
+            "name": "Test3",
+            "dispositions": Immutable.List [
+              Immutable.Map {
+                "name": "m",
+                "sortOrder": 13,
+                "hierarchy": Immutable.List [
+                  "Test3",
+                ],
+              },
+              Immutable.Map {
+                "name": "n",
+                "sortOrder": 14,
+                "hierarchy": Immutable.List [
+                  "Test3",
+                ],
+              },
+            ],
+            "type": "category",
+          },
+        ],
+        "selected": Immutable.List [],
+      },
+    },
+    Immutable.Map {
+      "interactionId": 2,
+    },
+  ],
+}
+`;
+
 exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if interaction is "isScriptOnly" deletes "isScriptOnly" 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
@@ -1024,6 +1143,224 @@ Immutable.Map {
     Immutable.Map {
       "id": "test-queue-uuid",
       "queueTime": 32,
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_USER_CONFIG shows the presence reasons list ordered as it was ordered on the configuration 1`] = `
+Immutable.Map {
+  "userConfig": Immutable.Map {
+    "reasonLists": Immutable.List [
+      Immutable.Map {
+        "active": true,
+        "reasons": Immutable.List [
+          Immutable.Map {
+            "name": "f",
+            "sortOrder": 6,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "i",
+            "sortOrder": 9,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "c",
+            "sortOrder": 3,
+            "hierarchy": Immutable.List [
+              "Test1",
+            ],
+          },
+          Immutable.Map {
+            "name": "a",
+            "sortOrder": 1,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "g",
+            "sortOrder": 7,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "k",
+            "sortOrder": 11,
+            "hierarchy": Immutable.List [
+              "Test2",
+            ],
+          },
+          Immutable.Map {
+            "name": "n",
+            "sortOrder": 14,
+            "hierarchy": Immutable.List [
+              "Test3",
+            ],
+          },
+          Immutable.Map {
+            "name": "b",
+            "sortOrder": 2,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "e",
+            "sortOrder": 5,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "d",
+            "sortOrder": 4,
+            "hierarchy": Immutable.List [
+              "Test1",
+            ],
+          },
+          Immutable.Map {
+            "name": "l",
+            "sortOrder": 12,
+            "hierarchy": Immutable.List [
+              "Test2",
+            ],
+          },
+          Immutable.Map {
+            "name": "h",
+            "sortOrder": 8,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "m",
+            "sortOrder": 13,
+            "hierarchy": Immutable.List [
+              "Test3",
+            ],
+          },
+          Immutable.Map {
+            "name": "j",
+            "sortOrder": 10,
+            "hierarchy": Immutable.List [],
+          },
+        ],
+      },
+      Immutable.Map {
+        "active": false,
+        "reasons": Immutable.List [
+          Immutable.Map {
+            "name": "doesn't matter",
+            "sortOrder": 1,
+            "hierarchy": Immutable.List [],
+          },
+          Immutable.Map {
+            "name": "I don't care",
+            "sortOrder": 2,
+            "hierarchy": Immutable.List [],
+          },
+        ],
+      },
+    ],
+  },
+  "presenceReasonLists": Immutable.List [
+    Immutable.Map {
+      "active": true,
+      "reasons": Immutable.List [
+        Immutable.Map {
+          "name": "a",
+          "sortOrder": 1,
+          "hierarchy": Immutable.List [],
+        },
+        Immutable.Map {
+          "name": "b",
+          "sortOrder": 2,
+          "hierarchy": Immutable.List [],
+        },
+        Immutable.Map {
+          "name": "Test1",
+          "reasons": Immutable.List [
+            Immutable.Map {
+              "name": "c",
+              "sortOrder": 3,
+              "hierarchy": Immutable.List [
+                "Test1",
+              ],
+            },
+            Immutable.Map {
+              "name": "d",
+              "sortOrder": 4,
+              "hierarchy": Immutable.List [
+                "Test1",
+              ],
+            },
+          ],
+          "type": "category",
+        },
+        Immutable.Map {
+          "name": "e",
+          "sortOrder": 5,
+          "hierarchy": Immutable.List [],
+        },
+        Immutable.Map {
+          "name": "f",
+          "sortOrder": 6,
+          "hierarchy": Immutable.List [],
+        },
+        Immutable.Map {
+          "name": "g",
+          "sortOrder": 7,
+          "hierarchy": Immutable.List [],
+        },
+        Immutable.Map {
+          "name": "h",
+          "sortOrder": 8,
+          "hierarchy": Immutable.List [],
+        },
+        Immutable.Map {
+          "name": "i",
+          "sortOrder": 9,
+          "hierarchy": Immutable.List [],
+        },
+        Immutable.Map {
+          "name": "j",
+          "sortOrder": 10,
+          "hierarchy": Immutable.List [],
+        },
+        Immutable.Map {
+          "name": "Test2",
+          "reasons": Immutable.List [
+            Immutable.Map {
+              "name": "k",
+              "sortOrder": 11,
+              "hierarchy": Immutable.List [
+                "Test2",
+              ],
+            },
+            Immutable.Map {
+              "name": "l",
+              "sortOrder": 12,
+              "hierarchy": Immutable.List [
+                "Test2",
+              ],
+            },
+          ],
+          "type": "category",
+        },
+        Immutable.Map {
+          "name": "Test3",
+          "reasons": Immutable.List [
+            Immutable.Map {
+              "name": "m",
+              "sortOrder": 13,
+              "hierarchy": Immutable.List [
+                "Test3",
+              ],
+            },
+            Immutable.Map {
+              "name": "n",
+              "sortOrder": 14,
+              "hierarchy": Immutable.List [
+                "Test3",
+              ],
+            },
+          ],
+          "type": "category",
+        },
+      ],
     },
   ],
 }
