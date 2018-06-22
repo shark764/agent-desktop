@@ -118,8 +118,8 @@ const styles = {
   dialogContentContainer: {
     padding: '0 50px',
     height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
+    display: 'grid',
+    gridTemplateRows: '1fr 2.5fr',
     justifyContent: 'center',
   },
   dialogContent: {
@@ -127,7 +127,8 @@ const styles = {
     flexDirection: 'column',
     flexWrap: 'nowrap',
     alignItems: 'center',
-    height: '367px',
+    justifyContent: 'center',
+    margin: 'auto',
   },
   toolbarBase: {
     height: '100%',
@@ -153,6 +154,7 @@ const styles = {
   },
   logo: {
     width: '275px',
+    margin: 'auto auto 0 auto',
   },
   usernameInput: {
     marginBottom: '10px',
@@ -949,8 +951,8 @@ export class Login extends React.Component {
 
   getLoadingContent = () => (
     <div id="loginContainerDiv" style={styles.dialogContentContainer}>
+      <Logo style={styles.logo} />
       <div style={styles.dialogContent}>
-        <Logo style={styles.logo} />
         <IconSVG id="loadingIcon" name="loading" width="100px" />
       </div>
     </div>
@@ -976,8 +978,8 @@ export class Login extends React.Component {
 
     return (
       <div id="TSContainerDiv" style={styles.dialogContentContainer}>
+        <Logo style={styles.logo} />
         <div style={styles.dialogContent}>
-          <Logo style={styles.logo} />
           <Title
             id={messages.selectTenantMenu.id}
             text={messages.selectTenantMenu}
@@ -1030,8 +1032,8 @@ export class Login extends React.Component {
     // ...otherwise, of course show the login fields
     return (
       <div id="loginContainerDiv" style={styles.dialogContentContainer}>
+        <Logo style={styles.logo} />
         <div style={styles.dialogContent}>
-          <Logo style={styles.logo} />
           {this.getLoginTitle()}
           <TextInput
             id={messages.username.id}
@@ -1081,8 +1083,8 @@ export class Login extends React.Component {
 
   getPopupBlockedContent = () => (
     <div id="ssoContainer" style={styles.dialogContentContainer}>
+      <Logo style={styles.logo} />
       <div style={styles.dialogContent}>
-        <Logo style={styles.logo} />
         <Button
           id={messages.nextButton.id}
           type="primaryBlueBig"
@@ -1096,8 +1098,8 @@ export class Login extends React.Component {
 
   getSingleSignOnContent = () => (
     <div id="ssoContainer" style={styles.dialogContentContainer}>
+      <Logo style={styles.logo} />
       <div style={styles.dialogContent}>
-        <Logo style={styles.logo} />
         <Title
           id={messages.ssoSignIn.id}
           text={messages.ssoSignIn}
@@ -1194,8 +1196,8 @@ export class Login extends React.Component {
     } else if (this.props.initiatedStandalonePopup) {
       pageContent = (
         <div style={styles.dialogContentContainer}>
+          <Logo style={styles.logo} />
           <div style={styles.dialogContent}>
-            <Logo style={styles.logo} />
             <div style={{ textAlign: 'center' }}>
               <div>
                 <FormattedMessage {...messages.toolbarHasBeenLaunched} />
