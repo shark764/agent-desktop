@@ -58,6 +58,7 @@ function ContactInput(props) {
       order: '1',
       flexGrow: '0',
       flexShrink: '0',
+      visibility: 'hidden',
     },
     textInput: {
       width: '',
@@ -68,8 +69,7 @@ function ContactInput(props) {
         outline: 'none',
       },
       padding: '',
-      flexGrow: '1',
-      flexShrink: '1',
+      flex: '1 0 100px',
       alignSelf: 'stretch',
     },
     notSelected: {
@@ -83,8 +83,7 @@ function ContactInput(props) {
     },
     attributeName: {
       color: '#979797',
-      width: '161px',
-      flexShrink: '0',
+      flex: '1 0 100px',
       alignSelf: 'center',
     },
   };
@@ -144,20 +143,21 @@ function ContactInput(props) {
                 onBlur={props.handleOnBlur}
               />
             )}
-            {value && value.length && !props.notSelected ? (
-              <Button
-                id={`${props.attribute.objectName}-clear-btn`}
-                tabIndex={-1}
-                name={props.attribute.objectName}
-                style={styles.closeButton}
-                iconName="close"
-                clear
-                type="secondary"
-                onClick={props.handleInputClear}
-              />
-            ) : (
-              undefined
-            )}
+            <Button
+              id={`${props.attribute.objectName}-clear-btn`}
+              tabIndex={-1}
+              name={props.attribute.objectName}
+              style={[
+                styles.closeButton,
+                value &&
+                  value.length &&
+                  !props.notSelected && { visibility: 'visible' },
+              ]}
+              iconName="close"
+              clear
+              type="secondary"
+              onClick={props.handleInputClear}
+            />
           </div>
         </div>
       );

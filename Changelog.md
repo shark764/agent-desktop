@@ -1,6 +1,10 @@
+### [1.25.13] (2018-06-22)
+* CXV1-11587 - Fix for Contact Input Boxes Move Off Screen When Side Panel Size is Reduced
+
 ### [1.25.12] (2018-06-22)
 * CXV1-14325 - Fix for loading icon should be centered
 * CXV1-14326 - Fix for login form is squished towards the top
+
 
 ### [1.25.11] (2018-06-20)
 * CXV1-12424 - Skylight Lists (Presence/Disposition) are not ordered as configured
