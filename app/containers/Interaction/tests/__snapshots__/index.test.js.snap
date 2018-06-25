@@ -115,6 +115,7 @@ exports[`<Interaction /> should render correctly 1`] = `
           "marginTop": "5px",
         }
       }
+      tagName="div"
       truncationChar="…"
       useNativeClamp={true}
     >
