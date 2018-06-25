@@ -66,9 +66,10 @@
     "collectCoverageFrom": [
       "app/**/*.{js,jsx}",
       "!app/**/*.test.{js,jsx}",
-      "!app/*/RbGenerated*/*.{js,jsx}",
-      "!app/app.js",
-      "!app/routes.js"
+      "!app/**/messages.js",
+      "!app/**/constants.js",
+      "!app/**/actions.js",
+      "!app/app.js"
     ],
     "moduleDirectories": [
       "node_modules",
@@ -334,7 +335,7 @@
     "css-loader": "0.28.7",
     "enzyme": "3.2.0",
     "enzyme-adapter-react-16": "1.1.0",
-    "enzyme-to-json": "3.2.2",
+    "enzyme-to-json": "3.3.4",
     "eslint": "4.12.0",
     "eslint-config-airbnb": "16.1.0",
     "eslint-config-airbnb-base": "12.1.0",

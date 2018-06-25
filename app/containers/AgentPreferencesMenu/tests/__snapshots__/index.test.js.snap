@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AgentPreferencesMenu /> renders AgentNotificationsMenu when it is set in state 1`] = `
+<PopupDialog
+  arrowLeftOffsetPx={348}
+  hide={[Function]}
+  id="preferencesMenu"
+  isVisible={true}
+  style={
+    Object {
+      "bottom": "56px",
+      "color": "#4b4b4b",
+      "margin": "10px",
+      "padding": "10px 13px",
+      "position": "absolute",
+      "right": "2px",
+    }
+  }
+  widthPx={380}
+>
+  <PreferenceTitle
+    preference="notifications"
+    setPreferenceSelected={[Function]}
+  />
+  <Connect(AgentNotificationsMenu) />
+</PopupDialog>
+`;
+
+exports[`<AgentPreferencesMenu /> renders AgentStatsMenu when it is set in state 1`] = `
+<PopupDialog
+  arrowLeftOffsetPx={348}
+  hide={[Function]}
+  id="preferencesMenu"
+  isVisible={true}
+  style={
+    Object {
+      "bottom": "56px",
+      "color": "#4b4b4b",
+      "margin": "10px",
+      "padding": "10px 13px",
+      "position": "absolute",
+      "right": "2px",
+    }
+  }
+  widthPx={380}
+>
+  <PreferenceTitle
+    preference="metrics"
+    setPreferenceSelected={[Function]}
+  />
+  <Connect(ErrorBoundaryComponent) />
+</PopupDialog>
+`;
+
+exports[`<AgentPreferencesMenu /> renders the preferences options by default 1`] = `
+<PopupDialog
+  arrowLeftOffsetPx={348}
+  hide={[Function]}
+  id="preferencesMenu"
+  isVisible={true}
+  style={
+    Object {
+      "bottom": "56px",
+      "color": "#4b4b4b",
+      "margin": "10px",
+      "padding": "10px 13px",
+      "position": "absolute",
+      "right": "2px",
+    }
+  }
+  widthPx={380}
+>
+  <PreferenceTitle
+    setPreferenceSelected={[Function]}
+  />
+  <React.Fragment>
+    <PreferenceOption
+      preference="metrics"
+      setPreferenceSelected={[Function]}
+    />
+  </React.Fragment>
+</PopupDialog>
+`;
