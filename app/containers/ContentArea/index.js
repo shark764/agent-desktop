@@ -510,39 +510,41 @@ export class ContentArea extends React.Component {
     return this.props.interaction.endConfirmation === true &&
       this.props.interaction.status !== 'wrapup' &&
       this.props.interaction.status !== 'work-ended-pending-script' ? (
-        <div style={this.styles.confirmDialogWrapper}>
-          <div style={this.styles.confirmDialog}>
-            <div style={this.styles.confirmDialogInnerDiv}>
-              {formatMessage(messages.confirmDialog1)}
-              <div style={{ width: '100%' }}>
-                <div style={this.styles.blueLine} />
-                <div style={this.styles.blueQuestionMark}>?</div>
-                <div style={this.styles.blueLine} />
-              </div>
-              {formatMessage(messages.confirmDialog2)}
+      <div style={this.styles.confirmDialogWrapper}>
+        <div style={this.styles.confirmDialog}>
+          <div style={this.styles.confirmDialogInnerDiv}>
+            {formatMessage(messages.confirmDialog1)}
+            <div style={{ width: '100%' }}>
+              <div style={this.styles.blueLine} />
+              <div style={this.styles.blueQuestionMark}>?</div>
+              <div style={this.styles.blueLine} />
             </div>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            <button
-              key="cancelButton"
-              style={this.styles.confirmButtons}
-              onClick={() => this.cancelConfirmEnd()}
-              id="cancelEndButton"
-              autoFocus
-            >
-              {formatMessage(messages.cancelButton)}
-            </button>
-            <button
-              key="confirmButton"
-              style={this.styles.confirmButtons}
-              onClick={() => this.confirmEnd()}
-              id="confirmEndButton"
-            >
-              {formatMessage(messages.confirmButton)}
-            </button>
+            {formatMessage(messages.confirmDialog2)}
           </div>
         </div>
-      ) : null;
+        <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+          <button
+            key="cancelButton"
+            style={this.styles.confirmButtons}
+            onClick={() => this.cancelConfirmEnd()}
+            id="cancelEndButton"
+            autoFocus
+            type="button"
+          >
+            {formatMessage(messages.cancelButton)}
+          </button>
+          <button
+            key="confirmButton"
+            style={this.styles.confirmButtons}
+            onClick={() => this.confirmEnd()}
+            id="confirmEndButton"
+            type="button"
+          >
+            {formatMessage(messages.confirmButton)}
+          </button>
+        </div>
+      </div>
+    ) : null;
   };
 
   getDispositionsContent = () =>
@@ -746,6 +748,7 @@ export class ContentArea extends React.Component {
       }
     }
   };
+
   cancelConfirmEnd = () => {
     this.props.setInteractionConfirmation(
       this.props.interaction.interactionId,

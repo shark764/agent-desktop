@@ -58,7 +58,7 @@ export const getError = (attributeToValidate, value) => {
         }
         break;
       case 'number':
-        if (isNaN(Number(value))) {
+        if (Number.isNaN(Number(value))) {
           error = 'errorNumber';
         }
         break;

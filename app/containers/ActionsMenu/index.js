@@ -71,6 +71,7 @@ export class ActionsMenu extends React.Component {
       showSubMenu: false,
     };
   }
+
   // HotKeys:
   hotKeys = (e) => {
     // 27 is letter T on the keyboard
@@ -100,6 +101,7 @@ export class ActionsMenu extends React.Component {
   componentWillMount() {
     document.addEventListener('keydown', this.hotKeys);
   }
+
   componentWillUnmount() {
     document.removeEventListener('keydown', this.hotKeys);
   }
@@ -109,9 +111,11 @@ export class ActionsMenu extends React.Component {
     this.setState({ showTransferMenu: false });
     this.setState({ showSubMenu: !this.state.showSubMenu });
   };
+
   toggleTransferMenu = () => {
     this.setState({ showTransferMenu: !this.state.showTransferMenu });
   };
+
   // FinalRender:
   render() {
     return (

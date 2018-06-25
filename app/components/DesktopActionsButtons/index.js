@@ -95,6 +95,7 @@ class DesktopActionsButtons extends React.Component {
   componentWillMount() {
     document.addEventListener('keydown', this.hotKeys);
   }
+
   componentWillUnmount() {
     document.removeEventListener('keydown', this.hotKeys);
   }

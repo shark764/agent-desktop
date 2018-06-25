@@ -69,7 +69,7 @@ const styles = {
     maxHeight: '95px',
   },
   templateMenuButton: {
-    height: 'calc(100% - 5px)',
+    height: 'calc(100% - 4px)',
     width: '40px',
     verticalAlign: 'top',
     fontSize: '24px',
@@ -97,7 +97,7 @@ const styles = {
     borderRadius: '0',
   },
   messageButton: {
-    height: 'calc(100% - 5px)',
+    height: 'calc(100% - 4px)',
     width: '50px',
     verticalAlign: 'top',
     fontSize: '11px',
@@ -539,5 +539,8 @@ MessagingTextArea.contextTypes = {
 };
 
 export default ErrorBoundary(
-  connect(null, mapDispatchToProps)(Radium(MessagingTextArea))
+  connect(
+    null,
+    mapDispatchToProps
+  )(Radium(MessagingTextArea))
 );

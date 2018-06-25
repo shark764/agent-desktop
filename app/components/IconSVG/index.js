@@ -166,13 +166,13 @@ function IconSVG(props) {
     case 'collapse':
       icon = (
         <svg
-          id={this.props.id}
+          id={props.id}
           version="1.1"
           x="0px"
           y="0px"
           viewBox="0 0 20 20"
-          style={[{ enableBackground: 'new 0 0 20 20' }, this.props.style]}
-          onClick={this.props.onClick}
+          style={[{ enableBackground: 'new 0 0 20 20' }, props.style]}
+          onClick={props.onClick}
         >
           <style
             type="text/css"

@@ -171,8 +171,7 @@ export class ContactInteractionHistory extends React.Component {
 
   getInteractionHistoryHeader = () => {
     const interactionsTotal = this.props.contactInteractionHistory.total;
-    const earliestTimestamp = this.props.contactInteractionHistory
-      .earliestTimestamp;
+    const { earliestTimestamp } = this.props.contactInteractionHistory;
     return (
       <div
         id="interaction-history-header"

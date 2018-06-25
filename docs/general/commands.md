@@ -28,8 +28,7 @@ npm start
 ```
 
 Starts the development server and makes your application accessible at
-`localhost:3000`. Tunnels that server with `ngrok`, which means the website
-accessible anywhere! Changes in the application code will be hot-reloaded.
+`localhost:3000`. Changes in the application code will be hot-reloaded.
 
 ### Production
 
@@ -120,12 +119,6 @@ about the bundle size.
 ## Formatting
 
 ```Shell
-npm run format:log
-```
-
-Runs the prettier + eslint and logs out any changes to be made.
-
-```Shell
 npm run format
 ```
 
@@ -138,20 +131,4 @@ NOTE: this runs as a precommit hook if any js is touched
 npm run lint
 ```
 
-Lints your JavaScript and CSS.
-
-### JavaScript
-
-```Shell
-npm run lint:js
-```
-
-Only lints your JavaScript.
-
-### CSS
-
-```Shell
-npm run lint:css
-```
-
-Only lints your CSS.
+Lints your JavaScript.

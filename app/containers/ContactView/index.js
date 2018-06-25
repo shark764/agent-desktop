@@ -71,10 +71,10 @@ const styles = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    flexShrink: '1',
   },
   buttonGroup: {
     display: 'flex',
+    flexShrink: 0,
   },
   controlButton: {
     marginLeft: '10px',
@@ -221,8 +221,8 @@ export class ContactView extends React.Component {
         <div>
           {this.props.showCompactView
             ? this.props.compactLayoutAttributes.attributes.map(
-              this.getAttributeRow
-            )
+                this.getAttributeRow
+              )
             : this.props.layoutSections.map(this.getSection)}
         </div>
       </div>
@@ -305,5 +305,10 @@ ContactView.propTypes = {
 };
 
 export default ErrorBoundary(
-  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactView)))
+  injectIntl(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Radium(ContactView))
+  )
 );

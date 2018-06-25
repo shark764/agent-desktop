@@ -43,7 +43,7 @@ exports[`<MessagingTextArea /> should render correctly under connecting-to-outbo
       Object {
         "borderRadius": "0 3px 3px 0",
         "fontSize": "11px",
-        "height": "calc(100% - 5px)",
+        "height": "calc(100% - 4px)",
         "padding": 0,
         "verticalAlign": "top",
         "width": "50px",
@@ -103,7 +103,7 @@ exports[`<MessagingTextArea /> should render correctly under initialized-outboun
       Object {
         "borderRadius": "0 3px 3px 0",
         "fontSize": "11px",
-        "height": "calc(100% - 5px)",
+        "height": "calc(100% - 4px)",
         "padding": 0,
         "verticalAlign": "top",
         "width": "50px",
@@ -163,7 +163,7 @@ exports[`<MessagingTextArea /> should render correctly under work-accepted 1`] =
       Object {
         "borderRadius": "0 3px 3px 0",
         "fontSize": "11px",
-        "height": "calc(100% - 5px)",
+        "height": "calc(100% - 4px)",
         "padding": 0,
         "verticalAlign": "top",
         "width": "50px",
@@ -211,7 +211,7 @@ exports[`<MessagingTextArea /> should render correctly with message templates 1`
       Object {
         "borderRadius": "3px 0 0 3px",
         "fontSize": "24px",
-        "height": "calc(100% - 5px)",
+        "height": "calc(100% - 4px)",
         "padding": 0,
         "verticalAlign": "top",
         "width": "40px",
@@ -257,7 +257,7 @@ exports[`<MessagingTextArea /> should render correctly with message templates 1`
       Object {
         "borderRadius": "0 3px 3px 0",
         "fontSize": "11px",
-        "height": "calc(100% - 5px)",
+        "height": "calc(100% - 4px)",
         "padding": 0,
         "verticalAlign": "top",
         "width": "50px",

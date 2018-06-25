@@ -10,9 +10,6 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-{{#if wantHeaders}}
-import Helmet from 'react-helmet';
-{{/if}}
 {{#if wantActionsAndReducer}}
 import select{{properCase name}} from './selectors';
 {{/if}}
@@ -24,7 +21,7 @@ import messages from './messages';
 import Radium from 'radium';
 {{/if}}
 
-export class {{ properCase name }} extends React.{{{ component }}} { 
+export class {{ properCase name }} extends React.{{{ component }}} {
   {{#if wantCSS}}
   styles = {
     base: {
@@ -39,14 +36,6 @@ export class {{ properCase name }} extends React.{{{ component }}} {
       <div style={{curly true}}this.styles.base{{curly}}>
       {{else}}
       <div>
-      {{/if}}
-      {{#if wantHeaders}}
-        <Helmet
-          title="{{properCase name}}"
-          meta={{curly true}}[
-            {{curly true}} name: 'description', content: 'Description of {{properCase name}}' {{curly}},
-          ]{{curly}}
-        />
       {{/if}}
       {{#if wantMessages}}
         <FormattedMessage {...messages.header} />
