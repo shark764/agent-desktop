@@ -21,4 +21,8 @@ export default defineMessages({
     id: 'app.containers.AgentPreferencesMenu.metrics',
     defaultMessage: 'Metrics',
   },
+  notifications: {
+    id: 'app.containers.AgentPreferencesMenu.notifications',
+    defaultMessage: 'Notifications',
+  },
 });

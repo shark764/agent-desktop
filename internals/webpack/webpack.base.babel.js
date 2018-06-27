@@ -25,7 +25,7 @@ module.exports = (options) => ({
       test: /\.css$/,
       loader: 'style-loader!css-loader!postcss-loader',
     }, {
-      test: /\.(eot|svg)$/,
+      test: /\.(eot|svg|wav)$/,
       loader: 'file-loader',
     },
     {

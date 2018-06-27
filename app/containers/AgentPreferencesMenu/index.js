@@ -2,8 +2,11 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import { hasBrowserNotifcationsFeatureFlag } from 'utils/url';
+
 import PopupDialog from 'components/PopupDialog';
 import AgentStatsMenu from 'containers/AgentStatsMenu';
+import AgentNotificationsMenu from 'containers/AgentNotificationsMenu';
 
 import PreferenceTitle from './PreferenceTitle';
 import PreferenceOption from './PreferenceOption';
@@ -11,7 +14,6 @@ import PreferenceOption from './PreferenceOption';
 const styles = {
   menu: {
     position: 'absolute',
-    width: '230px',
     right: '2px',
     bottom: '56px',
     margin: '10px',
@@ -35,9 +37,14 @@ export class AgentPreferencesMenu extends React.Component {
   render() {
     let content;
     switch (this.state.preferenceSelected) {
-      case 'metrics':
+      case 'metrics': {
         content = <AgentStatsMenu />;
         break;
+      }
+      case 'notifications': {
+        content = <AgentNotificationsMenu />;
+        break;
+      }
       default:
         content = (
           <Fragment>
@@ -45,6 +52,12 @@ export class AgentPreferencesMenu extends React.Component {
               preference="metrics"
               setPreferenceSelected={this.setPreferenceSelected}
             />
+            {hasBrowserNotifcationsFeatureFlag() && (
+              <PreferenceOption
+                preference="notifications"
+                setPreferenceSelected={this.setPreferenceSelected}
+              />
+            )}
           </Fragment>
         );
     }
@@ -53,8 +66,8 @@ export class AgentPreferencesMenu extends React.Component {
       <PopupDialog
         id="preferencesMenu"
         style={styles.menu}
-        widthPx={230}
-        arrowLeftOffsetPx={198}
+        widthPx={380}
+        arrowLeftOffsetPx={348}
         isVisible={this.props.isVisible}
         hide={this.props.hideMenu}
       >
