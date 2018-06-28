@@ -1,3 +1,6 @@
+### [1.25.14] (2018-06-20)
+* CXV1-14008 - SDK bump for Module to detect when the microphone is enabled within the browser
+
 ### [1.25.13] (2018-06-22)
 * CXV1-11587 - Fix for Contact Input Boxes Move Off Screen When Side Panel Size is Reduced
 
