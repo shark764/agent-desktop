@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PreferenceOption /> renders correctly 1`] = `
+<div
+  id="metrics-preference"
+  onClick={[Function]}
+  style={
+    Object {
+      ":hover": Object {
+        "backgroundColor": "#DEF8FE",
+      },
+      "cursor": "pointer",
+      "padding": "5px",
+    }
+  }
+>
+  <FormattedMessage
+    defaultMessage="Metrics"
+    id="app.containers.AgentPreferencesMenu.metrics"
+    values={Object {}}
+  />
+  <Icon
+    name="caret"
+    style={
+      Object {
+        "float": "right",
+        "marginTop": "7px",
+        "transform": "rotate(-90deg)",
+      }
+    }
+  />
+</div>
+`;

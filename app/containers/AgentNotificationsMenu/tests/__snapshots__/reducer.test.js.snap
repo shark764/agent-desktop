@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducer SET_AUDIO_NOTIFICATIONS_PREFERENCE sets the audio preference 1`] = `
+Immutable.Map {
+  "audioNotifications": "mock audio preference",
+  "visualNotifications": true,
+}
+`;
+
+exports[`reducer SET_VISUAL_NOTIFICATIONS_PREFERENCE sets the visual preference 1`] = `
+Immutable.Map {
+  "audioNotifications": true,
+  "visualNotifications": "mock visual preference",
+}
+`;
+
+exports[`reducer sets the correct initial state 1`] = `
+Immutable.Map {
+  "audioNotifications": true,
+  "visualNotifications": true,
+}
+`;

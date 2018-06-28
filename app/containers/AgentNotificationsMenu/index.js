@@ -26,10 +26,11 @@ const styles = {
   },
 };
 
-function AgentNotificationsMenu(props) {
+export function AgentNotificationsMenu(props) {
   return (
     <Fragment>
       <div
+        id="audioNotificationOption"
         key="audioNotificationOption"
         onClick={props.toggleAudioNotificationsPreference}
         style={styles.notificationOption}
@@ -41,6 +42,7 @@ function AgentNotificationsMenu(props) {
       </div>
       {window.parent === window && (
         <div
+          id="visualNotificationOption"
           key="visualNotificationOption"
           onClick={props.toggleVisualNotificationsPreference}
           style={styles.notificationOption}
