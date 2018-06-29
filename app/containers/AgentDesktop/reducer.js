@@ -1910,6 +1910,10 @@ function agentDesktopReducer(state = initialState, action) {
               .setIn(['emailReply', 'ccs'], new List(action.reply.ccs))
               .setIn(['emailReply', 'bccs'], new List(action.reply.bccs))
               .setIn(['emailReply', 'subject'], action.reply.subject)
+              .setIn(
+                ['emailReply', 'selectedEmailTemplate'],
+                action.reply.selectedEmailTemplate
+              )
         );
       } else {
         return state;

@@ -232,7 +232,9 @@ export class EmailContentArea extends React.Component {
         ? this.props.selectedInteraction.emailReply.bccs
         : [],
       bccInput: '',
-      selectedEmailTemplate: undefined,
+      selectedEmailTemplate: this.props.selectedInteraction.emailReply
+        ? this.props.selectedInteraction.emailReply.selectedEmailTemplate
+        : undefined,
       editorState: this.props.selectedInteraction.emailReply
         ? EditorState.createWithContent(
           stateFromHTML(this.props.selectedInteraction.emailReply.message),
@@ -256,6 +258,11 @@ export class EmailContentArea extends React.Component {
           ccs: nextProps.selectedInteraction.emailReply.ccs,
           bccs: nextProps.selectedInteraction.emailReply.bccs,
           subject: nextProps.selectedInteraction.emailReply.subject,
+          toInput: '',
+          ccInput: '',
+          bccInput: '',
+          selectedEmailTemplate:
+            nextProps.selectedInteraction.emailReply.selectedEmailTemplate,
           editorState: EditorState.createWithContent(
             stateFromHTML(nextProps.selectedInteraction.emailReply.message),
             decorator
@@ -279,6 +286,8 @@ export class EmailContentArea extends React.Component {
         ccs: nextProps.selectedInteraction.emailReply.ccs,
         bccs: nextProps.selectedInteraction.emailReply.bccs,
         subject: nextProps.selectedInteraction.emailReply.subject,
+        selectedEmailTemplate:
+          nextProps.selectedInteraction.emailReply.selectedEmailTemplate,
       });
     }
   }
@@ -318,6 +327,10 @@ export class EmailContentArea extends React.Component {
       bccs: this.state.bccs,
       subject: this.state.subject,
       message: stateToHTML(this.state.editorState.getCurrentContent()),
+      selectedEmailTemplate: this.state.selectedEmailTemplate,
+      toInput: '',
+      ccInput: '',
+      bccInput: '',
     });
   };
 
