@@ -92,7 +92,11 @@ function MenuRow(props) {
       {props.isSelected && (
         <Icon name="checkStatus" alt="selected" style={styles.selectedIcon} />
       )}
-      {props.hasSubMenu && <div>&#9658;</div>}
+      {props.hasSubMenu && (
+        <div>
+          {'&#9658;'}
+        </div>
+      )}
     </div>
   );
   if (!props.hasSubMenu) {
@@ -102,7 +106,9 @@ function MenuRow(props) {
     <div style={styles.submenuOuterContainer}>
       {mainRow}
       {props.isOpen && (
-        <div style={styles.submenuContainer}>{props.subMenuRows}</div>
+        <div style={styles.submenuContainer}>
+          {props.subMenuRows}
+        </div>
       )}
     </div>
   );

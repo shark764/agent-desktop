@@ -22,7 +22,7 @@ exports[`<NoRecords /> should render with outbound buttons when a valid phone nu
       id="app.containers.ContactsSearch.noRecords"
       values={Object {}}
     />
-     -
+    - 
   </div>
   <div
     style={
@@ -102,7 +102,7 @@ exports[`<NoRecords /> should render without outbound buttons by default 1`] = `
       id="app.containers.ContactsSearch.noRecords"
       values={Object {}}
     />
-     -
+    - 
   </div>
   <div
     style={

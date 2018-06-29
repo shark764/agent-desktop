@@ -12,7 +12,9 @@ describe('<PopupDialog />', () => {
     it('should render correctly', () => {
       const rendered = shallow(
         <PopupDialog id="mockId" isVisible hide={() => {}} widthPx={1}>
-          <p>Mock Child</p>
+          <p>
+            {'Mock Child'}
+          </p>
         </PopupDialog>
       );
       expect(rendered).toMatchSnapshot();
@@ -29,7 +31,9 @@ describe('<PopupDialog />', () => {
           widthPx={1}
           arrowLeftOffsetPx={5}
         >
-          <p>Mock Child</p>
+          <p>
+            {'Mock Child'}
+          </p>
         </PopupDialog>
       );
       expect(rendered).toMatchSnapshot();

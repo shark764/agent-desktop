@@ -145,7 +145,9 @@ export class AgentScript extends React.Component {
         case 'freeform':
           scriptElements.push(
             <div id={element.name} key={element.name} style={styles.element}>
-              <div>{element.text}</div>
+              <div>
+                {element.text}
+              </div>
               <TextInput
                 id={`${element.name}-textInput`}
                 value={script.values[element.name]}
@@ -167,7 +169,9 @@ export class AgentScript extends React.Component {
           }));
           scriptElements.push(
             <div key={element.name} style={styles.element}>
-              <div>{element.text}</div>
+              <div>
+                {element.text}
+              </div>
               <div style={styles.select}>
                 <Select
                   id={element.name}
@@ -237,8 +241,12 @@ export class AgentScript extends React.Component {
           ));
           scriptElements.push(
             <div key={element.id} style={styles.element}>
-              <div>{element.text}</div>
-              <div style={styles.checkboxesContainer}>{checkboxes}</div>
+              <div>
+                {element.text}
+              </div>
+              <div style={styles.checkboxesContainer}>
+                {checkboxes}
+              </div>
             </div>
           );
           break;
@@ -321,5 +329,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(AgentScript))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(AgentScript))
 );

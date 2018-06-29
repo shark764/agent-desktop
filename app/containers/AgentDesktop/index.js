@@ -284,20 +284,20 @@ export class AgentDesktop extends React.Component {
                 )}
                 {(!this.context.toolbarMode ||
                   !this.props.isInteractionsBarCollapsed) && (
-                    <InteractionsBar style={{ flexGrow: '1' }} />
-                  )}
+                  <InteractionsBar style={{ flexGrow: '1' }} />
+                )}
               </div>
               {this.context.toolbarMode &&
                 this.props.showCollapseButton && (
-                  <CollapseInteractionsButton
-                    toggleInteractionsBar={this.toggleInteractionsBar}
-                    isCollapsed={this.props.isInteractionsBarCollapsed}
-                    hasUnrespondedInteractions={
-                      this.props.selectHasUnrespondedInteractions
-                    }
-                    isOnWrapUp={this.props.areInteractionsInWrapup}
-                  />
-                )}
+                <CollapseInteractionsButton
+                  toggleInteractionsBar={this.toggleInteractionsBar}
+                  isCollapsed={this.props.isInteractionsBarCollapsed}
+                  hasUnrespondedInteractions={
+                    this.props.selectHasUnrespondedInteractions
+                  }
+                  isOnWrapUp={this.props.areInteractionsInWrapup}
+                />
+              )}
               <MainContentArea
                 agent={this.props.login.agent}
                 style={{ flex: '1 1 auto' }}

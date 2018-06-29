@@ -107,7 +107,9 @@ describe('<Button />', () => {
     it('should render correctly', () => {
       const rendered = shallow(
         <Button.WrappedComponent type="primaryBlue" id="mockId">
-          <div>Test!</div>
+          <div>
+            {'Test!'}
+          </div>
         </Button.WrappedComponent>
       );
       expect(rendered).toMatchSnapshot();

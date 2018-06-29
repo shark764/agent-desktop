@@ -99,7 +99,9 @@ function ContactInput(props) {
       }
       return (
         <div style={styles.attributeRow} key={props.attribute.id}>
-          <div style={styles.attributeName}>{props.attributeLabel}</div>
+          <div style={styles.attributeName}>
+            {props.attributeLabel}
+          </div>
           <Checkbox
             id={`${props.attribute.objectName}Checkbox`}
             name={props.attribute.objectName}

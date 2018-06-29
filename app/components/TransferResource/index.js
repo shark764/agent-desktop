@@ -191,7 +191,11 @@ export class TransferResource extends React.Component {
         >
           {this.props.resource.name}
         </span>
-        {status && <span style={this.styles.transferStatus}>({status})</span>}
+        {status && (
+          <span style={this.styles.transferStatus}>
+            {status}
+          </span>
+        )}
         {this.props.resource.status === 'connected' && (
           <span
             id="resourceControlsMenu"

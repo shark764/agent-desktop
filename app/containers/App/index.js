@@ -1517,10 +1517,10 @@ export class App extends React.Component {
         (this.props.criticalError &&
           this.props.criticalError.code &&
           this.props.criticalError.code.toString().includes('AD-100')) ? (
-          <Login />
-        ) : (
-          <AgentDesktop />
-        )}
+            <Login />
+          ) : (
+            <AgentDesktop />
+          )}
 
         {this.displayReauthPopup()}
       </div>
@@ -1796,5 +1796,8 @@ App.contextTypes = {
 };
 
 export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(App))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(App))
 );

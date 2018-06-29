@@ -483,7 +483,9 @@ export class InteractionsBar extends React.Component {
 
     return (
       <div style={[this.styles.base, this.props.style]}>
-        <div style={{ flexShrink: 0 }}>{activeVoiceInteraction}</div>
+        <div style={{ flexShrink: 0 }}>
+          {activeVoiceInteraction}
+        </div>
         {this.state.showTopScrollShadow && (
           <div
             id="topScrollShadow"
@@ -594,26 +596,26 @@ export class InteractionsBar extends React.Component {
           !this.props.newInteractionPanel.visible &&
           (!this.context.toolbarMode ||
             !this.props.isInteractionsBarCollapsed) && (
-            <div
+          <div
+            style={{
+              padding: '11px',
+              flexShrink: 0,
+            }}
+          >
+            <Icon
+              id="newInteraction"
+              name="add_interaction"
+              alt={this.props.intl.formatMessage(messages.newInteraction)}
+              onclick={this.openNewInteractionPanel}
               style={{
-                padding: '11px',
-                flexShrink: 0,
+                display: 'block',
+                margin: '0 auto',
+                position: 'relative',
+                zIndex: '0',
               }}
-            >
-              <Icon
-                id="newInteraction"
-                name="add_interaction"
-                alt={this.props.intl.formatMessage(messages.newInteraction)}
-                onclick={this.openNewInteractionPanel}
-                style={{
-                  display: 'block',
-                  margin: '0 auto',
-                  position: 'relative',
-                  zIndex: '0',
-                }}
-              />
-            </div>
-          )}
+            />
+          </div>
+        )}
         {this.props.showCurrentCrmItemHistoryButton && (
           <CurrentCrmItemHistoryButton />
         )}
@@ -682,6 +684,9 @@ InteractionsBar.contextTypes = {
 
 export default ErrorBoundary(
   injectIntl(
-    connect(mapStateToProps, mapDispatchToProps)(Radium(InteractionsBar))
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Radium(InteractionsBar))
   )
 );

@@ -308,7 +308,8 @@ export class ContactSearchBar extends React.Component {
             {this.state.pendingFilter ? (
               <span style={this.styles.inputWrapper}>
                 <span style={this.styles.filterName}>
-                  {`${this.getLabel(this.state.pendingFilter)}:`}&nbsp;
+                  {`${this.getLabel(this.state.pendingFilter)}:`}
+                  &nbsp;
                 </span>
                 <TextInput
                   id="search-filter-input"
@@ -399,6 +400,9 @@ function mapDispatchToProps(dispatch) {
 
 export default ErrorBoundary(
   injectIntl(
-    connect(mapStateToProps, mapDispatchToProps)(Radium(ContactSearchBar))
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Radium(ContactSearchBar))
   )
 );

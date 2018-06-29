@@ -214,7 +214,9 @@ export class SidePanel extends React.Component {
               ))}
             </TabList>
             {tabsData.map((tabData) => (
-              <TabPanel key={tabData.name}>{tabData.tabInner}</TabPanel>
+              <TabPanel key={tabData.name}>
+                {tabData.tabInner}
+              </TabPanel>
             ))}
           </Tabs>
         </div>
@@ -271,5 +273,8 @@ SidePanel.contextTypes = {
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(SidePanel))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(SidePanel))
 );

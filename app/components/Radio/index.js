@@ -55,7 +55,8 @@ function Radio(props) {
             style={styles.base}
           >
             {' '}
-            {formatMessage(option)}{' '}
+            {formatMessage(option)}
+            {' '}
           </span>
         </span>
       ))}

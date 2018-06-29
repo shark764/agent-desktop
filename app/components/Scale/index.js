@@ -54,11 +54,17 @@ function Scale(props) {
   }
   return (
     <div id={props.id} key={props.id} style={props.style}>
-      <div style={styles.placeholder}>{props.placeholder}</div>
+      <div style={styles.placeholder}>
+        {props.placeholder}
+      </div>
       <div>
-        <span style={styles.cell}>{props.lowerBoundLabel}</span>
+        <span style={styles.cell}>
+          {props.lowerBoundLabel}
+        </span>
         {scaleRadios}
-        <span style={styles.cell}>{props.upperBoundLabel}</span>
+        <span style={styles.cell}>
+          {props.upperBoundLabel}
+        </span>
       </div>
     </div>
   );

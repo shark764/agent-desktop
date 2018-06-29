@@ -24,7 +24,7 @@
     "build": "cross-env NODE_ENV=production webpack --config internals/webpack/webpack.prod.babel.js --color -p --progress",
     "build:clean": "npm run test:clean && rimraf ./build",
     "build:dll": "node ./internals/scripts/dependencies.js",
-    "format": "prettier --single-quote --trailing-comma es5 --arrow-parens always --write",
+    "format": "prettier-eslint --single-quote --trailing-comma es5 --write",
     "start": "npm run extract-intl && cross-env NODE_ENV=development node server",
     "start:tunnel": "cross-env NODE_ENV=development ENABLE_TUNNEL=true node server",
     "start:production": "npm run build && npm run start:prod",
@@ -168,7 +168,13 @@
       "import/no-named-as-default": 0,
       "import/no-unresolved": 2,
       "import/prefer-default-export": 0,
-      "indent": 0,
+      "indent": [
+        2,
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
       "no-else-return": 0,
       "react/no-unused-state": 1,
       "no-restricted-globals": 1,
@@ -218,16 +224,8 @@
       "react/sort-comp": 0,
       "require-yield": 0,
       "react/destructuring-assignment": 0,
-      "react/jsx-one-expression-per-line": 1,
       "react/no-access-state-in-setstate": 1,
-      "import/no-cycle": 1,
-      "react/jsx-wrap-multilines": [
-        "error",
-        {
-          "declaration": false,
-          "assignment": false
-        }
-      ]
+      "import/no-cycle": 1
     },
     "settings": {
       "import/resolver": {
@@ -359,7 +357,7 @@
     "plop": "2.0.0",
     "postcss-loader": "2.1.5",
     "pre-commit": "1.2.2",
-    "prettier": "1.13.6",
+    "prettier-eslint-cli": "4.7.1",
     "psi": "3.1.0",
     "rimraf": "2.6.2",
     "shelljs": "0.8.2",

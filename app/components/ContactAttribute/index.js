@@ -110,8 +110,12 @@ function ContactAttribute(props) {
 
   return (
     <div style={styles.attributeRow} key={props.attribute.id}>
-      <div style={styles.attributeName}>{langAtt}</div>
-      <div style={[styles.attributeValue]}>{content}</div>
+      <div style={styles.attributeName}>
+        {langAtt}
+      </div>
+      <div style={[styles.attributeValue]}>
+        {content}
+      </div>
     </div>
   );
 }

@@ -283,18 +283,18 @@ export class PhoneControlsActive extends React.Component {
         )}
         {resourcesOnHold <= 1 &&
           this.props.activeVoiceInteraction.meOnHold === true && (
-            <Button
-              id="agentOnHoldButton"
-              text={messages.onHold}
-              mouseOverText={messages.resume}
-              type="primaryRed"
-              onClick={this.resumeMe}
-              style={[
-                this.styles.meOnHold,
-                this.context.toolbarMode && this.styles.meOnHoldToolbar,
-              ]}
-            />
-          )}
+          <Button
+            id="agentOnHoldButton"
+            text={messages.onHold}
+            mouseOverText={messages.resume}
+            type="primaryRed"
+            onClick={this.resumeMe}
+            style={[
+              this.styles.meOnHold,
+              this.context.toolbarMode && this.styles.meOnHoldToolbar,
+            ]}
+          />
+        )}
       </div>
     );
   }

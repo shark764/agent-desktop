@@ -204,7 +204,9 @@ export class Button extends React.Component {
         if (this.props.hasSubButtons) {
           inner = (
             <span>
-              <FormattedMessage {...this.props.text} /> {this.props.children}
+              <FormattedMessage {...this.props.text} /> 
+              {' '}
+              {this.props.children}
             </span>
           );
         } else {

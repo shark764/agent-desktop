@@ -238,13 +238,13 @@ export class ContactInteractionHistory extends React.Component {
             this.props.contactInteractionHistory.results.length <
             this.props.contactInteractionHistory.total
           }
-          loader={
+          loader={(
             <IconSVG
               id="loadingContactHistoryIcon"
               name="loading"
               width="80px"
             />
-          }
+          )}
           useWindow={false}
         >
           {interactions}
@@ -270,7 +270,11 @@ export class ContactInteractionHistory extends React.Component {
         />
       );
     }
-    return <div style={[styles.base, this.props.style]}>{content}</div>;
+    return (
+      <div style={[styles.base, this.props.style]}>
+        {content}
+      </div>
+    );
   }
 }
 
@@ -328,7 +332,8 @@ ContactInteractionHistory.propTypes = {
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(
-    Radium(ContactInteractionHistory)
-  )
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(ContactInteractionHistory))
 );

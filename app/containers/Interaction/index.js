@@ -333,10 +333,10 @@ export class Interaction extends React.Component {
     if (this.props.status === 'work-ended-pending-script') {
       return '100%';
     } else if (this.state.ageSeconds < this.props.targetWrapupTime) {
-      return `${remainingSeconds / this.props.targetWrapupTime * 100}%`;
+      return `${(remainingSeconds / this.props.targetWrapupTime) * 100}%`;
     } else {
-      return `${remainingSeconds /
-        (this.props.wrapupTime - this.props.targetWrapupTime) *
+      return `${(remainingSeconds /
+        (this.props.wrapupTime - this.props.targetWrapupTime)) *
         100}%`;
     }
   };
@@ -486,7 +486,9 @@ export class Interaction extends React.Component {
               <div style={styles.iconContainer} />
               <div style={[styles.mainContainer, { marginLeft: 0 }]}>
                 <div style={styles.headerContainer}>
-                  <div style={styles.from}>{this.getLabel()}</div>
+                  <div style={styles.from}>
+                    {this.getLabel()}
+                  </div>
                 </div>
               </div>
             </div>
@@ -497,18 +499,20 @@ export class Interaction extends React.Component {
               </div>
               {this.context.toolbarMode &&
               this.props.status !== 'wrapup' && (
-                  <div
-                    style={[styles.timerToolbar, { color: this.getTimerColor() }]}
-                  >
-                    {this.getTimer()}
-                  </div>
-                )}
+                <div
+                  style={[styles.timerToolbar, { color: this.getTimerColor() }]}
+                >
+                  {this.getTimer()}
+                </div>
+              )}
             </div>
           )}
         {!this.context.toolbarMode && (
           <div style={styles.mainContainer}>
             <div style={styles.headerContainer}>
-              <div style={styles.from}>{this.props.from}</div>
+              <div style={styles.from}>
+                {this.props.from}
+              </div>
               <div style={[styles.timer, { color: this.getTimerColor() }]}>
                 {this.getTimer()}
               </div>
@@ -544,7 +548,9 @@ export class Interaction extends React.Component {
                 {this.props.from}
               </p>
               {this.props.interaction.contact && (
-                <p style={styles.hoverBoxText}>{this.props.contactPoint}</p>
+                <p style={styles.hoverBoxText}>
+                  {this.props.contactPoint}
+                </p>
               )}
               {this.getDetails()}
               <CancelButton

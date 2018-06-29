@@ -17,14 +17,12 @@ function StatValue(props) {
   if (props.stat.isErrored) {
     value = '-';
   } else {
-    let percent;
     switch (props.stat.statAggregate) {
       case 'count':
         value = props.stat.results.count;
         break;
       case 'percent':
-        percent = props.stat.results.percent;
-        value = `${percent}%`;
+        value = `${props.stat.results.percent}%`;
         break;
       case 'avg':
       case 'max':
@@ -44,7 +42,11 @@ function StatValue(props) {
         value = '-';
     }
   }
-  return <span>{value}</span>;
+  return (
+    <span>
+      {value}
+    </span>
+  );
 }
 
 StatValue.propTypes = {

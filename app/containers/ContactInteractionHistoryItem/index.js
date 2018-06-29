@@ -236,7 +236,9 @@ export class ContactInteractionHistoryItem extends React.Component {
                   id={`transcriptItem${index}`}
                   style={styles.transcriptItem}
                 >
-                  <span style={styles.messageFrom}>{messageFrom}</span>
+                  <span style={styles.messageFrom}>
+                    {messageFrom}
+                  </span>
                   <span style={styles.messageTime}>
                     <FormattedTime
                       value={new Date(Number(transcriptItem.timestamp))}
@@ -323,7 +325,9 @@ export class ContactInteractionHistoryItem extends React.Component {
             if (duration > 0) {
               duration = (
                 <span>
-                  {duration}&nbsp;<FormattedMessage {...messages.minutes} />
+                  {duration}
+                  &nbsp;
+                  <FormattedMessage {...messages.minutes} />
                 </span>
               );
             } else {
@@ -332,7 +336,9 @@ export class ContactInteractionHistoryItem extends React.Component {
                   {moment(segment.conversationEndTimestamp).diff(
                     moment(segment.conversationStartTimestamp),
                     'seconds'
-                  )}&nbsp;<FormattedMessage {...messages.seconds} />
+                  )}
+                  &nbsp;
+                  <FormattedMessage {...messages.seconds} />
                 </span>
               );
             }
@@ -431,13 +437,17 @@ export class ContactInteractionHistoryItem extends React.Component {
               {moment(interaction.startTimestamp).fromNow()}
             </div>
           )}
-          <div>{interaction.directionName}</div>
-          <div>{interaction.lastQueueName}</div>
+          <div>
+            {interaction.directionName}
+          </div>
+          <div>
+            {interaction.lastQueueName}
+          </div>
           {interaction.csat && (
             <div>
-              <FormattedMessage {...messages.customerSatisfaction} />:&nbsp;{
-                interaction.csat
-              }
+              <FormattedMessage {...messages.customerSatisfaction} />
+              :&nbsp;
+              {interaction.csat}
             </div>
           )}
           {interaction.lastDispositionName && (
@@ -455,7 +465,9 @@ export class ContactInteractionHistoryItem extends React.Component {
               {interaction.lastDispositionName}
             </div>
           )}
-          <div>{moment(interaction.startTimestamp).format('LLL')}</div>
+          <div>
+            {moment(interaction.startTimestamp).format('LLL')}
+          </div>
         </div>
         {interactionDetails && (
           <div className="interactionDetails" style={styles.interactionDetails}>
@@ -498,7 +510,8 @@ ContactInteractionHistoryItem.propTypes = {
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(
-    Radium(ContactInteractionHistoryItem)
-  )
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(ContactInteractionHistoryItem))
 );

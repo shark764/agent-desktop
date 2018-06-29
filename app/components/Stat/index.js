@@ -184,52 +184,59 @@ export class Stat extends React.Component {
       >
         {this.props.detailsPosition &&
           this.state.hover && (
+          <div
+            style={[
+              styles.hoverElement,
+              this.props.detailsPosition === 'left' && { left: '-32px' },
+            ]}
+          >
+            <div style={styles.hoverBox}>
+              <div style={styles.hoverHeader}>
+                <FormattedMessage {...messages.source} />
+                  :
+              </div>
+              <div style={styles.hoverData}>
+                {source}
+              </div>
+              <div style={styles.hoverHeader}>
+                <FormattedMessage {...messages.statistic} />
+                  :
+              </div>
+              <div style={styles.hoverData}>
+                {this.props.userFriendlyName}
+              </div>
+              <div style={styles.hoverHeader}>
+                <FormattedMessage {...messages.aggregate} />
+                  :
+              </div>
+              <div style={styles.hoverData}>
+                {aggregate}
+              </div>
+            </div>
             <div
               style={[
-                styles.hoverElement,
-                this.props.detailsPosition === 'left' && { left: '-32px' },
+                styles.hoverBoxTriangle,
+                this.props.detailsPosition === 'left' && { left: '76px' },
               ]}
-            >
-              <div style={styles.hoverBox}>
-                <div style={styles.hoverHeader}>
-                  <FormattedMessage {...messages.source} />:
-                </div>
-                <div style={styles.hoverData}>{source}</div>
-                <div style={styles.hoverHeader}>
-                  <FormattedMessage {...messages.statistic} />:
-                </div>
-                <div style={styles.hoverData}>
-                  {this.props.userFriendlyName}
-                </div>
-                <div style={styles.hoverHeader}>
-                  <FormattedMessage {...messages.aggregate} />:
-                </div>
-                <div style={styles.hoverData}>{aggregate}</div>
-              </div>
-              <div
-                style={[
-                  styles.hoverBoxTriangle,
-                  this.props.detailsPosition === 'left' && { left: '76px' },
-                ]}
-              />
-            </div>
-          )}
+            />
+          </div>
+        )}
         {this.props.detailsPosition &&
           this.state.hover && (
-            <span
-              key={this.props.index}
-              style={[
-                styles.statRemove,
-                this.props.readyState === 'notready' &&
+          <span
+            key={this.props.index}
+            style={[
+              styles.statRemove,
+              this.props.readyState === 'notready' &&
                   styles.statRemoveNotReady,
-              ]}
-              onClick={() => {
-                this.props.removeStat(this.props.stat);
-              }}
-            >
-              <IconSVG id="closeStatIcon" name="close" width="10px" />
-            </span>
-          )}
+            ]}
+            onClick={() => {
+              this.props.removeStat(this.props.stat);
+            }}
+          >
+            <IconSVG id="closeStatIcon" name="close" width="10px" />
+          </span>
+        )}
         <div className="stat-value" style={styles.statValue}>
           {this.props.stat.results || this.props.stat.isErrored ? (
             <StatValue stat={this.props.stat} />

@@ -221,8 +221,8 @@ export class ContactView extends React.Component {
         <div>
           {this.props.showCompactView
             ? this.props.compactLayoutAttributes.attributes.map(
-                this.getAttributeRow
-              )
+              this.getAttributeRow
+            )
             : this.props.layoutSections.map(this.getSection)}
         </div>
       </div>

@@ -219,9 +219,7 @@ exports[`<MessagingTextArea /> should render correctly with message templates 1`
     }
     type="secondary"
   >
-    <span>
-      +
-    </span>
+    +
   </InjectIntl(Button)>
   <style>
     #messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: 0;}

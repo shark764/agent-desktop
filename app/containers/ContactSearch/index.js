@@ -313,15 +313,15 @@ export class ContactSearch extends React.Component {
         {this.props.results.length > 0 &&
           !this.props.loading &&
           !isEditing && (
-            <ContactBulkActions
-              newContact={this.newContact}
-              selectedContacts={this.props.checkedContacts}
-              deleteContacts={this.props.deleteContacts}
-              confirmingDelete={this.props.confirmingDelete}
-              setMerging={this.setMerging}
-              setConfirmingDelete={this.props.setConfirmingDelete}
-            />
-          )}
+          <ContactBulkActions
+            newContact={this.newContact}
+            selectedContacts={this.props.checkedContacts}
+            deleteContacts={this.props.deleteContacts}
+            confirmingDelete={this.props.confirmingDelete}
+            setMerging={this.setMerging}
+            setConfirmingDelete={this.props.setConfirmingDelete}
+          />
+        )}
       </div>
     );
   }
@@ -387,6 +387,9 @@ function mapDispatchToProps(dispatch) {
 
 export default ErrorBoundary(
   injectIntl(
-    connect(mapStateToProps, mapDispatchToProps)(Radium(ContactSearch))
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Radium(ContactSearch))
   )
 );

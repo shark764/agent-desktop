@@ -65,7 +65,9 @@ function ContactHeader(props) {
     return (
       <div style={styles.bannerHeader}>
         <div style={styles.leftGutter} />
-        <div style={styles.bannerHeaderText}>{text}</div>
+        <div style={styles.bannerHeaderText}>
+          {text}
+        </div>
       </div>
     );
   }
