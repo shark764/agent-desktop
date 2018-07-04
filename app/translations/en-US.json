@@ -44,6 +44,7 @@
   "app.containers.AgentStatsMenu.statistic": "Statistic",
   "app.containers.AgentStatsMenu.tenant": "Tenant",
   "app.containers.AgentStatusMenu.activeVoicePath": "Active Voice Pathway",
+  "app.containers.AgentStatusMenu.agent-initiated": "Do Not Disturb Outbound",
   "app.containers.AgentStatusMenu.inbound": "Inbound",
   "app.containers.AgentStatusMenu.logout": "Log Out",
   "app.containers.AgentStatusMenu.logoutBtnText": "Log Out",

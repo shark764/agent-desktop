@@ -1,3 +1,7 @@
+### [1.26.0] (2018-07-04)
+* CXV1-14206 - Added UI for new direction selector
+* CXV1-14209 - Change the direction of functionality from "outbound" to "agent-initiated"
+
 ### [1.25.16] (2018-06-20)
 * CXV1-12423 - Skylight for Zendesk window not properly resizing (SDK version bump)
 

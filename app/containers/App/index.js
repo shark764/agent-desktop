@@ -455,7 +455,7 @@ export class App extends React.Component {
             if (interaction !== undefined) {
               if (
                 !(
-                  interaction.direction === 'outbound' &&
+                  interaction.direction === 'agent-initiated' &&
                   (interaction.channelType === 'sms' ||
                     interaction.channelType === 'email')
                 )
@@ -464,7 +464,7 @@ export class App extends React.Component {
               }
 
               if (
-                interaction.direction === 'outbound' &&
+                interaction.direction === 'agent-initiated' &&
                 (interaction.channelType === 'sms' ||
                   interaction.channelType === 'email')
               ) {

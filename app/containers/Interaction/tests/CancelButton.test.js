@@ -13,7 +13,7 @@ describe('<CancelButton />', () => {
       <CancelButton
         interaction={{
           interactionId: 'mock-interaction-id',
-          direction: 'outbound',
+          direction: 'agent-initiated',
           channelType: 'voice',
           status: 'work-initiated',
           initiatedByCurrentAgent: true,

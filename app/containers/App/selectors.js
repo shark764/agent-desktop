@@ -11,9 +11,10 @@ const agentTenantListSelector = (state) =>
     .get('login')
     .get('agent')
     .get('tenants');
+
 const selectedTenantSelector = (state) => state.get('login').get('tenant');
 
-const getCurrentTenantPermissions = createSelector(
+export const getCurrentTenantPermissions = createSelector(
   agentTenantListSelector,
   selectedTenantSelector,
   (agentTenantsList, selectedTenant) => {
@@ -29,12 +30,10 @@ const getCurrentTenantPermissions = createSelector(
   }
 );
 
-const selectHasCrmPermissions = createSelector(
+export const selectHasCrmPermissions = createSelector(
   getCurrentTenantPermissions,
   (currentTenantPermissions) =>
     crmPermissions.every((permission) =>
       currentTenantPermissions.includes(permission)
     )
 );
-
-export { selectHasCrmPermissions };

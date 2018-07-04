@@ -296,7 +296,7 @@ Button.propTypes = {
   text: PropTypes.any,
   mouseOverText: PropTypes.object,
   iconName: PropTypes.string,
-  children: PropTypes.element,
+  children: PropTypes.any,
   tabIndex: PropTypes.number,
   type: PropTypes.oneOf(possibleTypes),
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),

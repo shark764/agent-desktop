@@ -44,6 +44,7 @@
   "app.containers.AgentStatsMenu.statistic": "Statistique",
   "app.containers.AgentStatsMenu.tenant": "Client",
   "app.containers.AgentStatusMenu.activeVoicePath": "Trajet de conversation actif",
+  "app.containers.AgentStatusMenu.agent-initiated": "",
   "app.containers.AgentStatusMenu.inbound": "Entrant",
   "app.containers.AgentStatusMenu.logout": "Déconnexion",
   "app.containers.AgentStatusMenu.logoutBtnText": "",

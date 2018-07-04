@@ -78,7 +78,7 @@ export class ActionsMenu extends React.Component {
     if (
       e.which === 27 &&
       this.state.showTransferMenu === true &&
-      this.props.interaction.direction !== 'outbound' &&
+      this.props.interaction.direction !== 'agent-initiated' &&
       this.props.interaction.status !== 'wrapup'
     ) {
       this.toggleTransferMenu();
@@ -158,7 +158,7 @@ export class ActionsMenu extends React.Component {
               />
             )}
             {this.props.interaction.channelType !== 'voice' &&
-              this.props.interaction.direction !== 'outbound' &&
+              this.props.interaction.direction !== 'agent-initiated' &&
               this.props.interaction.status !== 'wrapup' && (
               <Button
                 style={styles.toolbarActionsButtons}

@@ -723,7 +723,7 @@ export class ContentArea extends React.Component {
       this.props.removeInteraction(this.props.interaction.interactionId);
     } else if (
       this.props.interaction.channelType === 'email' &&
-      this.props.interaction.direction === 'outbound'
+      this.props.interaction.direction === 'agent-initiated'
     ) {
       CxEngage.interactions.sendCustomInterrupt(
         {

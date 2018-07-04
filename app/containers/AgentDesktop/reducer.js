@@ -703,7 +703,7 @@ function agentDesktopReducer(state = initialState, action) {
             action.channelType === 'voice' ? true : undefined,
           // voice interactions have their timeAccepted set when they have their status set to 'work-accepting'
           timeAccepted: action.channelType !== 'voice' ? Date.now() : undefined,
-          direction: 'outbound',
+          direction: 'agent-initiated',
           status: 'connecting-to-outbound',
           contactMode: action.contact !== undefined ? 'view' : 'search',
         })
@@ -771,7 +771,7 @@ function agentDesktopReducer(state = initialState, action) {
       // Don't re-add outbound Email interaction. It was already added by START_OUTBOUND_EMAIL.
       if (
         !(
-          action.response.direction === 'outbound' &&
+          action.response.direction === 'agent-initiated' &&
           (action.response.channelType === 'sms' ||
             action.response.channelType === 'email')
         )
@@ -781,7 +781,7 @@ function agentDesktopReducer(state = initialState, action) {
           .get('interactions')
           .findIndex((interaction) => {
             if (
-              action.response.direction === 'outbound' &&
+              action.response.direction === 'agent-initiated' &&
               action.response.channelType === 'voice'
             ) {
               return (
