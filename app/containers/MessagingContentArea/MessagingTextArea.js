@@ -156,67 +156,71 @@ export class MessagingTextArea extends React.Component {
 
   handleKeyDown = (e) => {
     if (e.key === 'ArrowUp') {
-      let newSelectedMessageTemplateIndex = this.state
-        .selectedMessageTemplateIndex;
-      if (!this.state.showMessageTemplateMenuByForwardSlash) {
-        newSelectedMessageTemplateIndex =
-          this.state.selectedMessageTemplateIndex > 0
-            ? this.state.selectedMessageTemplateIndex - 1
-            : 0;
-      } else {
-        // If we're filtering based on "/" text, select the previous unfiltered one
-        for (
-          let i = this.state.selectedMessageTemplateIndex - 1;
-          i >= 0;
-          i -= 1
-        ) {
-          if (
-            this.props.messageTemplates[i].name
-              .toUpperCase()
-              .includes(this.state.messageTemplateFilter.toUpperCase())
+      this.setState((prevState) => {
+        let newSelectedMessageTemplateIndex =
+          prevState.selectedMessageTemplateIndex;
+        if (!prevState.showMessageTemplateMenuByForwardSlash) {
+          newSelectedMessageTemplateIndex =
+            prevState.selectedMessageTemplateIndex > 0
+              ? prevState.selectedMessageTemplateIndex - 1
+              : 0;
+        } else {
+          // If we're filtering based on "/" text, select the previous unfiltered one
+          for (
+            let i = prevState.selectedMessageTemplateIndex - 1;
+            i >= 0;
+            i -= 1
           ) {
-            newSelectedMessageTemplateIndex = i;
-            break;
+            if (
+              this.props.messageTemplates[i].name
+                .toUpperCase()
+                .includes(prevState.messageTemplateFilter.toUpperCase())
+            ) {
+              newSelectedMessageTemplateIndex = i;
+              break;
+            }
           }
         }
-      }
-      this[
-        `messageTemplate-${newSelectedMessageTemplateIndex}`
-      ].scrollIntoView();
-      this.setState({
-        selectedMessageTemplateIndex: newSelectedMessageTemplateIndex,
+        this[
+          `messageTemplate-${newSelectedMessageTemplateIndex}`
+        ].scrollIntoView();
+        return {
+          selectedMessageTemplateIndex: newSelectedMessageTemplateIndex,
+        };
       });
     } else if (e.key === 'ArrowDown') {
-      let newSelectedMessageTemplateIndex = this.state
-        .selectedMessageTemplateIndex;
-      if (!this.state.showMessageTemplateMenuByForwardSlash) {
-        newSelectedMessageTemplateIndex =
-          this.state.selectedMessageTemplateIndex <
-          this.props.messageTemplates.length - 1
-            ? this.state.selectedMessageTemplateIndex + 1
-            : this.state.selectedMessageTemplateIndex;
-      } else {
-        // If we're filtering based on "/" text, select the next unfiltered one
-        for (
-          let i = this.state.selectedMessageTemplateIndex + 1;
-          i < this.props.messageTemplates.length;
-          i += 1
-        ) {
-          if (
-            this.props.messageTemplates[i].name
-              .toUpperCase()
-              .includes(this.state.messageTemplateFilter.toUpperCase())
+      this.setState((prevState) => {
+        let newSelectedMessageTemplateIndex =
+          prevState.selectedMessageTemplateIndex;
+        if (!prevState.showMessageTemplateMenuByForwardSlash) {
+          newSelectedMessageTemplateIndex =
+            prevState.selectedMessageTemplateIndex <
+            this.props.messageTemplates.length - 1
+              ? prevState.selectedMessageTemplateIndex + 1
+              : prevState.selectedMessageTemplateIndex;
+        } else {
+          // If we're filtering based on "/" text, select the next unfiltered one
+          for (
+            let i = prevState.selectedMessageTemplateIndex + 1;
+            i < this.props.messageTemplates.length;
+            i += 1
           ) {
-            newSelectedMessageTemplateIndex = i;
-            break;
+            if (
+              this.props.messageTemplates[i].name
+                .toUpperCase()
+                .includes(prevState.messageTemplateFilter.toUpperCase())
+            ) {
+              newSelectedMessageTemplateIndex = i;
+              break;
+            }
           }
         }
-      }
-      this[
-        `messageTemplate-${newSelectedMessageTemplateIndex}`
-      ].scrollIntoView();
-      this.setState({
-        selectedMessageTemplateIndex: newSelectedMessageTemplateIndex,
+        this[
+          `messageTemplate-${newSelectedMessageTemplateIndex}`
+        ].scrollIntoView();
+        return {
+          selectedMessageTemplateIndex: newSelectedMessageTemplateIndex,
+        };
       });
     } else if (e.key === 'Enter') {
       this.addMessageTemplate();
@@ -276,13 +280,13 @@ export class MessagingTextArea extends React.Component {
           break;
         }
       }
-      this.setState({
+      this.setState((prevState) => ({
         messageTemplateFilter: newMessageTemplateFilter,
         selectedMessageTemplateIndex:
           newSelectedMessageTemplateIndex !== undefined
             ? newSelectedMessageTemplateIndex
-            : this.state.selectedMessageTemplateIndex,
-      });
+            : prevState.selectedMessageTemplateIndex,
+      }));
     }
     this.props.saveMesssageState(
       this.props.selectedInteraction.interactionId,

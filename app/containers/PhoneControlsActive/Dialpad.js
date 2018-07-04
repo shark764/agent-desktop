@@ -31,9 +31,9 @@ export class Dialpad extends React.PureComponent {
   };
 
   toggleDialpad = () => {
-    this.setState({
-      showActiveInteractionDialpad: !this.state.showActiveInteractionDialpad,
-    });
+    this.setState((prevState) => ({
+      showActiveInteractionDialpad: !prevState.showActiveInteractionDialpad,
+    }));
   };
 
   renderDialpad = () => {

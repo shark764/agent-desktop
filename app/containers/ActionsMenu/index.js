@@ -20,7 +20,7 @@ import TransferMenu from 'containers/TransferMenu';
 import Button from 'components/Button';
 import WrapUpToggle from 'components/WrapUpToggle';
 
-import { buttonConfigPropTypes } from 'containers/ContentArea';
+import ButtonConfigPropTypes from 'containers/ContentArea/propTypes';
 
 // Messages:
 import messages from './messages';
@@ -109,11 +109,13 @@ export class ActionsMenu extends React.Component {
   // Methods:
   toggleSubMenu = () => {
     this.setState({ showTransferMenu: false });
-    this.setState({ showSubMenu: !this.state.showSubMenu });
+    this.setState((prevState) => ({ showSubMenu: !prevState.showSubMenu }));
   };
 
   toggleTransferMenu = () => {
-    this.setState({ showTransferMenu: !this.state.showTransferMenu });
+    this.setState((prevState) => ({
+      showTransferMenu: !prevState.showTransferMenu,
+    }));
   };
 
   // FinalRender:
@@ -203,7 +205,7 @@ export class ActionsMenu extends React.Component {
 // PropTypes:
 ActionsMenu.propTypes = {
   interaction: PropTypes.object.isRequired,
-  buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes)),
+  buttonConfig: PropTypes.arrayOf(PropTypes.shape(ButtonConfigPropTypes)),
 };
 
 // ContextTypes:

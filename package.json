@@ -13,9 +13,6 @@
   "author": "Serenova",
   "license": "UNLICENSED",
   "scripts": {
-    "analyze:clean": "rimraf stats.json",
-    "preanalyze": "npm run analyze:clean",
-    "analyze": "node ./internals/scripts/analyze.js",
     "extract-intl": "babel-node --presets latest,stage-0 -- ./internals/scripts/extract-intl.js",
     "npmcheckversion": "node ./internals/scripts/npmcheckversion.js",
     "preinstall": "npm run npmcheckversion",
@@ -29,9 +26,6 @@
     "start:tunnel": "cross-env NODE_ENV=development ENABLE_TUNNEL=true node server",
     "start:production": "npm run build && npm run start:prod",
     "start:prod": "cross-env NODE_ENV=production node server",
-    "pagespeed": "node ./internals/scripts/pagespeed.js",
-    "clean": "shjs ./internals/scripts/clean.js",
-    "clean:all": "npm run analyze:clean && npm run test:clean && npm run build:clean",
     "generate": "plop --plopfile internals/generators/index.js",
     "lint": "eslint --ignore-path .eslintignore .",
     "lint:staged": "lint-staged",
@@ -40,7 +34,8 @@
     "test": "cross-env NODE_ENV=test jest --coverage",
     "test:file": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
-    "zendesk": "bash tasks/zendesk.sh"
+    "zendesk": "bash tasks/zendesk.sh",
+    "precommit": "npm run lint:staged && npm test"
   },
   "lint-staged": {
     "*.js": [
@@ -77,10 +72,6 @@
       "enzyme-to-json/serializer"
     ]
   },
-  "pre-commit": [
-    "lint:staged",
-    "test"
-  ],
   "babel": {
     "presets": [
       [
@@ -176,8 +167,6 @@
         }
       ],
       "no-else-return": 0,
-      "react/no-unused-state": 1,
-      "no-restricted-globals": 1,
       "jsx-a11y/anchor-has-content": 0,
       "jsx-a11y/aria-props": 2,
       "jsx-a11y/anchor-is-valid": 0,
@@ -206,7 +195,6 @@
       "no-console": 0,
       "no-use-before-define": 0,
       "prefer-template": 2,
-      "class-methods-use-this": 0,
       "react/forbid-prop-types": 0,
       "react/jsx-first-prop-new-line": [
         2,
@@ -215,17 +203,12 @@
       "react/jsx-filename-extension": 0,
       "react/jsx-no-target-blank": 0,
       "react/no-array-index-key": 1,
-      "react/no-danger": 0,
       "react/require-default-props": 0,
       "react/require-extension": 0,
-      "react/self-closing-comp": 0,
       "redux-saga/no-yield-in-race": 2,
       "redux-saga/yield-effects": 2,
       "react/sort-comp": 0,
-      "require-yield": 0,
-      "react/destructuring-assignment": 0,
-      "react/no-access-state-in-setstate": 1,
-      "import/no-cycle": 1
+      "react/destructuring-assignment": 0
     },
     "settings": {
       "import/resolver": {
@@ -346,6 +329,7 @@
     "file-loader": "1.1.11",
     "html-loader": "0.5.5",
     "html-webpack-plugin": "2.30.1",
+    "husky": "0.14.3",
     "image-webpack-loader": "3.4.2",
     "imports-loader": "0.8.0",
     "jest": "21.2.1",
@@ -356,9 +340,7 @@
     "null-loader": "0.1.1",
     "plop": "2.0.0",
     "postcss-loader": "2.1.5",
-    "pre-commit": "1.2.2",
     "prettier-eslint-cli": "4.7.1",
-    "psi": "3.1.0",
     "rimraf": "2.6.2",
     "shelljs": "0.8.2",
     "style-loader": "0.21.0",

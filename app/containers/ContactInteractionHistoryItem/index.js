@@ -274,7 +274,7 @@ export class ContactInteractionHistoryItem extends React.Component {
   };
 
   render() {
-    const interaction = this.props.interaction;
+    const { interaction } = this.props;
     let interactionDetails;
     const expandedView = this.props.interactionIndex === undefined;
     if (interaction.interactionDetails === 'loading') {

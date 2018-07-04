@@ -225,7 +225,7 @@ export class ContactSearchBar extends React.Component {
         pendingFilter: this.getSearchableAttributes().find(
           (filter) => this.getLabel(filter) === itemName
         ),
-        autoCompleteValue: '',
+        autocompleteValue: '',
       },
       this.props.focusSearchInputElement
     );

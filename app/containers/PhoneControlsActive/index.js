@@ -42,9 +42,9 @@ export class PhoneControlsActive extends React.Component {
   }
 
   toggleActiveResourcesMenu = () => {
-    this.setState({
-      showActiveResourcesMenu: !this.state.showActiveResourcesMenu,
-    });
+    this.setState((prevState) => ({
+      showActiveResourcesMenu: !prevState.showActiveResourcesMenu,
+    }));
   };
 
   resumeAll = () => {
@@ -148,15 +148,10 @@ export class PhoneControlsActive extends React.Component {
     let warmTransfers;
     if (this.props.activeVoiceInteraction.warmTransfers.length > 0) {
       const warmTransfersMapped = this.props.activeVoiceInteraction.warmTransfers.map(
-        (warmTransfer, index) => (
+        (warmTransfer) => (
           // the index being appended to the key is a temporary anti-pattern to protect us from
           // duplicate keys now that queues and resource ID's both live in the props,
           <TransferResource
-            key={`${
-              warmTransfer.targetResource
-                ? warmTransfer.targetResource
-                : warmTransfer.id
-            }_${index}`}
             activeVoiceInteraction={this.props.activeVoiceInteraction}
             resource={warmTransfer}
           />

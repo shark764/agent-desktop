@@ -16,7 +16,7 @@ import TransferMenu from 'containers/TransferMenu';
 import Button from 'components/Button';
 import WrapUpToggle from 'components/WrapUpToggle';
 
-import { buttonConfigPropTypes } from 'containers/ContentArea';
+import ButtonConfigPropTypes from 'containers/ContentArea/propTypes';
 
 import messages from './messages';
 
@@ -101,7 +101,9 @@ class DesktopActionsButtons extends React.Component {
   }
 
   toggleTransferMenu = () => {
-    this.setState({ showTransferMenu: !this.state.showTransferMenu });
+    this.setState((prevState) => ({
+      showTransferMenu: !prevState.showTransferMenu,
+    }));
   };
 
   render() {
@@ -171,7 +173,7 @@ class DesktopActionsButtons extends React.Component {
 
 DesktopActionsButtons.propTypes = {
   interaction: PropTypes.object.isRequired,
-  buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes)),
+  buttonConfig: PropTypes.arrayOf(PropTypes.shape(ButtonConfigPropTypes)),
 };
 
 export default DesktopActionsButtons;

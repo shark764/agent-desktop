@@ -94,7 +94,7 @@ export class ContactMerge extends React.Component {
   };
 
   selectAttribute = (event) => {
-    const name = event.currentTarget.name;
+    const { name } = event.currentTarget;
     const attribute = this.props.attributes.find(
       (attr) => attr.objectName === name
     );
@@ -485,5 +485,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default ErrorBoundary(
-  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactMerge)))
+  injectIntl(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Radium(ContactMerge))
+  )
 );

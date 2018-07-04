@@ -252,10 +252,7 @@ export class Login extends React.Component {
       expiredSessionReauth: storage.getItem(REAUTH_POPUP_OPTIONS)
         ? JSON.parse(storage.getItem(REAUTH_POPUP_OPTIONS))
         : {},
-      deepLinksParamList: null,
       deepLinksAuthInfo: null,
-      // idpId may be used later
-      idpId: '', // eslint-disable-line react/no-unused-state
       ssoPopupBlocked: false,
       makeDefaultTenant: false,
     };
@@ -696,12 +693,10 @@ export class Login extends React.Component {
     this.setState({ ssoEmail });
   };
 
-  setLoginType = (loginType) => {
-    this.setState({ loginType });
-  };
-
   toggleMakeDefaultTenant = () => {
-    this.setState({ makeDefaultTenant: !this.state.makeDefaultTenant });
+    this.setState((prevState) => ({
+      makeDefaultTenant: !prevState.makeDefaultTenant,
+    }));
   };
 
   setRememberEmail = (rememberEmail) => {
@@ -730,7 +725,7 @@ export class Login extends React.Component {
   };
 
   toggleLanguageMenu = () => {
-    this.setState({ showLanguage: !this.state.showLanguage });
+    this.setState((prevState) => ({ showLanguage: !prevState.showLanguage }));
   };
 
   // Display States
@@ -765,10 +760,6 @@ export class Login extends React.Component {
     // the stateProperties params object updates the local state, which
     // many of the other methods in this component rely upon
     let stateProperties = {};
-
-    this.setState({
-      deepLinksParamList: getDeepLinkLogin(),
-    });
 
     switch (getDeepLinkLogin()) {
       case DEEPLINK_USERNAME_TENANTID: {

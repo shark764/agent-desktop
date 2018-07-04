@@ -91,9 +91,9 @@ export class TransferMenu extends React.Component {
         this.setState({ focusedElementIndex: lastTransferItem });
       } else {
         availableTransferItems[this.state.focusedElementIndex - 1].focus();
-        this.setState({
-          focusedElementIndex: this.state.focusedElementIndex - 1,
-        });
+        this.setState((prevState) => ({
+          focusedElementIndex: prevState.focusedElementIndex - 1,
+        }));
       }
     }
     // 40 is down arrow
@@ -106,9 +106,9 @@ export class TransferMenu extends React.Component {
         this.setState({ focusedElementIndex: 0 });
       } else {
         availableTransferItems[this.state.focusedElementIndex + 1].focus();
-        this.setState({
-          focusedElementIndex: this.state.focusedElementIndex + 1,
-        });
+        this.setState((prevState) => ({
+          focusedElementIndex: prevState.focusedElementIndex + 1,
+        }));
       }
     }
     // 13 is enter key
@@ -804,9 +804,9 @@ export class TransferMenu extends React.Component {
               }
               active={false}
               onClick={() =>
-                this.setState({
-                  showTransferListDialpad: !this.state.showTransferListDialpad,
-                })
+                this.setState((prevState) => ({
+                  showTransferListDialpad: !prevState.showTransferListDialpad,
+                }))
               }
               style={this.styles.dialpadButton}
             />

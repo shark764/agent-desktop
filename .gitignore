@@ -3,15 +3,4 @@ coverage
 build
 node_modules
 stats.json
-app/index.html.bk
 .vscode
-
-# Cruft
-.DS_Store
-npm-debug.log
-.idea
-yarn-error.log
-
-# Floobits
-.floo
-.flooignore
