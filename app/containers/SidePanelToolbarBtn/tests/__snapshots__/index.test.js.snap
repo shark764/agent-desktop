@@ -78,7 +78,7 @@ exports[`<SidePanelToolbarBtn /> should render correctly 1`] = `
             dangerouslySetInnerHTML={
               Object {
                 "__html": ".st3{fill:none;stroke:#4B4B4B;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
-              .st4{fill:none;stroke:#4B4B4B;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}",
+            .st4{fill:none;stroke:#4B4B4B;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}",
               }
             }
             key=".0"

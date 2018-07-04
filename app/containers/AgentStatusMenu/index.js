@@ -155,7 +155,9 @@ export class AgentStatusMenu extends React.Component {
 
   clearHover = () => {
     // Longstanding radium bug where mouseleave event is never triggered https://github.com/FormidableLabs/radium/issues/524
-    this.setState({ clearHoverInt: this.state.clearHoverInt + 1 });
+    this.setState((prevState) => ({
+      clearHoverInt: prevState.clearHoverInt + 1,
+    }));
   };
 
   changePresence = (newPresence, reason, listId) => {

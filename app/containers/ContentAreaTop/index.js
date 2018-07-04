@@ -32,7 +32,7 @@ import {
   getSelectedInteraction,
 } from 'containers/AgentDesktop/selectors';
 
-import { buttonConfigPropTypes } from 'containers/ContentArea';
+import ButtonConfigPropTypes from 'containers/ContentArea/propTypes';
 
 // Styles:
 const styles = {
@@ -64,72 +64,65 @@ const styles = {
   },
 };
 
-export class ContentAreaTop extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+export function ContentAreaTop(props, context) {
+  // This is all to solve the overflow ellipsis issue in the from container
+  let sidePanelHasTabs = false;
+  if (
+    (props.hasCrmPermissions && !context.toolbarMode) ||
+    (props.selectedInteractionHasScripts &&
+      !props.selectedInteractionIsScriptOnly &&
+      !props.selectedInteractionIsVoice) ||
+    props.hasAssignedContact
+  ) {
+    sidePanelHasTabs = true;
   }
 
-  render() {
-    // This is all to solve the overflow ellipsis issue in the from container
-    let sidePanelHasTabs = false;
-    if (
-      (this.props.hasCrmPermissions && !this.context.toolbarMode) ||
-      (this.props.selectedInteractionHasScripts &&
-        !this.props.selectedInteractionIsScriptOnly &&
-        !this.props.selectedInteractionIsVoice) ||
-      this.props.hasAssignedContact
-    ) {
-      sidePanelHasTabs = true;
-    }
+  let sidePanelSpacingInPx = 0;
+  if (sidePanelHasTabs && !props.isSidePanelCollapsed) {
+    sidePanelSpacingInPx += props.sidePanelPx;
+  }
+  if (!context.toolbarMode) {
+    sidePanelSpacingInPx += 283;
+  } else if (!props.isInteractionsBarCollapsed) {
+    sidePanelSpacingInPx += 72;
+  }
 
-    let sidePanelSpacingInPx = 0;
-    if (sidePanelHasTabs && !this.props.isSidePanelCollapsed) {
-      sidePanelSpacingInPx += this.props.sidePanelPx;
-    }
-    if (!this.context.toolbarMode) {
-      sidePanelSpacingInPx += 283;
-    } else if (!this.props.isInteractionsBarCollapsed) {
-      sidePanelSpacingInPx += 72;
-    }
-
-    return (
-      <div
-        style={[
-          styles.fromButtonsContainer,
-          {
-            minWidth: '290px',
-            maxWidth: `calc(100vw - ${sidePanelSpacingInPx}px - 30px)`,
-          },
-        ]}
-      >
-        <div style={styles.from} title={this.props.from}>
-          {this.props.from}
-        </div>
-        <div style={{ marginLeft: 'auto' }}>
-          {this.props.interaction.status !== 'work-ended-pending-script' &&
-            (!this.context.toolbarMode ? (
-              <DesktopActionsButtons
-                interaction={this.props.interaction}
-                buttonConfig={this.props.buttonConfig}
-              />
-            ) : (
-              <ActionsMenu
-                interaction={this.props.interaction}
-                buttonConfig={this.props.buttonConfig}
-              />
-            ))}
-        </div>
-        <SidePanelToolbarBtn />
+  return (
+    <div
+      style={[
+        styles.fromButtonsContainer,
+        {
+          minWidth: '290px',
+          maxWidth: `calc(100vw - ${sidePanelSpacingInPx}px - 30px)`,
+        },
+      ]}
+    >
+      <div style={styles.from} title={props.from}>
+        {props.from}
       </div>
-    );
-  }
+      <div style={{ marginLeft: 'auto' }}>
+        {props.interaction.status !== 'work-ended-pending-script' &&
+          (!context.toolbarMode ? (
+            <DesktopActionsButtons
+              interaction={props.interaction}
+              buttonConfig={props.buttonConfig}
+            />
+          ) : (
+            <ActionsMenu
+              interaction={props.interaction}
+              buttonConfig={props.buttonConfig}
+            />
+          ))}
+      </div>
+      <SidePanelToolbarBtn />
+    </div>
+  );
 }
 
 ContentAreaTop.propTypes = {
   interaction: PropTypes.object.isRequired,
   from: PropTypes.node,
-  buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes)),
+  buttonConfig: PropTypes.arrayOf(PropTypes.shape(ButtonConfigPropTypes)),
   hasCrmPermissions: PropTypes.bool,
   selectedInteractionIsScriptOnly: PropTypes.bool,
   selectedInteractionIsVoice: PropTypes.bool,

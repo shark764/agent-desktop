@@ -362,13 +362,13 @@ export class EmailContentArea extends React.Component {
     if (e.keyCode === 188) {
       e.preventDefault();
       if (isValidEmail(this.state.toInput)) {
-        this.setState({
-          tos: this.state.tos.concat({
-            name: this.state.toInput,
-            address: this.state.toInput,
+        this.setState((prevState) => ({
+          tos: prevState.tos.concat({
+            name: prevState.toInput,
+            address: prevState.toInput,
           }),
           toInput: '',
-        });
+        }));
       }
       return false;
     } else {
@@ -380,13 +380,13 @@ export class EmailContentArea extends React.Component {
     if (e.keyCode === 188) {
       e.preventDefault();
       if (isValidEmail(this.state.ccInput)) {
-        this.setState({
-          ccs: this.state.ccs.concat({
-            name: this.state.ccInput,
-            address: this.state.ccInput,
+        this.setState((prevState) => ({
+          ccs: prevState.ccs.concat({
+            name: prevState.ccInput,
+            address: prevState.ccInput,
           }),
           ccInput: '',
-        });
+        }));
       }
       return false;
     } else {
@@ -398,13 +398,13 @@ export class EmailContentArea extends React.Component {
     if (e.keyCode === 188) {
       e.preventDefault();
       if (isValidEmail(this.state.bccInput)) {
-        this.setState({
-          bccs: this.state.bccs.concat({
-            name: this.state.bccInput,
-            address: this.state.bccInput,
+        this.setState((prevState) => ({
+          bccs: prevState.bccs.concat({
+            name: prevState.bccInput,
+            address: prevState.bccInput,
           }),
           bccInput: '',
-        });
+        }));
       }
       return false;
     } else {
@@ -414,56 +414,56 @@ export class EmailContentArea extends React.Component {
 
   onBlurAddTo = () => {
     if (isValidEmail(this.state.toInput)) {
-      this.setState({
-        tos: this.state.tos.concat({
-          name: this.state.toInput,
-          address: this.state.toInput,
+      this.setState((prevState) => ({
+        tos: prevState.tos.concat({
+          name: prevState.toInput,
+          address: prevState.toInput,
         }),
         toInput: '',
-      });
+      }));
     }
   };
 
   onBlurAddCc = () => {
     if (isValidEmail(this.state.ccInput)) {
-      this.setState({
-        ccs: this.state.ccs.concat({
-          name: this.state.ccInput,
-          address: this.state.ccInput,
+      this.setState((prevState) => ({
+        ccs: prevState.ccs.concat({
+          name: prevState.ccInput,
+          address: prevState.ccInput,
         }),
         ccInput: '',
-      });
+      }));
     }
   };
 
   onBlurAddBcc = () => {
     if (isValidEmail(this.state.bccInput)) {
-      this.setState({
-        bccs: this.state.bccs.concat({
-          name: this.state.bccInput,
-          address: this.state.bccInput,
+      this.setState((prevState) => ({
+        bccs: prevState.bccs.concat({
+          name: prevState.bccInput,
+          address: prevState.bccInput,
         }),
         bccInput: '',
-      });
+      }));
     }
   };
 
   removeTo = (toRemove) => {
-    this.setState({
-      tos: this.state.tos.filter((to) => to !== toRemove),
-    });
+    this.setState((prevState) => ({
+      tos: prevState.tos.filter((to) => to !== toRemove),
+    }));
   };
 
   removeCc = (ccRemove) => {
-    this.setState({
-      ccs: this.state.ccs.filter((cc) => cc !== ccRemove),
-    });
+    this.setState((prevState) => ({
+      ccs: prevState.ccs.filter((cc) => cc !== ccRemove),
+    }));
   };
 
   removeBcc = (bccRemove) => {
-    this.setState({
-      bccs: this.state.bccs.filter((bcc) => bcc !== bccRemove),
-    });
+    this.setState((prevState) => ({
+      bccs: prevState.bccs.filter((bcc) => bcc !== bccRemove),
+    }));
   };
 
   addFilesToEmail = (fileList) => {

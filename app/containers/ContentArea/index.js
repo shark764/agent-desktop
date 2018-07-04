@@ -16,7 +16,6 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import Radium from 'radium';
 
 import { isUUID } from 'utils/validator';
-
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import Resizable from 'components/Resizable';
@@ -36,6 +35,7 @@ import {
   selectCrmModule,
 } from 'containers/AgentDesktop/selectors';
 
+import ButtonConfigPropTypes from './propTypes';
 import CrmRecordNotification from './CrmRecordNotification';
 import messages from './messages';
 
@@ -80,13 +80,13 @@ export class ContentArea extends React.Component {
     const height = this.contenAreaTopPx.clientHeight;
     const heightWin = window.innerHeight;
     const newMaxPx = Math.round(heightWin - height - 135);
-    this.setState({
+    this.setState((prevState) => ({
       maxPx: newMaxPx,
       notesPanelHeight:
-        this.state.notesPanelHeight > newMaxPx
+        prevState.notesPanelHeight > newMaxPx
           ? newMaxPx
-          : this.state.notesPanelHeight,
-    });
+          : prevState.notesPanelHeight,
+    }));
   };
 
   componentDidMount() {
@@ -586,9 +586,9 @@ export class ContentArea extends React.Component {
           this.props.interaction.status !== 'work-ended-pending-script' && [
           <div
             onClick={() =>
-              this.setState({
-                showDispositionsList: !this.state.showDispositionsList,
-              })
+              this.setState((prevState) => ({
+                showDispositionsList: !prevState.showDispositionsList,
+              }))
             }
             key="new-label-button"
             id="new-label-button"
@@ -892,28 +892,11 @@ export class ContentArea extends React.Component {
   }
 }
 
-export const buttonConfigPropTypes = {
-  text: PropTypes.any,
-  mouseOverText: PropTypes.object,
-  iconName: PropTypes.string,
-  children: PropTypes.element,
-  tabIndex: PropTypes.number,
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  clear: PropTypes.bool,
-  disabled: PropTypes.bool,
-  onClick: PropTypes.func,
-  id: PropTypes.string.isRequired,
-  hasSubButtons: PropTypes.bool,
-  isSelected: PropTypes.bool,
-  tooltipText: PropTypes.object,
-  tooltipOffset: PropTypes.string,
-};
-
 ContentArea.propTypes = {
   intl: intlShape.isRequired,
   interaction: PropTypes.object.isRequired,
   from: PropTypes.node,
-  buttonConfig: PropTypes.arrayOf(PropTypes.shape(buttonConfigPropTypes)),
+  buttonConfig: PropTypes.arrayOf(PropTypes.shape(ButtonConfigPropTypes)),
   details: PropTypes.node.isRequired,
   content: PropTypes.node,
   crmModule: PropTypes.string,

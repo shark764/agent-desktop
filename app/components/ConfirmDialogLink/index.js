@@ -34,7 +34,9 @@ class ConfirmDialogLink extends React.Component {
   }
 
   toggleShowConfirmDialog = () => {
-    this.setState({ showConfirmDialog: !this.state.showConfirmDialog });
+    this.setState((prevState) => ({
+      showConfirmDialog: !prevState.showConfirmDialog,
+    }));
   };
 
   leftAction = () => {

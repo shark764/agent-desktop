@@ -176,8 +176,12 @@ pipeline {
     always {
       script {
         c.cleanup()
+        try {
+          sh "docker rmi ${docker_tag}"
+        } catch (Exception e) {
+          sh "echo 'WARN: The docker image we tried to remove does not exist. Continuing.'"
+        }
       }
-      sh "docker rmi ${docker_tag}"
     }
   }
 }

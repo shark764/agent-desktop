@@ -176,6 +176,7 @@ function IconSVG(props) {
         >
           <style
             type="text/css"
+            // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: `.st3{fill:none;stroke:${
                 props.color

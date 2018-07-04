@@ -55,7 +55,8 @@ export function* getInteraction(interactionId) {
   } else {
     const interactionsList = yield select(selectInteractionsList);
     const interactionMap = interactionsList.find(
-      (listInteraction) => listInteraction.get('interactionId') === interactionId
+      (listInteraction) =>
+        listInteraction.get('interactionId') === interactionId
     );
     interaction = interactionMap && interactionMap.toJS();
   }
@@ -76,7 +77,7 @@ export function* goEditContact(action) {
     sectionIndex < layoutSections.length;
     sectionIndex += 1
   ) {
-    const attributes = layoutSections[sectionIndex].attributes;
+    const { attributes } = layoutSections[sectionIndex];
     for (
       let attributeIndex = 0;
       attributeIndex < attributes.length;
@@ -194,7 +195,7 @@ export function* goAddContactErrorNotification(action) {
 export function* goSubmitContactCreate(action) {
   const interaction = yield call(getInteraction, action.interactionId);
   const targetContactForm = interaction.activeContactForm;
-  const contactForm = targetContactForm.contactForm;
+  const { contactForm } = targetContactForm;
   yield put(setContactSaveLoading(action.interactionId, true));
   try {
     const createdContact = yield call(
@@ -223,7 +224,7 @@ export function* goSubmitContactCreate(action) {
 export function* goSubmitContactEdit(action) {
   const interaction = yield call(getInteraction, action.interactionId);
   const targetContactForm = interaction.activeContactForm;
-  const contactForm = targetContactForm.contactForm;
+  const { contactForm } = targetContactForm;
   const originalContacts = targetContactForm.editingContacts;
   yield put(setContactSaveLoading(action.interactionId, true));
   try {
@@ -256,7 +257,7 @@ export function* goSubmitContactEdit(action) {
 export function* goSubmitContactMerge(action) {
   const interaction = yield call(getInteraction, action.interactionId);
   const targetContactForm = interaction.activeContactForm;
-  const contactForm = targetContactForm.contactForm;
+  const { contactForm } = targetContactForm;
   const originalContacts = targetContactForm.editingContacts;
   yield put(setContactSaveLoading(action.interactionId, true));
   try {

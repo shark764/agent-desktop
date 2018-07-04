@@ -54,7 +54,7 @@ class MenuDialogLink extends React.Component {
   }
 
   toggleDialog = () => {
-    this.setState({ showDialog: !this.state.showDialog });
+    this.setState((prevState) => ({ showDialog: !prevState.showDialog }));
   };
 
   handleButtonAction = (buttonAction) => {
