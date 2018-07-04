@@ -71,6 +71,7 @@ export class ActionsMenu extends React.Component {
       showSubMenu: false,
     };
   }
+
   // HotKeys:
   hotKeys = (e) => {
     // 27 is letter T on the keyboard
@@ -100,6 +101,7 @@ export class ActionsMenu extends React.Component {
   componentWillMount() {
     document.addEventListener('keydown', this.hotKeys);
   }
+
   componentWillUnmount() {
     document.removeEventListener('keydown', this.hotKeys);
   }
@@ -109,9 +111,11 @@ export class ActionsMenu extends React.Component {
     this.setState({ showTransferMenu: false });
     this.setState({ showSubMenu: !this.state.showSubMenu });
   };
+
   toggleTransferMenu = () => {
     this.setState({ showTransferMenu: !this.state.showTransferMenu });
   };
+
   // FinalRender:
   render() {
     return (
@@ -139,11 +143,11 @@ export class ActionsMenu extends React.Component {
           >
             {this.props.interaction.status !== 'wrapup' &&
               !this.state.showTransferMenu && (
-                <WrapUpToggle
-                  interaction={this.props.interaction}
-                  type="actionsMenu"
-                />
-              )}
+              <WrapUpToggle
+                interaction={this.props.interaction}
+                type="actionsMenu"
+              />
+            )}
             {this.state.showTransferMenu && (
               <TransferMenu
                 interactionId={this.props.interaction.interactionId}
@@ -154,23 +158,23 @@ export class ActionsMenu extends React.Component {
             {this.props.interaction.channelType !== 'voice' &&
               this.props.interaction.direction !== 'outbound' &&
               this.props.interaction.status !== 'wrapup' && (
-                <Button
-                  style={styles.toolbarActionsButtons}
-                  type="secondary"
-                  title="transfer"
-                  id="transferButton"
-                  text={
-                    this.state.showTransferMenu
-                      ? messages.cancel
-                      : messages.transfer
-                  }
-                  onClick={
-                    this.state.showTransferMenu
-                      ? this.toggleSubMenu
-                      : this.toggleTransferMenu
-                  }
-                />
-              )}
+              <Button
+                style={styles.toolbarActionsButtons}
+                type="secondary"
+                title="transfer"
+                id="transferButton"
+                text={
+                  this.state.showTransferMenu
+                    ? messages.cancel
+                    : messages.transfer
+                }
+                onClick={
+                  this.state.showTransferMenu
+                    ? this.toggleSubMenu
+                    : this.toggleTransferMenu
+                }
+              />
+            )}
             {!this.state.showTransferMenu &&
               this.props.buttonConfig.map((button) => (
                 <Button

@@ -23,7 +23,12 @@ const styles = {
 
 function FontAwesomeIcon(props) {
   return (
-    <button style={styles.button} onClick={props.onclick} tabIndex={0}>
+    <button
+      style={styles.button}
+      onClick={props.onclick}
+      tabIndex={0}
+      type="button"
+    >
       <i
         id={props.id ? props.id : `${props.name}-icon`}
         className={`fa fa-${props.name} fa-${

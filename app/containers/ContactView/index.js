@@ -71,10 +71,10 @@ const styles = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    flexShrink: '1',
   },
   buttonGroup: {
     display: 'flex',
+    flexShrink: 0,
   },
   controlButton: {
     marginLeft: '10px',
@@ -305,5 +305,10 @@ ContactView.propTypes = {
 };
 
 export default ErrorBoundary(
-  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContactView)))
+  injectIntl(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Radium(ContactView))
+  )
 );

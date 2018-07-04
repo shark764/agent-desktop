@@ -507,7 +507,9 @@ export class TransferMenu extends React.Component {
           title={queue.name}
           tabIndex="0" // eslint-disable-line
         >
-          <span style={this.styles.queueName}>{queue.name}</span>
+          <span style={this.styles.queueName}>
+            {queue.name}
+          </span>
           <span style={this.styles.averageQueueTime}>
             {queue.queueTime !== undefined ? (
               <TimeStat time={queue.queueTime} unit="millis" />
@@ -544,7 +546,9 @@ export class TransferMenu extends React.Component {
                       this.styles.agentAvailable,
                     ]}
                   />
-                  <span style={this.styles.agentName}>{agent.name}</span>
+                  <span style={this.styles.agentName}>
+                    {agent.name}
+                  </span>
                 </div>
               );
             } else if (agent.isAvailable) {
@@ -564,7 +568,9 @@ export class TransferMenu extends React.Component {
                       this.styles.agentAvailable,
                     ]}
                   />
-                  <span style={this.styles.agentName}>{agent.name}</span>
+                  <span style={this.styles.agentName}>
+                    {agent.name}
+                  </span>
                 </div>
               );
             } else {
@@ -583,7 +589,9 @@ export class TransferMenu extends React.Component {
                       this.styles.agentUnavailable,
                     ]}
                   />
-                  <span style={this.styles.agentName}>{agent.name}</span>
+                  <span style={this.styles.agentName}>
+                    {agent.name}
+                  </span>
                 </div>
               );
             }
@@ -652,7 +660,9 @@ export class TransferMenu extends React.Component {
                   // eslint-disable-next-line
                   key={`${transferList.id}-${hierarchy}`}
                 >
-                  <div style={this.styles.hierarchy}>{hierarchy}</div>
+                  <div style={this.styles.hierarchy}>
+                    {hierarchy}
+                  </div>
                   {filteredTransferListItems}
                 </div>
               );

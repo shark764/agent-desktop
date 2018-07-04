@@ -50,6 +50,10 @@ export default defineMessages({
     id: 'app.containers.EmailContentArea.addAttachment',
     defaultMessage: 'Add an attachment',
   },
+  uploading: {
+    id: 'app.containers.EmailContentArea.uploading',
+    defaultMessage: 'Uploading...',
+  },
   addMessage: {
     id: 'app.containers.EmailContentArea.addMessage',
     defaultMessage: 'Add a message',
@@ -65,5 +69,9 @@ export default defineMessages({
   endWrapup: {
     id: 'app.containers.EmailContentArea.endWrapup',
     defaultMessage: 'End Wrap Up',
+  },
+  onDateNameWrote: {
+    id: 'app.containers.EmailContentArea.onDateNameWrote',
+    defaultMessage: 'On {date} {name} wrote:',
   },
 });

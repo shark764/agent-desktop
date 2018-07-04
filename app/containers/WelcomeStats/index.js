@@ -163,7 +163,9 @@ export class WelcomeStats extends React.Component {
           <FormattedMessage {...messages.welcome} />
         </span>
         <span style={this.styles.agentName}>
-          {this.props.agent.firstName} {this.props.agent.lastName}
+          {this.props.agent.firstName} 
+          {' '}
+          {this.props.agent.lastName}
         </span>
         <div id="statContainer" style={this.styles.statsContainer}>
           <div style={this.styles.statsSubHead}>

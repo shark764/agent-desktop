@@ -95,6 +95,7 @@ class DesktopActionsButtons extends React.Component {
   componentWillMount() {
     document.addEventListener('keydown', this.hotKeys);
   }
+
   componentWillUnmount() {
     document.removeEventListener('keydown', this.hotKeys);
   }
@@ -112,43 +113,43 @@ class DesktopActionsButtons extends React.Component {
         {!this.context.toolbarMode &&
           this.props.interaction.status !== 'wrapup' &&
           this.props.interaction.status !== 'work-ended-pending-script' && (
-            <WrapUpToggle interaction={this.props.interaction} type="" />
-          )}
+          <WrapUpToggle interaction={this.props.interaction} type="" />
+        )}
         {this.props.interaction.channelType !== 'voice' &&
           this.props.interaction.direction !== 'outbound' &&
           this.props.interaction.status !== 'wrapup' && (
-            <div style={{ position: 'relative' }}>
-              <Button
-                style={{ marginRight: '10px', padding: '9px 17px' }}
-                type="secondary"
-                title="transfer"
-                id="transferButton"
-                text={messages.transfer}
-                onClick={this.toggleTransferMenu}
-              />
-              {this.state.showTransferMenu && (
-                <div
-                  className="transferMenuPopOut"
-                  style={styles.transferMenuPopOut}
-                >
-                  <TransferMenu
-                    interactionId={this.props.interaction.interactionId}
-                    setShowTransferMenu={this.toggleTransferMenu}
-                    nonVoice
-                  />
-                  <div style={styles.dropdownMenuPopoutArrow} />
-                  <Button
-                    style={styles.cancelTransferButton}
-                    type="secondary"
-                    title="cancel"
-                    id="cancelTransferButton"
-                    text={messages.cancel}
-                    onClick={this.toggleTransferMenu}
-                  />
-                </div>
-              )}
-            </div>
-          )}
+          <div style={{ position: 'relative' }}>
+            <Button
+              style={{ marginRight: '10px', padding: '9px 17px' }}
+              type="secondary"
+              title="transfer"
+              id="transferButton"
+              text={messages.transfer}
+              onClick={this.toggleTransferMenu}
+            />
+            {this.state.showTransferMenu && (
+              <div
+                className="transferMenuPopOut"
+                style={styles.transferMenuPopOut}
+              >
+                <TransferMenu
+                  interactionId={this.props.interaction.interactionId}
+                  setShowTransferMenu={this.toggleTransferMenu}
+                  nonVoice
+                />
+                <div style={styles.dropdownMenuPopoutArrow} />
+                <Button
+                  style={styles.cancelTransferButton}
+                  type="secondary"
+                  title="cancel"
+                  id="cancelTransferButton"
+                  text={messages.cancel}
+                  onClick={this.toggleTransferMenu}
+                />
+              </div>
+            )}
+          </div>
+        )}
         {this.props.buttonConfig.map((button) => (
           <Button
             key={button.id}

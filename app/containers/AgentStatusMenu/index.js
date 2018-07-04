@@ -356,12 +356,12 @@ export class AgentStatusMenu extends React.Component {
                 {extension.description}
                 {this.props.activeExtension.description ===
                   extension.description && (
-                    <Icon
-                      name="checkStatus"
-                      alt="selected"
-                      style={{ float: 'right' }}
-                    />
-                  )}
+                  <Icon
+                    name="checkStatus"
+                    alt="selected"
+                    style={{ float: 'right' }}
+                  />
+                )}
               </div>
             ))}
           </Collapsible>
@@ -510,6 +510,9 @@ function mapDispatchToProps(dispatch) {
 
 export default ErrorBoundary(
   injectIntl(
-    connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStatusMenu))
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Radium(AgentStatusMenu))
   )
 );

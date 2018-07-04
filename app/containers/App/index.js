@@ -1796,5 +1796,8 @@ App.contextTypes = {
 };
 
 export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(App))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(App))
 );

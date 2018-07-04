@@ -21,7 +21,9 @@ const styles = {
 function Image(props) {
   return (
     <div id={props.id} style={props.style}>
-      <div>{props.placeholder}</div>
+      <div>
+        {props.placeholder}
+      </div>
       <img src={props.src} alt="" style={styles.img} />
     </div>
   );

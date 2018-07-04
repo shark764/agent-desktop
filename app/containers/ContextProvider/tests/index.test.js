@@ -12,9 +12,17 @@ import { ContextProvider } from '../index';
 class TestApp extends React.Component {
   render() {
     if (this.context.toolbarMode) {
-      return <div>Toolbar</div>;
+      return (
+        <div>
+          {'Toolbar'}
+        </div>
+      );
     } else {
-      return <div>Desktop</div>;
+      return (
+        <div>
+          {'Desktop'}
+        </div>
+      );
     }
   }
 }

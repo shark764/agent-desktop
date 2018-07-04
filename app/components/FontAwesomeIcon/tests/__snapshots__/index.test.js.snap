@@ -10,6 +10,7 @@ exports[`<FontAwesomeIcon /> should render correctly 1`] = `
     }
   }
   tabIndex={0}
+  type="button"
 >
   <i
     alt="globe"
@@ -30,6 +31,7 @@ exports[`<FontAwesomeIcon /> should render correctly with additional props 1`] =
     }
   }
   tabIndex={0}
+  type="button"
 >
   <i
     alt="testing icon"

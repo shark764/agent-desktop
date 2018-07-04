@@ -201,7 +201,11 @@ export class Toolbar extends React.Component {
       this.props.selectedPresenceReason.reason &&
       !this.props.selectedPresenceReason.isSystemReason
     ) {
-      return <span>{this.props.selectedPresenceReason.reason}</span>;
+      return (
+        <span>
+          {this.props.selectedPresenceReason.reason}
+        </span>
+      );
     }
     return <FormattedMessage {...messages.notReady} />;
   };
@@ -279,6 +283,7 @@ export class Toolbar extends React.Component {
               }
               onMouseEnter={() => this.setStatusButtonHovered(true)}
               onMouseLeave={() => this.setStatusButtonHovered(false)}
+              type="button"
             >
               <span id="agent-state" style={[styles.agentState]}>
                 <div style={styles.presenceTextContainer}>
@@ -332,6 +337,7 @@ export class Toolbar extends React.Component {
               onClick={() => this.showConfigMenu(!this.state.showConfigMenu)}
               onMouseEnter={() => this.setConfigButtonHovered(true)}
               onMouseLeave={() => this.setConfigButtonHovered(false)}
+              type="button"
             >
               <Icon id="config-icon" name="config" style={{ width: '22px' }} />
             </button>

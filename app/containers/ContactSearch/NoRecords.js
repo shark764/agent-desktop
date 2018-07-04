@@ -72,7 +72,9 @@ export class NoRecords extends React.Component {
     return (
       <div style={styles.base}>
         <div style={styles.noRecordsMessage}>
-          - <FormattedMessage {...messages.noRecords} /> -
+          {'- '}
+          <FormattedMessage {...messages.noRecords} />
+          {'- '}
         </div>
         {(this.getPhoneNumber() || this.getEmailAddress()) && (
           <div style={styles.outboundInteractionButtons}>

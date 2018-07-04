@@ -69,7 +69,7 @@ const styles = {
     maxHeight: '95px',
   },
   templateMenuButton: {
-    height: 'calc(100% - 5px)',
+    height: 'calc(100% - 4px)',
     width: '40px',
     verticalAlign: 'top',
     fontSize: '24px',
@@ -97,7 +97,7 @@ const styles = {
     borderRadius: '0',
   },
   messageButton: {
-    height: 'calc(100% - 5px)',
+    height: 'calc(100% - 4px)',
     width: '50px',
     verticalAlign: 'top',
     fontSize: '11px',
@@ -430,8 +430,14 @@ export class MessagingTextArea extends React.Component {
                             : {},
                         ]}
                       >
-                        <span style={styles.bold}>/{messageTemplate.name}</span>&nbsp;&nbsp;&nbsp;
-                        <span>{messageTemplate.template}</span>
+                        <span style={styles.bold}>
+                          /
+                          {messageTemplate.name}
+                        </span>
+                        &nbsp;&nbsp;&nbsp;
+                        <span>
+                          {messageTemplate.template}
+                        </span>
                       </div>
                     );
                   } else {
@@ -447,15 +453,15 @@ export class MessagingTextArea extends React.Component {
         {this.props.messageTemplates &&
           this.props.messageTemplates.length > 0 &&
           this.props.selectedInteraction.status !== 'wrapup' && (
-            <Button
-              id="templateMenuButton"
-              onClick={this.toggleMessageTemplateMenu}
-              type="secondary"
-              style={styles.templateMenuButton}
-            >
-              <span>+</span>
-            </Button>
-          )}
+          <Button
+            id="templateMenuButton"
+            onClick={this.toggleMessageTemplateMenu}
+            type="secondary"
+            style={styles.templateMenuButton}
+          >
+            {'+'}
+          </Button>
+        )}
         <style>
           {/* This style is here because the Textarea library doesn't render the ':focus' Radium attribute */}
           {`#messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: ${
@@ -539,5 +545,8 @@ MessagingTextArea.contextTypes = {
 };
 
 export default ErrorBoundary(
-  connect(null, mapDispatchToProps)(Radium(MessagingTextArea))
+  connect(
+    null,
+    mapDispatchToProps
+  )(Radium(MessagingTextArea))
 );

@@ -47,6 +47,7 @@ exports[`<CurrentCrmItemHistoryContentArea /> should render correctly 1`] = `
       >
         <Dotdotdot
           clamp={3}
+          tagName="div"
           truncationChar="…"
           useNativeClamp={true}
         >

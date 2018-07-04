@@ -32,7 +32,11 @@ function TimeStat(props) {
     throw new Error('Not handling time not in millis');
   }
 
-  return <div style={props.style}>{value}</div>;
+  return (
+    <div style={props.style}>
+      {value}
+    </div>
+  );
 }
 
 TimeStat.propTypes = {

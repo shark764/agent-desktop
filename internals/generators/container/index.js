@@ -32,11 +32,6 @@ module.exports = {
     choices: () => ['PureComponent', 'Component'],
   }, {
     type: 'confirm',
-    name: 'wantHeaders',
-    default: false,
-    message: 'Do you want headers?',
-  }, {
-    type: 'confirm',
     name: 'wantCSS',
     default: true,
     message: 'Do you want CSS?',

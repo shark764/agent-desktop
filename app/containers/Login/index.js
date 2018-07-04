@@ -1231,18 +1231,18 @@ export class Login extends React.Component {
               !this.props.isStandalonePopup &&
               window.location.hash.indexOf('standalonePopup') === -1 &&
               !this.props.initiatedStandalonePopup && (
-                <div style={{ float: 'right', margin: '1em 1.4em 0 0' }}>
-                  <FontAwesomeIcon
-                    id="standalonePopupIcon"
-                    name="window-restore"
-                    style={{
-                      color: 'gray',
-                      fontSize: '1.5em',
-                    }}
-                    onclick={this.openStandalonePopup}
-                  />
-                </div>
-              )}
+              <div style={{ float: 'right', margin: '1em 1.4em 0 0' }}>
+                <FontAwesomeIcon
+                  id="standalonePopupIcon"
+                  name="window-restore"
+                  style={{
+                    color: 'gray',
+                    fontSize: '1.5em',
+                  }}
+                  onclick={this.openStandalonePopup}
+                />
+              </div>
+            )}
             {pageContent}
           </div>
           {!this.props.initiatedStandalonePopup && <LegalCopyright />}
@@ -1261,7 +1261,9 @@ export class Login extends React.Component {
     } else {
       return (
         <div style={styles.base}>
-          <Dialog style={styles.content}>{pageContent}</Dialog>
+          <Dialog style={styles.content}>
+            {pageContent}
+          </Dialog>
           {this.getLanguageSelect()}
           <LegalCopyright />
           <div style={styles.privacy}>

@@ -141,7 +141,11 @@ export class CustomFields extends React.Component {
         </div>
       );
     }
-    return <div>{mappedFields}</div>;
+    return (
+      <div>
+        {mappedFields}
+      </div>
+    );
   }
 }
 
@@ -176,5 +180,8 @@ CustomFields.contextTypes = {
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(CustomFields))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(CustomFields))
 );
