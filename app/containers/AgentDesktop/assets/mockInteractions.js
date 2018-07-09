@@ -235,7 +235,7 @@ const customFields = [
 const outboundConnectingVoiceInteraction = {
   interactionId: 'outbound-voice-interaction-1',
   channelType: 'voice',
-  direction: 'outbound',
+  direction: 'agent-initiated',
   status: 'connecting-to-outbound',
   wrapupDetails: {
     wrapupUpdateAllowed: true,

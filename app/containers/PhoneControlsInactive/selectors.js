@@ -15,7 +15,7 @@ const selectHasConnectingOutboundVoiceInteraction = createSelector(
       .find(
         (interaction) =>
           interaction.channelType === 'voice' &&
-          interaction.direction === 'outbound' &&
+          interaction.direction === 'agent-initiated' &&
           interaction.status !== 'work-accepted'
       ) !== undefined
 );

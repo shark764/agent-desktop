@@ -38,7 +38,7 @@ export class CancelButton extends React.Component {
 
   render() {
     if (
-      this.props.interaction.direction === 'outbound' &&
+      this.props.interaction.direction === 'agent-initiated' &&
       this.props.interaction.channelType === 'voice' &&
       this.props.interaction.status === 'work-initiated' &&
       this.props.interaction.initiatedByCurrentAgent
@@ -77,4 +77,7 @@ CancelButton.propTypes = {
   cancelClickToDial: PropTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Radium(CancelButton));
+export default connect(
+  null,
+  mapDispatchToProps
+)(Radium(CancelButton));

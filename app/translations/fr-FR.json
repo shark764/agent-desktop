@@ -44,6 +44,7 @@
   "app.containers.AgentStatsMenu.statistic": "Statistique",
   "app.containers.AgentStatsMenu.tenant": "Locataire",
   "app.containers.AgentStatusMenu.activeVoicePath": "Trajet téléphonique actif",
+  "app.containers.AgentStatusMenu.agent-initiated": "",
   "app.containers.AgentStatusMenu.inbound": "Entrant",
   "app.containers.AgentStatusMenu.logout": "Se déconnecter",
   "app.containers.AgentStatusMenu.logoutBtnText": "",

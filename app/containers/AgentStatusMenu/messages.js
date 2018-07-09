@@ -30,6 +30,10 @@ export default defineMessages({
     id: 'app.containers.AgentStatusMenu.outbound',
     defaultMessage: 'Outbound',
   },
+  'agent-initiated': {
+    id: 'app.containers.AgentStatusMenu.agent-initiated',
+    defaultMessage: 'Do Not Disturb Outbound',
+  },
   activeVoicePath: {
     id: 'app.containers.AgentStatusMenu.activeVoicePath',
     defaultMessage: 'Active Voice Pathway',

@@ -115,7 +115,7 @@ describe('Interaction', () => {
   describe('outbound email', () => {
     const interaction = new Interaction({
       channelType: 'email',
-      direction: 'outbound',
+      direction: 'agent-initiated',
     });
     it('sets emailReply', () => {
       expect(interaction.emailReply).toMatchSnapshot();

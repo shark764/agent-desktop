@@ -44,6 +44,7 @@
   "app.containers.AgentStatsMenu.statistic": "Statistik",
   "app.containers.AgentStatsMenu.tenant": "Mandant",
   "app.containers.AgentStatusMenu.activeVoicePath": "Pfad für die aktive Stimme",
+  "app.containers.AgentStatusMenu.agent-initiated": "",
   "app.containers.AgentStatusMenu.inbound": "Ankommend",
   "app.containers.AgentStatusMenu.logout": "Abmelden",
   "app.containers.AgentStatusMenu.logoutBtnText": "",

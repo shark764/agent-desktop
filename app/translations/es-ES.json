@@ -44,6 +44,7 @@
   "app.containers.AgentStatsMenu.statistic": "Estadística",
   "app.containers.AgentStatsMenu.tenant": "Abonado",
   "app.containers.AgentStatusMenu.activeVoicePath": "Vía voz activa",
+  "app.containers.AgentStatusMenu.agent-initiated": "",
   "app.containers.AgentStatusMenu.inbound": "Entrante",
   "app.containers.AgentStatusMenu.logout": "Cerrar sesión",
   "app.containers.AgentStatusMenu.logoutBtnText": "",

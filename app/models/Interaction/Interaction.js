@@ -38,7 +38,7 @@ export default class Interaction {
     if (channelType === 'email' || channelType === 'sms') {
       this.customer = customer;
     }
-    if (channelType === 'email' && direction === 'outbound') {
+    if (channelType === 'email' && direction === 'agent-initiated') {
       this.emailReply = new Map({
         message: '',
         tos: new List([

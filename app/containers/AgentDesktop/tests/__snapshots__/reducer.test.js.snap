@@ -58,7 +58,7 @@ Immutable.Map {
     Immutable.Map {
       "interactionId": "other-interaction-id",
       "channelType": "email",
-      "direction": "outbound",
+      "direction": "agent-initiated",
       "contact": Immutable.Map {
         "id": "test-contact-id",
       },
@@ -174,7 +174,7 @@ Immutable.Map {
         "formErrors": Immutable.Map {},
         "saveLoading": false,
       },
-      "direction": "outbound",
+      "direction": "agent-initiated",
     },
   ],
   "selectedInteractionId": undefined,
@@ -1391,7 +1391,7 @@ Immutable.Map {
       },
       "autoAnswer": undefined,
       "messageHistory": Immutable.List [],
-      "interactionId": "outbound-sms-+15064701234",
+      "interactionId": "agent-initiated-sms-+15064701234",
       "customFieldsCollapsed": true,
       "currentMessage": "",
       "note": Immutable.Map {
@@ -1419,10 +1419,10 @@ Immutable.Map {
         "saveLoading": false,
       },
       "customer": "+15064701234",
-      "direction": "outbound",
+      "direction": "agent-initiated",
     },
   ],
-  "selectedInteractionId": "outbound-sms-+15064701234",
+  "selectedInteractionId": "agent-initiated-sms-+15064701234",
 }
 `;
 
@@ -1452,7 +1452,7 @@ Immutable.Map {
         "selected": Immutable.List [],
       },
       "autoAnswer": undefined,
-      "interactionId": "outbound-voice-+15064701234",
+      "interactionId": "agent-initiated-voice-+15064701234",
       "customFieldsCollapsed": true,
       "initiatedByCurrentAgent": true,
       "note": Immutable.Map {
@@ -1479,7 +1479,7 @@ Immutable.Map {
         "formErrors": Immutable.Map {},
         "saveLoading": false,
       },
-      "direction": "outbound",
+      "direction": "agent-initiated",
     },
   ],
   "selectedInteractionId": undefined,

@@ -520,7 +520,7 @@ export class EmailContentArea extends React.Component {
       subject: this.state.subject,
     };
 
-    if (this.props.selectedInteraction.direction === 'outbound') {
+    if (this.props.selectedInteraction.direction === 'agent-initiated') {
       emailReply.htmlBody = stateToHTML(
         this.state.editorState.getCurrentContent()
       );
@@ -871,7 +871,7 @@ export class EmailContentArea extends React.Component {
         );
       }
     } else {
-      if (this.props.selectedInteraction.direction === 'outbound') {
+      if (this.props.selectedInteraction.direction === 'agent-initiated') {
         buttonConfig = [
           {
             id: 'cancelOutboundEmail',
@@ -939,7 +939,8 @@ export class EmailContentArea extends React.Component {
                   {to.name && to.name !== to.address
                     ? `${to.name} [${to.address}]`
                     : to.address}
-                  {(this.props.selectedInteraction.direction === 'outbound' ||
+                  {(this.props.selectedInteraction.direction ===
+                    'agent-initiated' ||
                     index !== 0) &&
                     this.props.selectedInteraction.status !==
                       'work-ended-pending-script' &&
@@ -1185,7 +1186,7 @@ export class EmailContentArea extends React.Component {
 
       let emailReplyingTo;
 
-      if (this.props.selectedInteraction.direction !== 'outbound') {
+      if (this.props.selectedInteraction.direction !== 'agent-initiated') {
         const date = moment(
           this.props.selectedInteraction.emailDetails.dateSent
         ).format('LL');

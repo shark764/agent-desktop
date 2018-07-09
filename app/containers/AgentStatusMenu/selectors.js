@@ -4,9 +4,11 @@
 
 import { createSelector } from 'reselect';
 
+import { getCurrentTenantPermissions } from 'containers/App/selectors';
+
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 
-const selectHasActiveInteractions = createSelector(
+export const selectHasActiveInteractions = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) =>
     agentDesktop
@@ -18,17 +20,17 @@ const selectHasActiveInteractions = createSelector(
       ) !== undefined
 );
 
-const selectExtensions = createSelector(
+export const selectExtensions = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) => agentDesktop.get('extensions').toJS()
 );
 
-const selectActiveExtension = createSelector(
+export const selectActiveExtension = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) => agentDesktop.get('activeExtension').toJS()
 );
 
-const selectHasActiveWrapup = createSelector(
+export const selectHasActiveWrapup = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) =>
     agentDesktop
@@ -37,7 +39,7 @@ const selectHasActiveWrapup = createSelector(
     undefined
 );
 
-const selectHasActiveScript = createSelector(
+export const selectHasActiveScript = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) =>
     agentDesktop
@@ -46,7 +48,7 @@ const selectHasActiveScript = createSelector(
     undefined
 );
 
-const selectPresenceReasonLists = createSelector(
+export const selectPresenceReasonLists = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) =>
     agentDesktop
@@ -55,23 +57,23 @@ const selectPresenceReasonLists = createSelector(
       .toJS()
 );
 
-const selectSelectedPresenceReason = createSelector(
+export const selectSelectedPresenceReason = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) => agentDesktop.get('presenceReason').toJS()
 );
 
-const selectAgentDirection = createSelector(
+export const selectAgentDirection = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) => agentDesktop.get('agentDirection').toJS()
 );
 
-export {
-  selectHasActiveInteractions,
-  selectExtensions,
-  selectActiveExtension,
-  selectHasActiveWrapup,
-  selectHasActiveScript,
-  selectPresenceReasonLists,
-  selectSelectedPresenceReason,
-  selectAgentDirection,
-};
+export const selectHasDirectionChangePermission = createSelector(
+  [getCurrentTenantPermissions],
+  (tenantPermissions) =>
+    tenantPermissions.includes('MANAGE_ALL_USERS_DIRECTION') ||
+    tenantPermissions.includes('MANAGE_MY_DIRECTION')
+);
+
+export const selectIsSelectedDirection = (state, props) =>
+  selectAgentDesktopDomain(state).getIn(['agentDirection', 'direction']) ===
+  props.direction;

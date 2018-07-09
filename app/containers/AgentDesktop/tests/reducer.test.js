@@ -437,7 +437,7 @@ describe('agentDesktopReducer', () => {
           {
             interactionId: 'other-interaction-id',
             channelType: 'email',
-            direction: 'outbound',
+            direction: 'agent-initiated',
             contact: { id: 'test-contact-id' },
             contactMode: 'view',
             isSidePanelCollapsed: false,
@@ -451,7 +451,7 @@ describe('agentDesktopReducer', () => {
     describe('adding an outbound voice interaction with new attributes', () => {
       beforeEach(() => {
         action.response.channelType = 'voice';
-        action.response.direction = 'outbound';
+        action.response.direction = 'agent-initiated';
         action.response.recording = true;
       });
       describe('when the interaction is present', () => {
@@ -460,7 +460,7 @@ describe('agentDesktopReducer', () => {
             {
               interactionId: 'test-interaction-id',
               channelType: 'voice',
-              direction: 'outbound',
+              direction: 'agent-initiated',
               status: 'connecting-to-outbound',
               contact: { id: 'test-contact-id' },
               contactMode: 'view',
@@ -476,7 +476,7 @@ describe('agentDesktopReducer', () => {
     describe('adding an outbound sms interaction', () => {
       beforeEach(() => {
         action.response.channelType = 'sms';
-        action.response.direction = 'outbound';
+        action.response.direction = 'agent-initiated';
         action.response.recording = true;
       });
       it('is ignored', () => {
@@ -486,7 +486,7 @@ describe('agentDesktopReducer', () => {
     describe('adding an outbound email interaction', () => {
       beforeEach(() => {
         action.response.channelType = 'email';
-        action.response.direction = 'outbound';
+        action.response.direction = 'agent-initiated';
         action.response.recording = true;
       });
       it('is ignored', () => {

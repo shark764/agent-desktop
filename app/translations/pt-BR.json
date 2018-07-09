@@ -44,6 +44,7 @@
   "app.containers.AgentStatsMenu.statistic": "Estatística",
   "app.containers.AgentStatsMenu.tenant": "Locatário",
   "app.containers.AgentStatusMenu.activeVoicePath": "Caminho de voz ativo",
+  "app.containers.AgentStatusMenu.agent-initiated": "",
   "app.containers.AgentStatusMenu.inbound": "Entrada",
   "app.containers.AgentStatusMenu.logout": "Sair",
   "app.containers.AgentStatusMenu.logoutBtnText": "",

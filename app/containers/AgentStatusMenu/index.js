@@ -31,6 +31,7 @@ import {
   showConfirmationPopupGoReady,
 } from 'containers/AgentDesktop/actions';
 
+import DirectionRow from './DirectionRow';
 import LargeMenuRow from './LargeMenuRow';
 import MenuRow from './MenuRow';
 import messages from './messages';
@@ -43,6 +44,7 @@ import {
   selectHasActiveWrapup,
   selectHasActiveScript,
   selectAgentDirection,
+  selectHasDirectionChangePermission,
 } from './selectors';
 
 const storage = window.localStorage;
@@ -370,58 +372,30 @@ export class AgentStatusMenu extends React.Component {
           <Collapsible
             className="agentDirectionMenu"
             triggerHeader="Mode"
-            trigger={
-              this.props.agentDirection.direction === 'inbound'
-                ? 'Inbound'
-                : 'Outbound'
-            }
+            trigger={this.props.intl.formatMessage(
+              messages[this.props.agentDirection.direction]
+            )}
+            triggerDisabled={!this.props.hasDirectionChangePermission}
             open={this.state.expandedMenu === 'agentDirection'}
             handleTriggerClick={() =>
               this.setCollapsibleMenus('agentDirection')
             }
           >
-            <div
-              id="agentDirectionInbound"
-              key="Inbound"
+            <DirectionRow
+              direction="inbound"
               style={styles.subMenuRows}
-              disabled={this.props.agentDirection.direction === 'inbound'}
-              onClick={() => {
-                CxEngage.session.setDirection({ direction: 'inbound' });
-                this.setCollapsibleMenus();
-              }}
-            >
-              <FormattedMessage {...messages.inbound} />
-              {this.props.agentDirection.direction === 'inbound' ? (
-                <Icon
-                  name="checkStatus"
-                  alt="selected"
-                  style={{ float: 'right' }}
-                />
-              ) : (
-                false
-              )}
-            </div>
-            <div
-              id="agentDirectionOutbound"
-              key="Outbound"
+              setCollapsibleMenus={this.setCollapsibleMenus}
+            />
+            <DirectionRow
+              direction="outbound"
               style={styles.subMenuRows}
-              disabled={this.props.agentDirection.direction === 'outbound'}
-              onClick={() => {
-                CxEngage.session.setDirection({ direction: 'outbound' });
-                this.setCollapsibleMenus();
-              }}
-            >
-              <FormattedMessage {...messages.outbound} />
-              {this.props.agentDirection.direction === 'outbound' ? (
-                <Icon
-                  name="checkStatus"
-                  alt="selected"
-                  style={{ float: 'right' }}
-                />
-              ) : (
-                false
-              )}
-            </div>
+              setCollapsibleMenus={this.setCollapsibleMenus}
+            />
+            <DirectionRow
+              direction="agent-initiated"
+              style={styles.subMenuRows}
+              setCollapsibleMenus={this.setCollapsibleMenus}
+            />
           </Collapsible>
           <div
             id="agentNotReadyState"
@@ -485,6 +459,7 @@ AgentStatusMenu.propTypes = {
   agentDirection: PropTypes.any,
   agent: PropTypes.object.isRequired,
   crmModule: PropTypes.string,
+  hasDirectionChangePermission: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -498,6 +473,10 @@ const mapStateToProps = (state, props) => ({
   agentDirection: selectAgentDirection(state, props),
   agent: selectAgent(state, props),
   crmModule: selectCrmModule(state, props),
+  hasDirectionChangePermission: selectHasDirectionChangePermission(
+    state,
+    props
+  ),
 });
 
 function mapDispatchToProps(dispatch) {

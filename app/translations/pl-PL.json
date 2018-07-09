@@ -44,6 +44,7 @@
   "app.containers.AgentStatsMenu.statistic": "Statystyka",
   "app.containers.AgentStatsMenu.tenant": "Dzierżawca",
   "app.containers.AgentStatusMenu.activeVoicePath": "Aktywna ścieżka głosowa",
+  "app.containers.AgentStatusMenu.agent-initiated": "",
   "app.containers.AgentStatusMenu.inbound": "Wejściowe",
   "app.containers.AgentStatusMenu.logout": "Wyloguj",
   "app.containers.AgentStatusMenu.logoutBtnText": "",
