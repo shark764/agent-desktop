@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
+import { isIeEleven } from 'utils/browser';
 
 import Icon from 'components/Icon';
 
@@ -40,7 +41,8 @@ export function AgentNotificationsMenu(props) {
           <Icon name="checkStatus" style={styles.checkStatus} />
         )}
       </div>
-      {window.parent === window && (
+      {!isIeEleven() &&
+        window.parent === window && (
         <div
           id="visualNotificationOption"
           key="visualNotificationOption"
@@ -76,6 +78,7 @@ AgentNotificationsMenu.propTypes = {
   toggleVisualNotificationsPreference: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, actions)(
-  Radium(AgentNotificationsMenu)
-);
+export default connect(
+  mapStateToProps,
+  actions
+)(Radium(AgentNotificationsMenu));

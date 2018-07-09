@@ -30,4 +30,8 @@ export default defineMessages({
     id: 'app.containers.App.newInteraction',
     defaultMessage: 'New interaction!',
   },
+  newMessage: {
+    id: 'app.containers.App.newMessage',
+    defaultMessage: 'New message!',
+  },
 });

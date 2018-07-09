@@ -1,5 +1,6 @@
 import { takeEvery, put, select, call } from 'redux-saga/effects';
 
+import { setNonCriticalError } from 'containers/Errors/actions';
 import { selectTenant, selectAgent } from 'containers/Login/selectors';
 
 import * as ACTIONS from './constants';
@@ -15,13 +16,13 @@ export function* goInitializeNotificatonPreferences() {
   const audioNotifications = localStorage.getItem(
     `skylightAudioNotifications-${tenant.id}-${agent.id}`
   );
-  if (audioNotifications !== undefined) {
+  if (audioNotifications !== null) {
     yield put(setAudioNotificationsPreference(audioNotifications === 'true'));
   }
   const visualNotifications = localStorage.getItem(
     `skylightVisualNotifications-${tenant.id}-${agent.id}`
   );
-  if (visualNotifications !== undefined) {
+  if (visualNotifications !== null) {
     yield put(setVisualNotificationsPreference(visualNotifications === 'true'));
   }
 }
@@ -48,6 +49,8 @@ export function* goToggleVisualNotificationsPreference() {
         `skylightVisualNotifications-${tenant.id}-${agent.id}`,
         true
       );
+    } else {
+      yield put(setNonCriticalError({ code: 'AD-1006' }));
     }
   } else {
     const visualNotifications = yield select(selectVisualPreferences);

@@ -42,7 +42,7 @@ describe('goInitializeNotificatonPreferences', () => {
   describe('notifications not stored in localStorage', () => {
     beforeEach(() => {
       global.localStorage = {
-        getItem: () => undefined,
+        getItem: () => null,
       };
     });
     const generator = goInitializeNotificatonPreferences();
@@ -131,8 +131,11 @@ describe('goToggleVisualNotificationsPreference', () => {
       it('requests permission', () => {
         expect(generator.next()).toMatchSnapshot();
       });
+      it('adds error', () => {
+        expect(generator.next('denied')).toMatchSnapshot();
+      });
       it('is done', () => {
-        expect(generator.next('denied').done).toBe(true);
+        expect(generator.next().done).toBe(true);
       });
     });
   });
