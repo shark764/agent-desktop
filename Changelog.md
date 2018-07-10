@@ -1,3 +1,6 @@
+### [1.26.1] (2018-07-09)
+* CXV1-14589 - Filter out "agent-initiated" agents from transfer list
+
 ### [1.26.0] (2018-07-04)
 * CXV1-14206 - Added UI for new direction selector
 * CXV1-14209 - Change the direction of functionality from "outbound" to "agent-initiated"

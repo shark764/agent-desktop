@@ -199,11 +199,21 @@ export class TransferMenu extends React.Component {
             capacityResponse
           );
           const agents = response.result
-            .filter(
-              (agent) =>
-                // Filter ourself, pending users
-                agent.id !== this.props.agentId && agent.status === 'accepted'
-            )
+            .filter((agent) => {
+              const agentCapacities = capacityResponse.resourceCapacity.find(
+                (resourceCapacity) => resourceCapacity.resourceId === agent.id
+              );
+              // Filter ourself, pending users, and "agent-initiated" (outbound do not disturb) agents
+              const isAgentInitated = !capacityError
+                ? agentCapacities &&
+                  agentCapacities.direction === 'agent-initiated'
+                : false;
+              return (
+                agent.id !== this.props.agentId &&
+                agent.status === 'accepted' &&
+                !isAgentInitated
+              );
+            })
             .map((agent) => ({
               id: agent.id,
               firstName: agent.firstName,
