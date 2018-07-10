@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DirectionRow> with false isSelectedDirection renders correctly, without checkmark 1`] = `
+<div
+  disabled={false}
+  id="agentDirectionInbound"
+  onClick={[Function]}
+  style={
+    Object {
+      "mockStyle": "mock style value",
+    }
+  }
+>
+  <FormattedMessage
+    defaultMessage="Inbound"
+    id="app.containers.AgentStatusMenu.inbound"
+    values={Object {}}
+  />
+</div>
+`;
+
+exports[`<DirectionRow> with true isSelectedDirection renders correctly, with checkmark 1`] = `
+<div
+  disabled={true}
+  id="agentDirectionInbound"
+  onClick={[Function]}
+  style={
+    Object {
+      "mockStyle": "mock style value",
+    }
+  }
+>
+  <FormattedMessage
+    defaultMessage="Inbound"
+    id="app.containers.AgentStatusMenu.inbound"
+    values={Object {}}
+  />
+  <Icon
+    alt="selected"
+    name="checkStatus"
+    style={
+      Object {
+        "float": "right",
+      }
+    }
+  />
+</div>
+`;
