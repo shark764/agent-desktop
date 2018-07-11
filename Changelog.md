@@ -1,3 +1,6 @@
+### [1.26.2] (2018-07-09)
+* CXV1-13266 - Transferring Calls between agents and reporting on the last agent who handled the call as opposed to the 1st Agent
+
 ### [1.26.1] (2018-07-09)
 * CXV1-14589 - Filter out "agent-initiated" agents from transfer list
 
