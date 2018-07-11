@@ -20,7 +20,6 @@ import { URL } from 'url-polyfill';
 import { createSearchQuery } from 'utils/contact';
 import { isUUID } from 'utils/validator';
 import crmCssAdapter from 'utils/crmCssAdapter';
-import { hasBrowserNotifcationsFeatureFlag } from 'utils/url';
 import { isIeEleven } from 'utils/browser';
 
 import voiceIcon from 'assets/icons/voice.png';
@@ -178,7 +177,6 @@ export class App extends React.Component {
 
     if (
       !isIeEleven() &&
-      hasBrowserNotifcationsFeatureFlag() &&
       window.parent === window &&
       Notification.permission !== 'granted' &&
       Notification.permission !== 'denied'
@@ -477,7 +475,7 @@ export class App extends React.Component {
                 this.acceptInteraction(response.interactionId);
               }
 
-              if (hasBrowserNotifcationsFeatureFlag() && document.hidden) {
+              if (document.hidden) {
                 if (
                   !isIeEleven() &&
                   window.parent === window &&
@@ -897,7 +895,7 @@ export class App extends React.Component {
                 });
               }
 
-              if (hasBrowserNotifcationsFeatureFlag() && document.hidden) {
+              if (document.hidden) {
                 if (
                   !isIeEleven() &&
                   window.parent === window &&

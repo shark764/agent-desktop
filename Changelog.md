@@ -1,3 +1,6 @@
+### [1.27.0] (2018-07-11)
+* Remove agent notifications feature flag
+
 ### [1.26.3] (2018-07-09)
 * CXV1-14428 - Visual notifications display banner when they are blocked and attempted to toggle
 * CXV1-14471 - Audio and visual notifications for chat customer replies

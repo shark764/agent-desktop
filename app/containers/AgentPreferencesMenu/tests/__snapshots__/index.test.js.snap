@@ -78,6 +78,10 @@ exports[`<AgentPreferencesMenu /> renders the preferences options by default 1`]
       preference="metrics"
       setPreferenceSelected={[Function]}
     />
+    <PreferenceOption
+      preference="notifications"
+      setPreferenceSelected={[Function]}
+    />
   </React.Fragment>
 </PopupDialog>
 `;

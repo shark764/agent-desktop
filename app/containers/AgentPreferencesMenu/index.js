@@ -2,8 +2,6 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import { hasBrowserNotifcationsFeatureFlag } from 'utils/url';
-
 import PopupDialog from 'components/PopupDialog';
 import AgentStatsMenu from 'containers/AgentStatsMenu';
 import AgentNotificationsMenu from 'containers/AgentNotificationsMenu';
@@ -52,12 +50,10 @@ export class AgentPreferencesMenu extends React.Component {
               preference="metrics"
               setPreferenceSelected={this.setPreferenceSelected}
             />
-            {hasBrowserNotifcationsFeatureFlag() && (
-              <PreferenceOption
-                preference="notifications"
-                setPreferenceSelected={this.setPreferenceSelected}
-              />
-            )}
+            <PreferenceOption
+              preference="notifications"
+              setPreferenceSelected={this.setPreferenceSelected}
+            />
           </Fragment>
         );
     }
