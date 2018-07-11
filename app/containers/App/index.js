@@ -21,13 +21,14 @@ import { createSearchQuery } from 'utils/contact';
 import { isUUID } from 'utils/validator';
 import crmCssAdapter from 'utils/crmCssAdapter';
 import { hasBrowserNotifcationsFeatureFlag } from 'utils/url';
+import { isIeEleven } from 'utils/browser';
 
 import voiceIcon from 'assets/icons/voice.png';
 import messageIcon from 'assets/icons/message_new.png';
 import emailIcon from 'assets/icons/email_new.png';
 import workItemIcon from 'assets/icons/work_item_new.png';
 
-import notificationSound from 'assets/sounds/SynthDoubleHit.wav';
+import notificationSound from 'assets/sounds/SynthDoubleHit.mp3';
 
 import {
   DEFAULT_TOOLBAR_WIDTH,
@@ -176,6 +177,7 @@ export class App extends React.Component {
     });
 
     if (
+      !isIeEleven() &&
       hasBrowserNotifcationsFeatureFlag() &&
       window.parent === window &&
       Notification.permission !== 'granted' &&
@@ -475,8 +477,9 @@ export class App extends React.Component {
                 this.acceptInteraction(response.interactionId);
               }
 
-              if (hasBrowserNotifcationsFeatureFlag()) {
+              if (hasBrowserNotifcationsFeatureFlag() && document.hidden) {
                 if (
+                  !isIeEleven() &&
                   window.parent === window &&
                   Notification.permission === 'granted' &&
                   this.props.visualNotificationsEnabled
@@ -892,6 +895,26 @@ export class App extends React.Component {
                     });
                   }
                 });
+              }
+
+              if (hasBrowserNotifcationsFeatureFlag() && document.hidden) {
+                if (
+                  !isIeEleven() &&
+                  window.parent === window &&
+                  Notification.permission === 'granted' &&
+                  this.props.visualNotificationsEnabled
+                ) {
+                  const notification = new Notification(
+                    this.props.intl.formatMessage(messages.newMessage),
+                    { icon: messageIcon }
+                  );
+                  setTimeout(() => {
+                    notification.close();
+                  }, 5000);
+                }
+                if (this.props.audioNotificationsEnabled) {
+                  new Audio(notificationSound).play();
+                }
               }
             }
 

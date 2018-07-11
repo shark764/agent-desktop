@@ -40,6 +40,11 @@ export default defineMessages({
     defaultMessage:
       'This account is not currently associated with an active tenant. Please reach out to your system administrator for assistance.',
   },
+  'AD-1006': {
+    id: 'app.containers.Errors.AD-1006',
+    defaultMessage:
+      'You must allow notifications through your browser to enable visual notifications.',
+  },
   2001: {
     id: 'app.containers.Errors.2001',
     defaultMessage: 'Failed to get user configuration. Please try again.',

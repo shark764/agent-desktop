@@ -288,6 +288,25 @@ Array [
 ]
 `;
 
+exports[`goToggleVisualNotificationsPreference does not have notification permission permission is not granted upon request adds error 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "error": Object {
+          "code": "AD-1006",
+        },
+        "interactionFatal": undefined,
+        "type": "app/Errors/SET_NON_CRITICAL_ERROR",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
 exports[`goToggleVisualNotificationsPreference does not have notification permission permission is not granted upon request requests permission 1`] = `
 Object {
   "done": false,

@@ -1,3 +1,10 @@
+### [1.26.3] (2018-07-09)
+* CXV1-14428 - Visual notifications display banner when they are blocked and attempted to toggle
+* CXV1-14471 - Audio and visual notifications for chat customer replies
+* CXV1-14472 - Default audio and visual notifications on
+* CXV1-14473 - Work offer visual and audio notifications only when page is not in focus
+* CXV1-14505 - Hide visual notifications for IE11 (fixes it breaking the page too)
+
 ### [1.26.2] (2018-07-09)
 * CXV1-13266 - Transferring Calls between agents and reporting on the last agent who handled the call as opposed to the 1st Agent
 
