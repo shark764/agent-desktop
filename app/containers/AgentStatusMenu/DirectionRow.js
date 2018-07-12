@@ -14,7 +14,7 @@ import Icon from 'components/Icon';
 import { selectIsSelectedDirection } from './selectors';
 import messages from './messages';
 
-function DirectionRow({
+export function DirectionRow({
   style,
   direction,
   isSelectedDirection,
