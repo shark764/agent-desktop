@@ -1,3 +1,6 @@
+### [1.27.1] (2018-07-19)
+* CXV1-14660 - resourceId parameter added to send-unassign-interrupt request in salesforce
+
 ### [1.27.0] (2018-07-11)
 * Remove agent notifications feature flag
 
