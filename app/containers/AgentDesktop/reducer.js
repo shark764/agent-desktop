@@ -312,7 +312,10 @@ const updateContactInteractionHistoryResults = (contact, action) => {
           }
           if (updatedResult.queues !== undefined) {
             updatedResult.lastQueueName =
-              updatedResult.queues[updatedResult.queues.length - 1].queueName;
+              updatedResult.queues.length > 0
+                ? updatedResult.queues[updatedResult.queues.length - 1]
+                  .queueName
+                : '';
           }
           return updatedResult;
         });
@@ -695,7 +698,7 @@ function agentDesktopReducer(state = initialState, action) {
           contact: action.contact,
           isSidePanelCollapsed: !action.openSidePanel,
           // We don't want to hide the new interaction panel for outbound voice until the interaction has been accepted because
-          // the voice interation is not 'selectable' until then and we want to avoid the contact panel 'flicker' in between
+          // the voice interaction is not 'selectable' until then and we want to avoid the contact panel 'flicker' in between
           hideNewInteractionPanelOnWorkAccepted:
             action.addedByNewInteractionPanel && action.channelType === 'voice',
           // initiatedByCurrentAgent so we know if we should render the 'Cancel' button

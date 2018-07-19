@@ -1,3 +1,6 @@
+### [1.28.1] (2018-07-19)
+* CXV1-14502 - Zendesk - 'TypeError: Cannot read property queueName of undefined' When trying to view history.
+
 ### [1.28.0] (2018-07-17)
 * CXV1-14405 - Implement Copy Button
 
