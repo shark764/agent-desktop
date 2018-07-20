@@ -42,4 +42,20 @@ export default defineMessages({
     id: 'app.containers.MessagingContentArea.send',
     defaultMessage: 'Send',
   },
+  copy: {
+    id: 'app.containers.MessagingContentArea.copy',
+    defaultMessage: 'Copy',
+  },
+  copyTranscript: {
+    id: 'app.containers.MessagingContentArea.copyTranscript',
+    defaultMessage: 'Copy transcript to clipboard',
+  },
+  copied: {
+    id: 'app.containers.MessagingContentArea.copied',
+    defaultMessage: 'Copied',
+  },
+  copiedTranscript: {
+    id: 'app.containers.MessagingContentArea.copiedTranscript',
+    defaultMessage: 'Copied transcript to clipboard',
+  },
 });

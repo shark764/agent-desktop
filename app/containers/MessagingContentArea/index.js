@@ -28,6 +28,8 @@ import { selectIsEndWrapupDisabled } from 'containers/AgentDesktop/selectors';
 import { selectWrapupBtnTooltipText } from 'containers/ContentAreaTop/selectors';
 
 import MessagingTextArea from './MessagingTextArea';
+import { copyChatTranscript } from './actions';
+import { isMessagingInteractionCopied } from './selectors';
 import messages from './messages';
 
 export class MessagingContentArea extends React.Component {
@@ -96,6 +98,10 @@ export class MessagingContentArea extends React.Component {
     },
   };
 
+  copy = () => {
+    this.props.copyChatTranscript(this.props.selectedInteraction);
+  };
+
   render() {
     const isLoading =
       this.props.selectedInteraction.status === 'work-accepting' ||
@@ -125,6 +131,15 @@ export class MessagingContentArea extends React.Component {
     const wrappingUp = this.props.selectedInteraction.status === 'wrapup';
 
     const buttonConfig = [
+      {
+        id: 'copy-chat-transcript',
+        type: 'secondary',
+        text: this.props.isCopied ? messages.copied : messages.copy,
+        title: this.props.isCopied
+          ? messages.copiedTranscript
+          : messages.copyTranscript,
+        onClick: this.copy,
+      },
       {
         id: wrappingUp ? 'wrapup-button' : 'end-chat-button',
         type: 'primaryBlue',
@@ -205,8 +220,9 @@ export class MessagingContentArea extends React.Component {
           <div id="message-history" style={this.styles.messageHistory}>
             {messageHistory}
           </div>
-          {this.props.selectedInteraction.status !==
-            'work-ended-pending-script' && (
+          {this.props.selectedInteraction.status !== 'wrapup' &&
+            this.props.selectedInteraction.status !==
+              'work-ended-pending-script' && (
             <MessagingTextArea
               selectedInteraction={this.props.selectedInteraction}
               messageTemplates={this.props.messageTemplates}
@@ -235,14 +251,28 @@ MessagingContentArea.propTypes = {
   agentId: PropTypes.string.isRequired,
   isEndWrapupDisabled: PropTypes.bool.isRequired,
   wrapupBtnTooltipText: PropTypes.object.isRequired,
+  copyChatTranscript: PropTypes.func.isRequired,
+  isCopied: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
   agentId: selectAgent(state, props).userId,
   isEndWrapupDisabled: selectIsEndWrapupDisabled(state, props),
   wrapupBtnTooltipText: selectWrapupBtnTooltipText(state, props),
+  isCopied: isMessagingInteractionCopied(state, props),
 });
 
+function mapDispatchToProps(dispatch) {
+  return {
+    copyChatTranscript: (interaction) =>
+      dispatch(copyChatTranscript(interaction)),
+    dispatch,
+  };
+}
+
 export default ErrorBoundary(
-  connect(mapStateToProps)(Radium(MessagingContentArea))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(MessagingContentArea))
 );

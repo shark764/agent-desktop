@@ -919,3 +919,11 @@ export function removeInteractionNotification(interactionId, messageKey) {
     messageKey,
   };
 }
+
+export function toggleTranscriptCopied(interactionId, isCopied) {
+  return {
+    type: ACTIONS.TOGGLE_TRANSCRIPT_COPIED,
+    interactionId,
+    isCopied,
+  };
+}

@@ -59,23 +59,6 @@ describe('<MessagingTextArea />', () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  it('should render correctly under wrapup', () => {
-    const rendered = shallow(
-      <MessagingTextArea
-        selectedInteraction={{
-          interactionId: 'a',
-          status: 'wrapup',
-          currentMessage: '',
-        }}
-        messageTemplates={[]}
-        initializeOutboundSmsFromMessaging={() => {}}
-        sendOutboundSms={() => {}}
-        saveMesssageState={() => {}}
-      />
-    );
-    expect(rendered).toMatchSnapshot();
-  });
-
   it('should render correctly with message templates', () => {
     const rendered = shallow(
       <MessagingTextArea

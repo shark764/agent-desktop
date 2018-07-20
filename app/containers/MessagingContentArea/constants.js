@@ -11,3 +11,5 @@
 export const INITIALIZE_OUTBOUND_SMS_FROM_MESSAGING =
   'app/MessagingContentArea/INITIALIZE_OUTBOUND_SMS_FROM_MESSAGING';
 export const SEND_OUTBOUND_SMS = 'app/MessagingContentArea/SEND_OUTBOUND_SMS';
+export const COPY_CHAT_TRANSCRIPT =
+  'app/MessagingContentArea/COPY_CHAT_TRANSCRIPT';

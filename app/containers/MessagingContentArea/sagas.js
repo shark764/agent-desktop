@@ -2,21 +2,26 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeEvery, takeLatest, call, put, select } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
+import copyToClipboard from 'utils/copyToClipboard';
 import Message from 'models/Message/Message';
 import {
   setInteractionStatus,
   initializeOutboundSmsForAgentDesktop,
   addMessage,
   setContactMode,
+  toggleTranscriptCopied,
 } from 'containers/AgentDesktop/actions';
 import { addContactNotification } from 'containers/ContactsControl/actions';
-
+import { selectAgent } from 'containers/Login/selectors';
+import { getSelectedInteractionId } from 'containers/AgentDesktop/selectors';
 import {
   INITIALIZE_OUTBOUND_SMS_FROM_MESSAGING,
   SEND_OUTBOUND_SMS,
+  COPY_CHAT_TRANSCRIPT,
 } from './constants';
 
 export function* initializeOutboundSmsForMessagingSaga(action) {
@@ -84,6 +89,62 @@ export function* sendOutboundSms(action) {
   }
 }
 
+export function* copyChatTranscript(action) {
+  let customer;
+  if (
+    action.interaction.contact &&
+    action.interaction.contact.id !== undefined
+  ) {
+    customer = action.interaction.contact.attributes.name;
+  } else {
+    customer =
+      action.interaction.channelType === 'sms'
+        ? action.interaction.customer
+        : action.interaction.messageHistory.find(
+          (message) =>
+            message.type === 'customer' || message.type === 'message'
+        ).from;
+  }
+  const agent = yield select(selectAgent);
+  const agentName = agent.firstName.concat(' ', agent.lastName);
+  const chatTranscript = action.interaction.messageHistory.reduce(
+    (transcript, { type, from, timestamp, text }) => {
+      const date = new Date(timestamp);
+      let fromText;
+      if (from === agent.userId) {
+        fromText = agentName;
+      } else if (type === 'system') {
+        fromText = 'System';
+      } else if (type === 'customer' || type === 'message') {
+        fromText = customer;
+      } else if (type === 'agent') {
+        fromText = from;
+      } else {
+        console.error(
+          'Unexpected message "from" during copy',
+          action.interaction.messageHistory
+        );
+        fromText = '';
+      }
+      return `${transcript}${date.toLocaleTimeString()} - ${fromText}:
+${text}\n\n`;
+    },
+    `Customer: ${customer}
+Agent: ${agentName}
+Channel: ${action.interaction.channelType}
+Date: ${new Date().toLocaleString()}
+
+---------------------- Chat Transcript ----------------------
+
+`
+  );
+  copyToClipboard(chatTranscript);
+  const interactionId = yield select(getSelectedInteractionId);
+  yield put(toggleTranscriptCopied(interactionId, true));
+  yield call(delay, 5000);
+  yield put(toggleTranscriptCopied(interactionId, false));
+}
+
 // Individual exports for testing
 export function* watchInitializeOutboundSms() {
   yield takeEvery(
@@ -96,5 +157,13 @@ export function* watchSendOutboundSms() {
   yield takeEvery(SEND_OUTBOUND_SMS, sendOutboundSms);
 }
 
+export function* watchCopyChatTranscript() {
+  yield takeLatest(COPY_CHAT_TRANSCRIPT, copyChatTranscript);
+}
+
 // All sagas to be loaded
-export default [watchInitializeOutboundSms, watchSendOutboundSms];
+export default [
+  watchInitializeOutboundSms,
+  watchSendOutboundSms,
+  watchCopyChatTranscript,
+];

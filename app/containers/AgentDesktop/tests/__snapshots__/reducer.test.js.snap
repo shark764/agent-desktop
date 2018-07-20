@@ -1394,6 +1394,7 @@ Immutable.Map {
       "interactionId": "agent-initiated-sms-+15064701234",
       "customFieldsCollapsed": true,
       "currentMessage": "",
+      "isCopied": false,
       "note": Immutable.Map {
         "body": "",
         "title": "",

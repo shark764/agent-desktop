@@ -1389,10 +1389,12 @@ function agentDesktopReducer(state = initialState, action) {
             interaction.get('interactionId') === action.interactionId
         );
       if (messageInteractionIndex !== -1) {
-        return state.updateIn(
-          ['interactions', messageInteractionIndex, 'messageHistory'],
-          (messageHistory) => messageHistory.push(action.message)
-        );
+        return state
+          .updateIn(
+            ['interactions', messageInteractionIndex, 'messageHistory'],
+            (messageHistory) => messageHistory.push(action.message)
+          )
+          .setIn(['interactions', messageInteractionIndex, 'isCopied'], false);
       } else {
         return state;
       }
@@ -2184,6 +2186,17 @@ function agentDesktopReducer(state = initialState, action) {
               (notification) =>
                 notification.get('messageKey') === action.messageKey
             )
+        );
+      } else {
+        return state;
+      }
+    }
+    case ACTIONS.TOGGLE_TRANSCRIPT_COPIED: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.setIn(
+          ['interactions', interactionIndex, 'isCopied'],
+          action.isCopied
         );
       } else {
         return state;
