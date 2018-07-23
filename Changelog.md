@@ -1,3 +1,6 @@
+### [1.28.2] (2018-07-23)
+* CXV1-14660 - hookBy parameter added in send-unassign-interrupt request in salesforce
+
 ### [1.28.1] (2018-07-19)
 * CXV1-14502 - Zendesk - 'TypeError: Cannot read property queueName of undefined' When trying to view history.
 
