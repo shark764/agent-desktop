@@ -15,9 +15,12 @@ import Button from 'components/Button';
 import Icon from 'components/Icon';
 
 import { saveMessageState } from 'containers/AgentDesktop/actions';
-import { initializeOutboundSmsFromMessaging, sendOutboundSms } from './actions';
+import {
+  initializeOutboundSmsFromMessaging,
+  sendOutboundSms,
+  copyChatTranscript,
+} from './actions';
 import messages from './messages';
-
 const styles = {
   messageTemplatesContainer: {
     position: 'absolute',
@@ -455,8 +458,7 @@ export class MessagingTextArea extends React.Component {
           undefined
         )}
         {this.props.messageTemplates &&
-          this.props.messageTemplates.length > 0 &&
-          this.props.selectedInteraction.status !== 'wrapup' && (
+          this.props.messageTemplates.length > 0 && (
           <Button
             id="templateMenuButton"
             onClick={this.toggleMessageTemplateMenu}
@@ -475,38 +477,34 @@ export class MessagingTextArea extends React.Component {
               : '1px solid #23CEF5 !important;'
           }}`}
         </style>
-        {this.props.selectedInteraction.status !== 'wrapup' && (
-          <Textarea
-            minRows={2}
-            maxRows={4}
-            onHeightChange={(messageTextareaHeight) =>
-              this.setState({ messageTextareaHeight })
-            }
-            id="messageTextarea"
-            inputRef={(input) => {
-              this.messageTextarea = input;
-            }}
-            style={
-              this.props.messageTemplates &&
-              this.props.messageTemplates.length > 0
-                ? styles.messageTextareaWithTemplates
-                : styles.messageTextarea
-            }
-            value={this.props.selectedInteraction.currentMessage}
-            onChange={(e) => this.setMessageText(e.target.value)}
-            onKeyDown={this.onMessageKeyDown}
-            autoFocus
-          />
-        )}
-        {this.props.selectedInteraction.status !== 'wrapup' && (
-          <Button
-            id="sendMessageButton"
-            onClick={this.sendMessage}
-            type="secondary"
-            style={styles.messageButton}
-            text={messages.send}
-          />
-        )}
+        <Textarea
+          minRows={2}
+          maxRows={4}
+          onHeightChange={(messageTextareaHeight) =>
+            this.setState({ messageTextareaHeight })
+          }
+          id="messageTextarea"
+          inputRef={(input) => {
+            this.messageTextarea = input;
+          }}
+          style={
+            this.props.messageTemplates &&
+            this.props.messageTemplates.length > 0
+              ? styles.messageTextareaWithTemplates
+              : styles.messageTextarea
+          }
+          value={this.props.selectedInteraction.currentMessage}
+          onChange={(e) => this.setMessageText(e.target.value)}
+          onKeyDown={this.onMessageKeyDown}
+          autoFocus
+        />
+        <Button
+          id="sendMessageButton"
+          onClick={this.sendMessage}
+          type="secondary"
+          style={styles.messageButton}
+          text={messages.send}
+        />
       </div>
     );
   }
@@ -530,6 +528,8 @@ function mapDispatchToProps(dispatch) {
       ),
     sendOutboundSms: (interactionId, message) =>
       dispatch(sendOutboundSms(interactionId, message)),
+    copyChatTranscript: (interaction) =>
+      dispatch(copyChatTranscript(interaction)),
     saveMesssageState: (interactionId, message) =>
       dispatch(saveMessageState(interactionId, message)),
     dispatch,

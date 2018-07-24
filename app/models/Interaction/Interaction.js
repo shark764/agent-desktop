@@ -34,6 +34,7 @@ export default class Interaction {
       this.customerAvatarIndex = Math.floor(Math.random() * 17);
       this.messageHistory = new List();
       this.currentMessage = '';
+      this.isCopied = false;
     }
     if (channelType === 'email' || channelType === 'sms') {
       this.customer = customer;

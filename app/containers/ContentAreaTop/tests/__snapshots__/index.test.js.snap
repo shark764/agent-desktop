@@ -33,6 +33,7 @@ exports[`<ContentAreaTop /> should render correctly 1`] = `
   <div
     style={
       Object {
+        "flexShrink": 0,
         "marginLeft": "auto",
       }
     }

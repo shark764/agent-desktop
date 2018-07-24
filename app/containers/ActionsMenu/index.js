@@ -188,9 +188,12 @@ export class ActionsMenu extends React.Component {
                   icons={button.icons}
                   onClick={() => {
                     button.onClick();
-                    this.toggleSubMenu();
+                    if (button.id !== 'copy-chat-transcript') {
+                      this.toggleSubMenu();
+                    }
                   }}
                   disabled={button.disabled}
+                  title={button.title}
                   tooltipText={button.tooltipText}
                   tooltipOffset="{'bottom': 10}"
                 />

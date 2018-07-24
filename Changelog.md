@@ -1,3 +1,6 @@
+### [1.28.0] (2018-07-17)
+* CXV1-14405 - Implement Copy Button
+
 ### [1.27.2] (2018-07-19)
 * CXV1-12463 - Facebook Chat - When a Facebook Interaction That is Assigned Is Transferred, Work Offer Shows Two Names.
 

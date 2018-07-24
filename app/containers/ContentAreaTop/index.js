@@ -100,7 +100,7 @@ export function ContentAreaTop(props, context) {
       <div style={styles.from} title={props.from}>
         {props.from}
       </div>
-      <div style={{ marginLeft: 'auto' }}>
+      <div style={{ marginLeft: 'auto', flexShrink: 0 }}>
         {props.interaction.status !== 'work-ended-pending-script' &&
           (!context.toolbarMode ? (
             <DesktopActionsButtons

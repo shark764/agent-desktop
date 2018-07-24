@@ -180,21 +180,6 @@ exports[`<MessagingTextArea /> should render correctly under work-accepted 1`] =
 </div>
 `;
 
-exports[`<MessagingTextArea /> should render correctly under wrapup 1`] = `
-<div
-  style={
-    Object {
-      "flex": "0 1 50px",
-      "maxHeight": "95px",
-    }
-  }
->
-  <style>
-    #messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: 1px solid #23CEF5 !important;}
-  </style>
-</div>
-`;
-
 exports[`<MessagingTextArea /> should render correctly with message templates 1`] = `
 <div
   style={
