@@ -547,7 +547,9 @@ export class Interaction extends React.Component {
               <p style={[styles.hoverBoxText, styles.hoverBoxTitle]}>
                 {this.props.from}
               </p>
-              {this.props.interaction.contact && (
+              {this.props.interaction.contact &&
+                this.props.status === 'pending' &&
+                this.props.interaction.channelType !== 'messaging' && (
                 <p style={styles.hoverBoxText}>
                   {this.props.contactPoint}
                 </p>

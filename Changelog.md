@@ -1,3 +1,6 @@
+### [1.27.2] (2018-07-19)
+* CXV1-12463 - Facebook Chat - When a Facebook Interaction That is Assigned Is Transferred, Work Offer Shows Two Names.
+
 ### [1.27.1] (2018-07-19)
 * CXV1-14660 - resourceId parameter added to send-unassign-interrupt request in salesforce
 
