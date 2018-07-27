@@ -15,6 +15,7 @@ exports[`<ButtonDialpad /> with type bottom should render correctly 1`] = `
         "color": "#4B4B4B",
         "fontSize": "22px",
         "padding": "17px 0",
+        "verticalAlign": "top",
         "width": "33.3%",
       },
       undefined,
@@ -22,9 +23,28 @@ exports[`<ButtonDialpad /> with type bottom should render correctly 1`] = `
       false,
     ]
   }
-  text="mockText"
   type="secondary"
-/>
+>
+  <div
+    style={
+      Object {
+        "height": "35px",
+        "marginTop": "15px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "marginLeft": "3px",
+          "marginTop": "-20px",
+        }
+      }
+    >
+      mockText
+    </div>
+  </div>
+</InjectIntl(Button)>
 `;
 
 exports[`<ButtonDialpad /> with type bottomLeft should render correctly 1`] = `
@@ -42,6 +62,7 @@ exports[`<ButtonDialpad /> with type bottomLeft should render correctly 1`] = `
         "color": "#4B4B4B",
         "fontSize": "22px",
         "padding": "17px 0",
+        "verticalAlign": "top",
         "width": "33.3%",
       },
       Object {
@@ -53,9 +74,28 @@ exports[`<ButtonDialpad /> with type bottomLeft should render correctly 1`] = `
       },
     ]
   }
-  text="mockText"
   type="secondary"
-/>
+>
+  <div
+    style={
+      Object {
+        "height": "35px",
+        "marginTop": "15px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "marginLeft": "3px",
+          "marginTop": "-20px",
+        }
+      }
+    >
+      mockText
+    </div>
+  </div>
+</InjectIntl(Button)>
 `;
 
 exports[`<ButtonDialpad /> with type bottomRight should render correctly 1`] = `
@@ -73,6 +113,7 @@ exports[`<ButtonDialpad /> with type bottomRight should render correctly 1`] = `
         "color": "#4B4B4B",
         "fontSize": "22px",
         "padding": "17px 0",
+        "verticalAlign": "top",
         "width": "33.3%",
       },
       Object {
@@ -82,9 +123,28 @@ exports[`<ButtonDialpad /> with type bottomRight should render correctly 1`] = `
       false,
     ]
   }
-  text="mockText"
   type="secondary"
-/>
+>
+  <div
+    style={
+      Object {
+        "height": "35px",
+        "marginTop": "15px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "marginLeft": "3px",
+          "marginTop": "-20px",
+        }
+      }
+    >
+      mockText
+    </div>
+  </div>
+</InjectIntl(Button)>
 `;
 
 exports[`<ButtonDialpad /> with type left should render correctly 1`] = `
@@ -102,6 +162,7 @@ exports[`<ButtonDialpad /> with type left should render correctly 1`] = `
         "color": "#4B4B4B",
         "fontSize": "22px",
         "padding": "17px 0",
+        "verticalAlign": "top",
         "width": "33.3%",
       },
       Object {
@@ -111,9 +172,28 @@ exports[`<ButtonDialpad /> with type left should render correctly 1`] = `
       false,
     ]
   }
-  text="mockText"
   type="secondary"
-/>
+>
+  <div
+    style={
+      Object {
+        "height": "35px",
+        "marginTop": "15px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "marginLeft": "3px",
+          "marginTop": "-20px",
+        }
+      }
+    >
+      mockText
+    </div>
+  </div>
+</InjectIntl(Button)>
 `;
 
 exports[`<ButtonDialpad /> with type middle should render correctly 1`] = `
@@ -131,6 +211,7 @@ exports[`<ButtonDialpad /> with type middle should render correctly 1`] = `
         "color": "#4B4B4B",
         "fontSize": "22px",
         "padding": "17px 0",
+        "verticalAlign": "top",
         "width": "33.3%",
       },
       undefined,
@@ -138,9 +219,28 @@ exports[`<ButtonDialpad /> with type middle should render correctly 1`] = `
       false,
     ]
   }
-  text="mockText"
   type="secondary"
-/>
+>
+  <div
+    style={
+      Object {
+        "height": "35px",
+        "marginTop": "15px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "marginLeft": "3px",
+          "marginTop": "-20px",
+        }
+      }
+    >
+      mockText
+    </div>
+  </div>
+</InjectIntl(Button)>
 `;
 
 exports[`<ButtonDialpad /> with type right should render correctly 1`] = `
@@ -158,6 +258,7 @@ exports[`<ButtonDialpad /> with type right should render correctly 1`] = `
         "color": "#4B4B4B",
         "fontSize": "22px",
         "padding": "17px 0",
+        "verticalAlign": "top",
         "width": "33.3%",
       },
       undefined,
@@ -165,9 +266,28 @@ exports[`<ButtonDialpad /> with type right should render correctly 1`] = `
       false,
     ]
   }
-  text="mockText"
   type="secondary"
-/>
+>
+  <div
+    style={
+      Object {
+        "height": "35px",
+        "marginTop": "15px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "marginLeft": "3px",
+          "marginTop": "-20px",
+        }
+      }
+    >
+      mockText
+    </div>
+  </div>
+</InjectIntl(Button)>
 `;
 
 exports[`<ButtonDialpad /> with type top should render correctly 1`] = `
@@ -185,6 +305,7 @@ exports[`<ButtonDialpad /> with type top should render correctly 1`] = `
         "color": "#4B4B4B",
         "fontSize": "22px",
         "padding": "17px 0",
+        "verticalAlign": "top",
         "width": "33.3%",
       },
       Object {
@@ -196,9 +317,28 @@ exports[`<ButtonDialpad /> with type top should render correctly 1`] = `
       false,
     ]
   }
-  text="mockText"
   type="secondary"
-/>
+>
+  <div
+    style={
+      Object {
+        "height": "35px",
+        "marginTop": "15px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "marginLeft": "3px",
+          "marginTop": "-20px",
+        }
+      }
+    >
+      mockText
+    </div>
+  </div>
+</InjectIntl(Button)>
 `;
 
 exports[`<ButtonDialpad /> with type topLeft should render correctly 1`] = `
@@ -216,6 +356,7 @@ exports[`<ButtonDialpad /> with type topLeft should render correctly 1`] = `
         "color": "#4B4B4B",
         "fontSize": "22px",
         "padding": "17px 0",
+        "verticalAlign": "top",
         "width": "33.3%",
       },
       Object {
@@ -229,9 +370,28 @@ exports[`<ButtonDialpad /> with type topLeft should render correctly 1`] = `
       },
     ]
   }
-  text="mockText"
   type="secondary"
-/>
+>
+  <div
+    style={
+      Object {
+        "height": "35px",
+        "marginTop": "15px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "marginLeft": "3px",
+          "marginTop": "-20px",
+        }
+      }
+    >
+      mockText
+    </div>
+  </div>
+</InjectIntl(Button)>
 `;
 
 exports[`<ButtonDialpad /> with type topRight should render correctly 1`] = `
@@ -249,6 +409,7 @@ exports[`<ButtonDialpad /> with type topRight should render correctly 1`] = `
         "color": "#4B4B4B",
         "fontSize": "22px",
         "padding": "17px 0",
+        "verticalAlign": "top",
         "width": "33.3%",
       },
       Object {
@@ -260,7 +421,26 @@ exports[`<ButtonDialpad /> with type topRight should render correctly 1`] = `
       false,
     ]
   }
-  text="mockText"
   type="secondary"
-/>
+>
+  <div
+    style={
+      Object {
+        "height": "35px",
+        "marginTop": "15px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "marginLeft": "3px",
+          "marginTop": "-20px",
+        }
+      }
+    >
+      mockText
+    </div>
+  </div>
+</InjectIntl(Button)>
 `;

@@ -1,3 +1,6 @@
+### [1.28.4] (2018-07-27)
+* CXV1-14705 - Add Letters to Dialpad
+
 ### [1.28.3] (2018-07-25)
 * CXV1-14274 - Email Reply Failing to Send
 

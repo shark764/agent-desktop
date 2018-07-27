@@ -36,6 +36,7 @@ const styles = {
     borderBottom: '1px solid #E4E4E4',
     borderLeft: 'none',
     borderRadius: 0,
+    verticalAlign: 'top',
   },
   top: {
     borderTop: '1px solid #E4E4E4',
@@ -55,6 +56,19 @@ const styles = {
   bottomLeft: {
     borderRadius: '0 0 0 3px',
   },
+  letter: {
+    color: '#979797',
+    fontSize: '10px',
+    marginLeft: '3px',
+  },
+  baseLetter: {
+    height: '35px',
+    marginTop: '15px',
+  },
+  baseNumber: {
+    marginLeft: '3px',
+    marginTop: '-20px',
+  },
 };
 
 function ButtonDialpad(props) {
@@ -68,14 +82,25 @@ function ButtonDialpad(props) {
         props.type.includes('Left') && styles.left,
       ]}
       type="secondary"
-      text={props.text}
       onClick={props.onClick}
-    />
+    >
+      <div style={styles.baseLetter}>
+        <div style={styles.baseNumber}>
+          {props.text}
+        </div>
+        {props.subText && (
+          <div style={styles.letter}>
+            {props.subText}
+          </div>
+        )}
+      </div>
+    </Button>
   );
 }
 
 ButtonDialpad.propTypes = {
   text: PropTypes.string.isRequired,
+  subText: PropTypes.string,
   type: PropTypes.oneOf(possibleTypes).isRequired,
   onClick: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
