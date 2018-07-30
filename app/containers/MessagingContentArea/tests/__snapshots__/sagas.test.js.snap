@@ -1,5 +1,100 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`copyChatTranscript Chat Transcript is copied succesfully selects the agent 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`copyChatTranscript Chat Transcript is copied succesfully state is change to not copied 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "interactionId",
+        "isCopied": false,
+        "type": "app/AgentDesktop/TOGGLE_TRANSCRIPT_COPIED",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`copyChatTranscript Chat Transcript is copied succesfully transcript is copied 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "interactionId",
+        "isCopied": true,
+        "type": "app/AgentDesktop/TOGGLE_TRANSCRIPT_COPIED",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`copyChatTranscript Chat Transcript is copied succesfully wait five seconds to change state 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        5000,
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`copyChatTranscript Chat Transcript isn't copied selects the agent 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`copyChatTranscript Chat Transcript isn't copied transcript fails to be copied 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "error": Object {
+          "code": "AD-1007",
+        },
+        "interactionFatal": undefined,
+        "type": "app/Errors/SET_NON_CRITICAL_ERROR",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
 exports[`initializeOutboundSmsForMessagingSaga should call the promise util with the SDK initializeOutboundSms and the correct arguments 1`] = `
 Object {
   "done": false,

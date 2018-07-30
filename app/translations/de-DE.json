@@ -165,6 +165,7 @@
   "app.containers.Errors.AD-1004": "Sie haben nicht die entsprechenden Berechtigungen, um auf diesen Mandanten zuzugreifen.",
   "app.containers.Errors.AD-1005": "",
   "app.containers.Errors.AD-1006": "",
+  "app.containers.Errors.AD-1007": "",
   "app.containers.Errors.default": "Unbekannter Fehler. Bitte beenden Sie Ihre Arbeit, da Sie möglicherweise die Seite aktualisieren müssen, um fortfahren zu können.",
   "app.containers.InfoTab.contactLayoutMissingLocaleTranslations": "Im Kontakt-Layout fehlen Übersetzungen.",
   "app.containers.InfoTab.crmUnavailableAttribute": "Keine Kontaktattribute gefunden. Mandantenkonfiguration prüfen.",

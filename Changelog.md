@@ -1,3 +1,6 @@
+### [1.28.5] (2018-07-31)
+* CXV1-14406 - Unit Tests/tech debt for Copy Button
+
 ### [1.28.4] (2018-07-27)
 * CXV1-14705 - Add Letters to Dialpad
 

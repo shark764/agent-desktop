@@ -165,6 +165,7 @@
   "app.containers.Errors.AD-1004": "Brak wystarczających uprawnień do uzyskania dostępu do tego dzierżawcy.",
   "app.containers.Errors.AD-1005": "",
   "app.containers.Errors.AD-1006": "",
+  "app.containers.Errors.AD-1007": "",
   "app.containers.Errors.default": "Wystąpił nieznany błąd. Spróbuj zakończyć swoją pracę, ponieważ może być konieczne odświeżenie strony w celu kontynuacji.",
   "app.containers.InfoTab.contactLayoutMissingLocaleTranslations": "Brak tłumaczeń dla układu kontaktu",
   "app.containers.InfoTab.crmUnavailableAttribute": "Nie znaleziono atrybutów, sprawdź konfigurację dzierżawcy",

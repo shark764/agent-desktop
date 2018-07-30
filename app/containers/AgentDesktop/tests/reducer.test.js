@@ -41,6 +41,7 @@ import {
   SET_QUEUES_TIME,
   SET_USER_CONFIG,
   SET_DISPOSITION_DETAILS,
+  TOGGLE_TRANSCRIPT_COPIED,
 } from '../constants';
 import agentDesktopReducer, { getNextSelectedInteractionId } from '../reducer';
 
@@ -672,11 +673,13 @@ describe('agentDesktopReducer', () => {
             direction: 'inbound',
             channelType: 'sms',
             messageHistory: [],
+            isCopied: true,
           },
         ],
       };
       action = {
         type: ADD_MESSAGE,
+        interactionId: 'test-interaction-id',
       };
     });
     describe('Message', () => {
@@ -1633,6 +1636,48 @@ describe('agentDesktopReducer', () => {
     });
     it('shows the dispositions list ordered as it was ordered on the configuration', () => {
       runReducerAndExpectSnapshot();
+    });
+  });
+
+  describe('TOGGLE_TRANSCRIPT_COPIED', () => {
+    beforeEach(() => {
+      action = {
+        type: TOGGLE_TRANSCRIPT_COPIED,
+      };
+    });
+    describe("Toggles interaction's isCopied attribute", () => {
+      beforeEach(() => {
+        initialState = {
+          interactions: [
+            {
+              interactionId: '1',
+              isCopied: false,
+            },
+          ],
+        };
+        action.interactionId = '1';
+        action.isCopied = true;
+      });
+      it('from false to true', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe("Toggles interaction's isCopied attribute", () => {
+      beforeEach(() => {
+        initialState = {
+          interactions: [
+            {
+              interactionId: '1',
+              isCopied: true,
+            },
+          ],
+        };
+        action.interactionId = '1';
+        action.isCopied = false;
+      });
+      it('from true to false', () => {
+        runReducerAndExpectSnapshot();
+      });
     });
   });
 
