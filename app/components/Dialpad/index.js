@@ -180,48 +180,56 @@ function Dialpad(props, context) {
               text="2"
               type="top"
               onClick={() => buttonPress('2')}
+              subText="ABC"
             />
             <ButtonDialpad
               id={`${props.id}3Button`}
               text="3"
               type="topRight"
               onClick={() => buttonPress('3')}
+              subText="DEF"
             />
             <ButtonDialpad
               id={`${props.id}4Button`}
               text="4"
               type="left"
               onClick={() => buttonPress('4')}
+              subText="GHI"
             />
             <ButtonDialpad
               id={`${props.id}5Button`}
               text="5"
               type="middle"
               onClick={() => buttonPress('5')}
+              subText="JKL"
             />
             <ButtonDialpad
               id={`${props.id}6Button`}
               text="6"
               type="right"
               onClick={() => buttonPress('6')}
+              subText="MNO"
             />
             <ButtonDialpad
               id={`${props.id}7Button`}
               text="7"
               type="left"
               onClick={() => buttonPress('7')}
+              subText="PQRS"
             />
             <ButtonDialpad
               id={`${props.id}8Button`}
               text="8"
               type="middle"
               onClick={() => buttonPress('8')}
+              subText="TUV"
             />
             <ButtonDialpad
               id={`${props.id}9Button`}
               text="9"
               type="right"
               onClick={() => buttonPress('9')}
+              subText="WXYZ"
             />
             <ButtonDialpad
               id={`${props.id}StarButton`}
