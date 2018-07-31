@@ -3,12 +3,14 @@
 
 ### [1.28.9] (2018-08-15)
 * CXV1-14662 - Fix SSO identity-ui error handling
+* CXV1-14703 - Call apex class function to add org-id in hooks
+* CXV1-14703 - Fix org-id assignment in salesforce lightning
 
 ### [1.28.8] (2018-08-15)
 * CXV1-12115 - externalResource : true Do not look up agent name
 
 ### [1.28.7] (2018-08-15)
-* CXV1-13015 - Skylight SSO - Choosing a tenant (NOT default) then signing in with SSO again doesnt go to the tenant select screen	
+* CXV1-13015 - Skylight SSO - Choosing a tenant (NOT default) then signing in with SSO again doesnt go to the tenant select screen
 
 ### [1.28.6] (2018-07-31)
 * CXV1-14773 - Update Jest to 22
