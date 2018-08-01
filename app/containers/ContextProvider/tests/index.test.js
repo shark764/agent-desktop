@@ -41,9 +41,8 @@ describe('<ContextProvider />', () => {
     expect(rendered).toMatchSnapshot();
   });
   it('should set flags correctly when url for toolbar is hit', () => {
-    Object.defineProperty(window.location, 'href', {
-      writable: true,
-      value: 'https://dev-tb2.cxengagelabs.net/',
+    global.jsdom.reconfigure({
+      url: 'https://dev-tb2.cxengagelabs.net/',
     });
     const rendered = mount(
       <ContextProvider>

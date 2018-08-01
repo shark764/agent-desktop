@@ -1,3 +1,6 @@
+### [1.28.6] (2018-07-31)
+* CXV1-14773 - Update Jest to 22
+
 ### [1.28.5] (2018-07-31)
 * CXV1-14406 - Unit Tests/tech debt for Copy Button
 

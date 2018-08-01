@@ -76,9 +76,8 @@ describe('<CustomFields />', () => {
   });
   describe('Toolbar mode', () => {
     beforeEach(() => {
-      Object.defineProperty(window.location, 'href', {
-        writable: true,
-        value: 'https://dev-tb2.cxengagelabs.net/',
+      global.jsdom.reconfigure({
+        url: 'https://dev-tb2.cxengagelabs.net/',
       });
     });
     it('should render correctly with 3 or less fields', () => {

@@ -6,7 +6,6 @@ exports[`<Dialpad /> activeExtensionIsNotPstn clicking the icon renders the icon
   id="dialpadButton"
   innerElement={
     <Dialpad
-      dialpadPosition={undefined}
       dialpadText=""
       id="activeInteractionDialpad"
       inCall={true}
