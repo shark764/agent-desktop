@@ -6,7 +6,7 @@ import { takeEvery, takeLatest, call, put, select } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
-import copyToClipboard from 'utils/copyToClipboard';
+import { copyToClipboard } from 'serenova-js-utils/browser';
 import Message from 'models/Message/Message';
 import {
   setInteractionStatus,
@@ -17,7 +17,7 @@ import {
 } from 'containers/AgentDesktop/actions';
 import { addContactNotification } from 'containers/ContactsControl/actions';
 import { selectAgent } from 'containers/Login/selectors';
-import { getSelectedInteractionId } from 'containers/AgentDesktop/selectors';
+import { setNonCriticalError } from 'containers/Errors/actions';
 import {
   INITIALIZE_OUTBOUND_SMS_FROM_MESSAGING,
   SEND_OUTBOUND_SMS,
@@ -138,11 +138,13 @@ Date: ${new Date().toLocaleString()}
 
 `
   );
-  copyToClipboard(chatTranscript);
-  const interactionId = yield select(getSelectedInteractionId);
-  yield put(toggleTranscriptCopied(interactionId, true));
-  yield call(delay, 5000);
-  yield put(toggleTranscriptCopied(interactionId, false));
+  if (copyToClipboard(chatTranscript)) {
+    yield put(toggleTranscriptCopied(action.interaction.interactionId, true));
+    yield call(delay, 5000);
+    yield put(toggleTranscriptCopied(action.interaction.interactionId, false));
+  } else {
+    yield put(setNonCriticalError({ code: 'AD-1007' }));
+  }
 }
 
 // Individual exports for testing

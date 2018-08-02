@@ -209,7 +209,16 @@ Immutable.Map {
       "interactionId": "test-interaction-id",
       "direction": "inbound",
       "channelType": "sms",
-      "messageHistory": Immutable.List [],
+      "messageHistory": Immutable.List [
+        Immutable.Record {
+          "id": "no-id",
+          "type": "agent",
+          "from": "Agent",
+          "text": "test message",
+          "timestamp": "1970-01-01T00:00:00.000Z",
+        },
+      ],
+      "isCopied": false,
     },
   ],
 }
@@ -222,7 +231,16 @@ Immutable.Map {
       "interactionId": "test-interaction-id",
       "direction": "inbound",
       "channelType": "sms",
-      "messageHistory": Immutable.List [],
+      "messageHistory": Immutable.List [
+        Immutable.Record {
+          "id": "no-id",
+          "type": "customer",
+          "from": "Josh Clowater",
+          "text": "test messasge",
+          "timestamp": "1970-01-01T00:00:00.000Z",
+        },
+      ],
+      "isCopied": false,
     },
   ],
 }
@@ -1497,6 +1515,28 @@ Immutable.Map {
     Immutable.Map {
       "interactionId": "mockInteraction2",
       "customFieldsCollapsed": true,
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer TOGGLE_TRANSCRIPT_COPIED Toggles interaction's isCopied attribute from false to true 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "1",
+      "isCopied": true,
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer TOGGLE_TRANSCRIPT_COPIED Toggles interaction's isCopied attribute from true to false 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "1",
+      "isCopied": false,
     },
   ],
 }

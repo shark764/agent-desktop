@@ -165,6 +165,7 @@
   "app.containers.Errors.AD-1004": "Vous n'avez pas les autorisations suffisantes pour accéder au client.",
   "app.containers.Errors.AD-1005": "",
   "app.containers.Errors.AD-1006": "",
+  "app.containers.Errors.AD-1007": "",
   "app.containers.Errors.default": "Une erreur inconnue s'est produite. Veuillez essayer de terminer votre travail, car vous devrez peut-être actualiser la page pour continuer.",
   "app.containers.InfoTab.contactLayoutMissingLocaleTranslations": "Il manque des traductions pour la mise en page du contact.",
   "app.containers.InfoTab.crmUnavailableAttribute": "Aucun attribut de contact trouvé, vérifiez la configuration du client.",

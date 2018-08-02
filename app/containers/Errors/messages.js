@@ -45,6 +45,10 @@ export default defineMessages({
     defaultMessage:
       'You must allow notifications through your browser to enable visual notifications.',
   },
+  'AD-1007': {
+    id: 'app.containers.Errors.AD-1007',
+    defaultMessage: 'Failed to copy the chat transcript',
+  },
   2001: {
     id: 'app.containers.Errors.2001',
     defaultMessage: 'Failed to get user configuration. Please try again.',

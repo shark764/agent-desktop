@@ -165,6 +165,7 @@
   "app.containers.Errors.AD-1004": "No tiene suficientes permisos para acceder al abonado.",
   "app.containers.Errors.AD-1005": "",
   "app.containers.Errors.AD-1006": "",
+  "app.containers.Errors.AD-1007": "",
   "app.containers.Errors.default": "Se ha producido un error desconocido. Intente finalizar su trabajo, ya que es posible que tenga que actualizar la página para poder continuar.",
   "app.containers.InfoTab.contactLayoutMissingLocaleTranslations": "Faltan traducciones para el diseño de contacto",
   "app.containers.InfoTab.crmUnavailableAttribute": "No se han encontrado atributos de contacto; compruebe la configuración del abonado.",

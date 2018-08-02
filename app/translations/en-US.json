@@ -165,6 +165,7 @@
   "app.containers.Errors.AD-1004": "You have insufficient permissions to access tenant.",
   "app.containers.Errors.AD-1005": "This account is not currently associated with an active tenant. Please reach out to your system administrator for assistance.",
   "app.containers.Errors.AD-1006": "You must allow notifications through your browser to enable visual notifications.",
+  "app.containers.Errors.AD-1007": "Failed to copy the chat transcript",
   "app.containers.Errors.default": "An unknown error has occurred. Please try to finish your work as you may need to refresh the page to continue.",
   "app.containers.InfoTab.contactLayoutMissingLocaleTranslations": "There are missing translations for the contact layout",
   "app.containers.InfoTab.crmUnavailableAttribute": "No contact attributes found, check tenant config.",
