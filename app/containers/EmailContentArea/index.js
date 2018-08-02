@@ -14,10 +14,6 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import 'velocity-animate';
-import 'velocity-animate/velocity.ui';
-import { VelocityTransitionGroup } from 'velocity-react';
-
 import moment from 'moment';
 import 'assets/css/mediumdraft.min.css';
 import { Editor, createEditorState } from 'medium-draft';
@@ -655,15 +651,7 @@ export class EmailContentArea extends React.Component {
           <div key="wrapupSpinner" style={styles.loadingSendingEmail}>
             <IconSVG id="sendingReplyIcon" name="loading" />
             <div style={styles.centerText}>
-              <VelocityTransitionGroup
-                runOnMount
-                enter={{ animation: 'transition.slideUpIn', duration: '1000' }}
-              >
-                <FormattedMessage
-                  key="replySpinner"
-                  {...messages.sendingEmail}
-                />
-              </VelocityTransitionGroup>
+              <FormattedMessage key="replySpinner" {...messages.sendingEmail} />
             </div>
           </div>
         );
@@ -672,15 +660,10 @@ export class EmailContentArea extends React.Component {
           <div key="wrapupSpinner" style={styles.loadingSendingEmail}>
             <IconSVG id="sendingReplyIcon" name="loading" />
             <div style={styles.centerText}>
-              <VelocityTransitionGroup
-                runOnMount
-                enter={{ animation: 'transition.slideUpIn', duration: '1000' }}
-              >
-                <FormattedMessage
-                  key="dispoSpinner"
-                  {...messages.awaitingDisposition}
-                />
-              </VelocityTransitionGroup>
+              <FormattedMessage
+                key="dispoSpinner"
+                {...messages.awaitingDisposition}
+              />
             </div>
           </div>
         );

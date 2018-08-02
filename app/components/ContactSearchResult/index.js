@@ -12,10 +12,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import 'velocity-animate';
-import 'velocity-animate/velocity.ui';
-import { VelocityTransitionGroup } from 'velocity-react';
-
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import Checkbox from 'components/Checkbox';
@@ -83,20 +79,15 @@ export class ContactSearchResult extends React.Component {
           this.props.checked && this.styles.checkedContact,
         ]}
       >
-        <VelocityTransitionGroup
-          enter={{ animation: 'transition.fadeIn', duration: '1000' }}
-          leave={{ animation: 'transition.fadeOut', duration: '1000' }}
-        >
-          {!this.props.hideContactSelectCheckbox && (
-            <Checkbox
-              style={this.styles.checkbox}
-              id={this.props.contact.id}
-              checked={this.props.checked}
-              disabled={this.props.disableEditing}
-              cb={this.props.selectContact}
-            />
-          )}
-        </VelocityTransitionGroup>
+        {!this.props.hideContactSelectCheckbox && (
+          <Checkbox
+            style={this.styles.checkbox}
+            id={this.props.contact.id}
+            checked={this.props.checked}
+            disabled={this.props.disableEditing}
+            cb={this.props.selectContact}
+          />
+        )}
         <ContactView
           contact={this.props.contact}
           showCompactView={!this.state.expanded}

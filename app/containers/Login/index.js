@@ -49,7 +49,6 @@ import LegalCopyright from 'components/LegalCopyright';
 
 import { isIeEleven } from 'utils/browser';
 
-import { mappedLocales } from 'i18n';
 import { changeLocale } from 'containers/LanguageProvider/actions';
 import { selectLocale } from 'containers/LanguageProvider/selectors';
 import {
@@ -71,6 +70,7 @@ import {
 } from 'containers/AgentDesktop/selectors';
 import { showLoginPopup } from 'containers/AgentDesktop/actions';
 import { initializeNotificatonPreferences } from 'containers/AgentNotificationsMenu/actions';
+import { mappedLocales } from '../../i18n';
 import selectLogin from './selectors';
 import messages from './messages';
 import {

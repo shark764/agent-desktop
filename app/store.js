@@ -5,11 +5,12 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import createSagaMiddleware from 'redux-saga';
-import reducer from 'reducers';
-import rootSaga from 'sagas';
 import reduxErrorMiddleware from 'utils/reduxErrorMiddleware';
 import watch from 'redux-watch';
-import watchers from 'watchers';
+
+import reducer from './reducers';
+import rootSaga from './sagas';
+import watchers from './watchers';
 
 const sagaMiddleware = createSagaMiddleware();
 
