@@ -10,9 +10,8 @@ import {
 
 describe('urlParamsToObj', () => {
   beforeEach(() => {
-    Object.defineProperty(window.location, 'search', {
-      writable: true,
-      value:
+    global.jsdom.reconfigure({
+      url:
         'http://localhost:3000/?desktop&username=test@test.com&tenantId=83e35671-5580-4e95-9304-00aac61a303c&idp=72c794b5-990b-443b-99f5-248122056a22#sso',
     });
   });
@@ -42,22 +41,19 @@ describe('removeDeepLinkParams', () => {
 
 describe('getDeepLinkLogin', () => {
   it('returns the correct constant value depending on the URL query params', () => {
-    Object.defineProperty(window.location, 'search', {
-      writable: true,
-      value:
+    global.jsdom.reconfigure({
+      url:
         'http://localhost:3000/?desktop&username=test@test.com&tenantId=83e35671-5580-4e95-9304-00aac61a303c#sso',
     });
     expect(getDeepLinkLogin()).toBe('DEEPLINK_USERNAME_TENANTID');
 
-    Object.defineProperty(window.location, 'search', {
-      writable: true,
-      value: 'http://localhost:3000/?desktop&username=test@test.com',
+    global.jsdom.reconfigure({
+      url: 'http://localhost:3000/?desktop&username=test@test.com',
     });
     expect(getDeepLinkLogin()).toBe('DEEPLINK_USERNAME_IDP');
 
-    Object.defineProperty(window.location, 'search', {
-      writable: true,
-      value: 'http://localhost:3000/?desktop',
+    global.jsdom.reconfigure({
+      url: 'http://localhost:3000/?desktop',
     });
     expect(getDeepLinkLogin()).toBeNull();
   });
