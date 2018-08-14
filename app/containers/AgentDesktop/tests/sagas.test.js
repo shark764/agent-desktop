@@ -424,7 +424,10 @@ describe('goAcceptWork', () => {
       generator = goAcceptWork({
         interactionId: 'interaction-id',
         response: {
-          activeResources: [{ id: 'resource-1' }, { id: 'resource-2' }],
+          activeResources: [
+            { id: 'resource-1', externalResource: true },
+            { id: 'resource-2', externalResource: false },
+          ],
         },
       });
     });

@@ -19,20 +19,6 @@ Object {
           "args": Array [
             "getUser",
             Object {
-              "resourceId": "resource-1",
-            },
-            "AgentDesktop",
-          ],
-          "context": null,
-          "fn": [Function],
-        },
-      },
-      Object {
-        "@@redux-saga/IO": true,
-        "CALL": Object {
-          "args": Array [
-            "getUser",
-            Object {
               "resourceId": "resource-2",
             },
             "AgentDesktop",
@@ -55,9 +41,11 @@ Object {
       "action": Object {
         "activeResources": Array [
           Object {
+            "externalResource": true,
             "id": "resource-1",
           },
           Object {
+            "externalResource": false,
             "id": "resource-2",
           },
         ],
@@ -82,9 +70,11 @@ Object {
         "response": Object {
           "activeResources": Array [
             Object {
+              "externalResource": true,
               "id": "resource-1",
             },
             Object {
+              "externalResource": false,
               "id": "resource-2",
             },
           ],
