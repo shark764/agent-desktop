@@ -364,16 +364,18 @@ export function* goAcceptWork(action) {
       setActiveResources(action.interactionId, action.response.activeResources)
     );
     yield all(
-      action.response.activeResources.map((resource) =>
-        call(
-          sdkCallToPromise,
-          CxEngage.entities.getUser,
-          {
-            resourceId: resource.id,
-          },
-          'AgentDesktop'
+      action.response.activeResources
+        .filter((resource) => resource.externalResource === false)
+        .map((resource) =>
+          call(
+            sdkCallToPromise,
+            CxEngage.entities.getUser,
+            {
+              resourceId: resource.id,
+            },
+            'AgentDesktop'
+          )
         )
-      )
     );
   }
 }
