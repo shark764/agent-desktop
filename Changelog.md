@@ -1,4 +1,7 @@
-### [1.28.6] (2018-08-15)
+### [1.28.8] (2018-08-15)
+* CXV1-12115 - externalResource : true Do not look up agent name
+
+### [1.28.7] (2018-08-15)
 * CXV1-13015 - Skylight SSO - Choosing a tenant (NOT default) then signing in with SSO again doesnt go to the tenant select screen	
 
 ### [1.28.6] (2018-07-31)
