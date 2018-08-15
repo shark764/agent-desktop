@@ -1,3 +1,6 @@
+### [1.28.6] (2018-08-15)
+* CXV1-13015 - Skylight SSO - Choosing a tenant (NOT default) then signing in with SSO again doesnt go to the tenant select screen	
+
 ### [1.28.6] (2018-07-31)
 * CXV1-14773 - Update Jest to 22
 
