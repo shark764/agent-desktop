@@ -603,8 +603,6 @@ export class Login extends React.Component {
         this.requiresReauth(selectingTenant) &&
         !this.isDeepLinkAuthentication()
       ) {
-        this.setRememberTenant(selectingTenant);
-
         if (selectingTenant.password) {
           this.showCxLogin();
         } else {
