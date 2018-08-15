@@ -1501,6 +1501,11 @@ export class App extends React.Component {
       if (code) {
         errorDescriptionMessage += ` (Code: ${code})`;
       }
+      if (errorInfo.data && errorInfo.data.errorDescription) {
+        errorDescriptionMessage += ` Error Description: ${
+          errorInfo.data.errorDescription
+        }`;
+      }
     }
 
     if (this.props.criticalError) {

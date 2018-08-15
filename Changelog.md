@@ -1,3 +1,6 @@
+### [1.28.9] (2018-08-15)
+* CXV1-14662 - Fix SSO identity-ui error handling
+
 ### [1.28.8] (2018-08-15)
 * CXV1-12115 - externalResource : true Do not look up agent name
 
