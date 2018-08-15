@@ -277,13 +277,11 @@ export class TransferMenu extends React.Component {
 
   setTransferListsCallback = (error, topic, response) => {
     console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
-    const transferLists = response.result
-      .filter((transferList) => transferList.active === true)
-      .map((transferList) => ({
-        id: transferList.id,
-        name: transferList.name,
-        endpoints: transferList.endpoints,
-      }));
+    const transferLists = response.result.map((transferList) => ({
+      id: transferList.id,
+      name: transferList.name,
+      endpoints: transferList.endpoints,
+    }));
     if (this.mounted) {
       this.setState({
         transferLists,
