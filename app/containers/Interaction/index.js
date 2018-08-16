@@ -166,6 +166,7 @@ const styles = {
     bottom: '-16px',
   },
   hoverBox: {
+    display: 'inline-block',
     backgroundColor: '#FFF',
     color: '#4B4B4B',
     borderRadius: '3px',
@@ -175,6 +176,7 @@ const styles = {
     left: '7px',
     minWidth: '170px',
     maxWidth: '300px',
+    whiteSpace: 'nowrap',
     zIndex: '3',
   },
   hoverBoxText: {
@@ -559,7 +561,7 @@ export class Interaction extends React.Component {
                 interaction={this.props.interaction}
                 style={{
                   position: 'relative',
-                  margin: '10px 0 0 50%',
+                  margin: '10px 0 auto 30%',
                 }}
               />
             </div>

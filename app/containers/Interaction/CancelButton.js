@@ -22,9 +22,9 @@ import messages from './messages';
 const styles = {
   cancelInteractionBtn: {
     margin: '10px 0 0 auto',
-    padding: '.25em .5em',
-    maxWidth: '65px',
+    padding: '.25em 1em',
     cursor: 'pointer',
+    maxWidth: '100%',
   },
 };
 

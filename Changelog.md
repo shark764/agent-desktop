@@ -1,3 +1,6 @@
+### [1.28.11] (2018-08-16)
+* CXV1-14612 - Adjust CSS for cancel text on cancel Interaction Before Active button.
+
 ### [1.28.10] (2018-08-16)
 * CXV1-14521 - Skylight showing disabled transfer lists
 
