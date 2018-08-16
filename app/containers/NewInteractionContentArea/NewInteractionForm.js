@@ -46,11 +46,17 @@ const styles = {
 
 const formatPhoneNumber = (input) => {
   const formattedInput = input.replace(/\D+/g, '');
-  if (isValidNumber(`+${formattedInput}`)) {
+  if (/([()-])+/.test(input)) {
+    // If the number is formatted with parentheses and a dash (ex "(506) 123-4567"), pre-pend the "1"
+    return `+1${input.replace(/\D+/g, '')}`;
+  } else if (isValidNumber(`+${formattedInput}`)) {
+    // Check if it's a valid number
     return `+${formattedInput}`;
   } else if (isValidNumber(`+1${formattedInput}`)) {
-    return `+1${formattedInput}`;
+    // Check if it's valid with "1" pre-pended
+    return `+1${input.replace(/\D+/g, '')}`;
   } else if (isValidNumber(`+44${formattedInput}`)) {
+    // Check if it's valid with "44" pre-pended
     return `+44${formattedInput}`;
   } else {
     return formattedInput;
@@ -103,5 +109,8 @@ NewInteractionForm.propTypes = {
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(NewInteractionForm))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(NewInteractionForm))
 );
