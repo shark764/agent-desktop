@@ -1,3 +1,6 @@
+### [1.28.10] (2018-08-16)
+* CXV1-14521 - Skylight showing disabled transfer lists
+
 ### [1.28.9] (2018-08-15)
 * CXV1-14662 - Fix SSO identity-ui error handling
 
