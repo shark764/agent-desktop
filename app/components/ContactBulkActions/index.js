@@ -12,10 +12,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import 'velocity-animate';
-import 'velocity-animate/velocity.ui';
-import { VelocityTransitionGroup } from 'velocity-react';
-
 import Button from 'components/Button';
 import ConfirmDialog from 'components/ConfirmDialog';
 
@@ -36,11 +32,6 @@ function ContactBulkActions(props) {
     },
   };
 
-  const velocityCleanup = (animatedElements) => {
-    const bulkActionBar = animatedElements[0];
-    bulkActionBar.style.transform = 'none';
-  };
-
   const deleteContacts = () => {
     props.deleteContacts();
     props.setConfirmingDelete(false);
@@ -56,64 +47,44 @@ function ContactBulkActions(props) {
           onClick={props.newContact}
         />
       </div>
-      <VelocityTransitionGroup
-        enter={{
-          animation: 'transition.slideUpIn',
-          duration: '100',
-          complete: velocityCleanup,
-          display: 'flex',
-        }}
-        leave={{ animation: 'transition.slideDownOut', duration: '100' }}
-      >
-        {props.selectedContacts.length >= 1 && (
-          <div key="delete-btn-container">
-            <ConfirmDialog
-              questionMessage={
-                props.selectedContacts.length === 1
-                  ? messages.deleteContact
-                  : {
-                    ...messages.deleteContacts,
-                    values: { count: props.selectedContacts.length },
-                  }
-              }
-              leftAction={() => props.setConfirmingDelete(false)}
-              rightAction={deleteContacts}
-              isVisible={props.confirmingDelete}
-              hide={() => props.setConfirmingDelete(false)}
-              style={styles.bulkConfirmDialog}
-            />
-            <Button
-              style={{ marginLeft: '10px' }}
-              onClick={() => props.setConfirmingDelete(true)}
-              id="delete-btn"
-              text={messages.delete}
-              type="secondary"
-            />
-          </div>
-        )}
-      </VelocityTransitionGroup>
-      <VelocityTransitionGroup
-        enter={{
-          animation: 'transition.slideUpIn',
-          duration: '100',
-          complete: velocityCleanup,
-          display: 'flex',
-        }}
-        leave={{ animation: 'transition.slideDownOut', duration: '100' }}
-      >
-        {props.selectedContacts.length === 2 && (
-          <div key="merge-btn-container">
-            <Button
-              style={{ marginLeft: '10px' }}
-              onClick={props.setMerging}
-              id="merge"
-              key="merge"
-              text={messages.merge}
-              type="secondary"
-            />
-          </div>
-        )}
-      </VelocityTransitionGroup>
+      {props.selectedContacts.length >= 1 && (
+        <div key="delete-btn-container">
+          <ConfirmDialog
+            questionMessage={
+              props.selectedContacts.length === 1
+                ? messages.deleteContact
+                : {
+                  ...messages.deleteContacts,
+                  values: { count: props.selectedContacts.length },
+                }
+            }
+            leftAction={() => props.setConfirmingDelete(false)}
+            rightAction={deleteContacts}
+            isVisible={props.confirmingDelete}
+            hide={() => props.setConfirmingDelete(false)}
+            style={styles.bulkConfirmDialog}
+          />
+          <Button
+            style={{ marginLeft: '10px' }}
+            onClick={() => props.setConfirmingDelete(true)}
+            id="delete-btn"
+            text={messages.delete}
+            type="secondary"
+          />
+        </div>
+      )}
+      {props.selectedContacts.length === 2 && (
+        <div key="merge-btn-container">
+          <Button
+            style={{ marginLeft: '10px' }}
+            onClick={props.setMerging}
+            id="merge"
+            key="merge"
+            text={messages.merge}
+            type="secondary"
+          />
+        </div>
+      )}
     </div>
   );
 }

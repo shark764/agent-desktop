@@ -20,76 +20,50 @@ exports[`<PopupDialog /> when given required props and arrowLeftOffsetPx should 
       }
     }
   />
-  <VelocityTransitionGroup
-    enter={
-      Object {
-        "animation": "transition.slideUpIn",
-        "duration": "100",
-      }
-    }
-    enterHideStyle={
-      Object {
-        "display": "none",
-      }
-    }
-    enterShowStyle={
-      Object {
-        "display": "",
-      }
-    }
+  <div
+    data-radium={true}
+    id="mockId"
     key=".1"
-    leave={
+    style={
       Object {
-        "animation": "transition.slideUpOut",
-        "duration": "100",
+        "backgroundColor": "#FFFFFF",
+        "borderRadius": "8px",
+        "boxShadow": "0 0 6px 1px rgba(0,0,0,0.29)",
+        "color": "#4b4b4b",
+        "margin": "10px",
+        "position": "relative",
+        "width": "1px",
+        "zIndex": 3,
       }
     }
-    runOnMount={false}
   >
-    <div
+    <span
       data-radium={true}
-      id="mockId"
+      key=".0"
       style={
         Object {
-          "backgroundColor": "#FFFFFF",
-          "borderRadius": "8px",
-          "boxShadow": "0 0 6px 1px rgba(0,0,0,0.29)",
-          "color": "#4b4b4b",
-          "margin": "10px",
-          "position": "relative",
-          "width": "1px",
-          "zIndex": 3,
+          "borderColor": "#FFF transparent transparent #FFF",
+          "borderImage": "initial",
+          "borderRadius": "3px",
+          "borderStyle": "solid",
+          "borderWidth": "8px",
+          "bottom": "-7px",
+          "boxShadow": "-6px -6px 11px -4px rgba(0,0,0,0.29)",
+          "height": "0px",
+          "left": "5px",
+          "position": "absolute",
+          "transform": "rotate(-134deg)",
+          "width": "0px",
+          "zIndex": "1",
         }
       }
+    />
+    <p
+      key=".1"
     >
-      <span
-        data-radium={true}
-        key=".0"
-        style={
-          Object {
-            "borderColor": "#FFF transparent transparent #FFF",
-            "borderImage": "initial",
-            "borderRadius": "3px",
-            "borderStyle": "solid",
-            "borderWidth": "8px",
-            "bottom": "-7px",
-            "boxShadow": "-6px -6px 11px -4px rgba(0,0,0,0.29)",
-            "height": "0px",
-            "left": "5px",
-            "position": "absolute",
-            "transform": "rotate(-134deg)",
-            "width": "0px",
-            "zIndex": "1",
-          }
-        }
-      />
-      <p
-        key=".1"
-      >
-        Mock Child
-      </p>
-    </div>
-  </VelocityTransitionGroup>
+      Mock Child
+    </p>
+  </div>
 </div>
 `;
 
@@ -113,75 +87,49 @@ exports[`<PopupDialog /> when given required props should render correctly 1`] =
       }
     }
   />
-  <VelocityTransitionGroup
-    enter={
-      Object {
-        "animation": "transition.slideUpIn",
-        "duration": "100",
-      }
-    }
-    enterHideStyle={
-      Object {
-        "display": "none",
-      }
-    }
-    enterShowStyle={
-      Object {
-        "display": "",
-      }
-    }
+  <div
+    data-radium={true}
+    id="mockId"
     key=".1"
-    leave={
+    style={
       Object {
-        "animation": "transition.slideUpOut",
-        "duration": "100",
+        "backgroundColor": "#FFFFFF",
+        "borderRadius": "8px",
+        "boxShadow": "0 0 6px 1px rgba(0,0,0,0.29)",
+        "color": "#4b4b4b",
+        "margin": "10px",
+        "position": "relative",
+        "width": "1px",
+        "zIndex": 3,
       }
     }
-    runOnMount={false}
   >
-    <div
+    <span
       data-radium={true}
-      id="mockId"
+      key=".0"
       style={
         Object {
-          "backgroundColor": "#FFFFFF",
-          "borderRadius": "8px",
-          "boxShadow": "0 0 6px 1px rgba(0,0,0,0.29)",
-          "color": "#4b4b4b",
-          "margin": "10px",
-          "position": "relative",
-          "width": "1px",
-          "zIndex": 3,
+          "borderColor": "#FFF transparent transparent #FFF",
+          "borderImage": "initial",
+          "borderRadius": "3px",
+          "borderStyle": "solid",
+          "borderWidth": "8px",
+          "bottom": "-7px",
+          "boxShadow": "-6px -6px 11px -4px rgba(0,0,0,0.29)",
+          "height": "0px",
+          "left": "0px",
+          "position": "absolute",
+          "transform": "rotate(-134deg)",
+          "width": "0px",
+          "zIndex": "1",
         }
       }
+    />
+    <p
+      key=".1"
     >
-      <span
-        data-radium={true}
-        key=".0"
-        style={
-          Object {
-            "borderColor": "#FFF transparent transparent #FFF",
-            "borderImage": "initial",
-            "borderRadius": "3px",
-            "borderStyle": "solid",
-            "borderWidth": "8px",
-            "bottom": "-7px",
-            "boxShadow": "-6px -6px 11px -4px rgba(0,0,0,0.29)",
-            "height": "0px",
-            "left": "0px",
-            "position": "absolute",
-            "transform": "rotate(-134deg)",
-            "width": "0px",
-            "zIndex": "1",
-          }
-        }
-      />
-      <p
-        key=".1"
-      >
-        Mock Child
-      </p>
-    </div>
-  </VelocityTransitionGroup>
+      Mock Child
+    </p>
+  </div>
 </div>
 `;

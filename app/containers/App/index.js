@@ -15,6 +15,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import axios from 'axios';
+import { hot } from 'react-hot-loader';
 // IE11 compatibility polyfill
 import { URL } from 'url-polyfill';
 import { createSearchQuery } from 'utils/contact';
@@ -166,8 +167,15 @@ export class App extends React.Component {
   }
 
   componentWillMount() {
-    this.loadConf();
-    this.cacheCheckInterval = setInterval(this.loadConf, 300000); // Cache busting version check every 5min
+    if (
+      window.location.hostname === 'localhost' ||
+      window.location.hostname.includes('ngrok')
+    ) {
+      this.init();
+    } else {
+      this.loadConf();
+      this.cacheCheckInterval = setInterval(this.loadConf, 300000); // Cache busting version check every 5min
+    }
 
     window.addEventListener('beforeunload', (e) => {
       if (this.props.agentDesktop.interactions.length) {
@@ -266,7 +274,6 @@ export class App extends React.Component {
 
     // Initialize Remote Logging with Sentry.io
     // Check if environment === 'prod' to re-enable
-    // eslint-disable-next-line no-constant-condition
     if (environment !== 'prod') {
       Raven.config(
         'https://892f9eb6bb314a9da98b98372c518351@sentry.io/169686',
@@ -1825,5 +1832,5 @@ export default injectIntl(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(Radium(App))
+  )(hot(module)(Radium(App)))
 );

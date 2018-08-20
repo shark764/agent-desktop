@@ -11,9 +11,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import 'velocity-animate';
-import 'velocity-animate/velocity.ui';
-import { VelocityTransitionGroup } from 'velocity-react';
 
 const styles = {
   base: {
@@ -65,17 +62,12 @@ function PopupDialog(props) {
         props.isVisible && (
           <div style={styles.mask} id="screen-mask" onClick={props.hide} />
         )}
-      <VelocityTransitionGroup
-        enter={{ animation: 'transition.slideUpIn', duration: '100' }}
-        leave={{ animation: 'transition.slideUpOut', duration: '100' }}
-      >
-        {props.isVisible && (
-          <div id={props.id} style={[styles.base, props.style]}>
-            <span style={[styles.triangle]} />
-            {props.children}
-          </div>
-        )}
-      </VelocityTransitionGroup>
+      {props.isVisible && (
+        <div id={props.id} style={[styles.base, props.style]}>
+          <span style={[styles.triangle]} />
+          {props.children}
+        </div>
+      )}
     </div>
   );
 }

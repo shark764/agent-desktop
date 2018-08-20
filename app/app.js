@@ -9,18 +9,11 @@
  */
 import 'babel-polyfill';
 
-/* eslint-disable import/no-unresolved, import/extensions, import/no-webpack-loader-syntax */
-// Load the manifest.json file and the .htaccess file
-import '!file-loader?name=[name].[ext]!./manifest.json';
-import 'file-loader?name=[name].[ext]!./.htaccess';
-/* eslint-enable import/no-unresolved, import/extensions, import/no-webpack-loader-syntax */
-
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import LanguageProvider from 'containers/LanguageProvider';
-import configureStore from 'store';
 
 import ContextProvider from 'containers/ContextProvider';
 import App from 'containers/App';
@@ -29,6 +22,7 @@ import App from 'containers/App';
 import 'sanitize.css/sanitize.css';
 import './global-styles';
 
+import configureStore from './store';
 import { translationMessages } from './i18n';
 
 const store = configureStore();
@@ -57,12 +51,11 @@ if (module.hot) {
 }
 
 // Chunked polyfill for browsers without Intl support
-/* global System */
 if (!window.Intl) {
   new Promise((resolve) => {
-    resolve(System.import('intl'));
+    resolve(import('intl'));
   })
-    .then(() => Promise.all([System.import('intl/locale-data/jsonp/de.js')]))
+    .then(() => Promise.all([import('intl/locale-data/jsonp/de.js')]))
     .then(() => render(translationMessages))
     .catch((err) => {
       throw err;

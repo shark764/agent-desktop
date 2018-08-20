@@ -1,3 +1,6 @@
+### [1.28.12] (2018-08-17)
+* CXV1-14772: Update to webpack 4
+
 ### [1.28.11] (2018-08-16)
 * CXV1-14612 - Adjust CSS for cancel text on cancel Interaction Before Active button.
 
