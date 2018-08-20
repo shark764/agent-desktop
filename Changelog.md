@@ -1,3 +1,6 @@
+### [1.28.13] (2018-08-17)
+* CXV1-14757- North American country code is sometimes not added to Skylight dial sequence.
+
 ### [1.28.12] (2018-08-17)
 * CXV1-14772: Update to webpack 4
 
