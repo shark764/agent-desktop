@@ -1,3 +1,6 @@
+### [1.28.15] (2018-08-20)
+* CXV1-14707: Include other agents in the copied chat-transcript header
+
 ### [1.28.14] (2018-08-20)
 * CXV1-14945: Remove spacing from copied chat transcript
 
