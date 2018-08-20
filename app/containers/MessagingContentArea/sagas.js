@@ -126,16 +126,14 @@ export function* copyChatTranscript(action) {
         );
         fromText = '';
       }
-      return `${transcript}${date.toLocaleTimeString()} - ${fromText}:
-${text}\n\n`;
+      return `${transcript}${date.toLocaleTimeString()} - ${fromText}: ${text.trim()}
+`;
     },
     `Customer: ${customer}
 Agent: ${agentName}
 Channel: ${action.interaction.channelType}
 Date: ${new Date().toLocaleString()}
-
 ---------------------- Chat Transcript ----------------------
-
 `
   );
   if (copyToClipboard(chatTranscript)) {

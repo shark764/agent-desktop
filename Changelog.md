@@ -1,3 +1,6 @@
+### [1.28.14] (2018-08-20)
+* CXV1-14945: Remove spacing from copied chat transcript
+
 ### [1.28.13] (2018-08-17)
 * CXV1-14757- North American country code is sometimes not added to Skylight dial sequence.
 
