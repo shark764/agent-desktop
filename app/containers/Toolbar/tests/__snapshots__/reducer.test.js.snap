@@ -7,5 +7,6 @@ Immutable.Map {
   "enabledStats": Immutable.List [],
   "availableStats": Immutable.Map {},
   "showAgentStatusMenu": false,
+  "batchRequestsAreSuccessful": true,
 }
 `;

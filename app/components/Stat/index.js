@@ -52,6 +52,9 @@ const styles = {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
   },
+  gray: {
+    color: '#A4A4A4',
+  },
   loadingIcon: {
     position: 'relative',
     top: '-5px',
@@ -193,21 +196,21 @@ export class Stat extends React.Component {
             <div style={styles.hoverBox}>
               <div style={styles.hoverHeader}>
                 <FormattedMessage {...messages.source} />
-                  :
+:
               </div>
               <div style={styles.hoverData}>
                 {source}
               </div>
               <div style={styles.hoverHeader}>
                 <FormattedMessage {...messages.statistic} />
-                  :
+:
               </div>
               <div style={styles.hoverData}>
                 {this.props.userFriendlyName}
               </div>
               <div style={styles.hoverHeader}>
                 <FormattedMessage {...messages.aggregate} />
-                  :
+:
               </div>
               <div style={styles.hoverData}>
                 {aggregate}
@@ -237,7 +240,13 @@ export class Stat extends React.Component {
             <IconSVG id="closeStatIcon" name="close" width="10px" />
           </span>
         )}
-        <div className="stat-value" style={styles.statValue}>
+        <div
+          className="stat-value"
+          style={[
+            styles.statValue,
+            !this.props.batchRequestsAreSuccessful && styles.gray,
+          ]}
+        >
           {this.props.stat.results || this.props.stat.isErrored ? (
             <StatValue stat={this.props.stat} />
           ) : (
@@ -246,7 +255,13 @@ export class Stat extends React.Component {
             </div>
           )}
         </div>
-        <div className="agent-stat" style={styles.statName}>
+        <div
+          className="agent-stat"
+          style={[
+            styles.statName,
+            !this.props.batchRequestsAreSuccessful && styles.gray,
+          ]}
+        >
           {this.props.userFriendlyName}
         </div>
       </div>
@@ -268,6 +283,7 @@ Stat.propTypes = {
   readyState: PropTypes.string.isRequired,
   queues: PropTypes.array.isRequired,
   detailsPosition: PropTypes.oneOf([false, 'left', 'right']),
+  batchRequestsAreSuccessful: PropTypes.bool.isRequired,
 };
 
 export default Radium(Stat);

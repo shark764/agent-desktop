@@ -19,7 +19,10 @@ import Icon from 'components/Icon';
 
 import { selectIsSidePanelCollapsed } from 'containers/AgentDesktop/selectors';
 import { deactivateToolbarStat } from 'containers/Toolbar/actions';
-import { selectToolbarStats } from 'containers/Toolbar/selectors';
+import {
+  selectToolbarStats,
+  selectBatchRequests,
+} from 'containers/Toolbar/selectors';
 
 import { isIeEleven } from 'utils/browser';
 
@@ -183,6 +186,7 @@ export class AgentStats extends React.Component {
         detailsPosition={
           leftOfStatIsVisible && rightOfStatIsVisible && detailsPosition
         }
+        batchRequestsAreSuccessful={this.props.batchRequestsAreSuccessful}
       />
     );
   };
@@ -282,6 +286,7 @@ function mapStateToProps(state, props) {
     toolbarStats: selectToolbarStats(state, props),
     availableStats: selectAvailableStats(state, props),
     isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
+    batchRequestsAreSuccessful: selectBatchRequests(state, props),
   };
 }
 
@@ -299,6 +304,7 @@ AgentStats.propTypes = {
   queues: PropTypes.array,
   deactivateToolbarStat: PropTypes.func.isRequired,
   readyState: PropTypes.string.isRequired,
+  batchRequestsAreSuccessful: PropTypes.bool.isRequired,
 };
 
 AgentStats.contextTypes = {

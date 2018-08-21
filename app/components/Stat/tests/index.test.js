@@ -22,6 +22,7 @@ describe('<Stat />', () => {
       readyState="mockReadyState"
       queues={[]}
       detailsPosition="right"
+      batchRequestsAreSuccessful
     />
   );
   it('should render correctly', () => {

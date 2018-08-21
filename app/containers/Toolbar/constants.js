@@ -20,3 +20,4 @@ export const ADD_TOOLBAR_STAT_ID = 'app/Toolbar/ADD_TOOLBAR_STAT_ID';
 export const INITIALIZE_STATS = 'app/Toolbar/INITIALIZE_STATS';
 export const ACTIVATE_TOOLBAR_STAT = 'app/Toolbar/ACTIVATE_TOOLBAR_STAT';
 export const DEACTIVATE_TOOLBAR_STAT = 'app/Toolbar/DEACTIVATE_TOOLBAR_STAT';
+export const BATCH_REQUEST_FAILING = 'app/Toolbar/BATCH_REQUEST_FAILING';

@@ -17,6 +17,7 @@ const initialState = fromJS({
   enabledStats: [],
   availableStats: {},
   showAgentStatusMenu: false,
+  batchRequestsAreSuccessful: true,
 });
 
 function toolbarReducer(state = initialState, action) {
@@ -63,18 +64,22 @@ function toolbarReducer(state = initialState, action) {
         ])
       );
     case ACTIONS.STATS_RECEIVED:
-      return state.update('enabledStats', (enabledStats) =>
-        enabledStats.map((enabledStat) => {
-          enabledStatId = enabledStat.get('statId');
-          if (action.stats[enabledStatId]) {
-            return enabledStat.set(
-              'results',
-              fromJS(action.stats[enabledStatId].body.results)
-            );
-          }
-          return enabledStat;
-        })
-      );
+      return state
+        .set('batchRequestsAreSuccessful', true)
+        .update('enabledStats', (enabledStats) =>
+          enabledStats.map((enabledStat) => {
+            enabledStatId = enabledStat.get('statId');
+            if (action.stats[enabledStatId]) {
+              return enabledStat.set(
+                'results',
+                fromJS(action.stats[enabledStatId].body.results)
+              );
+            }
+            return enabledStat;
+          })
+        );
+    case ACTIONS.BATCH_REQUEST_FAILING:
+      return state.set('batchRequestsAreSuccessful', action.isFailing);
     default:
       return state;
   }

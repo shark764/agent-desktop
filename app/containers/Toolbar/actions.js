@@ -85,3 +85,10 @@ export function initializeStats() {
     type: ACTIONS.INITIALIZE_STATS,
   };
 }
+
+export function batchRequetsFailing(isFailing) {
+  return {
+    type: ACTIONS.BATCH_REQUEST_FAILING,
+    isFailing,
+  };
+}
