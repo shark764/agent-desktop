@@ -106,13 +106,22 @@ export function* copyChatTranscript(action) {
         ).from;
   }
   const agent = yield select(selectAgent);
-  const agentName = agent.firstName.concat(' ', agent.lastName);
+  const currentAgent = agent.firstName.concat(' ', agent.lastName);
+  const agentsName = action.interaction.messageHistory.reduce(
+    (names, { type, from }) => {
+      if (type === 'agent' && from !== agent.userId && !names.includes(from)) {
+        names.push(from);
+      }
+      return names;
+    },
+    []
+  );
   const chatTranscript = action.interaction.messageHistory.reduce(
     (transcript, { type, from, timestamp, text }) => {
       const date = new Date(timestamp);
       let fromText;
       if (from === agent.userId) {
-        fromText = agentName;
+        fromText = currentAgent;
       } else if (type === 'system') {
         fromText = 'System';
       } else if (type === 'customer' || type === 'message') {
@@ -130,7 +139,13 @@ export function* copyChatTranscript(action) {
 `;
     },
     `Customer: ${customer}
-Agent: ${agentName}
+Current Agent: ${currentAgent} ${
+  agentsName.length > 0
+    ? `\nOther Agent${agentsName.length > 1 ? 's' : ''}: ${agentsName.join(
+      ', '
+    )}`
+    : ''
+}
 Channel: ${action.interaction.channelType}
 Date: ${new Date().toLocaleString()}
 ---------------------- Chat Transcript ----------------------
