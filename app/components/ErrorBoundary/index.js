@@ -6,15 +6,17 @@
  *
  * ErrorBoundary
  * A higher order component to wrap other components in to handle render and selector errors.
- * https://github.com/facebook/react/issues/2461#issuecomment-311077975
+ * https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html
  *
  */
 
+import Raven from 'raven-js';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { setCriticalError } from 'containers/Errors/actions';
+import { store } from 'store';
 
 export default function ErrorBoundary(WrappedComponent) {
   class ErrorBoundaryComponent extends React.Component {
@@ -29,8 +31,11 @@ export default function ErrorBoundary(WrappedComponent) {
         CxEngage.logging.error(error, info);
       }
       this.setState({ error });
+      Raven.captureException(error, {
+        extra: info,
+        logError: !store.getState().hasIn(['errors', 'criticalError']),
+      });
       this.props.setCriticalError();
-      // TODO send error and info to analytics
     }
 
     render() {
@@ -52,5 +57,8 @@ export default function ErrorBoundary(WrappedComponent) {
     setCriticalError: PropTypes.func.isRequired,
   };
 
-  return connect(null, mapDispatchToProps)(ErrorBoundaryComponent);
+  return connect(
+    null,
+    mapDispatchToProps
+  )(ErrorBoundaryComponent);
 }

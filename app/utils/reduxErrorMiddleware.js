@@ -4,41 +4,25 @@
 
 import Raven from 'raven-js';
 import { setCriticalError } from 'containers/Errors/actions';
-let reduxHasErrored = false;
-const errorHandler = (error, action, dispatch) => {
-  if (!reduxHasErrored) {
-    if (Raven.isSetup()) {
-      Raven.captureException(error, {
-        extra: {
-          action,
-        },
-        tags: {
-          type: 'redux',
-        },
-      });
-      Raven.uninstall();
-    } else {
-      console.error('Redux Threw An Error:', error, ' Action: ', action);
-      if (CxEngage !== undefined) {
-        CxEngage.logging.error(
-          'Redux Threw An Error:',
-          error,
-          ' Action: ',
-          action
-        );
-      }
-    }
-    reduxHasErrored = true; // Hacky solution to raven errors still firing after uninstall.
-  }
+const errorHandler = (error, action, dispatch, state) => {
+  Raven.captureException(error, {
+    extra: {
+      action,
+    },
+    tags: {
+      type: 'redux',
+    },
+    logError: !state.hasIn(['errors', 'criticalError']),
+  });
   dispatch(setCriticalError(error));
   console.error(error);
 };
+
 const reduxErrorMiddleware = (store) => (next) => (action) => {
   try {
     return next(action);
   } catch (error) {
-    errorHandler(error, action, store.dispatch);
-    Raven.uninstall();
+    errorHandler(error, action, store.dispatch, store.getState());
     return store.getState();
   }
 };

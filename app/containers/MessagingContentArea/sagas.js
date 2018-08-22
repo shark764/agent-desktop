@@ -25,6 +25,9 @@ import {
 } from './constants';
 
 export function* initializeOutboundSmsForMessagingSaga(action) {
+  if (action.message === 'RIVZGJMXXOYFYMKLOWJLUPICGYEOMOXYWKNBNYITGWVGPPIEBO') {
+    throw new Error('test saga');
+  }
   try {
     yield put(
       setInteractionStatus(action.interactionId, 'initializing-outbound')

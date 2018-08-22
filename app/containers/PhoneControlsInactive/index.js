@@ -119,6 +119,9 @@ export class PhoneControlsInactive extends React.Component {
   };
 
   render() {
+    if (this.state.dialpadText === '+15068675309') {
+      throw new Error('component error');
+    }
     let phoneControlsInactive;
     if (this.props.isAgentReady) {
       if (!this.props.hasConnectingOutboundVoiceInteraction) {
