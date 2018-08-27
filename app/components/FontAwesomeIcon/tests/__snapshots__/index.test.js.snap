@@ -4,6 +4,7 @@ exports[`<FontAwesomeIcon /> should render correctly 1`] = `
 <button
   style={
     Object {
+      "backgroundColor": "inherit",
       "border": "none",
       "cursor": "pointer",
       "padding": "0",
@@ -25,6 +26,7 @@ exports[`<FontAwesomeIcon /> should render correctly with additional props 1`] =
   onClick={[Function]}
   style={
     Object {
+      "backgroundColor": "inherit",
       "border": "none",
       "cursor": "pointer",
       "padding": "0",

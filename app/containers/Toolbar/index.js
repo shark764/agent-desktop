@@ -217,11 +217,15 @@ export class Toolbar extends React.Component {
         statusButtonStyle.push(styles.openButtonR);
       } else if (this.state.isStatusButtonHovered) {
         statusButtonStyle.push(styles.hoverButtonR);
+      } else {
+        statusButtonStyle.push(styles.readyBase);
       }
     } else if (this.props.showAgentStatusMenu) {
       statusButtonStyle.push(styles.openButtonNR);
     } else if (this.state.isStatusButtonHovered) {
       statusButtonStyle.push(styles.hoverButtonNR);
+    } else {
+      statusButtonStyle.push(styles.notReadyBase);
     }
     return statusButtonStyle;
   };
@@ -234,6 +238,8 @@ export class Toolbar extends React.Component {
         configButtonStyle.push(styles.openConfigButtonR);
       } else if (this.state.isConfigButtonHovered) {
         configButtonStyle.push(styles.hoverConfigButtonR);
+      } else {
+        configButtonStyle.push(styles.readyBase);
       }
     } else {
       configButtonStyle.push(styles.configButtonNR);
@@ -241,6 +247,8 @@ export class Toolbar extends React.Component {
         configButtonStyle.push(styles.openConfigButtonNR);
       } else if (this.state.isConfigButtonHovered) {
         configButtonStyle.push(styles.hoverConfigButtonNR);
+      } else {
+        configButtonStyle.push(styles.notReadyBase);
       }
     }
     return configButtonStyle;

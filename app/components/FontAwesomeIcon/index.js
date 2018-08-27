@@ -18,6 +18,7 @@ const styles = {
     border: 'none',
     padding: '0',
     cursor: 'pointer',
+    backgroundColor: 'inherit',
   },
 };
 
