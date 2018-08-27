@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`selectAgents batch requests are not successful users is defined resourceCapacities is defined filters users out and maps them properly 1`] = `
+Array [
+  Object {
+    "agentId": "10",
+    "agentName": "x x",
+    "firstName": "x",
+    "isAvailable": true,
+    "lastName": "x",
+  },
+  Object {
+    "agentId": "11",
+    "agentName": "z z",
+    "firstName": "z",
+    "isAvailable": false,
+    "lastName": "z",
+  },
+]
+`;
+
+exports[`selectAgents batch requests are successful resourceCapacityList is defined filters agents out and maps them properly 1`] = `
+Array [
+  Object {
+    "agentId": "1",
+    "agentName": "a a",
+    "firstName": "a",
+    "isAvailable": false,
+    "lastName": "a",
+  },
+  Object {
+    "agentId": "2",
+    "agentName": "b b",
+    "firstName": "b",
+    "isAvailable": true,
+    "lastName": "b",
+  },
+  Object {
+    "agentId": "3",
+    "agentName": "c c",
+    "firstName": "c",
+    "isAvailable": false,
+    "lastName": "c",
+  },
+  Object {
+    "agentId": "4",
+    "agentName": "d d",
+    "firstName": "d",
+    "isAvailable": false,
+    "lastName": "d",
+  },
+  Object {
+    "agentId": "5",
+    "agentName": "e e",
+    "firstName": "e",
+    "isAvailable": false,
+    "lastName": "e",
+  },
+]
+`;

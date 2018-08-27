@@ -1,3 +1,6 @@
+### [1.28.26] (2018-09-11)
+* CXV1-15005 - Use batch requests for resource capacity. Use users route only when batches are failing
+
 ### [1.28.25] (2018-09-13)
 * CXV1-15186 - Loading state for mute and hold buttons
 

@@ -12,6 +12,7 @@ import infoTab from 'containers/InfoTab/reducer';
 import contactsControl from 'containers/ContactsControl/reducer';
 import errors from 'containers/Errors/reducer';
 import notificationPreferences from 'containers/AgentNotificationsMenu/reducer';
+import transferMenu from 'containers/TransferMenu/reducer';
 
 import { LOGOUT } from 'containers/Login/constants';
 
@@ -25,6 +26,7 @@ const appReducer = combineReducers({
   contactsControl,
   errors,
   notificationPreferences,
+  transferMenu,
 });
 
 const rootReducer = (state, action) => {

@@ -9,7 +9,6 @@ export default [
   'cxengage/authentication/identity-window-response', // Handled in Login component
   'cxengage/authentication/update-default-tenant-response', // Ignore
   'cxengage/contacts/get-contact-response', // Handled in App callback
-  'cxengage/entities/get-users-response', // Handled in TransferMenu
   'cxengage/entities/get-transfer-lists-response', // Handled in TransferMenu
   'cxengage/entities/get-user-response', // Handled in calls to CxEngage.entities.getUser
   'cxengage/logging/logs-saved', // Ignore

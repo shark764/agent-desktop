@@ -84,6 +84,7 @@ import {
   validateContactLayoutTranslations,
 } from 'containers/InfoTab/actions';
 import { startOutboundEmail } from 'containers/EmailContentArea/actions';
+import { setResourceCapactiy, setUsers } from 'containers/TransferMenu/actions';
 import {
   setUserConfig,
   setAgentDirection,
@@ -1344,6 +1345,17 @@ export class App extends React.Component {
           case 'cxengage/reporting/batch-response': {
             this.checkStatErrors(response);
             this.props.statsReceived(response);
+            const resourceCapacityStat = Object.values(response).find(
+              (stat) =>
+                stat.body !== undefined &&
+                stat.body.results !== undefined &&
+                stat.body.results.resourceCapacity !== undefined
+            );
+            if (resourceCapacityStat !== undefined) {
+              this.props.setResourceCapactiy(
+                resourceCapacityStat.body.results.resourceCapacity
+              );
+            }
             break;
           }
 
@@ -1352,6 +1364,10 @@ export class App extends React.Component {
             this.props.setQueues(
               response.result.filter((queue) => queue.active)
             );
+            break;
+          }
+          case 'cxengage/entities/get-users-response': {
+            this.props.setUsers(response.result);
             break;
           }
           default: {
@@ -1726,6 +1742,9 @@ function mapDispatchToProps(dispatch) {
       dispatch(addInteractionNotification(interactionId, messageKey)),
     removeInteractionNotification: (interactionId, messageKey) =>
       dispatch(removeInteractionNotification(interactionId, messageKey)),
+    setResourceCapactiy: (resourceCapacity) =>
+      dispatch(setResourceCapactiy(resourceCapacity)),
+    setUsers: (users) => dispatch(setUsers(users)),
     dispatch,
   };
 }
@@ -1823,6 +1842,8 @@ App.propTypes = {
   expirationPromptReauth: PropTypes.object,
   audioNotificationsEnabled: PropTypes.bool,
   visualNotificationsEnabled: PropTypes.bool,
+  setResourceCapactiy: PropTypes.func.isRequired,
+  setUsers: PropTypes.func.isRequired,
 };
 
 App.contextTypes = {
