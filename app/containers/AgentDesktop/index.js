@@ -407,5 +407,10 @@ AgentDesktop.contextTypes = {
 };
 
 export default ErrorBoundary(
-  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(AgentDesktop)))
+  injectIntl(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Radium(AgentDesktop))
+  )
 );

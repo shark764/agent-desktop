@@ -15,10 +15,7 @@ module.exports = (env, argv) => {
       CxEngage: 'CxEngage',
     },
     resolve: {
-      modules: [
-        path.resolve(__dirname, 'node_modules'),
-        path.resolve(__dirname, 'node_modules/velocity-react/node_modules'),
-      ],
+      modules: [path.resolve(__dirname, 'node_modules')],
       alias: {
         assets: path.resolve(__dirname, 'app', 'assets'),
         containers: path.resolve(__dirname, 'app', 'containers'),
@@ -27,6 +24,7 @@ module.exports = (env, argv) => {
         models: path.resolve(__dirname, 'app', 'models'),
         translations: path.resolve(__dirname, 'app', 'translations'),
         utils: path.resolve(__dirname, 'app', 'utils'),
+        store: path.resolve(__dirname, 'app', 'store'),
       },
     },
     plugins: [

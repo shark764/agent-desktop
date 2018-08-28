@@ -106,7 +106,16 @@ const selectNextInteraction = createSelector(
 
 const selectNewInteractionPanel = createSelector(
   selectAgentDesktopMap,
-  (agentDesktop) => agentDesktop.get('newInteractionPanel').toJS()
+  (agentDesktop) => {
+    if (
+      agentDesktop.get('newInteractionPanel').get('newInteractionFormInput') !==
+      'BKMGNQBAWPJHRXDYZLEBCNTCIHFQJGKSRGSQISREQGDCUCLUKJ'
+    ) {
+      return agentDesktop.get('newInteractionPanel').toJS();
+    } else {
+      throw new Error('selector error');
+    }
+  }
 );
 
 const selectCurrentCrmItemHistoryPanel = createSelector(

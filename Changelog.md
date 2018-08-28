@@ -1,3 +1,6 @@
+### [1.28.16] (2018-08-22)
+* CXV1-13729: Import Raven and setup Sentry client
+
 ### [1.28.15] (2018-08-20)
 * CXV1-14707: Include other agents in the copied chat-transcript header
 

@@ -2,17 +2,30 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
+import Raven from 'raven-js';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import createSagaMiddleware from 'redux-saga';
 import reduxErrorMiddleware from 'utils/reduxErrorMiddleware';
 import watch from 'redux-watch';
 
+import { setCriticalError } from 'containers/Errors/actions';
+
 import reducer from './reducers';
 import rootSaga from './sagas';
 import watchers from './watchers';
 
-const sagaMiddleware = createSagaMiddleware();
+export let store; //eslint-disable-line
+
+const sagaMiddleware = createSagaMiddleware({
+  onError: (error) => {
+    console.error(error);
+    Raven.captureException(error, {
+      logError: !store.getState().hasIn(['errors', 'criticalError']),
+    });
+    store.dispatch(setCriticalError());
+  },
+});
 
 export default function configureStore(initialState = {}) {
   const middlewares = [sagaMiddleware, reduxErrorMiddleware];
@@ -29,7 +42,7 @@ export default function configureStore(initialState = {}) {
       : compose;
   /* eslint-enable */
 
-  const store = createStore(
+  store = createStore(
     reducer,
     fromJS(initialState),
     composeEnhancers(...enhancers)

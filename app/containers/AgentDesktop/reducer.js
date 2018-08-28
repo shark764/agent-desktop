@@ -1384,6 +1384,11 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.ADD_MESSAGE: {
       if (!(action.message instanceof Message)) {
         throw new Error('ADD_MESSAGE message must be of type Message');
+      } else if (
+        action.message.text ===
+        'SURGPUHHHCGBYTDMUWLHQPCLJRFGLKYHZTSTAZDRVOQGXWZYYT'
+      ) {
+        throw new Error('reducer error');
       }
       const messageInteractionIndex = state
         .get('interactions')
