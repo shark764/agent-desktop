@@ -1,3 +1,6 @@
+### [1.28.17] (2018-08-30)
+* CXV1-14915: Items inside search field in Info Panel aren't aligned
+
 ### [1.28.16] (2018-08-22)
 * CXV1-13729: Import Raven and setup Sentry client
 
