@@ -217,6 +217,9 @@ export class ContactSearchBar extends React.Component {
       margin: '0 12px',
       flexShrink: 0,
     },
+    filterName: {
+      flexShrink: '0',
+    },
   };
 
   handleFilterSelect = (itemName) => {
