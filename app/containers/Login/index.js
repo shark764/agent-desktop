@@ -1227,6 +1227,7 @@ export class Login extends React.Component {
                   style={{
                     color: 'gray',
                     fontSize: '1.5em',
+                    backgroundColor: 'inherit',
                   }}
                   onclick={this.openStandalonePopup}
                 />

@@ -45,7 +45,7 @@ module.exports = (env, argv) => {
             loader: 'babel-loader',
             query: { compact: false },
           },
-          exclude: /node_modules/,
+          exclude: /node_modules(?!(\/|\\)cx-ui-components)/,
         },
         {
           test: /\.css$/,

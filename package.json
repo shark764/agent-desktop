@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.28.17",
+  "version": "1.28.18",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -52,6 +52,9 @@
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!cx-ui-components).+(js|jsx)$"
+    ],
     "collectCoverageFrom": [
       "app/**/*.{js,jsx}",
       "!app/**/*.test.{js,jsx}",
@@ -217,7 +220,7 @@
     "chalk": "2.4.1",
     "compression": "1.7.3",
     "cross-env": "5.2.0",
-    "cx-ui-components": "0.0.7",
+    "cx-ui-components": "0.21.8",
     "draft-js-export-html": "1.2.0",
     "draft-js-import-html": "1.2.1",
     "empty-module": "0.0.2",

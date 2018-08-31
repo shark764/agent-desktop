@@ -1,3 +1,6 @@
+### [1.28.18] (2018-08-30)
+* CXV1-14775 - Update ui-components to latest version
+
 ### [1.28.17] (2018-08-30)
 * CXV1-14915: Items inside search field in Info Panel aren't aligned
 
