@@ -1,3 +1,6 @@
+### [1.28.19] (2018-09-04)
+* CXV1-11646 - "No Results Found" is in English and NOT in The Selected Language (updated all current translations).
+
 ### [1.28.18] (2018-08-30)
 * CXV1-14775 - Update ui-components to latest version
 
