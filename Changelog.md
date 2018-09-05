@@ -1,3 +1,6 @@
+### [1.28.23] (2018-09-05)
+* SDK version bump (CXV1-15198 - Remove interaction hearbeats)
+
 ### [1.28.22] (2018-09-11)
 * CXV1-15184 - Fix CSS for notes title and disposition close icon
 
