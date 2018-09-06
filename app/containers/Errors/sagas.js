@@ -10,6 +10,7 @@ import {
   removeInteractionHard,
   setInteractionStatus,
   selectInteraction,
+  toggleInteractionIsEnding,
 } from 'containers/AgentDesktop/actions';
 import { selectInteractionsList } from 'containers/AgentDesktop/selectors';
 import {
@@ -58,6 +59,11 @@ export function* goHandleSDKError(action) {
     'cxengage/errors/error/failed-to-create-outbound-email-interaction'
   ) {
     forceFatalInteraction = true;
+  } else if (
+    topic === 'cxengage/interactions/end-acknowledged' ||
+    topic === 'cxengage/interactions/work-ended-received'
+  ) {
+    yield put(toggleInteractionIsEnding(error.data.interactionId, false));
   } else if (
     error.level === 'interaction-fatal' &&
     error.data &&

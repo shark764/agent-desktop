@@ -1,3 +1,6 @@
+### [1.28.20] (2018-09-06)
+* CXV1-15217 - Loading state for end interaction button
+
 ### [1.28.19] (2018-09-04)
 * CXV1-11646 - "No Results Found" is in English and NOT in The Selected Language (updated all current translations).
 

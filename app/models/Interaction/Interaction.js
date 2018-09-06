@@ -54,6 +54,7 @@ export default class Interaction {
         attachments: new List(),
       });
     }
+    this.isEnding = false;
     this.warmTransfers = new List();
     this.customFieldsCollapsed = true;
     this.channelType = channelType;

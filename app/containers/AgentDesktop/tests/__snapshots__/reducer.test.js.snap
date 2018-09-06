@@ -20,6 +20,7 @@ Immutable.Map {
       "autoAnswer": undefined,
       "interactionId": "test-interaction-id",
       "customFieldsCollapsed": true,
+      "isEnding": false,
       "note": Immutable.Map {
         "body": "",
         "title": "",
@@ -81,6 +82,7 @@ Immutable.Map {
       "autoAnswer": undefined,
       "interactionId": "test-interaction-id",
       "customFieldsCollapsed": true,
+      "isEnding": false,
       "note": Immutable.Map {
         "body": "",
         "title": "",
@@ -150,6 +152,7 @@ Immutable.Map {
       "autoAnswer": undefined,
       "interactionId": "test-interaction-id",
       "customFieldsCollapsed": true,
+      "isEnding": false,
       "note": Immutable.Map {
         "body": "",
         "title": "",
@@ -1413,6 +1416,7 @@ Immutable.Map {
       "customFieldsCollapsed": true,
       "currentMessage": "",
       "isCopied": false,
+      "isEnding": false,
       "note": Immutable.Map {
         "body": "",
         "title": "",
@@ -1474,6 +1478,7 @@ Immutable.Map {
       "interactionId": "agent-initiated-voice-+15064701234",
       "customFieldsCollapsed": true,
       "initiatedByCurrentAgent": true,
+      "isEnding": false,
       "note": Immutable.Map {
         "body": "",
         "title": "",
