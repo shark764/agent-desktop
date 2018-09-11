@@ -88,6 +88,10 @@ const selectActivatedStatIds = createSelector(
   (toolbarStatIds, welcomeStatIds) => toolbarStatIds.concat(welcomeStatIds)
 );
 
+const selectBatchRequests = createSelector(selectToolbarDomain(), (toolbar) =>
+  toolbar.get('batchRequestsAreSuccessful')
+);
+
 export default selectToolbar;
 export {
   selectToolbarDomain,
@@ -99,4 +103,5 @@ export {
   selectToolbarStatIds,
   selectWelcomeStatIds,
   selectActivatedStatIds,
+  selectBatchRequests,
 };

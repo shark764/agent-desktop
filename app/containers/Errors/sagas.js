@@ -17,6 +17,7 @@ import {
   selectPendingActiveVoiceInteraction,
   selectPendingActiveSmsInteraction,
 } from 'containers/InteractionsBar/selectors';
+import { batchRequetsFailing } from 'containers/Toolbar/actions';
 import { HANDLE_SDK_ERROR } from './constants';
 import { setCriticalError, setNonCriticalError } from './actions';
 
@@ -36,7 +37,7 @@ export function* goHandleSDKError(action) {
     topic === 'cxengage/contacts/update-contact-response' || // Handled in ContactEdit
     topic === 'cxengage/contacts/merge-contacts-response' || // Handled in ContactMerge
     topic === 'cxengage/interactions/unfocus-acknowledged' || // Not needed to be shown to agent
-    topic === 'cxengage/interactions/unfocus-acknowledged' // Not needed to be shown to agent
+    topic === 'cxengage/reporting/get-bulk-stat-query-response' // Not needed to be shown to agent
   ) {
     return; // Do nothing. Error UI handled in their own components.
   } else if (error.code === 2005) {
@@ -59,6 +60,9 @@ export function* goHandleSDKError(action) {
     'cxengage/errors/error/failed-to-create-outbound-email-interaction'
   ) {
     forceFatalInteraction = true;
+  } else if (topic === 'cxengage/reporting/batch-response') {
+    yield put(batchRequetsFailing(false));
+    return;
   } else if (
     topic === 'cxengage/interactions/end-acknowledged' ||
     topic === 'cxengage/interactions/work-ended-received'

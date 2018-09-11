@@ -1,3 +1,7 @@
+### [1.28.21] (2018-09-11)
+* CXV1-14962: Batch request logic in Agent Desktop
+* CXV1-15198: Remove interaction hearbeats
+
 ### [1.28.20] (2018-09-06)
 * CXV1-15217 - Loading state for end interaction button
 
