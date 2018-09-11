@@ -30,7 +30,6 @@ export default [
   'cxengage/interactions/update-note-response', // Handled in ContentArea
   'cxengage/interactions/send-custom-interrupt-acknowledged', // Handled in ContentArea
   'cxengage/interactions/end-wrapup-acknowledged', // Ignore - comes with a work-ended.
-  'cxengage/interactions/voice/heartbeat', // Only used for errors
   'cxengage/interactions/voice/send-digits-acknowledged', // Handled in Dialpad
   'cxengage/interactions/voice/cancel-dial-acknowledged', // Handled in cancelClickToDial saga in AgentDesktop
   'cxengage/interactions/get-notes-response', // Handled in contactInteractionHistory
