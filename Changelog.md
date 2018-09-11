@@ -1,3 +1,6 @@
+### [1.28.22] (2018-09-11)
+* CXV1-15184 - Fix CSS for notes title and disposition close icon
+
 ### [1.28.21] (2018-09-11)
 * CXV1-14962: Batch request logic in Agent Desktop
 * CXV1-15198: Remove interaction hearbeats
