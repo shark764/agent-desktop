@@ -1758,7 +1758,7 @@ function agentDesktopReducer(state = initialState, action) {
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
-            interaction.set('recording', true)
+            interaction.set('recording', true).set('togglingRecording', false)
           )
         );
       } else {
@@ -1770,7 +1770,7 @@ function agentDesktopReducer(state = initialState, action) {
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
-            interaction.set('recording', false)
+            interaction.set('recording', false).set('togglingRecording', false)
           )
         );
       } else {
@@ -2210,13 +2210,23 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
-
     case ACTIONS.TOGGLE_INTERACTION_IS_ENDING: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.setIn(
           ['interactions', interactionIndex, 'isEnding'],
           action.isEnding
+        );
+      } else {
+        return state;
+      }
+    }
+    case ACTIONS.TOGGLE_IS_RECORDING: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.setIn(
+          ['interactions', interactionIndex, 'togglingRecording'],
+          action.isRecording
         );
       } else {
         return state;

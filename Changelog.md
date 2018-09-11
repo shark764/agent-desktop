@@ -1,3 +1,6 @@
+### [1.28.24] (2018-09-12)
+* CXV1-15216 - Loading state for recording and wrap up
+
 ### [1.28.23] (2018-09-05)
 * SDK version bump (CXV1-15198 - Remove interaction hearbeats)
 

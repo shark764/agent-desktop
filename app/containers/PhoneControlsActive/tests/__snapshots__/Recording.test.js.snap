@@ -21,6 +21,7 @@ exports[`<Recording /> with agentRecordingEnabled and false preventAgentRecordin
   </div>
   <Toggle
     checked={false}
+    disabled={false}
     icons={false}
     id="toggleRecording"
     onChange={[Function]}
@@ -79,6 +80,7 @@ exports[`<Recording /> with agentRecordingEnabled and false preventAgentRecordin
     </label>
     <Toggle
       checked={false}
+      disabled={false}
       icons={false}
       id="toggleRecording"
       onChange={[Function]}
@@ -87,6 +89,139 @@ exports[`<Recording /> with agentRecordingEnabled and false preventAgentRecordin
 </div>
 `;
 
+exports[`<Recording /> with agentRecordingEnabled and false preventAgentRecordingUpdate with false isRecording calls CxEngage.interactions.voice.startRecording with the interactionId 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "interactionId": "mock-interaction-id",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`<Recording /> with agentRecordingEnabled and false preventAgentRecordingUpdate with false isRecording calls toggleIsRecording with the interactionId and true as parameters 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "mock-interaction-id",
+      true,
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`<Recording /> with agentRecordingEnabled and false preventAgentRecordingUpdate with isRecording Calls CxEngage.interactions.voice.stopRecording with the interactionId 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "interactionId": "mock-interaction-id",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`<Recording /> with agentRecordingEnabled and false preventAgentRecordingUpdate with isRecording calls toggleIsRecording with the interactionId and true as parameters 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "mock-interaction-id",
+      true,
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;
+
 exports[`<Recording /> with agentRecordingEnabled false renders nothing 1`] = `""`;
+
+exports[`<Recording /> with isTogglingRecording renders a loading icon 1`] = `
+<div
+  id="recordingContainer"
+  style={
+    Object {
+      "padding": "0 12px 14px",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "fontSize": "14px",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Recording"
+      id="app.containers.PhoneControls.recording"
+      values={Object {}}
+    />
+  </span>
+  <span
+    style={
+      Object {
+        "float": "right",
+        "height": 20,
+        "marginTop": 2,
+        "verticalAlign": "top",
+      }
+    }
+  >
+    <label
+      htmlFor="toggleRecording"
+      style={
+        Object {
+          "fontSize": "12px",
+          "lineHeight": "21px",
+          "marginRight": "3px",
+          "verticalAlign": "top",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="OFF"
+        id="app.containers.PhoneControls.off"
+        values={Object {}}
+      />
+    </label>
+    <IconSVG
+      id="loadingConfirm"
+      name="loading"
+      style={
+        Object {
+          "float": "right",
+        }
+      }
+      width="24px"
+    />
+  </span>
+</div>
+`;
 
 exports[`<Recording /> with preventAgentRecordingUpdate renders nothing 1`] = `""`;

@@ -4,6 +4,7 @@ exports[`agentDesktopReducer ADD_INTERACTION adding an inbound interaction adds 
 Immutable.Map {
   "interactions": Immutable.List [
     Immutable.Map {
+      "togglingRecording": false,
       "timeout": NaN,
       "warmTransfers": Immutable.List [],
       "contactMode": "search",
@@ -136,6 +137,7 @@ Immutable.Map {
       "contact": Immutable.Map {
         "id": "test-contact-id",
       },
+      "togglingRecording": false,
       "timeout": NaN,
       "warmTransfers": Immutable.List [],
       "contactMode": "view",
@@ -1460,6 +1462,7 @@ Immutable.Map {
           "email": "jclowater@serenova.com",
         },
       },
+      "togglingRecording": false,
       "timeout": NaN,
       "warmTransfers": Immutable.List [],
       "contactMode": "view",

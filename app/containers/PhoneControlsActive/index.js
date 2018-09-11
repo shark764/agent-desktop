@@ -185,6 +185,9 @@ export class PhoneControlsActive extends React.Component {
                   .preventAgentRecordingUpdate
                 : false
             }
+            isTogglingRecording={
+              this.props.activeVoiceInteraction.togglingRecording
+            }
           />
         )}
         <div style={this.styles.bottonRowContainer}>

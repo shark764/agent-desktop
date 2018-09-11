@@ -4,10 +4,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
 import Toggle from 'react-toggle';
+import IconSVG from 'components/IconSVG';
 import 'assets/css/react-toggle-style.css';
+
+import { toggleIsRecording } from 'containers/AgentDesktop/actions';
 
 import messages from './messages';
 
@@ -36,10 +40,14 @@ const styles = {
     lineHeight: '21px',
     marginRight: '3px',
   },
+  loadingIcon: {
+    float: 'right',
+  },
 };
 
-export default class Recording extends React.PureComponent {
+export class Recording extends React.PureComponent {
   setRecording = () => {
+    this.props.toggleIsRecording(this.props.interactionId, true);
     if (this.props.isRecording) {
       CxEngage.interactions.voice.stopRecording({
         interactionId: this.props.interactionId,
@@ -62,6 +70,7 @@ export default class Recording extends React.PureComponent {
           icons={false}
           onChange={this.setRecording}
           checked={this.props.isRecording}
+          disabled={this.props.isTogglingRecording}
         />
       );
       if (this.context.toolbarMode) {
@@ -70,7 +79,11 @@ export default class Recording extends React.PureComponent {
             <div>
               <FormattedMessage {...messages.rec} />
             </div>
-            {toggle}
+            {this.props.isTogglingRecording ? (
+              <IconSVG id="loadingConfirm" name="loading" width="24px" />
+            ) : (
+              toggle
+            )}
           </div>
         );
       } else {
@@ -90,7 +103,16 @@ export default class Recording extends React.PureComponent {
                   <FormattedMessage {...messages.off} />
                 )}
               </label>
-              {toggle}
+              {this.props.isTogglingRecording ? (
+                <IconSVG
+                  id="loadingConfirm"
+                  name="loading"
+                  width="24px"
+                  style={styles.loadingIcon}
+                />
+              ) : (
+                toggle
+              )}
             </span>
           </div>
         );
@@ -105,8 +127,23 @@ Recording.propTypes = {
   isRecording: PropTypes.bool.isRequired,
   agentRecordingEnabled: PropTypes.bool.isRequired,
   preventAgentRecordingUpdate: PropTypes.bool.isRequired,
+  isTogglingRecording: PropTypes.bool.isRequired,
+  toggleIsRecording: PropTypes.func.isRequired,
 };
+
+function mapDispatchToProps(dispatch) {
+  return {
+    toggleIsRecording: (interactionId, isRecording) =>
+      dispatch(toggleIsRecording(interactionId, isRecording)),
+    dispatch,
+  };
+}
 
 Recording.contextTypes = {
   toolbarMode: PropTypes.bool,
 };
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Recording);

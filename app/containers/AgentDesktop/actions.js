@@ -935,3 +935,11 @@ export function toggleInteractionIsEnding(interactionId, isEnding) {
     isEnding,
   };
 }
+
+export function toggleIsRecording(interactionId, isRecording) {
+  return {
+    type: ACTIONS.TOGGLE_IS_RECORDING,
+    interactionId,
+    isRecording,
+  };
+}

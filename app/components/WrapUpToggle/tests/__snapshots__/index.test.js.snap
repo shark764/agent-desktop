@@ -5,6 +5,7 @@ exports[`<WrapUpToggle /> should render correctly 1`] = `
   id="wrapupContainer"
   style={
     Object {
+      "minHeight": "29px",
       "minWidth": "113px",
       "paddingRight": "15px",
     }
@@ -45,4 +46,126 @@ exports[`<WrapUpToggle /> should render correctly 1`] = `
     />
   </div>
 </div>
+`;
+
+exports[`<WrapUpToggle /> with interaction.isWrappingUp should render a loading icon 1`] = `
+<div
+  id="wrapupContainer"
+  style={
+    Object {
+      "minHeight": "29px",
+      "minWidth": "113px",
+      "paddingRight": "15px",
+    }
+  }
+>
+  <label
+    htmlFor="wrapupToggle"
+    style={
+      Object {
+        "marginRight": "10px",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Wrap Up"
+      id="app.containers.WrapUpToggle.wrapup"
+      values={Object {}}
+    />
+  </label>
+  <div
+    style={
+      Object {
+        "float": "right",
+        "marginTop": "5px",
+      }
+    }
+  >
+    <Toggle
+      disabled={true}
+      icons={
+        Object {
+          "checked": <Unknown />,
+          "unchecked": <Unknown />,
+        }
+      }
+      id="wrapUpToggle"
+      onChange={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`<WrapUpToggle /> with interaction.wrapupDetails.wrapupEnabled calls CxEngage.interactions.disableWrapup with the interactionId 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "interactionId": "aaa",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`<WrapUpToggle /> with interaction.wrapupDetails.wrapupEnabled calls updateWrapupDetails with loadingWrapupStatusUpdate equals to true 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "aaa",
+      Object {
+        "loadingWrapupStatusUpdate": true,
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`<WrapUpToggle /> with interaction.wrapupDetails.wrapupEnabled false calls CxEngage.interactions.enableWrapup with the interactionId 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "interactionId": "aaa",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`<WrapUpToggle /> with interaction.wrapupDetails.wrapupEnabled false calls updateWrapupDetails with loadingWrapupStatusUpdate equals to true 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "aaa",
+      Object {
+        "loadingWrapupStatusUpdate": true,
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
 `;
