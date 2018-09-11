@@ -22,12 +22,14 @@ import Resizable from 'components/Resizable';
 import Checkbox from 'components/Checkbox';
 import IconSVG from 'components/IconSVG';
 import Button from 'components/Button';
+
 import ContentAreaTop from 'containers/ContentAreaTop';
 
 import {
   updateNote,
   setInteractionConfirmation,
   removeInteraction,
+  toggleInteractionIsEnding,
 } from 'containers/AgentDesktop/actions';
 import {
   selectAgentDesktopMap,
@@ -534,6 +536,7 @@ export class ContentArea extends React.Component {
               id="cancelEndButton"
               autoFocus
               type="button"
+              disabled={this.props.interaction.isEnding}
             >
               {formatMessage(messages.cancelButton)}
             </button>
@@ -543,8 +546,13 @@ export class ContentArea extends React.Component {
               onClick={() => this.confirmEnd()}
               id="confirmEndButton"
               type="button"
+              disabled={this.props.interaction.isEnding}
             >
-              {formatMessage(messages.confirmButton)}
+              {this.props.interaction.isEnding ? (
+                <IconSVG id="loadingConfirm" name="loading" width="20px" />
+              ) : (
+                formatMessage(messages.confirmButton)
+              )}
             </button>
           </div>
         </div>
@@ -725,6 +733,10 @@ export class ContentArea extends React.Component {
       this.props.interaction.channelType === 'email' &&
       this.props.interaction.direction === 'agent-initiated'
     ) {
+      this.props.toggleInteractionIsEnding(
+        this.props.interaction.interactionId,
+        true
+      );
       CxEngage.interactions.sendCustomInterrupt(
         {
           interactionId: this.props.interaction.interactionId,
@@ -737,12 +749,21 @@ export class ContentArea extends React.Component {
           console.log('[ContentArea] CxEngage.subscribe()', topic, response);
           if (!err) {
             this.props.removeInteraction(this.props.interaction.interactionId);
+          } else {
+            this.props.toggleInteractionIsEnding(
+              this.props.interaction.interactionId,
+              false
+            );
           }
         }
       );
     } else if (!isUUID(this.props.interaction.interactionId)) {
       this.props.removeInteraction(this.props.interaction.interactionId);
     } else {
+      this.props.toggleInteractionIsEnding(
+        this.props.interaction.interactionId,
+        true
+      );
       CxEngage.interactions.end({
         interactionId: this.props.interaction.interactionId,
       });
@@ -914,6 +935,7 @@ ContentArea.propTypes = {
   setInteractionConfirmation: PropTypes.func.isRequired,
   removeInteraction: PropTypes.func.isRequired,
   agent: PropTypes.object,
+  toggleInteractionIsEnding: PropTypes.func.isRequired,
 };
 
 ContentArea.contextTypes = {
@@ -934,6 +956,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(removeInteraction(interactionId)),
     setInteractionConfirmation: (interactionId, status) =>
       dispatch(setInteractionConfirmation(interactionId, status)),
+    toggleInteractionIsEnding: (interactionId, isEnding) =>
+      dispatch(toggleInteractionIsEnding(interactionId, isEnding)),
     dispatch,
   };
 }

@@ -2210,6 +2210,18 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+
+    case ACTIONS.TOGGLE_INTERACTION_IS_ENDING: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.setIn(
+          ['interactions', interactionIndex, 'isEnding'],
+          action.isEnding
+        );
+      } else {
+        return state;
+      }
+    }
     default:
       return state;
   }

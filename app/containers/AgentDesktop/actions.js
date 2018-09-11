@@ -927,3 +927,11 @@ export function toggleTranscriptCopied(interactionId, isCopied) {
     isCopied,
   };
 }
+
+export function toggleInteractionIsEnding(interactionId, isEnding) {
+  return {
+    type: ACTIONS.TOGGLE_INTERACTION_IS_ENDING,
+    interactionId,
+    isEnding,
+  };
+}
