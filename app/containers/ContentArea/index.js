@@ -208,6 +208,7 @@ export class ContentArea extends React.Component {
       ':focus': {
         outline: 'none',
       },
+      backgroundColor: 'inherit',
     },
     disabled: {
       cursor: 'not-allowed',
@@ -316,8 +317,8 @@ export class ContentArea extends React.Component {
       marginRight: '5px',
     },
     closeButton: {
-      margin: '0',
-      padding: '0 0 3px 5px',
+      marginLeft: '5px',
+      padding: '0 2px 2px',
       backgroundColor: 'inherit',
     },
     categoryName: {
