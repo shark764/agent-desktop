@@ -5,6 +5,7 @@ Immutable.Map {
   "interactions": Immutable.List [
     Immutable.Map {
       "togglingRecording": false,
+      "isMuting": false,
       "timeout": NaN,
       "warmTransfers": Immutable.List [],
       "contactMode": "search",
@@ -30,6 +31,7 @@ Immutable.Map {
       "status": "work-offer",
       "isSidePanelCollapsed": true,
       "agentRecordingEnabled": undefined,
+      "isHolding": false,
       "wrapupDetails": Immutable.Map {
         "wrapupUpdateAllowed": false,
         "wrapupEnabled": false,
@@ -68,6 +70,7 @@ Immutable.Map {
       "isSidePanelCollapsed": false,
     },
     Immutable.Map {
+      "isMuting": false,
       "timeout": NaN,
       "warmTransfers": Immutable.List [],
       "contactMode": "search",
@@ -91,6 +94,7 @@ Immutable.Map {
       },
       "status": "work-offer",
       "isSidePanelCollapsed": true,
+      "isHolding": false,
       "wrapupDetails": Immutable.Map {
         "wrapupUpdateAllowed": false,
         "wrapupEnabled": false,
@@ -138,6 +142,7 @@ Immutable.Map {
         "id": "test-contact-id",
       },
       "togglingRecording": false,
+      "isMuting": false,
       "timeout": NaN,
       "warmTransfers": Immutable.List [],
       "contactMode": "view",
@@ -163,6 +168,7 @@ Immutable.Map {
       "status": "work-offer",
       "isSidePanelCollapsed": false,
       "agentRecordingEnabled": undefined,
+      "isHolding": false,
       "wrapupDetails": Immutable.Map {
         "wrapupUpdateAllowed": false,
         "wrapupEnabled": false,
@@ -1400,6 +1406,7 @@ Immutable.Map {
           "email": "jclowater@serenova.com",
         },
       },
+      "isMuting": false,
       "timeout": NaN,
       "warmTransfers": Immutable.List [],
       "contactMode": "view",
@@ -1426,6 +1433,7 @@ Immutable.Map {
       },
       "status": "connecting-to-outbound",
       "isSidePanelCollapsed": true,
+      "isHolding": false,
       "customerAvatarIndex": 0,
       "wrapupDetails": Immutable.Map {
         "wrapupUpdateAllowed": false,
@@ -1463,6 +1471,7 @@ Immutable.Map {
         },
       },
       "togglingRecording": false,
+      "isMuting": false,
       "timeout": NaN,
       "warmTransfers": Immutable.List [],
       "contactMode": "view",
@@ -1490,6 +1499,7 @@ Immutable.Map {
       "status": "connecting-to-outbound",
       "isSidePanelCollapsed": true,
       "agentRecordingEnabled": undefined,
+      "isHolding": false,
       "wrapupDetails": Immutable.Map {
         "wrapupUpdateAllowed": false,
         "wrapupEnabled": false,

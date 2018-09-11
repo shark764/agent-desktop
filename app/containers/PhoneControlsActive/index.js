@@ -206,6 +206,7 @@ export class PhoneControlsActive extends React.Component {
                   }
                   isMuted={this.props.activeVoiceInteraction.muted}
                   meOnHold={this.props.activeVoiceInteraction.meOnHold}
+                  isMuting={this.props.activeVoiceInteraction.isMuting}
                 />
                 <Hold
                   interactionId={
@@ -218,6 +219,7 @@ export class PhoneControlsActive extends React.Component {
                         .holdUpdate
                       : true
                   }
+                  isHolding={this.props.activeVoiceInteraction.isHolding}
                 />
                 <Transfer
                   interactionId={

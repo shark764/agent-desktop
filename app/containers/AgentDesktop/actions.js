@@ -606,6 +606,14 @@ export function updateCallControls(interactionId, callControls) {
   };
 }
 
+export function toggleInteractionIsMuting(interactionId, isMuting) {
+  return {
+    type: ACTIONS.TOGGLE_IS_MUTING,
+    interactionId,
+    isMuting,
+  };
+}
+
 export function muteCall(interactionId) {
   return {
     type: ACTIONS.MUTE_CALL,
@@ -617,6 +625,14 @@ export function unmuteCall(interactionId) {
   return {
     type: ACTIONS.UNMUTE_CALL,
     interactionId,
+  };
+}
+
+export function toggleInteractionIsHolding(interactionId, isHolding) {
+  return {
+    type: ACTIONS.TOGGLE_IS_HOLDING,
+    interactionId,
+    isHolding,
   };
 }
 

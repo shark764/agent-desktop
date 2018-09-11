@@ -1,9 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<Mute /> with false isMuted calls CxEngage.interactions.voice.mute with the interaction id and agent id 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "interactionId": "mock-interaction-id",
+        "targetResourceId": "mock-agent-id",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`<Mute /> with false isMuted calls toggleInteractionIsMuting with the interaction id and agent id 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "mock-interaction-id",
+      true,
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;
+
 exports[`<Mute /> with false meOnHold renders icon 1`] = `
 <CircleIconButton
   active={false}
   id="muteButton"
+  loading={true}
   name="mute"
   onClick={[Function]}
   style={
@@ -12,6 +49,42 @@ exports[`<Mute /> with false meOnHold renders icon 1`] = `
     }
   }
 />
+`;
+
+exports[`<Mute /> with isMuted calls CxEngage.interactions.voice.unmute with the interaction id and agent id 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "interactionId": "mock-interaction-id",
+        "targetResourceId": "mock-agent-id",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`<Mute /> with isMuted calls toggleInteractionIsMuting with interactionId with the interaction id and agent id 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "mock-interaction-id",
+      true,
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
 `;
 
 exports[`<Mute /> with meOnHold renders nothing 1`] = `""`;

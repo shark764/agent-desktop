@@ -52,6 +52,39 @@ exports[`<CircleIconButton /> should correctly render HTML (or a component) that
 </div>
 `;
 
+exports[`<CircleIconButton /> should correctly render IconSVG when loading is true 1`] = `
+<div
+  data-radium={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  role="button"
+  style={
+    Object {
+      "border": "none",
+      "borderRadius": "50%",
+      "display": "inline-block",
+      "outline": "none",
+      "padding": 0,
+      "position": "relative",
+    }
+  }
+  tabIndex={0}
+>
+  <IconSVG
+    id="mockId-loading-icon"
+    key=".0"
+    name="loading"
+    style={
+      Object {
+        "float": "right",
+      }
+    }
+    width="40px"
+  />
+</div>
+`;
+
 exports[`<CircleIconButton /> should render correctly 1`] = `
 <div
   data-radium={true}

@@ -49,6 +49,8 @@ Interaction {
   "initiatedByCurrentAgent": true,
   "interactionId": "mock-interaction-id",
   "isEnding": false,
+  "isHolding": false,
+  "isMuting": false,
   "isSidePanelCollapsed": false,
   "note": Immutable.Map {
     "body": "",
@@ -105,6 +107,8 @@ Interaction {
   },
   "interactionId": "undefined-undefined-undefined",
   "isEnding": false,
+  "isHolding": false,
+  "isMuting": false,
   "isSidePanelCollapsed": true,
   "note": Immutable.Map {
     "body": "",

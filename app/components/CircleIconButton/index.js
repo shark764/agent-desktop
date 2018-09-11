@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import Icon from 'components/Icon';
+import IconSVG from 'components/IconSVG';
 
 const styles = {
   base: {
@@ -25,6 +26,9 @@ const styles = {
     },
     display: 'inline-block',
     position: 'relative',
+  },
+  iconLoading: {
+    float: 'right',
   },
 };
 
@@ -39,13 +43,23 @@ function CircleIconButton(props) {
       role="button"
       tabIndex={0}
     >
-      <Icon
-        id={`${props.id}-icon`}
-        name={props.name}
-        active={props.active}
-        style={[styles.base, props.style, styles.icon]}
-        onclick={props.onClick}
-      />
+      {props.loading ? (
+        <IconSVG
+          id={`${props.id}-loading-icon`}
+          name="loading"
+          width="40px"
+          style={styles.iconLoading}
+        />
+      ) : (
+        <Icon
+          id={`${props.id}-icon`}
+          name={props.name}
+          active={props.active}
+          style={[styles.base, props.style, styles.icon]}
+          onclick={props.onClick}
+          loading={props.loading}
+        />
+      )}
       {props.innerElement && (
         <div>
           {props.innerElement}
@@ -62,6 +76,7 @@ CircleIconButton.propTypes = {
   active: PropTypes.bool,
   innerElement: PropTypes.element,
   onClick: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
 };
 
 export default Radium(CircleIconButton);
