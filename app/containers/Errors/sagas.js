@@ -11,6 +11,8 @@ import {
   setInteractionStatus,
   selectInteraction,
   toggleInteractionIsEnding,
+  toggleIsRecording,
+  updateWrapupDetails,
 } from 'containers/AgentDesktop/actions';
 import { selectInteractionsList } from 'containers/AgentDesktop/selectors';
 import {
@@ -68,6 +70,22 @@ export function* goHandleSDKError(action) {
     topic === 'cxengage/interactions/work-ended-received'
   ) {
     yield put(toggleInteractionIsEnding(error.data.interactionId, false));
+  } else if (
+    topic === 'cxengage/interactions/voice/start-recording-acknowledged' ||
+    topic === 'cxengage/interactions/voice/stop-recording-acknowledged' ||
+    topic === 'cxengage/interactions/voice/recording-start-received' ||
+    topic === 'cxengage/interactions/voice/recording-end-received'
+  ) {
+    yield put(toggleIsRecording(error.data.interactionId, false));
+  } else if (
+    topic === 'cxengage/interactions/enable-wrapup-acknowledged' ||
+    topic === 'cxengage/interactions/disable-wrapup-acknowledged'
+  ) {
+    yield put(
+      updateWrapupDetails(error.data.interactionId, {
+        loadingWrapupStatusUpdate: false,
+      })
+    );
   } else if (
     error.level === 'interaction-fatal' &&
     error.data &&

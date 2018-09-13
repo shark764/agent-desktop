@@ -30,6 +30,7 @@ export default class Interaction {
       this.agentRecordingEnabled =
         toolbarFeatures && toolbarFeatures.recordingUpdate !== false;
       this.muted = false;
+      this.togglingRecording = false;
     } else if (channelType === 'sms' || channelType === 'messaging') {
       this.customerAvatarIndex = Math.floor(Math.random() * 17);
       this.messageHistory = new List();

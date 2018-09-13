@@ -14,6 +14,8 @@ import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
 import PropTypes from 'prop-types';
 
+import IconSVG from 'components/IconSVG';
+
 // Actions
 import { updateWrapupDetails } from 'containers/AgentDesktop/actions';
 
@@ -30,10 +32,12 @@ const styles = {
     marginLeft: '10%',
     display: 'inline-block',
     marginBottom: '15px',
+    minHeight: '29px',
   },
   wrapupContainerDesktopActionsMenu: {
     paddingRight: '15px',
     minWidth: '113px',
+    minHeight: '29px',
   },
   wrapUpLabel: {
     marginRight: '10px',
@@ -88,15 +92,18 @@ export class WrapUpToggle extends React.Component {
           <FormattedMessage {...messages.wrapup} />
         </label>
         <div style={styles.togglePosition}>
-          <Toggle
-            id="wrapUpToggle"
-            onChange={this.toggleWrapup}
-            disabled={
-              !this.props.interaction.wrapupDetails.wrapupUpdateAllowed ||
-              this.props.interaction.wrapupDetails.loadingWrapupStatusUpdate
-            }
-            checked={this.props.interaction.wrapupDetails.wrapupEnabled}
-          />
+          {this.props.interaction.wrapupDetails.loadingWrapupStatusUpdate ? (
+            <IconSVG id="loadingConfirm" name="loading" width="24px" />
+          ) : (
+            <Toggle
+              id="wrapUpToggle"
+              onChange={this.toggleWrapup}
+              disabled={
+                !this.props.interaction.wrapupDetails.wrapupUpdateAllowed
+              }
+              checked={this.props.interaction.wrapupDetails.wrapupEnabled}
+            />
+          )}
         </div>
       </div>
     );
@@ -120,4 +127,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(Radium(WrapUpToggle));
+export default connect(
+  null,
+  mapDispatchToProps
+)(Radium(WrapUpToggle));
