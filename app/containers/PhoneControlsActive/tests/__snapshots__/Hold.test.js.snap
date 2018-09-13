@@ -4,6 +4,7 @@ exports[`<Hold /> with canUpdateHold renders icon 1`] = `
 <CircleIconButton
   active={false}
   id="holdButton"
+  loading={true}
   name="hold"
   onClick={[Function]}
   style={
@@ -15,3 +16,73 @@ exports[`<Hold /> with canUpdateHold renders icon 1`] = `
 `;
 
 exports[`<Hold /> with false canUpdateHold renders nothing 1`] = `""`;
+
+exports[`<Hold /> with false isOnHold calls CxEngage.interactions.voice.customerHold with the interactionId 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "interactionId": "mock-interaction-id",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`<Hold /> with false isOnHold calls toggleInteractionIsHolding with interactionId 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "mock-interaction-id",
+      true,
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`<Hold /> with isOnHold calls CxEngage.interactions.voice.customerResume with the interactionId 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "interactionId": "mock-interaction-id",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`<Hold /> with isOnHold calls toggleInteractionIsHolding with interactionId 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "mock-interaction-id",
+      true,
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;

@@ -56,6 +56,8 @@ export default class Interaction {
       });
     }
     this.isEnding = false;
+    this.isMuting = false;
+    this.isHolding = false;
     this.warmTransfers = new List();
     this.customFieldsCollapsed = true;
     this.channelType = channelType;

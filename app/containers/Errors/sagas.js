@@ -13,12 +13,15 @@ import {
   toggleInteractionIsEnding,
   toggleIsRecording,
   updateWrapupDetails,
+  toggleInteractionIsMuting,
+  toggleInteractionIsHolding,
 } from 'containers/AgentDesktop/actions';
 import { selectInteractionsList } from 'containers/AgentDesktop/selectors';
 import {
   selectPendingActiveVoiceInteraction,
   selectPendingActiveSmsInteraction,
 } from 'containers/InteractionsBar/selectors';
+import { selectAgent } from 'containers/Login/selectors';
 import { batchRequetsFailing } from 'containers/Toolbar/actions';
 import { HANDLE_SDK_ERROR } from './constants';
 import { setCriticalError, setNonCriticalError } from './actions';
@@ -86,6 +89,27 @@ export function* goHandleSDKError(action) {
         loadingWrapupStatusUpdate: false,
       })
     );
+  }
+  else if (
+    topic === 'cxengage/interactions/voice/mute-acknowledged' ||
+    topic === 'cxengage/interactions/voice/unmute-acknowledged'
+  ) {
+    yield put(toggleInteractionIsMuting(error.data.interactionId, false));
+  } else if (
+    topic === 'cxengage/interactions/voice/resource-mute-received' ||
+    topic === 'cxengage/interactions/voice/resource-unmute-received '
+  ) {
+    const agent = yield select(selectAgent);
+    if (agent.userId === error.data.resourceId) {
+      yield put(toggleInteractionIsMuting(error.data.interactionId, false));
+    }
+  } else if (
+    topic === 'cxengage/interactions/voice/resume-acknowledged' ||
+    topic === 'cxengage/interactions/voice/hold-acknowledged' ||
+    topic === 'cxengage/interactions/voice/customer-hold-received' ||
+    topic === 'cxengage/interactions/voice/customer-resume-received'
+  ) {
+    yield put(toggleInteractionIsHolding(error.data.interactionId, false));
   } else if (
     error.level === 'interaction-fatal' &&
     error.data &&

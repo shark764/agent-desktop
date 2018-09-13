@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { selectAgentId } from 'containers/AgentDesktop/selectors';
+import { toggleInteractionIsMuting } from 'containers/AgentDesktop/actions';
 
 import CircleIconButton from 'components/CircleIconButton';
 
@@ -18,6 +19,7 @@ const styles = {
 
 export class Mute extends React.PureComponent {
   setMute = () => {
+    this.props.toggleInteractionIsMuting(this.props.interactionId, true);
     if (this.props.isMuted) {
       CxEngage.interactions.voice.unmute({
         interactionId: this.props.interactionId,
@@ -40,6 +42,7 @@ export class Mute extends React.PureComponent {
           active={this.props.isMuted}
           onClick={this.setMute}
           style={styles.circleIconButtonRow}
+          loading={this.props.isMuting}
         />
       );
     }
@@ -52,10 +55,23 @@ Mute.propTypes = {
   isMuted: PropTypes.bool.isRequired,
   meOnHold: PropTypes.bool,
   agentId: PropTypes.string.isRequired,
+  toggleInteractionIsMuting: PropTypes.func.isRequired,
+  isMuting: PropTypes.bool.isRequired,
 };
+
+function mapDispatchToProps(dispatch) {
+  return {
+    toggleInteractionIsMuting: (interactionId, isMuting) =>
+      dispatch(toggleInteractionIsMuting(interactionId, isMuting)),
+    dispatch,
+  };
+}
 
 const mapStateToProps = (state, props) => ({
   agentId: selectAgentId(state, props),
 });
 
-export default connect(mapStateToProps)(Mute);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Mute);

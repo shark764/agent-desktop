@@ -1705,12 +1705,24 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+    case ACTIONS.TOGGLE_IS_MUTING: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.setIn(
+          ['interactions', interactionIndex, 'isMuting'],
+          action.isMuting
+        );
+      } else {
+        return state;
+      }
+    }
+
     case ACTIONS.MUTE_CALL: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
-            interaction.set('muted', true)
+            interaction.set('muted', true).set('isMuting', false)
           )
         );
       } else {
@@ -1722,19 +1734,32 @@ function agentDesktopReducer(state = initialState, action) {
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
-            interaction.set('muted', false)
+            interaction.set('muted', false).set('isMuting', false)
           )
         );
       } else {
         return state;
       }
     }
+
+    case ACTIONS.TOGGLE_IS_HOLDING: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.setIn(
+          ['interactions', interactionIndex, 'isHolding'],
+          action.isHolding
+        );
+      } else {
+        return state;
+      }
+    }
+
     case ACTIONS.HOLD_CALL: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
-            interaction.set('onHold', true)
+            interaction.set('onHold', true).set('isHolding', false)
           )
         );
       } else {
@@ -1746,7 +1771,7 @@ function agentDesktopReducer(state = initialState, action) {
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
-            interaction.set('onHold', false)
+            interaction.set('onHold', false).set('isHolding', false)
           )
         );
       } else {

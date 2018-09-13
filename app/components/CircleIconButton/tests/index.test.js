@@ -31,4 +31,11 @@ describe('<CircleIconButton />', () => {
     );
     expect(rendered).toMatchSnapshot();
   });
+
+  it('should correctly render IconSVG when loading is true', () => {
+    const rendered = shallow(
+      <CircleIconButton id="mockId" name="config" onClick={() => {}} loading />
+    );
+    expect(rendered).toMatchSnapshot();
+  });
 });

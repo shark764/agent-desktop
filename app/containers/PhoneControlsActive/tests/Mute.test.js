@@ -9,12 +9,15 @@ import { Mute } from '../Mute';
 
 describe('<Mute />', () => {
   describe('with meOnHold', () => {
+    const mocktoggleInteractionIsMuting = jest.fn();
     const rendered = shallow(
       <Mute
         interactionId="mock-interaction-id"
         agentId="mock-agent-id"
         isMuted={false}
+        toggleInteractionIsMuting={mocktoggleInteractionIsMuting}
         meOnHold
+        isMuting
       />
     );
     it('renders nothing', () => {
@@ -23,12 +26,15 @@ describe('<Mute />', () => {
   });
 
   describe('with false meOnHold', () => {
+    const mocktoggleInteractionIsMuting = jest.fn();
     const rendered = shallow(
       <Mute
         interactionId="mock-interaction-id"
         agentId="mock-agent-id"
         isMuted={false}
+        toggleInteractionIsMuting={mocktoggleInteractionIsMuting}
         meOnHold={false}
+        isMuting
       />
     );
     it('renders icon', () => {
@@ -37,6 +43,7 @@ describe('<Mute />', () => {
   });
 
   describe('with isMuted', () => {
+    const mocktoggleInteractionIsMuting = jest.fn();
     beforeEach(() => {
       global.CxEngage = {
         interactions: {
@@ -52,23 +59,22 @@ describe('<Mute />', () => {
         agentId="mock-agent-id"
         isMuted
         meOnHold={false}
+        toggleInteractionIsMuting={mocktoggleInteractionIsMuting}
+        isMuting
       />
     );
+    it('calls toggleInteractionIsMuting with interactionId with the interaction id and agent id', () => {
+      rendered.find('#muteButton').simulate('click');
+      expect(mocktoggleInteractionIsMuting).toMatchSnapshot();
+    });
     it('calls CxEngage.interactions.voice.unmute with the interaction id and agent id', () => {
       rendered.find('#muteButton').simulate('click');
-      expect(global.CxEngage.interactions.voice.unmute.mock.calls.length).toBe(
-        1
-      );
-      expect(
-        global.CxEngage.interactions.voice.unmute.mock.calls[0][0]
-      ).toEqual({
-        interactionId: 'mock-interaction-id',
-        targetResourceId: 'mock-agent-id',
-      });
+      expect(global.CxEngage.interactions.voice.unmute).toMatchSnapshot();
     });
   });
 
   describe('with false isMuted', () => {
+    const mocktoggleInteractionIsMuting = jest.fn();
     beforeEach(() => {
       global.CxEngage = {
         interactions: {
@@ -83,16 +89,18 @@ describe('<Mute />', () => {
         interactionId="mock-interaction-id"
         agentId="mock-agent-id"
         isMuted={false}
+        toggleInteractionIsMuting={mocktoggleInteractionIsMuting}
         meOnHold={false}
+        isMuting
       />
     );
+    it('calls toggleInteractionIsMuting with the interaction id and agent id', () => {
+      rendered.find('#muteButton').simulate('click');
+      expect(mocktoggleInteractionIsMuting).toMatchSnapshot();
+    });
     it('calls CxEngage.interactions.voice.mute with the interaction id and agent id', () => {
       rendered.find('#muteButton').simulate('click');
-      expect(global.CxEngage.interactions.voice.mute.mock.calls.length).toBe(1);
-      expect(global.CxEngage.interactions.voice.mute.mock.calls[0][0]).toEqual({
-        interactionId: 'mock-interaction-id',
-        targetResourceId: 'mock-agent-id',
-      });
+      expect(global.CxEngage.interactions.voice.mute).toMatchSnapshot();
     });
   });
 });

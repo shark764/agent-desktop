@@ -5,15 +5,18 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Hold from '../Hold';
+import { Hold } from '../Hold';
 
 describe('<Hold />', () => {
   describe('with canUpdateHold', () => {
+    const mocktoggleInteractionIsHolding = jest.fn();
     const rendered = shallow(
       <Hold
         interactionId="mock-interaction-id"
         isOnHold={false}
+        toggleInteractionIsHolding={mocktoggleInteractionIsHolding}
         canUpdateHold
+        isHolding
       />
     );
     it('renders icon', () => {
@@ -22,11 +25,14 @@ describe('<Hold />', () => {
   });
 
   describe('with false canUpdateHold', () => {
+    const mocktoggleInteractionIsHolding = jest.fn();
     const rendered = shallow(
       <Hold
         interactionId="mock-interaction-id"
         isOnHold={false}
         canUpdateHold={false}
+        toggleInteractionIsHolding={mocktoggleInteractionIsHolding}
+        isHolding
       />
     );
     it('renders nothing', () => {
@@ -35,6 +41,7 @@ describe('<Hold />', () => {
   });
 
   describe('with isOnHold', () => {
+    const mocktoggleInteractionIsHolding = jest.fn();
     beforeEach(() => {
       global.CxEngage = {
         interactions: {
@@ -45,20 +52,28 @@ describe('<Hold />', () => {
       };
     });
     const rendered = shallow(
-      <Hold interactionId="mock-interaction-id" isOnHold canUpdateHold />
+      <Hold
+        interactionId="mock-interaction-id"
+        toggleInteractionIsHolding={mocktoggleInteractionIsHolding}
+        isOnHold
+        canUpdateHold
+        isHolding
+      />
     );
+    it('calls toggleInteractionIsHolding with interactionId', () => {
+      rendered.find('#holdButton').simulate('click');
+      expect(mocktoggleInteractionIsHolding).toMatchSnapshot();
+    });
     it('calls CxEngage.interactions.voice.customerResume with the interactionId', () => {
       rendered.find('#holdButton').simulate('click');
       expect(
-        global.CxEngage.interactions.voice.customerResume.mock.calls.length
-      ).toBe(1);
-      expect(
-        global.CxEngage.interactions.voice.customerResume.mock.calls[0][0]
-      ).toEqual({ interactionId: 'mock-interaction-id' });
+        global.CxEngage.interactions.voice.customerResume
+      ).toMatchSnapshot();
     });
   });
 
   describe('with false isOnHold', () => {
+    const mocktoggleInteractionIsHolding = jest.fn();
     beforeEach(() => {
       global.CxEngage = {
         interactions: {
@@ -73,16 +88,17 @@ describe('<Hold />', () => {
         interactionId="mock-interaction-id"
         isOnHold={false}
         canUpdateHold
+        toggleInteractionIsHolding={mocktoggleInteractionIsHolding}
+        isHolding
       />
     );
+    it('calls toggleInteractionIsHolding with interactionId', () => {
+      rendered.find('#holdButton').simulate('click');
+      expect(mocktoggleInteractionIsHolding).toMatchSnapshot();
+    });
     it('calls CxEngage.interactions.voice.customerHold with the interactionId', () => {
       rendered.find('#holdButton').simulate('click');
-      expect(
-        global.CxEngage.interactions.voice.customerHold.mock.calls.length
-      ).toBe(1);
-      expect(
-        global.CxEngage.interactions.voice.customerHold.mock.calls[0][0]
-      ).toEqual({ interactionId: 'mock-interaction-id' });
+      expect(global.CxEngage.interactions.voice.customerHold).toMatchSnapshot();
     });
   });
 });

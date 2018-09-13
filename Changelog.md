@@ -1,3 +1,6 @@
+### [1.28.25] (2018-09-13)
+* CXV1-15186 - Loading state for mute and hold buttons
+
 ### [1.28.24] (2018-09-12)
 * CXV1-15216 - Loading state for recording and wrap up
 
