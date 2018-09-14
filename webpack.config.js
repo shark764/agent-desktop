@@ -82,6 +82,7 @@ module.exports = (env, argv) => {
     config.devServer = {
       contentBase: './build',
       hot: true,
+      disableHostCheck: true,
     };
     config.devtool = 'inline-source-map';
     config.plugins.push(new webpack.HotModuleReplacementPlugin());

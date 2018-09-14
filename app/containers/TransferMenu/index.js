@@ -31,9 +31,10 @@ import {
   startWarmTransferring,
   setQueuesTime,
 } from 'containers/AgentDesktop/actions';
+import { setUsers } from 'containers/TransferMenu/actions';
 import { selectAgentId } from 'containers/AgentDesktop/selectors';
-
-import { selectWarmTransfers, selectQueues } from './selectors';
+import { selectBatchRequests } from 'containers/Toolbar/selectors';
+import { selectWarmTransfers, selectQueues, selectAgents } from './selectors';
 import messages from './messages';
 
 const REFRESH_AGENTS_RATE = 5000;
@@ -48,7 +49,6 @@ export class TransferMenu extends React.Component {
     this.state = {
       transferTabIndex: this.props.nonVoice ? 1 : 0,
       transferSearchInput: '',
-      agents: 'loading',
       transferLists: 'loading',
       dialpadText: '',
       dialpadTextValid: false,
@@ -129,14 +129,12 @@ export class TransferMenu extends React.Component {
     this.mounted = true;
 
     this.refreshQueues();
-    CxEngage.entities.getUsers(
-      { excludeOffline: true },
-      this.setAgentsCallback
-    );
+    if (!this.props.batchRequestsAreSuccessful) {
+      CxEngage.entities.getUsers({ excludeOffline: true });
+    }
+
     if (!this.props.nonVoice) {
-      CxEngage.entities.getTransferLists((error, topic, response) =>
-        this.setTransferListsCallback(error, topic, response)
-      );
+      CxEngage.entities.getTransferLists(this.setTransferListsCallback);
     }
 
     this.reloadQueuesInterval = setInterval(() => {
@@ -145,18 +143,31 @@ export class TransferMenu extends React.Component {
 
     if (this.state.transferTabIndex === 0) {
       this.reloadTransferablesInterval = setInterval(() => {
-        CxEngage.entities.getUsers(
-          { excludeOffline: true },
-          this.setAgentsCallback
-        );
+        if (!this.props.batchRequestsAreSuccessful) {
+          CxEngage.entities.getUsers({ excludeOffline: true });
+        }
       }, REFRESH_AGENTS_RATE);
     }
+    CxEngage.reporting.addStatSubscription(
+      { statistic: 'resource-capacity' },
+      (error, topic, response) => {
+        if (!error && response.statId !== undefined) {
+          this.resourceCapacityStatId = response.statId;
+        }
+      }
+    );
   }
 
   componentWillUnmount() {
     this.mounted = false;
     clearInterval(this.reloadQueuesInterval);
     clearInterval(this.reloadTransferablesInterval);
+    if (this.resourceCapacityStatId !== undefined) {
+      CxEngage.reporting.removeStatSubscription({
+        statId: this.resourceCapacityStatId,
+      });
+    }
+    this.props.setUsers(undefined);
     document.removeEventListener('keydown', this.hotKeys);
   }
 
@@ -180,114 +191,24 @@ export class TransferMenu extends React.Component {
   };
 
   refreshAgents = () => {
-    this.setState({ agents: 'loading' });
-    CxEngage.entities.getUsers(
-      { excludeOffline: true },
-      this.setAgentsCallback
-    );
-  };
-
-  setAgentsCallback = (error, topic, response) => {
-    if (!error) {
-      console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
-      CxEngage.reporting.getCapacity(
-        {},
-        (capacityError, capacityTopic, capacityResponse) => {
-          console.log(
-            '[TransferMenu] CxEngage.subscribe()',
-            capacityTopic,
-            capacityResponse
-          );
-          const agents = response.result
-            .filter((agent) => {
-              const agentCapacities = capacityResponse.resourceCapacity.find(
-                (resourceCapacity) => resourceCapacity.resourceId === agent.id
-              );
-              // Filter ourself, pending users, and "agent-initiated" (outbound do not disturb) agents
-              const isAgentInitated = !capacityError
-                ? agentCapacities &&
-                  agentCapacities.direction === 'agent-initiated'
-                : false;
-              return (
-                agent.id !== this.props.agentId &&
-                agent.status === 'accepted' &&
-                !isAgentInitated
-              );
-            })
-            .map((agent) => ({
-              id: agent.id,
-              firstName: agent.firstName,
-              lastName: agent.lastName,
-              name: `${agent.firstName ? agent.firstName : ''} ${
-                agent.lastName ? agent.lastName : ''
-              }`,
-              // If there was an error with getCapactity, we have to assume ready agents are available
-              isAvailable: !capacityError
-                ? this.isAgentAvailable(
-                  agent,
-                  capacityResponse.resourceCapacity
-                )
-                : agent.state === 'ready',
-            }))
-            .sort((agent1, agent2) => {
-              // Ready agents first, then sort by name alphabetically
-              if (agent1.isAvailable && !agent2.isAvailable) return -1;
-              if (!agent1.isAvailable && agent2.isAvailable) return 1;
-              if (
-                agent1.firstName.toLowerCase() + agent1.lastName.toLowerCase() <
-                agent2.firstName.toLowerCase() + agent2.lastName.toLowerCase()
-              )
-                return -1;
-              if (
-                agent1.firstName.toLowerCase() + agent1.lastName.toLowerCase() >
-                agent2.firstName.toLowerCase() + agent2.lastName.toLowerCase()
-              )
-                return 1;
-              return 0;
-            });
-          if (this.mounted) {
-            this.setState({
-              agents,
-            });
-          }
-        }
-      );
-    }
-  };
-
-  isAgentAvailable = (agent, resourceCapacities) => {
-    if (agent.state !== 'ready') {
-      return false;
-    }
-    let isAgentAvailable = false;
-    const agentCapacities = resourceCapacities.find(
-      (resourceCapacity) => resourceCapacity.resourceId === agent.id
-    );
-    // If there is no capacity (null) for the agent, they are not available
-    if (agentCapacities && agentCapacities.capacity) {
-      const voiceCapacity = agentCapacities.capacity.find((agentCapacity) =>
-        Object.keys(agentCapacity.channels).includes('voice')
-      );
-      if (voiceCapacity) {
-        isAgentAvailable = voiceCapacity.allocation !== 'fully-allocated';
-      }
-    }
-    return isAgentAvailable;
+    // TODO CXV1-15006
   };
 
   setTransferListsCallback = (error, topic, response) => {
     console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
-    const transferLists = response.result
-      .filter((transferList) => transferList.active === true)
-      .map((transferList) => ({
-        id: transferList.id,
-        name: transferList.name,
-        endpoints: transferList.endpoints,
-      }));
-    if (this.mounted) {
-      this.setState({
-        transferLists,
-      });
+    if (!error) {
+      const transferLists = response.result
+        .filter((transferList) => transferList.active === true)
+        .map((transferList) => ({
+          id: transferList.id,
+          name: transferList.name,
+          endpoints: transferList.endpoints,
+        }));
+      if (this.mounted) {
+        this.setState({
+          transferLists,
+        });
+      }
     }
   };
 
@@ -535,22 +456,22 @@ export class TransferMenu extends React.Component {
 
     let agents;
     if (this.state.transferTabIndex === 0) {
-      if (this.state.agents !== 'loading') {
-        agents = this.filterTransferListItems(this.state.agents).map(
+      if (this.props.selectAgents !== undefined) {
+        agents = this.filterTransferListItems(this.props.selectAgents).map(
           (agent) => {
             if (
               this.props.warmTransfers &&
               this.props.warmTransfers.find(
-                (transfer) => transfer.id === agent.id
+                (transfer) => transfer.id === agent.agentId
               )
             ) {
               return (
                 <div
-                  key={agent.id}
-                  id={agent.id}
+                  key={agent.agentId}
+                  id={agent.agentId}
                   className="readyAgentTransferListItem"
                   style={this.styles.inactiveTransferListItem}
-                  title={agent.name}
+                  title={agent.agentName}
                 >
                   <div
                     style={[
@@ -559,19 +480,19 @@ export class TransferMenu extends React.Component {
                     ]}
                   />
                   <span style={this.styles.agentName}>
-                    {agent.name}
+                    {agent.agentName}
                   </span>
                 </div>
               );
             } else if (agent.isAvailable) {
               return (
                 <div
-                  key={agent.id}
-                  id={agent.id}
+                  key={agent.agentId}
+                  id={agent.agentId}
                   className="readyAgentTransferListItem transferItem"
-                  onClick={() => this.transfer(agent.name, agent.id)}
+                  onClick={() => this.transfer(agent.agentName, agent.agentId)}
                   style={this.styles.transferListItem}
-                  title={agent.name}
+                  title={agent.agentName}
                   tabIndex="0" // eslint-disable-line
                 >
                   <div
@@ -581,18 +502,18 @@ export class TransferMenu extends React.Component {
                     ]}
                   />
                   <span style={this.styles.agentName}>
-                    {agent.name}
+                    {agent.agentName}
                   </span>
                 </div>
               );
             } else {
               return (
                 <div
-                  key={agent.id}
-                  id={agent.id}
+                  key={agent.agentId}
+                  id={agent.agentId}
                   className="notReadyAgentTransferListItem transferItem"
                   style={this.styles.inactiveTransferListItem}
-                  title={agent.name}
+                  title={agent.agentName}
                   tabIndex="0" // eslint-disable-line
                 >
                   <div
@@ -602,14 +523,14 @@ export class TransferMenu extends React.Component {
                     ]}
                   />
                   <span style={this.styles.agentName}>
-                    {agent.name}
+                    {agent.agentName}
                   </span>
                 </div>
               );
             }
           }
         );
-      } else if (this.state.agents === 'loading') {
+      } else {
         agents = <FormattedMessage {...messages.checking} />;
       }
     }
@@ -833,6 +754,8 @@ const mapStateToProps = (state, props) => ({
   agentId: selectAgentId(state, props),
   warmTransfers: selectWarmTransfers(state, props),
   queues: selectQueues(state, props),
+  selectAgents: selectAgents(state, props),
+  batchRequestsAreSuccessful: selectBatchRequests(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -840,6 +763,7 @@ function mapDispatchToProps(dispatch) {
     startWarmTransferring: (interactionId, transferringTo) =>
       dispatch(startWarmTransferring(interactionId, transferringTo)),
     setQueuesTime: (queueData) => dispatch(setQueuesTime(queueData)),
+    setUsers: (users) => dispatch(setUsers(users)),
     dispatch,
   };
 }
@@ -853,6 +777,9 @@ TransferMenu.propTypes = {
   startWarmTransferring: PropTypes.func.isRequired,
   setQueuesTime: PropTypes.func.isRequired,
   nonVoice: PropTypes.bool,
+  selectAgents: PropTypes.array,
+  batchRequestsAreSuccessful: PropTypes.bool.isRequired,
+  setUsers: PropTypes.func.isRequired,
 };
 
 TransferMenu.contextTypes = {
