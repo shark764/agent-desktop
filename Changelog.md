@@ -1,3 +1,6 @@
+## [1.28.27]
+* CXV1-15006 - Transfer menu agent refresh button should be greyed out until response is returned
+
 ### [1.28.26] (2018-09-11)
 * CXV1-15005 - Use batch requests for resource capacity. Use users route only when batches are failing
 
