@@ -1,4 +1,7 @@
-## [1.28.27]
+### [1.28.28] (2018-09-18)
+* CXV1-12743 - Do not show null when customer name is not provided in the email interaction
+
+### [1.28.27] (2018-09-17)
 * CXV1-15006 - Transfer menu agent refresh button should be greyed out until response is returned
 
 ### [1.28.26] (2018-09-11)
