@@ -602,7 +602,10 @@ export class EmailContentArea extends React.Component {
           emailFrom.address
         }]`;
       } else if (emailFrom.name !== emailFrom.address) {
-        from = `${emailFrom.name} [${emailFrom.address}]`;
+        from =
+          emailFrom.name === null
+            ? emailFrom.address
+            : `${emailFrom.name} [${emailFrom.address}]`;
       } else {
         from = emailFrom.address;
       }
