@@ -31,7 +31,7 @@ import {
   startWarmTransferring,
   setQueuesTime,
 } from 'containers/AgentDesktop/actions';
-import { setUsers } from 'containers/TransferMenu/actions';
+import { setResourceCapactiy, setUsers } from 'containers/TransferMenu/actions';
 import { selectAgentId } from 'containers/AgentDesktop/selectors';
 import { selectBatchRequests } from 'containers/Toolbar/selectors';
 import { selectWarmTransfers, selectQueues, selectAgents } from './selectors';
@@ -191,7 +191,15 @@ export class TransferMenu extends React.Component {
   };
 
   refreshAgents = () => {
-    // TODO CXV1-15006
+    if (this.props.selectAgents !== undefined) {
+      if (this.props.batchRequestsAreSuccessful) {
+        this.props.setResourceCapactiy(undefined);
+        CxEngage.reporting.triggerBatch();
+      } else {
+        this.props.setUsers(undefined);
+        CxEngage.entities.getUsers({ excludeOffline: true });
+      }
+    }
   };
 
   setTransferListsCallback = (error, topic, response) => {
@@ -252,6 +260,10 @@ export class TransferMenu extends React.Component {
       display: 'inline-block',
       marginLeft: '5px',
       cursor: 'pointer',
+    },
+    refreshInProgress: {
+      color: 'gray',
+      cursor: 'loading',
     },
     hierarchy: {
       fontWeight: 600,
@@ -690,8 +702,12 @@ export class TransferMenu extends React.Component {
                     />
                     <div
                       id="refreshAgents"
-                      style={this.styles.refresh}
-                      onClick={() => this.refreshAgents()}
+                      style={[
+                        this.styles.refresh,
+                        this.props.selectAgents === undefined &&
+                          this.styles.refreshInProgress,
+                      ]}
+                      onClick={this.refreshAgents}
                     >
                       &#8635;
                     </div>
@@ -764,6 +780,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(startWarmTransferring(interactionId, transferringTo)),
     setQueuesTime: (queueData) => dispatch(setQueuesTime(queueData)),
     setUsers: (users) => dispatch(setUsers(users)),
+    setResourceCapactiy: (resourceCapacity) =>
+      dispatch(setResourceCapactiy(resourceCapacity)),
     dispatch,
   };
 }
@@ -780,6 +798,7 @@ TransferMenu.propTypes = {
   selectAgents: PropTypes.array,
   batchRequestsAreSuccessful: PropTypes.bool.isRequired,
   setUsers: PropTypes.func.isRequired,
+  setResourceCapactiy: PropTypes.func,
 };
 
 TransferMenu.contextTypes = {
