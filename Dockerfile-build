@@ -14,4 +14,6 @@ RUN usermod -u 106 node
 
 USER node
 WORKDIR /home/node/app
-ENTRYPOINT ["/home/node/app/resources/build.sh"]
+
+RUN npm install 
+RUN npm install @sentry/cli

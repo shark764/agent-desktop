@@ -1,5 +1,4 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
@@ -28,7 +27,6 @@ module.exports = (env, argv) => {
       },
     },
     plugins: [
-      new CleanWebpackPlugin(['build']),
       new HtmlWebpackPlugin({
         template: './app/index.html',
       }),
@@ -78,17 +76,18 @@ module.exports = (env, argv) => {
   if (argv === undefined || argv.mode === 'development') {
     config.output.filename = '[name]-[hash].bundle.js';
     config.output.publicPath = '/';
-
     config.devServer = {
       contentBase: './build',
       hot: true,
       disableHostCheck: true,
     };
-    config.devtool = 'inline-source-map';
+    config.devtool = 'inline-module-source-map';
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
   } else if (argv.mode === 'production') {
     config.output.filename = '[name]-[chunkhash:6].bundle.js';
     config.output.publicPath = './';
+    config.output.sourceMapFilename = '[name]-[chunkhash:6].js.map';
+    config.devtool = 'source-map';
   }
   return config;
 };
