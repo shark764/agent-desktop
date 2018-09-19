@@ -1,3 +1,6 @@
+### [1.28.30] (2018-09-19)
+* SDK version bump (CXV1-15239 - Do not cease heatbeating until presence returns a 4xx)
+
 ### [1.28.29] (2018-09-18)
 * CXV1-13730 - Upload source maps to Sentry via Jenkins
 
