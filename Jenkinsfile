@@ -41,20 +41,37 @@ node(){
 pipeline {
   agent any
   stages {
-    stage ('Export Properties') {
+    stage ('Set build version') {
       steps {
+        sh 'echo "Stage Description: Set build version from package.json"'
         script {
           n.export()
           build_version = readFile('version')
-          c.setDisplayName("${build_version}")
         }
       }
     }
-    stage ('Test && Build') {
+    stage ('Setup Docker') {
       steps {
-        sh "mkdir build"
+        sh 'echo "Stage Description: Sets up docker image for use in the next stages"'
+        sh "mkdir build -p"
         sh "docker build -t ${docker_tag} -f Dockerfile-build ."
-        sh "docker run --rm --mount type=bind,src=$HOME/.ssh,dst=/home/node/.ssh,readonly --mount type=bind,src=${pwd}/build,dst=/home/node/mount ${docker_tag}"
+        sh "docker run --rm -t -d --name=${docker_tag} ${docker_tag}"
+      }
+    }
+    stage ('Unit Testing') {
+      when { changeRequest() }
+      steps {
+        sh 'echo "Stage Description: Lints and runs the unit tests of the project"'
+        sh "docker exec ${docker_tag} npm run test"
+      }
+    }
+    stage ('Build') {
+      steps {
+        sh 'echo "Stage Description: Builds the production version of the app"'
+        sh "docker exec ${docker_tag} npm run build"
+        sh "docker exec ${docker_tag} mv app/assets/favicons/favicon.ico build/favicon.ico"
+        sh "docker exec ${docker_tag} mv app/config_pr.json build/config_pr.json"
+        sh "docker cp ${docker_tag}:/home/node/app/build ."
       }
     }
     stage ('Preview PR') {
@@ -122,28 +139,35 @@ pipeline {
         }
       }
     }
-    stage ('Push to Github') {
+    stage ('Push new tag'){
       when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
       steps {
         git url: "git@github.com:SerenovaLLC/${service}"
-        sh 'git checkout -b build-${BUILD_TAG}'
-        sh 'git add -f build/* '
-        sh "git commit -m 'release ${build_version}'"
         script {
-          if (build_version.contains("SNAPSHOT")) {
-            sh "if git tag --list | grep ${build_version}; then git tag -d ${build_version}; git push origin :refs/tags/${build_version}; fi"
+            if (build_version.contains("SNAPSHOT")) {
+              sh "if git tag --list | grep ${build_version}; then git tag -d ${build_version}; git push origin :refs/tags/${build_version}; fi"
+            }
           }
-        }
         sh "git tag -a ${build_version} -m 'release ${build_version}, Jenkins tagged ${BUILD_TAG}'"
         sh "git push origin ${build_version}"
+      }
+    }
+    stage ('Upload source maps') {
+      when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
+      environment {
+        sentry_api_key = credentials('sentry-token')
+      }
+      steps {
+        sh 'echo "Creates a release and then uploads the bundled code and source maps to Sentry"'
+        sh "docker exec ${docker_tag} ./node_modules/.bin/sentry-cli --auth-token $sentry_api_key releases -o serenova -p skylight new ${build_version}"
+        sh "docker exec ${docker_tag} ./node_modules/.bin/sentry-cli --auth-token $sentry_api_key releases -o serenova -p skylight files ${build_version} upload-sourcemaps build/"
       }
     }
     stage ('Push to S3') {
       when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
       steps {
-        script {
-          n.push("${service}", "${build_version}")
-        }
+        sh 'echo "Stage Description: Pushes build files to S3"'
+        sh "aws s3 sync build/ s3://cxengagelabs-jenkins/frontend/${service}/${build_version}/ --exclude \"*.js.map\" --delete"
       }
     }
     stage ('Deploy') {
@@ -156,29 +180,30 @@ pipeline {
         ]
       }
     }
-    stage ('Notify Success') {
-      steps {
-        script {
-          h.hipchatPullRequestSuccess("${service}", "${build_version}")
-        }
-      }
-    }
   }
   post {
+    always {
+      sh "docker rmi ${docker_tag} --force"
+      script {
+        c.cleanup()
+      }
+    }
+    success {
+      script {
+        h.hipchatPullRequestSuccess("${service}", "${build_version}")
+      }
+    }
     failure {
       script {
         h.hipchatPullRequestFailure("${service}", "${build_version}")
       }
     }
-    always {
-      script {
-        c.cleanup()
-        try {
-          sh "docker rmi ${docker_tag}"
-        } catch (Exception e) {
-          sh "echo 'WARN: The docker image we tried to remove does not exist. Continuing.'"
-        }
-      }
+    unstable {
+        echo 'This will run only if the run was marked as unstable'
+    }
+    changed {
+        echo 'This will run only if the state of the Pipeline has changed'
+        echo 'For example, if the Pipeline was previously failing but is now successful'
     }
   }
 }

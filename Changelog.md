@@ -1,3 +1,6 @@
+### [1.28.29] (2018-09-18)
+* CXV1-13730 - Upload source maps to Sentry via Jenkins
+
 ### [1.28.28] (2018-09-18)
 * CXV1-12743 - Do not show null when customer name is not provided in the email interaction
 
