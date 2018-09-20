@@ -1,3 +1,6 @@
+### [1.28.31] (2018-09-20)
+* CXV1-15284 - Hide "Failed to get available stats (code:12003) error" when hyperion is down
+
 ### [1.28.30] (2018-09-19)
 * SDK version bump (CXV1-15239 - Do not cease heatbeating until presence returns a 4xx)
 

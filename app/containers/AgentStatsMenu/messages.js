@@ -42,4 +42,8 @@ export default defineMessages({
     id: 'app.containers.AgentStatsMenu.add',
     defaultMessage: 'Add',
   },
+  loadingStats: {
+    id: 'app.containers.AgentStatsMenu.loadingStats',
+    defaultMessage: 'Loading stats...',
+  },
 });
