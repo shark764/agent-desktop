@@ -725,24 +725,7 @@ export class App extends React.Component {
               console.log('Ignoring screen-pop for work-items');
               break;
             }
-            if (response.popType === 'external-url') {
-              // If width or height are null, window.open uses browser defaults
-              const width = response.size ? response.size.width : null;
-              const height = response.size ? response.size.height : null;
-              if (response.newWindow) {
-                window.open(
-                  response.popUri,
-                  'targetWindow',
-                  `width=${width},height=${height}`
-                );
-              } else {
-                window.open(response.popUri);
-              }
-              // Only do internal screen pop and search and pop when not in crm mode, since there is no crm (yet...)
-            } else if (
-              !this.context.toolbarMode &&
-              this.props.hasCrmPermissions
-            ) {
+            if (!this.context.toolbarMode && this.props.hasCrmPermissions) {
               // Internal screen pop: retrieve specific contact
               if (response.popType === 'url') {
                 CxEngage.contacts.get(
