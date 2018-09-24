@@ -8,7 +8,7 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
@@ -141,85 +141,91 @@ export class AgentStatsMenu extends React.Component {
   render() {
     return (
       <div id="statMenu">
-        <div style={this.styles.menuGroup}>
-          <div style={this.styles.menuHeader}>
-            <FormattedMessage {...messages.source} />
-          </div>
-          <div style={this.styles.statOption}>
-            <Select
-              id="statSource"
-              value={this.state.statSource}
-              style={this.styles.select}
-              options={this.sourceOptions}
-              onChange={(e) => this.setStatSource(e.value || '-1')}
-              clearable={false}
-            />
-          </div>
-        </div>
-        {this.state.statSource === 'queue-id' && (
-          <div style={this.styles.menuGroup}>
-            <div style={this.styles.menuHeader}>
-              <FormattedMessage {...messages.queue} />
+        {Object.keys(this.props.availableStats).length === 0 ? (
+          <FormattedMessage {...messages.loadingStats} />
+        ) : (
+          <Fragment>
+            <div style={this.styles.menuGroup}>
+              <div style={this.styles.menuHeader}>
+                <FormattedMessage {...messages.source} />
+              </div>
+              <div style={this.styles.statOption}>
+                <Select
+                  id="statSource"
+                  value={this.state.statSource}
+                  style={this.styles.select}
+                  options={this.sourceOptions}
+                  onChange={(e) => this.setStatSource(e.value || '-1')}
+                  clearable={false}
+                />
+              </div>
             </div>
-            <div style={this.styles.statOption}>
-              <Select
-                id="queueSelect"
-                value={this.state.queue}
-                style={this.styles.select}
-                options={this.getQueues()}
-                onChange={(e) => this.setQueue(e.value || '-1')}
-                clearable={false}
-              />
+            {this.state.statSource === 'queue-id' && (
+              <div style={this.styles.menuGroup}>
+                <div style={this.styles.menuHeader}>
+                  <FormattedMessage {...messages.queue} />
+                </div>
+                <div style={this.styles.statOption}>
+                  <Select
+                    id="queueSelect"
+                    value={this.state.queue}
+                    style={this.styles.select}
+                    options={this.getQueues()}
+                    onChange={(e) => this.setQueue(e.value || '-1')}
+                    clearable={false}
+                  />
+                </div>
+              </div>
+            )}
+            <div style={this.styles.menuGroup}>
+              <div style={this.styles.menuHeader}>
+                <FormattedMessage {...messages.statistic} />
+              </div>
+              <div style={this.styles.statOption}>
+                <Select
+                  id="statOption"
+                  value={this.state.statOption}
+                  style={this.styles.select}
+                  options={this.getStats()}
+                  onChange={(e) => this.setStatOption(e.value || '-1')}
+                  clearable={false}
+                />
+              </div>
             </div>
-          </div>
+            <div style={this.styles.menuGroup}>
+              <div style={this.styles.menuHeader}>
+                <FormattedMessage {...messages.aggregate} />
+              </div>
+              <div style={this.styles.statOption}>
+                <Select
+                  id="statAggregate"
+                  value={this.state.statAggregate}
+                  style={this.styles.select}
+                  options={this.getAggregates()}
+                  onChange={(e) =>
+                    this.setStatAggregate(e.value || '-1', e.label || '')
+                  }
+                  clearable={false}
+                />
+              </div>
+            </div>
+            <div style={this.styles.buttonContainer}>
+              {this.props.toolbarStatIds.length === MAXIMUM_STATS ? (
+                <span>
+                  <FormattedMessage {...messages.maxStats} />
+                </span>
+              ) : (
+                <Button
+                  text={messages.add}
+                  id="toggleStat"
+                  style={this.styles.addButton}
+                  type="secondary"
+                  onClick={this.addStat}
+                />
+              )}
+            </div>
+          </Fragment>
         )}
-        <div style={this.styles.menuGroup}>
-          <div style={this.styles.menuHeader}>
-            <FormattedMessage {...messages.statistic} />
-          </div>
-          <div style={this.styles.statOption}>
-            <Select
-              id="statOption"
-              value={this.state.statOption}
-              style={this.styles.select}
-              options={this.getStats()}
-              onChange={(e) => this.setStatOption(e.value || '-1')}
-              clearable={false}
-            />
-          </div>
-        </div>
-        <div style={this.styles.menuGroup}>
-          <div style={this.styles.menuHeader}>
-            <FormattedMessage {...messages.aggregate} />
-          </div>
-          <div style={this.styles.statOption}>
-            <Select
-              id="statAggregate"
-              value={this.state.statAggregate}
-              style={this.styles.select}
-              options={this.getAggregates()}
-              onChange={(e) =>
-                this.setStatAggregate(e.value || '-1', e.label || '')
-              }
-              clearable={false}
-            />
-          </div>
-        </div>
-        <div style={this.styles.buttonContainer}>
-          {this.props.toolbarStatIds.length === MAXIMUM_STATS ? (
-            <span>
-              <FormattedMessage {...messages.maxStats} />
-            </span>
-          ) : (
-            <Button
-              text={messages.add}
-              id="toggleStat"
-              style={this.styles.addButton}
-              type="secondary"
-              onClick={this.addStat}
-            />
-          )}
-        </div>
       </div>
     );
   }
@@ -252,6 +258,9 @@ AgentStatsMenu.propTypes = {
 
 export default ErrorBoundary(
   injectIntl(
-    connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStatsMenu))
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Radium(AgentStatsMenu))
   )
 );

@@ -89,8 +89,7 @@ export function* goHandleSDKError(action) {
         loadingWrapupStatusUpdate: false,
       })
     );
-  }
-  else if (
+  } else if (
     topic === 'cxengage/interactions/voice/mute-acknowledged' ||
     topic === 'cxengage/interactions/voice/unmute-acknowledged'
   ) {
