@@ -38,6 +38,7 @@ export function* initializeOutboundSmsForMessagingSaga(action) {
       {
         phoneNumber: action.phoneNumber,
         message: action.message,
+        popUri: action.popUri,
       },
       'MessagingContentArea'
     );

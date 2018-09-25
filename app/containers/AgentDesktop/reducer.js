@@ -646,12 +646,19 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case ACTIONS.OPEN_NEW_INTERACTION_PANEL: {
       return state
-        .update('newInteractionPanel', (newInteractionPanel) =>
-          newInteractionPanel
+        .update('newInteractionPanel', (newInteractionPanel) => {
+          const nextNewInteractionPanel = newInteractionPanel
             .set('newInteractionFormInput', action.optionalInput)
             .set('visible', true)
-            .set('isSidePanelCollapsed', action.isSidePanelCollapsed === true)
-        )
+            .set('isSidePanelCollapsed', action.isSidePanelCollapsed === true);
+          if (action.popUri) {
+            return nextNewInteractionPanel.set(
+              'uriObject',
+              new Map({ popUri: action.popUri, objectName: action.objectName })
+            );
+          }
+          return nextNewInteractionPanel;
+        })
         .set(
           'selectedInteractionId',
           state.getIn(['newInteractionPanel', 'interactionId'])
@@ -709,6 +716,7 @@ function agentDesktopReducer(state = initialState, action) {
           direction: 'agent-initiated',
           status: 'connecting-to-outbound',
           contactMode: action.contact !== undefined ? 'view' : 'search',
+          popUri: action.popUri,
         })
       );
       return (

@@ -18,7 +18,8 @@ export function initializeOutboundSmsFromMessaging(
   interactionId,
   phoneNumber,
   contactId,
-  message
+  message,
+  popUri
 ) {
   return {
     type: INITIALIZE_OUTBOUND_SMS_FROM_MESSAGING,
@@ -26,6 +27,7 @@ export function initializeOutboundSmsFromMessaging(
     phoneNumber,
     contactId,
     message,
+    popUri,
   };
 }
 

@@ -178,6 +178,11 @@ pipeline {
             [$class: 'StringParameterValue', name: 'Version', value: "${build_version}"],
             [$class: 'StringParameterValue', name: 'Environment', value: 'dev']
         ]
+        build job: 'Deploy - Front-End', parameters: [
+            [$class: 'StringParameterValue', name: 'Service', value: 'Agent-Desktop'],
+            [$class: 'StringParameterValue', name: 'Version', value: "${build_version}"],
+            [$class: 'StringParameterValue', name: 'Environment', value: 'qe']
+        ]
       }
     }
   }

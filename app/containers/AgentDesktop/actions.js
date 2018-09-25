@@ -129,12 +129,16 @@ export function goNotReady(reason, listId) {
 
 export function openNewInteractionPanel(
   isSidePanelCollapsed,
-  optionalInput = ''
+  optionalInput = '',
+  popUri,
+  objectName
 ) {
   return {
     type: ACTIONS.OPEN_NEW_INTERACTION_PANEL,
     isSidePanelCollapsed,
     optionalInput,
+    popUri,
+    objectName,
   };
 }
 
@@ -170,7 +174,8 @@ export function startOutboundInteraction(
   contact,
   addedByNewInteractionPanel,
   interactionId,
-  openSidePanel
+  openSidePanel,
+  popUri
 ) {
   return {
     type: ACTIONS.START_OUTBOUND_INTERACTION,
@@ -180,6 +185,7 @@ export function startOutboundInteraction(
     addedByNewInteractionPanel,
     interactionId,
     openSidePanel,
+    popUri,
   };
 }
 

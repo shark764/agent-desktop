@@ -5,37 +5,40 @@ exports[`<NewInteractionForm /> should render correctly 1`] = `
   style={
     Object {
       "paddingLeft": "20px",
+      "textAlign": "center",
       "width": "100%",
     }
   }
 >
-  <InjectIntl(TextInput)
-    autoFocus={true}
-    cb={[Function]}
-    id="newInteractionFormInput"
-    placeholder={
-      Object {
-        "defaultMessage": "Enter a valid phone number or email",
-        "id": "app.containers.NewInteractionContentArea.newInteractionFormInstructions",
+  <React.Fragment>
+    <InjectIntl(TextInput)
+      autoFocus={true}
+      cb={[Function]}
+      id="newInteractionFormInput"
+      placeholder={
+        Object {
+          "defaultMessage": "Enter a valid phone number or email",
+          "id": "app.containers.NewInteractionContentArea.newInteractionFormInstructions",
+        }
       }
-    }
-    style={
-      Object {
-        "marginTop": "50px",
-        "textAlign": "center",
-        "width": "100%",
+      style={
+        Object {
+          "marginTop": "50px",
+          "textAlign": "center",
+          "width": "100%",
+        }
       }
-    }
-    value=""
-  />
-  <hr
-    style={
-      Object {
-        "margin": "30px 25%",
-        "width": "50%",
+      value=""
+    />
+    <hr
+      style={
+        Object {
+          "margin": "30px 25%",
+          "width": "50%",
+        }
       }
-    }
-  />
+    />
+  </React.Fragment>
   <Connect(ErrorBoundaryComponent)
     phoneNumber=""
   />

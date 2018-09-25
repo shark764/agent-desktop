@@ -106,6 +106,7 @@ Object {
         Object {
           "message": "message",
           "phoneNumber": "phoneNumber",
+          "popUri": undefined,
         },
         "MessagingContentArea",
       ],

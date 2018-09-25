@@ -24,6 +24,7 @@ export default class Interaction {
     subject,
     timeAccepted,
     callbackRequest,
+    popUri,
   }) {
     if (channelType === 'voice') {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
@@ -118,6 +119,9 @@ export default class Interaction {
       );
     }
     this.notifications = notifications;
+    if (popUri) {
+      this.popUri = popUri;
+    }
   }
 }
 

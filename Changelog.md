@@ -1,3 +1,6 @@
+### [1.28.36] (2018-10-03)
+* CXV1-15259 - Salesforce click to dials now pop to number they were clicked on
+
 ### [1.28.35] (2018-09-27)
 * CXV1-14896 - Screenpop for Skylight popping 2 browser windows (1 correct, 1 blank)
 

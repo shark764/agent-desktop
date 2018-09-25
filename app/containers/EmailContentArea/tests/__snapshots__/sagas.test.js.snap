@@ -82,6 +82,7 @@ Object {
         "customer": "email@test.com",
         "interactionId": "mockId123456789",
         "openSidePanel": true,
+        "popUri": undefined,
         "type": "app/AgentDesktop/START_OUTBOUND_INTERACTION",
       },
       "channel": null,

@@ -8,10 +8,11 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Radium from 'radium';
+import { FormattedMessage } from 'react-intl';
 
 import { isValidNumber, isValidEmail } from 'utils/validator';
 
@@ -32,6 +33,10 @@ const styles = {
   base: {
     paddingLeft: '20px',
     width: '100%',
+    textAlign: 'center',
+  },
+  creatingNewInteractionFor: {
+    marginBottom: '20px',
   },
   input: {
     marginTop: '50px',
@@ -66,15 +71,26 @@ const formatPhoneNumber = (input) => {
 export function NewInteractionForm(props) {
   return (
     <div style={styles.base}>
-      <TextInput
-        id="newInteractionFormInput"
-        cb={props.setNewInteractionPanelFormInput}
-        value={props.input}
-        style={styles.input}
-        placeholder={messages.newInteractionFormInstructions}
-        autoFocus
-      />
-      <hr style={styles.hr} />
+      {props.uriObject !== undefined ? (
+        <div style={styles.creatingNewInteractionFor}>
+          <FormattedMessage
+            {...messages.creatingNewInteractionFor}
+            values={{ objectName: props.uriObject.objectName }}
+          />
+        </div>
+      ) : (
+        <Fragment>
+          <TextInput
+            id="newInteractionFormInput"
+            cb={props.setNewInteractionPanelFormInput}
+            value={props.input}
+            style={styles.input}
+            placeholder={messages.newInteractionFormInstructions}
+            autoFocus
+          />
+          <hr style={styles.hr} />
+        </Fragment>
+      )}
       {!isValidEmail(props.input) && (
         <OutboundCallButton phoneNumber={formatPhoneNumber(props.input)} />
       )}
@@ -92,6 +108,7 @@ function mapStateToProps(state, props) {
   const newInteractionPanel = selectNewInteractionPanel(state, props);
   return {
     input: newInteractionPanel.newInteractionFormInput,
+    uriObject: newInteractionPanel.uriObject,
   };
 }
 
@@ -105,6 +122,9 @@ function mapDispatchToProps(dispatch) {
 
 NewInteractionForm.propTypes = {
   input: PropTypes.string.isRequired,
+  uriObject: PropTypes.shape({
+    objectName: PropTypes.string,
+  }),
   setNewInteractionPanelFormInput: PropTypes.func.isRequired,
 };
 
