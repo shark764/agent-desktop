@@ -46,8 +46,19 @@ const styles = {
 };
 
 export class Recording extends React.PureComponent {
+  componentDidUpdate(prevProps) {
+    if (prevProps.isRecording !== this.props.isRecording) {
+      clearTimeout(this.timer);
+    }
+  }
+
   setRecording = () => {
     this.props.toggleIsRecording(this.props.interactionId, true);
+    // timer is for if flow doesn't send us a 'recording-start/end-received', we reset so the user can try again
+    this.timer = setTimeout(
+      () => this.props.toggleIsRecording(this.props.interactionId, false),
+      15000
+    );
     if (this.props.isRecording) {
       CxEngage.interactions.voice.stopRecording({
         interactionId: this.props.interactionId,

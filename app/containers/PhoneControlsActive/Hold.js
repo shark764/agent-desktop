@@ -18,8 +18,20 @@ const styles = {
 };
 
 export class Hold extends React.PureComponent {
+  componentDidUpdate(prevProps) {
+    if (prevProps.isOnHold !== this.props.isOnHold) {
+      clearTimeout(this.timer);
+    }
+  }
+
   setHold = () => {
     this.props.toggleInteractionIsHolding(this.props.interactionId, true);
+    // timer is for if flow doesn't send us a 'customer-hold/resume-received', we reset so the user can try again
+    this.timer = setTimeout(
+      () =>
+        this.props.toggleInteractionIsHolding(this.props.interactionId, false),
+      15000
+    );
     if (this.props.isOnHold) {
       CxEngage.interactions.voice.customerResume({
         interactionId: this.props.interactionId,

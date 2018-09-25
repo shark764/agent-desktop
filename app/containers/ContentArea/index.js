@@ -75,6 +75,7 @@ export class ContentArea extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateDimensions);
+    clearTimeout(this.timer);
     this.mounted = false;
   }
 
@@ -738,6 +739,15 @@ export class ContentArea extends React.Component {
         this.props.interaction.interactionId,
         true
       );
+      // timer is for if flow doesn't respond, we reset so the user can try again
+      const timer = setTimeout(
+        () =>
+          this.props.toggleInteractionIsEnding(
+            this.props.interaction.interactionId,
+            false
+          ),
+        15000
+      );
       CxEngage.interactions.sendCustomInterrupt(
         {
           interactionId: this.props.interaction.interactionId,
@@ -748,6 +758,7 @@ export class ContentArea extends React.Component {
         },
         (err, topic, response) => {
           console.log('[ContentArea] CxEngage.subscribe()', topic, response);
+          clearTimeout(timer);
           if (!err) {
             this.props.removeInteraction(this.props.interaction.interactionId);
           } else {
@@ -764,6 +775,15 @@ export class ContentArea extends React.Component {
       this.props.toggleInteractionIsEnding(
         this.props.interaction.interactionId,
         true
+      );
+      // timer is for if flow doesn't respond, we reset so the user can try again
+      this.timer = setTimeout(
+        () =>
+          this.props.toggleInteractionIsEnding(
+            this.props.interaction.interactionId,
+            false
+          ),
+        15000
       );
       CxEngage.interactions.end({
         interactionId: this.props.interaction.interactionId,

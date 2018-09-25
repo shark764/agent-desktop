@@ -18,8 +18,20 @@ const styles = {
 };
 
 export class Mute extends React.PureComponent {
+  componentDidUpdate(prevProps) {
+    if (prevProps.isMuted !== this.props.isMuted) {
+      clearTimeout(this.timer);
+    }
+  }
+
   setMute = () => {
     this.props.toggleInteractionIsMuting(this.props.interactionId, true);
+    // timer is for if flow doesn't send us a 'resource-mute/unmute-received', we reset so the user can try again
+    this.timer = setTimeout(
+      () =>
+        this.props.toggleInteractionIsMuting(this.props.interactionId, false),
+      15000
+    );
     if (this.props.isMuted) {
       CxEngage.interactions.voice.unmute({
         interactionId: this.props.interactionId,

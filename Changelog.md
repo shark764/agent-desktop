@@ -1,3 +1,6 @@
+### [1.28.32] (2018-09-25)
+* Added 15 second timeout for hold, mute, recording, wrap up, and end loading states
+
 ### [1.28.31] (2018-09-20)
 * CXV1-15284 - Hide "Failed to get available stats (code:12003) error" when hyperion is down
 
