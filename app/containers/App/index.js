@@ -154,6 +154,9 @@ import {
   selectLoginMap,
   selectCrmModule,
 } from 'containers/AgentDesktop/selectors';
+
+import { store } from 'store';
+
 import { selectHasCrmPermissions } from './selectors';
 
 import { version as release } from '../../../package.json';
@@ -284,6 +287,9 @@ export class App extends React.Component {
           autoBreadcrumbs: {
             xhr: false,
           },
+          collectWindowErrors: false,
+          shouldSendCallback: () =>
+            !store.getState().hasIn(['errors', 'criticalError']),
           // dataCallback: (data) => {
           //   // Add state to extra data
           //   Object.assign(
@@ -291,7 +297,6 @@ export class App extends React.Component {
           //     data
           //   ).extra.appState = window.store.getState().toJS();
           // },
-          shouldSendCallback: (data) => data.logError,
         }
       ).install();
     }
@@ -347,11 +352,13 @@ export class App extends React.Component {
     Raven.setTagsContext({ sdkVersion: CxEngage.version });
 
     window.onerror = (errorMsg, url, lineNumber, column, errorObj) => {
-      CxEngage.logging.error(
-        `Error: ${errorMsg} Script: ${url} Line: ${lineNumber} Column: ${column} StackTrace: ${JSON.stringify(
-          errorObj
-        )} ReduxState: ${JSON.stringify(window.store)}`
-      );
+      if (url.includes('https://sdk.cxengage.net/js/agent')) {
+        Raven.captureException(errorObj, {
+          tags: {
+            type: 'sdk',
+          },
+        });
+      }
     };
 
     CxEngage.subscribe('cxengage', (error, topic, response) => {

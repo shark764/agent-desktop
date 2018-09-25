@@ -16,7 +16,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { setCriticalError } from 'containers/Errors/actions';
-import { store } from 'store';
 
 export default function ErrorBoundary(WrappedComponent) {
   class ErrorBoundaryComponent extends React.Component {
@@ -27,13 +26,9 @@ export default function ErrorBoundary(WrappedComponent) {
 
     componentDidCatch(error, info) {
       console.error(error, info);
-      if (CxEngage !== undefined) {
-        CxEngage.logging.error(error, info);
-      }
       this.setState({ error });
       Raven.captureException(error, {
         extra: info,
-        logError: !store.getState().hasIn(['errors', 'criticalError']),
       });
       this.props.setCriticalError();
     }

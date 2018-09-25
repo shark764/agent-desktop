@@ -479,23 +479,28 @@ export class Login extends React.Component {
       password,
     };
 
-    CxEngage.authentication.login(
-      this.setLoginParams(loginCredentials),
-      (error, topic, response) => {
-        if (!error) {
-          this.props.dismissError();
-          console.log('[Login] CxEngage.subscribe()', topic, response);
-          this.loginCB(response);
-        } else {
-          this.setState({
-            expiredSessionReauth: {},
-          });
-          this.props.setLoading(false);
-          this.props.errorOccurred();
-          storage.removeItem(REAUTH_POPUP_OPTIONS);
+    // Test to check if SDK errors are caught by Sentry
+    if (username !== 'OWXLHTYHTKMXUFYOLDUMUXWNSJNJPUSFHHKYBMTMGZTFOBJEPV') {
+      CxEngage.authentication.login(
+        this.setLoginParams(loginCredentials),
+        (error, topic, response) => {
+          if (!error) {
+            this.props.dismissError();
+            console.log('[Login] CxEngage.subscribe()', topic, response);
+            this.loginCB(response);
+          } else {
+            this.setState({
+              expiredSessionReauth: {},
+            });
+            this.props.setLoading(false);
+            this.props.errorOccurred();
+            storage.removeItem(REAUTH_POPUP_OPTIONS);
+          }
         }
-      }
-    );
+      );
+    } else {
+      CxEngage.testing.throwError();
+    }
   };
 
   loginCB = (agent) => {
