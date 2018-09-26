@@ -49,32 +49,33 @@ const styles = {
 };
 
 export class WrapUpToggle extends React.Component {
-  // Methods:
-  setWrapupToggleStatusStart = (interactionId) => {
+  toggleWrapup = () => {
+    const { interactionId, wrapupDetails } = this.props.interaction;
     this.props.updateWrapupDetails(interactionId, {
       loadingWrapupStatusUpdate: true,
     });
-  };
-
-  enableWrapup = () => {
-    this.setWrapupToggleStatusStart(this.props.interaction.interactionId);
-    CxEngage.interactions.enableWrapup({
-      interactionId: this.props.interaction.interactionId,
-    });
-  };
-
-  disableWrapup = () => {
-    this.setWrapupToggleStatusStart(this.props.interaction.interactionId);
-    CxEngage.interactions.disableWrapup({
-      interactionId: this.props.interaction.interactionId,
-    });
-  };
-
-  toggleWrapup = () => {
-    if (this.props.interaction.wrapupDetails.wrapupEnabled) {
-      this.disableWrapup(this.props.interaction.interactionId);
+    // timer is for if the request to enable/disable doesn't return, we reset so the user can try again
+    this.timer = setTimeout(
+      () =>
+        this.props.updateWrapupDetails(interactionId, {
+          loadingWrapupStatusUpdate: false,
+        }),
+      15000
+    );
+    if (wrapupDetails.wrapupEnabled) {
+      CxEngage.interactions.disableWrapup(
+        {
+          interactionId,
+        },
+        () => clearTimeout(this.timer)
+      );
     } else {
-      this.enableWrapup(this.props.interaction.interactionId);
+      CxEngage.interactions.enableWrapup(
+        {
+          interactionId,
+        },
+        () => clearTimeout(this.timer)
+      );
     }
   };
 

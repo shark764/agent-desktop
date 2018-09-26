@@ -103,6 +103,7 @@ exports[`<WrapUpToggle /> with interaction.wrapupDetails.wrapupEnabled calls CxE
       Object {
         "interactionId": "aaa",
       },
+      [Function],
     ],
   ],
   "results": Array [
@@ -140,6 +141,7 @@ exports[`<WrapUpToggle /> with interaction.wrapupDetails.wrapupEnabled false cal
       Object {
         "interactionId": "aaa",
       },
+      [Function],
     ],
   ],
   "results": Array [
