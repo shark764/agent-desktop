@@ -1,3 +1,7 @@
+### [1.28.34] (2019-09-25)
+* CXV1-13732 - Make sure we catch SDK JavaScript exceptions in Sentry
+* SDK version bump (CXV1-13733 - Update SDK to log errors to Kibana properly)
+
 ### [1.28.33] (2018-09-27)
 * CXV1-15362 - Fixed transfer menu filter
 

@@ -20,9 +20,7 @@ export let store; //eslint-disable-line
 const sagaMiddleware = createSagaMiddleware({
   onError: (error) => {
     console.error(error);
-    Raven.captureException(error, {
-      logError: !store.getState().hasIn(['errors', 'criticalError']),
-    });
+    Raven.captureException(error);
     store.dispatch(setCriticalError());
   },
 });
