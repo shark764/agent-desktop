@@ -60,7 +60,7 @@ const selectAgents = createSelector(
               agentId: agent.agentId,
               firstName: agent.agentName.split(' ')[0],
               lastName: agent.agentName.split(' ')[1],
-              agentName: agent.agentName,
+              name: agent.agentName,
               isAvailable: agent.presence === 'ready' && hasVoiceCapacity,
             };
           })
@@ -92,7 +92,7 @@ const selectAgents = createSelector(
             agentId: agent.id,
             firstName: agent.firstName,
             lastName: agent.lastName,
-            agentName: agent.firstName.concat(' ', agent.lastName),
+            name: `${agent.firstName} ${agent.lastName}`,
             isAvailable: agent.state === 'ready',
           }))
           .sort((agent1, agent2) => {
