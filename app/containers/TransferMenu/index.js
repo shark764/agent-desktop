@@ -483,7 +483,7 @@ export class TransferMenu extends React.Component {
                   id={agent.agentId}
                   className="readyAgentTransferListItem"
                   style={this.styles.inactiveTransferListItem}
-                  title={agent.agentName}
+                  title={agent.name}
                 >
                   <div
                     style={[
@@ -492,7 +492,7 @@ export class TransferMenu extends React.Component {
                     ]}
                   />
                   <span style={this.styles.agentName}>
-                    {agent.agentName}
+                    {agent.name}
                   </span>
                 </div>
               );
@@ -502,9 +502,9 @@ export class TransferMenu extends React.Component {
                   key={agent.agentId}
                   id={agent.agentId}
                   className="readyAgentTransferListItem transferItem"
-                  onClick={() => this.transfer(agent.agentName, agent.agentId)}
+                  onClick={() => this.transfer(agent.name, agent.agentId)}
                   style={this.styles.transferListItem}
-                  title={agent.agentName}
+                  title={agent.name}
                   tabIndex="0" // eslint-disable-line
                 >
                   <div
@@ -514,7 +514,7 @@ export class TransferMenu extends React.Component {
                     ]}
                   />
                   <span style={this.styles.agentName}>
-                    {agent.agentName}
+                    {agent.name}
                   </span>
                 </div>
               );
@@ -525,7 +525,7 @@ export class TransferMenu extends React.Component {
                   id={agent.agentId}
                   className="notReadyAgentTransferListItem transferItem"
                   style={this.styles.inactiveTransferListItem}
-                  title={agent.agentName}
+                  title={agent.name}
                   tabIndex="0" // eslint-disable-line
                 >
                   <div
@@ -535,7 +535,7 @@ export class TransferMenu extends React.Component {
                     ]}
                   />
                   <span style={this.styles.agentName}>
-                    {agent.agentName}
+                    {agent.name}
                   </span>
                 </div>
               );

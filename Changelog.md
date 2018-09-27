@@ -1,16 +1,19 @@
-### [1.28.32] (2018-09-25)
+### [1.28.33] (2018-09-27)
+* CXV1-15362 - Fixed transfer menu filter
+
+### [1.28.32] (2018-09-25) (Broken: CXV1-15362)
 * Added 15 second timeout for hold, mute, recording, wrap up, and end loading states
 
-### [1.28.31] (2018-09-20)
+### [1.28.31] (2018-09-20) (Broken: CXV1-15362)
 * CXV1-15284 - Hide "Failed to get available stats (code:12003) error" when hyperion is down
 
-### [1.28.30] (2018-09-19)
+### [1.28.30] (2018-09-19) (Broken: CXV1-15362)
 * SDK version bump (CXV1-15239 - Do not cease heatbeating until presence returns a 4xx)
 
-### [1.28.29] (2018-09-18)
+### [1.28.29] (2018-09-18) (Broken: CXV1-15362)
 * CXV1-13730 - Upload source maps to Sentry via Jenkins
 
-### [1.28.28] (2018-09-18)
+### [1.28.28] (2018-09-18) (Broken: CXV1-15362)
 * CXV1-12743 - Do not show null when customer name is not provided in the email interaction
 
 ### [1.28.27] (2018-09-17)
