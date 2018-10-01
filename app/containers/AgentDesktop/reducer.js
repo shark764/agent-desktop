@@ -502,6 +502,11 @@ function agentDesktopReducer(state = initialState, action) {
         })
       );
     }
+    case ACTIONS.CLEAR_QUEUES_TIME: {
+      return state.update('queues', (queues) =>
+        queues.map((queue) => queue.delete('queueTime'))
+      );
+    }
     case ACTIONS.SET_PRESENCE: {
       const systemPresenceReasonList = state
         .get('presenceReasonLists')

@@ -1,3 +1,6 @@
+### [1.28.42] (2019-10-09)
+* CXV1-15293 - Queue time bulk stat queries should be included in batch requests.
+
 ### [1.28.41] (2019-10-12)
 * CXV1-14306 - Fixed SQS on-message error retry logic
 
