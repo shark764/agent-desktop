@@ -1,3 +1,6 @@
+### [1.28.37] (2019-10-02)
+* CXV1-11503 - Signing Into Same Agent Sometimes Does Not Show "Click to Reload" And Signs User Out Automatically.
+
 ### [1.28.36] (2018-10-03)
 * CXV1-15259 - Salesforce click to dials now pop to number they were clicked on
 

@@ -226,13 +226,8 @@ export class App extends React.Component {
   };
 
   logoutAndReload = () => {
-    try {
-      CxEngage.authentication.logout(
-        (error) => error && window.location.reload()
-      );
-    } catch (e) {
-      window.location.reload();
-    }
+    CxEngage.authentication.logout();
+    window.location.reload();
   };
 
   checkStatErrors = (statsObject) => {
@@ -425,14 +420,7 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/session/ended': {
-            window.location.reload();
-
-            // TODO: Refactor logout
-            // 1. this.props.logout() will reset all redux state
-            // 2. We still need to unsubscribe to sdk on componentWillUnmount
-            // 3. This will require moving all pub subs to <AD/> from <App/>
-
-            // this.props.logout();
+            this.props.setCriticalError({ code: 2003 });
             break;
           }
 

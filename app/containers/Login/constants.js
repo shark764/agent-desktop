@@ -37,4 +37,4 @@ export const DEEPLINK_QUERY_PARAMS = [
   'tenantid',
   'idp',
   'tenantididp',
-]
+];
