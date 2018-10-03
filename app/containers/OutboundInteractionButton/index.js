@@ -15,7 +15,10 @@ import Icon from 'components/Icon';
 
 import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
 import { startOutboundEmail } from 'containers/EmailContentArea/actions';
-import { selectIsAgentReady } from 'containers/AgentDesktop/selectors';
+import {
+  selectIsAgentReady,
+  getUriObject,
+} from 'containers/AgentDesktop/selectors';
 import { getSelectedInteractionIsCreatingNewInteraction } from 'containers/ContactsControl/selectors';
 
 import messages from './messages';
@@ -69,15 +72,25 @@ export class OutboundInteractionButton extends React.Component {
           this.props.selectedInteractionIsCreatingNewInteraction
         );
       } else {
+        let popUri;
+        if (this.props.uriObject !== undefined) {
+          ({ popUri } = this.props.uriObject);
+        }
+
         this.props.startOutboundInteraction(
           this.props.channelType,
           this.props.endpoint,
           undefined,
-          this.props.selectedInteractionIsCreatingNewInteraction
+          this.props.selectedInteractionIsCreatingNewInteraction,
+          undefined,
+          undefined,
+          popUri
         );
+
         if (this.props.channelType === 'voice') {
           CxEngage.interactions.voice.dial({
             phoneNumber: this.props.endpoint,
+            popUri,
           });
         }
       }
@@ -118,6 +131,7 @@ const mapStateToProps = (state, props) => ({
     state,
     props
   ),
+  uriObject: getUriObject(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -126,14 +140,20 @@ function mapDispatchToProps(dispatch) {
       channelType,
       customer,
       contact,
-      addedByNewInteractionPanel
+      addedByNewInteractionPanel,
+      interactionId,
+      openSidePanel,
+      popUri
     ) =>
       dispatch(
         startOutboundInteraction(
           channelType,
           customer,
           contact,
-          addedByNewInteractionPanel
+          addedByNewInteractionPanel,
+          interactionId,
+          openSidePanel,
+          popUri
         )
       ),
     startOutboundEmail: (customer, contact, addedByNewInteractionPanel) =>
@@ -151,12 +171,17 @@ OutboundInteractionButton.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   isAgentReady: PropTypes.bool.isRequired,
   selectedInteractionIsCreatingNewInteraction: PropTypes.bool.isRequired,
+  uriObject: PropTypes.shape({
+    popUri: PropTypes.string.isRequired,
+    objectName: PropTypes.string,
+  }),
   startOutboundInteraction: PropTypes.func.isRequired,
   startOutboundEmail: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(
-    Radium(OutboundInteractionButton)
-  )
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(OutboundInteractionButton))
 );

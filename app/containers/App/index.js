@@ -1012,7 +1012,9 @@ export class App extends React.Component {
             CxEngage.salesforceClassic.setVisibility({ visibility: true });
             this.props.openNewInteractionPanel(
               this.context.toolbarMode,
-              response.number
+              response.number,
+              response.popUri,
+              response.objectName
             );
             break;
           }
@@ -1082,7 +1084,9 @@ export class App extends React.Component {
 
             this.props.openNewInteractionPanel(
               this.context.toolbarMode,
-              response.number
+              response.number,
+              response.popUri,
+              response.hookName
             );
             break;
           }
@@ -1589,8 +1593,20 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    openNewInteractionPanel: (isSidePanelCollapsed, optionalInput) =>
-      dispatch(openNewInteractionPanel(isSidePanelCollapsed, optionalInput)),
+    openNewInteractionPanel: (
+      isSidePanelCollapsed,
+      optionalInput,
+      popUri,
+      objectName
+    ) =>
+      dispatch(
+        openNewInteractionPanel(
+          isSidePanelCollapsed,
+          optionalInput,
+          popUri,
+          objectName
+        )
+      ),
     showRefreshRequired: (show) => dispatch(showRefreshRequired(show)),
     showLogin: (show) => dispatch(showLogin(show)),
     setUserConfig: (response) => dispatch(setUserConfig(response)),

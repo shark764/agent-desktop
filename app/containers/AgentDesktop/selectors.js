@@ -299,6 +299,9 @@ const areInteractionsInWrapup = createSelector(
   }
 );
 
+export const getUriObject = (state) =>
+  selectNewInteractionPanel(state).uriObject;
+
 export {
   selectAgentId,
   selectIsAgentReady,

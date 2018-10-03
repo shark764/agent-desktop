@@ -339,7 +339,8 @@ export class MessagingTextArea extends React.Component {
           this.props.selectedInteraction.contact
             ? this.props.selectedInteraction.contact.id
             : null,
-          this.props.selectedInteraction.currentMessage
+          this.props.selectedInteraction.currentMessage,
+          this.props.selectedInteraction.popUri
         );
       } else if (
         this.props.selectedInteraction.status === 'initialized-outbound'
@@ -438,7 +439,7 @@ export class MessagingTextArea extends React.Component {
                         ]}
                       >
                         <span style={styles.bold}>
-                          /
+/
                           {messageTemplate.name}
                         </span>
                         &nbsp;&nbsp;&nbsp;
@@ -516,14 +517,16 @@ function mapDispatchToProps(dispatch) {
       interactionId,
       phoneNumber,
       contactId,
-      message
+      message,
+      popUri
     ) =>
       dispatch(
         initializeOutboundSmsFromMessaging(
           interactionId,
           phoneNumber,
           contactId,
-          message
+          message,
+          popUri
         )
       ),
     sendOutboundSms: (interactionId, message) =>
