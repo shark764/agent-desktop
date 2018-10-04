@@ -33,9 +33,8 @@ class ConfirmationPopupGoReady extends React.Component {
     }
 
     // ...reload the window to log out no matter what
-    CxEngage.authentication.logout(
-      (error) => error && window.location.reload()
-    );
+    CxEngage.authentication.logout();
+    window.location.reload();
   };
 
   signOut = () => {
@@ -48,7 +47,9 @@ class ConfirmationPopupGoReady extends React.Component {
     return (
       <CenteredConfirmationPopup
         displayPasswordField={false}
-        modalDescriptionText={this.props.intl.formatMessage(messages.tokenExpiredMsg)}
+        modalDescriptionText={this.props.intl.formatMessage(
+          messages.tokenExpiredMsg
+        )}
         loginBtn={{
           text: this.props.intl.formatMessage(messages.resumeBtnText),
           type: 'primaryBlueBig',
@@ -62,7 +63,7 @@ class ConfirmationPopupGoReady extends React.Component {
           callback: this.signOut,
         }}
       />
-    )
+    );
   }
 }
 

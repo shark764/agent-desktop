@@ -287,10 +287,9 @@ export class AgentStatusMenu extends React.Component {
   ];
 
   logoutAndCloseMenu = () => {
-    CxEngage.authentication.logout(
-      (error) => error && window.location.reload()
-    );
+    CxEngage.authentication.logout();
     this.props.showAgentStatusMenu(false);
+    window.location.reload();
   };
 
   render() {
