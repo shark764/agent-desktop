@@ -285,13 +285,31 @@ export class App extends React.Component {
           collectWindowErrors: false,
           shouldSendCallback: () =>
             !store.getState().hasIn(['errors', 'criticalError']),
-          // dataCallback: (data) => {
-          //   // Add state to extra data
-          //   Object.assign(
-          //     {},
-          //     data
-          //   ).extra.appState = window.store.getState().toJS();
-          // },
+          dataCallback: (data) => {
+            const dataWithState = Object.assign({}, data);
+            const state = window.store.getState().toJS();
+            try {
+              delete state.login.agent.tenants;
+              delete state.login.agent.accountTenants;
+              delete state.sidePanel.contactAttributes;
+
+              dataWithState.extra.agentDesktopState = state.agentDesktop;
+              dataWithState.extra.contactsControlState = state.contactsControl;
+              dataWithState.extra.errors = state.errors;
+              dataWithState.extra.infoTab = state.infoTab;
+              dataWithState.extra.language = state.language;
+              dataWithState.extra.login = state.login;
+              dataWithState.extra.notificationPreferences =
+                state.notificationPreferences;
+              dataWithState.extra.sidePanel = state.sidePanel;
+              dataWithState.extra.toolbar = state.toolbar;
+              dataWithState.extra.transferMenu = state.transferMenu;
+            } catch (error) {
+              Raven.captureException(error);
+            }
+
+            return dataWithState;
+          },
         }
       ).install();
     }

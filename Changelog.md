@@ -1,3 +1,6 @@
+### [1.28.39] (2019-10-11)
+* CXV1-13731 - Tweak Raven to log redux state as context
+
 ### [1.28.38] (2019-10-10)
 * CXV1-15348 - Visual notifications will not appear if the window is not in focus
 
