@@ -151,6 +151,7 @@ import {
   addInteractionNotification,
   removeInteractionNotification,
   setQueuesTime,
+  toggleIsOnline,
 } from 'containers/AgentDesktop/actions';
 
 import {
@@ -172,6 +173,7 @@ import sdkLogTopics from './sdkLogTopics';
 export class App extends React.Component {
   componentWillUnmount() {
     clearInterval(this.cacheCheckInterval);
+    clearInterval(this.pingInterval);
   }
 
   componentWillMount() {
@@ -182,6 +184,8 @@ export class App extends React.Component {
       this.init();
     } else {
       this.loadConf();
+      this.ping();
+      this.pingInterval = setInterval(this.ping, 1000);
       this.cacheCheckInterval = setInterval(this.loadConf, 300000); // Cache busting version check every 5min
     }
 
@@ -201,6 +205,28 @@ export class App extends React.Component {
     }
   }
 
+  ping = () => {
+    const relativeUrl = window.location.href.substr(
+      0,
+      window.location.href.lastIndexOf('/')
+    );
+    axios({
+      method: 'get',
+      url: `${relativeUrl}/config.json?t=${Date.now()}`,
+    })
+      .then(() => {
+        if (!this.props.agentDesktop.isOnline) {
+          this.props.dismissError();
+          this.props.toggleIsOnline(true);
+        }
+      })
+      .catch(() => {
+        if (this.props.agentDesktop.isOnline) {
+          this.props.toggleIsOnline(false);
+        }
+      });
+  };
+
   loadConf = () => {
     const relativeUrl = window.location.href.substr(
       0,
@@ -208,7 +234,7 @@ export class App extends React.Component {
     );
     axios({
       method: 'get',
-      url: `${relativeUrl}/config.json`,
+      url: `${relativeUrl}/config.json?t=${Date.now()}`,
     }).then((res) => {
       if (typeof res.data !== 'undefined') {
         if (window.ADconf !== undefined) {
@@ -1566,6 +1592,17 @@ export class App extends React.Component {
           rightLinkMessage={messages.reload}
         />
       );
+    } else if (!this.props.agentDesktop.isOnline) {
+      banners.push(
+        <NotificationBanner
+          key={messages.offline.id}
+          id="offline-banner"
+          descriptionMessage={messages.offline}
+          descriptionStyle={{
+            textAlign: 'center',
+          }}
+        />
+      );
     } else if (this.props.nonCriticalError) {
       banners.push(
         <NotificationBanner
@@ -1592,7 +1629,6 @@ export class App extends React.Component {
           ) : (
             <AgentDesktop />
           )}
-
         {this.displayReauthPopup()}
       </div>
     );
@@ -1780,6 +1816,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(setResourceCapactiy(resourceCapacity)),
     setUsers: (users) => dispatch(setUsers(users)),
     setQueuesTime: (queueData) => dispatch(setQueuesTime(queueData)),
+    toggleIsOnline: (isOnline) => dispatch(toggleIsOnline(isOnline)),
     dispatch,
   };
 }
@@ -1881,6 +1918,7 @@ App.propTypes = {
   setUsers: PropTypes.func.isRequired,
   queues: PropTypes.array,
   setQueuesTime: PropTypes.func.isRequired,
+  toggleIsOnline: PropTypes.func.isRequired,
 };
 
 App.contextTypes = {

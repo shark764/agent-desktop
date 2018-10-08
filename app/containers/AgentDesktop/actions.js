@@ -972,3 +972,10 @@ export function toggleIsRecording(interactionId, isRecording) {
     isRecording,
   };
 }
+
+export function toggleIsOnline(isOnline) {
+  return {
+    type: ACTIONS.TOGGLE_IS_ONLINE,
+    isOnline,
+  };
+}
