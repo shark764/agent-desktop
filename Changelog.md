@@ -1,3 +1,6 @@
+### [1.28.38] (2019-10-10)
+* CXV1-15348 - Visual notifications will not appear if the window is not in focus
+
 ### [1.28.37] (2019-10-02)
 * CXV1-11503 - Signing Into Same Agent Sometimes Does Not Show "Click to Reload" And Signs User Out Automatically.
 
