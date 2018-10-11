@@ -1,3 +1,6 @@
+### [1.28.41] (2019-10-12)
+* CXV1-14306 - Fixed SQS on-message error retry logic
+
 ### [1.28.40] (2019-10-12)
 * CXV1-15353 - Fixed double batch request polling
 
