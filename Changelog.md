@@ -1,3 +1,6 @@
+### [1.28.40] (2019-10-12)
+* CXV1-15353 - Fixed double batch request polling
+
 ### [1.28.39] (2019-10-11)
 * CXV1-13731 - Tweak Raven to log redux state as context
 
