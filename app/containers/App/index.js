@@ -479,7 +479,7 @@ export class App extends React.Component {
                 this.acceptInteraction(response.interactionId);
               }
 
-              if (document.hidden) {
+              if (!document.hasFocus()) {
                 if (
                   !isIeEleven() &&
                   window.parent === window &&
@@ -882,7 +882,7 @@ export class App extends React.Component {
                 });
               }
 
-              if (document.hidden) {
+              if (!document.hasFocus()) {
                 if (
                   !isIeEleven() &&
                   window.parent === window &&
