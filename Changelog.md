@@ -1,28 +1,31 @@
-### [1.28.45] (2019-10-15)
+### [1.28.46] (2018-10-16)
+* CXV1-15354 - Fixed critical error that happened when you received an SMS interaction while having an agent desktop contact in view
+
+### [1.28.45] (2018-10-15)
 * CXV1-15417 - Clicking Email Attachment Navigates Away From Toolbar Page
 
-### [1.28.44] (2019-10-09)
+### [1.28.44] (2018-10-09)
 * CXV1-15320 - Show that the user is currently offline instead of error banners
 
-### [1.28.43] (2019-10-12)
+### [1.28.43] (2018-10-12)
 * CXV1-15467 - Fixed click to dials
 
-### [1.28.42] (2019-10-09) (Broken: CXV1-15467)
+### [1.28.42] (2018-10-09) (Broken: CXV1-15467)
 * CXV1-15293 - Queue time bulk stat queries should be included in batch requests.
 
-### [1.28.41] (2019-10-12) (Broken: CXV1-15467)
+### [1.28.41] (2018-10-12) (Broken: CXV1-15467)
 * CXV1-14306 - Fixed SQS on-message error retry logic
 
-### [1.28.40] (2019-10-12) (Broken: CXV1-15467)
+### [1.28.40] (2018-10-12) (Broken: CXV1-15467)
 * CXV1-15353 - Fixed double batch request polling
 
-### [1.28.39] (2019-10-11) (Broken: CXV1-15467)
+### [1.28.39] (2018-10-11) (Broken: CXV1-15467)
 * CXV1-13731 - Tweak Raven to log redux state as context
 
-### [1.28.38] (2019-10-10) (Broken: CXV1-15467)
+### [1.28.38] (2018-10-10) (Broken: CXV1-15467)
 * CXV1-15348 - Visual notifications will not appear if the window is not in focus
 
-### [1.28.37] (2019-10-02) (Broken: CXV1-15467)
+### [1.28.37] (2018-10-02) (Broken: CXV1-15467)
 * CXV1-11503 - Signing Into Same Agent Sometimes Does Not Show "Click to Reload" And Signs User Out Automatically.
 
 ### [1.28.36] (2018-10-03) (Broken: CXV1-15467)
@@ -31,7 +34,7 @@
 ### [1.28.35] (2018-09-27)
 * CXV1-14896 - Screenpop for Skylight popping 2 browser windows (1 correct, 1 blank)
 
-### [1.28.34] (2019-09-25)
+### [1.28.34] (2018-09-25)
 * CXV1-13732 - Make sure we catch SDK JavaScript exceptions in Sentry
 * SDK version bump (CXV1-13733 - Update SDK to log errors to Kibana properly)
 

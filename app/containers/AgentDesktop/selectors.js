@@ -220,7 +220,10 @@ const selectSmsInteractionNumbers = createSelector(
   (interactions) => {
     const smsInteractionNumbers = [];
     interactions.forEach((interaction) => {
-      if (interaction.get('channelType') === 'sms') {
+      if (
+        interaction.get('channelType') === 'sms' &&
+        interaction.get('customer')
+      ) {
         smsInteractionNumbers.push(
           `+${interaction.get('customer').replace(/\D+/g, '')}`
         );
