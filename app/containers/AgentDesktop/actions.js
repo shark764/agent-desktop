@@ -112,6 +112,13 @@ export function setQueuesTime(queueData) {
   };
 }
 
+export function clearQueuesTime(queues) {
+  return {
+    type: ACTIONS.CLEAR_QUEUES_TIME,
+    queues,
+  };
+}
+
 export function setPresence(presenceInfo) {
   return {
     type: ACTIONS.SET_PRESENCE,

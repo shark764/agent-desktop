@@ -7,7 +7,6 @@
  * TransferMenu
  *
  */
-
 import React from 'react';
 import { connect } from 'react-redux';
 import { Tab, TabList, TabPanel } from 'react-tabs';
@@ -30,6 +29,7 @@ import TimeStat from 'components/TimeStat';
 import {
   startWarmTransferring,
   setQueuesTime,
+  clearQueuesTime,
 } from 'containers/AgentDesktop/actions';
 import { setResourceCapactiy, setUsers } from 'containers/TransferMenu/actions';
 import { selectAgentId } from 'containers/AgentDesktop/selectors';
@@ -39,12 +39,12 @@ import messages from './messages';
 
 const REFRESH_AGENTS_RATE = 5000;
 const REFRESH_QUEUES_RATE = 10000;
-
 export class TransferMenu extends React.Component {
   constructor(props) {
     super(props);
 
     this.mounted = false;
+    this.queuesStatsIds = [];
 
     this.state = {
       transferTabIndex: this.props.nonVoice ? 1 : 0,
@@ -128,7 +128,6 @@ export class TransferMenu extends React.Component {
   componentDidMount() {
     this.mounted = true;
 
-    this.refreshQueues();
     if (!this.props.batchRequestsAreSuccessful) {
       CxEngage.entities.getUsers({ excludeOffline: true });
     }
@@ -137,8 +136,11 @@ export class TransferMenu extends React.Component {
       CxEngage.entities.getTransferLists(this.setTransferListsCallback);
     }
 
+    this.refreshQueues();
     this.reloadQueuesInterval = setInterval(() => {
-      this.refreshQueues();
+      CxEngage.entities.getQueues(() => {
+        this.refreshQueues();
+      });
     }, REFRESH_QUEUES_RATE);
 
     if (this.state.transferTabIndex === 0) {
@@ -151,7 +153,7 @@ export class TransferMenu extends React.Component {
     CxEngage.reporting.addStatSubscription(
       { statistic: 'resource-capacity' },
       (error, topic, response) => {
-        if (!error && response.statId !== undefined) {
+        if (!error) {
           this.resourceCapacityStatId = response.statId;
         }
       }
@@ -167,27 +169,74 @@ export class TransferMenu extends React.Component {
         statId: this.resourceCapacityStatId,
       });
     }
+    this.queuesStatsIds.forEach((queueStatId) => {
+      CxEngage.reporting.removeStatSubscription({
+        statId: queueStatId,
+      });
+    });
+
     this.props.setUsers(undefined);
+    this.props.clearQueuesTime(this.props.queues);
     document.removeEventListener('keydown', this.hotKeys);
   }
 
   refreshQueues = () => {
-    CxEngage.entities.getQueues(() => {
-      const queries = this.props.queues.map((queue) => ({
-        statistic: 'queue-time',
-        queueId: queue.id,
-        statId: queue.id,
-      }));
-      CxEngage.reporting.bulkStatQuery(
-        { queries },
-        (error, topic, response) => {
-          if (!error) {
-            console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
-            this.props.setQueuesTime(response);
+    if (this.props.queues !== undefined) {
+      this.props.clearQueuesTime(this.props.queues);
+    }
+    const queriesList = this.props.queues.map((queue) => ({
+      statistic: 'queue-time',
+      queueId: queue.id,
+      statId: queue.id,
+    }));
+    //  Since we are using batch-response to get queues information, we need to compare if a new queue has been added or removed against currentQueuesIds
+    const currentQueuesIds = this.queuesStatsIds;
+
+    //  Creating a list of new added queues to add them to stats-subscription
+    const addedQueuesList = queriesList.filter(
+      (queryItem) => !currentQueuesIds.includes(queryItem.statId)
+    );
+
+    //  Creating a list of removed queues to remove them of stats-subscription
+    const removedQueuesList = currentQueuesIds.filter(
+      (queryItem) => !queriesList.map((e) => e.statId).includes(queryItem)
+    );
+
+    //  This will check if there are new queues added
+    if (addedQueuesList.length > 0) {
+      addedQueuesList.forEach((queueStatId) => {
+        CxEngage.reporting.addStatSubscription(
+          {
+            statistic: queueStatId.statistic,
+            queueId: queueStatId.queueId,
+            statId: queueStatId.statId,
+          },
+          (error, topic, response) => {
+            if (!error) {
+              console.log(
+                '[TransferMenu] CxEngage.subscribe().addStatSubscription',
+                topic,
+                response
+              );
+              this.queuesStatsIds.push(response.statId);
+            }
           }
+        );
+      });
+    }
+    //  This will check if there are queues removed
+    if (removedQueuesList.length > 0) {
+      removedQueuesList.forEach((queueStatId) => {
+        CxEngage.reporting.removeStatSubscription({
+          statId: queueStatId,
+        });
+        const index = removedQueuesList.indexOf(queueStatId);
+        if (index > -1) {
+          removedQueuesList.splice(index, 1);
         }
-      );
-    });
+        this.queuesStatsIds = removedQueuesList;
+      });
+    }
   };
 
   refreshAgents = () => {
@@ -682,7 +731,13 @@ export class TransferMenu extends React.Component {
                     <FormattedMessage {...messages.queues} />
                     <div
                       id="refreshQueues"
-                      style={this.styles.refresh}
+                      style={[
+                        this.styles.refresh,
+                        (this.props.queues === undefined ||
+                          this.props.queues[0] === undefined ||
+                          this.props.queues[0].queueTime === undefined) &&
+                          this.styles.refreshInProgress,
+                      ]}
                       onClick={() => this.refreshQueues()}
                     >
                       &#8635;
@@ -779,6 +834,7 @@ function mapDispatchToProps(dispatch) {
     startWarmTransferring: (interactionId, transferringTo) =>
       dispatch(startWarmTransferring(interactionId, transferringTo)),
     setQueuesTime: (queueData) => dispatch(setQueuesTime(queueData)),
+    clearQueuesTime: (queueData) => dispatch(clearQueuesTime(queueData)),
     setUsers: (users) => dispatch(setUsers(users)),
     setResourceCapactiy: (resourceCapacity) =>
       dispatch(setResourceCapactiy(resourceCapacity)),
@@ -794,6 +850,7 @@ TransferMenu.propTypes = {
   queues: PropTypes.array.isRequired,
   startWarmTransferring: PropTypes.func.isRequired,
   setQueuesTime: PropTypes.func.isRequired,
+  clearQueuesTime: PropTypes.func.isRequired,
   nonVoice: PropTypes.bool,
   selectAgents: PropTypes.array,
   batchRequestsAreSuccessful: PropTypes.bool.isRequired,

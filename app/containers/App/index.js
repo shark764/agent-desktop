@@ -71,7 +71,10 @@ import {
   selectVisualPreferences,
 } from 'containers/AgentNotificationsMenu/selectors';
 import { selectAvailableStats } from 'containers/AgentStats/selectors';
-import { selectActivatedStatIds } from 'containers/Toolbar/selectors';
+import {
+  selectActivatedStatIds,
+  selectQueues,
+} from 'containers/Toolbar/selectors';
 import {
   selectCriticalError,
   selectErroredStatIds,
@@ -147,6 +150,7 @@ import {
   openNewInteractionPanel,
   addInteractionNotification,
   removeInteractionNotification,
+  setQueuesTime,
 } from 'containers/AgentDesktop/actions';
 
 import {
@@ -1356,6 +1360,23 @@ export class App extends React.Component {
                 resourceCapacityStat.body.results.resourceCapacity
               );
             }
+
+            if (this.props.queues !== undefined) {
+              const statsKeys = Object.keys(response);
+              const queuesIds = this.props.queues.map((queue) => queue.id);
+              const filteredQueuesTime = statsKeys
+                .filter((key) => queuesIds.includes(key))
+                .reduce(
+                  (obj, key) => ({
+                    ...obj,
+                    [key]: response[key],
+                  }),
+                  {}
+                );
+              if (Object.keys(filteredQueuesTime).length > 0) {
+                this.props.setQueuesTime(filteredQueuesTime);
+              }
+            }
             break;
           }
 
@@ -1595,6 +1616,7 @@ const mapStateToProps = (state, props) => ({
   ),
   audioNotificationsEnabled: selectAudioPreferences(state, props),
   visualNotificationsEnabled: selectVisualPreferences(state, props),
+  queues: selectQueues(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -1757,6 +1779,7 @@ function mapDispatchToProps(dispatch) {
     setResourceCapactiy: (resourceCapacity) =>
       dispatch(setResourceCapactiy(resourceCapacity)),
     setUsers: (users) => dispatch(setUsers(users)),
+    setQueuesTime: (queueData) => dispatch(setQueuesTime(queueData)),
     dispatch,
   };
 }
@@ -1856,6 +1879,8 @@ App.propTypes = {
   visualNotificationsEnabled: PropTypes.bool,
   setResourceCapactiy: PropTypes.func.isRequired,
   setUsers: PropTypes.func.isRequired,
+  queues: PropTypes.array,
+  setQueuesTime: PropTypes.func.isRequired,
 };
 
 App.contextTypes = {
