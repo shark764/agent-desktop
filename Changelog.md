@@ -1,22 +1,25 @@
-### [1.28.42] (2019-10-09)
+### [1.28.43] (2019-10-12)
+* CXV1-15467 - Fixed click to dials
+
+### [1.28.42] (2019-10-09) (Broken: CXV1-15467)
 * CXV1-15293 - Queue time bulk stat queries should be included in batch requests.
 
-### [1.28.41] (2019-10-12)
+### [1.28.41] (2019-10-12) (Broken: CXV1-15467)
 * CXV1-14306 - Fixed SQS on-message error retry logic
 
-### [1.28.40] (2019-10-12)
+### [1.28.40] (2019-10-12) (Broken: CXV1-15467)
 * CXV1-15353 - Fixed double batch request polling
 
-### [1.28.39] (2019-10-11)
+### [1.28.39] (2019-10-11) (Broken: CXV1-15467)
 * CXV1-13731 - Tweak Raven to log redux state as context
 
-### [1.28.38] (2019-10-10)
+### [1.28.38] (2019-10-10) (Broken: CXV1-15467)
 * CXV1-15348 - Visual notifications will not appear if the window is not in focus
 
-### [1.28.37] (2019-10-02)
+### [1.28.37] (2019-10-02) (Broken: CXV1-15467)
 * CXV1-11503 - Signing Into Same Agent Sometimes Does Not Show "Click to Reload" And Signs User Out Automatically.
 
-### [1.28.36] (2018-10-03)
+### [1.28.36] (2018-10-03) (Broken: CXV1-15467)
 * CXV1-15259 - Salesforce click to dials now pop to number they were clicked on
 
 ### [1.28.35] (2018-09-27)

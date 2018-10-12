@@ -88,10 +88,16 @@ export class OutboundInteractionButton extends React.Component {
         );
 
         if (this.props.channelType === 'voice') {
-          CxEngage.interactions.voice.dial({
-            phoneNumber: this.props.endpoint,
-            popUri,
-          });
+          CxEngage.interactions.voice.dial(
+            popUri
+              ? {
+                phoneNumber: this.props.endpoint,
+                popUri,
+              }
+              : {
+                phoneNumber: this.props.endpoint,
+              }
+          );
         }
       }
     }
