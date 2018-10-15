@@ -1,3 +1,6 @@
+### [1.28.45] (2019-10-15)
+* CXV1-15417 - Clicking Email Attachment Navigates Away From Toolbar Page
+
 ### [1.28.44] (2019-10-09)
 * CXV1-15320 - Show that the user is currently offline instead of error banners
 

@@ -804,7 +804,7 @@ export class EmailContentArea extends React.Component {
                         id={`attachment-${index}`}
                         className="attachment"
                         href={attachment.url}
-                        download
+                        target={attachment.url}
                       >
                         <div style={styles.attachment}>
                           {attachment.filename}
