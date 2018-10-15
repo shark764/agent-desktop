@@ -162,6 +162,7 @@ export const TOGGLE_TRANSCRIPT_COPIED =
   'app/AgentDesktop/TOGGLE_TRANSCRIPT_COPIED';
 export const TOGGLE_INTERACTION_IS_ENDING =
   'app/AgentDesktop/TOGGLE_INTERACTION_IS_ENDING';
+export const TOGGLE_IS_ONLINE = 'app/AgentDesktop/TOGGLE_IS_ONLINE';
 export const REAUTH_POPUP_OPTIONS = 'REAUTH_POPUP_OPTIONS';
 export const DEFAULT_LOCALE = 'en-US';
 

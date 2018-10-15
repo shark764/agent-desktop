@@ -88,6 +88,7 @@ const initialState = fromJS({
     reauthPassword: '',
     showLoginPopup: false,
   },
+  isOnline: true,
 });
 
 const getInteractionIndex = (state, interactionId) =>
@@ -2269,6 +2270,9 @@ function agentDesktopReducer(state = initialState, action) {
       } else {
         return state;
       }
+    }
+    case ACTIONS.TOGGLE_IS_ONLINE: {
+      return state.set('isOnline', action.isOnline);
     }
     default:
       return state;

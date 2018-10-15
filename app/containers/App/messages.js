@@ -34,4 +34,8 @@ export default defineMessages({
     id: 'app.containers.App.newMessage',
     defaultMessage: 'New message!',
   },
+  offline: {
+    id: 'app.containers.App.offline',
+    defaultMessage: 'You are currently offline',
+  },
 });

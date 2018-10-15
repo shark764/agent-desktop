@@ -1903,6 +1903,7 @@ Immutable.Map {
     "direction": "inbound",
   },
   "refreshRequired": false,
+  "isOnline": true,
   "presenceReason": Immutable.Map {},
   "sidePanelMaxPx": 500,
 }

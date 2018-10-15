@@ -1,3 +1,6 @@
+### [1.28.44] (2019-10-09)
+* CXV1-15320 - Show that the user is currently offline instead of error banners
+
 ### [1.28.43] (2019-10-12)
 * CXV1-15467 - Fixed click to dials
 
