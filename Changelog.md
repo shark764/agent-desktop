@@ -1,3 +1,6 @@
+### [1.28.47] (2018-10-17)
+* CXV1-15419 - Queues are not alphabetical order when doing a transfer
+
 ### [1.28.46] (2018-10-16)
 * CXV1-15354 - Fixed critical error that happened when you received an SMS interaction while having an agent desktop contact in view
 

@@ -20,9 +20,6 @@ const selectWarmTransfers = createSelector(
     }
   }
 );
-const selectQueues = createSelector(selectAgentDesktopDomain, (agentDesktop) =>
-  agentDesktop.get('queues').toJS()
-);
 
 const selectResourceCapacity = (state) =>
   state.getIn(['transferMenu', 'resourceCapacity']);
@@ -118,4 +115,4 @@ const selectAgents = createSelector(
   }
 );
 
-export { selectWarmTransfers, selectQueues, selectAgents, selectUsers };
+export { selectWarmTransfers, selectAgents, selectUsers };

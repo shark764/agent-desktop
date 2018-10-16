@@ -24,9 +24,9 @@ import Button from 'components/Button';
 import { selectAvailableStats } from 'containers/AgentStats/selectors';
 import {
   selectToolbarStatIds,
-  selectQueues,
   selectCurrentAgent,
 } from 'containers/Toolbar/selectors';
+import { selectQueues } from 'containers/AgentDesktop/selectors';
 import messages from './messages';
 
 const MAXIMUM_STATS = 5;

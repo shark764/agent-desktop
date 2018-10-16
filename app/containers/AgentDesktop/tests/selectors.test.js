@@ -16,6 +16,7 @@ import {
   selectPreviousInteraction,
   selectHasUnrespondedInteractions,
   areInteractionsInWrapup,
+  selectQueues,
 } from '../selectors';
 
 describe('areInteractionsInWrapup ', () => {
@@ -310,5 +311,36 @@ describe('selectInteractionEmails', () => {
       'test@serenova.com',
       'test2@serenova.com',
     ]);
+  });
+  describe('selectQueues', () => {
+    it('Queues should be arranged in alphabetical order in the transfer-list', () => {
+      const queues = fromJS({
+        agentDesktop: {
+          queues: [
+            {
+              active: true,
+              name: 'Zoom',
+            },
+            {
+              active: true,
+              name: 'AGENT_QUEUE',
+            },
+            {
+              active: true,
+              name: 'supervisor',
+            },
+            {
+              active: true,
+              name: '165',
+            },
+            {
+              active: true,
+              name: '56',
+            },
+          ],
+        },
+      });
+      expect(selectQueues(queues)).toMatchSnapshot();
+    });
   });
 });

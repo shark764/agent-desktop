@@ -6,6 +6,7 @@ import { createSelector } from 'reselect';
 
 const selectLoginMap = (state) => state.get('login');
 const selectAgentDesktopMap = (state) => state.get('agentDesktop');
+const selectQueuesMap = (state) => state.getIn(['agentDesktop', 'queues']);
 
 const selectAgentId = createSelector(selectLoginMap, (login) =>
   login.get('agent').get('userId')
@@ -123,8 +124,12 @@ const selectCurrentCrmItemHistoryPanel = createSelector(
   (agentDesktop) => agentDesktop.get('currentCrmItemHistoryPanel').toJS()
 );
 
-const selectQueues = createSelector(selectAgentDesktopMap, (agentDesktop) =>
-  agentDesktop.get('queues').toJS()
+const selectQueues = createSelector(selectQueuesMap, (queues) =>
+  queues.toJS().sort((a, b) => {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+    if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+    return 0;
+  })
 );
 
 const selectQueuesSet = createSelector(
