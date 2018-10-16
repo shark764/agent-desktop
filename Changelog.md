@@ -1,3 +1,6 @@
+### [1.28.48] (2018-10-17)
+* CXV1-15446 - Fixed SSO non-default tenant selection
+
 ### [1.28.47] (2018-10-17)
 * CXV1-15419 - Queues are not alphabetical order when doing a transfer
 

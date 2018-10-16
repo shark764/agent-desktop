@@ -608,16 +608,19 @@ export class Login extends React.Component {
         this.requiresReauth(selectingTenant) &&
         !this.isDeepLinkAuthentication()
       ) {
-        if (selectingTenant.password) {
+        if (
+          selectingTenant.password &&
+          selectingTenant.identityProviders.length === 0
+        ) {
           this.showCxLogin();
         } else {
           this.showSsoLogin();
           window.history.pushState(
             '',
             document.title,
-            `${window.location.pathname}?tenantid=${selectingTenant.tenantId}${
-              window.location.hash
-            }`
+            `${window.location.pathname}${
+              window.location.search ? `${window.location.search}&` : '?'
+            }tenantid=${selectingTenant.tenantId}${window.location.hash}`
           );
         }
 
