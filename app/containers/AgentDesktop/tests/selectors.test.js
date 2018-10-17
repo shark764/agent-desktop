@@ -269,6 +269,9 @@ describe('selectSmsInteractionNumbers', () => {
             channelType: 'email',
             customer: 'test2@serenova.com',
           },
+          {
+            channelType: 'sms',
+          },
         ],
       },
     });

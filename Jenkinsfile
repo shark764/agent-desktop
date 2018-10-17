@@ -188,8 +188,12 @@ pipeline {
   }
   post {
     always {
-      sh "docker rmi ${docker_tag} --force"
       script {
+        try {
+          sh "docker rmi ${docker_tag} --force"
+        } catch (e) {
+          sh 'echo "Failed to remove docker image"'
+        }
         c.cleanup()
       }
     }
