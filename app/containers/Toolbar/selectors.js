@@ -17,10 +17,6 @@ const selectToolbarDomain = () => (state) => state.get('toolbar');
 
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 
-const selectQueues = createSelector(selectAgentDesktopDomain, (agentDesktop) =>
-  agentDesktop.get('queues').toJS()
-);
-
 const selectLoginDomain = (state) => state.get('login');
 
 const selectCurrentAgent = createSelector(selectLoginDomain, (login) =>
@@ -98,7 +94,6 @@ export {
   selectToolbarStats,
   selectWelcomeStats,
   selectReadyState,
-  selectQueues,
   selectCurrentAgent,
   selectToolbarStatIds,
   selectWelcomeStatIds,

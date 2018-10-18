@@ -13,23 +13,20 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-
 import ErrorBoundary from 'components/ErrorBoundary';
-
 import Icon from 'components/Icon';
 import Timer from 'components/Timer';
 import AgentStatusMenu from 'containers/AgentStatusMenu';
 import AgentStats from 'containers/AgentStats';
 import AgentPreferencesMenu from 'containers/AgentPreferencesMenu';
-
-import { selectQueuesSet } from 'containers/AgentDesktop/selectors';
-
+import {
+  selectQueues,
+  selectQueuesSet,
+} from 'containers/AgentDesktop/selectors';
 import { selectSelectedPresenceReason } from 'containers/AgentStatusMenu/selectors';
-
 import { selectHasInteractions } from 'containers/InteractionsBar/selectors';
-
 import { toggleAgentMenu } from './actions';
-import selectToolbar, { selectQueues, selectReadyState } from './selectors';
+import selectToolbar, { selectReadyState } from './selectors';
 import messages from './messages';
 
 const styles = {

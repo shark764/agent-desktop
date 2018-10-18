@@ -71,10 +71,7 @@ import {
   selectVisualPreferences,
 } from 'containers/AgentNotificationsMenu/selectors';
 import { selectAvailableStats } from 'containers/AgentStats/selectors';
-import {
-  selectActivatedStatIds,
-  selectQueues,
-} from 'containers/Toolbar/selectors';
+import { selectActivatedStatIds } from 'containers/Toolbar/selectors';
 import {
   selectCriticalError,
   selectErroredStatIds,
@@ -157,6 +154,7 @@ import {
 import {
   selectAgentDesktopMap,
   selectLoginMap,
+  selectQueues,
   selectCrmModule,
 } from 'containers/AgentDesktop/selectors';
 

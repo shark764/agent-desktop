@@ -8,6 +8,31 @@ Immutable.Map {
 }
 `;
 
+exports[`selectInteractionEmails selectQueues Queues should be arranged in alphabetical order in the transfer-list 1`] = `
+Array [
+  Object {
+    "active": true,
+    "name": "165",
+  },
+  Object {
+    "active": true,
+    "name": "56",
+  },
+  Object {
+    "active": true,
+    "name": "AGENT_QUEUE",
+  },
+  Object {
+    "active": true,
+    "name": "supervisor",
+  },
+  Object {
+    "active": true,
+    "name": "Zoom",
+  },
+]
+`;
+
 exports[`selectInteractionsList should select interactions on the AgentDesktop domain 1`] = `
 Immutable.List [
   Immutable.Map {

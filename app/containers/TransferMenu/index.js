@@ -32,9 +32,9 @@ import {
   clearQueuesTime,
 } from 'containers/AgentDesktop/actions';
 import { setResourceCapactiy, setUsers } from 'containers/TransferMenu/actions';
-import { selectAgentId } from 'containers/AgentDesktop/selectors';
+import { selectAgentId, selectQueues } from 'containers/AgentDesktop/selectors';
 import { selectBatchRequests } from 'containers/Toolbar/selectors';
-import { selectWarmTransfers, selectQueues, selectAgents } from './selectors';
+import { selectWarmTransfers, selectAgents } from './selectors';
 import messages from './messages';
 
 const REFRESH_AGENTS_RATE = 5000;
