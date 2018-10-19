@@ -490,7 +490,37 @@ function agentDesktopReducer(state = initialState, action) {
       );
     }
     case ACTIONS.SET_QUEUES:
-      return state.set('queues', fromJS(action.queues)).set('queuesSet', true);
+      // Only add/remove new/non-existent queues so we don't clear the queue times
+      return state
+        .update('queues', (queues) => {
+          let newQueues = queues;
+          if (action.queues) {
+            action.queues.forEach((queue) => {
+              let hasQueue = false;
+              queues.forEach((queueInState) => {
+                if (queueInState.get('id') === queue.id) {
+                  hasQueue = true;
+                }
+              });
+              if (!hasQueue) {
+                newQueues = newQueues.push(fromJS(queue));
+              }
+            });
+          }
+          queues.forEach((queueInState, index) => {
+            let hasQueue = false;
+            action.queues.forEach((queue) => {
+              if (queueInState.get('id') === queue.id) {
+                hasQueue = true;
+              }
+            });
+            if (!hasQueue) {
+              newQueues = newQueues.delete(index);
+            }
+          });
+          return newQueues;
+        })
+        .set('queuesSet', true);
     case ACTIONS.SET_QUEUES_TIME: {
       return state.update('queues', (queues) =>
         queues.map((queue) => {

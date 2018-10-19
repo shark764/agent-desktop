@@ -28,7 +28,6 @@ import TimeStat from 'components/TimeStat';
 
 import {
   startWarmTransferring,
-  setQueuesTime,
   clearQueuesTime,
 } from 'containers/AgentDesktop/actions';
 import { setResourceCapactiy, setUsers } from 'containers/TransferMenu/actions';
@@ -136,11 +135,9 @@ export class TransferMenu extends React.Component {
       CxEngage.entities.getTransferLists(this.setTransferListsCallback);
     }
 
-    this.refreshQueues();
+    CxEngage.entities.getQueues(this.refreshQueues);
     this.reloadQueuesInterval = setInterval(() => {
-      CxEngage.entities.getQueues(() => {
-        this.refreshQueues();
-      });
+      CxEngage.entities.getQueues(this.refreshQueues);
     }, REFRESH_QUEUES_RATE);
 
     if (this.state.transferTabIndex === 0) {
@@ -181,9 +178,6 @@ export class TransferMenu extends React.Component {
   }
 
   refreshQueues = () => {
-    if (this.props.queues !== undefined) {
-      this.props.clearQueuesTime(this.props.queues);
-    }
     const queriesList = this.props.queues.map((queue) => ({
       statistic: 'queue-time',
       queueId: queue.id,
@@ -204,12 +198,14 @@ export class TransferMenu extends React.Component {
 
     //  This will check if there are new queues added
     if (addedQueuesList.length > 0) {
-      addedQueuesList.forEach((queueStatId) => {
+      addedQueuesList.forEach((queueStatId, index, queueIdList) => {
         CxEngage.reporting.addStatSubscription(
           {
             statistic: queueStatId.statistic,
             queueId: queueStatId.queueId,
             statId: queueStatId.statId,
+            // Only trigger the batch for the last one added
+            triggerBatch: index === queueIdList.length - 1,
           },
           (error, topic, response) => {
             if (!error) {
@@ -230,11 +226,24 @@ export class TransferMenu extends React.Component {
         CxEngage.reporting.removeStatSubscription({
           statId: queueStatId,
         });
-        const index = removedQueuesList.indexOf(queueStatId);
+        const index = this.queuesStatsIds.indexOf(queueStatId);
         if (index > -1) {
-          removedQueuesList.splice(index, 1);
+          this.queuesStatsIds.splice(index, 1);
         }
-        this.queuesStatsIds = removedQueuesList;
+      });
+    }
+  };
+
+  refreshQueuesButton = () => {
+    if (
+      this.props.queues &&
+      this.props.queues[0] &&
+      this.props.queues[0].queueTime !== undefined &&
+      this.props.batchRequestsAreSuccessful
+    ) {
+      this.props.clearQueuesTime(this.props.queues);
+      CxEngage.entities.getQueues(() => {
+        CxEngage.reporting.triggerBatch();
       });
     }
   };
@@ -735,10 +744,11 @@ export class TransferMenu extends React.Component {
                         this.styles.refresh,
                         (this.props.queues === undefined ||
                           this.props.queues[0] === undefined ||
-                          this.props.queues[0].queueTime === undefined) &&
+                          this.props.queues[0].queueTime === undefined ||
+                          !this.props.batchRequestsAreSuccessful) &&
                           this.styles.refreshInProgress,
                       ]}
-                      onClick={() => this.refreshQueues()}
+                      onClick={this.refreshQueuesButton}
                     >
                       &#8635;
                     </div>
@@ -833,7 +843,6 @@ function mapDispatchToProps(dispatch) {
   return {
     startWarmTransferring: (interactionId, transferringTo) =>
       dispatch(startWarmTransferring(interactionId, transferringTo)),
-    setQueuesTime: (queueData) => dispatch(setQueuesTime(queueData)),
     clearQueuesTime: (queueData) => dispatch(clearQueuesTime(queueData)),
     setUsers: (users) => dispatch(setUsers(users)),
     setResourceCapactiy: (resourceCapacity) =>
@@ -849,7 +858,6 @@ TransferMenu.propTypes = {
   warmTransfers: PropTypes.array,
   queues: PropTypes.array.isRequired,
   startWarmTransferring: PropTypes.func.isRequired,
-  setQueuesTime: PropTypes.func.isRequired,
   clearQueuesTime: PropTypes.func.isRequired,
   nonVoice: PropTypes.bool,
   selectAgents: PropTypes.array,
