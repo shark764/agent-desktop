@@ -97,6 +97,10 @@ const styles = {
     display: 'inline-block',
     marginTop: '6px',
   },
+  emptyNotesDispo: {
+    fontStyle: 'italic',
+    color: '#808080',
+  },
   expand: {
     display: 'inline-block',
     padding: '2px 7px 0px 7px',
@@ -304,15 +308,40 @@ export class ContactInteractionHistoryItem extends React.Component {
       const segmentData =
         interaction.interactionDetails.agents &&
         interaction.interactionDetails.agents.map((segment) => {
-          let duration;
-          const hasNotes = segment.noteTitle !== null;
-          const notes =
-            segment.note !== undefined ? (
-              segment.note.body
-            ) : (
+          let duration; let notesBody;
+          if (interaction.note === 1 && segment.note === undefined) {
+            notesBody = (
               <div style={styles.loadingInteractionDetails}>
-                <IconSVG id="loadingNote" name="loading" width="50px" />
+                <IconSVG id="loadingNotesBody" name="loading" width="50px" />
               </div>
+            );
+          } else if (
+            interaction.note === 1 &&
+            segment.note.body.trim() !== ''
+          ) {
+            notesBody = segment.note.body;
+          } else {
+            notesBody = (
+              <span style={styles.emptyNotesDispo}>
+                <FormattedMessage {...messages.noNotesBody} />
+              </span>
+            );
+          }
+          const notesTitle =
+            interaction.note === 1 && segment.noteTitle !== '' ? (
+              segment.noteTitle
+            ) : (
+              <span style={styles.emptyNotesDispo}>
+                <FormattedMessage {...messages.noNotesTitle} />
+              </span>
+            );
+          const dispositionName =
+            segment.dispositionName !== undefined ? (
+              segment.dispositionName
+            ) : (
+              <span style={styles.emptyNotesDispo}>
+                <FormattedMessage {...messages.noDisposition} />
+              </span>
             );
           if (
             segment.conversationStartTimestamp &&
@@ -358,7 +387,7 @@ export class ContactInteractionHistoryItem extends React.Component {
                   className="noteTitle"
                   style={styles.segmentTitle}
                 >
-                  {segment.noteTitle}
+                  {notesTitle}
                 </div>
                 <div id="agentName" className="agentName">
                   {segment.agentName}
@@ -373,7 +402,7 @@ export class ContactInteractionHistoryItem extends React.Component {
                     style={styles.disposition}
                     title="Disposition"
                   >
-                    {segment.dispositionName}
+                    {dispositionName}
                   </span>
                 )}
                 {expandedView && (
@@ -382,7 +411,7 @@ export class ContactInteractionHistoryItem extends React.Component {
                     className="notesBody"
                     style={styles.segmentMessage}
                   >
-                    {hasNotes && notes}
+                    {notesBody}
                   </div>
                 )}
               </div>

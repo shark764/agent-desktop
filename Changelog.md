@@ -1,3 +1,6 @@
+### [1.28.49] (2018-10-19)
+* CXV1-14872 - Hide spinner & display proper text for interactions without notes & dispositions
+
 ### [1.28.48] (2018-10-17)
 * CXV1-15446 - Fixed SSO non-default tenant selection
 

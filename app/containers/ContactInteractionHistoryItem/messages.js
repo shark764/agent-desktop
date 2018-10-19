@@ -38,4 +38,16 @@ export default defineMessages({
     id: 'app.containers.ContactInteractionHistory.noTranscript',
     defaultMessage: 'No Transcript Currently Available',
   },
+  noNotesBody: {
+    id: 'app.containers.ContactInteractionHistory.noNotesBody',
+    defaultMessage: 'notes body not written',
+  },
+  noNotesTitle: {
+    id: 'app.containers.ContactInteractionHistory.noNotesTitle',
+    defaultMessage: 'notes title not written',
+  },
+  noDisposition: {
+    id: 'app.containers.ContactInteractionHistory.noDisposition',
+    defaultMessage: 'Disposition not selected',
+  },
 });
