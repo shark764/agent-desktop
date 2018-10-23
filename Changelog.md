@@ -1,3 +1,6 @@
+### [1.28.51] (2018-10-23)
+* CXV1-15326 - Send messages to Sentry from the SDK if posting logs fails
+
 ### [1.28.50] (2018-10-23)
 * CXV1-15605 - Fixed batch requests for each queue when the transfer menu is open. Fixed the time values disappearing.
 

@@ -2,6 +2,7 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
+import Raven from 'raven-js';
 import { takeEvery, put, select } from 'redux-saga/effects';
 
 import { setCRMUnavailable } from 'containers/InfoTab/actions';
@@ -31,9 +32,18 @@ export function* goHandleSDKError(action) {
   const { error } = action;
   let forceFatalInteraction;
   console.warn('SDK Error:', topic, error);
-  if (error.code === 14000) {
-    // Error with logging
-    // TODO analytics
+  if (topic === 'cxengage/logging/logs-saved') {
+    Raven.captureMessage(
+      "Couldn't log error to Kibanna. Logging it to Sentry.",
+      {
+        tags: {
+          type: 'Kibana',
+        },
+        extra: {
+          kibanaLogs: error.data.logs,
+        },
+      }
+    );
     return;
   } else if (
     error.code === 2000 || // Not enough tenant permissions. Handled in Login.
