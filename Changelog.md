@@ -1,3 +1,6 @@
+### [1.28.50] (2018-10-23)
+* CXV1-15605 - Fixed batch requests for each queue when the transfer menu is open. Fixed the time values disappearing.
+
 ### [1.28.49] (2018-10-19)
 * CXV1-14872 - Hide spinner & display proper text for interactions without notes & dispositions
 
