@@ -1,0 +1,859 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PhoneControlsActive/> if the interaction has warm transfers we show the resources button and the active resources menu 1`] = `
+<div
+  style={
+    Object {
+      "padding": "9px 0",
+      "position": "relative",
+    }
+  }
+>
+  <Connect(Recording)
+    agentRecordingEnabled={true}
+    interactionId="1"
+    preventAgentRecordingUpdate={false}
+  />
+  <div
+    style={
+      Object {
+        "display": "table",
+        "height": 40,
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "table-cell",
+          "textAlign": "center",
+          "verticalAlign": "middle",
+        }
+      }
+    >
+      <Connect(EndCall)
+        interactionId="1"
+        interactionStatusIsFatal={false}
+      />
+      <span>
+        <Connect(Mute)
+          interactionId="1"
+        />
+        <Connect(Hold)
+          canUpdateHold={true}
+          interactionId="1"
+        />
+        <Connect(Transfer)
+          canTransfer={true}
+          connectingTransfers={false}
+          interactionId="1"
+        />
+        <Connect(Dialpad)
+          interactionId="1"
+        />
+        <span>
+          <CircleIconButton
+            active={true}
+            id="resourcesButton"
+            innerElement={
+              <div
+                style={
+                  Object {
+                    "borderBottom": "10px solid white",
+                    "borderLeft": "8px solid transparent",
+                    "borderRight": "8px solid transparent",
+                    "borderTop": "none",
+                    "height": "0px",
+                    "left": "14px",
+                    "marginTop": "4px",
+                    "position": "absolute",
+                    "width": "0px",
+                    "zIndex": 4,
+                  }
+                }
+              />
+            }
+            name="resources"
+            onClick={[Function]}
+            style={
+              Object {
+                "padding": "0 1.5px",
+              }
+            }
+          />
+          <div>
+            <div
+              id="activeResourcesMenuMask"
+              onClick={[Function]}
+              style={
+                Object {
+                  "height": "100vh",
+                  "left": "0px",
+                  "position": "fixed",
+                  "top": "0px",
+                  "width": "100vw",
+                  "zIndex": 3,
+                }
+              }
+            />
+            <div
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#FFFFFF",
+                    "borderRadius": "3px",
+                    "boxShadow": "0 0 6px 0 rgba(0,0,0,0.23)",
+                    "color": "#4B4B4B",
+                    "left": "10px",
+                    "marginTop": "10px",
+                    "maxHeight": "650px",
+                    "overflowY": "auto",
+                    "padding": "20px",
+                    "position": "absolute",
+                    "textAlign": "left",
+                    "width": "400px",
+                    "zIndex": 3,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <Connect(ErrorBoundaryComponent)
+                activeVoiceInteraction={
+                  Object {
+                    "agentRecordingEnabled": true,
+                    "callControls": Object {
+                      "holdUpdate": true,
+                      "preventAgentRecordingUpdate": false,
+                      "transferUpdate": true,
+                    },
+                    "customerConnected": true,
+                    "direction": "inbound",
+                    "interactionId": "1",
+                    "status": "work-accepted",
+                    "warmTransfers": Array [
+                      Object {
+                        "addedTimestamp": -10000,
+                        "id": "1111111",
+                        "name": "Agent with a very very very long name",
+                        "onHold": true,
+                        "status": "connected",
+                        "targetResource": "targetResource1",
+                        "type": "agent",
+                      },
+                    ],
+                  }
+                }
+                resource={
+                  Object {
+                    "addedTimestamp": -10000,
+                    "id": "1111111",
+                    "name": "Agent with a very very very long name",
+                    "onHold": true,
+                    "status": "connected",
+                    "targetResource": "targetResource1",
+                    "type": "agent",
+                  }
+                }
+              />
+            </div>
+          </div>
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<PhoneControlsActive/> in toolbar mode when agent is on hold we show the resume button as the mode requires 1`] = `
+<div
+  style={
+    Object {
+      "padding": "9px 0",
+      "position": "relative",
+    }
+  }
+>
+  <Connect(Recording)
+    agentRecordingEnabled={true}
+    interactionId="1"
+    preventAgentRecordingUpdate={false}
+  />
+  <div
+    style={
+      Object {
+        "display": "table",
+        "height": 40,
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "table-cell",
+          "textAlign": "center",
+          "verticalAlign": "middle",
+        }
+      }
+    >
+      <Connect(EndCall)
+        interactionId="1"
+        interactionStatusIsFatal={false}
+      />
+      <span>
+        <Connect(Mute)
+          interactionId="1"
+          meOnHold={true}
+        />
+        <Connect(Hold)
+          canUpdateHold={true}
+          interactionId="1"
+          isOnHold={true}
+        />
+        <Connect(Transfer)
+          canTransfer={true}
+          connectingTransfers={false}
+          interactionId="1"
+        />
+        <Connect(Dialpad)
+          interactionId="1"
+        />
+      </span>
+    </div>
+  </div>
+  <InjectIntl(Button)
+    id="agentOnHoldButton"
+    mouseOverText={
+      Object {
+        "defaultMessage": "Resume",
+        "id": "app.containers.PhoneControls.resume",
+      }
+    }
+    onClick={[Function]}
+    style={
+      Array [
+        Object {
+          "borderRadius": "9px",
+          "margin": "12px 14px 0",
+          "padding": "5px",
+          "textAlign": "center",
+          "width": "255px",
+        },
+        Object {
+          "borderRadius": 0,
+          "boxShadow": "0 0 6px 0 rgba(0,0,0,0.37)",
+          "margin": 0,
+          "width": "100%",
+          "zIndex": 2,
+        },
+      ]
+    }
+    text={
+      Object {
+        "defaultMessage": "On Hold",
+        "id": "app.containers.PhoneControls.onHold",
+      }
+    }
+    type="primaryRed"
+  />
+</div>
+`;
+
+exports[`<PhoneControlsActive/> in toolbar mode when have several interactions on hold, we show the resume button as the mode requires 1`] = `
+<div
+  style={
+    Object {
+      "padding": "9px 0",
+      "position": "relative",
+    }
+  }
+>
+  <Connect(Recording)
+    agentRecordingEnabled={true}
+    interactionId="1"
+    preventAgentRecordingUpdate={false}
+  />
+  <div
+    style={
+      Object {
+        "display": "table",
+        "height": 40,
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "table-cell",
+          "textAlign": "center",
+          "verticalAlign": "middle",
+        }
+      }
+    >
+      <Connect(EndCall)
+        interactionId="1"
+        interactionStatusIsFatal={false}
+      />
+      <span>
+        <Connect(Mute)
+          interactionId="1"
+          meOnHold={true}
+        />
+        <Connect(Hold)
+          canUpdateHold={true}
+          interactionId="1"
+          isOnHold={true}
+        />
+        <Connect(Transfer)
+          canTransfer={true}
+          connectingTransfers={false}
+          interactionId="1"
+        />
+        <Connect(Dialpad)
+          interactionId="1"
+        />
+        <span>
+          <CircleIconButton
+            active={true}
+            id="resourcesButton"
+            innerElement={
+              <div
+                style={
+                  Object {
+                    "borderBottom": "10px solid white",
+                    "borderLeft": "8px solid transparent",
+                    "borderRight": "8px solid transparent",
+                    "borderTop": "none",
+                    "height": "0px",
+                    "left": "14px",
+                    "marginTop": "4px",
+                    "position": "absolute",
+                    "width": "0px",
+                    "zIndex": 4,
+                  }
+                }
+              />
+            }
+            name="resources"
+            onClick={[Function]}
+            style={
+              Object {
+                "padding": "0 1.5px",
+              }
+            }
+          />
+          <div>
+            <div
+              id="activeResourcesMenuMask"
+              onClick={[Function]}
+              style={
+                Object {
+                  "height": "100vh",
+                  "left": "0px",
+                  "position": "fixed",
+                  "top": "0px",
+                  "width": "100vw",
+                  "zIndex": 3,
+                }
+              }
+            />
+            <div
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#FFFFFF",
+                    "borderRadius": "3px",
+                    "boxShadow": "0 0 6px 0 rgba(0,0,0,0.23)",
+                    "color": "#4B4B4B",
+                    "left": "10px",
+                    "marginTop": "10px",
+                    "maxHeight": "650px",
+                    "overflowY": "auto",
+                    "padding": "20px",
+                    "position": "absolute",
+                    "textAlign": "left",
+                    "width": "400px",
+                    "zIndex": 3,
+                  },
+                  Object {
+                    "borderRadius": 0,
+                    "left": 0,
+                    "width": "100%",
+                  },
+                ]
+              }
+            >
+              <Connect(ErrorBoundaryComponent)
+                activeVoiceInteraction={
+                  Object {
+                    "agentRecordingEnabled": true,
+                    "callControls": Object {
+                      "holdUpdate": true,
+                      "preventAgentRecordingUpdate": false,
+                      "transferUpdate": true,
+                    },
+                    "customerConnected": true,
+                    "direction": "inbound",
+                    "interactionId": "1",
+                    "meOnHold": true,
+                    "onHold": true,
+                    "status": "work-accepted",
+                    "warmTransfers": Array [
+                      Object {
+                        "addedTimestamp": -10000,
+                        "id": "1111111",
+                        "name": "Agent with a very very very long name",
+                        "onHold": true,
+                        "status": "connected",
+                        "targetResource": "targetResource1",
+                        "type": "agent",
+                      },
+                    ],
+                  }
+                }
+                resource={
+                  Object {
+                    "addedTimestamp": -10000,
+                    "id": "1111111",
+                    "name": "Agent with a very very very long name",
+                    "onHold": true,
+                    "status": "connected",
+                    "targetResource": "targetResource1",
+                    "type": "agent",
+                  }
+                }
+              />
+            </div>
+          </div>
+        </span>
+      </span>
+    </div>
+  </div>
+  <InjectIntl(Button)
+    id="resumeAll"
+    onClick={[Function]}
+    style={
+      Array [
+        Object {
+          "borderRadius": "9px",
+          "margin": "12px 14px 0",
+          "padding": "5px",
+          "textAlign": "center",
+          "width": "255px",
+        },
+        Object {
+          "borderRadius": 0,
+          "boxShadow": "0 0 6px 0 rgba(0,0,0,0.37)",
+          "margin": 0,
+          "width": "100%",
+          "zIndex": 2,
+        },
+      ]
+    }
+    text={
+      Object {
+        "defaultMessage": "Resume All",
+        "id": "app.containers.TransferResource.resumeAll",
+      }
+    }
+    title="Take all participants off hold"
+    type="primaryRed"
+  />
+</div>
+`;
+
+exports[`<PhoneControlsActive/> renders correctly 1`] = `
+<div
+  style={
+    Object {
+      "padding": "9px 0",
+      "position": "relative",
+    }
+  }
+>
+  <Connect(Recording)
+    agentRecordingEnabled={true}
+    interactionId="1"
+    preventAgentRecordingUpdate={false}
+  />
+  <div
+    style={
+      Object {
+        "display": "table",
+        "height": 40,
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "table-cell",
+          "textAlign": "center",
+          "verticalAlign": "middle",
+        }
+      }
+    >
+      <Connect(EndCall)
+        interactionId="1"
+        interactionStatusIsFatal={false}
+      />
+      <span>
+        <Connect(Mute)
+          interactionId="1"
+        />
+        <Connect(Hold)
+          canUpdateHold={true}
+          interactionId="1"
+        />
+        <Connect(Transfer)
+          canTransfer={true}
+          connectingTransfers={false}
+          interactionId="1"
+        />
+        <Connect(Dialpad)
+          interactionId="1"
+        />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<PhoneControlsActive/> when agent is on hold we show the resume button 1`] = `
+<div
+  style={
+    Object {
+      "padding": "9px 0",
+      "position": "relative",
+    }
+  }
+>
+  <Connect(Recording)
+    agentRecordingEnabled={true}
+    interactionId="1"
+    preventAgentRecordingUpdate={false}
+  />
+  <div
+    style={
+      Object {
+        "display": "table",
+        "height": 40,
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "table-cell",
+          "textAlign": "center",
+          "verticalAlign": "middle",
+        }
+      }
+    >
+      <Connect(EndCall)
+        interactionId="1"
+        interactionStatusIsFatal={false}
+      />
+      <span>
+        <Connect(Mute)
+          interactionId="1"
+          meOnHold={true}
+        />
+        <Connect(Hold)
+          canUpdateHold={true}
+          interactionId="1"
+          isOnHold={true}
+        />
+        <Connect(Transfer)
+          canTransfer={true}
+          connectingTransfers={false}
+          interactionId="1"
+        />
+        <Connect(Dialpad)
+          interactionId="1"
+        />
+      </span>
+    </div>
+  </div>
+  <InjectIntl(Button)
+    id="agentOnHoldButton"
+    mouseOverText={
+      Object {
+        "defaultMessage": "Resume",
+        "id": "app.containers.PhoneControls.resume",
+      }
+    }
+    onClick={[Function]}
+    style={
+      Array [
+        Object {
+          "borderRadius": "9px",
+          "margin": "12px 14px 0",
+          "padding": "5px",
+          "textAlign": "center",
+          "width": "255px",
+        },
+        undefined,
+      ]
+    }
+    text={
+      Object {
+        "defaultMessage": "On Hold",
+        "id": "app.containers.PhoneControls.onHold",
+      }
+    }
+    type="primaryRed"
+  />
+</div>
+`;
+
+exports[`<PhoneControlsActive/> when have several interactions on hold, we show the resume button 1`] = `
+<div
+  style={
+    Object {
+      "padding": "9px 0",
+      "position": "relative",
+    }
+  }
+>
+  <Connect(Recording)
+    agentRecordingEnabled={true}
+    interactionId="1"
+    preventAgentRecordingUpdate={false}
+  />
+  <div
+    style={
+      Object {
+        "display": "table",
+        "height": 40,
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "table-cell",
+          "textAlign": "center",
+          "verticalAlign": "middle",
+        }
+      }
+    >
+      <Connect(EndCall)
+        interactionId="1"
+        interactionStatusIsFatal={false}
+      />
+      <span>
+        <Connect(Mute)
+          interactionId="1"
+          meOnHold={true}
+        />
+        <Connect(Hold)
+          canUpdateHold={true}
+          interactionId="1"
+          isOnHold={true}
+        />
+        <Connect(Transfer)
+          canTransfer={true}
+          connectingTransfers={false}
+          interactionId="1"
+        />
+        <Connect(Dialpad)
+          interactionId="1"
+        />
+        <span>
+          <CircleIconButton
+            active={false}
+            id="resourcesButton"
+            innerElement={null}
+            name="resources"
+            onClick={[Function]}
+            style={
+              Object {
+                "padding": "0 1.5px",
+              }
+            }
+          />
+        </span>
+      </span>
+    </div>
+  </div>
+  <InjectIntl(Button)
+    id="resumeAll"
+    onClick={[Function]}
+    style={
+      Array [
+        Object {
+          "borderRadius": "9px",
+          "margin": "12px 14px 0",
+          "padding": "5px",
+          "textAlign": "center",
+          "width": "255px",
+        },
+        undefined,
+      ]
+    }
+    text={
+      Object {
+        "defaultMessage": "Resume All",
+        "id": "app.containers.TransferResource.resumeAll",
+      }
+    }
+    title="Take all participants off hold"
+    type="primaryRed"
+  />
+</div>
+`;
+
+exports[`<PhoneControlsActive/> when interaction status is fatal, only EndCall component gets rendered 1`] = `
+<div
+  style={
+    Object {
+      "padding": "9px 0",
+      "position": "relative",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "display": "table",
+        "height": 40,
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "table-cell",
+          "textAlign": "center",
+          "verticalAlign": "middle",
+        }
+      }
+    >
+      <Connect(EndCall)
+        interactionId="1"
+        interactionStatusIsFatal={true}
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<PhoneControlsActive/> when we are doing an outbound interaction and the customer haven't picked up the call we won't show the hold button 1`] = `
+<div
+  style={
+    Object {
+      "padding": "9px 0",
+      "position": "relative",
+    }
+  }
+>
+  <Connect(Recording)
+    agentRecordingEnabled={true}
+    interactionId="1"
+    preventAgentRecordingUpdate={false}
+  />
+  <div
+    style={
+      Object {
+        "display": "table",
+        "height": 40,
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "table-cell",
+          "textAlign": "center",
+          "verticalAlign": "middle",
+        }
+      }
+    >
+      <Connect(EndCall)
+        interactionId="1"
+        interactionStatusIsFatal={false}
+      />
+      <span>
+        <Connect(Mute)
+          interactionId="1"
+        />
+        <Connect(Transfer)
+          canTransfer={true}
+          connectingTransfers={false}
+          interactionId="1"
+        />
+        <Connect(Dialpad)
+          interactionId="1"
+        />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<PhoneControlsActive/> when we are doing an outbound interaction and the customer picked up the call we show the hold button 1`] = `
+<div
+  style={
+    Object {
+      "padding": "9px 0",
+      "position": "relative",
+    }
+  }
+>
+  <Connect(Recording)
+    agentRecordingEnabled={true}
+    interactionId="1"
+    preventAgentRecordingUpdate={false}
+  />
+  <div
+    style={
+      Object {
+        "display": "table",
+        "height": 40,
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "table-cell",
+          "textAlign": "center",
+          "verticalAlign": "middle",
+        }
+      }
+    >
+      <Connect(EndCall)
+        interactionId="1"
+        interactionStatusIsFatal={false}
+      />
+      <span>
+        <Connect(Mute)
+          interactionId="1"
+        />
+        <Connect(Hold)
+          canUpdateHold={true}
+          interactionId="1"
+        />
+        <Connect(Transfer)
+          canTransfer={true}
+          connectingTransfers={false}
+          interactionId="1"
+        />
+        <Connect(Dialpad)
+          interactionId="1"
+        />
+      </span>
+    </div>
+  </div>
+</div>
+`;

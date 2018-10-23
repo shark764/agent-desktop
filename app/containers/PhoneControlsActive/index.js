@@ -208,19 +208,21 @@ export class PhoneControlsActive extends React.Component {
                   meOnHold={this.props.activeVoiceInteraction.meOnHold}
                   isMuting={this.props.activeVoiceInteraction.isMuting}
                 />
-                <Hold
-                  interactionId={
-                    this.props.activeVoiceInteraction.interactionId
-                  }
-                  isOnHold={this.props.activeVoiceInteraction.onHold}
-                  canUpdateHold={
-                    this.props.activeVoiceInteraction.callControls
-                      ? this.props.activeVoiceInteraction.callControls
-                        .holdUpdate
-                      : true
-                  }
-                  isHolding={this.props.activeVoiceInteraction.isHolding}
-                />
+                {this.props.activeVoiceInteraction.customerConnected && (
+                  <Hold
+                    interactionId={
+                      this.props.activeVoiceInteraction.interactionId
+                    }
+                    isOnHold={this.props.activeVoiceInteraction.onHold}
+                    canUpdateHold={
+                      this.props.activeVoiceInteraction.callControls
+                        ? this.props.activeVoiceInteraction.callControls
+                          .holdUpdate
+                        : true
+                    }
+                    isHolding={this.props.activeVoiceInteraction.isHolding}
+                  />
+                )}
                 <Transfer
                   interactionId={
                     this.props.activeVoiceInteraction.interactionId

@@ -12,6 +12,7 @@ Immutable.Map {
       "selectedSidePanelTab": "info",
       "query": Immutable.Map {},
       "notifications": Immutable.List [],
+      "customerConnected": true,
       "muted": false,
       "dispositionDetails": Immutable.Map {
         "forceSelect": false,
@@ -149,6 +150,7 @@ Immutable.Map {
       "selectedSidePanelTab": "info",
       "query": Immutable.Map {},
       "notifications": Immutable.List [],
+      "customerConnected": false,
       "muted": false,
       "dispositionDetails": Immutable.Map {
         "forceSelect": false,
@@ -455,6 +457,17 @@ Immutable.Map {
     "isSidePanelCollapsed": true,
   },
   "selectedInteractionId": undefined,
+}
+`;
+
+exports[`agentDesktopReducer OUTBOUND_CUSTOMER_CONNECTED Customer picks up the outbound interaction voice customerConnected is set to true 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": 1,
+      "customerConnected": true,
+    },
+  ],
 }
 `;
 
@@ -1479,6 +1492,7 @@ Immutable.Map {
       "hideNewInteractionPanelOnWorkAccepted": true,
       "query": Immutable.Map {},
       "notifications": Immutable.List [],
+      "customerConnected": false,
       "muted": false,
       "dispositionDetails": Immutable.Map {
         "forceSelect": false,

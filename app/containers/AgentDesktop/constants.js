@@ -119,6 +119,8 @@ export const RESUME_CALL = 'app/AgentDesktop/RESUME_CALL';
 export const RECORD_CALL = 'app/AgentDesktop/RECORD_CALL';
 export const TOGGLE_IS_RECORDING = 'app/AgentDesktop/TOGGLE_IS_RECORDING';
 export const STOP_RECORD_CALL = 'app/AgentDesktop/STOP_RECORD_CALL';
+export const OUTBOUND_CUSTOMER_CONNECTED =
+  'app/AgentDesktop/OUTBOUND_CUSTOMER_CONNECTED';
 export const EMAIL_CREATE_REPLY = 'app/AgentDesktop/EMAIL_CREATE_REPLY';
 export const EMAIL_CAN_SEND_REPLY = 'app/AgentDesktop/EMAIL_CAN_SEND_REPLY';
 export const EMAIL_ADD_ATTACHMENT = 'app/AgentDesktop/EMAIL_ADD_ATTACHMENT';
