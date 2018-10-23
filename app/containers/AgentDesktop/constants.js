@@ -98,6 +98,8 @@ export const SET_EMAIL_HTML_BODY = 'app/AgentDesktop/SET_EMAIL_HTML_BODY';
 export const SET_EMAIL_DETAILS = 'app/AgentDesktop/SET_EMAIL_DETAILS';
 export const SET_EMAIL_ATTACHMENT_URL =
   'app/AgentDesktop/SET_EMAIL_ATTACHMENT_URL';
+export const SET_EMAIL_ATTACHMENT_FETCHING_URL =
+  'app/AgentDesktop/SET_EMAIL_ATTACHMENT_FETCHING_URL';
 export const START_WARM_TRANSFERRING =
   'app/AgentDesktop/START_WARM_TRANSFERRING';
 export const TRANSFER_CANCELLED = 'app/AgentDesktop/TRANSFER_CANCELLED';

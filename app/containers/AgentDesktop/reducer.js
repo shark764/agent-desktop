@@ -1529,6 +1529,27 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+    case ACTIONS.SET_EMAIL_ATTACHMENT_FETCHING_URL: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.updateIn(
+          ['interactions', interactionIndex, 'emailDetails', 'attachments'],
+          (attachments) =>
+            attachments.map((attachment) => {
+              if (attachment.get('artifactFileId') === action.artifactFileId) {
+                return attachment.set(
+                  'fetchingAttachmentUrl',
+                  action.fetchingAttachmentUrl
+                );
+              } else {
+                return attachment;
+              }
+            })
+        );
+      } else {
+        return state;
+      }
+    }
     case ACTIONS.START_WARM_TRANSFERRING: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
