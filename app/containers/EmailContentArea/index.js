@@ -46,6 +46,8 @@ import {
   emailRemoveAttachment,
   emailUpdateReply,
   emailSendReply,
+  setEmailAttachmentUrl,
+  setEmailAttachmentFetchingUrl,
 } from 'containers/AgentDesktop/actions';
 import {
   selectAwaitingDisposition,
@@ -591,6 +593,44 @@ export class EmailContentArea extends React.Component {
     `;
   };
 
+  updateAttachmentUrl = (selectedArtifactFileId) => {
+    this.props.setEmailAttachmentFetchingUrl(
+      this.props.selectedInteraction.interactionId,
+      selectedArtifactFileId,
+      true
+    );
+
+    const selectedAttachment = this.props.selectedInteraction.emailDetails.attachments.find(
+      (attachment) => selectedArtifactFileId === attachment.artifactFileId
+    );
+
+    if (selectedAttachment) {
+      CxEngage.interactions.email.getAttachmentUrl(
+        {
+          interactionId: this.props.selectedInteraction.interactionId,
+          artifactId: this.props.selectedInteraction.emailDetails.artifactId,
+          artifactFileId: selectedAttachment.artifactFileId,
+        },
+        (attachmentUrlError, attachmentUrlTopic, attachmentUrlResponse) => {
+          const attachmentUrl = attachmentUrlResponse.url;
+          this.props.setEmailAttachmentUrl(
+            this.props.selectedInteraction.interactionId,
+            selectedAttachment.artifactFileId,
+            attachmentUrl
+          );
+          this.props.setEmailAttachmentFetchingUrl(
+            this.props.selectedInteraction.interactionId,
+            selectedAttachment.artifactFileId,
+            false
+          );
+          window.open(attachmentUrl);
+        }
+      );
+    } else {
+      console.error('Cannot find selected attachment');
+    }
+  };
+
   render() {
     let from;
     if (this.props.selectedInteraction.emailDetails === undefined) {
@@ -799,16 +839,17 @@ export class EmailContentArea extends React.Component {
                 <div style={styles.detailsContainer}>
                   {this.props.selectedInteraction.emailDetails.attachments.map(
                     (attachment, index) => (
-                      <a
+                      <span
                         key={attachment.artifactFileId}
                         id={`attachment-${index}`}
                         className="attachment"
-                        href={attachment.url}
-                        target={attachment.url}
+                        onClick={() =>
+                          this.updateAttachmentUrl(attachment.artifactFileId)
+                        }
                       >
-                        <div style={styles.attachment}>
+                        <div style={[styles.attachment, styles.addAttachment]}>
                           {attachment.filename}
-                          {attachment.url === undefined && (
+                          {attachment.fetchingAttachmentUrl && (
                             <div style={styles.loadingAttachment}>
                               <IconSVG
                                 id={`loadingAttachment-${index}`}
@@ -817,7 +858,7 @@ export class EmailContentArea extends React.Component {
                             </div>
                           )}
                         </div>
-                      </a>
+                      </span>
                     )
                   )}
                 </div>
@@ -1293,6 +1334,8 @@ EmailContentArea.propTypes = {
   emailRemoveAttachment: PropTypes.func.isRequired,
   emailUpdateReply: PropTypes.func.isRequired,
   emailSendReply: PropTypes.func.isRequired,
+  setEmailAttachmentUrl: PropTypes.func.isRequired,
+  setEmailAttachmentFetchingUrl: PropTypes.func.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
   isEndWrapupDisabled: PropTypes.bool.isRequired,
   wrapupBtnTooltipText: PropTypes.object.isRequired,
@@ -1319,6 +1362,20 @@ function mapDispatchToProps(dispatch) {
     emailUpdateReply: (interactionId, reply) =>
       dispatch(emailUpdateReply(interactionId, reply)),
     emailSendReply: (interactionId) => dispatch(emailSendReply(interactionId)),
+    setEmailAttachmentUrl: (interactionId, artifactFileId, url) =>
+      dispatch(setEmailAttachmentUrl(interactionId, artifactFileId, url)),
+    setEmailAttachmentFetchingUrl: (
+      interactionId,
+      artifactFileId,
+      fetchingAttachmentUrl
+    ) =>
+      dispatch(
+        setEmailAttachmentFetchingUrl(
+          interactionId,
+          artifactFileId,
+          fetchingAttachmentUrl
+        )
+      ),
     dispatch,
   };
 }

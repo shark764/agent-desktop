@@ -1,3 +1,6 @@
+### [1.28.52] (2018-10-19)
+* CXV1-15418 - Opening Email Attachments After ~00:01:30 displays XML Error
+
 ### [1.28.51] (2018-10-23)
 * CXV1-15326 - Send messages to Sentry from the SDK if posting logs fails
 

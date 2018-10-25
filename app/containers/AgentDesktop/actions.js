@@ -546,6 +546,19 @@ export function setEmailAttachmentUrl(interactionId, artifactFileId, url) {
   };
 }
 
+export function setEmailAttachmentFetchingUrl(
+  interactionId,
+  artifactFileId,
+  fetchingAttachmentUrl
+) {
+  return {
+    type: ACTIONS.SET_EMAIL_ATTACHMENT_FETCHING_URL,
+    interactionId,
+    artifactFileId,
+    fetchingAttachmentUrl,
+  };
+}
+
 export function startWarmTransferring(interactionId, transferringTo) {
   return {
     type: ACTIONS.START_WARM_TRANSFERRING,

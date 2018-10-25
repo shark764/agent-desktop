@@ -42,6 +42,7 @@ import {
   SET_USER_CONFIG,
   SET_DISPOSITION_DETAILS,
   TOGGLE_TRANSCRIPT_COPIED,
+  SET_EMAIL_ATTACHMENT_FETCHING_URL,
 } from '../constants';
 import agentDesktopReducer, { getNextSelectedInteractionId } from '../reducer';
 
@@ -1677,6 +1678,49 @@ describe('agentDesktopReducer', () => {
       });
       it('from true to false', () => {
         runReducerAndExpectSnapshot();
+      });
+    });
+  });
+
+  describe('SET_EMAIL_ATTACHMENT_FETCHING_URL', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 1,
+            emailDetails: {
+              attachments: [
+                {
+                  artifactFileId: '123',
+                  filename: 'attachment1',
+                  url: 'test-url',
+                },
+              ],
+            },
+          },
+        ],
+      };
+    });
+    describe('passing in a value for fetchingAttachmentUrl', () => {
+      beforeEach(() => {
+        action = {
+          type: SET_EMAIL_ATTACHMENT_FETCHING_URL,
+          interactionId: 1,
+          artifactFileId: '123',
+          fetchingAttachmentUrl: true,
+        };
+      });
+      it('sets the value in the attachment', () => {
+        expect(
+          agentDesktopReducer(fromJS(initialState), action).getIn([
+            'interactions',
+            0,
+            'emailDetails',
+            'attachments',
+            0,
+            'fetchingAttachmentUrl',
+          ])
+        ).toBe(true);
       });
     });
   });
