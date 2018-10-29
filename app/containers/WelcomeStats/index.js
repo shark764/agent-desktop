@@ -21,6 +21,7 @@ import StatValue from 'components/Stat/StatValue';
 
 import { selectWelcomeStats } from 'containers/Toolbar/selectors';
 import { selectCrmModule } from 'containers/AgentDesktop/selectors';
+import { selectHasViewStatsPermission } from 'containers/AgentPreferencesMenu/selectors';
 
 import messages from './messages';
 import { statKey, stats as welcomeStatsConfig } from './welcomeStatsConfig';
@@ -167,13 +168,15 @@ export class WelcomeStats extends React.Component {
           {' '}
           {this.props.agent.lastName}
         </span>
-        <div id="statContainer" style={this.styles.statsContainer}>
-          <div style={this.styles.statsSubHead}>
-            <FormattedMessage {...messages.performance} />
-          </div>
+        {this.props.hasViewStatsPermission && (
+          <div id="statContainer" style={this.styles.statsContainer}>
+            <div style={this.styles.statsSubHead}>
+              <FormattedMessage {...messages.performance} />
+            </div>
 
-          {welcomeStatsConfig.map(this.getStatDisplay)}
-        </div>
+            {welcomeStatsConfig.map(this.getStatDisplay)}
+          </div>
+        )}
       </div>
     );
   }
@@ -182,6 +185,7 @@ export class WelcomeStats extends React.Component {
 const mapStateToProps = (state, props) => ({
   welcomeStats: selectWelcomeStats(state, props),
   crmModule: selectCrmModule(state, props),
+  hasViewStatsPermission: selectHasViewStatsPermission(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -194,6 +198,7 @@ WelcomeStats.propTypes = {
   agent: PropTypes.object.isRequired,
   welcomeStats: PropTypes.object.isRequired,
   crmModule: PropTypes.string,
+  hasViewStatsPermission: PropTypes.bool,
 };
 
 WelcomeStats.contextTypes = {

@@ -22,15 +22,47 @@ describe('<WelcomeStats />', () => {
   it('should render correctly in toolbar mode', () => {
     const context = { toolbarMode: true };
     const rendered = shallow(
-      <WelcomeStats agent={mockAgent} welcomeStats={mockWelcomeStats} />,
+      <WelcomeStats
+        hasViewStatsPermission
+        agent={mockAgent}
+        welcomeStats={mockWelcomeStats}
+      />,
       { context }
     );
 
     expect(rendered).toMatchSnapshot();
   });
+  it('should not render in toolbar mode when no view stats permissions', () => {
+    const context = { toolbarMode: true };
+    const rendered = shallow(
+      <WelcomeStats
+        hasViewStatsPermission={false}
+        agent={mockAgent}
+        welcomeStats={mockWelcomeStats}
+      />,
+      { context }
+    );
+
+    expect(rendered).toMatchSnapshot();
+  });
+
   it('should render correctly in agent desktop mode', () => {
     const rendered = shallow(
-      <WelcomeStats agent={mockAgent} welcomeStats={mockWelcomeStats} />
+      <WelcomeStats
+        hasViewStatsPermission
+        agent={mockAgent}
+        welcomeStats={mockWelcomeStats}
+      />
+    );
+    expect(rendered).toMatchSnapshot();
+  });
+  it('should not render in agent desktop mode when no view stats permissions', () => {
+    const rendered = shallow(
+      <WelcomeStats
+        hasViewStatsPermission={false}
+        agent={mockAgent}
+        welcomeStats={mockWelcomeStats}
+      />
     );
     expect(rendered).toMatchSnapshot();
   });

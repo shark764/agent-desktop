@@ -10,7 +10,21 @@ import { AgentPreferencesMenu } from '../index';
 describe('<AgentPreferencesMenu />', () => {
   it('renders the preferences options by default', () => {
     const rendered = shallow(
-      <AgentPreferencesMenu isVisible hideMenu={() => {}} />
+      <AgentPreferencesMenu
+        hasViewStatsPermission
+        isVisible
+        hideMenu={() => {}}
+      />
+    );
+    expect(rendered).toMatchSnapshot();
+  });
+  it('does not render the metrics option when the agent does not have the view stats permission', () => {
+    const rendered = shallow(
+      <AgentPreferencesMenu
+        hasViewStatsPermission={false}
+        isVisible
+        hideMenu={() => {}}
+      />
     );
     expect(rendered).toMatchSnapshot();
   });

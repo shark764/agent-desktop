@@ -1,10 +1,15 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 
 import PopupDialog from 'components/PopupDialog';
 import AgentStatsMenu from 'containers/AgentStatsMenu';
 import AgentNotificationsMenu from 'containers/AgentNotificationsMenu';
+import ErrorBoundary from 'components/ErrorBoundary';
+
+import { selectHasViewStatsPermission } from './selectors';
 
 import PreferenceTitle from './PreferenceTitle';
 import PreferenceOption from './PreferenceOption';
@@ -46,10 +51,12 @@ export class AgentPreferencesMenu extends React.Component {
       default:
         content = (
           <Fragment>
-            <PreferenceOption
-              preference="metrics"
-              setPreferenceSelected={this.setPreferenceSelected}
-            />
+            {this.props.hasViewStatsPermission && (
+              <PreferenceOption
+                preference="metrics"
+                setPreferenceSelected={this.setPreferenceSelected}
+              />
+            )}
             <PreferenceOption
               preference="notifications"
               setPreferenceSelected={this.setPreferenceSelected}
@@ -80,6 +87,13 @@ export class AgentPreferencesMenu extends React.Component {
 AgentPreferencesMenu.propTypes = {
   isVisible: PropTypes.bool,
   hideMenu: PropTypes.func.isRequired,
+  hasViewStatsPermission: PropTypes.bool,
 };
 
-export default Radium(AgentPreferencesMenu);
+const mapStateToProps = (state, props) => ({
+  hasViewStatsPermission: selectHasViewStatsPermission(state, props),
+});
+
+export default ErrorBoundary(
+  injectIntl(connect(mapStateToProps)(Radium(AgentPreferencesMenu)))
+);
