@@ -1,3 +1,6 @@
+### [1.29.4] (2018-01-08)
+* CXV1-15438 - SDK bump to return "interaction-fatal" error when their requests 404 on applicable 4xxx error codes
+
 ### [1.29.3] (2018-11-08)
 *CXV1-15964 - Customer hold button doesn't show up after (cold) transferring an outbound voice interaction
 
