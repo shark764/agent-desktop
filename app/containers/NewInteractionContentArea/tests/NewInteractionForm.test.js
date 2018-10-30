@@ -14,4 +14,16 @@ describe('<NewInteractionForm />', () => {
     );
     expect(rendered).toMatchSnapshot();
   });
+  describe('when a uri object is passed in', () => {
+    it("should render the uri object's name", () => {
+      const rendered = shallow(
+        <NewInteractionForm
+          input=""
+          setNewInteractionPanelFormInput={() => {}}
+          uriObject={{ objectName: 'mock name' }}
+        />
+      );
+      expect(rendered).toMatchSnapshot();
+    });
+  });
 });

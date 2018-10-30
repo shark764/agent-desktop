@@ -5,40 +5,104 @@ exports[`<NewInteractionForm /> should render correctly 1`] = `
   style={
     Object {
       "paddingLeft": "20px",
+      "paddingTop": "50px",
       "textAlign": "center",
       "width": "100%",
     }
   }
 >
-  <React.Fragment>
-    <InjectIntl(TextInput)
-      autoFocus={true}
-      cb={[Function]}
-      id="newInteractionFormInput"
-      placeholder={
+  <InjectIntl(TextInput)
+    autoFocus={true}
+    cb={[Function]}
+    id="newInteractionFormInput"
+    placeholder={
+      Object {
+        "defaultMessage": "Enter a valid phone number or email",
+        "id": "app.containers.NewInteractionContentArea.newInteractionFormInstructions",
+      }
+    }
+    style={
+      Object {
+        "textAlign": "center",
+        "width": "100%",
+      }
+    }
+    value=""
+  />
+  <hr
+    style={
+      Object {
+        "margin": "30px 25%",
+        "width": "50%",
+      }
+    }
+  />
+  <Connect(ErrorBoundaryComponent)
+    phoneNumber=""
+  />
+  <Connect(ErrorBoundaryComponent)
+    phoneNumber=""
+  />
+  <Connect(ErrorBoundaryComponent)
+    email=""
+  />
+</div>
+`;
+
+exports[`<NewInteractionForm /> when a uri object is passed in should render the uri object's name 1`] = `
+<div
+  style={
+    Object {
+      "paddingLeft": "20px",
+      "paddingTop": "50px",
+      "textAlign": "center",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "marginBottom": "20px",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Creating new interaction for {objectName}"
+      id="app.containers.NewInteractionContentArea.creatingNewInteractionFor"
+      values={
         Object {
-          "defaultMessage": "Enter a valid phone number or email",
-          "id": "app.containers.NewInteractionContentArea.newInteractionFormInstructions",
+          "objectName": "mock name",
         }
       }
-      style={
-        Object {
-          "marginTop": "50px",
-          "textAlign": "center",
-          "width": "100%",
-        }
-      }
-      value=""
     />
-    <hr
-      style={
-        Object {
-          "margin": "30px 25%",
-          "width": "50%",
-        }
+  </div>
+  <InjectIntl(TextInput)
+    autoFocus={true}
+    cb={[Function]}
+    id="newInteractionFormInput"
+    placeholder={
+      Object {
+        "defaultMessage": "Enter a valid phone number or email",
+        "id": "app.containers.NewInteractionContentArea.newInteractionFormInstructions",
       }
-    />
-  </React.Fragment>
+    }
+    style={
+      Object {
+        "textAlign": "center",
+        "width": "100%",
+      }
+    }
+    value=""
+  />
+  <hr
+    style={
+      Object {
+        "margin": "30px 25%",
+        "width": "50%",
+      }
+    }
+  />
   <Connect(ErrorBoundaryComponent)
     phoneNumber=""
   />

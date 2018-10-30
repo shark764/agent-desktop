@@ -8,7 +8,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Radium from 'radium';
@@ -31,6 +31,7 @@ import messages from './messages';
 
 const styles = {
   base: {
+    paddingTop: '50px',
     paddingLeft: '20px',
     width: '100%',
     textAlign: 'center',
@@ -39,7 +40,6 @@ const styles = {
     marginBottom: '20px',
   },
   input: {
-    marginTop: '50px',
     width: '100%',
     textAlign: 'center',
   },
@@ -71,26 +71,23 @@ const formatPhoneNumber = (input) => {
 export function NewInteractionForm(props) {
   return (
     <div style={styles.base}>
-      {props.uriObject !== undefined ? (
+      {props.uriObject !== undefined && (
         <div style={styles.creatingNewInteractionFor}>
           <FormattedMessage
             {...messages.creatingNewInteractionFor}
             values={{ objectName: props.uriObject.objectName }}
           />
         </div>
-      ) : (
-        <Fragment>
-          <TextInput
-            id="newInteractionFormInput"
-            cb={props.setNewInteractionPanelFormInput}
-            value={props.input}
-            style={styles.input}
-            placeholder={messages.newInteractionFormInstructions}
-            autoFocus
-          />
-          <hr style={styles.hr} />
-        </Fragment>
       )}
+      <TextInput
+        id="newInteractionFormInput"
+        cb={props.setNewInteractionPanelFormInput}
+        value={props.input}
+        style={styles.input}
+        placeholder={messages.newInteractionFormInstructions}
+        autoFocus
+      />
+      <hr style={styles.hr} />
       {!isValidEmail(props.input) && (
         <OutboundCallButton phoneNumber={formatPhoneNumber(props.input)} />
       )}

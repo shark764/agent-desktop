@@ -1,34 +1,37 @@
-### [1.28.53] (2018-10-26)
+### [1.28.54] (2018-10-30)
+* CXV1-15867 - Allow salesforce click to dials input to be edited
+
+### [1.28.53] (2018-10-26) (Broken: CXV1-15867)
 * CXV1-15495 - Hide hold button on outbound voice interaction until signal from flow
 
-### [1.28.52] (2018-10-19)
+### [1.28.52] (2018-10-19) (Broken: CXV1-15867)
 * CXV1-15418 - Opening Email Attachments After ~00:01:30 displays XML Error
 
-### [1.28.51] (2018-10-23)
+### [1.28.51] (2018-10-23) (Broken: CXV1-15867)
 * CXV1-15326 - Send messages to Sentry from the SDK if posting logs fails
 
-### [1.28.50] (2018-10-23)
+### [1.28.50] (2018-10-23) (Broken: CXV1-15867)
 * CXV1-15605 - Fixed batch requests for each queue when the transfer menu is open. Fixed the time values disappearing.
 
-### [1.28.49] (2018-10-19)
+### [1.28.49] (2018-10-19) (Broken: CXV1-15867)
 * CXV1-14872 - Hide spinner & display proper text for interactions without notes & dispositions
 
-### [1.28.48] (2018-10-17)
+### [1.28.48] (2018-10-17) (Broken: CXV1-15867)
 * CXV1-15446 - Fixed SSO non-default tenant selection
 
-### [1.28.47] (2018-10-17)
+### [1.28.47] (2018-10-17) (Broken: CXV1-15867)
 * CXV1-15419 - Queues are not alphabetical order when doing a transfer
 
-### [1.28.46] (2018-10-16)
+### [1.28.46] (2018-10-16) (Broken: CXV1-15867)
 * CXV1-15354 - Fixed critical error that happened when you received an SMS interaction while having an agent desktop contact in view
 
-### [1.28.45] (2018-10-15)
+### [1.28.45] (2018-10-15) (Broken: CXV1-15867)
 * CXV1-15417 - Clicking Email Attachment Navigates Away From Toolbar Page
 
-### [1.28.44] (2018-10-09)
+### [1.28.44] (2018-10-09) (Broken: CXV1-15867)
 * CXV1-15320 - Show that the user is currently offline instead of error banners
 
-### [1.28.43] (2018-10-12)
+### [1.28.43] (2018-10-12) (Broken: CXV1-15867)
 * CXV1-15467 - Fixed click to dials
 
 ### [1.28.42] (2018-10-09) (Broken: CXV1-15467)
