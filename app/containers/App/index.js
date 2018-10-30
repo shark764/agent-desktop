@@ -149,6 +149,7 @@ import {
   removeInteractionNotification,
   setQueuesTime,
   toggleIsOnline,
+  outboundCustomerConnected,
 } from 'containers/AgentDesktop/actions';
 
 import {
@@ -875,6 +876,10 @@ export class App extends React.Component {
           }
           case 'cxengage/interactions/voice/dial-response': {
             // TODO: toast error
+            break;
+          }
+          case 'cxengage/interactions/voice/customer-connected': {
+            this.props.outboundCustomerConnected(response.interactionId);
             break;
           }
 
@@ -1815,6 +1820,8 @@ function mapDispatchToProps(dispatch) {
     setUsers: (users) => dispatch(setUsers(users)),
     setQueuesTime: (queueData) => dispatch(setQueuesTime(queueData)),
     toggleIsOnline: (isOnline) => dispatch(toggleIsOnline(isOnline)),
+    outboundCustomerConnected: (interactionId) =>
+      dispatch(outboundCustomerConnected(interactionId)),
     dispatch,
   };
 }
@@ -1917,6 +1924,7 @@ App.propTypes = {
   queues: PropTypes.array,
   setQueuesTime: PropTypes.func.isRequired,
   toggleIsOnline: PropTypes.func.isRequired,
+  outboundCustomerConnected: PropTypes.func.isRequired,
 };
 
 App.contextTypes = {

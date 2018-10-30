@@ -1,3 +1,6 @@
+### [1.28.53] (2018-10-26)
+* CXV1-15495 - Hide hold button on outbound voice interaction until signal from flow
+
 ### [1.28.52] (2018-10-19)
 * CXV1-15418 - Opening Email Attachments After ~00:01:30 displays XML Error
 

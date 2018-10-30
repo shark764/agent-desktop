@@ -690,6 +690,13 @@ export function stopRecordCall(interactionId) {
   };
 }
 
+export function outboundCustomerConnected(interactionId) {
+  return {
+    type: ACTIONS.OUTBOUND_CUSTOMER_CONNECTED,
+    interactionId,
+  };
+}
+
 export function emailCreateReply(interactionId) {
   return {
     type: ACTIONS.EMAIL_CREATE_REPLY,

@@ -121,4 +121,14 @@ describe('Interaction', () => {
       expect(interaction.emailReply).toMatchSnapshot();
     });
   });
+
+  describe('outbound voice', () => {
+    const interaction = new Interaction({
+      channelType: 'voice',
+      direction: 'agent-initiated',
+    });
+    it('sets customerConnected', () => {
+      expect(interaction.customerConnected).toBe(false);
+    });
+  });
 });

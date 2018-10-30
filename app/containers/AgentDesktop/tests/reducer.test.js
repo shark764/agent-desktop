@@ -43,6 +43,7 @@ import {
   SET_DISPOSITION_DETAILS,
   TOGGLE_TRANSCRIPT_COPIED,
   SET_EMAIL_ATTACHMENT_FETCHING_URL,
+  OUTBOUND_CUSTOMER_CONNECTED,
 } from '../constants';
 import agentDesktopReducer, { getNextSelectedInteractionId } from '../reducer';
 
@@ -1721,6 +1722,30 @@ describe('agentDesktopReducer', () => {
             'fetchingAttachmentUrl',
           ])
         ).toBe(true);
+      });
+    });
+  });
+
+  describe('OUTBOUND_CUSTOMER_CONNECTED', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 1,
+            customerConnected: false,
+          },
+        ],
+      };
+    });
+    describe('Customer picks up the outbound interaction voice', () => {
+      beforeEach(() => {
+        action = {
+          type: OUTBOUND_CUSTOMER_CONNECTED,
+          interactionId: 1,
+        };
+      });
+      it('customerConnected is set to true', () => {
+        runReducerAndExpectSnapshot();
       });
     });
   });
