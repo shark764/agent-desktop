@@ -1,3 +1,6 @@
+### [1.29.1] (2018-11-01)
+* CXV1-14603 - Transfer List names superimposed over each other
+
 ### [1.29.0] (2018-10-31)
 * CXV1-15450 - Added Skylight metric access restriction
 
