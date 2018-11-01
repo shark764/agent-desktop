@@ -13,6 +13,7 @@ import contactsControl from 'containers/ContactsControl/reducer';
 import errors from 'containers/Errors/reducer';
 import notificationPreferences from 'containers/AgentNotificationsMenu/reducer';
 import transferMenu from 'containers/TransferMenu/reducer';
+import outboundAniSelect from 'containers/OutboundAniSelect/reducer';
 
 import { LOGOUT } from 'containers/Login/constants';
 
@@ -27,6 +28,7 @@ const appReducer = combineReducers({
   errors,
   notificationPreferences,
   transferMenu,
+  outboundAniSelect,
 });
 
 const rootReducer = (state, action) => {

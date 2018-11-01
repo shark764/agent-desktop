@@ -15,6 +15,7 @@ import Icon from 'components/Icon';
 
 import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
 import { startOutboundEmail } from 'containers/EmailContentArea/actions';
+import { getSelectedOutboundIdentifier } from 'containers/OutboundAniSelect/selectors';
 import {
   selectIsAgentReady,
   getUriObject,
@@ -73,8 +74,26 @@ export class OutboundInteractionButton extends React.Component {
         );
       } else {
         let popUri;
+        let outboundIdentifier;
+        let flowId;
         if (this.props.uriObject !== undefined) {
           ({ popUri } = this.props.uriObject);
+        }
+        if (this.props.getSelectedOutboundIdentifier) {
+          ({
+            outboundIdentifier,
+            flowId,
+          } = this.props.getSelectedOutboundIdentifier);
+        }
+
+        const outboundVoiceObject = { phoneNumber: this.props.endpoint };
+
+        if (popUri) {
+          outboundVoiceObject.popUri = popUri;
+        }
+        if (outboundIdentifier && flowId) {
+          outboundVoiceObject.outboundAni = outboundIdentifier;
+          outboundVoiceObject.flowId = flowId;
         }
 
         this.props.startOutboundInteraction(
@@ -88,16 +107,7 @@ export class OutboundInteractionButton extends React.Component {
         );
 
         if (this.props.channelType === 'voice') {
-          CxEngage.interactions.voice.dial(
-            popUri
-              ? {
-                phoneNumber: this.props.endpoint,
-                popUri,
-              }
-              : {
-                phoneNumber: this.props.endpoint,
-              }
-          );
+          CxEngage.interactions.voice.dial(outboundVoiceObject);
         }
       }
     }
@@ -138,6 +148,7 @@ const mapStateToProps = (state, props) => ({
     props
   ),
   uriObject: getUriObject(state, props),
+  getSelectedOutboundIdentifier: getSelectedOutboundIdentifier(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -183,6 +194,7 @@ OutboundInteractionButton.propTypes = {
   }),
   startOutboundInteraction: PropTypes.func.isRequired,
   startOutboundEmail: PropTypes.func.isRequired,
+  getSelectedOutboundIdentifier: PropTypes.object,
 };
 
 export default ErrorBoundary(
