@@ -2,6 +2,18 @@
 
 exports[`Interaction in toolbar mode sets notesPanelHeight to the correct value 1`] = `180`;
 
+exports[`Interaction outbound ani sets a custom field on our custom field list 1`] = `
+Immutable.List [
+  Immutable.Map {
+    "id": "outboundAniLabel",
+    "isLocalized": true,
+    "value": "label 1 (value1)",
+  },
+]
+`;
+
+exports[`Interaction outbound ani sets a empty custom field list 1`] = `Immutable.List []`;
+
 exports[`Interaction outbound email sets emailReply 1`] = `
 Immutable.Map {
   "message": "",
@@ -40,6 +52,7 @@ Interaction {
     "id": "mock-contact-id",
   },
   "contactMode": "mock-contact-mode",
+  "customFields": Immutable.List [],
   "customFieldsCollapsed": true,
   "direction": "mock-direction",
   "dispositionDetails": Immutable.Map {
@@ -100,6 +113,7 @@ Interaction {
   "autoAnswer": undefined,
   "channelType": undefined,
   "contactMode": "search",
+  "customFields": Immutable.List [],
   "customFieldsCollapsed": true,
   "direction": undefined,
   "dispositionDetails": Immutable.Map {

@@ -131,4 +131,23 @@ describe('Interaction', () => {
       expect(interaction.customerConnected).toBe(false);
     });
   });
+
+  describe('outbound ani', () => {
+    it('sets a custom field on our custom field list', () => {
+      const interaction = new Interaction({
+        outboundAni: {
+          label: 'label 1',
+          outboundIdentifier: 'value1',
+        },
+      });
+      expect(interaction.customFields).toMatchSnapshot();
+    });
+
+    it('sets a empty custom field list', () => {
+      const interaction = new Interaction({
+        outboundAni: null,
+      });
+      expect(interaction.customFields).toMatchSnapshot();
+    });
+  });
 });

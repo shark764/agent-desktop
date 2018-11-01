@@ -83,6 +83,7 @@ Object {
         "interactionId": "mockId123456789",
         "openSidePanel": true,
         "popUri": undefined,
+        "selectedOutboundAni": undefined,
         "type": "app/AgentDesktop/START_OUTBOUND_INTERACTION",
       },
       "channel": null,

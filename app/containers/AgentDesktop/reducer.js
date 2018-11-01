@@ -753,6 +753,7 @@ function agentDesktopReducer(state = initialState, action) {
           status: 'connecting-to-outbound',
           contactMode: action.contact !== undefined ? 'view' : 'search',
           popUri: action.popUri,
+          outboundAni: action.selectedOutboundAni,
         })
       );
       return (
@@ -849,7 +850,11 @@ function agentDesktopReducer(state = initialState, action) {
           interactionToAdd = interactionToAdd
             .delete('contact')
             .delete('contactMode')
-            .delete('isSidePanelCollapsed');
+            .delete('isSidePanelCollapsed')
+            .set(
+              'customFields',
+              state.getIn(['interactions', interactionIndex, 'customFields'])
+            );
           return state
             .mergeIn(['interactions', interactionIndex], interactionToAdd)
             .set('isInteractionsBarCollapsed', false);
@@ -1492,10 +1497,9 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.SET_CUSTOM_FIELDS: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
-        return state.update('interactions', (interactions) =>
-          interactions.update(interactionIndex, (interaction) =>
-            interaction.set('customFields', action.customFields)
-          )
+        return state.updateIn(
+          ['interactions', interactionIndex, 'customFields'],
+          (customFields) => customFields.unshift(...action.customFields)
         );
       } else {
         return state;

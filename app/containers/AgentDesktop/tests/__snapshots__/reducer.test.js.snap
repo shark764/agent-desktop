@@ -12,6 +12,7 @@ Immutable.Map {
       "selectedSidePanelTab": "info",
       "query": Immutable.Map {},
       "notifications": Immutable.List [],
+      "customFields": Immutable.List [],
       "customerConnected": true,
       "muted": false,
       "dispositionDetails": Immutable.Map {
@@ -78,6 +79,7 @@ Immutable.Map {
       "selectedSidePanelTab": "info",
       "query": Immutable.Map {},
       "notifications": Immutable.List [],
+      "customFields": Immutable.List [],
       "dispositionDetails": Immutable.Map {
         "forceSelect": false,
         "dispositions": Immutable.List [],
@@ -150,6 +152,7 @@ Immutable.Map {
       "selectedSidePanelTab": "info",
       "query": Immutable.Map {},
       "notifications": Immutable.List [],
+      "customFields": undefined,
       "customerConnected": false,
       "muted": false,
       "dispositionDetails": Immutable.Map {
@@ -1451,6 +1454,7 @@ Immutable.Map {
       "selectedSidePanelTab": "info",
       "query": Immutable.Map {},
       "notifications": Immutable.List [],
+      "customFields": Immutable.List [],
       "dispositionDetails": Immutable.Map {
         "forceSelect": false,
         "dispositions": Immutable.List [],
@@ -1517,6 +1521,7 @@ Immutable.Map {
       "hideNewInteractionPanelOnWorkAccepted": true,
       "query": Immutable.Map {},
       "notifications": Immutable.List [],
+      "customFields": Immutable.List [],
       "customerConnected": false,
       "muted": false,
       "dispositionDetails": Immutable.Map {

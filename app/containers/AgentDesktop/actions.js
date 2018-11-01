@@ -182,7 +182,8 @@ export function startOutboundInteraction(
   addedByNewInteractionPanel,
   interactionId,
   openSidePanel,
-  popUri
+  popUri,
+  selectedOutboundAni
 ) {
   return {
     type: ACTIONS.START_OUTBOUND_INTERACTION,
@@ -193,6 +194,7 @@ export function startOutboundInteraction(
     interactionId,
     openSidePanel,
     popUri,
+    selectedOutboundAni,
   };
 }
 

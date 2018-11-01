@@ -12,6 +12,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Radium from 'radium';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 import Icon from 'components/Icon';
@@ -21,6 +22,8 @@ import {
   getSelectedInteractionId,
   selectCustomFieldsCollapsed,
 } from 'containers/AgentDesktop/selectors';
+
+import messages from './messages';
 
 const styles = {
   customField: {
@@ -94,7 +97,11 @@ export class CustomFields extends React.Component {
           ]}
         >
           <div style={styles.customFieldLabel} title={customField.label}>
-            {customField.label}
+            {customField.isLocalized ? (
+              <FormattedMessage {...messages[customField.id]} />
+            ) : (
+              customField.label
+            )}
           </div>
           <div
             style={[styles.customFieldValue, firstRow && styles.firstRowValue]}

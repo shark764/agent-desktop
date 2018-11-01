@@ -103,7 +103,8 @@ export class OutboundInteractionButton extends React.Component {
           this.props.selectedInteractionIsCreatingNewInteraction,
           undefined,
           undefined,
-          popUri
+          popUri,
+          this.props.getSelectedOutboundIdentifier
         );
 
         if (this.props.channelType === 'voice') {
@@ -160,7 +161,8 @@ function mapDispatchToProps(dispatch) {
       addedByNewInteractionPanel,
       interactionId,
       openSidePanel,
-      popUri
+      popUri,
+      selectedOutboundAni
     ) =>
       dispatch(
         startOutboundInteraction(
@@ -170,7 +172,8 @@ function mapDispatchToProps(dispatch) {
           addedByNewInteractionPanel,
           interactionId,
           openSidePanel,
-          popUri
+          popUri,
+          selectedOutboundAni
         )
       ),
     startOutboundEmail: (customer, contact, addedByNewInteractionPanel) =>
