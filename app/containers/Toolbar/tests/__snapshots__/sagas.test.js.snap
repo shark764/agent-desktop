@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`goInitializeStats having view stats permission saves welcomeStatsConfig in localStorage 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "ALL": Array [
+      Object {
+        "@@redux-saga/IO": true,
+        "PUT": Object {
+          "action": Object {
+            "stat": 1,
+            "type": "app/Toolbar/ACTIVATE_TOOLBAR_STAT",
+          },
+          "channel": null,
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "PUT": Object {
+          "action": Object {
+            "stat": 2,
+            "type": "app/Toolbar/ACTIVATE_TOOLBAR_STAT",
+          },
+          "channel": null,
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "PUT": Object {
+          "action": Object {
+            "stat": 3,
+            "type": "app/Toolbar/ACTIVATE_TOOLBAR_STAT",
+          },
+          "channel": null,
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`goInitializeStats having view stats permission selects hasViewStatsPermission and returns true 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "ALL": Array [
+      Object {
+        "@@redux-saga/IO": true,
+        "CALL": Object {
+          "args": Array [
+            Object {
+              "statAggregate": "avg",
+              "statOption": "resourceHandleTime",
+              "statSource": "resource-id",
+            },
+          ],
+          "context": null,
+          "fn": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "CALL": Object {
+          "args": Array [
+            Object {
+              "statAggregate": "count",
+              "statOption": "workAcceptedCount",
+              "statSource": "resource-id",
+            },
+          ],
+          "context": null,
+          "fn": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "CALL": Object {
+          "args": Array [
+            Object {
+              "statAggregate": "percent",
+              "statOption": "customerSatisfactionScore",
+              "statSource": "resource-id",
+            },
+          ],
+          "context": null,
+          "fn": [Function],
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`goInitializeStats having view stats permission selects the agent id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goInitializeStats having view stats permission selects the tenant id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goInitializeStats having view stats permission selects welcomeStatsConfig 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goInitializeStats not having view stats permission does not have view stats permission 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;

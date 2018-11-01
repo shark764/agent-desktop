@@ -1,3 +1,6 @@
+### [1.29.0] (2018-10-31)
+* CXV1-15450 - Added Skylight metric access restriction
+
 ### [1.28.55] (2018-11-01)
 * CXV1-14482 - Long email attachments cannot be read nor removed
 

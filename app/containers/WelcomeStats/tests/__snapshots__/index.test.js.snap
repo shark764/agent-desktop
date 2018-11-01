@@ -1,5 +1,101 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<WelcomeStats /> should not render in agent desktop mode when no view stats permissions 1`] = `
+<div
+  style={
+    Object {
+      "borderRadius": "10px",
+      "fontSize": "24px",
+      "height": "300px",
+      "lineHeight": "23px",
+      "margin": "50px",
+      "padding": "1em",
+      "position": "relative",
+      "textAlign": "inherit",
+      "top": "9%",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "color": "#14778D",
+        "fontWeight": "bold",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Welcome, "
+      id="app.containers.WelcomeStats.welcome"
+      values={Object {}}
+    />
+  </span>
+  <span
+    style={
+      Object {
+        "color": "white",
+        "display": "block",
+        "left": "1em",
+        "position": "relative",
+        "top": "0.5em",
+      }
+    }
+  >
+    Avner
+     
+    Flippenbaum
+  </span>
+</div>
+`;
+
+exports[`<WelcomeStats /> should not render in toolbar mode when no view stats permissions 1`] = `
+<div
+  style={
+    Object {
+      "borderRadius": "10px",
+      "fontSize": "24px",
+      "height": "inherit",
+      "lineHeight": "23px",
+      "margin": "0 10px 10px",
+      "padding": "1em",
+      "position": "relative",
+      "textAlign": "center",
+      "top": 0,
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "color": "#14778D",
+        "fontWeight": "bold",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="Welcome, "
+      id="app.containers.WelcomeStats.welcome"
+      values={Object {}}
+    />
+  </span>
+  <span
+    style={
+      Object {
+        "color": "white",
+        "display": "block",
+        "left": 0,
+        "position": "relative",
+        "top": "0.5em",
+      }
+    }
+  >
+    Avner
+     
+    Flippenbaum
+  </span>
+</div>
+`;
+
 exports[`<WelcomeStats /> should render correctly in agent desktop mode 1`] = `
 <div
   style={

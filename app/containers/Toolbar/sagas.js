@@ -17,6 +17,7 @@ import {
   selectAvailableStats,
 } from 'containers/AgentStats/selectors';
 import { selectTenant, selectAgent } from 'containers/Login/selectors';
+import { selectHasViewStatsPermission } from 'containers/AgentPreferencesMenu/selectors';
 import { selectWelcomeStatIds } from './selectors';
 import {
   removeStat,
@@ -139,13 +140,20 @@ export function* goDeactivateToolbarStat(action) {
 }
 
 export function* goInitializeStats() {
-  yield all(welcomeStatsConfig.map((stat) => call(goActivateWelcomeStat, stat)));
-  const tenant = yield select(selectTenant);
-  const agent = yield select(selectAgent);
-  const localStorageKey = `agentDesktopStats.${tenant.id}.${agent.userId}`;
-  const savedStats =
-    JSON.parse(window.localStorage.getItem(localStorageKey)) || [];
-  yield all(savedStats.map((stat) => put(activateToolbarStatAction(stat))));
+  const hasViewStatsPermission = yield select(selectHasViewStatsPermission);
+  if (hasViewStatsPermission) {
+    yield all(
+      welcomeStatsConfig.map((stat) => call(goActivateWelcomeStat, stat))
+    );
+    const tenant = yield select(selectTenant);
+    const agent = yield select(selectAgent);
+    const localStorageKey = `agentDesktopStats.${tenant.id}.${agent.userId}`;
+    const savedStats =
+      JSON.parse(window.localStorage.getItem(localStorageKey)) || [];
+    yield all(savedStats.map((stat) => put(activateToolbarStatAction(stat))));
+  } else {
+    console.log('agent does not have permission to view stats');
+  }
 }
 
 export function* activateToolbarStat() {
