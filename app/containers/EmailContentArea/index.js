@@ -132,6 +132,9 @@ const styles = {
     verticalAlign: 'top',
     marginTop: '-1px',
     display: 'inline-block',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    maxWidth: '169px',
   },
   attachmentRemove: {
     whiteSpace: 'nowrap',

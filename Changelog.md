@@ -1,3 +1,6 @@
+### [1.28.55] (2018-11-01)
+* CXV1-14482 - Long email attachments cannot be read nor removed
+
 ### [1.28.54] (2018-10-30)
 * CXV1-15867 - Allow salesforce click to dials input to be edited
 
