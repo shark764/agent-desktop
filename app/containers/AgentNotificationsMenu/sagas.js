@@ -14,13 +14,13 @@ export function* goInitializeNotificatonPreferences() {
   const tenant = yield select(selectTenant);
   const agent = yield select(selectAgent);
   const audioNotifications = localStorage.getItem(
-    `skylightAudioNotifications-${tenant.id}-${agent.id}`
+    `skylightAudioNotifications-${tenant.id}-${agent.userId}`
   );
   if (audioNotifications !== null) {
     yield put(setAudioNotificationsPreference(audioNotifications === 'true'));
   }
   const visualNotifications = localStorage.getItem(
-    `skylightVisualNotifications-${tenant.id}-${agent.id}`
+    `skylightVisualNotifications-${tenant.id}-${agent.userId}`
   );
   if (visualNotifications !== null) {
     yield put(setVisualNotificationsPreference(visualNotifications === 'true'));
@@ -33,7 +33,7 @@ export function* goToggleAudioNotificationsPreference() {
   const tenant = yield select(selectTenant);
   const agent = yield select(selectAgent);
   localStorage.setItem(
-    `skylightAudioNotifications-${tenant.id}-${agent.id}`,
+    `skylightAudioNotifications-${tenant.id}-${agent.userId}`,
     !audioNotifications
   );
 }
@@ -46,7 +46,7 @@ export function* goToggleVisualNotificationsPreference() {
       const tenant = yield select(selectTenant);
       const agent = yield select(selectAgent);
       localStorage.setItem(
-        `skylightVisualNotifications-${tenant.id}-${agent.id}`,
+        `skylightVisualNotifications-${tenant.id}-${agent.userId}`,
         true
       );
     } else {
@@ -58,7 +58,7 @@ export function* goToggleVisualNotificationsPreference() {
     const tenant = yield select(selectTenant);
     const agent = yield select(selectAgent);
     localStorage.setItem(
-      `skylightVisualNotifications-${tenant.id}-${agent.id}`,
+      `skylightVisualNotifications-${tenant.id}-${agent.userId}`,
       !visualNotifications
     );
   }

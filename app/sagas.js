@@ -2,7 +2,7 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
-import { fork } from 'redux-saga/effects';
+import { all, fork } from 'redux-saga/effects';
 
 import agentDesktopSagas from 'containers/AgentDesktop/sagas';
 import messagingContentAreaSagas from 'containers/MessagingContentArea/sagas';
@@ -13,6 +13,7 @@ import infoTabSagas from 'containers/InfoTab/sagas';
 import contactSagas from 'containers/ContactsControl/sagas';
 import contactSearchSagas from 'containers/ContactSearch/sagas';
 import agentScriptSagas from 'containers/AgentScript/sagas';
+import transferMenuSagas from 'containers/TransferMenu/sagas';
 import notificationPreferencesSagas from 'containers/AgentNotificationsMenu/sagas';
 import outboundIdentifierListSagas from 'containers/OutboundAniSelect/sagas';
 
@@ -33,4 +34,5 @@ export default function* rootSaga() {
   for (let i = 0; i < allSagas.length; i += 1) {
     yield fork(allSagas[i]);
   }
+  yield all([...transferMenuSagas]);
 }

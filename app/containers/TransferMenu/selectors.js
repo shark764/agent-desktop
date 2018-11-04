@@ -26,6 +26,18 @@ const selectResourceCapacity = (state) =>
 
 const selectUsers = (state) => state.getIn(['transferMenu', 'users']);
 
+const selectTransferLists = (state) =>
+  state.getIn(['transferMenu', 'transferLists']).toJS();
+
+const selectQueuesListVisibleState = (state) =>
+  state.getIn(['transferMenu', 'queuesListVisibleState']);
+
+const selectAgentsListVisibleState = (state) =>
+  state.getIn(['transferMenu', 'agentsListVisibleState']);
+
+const selectTransferListsVisibleState = (state) =>
+  state.getIn(['transferMenu', 'transferListsVisibleState']).toJS();
+
 const selectAgents = createSelector(
   selectBatchRequests,
   selectResourceCapacity,
@@ -115,4 +127,12 @@ const selectAgents = createSelector(
   }
 );
 
-export { selectWarmTransfers, selectAgents, selectUsers };
+export {
+  selectWarmTransfers,
+  selectAgents,
+  selectUsers,
+  selectTransferLists,
+  selectQueuesListVisibleState,
+  selectAgentsListVisibleState,
+  selectTransferListsVisibleState,
+};

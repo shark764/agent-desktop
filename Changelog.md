@@ -1,3 +1,6 @@
+### [1.31.0] (2018-11-09)
+* CXV1-15533 && CXV1-15546 - Collpase and Expand options under Transfer screen & save the status to local storage
+
 ### [1.30.0] (2018-11-08)
 * CXV1-12476 - AD/TB2 - Outbound Identification - Include Outbound ANI list in new interaction panel for Voice
 

@@ -16,6 +16,7 @@ import Radium from 'radium';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 
 import search from 'assets/icons/search.png';
+import Icon from 'components/Icon';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
@@ -30,11 +31,26 @@ import {
   startWarmTransferring,
   clearQueuesTime,
 } from 'containers/AgentDesktop/actions';
-import { setResourceCapactiy, setUsers } from 'containers/TransferMenu/actions';
 import { selectAgentId, selectQueues } from 'containers/AgentDesktop/selectors';
 import { selectBatchRequests } from 'containers/Toolbar/selectors';
-import { selectWarmTransfers, selectAgents } from './selectors';
 import messages from './messages';
+import {
+  setResourceCapactiy,
+  setUsers,
+  setTransferLists,
+  initializeQueuesAgentsVisibleState,
+  updateQueuesListVisibleState,
+  updateAgentsListVisibleState,
+  updateTransferListVisibleState,
+} from './actions';
+import {
+  selectWarmTransfers,
+  selectAgents,
+  selectTransferLists,
+  selectQueuesListVisibleState,
+  selectAgentsListVisibleState,
+  selectTransferListsVisibleState,
+} from './selectors';
 
 const REFRESH_AGENTS_RATE = 5000;
 const REFRESH_QUEUES_RATE = 10000;
@@ -48,7 +64,6 @@ export class TransferMenu extends React.Component {
     this.state = {
       transferTabIndex: this.props.nonVoice ? 1 : 0,
       transferSearchInput: '',
-      transferLists: 'loading',
       dialpadText: '',
       dialpadTextValid: false,
       focusedElementIndex: -1,
@@ -120,19 +135,18 @@ export class TransferMenu extends React.Component {
     }
   };
 
-  componentWillMount() {
-    document.addEventListener('keydown', this.hotKeys);
-  }
-
   componentDidMount() {
     this.mounted = true;
+
+    document.addEventListener('keydown', this.hotKeys);
 
     if (!this.props.batchRequestsAreSuccessful) {
       CxEngage.entities.getUsers({ excludeOffline: true });
     }
 
     if (!this.props.nonVoice) {
-      CxEngage.entities.getTransferLists(this.setTransferListsCallback);
+      this.props.setTransferLists();
+      this.props.initializeQueuesAgentsVisibleState();
     }
 
     CxEngage.entities.getQueues(this.refreshQueues);
@@ -222,7 +236,8 @@ export class TransferMenu extends React.Component {
     }
   };
 
-  refreshQueuesButton = () => {
+  refreshQueuesButton = (e) => {
+    e.stopPropagation();
     if (
       this.props.queues &&
       this.props.queues[0] &&
@@ -236,7 +251,8 @@ export class TransferMenu extends React.Component {
     }
   };
 
-  refreshAgents = () => {
+  refreshAgents = (e) => {
+    e.stopPropagation();
     if (this.props.selectAgents !== undefined) {
       if (this.props.batchRequestsAreSuccessful) {
         this.props.setResourceCapactiy(undefined);
@@ -244,24 +260,6 @@ export class TransferMenu extends React.Component {
       } else {
         this.props.setUsers(undefined);
         CxEngage.entities.getUsers({ excludeOffline: true });
-      }
-    }
-  };
-
-  setTransferListsCallback = (error, topic, response) => {
-    console.log('[TransferMenu] CxEngage.subscribe()', topic, response);
-    if (!error) {
-      const transferLists = response.result
-        .filter((transferList) => transferList.active === true)
-        .map((transferList) => ({
-          id: transferList.id,
-          name: transferList.name,
-          endpoints: transferList.endpoints,
-        }));
-      if (this.mounted) {
-        this.setState({
-          transferLists,
-        });
       }
     }
   };
@@ -301,11 +299,30 @@ export class TransferMenu extends React.Component {
       fontSize: '15px',
       fontWeight: 'bold',
       marginBottom: '4px',
+      display: 'flex',
+      borderRadius: '3px',
+    },
+    voiceTransferListTitle: {
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: '#23cdf4',
+      },
+      ':focus': {
+        outline: 'none',
+        backgroundColor: '#23cdf4',
+      },
     },
     refresh: {
       display: 'inline-block',
       marginLeft: '5px',
       cursor: 'pointer',
+      ':hover': {
+        backgroundColor: '#FE4565',
+      },
+      ':focus': {
+        outline: 'none',
+        backgroundColor: '#FE4565',
+      },
     },
     refreshInProgress: {
       color: 'gray',
@@ -389,6 +406,23 @@ export class TransferMenu extends React.Component {
       display: 'block',
       margin: '24px auto 0',
       width: '134px',
+    },
+    iconClosed: {
+      marginTop: '6px',
+      height: '8px',
+      width: '13.33px',
+      marginLeft: 'auto',
+      flexShrink: '0',
+      fontWeight: '600',
+      transition: 'transform 0.5s',
+    },
+    iconOpen: {
+      transform: 'rotate(180deg)',
+      marginLeft: 'auto',
+      height: '8px',
+      width: '13.33px',
+      flexShrink: '0',
+      fontWeight: '600',
     },
   };
 
@@ -604,9 +638,9 @@ export class TransferMenu extends React.Component {
 
     let transferLists;
     if (!this.props.nonVoice) {
-      if (this.state.transferLists !== 'loading') {
+      if (this.props.transferLists[0] !== 'loading') {
         transferLists = [];
-        this.state.transferLists.forEach((transferList) => {
+        this.props.transferLists.forEach((transferList, transferListIndex) => {
           const hierarchyMap = new Map();
           transferList.endpoints.forEach((transferListItem) => {
             const { hierarchy } = transferListItem;
@@ -674,15 +708,31 @@ export class TransferMenu extends React.Component {
           });
           if (hierarchyList.length > 0) {
             transferLists.push(
-              <div
-                id={transferList.id}
-                key={transferList.id}
-                style={this.styles.transferList}
-              >
-                <div style={this.styles.transferListTitle}>
+              <div key={transferList.id} style={this.styles.transferList}>
+                <div
+                  id={`transferList-${transferListIndex}`}
+                  key={`${transferList.id}-title`}
+                  style={[
+                    this.styles.transferListTitle,
+                    this.styles.voiceTransferListTitle,
+                  ]}
+                  onClick={() =>
+                    this.props.updateTransferListVisibleState(transferList.id)
+                  }
+                >
                   {transferList.name}
+                  <Icon
+                    name="caret"
+                    style={
+                      this.props.transferListsVisibleState[transferList.id]
+                        ? this.styles.iconOpen
+                        : this.styles.iconClosed
+                    }
+                  />
                 </div>
-                {hierarchyList}
+                {(this.props.transferListsVisibleState[transferList.id] ||
+                  this.state.transferSearchInput.trim() !== '') &&
+                  hierarchyList}
               </div>
             );
           }
@@ -736,45 +786,100 @@ export class TransferMenu extends React.Component {
               ]}
             >
               <div style={this.styles.transferList}>
-                <div style={this.styles.transferListTitle}>
+                <div
+                  id="queuesExpandCollapseBtn"
+                  key="queuesListBtn"
+                  style={[
+                    this.styles.transferListTitle,
+                    !this.props.nonVoice && this.styles.voiceTransferListTitle,
+                  ]}
+                  onClick={() =>
+                    !this.props.nonVoice &&
+                    this.props.updateQueuesListVisibleState()
+                  }
+                >
                   <FormattedMessage {...messages.queues} />
-                  <div
-                    id="refreshQueues"
-                    style={[
-                      this.styles.refresh,
-                      (this.props.queues === undefined ||
-                        this.props.queues[0] === undefined ||
-                        this.props.queues[0].queueTime === undefined ||
-                        !this.props.batchRequestsAreSuccessful) &&
-                        this.styles.refreshInProgress,
-                    ]}
-                    onClick={this.refreshQueuesButton}
-                  >
-                    &#8635;
-                  </div>
-                </div>
-                {queues}
-              </div>
-              {this.state.transferTabIndex === 0 && (
-                <div style={this.styles.transferList}>
-                  <div style={this.styles.transferListTitle}>
-                    <FormattedMessage
-                      {...messages.agents}
-                      style={this.styles.transferListTitle}
-                    />
+                  {(!this.props.nonVoice
+                    ? this.props.queuesListVisibleState ||
+                      this.state.transferSearchInput.trim() !== ''
+                    : true) && (
                     <div
-                      id="refreshAgents"
+                      id="refreshQueues"
+                      key="queuesRefreshBtn"
                       style={[
                         this.styles.refresh,
-                        this.props.selectAgents === undefined &&
+                        (this.props.queues === undefined ||
+                          this.props.queues[0] === undefined ||
+                          this.props.queues[0].queueTime === undefined ||
+                          !this.props.batchRequestsAreSuccessful) &&
                           this.styles.refreshInProgress,
                       ]}
-                      onClick={this.refreshAgents}
+                      onClick={this.refreshQueuesButton}
                     >
                       &#8635;
                     </div>
+                  )}
+                  {!this.props.nonVoice && (
+                    <Icon
+                      name="caret"
+                      style={
+                        this.props.queuesListVisibleState
+                          ? this.styles.iconOpen
+                          : this.styles.iconClosed
+                      }
+                    />
+                  )}
+                </div>
+                {(!this.props.nonVoice
+                  ? this.props.queuesListVisibleState ||
+                    this.state.transferSearchInput.trim() !== ''
+                  : true) && queues}
+              </div>
+              {this.state.transferTabIndex === 0 && (
+                <div style={this.styles.transferList}>
+                  <div
+                    id="agentsExpandCollapseBtn"
+                    key="agentsListBtn"
+                    style={[
+                      this.styles.transferListTitle,
+                      !this.props.nonVoice &&
+                        this.styles.voiceTransferListTitle,
+                    ]}
+                    onClick={() =>
+                      !this.props.nonVoice &&
+                      this.props.updateAgentsListVisibleState()
+                    }
+                  >
+                    <FormattedMessage {...messages.agents} />
+                    {(this.props.agentsListVisibleState ||
+                      this.state.transferSearchInput.trim() !== '') && (
+                      <div
+                        id="refreshAgents"
+                        key="agentsRefreshBtn"
+                        style={[
+                          this.styles.refresh,
+                          this.props.selectAgents === undefined &&
+                            this.styles.refreshInProgress,
+                        ]}
+                        onClick={this.refreshAgents}
+                      >
+                        &#8635;
+                      </div>
+                    )}
+                    {!this.props.nonVoice && (
+                      <Icon
+                        name="caret"
+                        style={
+                          this.props.agentsListVisibleState
+                            ? this.styles.iconOpen
+                            : this.styles.iconClosed
+                        }
+                      />
+                    )}
                   </div>
-                  {agents}
+                  {(this.props.agentsListVisibleState ||
+                    this.state.transferSearchInput.trim() !== '') &&
+                    agents}
                 </div>
               )}
               {transferLists}
@@ -829,6 +934,10 @@ export class TransferMenu extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
+  transferLists: selectTransferLists(state, props),
+  queuesListVisibleState: selectQueuesListVisibleState(state, props),
+  agentsListVisibleState: selectAgentsListVisibleState(state, props),
+  transferListsVisibleState: selectTransferListsVisibleState(state, props),
   agentId: selectAgentId(state, props),
   warmTransfers: selectWarmTransfers(state, props),
   queues: selectQueues(state, props),
@@ -844,7 +953,15 @@ function mapDispatchToProps(dispatch) {
     setUsers: (users) => dispatch(setUsers(users)),
     setResourceCapactiy: (resourceCapacity) =>
       dispatch(setResourceCapactiy(resourceCapacity)),
-    dispatch,
+    setTransferLists: () => dispatch(setTransferLists()),
+    initializeQueuesAgentsVisibleState: () =>
+      dispatch(initializeQueuesAgentsVisibleState()),
+    updateQueuesListVisibleState: () =>
+      dispatch(updateQueuesListVisibleState()),
+    updateAgentsListVisibleState: () =>
+      dispatch(updateAgentsListVisibleState()),
+    updateTransferListVisibleState: (transferListId) =>
+      dispatch(updateTransferListVisibleState(transferListId)),
   };
 }
 
@@ -861,6 +978,15 @@ TransferMenu.propTypes = {
   batchRequestsAreSuccessful: PropTypes.bool.isRequired,
   setUsers: PropTypes.func.isRequired,
   setResourceCapactiy: PropTypes.func,
+  setTransferLists: PropTypes.func.isRequired,
+  transferLists: PropTypes.array.isRequired,
+  queuesListVisibleState: PropTypes.bool,
+  agentsListVisibleState: PropTypes.bool,
+  transferListsVisibleState: PropTypes.object,
+  initializeQueuesAgentsVisibleState: PropTypes.func.isRequired,
+  updateQueuesListVisibleState: PropTypes.func.isRequired,
+  updateAgentsListVisibleState: PropTypes.func.isRequired,
+  updateTransferListVisibleState: PropTypes.func.isRequired,
 };
 
 TransferMenu.contextTypes = {

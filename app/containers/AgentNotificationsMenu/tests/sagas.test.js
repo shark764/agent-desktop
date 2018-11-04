@@ -27,7 +27,7 @@ describe('goInitializeNotificatonPreferences', () => {
       expect(generator.next({ id: 'tenantId' })).toMatchSnapshot();
     });
     it('puts the audio notification into state', () => {
-      expect(generator.next({ id: 'agentId' })).toMatchSnapshot();
+      expect(generator.next({ userId: 'agentId' })).toMatchSnapshot();
     });
     it('puts the visual notification into state', () => {
       expect(generator.next()).toMatchSnapshot();
@@ -53,7 +53,7 @@ describe('goInitializeNotificatonPreferences', () => {
       expect(generator.next({ id: 'tenantId' })).toMatchSnapshot();
     });
     it('is done', () => {
-      expect(generator.next({ id: 'agentId' }).done).toBe(true);
+      expect(generator.next({ userId: 'agentId' }).done).toBe(true);
     });
   });
 });
@@ -82,7 +82,7 @@ describe('goToggleAudioNotificationsPreference', () => {
     expect(generator.next({ id: 'tenantId' })).toMatchSnapshot();
   });
   it('is done', () => {
-    expect(generator.next({ id: 'agentId' }).done).toBe(true);
+    expect(generator.next({ userId: 'agentId' }).done).toBe(true);
   });
   it('uses the tenant and agent id to set the notification in localStorage', () => {
     expect(mockSetItem.mock.calls).toMatchSnapshot();
@@ -120,7 +120,7 @@ describe('goToggleVisualNotificationsPreference', () => {
         expect(generator.next({ id: 'tenantId' })).toMatchSnapshot();
       });
       it('is done', () => {
-        expect(generator.next({ id: 'agentId' }).done).toBe(true);
+        expect(generator.next({ userId: 'agentId' }).done).toBe(true);
       });
       it('uses the tenant and agent id to set the notification in localStorage', () => {
         expect(mockSetItem.mock.calls).toMatchSnapshot();
@@ -163,7 +163,7 @@ describe('goToggleVisualNotificationsPreference', () => {
       expect(generator.next({ id: 'tenantId' })).toMatchSnapshot();
     });
     it('is done', () => {
-      expect(generator.next({ id: 'agentId' }).done).toBe(true);
+      expect(generator.next({ userId: 'agentId' }).done).toBe(true);
     });
     it('uses the tenant and agent id to set the notification in localStorage', () => {
       expect(mockSetItem.mock.calls).toMatchSnapshot();
