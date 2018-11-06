@@ -850,7 +850,10 @@ export class EmailContentArea extends React.Component {
                           this.updateAttachmentUrl(attachment.artifactFileId)
                         }
                       >
-                        <div style={[styles.attachment, styles.addAttachment]}>
+                        <div
+                          title={attachment.filename}
+                          style={[styles.attachment, styles.addAttachment]}
+                        >
                           {attachment.filename}
                           {attachment.fetchingAttachmentUrl && (
                             <div style={styles.loadingAttachment}>
@@ -1154,7 +1157,10 @@ export class EmailContentArea extends React.Component {
                     <FormattedMessage {...messages.uploading} />
                   ) : (
                     <div>
-                      <div style={styles.attachmentName}>
+                      <div
+                        title={attachment.name}
+                        style={styles.attachmentName}
+                      >
                         {attachment.name}
                       </div>
                       {this.props.selectedInteraction.status !==

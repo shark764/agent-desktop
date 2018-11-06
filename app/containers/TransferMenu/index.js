@@ -341,6 +341,13 @@ export class TransferMenu extends React.Component {
         backgroundColor: '#DEF8FE',
       },
     },
+    transferSubItem: {
+      display: 'inherit',
+      maxWidth: '225px',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
     inactiveTransferListItem: {
       color: 'gray',
       padding: '6px 8px',
@@ -362,7 +369,7 @@ export class TransferMenu extends React.Component {
       width: '8px',
       borderRadius: '4px',
       display: 'inline-block',
-      margin: '0 15px 1px 0',
+      margin: '3px 7px 4px -5px',
     },
     agentAvailable: {
       backgroundColor: '#23CEF5',
@@ -375,6 +382,8 @@ export class TransferMenu extends React.Component {
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
+      display: 'inline-block',
+      maxWidth: '200px',
     },
     dialpadButtonContainer: {
       backgroundColor: '#F3F3F3',
@@ -649,7 +658,11 @@ export class TransferMenu extends React.Component {
                       transferListItem.endpoint
                     )
                   }
-                  style={this.styles.transferListItem}
+                  title={transferListItem.name}
+                  style={[
+                    this.styles.transferListItem,
+                    this.styles.transferSubItem,
+                  ]}
                   tabIndex="0" // eslint-disable-line
                 >
                   {transferListItem.name}
