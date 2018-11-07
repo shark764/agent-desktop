@@ -8,7 +8,7 @@
  *
  */
 
-import { START_OUTBOUND_EMAIL } from './constants';
+import * as ACTIONS from './constants';
 
 export function startOutboundEmail(
   customer,
@@ -16,9 +16,25 @@ export function startOutboundEmail(
   addedByNewInteractionPanel
 ) {
   return {
-    type: START_OUTBOUND_EMAIL,
+    type: ACTIONS.START_OUTBOUND_EMAIL,
     customer,
     contact,
     addedByNewInteractionPanel,
+  };
+}
+
+export function addEmail(email, inputType) {
+  return {
+    type: ACTIONS.ADD_EMAIL,
+    email,
+    inputType,
+  };
+}
+
+export function removeEmail(index, list) {
+  return {
+    type: ACTIONS.REMOVE_EMAIL,
+    index,
+    list,
   };
 }

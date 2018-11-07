@@ -5,16 +5,19 @@ exports[`Interaction in toolbar mode sets notesPanelHeight to the correct value 
 exports[`Interaction outbound email sets emailReply 1`] = `
 Immutable.Map {
   "message": "",
+  "bccInput": "",
+  "ccInput": "",
+  "toInput": "",
+  "attachments": Immutable.List [],
+  "bccs": Immutable.List [],
+  "ccs": Immutable.List [],
   "tos": Immutable.List [
-    Object {
+    Immutable.Map {
       "address": undefined,
       "name": undefined,
     },
   ],
-  "ccs": Immutable.List [],
-  "bccs": Immutable.List [],
-  "subject": "",
-  "attachments": Immutable.List [],
+  "subjectInput": "",
 }
 `;
 

@@ -1573,6 +1573,82 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+    case ACTIONS.ADD_EMAIL_TO_LIST: {
+      if (!['tos', 'ccs', 'bccs'].includes(action.list)) {
+        throw new Error(`Invalid email list type: ${action.list}`);
+      }
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (
+        interactionIndex !== -1 &&
+        state.getIn(['interactions', interactionIndex, 'channelType']) ===
+          'email'
+      ) {
+        return state
+          .updateIn(
+            ['interactions', interactionIndex, 'emailReply', action.list],
+            (list) => list.push(fromJS(action.email))
+          )
+          .setIn(
+            ['interactions', interactionIndex, 'emailReply', action.input],
+            ''
+          );
+      } else {
+        return state;
+      }
+    }
+    case ACTIONS.UPDATE_EMAIL_INPUT: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (
+        interactionIndex !== -1 &&
+        state.getIn(['interactions', interactionIndex, 'channelType']) ===
+          'email'
+      ) {
+        return state.setIn(
+          ['interactions', interactionIndex, 'emailReply', action.input],
+          action.value
+        );
+      } else {
+        return state;
+      }
+    }
+    case ACTIONS.UPDATE_SELECTED_EMAIL_TEMPLATE: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (
+        interactionIndex !== -1 &&
+        state.getIn(['interactions', interactionIndex, 'channelType']) ===
+          'email'
+      ) {
+        return state.setIn(
+          [
+            'interactions',
+            interactionIndex,
+            'emailReply',
+            'selectedEmailTemplate',
+          ],
+          action.selectedTemplate
+        );
+      } else {
+        return state;
+      }
+    }
+    case ACTIONS.REMOVE_EMAIL_FROM_LIST: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (
+        interactionIndex !== -1 &&
+        state.getIn(['interactions', interactionIndex, 'channelType']) ===
+          'email'
+      ) {
+        return state.deleteIn([
+          'interactions',
+          interactionIndex,
+          'emailReply',
+          action.list,
+          action.index,
+        ]);
+      } else {
+        return state;
+      }
+    }
     case ACTIONS.START_WARM_TRANSFERRING: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
@@ -1894,10 +1970,8 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
-        state
-          .get('interactions')
-          .get(interactionIndex)
-          .get('channelType') === 'email'
+        state.getIn(['interactions', interactionIndex, 'channelType']) ===
+          'email'
       ) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
@@ -1907,13 +1981,16 @@ function agentDesktopReducer(state = initialState, action) {
                 tos: interaction.get('emailDetails').get('from'),
                 ccs: interaction.get('emailDetails').get('cc'),
                 bccs: interaction.get('emailDetails').get('bcc'),
-                subject: `RE: ${
+                subjectInput: `RE: ${
                   interaction.get('emailDetails').get('subject') !== null
                     ? interaction.get('emailDetails').get('subject')
                     : ''
                 }`,
                 attachments: [],
                 message: '',
+                toInput: '',
+                ccInput: '',
+                bccInput: '',
               })
             )
           )
@@ -1926,10 +2003,8 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
-        state
-          .get('interactions')
-          .get(interactionIndex)
-          .get('channelType') === 'email'
+        state.getIn(['interactions', interactionIndex, 'channelType']) ===
+          'email'
       ) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
@@ -1944,10 +2019,8 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
-        state
-          .get('interactions')
-          .get(interactionIndex)
-          .get('channelType') === 'email'
+        state.getIn(['interactions', interactionIndex, 'channelType']) ===
+          'email'
       ) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
@@ -1962,10 +2035,8 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
-        state
-          .get('interactions')
-          .get(interactionIndex)
-          .get('channelType') === 'email'
+        state.getIn(['interactions', interactionIndex, 'channelType']) ===
+          'email'
       ) {
         return state.updateIn(
           ['interactions', interactionIndex],
@@ -1998,10 +2069,8 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
-        state
-          .get('interactions')
-          .get(interactionIndex)
-          .get('channelType') === 'email'
+        state.getIn(['interactions', interactionIndex, 'channelType']) ===
+          'email'
       ) {
         return state.updateIn(
           ['interactions', interactionIndex, 'emailReply', 'attachments'],
@@ -2019,24 +2088,13 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
-        state
-          .get('interactions')
-          .get(interactionIndex)
-          .get('channelType') === 'email'
+        state.getIn(['interactions', interactionIndex, 'channelType']) ===
+          'email'
       ) {
         return state.updateIn(
           ['interactions', interactionIndex],
           (interaction) =>
-            interaction
-              .setIn(['emailReply', 'message'], action.reply.message)
-              .setIn(['emailReply', 'tos'], new List(action.reply.tos))
-              .setIn(['emailReply', 'ccs'], new List(action.reply.ccs))
-              .setIn(['emailReply', 'bccs'], new List(action.reply.bccs))
-              .setIn(['emailReply', 'subject'], action.reply.subject)
-              .setIn(
-                ['emailReply', 'selectedEmailTemplate'],
-                action.reply.selectedEmailTemplate
-              )
+            interaction.setIn(['emailReply', 'message'], action.message)
         );
       } else {
         return state;
@@ -2046,10 +2104,8 @@ function agentDesktopReducer(state = initialState, action) {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
-        state
-          .get('interactions')
-          .get(interactionIndex)
-          .get('channelType') === 'email'
+        state.getIn(['interactions', interactionIndex, 'channelType']) ===
+          'email'
       ) {
         return state.updateIn(
           ['interactions', interactionIndex],
