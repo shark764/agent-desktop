@@ -857,3 +857,61 @@ exports[`<PhoneControlsActive/> when we are doing an outbound interaction and th
   </div>
 </div>
 `;
+
+exports[`<PhoneControlsActive/> when we receive a transferred outbound interaction we should show the hold button 1`] = `
+<div
+  style={
+    Object {
+      "padding": "9px 0",
+      "position": "relative",
+    }
+  }
+>
+  <Connect(Recording)
+    agentRecordingEnabled={true}
+    interactionId="1"
+    preventAgentRecordingUpdate={false}
+  />
+  <div
+    style={
+      Object {
+        "display": "table",
+        "height": 40,
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "table-cell",
+          "textAlign": "center",
+          "verticalAlign": "middle",
+        }
+      }
+    >
+      <Connect(EndCall)
+        interactionId="1"
+        interactionStatusIsFatal={false}
+      />
+      <span>
+        <Connect(Mute)
+          interactionId="1"
+        />
+        <Connect(Hold)
+          canUpdateHold={true}
+          interactionId="1"
+        />
+        <Connect(Transfer)
+          canTransfer={true}
+          connectingTransfers={false}
+          interactionId="1"
+        />
+        <Connect(Dialpad)
+          interactionId="1"
+        />
+      </span>
+    </div>
+  </div>
+</div>
+`;

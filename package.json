@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.29.2",
+  "version": "1.29.3",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -21,7 +21,6 @@
     "build:clean": "npm run test:clean && rimraf ./build",
     "format": "prettier-eslint --single-quote --trailing-comma es5 --write",
     "start": "webpack-dev-server --port 3000 --mode development",
-    "start:tunnel": "cross-env NODE_ENV=development ENABLE_TUNNEL=true node server",
     "start:production": "npm run build && npm run start:prod",
     "start:prod": "cross-env NODE_ENV=production node server",
     "generate": "plop --plopfile internals/generators/index.js",
@@ -314,7 +313,7 @@
     "jest-environment-jsdom-global": "1.1.0",
     "json-loader": "0.5.7",
     "lint-staged": "7.2.0",
-    "ngrok": "3.0.1",
+    "ngrok": "3.1.0",
     "null-loader": "0.1.1",
     "plop": "2.0.0",
     "postcss-loader": "2.1.6",

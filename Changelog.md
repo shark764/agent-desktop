@@ -1,3 +1,6 @@
+### [1.29.3] (2018-11-08)
+*CXV1-15964 - Customer hold button doesn't show up after (cold) transferring an outbound voice interaction
+
 ### [1.29.2] (2018-11-07)
 * CXV1-15960 - Updated how queue time stat subscriptions are added so it will not crash when there are >1000 queues
 

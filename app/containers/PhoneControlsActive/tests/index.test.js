@@ -44,6 +44,7 @@ describe('<PhoneControlsActive/>', () => {
           customerConnected: false,
           warmTransfers: [],
           status: 'work-accepted',
+          initiatedByCurrentAgent: true,
         }}
       />
     );
@@ -64,6 +65,29 @@ describe('<PhoneControlsActive/>', () => {
           },
           direction: 'outbound',
           customerConnected: true,
+          initiatedByCurrentAgent: true,
+          status: 'work-accepted',
+          warmTransfers: [],
+        }}
+      />
+    );
+    expect(rendered).toMatchSnapshot();
+  });
+  it('when we receive a transferred outbound interaction we should show the hold button', () => {
+    const rendered = shallow(
+      <PhoneControlsActive
+        intl={getIntlContext()}
+        agentId="1"
+        activeVoiceInteraction={{
+          interactionId: '1',
+          agentRecordingEnabled: true,
+          callControls: {
+            preventAgentRecordingUpdate: false,
+            holdUpdate: true,
+            transferUpdate: true,
+          },
+          direction: 'outbound',
+          customerConnected: false,
           status: 'work-accepted',
           warmTransfers: [],
         }}
