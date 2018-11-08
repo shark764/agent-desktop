@@ -37,7 +37,9 @@ export default [
   'cxengage/reporting/polling-started', // Ignore
   'cxengage/reporting/polling-stopped', // Ignore
   'cxengage/reporting/stat-subscription-added', // Handled by Toolbar
+  'cxengage/reporting/bulk-stat-subscription-added', // Handled by Toolbar
   'cxengage/reporting/stat-subscription-removed', // Handled by Toolbar
+  'cxengage/reporting/bulk-stat-subscription-removed', // Handled by Toolbar
   'cxengage/session/heartbeat-response', // Ignore
   'cxengage/session/get-tenant-details', // Handled in Login component
   'cxengage/session/set-active-tenant-response', // Handled in Login component

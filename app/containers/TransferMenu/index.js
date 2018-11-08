@@ -166,10 +166,8 @@ export class TransferMenu extends React.Component {
         statId: this.resourceCapacityStatId,
       });
     }
-    this.queuesStatsIds.forEach((queueStatId) => {
-      CxEngage.reporting.removeStatSubscription({
-        statId: queueStatId,
-      });
+    CxEngage.reporting.bulkRemoveStatSubscription({
+      statIds: this.queuesStatsIds,
     });
 
     this.props.setUsers(undefined);
@@ -198,27 +196,17 @@ export class TransferMenu extends React.Component {
 
     //  This will check if there are new queues added
     if (addedQueuesList.length > 0) {
-      addedQueuesList.forEach((queueStatId, index, queueIdList) => {
-        CxEngage.reporting.addStatSubscription(
-          {
-            statistic: queueStatId.statistic,
-            queueId: queueStatId.queueId,
-            statId: queueStatId.statId,
-            // Only trigger the batch for the last one added
-            triggerBatch: index === queueIdList.length - 1,
-          },
-          (error, topic, response) => {
-            if (!error) {
-              console.log(
-                '[TransferMenu] CxEngage.subscribe().addStatSubscription',
-                topic,
-                response
-              );
-              this.queuesStatsIds.push(response.statId);
-            }
-          }
-        );
-      });
+      CxEngage.reporting.bulkAddStatSubscription(
+        { queries: addedQueuesList },
+        (error, topic, response) => {
+          console.log(
+            '[TransferMenu] CxEngage.reporting.bulkAddStatSubscription()',
+            topic,
+            response
+          );
+          this.queuesStatsIds = this.queuesStatsIds.concat(response.statIds);
+        }
+      );
     }
     //  This will check if there are queues removed
     if (removedQueuesList.length > 0) {
@@ -747,30 +735,26 @@ export class TransferMenu extends React.Component {
                 this.props.nonVoice && this.styles.nonVoiceTransferList,
               ]}
             >
-              {queues.length > 0 ? (
-                <div style={this.styles.transferList}>
-                  <div style={this.styles.transferListTitle}>
-                    <FormattedMessage {...messages.queues} />
-                    <div
-                      id="refreshQueues"
-                      style={[
-                        this.styles.refresh,
-                        (this.props.queues === undefined ||
-                          this.props.queues[0] === undefined ||
-                          this.props.queues[0].queueTime === undefined ||
-                          !this.props.batchRequestsAreSuccessful) &&
-                          this.styles.refreshInProgress,
-                      ]}
-                      onClick={this.refreshQueuesButton}
-                    >
-                      &#8635;
-                    </div>
+              <div style={this.styles.transferList}>
+                <div style={this.styles.transferListTitle}>
+                  <FormattedMessage {...messages.queues} />
+                  <div
+                    id="refreshQueues"
+                    style={[
+                      this.styles.refresh,
+                      (this.props.queues === undefined ||
+                        this.props.queues[0] === undefined ||
+                        this.props.queues[0].queueTime === undefined ||
+                        !this.props.batchRequestsAreSuccessful) &&
+                        this.styles.refreshInProgress,
+                    ]}
+                    onClick={this.refreshQueuesButton}
+                  >
+                    &#8635;
                   </div>
-                  {queues}
                 </div>
-              ) : (
-                ''
-              )}
+                {queues}
+              </div>
               {this.state.transferTabIndex === 0 && (
                 <div style={this.styles.transferList}>
                   <div style={this.styles.transferListTitle}>

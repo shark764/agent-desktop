@@ -1,13 +1,16 @@
-### [1.29.1] (2018-11-01)
+### [1.29.2] (2018-11-07)
+* CXV1-15960 - Updated how queue time stat subscriptions are added so it will not crash when there are >1000 queues
+
+### [1.29.1] (2018-11-01) (Broken: CXV1-15948/CXV1-15960)
 * CXV1-14603 - Transfer List names superimposed over each other
 
-### [1.29.0] (2018-10-31)
+### [1.29.0] (2018-10-31) (Broken: CXV1-15948/CXV1-15960)
 * CXV1-15450 - Added Skylight metric access restriction
 
-### [1.28.55] (2018-11-01)
+### [1.28.55] (2018-11-01) (Broken: CXV1-15948/CXV1-15960)
 * CXV1-14482 - Long email attachments cannot be read nor removed
 
-### [1.28.54] (2018-10-30)
+### [1.28.54] (2018-10-30) (Broken: CXV1-15948/CXV1-15960)
 * CXV1-15867 - Allow salesforce click to dials input to be edited
 
 ### [1.28.53] (2018-10-26) (Broken: CXV1-15867)
