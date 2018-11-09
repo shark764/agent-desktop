@@ -208,7 +208,9 @@ export class PhoneControlsActive extends React.Component {
                   meOnHold={this.props.activeVoiceInteraction.meOnHold}
                   isMuting={this.props.activeVoiceInteraction.isMuting}
                 />
-                {this.props.activeVoiceInteraction.customerConnected && (
+                {/* Hide the hold button when we've initiated the call until the customer has connected */}
+                {(!this.props.activeVoiceInteraction.initiatedByCurrentAgent ||
+                  this.props.activeVoiceInteraction.customerConnected) && (
                   <Hold
                     interactionId={
                       this.props.activeVoiceInteraction.interactionId
