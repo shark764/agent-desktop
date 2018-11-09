@@ -879,9 +879,32 @@ function agentDesktopReducer(state = initialState, action) {
       // Replace useless script id with actual one needed for the SDK
       const script = { ...action.script, id: action.scriptId };
       if (interactionIndex > -1) {
-        return state.setIn(
-          ['interactions', interactionIndex, 'script'],
-          new Script(script)
+        const interactionStatus = state.getIn([
+          'interactions',
+          interactionIndex,
+          'status',
+        ]);
+        return (
+          state
+            .setIn(
+              ['interactions', interactionIndex, 'script'],
+              new Script(script)
+            )
+            //  Setting isScriptOnly in the interaction only when the interaction is received as 'work-offer' or 'work-initiated'
+            .setIn(
+              ['interactions', interactionIndex, 'isScriptOnly'],
+              interactionStatus === 'work-offer' ||
+                interactionStatus === 'work-initiated'
+            )
+            //  Setting the interactionId to the script when it does not have a selected interaction and when the interaction is received as 'work-offer' or 'work-initiated'
+            .set(
+              'selectedInteractionId',
+              state.get('selectedInteractionId') === undefined &&
+              (interactionStatus === 'work-offer' ||
+                interactionStatus === 'work-initiated')
+                ? action.interactionId
+                : state.get('selectedInteractionId')
+            )
         );
       } else {
         // 'script-only' is the main status we will use. isScriptOnly for when interactions receive a work offer, but still need to render the script in MainContentArea until it has been accepted

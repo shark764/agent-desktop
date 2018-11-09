@@ -772,6 +772,22 @@ describe('agentDesktopReducer', () => {
         });
       });
     });
+    describe('if interaction is in work-initiated', () => {
+      beforeEach(() => {
+        initialState.interactions = [
+          {
+            interactionId: 'test-interaction-id',
+            status: 'work-initiated',
+            isScriptOnly: true,
+            script: { id: 'mock-script-id' },
+          },
+        ];
+        initialState.interactions[0].channelType = 'email';
+      });
+      it('adds "isScriptOnly"', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
   });
 
   describe('REMOVE_SCRIPT', () => {

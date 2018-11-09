@@ -259,6 +259,29 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer ADD_SCRIPT if interaction is in work-initiated adds "isScriptOnly" 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": "work-initiated",
+      "isScriptOnly": true,
+      "script": Immutable.Record {
+        "id": "actual-script-id",
+        "name": "no-name",
+        "elements": Immutable.List [],
+        "values": Immutable.Map {},
+        "autoScriptDismiss": false,
+        "scriptReporting": true,
+        "scrollTop": 0,
+      },
+      "channelType": "email",
+    },
+  ],
+  "selectedInteractionId": "test-interaction-id",
+}
+`;
+
 exports[`agentDesktopReducer ADD_SCRIPT interaction is not there adds a "script-only" interaction 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
@@ -351,8 +374,10 @@ Immutable.Map {
         "scriptReporting": true,
         "scrollTop": 0,
       },
+      "isScriptOnly": false,
     },
   ],
+  "selectedInteractionId": undefined,
 }
 `;
 
