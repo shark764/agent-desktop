@@ -46,6 +46,37 @@ export function* goHandleSDKError(action) {
     );
     return;
   } else if (
+    error.level === 'interaction-fatal' &&
+    error.data &&
+    error.data.interactionId
+  ) {
+    const interactionsList = yield select(selectInteractionsList);
+    const erroredInteraction = interactionsList
+      .toJS()
+      .find(
+        (interaction) => interaction.interactionId === error.data.interactionId
+      );
+    if (!erroredInteraction) {
+      // If we do not have the interaction that errored, ignore
+      console.warn(
+        'Received interaction-fatal, but interation does not exist. Ignoring.'
+      );
+      return;
+    }
+    if (
+      topic !== 'cxengage/interactions/voice/force-killed-twilio-connection' &&
+      erroredInteraction &&
+      erroredInteraction.channelType === 'voice' &&
+      erroredInteraction.interactionId === error.data.interactionId
+    ) {
+      yield put(
+        setInteractionStatus(erroredInteraction.interactionId, 'fatal')
+      );
+      yield put(selectInteraction(undefined));
+      yield put(setNonCriticalError(error, true));
+      return;
+    }
+  } else if (
     error.code === 2000 || // Not enough tenant permissions. Handled in Login.
     error.code === 12005 || // Failed to get capacity. Handled in TransferMenu.
     topic === 'cxengage/contacts/create-contact-response' || // Handled in ContactEdit
@@ -119,41 +150,6 @@ export function* goHandleSDKError(action) {
     topic === 'cxengage/interactions/voice/customer-resume-received'
   ) {
     yield put(toggleInteractionIsHolding(error.data.interactionId, false));
-  } else if (
-    error.level === 'interaction-fatal' &&
-    error.data &&
-    error.data.interactionId
-  ) {
-    const interactionsList = yield select(selectInteractionsList);
-    const erroredInteraction = interactionsList
-      .toJS()
-      .find(
-        (interaction) => interaction.interactionId === error.data.interactionId
-      );
-    if (!erroredInteraction) {
-      // If we do not have the interaction that errored, ignore
-      console.warn(
-        'Received interaction-fatal, but interation does not exist. Ignoring.'
-      );
-      return;
-    }
-    if (
-      topic !== 'cxengage/interactions/voice/force-killed-twilio-connection' &&
-      error.context === 'voice'
-    ) {
-      if (
-        erroredInteraction &&
-        erroredInteraction.channelType === 'voice' &&
-        erroredInteraction.interactionId === error.data.interactionId
-      ) {
-        yield put(
-          setInteractionStatus(erroredInteraction.interactionId, 'fatal')
-        );
-        yield put(selectInteraction(undefined));
-        yield put(setNonCriticalError(error));
-        return;
-      }
-    }
   } else if (
     error.code === 3000 &&
     action.error.data.apiResponse.status === 401
