@@ -1,8 +1,11 @@
+### [1.29.5] (2018-11-08)
+* CXV1-15615 - Script will not be displayed during a work offer, only before or after.
+
 ### [1.29.4] (2018-01-08)
 * CXV1-15438 - SDK bump to return "interaction-fatal" error when their requests 404 on applicable 4xxx error codes
 
 ### [1.29.3] (2018-11-08)
-*CXV1-15964 - Customer hold button doesn't show up after (cold) transferring an outbound voice interaction
+* CXV1-15964 - Customer hold button doesn't show up after (cold) transferring an outbound voice interaction
 
 ### [1.29.2] (2018-11-07)
 * CXV1-15960 - Updated how queue time stat subscriptions are added so it will not crash when there are >1000 queues

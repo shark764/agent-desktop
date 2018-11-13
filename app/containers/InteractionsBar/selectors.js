@@ -97,7 +97,7 @@ const selectPendingInteractions = createSelector(
   (interactions) =>
     interactions.filter(
       (interaction) =>
-        // If it's not a voice/email interaction, make sure we have messageHistory before we show it.		 +        (interaction.status === 'work-initiated' &&
+        // If it's not a voice/email interaction, make sure we have messageHistory before we show it.
         interaction.status === 'work-initiated' &&
         (interaction.autoAnswer === false || interaction.autoAnswer === null) &&
         (interaction.channelType === 'voice' ||
