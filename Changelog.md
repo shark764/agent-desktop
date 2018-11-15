@@ -1,3 +1,8 @@
+### [1.31.1] (2018-11-15)
+* CXV1-15887 - Fixed transfer menu height to scale with window height
+* (no ticket) - Fixed missing manifest error
+* (no ticket) - Updated favicon upload
+
 ### [1.31.0] (2018-11-09)
 * CXV1-15533 && CXV1-15546 - Collpase and Expand options under Transfer screen & save the status to local storage
 

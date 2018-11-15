@@ -267,6 +267,9 @@ export class TransferMenu extends React.Component {
   styles = {
     transferListsContainer: {
       padding: '20px 20px 10px',
+      flexGrow: '1',
+      display: 'flex',
+      flexDirection: 'column',
     },
     transferSearchInput: {
       width: '100%',
@@ -277,20 +280,12 @@ export class TransferMenu extends React.Component {
       backgroundRepeat: 'no-repeat',
       padding: '0 0 0 40px',
       marginBottom: '8px',
+      flexShrink: '0',
     },
     transferLists: {
-      maxHeight: 'calc(100vh - 330px)',
       overflowY: 'auto',
-      minHeight: '76px',
       textAlign: 'left',
-    },
-    nonVoiceTransferList: {
-      maxHeight: '500px',
-    },
-    transferListsToolbar: {
-      maxHeight: undefined,
-      height: this.props.nonVoice ? 'auto' : '400px',
-      paddingBottom: '30px',
+      flexGrow: '1',
     },
     transferList: {
       marginTop: '12px',
@@ -745,7 +740,9 @@ export class TransferMenu extends React.Component {
     }
 
     return (
-      <div>
+      <div
+        style={[{ display: 'flex', flexDirection: 'column' }, this.props.style]}
+      >
         {!this.props.nonVoice && (
           <Tabs
             id="transferTabs"
@@ -777,14 +774,7 @@ export class TransferMenu extends React.Component {
               style={this.styles.transferSearchInput}
               autoFocus
             />
-            <div
-              className="transferList"
-              style={[
-                this.styles.transferLists,
-                this.context.toolbarMode && this.styles.transferListsToolbar,
-                this.props.nonVoice && this.styles.nonVoiceTransferList,
-              ]}
-            >
+            <div className="transferList" style={this.styles.transferLists}>
               <div style={this.styles.transferList}>
                 <div
                   id="queuesExpandCollapseBtn"
@@ -966,6 +956,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 TransferMenu.propTypes = {
+  style: PropTypes.object,
   interactionId: PropTypes.string.isRequired,
   setShowTransferMenu: PropTypes.func,
   agentId: PropTypes.string.isRequired,
@@ -987,10 +978,6 @@ TransferMenu.propTypes = {
   updateQueuesListVisibleState: PropTypes.func.isRequired,
   updateAgentsListVisibleState: PropTypes.func.isRequired,
   updateTransferListVisibleState: PropTypes.func.isRequired,
-};
-
-TransferMenu.contextTypes = {
-  toolbarMode: PropTypes.bool,
 };
 
 export default ErrorBoundary(

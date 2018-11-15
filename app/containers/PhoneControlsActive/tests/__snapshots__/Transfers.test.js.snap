@@ -91,6 +91,11 @@ exports[`<Transfer /> with canTransfer and false connectingTransfers with showTr
       <Connect(ErrorBoundaryComponent)
         interactionId="mock-interaction-id"
         setShowTransferMenu={[Function]}
+        style={
+          Object {
+            "height": "calc(100vh - 118px)",
+          }
+        }
       />
     </div>
   </span>
@@ -158,6 +163,11 @@ exports[`<Transfer /> with canTransfer and false connectingTransfers with showTr
           <Connect(ErrorBoundaryComponent)
             interactionId="mock-interaction-id"
             setShowTransferMenu={[Function]}
+            style={
+              Object {
+                "height": "calc(100vh - 118px)",
+              }
+            }
           />
         </div>
       </span>

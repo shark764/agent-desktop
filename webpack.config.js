@@ -29,6 +29,7 @@ module.exports = (env, argv) => {
     plugins: [
       new HtmlWebpackPlugin({
         template: './app/index.html',
+        favicon: './app/assets/favicons/favicon.ico',
       }),
       // new BundleAnalyzerPlugin({
       //     analyzerMode: 'static'

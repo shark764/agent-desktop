@@ -276,6 +276,9 @@ const voiceInteraction = {
   },
   customFields,
   customFieldsCollapsed: true,
+  notifications: [],
+  isMuting: false,
+  isHolding: false,
 };
 
 const voiceInteractionWithTransfersAndScripts = {
@@ -329,6 +332,9 @@ const voiceInteractionWithTransfersAndScripts = {
     //   addedTimestamp: Date.now(),
     },
   ],
+  notifications: [],
+  isMuting: false,
+  isHolding: false,
 };
 
 // Remove emailDetails and emailHtmlBody to mock loading states.
