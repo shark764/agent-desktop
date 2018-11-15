@@ -100,6 +100,11 @@ export const SET_EMAIL_ATTACHMENT_URL =
   'app/AgentDesktop/SET_EMAIL_ATTACHMENT_URL';
 export const SET_EMAIL_ATTACHMENT_FETCHING_URL =
   'app/AgentDesktop/SET_EMAIL_ATTACHMENT_FETCHING_URL';
+export const ADD_EMAIL_TO_LIST = 'app/AgentDesktop/ADD_EMAIL_TO_LIST';
+export const UPDATE_EMAIL_INPUT = 'app/AgentDesktop/UPDATE_EMAIL_INPUT';
+export const UPDATE_SELECTED_EMAIL_TEMPLATE =
+  'app/AgentDesktop/UPDATE_SELECTED_EMAIL_TEMPLATE';
+export const REMOVE_EMAIL_FROM_LIST = 'app/AgentDesktop/REMOVE_EMAIL_FROM_LIST';
 export const START_WARM_TRANSFERRING =
   'app/AgentDesktop/START_WARM_TRANSFERRING';
 export const TRANSFER_CANCELLED = 'app/AgentDesktop/TRANSFER_CANCELLED';

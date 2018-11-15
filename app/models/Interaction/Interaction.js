@@ -47,18 +47,21 @@ export default class Interaction {
       this.customer = customer;
     }
     if (channelType === 'email' && direction === 'agent-initiated') {
-      this.emailReply = new Map({
+      this.emailReply = fromJS({
         message: '',
-        tos: new List([
+        tos: [
           {
             address: customer,
             name: customer,
           },
-        ]),
-        ccs: new List(),
-        bccs: new List(),
-        subject: '',
-        attachments: new List(),
+        ],
+        ccs: [],
+        bccs: [],
+        subjectInput: '',
+        attachments: [],
+        toInput: '',
+        ccInput: '',
+        bccInput: '',
       });
     }
     this.isEnding = false;

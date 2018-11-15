@@ -1,3 +1,6 @@
+### [1.29.6] (2018-11-07)
+* CXV1-14946 - Refactor email inputs into smaller component, move state directly into redux
+
 ### [1.29.5] (2018-11-08)
 * CXV1-15615 - Script will not be displayed during a work offer, only before or after.
 

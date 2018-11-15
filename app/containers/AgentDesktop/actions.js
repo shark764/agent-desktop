@@ -559,6 +559,42 @@ export function setEmailAttachmentFetchingUrl(
   };
 }
 
+export function addEmailToList(interactionId, email, list, input) {
+  return {
+    type: ACTIONS.ADD_EMAIL_TO_LIST,
+    interactionId,
+    email,
+    list,
+    input,
+  };
+}
+
+export function updateEmailInput(interactionId, input, value) {
+  return {
+    type: ACTIONS.UPDATE_EMAIL_INPUT,
+    interactionId,
+    input,
+    value,
+  };
+}
+
+export function updateSelectedEmailTemplate(interactionId, selectedTemplate) {
+  return {
+    type: ACTIONS.UPDATE_SELECTED_EMAIL_TEMPLATE,
+    interactionId,
+    selectedTemplate,
+  };
+}
+
+export function removeEmailFromList(interactionId, index, list) {
+  return {
+    type: ACTIONS.REMOVE_EMAIL_FROM_LIST,
+    interactionId,
+    index,
+    list,
+  };
+}
+
 export function startWarmTransferring(interactionId, transferringTo) {
   return {
     type: ACTIONS.START_WARM_TRANSFERRING,
@@ -727,11 +763,11 @@ export function emailRemoveAttachment(interactionId, attachmentId) {
   };
 }
 
-export function emailUpdateReply(interactionId, reply) {
+export function emailUpdateReply(interactionId, message) {
   return {
     type: ACTIONS.EMAIL_UPDATE_REPLY,
     interactionId,
-    reply,
+    message,
   };
 }
 
