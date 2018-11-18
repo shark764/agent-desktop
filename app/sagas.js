@@ -14,6 +14,7 @@ import contactSagas from 'containers/ContactsControl/sagas';
 import contactSearchSagas from 'containers/ContactSearch/sagas';
 import agentScriptSagas from 'containers/AgentScript/sagas';
 import notificationPreferencesSagas from 'containers/AgentNotificationsMenu/sagas';
+import outboundIdentifierListSagas from 'containers/OutboundAniSelect/sagas';
 
 export default function* rootSaga() {
   const allSagas = [
@@ -27,6 +28,7 @@ export default function* rootSaga() {
     ...contactSearchSagas,
     ...agentScriptSagas,
     ...notificationPreferencesSagas,
+    ...outboundIdentifierListSagas,
   ];
   for (let i = 0; i < allSagas.length; i += 1) {
     yield fork(allSagas[i]);

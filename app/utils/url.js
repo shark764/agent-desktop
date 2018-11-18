@@ -12,9 +12,14 @@ import {
 } from '../containers/Login/constants';
 
 const toolbar = window.location.href.indexOf('desktop') === -1;
+const beta = window.location.href.indexOf('beta') !== -1;
 
 export function isToolbar() {
   return toolbar;
+}
+
+export function isBeta() {
+  return beta;
 }
 
 /*

@@ -1,3 +1,6 @@
+### [1.30.0] (2018-11-08)
+* CXV1-12476 - AD/TB2 - Outbound Identification - Include Outbound ANI list in new interaction panel for Voice
+
 ### [1.29.6] (2018-11-07)
 * CXV1-14946 - Refactor email inputs into smaller component, move state directly into redux
 

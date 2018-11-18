@@ -15,10 +15,13 @@ import Radium from 'radium';
 import { FormattedMessage } from 'react-intl';
 
 import { isValidNumber, isValidEmail } from 'utils/validator';
+import { isBeta } from 'utils/url';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import TextInput from 'components/TextInput';
+
+import OutboundAniSelect from 'containers/OutboundAniSelect';
 
 import OutboundEmailButton from 'containers/OutboundInteractionButton/OutboundEmailButton';
 import OutboundSmsButton from 'containers/OutboundInteractionButton/OutboundSmsButton';
@@ -26,6 +29,7 @@ import OutboundCallButton from 'containers/OutboundInteractionButton/OutboundCal
 
 import { setNewInteractionPanelFormInput } from 'containers/AgentDesktop/actions';
 import { selectNewInteractionPanel } from 'containers/AgentDesktop/selectors';
+import { getSelectedOutboundIdentifier } from 'containers/OutboundAniSelect/selectors';
 
 import messages from './messages';
 
@@ -88,10 +92,13 @@ export function NewInteractionForm(props) {
         autoFocus
       />
       <hr style={styles.hr} />
+      {isValidNumber(formatPhoneNumber(props.input)) &&
+        isBeta() && <OutboundAniSelect channelTypes={['voice']} />}
       {!isValidEmail(props.input) && (
         <OutboundCallButton phoneNumber={formatPhoneNumber(props.input)} />
       )}
-      {!isValidEmail(props.input) && (
+      {!isValidEmail(props.input) &&
+        props.selectedOutboundIdentifier === undefined && (
         <OutboundSmsButton phoneNumber={formatPhoneNumber(props.input)} />
       )}
       {!isValidNumber(formatPhoneNumber(props.input)) && (
@@ -106,6 +113,7 @@ function mapStateToProps(state, props) {
   return {
     input: newInteractionPanel.newInteractionFormInput,
     uriObject: newInteractionPanel.uriObject,
+    selectedOutboundIdentifier: getSelectedOutboundIdentifier(state, props),
   };
 }
 
@@ -123,6 +131,7 @@ NewInteractionForm.propTypes = {
     objectName: PropTypes.string,
   }),
   setNewInteractionPanelFormInput: PropTypes.func.isRequired,
+  selectedOutboundIdentifier: PropTypes.object,
 };
 
 export default ErrorBoundary(

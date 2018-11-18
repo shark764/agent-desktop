@@ -5,8 +5,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
 import Radium from 'radium';
 import { isValidNumber, isValidEmail } from 'utils/validator';
+import { isBeta } from 'utils/url';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
@@ -14,6 +16,9 @@ import Button from 'components/Button';
 import OutboundCallButton from 'containers/OutboundInteractionButton/OutboundCallButton';
 import OutboundSmsButton from 'containers/OutboundInteractionButton/OutboundSmsButton';
 import OutboundEmailButton from 'containers/OutboundInteractionButton/OutboundEmailButton';
+import OutboundAniSelect from 'containers/OutboundAniSelect';
+
+import { getSelectedOutboundIdentifier } from 'containers/OutboundAniSelect/selectors';
 
 import messages from './messages';
 
@@ -78,10 +83,13 @@ export class NoRecords extends React.Component {
         </div>
         {(this.getPhoneNumber() || this.getEmailAddress()) && (
           <div style={styles.outboundInteractionButtons}>
+            {this.getPhoneNumber() &&
+              isBeta() && <OutboundAniSelect channelTypes="voice" />}
             {this.getPhoneNumber() && (
               <OutboundCallButton phoneNumber={this.getPhoneNumber()} />
             )}
-            {this.getPhoneNumber() && (
+            {this.getPhoneNumber() &&
+              !this.props.getSelectedOutboundIdentifier && (
               <OutboundSmsButton phoneNumber={this.getPhoneNumber()} />
             )}
             {this.getEmailAddress() && (
@@ -108,6 +116,11 @@ export class NoRecords extends React.Component {
 NoRecords.propTypes = {
   query: PropTypes.object.isRequired,
   newContact: PropTypes.func.isRequired,
+  getSelectedOutboundIdentifier: PropTypes.object,
 };
 
-export default ErrorBoundary(Radium(NoRecords));
+const mapStateToProps = (state, props) => ({
+  getSelectedOutboundIdentifier: getSelectedOutboundIdentifier(state, props),
+});
+
+export default ErrorBoundary(connect(mapStateToProps)(Radium(NoRecords)));
