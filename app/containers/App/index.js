@@ -315,32 +315,21 @@ export class App extends React.Component {
           autoBreadcrumbs: {
             xhr: false,
           },
-          collectWindowErrors: false,
-          shouldSendCallback: () =>
-            !store.getState().hasIn(['errors', 'criticalError']),
+          shouldSendCallback: (data) => data.logError,
           dataCallback: (data) => {
             const dataWithState = Object.assign({}, data);
-            const state = window.store.getState().toJS();
             try {
+              const state = store.getState().toJS();
               delete state.login.agent.tenants;
               delete state.login.agent.accountTenants;
               delete state.sidePanel.contactAttributes;
-
-              dataWithState.extra.agentDesktopState = state.agentDesktop;
-              dataWithState.extra.contactsControlState = state.contactsControl;
-              dataWithState.extra.errors = state.errors;
-              dataWithState.extra.infoTab = state.infoTab;
-              dataWithState.extra.language = state.language;
-              dataWithState.extra.login = state.login;
-              dataWithState.extra.notificationPreferences =
-                state.notificationPreferences;
-              dataWithState.extra.sidePanel = state.sidePanel;
-              dataWithState.extra.toolbar = state.toolbar;
-              dataWithState.extra.transferMenu = state.transferMenu;
+              dataWithState.extra = state;
             } catch (error) {
-              Raven.captureException(error);
+              Raven.captureException(error, {
+                logError: true,
+                tags: { type: 'storeError' },
+              });
             }
-
             return dataWithState;
           },
         }
@@ -398,12 +387,20 @@ export class App extends React.Component {
     Raven.setTagsContext({ sdkVersion: CxEngage.version });
 
     window.onerror = (errorMsg, url, lineNumber, column, errorObj) => {
-      if (url.includes('https://sdk.cxengage.net/js/agent')) {
-        Raven.captureException(errorObj, {
-          tags: {
-            type: 'sdk',
-          },
-        });
+      // Log error if the url in first line of the stack trace is the SDK
+      if (errorObj && errorObj.stack) {
+        const errorStackArray = errorObj.stack.split('\n', 2);
+        if (
+          errorStackArray.length === 2 &&
+          errorStackArray[1].includes('https://sdk.cxengage.net/js/agent')
+        ) {
+          Raven.captureException(errorObj, {
+            tags: {
+              type: 'sdk',
+            },
+            logError: true,
+          });
+        }
       }
     };
 

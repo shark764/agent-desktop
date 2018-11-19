@@ -1,3 +1,6 @@
+### [1.31.5] (2018-11-19)
+* CXV1-16059 - Fixed window errors being logged to sentry.
+
 ### [1.31.4] (2018-11-21) 
 * CXV1-12476 - AD/TB2 - Outbound Identification - Include Outbound ANI list in new interaction panel for Voice fixed outbound ANI toolbar
 

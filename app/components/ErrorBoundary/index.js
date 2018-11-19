@@ -14,6 +14,7 @@ import Raven from 'raven-js';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { store } from 'store';
 
 import { setCriticalError } from 'containers/Errors/actions';
 
@@ -29,6 +30,7 @@ export default function ErrorBoundary(WrappedComponent) {
       this.setState({ error });
       Raven.captureException(error, {
         extra: info,
+        logError: !store.getState().hasIn(['errors', 'criticalError']),
       });
       this.props.setCriticalError();
     }

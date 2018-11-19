@@ -4,7 +4,7 @@
 
 import Raven from 'raven-js';
 import { setCriticalError } from 'containers/Errors/actions';
-const errorHandler = (error, action, dispatch) => {
+const errorHandler = (error, action, dispatch, state) => {
   Raven.captureException(error, {
     extra: {
       action,
@@ -12,6 +12,7 @@ const errorHandler = (error, action, dispatch) => {
     tags: {
       type: 'redux',
     },
+    logError: !state.hasIn(['errors', 'criticalError']),
   });
   dispatch(setCriticalError(error));
   console.error(error);
