@@ -1,3 +1,6 @@
+### [1.32.3] (2018-11-20)
+* CXV1-16005 - AD/TB2 - Outbound Identification - Unit tests
+
 ### [1.32.2] (2018-11-23)
 * CXV1-12477 - Each Outbound interaction should display the Outbound Id (Fixed some errors with script-only interactions)
 

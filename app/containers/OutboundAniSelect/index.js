@@ -48,34 +48,31 @@ export class OutboundAniSelect extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  selectOutboundIdentifierListsForChannel: selectOutboundIdentifierListsForChannel(
-    state,
-    props
-  ),
-  getSelectedOutboundIdentifier: getSelectedOutboundIdentifier(state, props),
-});
-
-function mapDispatchToProps(dispatch) {
+export function mapStateToProps(state, props) {
   return {
-    fetchOutboundIdentifierLists: () =>
-      dispatch(fetchOutboundIdentifierLists()),
-    selectOutboundIdentification: (outboundId) =>
-      dispatch(selectOutboundIdentification(outboundId)),
-    dispatch,
+    selectOutboundIdentifierListsForChannel: selectOutboundIdentifierListsForChannel(
+      state,
+      props
+    ),
+    getSelectedOutboundIdentifier: getSelectedOutboundIdentifier(state, props),
   };
 }
+
+export const actions = {
+  fetchOutboundIdentifierLists,
+  selectOutboundIdentification,
+};
 
 OutboundAniSelect.propTypes = {
   selectOutboundIdentifierListsForChannel: PropTypes.array.isRequired,
   selectOutboundIdentification: PropTypes.func.isRequired,
-  getSelectedOutboundIdentifier: PropTypes.object.isRequired,
+  getSelectedOutboundIdentifier: PropTypes.object,
   fetchOutboundIdentifierLists: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(
   connect(
     mapStateToProps,
-    mapDispatchToProps
+    actions
   )(Radium(OutboundAniSelect))
 );
