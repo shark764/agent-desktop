@@ -69,7 +69,6 @@ pipeline {
       steps {
         sh 'echo "Stage Description: Builds the production version of the app"'
         sh "docker exec ${docker_tag} npm run build"
-        sh "docker exec ${docker_tag} mv app/assets/favicons/favicon.ico build/favicon.ico"
         sh "docker exec ${docker_tag} mv app/config_pr.json build/config_pr.json"
         sh "docker cp ${docker_tag}:/home/node/app/build ."
       }

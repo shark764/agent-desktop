@@ -155,6 +155,7 @@ export class ActionsMenu extends React.Component {
                 interactionId={this.props.interaction.interactionId}
                 setShowTransferMenu={this.toggleSubMenu}
                 nonVoice
+                style={{ height: 'calc(100vh - 214px)' }}
               />
             )}
             {this.props.interaction.channelType !== 'voice' &&
