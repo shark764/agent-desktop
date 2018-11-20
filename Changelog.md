@@ -1,27 +1,30 @@
-### [1.31.1] (2018-11-15)
+### [1.31.2] (2018-11-20)
+* CXV1-16109 - Revert CXV1-15320 (offline polling)
+
+### [1.31.1] (2018-11-15) (Broken: CXV1-15320)
 * CXV1-15887 - Fixed transfer menu height to scale with window height
 * (no ticket) - Fixed missing manifest error
 * (no ticket) - Updated favicon upload
 
-### [1.31.0] (2018-11-09)
+### [1.31.0] (2018-11-09) (Broken: CXV1-15320)
 * CXV1-15533 && CXV1-15546 - Collpase and Expand options under Transfer screen & save the status to local storage
 
-### [1.30.0] (2018-11-08)
+### [1.30.0] (2018-11-08) (Broken: CXV1-15320)
 * CXV1-12476 - AD/TB2 - Outbound Identification - Include Outbound ANI list in new interaction panel for Voice
 
-### [1.29.6] (2018-11-07)
+### [1.29.6] (2018-11-07) (Broken: CXV1-15320)
 * CXV1-14946 - Refactor email inputs into smaller component, move state directly into redux
 
-### [1.29.5] (2018-11-08)
+### [1.29.5] (2018-11-08) (Broken: CXV1-15320)
 * CXV1-15615 - Script will not be displayed during a work offer, only before or after.
 
-### [1.29.4] (2018-01-08)
+### [1.29.4] (2018-01-08) (Broken: CXV1-15320)
 * CXV1-15438 - SDK bump to return "interaction-fatal" error when their requests 404 on applicable 4xxx error codes
 
-### [1.29.3] (2018-11-08)
+### [1.29.3] (2018-11-08) (Broken: CXV1-15320)
 * CXV1-15964 - Customer hold button doesn't show up after (cold) transferring an outbound voice interaction
 
-### [1.29.2] (2018-11-07)
+### [1.29.2] (2018-11-07) (Broken: CXV1-15320)
 * CXV1-15960 - Updated how queue time stat subscriptions are added so it will not crash when there are >1000 queues
 
 ### [1.29.1] (2018-11-01) (Broken: CXV1-15948/CXV1-15960)

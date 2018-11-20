@@ -172,7 +172,7 @@ import sdkLogTopics from './sdkLogTopics';
 export class App extends React.Component {
   componentWillUnmount() {
     clearInterval(this.cacheCheckInterval);
-    clearInterval(this.pingInterval);
+    // clearInterval(this.pingInterval);
   }
 
   componentWillMount() {
@@ -183,8 +183,8 @@ export class App extends React.Component {
       this.init();
     } else {
       this.loadConf();
-      this.ping();
-      this.pingInterval = setInterval(this.ping, 1000);
+      // this.ping();
+      // this.pingInterval = setInterval(this.ping, 1000);
       this.cacheCheckInterval = setInterval(this.loadConf, 300000); // Cache busting version check every 5min
     }
 
