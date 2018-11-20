@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { isValidNumber } from 'utils/validator';
+import { isPossibleNumber } from 'utils/validator';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
@@ -17,12 +17,12 @@ import messages from './messages';
 
 export class OutboundCallButton extends React.Component {
   isEnabled = () =>
-    !this.props.hasVoiceInteraction && isValidNumber(this.props.phoneNumber);
+    !this.props.hasVoiceInteraction && isPossibleNumber(this.props.phoneNumber);
 
   getTitle = () => {
     if (this.props.hasVoiceInteraction) {
       return messages.voiceInteractionAlreadyExists;
-    } else if (!isValidNumber(this.props.phoneNumber)) {
+    } else if (!isPossibleNumber(this.props.phoneNumber)) {
       return messages.enterValidPhone;
     } else {
       return this.props.phoneNumber;

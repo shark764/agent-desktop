@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import Radium from 'radium';
 import { FormattedMessage } from 'react-intl';
 
-import { isValidNumber, isValidEmail } from 'utils/validator';
+import { isPossibleNumber, isValidNumber, isValidEmail } from 'utils/validator';
 import { isBeta } from 'utils/url';
 
 import ErrorBoundary from 'components/ErrorBoundary';
@@ -55,17 +55,23 @@ const styles = {
 
 const formatPhoneNumber = (input) => {
   const formattedInput = input.replace(/\D+/g, '');
-  if (/([()-])+/.test(input)) {
-    // If the number is formatted with parentheses and a dash (ex "(506) 123-4567"), pre-pend the "1"
-    return `+1${input.replace(/\D+/g, '')}`;
-  } else if (isValidNumber(`+${formattedInput}`)) {
+  if (isValidNumber(`+${formattedInput}`)) {
     // Check if it's a valid number
     return `+${formattedInput}`;
   } else if (isValidNumber(`+1${formattedInput}`)) {
     // Check if it's valid with "1" pre-pended
-    return `+1${input.replace(/\D+/g, '')}`;
+    return `+1${formattedInput}`;
   } else if (isValidNumber(`+44${formattedInput}`)) {
     // Check if it's valid with "44" pre-pended
+    return `+44${formattedInput}`;
+  } else if (isPossibleNumber(`+${formattedInput}`)) {
+    // Check if it's a possible number
+    return `+${formattedInput}`;
+  } else if (isPossibleNumber(`+1${formattedInput}`)) {
+    // Check if it's possible number with "1" pre-pended
+    return `+1${formattedInput}`;
+  } else if (isPossibleNumber(`+44${formattedInput}`)) {
+    // Check if it's possible number with "44" pre-pended
     return `+44${formattedInput}`;
   } else {
     return formattedInput;
@@ -92,7 +98,7 @@ export function NewInteractionForm(props) {
         autoFocus
       />
       <hr style={styles.hr} />
-      {isValidNumber(formatPhoneNumber(props.input)) &&
+      {isPossibleNumber(formatPhoneNumber(props.input)) &&
         isBeta() && <OutboundAniSelect channelTypes={['voice']} />}
       {!isValidEmail(props.input) && (
         <OutboundCallButton phoneNumber={formatPhoneNumber(props.input)} />
@@ -101,7 +107,7 @@ export function NewInteractionForm(props) {
         props.selectedOutboundIdentifier === undefined && (
         <OutboundSmsButton phoneNumber={formatPhoneNumber(props.input)} />
       )}
-      {!isValidNumber(formatPhoneNumber(props.input)) && (
+      {!isPossibleNumber(formatPhoneNumber(props.input)) && (
         <OutboundEmailButton email={props.input} />
       )}
     </div>

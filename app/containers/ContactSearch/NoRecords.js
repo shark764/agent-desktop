@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import Radium from 'radium';
-import { isValidNumber, isValidEmail } from 'utils/validator';
+import { isPossibleNumber, isValidEmail } from 'utils/validator';
 import { isBeta } from 'utils/url';
 
 import ErrorBoundary from 'components/ErrorBoundary';
@@ -53,11 +53,11 @@ export class NoRecords extends React.Component {
     // If we only have one key that's value is a valid phone number, use it
     if (Object.keys(this.props.query).length === 1) {
       const phoneNumber = this.props.query[Object.keys(this.props.query)[0]];
-      if (isValidNumber(phoneNumber)) {
+      if (isPossibleNumber(phoneNumber)) {
         return phoneNumber;
-      } else if (isValidNumber(`+${phoneNumber}`)) {
+      } else if (isPossibleNumber(`+${phoneNumber}`)) {
         return `+${phoneNumber}`;
-      } else if (isValidNumber(`+1${phoneNumber}`)) {
+      } else if (isPossibleNumber(`+1${phoneNumber}`)) {
         return `+1${phoneNumber}`;
       }
     }

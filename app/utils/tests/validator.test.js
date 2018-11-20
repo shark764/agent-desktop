@@ -2,7 +2,12 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
-import { isValidNumber, isValidEmail, isUUID } from '../validator';
+import {
+  isPossibleNumber,
+  isValidNumber,
+  isValidEmail,
+  isUUID,
+} from '../validator';
 
 describe('validator', () => {
   describe('isValidNumber', () => {
@@ -11,6 +16,14 @@ describe('validator', () => {
     });
     it('returns false for invalid E164 numbers', () => {
       expect(isValidNumber('15064701234')).toEqual(false);
+    });
+  });
+  describe('isPossibleNumber', () => {
+    it('returns true for valid E164 numbers', () => {
+      expect(isPossibleNumber('+15064701234')).toEqual(true);
+    });
+    it('returns false for invalid E164 numbers', () => {
+      expect(isPossibleNumber('15064701234')).toEqual(false);
     });
   });
   describe('isValidEmail', () => {
