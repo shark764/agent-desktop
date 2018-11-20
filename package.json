@@ -24,15 +24,15 @@
     "start:production": "npm run build && npm run start:prod",
     "start:prod": "cross-env NODE_ENV=production node server",
     "generate": "plop --plopfile internals/generators/index.js",
-    "lint": "eslint --ignore-path .eslintignore .",
+    "lint": "eslint --ignore-pattern **/assets/*.js app",
     "lint:staged": "lint-staged",
-    "pretest": "npm run test:clean && npm run lint",
+    "pretest": "npm run test:clean",
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=test jest --coverage",
     "test:file": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
     "zendesk": "bash tasks/zendesk.sh",
-    "precommit": "npm run lint:staged && npm run test"
+    "precommit": "npm run lint:staged && npm run lint && npm run test"
   },
   "lint-staged": {
     "*.js": [

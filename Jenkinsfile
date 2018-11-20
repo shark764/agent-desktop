@@ -41,31 +41,55 @@ node(){
 pipeline {
   agent any
   stages {
-    stage ('Set build version') {
-      steps {
-        sh 'echo "Stage Description: Set build version from package.json"'
-        script {
-          n.export()
-          build_version = readFile('version')
+    stage ('Setup') {
+      parallel {
+        stage ('Set build version') {
+          steps {
+            sh 'echo "Stage Description: Set build version from package.json"'
+            script {
+              n.export()
+              build_version = readFile('version')
+            }
+          }
+        }
+        stage ('Setup Docker') {
+          steps {
+            sh 'echo "Stage Description: Sets up docker image for use in the next stages"'
+            sh "mkdir build -p"
+            sh "docker build -t ${docker_tag} -f Dockerfile-build ."
+            sh "docker run --rm -t -d --name=${docker_tag} ${docker_tag}"
+          }
         }
       }
     }
-    stage ('Setup Docker') {
-      steps {
-        sh 'echo "Stage Description: Sets up docker image for use in the next stages"'
-        sh "mkdir build -p"
-        sh "docker build -t ${docker_tag} -f Dockerfile-build ."
-        sh "docker run --rm -t -d --name=${docker_tag} ${docker_tag}"
-      }
-    }
-    stage ('Unit Testing') {
+    stage ('Test and build') {
       when { changeRequest() }
-      steps {
-        sh 'echo "Stage Description: Lints and runs the unit tests of the project"'
-        sh "docker exec ${docker_tag} npm run test"
+      parallel {
+        stage ('Unit Testing') {
+          steps {
+            sh 'echo "Stage Description: Runs the unit tests of the project"'
+            sh "docker exec ${docker_tag} npm run test"
+          }
+        }
+        stage ('Lint') {
+          steps {
+            sh 'echo "Stage Description: Lints the project"'
+            sh "docker exec ${docker_tag} npm run lint"
+          }
+        }
+        stage ('Build') {
+          steps {
+            sh 'echo "Stage Description: Builds the production version of the app"'
+            sh "docker exec ${docker_tag} npm run build"
+            sh "docker exec ${docker_tag} mv app/assets/favicons/favicon.ico build/favicon.ico"
+            sh "docker exec ${docker_tag} mv app/config_pr.json build/config_pr.json"
+            sh "docker cp ${docker_tag}:/home/node/app/build ."
+          }
+        }
       }
     }
     stage ('Build') {
+      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'}}
       steps {
         sh 'echo "Stage Description: Builds the production version of the app"'
         sh "docker exec ${docker_tag} npm run build"
@@ -139,7 +163,7 @@ pipeline {
       }
     }
     stage ('Push new tag'){
-      when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
+      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'}}
       steps {
         git url: "git@github.com:SerenovaLLC/${service}"
         script {
@@ -152,7 +176,7 @@ pipeline {
       }
     }
     stage ('Upload source maps') {
-      when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
+      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'}}
       environment {
         sentry_api_key = credentials('sentry-token')
       }
@@ -163,14 +187,14 @@ pipeline {
       }
     }
     stage ('Push to S3') {
-      when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
+      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'}}
       steps {
         sh 'echo "Stage Description: Pushes build files to S3"'
         sh "aws s3 sync build/ s3://cxengagelabs-jenkins/frontend/${service}/${build_version}/ --exclude \"*.js.map\" --delete"
       }
     }
     stage ('Deploy') {
-      when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
+      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'}}
       steps {
         build job: 'Deploy - Front-End', parameters: [
             [$class: 'StringParameterValue', name: 'Service', value: 'Agent-Desktop'],
