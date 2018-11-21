@@ -1,3 +1,6 @@
+### [1.31.3] (2018-11-20)
+* CXV1-15868 - Click to dial is adding an extra 1 at the start when using hyphens in the number
+
 ### [1.31.2] (2018-11-20)
 * CXV1-16109 - Revert CXV1-15320 (offline polling)
 

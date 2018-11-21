@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { isValidNumber } from 'utils/validator';
+import { isPossibleNumber } from 'utils/validator';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
@@ -17,11 +17,11 @@ import messages from './messages';
 
 export class OutboundSmsButton extends React.Component {
   isEnabled = () =>
-    isValidNumber(this.props.phoneNumber) &&
+    isPossibleNumber(this.props.phoneNumber) &&
     !this.props.smsInteractionNumbers.includes(this.props.phoneNumber);
 
   getTitle = () => {
-    if (!isValidNumber(this.props.phoneNumber)) {
+    if (!isPossibleNumber(this.props.phoneNumber)) {
       return messages.enterValidPhone;
     } else if (
       this.props.smsInteractionNumbers.includes(this.props.phoneNumber)

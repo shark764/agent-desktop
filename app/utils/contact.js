@@ -2,7 +2,7 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
-import { isValidEmail, isValidNumber } from 'utils/validator';
+import { isValidEmail, isPossibleNumber } from 'utils/validator';
 import isURL from 'validator/lib/isURL';
 
 export const formatValue = (attributeToValidate, value) => {
@@ -40,7 +40,7 @@ export const getError = (attributeToValidate, value) => {
         break;
       case 'phone':
         try {
-          if (!isValidNumber(value)) {
+          if (!isPossibleNumber(value)) {
             error = 'errorPhone';
           }
         } catch (e) {
