@@ -104,7 +104,7 @@ export function NewInteractionForm(props) {
         <OutboundCallButton phoneNumber={formatPhoneNumber(props.input)} />
       )}
       {!isValidEmail(props.input) &&
-        props.selectedOutboundIdentifier === undefined && (
+        !props.selectedOutboundIdentifier && (
         <OutboundSmsButton phoneNumber={formatPhoneNumber(props.input)} />
       )}
       {!isPossibleNumber(formatPhoneNumber(props.input)) && (
