@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransferMenu reducer tests returns initial state 1`] = `
+Immutable.Map {
+  "resourceCapacity": undefined,
+  "users": undefined,
+  "transferLists": Immutable.List [
+    "loading",
+  ],
+  "queuesListVisibleState": undefined,
+  "agentsListVisibleState": undefined,
+  "transferListsVisibleState": Immutable.Map {},
+}
+`;
+
+exports[`TransferMenu reducer tests sets agentsListVisibleState 1`] = `
+Immutable.Map {
+  "resourceCapacity": undefined,
+  "users": undefined,
+  "transferLists": Immutable.List [
+    "loading",
+  ],
+  "queuesListVisibleState": undefined,
+  "agentsListVisibleState": true,
+  "transferListsVisibleState": Immutable.Map {},
+}
+`;
+
+exports[`TransferMenu reducer tests sets queuesListVisibleState 1`] = `
+Immutable.Map {
+  "resourceCapacity": undefined,
+  "users": undefined,
+  "transferLists": Immutable.List [
+    "loading",
+  ],
+  "queuesListVisibleState": true,
+  "agentsListVisibleState": undefined,
+  "transferListsVisibleState": Immutable.Map {},
+}
+`;
+
+exports[`TransferMenu reducer tests sets transferLists 1`] = `
+Immutable.Map {
+  "resourceCapacity": undefined,
+  "users": undefined,
+  "transferLists": Immutable.List [
+    Immutable.Map {
+      "mockTransferListKey": "mockTransferListValue",
+    },
+  ],
+  "queuesListVisibleState": undefined,
+  "agentsListVisibleState": undefined,
+  "transferListsVisibleState": Immutable.Map {},
+}
+`;
+
+exports[`TransferMenu reducer tests sets transferListsListVisibleState 1`] = `
+Immutable.Map {
+  "resourceCapacity": undefined,
+  "users": undefined,
+  "transferLists": Immutable.List [
+    "loading",
+  ],
+  "queuesListVisibleState": undefined,
+  "agentsListVisibleState": undefined,
+  "transferListsVisibleState": Immutable.Map {
+    "mockTransferListHiddenState": "mockValueTrue",
+  },
+}
+`;
