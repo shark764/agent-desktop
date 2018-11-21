@@ -1,3 +1,6 @@
+### [1.31.4] (2018-11-21) 
+* CXV1-12476 - AD/TB2 - Outbound Identification - Include Outbound ANI list in new interaction panel for Voice fixed outbound ANI toolbar
+
 ### [1.31.3] (2018-11-20)
 * CXV1-15868 - Click to dial is adding an extra 1 at the start when using hyphens in the number
 
