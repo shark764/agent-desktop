@@ -1,3 +1,6 @@
+### [1.32.4] (2018-11-22)
+* CXV1-15320 - Show that the user is currently offline instead of error banners (Re-done because we're changing the approach)
+
 ### [1.32.3] (2018-11-20)
 * CXV1-16005 - AD/TB2 - Outbound Identification - Unit tests
 
