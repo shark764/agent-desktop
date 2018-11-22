@@ -15,12 +15,14 @@ import reducer from './reducers';
 import rootSaga from './sagas';
 import watchers from './watchers';
 
-export let store; //eslint-disable-line
+export let store; // eslint-disable-line import/no-mutable-exports
 
 const sagaMiddleware = createSagaMiddleware({
   onError: (error) => {
     console.error(error);
-    Raven.captureException(error);
+    Raven.captureException(error, {
+      logError: !store.getState().hasIn(['errors', 'criticalError']),
+    });
     store.dispatch(setCriticalError());
   },
 });

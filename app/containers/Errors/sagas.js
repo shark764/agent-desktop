@@ -4,6 +4,7 @@
 
 import Raven from 'raven-js';
 import { takeEvery, put, select } from 'redux-saga/effects';
+import { store } from 'store';
 
 import { setCRMUnavailable } from 'containers/InfoTab/actions';
 import {
@@ -42,6 +43,7 @@ export function* goHandleSDKError(action) {
         extra: {
           kibanaLogs: error.data.logs,
         },
+        logError: !store.getState().hasIn(['errors', 'criticalError']),
       }
     );
     return;
