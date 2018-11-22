@@ -25,6 +25,7 @@ export default class Interaction {
     timeAccepted,
     callbackRequest,
     popUri,
+    outboundAni,
   }) {
     if (channelType === 'voice') {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
@@ -129,6 +130,17 @@ export default class Interaction {
     this.notifications = notifications;
     if (popUri) {
       this.popUri = popUri;
+    }
+    if (outboundAni) {
+      this.customFields = fromJS([
+        {
+          id: 'outboundAniLabel',
+          isLocalized: true,
+          value: `${outboundAni.label} (${outboundAni.outboundIdentifier})`,
+        },
+      ]);
+    } else {
+      this.customFields = fromJS([]);
     }
   }
 }

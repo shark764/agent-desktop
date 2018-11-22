@@ -1,3 +1,6 @@
+### [1.32.0] (2018-11-15)
+* CXV1-12477 - Each Outbound interaction should display the Outbound Id
+
 ### [1.31.5] (2018-11-19)
 * CXV1-16059 - Fixed window errors being logged to sentry.
 
