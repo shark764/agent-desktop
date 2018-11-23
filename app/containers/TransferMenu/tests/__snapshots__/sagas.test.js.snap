@@ -1,0 +1,504 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`callTransferListsAndUpdateState when transferListsHiddenState not saved in localStorage calls the promise util with the SDK getTransferLists function to get the active transferLists 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "getTransferListsFunction",
+        "",
+        "TransferMenu",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`callTransferListsAndUpdateState when transferListsHiddenState not saved in localStorage gets localStorage properties that are used to set transferListHiddenState 1`] = `
+Array [
+  Array [
+    "transferListHiddenState-mockTransferListId-tenantId-agentId",
+  ],
+]
+`;
+
+exports[`callTransferListsAndUpdateState when transferListsHiddenState not saved in localStorage selects tenant and agent id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "ALL": Array [
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`callTransferListsAndUpdateState when transferListsHiddenState not saved in localStorage sets transferLists state by dispatching getAndSetTransferLists action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "transferLists": Array [
+          Object {
+            "endpoints": Array [
+              Object {
+                "endpoint": "mockEndPointId",
+                "hierarchy": "mockHierarchyTitle",
+                "name": "mockHierarchyName",
+              },
+            ],
+            "id": "mockTransferListId",
+            "name": "mockTransferListName",
+          },
+        ],
+        "type": "app/TransferMenu/SET_TRANSFER_LISTS",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`callTransferListsAndUpdateState when transferListsHiddenState not saved in localStorage sets transferListsVisibleState to true by dispatching setTransferListsVisibleState action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "transferListsVisibleState": Object {
+          "mockTransferListId": true,
+        },
+        "type": "app/TransferMenu/SET_TRANSFER_LIST_VISIBLE_STATE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`callTransferListsAndUpdateState when transferListsHiddenState saved in localStorage calls the promise util with the SDK getTransferLists function to get the active transferLists 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "getTransferListsFunction",
+        "",
+        "TransferMenu",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`callTransferListsAndUpdateState when transferListsHiddenState saved in localStorage gets localStorage properties that are used to set transferListHiddenState 1`] = `
+Array [
+  Array [
+    "transferListHiddenState-mockTransferListId-tenantId-agentId",
+  ],
+]
+`;
+
+exports[`callTransferListsAndUpdateState when transferListsHiddenState saved in localStorage selects tenant and agent id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "ALL": Array [
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`callTransferListsAndUpdateState when transferListsHiddenState saved in localStorage sets transferLists state by dispatching getAndSetTransferLists action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "transferLists": Array [
+          Object {
+            "endpoints": Array [
+              Object {
+                "endpoint": "mockEndPointId",
+                "hierarchy": "mockHierarchyTitle",
+                "name": "mockHierarchyName",
+              },
+            ],
+            "id": "mockTransferListId",
+            "name": "mockTransferListName",
+          },
+        ],
+        "type": "app/TransferMenu/SET_TRANSFER_LISTS",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`callTransferListsAndUpdateState when transferListsHiddenState saved in localStorage sets transferListsVisibleState to false by dispatching setTransferListsVisibleState action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "transferListsVisibleState": Object {
+          "mockTransferListId": false,
+        },
+        "type": "app/TransferMenu/SET_TRANSFER_LIST_VISIBLE_STATE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`changeAgentsListVisibleState collpase/expand agentsList Transfer options selects tenant-id, agent-id and previous agentsListVisibleState 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "ALL": Array [
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`changeAgentsListVisibleState collpase/expand agentsList Transfer options updates agentsListVisibleState to false by dispatching setAgentsListVisibleState 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "agentsListVisibleState": false,
+        "type": "app/TransferMenu/SET_AGENTS_LIST_VISIBLE_STATE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`changeAgentsListVisibleState collpase/expand agentsList Transfer options updates localStorage with agentsListVisibleState set to false 1`] = `
+Array [
+  Array [
+    "agentsListVisibleState-tenantId-agentId",
+    false,
+  ],
+]
+`;
+
+exports[`changeQueuesListVisibleState collpase/expand queuesList Transfer options selects tenant-id, agent-id and previous queuesListVisibleState 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "ALL": Array [
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`changeQueuesListVisibleState collpase/expand queuesList Transfer options updates localStorage with queuesListVisibleState set to false 1`] = `
+Array [
+  Array [
+    "queuesListVisibleState-tenantId-agentId",
+    false,
+  ],
+]
+`;
+
+exports[`changeQueuesListVisibleState collpase/expand queuesList Transfer options updates queuesListVisibleState to false by dispatching setQueuesListVisibleState 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "queuesListVisibleState": false,
+        "type": "app/TransferMenu/SET_QUEUES_LIST_VISIBLE_STATE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`changeTransferListVisibleState collpase/expand transferLists Transfer options selects tenant-id, agent-id and previous transferListVisibleState 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "ALL": Array [
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`changeTransferListVisibleState collpase/expand transferLists Transfer options updates localStorage with transferListVisibleState set to false 1`] = `
+Array [
+  Array [
+    "transferListHiddenState-mockTransferListId-tenantId-agentId",
+    false,
+  ],
+]
+`;
+
+exports[`changeTransferListVisibleState collpase/expand transferLists Transfer options updates transferListVisibleState to false by dispatching setTransferListsVisibleState 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "transferListsVisibleState": Object {
+          "mockTransferListId": false,
+        },
+        "type": "app/TransferMenu/SET_TRANSFER_LIST_VISIBLE_STATE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`setAgentsQueuesInitialVisibleState when queuesListHiddenState and agentsListHiddenState not saved in localStorage gets localStorage properties that are used to set queuesListVisibleState and agentsListVisibleState 1`] = `
+Array [
+  Array [
+    "queuesListVisibleState-tenantId-agentId",
+  ],
+  Array [
+    "agentsListVisibleState-tenantId-agentId",
+  ],
+]
+`;
+
+exports[`setAgentsQueuesInitialVisibleState when queuesListHiddenState and agentsListHiddenState not saved in localStorage selects tenant and agent id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "ALL": Array [
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`setAgentsQueuesInitialVisibleState when queuesListHiddenState and agentsListHiddenState not saved in localStorage sets agentsListVisibleState to true by dispatching setAgentsListVisibleState action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "agentsListVisibleState": true,
+        "type": "app/TransferMenu/SET_AGENTS_LIST_VISIBLE_STATE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`setAgentsQueuesInitialVisibleState when queuesListHiddenState and agentsListHiddenState not saved in localStorage sets queuesListVisibleState to true by dispatching setQueuesListVisibleState action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "queuesListVisibleState": true,
+        "type": "app/TransferMenu/SET_QUEUES_LIST_VISIBLE_STATE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`setAgentsQueuesInitialVisibleState when queuesListHiddenState and agentsListHiddenState saved in localStorage gets localStorage properties that are used to set queuesListVisibleState and agentsListVisibleState 1`] = `
+Array [
+  Array [
+    "queuesListVisibleState-tenantId-agentId",
+  ],
+  Array [
+    "agentsListVisibleState-tenantId-agentId",
+  ],
+]
+`;
+
+exports[`setAgentsQueuesInitialVisibleState when queuesListHiddenState and agentsListHiddenState saved in localStorage selects tenant and agent id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "ALL": Array [
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`setAgentsQueuesInitialVisibleState when queuesListHiddenState and agentsListHiddenState saved in localStorage sets agentsListVisibleState to false by dispatching setAgentsListVisibleState action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "agentsListVisibleState": false,
+        "type": "app/TransferMenu/SET_AGENTS_LIST_VISIBLE_STATE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`setAgentsQueuesInitialVisibleState when queuesListHiddenState and agentsListHiddenState saved in localStorage sets queuesListVisibleState to false by dispatching setQueuesListVisibleState action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "queuesListVisibleState": false,
+        "type": "app/TransferMenu/SET_QUEUES_LIST_VISIBLE_STATE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;

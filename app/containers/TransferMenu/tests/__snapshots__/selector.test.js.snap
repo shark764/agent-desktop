@@ -58,3 +58,17 @@ Array [
   },
 ]
 `;
+
+exports[`selectTransferLists when transferLists exists in the tenant 1`] = `
+Array [
+  Object {
+    "mockTransferList": "mockTransferListValue",
+  },
+]
+`;
+
+exports[`selectTransferListsVisibleState when transferListsVisibleState is defined 1`] = `
+Object {
+  "transferListHiddenState-mockListId": "false",
+}
+`;

@@ -1,6 +1,12 @@
 import { fromJS } from 'immutable';
 
-import { selectAgents } from '../selectors';
+import {
+  selectAgents,
+  selectTransferLists,
+  selectQueuesListVisibleState,
+  selectAgentsListVisibleState,
+  selectTransferListsVisibleState,
+} from '../selectors';
 
 describe('selectAgents', () => {
   describe('batch requests are successful', () => {
@@ -172,5 +178,55 @@ describe('selectAgents', () => {
         ).toBe(undefined);
       });
     });
+  });
+});
+
+describe('selectTransferLists', () => {
+  it('when transferLists exists in the tenant', () => {
+    const state = fromJS({
+      transferMenu: {
+        transferLists: [
+          {
+            mockTransferList: 'mockTransferListValue',
+          },
+        ],
+      },
+    });
+    expect(selectTransferLists(state)).toMatchSnapshot();
+  });
+});
+
+describe('selectQueuesListVisibleState', () => {
+  it('when queuesListVisibleState is defined', () => {
+    const state = fromJS({
+      transferMenu: {
+        queuesListVisibleState: true,
+      },
+    });
+    expect(selectQueuesListVisibleState(state)).toBe(true);
+  });
+});
+
+describe('selectAgentsListVisibleState', () => {
+  it('when agentsListVisibleState is defined', () => {
+    const state = fromJS({
+      transferMenu: {
+        agentsListVisibleState: true,
+      },
+    });
+    expect(selectAgentsListVisibleState(state)).toBe(true);
+  });
+});
+
+describe('selectTransferListsVisibleState', () => {
+  it('when transferListsVisibleState is defined', () => {
+    const state = fromJS({
+      transferMenu: {
+        transferListsVisibleState: {
+          'transferListHiddenState-mockListId': 'false',
+        },
+      },
+    });
+    expect(selectTransferListsVisibleState(state)).toMatchSnapshot();
   });
 });
