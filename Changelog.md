@@ -1,3 +1,6 @@
+### [1.32.2] (2018-11-23)
+* CXV1-12477 - Each Outbound interaction should display the Outbound Id (Fixed some errors with script-only interactions)
+
 ### [1.32.1] (2018-11-21)
 * CXV1-16001 Unit tests for transfer menu collapse/expand
 
