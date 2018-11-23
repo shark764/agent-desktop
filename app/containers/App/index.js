@@ -183,8 +183,6 @@ export class App extends React.Component {
       this.init();
     } else {
       this.loadConf();
-      // this.ping();
-      // this.pingInterval = setInterval(this.ping, 1000);
       this.cacheCheckInterval = setInterval(this.loadConf, 300000); // Cache busting version check every 5min
     }
 
@@ -193,6 +191,9 @@ export class App extends React.Component {
         e.returnValue = true;
       }
     });
+
+    window.addEventListener('online', this.setOnlineStatus);
+    window.addEventListener('offline', this.setOnlineStatus);
 
     if (
       !isIeEleven() &&
@@ -204,26 +205,13 @@ export class App extends React.Component {
     }
   }
 
-  ping = () => {
-    const relativeUrl = window.location.href.substr(
-      0,
-      window.location.href.lastIndexOf('/')
-    );
-    axios({
-      method: 'get',
-      url: `${relativeUrl}/config.json?t=${Date.now()}`,
-    })
-      .then(() => {
-        if (!this.props.agentDesktop.isOnline) {
-          this.props.dismissError();
-          this.props.toggleIsOnline(true);
-        }
-      })
-      .catch(() => {
-        if (this.props.agentDesktop.isOnline) {
-          this.props.toggleIsOnline(false);
-        }
-      });
+  setOnlineStatus = () => {
+    if (!navigator.onLine) {
+      this.props.toggleIsOnline(false);
+    } else {
+      this.props.dismissError();
+      this.props.toggleIsOnline(true);
+    }
   };
 
   loadConf = () => {
