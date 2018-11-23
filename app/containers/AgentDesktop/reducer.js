@@ -1497,10 +1497,22 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.SET_CUSTOM_FIELDS: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
-        return state.updateIn(
-          ['interactions', interactionIndex, 'customFields'],
-          (customFields) => customFields.unshift(...action.customFields)
-        );
+        const customFieldsAreDefined = state.getIn([
+          'interactions',
+          interactionIndex,
+          'customFields',
+        ]);
+        if (customFieldsAreDefined) {
+          return state.updateIn(
+            ['interactions', interactionIndex, 'customFields'],
+            (customFields) => customFields.unshift(...action.customFields)
+          );
+        } else {
+          return state.setIn(
+            ['interactions', interactionIndex, 'customFields'],
+            action.customFields
+          );
+        }
       } else {
         return state;
       }

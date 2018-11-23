@@ -906,6 +906,35 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer SET_CUSTOM_FIELDS When customFields has already one custom field or it is an empty array it adds the ones that come from the SDK at the begginig of the list 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": 1,
+      "customFields": Immutable.List [
+        "value 2",
+        "value 3",
+        "value 1",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_CUSTOM_FIELDS When customFields it is not set customFields is set to the values that come from the SDK 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": 1,
+      "customFields": Array [
+        "value 2",
+        "value 3",
+      ],
+    },
+  ],
+}
+`;
+
 exports[`agentDesktopReducer SET_DISPOSITION_DETAILS shows the dispositions list ordered as it was ordered on the configuration 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [

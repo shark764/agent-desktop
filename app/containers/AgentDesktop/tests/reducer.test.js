@@ -44,6 +44,7 @@ import {
   TOGGLE_TRANSCRIPT_COPIED,
   SET_EMAIL_ATTACHMENT_FETCHING_URL,
   OUTBOUND_CUSTOMER_CONNECTED,
+  SET_CUSTOM_FIELDS,
 } from '../constants';
 import agentDesktopReducer, { getNextSelectedInteractionId } from '../reducer';
 
@@ -1761,6 +1762,49 @@ describe('agentDesktopReducer', () => {
         };
       });
       it('customerConnected is set to true', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+  });
+
+  describe('SET_CUSTOM_FIELDS', () => {
+    describe('When customFields has already one custom field or it is an empty array', () => {
+      beforeEach(() => {
+        initialState = {
+          interactions: [
+            {
+              interactionId: 1,
+              customFields: ['value 1'],
+            },
+          ],
+        };
+        action = {
+          type: SET_CUSTOM_FIELDS,
+          interactionId: 1,
+          customFields: ['value 2', 'value 3'],
+        };
+      });
+      it('it adds the ones that come from the SDK at the begginig of the list', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+
+    describe('When customFields it is not set', () => {
+      beforeEach(() => {
+        initialState = {
+          interactions: [
+            {
+              interactionId: 1,
+            },
+          ],
+        };
+        action = {
+          type: SET_CUSTOM_FIELDS,
+          interactionId: 1,
+          customFields: ['value 2', 'value 3'],
+        };
+      });
+      it('customFields is set to the values that come from the SDK', () => {
         runReducerAndExpectSnapshot();
       });
     });
