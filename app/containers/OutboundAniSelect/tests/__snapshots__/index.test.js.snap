@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<OutboundAniSelect /> if getSelectedOutboundIdentifier is undefined 1`] = `
+<div
+  style={
+    Object {
+      "margin": "0px auto 10px",
+      "width": "282px",
+    }
+  }
+>
+  <Select
+    id="outboundAniSelect"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "id": "1",
+          "value": "outboundAni1",
+        },
+        Object {
+          "id": "2",
+          "value": "outboundAni2",
+        },
+        Object {
+          "id": "3",
+          "value": "outboundAni3",
+        },
+      ]
+    }
+    placeholder={
+      <FormattedMessage
+        defaultMessage="Select Outbound ANI"
+        id="app.containers.OutboundAniSelect.selectOutboundAni"
+        values={Object {}}
+      />
+    }
+  />
+</div>
+`;
+
+exports[`<OutboundAniSelect /> rendered correctly for voice channel 1`] = `
+<div
+  style={
+    Object {
+      "margin": "0px auto 10px",
+      "width": "282px",
+    }
+  }
+>
+  <Select
+    id="outboundAniSelect"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "id": "1",
+          "value": "outboundAni1",
+        },
+        Object {
+          "id": "2",
+          "value": "outboundAni2",
+        },
+        Object {
+          "id": "3",
+          "value": "outboundAni3",
+        },
+      ]
+    }
+    placeholder={
+      <FormattedMessage
+        defaultMessage="Select Outbound ANI"
+        id="app.containers.OutboundAniSelect.selectOutboundAni"
+        values={Object {}}
+      />
+    }
+    value="outboundAni2"
+  />
+</div>
+`;
+
+exports[`actions maps the actions to the object correctly 1`] = `
+Object {
+  "fetchOutboundIdentifierLists": [Function],
+  "selectOutboundIdentification": [Function],
+}
+`;
+
+exports[`mapStateToProps maps the selectors to the object correctly 1`] = `
+Object {
+  "getSelectedOutboundIdentifier": "mock SelectedOutboundIdentifier",
+  "selectOutboundIdentifierListsForChannel": "mock SelectOutboundIdentifierListsForChannel",
+}
+`;

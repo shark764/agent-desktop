@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`goFetchOutboundIdentifierLists when there's no outbound identifier list data on our state puts the result with setOutboundIdentification 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "response": "mock-result",
+        "type": "app/OutboundAniSelect/SET_OUTBOUND_IDENTIFICATION_LISTS",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goFetchOutboundIdentifierLists when there's no outbound identifier list data on our state select that returns an undefined value the first time of its execution 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goFetchOutboundIdentifierLists when there's no outbound identifier list data on our state should call the promise util with the SDK goFetchOutboundIdentifierLists and the correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "CxEngage.entities.getUserOutboundIdentifierLists",
+        Object {},
+        "OutboundAniSelect",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goFetchOutboundIdentifierLists when there's outbound indentifier list data on our state select that returns an defined value  1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;

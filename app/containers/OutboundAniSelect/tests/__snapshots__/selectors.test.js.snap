@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getSelectedOutboundIdentifier if selected outbound ANI 1`] = `
+Object {
+  "mockField": "mock-value",
+}
+`;
+
+exports[`selectOutboundIdentifierListsForChannel if outbound identifier list exist 1`] = `
+Array [
+  Object {
+    "flowId": "1a",
+    "label": "test1",
+    "outboundIdentifier": "+11",
+    "value": "1b",
+  },
+]
+`;
