@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransferDialPad component event handlers dialpad onEnter event 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "mockValidDialpadText",
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": "mockValidTransferToDialpadText",
+    },
+  ],
+}
+`;
+
+exports[`TransferDialPad component event handlers extParticipantTransferButton onClick event 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "mockValidDialpadText",
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": "mockValidTransferToDialpadText",
+    },
+  ],
+}
+`;
+
+exports[`TransferDialPad component render when transferTabIndex is 0 & dialpadText is invalid 1`] = `
+<div>
+  <styled.div>
+    <Dialpad
+      active={false}
+      dialpadText="mockInvalidDialpadText"
+      id="dialpad"
+      onEnter={[Function]}
+      setDialpadText={[Function]}
+      transfer={true}
+    />
+    <InjectIntl(Button)
+      disabled={true}
+      id="extParticipantTransferButton"
+      onClick={[Function]}
+      style={
+        Object {
+          "display": "block",
+          "margin": "24px auto 0",
+          "width": "134px",
+        }
+      }
+      text={
+        Object {
+          "defaultMessage": "Add participant",
+          "id": "app.containers.TransferMenu.addParticipant",
+        }
+      }
+      type="primaryBlue"
+    />
+  </styled.div>
+</div>
+`;
+
+exports[`TransferDialPad component render when transferTabIndex is 1 & dialpadText is valid 1`] = `
+<div>
+  <styled.div>
+    <Dialpad
+      active={false}
+      dialpadText="mockValidDialpadText"
+      id="dialpad"
+      onEnter={[Function]}
+      setDialpadText={[Function]}
+      transfer={true}
+    />
+    <InjectIntl(Button)
+      disabled={false}
+      id="extParticipantTransferButton"
+      onClick={[Function]}
+      style={
+        Object {
+          "display": "block",
+          "margin": "24px auto 0",
+          "width": "134px",
+        }
+      }
+      text={
+        Object {
+          "defaultMessage": "Transfer",
+          "id": "app.containers.TransferMenu.transfer",
+        }
+      }
+      type="primaryBlue"
+    />
+  </styled.div>
+</div>
+`;
+
+exports[`mapDispatchToProps should map actions from action-creators to component-props correctly 1`] = `
+Object {
+  "updateDialpadText": [Function],
+}
+`;
+
+exports[`mapStateToProps should map redux-states from selectors to component-props correctly 1`] = `
+Object {
+  "dialpadText": "mock selectDialpadText",
+  "dialpadTextValidity": "mock selectDialpadTextValidity",
+  "transferTabIndex": "mock selectTransferTabIndex",
+}
+`;

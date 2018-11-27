@@ -1,3 +1,6 @@
+### [1.32.15] (2018-11-27)
+* CXV1-16012 & CXV1-16012 - Refactor Dialpad TransferMenu & its unit tests
+
 ### [1.32.14] (2018-12-06)
 * CXV1-16394 - Fixed auto internationalization file generation
 

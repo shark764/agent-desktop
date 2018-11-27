@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransferDialPad returns default state 1`] = `
+Immutable.Map {
+  "dialpadText": "",
+}
+`;
+
+exports[`TransferDialPad updates dialpadText state 1`] = `
+Immutable.Map {
+  "dialpadText": "mockPhoneNumber",
+}
+`;

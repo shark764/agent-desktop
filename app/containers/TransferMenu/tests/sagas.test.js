@@ -4,6 +4,7 @@ import {
   changeQueuesListVisibleState,
   changeAgentsListVisibleState,
   changeTransferListVisibleState,
+  tearDownTransferMenuStates,
 } from '../sagas';
 
 describe('setAgentsQueuesInitialVisibleState', () => {
@@ -247,5 +248,21 @@ describe('changeTransferListVisibleState', () => {
     it('updates localStorage with transferListVisibleState set to false', () => {
       expect(mockSetItem.mock.calls).toMatchSnapshot();
     });
+  });
+});
+
+describe('tearDownTransferMenuStates', () => {
+  const generator = tearDownTransferMenuStates();
+  it('sets transferSearchInput to its default state', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('sets transferTabIndex to its default state', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('sets showTransferDialpad to its default state', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('is done', () => {
+    expect(generator.next().done).toBe(true);
   });
 });

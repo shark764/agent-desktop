@@ -7,8 +7,8 @@ Immutable.Map {
 `;
 
 exports[`OutboundAniSelectReducer SELECT_OUTBOUND_IDENTIFICATION set outbound identifier when outbound is selected 1`] = `
-Map {
-  "selectedOutboundIdentifier" => "mock-value",
+Immutable.Map {
+  "selectedOutboundIdentifier": "mock-value",
 }
 `;
 
@@ -19,8 +19,8 @@ Immutable.Map {
 `;
 
 exports[`OutboundAniSelectReducer SET_OUTBOUND_IDENTIFICATION_LISTS set outbound identifier list 1`] = `
-Map {
-  "outboundIdentifierLists" => Immutable.Map {
+Immutable.Map {
+  "outboundIdentifierLists": Immutable.Map {
     "effective": "mock-value",
   },
 }

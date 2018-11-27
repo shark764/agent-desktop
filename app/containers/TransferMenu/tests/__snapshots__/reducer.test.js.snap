@@ -2,69 +2,71 @@
 
 exports[`TransferMenu reducer tests returns initial state 1`] = `
 Immutable.Map {
-  "resourceCapacity": undefined,
   "users": undefined,
+  "resourceCapacity": undefined,
+  "transferTabIndex": 0,
+  "transferListsVisibleState": Immutable.Map {},
   "transferLists": Immutable.List [
     "loading",
   ],
-  "queuesListVisibleState": undefined,
   "agentsListVisibleState": undefined,
-  "transferListsVisibleState": Immutable.Map {},
+  "transferSearchInput": "",
+  "showTransferDialpad": false,
+  "focusedTransferItemIndex": -1,
+  "queuesListVisibleState": undefined,
 }
 `;
 
 exports[`TransferMenu reducer tests sets agentsListVisibleState 1`] = `
 Immutable.Map {
-  "resourceCapacity": undefined,
-  "users": undefined,
-  "transferLists": Immutable.List [
-    "loading",
-  ],
-  "queuesListVisibleState": undefined,
   "agentsListVisibleState": true,
-  "transferListsVisibleState": Immutable.Map {},
+}
+`;
+
+exports[`TransferMenu reducer tests sets focusedTransferItemIndex 1`] = `
+Immutable.Map {
+  "focusedTransferItemIndex": 0,
 }
 `;
 
 exports[`TransferMenu reducer tests sets queuesListVisibleState 1`] = `
 Immutable.Map {
-  "resourceCapacity": undefined,
-  "users": undefined,
-  "transferLists": Immutable.List [
-    "loading",
-  ],
   "queuesListVisibleState": true,
-  "agentsListVisibleState": undefined,
-  "transferListsVisibleState": Immutable.Map {},
 }
 `;
 
 exports[`TransferMenu reducer tests sets transferLists 1`] = `
 Immutable.Map {
-  "resourceCapacity": undefined,
-  "users": undefined,
   "transferLists": Immutable.List [
     Immutable.Map {
       "mockTransferListKey": "mockTransferListValue",
     },
   ],
-  "queuesListVisibleState": undefined,
-  "agentsListVisibleState": undefined,
-  "transferListsVisibleState": Immutable.Map {},
 }
 `;
 
 exports[`TransferMenu reducer tests sets transferListsListVisibleState 1`] = `
 Immutable.Map {
-  "resourceCapacity": undefined,
-  "users": undefined,
-  "transferLists": Immutable.List [
-    "loading",
-  ],
-  "queuesListVisibleState": undefined,
-  "agentsListVisibleState": undefined,
   "transferListsVisibleState": Immutable.Map {
     "mockTransferListHiddenState": "mockValueTrue",
   },
+}
+`;
+
+exports[`TransferMenu reducer tests sets transferSearchInput 1`] = `
+Immutable.Map {
+  "transferSearchInput": "mockTransferSearchInput",
+}
+`;
+
+exports[`TransferMenu reducer tests sets transferTabIndex 1`] = `
+Immutable.Map {
+  "transferTabIndex": 1,
+}
+`;
+
+exports[`TransferMenu reducer tests updates showTransferDialpad state 1`] = `
+Immutable.Map {
+  "showTransferDialpad": true,
 }
 `;

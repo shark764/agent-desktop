@@ -7,6 +7,9 @@ import {
   setQueuesListVisibleState,
   setAgentsListVisibleState,
   setTransferListsVisibleState,
+  setTransferSearchInput,
+  setTransferTabIndex,
+  setShowTransferDialPad,
 } from './actions';
 import {
   selectQueuesListVisibleState,
@@ -119,6 +122,12 @@ export function* changeTransferListVisibleState(action) {
   );
 }
 
+export function* tearDownTransferMenuStates() {
+  yield put(setTransferSearchInput(''));
+  yield put(setTransferTabIndex(0));
+  yield put(setShowTransferDialPad(false));
+}
+
 // Watcher Sagas for Setting Initial States & updating Previous States:
 
 export default [
@@ -139,4 +148,5 @@ export default [
     ACTIONS.UPDATE_TRANSFER_LIST_VISIBLE_STATE,
     changeTransferListVisibleState
   ),
+  takeEvery(ACTIONS.TEAR_DOWN_TRANSFER_MENU_STATES, tearDownTransferMenuStates),
 ];

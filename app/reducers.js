@@ -13,6 +13,7 @@ import contactsControl from 'containers/ContactsControl/reducer';
 import errors from 'containers/Errors/reducer';
 import notificationPreferences from 'containers/AgentNotificationsMenu/reducer';
 import transferMenu from 'containers/TransferMenu/reducer';
+import transferDialPad from 'containers/TransferDialPad/reducer';
 import outboundAniSelect from 'containers/OutboundAniSelect/reducer';
 
 import { LOGOUT } from 'containers/Login/constants';
@@ -29,6 +30,7 @@ const appReducer = combineReducers({
   notificationPreferences,
   transferMenu,
   outboundAniSelect,
+  transferDialPad,
 });
 
 const rootReducer = (state, action) => {
