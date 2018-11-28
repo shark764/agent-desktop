@@ -1,3 +1,6 @@
+### [1.32.5] (2018-11-27)
+* CXV1-16116 - Clicking Hyperlinks/Hyperlinked Images in an Email Crashes Toolbar
+
 ### [1.32.4] (2018-11-22)
 * CXV1-15320 - Show that the user is currently offline instead of error banners (Re-done because we're changing the approach)
 
