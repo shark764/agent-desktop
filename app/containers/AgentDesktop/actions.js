@@ -619,10 +619,16 @@ export function resourceAdded(response) {
   };
 }
 
-export function updateResourceName(response) {
+export function updateResourceName(
+  interactionId,
+  activeResourceId,
+  activeResourceName
+) {
   return {
     type: ACTIONS.UPDATE_RESOURCE_NAME,
-    response,
+    interactionId,
+    activeResourceId,
+    activeResourceName,
   };
 }
 

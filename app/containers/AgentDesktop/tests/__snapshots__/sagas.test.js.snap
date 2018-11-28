@@ -1,12 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`goAcceptWork if active resources exist should be done after calling getUser for each resource 1`] = `
-Object {
-  "done": true,
-  "value": undefined,
-}
-`;
-
 exports[`goAcceptWork if active resources exist should call getUser for each active resource 1`] = `
 Object {
   "done": false,
@@ -83,6 +76,41 @@ Object {
       },
       "channel": null,
     },
+  },
+}
+`;
+
+exports[`goAcceptWork if active resources exist should set the resource name 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "ALL": Array [
+      Object {
+        "@@redux-saga/IO": true,
+        "PUT": Object {
+          "action": Object {
+            "activeResourceId": "resource-1",
+            "activeResourceName": "resource 1",
+            "interactionId": "interaction-id",
+            "type": "app/AgentDesktop/UPDATE_RESOURCE_NAME",
+          },
+          "channel": null,
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "PUT": Object {
+          "action": Object {
+            "activeResourceId": "resource-2",
+            "activeResourceName": "resource2@serenova.com",
+            "interactionId": "interaction-id",
+            "type": "app/AgentDesktop/UPDATE_RESOURCE_NAME",
+          },
+          "channel": null,
+        },
+      },
+    ],
   },
 }
 `;

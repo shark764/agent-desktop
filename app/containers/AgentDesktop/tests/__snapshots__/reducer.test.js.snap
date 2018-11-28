@@ -1779,6 +1779,7 @@ exports[`agentDesktopReducer UPDATE_RESOURCE_NAME if resource is not present on 
 Immutable.Map {
   "interactions": Immutable.List [
     Immutable.Map {
+      "interactionId": "1",
       "warmTransfers": Immutable.List [
         Immutable.Map {
           "id": "resource-id-1",
@@ -1789,6 +1790,7 @@ Immutable.Map {
       ],
     },
     Immutable.Map {
+      "interactionId": "2",
       "warmTransfers": Immutable.List [
         Immutable.Map {
           "id": "resource-id-2",
@@ -1799,51 +1801,26 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer UPDATE_RESOURCE_NAME if resource is present on interactions if resource has name properties sets the name of the resource 1`] = `
+exports[`agentDesktopReducer UPDATE_RESOURCE_NAME if resource is present on interactions sets the name of the resource 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
     Immutable.Map {
+      "interactionId": "1",
       "warmTransfers": Immutable.List [
         Immutable.Map {
           "id": "resource-id-1",
-        },
-        Immutable.Map {
-          "id": "resource-id-2",
           "name": "Tester Testingson",
         },
-      ],
-    },
-    Immutable.Map {
-      "warmTransfers": Immutable.List [
         Immutable.Map {
           "id": "resource-id-2",
-          "name": "Tester Testingson",
-        },
-      ],
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer UPDATE_RESOURCE_NAME if resource is present on interactions if resource has no name properties sets the name of the resource to be the resource's email 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "warmTransfers": Immutable.List [
-        Immutable.Map {
-          "id": "resource-id-1",
-        },
-        Immutable.Map {
-          "id": "resource-id-2",
-          "name": "tester@testingson.com",
         },
       ],
     },
     Immutable.Map {
+      "interactionId": "2",
       "warmTransfers": Immutable.List [
         Immutable.Map {
           "id": "resource-id-2",
-          "name": "tester@testingson.com",
         },
       ],
     },

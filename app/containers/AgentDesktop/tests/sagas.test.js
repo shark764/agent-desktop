@@ -440,8 +440,28 @@ describe('goAcceptWork', () => {
     it('should call getUser for each active resource', () => {
       expect(generator.next()).toMatchSnapshot();
     });
+
+    it('should set the resource name', () => {
+      expect(
+        generator.next([
+          {
+            result: {
+              firstName: 'resource',
+              lastName: '1',
+              id: 'resource-1',
+            },
+          },
+          {
+            result: {
+              email: 'resource2@serenova.com',
+              id: 'resource-2',
+            },
+          },
+        ])
+      ).toMatchSnapshot();
+    });
     it('should be done after calling getUser for each resource', () => {
-      expect(generator.next()).toMatchSnapshot();
+      expect(generator.next().done).toBe(true);
     });
   });
 });
