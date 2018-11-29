@@ -3,7 +3,8 @@
  */
 
 import Raven from 'raven-js';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import { fromJS } from 'immutable';
 import createSagaMiddleware from 'redux-saga';
 import reduxErrorMiddleware from 'utils/reduxErrorMiddleware';
@@ -29,18 +30,10 @@ const sagaMiddleware = createSagaMiddleware({
 
 export default function configureStore(initialState = {}) {
   const middlewares = [sagaMiddleware, reduxErrorMiddleware];
-
   const enhancers = [applyMiddleware(...middlewares)];
-
-  // If Redux DevTools Extension is installed use it, otherwise use Redux compose
-  /* eslint-disable no-underscore-dangle */
-  const composeEnhancers =
-    process.env.NODE_ENV !== 'production' &&
-    typeof window === 'object' &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-      : compose;
-  /* eslint-enable */
+  const composeEnhancers = composeWithDevTools({
+    name: 'Skylight',
+  });
 
   store = createStore(
     reducer,
