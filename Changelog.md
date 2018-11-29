@@ -1,3 +1,7 @@
+### [1.32.12] (2018-12-05)
+* CXV1-16310 - Fixed plaintext email newline formatting
+* CXV1-14725 - Fixed "undefined" customer quote in replies when the original email was plaintext
+
 ### [1.32.11] (2018-12-04)
 * CXV1-12156 - All Enabled Transfer Lists Show for an Agent Without being Assigned to any Agents
 
