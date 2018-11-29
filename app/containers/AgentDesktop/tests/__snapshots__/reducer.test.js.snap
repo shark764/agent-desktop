@@ -1,5 +1,93 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`agentDesktopReducer ACTIONS.EMAIL_CREATE_REPLY if replyTo does not exist, show the email from in tos 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "channelType": "email",
+      "emailDetails": Immutable.Map {
+        "from": Immutable.Map {
+          "address": "fromtest@test.com",
+          "name": "test2",
+        },
+        "cc": Immutable.Map {
+          "address": "cctest@test.com",
+          "name": "cctest",
+        },
+        "bcc": Immutable.List [],
+        "subject": "[title test]",
+        "headers": Immutable.List [],
+      },
+      "emailReply": Immutable.Map {
+        "message": "",
+        "bccInput": "",
+        "ccInput": "",
+        "toInput": "",
+        "attachments": Immutable.List [],
+        "bccs": Immutable.List [],
+        "ccs": Immutable.Map {
+          "address": "cctest@test.com",
+          "name": "cctest",
+        },
+        "tos": Immutable.Map {
+          "address": "fromtest@test.com",
+          "name": "test2",
+        },
+        "subjectInput": "RE: [title test]",
+      },
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer ACTIONS.EMAIL_CREATE_REPLY if replyTo exist, show that email in tos 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "channelType": "email",
+      "emailDetails": Immutable.Map {
+        "from": Immutable.Map {
+          "address": "fromtest@test.com",
+          "name": "test2",
+        },
+        "cc": Immutable.Map {
+          "address": "cctest@test.com",
+          "name": "cctest",
+        },
+        "bcc": Immutable.List [],
+        "subject": "[title test]",
+        "headers": Immutable.List [
+          Immutable.Map {
+            "replyTo": "replytest@test.com",
+          },
+        ],
+      },
+      "emailReply": Immutable.Map {
+        "message": "",
+        "bccInput": "",
+        "ccInput": "",
+        "toInput": "",
+        "attachments": Immutable.List [],
+        "bccs": Immutable.List [],
+        "ccs": Immutable.Map {
+          "address": "cctest@test.com",
+          "name": "cctest",
+        },
+        "tos": Immutable.List [
+          Immutable.Map {
+            "address": "replytest@test.com",
+            "name": "",
+          },
+        ],
+        "subjectInput": "RE: [title test]",
+      },
+    },
+  ],
+}
+`;
+
 exports[`agentDesktopReducer ADD_INTERACTION adding an inbound interaction adds it 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [

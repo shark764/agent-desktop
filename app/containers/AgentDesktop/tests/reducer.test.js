@@ -45,6 +45,7 @@ import {
   SET_EMAIL_ATTACHMENT_FETCHING_URL,
   OUTBOUND_CUSTOMER_CONNECTED,
   SET_CUSTOM_FIELDS,
+  EMAIL_CREATE_REPLY,
 } from '../constants';
 import agentDesktopReducer, { getNextSelectedInteractionId } from '../reducer';
 
@@ -1865,6 +1866,79 @@ describe('agentDesktopReducer', () => {
       );
 
       expect(newSelectedInteractionId).toEqual('test-sms-interaction-id');
+    });
+  });
+
+  describe('ACTIONS.EMAIL_CREATE_REPLY', () => {
+    it('if replyTo exist, show that email in tos', () => {
+      expect(
+        agentDesktopReducer(
+          fromJS(
+            (initialState = {
+              interactions: [
+                {
+                  interactionId: 'test-interaction-id',
+                  channelType: 'email',
+                  emailDetails: {
+                    from: {
+                      address: 'fromtest@test.com',
+                      name: 'test2',
+                    },
+                    cc: {
+                      address: 'cctest@test.com',
+                      name: 'cctest',
+                    },
+                    bcc: [],
+                    subject: '[title test]',
+                    headers: [
+                      {
+                        replyTo: 'replytest@test.com',
+                      },
+                    ],
+                  },
+                },
+              ],
+            })
+          ),
+          (action = {
+            type: EMAIL_CREATE_REPLY,
+            interactionId: 'test-interaction-id',
+          })
+        )
+      ).toMatchSnapshot();
+    });
+    it('if replyTo does not exist, show the email from in tos', () => {
+      expect(
+        agentDesktopReducer(
+          fromJS(
+            (initialState = {
+              interactions: [
+                {
+                  interactionId: 'test-interaction-id',
+                  channelType: 'email',
+                  emailDetails: {
+                    from: {
+                      address: 'fromtest@test.com',
+                      name: 'test2',
+                    },
+                    cc: {
+                      address: 'cctest@test.com',
+                      name: 'cctest',
+                    },
+                    bcc: [],
+                    subject: '[title test]',
+                    headers: [],
+                  },
+                },
+              ],
+            })
+          ),
+          (action = {
+            type: EMAIL_CREATE_REPLY,
+            interactionId: 'test-interaction-id',
+          })
+        )
+      ).toMatchSnapshot();
     });
   });
 });
