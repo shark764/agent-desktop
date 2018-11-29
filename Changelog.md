@@ -1,3 +1,6 @@
+### [1.32.10] (2018-12-04)
+* CXV1-15614 - Fixed script 400 error handling
+
 ### [1.32.9] (2018-12-03)
 * CXV1-15275 - "Waiting on script/tooltip" has incorrect offset
 
