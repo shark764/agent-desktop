@@ -542,7 +542,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
     let buttonConfig = [];
 
     if (
-      this.props.selectedInteraction.sendingReply === true &&
+      this.props.selectedInteraction.sendingReply &&
       this.props.selectedInteraction.status !== 'work-ended-pending-script'
     ) {
       if (this.props.selectedInteraction.status === 'wrapup') {
@@ -554,22 +554,6 @@ ${this.props.selectedInteraction.emailPlainBody}`;
             onClick: this.props.endInteraction,
             disabled: this.props.isEndWrapupDisabled,
             title: this.props.wrapupBtnTooltipText,
-          },
-        ];
-      } else {
-        buttonConfig = [
-          {
-            id: 'cancelEmail',
-            type: 'secondary',
-            text: messages.cancel,
-            onClick: this.onEmailCancelReply,
-          },
-          {
-            id: 'sendEmail',
-            type: 'primaryRed',
-            text: messages.send,
-            onClick: () => this.sendEmail(),
-            disabled: true,
           },
         ];
       }
