@@ -1,3 +1,6 @@
+### [1.32.6] (2018-11-28)
+* CXV1-16084 - Add Participant - Second agent sees "Agent" in participants list and not the agents name
+
 ### [1.32.5] (2018-11-27)
 * CXV1-16116 - Clicking Hyperlinks/Hyperlinked Images in an Email Crashes Toolbar
 

@@ -1092,45 +1092,35 @@ describe('agentDesktopReducer', () => {
       initialState = {
         interactions: [
           {
+            interactionId: '1',
             warmTransfers: [{ id: 'resource-id-1' }, { id: 'resource-id-2' }],
           },
           {
+            interactionId: '2',
             warmTransfers: [{ id: 'resource-id-2' }],
           },
         ],
       };
       action = {
         type: UPDATE_RESOURCE_NAME,
-        response: {
-          result: {
-            id: 'resource-id-2',
-            email: 'tester@testingson.com',
-          },
-        },
+        interactionId: '1',
+        activeResourceId: 'resource-id-1',
       };
     });
     describe('if resource is not present on interactions', () => {
       beforeEach(() => {
-        action.response.result.id = 'not-there';
+        action.activeResourceId = 'not-there';
       });
       it('does nothing', () => {
         runReducerAndExpectSnapshot();
       });
     });
     describe('if resource is present on interactions', () => {
-      describe('if resource has no name properties', () => {
-        it("sets the name of the resource to be the resource's email", () => {
-          runReducerAndExpectSnapshot();
-        });
+      beforeEach(() => {
+        action.activeResourceName = 'Tester Testingson';
       });
-      describe('if resource has name properties', () => {
-        beforeEach(() => {
-          action.response.result.firstName = 'Tester';
-          action.response.result.lastName = 'Testingson';
-        });
-        it('sets the name of the resource', () => {
-          runReducerAndExpectSnapshot();
-        });
+      it('sets the name of the resource', () => {
+        runReducerAndExpectSnapshot();
       });
     });
   });

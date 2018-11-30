@@ -1759,37 +1759,35 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.UPDATE_RESOURCE_NAME: {
-      return state.update('interactions', (interactions) =>
-        interactions.map((interaction) => {
-          if (
-            interaction.get('warmTransfers') !== undefined &&
-            interaction.get('warmTransfers').size > 0
-          ) {
-            return interaction.update('warmTransfers', (warmTransfers) =>
-              warmTransfers.map((warmTransfer) => {
-                if (
-                  warmTransfer.get('id') === action.response.result.id ||
-                  warmTransfer.get('targetResource') ===
-                    action.response.result.id
-                ) {
-                  const name =
-                    action.response.result.firstName ||
-                    action.response.result.lastName
-                      ? `${action.response.result.firstName} ${
-                        action.response.result.lastName
-                      }`
-                      : action.response.result.email;
-                  return warmTransfer.set('name', name);
-                } else {
-                  return warmTransfer;
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.updateIn(
+          ['interactions', interactionIndex],
+          (interaction) => {
+            const warmTransfers = interaction.get('warmTransfers');
+            if (warmTransfers !== undefined && warmTransfers.size > 0) {
+              const activeResourceIndex = warmTransfers.findIndex(
+                (activeResource) =>
+                  activeResource.get('id') === action.activeResourceId ||
+                  activeResource.get('targetResource') ===
+                    action.activeResourceId
+              );
+              return interaction.update('warmTransfers', () => {
+                if (activeResourceIndex !== -1) {
+                  return warmTransfers.setIn(
+                    [activeResourceIndex, 'name'],
+                    action.activeResourceName
+                  );
                 }
-              })
-            );
-          } else {
+                return warmTransfers;
+              });
+            }
             return interaction;
           }
-        })
-      );
+        );
+      } else {
+        return state;
+      }
     }
     case ACTIONS.UPDATE_RESOURCE_STATUS: {
       const interactionIndex = getInteractionIndex(state, action.interactionId);

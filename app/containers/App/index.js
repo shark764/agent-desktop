@@ -157,6 +157,7 @@ import {
   selectLoginMap,
   selectQueues,
   selectCrmModule,
+  getSelectedInteractionId,
 } from 'containers/AgentDesktop/selectors';
 
 import { store } from 'store';
@@ -620,7 +621,18 @@ export class App extends React.Component {
                   },
                   (getUserError, getUserTopic, getUserResponse) => {
                     if (!getUserError) {
-                      this.props.updateResourceName(getUserResponse);
+                      const {
+                        firstName,
+                        lastName,
+                        id,
+                        email,
+                        interactionId,
+                      } = getUserResponse.result;
+                      const name =
+                        firstName || lastName
+                          ? `${firstName} ${lastName}`
+                          : email;
+                      this.props.updateResourceName(interactionId, id, name);
                     }
                   }
                 );
@@ -1645,6 +1657,7 @@ const mapStateToProps = (state, props) => ({
   audioNotificationsEnabled: selectAudioPreferences(state, props),
   visualNotificationsEnabled: selectVisualPreferences(state, props),
   queues: selectQueues(state, props),
+  selectedInteractionId: getSelectedInteractionId(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -1914,6 +1927,7 @@ App.propTypes = {
   setQueuesTime: PropTypes.func.isRequired,
   toggleIsOnline: PropTypes.func.isRequired,
   outboundCustomerConnected: PropTypes.func.isRequired,
+  selectedInteractionId: PropTypes.string,
 };
 
 App.contextTypes = {

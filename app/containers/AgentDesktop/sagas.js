@@ -45,6 +45,7 @@ import {
   setContactSaveLoading,
   setInteractionStatus,
   setActiveResources,
+  updateResourceName,
 } from './actions';
 
 export function* loadHistoricalInteractionBody(action) {
@@ -363,7 +364,7 @@ export function* goAcceptWork(action) {
     yield put(
       setActiveResources(action.interactionId, action.response.activeResources)
     );
-    yield all(
+    const resourcesInfo = yield all(
       action.response.activeResources
         .filter((resource) => resource.externalResource === false)
         .map((resource) =>
@@ -376,6 +377,13 @@ export function* goAcceptWork(action) {
             'AgentDesktop'
           )
         )
+    );
+    yield all(
+      resourcesInfo.map((response) => {
+        const { firstName, lastName, id, email } = response.result;
+        const name = firstName || lastName ? `${firstName} ${lastName}` : email;
+        return put(updateResourceName(action.interactionId, id, name));
+      })
     );
   }
 }
