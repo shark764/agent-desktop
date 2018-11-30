@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
-import { isIeEleven } from 'utils/browser';
+import { isIeEleven } from 'serenova-js-utils/browser';
 
 import Icon from 'components/Icon';
 

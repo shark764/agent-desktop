@@ -24,7 +24,7 @@ import {
   selectBatchRequests,
 } from 'containers/Toolbar/selectors';
 
-import { isIeEleven } from 'utils/browser';
+import { isIeEleven } from 'serenova-js-utils/browser';
 
 import Stat from 'components/Stat';
 import { selectAvailableStats } from './selectors';

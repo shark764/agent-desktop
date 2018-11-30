@@ -21,7 +21,8 @@ import { URL } from 'url-polyfill';
 import { createSearchQuery } from 'utils/contact';
 import { isUUID } from 'utils/validator';
 import crmCssAdapter from 'utils/crmCssAdapter';
-import { isIeEleven } from 'utils/browser';
+
+import { isChrome, isIeEleven } from 'serenova-js-utils/browser';
 
 import voiceIcon from 'assets/icons/voice.png';
 import messageIcon from 'assets/icons/message_new.png';
@@ -399,6 +400,7 @@ export class App extends React.Component {
       } else {
         const isIgnoreTopic = sdkIgnoreTopics.includes(topic);
         const isLogTopic = sdkLogTopics.includes(topic);
+
         let topicUnhandled;
 
         switch (topic) {
@@ -547,6 +549,17 @@ export class App extends React.Component {
                     this.props.intl.formatMessage(messages.newInteraction),
                     { body, icon }
                   );
+                  // onClick handler for notifications hasn't been implemented on Firefox, yet.
+                  // https://developer.mozilla.org/en-US/docs/Web/API/Notification/onclick
+                  // Setting the onclick handler just in Chrome
+                  if (isChrome()) {
+                    notification.onclick = (e) => {
+                      e.preventDefault();
+                      window.focus();
+                      window.parent.focus();
+                      e.currentTarget.close();
+                    };
+                  }
                   setTimeout(() => {
                     notification.close();
                   }, 5000);
@@ -945,6 +958,15 @@ export class App extends React.Component {
                     this.props.intl.formatMessage(messages.newMessage),
                     { icon: messageIcon }
                   );
+                  // Setting the onclick handler just in Chrome
+                  if (isChrome()) {
+                    notification.onclick = (e) => {
+                      e.preventDefault();
+                      window.focus();
+                      window.parent.focus();
+                      e.currentTarget.close();
+                    };
+                  }
                   setTimeout(() => {
                     notification.close();
                   }, 5000);
