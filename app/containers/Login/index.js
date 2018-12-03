@@ -47,7 +47,7 @@ import PopupDialog from 'components/PopupDialog';
 import mitelFavicon from 'assets/favicons/mitel.png';
 import LegalCopyright from 'components/LegalCopyright';
 
-import { isIeEleven } from 'utils/browser';
+import { isIeEleven } from 'serenova-js-utils/browser';
 
 import { changeLocale } from 'containers/LanguageProvider/actions';
 import { selectLocale } from 'containers/LanguageProvider/selectors';

@@ -1,3 +1,6 @@
+### [1.32.8] (2018-11-30)
+* CXV1-15459 - Visual notification doesn´t redirect to URL in use(Chrome)
+
 ### [1.32.7] (2018-11-29)
 * CXV1-16124 - Email interaction - when replying, autofill "to" address field not using 'reply-to' 
 

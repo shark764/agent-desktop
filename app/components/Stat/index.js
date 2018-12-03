@@ -13,7 +13,7 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
-import { isIeEleven } from 'utils/browser';
+import { isIeEleven } from 'serenova-js-utils/browser';
 
 import IconSVG from 'components/IconSVG';
 import StatValue from './StatValue';
