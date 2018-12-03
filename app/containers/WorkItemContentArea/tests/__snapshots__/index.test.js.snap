@@ -12,7 +12,7 @@ exports[`<WorkItemContentArea /> should render correctly when waiting on script 
           "defaultMessage": "End",
           "id": "app.containers.WorkItemContentArea.end",
         },
-        "tooltipText": Object {
+        "title": Object {
           "defaultMessage": "mock message",
           "id": "mockId",
         },
@@ -75,7 +75,7 @@ exports[`<WorkItemContentArea /> should render correctly with contact and subjec
           "defaultMessage": "End",
           "id": "app.containers.WorkItemContentArea.end",
         },
-        "tooltipText": Object {},
+        "title": "",
         "type": "primaryRed",
       },
     ]
@@ -137,7 +137,7 @@ exports[`<WorkItemContentArea /> should render correctly with neither contact no
           "defaultMessage": "End",
           "id": "app.containers.WorkItemContentArea.end",
         },
-        "tooltipText": Object {},
+        "title": "",
         "type": "primaryRed",
       },
     ]

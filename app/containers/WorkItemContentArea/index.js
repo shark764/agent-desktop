@@ -66,7 +66,10 @@ export function WorkItemContentArea(props) {
       text: wrappingUp ? messages.endWrapup : messages.end,
       onClick: props.endInteraction,
       disabled: props.isEndWrapupDisabled,
-      tooltipText: props.wrapupBtnTooltipText,
+      title:
+        Object.keys(props.wrapupBtnTooltipText).length > 0
+          ? props.wrapupBtnTooltipText
+          : '',
     },
   ];
 

@@ -1,3 +1,6 @@
+### [1.32.9] (2018-12-03)
+* CXV1-15275 - "Waiting on script/tooltip" has incorrect offset
+
 ### [1.32.8] (2018-11-30)
 * CXV1-15459 - Visual notification doesn´t redirect to URL in use(Chrome)
 

@@ -195,8 +195,6 @@ export class ActionsMenu extends React.Component {
                   }}
                   disabled={button.disabled}
                   title={button.title}
-                  tooltipText={button.tooltipText}
-                  tooltipOffset="{'bottom': 10}"
                 />
               ))}
           </div>
