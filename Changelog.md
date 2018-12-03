@@ -1,3 +1,6 @@
+### [1.32.7] (2018-11-29)
+* CXV1-16124 - Email interaction - when replying, autofill "to" address field not using 'reply-to' 
+
 ### [1.32.6] (2018-11-28)
 * CXV1-16084 - Add Participant - Second agent sees "Agent" in participants list and not the agents name
 

@@ -1981,7 +1981,26 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.EMAIL_CREATE_REPLY: {
+      const reply = [];
       const interactionIndex = getInteractionIndex(state, action.interactionId);
+      const headers = state.getIn([
+        'interactions',
+        interactionIndex,
+        'emailDetails',
+        'headers',
+      ]);
+      if (headers) {
+        const headersList = headers.toJS();
+        headersList
+          .filter((header) => header.replyTo)
+          .map(({ replyTo }) => ({
+            address: replyTo,
+            name: '',
+          }))
+          .forEach((head) => {
+            reply.push(head);
+          });
+      }
       if (
         interactionIndex !== -1 &&
         state.getIn(['interactions', interactionIndex, 'channelType']) ===
@@ -1992,7 +2011,10 @@ function agentDesktopReducer(state = initialState, action) {
             interaction.set(
               'emailReply',
               fromJS({
-                tos: interaction.get('emailDetails').get('from'),
+                tos:
+                  reply.length > 0
+                    ? reply
+                    : interaction.get('emailDetails').get('from'),
                 ccs: interaction.get('emailDetails').get('cc'),
                 bccs: interaction.get('emailDetails').get('bcc'),
                 subjectInput: `RE: ${
