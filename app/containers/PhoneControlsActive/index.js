@@ -148,10 +148,12 @@ export class PhoneControlsActive extends React.Component {
     let warmTransfers;
     if (this.props.activeVoiceInteraction.warmTransfers.length > 0) {
       const warmTransfersMapped = this.props.activeVoiceInteraction.warmTransfers.map(
-        (warmTransfer) => (
+        (warmTransfer, index) => (
           // the index being appended to the key is a temporary anti-pattern to protect us from
           // duplicate keys now that queues and resource ID's both live in the props,
           <TransferResource
+            //  eslint-disable-next-line no-array-index-key
+            key={index}
             activeVoiceInteraction={this.props.activeVoiceInteraction}
             resource={warmTransfer}
           />
