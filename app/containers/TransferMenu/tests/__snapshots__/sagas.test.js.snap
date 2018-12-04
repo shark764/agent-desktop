@@ -8,8 +8,14 @@ Object {
     "CALL": Object {
       "args": Array [
         "getTransferListsFunction",
-        "",
-        "TransferMenu",
+        Object {
+          "path": Array [
+            "users",
+            "agentId",
+            "transfer-lists",
+          ],
+        },
+        "transferMenu",
       ],
       "context": null,
       "fn": [Function],
@@ -105,8 +111,14 @@ Object {
     "CALL": Object {
       "args": Array [
         "getTransferListsFunction",
-        "",
-        "TransferMenu",
+        Object {
+          "path": Array [
+            "users",
+            "agentId",
+            "transfer-lists",
+          ],
+        },
+        "transferMenu",
       ],
       "context": null,
       "fn": [Function],

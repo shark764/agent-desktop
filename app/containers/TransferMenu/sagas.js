@@ -25,9 +25,9 @@ export function* callTransferListsAndUpdateState() {
   try {
     transferLists = yield call(
       sdkCallToPromise,
-      CxEngage.entities.getTransferLists,
-      '',
-      'TransferMenu'
+      CxEngage.entities.getEntity,
+      { path: ['users', agent.userId, 'transfer-lists'] },
+      'transferMenu'
     );
   } catch (err) {
     console.log(err);

@@ -91,7 +91,7 @@ describe('callTransferListsAndUpdateState', () => {
     beforeEach(() => {
       global.CxEngage = {
         entities: {
-          getTransferLists: mockGetTransferLists,
+          getEntity: mockGetTransferLists,
         },
       };
       global.localStorage = {
@@ -126,7 +126,7 @@ describe('callTransferListsAndUpdateState', () => {
     beforeEach(() => {
       global.CxEngage = {
         entities: {
-          getTransferLists: mockGetTransferLists,
+          getEntity: mockGetTransferLists,
         },
       };
       global.localStorage = {
