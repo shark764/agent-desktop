@@ -1,3 +1,6 @@
+### [1.32.11] (2018-12-04)
+* CXV1-12156 - All Enabled Transfer Lists Show for an Agent Without being Assigned to any Agents
+
 ### [1.32.10] (2018-12-04)
 * CXV1-15614 - Fixed script 400 error handling
 
