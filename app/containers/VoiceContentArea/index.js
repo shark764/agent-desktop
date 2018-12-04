@@ -63,7 +63,10 @@ export function VoiceContentArea(props) {
       text: wrappingUp ? messages.endWrapup : messages.hangUp,
       onClick: props.endInteraction,
       disabled: props.isEndWrapupDisabled,
-      tooltipText: props.wrapupBtnTooltipText,
+      title:
+        Object.keys(props.wrapupBtnTooltipText).length > 0
+          ? props.wrapupBtnTooltipText
+          : '',
     },
   ];
 

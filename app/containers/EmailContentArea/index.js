@@ -543,7 +543,7 @@ export class EmailContentArea extends React.Component {
             text: messages.endWrapup,
             onClick: this.props.endInteraction,
             disabled: this.props.isEndWrapupDisabled,
-            tooltipText: this.props.wrapupBtnTooltipText,
+            title: this.props.wrapupBtnTooltipText,
           },
         ];
       } else {
@@ -612,7 +612,7 @@ export class EmailContentArea extends React.Component {
             text: messages.endWrapup,
             onClick: this.props.endInteraction,
             disabled: this.props.isEndWrapupDisabled,
-            tooltipText: this.props.wrapupBtnTooltipText,
+            title: this.props.wrapupBtnTooltipText,
           },
         ];
       } else {
@@ -804,7 +804,7 @@ export class EmailContentArea extends React.Component {
             text: messages.endWrapup,
             onClick: this.props.endInteraction,
             disabled: this.props.isEndWrapupDisabled,
-            tooltipText: this.props.wrapupBtnTooltipText,
+            title: this.props.wrapupBtnTooltipText,
           },
         ];
       } else {

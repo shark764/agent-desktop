@@ -146,7 +146,10 @@ export class MessagingContentArea extends React.Component {
         text: wrappingUp ? messages.endWrapup : messages.endChat,
         onClick: this.props.endInteraction,
         disabled: this.props.isEndWrapupDisabled,
-        tooltipText: this.props.wrapupBtnTooltipText,
+        title:
+          Object.keys(this.props.wrapupBtnTooltipText).length > 0
+            ? this.props.wrapupBtnTooltipText
+            : '',
       },
     ];
 

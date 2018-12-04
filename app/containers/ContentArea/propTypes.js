@@ -13,6 +13,4 @@ export default {
   id: PropTypes.string.isRequired,
   hasSubButtons: PropTypes.bool,
   isSelected: PropTypes.bool,
-  tooltipText: PropTypes.object,
-  tooltipOffset: PropTypes.string,
 };

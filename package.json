@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.32.8",
+  "version": "1.32.9",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -253,7 +253,6 @@
     "react-textarea-autosize": "6.1.0",
     "react-timer-hoc": "2.3.0",
     "react-toggle": "4.0.2",
-    "react-tooltip": "3.6.1",
     "redux": "4.0.0",
     "redux-devtools-extension": "2.13.7",
     "redux-immutable": "4.0.0",

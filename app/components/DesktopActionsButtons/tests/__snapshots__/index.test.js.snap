@@ -21,7 +21,6 @@ exports[`<DesktopActionsButtons /> with the required props being passed in... sh
       }
     }
     text="End Wrapup"
-    tooltipOffset="{'left': 20}"
     type="primaryRed"
   />
 </div>
@@ -83,7 +82,6 @@ exports[`<DesktopActionsButtons /> with the required props being passed in... sh
       }
     }
     text="Hang Up"
-    tooltipOffset="{'left': 20}"
     type="primaryRed"
   />
 </div>
