@@ -231,10 +231,11 @@ export class AgentDesktop extends React.Component {
     let sidePanelHasTabs = false;
     if (
       (this.props.hasCrmPermissions && !this.context.toolbarMode) ||
-      ((this.props.selectedInteractionHasScripts &&
+      (this.props.selectedInteractionHasScripts &&
         !this.props.selectedInteractionIsScriptOnly &&
         !this.props.selectedInteractionIsVoice) ||
-        this.props.selectedInteractionHasAssignedContact)
+      (this.props.selectedInteractionHasAssignedContact &&
+        this.props.crmModule === 'zendesk')
     ) {
       sidePanelHasTabs = true;
     }

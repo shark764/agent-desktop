@@ -293,7 +293,7 @@ const selectExpandWindowForCrm = createSelector(
     ((interaction.script !== undefined &&
       interaction.channelType !== 'voice' &&
       !interaction.isScriptOnly) ||
-      interaction.contact !== undefined)
+      (interaction.contact !== undefined && crmModule === 'zendesk'))
 );
 
 const areInteractionsInWrapup = createSelector(

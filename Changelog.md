@@ -1,3 +1,6 @@
+### [1.32.3] (2018-12-12)
+* CXV1-13546 - Salesforce Classic / Lightning - Click to Email causes Blank Side Panel
+
 ### [1.33.2] (2018-12-14)
 * CXV1-16285 - Hide "Loading Transfer Lists" text when no transfer lists are available
 

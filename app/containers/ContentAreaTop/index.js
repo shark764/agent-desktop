@@ -30,6 +30,7 @@ import {
   selectSidePanelPx,
   selectIsInteractionsBarCollapsed,
   getSelectedInteraction,
+  selectCrmModule,
 } from 'containers/AgentDesktop/selectors';
 
 import ButtonConfigPropTypes from 'containers/ContentArea/propTypes';
@@ -72,7 +73,7 @@ export function ContentAreaTop(props, context) {
     (props.selectedInteractionHasScripts &&
       !props.selectedInteractionIsScriptOnly &&
       !props.selectedInteractionIsVoice) ||
-    props.hasAssignedContact
+    (props.hasAssignedContact && props.crmModule === 'zendesk')
   ) {
     sidePanelHasTabs = true;
   }
@@ -131,6 +132,7 @@ ContentAreaTop.propTypes = {
   isInteractionsBarCollapsed: PropTypes.bool.isRequired,
   selectedInteractionHasScripts: PropTypes.bool,
   hasAssignedContact: PropTypes.bool.isRequired,
+  crmModule: PropTypes.string,
 };
 
 ContentAreaTop.contextTypes = {
@@ -151,6 +153,7 @@ const mapStateToProps = (state, props) => ({
     getSelectedInteraction(state, props) &&
     getSelectedInteraction(state, props).script !== undefined,
   hasAssignedContact: getHasAssignedContact(state, props),
+  crmModule: selectCrmModule(state, props),
 });
 
 export default ErrorBoundary(connect(mapStateToProps)(Radium(ContentAreaTop)));
