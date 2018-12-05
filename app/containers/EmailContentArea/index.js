@@ -163,12 +163,13 @@ const styles = {
   centerText: {
     textAlign: 'center',
   },
-  emailContent: {
+  emailContentPlainBody: {
     position: 'absolute',
     height: '100%',
     width: '100%',
     overflowY: 'auto',
     padding: '19px 23px',
+    whiteSpace: 'pre',
   },
   emailContentFrame: {
     position: 'absolute',
@@ -394,20 +395,23 @@ export class EmailContentArea extends React.Component {
       subject: this.props.selectedInteraction.emailReply.subjectInput,
     };
 
+    const htmlBody = stateToHTML(this.state.editorState.getCurrentContent());
+    const plainTextBody = this.state.editorState
+      .getCurrentContent()
+      .getPlainText();
     if (this.props.selectedInteraction.direction === 'agent-initiated') {
-      emailReply.htmlBody = stateToHTML(
-        this.state.editorState.getCurrentContent()
-      );
-      emailReply.plainTextBody = this.state.editorState
-        .getCurrentContent()
-        .getPlainText();
+      emailReply.htmlBody = htmlBody;
+      emailReply.plainTextBody = plainTextBody;
     } else {
       emailReply.htmlBody =
-        stateToHTML(this.state.editorState.getCurrentContent()) +
-        this.wrapEmailHistory(this.emailWithImages());
-      emailReply.plainTextBody =
-        this.state.editorState.getCurrentContent().getPlainText() +
-        this.props.selectedInteraction.emailPlainBody;
+        htmlBody +
+        this.wrapEmailHistoryHtml(
+          this.props.selectedInteraction.emailHtmlBody !== undefined
+            ? this.emailWithImages()
+            : this.props.selectedInteraction.emailPlainBody
+        );
+      emailReply.plainTextBody = `${plainTextBody}
+${this.wrapEmailHistoryPlainText()}`;
     }
     console.log('CxEngage.interactions.email.sendReply()', emailReply);
     CxEngage.interactions.email.sendReply(emailReply);
@@ -455,19 +459,25 @@ export class EmailContentArea extends React.Component {
     return newEmailBody;
   };
 
-  wrapEmailHistory = (email) => {
+  onDateNameWrote = () => {
     const timestampFormatted = moment(
       this.props.selectedInteraction.emailDetails.dateSent
     ).format('LL');
-    return `
-      <p>On ${timestampFormatted} ${
-      this.props.selectedInteraction.emailDetails.from[0].name
-    } wrote:</p>
-      <div style='border-left: 2px solid #979797; padding-left: 20px'>
-        ${email}
-      </div>
-    `;
+    return this.props.intl.formatMessage(messages.onDateNameWrote, {
+      date: timestampFormatted,
+      name: this.props.selectedInteraction.emailDetails.from[0].name,
+    });
   };
+
+  wrapEmailHistoryHtml = (email) =>
+    `<p>${this.onDateNameWrote()}</p>
+<div style='border-left: 2px solid #979797; padding-left: 20px; white-space: pre;'>
+${email}
+</div>`;
+
+  wrapEmailHistoryPlainText = () =>
+    `${this.onDateNameWrote()}
+${this.props.selectedInteraction.emailPlainBody}`;
 
   updateAttachmentUrl = (selectedArtifactFileId) => {
     this.props.setEmailAttachmentFetchingUrl(
@@ -771,7 +781,7 @@ export class EmailContentArea extends React.Component {
         );
       } else {
         content = (
-          <div id="emailContainer" style={styles.emailContent}>
+          <div id="emailContainer" style={styles.emailContentPlainBody}>
             {this.props.selectedInteraction.emailPlainBody}
           </div>
         );
@@ -1008,7 +1018,10 @@ export class EmailContentArea extends React.Component {
                 ref={this.updateIframeEmail}
               />
             ) : (
-              <blockquote className="md-RichEditor-blockquote">
+              <blockquote
+                style={{ whiteSpace: 'pre' }}
+                className="md-RichEditor-blockquote"
+              >
                 {this.props.selectedInteraction.emailPlainBody}
               </blockquote>
             )}

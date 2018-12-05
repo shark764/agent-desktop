@@ -84,6 +84,7 @@ export class EmailInput extends React.Component {
         <div style={styles.detailsValue}>
           {this.props.emails.map((email, index) => (
             <EmailListItem
+              key={index} // eslint-disable-line react/no-array-index-key
               index={index}
               email={email}
               listName={`${this.props.inputType}s`}
