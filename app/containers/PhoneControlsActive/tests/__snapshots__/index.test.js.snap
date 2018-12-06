@@ -145,6 +145,7 @@ exports[`<PhoneControlsActive/> if the interaction has warm transfers we show th
                     ],
                   }
                 }
+                key="0"
                 resource={
                   Object {
                     "addedTimestamp": -10000,
@@ -414,6 +415,7 @@ exports[`<PhoneControlsActive/> in toolbar mode when have several interactions o
                     ],
                   }
                 }
+                key="0"
                 resource={
                   Object {
                     "addedTimestamp": -10000,
