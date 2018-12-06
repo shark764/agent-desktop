@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.32.13",
+  "version": "1.32.14",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
   "author": "Serenova",
   "license": "UNLICENSED",
   "scripts": {
-    "extract-intl": "babel-node --presets latest,stage-0 -- ./internals/scripts/extract-intl.js",
+    "extract-intl": "babel-node --presets stage-0 -- ./internals/scripts/extract-intl.js",
     "npmcheckversion": "node ./internals/scripts/npmcheckversion.js",
     "preinstall": "npm run npmcheckversion",
     "prebuild": "npm run build:clean",
@@ -32,7 +32,7 @@
     "test:file": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
     "zendesk": "bash tasks/zendesk.sh",
-    "precommit": "npm run lint:staged && npm run lint && npm run test"
+    "precommit": "npm run lint:staged && npm run lint && npm run test && npm run extract-intl"
   },
   "lint-staged": {
     "*.js": [

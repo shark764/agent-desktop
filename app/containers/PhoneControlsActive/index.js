@@ -152,7 +152,7 @@ export class PhoneControlsActive extends React.Component {
           // the index being appended to the key is a temporary anti-pattern to protect us from
           // duplicate keys now that queues and resource ID's both live in the props,
           <TransferResource
-            //  eslint-disable-next-line no-array-index-key
+            // eslint-disable-next-line react/no-array-index-key
             key={index}
             activeVoiceInteraction={this.props.activeVoiceInteraction}
             resource={warmTransfer}
