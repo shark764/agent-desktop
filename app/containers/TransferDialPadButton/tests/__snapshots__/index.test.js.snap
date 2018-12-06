@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransferDialPadButton component event handlers onClick event 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      true,
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": true,
+    },
+  ],
+}
+`;
+
+exports[`TransferDialPadButton component render when showTransferDialpad is false 1`] = `
+<styled.div>
+  <CircleIconButton
+    active={false}
+    id="transferDialpadButton"
+    name="dialpad_dark"
+    onClick={[Function]}
+    style={
+      Object {
+        "display": "block",
+        "margin": "0 auto",
+      }
+    }
+  />
+</styled.div>
+`;
+
+exports[`TransferDialPadButton component render when showTransferDialpad is true 1`] = `
+<styled.div>
+  <CircleIconButton
+    active={false}
+    id="transferDialpadButton"
+    name="transfer_dark"
+    onClick={[Function]}
+    style={
+      Object {
+        "display": "block",
+        "margin": "0 auto",
+      }
+    }
+  />
+</styled.div>
+`;
+
+exports[`mapDispatchToProps should map actions from action-creators to component-props correctly 1`] = `
+Object {
+  "setShowTransferDialPad": [Function],
+}
+`;
+
+exports[`mapStateToProps should map redux-states from selectors to component-props correctly 1`] = `
+Object {
+  "showTransferDialpad": "mock selectShowTransferDialpad",
+}
+`;

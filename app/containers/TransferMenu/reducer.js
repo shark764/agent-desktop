@@ -18,6 +18,10 @@ const initialState = fromJS({
   queuesListVisibleState: undefined,
   agentsListVisibleState: undefined,
   transferListsVisibleState: {},
+  transferSearchInput: '',
+  transferTabIndex: 0,
+  focusedTransferItemIndex: -1,
+  showTransferDialpad: false,
 });
 
 export default function(state = initialState, action) {
@@ -42,6 +46,21 @@ export default function(state = initialState, action) {
         'transferListsVisibleState',
         fromJS(action.transferListsVisibleState)
       );
+    }
+    case ACTIONS.SET_TRANSFER_SEARCH_INPUT: {
+      return state.set('transferSearchInput', action.transferSearchInput);
+    }
+    case ACTIONS.SET_TRANSFER_TAB_INDEX: {
+      return state.set('transferTabIndex', action.transferTabIndex);
+    }
+    case ACTIONS.SET_FOCUSED_TRANSFER_ITEM_INDEX: {
+      return state.set(
+        'focusedTransferItemIndex',
+        action.focusedTransferItemIndex
+      );
+    }
+    case ACTIONS.SET_SHOW_TRANSFER_DIAL_PAD: {
+      return state.set('showTransferDialpad', action.showTransferDialpad);
     }
     default:
       return state;

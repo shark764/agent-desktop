@@ -514,3 +514,51 @@ Object {
   },
 }
 `;
+
+exports[`tearDownTransferMenuStates sets showTransferDialpad to its default state 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "showTransferDialpad": false,
+        "type": "app/TransferMenu/SET_SHOW_TRANSFER_DIAL_PAD",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`tearDownTransferMenuStates sets transferSearchInput to its default state 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "transferSearchInput": "",
+        "type": "app/TransferMenu/SET_TRANSFER_SEARCH_INPUT",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`tearDownTransferMenuStates sets transferTabIndex to its default state 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "transferTabIndex": 0,
+        "type": "app/TransferMenu/SET_TRANSFER_TAB_INDEX",
+      },
+      "channel": null,
+    },
+  },
+}
+`;

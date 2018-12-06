@@ -38,6 +38,18 @@ const selectAgentsListVisibleState = (state) =>
 const selectTransferListsVisibleState = (state) =>
   state.getIn(['transferMenu', 'transferListsVisibleState']).toJS();
 
+const selectTransferSearchInput = (state) =>
+  state.getIn(['transferMenu', 'transferSearchInput']);
+
+const selectTransferTabIndex = (state) =>
+  state.getIn(['transferMenu', 'transferTabIndex']);
+
+const selectFocusedTransferItemIndex = (state) =>
+  state.getIn(['transferMenu', 'focusedTransferItemIndex']);
+
+const selectShowTransferDialpad = (state) =>
+  state.getIn(['transferMenu', 'showTransferDialpad']);
+
 const selectAgents = createSelector(
   selectBatchRequests,
   selectResourceCapacity,
@@ -135,4 +147,8 @@ export {
   selectQueuesListVisibleState,
   selectAgentsListVisibleState,
   selectTransferListsVisibleState,
+  selectTransferSearchInput,
+  selectTransferTabIndex,
+  selectFocusedTransferItemIndex,
+  selectShowTransferDialpad,
 };

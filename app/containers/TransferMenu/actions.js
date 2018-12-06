@@ -44,7 +44,36 @@ export function setTransferListsVisibleState(transferListsVisibleState) {
   };
 }
 
+export function setTransferSearchInput(transferSearchInput) {
+  return {
+    type: ACTIONS.SET_TRANSFER_SEARCH_INPUT,
+    transferSearchInput,
+  };
+}
+
+export function setFocusedTransferItemIndex(focusedTransferItemIndex) {
+  return {
+    type: ACTIONS.SET_FOCUSED_TRANSFER_ITEM_INDEX,
+    focusedTransferItemIndex,
+  };
+}
+
+export function setTransferTabIndex(transferTabIndex) {
+  return {
+    type: ACTIONS.SET_TRANSFER_TAB_INDEX,
+    transferTabIndex,
+  };
+}
+
+export function setShowTransferDialPad(showTransferDialpad) {
+  return {
+    type: ACTIONS.SET_SHOW_TRANSFER_DIAL_PAD,
+    showTransferDialpad,
+  };
+}
+
 // Saga Actions:
+
 export function setTransferLists() {
   return {
     type: ACTIONS.SET_TRANSFER_LISTS,
@@ -72,5 +101,10 @@ export function updateTransferListVisibleState(transferListId) {
   return {
     type: ACTIONS.UPDATE_TRANSFER_LIST_VISIBLE_STATE,
     transferListId,
+  };
+}
+export function tearDownTransferMenuStates() {
+  return {
+    type: ACTIONS.TEAR_DOWN_TRANSFER_MENU_STATES,
   };
 }

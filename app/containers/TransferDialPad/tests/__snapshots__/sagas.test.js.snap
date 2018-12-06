@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`changeDialPadText updates dialpadText state by dispatching setDialpadText action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "dialpadText": "+1234567890*#",
+        "type": "app/TransferDialPad/SET_DIAL_PAD_TEXT",
+      },
+      "channel": null,
+    },
+  },
+}
+`;

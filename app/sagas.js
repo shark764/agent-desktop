@@ -14,6 +14,7 @@ import contactSagas from 'containers/ContactsControl/sagas';
 import contactSearchSagas from 'containers/ContactSearch/sagas';
 import agentScriptSagas from 'containers/AgentScript/sagas';
 import transferMenuSagas from 'containers/TransferMenu/sagas';
+import transferDialPadSagas from 'containers/TransferDialPad/sagas';
 import notificationPreferencesSagas from 'containers/AgentNotificationsMenu/sagas';
 import outboundIdentifierListSagas from 'containers/OutboundAniSelect/sagas';
 
@@ -35,4 +36,5 @@ export default function* rootSaga() {
     yield fork(allSagas[i]);
   }
   yield all([...transferMenuSagas]);
+  yield all([...transferDialPadSagas]);
 }

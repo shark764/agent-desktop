@@ -1,7 +1,7 @@
 /*
  * Copyright © 2015-2018 Serenova, LLC. All rights reserved.
  */
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import {
   SET_OUTBOUND_IDENTIFICATION_LISTS,
   SELECT_OUTBOUND_IDENTIFICATION,
@@ -23,7 +23,7 @@ describe('OutboundAniSelectReducer', () => {
           },
         },
       };
-      expect(OutboundAniSelectReducer(new Map(), action)).toMatchSnapshot();
+      expect(OutboundAniSelectReducer(Map(), action)).toMatchSnapshot();
     });
     it('if outbound identifier list are empty', () => {
       const initialState = fromJS({});
@@ -44,7 +44,7 @@ describe('OutboundAniSelectReducer', () => {
         type: SELECT_OUTBOUND_IDENTIFICATION,
         response: 'mock-value',
       };
-      expect(OutboundAniSelectReducer(new Map(), action)).toMatchSnapshot();
+      expect(OutboundAniSelectReducer(Map(), action)).toMatchSnapshot();
     });
     it('if outbound identifier does not selected', () => {
       const initialState = fromJS({});

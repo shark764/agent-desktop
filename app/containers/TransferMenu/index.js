@@ -13,16 +13,10 @@ import { Tab, TabList, TabPanel } from 'react-tabs';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { PhoneNumberUtil } from 'google-libphonenumber';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import search from 'assets/icons/search.png';
 import Icon from 'components/Icon';
-
-import ErrorBoundary from 'components/ErrorBoundary';
-
-import Button from 'components/Button';
-import CircleIconButton from 'components/CircleIconButton';
-import Dialpad from 'components/Dialpad';
 import Tabs from 'components/Tabs';
 import TextInput from 'components/TextInput';
 import TimeStat from 'components/TimeStat';
@@ -33,15 +27,21 @@ import {
 } from 'containers/AgentDesktop/actions';
 import { selectAgentId, selectQueues } from 'containers/AgentDesktop/selectors';
 import { selectBatchRequests } from 'containers/Toolbar/selectors';
+import TransferDialPadButton from 'containers/TransferDialPadButton';
+import TransferDialPad from 'containers/TransferDialPad';
 import messages from './messages';
 import {
   setResourceCapactiy,
   setUsers,
   setTransferLists,
+  setTransferSearchInput,
+  setFocusedTransferItemIndex,
+  setTransferTabIndex,
   initializeQueuesAgentsVisibleState,
   updateQueuesListVisibleState,
   updateAgentsListVisibleState,
   updateTransferListVisibleState,
+  tearDownTransferMenuStates,
 } from './actions';
 import {
   selectWarmTransfers,
@@ -50,6 +50,10 @@ import {
   selectQueuesListVisibleState,
   selectAgentsListVisibleState,
   selectTransferListsVisibleState,
+  selectTransferSearchInput,
+  selectFocusedTransferItemIndex,
+  selectTransferTabIndex,
+  selectShowTransferDialpad,
 } from './selectors';
 
 const REFRESH_AGENTS_RATE = 5000;
@@ -57,37 +61,9 @@ const REFRESH_QUEUES_RATE = 10000;
 export class TransferMenu extends React.Component {
   constructor(props) {
     super(props);
-
     this.mounted = false;
     this.queuesStatsIds = [];
-
-    this.state = {
-      transferTabIndex: this.props.nonVoice ? 1 : 0,
-      transferSearchInput: '',
-      dialpadText: '',
-      dialpadTextValid: false,
-      focusedElementIndex: -1,
-    };
   }
-
-  phoneNumberUtil = PhoneNumberUtil.getInstance();
-
-  setDialpadText = (dialpadText) => {
-    let formattedDialpadText = dialpadText.replace(/[^0-9+*#]/g, '');
-    if (formattedDialpadText.indexOf('+') !== 0) {
-      formattedDialpadText = `+${formattedDialpadText}`;
-    }
-    let isValid = false;
-    try {
-      isValid = this.phoneNumberUtil.isPossibleNumber(
-        this.phoneNumberUtil.parse(formattedDialpadText, 'E164')
-      );
-    } catch (e) {
-      // Do nothing, this just means it is invalid
-    }
-    this.setState({ dialpadTextValid: isValid });
-    this.setState({ dialpadText: formattedDialpadText });
-  };
 
   hotKeys = (e) => {
     const availableTransferItems = document.getElementsByClassName(
@@ -96,33 +72,35 @@ export class TransferMenu extends React.Component {
     const lastTransferItem = availableTransferItems.length - 1;
 
     if (e.target.id === 'transferSearchInput') {
-      this.setState({ focusedElementIndex: -1 });
+      this.props.setFocusedTransferItemIndex(-1);
     }
-    // 37 is up arrow
+
+    // 38 is up arrow
     if (e.which === 38 && availableTransferItems.length !== 0) {
-      if (this.state.focusedElementIndex === 0) {
+      if (this.props.focusedTransferItemIndex === 0) {
         availableTransferItems[lastTransferItem].focus();
-        this.setState({ focusedElementIndex: lastTransferItem });
+        this.props.setFocusedTransferItemIndex(lastTransferItem);
       } else {
-        availableTransferItems[this.state.focusedElementIndex - 1].focus();
-        this.setState((prevState) => ({
-          focusedElementIndex: prevState.focusedElementIndex - 1,
-        }));
+        availableTransferItems[this.props.focusedTransferItemIndex - 1].focus();
+        this.props.setFocusedTransferItemIndex(
+          this.props.focusedTransferItemIndex - 1
+        );
       }
     }
+
     // 40 is down arrow
     if (e.which === 40 && availableTransferItems.length !== 0) {
-      if (this.state.focusedElementIndex === -1) {
+      if (
+        this.props.focusedTransferItemIndex === -1 ||
+        this.props.focusedTransferItemIndex === lastTransferItem
+      ) {
         availableTransferItems[0].focus();
-        this.setState({ focusedElementIndex: 0 });
-      } else if (this.state.focusedElementIndex === lastTransferItem) {
-        availableTransferItems[0].focus();
-        this.setState({ focusedElementIndex: 0 });
+        this.props.setFocusedTransferItemIndex(0);
       } else {
-        availableTransferItems[this.state.focusedElementIndex + 1].focus();
-        this.setState((prevState) => ({
-          focusedElementIndex: prevState.focusedElementIndex + 1,
-        }));
+        availableTransferItems[this.props.focusedTransferItemIndex + 1].focus();
+        this.props.setFocusedTransferItemIndex(
+          this.props.focusedTransferItemIndex + 1
+        );
       }
     }
     // 13 is enter key
@@ -154,7 +132,7 @@ export class TransferMenu extends React.Component {
       CxEngage.entities.getQueues(this.refreshQueues);
     }, REFRESH_QUEUES_RATE);
 
-    if (this.state.transferTabIndex === 0) {
+    if (this.props.transferTabIndex === 0) {
       this.reloadTransferablesInterval = setInterval(() => {
         if (!this.props.batchRequestsAreSuccessful) {
           CxEngage.entities.getUsers({ excludeOffline: true });
@@ -173,8 +151,12 @@ export class TransferMenu extends React.Component {
 
   componentWillUnmount() {
     this.mounted = false;
+
+    this.props.tearDownTransferMenuStates();
+
     clearInterval(this.reloadQueuesInterval);
     clearInterval(this.reloadTransferablesInterval);
+
     if (this.resourceCapacityStatId !== undefined) {
       CxEngage.reporting.removeStatSubscription({
         statId: this.resourceCapacityStatId,
@@ -385,23 +367,6 @@ export class TransferMenu extends React.Component {
       display: 'inline-block',
       maxWidth: '200px',
     },
-    dialpadButtonContainer: {
-      backgroundColor: '#F3F3F3',
-      borderTop: '1px solid #D0D0D0',
-      padding: '10px 0',
-    },
-    dialpadButton: {
-      display: 'block',
-      margin: '0 auto',
-    },
-    dialpadContainer: {
-      padding: '24px 12px',
-    },
-    transferDialpadButton: {
-      display: 'block',
-      margin: '24px auto 0',
-      width: '134px',
-    },
     iconClosed: {
       marginTop: '6px',
       height: '8px',
@@ -423,10 +388,10 @@ export class TransferMenu extends React.Component {
 
   filterTransferListItems = (transferListItems) =>
     transferListItems.filter((transferListItem) => {
-      if (this.state.transferSearchInput.trim() !== '') {
+      if (this.props.transferSearchInput.trim() !== '') {
         return transferListItem.name
           .toUpperCase()
-          .includes(this.state.transferSearchInput.toUpperCase());
+          .includes(this.props.transferSearchInput.toUpperCase());
       } else {
         return true;
       }
@@ -444,17 +409,17 @@ export class TransferMenu extends React.Component {
     }
   };
 
-  transferFromDialpad = () => {
-    this.transfer(this.state.dialpadText, undefined, undefined, {
+  transferFromDialpad = (dialpadText) => {
+    this.transfer(dialpadText, undefined, undefined, {
       type: 'pstn',
-      value: this.state.dialpadText,
+      value: dialpadText,
     });
   };
 
   transfer = (name, resourceId, queueId, transferExtension) => {
     const { interactionId } = this.props;
     let transferType;
-    if (this.state.transferTabIndex === 0 && !this.props.nonVoice) {
+    if (this.props.transferTabIndex === 0 && !this.props.nonVoice) {
       transferType = 'warm';
       let id;
       let type;
@@ -551,7 +516,7 @@ export class TransferMenu extends React.Component {
     );
 
     let agents;
-    if (this.state.transferTabIndex === 0) {
+    if (!this.props.nonVoice) {
       if (this.props.selectAgents !== undefined) {
         agents = this.filterTransferListItems(this.props.selectAgents).map(
           (agent) => {
@@ -651,7 +616,7 @@ export class TransferMenu extends React.Component {
               transferListItems
             )
               .filter((transferListItem) => {
-                if (this.state.transferTabIndex === 0) {
+                if (this.props.transferTabIndex === 0) {
                   return transferListItem.warmTransfer !== undefined;
                 } else {
                   return transferListItem.coldTransfer !== undefined;
@@ -726,7 +691,7 @@ export class TransferMenu extends React.Component {
                   />
                 </div>
                 {(this.props.transferListsVisibleState[transferList.id] ||
-                  this.state.transferSearchInput.trim() !== '') &&
+                  this.props.transferSearchInput.trim() !== '') &&
                   hierarchyList}
               </div>
             );
@@ -747,8 +712,10 @@ export class TransferMenu extends React.Component {
           <Tabs
             id="transferTabs"
             type="small"
-            selectedIndex={this.state.transferTabIndex}
-            onSelect={(transferTabIndex) => this.setState({ transferTabIndex })}
+            selectedIndex={this.props.transferTabIndex}
+            onSelect={(transferTabIndex) =>
+              this.props.setTransferTabIndex(transferTabIndex)
+            }
           >
             <TabList>
               <Tab>
@@ -762,15 +729,15 @@ export class TransferMenu extends React.Component {
             <TabPanel />
           </Tabs>
         )}
-        {!this.state.showTransferListDialpad ? (
+        {!this.props.showTransferDialpad ? (
           <div style={this.styles.transferListsContainer}>
             <TextInput
               id="transferSearchInput"
               placeholder={messages.search}
               cb={(transferSearchInput) =>
-                this.setState({ transferSearchInput })
+                this.props.setTransferSearchInput(transferSearchInput)
               }
-              value={this.state.transferSearchInput}
+              value={this.props.transferSearchInput}
               style={this.styles.transferSearchInput}
               autoFocus
             />
@@ -791,7 +758,7 @@ export class TransferMenu extends React.Component {
                   <FormattedMessage {...messages.queues} />
                   {(!this.props.nonVoice
                     ? this.props.queuesListVisibleState ||
-                      this.state.transferSearchInput.trim() !== ''
+                      this.props.transferSearchInput.trim() !== ''
                     : true) && (
                     <div
                       id="refreshQueues"
@@ -822,10 +789,10 @@ export class TransferMenu extends React.Component {
                 </div>
                 {(!this.props.nonVoice
                   ? this.props.queuesListVisibleState ||
-                    this.state.transferSearchInput.trim() !== ''
+                    this.props.transferSearchInput.trim() !== ''
                   : true) && queues}
               </div>
-              {this.state.transferTabIndex === 0 && (
+              {!this.props.nonVoice && (
                 <div style={this.styles.transferList}>
                   <div
                     id="agentsExpandCollapseBtn"
@@ -842,7 +809,7 @@ export class TransferMenu extends React.Component {
                   >
                     <FormattedMessage {...messages.agents} />
                     {(this.props.agentsListVisibleState ||
-                      this.state.transferSearchInput.trim() !== '') && (
+                      this.props.transferSearchInput.trim() !== '') && (
                       <div
                         id="refreshAgents"
                         key="agentsRefreshBtn"
@@ -856,19 +823,17 @@ export class TransferMenu extends React.Component {
                         &#8635;
                       </div>
                     )}
-                    {!this.props.nonVoice && (
-                      <Icon
-                        name="caret"
-                        style={
-                          this.props.agentsListVisibleState
-                            ? this.styles.iconOpen
-                            : this.styles.iconClosed
-                        }
-                      />
-                    )}
+                    <Icon
+                      name="caret"
+                      style={
+                        this.props.agentsListVisibleState
+                          ? this.styles.iconOpen
+                          : this.styles.iconClosed
+                      }
+                    />
                   </div>
                   {(this.props.agentsListVisibleState ||
-                    this.state.transferSearchInput.trim() !== '') &&
+                    this.props.transferSearchInput.trim() !== '') &&
                     agents}
                 </div>
               )}
@@ -876,48 +841,9 @@ export class TransferMenu extends React.Component {
             </div>
           </div>
         ) : (
-          <div style={this.styles.dialpadContainer}>
-            <Dialpad
-              id="dialpad"
-              setDialpadText={this.setDialpadText}
-              onEnter={this.transferFromDialpad}
-              dialpadText={this.state.dialpadText}
-              active={false}
-              transfer
-            />
-            <Button
-              id="transferDialpadButton"
-              text={
-                this.state.transferTabIndex === 0
-                  ? messages.addParticipant
-                  : messages.transfer
-              }
-              disabled={!this.state.dialpadTextValid}
-              onClick={this.transferFromDialpad}
-              type="primaryBlue"
-              style={this.styles.transferDialpadButton}
-            />
-          </div>
+          <TransferDialPad transferFromDialpad={this.transferFromDialpad} />
         )}
-        {!this.props.nonVoice && (
-          <div style={this.styles.dialpadButtonContainer}>
-            <CircleIconButton
-              id="transferDialpadButton"
-              name={
-                this.state.showTransferListDialpad
-                  ? 'transfer_dark'
-                  : 'dialpad_dark'
-              }
-              active={false}
-              onClick={() =>
-                this.setState((prevState) => ({
-                  showTransferListDialpad: !prevState.showTransferListDialpad,
-                }))
-              }
-              style={this.styles.dialpadButton}
-            />
-          </div>
-        )}
+        {!this.props.nonVoice && <TransferDialPadButton />}
       </div>
     );
   }
@@ -928,6 +854,10 @@ const mapStateToProps = (state, props) => ({
   queuesListVisibleState: selectQueuesListVisibleState(state, props),
   agentsListVisibleState: selectAgentsListVisibleState(state, props),
   transferListsVisibleState: selectTransferListsVisibleState(state, props),
+  transferSearchInput: selectTransferSearchInput(state, props),
+  transferTabIndex: selectTransferTabIndex(state, props),
+  focusedTransferItemIndex: selectFocusedTransferItemIndex(state, props),
+  showTransferDialpad: selectShowTransferDialpad(state, props),
   agentId: selectAgentId(state, props),
   warmTransfers: selectWarmTransfers(state, props),
   queues: selectQueues(state, props),
@@ -952,6 +882,13 @@ function mapDispatchToProps(dispatch) {
       dispatch(updateAgentsListVisibleState()),
     updateTransferListVisibleState: (transferListId) =>
       dispatch(updateTransferListVisibleState(transferListId)),
+    setTransferSearchInput: (transferSearchInput) =>
+      dispatch(setTransferSearchInput(transferSearchInput)),
+    setTransferTabIndex: (transferTabIndex) =>
+      dispatch(setTransferTabIndex(transferTabIndex)),
+    setFocusedTransferItemIndex: (focusedTransferItemIndex) =>
+      dispatch(setFocusedTransferItemIndex(focusedTransferItemIndex)),
+    tearDownTransferMenuStates: () => dispatch(tearDownTransferMenuStates()),
   };
 }
 
@@ -978,6 +915,14 @@ TransferMenu.propTypes = {
   updateQueuesListVisibleState: PropTypes.func.isRequired,
   updateAgentsListVisibleState: PropTypes.func.isRequired,
   updateTransferListVisibleState: PropTypes.func.isRequired,
+  transferSearchInput: PropTypes.string,
+  transferTabIndex: PropTypes.number.isRequired,
+  focusedTransferItemIndex: PropTypes.number.isRequired,
+  showTransferDialpad: PropTypes.bool.isRequired,
+  setTransferSearchInput: PropTypes.func.isRequired,
+  setTransferTabIndex: PropTypes.func.isRequired,
+  setFocusedTransferItemIndex: PropTypes.func.isRequired,
+  tearDownTransferMenuStates: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(

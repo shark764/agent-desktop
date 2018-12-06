@@ -6,6 +6,10 @@ import {
   selectQueuesListVisibleState,
   selectAgentsListVisibleState,
   selectTransferListsVisibleState,
+  selectShowTransferDialpad,
+  selectTransferSearchInput,
+  selectTransferTabIndex,
+  selectFocusedTransferItemIndex,
 } from '../selectors';
 
 describe('selectAgents', () => {
@@ -228,5 +232,48 @@ describe('selectTransferListsVisibleState', () => {
       },
     });
     expect(selectTransferListsVisibleState(state)).toMatchSnapshot();
+  });
+});
+describe('selectShowTransferDialpad', () => {
+  it('when showTransferDialpad is defined', () => {
+    const state = fromJS({
+      transferMenu: {
+        showTransferDialpad: true,
+      },
+    });
+    expect(selectShowTransferDialpad(state)).toBe(true);
+  });
+});
+
+describe('selectTransferSearchInput', () => {
+  it('gets updated transferSearchInput', () => {
+    const state = fromJS({
+      transferMenu: {
+        transferSearchInput: 'mockTransferSearchInput',
+      },
+    });
+    expect(selectTransferSearchInput(state)).toEqual('mockTransferSearchInput');
+  });
+});
+
+describe('selectTransferTabIndex', () => {
+  it('gets updated transferTabIndex', () => {
+    const state = fromJS({
+      transferMenu: {
+        transferTabIndex: 1,
+      },
+    });
+    expect(selectTransferTabIndex(state)).toEqual(1);
+  });
+});
+
+describe('selectFocusedTransferItemIndex', () => {
+  it('gets updated focusedTransferItemIndex', () => {
+    const state = fromJS({
+      transferMenu: {
+        focusedTransferItemIndex: 3,
+      },
+    });
+    expect(selectFocusedTransferItemIndex(state)).toEqual(3);
   });
 });
