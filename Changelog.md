@@ -1,3 +1,6 @@
+### [1.32.14] (2018-12-06)
+* CXV1-16394 - Fixed auto internationalization file generation
+
 ### [1.32.13] (2018-12-04)
 * CXV1-15243 - key is missing react component
 

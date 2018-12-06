@@ -12,6 +12,6 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   outboundAniLabel: {
     id: 'app.containers.CustomFields.outboundAniLabel',
-    defaultMessage: 'Outobund ANI',
+    defaultMessage: 'Outbound ANI',
   },
 });
