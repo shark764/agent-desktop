@@ -1,3 +1,6 @@
+### [1.32.18] (2018-12-10)
+* CXV1-12566 - When Writing a Reply to an Email, the "To:" Value Goes Off Screen if Long Enough
+
 ### [1.32.17] (2018-12-07)
 * CXV1-11326 - Add tooltips to phonecontrols
 

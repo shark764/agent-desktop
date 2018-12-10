@@ -11,12 +11,20 @@ import { removeEmail } from './actions';
 const styles = {
   emailAddress: {
     display: 'inline-block',
-    whiteSpace: 'nowrap',
     backgroundColor: '#FFFFFF',
     border: '1px solid #D0D0D0',
     borderRadius: '3px',
     padding: '0 6px',
     marginRight: '6px',
+    whiteSpace: 'nowrap',
+  },
+  emailBase: {
+    maxWidth: '180px',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    display: 'inline-block',
+    marginBottom: '-2%',
   },
   emailAddressRemove: {
     display: 'inline-block',
@@ -30,16 +38,20 @@ export class EmailListItem extends React.Component {
   };
 
   render() {
+    const email =
+      this.props.email.name &&
+      this.props.email.name !== this.props.email.address
+        ? `${this.props.email.name} [${this.props.email.address}]`
+        : this.props.email.address;
     return (
       <div
         key={`${this.props.index}-${this.props.email.address}`} // eslint-disable-line
         id={`${this.props.index}-${this.props.email.address}`}
         style={styles.emailAddress}
       >
-        {this.props.email.name &&
-        this.props.email.name !== this.props.email.address
-          ? `${this.props.email.name} [${this.props.email.address}]`
-          : this.props.email.address}
+        <div style={styles.emailBase} title={email}>
+          {email}
+        </div>
         {this.props.canRemoveEmailFromList && (
           <span onClick={this.remove} style={styles.emailAddressRemove}>
             <IconSVG
