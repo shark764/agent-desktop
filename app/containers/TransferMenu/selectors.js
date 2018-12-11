@@ -6,6 +6,7 @@ import { selectBatchRequests } from 'containers/Toolbar/selectors';
 import { selectAgent } from 'containers/Login/selectors';
 
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
+
 const selectWarmTransfers = createSelector(
   selectAgentDesktopDomain,
   (agentDesktop) => {
@@ -26,8 +27,23 @@ const selectResourceCapacity = (state) =>
 
 const selectUsers = (state) => state.getIn(['transferMenu', 'users']);
 
-const selectTransferLists = (state) =>
-  state.getIn(['transferMenu', 'transferLists']).toJS();
+const selectTransferListsMap = (state) =>
+  state.getIn(['transferMenu', 'transferLists']);
+const selectTransferLists = createSelector(
+  selectTransferListsMap,
+  (transferLists) => {
+    if (
+      transferLists !== undefined &&
+      transferLists !== 'noTransferListsAvailable'
+    ) {
+      return transferLists.toJS();
+    } else if (transferLists === 'noTransferListsAvailable') {
+      return transferLists;
+    } else {
+      return 'loading';
+    }
+  }
+);
 
 const selectQueuesListVisibleState = (state) =>
   state.getIn(['transferMenu', 'queuesListVisibleState']);
@@ -35,8 +51,18 @@ const selectQueuesListVisibleState = (state) =>
 const selectAgentsListVisibleState = (state) =>
   state.getIn(['transferMenu', 'agentsListVisibleState']);
 
-const selectTransferListsVisibleState = (state) =>
-  state.getIn(['transferMenu', 'transferListsVisibleState']).toJS();
+const selectTransferListsVisibleStateMap = (state) =>
+  state.getIn(['transferMenu', 'transferListsVisibleState']);
+const selectTransferListsVisibleState = createSelector(
+  selectTransferListsVisibleStateMap,
+  (transferListsVisibleState) => {
+    if (transferListsVisibleState !== undefined) {
+      return transferListsVisibleState.toJS();
+    } else {
+      return {};
+    }
+  }
+);
 
 const selectTransferSearchInput = (state) =>
   state.getIn(['transferMenu', 'transferSearchInput']);

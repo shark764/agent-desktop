@@ -30,10 +30,10 @@ export function* callTransferListsAndUpdateState() {
       sdkCallToPromise,
       CxEngage.entities.getEntity,
       { path: ['users', agent.userId, 'transfer-lists'] },
-      'transferMenu'
+      'TransferMenu'
     );
   } catch (err) {
-    console.log(err);
+    // Error handled in error saga
   }
   if (transferLists && transferLists.result.length > 0) {
     const activeTransferLists = transferLists.result
@@ -55,6 +55,8 @@ export function* callTransferListsAndUpdateState() {
     );
     yield put(getAndSetTransferLists(activeTransferLists));
     yield put(setTransferListsVisibleState(transferListsVisibleState));
+  } else {
+    yield put(getAndSetTransferLists('noTransferListsAvailable'));
   }
 }
 

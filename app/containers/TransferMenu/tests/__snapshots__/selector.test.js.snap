@@ -59,7 +59,7 @@ Array [
 ]
 `;
 
-exports[`selectTransferLists when transferLists exists in the tenant 1`] = `
+exports[`selectTransferLists when agents have active transferLists assigned to them 1`] = `
 Array [
   Object {
     "mockTransferList": "mockTransferListValue",

@@ -5,10 +5,8 @@ Immutable.Map {
   "users": undefined,
   "resourceCapacity": undefined,
   "transferTabIndex": 0,
-  "transferListsVisibleState": Immutable.Map {},
-  "transferLists": Immutable.List [
-    "loading",
-  ],
+  "transferListsVisibleState": undefined,
+  "transferLists": undefined,
   "agentsListVisibleState": undefined,
   "transferSearchInput": "",
   "showTransferDialpad": false,

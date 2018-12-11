@@ -186,8 +186,8 @@ describe('selectAgents', () => {
 });
 
 describe('selectTransferLists', () => {
-  it('when transferLists exists in the tenant', () => {
-    const state = fromJS({
+  it('when agents have active transferLists assigned to them', () => {
+    const selectTransferListsMap = fromJS({
       transferMenu: {
         transferLists: [
           {
@@ -196,7 +196,25 @@ describe('selectTransferLists', () => {
         ],
       },
     });
-    expect(selectTransferLists(state)).toMatchSnapshot();
+    expect(selectTransferLists(selectTransferListsMap)).toMatchSnapshot();
+  });
+  it('when no transferLists are assigned to agents', () => {
+    const selectTransferListsMap = fromJS({
+      transferMenu: {
+        transferLists: 'noTransferListsAvailable',
+      },
+    });
+    expect(selectTransferLists(selectTransferListsMap)).toBe(
+      'noTransferListsAvailable'
+    );
+  });
+  it('when transferLists are in loading state', () => {
+    const selectTransferListsMap = fromJS({
+      transferMenu: {
+        transferLists: undefined,
+      },
+    });
+    expect(selectTransferLists(selectTransferListsMap)).toBe('loading');
   });
 });
 
@@ -233,6 +251,14 @@ describe('selectTransferListsVisibleState', () => {
     });
     expect(selectTransferListsVisibleState(state)).toMatchSnapshot();
   });
+  it('when transferListsVisibleState is not defined', () => {
+    const state = fromJS({
+      transferMenu: {
+        transferListsVisibleState: undefined,
+      },
+    });
+    expect(selectTransferListsVisibleState(state)).toEqual({});
+  });
 });
 describe('selectShowTransferDialpad', () => {
   it('when showTransferDialpad is defined', () => {
@@ -252,7 +278,7 @@ describe('selectTransferSearchInput', () => {
         transferSearchInput: 'mockTransferSearchInput',
       },
     });
-    expect(selectTransferSearchInput(state)).toEqual('mockTransferSearchInput');
+    expect(selectTransferSearchInput(state)).toBe('mockTransferSearchInput');
   });
 });
 
@@ -263,7 +289,7 @@ describe('selectTransferTabIndex', () => {
         transferTabIndex: 1,
       },
     });
-    expect(selectTransferTabIndex(state)).toEqual(1);
+    expect(selectTransferTabIndex(state)).toBe(1);
   });
 });
 
@@ -274,6 +300,6 @@ describe('selectFocusedTransferItemIndex', () => {
         focusedTransferItemIndex: 3,
       },
     });
-    expect(selectFocusedTransferItemIndex(state)).toEqual(3);
+    expect(selectFocusedTransferItemIndex(state)).toBe(3);
   });
 });
