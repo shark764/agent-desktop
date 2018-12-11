@@ -10,6 +10,7 @@ import { selectAgentId } from 'containers/AgentDesktop/selectors';
 import { toggleInteractionIsHolding } from 'containers/AgentDesktop/actions';
 
 import CircleIconButton from 'components/CircleIconButton';
+import messages from './messages';
 
 const styles = {
   circleIconButtonRow: {
@@ -49,6 +50,7 @@ export class Hold extends React.PureComponent {
         <CircleIconButton
           id="holdButton"
           name="hold"
+          title={!this.props.isOnHold ? messages.hold : messages.unHold}
           active={this.props.isOnHold}
           onClick={this.setHold}
           style={styles.circleIconButtonRow}

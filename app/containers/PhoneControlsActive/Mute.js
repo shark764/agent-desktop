@@ -10,6 +10,7 @@ import { selectAgentId } from 'containers/AgentDesktop/selectors';
 import { toggleInteractionIsMuting } from 'containers/AgentDesktop/actions';
 
 import CircleIconButton from 'components/CircleIconButton';
+import messages from './messages';
 
 const styles = {
   circleIconButtonRow: {
@@ -51,6 +52,7 @@ export class Mute extends React.PureComponent {
         <CircleIconButton
           id="muteButton"
           name="mute"
+          title={!this.props.isMuted ? messages.mute : messages.unMute}
           active={this.props.isMuted}
           onClick={this.setMute}
           style={styles.circleIconButtonRow}

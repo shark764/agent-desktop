@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Hold /> with canUpdateHold renders icon 1`] = `
-<CircleIconButton
+<InjectIntl(CircleIconButton)
   active={false}
   id="holdButton"
   loading={true}
@@ -10,6 +10,12 @@ exports[`<Hold /> with canUpdateHold renders icon 1`] = `
   style={
     Object {
       "padding": "0 1.5px",
+    }
+  }
+  title={
+    Object {
+      "defaultMessage": "Put Customer On Hold",
+      "id": "app.containers.PhoneControls.hold",
     }
   }
 />

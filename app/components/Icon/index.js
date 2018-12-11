@@ -327,6 +327,7 @@ function Icon(props) {
       <span
         id={props.id ? props.id : `${props.name}-icon`}
         className={props.active ? 'active' : ''}
+        title={props.title}
         onClick={props.onclick}
         style={[
           styles.base,
@@ -353,6 +354,7 @@ function Icon(props) {
 
 Icon.propTypes = {
   name: PropTypes.oneOf(availableIcons).isRequired,
+  title: PropTypes.string,
   alt: PropTypes.string,
   active: PropTypes.bool,
   style: PropTypes.object,

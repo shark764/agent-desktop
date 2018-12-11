@@ -18,7 +18,7 @@ exports[`TransferDialPadButton component event handlers onClick event 1`] = `
 
 exports[`TransferDialPadButton component render when showTransferDialpad is false 1`] = `
 <styled.div>
-  <CircleIconButton
+  <InjectIntl(CircleIconButton)
     active={false}
     id="transferDialpadButton"
     name="dialpad_dark"
@@ -29,13 +29,19 @@ exports[`TransferDialPadButton component render when showTransferDialpad is fals
         "margin": "0 auto",
       }
     }
+    title={
+      Object {
+        "defaultMessage": "Add External Participant Dialpad",
+        "id": "app.containers.TransferMenu.externalParticipantDialpad",
+      }
+    }
   />
 </styled.div>
 `;
 
 exports[`TransferDialPadButton component render when showTransferDialpad is true 1`] = `
 <styled.div>
-  <CircleIconButton
+  <InjectIntl(CircleIconButton)
     active={false}
     id="transferDialpadButton"
     name="transfer_dark"
@@ -44,6 +50,12 @@ exports[`TransferDialPadButton component render when showTransferDialpad is true
       Object {
         "display": "block",
         "margin": "0 auto",
+      }
+    }
+    title={
+      Object {
+        "defaultMessage": "Back to Transfer Menu",
+        "id": "app.containers.TransferMenu.backtoTransferMenu",
       }
     }
   />

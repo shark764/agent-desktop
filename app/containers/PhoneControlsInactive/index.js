@@ -131,6 +131,7 @@ export class PhoneControlsInactive extends React.Component {
               <CircleIconButton
                 id="dialpadButton"
                 name="dialpad"
+                title={messages.dialpad}
                 onClick={this.toggleDialpad}
                 innerElement={this.renderDialpad()}
               />

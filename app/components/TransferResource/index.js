@@ -204,12 +204,18 @@ export class TransferResource extends React.Component {
             <CircleIconButton
               id="hangUpResource"
               name="end_call_resource"
+              title={messages.disconnectParticipant}
               onClick={this.hangUpResource}
               style={this.styles.phoneControlsButton}
             />
             <CircleIconButton
               id="holdResource"
               name="hold_resource"
+              title={
+                !this.props.resource.onHold
+                  ? messages.holdResource
+                  : messages.unHoldResource
+              }
               active={this.props.resource.onHold}
               onClick={this.holdResource}
               style={this.styles.phoneControlsButton}
@@ -217,6 +223,7 @@ export class TransferResource extends React.Component {
             <CircleIconButton
               id="transferResource"
               name="transfer_resource"
+              title={messages.transferToResource}
               onClick={this.transfer}
               style={this.styles.phoneControlsButton}
             />

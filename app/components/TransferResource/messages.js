@@ -30,16 +30,25 @@ export default defineMessages({
     id: 'app.containers.TransferResource.hangUp',
     defaultMessage: 'Hang up',
   },
-  hangUpDescription: {
-    id: 'app.containers.TransferResource.hangUpDescription',
-    defaultMessage: 'Disconnect participant',
-  },
   transfer: {
     id: 'app.containers.TransferResource.transfer',
     defaultMessage: 'Transfer',
   },
-  transferDescription: {
-    id: 'app.containers.TransferResource.transferDescription',
-    defaultMessage: 'Transfer to participant',
+  disconnectParticipant: {
+    id: 'app.containers.TransferResource.disconnectParticipant',
+    defaultMessage: 'Disconnect Participant',
+  },
+  holdResource: {
+    id: 'app.containers.TransferResource.holdResource',
+    defaultMessage: 'Put Participant On Hold',
+  },
+  unHoldResource: {
+    id: 'app.containers.TransferResource.unHoldResource',
+    defaultMessage: 'Take Participant Off Hold',
+  },
+  transferToResource: {
+    id: 'app.containers.TransferResource.transferToResource',
+    defaultMessage:
+      'Transfer Customer To Participant. Disconnect all other participants',
   },
 });

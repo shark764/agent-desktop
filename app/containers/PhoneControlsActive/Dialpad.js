@@ -10,6 +10,7 @@ import { selectActiveExtensionIsNotPstn } from 'containers/PhoneControlsActive/s
 
 import CircleIconButton from 'components/CircleIconButton';
 import DialpadComponent from 'components/Dialpad';
+import messages from './messages';
 
 const styles = {
   circleIconButtonRow: {
@@ -60,6 +61,7 @@ export class Dialpad extends React.PureComponent {
         <CircleIconButton
           id="dialpadButton"
           name="dialpad"
+          title={messages.keypad}
           active={this.state.showActiveInteractionDialpad}
           onClick={this.toggleDialpad}
           style={styles.circleIconButtonRow}

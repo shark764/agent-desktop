@@ -34,6 +34,38 @@ export default defineMessages({
     id: 'app.containers.PhoneControls.resume',
     defaultMessage: 'Resume',
   },
+  endCall: {
+    id: 'app.containers.PhoneControls.endCall',
+    defaultMessage: 'End Call',
+  },
+  mute: {
+    id: 'app.containers.PhoneControls.mute',
+    defaultMessage: 'Mute Self',
+  },
+  unMute: {
+    id: 'app.containers.PhoneControls.unMute',
+    defaultMessage: 'Unmute Self',
+  },
+  hold: {
+    id: 'app.containers.PhoneControls.hold',
+    defaultMessage: 'Put Customer On Hold',
+  },
+  unHold: {
+    id: 'app.containers.PhoneControls.unHold',
+    defaultMessage: 'Take Customer Off Hold',
+  },
+  keypad: {
+    id: 'app.containers.PhoneControls.keypad',
+    defaultMessage: 'Keypad',
+  },
+  transferMenu: {
+    id: 'app.containers.PhoneControls.transferMenu',
+    defaultMessage: 'Transfer Menu',
+  },
+  participants: {
+    id: 'app.containers.PhoneControls.participants',
+    defaultMessage: 'Participants',
+  },
   resumeAll: {
     id: 'app.containers.TransferResource.resumeAll',
     defaultMessage: 'Resume All',

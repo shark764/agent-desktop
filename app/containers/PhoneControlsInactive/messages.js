@@ -14,4 +14,8 @@ export default defineMessages({
     id: 'app.containers.PhoneControls.call',
     defaultMessage: 'Call',
   },
+  dialpad: {
+    id: 'app.containers.PhoneControls.dialpad',
+    defaultMessage: 'Dialpad',
+  },
 });

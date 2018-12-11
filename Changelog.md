@@ -1,3 +1,6 @@
+### [1.32.17] (2018-12-07)
+* CXV1-11326 - Add tooltips to phonecontrols
+
 ### [1.32.16] (2018-12-06)
 * CXV1-15185 - Hide cancel, send, and transfer buttons when sending an email
 

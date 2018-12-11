@@ -6,6 +6,7 @@ import ErrorBoundary from 'components/ErrorBoundary';
 import CircleIconButton from 'components/CircleIconButton';
 import { selectShowTransferDialpad } from '../TransferMenu/selectors';
 import { setShowTransferDialPad } from '../TransferMenu/actions';
+import messages from './messages';
 
 const DialpadButtonContainer = styled.div`
   background: #f3f3f3;
@@ -19,6 +20,11 @@ export class TransferDialPadButton extends React.PureComponent {
       <DialpadButtonContainer>
         <CircleIconButton
           id="transferDialpadButton"
+          title={
+            !this.props.showTransferDialpad
+              ? messages.externalParticipantDialpad
+              : messages.backtoTransferMenu
+          }
           name={
             this.props.showTransferDialpad ? 'transfer_dark' : 'dialpad_dark'
           }

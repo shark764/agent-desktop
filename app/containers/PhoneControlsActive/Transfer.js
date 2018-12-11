@@ -11,6 +11,7 @@ import { selectQueuesSet } from 'containers/AgentDesktop/selectors';
 
 import CircleIconButton from 'components/CircleIconButton';
 import TransferMenu from 'containers/TransferMenu';
+import messages from './messages';
 
 const styles = {
   topTriangle: {
@@ -122,6 +123,7 @@ export class Transfer extends React.PureComponent {
           <CircleIconButton
             id="transferButton"
             name="transfer"
+            title={messages.transferMenu}
             active={this.state.showTransferMenu}
             onClick={this.toggleTransferMenu}
             style={styles.circleIconButtonRow}

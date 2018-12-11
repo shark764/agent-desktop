@@ -4,13 +4,34 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-
+import { getIntlContext } from 'utils/test';
 import CircleIconButton from '../index';
 
 describe('<CircleIconButton />', () => {
-  it('should render correctly', () => {
+  it('should render correctly when title attribute is a string', () => {
     const rendered = shallow(
-      <CircleIconButton id="mockId" name="config" onClick={() => {}} />
+      <CircleIconButton.WrappedComponent
+        id="mockId"
+        name="config"
+        title="mockTitle"
+        onClick={() => {}}
+      />
+    );
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it('should render correctly when title attribute is an object', () => {
+    const rendered = shallow(
+      <CircleIconButton.WrappedComponent
+        id="mockId"
+        name="config"
+        intl={getIntlContext()}
+        title={{
+          id: 'app.containers.PhoneControls.endCall',
+          defaultMessage: 'End Call',
+        }}
+        onClick={() => {}}
+      />
     );
     expect(rendered).toMatchSnapshot();
   });
@@ -22,7 +43,7 @@ describe('<CircleIconButton />', () => {
       </div>
     );
     const rendered = shallow(
-      <CircleIconButton
+      <CircleIconButton.WrappedComponent
         id="mockId"
         name="config"
         onClick={() => {}}
@@ -34,7 +55,12 @@ describe('<CircleIconButton />', () => {
 
   it('should correctly render IconSVG when loading is true', () => {
     const rendered = shallow(
-      <CircleIconButton id="mockId" name="config" onClick={() => {}} loading />
+      <CircleIconButton.WrappedComponent
+        id="mockId"
+        name="config"
+        onClick={() => {}}
+        loading
+      />
     );
     expect(rendered).toMatchSnapshot();
   });

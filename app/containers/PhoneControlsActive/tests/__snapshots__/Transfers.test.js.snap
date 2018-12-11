@@ -2,7 +2,7 @@
 
 exports[`<Transfer /> with canTransfer and false connectingTransfers on load only renders icon 1`] = `
 <span>
-  <CircleIconButton
+  <InjectIntl(CircleIconButton)
     active={false}
     id="transferButton"
     innerElement={null}
@@ -13,13 +13,19 @@ exports[`<Transfer /> with canTransfer and false connectingTransfers on load onl
         "padding": "0 1.5px",
       }
     }
+    title={
+      Object {
+        "defaultMessage": "Transfer Menu",
+        "id": "app.containers.PhoneControls.transferMenu",
+      }
+    }
   />
 </span>
 `;
 
 exports[`<Transfer /> with canTransfer and false connectingTransfers with showTransferMenu in toolbarMode renders correctly 1`] = `
 <span>
-  <CircleIconButton
+  <InjectIntl(CircleIconButton)
     active={true}
     id="transferButton"
     innerElement={
@@ -45,6 +51,12 @@ exports[`<Transfer /> with canTransfer and false connectingTransfers with showTr
     style={
       Object {
         "padding": "0 1.5px",
+      }
+    }
+    title={
+      Object {
+        "defaultMessage": "Transfer Menu",
+        "id": "app.containers.PhoneControls.transferMenu",
       }
     }
   />
@@ -104,7 +116,7 @@ exports[`<Transfer /> with canTransfer and false connectingTransfers with showTr
 
 exports[`<Transfer /> with canTransfer and false connectingTransfers with showTransferMenu not in toolbarMode renders correctly 1`] = `
 <span>
-  <CircleIconButton
+  <InjectIntl(CircleIconButton)
     active={true}
     id="transferButton"
     innerElement={
@@ -177,6 +189,12 @@ exports[`<Transfer /> with canTransfer and false connectingTransfers with showTr
     style={
       Object {
         "padding": "0 1.5px",
+      }
+    }
+    title={
+      Object {
+        "defaultMessage": "Transfer Menu",
+        "id": "app.containers.PhoneControls.transferMenu",
       }
     }
   />

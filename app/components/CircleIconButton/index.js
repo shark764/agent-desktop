@@ -11,6 +11,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+import { injectIntl, intlShape } from 'react-intl';
 
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
@@ -33,6 +34,15 @@ const styles = {
 };
 
 function CircleIconButton(props) {
+  let title;
+  if (
+    typeof props.title === 'object' &&
+    Object.prototype.hasOwnProperty.call(props.title, 'id')
+  ) {
+    title = props.intl.formatMessage(props.title);
+  } else {
+    ({ title } = props);
+  }
   return (
     // using a div instead of a button here since we're now allowing
     // HTML into the button for the purpose of more simpler dynamic
@@ -55,6 +65,7 @@ function CircleIconButton(props) {
           id={`${props.id}-icon`}
           name={props.name}
           active={props.active}
+          title={title}
           style={[styles.base, props.style, styles.icon]}
           onclick={props.onClick}
           loading={props.loading}
@@ -72,6 +83,8 @@ function CircleIconButton(props) {
 CircleIconButton.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  intl: intlShape,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   style: PropTypes.object,
   active: PropTypes.bool,
   innerElement: PropTypes.element,
@@ -79,4 +92,4 @@ CircleIconButton.propTypes = {
   loading: PropTypes.bool,
 };
 
-export default Radium(CircleIconButton);
+export default injectIntl(Radium(CircleIconButton));

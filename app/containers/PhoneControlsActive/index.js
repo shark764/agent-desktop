@@ -249,6 +249,7 @@ export class PhoneControlsActive extends React.Component {
                     <CircleIconButton
                       id="resourcesButton"
                       name="resources"
+                      title={messages.participants}
                       active={this.state.showActiveResourcesMenu}
                       onClick={this.toggleActiveResourcesMenu}
                       style={this.styles.circleIconButtonRow}

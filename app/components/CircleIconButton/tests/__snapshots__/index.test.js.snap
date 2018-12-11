@@ -85,7 +85,7 @@ exports[`<CircleIconButton /> should correctly render IconSVG when loading is tr
 </div>
 `;
 
-exports[`<CircleIconButton /> should render correctly 1`] = `
+exports[`<CircleIconButton /> should render correctly when title attribute is a string 1`] = `
 <div
   data-radium={true}
   id="mockId"
@@ -126,6 +126,53 @@ exports[`<CircleIconButton /> should render correctly 1`] = `
         undefined,
       ]
     }
+    title="mockTitle"
+  />
+</div>
+`;
+
+exports[`<CircleIconButton /> should render correctly when title attribute is an object 1`] = `
+<div
+  data-radium={true}
+  id="mockId"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  role="button"
+  style={
+    Object {
+      "border": "none",
+      "borderRadius": "50%",
+      "display": "inline-block",
+      "outline": "none",
+      "padding": 0,
+      "position": "relative",
+    }
+  }
+  tabIndex={0}
+>
+  <Icon
+    id="mockId-icon"
+    key=".0"
+    name="config"
+    onclick={[Function]}
+    style={
+      Array [
+        Object {
+          ":focus": Object {
+            "border": "none",
+          },
+          "border": "none",
+          "borderRadius": "50%",
+          "display": "inline-block",
+          "outline": "none",
+          "padding": 0,
+          "position": "relative",
+        },
+        undefined,
+        undefined,
+      ]
+    }
+    title="End Call"
   />
 </div>
 `;

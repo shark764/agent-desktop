@@ -1,13 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<EndCall /> renders correctly 1`] = `
-<CircleIconButton
+<InjectIntl(CircleIconButton)
   id="endCallButton"
   name="endCall"
   onClick={[Function]}
   style={
     Object {
       "padding": "0 1.5px",
+    }
+  }
+  title={
+    Object {
+      "defaultMessage": "End Call",
+      "id": "app.containers.PhoneControls.endCall",
     }
   }
 />

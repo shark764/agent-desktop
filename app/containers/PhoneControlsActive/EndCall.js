@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { setInteractionConfirmation } from 'containers/AgentDesktop/actions';
 
 import CircleIconButton from 'components/CircleIconButton';
+import messages from './messages';
 
 const styles = {
   circleIconButtonRow: {
@@ -32,6 +33,7 @@ export class EndCall extends React.PureComponent {
       <CircleIconButton
         id="endCallButton"
         name="endCall"
+        title={messages.endCall}
         onClick={this.confirmEndInteraction}
         style={styles.circleIconButtonRow}
       />
@@ -53,4 +55,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(EndCall);
+export default connect(
+  null,
+  mapDispatchToProps
+)(EndCall);
