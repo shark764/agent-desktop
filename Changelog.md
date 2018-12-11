@@ -1,3 +1,6 @@
+### [1.35.0] (2018-12-11)
+* CXV1-15535 - Preference Menu UI for the transfer menu
+
 ### [1.34.2] (2019-01-21)
 * CXV1-16777 - Inbound email interaction doesn't show its content when received until receiving another email interaction and go between them on Firefox
 
