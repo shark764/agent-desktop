@@ -1,3 +1,6 @@
+### [1.32.16] (2018-12-06)
+* CXV1-15185 - Hide cancel, send, and transfer buttons when sending an email
+
 ### [1.32.15] (2018-11-27)
 * CXV1-16012 & CXV1-16012 - Refactor Dialpad TransferMenu & its unit tests
 
