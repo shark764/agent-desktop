@@ -208,6 +208,7 @@ export class EmailContentArea extends React.Component {
     this.onChange = (editorState) => {
       this.setState({ editorState });
     };
+    this.emailFrames = React.createRef();
     this.state = {
       editorState: this.props.selectedInteraction.emailReply
         ? EditorState.createWithContent(
@@ -228,7 +229,7 @@ export class EmailContentArea extends React.Component {
   }
 
   componentDidMount() {
-    this.updateIframe();
+    this.updateIframes();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -257,22 +258,30 @@ export class EmailContentArea extends React.Component {
         });
       }
     }
-    this.updateIframe();
+    if (
+      this.props.selectedInteraction.interactionId !==
+        prevProps.selectedInteraction.interactionId ||
+      this.props.selectedInteraction.emailReply !==
+        prevProps.selectedInteraction.emailReply
+    ) {
+      this.updateIframes();
+    }
   }
 
-  updateIframe = () => {
-    if (this.iframeEmail) {
-      const document = this.iframeEmail.contentDocument;
+  updateIframes = () => {
+    if (this.emailFrames.current) {
+      const document = this.emailFrames.current.contentDocument;
       document.head.innerHTML = '<base target="_blank" />';
       document.body.innerHTML = this.emailWithImages();
-      const height = this.iframeEmail.contentWindow.document.body.scrollHeight;
-      this.iframeEmail.style.height = `${height}px`;
+      if (this.props.selectedInteraction.emailReply !== undefined) {
+        //  Added a style to the body of the iframe to avoid a double scroll bar when the user reply email.
+        document.head.innerHTML += '<style> body{ overflow:hidden } </style>';
+        this.emailFrames.current.style.height = '0px';
+        const heightpx = this.emailFrames.current.contentWindow.document.body
+          .scrollHeight;
+        this.emailFrames.current.style.height = `${heightpx}px`;
+      }
     }
-  };
-
-  updateIframeEmail = (el) => {
-    this.iframeEmail = el;
-    return this.iframeEmail;
   };
 
   emailUpdateReply = (interactionId, editorState) => {
@@ -758,7 +767,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
           <div>
             <iframe
               title="emailFrame"
-              ref={this.updateIframeEmail}
+              ref={this.emailFrames}
               style={styles.emailContentFrame}
             />
           </div>
@@ -997,9 +1006,9 @@ ${this.props.selectedInteraction.emailPlainBody}`;
             </div>
             {this.props.selectedInteraction.emailHtmlBody !== undefined ? (
               <iframe
-                style={styles.emailContentFrameReply}
                 title="emailFrame"
-                ref={this.updateIframeEmail}
+                ref={this.emailFrames}
+                style={styles.emailContentFrameReply}
               />
             ) : (
               <blockquote
