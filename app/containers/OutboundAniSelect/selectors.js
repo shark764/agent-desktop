@@ -9,8 +9,9 @@ export const selectOutboundIdentifierListsForChannel = createSelector(
   outboundIdentificationLists,
   getChannelTypes,
   (outboundIdentifierLists, inputChannelTypes) => {
-    const outboundList = [];
+    let outboundList;
     if (outboundIdentifierLists) {
+      outboundList = [];
       const outboundIdentifierListsJs = outboundIdentifierLists.toJS();
       outboundIdentifierListsJs.effective
         .filter((outbound) => outbound.active === true)
@@ -18,13 +19,14 @@ export const selectOutboundIdentifierListsForChannel = createSelector(
           outboundIdentifierList.members
             .filter(
               ({ channelType, active }) =>
-                inputChannelTypes.includes(channelType) && active === true
+                inputChannelTypes.includes(channelType) && active
             )
-            .map(({ id, value, name, flowId }) => ({
+            .map(({ id, value, name, flowId, channelType }) => ({
               label: name,
               value: id,
               outboundIdentifier: value,
               flowId,
+              channelType,
             }))
             .forEach((member) => {
               outboundList.push(member);

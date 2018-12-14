@@ -1,5 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<OutboundAniSelect /> actions maps the actions to the object correctly 1`] = `
+Object {
+  "fetchOutboundIdentifierLists": [Function],
+  "selectOutboundIdentification": [Function],
+}
+`;
+
+exports[`<OutboundAniSelect /> doesn't render if there isn't any Outbound ANI 1`] = `""`;
+
 exports[`<OutboundAniSelect /> if getSelectedOutboundIdentifier is undefined 1`] = `
 <div
   style={
@@ -37,6 +46,13 @@ exports[`<OutboundAniSelect /> if getSelectedOutboundIdentifier is undefined 1`]
     }
   />
 </div>
+`;
+
+exports[`<OutboundAniSelect /> mapStateToProps maps the selectors to the object correctly 1`] = `
+Object {
+  "getSelectedOutboundIdentifier": "mock SelectedOutboundIdentifier",
+  "selectOutboundIdentifierListsForChannel": "mock SelectOutboundIdentifierListsForChannel",
+}
 `;
 
 exports[`<OutboundAniSelect /> rendered correctly for voice channel 1`] = `
@@ -79,16 +95,19 @@ exports[`<OutboundAniSelect /> rendered correctly for voice channel 1`] = `
 </div>
 `;
 
-exports[`actions maps the actions to the object correctly 1`] = `
-Object {
-  "fetchOutboundIdentifierLists": [Function],
-  "selectOutboundIdentification": [Function],
-}
-`;
-
-exports[`mapStateToProps maps the selectors to the object correctly 1`] = `
-Object {
-  "getSelectedOutboundIdentifier": "mock SelectedOutboundIdentifier",
-  "selectOutboundIdentifierListsForChannel": "mock SelectOutboundIdentifierListsForChannel",
-}
+exports[`<OutboundAniSelect /> renders a loading icon while fetching outbound identifier lists assigned to the user 1`] = `
+<div
+  style={
+    Object {
+      "margin": "0px auto 10px",
+      "width": "282px",
+    }
+  }
+>
+  <IconSVG
+    id="fetching-outbound-lists-loading-icon"
+    name="loading"
+    width="40px"
+  />
+</div>
 `;

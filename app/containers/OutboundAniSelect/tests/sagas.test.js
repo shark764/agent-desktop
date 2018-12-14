@@ -9,7 +9,7 @@ describe('goFetchOutboundIdentifierLists', () => {
   };
   describe("when there's no outbound identifier list data on our state", () => {
     const generator = goFetchOutboundIdentifierLists();
-    it('select that returns an undefined value the first time of its execution', () => {
+    it('outboundIdentificationLists returns undefined the first time of its execution', () => {
       expect(generator.next(undefined)).toMatchSnapshot();
     });
     it('should call the promise util with the SDK goFetchOutboundIdentifierLists and the correct arguments', () => {

@@ -16,42 +16,137 @@ jest.mock('serenova-js-utils/browser', () => ({
 }));
 
 describe('initializeOutboundSmsForMessagingSaga', () => {
-  global.CxEngage = {
-    interactions: {
-      messaging: {
-        initializeOutboundSms:
-          'CxEngage.interactions.messaging.initializeOutboundSms',
+  beforeEach(() => {
+    global.CxEngage = {
+      interactions: {
+        messaging: {
+          initializeOutboundSms:
+            'CxEngage.interactions.messaging.initializeOutboundSms',
+        },
+        assignContact: 'CxEngage.interactions.assignContact',
       },
-    },
-  };
-  const mockAction = {
-    interactionId: 'interactionId',
-    phoneNumber: 'phoneNumber',
-    message: 'message',
-  };
-  const generator = initializeOutboundSmsForMessagingSaga(mockAction);
-  it('should dispatch a setInteractionStatus action to set to "initializing-outbound"', () => {
-    expect(generator.next()).toMatchSnapshot();
+    };
   });
-  it('should call the promise util with the SDK initializeOutboundSms and the correct arguments', () => {
-    expect(generator.next()).toMatchSnapshot();
+  describe('When contactId is passed and an outbound ANI is selected', () => {
+    const mockAction = {
+      interactionId: 'interactionId',
+      phoneNumber: 'phoneNumber',
+      message: 'message',
+      contactId: 'contact1',
+    };
+    const generator = initializeOutboundSmsForMessagingSaga(mockAction);
+    it('should dispatch a setInteractionStatus action to set to "initializing-outbound"', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should get the selected outbound identifier', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should call the promise util with the SDK initializeOutboundSms and the correct arguments', () => {
+      expect(
+        generator.next({
+          outboundIdentifier: '+45',
+          flowId: 'hg',
+          channelType: 'sms',
+        })
+      ).toMatchSnapshot();
+    });
+    it('should use the yielded SDK results to dispatch an initializeOutboundSms action with the correct args', () => {
+      expect(
+        generator.next({ interactionId: 'newInteractionId' })
+      ).toMatchSnapshot();
+    });
+    it('should call the promise util with the SDK assignContact and the correct arguments', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should dispatch setContactMode action to set to view', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should dispacth addContactNotification action to set messageType to "assigned"', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should be done', () => {
+      expect(generator.next().done).toBe(true);
+    });
   });
-  it('should use the yielded SDK results to dispatch an initializeOutboundSms action with the correct args', () => {
-    expect(
-      generator.next({ interactionId: 'newInteractionId' })
-    ).toMatchSnapshot();
+  describe("When contactId is passed but there's no outbound ANI selected", () => {
+    const mockAction = {
+      interactionId: 'interactionId',
+      phoneNumber: 'phoneNumber',
+      message: 'message',
+      contactId: 'contact1',
+    };
+    const generator = initializeOutboundSmsForMessagingSaga(mockAction);
+    it('should dispatch a setInteractionStatus action to set to "initializing-outbound"', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should get the selected outbound identifier', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should call the promise util with the SDK initializeOutboundSms and the correct arguments', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should use the yielded SDK results to dispatch an initializeOutboundSms action with the correct args', () => {
+      expect(
+        generator.next({ interactionId: 'newInteractionId' })
+      ).toMatchSnapshot();
+    });
+    it('should call the promise util with the SDK assignContact and the correct arguments', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should dispatch setContactMode action to set to view', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should dispacth addContactNotification action to set messageType to "assigned"', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should be done', () => {
+      expect(generator.next().done).toBe(true);
+    });
+  });
+  describe("if contactId is not passed but there's an outbound ANI selected", () => {
+    const mockAction = {
+      interactionId: 'interactionId',
+      phoneNumber: 'phoneNumber',
+      message: 'message',
+    };
+    const generator = initializeOutboundSmsForMessagingSaga(mockAction);
+    it('should dispatch a setInteractionStatus action to set to "initializing-outbound"', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should get the selected outbound identifier', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should call the promise util with the SDK initializeOutboundSms and the correct arguments', () => {
+      expect(
+        generator.next({
+          outboundIdentifier: '+45',
+          flowId: 'hg',
+          channelType: 'sms',
+        })
+      ).toMatchSnapshot();
+    });
+    it('should use the yielded SDK results to dispatch an initializeOutboundSms action with the correct args', () => {
+      expect(
+        generator.next({ interactionId: 'newInteractionId' })
+      ).toMatchSnapshot();
+    });
+    it('should be done', () => {
+      expect(generator.next().done).toBe(true);
+    });
   });
 });
 
 describe('sendOutboundSms', () => {
-  Date.now = jest.fn(() => 0); // Override so snapshots stay the same
-  global.CxEngage = {
-    interactions: {
-      messaging: {
-        sendOutboundSms: 'CxEngage.interactions.messaging.sendOutboundSms',
+  beforeEach(() => {
+    global.CxEngage = {
+      interactions: {
+        messaging: {
+          sendOutboundSms: 'CxEngage.interactions.messaging.sendOutboundSms',
+        },
       },
-    },
-  };
+    };
+  });
+  Date.now = jest.fn(() => 0); // Override so snapshots stay the same
   const mockAction = {
     interactionId: 'interactionId',
     message: 'message',

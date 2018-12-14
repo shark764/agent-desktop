@@ -63,7 +63,6 @@ describe('selectOutboundIdentifierListsForChannel', () => {
       },
     },
   });
-
   it('if outbound identifier list exist', () => {
     expect(
       selectOutboundIdentifierListsForChannel(fromJS(mockedState), {
@@ -84,7 +83,7 @@ describe('selectOutboundIdentifierListsForChannel', () => {
           channelTypes: undefined,
         }
       )
-    ).toEqual([]);
+    ).toEqual(undefined);
   });
 });
 

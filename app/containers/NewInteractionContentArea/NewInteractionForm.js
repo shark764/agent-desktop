@@ -98,13 +98,20 @@ export function NewInteractionForm(props) {
         autoFocus
       />
       <hr style={styles.hr} />
-      {isPossibleNumber(formatPhoneNumber(props.input)) &&
-        isBeta() && <OutboundAniSelect channelTypes={['voice']} />}
-      {!isValidEmail(props.input) && (
+      {isBeta() &&
+        isPossibleNumber(formatPhoneNumber(props.input)) && (
+        <OutboundAniSelect channelTypes={['voice', 'sms']} />
+      )}
+      {!isValidEmail(props.input) &&
+        (!props.selectedOutboundIdentifier ||
+          props.selectedOutboundIdentifier.channelType === 'voice' ||
+          !isPossibleNumber(formatPhoneNumber(props.input))) && (
         <OutboundCallButton phoneNumber={formatPhoneNumber(props.input)} />
       )}
       {!isValidEmail(props.input) &&
-        !props.selectedOutboundIdentifier && (
+        (!props.selectedOutboundIdentifier ||
+          props.selectedOutboundIdentifier.channelType === 'sms' ||
+          !isPossibleNumber(formatPhoneNumber(props.input))) && (
         <OutboundSmsButton phoneNumber={formatPhoneNumber(props.input)} />
       )}
       {!isPossibleNumber(formatPhoneNumber(props.input)) && (

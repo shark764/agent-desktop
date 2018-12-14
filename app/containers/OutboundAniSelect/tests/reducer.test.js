@@ -39,18 +39,18 @@ describe('OutboundAniSelectReducer', () => {
     });
   });
   describe('SELECT_OUTBOUND_IDENTIFICATION', () => {
-    it('set outbound identifier when outbound is selected', () => {
+    it('set an outbound identifier when an outbound identifier is selected', () => {
       const action = {
         type: SELECT_OUTBOUND_IDENTIFICATION,
         response: 'mock-value',
       };
       expect(OutboundAniSelectReducer(Map(), action)).toMatchSnapshot();
     });
-    it('if outbound identifier does not selected', () => {
+    it("set null when there's no outbound identifier selected", () => {
       const initialState = fromJS({});
       const action = {
         type: SELECT_OUTBOUND_IDENTIFICATION,
-        response: [],
+        response: null,
       };
       expect(
         OutboundAniSelectReducer(fromJS(initialState), action)

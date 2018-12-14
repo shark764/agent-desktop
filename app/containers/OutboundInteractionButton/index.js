@@ -91,7 +91,11 @@ export class OutboundInteractionButton extends React.Component {
         if (popUri) {
           outboundVoiceObject.popUri = popUri;
         }
-        if (outboundIdentifier && flowId) {
+        if (
+          outboundIdentifier &&
+          this.props.channelType === 'voice' &&
+          flowId
+        ) {
           outboundVoiceObject.outboundAni = outboundIdentifier;
           outboundVoiceObject.flowId = flowId;
         }

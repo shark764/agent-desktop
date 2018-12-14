@@ -18,6 +18,7 @@ import {
 import { addContactNotification } from 'containers/ContactsControl/actions';
 import { selectAgent } from 'containers/Login/selectors';
 import { setNonCriticalError } from 'containers/Errors/actions';
+import { getSelectedOutboundIdentifier } from 'containers/OutboundAniSelect/selectors';
 import {
   INITIALIZE_OUTBOUND_SMS_FROM_MESSAGING,
   SEND_OUTBOUND_SMS,
@@ -32,14 +33,27 @@ export function* initializeOutboundSmsForMessagingSaga(action) {
     yield put(
       setInteractionStatus(action.interactionId, 'initializing-outbound')
     );
+    const selectedOutbondIdentifier = yield select(
+      getSelectedOutboundIdentifier
+    );
+    const smsOutboundInteractionDetails = {
+      phoneNumber: action.phoneNumber,
+      message: action.message,
+      popUri: action.popUri,
+    };
+
+    if (
+      selectedOutbondIdentifier &&
+      selectedOutbondIdentifier.channelType === 'sms'
+    ) {
+      const { outboundIdentifier, flowId } = selectedOutbondIdentifier;
+      smsOutboundInteractionDetails.outboundAni = outboundIdentifier;
+      smsOutboundInteractionDetails.flowId = flowId;
+    }
     const response = yield call(
       sdkCallToPromise,
       CxEngage.interactions.messaging.initializeOutboundSms,
-      {
-        phoneNumber: action.phoneNumber,
-        message: action.message,
-        popUri: action.popUri,
-      },
+      smsOutboundInteractionDetails,
       'MessagingContentArea'
     );
     yield put(

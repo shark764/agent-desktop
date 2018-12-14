@@ -84,12 +84,17 @@ export class NoRecords extends React.Component {
         {(this.getPhoneNumber() || this.getEmailAddress()) && (
           <div style={styles.outboundInteractionButtons}>
             {this.getPhoneNumber() &&
-              isBeta() && <OutboundAniSelect channelTypes="voice" />}
-            {this.getPhoneNumber() && (
+              isBeta() && <OutboundAniSelect channelTypes={['voice', 'sms']} />}
+            {this.getPhoneNumber() &&
+              (!this.props.getSelectedOutboundIdentifier ||
+                this.props.getSelectedOutboundIdentifier.channelType ===
+                  'voice') && (
               <OutboundCallButton phoneNumber={this.getPhoneNumber()} />
             )}
             {this.getPhoneNumber() &&
-              !this.props.getSelectedOutboundIdentifier && (
+              (!this.props.getSelectedOutboundIdentifier ||
+                this.props.getSelectedOutboundIdentifier.channelType ===
+                  'sms') && (
               <OutboundSmsButton phoneNumber={this.getPhoneNumber()} />
             )}
             {this.getEmailAddress() && (

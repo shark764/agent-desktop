@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Radium from 'radium';
 import { FormattedMessage } from 'react-intl';
-
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import Select from 'components/Select';
+import IconSVG from 'components/IconSVG';
 import {
-  selectOutboundIdentifierListsForChannel,
   getSelectedOutboundIdentifier,
+  selectOutboundIdentifierListsForChannel,
 } from './selectors';
 import {
   selectOutboundIdentification,
@@ -30,21 +30,37 @@ export class OutboundAniSelect extends React.Component {
   }
 
   render() {
-    return (
-      <div style={styles.base}>
-        <Select
-          id="outboundAniSelect"
-          options={this.props.selectOutboundIdentifierListsForChannel}
-          placeholder={<FormattedMessage {...messages.selectOutboundAni} />}
-          onChange={this.props.selectOutboundIdentification}
-          value={
-            this.props.getSelectedOutboundIdentifier
-              ? this.props.getSelectedOutboundIdentifier.value
-              : undefined
-          }
-        />
-      </div>
-    );
+    if (
+      this.props.selectOutboundIdentifierListsForChannel &&
+      this.props.selectOutboundIdentifierListsForChannel.length > 0
+    ) {
+      return (
+        <div style={styles.base}>
+          <Select
+            id="outboundAniSelect"
+            options={this.props.selectOutboundIdentifierListsForChannel}
+            placeholder={<FormattedMessage {...messages.selectOutboundAni} />}
+            onChange={this.props.selectOutboundIdentification}
+            value={
+              this.props.getSelectedOutboundIdentifier
+                ? this.props.getSelectedOutboundIdentifier.value
+                : undefined
+            }
+          />
+        </div>
+      );
+    } else if (!this.props.selectOutboundIdentifierListsForChannel) {
+      return (
+        <div style={styles.base}>
+          <IconSVG
+            id="fetching-outbound-lists-loading-icon"
+            name="loading"
+            width="40px"
+          />
+        </div>
+      );
+    }
+    return null;
   }
 }
 
@@ -64,7 +80,7 @@ export const actions = {
 };
 
 OutboundAniSelect.propTypes = {
-  selectOutboundIdentifierListsForChannel: PropTypes.array.isRequired,
+  selectOutboundIdentifierListsForChannel: PropTypes.array,
   selectOutboundIdentification: PropTypes.func.isRequired,
   getSelectedOutboundIdentifier: PropTypes.object,
   fetchOutboundIdentifierLists: PropTypes.func.isRequired,

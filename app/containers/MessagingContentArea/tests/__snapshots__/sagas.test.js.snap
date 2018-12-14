@@ -95,16 +95,39 @@ Object {
 }
 `;
 
-exports[`initializeOutboundSmsForMessagingSaga should call the promise util with the SDK initializeOutboundSms and the correct arguments 1`] = `
+exports[`initializeOutboundSmsForMessagingSaga When contactId is passed and an outbound ANI is selected should call the promise util with the SDK assignContact and the correct arguments 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
     "CALL": Object {
       "args": Array [
-        undefined,
+        "CxEngage.interactions.assignContact",
         Object {
+          "contactId": "contact1",
+          "interactionId": "newInteractionId",
+        },
+        "MessagingContentArea",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga When contactId is passed and an outbound ANI is selected should call the promise util with the SDK initializeOutboundSms and the correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "CxEngage.interactions.messaging.initializeOutboundSms",
+        Object {
+          "flowId": "hg",
           "message": "message",
+          "outboundAni": "+45",
           "phoneNumber": "phoneNumber",
           "popUri": undefined,
         },
@@ -117,7 +140,25 @@ Object {
 }
 `;
 
-exports[`initializeOutboundSmsForMessagingSaga should dispatch a setInteractionStatus action to set to "initializing-outbound" 1`] = `
+exports[`initializeOutboundSmsForMessagingSaga When contactId is passed and an outbound ANI is selected should dispacth addContactNotification action to set messageType to "assigned" 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "notificationInfo": Object {
+          "messageType": "assigned",
+        },
+        "type": "app/ContactsControl/ADD_CONTACT_NOTIFICATION",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga When contactId is passed and an outbound ANI is selected should dispatch a setInteractionStatus action to set to "initializing-outbound" 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -135,7 +176,237 @@ Object {
 }
 `;
 
-exports[`initializeOutboundSmsForMessagingSaga should use the yielded SDK results to dispatch an initializeOutboundSms action with the correct args 1`] = `
+exports[`initializeOutboundSmsForMessagingSaga When contactId is passed and an outbound ANI is selected should dispatch setContactMode action to set to view 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "newInteractionId",
+        "newMode": "view",
+        "type": "app/AgentDesktop/SET_CONTACT_MODE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga When contactId is passed and an outbound ANI is selected should get the selected outbound identifier 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga When contactId is passed and an outbound ANI is selected should use the yielded SDK results to dispatch an initializeOutboundSms action with the correct args 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "newInteractionId",
+        "message": "message",
+        "placeholderInteractionId": "interactionId",
+        "type": "app/AgentDesktop/INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga When contactId is passed but there's no outbound ANI selected should call the promise util with the SDK assignContact and the correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "CxEngage.interactions.assignContact",
+        Object {
+          "contactId": "contact1",
+          "interactionId": "newInteractionId",
+        },
+        "MessagingContentArea",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga When contactId is passed but there's no outbound ANI selected should call the promise util with the SDK initializeOutboundSms and the correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "CxEngage.interactions.messaging.initializeOutboundSms",
+        Object {
+          "message": "message",
+          "phoneNumber": "phoneNumber",
+          "popUri": undefined,
+        },
+        "MessagingContentArea",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga When contactId is passed but there's no outbound ANI selected should dispacth addContactNotification action to set messageType to "assigned" 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "notificationInfo": Object {
+          "messageType": "assigned",
+        },
+        "type": "app/ContactsControl/ADD_CONTACT_NOTIFICATION",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga When contactId is passed but there's no outbound ANI selected should dispatch a setInteractionStatus action to set to "initializing-outbound" 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "interactionId",
+        "newStatus": "initializing-outbound",
+        "response": undefined,
+        "type": "app/AgentDesktop/SET_INTERACTION_STATUS",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga When contactId is passed but there's no outbound ANI selected should dispatch setContactMode action to set to view 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "newInteractionId",
+        "newMode": "view",
+        "type": "app/AgentDesktop/SET_CONTACT_MODE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga When contactId is passed but there's no outbound ANI selected should get the selected outbound identifier 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga When contactId is passed but there's no outbound ANI selected should use the yielded SDK results to dispatch an initializeOutboundSms action with the correct args 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "newInteractionId",
+        "message": "message",
+        "placeholderInteractionId": "interactionId",
+        "type": "app/AgentDesktop/INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga if contactId is not passed but there's an outbound ANI selected should call the promise util with the SDK initializeOutboundSms and the correct arguments 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "CxEngage.interactions.messaging.initializeOutboundSms",
+        Object {
+          "flowId": "hg",
+          "message": "message",
+          "outboundAni": "+45",
+          "phoneNumber": "phoneNumber",
+          "popUri": undefined,
+        },
+        "MessagingContentArea",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga if contactId is not passed but there's an outbound ANI selected should dispatch a setInteractionStatus action to set to "initializing-outbound" 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "interactionId",
+        "newStatus": "initializing-outbound",
+        "response": undefined,
+        "type": "app/AgentDesktop/SET_INTERACTION_STATUS",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga if contactId is not passed but there's an outbound ANI selected should get the selected outbound identifier 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`initializeOutboundSmsForMessagingSaga if contactId is not passed but there's an outbound ANI selected should use the yielded SDK results to dispatch an initializeOutboundSms action with the correct args 1`] = `
 Object {
   "done": false,
   "value": Object {

@@ -1,3 +1,7 @@
+### [1.33.0] (2018-11-26)
+* CXV1-16295 - AD/TB2 - Outbound Identification - Include Outbound ANI list in new interaction panel for SMS
+* CXV1-16379 - Hide outbound ANI select when there are no outbound ANIs, add loading state for initial load
+
 ### [1.32.18] (2018-12-10)
 * CXV1-12566 - When Writing a Reply to an Email, the "To:" Value Goes Off Screen if Long Enough
 

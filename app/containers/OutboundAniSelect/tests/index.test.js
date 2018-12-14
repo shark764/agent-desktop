@@ -46,6 +46,7 @@ describe('<OutboundAniSelect />', () => {
           id: '2',
           value: 'outboundAni2',
         }}
+        outboundIdentifierListHasBeenFetched
       />
     );
     expect(rendered).toMatchSnapshot();
@@ -71,23 +72,50 @@ describe('<OutboundAniSelect />', () => {
           },
         ]}
         getSelectedOutboundIdentifier={{}}
+        outboundIdentifierListHasBeenFetched
       />
     );
     expect(rendered).toMatchSnapshot();
   });
-});
-describe('mapStateToProps', () => {
-  it('maps the selectors to the object correctly', () => {
-    expect(mapStateToProps()).toMatchSnapshot();
+  it("doesn't render if there isn't any Outbound ANI", () => {
+    const rendered = shallow(
+      <OutboundAniSelect
+        store={mockStore}
+        fetchOutboundIdentifierLists={() => {}}
+        selectOutboundIdentification={() => {}}
+        selectOutboundIdentifierListsForChannel={[]}
+        getSelectedOutboundIdentifier={{}}
+        outboundIdentifierListHasBeenFetched
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
-});
-describe('actions', () => {
-  it('maps the actions to the object correctly', () => {
-    expect(actions).toMatchSnapshot();
+  it('renders a loading icon while fetching outbound identifier lists assigned to the user', () => {
+    const rendered = shallow(
+      <OutboundAniSelect
+        store={mockStore}
+        fetchOutboundIdentifierLists={() => {}}
+        selectOutboundIdentification={() => {}}
+        selectOutboundIdentifierListsForChannel={undefined}
+        getSelectedOutboundIdentifier={{}}
+        outboundIdentifierListHasBeenFetched={false}
+      />
+    );
+    expect(rendered).toMatchSnapshot();
   });
-});
-describe('OutboundAniSelect with store', () => {
-  it('renders', () => {
-    shallow(<OutboundAniSelectContainer store={mockStore} />);
+  describe('mapStateToProps', () => {
+    it('maps the selectors to the object correctly', () => {
+      expect(mapStateToProps()).toMatchSnapshot();
+    });
+  });
+  describe('actions', () => {
+    it('maps the actions to the object correctly', () => {
+      expect(actions).toMatchSnapshot();
+    });
+  });
+  describe('OutboundAniSelect with store', () => {
+    it('renders', () => {
+      shallow(<OutboundAniSelectContainer store={mockStore} />);
+    });
   });
 });

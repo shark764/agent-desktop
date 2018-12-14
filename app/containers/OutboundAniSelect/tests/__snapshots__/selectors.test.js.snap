@@ -9,6 +9,7 @@ Object {
 exports[`selectOutboundIdentifierListsForChannel if outbound identifier list exist 1`] = `
 Array [
   Object {
+    "channelType": "voice",
     "flowId": "1a",
     "label": "test1",
     "outboundIdentifier": "+11",
