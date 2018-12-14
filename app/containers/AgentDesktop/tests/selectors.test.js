@@ -17,6 +17,7 @@ import {
   selectHasUnrespondedInteractions,
   areInteractionsInWrapup,
   selectQueues,
+  selectExpandWindowForCrm,
 } from '../selectors';
 
 describe('areInteractionsInWrapup ', () => {
@@ -342,5 +343,186 @@ describe('selectInteractionEmails', () => {
       });
       expect(selectQueues(queues)).toMatchSnapshot();
     });
+  });
+});
+describe('selectExpandWindowForCrm', () => {
+  const newInteractionPanel = {
+    newInteractionFormInput: 'mock-value',
+  };
+  const currentCrmItemHistoryPanel = {
+    currentCrmItemHistoryPanelValue: 'mock-value 2',
+  };
+  const noInteractionContactPanel = {
+    noInteractionContactPanelValue: 'mock-value 3',
+  };
+  it("should return a falsy value if there's no CRM set up and there's no standalonePopUp", () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: [
+          {
+            interactionId: 'a',
+          },
+        ],
+        selectedInteractionId: 'a',
+        crmModule: 'none',
+        newInteractionPanel,
+        currentCrmItemHistoryPanel,
+        noInteractionContactPanel,
+      },
+    });
+    expect(selectExpandWindowForCrm(mockedState)).toBeFalsy();
+  });
+  it("should return false if crm isn't none but side panel is collapsed for interaction", () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: [
+          {
+            interactionId: 'a',
+            isSidePanelCollapsed: true,
+          },
+        ],
+        selectedInteractionId: 'a',
+        crmModule: 'mock-crm',
+        newInteractionPanel,
+        currentCrmItemHistoryPanel,
+        noInteractionContactPanel,
+      },
+    });
+    expect(selectExpandWindowForCrm(mockedState)).toBe(false);
+  });
+  it("should return false if there's a crm and side panel isn't collapsed for interaction but the interaction doesn't have scripts", () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: [
+          {
+            interactionId: 'a',
+            isSidePanelCollapsed: false,
+          },
+        ],
+        selectedInteractionId: 'a',
+        crmModule: 'mock-crm',
+        newInteractionPanel,
+        currentCrmItemHistoryPanel,
+        noInteractionContactPanel,
+      },
+    });
+    expect(selectExpandWindowForCrm(mockedState)).toBe(false);
+  });
+  it("should return false if there's a crm, side panel isn't collapsed for interaction and the interaction has scripts but it's a voice interaction", () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: [
+          {
+            interactionId: 'a',
+            isSidePanelCollapsed: false,
+            script: 'mock-script',
+            channelType: 'voice',
+          },
+        ],
+        selectedInteractionId: 'a',
+        crmModule: 'mock-crm',
+        newInteractionPanel,
+        currentCrmItemHistoryPanel,
+        noInteractionContactPanel,
+      },
+    });
+    expect(selectExpandWindowForCrm(mockedState)).toBe(false);
+  });
+  it("should return false if there's a crm, side panel isn't collapsed for interaction, the interaction has scripts and it isn't a voice interaction but is a script only interaction", () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: [
+          {
+            interactionId: 'a',
+            isSidePanelCollapsed: false,
+            script: 'mock-script',
+            channelType: 'mesagging',
+            isScriptOnly: true,
+          },
+        ],
+        selectedInteractionId: 'a',
+        crmModule: 'mock-crm',
+        newInteractionPanel,
+        currentCrmItemHistoryPanel,
+        noInteractionContactPanel,
+      },
+    });
+    expect(selectExpandWindowForCrm(mockedState)).toBe(false);
+  });
+  it("should return true if there's a crm, side panel isn't collapsed for interaction, the interaction has scripts, it isn't a voice interaction and it isn't a script only interaction either", () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: [
+          {
+            interactionId: 'a',
+            isSidePanelCollapsed: false,
+            script: 'mock-script',
+            channelType: 'mesagging',
+          },
+        ],
+        selectedInteractionId: 'a',
+        crmModule: 'mock-crm',
+        newInteractionPanel,
+        currentCrmItemHistoryPanel,
+        noInteractionContactPanel,
+      },
+    });
+    expect(selectExpandWindowForCrm(mockedState)).toBe(true);
+  });
+  it("should return false if there's a crm, side panel isn't collapsed for interaction but the interaction has no contact assigned", () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: [
+          {
+            interactionId: 'a',
+            isSidePanelCollapsed: false,
+          },
+        ],
+        selectedInteractionId: 'a',
+        crmModule: 'mock-crm',
+        newInteractionPanel,
+        currentCrmItemHistoryPanel,
+        noInteractionContactPanel,
+      },
+    });
+    expect(selectExpandWindowForCrm(mockedState)).toBe(false);
+  });
+  it("should return false if there's a crm, side panel isn't collapsed for interaction and the interaction has a contact assigned but the CRM isn't zendesk", () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: [
+          {
+            interactionId: 'a',
+            isSidePanelCollapsed: false,
+            contact: 'contactId',
+          },
+        ],
+        selectedInteractionId: 'a',
+        crmModule: 'mock-crm',
+        newInteractionPanel,
+        currentCrmItemHistoryPanel,
+        noInteractionContactPanel,
+      },
+    });
+    expect(selectExpandWindowForCrm(mockedState)).toBe(false);
+  });
+  it("should return true if there's a crm, side panel isn't collapsed for interaction, the interaction has a contact assigned ant the CRM is zendesk", () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: [
+          {
+            interactionId: 'a',
+            isSidePanelCollapsed: false,
+            contact: 'contactId',
+          },
+        ],
+        selectedInteractionId: 'a',
+        crmModule: 'zendesk',
+        newInteractionPanel,
+        currentCrmItemHistoryPanel,
+        noInteractionContactPanel,
+      },
+    });
+    expect(selectExpandWindowForCrm(mockedState)).toBe(true);
   });
 });
