@@ -165,7 +165,7 @@ pipeline {
     stage ('Push new tag'){
       when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'}}
       steps {
-        git url: "git@github.com:SerenovaLLC/${service}"
+        git branch: BRANCH_NAME, url: "git@github.com:SerenovaLLC/${service}"
         script {
             if (build_version.contains("SNAPSHOT")) {
               sh "if git tag --list | grep ${build_version}; then git tag -d ${build_version}; git push origin :refs/tags/${build_version}; fi"

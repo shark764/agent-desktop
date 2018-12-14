@@ -1,3 +1,6 @@
+### [1.33.1] (2018-12-14)
+* CXV1-16446 - Fix tags generated for hotfix branch
+
 ### [1.33.0] (2018-11-26)
 * CXV1-16295 - AD/TB2 - Outbound Identification - Include Outbound ANI list in new interaction panel for SMS
 * CXV1-16379 - Hide outbound ANI select when there are no outbound ANIs, add loading state for initial load
