@@ -157,6 +157,33 @@ describe('callTransferListsAndUpdateState', () => {
   });
 });
 
+describe('when no transferLists are available', () => {
+  const noTransferLists = { result: [] };
+  const generator = callTransferListsAndUpdateState();
+  const mockGetTransferLists = 'getTransferListsFunction';
+  beforeEach(() => {
+    global.CxEngage = {
+      entities: {
+        getEntity: mockGetTransferLists,
+      },
+    };
+  });
+  it('selects tenant and agent id', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('calls the promise util with the SDK getTransferLists function to get the active transferLists', () => {
+    expect(
+      generator.next([{ id: 'tenantId' }, { userId: 'agentId' }])
+    ).toMatchSnapshot();
+  });
+  it('sets transferLists state by dispatching getAndSetTransferLists action', () => {
+    expect(generator.next(noTransferLists)).toMatchSnapshot();
+  });
+  it('is done', () => {
+    expect(generator.next().done).toBe(true);
+  });
+});
+
 describe('changeQueuesListVisibleState', () => {
   afterAll(() => {
     delete global.localStorage;

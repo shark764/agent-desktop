@@ -598,7 +598,10 @@ export class TransferMenu extends React.Component {
 
     let transferLists;
     if (!this.props.nonVoice) {
-      if (this.props.transferLists[0] !== 'loading') {
+      if (
+        this.props.transferLists !== 'loading' &&
+        this.props.transferLists !== 'noTransferListsAvailable'
+      ) {
         transferLists = [];
         this.props.transferLists.forEach((transferList, transferListIndex) => {
           const hierarchyMap = new Map();
@@ -697,10 +700,8 @@ export class TransferMenu extends React.Component {
             );
           }
         });
-      } else {
-        transferLists = !this.props.nonVoice && (
-          <FormattedMessage {...messages.loadingTransferLists} />
-        );
+      } else if (this.props.transferLists === 'loading') {
+        transferLists = <FormattedMessage {...messages.loadingTransferLists} />;
       }
     }
 
@@ -907,7 +908,8 @@ TransferMenu.propTypes = {
   setUsers: PropTypes.func.isRequired,
   setResourceCapactiy: PropTypes.func,
   setTransferLists: PropTypes.func.isRequired,
-  transferLists: PropTypes.array.isRequired,
+  transferLists: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
+    .isRequired,
   queuesListVisibleState: PropTypes.bool,
   agentsListVisibleState: PropTypes.bool,
   transferListsVisibleState: PropTypes.object,

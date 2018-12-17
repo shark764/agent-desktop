@@ -15,7 +15,7 @@ Object {
             "transfer-lists",
           ],
         },
-        "transferMenu",
+        "TransferMenu",
       ],
       "context": null,
       "fn": [Function],
@@ -118,7 +118,7 @@ Object {
             "transfer-lists",
           ],
         },
-        "transferMenu",
+        "TransferMenu",
       ],
       "context": null,
       "fn": [Function],
@@ -556,6 +556,71 @@ Object {
       "action": Object {
         "transferTabIndex": 0,
         "type": "app/TransferMenu/SET_TRANSFER_TAB_INDEX",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`when no transferLists are available calls the promise util with the SDK getTransferLists function to get the active transferLists 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "getTransferListsFunction",
+        Object {
+          "path": Array [
+            "users",
+            "agentId",
+            "transfer-lists",
+          ],
+        },
+        "TransferMenu",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`when no transferLists are available selects tenant and agent id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "ALL": Array [
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`when no transferLists are available sets transferLists state by dispatching getAndSetTransferLists action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "transferLists": "noTransferListsAvailable",
+        "type": "app/TransferMenu/SET_TRANSFER_LISTS",
       },
       "channel": null,
     },

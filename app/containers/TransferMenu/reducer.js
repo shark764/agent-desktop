@@ -14,10 +14,10 @@ import * as ACTIONS from './constants';
 const initialState = fromJS({
   resourceCapacity: undefined,
   users: undefined,
-  transferLists: ['loading'],
+  transferLists: undefined,
   queuesListVisibleState: undefined,
   agentsListVisibleState: undefined,
-  transferListsVisibleState: {},
+  transferListsVisibleState: undefined,
   transferSearchInput: '',
   transferTabIndex: 0,
   focusedTransferItemIndex: -1,

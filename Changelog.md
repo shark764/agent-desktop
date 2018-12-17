@@ -1,3 +1,6 @@
+### [1.33.2] (2018-12-14)
+* CXV1-16285 - Hide "Loading Transfer Lists" text when no transfer lists are available
+
 ### [1.33.1] (2018-12-14)
 * CXV1-16446 - Fix tags generated for hotfix branch
 
