@@ -1,3 +1,6 @@
+### [1.33.7] (2018-12-19)
+* CXV1-16437 - Disabled Message Templates should not be accessible from Skylight
+
 ### [1.33.6] (2019-01-04)
 * SDK Bump for 'CXV1-16506 - Couldn't log error to Kibanna. Logging it to Sentry.'
 

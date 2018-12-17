@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`selectMessageTemplates should filter out active messaging templates from those assigned to agents 1`] = `
+Array [
+  Object {
+    "active": true,
+  },
+]
+`;

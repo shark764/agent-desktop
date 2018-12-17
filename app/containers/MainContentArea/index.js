@@ -134,12 +134,15 @@ function mapDispatchToProps(dispatch) {
 
 MainContentArea.propTypes = {
   selectedInteraction: PropTypes.object,
-  messageTemplates: PropTypes.array,
+  messageTemplates: PropTypes.array.isRequired,
   style: PropTypes.array,
   agent: PropTypes.object.isRequired,
   setInteractionConfirmation: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(
-  connect(mapStateToProps, mapDispatchToProps)(Radium(MainContentArea))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(MainContentArea))
 );
