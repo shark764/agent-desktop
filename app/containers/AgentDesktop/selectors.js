@@ -280,21 +280,20 @@ const selectCustomFieldsCollapsed = createSelector(
   (interaction) => interaction.customFieldsCollapsed
 );
 
-const selectExpandWindowForCrm = createSelector(
-  [
-    selectAgentDesktopMap,
-    selectCrmModule,
-    selectIsSidePanelCollapsed,
-    getSelectedInteraction,
-  ],
-  (agentDesktop, crmModule, panelCollapsed, interaction) =>
-    (crmModule !== 'none' || agentDesktop.get('standalonePopup')) &&
+const selectExpandWindowForCrm = (state, props) => {
+  const standalonePopup = state.getIn(['agentDesktop', 'standalonePopup']);
+  const crmModule = selectCrmModule(state, props);
+  const panelCollapsed = selectIsSidePanelCollapsed(state, props);
+  const interaction = getSelectedInteraction(state, props);
+  return (
+    (crmModule !== 'none' || standalonePopup) &&
     !panelCollapsed &&
     ((interaction.script !== undefined &&
       interaction.channelType !== 'voice' &&
       !interaction.isScriptOnly) ||
-      interaction.contact !== undefined)
-);
+      (interaction.contact !== undefined && crmModule === 'zendesk'))
+  );
+};
 
 const areInteractionsInWrapup = createSelector(
   [selectInteractionsList, getSelectedInteractionId],
