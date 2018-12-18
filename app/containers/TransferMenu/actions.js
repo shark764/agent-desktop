@@ -108,3 +108,20 @@ export function tearDownTransferMenuStates() {
     type: ACTIONS.TEAR_DOWN_TRANSFER_MENU_STATES,
   };
 }
+
+export function transferInteraction(
+  setShowTransferMenu,
+  name,
+  resourceId,
+  queueId,
+  transferExtension
+) {
+  return {
+    type: ACTIONS.TRANSFER_INTERACTION,
+    setShowTransferMenu,
+    name,
+    resourceId,
+    queueId,
+    transferExtension,
+  };
+}

@@ -5,6 +5,7 @@ import {
   changeAgentsListVisibleState,
   changeTransferListVisibleState,
   tearDownTransferMenuStates,
+  transferInteraction,
 } from '../sagas';
 
 describe('setAgentsQueuesInitialVisibleState', () => {
@@ -291,5 +292,252 @@ describe('tearDownTransferMenuStates', () => {
   });
   it('is done', () => {
     expect(generator.next().done).toBe(true);
+  });
+});
+
+describe('transferInteraction', () => {
+  describe('Making a warm transfer of voice interaction to a resource', () => {
+    const mockTransferToResource = jest.fn();
+    beforeEach(() => {
+      global.CxEngage = {
+        interactions: {
+          transferToResource: mockTransferToResource,
+        },
+      };
+    });
+    const mockAction = {
+      setShowTransferMenu: () => {},
+      name: 'Agent 1',
+      resourceId: 'resId1',
+    };
+    const generator = transferInteraction(mockAction);
+    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('dispatch startWarmTransfering to the store', () => {
+      expect(
+        generator.next([
+          {
+            interactionId: 'id1',
+            channelType: 'voice',
+          },
+          0,
+        ])
+      ).toMatchSnapshot();
+    });
+    it('calls CxEngage.interactions.transferToResource', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls setShowTransferMenu', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it("it's done", () => {
+      expect(generator.next().done).toBe(true);
+    });
+  });
+  describe('Making a cold transfer of a nonvoice interaction to a resource', () => {
+    const mockTransferToResource = jest.fn();
+    beforeEach(() => {
+      global.CxEngage = {
+        interactions: {
+          transferToResource: mockTransferToResource,
+        },
+      };
+    });
+    const mockAction = {
+      setShowTransferMenu: () => {},
+      name: 'Agent 1',
+      resourceId: 'resId1',
+    };
+    const generator = transferInteraction(mockAction);
+    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls CxEngage.interactions.transferToResource', () => {
+      expect(
+        generator.next([
+          {
+            interactionId: 'id1',
+            channelType: 'email',
+          },
+          0,
+        ])
+      ).toMatchSnapshot();
+    });
+    it('calls setShowTransferMenu', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it("it's done", () => {
+      expect(generator.next().done).toBe(true);
+    });
+  });
+  describe('Making a cold transfer of a nonvoice interaction to a queue', () => {
+    const mockTransferToQueue = jest.fn();
+    beforeEach(() => {
+      global.CxEngage = {
+        interactions: {
+          transferToQueue: mockTransferToQueue,
+        },
+      };
+    });
+    const mockAction = {
+      setShowTransferMenu: () => {},
+      name: 'Queue 1',
+      resourceId: undefined,
+      queueId: 'queue1',
+    };
+    const generator = transferInteraction(mockAction);
+    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls CxEngage.interactions.transferToQueue', () => {
+      expect(
+        generator.next([
+          {
+            interactionId: 'id1',
+            channelType: 'email',
+          },
+          0,
+        ])
+      ).toMatchSnapshot();
+    });
+    it('calls setShowTransferMenu', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it("it's done", () => {
+      expect(generator.next().done).toBe(true);
+    });
+  });
+  describe('Making a cold transfer of a voice interaction to a transferExtension', () => {
+    const mockTransferToExtension = jest.fn();
+    beforeEach(() => {
+      global.CxEngage = {
+        interactions: {
+          transferToExtension: mockTransferToExtension,
+        },
+      };
+    });
+    const mockAction = {
+      setShowTransferMenu: () => {},
+      name: 'Transfer Extension 1',
+      resourceId: undefined,
+      queueId: undefined,
+      transferExtension: 'transferExtension1',
+    };
+    const generator = transferInteraction(mockAction);
+    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls CxEngage.interactions.transferToExtension', () => {
+      expect(
+        generator.next([
+          {
+            interactionId: 'id1',
+            channelType: 'voice',
+          },
+          1,
+        ])
+      ).toMatchSnapshot();
+    });
+    it('calls setShowTransferMenu', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it("it's done", () => {
+      expect(generator.next().done).toBe(true);
+    });
+  });
+  describe('Making a warm transfer of a voice interaction when not passing neither a resource, queue or a transfer extension', () => {
+    const mockAction = {
+      setShowTransferMenu: () => {},
+      name: 'notUsefulValue',
+    };
+    const generator = transferInteraction(mockAction);
+    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('throws an error', () => {
+      expect(() => {
+        generator.next([
+          {
+            interactionId: 'id1',
+            channelType: 'voice',
+          },
+          0,
+        ]);
+      }).toThrow(
+        'warm transfer: neither resourceId, queueId, nor transferExtension passed in'
+      );
+    });
+    it("it's done", () => {
+      expect(generator.next().done).toBe(true);
+    });
+  });
+  describe('Making a cold transfer of a nonvoice interaction when not passing neither a resource, queue or a transfer extension', () => {
+    const mockAction = {
+      setShowTransferMenu: () => {},
+      name: 'notUsefulValue',
+    };
+    const generator = transferInteraction(mockAction);
+    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('throws an error', () => {
+      expect(() => {
+        generator.next([
+          {
+            interactionId: 'id1',
+            channelType: 'email',
+          },
+          0,
+        ]);
+      }).toThrow(
+        'neither resourceId, queueId, nor transferExtension passed in'
+      );
+    });
+    it("it's done", () => {
+      expect(generator.next().done).toBe(true);
+    });
+  });
+  describe('call to CxEngage.interaction.transferToResource fails when trying to make a warm transfer of a voice interaction to a resource', () => {
+    const mockTransferToResource = jest.fn();
+    beforeEach(() => {
+      global.CxEngage = {
+        interactions: {
+          transferToResource: mockTransferToResource,
+        },
+      };
+    });
+    const mockAction = {
+      setShowTransferMenu: () => {},
+      name: 'Agent 1',
+      resourceId: 'resId1',
+    };
+    const generator = transferInteraction(mockAction);
+    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('dispatch startWarmTransfering to the store', () => {
+      expect(
+        generator.next([
+          {
+            interactionId: 'id1',
+            channelType: 'voice',
+          },
+          0,
+        ])
+      ).toMatchSnapshot();
+    });
+    it('calls CxEngage.interactions.transferToResource', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('CxEngage.interactions.transferToResource call fails, its error gets logged in console and transferCancelled is dispatched', () => {
+      expect(generator.throw('Failed promise')).toMatchSnapshot();
+    });
+    it("setsetShowTransferMenu it's called", () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it("it's done", () => {
+      expect(generator.next().done).toBe(true);
+    });
   });
 });

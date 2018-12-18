@@ -104,7 +104,6 @@ export class Transfer extends React.PureComponent {
               ]}
             >
               <TransferMenu
-                interactionId={this.props.interactionId}
                 setShowTransferMenu={this.setShowTransferMenu}
                 style={{ height: 'calc(100vh - 118px)' }}
               />
@@ -138,7 +137,6 @@ export class Transfer extends React.PureComponent {
 }
 
 Transfer.propTypes = {
-  interactionId: PropTypes.string.isRequired,
   canTransfer: PropTypes.bool.isRequired,
   connectingTransfers: PropTypes.bool.isRequired,
   queuesSet: PropTypes.bool.isRequired,

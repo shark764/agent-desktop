@@ -1,3 +1,6 @@
+### [1.34.1] (2018-12-18)
+* CXV1-16015 - Move transfer functions into sagas + saga unit tests
+
 ### [1.34.0] (2019-01-14)
 * CXV1-16508 - Outbound ANI select for contacts in Agent Desktop
 

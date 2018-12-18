@@ -136,7 +136,6 @@ class DesktopActionsButtons extends React.Component {
                 style={styles.transferMenuPopOut}
               >
                 <TransferMenu
-                  interactionId={this.props.interaction.interactionId}
                   setShowTransferMenu={this.toggleTransferMenu}
                   nonVoice
                   style={{ height: 'calc(100vh - 186px)' }}

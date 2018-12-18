@@ -21,10 +21,7 @@ import Tabs from 'components/Tabs';
 import TextInput from 'components/TextInput';
 import TimeStat from 'components/TimeStat';
 
-import {
-  startWarmTransferring,
-  clearQueuesTime,
-} from 'containers/AgentDesktop/actions';
+import { clearQueuesTime } from 'containers/AgentDesktop/actions';
 import { selectAgentId, selectQueues } from 'containers/AgentDesktop/selectors';
 import { selectBatchRequests } from 'containers/Toolbar/selectors';
 import TransferDialPadButton from 'containers/TransferDialPadButton';
@@ -42,6 +39,7 @@ import {
   updateAgentsListVisibleState,
   updateTransferListVisibleState,
   tearDownTransferMenuStates,
+  transferInteraction,
 } from './actions';
 import {
   selectWarmTransfers,
@@ -106,9 +104,18 @@ export class TransferMenu extends React.Component {
     // 13 is enter key
     if (e.which === 13) {
       if (e.target.className.includes('queueTransferListItem')) {
-        this.transfer(e.target.title, undefined, e.target.id);
+        this.props.transfer(
+          this.props.setShowTransferMenu,
+          e.target.title,
+          undefined,
+          e.target.id
+        );
       } else if (e.target.className.includes('readyAgentTransferListItem')) {
-        this.transfer(e.target.title, e.target.id);
+        this.props.transfer(
+          this.props.setShowTransferMenu,
+          e.target.title,
+          e.target.id
+        );
       }
     }
   };
@@ -399,94 +406,38 @@ export class TransferMenu extends React.Component {
 
   transferTransferListItem = (name, contactType, endpoint) => {
     if (contactType === 'queue') {
-      this.transfer(name, undefined, endpoint);
+      this.props.transfer(
+        this.props.setShowTransferMenu,
+        name,
+        undefined,
+        endpoint
+      );
     } else {
       const transferExtension = {
         type: contactType.toLowerCase(),
         value: endpoint,
       };
-      this.transfer(name, undefined, undefined, transferExtension);
+      this.props.transfer(
+        this.props.setShowTransferMenu,
+        name,
+        undefined,
+        undefined,
+        transferExtension
+      );
     }
   };
 
   transferFromDialpad = (dialpadText) => {
-    this.transfer(dialpadText, undefined, undefined, {
-      type: 'pstn',
-      value: dialpadText,
-    });
-  };
-
-  transfer = (name, resourceId, queueId, transferExtension) => {
-    const { interactionId } = this.props;
-    let transferType;
-    if (this.props.transferTabIndex === 0 && !this.props.nonVoice) {
-      transferType = 'warm';
-      let id;
-      let type;
-      if (queueId !== undefined) {
-        id = queueId;
-        type = 'queue';
-      } else if (resourceId !== undefined) {
-        id = resourceId;
-        type = 'agent';
-      } else if (transferExtension !== undefined) {
-        id = transferExtension;
-        type = 'transferExtension';
-      } else {
-        throw new Error(
-          'warm transfer: neither resourceId, queueId, nor transferExtension passed in'
-        );
+    this.props.transfer(
+      this.props.setShowTransferMenu,
+      dialpadText,
+      undefined,
+      undefined,
+      {
+        type: 'pstn',
+        value: dialpadText,
       }
-      const transferringTo = {
-        id,
-        type,
-        name,
-      };
-      this.props.startWarmTransferring(interactionId, transferringTo);
-    } else {
-      transferType = 'cold';
-    }
-
-    if (queueId !== undefined) {
-      console.log('transferToQueue()', interactionId, transferType, queueId);
-      CxEngage.interactions.transferToQueue({
-        interactionId,
-        queueId,
-        transferType,
-      });
-    } else if (resourceId !== undefined) {
-      console.log(
-        'transferToResource()',
-        interactionId,
-        transferType,
-        resourceId
-      );
-      CxEngage.interactions.transferToResource({
-        interactionId,
-        resourceId,
-        transferType,
-      });
-    } else if (transferExtension !== undefined) {
-      console.log(
-        'transferToExtension()',
-        interactionId,
-        transferType,
-        transferExtension
-      );
-      CxEngage.interactions.transferToExtension({
-        interactionId,
-        transferExtension,
-        transferType,
-      });
-    } else {
-      throw new Error(
-        'neither resourceId, queueId, nor transferExtension passed in'
-      );
-    }
-
-    if (this.props.setShowTransferMenu) {
-      this.props.setShowTransferMenu(false);
-    }
+    );
   };
 
   render() {
@@ -496,7 +447,14 @@ export class TransferMenu extends React.Component {
           id={queue.id}
           key={queue.id}
           className="queueTransferListItem transferItem"
-          onClick={() => this.transfer(queue.name, undefined, queue.id)}
+          onClick={() =>
+            this.props.transfer(
+              this.props.setShowTransferMenu,
+              queue.name,
+              undefined,
+              queue.id
+            )
+          }
           style={this.styles.transferListItem}
           title={queue.name}
           tabIndex="0" // eslint-disable-line
@@ -551,7 +509,13 @@ export class TransferMenu extends React.Component {
                   key={agent.agentId}
                   id={agent.agentId}
                   className="readyAgentTransferListItem transferItem"
-                  onClick={() => this.transfer(agent.name, agent.agentId)}
+                  onClick={() =>
+                    this.props.transfer(
+                      this.props.setShowTransferMenu,
+                      agent.name,
+                      agent.agentId
+                    )
+                  }
                   style={this.styles.transferListItem}
                   title={agent.name}
                   tabIndex="0" // eslint-disable-line
@@ -868,8 +832,6 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    startWarmTransferring: (interactionId, transferringTo) =>
-      dispatch(startWarmTransferring(interactionId, transferringTo)),
     clearQueuesTime: (queueData) => dispatch(clearQueuesTime(queueData)),
     setUsers: (users) => dispatch(setUsers(users)),
     setResourceCapactiy: (resourceCapacity) =>
@@ -890,17 +852,31 @@ function mapDispatchToProps(dispatch) {
     setFocusedTransferItemIndex: (focusedTransferItemIndex) =>
       dispatch(setFocusedTransferItemIndex(focusedTransferItemIndex)),
     tearDownTransferMenuStates: () => dispatch(tearDownTransferMenuStates()),
+    transfer: (
+      setShowTransferMenu,
+      name,
+      resourceId,
+      queueId,
+      transferExtension
+    ) =>
+      dispatch(
+        transferInteraction(
+          setShowTransferMenu,
+          name,
+          resourceId,
+          queueId,
+          transferExtension
+        )
+      ),
   };
 }
 
 TransferMenu.propTypes = {
   style: PropTypes.object,
-  interactionId: PropTypes.string.isRequired,
-  setShowTransferMenu: PropTypes.func,
+  setShowTransferMenu: PropTypes.func.isRequired,
   agentId: PropTypes.string.isRequired,
   warmTransfers: PropTypes.array,
   queues: PropTypes.array.isRequired,
-  startWarmTransferring: PropTypes.func.isRequired,
   clearQueuesTime: PropTypes.func.isRequired,
   nonVoice: PropTypes.bool,
   selectAgents: PropTypes.array,
@@ -925,6 +901,7 @@ TransferMenu.propTypes = {
   setTransferTabIndex: PropTypes.func.isRequired,
   setFocusedTransferItemIndex: PropTypes.func.isRequired,
   tearDownTransferMenuStates: PropTypes.func.isRequired,
+  transfer: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(
