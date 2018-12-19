@@ -1,7 +1,8 @@
+### [1.33.5] (2018-12-19)
+* CXV1-16590 - Emails insteand of names showing when clicking on the partie button
+
 ### [1.33.4] (2018-12-12)
 * CXV1-16312 - email iframe doesn't work properly
-
-### [1.33.3] (2018-12-12)
 * CXV1-13546 - Salesforce Classic / Lightning - Click to Email causes Blank Side Panel
 
 ### [1.33.2] (2018-12-14)

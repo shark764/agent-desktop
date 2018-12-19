@@ -639,13 +639,16 @@ export class App extends React.Component {
                         lastName,
                         id,
                         email,
-                        interactionId,
                       } = getUserResponse.result;
                       const name =
                         firstName || lastName
                           ? `${firstName} ${lastName}`
                           : email;
-                      this.props.updateResourceName(interactionId, id, name);
+                      this.props.updateResourceName(
+                        response.interactionId,
+                        id,
+                        name
+                      );
                     }
                   }
                 );
@@ -1766,7 +1769,10 @@ function mapDispatchToProps(dispatch) {
     transferCancelled: (interactionId) =>
       dispatch(transferCancelled(interactionId)),
     resourceAdded: (response) => dispatch(resourceAdded(response)),
-    updateResourceName: (response) => dispatch(updateResourceName(response)),
+    updateResourceName: (interactionId, activeResourceId, activeResourceName) =>
+      dispatch(
+        updateResourceName(interactionId, activeResourceId, activeResourceName)
+      ),
     updateResourceStatus: (
       interactionId,
       targetResource,
