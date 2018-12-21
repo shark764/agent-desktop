@@ -152,10 +152,11 @@ export class ContentArea extends React.Component {
       height: '100%',
     },
     mainContent: {
-      flex: '1 0',
       backgroundColor: '#F3F3F3',
-      height: '100%',
       padding: '5px',
+    },
+    mainContentWithContent: {
+      flex: '1 1',
     },
     header: {
       flex: '0 1 auto',
@@ -193,9 +194,14 @@ export class ContentArea extends React.Component {
     notesArea: {
       display: 'flex',
       flexFlow: 'column',
-      height: '100%',
       backgroundColor: '#E4E4E4',
       padding: '5px 11px',
+    },
+    notesAreaWithContent: {
+      height: '100%',
+    },
+    notesAreaWithNoContent: {
+      flexGrow: '1',
     },
     notesTitleContainer: {
       display: 'flex',
@@ -472,7 +478,15 @@ export class ContentArea extends React.Component {
   getNotesContent = () => {
     const { formatMessage } = this.props.intl;
     return (
-      <div key="notesArea" style={this.styles.notesArea}>
+      <div
+        key="notesArea"
+        style={[
+          this.styles.notesArea,
+          this.props.content
+            ? this.styles.notesAreaWithContent
+            : this.styles.notesAreaWithNoContent,
+        ]}
+      >
         <div style={this.styles.notesTitleContainer}>
           <FormattedMessage {...messages.notes} />
           <input
@@ -850,10 +864,7 @@ export class ContentArea extends React.Component {
       });
     }
 
-    let notesDisabled = false;
-    if (this.props.crmModule === 'zendesk') {
-      notesDisabled = true;
-    }
+    const notesDisabled = this.props.crmModule === 'zendesk';
     return (
       <div style={{ height: '100%' }}>
         {this.getConfirmContent()}
@@ -871,7 +882,12 @@ export class ContentArea extends React.Component {
             },
           ]}
         >
-          <div style={this.styles.mainContent}>
+          <div
+            style={[
+              this.styles.mainContent,
+              this.props.content && this.styles.mainContentWithContent,
+            ]}
+          >
             <div style={this.styles.base}>
               {this.props.crmModule !== 'none' && (
                 <CrmRecordNotification
