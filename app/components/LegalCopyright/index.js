@@ -71,7 +71,10 @@ function LegalCopyright(props, context) {
       style={[styles.copyright, context.toolbarMode && styles.copyrightToolbar]}
     >
       <div style={styles.copyrightText} id="serenova_copyright">
-        <FormattedMessage {...messages.copyright} />
+        <FormattedMessage
+          {...messages.copyright}
+          values={{ year: new Date().getFullYear() }}
+        />
       </div>
       <div style={styles.legalText} id="serenova_legal">
         <FormattedMessage {...messages.legal} />
