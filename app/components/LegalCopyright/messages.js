@@ -14,7 +14,6 @@ export default defineMessages({
     id: 'app.containers.Login.copyright',
     defaultMessage:
       'Copyright © 2015-{year} Serenova, LLC ("Serenova"). All rights reserved.',
-    values: { year: new Date().getFullYear() },
   },
   legal: {
     id: 'app.containers.Login.legal',

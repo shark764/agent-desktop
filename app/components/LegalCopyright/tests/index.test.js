@@ -8,6 +8,10 @@ import { shallow } from 'enzyme';
 import LegalCopyright from '../index';
 
 describe('<LegalCopyright />', () => {
+  // Override so snapshots stay the same
+  const DATE_TO_USE = new Date('2018-06');
+  Date = jest.fn(() => DATE_TO_USE); // eslint-disable-line no-global-assign
+
   describe('LegalCopyright in toolbarMode', () => {
     it('renders CXEngage Legal in toolbarMode', () => {
       global.jsdom.reconfigure({

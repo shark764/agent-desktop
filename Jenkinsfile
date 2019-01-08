@@ -106,15 +106,7 @@ pipeline {
         sh "aws s3 sync build/ s3://frontend-prs.cxengagelabs.net/tb2/${pr}/ --delete"
         script {
           f.invalidate("E23K7T1ARU8K88")
-          hipchatSend(color: 'GRAY',
-                      credentialId: 'HipChat-API-Token',
-                      message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy}) is ready for review</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a> <br/><a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 Dev Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop Dev Preview</a>",
-                      notify: true,
-                      room: 'Agent Experience PRs',
-                      sendAs: 'Jenkins',
-                      server: 'api.hipchat.com',
-                      textFormat: false,
-                      v2enabled: false)
+          office365ConnectorSend status:"Ready for review", message:"<a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 Dev Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop Dev Preview</a>", webhookUrl:"https://outlook.office.com/webhook/2ca7c3d9-47be-4907-9669-0bbed835452d@6baa6e2a-52be-4677-a9b8-36d2ec6f6ebc/JenkinsCI/f19495112ef24fa1a2dbf894d8b19058/d56e9e1b-ab01-40fc-ad2e-71e0bcd5e373"
         }
       }
     }
@@ -130,15 +122,7 @@ pipeline {
           sh "aws s3 sync build/ s3://frontend-prs.cxengagelabs.net/tb2/${pr}/ --delete"
           script {
             f.invalidate("E23K7T1ARU8K88")
-            hipchatSend(color: 'YELLOW',
-                        credentialId: 'HipChat-API-Token',
-                        message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy}) is ready for QE</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a> <br/><a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 QE Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop QE Preview</a>",
-                        notify: true,
-                        room: 'Agent Experience PRs',
-                        sendAs: 'Jenkins',
-                        server: 'api.hipchat.com',
-                        textFormat: false,
-                        v2enabled: false)
+            office365ConnectorSend status:"Ready QE", color:"f6c342", message:"<a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 QE Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop QE Preview</a>", webhookUrl:"https://outlook.office.com/webhook/2ca7c3d9-47be-4907-9669-0bbed835452d@6baa6e2a-52be-4677-a9b8-36d2ec6f6ebc/JenkinsCI/f19495112ef24fa1a2dbf894d8b19058/d56e9e1b-ab01-40fc-ad2e-71e0bcd5e373"
           }
         }
       }
@@ -149,15 +133,6 @@ pipeline {
         timeout(time: 5, unit: 'DAYS') {
           script {
             input message: 'Testing complete?', submittedParameter: 'submitter'
-            hipchatSend(color: 'GREEN',
-                        credentialId: 'HipChat-API-Token',
-                        message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy}) is ready to be merged</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a>",
-                        notify: true,
-                        room: 'Agent Experience PRs',
-                        sendAs: 'Jenkins',
-                        server: 'api.hipchat.com',
-                        textFormat: false,
-                        v2enabled: false)
           }
         }
       }
