@@ -24,7 +24,11 @@ describe('<MenuDialogLink />', () => {
               action: () => {},
             },
           ]}
-        />
+        >
+          <div>
+mock element
+          </div>
+        </MenuDialogLink>
       );
       expect(rendered).toMatchSnapshot();
     });
@@ -46,7 +50,11 @@ describe('<MenuDialogLink />', () => {
               action: () => {},
             },
           ]}
-        />
+        >
+          <div>
+mock element
+          </div>
+        </MenuDialogLink>
       );
 
       rendered.find('#mockId').simulate('click');

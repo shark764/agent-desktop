@@ -46,6 +46,10 @@ const styles = {
   createRecordBtn: {
     textAlign: 'center',
   },
+  outboundAniDiv: {
+    margin: '0px auto 10px',
+    width: '282px',
+  },
 };
 
 export class NoRecords extends React.Component {
@@ -84,7 +88,11 @@ export class NoRecords extends React.Component {
         {(this.getPhoneNumber() || this.getEmailAddress()) && (
           <div style={styles.outboundInteractionButtons}>
             {this.getPhoneNumber() &&
-              isBeta() && <OutboundAniSelect channelTypes={['voice', 'sms']} />}
+              isBeta() && (
+              <div style={styles.outboundAniDiv}>
+                <OutboundAniSelect channelTypes={['voice', 'sms']} />
+              </div>
+            )}
             {this.getPhoneNumber() &&
               (!this.props.getSelectedOutboundIdentifier ||
                 this.props.getSelectedOutboundIdentifier.channelType ===

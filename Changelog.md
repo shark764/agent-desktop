@@ -1,3 +1,6 @@
+### [1.34.0] (2019-01-14)
+* CXV1-16508 - Outbound ANI select for contacts in Agent Desktop
+
 ### [1.33.9] (2019-01-18)
 * SDK bump for:
 * CXV1-16791 - Suppress MQTT disconnect errors from UI

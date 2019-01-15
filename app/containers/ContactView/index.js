@@ -40,6 +40,7 @@ import Button from 'components/Button';
 import ContactAttribute from 'components/ContactAttribute';
 import ContactSectionHeader from 'components/ContactSectionHeader';
 
+import { getSelectedOutboundIdentifier } from 'containers/OutboundAniSelect/selectors';
 import {
   selectPopulatedLayout,
   selectPopulatedCompactAttributes,
@@ -115,9 +116,8 @@ export class ContactView extends React.Component {
         isReady={this.props.isReady}
         hasVoiceInteraction={this.props.hasVoiceInteraction}
         smsInteractionNumbers={this.props.smsInteractionNumbers}
-        startCall={this.startCall}
-        startSms={this.startSms}
-        startEmail={this.startEmail}
+        startInteraction={this.startInteraction}
+        selectedOutboundIdentifier={this.props.getSelectedOutboundIdentifier}
       />
     );
   };
@@ -129,41 +129,40 @@ export class ContactView extends React.Component {
     </div>
   );
 
-  startCall = (number) => {
-    this.props.startOutboundInteraction(
-      'voice',
-      number,
-      this.props.contact,
-      this.props.selectedInteractionIsCreatingNewInteraction,
-      undefined,
-      true
-    );
-    if (!this.props.contact.history) {
-      this.props.loadContactInteractionHistory(this.props.contact.id);
+  startInteraction = (channelType, contactPoint) => {
+    if (channelType === 'email') {
+      this.props.startOutboundEmail(
+        contactPoint,
+        this.props.contact,
+        this.props.selectedInteractionIsCreatingNewInteraction
+      );
+    } else {
+      this.props.startOutboundInteraction(
+        channelType,
+        contactPoint,
+        this.props.contact,
+        this.props.selectedInteractionIsCreatingNewInteraction,
+        undefined,
+        true,
+        undefined,
+        this.props.getSelectedOutboundIdentifier
+      );
+      if (channelType === 'voice') {
+        const outboundVoiceObject = { phoneNumber: contactPoint };
+        if (this.props.getSelectedOutboundIdentifier) {
+          const {
+            outboundIdentifier,
+            flowId,
+          } = this.props.getSelectedOutboundIdentifier;
+          outboundVoiceObject.outboundAni = outboundIdentifier;
+          outboundVoiceObject.flowId = flowId;
+        }
+        CxEngage.interactions.voice.dial(outboundVoiceObject);
+      }
+      if (!this.props.contact.history) {
+        this.props.loadContactInteractionHistory(this.props.contact.id);
+      }
     }
-    CxEngage.interactions.voice.dial({ phoneNumber: number });
-  };
-
-  startSms = (number) => {
-    this.props.startOutboundInteraction(
-      'sms',
-      number,
-      this.props.contact,
-      this.props.selectedInteractionIsCreatingNewInteraction,
-      undefined,
-      true
-    );
-    if (!this.props.contact.history) {
-      this.props.loadContactInteractionHistory(this.props.contact.id);
-    }
-  };
-
-  startEmail = (value) => {
-    this.props.startOutboundEmail(
-      value,
-      this.props.contact,
-      this.props.selectedInteractionIsCreatingNewInteraction
-    );
   };
 
   assignContact = () => {
@@ -244,6 +243,7 @@ const mapStateToProps = (state, props) => ({
     props
   ),
   currentInteraction: selectCurrentInteraction(state, props),
+  getSelectedOutboundIdentifier: getSelectedOutboundIdentifier(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -256,7 +256,9 @@ function mapDispatchToProps(dispatch) {
       contact,
       addedByNewInteractionPanel,
       interactionId,
-      openSidePanel
+      openSidePanel,
+      popuri,
+      selectedOutboundAni
     ) =>
       dispatch(
         startOutboundInteraction(
@@ -265,7 +267,9 @@ function mapDispatchToProps(dispatch) {
           contact,
           addedByNewInteractionPanel,
           interactionId,
-          openSidePanel
+          openSidePanel,
+          popuri,
+          selectedOutboundAni
         )
       ),
     loadContactInteractionHistory: (contactId) =>
@@ -302,6 +306,7 @@ ContactView.propTypes = {
   loadContactInteractionHistory: PropTypes.func.isRequired,
   startOutboundEmail: PropTypes.func.isRequired,
   currentInteraction: PropTypes.object,
+  getSelectedOutboundIdentifier: PropTypes.object,
 };
 
 export default ErrorBoundary(

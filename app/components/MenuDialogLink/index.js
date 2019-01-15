@@ -85,6 +85,7 @@ class MenuDialogLink extends React.Component {
             arrowLeftOffsetPx={numberOfOptions * buttonWidthPx * 0.5 - 7}
             fadeContent
           >
+            {this.props.children}
             <div style={styles.container}>
               {this.props.options.map((option, index) => (
                 <Button
@@ -120,6 +121,7 @@ MenuDialogLink.propTypes = {
       disabled: PropTypes.bool,
     })
   ).isRequired,
+  children: PropTypes.any,
 };
 
 export default MenuDialogLink;

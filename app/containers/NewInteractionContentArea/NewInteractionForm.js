@@ -51,6 +51,10 @@ const styles = {
     width: '50%',
     margin: '30px 25%',
   },
+  outboundAniDiv: {
+    margin: '0px auto 10px',
+    width: '282px',
+  },
 };
 
 const formatPhoneNumber = (input) => {
@@ -100,7 +104,9 @@ export function NewInteractionForm(props) {
       <hr style={styles.hr} />
       {isBeta() &&
         isPossibleNumber(formatPhoneNumber(props.input)) && (
-        <OutboundAniSelect channelTypes={['voice', 'sms']} />
+        <div style={styles.outboundAniDiv}>
+          <OutboundAniSelect channelTypes={['voice', 'sms']} />
+        </div>
       )}
       {!isValidEmail(props.input) &&
         (!props.selectedOutboundIdentifier ||

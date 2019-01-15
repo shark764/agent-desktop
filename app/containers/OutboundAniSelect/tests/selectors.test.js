@@ -70,7 +70,6 @@ describe('selectOutboundIdentifierListsForChannel', () => {
       })
     ).toMatchSnapshot();
   });
-
   it('if outbound identifier list does not exist', () => {
     expect(
       selectOutboundIdentifierListsForChannel(
