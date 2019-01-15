@@ -4,15 +4,13 @@
 
 import { createSelector } from 'reselect';
 
-const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
+const selectCurrentAgentMessageTemplates = (state) =>
+  state.getIn(['agentDesktop', 'userConfig', 'messageTemplates']);
 
 const selectMessageTemplates = createSelector(
-  selectAgentDesktopDomain,
-  (agentDesktop) =>
-    agentDesktop
-      .get('userConfig')
-      .get('messageTemplates')
-      .toJS()
+  selectCurrentAgentMessageTemplates,
+  (messageTemplates) =>
+    messageTemplates.toJS().filter((template) => template.active === true)
 );
 
 export { selectMessageTemplates };
