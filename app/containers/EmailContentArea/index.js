@@ -258,9 +258,12 @@ export class EmailContentArea extends React.Component {
         });
       }
     }
+    // We do this so we can make sure the iframe is updated when necessary cases
     if (
       this.props.selectedInteraction.interactionId !==
         prevProps.selectedInteraction.interactionId ||
+      this.props.selectedInteraction.emailHtmlBody !==
+        prevProps.selectedInteraction.emailHtmlBody ||
       this.props.selectedInteraction.emailReply !==
         prevProps.selectedInteraction.emailReply
     ) {

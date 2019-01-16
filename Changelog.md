@@ -1,3 +1,6 @@
+### [1.33.8] (2019-101-10)
+* CXV1-16654 - Email content doesn't show sometimes on inbound emails
+
 ### [1.33.7] (2018-12-19)
 * CXV1-16437 - Disabled Message Templates should not be accessible from Skylight
 
