@@ -914,16 +914,12 @@ function agentDesktopReducer(state = initialState, action) {
         );
       } else {
         // 'script-only' is the main status we will use. isScriptOnly for when interactions receive a work offer, but still need to render the script in MainContentArea until it has been accepted
-        const scriptInteraction = fromJS({
-          interactionId: action.interactionId,
-          status: 'script-only',
-          isScriptOnly: true,
-          script: new Script(script),
-          isSidePanelCollapsed: true,
-          selectedSidePanelTab: 'info',
-          query: {},
-          activeContactForm: activeContactFormBlank,
-        });
+        const scriptInteraction = Map(
+          new Interaction({
+            interactionId: action.interactionId,
+            script: new Script(script),
+          })
+        );
         return state
           .update('interactions', (interactions) =>
             interactions.push(scriptInteraction)

@@ -26,6 +26,7 @@ export default class Interaction {
     callbackRequest,
     popUri,
     outboundAni,
+    script,
   }) {
     if (channelType === 'voice') {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
@@ -78,7 +79,6 @@ export default class Interaction {
     this.contactMode = contactMode || 'search';
     this.timeout = new Date(timeout).valueOf();
     this.autoAnswer = autoAnswer;
-    this.status = status || 'work-offer';
     this.wrapupDetails = new Map({
       wrapupUpdateAllowed: false,
       wrapupEnabled: false,
@@ -142,6 +142,13 @@ export default class Interaction {
       ]);
     } else {
       this.customFields = fromJS([]);
+    }
+    if (script) {
+      this.isScriptOnly = true;
+      this.script = script;
+      this.status = 'script-only';
+    } else {
+      this.status = status || 'work-offer';
     }
   }
 }
