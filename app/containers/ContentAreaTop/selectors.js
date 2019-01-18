@@ -22,7 +22,7 @@ export const selectWrapupBtnTooltipText = createSelector(
     } else if (awaitingScript) {
       return messages.awaitingScript;
     } else {
-      return {};
+      return '';
     }
   }
 );

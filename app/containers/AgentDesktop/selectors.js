@@ -190,7 +190,8 @@ const selectAwaitingDisposition = createSelector(
   getSelectedInteraction,
   (interaction) =>
     interaction !== undefined &&
-    interaction.status === 'wrapup' &&
+    (interaction.status === 'wrapup' ||
+      interaction.status === 'work-ended-pending-script') &&
     interaction.dispositionDetails.forceSelect &&
     interaction.dispositionDetails.selected.length === 0
 );
@@ -207,7 +208,10 @@ const selectAwaitingScript = createSelector(
 const selectIsEndWrapupDisabled = createSelector(
   [getSelectedInteraction, selectAwaitingDisposition, selectAwaitingScript],
   (interaction, awaitingDisposition, awaitingScript) =>
-    (interaction !== undefined && interaction.status === 'work-accepting') ||
+    (interaction !== undefined &&
+      (interaction.status === 'work-accepting' ||
+        (interaction.status === 'work-accepted' &&
+          interaction.sendingReply))) ||
     awaitingDisposition ||
     awaitingScript
 );
