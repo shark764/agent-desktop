@@ -1,3 +1,9 @@
+### [1.33.9] (2019-01-18)
+* SDK bump for:
+* CXV1-16791 - Suppress MQTT disconnect errors from UI
+* CXV1-16778 - Improved SQS error handling. Added more logging.
+* Bumped up time to wait for Twilio to be in an accepting state on interaction accept to 35 seconds (was 5)
+
 ### [1.33.8] (2019-101-10)
 * CXV1-16654 - Email content doesn't show sometimes on inbound emails
 
