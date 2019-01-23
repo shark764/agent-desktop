@@ -10,42 +10,33 @@ Object {
 exports[`<OutboundAniSelect /> doesn't render if there isn't any Outbound ANI 1`] = `""`;
 
 exports[`<OutboundAniSelect /> if getSelectedOutboundIdentifier is undefined 1`] = `
-<div
-  style={
-    Object {
-      "margin": "0px auto 10px",
-      "width": "282px",
-    }
+<Select
+  id="outboundAniSelect"
+  onChange={[Function]}
+  options={
+    Array [
+      Object {
+        "id": "1",
+        "value": "outboundAni1",
+      },
+      Object {
+        "id": "2",
+        "value": "outboundAni2",
+      },
+      Object {
+        "id": "3",
+        "value": "outboundAni3",
+      },
+    ]
   }
->
-  <Select
-    id="outboundAniSelect"
-    onChange={[Function]}
-    options={
-      Array [
-        Object {
-          "id": "1",
-          "value": "outboundAni1",
-        },
-        Object {
-          "id": "2",
-          "value": "outboundAni2",
-        },
-        Object {
-          "id": "3",
-          "value": "outboundAni3",
-        },
-      ]
-    }
-    placeholder={
-      <FormattedMessage
-        defaultMessage="Select Outbound ANI"
-        id="app.containers.OutboundAniSelect.selectOutboundAni"
-        values={Object {}}
-      />
-    }
-  />
-</div>
+  placeholder={
+    <FormattedMessage
+      defaultMessage="Select Outbound ANI"
+      id="app.containers.OutboundAniSelect.selectOutboundAni"
+      values={Object {}}
+    />
+  }
+/>
 `;
 
 exports[`<OutboundAniSelect /> mapStateToProps maps the selectors to the object correctly 1`] = `
@@ -56,58 +47,40 @@ Object {
 `;
 
 exports[`<OutboundAniSelect /> rendered correctly for voice channel 1`] = `
-<div
-  style={
-    Object {
-      "margin": "0px auto 10px",
-      "width": "282px",
-    }
+<Select
+  id="outboundAniSelect"
+  onChange={[Function]}
+  options={
+    Array [
+      Object {
+        "id": "1",
+        "value": "outboundAni1",
+      },
+      Object {
+        "id": "2",
+        "value": "outboundAni2",
+      },
+      Object {
+        "id": "3",
+        "value": "outboundAni3",
+      },
+    ]
   }
->
-  <Select
-    id="outboundAniSelect"
-    onChange={[Function]}
-    options={
-      Array [
-        Object {
-          "id": "1",
-          "value": "outboundAni1",
-        },
-        Object {
-          "id": "2",
-          "value": "outboundAni2",
-        },
-        Object {
-          "id": "3",
-          "value": "outboundAni3",
-        },
-      ]
-    }
-    placeholder={
-      <FormattedMessage
-        defaultMessage="Select Outbound ANI"
-        id="app.containers.OutboundAniSelect.selectOutboundAni"
-        values={Object {}}
-      />
-    }
-    value="outboundAni2"
-  />
-</div>
+  placeholder={
+    <FormattedMessage
+      defaultMessage="Select Outbound ANI"
+      id="app.containers.OutboundAniSelect.selectOutboundAni"
+      values={Object {}}
+    />
+  }
+  value="outboundAni2"
+/>
 `;
 
 exports[`<OutboundAniSelect /> renders a loading icon while fetching outbound identifier lists assigned to the user 1`] = `
-<div
-  style={
-    Object {
-      "margin": "0px auto 10px",
-      "width": "282px",
-    }
-  }
->
-  <IconSVG
-    id="fetching-outbound-lists-loading-icon"
-    name="loading"
-    width="40px"
-  />
-</div>
+<IconSVG
+  id="fetching-outbound-lists-loading-icon"
+  name="loading"
+  width="40px"
+/>
 `;

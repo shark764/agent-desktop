@@ -122,7 +122,7 @@ pipeline {
           sh "aws s3 sync build/ s3://frontend-prs.cxengagelabs.net/tb2/${pr}/ --delete"
           script {
             f.invalidate("E23K7T1ARU8K88")
-            office365ConnectorSend status:"Ready QE", color:"f6c342", message:"<a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 QE Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop QE Preview</a>", webhookUrl:"https://outlook.office.com/webhook/2ca7c3d9-47be-4907-9669-0bbed835452d@6baa6e2a-52be-4677-a9b8-36d2ec6f6ebc/JenkinsCI/f19495112ef24fa1a2dbf894d8b19058/d56e9e1b-ab01-40fc-ad2e-71e0bcd5e373"
+            office365ConnectorSend status:"Ready for QE", color:"f6c342", message:"<a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 QE Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop QE Preview</a>", webhookUrl:"https://outlook.office.com/webhook/2ca7c3d9-47be-4907-9669-0bbed835452d@6baa6e2a-52be-4677-a9b8-36d2ec6f6ebc/JenkinsCI/f19495112ef24fa1a2dbf894d8b19058/d56e9e1b-ab01-40fc-ad2e-71e0bcd5e373"
           }
         }
       }

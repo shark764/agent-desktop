@@ -17,13 +17,6 @@ import {
 } from './actions';
 import messages from './messages';
 
-const styles = {
-  base: {
-    margin: '0px auto 10px',
-    width: '282px',
-  },
-};
-
 export class OutboundAniSelect extends React.Component {
   componentDidMount() {
     this.props.fetchOutboundIdentifierLists();
@@ -35,29 +28,25 @@ export class OutboundAniSelect extends React.Component {
       this.props.selectOutboundIdentifierListsForChannel.length > 0
     ) {
       return (
-        <div style={styles.base}>
-          <Select
-            id="outboundAniSelect"
-            options={this.props.selectOutboundIdentifierListsForChannel}
-            placeholder={<FormattedMessage {...messages.selectOutboundAni} />}
-            onChange={this.props.selectOutboundIdentification}
-            value={
-              this.props.getSelectedOutboundIdentifier
-                ? this.props.getSelectedOutboundIdentifier.value
-                : undefined
-            }
-          />
-        </div>
+        <Select
+          id="outboundAniSelect"
+          options={this.props.selectOutboundIdentifierListsForChannel}
+          placeholder={<FormattedMessage {...messages.selectOutboundAni} />}
+          onChange={this.props.selectOutboundIdentification}
+          value={
+            this.props.getSelectedOutboundIdentifier
+              ? this.props.getSelectedOutboundIdentifier.value
+              : undefined
+          }
+        />
       );
     } else if (!this.props.selectOutboundIdentifierListsForChannel) {
       return (
-        <div style={styles.base}>
-          <IconSVG
-            id="fetching-outbound-lists-loading-icon"
-            name="loading"
-            width="40px"
-          />
-        </div>
+        <IconSVG
+          id="fetching-outbound-lists-loading-icon"
+          name="loading"
+          width="40px"
+        />
       );
     }
     return null;

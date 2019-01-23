@@ -12,9 +12,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { formatValue } from 'utils/contact';
+import { isBeta } from 'utils/url';
 
 import Checkbox from 'components/Checkbox';
 import MenuDialogLink from 'components/MenuDialogLink';
+import OutboundAniSelect from 'containers/OutboundAniSelect/index';
 
 import messages from './messages';
 
@@ -34,11 +36,19 @@ const styles = {
     flexShrink: '0',
     alignSelf: 'center',
   },
+  outboundAniDiv: {
+    width: '100%',
+    borderStyle: 'none',
+  },
 };
 
 function ContactAttribute(props) {
   const value = props.attributeValue;
   let content;
+  let channelType;
+  if (props.selectedOutboundIdentifier) {
+    ({ channelType } = props.selectedOutboundIdentifier);
+  }
   switch (props.attribute.type) {
     case 'phone':
       content = (
@@ -49,16 +59,26 @@ function ContactAttribute(props) {
           options={[
             {
               message: messages.call,
-              action: () => props.startCall(value),
-              disabled: props.hasVoiceInteraction,
+              action: () => props.startInteraction('voice', value),
+              disabled:
+                props.hasVoiceInteraction ||
+                (props.selectedOutboundIdentifier && channelType !== 'voice'),
             },
             {
               message: messages.sms,
-              action: () => props.startSms(value),
-              disabled: props.smsInteractionNumbers.includes(value),
+              action: () => props.startInteraction('sms', value),
+              disabled:
+                props.smsInteractionNumbers.includes(value) ||
+                (props.selectedOutboundIdentifier && channelType !== 'sms'),
             },
           ]}
-        />
+        >
+          {isBeta() && (
+            <div style={styles.outboundAniDiv}>
+              <OutboundAniSelect channelTypes={['voice', 'sms']} />
+            </div>
+          )}
+        </MenuDialogLink>
       );
       break;
     case 'email':
@@ -70,7 +90,7 @@ function ContactAttribute(props) {
           options={[
             {
               message: messages.email,
-              action: () => props.startEmail(value),
+              action: () => props.startInteraction('email', value),
             },
           ]}
         />
@@ -127,9 +147,8 @@ ContactAttribute.propTypes = {
   isReady: PropTypes.bool.isRequired,
   hasVoiceInteraction: PropTypes.bool.isRequired,
   smsInteractionNumbers: PropTypes.array.isRequired,
-  startCall: PropTypes.func.isRequired, // eslint-disable-line
-  startSms: PropTypes.func.isRequired, // eslint-disable-line
-  startEmail: PropTypes.func.isRequired, // eslint-disable-line
+  startInteraction: PropTypes.func.isRequired, // eslint-disable-line
+  selectedOutboundIdentifier: PropTypes.object,
 };
 
 // For eslint disables above see https://github.com/yannickcr/eslint-plugin-react/issues/885

@@ -41,6 +41,9 @@ exports[`<MenuDialogLink /> when A is clicked on should render correctly 1`] = `
       }
       widthPx={135}
     >
+      <div>
+        mock element
+      </div>
       <div
         style={
           Object {
@@ -123,6 +126,9 @@ exports[`<MenuDialogLink /> when dialog not active should render correctly 1`] =
       }
       widthPx={135}
     >
+      <div>
+        mock element
+      </div>
       <div
         style={
           Object {
