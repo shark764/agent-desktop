@@ -1,6 +1,11 @@
 import { takeEvery, put, call, all, select } from 'redux-saga/effects';
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 import { selectTenant, selectAgent } from 'containers/Login/selectors';
+import {
+  startWarmTransferring,
+  transferCancelled,
+} from 'containers/AgentDesktop/actions';
+import { getSelectedInteraction } from 'containers/AgentDesktop/selectors';
 import * as ACTIONS from './constants';
 import {
   getAndSetTransferLists,
@@ -15,6 +20,7 @@ import {
   selectQueuesListVisibleState,
   selectAgentsListVisibleState,
   selectTransferListsVisibleState,
+  selectTransferTabIndex,
 } from './selectors';
 
 // Worker Saga for Setting Initial States:
@@ -130,6 +136,122 @@ export function* tearDownTransferMenuStates() {
   yield put(setShowTransferDialPad(false));
 }
 
+export function* transferInteraction(action) {
+  const {
+    setShowTransferMenu,
+    name,
+    resourceId,
+    queueId,
+    transferExtension,
+  } = action;
+  const [{ interactionId, channelType }, transferTabIndex] = yield all([
+    select(getSelectedInteraction),
+    select(selectTransferTabIndex),
+  ]);
+  let transferType;
+  if (transferTabIndex === 0 && channelType === 'voice') {
+    transferType = 'warm';
+    let id;
+    let type;
+    if (queueId !== undefined) {
+      id = queueId;
+      type = 'queue';
+    } else if (resourceId !== undefined) {
+      id = resourceId;
+      type = 'agent';
+    } else if (transferExtension !== undefined) {
+      id = transferExtension;
+      type = 'transferExtension';
+    } else {
+      throw new Error(
+        'warm transfer: neither resourceId, queueId, nor transferExtension passed in'
+      );
+    }
+    const transferringTo = {
+      id,
+      type,
+      name,
+    };
+    yield put(startWarmTransferring(interactionId, transferringTo));
+  } else {
+    transferType = 'cold';
+  }
+
+  if (queueId !== undefined) {
+    console.log('transferToQueue()', interactionId, transferType, queueId);
+    try {
+      yield call(
+        sdkCallToPromise,
+        CxEngage.interactions.transferToQueue,
+        {
+          interactionId,
+          queueId,
+          transferType,
+        },
+        'TransferMenu'
+      );
+    } catch (error) {
+      console.error(error);
+      if (transferType === 'warm') {
+        yield put(transferCancelled(interactionId));
+      }
+    }
+  } else if (resourceId !== undefined) {
+    console.log(
+      'transferToResource()',
+      interactionId,
+      transferType,
+      resourceId
+    );
+    try {
+      yield call(
+        sdkCallToPromise,
+        CxEngage.interactions.transferToResource,
+        {
+          interactionId,
+          resourceId,
+          transferType,
+        },
+        'TransferMenu'
+      );
+    } catch (error) {
+      console.error(error);
+      if (transferType === 'warm') {
+        yield put(transferCancelled(interactionId));
+      }
+    }
+  } else if (transferExtension !== undefined) {
+    console.log(
+      'transferToExtension()',
+      interactionId,
+      transferType,
+      transferExtension
+    );
+    try {
+      yield call(
+        sdkCallToPromise,
+        CxEngage.interactions.transferToExtension,
+        {
+          interactionId,
+          transferExtension,
+          transferType,
+        },
+        'TransferMenu'
+      );
+    } catch (error) {
+      console.error(error);
+      if (transferType === 'warm') {
+        yield put(transferCancelled(interactionId));
+      }
+    }
+  } else {
+    throw new Error(
+      'neither resourceId, queueId, nor transferExtension passed in'
+    );
+  }
+  yield call(setShowTransferMenu);
+}
+
 // Watcher Sagas for Setting Initial States & updating Previous States:
 
 export default [
@@ -151,4 +273,5 @@ export default [
     changeTransferListVisibleState
   ),
   takeEvery(ACTIONS.TEAR_DOWN_TRANSFER_MENU_STATES, tearDownTransferMenuStates),
+  takeEvery(ACTIONS.TRANSFER_INTERACTION, transferInteraction),
 ];
