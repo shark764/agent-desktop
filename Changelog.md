@@ -1,3 +1,6 @@
+### [1.35.2] (2019-01-24)
+* CXV1-16758 - Filter out duplicate outbound identifiers from skylight
+
 ### [1.35.1] (2018-01-11)
 * CXV1-15535 - Logic to store state in localStorage and use it as default for logging in for Transfer List Preference Menu UI
 
