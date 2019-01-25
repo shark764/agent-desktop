@@ -258,7 +258,8 @@ export class EmailContentArea extends React.Component {
         });
       }
     }
-    // We do this so we can make sure the iframe is updated when necessary cases
+
+    // We do this so we can make sure the iframe is updated when necessary
     if (
       this.props.selectedInteraction.interactionId !==
         prevProps.selectedInteraction.interactionId ||
@@ -273,12 +274,22 @@ export class EmailContentArea extends React.Component {
 
   updateIframes = () => {
     if (this.emailFrames.current) {
-      const document = this.emailFrames.current.contentDocument;
-      document.head.innerHTML = '<base target="_blank" />';
-      document.body.innerHTML = this.emailWithImages();
+      const emailIframe =
+        this.emailFrames.current.contentWindow ||
+        (this.emailFrames.current.contentDocument.document ||
+          this.emailFrames.current.contentDocument);
+      this.emailFrames.current.contentDocument.head.innerHTML =
+        '<base target="_blank" />';
+
+      // https://stackoverflow.com/a/18957141
+      emailIframe.document.open();
+      emailIframe.document.write(this.emailWithImages());
+      emailIframe.document.close();
+
       if (this.props.selectedInteraction.emailReply !== undefined) {
         //  Added a style to the body of the iframe to avoid a double scroll bar when the user reply email.
-        document.head.innerHTML += '<style> body{ overflow:hidden } </style>';
+        this.emailFrames.current.contentDocument.head.innerHTML +=
+          '<style> body{ overflow:hidden } </style>';
         this.emailFrames.current.style.height = '0px';
         const heightpx = this.emailFrames.current.contentWindow.document.body
           .scrollHeight;

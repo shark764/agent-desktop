@@ -1,3 +1,6 @@
+### [1.34.2] (2019-01-21)
+* CXV1-16777 - Inbound email interaction doesn't show its content when received until receiving another email interaction and go between them on Firefox
+
 ### [1.34.1] (2018-12-18)
 * CXV1-16015 - Move transfer functions into sagas + saga unit tests
 
