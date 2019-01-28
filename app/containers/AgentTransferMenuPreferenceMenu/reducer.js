@@ -47,9 +47,11 @@ export default function transferMenuPreferencesReducer(
           );
           return queues.push(...newQueues);
         } else {
-          return new List();
+          return List();
         }
       });
+    case ACTIONS.TOGGLE_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE:
+      return state.set('selectedQueues', List(action.queues));
 
     //  Transfer Lists Actions
     case ACTIONS.SET_SHOW_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE:
@@ -75,9 +77,11 @@ export default function transferMenuPreferencesReducer(
           );
           return transferLists.push(...newTransferLists);
         } else {
-          return new List();
+          return List();
         }
       });
+    case ACTIONS.TOGGLE_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE:
+      return state.set('selectedTransferLists', List(action.transferLists));
     default:
       return state;
   }

@@ -6,7 +6,6 @@ import CollapsibleMultiselect from 'components/CollapsibleMultiselect';
 import { selectQueues } from 'containers/AgentDesktop/selectors';
 import { selectTransferLists } from 'containers/TransferMenu/selectors';
 import ErrorBoundary from 'components/ErrorBoundary';
-import { setTransferLists } from 'containers/TransferMenu/actions';
 import {
   selectAgentsPreferences,
   selectSelectedQueues,
@@ -22,6 +21,7 @@ import {
   toggleAllSelectedTransferListsTransferMenuPreference,
   toggleShowQueuesTransferMenuPreference,
   toggleShowTransferListsTransferMenuPreference,
+  initializeTransferMenuPreferences,
 } from './actions';
 
 import messages from './messages';
@@ -29,14 +29,8 @@ import messages from './messages';
 export class AgentTransferMenuPreferenceMenu extends React.Component {
   constructor(props) {
     super(props);
-    if (this.props.transferLists === 'loading') {
-      this.initializeTransferLists();
-    }
+    this.props.initializeTransferMenuPreferences();
   }
-
-  initializeTransferLists = () => {
-    this.props.setTransferLists();
-  };
 
   render() {
     return (
@@ -89,7 +83,10 @@ const mapStateToProps = (state, props) => ({
 AgentTransferMenuPreferenceMenu.propTypes = {
   agentsTransferMenuEnabled: PropTypes.bool,
   toggleAgents: PropTypes.func.isRequired,
-  transferLists: PropTypes.array.isRequired,
+  transferLists: PropTypes.PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+  ]),
   queues: PropTypes.array.isRequired,
   toggleQueue: PropTypes.func.isRequired,
   toggleAllQueues: PropTypes.func,
@@ -97,11 +94,11 @@ AgentTransferMenuPreferenceMenu.propTypes = {
   toggleTransferList: PropTypes.func.isRequired,
   toggleAllTransferLists: PropTypes.func,
   selectedTransferLists: PropTypes.array.isRequired,
-  setTransferLists: PropTypes.func.isRequired,
   showQueues: PropTypes.bool.isRequired,
   showTransferLists: PropTypes.bool.isRequired,
   toggleShowQueues: PropTypes.func.isRequired,
   toggleShowTransferLists: PropTypes.func.isRequired,
+  initializeTransferMenuPreferences: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -118,11 +115,12 @@ function mapDispatchToProps(dispatch) {
       dispatch(
         toggleAllSelectedTransferListsTransferMenuPreference(transferLists)
       ),
-    setTransferLists: () => dispatch(setTransferLists()),
     toggleShowQueues: (queues) =>
       dispatch(toggleShowQueuesTransferMenuPreference(queues)),
     toggleShowTransferLists: (transferLists) =>
       dispatch(toggleShowTransferListsTransferMenuPreference(transferLists)),
+    initializeTransferMenuPreferences: () =>
+      dispatch(initializeTransferMenuPreferences()),
     dispatch,
   };
 }

@@ -19,6 +19,8 @@ import Timer from 'components/Timer';
 import AgentStatusMenu from 'containers/AgentStatusMenu';
 import AgentStats from 'containers/AgentStats';
 import AgentPreferencesMenu from 'containers/AgentPreferencesMenu';
+import { setTransferLists } from 'containers/TransferMenu/actions';
+import { selectTransferLists } from 'containers/TransferMenu/selectors';
 import {
   selectQueues,
   selectQueuesSet,
@@ -162,7 +164,14 @@ export class Toolbar extends React.Component {
       isStatusButtonHovered: false,
       isConfigButtonHovered: false,
     };
+    if (this.props.transferLists === 'loading') {
+      this.initializeTransferLists();
+    }
   }
+
+  initializeTransferLists = () => {
+    this.props.setTransferLists();
+  };
 
   setStatusButtonHovered = (isStatusButtonHovered) => {
     this.setState({ isStatusButtonHovered });
@@ -365,12 +374,14 @@ function mapStateToProps(state, props) {
     readyState: selectReadyState(state, props),
     queuesSet: selectQueuesSet(state, props),
     ...selectToolbar()(state, props),
+    transferLists: selectTransferLists(state, props),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
+    setTransferLists: () => dispatch(setTransferLists()),
     dispatch,
   };
 }
@@ -385,6 +396,11 @@ Toolbar.propTypes = {
   selectedPresenceReason: PropTypes.object,
   hasInteractions: PropTypes.bool,
   queuesSet: PropTypes.bool,
+  transferLists: PropTypes.PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+  ]),
+  setTransferLists: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(
