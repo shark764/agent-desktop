@@ -1,3 +1,6 @@
+### [1.35.3] (2019-01-28)
+* CXV1-15506 - Agent able to transfer multiple times without ending the transfer
+
 ### [1.35.2] (2019-01-24)
 * CXV1-16758 - Filter out duplicate outbound identifiers from skylight
 

@@ -46,6 +46,7 @@ import {
   OUTBOUND_CUSTOMER_CONNECTED,
   SET_CUSTOM_FIELDS,
   EMAIL_CREATE_REPLY,
+  SET_IS_COLD_TRANSFERRING,
 } from '../constants';
 import agentDesktopReducer, { getNextSelectedInteractionId } from '../reducer';
 
@@ -1796,6 +1797,42 @@ describe('agentDesktopReducer', () => {
         };
       });
       it('customFields is set to the values that come from the SDK', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+  });
+
+  describe('SET_IS_COLD_TRANSFERRING', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 1,
+          },
+        ],
+      };
+    });
+    describe('send isColdTransferring as true', () => {
+      beforeEach(() => {
+        action = {
+          type: SET_IS_COLD_TRANSFERRING,
+          interactionId: '1',
+          isColdTransferring: true,
+        };
+      });
+      it('sets isColsTransferring flag as true in the interaction', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('send isColdTransferring as false', () => {
+      beforeEach(() => {
+        action = {
+          type: SET_IS_COLD_TRANSFERRING,
+          interactionId: '1',
+          isColdTransferring: false,
+        };
+      });
+      it('sets isColsTransferring flag as false in the interaction', () => {
         runReducerAndExpectSnapshot();
       });
     });

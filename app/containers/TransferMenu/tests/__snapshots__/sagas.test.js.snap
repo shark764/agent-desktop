@@ -599,6 +599,23 @@ Object {
 }
 `;
 
+exports[`transferInteraction Making a cold transfer of a nonvoice interaction to a queue dispatches setIsColdTransferring to the store 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "id1",
+        "isColdTransferring": true,
+        "type": "app/AgentDesktop/SET_IS_COLD_TRANSFERRING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
 exports[`transferInteraction Making a cold transfer of a nonvoice interaction to a queue gets the interaction id, and channel type from the selected interaction and the index of the transfer tab 1`] = `
 Object {
   "done": false,
@@ -660,6 +677,23 @@ Object {
 }
 `;
 
+exports[`transferInteraction Making a cold transfer of a nonvoice interaction to a resource dispatches setIsColdTransferring to the store 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "id1",
+        "isColdTransferring": true,
+        "type": "app/AgentDesktop/SET_IS_COLD_TRANSFERRING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
 exports[`transferInteraction Making a cold transfer of a nonvoice interaction to a resource gets the interaction id, and channel type from the selected interaction and the index of the transfer tab 1`] = `
 Object {
   "done": false,
@@ -681,6 +715,37 @@ Object {
         },
       },
     ],
+  },
+}
+`;
+
+exports[`transferInteraction Making a cold transfer of a nonvoice interaction when not passing neither a resource, queue or a transfer extension calls setShowTransferMenu 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`transferInteraction Making a cold transfer of a nonvoice interaction when not passing neither a resource, queue or a transfer extension dispatches setIsColdTransferring to the store 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "id1",
+        "isColdTransferring": true,
+        "type": "app/AgentDesktop/SET_IS_COLD_TRANSFERRING",
+      },
+      "channel": null,
+    },
   },
 }
 `;
@@ -746,6 +811,23 @@ Object {
 }
 `;
 
+exports[`transferInteraction Making a cold transfer of a voice interaction to a transferExtension dispatches setIsColdTransferring to the store 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "id1",
+        "isColdTransferring": true,
+        "type": "app/AgentDesktop/SET_IS_COLD_TRANSFERRING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
 exports[`transferInteraction Making a cold transfer of a voice interaction to a transferExtension gets the interaction id, and channel type from the selected interaction and the index of the transfer tab 1`] = `
 Object {
   "done": false,
@@ -767,6 +849,20 @@ Object {
         },
       },
     ],
+  },
+}
+`;
+
+exports[`transferInteraction Making a warm transfer of a voice interaction when not passing neither a resource, queue or a transfer extension calls setShowTransferMenu 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [],
+      "context": null,
+      "fn": [Function],
+    },
   },
 }
 `;
@@ -878,6 +974,101 @@ Object {
 }
 `;
 
+exports[`transferInteraction call to CxEngage.interaction.transferToResource fails when trying to make a cold transfer of a voice interaction to a resource CxEngage.interactions.transferToResource call fails, its error gets logged in console and setIsColdTransferring is called again 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "id1",
+        "isColdTransferring": false,
+        "type": "app/AgentDesktop/SET_IS_COLD_TRANSFERRING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`transferInteraction call to CxEngage.interaction.transferToResource fails when trying to make a cold transfer of a voice interaction to a resource calls CxEngage.interactions.transferToResource 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        [MockFunction],
+        Object {
+          "interactionId": "id1",
+          "resourceId": "resId1",
+          "transferType": "cold",
+        },
+        "TransferMenu",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`transferInteraction call to CxEngage.interaction.transferToResource fails when trying to make a cold transfer of a voice interaction to a resource calls setShowTransferMenu 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`transferInteraction call to CxEngage.interaction.transferToResource fails when trying to make a cold transfer of a voice interaction to a resource dispatches setIsColdTransferring to the store 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "id1",
+        "isColdTransferring": true,
+        "type": "app/AgentDesktop/SET_IS_COLD_TRANSFERRING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`transferInteraction call to CxEngage.interaction.transferToResource fails when trying to make a cold transfer of a voice interaction to a resource gets the interaction id, and channel type from the selected interaction and the index of the transfer tab 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "ALL": Array [
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+    ],
+  },
+}
+`;
+
 exports[`transferInteraction call to CxEngage.interaction.transferToResource fails when trying to make a warm transfer of a voice interaction to a resource CxEngage.interactions.transferToResource call fails, its error gets logged in console and transferCancelled is dispatched 1`] = `
 Object {
   "done": false,
@@ -909,6 +1100,20 @@ Object {
         },
         "TransferMenu",
       ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`transferInteraction call to CxEngage.interaction.transferToResource fails when trying to make a warm transfer of a voice interaction to a resource calls setShowTransferMenu 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [],
       "context": null,
       "fn": [Function],
     },
@@ -958,20 +1163,6 @@ Object {
         },
       },
     ],
-  },
-}
-`;
-
-exports[`transferInteraction call to CxEngage.interaction.transferToResource fails when trying to make a warm transfer of a voice interaction to a resource setsetShowTransferMenu it's called 1`] = `
-Object {
-  "done": false,
-  "value": Object {
-    "@@redux-saga/IO": true,
-    "CALL": Object {
-      "args": Array [],
-      "context": null,
-      "fn": [Function],
-    },
   },
 }
 `;

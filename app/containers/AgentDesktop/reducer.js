@@ -2451,6 +2451,17 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+    case ACTIONS.SET_IS_COLD_TRANSFERRING: {
+      const interactionIndex = getInteractionIndex(state, action.interactionId);
+      if (interactionIndex !== -1) {
+        return state.setIn(
+          ['interactions', interactionIndex, 'isColdTransferring'],
+          action.isColdTransferring
+        );
+      } else {
+        return state;
+      }
+    }
     default:
       return state;
   }

@@ -314,7 +314,7 @@ describe('transferInteraction', () => {
     it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
       expect(generator.next()).toMatchSnapshot();
     });
-    it('dispatch startWarmTransfering to the store', () => {
+    it('calls setShowTransferMenu', () => {
       expect(
         generator.next([
           {
@@ -325,10 +325,10 @@ describe('transferInteraction', () => {
         ])
       ).toMatchSnapshot();
     });
-    it('calls CxEngage.interactions.transferToResource', () => {
+    it('dispatch startWarmTransfering to the store', () => {
       expect(generator.next()).toMatchSnapshot();
     });
-    it('calls setShowTransferMenu', () => {
+    it('calls CxEngage.interactions.transferToResource', () => {
       expect(generator.next()).toMatchSnapshot();
     });
     it("it's done", () => {
@@ -353,7 +353,7 @@ describe('transferInteraction', () => {
     it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
       expect(generator.next()).toMatchSnapshot();
     });
-    it('calls CxEngage.interactions.transferToResource', () => {
+    it('calls setShowTransferMenu', () => {
       expect(
         generator.next([
           {
@@ -364,7 +364,10 @@ describe('transferInteraction', () => {
         ])
       ).toMatchSnapshot();
     });
-    it('calls setShowTransferMenu', () => {
+    it('dispatches setIsColdTransferring to the store', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls CxEngage.interactions.transferToResource', () => {
       expect(generator.next()).toMatchSnapshot();
     });
     it("it's done", () => {
@@ -390,7 +393,7 @@ describe('transferInteraction', () => {
     it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
       expect(generator.next()).toMatchSnapshot();
     });
-    it('calls CxEngage.interactions.transferToQueue', () => {
+    it('calls setShowTransferMenu', () => {
       expect(
         generator.next([
           {
@@ -401,7 +404,10 @@ describe('transferInteraction', () => {
         ])
       ).toMatchSnapshot();
     });
-    it('calls setShowTransferMenu', () => {
+    it('dispatches setIsColdTransferring to the store', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls CxEngage.interactions.transferToQueue', () => {
       expect(generator.next()).toMatchSnapshot();
     });
     it("it's done", () => {
@@ -428,7 +434,7 @@ describe('transferInteraction', () => {
     it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
       expect(generator.next()).toMatchSnapshot();
     });
-    it('calls CxEngage.interactions.transferToExtension', () => {
+    it('calls setShowTransferMenu', () => {
       expect(
         generator.next([
           {
@@ -439,7 +445,10 @@ describe('transferInteraction', () => {
         ])
       ).toMatchSnapshot();
     });
-    it('calls setShowTransferMenu', () => {
+    it('dispatches setIsColdTransferring to the store', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls CxEngage.interactions.transferToExtension', () => {
       expect(generator.next()).toMatchSnapshot();
     });
     it("it's done", () => {
@@ -455,15 +464,20 @@ describe('transferInteraction', () => {
     it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
       expect(generator.next()).toMatchSnapshot();
     });
-    it('throws an error', () => {
-      expect(() => {
+    it('calls setShowTransferMenu', () => {
+      expect(
         generator.next([
           {
             interactionId: 'id1',
             channelType: 'voice',
           },
           0,
-        ]);
+        ])
+      ).toMatchSnapshot();
+    });
+    it('throws an error', () => {
+      expect(() => {
+        generator.next();
       }).toThrow(
         'warm transfer: neither resourceId, queueId, nor transferExtension passed in'
       );
@@ -481,15 +495,23 @@ describe('transferInteraction', () => {
     it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
       expect(generator.next()).toMatchSnapshot();
     });
-    it('throws an error', () => {
-      expect(() => {
+    it('calls setShowTransferMenu', () => {
+      expect(
         generator.next([
           {
             interactionId: 'id1',
             channelType: 'email',
           },
           0,
-        ]);
+        ])
+      ).toMatchSnapshot();
+    });
+    it('dispatches setIsColdTransferring to the store', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('throws an error', () => {
+      expect(() => {
+        generator.next();
       }).toThrow(
         'neither resourceId, queueId, nor transferExtension passed in'
       );
@@ -516,7 +538,7 @@ describe('transferInteraction', () => {
     it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
       expect(generator.next()).toMatchSnapshot();
     });
-    it('dispatch startWarmTransfering to the store', () => {
+    it('calls setShowTransferMenu', () => {
       expect(
         generator.next([
           {
@@ -527,14 +549,56 @@ describe('transferInteraction', () => {
         ])
       ).toMatchSnapshot();
     });
+    it('dispatch startWarmTransfering to the store', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
     it('calls CxEngage.interactions.transferToResource', () => {
       expect(generator.next()).toMatchSnapshot();
     });
     it('CxEngage.interactions.transferToResource call fails, its error gets logged in console and transferCancelled is dispatched', () => {
       expect(generator.throw('Failed promise')).toMatchSnapshot();
     });
-    it("setsetShowTransferMenu it's called", () => {
+    it("it's done", () => {
+      expect(generator.next().done).toBe(true);
+    });
+  });
+  describe('call to CxEngage.interaction.transferToResource fails when trying to make a cold transfer of a voice interaction to a resource', () => {
+    const mockTransferToResource = jest.fn();
+    beforeEach(() => {
+      global.CxEngage = {
+        interactions: {
+          transferToResource: mockTransferToResource,
+        },
+      };
+    });
+    const mockAction = {
+      setShowTransferMenu: () => {},
+      name: 'Agent 1',
+      resourceId: 'resId1',
+    };
+    const generator = transferInteraction(mockAction);
+    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
       expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls setShowTransferMenu', () => {
+      expect(
+        generator.next([
+          {
+            interactionId: 'id1',
+            channelType: 'voice',
+          },
+          1,
+        ])
+      ).toMatchSnapshot();
+    });
+    it('dispatches setIsColdTransferring to the store', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls CxEngage.interactions.transferToResource', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('CxEngage.interactions.transferToResource call fails, its error gets logged in console and setIsColdTransferring is called again', () => {
+      expect(generator.throw('Failed promise')).toMatchSnapshot();
     });
     it("it's done", () => {
       expect(generator.next().done).toBe(true);

@@ -137,6 +137,7 @@ exports[`<PhoneControlsActive/> if the interaction has warm transfers we show th
                     "customerConnected": true,
                     "direction": "inbound",
                     "interactionId": "1",
+                    "isColdTransferring": false,
                     "status": "work-accepted",
                     "warmTransfers": Array [
                       Object {
@@ -411,6 +412,7 @@ exports[`<PhoneControlsActive/> in toolbar mode when have several interactions o
                     "customerConnected": true,
                     "direction": "inbound",
                     "interactionId": "1",
+                    "isColdTransferring": false,
                     "meOnHold": true,
                     "onHold": true,
                     "status": "work-accepted",
@@ -761,6 +763,64 @@ exports[`<PhoneControlsActive/> when interaction status is fatal, only EndCall c
         interactionId="1"
         interactionStatusIsFatal={true}
       />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<PhoneControlsActive/> when we are cold transferring, we send connectingTransfers "true" to Transfer component 1`] = `
+<div
+  style={
+    Object {
+      "padding": "9px 0",
+      "position": "relative",
+    }
+  }
+>
+  <Connect(Recording)
+    agentRecordingEnabled={true}
+    interactionId="1"
+    preventAgentRecordingUpdate={false}
+  />
+  <div
+    style={
+      Object {
+        "display": "table",
+        "height": 40,
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "table-cell",
+          "textAlign": "center",
+          "verticalAlign": "middle",
+        }
+      }
+    >
+      <Connect(EndCall)
+        interactionId="1"
+        interactionStatusIsFatal={false}
+      />
+      <span>
+        <Connect(Mute)
+          interactionId="1"
+        />
+        <Connect(Hold)
+          canUpdateHold={true}
+          interactionId="1"
+        />
+        <Connect(Transfer)
+          canTransfer={true}
+          connectingTransfers={true}
+          interactionId="1"
+        />
+        <Connect(Dialpad)
+          interactionId="1"
+        />
+      </span>
     </div>
   </div>
 </div>
