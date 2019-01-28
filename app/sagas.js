@@ -17,6 +17,7 @@ import transferMenuSagas from 'containers/TransferMenu/sagas';
 import transferDialPadSagas from 'containers/TransferDialPad/sagas';
 import notificationPreferencesSagas from 'containers/AgentNotificationsMenu/sagas';
 import outboundIdentifierListSagas from 'containers/OutboundAniSelect/sagas';
+import AgentTransferMenuPreferenceMenuSagas from 'containers/AgentTransferMenuPreferenceMenu/sagas';
 
 export default function* rootSaga() {
   const allSagas = [
@@ -37,4 +38,5 @@ export default function* rootSaga() {
   }
   yield all([...transferMenuSagas]);
   yield all([...transferDialPadSagas]);
+  yield all([...AgentTransferMenuPreferenceMenuSagas]);
 }

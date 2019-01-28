@@ -25,4 +25,8 @@ export default defineMessages({
     id: 'app.containers.AgentPreferencesMenu.notifications',
     defaultMessage: 'Notifications',
   },
+  transferMenu: {
+    id: 'app.containers.AgentPreferencesMenu.transferMenu',
+    defaultMessage: 'Transfer Menu',
+  },
 });

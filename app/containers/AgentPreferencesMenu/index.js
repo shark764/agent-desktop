@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
+import { isAlpha } from 'utils/url';
 
 import PopupDialog from 'components/PopupDialog';
 import AgentStatsMenu from 'containers/AgentStatsMenu';
 import AgentNotificationsMenu from 'containers/AgentNotificationsMenu';
+import AgentTransferMenuPreferenceMenu from 'containers/AgentTransferMenuPreferenceMenu';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import { selectHasViewStatsPermission } from './selectors';
@@ -48,6 +50,10 @@ export class AgentPreferencesMenu extends React.Component {
         content = <AgentNotificationsMenu />;
         break;
       }
+      case 'transferMenu': {
+        content = <AgentTransferMenuPreferenceMenu />;
+        break;
+      }
       default:
         content = (
           <Fragment>
@@ -61,6 +67,12 @@ export class AgentPreferencesMenu extends React.Component {
               preference="notifications"
               setPreferenceSelected={this.setPreferenceSelected}
             />
+            {isAlpha() && (
+              <PreferenceOption
+                preference="transferMenu"
+                setPreferenceSelected={this.setPreferenceSelected}
+              />
+            )}
           </Fragment>
         );
     }

@@ -13,6 +13,7 @@ import {
 
 const toolbar = window.location.href.indexOf('desktop') === -1;
 const beta = window.location.href.indexOf('beta') !== -1;
+const alpha = window.location.href.indexOf('alpha') !== -1;
 
 export function isToolbar() {
   return toolbar;
@@ -20,6 +21,10 @@ export function isToolbar() {
 
 export function isBeta() {
   return beta;
+}
+
+export function isAlpha() {
+  return alpha;
 }
 
 /*

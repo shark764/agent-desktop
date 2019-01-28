@@ -15,6 +15,7 @@ import notificationPreferences from 'containers/AgentNotificationsMenu/reducer';
 import transferMenu from 'containers/TransferMenu/reducer';
 import transferDialPad from 'containers/TransferDialPad/reducer';
 import outboundAniSelect from 'containers/OutboundAniSelect/reducer';
+import transferMenuPreferences from 'containers/AgentTransferMenuPreferenceMenu/reducer';
 
 import { LOGOUT } from 'containers/Login/constants';
 
@@ -31,6 +32,7 @@ const appReducer = combineReducers({
   transferMenu,
   outboundAniSelect,
   transferDialPad,
+  transferMenuPreferences,
 });
 
 const rootReducer = (state, action) => {
