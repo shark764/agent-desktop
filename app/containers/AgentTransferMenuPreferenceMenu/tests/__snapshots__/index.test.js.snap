@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AgentTransferMenuPreferenceMenu /> agent preference menu enabled renders the multiple preference options with select all button and open by default 1`] = `
+<React.Fragment>
+  <CollapsibleMultiselect
+    easing="linear"
+    singleToggleBtn={true}
+    title={
+      Object {
+        "defaultMessage": "Agents",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.agents",
+      }
+    }
+    toggleSelection={[Function]}
+    transitionTime={400}
+  />
+</React.Fragment>
+`;
+
+exports[`<AgentTransferMenuPreferenceMenu /> renders queues multi item preference list preference list rendered renders the multiple preference options with select all button and open by default 1`] = `
+<React.Fragment>
+  <CollapsibleMultiselect
+    easing="linear"
+    title={
+      Object {
+        "defaultMessage": "Agents",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.agents",
+      }
+    }
+    toggleSelection={[Function]}
+    transitionTime={400}
+  />
+  <CollapsibleMultiselect
+    easing="linear"
+    items={
+      Array [
+        "123",
+        "abc",
+      ]
+    }
+    open={true}
+    selectAllBtn={true}
+    selectedItems={Array []}
+    title={
+      Object {
+        "defaultMessage": "Queues",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.queues",
+      }
+    }
+    toggleSelection={[Function]}
+    toggleShowList={[Function]}
+    transitionTime={400}
+  />
+</React.Fragment>
+`;
+
+exports[`<AgentTransferMenuPreferenceMenu /> renders transfer lists multi item preference preference list rendered renders the multiple preference options with select all button and open by default 1`] = `
+<React.Fragment>
+  <CollapsibleMultiselect
+    easing="linear"
+    title={
+      Object {
+        "defaultMessage": "Agents",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.agents",
+      }
+    }
+    toggleSelection={[Function]}
+    transitionTime={400}
+  />
+  <CollapsibleMultiselect
+    easing="linear"
+    items={
+      Array [
+        "123",
+        "abc",
+      ]
+    }
+    open={true}
+    selectAllBtn={true}
+    selectedItems={Array []}
+    title={
+      Object {
+        "defaultMessage": "Transfer Lists",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.transferLists",
+      }
+    }
+    toggleSelection={[Function]}
+    toggleShowList={[Function]}
+    transitionTime={400}
+  />
+</React.Fragment>
+`;

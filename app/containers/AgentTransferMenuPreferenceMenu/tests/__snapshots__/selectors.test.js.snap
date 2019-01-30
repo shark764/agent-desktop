@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`selectShowQueues when selectShowQueues is closed 1`] = `false`;
+
+exports[`selectShowTransferLists when selectShowTransferLists is closed 1`] = `false`;
