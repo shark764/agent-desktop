@@ -12,25 +12,27 @@ export const selectOutboundIdentifierListsForChannel = createSelector(
     let outboundList;
     if (outboundIdentifierLists) {
       outboundList = [];
-      const outboundIdentifierListsJs = outboundIdentifierLists.toJS();
-      outboundIdentifierListsJs.effective
-        .filter((outbound) => outbound.active === true)
+      outboundIdentifierLists
+        .toJS()
+        .effective.filter((outbound) => outbound.active === true)
         .forEach((outboundIdentifierList) => {
-          outboundIdentifierList.members
-            .filter(
-              ({ channelType, active }) =>
-                inputChannelTypes.includes(channelType) && active
-            )
-            .map(({ id, value, name, flowId, channelType }) => ({
-              label: name,
-              value: id,
-              outboundIdentifier: value,
-              flowId,
-              channelType,
-            }))
-            .forEach((member) => {
-              outboundList.push(member);
-            });
+          outboundIdentifierList.members.forEach(
+            ({ id, value, name, flowId, channelType, active }) => {
+              if (
+                outboundList.findIndex((item) => item.value === id) === -1 &&
+                inputChannelTypes.includes(channelType) &&
+                active
+              ) {
+                outboundList.push({
+                  label: name,
+                  value: id,
+                  outboundIdentifier: value,
+                  flowId,
+                  channelType,
+                });
+              }
+            }
+          );
         });
     }
     return outboundList;

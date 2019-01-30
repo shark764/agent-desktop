@@ -59,6 +59,21 @@ describe('selectOutboundIdentifierListsForChannel', () => {
               },
             ],
           },
+          {
+            name: 'test2',
+            active: true,
+            id: '2',
+            members: [
+              {
+                name: 'test1',
+                channelType: 'voice',
+                flowId: '1a',
+                value: '+11',
+                active: true,
+                id: '1b',
+              },
+            ],
+          },
         ],
       },
     },
