@@ -1,3 +1,6 @@
+### [1.35.1] (2018-01-11)
+* CXV1-15535 - Logic to store state in localStorage and use it as default for logging in for Transfer List Preference Menu UI
+
 ### [1.35.0] (2018-12-11)
 * CXV1-15535 - Preference Menu UI for the transfer menu
 

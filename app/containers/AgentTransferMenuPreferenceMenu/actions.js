@@ -32,9 +32,17 @@ export function toggleSelectedQueueTransferMenuPreference(queue) {
     queue,
   };
 }
+
 export function toggleAllSelectedQueuesTransferMenuPreference(queues) {
   return {
     type: ACTIONS.TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE,
+    queues,
+  };
+}
+
+export function toggleSelectedQueues(queues) {
+  return {
+    type: ACTIONS.TOGGLE_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE,
     queues,
   };
 }
@@ -53,6 +61,7 @@ export function toggleSelectedTransferListTransferMenuPreference(transferList) {
     transferList,
   };
 }
+
 export function toggleAllSelectedTransferListsTransferMenuPreference(
   transferLists
 ) {
@@ -62,7 +71,20 @@ export function toggleAllSelectedTransferListsTransferMenuPreference(
   };
 }
 
+export function toggleSelectedTransferLists(transferLists) {
+  return {
+    type: ACTIONS.TOGGLE_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE,
+    transferLists,
+  };
+}
+
 // Saga actions
+export function initializeTransferMenuPreferences() {
+  return {
+    type: ACTIONS.INITIALIZE_TRANSFER_MENU_PREFERENCES,
+  };
+}
+
 export function toggleAgentsTransferMenuPreference() {
   return {
     type: ACTIONS.TOGGLE_AGENTS_TRANSFER_MENU_PREFERENCE,
