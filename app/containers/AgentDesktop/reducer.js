@@ -593,7 +593,8 @@ function agentDesktopReducer(state = initialState, action) {
                 .set('recording', action.response.recording === true);
             }
             if (
-              action.newStatus === 'work-accepting' &&
+              (action.newStatus === 'work-accepting' ||
+                action.newStatus === 'work-accepted') &&
               updatedInteraction.get('isScriptOnly') === true
             ) {
               // Remove isScriptOnly if we are accepting the work offer
