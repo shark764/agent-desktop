@@ -160,7 +160,8 @@ export class ActionsMenu extends React.Component {
             {this.props.interaction.channelType !== 'voice' &&
               this.props.interaction.direction !== 'agent-initiated' &&
               this.props.interaction.status !== 'wrapup' &&
-              !this.props.interaction.sendingReply && (
+              !this.props.interaction.sendingReply &&
+              !this.props.interaction.isColdTransferring && (
               <Button
                 style={styles.toolbarActionsButtons}
                 type="secondary"

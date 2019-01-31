@@ -120,7 +120,8 @@ class DesktopActionsButtons extends React.Component {
         {this.props.interaction.channelType !== 'voice' &&
           this.props.interaction.direction !== 'agent-initiated' &&
           this.props.interaction.status !== 'wrapup' &&
-          !this.props.interaction.sendingReply && (
+          !this.props.interaction.sendingReply &&
+          !this.props.interaction.isColdTransferring && (
           <div style={{ position: 'relative' }}>
             <Button
               style={{ marginRight: '10px', padding: '9px 17px' }}

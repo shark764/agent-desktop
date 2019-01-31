@@ -100,6 +100,7 @@ Immutable.Map {
       "selectedSidePanelTab": "info",
       "query": Immutable.Map {},
       "notifications": Immutable.List [],
+      "isColdTransferring": false,
       "customFields": Immutable.List [],
       "customerConnected": true,
       "muted": false,
@@ -167,6 +168,7 @@ Immutable.Map {
       "selectedSidePanelTab": "info",
       "query": Immutable.Map {},
       "notifications": Immutable.List [],
+      "isColdTransferring": false,
       "customFields": Immutable.List [],
       "dispositionDetails": Immutable.Map {
         "forceSelect": false,
@@ -240,6 +242,7 @@ Immutable.Map {
       "selectedSidePanelTab": "info",
       "query": Immutable.Map {},
       "notifications": Immutable.List [],
+      "isColdTransferring": false,
       "customFields": undefined,
       "customerConnected": false,
       "muted": false,
@@ -1248,6 +1251,26 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer SET_IS_COLD_TRANSFERRING send isColdTransferring as false sets isColsTransferring flag as false in the interaction 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": 1,
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_IS_COLD_TRANSFERRING send isColdTransferring as true sets isColsTransferring flag as true in the interaction 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": 1,
+    },
+  ],
+}
+`;
+
 exports[`agentDesktopReducer SET_MESSAGE_HISTORY adds the message to the history 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
@@ -1571,6 +1594,7 @@ Immutable.Map {
       "selectedSidePanelTab": "info",
       "query": Immutable.Map {},
       "notifications": Immutable.List [],
+      "isColdTransferring": false,
       "customFields": Immutable.List [],
       "dispositionDetails": Immutable.Map {
         "forceSelect": false,
@@ -1638,6 +1662,7 @@ Immutable.Map {
       "hideNewInteractionPanelOnWorkAccepted": true,
       "query": Immutable.Map {},
       "notifications": Immutable.List [],
+      "isColdTransferring": false,
       "customFields": Immutable.List [],
       "customerConnected": false,
       "muted": false,

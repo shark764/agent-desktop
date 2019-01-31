@@ -104,7 +104,7 @@ export class Transfer extends React.PureComponent {
               ]}
             >
               <TransferMenu
-                setShowTransferMenu={this.setShowTransferMenu}
+                setShowTransferMenu={this.toggleTransferMenu}
                 style={{ height: 'calc(100vh - 118px)' }}
               />
             </div>

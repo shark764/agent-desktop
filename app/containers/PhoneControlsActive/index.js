@@ -135,7 +135,8 @@ export class PhoneControlsActive extends React.Component {
   };
 
   render() {
-    let connectingTransfers = false;
+    let connectingTransfers = this.props.activeVoiceInteraction
+      .isColdTransferring;
     let resourcesOnHold = this.props.activeVoiceInteraction.onHold ? 1 : 0;
     this.props.activeVoiceInteraction.warmTransfers.forEach((warmTransfer) => {
       if (warmTransfer.status === 'transferring') {

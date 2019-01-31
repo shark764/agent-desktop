@@ -4,6 +4,7 @@ import { selectTenant, selectAgent } from 'containers/Login/selectors';
 import {
   startWarmTransferring,
   transferCancelled,
+  setIsColdTransferring,
 } from 'containers/AgentDesktop/actions';
 import { getSelectedInteraction } from 'containers/AgentDesktop/selectors';
 import * as ACTIONS from './constants';
@@ -149,6 +150,10 @@ export function* transferInteraction(action) {
     select(selectTransferTabIndex),
   ]);
   let transferType;
+
+  // We do this in here so the TransferMenu hides before doing anything else
+  yield call(setShowTransferMenu);
+
   if (transferTabIndex === 0 && channelType === 'voice') {
     transferType = 'warm';
     let id;
@@ -175,6 +180,7 @@ export function* transferInteraction(action) {
     yield put(startWarmTransferring(interactionId, transferringTo));
   } else {
     transferType = 'cold';
+    yield put(setIsColdTransferring(interactionId, true));
   }
 
   if (queueId !== undefined) {
@@ -194,6 +200,8 @@ export function* transferInteraction(action) {
       console.error(error);
       if (transferType === 'warm') {
         yield put(transferCancelled(interactionId));
+      } else {
+        yield put(setIsColdTransferring(interactionId, false));
       }
     }
   } else if (resourceId !== undefined) {
@@ -218,6 +226,8 @@ export function* transferInteraction(action) {
       console.error(error);
       if (transferType === 'warm') {
         yield put(transferCancelled(interactionId));
+      } else {
+        yield put(setIsColdTransferring(interactionId, false));
       }
     }
   } else if (transferExtension !== undefined) {
@@ -242,6 +252,8 @@ export function* transferInteraction(action) {
       console.error(error);
       if (transferType === 'warm') {
         yield put(transferCancelled(interactionId));
+      } else {
+        yield put(setIsColdTransferring(interactionId, false));
       }
     }
   } else {
@@ -249,7 +261,6 @@ export function* transferInteraction(action) {
       'neither resourceId, queueId, nor transferExtension passed in'
     );
   }
-  yield call(setShowTransferMenu);
 }
 
 // Watcher Sagas for Setting Initial States & updating Previous States:

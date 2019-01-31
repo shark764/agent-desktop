@@ -22,6 +22,7 @@ describe('<PhoneControlsActive/>', () => {
           warmTransfers: [],
           status: 'work-accepted',
           customerConnected: true,
+          isColdTransferring: false,
         }}
       />
     );
@@ -45,6 +46,7 @@ describe('<PhoneControlsActive/>', () => {
           warmTransfers: [],
           status: 'work-accepted',
           initiatedByCurrentAgent: true,
+          isColdTransferring: false,
         }}
       />
     );
@@ -68,6 +70,7 @@ describe('<PhoneControlsActive/>', () => {
           initiatedByCurrentAgent: true,
           status: 'work-accepted',
           warmTransfers: [],
+          isColdTransferring: false,
         }}
       />
     );
@@ -90,6 +93,7 @@ describe('<PhoneControlsActive/>', () => {
           customerConnected: false,
           status: 'work-accepted',
           warmTransfers: [],
+          isColdTransferring: false,
         }}
       />
     );
@@ -123,6 +127,7 @@ describe('<PhoneControlsActive/>', () => {
           ],
           status: 'work-accepted',
           customerConnected: true,
+          isColdTransferring: false,
         }}
       />
     );
@@ -148,6 +153,7 @@ describe('<PhoneControlsActive/>', () => {
           status: 'work-accepted',
           warmTransfers: [],
           customerConnected: true,
+          isColdTransferring: false,
         }}
       />
     );
@@ -183,6 +189,7 @@ describe('<PhoneControlsActive/>', () => {
           meOnHold: true,
           status: 'work-accepted',
           customerConnected: true,
+          isColdTransferring: false,
         }}
       />
     );
@@ -197,6 +204,30 @@ describe('<PhoneControlsActive/>', () => {
           interactionId: '1',
           status: 'fatal',
           warmTransfers: [],
+          isColdTransferring: false,
+        }}
+      />
+    );
+    expect(rendered).toMatchSnapshot();
+  });
+  it('when we are cold transferring, we send connectingTransfers "true" to Transfer component', () => {
+    const rendered = shallow(
+      <PhoneControlsActive
+        intl={getIntlContext()}
+        agentId="1"
+        activeVoiceInteraction={{
+          interactionId: '1',
+          agentRecordingEnabled: true,
+          callControls: {
+            preventAgentRecordingUpdate: false,
+            holdUpdate: true,
+            transferUpdate: true,
+          },
+          direction: 'inbound',
+          warmTransfers: [],
+          status: 'work-accepted',
+          customerConnected: true,
+          isColdTransferring: true,
         }}
       />
     );
@@ -222,6 +253,7 @@ describe('<PhoneControlsActive/>', () => {
             status: 'work-accepted',
             warmTransfers: [],
             customerConnected: true,
+            isColdTransferring: false,
           }}
         />,
         {
@@ -262,6 +294,7 @@ describe('<PhoneControlsActive/>', () => {
             meOnHold: true,
             status: 'work-accepted',
             customerConnected: true,
+            isColdTransferring: false,
           }}
         />,
         {

@@ -1043,3 +1043,11 @@ export function toggleIsOnline(isOnline) {
     isOnline,
   };
 }
+
+export function setIsColdTransferring(interactionId, isColdTransferring) {
+  return {
+    type: ACTIONS.SET_IS_COLD_TRANSFERRING,
+    interactionId,
+    isColdTransferring,
+  };
+}
