@@ -1,3 +1,6 @@
+### [1.35.4] (2019-01-17)
+* CXV1-16441 - Display Email Content when the interaction is in wrapup
+
 ### [1.35.3] (2019-01-28)
 * CXV1-15506 - Agent able to transfer multiple times without ending the transfer
 

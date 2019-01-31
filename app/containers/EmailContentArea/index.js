@@ -564,49 +564,8 @@ ${this.props.selectedInteraction.emailPlainBody}`;
     let content;
     let buttonConfig = [];
 
-    if (
-      this.props.selectedInteraction.sendingReply &&
-      this.props.selectedInteraction.status !== 'work-ended-pending-script'
-    ) {
-      if (this.props.selectedInteraction.status === 'wrapup') {
-        buttonConfig = [
-          {
-            id: 'endWrapup',
-            type: 'primaryRed',
-            text: messages.endWrapup,
-            onClick: this.props.endInteraction,
-            disabled: this.props.isEndWrapupDisabled,
-            title: this.props.wrapupBtnTooltipText,
-          },
-        ];
-      }
-
-      details = <div />;
-      if (this.props.selectedInteraction.status !== 'wrapup') {
-        content = (
-          <div key="wrapupSpinner" style={styles.loadingSendingEmail}>
-            <IconSVG id="sendingReplyIcon" name="loading" />
-            <div style={styles.centerText}>
-              <FormattedMessage key="replySpinner" {...messages.sendingEmail} />
-            </div>
-          </div>
-        );
-      } else if (this.props.awaitingDisposition) {
-        content = (
-          <div key="wrapupSpinner" style={styles.loadingSendingEmail}>
-            <IconSVG id="sendingReplyIcon" name="loading" />
-            <div style={styles.centerText}>
-              <FormattedMessage
-                key="dispoSpinner"
-                {...messages.awaitingDisposition}
-              />
-            </div>
-          </div>
-        );
-      } else {
-        content = <div />;
-      }
-    } else if (this.props.selectedInteraction.emailReply === undefined) {
+    // Before replying to email, Initial render:
+    if (this.props.selectedInteraction.emailReply === undefined) {
       if (
         this.props.selectedInteraction.emailDetails === undefined ||
         (this.props.selectedInteraction.emailHtmlBody === undefined &&
@@ -793,8 +752,70 @@ ${this.props.selectedInteraction.emailPlainBody}`;
           </div>
         );
       }
-    } else {
-      if (this.props.selectedInteraction.direction === 'agent-initiated') {
+    }
+    // Sending Email spinner:
+    else if (
+      this.props.selectedInteraction.sendingReply &&
+      this.props.selectedInteraction.status === 'work-accepted'
+    ) {
+      details = <div />;
+      content = (
+        <div key="wrapupSpinner" style={styles.loadingSendingEmail}>
+          <IconSVG id="sendingReplyIcon" name="loading" />
+          <div style={styles.centerText}>
+            <FormattedMessage key="replySpinner" {...messages.sendingEmail} />
+          </div>
+        </div>
+      );
+      buttonConfig = [
+        {
+          id: 'endWrapup',
+          type: 'primaryRed',
+          text: messages.endWrapup,
+          onClick: this.props.endInteraction,
+          disabled: this.props.isEndWrapupDisabled,
+          title: this.props.wrapupBtnTooltipText,
+        },
+      ];
+    }
+    // Awaiting Disposition spinner when maximum wrapup time exceeded:
+    else if (
+      this.props.awaitingDisposition &&
+      new Date().getTime() - this.props.selectedInteraction.wrapupStarted >=
+        this.props.selectedInteraction.wrapupDetails.wrapupTime * 1000
+    ) {
+      buttonConfig = [
+        {
+          id: 'endWrapup',
+          type: 'primaryRed',
+          text: messages.endWrapup,
+          onClick: this.props.endInteraction,
+          disabled: this.props.isEndWrapupDisabled,
+          title: this.props.wrapupBtnTooltipText,
+        },
+      ];
+      details = <div />;
+      content = (
+        <div
+          key="awaitingDispositionSpinner"
+          style={styles.loadingSendingEmail}
+        >
+          <IconSVG id="awaitingDispositionIcon" name="loading" />
+          <div style={styles.centerText}>
+            <FormattedMessage
+              key="dispoSpinner"
+              {...messages.awaitingDisposition}
+            />
+          </div>
+        </div>
+      );
+    }
+    // In wrapup and work-ended-pending-script mode:
+    else {
+      if (
+        this.props.selectedInteraction.direction === 'agent-initiated' &&
+        this.props.selectedInteraction.status !== 'wrapup'
+      ) {
         buttonConfig = [
           {
             id: 'cancelOutboundEmail',
@@ -878,7 +899,8 @@ ${this.props.selectedInteraction.emailPlainBody}`;
             </div>
             <div style={styles.detailsValue}>
               {this.props.selectedInteraction.status !==
-              'work-ended-pending-script' ? (
+                'work-ended-pending-script' &&
+              this.props.selectedInteraction.status !== 'wrapup' ? (
                   <TextInput
                     id="subjectInput"
                     styleType="inlineInherit"
@@ -888,7 +910,8 @@ ${this.props.selectedInteraction.emailPlainBody}`;
                     style={{ width: '100%' }}
                     readOnly={
                       this.props.selectedInteraction.status ===
-                    'work-ended-pending-script'
+                      'work-ended-pending-script' ||
+                    this.props.selectedInteraction.status === 'wrapup'
                     }
                   />
                 ) : (
@@ -903,7 +926,8 @@ ${this.props.selectedInteraction.emailPlainBody}`;
               </div>
               <div style={styles.detailsValue}>
                 {this.props.selectedInteraction.status !==
-                'work-ended-pending-script' ? (
+                  'work-ended-pending-script' &&
+                this.props.selectedInteraction.status !== 'wrapup' ? (
                     <Select
                       id="emailTemplates"
                       style={styles.select}
@@ -941,7 +965,8 @@ ${this.props.selectedInteraction.emailPlainBody}`;
                         {attachment.name}
                       </div>
                       {this.props.selectedInteraction.status !==
-                        'work-ended-pending-script' && (
+                        'work-ended-pending-script' &&
+                        this.props.selectedInteraction.status !== 'wrapup' && (
                         <div
                           onClick={() =>
                             this.removeAttachment(attachment.attachmentId)
@@ -965,7 +990,8 @@ ${this.props.selectedInteraction.emailPlainBody}`;
               )
             )}
             {this.props.selectedInteraction.status !==
-              'work-ended-pending-script' && (
+              'work-ended-pending-script' &&
+              this.props.selectedInteraction.status !== 'wrapup' && (
               <div>
                 <input
                   id="attachmentFilePicker"
@@ -1043,7 +1069,8 @@ ${this.props.selectedInteraction.emailPlainBody}`;
             editorState={editorState}
             editorEnabled={
               this.props.selectedInteraction.status !==
-              'work-ended-pending-script'
+                'work-ended-pending-script' &&
+              this.props.selectedInteraction.status !== 'wrapup'
             }
             onChange={this.onChange}
             placeholder={this.props.intl.formatMessage(messages.addMessage)}
@@ -1127,7 +1154,10 @@ EmailContentArea.propTypes = {
   setEmailAttachmentFetchingUrl: PropTypes.func.isRequired,
   awaitingDisposition: PropTypes.bool.isRequired,
   isEndWrapupDisabled: PropTypes.bool.isRequired,
-  wrapupBtnTooltipText: PropTypes.object.isRequired,
+  wrapupBtnTooltipText: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]).isRequired,
   emailTemplates: PropTypes.array.isRequired,
   agent: PropTypes.object.isRequired,
   updateEmailInput: PropTypes.func.isRequired,
