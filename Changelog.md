@@ -1,3 +1,6 @@
+### [1.35.5] (2019-01-30)
+* CXV1-16669 - Display Queue and Flow names for pstn interactions (script + work offer at the same time)
+
 ### [1.35.4] (2019-01-17)
 * CXV1-16441 - Display Email Content when the interaction is in wrapup
 
