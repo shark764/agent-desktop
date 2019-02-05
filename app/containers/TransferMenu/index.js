@@ -259,6 +259,7 @@ export class TransferMenu extends React.Component {
       flexGrow: '1',
       display: 'flex',
       flexDirection: 'column',
+      overflowY: 'auto',
     },
     transferSearchInput: {
       width: '100%',
