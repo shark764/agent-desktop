@@ -1,3 +1,6 @@
+### [1.35.7] (2019-02-05)
+* CXV1-16960 - Skylight transfer list not scrollable in newest versions of chrome/firefox
+
 ### [1.35.6] (2019-01-17)
 * CXV1-16358 - undefined error when recource-removed occurs on scriptOnly interaction
 
