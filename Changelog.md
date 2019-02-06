@@ -1,3 +1,6 @@
+### [1.35.6] (2019-01-17)
+* CXV1-16358 - undefined error when recource-removed occurs on scriptOnly interaction
+
 ### [1.35.5] (2019-01-30)
 * CXV1-16669 - Display Queue and Flow names for pstn interactions (script + work offer at the same time)
 

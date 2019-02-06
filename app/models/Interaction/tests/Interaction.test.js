@@ -150,4 +150,18 @@ describe('Interaction', () => {
       expect(interaction.customFields).toMatchSnapshot();
     });
   });
+  describe('script', () => {
+    const interaction = new Interaction({
+      script: 'mock-script',
+    });
+    it('sets status to "script-only"', () => {
+      expect(interaction.status).toEqual('script-only');
+    });
+    it('sets isScriptOnly property', () => {
+      expect(interaction.isScriptOnly).toBe(true);
+    });
+    it('sets script attributte', () => {
+      expect(interaction.script).toBeDefined();
+    });
+  });
 });
