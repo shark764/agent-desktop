@@ -29,8 +29,10 @@ export default function transferMenuPreferencesReducer(
       return state.set('agentsTransferMenu', action.agentsTransferMenu);
 
     //  Queues Actions
+    //  Opens queues menu preference ui dropdown
     case ACTIONS.SET_SHOW_QUEUES_TRANSFER_MENU_PREFERENCE:
       return state.set('showQueues', action.showQueues);
+    //  Toggles one single queue item in dropdown
     case ACTIONS.TOGGLE_SELECTED_QUEUE_TRANSFER_MENU_PREFERENCE:
       return state.update('selectedQueues', (queues) => {
         if (queues.includes(action.queue)) {
@@ -39,6 +41,7 @@ export default function transferMenuPreferencesReducer(
           return queues.push(action.queue);
         }
       });
+    //  Toggles all queues items in dropdown
     case ACTIONS.TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE:
       return state.update('selectedQueues', (queues) => {
         if (action.queues.length > 0 && queues.size < action.queues.length) {
@@ -50,12 +53,15 @@ export default function transferMenuPreferencesReducer(
           return List();
         }
       });
+    //  Toggles all local storage queues items
     case ACTIONS.TOGGLE_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE:
       return state.set('selectedQueues', List(action.queues));
 
     //  Transfer Lists Actions
+    //  Opens transfer menu preference ui dropdown
     case ACTIONS.SET_SHOW_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE:
       return state.set('showTransferLists', action.showTransferLists);
+    //  Toggles one single transfer list item in dropdown
     case ACTIONS.TOGGLE_SELECTED_TRANSFER_LIST_TRANSFER_MENU_PREFERENCE:
       return state.update('selectedTransferLists', (transferLists) => {
         if (transferLists.includes(action.transferList)) {
@@ -66,6 +72,7 @@ export default function transferMenuPreferencesReducer(
           return transferLists.push(action.transferList);
         }
       });
+    //  Toggles all transfer lists items in dropdown
     case ACTIONS.TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE:
       return state.update('selectedTransferLists', (transferLists) => {
         if (
@@ -80,6 +87,7 @@ export default function transferMenuPreferencesReducer(
           return List();
         }
       });
+    //  Toggles all local storage transfer lists items
     case ACTIONS.TOGGLE_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE:
       return state.set('selectedTransferLists', List(action.transferLists));
     default:

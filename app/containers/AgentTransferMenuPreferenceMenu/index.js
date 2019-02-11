@@ -40,7 +40,8 @@ export class AgentTransferMenuPreferenceMenu extends React.Component {
           toggleSelection={this.props.toggleAgents}
           singleToggleBtn={this.props.agentsTransferMenuEnabled}
         />
-        {this.props.queues.length > 0 && (
+        {this.props.queues &&
+          this.props.queues.length > 0 && (
           <CollapsibleMultiselect
             title={messages.queues}
             items={this.props.queues}
@@ -52,7 +53,8 @@ export class AgentTransferMenuPreferenceMenu extends React.Component {
             open={this.props.showQueues}
           />
         )}
-        {this.props.transferLists !== 'loading' &&
+        {this.props.transferLists &&
+          this.props.transferLists !== 'loading' &&
           this.props.transferLists !== 'noTransferListsAvailable' && (
           <CollapsibleMultiselect
             title={messages.transferLists}
@@ -82,22 +84,22 @@ const mapStateToProps = (state, props) => ({
 
 AgentTransferMenuPreferenceMenu.propTypes = {
   agentsTransferMenuEnabled: PropTypes.bool,
-  toggleAgents: PropTypes.func.isRequired,
+  toggleAgents: PropTypes.func,
   transferLists: PropTypes.PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array,
   ]),
-  queues: PropTypes.array.isRequired,
-  toggleQueue: PropTypes.func.isRequired,
+  queues: PropTypes.array,
+  toggleQueue: PropTypes.func,
   toggleAllQueues: PropTypes.func,
-  selectedQueues: PropTypes.array.isRequired,
-  toggleTransferList: PropTypes.func.isRequired,
+  selectedQueues: PropTypes.array,
+  toggleTransferList: PropTypes.func,
   toggleAllTransferLists: PropTypes.func,
-  selectedTransferLists: PropTypes.array.isRequired,
-  showQueues: PropTypes.bool.isRequired,
-  showTransferLists: PropTypes.bool.isRequired,
-  toggleShowQueues: PropTypes.func.isRequired,
-  toggleShowTransferLists: PropTypes.func.isRequired,
+  selectedTransferLists: PropTypes.array,
+  showQueues: PropTypes.bool,
+  showTransferLists: PropTypes.bool,
+  toggleShowQueues: PropTypes.func,
+  toggleShowTransferLists: PropTypes.func,
   initializeTransferMenuPreferences: PropTypes.func.isRequired,
 };
 

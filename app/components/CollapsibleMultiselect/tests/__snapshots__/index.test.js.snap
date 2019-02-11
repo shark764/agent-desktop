@@ -1,0 +1,235 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CollapsibleMultiselect /> parent window is the same agent preference menu enabled renders the preference option 1`] = `
+<div>
+  <styled.div
+    onClick={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="Single Preference Toggle"
+      id="abc"
+      values={Object {}}
+    />
+    <div
+      style={
+        Object {
+          "marginLeft": "5px",
+        }
+      }
+    />
+    <div
+      style={
+        Object {
+          "float": "right",
+          "marginLeft": "auto",
+        }
+      }
+    >
+      <Icon
+        name="checkStatus"
+        style={
+          Object {
+            "float": "right",
+            "marginLeft": "auto",
+          }
+        }
+      />
+    </div>
+  </styled.div>
+</div>
+`;
+
+exports[`<CollapsibleMultiselect /> parent window is the same multi item preference list rendered preference list rendered renders the multiple preference options 1`] = `
+<div>
+  <styled.div
+    onClick={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="Multi Preference Toggle"
+      id="abc"
+      values={Object {}}
+    />
+    <div
+      style={
+        Object {
+          "marginLeft": "5px",
+        }
+      }
+    />
+    (0/2)
+    <div
+      style={
+        Object {
+          "marginLeft": "auto",
+        }
+      }
+    >
+      <Icon
+        name="caret"
+        style={
+          Array [
+            Object {
+              "flexShrink": "0",
+              "fontWeight": "600",
+              "height": "8px",
+              "marginLeft": "auto",
+              "marginTop": "6px",
+              "transition": "transform 0.5s",
+              "width": "13.33px",
+            },
+            false,
+          ]
+        }
+      />
+    </div>
+  </styled.div>
+  <div
+    onTransitionEnd={[Function]}
+    style={
+      Object {
+        "WebkitTransition": "height 400ms linear",
+        "height": 0,
+        "maxHeight": "300px",
+        "msTransition": "height 400ms linear",
+        "overflow": "hidden",
+        "overflowY": "auto",
+        "transition": "height 400ms linear",
+      }
+    }
+  >
+    <div>
+      <styled.div
+        key="123-title"
+        onClick={[Function]}
+        tabIndex="0"
+        title="item1"
+      >
+        <styled.label>
+          item1
+        </styled.label>
+      </styled.div>
+      <styled.div
+        key="321-title"
+        onClick={[Function]}
+        tabIndex="0"
+        title="item2"
+      >
+        <styled.label>
+          item2
+        </styled.label>
+      </styled.div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<CollapsibleMultiselect /> parent window is the same multi item preference list rendered with select all button preference list rendered renders the multiple preference options with select all button and open by default 1`] = `
+<div>
+  <styled.div
+    onClick={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="Multi Preference Toggle"
+      id="abc"
+      values={Object {}}
+    />
+    <div
+      style={
+        Object {
+          "marginLeft": "5px",
+        }
+      }
+    />
+    (0/2)
+    <div
+      onClick={[Function]}
+      style={
+        Object {
+          "marginLeft": "5px",
+        }
+      }
+    >
+      <Icon
+        name="checkStatus"
+        style={
+          Object {
+            "filter": "alpha(opacity=40)",
+            "float": "right",
+            "marginLeft": "2%",
+            "opacity": "0.4",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "marginLeft": "auto",
+        }
+      }
+    >
+      <Icon
+        name="caret"
+        style={
+          Array [
+            Object {
+              "flexShrink": "0",
+              "fontWeight": "600",
+              "height": "8px",
+              "marginLeft": "auto",
+              "marginTop": "6px",
+              "transition": "transform 0.5s",
+              "width": "13.33px",
+            },
+            Object {
+              "flexShrink": "0",
+              "fontWeight": "600",
+              "height": "8px",
+              "marginLeft": "auto",
+              "transform": "rotate(180deg)",
+              "width": "13.33px",
+            },
+          ]
+        }
+      />
+    </div>
+  </styled.div>
+  <div
+    onTransitionEnd={[Function]}
+    style={
+      Object {
+        "WebkitTransition": "none",
+        "height": "auto",
+        "maxHeight": "300px",
+        "msTransition": "none",
+        "overflow": undefined,
+        "overflowY": "auto",
+        "transition": "none",
+      }
+    }
+  >
+    <div>
+      <styled.div
+        key="123-title"
+        onClick={[Function]}
+        tabIndex="0"
+        title="item1"
+      >
+        <styled.label>
+          item1
+        </styled.label>
+      </styled.div>
+      <styled.div
+        key="321-title"
+        onClick={[Function]}
+        tabIndex="0"
+        title="item2"
+      >
+        <styled.label>
+          item2
+        </styled.label>
+      </styled.div>
+    </div>
+  </div>
+</div>
+`;

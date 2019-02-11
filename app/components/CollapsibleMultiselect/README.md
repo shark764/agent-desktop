@@ -65,7 +65,7 @@ Function that toggles all children items of the component at the same time.
 Icon that changes it state based on a single toggle selection.
 
 ### **selectedItems** | *array*
-Array where the component stores the selected items.
+Array where the component stores the selected items, it is mandatory when the collapsible mode is multiple, since is the array where the component compares the current selected values.
 
 ### **toggleShowList** | *function*
 Function that stores the visible state of the items in the component.

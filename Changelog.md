@@ -1,3 +1,7 @@
+## [1.35.8] (2019-02-04)
+### Added
+* CXV1-16606 - Unit tests (index, selectors, sagas and reducer as well) for Preference Menu UI component, added some validations so it won't render the component in case there are empty lists for queues and transfer lists.
+
 ### [1.35.7] (2019-02-05)
 * CXV1-16960 - Skylight transfer list not scrollable in newest versions of chrome/firefox
 
