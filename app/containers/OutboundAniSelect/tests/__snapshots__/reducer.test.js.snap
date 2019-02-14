@@ -1,14 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`OutboundAniSelectReducer SELECT_OUTBOUND_IDENTIFICATION set an outbound identifier when an outbound identifier is selected 1`] = `
+exports[`OutboundAniSelectReducer SELECT_OUTBOUND_IDENTIFICATION set an outbound identifier when an outbound identifier email is selected 1`] = `
 Immutable.Map {
-  "selectedOutboundIdentifier": "mock-value",
+  "selectedEmailOutboundIdentifier": "mock-value",
 }
 `;
 
 exports[`OutboundAniSelectReducer SELECT_OUTBOUND_IDENTIFICATION set null when there's no outbound identifier selected 1`] = `
 Immutable.Map {
-  "selectedOutboundIdentifier": null,
+  "selectedEmailOutboundIdentifier": null,
+}
+`;
+
+exports[`OutboundAniSelectReducer SELECT_OUTBOUND_PHONE_IDENTIFICATION set an outbound identifier when an outbound identifier phone is selected 1`] = `
+Immutable.Map {
+  "selectedPhoneOutboundIdentifier": "mock-value",
+}
+`;
+
+exports[`OutboundAniSelectReducer SELECT_OUTBOUND_PHONE_IDENTIFICATION set null when there's no outbound identifier selected 1`] = `
+Immutable.Map {
+  "selectedPhoneOutboundIdentifier": null,
 }
 `;
 
@@ -29,6 +41,7 @@ Immutable.Map {
 exports[`OutboundAniSelectReducer returns the initial state 1`] = `
 Immutable.Map {
   "outboundIdentifierList": undefined,
-  "selectedOutboundIdentifier": undefined,
+  "selectedEmailOutboundIdentifier": undefined,
+  "selectedPhoneOutboundIdentifier": undefined,
 }
 `;

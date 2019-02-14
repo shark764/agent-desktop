@@ -18,7 +18,15 @@ import OutboundSmsButton from 'containers/OutboundInteractionButton/OutboundSmsB
 import OutboundEmailButton from 'containers/OutboundInteractionButton/OutboundEmailButton';
 import OutboundAniSelect from 'containers/OutboundAniSelect';
 
-import { getSelectedOutboundIdentifier } from 'containers/OutboundAniSelect/selectors';
+import {
+  getSelectedOutboundEmailIdentifier,
+  getSelectedOutboundPhoneIdentifier,
+} from 'containers/OutboundAniSelect/selectors';
+
+import {
+  selectOutboundPhoneIdentification,
+  selectOutboundEmailIdentification,
+} from 'containers/OutboundAniSelect/actions';
 
 import messages from './messages';
 
@@ -87,25 +95,42 @@ export class NoRecords extends React.Component {
         </div>
         {(this.getPhoneNumber() || this.getEmailAddress()) && (
           <div style={styles.outboundInteractionButtons}>
-            {this.getPhoneNumber() &&
+            {(this.getPhoneNumber() || this.getEmailAddress()) &&
               isBeta() && (
               <div style={styles.outboundAniDiv}>
-                <OutboundAniSelect channelTypes={['voice', 'sms']} />
+                <OutboundAniSelect
+                  channelTypes={
+                    this.getPhoneNumber() ? ['voice', 'sms'] : ['email']
+                  }
+                  changeSelected={
+                    this.getPhoneNumber()
+                      ? this.props.selectOutboundPhoneIdentification
+                      : this.props.selectOutboundEmailIdentification
+                  }
+                  valueSelected={
+                    this.getPhoneNumber()
+                      ? this.props.getSelectedOutboundPhoneIdentifier
+                      : this.props.getSelectedOutboundEmailIdentifier
+                  }
+                />
               </div>
             )}
             {this.getPhoneNumber() &&
-              (!this.props.getSelectedOutboundIdentifier ||
-                this.props.getSelectedOutboundIdentifier.channelType ===
+              (!this.props.getSelectedOutboundPhoneIdentifier ||
+                this.props.getSelectedOutboundPhoneIdentifier.channelType ===
                   'voice') && (
               <OutboundCallButton phoneNumber={this.getPhoneNumber()} />
             )}
             {this.getPhoneNumber() &&
-              (!this.props.getSelectedOutboundIdentifier ||
-                this.props.getSelectedOutboundIdentifier.channelType ===
+              (!this.props.getSelectedOutboundPhoneIdentifier ||
+                this.props.getSelectedOutboundPhoneIdentifier.channelType ===
                   'sms') && (
               <OutboundSmsButton phoneNumber={this.getPhoneNumber()} />
             )}
-            {this.getEmailAddress() && (
+            {this.getEmailAddress() &&
+              (!this.props.getSelectedOutboundEmailIdentifier ||
+                this.props.getSelectedOutboundEmailIdentifier.channelType ===
+                  'email') && (
               <OutboundEmailButton email={this.getEmailAddress()} />
             )}
             <div style={styles.orText}>
@@ -129,11 +154,31 @@ export class NoRecords extends React.Component {
 NoRecords.propTypes = {
   query: PropTypes.object.isRequired,
   newContact: PropTypes.func.isRequired,
-  getSelectedOutboundIdentifier: PropTypes.object,
+  selectOutboundPhoneIdentification: PropTypes.func.isRequired,
+  selectOutboundEmailIdentification: PropTypes.func.isRequired,
+  getSelectedOutboundEmailIdentifier: PropTypes.object,
+  getSelectedOutboundPhoneIdentifier: PropTypes.object,
+};
+
+export const actions = {
+  selectOutboundPhoneIdentification,
+  selectOutboundEmailIdentification,
 };
 
 const mapStateToProps = (state, props) => ({
-  getSelectedOutboundIdentifier: getSelectedOutboundIdentifier(state, props),
+  getSelectedOutboundEmailIdentifier: getSelectedOutboundEmailIdentifier(
+    state,
+    props
+  ),
+  getSelectedOutboundPhoneIdentifier: getSelectedOutboundPhoneIdentifier(
+    state,
+    props
+  ),
 });
 
-export default ErrorBoundary(connect(mapStateToProps)(Radium(NoRecords)));
+export default ErrorBoundary(
+  connect(
+    mapStateToProps,
+    actions
+  )(Radium(NoRecords))
+);

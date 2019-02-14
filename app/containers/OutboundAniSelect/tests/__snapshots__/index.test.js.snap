@@ -3,13 +3,12 @@
 exports[`<OutboundAniSelect /> actions maps the actions to the object correctly 1`] = `
 Object {
   "fetchOutboundIdentifierLists": [Function],
-  "selectOutboundIdentification": [Function],
 }
 `;
 
 exports[`<OutboundAniSelect /> doesn't render if there isn't any Outbound ANI 1`] = `""`;
 
-exports[`<OutboundAniSelect /> if getSelectedOutboundIdentifier is undefined 1`] = `
+exports[`<OutboundAniSelect /> if getSelectedOutboundEmailIdentifier is undefined 1`] = `
 <Select
   id="outboundAniSelect"
   onChange={[Function]}
@@ -41,7 +40,6 @@ exports[`<OutboundAniSelect /> if getSelectedOutboundIdentifier is undefined 1`]
 
 exports[`<OutboundAniSelect /> mapStateToProps maps the selectors to the object correctly 1`] = `
 Object {
-  "getSelectedOutboundIdentifier": "mock SelectedOutboundIdentifier",
   "selectOutboundIdentifierListsForChannel": "mock SelectOutboundIdentifierListsForChannel",
 }
 `;
@@ -53,6 +51,7 @@ exports[`<OutboundAniSelect /> rendered correctly for voice channel 1`] = `
   options={
     Array [
       Object {
+        "channelType": "voice",
         "id": "1",
         "value": "outboundAni1",
       },
@@ -73,7 +72,7 @@ exports[`<OutboundAniSelect /> rendered correctly for voice channel 1`] = `
       values={Object {}}
     />
   }
-  value="outboundAni2"
+  value="outboundAni1"
 />
 `;
 

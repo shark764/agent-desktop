@@ -7,14 +7,8 @@ import ErrorBoundary from 'components/ErrorBoundary';
 
 import Select from 'components/Select';
 import IconSVG from 'components/IconSVG';
-import {
-  getSelectedOutboundIdentifier,
-  selectOutboundIdentifierListsForChannel,
-} from './selectors';
-import {
-  selectOutboundIdentification,
-  fetchOutboundIdentifierLists,
-} from './actions';
+import { selectOutboundIdentifierListsForChannel } from './selectors';
+import { fetchOutboundIdentifierLists } from './actions';
 import messages from './messages';
 
 export class OutboundAniSelect extends React.Component {
@@ -32,10 +26,10 @@ export class OutboundAniSelect extends React.Component {
           id="outboundAniSelect"
           options={this.props.selectOutboundIdentifierListsForChannel}
           placeholder={<FormattedMessage {...messages.selectOutboundAni} />}
-          onChange={this.props.selectOutboundIdentification}
+          onChange={this.props.changeSelected}
           value={
-            this.props.getSelectedOutboundIdentifier
-              ? this.props.getSelectedOutboundIdentifier.value
+            this.props.valueSelected
+              ? this.props.valueSelected.value
               : undefined
           }
         />
@@ -59,20 +53,19 @@ export function mapStateToProps(state, props) {
       state,
       props
     ),
-    getSelectedOutboundIdentifier: getSelectedOutboundIdentifier(state, props),
   };
 }
 
 export const actions = {
   fetchOutboundIdentifierLists,
-  selectOutboundIdentification,
 };
 
 OutboundAniSelect.propTypes = {
   selectOutboundIdentifierListsForChannel: PropTypes.array,
-  selectOutboundIdentification: PropTypes.func.isRequired,
-  getSelectedOutboundIdentifier: PropTypes.object,
   fetchOutboundIdentifierLists: PropTypes.func.isRequired,
+  valueSelected: PropTypes.object.isRequired,
+  channelTypes: PropTypes.array,
+  changeSelected: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(

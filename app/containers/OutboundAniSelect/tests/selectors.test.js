@@ -5,7 +5,8 @@
 import { fromJS } from 'immutable';
 import {
   selectOutboundIdentifierListsForChannel,
-  getSelectedOutboundIdentifier,
+  getSelectedOutboundEmailIdentifier,
+  getSelectedOutboundPhoneIdentifier,
 } from '../selectors';
 
 describe('selectOutboundIdentifierListsForChannel', () => {
@@ -28,19 +29,27 @@ describe('selectOutboundIdentifierListsForChannel', () => {
               },
               {
                 name: 'test2',
-                channelType: 'voice',
-                flowId: '1aa',
-                value: '+111',
-                active: false,
-                id: '1bb',
-              },
-              {
-                name: 'test2',
-                channelType: 'email',
+                channelType: 'sms',
                 flowId: '1aa',
                 value: '+111',
                 active: true,
                 id: '1bb',
+              },
+              {
+                name: 'test3',
+                channelType: 'email',
+                flowId: '1aa',
+                value: '+111',
+                active: true,
+                id: '1bb2',
+              },
+              {
+                name: 'test4',
+                channelType: 'sms',
+                flowId: '1aa',
+                value: '+111',
+                active: false,
+                id: '1bb4',
               },
             ],
           },
@@ -81,7 +90,7 @@ describe('selectOutboundIdentifierListsForChannel', () => {
   it('if outbound identifier list exist', () => {
     expect(
       selectOutboundIdentifierListsForChannel(fromJS(mockedState), {
-        channelTypes: ['voice'],
+        channelTypes: ['voice', 'sms', 'email'],
       })
     ).toMatchSnapshot();
   });
@@ -101,23 +110,48 @@ describe('selectOutboundIdentifierListsForChannel', () => {
   });
 });
 
-describe('getSelectedOutboundIdentifier', () => {
+describe('getSelectedOutboundEmailIdentifier', () => {
   it('if selected outbound ANI', () => {
     const mockedStateSelected = fromJS({
       outboundAniSelect: {
-        selectedOutboundIdentifier: {
+        selectedEmailOutboundIdentifier: {
           mockField: 'mock-value',
         },
       },
     });
     expect(
-      getSelectedOutboundIdentifier(fromJS(mockedStateSelected))
+      getSelectedOutboundEmailIdentifier(fromJS(mockedStateSelected))
     ).toMatchSnapshot();
   });
 
   it('if does not selected outbound ANI', () => {
     expect(
-      getSelectedOutboundIdentifier(
+      getSelectedOutboundEmailIdentifier(
+        fromJS({
+          outboundAniSelect: {},
+        })
+      )
+    ).toBe(null);
+  });
+});
+
+describe('getSelectedOutboundPhoneIdentifier', () => {
+  it('if selected outbound ANI', () => {
+    const mockedStateSelected = fromJS({
+      outboundAniSelect: {
+        selectedPhoneOutboundIdentifier: {
+          mockField: 'mock-value',
+        },
+      },
+    });
+    expect(
+      getSelectedOutboundPhoneIdentifier(fromJS(mockedStateSelected))
+    ).toMatchSnapshot();
+  });
+
+  it('if does not selected outbound ANI', () => {
+    expect(
+      getSelectedOutboundPhoneIdentifier(
         fromJS({
           outboundAniSelect: {},
         })

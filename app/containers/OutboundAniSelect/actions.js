@@ -10,9 +10,16 @@ export function setOutboundIdentification(response) {
   };
 }
 
-export function selectOutboundIdentification(response, valor) {
+export function selectOutboundEmailIdentification(response) {
   return {
     type: ACTIONS.SELECT_OUTBOUND_IDENTIFICATION,
+    response,
+  };
+}
+
+export function selectOutboundPhoneIdentification(response, valor) {
+  return {
+    type: ACTIONS.SELECT_OUTBOUND_PHONE_IDENTIFICATION,
     response,
     valor,
   };

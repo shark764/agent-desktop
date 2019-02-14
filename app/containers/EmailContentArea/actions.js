@@ -13,13 +13,17 @@ import * as ACTIONS from './constants';
 export function startOutboundEmail(
   customer,
   contact,
-  addedByNewInteractionPanel
+  addedByNewInteractionPanel,
+  outboundAni,
+  flowId
 ) {
   return {
     type: ACTIONS.START_OUTBOUND_EMAIL,
     customer,
     contact,
     addedByNewInteractionPanel,
+    outboundAni,
+    flowId,
   };
 }
 

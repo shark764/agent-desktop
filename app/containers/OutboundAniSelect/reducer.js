@@ -4,7 +4,8 @@ import * as ACTIONS from './constants';
 
 const initialState = fromJS({
   outboundIdentifierList: undefined,
-  selectedOutboundIdentifier: undefined,
+  selectedEmailOutboundIdentifier: undefined,
+  selectedPhoneOutboundIdentifier: undefined,
 });
 
 export default function(state = initialState, action) {
@@ -16,7 +17,16 @@ export default function(state = initialState, action) {
       );
     }
     case ACTIONS.SELECT_OUTBOUND_IDENTIFICATION: {
-      return state.set('selectedOutboundIdentifier', fromJS(action.response));
+      return state.set(
+        'selectedEmailOutboundIdentifier',
+        fromJS(action.response)
+      );
+    }
+    case ACTIONS.SELECT_OUTBOUND_PHONE_IDENTIFICATION: {
+      return state.set(
+        'selectedPhoneOutboundIdentifier',
+        fromJS(action.response)
+      );
     }
     default:
       return state;

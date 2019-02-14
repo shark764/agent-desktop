@@ -18,7 +18,7 @@ import {
 import { addContactNotification } from 'containers/ContactsControl/actions';
 import { selectAgent } from 'containers/Login/selectors';
 import { setNonCriticalError } from 'containers/Errors/actions';
-import { getSelectedOutboundIdentifier } from 'containers/OutboundAniSelect/selectors';
+import { getSelectedOutboundPhoneIdentifier } from 'containers/OutboundAniSelect/selectors';
 import {
   INITIALIZE_OUTBOUND_SMS_FROM_MESSAGING,
   SEND_OUTBOUND_SMS,
@@ -34,7 +34,7 @@ export function* initializeOutboundSmsForMessagingSaga(action) {
       setInteractionStatus(action.interactionId, 'initializing-outbound')
     );
     const selectedOutbondIdentifier = yield select(
-      getSelectedOutboundIdentifier
+      getSelectedOutboundPhoneIdentifier
     );
     const smsOutboundInteractionDetails = {
       phoneNumber: action.phoneNumber,

@@ -14,10 +14,8 @@ import OutboundAniSelectContainer, {
 jest.mock('../selectors', () => ({
   selectOutboundIdentifierListsForChannel: () =>
     'mock SelectOutboundIdentifierListsForChannel',
-  getSelectedOutboundIdentifier: () => 'mock SelectedOutboundIdentifier',
 }));
 jest.mock('../actions', () => ({
-  selectOutboundIdentification: () => 'mock selectOutboundIdentification',
   fetchOutboundIdentifierLists: () => 'mock fetchOutboundIdentifierLists',
 }));
 
@@ -27,11 +25,17 @@ describe('<OutboundAniSelect />', () => {
       <OutboundAniSelect
         store={mockStore}
         fetchOutboundIdentifierLists={() => {}}
-        selectOutboundIdentification={() => {}}
+        changeSelected={() => {}}
+        valueSelected={{
+          id: '1',
+          value: 'outboundAni1',
+          channelType: 'voice',
+        }}
         selectOutboundIdentifierListsForChannel={[
           {
             id: '1',
             value: 'outboundAni1',
+            channelType: 'voice',
           },
           {
             id: '2',
@@ -42,21 +46,17 @@ describe('<OutboundAniSelect />', () => {
             value: 'outboundAni3',
           },
         ]}
-        getSelectedOutboundIdentifier={{
-          id: '2',
-          value: 'outboundAni2',
-        }}
         outboundIdentifierListHasBeenFetched
       />
     );
     expect(rendered).toMatchSnapshot();
   });
-  it('if getSelectedOutboundIdentifier is undefined', () => {
+  it('if getSelectedOutboundEmailIdentifier is undefined', () => {
     const rendered = shallow(
       <OutboundAniSelect
         store={mockStore}
         fetchOutboundIdentifierLists={() => {}}
-        selectOutboundIdentification={() => {}}
+        changeSelected={() => {}}
         selectOutboundIdentifierListsForChannel={[
           {
             id: '1',
@@ -71,7 +71,7 @@ describe('<OutboundAniSelect />', () => {
             value: 'outboundAni3',
           },
         ]}
-        getSelectedOutboundIdentifier={{}}
+        valueSelected={{}}
         outboundIdentifierListHasBeenFetched
       />
     );
@@ -82,9 +82,9 @@ describe('<OutboundAniSelect />', () => {
       <OutboundAniSelect
         store={mockStore}
         fetchOutboundIdentifierLists={() => {}}
-        selectOutboundIdentification={() => {}}
+        changeSelected={() => {}}
         selectOutboundIdentifierListsForChannel={[]}
-        getSelectedOutboundIdentifier={{}}
+        valueSelected={{}}
         outboundIdentifierListHasBeenFetched
       />
     );
@@ -95,9 +95,9 @@ describe('<OutboundAniSelect />', () => {
       <OutboundAniSelect
         store={mockStore}
         fetchOutboundIdentifierLists={() => {}}
-        selectOutboundIdentification={() => {}}
+        changeSelected={() => {}}
         selectOutboundIdentifierListsForChannel={undefined}
-        getSelectedOutboundIdentifier={{}}
+        valueSelected={{}}
         outboundIdentifierListHasBeenFetched={false}
       />
     );

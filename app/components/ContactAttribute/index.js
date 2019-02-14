@@ -11,12 +11,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+import { connect } from 'react-redux';
 import { formatValue } from 'utils/contact';
 import { isBeta } from 'utils/url';
+
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Checkbox from 'components/Checkbox';
 import MenuDialogLink from 'components/MenuDialogLink';
 import OutboundAniSelect from 'containers/OutboundAniSelect/index';
+
+import {
+  getSelectedOutboundEmailIdentifier,
+  getSelectedOutboundPhoneIdentifier,
+} from 'containers/OutboundAniSelect/selectors';
+
+import {
+  selectOutboundPhoneIdentification,
+  selectOutboundEmailIdentification,
+} from 'containers/OutboundAniSelect/actions';
 
 import messages from './messages';
 
@@ -46,8 +59,8 @@ function ContactAttribute(props) {
   const value = props.attributeValue;
   let content;
   let channelType;
-  if (props.selectedOutboundIdentifier) {
-    ({ channelType } = props.selectedOutboundIdentifier);
+  if (props.getSelectedOutboundPhoneIdentifier) {
+    ({ channelType } = props.getSelectedOutboundPhoneIdentifier);
   }
   switch (props.attribute.type) {
     case 'phone':
@@ -62,20 +75,26 @@ function ContactAttribute(props) {
               action: () => props.startInteraction('voice', value),
               disabled:
                 props.hasVoiceInteraction ||
-                (props.selectedOutboundIdentifier && channelType !== 'voice'),
+                (props.getSelectedOutboundPhoneIdentifier &&
+                  channelType !== 'voice'),
             },
             {
               message: messages.sms,
               action: () => props.startInteraction('sms', value),
               disabled:
                 props.smsInteractionNumbers.includes(value) ||
-                (props.selectedOutboundIdentifier && channelType !== 'sms'),
+                (props.getSelectedOutboundPhoneIdentifier &&
+                  channelType !== 'sms'),
             },
           ]}
         >
           {isBeta() && (
             <div style={styles.outboundAniDiv}>
-              <OutboundAniSelect channelTypes={['voice', 'sms']} />
+              <OutboundAniSelect
+                channelTypes={['voice', 'sms']}
+                changeSelected={props.selectOutboundPhoneIdentification}
+                valueSelected={props.getSelectedOutboundPhoneIdentifier}
+              />
             </div>
           )}
         </MenuDialogLink>
@@ -93,7 +112,17 @@ function ContactAttribute(props) {
               action: () => props.startInteraction('email', value),
             },
           ]}
-        />
+        >
+          {isBeta() && (
+            <div style={styles.outboundAniDiv}>
+              <OutboundAniSelect
+                channelTypes={['email']}
+                changeSelected={props.selectOutboundEmailIdentification}
+                valueSelected={props.getSelectedOutboundEmailIdentifier}
+              />
+            </div>
+          )}
+        </MenuDialogLink>
       );
       break;
     case 'link':
@@ -148,9 +177,33 @@ ContactAttribute.propTypes = {
   hasVoiceInteraction: PropTypes.bool.isRequired,
   smsInteractionNumbers: PropTypes.array.isRequired,
   startInteraction: PropTypes.func.isRequired, // eslint-disable-line
-  selectedOutboundIdentifier: PropTypes.object,
+  selectOutboundPhoneIdentification: PropTypes.func.isRequired,
+  selectOutboundEmailIdentification: PropTypes.func.isRequired,
+  getSelectedOutboundEmailIdentifier: PropTypes.object,
+  getSelectedOutboundPhoneIdentifier: PropTypes.object,
 };
+
+export const actions = {
+  selectOutboundPhoneIdentification,
+  selectOutboundEmailIdentification,
+};
+
+const mapStateToProps = (state, props) => ({
+  getSelectedOutboundEmailIdentifier: getSelectedOutboundEmailIdentifier(
+    state,
+    props
+  ),
+  getSelectedOutboundPhoneIdentifier: getSelectedOutboundPhoneIdentifier(
+    state,
+    props
+  ),
+});
 
 // For eslint disables above see https://github.com/yannickcr/eslint-plugin-react/issues/885
 
-export default Radium(ContactAttribute);
+export default ErrorBoundary(
+  connect(
+    mapStateToProps,
+    actions
+  )(Radium(ContactAttribute))
+);

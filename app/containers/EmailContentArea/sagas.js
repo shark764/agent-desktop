@@ -16,13 +16,22 @@ import { goAssignContact } from 'containers/AgentDesktop/sagas';
 import { START_OUTBOUND_EMAIL, ADD_EMAIL, REMOVE_EMAIL } from './constants';
 
 export function* startOutboundEmailSaga(action) {
+  let emailOutboundInteractionDetails;
+  emailOutboundInteractionDetails = {
+    address: action.customer,
+  };
+  if (action.outboundAni && action.flowId) {
+    emailOutboundInteractionDetails = {
+      address: action.customer,
+      outboundAni: action.outboundAni,
+      flowId: action.flowId,
+    };
+  }
   try {
     const response = yield call(
       sdkCallToPromise,
       CxEngage.interactions.email.startOutboundEmail,
-      {
-        address: action.customer,
-      },
+      emailOutboundInteractionDetails,
       'EmailContentArea'
     );
     yield put(
@@ -32,7 +41,9 @@ export function* startOutboundEmailSaga(action) {
         action.contact,
         action.addedByNewInteractionPanel,
         response.interactionId,
-        true
+        true,
+        undefined,
+        action.outboundAni
       )
     );
     yield put(

@@ -40,7 +40,7 @@ import Button from 'components/Button';
 import ContactAttribute from 'components/ContactAttribute';
 import ContactSectionHeader from 'components/ContactSectionHeader';
 
-import { getSelectedOutboundIdentifier } from 'containers/OutboundAniSelect/selectors';
+import { getSelectedOutboundEmailIdentifier } from 'containers/OutboundAniSelect/selectors';
 import {
   selectPopulatedLayout,
   selectPopulatedCompactAttributes,
@@ -117,7 +117,9 @@ export class ContactView extends React.Component {
         hasVoiceInteraction={this.props.hasVoiceInteraction}
         smsInteractionNumbers={this.props.smsInteractionNumbers}
         startInteraction={this.startInteraction}
-        selectedOutboundIdentifier={this.props.getSelectedOutboundIdentifier}
+        selectedOutboundIdentifier={
+          this.props.getSelectedOutboundEmailIdentifier
+        }
       />
     );
   };
@@ -145,15 +147,15 @@ export class ContactView extends React.Component {
         undefined,
         true,
         undefined,
-        this.props.getSelectedOutboundIdentifier
+        this.props.getSelectedOutboundEmailIdentifier
       );
       if (channelType === 'voice') {
         const outboundVoiceObject = { phoneNumber: contactPoint };
-        if (this.props.getSelectedOutboundIdentifier) {
+        if (this.props.getSelectedOutboundEmailIdentifier) {
           const {
             outboundIdentifier,
             flowId,
-          } = this.props.getSelectedOutboundIdentifier;
+          } = this.props.getSelectedOutboundEmailIdentifier;
           outboundVoiceObject.outboundAni = outboundIdentifier;
           outboundVoiceObject.flowId = flowId;
         }
@@ -243,7 +245,10 @@ const mapStateToProps = (state, props) => ({
     props
   ),
   currentInteraction: selectCurrentInteraction(state, props),
-  getSelectedOutboundIdentifier: getSelectedOutboundIdentifier(state, props),
+  getSelectedOutboundEmailIdentifier: getSelectedOutboundEmailIdentifier(
+    state,
+    props
+  ),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -306,7 +311,7 @@ ContactView.propTypes = {
   loadContactInteractionHistory: PropTypes.func.isRequired,
   startOutboundEmail: PropTypes.func.isRequired,
   currentInteraction: PropTypes.object,
-  getSelectedOutboundIdentifier: PropTypes.object,
+  getSelectedOutboundEmailIdentifier: PropTypes.object,
 };
 
 export default ErrorBoundary(

@@ -1,6 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getSelectedOutboundIdentifier if selected outbound ANI 1`] = `
+exports[`getSelectedOutboundEmailIdentifier if selected outbound ANI 1`] = `
+Object {
+  "mockField": "mock-value",
+}
+`;
+
+exports[`getSelectedOutboundPhoneIdentifier if selected outbound ANI 1`] = `
 Object {
   "mockField": "mock-value",
 }
@@ -14,6 +20,20 @@ Array [
     "label": "test1",
     "outboundIdentifier": "+11",
     "value": "1b",
+  },
+  Object {
+    "channelType": "sms",
+    "flowId": "1aa",
+    "label": "test2",
+    "outboundIdentifier": "+111",
+    "value": "1bb",
+  },
+  Object {
+    "channelType": "email",
+    "flowId": "1aa",
+    "label": "test3",
+    "outboundIdentifier": "+111",
+    "value": "1bb2",
   },
 ]
 `;

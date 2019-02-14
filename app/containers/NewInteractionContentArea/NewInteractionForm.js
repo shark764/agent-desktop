@@ -29,7 +29,14 @@ import OutboundCallButton from 'containers/OutboundInteractionButton/OutboundCal
 
 import { setNewInteractionPanelFormInput } from 'containers/AgentDesktop/actions';
 import { selectNewInteractionPanel } from 'containers/AgentDesktop/selectors';
-import { getSelectedOutboundIdentifier } from 'containers/OutboundAniSelect/selectors';
+import {
+  getSelectedOutboundEmailIdentifier,
+  getSelectedOutboundPhoneIdentifier,
+} from 'containers/OutboundAniSelect/selectors';
+import {
+  selectOutboundPhoneIdentification,
+  selectOutboundEmailIdentification,
+} from 'containers/OutboundAniSelect/actions';
 
 import messages from './messages';
 
@@ -102,21 +109,36 @@ export function NewInteractionForm(props) {
         autoFocus
       />
       <hr style={styles.hr} />
-      {isBeta() &&
-        isPossibleNumber(formatPhoneNumber(props.input)) && (
+      {isBeta() && (
         <div style={styles.outboundAniDiv}>
-          <OutboundAniSelect channelTypes={['voice', 'sms']} />
+          <OutboundAniSelect
+            channelTypes={
+              isPossibleNumber(formatPhoneNumber(props.input))
+                ? ['voice', 'sms']
+                : ['email']
+            }
+            changeSelected={
+              isPossibleNumber(formatPhoneNumber(props.input))
+                ? props.selectOutboundPhoneIdentification
+                : props.selectOutboundEmailIdentification
+            }
+            valueSelected={
+              isPossibleNumber(formatPhoneNumber(props.input))
+                ? props.getSelectedOutboundPhoneIdentifier
+                : props.getSelectedOutboundEmailIdentifier
+            }
+          />
         </div>
       )}
       {!isValidEmail(props.input) &&
-        (!props.selectedOutboundIdentifier ||
-          props.selectedOutboundIdentifier.channelType === 'voice' ||
+        (!props.getSelectedOutboundPhoneIdentifier ||
+          props.getSelectedOutboundPhoneIdentifier.channelType === 'voice' ||
           !isPossibleNumber(formatPhoneNumber(props.input))) && (
         <OutboundCallButton phoneNumber={formatPhoneNumber(props.input)} />
       )}
       {!isValidEmail(props.input) &&
-        (!props.selectedOutboundIdentifier ||
-          props.selectedOutboundIdentifier.channelType === 'sms' ||
+        (!props.getSelectedOutboundPhoneIdentifier ||
+          props.getSelectedOutboundPhoneIdentifier.channelType === 'sms' ||
           !isPossibleNumber(formatPhoneNumber(props.input))) && (
         <OutboundSmsButton phoneNumber={formatPhoneNumber(props.input)} />
       )}
@@ -132,7 +154,14 @@ function mapStateToProps(state, props) {
   return {
     input: newInteractionPanel.newInteractionFormInput,
     uriObject: newInteractionPanel.uriObject,
-    selectedOutboundIdentifier: getSelectedOutboundIdentifier(state, props),
+    getSelectedOutboundEmailIdentifier: getSelectedOutboundEmailIdentifier(
+      state,
+      props
+    ),
+    getSelectedOutboundPhoneIdentifier: getSelectedOutboundPhoneIdentifier(
+      state,
+      props
+    ),
   };
 }
 
@@ -140,6 +169,10 @@ function mapDispatchToProps(dispatch) {
   return {
     setNewInteractionPanelFormInput: (input) =>
       dispatch(setNewInteractionPanelFormInput(input)),
+    selectOutboundPhoneIdentification: (input) =>
+      dispatch(selectOutboundPhoneIdentification(input)),
+    selectOutboundEmailIdentification: (input) =>
+      dispatch(selectOutboundEmailIdentification(input)),
     dispatch,
   };
 }
@@ -150,7 +183,10 @@ NewInteractionForm.propTypes = {
     objectName: PropTypes.string,
   }),
   setNewInteractionPanelFormInput: PropTypes.func.isRequired,
-  selectedOutboundIdentifier: PropTypes.object,
+  getSelectedOutboundEmailIdentifier: PropTypes.object,
+  getSelectedOutboundPhoneIdentifier: PropTypes.object,
+  selectOutboundPhoneIdentification: PropTypes.func.isRequired,
+  selectOutboundEmailIdentification: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(

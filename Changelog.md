@@ -1,3 +1,6 @@
+### [1.35.9] (2019-01-29)
+* CXV1-15920 - AD/TB2 - Outbound Identification - Include Outbound ANI list in new interaction panel for Email
+
 ## [1.35.8] (2019-02-04)
 ### Added
 * CXV1-16606 - Unit tests (index, selectors, sagas and reducer as well) for Preference Menu UI component, added some validations so it won't render the component in case there are empty lists for queues and transfer lists.

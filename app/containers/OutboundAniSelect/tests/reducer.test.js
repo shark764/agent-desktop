@@ -5,6 +5,7 @@ import { fromJS, Map } from 'immutable';
 import {
   SET_OUTBOUND_IDENTIFICATION_LISTS,
   SELECT_OUTBOUND_IDENTIFICATION,
+  SELECT_OUTBOUND_PHONE_IDENTIFICATION,
 } from '../constants';
 import OutboundAniSelectReducer from '../reducer';
 
@@ -39,7 +40,7 @@ describe('OutboundAniSelectReducer', () => {
     });
   });
   describe('SELECT_OUTBOUND_IDENTIFICATION', () => {
-    it('set an outbound identifier when an outbound identifier is selected', () => {
+    it('set an outbound identifier when an outbound identifier email is selected', () => {
       const action = {
         type: SELECT_OUTBOUND_IDENTIFICATION,
         response: 'mock-value',
@@ -50,6 +51,25 @@ describe('OutboundAniSelectReducer', () => {
       const initialState = fromJS({});
       const action = {
         type: SELECT_OUTBOUND_IDENTIFICATION,
+        response: null,
+      };
+      expect(
+        OutboundAniSelectReducer(fromJS(initialState), action)
+      ).toMatchSnapshot();
+    });
+  });
+  describe('SELECT_OUTBOUND_PHONE_IDENTIFICATION', () => {
+    it('set an outbound identifier when an outbound identifier phone is selected', () => {
+      const action = {
+        type: SELECT_OUTBOUND_PHONE_IDENTIFICATION,
+        response: 'mock-value',
+      };
+      expect(OutboundAniSelectReducer(Map(), action)).toMatchSnapshot();
+    });
+    it("set null when there's no outbound identifier selected", () => {
+      const initialState = fromJS({});
+      const action = {
+        type: SELECT_OUTBOUND_PHONE_IDENTIFICATION,
         response: null,
       };
       expect(

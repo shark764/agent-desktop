@@ -15,7 +15,10 @@ import Icon from 'components/Icon';
 
 import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
 import { startOutboundEmail } from 'containers/EmailContentArea/actions';
-import { getSelectedOutboundIdentifier } from 'containers/OutboundAniSelect/selectors';
+import {
+  getSelectedOutboundEmailIdentifier,
+  getSelectedOutboundPhoneIdentifier,
+} from 'containers/OutboundAniSelect/selectors';
 import {
   selectIsAgentReady,
   getUriObject,
@@ -65,25 +68,33 @@ export class OutboundInteractionButton extends React.Component {
   };
 
   startCall = () => {
+    let outboundIdentifier;
+    let flowId;
     if (this.isEnabled()) {
       if (this.props.channelType === 'email') {
-        this.props.startOutboundEmail(
-          this.props.endpoint,
-          undefined,
-          this.props.selectedInteractionIsCreatingNewInteraction
-        );
-      } else {
-        let popUri;
-        let outboundIdentifier;
-        let flowId;
-        if (this.props.uriObject !== undefined) {
-          ({ popUri } = this.props.uriObject);
-        }
-        if (this.props.getSelectedOutboundIdentifier) {
+        if (this.props.getSelectedOutboundEmailIdentifier) {
           ({
             outboundIdentifier,
             flowId,
-          } = this.props.getSelectedOutboundIdentifier);
+          } = this.props.getSelectedOutboundEmailIdentifier);
+        }
+        this.props.startOutboundEmail(
+          this.props.endpoint,
+          undefined,
+          this.props.selectedInteractionIsCreatingNewInteraction,
+          outboundIdentifier,
+          flowId
+        );
+      } else {
+        let popUri;
+        if (this.props.uriObject !== undefined) {
+          ({ popUri } = this.props.uriObject);
+        }
+        if (this.props.getSelectedOutboundPhoneIdentifier) {
+          ({
+            outboundIdentifier,
+            flowId,
+          } = this.props.getSelectedOutboundPhoneIdentifier);
         }
 
         const outboundVoiceObject = { phoneNumber: this.props.endpoint };
@@ -108,7 +119,7 @@ export class OutboundInteractionButton extends React.Component {
           undefined,
           undefined,
           popUri,
-          this.props.getSelectedOutboundIdentifier
+          this.props.getSelectedOutboundPhoneIdentifier
         );
 
         if (this.props.channelType === 'voice') {
@@ -153,7 +164,14 @@ const mapStateToProps = (state, props) => ({
     props
   ),
   uriObject: getUriObject(state, props),
-  getSelectedOutboundIdentifier: getSelectedOutboundIdentifier(state, props),
+  getSelectedOutboundEmailIdentifier: getSelectedOutboundEmailIdentifier(
+    state,
+    props
+  ),
+  getSelectedOutboundPhoneIdentifier: getSelectedOutboundPhoneIdentifier(
+    state,
+    props
+  ),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -180,9 +198,21 @@ function mapDispatchToProps(dispatch) {
           selectedOutboundAni
         )
       ),
-    startOutboundEmail: (customer, contact, addedByNewInteractionPanel) =>
+    startOutboundEmail: (
+      customer,
+      contact,
+      addedByNewInteractionPanel,
+      outboundAni,
+      flowId
+    ) =>
       dispatch(
-        startOutboundEmail(customer, contact, addedByNewInteractionPanel)
+        startOutboundEmail(
+          customer,
+          contact,
+          addedByNewInteractionPanel,
+          outboundAni,
+          flowId
+        )
       ),
     dispatch,
   };
@@ -201,7 +231,8 @@ OutboundInteractionButton.propTypes = {
   }),
   startOutboundInteraction: PropTypes.func.isRequired,
   startOutboundEmail: PropTypes.func.isRequired,
-  getSelectedOutboundIdentifier: PropTypes.object,
+  getSelectedOutboundEmailIdentifier: PropTypes.object,
+  getSelectedOutboundPhoneIdentifier: PropTypes.object,
 };
 
 export default ErrorBoundary(

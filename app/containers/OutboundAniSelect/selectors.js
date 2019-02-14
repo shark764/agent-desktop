@@ -40,10 +40,22 @@ export const selectOutboundIdentifierListsForChannel = createSelector(
 );
 
 const selectedOutboundId = (state) =>
-  state.getIn(['outboundAniSelect', 'selectedOutboundIdentifier']);
+  state.getIn(['outboundAniSelect', 'selectedEmailOutboundIdentifier']);
 
-export const getSelectedOutboundIdentifier = createSelector(
+export const getSelectedOutboundEmailIdentifier = createSelector(
   selectedOutboundId,
+  (outboundAniSelect) => {
+    if (outboundAniSelect) {
+      return outboundAniSelect.toJS();
+    }
+    return null;
+  }
+);
+const selectedOutboundPhoneId = (state) =>
+  state.getIn(['outboundAniSelect', 'selectedPhoneOutboundIdentifier']);
+
+export const getSelectedOutboundPhoneIdentifier = createSelector(
+  selectedOutboundPhoneId,
   (outboundAniSelect) => {
     if (outboundAniSelect) {
       return outboundAniSelect.toJS();
