@@ -1,3 +1,8 @@
+### [1.35.10] (2019-01-17)
+## Added
+* CXV1-16762 - Failed hold/resume actions are now properly handled
+* <no-ticket> - Added functionality to handle and show interaction specific errors properly.
+
 ### [1.35.9] (2019-01-29)
 * CXV1-15920 - AD/TB2 - Outbound Identification - Include Outbound ANI list in new interaction panel for Email
 

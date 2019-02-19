@@ -230,6 +230,7 @@
   "app.containers.Login.welcome": "Zaloguj się do CxEngage",
   "app.containers.Login.welcomeNoProd": "Zaloguj się",
   "app.containers.Login.youMayClose": "Możesz teraz zamknąć okno.",
+  "app.containers.MainContentArea.interactionError": "",
   "app.containers.MessagingContentArea.copied": "Skopiowane",
   "app.containers.MessagingContentArea.copiedTranscript": "Skopiowano transkrypcję do schowka",
   "app.containers.MessagingContentArea.copy": "Kopiuj",

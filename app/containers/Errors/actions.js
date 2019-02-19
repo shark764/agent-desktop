@@ -53,3 +53,10 @@ export function removeStatErrorId(statId) {
     statId,
   };
 }
+
+export function addErrorToHistory(error) {
+  return {
+    type: ACTIONS.ADD_ERROR_TO_HISTORY,
+    error,
+  };
+}

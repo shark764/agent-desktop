@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateErrorMessage when the error object has a code, and a data obejct with errorDescription property, it should return an error message with the message related to the code, the code itself and the error description 1`] = `"No presence reason lists were found for this tenant. (Code: AD-1000) Error Description: This is a description of the error"`;
+
+exports[`generateErrorMessage when the error object has neither a interactionFatal, code or message property, should return a defautl message error 1`] = `
+Object {
+  "defaultMessage": "An unknown error has occurred. Please try to finish your work as you may need to refresh the page to continue.",
+  "id": "app.containers.Errors.default",
+}
+`;
+
+exports[`generateErrorMessage with an error object that has a code that exists on errorMessages, it should return the errorMessage related to that code and its code 1`] = `"No presence reason lists were found for this tenant. (Code: AD-1000)"`;
+
+exports[`generateErrorMessage with an error object that has interactionFatal, returns the interactionFailed message 1`] = `"Your interaction failed, please try again. If this issue continues please contact your administrator."`;
+
+exports[`generateErrorMessage with an error object that only has the message property, it should return the message property of the error object (FOR SDK errors) 1`] = `"This is an error"`;

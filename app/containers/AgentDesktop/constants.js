@@ -53,6 +53,8 @@ export const REMOVE_INTERACTION = 'app/AgentDesktop/REMOVE_INTERACTION';
 export const REMOVE_INTERACTION_HARD =
   'app/AgentDesktop/REMOVE_INTERACTION_HARD';
 export const SET_INTERACTION_QUERY = 'app/AgentDesktop/SET_INTERACTION_QUERY';
+export const TOGGLE_INTERACTION_NOTIFICATION =
+  'app/AgentDesktop/TOGGLE_INTERACTION_NOTIFICATION';
 export const ADD_SEARCH_FILTER = 'app/AgentDesktop/ADD_SEARCH_FILTER';
 export const REMOVE_SEARCH_FILTER = 'app/AgentDesktop/REMOVE_SEARCH_FILTER';
 export const SET_MESSAGE_HISTORY = 'app/AgentDesktop/SET_MESSAGE_HISTORY';

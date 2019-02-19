@@ -21,6 +21,7 @@ import { URL } from 'url-polyfill';
 import { createSearchQuery } from 'utils/contact';
 import { isUUID } from 'utils/validator';
 import crmCssAdapter from 'utils/crmCssAdapter';
+import { generateErrorMessage } from 'utils/errorMessage';
 
 import { isChrome, isIeEleven } from 'serenova-js-utils/browser';
 
@@ -78,7 +79,6 @@ import {
   selectErroredStatIds,
   selectNonCriticalError,
 } from 'containers/Errors/selectors';
-import errorMessages from 'containers/Errors/messages';
 
 import {
   setCRMUnavailable,
@@ -1581,31 +1581,10 @@ export class App extends React.Component {
     }
 
     if (errorInfo) {
-      const { code, interactionFatal } = errorInfo;
-      if (interactionFatal) {
-        errorDescriptionMessage = this.props.intl.formatMessage(
-          errorMessages.interactionFailed
-        );
-      } else if (code && errorMessages[code]) {
-        // Specific error message is found for this code
-        errorDescriptionMessage = this.props.intl.formatMessage(
-          errorMessages[code]
-        );
-      } else if (errorInfo.message) {
-        // Fallback to message provided by error (for SDK errors)
-        errorDescriptionMessage = errorInfo.message;
-      } else {
-        // Use default for other errors (probably made by us)
-        errorDescriptionMessage = errorMessages.default;
-      }
-      if (code) {
-        errorDescriptionMessage += ` (Code: ${code})`;
-      }
-      if (errorInfo.data && errorInfo.data.errorDescription) {
-        errorDescriptionMessage += ` Error Description: ${
-          errorInfo.data.errorDescription
-        }`;
-      }
+      errorDescriptionMessage = generateErrorMessage(
+        errorInfo,
+        this.props.intl.formatMessage
+      );
     }
 
     if (this.props.criticalError) {

@@ -245,6 +245,13 @@ export function setInteractionQuery(interactionId, query) {
     query,
   };
 }
+export function toggleInteractionNotification(interactionId, notification) {
+  return {
+    type: ACTIONS.TOGGLE_INTERACTION_NOTIFICATION,
+    interactionId,
+    notification,
+  };
+}
 export function addSearchFilter(filterName, value) {
   return {
     type: ACTIONS.ADD_SEARCH_FILTER,

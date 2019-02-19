@@ -279,3 +279,46 @@ Object {
   },
 }
 `;
+
+exports[`handleError Saga voice interaction failed to hold/resume from hold customer should call setInteractionError 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mock-interaction-id",
+        "notification": Object {
+          "code": "mockErrorCode",
+          "data": Object {
+            "interactionId": "mock-interaction-id",
+          },
+          "isDismissable": true,
+          "isError": true,
+          "level": "interaction-error",
+          "uuid": "mock-uuid",
+        },
+        "type": "app/AgentDesktop/TOGGLE_INTERACTION_NOTIFICATION",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`handleError Saga voice interaction failed to hold/resume from hold customer should send toggleInteractionIsHolding to the store 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mock-interaction-id",
+        "isHolding": false,
+        "type": "app/AgentDesktop/TOGGLE_IS_HOLDING",
+      },
+      "channel": null,
+    },
+  },
+}
+`;

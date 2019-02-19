@@ -1780,6 +1780,56 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer TOGGLE_INTERACTION_NOTIFICATION When notification is already on the interaction deletes notification on the interaction 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "a",
+      "notifications": Immutable.List [
+        Immutable.Map {
+          "uuid": "mock-uuid-2",
+          "mockValue": "mock-value-2",
+        },
+      ],
+    },
+    Immutable.Map {
+      "interactionId": "b",
+      "notifications": Immutable.List [],
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer TOGGLE_INTERACTION_NOTIFICATION When notification is not in the interaction adds notification to the interaction 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "a",
+      "notifications": Immutable.List [
+        Immutable.Map {
+          "uuid": "mock-uuid",
+          "mockValue": "mock-value",
+          "isError": true,
+        },
+        Immutable.Map {
+          "uuid": "mock-uuid",
+          "mockValue": "mock-value-2",
+        },
+        Immutable.Map {
+          "uuid": "mock-uuid-3",
+          "mockValue": "mock-value-3",
+          "isError": true,
+        },
+      ],
+    },
+    Immutable.Map {
+      "interactionId": "b",
+      "notifications": Immutable.List [],
+    },
+  ],
+}
+`;
+
 exports[`agentDesktopReducer TOGGLE_TRANSCRIPT_COPIED Toggles interaction's isCopied attribute from false to true 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [

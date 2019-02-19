@@ -16,6 +16,7 @@ const initialState = fromJS({
   stats: {
     erroredIds: [],
   },
+  errorHistory: [],
 });
 
 function errorsReducer(state = initialState, action) {
@@ -36,6 +37,10 @@ function errorsReducer(state = initialState, action) {
     case ACTIONS.REMOVE_STAT_ERROR_ID:
       return state.updateIn(['stats', 'erroredIds'], (erroredStatIds) =>
         erroredStatIds.filter((statId) => statId !== action.statId)
+      );
+    case ACTIONS.ADD_ERROR_TO_HISTORY:
+      return state.update('errorHistory', (errors) =>
+        errors.push(action.error)
       );
     default:
       return state;

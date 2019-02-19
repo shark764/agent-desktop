@@ -230,6 +230,7 @@
   "app.containers.Login.welcome": "Entrar no CxEngage",
   "app.containers.Login.welcomeNoProd": "Entrar",
   "app.containers.Login.youMayClose": "Você já pode fechar esta janela.",
+  "app.containers.MainContentArea.interactionError": "",
   "app.containers.MessagingContentArea.copied": "Copiado",
   "app.containers.MessagingContentArea.copiedTranscript": "Transcrição copiada para área de transferência",
   "app.containers.MessagingContentArea.copy": "Copiar",

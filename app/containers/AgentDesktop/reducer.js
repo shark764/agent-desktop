@@ -406,6 +406,9 @@ const removeInteractionAndSetNextSelectedInteraction = (
 };
 
 function agentDesktopReducer(state = initialState, action) {
+  const interactionIndex = action.interactionId
+    ? getInteractionIndex(state, action.interactionId)
+    : -1;
   switch (action.type) {
     case ACTIONS.SET_CRM_MODULE:
       return state.set('crmModule', action.crmModule);
@@ -561,7 +564,6 @@ function agentDesktopReducer(state = initialState, action) {
     }
 
     case ACTIONS.SET_INTERACTION_STATUS: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         const automaticallySelectInteraction =
           (action.newStatus === 'work-accepting' ||
@@ -638,7 +640,6 @@ function agentDesktopReducer(state = initialState, action) {
       return state;
     }
     case ACTIONS.SET_INTERACTION_CONFIRMATION: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         const newState = state.updateIn(
           ['interactions', interactionIndex],
@@ -655,7 +656,6 @@ function agentDesktopReducer(state = initialState, action) {
       return state;
     }
     case ACTIONS.SET_ACTIVE_RESOURCES: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex],
@@ -784,13 +784,13 @@ function agentDesktopReducer(state = initialState, action) {
       );
     }
     case ACTIONS.INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP: {
-      const interactionIndex = getInteractionIndex(
+      const intIndex = getInteractionIndex(
         state,
         action.placeholderInteractionId
       );
       return state
         .updateIn(
-          ['interactions', interactionIndex],
+          ['interactions', intIndex],
           (interaction) =>
             interaction
               .set('interactionId', action.interactionId)
@@ -826,27 +826,25 @@ function agentDesktopReducer(state = initialState, action) {
         )
       ) {
         // If interaction was a voice interaction already added by START_OUTBOUND_INTERACTION or ADD_SCRIPT, replace it; otherwise, just push it to the list
-        const interactionIndex = state
-          .get('interactions')
-          .findIndex((interaction) => {
-            if (
-              action.response.direction === 'agent-initiated' &&
-              action.response.channelType === 'voice'
-            ) {
-              return (
-                interaction.get('channelType') === 'voice' &&
-                interaction.get('status') === 'connecting-to-outbound'
-              );
-            } else {
-              return (
-                interaction.get('interactionId') ===
-                  action.response.interactionId &&
-                interaction.get('status') === 'script-only'
-              );
-            }
-          });
+        const intIndex = state.get('interactions').findIndex((interaction) => {
+          if (
+            action.response.direction === 'agent-initiated' &&
+            action.response.channelType === 'voice'
+          ) {
+            return (
+              interaction.get('channelType') === 'voice' &&
+              interaction.get('status') === 'connecting-to-outbound'
+            );
+          } else {
+            return (
+              interaction.get('interactionId') ===
+                action.response.interactionId &&
+              interaction.get('status') === 'script-only'
+            );
+          }
+        });
         let interactionToAdd = new Map(new Interaction(action.response));
-        if (interactionIndex !== -1) {
+        if (intIndex !== -1) {
           // Keep existing contact, contact mode, and side panel collapsed values
           interactionToAdd = interactionToAdd
             .delete('contact')
@@ -854,10 +852,10 @@ function agentDesktopReducer(state = initialState, action) {
             .delete('isSidePanelCollapsed')
             .set(
               'customFields',
-              state.getIn(['interactions', interactionIndex, 'customFields'])
+              state.getIn(['interactions', intIndex, 'customFields'])
             );
           return state
-            .mergeIn(['interactions', interactionIndex], interactionToAdd)
+            .mergeIn(['interactions', intIndex], interactionToAdd)
             .set('isInteractionsBarCollapsed', false);
         } else {
           return state
@@ -871,7 +869,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.UPDATE_WRAPUP_DETAILS: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex > -1) {
         return state.mergeIn(
           ['interactions', interactionIndex, 'wrapupDetails'],
@@ -881,7 +878,6 @@ function agentDesktopReducer(state = initialState, action) {
       return state;
     }
     case ACTIONS.ADD_SCRIPT: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       // Replace useless script id with actual one needed for the SDK
       const script = { ...action.script, id: action.scriptId };
       if (interactionIndex > -1) {
@@ -932,7 +928,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.REMOVE_SCRIPT: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex > -1) {
         const interaction = state.getIn(['interactions', interactionIndex]);
         const interactionStatus = interaction.get('status');
@@ -970,33 +965,29 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.WORK_INITIATED: {
-      const interactionIndex = getInteractionIndex(
+      const intIndex = getInteractionIndex(
         state,
         action.response.interactionId
       );
-      return state.updateIn(
-        ['interactions', interactionIndex],
-        (interaction) => {
-          let newInteraction = interaction.set('status', 'work-initiated');
-          if (interaction.get('channelType') === 'voice') {
-            newInteraction = newInteraction.set(
-              'number',
-              action.response.customer
-            );
-          } else if (interaction.get('channelType') === 'sms') {
-            newInteraction = newInteraction.set(
-              'customer',
-              `+${action.response.customer}`
-            );
-          }
-          return newInteraction;
+      return state.updateIn(['interactions', intIndex], (interaction) => {
+        let newInteraction = interaction.set('status', 'work-initiated');
+        if (interaction.get('channelType') === 'voice') {
+          newInteraction = newInteraction.set(
+            'number',
+            action.response.customer
+          );
+        } else if (interaction.get('channelType') === 'sms') {
+          newInteraction = newInteraction.set(
+            'customer',
+            `+${action.response.customer}`
+          );
         }
-      );
+        return newInteraction;
+      });
     }
     case ACTIONS.SET_IS_CANCELLING_INTERACTION: {
       // setting "isCancellingInteraction" flag so that we can give the user
       // instant visual/UI feedback while we wait for the sdk to do its magic
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex],
@@ -1007,21 +998,17 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.REMOVE_INTERACTION: {
-      const interactionToRemove = state
-        .get('interactions')
-        .find(
-          (interaction) =>
-            interaction.get('interactionId') === action.interactionId
-        );
-      if (interactionToRemove !== undefined) {
+      if (interactionIndex !== -1) {
         if (
-          interactionToRemove.get('script') !== undefined &&
-          interactionToRemove.get('script').autoScriptDismisss !== true
+          state.getIn(['interactions', interactionIndex, 'script']) !==
+            undefined &&
+          state.getIn([
+            'interactions',
+            interactionIndex,
+            'script',
+            'autoScriptDismisss',
+          ]) !== true
         ) {
-          const interactionIndex = getInteractionIndex(
-            state,
-            action.interactionId
-          );
           return state.updateIn(
             ['interactions', interactionIndex],
             (interaction) =>
@@ -1039,13 +1026,7 @@ function agentDesktopReducer(state = initialState, action) {
       return state;
     }
     case ACTIONS.REMOVE_INTERACTION_HARD: {
-      const interactionIndexToRemove = state
-        .get('interactions')
-        .findIndex(
-          (interaction) =>
-            interaction.get('interactionId') === action.interactionId
-        );
-      if (interactionIndexToRemove !== -1) {
+      if (interactionIndex !== -1) {
         return removeInteractionAndSetNextSelectedInteraction(
           state,
           action.interactionId
@@ -1105,12 +1086,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.UPDATE_MESSAGE_HISTORY_AGENT_NAME: {
-      const interactionIndex = state
-        .get('interactions')
-        .findIndex(
-          (interaction) =>
-            interaction.get('interactionId') === action.interactionId
-        );
       if (interactionIndex >= 0) {
         return state.updateIn(
           ['interactions', interactionIndex, 'messageHistory'],
@@ -1148,11 +1123,30 @@ function agentDesktopReducer(state = initialState, action) {
       });
     }
     case ACTIONS.SET_INTERACTION_QUERY: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex],
           (interaction) => interaction.set('query', fromJS(action.query))
+        );
+      } else {
+        return state;
+      }
+    }
+    case ACTIONS.TOGGLE_INTERACTION_NOTIFICATION: {
+      if (interactionIndex !== -1) {
+        return state.updateIn(
+          ['interactions', interactionIndex, 'notifications'],
+          (notifications) => {
+            const notificationIndex = notifications.findIndex(
+              (notification) =>
+                notification.get('uuid') === action.notification.uuid
+            );
+            if (notificationIndex !== -1) {
+              return notifications.delete(notificationIndex);
+            } else {
+              return notifications.push(Map(action.notification));
+            }
+          }
         );
       } else {
         return state;
@@ -1183,7 +1177,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.SET_ASSIGNED_CONTACT: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) => {
@@ -1211,7 +1204,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.UNASSIGN_CONTACT: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex],
@@ -1226,7 +1218,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
         state.getIn([
@@ -1244,7 +1235,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
         state.getIn([
@@ -1459,19 +1449,13 @@ function agentDesktopReducer(state = initialState, action) {
       ) {
         throw new Error('reducer error');
       }
-      const messageInteractionIndex = state
-        .get('interactions')
-        .findIndex(
-          (interaction) =>
-            interaction.get('interactionId') === action.interactionId
-        );
-      if (messageInteractionIndex !== -1) {
+      if (interactionIndex !== -1) {
         return state
           .updateIn(
-            ['interactions', messageInteractionIndex, 'messageHistory'],
+            ['interactions', interactionIndex, 'messageHistory'],
             (messageHistory) => messageHistory.push(action.message)
           )
-          .setIn(['interactions', messageInteractionIndex, 'isCopied'], false);
+          .setIn(['interactions', interactionIndex, 'isCopied'], false);
       } else {
         return state;
       }
@@ -1480,7 +1464,7 @@ function agentDesktopReducer(state = initialState, action) {
       if (!action.interactionId) {
         return state.set('selectedInteractionId', undefined);
       }
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
+
       if (
         interactionIndex !== -1 ||
         action.interactionId === 'creating-new-interaction' ||
@@ -1492,7 +1476,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.SET_CUSTOM_FIELDS: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         const customFieldsAreDefined = state.getIn([
           'interactions',
@@ -1515,7 +1498,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.TOGGLE_CUSTOM_FIELDS: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
@@ -1530,25 +1512,21 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.SET_EMAIL_PLAIN_BODY: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       return state.updateIn(['interactions', interactionIndex], (interaction) =>
         interaction.set('emailPlainBody', action.body)
       );
     }
     case ACTIONS.SET_EMAIL_HTML_BODY: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       return state.updateIn(['interactions', interactionIndex], (interaction) =>
         interaction.set('emailHtmlBody', action.body)
       );
     }
     case ACTIONS.SET_EMAIL_DETAILS: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       return state.updateIn(['interactions', interactionIndex], (interaction) =>
         interaction.set('emailDetails', fromJS(action.details))
       );
     }
     case ACTIONS.SET_EMAIL_ATTACHMENT_URL: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex, 'emailDetails', 'attachments'],
@@ -1566,7 +1544,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.SET_EMAIL_ATTACHMENT_FETCHING_URL: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex, 'emailDetails', 'attachments'],
@@ -1590,7 +1567,6 @@ function agentDesktopReducer(state = initialState, action) {
       if (!['tos', 'ccs', 'bccs'].includes(action.list)) {
         throw new Error(`Invalid email list type: ${action.list}`);
       }
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
         state.getIn(['interactions', interactionIndex, 'channelType']) ===
@@ -1610,7 +1586,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.UPDATE_EMAIL_INPUT: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
         state.getIn(['interactions', interactionIndex, 'channelType']) ===
@@ -1625,7 +1600,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.UPDATE_SELECTED_EMAIL_TEMPLATE: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
         state.getIn(['interactions', interactionIndex, 'channelType']) ===
@@ -1645,7 +1619,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.REMOVE_EMAIL_FROM_LIST: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
         state.getIn(['interactions', interactionIndex, 'channelType']) ===
@@ -1663,7 +1636,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.START_WARM_TRANSFERRING: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
         action.transferringTo !== undefined &&
@@ -1689,7 +1661,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.TRANSFER_CANCELLED: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex],
@@ -1713,50 +1684,46 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.RESOURCE_ADDED: {
-      const interactionIndex = getInteractionIndex(
+      const intIndex = getInteractionIndex(
         state,
         action.response.interactionId
       );
-      if (interactionIndex !== -1) {
-        return state.updateIn(
-          ['interactions', interactionIndex],
-          (interaction) => {
-            const connectingTransferIndex = interaction
-              .get('warmTransfers')
-              .findIndex(
-                (warmTransfer) => warmTransfer.get('status') === 'transferring'
-              );
-            if (connectingTransferIndex !== -1) {
-              return interaction.updateIn(
-                ['warmTransfers', connectingTransferIndex],
-                (warmTransfer) =>
-                  warmTransfer
-                    .set('status', 'connected')
-                    .set(
-                      'targetResource',
-                      action.response.extraParams.targetResource
-                    )
-              );
-            } else {
-              return interaction.update('warmTransfers', (warmTransfers) =>
-                warmTransfers.push(
-                  fromJS({
-                    targetResource: action.response.extraParams.targetResource,
-                    name: action.response.extraParams.displayName,
-                    status: 'connected',
-                    addedTimestamp: Date.now(),
-                  })
-                )
-              );
-            }
+      if (intIndex !== -1) {
+        return state.updateIn(['interactions', intIndex], (interaction) => {
+          const connectingTransferIndex = interaction
+            .get('warmTransfers')
+            .findIndex(
+              (warmTransfer) => warmTransfer.get('status') === 'transferring'
+            );
+          if (connectingTransferIndex !== -1) {
+            return interaction.updateIn(
+              ['warmTransfers', connectingTransferIndex],
+              (warmTransfer) =>
+                warmTransfer
+                  .set('status', 'connected')
+                  .set(
+                    'targetResource',
+                    action.response.extraParams.targetResource
+                  )
+            );
+          } else {
+            return interaction.update('warmTransfers', (warmTransfers) =>
+              warmTransfers.push(
+                fromJS({
+                  targetResource: action.response.extraParams.targetResource,
+                  name: action.response.extraParams.displayName,
+                  status: 'connected',
+                  addedTimestamp: Date.now(),
+                })
+              )
+            );
           }
-        );
+        });
       } else {
         return state;
       }
     }
     case ACTIONS.UPDATE_RESOURCE_NAME: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex],
@@ -1787,7 +1754,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.UPDATE_RESOURCE_STATUS: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex, 'warmTransfers'],
@@ -1821,7 +1787,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.HOLD_ME: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex],
@@ -1832,7 +1797,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.RESUME_ME: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex],
@@ -1844,13 +1808,13 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.RESOURCE_REMOVED: {
-      const interactionIndex = getInteractionIndex(
+      const intIndex = getInteractionIndex(
         state,
         action.response.interactionId
       );
-      if (interactionIndex !== -1) {
+      if (intIndex !== -1) {
         return state.updateIn(
-          ['interactions', interactionIndex, 'warmTransfers'],
+          ['interactions', intIndex, 'warmTransfers'],
           (warmTransfers) => {
             const resourceToRemoveIndex = warmTransfers.findIndex(
               (warmTransfer) =>
@@ -1869,7 +1833,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.UPDATE_CALL_CONTROLS: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex],
@@ -1881,7 +1844,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.TOGGLE_IS_MUTING: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.setIn(
           ['interactions', interactionIndex, 'isMuting'],
@@ -1893,7 +1855,6 @@ function agentDesktopReducer(state = initialState, action) {
     }
 
     case ACTIONS.MUTE_CALL: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
@@ -1905,7 +1866,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.UNMUTE_CALL: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
@@ -1918,7 +1878,6 @@ function agentDesktopReducer(state = initialState, action) {
     }
 
     case ACTIONS.TOGGLE_IS_HOLDING: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.setIn(
           ['interactions', interactionIndex, 'isHolding'],
@@ -1930,7 +1889,6 @@ function agentDesktopReducer(state = initialState, action) {
     }
 
     case ACTIONS.HOLD_CALL: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
@@ -1942,7 +1900,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.RESUME_CALL: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
@@ -1954,7 +1911,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.RECORD_CALL: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
@@ -1966,7 +1922,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.STOP_RECORD_CALL: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.update('interactions', (interactions) =>
           interactions.update(interactionIndex, (interaction) =>
@@ -1979,7 +1934,6 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case ACTIONS.EMAIL_CREATE_REPLY: {
       const reply = [];
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       const headers = state.getIn([
         'interactions',
         interactionIndex,
@@ -2033,7 +1987,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.EMAIL_CANCEL_REPLY: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
         state.getIn(['interactions', interactionIndex, 'channelType']) ===
@@ -2049,7 +2002,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.EMAIL_CAN_SEND_REPLY: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
         state.getIn(['interactions', interactionIndex, 'channelType']) ===
@@ -2065,7 +2017,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.EMAIL_ADD_ATTACHMENT: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
         state.getIn(['interactions', interactionIndex, 'channelType']) ===
@@ -2099,7 +2050,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.EMAIL_REMOVE_ATTACHMENT: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
         state.getIn(['interactions', interactionIndex, 'channelType']) ===
@@ -2118,7 +2068,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.EMAIL_UPDATE_REPLY: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
         state.getIn(['interactions', interactionIndex, 'channelType']) ===
@@ -2134,7 +2083,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.EMAIL_SEND_REPLY: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (
         interactionIndex !== -1 &&
         state.getIn(['interactions', interactionIndex, 'channelType']) ===
@@ -2149,7 +2097,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.UPDATE_NOTE: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.mergeIn(
           ['interactions', interactionIndex, 'note'],
@@ -2160,7 +2107,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.SAVE_MESSAGE_STATE: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex],
@@ -2171,7 +2117,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.UPDATE_SCRIPT_VALUE: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex],
@@ -2191,7 +2136,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.UPDATE_SCRIPT_SCROLL_POSITION: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex],
@@ -2211,7 +2155,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.SET_DISPOSITION_DETAILS: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         const categorizedDispositions = categorizeItems(
           action.dispositions,
@@ -2230,7 +2173,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.SELECT_DISPOSITION: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       return state.setIn(
         ['interactions', interactionIndex, 'dispositionDetails', 'selected'],
         fromJS(action.disposition ? [action.disposition] : [])
@@ -2370,7 +2312,6 @@ function agentDesktopReducer(state = initialState, action) {
       return state.set('loginPopup', new Map(action.popupConfig));
     }
     case ACTIONS.ADD_INTERACTION_NOTIFICATION: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex, 'notifications'],
@@ -2387,7 +2328,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.REMOVE_INTERACTION_NOTIFICATION: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.updateIn(
           ['interactions', interactionIndex, 'notifications'],
@@ -2402,7 +2342,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.TOGGLE_TRANSCRIPT_COPIED: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.setIn(
           ['interactions', interactionIndex, 'isCopied'],
@@ -2413,7 +2352,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.TOGGLE_INTERACTION_IS_ENDING: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.setIn(
           ['interactions', interactionIndex, 'isEnding'],
@@ -2424,7 +2362,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.TOGGLE_IS_RECORDING: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.setIn(
           ['interactions', interactionIndex, 'togglingRecording'],
@@ -2438,7 +2375,6 @@ function agentDesktopReducer(state = initialState, action) {
       return state.set('isOnline', action.isOnline);
     }
     case ACTIONS.OUTBOUND_CUSTOMER_CONNECTED: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.setIn(
           ['interactions', interactionIndex, 'customerConnected'],
@@ -2449,7 +2385,6 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.SET_IS_COLD_TRANSFERRING: {
-      const interactionIndex = getInteractionIndex(state, action.interactionId);
       if (interactionIndex !== -1) {
         return state.setIn(
           ['interactions', interactionIndex, 'isColdTransferring'],

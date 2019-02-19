@@ -20,3 +20,7 @@ A single screen web app built in React for handling inbound and outbound interac
 - [Styling](docs/css): How to work with the CSS tooling
 - [Framework](docs/js): Routing, Redux, simple asynchronicity helpers, etc.
 - [Versioning](docs/general/versioning.md): Semantic version for UI
+
+## Code Tips
+// Use ES7 Object Rest Operator to Omit Properties
+// https://codeburst.io/use-es2015-object-rest-operator-to-omit-properties-38a3ecffe90

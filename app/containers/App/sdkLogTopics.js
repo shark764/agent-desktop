@@ -19,4 +19,6 @@ export default [
   'cxengage/zendesk/search-and-pop-no-results-received', // Do nothing for this case
   'cxengage/interactions/focus-acknowledged', // Do nothing for this case
   'cxengage/interactions/unfocus-acknowledged', // Do nothing for this case
+  'cxengage/interactions/voice/customer-hold-error', // Handling this on the error saga
+  'cxengage/interactions/voice/customer-resume-error', // Handling this one on the error saga
 ];

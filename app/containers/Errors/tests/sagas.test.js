@@ -4,6 +4,9 @@
 
 import { fromJS, List } from 'immutable';
 import { goHandleSDKError } from 'containers/Errors/sagas';
+jest.mock('serenova-js-utils/uuid', () => ({
+  generateUUID: jest.fn(() => 'mock-uuid'),
+}));
 
 describe('handleError Saga', () => {
   let generator;
@@ -139,6 +142,23 @@ describe('handleError Saga', () => {
     });
     it('should be done', () => {
       expect(generator.next()).toMatchSnapshot();
+    });
+  });
+  describe('voice interaction failed to hold/resume from hold customer', () => {
+    beforeAll(() => {
+      mockAction.error.data = { interactionId: 'mock-interaction-id' };
+      mockAction.error.level = 'interaction-error';
+      mockAction.topic = 'cxengage/interactions/voice/customer-hold-error';
+      generator = goHandleSDKError(mockAction);
+    });
+    it('should send toggleInteractionIsHolding to the store', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should call setInteractionError', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should be done', () => {
+      expect(generator.next().done).toBe(true);
     });
   });
   describe('other level errors', () => {

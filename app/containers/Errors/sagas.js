@@ -17,6 +17,7 @@ import {
   updateWrapupDetails,
   toggleInteractionIsMuting,
   toggleInteractionIsHolding,
+  toggleInteractionNotification,
 } from 'containers/AgentDesktop/actions';
 import { selectInteractionsList } from 'containers/AgentDesktop/selectors';
 import {
@@ -25,6 +26,7 @@ import {
 } from 'containers/InteractionsBar/selectors';
 import { selectAgent } from 'containers/Login/selectors';
 import { batchRequetsFailing } from 'containers/Toolbar/actions';
+import { generateUUID } from 'serenova-js-utils/uuid';
 import { HANDLE_SDK_ERROR } from './constants';
 import { setCriticalError, setNonCriticalError } from './actions';
 
@@ -149,7 +151,9 @@ export function* goHandleSDKError(action) {
     topic === 'cxengage/interactions/voice/resume-acknowledged' ||
     topic === 'cxengage/interactions/voice/hold-acknowledged' ||
     topic === 'cxengage/interactions/voice/customer-hold-received' ||
-    topic === 'cxengage/interactions/voice/customer-resume-received'
+    topic === 'cxengage/interactions/voice/customer-resume-received' ||
+    topic === 'cxengage/interactions/voice/customer-hold-error' ||
+    topic === 'cxengage/interactions/voice/customer-resume-error'
   ) {
     yield put(toggleInteractionIsHolding(error.data.interactionId, false));
   } else if (
@@ -176,6 +180,17 @@ export function* goHandleSDKError(action) {
     yield put(setCriticalError(error));
   } else if (error.level === 'error') {
     yield put(setNonCriticalError(error));
+  } else if (error.level === 'interaction-error') {
+    yield put(
+      toggleInteractionNotification(error.data.interactionId, {
+        ...error,
+        uuid: generateUUID(),
+        // Useful for when we don't want to be able to dismiss and error, an "critical-interaction-error"
+        // so to speak, but for the time being we don't know which errors could qualify for that.
+        isDismissable: true,
+        isError: true,
+      })
+    );
   }
 }
 

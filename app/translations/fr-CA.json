@@ -230,6 +230,7 @@
   "app.containers.Login.welcome": "Connexion à CXEngage",
   "app.containers.Login.welcomeNoProd": "Connexion",
   "app.containers.Login.youMayClose": "Vous pouvez maintenant fermer cette fenêtre.",
+  "app.containers.MainContentArea.interactionError": "",
   "app.containers.MessagingContentArea.copied": "Copié",
   "app.containers.MessagingContentArea.copiedTranscript": "Transcription copiée au presse-papiers",
   "app.containers.MessagingContentArea.copy": "Copier",

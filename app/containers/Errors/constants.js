@@ -14,3 +14,4 @@ export const SET_NON_CRITICAL_ERROR = 'app/Errors/SET_NON_CRITICAL_ERROR';
 export const DISMISS_ERROR = 'app/Errors/DISMISS_ERROR';
 export const ADD_STAT_ERROR_ID = 'app/Errors/ADD_STAT_ERROR';
 export const REMOVE_STAT_ERROR_ID = 'app/Errors/ADD_STAT_ERROR';
+export const ADD_ERROR_TO_HISTORY = 'app/Errors/ADD_ERROR_TO_HISTORY';

@@ -79,6 +79,7 @@ export default class Interaction {
     this.contactMode = contactMode || 'search';
     this.timeout = new Date(timeout).valueOf();
     this.autoAnswer = autoAnswer;
+    this.notifications = new List();
     this.wrapupDetails = new Map({
       wrapupUpdateAllowed: false,
       wrapupEnabled: false,

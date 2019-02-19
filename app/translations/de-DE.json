@@ -230,6 +230,7 @@
   "app.containers.Login.welcome": "Bei CxEngage anmelden",
   "app.containers.Login.welcomeNoProd": "Anmelden",
   "app.containers.Login.youMayClose": "Schließen Sie ggf. dieses Fenster.",
+  "app.containers.MainContentArea.interactionError": "",
   "app.containers.MessagingContentArea.copied": "Kopiert",
   "app.containers.MessagingContentArea.copiedTranscript": "Abschrift in Zwischenablage kopiert",
   "app.containers.MessagingContentArea.copy": "Kopieren",

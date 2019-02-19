@@ -47,6 +47,7 @@ import {
   SET_CUSTOM_FIELDS,
   EMAIL_CREATE_REPLY,
   SET_IS_COLD_TRANSFERRING,
+  TOGGLE_INTERACTION_NOTIFICATION,
 } from '../constants';
 import agentDesktopReducer, { getNextSelectedInteractionId } from '../reducer';
 
@@ -1833,6 +1834,84 @@ describe('agentDesktopReducer', () => {
         };
       });
       it('sets isColsTransferring flag as false in the interaction', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+  });
+  describe('TOGGLE_INTERACTION_NOTIFICATION', () => {
+    describe('When notification is already on the interaction', () => {
+      beforeEach(() => {
+        initialState = {
+          interactions: [
+            {
+              interactionId: 'a',
+              notifications: [
+                {
+                  uuid: 'mock-uuid',
+                  mockValue: 'mock-value',
+                  isError: true,
+                },
+                {
+                  uuid: 'mock-uuid-2',
+                  mockValue: 'mock-value-2',
+                },
+              ],
+            },
+            {
+              interactionId: 'b',
+              notifications: [],
+            },
+          ],
+        };
+        action = {
+          type: TOGGLE_INTERACTION_NOTIFICATION,
+          interactionId: 'a',
+          notification: {
+            uuid: 'mock-uuid',
+            mockValue: 'mock-value',
+            isError: true,
+          },
+        };
+      });
+      it('deletes notification on the interaction', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('When notification is not in the interaction', () => {
+      beforeEach(() => {
+        initialState = {
+          interactions: [
+            {
+              interactionId: 'a',
+              notifications: [
+                {
+                  uuid: 'mock-uuid',
+                  mockValue: 'mock-value',
+                  isError: true,
+                },
+                {
+                  uuid: 'mock-uuid',
+                  mockValue: 'mock-value-2',
+                },
+              ],
+            },
+            {
+              interactionId: 'b',
+              notifications: [],
+            },
+          ],
+        };
+        action = {
+          type: TOGGLE_INTERACTION_NOTIFICATION,
+          interactionId: 'a',
+          notification: {
+            uuid: 'mock-uuid-3',
+            mockValue: 'mock-value-3',
+            isError: true,
+          },
+        };
+      });
+      it('adds notification to the interaction', () => {
         runReducerAndExpectSnapshot();
       });
     });
