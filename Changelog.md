@@ -1,3 +1,7 @@
+### [1.35.11] (2019-02-25)
+## Added
+* Jenkins deploy all versions to dev and qe
+
 ### [1.35.10] (2019-01-17)
 ## Added
 * CXV1-16762 - Failed hold/resume actions are now properly handled

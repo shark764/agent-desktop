@@ -89,7 +89,7 @@ pipeline {
       }
     }
     stage ('Build') {
-      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'}}
+      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature'}}
       steps {
         sh 'echo "Stage Description: Builds the production version of the app"'
         sh "docker exec ${docker_tag} npm run build"
@@ -141,18 +141,22 @@ pipeline {
     stage ('Push new tag'){
       when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'}}
       steps {
-        git branch: BRANCH_NAME, url: "git@github.com:SerenovaLLC/${service}"
         script {
+          try {
+            git branch: BRANCH_NAME, url: "git@github.com:SerenovaLLC/${service}"
             if (build_version.contains("SNAPSHOT")) {
               sh "if git tag --list | grep ${build_version}; then git tag -d ${build_version}; git push origin :refs/tags/${build_version}; fi"
             }
+            sh "git tag -a ${build_version} -m 'release ${build_version}, Jenkins tagged ${BUILD_TAG}'"
+            sh "git push origin ${build_version}"
+          } catch (e) {
+            sh 'echo "Failed create git tag"'
           }
-        sh "git tag -a ${build_version} -m 'release ${build_version}, Jenkins tagged ${BUILD_TAG}'"
-        sh "git push origin ${build_version}"
+        }
       }
     }
     stage ('Upload source maps') {
-      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'}}
+      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature'}}
       environment {
         sentry_api_key = credentials('sentry-token')
       }
@@ -162,8 +166,22 @@ pipeline {
         sh "docker exec ${docker_tag} ./node_modules/.bin/sentry-cli --auth-token $sentry_api_key releases -o serenova -p skylight files ${build_version} upload-sourcemaps build/"
       }
     }
-    stage ('Push to S3') {
-      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'}}
+    stage ('Push to dev all versions S3') {
+      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature';}}
+      steps {
+        sh 'echo "Stage Description: Pushes build files to S3"'
+        sh "aws s3 sync build/ s3://dev-cxengagelabs-frontend/skylight/${build_version}/ --delete"
+      }
+    }
+    stage ('Push to qe all versions S3') {
+      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature';}}
+      steps {
+        sh 'echo "Stage Description: Pushes build files to S3"'
+        sh "aws s3 sync build/ s3://dev-cxengagelabs-frontend/skylight/${build_version}/ --delete"
+      }
+    }
+    stage ('Push to jenkins storage S3') {
+      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature';}}
       steps {
         sh 'echo "Stage Description: Pushes build files to S3"'
         sh "aws s3 sync build/ s3://cxengagelabs-jenkins/frontend/${service}/${build_version}/ --exclude \"*.js.map\" --delete"
