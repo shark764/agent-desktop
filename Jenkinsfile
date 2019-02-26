@@ -177,7 +177,7 @@ pipeline {
       steps {
         sh 'echo "Stage Description: Pushes build files to S3"'
         sh "cp app/configs/qe/config.json build"
-        sh "aws s3 sync build/ s3://dev-cxengagelabs-frontend/skylight/${build_version}/ --delete"
+        sh "aws s3 sync build/ s3://qe-cxengagelabs-frontend/skylight/${build_version}/ --delete"
       }
     }
     stage ('Push to jenkins storage S3') {
