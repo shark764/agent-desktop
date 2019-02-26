@@ -1312,7 +1312,10 @@ export class App extends React.Component {
               (interaction) => interaction.channelType === 'voice'
             );
             if (existingVoiceInteraction === undefined) {
-              this.props.startOutboundInteraction('voice', response.endpoint);
+              this.props.startOutboundInteraction({
+                channelType: 'voice',
+                customer: response.endpoint,
+              });
               CxEngage.interactions.voice.dial({
                 phoneNumber: response.endpoint,
               });
@@ -1330,7 +1333,10 @@ export class App extends React.Component {
                 interaction.customer === response.endpoint
             );
             if (existingMatchingSmsInteraction === undefined) {
-              this.props.startOutboundInteraction('sms', response.endpoint);
+              this.props.startOutboundInteraction({
+                channelType: 'sms',
+                customer: response.endpoint,
+              });
             } else {
               console.log(
                 `SMS interaction already in progress for ${
@@ -1800,20 +1806,8 @@ function mapDispatchToProps(dispatch) {
     setStandalonePopup: () => dispatch(setStandalonePopup()),
     setCrmActiveTab: (type, id, name) =>
       dispatch(setCrmActiveTab(type, id, name)),
-    startOutboundInteraction: (
-      channelType,
-      customer,
-      contact,
-      addedByNewInteractionPanel
-    ) =>
-      dispatch(
-        startOutboundInteraction(
-          channelType,
-          customer,
-          contact,
-          addedByNewInteractionPanel
-        )
-      ),
+    startOutboundInteraction: (outboundInteractionData) =>
+      dispatch(startOutboundInteraction(outboundInteractionData)),
     startOutboundEmail: (customer, contact, addedByNewInteractionPanel) =>
       dispatch(
         startOutboundEmail(customer, contact, addedByNewInteractionPanel)

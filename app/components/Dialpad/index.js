@@ -10,7 +10,16 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Radium from 'radium';
+
+import { isBeta } from 'utils/url';
+
+import ErrorBoundary from 'components/ErrorBoundary';
+
+import OutboundAniSelect from 'containers/OutboundAniSelect';
+import { getSelectedOutboundPhoneIdentifier } from 'containers/OutboundAniSelect/selectors';
+import { selectOutboundPhoneIdentification } from 'containers/OutboundAniSelect/actions';
 
 import ButtonDialpad from 'components/ButtonDialpad';
 import TextInput from 'components/TextInput';
@@ -55,9 +64,13 @@ const styles = {
     zIndex: 3,
     padding: '25px 20px 20px',
   },
+  outboundAniDiv: {
+    margin: '0px auto 10px',
+    width: '100%',
+  },
 };
 
-function Dialpad(props, context) {
+export function Dialpad(props, context) {
   function buttonPress(num, fromKeyboard) {
     if (!fromKeyboard) props.setDialpadText(`${props.dialpadText}${num}`);
     if (props.interactionId !== undefined) {
@@ -159,6 +172,20 @@ function Dialpad(props, context) {
         ]}
       >
         <div id={props.id} style={{ zIndex: '4' }}>
+          {isBeta() &&
+            !props.interactionId &&
+            !props.transfer && (
+            <div style={styles.outboundAniDiv}>
+              <OutboundAniSelect
+                channelTypes={['voice']}
+                changeSelected={props.selectOutboundPhoneIdentification}
+                valueSelected={props.outboundPhoneIdentifier}
+                styles={{
+                  height: '32px',
+                }}
+              />
+            </div>
+          )}
           <TextInput
             id={`${props.id}TextInput`}
             cb={props.setDialpadText}
@@ -268,10 +295,25 @@ Dialpad.propTypes = {
   toggle: PropTypes.func,
   transfer: PropTypes.bool.isRequired,
   dialpadPosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  outboundPhoneIdentifier: PropTypes.object,
+  selectOutboundPhoneIdentification: PropTypes.func.isRequired,
 };
 
 Dialpad.contextTypes = {
   toolbarMode: PropTypes.bool,
 };
 
-export default Radium(Dialpad);
+export const actions = {
+  selectOutboundPhoneIdentification,
+};
+
+const mapStateToProps = (state, props) => ({
+  outboundPhoneIdentifier: getSelectedOutboundPhoneIdentifier(state, props),
+});
+
+export default ErrorBoundary(
+  connect(
+    mapStateToProps,
+    actions
+  )(Radium(Dialpad))
+);

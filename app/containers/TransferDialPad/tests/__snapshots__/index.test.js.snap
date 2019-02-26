@@ -35,7 +35,7 @@ exports[`TransferDialPad component event handlers extParticipantTransferButton o
 exports[`TransferDialPad component render when transferTabIndex is 0 & dialpadText is invalid 1`] = `
 <div>
   <styled.div>
-    <Dialpad
+    <Connect(ErrorBoundaryComponent)
       active={false}
       dialpadText="mockInvalidDialpadText"
       id="dialpad"
@@ -69,7 +69,7 @@ exports[`TransferDialPad component render when transferTabIndex is 0 & dialpadTe
 exports[`TransferDialPad component render when transferTabIndex is 1 & dialpadText is valid 1`] = `
 <div>
   <styled.div>
-    <Dialpad
+    <Connect(ErrorBoundaryComponent)
       active={false}
       dialpadText="mockValidDialpadText"
       id="dialpad"

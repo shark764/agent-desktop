@@ -5,7 +5,7 @@ exports[`<Dialpad /> activeExtensionIsNotPstn clicking the icon renders the icon
   active={true}
   id="dialpadButton"
   innerElement={
-    <Dialpad
+    <Connect(ErrorBoundaryComponent)
       dialpadText=""
       id="activeInteractionDialpad"
       inCall={true}

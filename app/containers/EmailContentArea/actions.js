@@ -14,8 +14,7 @@ export function startOutboundEmail(
   customer,
   contact,
   addedByNewInteractionPanel,
-  outboundAni,
-  flowId
+  outboundAni
 ) {
   return {
     type: ACTIONS.START_OUTBOUND_EMAIL,
@@ -23,7 +22,6 @@ export function startOutboundEmail(
     contact,
     addedByNewInteractionPanel,
     outboundAni,
-    flowId,
   };
 }
 

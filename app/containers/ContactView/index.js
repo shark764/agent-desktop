@@ -40,7 +40,10 @@ import Button from 'components/Button';
 import ContactAttribute from 'components/ContactAttribute';
 import ContactSectionHeader from 'components/ContactSectionHeader';
 
-import { getSelectedOutboundEmailIdentifier } from 'containers/OutboundAniSelect/selectors';
+import {
+  getSelectedOutboundEmailIdentifier,
+  getSelectedOutboundPhoneIdentifier,
+} from 'containers/OutboundAniSelect/selectors';
 import {
   selectPopulatedLayout,
   selectPopulatedCompactAttributes,
@@ -136,26 +139,27 @@ export class ContactView extends React.Component {
       this.props.startOutboundEmail(
         contactPoint,
         this.props.contact,
-        this.props.selectedInteractionIsCreatingNewInteraction
-      );
-    } else {
-      this.props.startOutboundInteraction(
-        channelType,
-        contactPoint,
-        this.props.contact,
         this.props.selectedInteractionIsCreatingNewInteraction,
-        undefined,
-        true,
         undefined,
         this.props.getSelectedOutboundEmailIdentifier
       );
+    } else {
+      this.props.startOutboundInteraction({
+        channelType,
+        contactPoint,
+        contact: this.props.contact,
+        addedByNewInteractionPanel: this.props
+          .selectedInteractionIsCreatingNewInteraction,
+        openSidePanel: true,
+        selectedOutboundAni: this.props.getSelectedOutboundPhoneIdentifier,
+      });
       if (channelType === 'voice') {
         const outboundVoiceObject = { phoneNumber: contactPoint };
-        if (this.props.getSelectedOutboundEmailIdentifier) {
+        if (this.props.getSelectedOutboundPhoneIdentifier) {
           const {
             outboundIdentifier,
             flowId,
-          } = this.props.getSelectedOutboundEmailIdentifier;
+          } = this.props.getSelectedOutboundPhoneIdentifier;
           outboundVoiceObject.outboundAni = outboundIdentifier;
           outboundVoiceObject.flowId = flowId;
         }
@@ -249,39 +253,33 @@ const mapStateToProps = (state, props) => ({
     state,
     props
   ),
+  getSelectedOutboundPhoneIdentifier: getSelectedOutboundPhoneIdentifier(
+    state,
+    props
+  ),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     editContact: (interactionId, contact) =>
       dispatch(editContact(interactionId, contact)),
-    startOutboundInteraction: (
-      channelType,
+    startOutboundInteraction: (outboundInteractionData) =>
+      dispatch(startOutboundInteraction(outboundInteractionData)),
+    loadContactInteractionHistory: (contactId) =>
+      dispatch(loadContactInteractionHistory(contactId)),
+    startOutboundEmail: (
       customer,
       contact,
       addedByNewInteractionPanel,
-      interactionId,
-      openSidePanel,
-      popuri,
-      selectedOutboundAni
+      outboundAni
     ) =>
       dispatch(
-        startOutboundInteraction(
-          channelType,
+        startOutboundEmail(
           customer,
           contact,
           addedByNewInteractionPanel,
-          interactionId,
-          openSidePanel,
-          popuri,
-          selectedOutboundAni
+          outboundAni
         )
-      ),
-    loadContactInteractionHistory: (contactId) =>
-      dispatch(loadContactInteractionHistory(contactId)),
-    startOutboundEmail: (customer, contact, addedByNewInteractionPanel) =>
-      dispatch(
-        startOutboundEmail(customer, contact, addedByNewInteractionPanel)
       ),
     assignContact: (interactionId, contact) =>
       dispatch(assignContact(interactionId, contact)),
@@ -312,6 +310,7 @@ ContactView.propTypes = {
   startOutboundEmail: PropTypes.func.isRequired,
   currentInteraction: PropTypes.object,
   getSelectedOutboundEmailIdentifier: PropTypes.object,
+  getSelectedOutboundPhoneIdentifier: PropTypes.object,
 };
 
 export default ErrorBoundary(

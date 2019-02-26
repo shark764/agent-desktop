@@ -175,26 +175,10 @@ export function setNewInteractionPanelFormInput(input) {
   };
 }
 
-export function startOutboundInteraction(
-  channelType,
-  customer,
-  contact,
-  addedByNewInteractionPanel,
-  interactionId,
-  openSidePanel,
-  popUri,
-  selectedOutboundAni
-) {
+export function startOutboundInteraction(outboundInteractionData) {
   return {
     type: ACTIONS.START_OUTBOUND_INTERACTION,
-    channelType,
-    customer,
-    contact,
-    addedByNewInteractionPanel,
-    interactionId,
-    openSidePanel,
-    popUri,
-    selectedOutboundAni,
+    outboundInteractionData,
   };
 }
 

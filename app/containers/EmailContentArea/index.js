@@ -199,6 +199,15 @@ const styles = {
     overflowY: 'auto',
     paddingTop: '15px',
   },
+  caretUp: {
+    transform: 'rotate(180deg)',
+  },
+  caretWrapper: {
+    top: '50px',
+    position: 'absolute',
+    backgroundColor: '#f3f3f3',
+    paddingRight: '5px',
+  },
 };
 
 export class EmailContentArea extends React.Component {
@@ -216,6 +225,7 @@ export class EmailContentArea extends React.Component {
           decorator
         )
         : createEditorState(),
+      isCollapsed: false,
     };
   }
 
@@ -538,6 +548,12 @@ ${this.props.selectedInteraction.emailPlainBody}`;
     } else {
       console.error('Cannot find selected attachment');
     }
+  };
+
+  toggleCollpaseDetails = () => {
+    this.setState((prevState) => ({
+      isCollapsed: !prevState.isCollapsed,
+    }));
   };
 
   render() {
@@ -869,84 +885,123 @@ ${this.props.selectedInteraction.emailPlainBody}`;
       }));
       details = (
         <div>
-          <EmailInput
-            style={styles.inputContainer}
-            emails={this.props.selectedInteraction.emailReply.tos}
-            message={messages.to}
-            inputType="to"
-            value={this.props.selectedInteraction.emailReply.toInput}
-            cb={this.updateToInput}
-          />
-          <EmailInput
-            style={styles.inputContainer}
-            emails={this.props.selectedInteraction.emailReply.ccs}
-            message={messages.cc}
-            inputType="cc"
-            value={this.props.selectedInteraction.emailReply.ccInput}
-            cb={this.updateCcInput}
-          />
-          <EmailInput
-            style={styles.inputContainer}
-            emails={this.props.selectedInteraction.emailReply.bccs}
-            message={messages.bcc}
-            inputType="bcc"
-            value={this.props.selectedInteraction.emailReply.bccInput}
-            cb={this.updateBccInput}
-          />
-          <div style={styles.inputContainer}>
-            <div style={styles.detailsField}>
-              <FormattedMessage {...messages.subject} />
+          {this.props.selectedInteraction.emailReply !== 'undefined' &&
+            this.props.selectedInteraction.status !== 'wrapup' &&
+            this.props.selectedInteraction.direction === 'agent-initiated' &&
+            this.context.toolbarMode && (
+            <div style={styles.caretWrapper}>
+              <Icon
+                name="caret"
+                style={!this.state.isCollapsed && styles.caretUp}
+                onclick={this.toggleCollpaseDetails}
+              />
             </div>
-            <div style={styles.detailsValue}>
-              {this.props.selectedInteraction.status !==
-                'work-ended-pending-script' &&
-              this.props.selectedInteraction.status !== 'wrapup' ? (
-                  <TextInput
-                    id="subjectInput"
-                    styleType="inlineInherit"
-                    placeholder="…"
-                    value={this.props.selectedInteraction.emailReply.subjectInput}
-                    cb={(subject) => this.updateSubjectInput(subject)}
-                    style={{ width: '100%' }}
-                    readOnly={
-                      this.props.selectedInteraction.status ===
-                      'work-ended-pending-script' ||
-                    this.props.selectedInteraction.status === 'wrapup'
-                    }
-                  />
-                ) : (
-                  this.props.selectedInteraction.emailReply.subjectInput
-                )}
-            </div>
-          </div>
-          {this.props.emailTemplates.length > 0 && (
-            <div>
+          )}
+          <div
+            style={[
+              styles.detailsContainer,
+              this.state.isCollapsed && {
+                height: '2px',
+                overflow: 'hidden',
+              },
+            ]}
+          >
+            <EmailInput
+              style={styles.inputContainer}
+              emails={this.props.selectedInteraction.emailReply.tos}
+              message={messages.to}
+              inputType="to"
+              value={this.props.selectedInteraction.emailReply.toInput}
+              cb={this.updateToInput}
+            />
+            <EmailInput
+              style={styles.inputContainer}
+              emails={this.props.selectedInteraction.emailReply.ccs}
+              message={messages.cc}
+              inputType="cc"
+              value={this.props.selectedInteraction.emailReply.ccInput}
+              cb={this.updateCcInput}
+            />
+            <EmailInput
+              style={styles.inputContainer}
+              emails={this.props.selectedInteraction.emailReply.bccs}
+              message={messages.bcc}
+              inputType="bcc"
+              value={this.props.selectedInteraction.emailReply.bccInput}
+              cb={this.updateBccInput}
+            />
+            <div style={styles.inputContainer}>
               <div style={styles.detailsField}>
-                <FormattedMessage {...messages.template} />
+                <FormattedMessage {...messages.subject} />
               </div>
               <div style={styles.detailsValue}>
                 {this.props.selectedInteraction.status !==
                   'work-ended-pending-script' &&
                 this.props.selectedInteraction.status !== 'wrapup' ? (
-                    <Select
-                      id="emailTemplates"
-                      style={styles.select}
-                      type="inline-small"
+                    <TextInput
+                      id="subjectInput"
+                      styleType="inlineInherit"
+                      placeholder="…"
                       value={
-                        this.props.selectedInteraction.emailReply
-                          .selectedEmailTemplate
+                        this.props.selectedInteraction.emailReply.subjectInput
                       }
-                      options={emailTemplates}
-                      onChange={(e) => this.onTemplateChange(e ? e.value : e)}
+                      cb={(subject) => this.updateSubjectInput(subject)}
+                      style={{ width: '100%' }}
+                      readOnly={
+                        this.props.selectedInteraction.status ===
+                        'work-ended-pending-script' ||
+                      this.props.selectedInteraction.status === 'wrapup'
+                      }
                     />
                   ) : (
-                    this.props.selectedInteraction.emailReply
-                      .selectedEmailTemplate
+                    this.props.selectedInteraction.emailReply.subjectInput
                   )}
               </div>
             </div>
+            {this.props.emailTemplates.length > 0 && (
+              <div>
+                <div style={styles.detailsField}>
+                  <FormattedMessage {...messages.template} />
+                </div>
+                <div style={styles.detailsValue}>
+                  {this.props.selectedInteraction.status !==
+                    'work-ended-pending-script' &&
+                  this.props.selectedInteraction.status !== 'wrapup' ? (
+                      <Select
+                        id="emailTemplates"
+                        style={styles.select}
+                        type="inline-small"
+                        value={
+                          this.props.selectedInteraction.emailReply
+                            .selectedEmailTemplate
+                        }
+                        options={emailTemplates}
+                        onChange={(e) => this.onTemplateChange(e ? e.value : e)}
+                      />
+                    ) : (
+                      this.props.selectedInteraction.emailReply
+                        .selectedEmailTemplate
+                    )}
+                </div>
+              </div>
+            )}
+          </div>
+          {this.props.selectedInteraction.customFields && (
+            <div
+              style={[
+                styles.detailsContainer,
+                this.state.isCollapsed && { display: 'none' },
+              ]}
+            >
+              <CustomFields />
+            </div>
           )}
-          <div style={styles.detailsContainer}>
+          <div
+            style={[
+              styles.detailsContainer,
+              this.state.isCollapsed && { display: 'none' },
+            ]}
+          >
             {this.props.selectedInteraction.emailReply.attachments.map(
               (attachment, index) => (
                 <div
@@ -1162,6 +1217,10 @@ EmailContentArea.propTypes = {
   agent: PropTypes.object.isRequired,
   updateEmailInput: PropTypes.func.isRequired,
   updateSelectedEmailTemplate: PropTypes.func.isRequired,
+};
+
+EmailContentArea.contextTypes = {
+  toolbarMode: PropTypes.bool,
 };
 
 const mapStateToProps = (state, props) => ({

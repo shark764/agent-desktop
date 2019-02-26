@@ -38,8 +38,7 @@ import ButtonConfigPropTypes from 'containers/ContentArea/propTypes';
 // Styles:
 const styles = {
   fromButtonsContainer: {
-    borderBottom: '1px solid #D0D0D0',
-    padding: '10px 5px',
+    padding: '10px 5px 0',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',

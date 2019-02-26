@@ -9,7 +9,14 @@ import { NoRecords } from '../NoRecords';
 
 describe('<NoRecords />', () => {
   it('should render without outbound buttons by default', () => {
-    const rendered = shallow(<NoRecords query={{}} newContact={() => {}} />);
+    const rendered = shallow(
+      <NoRecords
+        query={{}}
+        newContact={() => {}}
+        selectOutboundPhoneIdentification={() => {}}
+        selectOutboundEmailIdentification={() => {}}
+      />
+    );
     expect(rendered).toMatchSnapshot();
   });
   it('should render with outbound buttons when a valid phone number is passed in as the only query parameter', () => {
@@ -17,6 +24,8 @@ describe('<NoRecords />', () => {
       <NoRecords
         query={{ phoneNumberAttribute: '+15064701234' }}
         newContact={() => {}}
+        selectOutboundPhoneIdentification={() => {}}
+        selectOutboundEmailIdentification={() => {}}
       />
     );
     expect(rendered).toMatchSnapshot();

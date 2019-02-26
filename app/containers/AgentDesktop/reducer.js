@@ -734,27 +734,36 @@ function agentDesktopReducer(state = initialState, action) {
       );
     }
     case ACTIONS.START_OUTBOUND_INTERACTION: {
+      const {
+        interactionId,
+        channelType,
+        customer,
+        contact,
+        openSidePanel,
+        addedByNewInteractionPanel,
+        popUri,
+        selectedOutboundAni,
+      } = action.outboundInteractionData;
       const outboundInteraction = new Map(
         new Interaction({
-          interactionId: action.interactionId,
-          channelType: action.channelType,
-          customer: action.customer,
-          contact: action.contact,
-          isSidePanelCollapsed: !action.openSidePanel,
+          interactionId,
+          channelType,
+          customer,
+          contact,
+          isSidePanelCollapsed: !openSidePanel,
           // We don't want to hide the new interaction panel for outbound voice until the interaction has been accepted because
           // the voice interaction is not 'selectable' until then and we want to avoid the contact panel 'flicker' in between
           hideNewInteractionPanelOnWorkAccepted:
-            action.addedByNewInteractionPanel && action.channelType === 'voice',
+            addedByNewInteractionPanel && channelType === 'voice',
           // initiatedByCurrentAgent so we know if we should render the 'Cancel' button
-          initiatedByCurrentAgent:
-            action.channelType === 'voice' ? true : undefined,
+          initiatedByCurrentAgent: channelType === 'voice' ? true : undefined,
           // voice interactions have their timeAccepted set when they have their status set to 'work-accepting'
-          timeAccepted: action.channelType !== 'voice' ? Date.now() : undefined,
+          timeAccepted: channelType !== 'voice' ? Date.now() : undefined,
           direction: 'agent-initiated',
           status: 'connecting-to-outbound',
-          contactMode: action.contact !== undefined ? 'view' : 'search',
-          popUri: action.popUri,
-          outboundAni: action.selectedOutboundAni,
+          contactMode: contact !== undefined ? 'view' : 'search',
+          popUri,
+          outboundAni: selectedOutboundAni,
         })
       );
       return (
@@ -766,15 +775,14 @@ function agentDesktopReducer(state = initialState, action) {
           // Hide the new interaction panel and auto select new new interaction for SMS
           .set(
             'selectedInteractionId',
-            action.channelType === 'sms' || action.channelType === 'email'
+            channelType === 'sms' || channelType === 'email'
               ? outboundInteraction.get('interactionId')
               : state.get('selectedInteractionId')
           )
           .update('newInteractionPanel', (newInteractionPanel) => {
             if (
-              (action.channelType === 'sms' ||
-                action.channelType === 'email') &&
-              action.addedByNewInteractionPanel
+              (channelType === 'sms' || channelType === 'email') &&
+              addedByNewInteractionPanel
             ) {
               return fromJS(blankNewInteractionPanel);
             } else {

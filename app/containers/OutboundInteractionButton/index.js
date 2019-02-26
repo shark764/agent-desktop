@@ -82,8 +82,7 @@ export class OutboundInteractionButton extends React.Component {
           this.props.endpoint,
           undefined,
           this.props.selectedInteractionIsCreatingNewInteraction,
-          outboundIdentifier,
-          flowId
+          this.props.getSelectedOutboundEmailIdentifier
         );
       } else {
         let popUri;
@@ -111,16 +110,14 @@ export class OutboundInteractionButton extends React.Component {
           outboundVoiceObject.flowId = flowId;
         }
 
-        this.props.startOutboundInteraction(
-          this.props.channelType,
-          this.props.endpoint,
-          undefined,
-          this.props.selectedInteractionIsCreatingNewInteraction,
-          undefined,
-          undefined,
+        this.props.startOutboundInteraction({
+          channelType: this.props.channelType,
+          customer: this.props.endpoint,
+          addedByNewInteractionPanel: this.props
+            .selectedInteractionIsCreatingNewInteraction,
           popUri,
-          this.props.getSelectedOutboundPhoneIdentifier
-        );
+          selectedOutboundAni: this.props.getSelectedOutboundPhoneIdentifier,
+        });
 
         if (this.props.channelType === 'voice') {
           CxEngage.interactions.voice.dial(outboundVoiceObject);
@@ -176,42 +173,20 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    startOutboundInteraction: (
-      channelType,
-      customer,
-      contact,
-      addedByNewInteractionPanel,
-      interactionId,
-      openSidePanel,
-      popUri,
-      selectedOutboundAni
-    ) =>
-      dispatch(
-        startOutboundInteraction(
-          channelType,
-          customer,
-          contact,
-          addedByNewInteractionPanel,
-          interactionId,
-          openSidePanel,
-          popUri,
-          selectedOutboundAni
-        )
-      ),
+    startOutboundInteraction: (outboundInteractionData) =>
+      dispatch(startOutboundInteraction(outboundInteractionData)),
     startOutboundEmail: (
       customer,
       contact,
       addedByNewInteractionPanel,
-      outboundAni,
-      flowId
+      outboundAni
     ) =>
       dispatch(
         startOutboundEmail(
           customer,
           contact,
           addedByNewInteractionPanel,
-          outboundAni,
-          flowId
+          outboundAni
         )
       ),
     dispatch,

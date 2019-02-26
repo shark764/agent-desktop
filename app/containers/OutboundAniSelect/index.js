@@ -32,6 +32,7 @@ export class OutboundAniSelect extends React.Component {
               ? this.props.valueSelected.value
               : undefined
           }
+          style={this.props.styles}
         />
       );
     } else if (!this.props.selectOutboundIdentifierListsForChannel) {
@@ -66,6 +67,7 @@ OutboundAniSelect.propTypes = {
   valueSelected: PropTypes.object.isRequired,
   channelTypes: PropTypes.array,
   changeSelected: PropTypes.func.isRequired,
+  styles: PropTypes.object,
 };
 
 export default ErrorBoundary(

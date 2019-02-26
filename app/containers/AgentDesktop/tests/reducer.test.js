@@ -353,13 +353,15 @@ describe('agentDesktopReducer', () => {
       beforeEach(() => {
         action = {
           type: START_OUTBOUND_INTERACTION,
-          channelType: 'sms',
-          customer: '+15064701234',
-          contact: {
-            id: 'test-contact-id',
-            attributes: {
-              name: 'Josh Clowater',
-              email: 'jclowater@serenova.com',
+          outboundInteractionData: {
+            channelType: 'sms',
+            customer: '+15064701234',
+            contact: {
+              id: 'test-contact-id',
+              attributes: {
+                name: 'Josh Clowater',
+                email: 'jclowater@serenova.com',
+              },
             },
           },
         };
@@ -372,14 +374,16 @@ describe('agentDesktopReducer', () => {
       beforeEach(() => {
         action = {
           type: START_OUTBOUND_INTERACTION,
-          channelType: 'voice',
-          addedByNewInteractionPanel: true,
-          customer: '+15064701234',
-          contact: {
-            id: 'test-contact-id',
-            attributes: {
-              name: 'Josh Clowater',
-              email: 'jclowater@serenova.com',
+          outboundInteractionData: {
+            channelType: 'voice',
+            addedByNewInteractionPanel: true,
+            customer: '+15064701234',
+            contact: {
+              id: 'test-contact-id',
+              attributes: {
+                name: 'Josh Clowater',
+                email: 'jclowater@serenova.com',
+              },
             },
           },
         };

@@ -6,10 +6,9 @@ exports[`<ContentAreaTop /> should render correctly 1`] = `
     Array [
       Object {
         "alignItems": "center",
-        "borderBottom": "1px solid #D0D0D0",
         "display": "flex",
         "justifyContent": "space-between",
-        "padding": "10px 5px",
+        "padding": "10px 5px 0",
       },
       Object {
         "maxWidth": "calc(100vw - 283px - 30px)",

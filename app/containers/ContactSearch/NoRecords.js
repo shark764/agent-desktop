@@ -112,6 +112,7 @@ export class NoRecords extends React.Component {
                       ? this.props.getSelectedOutboundPhoneIdentifier
                       : this.props.getSelectedOutboundEmailIdentifier
                   }
+                  styles={styles.outboundAniDiv}
                 />
               </div>
             )}

@@ -34,17 +34,22 @@ export function* startOutboundEmailSaga(action) {
       emailOutboundInteractionDetails,
       'EmailContentArea'
     );
+    const {
+      customer,
+      contact,
+      addedByNewInteractionPanel,
+      outboundAni,
+    } = action;
     yield put(
-      startOutboundInteraction(
-        'email',
-        action.customer,
-        action.contact,
-        action.addedByNewInteractionPanel,
-        response.interactionId,
-        true,
-        undefined,
-        action.outboundAni
-      )
+      startOutboundInteraction({
+        channelType: 'email',
+        customer,
+        contact,
+        addedByNewInteractionPanel,
+        interactionId: response.interactionId,
+        openSidePanel: true,
+        selectedOutboundAni: outboundAni,
+      })
     );
     yield put(
       setInteractionStatus(response.interactionId, 'initialized-outbound')

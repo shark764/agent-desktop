@@ -182,7 +182,7 @@ export class ContentArea extends React.Component {
     },
     details: {
       fontSize: '12px',
-      padding: '10px 0',
+      padding: '0 0 10px',
     },
     content: {
       flex: '1 1 auto',

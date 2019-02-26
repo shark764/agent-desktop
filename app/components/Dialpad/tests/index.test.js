@@ -5,7 +5,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Dialpad from '../index';
+import { Dialpad } from '../index';
+jest.mock('utils/url', () => ({
+  isBeta: jest.fn(() => true),
+}));
 
 describe('<Dialpad />', () => {
   describe('when given required props', () => {
@@ -17,6 +20,10 @@ describe('<Dialpad />', () => {
           setDialpadText={() => {}}
           transfer={false}
           active={false}
+          selectOutboundPhoneIdentification={() => {}}
+          outboundPhoneIdentifier={{
+            mockValue: 'mock-value',
+          }}
         />
       );
       expect(rendered).toMatchSnapshot();
@@ -33,6 +40,28 @@ describe('<Dialpad />', () => {
           inCall
           transfer={false}
           active={false}
+          selectOutboundPhoneIdentification={() => {}}
+          outboundPhoneIdentifier={{
+            mockValue: 'mock-value',
+          }}
+        />
+      );
+      expect(rendered).toMatchSnapshot();
+    });
+  });
+
+  describe('when interactionId is set', () => {
+    it('should render everything except the Outbound ANI selector', () => {
+      const rendered = shallow(
+        <Dialpad
+          interactionId="mock-value"
+          id="mockId"
+          dialpadText="mockDialpadText"
+          setDialpadText={() => {}}
+          inCall
+          transfer={false}
+          active={false}
+          selectOutboundPhoneIdentification={() => {}}
         />
       );
       expect(rendered).toMatchSnapshot();

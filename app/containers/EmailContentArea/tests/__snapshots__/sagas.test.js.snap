@@ -74,16 +74,17 @@ Object {
     "@@redux-saga/IO": true,
     "PUT": Object {
       "action": Object {
-        "addedByNewInteractionPanel": true,
-        "channelType": "email",
-        "contact": Object {
-          "id": "12345-6789",
+        "outboundInteractionData": Object {
+          "addedByNewInteractionPanel": true,
+          "channelType": "email",
+          "contact": Object {
+            "id": "12345-6789",
+          },
+          "customer": "email@test.com",
+          "interactionId": "mockId123456789",
+          "openSidePanel": true,
+          "selectedOutboundAni": undefined,
         },
-        "customer": "email@test.com",
-        "interactionId": "mockId123456789",
-        "openSidePanel": true,
-        "popUri": undefined,
-        "selectedOutboundAni": undefined,
         "type": "app/AgentDesktop/START_OUTBOUND_INTERACTION",
       },
       "channel": null,

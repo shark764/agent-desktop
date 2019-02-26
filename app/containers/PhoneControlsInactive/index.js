@@ -24,6 +24,8 @@ import IconSVG from 'components/IconSVG';
 import { selectIsAgentReady } from 'containers/AgentDesktop/selectors';
 import { startOutboundInteraction } from 'containers/AgentDesktop/actions';
 
+import { getSelectedOutboundPhoneIdentifier } from 'containers/OutboundAniSelect/selectors';
+
 import messages from './messages';
 import { selectHasConnectingOutboundVoiceInteraction } from './selectors';
 
@@ -68,8 +70,23 @@ export class PhoneControlsInactive extends React.Component {
 
   call = () => {
     if (this.state.dialpadTextValid) {
-      this.props.startOutboundInteraction('voice');
-      CxEngage.interactions.voice.dial({ phoneNumber: this.state.dialpadText });
+      this.props.startOutboundInteraction({
+        channelType: 'voice',
+        selectedOutboundAni: this.props.getSelectedOutboundPhoneIdentifier,
+      });
+      let outboundVoiceObject = { phoneNumber: this.state.dialpadText };
+      if (this.props.getSelectedOutboundPhoneIdentifier) {
+        const {
+          outboundIdentifier,
+          flowId,
+        } = this.props.getSelectedOutboundPhoneIdentifier;
+        outboundVoiceObject = {
+          phoneNumber: this.state.dialpadText,
+          outboundAni: outboundIdentifier,
+          flowId,
+        };
+      }
+      CxEngage.interactions.voice.dial(outboundVoiceObject);
       this.setState({ showDialpad: false });
     }
   };
@@ -169,12 +186,16 @@ const mapStateToProps = (state, props) => ({
     state,
     props
   ),
+  getSelectedOutboundPhoneIdentifier: getSelectedOutboundPhoneIdentifier(
+    state,
+    props
+  ),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    startOutboundInteraction: (channelType) =>
-      dispatch(startOutboundInteraction(channelType)),
+    startOutboundInteraction: (outboundInteractionData) =>
+      dispatch(startOutboundInteraction(outboundInteractionData)),
     dispatch,
   };
 }
@@ -183,6 +204,7 @@ PhoneControlsInactive.propTypes = {
   isAgentReady: PropTypes.bool.isRequired,
   hasConnectingOutboundVoiceInteraction: PropTypes.bool.isRequired,
   startOutboundInteraction: PropTypes.func.isRequired,
+  getSelectedOutboundPhoneIdentifier: PropTypes.object,
 };
 
 export default ErrorBoundary(
