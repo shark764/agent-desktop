@@ -82,7 +82,6 @@ pipeline {
             sh 'echo "Stage Description: Builds the production version of the app"'
             sh "docker exec ${docker_tag} npm run build"
             sh "docker exec ${docker_tag} mv app/assets/favicons/favicon.ico build/favicon.ico"
-            sh "docker exec ${docker_tag} mv app/config_pr.json build/config_pr.json"
             sh "docker cp ${docker_tag}:/home/node/app/build ."
           }
         }
@@ -93,7 +92,6 @@ pipeline {
       steps {
         sh 'echo "Stage Description: Builds the production version of the app"'
         sh "docker exec ${docker_tag} npm run build"
-        sh "docker exec ${docker_tag} mv app/config_pr.json build/config_pr.json"
         sh "docker cp ${docker_tag}:/home/node/app/build ."
       }
     }
@@ -102,7 +100,7 @@ pipeline {
       steps {
         sh "aws s3 rm s3://frontend-prs.cxengagelabs.net/tb2/${pr}/ --recursive"
         sh "sed -i 's/\\\"\\/main/\\\"\\/tb2\\/${pr}\\/main/g' build/index.html"
-        sh "mv build/config_pr.json build/config.json"
+        sh "cp app/configs/pr/config.json build"
         sh "aws s3 sync build/ s3://frontend-prs.cxengagelabs.net/tb2/${pr}/ --delete"
         script {
           f.invalidate("E23K7T1ARU8K88")
@@ -170,6 +168,7 @@ pipeline {
       when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature';}}
       steps {
         sh 'echo "Stage Description: Pushes build files to S3"'
+        sh "cp app/configs/dev/config.json build"
         sh "aws s3 sync build/ s3://dev-cxengagelabs-frontend/skylight/${build_version}/ --delete"
       }
     }
@@ -177,6 +176,7 @@ pipeline {
       when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature';}}
       steps {
         sh 'echo "Stage Description: Pushes build files to S3"'
+        sh "cp app/configs/qe/config.json build"
         sh "aws s3 sync build/ s3://dev-cxengagelabs-frontend/skylight/${build_version}/ --delete"
       }
     }

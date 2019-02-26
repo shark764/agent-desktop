@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const version = require('./package.json').version;
 
 module.exports = (env, argv) => {
   const config = {
@@ -30,6 +31,7 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: './app/index.html',
         favicon: './app/assets/favicons/favicon.ico',
+        meta: [{version: version}]
       }),
       // new BundleAnalyzerPlugin({
       //     analyzerMode: 'static'

@@ -1,0 +1,11 @@
+{
+  "config": {
+    "api": "qe-api.cxengagelabs.net/v1/",
+    "env": "qe",
+    "domain": "cxengagelabs.net",
+    "region": "us-east-1",
+    "logLevel": "debug",
+    "blastSqsOutput": true,
+    "refreshRate": "5000"
+  }
+}
