@@ -20,11 +20,12 @@ export function* startOutboundEmailSaga(action) {
   emailOutboundInteractionDetails = {
     address: action.customer,
   };
-  if (action.outboundAni && action.flowId) {
+  if (action.outboundAni) {
+    const { outboundIdentifier, flowId } = action.outboundAni;
     emailOutboundInteractionDetails = {
       address: action.customer,
-      outboundAni: action.outboundAni,
-      flowId: action.flowId,
+      outboundAni: outboundIdentifier,
+      flowId,
     };
   }
   try {

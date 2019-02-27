@@ -140,7 +140,6 @@ export class ContactView extends React.Component {
         contactPoint,
         this.props.contact,
         this.props.selectedInteractionIsCreatingNewInteraction,
-        undefined,
         this.props.getSelectedOutboundEmailIdentifier
       );
     } else {
