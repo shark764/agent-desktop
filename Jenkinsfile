@@ -169,15 +169,7 @@ pipeline {
       steps {
         sh 'echo "Stage Description: Pushes build files to S3"'
         sh "cp app/configs/dev/config.json build"
-        sh "aws s3 sync build/ s3://dev-frontend/skylight/${build_version}/ --delete"
-      }
-    }
-    stage ('Push to qe all versions S3') {
-      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature';}}
-      steps {
-        sh 'echo "Stage Description: Pushes build files to S3"'
-        sh "cp app/configs/qe/config.json build"
-        sh "aws s3 sync build/ s3://qe-frontend/skylight/${build_version}/ --delete"
+        sh "aws s3 sync build/ s3://dev-frontend.cxengagelabs.net/skylight/${build_version}/ --delete"
       }
     }
     stage ('Push to jenkins storage S3') {
