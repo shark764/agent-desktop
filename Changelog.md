@@ -12,8 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 1.35.14
 (2019-03-02)  
-[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/1.35.14/index.html)  
-[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/1.35.14/index.html)  
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.35.14/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.35.14/index.html)  
 ### Fixed
 * Validate phone lib version before commits
 
