@@ -164,12 +164,20 @@ pipeline {
         sh "docker exec ${docker_tag} ./node_modules/.bin/sentry-cli --auth-token $sentry_api_key releases -o serenova -p skylight files ${build_version} upload-sourcemaps build/"
       }
     }
-    stage ('Push to dev all versions S3') {
+    stage ('Create dev build') {
       when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature';}}
       steps {
         sh 'echo "Stage Description: Pushes build files to S3"'
         sh "cp app/configs/dev/config.json build"
-        sh "aws s3 sync build/ s3://dev-frontend.cxengagelabs.net/skylight/${build_version}/ --delete"
+        sh "aws s3 sync build/ s3://frontend-prs.cxengagelabs.net/dev/builds/${build_version}/ --delete"
+      }
+    }
+    stage ('Create qe build') {
+      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature';}}
+      steps {
+        sh 'echo "Stage Description: Pushes build files to S3"'
+        sh "cp app/configs/qe/config.json build"
+        sh "aws s3 sync build/ s3://frontend-prs.cxengagelabs.net/qe/builds/${build_version}/ --delete"
       }
     }
     stage ('Push to jenkins storage S3') {
