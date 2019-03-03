@@ -1,12 +1,29 @@
-### [1.35.13](http://qe-cxengagelabs-frontend.s3-website-us-east-1.amazonaws.com/skylight/1.35.13/) (2019-02-19)
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Alpha User Acceptance Testing]
+
+
+## [Beta User Acceptance Testing]
+
+
+
+### [1.35.14](http://qe-cxengagelabs-frontend.s3-website-us-east-1.amazonaws.com/skylight/1.35.14/) (2019-03-02)
+## Fixed
+* Validate phone lib version before commits
+
+### [1.35.13] (2019-02-19)
 ## Fixed
 * <no-ticket> - Fixed an issue with outbound emails that have an ANI not being sent with said selected ANI 
 
-### [1.35.12](http://qe-cxengagelabs-frontend.s3-website-us-east-1.amazonaws.com/skylight/1.35.12/) (2019-02-19)
+### [1.35.12] (2019-02-19)
 ## Added
 * CXV1-17038 - AD/TB2 - Outbound Identification - Add the Outbound ANI selector to the dialpad
 
-### [1.35.11](http://qe-cxengagelabs-frontend.s3-website-us-east-1.amazonaws.com/skylight/1.35.11/) (2019-02-25)
+### [1.35.11] (2019-02-25)
 ## Added
 * Jenkins deploy all versions to dev and qe
 
