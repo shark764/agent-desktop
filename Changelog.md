@@ -8,13 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Beta User Acceptance Testing]
+</br>
 
-
-[1.35.14 - qe](https://frontend-prs.cxengagelabs.net/qe/builds/1.35.14/index.html)  
-[1.35.14 - dev](https://frontend-prs.cxengagelabs.net/dev/builds/1.35.14/index.html)  
+### 1.35.14
 (2019-03-02)  
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/1.35.14/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/1.35.14/index.html)  
 ### Fixed
 * Validate phone lib version before commits
+
+</br></br>
 
 ### [1.35.13] (2019-02-19)
 ## Fixed
