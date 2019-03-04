@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import CollapsibleMultiselect from 'components/CollapsibleMultiselect';
 
 import { selectQueues } from 'containers/AgentDesktop/selectors';
-import { selectTransferLists } from 'containers/TransferMenu/selectors';
+import { selectUserAssignedTransferLists } from 'containers/TransferMenu/selectors';
 import ErrorBoundary from 'components/ErrorBoundary';
 import {
   selectAgentsPreferences,
@@ -74,7 +74,7 @@ export class AgentTransferMenuPreferenceMenu extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   agentsTransferMenuEnabled: selectAgentsPreferences(state, props),
-  transferLists: selectTransferLists(state, props),
+  transferLists: selectUserAssignedTransferLists(state, props),
   queues: selectQueues(state, props),
   selectedQueues: selectSelectedQueues(state, props),
   selectedTransferLists: selectSelectedTransferLists(state, props),

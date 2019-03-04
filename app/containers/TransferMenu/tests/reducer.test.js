@@ -16,26 +16,6 @@ describe('TransferMenu reducer tests', () => {
       reducer(Map(), action.setAgentsListVisibleState(true))
     ).toMatchSnapshot();
   });
-  it('sets transferLists', () => {
-    expect(
-      reducer(
-        Map(),
-        action.getAndSetTransferLists([
-          { mockTransferListKey: 'mockTransferListValue' },
-        ])
-      )
-    ).toMatchSnapshot();
-  });
-  it('sets transferListsListVisibleState', () => {
-    expect(
-      reducer(
-        Map(),
-        action.setTransferListsVisibleState({
-          mockTransferListHiddenState: 'mockValueTrue',
-        })
-      )
-    ).toMatchSnapshot();
-  });
   it('updates showTransferDialpad state', () => {
     expect(
       reducer(Map(), action.setShowTransferDialPad(true))
@@ -52,6 +32,36 @@ describe('TransferMenu reducer tests', () => {
   it('sets focusedTransferItemIndex', () => {
     expect(
       reducer(Map(), action.setFocusedTransferItemIndex(0))
+    ).toMatchSnapshot();
+  });
+  it('sets userAssignedTransferLists', () => {
+    expect(
+      reducer(
+        Map(),
+        action.setUserAssignedTransferLists([
+          { mockTransferListKey: 'mockTransferListValue' },
+        ])
+      )
+    ).toMatchSnapshot();
+  });
+  it('sets userAssignedTransferListsLoadingState', () => {
+    expect(
+      reducer(Map(), action.setUserAssignedTransferListsLoadingState(true))
+    ).toMatchSnapshot();
+  });
+  it('sets userAssignedTransferListsVisibleState', () => {
+    expect(
+      reducer(
+        Map(),
+        action.setUserAssignedTransferListsVisibleState({
+          'assignedTransferList-abc': true,
+        })
+      )
+    ).toMatchSnapshot();
+  });
+  it('sets visibleStateOfAllUserAssignedTransferLists', () => {
+    expect(
+      reducer(Map(), action.setVisibleStateOfAllUserAssignedTransferLists(true))
     ).toMatchSnapshot();
   });
 });

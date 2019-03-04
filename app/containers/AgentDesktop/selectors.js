@@ -313,6 +313,75 @@ const areInteractionsInWrapup = createSelector(
 export const getUriObject = (state) =>
   selectNewInteractionPanel(state).uriObject;
 
+const selectTransferListsFromFlow = createSelector(
+  getSelectedInteraction,
+  (interaction) => {
+    if (interaction.transferLists) {
+      const { transferListsFromFlow } = interaction.transferLists;
+      return transferListsFromFlow;
+    } else {
+      return null;
+    }
+  }
+);
+
+const selectInteractionTransferLists = createSelector(
+  getSelectedInteraction,
+  (interaction) => {
+    if (
+      interaction.transferLists &&
+      interaction.transferLists.interactionTransferLists &&
+      interaction.transferLists.interactionTransferLists.length > 0
+    ) {
+      return interaction.transferLists.interactionTransferLists;
+    } else {
+      return null;
+    }
+  }
+);
+
+const selectInteractionTransferListsLoadingState = createSelector(
+  getSelectedInteraction,
+  (interaction) => {
+    if (interaction.transferLists) {
+      const {
+        interactionTransferListsLoadingState,
+      } = interaction.transferLists;
+      return interactionTransferListsLoadingState;
+    } else {
+      return null;
+    }
+  }
+);
+
+const selectInteractionTransferListsVisibleState = createSelector(
+  getSelectedInteraction,
+  (interaction) => {
+    if (interaction.transferLists) {
+      const {
+        interactionTransferListsVisibleState,
+      } = interaction.transferLists;
+      return interactionTransferListsVisibleState;
+    } else {
+      return null;
+    }
+  }
+);
+
+const selectVisibleStateofAllInteractionTrasferLists = createSelector(
+  getSelectedInteraction,
+  (interaction) => {
+    if (interaction.transferLists) {
+      const {
+        visibleStateofAllInteractionTrasferLists,
+      } = interaction.transferLists;
+      return visibleStateofAllInteractionTrasferLists;
+    } else {
+      return null;
+    }
+  }
+);
+
 export {
   selectAgentId,
   selectIsAgentReady,
@@ -343,4 +412,9 @@ export {
   selectNextInteraction,
   selectHasUnrespondedInteractions,
   areInteractionsInWrapup,
+  selectTransferListsFromFlow,
+  selectInteractionTransferLists,
+  selectInteractionTransferListsLoadingState,
+  selectInteractionTransferListsVisibleState,
+  selectVisibleStateofAllInteractionTrasferLists,
 };

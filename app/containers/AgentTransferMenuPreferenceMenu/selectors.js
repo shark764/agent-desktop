@@ -3,7 +3,7 @@
  */
 import { createSelector } from 'reselect';
 import { selectQueues } from 'containers/AgentDesktop/selectors';
-import { selectTransferLists } from 'containers/TransferMenu/selectors';
+import { selectUserAssignedTransferLists } from 'containers/TransferMenu/selectors';
 
 export const selectTransferMenuPreferences = (state) =>
   state.get('transferMenuPreferences');
@@ -30,7 +30,7 @@ export const selectQueuesPreferences = createSelector(
 );
 
 export const selectTransferListsPreferences = createSelector(
-  selectTransferLists,
+  selectUserAssignedTransferLists,
   selectSelectedTransferLists,
   (userTransferLists, selectedTransferLists) =>
     userTransferLists.length === selectedTransferLists.length

@@ -1,7 +1,7 @@
 import { takeEvery, put, all, select } from 'redux-saga/effects';
 import { selectTenant, selectAgent } from 'containers/Login/selectors';
 import { selectQueues } from 'containers/AgentDesktop/selectors';
-import { selectTransferLists } from 'containers/TransferMenu/selectors';
+import { selectUserAssignedTransferLists } from 'containers/TransferMenu/selectors';
 
 import * as ACTIONS from './constants';
 
@@ -75,7 +75,7 @@ export function* goInitializeTransferMenuPreferences() {
     );
   } else if (selectedTransferLists === null) {
     //  If key doesn't exist, all will be selected by default
-    const defaultTransferLists = yield select(selectTransferLists);
+    const defaultTransferLists = yield select(selectUserAssignedTransferLists);
     if (
       defaultTransferLists !== 'loading' &&
       defaultTransferLists !== 'noTransferListsAvailable'

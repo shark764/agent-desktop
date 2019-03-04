@@ -1,0 +1,313 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransferLists Component render renders TransferLists component when assigned transferlists and flow transferlists are in loading state 1`] = `
+<React.Fragment>
+  <div
+    style={
+      Object {
+        "marginTop": "12px",
+      }
+    }
+  >
+    <div>
+      <FormattedMessage
+        defaultMessage="Checking Interaction Transfer Lists Availability..."
+        id="app.containers.TransferMenu.checkingInteractionTransferLists"
+        values={Object {}}
+      />
+    </div>
+    <IconSVG
+      id="interactionTransferListsLoadingIcon"
+      name="loading"
+      style={
+        Object {
+          "height": "40px",
+          "width": "40px",
+        }
+      }
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "marginTop": "12px",
+      }
+    }
+  >
+    <div>
+      <FormattedMessage
+        defaultMessage="Checking Assigned Transfer Lists Availability..."
+        id="app.containers.TransferMenu.checkingUserAssignedTransferLists"
+        values={Object {}}
+      />
+    </div>
+    <IconSVG
+      id="assignedTransferListsLoadingIcon"
+      name="loading"
+      style={
+        Object {
+          "height": "40px",
+          "width": "40px",
+        }
+      }
+    />
+  </div>
+</React.Fragment>
+`;
+
+exports[`TransferLists Component render renders TransferLists component when there are no assigned transferlists and flow transfer lists 1`] = `<React.Fragment />`;
+
+exports[`TransferLists Component render renders TransferLists component with user assinged transferlists and interaction transferlists 1`] = `
+<React.Fragment>
+  <div
+    style={
+      Object {
+        "marginTop": "12px",
+      }
+    }
+  >
+    <div
+      id="interTransferListsCollapExpandBtn"
+      key="interactionTransferLists"
+      onClick={[Function]}
+      style={
+        Object {
+          ":focus": Object {
+            "backgroundColor": "#23cdf4",
+            "color": "#FFFFFF",
+            "outline": "none",
+          },
+          ":hover": Object {
+            "backgroundColor": "#23cdf4",
+            "color": "#FFFFFF",
+          },
+          "borderRadius": "3px",
+          "cursor": "pointer",
+          "display": "flex",
+          "fontSize": "15px",
+          "fontWeight": "bold",
+          "marginBottom": "0px !important",
+          "marginTop": "12px",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="Transfer lists for this Interaction"
+        id="app.containers.TransferMenu.interactionTransferLists"
+        values={Object {}}
+      />
+      <Icon
+        name="caret"
+        style={
+          Array [
+            Object {
+              "flexShrink": "0",
+              "fontWeight": "600",
+              "height": "8px",
+              "marginLeft": "auto",
+              "marginRight": "4px",
+              "marginTop": "4px",
+              "transform": "rotate(180deg)",
+              "width": "13.33px",
+            },
+          ]
+        }
+      />
+    </div>
+    <div
+      key="interactionTransferList-mockTransferListId"
+      style={
+        Object {
+          "marginTop": "12px",
+        }
+      }
+    >
+      <div
+        id="interactionTransferList-0"
+        key="interactionTransferList-mockTransferListId-title"
+        onClick={[Function]}
+        style={
+          Object {
+            ":focus": Object {
+              "backgroundColor": "#23cdf4",
+              "color": "#FFFFFF",
+              "outline": "none",
+            },
+            ":hover": Object {
+              "backgroundColor": "#23cdf4",
+              "color": "#FFFFFF",
+            },
+            "borderRadius": "3px",
+            "color": "rgb(151, 151, 151)",
+            "cursor": "pointer",
+            "display": "flex",
+            "fontSize": "15px",
+            "fontWeight": "bold",
+            "marginBottom": "0px !important",
+            "marginTop": "12px",
+          }
+        }
+        title="mockTransferListName"
+      >
+        <span
+          style={
+            Object {
+              "flexBasis": "100%",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+            }
+          }
+        >
+          mockTransferListName
+        </span>
+        <Icon
+          name="caret"
+          style={
+            Object {
+              "flexShrink": "0",
+              "height": "8px",
+              "marginLeft": "auto",
+              "marginRight": "4px",
+              "marginTop": "4px",
+              "opacity": "0.5",
+              "transition": "transform 0.5s",
+              "width": "13.33px",
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "borderBottom": "1px solid #e6e6e6",
+          "display": "inline-block",
+          "height": "2px",
+          "width": "100%",
+        }
+      }
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "marginTop": "12px",
+      }
+    }
+  >
+    <div
+      id="assignedTransferListsCollapExpandBtn"
+      key="assignedTransferLists"
+      onClick={[Function]}
+      style={
+        Object {
+          ":focus": Object {
+            "backgroundColor": "#23cdf4",
+            "color": "#FFFFFF",
+            "outline": "none",
+          },
+          ":hover": Object {
+            "backgroundColor": "#23cdf4",
+            "color": "#FFFFFF",
+          },
+          "borderRadius": "3px",
+          "cursor": "pointer",
+          "display": "flex",
+          "fontSize": "15px",
+          "fontWeight": "bold",
+          "marginBottom": "0px !important",
+          "marginTop": "12px",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="Transfer lists assigned to you"
+        id="app.containers.TransferMenu.assignedTransferLists"
+        values={Object {}}
+      />
+      <Icon
+        name="caret"
+        style={
+          Array [
+            Object {
+              "flexShrink": "0",
+              "fontWeight": "600",
+              "height": "8px",
+              "marginLeft": "auto",
+              "marginRight": "4px",
+              "marginTop": "4px",
+              "transform": "rotate(180deg)",
+              "width": "13.33px",
+            },
+          ]
+        }
+      />
+    </div>
+    <div
+      key="mockTransferListId"
+      style={
+        Object {
+          "marginTop": "12px",
+        }
+      }
+    >
+      <div
+        id="transferList-0"
+        key="mockTransferListId-title"
+        onClick={[Function]}
+        style={
+          Object {
+            ":focus": Object {
+              "backgroundColor": "#23cdf4",
+              "color": "#FFFFFF",
+              "outline": "none",
+            },
+            ":hover": Object {
+              "backgroundColor": "#23cdf4",
+              "color": "#FFFFFF",
+            },
+            "borderRadius": "3px",
+            "color": "rgb(151, 151, 151)",
+            "cursor": "pointer",
+            "display": "flex",
+            "fontSize": "15px",
+            "fontWeight": "bold",
+            "marginBottom": "0px !important",
+            "marginTop": "12px",
+          }
+        }
+        title="mockTransferListName"
+      >
+        <span
+          style={
+            Object {
+              "flexBasis": "100%",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+            }
+          }
+        >
+          mockTransferListName
+        </span>
+        <Icon
+          name="caret"
+          style={
+            Object {
+              "flexShrink": "0",
+              "height": "8px",
+              "marginLeft": "auto",
+              "marginRight": "4px",
+              "marginTop": "4px",
+              "opacity": "0.5",
+              "transition": "transform 0.5s",
+              "width": "13.33px",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</React.Fragment>
+`;

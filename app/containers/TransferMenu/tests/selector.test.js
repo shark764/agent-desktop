@@ -2,14 +2,16 @@ import { fromJS } from 'immutable';
 
 import {
   selectAgents,
-  selectTransferLists,
   selectQueuesListVisibleState,
   selectAgentsListVisibleState,
-  selectTransferListsVisibleState,
   selectShowTransferDialpad,
   selectTransferSearchInput,
   selectTransferTabIndex,
   selectFocusedTransferItemIndex,
+  selectUserAssignedTransferLists,
+  selectUserAssignedTransferListsLoadingState,
+  selectUserAssignedTransferListsVisibleState,
+  selectVisibleStateOfAllUserAssignedTrasferLists,
 } from '../selectors';
 
 describe('selectAgents', () => {
@@ -185,39 +187,6 @@ describe('selectAgents', () => {
   });
 });
 
-describe('selectTransferLists', () => {
-  it('when agents have active transferLists assigned to them', () => {
-    const selectTransferListsMap = fromJS({
-      transferMenu: {
-        transferLists: [
-          {
-            mockTransferList: 'mockTransferListValue',
-          },
-        ],
-      },
-    });
-    expect(selectTransferLists(selectTransferListsMap)).toMatchSnapshot();
-  });
-  it('when no transferLists are assigned to agents', () => {
-    const selectTransferListsMap = fromJS({
-      transferMenu: {
-        transferLists: 'noTransferListsAvailable',
-      },
-    });
-    expect(selectTransferLists(selectTransferListsMap)).toBe(
-      'noTransferListsAvailable'
-    );
-  });
-  it('when transferLists are in loading state', () => {
-    const selectTransferListsMap = fromJS({
-      transferMenu: {
-        transferLists: undefined,
-      },
-    });
-    expect(selectTransferLists(selectTransferListsMap)).toBe('loading');
-  });
-});
-
 describe('selectQueuesListVisibleState', () => {
   it('when queuesListVisibleState is defined', () => {
     const state = fromJS({
@@ -240,26 +209,6 @@ describe('selectAgentsListVisibleState', () => {
   });
 });
 
-describe('selectTransferListsVisibleState', () => {
-  it('when transferListsVisibleState is defined', () => {
-    const state = fromJS({
-      transferMenu: {
-        transferListsVisibleState: {
-          'transferListHiddenState-mockListId': 'false',
-        },
-      },
-    });
-    expect(selectTransferListsVisibleState(state)).toMatchSnapshot();
-  });
-  it('when transferListsVisibleState is not defined', () => {
-    const state = fromJS({
-      transferMenu: {
-        transferListsVisibleState: undefined,
-      },
-    });
-    expect(selectTransferListsVisibleState(state)).toEqual({});
-  });
-});
 describe('selectShowTransferDialpad', () => {
   it('when showTransferDialpad is defined', () => {
     const state = fromJS({
@@ -301,5 +250,44 @@ describe('selectFocusedTransferItemIndex', () => {
       },
     });
     expect(selectFocusedTransferItemIndex(state)).toBe(3);
+  });
+});
+
+describe('selectUserAssignedTransferLists', () => {
+  const mockedState = fromJS({
+    transferMenu: {
+      transferLists: {
+        userAssignedTransferLists: [
+          {
+            id: 'mockInteractionTransferListId',
+            name: 'mocktransferListName',
+            endpoints: 'mockTransferListEndPoint',
+          },
+        ],
+        userAssignedTransferListsLoadingState: true,
+        userAssignedTransferListsVisibleState: {
+          mockTransferListsVisibleState: true,
+        },
+        visibleStateOfAllUserAssignedTransferLists: true,
+      },
+    },
+  });
+  it('should return user assigned transfer lists', () => {
+    expect(selectUserAssignedTransferLists(mockedState)).toMatchSnapshot();
+  });
+  it('should return loading state of user assigned transfer lists', () => {
+    expect(
+      selectUserAssignedTransferListsLoadingState(fromJS(mockedState))
+    ).toBe(true);
+  });
+  it('should return user assigned transfer lists visible state', () => {
+    expect(
+      selectUserAssignedTransferListsVisibleState(mockedState)
+    ).toMatchSnapshot();
+  });
+  it('should return visible state of all user assigned transfer lists', () => {
+    expect(selectVisibleStateOfAllUserAssignedTrasferLists(mockedState)).toBe(
+      true
+    );
   });
 });

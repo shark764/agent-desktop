@@ -1,11 +1,12 @@
 import {
-  callTransferListsAndUpdateState,
   setAgentsQueuesInitialVisibleState,
   changeQueuesListVisibleState,
   changeAgentsListVisibleState,
-  changeTransferListVisibleState,
   tearDownTransferMenuStates,
   transferInteraction,
+  callUserAssignedTransferListsAndUpdateState,
+  changeUserAssignedTransferListVisibleState,
+  changeVisibleStateofAllUserAssignedTransferLists,
 } from '../sagas';
 
 describe('setAgentsQueuesInitialVisibleState', () => {
@@ -63,125 +64,6 @@ describe('setAgentsQueuesInitialVisibleState', () => {
     it('is done', () => {
       expect(generator.next().done).toBe(true);
     });
-  });
-});
-
-describe('callTransferListsAndUpdateState', () => {
-  afterAll(() => {
-    delete global.localStorage;
-  });
-  const transferLists = {
-    result: [
-      {
-        active: true,
-        id: 'mockTransferListId',
-        name: 'mockTransferListName',
-        endpoints: [
-          {
-            hierarchy: 'mockHierarchyTitle',
-            name: 'mockHierarchyName',
-            endpoint: 'mockEndPointId',
-          },
-        ],
-      },
-    ],
-  };
-  describe('when transferListsHiddenState not saved in localStorage', () => {
-    const generator = callTransferListsAndUpdateState();
-    const mockGetTransferLists = 'getTransferListsFunction';
-    const mockGetItem = jest.fn(() => null);
-    beforeEach(() => {
-      global.CxEngage = {
-        entities: {
-          getEntity: mockGetTransferLists,
-        },
-      };
-      global.localStorage = {
-        getItem: mockGetItem,
-      };
-    });
-    it('selects tenant and agent id', () => {
-      expect(generator.next()).toMatchSnapshot();
-    });
-    it('calls the promise util with the SDK getTransferLists function to get the active transferLists', () => {
-      expect(
-        generator.next([{ id: 'tenantId' }, { userId: 'agentId' }])
-      ).toMatchSnapshot();
-    });
-    it('sets transferLists state by dispatching getAndSetTransferLists action', () => {
-      expect(generator.next(transferLists)).toMatchSnapshot();
-    });
-    it('sets transferListsVisibleState to true by dispatching setTransferListsVisibleState action', () => {
-      expect(generator.next(transferLists)).toMatchSnapshot();
-    });
-    it('gets localStorage properties that are used to set transferListHiddenState', () => {
-      expect(mockGetItem.mock.calls).toMatchSnapshot();
-    });
-    it('is done', () => {
-      expect(generator.next().done).toBe(true);
-    });
-  });
-  describe('when transferListsHiddenState saved in localStorage', () => {
-    const generator = callTransferListsAndUpdateState();
-    const mockGetTransferLists = 'getTransferListsFunction';
-    const mockGetItem = jest.fn(() => 'false');
-    beforeEach(() => {
-      global.CxEngage = {
-        entities: {
-          getEntity: mockGetTransferLists,
-        },
-      };
-      global.localStorage = {
-        getItem: mockGetItem,
-      };
-    });
-    it('selects tenant and agent id', () => {
-      expect(generator.next()).toMatchSnapshot();
-    });
-    it('calls the promise util with the SDK getTransferLists function to get the active transferLists', () => {
-      expect(
-        generator.next([{ id: 'tenantId' }, { userId: 'agentId' }])
-      ).toMatchSnapshot();
-    });
-    it('sets transferLists state by dispatching getAndSetTransferLists action', () => {
-      expect(generator.next(transferLists)).toMatchSnapshot();
-    });
-    it('sets transferListsVisibleState to false by dispatching setTransferListsVisibleState action', () => {
-      expect(generator.next(transferLists)).toMatchSnapshot();
-    });
-    it('gets localStorage properties that are used to set transferListHiddenState', () => {
-      expect(mockGetItem.mock.calls).toMatchSnapshot();
-    });
-    it('is done', () => {
-      expect(generator.next().done).toBe(true);
-    });
-  });
-});
-
-describe('when no transferLists are available', () => {
-  const noTransferLists = { result: [] };
-  const generator = callTransferListsAndUpdateState();
-  const mockGetTransferLists = 'getTransferListsFunction';
-  beforeEach(() => {
-    global.CxEngage = {
-      entities: {
-        getEntity: mockGetTransferLists,
-      },
-    };
-  });
-  it('selects tenant and agent id', () => {
-    expect(generator.next()).toMatchSnapshot();
-  });
-  it('calls the promise util with the SDK getTransferLists function to get the active transferLists', () => {
-    expect(
-      generator.next([{ id: 'tenantId' }, { userId: 'agentId' }])
-    ).toMatchSnapshot();
-  });
-  it('sets transferLists state by dispatching getAndSetTransferLists action', () => {
-    expect(generator.next(noTransferLists)).toMatchSnapshot();
-  });
-  it('is done', () => {
-    expect(generator.next().done).toBe(true);
   });
 });
 
@@ -243,51 +125,24 @@ describe('changeAgentsListVisibleState', () => {
   });
 });
 
-describe('changeTransferListVisibleState', () => {
-  afterAll(() => {
-    delete global.localStorage;
-  });
-  const action = {
-    transferListId: 'mockTransferListId',
-  };
-  describe('collpase/expand transferLists Transfer options', () => {
-    const generator = changeTransferListVisibleState(action);
-    const mockSetItem = jest.fn();
-    beforeEach(() => {
-      global.localStorage = {
-        setItem: mockSetItem,
-      };
-    });
-    it('selects tenant-id, agent-id and previous transferListVisibleState', () => {
-      expect(generator.next()).toMatchSnapshot();
-    });
-    it('updates transferListVisibleState to false by dispatching setTransferListsVisibleState', () => {
-      expect(
-        generator.next([
-          { id: 'tenantId' },
-          { userId: 'agentId' },
-          { mockTransferListId: true },
-        ])
-      ).toMatchSnapshot();
-    });
-    it('is done', () => {
-      expect(generator.next().done).toBe(true);
-    });
-    it('updates localStorage with transferListVisibleState set to false', () => {
-      expect(mockSetItem.mock.calls).toMatchSnapshot();
-    });
-  });
-});
-
 describe('tearDownTransferMenuStates', () => {
   const generator = tearDownTransferMenuStates();
-  it('sets transferSearchInput to its default state', () => {
+  it('gets currently selected interactionId', () => {
     expect(generator.next()).toMatchSnapshot();
+  });
+  it('sets transferSearchInput to its default state', () => {
+    expect(generator.next('mockInteractionId')).toMatchSnapshot();
   });
   it('sets transferTabIndex to its default state', () => {
     expect(generator.next()).toMatchSnapshot();
   });
   it('sets showTransferDialpad to its default state', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('sets interactionTransferListsLoadingState to its default state', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('sets userAssignedTransferListsLoadingState to its default state', () => {
     expect(generator.next()).toMatchSnapshot();
   });
   it('is done', () => {
@@ -603,5 +458,253 @@ describe('transferInteraction', () => {
     it("it's done", () => {
       expect(generator.next().done).toBe(true);
     });
+  });
+});
+
+describe('callUserAssignedTransferListsAndUpdateState', () => {
+  afterAll(() => {
+    delete global.localStorage;
+  });
+  const transferLists = {
+    result: [
+      {
+        active: true,
+        id: 'mockTransferListId1',
+        name: 'mockTransferListName',
+        endpoints: [
+          { contactType: 'queue' },
+          { contactType: 'PSTN' },
+          { conctactType: 'SIP' },
+          { contactType: 'queue' },
+        ],
+      },
+      {
+        active: true,
+        id: 'mockTransferListId2',
+        name: 'mockTransferListName2',
+        endpoints: [
+          { contactType: 'queue' },
+          { contactType: 'PSTN' },
+          { conctactType: 'SIP' },
+          { contactType: 'queue' },
+        ],
+      },
+    ],
+  };
+  describe('sets user assigned transfet lists and there visible state for the voice interactions', () => {
+    const generator = callUserAssignedTransferListsAndUpdateState();
+    const mockGetTenantTransferLists = 'getTransferListsFunction';
+    const mockGetItem = jest.fn(() => null);
+    beforeEach(() => {
+      global.CxEngage = {
+        entities: {
+          getTransferLists: mockGetTenantTransferLists,
+        },
+      };
+      global.localStorage = {
+        getItem: mockGetItem,
+      };
+    });
+    it('selects tenant and agent id', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls the promise util with the SDK getTransferLists function to get the active transferLists', () => {
+      expect(
+        generator.next([
+          { id: 'tenantId' },
+          { userId: 'agentId' },
+          { channelType: 'voice' },
+        ])
+      ).toMatchSnapshot();
+    });
+    it('updates userAssignedTransferlists state by dispatching setUserAssignedTransferLists action', () => {
+      expect(generator.next(transferLists)).toMatchSnapshot();
+    });
+    it('sets userAssignedTransferListsVisibleState to true by dispatching setUserAssignedTransferListsVisibleState action', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('sets visibleStateOfAllAssignedTransferLists to true by dispatching setVisibleStateOfAllUserAssignedTransferLists action', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('gets localStorage properties that are used to set assigned transfer lists hidden state', () => {
+      expect(mockGetItem.mock.calls).toMatchSnapshot();
+    });
+    it('is done', () => {
+      expect(generator.next().done).toBe(true);
+    });
+  });
+  describe('sets user assigned transfet lists and there visible state for non voice interactions', () => {
+    const generator = callUserAssignedTransferListsAndUpdateState();
+    const mockGetTenantTransferLists = 'getTransferListsFunction';
+    const mockGetItem = jest.fn(() => 'false');
+    beforeEach(() => {
+      global.CxEngage = {
+        entities: {
+          getTransferLists: mockGetTenantTransferLists,
+        },
+      };
+      global.localStorage = {
+        getItem: mockGetItem,
+      };
+    });
+    it('selects tenant and agent id', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls the promise util with the SDK getTransferLists function to get the active transferLists', () => {
+      expect(
+        generator.next([
+          { id: 'tenantId' },
+          { userId: 'agentId' },
+          { channelType: 'sms' },
+        ])
+      ).toMatchSnapshot();
+    });
+    it('updates userAssignedTransferlists state by dispatching setUserAssignedTransferLists action', () => {
+      expect(generator.next(transferLists)).toMatchSnapshot();
+    });
+    it('sets userAssignedTransferListsVisibleState to false by dispatching setUserAssignedTransferListsVisibleState action', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('sets visibleStateOfAllAssignedTransferLists to false by dispatching setVisibleStateOfAllUserAssignedTransferLists action', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('gets localStorage properties that are used to set assigned transfer lists hidden state', () => {
+      expect(mockGetItem.mock.calls).toMatchSnapshot();
+    });
+    it('is done', () => {
+      expect(generator.next().done).toBe(true);
+    });
+  });
+  describe('when there are no active transfer lists in the tenant', () => {
+    const generator = callUserAssignedTransferListsAndUpdateState();
+    const mockGetTenantTransferLists = 'getTransferListsFunction';
+    const mockGetItem = jest.fn(() => true);
+    beforeEach(() => {
+      global.CxEngage = {
+        entities: {
+          getTransferLists: mockGetTenantTransferLists,
+        },
+      };
+      global.localStorage = {
+        getItem: mockGetItem,
+      };
+    });
+    const inactiveTransferLists = {
+      result: [{ active: false }, { active: false }],
+    };
+    it('selects tenant and agent id', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls the promise util with the SDK getTransferLists function to get the active transferLists', () => {
+      expect(
+        generator.next([
+          { id: 'tenantId' },
+          { userId: 'agentId' },
+          { channelType: 'voice' },
+        ])
+      ).toMatchSnapshot();
+    });
+    it('updates userAssignedTransferlists state to empty array by dispatching setUserAssignedTransferLists action', () => {
+      expect(generator.next(inactiveTransferLists)).toMatchSnapshot();
+    });
+    it('sets userAssignedTransferListsVisibleState to empty object by dispatching setUserAssignedTransferListsVisibleState action', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('sets visibleStateOfAllAssignedTransferLists to null by dispatching setVisibleStateOfAllUserAssignedTransferLists action', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('is done', () => {
+      expect(generator.next().done).toBe(true);
+    });
+  });
+  describe('when the current logged in agent doesnot have any transfer lists', () => {
+    const generator = callUserAssignedTransferListsAndUpdateState();
+    const mockGetTenantTransferLists = 'getTransferListsFunction';
+    const mockGetItem = jest.fn(() => true);
+    beforeEach(() => {
+      global.CxEngage = {
+        entities: {
+          getTransferLists: mockGetTenantTransferLists,
+        },
+      };
+      global.localStorage = {
+        getItem: mockGetItem,
+      };
+    });
+    it('selects tenant and agent id', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls the promise util with the SDK getTransferLists function to get the active transferLists', () => {
+      expect(
+        generator.next([
+          { id: 'tenantId' },
+          { userId: 'agentId' },
+          { channelType: 'voice' },
+        ])
+      ).toMatchSnapshot();
+    });
+    it('updates userAssignedTransferlists state to null by dispatching setUserAssignedTransferLists action', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('is done', () => {
+      expect(generator.next().done).toBe(true);
+    });
+  });
+});
+
+describe('changeUserAssignedTransferListVisibleState', () => {
+  afterAll(() => {
+    delete global.localStorage;
+  });
+  const action = {
+    transferListId: 'mockTransferListId',
+  };
+  const generator = changeUserAssignedTransferListVisibleState(action);
+  const mockSetItem = jest.fn();
+  beforeEach(() => {
+    global.localStorage = {
+      setItem: mockSetItem,
+    };
+  });
+  it('selects tenant-id, agent-id and previous transferListVisibleState', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('updates userAssignedTransferListsVisibleState to false by dispatching setUserAssignedTransferListsVisibleState', () => {
+    expect(
+      generator.next([{ id: 'tenantId' }, { userId: 'agentId' }])
+    ).toMatchSnapshot();
+  });
+  it('is done', () => {
+    expect(generator.next().done).toBe(true);
+  });
+  it('updates localStorage with userAssignedTransferListsVisibleState set to false', () => {
+    expect(mockSetItem.mock.calls).toMatchSnapshot();
+  });
+});
+
+describe('changeVisibleStateofAllUserAssignedTransferLists', () => {
+  const action = {
+    transferListId: 'mockTransferListId',
+  };
+  const generator = changeVisibleStateofAllUserAssignedTransferLists(action);
+  const mockSetItem = jest.fn();
+  beforeEach(() => {
+    global.localStorage = {
+      setItem: mockSetItem,
+    };
+  });
+  it('selects tenant-id, agent-id and previous transferListVisibleState', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('updates visibleStateOfAllAssignedTransferLists to false by dispatching setVisibleStateOfAllUserAssignedTransferLists', () => {
+    expect(
+      generator.next([{ id: 'tenantId' }, { userId: 'agentId' }])
+    ).toMatchSnapshot();
+  });
+  it('is done', () => {
+    expect(generator.next().done).toBe(true);
+  });
+  it('updates localStorage with visibleStateOfAllFlowTransferLists set to false', () => {
+    expect(mockSetItem.mock.calls).toMatchSnapshot();
   });
 });

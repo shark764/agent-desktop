@@ -640,7 +640,7 @@ Immutable.Map {
   "interactions": Immutable.List [
     Immutable.Map {
       "interactionId": 1,
-      "customerConnected": true,
+      "customerConnected": false,
     },
   ],
 }
@@ -1307,6 +1307,55 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer SET_INTERACTION_TRANSFER_LISTS sets interaction transfer lists 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "mockInteractionId",
+      "transferLists": Immutable.Map {
+        "interactionTransferListsLoadingState": false,
+        "interactionTransferLists": Immutable.List [
+          Immutable.Map {
+            "id": "mockTransferListId",
+            "name": "mockTransferListName",
+            "endpoints": "mockEndPoint",
+          },
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_TRANSFER_LISTS_LOADING_STATE sets loading state of interaction transfer lists 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "mockInteractionId",
+      "transferLists": Immutable.Map {
+        "interactionTransferListsLoadingState": true,
+      },
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_TRANSFER_LISTS_VISIBLE_STATE sets visible state of interaction transfer lists 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "mockInteractionId",
+      "transferLists": Immutable.Map {
+        "interactionTransferListsVisibleState": Immutable.Map {
+          "mockTransferListId1-InteractionId": true,
+          "mockTransferListId2-InteractionId": false,
+        },
+      },
+    },
+  ],
+}
+`;
+
 exports[`agentDesktopReducer SET_IS_COLD_TRANSFERRING send isColdTransferring as false sets isColsTransferring flag as false in the interaction 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
@@ -1409,6 +1458,62 @@ Immutable.Map {
     Immutable.Map {
       "id": "test-queue-uuid",
       "queueTime": 32,
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_TRANSFER_LISTS_FROM_FLOW sets transfer lists from flow 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "mockInteractionId",
+      "transferLists": Immutable.Map {
+        "transferListsFromFlow": Immutable.List [
+          Immutable.Map {
+            "type": "id",
+            "value": "mockTransferList3",
+          },
+          Immutable.Map {
+            "type": "name",
+            "value": "mockTransferList4",
+          },
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_TRANSFER_LISTS_FROM_FLOW updates transfer lists from flow 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "mockInteractionId",
+      "transferlists": Immutable.Map {
+        "transferListsFromFlow": Immutable.List [
+          Immutable.Map {
+            "type": "id",
+            "value": "mockTransferList1",
+          },
+          Immutable.Map {
+            "type": "name",
+            "value": "mockTransferList2",
+          },
+        ],
+      },
+      "transferLists": Immutable.Map {
+        "transferListsFromFlow": Immutable.List [
+          Immutable.Map {
+            "type": "id",
+            "value": "mockTransferList3",
+          },
+          Immutable.Map {
+            "type": "name",
+            "value": "mockTransferList4",
+          },
+        ],
+      },
     },
   ],
 }
@@ -1627,6 +1732,19 @@ Immutable.Map {
           "type": "category",
         },
       ],
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS sets visible state of all interaction transfer lists 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "mockInteractionId",
+      "transferLists": Immutable.Map {
+        "visibleStateofAllInteractionTrasferLists": true,
+      },
     },
   ],
 }

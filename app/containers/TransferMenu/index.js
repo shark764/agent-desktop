@@ -21,37 +21,54 @@ import Tabs from 'components/Tabs';
 import TextInput from 'components/TextInput';
 import TimeStat from 'components/TimeStat';
 
-import { clearQueuesTime } from 'containers/AgentDesktop/actions';
-import { selectAgentId, selectQueues } from 'containers/AgentDesktop/selectors';
+import {
+  clearQueuesTime,
+  updateInteractionTransferLists,
+  updateInteractionTransferListsVisibleState,
+  updateVisibleStateOfAllInteractionTransferlists,
+} from 'containers/AgentDesktop/actions';
+import {
+  selectAgentId,
+  selectQueues,
+  getSelectedInteractionId,
+  selectInteractionTransferLists,
+  selectInteractionTransferListsLoadingState,
+  selectInteractionTransferListsVisibleState,
+  selectVisibleStateofAllInteractionTrasferLists,
+} from 'containers/AgentDesktop/selectors';
 import { selectBatchRequests } from 'containers/Toolbar/selectors';
 import TransferDialPadButton from 'containers/TransferDialPadButton';
 import TransferDialPad from 'containers/TransferDialPad';
+import TransferLists from './TransferLists';
 import messages from './messages';
 import {
   setResourceCapactiy,
   setUsers,
-  setTransferLists,
   setTransferSearchInput,
   setFocusedTransferItemIndex,
   setTransferTabIndex,
   initializeQueuesAgentsVisibleState,
   updateQueuesListVisibleState,
   updateAgentsListVisibleState,
-  updateTransferListVisibleState,
   tearDownTransferMenuStates,
   transferInteraction,
+  updateUserAssignedTransferLists,
+  updateUserAssignedTransferListsVisibleState,
+  updateVisibleStateOfAllUserAssignedTransferlists,
 } from './actions';
 import {
   selectWarmTransfers,
   selectAgents,
-  selectTransferLists,
   selectQueuesListVisibleState,
   selectAgentsListVisibleState,
-  selectTransferListsVisibleState,
   selectTransferSearchInput,
   selectFocusedTransferItemIndex,
   selectTransferTabIndex,
   selectShowTransferDialpad,
+  selectUserAssignedTransferLists,
+  selectUserAssignedTransferListsLoadingState,
+  selectUserAssignedTransferListsVisibleState,
+  selectVisibleStateOfAllUserAssignedTrasferLists,
 } from './selectors';
 
 const REFRESH_AGENTS_RATE = 5000;
@@ -122,16 +139,14 @@ export class TransferMenu extends React.Component {
 
   componentDidMount() {
     this.mounted = true;
-
     document.addEventListener('keydown', this.hotKeys);
+
+    this.props.updateUserAssignedTransferLists();
+    this.props.updateInteractionTransferLists();
+    this.props.initializeQueuesAgentsVisibleState();
 
     if (!this.props.batchRequestsAreSuccessful) {
       CxEngage.entities.getUsers({ excludeOffline: true });
-    }
-
-    if (!this.props.nonVoice) {
-      this.props.setTransferLists();
-      this.props.initializeQueuesAgentsVisibleState();
     }
 
     CxEngage.entities.getQueues(this.refreshQueues);
@@ -277,25 +292,51 @@ export class TransferMenu extends React.Component {
       textAlign: 'left',
       flexGrow: '1',
     },
-    transferList: {
+    transferListDivContainer: {
       marginTop: '12px',
     },
-    transferListTitle: {
+    expandedTransferHeading: {
       fontSize: '15px',
       fontWeight: 'bold',
-      marginBottom: '4px',
       display: 'flex',
       borderRadius: '3px',
-    },
-    voiceTransferListTitle: {
+      marginTop: '12px',
+      marginBottom: '0px !important',
       cursor: 'pointer',
       ':hover': {
+        color: '#FFFFFF',
         backgroundColor: '#23cdf4',
       },
       ':focus': {
         outline: 'none',
+        color: '#FFFFFF',
         backgroundColor: '#23cdf4',
       },
+    },
+    collapsedTransferHeading: {
+      fontSize: '15px',
+      fontWeight: 'bold',
+      display: 'flex',
+      borderRadius: '3px',
+      marginTop: '12px',
+      marginBottom: '0px !important',
+      color: 'rgb(151, 151, 151)',
+      cursor: 'pointer',
+      ':hover': {
+        color: '#FFFFFF',
+        backgroundColor: '#23cdf4',
+      },
+      ':focus': {
+        outline: 'none',
+        color: '#FFFFFF',
+        backgroundColor: '#23cdf4',
+      },
+    },
+    lineSpacer: {
+      display: 'inline-block',
+      width: '100%',
+      height: '2px',
+      borderBottom: '1px solid #e6e6e6',
     },
     refresh: {
       display: 'inline-block',
@@ -313,10 +354,6 @@ export class TransferMenu extends React.Component {
       color: 'gray',
       cursor: 'loading',
     },
-    hierarchy: {
-      fontWeight: 600,
-      padding: '6px 4px',
-    },
     transferListItem: {
       display: 'flex',
       padding: '6px 8px',
@@ -330,13 +367,6 @@ export class TransferMenu extends React.Component {
         outline: 'none',
         backgroundColor: '#DEF8FE',
       },
-    },
-    transferSubItem: {
-      display: 'inherit',
-      maxWidth: '225px',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap',
     },
     inactiveTransferListItem: {
       color: 'gray',
@@ -376,15 +406,18 @@ export class TransferMenu extends React.Component {
       maxWidth: '200px',
     },
     iconClosed: {
-      marginTop: '6px',
+      marginTop: '4px',
+      marginRight: '4px',
       height: '8px',
       width: '13.33px',
       marginLeft: 'auto',
       flexShrink: '0',
-      fontWeight: '600',
+      opacity: '0.5',
       transition: 'transform 0.5s',
     },
     iconOpen: {
+      marginTop: '4px',
+      marginRight: '4px',
       transform: 'rotate(180deg)',
       marginLeft: 'auto',
       height: '8px',
@@ -404,29 +437,6 @@ export class TransferMenu extends React.Component {
         return true;
       }
     });
-
-  transferTransferListItem = (name, contactType, endpoint) => {
-    if (contactType === 'queue') {
-      this.props.transfer(
-        this.props.setShowTransferMenu,
-        name,
-        undefined,
-        endpoint
-      );
-    } else {
-      const transferExtension = {
-        type: contactType.toLowerCase(),
-        value: endpoint,
-      };
-      this.props.transfer(
-        this.props.setShowTransferMenu,
-        name,
-        undefined,
-        undefined,
-        transferExtension
-      );
-    }
-  };
 
   transferFromDialpad = (dialpadText) => {
     this.props.transfer(
@@ -561,115 +571,6 @@ export class TransferMenu extends React.Component {
       }
     }
 
-    let transferLists;
-    if (!this.props.nonVoice) {
-      if (
-        this.props.transferLists !== 'loading' &&
-        this.props.transferLists !== 'noTransferListsAvailable'
-      ) {
-        transferLists = [];
-        this.props.transferLists.forEach((transferList, transferListIndex) => {
-          const hierarchyMap = new Map();
-          transferList.endpoints.forEach((transferListItem) => {
-            const { hierarchy } = transferListItem;
-            if (!hierarchyMap.has(hierarchy)) {
-              hierarchyMap.set(hierarchy, [transferListItem]);
-            } else {
-              hierarchyMap.get(hierarchy).push(transferListItem);
-            }
-          });
-          const hierarchyList = [];
-          hierarchyMap.forEach((transferListItems, hierarchy) => {
-            const filteredTransferListItems = this.filterTransferListItems(
-              transferListItems
-            )
-              .filter((transferListItem) => {
-                if (this.props.transferTabIndex === 0) {
-                  return transferListItem.warmTransfer !== undefined;
-                } else {
-                  return transferListItem.coldTransfer !== undefined;
-                }
-              })
-              .map((transferListItem, transferListItemIndex) => (
-                <div
-                  id={`${
-                    transferList.id
-                  }-${hierarchy}-${transferListItemIndex}`}
-                  // The list is static, so we can just use the index as the key
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={`${
-                    transferList.id
-                  }-${hierarchy}-${transferListItemIndex}`}
-                  className="tranferListItem transferItem"
-                  onClick={() =>
-                    this.transferTransferListItem(
-                      transferListItem.name,
-                      transferListItem.contactType,
-                      transferListItem.endpoint
-                    )
-                  }
-                  title={transferListItem.name}
-                  style={[
-                    this.styles.transferListItem,
-                    this.styles.transferSubItem,
-                  ]}
-                  tabIndex="0" // eslint-disable-line
-                >
-                  {transferListItem.name}
-                </div>
-              ));
-            if (filteredTransferListItems.length > 0) {
-              hierarchyList.push(
-                <div
-                  id={`${transferList.id}-${hierarchy}`}
-                  // hierarchy is not the array index. it is the key of the map.
-                  // eslint-disable-next-line
-                  key={`${transferList.id}-${hierarchy}`}
-                >
-                  <div style={this.styles.hierarchy}>
-                    {hierarchy}
-                  </div>
-                  {filteredTransferListItems}
-                </div>
-              );
-            }
-          });
-          if (hierarchyList.length > 0) {
-            transferLists.push(
-              <div key={transferList.id} style={this.styles.transferList}>
-                <div
-                  id={`transferList-${transferListIndex}`}
-                  key={`${transferList.id}-title`}
-                  style={[
-                    this.styles.transferListTitle,
-                    this.styles.voiceTransferListTitle,
-                  ]}
-                  onClick={() =>
-                    this.props.updateTransferListVisibleState(transferList.id)
-                  }
-                >
-                  {transferList.name}
-                  <Icon
-                    name="caret"
-                    style={
-                      this.props.transferListsVisibleState[transferList.id]
-                        ? this.styles.iconOpen
-                        : this.styles.iconClosed
-                    }
-                  />
-                </div>
-                {(this.props.transferListsVisibleState[transferList.id] ||
-                  this.props.transferSearchInput.trim() !== '') &&
-                  hierarchyList}
-              </div>
-            );
-          }
-        });
-      } else if (this.props.transferLists === 'loading') {
-        transferLists = <FormattedMessage {...messages.loadingTransferLists} />;
-      }
-    }
-
     return (
       <div
         style={[{ display: 'flex', flexDirection: 'column' }, this.props.style]}
@@ -708,24 +609,20 @@ export class TransferMenu extends React.Component {
               autoFocus
             />
             <div className="transferList" style={this.styles.transferLists}>
-              <div style={this.styles.transferList}>
+              <div style={this.styles.transferListDivContainer}>
                 <div
                   id="queuesExpandCollapseBtn"
                   key="queuesListBtn"
-                  style={[
-                    this.styles.transferListTitle,
-                    !this.props.nonVoice && this.styles.voiceTransferListTitle,
-                  ]}
-                  onClick={() =>
-                    !this.props.nonVoice &&
-                    this.props.updateQueuesListVisibleState()
+                  style={
+                    this.props.queuesListVisibleState
+                      ? this.styles.expandedTransferHeading
+                      : this.styles.collapsedTransferHeading
                   }
+                  onClick={() => this.props.updateQueuesListVisibleState()}
                 >
                   <FormattedMessage {...messages.queues} />
-                  {(!this.props.nonVoice
-                    ? this.props.queuesListVisibleState ||
-                      this.props.transferSearchInput.trim() !== ''
-                    : true) && (
+                  {(this.props.queuesListVisibleState ||
+                    this.props.transferSearchInput.trim() !== '') && (
                     <div
                       id="refreshQueues"
                       key="queuesRefreshBtn"
@@ -742,32 +639,30 @@ export class TransferMenu extends React.Component {
                       &#8635;
                     </div>
                   )}
-                  {!this.props.nonVoice && (
-                    <Icon
-                      name="caret"
-                      style={
-                        this.props.queuesListVisibleState
-                          ? this.styles.iconOpen
-                          : this.styles.iconClosed
-                      }
-                    />
-                  )}
+                  <Icon
+                    name="caret"
+                    style={
+                      this.props.queuesListVisibleState
+                        ? this.styles.iconOpen
+                        : this.styles.iconClosed
+                    }
+                  />
                 </div>
-                {(!this.props.nonVoice
-                  ? this.props.queuesListVisibleState ||
-                    this.props.transferSearchInput.trim() !== ''
-                  : true) && queues}
+                {(this.props.queuesListVisibleState ||
+                  this.props.transferSearchInput.trim() !== '') &&
+                  queues}
+                <div style={this.styles.lineSpacer} />
               </div>
               {!this.props.nonVoice && (
-                <div style={this.styles.transferList}>
+                <div style={this.styles.transferListDivContainer}>
                   <div
                     id="agentsExpandCollapseBtn"
                     key="agentsListBtn"
-                    style={[
-                      this.styles.transferListTitle,
-                      !this.props.nonVoice &&
-                        this.styles.voiceTransferListTitle,
-                    ]}
+                    style={
+                      this.props.agentsListVisibleState
+                        ? this.styles.expandedTransferHeading
+                        : this.styles.collapsedTransferHeading
+                    }
                     onClick={() =>
                       !this.props.nonVoice &&
                       this.props.updateAgentsListVisibleState()
@@ -801,9 +696,58 @@ export class TransferMenu extends React.Component {
                   {(this.props.agentsListVisibleState ||
                     this.props.transferSearchInput.trim() !== '') &&
                     agents}
+                  <div style={this.styles.lineSpacer} />
                 </div>
               )}
-              {transferLists}
+              <TransferLists
+                transferSearchInput={this.props.transferSearchInput}
+                transferTabIndex={this.props.transferTabIndex}
+                setShowTransferMenu={this.props.setShowTransferMenu}
+                transfer={this.props.transfer}
+                selectedInteractionId={this.props.selectedInteractionId}
+                interactionTransferLists={this.props.interactionTransferLists}
+                interactionTransferListsLoadingState={
+                  this.props.interactionTransferListsLoadingState
+                }
+                interactionTransferListsVisibleState={
+                  this.props.interactionTransferListsVisibleState
+                }
+                visibleStateofAllInteractionTrasferLists={
+                  this.props.visibleStateofAllInteractionTrasferLists
+                }
+                userAssignedTransferLists={this.props.userAssignedTransferLists}
+                userAssignedTransferListsLoadingState={
+                  this.props.userAssignedTransferListsLoadingState
+                }
+                userAssignedTransferListsVisibleState={
+                  this.props.userAssignedTransferListsVisibleState
+                }
+                visibleStateOfAllUserAssignedTransferLists={
+                  this.props.visibleStateOfAllUserAssignedTransferLists
+                }
+                updateInteractionTransferListsVisibleState={
+                  this.props.updateInteractionTransferListsVisibleState
+                }
+                updateVisibleStateOfAllInteractionTransferlists={
+                  this.props.updateVisibleStateOfAllInteractionTransferlists
+                }
+                updateUserAssignedTransferListsVisibleState={
+                  this.props.updateUserAssignedTransferListsVisibleState
+                }
+                updateVisibleStateOfAllUserAssignedTransferlists={
+                  this.props.updateVisibleStateOfAllUserAssignedTransferlists
+                }
+                styles={{
+                  transferListDivContainer: this.styles
+                    .transferListDivContainer,
+                  expandedTransferHeading: this.styles.expandedTransferHeading,
+                  collapsedTransferHeading: this.styles
+                    .collapsedTransferHeading,
+                  lineSpacer: this.styles.lineSpacer,
+                  iconOpen: this.styles.iconOpen,
+                  iconClosed: this.styles.iconClosed,
+                }}
+              />
             </div>
           </div>
         ) : (
@@ -816,10 +760,8 @@ export class TransferMenu extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  transferLists: selectTransferLists(state, props),
   queuesListVisibleState: selectQueuesListVisibleState(state, props),
   agentsListVisibleState: selectAgentsListVisibleState(state, props),
-  transferListsVisibleState: selectTransferListsVisibleState(state, props),
   transferSearchInput: selectTransferSearchInput(state, props),
   transferTabIndex: selectTransferTabIndex(state, props),
   focusedTransferItemIndex: selectFocusedTransferItemIndex(state, props),
@@ -829,6 +771,33 @@ const mapStateToProps = (state, props) => ({
   queues: selectQueues(state, props),
   selectAgents: selectAgents(state, props),
   batchRequestsAreSuccessful: selectBatchRequests(state, props),
+  userAssignedTransferLists: selectUserAssignedTransferLists(state, props),
+  userAssignedTransferListsLoadingState: selectUserAssignedTransferListsLoadingState(
+    state,
+    props
+  ),
+  userAssignedTransferListsVisibleState: selectUserAssignedTransferListsVisibleState(
+    state,
+    props
+  ),
+  visibleStateOfAllUserAssignedTransferLists: selectVisibleStateOfAllUserAssignedTrasferLists(
+    state,
+    props
+  ),
+  selectedInteractionId: getSelectedInteractionId(state, props),
+  interactionTransferLists: selectInteractionTransferLists(state, props),
+  interactionTransferListsLoadingState: selectInteractionTransferListsLoadingState(
+    state,
+    props
+  ),
+  interactionTransferListsVisibleState: selectInteractionTransferListsVisibleState(
+    state,
+    props
+  ),
+  visibleStateofAllInteractionTrasferLists: selectVisibleStateofAllInteractionTrasferLists(
+    state,
+    props
+  ),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -837,15 +806,12 @@ function mapDispatchToProps(dispatch) {
     setUsers: (users) => dispatch(setUsers(users)),
     setResourceCapactiy: (resourceCapacity) =>
       dispatch(setResourceCapactiy(resourceCapacity)),
-    setTransferLists: () => dispatch(setTransferLists()),
     initializeQueuesAgentsVisibleState: () =>
       dispatch(initializeQueuesAgentsVisibleState()),
     updateQueuesListVisibleState: () =>
       dispatch(updateQueuesListVisibleState()),
     updateAgentsListVisibleState: () =>
       dispatch(updateAgentsListVisibleState()),
-    updateTransferListVisibleState: (transferListId) =>
-      dispatch(updateTransferListVisibleState(transferListId)),
     setTransferSearchInput: (transferSearchInput) =>
       dispatch(setTransferSearchInput(transferSearchInput)),
     setTransferTabIndex: (transferTabIndex) =>
@@ -869,6 +835,18 @@ function mapDispatchToProps(dispatch) {
           transferExtension
         )
       ),
+    updateUserAssignedTransferLists: () =>
+      dispatch(updateUserAssignedTransferLists()),
+    updateUserAssignedTransferListsVisibleState: (transferListId) =>
+      dispatch(updateUserAssignedTransferListsVisibleState(transferListId)),
+    updateVisibleStateOfAllUserAssignedTransferlists: () =>
+      dispatch(updateVisibleStateOfAllUserAssignedTransferlists()),
+    updateInteractionTransferLists: () =>
+      dispatch(updateInteractionTransferLists()),
+    updateInteractionTransferListsVisibleState: (transferListId) =>
+      dispatch(updateInteractionTransferListsVisibleState(transferListId)),
+    updateVisibleStateOfAllInteractionTransferlists: () =>
+      dispatch(updateVisibleStateOfAllInteractionTransferlists()),
   };
 }
 
@@ -884,16 +862,11 @@ TransferMenu.propTypes = {
   batchRequestsAreSuccessful: PropTypes.bool.isRequired,
   setUsers: PropTypes.func.isRequired,
   setResourceCapactiy: PropTypes.func,
-  setTransferLists: PropTypes.func.isRequired,
-  transferLists: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
-    .isRequired,
   queuesListVisibleState: PropTypes.bool,
   agentsListVisibleState: PropTypes.bool,
-  transferListsVisibleState: PropTypes.object,
   initializeQueuesAgentsVisibleState: PropTypes.func.isRequired,
   updateQueuesListVisibleState: PropTypes.func.isRequired,
   updateAgentsListVisibleState: PropTypes.func.isRequired,
-  updateTransferListVisibleState: PropTypes.func.isRequired,
   transferSearchInput: PropTypes.string,
   transferTabIndex: PropTypes.number.isRequired,
   focusedTransferItemIndex: PropTypes.number.isRequired,
@@ -903,6 +876,21 @@ TransferMenu.propTypes = {
   setFocusedTransferItemIndex: PropTypes.func.isRequired,
   tearDownTransferMenuStates: PropTypes.func.isRequired,
   transfer: PropTypes.func.isRequired,
+  updateUserAssignedTransferLists: PropTypes.func.isRequired,
+  updateUserAssignedTransferListsVisibleState: PropTypes.func.isRequired,
+  updateVisibleStateOfAllUserAssignedTransferlists: PropTypes.func.isRequired,
+  userAssignedTransferLists: PropTypes.array,
+  userAssignedTransferListsLoadingState: PropTypes.bool,
+  userAssignedTransferListsVisibleState: PropTypes.object,
+  visibleStateOfAllUserAssignedTransferLists: PropTypes.bool,
+  updateInteractionTransferLists: PropTypes.func.isRequired,
+  updateInteractionTransferListsVisibleState: PropTypes.func.isRequired,
+  updateVisibleStateOfAllInteractionTransferlists: PropTypes.func.isRequired,
+  selectedInteractionId: PropTypes.string,
+  interactionTransferLists: PropTypes.array,
+  interactionTransferListsLoadingState: PropTypes.bool,
+  interactionTransferListsVisibleState: PropTypes.object,
+  visibleStateofAllInteractionTrasferLists: PropTypes.bool,
 };
 
 export default ErrorBoundary(

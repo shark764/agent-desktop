@@ -8,6 +8,7 @@ import axios from 'axios';
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 import { isUUID } from 'utils/validator';
 
+import { selectTenant, selectAgent } from 'containers/Login/selectors';
 import { getInteraction } from 'containers/ContactsControl/sagas';
 import {
   addContactNotification,
@@ -29,8 +30,17 @@ import {
   DELETE_CONTACTS,
   ASSIGN_CONTACT,
   WORK_ACCEPTED,
+  UPDATE_INTERACTION_TRANSFER_LISTS_$,
+  UPDATE_INTERACTION_TRANSFER_LIST_VISIBLE_STATE_$,
+  UPDATE_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS_$,
 } from './constants';
-import { selectCrmModule } from './selectors';
+import {
+  selectCrmModule,
+  getSelectedInteraction,
+  selectTransferListsFromFlow,
+  selectInteractionTransferListsVisibleState,
+  selectVisibleStateofAllInteractionTrasferLists,
+} from './selectors';
 import {
   setContactMode,
   updateContactHistoryInteractionDetails,
@@ -46,6 +56,10 @@ import {
   setInteractionStatus,
   setActiveResources,
   updateResourceName,
+  setInteractionTransferLists,
+  setInteractionTransferListsLoadingState,
+  setInteractionTransferListsVisibleState,
+  setVisibleStateOfAllInteractionTransferLists,
 } from './actions';
 
 export function* loadHistoricalInteractionBody(action) {
@@ -360,6 +374,9 @@ export function* goAcceptWork(action) {
   yield put(
     setInteractionStatus(action.interactionId, 'work-accepted', action.response)
   );
+  yield put(
+    setInteractionTransferListsLoadingState(action.interactionId, true)
+  );
   if (action.response.activeResources) {
     yield put(
       setActiveResources(action.interactionId, action.response.activeResources)
@@ -386,6 +403,171 @@ export function* goAcceptWork(action) {
       })
     );
   }
+}
+
+export function* callTransferListsFromFlowAndUpdateState() {
+  const [tenant, agent, selectedInteraction, flowTransferLists] = yield all([
+    select(selectTenant),
+    select(selectAgent),
+    select(getSelectedInteraction),
+    select(selectTransferListsFromFlow),
+  ]);
+  if (flowTransferLists && flowTransferLists.length > 0) {
+    let tenantTransferLists;
+    try {
+      tenantTransferLists = yield call(
+        sdkCallToPromise,
+        CxEngage.entities.getTransferLists,
+        {},
+        'AgentDesktop'
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    const activeTransferLists = tenantTransferLists.result.filter(
+      (transferList) => transferList.active === true
+    );
+    // Creates an array of interaction transfer-lists by filtering out dupilcate flow transfer-lists:
+    const filteredFlowTransferLists = activeTransferLists.filter(
+      ({ id, name }) =>
+        flowTransferLists.find(
+          ({ value }) =>
+            value === id || value.toUpperCase() === name.toUpperCase()
+        )
+    );
+    let interactionTransferLists = [];
+    // sets interaction transfer lists based on the interaction type:
+    if (selectedInteraction.channelType === 'voice') {
+      interactionTransferLists = filteredFlowTransferLists.map(
+        ({ id, name, endpoints }) => ({ id, name, endpoints })
+      );
+    } else {
+      interactionTransferLists = filteredFlowTransferLists
+        .map(({ id, name, endpoints }) => {
+          const queueEndPoints = endpoints.filter(
+            (endpoint) => endpoint.contactType === 'queue'
+          );
+          return {
+            id,
+            name,
+            endpoints: queueEndPoints,
+          };
+        })
+        .filter(({ endpoints }) => endpoints.length > 0);
+    }
+    // setting flow transfer lists:
+    yield put(
+      setInteractionTransferLists(
+        selectedInteraction.interactionId,
+        interactionTransferLists
+      )
+    );
+    // setting initial visible state for individual flow transfer-lists:
+    const interactionTransferListsVisibleState = interactionTransferLists.reduce(
+      (newObj, list) => ({
+        ...newObj,
+        [`${list.id}-${selectedInteraction.interactionId}`]:
+          localStorage.getItem(
+            `flowTransferListHiddenState/${selectedInteraction.interactionId}/${
+              tenant.id
+            }/${agent.userId}/${list.id}`
+          ) !== 'false',
+      }),
+      {}
+    );
+    yield put(
+      setInteractionTransferListsVisibleState(
+        selectedInteraction.interactionId,
+        interactionTransferListsVisibleState
+      )
+    );
+    if (interactionTransferLists.length > 0) {
+      // setting all of the interaction transfer-lists visible state:
+      const visibleStateofAllInteractionTrasferLists =
+        localStorage.getItem(
+          `visibleStateOfAllInteractionTransferLists/${
+            selectedInteraction.interactionId
+          }/${tenant.id}/${agent.userId}`
+        ) !== 'false';
+      yield put(
+        setVisibleStateOfAllInteractionTransferLists(
+          selectedInteraction.interactionId,
+          visibleStateofAllInteractionTrasferLists
+        )
+      );
+    } else {
+      yield put(
+        setVisibleStateOfAllInteractionTransferLists(
+          selectedInteraction.interactionId,
+          null
+        )
+      );
+    }
+  } else {
+    yield put(
+      setInteractionTransferLists(selectedInteraction.interactionId, null)
+    );
+  }
+}
+
+export function* changeInteractionTransferListVisibleState(action) {
+  const [
+    tenant,
+    agent,
+    selectedInteraction,
+    prevTransferListsVisibleState,
+  ] = yield all([
+    select(selectTenant),
+    select(selectAgent),
+    select(getSelectedInteraction),
+    select(selectInteractionTransferListsVisibleState),
+  ]);
+  const interactionTransferLists = { ...prevTransferListsVisibleState };
+  interactionTransferLists[
+    `${action.transferListId}-${selectedInteraction.interactionId}`
+  ] = !interactionTransferLists[
+    `${action.transferListId}-${selectedInteraction.interactionId}`
+  ];
+  yield put(
+    setInteractionTransferListsVisibleState(
+      selectedInteraction.interactionId,
+      interactionTransferLists
+    )
+  );
+  localStorage.setItem(
+    `flowTransferListHiddenState/${selectedInteraction.interactionId}/${
+      tenant.id
+    }/${agent.userId}/${action.transferListId}`,
+    interactionTransferLists[
+      `${action.transferListId}-${selectedInteraction.interactionId}`
+    ]
+  );
+}
+
+export function* updateVisibleStateofAllFlowTransferLists() {
+  const [
+    tenant,
+    agent,
+    selectedInteraction,
+    visibleStateofAllInteractionTrasferLists,
+  ] = yield all([
+    select(selectTenant),
+    select(selectAgent),
+    select(getSelectedInteraction),
+    select(selectVisibleStateofAllInteractionTrasferLists),
+  ]);
+  yield put(
+    setVisibleStateOfAllInteractionTransferLists(
+      selectedInteraction.interactionId,
+      !visibleStateofAllInteractionTrasferLists
+    )
+  );
+  localStorage.setItem(
+    `visibleStateOfAllInteractionTransferLists/${
+      selectedInteraction.interactionId
+    }/${tenant.id}/${agent.userId}`,
+    !visibleStateofAllInteractionTrasferLists
+  );
 }
 
 // Individual exports for testing
@@ -424,6 +606,27 @@ export function* workAccepted() {
   yield takeEvery(WORK_ACCEPTED, goAcceptWork);
 }
 
+export function* updateInteractionTransferLists() {
+  yield takeEvery(
+    UPDATE_INTERACTION_TRANSFER_LISTS_$,
+    callTransferListsFromFlowAndUpdateState
+  );
+}
+
+export function* updateInteractionTransferListsVisibleState() {
+  yield takeEvery(
+    UPDATE_INTERACTION_TRANSFER_LIST_VISIBLE_STATE_$,
+    changeInteractionTransferListVisibleState
+  );
+}
+
+export function* updateVisibleStateOfAllInteractionTransferlists() {
+  yield takeEvery(
+    UPDATE_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS_$,
+    updateVisibleStateofAllFlowTransferLists
+  );
+}
+
 // All sagas to be loaded
 export default [
   historicalInteractionBody,
@@ -434,4 +637,7 @@ export default [
   assignContact,
   cancelDial,
   workAccepted,
+  updateInteractionTransferLists,
+  updateInteractionTransferListsVisibleState,
+  updateVisibleStateOfAllInteractionTransferlists,
 ];

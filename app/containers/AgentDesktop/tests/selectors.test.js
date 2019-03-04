@@ -18,6 +18,11 @@ import {
   areInteractionsInWrapup,
   selectQueues,
   selectExpandWindowForCrm,
+  selectTransferListsFromFlow,
+  selectInteractionTransferLists,
+  selectInteractionTransferListsLoadingState,
+  selectInteractionTransferListsVisibleState,
+  selectVisibleStateofAllInteractionTrasferLists,
 } from '../selectors';
 
 describe('areInteractionsInWrapup ', () => {
@@ -524,5 +529,60 @@ describe('selectExpandWindowForCrm', () => {
       },
     });
     expect(selectExpandWindowForCrm(mockedState)).toBe(true);
+  });
+});
+
+describe('transferLists', () => {
+  const mockedState = fromJS({
+    agentDesktop: {
+      selectedInteractionId: 'mockId',
+      interactions: [
+        {
+          interactionId: 'mockId',
+          transferLists: {
+            transferListsFromFlow: [
+              { type: 'id', value: 'mockTransferlistId' },
+              { type: 'name', value: 'mockTransferlistName' },
+            ],
+            interactionTransferLists: [
+              {
+                id: 'mockInteractionTransferListId',
+                name: 'mocktransferListName',
+                endpoints: 'mockTransferListEndPoint',
+              },
+            ],
+            interactionTransferListsLoadingState: true,
+            interactionTransferListsVisibleState: {
+              mockInteractionTransferListsVisibleState: true,
+            },
+            visibleStateofAllInteractionTrasferLists: true,
+          },
+        },
+      ],
+      noInteractionContactPanel: {},
+      currentCrmItemHistoryPanel: {},
+      newInteractionPanel: {},
+    },
+  });
+  it('should return transfer lists coming from flow', () => {
+    expect(selectTransferListsFromFlow(mockedState)).toMatchSnapshot();
+  });
+  it('should return interaction transfer lists', () => {
+    expect(selectInteractionTransferLists(mockedState)).toMatchSnapshot();
+  });
+  it('should return loading state of interaction transfer lists', () => {
+    expect(
+      selectInteractionTransferListsLoadingState(fromJS(mockedState))
+    ).toBe(true);
+  });
+  it('should return interaction transfer lists visible state', () => {
+    expect(
+      selectInteractionTransferListsVisibleState(mockedState)
+    ).toMatchSnapshot();
+  });
+  it('should return visible state of all transfer lists', () => {
+    expect(selectVisibleStateofAllInteractionTrasferLists(mockedState)).toBe(
+      true
+    );
   });
 });

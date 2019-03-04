@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+### [1.36.0] (2019-02-21)
+## Added
+* CXV1-16823 - Handle pub-sub for interaction transfer lists using redux store
+* CXV1-16824 - Display interaction transfer lists for voice interactions
+* CXV1-16825 - Display interaction transfer lists for non-voice interactions
+
 ### 1.35.14
 (2019-03-02)  
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.35.14/index.html)  

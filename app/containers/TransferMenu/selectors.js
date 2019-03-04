@@ -27,42 +27,11 @@ const selectResourceCapacity = (state) =>
 
 const selectUsers = (state) => state.getIn(['transferMenu', 'users']);
 
-const selectTransferListsMap = (state) =>
-  state.getIn(['transferMenu', 'transferLists']);
-const selectTransferLists = createSelector(
-  selectTransferListsMap,
-  (transferLists) => {
-    if (
-      transferLists !== undefined &&
-      transferLists !== 'noTransferListsAvailable'
-    ) {
-      return transferLists.toJS();
-    } else if (transferLists === 'noTransferListsAvailable') {
-      return transferLists;
-    } else {
-      return 'loading';
-    }
-  }
-);
-
 const selectQueuesListVisibleState = (state) =>
   state.getIn(['transferMenu', 'queuesListVisibleState']);
 
 const selectAgentsListVisibleState = (state) =>
   state.getIn(['transferMenu', 'agentsListVisibleState']);
-
-const selectTransferListsVisibleStateMap = (state) =>
-  state.getIn(['transferMenu', 'transferListsVisibleState']);
-const selectTransferListsVisibleState = createSelector(
-  selectTransferListsVisibleStateMap,
-  (transferListsVisibleState) => {
-    if (transferListsVisibleState !== undefined) {
-      return transferListsVisibleState.toJS();
-    } else {
-      return {};
-    }
-  }
-);
 
 const selectTransferSearchInput = (state) =>
   state.getIn(['transferMenu', 'transferSearchInput']);
@@ -165,16 +134,64 @@ const selectAgents = createSelector(
   }
 );
 
+const selectuserAssignedTransferListsMap = (state) =>
+  state.getIn(['transferMenu', 'transferLists', 'userAssignedTransferLists']);
+
+const selectUserAssignedTransferLists = createSelector(
+  selectuserAssignedTransferListsMap,
+  (userAssignedTransferLists) => {
+    if (userAssignedTransferLists && userAssignedTransferLists.size > 0) {
+      return userAssignedTransferLists.toJS();
+    } else {
+      return null;
+    }
+  }
+);
+
+const selectUserAssignedTransferListsLoadingState = (state) =>
+  state.getIn([
+    'transferMenu',
+    'transferLists',
+    'userAssignedTransferListsLoadingState',
+  ]);
+
+const selectUserAssignedTransferListsVisibleStateMap = (state) =>
+  state.getIn([
+    'transferMenu',
+    'transferLists',
+    'userAssignedTransferListsVisibleState',
+  ]);
+
+const selectUserAssignedTransferListsVisibleState = createSelector(
+  selectUserAssignedTransferListsVisibleStateMap,
+  (userAssignedTransferListsVisibleState) => {
+    if (userAssignedTransferListsVisibleState) {
+      return userAssignedTransferListsVisibleState.toJS();
+    } else {
+      return null;
+    }
+  }
+);
+
+const selectVisibleStateOfAllUserAssignedTrasferLists = (state) =>
+  state.getIn([
+    'transferMenu',
+    'transferLists',
+    'visibleStateOfAllUserAssignedTransferLists',
+  ]);
+
 export {
   selectWarmTransfers,
   selectAgents,
   selectUsers,
-  selectTransferLists,
   selectQueuesListVisibleState,
   selectAgentsListVisibleState,
-  selectTransferListsVisibleState,
   selectTransferSearchInput,
   selectTransferTabIndex,
   selectFocusedTransferItemIndex,
   selectShowTransferDialpad,
+  selectUserAssignedTransferLists,
+  selectUserAssignedTransferListsLoadingState,
+  selectUserAssignedTransferListsVisibleState,
+  selectVisibleStateOfAllUserAssignedTrasferLists,
 };

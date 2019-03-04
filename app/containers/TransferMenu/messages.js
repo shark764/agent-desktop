@@ -34,8 +34,20 @@ export default defineMessages({
     id: 'app.containers.TransferMenu.checking',
     defaultMessage: 'Checking Availability...',
   },
-  loadingTransferLists: {
-    id: 'app.containers.TransferMenu.loadingTransferLists',
-    defaultMessage: 'Loading Transfer Lists',
+  checkingUserAssignedTransferLists: {
+    id: 'app.containers.TransferMenu.checkingUserAssignedTransferLists',
+    defaultMessage: 'Checking Assigned Transfer Lists Availability...',
+  },
+  checkingInteractionTransferLists: {
+    id: 'app.containers.TransferMenu.checkingInteractionTransferLists',
+    defaultMessage: 'Checking Interaction Transfer Lists Availability...',
+  },
+  interactionTransferLists: {
+    id: 'app.containers.TransferMenu.interactionTransferLists',
+    defaultMessage: 'Transfer lists for this Interaction',
+  },
+  userAssignedTransferLists: {
+    id: 'app.containers.TransferMenu.assignedTransferLists',
+    defaultMessage: 'Transfer lists assigned to you',
   },
 });

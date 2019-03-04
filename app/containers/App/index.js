@@ -151,6 +151,7 @@ import {
   setQueuesTime,
   toggleIsOnline,
   outboundCustomerConnected,
+  setTransferListsFromFlow,
 } from 'containers/AgentDesktop/actions';
 
 import {
@@ -697,6 +698,13 @@ export class App extends React.Component {
             this.props.setCustomFields(
               response.interactionId,
               response.customFields
+            );
+            break;
+          }
+          case 'cxengage/interactions/interaction-update-transfer-menu': {
+            this.props.setTransferListsFromFlow(
+              response.interactionId,
+              response.transferListsFromFlow
             );
             break;
           }
@@ -1452,6 +1460,10 @@ export class App extends React.Component {
             this.props.setUsers(response.result);
             break;
           }
+          case 'cxengage/entities/get-entity-response': {
+            // TODO: toast error
+            break;
+          }
           default: {
             topicUnhandled = true;
           }
@@ -1821,6 +1833,8 @@ function mapDispatchToProps(dispatch) {
     setResourceCapactiy: (resourceCapacity) =>
       dispatch(setResourceCapactiy(resourceCapacity)),
     setUsers: (users) => dispatch(setUsers(users)),
+    setTransferListsFromFlow: (interactionId, transferListsFromFlow) =>
+      dispatch(setTransferListsFromFlow(interactionId, transferListsFromFlow)),
     setQueuesTime: (queueData) => dispatch(setQueuesTime(queueData)),
     toggleIsOnline: (isOnline) => dispatch(toggleIsOnline(isOnline)),
     outboundCustomerConnected: (interactionId) =>
@@ -1924,6 +1938,7 @@ App.propTypes = {
   visualNotificationsEnabled: PropTypes.bool,
   setResourceCapactiy: PropTypes.func.isRequired,
   setUsers: PropTypes.func.isRequired,
+  setTransferListsFromFlow: PropTypes.func.isRequired,
   queues: PropTypes.array,
   setQueuesTime: PropTypes.func.isRequired,
   toggleIsOnline: PropTypes.func.isRequired,

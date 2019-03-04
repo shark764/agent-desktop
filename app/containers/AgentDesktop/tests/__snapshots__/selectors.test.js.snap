@@ -48,3 +48,32 @@ Immutable.Map {
   },
 }
 `;
+
+exports[`transferLists should return interaction transfer lists 1`] = `
+Array [
+  Object {
+    "endpoints": "mockTransferListEndPoint",
+    "id": "mockInteractionTransferListId",
+    "name": "mocktransferListName",
+  },
+]
+`;
+
+exports[`transferLists should return interaction transfer lists visible state 1`] = `
+Object {
+  "mockInteractionTransferListsVisibleState": true,
+}
+`;
+
+exports[`transferLists should return transfer lists coming from flow 1`] = `
+Array [
+  Object {
+    "type": "id",
+    "value": "mockTransferlistId",
+  },
+  Object {
+    "type": "name",
+    "value": "mockTransferlistName",
+  },
+]
+`;

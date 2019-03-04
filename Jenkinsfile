@@ -137,7 +137,7 @@ pipeline {
       }
     }
     stage ('Push new tag'){
-      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'}}
+      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature'}}
       steps {
         script {
           try {
@@ -188,7 +188,7 @@ pipeline {
       }
     }
     stage ('Deploy') {
-      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'}}
+      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature'}}
       steps {
         build job: 'Deploy - Front-End', parameters: [
             [$class: 'StringParameterValue', name: 'Service', value: 'Agent-Desktop'],

@@ -19,8 +19,8 @@ import Timer from 'components/Timer';
 import AgentStatusMenu from 'containers/AgentStatusMenu';
 import AgentStats from 'containers/AgentStats';
 import AgentPreferencesMenu from 'containers/AgentPreferencesMenu';
-import { setTransferLists } from 'containers/TransferMenu/actions';
-import { selectTransferLists } from 'containers/TransferMenu/selectors';
+import { updateUserAssignedTransferLists } from 'containers/TransferMenu/actions';
+import { selectUserAssignedTransferLists } from 'containers/TransferMenu/selectors';
 import {
   selectQueues,
   selectQueuesSet,
@@ -170,7 +170,7 @@ export class Toolbar extends React.Component {
   }
 
   initializeTransferLists = () => {
-    this.props.setTransferLists();
+    this.props.updateUserAssignedTransferLists();
   };
 
   setStatusButtonHovered = (isStatusButtonHovered) => {
@@ -374,14 +374,15 @@ function mapStateToProps(state, props) {
     readyState: selectReadyState(state, props),
     queuesSet: selectQueuesSet(state, props),
     ...selectToolbar()(state, props),
-    transferLists: selectTransferLists(state, props),
+    transferLists: selectUserAssignedTransferLists(state, props),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
-    setTransferLists: () => dispatch(setTransferLists()),
+    updateUserAssignedTransferLists: () =>
+      dispatch(updateUserAssignedTransferLists()),
     dispatch,
   };
 }
@@ -400,7 +401,7 @@ Toolbar.propTypes = {
     PropTypes.string,
     PropTypes.array,
   ]),
-  setTransferLists: PropTypes.func.isRequired,
+  updateUserAssignedTransferLists: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(

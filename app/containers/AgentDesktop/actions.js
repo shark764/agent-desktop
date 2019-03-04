@@ -1042,3 +1042,76 @@ export function setIsColdTransferring(interactionId, isColdTransferring) {
     isColdTransferring,
   };
 }
+
+export function setTransferListsFromFlow(interactionId, transferListsFromFlow) {
+  return {
+    type: ACTIONS.SET_TRANSFER_LISTS_FROM_FLOW,
+    interactionId,
+    transferListsFromFlow,
+  };
+}
+
+export function setInteractionTransferLists(
+  interactionId,
+  interactionTransferLists
+) {
+  return {
+    type: ACTIONS.SET_INTERACTION_TRANSFER_LISTS,
+    interactionId,
+    interactionTransferLists,
+  };
+}
+
+export function setInteractionTransferListsLoadingState(
+  interactionId,
+  isLoading
+) {
+  return {
+    type: ACTIONS.SET_INTERACTION_TRANSFER_LISTS_LOADING_STATE,
+    interactionId,
+    isLoading,
+  };
+}
+
+export function setInteractionTransferListsVisibleState(
+  interactionId,
+  interactionTransferListsVisibleState
+) {
+  return {
+    type: ACTIONS.SET_INTERACTION_TRANSFER_LISTS_VISIBLE_STATE,
+    interactionId,
+    interactionTransferListsVisibleState,
+  };
+}
+
+export function setVisibleStateOfAllInteractionTransferLists(
+  interactionId,
+  visibleStateofAllInteractionTrasferLists
+) {
+  return {
+    type: ACTIONS.SET_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS,
+    interactionId,
+    visibleStateofAllInteractionTrasferLists,
+  };
+}
+
+// Saga Actions:
+
+export function updateInteractionTransferLists() {
+  return {
+    type: ACTIONS.UPDATE_INTERACTION_TRANSFER_LISTS_$,
+  };
+}
+
+export function updateInteractionTransferListsVisibleState(transferListId) {
+  return {
+    type: ACTIONS.UPDATE_INTERACTION_TRANSFER_LIST_VISIBLE_STATE_$,
+    transferListId,
+  };
+}
+
+export function updateVisibleStateOfAllInteractionTransferlists() {
+  return {
+    type: ACTIONS.UPDATE_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS_$,
+  };
+}

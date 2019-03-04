@@ -5,31 +5,39 @@ import {
   startWarmTransferring,
   transferCancelled,
   setIsColdTransferring,
+  setInteractionTransferListsLoadingState,
 } from 'containers/AgentDesktop/actions';
-import { getSelectedInteraction } from 'containers/AgentDesktop/selectors';
+import {
+  getSelectedInteraction,
+  getSelectedInteractionId,
+} from 'containers/AgentDesktop/selectors';
 import * as ACTIONS from './constants';
 import {
-  getAndSetTransferLists,
   setQueuesListVisibleState,
   setAgentsListVisibleState,
-  setTransferListsVisibleState,
   setTransferSearchInput,
   setTransferTabIndex,
   setShowTransferDialPad,
+  setUserAssignedTransferLists,
+  setUserAssignedTransferListsLoadingState,
+  setUserAssignedTransferListsVisibleState,
+  setVisibleStateOfAllUserAssignedTransferLists,
 } from './actions';
 import {
   selectQueuesListVisibleState,
   selectAgentsListVisibleState,
-  selectTransferListsVisibleState,
   selectTransferTabIndex,
+  selectUserAssignedTransferListsVisibleState,
+  selectVisibleStateOfAllUserAssignedTrasferLists,
 } from './selectors';
 
 // Worker Saga for Setting Initial States:
 
-export function* callTransferListsAndUpdateState() {
-  const [tenant, agent] = yield all([
+export function* callUserAssignedTransferListsAndUpdateState() {
+  const [tenant, agent, selectedInteraction] = yield all([
     select(selectTenant),
     select(selectAgent),
+    select(getSelectedInteraction),
   ]);
   let transferLists;
   try {
@@ -43,27 +51,70 @@ export function* callTransferListsAndUpdateState() {
     // Error handled in error saga
   }
   if (transferLists && transferLists.result.length > 0) {
-    const activeTransferLists = transferLists.result
-      .filter((transferList) => transferList.active === true)
-      .map((transferList) => ({
-        id: transferList.id,
-        name: transferList.name,
-        endpoints: transferList.endpoints,
-      }));
-    const transferListsVisibleState = activeTransferLists.reduce(
+    const activeTransferLists = transferLists.result.filter(
+      (transferList) => transferList.active === true
+    );
+    // setting user-assigned transfer lists:
+    let userAssignedTransferlists = [];
+    if (selectedInteraction.channelType === 'voice') {
+      userAssignedTransferlists = activeTransferLists.map(
+        ({ id, name, endpoints }) => ({
+          id,
+          name,
+          endpoints,
+        })
+      );
+    } else {
+      userAssignedTransferlists = activeTransferLists
+        .map(({ id, name, endpoints }) => {
+          const queueEndPoints = endpoints.filter(
+            (endpoint) => endpoint.contactType === 'queue'
+          );
+          return {
+            id,
+            name,
+            endpoints: queueEndPoints,
+          };
+        })
+        .filter(({ endpoints }) => endpoints.length > 0);
+    }
+    yield put(setUserAssignedTransferLists(userAssignedTransferlists));
+
+    // setting initial individual transfer-lists visible state:
+    const userAssignedTransferListsVisibleState = userAssignedTransferlists.reduce(
       (newObj, list) => ({
         ...newObj,
         [list.id]:
           localStorage.getItem(
-            `transferListHiddenState-${list.id}-${tenant.id}-${agent.userId}`
+            `assignedTransferListHiddenState/${tenant.id}/${agent.userId}/${
+              list.id
+            }`
           ) !== 'false',
       }),
       {}
     );
-    yield put(getAndSetTransferLists(activeTransferLists));
-    yield put(setTransferListsVisibleState(transferListsVisibleState));
+    yield put(
+      setUserAssignedTransferListsVisibleState(
+        userAssignedTransferListsVisibleState
+      )
+    );
+
+    if (userAssignedTransferlists.length > 0) {
+      // setting initial visible state for all of the user-assigned transfer lists:
+      const visibleStateOfAllAssignedTransferLists =
+        localStorage.getItem(
+          `visibleStateOfAllAssignedTransferLists/${tenant.id}/${agent.userId}`
+        ) !== 'false';
+      yield put(
+        setVisibleStateOfAllUserAssignedTransferLists(
+          visibleStateOfAllAssignedTransferLists
+        )
+      );
+    } else {
+      yield put(setVisibleStateOfAllUserAssignedTransferLists(null));
+    }
   } else {
-    yield put(getAndSetTransferLists('noTransferListsAvailable'));
+    yield put(setUserAssignedTransferLists(null));
   }
 }
 
@@ -112,29 +163,55 @@ export function* changeAgentsListVisibleState() {
   );
 }
 
-export function* changeTransferListVisibleState(action) {
+export function* changeUserAssignedTransferListVisibleState(action) {
   const [tenant, agent, prevTransferListsVisibleState] = yield all([
     select(selectTenant),
     select(selectAgent),
-    select(selectTransferListsVisibleState),
+    select(selectUserAssignedTransferListsVisibleState),
   ]);
-  const activeTransferLists = { ...prevTransferListsVisibleState };
-  activeTransferLists[action.transferListId] = !activeTransferLists[
+  const userAssignedTransferLists = { ...prevTransferListsVisibleState };
+  userAssignedTransferLists[action.transferListId] = !userAssignedTransferLists[
     action.transferListId
   ];
-  yield put(setTransferListsVisibleState(activeTransferLists));
+  yield put(
+    setUserAssignedTransferListsVisibleState(userAssignedTransferLists)
+  );
   localStorage.setItem(
-    `transferListHiddenState-${action.transferListId}-${tenant.id}-${
-      agent.userId
+    `assignedTransferListHiddenState/${tenant.id}/${agent.userId}/${
+      action.transferListId
     }`,
-    activeTransferLists[action.transferListId]
+    userAssignedTransferLists[action.transferListId]
+  );
+}
+
+export function* changeVisibleStateofAllUserAssignedTransferLists() {
+  const [tenant, agent, visibleStateOfAllUserAssignedTransferLists] = yield all(
+    [
+      select(selectTenant),
+      select(selectAgent),
+      select(selectVisibleStateOfAllUserAssignedTrasferLists),
+    ]
+  );
+  yield put(
+    setVisibleStateOfAllUserAssignedTransferLists(
+      !visibleStateOfAllUserAssignedTransferLists
+    )
+  );
+  localStorage.setItem(
+    `visibleStateOfAllAssignedTransferLists/${tenant.id}/${agent.userId}`,
+    !visibleStateOfAllUserAssignedTransferLists
   );
 }
 
 export function* tearDownTransferMenuStates() {
+  const selectedInteractionId = yield select(getSelectedInteractionId);
   yield put(setTransferSearchInput(''));
   yield put(setTransferTabIndex(0));
   yield put(setShowTransferDialPad(false));
+  yield put(
+    setInteractionTransferListsLoadingState(selectedInteractionId, true)
+  );
+  yield put(setUserAssignedTransferListsLoadingState(true));
 }
 
 export function* transferInteraction(action) {
@@ -266,7 +343,10 @@ export function* transferInteraction(action) {
 // Watcher Sagas for Setting Initial States & updating Previous States:
 
 export default [
-  takeEvery(ACTIONS.SET_TRANSFER_LISTS, callTransferListsAndUpdateState),
+  takeEvery(
+    ACTIONS.UPDATE_USER_ASSIGNED_TRANSFER_LISTS,
+    callUserAssignedTransferListsAndUpdateState
+  ),
   takeEvery(
     ACTIONS.SET_INITIAL_TRANSFER_MENUS_VISIBLE_STATE,
     setAgentsQueuesInitialVisibleState
@@ -280,8 +360,12 @@ export default [
     changeAgentsListVisibleState
   ),
   takeEvery(
-    ACTIONS.UPDATE_TRANSFER_LIST_VISIBLE_STATE,
-    changeTransferListVisibleState
+    ACTIONS.UPDATE_USER_ASSIGNED_TRANSFER_LIST_VISIBLE_STATE,
+    changeUserAssignedTransferListVisibleState
+  ),
+  takeEvery(
+    ACTIONS.UPDATE_VISIBLE_STATE_OF_ALL_USER_ASSIGNED_TRANSFER_LISTS,
+    changeVisibleStateofAllUserAssignedTransferLists
   ),
   takeEvery(ACTIONS.TEAR_DOWN_TRANSFER_MENU_STATES, tearDownTransferMenuStates),
   takeEvery(ACTIONS.TRANSFER_INTERACTION, transferInteraction),

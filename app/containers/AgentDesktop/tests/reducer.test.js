@@ -3,52 +3,9 @@
  */
 
 import { fromJS } from 'immutable';
-
 import Message from 'models/Message/Message';
 import ResponseMessage from 'models/Message/ResponseMessage';
-
-import {
-  SET_CRM_ACTIVE_TAB,
-  SET_INTERACTION_STATUS,
-  SET_ACTIVE_RESOURCES,
-  SET_NEW_INTERACTION_PANEL_FORM_INPUT,
-  START_OUTBOUND_INTERACTION,
-  INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
-  ADD_INTERACTION,
-  WORK_INITIATED,
-  SET_MESSAGE_HISTORY,
-  UPDATE_MESSAGE_HISTORY_AGENT_NAME,
-  ADD_MESSAGE,
-  ADD_SCRIPT,
-  REMOVE_SCRIPT,
-  REMOVE_INTERACTION,
-  REMOVE_INTERACTION_HARD,
-  SET_ASSIGNED_CONTACT,
-  UNASSIGN_CONTACT,
-  DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
-  DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION,
-  TOGGLE_CUSTOM_FIELDS,
-  UPDATE_CONTACT,
-  REMOVE_CONTACT,
-  UPDATE_RESOURCE_NAME,
-  UPDATE_CALL_CONTROLS,
-  OPEN_NEW_INTERACTION_PANEL,
-  CLOSE_NEW_INTERACTION_PANEL,
-  CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL,
-  SAVE_MESSAGE_STATE,
-  ADD_INTERACTION_NOTIFICATION,
-  REMOVE_INTERACTION_NOTIFICATION,
-  SET_QUEUES_TIME,
-  SET_USER_CONFIG,
-  SET_DISPOSITION_DETAILS,
-  TOGGLE_TRANSCRIPT_COPIED,
-  SET_EMAIL_ATTACHMENT_FETCHING_URL,
-  OUTBOUND_CUSTOMER_CONNECTED,
-  SET_CUSTOM_FIELDS,
-  EMAIL_CREATE_REPLY,
-  SET_IS_COLD_TRANSFERRING,
-  TOGGLE_INTERACTION_NOTIFICATION,
-} from '../constants';
+import * as ACTIONS from '../constants';
 import agentDesktopReducer, { getNextSelectedInteractionId } from '../reducer';
 
 describe('agentDesktopReducer', () => {
@@ -71,7 +28,7 @@ describe('agentDesktopReducer', () => {
     beforeEach(() => {
       initialState = {};
       action = {
-        type: SET_CRM_ACTIVE_TAB,
+        type: ACTIONS.SET_CRM_ACTIVE_TAB,
         id: 123,
         tabType: 'user',
         name: 'test-name',
@@ -102,7 +59,7 @@ describe('agentDesktopReducer', () => {
         selectedInteractionId: undefined,
       };
       action = {
-        type: SET_INTERACTION_STATUS,
+        type: ACTIONS.SET_INTERACTION_STATUS,
         interactionId: 'test-interaction-id',
         newStatus: undefined,
       };
@@ -247,7 +204,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: SET_ACTIVE_RESOURCES,
+        type: ACTIONS.SET_ACTIVE_RESOURCES,
         interactionId: 'interaction-id',
         activeResources: [
           {
@@ -284,7 +241,7 @@ describe('agentDesktopReducer', () => {
         },
       };
       action = {
-        type: SET_NEW_INTERACTION_PANEL_FORM_INPUT,
+        type: ACTIONS.SET_NEW_INTERACTION_PANEL_FORM_INPUT,
         input: 'new input',
       };
     });
@@ -297,7 +254,7 @@ describe('agentDesktopReducer', () => {
     beforeEach(() => {
       initialState = { newInteractionPanel: {} };
       action = {
-        type: OPEN_NEW_INTERACTION_PANEL,
+        type: ACTIONS.OPEN_NEW_INTERACTION_PANEL,
         isSidePanelCollapsed: true,
       };
     });
@@ -324,7 +281,7 @@ describe('agentDesktopReducer', () => {
     });
     it('set the current message on the first interaction with an existing message', () => {
       const next = agentDesktopReducer(fromJS(initialState), {
-        type: SAVE_MESSAGE_STATE,
+        type: ACTIONS.SAVE_MESSAGE_STATE,
         interactionId: 'a',
         message: 'hey',
       });
@@ -333,7 +290,7 @@ describe('agentDesktopReducer', () => {
     });
     it('set the current message on the second interaction with no existing message', () => {
       const next = agentDesktopReducer(fromJS(initialState), {
-        type: SAVE_MESSAGE_STATE,
+        type: ACTIONS.SAVE_MESSAGE_STATE,
         interactionId: 'b',
         message: 'hey',
       });
@@ -352,7 +309,7 @@ describe('agentDesktopReducer', () => {
     describe('sms', () => {
       beforeEach(() => {
         action = {
-          type: START_OUTBOUND_INTERACTION,
+          type: ACTIONS.START_OUTBOUND_INTERACTION,
           outboundInteractionData: {
             channelType: 'sms',
             customer: '+15064701234',
@@ -373,7 +330,7 @@ describe('agentDesktopReducer', () => {
     describe('voice', () => {
       beforeEach(() => {
         action = {
-          type: START_OUTBOUND_INTERACTION,
+          type: ACTIONS.START_OUTBOUND_INTERACTION,
           outboundInteractionData: {
             channelType: 'voice',
             addedByNewInteractionPanel: true,
@@ -407,7 +364,7 @@ describe('agentDesktopReducer', () => {
         selectedInteractionId: 'outbound-sms-+15064702497',
       };
       action = {
-        type: INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
+        type: ACTIONS.INITIALIZE_OUTBOUND_SMS_FOR_AGENT_DESKTOP,
         placeholderInteractionId: 'outbound-sms-+15064702497',
         interactionId: 'newInteractionId',
         message: 'new message!',
@@ -425,7 +382,7 @@ describe('agentDesktopReducer', () => {
         selectedInteractionId: undefined,
       };
       action = {
-        type: ADD_INTERACTION,
+        type: ACTIONS.ADD_INTERACTION,
         response: {
           interactionId: 'test-interaction-id',
         },
@@ -525,7 +482,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: WORK_INITIATED,
+        type: ACTIONS.WORK_INITIATED,
         response: {
           customer: 'new-customer',
         },
@@ -569,7 +526,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: SET_MESSAGE_HISTORY,
+        type: ACTIONS.SET_MESSAGE_HISTORY,
         response: [
           {
             to: 'interaction-id',
@@ -660,7 +617,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: UPDATE_MESSAGE_HISTORY_AGENT_NAME,
+        type: ACTIONS.UPDATE_MESSAGE_HISTORY_AGENT_NAME,
         interactionId: 'interaction-id',
         user: {
           id: '123',
@@ -688,7 +645,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: ADD_MESSAGE,
+        type: ACTIONS.ADD_MESSAGE,
         interactionId: 'test-interaction-id',
       };
     });
@@ -749,7 +706,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: ADD_SCRIPT,
+        type: ACTIONS.ADD_SCRIPT,
         interactionId: 'test-interaction-id',
         script: { scriptItem: 'something', id: 'garbage-useless-id' },
         scriptId: 'actual-script-id',
@@ -809,7 +766,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: REMOVE_SCRIPT,
+        type: ACTIONS.REMOVE_SCRIPT,
         interactionId: 'test-interaction-id',
       };
     });
@@ -855,7 +812,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: REMOVE_INTERACTION,
+        type: ACTIONS.REMOVE_INTERACTION,
         interactionId: 'test-interaction-id',
       };
     });
@@ -946,7 +903,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: REMOVE_INTERACTION_HARD,
+        type: ACTIONS.REMOVE_INTERACTION_HARD,
         interactionId: 'test-interaction-id',
       };
     });
@@ -982,7 +939,7 @@ describe('agentDesktopReducer', () => {
         interactions: [{ interactionId: 'mockInteraction1' }],
       };
       action = {
-        type: SET_ASSIGNED_CONTACT,
+        type: ACTIONS.SET_ASSIGNED_CONTACT,
         interactionId: 'mockInteraction1',
         contact: {
           id: 'mockContactId',
@@ -1027,7 +984,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: UNASSIGN_CONTACT,
+        type: ACTIONS.UNASSIGN_CONTACT,
         interactionId: 'mockInteraction1',
       };
     });
@@ -1047,7 +1004,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
+        type: ACTIONS.DISMISS_CONTACT_WAS_ASSIGNED_NOTIFICATION,
         interactionId: 'mockInteraction1',
       };
     });
@@ -1067,7 +1024,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION,
+        type: ACTIONS.DISMISS_CONTACT_WAS_UNASSIGNED_NOTIFICATION,
         interactionId: 'mockInteraction1',
       };
     });
@@ -1085,7 +1042,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: TOGGLE_CUSTOM_FIELDS,
+        type: ACTIONS.TOGGLE_CUSTOM_FIELDS,
         interactionId: 'mockInteraction2',
       };
     });
@@ -1109,7 +1066,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: UPDATE_RESOURCE_NAME,
+        type: ACTIONS.UPDATE_RESOURCE_NAME,
         interactionId: '1',
         activeResourceId: 'resource-id-1',
       };
@@ -1145,7 +1102,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: UPDATE_CALL_CONTROLS,
+        type: ACTIONS.UPDATE_CALL_CONTROLS,
         interactionId: '2',
         callControls: {
           callControlsKey: false,
@@ -1165,7 +1122,7 @@ describe('agentDesktopReducer', () => {
         noInteractionContactPanel: {},
       };
       action = {
-        type: UPDATE_CONTACT,
+        type: ACTIONS.UPDATE_CONTACT,
         updatedContact: {
           id: 'test-contact-id',
           name: 'new name',
@@ -1237,7 +1194,7 @@ describe('agentDesktopReducer', () => {
         noInteractionContactPanel: {},
       };
       action = {
-        type: REMOVE_CONTACT,
+        type: ACTIONS.REMOVE_CONTACT,
         contactId: 'test-contact-id',
       };
     });
@@ -1338,7 +1295,7 @@ describe('agentDesktopReducer', () => {
         interactions: [],
       };
       action = {
-        type: CLOSE_NEW_INTERACTION_PANEL,
+        type: ACTIONS.CLOSE_NEW_INTERACTION_PANEL,
       };
     });
     it('resets newInteractionPanel and selects the next interactionId', () => {
@@ -1354,7 +1311,7 @@ describe('agentDesktopReducer', () => {
         interactions: [],
       };
       action = {
-        type: CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL,
+        type: ACTIONS.CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL,
       };
     });
     it('resets currentCrmItemHistoryPanel and selects the next interactionId', () => {
@@ -1377,7 +1334,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: ADD_INTERACTION_NOTIFICATION,
+        type: ACTIONS.ADD_INTERACTION_NOTIFICATION,
         interactionId: 2,
         messageKey: 'b',
       };
@@ -1416,7 +1373,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: REMOVE_INTERACTION_NOTIFICATION,
+        type: ACTIONS.REMOVE_INTERACTION_NOTIFICATION,
         interactionId: 2,
         messageKey: 'b',
       };
@@ -1437,7 +1394,7 @@ describe('agentDesktopReducer', () => {
         ],
       };
       action = {
-        type: SET_QUEUES_TIME,
+        type: ACTIONS.SET_QUEUES_TIME,
         queueData: {
           'test-queue-uuid': {
             body: {
@@ -1458,7 +1415,7 @@ describe('agentDesktopReducer', () => {
     beforeEach(() => {
       initialState = {};
       action = {
-        type: SET_USER_CONFIG,
+        type: ACTIONS.SET_USER_CONFIG,
         response: {
           reasonLists: [
             {
@@ -1574,7 +1531,7 @@ describe('agentDesktopReducer', () => {
       };
       action = {
         interactionId: 1,
-        type: SET_DISPOSITION_DETAILS,
+        type: ACTIONS.SET_DISPOSITION_DETAILS,
         forceSelect: 'Some random action',
         dispositions: [
           {
@@ -1658,7 +1615,7 @@ describe('agentDesktopReducer', () => {
   describe('TOGGLE_TRANSCRIPT_COPIED', () => {
     beforeEach(() => {
       action = {
-        type: TOGGLE_TRANSCRIPT_COPIED,
+        type: ACTIONS.TOGGLE_TRANSCRIPT_COPIED,
       };
     });
     describe("Toggles interaction's isCopied attribute", () => {
@@ -1719,7 +1676,7 @@ describe('agentDesktopReducer', () => {
     describe('passing in a value for fetchingAttachmentUrl', () => {
       beforeEach(() => {
         action = {
-          type: SET_EMAIL_ATTACHMENT_FETCHING_URL,
+          type: ACTIONS.SET_EMAIL_ATTACHMENT_FETCHING_URL,
           interactionId: 1,
           artifactFileId: '123',
           fetchingAttachmentUrl: true,
@@ -1754,7 +1711,8 @@ describe('agentDesktopReducer', () => {
     describe('Customer picks up the outbound interaction voice', () => {
       beforeEach(() => {
         action = {
-          type: OUTBOUND_CUSTOMER_CONNECTED,
+          type:
+            ACTIONS.SET_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTSOUTBOUND_CUSTOMER_CONNECTED,
           interactionId: 1,
         };
       });
@@ -1776,7 +1734,7 @@ describe('agentDesktopReducer', () => {
           ],
         };
         action = {
-          type: SET_CUSTOM_FIELDS,
+          type: ACTIONS.SET_CUSTOM_FIELDS,
           interactionId: 1,
           customFields: ['value 2', 'value 3'],
         };
@@ -1796,7 +1754,7 @@ describe('agentDesktopReducer', () => {
           ],
         };
         action = {
-          type: SET_CUSTOM_FIELDS,
+          type: ACTIONS.SET_CUSTOM_FIELDS,
           interactionId: 1,
           customFields: ['value 2', 'value 3'],
         };
@@ -1820,7 +1778,7 @@ describe('agentDesktopReducer', () => {
     describe('send isColdTransferring as true', () => {
       beforeEach(() => {
         action = {
-          type: SET_IS_COLD_TRANSFERRING,
+          type: ACTIONS.SET_IS_COLD_TRANSFERRING,
           interactionId: '1',
           isColdTransferring: true,
         };
@@ -1832,7 +1790,7 @@ describe('agentDesktopReducer', () => {
     describe('send isColdTransferring as false', () => {
       beforeEach(() => {
         action = {
-          type: SET_IS_COLD_TRANSFERRING,
+          type: ACTIONS.SET_IS_COLD_TRANSFERRING,
           interactionId: '1',
           isColdTransferring: false,
         };
@@ -1868,7 +1826,7 @@ describe('agentDesktopReducer', () => {
           ],
         };
         action = {
-          type: TOGGLE_INTERACTION_NOTIFICATION,
+          type: ACTIONS.TOGGLE_INTERACTION_NOTIFICATION,
           interactionId: 'a',
           notification: {
             uuid: 'mock-uuid',
@@ -1906,7 +1864,7 @@ describe('agentDesktopReducer', () => {
           ],
         };
         action = {
-          type: TOGGLE_INTERACTION_NOTIFICATION,
+          type: ACTIONS.TOGGLE_INTERACTION_NOTIFICATION,
           interactionId: 'a',
           notification: {
             uuid: 'mock-uuid-3',
@@ -2021,7 +1979,7 @@ describe('agentDesktopReducer', () => {
             })
           ),
           (action = {
-            type: EMAIL_CREATE_REPLY,
+            type: ACTIONS.EMAIL_CREATE_REPLY,
             interactionId: 'test-interaction-id',
           })
         )
@@ -2054,11 +2012,114 @@ describe('agentDesktopReducer', () => {
             })
           ),
           (action = {
-            type: EMAIL_CREATE_REPLY,
+            type: ACTIONS.EMAIL_CREATE_REPLY,
             interactionId: 'test-interaction-id',
           })
         )
       ).toMatchSnapshot();
+    });
+  });
+  describe('SET_TRANSFER_LISTS_FROM_FLOW', () => {
+    beforeEach(() => {
+      action = {
+        type: ACTIONS.SET_TRANSFER_LISTS_FROM_FLOW,
+        interactionId: 'mockInteractionId',
+        transferListsFromFlow: [
+          { type: 'id', value: 'mockTransferList3' },
+          { type: 'name', value: 'mockTransferList4' },
+        ],
+      };
+    });
+    it('sets transfer lists from flow', () => {
+      initialState = {
+        interactions: [{ interactionId: 'mockInteractionId' }],
+      };
+      runReducerAndExpectSnapshot();
+    });
+    it('updates transfer lists from flow', () => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 'mockInteractionId',
+            transferlists: {
+              transferListsFromFlow: [
+                { type: 'id', value: 'mockTransferList1' },
+                { type: 'name', value: 'mockTransferList2' },
+              ],
+            },
+          },
+        ],
+      };
+      runReducerAndExpectSnapshot();
+    });
+  });
+  describe('SET_INTERACTION_TRANSFER_LISTS', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [{ interactionId: 'mockInteractionId' }],
+      };
+      action = {
+        type: ACTIONS.SET_INTERACTION_TRANSFER_LISTS,
+        interactionId: 'mockInteractionId',
+        interactionTransferLists: [
+          {
+            id: 'mockTransferListId',
+            name: 'mockTransferListName',
+            endpoints: 'mockEndPoint',
+          },
+        ],
+      };
+    });
+    it('sets interaction transfer lists', () => {
+      runReducerAndExpectSnapshot();
+    });
+  });
+  describe('SET_INTERACTION_TRANSFER_LISTS_LOADING_STATE', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [{ interactionId: 'mockInteractionId' }],
+      };
+      action = {
+        type: ACTIONS.SET_INTERACTION_TRANSFER_LISTS_LOADING_STATE,
+        interactionId: 'mockInteractionId',
+        isLoading: true,
+      };
+    });
+    it('sets loading state of interaction transfer lists', () => {
+      runReducerAndExpectSnapshot();
+    });
+  });
+  describe('SET_INTERACTION_TRANSFER_LISTS_VISIBLE_STATE', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [{ interactionId: 'mockInteractionId' }],
+      };
+      action = {
+        type: ACTIONS.SET_INTERACTION_TRANSFER_LISTS_VISIBLE_STATE,
+        interactionId: 'mockInteractionId',
+        interactionTransferListsVisibleState: {
+          'mockTransferListId1-InteractionId': true,
+          'mockTransferListId2-InteractionId': false,
+        },
+      };
+    });
+    it('sets visible state of interaction transfer lists', () => {
+      runReducerAndExpectSnapshot();
+    });
+  });
+  describe('SET_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [{ interactionId: 'mockInteractionId' }],
+      };
+      action = {
+        type: ACTIONS.SET_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS,
+        interactionId: 'mockInteractionId',
+        visibleStateofAllInteractionTrasferLists: true,
+      };
+    });
+    it('sets visible state of all interaction transfer lists', () => {
+      runReducerAndExpectSnapshot();
     });
   });
 });

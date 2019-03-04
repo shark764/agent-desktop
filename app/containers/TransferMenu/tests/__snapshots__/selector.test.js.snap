@@ -59,16 +59,18 @@ Array [
 ]
 `;
 
-exports[`selectTransferLists when agents have active transferLists assigned to them 1`] = `
+exports[`selectUserAssignedTransferLists should return user assigned transfer lists 1`] = `
 Array [
   Object {
-    "mockTransferList": "mockTransferListValue",
+    "endpoints": "mockTransferListEndPoint",
+    "id": "mockInteractionTransferListId",
+    "name": "mocktransferListName",
   },
 ]
 `;
 
-exports[`selectTransferListsVisibleState when transferListsVisibleState is defined 1`] = `
+exports[`selectUserAssignedTransferLists should return user assigned transfer lists visible state 1`] = `
 Object {
-  "transferListHiddenState-mockListId": "false",
+  "mockTransferListsVisibleState": true,
 }
 `;

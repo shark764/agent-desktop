@@ -16,13 +16,6 @@ export function setUsers(users) {
   };
 }
 
-export function getAndSetTransferLists(transferLists) {
-  return {
-    type: ACTIONS.GET_AND_SET_TRANSFER_LISTS,
-    transferLists,
-  };
-}
-
 export function setQueuesListVisibleState(queuesListVisibleState) {
   return {
     type: ACTIONS.SET_QUEUES_LIST_VISIBLE_STATE,
@@ -34,13 +27,6 @@ export function setAgentsListVisibleState(agentsListVisibleState) {
   return {
     type: ACTIONS.SET_AGENTS_LIST_VISIBLE_STATE,
     agentsListVisibleState,
-  };
-}
-
-export function setTransferListsVisibleState(transferListsVisibleState) {
-  return {
-    type: ACTIONS.SET_TRANSFER_LIST_VISIBLE_STATE,
-    transferListsVisibleState,
   };
 }
 
@@ -72,13 +58,40 @@ export function setShowTransferDialPad(showTransferDialpad) {
   };
 }
 
-// Saga Actions:
-
-export function setTransferLists() {
+export function setUserAssignedTransferLists(userAssignedTransferLists) {
   return {
-    type: ACTIONS.SET_TRANSFER_LISTS,
+    type: ACTIONS.SET_USER_ASSIGNED_TRANSFER_LISTS,
+    userAssignedTransferLists,
   };
 }
+
+export function setUserAssignedTransferListsLoadingState(isLoading) {
+  return {
+    type: ACTIONS.SET_USER_ASSIGNED_TRANSFER_LISTS_LOADING_STATE,
+    isLoading,
+  };
+}
+
+export function setUserAssignedTransferListsVisibleState(
+  userAssignedTransferListsVisibleState
+) {
+  return {
+    type: ACTIONS.SET_USER_ASSIGNED_TRANSFER_LIST_VISIBLE_STATE,
+    userAssignedTransferListsVisibleState,
+  };
+}
+
+export function setVisibleStateOfAllUserAssignedTransferLists(
+  visibleStateOfAllUserAssignedTransferLists
+) {
+  return {
+    type: ACTIONS.SET_VISIBLE_STATE_OF_ALL_USER_ASSIGNED_TRANSFER_LISTS,
+    visibleStateOfAllUserAssignedTransferLists,
+  };
+}
+
+// Saga Actions:
+
 export function initializeQueuesAgentsVisibleState() {
   return {
     type: ACTIONS.SET_INITIAL_TRANSFER_MENUS_VISIBLE_STATE,
@@ -97,12 +110,6 @@ export function updateAgentsListVisibleState() {
   };
 }
 
-export function updateTransferListVisibleState(transferListId) {
-  return {
-    type: ACTIONS.UPDATE_TRANSFER_LIST_VISIBLE_STATE,
-    transferListId,
-  };
-}
 export function tearDownTransferMenuStates() {
   return {
     type: ACTIONS.TEAR_DOWN_TRANSFER_MENU_STATES,
@@ -123,5 +130,24 @@ export function transferInteraction(
     resourceId,
     queueId,
     transferExtension,
+  };
+}
+
+export function updateUserAssignedTransferLists() {
+  return {
+    type: ACTIONS.UPDATE_USER_ASSIGNED_TRANSFER_LISTS,
+  };
+}
+
+export function updateUserAssignedTransferListsVisibleState(transferListId) {
+  return {
+    type: ACTIONS.UPDATE_USER_ASSIGNED_TRANSFER_LIST_VISIBLE_STATE,
+    transferListId,
+  };
+}
+
+export function updateVisibleStateOfAllUserAssignedTransferlists() {
+  return {
+    type: ACTIONS.UPDATE_VISIBLE_STATE_OF_ALL_USER_ASSIGNED_TRANSFER_LISTS,
   };
 }
