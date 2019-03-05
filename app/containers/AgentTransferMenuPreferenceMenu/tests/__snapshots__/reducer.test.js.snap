@@ -23,12 +23,6 @@ Immutable.Map {
 
 exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE toggle all queues and return empty list 1`] = `
 Immutable.Map {
-  "selectedQueues": Immutable.List [],
-}
-`;
-
-exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE toggle all queues to selected list 1`] = `
-Immutable.Map {
   "selectedQueues": Immutable.List [
     "123",
     "abc",
@@ -37,13 +31,13 @@ Immutable.Map {
 }
 `;
 
-exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE toggle all transfer lists and unselect it 1`] = `
+exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE toggle all queues to selected list 1`] = `
 Immutable.Map {
-  "selectedTransferLists": Immutable.List [],
+  "selectedQueues": Immutable.List [],
 }
 `;
 
-exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE toggle all transfer lists to selected list 1`] = `
+exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE toggle all transfer lists and unselect it 1`] = `
 Immutable.Map {
   "selectedTransferLists": Immutable.List [
     "123",
@@ -53,9 +47,18 @@ Immutable.Map {
 }
 `;
 
+exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE toggle all transfer lists to selected list 1`] = `
+Immutable.Map {
+  "selectedTransferLists": Immutable.List [
+    "123",
+  ],
+}
+`;
+
 exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_SELECTED_QUEUE_TRANSFER_MENU_PREFERENCE toggle one queue and unselect it 1`] = `
 Immutable.Map {
   "selectedQueues": Immutable.List [
+    "123",
     "abc",
   ],
 }
@@ -63,9 +66,7 @@ Immutable.Map {
 
 exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_SELECTED_QUEUE_TRANSFER_MENU_PREFERENCE toggle one queue to selected list 1`] = `
 Immutable.Map {
-  "selectedQueues": Immutable.List [
-    "123",
-  ],
+  "selectedQueues": Immutable.List [],
 }
 `;
 
@@ -79,15 +80,15 @@ Immutable.Map {
 
 exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_SELECTED_TRANSFER_LIST_TRANSFER_MENU_PREFERENCE toggle one transfer list and unselect it 1`] = `
 Immutable.Map {
-  "selectedTransferLists": Immutable.List [],
+  "selectedTransferLists": Immutable.List [
+    "123",
+  ],
 }
 `;
 
 exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_SELECTED_TRANSFER_LIST_TRANSFER_MENU_PREFERENCE toggle one transfer list to selected list 1`] = `
 Immutable.Map {
-  "selectedTransferLists": Immutable.List [
-    "123",
-  ],
+  "selectedTransferLists": Immutable.List [],
 }
 `;
 
@@ -106,5 +107,7 @@ Immutable.Map {
   "showTransferLists": false,
   "selectedQueues": Immutable.List [],
   "selectedTransferLists": Immutable.List [],
+  "preferenceMenuQueuesLoading": false,
+  "preferenceMenuTransferListsLoading": false,
 }
 `;

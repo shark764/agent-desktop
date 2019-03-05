@@ -34,6 +34,7 @@ export default [
   'cxengage/interactions/get-notes-response', // Handled in contactInteractionHistory
   'cxengage/reporting/get-capacity-response', // Handled in TransferMenu
   'cxengage/reporting/get-stat-query-response', // Handled in TransferMenu
+  'cxengage/entities/get-queues-response', // Handled in TransferMenu
   'cxengage/reporting/polling-started', // Ignore
   'cxengage/reporting/polling-stopped', // Ignore
   'cxengage/reporting/stat-subscription-added', // Handled by Toolbar

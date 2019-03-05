@@ -36,8 +36,37 @@ export const selectTransferListsPreferences = createSelector(
     userTransferLists.length === selectedTransferLists.length
 );
 
+export const selectVisibleQueues = createSelector(
+  selectQueues,
+  selectSelectedQueues,
+  (userQueues, selectedQueues) =>
+    userQueues.filter((queue) => selectedQueues.includes(queue.id))
+);
+
+export const selectVisibleTransferLists = createSelector(
+  selectUserAssignedTransferLists,
+  selectSelectedTransferLists,
+  (userTransferLists, selectedTransferLists) => {
+    if (userTransferLists !== null) {
+      return userTransferLists.filter((transferList) =>
+        selectedTransferLists.includes(transferList.id)
+      );
+    } else {
+      return [];
+    }
+  }
+);
+
 export const selectShowQueues = (state) =>
   selectTransferMenuPreferences(state).get('showQueues');
 
 export const selectShowTransferLists = (state) =>
   selectTransferMenuPreferences(state).get('showTransferLists');
+
+export const selectPreferenceMenuQueuesLoading = (state) =>
+  selectTransferMenuPreferences(state).get('preferenceMenuQueuesLoading');
+
+export const selectPreferenceMenuTransferListsLoading = (state) =>
+  selectTransferMenuPreferences(state).get(
+    'preferenceMenuTransferListsLoading'
+  );

@@ -18,6 +18,7 @@ import {
 } from 'containers/AgentStats/selectors';
 import { selectTenant, selectAgent } from 'containers/Login/selectors';
 import { selectHasViewStatsPermission } from 'containers/AgentPreferencesMenu/selectors';
+import { updateQueues } from 'containers/AgentTransferMenuPreferenceMenu/sagas';
 import { selectWelcomeStatIds } from './selectors';
 import {
   removeStat,
@@ -186,7 +187,7 @@ export function* validateStat(stat) {
   if (stat.statSource === 'queue-id') {
     const queuesSet = yield select(selectQueuesSet);
     if (!queuesSet) {
-      yield call(sdkCallToPromise, CxEngage.entities.getQueues, {}, 'Toolbar');
+      yield call(updateQueues);
     }
     const queues = yield select(selectQueues);
     queueExists = queues.filter((queue) => queue.id === stat.queue).length;

@@ -14,10 +14,36 @@ exports[`<AgentTransferMenuPreferenceMenu /> agent preference menu enabled rende
     toggleSelection={[Function]}
     transitionTime={400}
   />
+  <CollapsibleMultiselect
+    easing="linear"
+    selectAllBtn={true}
+    selectedItems={Array []}
+    title={
+      Object {
+        "defaultMessage": "Queues",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.queues",
+      }
+    }
+    toggleSelection={[Function]}
+    transitionTime={400}
+  />
+  <CollapsibleMultiselect
+    easing="linear"
+    selectAllBtn={true}
+    selectedItems={Array []}
+    title={
+      Object {
+        "defaultMessage": "Transfer Lists",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.transferLists",
+      }
+    }
+    toggleSelection={[Function]}
+    transitionTime={400}
+  />
 </React.Fragment>
 `;
 
-exports[`<AgentTransferMenuPreferenceMenu /> renders queues multi item preference list preference list rendered renders the multiple preference options with select all button and open by default 1`] = `
+exports[`<AgentTransferMenuPreferenceMenu /> renders queues multi item preference list with loading state and empty list and loading state preference list not rendered does not renders the multiple preference options and sets loading state for queues list 1`] = `
 <React.Fragment>
   <CollapsibleMultiselect
     easing="linear"
@@ -32,13 +58,9 @@ exports[`<AgentTransferMenuPreferenceMenu /> renders queues multi item preferenc
   />
   <CollapsibleMultiselect
     easing="linear"
-    items={
-      Array [
-        "123",
-        "abc",
-      ]
-    }
-    open={true}
+    items={Array []}
+    loading={true}
+    selectAll={[Function]}
     selectAllBtn={true}
     selectedItems={Array []}
     title={
@@ -51,10 +73,25 @@ exports[`<AgentTransferMenuPreferenceMenu /> renders queues multi item preferenc
     toggleShowList={[Function]}
     transitionTime={400}
   />
+  <CollapsibleMultiselect
+    easing="linear"
+    selectAll={[Function]}
+    selectAllBtn={true}
+    selectedItems={Array []}
+    title={
+      Object {
+        "defaultMessage": "Transfer Lists",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.transferLists",
+      }
+    }
+    toggleSelection={[Function]}
+    toggleShowList={[Function]}
+    transitionTime={400}
+  />
 </React.Fragment>
 `;
 
-exports[`<AgentTransferMenuPreferenceMenu /> renders transfer lists multi item preference preference list rendered renders the multiple preference options with select all button and open by default 1`] = `
+exports[`<AgentTransferMenuPreferenceMenu /> renders queues multi item preference list with selected items preference list rendered renders the multiple preference options with select all button 1`] = `
 <React.Fragment>
   <CollapsibleMultiselect
     easing="linear"
@@ -75,9 +112,136 @@ exports[`<AgentTransferMenuPreferenceMenu /> renders transfer lists multi item p
         "abc",
       ]
     }
-    open={true}
+    loading={false}
+    selectAll={[Function]}
+    selectAllBtn={true}
+    selectedItems={
+      Array [
+        undefined,
+        undefined,
+      ]
+    }
+    title={
+      Object {
+        "defaultMessage": "Queues",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.queues",
+      }
+    }
+    toggleSelection={[Function]}
+    toggleShowList={[Function]}
+    transitionTime={400}
+  />
+  <CollapsibleMultiselect
+    easing="linear"
+    selectAll={[Function]}
     selectAllBtn={true}
     selectedItems={Array []}
+    title={
+      Object {
+        "defaultMessage": "Transfer Lists",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.transferLists",
+      }
+    }
+    toggleSelection={[Function]}
+    toggleShowList={[Function]}
+    transitionTime={400}
+  />
+</React.Fragment>
+`;
+
+exports[`<AgentTransferMenuPreferenceMenu /> renders transfer lists multi item preference list with loading state and empty list preference list not rendered does not renders the multiple preference options and sets loading state for transfer lists items 1`] = `
+<React.Fragment>
+  <CollapsibleMultiselect
+    easing="linear"
+    title={
+      Object {
+        "defaultMessage": "Agents",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.agents",
+      }
+    }
+    toggleSelection={[Function]}
+    transitionTime={400}
+  />
+  <CollapsibleMultiselect
+    easing="linear"
+    selectAll={[Function]}
+    selectAllBtn={true}
+    selectedItems={Array []}
+    title={
+      Object {
+        "defaultMessage": "Queues",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.queues",
+      }
+    }
+    toggleSelection={[Function]}
+    toggleShowList={[Function]}
+    transitionTime={400}
+  />
+  <CollapsibleMultiselect
+    easing="linear"
+    items={Array []}
+    loading={true}
+    selectAll={[Function]}
+    selectAllBtn={true}
+    selectedItems={Array []}
+    title={
+      Object {
+        "defaultMessage": "Transfer Lists",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.transferLists",
+      }
+    }
+    toggleSelection={[Function]}
+    toggleShowList={[Function]}
+    transitionTime={400}
+  />
+</React.Fragment>
+`;
+
+exports[`<AgentTransferMenuPreferenceMenu /> renders transfer lists multi item preference list with selected items preference list rendered renders the multiple preference options with select all button 1`] = `
+<React.Fragment>
+  <CollapsibleMultiselect
+    easing="linear"
+    title={
+      Object {
+        "defaultMessage": "Agents",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.agents",
+      }
+    }
+    toggleSelection={[Function]}
+    transitionTime={400}
+  />
+  <CollapsibleMultiselect
+    easing="linear"
+    selectAll={[Function]}
+    selectAllBtn={true}
+    selectedItems={Array []}
+    title={
+      Object {
+        "defaultMessage": "Queues",
+        "id": "app.containers.AgentTransferMenuPreferenceMenu.queues",
+      }
+    }
+    toggleSelection={[Function]}
+    toggleShowList={[Function]}
+    transitionTime={400}
+  />
+  <CollapsibleMultiselect
+    easing="linear"
+    items={
+      Array [
+        "123",
+        "abc",
+      ]
+    }
+    loading={false}
+    selectAll={[Function]}
+    selectAllBtn={true}
+    selectedItems={
+      Array [
+        undefined,
+        undefined,
+      ]
+    }
     title={
       Object {
         "defaultMessage": "Transfer Lists",

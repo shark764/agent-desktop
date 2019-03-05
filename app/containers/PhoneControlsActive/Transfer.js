@@ -10,6 +10,7 @@ import Radium from 'radium';
 import { selectQueuesSet } from 'containers/AgentDesktop/selectors';
 
 import CircleIconButton from 'components/CircleIconButton';
+import { updateQueues } from 'containers/TransferMenu/actions';
 import TransferMenu from 'containers/TransferMenu';
 import messages from './messages';
 
@@ -73,7 +74,7 @@ export class Transfer extends React.PureComponent {
 
   toggleTransferMenu = () => {
     if (!this.props.queuesSet) {
-      CxEngage.entities.getQueues();
+      this.props.updateQueues();
     }
     this.setShowTransferMenu(!this.state.showTransferMenu);
   };
@@ -140,6 +141,7 @@ Transfer.propTypes = {
   canTransfer: PropTypes.bool.isRequired,
   connectingTransfers: PropTypes.bool.isRequired,
   queuesSet: PropTypes.bool.isRequired,
+  updateQueues: PropTypes.func.isRequired,
 };
 
 Transfer.contextTypes = {
@@ -150,4 +152,11 @@ const mapStateToProps = (state, props) => ({
   queuesSet: selectQueuesSet(state, props),
 });
 
-export default connect(mapStateToProps)(Radium(Transfer));
+export const actions = {
+  updateQueues,
+};
+
+export default connect(
+  mapStateToProps,
+  actions
+)(Radium(Transfer));

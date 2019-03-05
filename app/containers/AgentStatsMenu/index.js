@@ -26,7 +26,8 @@ import {
   selectToolbarStatIds,
   selectCurrentAgent,
 } from 'containers/Toolbar/selectors';
-import { selectQueues } from 'containers/AgentDesktop/selectors';
+import { selectVisibleQueues } from 'containers/AgentTransferMenuPreferenceMenu/selectors';
+import { initializeTransferMenuPreferences } from 'containers/AgentTransferMenuPreferenceMenu/actions';
 import messages from './messages';
 
 const MAXIMUM_STATS = 5;
@@ -34,6 +35,7 @@ const MAXIMUM_STATS = 5;
 export class AgentStatsMenu extends React.Component {
   constructor(props) {
     super(props);
+    this.props.initializeTransferMenuPreferences();
     this.state = {
       statSource: 'resource-id',
     };
@@ -75,7 +77,7 @@ export class AgentStatsMenu extends React.Component {
 
   setStatSource = (value) => {
     this.setState({ statSource: value }, () => {
-      if (value === 'queue-id') {
+      if (this.props.selectVisibleQueues.length > 0 && value === 'queue-id') {
         this.setQueue(this.getQueues()[0].value);
       }
       this.setStatOption(this.getStats()[0].value);
@@ -97,7 +99,10 @@ export class AgentStatsMenu extends React.Component {
   };
 
   getQueues = () =>
-    this.props.queues.map((queue) => ({ value: queue.id, label: queue.name }));
+    this.props.selectVisibleQueues.map((queue) => ({
+      value: queue.id,
+      label: queue.name,
+    }));
 
   getStats = () => {
     let stats;
@@ -235,14 +240,16 @@ function mapStateToProps(state, props) {
   return {
     toolbarStatIds: selectToolbarStatIds()(state, props).toJS(),
     availableStats: selectAvailableStats(state, props),
-    queues: selectQueues(state, props),
     currentAgent: selectCurrentAgent(state, props),
+    selectVisibleQueues: selectVisibleQueues(state, props),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     activateToolbarStat: (stat) => dispatch(activateToolbarStat(stat)),
+    initializeTransferMenuPreferences: () =>
+      dispatch(initializeTransferMenuPreferences()),
     dispatch,
   };
 }
@@ -252,8 +259,9 @@ AgentStatsMenu.propTypes = {
   activateToolbarStat: PropTypes.func,
   toolbarStatIds: PropTypes.array,
   availableStats: PropTypes.object,
-  queues: PropTypes.array,
   show: PropTypes.bool,
+  selectVisibleQueues: PropTypes.array.isRequired,
+  initializeTransferMenuPreferences: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(

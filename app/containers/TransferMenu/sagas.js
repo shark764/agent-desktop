@@ -11,6 +11,8 @@ import {
   getSelectedInteraction,
   getSelectedInteractionId,
 } from 'containers/AgentDesktop/selectors';
+import { updateUserAssignedTransferLists } from 'containers/AgentTransferMenuPreferenceMenu/sagas';
+
 import * as ACTIONS from './constants';
 import {
   setQueuesListVisibleState,
@@ -18,7 +20,6 @@ import {
   setTransferSearchInput,
   setTransferTabIndex,
   setShowTransferDialPad,
-  setUserAssignedTransferLists,
   setUserAssignedTransferListsLoadingState,
   setUserAssignedTransferListsVisibleState,
   setVisibleStateOfAllUserAssignedTransferLists,
@@ -29,59 +30,24 @@ import {
   selectTransferTabIndex,
   selectUserAssignedTransferListsVisibleState,
   selectVisibleStateOfAllUserAssignedTrasferLists,
+  selectUserAssignedTransferLists,
 } from './selectors';
 
 // Worker Saga for Setting Initial States:
 
 export function* callUserAssignedTransferListsAndUpdateState() {
-  const [tenant, agent, selectedInteraction] = yield all([
+  const [tenant, agent] = yield all([
     select(selectTenant),
     select(selectAgent),
-    select(getSelectedInteraction),
   ]);
-  let transferLists;
-  try {
-    transferLists = yield call(
-      sdkCallToPromise,
-      CxEngage.entities.getEntity,
-      { path: ['users', agent.userId, 'transfer-lists'] },
-      'TransferMenu'
-    );
-  } catch (err) {
-    // Error handled in error saga
-  }
-  if (transferLists && transferLists.result.length > 0) {
-    const activeTransferLists = transferLists.result.filter(
-      (transferList) => transferList.active === true
-    );
-    // setting user-assigned transfer lists:
-    let userAssignedTransferlists = [];
-    if (selectedInteraction.channelType === 'voice') {
-      userAssignedTransferlists = activeTransferLists.map(
-        ({ id, name, endpoints }) => ({
-          id,
-          name,
-          endpoints,
-        })
-      );
-    } else {
-      userAssignedTransferlists = activeTransferLists
-        .map(({ id, name, endpoints }) => {
-          const queueEndPoints = endpoints.filter(
-            (endpoint) => endpoint.contactType === 'queue'
-          );
-          return {
-            id,
-            name,
-            endpoints: queueEndPoints,
-          };
-        })
-        .filter(({ endpoints }) => endpoints.length > 0);
-    }
-    yield put(setUserAssignedTransferLists(userAssignedTransferlists));
+  yield call(updateUserAssignedTransferLists);
+  const userAssignedTransferLists = yield select(
+    selectUserAssignedTransferLists
+  );
 
-    // setting initial individual transfer-lists visible state:
-    const userAssignedTransferListsVisibleState = userAssignedTransferlists.reduce(
+  // setting initial individual transfer-lists visible state:
+  if (userAssignedTransferLists && userAssignedTransferLists.length > 0) {
+    const userAssignedTransferListsVisibleState = userAssignedTransferLists.reduce(
       (newObj, list) => ({
         ...newObj,
         [list.id]:
@@ -99,22 +65,18 @@ export function* callUserAssignedTransferListsAndUpdateState() {
       )
     );
 
-    if (userAssignedTransferlists.length > 0) {
-      // setting initial visible state for all of the user-assigned transfer lists:
-      const visibleStateOfAllAssignedTransferLists =
-        localStorage.getItem(
-          `visibleStateOfAllAssignedTransferLists/${tenant.id}/${agent.userId}`
-        ) !== 'false';
-      yield put(
-        setVisibleStateOfAllUserAssignedTransferLists(
-          visibleStateOfAllAssignedTransferLists
-        )
-      );
-    } else {
-      yield put(setVisibleStateOfAllUserAssignedTransferLists(null));
-    }
+    // setting initial visible state for all of the user-assigned transfer lists:
+    const visibleStateOfAllAssignedTransferLists =
+      localStorage.getItem(
+        `visibleStateOfAllAssignedTransferLists/${tenant.id}/${agent.userId}`
+      ) !== 'false';
+    yield put(
+      setVisibleStateOfAllUserAssignedTransferLists(
+        visibleStateOfAllAssignedTransferLists
+      )
+    );
   } else {
-    yield put(setUserAssignedTransferLists(null));
+    yield put(setVisibleStateOfAllUserAssignedTransferLists(null));
   }
 }
 

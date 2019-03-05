@@ -1,22 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfet lists and there visible state for non voice interactions calls the promise util with the SDK getTransferLists function to get the active transferLists 1`] = `
+exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfer lists and there visible state for non voice interactions calls updateUserAssignedTransferLists generator function 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
     "CALL": Object {
-      "args": Array [
-        undefined,
-        Object {
-          "path": Array [
-            "users",
-            "agentId",
-            "transfer-lists",
-          ],
-        },
-        "TransferMenu",
-      ],
+      "args": Array [],
       "context": null,
       "fn": [Function],
     },
@@ -24,21 +14,7 @@ Object {
 }
 `;
 
-exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfet lists and there visible state for non voice interactions gets localStorage properties that are used to set assigned transfer lists hidden state 1`] = `
-Array [
-  Array [
-    "assignedTransferListHiddenState/tenantId/agentId/mockTransferListId1",
-  ],
-  Array [
-    "assignedTransferListHiddenState/tenantId/agentId/mockTransferListId2",
-  ],
-  Array [
-    "visibleStateOfAllAssignedTransferLists/tenantId/agentId",
-  ],
-]
-`;
-
-exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfet lists and there visible state for non voice interactions selects tenant and agent id 1`] = `
+exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfer lists and there visible state for non voice interactions selects tenant and agent id 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -58,19 +34,25 @@ Object {
           "selector": [Function],
         },
       },
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
     ],
   },
 }
 `;
 
-exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfet lists and there visible state for non voice interactions sets userAssignedTransferListsVisibleState to false by dispatching setUserAssignedTransferListsVisibleState action 1`] = `
+exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfer lists and there visible state for non voice interactions selects userAssginedTransferLists 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfer lists and there visible state for non voice interactions sets userAssignedTransferListsVisibleState to false by dispatching setUserAssignedTransferListsVisibleState action 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -89,7 +71,7 @@ Object {
 }
 `;
 
-exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfet lists and there visible state for non voice interactions sets visibleStateOfAllAssignedTransferLists to false by dispatching setVisibleStateOfAllUserAssignedTransferLists action 1`] = `
+exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfer lists and there visible state for non voice interactions sets visibleStateOfAllAssignedTransferLists to false by dispatching setVisibleStateOfAllUserAssignedTransferLists action 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -105,64 +87,13 @@ Object {
 }
 `;
 
-exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfet lists and there visible state for non voice interactions updates userAssignedTransferlists state by dispatching setUserAssignedTransferLists action 1`] = `
-Object {
-  "done": false,
-  "value": Object {
-    "@@redux-saga/IO": true,
-    "PUT": Object {
-      "action": Object {
-        "type": "app/TransferMenu/SET_USER_ASSIGNED_TRANSFER_LISTS",
-        "userAssignedTransferLists": Array [
-          Object {
-            "endpoints": Array [
-              Object {
-                "contactType": "queue",
-              },
-              Object {
-                "contactType": "queue",
-              },
-            ],
-            "id": "mockTransferListId1",
-            "name": "mockTransferListName",
-          },
-          Object {
-            "endpoints": Array [
-              Object {
-                "contactType": "queue",
-              },
-              Object {
-                "contactType": "queue",
-              },
-            ],
-            "id": "mockTransferListId2",
-            "name": "mockTransferListName2",
-          },
-        ],
-      },
-      "channel": null,
-    },
-  },
-}
-`;
-
-exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfet lists and there visible state for the voice interactions calls the promise util with the SDK getTransferLists function to get the active transferLists 1`] = `
+exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfer lists and there visible state for the voice interactions calls updateUserAssignedTransferLists generator function 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
     "CALL": Object {
-      "args": Array [
-        undefined,
-        Object {
-          "path": Array [
-            "users",
-            "agentId",
-            "transfer-lists",
-          ],
-        },
-        "TransferMenu",
-      ],
+      "args": Array [],
       "context": null,
       "fn": [Function],
     },
@@ -170,21 +101,7 @@ Object {
 }
 `;
 
-exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfet lists and there visible state for the voice interactions gets localStorage properties that are used to set assigned transfer lists hidden state 1`] = `
-Array [
-  Array [
-    "assignedTransferListHiddenState/tenantId/agentId/mockTransferListId1",
-  ],
-  Array [
-    "assignedTransferListHiddenState/tenantId/agentId/mockTransferListId2",
-  ],
-  Array [
-    "visibleStateOfAllAssignedTransferLists/tenantId/agentId",
-  ],
-]
-`;
-
-exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfet lists and there visible state for the voice interactions selects tenant and agent id 1`] = `
+exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfer lists and there visible state for the voice interactions selects tenant and agent id 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -204,19 +121,25 @@ Object {
           "selector": [Function],
         },
       },
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
     ],
   },
 }
 `;
 
-exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfet lists and there visible state for the voice interactions sets userAssignedTransferListsVisibleState to true by dispatching setUserAssignedTransferListsVisibleState action 1`] = `
+exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfer lists and there visible state for the voice interactions selects userAssginedTransferLists 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfer lists and there visible state for the voice interactions sets userAssignedTransferListsVisibleState to true by dispatching setUserAssignedTransferListsVisibleState action 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -235,7 +158,7 @@ Object {
 }
 `;
 
-exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfet lists and there visible state for the voice interactions sets visibleStateOfAllAssignedTransferLists to true by dispatching setVisibleStateOfAllUserAssignedTransferLists action 1`] = `
+exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfer lists and there visible state for the voice interactions sets visibleStateOfAllAssignedTransferLists to true by dispatching setVisibleStateOfAllUserAssignedTransferLists action 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -251,148 +174,13 @@ Object {
 }
 `;
 
-exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfet lists and there visible state for the voice interactions updates userAssignedTransferlists state by dispatching setUserAssignedTransferLists action 1`] = `
-Object {
-  "done": false,
-  "value": Object {
-    "@@redux-saga/IO": true,
-    "PUT": Object {
-      "action": Object {
-        "type": "app/TransferMenu/SET_USER_ASSIGNED_TRANSFER_LISTS",
-        "userAssignedTransferLists": Array [
-          Object {
-            "endpoints": Array [
-              Object {
-                "contactType": "queue",
-              },
-              Object {
-                "contactType": "PSTN",
-              },
-              Object {
-                "conctactType": "SIP",
-              },
-              Object {
-                "contactType": "queue",
-              },
-            ],
-            "id": "mockTransferListId1",
-            "name": "mockTransferListName",
-          },
-          Object {
-            "endpoints": Array [
-              Object {
-                "contactType": "queue",
-              },
-              Object {
-                "contactType": "PSTN",
-              },
-              Object {
-                "conctactType": "SIP",
-              },
-              Object {
-                "contactType": "queue",
-              },
-            ],
-            "id": "mockTransferListId2",
-            "name": "mockTransferListName2",
-          },
-        ],
-      },
-      "channel": null,
-    },
-  },
-}
-`;
-
-exports[`callUserAssignedTransferListsAndUpdateState when the current logged in agent doesnot have any transfer lists calls the promise util with the SDK getTransferLists function to get the active transferLists 1`] = `
+exports[`callUserAssignedTransferListsAndUpdateState when there are no active transfer lists in the tenant calls updateUserAssignedTransferLists generator function 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
     "CALL": Object {
-      "args": Array [
-        undefined,
-        Object {
-          "path": Array [
-            "users",
-            "agentId",
-            "transfer-lists",
-          ],
-        },
-        "TransferMenu",
-      ],
-      "context": null,
-      "fn": [Function],
-    },
-  },
-}
-`;
-
-exports[`callUserAssignedTransferListsAndUpdateState when the current logged in agent doesnot have any transfer lists selects tenant and agent id 1`] = `
-Object {
-  "done": false,
-  "value": Object {
-    "@@redux-saga/IO": true,
-    "ALL": Array [
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-    ],
-  },
-}
-`;
-
-exports[`callUserAssignedTransferListsAndUpdateState when the current logged in agent doesnot have any transfer lists updates userAssignedTransferlists state to null by dispatching setUserAssignedTransferLists action 1`] = `
-Object {
-  "done": false,
-  "value": Object {
-    "@@redux-saga/IO": true,
-    "PUT": Object {
-      "action": Object {
-        "type": "app/TransferMenu/SET_USER_ASSIGNED_TRANSFER_LISTS",
-        "userAssignedTransferLists": null,
-      },
-      "channel": null,
-    },
-  },
-}
-`;
-
-exports[`callUserAssignedTransferListsAndUpdateState when there are no active transfer lists in the tenant calls the promise util with the SDK getTransferLists function to get the active transferLists 1`] = `
-Object {
-  "done": false,
-  "value": Object {
-    "@@redux-saga/IO": true,
-    "CALL": Object {
-      "args": Array [
-        undefined,
-        Object {
-          "path": Array [
-            "users",
-            "agentId",
-            "transfer-lists",
-          ],
-        },
-        "TransferMenu",
-      ],
+      "args": Array [],
       "context": null,
       "fn": [Function],
     },
@@ -420,14 +208,20 @@ Object {
           "selector": [Function],
         },
       },
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
     ],
+  },
+}
+`;
+
+exports[`callUserAssignedTransferListsAndUpdateState when there are no active transfer lists in the tenant selects userAssginedTransferLists 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
   },
 }
 `;
@@ -439,40 +233,8 @@ Object {
     "@@redux-saga/IO": true,
     "PUT": Object {
       "action": Object {
-        "type": "app/TransferMenu/SET_USER_ASSIGNED_TRANSFER_LIST_VISIBLE_STATE",
-        "userAssignedTransferListsVisibleState": Object {},
-      },
-      "channel": null,
-    },
-  },
-}
-`;
-
-exports[`callUserAssignedTransferListsAndUpdateState when there are no active transfer lists in the tenant sets visibleStateOfAllAssignedTransferLists to null by dispatching setVisibleStateOfAllUserAssignedTransferLists action 1`] = `
-Object {
-  "done": false,
-  "value": Object {
-    "@@redux-saga/IO": true,
-    "PUT": Object {
-      "action": Object {
         "type": "app/TransferMenu/SET_VISIBLE_STATE_OF_ALL_USER_ASSIGNED_TRANSFER_LISTS",
         "visibleStateOfAllUserAssignedTransferLists": null,
-      },
-      "channel": null,
-    },
-  },
-}
-`;
-
-exports[`callUserAssignedTransferListsAndUpdateState when there are no active transfer lists in the tenant updates userAssignedTransferlists state to empty array by dispatching setUserAssignedTransferLists action 1`] = `
-Object {
-  "done": false,
-  "value": Object {
-    "@@redux-saga/IO": true,
-    "PUT": Object {
-      "action": Object {
-        "type": "app/TransferMenu/SET_USER_ASSIGNED_TRANSFER_LISTS",
-        "userAssignedTransferLists": Array [],
       },
       "channel": null,
     },

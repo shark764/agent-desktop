@@ -1,11 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { TransferLists } from '../TransferLists';
-import { TransferMenu } from '../index';
 
 describe('TransferLists Component render', () => {
-  const transferMenu = new TransferMenu();
-
   it('renders TransferLists component with user assinged transferlists and interaction transferlists', () => {
     const transferLists = [
       {
@@ -55,16 +52,7 @@ describe('TransferLists Component render', () => {
         updateVisibleStateOfAllInteractionTransferlists={() =>
           'mock updateAllInteractionTransferListsVisibleState'
         }
-        styles={{
-          transferListDivContainer:
-            transferMenu.styles.transferListDivContainer,
-          expandedTransferHeading: transferMenu.styles.expandedTransferHeading,
-          collapsedTransferHeading:
-            transferMenu.styles.collapsedTransferHeading,
-          lineSpacer: transferMenu.styles.lineSpacer,
-          iconOpen: transferMenu.styles.iconOpen,
-          iconClosed: transferMenu.styles.iconClosed,
-        }}
+        styles={{}}
       />
     );
     expect(component).toMatchSnapshot();
@@ -97,16 +85,7 @@ describe('TransferLists Component render', () => {
         updateVisibleStateOfAllInteractionTransferlists={() =>
           'mock updateAllInteractionTransferListsVisibleState'
         }
-        styles={{
-          transferListDivContainer:
-            transferMenu.styles.transferListDivContainer,
-          expandedTransferHeading: transferMenu.styles.expandedTransferHeading,
-          collapsedTransferHeading:
-            transferMenu.styles.collapsedTransferHeading,
-          lineSpacer: transferMenu.styles.lineSpacer,
-          iconOpen: transferMenu.styles.iconOpen,
-          iconClosed: transferMenu.styles.iconClosed,
-        }}
+        styles={{}}
       />
     );
     expect(component).toMatchSnapshot();
@@ -139,16 +118,7 @@ describe('TransferLists Component render', () => {
         updateVisibleStateOfAllInteractionTransferlists={() =>
           'mock updateAllInteractionTransferListsVisibleState'
         }
-        styles={{
-          transferListDivContainer:
-            transferMenu.styles.transferListDivContainer,
-          expandedTransferHeading: transferMenu.styles.expandedTransferHeading,
-          collapsedTransferHeading:
-            transferMenu.styles.collapsedTransferHeading,
-          lineSpacer: transferMenu.styles.lineSpacer,
-          iconOpen: transferMenu.styles.iconOpen,
-          iconClosed: transferMenu.styles.iconClosed,
-        }}
+        styles={{}}
       />
     );
     expect(component).toMatchSnapshot();

@@ -23,6 +23,7 @@ import {
   selectToolbarStats,
   selectBatchRequests,
 } from 'containers/Toolbar/selectors';
+import { selectVisibleQueues } from 'containers/AgentTransferMenuPreferenceMenu/selectors';
 
 import { isIeEleven } from 'serenova-js-utils/browser';
 
@@ -180,7 +181,7 @@ export class AgentStats extends React.Component {
         userFriendlyName={userFriendlyName}
         stat={stat}
         index={index}
-        queues={this.props.queues}
+        queues={this.props.selectVisibleQueues}
         removeStat={this.removeStat}
         readyState={this.props.readyState}
         detailsPosition={
@@ -287,6 +288,7 @@ function mapStateToProps(state, props) {
     availableStats: selectAvailableStats(state, props),
     isSidePanelCollapsed: selectIsSidePanelCollapsed(state, props),
     batchRequestsAreSuccessful: selectBatchRequests(state, props),
+    selectVisibleQueues: selectVisibleQueues(state, props),
   };
 }
 
@@ -301,10 +303,10 @@ AgentStats.propTypes = {
   toolbarStats: PropTypes.array,
   availableStats: PropTypes.object,
   isSidePanelCollapsed: PropTypes.bool,
-  queues: PropTypes.array,
   deactivateToolbarStat: PropTypes.func.isRequired,
   readyState: PropTypes.string.isRequired,
   batchRequestsAreSuccessful: PropTypes.bool.isRequired,
+  selectVisibleQueues: PropTypes.array.isRequired,
 };
 
 AgentStats.contextTypes = {

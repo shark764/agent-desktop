@@ -14,6 +14,7 @@ import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 
 import Icon from 'components/Icon';
+import IconSVG from 'components/IconSVG';
 
 const MainContainer = styled.div`
   padding: 5px;
@@ -87,6 +88,10 @@ const caretIconContainer = {
 
 const checkAllContainer = {
   marginLeft: '5px',
+};
+
+const iconLoading = {
+  float: 'right',
 };
 
 class CollapsibleMultiselect extends Component {
@@ -215,81 +220,104 @@ class CollapsibleMultiselect extends Component {
       overflowY: 'auto',
     };
 
-    return (
-      <div>
-        <MainContainer
-          onClick={
-            this.collapsibleMode
-              ? this.multiSelectTriggerClick
-              : this.singleSelectTriggerClick
-          }
-        >
-          <FormattedMessage {...this.props.title} />
-          <div style={checkAllContainer} />
-          {this.collapsibleMode &&
-            `(${this.props.selectedItems.length}/${this.props.items.length})`}
-          {this.collapsibleMode &&
-            this.props.selectAllBtn && (
-            <div style={checkAllContainer} onClick={this.selectAllItems}>
-              <Icon
-                name="checkStatus"
-                style={
-                  this.props.selectedItems.length === this.props.items.length
-                    ? checkAllStatus
-                    : unCheckAllStatus
-                }
-              />
-            </div>
-          )}
-          {this.collapsibleMode && (
-            <div style={caretIconContainer}>
-              <Icon
-                name="caret"
-                style={[iconClosed, !this.state.isClosed && iconOpen]}
-              />
-            </div>
-          )}
-          {!this.collapsibleMode &&
-            this.props.singleToggleBtn && (
-            <div style={checkStatus}>
-              <Icon name="checkStatus" style={checkStatus} />
-            </div>
-          )}
-        </MainContainer>
-        {this.collapsibleMode && (
-          <div
-            ref={(outer) => {
-              this.outer = outer;
-            }}
-            style={dropdownStyle}
-            onTransitionEnd={this.handleTransitionEnd}
+    //  We want to render the component just when is not loading and it is multiple list, when it is loading or when it is not multiple (single mode)
+    if (
+      (!this.props.loading &&
+        this.collapsibleMode &&
+        this.props.items.length > 0) ||
+      this.props.loading ||
+      !this.collapsibleMode
+    ) {
+      return (
+        <div>
+          <MainContainer
+            onClick={
+              this.collapsibleMode
+                ? this.multiSelectTriggerClick
+                : this.singleSelectTriggerClick
+            }
           >
+            <FormattedMessage {...this.props.title} />
+            <div style={checkAllContainer} />
+            {this.collapsibleMode &&
+              !this.props.loading &&
+              `(${this.props.selectedItems.length}/${this.props.items.length})`}
+            {this.collapsibleMode &&
+              this.props.selectAllBtn && (
+              <div style={checkAllContainer} onClick={this.selectAllItems}>
+                {this.props.loading ? (
+                  <IconSVG
+                    id={`${this.props.title}-loading-icon`}
+                    name="loading"
+                    width="20px"
+                    style={iconLoading}
+                  />
+                ) : (
+                  <Icon
+                    name="checkStatus"
+                    style={
+                      this.props.selectedItems.length ===
+                        this.props.items.length
+                        ? checkAllStatus
+                        : unCheckAllStatus
+                    }
+                  />
+                )}
+              </div>
+            )}
+
+            {this.collapsibleMode &&
+              !this.props.loading && (
+              <div style={caretIconContainer}>
+                <Icon
+                  name="caret"
+                  style={[iconClosed, !this.state.isClosed && iconOpen]}
+                />
+              </div>
+            )}
+            {!this.collapsibleMode &&
+              this.props.singleToggleBtn && (
+              <div style={checkStatus}>
+                <Icon name="checkStatus" style={checkStatus} />
+              </div>
+            )}
+          </MainContainer>
+          {this.collapsibleMode && (
             <div
-              ref={(inner) => {
-                this.inner = inner;
+              ref={(outer) => {
+                this.outer = outer;
               }}
+              style={dropdownStyle}
+              onTransitionEnd={this.handleTransitionEnd}
             >
-              {this.collapsibleMode &&
-                this.props.items.map((item) => (
-                  <ItemContainer
-                    key={`${item.id}-title`}
-                    title={item.name}
-                    onClick={() => this.selectItem(item)}
-                    tabIndex="0" // eslint-disable-line
-                  >
-                    <ItemLabel>
-                      {item.name}
-                    </ItemLabel>
-                    {this.props.selectedItems.includes(item.id) && (
-                      <Icon name="checkStatus" style={checkStatus} />
-                    )}
-                  </ItemContainer>
-                ))}
+              <div
+                ref={(inner) => {
+                  this.inner = inner;
+                }}
+              >
+                {this.collapsibleMode &&
+                  this.props.items.map((item) => (
+                    <ItemContainer
+                      key={`${item.id}-title`}
+                      title={item.name}
+                      onClick={() => this.selectItem(item)}
+                      tabIndex="0" // eslint-disable-line
+                    >
+                      <ItemLabel>
+                        {item.name}
+                      </ItemLabel>
+                      {this.props.selectedItems.includes(item.id) && (
+                        <Icon name="checkStatus" style={checkStatus} />
+                      )}
+                    </ItemContainer>
+                  ))}
+              </div>
             </div>
-          </div>
-        )}
-      </div>
-    );
+          )}
+        </div>
+      );
+    }
+    return null;
   }
 }
 
@@ -305,6 +333,7 @@ CollapsibleMultiselect.propTypes = {
   singleToggleBtn: PropTypes.bool,
   selectedItems: PropTypes.array,
   toggleShowList: PropTypes.func,
+  loading: PropTypes.bool,
 };
 
 CollapsibleMultiselect.defaultProps = {

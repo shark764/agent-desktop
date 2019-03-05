@@ -154,6 +154,8 @@ import {
   setTransferListsFromFlow,
 } from 'containers/AgentDesktop/actions';
 
+import { toggleSelectedQueueTransferMenuPreference } from 'containers/AgentTransferMenuPreferenceMenu/actions';
+
 import {
   selectAgentDesktopMap,
   selectLoginMap,
@@ -1450,12 +1452,6 @@ export class App extends React.Component {
           }
 
           // ENTITIES
-          case 'cxengage/entities/get-queues-response': {
-            this.props.setQueues(
-              response.result.filter((queue) => queue.active)
-            );
-            break;
-          }
           case 'cxengage/entities/get-users-response': {
             this.props.setUsers(response.result);
             break;
@@ -1839,6 +1835,8 @@ function mapDispatchToProps(dispatch) {
     toggleIsOnline: (isOnline) => dispatch(toggleIsOnline(isOnline)),
     outboundCustomerConnected: (interactionId) =>
       dispatch(outboundCustomerConnected(interactionId)),
+    toggleQueue: (queue) =>
+      dispatch(toggleSelectedQueueTransferMenuPreference(queue)),
     dispatch,
   };
 }
@@ -1897,7 +1895,6 @@ App.propTypes = {
   emailAddAttachment: PropTypes.func.isRequired,
   setAvailableStats: PropTypes.func.isRequired,
   statsReceived: PropTypes.func.isRequired,
-  setQueues: PropTypes.func.isRequired,
   setDispositionDetails: PropTypes.func.isRequired,
   selectDisposition: PropTypes.func.isRequired,
   selectSidePanelTab: PropTypes.func.isRequired,

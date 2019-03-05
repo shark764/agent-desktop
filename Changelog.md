@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.36.1-SNAPSHOT] (2019-02-11)
+### Added
+* CXV1-15536 - Hide transfer menu list based on state stored in preferences, don't do batch request when hidden
+
 ### [1.36.0] (2019-02-21)
 ## Added
 * CXV1-16823 - Handle pub-sub for interaction transfer lists using redux store

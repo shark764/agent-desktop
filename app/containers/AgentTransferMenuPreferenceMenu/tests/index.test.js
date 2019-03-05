@@ -7,54 +7,110 @@ import { shallow } from 'enzyme';
 import { AgentTransferMenuPreferenceMenu } from 'containers/AgentTransferMenuPreferenceMenu';
 
 describe('<AgentTransferMenuPreferenceMenu />', () => {
-  const queues = ['123', 'abc'];
-  const transferLists = ['123', 'abc'];
-  const selectedQueues = [];
-  const selectedTransferLists = [];
   describe('agent preference menu enabled', () => {
     const rendered = shallow(
       <AgentTransferMenuPreferenceMenu
         initializeTransferMenuPreferences={() => {}}
         agentsTransferMenuEnabled
         toggleAgents={() => {}}
+        toggleQueue={() => {}}
+        toggleTransferList={() => {}}
+        visibleQueues={[]}
+        visibleTransferLists={[]}
       />
     );
     it('renders the multiple preference options with select all button and open by default', () => {
       expect(rendered).toMatchSnapshot();
     });
   });
-  describe('renders queues multi item preference list', () => {
+  describe('renders queues multi item preference list with selected items', () => {
     describe('preference list rendered', () => {
       const rendered = shallow(
         <AgentTransferMenuPreferenceMenu
           initializeTransferMenuPreferences={() => {}}
-          queues={queues}
-          selectedQueues={selectedQueues}
+          queues={['123', 'abc']}
           toggleQueue={() => {}}
-          showQueues
+          toggleAllQueues={() => {}}
           toggleShowQueues={() => {}}
+          visibleQueues={['123', 'abc']}
+          visibleTransferLists={[]}
+          preferenceMenuQueuesLoading={false}
           toggleAgents={() => {}}
+          toggleTransferList={() => {}}
+          toggleAllTransferLists={() => {}}
+          toggleShowTransferLists={() => {}}
         />
       );
-      it('renders the multiple preference options with select all button and open by default', () => {
+      it('renders the multiple preference options with select all button', () => {
         expect(rendered).toMatchSnapshot();
       });
     });
   });
-  describe('renders transfer lists multi item preference', () => {
+  describe('renders queues multi item preference list with loading state and empty list and loading state', () => {
+    describe('preference list not rendered', () => {
+      const rendered = shallow(
+        <AgentTransferMenuPreferenceMenu
+          initializeTransferMenuPreferences={() => {}}
+          queues={[]}
+          toggleQueue={() => {}}
+          toggleAllQueues={() => {}}
+          toggleShowQueues={() => {}}
+          visibleQueues={[]}
+          visibleTransferLists={[]}
+          preferenceMenuQueuesLoading
+          toggleAgents={() => {}}
+          toggleTransferList={() => {}}
+          toggleAllTransferLists={() => {}}
+          toggleShowTransferLists={() => {}}
+        />
+      );
+      it('does not renders the multiple preference options and sets loading state for queues list', () => {
+        expect(rendered).toMatchSnapshot();
+      });
+    });
+  });
+  describe('renders transfer lists multi item preference list with selected items', () => {
     describe('preference list rendered', () => {
       const rendered = shallow(
         <AgentTransferMenuPreferenceMenu
           initializeTransferMenuPreferences={() => {}}
-          transferLists={transferLists}
-          selectedTransferLists={selectedTransferLists}
+          transferLists={['123', 'abc']}
           toggleTransferList={() => {}}
+          toggleAllTransferLists={() => {}}
           toggleShowTransferLists={() => {}}
-          showTransferLists
+          visibleTransferLists={['123', 'abc']}
+          visibleQueues={[]}
+          preferenceMenuTransferListsLoading={false}
           toggleAgents={() => {}}
+          toggleQueue={() => {}}
+          toggleAllQueues={() => {}}
+          toggleShowQueues={() => {}}
         />
       );
-      it('renders the multiple preference options with select all button and open by default', () => {
+      it('renders the multiple preference options with select all button', () => {
+        expect(rendered).toMatchSnapshot();
+      });
+    });
+  });
+  describe('renders transfer lists multi item preference list with loading state and empty list', () => {
+    describe('preference list not rendered', () => {
+      const rendered = shallow(
+        <AgentTransferMenuPreferenceMenu
+          initializeTransferMenuPreferences={() => {}}
+          transferLists={[]}
+          toggleTransferList={() => {}}
+          toggleAllTransferLists={() => {}}
+          toggleShowTransferLists={() => {}}
+          visibleTransferLists={[]}
+          visibleQueues={[]}
+          preferenceMenuTransferListsLoading
+          toggleAgents={() => {}}
+          toggleQueue={() => {}}
+          toggleAllQueues={() => {}}
+          toggleShowQueues={() => {}}
+        />
+      );
+      it('does not renders the multiple preference options and sets loading state for transfer lists items', () => {
         expect(rendered).toMatchSnapshot();
       });
     });

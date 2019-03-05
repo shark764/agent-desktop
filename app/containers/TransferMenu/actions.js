@@ -151,3 +151,10 @@ export function updateVisibleStateOfAllUserAssignedTransferlists() {
     type: ACTIONS.UPDATE_VISIBLE_STATE_OF_ALL_USER_ASSIGNED_TRANSFER_LISTS,
   };
 }
+
+export function updateQueues(refreshQueues) {
+  return {
+    type: ACTIONS.UPDATE_QUEUES,
+    refreshQueues,
+  };
+}

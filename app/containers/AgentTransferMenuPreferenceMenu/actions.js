@@ -26,16 +26,16 @@ export function setShowQueuesTransferMenuPreference(showQueues) {
   };
 }
 
-export function toggleSelectedQueueTransferMenuPreference(queue) {
+export function toggleSelectedQueueTransferMenuPreferenceOnState(queue) {
   return {
-    type: ACTIONS.TOGGLE_SELECTED_QUEUE_TRANSFER_MENU_PREFERENCE,
+    type: ACTIONS.TOGGLE_SELECTED_QUEUE_TRANSFER_MENU_PREFERENCE_ON_STATE,
     queue,
   };
 }
 
-export function toggleAllSelectedQueuesTransferMenuPreference(queues) {
+export function toggleAllSelectedQueuesTransferMenuPreferenceOnState(queues) {
   return {
-    type: ACTIONS.TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE,
+    type: ACTIONS.TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE_ON_STATE,
     queues,
   };
 }
@@ -55,18 +55,22 @@ export function setShowTransferListTransferMenuPreference(showTransferLists) {
   };
 }
 
-export function toggleSelectedTransferListTransferMenuPreference(transferList) {
+export function toggleSelectedTransferListTransferMenuPreferenceOnState(
+  transferList
+) {
   return {
-    type: ACTIONS.TOGGLE_SELECTED_TRANSFER_LIST_TRANSFER_MENU_PREFERENCE,
+    type:
+      ACTIONS.TOGGLE_SELECTED_TRANSFER_LIST_TRANSFER_MENU_PREFERENCE_ON_STATE,
     transferList,
   };
 }
 
-export function toggleAllSelectedTransferListsTransferMenuPreference(
+export function toggleAllSelectedTransferListsTransferMenuPreferenceOnState(
   transferLists
 ) {
   return {
-    type: ACTIONS.TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE,
+    type:
+      ACTIONS.TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE_ON_STATE,
     transferLists,
   };
 }
@@ -100,5 +104,51 @@ export function toggleShowQueuesTransferMenuPreference() {
 export function toggleShowTransferListsTransferMenuPreference() {
   return {
     type: ACTIONS.TOGGLE_SHOW_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE,
+  };
+}
+
+export function setPreferenceMenuQueuesLoading(preferenceMenuQueuesLoading) {
+  return {
+    type: ACTIONS.SET_PREFERENCE_MENU_QUEUES_LOADING,
+    preferenceMenuQueuesLoading,
+  };
+}
+
+export function setPreferenceMenuTransferListsLoading(
+  preferenceMenuTransferListsLoading
+) {
+  return {
+    type: ACTIONS.SET_PREFERENCE_MENU_TRANSFER_LISTS_LOADING,
+    preferenceMenuTransferListsLoading,
+  };
+}
+
+export function toggleSelectedQueueTransferMenuPreference(queue) {
+  return {
+    type: ACTIONS.TOGGLE_SELECTED_QUEUE_TRANSFER_MENU_PREFERENCE,
+    queue,
+  };
+}
+
+export function toggleAllSelectedQueuesTransferMenuPreference(queues) {
+  return {
+    type: ACTIONS.TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE,
+    queues,
+  };
+}
+
+export function toggleSelectedTransferListTransferMenuPreference(transferList) {
+  return {
+    type: ACTIONS.TOGGLE_SELECTED_TRANSFER_LIST_TRANSFER_MENU_PREFERENCE,
+    transferList,
+  };
+}
+
+export function toggleAllSelectedTransferListsTransferMenuPreference(
+  transferLists
+) {
+  return {
+    type: ACTIONS.TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE,
+    transferLists,
   };
 }

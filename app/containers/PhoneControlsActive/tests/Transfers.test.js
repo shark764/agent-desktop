@@ -10,27 +10,22 @@ import { Transfer } from '../Transfer';
 describe('<Transfer />', () => {
   describe('with canTransfer and false connectingTransfers', () => {
     describe('on load', () => {
-      beforeEach(() => {
-        global.CxEngage = {
-          entities: {
-            getQueues: jest.fn(),
-          },
-        };
-      });
+      const updateQueues = jest.fn();
       const rendered = shallow(
         <Transfer
           interactionId="mock-interaction-id"
           canTransfer
           connectingTransfers={false}
           queuesSet={false}
+          updateQueues={updateQueues}
         />
       );
       it('only renders icon', () => {
         expect(rendered).toMatchSnapshot();
       });
-      it('calls CxEngage.entities.getQueues and sets showTransferMenu clicking on icon', () => {
+      it('calls updateQueues and sets showTransferMenu clicking on icon', () => {
         rendered.find('#transferButton').simulate('click');
-        expect(global.CxEngage.entities.getQueues.mock.calls.length).toBe(1);
+        expect(updateQueues.mock.calls.length).toBe(1);
         expect(rendered.state(['showTransferMenu'])).toBe(true);
       });
     });
@@ -43,6 +38,7 @@ describe('<Transfer />', () => {
             canTransfer
             connectingTransfers={false}
             queuesSet
+            updateQueues={() => {}}
           />
         );
         rendered.setState({ showTransferMenu: true });
@@ -58,6 +54,7 @@ describe('<Transfer />', () => {
             canTransfer
             connectingTransfers={false}
             queuesSet
+            updateQueues={() => {}}
           />,
           {
             context: { toolbarMode: true },
@@ -78,6 +75,7 @@ describe('<Transfer />', () => {
         canTransfer={false}
         connectingTransfers={false}
         queuesSet
+        updateQueues={() => {}}
       />
     );
     it('renders nothing', () => {
@@ -92,6 +90,7 @@ describe('<Transfer />', () => {
         canTransfer
         connectingTransfers
         queuesSet
+        updateQueues={() => {}}
       />
     );
     it('renders nothing', () => {

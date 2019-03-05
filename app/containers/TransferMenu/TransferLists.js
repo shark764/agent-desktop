@@ -399,7 +399,8 @@ export class TransferLists extends React.Component {
             />
           </div>
         ) : (
-          this.props.userAssignedTransferLists && (
+          this.props.userAssignedTransferLists &&
+          this.props.userAssignedTransferLists.length > 0 && (
             <div style={this.props.styles.transferListDivContainer}>
               <div
                 id="assignedTransferListsCollapExpandBtn"

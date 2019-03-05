@@ -19,12 +19,11 @@ import Timer from 'components/Timer';
 import AgentStatusMenu from 'containers/AgentStatusMenu';
 import AgentStats from 'containers/AgentStats';
 import AgentPreferencesMenu from 'containers/AgentPreferencesMenu';
-import { updateUserAssignedTransferLists } from 'containers/TransferMenu/actions';
-import { selectUserAssignedTransferLists } from 'containers/TransferMenu/selectors';
 import {
-  selectQueues,
-  selectQueuesSet,
-} from 'containers/AgentDesktop/selectors';
+  updateUserAssignedTransferLists,
+  updateQueues,
+} from 'containers/TransferMenu/actions';
+import { selectQueuesSet } from 'containers/AgentDesktop/selectors';
 import { selectSelectedPresenceReason } from 'containers/AgentStatusMenu/selectors';
 import { selectHasInteractions } from 'containers/InteractionsBar/selectors';
 import { toggleAgentMenu } from './actions';
@@ -164,9 +163,8 @@ export class Toolbar extends React.Component {
       isStatusButtonHovered: false,
       isConfigButtonHovered: false,
     };
-    if (this.props.transferLists === 'loading') {
-      this.initializeTransferLists();
-    }
+
+    this.initializeTransferLists();
   }
 
   initializeTransferLists = () => {
@@ -187,7 +185,7 @@ export class Toolbar extends React.Component {
 
   showConfigMenu = (show = true) => {
     if (!this.props.queuesSet) {
-      CxEngage.entities.getQueues();
+      this.props.updateQueues();
     }
     this.setState({ showConfigMenu: show });
   };
@@ -337,10 +335,7 @@ export class Toolbar extends React.Component {
               showAgentStatusMenu={this.showStatusMenu}
             />
           </div>
-          <AgentStats
-            queues={this.props.queues}
-            readyState={this.props.readyState}
-          />
+          <AgentStats readyState={this.props.readyState} />
           <div
             id="config-button-container"
             style={styles.configButtonContainer}
@@ -368,13 +363,11 @@ export class Toolbar extends React.Component {
 
 function mapStateToProps(state, props) {
   return {
-    queues: selectQueues(state, props),
     selectedPresenceReason: selectSelectedPresenceReason(state, props),
     hasInteractions: selectHasInteractions(state, props),
     readyState: selectReadyState(state, props),
     queuesSet: selectQueuesSet(state, props),
     ...selectToolbar()(state, props),
-    transferLists: selectUserAssignedTransferLists(state, props),
   };
 }
 
@@ -383,6 +376,7 @@ function mapDispatchToProps(dispatch) {
     toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
     updateUserAssignedTransferLists: () =>
       dispatch(updateUserAssignedTransferLists()),
+    updateQueues: (refreshQueues) => dispatch(updateQueues(refreshQueues)),
     dispatch,
   };
 }
@@ -391,17 +385,13 @@ Toolbar.propTypes = {
   style: PropTypes.array,
   readyState: PropTypes.string,
   tenant: PropTypes.object,
-  queues: PropTypes.array,
   showAgentStatusMenu: PropTypes.bool,
   toggleAgentMenu: PropTypes.func,
   selectedPresenceReason: PropTypes.object,
   hasInteractions: PropTypes.bool,
   queuesSet: PropTypes.bool,
-  transferLists: PropTypes.PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array,
-  ]),
   updateUserAssignedTransferLists: PropTypes.func.isRequired,
+  updateQueues: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(

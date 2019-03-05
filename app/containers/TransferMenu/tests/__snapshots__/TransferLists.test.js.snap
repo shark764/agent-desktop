@@ -2,13 +2,7 @@
 
 exports[`TransferLists Component render renders TransferLists component when assigned transferlists and flow transferlists are in loading state 1`] = `
 <React.Fragment>
-  <div
-    style={
-      Object {
-        "marginTop": "12px",
-      }
-    }
-  >
+  <div>
     <div>
       <FormattedMessage
         defaultMessage="Checking Interaction Transfer Lists Availability..."
@@ -27,13 +21,7 @@ exports[`TransferLists Component render renders TransferLists component when ass
       }
     />
   </div>
-  <div
-    style={
-      Object {
-        "marginTop": "12px",
-      }
-    }
-  >
+  <div>
     <div>
       <FormattedMessage
         defaultMessage="Checking Assigned Transfer Lists Availability..."
@@ -59,37 +47,11 @@ exports[`TransferLists Component render renders TransferLists component when the
 
 exports[`TransferLists Component render renders TransferLists component with user assinged transferlists and interaction transferlists 1`] = `
 <React.Fragment>
-  <div
-    style={
-      Object {
-        "marginTop": "12px",
-      }
-    }
-  >
+  <div>
     <div
       id="interTransferListsCollapExpandBtn"
       key="interactionTransferLists"
       onClick={[Function]}
-      style={
-        Object {
-          ":focus": Object {
-            "backgroundColor": "#23cdf4",
-            "color": "#FFFFFF",
-            "outline": "none",
-          },
-          ":hover": Object {
-            "backgroundColor": "#23cdf4",
-            "color": "#FFFFFF",
-          },
-          "borderRadius": "3px",
-          "cursor": "pointer",
-          "display": "flex",
-          "fontSize": "15px",
-          "fontWeight": "bold",
-          "marginBottom": "0px !important",
-          "marginTop": "12px",
-        }
-      }
     >
       <FormattedMessage
         defaultMessage="Transfer lists for this Interaction"
@@ -100,53 +62,18 @@ exports[`TransferLists Component render renders TransferLists component with use
         name="caret"
         style={
           Array [
-            Object {
-              "flexShrink": "0",
-              "fontWeight": "600",
-              "height": "8px",
-              "marginLeft": "auto",
-              "marginRight": "4px",
-              "marginTop": "4px",
-              "transform": "rotate(180deg)",
-              "width": "13.33px",
-            },
+            undefined,
           ]
         }
       />
     </div>
     <div
       key="interactionTransferList-mockTransferListId"
-      style={
-        Object {
-          "marginTop": "12px",
-        }
-      }
     >
       <div
         id="interactionTransferList-0"
         key="interactionTransferList-mockTransferListId-title"
         onClick={[Function]}
-        style={
-          Object {
-            ":focus": Object {
-              "backgroundColor": "#23cdf4",
-              "color": "#FFFFFF",
-              "outline": "none",
-            },
-            ":hover": Object {
-              "backgroundColor": "#23cdf4",
-              "color": "#FFFFFF",
-            },
-            "borderRadius": "3px",
-            "color": "rgb(151, 151, 151)",
-            "cursor": "pointer",
-            "display": "flex",
-            "fontSize": "15px",
-            "fontWeight": "bold",
-            "marginBottom": "0px !important",
-            "marginTop": "12px",
-          }
-        }
         title="mockTransferListName"
       >
         <span
@@ -163,63 +90,16 @@ exports[`TransferLists Component render renders TransferLists component with use
         </span>
         <Icon
           name="caret"
-          style={
-            Object {
-              "flexShrink": "0",
-              "height": "8px",
-              "marginLeft": "auto",
-              "marginRight": "4px",
-              "marginTop": "4px",
-              "opacity": "0.5",
-              "transition": "transform 0.5s",
-              "width": "13.33px",
-            }
-          }
         />
       </div>
     </div>
-    <div
-      style={
-        Object {
-          "borderBottom": "1px solid #e6e6e6",
-          "display": "inline-block",
-          "height": "2px",
-          "width": "100%",
-        }
-      }
-    />
+    <div />
   </div>
-  <div
-    style={
-      Object {
-        "marginTop": "12px",
-      }
-    }
-  >
+  <div>
     <div
       id="assignedTransferListsCollapExpandBtn"
       key="assignedTransferLists"
       onClick={[Function]}
-      style={
-        Object {
-          ":focus": Object {
-            "backgroundColor": "#23cdf4",
-            "color": "#FFFFFF",
-            "outline": "none",
-          },
-          ":hover": Object {
-            "backgroundColor": "#23cdf4",
-            "color": "#FFFFFF",
-          },
-          "borderRadius": "3px",
-          "cursor": "pointer",
-          "display": "flex",
-          "fontSize": "15px",
-          "fontWeight": "bold",
-          "marginBottom": "0px !important",
-          "marginTop": "12px",
-        }
-      }
     >
       <FormattedMessage
         defaultMessage="Transfer lists assigned to you"
@@ -230,53 +110,18 @@ exports[`TransferLists Component render renders TransferLists component with use
         name="caret"
         style={
           Array [
-            Object {
-              "flexShrink": "0",
-              "fontWeight": "600",
-              "height": "8px",
-              "marginLeft": "auto",
-              "marginRight": "4px",
-              "marginTop": "4px",
-              "transform": "rotate(180deg)",
-              "width": "13.33px",
-            },
+            undefined,
           ]
         }
       />
     </div>
     <div
       key="mockTransferListId"
-      style={
-        Object {
-          "marginTop": "12px",
-        }
-      }
     >
       <div
         id="transferList-0"
         key="mockTransferListId-title"
         onClick={[Function]}
-        style={
-          Object {
-            ":focus": Object {
-              "backgroundColor": "#23cdf4",
-              "color": "#FFFFFF",
-              "outline": "none",
-            },
-            ":hover": Object {
-              "backgroundColor": "#23cdf4",
-              "color": "#FFFFFF",
-            },
-            "borderRadius": "3px",
-            "color": "rgb(151, 151, 151)",
-            "cursor": "pointer",
-            "display": "flex",
-            "fontSize": "15px",
-            "fontWeight": "bold",
-            "marginBottom": "0px !important",
-            "marginTop": "12px",
-          }
-        }
         title="mockTransferListName"
       >
         <span
@@ -293,18 +138,6 @@ exports[`TransferLists Component render renders TransferLists component with use
         </span>
         <Icon
           name="caret"
-          style={
-            Object {
-              "flexShrink": "0",
-              "height": "8px",
-              "marginLeft": "auto",
-              "marginRight": "4px",
-              "marginTop": "4px",
-              "opacity": "0.5",
-              "transition": "transform 0.5s",
-              "width": "13.33px",
-            }
-          }
         />
       </div>
     </div>
