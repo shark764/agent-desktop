@@ -74,9 +74,9 @@ const selectAgents = createSelector(
             }
             return {
               agentId: agent.agentId,
-              firstName: agent.agentName.split(' ')[0],
-              lastName: agent.agentName.split(' ')[1],
-              name: agent.agentName,
+              firstName: agent.agentName ? agent.agentName.split(' ')[0] : '',
+              lastName: agent.agentName ? agent.agentName.split(' ')[1] : '',
+              name: agent.agentName ? agent.agentName : '',
               isAvailable: agent.presence === 'ready' && hasVoiceCapacity,
             };
           })

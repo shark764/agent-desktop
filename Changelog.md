@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+### [1.36.2] (2019-01-21)
+* CXV1-17186 - Skylight | Transfer Menu | Cannot read property 'split' of null
+
 ## [1.36.1-SNAPSHOT] (2019-02-11)
 ### Added
 * CXV1-15536 - Hide transfer menu list based on state stored in preferences, don't do batch request when hidden
