@@ -19,6 +19,7 @@ import {
 import { selectTenant, selectAgent } from 'containers/Login/selectors';
 import { selectHasViewStatsPermission } from 'containers/AgentPreferencesMenu/selectors';
 import { updateQueues } from 'containers/AgentTransferMenuPreferenceMenu/sagas';
+import { selectHasAgentExperienceTransferMenuQueuesViewPermission } from 'containers/TransferMenu/selectors';
 import { selectWelcomeStatIds } from './selectors';
 import {
   removeStat,
@@ -172,6 +173,9 @@ export default [activateToolbarStat, deactivateToolbarStat, initializeStats];
 export function* validateStat(stat) {
   const availableStats = yield select(selectAvailableStats);
   const statExists = availableStats[stat.statOption];
+  const hasAgentExperienceTransferMenuQueuesViewPermission = yield select(
+    selectHasAgentExperienceTransferMenuQueuesViewPermission
+  );
   const aggregateExists =
     statExists &&
     Object.keys(availableStats[stat.statOption].responseKeys).includes(
@@ -184,13 +188,18 @@ export function* validateStat(stat) {
         stat.statSource
       ));
   let queueExists = true;
-  if (stat.statSource === 'queue-id') {
+  if (
+    stat.statSource === 'queue-id' &&
+    hasAgentExperienceTransferMenuQueuesViewPermission
+  ) {
     const queuesSet = yield select(selectQueuesSet);
     if (!queuesSet) {
       yield call(updateQueues);
     }
     const queues = yield select(selectQueues);
     queueExists = queues.filter((queue) => queue.id === stat.queue).length;
+  } else {
+    queueExists = false;
   }
   return aggregateExists && filterExists && queueExists;
 }

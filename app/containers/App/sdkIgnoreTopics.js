@@ -23,6 +23,7 @@ export default [
   'cxengage/interactions/contact-assign-acknowledged', // Handled in InfoTab
   'cxengage/interactions/contact-unassign-acknowledged', // Handled in InfoTab
   'cxengage/interactions/voice/transfer-response', // Handled in TransferMenu
+  'cxengage/entities/get-entity-response', // Handled by TransferMenu
   'cxengage/interactions/voice/recording-received', // Handled in historicalInteractionBody saga
   'cxengage/interactions/messaging/transcript-received', // Handled in historicalInteractionBody saga
   'cxengage/interactions/create-note-response', // Handled in ContentArea

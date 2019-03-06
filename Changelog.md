@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.0] (2019-02-14)
+### Added
+* CXV1-16780 - Hide queues/agents lists from transfer menu when no role	
+* CXV1-16782 - Remove the batch requests for agents/queues when no role
+* CXV1-16779 - Hide queues/agents from preference menu when no role
+
 ### [1.36.2] (2019-01-21)
 * CXV1-17186 - Skylight | Transfer Menu | Cannot read property 'split' of null
 

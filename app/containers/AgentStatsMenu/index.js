@@ -21,6 +21,10 @@ import { activateToolbarStat } from 'containers/Toolbar/actions';
 
 import Select from 'components/Select';
 import Button from 'components/Button';
+import {
+  selectHasAgentExperienceTransferMenuQueuesViewPermission,
+  selectHasAgentExperienceTransferMenuAgentsViewPermission,
+} from 'containers/TransferMenu/selectors';
 import { selectAvailableStats } from 'containers/AgentStats/selectors';
 import {
   selectToolbarStatIds,
@@ -77,7 +81,11 @@ export class AgentStatsMenu extends React.Component {
 
   setStatSource = (value) => {
     this.setState({ statSource: value }, () => {
-      if (this.props.selectVisibleQueues.length > 0 && value === 'queue-id') {
+      if (
+        this.props.selectVisibleQueues.length > 0 &&
+        value === 'queue-id' &&
+        this.props.hasAgentExperienceTransferMenuQueuesViewPermission
+      ) {
         this.setQueue(this.getQueues()[0].value);
       }
       this.setStatOption(this.getStats()[0].value);
@@ -103,6 +111,19 @@ export class AgentStatsMenu extends React.Component {
       value: queue.id,
       label: queue.name,
     }));
+
+  getSourceOptions = () => {
+    const sourceOptions = this.sourceOptions.filter(
+      (e) =>
+        (e.value === 'queue-id' &&
+          this.props.hasAgentExperienceTransferMenuQueuesViewPermission) ||
+        (e.value === 'resource-id' &&
+          this.props.hasAgentExperienceTransferMenuAgentsViewPermission) ||
+        e.value === 'tenant-id'
+    );
+    this.sourceOptions = sourceOptions;
+    return this.sourceOptions;
+  };
 
   getStats = () => {
     let stats;
@@ -159,7 +180,7 @@ export class AgentStatsMenu extends React.Component {
                   id="statSource"
                   value={this.state.statSource}
                   style={this.styles.select}
-                  options={this.sourceOptions}
+                  options={this.getSourceOptions()}
                   onChange={(e) => this.setStatSource(e.value || '-1')}
                   clearable={false}
                 />
@@ -242,6 +263,14 @@ function mapStateToProps(state, props) {
     availableStats: selectAvailableStats(state, props),
     currentAgent: selectCurrentAgent(state, props),
     selectVisibleQueues: selectVisibleQueues(state, props),
+    hasAgentExperienceTransferMenuQueuesViewPermission: selectHasAgentExperienceTransferMenuQueuesViewPermission(
+      state,
+      props
+    ),
+    hasAgentExperienceTransferMenuAgentsViewPermission: selectHasAgentExperienceTransferMenuAgentsViewPermission(
+      state,
+      props
+    ),
   };
 }
 
@@ -262,6 +291,8 @@ AgentStatsMenu.propTypes = {
   show: PropTypes.bool,
   selectVisibleQueues: PropTypes.array.isRequired,
   initializeTransferMenuPreferences: PropTypes.func.isRequired,
+  hasAgentExperienceTransferMenuQueuesViewPermission: PropTypes.bool.isRequired,
+  hasAgentExperienceTransferMenuAgentsViewPermission: PropTypes.bool.isRequired,
 };
 
 export default ErrorBoundary(

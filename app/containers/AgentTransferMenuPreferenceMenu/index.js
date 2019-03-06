@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import CollapsibleMultiselect from 'components/CollapsibleMultiselect';
 
 import { selectQueues } from 'containers/AgentDesktop/selectors';
-import { selectUserAssignedTransferLists } from 'containers/TransferMenu/selectors';
+import {
+  selectUserAssignedTransferLists,
+  selectHasAgentExperienceTransferMenuQueuesViewPermission,
+  selectHasAgentExperienceTransferMenuAgentsViewPermission,
+} from 'containers/TransferMenu/selectors';
 import ErrorBoundary from 'components/ErrorBoundary';
 import {
   selectAgentsPreferences,
@@ -39,23 +43,25 @@ export class AgentTransferMenuPreferenceMenu extends React.Component {
   render() {
     return (
       <Fragment>
-        <CollapsibleMultiselect
-          title={messages.agents}
-          toggleSelection={this.props.toggleAgents}
-          singleToggleBtn={this.props.agentsTransferMenuEnabled}
-        />
-
-        <CollapsibleMultiselect
-          title={messages.queues}
-          items={this.props.queues}
-          selectAll={this.props.toggleAllQueues}
-          selectAllBtn
-          selectedItems={this.props.visibleQueues.map((queue) => queue.id)}
-          toggleSelection={this.props.toggleQueue}
-          toggleShowList={this.props.toggleShowQueues}
-          loading={this.props.preferenceMenuQueuesLoading}
-        />
-
+        {this.props.hasAgentExperienceTransferMenuAgentsViewPermission && (
+          <CollapsibleMultiselect
+            title={messages.agents}
+            toggleSelection={this.props.toggleAgents}
+            singleToggleBtn={this.props.agentsTransferMenuEnabled}
+          />
+        )}
+        {this.props.hasAgentExperienceTransferMenuQueuesViewPermission && (
+          <CollapsibleMultiselect
+            title={messages.queues}
+            items={this.props.queues}
+            selectAll={this.props.toggleAllQueues}
+            selectAllBtn
+            selectedItems={this.props.visibleQueues.map((queue) => queue.id)}
+            toggleSelection={this.props.toggleQueue}
+            toggleShowList={this.props.toggleShowQueues}
+            loading={this.props.preferenceMenuQueuesLoading}
+          />
+        )}
         <CollapsibleMultiselect
           title={messages.transferLists}
           items={
@@ -86,6 +92,14 @@ const mapStateToProps = (state, props) => ({
     state,
     props
   ),
+  hasAgentExperienceTransferMenuQueuesViewPermission: selectHasAgentExperienceTransferMenuQueuesViewPermission(
+    state,
+    props
+  ),
+  hasAgentExperienceTransferMenuAgentsViewPermission: selectHasAgentExperienceTransferMenuAgentsViewPermission(
+    state,
+    props
+  ),
 });
 
 AgentTransferMenuPreferenceMenu.propTypes = {
@@ -104,6 +118,8 @@ AgentTransferMenuPreferenceMenu.propTypes = {
   visibleTransferLists: PropTypes.array,
   preferenceMenuQueuesLoading: PropTypes.bool,
   preferenceMenuTransferListsLoading: PropTypes.bool,
+  hasAgentExperienceTransferMenuQueuesViewPermission: PropTypes.bool.isRequired,
+  hasAgentExperienceTransferMenuAgentsViewPermission: PropTypes.bool.isRequired,
 };
 
 export const actions = {

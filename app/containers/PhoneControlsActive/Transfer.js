@@ -7,10 +7,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Radium from 'radium';
 
+import { selectHasAgentExperienceTransferMenuQueuesViewPermission } from 'containers/TransferMenu/selectors';
 import { selectQueuesSet } from 'containers/AgentDesktop/selectors';
-
-import CircleIconButton from 'components/CircleIconButton';
 import { updateQueues } from 'containers/TransferMenu/actions';
+import CircleIconButton from 'components/CircleIconButton';
 import TransferMenu from 'containers/TransferMenu';
 import messages from './messages';
 
@@ -73,7 +73,10 @@ export class Transfer extends React.PureComponent {
   };
 
   toggleTransferMenu = () => {
-    if (!this.props.queuesSet) {
+    if (
+      !this.props.queuesSet &&
+      this.props.hasAgentExperienceTransferMenuQueuesViewPermission
+    ) {
       this.props.updateQueues();
     }
     this.setShowTransferMenu(!this.state.showTransferMenu);
@@ -141,6 +144,7 @@ Transfer.propTypes = {
   canTransfer: PropTypes.bool.isRequired,
   connectingTransfers: PropTypes.bool.isRequired,
   queuesSet: PropTypes.bool.isRequired,
+  hasAgentExperienceTransferMenuQueuesViewPermission: PropTypes.bool.isRequired,
   updateQueues: PropTypes.func.isRequired,
 };
 
@@ -150,6 +154,10 @@ Transfer.contextTypes = {
 
 const mapStateToProps = (state, props) => ({
   queuesSet: selectQueuesSet(state, props),
+  hasAgentExperienceTransferMenuQueuesViewPermission: selectHasAgentExperienceTransferMenuQueuesViewPermission(
+    state,
+    props
+  ),
 });
 
 export const actions = {

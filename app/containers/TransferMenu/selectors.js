@@ -4,6 +4,7 @@
 import { createSelector } from 'reselect';
 import { selectBatchRequests } from 'containers/Toolbar/selectors';
 import { selectAgent } from 'containers/Login/selectors';
+import { getCurrentTenantPermissions } from 'containers/App/selectors';
 
 const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 
@@ -180,6 +181,18 @@ const selectVisibleStateOfAllUserAssignedTrasferLists = (state) =>
     'visibleStateOfAllUserAssignedTransferLists',
   ]);
 
+const selectHasAgentExperienceTransferMenuQueuesViewPermission = createSelector(
+  [getCurrentTenantPermissions],
+  (tenantPermissions) =>
+    tenantPermissions.includes('AGENT_EXPERIENCE_TRANSFER_MENU_QUEUES_VIEW')
+);
+
+const selectHasAgentExperienceTransferMenuAgentsViewPermission = createSelector(
+  [getCurrentTenantPermissions],
+  (tenantPermissions) =>
+    tenantPermissions.includes('AGENT_EXPERIENCE_TRANSFER_MENU_AGENTS_VIEW')
+);
+
 export {
   selectWarmTransfers,
   selectAgents,
@@ -194,4 +207,6 @@ export {
   selectUserAssignedTransferListsLoadingState,
   selectUserAssignedTransferListsVisibleState,
   selectVisibleStateOfAllUserAssignedTrasferLists,
+  selectHasAgentExperienceTransferMenuQueuesViewPermission,
+  selectHasAgentExperienceTransferMenuAgentsViewPermission,
 };

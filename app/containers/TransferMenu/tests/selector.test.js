@@ -12,7 +12,32 @@ import {
   selectUserAssignedTransferListsLoadingState,
   selectUserAssignedTransferListsVisibleState,
   selectVisibleStateOfAllUserAssignedTrasferLists,
+  selectHasAgentExperienceTransferMenuQueuesViewPermission,
+  selectHasAgentExperienceTransferMenuAgentsViewPermission,
 } from '../selectors';
+
+const getCurrentTenantPermissions = {
+  login: {
+    agent: {
+      tenants: [
+        {
+          tenantId: '1',
+          tenantPermissions: [
+            'AGENT_EXPERIENCE_TRANSFER_MENU_QUEUES_VIEW',
+            'AGENT_EXPERIENCE_TRANSFER_MENU_AGENTS_VIEW',
+          ],
+        },
+        {
+          tenantId: '2',
+          tenantPermissions: ['BOGUS_PERMISSON'],
+        },
+      ],
+    },
+    tenant: {
+      id: '',
+    },
+  },
+};
 
 describe('selectAgents', () => {
   describe('batch requests are successful', () => {
@@ -289,5 +314,51 @@ describe('selectUserAssignedTransferLists', () => {
     expect(selectVisibleStateOfAllUserAssignedTrasferLists(mockedState)).toBe(
       true
     );
+  });
+});
+
+describe('selectHasAgentExperienceTransferMenuQueuesViewPermission selector', () => {
+  describe('when selecting a tenant with the correct permissions', () => {
+    it('should return true', () => {
+      getCurrentTenantPermissions.login.tenant.id = '1';
+      expect(
+        selectHasAgentExperienceTransferMenuQueuesViewPermission(
+          fromJS(getCurrentTenantPermissions)
+        )
+      ).toBe(true);
+    });
+  });
+  describe('when selecting a tenant with incorrect permission', () => {
+    it('should return false', () => {
+      getCurrentTenantPermissions.login.tenant.id = '2';
+      expect(
+        selectHasAgentExperienceTransferMenuQueuesViewPermission(
+          fromJS(getCurrentTenantPermissions)
+        )
+      ).toBe(false);
+    });
+  });
+});
+
+describe('selectHasAgentExperienceTransferMenuAgentsViewPermission selector', () => {
+  describe('when selecting a tenant with the correct permissions', () => {
+    it('should return true', () => {
+      getCurrentTenantPermissions.login.tenant.id = '1';
+      expect(
+        selectHasAgentExperienceTransferMenuAgentsViewPermission(
+          fromJS(getCurrentTenantPermissions)
+        )
+      ).toBe(true);
+    });
+  });
+  describe('when selecting a tenant with incorrect permission', () => {
+    it('should return false', () => {
+      getCurrentTenantPermissions.login.tenant.id = '2';
+      expect(
+        selectHasAgentExperienceTransferMenuAgentsViewPermission(
+          fromJS(getCurrentTenantPermissions)
+        )
+      ).toBe(false);
+    });
   });
 });

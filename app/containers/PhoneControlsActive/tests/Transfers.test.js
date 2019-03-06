@@ -17,6 +17,7 @@ describe('<Transfer />', () => {
           canTransfer
           connectingTransfers={false}
           queuesSet={false}
+          hasAgentExperienceTransferMenuQueuesViewPermission
           updateQueues={updateQueues}
         />
       );
@@ -38,6 +39,7 @@ describe('<Transfer />', () => {
             canTransfer
             connectingTransfers={false}
             queuesSet
+            hasAgentExperienceTransferMenuQueuesViewPermission
             updateQueues={() => {}}
           />
         );
@@ -54,6 +56,7 @@ describe('<Transfer />', () => {
             canTransfer
             connectingTransfers={false}
             queuesSet
+            hasAgentExperienceTransferMenuQueuesViewPermission
             updateQueues={() => {}}
           />,
           {
@@ -75,6 +78,7 @@ describe('<Transfer />', () => {
         canTransfer={false}
         connectingTransfers={false}
         queuesSet
+        hasAgentExperienceTransferMenuQueuesViewPermission
         updateQueues={() => {}}
       />
     );
@@ -90,6 +94,7 @@ describe('<Transfer />', () => {
         canTransfer
         connectingTransfers
         queuesSet
+        hasAgentExperienceTransferMenuQueuesViewPermission
         updateQueues={() => {}}
       />
     );
