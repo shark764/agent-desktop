@@ -163,13 +163,7 @@ export class Toolbar extends React.Component {
       isStatusButtonHovered: false,
       isConfigButtonHovered: false,
     };
-
-    this.initializeTransferLists();
   }
-
-  initializeTransferLists = () => {
-    this.props.updateUserAssignedTransferLists();
-  };
 
   setStatusButtonHovered = (isStatusButtonHovered) => {
     this.setState({ isStatusButtonHovered });
@@ -184,9 +178,6 @@ export class Toolbar extends React.Component {
   };
 
   showConfigMenu = (show = true) => {
-    if (!this.props.queuesSet) {
-      this.props.updateQueues();
-    }
     this.setState({ showConfigMenu: show });
   };
 

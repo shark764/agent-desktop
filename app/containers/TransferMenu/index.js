@@ -34,6 +34,7 @@ import {
   selectInteractionTransferListsLoadingState,
   selectInteractionTransferListsVisibleState,
   selectVisibleStateofAllInteractionTrasferLists,
+  selectQueues,
 } from 'containers/AgentDesktop/selectors';
 import { selectBatchRequests } from 'containers/Toolbar/selectors';
 import {
@@ -43,6 +44,7 @@ import {
 } from 'containers/AgentTransferMenuPreferenceMenu/selectors';
 import TransferDialPadButton from 'containers/TransferDialPadButton';
 import TransferDialPad from 'containers/TransferDialPad';
+import { isAlpha } from 'utils/url';
 import TransferLists from './TransferLists';
 import messages from './messages';
 import {
@@ -75,6 +77,7 @@ import {
   selectVisibleStateOfAllUserAssignedTrasferLists,
   selectHasAgentExperienceTransferMenuQueuesViewPermission,
   selectHasAgentExperienceTransferMenuAgentsViewPermission,
+  selectUserAssignedTransferLists,
 } from './selectors';
 
 const REFRESH_AGENTS_RATE = 5000;
@@ -150,6 +153,9 @@ export class TransferMenu extends React.Component {
     this.props.updateUserAssignedTransferLists();
     this.props.updateInteractionTransferLists();
     this.props.initializeQueuesAgentsVisibleState();
+    this.globalQueues = isAlpha()
+      ? this.props.selectVisibleQueues
+      : this.props.queues;
     if (
       !this.props.batchRequestsAreSuccessful &&
       this.props.showAgentsTransferMenuPreference &&
@@ -204,12 +210,12 @@ export class TransferMenu extends React.Component {
     });
 
     this.props.setUsers(undefined);
-    this.props.clearQueuesTime(this.props.selectVisibleQueues);
+    this.props.clearQueuesTime(this.globalQueues);
     document.removeEventListener('keydown', this.hotKeys);
   }
 
   refreshQueues = () => {
-    const queriesList = this.props.selectVisibleQueues.map((queue) => ({
+    const queriesList = this.globalQueues.map((queue) => ({
       statistic: 'queue-time',
       queueId: queue.id,
       statId: queue.id,
@@ -258,12 +264,12 @@ export class TransferMenu extends React.Component {
   refreshQueuesButton = (e) => {
     e.stopPropagation();
     if (
-      this.props.selectVisibleQueues &&
-      this.props.selectVisibleQueues[0] &&
-      this.props.selectVisibleQueues[0].queueTime !== undefined &&
+      this.globalQueues &&
+      this.globalQueues[0] &&
+      this.globalQueues[0].queueTime !== undefined &&
       this.props.batchRequestsAreSuccessful
     ) {
-      this.props.clearQueuesTime(this.props.selectVisibleQueues);
+      this.props.clearQueuesTime(this.globalQueues);
       this.props.updateQueues(() => {
         CxEngage.reporting.triggerBatch();
       });
@@ -472,37 +478,38 @@ export class TransferMenu extends React.Component {
   render() {
     let queues;
     if (this.props.hasAgentExperienceTransferMenuQueuesViewPermission) {
-      queues = this.filterTransferListItems(this.props.selectVisibleQueues).map(
-        (queue) => (
-          <div
-            id={queue.id}
-            key={queue.id}
-            className="queueTransferListItem transferItem"
-            onClick={() =>
-              this.props.transfer(
-                this.props.setShowTransferMenu,
-                queue.name,
-                undefined,
-                queue.id
-              )
-            }
-            style={this.styles.transferListItem}
-            title={queue.name}
-            tabIndex="0" // eslint-disable-line
-          >
-            <span style={this.styles.queueName}>
-              {queue.name}
-            </span>
-            <span style={this.styles.averageQueueTime}>
-              {queue.queueTime !== undefined ? (
-                <TimeStat time={queue.queueTime} unit="millis" />
-              ) : (
-                undefined
-              )}
-            </span>
-          </div>
-        )
-      );
+      this.globalQueues = isAlpha()
+        ? this.props.selectVisibleQueues
+        : this.props.queues;
+      queues = this.filterTransferListItems(this.globalQueues).map((queue) => (
+        <div
+          id={queue.id}
+          key={queue.id}
+          className="queueTransferListItem transferItem"
+          onClick={() =>
+            this.props.transfer(
+              this.props.setShowTransferMenu,
+              queue.name,
+              undefined,
+              queue.id
+            )
+          }
+          style={this.styles.transferListItem}
+          title={queue.name}
+          tabIndex="0" // eslint-disable-line
+        >
+          <span style={this.styles.queueName}>
+            {queue.name}
+          </span>
+          <span style={this.styles.averageQueueTime}>
+            {queue.queueTime !== undefined ? (
+              <TimeStat time={queue.queueTime} unit="millis" />
+            ) : (
+              undefined
+            )}
+          </span>
+        </div>
+      ));
     }
 
     let agents;
@@ -637,11 +644,15 @@ export class TransferMenu extends React.Component {
               {this.props
                 .hasAgentExperienceTransferMenuQueuesViewPermission && (
                 <div style={this.styles.transferListDivContainer}>
-                  {this.props.selectVisibleQueues.length > 0 && (
+                  {this.globalQueues.length > 0 && (
                     <div
                       id="queuesExpandCollapseBtn"
                       key="queuesListBtn"
-                      style={this.styles.transferTypeTitle}
+                      style={
+                        this.props.queuesListVisibleState
+                          ? this.styles.expandedTransferHeading
+                          : this.styles.collapsedTransferHeading
+                      }
                       onClick={() => this.props.updateQueuesListVisibleState()}
                     >
                       <FormattedMessage {...messages.queues} />
@@ -652,10 +663,9 @@ export class TransferMenu extends React.Component {
                           key="queuesRefreshBtn"
                           style={[
                             this.styles.refresh,
-                            (this.props.selectVisibleQueues === undefined ||
-                              this.props.selectVisibleQueues[0] === undefined ||
-                              this.props.selectVisibleQueues[0].queueTime ===
-                                undefined ||
+                            (this.globalQueues === undefined ||
+                              this.globalQueues[0] === undefined ||
+                              this.globalQueues[0].queueTime === undefined ||
                               !this.props.batchRequestsAreSuccessful) &&
                               this.styles.refreshInProgress,
                           ]}
@@ -723,12 +733,11 @@ export class TransferMenu extends React.Component {
                     />
                   </div>
                   {(this.props.agentsListVisibleState ||
-                    this.props.transferSearchInput.trim() !== '') &&
-                    agents}
+                      this.props.transferSearchInput.trim() !== '') &&
+                      agents}
                   <div style={this.styles.lineSpacer} />
                 </div>
               )}
-
               <TransferLists
                 transferSearchInput={this.props.transferSearchInput}
                 transferTabIndex={this.props.transferTabIndex}
@@ -746,7 +755,9 @@ export class TransferMenu extends React.Component {
                   this.props.visibleStateofAllInteractionTrasferLists
                 }
                 userAssignedTransferLists={
-                  this.props.selectVisibleTransferLists
+                  isAlpha()
+                    ? this.props.selectVisibleTransferLists
+                    : this.props.userAssignedTransferLists
                 }
                 userAssignedTransferListsLoadingState={
                   this.props.userAssignedTransferListsLoadingState
@@ -839,6 +850,8 @@ const mapStateToProps = (state, props) => ({
     state,
     props
   ),
+  queues: selectQueues(state, props),
+  userAssignedTransferLists: selectUserAssignedTransferLists(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -938,6 +951,7 @@ TransferMenu.propTypes = {
   updateQueues: PropTypes.func.isRequired,
   hasAgentExperienceTransferMenuQueuesViewPermission: PropTypes.bool.isRequired,
   hasAgentExperienceTransferMenuAgentsViewPermission: PropTypes.bool.isRequired,
+  queues: PropTypes.array.isRequired,
 };
 
 export default ErrorBoundary(

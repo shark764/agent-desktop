@@ -12,7 +12,7 @@ import { fromJS, List } from 'immutable';
 import * as ACTIONS from './constants';
 
 const initialState = fromJS({
-  agentsTransferMenu: false,
+  agentsTransferMenu: true,
   showQueues: false,
   showTransferLists: false,
   selectedQueues: [],

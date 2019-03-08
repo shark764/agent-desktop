@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.1] (2019-03-06)
+### Fixed
+* Fixed an issue where no visible queues and transfer lists where being rendered in transfer menu
+* Fixed an issue where localstorage was not loaded if transfer menu was opened before preference menu ui
+* Fixed an css issue with collapsible button in queues list in transfer menu
+### Added
+* Backward compatibility with or without ?alpha flag in transfer menu
+
 ## [1.37.0] (2019-02-14)
 ### Added
 * CXV1-16780 - Hide queues/agents lists from transfer menu when no role	

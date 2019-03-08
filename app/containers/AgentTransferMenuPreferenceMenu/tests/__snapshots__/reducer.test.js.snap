@@ -102,7 +102,7 @@ Immutable.Map {
 
 exports[`agentTransferMenuPreferenceMenuReducer returns the correct initial state 1`] = `
 Immutable.Map {
-  "agentsTransferMenu": false,
+  "agentsTransferMenu": true,
   "showQueues": false,
   "showTransferLists": false,
   "selectedQueues": Immutable.List [],

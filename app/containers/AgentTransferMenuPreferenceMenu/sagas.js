@@ -4,12 +4,13 @@ import sdkCallToPromise from 'utils/sdkCallToPromise';
 import { setUserAssignedTransferLists } from 'containers/TransferMenu/actions';
 import { UPDATE_QUEUES } from 'containers/TransferMenu/constants';
 import { selectUserAssignedTransferLists } from 'containers/TransferMenu/selectors';
-
+import { takeLeading } from 'utils/takeLeading';
 import { setQueues } from 'containers/AgentDesktop/actions';
 import {
   selectQueues,
   getSelectedInteraction,
 } from 'containers/AgentDesktop/selectors';
+import { isAlpha } from 'utils/url';
 import * as ACTIONS from './constants';
 
 import {
@@ -38,14 +39,18 @@ export function* goInitializeTransferMenuPreferences() {
     select(selectTenant),
     select(selectAgent),
   ]);
-  const agentPreference = localStorage.getItem(
-    `agentsTransferMenuList-${tenant.id}-${agent.userId}`
-  );
 
-  if (agentPreference !== null) {
-    yield put(setAgentsTransferMenuPreference(agentPreference === 'true'));
-  } else {
-    yield put(setAgentsTransferMenuPreference(true));
+  //  Toggle the value to show/hide agent list just if isAlpha, default value in redux is true
+  if (isAlpha()) {
+    const agentPreference = localStorage.getItem(
+      `agentsTransferMenuList-${tenant.id}-${agent.userId}`
+    );
+
+    if (agentPreference !== null) {
+      yield put(setAgentsTransferMenuPreference(agentPreference === 'true'));
+    } else {
+      yield put(setAgentsTransferMenuPreference(true));
+    }
   }
 
   yield put(setPreferenceMenuQueuesLoading(true));
@@ -54,26 +59,8 @@ export function* goInitializeTransferMenuPreferences() {
   yield call(updateQueues);
   yield put(setPreferenceMenuQueuesLoading(false));
 
-  const selectedQueues = localStorage.getItem(
-    `selectedQueues.${tenant.id}.${agent.userId}`
-  );
-
-  yield put(
-    toggleSelectedQueues(selectedQueues.split(',').map((queue) => queue))
-  );
-
   yield call(updateUserAssignedTransferLists);
   yield put(setPreferenceMenuTransferListsLoading(false));
-
-  const selectedTransferLists = localStorage.getItem(
-    `selectedTransferLists.${tenant.id}.${agent.userId}`
-  );
-
-  yield put(
-    toggleSelectedTransferLists(
-      selectedTransferLists.split(',').map((transferList) => transferList)
-    )
-  );
 }
 
 export function* goToggleAgentsTransferMenuPreference() {
@@ -173,10 +160,13 @@ export function* updateQueues(action) {
     select(selectQueues),
     select(selectSelectedQueues),
   ]);
-  const localStorageSelectedQueues = localStorage.getItem(
-    `selectedQueues.${tenant.id}.${agent.userId}`
-  );
 
+  let localStorageSelectedQueues = null;
+  if (isAlpha()) {
+    localStorageSelectedQueues = localStorage.getItem(
+      `selectedQueues.${tenant.id}.${agent.userId}`
+    );
+  }
   let defaultQueues;
   let activeQueues;
   try {
@@ -184,7 +174,7 @@ export function* updateQueues(action) {
       sdkCallToPromise,
       CxEngage.entities.getQueues,
       {},
-      'TransferMenu'
+      'AgentTransferMenuPreferenceMenu'
     );
     activeQueues = defaultQueues.result.filter((queue) => queue.active);
     yield put(setQueues(activeQueues));
@@ -204,13 +194,27 @@ export function* updateQueues(action) {
     );
   } else if (
     currentQueues.length === 0 &&
-    localStorageSelectedQueues === null
+    localStorageSelectedQueues === null &&
+    isAlpha()
   ) {
     //  Setting all queues to visible state just the first time the agent logs in
     yield call(changeAllQueuesState, {
-      queues: newAddedQueues.map((queue) => queue.id),
+      queues: activeQueues.map((queue) => queue.id),
     });
   }
+  if (isAlpha()) {
+    //  Storing in local storage just when isAlpha
+    const selectedQueuesAfterUpdate = localStorage.getItem(
+      `selectedQueues.${tenant.id}.${agent.userId}`
+    );
+
+    yield put(
+      toggleSelectedQueues(
+        selectedQueuesAfterUpdate.split(',').map((queue) => queue)
+      )
+    );
+  }
+
   if (action && action.refreshQueues) {
     yield call(action.refreshQueues);
   }
@@ -230,16 +234,20 @@ export function* updateUserAssignedTransferLists() {
     select(selectUserAssignedTransferLists),
     select(selectSelectedTransferLists),
   ]);
-  const localStorageselectedTransferLists = localStorage.getItem(
-    `selectedTransferLists.${tenant.id}.${agent.userId}`
-  );
+
+  let localStorageselectedTransferLists = null;
+  if (isAlpha()) {
+    localStorageselectedTransferLists = localStorage.getItem(
+      `selectedTransferLists.${tenant.id}.${agent.userId}`
+    );
+  }
   let transferLists;
   try {
     transferLists = yield call(
       sdkCallToPromise,
       CxEngage.entities.getEntity,
       { path: ['users', agent.userId, 'transfer-lists'] },
-      'TransferMenu'
+      'AgentTransferMenuPreferenceMenu'
     );
   } catch (err) {
     // Error handled in error saga
@@ -286,23 +294,41 @@ export function* updateUserAssignedTransferLists() {
         currentUserAssignedTransferlists.length > 0 &&
         newAddedTransferLists.length > 0
       ) {
-        yield all(
-          newAddedTransferLists.map((transferList) =>
-            call(changeSelectedTransferListState, {
-              transferList: transferList.id,
-            })
-          )
-        );
+        if (isAlpha()) {
+          yield all(
+            newAddedTransferLists.map((transferList) =>
+              call(changeSelectedTransferListState, {
+                transferList: transferList.id,
+              })
+            )
+          );
+        }
       }
     } else if (
       userAssignedTransferlists.length > 0 &&
       localStorageselectedTransferLists === null
     ) {
-      yield call(changeAllTransferListState, {
-        transferLists: userAssignedTransferlists.map(
-          (transferList) => transferList.id
-        ),
-      });
+      if (isAlpha()) {
+        yield call(changeAllTransferListState, {
+          transferLists: userAssignedTransferlists.map(
+            (transferList) => transferList.id
+          ),
+        });
+      }
+    }
+
+    if (isAlpha()) {
+      const selectedTransferListsAfterUpdate = localStorage.getItem(
+        `selectedTransferLists.${tenant.id}.${agent.userId}`
+      );
+
+      yield put(
+        toggleSelectedTransferLists(
+          selectedTransferListsAfterUpdate
+            .split(',')
+            .map((transferList) => transferList)
+        )
+      );
     }
   } else {
     yield put(setUserAssignedTransferLists(null));
@@ -343,5 +369,5 @@ export default [
     changeAllTransferListState
   ),
 
-  takeEvery(UPDATE_QUEUES, updateQueues),
+  takeLeading(UPDATE_QUEUES, updateQueues),
 ];
