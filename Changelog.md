@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.2] (2019-03-08)
+### Fixed
+* CXV1-17203 - Outbound Identifiers - Identifiers not working properly when User exists in CRM
+
 ## [1.37.1] (2019-03-06)
 ### Fixed
 * Fixed an issue where no visible queues and transfer lists where being rendered in transfer menu

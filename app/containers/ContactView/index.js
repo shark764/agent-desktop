@@ -145,7 +145,7 @@ export class ContactView extends React.Component {
     } else {
       this.props.startOutboundInteraction({
         channelType,
-        contactPoint,
+        customer: contactPoint,
         contact: this.props.contact,
         addedByNewInteractionPanel: this.props
           .selectedInteractionIsCreatingNewInteraction,
