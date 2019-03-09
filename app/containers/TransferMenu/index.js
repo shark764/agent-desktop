@@ -30,21 +30,23 @@ import {
 import {
   selectAgentId,
   getSelectedInteractionId,
-  selectInteractionTransferLists,
-  selectInteractionTransferListsLoadingState,
-  selectInteractionTransferListsVisibleState,
-  selectVisibleStateofAllInteractionTrasferLists,
+  selectInterAssigVoiceTransLists,
+  selectInterAssigNonVoiceTransLists,
+  selectInterAssigVoiceTransListsLoadSt,
+  selectInterAssigNonVoiceTransListsLoadSt,
+  selectInterAssigTransListsVisibleSt,
+  selectInterAssigAllTransListsVisibleSt,
   selectQueues,
 } from 'containers/AgentDesktop/selectors';
 import { selectBatchRequests } from 'containers/Toolbar/selectors';
 import {
   selectAgentsPreferences,
   selectVisibleQueues,
-  selectVisibleTransferLists,
+  selectVisibleNonVoiceTransferLists,
+  selectVisibleVoiceTransferLists,
 } from 'containers/AgentTransferMenuPreferenceMenu/selectors';
 import TransferDialPadButton from 'containers/TransferDialPadButton';
 import TransferDialPad from 'containers/TransferDialPad';
-import { isAlpha } from 'utils/url';
 import TransferLists from './TransferLists';
 import messages from './messages';
 import {
@@ -72,12 +74,14 @@ import {
   selectFocusedTransferItemIndex,
   selectTransferTabIndex,
   selectShowTransferDialpad,
-  selectUserAssignedTransferListsLoadingState,
-  selectUserAssignedTransferListsVisibleState,
-  selectVisibleStateOfAllUserAssignedTrasferLists,
+  selectUserAssignedTransferLists,
+  selectUserAssigNonVoiceTransLists,
+  selectUserAssigVoiceTransListsLoadSt,
+  selectUserAssigNonVoiceTransListsLoadSt,
+  selectUserAssigTransListsVisibleSt,
+  selectUserAssigAllTransListsVisibleSt,
   selectHasAgentExperienceTransferMenuQueuesViewPermission,
   selectHasAgentExperienceTransferMenuAgentsViewPermission,
-  selectUserAssignedTransferLists,
 } from './selectors';
 
 const REFRESH_AGENTS_RATE = 5000;
@@ -149,13 +153,17 @@ export class TransferMenu extends React.Component {
   componentDidMount() {
     this.mounted = true;
     document.addEventListener('keydown', this.hotKeys);
-
-    this.props.updateUserAssignedTransferLists();
-    this.props.updateInteractionTransferLists();
     this.props.initializeQueuesAgentsVisibleState();
-    this.globalQueues = isAlpha()
-      ? this.props.selectVisibleQueues
-      : this.props.queues;
+
+    if (!this.props.nonVoice) {
+      this.props.updateUserAssignedTransferLists();
+      this.props.updateInteractionTransferLists('voice');
+    } else if (this.props.nonVoice) {
+      this.props.updateUserAssignedTransferLists('nonVoice');
+      this.props.updateInteractionTransferLists('nonVoice');
+    }
+    this.globalQueues =  this.props.selectVisibleQueues;
+    
     if (
       !this.props.batchRequestsAreSuccessful &&
       this.props.showAgentsTransferMenuPreference &&
@@ -195,7 +203,11 @@ export class TransferMenu extends React.Component {
   componentWillUnmount() {
     this.mounted = false;
 
-    this.props.tearDownTransferMenuStates();
+    if (!this.props.nonVoice) {
+      this.props.tearDownTransferMenuStates('voice');
+    } else {
+      this.props.tearDownTransferMenuStates('nonVoice');
+    }
 
     clearInterval(this.reloadQueuesInterval);
     clearInterval(this.reloadTransferablesInterval);
@@ -478,9 +490,7 @@ export class TransferMenu extends React.Component {
   render() {
     let queues;
     if (this.props.hasAgentExperienceTransferMenuQueuesViewPermission) {
-      this.globalQueues = isAlpha()
-        ? this.props.selectVisibleQueues
-        : this.props.queues;
+      this.globalQueues = this.props.selectVisibleQueues;
       queues = this.filterTransferListItems(this.globalQueues).map((queue) => (
         <div
           id={queue.id}
@@ -744,29 +754,37 @@ export class TransferMenu extends React.Component {
                 setShowTransferMenu={this.props.setShowTransferMenu}
                 transfer={this.props.transfer}
                 selectedInteractionId={this.props.selectedInteractionId}
-                interactionTransferLists={this.props.interactionTransferLists}
-                interactionTransferListsLoadingState={
-                  this.props.interactionTransferListsLoadingState
+                interactionTransferLists={
+                  !this.props.nonVoice
+                    ? this.props.interAssigVoiceTransLists
+                    : this.props.interAssigNonVoiceTransLists
                 }
-                interactionTransferListsVisibleState={
-                  this.props.interactionTransferListsVisibleState
+                interactionTransListsLoadSt={
+                  !this.props.nonVoice
+                    ? this.props.interAssigVoiceTransListsLoadSt
+                    : this.props.interAssigNonVoiceTransListsLoadSt
                 }
-                visibleStateofAllInteractionTrasferLists={
-                  this.props.visibleStateofAllInteractionTrasferLists
+                interactionTransListsVisibleSt={
+                  this.props.interAssigTransListsVisibleSt
+                }
+                interactionAllTransListsVisibleSt={
+                  this.props.interAssigAllTransListsVisibleSt
                 }
                 userAssignedTransferLists={
-                  isAlpha()
-                    ? this.props.selectVisibleTransferLists
-                    : this.props.userAssignedTransferLists
+                  !this.props.nonVoice
+                    ? this.props.selectVisibleVoiceTransferLists
+                    : this.props.selectVisibleNonVoiceTransferLists
                 }
-                userAssignedTransferListsLoadingState={
-                  this.props.userAssignedTransferListsLoadingState
+                userAssigTransListsLoadSt={
+                  !this.props.nonVoice
+                    ? this.props.userAssigVoiceTransListsLoadSt
+                    : this.props.userAssigNonVoiceTransListsLoadSt
                 }
-                userAssignedTransferListsVisibleState={
-                  this.props.userAssignedTransferListsVisibleState
+                userAssigTransListsVisibleSt={
+                  this.props.userAssigTransListsVisibleSt
                 }
-                visibleStateOfAllUserAssignedTransferLists={
-                  this.props.visibleStateOfAllUserAssignedTransferLists
+                userAssigAllTransListsVisibleSt={
+                  this.props.userAssigAllTransListsVisibleSt
                 }
                 updateInteractionTransferListsVisibleState={
                   this.props.updateInteractionTransferListsVisibleState
@@ -813,35 +831,50 @@ const mapStateToProps = (state, props) => ({
   warmTransfers: selectWarmTransfers(state, props),
   selectAgents: selectAgents(state, props),
   batchRequestsAreSuccessful: selectBatchRequests(state, props),
-  userAssignedTransferListsLoadingState: selectUserAssignedTransferListsLoadingState(
+  userAssigVoiceTransLists: selectUserAssignedTransferLists(state, props),
+  userAssigNonVoiceTransLists: selectUserAssigNonVoiceTransLists(state, props),
+  userAssigVoiceTransListsLoadSt: selectUserAssigVoiceTransListsLoadSt(
     state,
     props
   ),
-  userAssignedTransferListsVisibleState: selectUserAssignedTransferListsVisibleState(
+  userAssigNonVoiceTransListsLoadSt: selectUserAssigNonVoiceTransListsLoadSt(
     state,
     props
   ),
-  visibleStateOfAllUserAssignedTransferLists: selectVisibleStateOfAllUserAssignedTrasferLists(
+  userAssigTransListsVisibleSt: selectUserAssigTransListsVisibleSt(
+    state,
+    props
+  ),
+  userAssigAllTransListsVisibleSt: selectUserAssigAllTransListsVisibleSt(
     state,
     props
   ),
   selectedInteractionId: getSelectedInteractionId(state, props),
-  interactionTransferLists: selectInteractionTransferLists(state, props),
-  interactionTransferListsLoadingState: selectInteractionTransferListsLoadingState(
+  interAssigVoiceTransLists: selectInterAssigVoiceTransLists(state, props),
+  interAssigNonVoiceTransLists: selectInterAssigNonVoiceTransLists(
     state,
     props
   ),
-  interactionTransferListsVisibleState: selectInteractionTransferListsVisibleState(
+  interAssigVoiceTransListsLoadSt: selectInterAssigVoiceTransListsLoadSt(
     state,
     props
   ),
-  visibleStateofAllInteractionTrasferLists: selectVisibleStateofAllInteractionTrasferLists(
+  interAssigNonVoiceTransListsLoadSt: selectInterAssigNonVoiceTransListsLoadSt(
+    state,
+    props
+  ),
+  interAssigTransListsVisibleSt: selectInterAssigTransListsVisibleSt(
+    state,
+    props
+  ),
+  interAssigAllTransListsVisibleSt: selectInterAssigAllTransListsVisibleSt(
     state,
     props
   ),
   showAgentsTransferMenuPreference: selectAgentsPreferences(state, props),
   selectVisibleQueues: selectVisibleQueues(state, props),
-  selectVisibleTransferLists: selectVisibleTransferLists(state, props),
+  selectVisibleNonVoiceTransferLists: selectVisibleNonVoiceTransferLists(state, props),
+  selectVisibleVoiceTransferLists: selectVisibleVoiceTransferLists(state, props),
   hasAgentExperienceTransferMenuQueuesViewPermission: selectHasAgentExperienceTransferMenuQueuesViewPermission(
     state,
     props
@@ -872,7 +905,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(setTransferTabIndex(transferTabIndex)),
     setFocusedTransferItemIndex: (focusedTransferItemIndex) =>
       dispatch(setFocusedTransferItemIndex(focusedTransferItemIndex)),
-    tearDownTransferMenuStates: () => dispatch(tearDownTransferMenuStates()),
+    tearDownTransferMenuStates: (channelType) =>
+      dispatch(tearDownTransferMenuStates(channelType)),
     transfer: (
       setShowTransferMenu,
       name,
@@ -889,14 +923,14 @@ function mapDispatchToProps(dispatch) {
           transferExtension
         )
       ),
-    updateUserAssignedTransferLists: () =>
-      dispatch(updateUserAssignedTransferLists()),
+    updateUserAssignedTransferLists: (channelType) =>
+      dispatch(updateUserAssignedTransferLists(channelType)),
     updateUserAssignedTransferListsVisibleState: (transferListId) =>
       dispatch(updateUserAssignedTransferListsVisibleState(transferListId)),
     updateVisibleStateOfAllUserAssignedTransferlists: () =>
       dispatch(updateVisibleStateOfAllUserAssignedTransferlists()),
-    updateInteractionTransferLists: () =>
-      dispatch(updateInteractionTransferLists()),
+    updateInteractionTransferLists: (channelType) =>
+      dispatch(updateInteractionTransferLists(channelType)),
     updateInteractionTransferListsVisibleState: (transferListId) =>
       dispatch(updateInteractionTransferListsVisibleState(transferListId)),
     updateVisibleStateOfAllInteractionTransferlists: () =>
@@ -933,21 +967,26 @@ TransferMenu.propTypes = {
   updateUserAssignedTransferLists: PropTypes.func.isRequired,
   updateUserAssignedTransferListsVisibleState: PropTypes.func.isRequired,
   updateVisibleStateOfAllUserAssignedTransferlists: PropTypes.func.isRequired,
-  userAssignedTransferLists: PropTypes.array,
-  userAssignedTransferListsLoadingState: PropTypes.bool,
-  userAssignedTransferListsVisibleState: PropTypes.object,
-  visibleStateOfAllUserAssignedTransferLists: PropTypes.bool,
+  userAssigVoiceTransLists: PropTypes.array,
+  userAssigNonVoiceTransLists: PropTypes.array,
+  userAssigVoiceTransListsLoadSt: PropTypes.bool,
+  userAssigNonVoiceTransListsLoadSt: PropTypes.bool,
+  userAssigTransListsVisibleSt: PropTypes.object,
+  userAssigAllTransListsVisibleSt: PropTypes.bool,
   updateInteractionTransferLists: PropTypes.func.isRequired,
   updateInteractionTransferListsVisibleState: PropTypes.func.isRequired,
   updateVisibleStateOfAllInteractionTransferlists: PropTypes.func.isRequired,
   selectedInteractionId: PropTypes.string,
-  interactionTransferLists: PropTypes.array,
-  interactionTransferListsLoadingState: PropTypes.bool,
-  interactionTransferListsVisibleState: PropTypes.object,
-  visibleStateofAllInteractionTrasferLists: PropTypes.bool,
+  interAssigVoiceTransLists: PropTypes.array,
+  interAssigNonVoiceTransLists: PropTypes.array,
+  interAssigVoiceTransListsLoadSt: PropTypes.bool,
+  interAssigNonVoiceTransListsLoadSt: PropTypes.bool,
+  interAssigTransListsVisibleSt: PropTypes.object,
+  interAssigAllTransListsVisibleSt: PropTypes.bool,
   showAgentsTransferMenuPreference: PropTypes.bool.isRequired,
   selectVisibleQueues: PropTypes.array.isRequired,
-  selectVisibleTransferLists: PropTypes.array.isRequired,
+  selectVisibleVoiceTransferLists: PropTypes.array.isRequired,
+  selectVisibleNonVoiceTransferLists: PropTypes.array.isRequired,
   updateQueues: PropTypes.func.isRequired,
   hasAgentExperienceTransferMenuQueuesViewPermission: PropTypes.bool.isRequired,
   hasAgentExperienceTransferMenuAgentsViewPermission: PropTypes.bool.isRequired,

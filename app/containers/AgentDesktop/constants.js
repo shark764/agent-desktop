@@ -127,6 +127,8 @@ export const RECORD_CALL = 'app/AgentDesktop/RECORD_CALL';
 export const TOGGLE_IS_RECORDING = 'app/AgentDesktop/TOGGLE_IS_RECORDING';
 export const SET_IS_COLD_TRANSFERRING =
   'app/AgentDesktop/SET_IS_COLD_TRANSFERRING';
+export const SET_TRANSFERRING_IN_CONFERENCE =
+  'app/AgentDesktop/SET_TRANSFERRING_IN_CONFERENCE';
 export const STOP_RECORD_CALL = 'app/AgentDesktop/STOP_RECORD_CALL';
 export const OUTBOUND_CUSTOMER_CONNECTED =
   'app/AgentDesktop/OUTBOUND_CUSTOMER_CONNECTED';

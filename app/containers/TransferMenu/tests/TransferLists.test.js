@@ -1,43 +1,68 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { TransferLists } from '../TransferLists';
+import { TransferMenu } from '../index';
 
 describe('TransferLists Component render', () => {
-  it('renders TransferLists component with user assinged transferlists and interaction transferlists', () => {
-    const transferLists = [
-      {
-        id: 'mockTransferListId',
-        name: 'mockTransferListName',
-        endpoints: [
-          {
-            coldTransfer: false,
-            contactType: 'queue',
-            endpoint: 'mock endPoint',
-            hierarchy: 'mock hirerarchy',
-            name: 'mock hirerarchy name',
-            transferType: 'internal',
-            warmTransfer: false,
-          },
-        ],
-      },
-    ];
+  const transferMenu = new TransferMenu();
+  const voiceinteractionTransLists = [
+    {
+      id: 'mockVoiceTransferListId',
+      name: 'mockVoiceTransferListName',
+      endpoints: [
+        {
+          coldTransfer: false,
+          contactType: 'PSTN',
+          endpoint: 'mock endPoint',
+          hierarchy: 'mock hirerarchy',
+          name: 'mock hirerarchy name',
+          transferType: 'internal',
+          warmTransfer: false,
+        },
+      ],
+    },
+  ];
+  const nonVoiceInteractionTransLists = [
+    {
+      id: 'mockNonVoiceTransferListId',
+      name: 'mockNonTransferListName',
+      endpoints: [
+        {
+          coldTransfer: false,
+          contactType: 'queue',
+          endpoint: 'mock endPoint',
+          hierarchy: 'mock hirerarchy',
+          name: 'mock hirerarchy name',
+          transferType: 'internal',
+          warmTransfer: false,
+        },
+      ],
+    },
+  ];
+
+  it('renders TransferLists component with user assinged transferlists and interaction transferlists for the voice interaction', () => {
+    let nonVoice;
     const component = shallow(
       <TransferLists
         transferSearchInput=""
         transferTabIndex={0}
         selectedInteractionId="mockInteractionId"
-        interactionTransferLists={transferLists}
-        interactionTransferListsLoadingState={false}
-        interactionTransferListsVisibleState={{
-          assignedTransferListMockId: true,
-        }}
-        visibleStateofAllInteractionTrasferLists
-        userAssignedTransferLists={transferLists}
-        userAssignedTransferListsLoadingState={false}
-        userAssignedTransferListsVisibleState={{
-          interactionTransferListMockId: true,
-        }}
-        visibleStateOfAllUserAssignedTransferLists
+        interactionTransferLists={
+          nonVoice === undefined
+            ? voiceinteractionTransLists
+            : nonVoiceInteractionTransLists
+        }
+        interactionTransListsLoadSt={nonVoice !== undefined}
+        interactionTransListsVisibleSt={{ transferListMockId: true }}
+        interactionAllTransListsVisibleSt
+        userAssignedTransferLists={
+          nonVoice === undefined
+            ? voiceinteractionTransLists
+            : nonVoiceInteractionTransLists
+        }
+        userAssigTransListsLoadSt={nonVoice !== undefined}
+        userAssigTransListsVisibleSt={{ transferListMockId: true }}
+        userAssigAllTransListsVisibleSt
         setShowTransferMenu={() => 'mock setShowTransferMenu'}
         transfer={() => 'mock transferInteraction'}
         updateUserAssignedTransferListsVisibleState={() =>
@@ -57,6 +82,57 @@ describe('TransferLists Component render', () => {
     );
     expect(component).toMatchSnapshot();
   });
+  it('renders TransferLists component with user assinged transferlists and interaction transferlists for the non-voice interaction', () => {
+    const nonVoice = true;
+    const component = shallow(
+      <TransferLists
+        transferSearchInput=""
+        transferTabIndex={0}
+        selectedInteractionId="mockInteractionId"
+        interactionTransferLists={
+          nonVoice !== true
+            ? voiceinteractionTransLists
+            : nonVoiceInteractionTransLists
+        }
+        interactionTransListsLoadSt={nonVoice !== true}
+        interactionTransListsVisibleSt={{ transferListMockId: true }}
+        interactionAllTransListsVisibleSt
+        userAssignedTransferLists={
+          nonVoice !== true
+            ? voiceinteractionTransLists
+            : nonVoiceInteractionTransLists
+        }
+        userAssigTransListsLoadSt={nonVoice !== true}
+        userAssigTransListsVisibleSt={{ transferListMockId: true }}
+        userAssigAllTransListsVisibleSt
+        setShowTransferMenu={() => 'mock setShowTransferMenu'}
+        transfer={() => 'mock transferInteraction'}
+        updateUserAssignedTransferListsVisibleState={() =>
+          'mock updateAssignedTransferListsVisibleState'
+        }
+        updateVisibleStateOfAllUserAssignedTransferlists={() =>
+          'mock updateAllAssignedTransferListsVisibleState'
+        }
+        updateInteractionTransferListsVisibleState={() =>
+          'mock updateInteractionTransferListsVisibleState'
+        }
+        updateVisibleStateOfAllInteractionTransferlists={() =>
+          'mock updateAllInteractionTransferListsVisibleState'
+        }
+        styles={{
+          transferListDivContainer:
+            transferMenu.styles.transferListDivContainer,
+          expandedTransferHeading: transferMenu.styles.expandedTransferHeading,
+          collapsedTransferHeading:
+            transferMenu.styles.collapsedTransferHeading,
+          lineSpacer: transferMenu.styles.lineSpacer,
+          iconOpen: transferMenu.styles.iconOpen,
+          iconClosed: transferMenu.styles.iconClosed,
+        }}
+      />
+    );
+    expect(component).toMatchSnapshot();
+  });
   it('renders TransferLists component when assigned transferlists and flow transferlists are in loading state', () => {
     const component = shallow(
       <TransferLists
@@ -64,13 +140,13 @@ describe('TransferLists Component render', () => {
         transferTabIndex={0}
         selectedInteractionId="mockInteractionId"
         interactionTransferLists={undefined}
-        interactionTransferListsLoadingState
-        interactionTransferListsVisibleState={undefined}
-        visibleStateofAllInteractionTrasferLists={undefined}
+        interactionTransListsLoadSt
+        interactionTransListsVisibleSt={undefined}
+        interactionAllTransListsVisibleSt={undefined}
         userAssignedTransferLists={undefined}
-        userAssignedTransferListsLoadingState
-        userAssignedTransferListsVisibleState={undefined}
-        visibleStateOfAllUserAssignedTransferLists={undefined}
+        userAssigTransListsLoadSt
+        userAssigTransListsVisibleSt={undefined}
+        userAssigAllTransListsVisibleSt={undefined}
         setShowTransferMenu={() => 'mock setShowTransferMenu'}
         transfer={() => 'mock transferInteraction'}
         updateUserAssignedTransferListsVisibleState={() =>
@@ -97,13 +173,13 @@ describe('TransferLists Component render', () => {
         transferTabIndex={0}
         selectedInteractionId="mockInteractionId"
         interactionTransferLists={undefined}
-        interactionTransferListsLoadingState={false}
-        interactionTransferListsVisibleState={undefined}
-        visibleStateofAllInteractionTrasferLists={undefined}
+        interactionTransListsLoadSt={false}
+        interactionTransListsVisibleSt={undefined}
+        interactionAllTransListsVisibleSt={undefined}
         userAssignedTransferLists={undefined}
-        userAssignedTransferListsLoadingState={false}
-        userAssignedTransferListsVisibleState={undefined}
-        visibleStateOfAllUserAssignedTransferLists={undefined}
+        userAssigTransListsLoadSt={false}
+        userAssigTransListsVisibleSt={undefined}
+        userAssigAllTransListsVisibleSt={undefined}
         setShowTransferMenu={() => 'mock setShowTransferMenu'}
         transfer={() => 'mock transferInteraction'}
         updateUserAssignedTransferListsVisibleState={() =>

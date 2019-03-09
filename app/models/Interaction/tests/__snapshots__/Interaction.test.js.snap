@@ -90,6 +90,7 @@ Interaction {
   "subject": "mock-subject",
   "timeAccepted": "mock-time-accepted",
   "timeout": 0,
+  "transferringInConference": false,
   "warmTransfers": Immutable.List [],
   "wrapupDetails": Immutable.Map {
     "wrapupUpdateAllowed": false,
@@ -139,6 +140,7 @@ Interaction {
   "selectedSidePanelTab": "info",
   "status": "work-offer",
   "timeout": NaN,
+  "transferringInConference": false,
   "warmTransfers": Immutable.List [],
   "wrapupDetails": Immutable.Map {
     "wrapupUpdateAllowed": false,

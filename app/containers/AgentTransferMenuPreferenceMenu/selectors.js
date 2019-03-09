@@ -3,7 +3,7 @@
  */
 import { createSelector } from 'reselect';
 import { selectQueues } from 'containers/AgentDesktop/selectors';
-import { selectUserAssignedTransferLists } from 'containers/TransferMenu/selectors';
+import { selectUserAssignedTransferLists, selectUserAssigNonVoiceTransLists } from 'containers/TransferMenu/selectors';
 
 export const selectTransferMenuPreferences = (state) =>
   state.get('transferMenuPreferences');
@@ -29,13 +29,6 @@ export const selectQueuesPreferences = createSelector(
   (userQueues, selectedQueues) => userQueues.length === selectedQueues.length
 );
 
-export const selectTransferListsPreferences = createSelector(
-  selectUserAssignedTransferLists,
-  selectSelectedTransferLists,
-  (userTransferLists, selectedTransferLists) =>
-    userTransferLists.length === selectedTransferLists.length
-);
-
 export const selectVisibleQueues = createSelector(
   selectQueues,
   selectSelectedQueues,
@@ -44,6 +37,34 @@ export const selectVisibleQueues = createSelector(
 );
 
 export const selectVisibleTransferLists = createSelector(
+  selectUserAssignedTransferLists,
+  selectSelectedTransferLists,
+  (userTransferLists, selectedTransferLists) => {
+    if (userTransferLists !== null) {
+      return userTransferLists.filter((transferList) =>
+        selectedTransferLists.includes(transferList.id)
+      );
+    } else {
+      return [];
+    }
+  }
+);
+
+export const selectVisibleNonVoiceTransferLists = createSelector(
+  selectUserAssigNonVoiceTransLists,
+  selectSelectedTransferLists,
+  (userTransferLists, selectedTransferLists) => {
+    if (userTransferLists !== null) {
+      return userTransferLists.filter((transferList) =>
+        selectedTransferLists.includes(transferList.id)
+      );
+    } else {
+      return [];
+    }
+  }
+);
+
+export const selectVisibleVoiceTransferLists = createSelector(
   selectUserAssignedTransferLists,
   selectSelectedTransferLists,
   (userTransferLists, selectedTransferLists) => {

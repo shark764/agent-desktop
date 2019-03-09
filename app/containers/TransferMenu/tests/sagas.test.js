@@ -126,27 +126,57 @@ describe('changeAgentsListVisibleState', () => {
 });
 
 describe('tearDownTransferMenuStates', () => {
-  const generator = tearDownTransferMenuStates();
-  it('gets currently selected interactionId', () => {
-    expect(generator.next()).toMatchSnapshot();
+  describe('tearDownTransferMenuStates for voice interactions', () => {
+    const generator = tearDownTransferMenuStates({ channelType: 'voice' });
+    it('gets voice and currently selected interactionId', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('sets transferSearchInput to its default state', () => {
+      expect(
+        generator.next('mockselectedInteractionId', 'mockVoiceInteractionId')
+      ).toMatchSnapshot();
+    });
+    it('sets transferTabIndex to its default state', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('sets showTransferDialpad to its default state', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('sets voice interactionTransferListsLoadingState to its true', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('sets userAssignedTransferListsLoadingState to its default state', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('is done', () => {
+      expect(generator.next().done).toBe(true);
+    });
   });
-  it('sets transferSearchInput to its default state', () => {
-    expect(generator.next('mockInteractionId')).toMatchSnapshot();
-  });
-  it('sets transferTabIndex to its default state', () => {
-    expect(generator.next()).toMatchSnapshot();
-  });
-  it('sets showTransferDialpad to its default state', () => {
-    expect(generator.next()).toMatchSnapshot();
-  });
-  it('sets interactionTransferListsLoadingState to its default state', () => {
-    expect(generator.next()).toMatchSnapshot();
-  });
-  it('sets userAssignedTransferListsLoadingState to its default state', () => {
-    expect(generator.next()).toMatchSnapshot();
-  });
-  it('is done', () => {
-    expect(generator.next().done).toBe(true);
+  describe('tearDownTransferMenuStates for non-voice interactions', () => {
+    const generator = tearDownTransferMenuStates({ channelType: 'nonVoice' });
+    it('gets voice and currently selected interactionId', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('sets transferSearchInput to its default state', () => {
+      expect(
+        generator.next('mockselectedInteractionId', 'mockNonVoiceInteractionId')
+      ).toMatchSnapshot();
+    });
+    it('sets transferTabIndex to its default state', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('sets showTransferDialpad to its default state', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('sets non-voice interactionTransferListsLoadingState to true', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('sets userAssignedTransferListsLoadingState to its default state', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('is done', () => {
+      expect(generator.next().done).toBe(true);
+    });
   });
 });
 
@@ -489,9 +519,10 @@ describe('callUserAssignedTransferListsAndUpdateState', () => {
       ],
     },
   ];
-
   describe('sets user assigned transfer lists and there visible state for the voice interactions', () => {
-    const generator = callUserAssignedTransferListsAndUpdateState();
+    const generator = callUserAssignedTransferListsAndUpdateState({
+      channelType: undefined,
+    });
     const mockGetTenantTransferLists = 'getTransferListsFunction';
     const mockGetItem = jest.fn(() => null);
     beforeEach(() => {
@@ -526,7 +557,9 @@ describe('callUserAssignedTransferListsAndUpdateState', () => {
     });
   });
   describe('sets user assigned transfer lists and there visible state for non voice interactions', () => {
-    const generator = callUserAssignedTransferListsAndUpdateState();
+    const generator = callUserAssignedTransferListsAndUpdateState({
+      channelType: 'nonVoice',
+    });
     const mockGetTenantTransferLists = 'getTransferListsFunction';
     const mockGetItem = jest.fn(() => 'false');
     beforeEach(() => {
@@ -544,15 +577,14 @@ describe('callUserAssignedTransferListsAndUpdateState', () => {
     });
     it('calls updateUserAssignedTransferLists generator function', () => {
       expect(
-        generator.next([
-          { id: 'tenantId' },
-          { userId: 'agentId' },
-          { channelType: 'sms' },
-        ])
+        generator.next([{ id: 'tenantId' }, { userId: 'agentId' }])
       ).toMatchSnapshot();
     });
     it('selects userAssginedTransferLists', () => {
       expect(generator.next()).toMatchSnapshot();
+    });
+    it('sets non-voice interaction transfer lists by dispatching setUserAssignedTransferLists', () => {
+      expect(generator.next(transferLists)).toMatchSnapshot();
     });
     it('sets userAssignedTransferListsVisibleState to false by dispatching setUserAssignedTransferListsVisibleState action', () => {
       expect(generator.next(transferLists)).toMatchSnapshot();
@@ -564,8 +596,10 @@ describe('callUserAssignedTransferListsAndUpdateState', () => {
       expect(generator.next().done).toBe(true);
     });
   });
-  describe('when there are no active transfer lists in the tenant', () => {
-    const generator = callUserAssignedTransferListsAndUpdateState();
+  describe('when the current logged in agent doesnot have any transfer lists', () => {
+    const generator = callUserAssignedTransferListsAndUpdateState({
+      channelType: undefined,
+    });
     const mockGetTenantTransferLists = 'getTransferListsFunction';
     const mockGetItem = jest.fn(() => true);
     beforeEach(() => {
@@ -589,8 +623,11 @@ describe('callUserAssignedTransferListsAndUpdateState', () => {
     it('selects userAssginedTransferLists', () => {
       expect(generator.next()).toMatchSnapshot();
     });
-    it('sets userAssignedTransferListsVisibleState to empty object by dispatching setUserAssignedTransferListsVisibleState action', () => {
-      expect(generator.next([])).toMatchSnapshot();
+    it('sets userAssignedTransferListsVisibleState to null by dispatching setUserAssignedTransferListsVisibleState action', () => {
+      expect(generator.next(null)).toMatchSnapshot();
+    });
+    it('sets visibleStateOfAllAssignedTransferLists to null by dispatching setVisibleStateOfAllUserAssignedTransferLists action', () => {
+      expect(generator.next()).toMatchSnapshot();
     });
     it('is done', () => {
       expect(generator.next().done).toBe(true);

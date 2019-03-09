@@ -46,7 +46,6 @@ exports[`<PhoneControlsActive/> if the interaction has warm transfers we show th
         />
         <Connect(Transfer)
           canTransfer={true}
-          connectingTransfers={false}
           interactionId="1"
         />
         <Connect(Dialpad)
@@ -222,7 +221,6 @@ exports[`<PhoneControlsActive/> in toolbar mode when agent is on hold we show th
         />
         <Connect(Transfer)
           canTransfer={true}
-          connectingTransfers={false}
           interactionId="1"
         />
         <Connect(Dialpad)
@@ -317,7 +315,6 @@ exports[`<PhoneControlsActive/> in toolbar mode when have several interactions o
         />
         <Connect(Transfer)
           canTransfer={true}
-          connectingTransfers={false}
           interactionId="1"
         />
         <Connect(Dialpad)
@@ -527,7 +524,6 @@ exports[`<PhoneControlsActive/> renders correctly 1`] = `
         />
         <Connect(Transfer)
           canTransfer={true}
-          connectingTransfers={false}
           interactionId="1"
         />
         <Connect(Dialpad)
@@ -587,7 +583,6 @@ exports[`<PhoneControlsActive/> when agent is on hold we show the resume button 
         />
         <Connect(Transfer)
           canTransfer={true}
-          connectingTransfers={false}
           interactionId="1"
         />
         <Connect(Dialpad)
@@ -676,7 +671,6 @@ exports[`<PhoneControlsActive/> when have several interactions on hold, we show 
         />
         <Connect(Transfer)
           canTransfer={true}
-          connectingTransfers={false}
           interactionId="1"
         />
         <Connect(Dialpad)
@@ -868,7 +862,6 @@ exports[`<PhoneControlsActive/> when we are doing an outbound interaction and th
         />
         <Connect(Transfer)
           canTransfer={true}
-          connectingTransfers={false}
           interactionId="1"
         />
         <Connect(Dialpad)
@@ -926,7 +919,6 @@ exports[`<PhoneControlsActive/> when we are doing an outbound interaction and th
         />
         <Connect(Transfer)
           canTransfer={true}
-          connectingTransfers={false}
           interactionId="1"
         />
         <Connect(Dialpad)
@@ -984,7 +976,6 @@ exports[`<PhoneControlsActive/> when we receive a transferred outbound interacti
         />
         <Connect(Transfer)
           canTransfer={true}
-          connectingTransfers={false}
           interactionId="1"
         />
         <Connect(Dialpad)

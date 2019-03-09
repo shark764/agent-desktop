@@ -123,6 +123,7 @@ Immutable.Map {
       "isSidePanelCollapsed": true,
       "agentRecordingEnabled": undefined,
       "isHolding": false,
+      "transferringInConference": false,
       "wrapupDetails": Immutable.Map {
         "wrapupUpdateAllowed": false,
         "wrapupEnabled": false,
@@ -188,6 +189,7 @@ Immutable.Map {
       "status": "work-offer",
       "isSidePanelCollapsed": true,
       "isHolding": false,
+      "transferringInConference": false,
       "wrapupDetails": Immutable.Map {
         "wrapupUpdateAllowed": false,
         "wrapupEnabled": false,
@@ -265,6 +267,7 @@ Immutable.Map {
       "isSidePanelCollapsed": false,
       "agentRecordingEnabled": undefined,
       "isHolding": false,
+      "transferringInConference": false,
       "wrapupDetails": Immutable.Map {
         "wrapupUpdateAllowed": false,
         "wrapupEnabled": false,
@@ -420,6 +423,7 @@ Immutable.Map {
       "status": "script-only",
       "isSidePanelCollapsed": true,
       "isHolding": false,
+      "transferringInConference": false,
       "wrapupDetails": Immutable.Map {
         "wrapupUpdateAllowed": false,
         "wrapupEnabled": false,
@@ -485,6 +489,7 @@ Immutable.Map {
       "status": "script-only",
       "isSidePanelCollapsed": true,
       "isHolding": false,
+      "transferringInConference": false,
       "wrapupDetails": Immutable.Map {
         "wrapupUpdateAllowed": false,
         "wrapupEnabled": false,
@@ -1313,7 +1318,7 @@ Immutable.Map {
     Immutable.Map {
       "interactionId": "mockInteractionId",
       "transferLists": Immutable.Map {
-        "interactionTransferListsLoadingState": false,
+        "loadingState": false,
         "interactionTransferLists": Immutable.List [
           Immutable.Map {
             "id": "mockTransferListId",
@@ -1333,7 +1338,7 @@ Immutable.Map {
     Immutable.Map {
       "interactionId": "mockInteractionId",
       "transferLists": Immutable.Map {
-        "interactionTransferListsLoadingState": true,
+        "loadingState": true,
       },
     },
   ],
@@ -1342,17 +1347,12 @@ Immutable.Map {
 
 exports[`agentDesktopReducer SET_INTERACTION_TRANSFER_LISTS_VISIBLE_STATE sets visible state of interaction transfer lists 1`] = `
 Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "mockInteractionId",
-      "transferLists": Immutable.Map {
-        "interactionTransferListsVisibleState": Immutable.Map {
-          "mockTransferListId1-InteractionId": true,
-          "mockTransferListId2-InteractionId": false,
-        },
-      },
+  "interactionTransferListsVisibleState": Immutable.Map {
+    "individualTransferLists": Immutable.Map {
+      "mockTransferListId1-InteractionId": true,
+      "mockTransferListId2-InteractionId": false,
     },
-  ],
+  },
 }
 `;
 
@@ -1514,6 +1514,28 @@ Immutable.Map {
           },
         ],
       },
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_TRANSFERRING_IN_CONFERENCE send transferringInConference as false sets transferringInConference flag as false in the interaction 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "1",
+      "transferringInConference": false,
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer SET_TRANSFERRING_IN_CONFERENCE send transferringInConference as true sets transferringInConference flag as true in the interaction 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "1",
+      "transferringInConference": true,
     },
   ],
 }
@@ -1739,14 +1761,9 @@ Immutable.Map {
 
 exports[`agentDesktopReducer SET_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS sets visible state of all interaction transfer lists 1`] = `
 Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "mockInteractionId",
-      "transferLists": Immutable.Map {
-        "visibleStateofAllInteractionTrasferLists": true,
-      },
-    },
-  ],
+  "interactionTransferListsVisibleState": Immutable.Map {
+    "allTransferLists": true,
+  },
 }
 `;
 
@@ -1792,6 +1809,7 @@ Immutable.Map {
       "isSidePanelCollapsed": true,
       "isHolding": false,
       "customerAvatarIndex": 0,
+      "transferringInConference": false,
       "wrapupDetails": Immutable.Map {
         "wrapupUpdateAllowed": false,
         "wrapupEnabled": false,
@@ -1860,6 +1878,7 @@ Immutable.Map {
       "isSidePanelCollapsed": true,
       "agentRecordingEnabled": undefined,
       "isHolding": false,
+      "transferringInConference": false,
       "wrapupDetails": Immutable.Map {
         "wrapupUpdateAllowed": false,
         "wrapupEnabled": false,

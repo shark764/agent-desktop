@@ -6,11 +6,7 @@ import { UPDATE_QUEUES } from 'containers/TransferMenu/constants';
 import { selectUserAssignedTransferLists } from 'containers/TransferMenu/selectors';
 import { takeLeading } from 'utils/takeLeading';
 import { setQueues } from 'containers/AgentDesktop/actions';
-import {
-  selectQueues,
-  getSelectedInteraction,
-} from 'containers/AgentDesktop/selectors';
-import { isAlpha } from 'utils/url';
+import { selectQueues } from 'containers/AgentDesktop/selectors';
 import * as ACTIONS from './constants';
 
 import {
@@ -40,18 +36,16 @@ export function* goInitializeTransferMenuPreferences() {
     select(selectAgent),
   ]);
 
-  //  Toggle the value to show/hide agent list just if isAlpha, default value in redux is true
-  if (isAlpha()) {
-    const agentPreference = localStorage.getItem(
-      `agentsTransferMenuList-${tenant.id}-${agent.userId}`
-    );
+  const agentPreference = localStorage.getItem(
+    `agentsTransferMenuList-${tenant.id}-${agent.userId}`
+  );
 
-    if (agentPreference !== null) {
-      yield put(setAgentsTransferMenuPreference(agentPreference === 'true'));
-    } else {
-      yield put(setAgentsTransferMenuPreference(true));
-    }
+  if (agentPreference !== null) {
+    yield put(setAgentsTransferMenuPreference(agentPreference === 'true'));
+  } else {
+    yield put(setAgentsTransferMenuPreference(true));
   }
+  
 
   yield put(setPreferenceMenuQueuesLoading(true));
   yield put(setPreferenceMenuTransferListsLoading(true));
@@ -162,11 +156,9 @@ export function* updateQueues(action) {
   ]);
 
   let localStorageSelectedQueues = null;
-  if (isAlpha()) {
-    localStorageSelectedQueues = localStorage.getItem(
-      `selectedQueues.${tenant.id}.${agent.userId}`
-    );
-  }
+  localStorageSelectedQueues = localStorage.getItem(
+    `selectedQueues.${tenant.id}.${agent.userId}`
+  );
   let defaultQueues;
   let activeQueues;
   try {
@@ -194,26 +186,22 @@ export function* updateQueues(action) {
     );
   } else if (
     currentQueues.length === 0 &&
-    localStorageSelectedQueues === null &&
-    isAlpha()
+    localStorageSelectedQueues === null
   ) {
     //  Setting all queues to visible state just the first time the agent logs in
     yield call(changeAllQueuesState, {
       queues: activeQueues.map((queue) => queue.id),
     });
   }
-  if (isAlpha()) {
-    //  Storing in local storage just when isAlpha
-    const selectedQueuesAfterUpdate = localStorage.getItem(
-      `selectedQueues.${tenant.id}.${agent.userId}`
-    );
+  const selectedQueuesAfterUpdate = localStorage.getItem(
+    `selectedQueues.${tenant.id}.${agent.userId}`
+  );
 
-    yield put(
-      toggleSelectedQueues(
-        selectedQueuesAfterUpdate.split(',').map((queue) => queue)
-      )
-    );
-  }
+  yield put(
+    toggleSelectedQueues(
+      selectedQueuesAfterUpdate.split(',').map((queue) => queue)
+    )
+  );
 
   if (action && action.refreshQueues) {
     yield call(action.refreshQueues);
@@ -224,23 +212,19 @@ export function* updateUserAssignedTransferLists() {
   const [
     agent,
     tenant,
-    selectedInteraction,
     currentUserAssignedTransferlists,
     selectedTransferLists,
   ] = yield all([
     select(selectAgent),
     select(selectTenant),
-    select(getSelectedInteraction),
     select(selectUserAssignedTransferLists),
     select(selectSelectedTransferLists),
   ]);
 
   let localStorageselectedTransferLists = null;
-  if (isAlpha()) {
-    localStorageselectedTransferLists = localStorage.getItem(
-      `selectedTransferLists.${tenant.id}.${agent.userId}`
-    );
-  }
+  localStorageselectedTransferLists = localStorage.getItem(
+    `selectedTransferLists.${tenant.id}.${agent.userId}`
+  );
   let transferLists;
   try {
     transferLists = yield call(
@@ -257,29 +241,13 @@ export function* updateUserAssignedTransferLists() {
       (transferList) => transferList.active === true
     );
     // setting user-assigned transfer lists:
-    let userAssignedTransferlists = [];
-    if (selectedInteraction.channelType === 'voice') {
-      userAssignedTransferlists = activeTransferLists.map(
-        ({ id, name, endpoints }) => ({
-          id,
-          name,
-          endpoints,
-        })
-      );
-    } else {
-      userAssignedTransferlists = activeTransferLists
-        .map(({ id, name, endpoints }) => {
-          const queueEndPoints = endpoints.filter(
-            (endpoint) => endpoint.contactType === 'queue'
-          );
-          return {
-            id,
-            name,
-            endpoints: queueEndPoints,
-          };
-        })
-        .filter(({ endpoints }) => endpoints.length > 0);
-    }
+    const userAssignedTransferlists = activeTransferLists.map(
+      ({ id, name, endpoints }) => ({
+        id,
+        name,
+        endpoints,
+      })
+    );
 
     yield put(setUserAssignedTransferLists(userAssignedTransferlists));
     if (currentUserAssignedTransferlists !== null) {
@@ -294,42 +262,37 @@ export function* updateUserAssignedTransferLists() {
         currentUserAssignedTransferlists.length > 0 &&
         newAddedTransferLists.length > 0
       ) {
-        if (isAlpha()) {
-          yield all(
-            newAddedTransferLists.map((transferList) =>
-              call(changeSelectedTransferListState, {
-                transferList: transferList.id,
-              })
-            )
-          );
-        }
+        yield all(
+          newAddedTransferLists.map((transferList) =>
+            call(changeSelectedTransferListState, {
+              transferList: transferList.id,
+            })
+          )
+        );
       }
     } else if (
       userAssignedTransferlists.length > 0 &&
       localStorageselectedTransferLists === null
     ) {
-      if (isAlpha()) {
-        yield call(changeAllTransferListState, {
-          transferLists: userAssignedTransferlists.map(
-            (transferList) => transferList.id
-          ),
-        });
-      }
+      yield call(changeAllTransferListState, {
+        transferLists: userAssignedTransferlists.map(
+          (transferList) => transferList.id
+        ),
+      });
     }
 
-    if (isAlpha()) {
-      const selectedTransferListsAfterUpdate = localStorage.getItem(
-        `selectedTransferLists.${tenant.id}.${agent.userId}`
-      );
+    const selectedTransferListsAfterUpdate = localStorage.getItem(
+      `selectedTransferLists.${tenant.id}.${agent.userId}`
+    );
 
-      yield put(
-        toggleSelectedTransferLists(
-          selectedTransferListsAfterUpdate
-            .split(',')
-            .map((transferList) => transferList)
-        )
-      );
-    }
+    yield put(
+      toggleSelectedTransferLists(
+        selectedTransferListsAfterUpdate
+          .split(',')
+          .map((transferList) => transferList)
+      )
+    );
+  
   } else {
     yield put(setUserAssignedTransferLists(null));
   }

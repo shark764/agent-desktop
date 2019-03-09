@@ -2402,6 +2402,16 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+    case ACTIONS.SET_TRANSFERRING_IN_CONFERENCE: {
+      if (interactionIndex !== -1) {
+        return state.setIn(
+          ['interactions', interactionIndex, 'transferringInConference'],
+          action.transferringInConference
+        );
+      } else {
+        return state;
+      }
+    }
     case ACTIONS.SET_TRANSFER_LISTS_FROM_FLOW: {
       if (interactionIndex !== -1) {
         return state.updateIn(
@@ -2430,12 +2440,7 @@ function agentDesktopReducer(state = initialState, action) {
       if (interactionIndex !== -1) {
         return state
           .setIn(
-            [
-              'interactions',
-              interactionIndex,
-              'transferLists',
-              'interactionTransferListsLoadingState',
-            ],
+            ['interactions', interactionIndex, 'transferLists', 'loadingState'],
             false
           )
           .setIn(
@@ -2454,12 +2459,7 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.SET_INTERACTION_TRANSFER_LISTS_LOADING_STATE: {
       if (interactionIndex !== -1) {
         return state.setIn(
-          [
-            'interactions',
-            interactionIndex,
-            'transferLists',
-            'interactionTransferListsLoadingState',
-          ],
+          ['interactions', interactionIndex, 'transferLists', 'loadingState'],
           action.isLoading
         );
       } else {
@@ -2467,34 +2467,16 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.SET_INTERACTION_TRANSFER_LISTS_VISIBLE_STATE: {
-      if (interactionIndex !== -1) {
-        return state.setIn(
-          [
-            'interactions',
-            interactionIndex,
-            'transferLists',
-            'interactionTransferListsVisibleState',
-          ],
-          fromJS(action.interactionTransferListsVisibleState)
-        );
-      } else {
-        return state;
-      }
+      return state.setIn(
+        ['interactionTransferListsVisibleState', 'individualTransferLists'],
+        fromJS(action.interactionTransferListsVisibleState)
+      );
     }
     case ACTIONS.SET_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS: {
-      if (interactionIndex !== -1) {
-        return state.setIn(
-          [
-            'interactions',
-            interactionIndex,
-            'transferLists',
-            'visibleStateofAllInteractionTrasferLists',
-          ],
-          action.visibleStateofAllInteractionTrasferLists
-        );
-      } else {
-        return state;
-      }
+      return state.setIn(
+        ['interactionTransferListsVisibleState', 'allTransferLists'],
+        action.visibleStateofAllInteractionTrasferLists
+      );
     }
     default:
       return state;

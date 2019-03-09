@@ -58,16 +58,24 @@ export function setShowTransferDialPad(showTransferDialpad) {
   };
 }
 
-export function setUserAssignedTransferLists(userAssignedTransferLists) {
+export function setUserAssignedTransferLists(
+  userAssignedTransferLists,
+  channelType
+) {
   return {
     type: ACTIONS.SET_USER_ASSIGNED_TRANSFER_LISTS,
     userAssignedTransferLists,
+    channelType,
   };
 }
 
-export function setUserAssignedTransferListsLoadingState(isLoading) {
+export function setUserAssignedTransferListsLoadingState(
+  channelType,
+  isLoading
+) {
   return {
     type: ACTIONS.SET_USER_ASSIGNED_TRANSFER_LISTS_LOADING_STATE,
+    channelType,
     isLoading,
   };
 }
@@ -110,9 +118,10 @@ export function updateAgentsListVisibleState() {
   };
 }
 
-export function tearDownTransferMenuStates() {
+export function tearDownTransferMenuStates(channelType) {
   return {
     type: ACTIONS.TEAR_DOWN_TRANSFER_MENU_STATES,
+    channelType,
   };
 }
 
@@ -133,9 +142,10 @@ export function transferInteraction(
   };
 }
 
-export function updateUserAssignedTransferLists() {
+export function updateUserAssignedTransferLists(channelType) {
   return {
     type: ACTIONS.UPDATE_USER_ASSIGNED_TRANSFER_LISTS,
+    channelType,
   };
 }
 

@@ -16,8 +16,9 @@ const initialState = fromJS({
   transferTabIndex: 0,
   focusedTransferItemIndex: -1,
   showTransferDialpad: false,
-  transferLists: {
-    userAssignedTransferListsLoadingState: true,
+  userAssignedTransferLists: {
+    voiceListsLoadingState: true,
+    nonVoiceListsLoadingState: true,
   },
 });
 
@@ -51,31 +52,47 @@ export default function(state = initialState, action) {
       return state.set('showTransferDialpad', action.showTransferDialpad);
     }
     case ACTIONS.SET_USER_ASSIGNED_TRANSFER_LISTS: {
-      return state
-        .setIn(
-          ['transferLists', 'userAssignedTransferListsLoadingState'],
-          false
-        )
-        .setIn(
-          ['transferLists', 'userAssignedTransferLists'],
-          fromJS(action.userAssignedTransferLists)
-        );
+      if (action.channelType === 'nonVoice') {
+        return state
+          .setIn(
+            ['userAssignedTransferLists', 'nonVoiceListsLoadingState'],
+            false
+          )
+          .setIn(
+            ['userAssignedTransferLists', 'onlyQueueTransferLists'],
+            fromJS(action.userAssignedTransferLists)
+          );
+      } else {
+        return state
+          .setIn(['userAssignedTransferLists', 'voiceListsLoadingState'], false)
+          .setIn(
+            ['userAssignedTransferLists', 'pstnSipQueueTransferLists'],
+            fromJS(action.userAssignedTransferLists)
+          );
+      }
     }
     case ACTIONS.SET_USER_ASSIGNED_TRANSFER_LISTS_LOADING_STATE: {
-      return state.setIn(
-        ['transferLists', 'userAssignedTransferListsLoadingState'],
-        action.isLoading
-      );
+      if (action.channelType === 'voice') {
+        return state.setIn(
+          ['userAssignedTransferLists', 'voiceListsLoadingState'],
+          action.isLoading
+        );
+      } else {
+        return state.setIn(
+          ['userAssignedTransferLists', 'nonVoiceListsLoadingState'],
+          action.isLoading
+        );
+      }
     }
     case ACTIONS.SET_USER_ASSIGNED_TRANSFER_LIST_VISIBLE_STATE: {
       return state.setIn(
-        ['transferLists', 'userAssignedTransferListsVisibleState'],
+        ['userAssignedTransferLists', 'transferListsVisibleState'],
         fromJS(action.userAssignedTransferListsVisibleState)
       );
     }
     case ACTIONS.SET_VISIBLE_STATE_OF_ALL_USER_ASSIGNED_TRANSFER_LISTS: {
       return state.setIn(
-        ['transferLists', 'visibleStateOfAllUserAssignedTransferLists'],
+        ['userAssignedTransferLists', 'allTransferListsVisibleState'],
         action.visibleStateOfAllUserAssignedTransferLists
       );
     }

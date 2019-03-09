@@ -1,5 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`User Assigned TransferLists selectUserAssigNonVoiceTransLists should return user-assigned non-voice interaction transfer lists 1`] = `
+Array [
+  Object {
+    "endpoints": "mockNonVocieInteractionTransferListEndPoint",
+    "id": "mockNonVoiceInteractionTransferListId",
+    "name": "mockNonVoiceInteractionTransferListName",
+  },
+]
+`;
+
+exports[`User Assigned TransferLists selectUserAssigTransListsVisibleSt should return user assigned transfer lists visible state 1`] = `
+Object {
+  "mockNonVoiceTransferListVisibleState": false,
+  "mockVoiceTransferListVisibleState": true,
+}
+`;
+
+exports[`User Assigned TransferLists selectUserAssignedTransferLists should return user-assigned voice ineraction transfer lists 1`] = `
+Array [
+  Object {
+    "endpoints": "mockVocieInteractionTransferListEndPoint",
+    "id": "mockVoiceInteractionTransferListId",
+    "name": "mockVoiceInteractionTransferListName",
+  },
+]
+`;
+
 exports[`selectAgents batch requests are not successful users is defined resourceCapacities is defined filters users out and maps them properly 1`] = `
 Array [
   Object {
@@ -57,20 +84,4 @@ Array [
     "name": "e e",
   },
 ]
-`;
-
-exports[`selectUserAssignedTransferLists should return user assigned transfer lists 1`] = `
-Array [
-  Object {
-    "endpoints": "mockTransferListEndPoint",
-    "id": "mockInteractionTransferListId",
-    "name": "mocktransferListName",
-  },
-]
-`;
-
-exports[`selectUserAssignedTransferLists should return user assigned transfer lists visible state 1`] = `
-Object {
-  "mockTransferListsVisibleState": true,
-}
 `;

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { isAlpha } from 'utils/url';
 
 import PopupDialog from 'components/PopupDialog';
 import AgentStatsMenu from 'containers/AgentStatsMenu';
@@ -67,12 +66,10 @@ export class AgentPreferencesMenu extends React.Component {
               preference="notifications"
               setPreferenceSelected={this.setPreferenceSelected}
             />
-            {isAlpha() && (
-              <PreferenceOption
-                preference="transferMenu"
-                setPreferenceSelected={this.setPreferenceSelected}
-              />
-            )}
+            <PreferenceOption
+              preference="transferMenu"
+              setPreferenceSelected={this.setPreferenceSelected}
+            />
           </Fragment>
         );
     }

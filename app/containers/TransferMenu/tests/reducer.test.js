@@ -34,19 +34,42 @@ describe('TransferMenu reducer tests', () => {
       reducer(Map(), action.setFocusedTransferItemIndex(0))
     ).toMatchSnapshot();
   });
-  it('sets userAssignedTransferLists', () => {
+  it('sets userAssigned voice interaction TransferLists', () => {
     expect(
       reducer(
         Map(),
-        action.setUserAssignedTransferLists([
-          { mockTransferListKey: 'mockTransferListValue' },
-        ])
+        action.setUserAssignedTransferLists(
+          [{ mockTransferListKey: 'mockTransferListValue' }],
+          'voice'
+        )
       )
     ).toMatchSnapshot();
   });
-  it('sets userAssignedTransferListsLoadingState', () => {
+  it('sets userAssigned non-voice interaction TransferLists', () => {
     expect(
-      reducer(Map(), action.setUserAssignedTransferListsLoadingState(true))
+      reducer(
+        Map(),
+        action.setUserAssignedTransferLists(
+          [{ mockTransferListKey: 'mockTransferListValue' }],
+          'nonVoice'
+        )
+      )
+    ).toMatchSnapshot();
+  });
+  it('sets userAssigned voice interaction TransferLists LoadingState', () => {
+    expect(
+      reducer(
+        Map(),
+        action.setUserAssignedTransferListsLoadingState('voice', true)
+      )
+    ).toMatchSnapshot();
+  });
+  it('sets userAssigned non-voice interaction TransferLists LoadingState', () => {
+    expect(
+      reducer(
+        Map(),
+        action.setUserAssignedTransferListsLoadingState('nonVoice', true)
+      )
     ).toMatchSnapshot();
   });
   it('sets userAssignedTransferListsVisibleState', () => {

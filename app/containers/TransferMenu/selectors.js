@@ -135,50 +135,79 @@ const selectAgents = createSelector(
   }
 );
 
-const selectuserAssignedTransferListsMap = (state) =>
-  state.getIn(['transferMenu', 'transferLists', 'userAssignedTransferLists']);
+const selectUserAssigTransListsMap = (state) =>
+  state.getIn([
+    'transferMenu',
+    'userAssignedTransferLists',
+    'pstnSipQueueTransferLists',
+  ]);
 
 const selectUserAssignedTransferLists = createSelector(
-  selectuserAssignedTransferListsMap,
-  (userAssignedTransferLists) => {
-    if (userAssignedTransferLists && userAssignedTransferLists.size > 0) {
-      return userAssignedTransferLists.toJS();
+  selectUserAssigTransListsMap,
+  (allUserAssignedTranslists) => {
+    if (allUserAssignedTranslists && allUserAssignedTranslists.size > 0) {
+      return allUserAssignedTranslists.toJS();
     } else {
       return null;
     }
   }
 );
 
-const selectUserAssignedTransferListsLoadingState = (state) =>
+const selectUserAssigNonVoiceTransListsMap = (state) =>
   state.getIn([
     'transferMenu',
-    'transferLists',
-    'userAssignedTransferListsLoadingState',
+    'userAssignedTransferLists',
+    'onlyQueueTransferLists',
   ]);
 
-const selectUserAssignedTransferListsVisibleStateMap = (state) =>
-  state.getIn([
-    'transferMenu',
-    'transferLists',
-    'userAssignedTransferListsVisibleState',
-  ]);
-
-const selectUserAssignedTransferListsVisibleState = createSelector(
-  selectUserAssignedTransferListsVisibleStateMap,
-  (userAssignedTransferListsVisibleState) => {
-    if (userAssignedTransferListsVisibleState) {
-      return userAssignedTransferListsVisibleState.toJS();
+const selectUserAssigNonVoiceTransLists = createSelector(
+  selectUserAssigNonVoiceTransListsMap,
+  (nonVoiceTransferLists) => {
+    if (nonVoiceTransferLists && nonVoiceTransferLists.size > 0) {
+      return nonVoiceTransferLists.toJS();
     } else {
       return null;
     }
   }
 );
 
-const selectVisibleStateOfAllUserAssignedTrasferLists = (state) =>
+const selectUserAssigVoiceTransListsLoadSt = (state) =>
   state.getIn([
     'transferMenu',
-    'transferLists',
-    'visibleStateOfAllUserAssignedTransferLists',
+    'userAssignedTransferLists',
+    'voiceListsLoadingState',
+  ]);
+
+const selectUserAssigNonVoiceTransListsLoadSt = (state) =>
+  state.getIn([
+    'transferMenu',
+    'userAssignedTransferLists',
+    'nonVoiceListsLoadingState',
+  ]);
+
+const selectUserAssigTransListsVisbileStateMap = (state) =>
+  state.getIn([
+    'transferMenu',
+    'userAssignedTransferLists',
+    'transferListsVisibleState',
+  ]);
+
+const selectUserAssigTransListsVisibleSt = createSelector(
+  selectUserAssigTransListsVisbileStateMap,
+  (transferListsVisibleState) => {
+    if (transferListsVisibleState) {
+      return transferListsVisibleState.toJS();
+    } else {
+      return null;
+    }
+  }
+);
+
+const selectUserAssigAllTransListsVisibleSt = (state) =>
+  state.getIn([
+    'transferMenu',
+    'userAssignedTransferLists',
+    'allTransferListsVisibleState',
   ]);
 
 const selectHasAgentExperienceTransferMenuQueuesViewPermission = createSelector(
@@ -204,9 +233,11 @@ export {
   selectFocusedTransferItemIndex,
   selectShowTransferDialpad,
   selectUserAssignedTransferLists,
-  selectUserAssignedTransferListsLoadingState,
-  selectUserAssignedTransferListsVisibleState,
-  selectVisibleStateOfAllUserAssignedTrasferLists,
+  selectUserAssigNonVoiceTransLists,
+  selectUserAssigVoiceTransListsLoadSt,
+  selectUserAssigNonVoiceTransListsLoadSt,
+  selectUserAssigTransListsVisibleSt,
+  selectUserAssigAllTransListsVisibleSt,
   selectHasAgentExperienceTransferMenuQueuesViewPermission,
   selectHasAgentExperienceTransferMenuAgentsViewPermission,
 };

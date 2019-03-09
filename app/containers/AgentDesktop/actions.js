@@ -1043,6 +1043,17 @@ export function setIsColdTransferring(interactionId, isColdTransferring) {
   };
 }
 
+export function setTranferringInConference(
+  interactionId,
+  transferringInConference
+) {
+  return {
+    type: ACTIONS.SET_TRANSFERRING_IN_CONFERENCE,
+    interactionId,
+    transferringInConference,
+  };
+}
+
 export function setTransferListsFromFlow(interactionId, transferListsFromFlow) {
   return {
     type: ACTIONS.SET_TRANSFER_LISTS_FROM_FLOW,
@@ -1074,32 +1085,29 @@ export function setInteractionTransferListsLoadingState(
 }
 
 export function setInteractionTransferListsVisibleState(
-  interactionId,
   interactionTransferListsVisibleState
 ) {
   return {
     type: ACTIONS.SET_INTERACTION_TRANSFER_LISTS_VISIBLE_STATE,
-    interactionId,
     interactionTransferListsVisibleState,
   };
 }
 
 export function setVisibleStateOfAllInteractionTransferLists(
-  interactionId,
   visibleStateofAllInteractionTrasferLists
 ) {
   return {
     type: ACTIONS.SET_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS,
-    interactionId,
     visibleStateofAllInteractionTrasferLists,
   };
 }
 
 // Saga Actions:
 
-export function updateInteractionTransferLists() {
+export function updateInteractionTransferLists(channelType) {
   return {
     type: ACTIONS.UPDATE_INTERACTION_TRANSFER_LISTS_$,
+    channelType,
   };
 }
 

@@ -37,9 +37,11 @@ import {
 import {
   selectCrmModule,
   getSelectedInteraction,
-  selectTransferListsFromFlow,
-  selectInteractionTransferListsVisibleState,
-  selectVisibleStateofAllInteractionTrasferLists,
+  selectVoiceInteraction,
+  selectVoiceFlowTransLists,
+  selectNonVoiceFlowTransLists,
+  selectInterAssigTransListsVisibleSt,
+  selectInterAssigAllTransListsVisibleSt,
 } from './selectors';
 import {
   setContactMode,
@@ -371,11 +373,15 @@ export function* goAssignContact(action) {
 }
 
 export function* goAcceptWork(action) {
+  const selectedInteraction = yield select(getSelectedInteraction);
   yield put(
     setInteractionStatus(action.interactionId, 'work-accepted', action.response)
   );
   yield put(
-    setInteractionTransferListsLoadingState(action.interactionId, true)
+    setInteractionTransferListsLoadingState(
+      selectedInteraction.interactionId,
+      true
+    )
   );
   if (action.response.activeResources) {
     yield put(
@@ -405,14 +411,26 @@ export function* goAcceptWork(action) {
   }
 }
 
-export function* callTransferListsFromFlowAndUpdateState() {
-  const [tenant, agent, selectedInteraction, flowTransferLists] = yield all([
+export function* callTransferListsFromFlowAndUpdateState(action) {
+  const [
+    tenant,
+    agent,
+    selectedInteraction,
+    voiceInteraction,
+    voiceFlowTransLists,
+    nonVoiceFlowTransLists,
+  ] = yield all([
     select(selectTenant),
     select(selectAgent),
     select(getSelectedInteraction),
-    select(selectTransferListsFromFlow),
+    select(selectVoiceInteraction),
+    select(selectVoiceFlowTransLists),
+    select(selectNonVoiceFlowTransLists),
   ]);
-  if (flowTransferLists && flowTransferLists.length > 0) {
+  if (
+    voiceFlowTransLists !== undefined ||
+    nonVoiceFlowTransLists !== undefined
+  ) {
     let tenantTransferLists;
     try {
       tenantTransferLists = yield call(
@@ -427,21 +445,36 @@ export function* callTransferListsFromFlowAndUpdateState() {
     const activeTransferLists = tenantTransferLists.result.filter(
       (transferList) => transferList.active === true
     );
-    // Creates an array of interaction transfer-lists by filtering out dupilcate flow transfer-lists:
-    const filteredFlowTransferLists = activeTransferLists.filter(
-      ({ id, name }) =>
-        flowTransferLists.find(
-          ({ value }) =>
-            value === id || value.toUpperCase() === name.toUpperCase()
-        )
-    );
     let interactionTransferLists = [];
-    // sets interaction transfer lists based on the interaction type:
-    if (selectedInteraction.channelType === 'voice') {
+    if (action.channelType === 'voice') {
+      // Filtering out dupilcate flow transfer-lists:
+      const filteredFlowTransferLists = activeTransferLists.filter(
+        ({ id, name }) =>
+          voiceFlowTransLists.find(
+            ({ value }) =>
+              value === id || value.toUpperCase() === name.toUpperCase()
+          )
+      );
+      // setting voice interaction transfer lists:
       interactionTransferLists = filteredFlowTransferLists.map(
         ({ id, name, endpoints }) => ({ id, name, endpoints })
       );
-    } else {
+      yield put(
+        setInteractionTransferLists(
+          voiceInteraction.interactionId,
+          interactionTransferLists
+        )
+      );
+    } else if (action.channelType === 'nonVoice') {
+      // Filtering out dupilcate flow transfer-lists:
+      const filteredFlowTransferLists = activeTransferLists.filter(
+        ({ id, name }) =>
+          nonVoiceFlowTransLists.find(
+            ({ value }) =>
+              value === id || value.toUpperCase() === name.toUpperCase()
+          )
+      );
+      // setting non- voice interaction transfer lists:
       interactionTransferLists = filteredFlowTransferLists
         .map(({ id, name, endpoints }) => {
           const queueEndPoints = endpoints.filter(
@@ -454,118 +487,81 @@ export function* callTransferListsFromFlowAndUpdateState() {
           };
         })
         .filter(({ endpoints }) => endpoints.length > 0);
+      yield put(
+        setInteractionTransferLists(
+          selectedInteraction.interactionId,
+          interactionTransferLists
+        )
+      );
     }
-    // setting flow transfer lists:
-    yield put(
-      setInteractionTransferLists(
-        selectedInteraction.interactionId,
-        interactionTransferLists
-      )
-    );
-    // setting initial visible state for individual flow transfer-lists:
+    // setting initial visible state of interaction transfer-lists:
     const interactionTransferListsVisibleState = interactionTransferLists.reduce(
       (newObj, list) => ({
         ...newObj,
-        [`${list.id}-${selectedInteraction.interactionId}`]:
+        [list.id]:
           localStorage.getItem(
-            `flowTransferListHiddenState/${selectedInteraction.interactionId}/${
-              tenant.id
-            }/${agent.userId}/${list.id}`
+            `flowTransferListHiddenState/${tenant.id}/${agent.userId}/${
+              list.id
+            }`
           ) !== 'false',
       }),
       {}
     );
     yield put(
       setInteractionTransferListsVisibleState(
-        selectedInteraction.interactionId,
         interactionTransferListsVisibleState
       )
     );
+    // setting visible state of all Interaction transfer-lists:
     if (interactionTransferLists.length > 0) {
-      // setting all of the interaction transfer-lists visible state:
       const visibleStateofAllInteractionTrasferLists =
         localStorage.getItem(
-          `visibleStateOfAllInteractionTransferLists/${
-            selectedInteraction.interactionId
-          }/${tenant.id}/${agent.userId}`
+          `visibleStateOfAllInteractionTransferLists/${tenant.id}/${
+            agent.userId
+          }`
         ) !== 'false';
       yield put(
         setVisibleStateOfAllInteractionTransferLists(
-          selectedInteraction.interactionId,
           visibleStateofAllInteractionTrasferLists
         )
       );
     } else {
-      yield put(
-        setVisibleStateOfAllInteractionTransferLists(
-          selectedInteraction.interactionId,
-          null
-        )
-      );
+      yield put(setVisibleStateOfAllInteractionTransferLists(null));
     }
-  } else {
-    yield put(
-      setInteractionTransferLists(selectedInteraction.interactionId, null)
-    );
   }
 }
-
 export function* changeInteractionTransferListVisibleState(action) {
-  const [
-    tenant,
-    agent,
-    selectedInteraction,
-    prevTransferListsVisibleState,
-  ] = yield all([
+  const [tenant, agent, prevTransferListsVisibleState] = yield all([
     select(selectTenant),
     select(selectAgent),
-    select(getSelectedInteraction),
-    select(selectInteractionTransferListsVisibleState),
+    select(selectInterAssigTransListsVisibleSt),
   ]);
   const interactionTransferLists = { ...prevTransferListsVisibleState };
-  interactionTransferLists[
-    `${action.transferListId}-${selectedInteraction.interactionId}`
-  ] = !interactionTransferLists[
-    `${action.transferListId}-${selectedInteraction.interactionId}`
+  interactionTransferLists[action.transferListId] = !interactionTransferLists[
+    action.transferListId
   ];
-  yield put(
-    setInteractionTransferListsVisibleState(
-      selectedInteraction.interactionId,
-      interactionTransferLists
-    )
-  );
+  yield put(setInteractionTransferListsVisibleState(interactionTransferLists));
   localStorage.setItem(
-    `flowTransferListHiddenState/${selectedInteraction.interactionId}/${
-      tenant.id
-    }/${agent.userId}/${action.transferListId}`,
-    interactionTransferLists[
-      `${action.transferListId}-${selectedInteraction.interactionId}`
-    ]
+    `flowTransferListHiddenState/${tenant.id}/${agent.userId}/${
+      action.transferListId
+    }`,
+    interactionTransferLists[action.transferListId]
   );
 }
 
 export function* updateVisibleStateofAllFlowTransferLists() {
-  const [
-    tenant,
-    agent,
-    selectedInteraction,
-    visibleStateofAllInteractionTrasferLists,
-  ] = yield all([
+  const [tenant, agent, visibleStateofAllInteractionTrasferLists] = yield all([
     select(selectTenant),
     select(selectAgent),
-    select(getSelectedInteraction),
-    select(selectVisibleStateofAllInteractionTrasferLists),
+    select(selectInterAssigAllTransListsVisibleSt),
   ]);
   yield put(
     setVisibleStateOfAllInteractionTransferLists(
-      selectedInteraction.interactionId,
       !visibleStateofAllInteractionTrasferLists
     )
   );
   localStorage.setItem(
-    `visibleStateOfAllInteractionTransferLists/${
-      selectedInteraction.interactionId
-    }/${tenant.id}/${agent.userId}`,
+    `visibleStateOfAllInteractionTransferLists/${tenant.id}/${agent.userId}`,
     !visibleStateofAllInteractionTrasferLists
   );
 }

@@ -26,6 +26,10 @@ exports[`<AgentPreferencesMenu /> does not render the metrics option when the ag
       preference="notifications"
       setPreferenceSelected={[Function]}
     />
+    <PreferenceOption
+      preference="transferMenu"
+      setPreferenceSelected={[Function]}
+    />
   </React.Fragment>
 </PopupDialog>
 `;
@@ -110,6 +114,10 @@ exports[`<AgentPreferencesMenu /> renders the preferences options by default 1`]
     />
     <PreferenceOption
       preference="notifications"
+      setPreferenceSelected={[Function]}
+    />
+    <PreferenceOption
+      preference="transferMenu"
       setPreferenceSelected={[Function]}
     />
   </React.Fragment>

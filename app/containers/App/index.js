@@ -152,6 +152,7 @@ import {
   toggleIsOnline,
   outboundCustomerConnected,
   setTransferListsFromFlow,
+  setTranferringInConference,
 } from 'containers/AgentDesktop/actions';
 
 import { toggleSelectedQueueTransferMenuPreference } from 'containers/AgentTransferMenuPreferenceMenu/actions';
@@ -907,6 +908,18 @@ export class App extends React.Component {
           }
           case 'cxengage/interactions/voice/customer-connected': {
             this.props.outboundCustomerConnected(response.interactionId);
+            break;
+          }
+          case 'cxengage/interactions/voice/transfer-started': {
+            this.props.setTranferringInConference(response.interactionId, true);
+            break;
+          }
+          case 'cxengage/interactions/voice/transfer-connected':
+          case 'cxengage/interactions/voice/transfer-cancelled': {
+            this.props.setTranferringInConference(
+              response.interactionId,
+              false
+            );
             break;
           }
 
@@ -1835,6 +1848,8 @@ function mapDispatchToProps(dispatch) {
     toggleIsOnline: (isOnline) => dispatch(toggleIsOnline(isOnline)),
     outboundCustomerConnected: (interactionId) =>
       dispatch(outboundCustomerConnected(interactionId)),
+    setTranferringInConference: (interactionId, isColdTransferring) =>
+      dispatch(setTranferringInConference(interactionId, isColdTransferring)),
     toggleQueue: (queue) =>
       dispatch(toggleSelectedQueueTransferMenuPreference(queue)),
     dispatch,
@@ -1940,6 +1955,7 @@ App.propTypes = {
   setQueuesTime: PropTypes.func.isRequired,
   toggleIsOnline: PropTypes.func.isRequired,
   outboundCustomerConnected: PropTypes.func.isRequired,
+  setTranferringInConference: PropTypes.func.isRequired,
   selectedInteractionId: PropTypes.string,
 };
 

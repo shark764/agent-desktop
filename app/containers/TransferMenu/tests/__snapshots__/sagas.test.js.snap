@@ -52,6 +52,48 @@ Object {
 }
 `;
 
+exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfer lists and there visible state for non voice interactions sets non-voice interaction transfer lists by dispatching setUserAssignedTransferLists 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "channelType": "nonVoice",
+        "type": "app/TransferMenu/SET_USER_ASSIGNED_TRANSFER_LISTS",
+        "userAssignedTransferLists": Array [
+          Object {
+            "endpoints": Array [
+              Object {
+                "contactType": "queue",
+              },
+              Object {
+                "contactType": "queue",
+              },
+            ],
+            "id": "mockTransferListId1",
+            "name": "mockTransferListName",
+          },
+          Object {
+            "endpoints": Array [
+              Object {
+                "contactType": "queue",
+              },
+              Object {
+                "contactType": "queue",
+              },
+            ],
+            "id": "mockTransferListId2",
+            "name": "mockTransferListName2",
+          },
+        ],
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
 exports[`callUserAssignedTransferListsAndUpdateState sets user assigned transfer lists and there visible state for non voice interactions sets userAssignedTransferListsVisibleState to false by dispatching setUserAssignedTransferListsVisibleState action 1`] = `
 Object {
   "done": false,
@@ -174,7 +216,7 @@ Object {
 }
 `;
 
-exports[`callUserAssignedTransferListsAndUpdateState when there are no active transfer lists in the tenant calls updateUserAssignedTransferLists generator function 1`] = `
+exports[`callUserAssignedTransferListsAndUpdateState when the current logged in agent doesnot have any transfer lists calls updateUserAssignedTransferLists generator function 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -188,7 +230,7 @@ Object {
 }
 `;
 
-exports[`callUserAssignedTransferListsAndUpdateState when there are no active transfer lists in the tenant selects tenant and agent id 1`] = `
+exports[`callUserAssignedTransferListsAndUpdateState when the current logged in agent doesnot have any transfer lists selects tenant and agent id 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -213,7 +255,7 @@ Object {
 }
 `;
 
-exports[`callUserAssignedTransferListsAndUpdateState when there are no active transfer lists in the tenant selects userAssginedTransferLists 1`] = `
+exports[`callUserAssignedTransferListsAndUpdateState when the current logged in agent doesnot have any transfer lists selects userAssginedTransferLists 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -226,7 +268,23 @@ Object {
 }
 `;
 
-exports[`callUserAssignedTransferListsAndUpdateState when there are no active transfer lists in the tenant sets userAssignedTransferListsVisibleState to empty object by dispatching setUserAssignedTransferListsVisibleState action 1`] = `
+exports[`callUserAssignedTransferListsAndUpdateState when the current logged in agent doesnot have any transfer lists sets userAssignedTransferListsVisibleState to null by dispatching setUserAssignedTransferListsVisibleState action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "type": "app/TransferMenu/SET_USER_ASSIGNED_TRANSFER_LIST_VISIBLE_STATE",
+        "userAssignedTransferListsVisibleState": null,
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`callUserAssignedTransferListsAndUpdateState when the current logged in agent doesnot have any transfer lists sets visibleStateOfAllAssignedTransferLists to null by dispatching setVisibleStateOfAllUserAssignedTransferLists action 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -608,27 +666,39 @@ Object {
 }
 `;
 
-exports[`tearDownTransferMenuStates gets currently selected interactionId 1`] = `
+exports[`tearDownTransferMenuStates tearDownTransferMenuStates for non-voice interactions gets voice and currently selected interactionId 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
-    "SELECT": Object {
-      "args": Array [],
-      "selector": [Function],
-    },
+    "ALL": Array [
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+    ],
   },
 }
 `;
 
-exports[`tearDownTransferMenuStates sets interactionTransferListsLoadingState to its default state 1`] = `
+exports[`tearDownTransferMenuStates tearDownTransferMenuStates for non-voice interactions sets non-voice interactionTransferListsLoadingState to true 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
     "PUT": Object {
       "action": Object {
-        "interactionId": "mockInteractionId",
+        "interactionId": undefined,
         "isLoading": true,
         "type": "app/AgentDesktop/SET_INTERACTION_TRANSFER_LISTS_LOADING_STATE",
       },
@@ -638,7 +708,7 @@ Object {
 }
 `;
 
-exports[`tearDownTransferMenuStates sets showTransferDialpad to its default state 1`] = `
+exports[`tearDownTransferMenuStates tearDownTransferMenuStates for non-voice interactions sets showTransferDialpad to its default state 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -654,7 +724,7 @@ Object {
 }
 `;
 
-exports[`tearDownTransferMenuStates sets transferSearchInput to its default state 1`] = `
+exports[`tearDownTransferMenuStates tearDownTransferMenuStates for non-voice interactions sets transferSearchInput to its default state 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -670,7 +740,7 @@ Object {
 }
 `;
 
-exports[`tearDownTransferMenuStates sets transferTabIndex to its default state 1`] = `
+exports[`tearDownTransferMenuStates tearDownTransferMenuStates for non-voice interactions sets transferTabIndex to its default state 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -686,15 +756,123 @@ Object {
 }
 `;
 
-exports[`tearDownTransferMenuStates sets userAssignedTransferListsLoadingState to its default state 1`] = `
+exports[`tearDownTransferMenuStates tearDownTransferMenuStates for non-voice interactions sets userAssignedTransferListsLoadingState to its default state 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
     "PUT": Object {
       "action": Object {
+        "channelType": "nonVoice",
         "isLoading": true,
         "type": "app/TransferMenu/SET_USER_ASSIGNED_TRANSFER_LISTS_LOADING_STATE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`tearDownTransferMenuStates tearDownTransferMenuStates for voice interactions gets voice and currently selected interactionId 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "ALL": Array [
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+      Object {
+        "@@redux-saga/IO": true,
+        "SELECT": Object {
+          "args": Array [],
+          "selector": [Function],
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`tearDownTransferMenuStates tearDownTransferMenuStates for voice interactions sets showTransferDialpad to its default state 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "showTransferDialpad": false,
+        "type": "app/TransferMenu/SET_SHOW_TRANSFER_DIAL_PAD",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`tearDownTransferMenuStates tearDownTransferMenuStates for voice interactions sets transferSearchInput to its default state 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "transferSearchInput": "",
+        "type": "app/TransferMenu/SET_TRANSFER_SEARCH_INPUT",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`tearDownTransferMenuStates tearDownTransferMenuStates for voice interactions sets transferTabIndex to its default state 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "transferTabIndex": 0,
+        "type": "app/TransferMenu/SET_TRANSFER_TAB_INDEX",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`tearDownTransferMenuStates tearDownTransferMenuStates for voice interactions sets userAssignedTransferListsLoadingState to its default state 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "channelType": "voice",
+        "isLoading": true,
+        "type": "app/TransferMenu/SET_USER_ASSIGNED_TRANSFER_LISTS_LOADING_STATE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`tearDownTransferMenuStates tearDownTransferMenuStates for voice interactions sets voice interactionTransferListsLoadingState to its true 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": undefined,
+        "isLoading": true,
+        "type": "app/AgentDesktop/SET_INTERACTION_TRANSFER_LISTS_LOADING_STATE",
       },
       "channel": null,
     },

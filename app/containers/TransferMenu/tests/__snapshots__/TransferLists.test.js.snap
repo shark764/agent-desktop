@@ -45,7 +45,262 @@ exports[`TransferLists Component render renders TransferLists component when ass
 
 exports[`TransferLists Component render renders TransferLists component when there are no assigned transferlists and flow transfer lists 1`] = `<React.Fragment />`;
 
-exports[`TransferLists Component render renders TransferLists component with user assinged transferlists and interaction transferlists 1`] = `
+exports[`TransferLists Component render renders TransferLists component with user assinged transferlists and interaction transferlists for the non-voice interaction 1`] = `
+<React.Fragment>
+  <div
+    style={
+      Object {
+        "marginTop": "12px",
+      }
+    }
+  >
+    <div
+      id="interTransferListsCollapExpandBtn"
+      key="interactionTransferLists"
+      onClick={[Function]}
+      style={
+        Object {
+          ":focus": Object {
+            "backgroundColor": "#23cdf4",
+            "color": "#FFFFFF",
+            "outline": "none",
+          },
+          ":hover": Object {
+            "backgroundColor": "#23cdf4",
+            "color": "#FFFFFF",
+          },
+          "borderRadius": "3px",
+          "cursor": "pointer",
+          "display": "flex",
+          "fontSize": "15px",
+          "fontWeight": "bold",
+          "marginBottom": "0px !important",
+          "marginTop": "12px",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="Transfer lists for this Interaction"
+        id="app.containers.TransferMenu.interactionTransferLists"
+        values={Object {}}
+      />
+      <Icon
+        name="caret"
+        style={
+          Array [
+            Object {
+              "flexShrink": "0",
+              "fontWeight": "600",
+              "height": "8px",
+              "marginLeft": "auto",
+              "marginRight": "4px",
+              "marginTop": "4px",
+              "transform": "rotate(180deg)",
+              "width": "13.33px",
+            },
+          ]
+        }
+      />
+    </div>
+    <div
+      key="interactionTransferList-mockNonVoiceTransferListId"
+      style={
+        Object {
+          "marginTop": "12px",
+        }
+      }
+    >
+      <div
+        id="interactionTransferList-0"
+        key="interactionTransferList-mockNonVoiceTransferListId-title"
+        onClick={[Function]}
+        style={
+          Object {
+            ":focus": Object {
+              "backgroundColor": "#23cdf4",
+              "color": "#FFFFFF",
+              "outline": "none",
+            },
+            ":hover": Object {
+              "backgroundColor": "#23cdf4",
+              "color": "#FFFFFF",
+            },
+            "borderRadius": "3px",
+            "color": "rgb(151, 151, 151)",
+            "cursor": "pointer",
+            "display": "flex",
+            "fontSize": "15px",
+            "fontWeight": "bold",
+            "marginBottom": "0px !important",
+            "marginTop": "12px",
+          }
+        }
+        title="mockNonTransferListName"
+      >
+        <span
+          style={
+            Object {
+              "flexBasis": "100%",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+            }
+          }
+        >
+          mockNonTransferListName
+        </span>
+        <Icon
+          name="caret"
+          style={
+            Object {
+              "flexShrink": "0",
+              "height": "8px",
+              "marginLeft": "auto",
+              "marginRight": "4px",
+              "marginTop": "4px",
+              "opacity": "0.5",
+              "transition": "transform 0.5s",
+              "width": "13.33px",
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "borderBottom": "1px solid #e6e6e6",
+          "display": "inline-block",
+          "height": "2px",
+          "width": "100%",
+        }
+      }
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "marginTop": "12px",
+      }
+    }
+  >
+    <div
+      id="assignedTransferListsCollapExpandBtn"
+      key="assignedTransferLists"
+      onClick={[Function]}
+      style={
+        Object {
+          ":focus": Object {
+            "backgroundColor": "#23cdf4",
+            "color": "#FFFFFF",
+            "outline": "none",
+          },
+          ":hover": Object {
+            "backgroundColor": "#23cdf4",
+            "color": "#FFFFFF",
+          },
+          "borderRadius": "3px",
+          "cursor": "pointer",
+          "display": "flex",
+          "fontSize": "15px",
+          "fontWeight": "bold",
+          "marginBottom": "0px !important",
+          "marginTop": "12px",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="Transfer lists assigned to you"
+        id="app.containers.TransferMenu.assignedTransferLists"
+        values={Object {}}
+      />
+      <Icon
+        name="caret"
+        style={
+          Array [
+            Object {
+              "flexShrink": "0",
+              "fontWeight": "600",
+              "height": "8px",
+              "marginLeft": "auto",
+              "marginRight": "4px",
+              "marginTop": "4px",
+              "transform": "rotate(180deg)",
+              "width": "13.33px",
+            },
+          ]
+        }
+      />
+    </div>
+    <div
+      key="mockNonVoiceTransferListId"
+      style={
+        Object {
+          "marginTop": "12px",
+        }
+      }
+    >
+      <div
+        id="transferList-0"
+        key="mockNonVoiceTransferListId-title"
+        onClick={[Function]}
+        style={
+          Object {
+            ":focus": Object {
+              "backgroundColor": "#23cdf4",
+              "color": "#FFFFFF",
+              "outline": "none",
+            },
+            ":hover": Object {
+              "backgroundColor": "#23cdf4",
+              "color": "#FFFFFF",
+            },
+            "borderRadius": "3px",
+            "color": "rgb(151, 151, 151)",
+            "cursor": "pointer",
+            "display": "flex",
+            "fontSize": "15px",
+            "fontWeight": "bold",
+            "marginBottom": "0px !important",
+            "marginTop": "12px",
+          }
+        }
+        title="mockNonTransferListName"
+      >
+        <span
+          style={
+            Object {
+              "flexBasis": "100%",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+            }
+          }
+        >
+          mockNonTransferListName
+        </span>
+        <Icon
+          name="caret"
+          style={
+            Object {
+              "flexShrink": "0",
+              "height": "8px",
+              "marginLeft": "auto",
+              "marginRight": "4px",
+              "marginTop": "4px",
+              "opacity": "0.5",
+              "transition": "transform 0.5s",
+              "width": "13.33px",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</React.Fragment>
+`;
+
+exports[`TransferLists Component render renders TransferLists component with user assinged transferlists and interaction transferlists for the voice interaction 1`] = `
 <React.Fragment>
   <div>
     <div
@@ -68,13 +323,13 @@ exports[`TransferLists Component render renders TransferLists component with use
       />
     </div>
     <div
-      key="interactionTransferList-mockTransferListId"
+      key="interactionTransferList-mockVoiceTransferListId"
     >
       <div
         id="interactionTransferList-0"
-        key="interactionTransferList-mockTransferListId-title"
+        key="interactionTransferList-mockVoiceTransferListId-title"
         onClick={[Function]}
-        title="mockTransferListName"
+        title="mockVoiceTransferListName"
       >
         <span
           style={
@@ -86,7 +341,7 @@ exports[`TransferLists Component render renders TransferLists component with use
             }
           }
         >
-          mockTransferListName
+          mockVoiceTransferListName
         </span>
         <Icon
           name="caret"
@@ -116,13 +371,13 @@ exports[`TransferLists Component render renders TransferLists component with use
       />
     </div>
     <div
-      key="mockTransferListId"
+      key="mockVoiceTransferListId"
     >
       <div
         id="transferList-0"
-        key="mockTransferListId-title"
+        key="mockVoiceTransferListId-title"
         onClick={[Function]}
-        title="mockTransferListName"
+        title="mockVoiceTransferListName"
       >
         <span
           style={
@@ -134,7 +389,7 @@ exports[`TransferLists Component render renders TransferLists component with use
             }
           }
         >
-          mockTransferListName
+          mockVoiceTransferListName
         </span>
         <Icon
           name="caret"

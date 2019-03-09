@@ -49,31 +49,82 @@ Immutable.Map {
 }
 `;
 
-exports[`transferLists should return interaction transfer lists 1`] = `
+exports[`transferLists should return interaction transfer lists visible state 1`] = `
+Object {
+  "mockInterEmailTransferListVisibleState": false,
+  "mockInterVocieTransferListVisibleState": true,
+}
+`;
+
+exports[`transferLists should return non-voice interaction transfer lists 1`] = `
 Array [
   Object {
-    "endpoints": "mockTransferListEndPoint",
-    "id": "mockInteractionTransferListId",
-    "name": "mocktransferListName",
+    "endpoints": "mockEmailTransferListEndPoint",
+    "id": "mockEmailInteractionTransferListId",
+    "name": "mockEmailTransferListName",
   },
 ]
 `;
 
-exports[`transferLists should return interaction transfer lists visible state 1`] = `
-Object {
-  "mockInteractionTransferListsVisibleState": true,
-}
-`;
-
-exports[`transferLists should return transfer lists coming from flow 1`] = `
+exports[`transferLists should return non-voice transferLists coming from flow 1`] = `
 Array [
   Object {
     "type": "id",
-    "value": "mockTransferlistId",
+    "value": "mockEmailTransferlistId",
   },
   Object {
     "type": "name",
-    "value": "mockTransferlistName",
+    "value": "mockEmailTransferlistName",
+  },
+]
+`;
+
+exports[`transferLists should return the voice interaction from the list of interactions 1`] = `
+Object {
+  "channelType": "voice",
+  "interactionId": "mockVoiceInteractionId",
+  "transferLists": Object {
+    "interactionTransferLists": Array [
+      Object {
+        "endpoints": "mockVoiceTransferListEndPoint",
+        "id": "mockVocieInterTransferListId",
+        "name": "mockVocieTransferListName",
+      },
+    ],
+    "loadingState": true,
+    "transferListsFromFlow": Array [
+      Object {
+        "type": "id",
+        "value": "mockVocieTransferlistId",
+      },
+      Object {
+        "type": "name",
+        "value": "mockVoiceTransferlistName",
+      },
+    ],
+  },
+}
+`;
+
+exports[`transferLists should return voice interaction transfer lists 1`] = `
+Array [
+  Object {
+    "endpoints": "mockVoiceTransferListEndPoint",
+    "id": "mockVocieInterTransferListId",
+    "name": "mockVocieTransferListName",
+  },
+]
+`;
+
+exports[`transferLists should return voice transferLists coming from flow 1`] = `
+Array [
+  Object {
+    "type": "id",
+    "value": "mockVocieTransferlistId",
+  },
+  Object {
+    "type": "name",
+    "value": "mockVoiceTransferlistName",
   },
 ]
 `;

@@ -13,7 +13,6 @@ export default [
   'cxengage/interactions/voice/unmute-acknowledged', // Just using cxengage/interactions/voice/resource-unmute-received
   'cxengage/interactions/voice/resume-acknowledged', // Just using cxengage/interactions/voice/customer-resume-received
   'cxengage/interactions/voice/hold-acknowledged', // Just using cxengage/interactions/voice/customer-hold-received
-  'cxengage/interactions/voice/transfer-connected', // Just using cxengage/interactions/resource-added-received
   'cxengage/interactions/voice/resource-hold-acknowledged', // Just using cxengage/interactions/voice/resource-hold-received
   'cxengage/interactions/voice/resource-resume-acknowledged', // Just using cxengage/interactions/voice/resource-resume-received
   'cxengage/zendesk/search-and-pop-no-results-received', // Do nothing for this case

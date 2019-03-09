@@ -18,11 +18,15 @@ import {
   areInteractionsInWrapup,
   selectQueues,
   selectExpandWindowForCrm,
-  selectTransferListsFromFlow,
-  selectInteractionTransferLists,
-  selectInteractionTransferListsLoadingState,
-  selectInteractionTransferListsVisibleState,
-  selectVisibleStateofAllInteractionTrasferLists,
+  selectVoiceInteraction,
+  selectVoiceFlowTransLists,
+  selectNonVoiceFlowTransLists,
+  selectInterAssigVoiceTransLists,
+  selectInterAssigNonVoiceTransLists,
+  selectInterAssigVoiceTransListsLoadSt,
+  selectInterAssigNonVoiceTransListsLoadSt,
+  selectInterAssigTransListsVisibleSt,
+  selectInterAssigAllTransListsVisibleSt,
 } from '../selectors';
 
 describe('areInteractionsInWrapup ', () => {
@@ -535,54 +539,86 @@ describe('selectExpandWindowForCrm', () => {
 describe('transferLists', () => {
   const mockedState = fromJS({
     agentDesktop: {
-      selectedInteractionId: 'mockId',
+      selectedInteractionId: 'mockEmailInteractionId',
       interactions: [
         {
-          interactionId: 'mockId',
+          channelType: 'voice',
+          interactionId: 'mockVoiceInteractionId',
           transferLists: {
             transferListsFromFlow: [
-              { type: 'id', value: 'mockTransferlistId' },
-              { type: 'name', value: 'mockTransferlistName' },
+              { type: 'id', value: 'mockVocieTransferlistId' },
+              { type: 'name', value: 'mockVoiceTransferlistName' },
             ],
             interactionTransferLists: [
               {
-                id: 'mockInteractionTransferListId',
-                name: 'mocktransferListName',
-                endpoints: 'mockTransferListEndPoint',
+                id: 'mockVocieInterTransferListId',
+                name: 'mockVocieTransferListName',
+                endpoints: 'mockVoiceTransferListEndPoint',
               },
             ],
-            interactionTransferListsLoadingState: true,
-            interactionTransferListsVisibleState: {
-              mockInteractionTransferListsVisibleState: true,
-            },
-            visibleStateofAllInteractionTrasferLists: true,
+            loadingState: true,
+          },
+        },
+        {
+          channelType: 'email',
+          interactionId: 'mockEmailInteractionId',
+          transferLists: {
+            transferListsFromFlow: [
+              { type: 'id', value: 'mockEmailTransferlistId' },
+              { type: 'name', value: 'mockEmailTransferlistName' },
+            ],
+            interactionTransferLists: [
+              {
+                id: 'mockEmailInteractionTransferListId',
+                name: 'mockEmailTransferListName',
+                endpoints: 'mockEmailTransferListEndPoint',
+              },
+            ],
+            loadingState: false,
           },
         },
       ],
+      interactionTransferListsVisibleState: {
+        individualTransferLists: {
+          mockInterVocieTransferListVisibleState: true,
+          mockInterEmailTransferListVisibleState: false,
+        },
+        allTransferLists: true,
+      },
       noInteractionContactPanel: {},
       currentCrmItemHistoryPanel: {},
       newInteractionPanel: {},
     },
   });
-  it('should return transfer lists coming from flow', () => {
-    expect(selectTransferListsFromFlow(mockedState)).toMatchSnapshot();
+  it('should return the voice interaction from the list of interactions', () => {
+    expect(selectVoiceInteraction(mockedState)).toMatchSnapshot();
   });
-  it('should return interaction transfer lists', () => {
-    expect(selectInteractionTransferLists(mockedState)).toMatchSnapshot();
+  it('should return voice transferLists coming from flow', () => {
+    expect(selectVoiceFlowTransLists(mockedState)).toMatchSnapshot();
   });
-  it('should return loading state of interaction transfer lists', () => {
-    expect(
-      selectInteractionTransferListsLoadingState(fromJS(mockedState))
-    ).toBe(true);
+  it('should return non-voice transferLists coming from flow', () => {
+    expect(selectNonVoiceFlowTransLists(mockedState)).toMatchSnapshot();
   });
-  it('should return interaction transfer lists visible state', () => {
-    expect(
-      selectInteractionTransferListsVisibleState(mockedState)
-    ).toMatchSnapshot();
+  it('should return voice interaction transfer lists', () => {
+    expect(selectInterAssigVoiceTransLists(mockedState)).toMatchSnapshot();
   });
-  it('should return visible state of all transfer lists', () => {
-    expect(selectVisibleStateofAllInteractionTrasferLists(mockedState)).toBe(
+  it('should return non-voice interaction transfer lists', () => {
+    expect(selectInterAssigNonVoiceTransLists(mockedState)).toMatchSnapshot();
+  });
+  it('should return loading state of voice interaction transfer lists', () => {
+    expect(selectInterAssigVoiceTransListsLoadSt(fromJS(mockedState))).toBe(
       true
     );
+  });
+  it('should return loading state of non-voice interaction transfer lists', () => {
+    expect(selectInterAssigNonVoiceTransListsLoadSt(fromJS(mockedState))).toBe(
+      false
+    );
+  });
+  it('should return interaction transfer lists visible state', () => {
+    expect(selectInterAssigTransListsVisibleSt(mockedState)).toMatchSnapshot();
+  });
+  it('should return visible state of all transfer lists', () => {
+    expect(selectInterAssigAllTransListsVisibleSt(mockedState)).toBe(true);
   });
 });

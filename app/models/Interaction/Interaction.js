@@ -151,6 +151,7 @@ export default class Interaction {
     } else {
       this.status = status || 'work-offer';
     }
+    this.transferringInConference = false;
   }
 }
 

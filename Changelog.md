@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.3] (2019-03-09)
+## Fixed
+* CXV1-17308 - create separate transer lists redux states for voice and non-voice interactions
+## Added
+* CXV1-16488 - Skylight - Update to listen to new notifications, when user create a transfer call the button is disable
+
 ## [1.37.2] (2019-03-08)
 ### Fixed
 * CXV1-17203 - Outbound Identifiers - Identifiers not working properly when User exists in CRM
@@ -29,10 +35,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * CXV1-16779 - Hide queues/agents from preference menu when no role
 
 ### [1.36.2] (2019-01-21)
+## Fixed
 * CXV1-17186 - Skylight | Transfer Menu | Cannot read property 'split' of null
 
-## [1.36.1-SNAPSHOT] (2019-02-11)
-### Added
+### [1.36.1-SNAPSHOT] (2019-02-11)
+## Added
 * CXV1-15536 - Hide transfer menu list based on state stored in preferences, don't do batch request when hidden
 
 ### [1.36.0] (2019-02-21)

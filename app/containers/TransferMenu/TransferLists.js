@@ -195,19 +195,15 @@ export class TransferLists extends React.Component {
                   <Icon
                     name="caret"
                     style={
-                      this.props.userAssignedTransferListsVisibleState &&
-                      this.props.userAssignedTransferListsVisibleState[
-                        transferList.id
-                      ]
+                      this.props.userAssigTransListsVisibleSt &&
+                      this.props.userAssigTransListsVisibleSt[transferList.id]
                         ? this.props.styles.iconOpen
                         : this.props.styles.iconClosed
                     }
                   />
                 </div>
-                {((this.props.userAssignedTransferListsVisibleState &&
-                  this.props.userAssignedTransferListsVisibleState[
-                    transferList.id
-                  ]) ||
+                {((this.props.userAssigTransListsVisibleSt &&
+                  this.props.userAssigTransListsVisibleSt[transferList.id]) ||
                   this.props.transferSearchInput.trim() !== '') && (
                   <div style={styles.transferListWrapper}>
                     {hierarchyList}
@@ -314,19 +310,15 @@ export class TransferLists extends React.Component {
                   <Icon
                     name="caret"
                     style={
-                      this.props.interactionTransferListsVisibleState &&
-                      this.props.interactionTransferListsVisibleState[
-                        `${transferList.id}-${this.props.selectedInteractionId}`
-                      ]
+                      this.props.interactionTransListsVisibleSt &&
+                      this.props.interactionTransListsVisibleSt[transferList.id]
                         ? this.props.styles.iconOpen
                         : this.props.styles.iconClosed
                     }
                   />
                 </div>
-                {((this.props.interactionTransferListsVisibleState &&
-                  this.props.interactionTransferListsVisibleState[
-                    `${transferList.id}-${this.props.selectedInteractionId}`
-                  ]) ||
+                {((this.props.interactionTransListsVisibleSt &&
+                  this.props.interactionTransListsVisibleSt[transferList.id]) ||
                   this.props.transferSearchInput.trim() !== '') && (
                   <div style={styles.transferListWrapper}>
                     {hierarchyList}
@@ -341,7 +333,7 @@ export class TransferLists extends React.Component {
 
     return (
       <React.Fragment>
-        {this.props.interactionTransferListsLoadingState ? (
+        {this.props.interactionTransListsLoadSt ? (
           <div style={this.props.styles.transferListDivContainer}>
             <div style={this.props.styles.transferListsCheckingTitle}>
               <FormattedMessage
@@ -361,7 +353,7 @@ export class TransferLists extends React.Component {
                 id="interTransferListsCollapExpandBtn"
                 key="interactionTransferLists"
                 style={
-                  this.props.visibleStateofAllInteractionTrasferLists
+                  this.props.interactionAllTransListsVisibleSt
                     ? this.props.styles.expandedTransferHeading
                     : this.props.styles.collapsedTransferHeading
                 }
@@ -373,19 +365,19 @@ export class TransferLists extends React.Component {
                 <Icon
                   name="caret"
                   style={[
-                    this.props.visibleStateofAllInteractionTrasferLists
+                    this.props.interactionAllTransListsVisibleSt
                       ? this.props.styles.iconOpen
                       : this.props.styles.iconClosed,
                   ]}
                 />
               </div>
-              {this.props.visibleStateofAllInteractionTrasferLists &&
+              {this.props.interactionAllTransListsVisibleSt &&
                 interactionTransferLists}
               <div style={this.props.styles.lineSpacer} />
             </div>
           )
         )}
-        {this.props.userAssignedTransferListsLoadingState ? (
+        {this.props.userAssigTransListsLoadSt ? (
           <div style={this.props.styles.transferListDivContainer}>
             <div style={this.props.styles.transferListsCheckingTitle}>
               <FormattedMessage
@@ -406,7 +398,7 @@ export class TransferLists extends React.Component {
                 id="assignedTransferListsCollapExpandBtn"
                 key="assignedTransferLists"
                 style={
-                  this.props.visibleStateOfAllUserAssignedTransferLists
+                  this.props.userAssigAllTransListsVisibleSt
                     ? this.props.styles.expandedTransferHeading
                     : this.props.styles.collapsedTransferHeading
                 }
@@ -418,13 +410,13 @@ export class TransferLists extends React.Component {
                 <Icon
                   name="caret"
                   style={[
-                    this.props.visibleStateOfAllUserAssignedTransferLists
+                    this.props.userAssigAllTransListsVisibleSt
                       ? this.props.styles.iconOpen
                       : this.props.styles.iconClosed,
                   ]}
                 />
               </div>
-              {this.props.visibleStateOfAllUserAssignedTransferLists &&
+              {this.props.userAssigAllTransListsVisibleSt &&
                 userAssignedTransferLists}
             </div>
           )
@@ -443,16 +435,16 @@ TransferLists.propTypes = {
   updateUserAssignedTransferListsVisibleState: PropTypes.func.isRequired,
   updateVisibleStateOfAllUserAssignedTransferlists: PropTypes.func.isRequired,
   userAssignedTransferLists: PropTypes.array,
-  userAssignedTransferListsLoadingState: PropTypes.bool,
-  userAssignedTransferListsVisibleState: PropTypes.object,
-  visibleStateOfAllUserAssignedTransferLists: PropTypes.bool,
+  userAssigTransListsLoadSt: PropTypes.bool,
+  userAssigTransListsVisibleSt: PropTypes.object,
+  userAssigAllTransListsVisibleSt: PropTypes.bool,
   updateInteractionTransferListsVisibleState: PropTypes.func.isRequired,
   updateVisibleStateOfAllInteractionTransferlists: PropTypes.func.isRequired,
   selectedInteractionId: PropTypes.string,
   interactionTransferLists: PropTypes.array,
-  interactionTransferListsLoadingState: PropTypes.bool,
-  interactionTransferListsVisibleState: PropTypes.object,
-  visibleStateofAllInteractionTrasferLists: PropTypes.bool,
+  interactionTransListsLoadSt: PropTypes.bool,
+  interactionTransListsVisibleSt: PropTypes.object,
+  interactionAllTransListsVisibleSt: PropTypes.bool,
 };
 
 export default ErrorBoundary(Radium(TransferLists));

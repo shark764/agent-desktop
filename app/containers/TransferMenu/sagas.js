@@ -9,7 +9,7 @@ import {
 } from 'containers/AgentDesktop/actions';
 import {
   getSelectedInteraction,
-  getSelectedInteractionId,
+  selectVoiceInteraction,
 } from 'containers/AgentDesktop/selectors';
 import { updateUserAssignedTransferLists } from 'containers/AgentTransferMenuPreferenceMenu/sagas';
 
@@ -20,6 +20,7 @@ import {
   setTransferSearchInput,
   setTransferTabIndex,
   setShowTransferDialPad,
+  setUserAssignedTransferLists,
   setUserAssignedTransferListsLoadingState,
   setUserAssignedTransferListsVisibleState,
   setVisibleStateOfAllUserAssignedTransferLists,
@@ -28,14 +29,14 @@ import {
   selectQueuesListVisibleState,
   selectAgentsListVisibleState,
   selectTransferTabIndex,
-  selectUserAssignedTransferListsVisibleState,
-  selectVisibleStateOfAllUserAssignedTrasferLists,
   selectUserAssignedTransferLists,
+  selectUserAssigTransListsVisibleSt,
+  selectUserAssigAllTransListsVisibleSt,
 } from './selectors';
 
 // Worker Saga for Setting Initial States:
 
-export function* callUserAssignedTransferListsAndUpdateState() {
+export function* callUserAssignedTransferListsAndUpdateState(action) {
   const [tenant, agent] = yield all([
     select(selectTenant),
     select(selectAgent),
@@ -44,7 +45,28 @@ export function* callUserAssignedTransferListsAndUpdateState() {
   const userAssignedTransferLists = yield select(
     selectUserAssignedTransferLists
   );
-
+  // setting user assigned transfer lists for non-voice interactions type:
+  if (action.channelType === 'nonVoice') {
+    if (userAssignedTransferLists) {
+      const nonVoiceTransferLists = userAssignedTransferLists
+        .map(({ id, name, endpoints }) => {
+          const queueEndPoints = endpoints.filter(
+            (endpoint) => endpoint.contactType === 'queue'
+          );
+          return {
+            id,
+            name,
+            endpoints: queueEndPoints,
+          };
+        })
+        .filter(({ endpoints }) => endpoints.length > 0);
+      yield put(
+        setUserAssignedTransferLists(nonVoiceTransferLists, action.channelType)
+      );
+    } else {
+      yield put(setUserAssignedTransferLists(null, action.channelType));
+    }
+  }
   // setting initial individual transfer-lists visible state:
   if (userAssignedTransferLists && userAssignedTransferLists.length > 0) {
     const userAssignedTransferListsVisibleState = userAssignedTransferLists.reduce(
@@ -64,7 +86,6 @@ export function* callUserAssignedTransferListsAndUpdateState() {
         userAssignedTransferListsVisibleState
       )
     );
-
     // setting initial visible state for all of the user-assigned transfer lists:
     const visibleStateOfAllAssignedTransferLists =
       localStorage.getItem(
@@ -76,6 +97,7 @@ export function* callUserAssignedTransferListsAndUpdateState() {
       )
     );
   } else {
+    yield put(setUserAssignedTransferListsVisibleState(null));
     yield put(setVisibleStateOfAllUserAssignedTransferLists(null));
   }
 }
@@ -129,7 +151,7 @@ export function* changeUserAssignedTransferListVisibleState(action) {
   const [tenant, agent, prevTransferListsVisibleState] = yield all([
     select(selectTenant),
     select(selectAgent),
-    select(selectUserAssignedTransferListsVisibleState),
+    select(selectUserAssigTransListsVisibleSt),
   ]);
   const userAssignedTransferLists = { ...prevTransferListsVisibleState };
   userAssignedTransferLists[action.transferListId] = !userAssignedTransferLists[
@@ -151,7 +173,7 @@ export function* changeVisibleStateofAllUserAssignedTransferLists() {
     [
       select(selectTenant),
       select(selectAgent),
-      select(selectVisibleStateOfAllUserAssignedTrasferLists),
+      select(selectUserAssigAllTransListsVisibleSt),
     ]
   );
   yield put(
@@ -165,15 +187,30 @@ export function* changeVisibleStateofAllUserAssignedTransferLists() {
   );
 }
 
-export function* tearDownTransferMenuStates() {
-  const selectedInteractionId = yield select(getSelectedInteractionId);
+export function* tearDownTransferMenuStates(action) {
+  const [selectedInteraction, voiceInteraction] = yield all([
+    select(getSelectedInteraction),
+    select(selectVoiceInteraction),
+  ]);
   yield put(setTransferSearchInput(''));
   yield put(setTransferTabIndex(0));
   yield put(setShowTransferDialPad(false));
-  yield put(
-    setInteractionTransferListsLoadingState(selectedInteractionId, true)
-  );
-  yield put(setUserAssignedTransferListsLoadingState(true));
+  if (action.channelType === 'voice') {
+    yield put(
+      setInteractionTransferListsLoadingState(
+        voiceInteraction.interactionId,
+        true
+      )
+    );
+  } else if (action.channelType === 'nonVoice') {
+    yield put(
+      setInteractionTransferListsLoadingState(
+        selectedInteraction.interactionId,
+        true
+      )
+    );
+  }
+  yield put(setUserAssignedTransferListsLoadingState(action.channelType, true));
 }
 
 export function* transferInteraction(action) {

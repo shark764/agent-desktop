@@ -6,8 +6,9 @@ Immutable.Map {
   "transferTabIndex": 0,
   "focusedTransferItemIndex": -1,
   "showTransferDialpad": false,
-  "transferLists": Immutable.Map {
-    "userAssignedTransferListsLoadingState": true,
+  "userAssignedTransferLists": Immutable.Map {
+    "voiceListsLoadingState": true,
+    "nonVoiceListsLoadingState": true,
   },
 }
 `;
@@ -42,11 +43,11 @@ Immutable.Map {
 }
 `;
 
-exports[`TransferMenu reducer tests sets userAssignedTransferLists 1`] = `
+exports[`TransferMenu reducer tests sets userAssigned non-voice interaction TransferLists 1`] = `
 Immutable.Map {
-  "transferLists": Immutable.Map {
-    "userAssignedTransferListsLoadingState": false,
-    "userAssignedTransferLists": Immutable.List [
+  "userAssignedTransferLists": Immutable.Map {
+    "nonVoiceListsLoadingState": false,
+    "onlyQueueTransferLists": Immutable.List [
       Immutable.Map {
         "mockTransferListKey": "mockTransferListValue",
       },
@@ -55,18 +56,39 @@ Immutable.Map {
 }
 `;
 
-exports[`TransferMenu reducer tests sets userAssignedTransferListsLoadingState 1`] = `
+exports[`TransferMenu reducer tests sets userAssigned non-voice interaction TransferLists LoadingState 1`] = `
 Immutable.Map {
-  "transferLists": Immutable.Map {
-    "userAssignedTransferListsLoadingState": true,
+  "userAssignedTransferLists": Immutable.Map {
+    "nonVoiceListsLoadingState": true,
+  },
+}
+`;
+
+exports[`TransferMenu reducer tests sets userAssigned voice interaction TransferLists 1`] = `
+Immutable.Map {
+  "userAssignedTransferLists": Immutable.Map {
+    "voiceListsLoadingState": false,
+    "pstnSipQueueTransferLists": Immutable.List [
+      Immutable.Map {
+        "mockTransferListKey": "mockTransferListValue",
+      },
+    ],
+  },
+}
+`;
+
+exports[`TransferMenu reducer tests sets userAssigned voice interaction TransferLists LoadingState 1`] = `
+Immutable.Map {
+  "userAssignedTransferLists": Immutable.Map {
+    "voiceListsLoadingState": true,
   },
 }
 `;
 
 exports[`TransferMenu reducer tests sets userAssignedTransferListsVisibleState 1`] = `
 Immutable.Map {
-  "transferLists": Immutable.Map {
-    "userAssignedTransferListsVisibleState": Immutable.Map {
+  "userAssignedTransferLists": Immutable.Map {
+    "transferListsVisibleState": Immutable.Map {
       "assignedTransferList-abc": true,
     },
   },
@@ -75,8 +97,8 @@ Immutable.Map {
 
 exports[`TransferMenu reducer tests sets visibleStateOfAllUserAssignedTransferLists 1`] = `
 Immutable.Map {
-  "transferLists": Immutable.Map {
-    "visibleStateOfAllUserAssignedTransferLists": true,
+  "userAssignedTransferLists": Immutable.Map {
+    "allTransferListsVisibleState": true,
   },
 }
 `;

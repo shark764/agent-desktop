@@ -415,8 +415,13 @@ describe('goAcceptWork', () => {
         response: {},
       });
     });
-    it('should dispatch setInteractionStatus with work-accepted', () => {
+    it('selects current interaction', () => {
       expect(generator.next()).toMatchSnapshot();
+    });
+    it('should dispatch setInteractionStatus with work-accepted', () => {
+      expect(
+        generator.next({ interactionId: 'mockInteraction-Id' })
+      ).toMatchSnapshot();
     });
     it('sets interaction transferLists loading state to true', () => {
       expect(generator.next()).toMatchSnapshot();
@@ -437,8 +442,13 @@ describe('goAcceptWork', () => {
         },
       });
     });
-    it('should dispatch setInteractionStatus with work-accepted', () => {
+    it('selects current interaction', () => {
       expect(generator.next()).toMatchSnapshot();
+    });
+    it('should dispatch setInteractionStatus with work-accepted', () => {
+      expect(
+        generator.next({ interactionId: 'mockInteraction-Id' })
+      ).toMatchSnapshot();
     });
     it('sets interaction transferlists loading state to true', () => {
       expect(generator.next()).toMatchSnapshot();
@@ -478,13 +488,12 @@ describe('callTransferListsFromFlowAndUpdateState', () => {
   afterAll(() => {
     delete global.localStorage;
   });
-  const selectedInteraction = { interactionId: 'mockInteractionId' };
   const tenantTransferLists = {
     result: [
       {
         active: true,
-        id: 'mockTransferListId1',
-        name: 'mockTransferListName',
+        id: 'mockVocieTransferListId',
+        name: 'mockVocieTransferLitName',
         endpoints: [
           { contactType: 'queue' },
           { contactType: 'PSTN' },
@@ -494,8 +503,8 @@ describe('callTransferListsFromFlowAndUpdateState', () => {
       },
       {
         active: true,
-        id: 'mockTransferListId2',
-        name: 'mockTransferListName2',
+        id: 'mockNonVoiceTransferListI',
+        name: 'mockNonVoiceTransferListName',
         endpoints: [
           { contactType: 'queue' },
           { contactType: 'PSTN' },
@@ -505,14 +514,23 @@ describe('callTransferListsFromFlowAndUpdateState', () => {
       },
     ],
   };
-  const flowTransferLists = [
-    { type: 'id', value: 'mockTransferListId1' },
-    { type: 'id', value: 'mockTransferListId1' },
-    { type: 'name', value: 'mockTransferListName2' },
-    { type: 'name', value: 'mockTransferListName2' },
+  const voiceFlowTransferLists = [
+    { type: 'id', value: 'mockVocieTransferListId' },
+    { type: 'id', value: 'mockVocieTransferListId' },
   ];
+  const nonVoiceFlowTransferLists = [
+    { type: 'name', value: 'mockNonVoiceTransferListName' },
+    { type: 'name', value: 'mockNonVoiceTransferListName' },
+  ];
+  const tenant = { id: 'tenantId' };
+  const agent = { userId: 'agentId' };
+  const selectedInteraction = { interactionId: 'mockNonVoiceInteractionId' };
+  const voiceInteraction = { interactionId: 'mockVoiceInteractionId' };
+
   describe('sets interaction transfet lists and there visible state for voice interactions', () => {
-    const generator = callTransferListsFromFlowAndUpdateState();
+    const generator = callTransferListsFromFlowAndUpdateState({
+      channelType: 'voice',
+    });
     const mockGetTenantTransferLists = 'getTenantTransferListsFunction';
     const mockGetItem = jest.fn(() => null);
     beforeEach(() => {
@@ -525,17 +543,18 @@ describe('callTransferListsFromFlowAndUpdateState', () => {
         getItem: mockGetItem,
       };
     });
-    it('selects tenant and agent id', () => {
+    it('selects tenant id, agent id and transfer lists', () => {
       expect(generator.next()).toMatchSnapshot();
     });
     it('calls the promise util with the SDK getTransferLists function to get the active transferLists', () => {
       expect(
         generator.next([
-          { id: 'tenantId' },
-          { userId: 'agentId' },
-          { channelType: 'voice' },
+          tenant,
+          agent,
           selectedInteraction,
-          flowTransferLists,
+          voiceInteraction,
+          voiceFlowTransferLists,
+          nonVoiceFlowTransferLists,
         ])
       ).toMatchSnapshot();
     });
@@ -556,7 +575,9 @@ describe('callTransferListsFromFlowAndUpdateState', () => {
     });
   });
   describe('sets interaction transfet lists and there visible state for the non voice interactions', () => {
-    const generator = callTransferListsFromFlowAndUpdateState();
+    const generator = callTransferListsFromFlowAndUpdateState({
+      channelType: 'nonVoice',
+    });
     const mockGetTenantTransferLists = 'getTenantTransferListsFunction';
     const mockGetItem = jest.fn(() => 'false');
     beforeEach(() => {
@@ -569,17 +590,18 @@ describe('callTransferListsFromFlowAndUpdateState', () => {
         getItem: mockGetItem,
       };
     });
-    it('selects tenant and agent id', () => {
+    it('selects tenant id, agent id and transfer lists', () => {
       expect(generator.next()).toMatchSnapshot();
     });
     it('calls the promise util with the SDK getTransferLists function to get the active transferLists', () => {
       expect(
         generator.next([
-          { id: 'tenantId' },
-          { userId: 'agentId' },
-          { channelType: 'sms' },
+          tenant,
+          agent,
           selectedInteraction,
-          flowTransferLists,
+          voiceInteraction,
+          voiceFlowTransferLists,
+          nonVoiceFlowTransferLists,
         ])
       ).toMatchSnapshot();
     });
@@ -600,7 +622,9 @@ describe('callTransferListsFromFlowAndUpdateState', () => {
     });
   });
   describe('when there are no active transfer lists in the tenant', () => {
-    const generator = callTransferListsFromFlowAndUpdateState();
+    const generator = callTransferListsFromFlowAndUpdateState({
+      channelType: 'voice',
+    });
     const mockGetTenantTransferLists = 'getTenantTransferListsFunction';
     const mockGetItem = jest.fn(() => true);
     beforeEach(() => {
@@ -616,17 +640,18 @@ describe('callTransferListsFromFlowAndUpdateState', () => {
     const inactiveTransferLists = {
       result: [{ active: false }, { active: false }],
     };
-    it('selects tenant and agent id', () => {
+    it('selects tenant id, agent id and transfer lists', () => {
       expect(generator.next()).toMatchSnapshot();
     });
     it('calls the promise util with the SDK getTransferLists function to get the active transferLists', () => {
       expect(
         generator.next([
-          { id: 'tenantId' },
-          { userId: 'agentId' },
-          { channelType: 'voice' },
+          tenant,
+          agent,
           selectedInteraction,
-          flowTransferLists,
+          voiceInteraction,
+          voiceFlowTransferLists,
+          nonVoiceFlowTransferLists,
         ])
       ).toMatchSnapshot();
     });
@@ -644,7 +669,9 @@ describe('callTransferListsFromFlowAndUpdateState', () => {
     });
   });
   describe('when the current interaction flow doesnot have any transfer lists', () => {
-    const generator = callTransferListsFromFlowAndUpdateState();
+    const generator = callTransferListsFromFlowAndUpdateState({
+      channelType: 'voice',
+    });
     const mockGetTenantTransferLists = 'getTenantTransferListsFunction';
     const mockGetItem = jest.fn(() => true);
     beforeEach(() => {
@@ -657,22 +684,20 @@ describe('callTransferListsFromFlowAndUpdateState', () => {
         getItem: mockGetItem,
       };
     });
-    it('selects tenant and agent id', () => {
+    it('selects tenant id, agent id and transfer lists', () => {
       expect(generator.next()).toMatchSnapshot();
     });
-    it('calls the promise util with the SDK getTransferLists function to get the active transferLists', () => {
+    it('is done', () => {
       expect(
         generator.next([
-          { id: 'tenantId' },
-          { userId: 'agentId' },
-          { channelType: 'voice' },
+          tenant,
+          agent,
           selectedInteraction,
+          voiceInteraction,
           undefined,
-        ])
-      ).toMatchSnapshot();
-    });
-    it('is done', () => {
-      expect(generator.next().done).toBe(true);
+          undefined,
+        ]).done
+      ).toBe(true);
     });
   });
 });
@@ -681,11 +706,9 @@ describe('changeInteractionTransferListVisibleState', () => {
   afterAll(() => {
     delete global.localStorage;
   });
-  const action = {
+  const generator = changeInteractionTransferListVisibleState({
     transferListId: 'mockTransferListId',
-  };
-  const selectedInteractionId = 'mockInteractionId';
-  const generator = changeInteractionTransferListVisibleState(action);
+  });
   const mockSetItem = jest.fn();
   beforeEach(() => {
     global.localStorage = {
@@ -700,7 +723,6 @@ describe('changeInteractionTransferListVisibleState', () => {
       generator.next([
         { id: 'tenantId' },
         { userId: 'agentId' },
-        selectedInteractionId,
         { 'flowTransferList-mockTransferListId': true },
       ])
     ).toMatchSnapshot();
@@ -714,11 +736,9 @@ describe('changeInteractionTransferListVisibleState', () => {
 });
 
 describe('updateVisibleStateofAllFlowTransferLists', () => {
-  const action = {
+  const generator = updateVisibleStateofAllFlowTransferLists({
     transferListId: 'mockTransferListId',
-  };
-  const selectedInteractionId = 'mockInteractionId';
-  const generator = updateVisibleStateofAllFlowTransferLists(action);
+  });
   const mockSetItem = jest.fn();
   beforeEach(() => {
     global.localStorage = {
@@ -730,12 +750,7 @@ describe('updateVisibleStateofAllFlowTransferLists', () => {
   });
   it('updates visibleStateOfAllInteractionTransferLists to false by dispatching setVisibleStateOfAllInteractionTransferLists', () => {
     expect(
-      generator.next([
-        { id: 'tenantId' },
-        { userId: 'agentId' },
-        selectedInteractionId,
-        true,
-      ])
+      generator.next([{ id: 'tenantId' }, { userId: 'agentId' }, true])
     ).toMatchSnapshot();
   });
   it('is done', () => {

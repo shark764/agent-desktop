@@ -1879,6 +1879,42 @@ describe('agentDesktopReducer', () => {
     });
   });
 
+  describe('SET_TRANSFERRING_IN_CONFERENCE', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: '1',
+          },
+        ],
+      };
+    });
+    describe('send transferringInConference as true', () => {
+      beforeEach(() => {
+        action = {
+          type: ACTIONS.SET_TRANSFERRING_IN_CONFERENCE,
+          interactionId: '1',
+          transferringInConference: true,
+        };
+      });
+      it('sets transferringInConference flag as true in the interaction', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+    describe('send transferringInConference as false', () => {
+      beforeEach(() => {
+        action = {
+          type: ACTIONS.SET_TRANSFERRING_IN_CONFERENCE,
+          interactionId: '1',
+          transferringInConference: false,
+        };
+      });
+      it('sets transferringInConference flag as false in the interaction', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+  });
+
   /* REDUCER SHARED FUNCTIONS TESTS */
   describe('getNextSelectedInteractionId() correctly sets the next selected interaction', () => {
     beforeEach(() => {
@@ -2091,12 +2127,9 @@ describe('agentDesktopReducer', () => {
   });
   describe('SET_INTERACTION_TRANSFER_LISTS_VISIBLE_STATE', () => {
     beforeEach(() => {
-      initialState = {
-        interactions: [{ interactionId: 'mockInteractionId' }],
-      };
+      initialState = {};
       action = {
         type: ACTIONS.SET_INTERACTION_TRANSFER_LISTS_VISIBLE_STATE,
-        interactionId: 'mockInteractionId',
         interactionTransferListsVisibleState: {
           'mockTransferListId1-InteractionId': true,
           'mockTransferListId2-InteractionId': false,
@@ -2109,12 +2142,9 @@ describe('agentDesktopReducer', () => {
   });
   describe('SET_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS', () => {
     beforeEach(() => {
-      initialState = {
-        interactions: [{ interactionId: 'mockInteractionId' }],
-      };
+      initialState = {};
       action = {
         type: ACTIONS.SET_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS,
-        interactionId: 'mockInteractionId',
         visibleStateofAllInteractionTrasferLists: true,
       };
     });

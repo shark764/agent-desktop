@@ -9,9 +9,11 @@ import {
   selectTransferTabIndex,
   selectFocusedTransferItemIndex,
   selectUserAssignedTransferLists,
-  selectUserAssignedTransferListsLoadingState,
-  selectUserAssignedTransferListsVisibleState,
-  selectVisibleStateOfAllUserAssignedTrasferLists,
+  selectUserAssigNonVoiceTransLists,
+  selectUserAssigVoiceTransListsLoadSt,
+  selectUserAssigNonVoiceTransListsLoadSt,
+  selectUserAssigTransListsVisibleSt,
+  selectUserAssigAllTransListsVisibleSt,
   selectHasAgentExperienceTransferMenuQueuesViewPermission,
   selectHasAgentExperienceTransferMenuAgentsViewPermission,
 } from '../selectors';
@@ -278,42 +280,63 @@ describe('selectFocusedTransferItemIndex', () => {
   });
 });
 
-describe('selectUserAssignedTransferLists', () => {
+describe('User Assigned TransferLists', () => {
   const mockedState = fromJS({
     transferMenu: {
-      transferLists: {
-        userAssignedTransferLists: [
+      userAssignedTransferLists: {
+        pstnSipQueueTransferLists: [
           {
-            id: 'mockInteractionTransferListId',
-            name: 'mocktransferListName',
-            endpoints: 'mockTransferListEndPoint',
+            id: 'mockVoiceInteractionTransferListId',
+            name: 'mockVoiceInteractionTransferListName',
+            endpoints: 'mockVocieInteractionTransferListEndPoint',
           },
         ],
-        userAssignedTransferListsLoadingState: true,
-        userAssignedTransferListsVisibleState: {
-          mockTransferListsVisibleState: true,
+        onlyQueueTransferLists: [
+          {
+            id: 'mockNonVoiceInteractionTransferListId',
+            name: 'mockNonVoiceInteractionTransferListName',
+            endpoints: 'mockNonVocieInteractionTransferListEndPoint',
+          },
+        ],
+        voiceListsLoadingState: true,
+        nonVoiceListsLoadingState: false,
+        transferListsVisibleState: {
+          mockVoiceTransferListVisibleState: true,
+          mockNonVoiceTransferListVisibleState: false,
         },
-        visibleStateOfAllUserAssignedTransferLists: true,
+        allTransferListsVisibleState: true,
       },
     },
   });
-  it('should return user assigned transfer lists', () => {
-    expect(selectUserAssignedTransferLists(mockedState)).toMatchSnapshot();
+  describe('selectUserAssignedTransferLists', () => {
+    it('should return user-assigned voice ineraction transfer lists', () => {
+      expect(selectUserAssignedTransferLists(mockedState)).toMatchSnapshot();
+    });
   });
-  it('should return loading state of user assigned transfer lists', () => {
-    expect(
-      selectUserAssignedTransferListsLoadingState(fromJS(mockedState))
-    ).toBe(true);
+  describe('selectUserAssigNonVoiceTransLists', () => {
+    it('should return user-assigned non-voice interaction transfer lists', () => {
+      expect(selectUserAssigNonVoiceTransLists(mockedState)).toMatchSnapshot();
+    });
   });
-  it('should return user assigned transfer lists visible state', () => {
-    expect(
-      selectUserAssignedTransferListsVisibleState(mockedState)
-    ).toMatchSnapshot();
+  describe('selectUserAssigVoiceTransListsLoadSt', () => {
+    it('should return user-assigned voice interaction transfer lists loading state', () => {
+      expect(selectUserAssigVoiceTransListsLoadSt(mockedState)).toBe(true);
+    });
   });
-  it('should return visible state of all user assigned transfer lists', () => {
-    expect(selectVisibleStateOfAllUserAssignedTrasferLists(mockedState)).toBe(
-      true
-    );
+  describe('selectUserAssigNonVoiceTransListsLoadSt', () => {
+    it('should return user-assigned non-voice interaction transfer lists loading state', () => {
+      expect(selectUserAssigNonVoiceTransListsLoadSt(mockedState)).toBe(false);
+    });
+  });
+  describe('selectUserAssigTransListsVisibleSt', () => {
+    it('should return user assigned transfer lists visible state', () => {
+      expect(selectUserAssigTransListsVisibleSt(mockedState)).toMatchSnapshot();
+    });
+  });
+  describe('selectUserAssigAllTransListsVisibleSt', () => {
+    it('should return visible state of all user assigned transfer lists', () => {
+      expect(selectUserAssigAllTransListsVisibleSt(mockedState)).toBe(true);
+    });
   });
 });
 

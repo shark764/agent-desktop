@@ -313,22 +313,30 @@ const areInteractionsInWrapup = createSelector(
 export const getUriObject = (state) =>
   selectNewInteractionPanel(state).uriObject;
 
-const selectTransferListsFromFlow = createSelector(
-  getSelectedInteraction,
+const selectVoiceInteraction = createSelector(
+  selectInteractionsList,
+  (interactions) =>
+    interactions
+      .toJS()
+      .find((interaction) => interaction.channelType === 'voice')
+);
+
+const selectVoiceFlowTransLists = createSelector(
+  selectVoiceInteraction,
   (interaction) => {
-    if (interaction.transferLists) {
-      const { transferListsFromFlow } = interaction.transferLists;
-      return transferListsFromFlow;
-    } else {
-      return null;
+    let transferListsFromFlow;
+    if (interaction && interaction.transferLists) {
+      ({ transferListsFromFlow } = interaction.transferLists);
     }
+    return transferListsFromFlow;
   }
 );
 
-const selectInteractionTransferLists = createSelector(
-  getSelectedInteraction,
+const selectInterAssigVoiceTransLists = createSelector(
+  selectVoiceInteraction,
   (interaction) => {
     if (
+      interaction &&
       interaction.transferLists &&
       interaction.transferLists.interactionTransferLists &&
       interaction.transferLists.interactionTransferLists.length > 0
@@ -340,47 +348,79 @@ const selectInteractionTransferLists = createSelector(
   }
 );
 
-const selectInteractionTransferListsLoadingState = createSelector(
+const selectInterAssigVoiceTransListsLoadSt = createSelector(
+  selectVoiceInteraction,
+  (interaction) => {
+    let loadingState;
+    if (interaction && interaction.transferLists) {
+      ({ loadingState } = interaction.transferLists);
+    }
+    return loadingState;
+  }
+);
+
+const selectNonVoiceFlowTransLists = createSelector(
   getSelectedInteraction,
   (interaction) => {
+    let transferListsFromFlow;
     if (interaction.transferLists) {
-      const {
-        interactionTransferListsLoadingState,
-      } = interaction.transferLists;
-      return interactionTransferListsLoadingState;
+      ({ transferListsFromFlow } = interaction.transferLists);
+    }
+    return transferListsFromFlow;
+  }
+);
+
+const selectInterAssigNonVoiceTransLists = createSelector(
+  getSelectedInteraction,
+  (interaction) => {
+    if (
+      interaction &&
+      interaction.transferLists &&
+      interaction.transferLists.interactionTransferLists &&
+      interaction.transferLists.interactionTransferLists.length > 0
+    ) {
+      return interaction.transferLists.interactionTransferLists;
     } else {
       return null;
     }
   }
 );
 
-const selectInteractionTransferListsVisibleState = createSelector(
+const selectInterAssigNonVoiceTransListsLoadSt = createSelector(
   getSelectedInteraction,
   (interaction) => {
+    let loadingState;
     if (interaction.transferLists) {
-      const {
-        interactionTransferListsVisibleState,
-      } = interaction.transferLists;
-      return interactionTransferListsVisibleState;
+      ({ loadingState } = interaction.transferLists);
+    }
+    return loadingState;
+  }
+);
+
+const selectInterTransListsVisibleStMap = (state) =>
+  state.getIn([
+    'agentDesktop',
+    'interactionTransferListsVisibleState',
+    'individualTransferLists',
+  ]);
+
+const selectInterAssigTransListsVisibleSt = createSelector(
+  selectInterTransListsVisibleStMap,
+  (transferListsVisibleState) => {
+    if (transferListsVisibleState) {
+      return transferListsVisibleState.toJS();
     } else {
       return null;
     }
   }
 );
 
-const selectVisibleStateofAllInteractionTrasferLists = createSelector(
-  getSelectedInteraction,
-  (interaction) => {
-    if (interaction.transferLists) {
-      const {
-        visibleStateofAllInteractionTrasferLists,
-      } = interaction.transferLists;
-      return visibleStateofAllInteractionTrasferLists;
-    } else {
-      return null;
-    }
-  }
-);
+const selectInterAssigAllTransListsVisibleSt = (state) =>
+  state.getIn([
+    'agentDesktop',
+    'interactionTransferListsVisibleState',
+    'allTransferLists',
+  ]);
 
 export {
   selectAgentId,
@@ -412,9 +452,13 @@ export {
   selectNextInteraction,
   selectHasUnrespondedInteractions,
   areInteractionsInWrapup,
-  selectTransferListsFromFlow,
-  selectInteractionTransferLists,
-  selectInteractionTransferListsLoadingState,
-  selectInteractionTransferListsVisibleState,
-  selectVisibleStateofAllInteractionTrasferLists,
+  selectVoiceInteraction,
+  selectVoiceFlowTransLists,
+  selectNonVoiceFlowTransLists,
+  selectInterAssigVoiceTransLists,
+  selectInterAssigNonVoiceTransLists,
+  selectInterAssigVoiceTransListsLoadSt,
+  selectInterAssigNonVoiceTransListsLoadSt,
+  selectInterAssigTransListsVisibleSt,
+  selectInterAssigAllTransListsVisibleSt,
 };
