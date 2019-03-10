@@ -10,17 +10,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
-## [1.37.3] (2019-03-09)
+## [1.37.4] (2019-03-09)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.4/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.4/index.html)  
 ## Fixed
-* CXV1-17308 - create separate transer lists redux states for voice and non-voice interactions
+* Updated transfer lists styling 
+
+## [1.37.3] (2019-03-09)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.3/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.3/index.html)  
+## Fixed
+* CXV1-17308 - create separate transfer lists redux states for voice and non-voice interactions
 ## Added
 * CXV1-16488 - Skylight - Update to listen to new notifications, when user create a transfer call the button is disable
 
 ## [1.37.2] (2019-03-08)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.2/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.2/index.html)  
 ### Fixed
 * CXV1-17203 - Outbound Identifiers - Identifiers not working properly when User exists in CRM
 
 ## [1.37.1] (2019-03-06)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.1/index.html)  
 ### Fixed
 * Fixed an issue where no visible queues and transfer lists where being rendered in transfer menu
 * Fixed an issue where localstorage was not loaded if transfer menu was opened before preference menu ui
@@ -29,20 +41,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Backward compatibility with or without ?alpha flag in transfer menu
 
 ## [1.37.0] (2019-02-14)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.0/index.html)  
 ### Added
 * CXV1-16780 - Hide queues/agents lists from transfer menu when no role	
 * CXV1-16782 - Remove the batch requests for agents/queues when no role
 * CXV1-16779 - Hide queues/agents from preference menu when no role
 
 ### [1.36.2] (2019-01-21)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.36.2/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.36.2/index.html)  
 ## Fixed
 * CXV1-17186 - Skylight | Transfer Menu | Cannot read property 'split' of null
 
 ### [1.36.1-SNAPSHOT] (2019-02-11)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.36.1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.36.1/index.html)  
 ## Added
 * CXV1-15536 - Hide transfer menu list based on state stored in preferences, don't do batch request when hidden
 
 ### [1.36.0] (2019-02-21)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.36.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.36.0/index.html)  
 ## Added
 * CXV1-16823 - Handle pub-sub for interaction transfer lists using redux store
 * CXV1-16824 - Display interaction transfer lists for voice interactions

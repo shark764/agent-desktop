@@ -59,24 +59,30 @@ exports[`TransferLists Component render renders TransferLists component with use
       key="interactionTransferLists"
       onClick={[Function]}
       style={
-        Object {
-          ":focus": Object {
-            "backgroundColor": "#23cdf4",
-            "color": "#FFFFFF",
-            "outline": "none",
+        Array [
+          Object {
+            ":focus": Object {
+              "backgroundColor": "#23cdf4",
+              "color": "#FFFFFF",
+              "outline": "none",
+            },
+            ":hover": Object {
+              "backgroundColor": "#23cdf4",
+              "color": "#FFFFFF",
+            },
+            "borderRadius": "3px",
+            "color": "rgb(151, 151, 151)",
+            "cursor": "pointer",
+            "display": "flex",
+            "fontSize": "15px",
+            "fontWeight": "bold",
+            "marginBottom": "0px !important",
+            "marginTop": "12px",
           },
-          ":hover": Object {
-            "backgroundColor": "#23cdf4",
-            "color": "#FFFFFF",
+          Object {
+            "marginTop": "35px",
           },
-          "borderRadius": "3px",
-          "cursor": "pointer",
-          "display": "flex",
-          "fontSize": "15px",
-          "fontWeight": "bold",
-          "marginBottom": "0px !important",
-          "marginTop": "12px",
-        }
+        ]
       }
     >
       <FormattedMessage
@@ -88,6 +94,9 @@ exports[`TransferLists Component render renders TransferLists component with use
         name="caret"
         style={
           Array [
+            Object {
+              "opacity": ".5",
+            },
             Object {
               "flexShrink": "0",
               "fontWeight": "600",
@@ -111,6 +120,19 @@ exports[`TransferLists Component render renders TransferLists component with use
       }
     >
       <div
+        className="bigSpacer"
+        style={
+          Object {
+            "borderBottom": "1px solid #e6e6e6",
+            "bottom": "18px",
+            "display": "inline-block",
+            "height": "2px",
+            "position": "relative",
+            "width": "100%",
+          }
+        }
+      />
+      <div
         id="interactionTransferList-0"
         key="interactionTransferList-mockNonVoiceTransferListId-title"
         onClick={[Function]}
@@ -126,7 +148,6 @@ exports[`TransferLists Component render renders TransferLists component with use
               "color": "#FFFFFF",
             },
             "borderRadius": "3px",
-            "color": "rgb(151, 151, 151)",
             "cursor": "pointer",
             "display": "flex",
             "fontSize": "15px",
@@ -138,6 +159,7 @@ exports[`TransferLists Component render renders TransferLists component with use
         title="mockNonTransferListName"
       >
         <span
+          className="tranferListName"
           style={
             Object {
               "flexBasis": "100%",
@@ -158,7 +180,6 @@ exports[`TransferLists Component render renders TransferLists component with use
               "marginLeft": "auto",
               "marginRight": "4px",
               "marginTop": "4px",
-              "opacity": "0.5",
               "transition": "transform 0.5s",
               "width": "13.33px",
             }
@@ -166,16 +187,6 @@ exports[`TransferLists Component render renders TransferLists component with use
         />
       </div>
     </div>
-    <div
-      style={
-        Object {
-          "borderBottom": "1px solid #e6e6e6",
-          "display": "inline-block",
-          "height": "2px",
-          "width": "100%",
-        }
-      }
-    />
   </div>
   <div
     style={
@@ -189,24 +200,30 @@ exports[`TransferLists Component render renders TransferLists component with use
       key="assignedTransferLists"
       onClick={[Function]}
       style={
-        Object {
-          ":focus": Object {
-            "backgroundColor": "#23cdf4",
-            "color": "#FFFFFF",
-            "outline": "none",
+        Array [
+          Object {
+            ":focus": Object {
+              "backgroundColor": "#23cdf4",
+              "color": "#FFFFFF",
+              "outline": "none",
+            },
+            ":hover": Object {
+              "backgroundColor": "#23cdf4",
+              "color": "#FFFFFF",
+            },
+            "borderRadius": "3px",
+            "color": "rgb(151, 151, 151)",
+            "cursor": "pointer",
+            "display": "flex",
+            "fontSize": "15px",
+            "fontWeight": "bold",
+            "marginBottom": "0px !important",
+            "marginTop": "12px",
           },
-          ":hover": Object {
-            "backgroundColor": "#23cdf4",
-            "color": "#FFFFFF",
+          Object {
+            "marginTop": "35px",
           },
-          "borderRadius": "3px",
-          "cursor": "pointer",
-          "display": "flex",
-          "fontSize": "15px",
-          "fontWeight": "bold",
-          "marginBottom": "0px !important",
-          "marginTop": "12px",
-        }
+        ]
       }
     >
       <FormattedMessage
@@ -218,6 +235,9 @@ exports[`TransferLists Component render renders TransferLists component with use
         name="caret"
         style={
           Array [
+            Object {
+              "opacity": ".5",
+            },
             Object {
               "flexShrink": "0",
               "fontWeight": "600",
@@ -241,6 +261,19 @@ exports[`TransferLists Component render renders TransferLists component with use
       }
     >
       <div
+        className="bigSpacer"
+        style={
+          Object {
+            "borderBottom": "1px solid #e6e6e6",
+            "bottom": "18px",
+            "display": "inline-block",
+            "height": "2px",
+            "position": "relative",
+            "width": "100%",
+          }
+        }
+      />
+      <div
         id="transferList-0"
         key="mockNonVoiceTransferListId-title"
         onClick={[Function]}
@@ -256,7 +289,6 @@ exports[`TransferLists Component render renders TransferLists component with use
               "color": "#FFFFFF",
             },
             "borderRadius": "3px",
-            "color": "rgb(151, 151, 151)",
             "cursor": "pointer",
             "display": "flex",
             "fontSize": "15px",
@@ -268,6 +300,7 @@ exports[`TransferLists Component render renders TransferLists component with use
         title="mockNonTransferListName"
       >
         <span
+          className="transferListName"
           style={
             Object {
               "flexBasis": "100%",
@@ -288,7 +321,6 @@ exports[`TransferLists Component render renders TransferLists component with use
               "marginLeft": "auto",
               "marginRight": "4px",
               "marginTop": "4px",
-              "opacity": "0.5",
               "transition": "transform 0.5s",
               "width": "13.33px",
             }
@@ -307,6 +339,14 @@ exports[`TransferLists Component render renders TransferLists component with use
       id="interTransferListsCollapExpandBtn"
       key="interactionTransferLists"
       onClick={[Function]}
+      style={
+        Array [
+          undefined,
+          Object {
+            "marginTop": "35px",
+          },
+        ]
+      }
     >
       <FormattedMessage
         defaultMessage="Transfer lists for this Interaction"
@@ -317,6 +357,9 @@ exports[`TransferLists Component render renders TransferLists component with use
         name="caret"
         style={
           Array [
+            Object {
+              "opacity": ".5",
+            },
             undefined,
           ]
         }
@@ -326,12 +369,16 @@ exports[`TransferLists Component render renders TransferLists component with use
       key="interactionTransferList-mockVoiceTransferListId"
     >
       <div
+        className="bigSpacer"
+      />
+      <div
         id="interactionTransferList-0"
         key="interactionTransferList-mockVoiceTransferListId-title"
         onClick={[Function]}
         title="mockVoiceTransferListName"
       >
         <span
+          className="tranferListName"
           style={
             Object {
               "flexBasis": "100%",
@@ -348,13 +395,20 @@ exports[`TransferLists Component render renders TransferLists component with use
         />
       </div>
     </div>
-    <div />
   </div>
   <div>
     <div
       id="assignedTransferListsCollapExpandBtn"
       key="assignedTransferLists"
       onClick={[Function]}
+      style={
+        Array [
+          undefined,
+          Object {
+            "marginTop": "35px",
+          },
+        ]
+      }
     >
       <FormattedMessage
         defaultMessage="Transfer lists assigned to you"
@@ -365,6 +419,9 @@ exports[`TransferLists Component render renders TransferLists component with use
         name="caret"
         style={
           Array [
+            Object {
+              "opacity": ".5",
+            },
             undefined,
           ]
         }
@@ -374,12 +431,16 @@ exports[`TransferLists Component render renders TransferLists component with use
       key="mockVoiceTransferListId"
     >
       <div
+        className="bigSpacer"
+      />
+      <div
         id="transferList-0"
         key="mockVoiceTransferListId-title"
         onClick={[Function]}
         title="mockVoiceTransferListName"
       >
         <span
+          className="transferListName"
           style={
             Object {
               "flexBasis": "100%",

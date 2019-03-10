@@ -79,6 +79,7 @@ export class TransferLists extends React.Component {
       },
       transferListWrapper: {
         marginLeft: '5px',
+        marginTop: '15px',
         paddingLeft: '10px',
         borderLeft: '1px solid rgba(128, 128, 128, 0.2)',
         marginBottom: '30px',
@@ -162,9 +163,9 @@ export class TransferLists extends React.Component {
                   // hierarchy is not the array index. it is the key of the map.
                   // eslint-disable-next-line
                   key={`${transferList.id}-${hierarchy}`}
-                >
-                  <div style={styles.spacerLineDiv} />
-                  <div style={styles.hierarchy}>
+                > 
+                  <div className="smallSpacer" style={styles.spacerLineDiv} />
+                  <div className="transferCatagory" style={styles.hierarchy}>
                     {hierarchy}
                   </div>
                   {filteredTransferListItems}
@@ -178,10 +179,11 @@ export class TransferLists extends React.Component {
                 key={transferList.id}
                 style={this.props.styles.transferListDivContainer}
               >
+                <div className="bigSpacer" style={this.props.styles.lineSpacer} />
                 <div
                   id={`transferList-${transferListIndex}`}
                   key={`${transferList.id}-title`}
-                  style={this.props.styles.collapsedTransferHeading}
+                  style={this.props.styles.expandedTransferHeading}
                   onClick={() =>
                     this.props.updateUserAssignedTransferListsVisibleState(
                       transferList.id
@@ -189,7 +191,7 @@ export class TransferLists extends React.Component {
                   }
                   title={transferList.name}
                 >
-                  <span style={styles.transferListName}>
+                  <span className="transferListName" style={styles.transferListName}>
                     {transferList.name}
                   </span>
                   <Icon
@@ -277,9 +279,9 @@ export class TransferLists extends React.Component {
                   key={`interactionTransferList-${
                     transferList.id
                   }-${hierarchy}`}
-                >
-                  <div style={styles.spacerLineDiv} />
-                  <div style={styles.hierarchy}>
+                > 
+                  <div className="smallSpacer" style={styles.spacerLineDiv} />
+                  <div className="transferCatagory" style={styles.hierarchy}>
                     {hierarchy}
                   </div>
                   {filteredTransferListItems}
@@ -293,10 +295,11 @@ export class TransferLists extends React.Component {
                 key={`interactionTransferList-${transferList.id}`}
                 style={this.props.styles.transferListDivContainer}
               >
+                <div className="bigSpacer" style={this.props.styles.lineSpacer} />
                 <div
                   id={`interactionTransferList-${transferListIndex}`}
                   key={`interactionTransferList-${transferList.id}-title`}
-                  style={this.props.styles.collapsedTransferHeading}
+                  style={this.props.styles.expandedTransferHeading}
                   onClick={() =>
                     this.props.updateInteractionTransferListsVisibleState(
                       transferList.id
@@ -304,7 +307,7 @@ export class TransferLists extends React.Component {
                   }
                   title={transferList.name}
                 >
-                  <span style={styles.transferListName}>
+                  <span className="tranferListName" style={styles.transferListName}>
                     {transferList.name}
                   </span>
                   <Icon
@@ -348,15 +351,12 @@ export class TransferLists extends React.Component {
           </div>
         ) : (
           this.props.interactionTransferLists && (
+            // Interaction specific transfer lists
             <div style={this.props.styles.transferListDivContainer}>
               <div
                 id="interTransferListsCollapExpandBtn"
                 key="interactionTransferLists"
-                style={
-                  this.props.interactionAllTransListsVisibleSt
-                    ? this.props.styles.expandedTransferHeading
-                    : this.props.styles.collapsedTransferHeading
-                }
+                style={[this.props.styles.collapsedTransferHeading, {marginTop: '35px'}]}
                 onClick={() =>
                   this.props.updateVisibleStateOfAllInteractionTransferlists()
                 }
@@ -365,6 +365,7 @@ export class TransferLists extends React.Component {
                 <Icon
                   name="caret"
                   style={[
+                    {opacity: '.5'},
                     this.props.interactionAllTransListsVisibleSt
                       ? this.props.styles.iconOpen
                       : this.props.styles.iconClosed,
@@ -373,7 +374,6 @@ export class TransferLists extends React.Component {
               </div>
               {this.props.interactionAllTransListsVisibleSt &&
                 interactionTransferLists}
-              <div style={this.props.styles.lineSpacer} />
             </div>
           )
         )}
@@ -393,15 +393,12 @@ export class TransferLists extends React.Component {
         ) : (
           this.props.userAssignedTransferLists &&
           this.props.userAssignedTransferLists.length > 0 && (
+            // Transferlists assigned to user
             <div style={this.props.styles.transferListDivContainer}>
               <div
                 id="assignedTransferListsCollapExpandBtn"
                 key="assignedTransferLists"
-                style={
-                  this.props.userAssigAllTransListsVisibleSt
-                    ? this.props.styles.expandedTransferHeading
-                    : this.props.styles.collapsedTransferHeading
-                }
+                style={[this.props.styles.collapsedTransferHeading, {marginTop: '35px'}]}
                 onClick={() =>
                   this.props.updateVisibleStateOfAllUserAssignedTransferlists()
                 }
@@ -410,6 +407,7 @@ export class TransferLists extends React.Component {
                 <Icon
                   name="caret"
                   style={[
+                    {opacity: '.5'},
                     this.props.userAssigAllTransListsVisibleSt
                       ? this.props.styles.iconOpen
                       : this.props.styles.iconClosed,

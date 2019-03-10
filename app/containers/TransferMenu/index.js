@@ -373,6 +373,8 @@ export class TransferMenu extends React.Component {
       width: '100%',
       height: '2px',
       borderBottom: '1px solid #e6e6e6',
+      position: 'relative',
+      bottom: '18px',
     },
     refresh: {
       display: 'inline-block',
@@ -448,7 +450,6 @@ export class TransferMenu extends React.Component {
       width: '13.33px',
       marginLeft: 'auto',
       flexShrink: '0',
-      opacity: '0.5',
       transition: 'transform 0.5s',
     },
     iconOpen: {
@@ -658,11 +659,7 @@ export class TransferMenu extends React.Component {
                     <div
                       id="queuesExpandCollapseBtn"
                       key="queuesListBtn"
-                      style={
-                        this.props.queuesListVisibleState
-                          ? this.styles.expandedTransferHeading
-                          : this.styles.collapsedTransferHeading
-                      }
+                      style={this.styles.expandedTransferHeading}
                       onClick={() => this.props.updateQueuesListVisibleState()}
                     >
                       <FormattedMessage {...messages.queues} />
@@ -707,11 +704,7 @@ export class TransferMenu extends React.Component {
                   <div
                     id="agentsExpandCollapseBtn"
                     key="agentsListBtn"
-                    style={
-                      this.props.agentsListVisibleState
-                        ? this.styles.expandedTransferHeading
-                        : this.styles.collapsedTransferHeading
-                    }
+                    style={this.styles.expandedTransferHeading}
                     onClick={() =>
                       !this.props.nonVoice &&
                         this.props.updateAgentsListVisibleState()
@@ -745,7 +738,6 @@ export class TransferMenu extends React.Component {
                   {(this.props.agentsListVisibleState ||
                       this.props.transferSearchInput.trim() !== '') &&
                       agents}
-                  <div style={this.styles.lineSpacer} />
                 </div>
               )}
               <TransferLists
