@@ -22,5 +22,12 @@ A single screen web app built in React for handling inbound and outbound interac
 - [Versioning](docs/general/versioning.md): Semantic version for UI
 
 ## Code Tips
-// Use ES7 Object Rest Operator to Omit Properties
-// https://codeburst.io/use-es2015-object-rest-operator-to-omit-properties-38a3ecffe90
+### Use ES7 Object Rest Operator to Omit Properties
+https://codeburst.io/use-es2015-object-rest-operator-to-omit-properties-38a3ecffe90
+
+### What is "widowing" and libraries to leverage widowing on react
+https://www.youtube.com/watch?v=t4tuhg7b50I
+
+- [react-window](https://github.com/bvaughn/react-window)
+- [react-virtualized](https://github.com/bvaughn/react-virtualized)
+

@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.5] (2019-03-11)
+### Added
+* CXV1-17284 - Skylight | Update skylight to work with latest cx-ui-component library
+
 ## [1.37.4] (2019-03-09)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.4/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.4/index.html)  
