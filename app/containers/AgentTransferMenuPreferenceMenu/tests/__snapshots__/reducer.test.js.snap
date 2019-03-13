@@ -75,6 +75,7 @@ Immutable.Map {
   "selectedQueues": Immutable.List [
     "123",
   ],
+  "unSelectedQueues": Immutable.List [],
 }
 `;
 
@@ -97,17 +98,20 @@ Immutable.Map {
   "selectedTransferLists": Immutable.List [
     "321",
   ],
+  "unSelectedTransferLists": Immutable.List [],
 }
 `;
 
 exports[`agentTransferMenuPreferenceMenuReducer returns the correct initial state 1`] = `
 Immutable.Map {
-  "agentsTransferMenu": true,
-  "showQueues": false,
-  "showTransferLists": false,
-  "selectedQueues": Immutable.List [],
-  "selectedTransferLists": Immutable.List [],
   "preferenceMenuQueuesLoading": false,
   "preferenceMenuTransferListsLoading": false,
+  "showTransferLists": false,
+  "selectedTransferLists": Immutable.List [],
+  "unSelectedTransferLists": Immutable.List [],
+  "unSelectedQueues": Immutable.List [],
+  "agentsTransferMenu": true,
+  "selectedQueues": Immutable.List [],
+  "showQueues": false,
 }
 `;

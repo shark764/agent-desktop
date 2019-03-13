@@ -3,10 +3,19 @@
  */
 import { createSelector } from 'reselect';
 import { selectQueues } from 'containers/AgentDesktop/selectors';
-import { selectUserAssignedTransferLists, selectUserAssigNonVoiceTransLists } from 'containers/TransferMenu/selectors';
+import {
+  selectUserAssignedTransferLists,
+  selectUserAssigNonVoiceTransLists,
+} from 'containers/TransferMenu/selectors';
 
 export const selectTransferMenuPreferences = (state) =>
   state.get('transferMenuPreferences');
+
+export const selectUnSelectSelectedQueues = createSelector(
+  selectTransferMenuPreferences,
+  (transferMenuPreference) =>
+    transferMenuPreference.get('unSelectedQueues').toJS()
+);
 
 export const selectSelectedQueues = createSelector(
   selectTransferMenuPreferences,
@@ -18,6 +27,12 @@ export const selectSelectedTransferLists = createSelector(
   selectTransferMenuPreferences,
   (transferMenuPreference) =>
     transferMenuPreference.get('selectedTransferLists').toJS()
+);
+
+export const selectUnselectedTransferLists = createSelector(
+  selectTransferMenuPreferences,
+  (transferMenuPreference) =>
+    transferMenuPreference.get('unSelectedTransferLists').toJS()
 );
 
 export const selectAgentsPreferences = (state) =>
