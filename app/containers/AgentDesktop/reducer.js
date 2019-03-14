@@ -1530,8 +1530,14 @@ function agentDesktopReducer(state = initialState, action) {
       );
     }
     case ACTIONS.SET_EMAIL_DETAILS: {
+      // If TO, CC ,or BCC do not have name , set name to email address
+      // not all email providers provide a name attribute
+      const newDetails = {...action.details};
+      newDetails.to.forEach(e => e.name = e.name? e.name : e.address);
+      newDetails.cc.forEach(e => e.name = e.name? e.name : e.address);
+      newDetails.bcc.forEach(e => e.name = e.name? e.name : e.address);
       return state.updateIn(['interactions', interactionIndex], (interaction) =>
-        interaction.set('emailDetails', fromJS(action.details))
+        interaction.set('emailDetails', fromJS(newDetails))
       );
     }
     case ACTIONS.SET_EMAIL_ATTACHMENT_URL: {

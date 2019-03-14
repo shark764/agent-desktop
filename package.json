@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.37.6",
+  "version": "1.37.7",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -133,10 +133,7 @@
           "newIsCap": false
         }
       ],
-      "arrow-parens": [
-        "error",
-        "always"
-      ],
+      "no-return-assign": 0,
       "arrow-body-style": [
         2,
         "as-needed"

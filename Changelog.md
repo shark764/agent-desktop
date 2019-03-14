@@ -10,9 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.7] (2019-03-14)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.7/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.7/index.html)  
+## Fixed
+* CXV1-17326 - Fixed issue when emails cc or bcc's don't have a name attribute from email provider
+
 ## [1.37.6] (2019-03-12)
-[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.5/index.html)  
-[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.5/index.html)  
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.6/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.6/index.html)  
 ## Fixed
 * Adding queues and transfer lists to visible by default when activated in config-ui
 
