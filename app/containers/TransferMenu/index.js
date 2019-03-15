@@ -136,6 +136,7 @@ export class TransferMenu extends React.Component {
       if (e.target.className.includes('queueTransferListItem')) {
         this.props.transfer(
           this.props.setShowTransferMenu,
+          this.props.nonVoice,
           e.target.title,
           undefined,
           e.target.id
@@ -143,6 +144,7 @@ export class TransferMenu extends React.Component {
       } else if (e.target.className.includes('readyAgentTransferListItem')) {
         this.props.transfer(
           this.props.setShowTransferMenu,
+          this.props.nonVoice,
           e.target.title,
           e.target.id
         );
@@ -475,6 +477,7 @@ export class TransferMenu extends React.Component {
   transferFromDialpad = dialpadText => {
     this.props.transfer(
       this.props.setShowTransferMenu,
+      this.props.nonVoice,
       dialpadText,
       undefined,
       undefined,
@@ -497,6 +500,7 @@ export class TransferMenu extends React.Component {
           onClick={() =>
             this.props.transfer(
               this.props.setShowTransferMenu,
+              this.props.nonVoice,
               queue.name,
               undefined,
               queue.id
@@ -563,6 +567,7 @@ export class TransferMenu extends React.Component {
                   onClick={() =>
                     this.props.transfer(
                       this.props.setShowTransferMenu,
+                      this.props.nonVoice,
                       agent.name,
                       agent.agentId
                     )
@@ -743,6 +748,7 @@ export class TransferMenu extends React.Component {
                 </div>
               )}
               <TransferLists
+                nonVoice={this.props.nonVoice}
                 transferSearchInput={this.props.transferSearchInput}
                 transferTabIndex={this.props.transferTabIndex}
                 setShowTransferMenu={this.props.setShowTransferMenu}
@@ -909,6 +915,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(tearDownTransferMenuStates(channelType)),
     transfer: (
       setShowTransferMenu,
+      isTransferringInteractionNonVoice,
       name,
       resourceId,
       queueId,
@@ -917,6 +924,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(
         transferInteraction(
           setShowTransferMenu,
+          isTransferringInteractionNonVoice,
           name,
           resourceId,
           queueId,

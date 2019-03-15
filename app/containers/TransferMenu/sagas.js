@@ -217,21 +217,27 @@ export function* tearDownTransferMenuStates(action) {
 export function* transferInteraction(action) {
   const {
     setShowTransferMenu,
+    isTransferringInteractionNonVoice,
     name,
     resourceId,
     queueId,
     transferExtension,
   } = action;
-  const [{ interactionId, channelType }, transferTabIndex] = yield all([
-    select(getSelectedInteraction),
-    select(selectTransferTabIndex),
-  ]);
+
+  let interactionId;
   let transferType;
+
+  if (!isTransferringInteractionNonVoice) {
+    ({ interactionId } = yield select(selectVoiceInteraction));
+  } else if (isTransferringInteractionNonVoice) {
+    ({ interactionId } = yield select(getSelectedInteraction));
+  }
+  const transferTabIndex = yield select(selectTransferTabIndex);
 
   // We do this in here so the TransferMenu hides before doing anything else
   yield call(setShowTransferMenu);
 
-  if (transferTabIndex === 0 && channelType === 'voice') {
+  if (transferTabIndex === 0 && !isTransferringInteractionNonVoice) {
     transferType = 'warm';
     let id;
     let type;

@@ -133,7 +133,10 @@ describe('tearDownTransferMenuStates', () => {
     });
     it('sets transferSearchInput to its default state', () => {
       expect(
-        generator.next('mockselectedInteractionId', 'mockVoiceInteractionId')
+        generator.next([
+          { interactionId: 'mockselectedInteractionId' },
+          { interactionId: 'mockVoiceInteractionId' },
+        ])
       ).toMatchSnapshot();
     });
     it('sets transferTabIndex to its default state', () => {
@@ -142,7 +145,7 @@ describe('tearDownTransferMenuStates', () => {
     it('sets showTransferDialpad to its default state', () => {
       expect(generator.next()).toMatchSnapshot();
     });
-    it('sets voice interactionTransferListsLoadingState to its true', () => {
+    it('sets voice interactionTransferListsLoadingState to true', () => {
       expect(generator.next()).toMatchSnapshot();
     });
     it('sets userAssignedTransferListsLoadingState to its default state', () => {
@@ -159,7 +162,10 @@ describe('tearDownTransferMenuStates', () => {
     });
     it('sets transferSearchInput to its default state', () => {
       expect(
-        generator.next('mockselectedInteractionId', 'mockNonVoiceInteractionId')
+        generator.next([
+          { interactionId: 'mockselectedInteractionId' },
+          { interactionId: 'mockVoiceInteractionId' },
+        ])
       ).toMatchSnapshot();
     });
     it('sets transferTabIndex to its default state', () => {
@@ -192,23 +198,21 @@ describe('transferInteraction', () => {
     });
     const mockAction = {
       setShowTransferMenu: () => {},
+      isTransferringInteractionNonVoice: undefined,
       name: 'Agent 1',
       resourceId: 'resId1',
+      queueId: undefined,
+      transferExtension: undefined,
     };
     const generator = transferInteraction(mockAction);
-    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+    it('gets the interaction id of the voice interaction', () => {
       expect(generator.next()).toMatchSnapshot();
     });
+    it('gets the selected transfer tab index of the voice interaction', () => {
+      expect(generator.next({ interactionId: 'id1' })).toMatchSnapshot();
+    });
     it('calls setShowTransferMenu', () => {
-      expect(
-        generator.next([
-          {
-            interactionId: 'id1',
-            channelType: 'voice',
-          },
-          0,
-        ])
-      ).toMatchSnapshot();
+      expect(generator.next(0)).toMatchSnapshot();
     });
     it('dispatch startWarmTransfering to the store', () => {
       expect(generator.next()).toMatchSnapshot();
@@ -231,23 +235,21 @@ describe('transferInteraction', () => {
     });
     const mockAction = {
       setShowTransferMenu: () => {},
+      isTransferringInteractionNonVoice: true,
       name: 'Agent 1',
       resourceId: 'resId1',
+      queueId: undefined,
+      transferExtension: undefined,
     };
     const generator = transferInteraction(mockAction);
-    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+    it('gets the interaction id of the voice interaction', () => {
       expect(generator.next()).toMatchSnapshot();
     });
+    it('gets the selected transfer tab index of the voice interaction', () => {
+      expect(generator.next({ interactionId: 'id1' })).toMatchSnapshot();
+    });
     it('calls setShowTransferMenu', () => {
-      expect(
-        generator.next([
-          {
-            interactionId: 'id1',
-            channelType: 'email',
-          },
-          0,
-        ])
-      ).toMatchSnapshot();
+      expect(generator.next(0)).toMatchSnapshot();
     });
     it('dispatches setIsColdTransferring to the store', () => {
       expect(generator.next()).toMatchSnapshot();
@@ -270,24 +272,21 @@ describe('transferInteraction', () => {
     });
     const mockAction = {
       setShowTransferMenu: () => {},
+      isTransferringInteractionNonVoice: true,
       name: 'Queue 1',
       resourceId: undefined,
       queueId: 'queue1',
+      transferExtension: undefined,
     };
     const generator = transferInteraction(mockAction);
-    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+    it('gets the interaction id of the voice interaction', () => {
       expect(generator.next()).toMatchSnapshot();
     });
+    it('gets the selected transfer tab index of the voice interaction', () => {
+      expect(generator.next({ interactionId: 'id1' })).toMatchSnapshot();
+    });
     it('calls setShowTransferMenu', () => {
-      expect(
-        generator.next([
-          {
-            interactionId: 'id1',
-            channelType: 'email',
-          },
-          0,
-        ])
-      ).toMatchSnapshot();
+      expect(generator.next(0)).toMatchSnapshot();
     });
     it('dispatches setIsColdTransferring to the store', () => {
       expect(generator.next()).toMatchSnapshot();
@@ -310,25 +309,21 @@ describe('transferInteraction', () => {
     });
     const mockAction = {
       setShowTransferMenu: () => {},
+      isTransferringInteractionNonVoice: undefined,
       name: 'Transfer Extension 1',
       resourceId: undefined,
       queueId: undefined,
       transferExtension: 'transferExtension1',
     };
     const generator = transferInteraction(mockAction);
-    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+    it('gets the interaction id of the voice interaction', () => {
       expect(generator.next()).toMatchSnapshot();
     });
+    it('gets the selected transfer tab index of the voice interaction', () => {
+      expect(generator.next({ interactionId: 'id1' })).toMatchSnapshot();
+    });
     it('calls setShowTransferMenu', () => {
-      expect(
-        generator.next([
-          {
-            interactionId: 'id1',
-            channelType: 'voice',
-          },
-          1,
-        ])
-      ).toMatchSnapshot();
+      expect(generator.next(1)).toMatchSnapshot();
     });
     it('dispatches setIsColdTransferring to the store', () => {
       expect(generator.next()).toMatchSnapshot();
@@ -343,22 +338,18 @@ describe('transferInteraction', () => {
   describe('Making a warm transfer of a voice interaction when not passing neither a resource, queue or a transfer extension', () => {
     const mockAction = {
       setShowTransferMenu: () => {},
+      isTransferringInteractionNonVoice: undefined,
       name: 'notUsefulValue',
     };
     const generator = transferInteraction(mockAction);
-    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+    it('gets the interaction id of the voice interaction', () => {
       expect(generator.next()).toMatchSnapshot();
     });
+    it('gets the selected transfer tab index of the voice interaction', () => {
+      expect(generator.next({ interactionId: 'id1' })).toMatchSnapshot();
+    });
     it('calls setShowTransferMenu', () => {
-      expect(
-        generator.next([
-          {
-            interactionId: 'id1',
-            channelType: 'voice',
-          },
-          0,
-        ])
-      ).toMatchSnapshot();
+      expect(generator.next(0)).toMatchSnapshot();
     });
     it('throws an error', () => {
       expect(() => {
@@ -374,22 +365,18 @@ describe('transferInteraction', () => {
   describe('Making a cold transfer of a nonvoice interaction when not passing neither a resource, queue or a transfer extension', () => {
     const mockAction = {
       setShowTransferMenu: () => {},
+      isTransferringInteractionNonVoice: true,
       name: 'notUsefulValue',
     };
     const generator = transferInteraction(mockAction);
-    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+    it('gets the interaction id of the voice interaction', () => {
       expect(generator.next()).toMatchSnapshot();
     });
+    it('gets the selected transfer tab index of the voice interaction', () => {
+      expect(generator.next({ interactionId: 'id1' })).toMatchSnapshot();
+    });
     it('calls setShowTransferMenu', () => {
-      expect(
-        generator.next([
-          {
-            interactionId: 'id1',
-            channelType: 'email',
-          },
-          0,
-        ])
-      ).toMatchSnapshot();
+      expect(generator.next(0)).toMatchSnapshot();
     });
     it('dispatches setIsColdTransferring to the store', () => {
       expect(generator.next()).toMatchSnapshot();
@@ -416,23 +403,21 @@ describe('transferInteraction', () => {
     });
     const mockAction = {
       setShowTransferMenu: () => {},
+      isTransferringInteractionNonVoice: undefined,
       name: 'Agent 1',
       resourceId: 'resId1',
+      queueId: undefined,
+      transferExtension: undefined,
     };
     const generator = transferInteraction(mockAction);
-    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+    it('gets the interaction id of the voice interaction', () => {
       expect(generator.next()).toMatchSnapshot();
     });
+    it('gets the selected transfer tab index of the voice interaction', () => {
+      expect(generator.next({ interactionId: 'id1' })).toMatchSnapshot();
+    });
     it('calls setShowTransferMenu', () => {
-      expect(
-        generator.next([
-          {
-            interactionId: 'id1',
-            channelType: 'voice',
-          },
-          0,
-        ])
-      ).toMatchSnapshot();
+      expect(generator.next(0)).toMatchSnapshot();
     });
     it('dispatch startWarmTransfering to the store', () => {
       expect(generator.next()).toMatchSnapshot();
@@ -458,23 +443,21 @@ describe('transferInteraction', () => {
     });
     const mockAction = {
       setShowTransferMenu: () => {},
+      isTransferringInteractionNonVoice: undefined,
       name: 'Agent 1',
       resourceId: 'resId1',
+      queueId: undefined,
+      transferExtension: undefined,
     };
     const generator = transferInteraction(mockAction);
-    it('gets the interaction id, and channel type from the selected interaction and the index of the transfer tab', () => {
+    it('gets the interaction id of the voice interaction', () => {
       expect(generator.next()).toMatchSnapshot();
     });
+    it('gets the selected transfer tab index of the voice interaction', () => {
+      expect(generator.next({ interactionId: 'id1' })).toMatchSnapshot();
+    });
     it('calls setShowTransferMenu', () => {
-      expect(
-        generator.next([
-          {
-            interactionId: 'id1',
-            channelType: 'voice',
-          },
-          1,
-        ])
-      ).toMatchSnapshot();
+      expect(generator.next(1)).toMatchSnapshot();
     });
     it('dispatches setIsColdTransferring to the store', () => {
       expect(generator.next()).toMatchSnapshot();

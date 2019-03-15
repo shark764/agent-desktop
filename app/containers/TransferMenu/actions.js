@@ -127,6 +127,7 @@ export function tearDownTransferMenuStates(channelType) {
 
 export function transferInteraction(
   setShowTransferMenu,
+  isTransferringInteractionNonVoice,
   name,
   resourceId,
   queueId,
@@ -135,6 +136,7 @@ export function transferInteraction(
   return {
     type: ACTIONS.TRANSFER_INTERACTION,
     setShowTransferMenu,
+    isTransferringInteractionNonVoice,
     name,
     resourceId,
     queueId,

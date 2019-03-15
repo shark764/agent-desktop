@@ -23,6 +23,7 @@ export class TransferLists extends React.Component {
     if (contactType === 'queue') {
       this.props.transfer(
         this.props.setShowTransferMenu,
+        this.props.nonVoice,
         name,
         undefined,
         endpoint
@@ -34,6 +35,7 @@ export class TransferLists extends React.Component {
       };
       this.props.transfer(
         this.props.setShowTransferMenu,
+        this.props.nonVoice,
         name,
         undefined,
         undefined,
@@ -458,6 +460,7 @@ export class TransferLists extends React.Component {
 }
 
 TransferLists.propTypes = {
+  nonVoice: PropTypes.bool,
   transferTabIndex: PropTypes.number.isRequired,
   transferSearchInput: PropTypes.string,
   transfer: PropTypes.func.isRequired,

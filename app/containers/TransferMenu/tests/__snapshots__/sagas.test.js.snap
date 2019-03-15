@@ -700,7 +700,7 @@ Object {
     "@@redux-saga/IO": true,
     "PUT": Object {
       "action": Object {
-        "interactionId": undefined,
+        "interactionId": "mockselectedInteractionId",
         "isLoading": true,
         "type": "app/AgentDesktop/SET_INTERACTION_TRANSFER_LISTS_LOADING_STATE",
       },
@@ -865,14 +865,14 @@ Object {
 }
 `;
 
-exports[`tearDownTransferMenuStates tearDownTransferMenuStates for voice interactions sets voice interactionTransferListsLoadingState to its true 1`] = `
+exports[`tearDownTransferMenuStates tearDownTransferMenuStates for voice interactions sets voice interactionTransferListsLoadingState to true 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
     "PUT": Object {
       "action": Object {
-        "interactionId": undefined,
+        "interactionId": "mockVoiceInteractionId",
         "isLoading": true,
         "type": "app/AgentDesktop/SET_INTERACTION_TRANSFER_LISTS_LOADING_STATE",
       },
@@ -935,27 +935,28 @@ Object {
 }
 `;
 
-exports[`transferInteraction Making a cold transfer of a nonvoice interaction to a queue gets the interaction id, and channel type from the selected interaction and the index of the transfer tab 1`] = `
+exports[`transferInteraction Making a cold transfer of a nonvoice interaction to a queue gets the interaction id of the voice interaction 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
-    "ALL": Array [
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-    ],
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`transferInteraction Making a cold transfer of a nonvoice interaction to a queue gets the selected transfer tab index of the voice interaction 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
   },
 }
 `;
@@ -1013,27 +1014,28 @@ Object {
 }
 `;
 
-exports[`transferInteraction Making a cold transfer of a nonvoice interaction to a resource gets the interaction id, and channel type from the selected interaction and the index of the transfer tab 1`] = `
+exports[`transferInteraction Making a cold transfer of a nonvoice interaction to a resource gets the interaction id of the voice interaction 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
-    "ALL": Array [
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-    ],
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`transferInteraction Making a cold transfer of a nonvoice interaction to a resource gets the selected transfer tab index of the voice interaction 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
   },
 }
 `;
@@ -1069,27 +1071,28 @@ Object {
 }
 `;
 
-exports[`transferInteraction Making a cold transfer of a nonvoice interaction when not passing neither a resource, queue or a transfer extension gets the interaction id, and channel type from the selected interaction and the index of the transfer tab 1`] = `
+exports[`transferInteraction Making a cold transfer of a nonvoice interaction when not passing neither a resource, queue or a transfer extension gets the interaction id of the voice interaction 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
-    "ALL": Array [
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-    ],
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`transferInteraction Making a cold transfer of a nonvoice interaction when not passing neither a resource, queue or a transfer extension gets the selected transfer tab index of the voice interaction 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
   },
 }
 `;
@@ -1147,27 +1150,28 @@ Object {
 }
 `;
 
-exports[`transferInteraction Making a cold transfer of a voice interaction to a transferExtension gets the interaction id, and channel type from the selected interaction and the index of the transfer tab 1`] = `
+exports[`transferInteraction Making a cold transfer of a voice interaction to a transferExtension gets the interaction id of the voice interaction 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
-    "ALL": Array [
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-    ],
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`transferInteraction Making a cold transfer of a voice interaction to a transferExtension gets the selected transfer tab index of the voice interaction 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
   },
 }
 `;
@@ -1186,27 +1190,28 @@ Object {
 }
 `;
 
-exports[`transferInteraction Making a warm transfer of a voice interaction when not passing neither a resource, queue or a transfer extension gets the interaction id, and channel type from the selected interaction and the index of the transfer tab 1`] = `
+exports[`transferInteraction Making a warm transfer of a voice interaction when not passing neither a resource, queue or a transfer extension gets the interaction id of the voice interaction 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
-    "ALL": Array [
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-    ],
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`transferInteraction Making a warm transfer of a voice interaction when not passing neither a resource, queue or a transfer extension gets the selected transfer tab index of the voice interaction 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
   },
 }
 `;
@@ -1268,27 +1273,28 @@ Object {
 }
 `;
 
-exports[`transferInteraction Making a warm transfer of voice interaction to a resource gets the interaction id, and channel type from the selected interaction and the index of the transfer tab 1`] = `
+exports[`transferInteraction Making a warm transfer of voice interaction to a resource gets the interaction id of the voice interaction 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
-    "ALL": Array [
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-    ],
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`transferInteraction Making a warm transfer of voice interaction to a resource gets the selected transfer tab index of the voice interaction 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
   },
 }
 `;
@@ -1363,27 +1369,28 @@ Object {
 }
 `;
 
-exports[`transferInteraction call to CxEngage.interaction.transferToResource fails when trying to make a cold transfer of a voice interaction to a resource gets the interaction id, and channel type from the selected interaction and the index of the transfer tab 1`] = `
+exports[`transferInteraction call to CxEngage.interaction.transferToResource fails when trying to make a cold transfer of a voice interaction to a resource gets the interaction id of the voice interaction 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
-    "ALL": Array [
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-    ],
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`transferInteraction call to CxEngage.interaction.transferToResource fails when trying to make a cold transfer of a voice interaction to a resource gets the selected transfer tab index of the voice interaction 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
   },
 }
 `;
@@ -1461,27 +1468,28 @@ Object {
 }
 `;
 
-exports[`transferInteraction call to CxEngage.interaction.transferToResource fails when trying to make a warm transfer of a voice interaction to a resource gets the interaction id, and channel type from the selected interaction and the index of the transfer tab 1`] = `
+exports[`transferInteraction call to CxEngage.interaction.transferToResource fails when trying to make a warm transfer of a voice interaction to a resource gets the interaction id of the voice interaction 1`] = `
 Object {
   "done": false,
   "value": Object {
     "@@redux-saga/IO": true,
-    "ALL": Array [
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-      Object {
-        "@@redux-saga/IO": true,
-        "SELECT": Object {
-          "args": Array [],
-          "selector": [Function],
-        },
-      },
-    ],
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`transferInteraction call to CxEngage.interaction.transferToResource fails when trying to make a warm transfer of a voice interaction to a resource gets the selected transfer tab index of the voice interaction 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
   },
 }
 `;
