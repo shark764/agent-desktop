@@ -192,7 +192,7 @@ export class App extends React.Component {
       this.cacheCheckInterval = setInterval(this.loadConf, 300000); // Cache busting version check every 5min
     }
 
-    window.addEventListener('beforeunload', (e) => {
+    window.addEventListener('beforeunload', e => {
       if (this.props.agentDesktop.interactions.length) {
         e.returnValue = true;
       }
@@ -228,7 +228,7 @@ export class App extends React.Component {
     axios({
       method: 'get',
       url: `${relativeUrl}/config.json?t=${Date.now()}`,
-    }).then((res) => {
+    }).then(res => {
       if (typeof res.data !== 'undefined') {
         if (window.ADconf !== undefined) {
           if (window.ADconf.version !== res.data.config.version) {
@@ -253,9 +253,9 @@ export class App extends React.Component {
     window.location.reload();
   };
 
-  checkStatErrors = (statsObject) => {
+  checkStatErrors = statsObject => {
     // TODO: move into saga
-    this.props.activatedStatIds.forEach((statId) => {
+    this.props.activatedStatIds.forEach(statId => {
       const hasData = statsObject[statId] && statsObject[statId].status === 200;
       const hasNewError =
         statsObject[statId] && statsObject[statId].status !== 200;
@@ -309,8 +309,8 @@ export class App extends React.Component {
           autoBreadcrumbs: {
             xhr: false,
           },
-          shouldSendCallback: (data) => data.logError,
-          dataCallback: (data) => {
+          shouldSendCallback: data => data.logError,
+          dataCallback: data => {
             const dataWithState = Object.assign({}, data);
             try {
               const state = store.getState().toJS();
@@ -419,12 +419,12 @@ export class App extends React.Component {
                 this.props.agentDesktop.userConfig &&
                 this.props.agentDesktop.userConfig.reasonLists &&
                 this.props.agentDesktop.userConfig.reasonLists.find(
-                  (list) => list.name === 'System Presence Reasons'
+                  list => list.name === 'System Presence Reasons'
                 );
               const loggedInReason =
                 systemPresenceReasonsList &&
                 systemPresenceReasonsList.reasons.find(
-                  (reason) => reason.name === 'Logged in'
+                  reason => reason.name === 'Logged in'
                 );
               if (loggedInReason) {
                 this.props.goNotReady(
@@ -471,7 +471,7 @@ export class App extends React.Component {
           case 'cxengage/notifications/show-banner': {
             if (response.interactionId && response.extraParams) {
               const extraParamsKeys = Object.keys(response.extraParams);
-              extraParamsKeys.forEach((extraParam) => {
+              extraParamsKeys.forEach(extraParam => {
                 if (response.extraParams[extraParam]) {
                   this.props.addInteractionNotification(
                     response.interactionId,
@@ -496,7 +496,7 @@ export class App extends React.Component {
           // INTERACTIONS
           case 'cxengage/interactions/work-initiated-received': {
             const interaction = this.props.agentDesktop.interactions.find(
-              (availableInteraction) =>
+              availableInteraction =>
                 availableInteraction.interactionId === response.interactionId
             );
             if (interaction !== undefined) {
@@ -557,7 +557,7 @@ export class App extends React.Component {
                   // https://developer.mozilla.org/en-US/docs/Web/API/Notification/onclick
                   // Setting the onclick handler just in Chrome
                   if (isChrome()) {
-                    notification.onclick = (e) => {
+                    notification.onclick = e => {
                       e.preventDefault();
                       window.focus();
                       window.parent.focus();
@@ -668,7 +668,7 @@ export class App extends React.Component {
           case 'cxengage/interactions/work-rejected-received':
           case 'cxengage/interactions/work-ended-received': {
             const interaction = this.props.agentDesktop.interactions.find(
-              (availableInteraction) =>
+              availableInteraction =>
                 availableInteraction.interactionId === response.interactionId
             );
             if (
@@ -740,7 +740,7 @@ export class App extends React.Component {
               response.scriptId
             );
             const interaction = this.props.agentDesktop.interactions.find(
-              (availableInteraction) =>
+              availableInteraction =>
                 availableInteraction.interactionId === response.interactionId
             );
             if (
@@ -754,7 +754,7 @@ export class App extends React.Component {
           }
           case 'cxengage/interactions/send-script': {
             const interaction = this.props.agentDesktop.interactions.find(
-              (availableInteraction) =>
+              availableInteraction =>
                 availableInteraction.interactionId === response
             );
             if (!this.context.toolbarMode) {
@@ -781,7 +781,7 @@ export class App extends React.Component {
               break;
             }
             const interaction = this.props.agentDesktop.interactions.find(
-              (availableInteraction) =>
+              availableInteraction =>
                 availableInteraction.interactionId === response.interactionId
             );
             if (interaction && interaction.channelType === 'work-item') {
@@ -929,7 +929,7 @@ export class App extends React.Component {
               this.props.setMessageHistory(response);
               const interactionId = response[0].to;
               const agents = [];
-              response.forEach((messageHistoryItem) => {
+              response.forEach(messageHistoryItem => {
                 if (
                   messageHistoryItem.metadata &&
                   messageHistoryItem.metadata.type === 'agent' &&
@@ -986,7 +986,7 @@ export class App extends React.Component {
                   );
                   // Setting the onclick handler just in Chrome
                   if (isChrome()) {
-                    notification.onclick = (e) => {
+                    notification.onclick = e => {
                       e.preventDefault();
                       window.focus();
                       window.parent.focus();
@@ -1016,7 +1016,7 @@ export class App extends React.Component {
           // INTERACTIONS/EMAIL
           case 'cxengage/interactions/email/details-received': {
             this.props.setEmailDetails(response.interactionId, response.body);
-            response.body.attachments.forEach((attachment) => {
+            response.body.attachments.forEach(attachment => {
               CxEngage.interactions.email.getAttachmentUrl(
                 {
                   interactionId: response.interactionId,
@@ -1065,7 +1065,7 @@ export class App extends React.Component {
 
           // CONTACTS
           case 'cxengage/contacts/list-layouts-response': {
-            const activeLayouts = response.filter((layout) => layout.active);
+            const activeLayouts = response.filter(layout => layout.active);
             if (activeLayouts.length === 0) {
               this.props.setCRMUnavailable('crmUnavailableLayout');
               break;
@@ -1332,7 +1332,7 @@ export class App extends React.Component {
           }
           case 'cxengage/zendesk/click-to-dial-requested': {
             const existingVoiceInteraction = this.props.agentDesktop.interactions.find(
-              (interaction) => interaction.channelType === 'voice'
+              interaction => interaction.channelType === 'voice'
             );
             if (existingVoiceInteraction === undefined) {
               this.props.startOutboundInteraction({
@@ -1351,7 +1351,7 @@ export class App extends React.Component {
           }
           case 'cxengage/zendesk/click-to-sms-requested': {
             const existingMatchingSmsInteraction = this.props.agentDesktop.interactions.find(
-              (interaction) =>
+              interaction =>
                 interaction.channelType === 'sms' &&
                 interaction.customer === response.endpoint
             );
@@ -1371,7 +1371,7 @@ export class App extends React.Component {
           }
           case 'cxengage/zendesk/click-to-email-requested': {
             const existingMatchingEmailInteraction = this.props.agentDesktop.interactions.find(
-              (interaction) =>
+              interaction =>
                 interaction.channelType === 'email' &&
                 interaction.customer === response.endpoint
             );
@@ -1411,7 +1411,7 @@ export class App extends React.Component {
             // The user friendly names are too long, need to trim them
             const stats = { ...response };
             delete stats.status;
-            Object.keys(stats).forEach((key) => {
+            Object.keys(stats).forEach(key => {
               stats[key].userFriendlyName = stats[key].userFriendlyName.replace(
                 /(\sCount|Count of|Percentage of)/,
                 ''
@@ -1434,7 +1434,7 @@ export class App extends React.Component {
             this.checkStatErrors(response);
             this.props.statsReceived(response);
             const resourceCapacityStat = Object.values(response).find(
-              (stat) =>
+              stat =>
                 stat.body !== undefined &&
                 stat.body.results !== undefined &&
                 stat.body.results.resourceCapacity !== undefined
@@ -1447,9 +1447,9 @@ export class App extends React.Component {
 
             if (this.props.queues !== undefined) {
               const statsKeys = Object.keys(response);
-              const queuesIds = this.props.queues.map((queue) => queue.id);
+              const queuesIds = this.props.queues.map(queue => queue.id);
               const filteredQueuesTime = statsKeys
-                .filter((key) => queuesIds.includes(key))
+                .filter(key => queuesIds.includes(key))
                 .reduce(
                   (obj, key) => ({
                     ...obj,
@@ -1515,13 +1515,13 @@ export class App extends React.Component {
     );
   };
 
-  selectInteraction = (interactionId) => {
+  selectInteraction = interactionId => {
     this.props.selectInteraction(interactionId);
   };
 
-  acceptInteraction = (interactionId) => {
+  acceptInteraction = interactionId => {
     const interaction = this.props.agentDesktop.interactions.find(
-      (availableInteraction) =>
+      availableInteraction =>
         availableInteraction.interactionId === interactionId
     );
     this.props.setInteractionStatus(interactionId, 'work-accepting');
@@ -1707,50 +1707,49 @@ function mapDispatchToProps(dispatch) {
           objectName
         )
       ),
-    showRefreshRequired: (show) => dispatch(showRefreshRequired(show)),
-    showLogin: (show) => dispatch(showLogin(show)),
-    setUserConfig: (response) => dispatch(setUserConfig(response)),
-    setAgentDirection: (response) => dispatch(setAgentDirection(response)),
-    setExtensions: (response) => dispatch(setExtensions(response)),
+    showRefreshRequired: show => dispatch(showRefreshRequired(show)),
+    showLogin: show => dispatch(showLogin(show)),
+    setUserConfig: response => dispatch(setUserConfig(response)),
+    setAgentDirection: response => dispatch(setAgentDirection(response)),
+    setExtensions: response => dispatch(setExtensions(response)),
     updateWrapupDetails: (interactionId, wrapupDetails) =>
       dispatch(updateWrapupDetails(interactionId, wrapupDetails)),
     addScript: (interactionId, script, scriptId) =>
       dispatch(addScript(interactionId, script, scriptId)),
-    removeScript: (interactionId) => dispatch(removeScript(interactionId)),
+    removeScript: interactionId => dispatch(removeScript(interactionId)),
     sendScript: (interactionId, script, dismissed) =>
       dispatch(sendScript(interactionId, script, dismissed)),
-    setPresence: (response) => dispatch(setPresence(response)),
+    setPresence: response => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus, response) =>
       dispatch(setInteractionStatus(interactionId, newStatus, response)),
     workAccepted: (interactionId, response) =>
       dispatch(workAccepted(interactionId, response)),
-    addInteraction: (interaction) => dispatch(addInteraction(interaction)),
-    workInitiated: (response) => dispatch(workInitiated(response)),
-    removeInteraction: (interactionId) =>
+    addInteraction: interaction => dispatch(addInteraction(interaction)),
+    workInitiated: response => dispatch(workInitiated(response)),
+    removeInteraction: interactionId =>
       dispatch(removeInteraction(interactionId)),
-    setMessageHistory: (response) => dispatch(setMessageHistory(response)),
+    setMessageHistory: response => dispatch(setMessageHistory(response)),
     updateMessageHistoryAgentName: (interactionId, response) =>
       dispatch(updateMessageHistoryAgentName(interactionId, response)),
     assignContact: (interactionId, contact) =>
       dispatch(assignContact(interactionId, contact)),
     setAssignedContact: (interactionId, contact) =>
       dispatch(setAssignedContact(interactionId, contact)),
-    unassignContact: (interactionId) =>
-      dispatch(unassignContact(interactionId)),
-    dismissContactWasAssignedNotification: (interactionId) =>
+    unassignContact: interactionId => dispatch(unassignContact(interactionId)),
+    dismissContactWasAssignedNotification: interactionId =>
       dispatch(dismissContactWasAssignedNotification(interactionId)),
-    dismissContactWasUnassignedNotification: (interactionId) =>
+    dismissContactWasUnassignedNotification: interactionId =>
       dispatch(dismissContactWasUnassignedNotification(interactionId)),
-    setContactHistoryInteractionDetails: (response) =>
+    setContactHistoryInteractionDetails: response =>
       dispatch(setContactHistoryInteractionDetails(response)),
     updateContact: (updatedContact, contactType) =>
       dispatch(updateContact(updatedContact, contactType)),
     addMessage: (interactionId, message) =>
       dispatch(addMessage(interactionId, message)),
-    selectInteraction: (interactionId) =>
+    selectInteraction: interactionId =>
       dispatch(selectInteraction(interactionId)),
-    setContactLayout: (layout) => dispatch(setContactLayout(layout)),
-    setContactAttributes: (attributes) =>
+    setContactLayout: layout => dispatch(setContactLayout(layout)),
+    setContactAttributes: attributes =>
       dispatch(setContactAttributes(attributes)),
     setInteractionQuery: (interactionId, query) =>
       dispatch(setInteractionQuery(interactionId, query)),
@@ -1766,15 +1765,15 @@ function mapDispatchToProps(dispatch) {
       dispatch(setEmailAttachmentUrl(interactionId, artifactFileId, url)),
     updateCallControls: (interactionId, callControls) =>
       dispatch(updateCallControls(interactionId, callControls)),
-    muteCall: (interactionId) => dispatch(muteCall(interactionId)),
-    unmuteCall: (interactionId) => dispatch(unmuteCall(interactionId)),
-    holdCall: (interactionId) => dispatch(holdCall(interactionId)),
-    resumeCall: (interactionId) => dispatch(resumeCall(interactionId)),
-    recordCall: (interactionId) => dispatch(recordCall(interactionId)),
-    stopRecordCall: (interactionId) => dispatch(stopRecordCall(interactionId)),
-    transferCancelled: (interactionId) =>
+    muteCall: interactionId => dispatch(muteCall(interactionId)),
+    unmuteCall: interactionId => dispatch(unmuteCall(interactionId)),
+    holdCall: interactionId => dispatch(holdCall(interactionId)),
+    resumeCall: interactionId => dispatch(resumeCall(interactionId)),
+    recordCall: interactionId => dispatch(recordCall(interactionId)),
+    stopRecordCall: interactionId => dispatch(stopRecordCall(interactionId)),
+    transferCancelled: interactionId =>
       dispatch(transferCancelled(interactionId)),
-    resourceAdded: (response) => dispatch(resourceAdded(response)),
+    resourceAdded: response => dispatch(resourceAdded(response)),
     updateResourceName: (interactionId, activeResourceId, activeResourceName) =>
       dispatch(
         updateResourceName(interactionId, activeResourceId, activeResourceName)
@@ -1793,41 +1792,41 @@ function mapDispatchToProps(dispatch) {
           statusValue
         )
       ),
-    holdMe: (interactionId) => dispatch(holdMe(interactionId)),
-    resumeMe: (interactionId) => dispatch(resumeMe(interactionId)),
-    resourceRemoved: (response) => dispatch(resourceRemoved(response)),
-    emailCanSendReply: (interactionId) =>
+    holdMe: interactionId => dispatch(holdMe(interactionId)),
+    resumeMe: interactionId => dispatch(resumeMe(interactionId)),
+    resourceRemoved: response => dispatch(resourceRemoved(response)),
+    emailCanSendReply: interactionId =>
       dispatch(emailCanSendReply(interactionId)),
     emailAddAttachment: (interactionId, attachment) =>
       dispatch(emailAddAttachment(interactionId, attachment)),
     setAvailableStats: (stats, tenantId, userId) =>
       dispatch(setAvailableStats(stats, tenantId, userId)),
     initializeStats: () => dispatch(initializeStats()),
-    statsReceived: (stats) => dispatch(statsReceived(stats)),
-    setQueues: (queues) => dispatch(setQueues(queues)),
+    statsReceived: stats => dispatch(statsReceived(stats)),
+    setQueues: queues => dispatch(setQueues(queues)),
     setDispositionDetails: (interactionId, dispositions, forceSelect) =>
       dispatch(setDispositionDetails(interactionId, dispositions, forceSelect)),
     selectDisposition: (interactionId, disposition) =>
       dispatch(selectDisposition(interactionId, disposition)),
     selectSidePanelTab: (interactionId, tabName) =>
       dispatch(selectSidePanelTab(interactionId, tabName)),
-    showSidePanel: (interactionId) => dispatch(showSidePanel(interactionId)),
-    hideSidePanel: (interactionId) => dispatch(hideSidePanel(interactionId)),
-    toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
+    showSidePanel: interactionId => dispatch(showSidePanel(interactionId)),
+    hideSidePanel: interactionId => dispatch(hideSidePanel(interactionId)),
+    toggleAgentMenu: show => dispatch(toggleAgentMenu(show)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
     validateContactLayoutTranslations: () =>
       dispatch(validateContactLayoutTranslations()),
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
-    setCriticalError: (error) => dispatch(setCriticalError(error)),
-    setCRMUnavailable: (reason) => dispatch(setCRMUnavailable(reason)),
-    addStatErrorId: (statId) => dispatch(addStatErrorId(statId)),
-    removeStatErrorId: (statId) => dispatch(removeStatErrorId(statId)),
+    setCriticalError: error => dispatch(setCriticalError(error)),
+    setCRMUnavailable: reason => dispatch(setCRMUnavailable(reason)),
+    addStatErrorId: statId => dispatch(addStatErrorId(statId)),
+    removeStatErrorId: statId => dispatch(removeStatErrorId(statId)),
     dismissError: () => dispatch(dismissError()),
-    setCrmModule: (crmModule) => dispatch(setCrmModule(crmModule)),
+    setCrmModule: crmModule => dispatch(setCrmModule(crmModule)),
     setStandalonePopup: () => dispatch(setStandalonePopup()),
     setCrmActiveTab: (type, id, name) =>
       dispatch(setCrmActiveTab(type, id, name)),
-    startOutboundInteraction: (outboundInteractionData) =>
+    startOutboundInteraction: outboundInteractionData =>
       dispatch(startOutboundInteraction(outboundInteractionData)),
     startOutboundEmail: (customer, contact, addedByNewInteractionPanel) =>
       dispatch(
@@ -1839,18 +1838,18 @@ function mapDispatchToProps(dispatch) {
       dispatch(addInteractionNotification(interactionId, messageKey)),
     removeInteractionNotification: (interactionId, messageKey) =>
       dispatch(removeInteractionNotification(interactionId, messageKey)),
-    setResourceCapactiy: (resourceCapacity) =>
+    setResourceCapactiy: resourceCapacity =>
       dispatch(setResourceCapactiy(resourceCapacity)),
-    setUsers: (users) => dispatch(setUsers(users)),
+    setUsers: users => dispatch(setUsers(users)),
     setTransferListsFromFlow: (interactionId, transferListsFromFlow) =>
       dispatch(setTransferListsFromFlow(interactionId, transferListsFromFlow)),
-    setQueuesTime: (queueData) => dispatch(setQueuesTime(queueData)),
-    toggleIsOnline: (isOnline) => dispatch(toggleIsOnline(isOnline)),
-    outboundCustomerConnected: (interactionId) =>
+    setQueuesTime: queueData => dispatch(setQueuesTime(queueData)),
+    toggleIsOnline: isOnline => dispatch(toggleIsOnline(isOnline)),
+    outboundCustomerConnected: interactionId =>
       dispatch(outboundCustomerConnected(interactionId)),
     setTranferringInConference: (interactionId, isColdTransferring) =>
       dispatch(setTranferringInConference(interactionId, isColdTransferring)),
-    toggleQueue: (queue) =>
+    toggleQueue: queue =>
       dispatch(toggleSelectedQueueTransferMenuPreference(queue)),
     dispatch,
   };

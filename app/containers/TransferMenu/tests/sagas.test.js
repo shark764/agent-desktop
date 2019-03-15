@@ -501,22 +501,52 @@ describe('callUserAssignedTransferListsAndUpdateState', () => {
       id: 'mockTransferListId1',
       name: 'mockTransferListName',
       endpoints: [
-        { contactType: 'queue' },
-        { contactType: 'PSTN' },
-        { conctactType: 'SIP' },
-        { contactType: 'queue' },
+        {
+          contactType: 'queue',
+          hierarchy: 'mockHierarchy1',
+          endPointRenderUUID: 'mockEndPointUUID1',
+          hierarchyRenderUUID: 'mockEndPointUUID1',
+        },
+        {
+          contactType: 'PSTN',
+          hierarchy: 'mockHierarchy2',
+          endPointRenderUUID: 'mockEndPointUUID2',
+          hierarchyRenderUUID: 'mockEndPointUUID2',
+        },
+        {
+          conctactType: 'SIP',
+          hierarchy: 'mockHierarchy3',
+          endPointRenderUUID: 'mockEndPointUUID3',
+          hierarchyRenderUUID: 'mockEndPointUUID3',
+        },
       ],
+      transferListRenderUUID: 'mockTransferListUUID1',
     },
     {
       active: true,
       id: 'mockTransferListId2',
       name: 'mockTransferListName2',
       endpoints: [
-        { contactType: 'queue' },
-        { contactType: 'PSTN' },
-        { conctactType: 'SIP' },
-        { contactType: 'queue' },
+        {
+          contactType: 'queue',
+          hierarchy: 'mockHierarchy4',
+          endPointRenderUUID: 'mockEndPointUUID4',
+          hierarchyRenderUUID: 'mockEndPointUUID4',
+        },
+        {
+          contactType: 'PSTN',
+          hierarchy: 'mockHierarchy5',
+          endPointRenderUUID: 'mockEndPointUUID5',
+          hierarchyRenderUUID: 'mockEndPointUUID6',
+        },
+        {
+          conctactType: 'SIP',
+          hierarchy: 'mockHierarchy6',
+          endPointRenderUUID: 'mockEndPointUUID5',
+          hierarchyRenderUUID: 'mockEndPointUUID6',
+        },
       ],
+      transferListRenderUUID: 'mockTransferListUUID2',
     },
   ];
   describe('sets user assigned transfer lists and there visible state for the voice interactions', () => {

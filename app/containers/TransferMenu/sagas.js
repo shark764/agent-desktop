@@ -49,14 +49,15 @@ export function* callUserAssignedTransferListsAndUpdateState(action) {
   if (action.channelType === 'nonVoice') {
     if (userAssignedTransferLists) {
       const nonVoiceTransferLists = userAssignedTransferLists
-        .map(({ id, name, endpoints }) => {
+        .map(({ id, name, endpoints, transferListRenderUUID }) => {
           const queueEndPoints = endpoints.filter(
-            (endpoint) => endpoint.contactType === 'queue'
+            endpoint => endpoint.contactType === 'queue'
           );
           return {
             id,
             name,
             endpoints: queueEndPoints,
+            transferListRenderUUID,
           };
         })
         .filter(({ endpoints }) => endpoints.length > 0);

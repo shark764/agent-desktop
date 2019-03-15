@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 import { isUUID } from 'utils/validator';
+import { generateUUID } from 'utils/uuid';
 
 import { selectTenant, selectAgent } from 'containers/Login/selectors';
 import { getInteraction } from 'containers/ContactsControl/sagas';
@@ -78,7 +79,7 @@ export function* loadHistoricalInteractionBody(action) {
           { interactionId: action.interactionId },
           'AgentDesktop'
         );
-        body.audioRecordings = metaData.map((recording) => recording.url);
+        body.audioRecordings = metaData.map(recording => recording.url);
         break;
       case 'transcript':
         metaData = yield call(
@@ -271,7 +272,7 @@ export function* goDeleteContacts() {
     yield put(setDeletionPending(true));
     const checkedContacts = yield select(selectCheckedContacts);
     const response = yield all(
-      checkedContacts.map((contact) =>
+      checkedContacts.map(contact =>
         call(
           sdkCallToPromise,
           CxEngage.contacts.delete,
@@ -282,7 +283,7 @@ export function* goDeleteContacts() {
     );
     yield checkedContacts
       .filter((contact, index) => response[index]) // Check API response is truthy
-      .map((contact) => put(removeContact(contact.id)));
+      .map(contact => put(removeContact(contact.id)));
 
     yield put(clearSearchResults());
     yield put(clearCheckedContacts());
@@ -389,8 +390,8 @@ export function* goAcceptWork(action) {
     );
     const resourcesInfo = yield all(
       action.response.activeResources
-        .filter((resource) => resource.externalResource === false)
-        .map((resource) =>
+        .filter(resource => resource.externalResource === false)
+        .map(resource =>
           call(
             sdkCallToPromise,
             CxEngage.entities.getUser,
@@ -402,7 +403,7 @@ export function* goAcceptWork(action) {
         )
     );
     yield all(
-      resourcesInfo.map((response) => {
+      resourcesInfo.map(response => {
         const { firstName, lastName, id, email } = response.result;
         const name = firstName || lastName ? `${firstName} ${lastName}` : email;
         return put(updateResourceName(action.interactionId, id, name));
@@ -427,6 +428,7 @@ export function* callTransferListsFromFlowAndUpdateState(action) {
     select(selectVoiceFlowTransLists),
     select(selectNonVoiceFlowTransLists),
   ]);
+  let interactionTransferLists = [];
   if (
     voiceFlowTransLists !== undefined ||
     nonVoiceFlowTransLists !== undefined
@@ -439,60 +441,106 @@ export function* callTransferListsFromFlowAndUpdateState(action) {
         {},
         'AgentDesktop'
       );
+      if (
+        tenantTransferLists &&
+        tenantTransferLists.result &&
+        tenantTransferLists.result.length > 0
+      ) {
+        const activeTransferLists = tenantTransferLists.result
+          .filter(transferList => transferList.active === true)
+          .map(({ id, name, endpoints }) => {
+            const updatedEndpoints = [];
+            endpoints.forEach(endpoint => {
+              // Creating hierarchy and endpoint UUID's to use them as keys while rendering - similar hierarchy's should have the same UUID
+              const existingHierarchy = updatedEndpoints.find(
+                val => endpoint.hierarchy === val.hierarchy
+              );
+              if (existingHierarchy === undefined) {
+                updatedEndpoints.push({
+                  ...endpoint,
+                  endPointRenderUUID: generateUUID(),
+                  hierarchyRenderUUID: generateUUID(),
+                });
+              } else {
+                updatedEndpoints.push({
+                  ...endpoint,
+                  endPointRenderUUID: generateUUID(),
+                  hierarchyRenderUUID: existingHierarchy.hierarchyRenderUUID,
+                });
+              }
+            });
+            return {
+              id,
+              name,
+              endpoints: updatedEndpoints,
+              transferListRenderUUID: generateUUID(),
+            };
+          });
+        // setting voice interaction transfer lists:
+        if (action.channelType === 'voice') {
+          if (voiceFlowTransLists !== undefined) {
+            interactionTransferLists = activeTransferLists.filter(
+              ({ id, name }) =>
+                voiceFlowTransLists.find(
+                  ({ value }) =>
+                    value === id || value.toUpperCase() === name.toUpperCase()
+                )
+            );
+            yield put(
+              setInteractionTransferLists(
+                voiceInteraction.interactionId,
+                interactionTransferLists
+              )
+            );
+          } else {
+            yield put(
+              setInteractionTransferLists(
+                voiceInteraction.interactionId,
+                undefined
+              )
+            );
+          }
+        }
+        // setting non- voice interaction transfer lists:
+        else if (action.channelType === 'nonVoice') {
+          if (nonVoiceFlowTransLists !== undefined) {
+            interactionTransferLists = activeTransferLists
+              .filter(({ id, name }) =>
+                nonVoiceFlowTransLists.find(
+                  ({ value }) =>
+                    value === id || value.toUpperCase() === name.toUpperCase()
+                )
+              )
+              .map(({ id, name, endpoints, transferListRenderUUID }) => {
+                const queueEndPoints = endpoints.filter(
+                  endpoint => endpoint.contactType === 'queue'
+                );
+                return {
+                  id,
+                  name,
+                  endpoints: queueEndPoints,
+                  transferListRenderUUID,
+                };
+              })
+              .filter(({ endpoints }) => endpoints.length > 0);
+            yield put(
+              setInteractionTransferLists(
+                selectedInteraction.interactionId,
+                interactionTransferLists
+              )
+            );
+          } else {
+            yield put(
+              setInteractionTransferLists(
+                selectedInteraction.interactionId,
+                undefined
+              )
+            );
+          }
+        }
+      }
     } catch (err) {
       console.log(err);
-    }
-    const activeTransferLists = tenantTransferLists.result.filter(
-      (transferList) => transferList.active === true
-    );
-    let interactionTransferLists = [];
-    if (action.channelType === 'voice') {
-      // Filtering out dupilcate flow transfer-lists:
-      const filteredFlowTransferLists = activeTransferLists.filter(
-        ({ id, name }) =>
-          voiceFlowTransLists.find(
-            ({ value }) =>
-              value === id || value.toUpperCase() === name.toUpperCase()
-          )
-      );
-      // setting voice interaction transfer lists:
-      interactionTransferLists = filteredFlowTransferLists.map(
-        ({ id, name, endpoints }) => ({ id, name, endpoints })
-      );
-      yield put(
-        setInteractionTransferLists(
-          voiceInteraction.interactionId,
-          interactionTransferLists
-        )
-      );
-    } else if (action.channelType === 'nonVoice') {
-      // Filtering out dupilcate flow transfer-lists:
-      const filteredFlowTransferLists = activeTransferLists.filter(
-        ({ id, name }) =>
-          nonVoiceFlowTransLists.find(
-            ({ value }) =>
-              value === id || value.toUpperCase() === name.toUpperCase()
-          )
-      );
-      // setting non- voice interaction transfer lists:
-      interactionTransferLists = filteredFlowTransferLists
-        .map(({ id, name, endpoints }) => {
-          const queueEndPoints = endpoints.filter(
-            (endpoint) => endpoint.contactType === 'queue'
-          );
-          return {
-            id,
-            name,
-            endpoints: queueEndPoints,
-          };
-        })
-        .filter(({ endpoints }) => endpoints.length > 0);
-      yield put(
-        setInteractionTransferLists(
-          selectedInteraction.interactionId,
-          interactionTransferLists
-        )
-      );
     }
     // setting initial visible state of interaction transfer-lists:
     const interactionTransferListsVisibleState = interactionTransferLists.reduce(
@@ -528,6 +576,20 @@ export function* callTransferListsFromFlowAndUpdateState(action) {
     } else {
       yield put(setVisibleStateOfAllInteractionTransferLists(null));
     }
+  } else if (
+    action.channelType === 'voice' &&
+    voiceFlowTransLists === undefined
+  ) {
+    yield put(
+      setInteractionTransferLists(voiceInteraction.interactionId, undefined)
+    );
+  } else if (
+    action.channelType === 'nonVoice' &&
+    nonVoiceFlowTransLists === undefined
+  ) {
+    yield put(
+      setInteractionTransferLists(selectedInteraction.interactionId, undefined)
+    );
   }
 }
 export function* changeInteractionTransferListVisibleState(action) {

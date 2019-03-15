@@ -8,8 +8,8 @@ import Icon from 'components/Icon';
 import messages from './messages';
 
 export class TransferLists extends React.Component {
-  filterTransferListItems = (transferListItems) =>
-    transferListItems.filter((transferListItem) => {
+  filterTransferListItems = transferListItems =>
+    transferListItems.filter(transferListItem => {
       if (this.props.transferSearchInput.trim() !== '') {
         return transferListItem.name
           .toUpperCase()
@@ -96,7 +96,7 @@ export class TransferLists extends React.Component {
       hierarchyListWrapper: {
         marginTop: '-10px',
       },
-      transferListName: {
+      hierarchyTransListAndListItemSpan: {
         flexBasis: '100%',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
@@ -107,238 +107,255 @@ export class TransferLists extends React.Component {
     // User Assigned Transfer Lists:
     const userAssignedTransferLists = [];
     if (this.props.userAssignedTransferLists) {
-      this.props.userAssignedTransferLists.forEach(
-        (transferList, transferListIndex) => {
-          const hierarchyMap = new Map();
-          transferList.endpoints.forEach((transferListItem) => {
-            const { hierarchy } = transferListItem;
-            if (!hierarchyMap.has(hierarchy)) {
-              hierarchyMap.set(hierarchy, [transferListItem]);
-            } else {
-              hierarchyMap.get(hierarchy).push(transferListItem);
-            }
-          });
-          const hierarchyList = [];
-          hierarchyMap.forEach((transferListItems, hierarchy) => {
-            const filteredTransferListItems = this.filterTransferListItems(
-              transferListItems
-            )
-              .filter((transferListItem) => {
-                if (this.props.transferTabIndex === 0) {
-                  return transferListItem.warmTransfer !== undefined;
-                } else {
-                  return transferListItem.coldTransfer !== undefined;
-                }
-              })
-              .map((transferListItem, transferListItemIndex) => (
-                <div
-                  id={`${
-                    transferList.id
-                  }-${hierarchy}-${transferListItemIndex}`}
-                  // The list is static, so we can just use the index as the key
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={`${
-                    transferList.id
-                  }-${hierarchy}-${transferListItemIndex}`}
-                  className="tranferListItem transferItem"
-                  onClick={() =>
-                    this.transferTransferListItem(
-                      transferListItem.name,
-                      transferListItem.contactType,
-                      transferListItem.endpoint
-                    )
-                  }
-                  title={transferListItem.name}
-                  style={styles.transferListItem}
-                  tabIndex="0" // eslint-disable-line
-                >
-                  {transferListItem.name}
-                </div>
-              ));
-            if (filteredTransferListItems.length > 0) {
-              hierarchyList.push(
-                <div
-                  style={styles.hierarchyListWrapper}
-                  id={`${transferList.id}-${hierarchy}`}
-                  // hierarchy is not the array index. it is the key of the map.
-                  // eslint-disable-next-line
-                  key={`${transferList.id}-${hierarchy}`}
-                > 
-                  <div className="smallSpacer" style={styles.spacerLineDiv} />
-                  <div className="transferCatagory" style={styles.hierarchy}>
-                    {hierarchy}
-                  </div>
-                  {filteredTransferListItems}
-                </div>
-              );
-            }
-          });
-          if (hierarchyList.length > 0) {
-            userAssignedTransferLists.push(
+      this.props.userAssignedTransferLists.forEach(transferList => {
+        const hierarchyMap = new Map();
+        transferList.endpoints.forEach(transferListItem => {
+          const { hierarchy } = transferListItem;
+          if (!hierarchyMap.has(hierarchy)) {
+            hierarchyMap.set(hierarchy, [transferListItem]);
+          } else {
+            hierarchyMap.get(hierarchy).push(transferListItem);
+          }
+        });
+        const hierarchyList = [];
+        hierarchyMap.forEach((transferListItems, hierarchy) => {
+          const filteredTransferListItems = this.filterTransferListItems(
+            transferListItems
+          )
+            .filter(transferListItem => {
+              if (this.props.transferTabIndex === 0) {
+                return transferListItem.warmTransfer !== undefined;
+              } else {
+                return transferListItem.coldTransfer !== undefined;
+              }
+            })
+            .map(transferListItem => (
               <div
-                key={transferList.id}
-                style={this.props.styles.transferListDivContainer}
+                id={`userAssigTransListItem-${transferList.id}-${hierarchy}-${
+                  transferListItem.name
+                }`}
+                key={`userAssigTransListItem-${
+                  transferListItem.endPointRenderUUID
+                }`}
+                onClick={() =>
+                  this.transferTransferListItem(
+                    transferListItem.name,
+                    transferListItem.contactType,
+                    transferListItem.endpoint
+                  )
+                }
+                title={transferListItem.name}
+                style={styles.transferListItem}
+                tabIndex="0" // eslint-disable-line
               >
-                <div className="bigSpacer" style={this.props.styles.lineSpacer} />
+                <span style={styles.hierarchyTransListAndListItemSpan}>
+                  {transferListItem.name}
+                </span>
+              </div>
+            ));
+          if (filteredTransferListItems.length > 0) {
+            const { hierarchyRenderUUID } = transferListItems[0];
+            hierarchyList.push(
+              <div
+                className={`userAssigTransListHierarchy-${hierarchyRenderUUID}`}
+                key={`userAssigTransListHierarchy-${hierarchyRenderUUID}`}
+                style={styles.hierarchyListWrapper}
+                title={hierarchy}
+              >
+                <div className="smallSpacer" style={styles.spacerLineDiv} />
                 <div
-                  id={`transferList-${transferListIndex}`}
-                  key={`${transferList.id}-title`}
-                  style={this.props.styles.expandedTransferHeading}
-                  onClick={() =>
-                    this.props.updateUserAssignedTransferListsVisibleState(
-                      transferList.id
-                    )
-                  }
-                  title={transferList.name}
+                  className="transferCatagory"
+                  style={[
+                    styles.hierarchy,
+                    styles.hierarchyTransListAndListItemSpan,
+                  ]}
                 >
-                  <span className="transferListName" style={styles.transferListName}>
-                    {transferList.name}
-                  </span>
-                  <Icon
-                    name="caret"
-                    style={
-                      this.props.userAssigTransListsVisibleSt &&
-                      this.props.userAssigTransListsVisibleSt[transferList.id]
-                        ? this.props.styles.iconOpen
-                        : this.props.styles.iconClosed
-                    }
-                  />
+                  {hierarchy}
                 </div>
-                {((this.props.userAssigTransListsVisibleSt &&
-                  this.props.userAssigTransListsVisibleSt[transferList.id]) ||
-                  this.props.transferSearchInput.trim() !== '') && (
-                  <div style={styles.transferListWrapper}>
-                    {hierarchyList}
-                  </div>
-                )}
+                {filteredTransferListItems}
               </div>
             );
           }
+        });
+        if (hierarchyList.length > 0) {
+          userAssignedTransferLists.push(
+            <div
+              className={`userAssigTransList-${
+                transferList.transferListRenderUUID
+              }`}
+              key={`userAssigTransList-${transferList.transferListRenderUUID}`}
+              style={{ marginTop: '25px' }}
+            >
+              <div
+                id={`userAssigTransListCollapExpndBtn-${transferList.id}`}
+                key={`userAssigTransListCollapExpndBtn-${transferList.id}`}
+                style={this.props.styles.expandedTransferHeading}
+                onClick={() =>
+                  this.props.updateUserAssignedTransferListsVisibleState(
+                    transferList.id
+                  )
+                }
+                title={transferList.name}
+              >
+                <span
+                  className="transferListName"
+                  style={styles.hierarchyTransListAndListItemSpan}
+                >
+                  {transferList.name}
+                </span>
+                <Icon
+                  name="caret"
+                  style={
+                    this.props.userAssigTransListsVisibleSt &&
+                    this.props.userAssigTransListsVisibleSt[transferList.id]
+                      ? this.props.styles.iconOpen
+                      : this.props.styles.iconClosed
+                  }
+                />
+              </div>
+              {((this.props.userAssigTransListsVisibleSt &&
+                this.props.userAssigTransListsVisibleSt[transferList.id]) ||
+                this.props.transferSearchInput.trim() !== '') && (
+                <div style={styles.transferListWrapper}>
+                  {hierarchyList}
+                </div>
+              )}
+              <div className="bigSpacer" style={this.props.styles.lineSpacer} />
+            </div>
+          );
         }
-      );
+      });
     }
 
     // Interaction Transfer Lists:
     const interactionTransferLists = [];
     if (this.props.interactionTransferLists) {
-      this.props.interactionTransferLists.forEach(
-        (transferList, transferListIndex) => {
-          const hierarchyMap = new Map();
-          transferList.endpoints.forEach((transferListItem) => {
-            const { hierarchy } = transferListItem;
-            if (!hierarchyMap.has(hierarchy)) {
-              hierarchyMap.set(hierarchy, [transferListItem]);
-            } else {
-              hierarchyMap.get(hierarchy).push(transferListItem);
-            }
-          });
-          const hierarchyList = [];
-          hierarchyMap.forEach((transferListItems, hierarchy) => {
-            const filteredTransferListItems = this.filterTransferListItems(
-              transferListItems
-            )
-              .filter((transferListItem) => {
-                if (this.props.transferTabIndex === 0) {
-                  return transferListItem.warmTransfer !== undefined;
-                } else {
-                  return transferListItem.coldTransfer !== undefined;
-                }
-              })
-              .map((transferListItem, transferListItemIndex) => (
-                <div
-                  id={`interactionTransferList-${
-                    transferList.id
-                  }-${hierarchy}-${transferListItemIndex}`}
-                  // The list is static, so we can just use the index as the key
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={`interactionTransferList-${
-                    transferList.id
-                  }-${hierarchy}-${transferListItemIndex}`}
-                  className="tranferListItem transferItem"
-                  onClick={() =>
-                    this.transferTransferListItem(
-                      transferListItem.name,
-                      transferListItem.contactType,
-                      transferListItem.endpoint
-                    )
-                  }
-                  title={transferListItem.name}
-                  style={styles.transferListItem}
-                  tabIndex="0" // eslint-disable-line
-                >
-                  {transferListItem.name}
-                </div>
-              ));
-            if (filteredTransferListItems.length > 0) {
-              hierarchyList.push(
-                <div
-                  style={styles.hierarchyListWrapper}
-                  id={`interactionTransferList-${transferList.id}-${hierarchy}`}
-                  // hierarchy is not the array index. it is the key of the map.
-                  // eslint-disable-next-line
-                  key={`interactionTransferList-${
-                    transferList.id
-                  }-${hierarchy}`}
-                > 
-                  <div className="smallSpacer" style={styles.spacerLineDiv} />
-                  <div className="transferCatagory" style={styles.hierarchy}>
-                    {hierarchy}
-                  </div>
-                  {filteredTransferListItems}
-                </div>
-              );
-            }
-          });
-          if (hierarchyList.length > 0) {
-            interactionTransferLists.push(
+      this.props.interactionTransferLists.forEach(transferList => {
+        const hierarchyMap = new Map();
+        transferList.endpoints.forEach(transferListItem => {
+          const { hierarchy } = transferListItem;
+          if (!hierarchyMap.has(hierarchy)) {
+            hierarchyMap.set(hierarchy, [transferListItem]);
+          } else {
+            hierarchyMap.get(hierarchy).push(transferListItem);
+          }
+        });
+        const hierarchyList = [];
+        hierarchyMap.forEach((transferListItems, hierarchy) => {
+          const filteredTransferListItems = this.filterTransferListItems(
+            transferListItems
+          )
+            .filter(transferListItem => {
+              if (this.props.transferTabIndex === 0) {
+                return transferListItem.warmTransfer !== undefined;
+              } else {
+                return transferListItem.coldTransfer !== undefined;
+              }
+            })
+            .map(transferListItem => (
               <div
-                key={`interactionTransferList-${transferList.id}`}
-                style={this.props.styles.transferListDivContainer}
+                id={`interAssigTransListItem-${transferList.id}-${hierarchy}-${
+                  transferListItem.name
+                }`}
+                key={`interAssigTransListItem-${
+                  transferListItem.endPointRenderUUID
+                }`}
+                className="tranferListItem transferItem"
+                onClick={() =>
+                  this.transferTransferListItem(
+                    transferListItem.name,
+                    transferListItem.contactType,
+                    transferListItem.endpoint
+                  )
+                }
+                title={transferListItem.name}
+                style={styles.transferListItem}
+                tabIndex="0" // eslint-disable-line
               >
-                <div className="bigSpacer" style={this.props.styles.lineSpacer} />
+                <span style={styles.hierarchyTransListAndListItemSpan}>
+                  {transferListItem.name}
+                </span>
+              </div>
+            ));
+          if (filteredTransferListItems.length > 0) {
+            const { hierarchyRenderUUID } = transferListItems[0];
+            hierarchyList.push(
+              <div
+                className={`interAssigTransListHierarchy-${hierarchyRenderUUID}`}
+                key={`interAssigTransListHierarchy-${hierarchyRenderUUID}`}
+                style={styles.hierarchyListWrapper}
+              >
+                <div className="smallSpacer" style={styles.spacerLineDiv} />
                 <div
-                  id={`interactionTransferList-${transferListIndex}`}
-                  key={`interactionTransferList-${transferList.id}-title`}
-                  style={this.props.styles.expandedTransferHeading}
-                  onClick={() =>
-                    this.props.updateInteractionTransferListsVisibleState(
-                      transferList.id
-                    )
-                  }
-                  title={transferList.name}
+                  className="transferCatagory"
+                  title={hierarchy}
+                  style={[
+                    styles.hierarchy,
+                    styles.hierarchyTransListAndListItemSpan,
+                  ]}
                 >
-                  <span className="tranferListName" style={styles.transferListName}>
-                    {transferList.name}
-                  </span>
-                  <Icon
-                    name="caret"
-                    style={
-                      this.props.interactionTransListsVisibleSt &&
-                      this.props.interactionTransListsVisibleSt[transferList.id]
-                        ? this.props.styles.iconOpen
-                        : this.props.styles.iconClosed
-                    }
-                  />
+                  {hierarchy}
                 </div>
-                {((this.props.interactionTransListsVisibleSt &&
-                  this.props.interactionTransListsVisibleSt[transferList.id]) ||
-                  this.props.transferSearchInput.trim() !== '') && (
-                  <div style={styles.transferListWrapper}>
-                    {hierarchyList}
-                  </div>
-                )}
+                {filteredTransferListItems}
               </div>
             );
           }
+        });
+        if (hierarchyList.length > 0) {
+          interactionTransferLists.push(
+            <div
+              className={`interAssigTransList-${
+                transferList.transferListRenderUUID
+              }`}
+              key={`interAssigTransList-${transferList.transferListRenderUUID}`}
+              style={{ marginTop: '25px' }}
+            >
+              <div
+                id={`interAssigTransListCollapExpndBtn-${transferList.id}`}
+                key={`interAssigTransListCollapExpndBtn-${transferList.id}`}
+                style={this.props.styles.expandedTransferHeading}
+                onClick={() =>
+                  this.props.updateInteractionTransferListsVisibleState(
+                    transferList.id
+                  )
+                }
+                title={transferList.name}
+              >
+                <span
+                  className="transferListName"
+                  style={styles.hierarchyTransListAndListItemSpan}
+                >
+                  {transferList.name}
+                </span>
+                <Icon
+                  name="caret"
+                  style={
+                    this.props.interactionTransListsVisibleSt &&
+                    this.props.interactionTransListsVisibleSt[transferList.id]
+                      ? this.props.styles.iconOpen
+                      : this.props.styles.iconClosed
+                  }
+                />
+              </div>
+              {((this.props.interactionTransListsVisibleSt &&
+                this.props.interactionTransListsVisibleSt[transferList.id]) ||
+                this.props.transferSearchInput.trim() !== '') && (
+                <div style={styles.transferListWrapper}>
+                  {hierarchyList}
+                </div>
+              )}
+              <div className="bigSpacer" style={this.props.styles.lineSpacer} />
+            </div>
+          );
         }
-      );
+      });
     }
 
     return (
       <React.Fragment>
         {this.props.interactionTransListsLoadSt ? (
           <div style={this.props.styles.transferListDivContainer}>
-            <div style={this.props.styles.transferListsCheckingTitle}>
+            <div style={styles.transferListsCheckingTitle}>
               <FormattedMessage
                 {...messages.checkingInteractionTransferLists}
               />
@@ -354,9 +371,12 @@ export class TransferLists extends React.Component {
             // Interaction specific transfer lists
             <div style={this.props.styles.transferListDivContainer}>
               <div
-                id="interTransferListsCollapExpandBtn"
-                key="interactionTransferLists"
-                style={[this.props.styles.collapsedTransferHeading, {marginTop: '35px'}]}
+                id="allInterAssigTransListsCollapExpandBtn"
+                key="allInterAssigTransListsCollapExpandBtn"
+                style={[
+                  this.props.styles.collapsedTransferHeading,
+                  { marginTop: '20px' },
+                ]}
                 onClick={() =>
                   this.props.updateVisibleStateOfAllInteractionTransferlists()
                 }
@@ -364,22 +384,27 @@ export class TransferLists extends React.Component {
                 <FormattedMessage {...messages.interactionTransferLists} />
                 <Icon
                   name="caret"
-                  style={[
-                    {opacity: '.5'},
+                  style={
                     this.props.interactionAllTransListsVisibleSt
                       ? this.props.styles.iconOpen
-                      : this.props.styles.iconClosed,
-                  ]}
+                      : this.props.styles.iconClosed
+                  }
                 />
               </div>
-              {this.props.interactionAllTransListsVisibleSt &&
-                interactionTransferLists}
+              {this.props.interactionAllTransListsVisibleSt ? (
+                interactionTransferLists
+              ) : (
+                <div
+                  className="bigSpacer"
+                  style={this.props.styles.lineSpacer}
+                />
+              )}
             </div>
           )
         )}
         {this.props.userAssigTransListsLoadSt ? (
           <div style={this.props.styles.transferListDivContainer}>
-            <div style={this.props.styles.transferListsCheckingTitle}>
+            <div style={styles.transferListsCheckingTitle}>
               <FormattedMessage
                 {...messages.checkingUserAssignedTransferLists}
               />
@@ -396,9 +421,12 @@ export class TransferLists extends React.Component {
             // Transferlists assigned to user
             <div style={this.props.styles.transferListDivContainer}>
               <div
-                id="assignedTransferListsCollapExpandBtn"
-                key="assignedTransferLists"
-                style={[this.props.styles.collapsedTransferHeading, {marginTop: '35px'}]}
+                id="allUserAssigTransListsCollapExpandBtn"
+                key="allUserAssigTransListsCollapExpandBtn"
+                style={[
+                  this.props.styles.collapsedTransferHeading,
+                  { marginTop: '20px' },
+                ]}
                 onClick={() =>
                   this.props.updateVisibleStateOfAllUserAssignedTransferlists()
                 }
@@ -406,16 +434,21 @@ export class TransferLists extends React.Component {
                 <FormattedMessage {...messages.userAssignedTransferLists} />
                 <Icon
                   name="caret"
-                  style={[
-                    {opacity: '.5'},
+                  style={
                     this.props.userAssigAllTransListsVisibleSt
                       ? this.props.styles.iconOpen
-                      : this.props.styles.iconClosed,
-                  ]}
+                      : this.props.styles.iconClosed
+                  }
                 />
               </div>
-              {this.props.userAssigAllTransListsVisibleSt &&
-                userAssignedTransferLists}
+              {this.props.userAssigAllTransListsVisibleSt ? (
+                userAssignedTransferLists
+              ) : (
+                <div
+                  className="bigSpacer"
+                  style={this.props.styles.lineSpacer}
+                />
+              )}
             </div>
           )
         )}

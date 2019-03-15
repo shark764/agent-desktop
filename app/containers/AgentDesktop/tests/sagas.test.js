@@ -13,6 +13,9 @@ import {
   changeInteractionTransferListVisibleState,
   updateVisibleStateofAllFlowTransferLists,
 } from 'containers/AgentDesktop/sagas';
+jest.mock('utils/uuid', () => ({
+  generateUUID: jest.fn(() => 'mock-uuid'),
+}));
 
 describe('loadHistoricalInteractionBody Saga', () => {
   describe('if bodyType is recordings', () => {
@@ -495,10 +498,10 @@ describe('callTransferListsFromFlowAndUpdateState', () => {
         id: 'mockVocieTransferListId',
         name: 'mockVocieTransferLitName',
         endpoints: [
-          { contactType: 'queue' },
-          { contactType: 'PSTN' },
-          { conctactType: 'SIP' },
-          { contactType: 'queue' },
+          { contactType: 'queue', hierarchy: 'mockHierarchy1' },
+          { contactType: 'PSTN', hierarchy: 'mockHierarchy1' },
+          { conctactType: 'SIP', hierarchy: 'mockHierarchy2' },
+          { contactType: 'queue', hierarchy: 'mockHierarchy2' },
         ],
       },
       {
@@ -506,10 +509,10 @@ describe('callTransferListsFromFlowAndUpdateState', () => {
         id: 'mockNonVoiceTransferListI',
         name: 'mockNonVoiceTransferListName',
         endpoints: [
-          { contactType: 'queue' },
-          { contactType: 'PSTN' },
-          { conctactType: 'SIP' },
-          { contactType: 'queue' },
+          { contactType: 'queue', hierarchy: 'mockHierarchy5' },
+          { contactType: 'PSTN', hierarchy: 'mockHierarchy6' },
+          { conctactType: 'SIP', hierarchy: 'mockHierarchy6' },
+          { contactType: 'queue', hierarchy: 'mockHierarchy5' },
         ],
       },
     ],
@@ -687,7 +690,7 @@ describe('callTransferListsFromFlowAndUpdateState', () => {
     it('selects tenant id, agent id and transfer lists', () => {
       expect(generator.next()).toMatchSnapshot();
     });
-    it('is done', () => {
+    it('set voice interaction transfer lists to null by dispatching setInteractionTrasnferLists action', () => {
       expect(
         generator.next([
           tenant,
@@ -696,8 +699,11 @@ describe('callTransferListsFromFlowAndUpdateState', () => {
           voiceInteraction,
           undefined,
           undefined,
-        ]).done
-      ).toBe(true);
+        ])
+      ).toMatchSnapshot();
+    });
+    it('is done', () => {
+      expect(generator.next().done).toBe(true);
     });
   });
 });

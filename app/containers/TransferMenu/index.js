@@ -93,7 +93,7 @@ export class TransferMenu extends React.Component {
     this.queuesStatsIds = [];
   }
 
-  hotKeys = (e) => {
+  hotKeys = e => {
     const availableTransferItems = document.getElementsByClassName(
       'transferItem'
     );
@@ -162,8 +162,7 @@ export class TransferMenu extends React.Component {
       this.props.updateUserAssignedTransferLists('nonVoice');
       this.props.updateInteractionTransferLists('nonVoice');
     }
-    this.globalQueues =  this.props.selectVisibleQueues;
-    
+    this.globalQueues = this.props.selectVisibleQueues;
     if (
       !this.props.batchRequestsAreSuccessful &&
       this.props.showAgentsTransferMenuPreference &&
@@ -227,7 +226,7 @@ export class TransferMenu extends React.Component {
   }
 
   refreshQueues = () => {
-    const queriesList = this.globalQueues.map((queue) => ({
+    const queriesList = this.globalQueues.map(queue => ({
       statistic: 'queue-time',
       queueId: queue.id,
       statId: queue.id,
@@ -237,12 +236,12 @@ export class TransferMenu extends React.Component {
 
     //  Creating a list of new added queues to add them to stats-subscription
     const addedQueuesList = queriesList.filter(
-      (queryItem) => !currentQueuesIds.includes(queryItem.statId)
+      queryItem => !currentQueuesIds.includes(queryItem.statId)
     );
 
     //  Creating a list of removed queues to remove them of stats-subscription
     const removedQueuesList = currentQueuesIds.filter(
-      (queryItem) => !queriesList.map((e) => e.statId).includes(queryItem)
+      queryItem => !queriesList.map(e => e.statId).includes(queryItem)
     );
 
     //  This will check if there are new queues added
@@ -261,7 +260,7 @@ export class TransferMenu extends React.Component {
     }
     //  This will check if there are queues removed
     if (removedQueuesList.length > 0) {
-      removedQueuesList.forEach((queueStatId) => {
+      removedQueuesList.forEach(queueStatId => {
         CxEngage.reporting.removeStatSubscription({
           statId: queueStatId,
         });
@@ -273,7 +272,7 @@ export class TransferMenu extends React.Component {
     }
   };
 
-  refreshQueuesButton = (e) => {
+  refreshQueuesButton = e => {
     e.stopPropagation();
     if (
       this.globalQueues &&
@@ -288,7 +287,7 @@ export class TransferMenu extends React.Component {
     }
   };
 
-  refreshAgents = (e) => {
+  refreshAgents = e => {
     e.stopPropagation();
     if (this.props.selectAgents !== undefined) {
       if (
@@ -372,9 +371,7 @@ export class TransferMenu extends React.Component {
       display: 'inline-block',
       width: '100%',
       height: '2px',
-      borderBottom: '1px solid #e6e6e6',
-      position: 'relative',
-      bottom: '18px',
+      borderBottom: '1px solid rgba(230, 230, 230, 0.68)',
     },
     refresh: {
       display: 'inline-block',
@@ -464,8 +461,8 @@ export class TransferMenu extends React.Component {
     },
   };
 
-  filterTransferListItems = (transferListItems) =>
-    transferListItems.filter((transferListItem) => {
+  filterTransferListItems = transferListItems =>
+    transferListItems.filter(transferListItem => {
       if (this.props.transferSearchInput.trim() !== '') {
         return transferListItem.name
           .toUpperCase()
@@ -475,7 +472,7 @@ export class TransferMenu extends React.Component {
       }
     });
 
-  transferFromDialpad = (dialpadText) => {
+  transferFromDialpad = dialpadText => {
     this.props.transfer(
       this.props.setShowTransferMenu,
       dialpadText,
@@ -492,7 +489,7 @@ export class TransferMenu extends React.Component {
     let queues;
     if (this.props.hasAgentExperienceTransferMenuQueuesViewPermission) {
       this.globalQueues = this.props.selectVisibleQueues;
-      queues = this.filterTransferListItems(this.globalQueues).map((queue) => (
+      queues = this.filterTransferListItems(this.globalQueues).map(queue => (
         <div
           id={queue.id}
           key={queue.id}
@@ -531,11 +528,11 @@ export class TransferMenu extends React.Component {
     ) {
       if (this.props.selectAgents !== undefined) {
         agents = this.filterTransferListItems(this.props.selectAgents).map(
-          (agent) => {
+          agent => {
             if (
               this.props.warmTransfers &&
               this.props.warmTransfers.find(
-                (transfer) => transfer.id === agent.agentId
+                transfer => transfer.id === agent.agentId
               )
             ) {
               return (
@@ -623,7 +620,7 @@ export class TransferMenu extends React.Component {
             id="transferTabs"
             type="small"
             selectedIndex={this.props.transferTabIndex}
-            onSelect={(transferTabIndex) =>
+            onSelect={transferTabIndex =>
               this.props.setTransferTabIndex(transferTabIndex)
             }
           >
@@ -644,7 +641,7 @@ export class TransferMenu extends React.Component {
             <TextInput
               id="transferSearchInput"
               placeholder={messages.search}
-              cb={(transferSearchInput) =>
+              cb={transferSearchInput =>
                 this.props.setTransferSearchInput(transferSearchInput)
               }
               value={this.props.transferSearchInput}
@@ -694,6 +691,7 @@ export class TransferMenu extends React.Component {
                   {(this.props.queuesListVisibleState ||
                     this.props.transferSearchInput.trim() !== '') &&
                     queues}
+                  <div className="bigSpacer" style={this.styles.lineSpacer} />
                 </div>
               )}
               {!this.props.nonVoice &&
@@ -704,7 +702,10 @@ export class TransferMenu extends React.Component {
                   <div
                     id="agentsExpandCollapseBtn"
                     key="agentsListBtn"
-                    style={this.styles.expandedTransferHeading}
+                    style={[
+                      this.styles.expandedTransferHeading,
+                      { marginTop: '20px' },
+                    ]}
                     onClick={() =>
                       !this.props.nonVoice &&
                         this.props.updateAgentsListVisibleState()
@@ -738,6 +739,7 @@ export class TransferMenu extends React.Component {
                   {(this.props.agentsListVisibleState ||
                       this.props.transferSearchInput.trim() !== '') &&
                       agents}
+                  <div className="bigSpacer" style={this.styles.lineSpacer} />
                 </div>
               )}
               <TransferLists
@@ -865,8 +867,14 @@ const mapStateToProps = (state, props) => ({
   ),
   showAgentsTransferMenuPreference: selectAgentsPreferences(state, props),
   selectVisibleQueues: selectVisibleQueues(state, props),
-  selectVisibleNonVoiceTransferLists: selectVisibleNonVoiceTransferLists(state, props),
-  selectVisibleVoiceTransferLists: selectVisibleVoiceTransferLists(state, props),
+  selectVisibleNonVoiceTransferLists: selectVisibleNonVoiceTransferLists(
+    state,
+    props
+  ),
+  selectVisibleVoiceTransferLists: selectVisibleVoiceTransferLists(
+    state,
+    props
+  ),
   hasAgentExperienceTransferMenuQueuesViewPermission: selectHasAgentExperienceTransferMenuQueuesViewPermission(
     state,
     props
@@ -881,9 +889,9 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    clearQueuesTime: (queueData) => dispatch(clearQueuesTime(queueData)),
-    setUsers: (users) => dispatch(setUsers(users)),
-    setResourceCapactiy: (resourceCapacity) =>
+    clearQueuesTime: queueData => dispatch(clearQueuesTime(queueData)),
+    setUsers: users => dispatch(setUsers(users)),
+    setResourceCapactiy: resourceCapacity =>
       dispatch(setResourceCapactiy(resourceCapacity)),
     initializeQueuesAgentsVisibleState: () =>
       dispatch(initializeQueuesAgentsVisibleState()),
@@ -891,13 +899,13 @@ function mapDispatchToProps(dispatch) {
       dispatch(updateQueuesListVisibleState()),
     updateAgentsListVisibleState: () =>
       dispatch(updateAgentsListVisibleState()),
-    setTransferSearchInput: (transferSearchInput) =>
+    setTransferSearchInput: transferSearchInput =>
       dispatch(setTransferSearchInput(transferSearchInput)),
-    setTransferTabIndex: (transferTabIndex) =>
+    setTransferTabIndex: transferTabIndex =>
       dispatch(setTransferTabIndex(transferTabIndex)),
-    setFocusedTransferItemIndex: (focusedTransferItemIndex) =>
+    setFocusedTransferItemIndex: focusedTransferItemIndex =>
       dispatch(setFocusedTransferItemIndex(focusedTransferItemIndex)),
-    tearDownTransferMenuStates: (channelType) =>
+    tearDownTransferMenuStates: channelType =>
       dispatch(tearDownTransferMenuStates(channelType)),
     transfer: (
       setShowTransferMenu,
@@ -915,19 +923,19 @@ function mapDispatchToProps(dispatch) {
           transferExtension
         )
       ),
-    updateUserAssignedTransferLists: (channelType) =>
+    updateUserAssignedTransferLists: channelType =>
       dispatch(updateUserAssignedTransferLists(channelType)),
-    updateUserAssignedTransferListsVisibleState: (transferListId) =>
+    updateUserAssignedTransferListsVisibleState: transferListId =>
       dispatch(updateUserAssignedTransferListsVisibleState(transferListId)),
     updateVisibleStateOfAllUserAssignedTransferlists: () =>
       dispatch(updateVisibleStateOfAllUserAssignedTransferlists()),
-    updateInteractionTransferLists: (channelType) =>
+    updateInteractionTransferLists: channelType =>
       dispatch(updateInteractionTransferLists(channelType)),
-    updateInteractionTransferListsVisibleState: (transferListId) =>
+    updateInteractionTransferListsVisibleState: transferListId =>
       dispatch(updateInteractionTransferListsVisibleState(transferListId)),
     updateVisibleStateOfAllInteractionTransferlists: () =>
       dispatch(updateVisibleStateOfAllInteractionTransferlists()),
-    updateQueues: (refreshQueues) => dispatch(updateQueues(refreshQueues)),
+    updateQueues: refreshQueues => dispatch(updateQueues(refreshQueues)),
   };
 }
 

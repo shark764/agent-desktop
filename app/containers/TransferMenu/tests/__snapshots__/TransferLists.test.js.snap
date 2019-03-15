@@ -3,7 +3,17 @@
 exports[`TransferLists Component render renders TransferLists component when assigned transferlists and flow transferlists are in loading state 1`] = `
 <React.Fragment>
   <div>
-    <div>
+    <div
+      style={
+        Object {
+          "borderRadius": "3px",
+          "display": "flex",
+          "fontSize": "15px",
+          "fontWeight": "bold",
+          "marginBottom": "-2px",
+        }
+      }
+    >
       <FormattedMessage
         defaultMessage="Checking Interaction Transfer Lists Availability..."
         id="app.containers.TransferMenu.checkingInteractionTransferLists"
@@ -22,7 +32,17 @@ exports[`TransferLists Component render renders TransferLists component when ass
     />
   </div>
   <div>
-    <div>
+    <div
+      style={
+        Object {
+          "borderRadius": "3px",
+          "display": "flex",
+          "fontSize": "15px",
+          "fontWeight": "bold",
+          "marginBottom": "-2px",
+        }
+      }
+    >
       <FormattedMessage
         defaultMessage="Checking Assigned Transfer Lists Availability..."
         id="app.containers.TransferMenu.checkingUserAssignedTransferLists"
@@ -55,8 +75,8 @@ exports[`TransferLists Component render renders TransferLists component with use
     }
   >
     <div
-      id="interTransferListsCollapExpandBtn"
-      key="interactionTransferLists"
+      id="allInterAssigTransListsCollapExpandBtn"
+      key="allInterAssigTransListsCollapExpandBtn"
       onClick={[Function]}
       style={
         Array [
@@ -80,7 +100,7 @@ exports[`TransferLists Component render renders TransferLists component with use
             "marginTop": "12px",
           },
           Object {
-            "marginTop": "35px",
+            "marginTop": "20px",
           },
         ]
       }
@@ -93,48 +113,31 @@ exports[`TransferLists Component render renders TransferLists component with use
       <Icon
         name="caret"
         style={
-          Array [
-            Object {
-              "opacity": ".5",
-            },
-            Object {
-              "flexShrink": "0",
-              "fontWeight": "600",
-              "height": "8px",
-              "marginLeft": "auto",
-              "marginRight": "4px",
-              "marginTop": "4px",
-              "transform": "rotate(180deg)",
-              "width": "13.33px",
-            },
-          ]
+          Object {
+            "flexShrink": "0",
+            "fontWeight": "600",
+            "height": "8px",
+            "marginLeft": "auto",
+            "marginRight": "4px",
+            "marginTop": "4px",
+            "transform": "rotate(180deg)",
+            "width": "13.33px",
+          }
         }
       />
     </div>
     <div
-      key="interactionTransferList-mockNonVoiceTransferListId"
+      className="interAssigTransList-undefined"
+      key="interAssigTransList-undefined"
       style={
         Object {
-          "marginTop": "12px",
+          "marginTop": "25px",
         }
       }
     >
       <div
-        className="bigSpacer"
-        style={
-          Object {
-            "borderBottom": "1px solid #e6e6e6",
-            "bottom": "18px",
-            "display": "inline-block",
-            "height": "2px",
-            "position": "relative",
-            "width": "100%",
-          }
-        }
-      />
-      <div
-        id="interactionTransferList-0"
-        key="interactionTransferList-mockNonVoiceTransferListId-title"
+        id="interAssigTransListCollapExpndBtn-mockNonVoiceTransferListId"
+        key="interAssigTransListCollapExpndBtn-mockNonVoiceTransferListId"
         onClick={[Function]}
         style={
           Object {
@@ -159,7 +162,7 @@ exports[`TransferLists Component render renders TransferLists component with use
         title="mockNonTransferListName"
       >
         <span
-          className="tranferListName"
+          className="transferListName"
           style={
             Object {
               "flexBasis": "100%",
@@ -186,6 +189,17 @@ exports[`TransferLists Component render renders TransferLists component with use
           }
         />
       </div>
+      <div
+        className="bigSpacer"
+        style={
+          Object {
+            "borderBottom": "1px solid rgba(230, 230, 230, 0.68)",
+            "display": "inline-block",
+            "height": "2px",
+            "width": "100%",
+          }
+        }
+      />
     </div>
   </div>
   <div
@@ -196,8 +210,8 @@ exports[`TransferLists Component render renders TransferLists component with use
     }
   >
     <div
-      id="assignedTransferListsCollapExpandBtn"
-      key="assignedTransferLists"
+      id="allUserAssigTransListsCollapExpandBtn"
+      key="allUserAssigTransListsCollapExpandBtn"
       onClick={[Function]}
       style={
         Array [
@@ -221,7 +235,7 @@ exports[`TransferLists Component render renders TransferLists component with use
             "marginTop": "12px",
           },
           Object {
-            "marginTop": "35px",
+            "marginTop": "20px",
           },
         ]
       }
@@ -234,48 +248,31 @@ exports[`TransferLists Component render renders TransferLists component with use
       <Icon
         name="caret"
         style={
-          Array [
-            Object {
-              "opacity": ".5",
-            },
-            Object {
-              "flexShrink": "0",
-              "fontWeight": "600",
-              "height": "8px",
-              "marginLeft": "auto",
-              "marginRight": "4px",
-              "marginTop": "4px",
-              "transform": "rotate(180deg)",
-              "width": "13.33px",
-            },
-          ]
+          Object {
+            "flexShrink": "0",
+            "fontWeight": "600",
+            "height": "8px",
+            "marginLeft": "auto",
+            "marginRight": "4px",
+            "marginTop": "4px",
+            "transform": "rotate(180deg)",
+            "width": "13.33px",
+          }
         }
       />
     </div>
     <div
-      key="mockNonVoiceTransferListId"
+      className="userAssigTransList-undefined"
+      key="userAssigTransList-undefined"
       style={
         Object {
-          "marginTop": "12px",
+          "marginTop": "25px",
         }
       }
     >
       <div
-        className="bigSpacer"
-        style={
-          Object {
-            "borderBottom": "1px solid #e6e6e6",
-            "bottom": "18px",
-            "display": "inline-block",
-            "height": "2px",
-            "position": "relative",
-            "width": "100%",
-          }
-        }
-      />
-      <div
-        id="transferList-0"
-        key="mockNonVoiceTransferListId-title"
+        id="userAssigTransListCollapExpndBtn-mockNonVoiceTransferListId"
+        key="userAssigTransListCollapExpndBtn-mockNonVoiceTransferListId"
         onClick={[Function]}
         style={
           Object {
@@ -327,6 +324,17 @@ exports[`TransferLists Component render renders TransferLists component with use
           }
         />
       </div>
+      <div
+        className="bigSpacer"
+        style={
+          Object {
+            "borderBottom": "1px solid rgba(230, 230, 230, 0.68)",
+            "display": "inline-block",
+            "height": "2px",
+            "width": "100%",
+          }
+        }
+      />
     </div>
   </div>
 </React.Fragment>
@@ -336,14 +344,14 @@ exports[`TransferLists Component render renders TransferLists component with use
 <React.Fragment>
   <div>
     <div
-      id="interTransferListsCollapExpandBtn"
-      key="interactionTransferLists"
+      id="allInterAssigTransListsCollapExpandBtn"
+      key="allInterAssigTransListsCollapExpandBtn"
       onClick={[Function]}
       style={
         Array [
           undefined,
           Object {
-            "marginTop": "35px",
+            "marginTop": "20px",
           },
         ]
       }
@@ -355,87 +363,20 @@ exports[`TransferLists Component render renders TransferLists component with use
       />
       <Icon
         name="caret"
-        style={
-          Array [
-            Object {
-              "opacity": ".5",
-            },
-            undefined,
-          ]
-        }
       />
     </div>
     <div
-      key="interactionTransferList-mockVoiceTransferListId"
-    >
-      <div
-        className="bigSpacer"
-      />
-      <div
-        id="interactionTransferList-0"
-        key="interactionTransferList-mockVoiceTransferListId-title"
-        onClick={[Function]}
-        title="mockVoiceTransferListName"
-      >
-        <span
-          className="tranferListName"
-          style={
-            Object {
-              "flexBasis": "100%",
-              "overflow": "hidden",
-              "textOverflow": "ellipsis",
-              "whiteSpace": "nowrap",
-            }
-          }
-        >
-          mockVoiceTransferListName
-        </span>
-        <Icon
-          name="caret"
-        />
-      </div>
-    </div>
-  </div>
-  <div>
-    <div
-      id="assignedTransferListsCollapExpandBtn"
-      key="assignedTransferLists"
-      onClick={[Function]}
+      className="interAssigTransList-undefined"
+      key="interAssigTransList-undefined"
       style={
-        Array [
-          undefined,
-          Object {
-            "marginTop": "35px",
-          },
-        ]
+        Object {
+          "marginTop": "25px",
+        }
       }
     >
-      <FormattedMessage
-        defaultMessage="Transfer lists assigned to you"
-        id="app.containers.TransferMenu.assignedTransferLists"
-        values={Object {}}
-      />
-      <Icon
-        name="caret"
-        style={
-          Array [
-            Object {
-              "opacity": ".5",
-            },
-            undefined,
-          ]
-        }
-      />
-    </div>
-    <div
-      key="mockVoiceTransferListId"
-    >
       <div
-        className="bigSpacer"
-      />
-      <div
-        id="transferList-0"
-        key="mockVoiceTransferListId-title"
+        id="interAssigTransListCollapExpndBtn-mockVoiceTransferListId"
+        key="interAssigTransListCollapExpndBtn-mockVoiceTransferListId"
         onClick={[Function]}
         title="mockVoiceTransferListName"
       >
@@ -456,6 +397,69 @@ exports[`TransferLists Component render renders TransferLists component with use
           name="caret"
         />
       </div>
+      <div
+        className="bigSpacer"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      id="allUserAssigTransListsCollapExpandBtn"
+      key="allUserAssigTransListsCollapExpandBtn"
+      onClick={[Function]}
+      style={
+        Array [
+          undefined,
+          Object {
+            "marginTop": "20px",
+          },
+        ]
+      }
+    >
+      <FormattedMessage
+        defaultMessage="Transfer lists assigned to you"
+        id="app.containers.TransferMenu.assignedTransferLists"
+        values={Object {}}
+      />
+      <Icon
+        name="caret"
+      />
+    </div>
+    <div
+      className="userAssigTransList-undefined"
+      key="userAssigTransList-undefined"
+      style={
+        Object {
+          "marginTop": "25px",
+        }
+      }
+    >
+      <div
+        id="userAssigTransListCollapExpndBtn-mockVoiceTransferListId"
+        key="userAssigTransListCollapExpndBtn-mockVoiceTransferListId"
+        onClick={[Function]}
+        title="mockVoiceTransferListName"
+      >
+        <span
+          className="transferListName"
+          style={
+            Object {
+              "flexBasis": "100%",
+              "overflow": "hidden",
+              "textOverflow": "ellipsis",
+              "whiteSpace": "nowrap",
+            }
+          }
+        >
+          mockVoiceTransferListName
+        </span>
+        <Icon
+          name="caret"
+        />
+      </div>
+      <div
+        className="bigSpacer"
+      />
     </div>
   </div>
 </React.Fragment>

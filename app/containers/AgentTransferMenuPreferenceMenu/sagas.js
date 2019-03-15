@@ -1,3 +1,4 @@
+import { generateUUID } from 'utils/uuid';
 import { takeEvery, put, call, all, select } from 'redux-saga/effects';
 import { selectTenant, selectAgent } from 'containers/Login/selectors';
 import sdkCallToPromise from 'utils/sdkCallToPromise';
@@ -194,7 +195,7 @@ export function* updateQueues(action) {
       {},
       'AgentTransferMenuPreferenceMenu'
     );
-    activeQueues = defaultQueues.result.filter((queue) => queue.active);
+    activeQueues = defaultQueues.result.filter(queue => queue.active);
     yield put(setQueues(activeQueues));
   } catch (err) {
     // Error handled in error saga
@@ -213,22 +214,22 @@ export function* updateQueues(action) {
       yield put(
         toggleSelectedQueues(
           localStorageSelectedQueues.length > 0
-            ? localStorageSelectedQueues.split(',').map((queue) => queue)
+            ? localStorageSelectedQueues.split(',').map(queue => queue)
             : [],
           localStorageUnSelectedQueues.length > 0
-            ? localStorageUnSelectedQueues.split(',').map((queue) => queue)
+            ? localStorageUnSelectedQueues.split(',').map(queue => queue)
             : []
         )
       );
       // If there were queues added when user was logged out
       const queuesAddedWhenUserWasLoggedOut = activeQueues.filter(
-        (queue) =>
+        queue =>
           !localStorageSelectedQueues.includes(queue.id) &&
           !localStorageUnSelectedQueues.includes(queue.id)
       );
       if (queuesAddedWhenUserWasLoggedOut.length > 0) {
         yield all(
-          queuesAddedWhenUserWasLoggedOut.map((queue) =>
+          queuesAddedWhenUserWasLoggedOut.map(queue =>
             call(changeSelectedQueueState, {
               queue: queue.id,
             })
@@ -238,13 +239,11 @@ export function* updateQueues(action) {
     }
     // If not we set up all active queues as selected queues
     else {
-      yield put(
-        toggleSelectedQueues(activeQueues.map((queue) => queue.id), [])
-      );
+      yield put(toggleSelectedQueues(activeQueues.map(queue => queue.id), []));
       const localStorageKey = `selectedQueues.${tenant.id}.${agent.userId}`;
       window.localStorage.setItem(
         localStorageKey,
-        activeQueues.map((queue) => queue.id)
+        activeQueues.map(queue => queue.id)
       );
       const unSelectedQueuesLocalStorageKey = `unSelectedQueues.${tenant.id}.${
         agent.userId
@@ -253,14 +252,14 @@ export function* updateQueues(action) {
     }
   } else {
     const newAddedQueues = activeQueues.filter(
-      (queue) =>
-        !currentQueues.map((x) => x.id).includes(queue.id) &&
+      queue =>
+        !currentQueues.map(x => x.id).includes(queue.id) &&
         !selectedQueues.includes(queue.id) &&
         !unSelectedQueues.includes(queue.id)
     );
     if (newAddedQueues.length > 0) {
       yield all(
-        newAddedQueues.map((queue) =>
+        newAddedQueues.map(queue =>
           call(changeSelectedQueueState, {
             queue: queue.id,
           })
@@ -298,17 +297,44 @@ export function* updateUserAssignedTransferLists() {
       },
       'AgentTransferMenuPreferenceMenu'
     );
-    if (transferLists && transferLists.result.length > 0) {
+    if (
+      transferLists &&
+      transferLists.result &&
+      transferLists.result.length > 0
+    ) {
       const activeTransferLists = transferLists.result.filter(
-        (transferList) => transferList.active === true
+        transferList => transferList.active === true
       );
       // setting user-assigned transfer lists:
       userAssignedTransferlists = activeTransferLists.map(
-        ({ id, name, endpoints }) => ({
-          id,
-          name,
-          endpoints,
-        })
+        ({ id, name, endpoints }) => {
+          const updatedEndpoints = [];
+          endpoints.forEach(endpoint => {
+            // Creating hierarchy and endpoint UUID's to use them as keys while rendering - similar hierarchy's should have the same UUID
+            const existingHierarchy = updatedEndpoints.find(
+              val => endpoint.hierarchy === val.hierarchy
+            );
+            if (existingHierarchy === undefined) {
+              updatedEndpoints.push({
+                ...endpoint,
+                endPointRenderUUID: generateUUID(),
+                hierarchyRenderUUID: generateUUID(),
+              });
+            } else {
+              updatedEndpoints.push({
+                ...endpoint,
+                endPointRenderUUID: generateUUID(),
+                hierarchyRenderUUID: existingHierarchy.hierarchyRenderUUID,
+              });
+            }
+          });
+          return {
+            id,
+            name,
+            endpoints: updatedEndpoints,
+            transferListRenderUUID: generateUUID(),
+          };
+        }
       );
       yield put(setUserAssignedTransferLists(userAssignedTransferlists));
     } else {
@@ -335,24 +361,24 @@ export function* updateUserAssignedTransferLists() {
           localStorageSelectedTransferLists.length > 0
             ? localStorageSelectedTransferLists
               .split(',')
-              .map((transferList) => transferList)
+              .map(transferList => transferList)
             : [],
           localStorageUnSelectedTransferLists.length > 0
             ? localStorageUnSelectedTransferLists
               .split(',')
-              .map((transferList) => transferList)
+              .map(transferList => transferList)
             : []
         )
       );
       // If there were transfer lists added when user was logged out
       const transferListsAddedWhenUserWasLoggedOut = userAssignedTransferlists.filter(
-        (transferList) =>
+        transferList =>
           !localStorageSelectedTransferLists.includes(transferList.id) &&
           !localStorageUnSelectedTransferLists.includes(transferList.id)
       );
       if (transferListsAddedWhenUserWasLoggedOut.length > 0) {
         yield all(
-          transferListsAddedWhenUserWasLoggedOut.map((transferList) =>
+          transferListsAddedWhenUserWasLoggedOut.map(transferList =>
             call(changeSelectedTransferListState, {
               transferList: transferList.id,
             })
@@ -364,7 +390,7 @@ export function* updateUserAssignedTransferLists() {
     else {
       yield put(
         toggleSelectedTransferLists(
-          userAssignedTransferlists.map((transferList) => transferList.id),
+          userAssignedTransferlists.map(transferList => transferList.id),
           []
         )
       );
@@ -373,7 +399,7 @@ export function* updateUserAssignedTransferLists() {
       }`;
       window.localStorage.setItem(
         localStorageKey,
-        userAssignedTransferlists.map((transferList) => transferList.id)
+        userAssignedTransferlists.map(transferList => transferList.id)
       );
       const unSelectedTransferListsLocalStorageKey = `unSelectedTransferLists.${
         tenant.id
@@ -382,16 +408,16 @@ export function* updateUserAssignedTransferLists() {
     }
   } else {
     const newAddedTransferLists = userAssignedTransferlists.filter(
-      (transferList) =>
+      transferList =>
         !currentUserAssignedTransferlists
-          .map((userAssignedTransferList) => userAssignedTransferList.id)
+          .map(userAssignedTransferList => userAssignedTransferList.id)
           .includes(transferList.id) &&
         !selectedTransferLists.includes(transferList.id) &&
         !unSelectedTransferLists.includes(transferList.id)
     );
     if (newAddedTransferLists.length > 0) {
       yield all(
-        newAddedTransferLists.map((transferList) =>
+        newAddedTransferLists.map(transferList =>
           call(changeSelectedTransferListState, {
             transferList: transferList.id,
           })

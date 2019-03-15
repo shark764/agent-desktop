@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+### [1.37.8] (2019-03-08)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.8/index.html) 
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.8/index.html)  
+## Fixed
+* CXV1-17224 - Fix duplicate keys error in the TransferLists component 
+* CXV1-17328 - Transfer menu UI is broken for non-voice interactions when transfer items are too lengthy
+* CXV1-17330 - Do not show loading spinner when there are no interaction specific trasnfer lists 
+
 ## [1.37.7] (2019-03-14)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.7/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.7/index.html)  
@@ -27,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * CXV1-17284 - Skylight | Update skylight to work with latest cx-ui-component library
 
 ## [1.37.4] (2019-03-09)
-[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.4/index.html)  
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.4/index.html) 
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.4/index.html)  
 ## Fixed
 * Updated transfer lists styling 

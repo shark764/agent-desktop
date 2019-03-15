@@ -66,25 +66,27 @@ Object {
             "endpoints": Array [
               Object {
                 "contactType": "queue",
-              },
-              Object {
-                "contactType": "queue",
+                "endPointRenderUUID": "mockEndPointUUID1",
+                "hierarchy": "mockHierarchy1",
+                "hierarchyRenderUUID": "mockEndPointUUID1",
               },
             ],
             "id": "mockTransferListId1",
             "name": "mockTransferListName",
+            "transferListRenderUUID": "mockTransferListUUID1",
           },
           Object {
             "endpoints": Array [
               Object {
                 "contactType": "queue",
-              },
-              Object {
-                "contactType": "queue",
+                "endPointRenderUUID": "mockEndPointUUID4",
+                "hierarchy": "mockHierarchy4",
+                "hierarchyRenderUUID": "mockEndPointUUID4",
               },
             ],
             "id": "mockTransferListId2",
             "name": "mockTransferListName2",
+            "transferListRenderUUID": "mockTransferListUUID2",
           },
         ],
       },

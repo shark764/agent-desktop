@@ -44,7 +44,7 @@ const styles = {
   transferMenuPopOut: {
     background: 'white',
     position: 'absolute',
-    minWidth: '300px',
+    width: '300px',
     top: '37px',
     left: '-133px',
     zIndex: 3,

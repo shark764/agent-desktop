@@ -129,13 +129,20 @@ Object {
             "endpoints": Array [
               Object {
                 "contactType": "queue",
+                "endPointRenderUUID": "mock-uuid",
+                "hierarchy": "mockHierarchy5",
+                "hierarchyRenderUUID": "mock-uuid",
               },
               Object {
                 "contactType": "queue",
+                "endPointRenderUUID": "mock-uuid",
+                "hierarchy": "mockHierarchy5",
+                "hierarchyRenderUUID": "mock-uuid",
               },
             ],
             "id": "mockNonVoiceTransferListI",
             "name": "mockNonVoiceTransferListName",
+            "transferListRenderUUID": "mock-uuid",
           },
         ],
         "type": "app/AgentDesktop/SET_INTERACTION_TRANSFER_LISTS",
@@ -275,19 +282,32 @@ Object {
             "endpoints": Array [
               Object {
                 "contactType": "queue",
+                "endPointRenderUUID": "mock-uuid",
+                "hierarchy": "mockHierarchy1",
+                "hierarchyRenderUUID": "mock-uuid",
               },
               Object {
                 "contactType": "PSTN",
+                "endPointRenderUUID": "mock-uuid",
+                "hierarchy": "mockHierarchy1",
+                "hierarchyRenderUUID": "mock-uuid",
               },
               Object {
                 "conctactType": "SIP",
+                "endPointRenderUUID": "mock-uuid",
+                "hierarchy": "mockHierarchy2",
+                "hierarchyRenderUUID": "mock-uuid",
               },
               Object {
                 "contactType": "queue",
+                "endPointRenderUUID": "mock-uuid",
+                "hierarchy": "mockHierarchy2",
+                "hierarchyRenderUUID": "mock-uuid",
               },
             ],
             "id": "mockVocieTransferListId",
             "name": "mockVocieTransferLitName",
+            "transferListRenderUUID": "mock-uuid",
           },
         ],
         "type": "app/AgentDesktop/SET_INTERACTION_TRANSFER_LISTS",
@@ -347,6 +367,23 @@ Object {
         },
       },
     ],
+  },
+}
+`;
+
+exports[`callTransferListsFromFlowAndUpdateState when the current interaction flow doesnot have any transfer lists set voice interaction transfer lists to null by dispatching setInteractionTrasnferLists action 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockVoiceInteractionId",
+        "interactionTransferLists": undefined,
+        "type": "app/AgentDesktop/SET_INTERACTION_TRANSFER_LISTS",
+      },
+      "channel": null,
+    },
   },
 }
 `;
