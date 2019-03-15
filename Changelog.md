@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.9] (2019-03-12)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.9/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.9/index.html)  
+## Fixed
+* Validation for undefined transfer list when user has no transfer lists assigned
+
 ### [1.37.8] (2019-03-08)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.8/index.html) 
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.8/index.html)  

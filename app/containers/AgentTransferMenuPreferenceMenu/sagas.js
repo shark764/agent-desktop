@@ -387,7 +387,7 @@ export function* updateUserAssignedTransferLists() {
       }
     }
     // If not we set up all active transfer list as selected transfer list
-    else {
+    else if (userAssignedTransferlists) {
       yield put(
         toggleSelectedTransferLists(
           userAssignedTransferlists.map(transferList => transferList.id),
@@ -405,6 +405,8 @@ export function* updateUserAssignedTransferLists() {
         tenant.id
       }.${agent.userId}`;
       window.localStorage.setItem(unSelectedTransferListsLocalStorageKey, []);
+    } else {
+      yield put(setUserAssignedTransferLists(null));
     }
   } else {
     const newAddedTransferLists = userAssignedTransferlists.filter(
