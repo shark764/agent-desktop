@@ -4,7 +4,7 @@ exports[`<OutboundInteractionButton /> is disabled isEnabled prop type is false 
 <InjectIntl(Button)
   disabled={true}
   id="voiceNewInteractionButton"
-  onClick={[Function]}
+  onClick={false}
   style={
     Array [
       Object {
@@ -44,7 +44,7 @@ exports[`<OutboundInteractionButton /> is disabled when agent is not ready 1`] =
 <InjectIntl(Button)
   disabled={true}
   id="voiceNewInteractionButton"
-  onClick={[Function]}
+  onClick={false}
   style={
     Array [
       Object {

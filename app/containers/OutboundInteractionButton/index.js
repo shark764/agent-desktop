@@ -67,63 +67,51 @@ export class OutboundInteractionButton extends React.Component {
     }
   };
 
+  startEmail = () => {
+    this.props.startOutboundEmail(
+      this.props.endpoint,
+      undefined,
+      this.props.selectedInteractionIsCreatingNewInteraction,
+      this.props.getSelectedOutboundEmailIdentifier
+    );
+  };
+
+  startSms = () => {
+    this.props.startOutboundInteraction({
+      channelType: this.props.channelType,
+      customer: this.props.endpoint,
+      addedByNewInteractionPanel: this.props
+        .selectedInteractionIsCreatingNewInteraction,
+      popUri: this.props.uriObject,
+      selectedOutboundAni: this.props.getSelectedOutboundPhoneIdentifier,
+    });
+  };
+
   startCall = () => {
-    let outboundIdentifier;
-    let flowId;
-    if (this.isEnabled()) {
-      if (this.props.channelType === 'email') {
-        if (this.props.getSelectedOutboundEmailIdentifier) {
-          ({
-            outboundIdentifier,
-            flowId,
-          } = this.props.getSelectedOutboundEmailIdentifier);
-        }
-        this.props.startOutboundEmail(
-          this.props.endpoint,
-          undefined,
-          this.props.selectedInteractionIsCreatingNewInteraction,
-          this.props.getSelectedOutboundEmailIdentifier
-        );
-      } else {
-        let popUri;
-        if (this.props.uriObject !== undefined) {
-          ({ popUri } = this.props.uriObject);
-        }
-        if (this.props.getSelectedOutboundPhoneIdentifier) {
-          ({
-            outboundIdentifier,
-            flowId,
-          } = this.props.getSelectedOutboundPhoneIdentifier);
-        }
-
-        const outboundVoiceObject = { phoneNumber: this.props.endpoint };
-
-        if (popUri) {
-          outboundVoiceObject.popUri = popUri;
-        }
-        if (
-          outboundIdentifier &&
-          this.props.channelType === 'voice' &&
-          flowId
-        ) {
-          outboundVoiceObject.outboundAni = outboundIdentifier;
-          outboundVoiceObject.flowId = flowId;
-        }
-
-        this.props.startOutboundInteraction({
-          channelType: this.props.channelType,
-          customer: this.props.endpoint,
-          addedByNewInteractionPanel: this.props
-            .selectedInteractionIsCreatingNewInteraction,
-          popUri,
-          selectedOutboundAni: this.props.getSelectedOutboundPhoneIdentifier,
-        });
-
-        if (this.props.channelType === 'voice') {
-          CxEngage.interactions.voice.dial(outboundVoiceObject);
-        }
-      }
+    const { flowId, value, outboundIdentifierListId, outboundIdentifier } =
+      this.props.getSelectedOutboundPhoneIdentifier || {};
+    const outboundVoiceObject = { phoneNumber: this.props.endpoint };
+    if (this.props.uriObject !== undefined) {
+      outboundVoiceObject.popUri = this.props.uriObject;
     }
+
+    if (outboundIdentifier && flowId) {
+      outboundVoiceObject.outboundAni = outboundIdentifier;
+      outboundVoiceObject.flowId = flowId;
+      outboundVoiceObject.outboundIdentifierId = value;
+      outboundVoiceObject.outboundIdentifierListId = outboundIdentifierListId;
+    }
+
+    this.props.startOutboundInteraction({
+      channelType: this.props.channelType,
+      customer: this.props.endpoint,
+      addedByNewInteractionPanel: this.props
+        .selectedInteractionIsCreatingNewInteraction,
+      popUri: this.props.uriObject,
+      selectedOutboundAni: this.props.getSelectedOutboundPhoneIdentifier,
+    });
+
+    CxEngage.interactions.voice.dial(outboundVoiceObject);
   };
 
   render() {
@@ -131,7 +119,19 @@ export class OutboundInteractionButton extends React.Component {
       <Button
         id={`${this.props.channelType}NewInteractionButton`}
         type="secondary"
-        onClick={this.startCall}
+        onClick={
+          this.isEnabled() &&
+          (() => {
+            if (this.props.channelType === 'voice') {
+              return this.startCall;
+            } else if (this.props.channelType === 'sms') {
+              return this.startSms;
+            } else if (this.props.channelType === 'email') {
+              return this.startEmail;
+            }
+            return null;
+          })()
+        }
         title={this.getTitle()}
         style={[
           styles.startInteractionButton,

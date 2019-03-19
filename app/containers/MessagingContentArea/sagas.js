@@ -46,9 +46,16 @@ export function* initializeOutboundSmsForMessagingSaga(action) {
       selectedOutbondIdentifier &&
       selectedOutbondIdentifier.channelType === 'sms'
     ) {
-      const { outboundIdentifier, flowId } = selectedOutbondIdentifier;
+      const {
+        outboundIdentifier,
+        flowId,
+        value,
+        outboundIdentifierListId,
+      } = selectedOutbondIdentifier;
       smsOutboundInteractionDetails.outboundAni = outboundIdentifier;
       smsOutboundInteractionDetails.flowId = flowId;
+      smsOutboundInteractionDetails.outboundIdentifierId = value;
+      smsOutboundInteractionDetails.outboundIdentifierListId = outboundIdentifierListId;
     }
     const response = yield call(
       sdkCallToPromise,

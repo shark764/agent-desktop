@@ -158,9 +158,13 @@ export class ContactView extends React.Component {
           const {
             outboundIdentifier,
             flowId,
+            value,
+            outboundIdentifierListId,
           } = this.props.getSelectedOutboundPhoneIdentifier;
           outboundVoiceObject.outboundAni = outboundIdentifier;
           outboundVoiceObject.flowId = flowId;
+          outboundVoiceObject.outboundIdentifierId = value;
+          outboundVoiceObject.outboundIdentifierListId = outboundIdentifierListId;
         }
         CxEngage.interactions.voice.dial(outboundVoiceObject);
       }

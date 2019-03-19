@@ -19,6 +19,7 @@ Array [
     "flowId": "1a",
     "label": "test1",
     "outboundIdentifier": "+11",
+    "outboundIdentifierListId": "1",
     "value": "1b",
   },
   Object {
@@ -26,6 +27,7 @@ Array [
     "flowId": "1aa",
     "label": "test2",
     "outboundIdentifier": "+111",
+    "outboundIdentifierListId": "1",
     "value": "1bb",
   },
   Object {
@@ -33,6 +35,7 @@ Array [
     "flowId": "1aa",
     "label": "test3",
     "outboundIdentifier": "+111",
+    "outboundIdentifierListId": "1",
     "value": "1bb2",
   },
 ]

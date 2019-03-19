@@ -79,11 +79,15 @@ export class PhoneControlsInactive extends React.Component {
         const {
           outboundIdentifier,
           flowId,
+          value,
+          outboundIdentifierListId,
         } = this.props.getSelectedOutboundPhoneIdentifier;
         outboundVoiceObject = {
           phoneNumber: this.state.dialpadText,
           outboundAni: outboundIdentifier,
           flowId,
+          outboundIdentifierId: value,
+          outboundIdentifierListId,
         };
       }
       CxEngage.interactions.voice.dial(outboundVoiceObject);

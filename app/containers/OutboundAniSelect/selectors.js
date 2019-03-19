@@ -29,6 +29,7 @@ export const selectOutboundIdentifierListsForChannel = createSelector(
                   outboundIdentifier: value,
                   flowId,
                   channelType,
+                  outboundIdentifierListId: outboundIdentifierList.id,
                 });
               }
             }

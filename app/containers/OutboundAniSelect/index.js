@@ -64,7 +64,7 @@ export const actions = {
 OutboundAniSelect.propTypes = {
   selectOutboundIdentifierListsForChannel: PropTypes.array,
   fetchOutboundIdentifierLists: PropTypes.func.isRequired,
-  valueSelected: PropTypes.object.isRequired,
+  valueSelected: PropTypes.object,
   channelTypes: PropTypes.array,
   changeSelected: PropTypes.func.isRequired,
   styles: PropTypes.object,
