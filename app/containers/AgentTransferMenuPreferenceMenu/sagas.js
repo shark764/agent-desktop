@@ -354,7 +354,8 @@ export function* updateUserAssignedTransferLists() {
     // If there's stuff set on localStorage we set it up
     if (
       localStorageSelectedTransferLists &&
-      localStorageUnSelectedTransferLists
+      localStorageUnSelectedTransferLists &&
+      userAssignedTransferlists
     ) {
       yield put(
         toggleSelectedTransferLists(
@@ -408,7 +409,8 @@ export function* updateUserAssignedTransferLists() {
     } else {
       yield put(setUserAssignedTransferLists(null));
     }
-  } else {
+  } else if (userAssignedTransferlists) {
+    //  Checking if there are transfer lists so we can check if it is a new one
     const newAddedTransferLists = userAssignedTransferlists.filter(
       transferList =>
         !currentUserAssignedTransferlists
@@ -426,6 +428,9 @@ export function* updateUserAssignedTransferLists() {
         )
       );
     }
+  } else {
+    //  The user has no transfer lists
+    yield put(setUserAssignedTransferLists(null));
   }
 }
 
