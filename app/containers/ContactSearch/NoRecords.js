@@ -8,7 +8,6 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import Radium from 'radium';
 import { isPossibleNumber, isValidEmail } from 'utils/validator';
-import { isBeta } from 'utils/url';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
@@ -95,8 +94,7 @@ export class NoRecords extends React.Component {
         </div>
         {(this.getPhoneNumber() || this.getEmailAddress()) && (
           <div style={styles.outboundInteractionButtons}>
-            {(this.getPhoneNumber() || this.getEmailAddress()) &&
-              isBeta() && (
+            {(this.getPhoneNumber() || this.getEmailAddress()) && (
               <div style={styles.outboundAniDiv}>
                 <OutboundAniSelect
                   channelTypes={

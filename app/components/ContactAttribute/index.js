@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { connect } from 'react-redux';
 import { formatValue } from 'utils/contact';
-import { isBeta } from 'utils/url';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
@@ -88,15 +87,13 @@ function ContactAttribute(props) {
             },
           ]}
         >
-          {isBeta() && (
-            <div style={styles.outboundAniDiv}>
-              <OutboundAniSelect
-                channelTypes={['voice', 'sms']}
-                changeSelected={props.selectOutboundPhoneIdentification}
-                valueSelected={props.getSelectedOutboundPhoneIdentifier}
-              />
-            </div>
-          )}
+          <div style={styles.outboundAniDiv}>
+            <OutboundAniSelect
+              channelTypes={['voice', 'sms']}
+              changeSelected={props.selectOutboundPhoneIdentification}
+              valueSelected={props.getSelectedOutboundPhoneIdentifier}
+            />
+          </div>
         </MenuDialogLink>
       );
       break;
@@ -113,15 +110,13 @@ function ContactAttribute(props) {
             },
           ]}
         >
-          {isBeta() && (
-            <div style={styles.outboundAniDiv}>
-              <OutboundAniSelect
-                channelTypes={['email']}
-                changeSelected={props.selectOutboundEmailIdentification}
-                valueSelected={props.getSelectedOutboundEmailIdentifier}
-              />
-            </div>
-          )}
+          <div style={styles.outboundAniDiv}>
+            <OutboundAniSelect
+              channelTypes={['email']}
+              changeSelected={props.selectOutboundEmailIdentification}
+              valueSelected={props.getSelectedOutboundEmailIdentifier}
+            />
+          </div>
         </MenuDialogLink>
       );
       break;

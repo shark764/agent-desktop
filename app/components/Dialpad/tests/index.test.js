@@ -6,9 +6,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import { Dialpad } from '../index';
-jest.mock('utils/url', () => ({
-  isBeta: jest.fn(() => true),
-}));
 
 describe('<Dialpad />', () => {
   describe('when given required props', () => {

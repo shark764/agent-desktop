@@ -32,6 +32,30 @@ exports[`<NoRecords /> should render with outbound buttons when a valid phone nu
       }
     }
   >
+    <div
+      style={
+        Object {
+          "margin": "0px auto 10px",
+          "width": "282px",
+        }
+      }
+    >
+      <Connect(ErrorBoundaryComponent)
+        changeSelected={[Function]}
+        channelTypes={
+          Array [
+            "voice",
+            "sms",
+          ]
+        }
+        styles={
+          Object {
+            "margin": "0px auto 10px",
+            "width": "282px",
+          }
+        }
+      />
+    </div>
     <Connect(ErrorBoundaryComponent)
       phoneNumber="+15064701234"
     />

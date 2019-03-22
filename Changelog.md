@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.16] (2019-03-22)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.16/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.16/index.html)  
+## Changed
+* <no-ticket> - Beta flag removed for the Outbound ANI component
+
 ## [1.37.15] (2019-03-21)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.15/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.15/index.html)  

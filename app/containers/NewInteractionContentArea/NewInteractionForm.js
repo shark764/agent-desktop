@@ -15,7 +15,6 @@ import Radium from 'radium';
 import { FormattedMessage } from 'react-intl';
 
 import { isPossibleNumber, isValidNumber, isValidEmail } from 'utils/validator';
-import { isBeta } from 'utils/url';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
@@ -64,7 +63,7 @@ const styles = {
   },
 };
 
-const formatPhoneNumber = (input) => {
+const formatPhoneNumber = input => {
   const formattedInput = input.replace(/\D+/g, '');
   if (isValidNumber(`+${formattedInput}`)) {
     // Check if it's a valid number
@@ -109,27 +108,25 @@ export function NewInteractionForm(props) {
         autoFocus
       />
       <hr style={styles.hr} />
-      {isBeta() && (
-        <div style={styles.outboundAniDiv}>
-          <OutboundAniSelect
-            channelTypes={
-              isPossibleNumber(formatPhoneNumber(props.input))
-                ? ['voice', 'sms']
-                : ['email']
-            }
-            changeSelected={
-              isPossibleNumber(formatPhoneNumber(props.input))
-                ? props.selectOutboundPhoneIdentification
-                : props.selectOutboundEmailIdentification
-            }
-            valueSelected={
-              isPossibleNumber(formatPhoneNumber(props.input))
-                ? props.getSelectedOutboundPhoneIdentifier
-                : props.getSelectedOutboundEmailIdentifier
-            }
-          />
-        </div>
-      )}
+      <div style={styles.outboundAniDiv}>
+        <OutboundAniSelect
+          channelTypes={
+            isPossibleNumber(formatPhoneNumber(props.input))
+              ? ['voice', 'sms']
+              : ['email']
+          }
+          changeSelected={
+            isPossibleNumber(formatPhoneNumber(props.input))
+              ? props.selectOutboundPhoneIdentification
+              : props.selectOutboundEmailIdentification
+          }
+          valueSelected={
+            isPossibleNumber(formatPhoneNumber(props.input))
+              ? props.getSelectedOutboundPhoneIdentifier
+              : props.getSelectedOutboundEmailIdentifier
+          }
+        />
+      </div>
       {!isValidEmail(props.input) &&
         (!props.getSelectedOutboundPhoneIdentifier ||
           props.getSelectedOutboundPhoneIdentifier.channelType === 'voice' ||
@@ -167,11 +164,11 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setNewInteractionPanelFormInput: (input) =>
+    setNewInteractionPanelFormInput: input =>
       dispatch(setNewInteractionPanelFormInput(input)),
-    selectOutboundPhoneIdentification: (input) =>
+    selectOutboundPhoneIdentification: input =>
       dispatch(selectOutboundPhoneIdentification(input)),
-    selectOutboundEmailIdentification: (input) =>
+    selectOutboundEmailIdentification: input =>
       dispatch(selectOutboundEmailIdentification(input)),
     dispatch,
   };

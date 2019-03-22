@@ -13,8 +13,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Radium from 'radium';
 
-import { isBeta } from 'utils/url';
-
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import OutboundAniSelect from 'containers/OutboundAniSelect';
@@ -172,8 +170,7 @@ export function Dialpad(props, context) {
         ]}
       >
         <div id={props.id} style={{ zIndex: '4' }}>
-          {isBeta() &&
-            !props.interactionId &&
+          {!props.interactionId &&
             !props.transfer && (
             <div style={styles.outboundAniDiv}>
               <OutboundAniSelect
@@ -189,7 +186,7 @@ export function Dialpad(props, context) {
           <TextInput
             id={`${props.id}TextInput`}
             cb={props.setDialpadText}
-            onKeyDown={(event) => inputKeyDown(event)}
+            onKeyDown={event => inputKeyDown(event)}
             onEnter={props.onEnter}
             value={props.dialpadText}
             style={styles.dialpadText}

@@ -37,6 +37,22 @@ exports[`<NewInteractionForm /> should render correctly 1`] = `
       }
     }
   />
+  <div
+    style={
+      Object {
+        "margin": "0px auto 10px",
+        "width": "282px",
+      }
+    }
+  >
+    <Connect(ErrorBoundaryComponent)
+      channelTypes={
+        Array [
+          "email",
+        ]
+      }
+    />
+  </div>
   <Connect(ErrorBoundaryComponent)
     phoneNumber=""
   />
@@ -103,6 +119,22 @@ exports[`<NewInteractionForm /> when a uri object is passed in should render the
       }
     }
   />
+  <div
+    style={
+      Object {
+        "margin": "0px auto 10px",
+        "width": "282px",
+      }
+    }
+  >
+    <Connect(ErrorBoundaryComponent)
+      channelTypes={
+        Array [
+          "email",
+        ]
+      }
+    />
+  </div>
   <Connect(ErrorBoundaryComponent)
     phoneNumber=""
   />
