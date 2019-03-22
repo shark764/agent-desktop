@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.14] (2019-03-22)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.14/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.14/index.html)  
+## Fixed
+* CXV1-17537 - Agents/Tenant stats not able to be added in Skylight metrics
+
 ## [1.37.13] (2019-03-20)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.13/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.13/index.html)  

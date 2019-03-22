@@ -37,7 +37,7 @@ import {
 
 export function* getEnabledStat(stat) {
   const currentStats = yield select(selectEnabledStats);
-  return currentStats.find((item) => statEqualityCheck(item, stat));
+  return currentStats.find(item => statEqualityCheck(item, stat));
 }
 
 export function* disableStat(statId) {
@@ -95,7 +95,7 @@ export function* setStatSaved(stat, willSave) {
   const localStorageKey = `agentDesktopStats.${tenant.id}.${agent.userId}`;
   let savedStats =
     JSON.parse(window.localStorage.getItem(localStorageKey)) || [];
-  savedStats = savedStats.filter((item) => !statEqualityCheck(item, stat));
+  savedStats = savedStats.filter(item => !statEqualityCheck(item, stat));
   if (willSave) {
     savedStats.push(stat);
   }
@@ -145,14 +145,14 @@ export function* goInitializeStats() {
   const hasViewStatsPermission = yield select(selectHasViewStatsPermission);
   if (hasViewStatsPermission) {
     yield all(
-      welcomeStatsConfig.map((stat) => call(goActivateWelcomeStat, stat))
+      welcomeStatsConfig.map(stat => call(goActivateWelcomeStat, stat))
     );
     const tenant = yield select(selectTenant);
     const agent = yield select(selectAgent);
     const localStorageKey = `agentDesktopStats.${tenant.id}.${agent.userId}`;
     const savedStats =
       JSON.parse(window.localStorage.getItem(localStorageKey)) || [];
-    yield all(savedStats.map((stat) => put(activateToolbarStatAction(stat))));
+    yield all(savedStats.map(stat => put(activateToolbarStatAction(stat))));
   } else {
     console.log('agent does not have permission to view stats');
   }
@@ -197,9 +197,7 @@ export function* validateStat(stat) {
       yield call(updateQueues);
     }
     const queues = yield select(selectQueues);
-    queueExists = queues.filter((queue) => queue.id === stat.queue).length;
-  } else {
-    queueExists = false;
+    queueExists = queues.filter(queue => queue.id === stat.queue).length;
   }
   return aggregateExists && filterExists && queueExists;
 }
