@@ -196,14 +196,17 @@ export function* tearDownTransferMenuStates(action) {
   yield put(setTransferSearchInput(''));
   yield put(setTransferTabIndex(0));
   yield put(setShowTransferDialPad(false));
-  if (action.channelType === 'voice') {
+  if (action.channelType === 'voice' && voiceInteraction !== undefined) {
     yield put(
       setInteractionTransferListsLoadingState(
         voiceInteraction.interactionId,
         true
       )
     );
-  } else if (action.channelType === 'nonVoice') {
+  } else if (
+    action.channelType === 'nonVoice' &&
+    selectedInteraction !== undefined
+  ) {
     yield put(
       setInteractionTransferListsLoadingState(
         selectedInteraction.interactionId,

@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.15] (2019-03-21)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.15/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.15/index.html)  
+## Fixed
+* CXV1-17481 - Contextually assigned transfer lists are not displayed in the order determined by flow
+* CXV1-17494 - When a new transfer list from flow is broacasted mid interaction, the old one is not replaced
+* CXV1-17518 - Ending voice interactions with transfer menu throws critical error
+
 ## [1.37.14] (2019-03-22)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.14/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.14/index.html)  

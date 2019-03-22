@@ -451,7 +451,7 @@ export function* callTransferListsFromFlowAndUpdateState(action) {
           .map(({ id, name, endpoints }) => {
             const updatedEndpoints = [];
             endpoints.forEach(endpoint => {
-              // Creating hierarchy and endpoint UUID's to use them as keys while rendering - similar hierarchy's should have the same UUID
+              // Creating hierarchy and endpoint UUID's to use them as keys while rendering - similar hierarchy's should have the same hierarchyRenderUUID
               const existingHierarchy = updatedEndpoints.find(
                 val => endpoint.hierarchy === val.hierarchy
               );
@@ -478,13 +478,31 @@ export function* callTransferListsFromFlowAndUpdateState(action) {
           });
         // setting voice interaction transfer lists:
         if (action.channelType === 'voice') {
-          if (voiceFlowTransLists !== undefined) {
-            interactionTransferLists = activeTransferLists.filter(
-              ({ id, name }) =>
-                voiceFlowTransLists.find(
-                  ({ value }) =>
-                    value === id || value.toUpperCase() === name.toUpperCase()
-                )
+          if (
+            voiceFlowTransLists !== undefined &&
+            activeTransferLists.length > 0
+          ) {
+            // Based on the flow transfer lists id && name (voiceFlowTransLists=[{type: 'id', value: '123-456-abc} {type: 'name', value: 'transferlist1'}])
+            // we are finding transfer lists in the tenant with proper endpoints, transferlist-id & transfer-list name
+            interactionTransferLists = voiceFlowTransLists.reduce(
+              (accumulator, currentValue) => {
+                const activeVocieTransList = activeTransferLists.find(
+                  ({ id, name }) =>
+                    currentValue.value === id ||
+                    currentValue.value.toUpperCase() === name.toUpperCase()
+                );
+                // By mistake users may add duplicate transfer lists in a flow, which are getting filtered out below:
+                if (
+                  activeVocieTransList &&
+                  accumulator.findIndex(
+                    ({ id }) => id === activeVocieTransList.id
+                  ) === -1
+                ) {
+                  accumulator.push(activeVocieTransList);
+                }
+                return accumulator;
+              },
+              []
             );
             yield put(
               setInteractionTransferLists(
@@ -503,26 +521,45 @@ export function* callTransferListsFromFlowAndUpdateState(action) {
         }
         // setting non- voice interaction transfer lists:
         else if (action.channelType === 'nonVoice') {
-          if (nonVoiceFlowTransLists !== undefined) {
-            interactionTransferLists = activeTransferLists
-              .filter(({ id, name }) =>
-                nonVoiceFlowTransLists.find(
-                  ({ value }) =>
-                    value === id || value.toUpperCase() === name.toUpperCase()
-                )
-              )
-              .map(({ id, name, endpoints, transferListRenderUUID }) => {
-                const queueEndPoints = endpoints.filter(
-                  endpoint => endpoint.contactType === 'queue'
+          if (
+            nonVoiceFlowTransLists !== undefined &&
+            activeTransferLists.length > 0
+          ) {
+            // Based on the flow transfer lists id && name (nonVoiceFlowTransLists=[{type: 'id', value: '123-456-abc} {type: 'name', value: 'transferlist1'}])
+            // we are finding transfer lists in the tenant with proper endpoints, transferlist-id & transfer-list name
+            interactionTransferLists = nonVoiceFlowTransLists.reduce(
+              (accumulator, currentValue) => {
+                const activeNonVocieTransList = activeTransferLists.find(
+                  ({ id, name }) =>
+                    currentValue.value === id ||
+                    currentValue.value.toUpperCase() === name.toUpperCase()
                 );
-                return {
-                  id,
-                  name,
-                  endpoints: queueEndPoints,
-                  transferListRenderUUID,
-                };
-              })
-              .filter(({ endpoints }) => endpoints.length > 0);
+                // By mistake users may add duplicate transfer lists in a flow, which are getting filtered out below:
+                if (activeNonVocieTransList) {
+                  const queueEndPoints = activeNonVocieTransList.endpoints.filter(
+                    endpoint => endpoint.contactType === 'queue'
+                  );
+                  // PSTN and SIP contactType transfer-lists should be removed from non-voice transfer lists:
+                  // Only queueEndpoints should be included:
+                  if (
+                    queueEndPoints.length > 0 &&
+                    accumulator.findIndex(
+                      ({ id }) => id === activeNonVocieTransList.id
+                    ) === -1
+                  ) {
+                    accumulator.push({
+                      id: activeNonVocieTransList.id,
+                      name: activeNonVocieTransList.name,
+                      endpoints: queueEndPoints,
+                      transferListRenderUUID:
+                        activeNonVocieTransList.transferListRenderUUID,
+                    });
+                  }
+                }
+                return accumulator;
+              },
+              []
+            );
             yield put(
               setInteractionTransferLists(
                 selectedInteraction.interactionId,

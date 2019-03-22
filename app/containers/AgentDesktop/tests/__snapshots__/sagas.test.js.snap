@@ -499,7 +499,7 @@ Object {
     "PUT": Object {
       "action": Object {
         "interactionId": "mockVoiceInteractionId",
-        "interactionTransferLists": Array [],
+        "interactionTransferLists": undefined,
         "type": "app/AgentDesktop/SET_INTERACTION_TRANSFER_LISTS",
       },
       "channel": null,
