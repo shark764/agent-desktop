@@ -4,7 +4,12 @@ import { TransferLists } from '../TransferLists';
 import { TransferMenu } from '../index';
 
 describe('TransferLists Component render', () => {
-  const transferMenu = new TransferMenu();
+  const props = {
+    initializeTransferMenuAgentsPreference: jest.fn(
+      () => 'mock initializeTransferMenuAgentsPreference'
+    ),
+  };
+  const transferMenu = new TransferMenu(props);
   const voiceinteractionTransLists = [
     {
       id: 'mockVoiceTransferListId',

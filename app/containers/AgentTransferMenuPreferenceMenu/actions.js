@@ -94,6 +94,12 @@ export function initializeTransferMenuPreferences() {
   };
 }
 
+export function initializeTransferMenuAgentsPreference() {
+  return {
+    type: ACTIONS.INITIALIZE_TRANSFER_MENU_AGENTS_PREFERENCE,
+  };
+}
+
 export function toggleAgentsTransferMenuPreference() {
   return {
     type: ACTIONS.TOGGLE_AGENTS_TRANSFER_MENU_PREFERENCE,

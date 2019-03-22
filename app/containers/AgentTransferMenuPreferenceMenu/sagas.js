@@ -33,7 +33,7 @@ import {
   toggleAllSelectedQueuesTransferMenuPreferenceOnState,
 } from './actions';
 
-export function* goInitializeTransferMenuPreferences() {
+export function* goInitializeTransferMenuAgentsPreference() {
   const [tenant, agent] = yield all([
     select(selectTenant),
     select(selectAgent),
@@ -48,6 +48,10 @@ export function* goInitializeTransferMenuPreferences() {
   } else {
     yield put(setAgentsTransferMenuPreference(true));
   }
+}
+
+export function* goInitializeTransferMenuPreferences() {
+  yield call(goInitializeTransferMenuAgentsPreference);
 
   yield put(setPreferenceMenuQueuesLoading(true));
   yield put(setPreferenceMenuTransferListsLoading(true));
@@ -109,10 +113,11 @@ export function* changeAllQueuesState(action) {
   const selectedQueues = yield select(selectSelectedQueues);
   const localStorageKey = `selectedQueues.${tenant.id}.${agent.userId}`;
   window.localStorage.setItem(localStorageKey, selectedQueues);
+
+  const unSelectedQueues = yield select(selectUnSelectSelectedQueues);
   const unSelectedQueuesLocalStorageKey = `unSelectedQueues.${tenant.id}.${
     agent.userId
   }`;
-  const unSelectedQueues = yield select(selectUnSelectSelectedQueues);
   window.localStorage.setItem(
     unSelectedQueuesLocalStorageKey,
     unSelectedQueues
@@ -203,14 +208,29 @@ export function* updateQueues(action) {
 
   // User just logged in
   if (currentQueues.length === 0) {
-    const localStorageSelectedQueues = localStorage.getItem(
-      `selectedQueues.${tenant.id}.${agent.userId}`
-    );
-    const localStorageUnSelectedQueues = localStorage.getItem(
-      `unSelectedQueues.${tenant.id}.${agent.userId}`
-    );
-    // If there's stuff set on localStorage we set it up
-    if (localStorageSelectedQueues && localStorageUnSelectedQueues) {
+    const localStorageSelectedQueues =
+      localStorage.getItem(`selectedQueues.${tenant.id}.${agent.userId}`) || [];
+    const localStorageUnSelectedQueues =
+      localStorage.getItem(`unSelectedQueues.${tenant.id}.${agent.userId}`) ||
+      [];
+    // If there is not stuff set on localStorage we set it up all active queues as selected queues
+    if (
+      localStorageSelectedQueues.length === 0 &&
+      localStorageUnSelectedQueues.length === 0 // If both are empty, it is the first time setting the configuration to the user
+    ) {
+      yield put(toggleSelectedQueues(activeQueues.map(queue => queue.id), []));
+      const localStorageKey = `selectedQueues.${tenant.id}.${agent.userId}`;
+      window.localStorage.setItem(
+        localStorageKey,
+        activeQueues.map(queue => queue.id)
+      );
+      const unSelectedQueuesLocalStorageKey = `unSelectedQueues.${tenant.id}.${
+        agent.userId
+      }`;
+      window.localStorage.setItem(unSelectedQueuesLocalStorageKey, []);
+    }
+    // If there is stuff in localStorage, we set up
+    else {
       yield put(
         toggleSelectedQueues(
           localStorageSelectedQueues.length > 0
@@ -236,19 +256,6 @@ export function* updateQueues(action) {
           )
         );
       }
-    }
-    // If not we set up all active queues as selected queues
-    else {
-      yield put(toggleSelectedQueues(activeQueues.map(queue => queue.id), []));
-      const localStorageKey = `selectedQueues.${tenant.id}.${agent.userId}`;
-      window.localStorage.setItem(
-        localStorageKey,
-        activeQueues.map(queue => queue.id)
-      );
-      const unSelectedQueuesLocalStorageKey = `unSelectedQueues.${tenant.id}.${
-        agent.userId
-      }`;
-      window.localStorage.setItem(unSelectedQueuesLocalStorageKey, []);
     }
   } else {
     const newAddedQueues = activeQueues.filter(
@@ -345,18 +352,40 @@ export function* updateUserAssignedTransferLists() {
   }
   // User just logged in
   if (currentUserAssignedTransferlists === null) {
-    const localStorageSelectedTransferLists = localStorage.getItem(
-      `selectedTransferLists.${tenant.id}.${agent.userId}`
-    );
-    const localStorageUnSelectedTransferLists = localStorage.getItem(
-      `unSelectedTransferLists.${tenant.id}.${agent.userId}`
-    );
-    // If there's stuff set on localStorage we set it up
+    const localStorageSelectedTransferLists =
+      localStorage.getItem(
+        `selectedTransferLists.${tenant.id}.${agent.userId}`
+      ) || [];
+    const localStorageUnSelectedTransferLists =
+      localStorage.getItem(
+        `unSelectedTransferLists.${tenant.id}.${agent.userId}`
+      ) || [];
+    // If there is not stuff set on localStorage we set it up all active transfer list as selected transfer list
     if (
-      localStorageSelectedTransferLists &&
-      localStorageUnSelectedTransferLists &&
+      localStorageSelectedTransferLists.length === 0 &&
+      localStorageUnSelectedTransferLists.length === 0 &&
       userAssignedTransferlists
     ) {
+      yield put(
+        toggleSelectedTransferLists(
+          userAssignedTransferlists.map(transferList => transferList.id),
+          []
+        )
+      );
+      const selectedTransferListsLocalStorageKey = `selectedTransferLists.${
+        tenant.id
+      }.${agent.userId}`;
+      window.localStorage.setItem(
+        selectedTransferListsLocalStorageKey,
+        userAssignedTransferlists.map(transferList => transferList.id)
+      );
+      const unSelectedTransferListsLocalStorageKey = `unSelectedTransferLists.${
+        tenant.id
+      }.${agent.userId}`;
+      window.localStorage.setItem(unSelectedTransferListsLocalStorageKey, []);
+    }
+    // If there is stuff in localStorage, we set up
+    else if (userAssignedTransferlists) {
       yield put(
         toggleSelectedTransferLists(
           localStorageSelectedTransferLists.length > 0
@@ -386,26 +415,6 @@ export function* updateUserAssignedTransferLists() {
           )
         );
       }
-    }
-    // If not we set up all active transfer list as selected transfer list
-    else if (userAssignedTransferlists) {
-      yield put(
-        toggleSelectedTransferLists(
-          userAssignedTransferlists.map(transferList => transferList.id),
-          []
-        )
-      );
-      const localStorageKey = `selectedTransferLists.${tenant.id}.${
-        agent.userId
-      }`;
-      window.localStorage.setItem(
-        localStorageKey,
-        userAssignedTransferlists.map(transferList => transferList.id)
-      );
-      const unSelectedTransferListsLocalStorageKey = `unSelectedTransferLists.${
-        tenant.id
-      }.${agent.userId}`;
-      window.localStorage.setItem(unSelectedTransferListsLocalStorageKey, []);
     } else {
       yield put(setUserAssignedTransferLists(null));
     }
@@ -438,6 +447,10 @@ export default [
   takeEvery(
     ACTIONS.INITIALIZE_TRANSFER_MENU_PREFERENCES,
     goInitializeTransferMenuPreferences
+  ),
+  takeEvery(
+    ACTIONS.INITIALIZE_TRANSFER_MENU_AGENTS_PREFERENCE,
+    goInitializeTransferMenuAgentsPreference
   ),
   takeEvery(
     ACTIONS.TOGGLE_AGENTS_TRANSFER_MENU_PREFERENCE,

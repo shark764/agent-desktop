@@ -45,6 +45,7 @@ import {
   selectVisibleNonVoiceTransferLists,
   selectVisibleVoiceTransferLists,
 } from 'containers/AgentTransferMenuPreferenceMenu/selectors';
+import { initializeTransferMenuAgentsPreference } from 'containers/AgentTransferMenuPreferenceMenu/actions';
 import TransferDialPadButton from 'containers/TransferDialPadButton';
 import TransferDialPad from 'containers/TransferDialPad';
 import TransferLists from './TransferLists';
@@ -91,6 +92,7 @@ export class TransferMenu extends React.Component {
     super(props);
     this.mounted = false;
     this.queuesStatsIds = [];
+    props.initializeTransferMenuAgentsPreference();
   }
 
   hotKeys = e => {
@@ -944,6 +946,8 @@ function mapDispatchToProps(dispatch) {
     updateVisibleStateOfAllInteractionTransferlists: () =>
       dispatch(updateVisibleStateOfAllInteractionTransferlists()),
     updateQueues: refreshQueues => dispatch(updateQueues(refreshQueues)),
+    initializeTransferMenuAgentsPreference: () =>
+      dispatch(initializeTransferMenuAgentsPreference()),
   };
 }
 
@@ -999,6 +1003,7 @@ TransferMenu.propTypes = {
   hasAgentExperienceTransferMenuQueuesViewPermission: PropTypes.bool.isRequired,
   hasAgentExperienceTransferMenuAgentsViewPermission: PropTypes.bool.isRequired,
   queues: PropTypes.array.isRequired,
+  initializeTransferMenuAgentsPreference: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(

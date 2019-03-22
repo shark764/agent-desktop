@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.13] (2019-03-20)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.13/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.13/index.html)  
+## Fixed
+* CXV1-17489 Transfers - Agents still showing for user when "Agents" is disabled in the preference menu
+* CXV1-17490 Transfer Lists - Disabling All Queues and logging back in Enables all Queues
+
 ## [1.37.12] (2019-03-15)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.12/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.12/index.html)  
