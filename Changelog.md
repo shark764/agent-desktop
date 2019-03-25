@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.17] (2019-03-21)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.17/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.17/index.html)
+## Fixed
+* CXV1-17479 - Hold error causes critical skylight error
+
 ## [1.37.16] (2019-03-22)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.16/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.16/index.html)  

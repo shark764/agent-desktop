@@ -10,7 +10,6 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
@@ -24,31 +23,17 @@ import EmailContentArea from 'containers/EmailContentArea';
 import VoiceContentArea from 'containers/VoiceContentArea';
 import WorkItemContentArea from 'containers/WorkItemContentArea';
 import WelcomeStats from 'containers/WelcomeStats';
-import NotificationBanner from 'components/NotificationBanner';
 
-import {
-  setInteractionConfirmation,
-  toggleInteractionNotification,
-} from 'containers/AgentDesktop/actions';
+import { setInteractionConfirmation } from 'containers/AgentDesktop/actions';
 import { getSelectedInteraction } from 'containers/AgentDesktop/selectors';
 
-import { addErrorToHistory } from 'containers/Errors/actions';
-
-import {
-  selectMessageTemplates,
-  selectLastInteractionNotification,
-} from './selectors';
-import messages from './messages';
+import { selectMessageTemplates } from './selectors';
 
 const styles = {
   base: {
     backgroundColor: '#072931',
     color: '#4B4B4B',
     position: 'relative',
-  },
-  notificationBanner: {
-    flex: '1 0 content',
-    alignSelf: 'flex-start',
   },
 };
 
@@ -66,26 +51,6 @@ class MainContentArea extends React.Component {
     }
   };
 
-  dismissErrorInteraction = () => {
-    const {
-      errorDescriptionMessage,
-      ...lastInteractionNotification
-    } = this.props.lastInteractionNotification;
-    const {
-      notifications,
-      ...interactionInfo
-    } = this.props.selectedInteraction;
-    this.props.toggleInteractionNotification(
-      this.props.selectedInteraction.interactionId,
-      lastInteractionNotification
-    );
-
-    this.props.addErrorToHistory({
-      ...lastInteractionNotification,
-      ...interactionInfo,
-    });
-  };
-
   render() {
     const { selectedInteraction } = this.props;
     let content = null;
@@ -101,7 +66,7 @@ class MainContentArea extends React.Component {
         selectedInteraction.channelType === 'sms'
       ) {
         const messageTemplates = this.props.messageTemplates.filter(
-          (messageTemplate) =>
+          messageTemplate =>
             messageTemplate.channels.includes(selectedInteraction.channelType)
         );
         content = (
@@ -113,7 +78,7 @@ class MainContentArea extends React.Component {
         );
       } else if (selectedInteraction.channelType === 'email') {
         const emailTemplates = this.props.messageTemplates.filter(
-          (messageTemplate) =>
+          messageTemplate =>
             messageTemplate.channels.includes(selectedInteraction.channelType)
         );
         content = (
@@ -147,22 +112,6 @@ class MainContentArea extends React.Component {
 
     return (
       <div style={[styles.base, this.props.style]}>
-        {this.props.lastInteractionNotification && (
-          <NotificationBanner
-            key={messages.interactionError.id}
-            id="interaction-error-banner"
-            style={styles.notificationBanner}
-            titleMessage={messages.interactionError}
-            descriptionMessage={
-              this.props.lastInteractionNotification.errorDescriptionMessage
-            }
-            isError={this.props.lastInteractionNotification.isError}
-            dismiss={
-              this.props.lastInteractionNotification.isDismissable &&
-              this.dismissErrorInteraction
-            }
-          />
-        )}
         {content !== null ? content : <WelcomeStats agent={this.props.agent} />}
       </div>
     );
@@ -172,16 +121,12 @@ class MainContentArea extends React.Component {
 const mapStateToProps = (state, props) => ({
   selectedInteraction: getSelectedInteraction(state, props),
   messageTemplates: selectMessageTemplates(state, props),
-  lastInteractionNotification: selectLastInteractionNotification(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     setInteractionConfirmation: (interactionId, status) =>
       dispatch(setInteractionConfirmation(interactionId, status)),
-    toggleInteractionNotification: (interactionId, notification) =>
-      dispatch(toggleInteractionNotification(interactionId, notification)),
-    addErrorToHistory: (error) => dispatch(addErrorToHistory(error)),
     dispatch,
   };
 }
@@ -192,17 +137,11 @@ MainContentArea.propTypes = {
   style: PropTypes.array,
   agent: PropTypes.object.isRequired,
   setInteractionConfirmation: PropTypes.func.isRequired,
-  intl: intlShape.isRequired,
-  toggleInteractionNotification: PropTypes.func.isRequired,
-  lastInteractionNotification: PropTypes.object,
-  addErrorToHistory: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(
-  injectIntl(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(Radium(MainContentArea))
-  )
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Radium(MainContentArea))
 );

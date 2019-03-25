@@ -293,7 +293,7 @@ Object {
           "data": Object {
             "interactionId": "mock-interaction-id",
           },
-          "isDismissable": true,
+          "isDismissible": true,
           "isError": true,
           "level": "interaction-error",
           "uuid": "mock-uuid",

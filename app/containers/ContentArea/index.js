@@ -22,20 +22,26 @@ import Resizable from 'components/Resizable';
 import Checkbox from 'components/Checkbox';
 import IconSVG from 'components/IconSVG';
 import Button from 'components/Button';
+import NotificationBanner from 'components/NotificationBanner';
 
 import ContentAreaTop from 'containers/ContentAreaTop';
+
+import errorMessages from 'containers/Errors/messages';
 
 import {
   updateNote,
   setInteractionConfirmation,
   removeInteraction,
   toggleInteractionIsEnding,
+  toggleInteractionNotification,
 } from 'containers/AgentDesktop/actions';
 import {
   selectAgentDesktopMap,
   selectAwaitingDisposition,
   selectCrmModule,
 } from 'containers/AgentDesktop/selectors';
+
+import { addErrorToHistory } from 'containers/Errors/actions';
 
 import ButtonConfigPropTypes from './propTypes';
 import CrmRecordNotification from './CrmRecordNotification';
@@ -83,7 +89,7 @@ export class ContentArea extends React.Component {
     const height = this.contenAreaTopPx.clientHeight;
     const heightWin = window.innerHeight;
     const newMaxPx = Math.round(heightWin - height - 135);
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       maxPx: newMaxPx,
       notesPanelHeight:
         prevState.notesPanelHeight > newMaxPx
@@ -375,15 +381,19 @@ export class ContentArea extends React.Component {
         boxShadow: `0px 0px 10px rgb(35, 205, 244)`,
       },
     },
+    notificationBanner: {
+      flex: '1 0 content',
+      alignSelf: 'flex-start',
+    },
   };
 
-  setNotesPanelHeight = (newHeight) => {
+  setNotesPanelHeight = newHeight => {
     this.setState({
       notesPanelHeight: newHeight,
     });
   };
 
-  handleChange = (note) => {
+  handleChange = note => {
     this.setState(note);
     clearTimeout(this.persistNoteIntervalId);
     const currentNotesPanelHeight = this.state.notesPanelHeight;
@@ -398,7 +408,7 @@ export class ContentArea extends React.Component {
     );
   };
 
-  selectDisposition = (dispositionId) => {
+  selectDisposition = dispositionId => {
     this.setState({
       loadingDisposition: true,
       showDispositionsList: false,
@@ -417,7 +427,7 @@ export class ContentArea extends React.Component {
     );
   };
 
-  renderCategory = (category) => (
+  renderCategory = category => (
     <div
       key={`category-${category.name}`}
       id={`category-${category.name}`}
@@ -432,7 +442,7 @@ export class ContentArea extends React.Component {
     </div>
   );
 
-  renderDisposition = (disposition) => (
+  renderDisposition = disposition => (
     <div
       key={`disposition-${disposition.dispositionId}`}
       id={`disposition-${disposition.dispositionId}`}
@@ -493,7 +503,7 @@ export class ContentArea extends React.Component {
             id="notesTitleInput"
             placeholder={formatMessage(messages.notesTitlePlaceholder)}
             value={this.state.title}
-            onChange={(e) => this.handleChange({ title: e.target.value })}
+            onChange={e => this.handleChange({ title: e.target.value })}
             style={[
               this.styles.notesTitleInput,
               this.props.interaction.status === 'work-ended-pending-script' &&
@@ -510,7 +520,7 @@ export class ContentArea extends React.Component {
           id="notesTextarea"
           placeholder={formatMessage(messages.notesPlaceholder)}
           value={this.state.body}
-          onChange={(e) => this.handleChange({ body: e.target.value })}
+          onChange={e => this.handleChange({ body: e.target.value })}
           style={[
             this.styles.notesTextarea,
             this.props.interaction.status === 'work-ended-pending-script' &&
@@ -581,36 +591,34 @@ export class ContentArea extends React.Component {
         id="selected-dispositions"
         style={this.styles.dispositionChipsContainer}
       >
-        {this.props.interaction.dispositionDetails.selected.map(
-          (disposition) => (
-            <div
-              id={`selected-disposition-${disposition.dispositionId}`}
-              key={`selected-disposition-${disposition.dispositionId}`}
-              title={disposition.name}
-              style={this.styles.dispositionChip}
-            >
-              <span style={this.styles.dispositionLabelText}>
-                {disposition.name !== undefined
-                  ? disposition.name.toUpperCase()
-                  : ''}
-              </span>
-              <Button
-                id="delete-disposition-btn"
-                style={this.styles.closeButton}
-                clear
-                iconName="close"
-                type="secondary"
-                onClick={this.deselectDisposition}
-                disabled={this.state.loadingDisposition}
-              />
-            </div>
-          )
-        )}
+        {this.props.interaction.dispositionDetails.selected.map(disposition => (
+          <div
+            id={`selected-disposition-${disposition.dispositionId}`}
+            key={`selected-disposition-${disposition.dispositionId}`}
+            title={disposition.name}
+            style={this.styles.dispositionChip}
+          >
+            <span style={this.styles.dispositionLabelText}>
+              {disposition.name !== undefined
+                ? disposition.name.toUpperCase()
+                : ''}
+            </span>
+            <Button
+              id="delete-disposition-btn"
+              style={this.styles.closeButton}
+              clear
+              iconName="close"
+              type="secondary"
+              onClick={this.deselectDisposition}
+              disabled={this.state.loadingDisposition}
+            />
+          </div>
+        ))}
         {this.props.interaction.dispositionDetails.selected.length === 0 &&
           this.props.interaction.status !== 'work-ended-pending-script' && [
           <div
             onClick={() =>
-              this.setState((prevState) => ({
+              this.setState(prevState => ({
                 showDispositionsList: !prevState.showDispositionsList,
               }))
             }
@@ -650,7 +658,7 @@ export class ContentArea extends React.Component {
                 style={this.styles.dispositionList}
               >
                 {this.props.interaction.dispositionDetails.dispositions.map(
-                  (disposition) => {
+                  disposition => {
                     if (disposition.type === 'category') {
                       return this.renderCategory(disposition);
                     }
@@ -816,6 +824,18 @@ export class ContentArea extends React.Component {
     );
   };
 
+  dismissErrorInteraction = notification => {
+    const { notifications, ...interactionInfo } = this.props.interaction;
+    this.props.toggleInteractionNotification(
+      this.props.interaction.interactionId,
+      notification
+    );
+    this.props.addErrorToHistory({
+      ...notification,
+      ...interactionInfo,
+    });
+  };
+
   render() {
     let { buttonConfig } = this.props;
     if (
@@ -897,9 +917,66 @@ export class ContentArea extends React.Component {
                   interactionId={this.props.interaction.interactionId}
                 />
               )}
+              {this.props.interaction.notifications &&
+                this.props.interaction.notifications
+                  .filter(notification => !notification.messageKey)
+                  .map(notification => {
+                    let descriptionMessage;
+                    if (notification.isError) {
+                      const {
+                        code,
+                        interactionFatal,
+                        message,
+                        data,
+                      } = notification;
+                      if (interactionFatal) {
+                        descriptionMessage = this.props.intl.formatMessage(
+                          errorMessages.interactionFailed
+                        );
+                      } else if (code && errorMessages[code]) {
+                        // Specific error message is found for this code
+                        descriptionMessage = this.props.intl.formatMessage(
+                          errorMessages[code]
+                        );
+                      } else if (message) {
+                        // Fallback to message provided by error (for SDK errors)
+                        descriptionMessage = message;
+                      } else {
+                        // Use default for other errors (probably made by us)
+                        descriptionMessage = errorMessages.default;
+                      }
+                      if (code) {
+                        descriptionMessage += ` (Code: ${code})`;
+                      }
+                      if (data && data.errorDescription) {
+                        descriptionMessage += ` Error Description: ${
+                          data.errorDescription
+                        }`;
+                      }
+                    }
+                    return (
+                      <NotificationBanner
+                        key={notification.uuid}
+                        id={notification.uuid}
+                        titleMessage={
+                          notification.isError && errorMessages.interactionError
+                        }
+                        descriptionMessage={descriptionMessage}
+                        descriptionStyle={this.styles.notificationBanner}
+                        dismiss={
+                          notification.isDismissible &&
+                          this.dismissErrorInteraction
+                        }
+                        dismissArguments={
+                          notification.isDismissible ? [notification] : []
+                        }
+                        isError={notification.isError}
+                      />
+                    );
+                  })}
               <div
                 style={this.styles.header}
-                ref={(el) => {
+                ref={el => {
                   this.contenAreaTopPx = el;
                 }}
               >
@@ -973,6 +1050,8 @@ ContentArea.propTypes = {
   removeInteraction: PropTypes.func.isRequired,
   agent: PropTypes.object,
   toggleInteractionIsEnding: PropTypes.func.isRequired,
+  toggleInteractionNotification: PropTypes.func.isRequired,
+  addErrorToHistory: PropTypes.func.isRequired,
 };
 
 ContentArea.contextTypes = {
@@ -989,12 +1068,15 @@ function mapDispatchToProps(dispatch) {
   return {
     updateNote: (interactionId, note) =>
       dispatch(updateNote(interactionId, note)),
-    removeInteraction: (interactionId) =>
+    removeInteraction: interactionId =>
       dispatch(removeInteraction(interactionId)),
     setInteractionConfirmation: (interactionId, status) =>
       dispatch(setInteractionConfirmation(interactionId, status)),
     toggleInteractionIsEnding: (interactionId, isEnding) =>
       dispatch(toggleInteractionIsEnding(interactionId, isEnding)),
+    toggleInteractionNotification: (interactionId, notification) =>
+      dispatch(toggleInteractionNotification(interactionId, notification)),
+    addErrorToHistory: error => dispatch(addErrorToHistory(error)),
     dispatch,
   };
 }

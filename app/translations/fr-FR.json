@@ -230,7 +230,6 @@
   "app.containers.Login.welcome": "Se connecter à CxEngage",
   "app.containers.Login.welcomeNoProd": "Se connecter",
   "app.containers.Login.youMayClose": "Vous pouvez maintenant fermer cette fenêtre.",
-  "app.containers.MainContentArea.interactionError": "",
   "app.containers.MessagingContentArea.copied": "Copié",
   "app.containers.MessagingContentArea.copiedTranscript": "Transcription copiée dans le presse-papiers",
   "app.containers.MessagingContentArea.copy": "Copier",

@@ -81,7 +81,7 @@ Interaction {
         "callbackNumber": "mock-callback-number",
         "waitingFor": "0s",
       },
-      "isDimissable": true,
+      "isDimissible": true,
     },
   ],
   "query": Immutable.Map {},

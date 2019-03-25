@@ -1137,7 +1137,11 @@ function agentDesktopReducer(state = initialState, action) {
           notifications => {
             const notificationIndex = notifications.findIndex(
               notification =>
-                notification.get('uuid') === action.notification.uuid
+                notification.get('uuid') === action.notification.uuid ||
+                (!action.notification.uuid &&
+                  action.notification.messageKey &&
+                  action.notification.messageKey ===
+                    notification.get('messageKey'))
             );
             if (notificationIndex !== -1) {
               return notifications.delete(notificationIndex);
@@ -2296,36 +2300,6 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case ACTIONS.SHOW_LOGIN_POPUP: {
       return state.set('loginPopup', new Map(action.popupConfig));
-    }
-    case ACTIONS.ADD_INTERACTION_NOTIFICATION: {
-      if (interactionIndex !== -1) {
-        return state.updateIn(
-          ['interactions', interactionIndex, 'notifications'],
-          notifications =>
-            notifications.push(
-              new Map({
-                messageKey: action.messageKey,
-                isDimissable: false,
-              })
-            )
-        );
-      } else {
-        return state;
-      }
-    }
-    case ACTIONS.REMOVE_INTERACTION_NOTIFICATION: {
-      if (interactionIndex !== -1) {
-        return state.updateIn(
-          ['interactions', interactionIndex, 'notifications'],
-          notifications =>
-            notifications.filterNot(
-              notification =>
-                notification.get('messageKey') === action.messageKey
-            )
-        );
-      } else {
-        return state;
-      }
     }
     case ACTIONS.TOGGLE_TRANSCRIPT_COPIED: {
       if (interactionIndex !== -1) {

@@ -11,13 +11,8 @@ Array [
         "textAlign": "center",
       }
     }
-    dismiss={[Function]}
-    dismissArguments={
-      Array [
-        "mockInteractionId",
-        "callbackRequest",
-      ]
-    }
+    dismiss={null}
+    dismissArguments={Array []}
     id="callbackRequest"
     key="callbackRequest"
   />,

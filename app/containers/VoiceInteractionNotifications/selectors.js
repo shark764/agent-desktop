@@ -8,8 +8,8 @@ import { selectInteractionsList } from 'containers/AgentDesktop/selectors';
 
 export const selectActiveVoiceInteraction = createSelector(
   [selectInteractionsList],
-  (interactions) =>
-    interactions.find((interaction) => {
+  interactions =>
+    interactions.find(interaction => {
       const status = interaction.get('status');
       return (
         interaction.get('channelType') === 'voice' &&
@@ -22,7 +22,7 @@ export const selectActiveVoiceInteraction = createSelector(
 
 export const selectActiveVoiceInteractionId = createSelector(
   selectActiveVoiceInteraction,
-  (activeVoiceInteraction) => {
+  activeVoiceInteraction => {
     if (activeVoiceInteraction) {
       return activeVoiceInteraction.get('interactionId');
     }
@@ -32,9 +32,11 @@ export const selectActiveVoiceInteractionId = createSelector(
 
 export const selectActiveVoiceInteractionNotifications = createSelector(
   selectActiveVoiceInteraction,
-  (activeVoiceInteraction) => {
+  activeVoiceInteraction => {
     if (activeVoiceInteraction) {
-      return activeVoiceInteraction.get('notifications');
+      return activeVoiceInteraction
+        .get('notifications')
+        .filter(notification => notification.get('messageKey'));
     }
     return undefined;
   }

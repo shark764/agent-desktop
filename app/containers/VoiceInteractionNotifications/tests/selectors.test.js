@@ -109,7 +109,11 @@ describe('selectActiveVoiceInteractionNotifications', () => {
       agentDesktop: new Map({
         interactions: new List([
           new Map({
-            notifications: 'mock-notifications',
+            notifications: new List([
+              new Map({
+                messageKey: 'mock-key',
+              }),
+            ]),
             channelType: 'voice',
             status: 'work-initiated',
           }),
@@ -118,7 +122,11 @@ describe('selectActiveVoiceInteractionNotifications', () => {
     });
     it('returns the interaction id', () => {
       expect(selectActiveVoiceInteractionNotifications(mockedState)).toEqual(
-        'mock-notifications'
+        new List([
+          new Map({
+            messageKey: 'mock-key',
+          }),
+        ])
       );
     });
   });

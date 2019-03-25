@@ -988,22 +988,6 @@ export function resetForm(interactionId) {
   };
 }
 
-export function addInteractionNotification(interactionId, messageKey) {
-  return {
-    type: ACTIONS.ADD_INTERACTION_NOTIFICATION,
-    interactionId,
-    messageKey,
-  };
-}
-
-export function removeInteractionNotification(interactionId, messageKey) {
-  return {
-    type: ACTIONS.REMOVE_INTERACTION_NOTIFICATION,
-    interactionId,
-    messageKey,
-  };
-}
-
 export function toggleTranscriptCopied(interactionId, isCopied) {
   return {
     type: ACTIONS.TOGGLE_TRANSCRIPT_COPIED,

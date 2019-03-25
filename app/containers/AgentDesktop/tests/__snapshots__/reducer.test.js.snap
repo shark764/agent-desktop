@@ -301,12 +301,7 @@ Immutable.Map {
     },
     Immutable.Map {
       "interactionId": 2,
-      "notifications": Immutable.List [
-        Immutable.Map {
-          "messageKey": "b",
-          "isDimissable": false,
-        },
-      ],
+      "notifications": Immutable.List [],
     },
   ],
 }
@@ -855,6 +850,9 @@ Immutable.Map {
       "notifications": Immutable.List [
         Immutable.Map {
           "messageKey": "a",
+        },
+        Immutable.Map {
+          "messageKey": "b",
         },
       ],
     },

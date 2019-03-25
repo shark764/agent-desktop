@@ -8,7 +8,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 
-import { removeInteractionNotification } from 'containers/AgentDesktop/actions';
+import { toggleInteractionNotification } from 'containers/AgentDesktop/actions';
 import {
   selectActiveVoiceInteractionId,
   selectActiveVoiceInteractionNotifications,
@@ -26,13 +26,13 @@ export class VoiceInteractionNotifications extends React.PureComponent {
       this.props.notifications.size
     ) {
       const notifications = this.props.notifications.toJS();
-      return notifications.map((notification) => {
+      return notifications.map(notification => {
         const message = this.props.intl.formatMessage(
           messages[notification.messageKey],
           notification.messageValues
         );
-        const dismiss = notification.isDimissable
-          ? this.props.removeInteractionNotification
+        const dismiss = notification.isDimissible
+          ? this.props.toggleInteractionNotification
           : null;
         return (
           <NotificationBanner
@@ -44,7 +44,7 @@ export class VoiceInteractionNotifications extends React.PureComponent {
             }}
             dismiss={dismiss}
             dismissArguments={
-              dismiss ? [this.props.interactionId, notification.messageKey] : []
+              dismiss ? [this.props.interactionId, notification] : []
             }
           />
         );
@@ -65,7 +65,7 @@ VoiceInteractionNotifications.propTypes = {
       isDimissable: PropTypes.bool.isRequired,
     })
   ),
-  removeInteractionNotification: PropTypes.func.isRequired,
+  toggleInteractionNotification: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -75,12 +75,15 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    removeInteractionNotification: (interactionId, messageKey) =>
-      dispatch(removeInteractionNotification(interactionId, messageKey)),
+    toggleInteractionNotification: (interactionId, notification) =>
+      dispatch(toggleInteractionNotification(interactionId, notification)),
     dispatch,
   };
 }
 
 export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(VoiceInteractionNotifications)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(VoiceInteractionNotifications)
 );

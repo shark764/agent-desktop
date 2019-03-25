@@ -58,7 +58,7 @@ export function* goHandleSDKError(action) {
     const erroredInteraction = interactionsList
       .toJS()
       .find(
-        (interaction) => interaction.interactionId === error.data.interactionId
+        interaction => interaction.interactionId === error.data.interactionId
       );
     if (!erroredInteraction) {
       // If we do not have the interaction that errored, ignore
@@ -187,7 +187,7 @@ export function* goHandleSDKError(action) {
         uuid: generateUUID(),
         // Useful for when we don't want to be able to dismiss and error, an "critical-interaction-error"
         // so to speak, but for the time being we don't know which errors could qualify for that.
-        isDismissable: true,
+        isDismissible: true,
         isError: true,
       })
     );

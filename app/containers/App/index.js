@@ -146,8 +146,7 @@ import {
   startOutboundInteraction,
   loadCrmInteractionHistory,
   openNewInteractionPanel,
-  addInteractionNotification,
-  removeInteractionNotification,
+  toggleInteractionNotification,
   setQueuesTime,
   toggleIsOnline,
   outboundCustomerConnected,
@@ -472,17 +471,14 @@ export class App extends React.Component {
             if (response.interactionId && response.extraParams) {
               const extraParamsKeys = Object.keys(response.extraParams);
               extraParamsKeys.forEach(extraParam => {
-                if (response.extraParams[extraParam]) {
-                  this.props.addInteractionNotification(
-                    response.interactionId,
-                    extraParam
-                  );
-                } else {
-                  this.props.removeInteractionNotification(
-                    response.interactionId,
-                    extraParam
-                  );
-                }
+                this.props.toggleInteractionNotification(
+                  response.interactionId,
+                  {
+                    isDismissible: false,
+                    isError: false,
+                    messageKey: extraParam,
+                  }
+                );
               });
             } else {
               console.error(
@@ -1834,10 +1830,6 @@ function mapDispatchToProps(dispatch) {
       ),
     loadCrmInteractionHistory: (subType, id, page) =>
       dispatch(loadCrmInteractionHistory(subType, id, page)),
-    addInteractionNotification: (interactionId, messageKey) =>
-      dispatch(addInteractionNotification(interactionId, messageKey)),
-    removeInteractionNotification: (interactionId, messageKey) =>
-      dispatch(removeInteractionNotification(interactionId, messageKey)),
     setResourceCapactiy: resourceCapacity =>
       dispatch(setResourceCapactiy(resourceCapacity)),
     setUsers: users => dispatch(setUsers(users)),
@@ -1851,6 +1843,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(setTranferringInConference(interactionId, isColdTransferring)),
     toggleQueue: queue =>
       dispatch(toggleSelectedQueueTransferMenuPreference(queue)),
+    toggleInteractionNotification: (interactionId, notification) =>
+      dispatch(toggleInteractionNotification(interactionId, notification)),
     dispatch,
   };
 }
@@ -1924,8 +1918,6 @@ App.propTypes = {
   setCRMUnavailable: PropTypes.func.isRequired,
   addStatErrorId: PropTypes.func.isRequired,
   removeStatErrorId: PropTypes.func.isRequired,
-  addInteractionNotification: PropTypes.func.isRequired,
-  removeInteractionNotification: PropTypes.func.isRequired,
   login: PropTypes.object,
   agentDesktop: PropTypes.object,
   availableStats: PropTypes.object,
@@ -1956,6 +1948,7 @@ App.propTypes = {
   outboundCustomerConnected: PropTypes.func.isRequired,
   setTranferringInConference: PropTypes.func.isRequired,
   selectedInteractionId: PropTypes.string,
+  toggleInteractionNotification: PropTypes.func.isRequired,
 };
 
 App.contextTypes = {

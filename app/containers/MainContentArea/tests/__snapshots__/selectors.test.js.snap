@@ -1,15 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`selectLastInteractionNotification if there's an interaction notification and its an error, should return an object with the notification attributes plus the errorDescription attribute 1`] = `
-Object {
-  "errorDescriptionMessage": Object {
-    "defaultMessage": "An unknown error has occurred. Please try to finish your work as you may need to refresh the page to continue.",
-    "id": "app.containers.Errors.default",
-  },
-  "isError": true,
-}
-`;
-
 exports[`selectMessageTemplates should filter out active messaging templates from those assigned to agents 1`] = `
 Array [
   Object {
