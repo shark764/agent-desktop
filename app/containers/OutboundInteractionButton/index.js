@@ -82,7 +82,7 @@ export class OutboundInteractionButton extends React.Component {
       customer: this.props.endpoint,
       addedByNewInteractionPanel: this.props
         .selectedInteractionIsCreatingNewInteraction,
-      popUri: this.props.uriObject,
+      popUri: this.props.uriObject.popUri,
       selectedOutboundAni: this.props.getSelectedOutboundPhoneIdentifier,
     });
   };
@@ -92,7 +92,7 @@ export class OutboundInteractionButton extends React.Component {
       this.props.getSelectedOutboundPhoneIdentifier || {};
     const outboundVoiceObject = { phoneNumber: this.props.endpoint };
     if (this.props.uriObject !== undefined) {
-      outboundVoiceObject.popUri = this.props.uriObject;
+      outboundVoiceObject.popUri = this.props.uriObject.popUri;
     }
 
     if (outboundIdentifier && flowId) {
@@ -107,7 +107,7 @@ export class OutboundInteractionButton extends React.Component {
       customer: this.props.endpoint,
       addedByNewInteractionPanel: this.props
         .selectedInteractionIsCreatingNewInteraction,
-      popUri: this.props.uriObject,
+      popUri: this.props.uriObject.popUri,
       selectedOutboundAni: this.props.getSelectedOutboundPhoneIdentifier,
     });
 
@@ -173,7 +173,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    startOutboundInteraction: (outboundInteractionData) =>
+    startOutboundInteraction: outboundInteractionData =>
       dispatch(startOutboundInteraction(outboundInteractionData)),
     startOutboundEmail: (
       customer,

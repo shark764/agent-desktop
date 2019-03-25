@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.18] (2019-03-25)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.18/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.18/index.html)
+### Fixed
+* CXV1-17542 - Click to dial Outbound identifiers are not working on salesforce lightning contacts
+
 ## [1.37.17] (2019-03-21)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.17/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.17/index.html)
