@@ -82,7 +82,7 @@ export class OutboundInteractionButton extends React.Component {
       customer: this.props.endpoint,
       addedByNewInteractionPanel: this.props
         .selectedInteractionIsCreatingNewInteraction,
-      popUri: this.props.uriObject.popUri,
+      popUri: this.props.uriObject ? this.props.uriObject.popUri : undefined,
       selectedOutboundAni: this.props.getSelectedOutboundPhoneIdentifier,
     });
   };
@@ -107,7 +107,7 @@ export class OutboundInteractionButton extends React.Component {
       customer: this.props.endpoint,
       addedByNewInteractionPanel: this.props
         .selectedInteractionIsCreatingNewInteraction,
-      popUri: this.props.uriObject.popUri,
+      popUri: this.props.uriObject ? this.props.uriObject.popUri : undefined,
       selectedOutboundAni: this.props.getSelectedOutboundPhoneIdentifier,
     });
 
