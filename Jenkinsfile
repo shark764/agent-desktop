@@ -55,7 +55,7 @@ pipeline {
         stage ('Setup Docker') {
           steps {
             sh 'echo "Stage Description: Sets up docker image for use in the next stages"'
-            sh "mkdir build -p"
+            sh "rm -rf build; mkdir build -p"
             sh "docker build -t ${docker_tag} -f Dockerfile-build ."
             sh "docker run --rm -t -d --name=${docker_tag} ${docker_tag}"
           }
