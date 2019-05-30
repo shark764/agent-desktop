@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.19-1] (2019-05-29)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.19-1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.19-1/index.html)
+### Fixed
+* CXV1-17326 - Getting error 1003 when sending emails (sdk version bump)
+
 ## [1.37.19] (2019-03-25)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.19/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.19/index.html)
