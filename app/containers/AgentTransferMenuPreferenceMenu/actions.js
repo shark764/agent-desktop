@@ -40,11 +40,10 @@ export function toggleAllSelectedQueuesTransferMenuPreferenceOnState(queues) {
   };
 }
 
-export function toggleSelectedQueues(queues, unSelectedQueues) {
+export function toggleSelectedQueues(queuesVisibleStateMap) {
   return {
     type: ACTIONS.TOGGLE_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE,
-    queues,
-    unSelectedQueues,
+    queuesVisibleStateMap,
   };
 }
 
@@ -76,14 +75,10 @@ export function toggleAllSelectedTransferListsTransferMenuPreferenceOnState(
   };
 }
 
-export function toggleSelectedTransferLists(
-  transferLists,
-  unSelectedTransferLists
-) {
+export function toggleSelectedTransferLists(transferListsVisibleStateMap) {
   return {
     type: ACTIONS.TOGGLE_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE,
-    transferLists,
-    unSelectedTransferLists,
+    transferListsVisibleStateMap,
   };
 }
 

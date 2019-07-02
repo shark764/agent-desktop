@@ -2,15 +2,12 @@
 
 exports[`agentTransferMenuPreferenceMenuReducer SET_AGENTS_TRANSFER_MENU_PREFERENCE changes agentsTransferMenu preference 1`] = `
 Immutable.Map {
-  "agentsTransferMenu": false,
+  "agentsTransferMenu": true,
 }
 `;
 
 exports[`agentTransferMenuPreferenceMenuReducer SET_SHOW_QUEUES_TRANSFER_MENU_PREFERENCE opens queues dropdown 1`] = `
 Immutable.Map {
-  "transferMenuPreferences": Immutable.Map {
-    "showQueues": false,
-  },
   "showQueues": true,
 }
 `;
@@ -21,97 +18,102 @@ Immutable.Map {
 }
 `;
 
-exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE toggle all queues and return empty list 1`] = `
+exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE toggle all queues to selected 1`] = `
 Immutable.Map {
-  "selectedQueues": Immutable.List [
-    "123",
-    "abc",
-    "3d2",
-  ],
+  "queuesVisibleStateMap": Immutable.Map {
+    "123": false,
+    "abc": false,
+  },
 }
 `;
 
-exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE toggle all queues to selected list 1`] = `
+exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE toggle all queues to unselected 1`] = `
 Immutable.Map {
-  "selectedQueues": Immutable.List [],
+  "queuesVisibleStateMap": Immutable.Map {
+    "123": true,
+    "abc": true,
+  },
 }
 `;
 
-exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE toggle all transfer lists and unselect it 1`] = `
+exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE toggle all transfer lists to selected 1`] = `
 Immutable.Map {
-  "selectedTransferLists": Immutable.List [
-    "123",
-    "abc",
-    "3d2",
-  ],
+  "transferListsVisibleStateMap": Immutable.Map {
+    "123": false,
+    "abc": false,
+  },
 }
 `;
 
-exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE toggle all transfer lists to selected list 1`] = `
+exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE toggle all transfer lists to unselected 1`] = `
 Immutable.Map {
-  "selectedTransferLists": Immutable.List [
-    "123",
-  ],
+  "transferListsVisibleStateMap": Immutable.Map {
+    "123": true,
+    "abc": true,
+  },
 }
 `;
 
 exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_SELECTED_QUEUE_TRANSFER_MENU_PREFERENCE toggle one queue and unselect it 1`] = `
 Immutable.Map {
-  "selectedQueues": Immutable.List [
-    "123",
-    "abc",
-  ],
+  "queuesVisibleStateMap": Immutable.Map {
+    "123": true,
+    "abc": true,
+  },
 }
 `;
 
-exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_SELECTED_QUEUE_TRANSFER_MENU_PREFERENCE toggle one queue to selected list 1`] = `
+exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_SELECTED_QUEUE_TRANSFER_MENU_PREFERENCE toggle one queue to selected 1`] = `
 Immutable.Map {
-  "selectedQueues": Immutable.List [],
+  "queuesVisibleStateMap": Immutable.Map {
+    "123": false,
+    "abc": true,
+  },
 }
 `;
 
-exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE toggle all stored queues to selected list 1`] = `
+exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE toggle all stored queues to state 1`] = `
 Immutable.Map {
-  "selectedQueues": Immutable.List [
-    "123",
-  ],
-  "unSelectedQueues": Immutable.List [],
+  "queuesVisibleStateMap": Immutable.Map {
+    "123": true,
+    "abc": true,
+  },
 }
 `;
 
 exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_SELECTED_TRANSFER_LIST_TRANSFER_MENU_PREFERENCE toggle one transfer list and unselect it 1`] = `
 Immutable.Map {
-  "selectedTransferLists": Immutable.List [
-    "123",
-  ],
+  "transferListsVisibleStateMap": Immutable.Map {
+    "123": true,
+  },
 }
 `;
 
 exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_SELECTED_TRANSFER_LIST_TRANSFER_MENU_PREFERENCE toggle one transfer list to selected list 1`] = `
 Immutable.Map {
-  "selectedTransferLists": Immutable.List [],
+  "transferListsVisibleStateMap": Immutable.Map {
+    "123": false,
+  },
 }
 `;
 
-exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE toggle all stored transfer lists to selected list 1`] = `
+exports[`agentTransferMenuPreferenceMenuReducer TOGGLE_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE toggle all stored transfer lists to state 1`] = `
 Immutable.Map {
-  "selectedTransferLists": Immutable.List [
-    "321",
-  ],
-  "unSelectedTransferLists": Immutable.List [],
+  "transferListsVisibleStateMap": Immutable.Map {
+    "123": true,
+    "abc": false,
+  },
 }
 `;
 
 exports[`agentTransferMenuPreferenceMenuReducer returns the correct initial state 1`] = `
 Immutable.Map {
+  "agentsTransferMenu": true,
+  "showQueues": false,
+  "showTransferLists": false,
   "preferenceMenuQueuesLoading": false,
   "preferenceMenuTransferListsLoading": false,
-  "showTransferLists": false,
-  "selectedTransferLists": Immutable.List [],
-  "unSelectedTransferLists": Immutable.List [],
-  "unSelectedQueues": Immutable.List [],
-  "agentsTransferMenu": true,
-  "selectedQueues": Immutable.List [],
-  "showQueues": false,
+  "transferListsVisibleStateMap": Immutable.Map {},
+  "queuesVisibleStateMap": Immutable.Map {},
 }
 `;

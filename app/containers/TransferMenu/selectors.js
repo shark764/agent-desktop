@@ -6,15 +6,15 @@ import { selectBatchRequests } from 'containers/Toolbar/selectors';
 import { selectAgent } from 'containers/Login/selectors';
 import { getCurrentTenantPermissions } from 'containers/App/selectors';
 
-const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
+const selectAgentDesktopDomain = state => state.get('agentDesktop');
 
 const selectWarmTransfers = createSelector(
   selectAgentDesktopDomain,
-  (agentDesktop) => {
+  agentDesktop => {
     if (agentDesktop.interactions !== undefined) {
       return agentDesktop
         .get('interactions')
-        .find((interaction) => interaction.get('channelType') === 'voice')
+        .find(interaction => interaction.get('channelType') === 'voice')
         .get('warmTransfers')
         .toJS();
     } else {
@@ -23,27 +23,27 @@ const selectWarmTransfers = createSelector(
   }
 );
 
-const selectResourceCapacity = (state) =>
+const selectResourceCapacity = state =>
   state.getIn(['transferMenu', 'resourceCapacity']);
 
-const selectUsers = (state) => state.getIn(['transferMenu', 'users']);
+const selectUsers = state => state.getIn(['transferMenu', 'users']);
 
-const selectQueuesListVisibleState = (state) =>
+const selectQueuesListVisibleState = state =>
   state.getIn(['transferMenu', 'queuesListVisibleState']);
 
-const selectAgentsListVisibleState = (state) =>
+const selectAgentsListVisibleState = state =>
   state.getIn(['transferMenu', 'agentsListVisibleState']);
 
-const selectTransferSearchInput = (state) =>
+const selectTransferSearchInput = state =>
   state.getIn(['transferMenu', 'transferSearchInput']);
 
-const selectTransferTabIndex = (state) =>
+const selectTransferTabIndex = state =>
   state.getIn(['transferMenu', 'transferTabIndex']);
 
-const selectFocusedTransferItemIndex = (state) =>
+const selectFocusedTransferItemIndex = state =>
   state.getIn(['transferMenu', 'focusedTransferItemIndex']);
 
-const selectShowTransferDialpad = (state) =>
+const selectShowTransferDialpad = state =>
   state.getIn(['transferMenu', 'showTransferDialpad']);
 
 const selectAgents = createSelector(
@@ -56,16 +56,54 @@ const selectAgents = createSelector(
     if (batchRequestsSuccessful) {
       if (resourceCapacityList !== undefined) {
         agentList = resourceCapacityList.toJS();
+
+        /* Sometimes batch-request sends same agent Information multiple times because of a backend bug which breaks the TransferMenu UI */
+
+        // Finds out if there are any active duplicate agent sessions going on:
+        const isDuplicateAgentSessionExist = agentList.reduce(
+          (prev, current) => {
+            if (!prev) return undefined;
+            else {
+              return prev.agentId === current.agentId ? undefined : current;
+            }
+          }
+        );
+
+        // Gets the most recent logged in agent information (so that reportig stats will be displayed under the most recent agent session):
+        if (!isDuplicateAgentSessionExist) {
+          agentList = agentList.reduce(
+            (accumulator, currentValue, index, originalAgentsList) => {
+              const agentAlreadyExists = accumulator.find(
+                agentInfo => agentInfo.agentId === currentValue.agentId
+              );
+              if (!agentAlreadyExists) {
+                const mostRecentLoggedinDuplicateAgent = originalAgentsList
+                  .filter(v => v.agentId === currentValue.agentId)
+                  .reduce(
+                    (prev, current) =>
+                      new Date(prev.loginTimestamp).getTime() >
+                      new Date(current.loginTimestamp).getTime()
+                        ? prev
+                        : current
+                  );
+                accumulator.push(mostRecentLoggedinDuplicateAgent);
+              }
+              return accumulator;
+            },
+            []
+          );
+        }
+
         const agents = agentList
           .filter(
-            (agent) =>
+            agent =>
               agent.direction !== 'agent-initiated' &&
               agent.agentId !== activeAgent.userId
           )
-          .map((agent) => {
+          .map(agent => {
             let hasVoiceCapacity = false;
             if (agent.capacity) {
-              const voiceCapacity = agent.capacity.find((agentCapacity) =>
+              const voiceCapacity = agent.capacity.find(agentCapacity =>
                 Object.keys(agentCapacity.channels).includes('voice')
               );
               if (voiceCapacity) {
@@ -104,8 +142,8 @@ const selectAgents = createSelector(
       if (users !== undefined) {
         agentList = users.toJS();
         const agents = agentList
-          .filter((agent) => agent.id !== activeAgent.userId)
-          .map((agent) => ({
+          .filter(agent => agent.id !== activeAgent.userId)
+          .map(agent => ({
             agentId: agent.id,
             firstName: agent.firstName,
             lastName: agent.lastName,
@@ -135,7 +173,7 @@ const selectAgents = createSelector(
   }
 );
 
-const selectUserAssigTransListsMap = (state) =>
+const selectUserAssigTransListsMap = state =>
   state.getIn([
     'transferMenu',
     'userAssignedTransferLists',
@@ -144,7 +182,7 @@ const selectUserAssigTransListsMap = (state) =>
 
 const selectUserAssignedTransferLists = createSelector(
   selectUserAssigTransListsMap,
-  (allUserAssignedTranslists) => {
+  allUserAssignedTranslists => {
     if (allUserAssignedTranslists && allUserAssignedTranslists.size > 0) {
       return allUserAssignedTranslists.toJS();
     } else {
@@ -153,7 +191,7 @@ const selectUserAssignedTransferLists = createSelector(
   }
 );
 
-const selectUserAssigNonVoiceTransListsMap = (state) =>
+const selectUserAssigNonVoiceTransListsMap = state =>
   state.getIn([
     'transferMenu',
     'userAssignedTransferLists',
@@ -162,7 +200,7 @@ const selectUserAssigNonVoiceTransListsMap = (state) =>
 
 const selectUserAssigNonVoiceTransLists = createSelector(
   selectUserAssigNonVoiceTransListsMap,
-  (nonVoiceTransferLists) => {
+  nonVoiceTransferLists => {
     if (nonVoiceTransferLists && nonVoiceTransferLists.size > 0) {
       return nonVoiceTransferLists.toJS();
     } else {
@@ -171,21 +209,21 @@ const selectUserAssigNonVoiceTransLists = createSelector(
   }
 );
 
-const selectUserAssigVoiceTransListsLoadSt = (state) =>
+const selectUserAssigVoiceTransListsLoadSt = state =>
   state.getIn([
     'transferMenu',
     'userAssignedTransferLists',
     'voiceListsLoadingState',
   ]);
 
-const selectUserAssigNonVoiceTransListsLoadSt = (state) =>
+const selectUserAssigNonVoiceTransListsLoadSt = state =>
   state.getIn([
     'transferMenu',
     'userAssignedTransferLists',
     'nonVoiceListsLoadingState',
   ]);
 
-const selectUserAssigTransListsVisbileStateMap = (state) =>
+const selectUserAssigTransListsVisbileStateMap = state =>
   state.getIn([
     'transferMenu',
     'userAssignedTransferLists',
@@ -194,7 +232,7 @@ const selectUserAssigTransListsVisbileStateMap = (state) =>
 
 const selectUserAssigTransListsVisibleSt = createSelector(
   selectUserAssigTransListsVisbileStateMap,
-  (transferListsVisibleState) => {
+  transferListsVisibleState => {
     if (transferListsVisibleState) {
       return transferListsVisibleState.toJS();
     } else {
@@ -203,7 +241,7 @@ const selectUserAssigTransListsVisibleSt = createSelector(
   }
 );
 
-const selectUserAssigAllTransListsVisibleSt = (state) =>
+const selectUserAssigAllTransListsVisibleSt = state =>
   state.getIn([
     'transferMenu',
     'userAssignedTransferLists',
@@ -212,13 +250,13 @@ const selectUserAssigAllTransListsVisibleSt = (state) =>
 
 const selectHasAgentExperienceTransferMenuQueuesViewPermission = createSelector(
   [getCurrentTenantPermissions],
-  (tenantPermissions) =>
+  tenantPermissions =>
     tenantPermissions.includes('AGENT_EXPERIENCE_TRANSFER_MENU_QUEUES_VIEW')
 );
 
 const selectHasAgentExperienceTransferMenuAgentsViewPermission = createSelector(
   [getCurrentTenantPermissions],
-  (tenantPermissions) =>
+  tenantPermissions =>
     tenantPermissions.includes('AGENT_EXPERIENCE_TRANSFER_MENU_AGENTS_VIEW')
 );
 

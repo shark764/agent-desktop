@@ -16,8 +16,6 @@ import {
   selectShowTransferLists,
   selectSelectedQueues,
   selectSelectedTransferLists,
-  selectUnSelectSelectedQueues,
-  selectUnselectedTransferLists,
 } from './selectors';
 import {
   setAgentsTransferMenuPreference,
@@ -87,18 +85,13 @@ export function* changeSelectedQueueState(action) {
     select(selectAgent),
   ]);
   yield put(toggleSelectedQueueTransferMenuPreferenceOnState(action.queue));
-
-  const queuesLocalStorageKey = `selectedQueues.${tenant.id}.${agent.userId}`;
-  const selectedQueues = yield select(selectSelectedQueues);
-  window.localStorage.setItem(queuesLocalStorageKey, selectedQueues);
-
-  const unSelectedQueuesLocalStorageKey = `unSelectedQueues.${tenant.id}.${
+  const queuesLocalStorageKey = `queuesVisibleStateMap.${tenant.id}.${
     agent.userId
   }`;
-  const unSelectedQueues = yield select(selectUnSelectSelectedQueues);
+  const selectedQueues = yield select(selectSelectedQueues);
   window.localStorage.setItem(
-    unSelectedQueuesLocalStorageKey,
-    unSelectedQueues
+    queuesLocalStorageKey,
+    JSON.stringify(selectedQueues)
   );
 }
 
@@ -111,16 +104,12 @@ export function* changeAllQueuesState(action) {
     toggleAllSelectedQueuesTransferMenuPreferenceOnState(action.queues)
   );
   const selectedQueues = yield select(selectSelectedQueues);
-  const localStorageKey = `selectedQueues.${tenant.id}.${agent.userId}`;
-  window.localStorage.setItem(localStorageKey, selectedQueues);
-
-  const unSelectedQueues = yield select(selectUnSelectSelectedQueues);
-  const unSelectedQueuesLocalStorageKey = `unSelectedQueues.${tenant.id}.${
+  const queuesLocalStorageKey = `queuesVisibleStateMap.${tenant.id}.${
     agent.userId
   }`;
   window.localStorage.setItem(
-    unSelectedQueuesLocalStorageKey,
-    unSelectedQueues
+    queuesLocalStorageKey,
+    JSON.stringify(selectedQueues)
   );
 }
 
@@ -139,18 +128,13 @@ export function* changeSelectedTransferListState(action) {
   yield put(
     toggleSelectedTransferListTransferMenuPreferenceOnState(action.transferList)
   );
-  const transferListsLocalStorageKey = `selectedTransferLists.${tenant.id}.${
-    agent.userId
-  }`;
-  const transferLists = yield select(selectSelectedTransferLists);
-  window.localStorage.setItem(transferListsLocalStorageKey, transferLists);
-  const unSelectedTransferListsLocalStorageKey = `unSelectedTransferLists.${
+  const transferListsLocalStorageKey = `transferListsVisibleStateMap.${
     tenant.id
   }.${agent.userId}`;
-  const unSelectedTransferLists = yield select(selectUnselectedTransferLists);
+  const transferLists = yield select(selectSelectedTransferLists);
   window.localStorage.setItem(
-    unSelectedTransferListsLocalStorageKey,
-    unSelectedTransferLists
+    transferListsLocalStorageKey,
+    JSON.stringify(transferLists)
   );
 }
 
@@ -164,32 +148,22 @@ export function* changeAllTransferListState(action) {
       action.transferLists
     )
   );
-  const localStorageKey = `selectedTransferLists.${tenant.id}.${agent.userId}`;
-  const transferLists = yield select(selectSelectedTransferLists);
-  window.localStorage.setItem(localStorageKey, transferLists);
-  const unSelectedTransferListsLocalStorageKey = `unSelectedTransferLists.${
+  const transferListsLocalStorageKey = `transferListsVisibleStateMap.${
     tenant.id
   }.${agent.userId}`;
-  const unSelectedTransferLists = yield select(selectUnselectedTransferLists);
+  const transferLists = yield select(selectSelectedTransferLists);
   window.localStorage.setItem(
-    unSelectedTransferListsLocalStorageKey,
-    unSelectedTransferLists
+    transferListsLocalStorageKey,
+    JSON.stringify(transferLists)
   );
 }
 
 export function* updateQueues(action) {
-  const [
-    tenant,
-    agent,
-    currentQueues,
-    selectedQueues,
-    unSelectedQueues,
-  ] = yield all([
+  const [tenant, agent, currentQueues, selectedQueues] = yield all([
     select(selectTenant),
     select(selectAgent),
     select(selectQueues),
     select(selectSelectedQueues),
-    select(selectUnSelectSelectedQueues),
   ]);
   let defaultQueues;
   let activeQueues;
@@ -205,47 +179,79 @@ export function* updateQueues(action) {
   } catch (err) {
     // Error handled in error saga
   }
-
   // User just logged in
   if (currentQueues.length === 0) {
     const localStorageSelectedQueues =
-      localStorage.getItem(`selectedQueues.${tenant.id}.${agent.userId}`) || [];
-    const localStorageUnSelectedQueues =
-      localStorage.getItem(`unSelectedQueues.${tenant.id}.${agent.userId}`) ||
-      [];
+      JSON.parse(
+        localStorage.getItem(
+          `queuesVisibleStateMap.${tenant.id}.${agent.userId}`
+        )
+      ) || [];
     // If there is not stuff set on localStorage we set it up all active queues as selected queues
     if (
-      localStorageSelectedQueues.length === 0 &&
-      localStorageUnSelectedQueues.length === 0 // If both are empty, it is the first time setting the configuration to the user
+      Object.keys(localStorageSelectedQueues).length === 0 // If empty, it is the first time setting the configuration to the user
     ) {
-      yield put(toggleSelectedQueues(activeQueues.map(queue => queue.id), []));
-      const localStorageKey = `selectedQueues.${tenant.id}.${agent.userId}`;
-      window.localStorage.setItem(
-        localStorageKey,
-        activeQueues.map(queue => queue.id)
-      );
-      const unSelectedQueuesLocalStorageKey = `unSelectedQueues.${tenant.id}.${
+      // Making the new rewritten Tranfer Menu Preference Menu backward compatible
+      // First we check for the older keys where the selected queues values were hold on local storage
+      const oldSelectedQueues = localStorage.getItem(
+        `selectedQueues.${tenant.id}.${agent.userId}`
+      )
+        ? localStorage
+          .getItem(`selectedQueues.${tenant.id}.${agent.userId}`)
+          .split(',')
+        : [];
+      const oldUnselectedQueues = localStorage.getItem(
+        `unSelectedQueues.${tenant.id}.${agent.userId}`
+      )
+        ? localStorage
+          .getItem(`unSelectedQueues.${tenant.id}.${agent.userId}`)
+          .split(',')
+        : [];
+
+      // Getting rid of the old keys on localStorage
+      localStorage.removeItem(`selectedQueues.${tenant.id}.${agent.userId}`);
+      localStorage.removeItem(`unSelectedQueues.${tenant.id}.${agent.userId}`);
+
+      // Merging the values received from the API with the config we already have stored on the old keys on LocalStorage and then removing any duplicate that could've been caused
+      const queuesVisibleStateMap = activeQueues
+        .concat(
+          oldSelectedQueues.map(id => ({ id })),
+          oldUnselectedQueues.map(id => ({ id }))
+        )
+        .filter(
+          (item, i, res) => res.findIndex(({ id }) => item.id === id) === i
+        )
+        .reduce((result, { id }) => {
+          const transferListState = {
+            [id]:
+              (oldSelectedQueues.includes(id) &&
+                !oldUnselectedQueues.includes(id)) ||
+              (!oldSelectedQueues.includes(id) &&
+                !oldUnselectedQueues.includes(id)),
+          };
+          return { ...result, ...transferListState };
+        }, {});
+      yield put(toggleSelectedQueues(queuesVisibleStateMap));
+      const queuesLocalStorageKey = `queuesVisibleStateMap.${tenant.id}.${
         agent.userId
       }`;
-      window.localStorage.setItem(unSelectedQueuesLocalStorageKey, []);
+      window.localStorage.setItem(
+        queuesLocalStorageKey,
+        JSON.stringify(queuesVisibleStateMap)
+      );
     }
     // If there is stuff in localStorage, we set up
     else {
       yield put(
         toggleSelectedQueues(
-          localStorageSelectedQueues.length > 0
-            ? localStorageSelectedQueues.split(',').map(queue => queue)
-            : [],
-          localStorageUnSelectedQueues.length > 0
-            ? localStorageUnSelectedQueues.split(',').map(queue => queue)
+          Object.keys(localStorageSelectedQueues).length > 0
+            ? localStorageSelectedQueues
             : []
         )
       );
       // If there were queues added when user was logged out
       const queuesAddedWhenUserWasLoggedOut = activeQueues.filter(
-        queue =>
-          !localStorageSelectedQueues.includes(queue.id) &&
-          !localStorageUnSelectedQueues.includes(queue.id)
+        queue => !Object.keys(localStorageSelectedQueues).includes(queue.id)
       );
       if (queuesAddedWhenUserWasLoggedOut.length > 0) {
         yield all(
@@ -261,8 +267,7 @@ export function* updateQueues(action) {
     const newAddedQueues = activeQueues.filter(
       queue =>
         !currentQueues.map(x => x.id).includes(queue.id) &&
-        !selectedQueues.includes(queue.id) &&
-        !unSelectedQueues.includes(queue.id)
+        !Object.keys(selectedQueues).includes(queue.id)
     );
     if (newAddedQueues.length > 0) {
       yield all(
@@ -285,13 +290,11 @@ export function* updateUserAssignedTransferLists() {
     tenant,
     currentUserAssignedTransferlists,
     selectedTransferLists,
-    unSelectedTransferLists,
   ] = yield all([
     select(selectAgent),
     select(selectTenant),
     select(selectUserAssignedTransferLists),
     select(selectSelectedTransferLists),
-    select(selectUnselectedTransferLists),
   ]);
   let transferLists;
   let userAssignedTransferlists;
@@ -353,58 +356,86 @@ export function* updateUserAssignedTransferLists() {
   // User just logged in
   if (currentUserAssignedTransferlists === null) {
     const localStorageSelectedTransferLists =
-      localStorage.getItem(
-        `selectedTransferLists.${tenant.id}.${agent.userId}`
+      JSON.parse(
+        localStorage.getItem(
+          `transferListsVisibleStateMap.${tenant.id}.${agent.userId}`
+        )
       ) || [];
-    const localStorageUnSelectedTransferLists =
-      localStorage.getItem(
-        `unSelectedTransferLists.${tenant.id}.${agent.userId}`
-      ) || [];
+
     // If there is not stuff set on localStorage we set it up all active transfer list as selected transfer list
     if (
-      localStorageSelectedTransferLists.length === 0 &&
-      localStorageUnSelectedTransferLists.length === 0 &&
+      Object.keys(localStorageSelectedTransferLists).length === 0 &&
       userAssignedTransferlists
     ) {
-      yield put(
-        toggleSelectedTransferLists(
-          userAssignedTransferlists.map(transferList => transferList.id),
-          []
-        )
+      // Making the new rewritten Tranfer Menu Preference Menu backward compatible
+      // First we check for the older keys where the selected transfer lists values were hold on local storage
+      const oldSelectedTransferLists = localStorage.getItem(
+        `selectedTransferLists.${tenant.id}.${agent.userId}`
+      )
+        ? localStorage
+          .getItem(`selectedTransferLists.${tenant.id}.${agent.userId}`)
+          .split(',')
+        : [];
+      const oldUnselectedTransferLists = localStorage.getItem(
+        `unSelectedTransferLists.${tenant.id}.${agent.userId}`
+      )
+        ? localStorage
+          .getItem(`unSelectedTransferLists.${tenant.id}.${agent.userId}`)
+          .split(',')
+        : [];
+
+      // Getting rid of the old keys on localStorage
+      localStorage.removeItem(
+        `selectedTransferLists.${tenant.id}.${agent.userId}`
       );
-      const selectedTransferListsLocalStorageKey = `selectedTransferLists.${
+      localStorage.removeItem(
+        `unSelectedTransferLists.${tenant.id}.${agent.userId}`
+      );
+
+      // Merging the values received from the API with the config we already have stored on the old keys on LocalStorage and then removing any duplicate that could've been caused
+      const transferListsVisibleStateMap = userAssignedTransferlists
+        .concat(
+          oldSelectedTransferLists.map(id => ({ id })),
+          oldUnselectedTransferLists.map(id => ({ id }))
+        )
+        .filter(
+          (item, i, res) => res.findIndex(({ id }) => item.id === id) === i
+        )
+        .reduce((result, { id }) => {
+          const transferListState = {
+            [id]:
+              (oldSelectedTransferLists.includes(id) &&
+                !oldUnselectedTransferLists.includes(id)) ||
+              (!oldSelectedTransferLists.includes(id) &&
+                !oldUnselectedTransferLists.includes(id)),
+          };
+          return { ...result, ...transferListState };
+        }, {});
+
+      yield put(toggleSelectedTransferLists(transferListsVisibleStateMap));
+      const selectedTransferListsLocalStorageKey = `transferListsVisibleStateMap.${
         tenant.id
       }.${agent.userId}`;
       window.localStorage.setItem(
         selectedTransferListsLocalStorageKey,
-        userAssignedTransferlists.map(transferList => transferList.id)
+        JSON.stringify(transferListsVisibleStateMap)
       );
-      const unSelectedTransferListsLocalStorageKey = `unSelectedTransferLists.${
-        tenant.id
-      }.${agent.userId}`;
-      window.localStorage.setItem(unSelectedTransferListsLocalStorageKey, []);
     }
     // If there is stuff in localStorage, we set up
     else if (userAssignedTransferlists) {
       yield put(
         toggleSelectedTransferLists(
-          localStorageSelectedTransferLists.length > 0
+          Object.keys(localStorageSelectedTransferLists).length > 0
             ? localStorageSelectedTransferLists
-              .split(',')
-              .map(transferList => transferList)
-            : [],
-          localStorageUnSelectedTransferLists.length > 0
-            ? localStorageUnSelectedTransferLists
-              .split(',')
-              .map(transferList => transferList)
             : []
         )
       );
       // If there were transfer lists added when user was logged out
       const transferListsAddedWhenUserWasLoggedOut = userAssignedTransferlists.filter(
         transferList =>
-          !localStorageSelectedTransferLists.includes(transferList.id) &&
-          !localStorageUnSelectedTransferLists.includes(transferList.id)
+          !Object.keys(localStorageSelectedTransferLists).includes(
+            transferList.id
+          )
       );
       if (transferListsAddedWhenUserWasLoggedOut.length > 0) {
         yield all(
@@ -425,8 +456,7 @@ export function* updateUserAssignedTransferLists() {
         !currentUserAssignedTransferlists
           .map(userAssignedTransferList => userAssignedTransferList.id)
           .includes(transferList.id) &&
-        !selectedTransferLists.includes(transferList.id) &&
-        !unSelectedTransferLists.includes(transferList.id)
+        !Object.keys(selectedTransferLists).includes(transferList.id)
     );
     if (newAddedTransferLists.length > 0) {
       yield all(

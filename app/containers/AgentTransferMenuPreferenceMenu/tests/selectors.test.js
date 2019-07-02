@@ -21,26 +21,26 @@ describe('selectAgentsPreferences', () => {
 
 describe('selectSelectedQueues', () => {
   describe('selectedQueues is defined', () => {
-    it('when all queues are selected queues in selected queues list', () => {
-      const queues = ['123', 'abc'];
+    it('when all queues are selected queues in queues list', () => {
+      const queues = { '123': true, '321': true };
       const selectSelectedQueuesMap = fromJS({
         transferMenuPreferences: {
-          selectedQueues: ['123', 'abc'],
+          queuesVisibleStateMap: { '123': true, '321': true },
         },
       });
       expect(selectSelectedQueues(selectSelectedQueuesMap)).toEqual(
-        expect.arrayContaining(queues)
+        expect.objectContaining(queues)
       );
     });
     it('when there are queues selected in selected queues list', () => {
-      const queues = ['123', 'abc', '1c3'];
+      const queues = { '123': true, '321': false };
       const selectSelectedQueuesMap = fromJS({
         transferMenuPreferences: {
-          selectedQueues: ['123', 'abc'],
+          queuesVisibleStateMap: { '123': true, '321': false },
         },
       });
-      expect(selectSelectedQueues(selectSelectedQueuesMap)).not.toEqual(
-        expect.arrayContaining(queues)
+      expect(selectSelectedQueues(selectSelectedQueuesMap)).toEqual(
+        expect.objectContaining(queues)
       );
     });
     it('there are not queues in selected queues list', () => {
@@ -48,11 +48,11 @@ describe('selectSelectedQueues', () => {
         selectSelectedQueues(
           fromJS({
             transferMenuPreferences: {
-              selectedQueues: [],
+              queuesVisibleStateMap: {},
             },
           })
         )
-      ).toEqual([]);
+      ).toEqual({});
     });
   });
 });
@@ -60,63 +60,71 @@ describe('selectSelectedQueues', () => {
 describe('selectSelectedTransferLists', () => {
   describe('selectedTransferLists is defined', () => {
     it('when all transfer lists are selected in selected list', () => {
-      const transferLists = ['123', 'abc'];
+      const transferLists = { '123': true, '321': true };
       const selectSelectedTransferListsMap = fromJS({
         transferMenuPreferences: {
-          selectedTransferLists: ['123', 'abc'],
+          transferListsVisibleStateMap: { '123': true, '321': true },
         },
       });
       expect(
         selectSelectedTransferLists(selectSelectedTransferListsMap)
-      ).toEqual(expect.arrayContaining(transferLists));
+      ).toEqual(expect.objectContaining(transferLists));
     });
     it('when there are transfer lists selected in selected trasnfer list', () => {
-      const transferLists = ['123', 'abc', '1c3'];
+      const transferLists = { '123': true, '321': true, '1c3': false };
       const selectSelectedTransferListsMap = fromJS({
         transferMenuPreferences: {
-          selectedTransferLists: ['123', 'abc'],
+          transferListsVisibleStateMap: {
+            '123': true,
+            '321': true,
+            '1c3': false,
+          },
         },
       });
       expect(
         selectSelectedTransferLists(selectSelectedTransferListsMap)
-      ).not.toEqual(expect.arrayContaining(transferLists));
+      ).toEqual(expect.objectContaining(transferLists));
     });
     it('there are not transfer lists in selected transfer list', () => {
       expect(
         selectSelectedTransferLists(
           fromJS({
             transferMenuPreferences: {
-              selectedTransferLists: [],
+              transferListsVisibleStateMap: {},
             },
           })
         )
-      ).toEqual([]);
+      ).toEqual({});
     });
   });
 });
 
-describe('selectVisibleTransferLists', () => {
-  describe('selectVisibleTransferLists is defined', () => {
+describe('selectVisibleVoiceTransferLists', () => {
+  describe('selectVisibleVoiceTransferLists is defined', () => {
     it('when all transfer lists are included in selected list', () => {
-      const transferLists = ['123', 'abc'];
+      const transferLists = { '123': true, '321': true, '1c3': false };
       const visibleTransferListsMap = fromJS({
         transferMenuPreferences: {
-          selectedTransferLists: ['123', 'abc'],
+          transferListsVisibleStateMap: {
+            '123': true,
+            '321': true,
+            '1c3': false,
+          },
         },
       });
       expect(selectSelectedTransferLists(visibleTransferListsMap)).toEqual(
-        expect.arrayContaining(transferLists)
+        expect.objectContaining(transferLists)
       );
     });
     it('when there are visible transfer lists included in selected trasnfer list', () => {
-      const transferLists = ['123', 'abc', '1c3'];
+      const transferLists = { '123': true, '321': true, '1c3': false };
       const visibleTransferListsMap = fromJS({
         transferMenuPreferences: {
-          selectedTransferLists: ['123', 'abc'],
+          transferListsVisibleStateMap: { '123': true, '321': true },
         },
       });
       expect(selectSelectedTransferLists(visibleTransferListsMap)).not.toEqual(
-        expect.arrayContaining(transferLists)
+        expect.objectContaining(transferLists)
       );
     });
     it('there are not visible transfer lists in selected transfer list', () => {
@@ -124,11 +132,11 @@ describe('selectVisibleTransferLists', () => {
         selectSelectedTransferLists(
           fromJS({
             transferMenuPreferences: {
-              selectedTransferLists: [],
+              transferListsVisibleStateMap: {},
             },
           })
         )
-      ).toEqual([]);
+      ).toEqual({});
     });
   });
 });
@@ -136,25 +144,25 @@ describe('selectVisibleTransferLists', () => {
 describe('selectVisibleQueues', () => {
   describe('selectVisibleQueues is defined', () => {
     it('when all queues are included in selected list', () => {
-      const queues = ['123', 'abc'];
+      const queues = { '123': true, '321': true, '1c3': true };
       const visibleQueuesListMap = fromJS({
         transferMenuPreferences: {
-          selectedQueues: ['123', 'abc'],
+          queuesVisibleStateMap: { '123': true, '321': true, '1c3': true },
         },
       });
       expect(selectSelectedQueues(visibleQueuesListMap)).toEqual(
-        expect.arrayContaining(queues)
+        expect.objectContaining(queues)
       );
     });
     it('when there are visible queues included in selected queues list', () => {
-      const queues = ['123', 'abc', '1c3'];
+      const queues = { '123': true, '321': true, '1c3': false };
       const visibleQueuesListMap = fromJS({
         transferMenuPreferences: {
-          selectedQueues: ['123', 'abc'],
+          queuesVisibleStateMap: { '123': true, '321': true, '1c3': false },
         },
       });
-      expect(selectSelectedQueues(visibleQueuesListMap)).not.toEqual(
-        expect.arrayContaining(queues)
+      expect(selectSelectedQueues(visibleQueuesListMap)).toEqual(
+        expect.objectContaining(queues)
       );
     });
     it('there are not visible queues in selected queues list', () => {
@@ -162,11 +170,11 @@ describe('selectVisibleQueues', () => {
         selectSelectedQueues(
           fromJS({
             transferMenuPreferences: {
-              selectedQueues: [],
+              queuesVisibleStateMap: {},
             },
           })
         )
-      ).toEqual([]);
+      ).toEqual({});
     });
   });
 });

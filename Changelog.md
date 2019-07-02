@@ -10,11 +10,60 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
-## [1.37.19-1] (2019-05-29)
-[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.19-1/index.html)  
-[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.19-1/index.html)
+## [1.37.28] (2019-06-27)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.28/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.28/index.html)
+## Q2 Release
+
+## [1.37.27 - develop] (2019-06-19)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.27/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.27/index.html)
 ### Fixed
+* CXV1-18475 - Transfer Menu Preference Menu Backwards Compatible
+
+## [1.37.26 - develop] (2019-06-20)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.26/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.26/index.html)
+### Fixed
+* CXV1-18632 - Fails to add a Second Agent to the interaction
+
+## [1.37.25 - develop] (2019-06-11)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.25/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.25/index.html)
+### Fixed
+* CXV1-18614 - Clicking Hyperlinks in an Email tries to open in the same email body content
+
+
+## [1.37.24 - develop] (2019-05-28)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.24/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.24/index.html)
+### Fixed
+* CXV1-18404 - Boolean Contact attributes cannot be used in Skylight
+
+## [1.37.23 - develop] (2019-05-23)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.23/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.23/index.html)
+### Fixed
+* CXV1-17952 - Contact Attribute Allows saving the name with a / but we can not save to it (sdk version bump)
+
+## [1.37.22 - develop] (2019-05-02)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.22/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.22/index.html)
+### Fixed
+* CXV1-15859 - Customers Disconnecting directly after work Acceptance results in 4002 error
+
+## [1.37.21 - develop] (2019-05-07)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.21/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.21/index.html)
+### Fixed
+* CXV1-18162 - Skylight | unended agent sessions displays same agent name multiple times in TransferMenu and breaks UI
 * CXV1-17326 - Getting error 1003 when sending emails (sdk version bump)
+
+## [1.37.20] (2019-04-08)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.20/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.20/index.html)
+### Fixed
+* CXV1-17473 - Refactor for hide transfer menu list based on state stored in preferences
 
 ## [1.37.19] (2019-03-25)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.19/index.html)  

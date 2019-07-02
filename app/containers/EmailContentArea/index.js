@@ -61,7 +61,7 @@ import EmailInput from './EmailInput';
 import messages from './messages';
 
 function findImageEntities(contentBlock, callback, contentState) {
-  contentBlock.findEntityRanges((character) => {
+  contentBlock.findEntityRanges(character => {
     const entityKey = character.getEntity();
     return (
       entityKey !== null &&
@@ -70,7 +70,7 @@ function findImageEntities(contentBlock, callback, contentState) {
   }, callback);
 }
 
-const Image = (props) => {
+const Image = props => {
   /* eslint-disable react/prop-types */
   const { height, src, width } = props.contentState
     .getEntity(props.entityKey)
@@ -214,7 +214,7 @@ export class EmailContentArea extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onChange = (editorState) => {
+    this.onChange = editorState => {
       this.setState({ editorState });
     };
     this.emailFrames = React.createRef();
@@ -288,13 +288,14 @@ export class EmailContentArea extends React.Component {
         this.emailFrames.current.contentWindow ||
         (this.emailFrames.current.contentDocument.document ||
           this.emailFrames.current.contentDocument);
-      this.emailFrames.current.contentDocument.head.innerHTML =
-        '<base target="_blank" />';
 
       // https://stackoverflow.com/a/18957141
       emailIframe.document.open();
       emailIframe.document.write(this.emailWithImages());
       emailIframe.document.close();
+
+      this.emailFrames.current.contentDocument.head.innerHTML =
+        '<base target="_blank" />';
 
       if (this.props.selectedInteraction.emailReply !== undefined) {
         //  Added a style to the body of the iframe to avoid a double scroll bar when the user reply email.
@@ -339,7 +340,7 @@ export class EmailContentArea extends React.Component {
     this.props.emailCancelReply(this.props.selectedInteraction.interactionId);
   };
 
-  updateToInput = (value) => {
+  updateToInput = value => {
     this.props.updateEmailInput(
       this.props.selectedInteraction.interactionId,
       'toInput',
@@ -347,7 +348,7 @@ export class EmailContentArea extends React.Component {
     );
   };
 
-  updateCcInput = (value) => {
+  updateCcInput = value => {
     this.props.updateEmailInput(
       this.props.selectedInteraction.interactionId,
       'ccInput',
@@ -355,7 +356,7 @@ export class EmailContentArea extends React.Component {
     );
   };
 
-  updateBccInput = (value) => {
+  updateBccInput = value => {
     this.props.updateEmailInput(
       this.props.selectedInteraction.interactionId,
       'bccInput',
@@ -363,7 +364,7 @@ export class EmailContentArea extends React.Component {
     );
   };
 
-  updateSubjectInput = (value) => {
+  updateSubjectInput = value => {
     this.props.updateEmailInput(
       this.props.selectedInteraction.interactionId,
       'subjectInput',
@@ -371,7 +372,7 @@ export class EmailContentArea extends React.Component {
     );
   };
 
-  addFilesToEmail = (fileList) => {
+  addFilesToEmail = fileList => {
     for (let i = 0; i < fileList.length; i += 1) {
       this.props.emailAddAttachment(
         this.props.selectedInteraction.interactionId,
@@ -384,7 +385,7 @@ export class EmailContentArea extends React.Component {
     }
   };
 
-  removeAttachment = (attachmentId) => {
+  removeAttachment = attachmentId => {
     this.props.emailRemoveAttachment(
       this.props.selectedInteraction.interactionId,
       attachmentId
@@ -395,7 +396,7 @@ export class EmailContentArea extends React.Component {
     });
   };
 
-  onTemplateChange = (value) => {
+  onTemplateChange = value => {
     let newEditorState;
     if (value !== null && value !== undefined) {
       newEditorState = EditorState.createWithContent(
@@ -460,11 +461,11 @@ ${this.wrapEmailHistoryPlainText()}`;
     let imageId;
 
     if (emailDetails.attachments && emailDetails.attachments.length !== 0) {
-      emailDetails.attachments.forEach((attachment) => {
+      emailDetails.attachments.forEach(attachment => {
         inlineContent = false;
         imageId = '';
 
-        attachment.headers.forEach((header) => {
+        attachment.headers.forEach(header => {
           if (
             header.contentDisposition &&
             header.contentDisposition.slice(0, 6) === 'inline'
@@ -502,7 +503,7 @@ ${this.wrapEmailHistoryPlainText()}`;
     });
   };
 
-  wrapEmailHistoryHtml = (email) =>
+  wrapEmailHistoryHtml = email =>
     `<p>${this.onDateNameWrote()}</p>
 <div style='border-left: 2px solid #979797; padding-left: 20px; white-space: pre;'>
 ${email}
@@ -512,7 +513,7 @@ ${email}
     `${this.onDateNameWrote()}
 ${this.props.selectedInteraction.emailPlainBody}`;
 
-  updateAttachmentUrl = (selectedArtifactFileId) => {
+  updateAttachmentUrl = selectedArtifactFileId => {
     this.props.setEmailAttachmentFetchingUrl(
       this.props.selectedInteraction.interactionId,
       selectedArtifactFileId,
@@ -520,7 +521,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
     );
 
     const selectedAttachment = this.props.selectedInteraction.emailDetails.attachments.find(
-      (attachment) => selectedArtifactFileId === attachment.artifactFileId
+      attachment => selectedArtifactFileId === attachment.artifactFileId
     );
 
     if (selectedAttachment) {
@@ -551,7 +552,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
   };
 
   toggleCollpaseDetails = () => {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       isCollapsed: !prevState.isCollapsed,
     }));
   };
@@ -630,14 +631,14 @@ ${this.props.selectedInteraction.emailPlainBody}`;
           </div>
         );
       } else {
-        const tos = this.props.selectedInteraction.emailDetails.to.map((to) => {
+        const tos = this.props.selectedInteraction.emailDetails.to.map(to => {
           if (to.name && to.name !== to.address) {
             return `${to.name} [${to.address}]`;
           } else {
             return to.address;
           }
         });
-        const ccs = this.props.selectedInteraction.emailDetails.cc.map((cc) => {
+        const ccs = this.props.selectedInteraction.emailDetails.cc.map(cc => {
           if (cc.name && cc.name !== cc.address) {
             return `${cc.name} [${cc.address}]`;
           } else {
@@ -645,7 +646,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
           }
         });
         const bccs = this.props.selectedInteraction.emailDetails.bcc.map(
-          (bcc) => {
+          bcc => {
             if (bcc.name && bcc.name !== bcc.address) {
               return `${bcc.name} [${bcc.address}]`;
             } else {
@@ -879,7 +880,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
         ];
       }
 
-      const emailTemplates = this.props.emailTemplates.map((emailTemplate) => ({
+      const emailTemplates = this.props.emailTemplates.map(emailTemplate => ({
         value: emailTemplate.template,
         label: emailTemplate.name,
       }));
@@ -945,7 +946,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
                       value={
                         this.props.selectedInteraction.emailReply.subjectInput
                       }
-                      cb={(subject) => this.updateSubjectInput(subject)}
+                      cb={subject => this.updateSubjectInput(subject)}
                       style={{ width: '100%' }}
                       readOnly={
                         this.props.selectedInteraction.status ===
@@ -976,7 +977,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
                             .selectedEmailTemplate
                         }
                         options={emailTemplates}
-                        onChange={(e) => this.onTemplateChange(e ? e.value : e)}
+                        onChange={e => this.onTemplateChange(e ? e.value : e)}
                       />
                     ) : (
                       this.props.selectedInteraction.emailReply
@@ -1053,7 +1054,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
                   type="file"
                   multiple
                   value=""
-                  onChange={(e) => this.addFilesToEmail(e.target.files)}
+                  onChange={e => this.addFilesToEmail(e.target.files)}
                   style={{ display: 'none' }}
                 />
                 <label
@@ -1231,9 +1232,9 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    emailCreateReply: (interactionId) =>
+    emailCreateReply: interactionId =>
       dispatch(emailCreateReply(interactionId)),
-    emailCancelReply: (interactionId) =>
+    emailCancelReply: interactionId =>
       dispatch(emailCancelReply(interactionId)),
     emailAddAttachment: (interactionId, attachment) =>
       dispatch(emailAddAttachment(interactionId, attachment)),
@@ -1241,7 +1242,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(emailRemoveAttachment(interactionId, attachmentId)),
     emailUpdateReply: (interactionId, message) =>
       dispatch(emailUpdateReply(interactionId, message)),
-    emailSendReply: (interactionId) => dispatch(emailSendReply(interactionId)),
+    emailSendReply: interactionId => dispatch(emailSendReply(interactionId)),
     setEmailAttachmentUrl: (interactionId, artifactFileId, url) =>
       dispatch(setEmailAttachmentUrl(interactionId, artifactFileId, url)),
     setEmailAttachmentFetchingUrl: (

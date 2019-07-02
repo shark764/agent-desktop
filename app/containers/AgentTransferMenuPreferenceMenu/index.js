@@ -13,7 +13,7 @@ import ErrorBoundary from 'components/ErrorBoundary';
 import {
   selectAgentsPreferences,
   selectVisibleQueues,
-  selectVisibleTransferLists,
+  selectVisibleVoiceTransferLists,
   selectPreferenceMenuQueuesLoading,
   selectPreferenceMenuTransferListsLoading,
 } from './selectors';
@@ -56,7 +56,7 @@ export class AgentTransferMenuPreferenceMenu extends React.Component {
             items={this.props.queues}
             selectAll={this.props.toggleAllQueues}
             selectAllBtn
-            selectedItems={this.props.visibleQueues.map((queue) => queue.id)}
+            selectedItems={this.props.visibleQueues.map(queue => queue.id)}
             toggleSelection={this.props.toggleQueue}
             toggleShowList={this.props.toggleShowQueues}
             loading={this.props.preferenceMenuQueuesLoading}
@@ -70,7 +70,7 @@ export class AgentTransferMenuPreferenceMenu extends React.Component {
           selectAll={this.props.toggleAllTransferLists}
           selectAllBtn
           selectedItems={this.props.visibleTransferLists.map(
-            (transferList) => transferList.id
+            transferList => transferList.id
           )}
           toggleSelection={this.props.toggleTransferList}
           toggleShowList={this.props.toggleShowTransferLists}
@@ -86,7 +86,7 @@ const mapStateToProps = (state, props) => ({
   transferLists: selectUserAssignedTransferLists(state, props),
   queues: selectQueues(state, props),
   visibleQueues: selectVisibleQueues(state, props),
-  visibleTransferLists: selectVisibleTransferLists(state, props),
+  visibleTransferLists: selectVisibleVoiceTransferLists(state, props),
   preferenceMenuQueuesLoading: selectPreferenceMenuQueuesLoading(state, props),
   preferenceMenuTransferListsLoading: selectPreferenceMenuTransferListsLoading(
     state,

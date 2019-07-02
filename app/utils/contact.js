@@ -28,6 +28,7 @@ export const getError = (attributeToValidate, value) => {
   let error = false;
   if (
     attributeToValidate.mandatory &&
+    attributeToValidate.type !== 'boolean' &&
     (value === undefined || value.trim().length < 1)
   ) {
     error = 'errorRequired';
@@ -86,7 +87,7 @@ export const getLocaleLabel = (attribute, locale) => {
 
 export function createSearchQuery(query, nextPage) {
   const encodedQuery = {};
-  Object.keys(query).forEach((queryName) => {
+  Object.keys(query).forEach(queryName => {
     const queryToEncode = query[queryName];
     const queryNoQuotes = queryToEncode.toString().replace(/"/g, '');
     let finalQuery = queryNoQuotes;

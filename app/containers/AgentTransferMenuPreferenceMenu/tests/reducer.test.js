@@ -23,7 +23,7 @@ describe('agentTransferMenuPreferenceMenuReducer', () => {
       };
       action = {
         type: constant.SET_AGENTS_TRANSFER_MENU_PREFERENCE,
-        agentsTransferMenu: false,
+        agentsTransferMenu: true,
       };
     });
     it('changes agentsTransferMenu preference', () => {
@@ -34,9 +34,7 @@ describe('agentTransferMenuPreferenceMenuReducer', () => {
   describe('SET_SHOW_QUEUES_TRANSFER_MENU_PREFERENCE', () => {
     beforeEach(() => {
       initialState = {
-        transferMenuPreferences: {
-          showQueues: false,
-        },
+        showQueues: false,
       };
       action = {
         type: constant.SET_SHOW_QUEUES_TRANSFER_MENU_PREFERENCE,
@@ -51,14 +49,14 @@ describe('agentTransferMenuPreferenceMenuReducer', () => {
   describe('TOGGLE_SELECTED_QUEUE_TRANSFER_MENU_PREFERENCE', () => {
     beforeEach(() => {
       initialState = {
-        selectedQueues: [],
+        queuesVisibleStateMap: { '123': false, abc: true },
       };
       action = {
         queue: '123',
         type: constant.TOGGLE_SELECTED_QUEUE_TRANSFER_MENU_PREFERENCE,
       };
     });
-    it('toggle one queue to selected list', () => {
+    it('toggle one queue to selected', () => {
       runReducerAndExpectSnapshot();
     });
   });
@@ -66,7 +64,7 @@ describe('agentTransferMenuPreferenceMenuReducer', () => {
   describe('TOGGLE_SELECTED_QUEUE_TRANSFER_MENU_PREFERENCE', () => {
     beforeEach(() => {
       initialState = {
-        selectedQueues: ['123', 'abc'],
+        queuesVisibleStateMap: { '123': true, abc: true },
       };
       action = {
         queue: '123',
@@ -81,14 +79,14 @@ describe('agentTransferMenuPreferenceMenuReducer', () => {
   describe('TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE', () => {
     beforeEach(() => {
       initialState = {
-        selectedQueues: [],
+        queuesVisibleStateMap: { '123': false, abc: false },
       };
       action = {
-        queues: ['123', 'abc', '3d2'],
+        queues: ['123', 'abc'],
         type: constant.TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE,
       };
     });
-    it('toggle all queues to selected list', () => {
+    it('toggle all queues to selected', () => {
       runReducerAndExpectSnapshot();
     });
   });
@@ -96,14 +94,14 @@ describe('agentTransferMenuPreferenceMenuReducer', () => {
   describe('TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE', () => {
     beforeEach(() => {
       initialState = {
-        selectedQueues: ['123', 'abc', '3d2'],
+        queuesVisibleStateMap: { '123': true, abc: true },
       };
       action = {
-        queues: [],
+        queues: ['123', 'abc'],
         type: constant.TOGGLE_ALL_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE,
       };
     });
-    it('toggle all queues and return empty list', () => {
+    it('toggle all queues to unselected', () => {
       runReducerAndExpectSnapshot();
     });
   });
@@ -111,14 +109,14 @@ describe('agentTransferMenuPreferenceMenuReducer', () => {
   describe('TOGGLE_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE', () => {
     beforeEach(() => {
       initialState = {
-        selectedQueues: ['abc'],
+        queuesVisibleStateMap: {},
       };
       action = {
-        queues: ['123'],
+        queuesVisibleStateMap: { '123': true, abc: true },
         type: constant.TOGGLE_SELECTED_QUEUES_TRANSFER_MENU_PREFERENCE,
       };
     });
-    it('toggle all stored queues to selected list', () => {
+    it('toggle all stored queues to state', () => {
       runReducerAndExpectSnapshot();
     });
   });
@@ -141,7 +139,7 @@ describe('agentTransferMenuPreferenceMenuReducer', () => {
   describe('TOGGLE_SELECTED_TRANSFER_LIST_TRANSFER_MENU_PREFERENCE', () => {
     beforeEach(() => {
       initialState = {
-        selectedTransferLists: [],
+        transferListsVisibleStateMap: { '123': false },
       };
       action = {
         transferList: '123',
@@ -156,7 +154,7 @@ describe('agentTransferMenuPreferenceMenuReducer', () => {
   describe('TOGGLE_SELECTED_TRANSFER_LIST_TRANSFER_MENU_PREFERENCE', () => {
     beforeEach(() => {
       initialState = {
-        selectedTransferLists: ['123'],
+        transferListsVisibleStateMap: { '123': true },
       };
       action = {
         transferList: '123',
@@ -171,15 +169,15 @@ describe('agentTransferMenuPreferenceMenuReducer', () => {
   describe('TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE', () => {
     beforeEach(() => {
       initialState = {
-        selectedTransferLists: ['123'],
+        transferListsVisibleStateMap: { '123': false, abc: false },
       };
       action = {
-        transferLists: ['abc', '3d2'],
+        transferLists: ['abc', 'abc'],
         type:
           constant.TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE,
       };
     });
-    it('toggle all transfer lists to selected list', () => {
+    it('toggle all transfer lists to selected', () => {
       runReducerAndExpectSnapshot();
     });
   });
@@ -187,15 +185,15 @@ describe('agentTransferMenuPreferenceMenuReducer', () => {
   describe('TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE', () => {
     beforeEach(() => {
       initialState = {
-        selectedTransferLists: ['123', 'abc', '3d2'],
+        transferListsVisibleStateMap: { '123': true, abc: true },
       };
       action = {
-        transferLists: [],
+        transferLists: ['123', 'abc'],
         type:
           constant.TOGGLE_ALL_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE,
       };
     });
-    it('toggle all transfer lists and unselect it', () => {
+    it('toggle all transfer lists to unselected', () => {
       runReducerAndExpectSnapshot();
     });
   });
@@ -203,14 +201,14 @@ describe('agentTransferMenuPreferenceMenuReducer', () => {
   describe('TOGGLE_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE', () => {
     beforeEach(() => {
       initialState = {
-        selectedTransferLists: ['asd'],
+        transferListsVisibleStateMap: {},
       };
       action = {
-        transferLists: ['321'],
+        transferListsVisibleStateMap: { '123': true, abc: false },
         type: constant.TOGGLE_SELECTED_TRANSFER_LISTS_TRANSFER_MENU_PREFERENCE,
       };
     });
-    it('toggle all stored transfer lists to selected list', () => {
+    it('toggle all stored transfer lists to state', () => {
       runReducerAndExpectSnapshot();
     });
   });
