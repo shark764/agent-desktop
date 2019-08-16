@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.29] (2019-08-15)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.29/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.29/index.html)
+### Fixed
+- CXV1-18968 - External screen pop logic. New target blank handling.
+
 ## [1.37.28] (2019-06-27)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.28/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.28/index.html)
