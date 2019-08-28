@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.37.30] (2019-08-27)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.30/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.30/index.html)
+### Added
+* CXV1-17588 - SDK version bump for create/update/merge contact issue.
+
 ## [1.37.29] (2019-08-15)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.29/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.29/index.html)
