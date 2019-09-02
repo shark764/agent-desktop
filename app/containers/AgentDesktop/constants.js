@@ -21,6 +21,8 @@ export const SAVE_MESSAGE_STATE = 'app/AgentDesktop/SAVE_MESSAGE_STATE';
 export const SET_QUEUES_TIME = 'app/AgentDesktop/SET_QUEUES_TIME';
 export const CLEAR_QUEUES_TIME = 'app/AgentDesktop/CLEAR_QUEUES_TIME';
 export const SET_PRESENCE = 'app/AgentDesktop/SET_PRESENCE';
+export const DISMISS_AGENT_PRESENCE_STATE =
+  'app/AgentDesktop/DISMISS_AGENT_PRESENCE_STATE';
 export const GO_NOT_READY = 'app/AgentDesktop/GO_NOT_READY';
 export const UPDATE_WRAPUP_DETAILS = 'app/AgentDesktop/UPDATE_WRAPUP_DETAILS';
 export const ADD_SCRIPT = 'app/AgentDesktop/ADD_SCRIPT';
@@ -153,7 +155,9 @@ export const HIDE_SIDE_PANEL = 'app/AgentDesktop/HIDE_SIDE_PANEL';
 export const SET_SIDE_PANEL_PX = 'app/AgentDesktop/SET_SIDE_PANEL_PX';
 export const SHOW_INTERACTIONS_BAR = 'app/AgentDesktop/SHOW_INTERACTIONS_BAR';
 export const HIDE_INTERACTIONS_BAR = 'app/AgentDesktop/HIDE_INTERACTIONS_BAR';
-export const SET_AGENT_DIRECTION = 'app/AgentDesktop/SET_AGENT_DURECTION';
+export const SET_AGENT_DIRECTION = 'app/AgentDesktop/SET_AGENT_DIRECTION';
+export const DISMISS_AGENT_DIRECTION =
+  'app/AgentDesktop/DISMISS_AGENT_DIRECTION';
 export const SET_FORM_IS_DIRTY = 'app/ContactsControl/SET_FORM_IS_DIRTY';
 export const SET_FORM_VALIDITY = 'app/ContactsControl/SET_FORM_VALIDITY';
 export const SET_FORM_FIELD = 'app/ContactsControl/SET_FORM_FIELD';

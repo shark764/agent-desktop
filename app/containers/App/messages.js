@@ -14,6 +14,40 @@ export default defineMessages({
     id: 'app.containers.App.criticalError',
     defaultMessage: 'Critical Error',
   },
+  sessionEnded: {
+    id: 'app.containers.App.sessionEnded',
+    defaultMessage: 'Session Ended',
+  },
+  directionChanged: {
+    id: 'app.containers.App.directionChanged',
+    defaultMessage:
+      '{icon} Your direction has been changed to "{direction}" by your supervisor - {name}',
+  },
+  ready: {
+    id: 'app.containers.App.ready',
+    defaultMessage: 'Available',
+  },
+  inbound: {
+    id: 'app.containers.App.inbound',
+    defaultMessage: 'Inbound',
+  },
+  outbound: {
+    id: 'app.containers.App.outbound',
+    defaultMessage: 'Outbound',
+  },
+  agentInitiated: {
+    id: 'app.containers.App.agentInitiated',
+    defaultMessage: 'Do Not Disturb Outbound',
+  },
+  notready: {
+    id: 'app.containers.App.notready',
+    defaultMessage: 'Unavailable ({reason})',
+  },
+  presenceStateChanged: {
+    id: 'app.containers.App.presenceStateChanged',
+    defaultMessage:
+      '{icon} Your state has been changed to "{state}" by your supervisor - {name}',
+  },
   reload: {
     id: 'app.containers.App.reload',
     defaultMessage: 'Click Here To Reload',

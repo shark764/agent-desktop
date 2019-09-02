@@ -11,7 +11,7 @@
 import Raven from 'raven-js';
 import React from 'react';
 import { connect } from 'react-redux';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import axios from 'axios';
@@ -24,6 +24,8 @@ import crmCssAdapter from 'utils/crmCssAdapter';
 import { generateErrorMessage } from 'utils/errorMessage';
 
 import { isChrome, isIeEleven } from 'serenova-js-utils/browser';
+import { kebabCaseToCamelCase } from 'serenova-js-utils/strings';
+import { PresenceStateIconSVG, DirectionIconSVG } from 'cx-ui-components';
 
 import voiceIcon from 'assets/icons/voice.png';
 import messageIcon from 'assets/icons/message_new.png';
@@ -62,6 +64,7 @@ import {
 } from 'containers/SidePanel/actions';
 import {
   setCriticalError,
+  setSessionEndedBySupervisor,
   handleSDKError,
   addStatErrorId,
   removeStatErrorId,
@@ -73,12 +76,18 @@ import {
   selectVisualPreferences,
 } from 'containers/AgentNotificationsMenu/selectors';
 import { selectAvailableStats } from 'containers/AgentStats/selectors';
-import { selectActivatedStatIds } from 'containers/Toolbar/selectors';
+import {
+  selectActivatedStatIds,
+  selectReadyState,
+} from 'containers/Toolbar/selectors';
 import {
   selectCriticalError,
+  selectSessionEnded,
   selectErroredStatIds,
   selectNonCriticalError,
 } from 'containers/Errors/selectors';
+
+import errorMessages from 'containers/Errors/messages';
 
 import {
   setCRMUnavailable,
@@ -152,6 +161,8 @@ import {
   outboundCustomerConnected,
   setTransferListsFromFlow,
   setTranferringInConference,
+  dismissAgentDirection,
+  dismissAgentPresenceState,
 } from 'containers/AgentDesktop/actions';
 
 import { toggleSelectedQueueTransferMenuPreference } from 'containers/AgentTransferMenuPreferenceMenu/actions';
@@ -173,6 +184,10 @@ import { version as release } from '../../../package.json';
 import messages from './messages';
 import sdkIgnoreTopics from './sdkIgnoreTopics';
 import sdkLogTopics from './sdkLogTopics';
+import {
+  selectAgentDirection,
+  selectSelectedPresenceReason,
+} from '../AgentStatusMenu/selectors';
 
 export class App extends React.Component {
   componentWillUnmount() {
@@ -450,7 +465,8 @@ export class App extends React.Component {
             this.props.setExtensions(response);
             break;
           }
-          case 'cxengage/session/set-direction-response': {
+          case 'cxengage/session/set-direction-response':
+          case 'cxengage/session/direction-change-response': {
             this.props.setAgentDirection(response);
             break;
           }
@@ -462,7 +478,13 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/session/ended': {
-            this.props.setCriticalError({ code: 2003 });
+            if (response.supervisorId) {
+              this.props.setSessionEndedBySupervisor(response, {
+                code: 'sessionEnded',
+              });
+            } else {
+              this.props.setCriticalError({ code: 2003 });
+            }
             break;
           }
 
@@ -547,7 +569,10 @@ export class App extends React.Component {
                   }
                   const notification = new Notification(
                     this.props.intl.formatMessage(messages.newInteraction),
-                    { body, icon }
+                    {
+                      body,
+                      icon,
+                    }
                   );
                   // onClick handler for notifications hasn't been implemented on Firefox, yet.
                   // https://developer.mozilla.org/en-US/docs/Web/API/Notification/onclick
@@ -978,7 +1003,9 @@ export class App extends React.Component {
                 ) {
                   const notification = new Notification(
                     this.props.intl.formatMessage(messages.newMessage),
-                    { icon: messageIcon }
+                    {
+                      icon: messageIcon,
+                    }
                   );
                   // Setting the onclick handler just in Chrome
                   if (isChrome()) {
@@ -1594,12 +1621,85 @@ export class App extends React.Component {
           key={messages.newVersion.id}
           id="version-refresh-banner"
           descriptionMessage={messages.newVersion}
-          descriptionStyle={{
-            textAlign: 'center',
-          }}
+          descriptionStyle={{ textAlign: 'center' }}
           fullBannerAction={() => window.location.reload()}
           dismiss={this.hideRefreshBanner}
         />
+      );
+    }
+
+    if (this.props.agentDirection.supervisorId) {
+      const { supervisorName, direction } = this.props.agentDirection;
+
+      banners.push(
+        <NotificationBanner
+          key={messages.directionChanged.id}
+          id="agent-direction-changed-banner"
+          style={{ backgroundColor: '#54DA90' }}
+          descriptionStyle={{ textAlign: 'center' }}
+          dismiss={this.props.dismissAgentDirection}
+        >
+          <FormattedMessage
+            {...messages.directionChanged}
+            values={{
+              direction: (
+                <strong>
+                  {this.props.intl.formatMessage(
+                    messages[kebabCaseToCamelCase(direction)]
+                  )}
+                </strong>
+              ),
+              name: supervisorName,
+              icon: (
+                <DirectionIconSVG
+                  directionIconType="secondary"
+                  directionMode={direction}
+                  size={25}
+                  fillColor="white"
+                />
+              ),
+            }}
+          />
+        </NotificationBanner>
+      );
+    }
+
+    if (this.props.selectedPresenceReason.supervisorId) {
+      const {
+        readyState,
+        selectedPresenceReason: { reason, supervisorName },
+      } = this.props;
+
+      banners.push(
+        <NotificationBanner
+          key={messages.presenceStateChanged.id}
+          id="agent-presence-state-changed-banner"
+          style={readyState === 'ready' ? { backgroundColor: '#54DA90' } : {}}
+          isError={readyState !== 'ready'}
+          descriptionStyle={{ textAlign: 'center' }}
+          dismiss={this.props.dismissAgentPresenceState}
+        >
+          <FormattedMessage
+            {...messages.presenceStateChanged}
+            values={{
+              state: (
+                <strong>
+                  {this.props.intl.formatMessage(messages[readyState], {
+                    reason,
+                  })}
+                </strong>
+              ),
+              name: supervisorName,
+              icon: (
+                <PresenceStateIconSVG
+                  presenceStateIconType={readyState}
+                  presenceStateMode={readyState}
+                  size={25}
+                />
+              ),
+            }}
+          />
+        </NotificationBanner>
       );
     }
 
@@ -1622,6 +1722,37 @@ export class App extends React.Component {
           rightLinkAction={this.logoutAndReload}
           rightLinkMessage={messages.reload}
         />
+      );
+    } else if (this.props.sessionEnded !== undefined) {
+      banners.push(
+        <NotificationBanner
+          key={messages.sessionEnded.id}
+          id="session-ended-error-banner"
+          style={this.styles.notificationBanner}
+          isError
+          descriptionStyle={{ textAlign: 'center' }}
+          rightLinkAction={this.logoutAndReload}
+          rightLinkMessage={messages.reload}
+        >
+          <FormattedMessage
+            {...errorMessages.sessionEnded}
+            values={{
+              title: (
+                <strong>
+                  {this.props.intl.formatMessage(messages.sessionEnded)}
+                </strong>
+              ),
+              name: this.props.sessionEnded.supervisorName,
+              icon: (
+                <PresenceStateIconSVG
+                  presenceStateIconType="offline"
+                  presenceStateMode="offline"
+                  size={25}
+                />
+              ),
+            }}
+          />
+        </NotificationBanner>
       );
     } else if (!this.props.agentDesktop.isOnline) {
       banners.push(
@@ -1672,6 +1803,10 @@ const mapStateToProps = (state, props) => ({
   locale: selectLocale()(state),
   availableStats: selectAvailableStats(state, props),
   criticalError: selectCriticalError(state, props),
+  sessionEnded: selectSessionEnded(state, props),
+  agentDirection: selectAgentDirection(state, props),
+  readyState: selectReadyState(state, props),
+  selectedPresenceReason: selectSelectedPresenceReason(state, props),
   activatedStatIds: selectActivatedStatIds(state, props).toJS(),
   erroredStatIds: selectErroredStatIds(state, props),
   nonCriticalError: selectNonCriticalError(state, props),
@@ -1814,10 +1949,14 @@ function mapDispatchToProps(dispatch) {
       dispatch(validateContactLayoutTranslations()),
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
     setCriticalError: error => dispatch(setCriticalError(error)),
+    setSessionEndedBySupervisor: (response, error) =>
+      dispatch(setSessionEndedBySupervisor(response, error)),
     setCRMUnavailable: reason => dispatch(setCRMUnavailable(reason)),
     addStatErrorId: statId => dispatch(addStatErrorId(statId)),
     removeStatErrorId: statId => dispatch(removeStatErrorId(statId)),
     dismissError: () => dispatch(dismissError()),
+    dismissAgentDirection: () => dispatch(dismissAgentDirection()),
+    dismissAgentPresenceState: () => dispatch(dismissAgentPresenceState()),
     setCrmModule: crmModule => dispatch(setCrmModule(crmModule)),
     setStandalonePopup: () => dispatch(setStandalonePopup()),
     setCrmActiveTab: (type, id, name) =>
@@ -1915,6 +2054,7 @@ App.propTypes = {
   validateContactLayoutTranslations: PropTypes.func.isRequired,
   handleSDKError: PropTypes.func.isRequired,
   setCriticalError: PropTypes.func.isRequired,
+  setSessionEndedBySupervisor: PropTypes.func,
   setCRMUnavailable: PropTypes.func.isRequired,
   addStatErrorId: PropTypes.func.isRequired,
   removeStatErrorId: PropTypes.func.isRequired,
@@ -1924,9 +2064,15 @@ App.propTypes = {
   activatedStatIds: PropTypes.array,
   erroredStatIds: PropTypes.array,
   criticalError: PropTypes.any,
+  sessionEnded: PropTypes.any,
   nonCriticalError: PropTypes.any,
+  agentDirection: PropTypes.object,
+  readyState: PropTypes.string,
+  selectedPresenceReason: PropTypes.object,
   hasCrmPermissions: PropTypes.bool,
   dismissError: PropTypes.func,
+  dismissAgentDirection: PropTypes.func,
+  dismissAgentPresenceState: PropTypes.func,
   setCrmModule: PropTypes.func.isRequired,
   crmModule: PropTypes.string,
   setStandalonePopup: PropTypes.func.isRequired,

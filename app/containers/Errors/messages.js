@@ -124,4 +124,9 @@ export default defineMessages({
     defaultMessage:
       'SSO Login Failed, please try again. If this issue continues please contact your administrator.',
   },
+  sessionEnded: {
+    id: 'app.components.Errors.sessionEnded',
+    defaultMessage:
+      '{icon} {title} - Your current session has been disconnected by your supervisor - {name}.',
+  },
 });

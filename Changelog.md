@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.38.0] (2019-08-30)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.38.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.38.0/index.html)
+### Added
+* CXV1-18917 - Warning banner in Agent-Desktop after a precense state change and/or direction change
+* <no-jira> - SQS message handler for agent direction change.
+
 ## [1.37.30] (2019-08-27)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.30/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.30/index.html)

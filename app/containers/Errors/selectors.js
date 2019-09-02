@@ -13,8 +13,9 @@ const selectErrorsDomain = () => (state) => state.get('errors');
  * Other specific selectors
  */
 
-const selectStatsDomain = createSelector(selectErrorsDomain(), (substate) =>
-  substate.get('stats')
+const selectStatsDomain = createSelector(
+  selectErrorsDomain(),
+  (substate) => substate.get('stats')
 );
 
 const selectCriticalError = createSelector(
@@ -23,14 +24,26 @@ const selectCriticalError = createSelector(
     substate.get('criticalError') && substate.get('criticalError').toJS()
 );
 
+const selectSessionEnded = createSelector(
+  selectErrorsDomain(),
+  (substate) =>
+    substate.get('sessionEnded') && substate.get('sessionEnded').toJS()
+);
+
 const selectNonCriticalError = createSelector(
   selectErrorsDomain(),
   (substate) =>
     substate.get('nonCriticalError') && substate.get('nonCriticalError').toJS()
 );
 
-const selectErroredStatIds = createSelector(selectStatsDomain, (substate) =>
-  substate.get('erroredIds').toJS()
+const selectErroredStatIds = createSelector(
+  selectStatsDomain,
+  (substate) => substate.get('erroredIds').toJS()
 );
 
-export { selectCriticalError, selectNonCriticalError, selectErroredStatIds };
+export {
+  selectCriticalError,
+  selectNonCriticalError,
+  selectErroredStatIds,
+  selectSessionEnded,
+};

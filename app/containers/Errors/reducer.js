@@ -23,6 +23,11 @@ function errorsReducer(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.SET_CRITICAL_ERROR:
       return state.set('criticalError', fromJS({ ...action.error }));
+    case ACTIONS.SET_SESSION_ENDED_BY_SUPERVISOR:
+      return state.set(
+        'sessionEnded',
+        fromJS({ ...action.response, ...action.error })
+      );
     case ACTIONS.SET_NON_CRITICAL_ERROR:
       return state.set(
         'nonCriticalError',

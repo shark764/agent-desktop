@@ -101,6 +101,7 @@ export class NotificationBanner extends React.Component {
           title={descriptionMessage}
         >
           {descriptionMessage}
+          {this.props.children}
         </div>
         {this.props.rightLinkAction && (
           <div
@@ -127,13 +128,13 @@ export class NotificationBanner extends React.Component {
 }
 
 NotificationBanner.propTypes = {
+  children: PropTypes.any,
   intl: PropTypes.object.isRequired,
   id: PropTypes.string.isRequired,
   style: PropTypes.object,
   descriptionStyle: PropTypes.object,
   titleMessage: PropTypes.object,
-  descriptionMessage: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
-    .isRequired,
+  descriptionMessage: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   dismiss: PropTypes.func,
   dismissArguments: PropTypes.array,
   isError: PropTypes.bool,

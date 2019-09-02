@@ -442,6 +442,10 @@ function agentDesktopReducer(state = initialState, action) {
       }
     case ACTIONS.SET_AGENT_DIRECTION:
       return state.set('agentDirection', fromJS(action.response));
+    case ACTIONS.DISMISS_AGENT_DIRECTION:
+      return state.update('agentDirection', presenceReason =>
+        presenceReason.delete('supervisorId').delete('supervisorName')
+      );
     case ACTIONS.SHOW_REFRESH_NOTIF:
       return state.set('refreshRequired', action.show);
     case ACTIONS.SET_USER_CONFIG: {
@@ -554,10 +558,16 @@ function agentDesktopReducer(state = initialState, action) {
           reason: action.presenceInfo.reason,
           reasonId: action.presenceInfo.reasonId,
           listId: action.presenceInfo.reasonListId,
+          supervisorId: action.presenceInfo.supervisorId,
+          supervisorName: action.presenceInfo.supervisorName,
           isSystemReason,
         })
       );
     }
+    case ACTIONS.DISMISS_AGENT_PRESENCE_STATE:
+      return state.update('presenceReason', presenceReason =>
+        presenceReason.delete('supervisorId').delete('supervisorName')
+      );
 
     case ACTIONS.SET_INTERACTION_STATUS: {
       if (interactionIndex !== -1) {
@@ -904,8 +914,8 @@ function agentDesktopReducer(state = initialState, action) {
             .set(
               'selectedInteractionId',
               state.get('selectedInteractionId') === undefined &&
-              (interactionStatus === 'work-offer' ||
-                interactionStatus === 'work-initiated')
+                (interactionStatus === 'work-offer' ||
+                  interactionStatus === 'work-initiated')
                 ? action.interactionId
                 : state.get('selectedInteractionId')
             )

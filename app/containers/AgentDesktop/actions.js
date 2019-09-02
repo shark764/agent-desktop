@@ -54,6 +54,12 @@ export function setAgentDirection(response) {
   };
 }
 
+export function dismissAgentDirection() {
+  return {
+    type: ACTIONS.DISMISS_AGENT_DIRECTION,
+  };
+}
+
 export function setExtensions(response) {
   return {
     type: ACTIONS.SET_EXTENSIONS,
@@ -123,6 +129,12 @@ export function setPresence(presenceInfo) {
   return {
     type: ACTIONS.SET_PRESENCE,
     presenceInfo,
+  };
+}
+
+export function dismissAgentPresenceState() {
+  return {
+    type: ACTIONS.DISMISS_AGENT_PRESENCE_STATE,
   };
 }
 

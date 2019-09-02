@@ -26,6 +26,14 @@ export function setCriticalError(error) {
   };
 }
 
+export function setSessionEndedBySupervisor(response, error) {
+  return {
+    type: ACTIONS.SET_SESSION_ENDED_BY_SUPERVISOR,
+    response,
+    error,
+  };
+}
+
 export function setNonCriticalError(error, interactionFatal) {
   return {
     type: ACTIONS.SET_NON_CRITICAL_ERROR,
