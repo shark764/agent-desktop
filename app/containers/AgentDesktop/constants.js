@@ -23,6 +23,7 @@ export const CLEAR_QUEUES_TIME = 'app/AgentDesktop/CLEAR_QUEUES_TIME';
 export const SET_PRESENCE = 'app/AgentDesktop/SET_PRESENCE';
 export const DISMISS_AGENT_PRESENCE_STATE =
   'app/AgentDesktop/DISMISS_AGENT_PRESENCE_STATE';
+export const CLEAR_NEXT_STATE = 'app/AgentDesktop/CLEAR_NEXT_STATE';
 export const GO_NOT_READY = 'app/AgentDesktop/GO_NOT_READY';
 export const UPDATE_WRAPUP_DETAILS = 'app/AgentDesktop/UPDATE_WRAPUP_DETAILS';
 export const ADD_SCRIPT = 'app/AgentDesktop/ADD_SCRIPT';

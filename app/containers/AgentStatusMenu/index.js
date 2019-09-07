@@ -147,7 +147,7 @@ export class AgentStatusMenu extends React.Component {
     }
   }
 
-  setCollapsibleMenus = (menuId) => {
+  setCollapsibleMenus = menuId => {
     if (this.state.expandedMenu === '' || this.state.expandedMenu !== menuId) {
       this.setState({ expandedMenu: menuId });
     } else {
@@ -157,7 +157,7 @@ export class AgentStatusMenu extends React.Component {
 
   clearHover = () => {
     // Longstanding radium bug where mouseleave event is never triggered https://github.com/FormidableLabs/radium/issues/524
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       clearHoverInt: prevState.clearHoverInt + 1,
     }));
   };
@@ -237,7 +237,7 @@ export class AgentStatusMenu extends React.Component {
     }
     const containsSelected =
       category.reasons.findIndex(
-        (reason) =>
+        reason =>
           this.props.selectedPresenceReason.reasonId === reason.reasonId &&
           this.props.selectedPresenceReason.listId === listId
       ) > -1;
@@ -255,14 +255,14 @@ export class AgentStatusMenu extends React.Component {
         handleTriggerClick={() => this.setCollapsibleMenus(elementId)}
       >
         {category.reasons.map(
-          (reason) => this.renderReason(reason, listId),
+          reason => this.renderReason(reason, listId),
           this
         )}
       </Collapsible>
     );
   };
 
-  renderList = (reasonList) => [
+  renderList = reasonList => [
     <div
       id={`notReadyStateTitle-${reasonList.id}`}
       key={`notReadyStateTitle-${reasonList.id}`}
@@ -406,33 +406,36 @@ export class AgentStatusMenu extends React.Component {
             {this.props.presenceReasonLists.map(this.renderList, this)}
           </div>
           <div style={[styles.narrowDivider, { padding: '7px 24px 0 24px' }]} />
-          {this.props.readyState === 'ready' ? (
-            <div
-              id="readyStateLink"
-              style={[styles.presenceLinkContainer, styles.activePresence]}
-            >
-              <div style={styles.itemText}>
+          {this.props.readyState === 'ready' ||
+          this.props.selectedPresenceReason.nextState === 'offline' ? (
+              <div
+                id="readyStateLink"
+                style={[styles.presenceLinkContainer, styles.activePresence]}
+              >
+                <div style={styles.itemText}>
+                  <FormattedMessage {...messages.ready} />
+                </div>
+                {this.props.selectedPresenceReason.nextState !== 'offline' && (
+                  <Icon
+                    name="checkStatus"
+                    alt="selected"
+                    style={styles.selectedIcon}
+                  />
+                )}
+              </div>
+            ) : (
+              <div
+                id="readyStateLink"
+                style={[
+                  styles.presenceLinkContainer,
+                  styles.inactivePresence,
+                  this.state.statusLoading && styles.disabledPresenceUpdate,
+                ]}
+                onClick={!this.state.statusLoading ? this.goReady : undefined}
+              >
                 <FormattedMessage {...messages.ready} />
               </div>
-              <Icon
-                name="checkStatus"
-                alt="selected"
-                style={styles.selectedIcon}
-              />
-            </div>
-          ) : (
-            <div
-              id="readyStateLink"
-              style={[
-                styles.presenceLinkContainer,
-                styles.inactivePresence,
-                this.state.statusLoading && styles.disabledPresenceUpdate,
-              ]}
-              onClick={!this.state.statusLoading ? this.goReady : undefined}
-            >
-              <FormattedMessage {...messages.ready} />
-            </div>
-          )}
+            )}
         </div>
       </PopupDialog>
     );
@@ -480,9 +483,9 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setActiveExtension: (extension) => dispatch(setActiveExtension(extension)),
+    setActiveExtension: extension => dispatch(setActiveExtension(extension)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
-    showConfirmationPopupGoReady: (popupConfig) =>
+    showConfirmationPopupGoReady: popupConfig =>
       dispatch(showConfirmationPopupGoReady(popupConfig)),
     dispatch,
   };

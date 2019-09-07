@@ -163,6 +163,7 @@ import {
   setTranferringInConference,
   dismissAgentDirection,
   dismissAgentPresenceState,
+  clearNextState,
 } from 'containers/AgentDesktop/actions';
 
 import { toggleSelectedQueueTransferMenuPreference } from 'containers/AgentTransferMenuPreferenceMenu/actions';
@@ -174,6 +175,8 @@ import {
   selectCrmModule,
   getSelectedInteractionId,
 } from 'containers/AgentDesktop/selectors';
+
+import { selectHasInteractions } from 'containers/InteractionsBar/selectors';
 
 import { store } from 'store';
 
@@ -222,6 +225,27 @@ export class App extends React.Component {
       Notification.permission !== 'denied'
     ) {
       Notification.requestPermission();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    // If nextState parameter has been sent in the SQS message,
+    // we wait until the state change from busy to any, then
+    // we change to new state
+    if (
+      this.props.selectedPresenceReason &&
+      this.props.selectedPresenceReason.nextState === 'offline' &&
+      prevProps.hasInteractions !== this.props.hasInteractions &&
+      !this.props.hasInteractions
+    ) {
+      // Sending change state request, we do this way
+      // since new-state could be "offline", then it has
+      // to be disconnected from back-end first
+      // NOTE: "offline" is the only state that needs the
+      // interactions to end before being applied.
+      CxEngage.session.setPresenceState({
+        state: this.props.selectedPresenceReason.nextState,
+      });
     }
   }
 
@@ -478,13 +502,30 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/session/ended': {
-            if (response.supervisorId) {
-              this.props.setSessionEndedBySupervisor(response, {
-                code: 'sessionEnded',
-              });
+            if (
+              response.supervisorId ||
+              this.props.selectedPresenceReason.nextStateSupervisorId
+            ) {
+              this.props.setSessionEndedBySupervisor(
+                {
+                  ...response,
+                  supervisorId: this.props.selectedPresenceReason
+                    .nextStateSupervisorId,
+                  supervisorName: this.props.selectedPresenceReason
+                    .nextStateSupervisorName,
+                },
+                {
+                  code: 'sessionEnded',
+                }
+              );
             } else {
               this.props.setCriticalError({ code: 2003 });
             }
+            // Once next-state is applied, we clear it from state
+            // We clear any next-state pending
+            this.props.clearNextState();
+            this.props.dismissAgentDirection();
+            this.props.dismissAgentPresenceState();
             break;
           }
 
@@ -1680,7 +1721,10 @@ export class App extends React.Component {
           dismiss={this.props.dismissAgentPresenceState}
         >
           <FormattedMessage
-            {...messages.presenceStateChanged}
+            {...(!reason &&
+            this.props.selectedPresenceReason.nextState === 'offline'
+              ? messages.pendingSessionEnded
+              : messages.presenceStateChanged)}
             values={{
               state: (
                 <strong>
@@ -1778,6 +1822,7 @@ export class App extends React.Component {
         />
       );
     }
+
     return (
       <div style={[this.styles.base, this.styles.desktop]}>
         {banners}
@@ -1820,6 +1865,7 @@ const mapStateToProps = (state, props) => ({
   visualNotificationsEnabled: selectVisualPreferences(state, props),
   queues: selectQueues(state, props),
   selectedInteractionId: getSelectedInteractionId(state, props),
+  hasInteractions: selectHasInteractions(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -1957,6 +2003,7 @@ function mapDispatchToProps(dispatch) {
     dismissError: () => dispatch(dismissError()),
     dismissAgentDirection: () => dispatch(dismissAgentDirection()),
     dismissAgentPresenceState: () => dispatch(dismissAgentPresenceState()),
+    clearNextState: () => dispatch(clearNextState()),
     setCrmModule: crmModule => dispatch(setCrmModule(crmModule)),
     setStandalonePopup: () => dispatch(setStandalonePopup()),
     setCrmActiveTab: (type, id, name) =>
@@ -2068,11 +2115,13 @@ App.propTypes = {
   nonCriticalError: PropTypes.any,
   agentDirection: PropTypes.object,
   readyState: PropTypes.string,
+  hasInteractions: PropTypes.bool,
   selectedPresenceReason: PropTypes.object,
   hasCrmPermissions: PropTypes.bool,
   dismissError: PropTypes.func,
   dismissAgentDirection: PropTypes.func,
   dismissAgentPresenceState: PropTypes.func,
+  clearNextState: PropTypes.func,
   setCrmModule: PropTypes.func.isRequired,
   crmModule: PropTypes.string,
   setStandalonePopup: PropTypes.func.isRequired,

@@ -72,6 +72,7 @@
   "app.containers.App.notready": "Unavailable ({reason})",
   "app.containers.App.offline": "You are currently offline",
   "app.containers.App.outbound": "Outbound",
+  "app.containers.App.pendingSessionEnded": "{icon} Your session will be disconnected when your current interactions end - {name}",
   "app.containers.App.presenceStateChanged": "{icon} Your state has been changed to \"{state}\" by your supervisor - {name}",
   "app.containers.App.ready": "Available",
   "app.containers.App.reload": "Click Here To Reload",

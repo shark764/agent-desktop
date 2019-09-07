@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.39.0] (2019-09-06)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.39.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.39.0/index.html)
+### Added
+* CXV1-19801 - Set agents to away before disconnet them when state is busy.
+### Changed
+* CXV1-17588 - SDK version bump for create/update/merge contact issue.
+
 ## [1.38.1] (2019-09-05)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.38.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.38.1/index.html)

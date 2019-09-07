@@ -138,6 +138,12 @@ export function dismissAgentPresenceState() {
   };
 }
 
+export function clearNextState() {
+  return {
+    type: ACTIONS.CLEAR_NEXT_STATE,
+  };
+}
+
 export function goNotReady(reason, listId) {
   return {
     type: ACTIONS.GO_NOT_READY,
