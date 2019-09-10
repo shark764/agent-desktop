@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.39.1] (2019-09-06)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.39.1-SNAPSHOT/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.39.1-SNAPSHOT/index.html)
+### Changed
+* Changed the Jenkins file to correclty shut down old build
+
 ## [1.39.0] (2019-09-06)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.39.0/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.39.0/index.html)
