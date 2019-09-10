@@ -153,7 +153,8 @@ export class ContactView extends React.Component {
         selectedOutboundAni: this.props.getSelectedOutboundPhoneIdentifier,
       });
       if (channelType === 'voice') {
-        const outboundVoiceObject = { phoneNumber: contactPoint };
+        const outboundVoiceObject = { phoneNumber: contactPoint,
+          contactId: this.props.contact.id };
         if (this.props.getSelectedOutboundPhoneIdentifier) {
           const {
             outboundIdentifier,

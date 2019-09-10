@@ -65,6 +65,7 @@ import {
 import {
   setCriticalError,
   setSessionEndedBySupervisor,
+  setNonCriticalError,
   handleSDKError,
   addStatErrorId,
   removeStatErrorId,
@@ -92,6 +93,7 @@ import errorMessages from 'containers/Errors/messages';
 import {
   setCRMUnavailable,
   validateContactLayoutTranslations,
+  setLoading,
 } from 'containers/InfoTab/actions';
 import { startOutboundEmail } from 'containers/EmailContentArea/actions';
 import { setResourceCapactiy, setUsers } from 'containers/TransferMenu/actions';
@@ -164,6 +166,8 @@ import {
   dismissAgentDirection,
   dismissAgentPresenceState,
   clearNextState,
+  setContactMode,
+  removeContact,
 } from 'containers/AgentDesktop/actions';
 
 import { toggleSelectedQueueTransferMenuPreference } from 'containers/AgentTransferMenuPreferenceMenu/actions';
@@ -874,12 +878,14 @@ export class App extends React.Component {
                   if (response.filterType === 'or') {
                     this.attemptContactSearch(
                       response.filter,
-                      response.interactionId
+                      response.interactionId,
+                      interaction
                     );
                   } else if (response.filterType === 'and') {
                     this.attemptContactSearch(
                       Object.assign({ op: 'and' }, response.filter),
-                      response.interactionId
+                      response.interactionId,
+                      interaction
                     );
                   } else {
                     console.error(
@@ -890,7 +896,8 @@ export class App extends React.Component {
                   const fuzzySearchString = response.terms.join(' ');
                   this.attemptContactSearch(
                     { q: fuzzySearchString },
-                    response.interactionId
+                    response.interactionId,
+                    interaction
                   );
                 } else {
                   console.error(`Unhandled searchType: ${response.searchType}`);
@@ -1557,7 +1564,17 @@ export class App extends React.Component {
     });
   };
 
-  attemptContactSearch = (query, interactionId) => {
+
+  assignAndViewContacts = (searchResponse, interactionId, query) => {
+    if (searchResponse.results.length === 1) {
+      // If single contact found, auto assign to interaction
+      this.props.assignContact(interactionId, searchResponse.results[0]);
+    } 
+    this.props.setInteractionQuery(interactionId, query);
+  };
+
+
+  attemptContactSearch = (query, interactionId, interaction, tries = 0) => {
     CxEngage.contacts.search(
       createSearchQuery(query),
       (searchError, searchTopic, searchResponse) => {
@@ -1569,11 +1586,33 @@ export class App extends React.Component {
             searchTopic,
             searchResponse
           );
-          if (searchResponse.count === 1) {
-            // If single contact found, auto assign to interaction
-            this.props.assignContact(interactionId, searchResponse.results[0]);
+
+          if (interaction && interaction.contact) {
+            const numberOfRetries=7
+            const contactMatched = searchResponse.results.find(contactResult => (contactResult.id === interaction.contact.id));
+
+            if (tries === 0 && !(contactMatched && searchResponse.results.length === 1)) {
+              this.props.setContactMode(interactionId, 'search');
+              this.props.removeContact(interaction.contact.id);
+              this.props.setLoading(true);
+            }
+
+            if (contactMatched) {
+              this.props.setLoading(false);
+              this.assignAndViewContacts(searchResponse, interactionId, query);
+
+            } else if (tries < numberOfRetries) {
+              setTimeout(() => {
+                this.attemptContactSearch(query, interactionId, interaction, tries+1);
+              }, 2000);
+
+            } else if (tries >= numberOfRetries) {
+              this.props.setNonCriticalError({ code: 'incorrectContactsSync' });
+              this.props.setLoading(false);
+            }
+          } else {
+            this.assignAndViewContacts(searchResponse, interactionId, query);
           }
-          this.props.setInteractionQuery(interactionId, query);
         }
       }
     );
@@ -1993,8 +2032,10 @@ function mapDispatchToProps(dispatch) {
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
     validateContactLayoutTranslations: () =>
       dispatch(validateContactLayoutTranslations()),
+    setLoading: (loading) => dispatch(setLoading(loading)), 
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
     setCriticalError: error => dispatch(setCriticalError(error)),
+    setNonCriticalError: (error) => dispatch(setNonCriticalError(error)),
     setSessionEndedBySupervisor: (response, error) =>
       dispatch(setSessionEndedBySupervisor(response, error)),
     setCRMUnavailable: reason => dispatch(setCRMUnavailable(reason)),
@@ -2027,6 +2068,10 @@ function mapDispatchToProps(dispatch) {
       dispatch(outboundCustomerConnected(interactionId)),
     setTranferringInConference: (interactionId, isColdTransferring) =>
       dispatch(setTranferringInConference(interactionId, isColdTransferring)),
+    setContactMode: (interactionId, newMode) =>
+      dispatch(setContactMode(interactionId, newMode)),
+    removeContact:  (contactId) =>
+      dispatch(removeContact(contactId)),
     toggleQueue: queue =>
       dispatch(toggleSelectedQueueTransferMenuPreference(queue)),
     toggleInteractionNotification: (interactionId, notification) =>
@@ -2099,8 +2144,10 @@ App.propTypes = {
   toggleAgentMenu: PropTypes.func.isRequired,
   goNotReady: PropTypes.func.isRequired,
   validateContactLayoutTranslations: PropTypes.func.isRequired,
+  setLoading: PropTypes.func,
   handleSDKError: PropTypes.func.isRequired,
   setCriticalError: PropTypes.func.isRequired,
+  setNonCriticalError: PropTypes.func.isRequired,
   setSessionEndedBySupervisor: PropTypes.func,
   setCRMUnavailable: PropTypes.func.isRequired,
   addStatErrorId: PropTypes.func.isRequired,
@@ -2143,6 +2190,8 @@ App.propTypes = {
   outboundCustomerConnected: PropTypes.func.isRequired,
   setTranferringInConference: PropTypes.func.isRequired,
   selectedInteractionId: PropTypes.string,
+  setContactMode: PropTypes.func.isRequired,
+  removeContact: PropTypes.func.isRequired,
   toggleInteractionNotification: PropTypes.func.isRequired,
 };
 

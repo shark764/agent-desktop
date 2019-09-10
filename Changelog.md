@@ -10,7 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
-## [1.39.1] (2019-09-06)
+## [1.39.2] (2019-09-10)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.39.2/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.39.2/index.html)
+### Fixed
+* CXV1-18087 - Interactions not being recorded to contacts in Skylight Desktop.
+
+## [1.39.1] (2019-09-06) 
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.39.1-SNAPSHOT/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.39.1-SNAPSHOT/index.html)
 ### Changed

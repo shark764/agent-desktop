@@ -186,6 +186,7 @@
   "app.containers.Errors.AD-1005": "To konto nie jest obecnie powiązane z aktywnym dzierżawcą. Skontaktuj się z administratorem systemu w celu uzyskania pomocy.",
   "app.containers.Errors.AD-1006": "Aby włączyć powiadomienia wizualne, należy zezwolić na powiadomienia przez przeglądarkę.",
   "app.containers.Errors.AD-1007": "",
+  "app.containers.Errors.incorrectContactsSync": "",
   "app.containers.Errors.default": "Wystąpił nieznany błąd. Spróbuj zakończyć swoją pracę, ponieważ może być konieczne odświeżenie strony w celu kontynuacji.",
   "app.containers.InfoTab.contactLayoutMissingLocaleTranslations": "Brak tłumaczeń dla układu kontaktu",
   "app.containers.InfoTab.crmUnavailableAttribute": "Nie znaleziono atrybutów, sprawdź konfigurację dzierżawcy",

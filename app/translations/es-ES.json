@@ -186,6 +186,7 @@
   "app.containers.Errors.AD-1005": "Esta cuenta no está asociada actualmente a un abonado activo. Póngase en contacto con el administrador de su sistema para obtener ayuda.",
   "app.containers.Errors.AD-1006": "Debe permitir las notificaciones a través del navegador para activar las notificaciones visuales.",
   "app.containers.Errors.AD-1007": "",
+  "app.containers.Errors.incorrectContactsSync": "",
   "app.containers.Errors.default": "Se ha producido un error desconocido. Intente finalizar su trabajo, ya que es posible que tenga que actualizar la página para poder continuar.",
   "app.containers.InfoTab.contactLayoutMissingLocaleTranslations": "Faltan traducciones para el diseño de contacto",
   "app.containers.InfoTab.crmUnavailableAttribute": "No se han encontrado atributos de contacto; compruebe la configuración del abonado.",

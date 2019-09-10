@@ -186,6 +186,7 @@
   "app.containers.Errors.AD-1005": "Dieser Account ist zurzeit nicht mit einem aktiven Mandanten verbunden. Bitte wenden Sie sich an Ihren Systemadministrator.",
   "app.containers.Errors.AD-1006": "Sie müssen Benachrichtigungen im Browser zulassen, um visuelle Nachrichten zu aktivieren.",
   "app.containers.Errors.AD-1007": "",
+  "app.containers.Errors.incorrectContactsSync": "",
   "app.containers.Errors.default": "Unbekannter Fehler. Bitte beenden Sie Ihre Arbeit, da Sie möglicherweise die Seite aktualisieren müssen, um fortfahren zu können.",
   "app.containers.InfoTab.contactLayoutMissingLocaleTranslations": "Im Kontakt-Layout fehlen Übersetzungen.",
   "app.containers.InfoTab.crmUnavailableAttribute": "Keine Kontaktattribute gefunden. Mandantenkonfiguration prüfen.",

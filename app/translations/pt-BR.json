@@ -186,6 +186,7 @@
   "app.containers.Errors.AD-1005": "Esta conta atualmente não está associada a um locatário ativo. Entre em contato com o administrador do sistema para obter auxílio.",
   "app.containers.Errors.AD-1006": "Você deve autorizar notificações em seu navegador para ativar as notificações visuais.",
   "app.containers.Errors.AD-1007": "",
+  "app.containers.Errors.incorrectContactsSync": "",
   "app.containers.Errors.default": "Ocorreu um erro desconhecido. Tente encerrar o seu trabalho, pois pode ser necessário recarregar a página para continuar.",
   "app.containers.InfoTab.contactLayoutMissingLocaleTranslations": "Há traduções ausentes para o layout de contato",
   "app.containers.InfoTab.crmUnavailableAttribute": "Nenhum atributo de contato encontrado, verifique a configuração do locatário.",
