@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Alpha User Acceptance Testing]
 
+## [1.40.0] (2019-09-09)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.40.0/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.40.0/index.html)
+### Added
+* CXV1-19654 - Multiple participant recording support in contact history
 
 ## [Beta User Acceptance Testing]
 </br>

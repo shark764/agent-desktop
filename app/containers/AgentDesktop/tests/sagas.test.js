@@ -32,10 +32,8 @@ describe('loadHistoricalInteractionBody Saga', () => {
     ];
     beforeEach(() => {
       global.CxEngage = {
-        interactions: {
-          voice: {
-            getRecordings: mockGetRecordings,
-          },
+        entities: {
+          getRecordings: mockGetRecordings,
         },
       };
     });

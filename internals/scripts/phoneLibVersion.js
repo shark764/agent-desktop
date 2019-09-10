@@ -5,10 +5,10 @@ const currentVersion = require(`../../node_modules/serenova-js-utils/package.jso
 
 https.get(
   'https://raw.githubusercontent.com/catamphetamine/libphonenumber-js/master/package.json',
-  (res) => {
+  res => {
     res.setEncoding('utf8');
     let body = '';
-    res.on('data', (data) => (body += data));
+    res.on('data', data => (body += data));
     res.on('end', () => {
       const { version } = JSON.parse(body);
       if (currentVersion !== version) {
@@ -24,7 +24,6 @@ https.get(
 
       `
         );
-        process.exit(1);
       }
     });
   }

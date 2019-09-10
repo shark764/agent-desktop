@@ -1626,7 +1626,9 @@ Object {
       "action": Object {
         "interactionDetails": Object {
           "audioRecordings": Array [
-            "mockRecordingUrl",
+            Object {
+              "url": "mockRecordingUrl",
+            },
           ],
         },
         "interactionId": "mockId",

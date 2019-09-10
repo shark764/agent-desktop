@@ -113,6 +113,18 @@ const styles = {
     cursor: 'pointer',
     lineHeight: '1.5em',
   },
+  recordingsList: {
+    margin: '0 0 15px 0',
+    flexGrow: '1',
+  },
+  recording: {
+    borderTop: '1px solid #D0D0D0',
+    margin: '20px 0 15px 0',
+    flexGrow: '1',
+  },
+  recordingData: {
+    margin: '15px 0 20px 0',
+  },
   transcript: {
     borderTop: '1px solid #D0D0D0',
     margin: '20px 0 15px 0',
@@ -149,7 +161,7 @@ const styles = {
 };
 
 export class ContactInteractionHistoryItem extends React.Component {
-  getInteractionHistoryDetails = (contactHistoryInteractionId) => {
+  getInteractionHistoryDetails = contactHistoryInteractionId => {
     this.props.setContactHistoryInteractionDetailsLoading(
       this.props.selectedInteractionId,
       contactHistoryInteractionId
@@ -159,37 +171,64 @@ export class ContactInteractionHistoryItem extends React.Component {
     });
   };
 
-  addControlsListAttribute = (element) => {
+  addControlsListAttribute = element => {
     if (element) {
       element.setAttribute('controlslist', 'nodownload'); // controlslist attribute not currently supported in React!
     }
   };
 
-  interactionBody = (interactionDetails) => {
+  interactionBody = interactionDetails => {
     let transcript;
     let transcriptItems;
-    const audioRecordings = (recordings) => {
+    const audioRecordings = recordings => {
       if (recordings.length === 0) {
         return <FormattedMessage {...messages.noRecordings} />;
       }
-      return recordings.map((recordingUrl) => (
-        <audio
-          key={recordingUrl}
-          src={recordingUrl}
-          ref={this.addControlsListAttribute}
-          style={styles.audio}
-          controls
-          onContextMenu={(event) => event.preventDefault()}
-        />
-      ));
+      return recordings.map(recording => {
+        const participant = recording.participantAdditionalInfo;
+
+        const participantType = participant ? (
+          participant.participantType
+        ) : (
+          <FormattedMessage {...messages.defaultParticipantType} />
+        );
+
+        const participantIdentifier = participant
+          ? `: ${participant.agentName || participant.extension}`
+          : '';
+
+        const recordingStartTime = moment(recording.created).format('LLL');
+
+        return (
+          <div style={styles.recording}>
+            <div style={styles.transcriptTitle}>
+              <FormattedMessage
+                {...messages.recordingTitle}
+                values={{ participantType, participantIdentifier }}
+              />
+            </div>
+            <audio
+              key={recording.files[0].url}
+              src={recording.files[0].url}
+              ref={this.addControlsListAttribute}
+              style={styles.audio}
+              controls
+              onContextMenu={event => event.preventDefault()}
+            />
+            <div style={styles.recordingData}>
+              <FormattedMessage
+                {...messages.recordingStart}
+                values={{ recordingStartTime }}
+              />
+            </div>
+          </div>
+        );
+      });
     };
     switch (interactionDetails.channelType) {
       case 'voice':
         transcript = (
-          <div style={styles.transcript}>
-            <div style={styles.transcriptTitle}>
-              <FormattedMessage {...messages.audioRecording} />
-            </div>
+          <div style={styles.recordingsList}>
             <div>
               {interactionDetails.audioRecordings !== undefined ? (
                 audioRecordings(interactionDetails.audioRecordings)
@@ -219,7 +258,7 @@ export class ContactInteractionHistoryItem extends React.Component {
                 transcriptItem.payload.type;
               let messageFrom = transcriptItem.payload.from;
               if (messageType === 'agent') {
-                interactionDetails.agents.forEach((agent) => {
+                interactionDetails.agents.forEach(agent => {
                   if (agent.resourceId === transcriptItem.payload.from) {
                     messageFrom = agent.agentName;
                   }
@@ -307,8 +346,9 @@ export class ContactInteractionHistoryItem extends React.Component {
       }
       const segmentData =
         interaction.interactionDetails.agents &&
-        interaction.interactionDetails.agents.map((segment) => {
-          let duration; let notesBody;
+        interaction.interactionDetails.agents.map(segment => {
+          let duration;
+          let notesBody;
           if (interaction.note === 1 && segment.note === undefined) {
             notesBody = (
               <div style={styles.loadingInteractionDetails}>

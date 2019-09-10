@@ -75,11 +75,11 @@ export function* loadHistoricalInteractionBody(action) {
       case 'recordings':
         metaData = yield call(
           sdkCallToPromise,
-          CxEngage.interactions.voice.getRecordings,
+          CxEngage.entities.getRecordings,
           { interactionId: action.interactionId },
           'AgentDesktop'
         );
-        body.audioRecordings = metaData.map(recording => recording.url);
+        body.audioRecordings = metaData;
         break;
       case 'transcript':
         metaData = yield call(

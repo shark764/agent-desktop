@@ -26,6 +26,18 @@ export default defineMessages({
     id: 'app.containers.ContactInteractionHistory.audioRecording',
     defaultMessage: 'Audio Recording',
   },
+  defaultParticipantType: {
+    id: 'app.containers.ContactInteractionHistory.defaultParticipantType',
+    defaultMessage: 'Customer',
+  },
+  recordingTitle: {
+    id: 'app.containers.ContactInteractionHistory.recordingTitle',
+    defaultMessage: '{participantType} Recording{participantIdentifier}',
+  },
+  recordingStart: {
+    id: 'app.containers.ContactInteractionHistory.recordingStart',
+    defaultMessage: 'Start Time: {recordingStartTime}',
+  },
   noRecordings: {
     id: 'app.containers.ContactInteractionHistory.noRecordings',
     defaultMessage: 'No recordings (processing can take up to 10 minutes).',

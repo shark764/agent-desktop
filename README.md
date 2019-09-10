@@ -7,7 +7,7 @@ A single screen web app built in React for handling inbound and outbound interac
 3. run `npm start` to start a development instance
 
 ## Desktop mode
-- Add "desktop" to your URL to use desktop mode (ex. http://localhost:3000/desktop)
+- Add "desktop" to your URL to use desktop mode (ex. http://localhost:3000/?desktop)
 
 ## CRM integrations
 - To use in a CRM integration, include "crmModule=your-crm-module" in the URL (ex. http://localhost:3000?crmModule=salesforce-classic)
@@ -30,4 +30,3 @@ https://www.youtube.com/watch?v=t4tuhg7b50I
 
 - [react-window](https://github.com/bvaughn/react-window)
 - [react-virtualized](https://github.com/bvaughn/react-virtualized)
-
