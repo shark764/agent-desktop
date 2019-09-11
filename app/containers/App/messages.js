@@ -48,11 +48,6 @@ export default defineMessages({
     defaultMessage:
       '{icon} Your state has been changed to "{state}" by your supervisor - {name}',
   },
-  pendingSessionEnded: {
-    id: 'app.containers.App.pendingSessionEnded',
-    defaultMessage:
-      '{icon} Your session will be disconnected when your current interactions end - {name}',
-  },
   reload: {
     id: 'app.containers.App.reload',
     defaultMessage: 'Click Here To Reload',

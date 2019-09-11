@@ -6,14 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Alpha User Acceptance Testing]
 
+## [Beta User Acceptance Testing]
+</br>
+
+## [1.40.1] (2019-09-10)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.40.1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.40.1/index.html)
+### Changed
+* CXV1-19880 - Remove pending away state when the supervisor disconnect a busy agent.
+
 ## [1.40.0] (2019-09-09)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.40.0/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.40.0/index.html)
 ### Added
 * CXV1-19654 - Multiple participant recording support in contact history
-
-## [Beta User Acceptance Testing]
-</br>
 
 ## [1.39.2] (2019-09-10)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.39.2/index.html)  

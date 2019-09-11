@@ -165,7 +165,6 @@ import {
   setTranferringInConference,
   dismissAgentDirection,
   dismissAgentPresenceState,
-  clearNextState,
   setContactMode,
   removeContact,
 } from 'containers/AgentDesktop/actions';
@@ -229,27 +228,6 @@ export class App extends React.Component {
       Notification.permission !== 'denied'
     ) {
       Notification.requestPermission();
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    // If nextState parameter has been sent in the SQS message,
-    // we wait until the state change from busy to any, then
-    // we change to new state
-    if (
-      this.props.selectedPresenceReason &&
-      this.props.selectedPresenceReason.nextState === 'offline' &&
-      prevProps.hasInteractions !== this.props.hasInteractions &&
-      !this.props.hasInteractions
-    ) {
-      // Sending change state request, we do this way
-      // since new-state could be "offline", then it has
-      // to be disconnected from back-end first
-      // NOTE: "offline" is the only state that needs the
-      // interactions to end before being applied.
-      CxEngage.session.setPresenceState({
-        state: this.props.selectedPresenceReason.nextState,
-      });
     }
   }
 
@@ -506,28 +484,15 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/session/ended': {
-            if (
-              response.supervisorId ||
-              this.props.selectedPresenceReason.nextStateSupervisorId
-            ) {
-              this.props.setSessionEndedBySupervisor(
-                {
-                  ...response,
-                  supervisorId: this.props.selectedPresenceReason
-                    .nextStateSupervisorId,
-                  supervisorName: this.props.selectedPresenceReason
-                    .nextStateSupervisorName,
-                },
-                {
-                  code: 'sessionEnded',
-                }
-              );
+            if (response.supervisorId) {
+              this.props.setSessionEndedBySupervisor(response, {
+                code: 'sessionEnded',
+              });
             } else {
               this.props.setCriticalError({ code: 2003 });
             }
-            // Once next-state is applied, we clear it from state
-            // We clear any next-state pending
-            this.props.clearNextState();
+            // We clear any open banner for direction
+            // or state change from monitoring
             this.props.dismissAgentDirection();
             this.props.dismissAgentPresenceState();
             break;
@@ -1564,15 +1529,13 @@ export class App extends React.Component {
     });
   };
 
-
   assignAndViewContacts = (searchResponse, interactionId, query) => {
     if (searchResponse.results.length === 1) {
       // If single contact found, auto assign to interaction
       this.props.assignContact(interactionId, searchResponse.results[0]);
-    } 
+    }
     this.props.setInteractionQuery(interactionId, query);
   };
-
 
   attemptContactSearch = (query, interactionId, interaction, tries = 0) => {
     CxEngage.contacts.search(
@@ -1588,10 +1551,15 @@ export class App extends React.Component {
           );
 
           if (interaction && interaction.contact) {
-            const numberOfRetries=7
-            const contactMatched = searchResponse.results.find(contactResult => (contactResult.id === interaction.contact.id));
+            const numberOfRetries = 7;
+            const contactMatched = searchResponse.results.find(
+              contactResult => contactResult.id === interaction.contact.id
+            );
 
-            if (tries === 0 && !(contactMatched && searchResponse.results.length === 1)) {
+            if (
+              tries === 0 &&
+              !(contactMatched && searchResponse.results.length === 1)
+            ) {
               this.props.setContactMode(interactionId, 'search');
               this.props.removeContact(interaction.contact.id);
               this.props.setLoading(true);
@@ -1600,12 +1568,15 @@ export class App extends React.Component {
             if (contactMatched) {
               this.props.setLoading(false);
               this.assignAndViewContacts(searchResponse, interactionId, query);
-
             } else if (tries < numberOfRetries) {
               setTimeout(() => {
-                this.attemptContactSearch(query, interactionId, interaction, tries+1);
+                this.attemptContactSearch(
+                  query,
+                  interactionId,
+                  interaction,
+                  tries + 1
+                );
               }, 2000);
-
             } else if (tries >= numberOfRetries) {
               this.props.setNonCriticalError({ code: 'incorrectContactsSync' });
               this.props.setLoading(false);
@@ -1760,10 +1731,7 @@ export class App extends React.Component {
           dismiss={this.props.dismissAgentPresenceState}
         >
           <FormattedMessage
-            {...(!reason &&
-            this.props.selectedPresenceReason.nextState === 'offline'
-              ? messages.pendingSessionEnded
-              : messages.presenceStateChanged)}
+            {...messages.presenceStateChanged}
             values={{
               state: (
                 <strong>
@@ -2032,10 +2000,10 @@ function mapDispatchToProps(dispatch) {
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
     validateContactLayoutTranslations: () =>
       dispatch(validateContactLayoutTranslations()),
-    setLoading: (loading) => dispatch(setLoading(loading)), 
+    setLoading: loading => dispatch(setLoading(loading)),
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
     setCriticalError: error => dispatch(setCriticalError(error)),
-    setNonCriticalError: (error) => dispatch(setNonCriticalError(error)),
+    setNonCriticalError: error => dispatch(setNonCriticalError(error)),
     setSessionEndedBySupervisor: (response, error) =>
       dispatch(setSessionEndedBySupervisor(response, error)),
     setCRMUnavailable: reason => dispatch(setCRMUnavailable(reason)),
@@ -2044,7 +2012,6 @@ function mapDispatchToProps(dispatch) {
     dismissError: () => dispatch(dismissError()),
     dismissAgentDirection: () => dispatch(dismissAgentDirection()),
     dismissAgentPresenceState: () => dispatch(dismissAgentPresenceState()),
-    clearNextState: () => dispatch(clearNextState()),
     setCrmModule: crmModule => dispatch(setCrmModule(crmModule)),
     setStandalonePopup: () => dispatch(setStandalonePopup()),
     setCrmActiveTab: (type, id, name) =>
@@ -2070,8 +2037,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(setTranferringInConference(interactionId, isColdTransferring)),
     setContactMode: (interactionId, newMode) =>
       dispatch(setContactMode(interactionId, newMode)),
-    removeContact:  (contactId) =>
-      dispatch(removeContact(contactId)),
+    removeContact: contactId => dispatch(removeContact(contactId)),
     toggleQueue: queue =>
       dispatch(toggleSelectedQueueTransferMenuPreference(queue)),
     toggleInteractionNotification: (interactionId, notification) =>
@@ -2168,7 +2134,6 @@ App.propTypes = {
   dismissError: PropTypes.func,
   dismissAgentDirection: PropTypes.func,
   dismissAgentPresenceState: PropTypes.func,
-  clearNextState: PropTypes.func,
   setCrmModule: PropTypes.func.isRequired,
   crmModule: PropTypes.string,
   setStandalonePopup: PropTypes.func.isRequired,

@@ -406,36 +406,33 @@ export class AgentStatusMenu extends React.Component {
             {this.props.presenceReasonLists.map(this.renderList, this)}
           </div>
           <div style={[styles.narrowDivider, { padding: '7px 24px 0 24px' }]} />
-          {this.props.readyState === 'ready' ||
-          this.props.selectedPresenceReason.nextState === 'offline' ? (
-              <div
-                id="readyStateLink"
-                style={[styles.presenceLinkContainer, styles.activePresence]}
-              >
-                <div style={styles.itemText}>
-                  <FormattedMessage {...messages.ready} />
-                </div>
-                {this.props.selectedPresenceReason.nextState !== 'offline' && (
-                  <Icon
-                    name="checkStatus"
-                    alt="selected"
-                    style={styles.selectedIcon}
-                  />
-                )}
-              </div>
-            ) : (
-              <div
-                id="readyStateLink"
-                style={[
-                  styles.presenceLinkContainer,
-                  styles.inactivePresence,
-                  this.state.statusLoading && styles.disabledPresenceUpdate,
-                ]}
-                onClick={!this.state.statusLoading ? this.goReady : undefined}
-              >
+          {this.props.readyState === 'ready' ? (
+            <div
+              id="readyStateLink"
+              style={[styles.presenceLinkContainer, styles.activePresence]}
+            >
+              <div style={styles.itemText}>
                 <FormattedMessage {...messages.ready} />
               </div>
-            )}
+              <Icon
+                name="checkStatus"
+                alt="selected"
+                style={styles.selectedIcon}
+              />
+            </div>
+          ) : (
+            <div
+              id="readyStateLink"
+              style={[
+                styles.presenceLinkContainer,
+                styles.inactivePresence,
+                this.state.statusLoading && styles.disabledPresenceUpdate,
+              ]}
+              onClick={!this.state.statusLoading ? this.goReady : undefined}
+            >
+              <FormattedMessage {...messages.ready} />
+            </div>
+          )}
         </div>
       </PopupDialog>
     );

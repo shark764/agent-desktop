@@ -560,25 +560,6 @@ function agentDesktopReducer(state = initialState, action) {
           listId: action.presenceInfo.reasonListId,
           supervisorId: action.presenceInfo.supervisorId,
           supervisorName: action.presenceInfo.supervisorName,
-          // We need to store supervisor who changed state
-          // while agent was busy. We will display banner
-          // using this data
-          nextState:
-            state.getIn(['presenceReason', 'nextState']) ||
-            action.presenceInfo.nextState,
-          nextStateSupervisorId:
-            state.getIn(
-              ['presenceReason', 'nextStateSupervisorId'],
-              undefined
-            ) ||
-            (action.presenceInfo.nextState && action.presenceInfo.supervisorId),
-          nextStateSupervisorName:
-            state.getIn(
-              ['presenceReason', 'nextStateSupervisorName'],
-              undefined
-            ) ||
-            (action.presenceInfo.nextState &&
-              action.presenceInfo.supervisorName),
           isSystemReason,
         })
       );
@@ -586,13 +567,6 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.DISMISS_AGENT_PRESENCE_STATE:
       return state.update('presenceReason', presenceReason =>
         presenceReason.delete('supervisorId').delete('supervisorName')
-      );
-    case ACTIONS.CLEAR_NEXT_STATE:
-      return state.update('presenceReason', presenceReason =>
-        presenceReason
-          .delete('nextState')
-          .delete('nextStateSupervisorId')
-          .delete('nextStateSupervisorName')
       );
 
     case ACTIONS.SET_INTERACTION_STATUS: {
