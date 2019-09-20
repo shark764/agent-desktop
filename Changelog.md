@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.40.2] (2019-09-18)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.40.2/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.40.2/index.html)
+### Fixed
+* CXV1-17954 - Message Template is not properly formatting.
+
 ## [1.40.1] (2019-09-10)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.40.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.40.1/index.html)

@@ -396,22 +396,29 @@ export class EmailContentArea extends React.Component {
     });
   };
 
-  onTemplateChange = value => {
+  onTemplateChange = e => {
     let newEditorState;
-    if (value !== null && value !== undefined) {
-      newEditorState = EditorState.createWithContent(
-        ContentState.createFromBlockArray(
-          convertFromHTML(value).contentBlocks,
-          convertFromHTML(value).entityMap
-        ),
-        decorator
-      );
+    if (e !== null && e !== undefined) {
+      const { type, value } = e;
+      if (type === 'plaintext') {
+        newEditorState = EditorState.createWithContent(
+          ContentState.createFromText(value)
+        );
+      } else {
+        newEditorState = EditorState.createWithContent(
+          ContentState.createFromBlockArray(
+            convertFromHTML(value).contentBlocks,
+            convertFromHTML(value).entityMap
+          ),
+          decorator
+        );
+      }
     } else {
       newEditorState = createEditorState();
     }
     this.props.updateSelectedEmailTemplate(
       this.props.selectedInteraction.interactionId,
-      value
+      e ? e.value : null
     );
     this.setState({
       editorState: newEditorState,
@@ -880,10 +887,13 @@ ${this.props.selectedInteraction.emailPlainBody}`;
         ];
       }
 
-      const emailTemplates = this.props.emailTemplates.map(emailTemplate => ({
-        value: emailTemplate.template,
-        label: emailTemplate.name,
-      }));
+      const emailTemplates = this.props.emailTemplates.map(
+        ({ template, name, type }) => ({
+          value: template,
+          type,
+          label: name,
+        })
+      );
       details = (
         <div>
           {this.props.selectedInteraction.emailReply !== 'undefined' &&
@@ -977,7 +987,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
                             .selectedEmailTemplate
                         }
                         options={emailTemplates}
-                        onChange={e => this.onTemplateChange(e ? e.value : e)}
+                        onChange={e => this.onTemplateChange(e)}
                       />
                     ) : (
                       this.props.selectedInteraction.emailReply
