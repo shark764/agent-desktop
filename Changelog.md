@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.40.3] (2019-09-24)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.40.3/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.40.3/index.html)
+### Fixed
+* bulk subscription removal bug fixed with cxengage-javascript-sdk update to 9.0.2
+
 ## [1.40.2] (2019-09-18)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.40.2/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.40.2/index.html)
