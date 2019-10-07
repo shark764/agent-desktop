@@ -67,10 +67,6 @@ const styles = {
   selectedMessageTemplate: {
     backgroundColor: '#DEF8FE',
   },
-  messageTextareaContainer: {
-    flex: '0 1 50px',
-    maxHeight: '95px',
-  },
   templateMenuButton: {
     height: 'calc(100% - 4px)',
     width: '40px',
@@ -157,9 +153,9 @@ export class MessagingTextArea extends React.Component {
     }
   };
 
-  handleKeyDown = (e) => {
+  handleKeyDown = e => {
     if (e.key === 'ArrowUp') {
-      this.setState((prevState) => {
+      this.setState(prevState => {
         let newSelectedMessageTemplateIndex =
           prevState.selectedMessageTemplateIndex;
         if (!prevState.showMessageTemplateMenuByForwardSlash) {
@@ -192,7 +188,7 @@ export class MessagingTextArea extends React.Component {
         };
       });
     } else if (e.key === 'ArrowDown') {
-      this.setState((prevState) => {
+      this.setState(prevState => {
         let newSelectedMessageTemplateIndex =
           prevState.selectedMessageTemplateIndex;
         if (!prevState.showMessageTemplateMenuByForwardSlash) {
@@ -237,7 +233,7 @@ export class MessagingTextArea extends React.Component {
     }
   };
 
-  selectMessageTemplateIndex = (selectedMessageTemplateIndex) => {
+  selectMessageTemplateIndex = selectedMessageTemplateIndex => {
     this.setState({ selectedMessageTemplateIndex });
   };
 
@@ -265,7 +261,7 @@ export class MessagingTextArea extends React.Component {
     document.removeEventListener('keydown', this.handleKeyDown);
   };
 
-  setMessageText = (messageText) => {
+  setMessageText = messageText => {
     // If we're filtering based on "/" text, reset the selected message template to the first unfiltered one
     let newSelectedMessageTemplateIndex;
     let newMessageTemplateFilter;
@@ -283,7 +279,7 @@ export class MessagingTextArea extends React.Component {
           break;
         }
       }
-      this.setState((prevState) => ({
+      this.setState(prevState => ({
         messageTemplateFilter: newMessageTemplateFilter,
         selectedMessageTemplateIndex:
           newSelectedMessageTemplateIndex !== undefined
@@ -297,7 +293,7 @@ export class MessagingTextArea extends React.Component {
     );
   };
 
-  onMessageKeyDown = (e) => {
+  onMessageKeyDown = e => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       if (!this.state.showMessageTemplateMenu) {
@@ -349,6 +345,11 @@ export class MessagingTextArea extends React.Component {
           this.props.selectedInteraction.interactionId,
           this.props.selectedInteraction.currentMessage
         );
+      } else if (this.props.selectedInteraction.source === 'smooch') {
+        CxEngage.interactions.messaging.sendSmoochMessage({
+          interactionId: this.props.selectedInteraction.interactionId,
+          message: this.props.selectedInteraction.currentMessage,
+        });
       } else {
         CxEngage.interactions.messaging.sendMessage({
           interactionId: this.props.selectedInteraction.interactionId,
@@ -364,7 +365,7 @@ export class MessagingTextArea extends React.Component {
 
   render() {
     return (
-      <div style={styles.messageTextareaContainer}>
+      <div>
         {this.state.showMessageTemplateMenu ? (
           <div
             id="messageTemplatesContainer"
@@ -420,7 +421,7 @@ export class MessagingTextArea extends React.Component {
                       <div
                         className="messageTemplate"
                         key={messageTemplate.id}
-                        ref={(c) => {
+                        ref={c => {
                           this[`messageTemplate-${messageTemplateIndex}`] = c;
                         }}
                         onClick={() => this.addMessageTemplate()}
@@ -481,11 +482,11 @@ export class MessagingTextArea extends React.Component {
         <Textarea
           minRows={2}
           maxRows={4}
-          onHeightChange={(messageTextareaHeight) =>
+          onHeightChange={messageTextareaHeight =>
             this.setState({ messageTextareaHeight })
           }
           id="messageTextarea"
-          inputRef={(input) => {
+          inputRef={input => {
             this.messageTextarea = input;
           }}
           style={
@@ -495,7 +496,7 @@ export class MessagingTextArea extends React.Component {
               : styles.messageTextarea
           }
           value={this.props.selectedInteraction.currentMessage}
-          onChange={(e) => this.setMessageText(e.target.value)}
+          onChange={e => this.setMessageText(e.target.value)}
           onKeyDown={this.onMessageKeyDown}
           autoFocus
         />
@@ -531,7 +532,7 @@ function mapDispatchToProps(dispatch) {
       ),
     sendOutboundSms: (interactionId, message) =>
       dispatch(sendOutboundSms(interactionId, message)),
-    copyChatTranscript: (interaction) =>
+    copyChatTranscript: interaction =>
       dispatch(copyChatTranscript(interaction)),
     saveMesssageState: (interactionId, message) =>
       dispatch(saveMessageState(interactionId, message)),

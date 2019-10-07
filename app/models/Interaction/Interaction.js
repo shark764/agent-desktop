@@ -10,6 +10,7 @@ export default class Interaction {
   constructor({
     interactionId,
     channelType,
+    source,
     autoAnswer,
     direction,
     timeout,
@@ -73,6 +74,9 @@ export default class Interaction {
     this.warmTransfers = new List();
     this.customFieldsCollapsed = true;
     this.channelType = channelType;
+    if (source) {
+      this.source = source;
+    }
     this.direction = direction;
     this.interactionId =
       interactionId || `${direction}-${channelType}-${customer}`;

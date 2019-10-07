@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.41.0] (2019-10-01)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.41.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.41.0/index.html)
+### Added
+* CXV1-19735 - Receive smooch conversation history, send smooch messages, receiving smooch messages. UI and redux for typing and read indicators (WIP).
+
 ## [1.40.3] (2019-09-24)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.40.3/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.40.3/index.html)

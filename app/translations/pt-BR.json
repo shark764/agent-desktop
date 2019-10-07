@@ -247,6 +247,8 @@
   "app.containers.MessagingContentArea.copiedTranscript": "Transcrição copiada para área de transferência",
   "app.containers.MessagingContentArea.copy": "Copiar",
   "app.containers.MessagingContentArea.copyTranscript": "Copiar transcrição para área de transferência",
+  "app.containers.MessagingContentArea.customerIsTyping": "",
+  "app.containers.MessagingContentArea.customerViewed": "",
   "app.containers.MessagingContentArea.endChat": "Encerrar bate-papo",
   "app.containers.MessagingContentArea.endWrapup": "Encerramento",
   "app.containers.MessagingContentArea.esc": "Esc",

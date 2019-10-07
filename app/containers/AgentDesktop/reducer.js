@@ -19,7 +19,7 @@ import ResponseMessage from 'models/Message/ResponseMessage';
 
 import * as ACTIONS from './constants';
 
-// import { outboundConnectingVoiceInteraction, voiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithUnrespondedMessageAndScript, smsInteractionWithUnrespondedMessageAndScript2, smsInteractionWithLotsOfMessagesAndScript2, smsInteractionWithLotsOfMessagesAndScript3, smsInteractionWithLotsOfMessagesAndScript4, smsInteractionWithLotsOfMessagesAndScript5, smsInteractionWithLotsOfMessagesAndScript6, scriptOnly } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
+// import { outboundConnectingVoiceInteraction, voiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smoochMessagingInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithUnrespondedMessageAndScript, smsInteractionWithUnrespondedMessageAndScript2, smsInteractionWithLotsOfMessagesAndScript2, smsInteractionWithLotsOfMessagesAndScript3, smsInteractionWithLotsOfMessagesAndScript4, smsInteractionWithLotsOfMessagesAndScript5, smsInteractionWithLotsOfMessagesAndScript6, scriptOnly } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
 
 const blankNewInteractionPanel = {
   interactionId: 'creating-new-interaction',
@@ -52,6 +52,7 @@ const initialState = fromJS({
     // voiceInteraction,
     // voiceInteractionWithTransfersAndScripts,
     // emailInteraction,
+    // smoochMessagingInteraction,
     // smsInteractionWithLotsOfMessagesAndScript,
     // smsInteractionWithUnrespondedMessageAndScript,
     // smsInteractionWithLotsOfMessagesAndScript2,
@@ -991,6 +992,11 @@ function agentDesktopReducer(state = initialState, action) {
             'customer',
             `+${action.response.customer}`
           );
+        } else if (interaction.get('source') === 'smooch') {
+          newInteraction = newInteraction.set(
+            'customer',
+            action.response.customer
+          );
         }
         return newInteraction;
       });
@@ -1041,6 +1047,87 @@ function agentDesktopReducer(state = initialState, action) {
           action.interactionId
         );
       } else {
+        return state;
+      }
+    }
+    case ACTIONS.SET_SMOOCH_MESSAGE_HISTORY: {
+      const messageInteractionIndex = state
+        .get('interactions')
+        .findIndex(
+          interaction =>
+            interaction.get('interactionId') === action.response.interactionId
+        );
+      if (messageInteractionIndex >= 0) {
+        return state.updateIn(
+          ['interactions', messageInteractionIndex],
+          interaction =>
+            interaction.set('messageHistory', fromJS(action.response.messages))
+        );
+      } else {
+        console.warn(
+          'Interaction history could not get assigned to an interaction. No matching interactionId.'
+        );
+        return state;
+      }
+    }
+    case ACTIONS.ADD_SMOOCH_MESSAGE: {
+      const messageInteractionIndex = state
+        .get('interactions')
+        .findIndex(
+          interaction =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (messageInteractionIndex >= 0) {
+        return state.updateIn(
+          ['interactions', messageInteractionIndex, 'messageHistory'],
+          messageHistory => messageHistory.push(fromJS(action.message))
+        );
+      } else {
+        console.warn(
+          'Message could not get added to an interaction. No matching interactionId.'
+        );
+        return state;
+      }
+    }
+    case ACTIONS.SET_CUSTOMER_TYPING: {
+      const messageInteractionIndex = state
+        .get('interactions')
+        .findIndex(
+          interaction =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (messageInteractionIndex >= 0) {
+        return state.setIn(
+          ['interactions', messageInteractionIndex, 'customerIsTyping'],
+          action.typing
+        );
+      } else {
+        console.warn(
+          'Message could not set typing on interaction. No matching interactionId.'
+        );
+        return state;
+      }
+    }
+    case ACTIONS.SET_CUSTOMER_READ: {
+      const messageInteractionIndex = state
+        .get('interactions')
+        .findIndex(
+          interaction =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (messageInteractionIndex >= 0) {
+        return state.setIn(
+          [
+            'interactions',
+            messageInteractionIndex,
+            'customerHasReadLastAgentMessage',
+          ],
+          action.read
+        );
+      } else {
+        console.warn(
+          'Message could not set read on interaction. No matching interactionId.'
+        );
         return state;
       }
     }

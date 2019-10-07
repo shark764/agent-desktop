@@ -247,6 +247,8 @@
   "app.containers.MessagingContentArea.copiedTranscript": "Transcription copiée dans le presse-papiers",
   "app.containers.MessagingContentArea.copy": "Copier",
   "app.containers.MessagingContentArea.copyTranscript": "Copie de la transcription dans le presse-papiers",
+  "app.containers.MessagingContentArea.customerIsTyping": "",
+  "app.containers.MessagingContentArea.customerViewed": "",
   "app.containers.MessagingContentArea.endChat": "Terminer la discussion instantanée",
   "app.containers.MessagingContentArea.endWrapup": "Terminer le post-appel",
   "app.containers.MessagingContentArea.esc": "Échap",

@@ -270,6 +270,37 @@ export function setContactMode(interactionId, newMode) {
   };
 }
 
+export function setSmoochMessageHistory(response) {
+  return {
+    type: ACTIONS.SET_SMOOCH_MESSAGE_HISTORY,
+    response,
+  };
+}
+
+export function addSmoochMessage(interactionId, message) {
+  return {
+    type: ACTIONS.ADD_SMOOCH_MESSAGE,
+    interactionId,
+    message,
+  };
+}
+
+export function setCustomerTyping(interactionId, typing) {
+  return {
+    type: ACTIONS.SET_CUSTOMER_TYPING,
+    interactionId,
+    typing,
+  };
+}
+
+export function setCustomerRead(interactionId, read) {
+  return {
+    type: ACTIONS.SET_CUSTOMER_READ,
+    interactionId,
+    read,
+  };
+}
+
 export function setMessageHistory(response) {
   return {
     type: ACTIONS.SET_MESSAGE_HISTORY,

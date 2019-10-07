@@ -432,7 +432,9 @@ export class InteractionsBar extends React.Component {
         let from;
         let text;
         let contactPoint;
-        if (
+        if (pendingInteraction.channelType === 'email' || pendingInteraction.source === 'smooch') {
+          from = pendingInteraction.customer;
+        } else if (
           pendingInteraction.channelType === 'messaging' ||
           pendingInteraction.channelType === 'sms'
         ) {
@@ -446,8 +448,6 @@ export class InteractionsBar extends React.Component {
             pendingInteraction.messageHistory.length > 0
               ? pendingInteraction.messageHistory[0].text
               : this.props.intl.formatMessage(messages.retrievingMessages);
-        } else if (pendingInteraction.channelType === 'email') {
-          from = pendingInteraction.customer;
         } else if (pendingInteraction.channelType === 'voice') {
           from = pendingInteraction.number;
         } else if (pendingInteraction.channelType === 'work-item') {

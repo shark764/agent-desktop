@@ -105,6 +105,8 @@ import {
   addInteraction,
   workInitiated,
   addMessage,
+  setSmoochMessageHistory,
+  addSmoochMessage,
   setMessageHistory,
   updateMessageHistoryAgentName,
   assignContact,
@@ -958,6 +960,10 @@ export class App extends React.Component {
           }
 
           // INTERACTIONS/MESSAGING
+          case 'cxengage/interactions/messaging/smooch-history-received': {
+            this.props.setSmoochMessageHistory(response);
+            break;
+          }
           case 'cxengage/interactions/messaging/history-received': {
             if (response && response.length > 0) {
               this.props.setMessageHistory(response);
@@ -991,8 +997,10 @@ export class App extends React.Component {
             }
             break;
           }
+          case 'cxengage/interactions/messaging/smooch-message-received':
           case 'cxengage/interactions/messaging/new-message-received': {
-            if (isUUID(response.from) === false) {
+            const isSmooch = topic ===  'cxengage/interactions/messaging/smooch-message-received';
+            if ((!isSmooch && isUUID(response.from) === false) || (isSmooch && response.message && response.message.type === 'customer')) {
               if (this.props.crmModule === 'zendesk') {
                 CxEngage.zendesk.setVisibility({ visibility: true });
               } else if (this.props.crmModule === 'salesforce-classic') {
@@ -1039,13 +1047,17 @@ export class App extends React.Component {
               }
             }
 
-            this.props.addMessage(
-              response.to,
-              new ResponseMessage(
-                response,
-                this.props.agentDesktop.selectedInteractionId
-              )
-            );
+            if (isSmooch) {
+              this.props.addSmoochMessage(response.interactionId, response.message);
+            } else {
+              this.props.addMessage(
+                response.to,
+                new ResponseMessage(
+                  response,
+                  this.props.agentDesktop.selectedInteractionId
+                )
+              );
+            }
             break;
           }
 
@@ -1912,6 +1924,8 @@ function mapDispatchToProps(dispatch) {
     workInitiated: response => dispatch(workInitiated(response)),
     removeInteraction: interactionId =>
       dispatch(removeInteraction(interactionId)),
+    setSmoochMessageHistory: response => dispatch(setSmoochMessageHistory(response)),
+    addSmoochMessage: (interactionId, message) => dispatch(addSmoochMessage(interactionId, message)),
     setMessageHistory: response => dispatch(setMessageHistory(response)),
     updateMessageHistoryAgentName: (interactionId, response) =>
       dispatch(updateMessageHistoryAgentName(interactionId, response)),
@@ -2063,6 +2077,8 @@ App.propTypes = {
   addInteraction: PropTypes.func.isRequired,
   workInitiated: PropTypes.func.isRequired,
   removeInteraction: PropTypes.func.isRequired,
+  setSmoochMessageHistory: PropTypes.func.isRequired,
+  addSmoochMessage: PropTypes.func.isRequired,
   setMessageHistory: PropTypes.func.isRequired,
   updateMessageHistoryAgentName: PropTypes.func.isRequired,
   assignContact: PropTypes.func.isRequired,

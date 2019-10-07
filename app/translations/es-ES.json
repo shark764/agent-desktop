@@ -247,6 +247,8 @@
   "app.containers.MessagingContentArea.copiedTranscript": "Transcripción copiada en el portapapeles",
   "app.containers.MessagingContentArea.copy": "Copiar",
   "app.containers.MessagingContentArea.copyTranscript": "Copiar transcripción en el portapapeles",
+  "app.containers.MessagingContentArea.customerIsTyping": "",
+  "app.containers.MessagingContentArea.customerViewed": "",
   "app.containers.MessagingContentArea.endChat": "Finalizar conversación",
   "app.containers.MessagingContentArea.endWrapup": "Concluir finalización",
   "app.containers.MessagingContentArea.esc": "Esc",

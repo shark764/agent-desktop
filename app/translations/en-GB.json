@@ -247,6 +247,8 @@
   "app.containers.MessagingContentArea.copiedTranscript": "Copied transcript to clipboard",
   "app.containers.MessagingContentArea.copy": "Copy",
   "app.containers.MessagingContentArea.copyTranscript": "Copy transcript to clipboard",
+  "app.containers.MessagingContentArea.customerIsTyping": "",
+  "app.containers.MessagingContentArea.customerViewed": "",
   "app.containers.MessagingContentArea.endChat": "End Chat",
   "app.containers.MessagingContentArea.endWrapup": "End Wrap Up",
   "app.containers.MessagingContentArea.esc": "Esc",

@@ -58,4 +58,12 @@ export default defineMessages({
     id: 'app.containers.MessagingContentArea.copiedTranscript',
     defaultMessage: 'Copied transcript to clipboard',
   },
+  customerIsTyping: {
+    id: 'app.containers.MessagingContentArea.customerIsTyping',
+    defaultMessage: 'Customer is typing',
+  },
+  customerViewed: {
+    id: 'app.containers.MessagingContentArea.customerViewed',
+    defaultMessage: 'Customer viewed your message',
+  },
 });

@@ -59,6 +59,11 @@ export const TOGGLE_INTERACTION_NOTIFICATION =
   'app/AgentDesktop/TOGGLE_INTERACTION_NOTIFICATION';
 export const ADD_SEARCH_FILTER = 'app/AgentDesktop/ADD_SEARCH_FILTER';
 export const REMOVE_SEARCH_FILTER = 'app/AgentDesktop/REMOVE_SEARCH_FILTER';
+export const SET_SMOOCH_MESSAGE_HISTORY =
+  'app/AgentDesktop/SET_SMOOCH_MESSAGE_HISTORY';
+export const ADD_SMOOCH_MESSAGE = 'app/AgentDesktop/ADD_SMOOCH_MESSAGE';
+export const SET_CUSTOMER_TYPING = 'app/AgentDesktop/SET_CUSTOMER_TYPING';
+export const SET_CUSTOMER_READ = 'app/AgentDesktop/SET_CUSTOMER_READ';
 export const SET_MESSAGE_HISTORY = 'app/AgentDesktop/SET_MESSAGE_HISTORY';
 export const UPDATE_MESSAGE_HISTORY_AGENT_NAME =
   'app/AgentDesktop/UPDATE_MESSAGE_HISTORY_AGENT_NAME';

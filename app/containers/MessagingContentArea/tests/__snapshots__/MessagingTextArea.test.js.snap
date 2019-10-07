@@ -1,14 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<MessagingTextArea /> should render correctly under connecting-to-outbound 1`] = `
-<div
-  style={
-    Object {
-      "flex": "0 1 50px",
-      "maxHeight": "95px",
-    }
-  }
->
+<div>
   <style>
     #messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: 1px solid #23CEF5 !important;}
   </style>
@@ -61,14 +54,7 @@ exports[`<MessagingTextArea /> should render correctly under connecting-to-outbo
 `;
 
 exports[`<MessagingTextArea /> should render correctly under initialized-outbound 1`] = `
-<div
-  style={
-    Object {
-      "flex": "0 1 50px",
-      "maxHeight": "95px",
-    }
-  }
->
+<div>
   <style>
     #messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: 1px solid #23CEF5 !important;}
   </style>
@@ -121,14 +107,7 @@ exports[`<MessagingTextArea /> should render correctly under initialized-outboun
 `;
 
 exports[`<MessagingTextArea /> should render correctly under work-accepted 1`] = `
-<div
-  style={
-    Object {
-      "flex": "0 1 50px",
-      "maxHeight": "95px",
-    }
-  }
->
+<div>
   <style>
     #messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: 1px solid #23CEF5 !important;}
   </style>
@@ -181,14 +160,7 @@ exports[`<MessagingTextArea /> should render correctly under work-accepted 1`] =
 `;
 
 exports[`<MessagingTextArea /> should render correctly with message templates 1`] = `
-<div
-  style={
-    Object {
-      "flex": "0 1 50px",
-      "maxHeight": "95px",
-    }
-  }
->
+<div>
   <InjectIntl(Button)
     id="templateMenuButton"
     onClick={[Function]}

@@ -247,6 +247,8 @@
   "app.containers.MessagingContentArea.copiedTranscript": "Skopiowano transkrypcję do schowka",
   "app.containers.MessagingContentArea.copy": "Kopiuj",
   "app.containers.MessagingContentArea.copyTranscript": "Kopiuj transkrypcję do schowka",
+  "app.containers.MessagingContentArea.customerIsTyping": "",
+  "app.containers.MessagingContentArea.customerViewed": "",
   "app.containers.MessagingContentArea.endChat": "Zakończ czat",
   "app.containers.MessagingContentArea.endWrapup": "Zakończ podsumowanie",
   "app.containers.MessagingContentArea.esc": "Esc",

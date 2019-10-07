@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.40.3",
+  "version": "1.41.0",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -284,7 +284,7 @@
     "babel-preset-stage-0": "6.24.1",
     "cheerio": "0.22.0",
     "css-loader": "1.0.0",
-    "cx-ui-components": "^0.48.0",
+    "cx-ui-components": "0.55.0",
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
     "enzyme-to-json": "3.3.4",

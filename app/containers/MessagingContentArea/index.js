@@ -27,6 +27,7 @@ import { selectIsEndWrapupDisabled } from 'containers/AgentDesktop/selectors';
 
 import { selectWrapupBtnTooltipText } from 'containers/ContentAreaTop/selectors';
 
+import CustomerIndicator from './CustomerIndicator';
 import MessagingTextArea from './MessagingTextArea';
 import { copyChatTranscript } from './actions';
 import { isMessagingInteractionCopied } from './selectors';
@@ -91,7 +92,7 @@ export class MessagingContentArea extends React.Component {
       padding: '17px 17px 9px',
     },
     messageHistory: {
-      flex: '1 1 auto',
+      flex: '1',
       overflowY: 'auto',
       marginBottom: '1px',
       borderRadius: '3px',
@@ -113,7 +114,10 @@ export class MessagingContentArea extends React.Component {
       this.props.selectedInteraction.contact.id !== undefined
     ) {
       from = this.props.selectedInteraction.contact.attributes.name;
-    } else if (this.props.selectedInteraction.channelType === 'sms') {
+    } else if (
+      this.props.selectedInteraction.channelType === 'sms' ||
+      this.props.selectedInteraction.source === 'smooch'
+    ) {
       from = this.props.selectedInteraction.customer;
     } else {
       from = this.props.selectedInteraction.messageHistory[0]
@@ -163,7 +167,7 @@ export class MessagingContentArea extends React.Component {
       );
     } else {
       const messageHistory = this.props.selectedInteraction.messageHistory.map(
-        (message) => {
+        message => {
           let messageFrom;
           if (
             (message.type === 'customer' || message.type === 'message') &&
@@ -223,6 +227,7 @@ export class MessagingContentArea extends React.Component {
           <div id="message-history" style={this.styles.messageHistory}>
             {messageHistory}
           </div>
+          <CustomerIndicator />
           {this.props.selectedInteraction.status !== 'wrapup' &&
             this.props.selectedInteraction.status !==
               'work-ended-pending-script' && (
@@ -253,9 +258,12 @@ MessagingContentArea.propTypes = {
   messageTemplates: PropTypes.array.isRequired,
   agentId: PropTypes.string.isRequired,
   isEndWrapupDisabled: PropTypes.bool.isRequired,
-  wrapupBtnTooltipText: PropTypes.object.isRequired,
+  wrapupBtnTooltipText: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]).isRequired,
   copyChatTranscript: PropTypes.func.isRequired,
-  isCopied: PropTypes.bool.isRequired,
+  isCopied: PropTypes.bool,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -267,7 +275,7 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    copyChatTranscript: (interaction) =>
+    copyChatTranscript: interaction =>
       dispatch(copyChatTranscript(interaction)),
     dispatch,
   };
