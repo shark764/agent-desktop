@@ -64,6 +64,8 @@ export const SET_SMOOCH_MESSAGE_HISTORY =
 export const ADD_SMOOCH_MESSAGE = 'app/AgentDesktop/ADD_SMOOCH_MESSAGE';
 export const SET_CUSTOMER_TYPING = 'app/AgentDesktop/SET_CUSTOMER_TYPING';
 export const SET_CUSTOMER_READ = 'app/AgentDesktop/SET_CUSTOMER_READ';
+export const SET_CONVERSATION_IS_UNREAD =
+  'app/AgentDesktop/SET_CONVERSATION_IS_UNREAD';
 export const SET_MESSAGE_HISTORY = 'app/AgentDesktop/SET_MESSAGE_HISTORY';
 export const UPDATE_MESSAGE_HISTORY_AGENT_NAME =
   'app/AgentDesktop/UPDATE_MESSAGE_HISTORY_AGENT_NAME';

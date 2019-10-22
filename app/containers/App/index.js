@@ -107,6 +107,8 @@ import {
   addMessage,
   setSmoochMessageHistory,
   addSmoochMessage,
+  setCustomerTyping,
+  setCustomerRead,
   setMessageHistory,
   updateMessageHistoryAgentName,
   assignContact,
@@ -999,8 +1001,15 @@ export class App extends React.Component {
           }
           case 'cxengage/interactions/messaging/smooch-message-received':
           case 'cxengage/interactions/messaging/new-message-received': {
-            const isSmooch = topic ===  'cxengage/interactions/messaging/smooch-message-received';
-            if ((!isSmooch && isUUID(response.from) === false) || (isSmooch && response.message && response.message.type === 'customer')) {
+            const isSmooch =
+              topic ===
+              'cxengage/interactions/messaging/smooch-message-received';
+            if (
+              (!isSmooch && isUUID(response.from) === false) ||
+              (isSmooch &&
+                response.message &&
+                response.message.type === 'customer')
+            ) {
               if (this.props.crmModule === 'zendesk') {
                 CxEngage.zendesk.setVisibility({ visibility: true });
               } else if (this.props.crmModule === 'salesforce-classic') {
@@ -1048,7 +1057,10 @@ export class App extends React.Component {
             }
 
             if (isSmooch) {
-              this.props.addSmoochMessage(response.interactionId, response.message);
+              this.props.addSmoochMessage(
+                response.interactionId,
+                response.message
+              );
             } else {
               this.props.addMessage(
                 response.to,
@@ -1058,6 +1070,17 @@ export class App extends React.Component {
                 )
               );
             }
+            break;
+          }
+
+          case 'cxengage/interactions/messaging/smooch-conversation-read-received': {
+            this.props.setCustomerRead(response.interactionId, true);
+            break;
+          }
+
+          case 'cxengage/interactions/messaging/smooch-typing-received': {
+            const isTyping = response.messageType === 'typing-start';
+            this.props.setCustomerTyping(response.interactionId, isTyping);
             break;
           }
 
@@ -1924,8 +1947,14 @@ function mapDispatchToProps(dispatch) {
     workInitiated: response => dispatch(workInitiated(response)),
     removeInteraction: interactionId =>
       dispatch(removeInteraction(interactionId)),
-    setSmoochMessageHistory: response => dispatch(setSmoochMessageHistory(response)),
-    addSmoochMessage: (interactionId, message) => dispatch(addSmoochMessage(interactionId, message)),
+    setSmoochMessageHistory: response =>
+      dispatch(setSmoochMessageHistory(response)),
+    addSmoochMessage: (interactionId, message) =>
+      dispatch(addSmoochMessage(interactionId, message)),
+    setCustomerRead: (interactionId, read) =>
+      dispatch(setCustomerRead(interactionId, read)),
+    setCustomerTyping: (interactionId, typing) =>
+      dispatch(setCustomerTyping(interactionId, typing)),
     setMessageHistory: response => dispatch(setMessageHistory(response)),
     updateMessageHistoryAgentName: (interactionId, response) =>
       dispatch(updateMessageHistoryAgentName(interactionId, response)),
@@ -2079,6 +2108,8 @@ App.propTypes = {
   removeInteraction: PropTypes.func.isRequired,
   setSmoochMessageHistory: PropTypes.func.isRequired,
   addSmoochMessage: PropTypes.func.isRequired,
+  setCustomerTyping: PropTypes.func.isRequired,
+  setCustomerRead: PropTypes.func.isRequired,
   setMessageHistory: PropTypes.func.isRequired,
   updateMessageHistoryAgentName: PropTypes.func.isRequired,
   assignContact: PropTypes.func.isRequired,

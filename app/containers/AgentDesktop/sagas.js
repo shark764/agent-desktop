@@ -34,6 +34,8 @@ import {
   UPDATE_INTERACTION_TRANSFER_LISTS_$,
   UPDATE_INTERACTION_TRANSFER_LIST_VISIBLE_STATE_$,
   UPDATE_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS_$,
+  SELECT_INTERACTION,
+  ADD_SMOOCH_MESSAGE,
 } from './constants';
 import {
   selectCrmModule,
@@ -43,6 +45,7 @@ import {
   selectNonVoiceFlowTransLists,
   selectInterAssigTransListsVisibleSt,
   selectInterAssigAllTransListsVisibleSt,
+  getIsConversationUnread,
 } from './selectors';
 import {
   setContactMode,
@@ -63,6 +66,9 @@ import {
   setInteractionTransferListsLoadingState,
   setInteractionTransferListsVisibleState,
   setVisibleStateOfAllInteractionTransferLists,
+  setCustomerTyping,
+  setCustomerRead,
+  setConversationIsUnread,
 } from './actions';
 
 export function* loadHistoricalInteractionBody(action) {
@@ -665,6 +671,34 @@ export function* updateVisibleStateofAllFlowTransferLists() {
   );
 }
 
+export function* doSetConversationRead() {
+  const selectedInteraction = yield select(getSelectedInteraction);
+  if (yield select(getIsConversationUnread)) {
+    CxEngage.interactions.messaging.sendSmoochConversationRead({
+      interactionId: selectedInteraction.interactionId,
+    });
+    yield put(
+      setConversationIsUnread(selectedInteraction.interactionId, false)
+    );
+  }
+}
+
+export function* doHandleNewSmoochMessage({ interactionId, message }) {
+  if (message.type === 'customer') {
+    const selectedInteraction = yield select(getSelectedInteraction);
+    yield put(setCustomerTyping(interactionId, false));
+    yield put(setCustomerRead(interactionId, false));
+
+    if (interactionId !== selectedInteraction.interactionId) {
+      yield put(setConversationIsUnread(interactionId, true));
+    } else {
+      CxEngage.interactions.messaging.sendSmoochConversationRead({
+        interactionId: selectedInteraction.interactionId,
+      });
+    }
+  }
+}
+
 // Individual exports for testing
 export function* historicalInteractionBody() {
   yield takeEvery(
@@ -722,6 +756,14 @@ export function* updateVisibleStateOfAllInteractionTransferlists() {
   );
 }
 
+export function* setConversationRead() {
+  yield takeEvery(SELECT_INTERACTION, doSetConversationRead);
+}
+
+export function* handleNewSmoochMessage() {
+  yield takeEvery(ADD_SMOOCH_MESSAGE, doHandleNewSmoochMessage);
+}
+
 // All sagas to be loaded
 export default [
   historicalInteractionBody,
@@ -735,4 +777,6 @@ export default [
   updateInteractionTransferLists,
   updateInteractionTransferListsVisibleState,
   updateVisibleStateOfAllInteractionTransferlists,
+  setConversationRead,
+  handleNewSmoochMessage,
 ];

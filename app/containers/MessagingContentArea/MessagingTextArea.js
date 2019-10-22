@@ -8,6 +8,7 @@ import Radium from 'radium';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import Textarea from 'react-textarea-autosize';
+import debounce from 'lodash/debounce';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
@@ -114,6 +115,7 @@ export class MessagingTextArea extends React.Component {
       messageTemplateFilter: undefined,
       selectedMessageTemplateIndex: 0,
       messageTextareaHeight: 50,
+      isTyping: false,
     };
   }
 
@@ -134,6 +136,18 @@ export class MessagingTextArea extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown);
+
+    if (this.state.isTyping) {
+      /**
+       *  We cancel the debounce function to avoid updating the state
+       *  after unmounting and avoiding memory leaks, and inmediately send the typing indicator as false.
+       */
+      this.handleTyping.cancel();
+      CxEngage.interactions.messaging.sendSmoochTypingIndicator({
+        interactionId: this.props.selectedInteraction.interactionId,
+        typing: false,
+      });
+    }
   }
 
   toggleMessageTemplateMenu = () => {
@@ -265,6 +279,12 @@ export class MessagingTextArea extends React.Component {
     // If we're filtering based on "/" text, reset the selected message template to the first unfiltered one
     let newSelectedMessageTemplateIndex;
     let newMessageTemplateFilter;
+
+    // Send Typing indicator
+    if (this.props.selectedInteraction.source === 'smooch') {
+      this.handleTyping();
+    }
+
     if (this.state.showMessageTemplateMenuByForwardSlash) {
       newMessageTemplateFilter = messageText.substring(
         messageText.lastIndexOf('/') + 1
@@ -362,6 +382,26 @@ export class MessagingTextArea extends React.Component {
       );
     }
   };
+
+  handleTyping = debounce(
+    /**
+     * sendSmoochTypingIndicator is invoked on leading with typing as true,
+     * once the agent finishes typing (trailing) we wait 2 seconds to send the indicator again as false.
+     * As we can only send execute the same function on leading and trailing, we use the component state to switch between true and false.
+     */
+    () => {
+      CxEngage.interactions.messaging.sendSmoochTypingIndicator({
+        interactionId: this.props.selectedInteraction.interactionId,
+        typing: !this.state.isTyping,
+      });
+      this.setState(previousState => ({
+        ...previousState,
+        isTyping: !previousState.isTyping,
+      }));
+    },
+    2000,
+    { leading: true, trailing: true }
+  );
 
   render() {
     return (

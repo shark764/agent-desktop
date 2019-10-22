@@ -1131,6 +1131,25 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+    case ACTIONS.SET_CONVERSATION_IS_UNREAD: {
+      const messageInteractionIndex = state
+        .get('interactions')
+        .findIndex(
+          interaction =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (messageInteractionIndex >= 0) {
+        return state.setIn(
+          ['interactions', messageInteractionIndex, 'conversationIsUnread'],
+          action.isUnread
+        );
+      } else {
+        console.warn(
+          'Could not set unread on interaction. No matching interactionId'
+        );
+        return state;
+      }
+    }
     case ACTIONS.SET_MESSAGE_HISTORY: {
       const messageInteractionIndex = state
         .get('interactions')

@@ -301,6 +301,14 @@ export function setCustomerRead(interactionId, read) {
   };
 }
 
+export function setConversationIsUnread(interactionId, isUnread) {
+  return {
+    type: ACTIONS.SET_CONVERSATION_IS_UNREAD,
+    interactionId,
+    isUnread,
+  };
+}
+
 export function setMessageHistory(response) {
   return {
     type: ACTIONS.SET_MESSAGE_HISTORY,
