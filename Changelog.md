@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.42.1] (2019-10-28)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.1/index.html)
+### Fixed
+* CXV1-20246 - Error 1003 SDK error when adding a note to an SMS interaction prior to sending a message. 
+
 ## [1.42.0] (2019-10-8)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.0/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.0/index.html)

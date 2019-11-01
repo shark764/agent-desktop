@@ -408,6 +408,14 @@ export class ContentArea extends React.Component {
     );
   };
 
+  getIsActiveInteraction = () =>
+    !(
+      this.props.interaction.status === 'work-accepted' ||
+      this.props.interaction.status === 'work-accepting' ||
+      this.props.interaction.status === 'wrapup' ||
+      this.props.interaction.status === 'initialized-outbound'
+    );
+
   selectDisposition = dispositionId => {
     this.setState({
       loadingDisposition: true,
@@ -501,6 +509,7 @@ export class ContentArea extends React.Component {
           <FormattedMessage {...messages.notes} />
           <input
             id="notesTitleInput"
+            disabled={this.getIsActiveInteraction()}
             placeholder={formatMessage(messages.notesTitlePlaceholder)}
             value={this.state.title}
             onChange={e => this.handleChange({ title: e.target.value })}
@@ -518,6 +527,7 @@ export class ContentArea extends React.Component {
         {this.getDispositionsContent()}
         <textarea
           id="notesTextarea"
+          disabled={this.getIsActiveInteraction()}
           placeholder={formatMessage(messages.notesPlaceholder)}
           value={this.state.body}
           onChange={e => this.handleChange({ body: e.target.value })}
