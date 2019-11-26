@@ -2307,6 +2307,7 @@ Immutable.Map {
     "direction": "inbound",
   },
   "refreshRequired": false,
+  "isCrmDownloaded": false,
   "isOnline": true,
   "presenceReason": Immutable.Map {},
   "sidePanelMaxPx": 500,

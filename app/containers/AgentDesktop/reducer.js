@@ -90,6 +90,7 @@ const initialState = fromJS({
     showLoginPopup: false,
   },
   isOnline: true,
+  isCrmDownloaded: false,
 });
 
 const getInteractionIndex = (state, interactionId) =>
@@ -2318,6 +2319,11 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.HIDE_INTERACTIONS_BAR: {
       return state.set('isInteractionsBarCollapsed', true);
     }
+
+    case ACTIONS.CRM_DOWNLOAD_COMPLETE: {
+      return state.set('isCrmDownloaded', true);
+    }
+
     case ACTIONS.SET_FORM_IS_DIRTY: {
       const target = getContactInteractionPath(state, action.interactionId);
       target.push('activeContactForm');

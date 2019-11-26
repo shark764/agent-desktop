@@ -25,6 +25,12 @@ export function setCrmModule(crmModule) {
   };
 }
 
+export function crmDownloadComplete() {
+  return {
+    type: ACTIONS.CRM_DOWNLOAD_COMPLETE,
+  };
+}
+
 export function setStandalonePopup() {
   return {
     type: ACTIONS.SET_STANDALONE_POPUP,

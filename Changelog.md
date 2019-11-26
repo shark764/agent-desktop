@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.42.2] (2019-11-22)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.2/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.2/index.html)
+### Fixed
+* CXV1-19771 - Agents Unable to Login to Integrated SF Skylight Toolbar.
+
 ## [1.42.1] (2019-10-28)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.1/index.html)

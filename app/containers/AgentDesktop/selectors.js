@@ -273,6 +273,9 @@ const selectCrmModule = createSelector(selectAgentDesktopMap, agentDesktop =>
   agentDesktop.get('crmModule')
 );
 
+const selectIsCrmDownloaded = state =>
+  selectAgentDesktopMap(state).get('isCrmDownloaded');
+
 const selectCustomFields = createSelector(
   getSelectedInteraction,
   interaction => interaction.customFields
@@ -446,6 +449,7 @@ export {
   selectSidePanelPx,
   selectIsInteractionsBarCollapsed,
   selectCrmModule,
+  selectIsCrmDownloaded,
   selectCustomFields,
   selectCustomFieldsCollapsed,
   selectExpandWindowForCrm,

@@ -171,6 +171,7 @@ import {
   dismissAgentPresenceState,
   setContactMode,
   removeContact,
+  crmDownloadComplete,
 } from 'containers/AgentDesktop/actions';
 
 import { toggleSelectedQueueTransferMenuPreference } from 'containers/AgentTransferMenuPreferenceMenu/actions';
@@ -181,6 +182,7 @@ import {
   selectQueues,
   selectCrmModule,
   getSelectedInteractionId,
+  selectIsCrmDownloaded,
 } from 'containers/AgentDesktop/selectors';
 
 import { selectHasInteractions } from 'containers/InteractionsBar/selectors';
@@ -1165,6 +1167,7 @@ export class App extends React.Component {
             CxEngage.salesforceClassic.setDimensions({
               width: DEFAULT_TOOLBAR_WIDTH,
             });
+            this.props.crmDownloadComplete();
             break;
           }
           case 'cxengage/salesforce-classic/on-click-to-interaction': {
@@ -1230,6 +1233,7 @@ export class App extends React.Component {
             CxEngage.salesforceLightning.setDimensions({
               width: DEFAULT_TOOLBAR_WIDTH,
             });
+            this.props.crmDownloadComplete();
             break;
           }
           case 'cxengage/salesforce-lightning/on-click-to-interaction': {
@@ -1873,7 +1877,10 @@ export class App extends React.Component {
         // If error code is AD-100X, keep them in Login, or else AgentDesktop will break
         (this.props.criticalError &&
           this.props.criticalError.code &&
-          this.props.criticalError.code.toString().includes('AD-100')) ? (
+          this.props.criticalError.code.toString().includes('AD-100')) ||
+        // CXV1-19771 We check that Salesforce SDK is dowloaded before user logs in.
+        (this.props.crmModule.includes('salesforce-') &&
+          !this.props.isCrmDownloaded) ? (
             <Login />
           ) : (
             <AgentDesktop />
@@ -1899,6 +1906,7 @@ const mapStateToProps = (state, props) => ({
   nonCriticalError: selectNonCriticalError(state, props),
   hasCrmPermissions: selectHasCrmPermissions(state, props),
   crmModule: selectCrmModule(state, props),
+  isCrmDownloaded: selectIsCrmDownloaded(state, props),
   loginPopup: selectAgentDesktopMap(state, props).get('loginPopup'),
   expirationPromptReauth: selectAgentDesktopMap(state, props).get(
     'expirationPromptReauth'
@@ -2056,6 +2064,7 @@ function mapDispatchToProps(dispatch) {
     dismissAgentDirection: () => dispatch(dismissAgentDirection()),
     dismissAgentPresenceState: () => dispatch(dismissAgentPresenceState()),
     setCrmModule: crmModule => dispatch(setCrmModule(crmModule)),
+    crmDownloadComplete: () => dispatch(crmDownloadComplete()),
     setStandalonePopup: () => dispatch(setStandalonePopup()),
     setCrmActiveTab: (type, id, name) =>
       dispatch(setCrmActiveTab(type, id, name)),
@@ -2114,12 +2123,14 @@ App.propTypes = {
   updateMessageHistoryAgentName: PropTypes.func.isRequired,
   assignContact: PropTypes.func.isRequired,
   setAssignedContact: PropTypes.func.isRequired,
+  crmDownloadComplete: PropTypes.func.isRequired,
   unassignContact: PropTypes.func.isRequired,
   dismissContactWasAssignedNotification: PropTypes.func.isRequired,
   dismissContactWasUnassignedNotification: PropTypes.func.isRequired,
   setContactHistoryInteractionDetails: PropTypes.func.isRequired,
   updateContact: PropTypes.func.isRequired,
   addMessage: PropTypes.func.isRequired,
+  isCrmDownloaded: PropTypes.bool,
   selectInteraction: PropTypes.func.isRequired,
   setContactLayout: PropTypes.func.isRequired,
   setContactAttributes: PropTypes.func.isRequired,
