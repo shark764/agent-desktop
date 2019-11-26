@@ -16,7 +16,7 @@ import Radium from 'radium';
 
 import moment from 'moment';
 import 'assets/css/mediumdraft.min.css';
-import { Editor, createEditorState } from 'medium-draft';
+import { Editor, createEditorState, rendererFn } from 'medium-draft';
 import {
   EditorState,
   convertFromHTML,
@@ -562,6 +562,49 @@ ${this.props.selectedInteraction.emailPlainBody}`;
     this.setState(prevState => ({
       isCollapsed: !prevState.isCollapsed,
     }));
+  };
+
+  // Config2 MessageTemplates is built using Draft-JS & it's plugins.
+  // By default Images are wrapped inside figure tags in Draft-JS.
+  // figure elements cannot be handled by medium draft-js without passing rendererFn prop
+  atomicBlock = props => {
+    const { blockProps, block } = props;
+    const contentState = blockProps.getEditorState().getCurrentContent();
+    const entity = contentState.getEntity(block.getEntityAt(0));
+    const { src } = entity.getData();
+    let ele;
+    if (entity.getType().toLowerCase() === 'image' && src !== undefined) {
+      ele = (
+        // 100% img width is not letting users to click after an image
+        <img
+          src={src}
+          alt=""
+          style={{ width: '95%', marginTop: '10px', marginBottom: '10px' }}
+        />
+      );
+    }
+    return ele;
+  };
+
+  renderFn = (setEditorState, getEditorState, ...args) => {
+    const rFnOld = rendererFn(setEditorState, getEditorState, ...args);
+    const rFnNew = contentBlock => {
+      const type = contentBlock.getType();
+      switch (type) {
+        case 'atomic':
+          return {
+            component: this.atomicBlock,
+            editable: false,
+            props: {
+              components: '',
+              getEditorState,
+            },
+          };
+        default:
+          return rFnOld(contentBlock);
+      }
+    };
+    return rFnNew;
   };
 
   render() {
@@ -1139,6 +1182,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
               this.props.selectedInteraction.status !== 'wrapup'
             }
             onChange={this.onChange}
+            rendererFn={this.renderFn}
             placeholder={this.props.intl.formatMessage(messages.addMessage)}
             sideButtons={[]}
             inlineButtons={[
