@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.42.4] (2019-12-04)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.4/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.4/index.html)
+### Fixed
+* CXV1-20414 - Fix current agent name for smooch messages
+
 ## [1.42.3] (2019-11-26)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.3/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.3/index.html)

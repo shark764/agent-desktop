@@ -178,7 +178,8 @@ export class MessagingContentArea extends React.Component {
               .name;
           } else if (
             message.type === 'agent' &&
-            message.from === this.props.agentId
+            (message.from === this.props.agentId ||
+              message.resourceId === this.props.agentId)
           ) {
             messageFrom = 'Agent';
           } else {
