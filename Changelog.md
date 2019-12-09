@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.42.5] (2019-12-09)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.5/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.5/index.html)
+### Changed
+* CXV1-20184 - Changed start-heartbeats function so now it would only take into account the delay received from the API to delay consecutive heartbeat requests
+
 ## [1.42.4] (2019-12-04)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.4/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.4/index.html)
