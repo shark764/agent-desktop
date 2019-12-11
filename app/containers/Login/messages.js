@@ -14,6 +14,10 @@ export default defineMessages({
     id: 'app.containers.Login.welcome',
     defaultMessage: 'Sign in to CxEngage',
   },
+  initializingCrmSdk: {
+    id: 'app.containers.Login.initializingCrmSdk',
+    defaultMessage: 'Initializing CRM SDK',
+  },
   welcomeNoProd: {
     id: 'app.containers.Login.welcomeNoProd',
     defaultMessage: 'Sign in',

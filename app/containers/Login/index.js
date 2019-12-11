@@ -954,6 +954,15 @@ export class Login extends React.Component {
       <Logo style={styles.logo} />
       <div style={styles.dialogContent}>
         <IconSVG id="loadingIcon" name="loading" width="100px" />
+        {this.props.crmModule &&
+          this.props.crmModule.includes('salesforce-') && 
+          !this.props.isCrmDownloaded && (
+          <Title
+            id={messages.initializingCrmSdk.id}
+            text={messages.initializingCrmSdk}
+            style={styles.contentTitle}
+          />
+        )}
       </div>
     </div>
   );
@@ -1030,7 +1039,7 @@ export class Login extends React.Component {
         this.props.crmModule.includes('salesforce-') &&
         !this.props.isCrmDownloaded)
     ) {
-      this.getLoadingContent();
+      return this.getLoadingContent();
     }
 
     // ...otherwise, of course show the login fields

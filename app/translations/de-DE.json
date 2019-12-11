@@ -221,6 +221,7 @@
   "app.containers.InteractionsBar.unrespondedMessage": "Unbeantwortete Nachricht",
   "app.containers.Login.copyright": "Copyright © 2015-{year} Serenova, LLC („Serenova“). Alle Rechte vorbehalten.",
   "app.containers.Login.email": "E-Mail",
+  "app.containers.Login.initializingCrmSdk": "",
   "app.containers.Login.legal": "Bei Zugriff auf diesen Dienst stimmen Sie den folgenden Bedingungen zu: ",
   "app.containers.Login.legalLabel": "Link",
   "app.containers.Login.nextButton": "Nächste",
