@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.42.8] (2019-12-23)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.8/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.8/index.html)
+### Fixed
+* CXV1-20378 Send SMS Action Throws Critical Error 
+
 ## [1.42.7] (2019-12-20)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.7/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.7/index.html)

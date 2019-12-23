@@ -29,3 +29,15 @@ Immutable.Record {
   "timestamp": "timestamp",
 }
 `;
+
+exports[`ResponseMessage constructor should construct with "system" type and from when metadata.type is missing 1`] = `
+Immutable.Record {
+  "id": "id",
+  "type": "system",
+  "from": "system",
+  "text": "text",
+  "timestamp": "timestamp",
+}
+`;
+
+

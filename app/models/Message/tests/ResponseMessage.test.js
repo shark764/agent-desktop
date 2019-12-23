@@ -50,5 +50,18 @@ describe('ResponseMessage', () => {
       });
       expect(message).toMatchSnapshot();
     });
+    it('should construct with "system" type and from when metadata.type is missing', () => {
+      const message = new ResponseMessage({
+        id: 'id',
+        type: 'message',
+        from: 'userId',
+        body: {
+          text: 'text',
+        },
+        timestamp: 'timestamp',
+        metadata: {},
+      });
+      expect(message).toMatchSnapshot();
+    });
   });
 });
