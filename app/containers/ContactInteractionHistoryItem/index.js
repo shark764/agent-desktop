@@ -199,30 +199,34 @@ export class ContactInteractionHistoryItem extends React.Component {
 
         const recordingStartTime = moment(recording.created).format('LLL');
 
-        return (
-          <div style={styles.recording}>
-            <div style={styles.transcriptTitle}>
-              <FormattedMessage
-                {...messages.recordingTitle}
-                values={{ participantType, participantIdentifier }}
+        if (recording.files.length > 0) {
+          return (
+            <div style={styles.recording}>
+              <div style={styles.transcriptTitle}>
+                <FormattedMessage
+                  {...messages.recordingTitle}
+                  values={{ participantType, participantIdentifier }}
+                />
+              </div>
+              <audio
+                key={recording.files[0].url}
+                src={recording.files[0].url}
+                ref={this.addControlsListAttribute}
+                style={styles.audio}
+                controls
+                onContextMenu={event => event.preventDefault()}
               />
+              <div style={styles.recordingData}>
+                <FormattedMessage
+                  {...messages.recordingStart}
+                  values={{ recordingStartTime }}
+                />
+              </div>
             </div>
-            <audio
-              key={recording.files[0].url}
-              src={recording.files[0].url}
-              ref={this.addControlsListAttribute}
-              style={styles.audio}
-              controls
-              onContextMenu={event => event.preventDefault()}
-            />
-            <div style={styles.recordingData}>
-              <FormattedMessage
-                {...messages.recordingStart}
-                values={{ recordingStartTime }}
-              />
-            </div>
-          </div>
-        );
+          );
+        } else {
+          return "";
+        }
       });
     };
     switch (interactionDetails.channelType) {

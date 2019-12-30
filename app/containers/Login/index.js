@@ -955,7 +955,7 @@ export class Login extends React.Component {
       <div style={styles.dialogContent}>
         <IconSVG id="loadingIcon" name="loading" width="100px" />
         {this.props.crmModule &&
-          this.props.crmModule.includes('salesforce-') && 
+          this.props.crmModule.includes('salesforce-') &&
           !this.props.isCrmDownloaded && (
           <Title
             id={messages.initializingCrmSdk.id}
