@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.42.10] (2019-12-31)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.10/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.10/index.html)
+### Fixed
+* CXV1-12276 - Agent Desktop(AD)-1003 - persisting banner error when user doesn't select the tenant.
+
 ## [1.42.9] (2019-12-27)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.5/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.5/index.html)

@@ -655,6 +655,9 @@ export class Login extends React.Component {
             console.log('[Login] CxEngage.subscribe()', topic, response);
             if (!error) {
               this.props.setTenant(this.state.tenantId, this.state.tenantName);
+              if (this.props.nonCriticalError) {
+                this.props.dismissError();
+              }
               this.props.initializeNotificatonPreferences();
             } else {
               this.props.errorOccurred();
