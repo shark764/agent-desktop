@@ -15,7 +15,11 @@ import ErrorBoundary from 'components/ErrorBoundary';
 import Button from 'components/Button';
 import Icon from 'components/Icon';
 
-import { saveMessageState } from 'containers/AgentDesktop/actions';
+import {
+  saveMessageState,
+  setMessageTemplateFilter,
+  setMessageTemplateIndex,
+} from 'containers/AgentDesktop/actions';
 import {
   initializeOutboundSmsFromMessaging,
   sendOutboundSms,
@@ -112,8 +116,6 @@ export class MessagingTextArea extends React.Component {
     this.state = {
       showMessageTemplateMenu: false,
       showMessageTemplateMenuByForwardSlash: false,
-      messageTemplateFilter: undefined,
-      selectedMessageTemplateIndex: 0,
       messageTextareaHeight: 50,
       isTyping: false,
     };
@@ -127,8 +129,6 @@ export class MessagingTextArea extends React.Component {
       this.setState({
         showMessageTemplateMenu: false,
         showMessageTemplateMenuByForwardSlash: false,
-        messageTemplateFilter: undefined,
-        selectedMessageTemplateIndex: 0,
         messageTextareaHeight: 50,
       });
     }
@@ -153,102 +153,116 @@ export class MessagingTextArea extends React.Component {
   toggleMessageTemplateMenu = () => {
     if (!this.state.showMessageTemplateMenu) {
       document.addEventListener('keydown', this.handleKeyDown);
+      this.props.setMessageTemplateIndex(
+        this.props.selectedInteraction.interactionId,
+        0
+      );
       this.setState({
         showMessageTemplateMenu: true,
-        selectedMessageTemplateIndex: 0,
       });
     } else {
       document.removeEventListener('keydown', this.handleKeyDown);
+      this.props.setMessageTemplateFilter(
+        this.props.selectedInteraction.interactionId
+      );
       this.setState({
         showMessageTemplateMenu: false,
         showMessageTemplateMenuByForwardSlash: false,
-        messageTemplateFilter: undefined,
       });
     }
   };
 
   handleKeyDown = e => {
     if (e.key === 'ArrowUp') {
-      this.setState(prevState => {
-        let newSelectedMessageTemplateIndex =
-          prevState.selectedMessageTemplateIndex;
-        if (!prevState.showMessageTemplateMenuByForwardSlash) {
-          newSelectedMessageTemplateIndex =
-            prevState.selectedMessageTemplateIndex > 0
-              ? prevState.selectedMessageTemplateIndex - 1
-              : 0;
-        } else {
-          // If we're filtering based on "/" text, select the previous unfiltered one
-          for (
-            let i = prevState.selectedMessageTemplateIndex - 1;
-            i >= 0;
-            i -= 1
+      let newSelectedMessageTemplateIndex = this.props.selectedInteraction
+        .selectedMessageTemplateIndex;
+      if (!this.state.showMessageTemplateMenuByForwardSlash) {
+        newSelectedMessageTemplateIndex =
+          this.props.selectedInteraction.selectedMessageTemplateIndex > 0
+            ? this.props.selectedInteraction.selectedMessageTemplateIndex - 1
+            : 0;
+      } else {
+        // If we're filtering based on "/" text, select the previous unfiltered one
+        for (
+          let i =
+            this.props.selectedInteraction.selectedMessageTemplateIndex - 1;
+          i >= 0;
+          i -= 1
+        ) {
+          if (
+            this.props.messageTemplates[i].name
+              .toUpperCase()
+              .includes(
+                this.props.selectedInteraction.messageTemplateFilter.toUpperCase()
+              )
           ) {
-            if (
-              this.props.messageTemplates[i].name
-                .toUpperCase()
-                .includes(prevState.messageTemplateFilter.toUpperCase())
-            ) {
-              newSelectedMessageTemplateIndex = i;
-              break;
-            }
+            newSelectedMessageTemplateIndex = i;
+            break;
           }
         }
-        this[
-          `messageTemplate-${newSelectedMessageTemplateIndex}`
-        ].scrollIntoView();
-        return {
-          selectedMessageTemplateIndex: newSelectedMessageTemplateIndex,
-        };
-      });
+      }
+      this[
+        `messageTemplate-${newSelectedMessageTemplateIndex}`
+      ].scrollIntoView();
+      this.props.setMessageTemplateIndex(
+        this.props.selectedInteraction.interactionId,
+        newSelectedMessageTemplateIndex
+      );
     } else if (e.key === 'ArrowDown') {
-      this.setState(prevState => {
-        let newSelectedMessageTemplateIndex =
-          prevState.selectedMessageTemplateIndex;
-        if (!prevState.showMessageTemplateMenuByForwardSlash) {
-          newSelectedMessageTemplateIndex =
-            prevState.selectedMessageTemplateIndex <
-            this.props.messageTemplates.length - 1
-              ? prevState.selectedMessageTemplateIndex + 1
-              : prevState.selectedMessageTemplateIndex;
-        } else {
-          // If we're filtering based on "/" text, select the next unfiltered one
-          for (
-            let i = prevState.selectedMessageTemplateIndex + 1;
-            i < this.props.messageTemplates.length;
-            i += 1
+      let newSelectedMessageTemplateIndex = this.props.selectedInteraction
+        .selectedMessageTemplateIndex;
+      if (!this.state.showMessageTemplateMenuByForwardSlash) {
+        newSelectedMessageTemplateIndex =
+          this.props.selectedInteraction.selectedMessageTemplateIndex <
+          this.props.messageTemplates.length - 1
+            ? this.props.selectedInteraction.selectedMessageTemplateIndex + 1
+            : this.props.selectedInteraction.selectedMessageTemplateIndex;
+      } else {
+        // If we're filtering based on "/" text, select the next unfiltered one
+        for (
+          let i =
+            this.props.selectedInteraction.selectedMessageTemplateIndex + 1;
+          i < this.props.messageTemplates.length;
+          i += 1
+        ) {
+          if (
+            this.props.messageTemplates[i].name
+              .toUpperCase()
+              .includes(
+                this.props.selectedInteraction.messageTemplateFilter.toUpperCase()
+              )
           ) {
-            if (
-              this.props.messageTemplates[i].name
-                .toUpperCase()
-                .includes(prevState.messageTemplateFilter.toUpperCase())
-            ) {
-              newSelectedMessageTemplateIndex = i;
-              break;
-            }
+            newSelectedMessageTemplateIndex = i;
+            break;
           }
         }
-        this[
-          `messageTemplate-${newSelectedMessageTemplateIndex}`
-        ].scrollIntoView();
-        return {
-          selectedMessageTemplateIndex: newSelectedMessageTemplateIndex,
-        };
-      });
+      }
+      this[
+        `messageTemplate-${newSelectedMessageTemplateIndex}`
+      ].scrollIntoView();
+      this.props.setMessageTemplateIndex(
+        this.props.selectedInteraction.interactionId,
+        newSelectedMessageTemplateIndex
+      );
     } else if (e.key === 'Enter') {
       this.addMessageTemplate();
     } else if (e.key === 'Escape') {
       this.setState({
         showMessageTemplateMenu: false,
         showMessageTemplateMenuByForwardSlash: false,
-        messageTemplateFilter: undefined,
       });
+      this.props.setMessageTemplateFilter(
+        this.props.selectedInteraction.interactionId
+      );
       document.removeEventListener('keydown', this.handleKeyDown);
     }
   };
 
   selectMessageTemplateIndex = selectedMessageTemplateIndex => {
-    this.setState({ selectedMessageTemplateIndex });
+    this.props.setMessageTemplateIndex(
+      this.props.selectedInteraction.interactionId,
+      selectedMessageTemplateIndex
+    );
   };
 
   addMessageTemplate = () => {
@@ -260,18 +274,23 @@ export class MessagingTextArea extends React.Component {
         newMessageText.lastIndexOf('/')
       );
     }
-    this.props.saveMesssageState(
+    this.props.saveMessageState(
       this.props.selectedInteraction.interactionId,
       `${newMessageText}${
-        this.props.messageTemplates[this.state.selectedMessageTemplateIndex]
-          .template
-      }`
+        this.props.messageTemplates[
+          this.props.selectedInteraction.selectedMessageTemplateIndex
+        ].template
+      }`,
+      '',
+      undefined
     );
     this.setState({
       showMessageTemplateMenu: false,
       showMessageTemplateMenuByForwardSlash: false,
-      messageTemplateFilter: undefined,
     });
+    this.props.setMessageTemplateFilter(
+      this.props.selectedInteraction.interactionId
+    );
     document.removeEventListener('keydown', this.handleKeyDown);
   };
 
@@ -299,17 +318,12 @@ export class MessagingTextArea extends React.Component {
           break;
         }
       }
-      this.setState(prevState => ({
-        messageTemplateFilter: newMessageTemplateFilter,
-        selectedMessageTemplateIndex:
-          newSelectedMessageTemplateIndex !== undefined
-            ? newSelectedMessageTemplateIndex
-            : prevState.selectedMessageTemplateIndex,
-      }));
     }
-    this.props.saveMesssageState(
+    this.props.saveMessageState(
       this.props.selectedInteraction.interactionId,
-      messageText
+      messageText,
+      newMessageTemplateFilter,
+      newSelectedMessageTemplateIndex
     );
   };
 
@@ -376,9 +390,11 @@ export class MessagingTextArea extends React.Component {
           message: this.props.selectedInteraction.currentMessage,
         });
       }
-      this.props.saveMesssageState(
+      this.props.saveMessageState(
         this.props.selectedInteraction.interactionId,
-        ''
+        '',
+        '',
+        undefined
       );
     }
   };
@@ -452,10 +468,12 @@ export class MessagingTextArea extends React.Component {
                 (messageTemplate, messageTemplateIndex) => {
                   if (
                     !this.state.showMessageTemplateMenuByForwardSlash ||
-                    !this.state.messageTemplateFilter ||
+                    !this.props.selectedInteraction.messageTemplateFilter ||
                     messageTemplate.name
                       .toUpperCase()
-                      .includes(this.state.messageTemplateFilter.toUpperCase())
+                      .includes(
+                        this.props.selectedInteraction.messageTemplateFilter.toUpperCase()
+                      )
                   ) {
                     return (
                       <div
@@ -473,7 +491,8 @@ export class MessagingTextArea extends React.Component {
                         }
                         style={[
                           styles.messageTemplate,
-                          this.state.selectedMessageTemplateIndex ===
+                          this.props.selectedInteraction
+                            .selectedMessageTemplateIndex ===
                           messageTemplateIndex
                             ? styles.selectedMessageTemplate
                             : {},
@@ -574,8 +593,24 @@ function mapDispatchToProps(dispatch) {
       dispatch(sendOutboundSms(interactionId, message)),
     copyChatTranscript: interaction =>
       dispatch(copyChatTranscript(interaction)),
-    saveMesssageState: (interactionId, message) =>
-      dispatch(saveMessageState(interactionId, message)),
+    setMessageTemplateFilter: interactionId =>
+      dispatch(setMessageTemplateFilter(interactionId)),
+    setMessageTemplateIndex: (interactionId, messageTemplateIndex) =>
+      dispatch(setMessageTemplateIndex(interactionId, messageTemplateIndex)),
+    saveMessageState: (
+      interactionId,
+      message,
+      messageTemplateFilter,
+      messageTemplateIndex
+    ) =>
+      dispatch(
+        saveMessageState(
+          interactionId,
+          message,
+          messageTemplateFilter,
+          messageTemplateIndex
+        )
+      ),
     dispatch,
   };
 }
@@ -585,7 +620,9 @@ MessagingTextArea.propTypes = {
   messageTemplates: PropTypes.array.isRequired,
   initializeOutboundSmsFromMessaging: PropTypes.func.isRequired,
   sendOutboundSms: PropTypes.func.isRequired,
-  saveMesssageState: PropTypes.func.isRequired,
+  saveMessageState: PropTypes.func.isRequired,
+  setMessageTemplateFilter: PropTypes.func.isRequired,
+  setMessageTemplateIndex: PropTypes.func.isRequired,
 };
 
 MessagingTextArea.contextTypes = {

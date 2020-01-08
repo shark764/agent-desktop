@@ -45,6 +45,8 @@ export default class Interaction {
       this.messageHistory = new List();
       this.currentMessage = '';
       this.isCopied = false;
+      this.messageTemplateFilter = undefined;
+      this.selectedMessageTemplateIndex = 0;
     }
     if (channelType === 'email' || channelType === 'sms') {
       this.customer = customer;

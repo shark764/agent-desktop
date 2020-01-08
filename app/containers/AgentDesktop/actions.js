@@ -10,11 +10,33 @@
 
 import * as ACTIONS from './constants';
 
-export function saveMessageState(interactionId, message) {
+export function saveMessageState(
+  interactionId,
+  message,
+  messageTemplateFilter,
+  messageTemplateIndex
+) {
   return {
     type: ACTIONS.SAVE_MESSAGE_STATE,
     interactionId,
     message,
+    messageTemplateFilter,
+    messageTemplateIndex,
+  };
+}
+
+export function setMessageTemplateFilter(interactionId) {
+  return {
+    type: ACTIONS.SET_MESSAGE_TEMPLATE_FILTER,
+    interactionId,
+  };
+}
+
+export function setMessageTemplateIndex(interactionId, messageTemplateIndex) {
+  return {
+    type: ACTIONS.SET_MESSAGE_TEMPLATE_INDEX,
+    interactionId,
+    messageTemplateIndex,
   };
 }
 

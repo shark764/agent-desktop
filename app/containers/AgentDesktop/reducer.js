@@ -2217,7 +2217,36 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.SAVE_MESSAGE_STATE: {
       if (interactionIndex !== -1) {
         return state.updateIn(['interactions', interactionIndex], interaction =>
-          interaction.set('currentMessage', action.message)
+          interaction
+            .set('currentMessage', action.message)
+            .set(
+              'selectedMessageTemplateIndex',
+              action.messageTemplateIndex !== undefined
+                ? action.messageTemplateIndex
+                : interaction.get('selectedMessageTemplateIndex')
+            )
+            .set('messageTemplateFilter', action.messageTemplateFilter)
+        );
+      } else {
+        return state;
+      }
+    }
+    case ACTIONS.SET_MESSAGE_TEMPLATE_FILTER: {
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex], interaction =>
+          interaction.set('messageTemplateFilter', undefined)
+        );
+      } else {
+        return state;
+      }
+    }
+    case ACTIONS.SET_MESSAGE_TEMPLATE_INDEX: {
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex], interaction =>
+          interaction.set(
+            'selectedMessageTemplateIndex',
+            action.messageTemplateIndex
+          )
         );
       } else {
         return state;
