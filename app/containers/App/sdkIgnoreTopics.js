@@ -65,4 +65,5 @@ export default [
   'cxengage/salesforce-lightning/set-dimensions-response', // Ignore
   'cxengage/salesforce-lightning/is-visible-response', // Ignore
   'cxengage/interactions/messaging/smooch-typing-agent-received', // Ignore
+  'cxengage/interactions/messaging/smooch-conversation-read-agent-received', // Ignore
 ];

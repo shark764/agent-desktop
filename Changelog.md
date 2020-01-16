@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.42.12] (2020-01-16)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.12/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.12/index.html)
+### Fixed
+* CXV1-21032 - Ignore smooch-conversation-read-agent-received topic, update cxengage-javascript-sdk to v9.4.3
+
 ## [1.42.11] (2020-01-08)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.11/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.11/index.html)
