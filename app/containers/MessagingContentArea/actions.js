@@ -12,6 +12,7 @@ import {
   INITIALIZE_OUTBOUND_SMS_FROM_MESSAGING,
   SEND_OUTBOUND_SMS,
   COPY_CHAT_TRANSCRIPT,
+  SEND_SMOOCH_MESSAGE,
 } from './constants';
 
 export function initializeOutboundSmsFromMessaging(
@@ -43,5 +44,13 @@ export function copyChatTranscript(interaction) {
   return {
     type: COPY_CHAT_TRANSCRIPT,
     interaction,
+  };
+}
+
+export function sendSmoochMessage(interactionId, message) {
+  return {
+    type: SEND_SMOOCH_MESSAGE,
+    interactionId,
+    message,
   };
 }

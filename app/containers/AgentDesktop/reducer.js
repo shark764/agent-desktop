@@ -1079,13 +1079,52 @@ function agentDesktopReducer(state = initialState, action) {
             interaction.get('interactionId') === action.interactionId
         );
       if (messageInteractionIndex >= 0) {
+        const currentMessageHistory = state.getIn([
+          'interactions',
+          messageInteractionIndex,
+          'messageHistory',
+        ]);
+        const pendingIndex = currentMessageHistory.findIndex(
+          message => message.get('id') === action.message.agentMessageId
+        );
+        if (pendingIndex !== -1) {
+          return state.setIn(
+            [
+              'interactions',
+              messageInteractionIndex,
+              'messageHistory',
+              pendingIndex,
+            ],
+            fromJS(action.message)
+          );
+        } else {
+          return state.updateIn(
+            ['interactions', messageInteractionIndex, 'messageHistory'],
+            messageHistory => messageHistory.push(fromJS(action.message))
+          );
+        }
+      } else {
+        console.warn(
+          'Message could not get added to an interaction. No matching interactionId.'
+        );
+        return state;
+      }
+    }
+    case ACTIONS.ADD_SMOOCH_PENDING_MESSAGE: {
+      const messageInteractionIndex = state
+        .get('interactions')
+        .findIndex(
+          interaction =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (messageInteractionIndex >= 0) {
         return state.updateIn(
           ['interactions', messageInteractionIndex, 'messageHistory'],
           messageHistory => messageHistory.push(fromJS(action.message))
         );
       } else {
         console.warn(
-          'Message could not get added to an interaction. No matching interactionId.'
+          'Pending message could not get added to an interaction. No matching interactionId.'
         );
         return state;
       }

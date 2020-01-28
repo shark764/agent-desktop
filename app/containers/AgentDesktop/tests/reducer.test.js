@@ -2152,4 +2152,66 @@ describe('agentDesktopReducer', () => {
       runReducerAndExpectSnapshot();
     });
   });
+  describe('ADD_SMOOCH_MESSAGE', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 'test-interaction-id',
+            direction: 'inbound',
+            channelType: 'sms',
+            messageHistory: [
+              {
+                id: '1',
+                type: 'agent',
+                from: 'Agent',
+                text: 'test message',
+                timestamp: new Date(0).toISOString(),
+                pending: true,
+              },
+            ],
+            isCopied: true,
+          },
+        ],
+      };
+      action = {
+        type: ACTIONS.ADD_SMOOCH_MESSAGE,
+        interactionId: 'test-interaction-id',
+      };
+    });
+    describe('Message', () => {
+      beforeEach(() => {
+        action.message = new Message({
+          type: 'agent',
+          from: 'Agent',
+          text: 'test message',
+          agentMessageId: '1',
+          timestamp: new Date(0).toISOString(),
+        });
+      });
+      it('is added', () => {
+        runReducerAndExpectSnapshot();
+      });
+      it('replace the current pending message', () => {
+        expect(initialState.interactions[0].messageHistory.length).toEqual(1);
+      });
+    });
+
+    describe('ResponseMessage', () => {
+      beforeEach(() => {
+        action.message = new ResponseMessage({
+          to: 'test-interaction-id',
+          type: 'customer',
+          from: 'Irvin Sandoval',
+          body: {
+            text: 'test message',
+          },
+          timestamp: new Date(0).toISOString(),
+        });
+      });
+      it('is added', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+  });
 });

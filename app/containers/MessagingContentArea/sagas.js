@@ -8,12 +8,14 @@ import { delay } from 'redux-saga';
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 import { copyToClipboard } from 'serenova-js-utils/browser';
 import Message from 'models/Message/Message';
+import { generateUUID } from 'utils/uuid';
 import {
   setInteractionStatus,
   initializeOutboundSmsForAgentDesktop,
   addMessage,
   setContactMode,
   toggleTranscriptCopied,
+  addSmoochPendingMessage,
 } from 'containers/AgentDesktop/actions';
 import { addContactNotification } from 'containers/ContactsControl/actions';
 import { selectAgent } from 'containers/Login/selectors';
@@ -23,6 +25,7 @@ import {
   INITIALIZE_OUTBOUND_SMS_FROM_MESSAGING,
   SEND_OUTBOUND_SMS,
   COPY_CHAT_TRANSCRIPT,
+  SEND_SMOOCH_MESSAGE,
 } from './constants';
 
 export function* initializeOutboundSmsForMessagingSaga(action) {
@@ -126,8 +129,7 @@ export function* copyChatTranscript(action) {
       action.interaction.channelType === 'sms'
         ? action.interaction.customer
         : action.interaction.messageHistory.find(
-          (message) =>
-            message.type === 'customer' || message.type === 'message'
+          message => message.type === 'customer' || message.type === 'message'
         ).from;
   }
   const agent = yield select(selectAgent);
@@ -185,6 +187,32 @@ Date: ${new Date().toLocaleString()}
   }
 }
 
+export function* doHandleSendSmoochMessage({ interactionId, message }) {
+  const agent = yield select(selectAgent);
+  const agentMessageId = generateUUID();
+  yield put(
+    addSmoochPendingMessage(interactionId, {
+      id: agentMessageId,
+      ...message,
+      type: 'agent',
+      from: `${agent.firstName} ${agent.lastName}`,
+      resourceId: agent.userId,
+      pending: true,
+      timestamp: Date.now(),
+    })
+  );
+  yield call(
+    sdkCallToPromise,
+    CxEngage.interactions.messaging.sendSmoochMessage,
+    {
+      interactionId,
+      message: message.text,
+      agentMessageId,
+    },
+    'MessagingContentArea'
+  );
+}
+
 // Individual exports for testing
 export function* watchInitializeOutboundSms() {
   yield takeEvery(
@@ -201,9 +229,14 @@ export function* watchCopyChatTranscript() {
   yield takeLatest(COPY_CHAT_TRANSCRIPT, copyChatTranscript);
 }
 
+export function* handleSendSmoochMessage() {
+  yield takeEvery(SEND_SMOOCH_MESSAGE, doHandleSendSmoochMessage);
+}
+
 // All sagas to be loaded
 export default [
   watchInitializeOutboundSms,
   watchSendOutboundSms,
   watchCopyChatTranscript,
+  handleSendSmoochMessage,
 ];

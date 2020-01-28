@@ -74,6 +74,9 @@ export class MessagingContentArea extends React.Component {
       fontSize: '15px',
       fontWeight: 'bold',
     },
+    messagePending: {
+      color: '#ccc6c6',
+    },
     messageTime: {
       fontSize: '12px',
       marginLeft: '7px',
@@ -206,13 +209,25 @@ export class MessagingContentArea extends React.Component {
                     />
                   </div>
                   <div style={this.styles.messageContainer}>
-                    <span style={this.styles.messageFrom}>
+                    <span
+                      style={[
+                        this.styles.messageFrom,
+                        message.pending && this.styles.messagePending,
+                      ]}
+                    >
                       {messageFrom}
                     </span>
-                    <span style={this.styles.messageTime}>
-                      <FormattedTime value={new Date(message.timestamp)} />
-                    </span>
-                    <div style={this.styles.messageText}>
+                    {!message.pending && (
+                      <span style={this.styles.messageTime}>
+                        <FormattedTime value={new Date(message.timestamp)} />
+                      </span>
+                    )}
+                    <div
+                      style={[
+                        this.styles.messageText,
+                        message.pending && this.styles.messagePending,
+                      ]}
+                    >
                       {message.text}
                     </div>
                   </div>

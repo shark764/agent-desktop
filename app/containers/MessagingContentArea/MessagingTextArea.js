@@ -24,6 +24,7 @@ import {
   initializeOutboundSmsFromMessaging,
   sendOutboundSms,
   copyChatTranscript,
+  sendSmoochMessage,
 } from './actions';
 import messages from './messages';
 const styles = {
@@ -380,10 +381,12 @@ export class MessagingTextArea extends React.Component {
           this.props.selectedInteraction.currentMessage
         );
       } else if (this.props.selectedInteraction.source === 'smooch') {
-        CxEngage.interactions.messaging.sendSmoochMessage({
-          interactionId: this.props.selectedInteraction.interactionId,
-          message: this.props.selectedInteraction.currentMessage,
-        });
+        this.props.sendSmoochMessage(
+          this.props.selectedInteraction.interactionId,
+          {
+            text: this.props.selectedInteraction.currentMessage,
+          }
+        );
       } else {
         CxEngage.interactions.messaging.sendMessage({
           interactionId: this.props.selectedInteraction.interactionId,
@@ -611,6 +614,8 @@ function mapDispatchToProps(dispatch) {
           messageTemplateIndex
         )
       ),
+    sendSmoochMessage: (interactionId, message) =>
+      dispatch(sendSmoochMessage(interactionId, message)),
     dispatch,
   };
 }
@@ -623,6 +628,7 @@ MessagingTextArea.propTypes = {
   saveMessageState: PropTypes.func.isRequired,
   setMessageTemplateFilter: PropTypes.func.isRequired,
   setMessageTemplateIndex: PropTypes.func.isRequired,
+  sendSmoochMessage: PropTypes.func.isRequired,
 };
 
 MessagingTextArea.contextTypes = {

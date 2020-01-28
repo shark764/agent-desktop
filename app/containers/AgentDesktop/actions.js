@@ -313,6 +313,14 @@ export function addSmoochMessage(interactionId, message) {
   };
 }
 
+export function addSmoochPendingMessage(interactionId, message) {
+  return {
+    type: ACTIONS.ADD_SMOOCH_PENDING_MESSAGE,
+    interactionId,
+    message,
+  };
+}
+
 export function setCustomerTyping(interactionId, typing) {
   return {
     type: ACTIONS.SET_CUSTOMER_TYPING,
