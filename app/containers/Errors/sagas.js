@@ -87,7 +87,10 @@ export function* goHandleSDKError(action) {
     topic === 'cxengage/contacts/update-contact-response' || // Handled in ContactEdit
     topic === 'cxengage/contacts/merge-contacts-response' || // Handled in ContactMerge
     topic === 'cxengage/interactions/unfocus-acknowledged' || // Not needed to be shown to agent
-    topic === 'cxengage/reporting/get-bulk-stat-query-response' // Not needed to be shown to agent
+    topic === 'cxengage/reporting/get-bulk-stat-query-response' || // Not needed to be shown to agent
+    topic ===
+      'cxengage/interactions/messaging/smooch-conversation-read-received' || // Not needed to be shown to agent
+    topic === 'cxengage/interactions/messaging/smooch-typing-received' // Not needed to be shown to agent
   ) {
     return; // Do nothing. Error UI handled in their own components.
   } else if (error.code === 4002 && error.data.flowMessage) {

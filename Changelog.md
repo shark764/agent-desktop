@@ -9,9 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.43.1] (2020-01-16)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.43.1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.43.1/index.html)
+### Fixed
+* CXV1-21154 - Suppress read and typing indicator errors from agent if they fail.
+
 ## [1.43.0] (2020-01-16)
-[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.13/index.html)  
-[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.13/index.html)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.43.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.43.0/index.html)
 ### Fixed
 * CXV1-21294 - Show smooch message in the history while it is sending.
 
