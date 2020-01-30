@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.43.3] (2020-01-30)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.43.3/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.43.3/index.html)
+### Fixed
+* CXV1-21154 - Actually suppress read and typing indicator errors from agent if they fail.
+
 ## [1.43.2] (2020-01-16)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.43.2/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.43.2/index.html)
