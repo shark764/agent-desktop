@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.43.2] (2020-01-16)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.43.2/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.43.2/index.html)
+## Fixed
+* CXV1-21347 - Remove Smooch read indicator when an agent sends a message.
+
 ## [1.43.1] (2020-01-16)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.43.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.43.1/index.html)

@@ -17,6 +17,7 @@ import Icon from 'components/Icon';
 
 import {
   saveMessageState,
+  setCustomerRead,
   setMessageTemplateFilter,
   setMessageTemplateIndex,
 } from 'containers/AgentDesktop/actions';
@@ -387,6 +388,10 @@ export class MessagingTextArea extends React.Component {
             text: this.props.selectedInteraction.currentMessage,
           }
         );
+        this.props.setCustomerRead(
+          this.props.selectedInteraction.interactionId,
+          false
+        );
       } else {
         CxEngage.interactions.messaging.sendMessage({
           interactionId: this.props.selectedInteraction.interactionId,
@@ -616,6 +621,8 @@ function mapDispatchToProps(dispatch) {
       ),
     sendSmoochMessage: (interactionId, message) =>
       dispatch(sendSmoochMessage(interactionId, message)),
+    setCustomerRead: (interactionId, isRead) =>
+      dispatch(setCustomerRead(interactionId, isRead)),
     dispatch,
   };
 }
@@ -626,6 +633,7 @@ MessagingTextArea.propTypes = {
   initializeOutboundSmsFromMessaging: PropTypes.func.isRequired,
   sendOutboundSms: PropTypes.func.isRequired,
   saveMessageState: PropTypes.func.isRequired,
+  setCustomerRead: PropTypes.func.isRequired,
   setMessageTemplateFilter: PropTypes.func.isRequired,
   setMessageTemplateIndex: PropTypes.func.isRequired,
   sendSmoochMessage: PropTypes.func.isRequired,
