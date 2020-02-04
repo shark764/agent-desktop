@@ -15,6 +15,9 @@ const Wrapper = styled.div`
   color: #23cdf4;
   font-size: 14px;
   font-style: italic;
+  background-color: white;
+  z-index: 1;
+  width: calc(100% - 20px);
 `;
 
 const Message = styled.span`
@@ -49,7 +52,7 @@ export const CustomerIndicator = ({ isTyping, hasRead }) => {
       </Wrapper>
     );
   } else {
-    return null;
+    return <Wrapper id="noCustomerIndicator" />;
   }
 };
 

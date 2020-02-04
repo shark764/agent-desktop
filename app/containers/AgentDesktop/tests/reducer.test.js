@@ -2162,7 +2162,7 @@ describe('agentDesktopReducer', () => {
             channelType: 'sms',
             messageHistory: [
               {
-                id: '1',
+                agentMessageId: '1',
                 type: 'agent',
                 from: 'Agent',
                 text: 'test message',
@@ -2179,27 +2179,42 @@ describe('agentDesktopReducer', () => {
         interactionId: 'test-interaction-id',
       };
     });
-    describe('Message', () => {
+    describe('agent message with matching agentMessageId', () => {
       beforeEach(() => {
-        action.message = new Message({
+        action.message = {
+          id: 'mock-id',
           type: 'agent',
           from: 'Agent',
           text: 'test message',
           agentMessageId: '1',
           timestamp: new Date(0).toISOString(),
-        });
+        };
+      });
+      it('is replaced', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+
+    describe('agent message with non-matching agentMessageId', () => {
+      beforeEach(() => {
+        action.message = {
+          id: 'mock-id',
+          type: 'agent',
+          from: 'Agent',
+          text: 'test message',
+          agentMessageId: 'not matching',
+          timestamp: new Date(0).toISOString(),
+        };
       });
       it('is added', () => {
         runReducerAndExpectSnapshot();
       });
-      it('replace the current pending message', () => {
-        expect(initialState.interactions[0].messageHistory.length).toEqual(1);
-      });
     });
 
-    describe('ResponseMessage', () => {
+    describe('message without agentMessageId', () => {
       beforeEach(() => {
-        action.message = new ResponseMessage({
+        action.message = {
+          id: 'mock-id',
           to: 'test-interaction-id',
           type: 'customer',
           from: 'Irvin Sandoval',
@@ -2207,7 +2222,7 @@ describe('agentDesktopReducer', () => {
             text: 'test message',
           },
           timestamp: new Date(0).toISOString(),
-        });
+        };
       });
       it('is added', () => {
         runReducerAndExpectSnapshot();

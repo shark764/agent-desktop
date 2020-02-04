@@ -531,7 +531,7 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer ADD_SMOOCH_MESSAGE Message is added 1`] = `
+exports[`agentDesktopReducer ADD_SMOOCH_MESSAGE agent message with matching agentMessageId is replaced 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
     Immutable.Map {
@@ -540,18 +540,11 @@ Immutable.Map {
       "channelType": "sms",
       "messageHistory": Immutable.List [
         Immutable.Map {
-          "id": "1",
+          "id": "mock-id",
           "type": "agent",
           "from": "Agent",
           "text": "test message",
-          "timestamp": "1970-01-01T00:00:00.000Z",
-          "pending": true,
-        },
-        Immutable.Record {
-          "id": "no-id",
-          "type": "agent",
-          "from": "Agent",
-          "text": "test message",
+          "agentMessageId": "1",
           "timestamp": "1970-01-01T00:00:00.000Z",
         },
       ],
@@ -561,7 +554,7 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer ADD_SMOOCH_MESSAGE ResponseMessage is added 1`] = `
+exports[`agentDesktopReducer ADD_SMOOCH_MESSAGE agent message with non-matching agentMessageId is added 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
     Immutable.Map {
@@ -570,18 +563,52 @@ Immutable.Map {
       "channelType": "sms",
       "messageHistory": Immutable.List [
         Immutable.Map {
-          "id": "1",
+          "agentMessageId": "1",
           "type": "agent",
           "from": "Agent",
           "text": "test message",
           "timestamp": "1970-01-01T00:00:00.000Z",
           "pending": true,
         },
-        Immutable.Record {
-          "id": "no-id",
+        Immutable.Map {
+          "id": "mock-id",
+          "type": "agent",
+          "from": "Agent",
+          "text": "test message",
+          "agentMessageId": "not matching",
+          "timestamp": "1970-01-01T00:00:00.000Z",
+        },
+      ],
+      "isCopied": true,
+    },
+  ],
+}
+`;
+
+exports[`agentDesktopReducer ADD_SMOOCH_MESSAGE message without agentMessageId is added 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "direction": "inbound",
+      "channelType": "sms",
+      "messageHistory": Immutable.List [
+        Immutable.Map {
+          "agentMessageId": "1",
+          "type": "agent",
+          "from": "Agent",
+          "text": "test message",
+          "timestamp": "1970-01-01T00:00:00.000Z",
+          "pending": true,
+        },
+        Immutable.Map {
+          "id": "mock-id",
+          "to": "test-interaction-id",
           "type": "customer",
           "from": "Irvin Sandoval",
-          "text": "test message",
+          "body": Immutable.Map {
+            "text": "test message",
+          },
           "timestamp": "1970-01-01T00:00:00.000Z",
         },
       ],

@@ -97,7 +97,8 @@ export class MessagingContentArea extends React.Component {
     messageHistory: {
       flex: '1',
       overflowY: 'auto',
-      marginBottom: '1px',
+      marginBottom: '-17px',
+      paddingBottom: '12px',
       borderRadius: '3px',
     },
   };

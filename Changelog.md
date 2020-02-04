@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.43.4] (2020-02-03)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.43.4/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.43.4/index.html)
+### Fixed
+* CXV1-21488 - Have the last agent message be scrolled to the bottom.
+* CXV1-21513 - Fix smooch customer messages replacing system messages.
+
 ## [1.43.3] (2020-01-30)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.43.3/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.43.3/index.html)

@@ -192,7 +192,7 @@ export function* doHandleSendSmoochMessage({ interactionId, message }) {
   const agentMessageId = generateUUID();
   yield put(
     addSmoochPendingMessage(interactionId, {
-      id: agentMessageId,
+      agentMessageId,
       ...message,
       type: 'agent',
       from: `${agent.firstName} ${agent.lastName}`,

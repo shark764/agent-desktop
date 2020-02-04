@@ -1084,9 +1084,16 @@ function agentDesktopReducer(state = initialState, action) {
           messageInteractionIndex,
           'messageHistory',
         ]);
-        const pendingIndex = currentMessageHistory.findIndex(
-          message => message.get('id') === action.message.agentMessageId
-        );
+        let pendingIndex;
+        if (action.message.agentMessageId) {
+          pendingIndex = currentMessageHistory.findIndex(
+            message =>
+              message.get('agentMessageId') === action.message.agentMessageId
+          );
+        } else {
+          // Don't replace anything if the message we received doesn't have an agentMessageId
+          pendingIndex = -1;
+        }
         if (pendingIndex !== -1) {
           return state.setIn(
             [
