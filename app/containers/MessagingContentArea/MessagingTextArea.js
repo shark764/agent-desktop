@@ -75,7 +75,6 @@ const styles = {
     backgroundColor: '#DEF8FE',
   },
   templateMenuButton: {
-    height: 'calc(100% - 4px)',
     width: '40px',
     verticalAlign: 'top',
     fontSize: '24px',
@@ -103,7 +102,6 @@ const styles = {
     borderRadius: '0',
   },
   messageButton: {
-    height: 'calc(100% - 4px)',
     width: '50px',
     verticalAlign: 'top',
     fontSize: '11px',
@@ -532,7 +530,10 @@ export class MessagingTextArea extends React.Component {
             id="templateMenuButton"
             onClick={this.toggleMessageTemplateMenu}
             type="secondary"
-            style={styles.templateMenuButton}
+            style={[
+              styles.templateMenuButton,
+              { height: this.state.messageTextareaHeight },
+            ]}
           >
             {'+'}
           </Button>
@@ -571,7 +572,10 @@ export class MessagingTextArea extends React.Component {
           id="sendMessageButton"
           onClick={this.sendMessage}
           type="secondary"
-          style={styles.messageButton}
+          style={[
+            styles.messageButton,
+            { height: this.state.messageTextareaHeight },
+          ]}
           text={messages.send}
         />
       </div>

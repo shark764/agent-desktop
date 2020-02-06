@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.43.6] (2020-02-05)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.43.6/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.43.6/index.html)
+### Fixed
+* CXV1-14686 - Css Regression on Chat Message Input Box
+
 ## [1.43.4] (2020-02-03)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.43.4/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.43.4/index.html)

@@ -33,14 +33,18 @@ exports[`<MessagingTextArea /> should render correctly under connecting-to-outbo
     id="sendMessageButton"
     onClick={[Function]}
     style={
-      Object {
-        "borderRadius": "0 3px 3px 0",
-        "fontSize": "11px",
-        "height": "calc(100% - 4px)",
-        "padding": 0,
-        "verticalAlign": "top",
-        "width": "50px",
-      }
+      Array [
+        Object {
+          "borderRadius": "0 3px 3px 0",
+          "fontSize": "11px",
+          "padding": 0,
+          "verticalAlign": "top",
+          "width": "50px",
+        },
+        Object {
+          "height": 50,
+        },
+      ]
     }
     text={
       Object {
@@ -86,14 +90,18 @@ exports[`<MessagingTextArea /> should render correctly under initialized-outboun
     id="sendMessageButton"
     onClick={[Function]}
     style={
-      Object {
-        "borderRadius": "0 3px 3px 0",
-        "fontSize": "11px",
-        "height": "calc(100% - 4px)",
-        "padding": 0,
-        "verticalAlign": "top",
-        "width": "50px",
-      }
+      Array [
+        Object {
+          "borderRadius": "0 3px 3px 0",
+          "fontSize": "11px",
+          "padding": 0,
+          "verticalAlign": "top",
+          "width": "50px",
+        },
+        Object {
+          "height": 50,
+        },
+      ]
     }
     text={
       Object {
@@ -139,14 +147,18 @@ exports[`<MessagingTextArea /> should render correctly under work-accepted 1`] =
     id="sendMessageButton"
     onClick={[Function]}
     style={
-      Object {
-        "borderRadius": "0 3px 3px 0",
-        "fontSize": "11px",
-        "height": "calc(100% - 4px)",
-        "padding": 0,
-        "verticalAlign": "top",
-        "width": "50px",
-      }
+      Array [
+        Object {
+          "borderRadius": "0 3px 3px 0",
+          "fontSize": "11px",
+          "padding": 0,
+          "verticalAlign": "top",
+          "width": "50px",
+        },
+        Object {
+          "height": 50,
+        },
+      ]
     }
     text={
       Object {
@@ -165,14 +177,18 @@ exports[`<MessagingTextArea /> should render correctly with message templates 1`
     id="templateMenuButton"
     onClick={[Function]}
     style={
-      Object {
-        "borderRadius": "3px 0 0 3px",
-        "fontSize": "24px",
-        "height": "calc(100% - 4px)",
-        "padding": 0,
-        "verticalAlign": "top",
-        "width": "40px",
-      }
+      Array [
+        Object {
+          "borderRadius": "3px 0 0 3px",
+          "fontSize": "24px",
+          "padding": 0,
+          "verticalAlign": "top",
+          "width": "40px",
+        },
+        Object {
+          "height": 50,
+        },
+      ]
     }
     type="secondary"
   >
@@ -209,14 +225,18 @@ exports[`<MessagingTextArea /> should render correctly with message templates 1`
     id="sendMessageButton"
     onClick={[Function]}
     style={
-      Object {
-        "borderRadius": "0 3px 3px 0",
-        "fontSize": "11px",
-        "height": "calc(100% - 4px)",
-        "padding": 0,
-        "verticalAlign": "top",
-        "width": "50px",
-      }
+      Array [
+        Object {
+          "borderRadius": "0 3px 3px 0",
+          "fontSize": "11px",
+          "padding": 0,
+          "verticalAlign": "top",
+          "width": "50px",
+        },
+        Object {
+          "height": 50,
+        },
+      ]
     }
     text={
       Object {
