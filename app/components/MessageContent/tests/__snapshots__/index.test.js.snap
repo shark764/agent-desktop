@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MessageContent /> should render file message component correctly 1`] = `
+<styled.div>
+  <styled.a
+    alt="image"
+    href="https://www.test.com/file.docx"
+    target="_blank"
+  >
+    <styled.div>
+      <Icon
+        id="5e429c11749914000f07349f"
+        name="attachment_blue"
+        placeholher="image"
+      />
+    </styled.div>
+    <FileNameContainer
+      title="file.docx"
+    >
+      file.docx
+    </FileNameContainer>
+  </styled.a>
+</styled.div>
+`;
+
+exports[`<MessageContent /> should render image message component correctly 1`] = `
+<styled.a
+  alt="image"
+  href="https://www.test.com/file.jpg"
+  style={
+    Object {
+      "display": "contents",
+    }
+  }
+  target="_blank"
+>
+  <Image
+    id="5e429c11749914000f07349f"
+    placeholher="image"
+    src="https://www.test.com/file.jpg"
+    style={
+      Object {
+        "height": "auto",
+        "maxWidth": "300px",
+      }
+    }
+  />
+</styled.a>
+`;
+
+exports[`<MessageContent /> should render text message component correctly 1`] = `
+<MessageTextContainer>
+  This is a test
+</MessageTextContainer>
+`;

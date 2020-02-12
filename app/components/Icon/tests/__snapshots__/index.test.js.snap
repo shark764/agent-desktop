@@ -58,6 +58,22 @@ exports[`<Icon /> with name attachment should render correctly 1`] = `
 />
 `;
 
+exports[`<Icon /> with name attachment_blue should render correctly 1`] = `
+<img
+  alt="attachment_blue"
+  data-radium={true}
+  id="mockId"
+  src="test-file-stub"
+  style={
+    Object {
+      "cursor": "pointer",
+      "height": "20px",
+      "width": "20px",
+    }
+  }
+/>
+`;
+
 exports[`<Icon /> with name caret should render correctly 1`] = `
 <img
   alt="caret"

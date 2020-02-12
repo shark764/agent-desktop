@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.44.0] (2020-02-06)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.44.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.44.0/index.html)
+* CXV1-21425 - Add rendering customer attachments support.
+
 ## [1.43.6] (2020-02-05)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.43.6/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.43.6/index.html)

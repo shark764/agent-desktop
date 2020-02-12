@@ -19,9 +19,8 @@ import ErrorBoundary from 'components/ErrorBoundary';
 import Avatar from 'components/Avatar';
 import LoadingText from 'components/LoadingText';
 import CustomFields from 'containers/CustomFields';
-
+import MessageContent from 'components/MessageContent';
 import ContentArea from 'containers/ContentArea';
-
 import { selectAgent } from 'containers/Login/selectors';
 import { selectIsEndWrapupDisabled } from 'containers/AgentDesktop/selectors';
 
@@ -80,11 +79,6 @@ export class MessagingContentArea extends React.Component {
     messageTime: {
       fontSize: '12px',
       marginLeft: '7px',
-    },
-    messageText: {
-      fontSize: '16px',
-      lineHeight: '20px',
-      whiteSpace: 'pre-wrap',
     },
     messagingContainer: {
       display: 'flex',
@@ -223,14 +217,7 @@ export class MessagingContentArea extends React.Component {
                         <FormattedTime value={new Date(message.timestamp)} />
                       </span>
                     )}
-                    <div
-                      style={[
-                        this.styles.messageText,
-                        message.pending && this.styles.messagePending,
-                      ]}
-                    >
-                      {message.text}
-                    </div>
+                    <MessageContent message={message} />
                   </div>
                 </div>
               )}

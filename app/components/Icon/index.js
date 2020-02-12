@@ -21,6 +21,7 @@ import close from 'assets/icons/close.png';
 import arrowUpDown from 'assets/icons/arrow_up_down.png';
 import arrowReturn from 'assets/icons/arrow_return.png';
 import attachment from 'assets/icons/attachment.png';
+import attachmentBlue from 'assets/icons/attachment_blue.png';
 import message from 'assets/icons/message.png';
 import messageNew from 'assets/icons/message_new.png';
 import messageDark from 'assets/icons/message_dark.png';
@@ -51,6 +52,7 @@ export const availableIcons = [
   'arrow_return',
   'arrow_up_down',
   'attachment',
+  'attachment_blue',
   'caret',
   'caret_white',
   'checkStatus',
@@ -135,6 +137,11 @@ const styles = {
     data: { src: attachment },
     height: '16px',
     width: '16px',
+  },
+  attachment_blue: {
+    data: { src: attachmentBlue },
+    height: '20px',
+    width: '20px',
   },
   script: {
     data: { src: scriptOnly },
