@@ -55,8 +55,7 @@ export function* getInteraction(interactionId) {
   } else {
     const interactionsList = yield select(selectInteractionsList);
     const interactionMap = interactionsList.find(
-      (listInteraction) =>
-        listInteraction.get('interactionId') === interactionId
+      listInteraction => listInteraction.get('interactionId') === interactionId
     );
     interaction = interactionMap && interactionMap.toJS();
   }
@@ -111,7 +110,7 @@ export function* goMergeContacts(action) {
   const secondContact = checkedContacts[1].attributes;
   const attributesMap = yield select(selectAttributes);
   const attributes = attributesMap.toJS();
-  const values = attributes.map((attr) => attr.objectName);
+  const values = attributes.map(attr => attr.objectName);
   const contactForm = {};
   const formErrors = {};
   const showErrors = {};
@@ -120,7 +119,7 @@ export function* goMergeContacts(action) {
   for (let valueIndex = 0; valueIndex < values.length; valueIndex += 1) {
     const attributeName = values[valueIndex];
     const attribute = attributes.find(
-      (attr) => attr.objectName === attributeName
+      attr => attr.objectName === attributeName
     );
     if (
       firstContact[attributeName] === undefined ||
@@ -192,10 +191,27 @@ export function* goAddContactErrorNotification(action) {
   );
 }
 
+function clean(contactForm) {
+  const newContactForm = contactForm;
+  const propNames = Object.getOwnPropertyNames(newContactForm);
+  for (let i = 0; i < propNames.length; i += 1) {
+    const propName = propNames[i];
+    if (
+      newContactForm[propName] === null ||
+      newContactForm[propName] === undefined ||
+      newContactForm[propName] === ''
+    ) {
+      delete newContactForm[propName];
+    }
+  }
+  return newContactForm;
+}
+
 export function* goSubmitContactCreate(action) {
   const interaction = yield call(getInteraction, action.interactionId);
   const targetContactForm = interaction.activeContactForm;
   const { contactForm } = targetContactForm;
+  clean(contactForm);
   yield put(setContactSaveLoading(action.interactionId, true));
   try {
     const createdContact = yield call(
@@ -225,6 +241,7 @@ export function* goSubmitContactEdit(action) {
   const interaction = yield call(getInteraction, action.interactionId);
   const targetContactForm = interaction.activeContactForm;
   const { contactForm } = targetContactForm;
+  clean(contactForm);
   const originalContacts = targetContactForm.editingContacts;
   yield put(setContactSaveLoading(action.interactionId, true));
   try {
@@ -258,6 +275,7 @@ export function* goSubmitContactMerge(action) {
   const interaction = yield call(getInteraction, action.interactionId);
   const targetContactForm = interaction.activeContactForm;
   const { contactForm } = targetContactForm;
+  clean(contactForm);
   const originalContacts = targetContactForm.editingContacts;
   yield put(setContactSaveLoading(action.interactionId, true));
   try {
@@ -266,7 +284,7 @@ export function* goSubmitContactMerge(action) {
       CxEngage.contacts.merge,
       {
         attributes: contactForm,
-        contactIds: originalContacts.map((contact) => contact.id),
+        contactIds: originalContacts.map(contact => contact.id),
       },
       'ContactsControl'
     );
@@ -277,14 +295,14 @@ export function* goSubmitContactMerge(action) {
     yield interactionsList
       .toJS()
       .filter(
-        (inter) =>
+        inter =>
           inter.interactionId !== action.interactionId &&
           inter.contact &&
           [originalContacts[0].id, originalContacts[1].id].includes(
             inter.contact.id
           )
       )
-      .map((inter) => put(assignContact(inter.interactionId, createdContact)));
+      .map(inter => put(assignContact(inter.interactionId, createdContact)));
     yield put(removeSearchFilter());
     yield put(setContactSaveLoading(action.interactionId, false));
     yield put(resetForm(action.interactionId));
