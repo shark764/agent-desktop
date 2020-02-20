@@ -1002,10 +1002,13 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/messaging/smooch-message-received':
+          case 'cxengage/interactions/messaging/smooch-attachment-sent':
           case 'cxengage/interactions/messaging/new-message-received': {
             const isSmooch =
               topic ===
-              'cxengage/interactions/messaging/smooch-message-received';
+                'cxengage/interactions/messaging/smooch-message-received' ||
+              topic ===
+                'cxengage/interactions/messaging/smooch-attachment-sent';
             if (
               (!isSmooch && isUUID(response.from) === false) ||
               (isSmooch &&

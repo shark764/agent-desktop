@@ -19,7 +19,11 @@ describe('<MessagingTextArea />', () => {
         messageTemplates={[]}
         initializeOutboundSmsFromMessaging={() => {}}
         sendOutboundSms={() => {}}
-        saveMesssageState={() => {}}
+        saveMessageState={() => {}}
+        setCustomerRead={() => {}}
+        setMessageTemplateFilter={() => {}}
+        setMessageTemplateIndex={() => {}}
+        sendSmoochMessage={() => {}}
       />
     );
     expect(rendered).toMatchSnapshot();
@@ -36,7 +40,11 @@ describe('<MessagingTextArea />', () => {
         messageTemplates={[]}
         initializeOutboundSmsFromMessaging={() => {}}
         sendOutboundSms={() => {}}
-        saveMesssageState={() => {}}
+        saveMessageState={() => {}}
+        setCustomerRead={() => {}}
+        setMessageTemplateFilter={() => {}}
+        setMessageTemplateIndex={() => {}}
+        sendSmoochMessage={() => {}}
       />
     );
     expect(rendered).toMatchSnapshot();
@@ -53,7 +61,11 @@ describe('<MessagingTextArea />', () => {
         messageTemplates={[]}
         initializeOutboundSmsFromMessaging={() => {}}
         sendOutboundSms={() => {}}
-        saveMesssageState={() => {}}
+        saveMessageState={() => {}}
+        setCustomerRead={() => {}}
+        setMessageTemplateFilter={() => {}}
+        setMessageTemplateIndex={() => {}}
+        sendSmoochMessage={() => {}}
       />
     );
     expect(rendered).toMatchSnapshot();
@@ -70,7 +82,11 @@ describe('<MessagingTextArea />', () => {
         messageTemplates={['Hello1', 'Hello2']}
         initializeOutboundSmsFromMessaging={() => {}}
         sendOutboundSms={() => {}}
-        saveMesssageState={() => {}}
+        saveMessageState={() => {}}
+        setCustomerRead={() => {}}
+        setMessageTemplateFilter={() => {}}
+        setMessageTemplateIndex={() => {}}
+        sendSmoochMessage={() => {}}
       />
     );
     expect(rendered).toMatchSnapshot();

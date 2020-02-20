@@ -66,4 +66,6 @@ export default [
   'cxengage/salesforce-lightning/is-visible-response', // Ignore
   'cxengage/interactions/messaging/smooch-typing-agent-received', // Ignore
   'cxengage/interactions/messaging/smooch-conversation-read-agent-received', // Ignore
+  'cxengage/interactions/messaging/smooch-attachment-added', // Ignore
+  'cxengage/interactions/messaging/smooch-attachment-removed', // Ignore
 ];

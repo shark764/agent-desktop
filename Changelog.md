@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.45.0] (2020-02-19)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.45.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.45.0/index.html)
+* CXV1-21426 - Adding support for sending attachments from Skylight to Smooch.
+
 ## [1.44.1] (2020-02-14)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.44.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.44.1/index.html)

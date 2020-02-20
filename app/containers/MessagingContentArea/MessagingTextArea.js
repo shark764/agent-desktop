@@ -2,7 +2,7 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { connect } from 'react-redux';
@@ -14,6 +14,7 @@ import ErrorBoundary from 'components/ErrorBoundary';
 
 import Button from 'components/Button';
 import Icon from 'components/Icon';
+import IconSVG from 'components/IconSVG';
 
 import {
   saveMessageState,
@@ -108,6 +109,39 @@ const styles = {
     padding: 0,
     borderRadius: '0 3px 3px 0',
   },
+  addAttachment: {
+    position: 'absolute',
+    fontSize: '12px',
+    height: '26px',
+    padding: '3px 10px',
+    margin: '4px 10px 0 0',
+    border: '1px solid transparent',
+    right: '54px',
+    bottom: '29px',
+    cursor: 'pointer',
+  },
+  attachmentContainer: {
+    position: 'absolute',
+    display: 'inline-flex',
+    borderRadius: '2px',
+    fontSize: '12px',
+    left: '30px',
+    bottom: '23px',
+    backgroundColor: '#eee',
+    padding: '10px',
+    width: '16%',
+    maxWidth: '200px',
+    height: '32px',
+  },
+  attachmentName: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+  disableAddAttachment: {
+    cursor: 'not-allowed',
+    color: '#ddd',
+  },
 };
 
 export class MessagingTextArea extends React.Component {
@@ -118,6 +152,7 @@ export class MessagingTextArea extends React.Component {
       showMessageTemplateMenuByForwardSlash: false,
       messageTextareaHeight: 50,
       isTyping: false,
+      attachedFile: null,
     };
   }
 
@@ -386,6 +421,9 @@ export class MessagingTextArea extends React.Component {
             text: this.props.selectedInteraction.currentMessage,
           }
         );
+        if (this.state.attachedFile) {
+          this.sendFile();
+        }
         this.props.setCustomerRead(
           this.props.selectedInteraction.interactionId,
           false
@@ -402,6 +440,8 @@ export class MessagingTextArea extends React.Component {
         '',
         undefined
       );
+    } else if (this.state.attachedFile) {
+      this.sendFile();
     }
   };
 
@@ -424,6 +464,39 @@ export class MessagingTextArea extends React.Component {
     2000,
     { leading: true, trailing: true }
   );
+
+  attachFile = fileList => {
+    CxEngage.interactions.messaging.smoochAddAttachment({
+      interactionId: this.props.selectedInteraction.interactionId,
+      file: fileList[0],
+    });
+    this.setState(previousState => ({
+      ...previousState,
+      attachedFile: fileList[0],
+    }));
+  };
+
+  removeFile = () => {
+    CxEngage.interactions.messaging.smoochRemoveAttachment({
+      interactionId: this.props.selectedInteraction.interactionId,
+    });
+    this.setState(previousState => ({
+      ...previousState,
+      attachedFile: null,
+    }));
+  };
+
+  sendFile = () => {
+    if (
+      this.props.selectedInteraction.source === 'smooch' &&
+      this.state.attachedFile
+    ) {
+      CxEngage.interactions.messaging.sendSmoochAttachment({
+        interactionId: this.props.selectedInteraction.interactionId,
+      });
+      this.removeFile();
+    }
+  };
 
   render() {
     return (
@@ -557,17 +630,91 @@ export class MessagingTextArea extends React.Component {
           inputRef={input => {
             this.messageTextarea = input;
           }}
-          style={
-            this.props.messageTemplates &&
+          style={{
+            ...(this.props.messageTemplates &&
             this.props.messageTemplates.length > 0
               ? styles.messageTextareaWithTemplates
-              : styles.messageTextarea
-          }
+              : styles.messageTextarea),
+            ...(this.props.selectedInteraction.source === 'smooch' && {
+              paddingRight: '45px',
+            }),
+            ...(this.props.selectedInteraction.source === 'smooch' &&
+              this.state.attachedFile && {
+              paddingLeft: 'calc(16% + 25px)',
+            }),
+          }}
           value={this.props.selectedInteraction.currentMessage}
           onChange={e => this.setMessageText(e.target.value)}
           onKeyDown={this.onMessageKeyDown}
           autoFocus
         />
+
+        {this.props.selectedInteraction.source === 'smooch' &&
+          this.state.attachedFile && (
+          <div
+            title={this.state.attachedFile.name}
+            style={{
+              ...styles.attachmentContainer,
+              ...(this.state.messageTextareaHeight > 50 && {
+                bottom: this.state.messageTextareaHeight - 24,
+              }),
+            }}
+          >
+            <span style={styles.attachmentName}>
+              {this.state.attachedFile.name}
+            </span>
+            <div onClick={this.removeFile}>
+              <IconSVG
+                id="removeFileIcon"
+                name="close"
+                color="grey"
+                width="12px"
+              />
+            </div>
+          </div>
+        )}
+
+        {this.props.selectedInteraction.source === 'smooch' && (
+          <Fragment>
+            <input
+              id="attachmentFilePicker"
+              type="file"
+              value=""
+              onChange={e => this.attachFile(e.target.files)}
+              style={{ display: 'none' }}
+              disabled={this.state.attachedFile !== null}
+            />
+            <label
+              id="attachmentFilePickerLabel"
+              htmlFor="attachmentFilePicker"
+            >
+              <div
+                style={{
+                  ...styles.addAttachment,
+                  ...(this.state.attachedFile !== null &&
+                    styles.disableAddAttachment),
+                  ...(this.state.messageTextareaHeight > 50 && {
+                    bottom: this.state.messageTextareaHeight - 14,
+                    right: '64px',
+                  }),
+                }}
+              >
+                <IconSVG
+                  id="attachmentFileIcon"
+                  name="attachment"
+                  width="20px"
+                  color="grey"
+                  style={
+                    this.state.attachedFile !== null
+                      ? styles.disableAddAttachment
+                      : {}
+                  }
+                />
+              </div>
+            </label>
+          </Fragment>
+        )}
+
         <Button
           id="sendMessageButton"
           onClick={this.sendMessage}
