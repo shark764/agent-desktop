@@ -18,6 +18,7 @@ import {
   toggleInteractionIsMuting,
   toggleInteractionIsHolding,
   toggleInteractionNotification,
+  removeSmoochPendingMessage,
 } from 'containers/AgentDesktop/actions';
 import { selectInteractionsList } from 'containers/AgentDesktop/selectors';
 import {
@@ -187,6 +188,19 @@ export function* goHandleSDKError(action) {
     yield put(removeInteractionHard(error.data.interactionId));
   } else if (forceFatalInteraction) {
     yield put(removeInteractionHard(forceFatalInteraction.interactionId));
+  }
+
+  if (
+    (error.code === 6007 || error.code === 6010) &&
+    (topic === 'cxengage/interactions/messaging/smooch-message-received' ||
+      topic === 'cxengage/interactions/messaging/smooch-attachment-sent')
+  ) {
+    yield put(
+      removeSmoochPendingMessage(
+        error.data.interactionId,
+        error.data.agentMessageId
+      )
+    );
   }
 
   // Error Banner Notifications

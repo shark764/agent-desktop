@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { LoadingSpinnerSVG } from 'cx-ui-components';
 import Image from 'components/Image';
 import Icon from 'components/Icon';
 
@@ -93,6 +94,8 @@ export function MessageContent({ message }) {
     default:
       return (
         <MessageTextContainer>
+          {message.pending &&
+            message.isFile && <LoadingSpinnerSVG size={28} color="#b2b2b2" />}
           {message.text}
         </MessageTextContainer>
       );

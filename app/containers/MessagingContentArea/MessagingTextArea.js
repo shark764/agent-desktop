@@ -16,11 +16,15 @@ import Button from 'components/Button';
 import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 
+import { generateUUID } from 'utils/uuid';
+import { isBeta } from 'utils/url';
+
 import {
   saveMessageState,
   setCustomerRead,
   setMessageTemplateFilter,
   setMessageTemplateIndex,
+  addSmoochPendingMessage,
 } from 'containers/AgentDesktop/actions';
 import {
   initializeOutboundSmsFromMessaging,
@@ -415,15 +419,15 @@ export class MessagingTextArea extends React.Component {
           this.props.selectedInteraction.currentMessage
         );
       } else if (this.props.selectedInteraction.source === 'smooch') {
+        if (this.state.attachedFile) {
+          this.sendFile();
+        }
         this.props.sendSmoochMessage(
           this.props.selectedInteraction.interactionId,
           {
             text: this.props.selectedInteraction.currentMessage,
           }
         );
-        if (this.state.attachedFile) {
-          this.sendFile();
-        }
         this.props.setCustomerRead(
           this.props.selectedInteraction.interactionId,
           false
@@ -491,8 +495,22 @@ export class MessagingTextArea extends React.Component {
       this.props.selectedInteraction.source === 'smooch' &&
       this.state.attachedFile
     ) {
+      const { interactionId } = this.props.selectedInteraction;
+      const { firstName, lastName, userId } = this.props.agent;
+      const agentMessageId = generateUUID();
       CxEngage.interactions.messaging.sendSmoochAttachment({
-        interactionId: this.props.selectedInteraction.interactionId,
+        interactionId,
+        agentMessageId,
+      });
+      this.props.addSmoochPendingMessage(interactionId, {
+        agentMessageId,
+        text: this.state.attachedFile.name,
+        type: 'agent',
+        from: `${firstName} ${lastName}`,
+        resourceId: userId,
+        pending: true,
+        isFile: true,
+        timestamp: Date.now(),
       });
       this.removeFile();
     }
@@ -635,11 +653,13 @@ export class MessagingTextArea extends React.Component {
             this.props.messageTemplates.length > 0
               ? styles.messageTextareaWithTemplates
               : styles.messageTextarea),
-            ...(this.props.selectedInteraction.source === 'smooch' && {
+            ...(this.props.selectedInteraction.source === 'smooch' &&
+              isBeta() && {
               paddingRight: '45px',
             }),
             ...(this.props.selectedInteraction.source === 'smooch' &&
-              this.state.attachedFile && {
+              this.state.attachedFile &&
+              isBeta() && {
               paddingLeft: 'calc(16% + 25px)',
             }),
           }}
@@ -674,7 +694,8 @@ export class MessagingTextArea extends React.Component {
           </div>
         )}
 
-        {this.props.selectedInteraction.source === 'smooch' && (
+        {this.props.selectedInteraction.source === 'smooch' &&
+          isBeta() && (
           <Fragment>
             <input
               id="attachmentFilePicker"
@@ -692,7 +713,7 @@ export class MessagingTextArea extends React.Component {
                 style={{
                   ...styles.addAttachment,
                   ...(this.state.attachedFile !== null &&
-                    styles.disableAddAttachment),
+                      styles.disableAddAttachment),
                   ...(this.state.messageTextareaHeight > 50 && {
                     bottom: this.state.messageTextareaHeight - 14,
                     right: '64px',
@@ -774,6 +795,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(sendSmoochMessage(interactionId, message)),
     setCustomerRead: (interactionId, isRead) =>
       dispatch(setCustomerRead(interactionId, isRead)),
+    addSmoochPendingMessage: (interactionId, message) =>
+      dispatch(addSmoochPendingMessage(interactionId, message)),
     dispatch,
   };
 }
@@ -781,6 +804,7 @@ function mapDispatchToProps(dispatch) {
 MessagingTextArea.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,
   messageTemplates: PropTypes.array.isRequired,
+  agent: PropTypes.object,
   initializeOutboundSmsFromMessaging: PropTypes.func.isRequired,
   sendOutboundSms: PropTypes.func.isRequired,
   saveMessageState: PropTypes.func.isRequired,
@@ -788,6 +812,7 @@ MessagingTextArea.propTypes = {
   setMessageTemplateFilter: PropTypes.func.isRequired,
   setMessageTemplateIndex: PropTypes.func.isRequired,
   sendSmoochMessage: PropTypes.func.isRequired,
+  addSmoochPendingMessage: PropTypes.func.isRequired,
 };
 
 MessagingTextArea.contextTypes = {

@@ -1136,6 +1136,39 @@ function agentDesktopReducer(state = initialState, action) {
         return state;
       }
     }
+    case ACTIONS.REMOVE_SMOOCH_PENDING_MESSAGE: {
+      const messageInteractionIndex = state
+        .get('interactions')
+        .findIndex(
+          interaction =>
+            interaction.get('interactionId') === action.interactionId
+        );
+      if (messageInteractionIndex >= 0) {
+        const currentMessageHistory = state.getIn([
+          'interactions',
+          messageInteractionIndex,
+          'messageHistory',
+        ]);
+        const pendingIndex = currentMessageHistory.findIndex(
+          message => message.get('agentMessageId') === action.agentMessageId
+        );
+
+        if (pendingIndex !== -1) {
+          return state.deleteIn([
+            'interactions',
+            messageInteractionIndex,
+            'messageHistory',
+            pendingIndex,
+          ]);
+        }
+        return state;
+      } else {
+        console.warn(
+          'Pending message could not get added to an interaction. No matching interactionId.'
+        );
+        return state;
+      }
+    }
     case ACTIONS.SET_CUSTOMER_TYPING: {
       const messageInteractionIndex = state
         .get('interactions')

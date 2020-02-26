@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.45.1] (2020-02-24)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.45.1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.45.1/index.html)
+### Changed
+* CXV1-21720 - Adding pending message state for sending attachments to smooch.
+* CXV1-21736 - Adding beta flag for Skylight attachments.
+
 ## [1.45.0] (2020-02-19)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.45.0/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.45.0/index.html)

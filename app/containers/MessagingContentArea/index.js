@@ -238,6 +238,7 @@ export class MessagingContentArea extends React.Component {
             <MessagingTextArea
               selectedInteraction={this.props.selectedInteraction}
               messageTemplates={this.props.messageTemplates}
+              agent={this.props.agent}
             />
           )}
         </div>
@@ -268,6 +269,7 @@ MessagingContentArea.propTypes = {
   ]).isRequired,
   copyChatTranscript: PropTypes.func.isRequired,
   isCopied: PropTypes.bool,
+  agent: PropTypes.object,
 };
 
 const mapStateToProps = (state, props) => ({

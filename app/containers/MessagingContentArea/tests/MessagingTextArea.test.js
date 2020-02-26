@@ -24,6 +24,7 @@ describe('<MessagingTextArea />', () => {
         setMessageTemplateFilter={() => {}}
         setMessageTemplateIndex={() => {}}
         sendSmoochMessage={() => {}}
+        addSmoochPendingMessage={() => {}}
       />
     );
     expect(rendered).toMatchSnapshot();
@@ -45,6 +46,7 @@ describe('<MessagingTextArea />', () => {
         setMessageTemplateFilter={() => {}}
         setMessageTemplateIndex={() => {}}
         sendSmoochMessage={() => {}}
+        addSmoochPendingMessage={() => {}}
       />
     );
     expect(rendered).toMatchSnapshot();
@@ -66,6 +68,7 @@ describe('<MessagingTextArea />', () => {
         setMessageTemplateFilter={() => {}}
         setMessageTemplateIndex={() => {}}
         sendSmoochMessage={() => {}}
+        addSmoochPendingMessage={() => {}}
       />
     );
     expect(rendered).toMatchSnapshot();
@@ -87,6 +90,7 @@ describe('<MessagingTextArea />', () => {
         setMessageTemplateFilter={() => {}}
         setMessageTemplateIndex={() => {}}
         sendSmoochMessage={() => {}}
+        addSmoochPendingMessage={() => {}}
       />
     );
     expect(rendered).toMatchSnapshot();

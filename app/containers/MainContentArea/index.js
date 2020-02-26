@@ -74,6 +74,7 @@ class MainContentArea extends React.Component {
             selectedInteraction={selectedInteraction}
             endInteraction={this.endInteraction}
             messageTemplates={messageTemplates}
+            agent={this.props.agent}
           />
         );
       } else if (selectedInteraction.channelType === 'email') {

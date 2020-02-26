@@ -321,6 +321,14 @@ export function addSmoochPendingMessage(interactionId, message) {
   };
 }
 
+export function removeSmoochPendingMessage(interactionId, agentMessageId) {
+  return {
+    type: ACTIONS.REMOVE_SMOOCH_PENDING_MESSAGE,
+    interactionId,
+    agentMessageId,
+  };
+}
+
 export function setCustomerTyping(interactionId, typing) {
   return {
     type: ACTIONS.SET_CUSTOMER_TYPING,
