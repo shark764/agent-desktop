@@ -1640,7 +1640,7 @@ Object {
 }
 `;
 
-exports[`loadHistoricalInteractionBody Saga if bodyType is transcript should call axios get with the 1st returned transcript url 1`] = `
+exports[`loadHistoricalInteractionBody Saga if bodyType is transcript new transcripts should call axios get with the 1st returned transcript url 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -1656,7 +1656,7 @@ Object {
 }
 `;
 
-exports[`loadHistoricalInteractionBody Saga if bodyType is transcript should call the promise util with the SDK getTranscripts function with the correct args 1`] = `
+exports[`loadHistoricalInteractionBody Saga if bodyType is transcript new transcripts should call the promise util with the SDK getTranscripts function with the correct args 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -1676,7 +1676,7 @@ Object {
 }
 `;
 
-exports[`loadHistoricalInteractionBody Saga if bodyType is transcript should use the yielded SDK results to dispatch an updateContactHistoryInteractionDetails action with the correct args 1`] = `
+exports[`loadHistoricalInteractionBody Saga if bodyType is transcript new transcripts should use the yielded SDK results to dispatch an updateContactHistoryInteractionDetails action with the correct args 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -1684,7 +1684,89 @@ Object {
     "PUT": Object {
       "action": Object {
         "interactionDetails": Object {
-          "transcript": "mockTranscript",
+          "transcript": Array [
+            Object {
+              "payload": Object {
+                "body": Object {
+                  "contentType": "image",
+                  "file": Object {
+                    "fileName": "file.jpg",
+                    "mediaSize": 39452,
+                    "mediaType": "image/jpeg",
+                    "mediaUrl": "https://agent-destkop.test.com/file.jpg?test=true",
+                  },
+                  "id": "mockMessageId",
+                },
+              },
+            },
+            Object {
+              "payload": Object {
+                "body": Object {
+                  "contentType": "text",
+                  "file": Object {},
+                  "id": "mockMessageId",
+                  "test": "Test",
+                },
+              },
+            },
+          ],
+        },
+        "interactionId": "mockId",
+        "type": "app/AgentDesktop/UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`loadHistoricalInteractionBody Saga if bodyType is transcript old transcripts should call axios get with the 1st returned transcript url 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "mockTranscriptUrl",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`loadHistoricalInteractionBody Saga if bodyType is transcript old transcripts should call the promise util with the SDK getTranscripts function with the correct args 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "mockGetTranscriptsFunction",
+        Object {
+          "interactionId": "mockId",
+        },
+        "AgentDesktop",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`loadHistoricalInteractionBody Saga if bodyType is transcript old transcripts should use the yielded SDK results to dispatch an updateContactHistoryInteractionDetails action with the correct args 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionDetails": Object {
+          "transcript": Array [
+            "mockTranscript",
+          ],
         },
         "interactionId": "mockId",
         "type": "app/AgentDesktop/UPDATE_CONTACT_HISTORY_INTERACTION_DETAILS",

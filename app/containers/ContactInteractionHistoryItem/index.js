@@ -22,6 +22,7 @@ import IconSVG from 'components/IconSVG';
 
 import { getSelectedInteractionId } from 'containers/AgentDesktop/selectors';
 import { setContactHistoryInteractionDetailsLoading } from 'containers/AgentDesktop/actions';
+import MessageContent from '../../components/MessageContent';
 
 import messages from './messages';
 
@@ -225,7 +226,7 @@ export class ContactInteractionHistoryItem extends React.Component {
             </div>
           );
         } else {
-          return "";
+          return '';
         }
       });
     };
@@ -292,7 +293,7 @@ export class ContactInteractionHistoryItem extends React.Component {
                     />
                   </span>
                   <div style={styles.messageText}>
-                    {transcriptItem.payload.body.text}
+                    <MessageContent message={transcriptItem.payload.body} />
                   </div>
                 </div>
               );

@@ -26,6 +26,7 @@
   "app.components.contactBulkActions.deleteContacts": "Delete {count} Contacts?",
   "app.components.contactBulkActions.merge": "Merge",
   "app.components.contactBulkActions.newRecord": "New Record",
+  "app.components.messageContent.otherInteractionMessage": "",
   "app.containers.ActionsMenu.CancelButton": "Cancel",
   "app.containers.ActionsMenu.TransferButton": "Transfer",
   "app.containers.ActionsMenu.actionsButton": "Actions",

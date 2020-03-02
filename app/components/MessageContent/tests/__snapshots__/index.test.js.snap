@@ -15,9 +15,9 @@ exports[`<MessageContent /> should render file message component correctly 1`] =
       />
     </styled.div>
     <FileNameContainer
-      title="file.docx"
+      title="Test.jpg"
     >
-      file.docx
+      Test.jpg
     </FileNameContainer>
   </styled.a>
 </styled.div>

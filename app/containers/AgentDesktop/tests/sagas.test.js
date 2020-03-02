@@ -49,33 +49,93 @@ describe('loadHistoricalInteractionBody Saga', () => {
       bodyType: 'transcript',
       interactionId: 'mockId',
     };
-    const generator = loadHistoricalInteractionBody(mockAction);
     const mockGetTranscripts = 'mockGetTranscriptsFunction';
-    const mockGetTranscriptsResponse = [
-      {
-        url: 'mockTranscriptUrl',
-      },
-    ];
-    const mockTranscriptUrlResponse = {
-      data: 'mockTranscript',
-    };
-    beforeEach(() => {
-      global.CxEngage = {
-        interactions: {
-          messaging: {
-            getTranscripts: mockGetTranscripts,
-          },
+
+    describe('old transcripts', () => {
+      const generator = loadHistoricalInteractionBody(mockAction);
+      const mockGetTranscriptsResponse = [
+        {
+          url: 'mockTranscriptUrl',
         },
+      ];
+      const mockTranscriptUrlResponse = {
+        data: ['mockTranscript'],
       };
+      beforeEach(() => {
+        global.CxEngage = {
+          interactions: {
+            messaging: {
+              getTranscripts: mockGetTranscripts,
+            },
+          },
+        };
+      });
+      it('should call the promise util with the SDK getTranscripts function with the correct args', () => {
+        expect(generator.next()).toMatchSnapshot();
+      });
+      it('should call axios get with the 1st returned transcript url', () => {
+        expect(generator.next(mockGetTranscriptsResponse)).toMatchSnapshot();
+      });
+      it('should use the yielded SDK results to dispatch an updateContactHistoryInteractionDetails action with the correct args', () => {
+        expect(generator.next(mockTranscriptUrlResponse)).toMatchSnapshot();
+      });
     });
-    it('should call the promise util with the SDK getTranscripts function with the correct args', () => {
-      expect(generator.next()).toMatchSnapshot();
-    });
-    it('should call axios get with the 1st returned transcript url', () => {
-      expect(generator.next(mockGetTranscriptsResponse)).toMatchSnapshot();
-    });
-    it('should use the yielded SDK results to dispatch an updateContactHistoryInteractionDetails action with the correct args', () => {
-      expect(generator.next(mockTranscriptUrlResponse)).toMatchSnapshot();
+    describe('new transcripts', () => {
+      const generator = loadHistoricalInteractionBody(mockAction);
+      const mockGetTranscriptsResponse = [
+        {
+          url: 'https://agent-destkop.test.com/file.jpg?test=true',
+          metadata: { messageId: 'mockMessageId' },
+        },
+        {
+          url: 'mockTranscriptUrl',
+          metadata: { transcript: true },
+        },
+      ];
+      const mockTranscriptUrlResponse = {
+        data: [
+          {
+            payload: {
+              body: {
+                id: 'mockMessageId',
+                contentType: 'image',
+                file: {
+                  mediaType: 'image/jpeg',
+                  mediaSize: 39452,
+                },
+              },
+            },
+          },
+          {
+            payload: {
+              body: {
+                id: 'mockMessageId',
+                contentType: 'text',
+                test: 'Test',
+                file: {},
+              },
+            },
+          },
+        ],
+      };
+      beforeEach(() => {
+        global.CxEngage = {
+          interactions: {
+            messaging: {
+              getTranscripts: mockGetTranscripts,
+            },
+          },
+        };
+      });
+      it('should call the promise util with the SDK getTranscripts function with the correct args', () => {
+        expect(generator.next()).toMatchSnapshot();
+      });
+      it('should call axios get with the 1st returned transcript url', () => {
+        expect(generator.next(mockGetTranscriptsResponse)).toMatchSnapshot();
+      });
+      it('should use the yielded SDK results to dispatch an updateContactHistoryInteractionDetails action with the correct args', () => {
+        expect(generator.next(mockTranscriptUrlResponse)).toMatchSnapshot();
+      });
     });
   });
 });

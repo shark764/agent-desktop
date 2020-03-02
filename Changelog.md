@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.46.0] (2020-02-27)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.46.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.46.0/index.html)
+* CXV1-21430 - Add rendering transcript attachments support.
+
 ## [1.45.1] (2020-02-24)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.45.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.45.1/index.html)

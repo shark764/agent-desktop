@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import MessageContent from '../index';
+import messages from '../messages';
 
 describe('<MessageContent />', () => {
   const mockMediaUrl = 'https://www.test.com/file';
@@ -20,6 +21,7 @@ describe('<MessageContent />', () => {
     type: 'customer',
     from: 'Irvin Sandoval',
     file: {
+      fileName: 'Test.jpg',
       mediaUrl: `${mockMediaUrl}.jpg`,
     },
     contentType: 'image',
@@ -32,7 +34,32 @@ describe('<MessageContent />', () => {
     type: 'customer',
     from: 'Irvin Sandoval',
     file: {
+      fileName: 'Test.jpg',
       mediaUrl: `${mockMediaUrl}.docx`,
+    },
+    contentType: 'file',
+    resourceId: null,
+    timestamp: 1581423633126,
+  };
+
+  const mockBadImageMessage = {
+    id: '5e429c11749914000f07349f',
+    type: 'customer',
+    from: 'Irvin Sandoval',
+    file: {
+      mediaUrl: null,
+    },
+    contentType: 'image',
+    resourceId: null,
+    timestamp: 1581423633126,
+  };
+
+  const mockBadFileMessage = {
+    id: '5e429c11749914000f07349f',
+    type: 'customer',
+    from: 'Irvin Sandoval',
+    file: {
+      mediaUrl: null,
     },
     contentType: 'file',
     resourceId: null,
@@ -59,22 +86,33 @@ describe('<MessageContent />', () => {
     expect(rendered).toMatchSnapshot();
   });
 
+  it("should render a text when the image message doesn't have a mediaUrl", () => {
+    const rendered = shallow(<MessageContent message={mockBadImageMessage} />);
+    expect(rendered.find('FormattedMessage').props().defaultMessage).toEqual(
+      messages.otherInteractionMessage.defaultMessage
+    );
+  });
+
   it('should render Image component', () => {
     const rendered = shallow(<MessageContent message={mockImageMessage} />);
     expect(rendered.find('Image').length).toEqual(1);
   });
 
   it('should render file message name correctly', () => {
-    const fileName = mockFileMessage.file.mediaUrl.split('/')[
-      mockFileMessage.file.mediaUrl.split('/').length - 1
-    ];
     const rendered = shallow(<MessageContent message={mockFileMessage} />);
     expect(
       rendered
         .find('FileNameContainer')
         .children()
         .text()
-    ).toEqual(fileName);
+    ).toEqual(mockFileMessage.file.fileName);
+  });
+
+  it("should render a text when the file message doesn't have a mediaUrl", () => {
+    const rendered = shallow(<MessageContent message={mockBadFileMessage} />);
+    expect(rendered.find('FormattedMessage').props().defaultMessage).toEqual(
+      messages.otherInteractionMessage.defaultMessage
+    );
   });
 
   it('should render file message component correctly', () => {

@@ -75,6 +75,7 @@ export function* loadHistoricalInteractionBody(action) {
   const body = {};
   let metaData;
   let transcriptResponse;
+  let transcript;
   let transcriptUrl;
   try {
     switch (action.bodyType) {
@@ -94,14 +95,45 @@ export function* loadHistoricalInteractionBody(action) {
           { interactionId: action.interactionId },
           'AgentDesktop'
         );
-        transcriptUrl = metaData[0] && metaData[0].url;
+        transcript = metaData.find(
+          transcriptFile =>
+            transcriptFile.metadata && transcriptFile.metadata.transcript
+        );
+        if (!transcript) {
+          transcript = metaData[0];
+        }
+        transcriptUrl = transcript && transcript.url;
         if (transcriptUrl) {
           transcriptResponse = yield call(axios.get, transcriptUrl);
         }
-        body.transcript =
-          transcriptResponse && transcriptResponse.data
-            ? transcriptResponse.data
-            : [];
+        if (transcriptResponse && transcriptResponse.data) {
+          body.transcript = transcriptResponse.data.map(transcriptMsg => {
+            const newTranscriptMsg = transcriptMsg;
+            if (
+              transcriptMsg.payload &&
+              transcriptMsg.payload.body &&
+              transcriptMsg.payload.body.file &&
+              transcriptMsg.payload.body.file.mediaType
+            ) {
+              const foundMsg = metaData.find(
+                f => transcriptMsg.payload.body.id === f.metadata.messageId
+              );
+              if (foundMsg && foundMsg.url) {
+                newTranscriptMsg.payload.body.file.mediaUrl = foundMsg.url;
+                newTranscriptMsg.payload.body.file.fileName = decodeURIComponent(
+                  foundMsg.url
+                )
+                  .split('/')
+                  [foundMsg.url.split('/').length - 1].split('?')[0];
+              }
+              return newTranscriptMsg;
+            } else {
+              return transcriptMsg;
+            }
+          });
+        } else {
+          body.transcript = [];
+        }
         break;
       default:
         break;

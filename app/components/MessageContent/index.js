@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { LoadingSpinnerSVG } from 'cx-ui-components';
 import Image from 'components/Image';
 import Icon from 'components/Icon';
-
+import { FormattedMessage } from 'react-intl';
+import messages from './messages';
 const AttachmentContainer = styled.div``;
 
 const AttachmentLink = styled.a`
@@ -47,7 +48,14 @@ export function MessageContent({ message }) {
 
   switch (message.contentType) {
     case 'image':
-      return (
+      fileName =
+        (message.file && message.file.fileName) ||
+        (message.file.mediaUrl &&
+          decodeURIComponent(message.file.mediaUrl)
+            .split('/')
+            [message.file.mediaUrl.split('/').length - 1].split('?')[0]);
+
+      return fileName ? (
         <AttachmentLink
           href={message.file.mediaUrl}
           alt="image"
@@ -66,12 +74,17 @@ export function MessageContent({ message }) {
             }}
           />
         </AttachmentLink>
+      ) : (
+        <FormattedMessage {...messages.otherInteractionMessage} />
       );
     case 'file':
-      fileName = decodeURIComponent(message.file.mediaUrl).split('/')[
-        message.file.mediaUrl.split('/').length - 1
-      ];
-      return (
+      fileName =
+        (message.file && message.file.fileName) ||
+        (message.file.mediaUrl &&
+          decodeURIComponent(message.file.mediaUrl)
+            .split('/')
+            [message.file.mediaUrl.split('/').length - 1].split('?')[0]);
+      return fileName ? (
         <AttachmentContainer>
           <AttachmentLink
             href={message.file.mediaUrl}
@@ -90,6 +103,8 @@ export function MessageContent({ message }) {
             </FileNameContainer>
           </AttachmentLink>
         </AttachmentContainer>
+      ) : (
+        <FormattedMessage {...messages.otherInteractionMessage} />
       );
     default:
       return (
@@ -110,7 +125,13 @@ MessageContent.propTypes = {
     file: PropTypes.shape({
       mediaUrl: PropTypes.string,
     }),
-    contentType: PropTypes.oneOf(['file', 'text', 'image']),
+    contentType: PropTypes.oneOf([
+      'file',
+      'text',
+      'image',
+      'form',
+      'formResponse',
+    ]),
     resourceId: PropTypes.string,
     timestamp: PropTypes.number,
   }),
