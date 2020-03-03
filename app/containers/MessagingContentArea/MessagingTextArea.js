@@ -89,17 +89,17 @@ const styles = {
   messageTextarea: {
     padding: '4px',
     resize: 'none',
-    width: 'calc(100% - 50px)',
+    flex: 1,
     borderTop: '1px solid #979797',
     borderBottom: '1px solid #979797',
     borderRight: 'none',
     borderLeft: '1px solid #979797',
     borderRadius: '3px 0 0 3px',
   },
-  messageTextareaWithTemplates: {
+  messageTextareaWithTemplatesOrFile: {
     padding: '4px',
     resize: 'none',
-    width: 'calc(100% - 90px)',
+    flex: 1,
     borderTop: '1px solid #979797',
     borderBottom: '1px solid #979797',
     borderRight: 'none',
@@ -113,28 +113,40 @@ const styles = {
     padding: 0,
     borderRadius: '0 3px 3px 0',
   },
+  attachmentArea: {
+    borderTop: '1px solid #979797',
+    borderBottom: '1px solid #979797',
+    borderRight: 'none',
+    borderLeft: '1px solid #979797',
+    borderRadius: '3px 0 0 3px',
+    maxWidth: '25%',
+    padding: '4px',
+  },
+  attachmentAreaWithTemplates: {
+    borderLeft: 'none',
+    borderRadius: '0',
+  },
   addAttachment: {
     position: 'absolute',
     fontSize: '12px',
     height: '26px',
-    padding: '3px 10px',
-    margin: '4px 10px 0 0',
+    padding: '9px 10px',
+    margin: '4px 20px 0 0',
     border: '1px solid transparent',
     right: '54px',
     bottom: '29px',
     cursor: 'pointer',
   },
   attachmentContainer: {
-    position: 'absolute',
     display: 'inline-flex',
     borderRadius: '2px',
     fontSize: '12px',
     left: '30px',
     bottom: '23px',
     backgroundColor: '#eee',
-    padding: '10px',
-    width: '16%',
-    maxWidth: '200px',
+    padding: '8px',
+    width: '100%',
+    maxWidth: '150px',
     height: '32px',
   },
   attachmentName: {
@@ -518,7 +530,7 @@ export class MessagingTextArea extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ display: 'inline-flex' }}>
         {this.state.showMessageTemplateMenu ? (
           <div
             id="messageTemplatesContainer"
@@ -629,11 +641,47 @@ export class MessagingTextArea extends React.Component {
             {'+'}
           </Button>
         )}
+
+        {this.props.selectedInteraction.source === 'smooch' &&
+          this.state.attachedFile && (
+          <div
+            style={[
+              styles.attachmentArea,
+              this.props.messageTemplates &&
+                  this.props.messageTemplates.length > 0 &&
+                  styles.attachmentAreaWithTemplates,
+            ]}
+          >
+            <div
+              title={this.state.attachedFile.name}
+              style={{
+                ...styles.attachmentContainer,
+                ...(this.state.messageTextareaHeight > 50 && {
+                  bottom: this.state.messageTextareaHeight - 24,
+                }),
+              }}
+            >
+              <span style={styles.attachmentName}>
+                {this.state.attachedFile.name}
+              </span>
+              <div style={{ marginLeft: '5px' }} onClick={this.removeFile}>
+                <IconSVG
+                  id="removeFileIcon"
+                  name="close"
+                  color="grey"
+                  width="12px"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
         <style>
           {/* This style is here because the Textarea library doesn't render the ':focus' Radium attribute */}
           {`#messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: ${
             this.props.messageTemplates &&
-            this.props.messageTemplates.length > 0
+            this.props.messageTemplates.length > 0 &&
+            !this.state.attachedFile
               ? '0;'
               : '1px solid #23CEF5 !important;'
           }}`}
@@ -649,18 +697,16 @@ export class MessagingTextArea extends React.Component {
             this.messageTextarea = input;
           }}
           style={{
-            ...(this.props.messageTemplates &&
-            this.props.messageTemplates.length > 0
-              ? styles.messageTextareaWithTemplates
+            ...((this.props.messageTemplates &&
+              this.props.messageTemplates.length > 0) ||
+            (this.props.selectedInteraction.source === 'smooch' &&
+              this.state.attachedFile &&
+              isBeta())
+              ? styles.messageTextareaWithTemplatesOrFile
               : styles.messageTextarea),
             ...(this.props.selectedInteraction.source === 'smooch' &&
               isBeta() && {
               paddingRight: '45px',
-            }),
-            ...(this.props.selectedInteraction.source === 'smooch' &&
-              this.state.attachedFile &&
-              isBeta() && {
-              paddingLeft: 'calc(16% + 25px)',
             }),
           }}
           value={this.props.selectedInteraction.currentMessage}
@@ -668,31 +714,6 @@ export class MessagingTextArea extends React.Component {
           onKeyDown={this.onMessageKeyDown}
           autoFocus
         />
-
-        {this.props.selectedInteraction.source === 'smooch' &&
-          this.state.attachedFile && (
-          <div
-            title={this.state.attachedFile.name}
-            style={{
-              ...styles.attachmentContainer,
-              ...(this.state.messageTextareaHeight > 50 && {
-                bottom: this.state.messageTextareaHeight - 24,
-              }),
-            }}
-          >
-            <span style={styles.attachmentName}>
-              {this.state.attachedFile.name}
-            </span>
-            <div onClick={this.removeFile}>
-              <IconSVG
-                id="removeFileIcon"
-                name="close"
-                color="grey"
-                width="12px"
-              />
-            </div>
-          </div>
-        )}
 
         {this.props.selectedInteraction.source === 'smooch' &&
           isBeta() && (
@@ -716,7 +737,6 @@ export class MessagingTextArea extends React.Component {
                       styles.disableAddAttachment),
                   ...(this.state.messageTextareaHeight > 50 && {
                     bottom: this.state.messageTextareaHeight - 14,
-                    right: '64px',
                   }),
                 }}
               >

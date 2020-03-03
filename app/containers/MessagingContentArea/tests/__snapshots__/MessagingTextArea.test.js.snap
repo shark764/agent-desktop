@@ -1,7 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<MessagingTextArea /> should render correctly under connecting-to-outbound 1`] = `
-<div>
+<div
+  style={
+    Object {
+      "display": "inline-flex",
+    }
+  }
+>
   <style>
     #messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: 1px solid #23CEF5 !important;}
   </style>
@@ -21,9 +27,9 @@ exports[`<MessagingTextArea /> should render correctly under connecting-to-outbo
         "borderRadius": "3px 0 0 3px",
         "borderRight": "none",
         "borderTop": "1px solid #979797",
+        "flex": 1,
         "padding": "4px",
         "resize": "none",
-        "width": "calc(100% - 50px)",
       }
     }
     useCacheForDOMMeasurements={false}
@@ -58,7 +64,13 @@ exports[`<MessagingTextArea /> should render correctly under connecting-to-outbo
 `;
 
 exports[`<MessagingTextArea /> should render correctly under initialized-outbound 1`] = `
-<div>
+<div
+  style={
+    Object {
+      "display": "inline-flex",
+    }
+  }
+>
   <style>
     #messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: 1px solid #23CEF5 !important;}
   </style>
@@ -78,9 +90,9 @@ exports[`<MessagingTextArea /> should render correctly under initialized-outboun
         "borderRadius": "3px 0 0 3px",
         "borderRight": "none",
         "borderTop": "1px solid #979797",
+        "flex": 1,
         "padding": "4px",
         "resize": "none",
-        "width": "calc(100% - 50px)",
       }
     }
     useCacheForDOMMeasurements={false}
@@ -115,7 +127,13 @@ exports[`<MessagingTextArea /> should render correctly under initialized-outboun
 `;
 
 exports[`<MessagingTextArea /> should render correctly under work-accepted 1`] = `
-<div>
+<div
+  style={
+    Object {
+      "display": "inline-flex",
+    }
+  }
+>
   <style>
     #messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: 1px solid #23CEF5 !important;}
   </style>
@@ -135,9 +153,9 @@ exports[`<MessagingTextArea /> should render correctly under work-accepted 1`] =
         "borderRadius": "3px 0 0 3px",
         "borderRight": "none",
         "borderTop": "1px solid #979797",
+        "flex": 1,
         "padding": "4px",
         "resize": "none",
-        "width": "calc(100% - 50px)",
       }
     }
     useCacheForDOMMeasurements={false}
@@ -172,7 +190,13 @@ exports[`<MessagingTextArea /> should render correctly under work-accepted 1`] =
 `;
 
 exports[`<MessagingTextArea /> should render correctly with message templates 1`] = `
-<div>
+<div
+  style={
+    Object {
+      "display": "inline-flex",
+    }
+  }
+>
   <InjectIntl(Button)
     id="templateMenuButton"
     onClick={[Function]}
@@ -213,9 +237,9 @@ exports[`<MessagingTextArea /> should render correctly with message templates 1`
         "borderRadius": "0",
         "borderRight": "none",
         "borderTop": "1px solid #979797",
+        "flex": 1,
         "padding": "4px",
         "resize": "none",
-        "width": "calc(100% - 90px)",
       }
     }
     useCacheForDOMMeasurements={false}
