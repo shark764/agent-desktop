@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.46.3] (2020-03-05)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.46.3/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.46.3/index.html)
+### Changed
+* CXV1-21805 - Removing beta flag for attachments from Skylight to Smooch.
+
 ## [1.46.2] (2020-03-04)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.46.2/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.46.2/index.html)

@@ -17,7 +17,6 @@ import Icon from 'components/Icon';
 import IconSVG from 'components/IconSVG';
 
 import { generateUUID } from 'utils/uuid';
-import { isBeta } from 'utils/url';
 
 import {
   saveMessageState,
@@ -700,12 +699,10 @@ export class MessagingTextArea extends React.Component {
             ...((this.props.messageTemplates &&
               this.props.messageTemplates.length > 0) ||
             (this.props.selectedInteraction.source === 'smooch' &&
-              this.state.attachedFile &&
-              isBeta())
+              this.state.attachedFile)
               ? styles.messageTextareaWithTemplatesOrFile
               : styles.messageTextarea),
-            ...(this.props.selectedInteraction.source === 'smooch' &&
-              isBeta() && {
+            ...(this.props.selectedInteraction.source === 'smooch' && {
               paddingRight: '45px',
             }),
           }}
@@ -715,8 +712,7 @@ export class MessagingTextArea extends React.Component {
           autoFocus
         />
 
-        {this.props.selectedInteraction.source === 'smooch' &&
-          isBeta() && (
+        {this.props.selectedInteraction.source === 'smooch' && (
           <Fragment>
             <input
               id="attachmentFilePicker"
@@ -734,7 +730,7 @@ export class MessagingTextArea extends React.Component {
                 style={{
                   ...styles.addAttachment,
                   ...(this.state.attachedFile !== null &&
-                      styles.disableAddAttachment),
+                    styles.disableAddAttachment),
                   ...(this.state.messageTextareaHeight > 50 && {
                     bottom: this.state.messageTextareaHeight - 14,
                   }),
