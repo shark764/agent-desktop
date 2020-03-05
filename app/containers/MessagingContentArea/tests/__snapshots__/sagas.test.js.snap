@@ -1,5 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`copyChatTranscript Chat Transcript is copied succesfully passes in the correct transcript is generated and passed to copyToClipboard 1`] = `
+Array [
+  Array [
+    "Customer: Customer
+Current Agent: Agent Smith 
+Other Agent: agentId
+Channel: messaging
+Date: 3/5/2020, 9:39:59 AM
+---------------------- Chat Transcript ----------------------
+9:39:59 AM - agentId: sampleText1
+9:39:59 AM - Customer: sampleText2
+9:39:59 AM - agentId: airplane.png
+9:39:59 AM - Customer: frymire.png
+",
+  ],
+]
+`;
+
 exports[`copyChatTranscript Chat Transcript is copied succesfully selects the agent 1`] = `
 Object {
   "done": false,

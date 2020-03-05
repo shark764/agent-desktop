@@ -8,12 +8,13 @@ import {
   copyChatTranscript,
 } from 'containers/MessagingContentArea/sagas';
 
-jest.mock('serenova-js-utils/browser', () => ({
-  copyToClipboard: jest
-    .fn()
-    .mockReturnValueOnce(true)
-    .mockReturnValueOnce(false),
-}));
+import { copyToClipboard } from 'serenova-js-utils/browser';
+
+jest.mock('serenova-js-utils/browser');
+copyToClipboard
+  .mockImplementation(() => ({}))
+  .mockReturnValueOnce(true)
+  .mockReturnValueOnce(false);
 
 describe('initializeOutboundSmsForMessagingSaga', () => {
   beforeEach(() => {
@@ -161,7 +162,20 @@ describe('sendOutboundSms', () => {
 });
 
 describe('copyChatTranscript', () => {
-  Date.now = jest.fn(() => 0); // Override so snapshots stay the same
+  const fixedDate = new Date('2020-03-05T09:39:59'); // Override so snapshots stay the same
+  let originalDate;
+
+  beforeAll(() => {
+    originalDate = Date;
+
+    global.Date = class extends Date {
+      constructor() {
+        super();
+
+        return fixedDate;
+      }
+    };
+  });
   const mockAction = {
     interaction: {
       interactionId: 'interactionId',
@@ -178,6 +192,24 @@ describe('copyChatTranscript', () => {
           text: 'sampleText2',
           type: 'customer',
           timestamp: '2018-07-31T13:41:21.587Z',
+        },
+        {
+          from: 'agentId',
+          type: 'agent',
+          file: {
+            mediaUrl:
+              'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
+          },
+          timestamp: '2018-07-31T13:41:51.587Z',
+        },
+        {
+          from: 'Customer',
+          type: 'customer',
+          file: {
+            mediaUrl:
+              'https://homepages.cae.wisc.edu/~ece533/images/frymire.png?size=200x200',
+          },
+          timestamp: '2018-07-31T13:41:23.587Z',
         },
       ],
     },
@@ -204,6 +236,13 @@ describe('copyChatTranscript', () => {
     });
     it('is done', () => {
       expect(generator.next().done).toBe(true);
+    });
+    it('passes in the correct transcript is generated and passed to copyToClipboard', async () => {
+      expect(copyToClipboard.mock.calls).toMatchSnapshot();
+    });
+
+    afterAll(() => {
+      global.Date = originalDate;
     });
   });
 

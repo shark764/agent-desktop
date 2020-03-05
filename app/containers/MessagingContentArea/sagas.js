@@ -144,7 +144,7 @@ export function* copyChatTranscript(action) {
     []
   );
   const chatTranscript = action.interaction.messageHistory.reduce(
-    (transcript, { type, from, timestamp, text }) => {
+    (transcript, { type, from, timestamp, text, file }) => {
       const date = new Date(timestamp);
       let fromText;
       if (from === agent.userId) {
@@ -161,6 +161,13 @@ export function* copyChatTranscript(action) {
           action.interaction.messageHistory
         );
         fromText = '';
+      }
+      if (file && !text) {
+        const filename = decodeURIComponent(file.mediaUrl)
+          .split('/')
+          [file.mediaUrl.split('/').length - 1].split('?')[0];
+        return `${transcript}${date.toLocaleTimeString()} - ${fromText}: ${filename.trim()}
+`;
       }
       return `${transcript}${date.toLocaleTimeString()} - ${fromText}: ${text.trim()}
 `;

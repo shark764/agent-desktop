@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.46.1",
+  "version": "1.46.2",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "start:prod": "cross-env NODE_ENV=production node server",
     "generate": "plop --plopfile internals/generators/index.js",
     "lint": "eslint --ignore-pattern **/assets/*.js app",
+    "lint:fix": "eslint app --fix",
     "lint:staged": "lint-staged",
     "pretest": "npm run test:clean",
     "test:clean": "rimraf ./coverage",
@@ -38,6 +39,7 @@
   "lint-staged": {
     "*.js": [
       "npm run format",
+      "npm run lint:fix",
       "git add -f"
     ]
   },
