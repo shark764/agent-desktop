@@ -38,6 +38,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#FFFFFF',
+    zIndex: 1,
   },
   messageTemplatesContainerAgentDesktop: {
     left: '56px',
@@ -542,7 +543,7 @@ export class MessagingTextArea extends React.Component {
                 height: `calc(100% - ${14 +
                   this.state.messageTextareaHeight}px)`,
               },
-              { bottom: 14 + this.state.messageTextareaHeight },
+              { bottom: 9 + this.state.messageTextareaHeight },
             ]}
           >
             <div style={styles.messageTemplatesHeader}>

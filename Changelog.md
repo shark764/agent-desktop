@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.46.4] (2020-03-09)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.46.4/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.46.4/index.html)
+### Changed
+* CXV1-21578 - Removing gap on message templates selection when there is customer indicator.
+
 ## [1.46.3] (2020-03-05)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.46.3/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.46.3/index.html)
