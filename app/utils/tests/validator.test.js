@@ -30,6 +30,9 @@ describe('validator', () => {
     it('returns true for valid emails', () => {
       expect(isValidEmail('test@serenova.com')).toEqual(true);
     });
+    it('returns true for valid emails with uppercase', () => {
+      expect(isValidEmail('testAA@serenova.com')).toEqual(true);
+    });
     it('returns false for invalid emails', () => {
       expect(isValidEmail('@serenova.com')).toEqual(false);
     });
