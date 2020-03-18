@@ -456,6 +456,19 @@ function agentDesktopReducer(state = initialState, action) {
       );
       let newState = state.set('userConfig', fromJS(action.response));
       if (presenceReasonLists) {
+        presenceReasonLists.sort((a, b) => {
+          const nameA = a.name.toLowerCase();
+          const nameB = b.name.toLowerCase();
+          console.log(`nameA ${  nameA}`);
+          console.log(`nameB ${  nameB}`);
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+          return 0;
+        });
         newState = newState.set(
           'presenceReasonLists',
           fromJS(
