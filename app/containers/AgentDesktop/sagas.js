@@ -69,6 +69,7 @@ import {
   setCustomerTyping,
   setCustomerRead,
   setConversationIsUnread,
+  toggleInteractionIsHolding,
 } from './actions';
 
 export function* loadHistoricalInteractionBody(action) {
@@ -447,6 +448,29 @@ export function* goAcceptWork(action) {
         return put(updateResourceName(action.interactionId, id, name));
       })
     );
+  } else {
+    const interaction = yield call(getInteraction, action.interactionId);
+    if (!interaction) {
+      console.warn(
+        `Interaction not found: ${
+          action.interactionId
+        } . Aborting goAcceptWork to resume customer`
+      );
+      return;
+    }
+    if (interaction.onHold === true) {
+      yield put(toggleInteractionIsHolding(action.interactionId, true));
+      try {
+        yield call(
+          sdkCallToPromise,
+          CxEngage.interactions.voice.customerResume,
+          { interactionId: action.interactionId },
+          'AgentDesktop'
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
 }
 

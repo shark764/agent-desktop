@@ -713,7 +713,23 @@ Object {
 }
 `;
 
-exports[`goAcceptWork if no active resources exist selects current interaction 1`] = `
+exports[`goAcceptWork if no active resources exist and call is not on hold calls getInteraction with the interaction id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "interaction-id",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAcceptWork if no active resources exist and call is not on hold selects current interaction 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -726,7 +742,7 @@ Object {
 }
 `;
 
-exports[`goAcceptWork if no active resources exist sets interaction transferLists loading state to true 1`] = `
+exports[`goAcceptWork if no active resources exist and call is not on hold sets interaction transferLists loading state to true 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -743,7 +759,85 @@ Object {
 }
 `;
 
-exports[`goAcceptWork if no active resources exist should dispatch setInteractionStatus with work-accepted 1`] = `
+exports[`goAcceptWork if no active resources exist and call is not on hold should dispatch setInteractionStatus with work-accepted 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "interaction-id",
+        "newStatus": "work-accepted",
+        "response": Object {},
+        "type": "app/AgentDesktop/SET_INTERACTION_STATUS",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAcceptWork if no active resources exist and call is on hold calls CxEngage.interactions.voice.customerResume to resume customer 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`goAcceptWork if no active resources exist and call is on hold calls getInteraction with the interaction id 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        "interaction-id",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAcceptWork if no active resources exist and call is on hold puts toggleInteractionIsHolding to true 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`goAcceptWork if no active resources exist and call is on hold selects current interaction 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goAcceptWork if no active resources exist and call is on hold sets interaction transferLists loading state to true 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "PUT": Object {
+      "action": Object {
+        "interactionId": "mockInteraction-Id",
+        "isLoading": true,
+        "type": "app/AgentDesktop/SET_INTERACTION_TRANSFER_LISTS_LOADING_STATE",
+      },
+      "channel": null,
+    },
+  },
+}
+`;
+
+exports[`goAcceptWork if no active resources exist and call is on hold should dispatch setInteractionStatus with work-accepted 1`] = `
 Object {
   "done": false,
   "value": Object {

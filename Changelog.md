@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.46.6] (2020-03-17)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.46.6/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.46.6/index.html)
+### Changed
+* CXV1-21799 - Warm Transfer/Add Participant to queue results in call being offered to agent with customer on hold
+
 ## [1.46.5] (2020-03-12)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.46.5/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.46.5/index.html)

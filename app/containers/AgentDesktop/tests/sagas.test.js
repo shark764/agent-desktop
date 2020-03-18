@@ -469,7 +469,7 @@ describe('goAcceptWork', () => {
       },
     };
   });
-  describe('if no active resources exist', () => {
+  describe('if no active resources exist and call is on hold', () => {
     beforeAll(() => {
       generator = goAcceptWork({
         interactionId: 'interaction-id',
@@ -486,6 +486,40 @@ describe('goAcceptWork', () => {
     });
     it('sets interaction transferLists loading state to true', () => {
       expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls getInteraction with the interaction id', () => {
+      expect(generator.next({ onHold: true })).toMatchSnapshot();
+    });
+    it('puts toggleInteractionIsHolding to true', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls CxEngage.interactions.voice.customerResume to resume customer', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should be done after dispatching action', () => {
+      expect(generator.next().done).toBe(true);
+    });
+  });
+  describe('if no active resources exist and call is not on hold', () => {
+    beforeAll(() => {
+      generator = goAcceptWork({
+        interactionId: 'interaction-id',
+        response: {},
+      });
+    });
+    it('selects current interaction', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('should dispatch setInteractionStatus with work-accepted', () => {
+      expect(
+        generator.next({ interactionId: 'mockInteraction-Id' })
+      ).toMatchSnapshot();
+    });
+    it('sets interaction transferLists loading state to true', () => {
+      expect(generator.next()).toMatchSnapshot();
+    });
+    it('calls getInteraction with the interaction id', () => {
+      expect(generator.next({ onHold: false })).toMatchSnapshot();
     });
     it('should be done after dispatching action', () => {
       expect(generator.next().done).toBe(true);
