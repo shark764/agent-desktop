@@ -72,6 +72,22 @@ import {
   toggleInteractionIsHolding,
 } from './actions';
 
+const getTranscript = files => {
+  let transcript = files.find(
+    transcriptFile =>
+      transcriptFile.metadata && transcriptFile.metadata.transcript
+  );
+  if (!transcript) {
+    transcript = files[0];
+  }
+  return transcript;
+};
+
+const getFileMetadata = (files, messageId) =>
+  files.find(
+    file => file && file.metadata && file.metadata.messageId === messageId
+  );
+
 export function* loadHistoricalInteractionBody(action) {
   const body = {};
   let metaData;
@@ -96,13 +112,7 @@ export function* loadHistoricalInteractionBody(action) {
           { interactionId: action.interactionId },
           'AgentDesktop'
         );
-        transcript = metaData.find(
-          transcriptFile =>
-            transcriptFile.metadata && transcriptFile.metadata.transcript
-        );
-        if (!transcript) {
-          transcript = metaData[0];
-        }
+        transcript = getTranscript(metaData);
         transcriptUrl = transcript && transcript.url;
         if (transcriptUrl) {
           transcriptResponse = yield call(axios.get, transcriptUrl);
@@ -116,16 +126,21 @@ export function* loadHistoricalInteractionBody(action) {
               transcriptMsg.payload.body.file &&
               transcriptMsg.payload.body.file.mediaType
             ) {
-              const foundMsg = metaData.find(
-                f => transcriptMsg.payload.body.id === f.metadata.messageId
+              const foundMsg = getFileMetadata(
+                metaData,
+                transcriptMsg.payload.body.id
               );
               if (foundMsg && foundMsg.url) {
                 newTranscriptMsg.payload.body.file.mediaUrl = foundMsg.url;
-                newTranscriptMsg.payload.body.file.fileName = decodeURIComponent(
-                  foundMsg.url
-                )
-                  .split('/')
-                  [foundMsg.url.split('/').length - 1].split('?')[0];
+                newTranscriptMsg.payload.body.file.fileName =
+                  foundMsg.filename ||
+                  decodeURIComponent(foundMsg.url)
+                    .split('/')
+                    [foundMsg.url.split('/').length - 1].split('?')[0];
+              } else {
+                // If artifact file url doesn't exist,
+                // we delete smooch one
+                delete newTranscriptMsg.payload.body.file.mediaUrl;
               }
               return newTranscriptMsg;
             } else {

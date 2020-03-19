@@ -26,6 +26,7 @@
   "app.components.contactBulkActions.deleteContacts": "{count} Kontakte löschen?",
   "app.components.contactBulkActions.merge": "Zusammenführen",
   "app.components.contactBulkActions.newRecord": "Neuer Datensatz",
+  "app.components.messageContent.fileNotFoundInTranscript": "",
   "app.components.messageContent.otherInteractionMessage": "",
   "app.containers.ActionsMenu.CancelButton": "Abbrechen",
   "app.containers.ActionsMenu.TransferButton": "Weiterleiten",

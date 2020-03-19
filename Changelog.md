@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.46.9] (2020-03-17)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.46.9/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.46.9/index.html)
+### Changed
+* CXV1-21818 - Error message for non-existing files in transcript was changed | Transcripts no longer contain previous messages.
+
 ## [1.46.8] (2020-03-18)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.46.8/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.46.8/index.html)

@@ -26,6 +26,7 @@
   "app.components.contactBulkActions.deleteContacts": "Czy usunąć następującą liczbę kontaktów: {count}?",
   "app.components.contactBulkActions.merge": "Scal",
   "app.components.contactBulkActions.newRecord": "Nowy rekord",
+  "app.components.messageContent.fileNotFoundInTranscript": "",
   "app.components.messageContent.otherInteractionMessage": "",
   "app.containers.ActionsMenu.CancelButton": "Anuluj",
   "app.containers.ActionsMenu.TransferButton": "Przełącz",

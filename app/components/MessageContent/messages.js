@@ -14,4 +14,8 @@ export default defineMessages({
     id: 'app.components.messageContent.otherInteractionMessage',
     defaultMessage: 'Attachment in other interaction',
   },
+  fileNotFoundInTranscript: {
+    id: 'app.components.messageContent.fileNotFoundInTranscript',
+    defaultMessage: 'File not found in transcript',
+  },
 });

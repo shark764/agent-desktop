@@ -47,6 +47,7 @@ describe('<MessageContent />', () => {
     type: 'customer',
     from: 'Irvin Sandoval',
     file: {
+      filename: null,
       mediaUrl: null,
     },
     contentType: 'image',
@@ -59,6 +60,7 @@ describe('<MessageContent />', () => {
     type: 'customer',
     from: 'Irvin Sandoval',
     file: {
+      filename: null,
       mediaUrl: null,
     },
     contentType: 'file',
@@ -89,7 +91,7 @@ describe('<MessageContent />', () => {
   it("should render a text when the image message doesn't have a mediaUrl", () => {
     const rendered = shallow(<MessageContent message={mockBadImageMessage} />);
     expect(rendered.find('FormattedMessage').props().defaultMessage).toEqual(
-      messages.otherInteractionMessage.defaultMessage
+      messages.fileNotFoundInTranscript.defaultMessage
     );
   });
 
@@ -111,7 +113,7 @@ describe('<MessageContent />', () => {
   it("should render a text when the file message doesn't have a mediaUrl", () => {
     const rendered = shallow(<MessageContent message={mockBadFileMessage} />);
     expect(rendered.find('FormattedMessage').props().defaultMessage).toEqual(
-      messages.otherInteractionMessage.defaultMessage
+      messages.fileNotFoundInTranscript.defaultMessage
     );
   });
 

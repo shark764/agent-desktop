@@ -75,7 +75,9 @@ export function MessageContent({ message }) {
           />
         </AttachmentLink>
       ) : (
-        <FormattedMessage {...messages.otherInteractionMessage} />
+        <span style={{ color: 'red' }}>
+          <FormattedMessage {...messages.fileNotFoundInTranscript} />
+        </span>
       );
     case 'file':
       fileName =
@@ -104,7 +106,9 @@ export function MessageContent({ message }) {
           </AttachmentLink>
         </AttachmentContainer>
       ) : (
-        <FormattedMessage {...messages.otherInteractionMessage} />
+        <span style={{ color: 'red' }}>
+          <FormattedMessage {...messages.fileNotFoundInTranscript} />
+        </span>
       );
     default:
       return (
