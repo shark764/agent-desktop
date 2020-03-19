@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.46.8] (2020-03-18)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.46.8/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.46.8/index.html)
+### Changed
+* CXV1-21877 - Message textarea height is calculated properly when changing between interactions.
+
 ## [1.46.7] (2020-03-18)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.46.7/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.46.7/index.html)

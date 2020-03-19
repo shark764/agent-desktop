@@ -177,11 +177,18 @@ export class MessagingTextArea extends React.Component {
       this.props.selectedInteraction.interactionId !==
       nextProps.selectedInteraction.interactionId
     ) {
-      this.setState({
-        showMessageTemplateMenu: false,
-        showMessageTemplateMenuByForwardSlash: false,
-        messageTextareaHeight: 50,
-      });
+      if (this.props.selectedInteraction.source === 'smooch') {
+        this.setState({
+          showMessageTemplateMenu: false,
+          showMessageTemplateMenuByForwardSlash: false,
+        });
+      } else {
+        this.setState({
+          showMessageTemplateMenu: false,
+          showMessageTemplateMenuByForwardSlash: false,
+          messageTextareaHeight: 50,
+        });
+      }
     }
   }
 
