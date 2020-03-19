@@ -20,6 +20,7 @@ import { generateUUID } from 'utils/uuid';
 
 import {
   saveMessageState,
+  saveAttachedFileState,
   setCustomerRead,
   setMessageTemplateFilter,
   setMessageTemplateIndex,
@@ -168,7 +169,6 @@ export class MessagingTextArea extends React.Component {
       showMessageTemplateMenuByForwardSlash: false,
       messageTextareaHeight: 50,
       isTyping: false,
-      attachedFile: null,
     };
   }
 
@@ -438,7 +438,7 @@ export class MessagingTextArea extends React.Component {
           this.props.selectedInteraction.currentMessage
         );
       } else if (this.props.selectedInteraction.source === 'smooch') {
-        if (this.state.attachedFile) {
+        if (this.props.selectedInteraction.currentAttachedFile) {
           this.sendFile();
         }
         this.props.sendSmoochMessage(
@@ -463,7 +463,7 @@ export class MessagingTextArea extends React.Component {
         '',
         undefined
       );
-    } else if (this.state.attachedFile) {
+    } else if (this.props.selectedInteraction.currentAttachedFile) {
       this.sendFile();
     }
   };
@@ -493,28 +493,31 @@ export class MessagingTextArea extends React.Component {
       interactionId: this.props.selectedInteraction.interactionId,
       file: fileList[0],
     });
-    this.setState(previousState => ({
-      ...previousState,
-      attachedFile: fileList[0],
-    }));
+    this.props.saveAttachedFileState(
+      this.props.selectedInteraction.interactionId,
+      fileList[0]
+    );
   };
 
   removeFile = () => {
     CxEngage.interactions.messaging.smoochRemoveAttachment({
       interactionId: this.props.selectedInteraction.interactionId,
     });
-    this.setState(previousState => ({
-      ...previousState,
-      attachedFile: null,
-    }));
+    this.props.saveAttachedFileState(
+      this.props.selectedInteraction.interactionId,
+      null
+    );
   };
 
   sendFile = () => {
     if (
       this.props.selectedInteraction.source === 'smooch' &&
-      this.state.attachedFile
+      this.props.selectedInteraction.currentAttachedFile
     ) {
-      const { interactionId } = this.props.selectedInteraction;
+      const {
+        interactionId,
+        currentAttachedFile,
+      } = this.props.selectedInteraction;
       const { firstName, lastName, userId } = this.props.agent;
       const agentMessageId = generateUUID();
       CxEngage.interactions.messaging.sendSmoochAttachment({
@@ -523,7 +526,7 @@ export class MessagingTextArea extends React.Component {
       });
       this.props.addSmoochPendingMessage(interactionId, {
         agentMessageId,
-        text: this.state.attachedFile.name,
+        text: currentAttachedFile.name,
         type: 'agent',
         from: `${firstName} ${lastName}`,
         resourceId: userId,
@@ -650,7 +653,7 @@ export class MessagingTextArea extends React.Component {
         )}
 
         {this.props.selectedInteraction.source === 'smooch' &&
-          this.state.attachedFile && (
+          this.props.selectedInteraction.currentAttachedFile && (
           <div
             style={[
               styles.attachmentArea,
@@ -660,7 +663,7 @@ export class MessagingTextArea extends React.Component {
             ]}
           >
             <div
-              title={this.state.attachedFile.name}
+              title={this.props.selectedInteraction.currentAttachedFile.name}
               style={{
                 ...styles.attachmentContainer,
                 ...(this.state.messageTextareaHeight > 50 && {
@@ -669,7 +672,7 @@ export class MessagingTextArea extends React.Component {
               }}
             >
               <span style={styles.attachmentName}>
-                {this.state.attachedFile.name}
+                {this.props.selectedInteraction.currentAttachedFile.name}
               </span>
               <div style={{ marginLeft: '5px' }} onClick={this.removeFile}>
                 <IconSVG
@@ -688,7 +691,7 @@ export class MessagingTextArea extends React.Component {
           {`#messageTextarea:focus { outline: none; border-top: 1px solid #23CEF5 !important; border-bottom: 1px solid #23CEF5 !important; border-left: ${
             this.props.messageTemplates &&
             this.props.messageTemplates.length > 0 &&
-            !this.state.attachedFile
+            !this.props.selectedInteraction.currentAttachedFile
               ? '0;'
               : '1px solid #23CEF5 !important;'
           }}`}
@@ -707,7 +710,7 @@ export class MessagingTextArea extends React.Component {
             ...((this.props.messageTemplates &&
               this.props.messageTemplates.length > 0) ||
             (this.props.selectedInteraction.source === 'smooch' &&
-              this.state.attachedFile)
+              this.props.selectedInteraction.currentAttachedFile)
               ? styles.messageTextareaWithTemplatesOrFile
               : styles.messageTextarea),
             ...(this.props.selectedInteraction.source === 'smooch' && {
@@ -728,7 +731,9 @@ export class MessagingTextArea extends React.Component {
               value=""
               onChange={e => this.attachFile(e.target.files)}
               style={{ display: 'none' }}
-              disabled={this.state.attachedFile !== null}
+              disabled={
+                this.props.selectedInteraction.currentAttachedFile !== null
+              }
             />
             <label
               id="attachmentFilePickerLabel"
@@ -737,8 +742,8 @@ export class MessagingTextArea extends React.Component {
               <div
                 style={{
                   ...styles.addAttachment,
-                  ...(this.state.attachedFile !== null &&
-                    styles.disableAddAttachment),
+                  ...(this.props.selectedInteraction.currentAttachedFile !==
+                    null && styles.disableAddAttachment),
                   ...(this.state.messageTextareaHeight > 50 && {
                     bottom: this.state.messageTextareaHeight - 14,
                   }),
@@ -750,7 +755,7 @@ export class MessagingTextArea extends React.Component {
                   width="20px"
                   color="grey"
                   style={
-                    this.state.attachedFile !== null
+                    this.props.selectedInteraction.currentAttachedFile !== null
                       ? styles.disableAddAttachment
                       : {}
                   }
@@ -815,6 +820,8 @@ function mapDispatchToProps(dispatch) {
           messageTemplateIndex
         )
       ),
+    saveAttachedFileState: (interactionId, file) =>
+      dispatch(saveAttachedFileState(interactionId, file)),
     sendSmoochMessage: (interactionId, message) =>
       dispatch(sendSmoochMessage(interactionId, message)),
     setCustomerRead: (interactionId, isRead) =>
@@ -832,6 +839,7 @@ MessagingTextArea.propTypes = {
   initializeOutboundSmsFromMessaging: PropTypes.func.isRequired,
   sendOutboundSms: PropTypes.func.isRequired,
   saveMessageState: PropTypes.func.isRequired,
+  saveAttachedFileState: PropTypes.func.isRequired,
   setCustomerRead: PropTypes.func.isRequired,
   setMessageTemplateFilter: PropTypes.func.isRequired,
   setMessageTemplateIndex: PropTypes.func.isRequired,

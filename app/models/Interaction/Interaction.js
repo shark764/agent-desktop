@@ -47,6 +47,9 @@ export default class Interaction {
       this.isCopied = false;
       this.messageTemplateFilter = undefined;
       this.selectedMessageTemplateIndex = 0;
+      if (source === 'smooch') {
+        this.currentAttachedFile = null;
+      }
     }
     if (channelType === 'email' || channelType === 'sms') {
       this.customer = customer;

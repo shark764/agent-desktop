@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.46.10] (2020-03-18)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.46.10/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.46.10/index.html)
+### Changed
+* CXV1-21964 - Attachment are specific to an interaction and are placed/removed from agent's input when switching between interactions.
+
 ## [1.46.9] (2020-03-17)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.46.9/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.46.9/index.html)

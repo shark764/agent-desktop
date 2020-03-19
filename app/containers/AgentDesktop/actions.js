@@ -25,6 +25,14 @@ export function saveMessageState(
   };
 }
 
+export function saveAttachedFileState(interactionId, file) {
+  return {
+    type: ACTIONS.SAVE_ATTACHED_FILE_STATE,
+    interactionId,
+    file,
+  };
+}
+
 export function setMessageTemplateFilter(interactionId) {
   return {
     type: ACTIONS.SET_MESSAGE_TEMPLATE_FILTER,

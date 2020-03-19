@@ -18,6 +18,8 @@ export const REMOVE_INVALID_EXTENSION =
   'app/AgentDesktop/REMOVE_INVALID_EXTENSION';
 export const SET_QUEUES = 'app/AgentDesktop/SET_QUEUES';
 export const SAVE_MESSAGE_STATE = 'app/AgentDesktop/SAVE_MESSAGE_STATE';
+export const SAVE_ATTACHED_FILE_STATE =
+  'app/AgentDesktop/SAVE_ATTACHED_FILE_STATE';
 export const SET_QUEUES_TIME = 'app/AgentDesktop/SET_QUEUES_TIME';
 export const CLEAR_QUEUES_TIME = 'app/AgentDesktop/CLEAR_QUEUES_TIME';
 export const SET_PRESENCE = 'app/AgentDesktop/SET_PRESENCE';

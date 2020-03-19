@@ -299,6 +299,54 @@ describe('agentDesktopReducer', () => {
     });
   });
 
+  describe('SET_ATTACHED_FILE_STATE', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 'a',
+            currentAttachedFile: null,
+          },
+          { interactionId: 'b', currentAttachedFile: null },
+          {
+            interactionId: 'c',
+            currentAttachedFile: {
+              mimeType: 'plain/txt',
+              name: 'Test file C',
+              size: 1024,
+            },
+          },
+        ],
+      };
+    });
+    it('set the current message on the first interaction with an existing message', () => {
+      const next = agentDesktopReducer(fromJS(initialState), {
+        type: ACTIONS.SAVE_ATTACHED_FILE_STATE,
+        interactionId: 'a',
+        file: {
+          name: 'Test file',
+          size: 1024,
+          mimeType: 'plain/txt',
+        },
+      });
+      expect(next.toJS().interactions[0].currentAttachedFile).toEqual({
+        mimeType: 'plain/txt',
+        name: 'Test file',
+        size: 1024,
+      });
+      expect(next.toJS().interactions[1].currentAttachedFile).toEqual(null);
+    });
+    it('set the current message on the second interaction with no existing message', () => {
+      const next = agentDesktopReducer(fromJS(initialState), {
+        type: ACTIONS.SAVE_ATTACHED_FILE_STATE,
+        interactionId: 'c',
+        file: null,
+      });
+      expect(next.toJS().interactions[0].currentAttachedFile).toEqual(null);
+      expect(next.toJS().interactions[2].currentAttachedFile).toEqual(null);
+    });
+  });
+
   describe('START_OUTBOUND_INTERACTION', () => {
     beforeEach(() => {
       initialState = {

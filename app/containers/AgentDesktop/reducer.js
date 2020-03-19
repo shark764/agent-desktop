@@ -459,8 +459,8 @@ function agentDesktopReducer(state = initialState, action) {
         presenceReasonLists.sort((a, b) => {
           const nameA = a.name.toLowerCase();
           const nameB = b.name.toLowerCase();
-          console.log(`nameA ${  nameA}`);
-          console.log(`nameB ${  nameB}`);
+          console.log(`nameA ${nameA}`);
+          console.log(`nameB ${nameB}`);
           if (nameA < nameB) {
             return -1;
           }
@@ -2318,6 +2318,15 @@ function agentDesktopReducer(state = initialState, action) {
                 : interaction.get('selectedMessageTemplateIndex')
             )
             .set('messageTemplateFilter', action.messageTemplateFilter)
+        );
+      } else {
+        return state;
+      }
+    }
+    case ACTIONS.SAVE_ATTACHED_FILE_STATE: {
+      if (interactionIndex !== -1) {
+        return state.updateIn(['interactions', interactionIndex], interaction =>
+          interaction.set('currentAttachedFile', action.file)
         );
       } else {
         return state;
