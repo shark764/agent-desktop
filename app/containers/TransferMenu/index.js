@@ -16,7 +16,6 @@ import Radium from 'radium';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import search from 'assets/icons/search.png';
-import Icon from 'components/Icon';
 import Tabs from 'components/Tabs';
 import TextInput from 'components/TextInput';
 import TimeStat from 'components/TimeStat';
@@ -84,6 +83,8 @@ import {
   selectHasAgentExperienceTransferMenuQueuesViewPermission,
   selectHasAgentExperienceTransferMenuAgentsViewPermission,
 } from './selectors';
+import Queues from './Queues';
+import Agents from './Agents';
 
 const REFRESH_AGENTS_RATE = 5000;
 const REFRESH_QUEUES_RATE = 10000;
@@ -331,68 +332,6 @@ export class TransferMenu extends React.Component {
       textAlign: 'left',
       flexGrow: '1',
     },
-    transferListDivContainer: {
-      marginTop: '12px',
-    },
-    expandedTransferHeading: {
-      fontSize: '15px',
-      fontWeight: 'bold',
-      display: 'flex',
-      borderRadius: '3px',
-      marginTop: '12px',
-      marginBottom: '0px !important',
-      cursor: 'pointer',
-      ':hover': {
-        color: '#FFFFFF',
-        backgroundColor: '#23cdf4',
-      },
-      ':focus': {
-        outline: 'none',
-        color: '#FFFFFF',
-        backgroundColor: '#23cdf4',
-      },
-    },
-    collapsedTransferHeading: {
-      fontSize: '15px',
-      fontWeight: 'bold',
-      display: 'flex',
-      borderRadius: '3px',
-      marginTop: '12px',
-      marginBottom: '0px !important',
-      color: 'rgb(151, 151, 151)',
-      cursor: 'pointer',
-      ':hover': {
-        color: '#FFFFFF',
-        backgroundColor: '#23cdf4',
-      },
-      ':focus': {
-        outline: 'none',
-        color: '#FFFFFF',
-        backgroundColor: '#23cdf4',
-      },
-    },
-    lineSpacer: {
-      display: 'inline-block',
-      width: '100%',
-      height: '2px',
-      borderBottom: '1px solid rgba(230, 230, 230, 0.68)',
-    },
-    refresh: {
-      display: 'inline-block',
-      marginLeft: '5px',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: '#FE4565',
-      },
-      ':focus': {
-        outline: 'none',
-        backgroundColor: '#FE4565',
-      },
-    },
-    refreshInProgress: {
-      color: 'gray',
-      cursor: 'loading',
-    },
     transferListItem: {
       display: 'flex',
       padding: '6px 8px',
@@ -444,25 +383,6 @@ export class TransferMenu extends React.Component {
       display: 'inline-block',
       maxWidth: '200px',
     },
-    iconClosed: {
-      marginTop: '4px',
-      marginRight: '4px',
-      height: '8px',
-      width: '13.33px',
-      marginLeft: 'auto',
-      flexShrink: '0',
-      transition: 'transform 0.5s',
-    },
-    iconOpen: {
-      marginTop: '4px',
-      marginRight: '4px',
-      transform: 'rotate(180deg)',
-      marginLeft: 'auto',
-      height: '8px',
-      width: '13.33px',
-      flexShrink: '0',
-      fontWeight: '600',
-    },
   };
 
   filterTransferListItems = transferListItems =>
@@ -491,6 +411,111 @@ export class TransferMenu extends React.Component {
   };
 
   render() {
+    const queuesProps = {
+      hasAgentExperienceTransferMenuQueuesViewPermission: this.props
+        .hasAgentExperienceTransferMenuQueuesViewPermission,
+      updateQueuesListVisibleState: this.props.updateQueuesListVisibleState,
+      queuesListVisibleState: this.props.queuesListVisibleState,
+      transferSearchInput: this.props.transferSearchInput,
+      batchRequestsAreSuccessful: this.props.batchRequestsAreSuccessful,
+    };
+
+    const agentsProps = {
+      nonVoice: this.props.nonVoice,
+      showAgentsTransferMenuPreference: this.props
+        .showAgentsTransferMenuPreference,
+      hasAgentExperienceTransferMenuAgentsViewPermission: this.props
+        .hasAgentExperienceTransferMenuAgentsViewPermission,
+      updateAgentsListVisibleState: this.props.updateAgentsListVisibleState,
+      agentsListVisibleState: this.props.agentsListVisibleState,
+      transferSearchInput: this.props.transferSearchInput,
+      selectAgents: this.props.selectAgents,
+    };
+
+    const commonStyles = {
+      transferListDivContainer: {
+        marginTop: '12px',
+      },
+      expandedTransferHeading: {
+        fontSize: '15px',
+        fontWeight: 'bold',
+        display: 'flex',
+        borderRadius: '3px',
+        marginTop: '12px',
+        marginBottom: '0px !important',
+        cursor: 'pointer',
+        ':hover': {
+          color: '#FFFFFF',
+          backgroundColor: '#23cdf4',
+        },
+        ':focus': {
+          outline: 'none',
+          color: '#FFFFFF',
+          backgroundColor: '#23cdf4',
+        },
+      },
+      collapsedTransferHeading: {
+        fontSize: '15px',
+        fontWeight: 'bold',
+        display: 'flex',
+        borderRadius: '3px',
+        marginTop: '12px',
+        marginBottom: '0px !important',
+        color: 'rgb(151, 151, 151)',
+        cursor: 'pointer',
+        ':hover': {
+          color: '#FFFFFF',
+          backgroundColor: '#23cdf4',
+        },
+        ':focus': {
+          outline: 'none',
+          color: '#FFFFFF',
+          backgroundColor: '#23cdf4',
+        },
+      },
+      refresh: {
+        display: 'inline-block',
+        marginLeft: '5px',
+        cursor: 'pointer',
+        ':hover': {
+          backgroundColor: '#FE4565',
+        },
+        ':focus': {
+          outline: 'none',
+          backgroundColor: '#FE4565',
+        },
+      },
+      refreshInProgress: {
+        color: 'gray',
+        cursor: 'loading',
+      },
+      lineSpacer: {
+        display: 'inline-block',
+        width: '100%',
+        height: '2px',
+        borderBottom: '1px solid rgba(230, 230, 230, 0.68)',
+      },
+      iconClosed: {
+        marginTop: '4px',
+        marginRight: '4px',
+        height: '8px',
+        width: '13.33px',
+        marginLeft: 'auto',
+        flexShrink: '0',
+        transition: 'transform 0.5s',
+      },
+      iconOpen: {
+        marginTop: '4px',
+        marginRight: '4px',
+        transform: 'rotate(180deg)',
+        marginLeft: 'auto',
+        height: '8px',
+        width: '13.33px',
+        flexShrink: '0',
+        fontWeight: '600',
+      },
+    };
+
     let queues;
     if (this.props.hasAgentExperienceTransferMenuQueuesViewPermission) {
       this.globalQueues = this.props.selectVisibleQueues;
@@ -656,99 +681,19 @@ export class TransferMenu extends React.Component {
               autoFocus
             />
             <div className="transferList" style={this.styles.transferLists}>
-              {this.props
-                .hasAgentExperienceTransferMenuQueuesViewPermission && (
-                <div style={this.styles.transferListDivContainer}>
-                  {this.globalQueues.length > 0 && (
-                    <div
-                      id="queuesExpandCollapseBtn"
-                      key="queuesListBtn"
-                      style={this.styles.expandedTransferHeading}
-                      onClick={() => this.props.updateQueuesListVisibleState()}
-                    >
-                      <FormattedMessage {...messages.queues} />
-                      {(this.props.queuesListVisibleState ||
-                        this.props.transferSearchInput.trim() !== '') && (
-                        <div
-                          id="refreshQueues"
-                          key="queuesRefreshBtn"
-                          style={[
-                            this.styles.refresh,
-                            (this.globalQueues === undefined ||
-                              this.globalQueues[0] === undefined ||
-                              this.globalQueues[0].queueTime === undefined ||
-                              !this.props.batchRequestsAreSuccessful) &&
-                              this.styles.refreshInProgress,
-                          ]}
-                          onClick={this.refreshQueuesButton}
-                        >
-                          &#8635;
-                        </div>
-                      )}
-                      <Icon
-                        name="caret"
-                        style={
-                          this.props.queuesListVisibleState
-                            ? this.styles.iconOpen
-                            : this.styles.iconClosed
-                        }
-                      />
-                    </div>
-                  )}
-                  {(this.props.queuesListVisibleState ||
-                    this.props.transferSearchInput.trim() !== '') &&
-                    queues}
-                  <div className="bigSpacer" style={this.styles.lineSpacer} />
-                </div>
-              )}
-              {!this.props.nonVoice &&
-                this.props.showAgentsTransferMenuPreference &&
-                this.props
-                  .hasAgentExperienceTransferMenuAgentsViewPermission && (
-                <div style={this.styles.transferListDivContainer}>
-                  <div
-                    id="agentsExpandCollapseBtn"
-                    key="agentsListBtn"
-                    style={[
-                      this.styles.expandedTransferHeading,
-                      { marginTop: '20px' },
-                    ]}
-                    onClick={() =>
-                      !this.props.nonVoice &&
-                        this.props.updateAgentsListVisibleState()
-                    }
-                  >
-                    <FormattedMessage {...messages.agents} />
-                    {(this.props.agentsListVisibleState ||
-                        this.props.transferSearchInput.trim() !== '') && (
-                      <div
-                        id="refreshAgents"
-                        key="agentsRefreshBtn"
-                        style={[
-                          this.styles.refresh,
-                          this.props.selectAgents === undefined &&
-                              this.styles.refreshInProgress,
-                        ]}
-                        onClick={this.refreshAgents}
-                      >
-                          &#8635;
-                      </div>
-                    )}
-                    <Icon
-                      name="caret"
-                      style={
-                        this.props.agentsListVisibleState
-                          ? this.styles.iconOpen
-                          : this.styles.iconClosed
-                      }
-                    />
-                  </div>
-                  {(this.props.agentsListVisibleState ||
-                      this.props.transferSearchInput.trim() !== '') &&
-                      agents}
-                  <div className="bigSpacer" style={this.styles.lineSpacer} />
-                </div>
-              )}
+              <Queues
+                globalQueues={this.globalQueues}
+                refreshQueuesButton={this.refreshQueuesButton}
+                queues={queues}
+                styles={commonStyles}
+                {...queuesProps}
+              />
+              <Agents
+                agents={agents}
+                refreshAgents={this.refreshAgents}
+                styles={commonStyles}
+                {...agentsProps}
+              />
               <TransferLists
                 nonVoice={this.props.nonVoice}
                 transferSearchInput={this.props.transferSearchInput}
@@ -800,16 +745,7 @@ export class TransferMenu extends React.Component {
                 updateVisibleStateOfAllUserAssignedTransferlists={
                   this.props.updateVisibleStateOfAllUserAssignedTransferlists
                 }
-                styles={{
-                  transferListDivContainer: this.styles
-                    .transferListDivContainer,
-                  expandedTransferHeading: this.styles.expandedTransferHeading,
-                  collapsedTransferHeading: this.styles
-                    .collapsedTransferHeading,
-                  lineSpacer: this.styles.lineSpacer,
-                  iconOpen: this.styles.iconOpen,
-                  iconClosed: this.styles.iconClosed,
-                }}
+                styles={commonStyles}
               />
             </div>
           </div>

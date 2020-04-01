@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Queues Component render renders Queues component with permissions, with a search input, without refresh button 1`] = `
+<React.Fragment>
+  <div
+    data-radium={true}
+  >
+    <div
+      data-radium={true}
+      id="queuesExpandCollapseBtn"
+      key=".$queuesListBtn"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Queues"
+        id="app.containers.TransferMenu.queues"
+        key=".0"
+        values={Object {}}
+      />
+      <div
+        data-radium={true}
+        id="refreshQueues"
+        key=".$queuesRefreshBtn"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        ↻
+      </div>
+      <Icon
+        key=".2"
+        name="caret"
+      />
+    </div>
+    <div
+      className="queueTransferListItem transferItem"
+      data-radium={true}
+      id="1"
+      key=".1:$1"
+      onClick={[Function]}
+      style={Object {}}
+      tabIndex="0"
+      title="queueName"
+    >
+      <span
+        data-radium={true}
+        key=".0"
+        style={Object {}}
+      >
+        queueName
+      </span>
+      <span
+        data-radium={true}
+        key=".1"
+        style={Object {}}
+      >
+        millis
+      </span>
+    </div>
+    <div
+      className="bigSpacer"
+      key=".2"
+    />
+  </div>
+</React.Fragment>
+`;
+
+exports[`Queues Component render renders Queues component with permissions, with empty queues 1`] = `
+<React.Fragment>
+  <div
+    data-radium={true}
+  >
+    <div
+      className="bigSpacer"
+      key=".2"
+    />
+  </div>
+</React.Fragment>
+`;
+
+exports[`Queues Component render renders Queues component with permissions, without searching input 1`] = `
+<React.Fragment>
+  <div
+    data-radium={true}
+  >
+    <div
+      className="queueTransferListItem transferItem"
+      data-radium={true}
+      id="1"
+      key=".1:$1"
+      onClick={[Function]}
+      style={Object {}}
+      tabIndex="0"
+      title="queueName"
+    >
+      <span
+        data-radium={true}
+        key=".0"
+        style={Object {}}
+      >
+        queueName
+      </span>
+      <span
+        data-radium={true}
+        key=".1"
+        style={Object {}}
+      >
+        millis
+      </span>
+    </div>
+    <div
+      className="bigSpacer"
+      key=".2"
+    />
+  </div>
+</React.Fragment>
+`;
+
+exports[`Queues Component render renders Queues component without permissions. Actually should not render anything 1`] = `<React.Fragment />`;

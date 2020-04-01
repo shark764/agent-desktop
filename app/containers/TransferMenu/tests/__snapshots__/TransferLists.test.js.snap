@@ -67,38 +67,14 @@ exports[`TransferLists Component render renders TransferLists component when the
 
 exports[`TransferLists Component render renders TransferLists component with user assinged transferlists and interaction transferlists for the non-voice interaction 1`] = `
 <React.Fragment>
-  <div
-    style={
-      Object {
-        "marginTop": "12px",
-      }
-    }
-  >
+  <div>
     <div
       id="allInterAssigTransListsCollapExpandBtn"
       key="allInterAssigTransListsCollapExpandBtn"
       onClick={[Function]}
       style={
         Array [
-          Object {
-            ":focus": Object {
-              "backgroundColor": "#23cdf4",
-              "color": "#FFFFFF",
-              "outline": "none",
-            },
-            ":hover": Object {
-              "backgroundColor": "#23cdf4",
-              "color": "#FFFFFF",
-            },
-            "borderRadius": "3px",
-            "color": "rgb(151, 151, 151)",
-            "cursor": "pointer",
-            "display": "flex",
-            "fontSize": "15px",
-            "fontWeight": "bold",
-            "marginBottom": "0px !important",
-            "marginTop": "12px",
-          },
+          undefined,
           Object {
             "marginTop": "20px",
           },
@@ -112,18 +88,6 @@ exports[`TransferLists Component render renders TransferLists component with use
       />
       <Icon
         name="caret"
-        style={
-          Object {
-            "flexShrink": "0",
-            "fontWeight": "600",
-            "height": "8px",
-            "marginLeft": "auto",
-            "marginRight": "4px",
-            "marginTop": "4px",
-            "transform": "rotate(180deg)",
-            "width": "13.33px",
-          }
-        }
       />
     </div>
     <div
@@ -139,26 +103,6 @@ exports[`TransferLists Component render renders TransferLists component with use
         id="interAssigTransListCollapExpndBtn-mockNonVoiceTransferListId"
         key="interAssigTransListCollapExpndBtn-mockNonVoiceTransferListId"
         onClick={[Function]}
-        style={
-          Object {
-            ":focus": Object {
-              "backgroundColor": "#23cdf4",
-              "color": "#FFFFFF",
-              "outline": "none",
-            },
-            ":hover": Object {
-              "backgroundColor": "#23cdf4",
-              "color": "#FFFFFF",
-            },
-            "borderRadius": "3px",
-            "cursor": "pointer",
-            "display": "flex",
-            "fontSize": "15px",
-            "fontWeight": "bold",
-            "marginBottom": "0px !important",
-            "marginTop": "12px",
-          }
-        }
         title="mockNonTransferListName"
       >
         <span
@@ -176,64 +120,21 @@ exports[`TransferLists Component render renders TransferLists component with use
         </span>
         <Icon
           name="caret"
-          style={
-            Object {
-              "flexShrink": "0",
-              "height": "8px",
-              "marginLeft": "auto",
-              "marginRight": "4px",
-              "marginTop": "4px",
-              "transition": "transform 0.5s",
-              "width": "13.33px",
-            }
-          }
         />
       </div>
       <div
         className="bigSpacer"
-        style={
-          Object {
-            "borderBottom": "1px solid rgba(230, 230, 230, 0.68)",
-            "display": "inline-block",
-            "height": "2px",
-            "width": "100%",
-          }
-        }
       />
     </div>
   </div>
-  <div
-    style={
-      Object {
-        "marginTop": "12px",
-      }
-    }
-  >
+  <div>
     <div
       id="allUserAssigTransListsCollapExpandBtn"
       key="allUserAssigTransListsCollapExpandBtn"
       onClick={[Function]}
       style={
         Array [
-          Object {
-            ":focus": Object {
-              "backgroundColor": "#23cdf4",
-              "color": "#FFFFFF",
-              "outline": "none",
-            },
-            ":hover": Object {
-              "backgroundColor": "#23cdf4",
-              "color": "#FFFFFF",
-            },
-            "borderRadius": "3px",
-            "color": "rgb(151, 151, 151)",
-            "cursor": "pointer",
-            "display": "flex",
-            "fontSize": "15px",
-            "fontWeight": "bold",
-            "marginBottom": "0px !important",
-            "marginTop": "12px",
-          },
+          undefined,
           Object {
             "marginTop": "20px",
           },
@@ -247,18 +148,6 @@ exports[`TransferLists Component render renders TransferLists component with use
       />
       <Icon
         name="caret"
-        style={
-          Object {
-            "flexShrink": "0",
-            "fontWeight": "600",
-            "height": "8px",
-            "marginLeft": "auto",
-            "marginRight": "4px",
-            "marginTop": "4px",
-            "transform": "rotate(180deg)",
-            "width": "13.33px",
-          }
-        }
       />
     </div>
     <div
@@ -274,26 +163,6 @@ exports[`TransferLists Component render renders TransferLists component with use
         id="userAssigTransListCollapExpndBtn-mockNonVoiceTransferListId"
         key="userAssigTransListCollapExpndBtn-mockNonVoiceTransferListId"
         onClick={[Function]}
-        style={
-          Object {
-            ":focus": Object {
-              "backgroundColor": "#23cdf4",
-              "color": "#FFFFFF",
-              "outline": "none",
-            },
-            ":hover": Object {
-              "backgroundColor": "#23cdf4",
-              "color": "#FFFFFF",
-            },
-            "borderRadius": "3px",
-            "cursor": "pointer",
-            "display": "flex",
-            "fontSize": "15px",
-            "fontWeight": "bold",
-            "marginBottom": "0px !important",
-            "marginTop": "12px",
-          }
-        }
         title="mockNonTransferListName"
       >
         <span
@@ -311,29 +180,10 @@ exports[`TransferLists Component render renders TransferLists component with use
         </span>
         <Icon
           name="caret"
-          style={
-            Object {
-              "flexShrink": "0",
-              "height": "8px",
-              "marginLeft": "auto",
-              "marginRight": "4px",
-              "marginTop": "4px",
-              "transition": "transform 0.5s",
-              "width": "13.33px",
-            }
-          }
         />
       </div>
       <div
         className="bigSpacer"
-        style={
-          Object {
-            "borderBottom": "1px solid rgba(230, 230, 230, 0.68)",
-            "display": "inline-block",
-            "height": "2px",
-            "width": "100%",
-          }
-        }
       />
     </div>
   </div>

@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Agents Component render renders Agents component with permissions, but not showing the menu preference, it should not render anything 1`] = `<React.Fragment />`;
+
+exports[`Agents Component render renders Agents component with permissions, not showing the refresh buttons 1`] = `
+<React.Fragment>
+  <div
+    data-radium={true}
+  >
+    <div
+      data-radium={true}
+      id="agentsExpandCollapseBtn"
+      key=".$agentsListBtn"
+      onClick={[Function]}
+      style={
+        Object {
+          "marginTop": "20px",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="Agents"
+        id="app.containers.TransferMenu.agents"
+        key=".0"
+        values={Object {}}
+      />
+      <Icon
+        key=".2"
+        name="caret"
+      />
+    </div>
+    <div
+      className="bigSpacer"
+      key=".2"
+    />
+  </div>
+</React.Fragment>
+`;
+
+exports[`Agents Component render renders Agents component with permissions, showing menu agent transfer, without searching input 1`] = `
+<React.Fragment>
+  <div
+    data-radium={true}
+  >
+    <div
+      data-radium={true}
+      id="agentsExpandCollapseBtn"
+      key=".$agentsListBtn"
+      onClick={[Function]}
+      style={
+        Object {
+          "marginTop": "20px",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="Agents"
+        id="app.containers.TransferMenu.agents"
+        key=".0"
+        values={Object {}}
+      />
+      <div
+        data-radium={true}
+        id="refreshAgents"
+        key=".$agentsRefreshBtn"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        ↻
+      </div>
+      <Icon
+        key=".2"
+        name="caret"
+      />
+    </div>
+    <div
+      className="readyAgentTransferListItem"
+      data-radium={true}
+      id="1"
+      key=".1:$1"
+      style={Object {}}
+      title="agentName"
+    >
+      <div
+        data-radium={true}
+        key=".0"
+        style={Object {}}
+      />
+      <span
+        data-radium={true}
+        key=".1"
+        style={Object {}}
+      >
+        agentName
+      </span>
+    </div>
+    <div
+      className="bigSpacer"
+      key=".2"
+    />
+  </div>
+</React.Fragment>
+`;
+
+exports[`Agents Component render renders Agents component with permissions, with an empty agentsList 1`] = `
+<React.Fragment>
+  <div
+    data-radium={true}
+  >
+    <div
+      data-radium={true}
+      id="agentsExpandCollapseBtn"
+      key=".$agentsListBtn"
+      onClick={[Function]}
+      style={
+        Object {
+          "marginTop": "20px",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="Agents"
+        id="app.containers.TransferMenu.agents"
+        key=".0"
+        values={Object {}}
+      />
+      <div
+        data-radium={true}
+        id="refreshAgents"
+        key=".$agentsRefreshBtn"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        ↻
+      </div>
+      <Icon
+        key=".2"
+        name="caret"
+      />
+    </div>
+    <div
+      className="bigSpacer"
+      key=".2"
+    />
+  </div>
+</React.Fragment>
+`;
+
+exports[`Agents Component render renders Agents component without permissions, it should not render anything 1`] = `<React.Fragment />`;
