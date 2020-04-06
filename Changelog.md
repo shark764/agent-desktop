@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.47.0] (2020-04-06)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.0/index.html)
+### Changed
+* CXV1-21728 - Smooch was moved to its own module, separated from old messaging service.
+
 ## [1.46.11] (2020-03-31)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.46.11/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.46.11/index.html)

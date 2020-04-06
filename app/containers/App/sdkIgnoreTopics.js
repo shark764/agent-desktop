@@ -64,8 +64,8 @@ export default [
   'cxengage/salesforce-classic/set-visibility-response', // Ignore
   'cxengage/salesforce-lightning/set-dimensions-response', // Ignore
   'cxengage/salesforce-lightning/is-visible-response', // Ignore
-  'cxengage/interactions/messaging/smooch-typing-agent-received', // Ignore
-  'cxengage/interactions/messaging/smooch-conversation-read-agent-received', // Ignore
-  'cxengage/interactions/messaging/smooch-attachment-added', // Ignore
-  'cxengage/interactions/messaging/smooch-attachment-removed', // Ignore
+  'cxengage/interactions/smooch-messaging/typing-agent-received', // Ignore
+  'cxengage/interactions/smooch-messaging/conversation-read-agent-received', // Ignore
+  'cxengage/interactions/smooch-messaging/attachment-added', // Ignore
+  'cxengage/interactions/smooch-messaging/attachment-removed', // Ignore
 ];

@@ -201,7 +201,7 @@ export class MessagingTextArea extends React.Component {
        *  after unmounting and avoiding memory leaks, and inmediately send the typing indicator as false.
        */
       this.handleTyping.cancel();
-      CxEngage.interactions.messaging.sendSmoochTypingIndicator({
+      CxEngage.interactions.smoochMessaging.sendTypingIndicator({
         interactionId: this.props.selectedInteraction.interactionId,
         typing: false,
       });
@@ -475,7 +475,7 @@ export class MessagingTextArea extends React.Component {
      * As we can only send execute the same function on leading and trailing, we use the component state to switch between true and false.
      */
     () => {
-      CxEngage.interactions.messaging.sendSmoochTypingIndicator({
+      CxEngage.interactions.smoochMessaging.sendTypingIndicator({
         interactionId: this.props.selectedInteraction.interactionId,
         typing: !this.state.isTyping,
       });
@@ -489,7 +489,7 @@ export class MessagingTextArea extends React.Component {
   );
 
   attachFile = fileList => {
-    CxEngage.interactions.messaging.smoochAddAttachment({
+    CxEngage.interactions.smoochMessaging.addAttachment({
       interactionId: this.props.selectedInteraction.interactionId,
       file: fileList[0],
     });
@@ -500,7 +500,7 @@ export class MessagingTextArea extends React.Component {
   };
 
   removeFile = () => {
-    CxEngage.interactions.messaging.smoochRemoveAttachment({
+    CxEngage.interactions.smoochMessaging.removeAttachment({
       interactionId: this.props.selectedInteraction.interactionId,
     });
     this.props.saveAttachedFileState(
@@ -520,7 +520,7 @@ export class MessagingTextArea extends React.Component {
       } = this.props.selectedInteraction;
       const { firstName, lastName, userId } = this.props.agent;
       const agentMessageId = generateUUID();
-      CxEngage.interactions.messaging.sendSmoochAttachment({
+      CxEngage.interactions.smoochMessaging.sendAttachment({
         interactionId,
         agentMessageId,
       });

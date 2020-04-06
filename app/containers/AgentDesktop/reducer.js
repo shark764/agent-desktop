@@ -459,8 +459,7 @@ function agentDesktopReducer(state = initialState, action) {
         presenceReasonLists.sort((a, b) => {
           const nameA = a.name.toLowerCase();
           const nameB = b.name.toLowerCase();
-          console.log(`nameA ${nameA}`);
-          console.log(`nameB ${nameB}`);
+
           if (nameA < nameB) {
             return -1;
           }

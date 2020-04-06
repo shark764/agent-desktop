@@ -745,7 +745,7 @@ export function* updateVisibleStateofAllFlowTransferLists() {
 export function* doSetConversationRead() {
   const selectedInteraction = yield select(getSelectedInteraction);
   if (yield select(getIsConversationUnread)) {
-    CxEngage.interactions.messaging.sendSmoochConversationRead({
+    CxEngage.interactions.smoochMessaging.sendConversationRead({
       interactionId: selectedInteraction.interactionId,
     });
     yield put(
@@ -763,7 +763,7 @@ export function* doHandleNewSmoochMessage({ interactionId, message }) {
     if (interactionId !== selectedInteraction.interactionId) {
       yield put(setConversationIsUnread(interactionId, true));
     } else {
-      CxEngage.interactions.messaging.sendSmoochConversationRead({
+      CxEngage.interactions.smoochMessaging.sendConversationRead({
         interactionId: selectedInteraction.interactionId,
       });
     }

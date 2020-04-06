@@ -964,7 +964,7 @@ export class App extends React.Component {
           }
 
           // INTERACTIONS/MESSAGING
-          case 'cxengage/interactions/messaging/smooch-history-received': {
+          case 'cxengage/interactions/smooch-messaging/history-received': {
             this.props.setSmoochMessageHistory(response);
             break;
           }
@@ -1001,14 +1001,14 @@ export class App extends React.Component {
             }
             break;
           }
-          case 'cxengage/interactions/messaging/smooch-message-received':
-          case 'cxengage/interactions/messaging/smooch-attachment-sent':
+          case 'cxengage/interactions/smooch-messaging/message-received':
+          case 'cxengage/interactions/smooch-messaging/attachment-sent':
           case 'cxengage/interactions/messaging/new-message-received': {
             const isSmooch =
               topic ===
-                'cxengage/interactions/messaging/smooch-message-received' ||
+                'cxengage/interactions/smooch-messaging/message-received' ||
               topic ===
-                'cxengage/interactions/messaging/smooch-attachment-sent';
+                'cxengage/interactions/smooch-messaging/attachment-sent';
             if (
               (!isSmooch && isUUID(response.from) === false) ||
               (isSmooch &&
@@ -1078,12 +1078,12 @@ export class App extends React.Component {
             break;
           }
 
-          case 'cxengage/interactions/messaging/smooch-conversation-read-received': {
+          case 'cxengage/interactions/smooch-messaging/conversation-read-received': {
             this.props.setCustomerRead(response.interactionId, true);
             break;
           }
 
-          case 'cxengage/interactions/messaging/smooch-typing-received': {
+          case 'cxengage/interactions/smooch-messaging/typing-received': {
             const isTyping = response.messageType === 'typing-start';
             this.props.setCustomerTyping(response.interactionId, isTyping);
             break;

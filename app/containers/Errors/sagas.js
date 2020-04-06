@@ -90,8 +90,8 @@ export function* goHandleSDKError(action) {
     topic === 'cxengage/interactions/unfocus-acknowledged' || // Not needed to be shown to agent
     topic === 'cxengage/reporting/get-bulk-stat-query-response' || // Not needed to be shown to agent
     topic ===
-      'cxengage/interactions/messaging/smooch-conversation-read-agent-received' || // Not needed to be shown to agent
-    topic === 'cxengage/interactions/messaging/smooch-typing-agent-received' // Not needed to be shown to agent
+      'cxengage/interactions/smooch-messaging/conversation-read-agent-received' || // Not needed to be shown to agent
+    topic === 'cxengage/interactions/smooch-messaging/typing-agent-received' // Not needed to be shown to agent
   ) {
     return; // Do nothing. Error UI handled in their own components.
   } else if (error.code === 4002 && error.data.flowMessage) {
@@ -192,8 +192,8 @@ export function* goHandleSDKError(action) {
 
   if (
     (error.code === 6007 || error.code === 6010) &&
-    (topic === 'cxengage/interactions/messaging/smooch-message-received' ||
-      topic === 'cxengage/interactions/messaging/smooch-attachment-sent')
+    (topic === 'cxengage/interactions/smooch-messaging/message-received' ||
+      topic === 'cxengage/interactions/smooch-messaging/attachment-sent')
   ) {
     yield put(
       removeSmoochPendingMessage(

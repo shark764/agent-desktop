@@ -210,7 +210,7 @@ export function* doHandleSendSmoochMessage({ interactionId, message }) {
   );
   yield call(
     sdkCallToPromise,
-    CxEngage.interactions.messaging.sendSmoochMessage,
+    CxEngage.interactions.smoochMessaging.sendMessage,
     {
       interactionId,
       message: message.text,
