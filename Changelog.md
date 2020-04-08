@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.47.1] (2020-04-06)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.1/index.html)
+### Changed
+* CXV1-12616 - Work Offer Should be Unclickable When Making an Outbound Dial Using a SIP Extension.
+
 ## [1.47.0] (2020-04-06)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.0/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.0/index.html)

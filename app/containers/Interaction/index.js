@@ -433,7 +433,14 @@ export class Interaction extends React.Component {
       this.props.activeExtension.type === 'pstn' &&
       this.props.status === 'pending' &&
       this.props.interaction.channelType === 'voice';
-    const acceptMessage = pendingPSTN ? messages.PSTN : messages.accept;
+
+    const pendingSIP =
+      this.props.activeExtension.type === 'sip' &&
+      this.props.status === 'pending' &&
+      this.props.interaction.channelType === 'voice';
+
+    const acceptMessage =
+      pendingPSTN || pendingSIP ? messages.PSTN : messages.accept;
     return (
       <div
         id={`${this.props.status}InteractionContainer-${
@@ -448,12 +455,12 @@ export class Interaction extends React.Component {
           this.context.toolbarMode &&
             this.props.status === 'pending' &&
             styles.pendingBaseToolbar,
-          pendingPSTN && styles.pendingPstn,
+          (pendingPSTN || pendingSIP) && styles.pendingPstn,
           this.props.interaction.isCancellingInteraction &&
             styles.cancelInteractionInProgress,
         ]}
         key={this.props.interaction.interactionId}
-        onClick={!pendingPSTN ? this.props.onClick : null}
+        onClick={!(pendingPSTN || pendingSIP) ? this.props.onClick : null}
         onMouseOver={this.context.toolbarMode ? this.handleMouseOver : null}
         onFocus={this.context.toolbarMode ? this.handleMouseOver : null}
         onMouseLeave={this.context.toolbarMode ? this.handleMouseLeave : null}
