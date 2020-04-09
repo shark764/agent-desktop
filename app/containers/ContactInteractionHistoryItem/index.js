@@ -186,17 +186,20 @@ export class ContactInteractionHistoryItem extends React.Component {
         return <FormattedMessage {...messages.noRecordings} />;
       }
       return recordings.map(recording => {
-        const participant = recording.participantAdditionalInfo;
+        const participant = recording.name
+          ? { name: recording.name }
+          : recording.participantAdditionalInfo;
 
         const participantType = participant ? (
-          participant.participantType
+          participant.participantType || participant.name
         ) : (
           <FormattedMessage {...messages.defaultParticipantType} />
         );
 
-        const participantIdentifier = participant
-          ? `: ${participant.agentName || participant.extension}`
-          : '';
+        const participantIdentifier =
+          participant && !participant.name
+            ? `: ${participant.agentName || participant.extension}`
+            : '';
 
         const recordingStartTime = moment(recording.created).format('LLL');
 

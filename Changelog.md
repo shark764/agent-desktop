@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.47.2] (2020-04-08)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.2/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.2/index.html)
+### Changed
+* CXV1-13350 - Skylight - Update Interaction History Panel to include new Artifact details.
+
 ## [1.47.1] (2020-04-06)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.1/index.html)
