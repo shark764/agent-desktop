@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.47.3] (2020-04-09)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.3/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.3/index.html)
+### Changed
+* CXV1-13489 - Hold button doesn't update when mouse is over button
+
 ## [1.47.2] (2020-04-08)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.2/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.2/index.html)

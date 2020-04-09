@@ -247,7 +247,7 @@ const styles = {
   hold: {
     backgroundImage: `url(${holdSprite})`,
     ':hover': {
-      backgroundPosition: '-80px 0',
+      backgroundPosition: '-40px 0',
     },
     active: {
       backgroundPosition: '-80px 0',
