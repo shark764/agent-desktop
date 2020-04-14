@@ -4,6 +4,7 @@
 
 import { takeEvery, call, put, select, all } from 'redux-saga/effects';
 import axios from 'axios';
+import { delay } from 'redux-saga';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 import { isUUID } from 'utils/validator';
@@ -36,6 +37,7 @@ import {
   UPDATE_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS_$,
   SELECT_INTERACTION,
   ADD_SMOOCH_MESSAGE,
+  SET_AWAITING_DISPOSITION_$,
 } from './constants';
 import {
   selectCrmModule,
@@ -46,6 +48,7 @@ import {
   selectInterAssigTransListsVisibleSt,
   selectInterAssigAllTransListsVisibleSt,
   getIsConversationUnread,
+  selectTotalWrapUpTime,
 } from './selectors';
 import {
   setContactMode,
@@ -70,6 +73,7 @@ import {
   setCustomerRead,
   setConversationIsUnread,
   toggleInteractionIsHolding,
+  setAwaitingDispositionSpinner,
 } from './actions';
 
 const getTranscript = files => {
@@ -770,6 +774,12 @@ export function* doHandleNewSmoochMessage({ interactionId, message }) {
   }
 }
 
+export function* doSetAwaitingDisposition({ interactionId }) {
+  const totalWrapUpTime = yield select(selectTotalWrapUpTime);
+  yield call(delay, totalWrapUpTime);
+  yield put(setAwaitingDispositionSpinner(interactionId));
+}
+
 // Individual exports for testing
 export function* historicalInteractionBody() {
   yield takeEvery(
@@ -835,6 +845,10 @@ export function* handleNewSmoochMessage() {
   yield takeEvery(ADD_SMOOCH_MESSAGE, doHandleNewSmoochMessage);
 }
 
+export function* setAwaitingDisposition() {
+  yield takeEvery(SET_AWAITING_DISPOSITION_$, doSetAwaitingDisposition);
+}
+
 // All sagas to be loaded
 export default [
   historicalInteractionBody,
@@ -850,4 +864,5 @@ export default [
   updateVisibleStateOfAllInteractionTransferlists,
   setConversationRead,
   handleNewSmoochMessage,
+  setAwaitingDisposition,
 ];

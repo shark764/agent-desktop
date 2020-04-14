@@ -16,6 +16,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import has from 'lodash/has';
 
 import ErrorBoundary from 'components/ErrorBoundary';
+import AwaitingDispositionSpinner from 'components/AwaitingDispositionSpinner';
 
 import CustomFields from 'containers/CustomFields';
 
@@ -25,7 +26,9 @@ import ContentArea from 'containers/ContentArea';
 import {
   selectAwaitingScript,
   selectIsEndWrapupDisabled,
+  selectAwaitingDisposition,
 } from 'containers/AgentDesktop/selectors';
+import { setAwaitingDisposition } from 'containers/AgentDesktop/actions';
 
 import { selectWrapupBtnTooltipText } from 'containers/ContentAreaTop/selectors';
 
@@ -44,63 +47,94 @@ const styles = {
   },
 };
 
-export function WorkItemContentArea(props) {
-  const from = `${
-    has(props.selectedInteraction, 'contact.attributes.name')
-      ? `${props.selectedInteraction.contact.attributes.name} - `
-      : ''
-  }${
-    props.selectedInteraction.subject
-      ? props.selectedInteraction.subject
-      : `(${props.intl.formatMessage(messages.noSubject)})`
-  }`;
+export class WorkItemContentArea extends React.Component {
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.awaitingDisposition &&
+      this.props.awaitingDisposition !== prevProps.awaitingDisposition
+    ) {
+      const { interactionId } = this.props.selectedInteraction;
+      this.props.setAwaitingDisposition(interactionId);
+    }
+  }
 
-  const details = props.selectedInteraction.customFields && <CustomFields />;
+  render() {
+    const { selectedInteraction } = this.props;
 
-  const wrappingUp = props.selectedInteraction.status === 'wrapup';
+    const from = `${
+      has(selectedInteraction, 'contact.attributes.name')
+        ? `${selectedInteraction.contact.attributes.name} - `
+        : ''
+    }${
+      selectedInteraction.subject
+        ? selectedInteraction.subject
+        : `(${this.props.intl.formatMessage(messages.noSubject)})`
+    }`;
 
-  const buttonConfig = [
-    {
-      id: wrappingUp ? 'wrapup-button' : 'end-button',
-      type: 'primaryRed',
-      text: wrappingUp ? messages.endWrapup : messages.end,
-      onClick: props.endInteraction,
-      disabled: props.isEndWrapupDisabled,
-      title:
-        Object.keys(props.wrapupBtnTooltipText).length > 0
-          ? props.wrapupBtnTooltipText
-          : '',
-    },
-  ];
+    let details;
+    if (selectedInteraction.customFields) {
+      details = <CustomFields />;
+    } else if (selectedInteraction.showAwaitingDisposition) {
+      details = <div />;
+    } else {
+      details = '';
+    }
 
-  let content;
-  if (props.selectedInteraction.script !== undefined) {
-    content = (
-      <div
-        style={[
-          styles.content,
-          props.awaitingScript && styles.highlightContent,
-        ]}
-      >
-        <AgentScript />
-      </div>
+    const wrappingUp = selectedInteraction.status === 'wrapup';
+
+    const buttonConfig = [
+      {
+        id: wrappingUp ? 'wrapup-button' : 'end-button',
+        type: 'primaryRed',
+        text: wrappingUp ? messages.endWrapup : messages.end,
+        onClick: this.props.endInteraction,
+        disabled: this.props.isEndWrapupDisabled,
+        title:
+          Object.keys(this.props.wrapupBtnTooltipText).length > 0
+            ? this.props.wrapupBtnTooltipText
+            : '',
+      },
+    ];
+
+    let content;
+    if (selectedInteraction.script !== undefined) {
+      content = (
+        <div
+          style={[
+            styles.content,
+            this.props.awaitingScript && styles.highlightContent,
+          ]}
+        >
+          <AgentScript />
+        </div>
+      );
+    } else if (selectedInteraction.showAwaitingDisposition) {
+      // Awaiting Disposition spinner when maximum wrapup time exceeded:
+      content = <AwaitingDispositionSpinner />;
+    }
+
+    return (
+      <ContentArea
+        interaction={selectedInteraction}
+        from={from}
+        buttonConfig={buttonConfig}
+        details={details}
+        content={content}
+      />
     );
   }
-  return (
-    <ContentArea
-      interaction={props.selectedInteraction}
-      from={from}
-      buttonConfig={buttonConfig}
-      details={details}
-      content={content}
-    />
-  );
 }
 
 const mapStateToProps = (state, props) => ({
   awaitingScript: selectAwaitingScript(state, props),
   wrapupBtnTooltipText: selectWrapupBtnTooltipText(state, props),
   isEndWrapupDisabled: selectIsEndWrapupDisabled(state, props),
+  awaitingDisposition: selectAwaitingDisposition(state, props),
+});
+
+const mapDispatchToProps = dispatch => ({
+  setAwaitingDisposition: interactionId =>
+    dispatch(setAwaitingDisposition(interactionId)),
 });
 
 WorkItemContentArea.propTypes = {
@@ -110,8 +144,15 @@ WorkItemContentArea.propTypes = {
   awaitingScript: PropTypes.bool.isRequired,
   wrapupBtnTooltipText: PropTypes.object.isRequired,
   isEndWrapupDisabled: PropTypes.bool.isRequired,
+  awaitingDisposition: PropTypes.bool,
+  setAwaitingDisposition: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(
-  injectIntl(connect(mapStateToProps)(Radium(WorkItemContentArea)))
+  injectIntl(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Radium(WorkItemContentArea))
+  )
 );

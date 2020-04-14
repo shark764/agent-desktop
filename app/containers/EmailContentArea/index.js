@@ -33,6 +33,7 @@ import IconSVG from 'components/IconSVG';
 import LoadingText from 'components/LoadingText';
 import Select from 'components/Select';
 import TextInput from 'components/TextInput';
+import AwaitingDispositionSpinner from 'components/AwaitingDispositionSpinner';
 
 import ContentArea from 'containers/ContentArea';
 import CustomFields from 'containers/CustomFields';
@@ -48,6 +49,7 @@ import {
   setEmailAttachmentFetchingUrl,
   updateEmailInput,
   updateSelectedEmailTemplate,
+  setAwaitingDisposition,
 } from 'containers/AgentDesktop/actions';
 
 import {
@@ -279,6 +281,15 @@ export class EmailContentArea extends React.Component {
         prevProps.selectedInteraction.emailReply
     ) {
       this.updateIframes();
+    }
+
+    // set awaitingDisposition to true after the maximum wrapup time has reached
+    if (
+      this.props.awaitingDisposition &&
+      this.props.awaitingDisposition !== prevProps.awaitingDisposition
+    ) {
+      const { interactionId } = this.props.selectedInteraction;
+      this.props.setAwaitingDisposition(interactionId);
     }
   }
 
@@ -632,7 +643,10 @@ ${this.props.selectedInteraction.emailPlainBody}`;
     let buttonConfig = [];
 
     // Before replying to email, Initial render:
-    if (this.props.selectedInteraction.emailReply === undefined) {
+    if (
+      this.props.selectedInteraction.emailReply === undefined &&
+      !this.props.selectedInteraction.showAwaitingDisposition
+    ) {
       if (
         this.props.selectedInteraction.emailDetails === undefined ||
         (this.props.selectedInteraction.emailHtmlBody === undefined &&
@@ -846,11 +860,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
       ];
     }
     // Awaiting Disposition spinner when maximum wrapup time exceeded:
-    else if (
-      this.props.awaitingDisposition &&
-      new Date().getTime() - this.props.selectedInteraction.wrapupStarted >=
-        this.props.selectedInteraction.wrapupDetails.wrapupTime * 1000
-    ) {
+    else if (this.props.selectedInteraction.showAwaitingDisposition) {
       buttonConfig = [
         {
           id: 'endWrapup',
@@ -862,20 +872,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
         },
       ];
       details = <div />;
-      content = (
-        <div
-          key="awaitingDispositionSpinner"
-          style={styles.loadingSendingEmail}
-        >
-          <IconSVG id="awaitingDispositionIcon" name="loading" />
-          <div style={styles.centerText}>
-            <FormattedMessage
-              key="dispoSpinner"
-              {...messages.awaitingDisposition}
-            />
-          </div>
-        </div>
-      );
+      content = <AwaitingDispositionSpinner />;
     }
     // In wrapup and work-ended-pending-script mode:
     else {
@@ -1272,6 +1269,7 @@ EmailContentArea.propTypes = {
   agent: PropTypes.object.isRequired,
   updateEmailInput: PropTypes.func.isRequired,
   updateSelectedEmailTemplate: PropTypes.func.isRequired,
+  setAwaitingDisposition: PropTypes.func.isRequired,
 };
 
 EmailContentArea.contextTypes = {
@@ -1315,6 +1313,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(updateEmailInput(interactionId, input, value)),
     updateSelectedEmailTemplate: (interactionId, selectedTemplate) =>
       dispatch(updateSelectedEmailTemplate(interactionId, selectedTemplate)),
+    setAwaitingDisposition: interactionId =>
+      dispatch(setAwaitingDisposition(interactionId)),
     dispatch,
   };
 }

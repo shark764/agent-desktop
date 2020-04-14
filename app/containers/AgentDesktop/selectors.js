@@ -426,6 +426,21 @@ const getIsConversationUnread = createSelector(
   interaction => interaction.conversationIsUnread
 );
 
+const selectTotalWrapUpTime = createSelector(
+  [getSelectedInteraction, selectAwaitingDisposition],
+  (interaction, awaitingDisposition) => {
+    if (awaitingDisposition) {
+      const wrapupTime =
+        interaction.wrapupDetails && interaction.wrapupDetails.wrapupTime
+          ? parseInt(interaction.wrapupDetails.wrapupTime, 10)
+          : 0;
+      return wrapupTime * 1000;
+    } else {
+      return undefined;
+    }
+  }
+);
+
 export {
   selectAgentId,
   selectIsAgentReady,
@@ -467,4 +482,5 @@ export {
   selectInterAssigTransListsVisibleSt,
   selectInterAssigAllTransListsVisibleSt,
   getIsConversationUnread,
+  selectTotalWrapUpTime,
 };

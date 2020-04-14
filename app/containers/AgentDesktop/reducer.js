@@ -2672,6 +2672,16 @@ function agentDesktopReducer(state = initialState, action) {
         action.visibleStateofAllInteractionTrasferLists
       );
     }
+    case ACTIONS.SET_AWAITING_DISPOSITION_SPINNER: {
+      if (interactionIndex !== -1) {
+        return state.setIn(
+          ['interactions', interactionIndex, 'showAwaitingDisposition'],
+          true
+        );
+      } else {
+        return state;
+      }
+    }
     default:
       return state;
   }

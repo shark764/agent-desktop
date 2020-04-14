@@ -62,10 +62,6 @@ export default defineMessages({
     id: 'app.containers.EmailContentArea.sendingEmail',
     defaultMessage: 'Sending Email',
   },
-  awaitingDisposition: {
-    id: 'app.containers.EmailContentArea.awaitingDisposition',
-    defaultMessage: 'Awaiting Disposition',
-  },
   endWrapup: {
     id: 'app.containers.EmailContentArea.endWrapup',
     defaultMessage: 'End Wrap Up',

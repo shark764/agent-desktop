@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { FormattedTime } from 'react-intl';
 
 import ErrorBoundary from 'components/ErrorBoundary';
+import AwaitingDispositionSpinner from 'components/AwaitingDispositionSpinner';
 
 import Avatar from 'components/Avatar';
 import LoadingText from 'components/LoadingText';
@@ -22,7 +23,11 @@ import CustomFields from 'containers/CustomFields';
 import MessageContent from 'components/MessageContent';
 import ContentArea from 'containers/ContentArea';
 import { selectAgent } from 'containers/Login/selectors';
-import { selectIsEndWrapupDisabled } from 'containers/AgentDesktop/selectors';
+import {
+  selectIsEndWrapupDisabled,
+  selectAwaitingDisposition,
+} from 'containers/AgentDesktop/selectors';
+import { setAwaitingDisposition } from 'containers/AgentDesktop/actions';
 
 import { selectWrapupBtnTooltipText } from 'containers/ContentAreaTop/selectors';
 
@@ -43,6 +48,14 @@ export class MessagingContentArea extends React.Component {
       if (messsageHistoryDiv) {
         messsageHistoryDiv.scrollTop = messsageHistoryDiv.scrollHeight;
       }
+    }
+
+    if (
+      this.props.awaitingDisposition &&
+      this.props.awaitingDisposition !== prevProps.awaitingDisposition
+    ) {
+      const { interactionId } = this.props.selectedInteraction;
+      this.props.setAwaitingDisposition(interactionId);
     }
   }
 
@@ -126,6 +139,8 @@ export class MessagingContentArea extends React.Component {
     let details;
     if (this.props.selectedInteraction.customFields) {
       details = <CustomFields />;
+    } else if (this.props.selectedInteraction.showAwaitingDisposition) {
+      details = <div />;
     } else {
       details = '';
     }
@@ -163,6 +178,9 @@ export class MessagingContentArea extends React.Component {
           <LoadingText />
         </div>
       );
+    } else if (this.props.selectedInteraction.showAwaitingDisposition) {
+      // Awaiting Disposition spinner when maximum wrapup time exceeded:
+      content = <AwaitingDispositionSpinner />;
     } else {
       const messageHistory = this.props.selectedInteraction.messageHistory.map(
         message => {
@@ -270,6 +288,8 @@ MessagingContentArea.propTypes = {
   copyChatTranscript: PropTypes.func.isRequired,
   isCopied: PropTypes.bool,
   agent: PropTypes.object,
+  awaitingDisposition: PropTypes.bool,
+  setAwaitingDisposition: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -277,12 +297,15 @@ const mapStateToProps = (state, props) => ({
   isEndWrapupDisabled: selectIsEndWrapupDisabled(state, props),
   wrapupBtnTooltipText: selectWrapupBtnTooltipText(state, props),
   isCopied: isMessagingInteractionCopied(state, props),
+  awaitingDisposition: selectAwaitingDisposition(state, props),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     copyChatTranscript: interaction =>
       dispatch(copyChatTranscript(interaction)),
+    setAwaitingDisposition: interactionId =>
+      dispatch(setAwaitingDisposition(interactionId)),
     dispatch,
   };
 }

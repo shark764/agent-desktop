@@ -1189,6 +1189,13 @@ export function setVisibleStateOfAllInteractionTransferLists(
   };
 }
 
+export function setAwaitingDispositionSpinner(interactionId) {
+  return {
+    type: ACTIONS.SET_AWAITING_DISPOSITION_SPINNER,
+    interactionId,
+  };
+}
+
 // Saga Actions:
 
 export function updateInteractionTransferLists(channelType) {
@@ -1208,5 +1215,12 @@ export function updateInteractionTransferListsVisibleState(transferListId) {
 export function updateVisibleStateOfAllInteractionTransferlists() {
   return {
     type: ACTIONS.UPDATE_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS_$,
+  };
+}
+
+export function setAwaitingDisposition(interactionId) {
+  return {
+    type: ACTIONS.SET_AWAITING_DISPOSITION_$,
+    interactionId,
   };
 }
