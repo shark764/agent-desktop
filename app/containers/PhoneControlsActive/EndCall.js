@@ -6,8 +6,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { setInteractionConfirmation } from 'containers/AgentDesktop/actions';
-
+import {
+  setInteractionConfirmation,
+  selectInteraction,
+} from 'containers/AgentDesktop/actions';
 import CircleIconButton from 'components/CircleIconButton';
 import messages from './messages';
 
@@ -24,6 +26,7 @@ export class EndCall extends React.PureComponent {
         interactionId: this.props.interactionId,
       });
     } else {
+      this.props.selectInteraction(this.props.interactionId);
       this.props.setInteractionConfirmation(this.props.interactionId, true);
     }
   };
@@ -45,12 +48,15 @@ EndCall.propTypes = {
   interactionId: PropTypes.string.isRequired,
   interactionStatusIsFatal: PropTypes.bool.isRequired,
   setInteractionConfirmation: PropTypes.func.isRequired,
+  selectInteraction: PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     setInteractionConfirmation: (interactionId, status) =>
       dispatch(setInteractionConfirmation(interactionId, status)),
+    selectInteraction: interactionId =>
+      dispatch(selectInteraction(interactionId)),
     dispatch,
   };
 }

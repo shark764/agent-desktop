@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.47.6] (2020-04-14)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.6/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.6/index.html)
+### Changed
+* CXV1-12920 - Voice Interaction Does NOT get Focused When Ending Interaction via Global Phone Controls
+
 ## [1.47.5] (2020-04-13)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.5/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.5/index.html)

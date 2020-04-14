@@ -45,15 +45,18 @@ describe('<EndCall />', () => {
 
   describe('when interactionStatusIsFatal is false', () => {
     const setInteractionConfirmation = jest.fn();
+    const selectInteraction = jest.fn();
     const rendered = shallow(
       <EndCall
         interactionId="mock-interaction-id"
         interactionStatusIsFatal={false}
         setInteractionConfirmation={setInteractionConfirmation}
+        selectInteraction={selectInteraction}
       />
     );
     it('calls setInteractionConfirmation when clicking on icon', () => {
       rendered.find('#endCallButton').simulate('click');
+      expect(selectInteraction.mock.calls[0][0]).toBe('mock-interaction-id');
       expect(setInteractionConfirmation.mock.calls.length).toBe(1);
       expect(setInteractionConfirmation.mock.calls[0][0]).toBe(
         'mock-interaction-id'
