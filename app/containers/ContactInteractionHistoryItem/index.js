@@ -327,6 +327,8 @@ export class ContactInteractionHistoryItem extends React.Component {
   render() {
     const { interaction } = this.props;
     let interactionDetails;
+    let channelType;
+    let queueName;
     const expandedView = this.props.interactionIndex === undefined;
     if (interaction.interactionDetails === 'loading') {
       interactionDetails = (
@@ -487,6 +489,36 @@ export class ContactInteractionHistoryItem extends React.Component {
         </div>
       );
     }
+    switch (interaction.channelType) {
+      case 'voice': {
+        channelType = "Voice";
+        break;
+      }
+      case 'sms': {
+        channelType = "Sms";
+        break;
+      }
+      case 'messaging': {
+        channelType = "Messaging";
+        break;
+      }
+      case 'email': {
+        channelType = "Email";
+        break;
+      }
+      case 'work-item': {
+        channelType = "Work Item";
+        break;
+      }
+      default: {
+        channelType = interaction.channelType;
+      }
+    }
+    if (interaction.lastQueueName) {
+      queueName = interaction.lastQueueName;
+    } else {
+      queueName = "--";
+    }
     return (
       <div
         id={`contactHistoryInteraction-${interaction.interactionId}`}
@@ -518,7 +550,14 @@ export class ContactInteractionHistoryItem extends React.Component {
             {interaction.directionName}
           </div>
           <div>
-            {interaction.lastQueueName}
+            <FormattedMessage {...messages.channelType} />
+            :
+            {channelType}
+          </div>
+          <div>
+            <FormattedMessage {...messages.queue} />
+            :
+            {queueName}
           </div>
           {interaction.csat && (
             <div>

@@ -62,4 +62,12 @@ export default defineMessages({
     id: 'app.containers.ContactInteractionHistory.noDisposition',
     defaultMessage: 'Disposition not selected',
   },
+  channelType: {
+    id: 'app.containers.ContactInteractionHistory.channelType',
+    defaultMessage: 'Channel',
+  },
+  queue: {
+    id: 'app.containers.ContactInteractionHistory.queue',
+    defaultMessage: 'Queue',
+  },
 });
