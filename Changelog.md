@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.47.9] (2020-04-16)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.8/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.8/index.html)
+### Changed
+* CXV1-13228 Agent Desktop sending extra ' Not Ready' events on log in to reporting
+
 ## [1.47.8] (2020-04-15)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.8/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.8/index.html)
