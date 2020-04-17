@@ -107,6 +107,12 @@ const styles = {
     marginTop: '10px',
     paddingTop: '10px',
   },
+  attachmentContainer: {
+    marginTop: '10px',
+    paddingTop: '10px',
+    overflow: 'overlay',
+    maxHeight: '120px',
+  },
   attachment: {
     display: 'inline-block',
     backgroundColor: '#FFFFFF',
@@ -769,7 +775,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
               undefined &&
             this.props.selectedInteraction.emailDetails.attachments.length >
               0 ? (
-                <div style={styles.detailsContainer}>
+                <div style={styles.attachmentContainer}>
                   {this.props.selectedInteraction.emailDetails.attachments.map(
                     (attachment, index) => (
                       <span
@@ -1049,7 +1055,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
           )}
           <div
             style={[
-              styles.detailsContainer,
+              styles.attachmentContainer,
               this.state.isCollapsed && { display: 'none' },
             ]}
           >

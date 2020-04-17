@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.47.11] (2020-04-17)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.11/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.11/index.html)
+### Changed
+- CXV1-18123 - Multiple Attachments Causing Emails to be Unreadable
+
 ## [1.47.10] (2020-04-16)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.10/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.10/index.html)
