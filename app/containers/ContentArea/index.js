@@ -17,6 +17,7 @@ import Radium from 'radium';
 
 import { isUUID } from 'utils/validator';
 import ErrorBoundary from 'components/ErrorBoundary';
+import ClickMask from 'cx-ui-components/src/components/ConfigUi/ClickMask';
 
 import Resizable from 'components/Resizable';
 import Checkbox from 'components/Checkbox';
@@ -663,6 +664,13 @@ export class ContentArea extends React.Component {
               key="dispositionsContainer"
               style={{ position: 'relative' }}
             >
+              <ClickMask
+                onClick={() => {
+                  this.setState(prevState => ({
+                    showDispositionsList: !prevState.showDispositionsList,
+                  }));
+                }}
+              />
               <div
                 id="dispositions-lists"
                 style={this.styles.dispositionList}
