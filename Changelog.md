@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.47.12] (2020-04-21)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.12/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.12/index.html)
+### Changed
+* CXV1-14876 - Reverting changes for Publish error for Salesforce 'get-org-id'
+
 ## [1.47.11] (2020-04-17)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.11/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.11/index.html)
