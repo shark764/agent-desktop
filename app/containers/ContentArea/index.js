@@ -290,9 +290,11 @@ export class ContentArea extends React.Component {
       boxShadow: '0 0 6px 1px rgba(0,0,0,0.14)',
       borderRadius: '3px',
       fontSize: '16px',
-      padding: '10px 0 10px 15px',
+      padding: '10px 15px',
       maxHeight: '130px',
       overflowY: 'auto',
+      minWidth: '250px',
+      maxWidth: '600px',
     },
     triangle: {
       width: '0px',
@@ -305,9 +307,6 @@ export class ContentArea extends React.Component {
       zIndex: 12,
       bottom: '25px',
       left: '-55px',
-    },
-    selectableDisposition: {
-      width: '220px',
     },
     notesTextarea: {
       flex: '1 1 36px',
@@ -456,14 +455,13 @@ export class ContentArea extends React.Component {
       key={`disposition-${disposition.dispositionId}`}
       id={`disposition-${disposition.dispositionId}`}
       title={disposition.name}
-      style={this.styles.selectableDisposition}
     >
       <Checkbox
         id={`${disposition.dispositionId}-checkbox`}
         text={disposition.name}
         checked={false}
         cb={() => this.selectDisposition(disposition.dispositionId)}
-        style={{ width: '100%', alignItems: 'center' }}
+        style={{ alignItems: 'center' }}
         disabled={this.state.loadingDisposition}
       />
     </div>

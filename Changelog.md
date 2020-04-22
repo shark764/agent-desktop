@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.47.13] (2020-04-22)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.13/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.13/index.html)
+### Changed
+* CXV1-14400 - Disposition Window is a Fixed Size in Skylight
+
 ## [1.47.12] (2020-04-21)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.12/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.12/index.html)
