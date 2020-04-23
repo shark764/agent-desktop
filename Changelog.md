@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.47.14] (2020-04-22)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.14/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.14/index.html)
+### Changed
+* CXV1-21890 - Disposition list does not match sort order
+
 ## [1.47.13] (2020-04-22)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.13/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.13/index.html)
