@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.47.15] (2020-04-23)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.15/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.15/index.html)
+### Changed
+* CXV1-17598 - Transfer menu is not displayed correctly when confirm hang up layer is active
+* Fixed Dialpad menu not displayed correctly when confirm hang up layer is active
+
 ## [1.47.14] (2020-04-22)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.14/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.14/index.html)

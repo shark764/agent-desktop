@@ -90,7 +90,7 @@ exports[`<Transfer /> with canTransfer and false connectingTransfers with showTr
             "overflow": "hidden",
             "position": "absolute",
             "width": "282px",
-            "zIndex": 3,
+            "zIndex": 11,
           },
           Object {
             "borderRadius": 0,
@@ -165,7 +165,7 @@ exports[`<Transfer /> with canTransfer and false connectingTransfers with showTr
                 "overflow": "hidden",
                 "position": "absolute",
                 "width": "282px",
-                "zIndex": 3,
+                "zIndex": 11,
               },
               undefined,
             ]

@@ -44,7 +44,7 @@ const styles = {
     borderRadius: '3px',
     overflow: 'hidden',
     position: 'absolute',
-    zIndex: 3,
+    zIndex: 11,
     fontSize: '14px',
     left: '-119px',
   },
@@ -66,7 +66,7 @@ export class Transfer extends React.PureComponent {
     };
   }
 
-  setShowTransferMenu = (showTransferMenu) => {
+  setShowTransferMenu = showTransferMenu => {
     this.setState({
       showTransferMenu,
     });
@@ -86,7 +86,7 @@ export class Transfer extends React.PureComponent {
     this.setShowTransferMenu(false);
   };
 
-  renderTransferMenuTypes = (forIcon) => {
+  renderTransferMenuTypes = forIcon => {
     if (this.state.showTransferMenu) {
       if (forIcon && this.context.toolbarMode) {
         return <div style={styles.topTriangle} />;
@@ -164,7 +164,4 @@ export const actions = {
   updateQueues,
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(Radium(Transfer));
+export default connect(mapStateToProps, actions)(Radium(Transfer));

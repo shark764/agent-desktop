@@ -45,7 +45,7 @@ exports[`<Dialpad /> when given required props should render correctly 1`] = `
           "position": "absolute",
           "top": "52px",
           "width": "282px",
-          "zIndex": 3,
+          "zIndex": 11,
         },
         Object {
           "left": "-110px",
@@ -239,7 +239,7 @@ exports[`<Dialpad /> when inCall prop set to true should render correctly 1`] = 
           "position": "absolute",
           "top": "52px",
           "width": "282px",
-          "zIndex": 3,
+          "zIndex": 11,
         },
         Object {
           "left": "-110px",
@@ -433,7 +433,7 @@ exports[`<Dialpad /> when interactionId is set should render everything except t
           "position": "absolute",
           "top": "52px",
           "width": "282px",
-          "zIndex": 3,
+          "zIndex": 11,
         },
         Object {
           "left": "-110px",

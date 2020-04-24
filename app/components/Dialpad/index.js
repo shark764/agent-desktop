@@ -59,7 +59,7 @@ const styles = {
     position: 'absolute',
     top: '52px',
     left: '-110px',
-    zIndex: 3,
+    zIndex: 11,
     padding: '25px 20px 20px',
   },
   outboundAniDiv: {
@@ -170,8 +170,7 @@ export function Dialpad(props, context) {
         ]}
       >
         <div id={props.id} style={{ zIndex: '4' }}>
-          {!props.interactionId &&
-            !props.transfer && (
+          {!props.interactionId && !props.transfer && (
             <div style={styles.outboundAniDiv}>
               <OutboundAniSelect
                 channelTypes={['voice']}
@@ -309,8 +308,5 @@ const mapStateToProps = (state, props) => ({
 });
 
 export default ErrorBoundary(
-  connect(
-    mapStateToProps,
-    actions
-  )(Radium(Dialpad))
+  connect(mapStateToProps, actions)(Radium(Dialpad))
 );
