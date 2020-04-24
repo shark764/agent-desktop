@@ -191,16 +191,20 @@ export function* goHandleSDKError(action) {
   }
 
   if (
-    (error.code === 6007 || error.code === 6010) &&
+    (error.code === 6007 || error.code === 6010 || error.code === 4003) &&
     (topic === 'cxengage/interactions/smooch-messaging/message-received' ||
       topic === 'cxengage/interactions/smooch-messaging/attachment-sent')
   ) {
-    yield put(
-      removeSmoochPendingMessage(
-        error.data.interactionId,
-        error.data.agentMessageId
-      )
-    );
+    if (error.code === 4003) {
+      yield put(removeInteractionHard(error.data.interactionId));
+    } else {
+      yield put(
+        removeSmoochPendingMessage(
+          error.data.interactionId,
+          error.data.agentMessageId
+        )
+      );
+    }
   }
 
   // Error Banner Notifications

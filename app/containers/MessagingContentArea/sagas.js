@@ -195,29 +195,33 @@ Date: ${new Date().toLocaleString()}
 }
 
 export function* doHandleSendSmoochMessage({ interactionId, message }) {
-  const agent = yield select(selectAgent);
-  const agentMessageId = generateUUID();
-  yield put(
-    addSmoochPendingMessage(interactionId, {
-      agentMessageId,
-      ...message,
-      type: 'agent',
-      from: `${agent.firstName} ${agent.lastName}`,
-      resourceId: agent.userId,
-      pending: true,
-      timestamp: Date.now(),
-    })
-  );
-  yield call(
-    sdkCallToPromise,
-    CxEngage.interactions.smoochMessaging.sendMessage,
-    {
-      interactionId,
-      message: message.text,
-      agentMessageId,
-    },
-    'MessagingContentArea'
-  );
+  try {
+    const agent = yield select(selectAgent);
+    const agentMessageId = generateUUID();
+    yield put(
+      addSmoochPendingMessage(interactionId, {
+        agentMessageId,
+        ...message,
+        type: 'agent',
+        from: `${agent.firstName} ${agent.lastName}`,
+        resourceId: agent.userId,
+        pending: true,
+        timestamp: Date.now(),
+      })
+    );
+    yield call(
+      sdkCallToPromise,
+      CxEngage.interactions.smoochMessaging.sendMessage,
+      {
+        interactionId,
+        message: message.text,
+        agentMessageId,
+      },
+      'MessagingContentArea'
+    );
+  } catch (error) {
+    console.error(error); // TODO
+  }
 }
 
 // Individual exports for testing

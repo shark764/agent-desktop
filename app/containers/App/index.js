@@ -1062,10 +1062,20 @@ export class App extends React.Component {
             }
 
             if (isSmooch) {
-              this.props.addSmoochMessage(
-                response.interactionId,
-                response.message
-              );
+              if (
+                response.message.text === 'INTERACTION_NOT_FOUND_ERROR' &&
+                response.message.type === 'system' &&
+                this.props.agentDesktop.selectedInteractionId ===
+                  response.interactionId
+              ) {
+                this.props.setNonCriticalError({ code: 'interactionFailed' });
+                this.props.removeInteraction(response.interactionId);
+              } else {
+                this.props.addSmoochMessage(
+                  response.interactionId,
+                  response.message
+                );
+              }
             } else {
               this.props.addMessage(
                 response.to,
@@ -1801,6 +1811,12 @@ export class App extends React.Component {
         errorInfo,
         this.props.intl.formatMessage
       );
+      if (errorInfo.code === 'interactionFailed') {
+        errorDescriptionMessage = errorDescriptionMessage.replace(
+          'interactionFailed',
+          '4003'
+        );
+      }
     }
 
     if (this.props.criticalError) {
