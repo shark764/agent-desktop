@@ -9,11 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.47.17] (2020-04-24)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.17/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.17/index.html)
+### Changed
+* CXV1-16110 - Dial-Pad in transfer button doesn't scale properly
+
 ## [1.47.16] (2020-04-24)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.16/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.16/index.html)
 ### Changed
 * CXV1-21938 Agent can send message to dead interaction and customer will receive it after starting a new one
+* CXV1-16110 - Dial-Pad in transfer button doesn't scale properly.
 
 ## [1.47.15] (2020-04-23)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.15/index.html)  

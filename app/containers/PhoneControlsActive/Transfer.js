@@ -42,7 +42,7 @@ const styles = {
     color: '#4B4B4B',
     boxShadow: '0 0 6px 0 rgba(0,0,0,0.23)',
     borderRadius: '3px',
-    overflow: 'hidden',
+    overflow: 'auto',
     position: 'absolute',
     zIndex: 11,
     fontSize: '14px',
@@ -164,4 +164,7 @@ export const actions = {
   updateQueues,
 };
 
-export default connect(mapStateToProps, actions)(Radium(Transfer));
+export default connect(
+  mapStateToProps,
+  actions
+)(Radium(Transfer));
