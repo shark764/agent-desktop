@@ -91,7 +91,7 @@ export class InteractionsBar extends React.Component {
     },
   };
 
-  focusInteraction = (interaction) => {
+  focusInteraction = interaction => {
     if (
       this.props.crmModule === 'zendesk' &&
       interaction.contact &&
@@ -119,12 +119,12 @@ export class InteractionsBar extends React.Component {
     }
   };
 
-  acceptInteraction = (interactionId) => {
+  acceptInteraction = interactionId => {
     if (this.context.toolbarMode && this.props.selectHasOnlyOneInteraction) {
       this.props.hideInteractionsBar();
     }
     const interaction = this.props.pendingInteractions.find(
-      (availableInteraction) =>
+      availableInteraction =>
         availableInteraction.interactionId === interactionId
     );
     this.props.setInteractionStatus(interactionId, 'work-accepting');
@@ -316,7 +316,7 @@ export class InteractionsBar extends React.Component {
     );
 
     const activeNonVoiceInteractions = this.props.activeNonVoiceInteractions.map(
-      (activeInteraction) => {
+      activeInteraction => {
         let from;
         let text;
         if (
@@ -334,6 +334,8 @@ export class InteractionsBar extends React.Component {
           );
           if (lastMessageFromThisInteraction) {
             ({ text } = lastMessageFromThisInteraction);
+          } else if (activeInteraction.direction === 'agent-initiated') {
+            text = this.props.intl.formatMessage(messages.newInteraction);
           } else {
             text = this.props.intl.formatMessage(messages.retrievingMessages);
           }
@@ -428,11 +430,14 @@ export class InteractionsBar extends React.Component {
     );
 
     const pendingInteractions = this.props.pendingInteractions.map(
-      (pendingInteraction) => {
+      pendingInteraction => {
         let from;
         let text;
         let contactPoint;
-        if (pendingInteraction.channelType === 'email' || pendingInteraction.source === 'smooch') {
+        if (
+          pendingInteraction.channelType === 'email' ||
+          pendingInteraction.source === 'smooch'
+        ) {
           from = pendingInteraction.customer;
         } else if (
           pendingInteraction.channelType === 'messaging' ||
@@ -522,7 +527,7 @@ export class InteractionsBar extends React.Component {
           </div>
         )}
         <div
-          ref={(interactionsScrollContainer) => {
+          ref={interactionsScrollContainer => {
             this.interactionsScrollContainer = interactionsScrollContainer;
           }}
           style={{
@@ -643,15 +648,15 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    openNewInteractionPanel: (isSidePanelCollapsed) =>
+    openNewInteractionPanel: isSidePanelCollapsed =>
       dispatch(openNewInteractionPanel(isSidePanelCollapsed)),
     setInteractionStatus: (interactionId, newStatus, response) =>
       dispatch(setInteractionStatus(interactionId, newStatus, response)),
     selectSidePanelTab: (interactionId, tabName) =>
       dispatch(selectSidePanelTab(interactionId, tabName)),
-    selectInteraction: (interactionId) =>
+    selectInteraction: interactionId =>
       dispatch(selectInteraction(interactionId)),
-    showSidePanel: (interactionId) => dispatch(showSidePanel(interactionId)),
+    showSidePanel: interactionId => dispatch(showSidePanel(interactionId)),
     hideInteractionsBar: () => dispatch(hideInteractionsBar()),
     dispatch,
   };

@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.47.18] (2020-04-27)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.18/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.18/index.html)
+### Changed
+* CXV1-16605 - "Retrieving messages..." on outbound SMS interactions in desktop mode
+
 ## [1.47.17] (2020-04-24)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.17/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.17/index.html)
