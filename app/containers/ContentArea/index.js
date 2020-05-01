@@ -89,7 +89,7 @@ export class ContentArea extends React.Component {
   updateDimensions = () => {
     const height = this.contenAreaTopPx.clientHeight;
     const heightWin = window.innerHeight;
-    const newMaxPx = Math.round(heightWin - height - 135);
+    const newMaxPx = Math.round(heightWin - height - 230);
     this.setState(prevState => ({
       maxPx: newMaxPx,
       notesPanelHeight:
@@ -726,9 +726,7 @@ export class ContentArea extends React.Component {
         });
       } else {
         console.error(
-          `Cannot unassign contact of type: ${
-            this.props.interaction.contact.type
-          }`
+          `Cannot unassign contact of type: ${this.props.interaction.contact.type}`
         );
       }
     }
@@ -965,9 +963,7 @@ export class ContentArea extends React.Component {
                         descriptionMessage += ` (Code: ${code})`;
                       }
                       if (data && data.errorDescription) {
-                        descriptionMessage += ` Error Description: ${
-                          data.errorDescription
-                        }`;
+                        descriptionMessage += ` Error Description: ${data.errorDescription}`;
                       }
                     }
                     return (
@@ -1027,7 +1023,7 @@ export class ContentArea extends React.Component {
                 disabledPx={50}
                 px={this.state.notesPanelHeight}
                 maxPx={this.state.maxPx}
-                minPx={125}
+                minPx={135}
                 isDisabled={false}
                 crmModule={this.props.crmModule}
               >
@@ -1098,10 +1094,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default ErrorBoundary(
-  injectIntl(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(Radium(ContentArea))
-  )
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContentArea)))
 );

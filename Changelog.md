@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.47.19] (2020-04-30)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.19/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.19/index.html)
+### Changed
+* CXV1-13508 - Skylight - Notes text box can be dragged up and makes it cover other elements
+
 ## [1.47.18] (2020-04-27)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.18/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.18/index.html)
