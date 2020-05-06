@@ -49,6 +49,7 @@ import {
   selectInterAssigAllTransListsVisibleSt,
   getIsConversationUnread,
   selectTotalWrapUpTime,
+  interactionsInWrapup,
 } from './selectors';
 import {
   setContactMode,
@@ -849,6 +850,35 @@ export function* setAwaitingDisposition() {
   yield takeEvery(SET_AWAITING_DISPOSITION_$, doSetAwaitingDisposition);
 }
 
+export function* terminateWrapupInteractions() {
+  while (true) {
+    const wrapedInteractios = yield select(interactionsInWrapup);
+    if (wrapedInteractios) {
+      for (const interaction of wrapedInteractios) {
+        const ageSeconds = Math.round(
+          (Date.now() - interaction.wrapupStarted) / 1000
+        );
+        const awaitingDisposition = (interaction.dispositionDetails &&
+                                           interaction.dispositionDetails.forceSelect &&
+                                           interaction.dispositionDetails.selected.length === 0);
+        const awaitingScript = (interaction.script !== undefined && !interaction.script.autoScriptDismiss);
+        if (interaction.status === 'wrapup' &&
+                  ageSeconds > interaction.wrapupDetails.wrapupTime &&
+                  !awaitingDisposition &&
+                  !awaitingScript) {
+          yield call (
+            sdkCallToPromise,
+            CxEngage.interactions.endWrapup,
+            {interactionId: interaction.interactionId},
+            'AgentDesktop'
+          );
+        }
+      }
+    }
+    yield delay(1000);
+  }
+}
+
 // All sagas to be loaded
 export default [
   historicalInteractionBody,
@@ -865,4 +895,5 @@ export default [
   setConversationRead,
   handleNewSmoochMessage,
   setAwaitingDisposition,
+  terminateWrapupInteractions,
 ];

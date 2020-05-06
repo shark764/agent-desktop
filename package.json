@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.47.19",
+  "version": "1.47.20",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -147,6 +147,7 @@
       "no-return-await": 0,
       "no-await-in-loop": 0,
       "no-multi-assign": 0,
+      "no-restricted-syntax": 0,
       "import/imports-first": 0,
       "import/newline-after-import": 0,
       "import/no-dynamic-require": 0,

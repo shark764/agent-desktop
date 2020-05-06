@@ -210,17 +210,6 @@ export class Interaction extends React.Component {
           const ageSeconds = Math.round(
             (Date.now() - prevState.startTime) / 1000
           );
-          if (
-            this.props.status === 'wrapup' &&
-            ageSeconds > this.props.wrapupTime &&
-            !this.awaitingDisposition(this.props.interaction) &&
-            !this.awaitingScript(this.props.interaction)
-          ) {
-            CxEngage.interactions.endWrapup({
-              interactionId: this.props.interaction.interactionId,
-            });
-            clearInterval(prevState.msIntervalId);
-          }
           return { ageSeconds };
         });
       }, 1000),

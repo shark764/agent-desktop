@@ -312,6 +312,17 @@ const areInteractionsInWrapup = createSelector(
   }
 );
 
+const interactionsInWrapup = createSelector(
+  [selectInteractionsList],
+  interactions => {
+    const interactionArrayWrapup = interactions.toJS();
+    const wasFoundWrapup = interactionArrayWrapup.filter(
+      interaction => interaction.status === 'wrapup'
+    );
+    return wasFoundWrapup;
+  }
+);
+
 export const getUriObject = state => selectNewInteractionPanel(state).uriObject;
 
 const selectVoiceInteraction = createSelector(
@@ -472,6 +483,7 @@ export {
   selectNextInteraction,
   selectHasUnrespondedInteractions,
   areInteractionsInWrapup,
+  interactionsInWrapup,
   selectVoiceInteraction,
   selectVoiceFlowTransLists,
   selectNonVoiceFlowTransLists,

@@ -12,6 +12,7 @@ import {
   callTransferListsFromFlowAndUpdateState,
   changeInteractionTransferListVisibleState,
   updateVisibleStateofAllFlowTransferLists,
+  terminateWrapupInteractions,
 } from 'containers/AgentDesktop/sagas';
 jest.mock('utils/uuid', () => ({
   generateUUID: jest.fn(() => 'mock-uuid'),
@@ -856,5 +857,46 @@ describe('updateVisibleStateofAllFlowTransferLists', () => {
   });
   it('updates localStorage with visibleStateOfAllFlowTransferLists set to false', () => {
     expect(mockSetItem.mock.calls).toMatchSnapshot();
+  });
+});
+
+describe('terminateWrapupInteractions', () => {
+  const interaction = [{
+    status: 'wrapup',
+    interactionId: 'interactionId',
+    wrapupStarted: 1588687996666,
+    dispositionDetails: {
+      forceSelect: true,
+      selected: ['disposition'],
+    },
+    script: {
+      autoScriptDismiss: true,
+    },
+    wrapupDetails: {
+      wrapupUpdateAllowed: true,
+      wrapupEnabled: true,
+      wrapupTime: '15',
+      targetWrapupTime: '5',
+    },
+  }];
+  beforeEach(() => {
+    global.CxEngage = {
+      interactions: {
+        endWrapup: jest.fn(),
+      },
+    };
+  });
+  const generator = terminateWrapupInteractions();
+  it('selects interactions in wrapup', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('calls endWrapup in the SDK', () => {
+    expect(generator.next(interaction)).toMatchSnapshot();
+  });
+  it('waits a second', () => {
+    expect(generator.next()).toMatchSnapshot();
+  });
+  it('loops infinitely', () => {
+    expect(generator.next().done).toBe(false);
   });
 });

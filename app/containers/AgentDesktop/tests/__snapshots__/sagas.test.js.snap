@@ -1871,6 +1871,48 @@ Object {
 }
 `;
 
+exports[`terminateWrapupInteractions calls endWrapup in the SDK 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "CALL": Object {
+      "args": Array [
+        [MockFunction],
+        Object {
+          "interactionId": "interactionId",
+        },
+        "AgentDesktop",
+      ],
+      "context": null,
+      "fn": [Function],
+    },
+  },
+}
+`;
+
+exports[`terminateWrapupInteractions selects interactions in wrapup 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`terminateWrapupInteractions waits a second 1`] = `
+Object {
+  "done": false,
+  "value": Promise {
+    "@@redux-saga/CANCEL_PROMISE": [Function],
+  },
+}
+`;
+
 exports[`updateVisibleStateofAllFlowTransferLists selects tenant-id, agent-id and previous transferListVisibleState 1`] = `
 Object {
   "done": false,

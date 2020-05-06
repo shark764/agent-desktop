@@ -551,12 +551,12 @@ export class ContactInteractionHistoryItem extends React.Component {
           </div>
           <div>
             <FormattedMessage {...messages.channelType} />
-            :
+            :&nbsp;
             {channelType}
           </div>
           <div>
             <FormattedMessage {...messages.queue} />
-            :
+            :&nbsp;
             {queueName}
           </div>
           {interaction.csat && (
