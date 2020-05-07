@@ -54,6 +54,7 @@
   "app.containers.AgentStatusMenu.inbound": "Entrante",
   "app.containers.AgentStatusMenu.logout": "Cerrar sesión",
   "app.containers.AgentStatusMenu.logoutBtnText": "Cerrar sesión",
+  "app.containers.AgentStatusMenu.logoutAlert": "",
   "app.containers.AgentStatusMenu.mode": "Modo",
   "app.containers.AgentStatusMenu.notReady": "No preparado",
   "app.containers.AgentStatusMenu.outbound": "Saliente",

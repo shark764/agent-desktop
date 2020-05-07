@@ -54,6 +54,7 @@
   "app.containers.AgentStatusMenu.inbound": "Entrant",
   "app.containers.AgentStatusMenu.logout": "Se déconnecter",
   "app.containers.AgentStatusMenu.logoutBtnText": "Se déconnecter",
+  "app.containers.AgentStatusMenu.logoutAlert": "",
   "app.containers.AgentStatusMenu.mode": "Mode",
   "app.containers.AgentStatusMenu.notReady": "Non prêt",
   "app.containers.AgentStatusMenu.outbound": "Sortant",

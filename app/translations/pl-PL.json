@@ -54,6 +54,7 @@
   "app.containers.AgentStatusMenu.inbound": "Wejściowe",
   "app.containers.AgentStatusMenu.logout": "Wyloguj",
   "app.containers.AgentStatusMenu.logoutBtnText": "Wyloguj",
+  "app.containers.AgentStatusMenu.logoutAlert": "",
   "app.containers.AgentStatusMenu.mode": "Tryb",
   "app.containers.AgentStatusMenu.notReady": "Brak gotowości",
   "app.containers.AgentStatusMenu.outbound": "Wyjściowe",
