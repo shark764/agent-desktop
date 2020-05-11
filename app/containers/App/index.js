@@ -219,6 +219,12 @@ export class App extends React.Component {
     }
 
     window.addEventListener('beforeunload', e => {
+      if (window.opener) {
+        window.opener.postMessage(
+          { error: null, topic: 'skylight/closed' },
+          '*'
+        );
+      }
       if (this.props.agentDesktop.interactions.length) {
         e.returnValue = true;
       }
@@ -424,7 +430,37 @@ export class App extends React.Component {
       }
     };
 
+    window.addEventListener('message', event => {
+      if (event && event.data && event.data.skylightController) {
+        console.log('skylightController event', event.data);
+        if (event.data.command === 'dumpState') {
+          const sdkState = CxEngage.dumpState();
+          window.opener.postMessage(
+            {
+              error: null,
+              topic: 'cxengage/state',
+              response: {
+                interactions: sdkState.interactions,
+                session: sdkState.session,
+                user: sdkState.user,
+              },
+            },
+            '*'
+          );
+        } else {
+          CxEngage[event.data.module][event.data.command](event.data.data);
+        }
+      }
+    });
+
+    if (window.opener) {
+      window.opener.postMessage({ error: null, topic: 'skylight/loaded' }, '*');
+    }
+
     CxEngage.subscribe('cxengage', (error, topic, response) => {
+      if (window.opener) {
+        window.opener.postMessage({ error, topic, response }, '*');
+      }
       if (error) {
         this.props.handleSDKError(error, topic);
       } else {

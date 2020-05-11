@@ -1,0 +1,118 @@
+<html>
+  <body>
+    <h2>Desktop CSR</h2>
+    
+    <button onclick="initSkylight()">Open Skylight</button>
+    <button onclick="login()">Login</button>
+    <button onclick="loginWithSso()">Login with SSO</button>
+    <button onclick="goReady()">Go Ready</button>
+    <button onclick="goNotReady()">Go Not Ready</button>
+    <button onclick="endWrapup()">End Wrapup</button>
+    <button onclick="dumpState()">Dump State</button>
+    <button onclick="logout()">Logout</button>
+
+    <script>
+
+      let extensionValue, reasonInfo, interactionId;
+
+      window.addEventListener('message', event => {
+        const data = event.data;
+        console.log(data.topic, data.error, data.response);
+          
+        if (data.topic === 'cxengage/session/config-details') {
+          extensionValue = data.response.extensions[0].value;
+          const reasonList = data.response.reasonLists[0];
+          const reason = reasonList.reasons[0];
+          reasonInfo = {
+            reason: reason.name,
+            reasonId: reason.reasonId,
+            reasonListId: reasonList.id
+          };
+        } else if (data.topic === 'cxengage/interactions/work-accepted-received') {
+          interactionId = data.response.interactionId;
+        } else if (data.topic === 'cxengage/session/ended') {
+          skylight.close();
+        }
+      });
+
+      let skylight;
+      
+      function initSkylight() {
+        skylight = window.open('http://localhost:3003/?standalonePopup=true', 'skylight', 'width=400,height=800');
+      }
+
+      function login() {
+        skylight.postMessage({
+          skylightController: true,
+          module: 'authentication',
+          command: 'login',
+          data: {
+            // Auth could be brought in from internal CSR system?
+            username: 'jclowater@serenova.com',
+            password: '******'
+          }
+        }, '*');
+      }
+
+      function loginWithSso() {
+        skylight.postMessage({
+          skylightController: true,
+          module: 'authentication',
+          command: 'getAuthInfo',
+          data: {
+            // username could be brought in from internal CSR system?
+            username: 'jclowater@serenova.com'
+          }
+        }, '*');
+      }
+
+      function goReady() {
+        skylight.postMessage({
+          skylightController: true,
+          module: 'session',
+          command: 'goReady',
+          data: {
+            extensionValue
+          }
+        }, '*');
+      }
+
+      function goNotReady() {
+        skylight.postMessage({
+          skylightController: true,
+          module: 'session',
+          command: 'goNotReady',
+          data:  {
+            reasonInfo
+          }
+        }, '*');
+      }
+
+      function endWrapup() {
+        skylight.postMessage({
+          skylightController: true,
+          module: 'interactions',
+          command: 'endWrapup',
+          data:  {
+            interactionId
+          }
+        }, '*');
+      }
+
+      function dumpState() {
+        skylight.postMessage({
+          skylightController: true,
+          command: 'dumpState'
+        }, '*');
+      }
+
+      function logout() {
+        skylight.postMessage({
+          skylightController: true,
+          module: 'authentication',
+          command: 'logout'
+        }, '*');
+      }
+    </script>
+  </body>
+</html>

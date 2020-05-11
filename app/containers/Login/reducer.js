@@ -37,7 +37,10 @@ function loginReducer(state = initialState, action) {
     case ACTIONS.ERROR_OCCURRED:
       return state.set('loading', false);
     case ACTIONS.LOGIN_SUCCESS:
-      return state.set('agent', fromJS(action.agent)).set('logged_in', true);
+      return state
+        .set('agent', fromJS(action.agent))
+        .set('logged_in', true)
+        .set('authMethod', action.authMethod);
     case ACTIONS.SET_ACCOUNT_TENANTS:
       return state.setIn(['agent', 'accountTenants'], action.tenants);
     case ACTIONS.SET_TENANT:

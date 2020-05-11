@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.48.0] (2020-05-07)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.0/index.html)
+### Added
+* CXV1-22431 - `postMessage` functionality for 2-way communication between SDK and parent window
+
 ## [1.47.21] (2020-05-05)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.21/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.21/index.html)

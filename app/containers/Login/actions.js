@@ -29,10 +29,11 @@ export function errorOccurred() {
   };
 }
 
-export function loginSuccess(agent) {
+export function loginSuccess(agent, authMethod) {
   return {
     type: ACTIONS.LOGIN_SUCCESS,
     agent,
+    authMethod,
   };
 }
 

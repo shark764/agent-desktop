@@ -291,29 +291,40 @@ export class Login extends React.Component {
   componentDidMount() {
     // Login Logic
     const waitingOnSdk = setInterval(() => {
-      // if we are re-logging in after an expired session, then skip the entire
-      // reauth user flow and just log the user in
-      if (
-        this.isReauthFromExpiredSession() ||
-        this.isDeepLinkAuthentication()
-      ) {
-        if (
-          (this.state.expiredSessionReauth.isSso === true ||
-            this.isDeepLinkAuthentication()) &&
-          this.props.displayState === SSO_LOGIN
-        ) {
-          this.loginWithSso();
-        } else {
-          this.props.showLoginPopup({
-            showLoginPopup: true,
-          });
-        }
-      }
-
       if (CxEngage.subscribe) {
+        // if we are re-logging in after an expired session, then skip the entire
+        // reauth user flow and just log the user in
+        if (
+          this.isReauthFromExpiredSession() ||
+          this.isDeepLinkAuthentication()
+        ) {
+          if (
+            (this.state.expiredSessionReauth.isSso === true ||
+              this.isDeepLinkAuthentication()) &&
+            this.props.displayState === SSO_LOGIN
+          ) {
+            this.loginWithSso();
+          } else {
+            this.props.showLoginPopup({
+              showLoginPopup: true,
+            });
+          }
+        }
+
         CxEngage.subscribe(
           'cxengage/authentication',
           (error, topic, response) => {
+            if (
+              topic === 'cxengage/authentication/login-response' &&
+              !error &&
+              response &&
+              response.auth === 'username'
+            ) {
+              this.props.dismissError();
+              console.log('[Login] CxEngage.subscribe()', topic, response);
+              this.loginCB(response, 'password');
+              return;
+            }
             if (error) {
               this.props.setLoading(false);
               // Handled in App
@@ -340,7 +351,7 @@ export class Login extends React.Component {
                           const agentData = Object.assign({}, cbResponse, {
                             isSso: true,
                           });
-                          this.loginCB(agentData);
+                          this.loginCB(agentData, 'sso');
                         } else {
                           this.props.errorOccurred();
                         }
@@ -484,12 +495,8 @@ export class Login extends React.Component {
     if (username !== 'OWXLHTYHTKMXUFYOLDUMUXWNSJNJPUSFHHKYBMTMGZTFOBJEPV') {
       CxEngage.authentication.login(
         this.setLoginParams(loginCredentials),
-        (error, topic, response) => {
-          if (!error) {
-            this.props.dismissError();
-            console.log('[Login] CxEngage.subscribe()', topic, response);
-            this.loginCB(response);
-          } else {
+        error => {
+          if (error) {
             this.setState({
               expiredSessionReauth: {},
             });
@@ -504,7 +511,7 @@ export class Login extends React.Component {
     }
   };
 
-  loginCB = agent => {
+  loginCB = (agent, authMethod) => {
     CxEngage.session.getTenantDetails((error, topic, response) => {
       if (!error) {
         console.log(
@@ -586,7 +593,7 @@ export class Login extends React.Component {
       }
     });
 
-    this.props.loginSuccess(agent);
+    this.props.loginSuccess(agent, authMethod);
   };
 
   onTenantSelect = () => {
@@ -881,7 +888,7 @@ export class Login extends React.Component {
       return !(
         targetTenant &&
         !!targetTenant.password &&
-        !!this.state.password
+        this.props.authMethod === 'password'
       );
     }
   };
@@ -1312,7 +1319,8 @@ function mapDispatchToProps(dispatch) {
     setInitiatedStandalonePopup: () => dispatch(setInitiatedStandalonePopup()),
     resetPassword: email => dispatch(resetPassword(email)),
     setLoading: loading => dispatch(setLoading(loading)),
-    loginSuccess: agent => dispatch(loginSuccess(agent)),
+    loginSuccess: (agent, authMethod) =>
+      dispatch(loginSuccess(agent, authMethod)),
     setAccountTenants: tenants => dispatch(setAccountTenants(tenants)),
     errorOccurred: () => dispatch(errorOccurred()),
     setTenant: (id, name) => dispatch(setTenant(id, name)),
@@ -1345,6 +1353,7 @@ Login.propTypes = {
   displayState: PropTypes.string,
   loading: PropTypes.bool,
   logged_in: PropTypes.bool,
+  authMethod: PropTypes.string,
   agent: PropTypes.object,
   changeLocale: PropTypes.func,
   locale: PropTypes.string,
