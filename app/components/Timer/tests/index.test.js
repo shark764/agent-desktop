@@ -17,16 +17,14 @@ describe('<Timer />', () => {
     });
   });
 
-  describe('timeSince is not defined', () => {
-    const timer = shallow(<Timer timer={{ tick: 5 }} />);
-    it('uses the tick from the timer', () => {
-      expect(timer).toMatchSnapshot();
-    });
-  });
-
   describe('format and style passed in', () => {
     const timer = shallow(
-      <Timer format="mm:ss" timer={{ tick: 5 }} style={{ float: 'right' }} />
+      <Timer
+        timeSince={1000}
+        format="mm:ss"
+        timer={{ timestamp: 1000 }}
+        style={{ float: 'right' }}
+      />
     );
     it('is used to format the time and style the component', () => {
       expect(timer).toMatchSnapshot();

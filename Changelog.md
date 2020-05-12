@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.48.1] (2020-05-12)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.1/index.html)
+### Changed
+* CXV1-14604 - Time in Skylight drifts
+
 ## [1.48.0] (2020-05-07)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.0/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.0/index.html)

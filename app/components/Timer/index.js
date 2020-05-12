@@ -10,23 +10,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import timer from 'react-timer-hoc';
+import timerHOC from 'react-timer-hoc';
 import moment from 'moment';
 
-export function Timer(props) {
-  let { format } = props;
-  if (!props.format) {
-    format = 'HH:mm:ss';
-  }
-  let duration;
-  if (props.timeSince !== undefined) {
-    duration = props.timer.timestamp - props.timeSince;
-  } else {
-    duration = props.timer.tick * 1000;
-  }
-  const time = moment.duration(duration);
+export function Timer({ format = 'HH:mm:ss', timer, timeSince, style }) {
+  const time = moment.duration(timer.timestamp - timeSince);
   return (
-    <span style={props.style}>
+    <span style={style}>
       {moment.utc(time.asMilliseconds()).format(format)}
     </span>
   );
@@ -34,9 +24,9 @@ export function Timer(props) {
 
 Timer.propTypes = {
   timer: PropTypes.object.isRequired,
-  timeSince: PropTypes.number,
+  timeSince: PropTypes.number.isRequired,
   format: PropTypes.string,
   style: PropTypes.object,
 };
 
-export default timer(1000)(Timer);
+export default timerHOC(1000)(Timer);

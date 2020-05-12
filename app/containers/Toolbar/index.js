@@ -162,14 +162,25 @@ export class Toolbar extends React.Component {
       showConfigMenu: false,
       isStatusButtonHovered: false,
       isConfigButtonHovered: false,
+      agentTimerStartTime: Date.now(),
     };
   }
 
-  setStatusButtonHovered = (isStatusButtonHovered) => {
+  getSnapshotBeforeUpdate({ hasInteractions, selectedPresenceReason }) {
+    if (
+      hasInteractions !== this.props.hasInteractions ||
+      selectedPresenceReason.reason !== this.props.selectedPresenceReason.reason
+    ) {
+      this.setState({ agentTimerStartTime: Date.now() });
+    }
+    return null;
+  }
+
+  setStatusButtonHovered = isStatusButtonHovered => {
     this.setState({ isStatusButtonHovered });
   };
 
-  setConfigButtonHovered = (isConfigButtonHovered) => {
+  setConfigButtonHovered = isConfigButtonHovered => {
     this.setState({ isConfigButtonHovered });
   };
 
@@ -179,16 +190,6 @@ export class Toolbar extends React.Component {
 
   showConfigMenu = (show = true) => {
     this.setState({ showConfigMenu: show });
-  };
-
-  resetAgentTimer = () => {
-    if (this.props.selectedPresenceReason.reason) {
-      return `Presence Timer - ${this.props.selectedPresenceReason.reason}`;
-    } else if (this.props.hasInteractions) {
-      return 'Work Allocated Timer';
-    } else {
-      return 'Idle Timer';
-    }
   };
 
   notReadyText = () => {
@@ -312,7 +313,8 @@ export class Toolbar extends React.Component {
                   >
                     <Timer
                       id="agent-timer-count"
-                      key={this.resetAgentTimer()}
+                      key={this.state.agentTimerStartTime}
+                      timeSince={this.state.agentTimerStartTime}
                     />
                   </span>
                 </div>
@@ -364,10 +366,10 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    toggleAgentMenu: (show) => dispatch(toggleAgentMenu(show)),
+    toggleAgentMenu: show => dispatch(toggleAgentMenu(show)),
     updateUserAssignedTransferLists: () =>
       dispatch(updateUserAssignedTransferLists()),
-    updateQueues: (refreshQueues) => dispatch(updateQueues(refreshQueues)),
+    updateQueues: refreshQueues => dispatch(updateQueues(refreshQueues)),
     dispatch,
   };
 }
