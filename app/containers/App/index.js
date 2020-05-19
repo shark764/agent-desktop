@@ -219,10 +219,10 @@ export class App extends React.Component {
     }
 
     window.addEventListener('beforeunload', e => {
-      if (window.opener) {
+      if (window.opener && this.targetOrigin) {
         window.opener.postMessage(
           { error: null, topic: 'skylight/closed' },
-          '*'
+          this.targetOrigin
         );
       }
       if (this.props.agentDesktop.interactions.length) {
@@ -242,6 +242,8 @@ export class App extends React.Component {
       Notification.requestPermission();
     }
   }
+
+  targetOrigin;
 
   setOnlineStatus = () => {
     if (!navigator.onLine) {
@@ -430,36 +432,103 @@ export class App extends React.Component {
       }
     };
 
-    window.addEventListener('message', event => {
-      if (event && event.data && event.data.skylightController) {
-        console.log('skylightController event', event.data);
-        if (event.data.command === 'dumpState') {
-          const sdkState = CxEngage.dumpState();
-          window.opener.postMessage(
-            {
-              error: null,
-              topic: 'cxengage/state',
-              response: {
-                interactions: sdkState.interactions,
-                session: sdkState.session,
-                user: sdkState.user,
-              },
-            },
-            '*'
-          );
-        } else {
-          CxEngage[event.data.module][event.data.command](event.data.data);
-        }
-      }
-    });
+    let skylightController;
+    if (window.URL) {
+      skylightController = new window.URL(
+        window.location.href
+      ).searchParams.get('skylightController');
+    } else {
+      skylightController = new URL(window.location.href).searchParams.get(
+        'skylightController'
+      );
+    }
 
-    if (window.opener) {
-      window.opener.postMessage({ error: null, topic: 'skylight/loaded' }, '*');
+    if (skylightController) {
+      console.log('skylightController set', skylightController);
+      window.addEventListener('message', event => {
+        if (
+          event &&
+          event.data &&
+          event.data.skylightController &&
+          event.data.controllerInit
+        ) {
+          if (!this.targetOrigin) {
+            this.targetOrigin = event.origin;
+            console.log('targetOrigin set', event.origin);
+            event.source.postMessage(
+              { error: null, topic: 'skylight/target-origin-defined' },
+              this.targetOrigin
+            );
+          } else {
+            console.warn(
+              'targetOrigin has already been defined',
+              this.targetOrigin
+            );
+            if (event.source) {
+              event.source.postMessage(
+                {
+                  error: true,
+                  topic: 'skylight/target-origin-already-defined',
+                },
+                event.origin
+              );
+            }
+          }
+          return;
+        }
+        if (
+          !this.targetOrigin ||
+          (this.targetOrigin !== '*' && event.origin !== this.targetOrigin)
+        ) {
+          return;
+        }
+        if (event && event.data && event.data.skylightController) {
+          console.log('skylightController event', event.data);
+          if (event.data.command === 'dumpState') {
+            const sdkState = CxEngage.dumpState();
+            window.opener.postMessage(
+              {
+                error: null,
+                topic: 'cxengage/state',
+                response: {
+                  interactions: sdkState.interactions,
+                  session: sdkState.session,
+                  user: sdkState.user,
+                },
+              },
+              this.targetOrigin
+            );
+          } else {
+            CxEngage[event.data.module][event.data.command](event.data.data);
+          }
+        } else {
+          console.warn(
+            'Unexpected data format. Expected data.skylightController',
+            event
+          );
+        }
+      });
+
+      if (window.opener) {
+        window.opener.postMessage(
+          { error: null, topic: 'skylight/loaded' },
+          '*'
+        );
+      }
     }
 
     CxEngage.subscribe('cxengage', (error, topic, response) => {
-      if (window.opener) {
-        window.opener.postMessage({ error, topic, response }, '*');
+      if (skylightController && window.opener) {
+        if (this.targetOrigin) {
+          window.opener.postMessage(
+            { error, topic, response },
+            this.targetOrigin
+          );
+        } else {
+          console.warn(
+            'skylightController has been set, but there is not yet a targetOrigin'
+          );
+        }
       }
       if (error) {
         this.props.handleSDKError(error, topic);
