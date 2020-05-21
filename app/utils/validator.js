@@ -43,3 +43,15 @@ export function isUUID(uuid) {
     uuid
   );
 }
+
+export function sortOrder(v1, v2) {
+  const collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+  const tempArray = [v1.name, v2.name];
+  tempArray.sort(collator.compare);
+
+  if (tempArray[0] === v1.name) {
+    return -1;
+  } else {
+    return 1;
+  }
+}

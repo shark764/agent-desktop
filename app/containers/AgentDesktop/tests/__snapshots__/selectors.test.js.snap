@@ -12,11 +12,11 @@ exports[`selectInteractionEmails selectQueues Queues should be arranged in alpha
 Array [
   Object {
     "active": true,
-    "name": "165",
+    "name": "56",
   },
   Object {
     "active": true,
-    "name": "56",
+    "name": "165",
   },
   Object {
     "active": true,

@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 import { selectBatchRequests } from 'containers/Toolbar/selectors';
 import { selectAgent } from 'containers/Login/selectors';
 import { getCurrentTenantPermissions } from 'containers/App/selectors';
+import { sortOrder } from 'utils/validator';
 
 const selectAgentDesktopDomain = state => state.get('agentDesktop');
 
@@ -184,7 +185,7 @@ const selectUserAssignedTransferLists = createSelector(
   selectUserAssigTransListsMap,
   allUserAssignedTranslists => {
     if (allUserAssignedTranslists && allUserAssignedTranslists.size > 0) {
-      return allUserAssignedTranslists.toJS();
+      return allUserAssignedTranslists.toJS().sort((a, b) => sortOrder(a, b));
     } else {
       return null;
     }

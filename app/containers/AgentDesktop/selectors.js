@@ -3,6 +3,7 @@
  */
 
 import { createSelector } from 'reselect';
+import { sortOrder } from 'utils/validator';
 
 const selectLoginMap = state => state.get('login');
 const selectAgentDesktopMap = state => state.get('agentDesktop');
@@ -125,11 +126,7 @@ const selectCurrentCrmItemHistoryPanel = createSelector(
 );
 
 const selectQueues = createSelector(selectQueuesMap, queues =>
-  queues.toJS().sort((a, b) => {
-    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
-    if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-    return 0;
-  })
+  queues.toJS().sort((a, b) => sortOrder(a, b))
 );
 
 const selectQueuesSet = createSelector(

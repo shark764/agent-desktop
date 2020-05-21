@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.48.3] (2020-05-18)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.3index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.3/index.html)
+### Changed
+* CXV1-17704 - Queues and Transfer List from Config UI aren't sort in alphabetical order.
+
 ## [1.48.2] (2020-05-12)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.2/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.2/index.html)
