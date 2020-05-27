@@ -356,118 +356,120 @@ export class ContactInteractionHistoryItem extends React.Component {
       }
       const segmentData =
         interaction.interactionDetails.agents &&
-        interaction.interactionDetails.agents.map(segment => {
-          let duration;
-          let notesBody;
-          if (interaction.note === 1 && segment.note === undefined) {
-            notesBody = (
-              <div style={styles.loadingInteractionDetails}>
-                <IconSVG id="loadingNotesBody" name="loading" width="50px" />
-              </div>
-            );
-          } else if (
-            interaction.note === 1 &&
-            segment.note.body.trim() !== ''
-          ) {
-            notesBody = segment.note.body;
-          } else {
-            notesBody = (
-              <span style={styles.emptyNotesDispo}>
-                <FormattedMessage {...messages.noNotesBody} />
-              </span>
-            );
-          }
-          const notesTitle =
-            interaction.note === 1 && segment.noteTitle !== '' ? (
-              segment.noteTitle
-            ) : (
-              <span style={styles.emptyNotesDispo}>
-                <FormattedMessage {...messages.noNotesTitle} />
-              </span>
-            );
-          const dispositionName =
-            segment.dispositionName !== undefined ? (
-              segment.dispositionName
-            ) : (
-              <span style={styles.emptyNotesDispo}>
-                <FormattedMessage {...messages.noDisposition} />
-              </span>
-            );
-          if (
-            segment.conversationStartTimestamp &&
-            segment.conversationEndTimestamp
-          ) {
-            duration = moment(segment.conversationEndTimestamp).diff(
-              moment(segment.conversationStartTimestamp),
-              'minutes'
-            );
-            if (duration > 0) {
-              duration = (
-                <span>
-                  {duration}
-                  &nbsp;
-                  <FormattedMessage {...messages.minutes} />
-                </span>
+        interaction.interactionDetails.agents
+          .filter(segment => segment.conversationStartTimestamp !== undefined)
+          .map(segment => {
+            let duration;
+            let notesBody;
+            if (interaction.note === 1 && segment.note === undefined) {
+              notesBody = (
+                <div style={styles.loadingInteractionDetails}>
+                  <IconSVG id="loadingNotesBody" name="loading" width="50px" />
+                </div>
               );
+            } else if (
+              interaction.note === 1 &&
+              segment.note.body.trim() !== ''
+            ) {
+              notesBody = segment.note.body;
             } else {
-              duration = (
-                <span>
-                  {moment(segment.conversationEndTimestamp).diff(
-                    moment(segment.conversationStartTimestamp),
-                    'seconds'
-                  )}
-                  &nbsp;
-                  <FormattedMessage {...messages.seconds} />
+              notesBody = (
+                <span style={styles.emptyNotesDispo}>
+                  <FormattedMessage {...messages.noNotesBody} />
                 </span>
               );
             }
-          }
-          return (
-            <div
-              className="segment"
-              key={`${segment.resourceId}-${
-                segment.conversationStartTimestamp
-              }`}
-              style={styles.segment}
-            >
-              <Icon name={icon} style={styles.segmentChannelIcon} />
-              <div style={styles.segmentContent}>
-                <div
-                  id="noteTitle"
-                  className="noteTitle"
-                  style={styles.segmentTitle}
-                >
-                  {notesTitle}
-                </div>
-                <div id="agentName" className="agentName">
-                  {segment.agentName}
-                </div>
-                <div id="duration" className="duration">
-                  {duration}
-                </div>
-                {segment.dispositionName !== null && (
-                  <span
-                    id="dispositionName"
-                    className="dispositionName"
-                    style={styles.disposition}
-                    title="Disposition"
-                  >
-                    {dispositionName}
+            const notesTitle =
+              interaction.note === 1 && segment.noteTitle !== '' ? (
+                segment.noteTitle
+              ) : (
+                <span style={styles.emptyNotesDispo}>
+                  <FormattedMessage {...messages.noNotesTitle} />
+                </span>
+              );
+            const dispositionName =
+              segment.dispositionName !== undefined ? (
+                segment.dispositionName
+              ) : (
+                <span style={styles.emptyNotesDispo}>
+                  <FormattedMessage {...messages.noDisposition} />
+                </span>
+              );
+            if (
+              segment.conversationStartTimestamp &&
+              segment.conversationEndTimestamp
+            ) {
+              duration = moment(segment.conversationEndTimestamp).diff(
+                moment(segment.conversationStartTimestamp),
+                'minutes'
+              );
+              if (duration > 0) {
+                duration = (
+                  <span>
+                    {duration}
+                    &nbsp;
+                    <FormattedMessage {...messages.minutes} />
                   </span>
-                )}
-                {expandedView && (
+                );
+              } else {
+                duration = (
+                  <span>
+                    {moment(segment.conversationEndTimestamp).diff(
+                      moment(segment.conversationStartTimestamp),
+                      'seconds'
+                    )}
+                    &nbsp;
+                    <FormattedMessage {...messages.seconds} />
+                  </span>
+                );
+              }
+            }
+            return (
+              <div
+                className="segment"
+                key={`${segment.resourceId}-${
+                  segment.conversationStartTimestamp
+                }`}
+                style={styles.segment}
+              >
+                <Icon name={icon} style={styles.segmentChannelIcon} />
+                <div style={styles.segmentContent}>
                   <div
-                    id="notesBody"
-                    className="notesBody"
-                    style={styles.segmentMessage}
+                    id="noteTitle"
+                    className="noteTitle"
+                    style={styles.segmentTitle}
                   >
-                    {notesBody}
+                    {notesTitle}
                   </div>
-                )}
+                  <div id="agentName" className="agentName">
+                    {segment.agentName}
+                  </div>
+                  <div id="duration" className="duration">
+                    {duration}
+                  </div>
+                  {segment.dispositionName !== null && (
+                    <span
+                      id="dispositionName"
+                      className="dispositionName"
+                      style={styles.disposition}
+                      title="Disposition"
+                    >
+                      {dispositionName}
+                    </span>
+                  )}
+                  {expandedView && (
+                    <div
+                      id="notesBody"
+                      className="notesBody"
+                      style={styles.segmentMessage}
+                    >
+                      {notesBody}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        });
+            );
+          });
       interactionDetails = (
         <div>
           {segmentData}
@@ -491,23 +493,23 @@ export class ContactInteractionHistoryItem extends React.Component {
     }
     switch (interaction.channelType) {
       case 'voice': {
-        channelType = "Voice";
+        channelType = 'Voice';
         break;
       }
       case 'sms': {
-        channelType = "Sms";
+        channelType = 'Sms';
         break;
       }
       case 'messaging': {
-        channelType = "Messaging";
+        channelType = 'Messaging';
         break;
       }
       case 'email': {
-        channelType = "Email";
+        channelType = 'Email';
         break;
       }
       case 'work-item': {
-        channelType = "Work Item";
+        channelType = 'Work Item';
         break;
       }
       default: {
@@ -517,7 +519,7 @@ export class ContactInteractionHistoryItem extends React.Component {
     if (interaction.lastQueueName) {
       queueName = interaction.lastQueueName;
     } else {
-      queueName = "--";
+      queueName = '--';
     }
     return (
       <div

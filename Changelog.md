@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.48.4] (2020-05-22)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.4/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.4/index.html)
+### Fixed
+* CXV1-22076 - Viewing transcript of interaction that wasn't accepted by first agent, causes loading state in Skylight.
+
 ## [1.48.3] (2020-05-18)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.3index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.3/index.html)
