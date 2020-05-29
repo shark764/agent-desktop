@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.48.5] (2020-05-22)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.4/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.4/index.html)
+### Fixed
+* CXV1-17598 - Fixed small issue with z-index of outbound ANI menu
+* Reverting CXV1-21890 - Disposition list does not match sort order
+
 ## [1.48.4] (2020-05-22)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.4/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.4/index.html)
@@ -74,7 +81,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.47.16/index.html)
 ### Changed
 * CXV1-21938 Agent can send message to dead interaction and customer will receive it after starting a new one
-* CXV1-16110 - Dial-Pad in transfer button doesn't scale properly.
 
 ## [1.47.15] (2020-04-23)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.47.15/index.html)  

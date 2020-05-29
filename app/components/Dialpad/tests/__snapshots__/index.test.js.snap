@@ -79,6 +79,7 @@ exports[`<Dialpad /> when given required props should render correctly 1`] = `
           styles={
             Object {
               "height": "32px",
+              "zIndex": 14,
             }
           }
           valueSelected={
@@ -273,6 +274,7 @@ exports[`<Dialpad /> when inCall prop set to true should render correctly 1`] = 
           styles={
             Object {
               "height": "32px",
+              "zIndex": 14,
             }
           }
           valueSelected={

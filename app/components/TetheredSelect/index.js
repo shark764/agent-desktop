@@ -32,7 +32,7 @@ class TetheredSelect extends Select {
 
     return (
       <TetherComponent
-        style={{ zIndex: '4', paddingBottom: '2em' }}
+        style={{ zIndex: '4', paddingBottom: '2em', ...this.props.style }}
         renderElementTo="body"
         ref="tethered-component" // eslint-disable-line
         attachment="top left"

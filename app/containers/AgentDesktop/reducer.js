@@ -136,12 +136,12 @@ const getContactInteractionPath = (state, interactionId) => {
 const categorizeItems = (rawItems, name) => {
   const categorizedItems = [];
   rawItems.forEach(item => {
-    if (item.sortOrder === 0) {
+    if (item.hierarchy[0]) {
       const existingCategoryIndex = categorizedItems.findIndex(
         category => category.name === item.hierarchy[0]
       );
       if (existingCategoryIndex > -1) {
-        categorizedItems.push(item);
+        categorizedItems[existingCategoryIndex][name].push(item);
       } else {
         categorizedItems.push({
           name: item.hierarchy[0],
@@ -150,10 +150,7 @@ const categorizeItems = (rawItems, name) => {
         });
       }
     } else {
-      categorizedItems.push({
-        [name]: [item],
-        type: 'category',
-      });
+      categorizedItems.push(item);
     }
   });
 
@@ -931,8 +928,8 @@ function agentDesktopReducer(state = initialState, action) {
             .set(
               'selectedInteractionId',
               state.get('selectedInteractionId') === undefined &&
-                (interactionStatus === 'work-offer' ||
-                  interactionStatus === 'work-initiated')
+              (interactionStatus === 'work-offer' ||
+                interactionStatus === 'work-initiated')
                 ? action.interactionId
                 : state.get('selectedInteractionId')
             )

@@ -170,7 +170,8 @@ export function Dialpad(props, context) {
         ]}
       >
         <div id={props.id} style={{ zIndex: '4' }}>
-          {!props.interactionId && !props.transfer && (
+          {!props.interactionId &&
+            !props.transfer && (
             <div style={styles.outboundAniDiv}>
               <OutboundAniSelect
                 channelTypes={['voice']}
@@ -178,6 +179,7 @@ export function Dialpad(props, context) {
                 valueSelected={props.outboundPhoneIdentifier}
                 styles={{
                   height: '32px',
+                  zIndex: 14,
                 }}
               />
             </div>
@@ -308,5 +310,8 @@ const mapStateToProps = (state, props) => ({
 });
 
 export default ErrorBoundary(
-  connect(mapStateToProps, actions)(Radium(Dialpad))
+  connect(
+    mapStateToProps,
+    actions
+  )(Radium(Dialpad))
 );
