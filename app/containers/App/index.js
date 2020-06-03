@@ -955,13 +955,15 @@ export class App extends React.Component {
                     this.attemptContactSearch(
                       response.filter,
                       response.interactionId,
-                      interaction
+                      interaction,
+                      response.terms
                     );
                   } else if (response.filterType === 'and') {
                     this.attemptContactSearch(
                       Object.assign({ op: 'and' }, response.filter),
                       response.interactionId,
-                      interaction
+                      interaction,
+                      response.terms
                     );
                   } else {
                     console.error(
@@ -973,7 +975,8 @@ export class App extends React.Component {
                   this.attemptContactSearch(
                     { q: fuzzySearchString },
                     response.interactionId,
-                    interaction
+                    interaction,
+                    response.terms
                   );
                 } else {
                   console.error(`Unhandled searchType: ${response.searchType}`);
@@ -1555,9 +1558,7 @@ export class App extends React.Component {
               });
             } else {
               console.log(
-                `SMS interaction already in progress for ${
-                  response.endpoint
-                }. Ignoring click-to-sms-requested.`
+                `SMS interaction already in progress for ${response.endpoint}. Ignoring click-to-sms-requested.`
               );
             }
             break;
@@ -1572,9 +1573,7 @@ export class App extends React.Component {
               this.props.startOutboundEmail(response.endpoint);
             } else {
               console.log(
-                `Email interaction already in progress for ${
-                  response.endpoint
-                }. Ignoring click-to-email-requested.`
+                `Email interaction already in progress for ${response.endpoint}. Ignoring click-to-email-requested.`
               );
             }
             break;
@@ -1686,15 +1685,32 @@ export class App extends React.Component {
     });
   };
 
-  assignAndViewContacts = (searchResponse, interactionId, query) => {
-    if (searchResponse.results.length === 1) {
-      // If single contact found, auto assign to interaction
-      this.props.assignContact(interactionId, searchResponse.results[0]);
+  assignAndViewContacts = (searchResponse, interactionId, query, terms) => {
+    const exactMatchesArray = [];
+    terms.forEach(term => {
+      searchResponse.results.forEach(result => {
+        const attributeArray = Object.values(result.attributes);
+        attributeArray.forEach(attribute => {
+          if (attribute.toLowerCase() === term.toString().toLowerCase()) {
+            exactMatchesArray.push(result);
+          }
+        });
+      });
+    });
+    if (exactMatchesArray.length === 1) {
+      // If single contact found and one of the terms exactly equals one of the contact attributes, auto assign to interaction
+      this.props.assignContact(interactionId, exactMatchesArray[0]);
     }
     this.props.setInteractionQuery(interactionId, query);
   };
 
-  attemptContactSearch = (query, interactionId, interaction, tries = 0) => {
+  attemptContactSearch = (
+    query,
+    interactionId,
+    interaction,
+    terms,
+    tries = 0
+  ) => {
     CxEngage.contacts.search(
       createSearchQuery(query),
       (searchError, searchTopic, searchResponse) => {
@@ -1724,13 +1740,19 @@ export class App extends React.Component {
 
             if (contactMatched) {
               this.props.setLoading(false);
-              this.assignAndViewContacts(searchResponse, interactionId, query);
+              this.assignAndViewContacts(
+                searchResponse,
+                interactionId,
+                query,
+                terms
+              );
             } else if (tries < numberOfRetries) {
               setTimeout(() => {
                 this.attemptContactSearch(
                   query,
                   interactionId,
                   interaction,
+                  terms,
                   tries + 1
                 );
               }, 2000);
@@ -1739,7 +1761,12 @@ export class App extends React.Component {
               this.props.setLoading(false);
             }
           } else {
-            this.assignAndViewContacts(searchResponse, interactionId, query);
+            this.assignAndViewContacts(
+              searchResponse,
+              interactionId,
+              query,
+              terms
+            );
           }
         }
       }
@@ -2347,8 +2374,5 @@ App.contextTypes = {
 };
 
 export default injectIntl(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(hot(module)(Radium(App)))
+  connect(mapStateToProps, mapDispatchToProps)(hot(module)(Radium(App)))
 );
