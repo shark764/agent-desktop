@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.48.9] (2020-06-03)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.9/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.9/index.html)
+### Changed
+* CXV1-18649 - Changed checks to not allow logout during a work offer. Removed confirmation modal.
+
 ## [1.48.8] (2020-06-03)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.8/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.8/index.html)

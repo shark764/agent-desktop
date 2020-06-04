@@ -54,7 +54,6 @@
   "app.containers.AgentStatusMenu.agent-initiated": "Ne pas déranger sortant",
   "app.containers.AgentStatusMenu.inbound": "Entrant",
   "app.containers.AgentStatusMenu.logout": "Déconnexion",
-  "app.containers.AgentStatusMenu.logoutAlert": "",
   "app.containers.AgentStatusMenu.logoutBtnText": "Déconnexion",
   "app.containers.AgentStatusMenu.mode": "Mode",
   "app.containers.AgentStatusMenu.notReady": "Pas prêt",

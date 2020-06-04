@@ -23,7 +23,10 @@ import Collapsible from 'components/Collapsible';
 import Icon from 'components/Icon';
 import PopupDialog from 'components/PopupDialog';
 import { selectAgent } from 'containers/Login/selectors';
-import { selectCrmModule } from 'containers/AgentDesktop/selectors';
+import {
+  selectCrmModule,
+  selectHasInteractions,
+} from 'containers/AgentDesktop/selectors';
 
 import {
   setActiveExtension,
@@ -36,7 +39,6 @@ import LargeMenuRow from './LargeMenuRow';
 import MenuRow from './MenuRow';
 import messages from './messages';
 import {
-  selectHasActiveInteractions,
   selectExtensions,
   selectActiveExtension,
   selectSelectedPresenceReason,
@@ -287,15 +289,9 @@ export class AgentStatusMenu extends React.Component {
   ];
 
   logoutAndCloseMenu = () => {
-    if(this.props.readyState==='ready'||this.props.hasActiveInteractions){
-      alert(this.props.intl.formatMessage(
-        messages.logoutAlert
-      ));
-    }else{
-      CxEngage.authentication.logout();
-      this.props.showAgentStatusMenu(false);
-      window.location.reload();
-    }
+    CxEngage.authentication.logout();
+    this.props.showAgentStatusMenu(false);
+    window.location.reload();
   };
 
   render() {
@@ -313,7 +309,7 @@ export class AgentStatusMenu extends React.Component {
         arrowLeftOffsetPx={51}
       >
         <div style={styles.baseMenuContainer}>
-          {this.props.hasActiveInteractions ||
+          {this.props.hasInteractions ||
           this.props.hasActiveWrapup ||
           this.props.hasActiveScript ? (
               <div id="agentLogoutLink" style={styles.presenceLinkContainer}>
@@ -447,7 +443,7 @@ export class AgentStatusMenu extends React.Component {
 
 AgentStatusMenu.propTypes = {
   intl: intlShape.isRequired,
-  hasActiveInteractions: PropTypes.bool.isRequired,
+  hasInteractions: PropTypes.bool.isRequired,
   extensions: PropTypes.array.isRequired,
   activeExtension: PropTypes.object.isRequired,
   hasActiveWrapup: PropTypes.bool.isRequired,
@@ -468,7 +464,7 @@ AgentStatusMenu.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  hasActiveInteractions: selectHasActiveInteractions(state, props),
+  hasInteractions: selectHasInteractions(state, props),
   extensions: selectExtensions(state, props),
   activeExtension: selectActiveExtension(state, props),
   hasActiveWrapup: selectHasActiveWrapup(state, props),

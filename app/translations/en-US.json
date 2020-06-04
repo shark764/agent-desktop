@@ -54,7 +54,6 @@
   "app.containers.AgentStatusMenu.agent-initiated": "Do Not Disturb Outbound",
   "app.containers.AgentStatusMenu.inbound": "Inbound",
   "app.containers.AgentStatusMenu.logout": "Log Out",
-  "app.containers.AgentStatusMenu.logoutAlert": "End all active interactions and set your status to 'Not Ready' before logging out",
   "app.containers.AgentStatusMenu.logoutBtnText": "Log Out",
   "app.containers.AgentStatusMenu.mode": "Mode",
   "app.containers.AgentStatusMenu.notReady": "Not Ready",

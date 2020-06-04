@@ -23,9 +23,11 @@ import {
   updateUserAssignedTransferLists,
   updateQueues,
 } from 'containers/TransferMenu/actions';
-import { selectQueuesSet } from 'containers/AgentDesktop/selectors';
+import {
+  selectQueuesSet,
+  selectHasInteractions,
+} from 'containers/AgentDesktop/selectors';
 import { selectSelectedPresenceReason } from 'containers/AgentStatusMenu/selectors';
-import { selectHasInteractions } from 'containers/InteractionsBar/selectors';
 import { toggleAgentMenu } from './actions';
 import selectToolbar, { selectReadyState } from './selectors';
 import messages from './messages';

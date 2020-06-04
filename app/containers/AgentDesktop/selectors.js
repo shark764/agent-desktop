@@ -449,6 +449,11 @@ const selectTotalWrapUpTime = createSelector(
   }
 );
 
+const selectHasInteractions = createSelector(
+  selectInteractionsList,
+  interactions => interactions.toJS().length > 0
+);
+
 export {
   selectAgentId,
   selectIsAgentReady,
@@ -492,4 +497,5 @@ export {
   selectInterAssigAllTransListsVisibleSt,
   getIsConversationUnread,
   selectTotalWrapUpTime,
+  selectHasInteractions,
 };

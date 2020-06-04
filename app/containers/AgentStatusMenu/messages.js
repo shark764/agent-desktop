@@ -46,8 +46,4 @@ export default defineMessages({
     id: 'app.containers.AgentStatusMenu.tenant',
     defaultMessage: 'Tenant',
   },
-  logoutAlert: {
-    id: 'app.containers.AgentStatusMenu.logoutAlert',
-    defaultMessage: "End all active interactions and set your status to 'Not Ready' before logging out",
-  },
 });

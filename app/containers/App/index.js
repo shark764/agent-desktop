@@ -183,9 +183,8 @@ import {
   selectCrmModule,
   getSelectedInteractionId,
   selectIsCrmDownloaded,
+  selectHasInteractions,
 } from 'containers/AgentDesktop/selectors';
-
-import { selectHasInteractions } from 'containers/InteractionsBar/selectors';
 
 import { store } from 'store';
 

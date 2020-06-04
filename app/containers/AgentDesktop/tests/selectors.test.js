@@ -9,6 +9,7 @@ import {
   selectAgentDesktopMap,
   selectAgentId,
   selectAwaitingDisposition,
+  selectHasInteractions,
   selectHasVoiceInteraction,
   selectSmsInteractionNumbers,
   selectInteractionEmails,
@@ -226,6 +227,42 @@ describe('selectHasUnrespondedInteractions', () => {
       },
     });
     expect(selectHasUnrespondedInteractions(mockedState)).toEqual(false);
+  });
+});
+
+describe('selectHasInteractions', () => {
+  it('should return true when there is at least one interaction regardless of state', () => {
+    const mockedStateOne = fromJS({
+      agentDesktop: {
+        interactions: [
+          {
+            status: 'work-offer',
+          },
+        ],
+      },
+    });
+
+    const mockedStateTwo = fromJS({
+      agentDesktop: {
+        interactions: [
+          {
+            status: 'work-accepted',
+          },
+        ],
+      },
+    });
+
+    expect(selectHasInteractions(mockedStateOne)).toEqual(true);
+    expect(selectHasInteractions(mockedStateTwo)).toEqual(true);
+  });
+
+  it('should return false when there are no interaction', () => {
+    const mockedState = fromJS({
+      agentDesktop: {
+        interactions: [],
+      },
+    });
+    expect(selectHasInteractions(mockedState)).toEqual(false);
   });
 });
 
