@@ -1291,6 +1291,63 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer SET_DISPOSITION_DETAILS2 shows the dispositions list ordered as it was ordered on the configuration 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": 1,
+      "dispositionDetails": Immutable.Map {
+        "forceSelect": "Some random action",
+        "dispositions": Immutable.List [
+          Immutable.Map {
+            "name": "Test1",
+            "dispositions": Immutable.List [
+              Immutable.Map {
+                "name": "a",
+                "sortOrder": 0,
+                "hierarchy": Immutable.List [
+                  "Test1",
+                ],
+              },
+              Immutable.Map {
+                "name": "b",
+                "sortOrder": 1,
+                "hierarchy": Immutable.List [
+                  "Test1",
+                ],
+              },
+              Immutable.Map {
+                "name": "c",
+                "sortOrder": 2,
+                "hierarchy": Immutable.List [
+                  "Test1",
+                ],
+              },
+              Immutable.Map {
+                "name": "d",
+                "sortOrder": 3,
+                "hierarchy": Immutable.List [
+                  "Test1",
+                ],
+              },
+              Immutable.Map {
+                "name": "e",
+                "sortOrder": 4,
+                "hierarchy": Immutable.List [
+                  "Test1",
+                ],
+              },
+            ],
+            "type": "category",
+          },
+        ],
+        "selected": Immutable.List [],
+      },
+    },
+  ],
+}
+`;
+
 exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if interaction is "isScriptOnly" deletes "isScriptOnly" 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [

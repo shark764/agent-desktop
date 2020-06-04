@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.48.7] (2020-06-01)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.7/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.7/index.html)
+### Fixed
+* CXV1-21890 - Disposition list not displaying correctly in Skylight
+
 ## [1.48.6] (2020-05-29)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.6/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.6/index.html)

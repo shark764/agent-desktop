@@ -1660,6 +1660,53 @@ describe('agentDesktopReducer', () => {
     });
   });
 
+  describe('SET_DISPOSITION_DETAILS2', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [
+          {
+            interactionId: 1,
+          },
+        ],
+      };
+      action = {
+        interactionId: 1,
+        type: ACTIONS.SET_DISPOSITION_DETAILS,
+        forceSelect: 'Some random action',
+        dispositions: [
+          {
+            name: 'c',
+            sortOrder: 2,
+            hierarchy: ['Test1'],
+          },
+          {
+            name: 'a',
+            sortOrder: 0,
+            hierarchy: ['Test1'],
+          },
+          {
+            name: 'd',
+            sortOrder: 3,
+            hierarchy: ['Test1'],
+          },
+          {
+            name: 'b',
+            sortOrder: 1,
+            hierarchy: ['Test1'],
+          },
+          {
+            name: 'e',
+            sortOrder: 4,
+            hierarchy: ['Test1'],
+          },
+        ],
+      };
+    });
+    it('shows the dispositions list ordered as it was ordered on the configuration', () => {
+      runReducerAndExpectSnapshot();
+    });
+  });
+
   describe('TOGGLE_TRANSCRIPT_COPIED', () => {
     beforeEach(() => {
       action = {

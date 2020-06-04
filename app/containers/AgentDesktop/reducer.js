@@ -135,40 +135,26 @@ const getContactInteractionPath = (state, interactionId) => {
 
 const categorizeItems = (rawItems, name) => {
   const categorizedItems = [];
-  rawItems.forEach(item => {
-    if (item.hierarchy[0]) {
-      const existingCategoryIndex = categorizedItems.findIndex(
-        category => category.name === item.hierarchy[0]
-      );
-      if (existingCategoryIndex > -1) {
-        categorizedItems[existingCategoryIndex][name].push(item);
+  rawItems
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .forEach(item => {
+      if (item.hierarchy[0]) {
+        const existingCategoryIndex = categorizedItems.findIndex(
+          category => category.name === item.hierarchy[0]
+        );
+        if (existingCategoryIndex > -1) {
+          categorizedItems[existingCategoryIndex][name].push(item);
+        } else {
+          categorizedItems.push({
+            name: item.hierarchy[0],
+            [name]: [item],
+            type: 'category',
+          });
+        }
       } else {
-        categorizedItems.push({
-          name: item.hierarchy[0],
-          [name]: [item],
-          type: 'category',
-        });
+        categorizedItems.push(item);
       }
-    } else {
-      categorizedItems.push(item);
-    }
-  });
-
-  categorizedItems.sort((a, b) => {
-    if (a.type === 'category' && b.type === 'category') {
-      a[name].sort((c, d) => c.sortOrder - d.sortOrder);
-      b[name].sort((c, d) => c.sortOrder - d.sortOrder);
-      return a[name][0].sortOrder - b[name][0].sortOrder;
-    } else if (a.type === 'category') {
-      a[name].sort((c, d) => c.sortOrder - d.sortOrder);
-      return a[name][0].sortOrder - b.sortOrder;
-    } else if (b.type === 'category') {
-      b[name].sort((c, d) => c.sortOrder - d.sortOrder);
-      return a.sortOrder - b[name][0].sortOrder;
-    } else {
-      return a.sortOrder - b.sortOrder;
-    }
-  });
+    });
   return categorizedItems;
 };
 
@@ -928,8 +914,8 @@ function agentDesktopReducer(state = initialState, action) {
             .set(
               'selectedInteractionId',
               state.get('selectedInteractionId') === undefined &&
-              (interactionStatus === 'work-offer' ||
-                interactionStatus === 'work-initiated')
+                (interactionStatus === 'work-offer' ||
+                  interactionStatus === 'work-initiated')
                 ? action.interactionId
                 : state.get('selectedInteractionId')
             )
