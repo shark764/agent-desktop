@@ -1401,12 +1401,18 @@ function agentDesktopReducer(state = initialState, action) {
     }
     case ACTIONS.UNASSIGN_CONTACT: {
       if (interactionIndex !== -1) {
-        return state.updateIn(['interactions', interactionIndex], interaction =>
-          interaction
-            .delete('contact')
-            .set('contactAssignedNotification', 'contactWasUnassigned')
-            .set('selectedSidePanelTab', 'script')
-        );
+        if (action.isAgentDesktopCrm) {
+          return state.updateIn(['interactions', interactionIndex], interaction =>
+            interaction.delete('contact')
+          );
+        } else {
+          return state.updateIn(['interactions', interactionIndex], interaction =>
+            interaction
+              .delete('contact')
+              .set('contactAssignedNotification', 'contactWasUnassigned')
+              .set('selectedSidePanelTab', 'script')
+          );
+        }
       } else {
         return state;
       }

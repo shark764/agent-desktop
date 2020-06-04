@@ -385,6 +385,14 @@ export function assignContact(interactionId, contact, skipUnassign) {
   };
 }
 
+export function unassigningContact(interactionId, contact) {
+  return {
+    type: ACTIONS.UNASSIGNING_CONTACT,
+    interactionId,
+    contact,
+  };
+}
+
 export function setAssignedContact(interactionId, contact) {
   return {
     type: ACTIONS.SET_ASSIGNED_CONTACT,
@@ -393,10 +401,11 @@ export function setAssignedContact(interactionId, contact) {
   };
 }
 
-export function unassignContact(interactionId) {
+export function unassignContact(interactionId, isAgentDesktopCrm) {
   return {
     type: ACTIONS.UNASSIGN_CONTACT,
     interactionId,
+    isAgentDesktopCrm,
   };
 }
 

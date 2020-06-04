@@ -19,7 +19,7 @@ import ContactsControl from 'containers/ContactsControl';
 import ContactHeader from 'components/ContactHeader';
 import NotificationBanner from 'components/NotificationBanner';
 
-import { setContactMode, resetForm } from 'containers/AgentDesktop/actions';
+import { setContactMode, resetForm, unassigningContact } from 'containers/AgentDesktop/actions';
 import {
   setShowCancelDialog,
   setShowConfirmDialog,
@@ -91,6 +91,13 @@ export class InfoTab extends React.Component {
     );
   };
 
+  unassigningContact = () => {
+    this.props.unassigningContact(
+      this.props.selectedInteraction.interactionId,
+      this.props.selectedInteraction.contact
+    );
+  };
+
   setNotEditing = (goTo) => {
     const newMode = goTo === 'view' ? 'view' : 'search';
     this.props.setContactMode(
@@ -148,8 +155,11 @@ export class InfoTab extends React.Component {
           />
         ))}
         <ContactHeader
+          unassigningContact={this.unassigningContact}
           editAssignedContact={this.editAssignedContact}
           contactMode={this.props.selectedInteraction.contactMode}
+          hasContact={this.props.selectedInteraction.interactionId !== undefined &&
+                      this.props.selectedInteraction.status === 'work-accepted'}
           setSearching={this.setSearching}
           showControls={
             this.props.selectedInteraction.interactionId !==
@@ -181,6 +191,7 @@ InfoTab.propTypes = {
   addNotification: PropTypes.func,
   notifications: PropTypes.array,
   editContact: PropTypes.func,
+  unassigningContact: PropTypes.func,
 };
 
 function mapStateToProps(state, props) {
@@ -207,6 +218,8 @@ function mapDispatchToProps(dispatch) {
     resetForm: () => dispatch(resetForm()),
     editContact: (interactionId, contact) =>
       dispatch(editContact(interactionId, contact)),
+    unassigningContact: (interactionId, contact) =>
+      dispatch(unassigningContact(interactionId, contact)),
     dispatch,
   };
 }

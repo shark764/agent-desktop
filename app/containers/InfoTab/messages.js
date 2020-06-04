@@ -79,6 +79,14 @@ export default defineMessages({
     id: 'app.containers.InfoTab.notAssigned',
     defaultMessage: 'Contact was not assigned to the interaction.',
   },
+  notUnassigned: {
+    id: 'app.containers.InfoTab.notUnassigned',
+    defaultMessage: 'Contact was not unassigned from the interaction.',
+  },
+  contactWasUnassigned: {
+    id: 'app.containers.InfoTab.contactWasUnassigned',
+    defaultMessage: 'Contact was unassigned from the interaction.',
+  },
   notMerged: {
     id: 'app.containers.InfoTab.notMerged',
     defaultMessage: 'Contact merge failed.',

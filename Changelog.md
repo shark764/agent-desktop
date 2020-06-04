@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.48.8] (2020-06-03)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.8/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.8/index.html)
+### Fixed
+* CXV1-10153 - Contact assigned to an interaction cannot be deleted.
+
 ## [1.48.7] (2020-06-01)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.7/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.7/index.html)

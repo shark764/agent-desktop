@@ -31,6 +31,7 @@ import {
   GO_NOT_READY,
   DELETE_CONTACTS,
   ASSIGN_CONTACT,
+  UNASSIGNING_CONTACT,
   WORK_ACCEPTED,
   UPDATE_INTERACTION_TRANSFER_LISTS_$,
   UPDATE_INTERACTION_TRANSFER_LIST_VISIBLE_STATE_$,
@@ -53,6 +54,7 @@ import {
 } from './selectors';
 import {
   setContactMode,
+  unassignContact,
   updateContactHistoryInteractionDetails,
   setContactInteractionHistory,
   setCrmInteractionHistory,
@@ -430,6 +432,44 @@ export function* goAssignContact(action) {
   }
   yield call(loadContactInteractions, { contactId: action.contact.id });
   yield put(setContactSaveLoading(interaction.interactionId, false));
+}
+
+export function* goUnassignContact(action) {
+  const interaction = yield call(getInteraction, action.interactionId);
+  if (!interaction) {
+    console.warn(
+      `Interaction not found: ${
+        action.interactionId
+      } . Aborting goUnassignContact`
+    );
+    return;
+  }
+  try {
+    if (interaction.contact &&
+      interaction.contact.id) {
+      yield call(
+        sdkCallToPromise,
+        CxEngage.interactions.unassignContact,
+        {
+          interactionId: interaction.interactionId,
+          contactId: interaction.contact.id,
+        },
+        'AgentDesktop'
+      );
+      yield put(unassignContact(interaction.interactionId, true));
+      yield put(addContactNotification({ messageType: 'contactWasUnassigned' }));
+      yield put(setContactMode(interaction.interactionId, 'search'));
+      yield put(setContactSaveLoading(interaction.interactionId, false));
+    }
+  } catch (error) {
+    yield put(setContactSaveLoading(interaction.interactionId, false));
+    yield put(
+      addContactErrorNotification({
+        errorType: 'serverError',
+        messageType: 'notUnassigned',
+      })
+    );
+  }
 }
 
 export function* goAcceptWork(action) {
@@ -813,6 +853,10 @@ export function* assignContact() {
   yield takeEvery(ASSIGN_CONTACT, goAssignContact);
 }
 
+export function* unassigningContact() {
+  yield takeEvery(UNASSIGNING_CONTACT, goUnassignContact);
+}
+
 export function* workAccepted() {
   yield takeEvery(WORK_ACCEPTED, goAcceptWork);
 }
@@ -887,6 +931,7 @@ export default [
   notReady,
   deleteContacts,
   assignContact,
+  unassigningContact,
   cancelDial,
   workAccepted,
   updateInteractionTransferLists,

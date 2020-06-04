@@ -26,4 +26,8 @@ export default defineMessages({
     id: 'app.containers.InfoTab.edit',
     defaultMessage: 'Edit',
   },
+  unassign: {
+    id: 'app.containers.InfoTab.unassign',
+    defaultMessage: 'Unassign',
+  },
 });

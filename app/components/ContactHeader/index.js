@@ -77,6 +77,15 @@ function ContactHeader(props) {
       <div style={styles.controlHeader}>
         {props.showControls && (
           <div style={styles.buttonSet}>
+            {props.hasContact && (
+              <Button
+                id="contact-unassign-btn"
+                style={styles.leftButton}
+                onClick={props.unassigningContact}
+                text={messages.unassign}
+                type="secondary"
+              />
+            )}
             <Button
               id="contact-edit-btn"
               style={styles.leftButton}
@@ -119,10 +128,12 @@ function ContactHeader(props) {
 }
 
 ContactHeader.propTypes = {
+  unassigningContact: PropTypes.func,
   editAssignedContact: PropTypes.func,
   setSearching: PropTypes.func,
   showControls: PropTypes.bool,
   contactMode: PropTypes.string,
+  hasContact: PropTypes.bool,
 };
 
 export default Radium(ContactHeader);
