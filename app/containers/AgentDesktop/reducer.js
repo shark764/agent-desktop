@@ -140,7 +140,8 @@ const categorizeItems = (rawItems, name) => {
     .forEach(item => {
       if (item.hierarchy[0]) {
         const existingCategoryIndex = categorizedItems.findIndex(
-          category => category.name === item.hierarchy[0]
+          category =>
+            category.name === item.hierarchy[0] && category.type === 'category'
         );
         if (existingCategoryIndex > -1) {
           categorizedItems[existingCategoryIndex][name].push(item);
@@ -1402,15 +1403,18 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.UNASSIGN_CONTACT: {
       if (interactionIndex !== -1) {
         if (action.isAgentDesktopCrm) {
-          return state.updateIn(['interactions', interactionIndex], interaction =>
-            interaction.delete('contact')
+          return state.updateIn(
+            ['interactions', interactionIndex],
+            interaction => interaction.delete('contact')
           );
         } else {
-          return state.updateIn(['interactions', interactionIndex], interaction =>
-            interaction
-              .delete('contact')
-              .set('contactAssignedNotification', 'contactWasUnassigned')
-              .set('selectedSidePanelTab', 'script')
+          return state.updateIn(
+            ['interactions', interactionIndex],
+            interaction =>
+              interaction
+                .delete('contact')
+                .set('contactAssignedNotification', 'contactWasUnassigned')
+                .set('selectedSidePanelTab', 'script')
           );
         }
       } else {

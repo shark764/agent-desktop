@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
+## [1.48.10] (2020-06-18)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.10/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.10/index.html)
+### Changed
+* CXV1-22689 - Presence List causing "An unknown error has occurred. Please try to finish your work as you may need to refresh the page to continue."​​​​​​​
+
 ## [1.48.9] (2020-06-03)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.9/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.9/index.html)
