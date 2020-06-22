@@ -256,7 +256,10 @@ export class App extends React.Component {
       url: `${relativeUrl}/config.json?t=${Date.now()}`,
     }).then(res => {
       if (typeof res.data !== 'undefined') {
-        if (release !== res.data.config.version) {
+        if (
+          release !== res.data.config.version &&
+          !window.location.hostname.includes('frontend-prs.cxengagelabs.net')
+        ) {
           this.props.showRefreshRequired(true);
         }
         window.ADconf = res.data.config;

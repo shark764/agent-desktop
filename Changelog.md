@@ -9,9 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 </br>
 
-## [Unreleased] (2020-06-22)
-[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.11-SNAPSHOT/index.html)  
-[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.11-SNAPSHOT/index.html)
+## [1.48.11] (2020-06-22)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.11/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.11/index.html)
 ### Changed
 * CXV1-22686 - Only do version check for refresh banner on load
 
