@@ -201,11 +201,6 @@ import {
 } from '../AgentStatusMenu/selectors';
 
 export class App extends React.Component {
-  componentWillUnmount() {
-    clearInterval(this.cacheCheckInterval);
-    // clearInterval(this.pingInterval);
-  }
-
   componentWillMount() {
     if (
       window.location.hostname === 'localhost' ||
@@ -214,9 +209,7 @@ export class App extends React.Component {
       this.init();
     } else {
       this.loadConf();
-      this.cacheCheckInterval = setInterval(this.loadConf, 300000); // Cache busting version check every 5min
     }
-
     window.addEventListener('beforeunload', e => {
       if (window.opener && this.targetOrigin) {
         window.opener.postMessage(
@@ -263,11 +256,8 @@ export class App extends React.Component {
       url: `${relativeUrl}/config.json?t=${Date.now()}`,
     }).then(res => {
       if (typeof res.data !== 'undefined') {
-        if (window.ADconf !== undefined) {
-          if (window.ADconf.version !== res.data.config.version) {
-            this.props.showRefreshRequired(true);
-            clearInterval(this.cacheCheckInterval);
-          }
+        if (release !== res.data.config.version) {
+          this.props.showRefreshRequired(true);
         }
         window.ADconf = res.data.config;
       }
@@ -1842,10 +1832,7 @@ export class App extends React.Component {
     crmCssAdapter(this.styles, ['desktop'], this.props.crmModule);
 
     const banners = [];
-    const refreshBannerIsVisible =
-      this.props.agentDesktop.refreshRequired &&
-      window.location.hostname !== 'localhost' &&
-      window.location.hostname !== '127.0.0.1';
+    const refreshBannerIsVisible = this.props.agentDesktop.refreshRequired;
     let errorDescriptionMessage;
     const errorInfo = this.props.criticalError || this.props.nonCriticalError;
 
