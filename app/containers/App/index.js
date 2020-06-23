@@ -925,22 +925,29 @@ export class App extends React.Component {
             if (!this.context.toolbarMode && this.props.hasCrmPermissions) {
               // Internal screen pop: retrieve specific contact
               if (response.popType === 'url') {
-                CxEngage.contacts.get(
-                  { contactId: response.popUri },
-                  (contactGetError, contactGetTopic, contactGetResponse) => {
-                    if (!contactGetError) {
-                      console.log(
-                        '[AgentDesktop] CxEngage.subscribe()',
-                        contactGetTopic,
-                        contactGetResponse
-                      );
-                      this.props.assignContact(
-                        response.interactionId,
-                        contactGetResponse
-                      );
+                if (isUUID(response.popUri)) {
+                  CxEngage.contacts.get(
+                    { contactId: response.popUri },
+                    (contactGetError, contactGetTopic, contactGetResponse) => {
+                      if (!contactGetError) {
+                        console.log(
+                          '[AgentDesktop] CxEngage.subscribe()',
+                          contactGetTopic,
+                          contactGetResponse
+                        );
+                        this.props.assignContact(
+                          response.interactionId,
+                          contactGetResponse
+                        );
+                      }
                     }
-                  }
-                );
+                  );
+                } else {
+                  console.warn(
+                    'Unexpectedly received non-UUID popUri. Ignoring.',
+                    response.popUri
+                  );
+                }
               } else if (response.popType === 'search-pop') {
                 if (response.searchType === 'strict') {
                   if (response.filterType === 'or') {
