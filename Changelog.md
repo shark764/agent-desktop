@@ -1,15 +1,12 @@
 # Changelog
-All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.49.0] (2020-06-24)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.49.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.49.0/index.html)
+### Changed
+* CXV1-22687 - Add "allow" attribute to be passed into Skylight script iframe
 
-## [Alpha User Acceptance Testing]
-
-## [Beta User Acceptance Testing]
-</br>
-
-## [1.48.13] (2020-06-15)
+## [1.48.13] (2020-06-23)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.48.13/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.48.13/index.html)
 ### Changed

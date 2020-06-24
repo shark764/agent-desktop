@@ -262,7 +262,21 @@ export class AgentScript extends React.Component {
             />
           );
           break;
-        case 'iframe':
+        case 'iframe': {
+          let allow;
+          let iframeUrl;
+          try {
+            iframeUrl = new URL(element.src);
+          } catch (error) {
+            console.log('Failed to script parse url. Ignoring possible "cxengageAllowScript" param.', error.message);
+          }
+          if (iframeUrl) {
+            const allowParam = iframeUrl.searchParams.get('cxengageAllowScript');
+            if (allowParam) {
+              console.log('"cxengageAllowScript" param passed into script', allowParam);
+              allow = allowParam.split(',').map(allowValue => `${allowValue} ${iframeUrl.origin}`).join('; ');
+            }
+          }
           scriptElements.push(
             <div id={element.name} key={element.name} style={styles.element}>
               {element.text}
@@ -271,10 +285,12 @@ export class AgentScript extends React.Component {
                 src={element.src}
                 height={element.height}
                 width={element.width}
+                allow={allow}
               />
             </div>
           );
           break;
+        }
         default:
           throw console.error(`Unknown script element type: ${element.type}`);
       }
