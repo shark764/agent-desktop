@@ -2,7 +2,7 @@
 
 exports[`<StatValue /> if stat.statAggregate is avg and isErrored is false should render correctly 1`] = `
 <span>
-  <TimeStat
+  <InjectIntl(TimeStat)
     time={1}
     unit="millis"
   />
@@ -29,7 +29,7 @@ exports[`<StatValue /> if stat.statAggregate is count and isErrored is true shou
 
 exports[`<StatValue /> if stat.statAggregate is max and isErrored is false should render correctly 1`] = `
 <span>
-  <TimeStat
+  <InjectIntl(TimeStat)
     time={1}
     unit="millis"
   />
@@ -44,7 +44,7 @@ exports[`<StatValue /> if stat.statAggregate is max and isErrored is true should
 
 exports[`<StatValue /> if stat.statAggregate is min and isErrored is false should render correctly 1`] = `
 <span>
-  <TimeStat
+  <InjectIntl(TimeStat)
     time={1}
     unit="millis"
   />
@@ -89,7 +89,7 @@ exports[`<StatValue /> if stat.statAggregate is percent and isErrored is true sh
 
 exports[`<StatValue /> if stat.statAggregate is total and isErrored is false should render correctly 1`] = `
 <span>
-  <TimeStat
+  <InjectIntl(TimeStat)
     time={1}
     unit="millis"
   />

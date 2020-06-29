@@ -22,7 +22,6 @@ module.exports = (env, argv) => {
         components: path.resolve(__dirname, 'app', 'components'),
         icons: path.resolve(__dirname, 'app', 'icons'),
         models: path.resolve(__dirname, 'app', 'models'),
-        translations: path.resolve(__dirname, 'app', 'translations'),
         utils: path.resolve(__dirname, 'app', 'utils'),
         store: path.resolve(__dirname, 'app', 'store'),
       },

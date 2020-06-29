@@ -1,7 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<TimeStat /> should render correctly 1`] = `
+exports[`<TimeStat /> when given required props, intl, and unit should render correctly 1`] = `
 <div>
   0s
+</div>
+`;
+
+exports[`<TimeStat /> when given required props, intl, and unit. Time in hours and minutes. should render correctly 1`] = `
+<div>
+  01:30
+</div>
+`;
+
+exports[`<TimeStat /> when given required props, intl, and unit. Time in hours, minutes and seconds. should render correctly 1`] = `
+<div>
+  10:30:31
 </div>
 `;

@@ -3,7 +3,7 @@
  */
 import { createStore } from 'redux';
 import { IntlProvider } from 'react-intl';
-import enUS from 'translations/en-US.json';
+import enUS from 'serenova-client-strings/agent-desktop/en-US.json';
 enUS['app.test.mockMessage'] = 'mock message'; // Mock message we can use in tests
 
 export const getIntlContext = () => {
@@ -18,4 +18,4 @@ export const getIntlContext = () => {
   return intl;
 };
 
-export const mockStore = createStore((state) => state);
+export const mockStore = createStore(state => state);

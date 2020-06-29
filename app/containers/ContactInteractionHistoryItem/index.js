@@ -10,7 +10,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage, FormattedTime } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import moment from 'moment';
@@ -291,9 +291,7 @@ export class ContactInteractionHistoryItem extends React.Component {
                     {messageFrom}
                   </span>
                   <span style={styles.messageTime}>
-                    <FormattedTime
-                      value={new Date(Number(transcriptItem.timestamp))}
-                    />
+                    {moment(Number(transcriptItem.timestamp)).format('LT')}
                   </span>
                   <div style={styles.messageText}>
                     <MessageContent message={transcriptItem.payload.body} />

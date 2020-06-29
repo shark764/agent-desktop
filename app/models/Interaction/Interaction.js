@@ -3,8 +3,8 @@
  */
 
 import { List, Map, fromJS } from 'immutable';
-import { timeSince } from 'utils/time';
 import { isToolbar } from 'utils/url';
+import moment from 'moment';
 
 export default class Interaction {
   constructor({
@@ -126,12 +126,15 @@ export default class Interaction {
 
     let notifications = new List();
     if (callbackRequest) {
+      const waitingFor = moment(callbackRequest.callbackRequestedTime).fromNow(
+        true
+      );
       notifications = notifications.push(
         new Map({
           messageKey: 'callbackRequest',
           messageValues: new Map({
             callbackNumber: callbackRequest.callbackNumber,
-            waitingFor: timeSince(callbackRequest.callbackRequestedTime),
+            waitingFor,
           }),
           isDimissible: true,
         })

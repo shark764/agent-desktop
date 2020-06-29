@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.49.0",
+  "version": "1.50.0",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -13,7 +13,6 @@
   "author": "Serenova",
   "license": "UNLICENSED",
   "scripts": {
-    "extract-intl": "babel-node --presets stage-0 -- ./internals/scripts/extract-intl.js",
     "npmcheckversion": "node ./internals/scripts/npmcheckversion.js",
     "npmCheckPhonevVersion": "node ./internals/scripts/phoneLibVersion.js",
     "preinstall": "npm run npmcheckversion",
@@ -34,48 +33,13 @@
     "test:file": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
     "zendesk": "bash tasks/zendesk.sh",
-    "precommit": "npm run npmCheckPhonevVersion && npm run lint:staged && npm run lint && npm run test && npm run extract-intl"
+    "precommit": "npm run npmCheckPhonevVersion && npm run lint:staged && npm run lint && npm run test"
   },
   "lint-staged": {
     "*.js": [
       "npm run format",
       "npm run lint:fix",
       "git add -f"
-    ]
-  },
-  "jest": {
-    "setupFiles": [
-      "./internals/scripts/shim.js",
-      "./internals/scripts/enzymeConfig.js"
-    ],
-    "setupTestFrameworkScriptFile": "./internals/scripts/setupTests.js",
-    "testEnvironment": "jest-environment-jsdom-global",
-    "testURL": "http://localhost",
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "transformIgnorePatterns": [
-      "/node_modules/(?!cx-ui-components).+(js|jsx)$"
-    ],
-    "collectCoverageFrom": [
-      "app/**/*.{js,jsx}",
-      "!app/**/*.test.{js,jsx}",
-      "!app/**/messages.js",
-      "!app/**/constants.js",
-      "!app/**/actions.js",
-      "!app/app.js"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "app"
-    ],
-    "moduleNameMapper": {
-      ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",
-      ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/image.js"
-    },
-    "testRegex": "tests/.*\\.test\\.js$",
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
     ]
   },
   "babel": {
@@ -100,119 +64,6 @@
       "syntax-dynamic-import",
       "react-hot-loader/babel"
     ]
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": [
-      "airbnb",
-      "prettier"
-    ],
-    "env": {
-      "browser": true,
-      "node": true,
-      "jest": true,
-      "es6": true
-    },
-    "plugins": [
-      "redux-saga",
-      "react",
-      "jsx-a11y"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 6,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true
-      }
-    },
-    "globals": {
-      "CxEngage": false
-    },
-    "rules": {
-      "new-cap": [
-        0,
-        {
-          "newIsCap": false
-        }
-      ],
-      "no-return-assign": 0,
-      "arrow-body-style": [
-        2,
-        "as-needed"
-      ],
-      "comma-dangle": [
-        2,
-        "always-multiline"
-      ],
-      "no-return-await": 0,
-      "no-await-in-loop": 0,
-      "no-multi-assign": 0,
-      "no-restricted-syntax": 0,
-      "import/imports-first": 0,
-      "import/newline-after-import": 0,
-      "import/no-dynamic-require": 0,
-      "import/no-extraneous-dependencies": 0,
-      "import/no-named-as-default": 0,
-      "import/no-unresolved": 2,
-      "import/prefer-default-export": 0,
-      "indent": [
-        2,
-        2,
-        {
-          "SwitchCase": 1
-        }
-      ],
-      "no-else-return": 0,
-      "jsx-a11y/anchor-has-content": 0,
-      "jsx-a11y/aria-props": 2,
-      "jsx-a11y/anchor-is-valid": 0,
-      "prefer-destructuring": [
-        1,
-        {
-          "object": true,
-          "array": false
-        }
-      ],
-      "react/jsx-indent": 0,
-      "jsx-a11y/heading-has-content": 0,
-      "jsx-a11y/click-events-have-key-events": 0,
-      "react/no-typos": 1,
-      "jsx-a11y/label-has-for": 0,
-      "jsx-a11y/mouse-events-have-key-events": 2,
-      "jsx-a11y/role-has-required-aria-props": 2,
-      "jsx-a11y/role-supports-aria-props": 2,
-      "jsx-a11y/no-static-element-interactions": 0,
-      "jsx-a11y/no-noninteractive-element-interactions": 0,
-      "jsx-a11y/no-autofocus": 0,
-      "jsx-a11y/media-has-caption": 0,
-      "jsx-a11y/accessible-emoji": 0,
-      "max-len": 0,
-      "newline-per-chained-call": 0,
-      "no-console": 0,
-      "no-use-before-define": 0,
-      "prefer-template": 2,
-      "react/forbid-prop-types": 0,
-      "react/jsx-first-prop-new-line": [
-        2,
-        "multiline"
-      ],
-      "react/jsx-filename-extension": 0,
-      "react/jsx-no-target-blank": 0,
-      "react/no-array-index-key": 1,
-      "react/require-default-props": 0,
-      "react/require-extension": 0,
-      "redux-saga/no-yield-in-race": 2,
-      "redux-saga/yield-effects": 2,
-      "react/sort-comp": 0,
-      "react/destructuring-assignment": 0
-    },
-    "settings": {
-      "import/resolver": {
-        "webpack": {
-          "config": "webpack.config.js"
-        }
-      }
-    }
   },
   "dependencies": {
     "axios": "0.18.0",
@@ -260,6 +111,7 @@
     "redux-watch": "1.1.1",
     "reselect": "3.0.1",
     "sanitize.css": "6.0.0",
+    "serenova-client-strings": "^0.1.1-SNAPSHOT",
     "serenova-js-utils": "^1.10.2",
     "store": "2.0.12",
     "styled-components": "3.3.3",

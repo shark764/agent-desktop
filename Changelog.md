@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.50.0] (2020-06-24)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.50.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.50.0/index.html)
+### Changed
+* CXV1-22734 - Update dates and times to use locales | Use of moment.js localization.
+
 ## [1.49.0] (2020-06-24)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.49.0/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.49.0/index.html)

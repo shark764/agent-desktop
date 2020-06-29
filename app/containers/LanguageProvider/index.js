@@ -7,7 +7,7 @@
  * LanguageProvider
  *
  * this component connects the redux state language locale to the
- * IntlProvider component and i18n messages (loaded from `app/translations`)
+ * IntlProvider component and i18n messages (loaded from `serenova-client-strings/agent-desktop`)
  */
 
 import React from 'react';
@@ -46,11 +46,11 @@ LanguageProvider.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-const mapStateToProps = createSelector(selectLocale(), (locale) => ({ locale }));
+const mapStateToProps = createSelector(selectLocale(), locale => ({ locale }));
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeLocale: (locale) => dispatch(changeLocale(locale)),
+    changeLocale: locale => dispatch(changeLocale(locale)),
     dispatch,
   };
 }
@@ -59,4 +59,7 @@ LanguageProvider.propTypes = {
   changeLocale: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LanguageProvider);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LanguageProvider);

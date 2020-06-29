@@ -9,29 +9,88 @@
  *
  */
 import { addLocaleData } from 'react-intl';
-import enLocaleData from 'react-intl/locale-data/en';
-import frLocaleData from 'react-intl/locale-data/fr';
+// import csLocaleData from 'react-intl/locale-data/cs';
 import deLocaleData from 'react-intl/locale-data/de';
+import enLocaleData from 'react-intl/locale-data/en';
 import esLocaleData from 'react-intl/locale-data/es';
+// import fiLocaleData from 'react-intl/locale-data/fi';
+import frLocaleData from 'react-intl/locale-data/fr';
+// import itLocaleData from 'react-intl/locale-data/it';
+// import jaLocaleData from 'react-intl/locale-data/ja';
+// import koLocaleData from 'react-intl/locale-data/ko';
+// import nbLocaleData from 'react-intl/locale-data/nb';
+// import nlLocaleData from 'react-intl/locale-data/nl';
 import plLocaleData from 'react-intl/locale-data/pl';
 import ptLocaleData from 'react-intl/locale-data/pt';
+// import svLocaleData from 'react-intl/locale-data/sv';
+// import zhLocaleData from 'react-intl/locale-data/zh';
+
+/**
+ * We import moment just to set locale
+ * for internationalization.
+ *
+ * Import here all supported languages, so
+ * they can be set as global locale.
+ */
+import moment from 'moment';
+// import 'moment/locale/cs';
+import 'moment/locale/de';
+import 'moment/locale/en-gb';
+import 'moment/locale/es';
+// import 'moment/locale/fi';
+import 'moment/locale/fr-ca';
+import 'moment/locale/fr';
+// import 'moment/locale/it';
+// import 'moment/locale/ja';
+// import 'moment/locale/ko';
+// import 'moment/locale/nb';
+// import 'moment/locale/nl';
+import 'moment/locale/pl';
+import 'moment/locale/pt-br';
+// import 'moment/locale/sv';
+// import 'moment/locale/zh-cn';
+// import 'moment/locale/zh-tw';
+
+/**
+ * serenova-client-strings contains translator files
+ * for each language.
+ */
+// import csCzTranslationMessages from 'serenova-client-strings/agent-desktop/cs-CZ.json';
+import deDeTranslationMessages from 'serenova-client-strings/agent-desktop/de-DE.json';
+import enGbTranslationMessages from 'serenova-client-strings/agent-desktop/en-GB.json';
+import enUsTranslationMessages from 'serenova-client-strings/agent-desktop/en-US.json';
+import esEsTranslationMessages from 'serenova-client-strings/agent-desktop/es-ES.json';
+// import fiFiTranslationMessages from 'serenova-client-strings/agent-desktop/fi-FI.json';
+import frCaTranslationMessages from 'serenova-client-strings/agent-desktop/fr-CA.json';
+import frFrTranslationMessages from 'serenova-client-strings/agent-desktop/fr-FR.json';
+// import itItTranslationMessages from 'serenova-client-strings/agent-desktop/it-IT.json';
+// import jaJpTranslationMessages from 'serenova-client-strings/agent-desktop/ja-JP.json';
+// import koKrTranslationMessages from 'serenova-client-strings/agent-desktop/ko-KR.json';
+// import nbNoTranslationMessages from 'serenova-client-strings/agent-desktop/nb-NO.json';
+// import nlNlTranslationMessages from 'serenova-client-strings/agent-desktop/nl-NL.json';
+import plPlTranslationMessages from 'serenova-client-strings/agent-desktop/pl-PL.json';
+import ptBrTranslationMessages from 'serenova-client-strings/agent-desktop/pt-BR.json';
+// import svSeTranslationMessages from 'serenova-client-strings/agent-desktop/sv-SE.json';
+// import zhHansTranslationMessages from 'serenova-client-strings/agent-desktop/zh-CN.json';
+// import zhHantTranslationMessages from 'serenova-client-strings/agent-desktop/zh-TW.json';
 
 import { DEFAULT_LOCALE } from './containers/AgentDesktop/constants';
-import enUsTranslationMessages from './translations/en-US.json';
-import deDeTranslationMessages from './translations/de-DE.json';
-import enGbTranslationMessages from './translations/en-GB.json';
-import esEsTranslationMessages from './translations/es-ES.json';
-import frCaTranslationMessages from './translations/fr-CA.json';
-import frFrTranslationMessages from './translations/fr-FR.json';
-import plPlTranslationMessages from './translations/pl-PL.json';
-import ptBrTranslationMessages from './translations/pt-BR.json';
 
-addLocaleData(enLocaleData);
-addLocaleData(frLocaleData);
+// addLocaleData(csLocaleData);
 addLocaleData(deLocaleData);
+addLocaleData(enLocaleData);
 addLocaleData(esLocaleData);
+// addLocaleData(fiLocaleData);
+addLocaleData(frLocaleData);
+// addLocaleData(itLocaleData);
+// addLocaleData(jaLocaleData);
+// addLocaleData(koLocaleData);
+// addLocaleData(nbLocaleData);
+// addLocaleData(nlLocaleData);
 addLocaleData(plLocaleData);
 addLocaleData(ptLocaleData);
+// addLocaleData(svLocaleData);
+// addLocaleData(zhLocaleData);
 
 export const formatTranslationMessages = (locale, messages) => {
   const defaultFormattedMessages =
@@ -40,7 +99,7 @@ export const formatTranslationMessages = (locale, messages) => {
       : {};
   const formattedMessages = {};
   const messageKeys = Object.keys(messages);
-  messageKeys.forEach((messageKey) => {
+  messageKeys.forEach(messageKey => {
     if (locale === DEFAULT_LOCALE) {
       formattedMessages[messageKey] = messages[messageKey];
     } else {
@@ -52,35 +111,72 @@ export const formatTranslationMessages = (locale, messages) => {
   return formattedMessages;
 };
 
+/**
+ * By default will be set with "en-US".
+ * If a non-imported locale is received it will
+ * set the default language.
+ */
+export const setGlobalLocale = locale => moment.locale(locale);
+
 export const mappedLocales = [
   { value: 'en-US', label: 'English (US)' },
+  // { value: 'cs-CZ', label: 'Čeština (Czech Republic)' },
   { value: 'de-DE', label: 'Deutsche (Deutschland)' },
   { value: 'en-GB', label: 'English (Great Britain)' },
-  { value: 'es-ES', label: 'Español (España)' },
+  { value: 'es-ES', label: 'Español (España)' }, // Castilian Spanish - Grande!!
   { value: 'fr-CA', label: 'Français (Canada)' },
   { value: 'fr-FR', label: 'Français (France)' },
+  // { value: 'it-IT', label: 'Italiano (Italia)' },
+  // { value: 'nb-NO', label: 'Norsk (Norge)' }, // Standard Norwegian
+  // { value: 'nl-NL', label: 'Nederlands (Nederland)' },
   { value: 'pl-PL', label: 'Polski (Polska)' },
   { value: 'pt-BR', label: 'Português (Brasil)' },
+  // { value: 'sv-SE', label: 'Svenska (Sverige)' }, // Standard Swedish
+  // { value: 'fi-FI', label: 'Suomi (Suomessa)' }, // Standard Finnish
+  // { value: 'ja-JP', label: '日本語 (日本)' }, // Standard Japanese
+  // { value: 'ko-KR', label: '한국어 (한국)' }, // Standard Korean
+  // { value: 'zh-CN', label: '简体中文 (中国)' }, // Simplified Chinese
+  // { value: 'zh-TW', label: '繁體中文 (中文 - 台灣)' }, // Traditional Chinese - Taiwan
 ];
 
 export const appLocales = [
   'en-US',
+  // 'cs-CZ',
   'de-DE',
   'en-GB',
   'es-ES',
+  // 'fi-FI',
   'fr-CA',
   'fr-FR',
+  // 'it-IT',
+  // 'ja-JP',
+  // 'ko-KR',
+  // 'nb-NO',
+  // 'nl-NL',
   'pl-PL',
   'pt-BR',
+  'sv-SE',
+  // 'zh-CN',
+  // 'zh-TW',
 ];
 
 export const translationMessages = {
-  'en-US': formatTranslationMessages('en-US', enUsTranslationMessages),
+  // 'cs-CZ': formatTranslationMessages('cs-CZ', csCzTranslationMessages),
   'de-DE': formatTranslationMessages('de-DE', deDeTranslationMessages),
   'en-GB': formatTranslationMessages('en-GB', enGbTranslationMessages),
+  'en-US': formatTranslationMessages('en-US', enUsTranslationMessages),
   'es-ES': formatTranslationMessages('es-ES', esEsTranslationMessages),
+  // 'fi-FI': formatTranslationMessages('fi-FI', fiFiTranslationMessages),
   'fr-CA': formatTranslationMessages('fr-CA', frCaTranslationMessages),
   'fr-FR': formatTranslationMessages('fr-FR', frFrTranslationMessages),
+  // 'it-IT': formatTranslationMessages('it-IT', itItTranslationMessages),
+  // 'ja-JP': formatTranslationMessages('ja-JP', jaJpTranslationMessages),
+  // 'ko-KR': formatTranslationMessages('ko-KR', koKrTranslationMessages),
+  // 'nb-NO': formatTranslationMessages('nb-NO', nbNoTranslationMessages),
+  // 'nl-NL': formatTranslationMessages('nl-NL', nlNlTranslationMessages),
   'pl-PL': formatTranslationMessages('pl-PL', plPlTranslationMessages),
   'pt-BR': formatTranslationMessages('pt-BR', ptBrTranslationMessages),
+  // 'sv-SE': formatTranslationMessages('sv-SE', svSeTranslationMessages),
+  // 'zh-CN': formatTranslationMessages('zh-CN', zhHansTranslationMessages),
+  // 'zh-TW': formatTranslationMessages('zh-TW', zhHantTranslationMessages),
 };

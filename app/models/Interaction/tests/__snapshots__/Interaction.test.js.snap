@@ -79,7 +79,7 @@ Interaction {
       "messageKey": "callbackRequest",
       "messageValues": Immutable.Map {
         "callbackNumber": "mock-callback-number",
-        "waitingFor": "0s",
+        "waitingFor": "a few seconds",
       },
       "isDimissible": true,
     },

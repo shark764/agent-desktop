@@ -200,6 +200,8 @@ import {
   selectSelectedPresenceReason,
 } from '../AgentStatusMenu/selectors';
 
+import { setGlobalLocale } from '../../i18n';
+
 export class App extends React.Component {
   componentWillMount() {
     if (
@@ -319,6 +321,12 @@ export class App extends React.Component {
     } else {
       console.error('Server conf file not found, Unable to load desktop');
     }
+
+    /**
+     * Setting locale for internationalization,
+     * datetime formatted displaying for Agent-Desktop purpose
+     */
+    setGlobalLocale(this.props.locale);
 
     // Initialize Remote Logging with Sentry.io
     // Check if environment === 'prod' to re-enable
@@ -1557,7 +1565,9 @@ export class App extends React.Component {
               });
             } else {
               console.log(
-                `SMS interaction already in progress for ${response.endpoint}. Ignoring click-to-sms-requested.`
+                `SMS interaction already in progress for ${
+                  response.endpoint
+                }. Ignoring click-to-sms-requested.`
               );
             }
             break;
@@ -1572,7 +1582,9 @@ export class App extends React.Component {
               this.props.startOutboundEmail(response.endpoint);
             } else {
               console.log(
-                `Email interaction already in progress for ${response.endpoint}. Ignoring click-to-email-requested.`
+                `Email interaction already in progress for ${
+                  response.endpoint
+                }. Ignoring click-to-email-requested.`
               );
             }
             break;
@@ -2370,5 +2382,8 @@ App.contextTypes = {
 };
 
 export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(hot(module)(Radium(App)))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(hot(module)(Radium(App)))
 );

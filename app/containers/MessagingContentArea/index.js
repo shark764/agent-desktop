@@ -12,7 +12,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { connect } from 'react-redux';
-import { FormattedTime } from 'react-intl';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 import AwaitingDispositionSpinner from 'components/AwaitingDispositionSpinner';
@@ -31,6 +30,7 @@ import { setAwaitingDisposition } from 'containers/AgentDesktop/actions';
 
 import { selectWrapupBtnTooltipText } from 'containers/ContentAreaTop/selectors';
 
+import moment from 'moment';
 import CustomerIndicator from './CustomerIndicator';
 import MessagingTextArea from './MessagingTextArea';
 import { copyChatTranscript } from './actions';
@@ -232,7 +232,7 @@ export class MessagingContentArea extends React.Component {
                     </span>
                     {!message.pending && (
                       <span style={this.styles.messageTime}>
-                        <FormattedTime value={new Date(message.timestamp)} />
+                        {moment(message.timestamp).format('LT')}
                       </span>
                     )}
                     <MessageContent message={message} />
