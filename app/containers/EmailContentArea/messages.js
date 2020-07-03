@@ -70,4 +70,66 @@ export default defineMessages({
     id: 'app.containers.EmailContentArea.onDateNameWrote',
     defaultMessage: 'On {date} {name} wrote:',
   },
+  richTextEditorButtonBold: {
+    id: 'app.containers.EmailContentArea.richTextEditorButtonBold',
+    defaultMessage: 'Bold',
+  },
+  richTextEditorButtonBoldAbbreviation: {
+    id: 'app.containers.EmailContentArea.richTextEditorButtonBoldAbbreviation',
+    defaultMessage: 'B',
+  },
+  richTextEditorButtonItalic: {
+    id: 'app.containers.EmailContentArea.richTextEditorButtonItalic',
+    defaultMessage: 'Italic',
+  },
+  richTextEditorButtonItalicAbbreviation: {
+    id:
+      'app.containers.EmailContentArea.richTextEditorButtonItalicAbbreviation',
+    defaultMessage: 'I',
+  },
+  richTextEditorButtonUnderline: {
+    id: 'app.containers.EmailContentArea.richTextEditorButtonUnderline',
+    defaultMessage: 'Underline',
+  },
+  richTextEditorButtonUnderlineAbbreviation: {
+    id:
+      'app.containers.EmailContentArea.richTextEditorButtonUnderlineAbbreviation',
+    defaultMessage: 'U',
+  },
+  richTextEditorButtonHeading3: {
+    id: 'app.containers.EmailContentArea.richTextEditorButtonHeading3',
+    defaultMessage: 'Heading 3',
+  },
+  richTextEditorButtonHeading3Abbreviation: {
+    id:
+      'app.containers.EmailContentArea.richTextEditorButtonHeading3Abbreviation',
+    defaultMessage: 'H3',
+  },
+  richTextEditorButtonBlockquote: {
+    id: 'app.containers.EmailContentArea.richTextEditorButtonBlockquote',
+    defaultMessage: 'Blockquote',
+  },
+  richTextEditorButtonBlockquoteAbbreviation: {
+    id:
+      'app.containers.EmailContentArea.richTextEditorButtonBlockquoteAbbreviation',
+    defaultMessage: 'Q',
+  },
+  richTextEditorButtonUnorderedList: {
+    id: 'app.containers.EmailContentArea.richTextEditorButtonUnorderedList',
+    defaultMessage: 'Unordered List',
+  },
+  richTextEditorButtonUnorderedListAbbreviation: {
+    id:
+      'app.containers.EmailContentArea.richTextEditorButtonUnorderedListAbbreviation',
+    defaultMessage: 'UL',
+  },
+  richTextEditorButtonOrderedList: {
+    id: 'app.containers.EmailContentArea.richTextEditorButtonOrderedList',
+    defaultMessage: 'Ordered List',
+  },
+  richTextEditorButtonOrderedListAbbreviation: {
+    id:
+      'app.containers.EmailContentArea.richTextEditorButtonOrderedListAbbreviation',
+    defaultMessage: 'OL',
+  },
 });

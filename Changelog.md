@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.51.0] (2020-07-02)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.51.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.51.0/index.html)
+### Changed
+* CXV1-22735 - Adding localization to richTextEditor inline buttons for email interactions.
+
 ## [1.50.0] (2020-06-24)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.50.0/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.50.0/index.html)

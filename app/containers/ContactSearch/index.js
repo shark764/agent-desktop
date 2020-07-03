@@ -166,12 +166,12 @@ export class ContactSearch extends React.Component {
   };
 
   getLoader = () => (
-    <div id="loadingContainer" style={styles.loading}>
+    <div id="loadingContainer" style={styles.loading} key={0}>
       <IconSVG width="80px" id="loadingIcon" name="loading" />
     </div>
   );
 
-  setSearchInputElement = (element) => {
+  setSearchInputElement = element => {
     if (element) {
       this.searchInputElement = element;
     }
@@ -183,7 +183,7 @@ export class ContactSearch extends React.Component {
     }
   };
 
-  getFilterName = (filter) => {
+  getFilterName = filter => {
     if (filter.attribute && filter.attribute.id === 'all') {
       return this.props.intl.formatMessage(messages.all);
     } else if (filter.attribute && filter.attribute.id === 'operator') {
@@ -206,9 +206,9 @@ export class ContactSearch extends React.Component {
       if (this.props.resultsCount !== 0) {
         const resultsMapped =
           !this.props.deletionPending &&
-          this.props.results.map((contact) => {
+          this.props.results.map(contact => {
             const isSelected = this.props.checkedContacts.find(
-              (checkedContact) => checkedContact.id === contact.id
+              checkedContact => checkedContact.id === contact.id
             );
             return (
               <ContactSearchResult
@@ -217,7 +217,7 @@ export class ContactSearch extends React.Component {
                   this.props.hideContactSelectCheckboxes
                 }
                 checked={!!isSelected}
-                selectContact={(isChecked) => {
+                selectContact={isChecked => {
                   if (isChecked) {
                     this.props.checkContact(contact);
                   } else {
@@ -295,7 +295,7 @@ export class ContactSearch extends React.Component {
             focusSearchInputElement={this.focusSearchInputElement}
           />
           <div style={styles.filtersWrapper}>
-            {this.props.query.map((filter) => (
+            {this.props.query.map(filter => (
               <Filter
                 key={filter.attribute.objectName}
                 name={this.getFilterName(filter)}
@@ -371,16 +371,16 @@ function mapDispatchToProps(dispatch) {
     searchContacts: () => dispatch(searchContacts()),
     clearSearchResults: () => dispatch(clearSearchResults()),
     clearCheckedContacts: () => dispatch(clearCheckedContacts()),
-    checkContact: (contact) => dispatch(checkContact(contact)),
-    uncheckContact: (contact) => dispatch(uncheckContact(contact)),
-    newContact: (interactionId) => dispatch(newContact(interactionId)),
+    checkContact: contact => dispatch(checkContact(contact)),
+    uncheckContact: contact => dispatch(uncheckContact(contact)),
+    newContact: interactionId => dispatch(newContact(interactionId)),
     deleteContacts: () => dispatch(deleteContacts()),
-    setConfirmingDelete: (confirmingDelete) =>
+    setConfirmingDelete: confirmingDelete =>
       dispatch(setConfirmingDelete(confirmingDelete)),
-    removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
+    removeSearchFilter: filter => dispatch(removeSearchFilter(filter)),
     selectSidePanelTab: (interactionId, tabName) =>
       dispatch(selectSidePanelTab(interactionId, tabName)),
-    mergeContacts: (interactionId) => dispatch(mergeContacts(interactionId)),
+    mergeContacts: interactionId => dispatch(mergeContacts(interactionId)),
     dispatch,
   };
 }

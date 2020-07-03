@@ -120,17 +120,18 @@ export class OutboundInteractionButton extends React.Component {
         id={`${this.props.channelType}NewInteractionButton`}
         type="secondary"
         onClick={
-          this.isEnabled() &&
-          (() => {
-            if (this.props.channelType === 'voice') {
-              return this.startCall;
-            } else if (this.props.channelType === 'sms') {
-              return this.startSms;
-            } else if (this.props.channelType === 'email') {
-              return this.startEmail;
-            }
-            return null;
-          })()
+          this.isEnabled()
+            ? (() => {
+              if (this.props.channelType === 'voice') {
+                return this.startCall;
+              } else if (this.props.channelType === 'sms') {
+                return this.startSms;
+              } else if (this.props.channelType === 'email') {
+                return this.startEmail;
+              }
+              return null;
+            })()
+            : undefined
         }
         title={this.getTitle()}
         style={[

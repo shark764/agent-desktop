@@ -304,7 +304,7 @@ export class EmailContentArea extends React.Component {
       const emailIframe =
         this.emailFrames.current.contentWindow ||
         this.emailFrames.current.contentDocument.document ||
-          this.emailFrames.current.contentDocument;
+        this.emailFrames.current.contentDocument;
 
       // https://stackoverflow.com/a/18957141
       emailIframe.document.open();
@@ -628,14 +628,18 @@ ${this.props.selectedInteraction.emailPlainBody}`;
     let from;
     if (this.props.selectedInteraction.emailDetails === undefined) {
       if (this.props.selectedInteraction.contact !== undefined) {
-        from = `${this.props.selectedInteraction.contact.attributes.name} [${this.props.selectedInteraction.customer}]`;
+        from = `${this.props.selectedInteraction.contact.attributes.name} [${
+          this.props.selectedInteraction.customer
+        }]`;
       } else {
         from = this.props.selectedInteraction.customer;
       }
     } else {
       const emailFrom = this.props.selectedInteraction.emailDetails.from[0];
       if (this.props.selectedInteraction.contact !== undefined) {
-        from = `${this.props.selectedInteraction.contact.attributes.name} [${emailFrom.address}]`;
+        from = `${this.props.selectedInteraction.contact.attributes.name} [${
+          emailFrom.address
+        }]`;
       } else if (emailFrom.name !== emailFrom.address) {
         from =
           emailFrom.name === null
@@ -1192,48 +1196,76 @@ ${this.props.selectedInteraction.emailPlainBody}`;
             sideButtons={[]}
             inlineButtons={[
               {
-                label: 'B',
+                label: this.props.intl.formatMessage(
+                  messages.richTextEditorButtonBoldAbbreviation
+                ),
                 style: 'BOLD',
                 icon: 'bold',
-                description: 'Bold',
+                description: this.props.intl.formatMessage(
+                  messages.richTextEditorButtonBold
+                ),
               },
               {
-                label: 'I',
+                label: this.props.intl.formatMessage(
+                  messages.richTextEditorButtonItalicAbbreviation
+                ),
                 style: 'ITALIC',
                 icon: 'italic',
-                description: 'Italic',
+                description: this.props.intl.formatMessage(
+                  messages.richTextEditorButtonItalic
+                ),
               },
               {
-                label: 'U',
+                label: this.props.intl.formatMessage(
+                  messages.richTextEditorButtonUnderlineAbbreviation
+                ),
                 style: 'UNDERLINE',
                 icon: 'underline',
-                description: 'Underline',
+                description: this.props.intl.formatMessage(
+                  messages.richTextEditorButtonUnderline
+                ),
               },
             ]}
             blockButtons={[
               {
-                label: 'H3',
+                label: this.props.intl.formatMessage(
+                  messages.richTextEditorButtonHeading3Abbreviation
+                ),
                 style: 'header-three',
                 icon: 'header',
-                description: 'Heading 3',
+                description: this.props.intl.formatMessage(
+                  messages.richTextEditorButtonHeading3
+                ),
               },
               {
-                label: 'Q',
+                label: this.props.intl.formatMessage(
+                  messages.richTextEditorButtonBlockquoteAbbreviation
+                ),
                 style: 'blockquote',
                 icon: 'quote-right',
-                description: 'Blockquote',
+                description: this.props.intl.formatMessage(
+                  messages.richTextEditorButtonBlockquote
+                ),
               },
               {
-                label: 'UL',
+                label: this.props.intl.formatMessage(
+                  messages.richTextEditorButtonUnorderedListAbbreviation
+                ),
                 style: 'unordered-list-item',
                 icon: 'list-ul',
-                description: 'Unordered List',
+                description: this.props.intl.formatMessage(
+                  messages.richTextEditorButtonUnorderedList
+                ),
               },
               {
-                label: 'OL',
+                label: this.props.intl.formatMessage(
+                  messages.richTextEditorButtonOrderedListAbbreviation
+                ),
                 style: 'ordered-list-item',
                 icon: 'list-ol',
-                description: 'Ordered List',
+                description: this.props.intl.formatMessage(
+                  messages.richTextEditorButtonOrderedList
+                ),
               },
             ]}
           />
@@ -1329,6 +1361,9 @@ function mapDispatchToProps(dispatch) {
 
 export default ErrorBoundary(
   injectIntl(
-    connect(mapStateToProps, mapDispatchToProps)(Radium(EmailContentArea))
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Radium(EmailContentArea))
   )
 );
