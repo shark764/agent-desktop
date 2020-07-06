@@ -30,9 +30,14 @@ class TetheredSelect extends Select {
     /* this.wrapper comes from the ref of the main Select component (super.render()) */
     const selectWidth = this.wrapper ? this.wrapper.offsetWidth : null;
 
+    /**
+     Use given zIndex if one exists
+     */
+    const zIndex = this.props.style.zIndex || '4';
+
     return (
       <TetherComponent
-        style={{ zIndex: '4', paddingBottom: '2em', ...this.props.style }}
+        style={{ zIndex, paddingBottom: '2em' }}
         renderElementTo="body"
         ref="tethered-component" // eslint-disable-line
         attachment="top left"
