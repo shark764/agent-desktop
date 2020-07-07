@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.52.0] (2020-07-02)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.52.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.52.0/index.html)
+### Changed
+* CXV1-22736 - Messages from SDK have been localized.
+
 ## [1.51.1] (2020-07-02)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.51.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.51.1/index.html)
