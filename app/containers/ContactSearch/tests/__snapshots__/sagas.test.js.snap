@@ -6,7 +6,7 @@ Object {
     "email": "test%40email.com",
     "name": "Test",
     "page": 1,
-    "phone": "%22%2B15555555555%22",
+    "phone": "%2B15555555555",
   },
 }
 `;

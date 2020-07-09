@@ -978,7 +978,19 @@ export class App extends React.Component {
                     );
                   }
                 } else if (response.searchType === 'fuzzy') {
-                  const fuzzySearchString = response.terms.join(' ');
+                  const fuzzySearchString = response.terms
+                    .map(term => {
+                      const trimmedTerm = term.trim();
+                      if (
+                        trimmedTerm.includes(' ') &&
+                        !trimmedTerm.includes('"')
+                      ) {
+                        return `"${trimmedTerm}"`;
+                      } else {
+                        return trimmedTerm;
+                      }
+                    })
+                    .join(' ');
                   this.attemptContactSearch(
                     { q: fuzzySearchString },
                     response.interactionId,
@@ -1705,10 +1717,14 @@ export class App extends React.Component {
     } else {
       const exactMatchesArray = [];
       terms.forEach(term => {
+        const trimmedTerm = term
+          .toString()
+          .toLowerCase()
+          .trim();
         searchResponse.results.forEach(result => {
           const attributeArray = Object.values(result.attributes);
           attributeArray.forEach(attribute => {
-            if (attribute.toLowerCase() === term.toString().toLowerCase()) {
+            if (attribute.toLowerCase().trim() === trimmedTerm) {
               exactMatchesArray.push(result);
             }
           });

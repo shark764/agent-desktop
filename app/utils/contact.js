@@ -89,17 +89,7 @@ export function createSearchQuery(query, nextPage) {
   const encodedQuery = {};
   Object.keys(query).forEach(queryName => {
     const queryToEncode = query[queryName];
-    const queryNoQuotes = queryToEncode.toString().replace(/"/g, '');
-    let finalQuery = queryNoQuotes;
-
-    // here we are looking for queries that either start and end with double-quotes,
-    // or are telephone queries. If they are either, then put double quotes around
-    // them so that the sdk does an exact string match instead of the default partial match
-    if (/^".*"$/.test(queryToEncode) || queryName === 'phone') {
-      finalQuery = `"${queryNoQuotes}"`;
-    }
-
-    encodedQuery[queryName] = encodeURIComponent(finalQuery);
+    encodedQuery[queryName] = encodeURIComponent(queryToEncode);
   });
   return {
     query: Object.assign(encodedQuery, {

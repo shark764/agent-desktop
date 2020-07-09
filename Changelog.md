@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.52.2] (2020-07-09)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.52.2/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.52.2/index.html)
+### Changed
+* CXV1-18668 - Terms from fuzzy screen pops that contain spaces will be surrounded in quotes, terms with quotes are left alone
+
 ## [1.52.1] (2020-07-08)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.52.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.52.1/index.html)
