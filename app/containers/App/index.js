@@ -1697,21 +1697,29 @@ export class App extends React.Component {
   };
 
   assignAndViewContacts = (searchResponse, interactionId, query, terms) => {
-    const exactMatchesArray = [];
-    terms.forEach(term => {
-      searchResponse.results.forEach(result => {
-        const attributeArray = Object.values(result.attributes);
-        attributeArray.forEach(attribute => {
-          if (attribute.toLowerCase() === term.toString().toLowerCase()) {
-            exactMatchesArray.push(result);
-          }
+    if (terms === undefined) {
+      if (searchResponse.results.length === 1) {
+        // If single contact found, auto assign to interaction
+        this.props.assignContact(interactionId, searchResponse.results[0]);
+      }
+    } else {
+      const exactMatchesArray = [];
+      terms.forEach(term => {
+        searchResponse.results.forEach(result => {
+          const attributeArray = Object.values(result.attributes);
+          attributeArray.forEach(attribute => {
+            if (attribute.toLowerCase() === term.toString().toLowerCase()) {
+              exactMatchesArray.push(result);
+            }
+          });
         });
       });
-    });
-    if (exactMatchesArray.length === 1) {
-      // If single contact found and one of the terms exactly equals one of the contact attributes, auto assign to interaction
-      this.props.assignContact(interactionId, exactMatchesArray[0]);
+      if (exactMatchesArray.length === 1) {
+        // If single contact found and one of the terms exactly equals one of the contact attributes, auto assign to interaction
+        this.props.assignContact(interactionId, exactMatchesArray[0]);
+      }
     }
+
     this.props.setInteractionQuery(interactionId, query);
   };
 
