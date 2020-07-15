@@ -240,6 +240,7 @@ export class ContactInteractionHistory extends React.Component {
           }
           loader={(
             <IconSVG
+              key={0}
               id="loadingContactHistoryIcon"
               name="loading"
               width="80px"

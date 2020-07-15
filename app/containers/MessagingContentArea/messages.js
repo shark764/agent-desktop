@@ -58,6 +58,10 @@ export default defineMessages({
     id: 'app.containers.MessagingContentArea.copiedTranscript',
     defaultMessage: 'Copied transcript to clipboard',
   },
+  agent: {
+    id: 'app.containers.MessagingContentArea.agent',
+    defaultMessage: 'Agent',
+  },
   customerIsTyping: {
     id: 'app.containers.MessagingContentArea.customerIsTyping',
     defaultMessage: 'Customer is typing',

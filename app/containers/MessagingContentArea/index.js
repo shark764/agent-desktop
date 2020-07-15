@@ -12,6 +12,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 import AwaitingDispositionSpinner from 'components/AwaitingDispositionSpinner';
@@ -183,7 +184,7 @@ export class MessagingContentArea extends React.Component {
       content = <AwaitingDispositionSpinner />;
     } else {
       const messageHistory = this.props.selectedInteraction.messageHistory.map(
-        message => {
+        (message) => {
           let messageFrom;
           if (
             (message.type === 'customer' || message.type === 'message') &&
@@ -197,7 +198,7 @@ export class MessagingContentArea extends React.Component {
             (message.from === this.props.agentId ||
               message.resourceId === this.props.agentId)
           ) {
-            messageFrom = 'Agent';
+            messageFrom = <FormattedMessage {...messages.agent} />;
           } else {
             messageFrom = message.from;
           }
@@ -302,9 +303,9 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    copyChatTranscript: interaction =>
+    copyChatTranscript: (interaction) =>
       dispatch(copyChatTranscript(interaction)),
-    setAwaitingDisposition: interactionId =>
+    setAwaitingDisposition: (interactionId) =>
       dispatch(setAwaitingDisposition(interactionId)),
     dispatch,
   };

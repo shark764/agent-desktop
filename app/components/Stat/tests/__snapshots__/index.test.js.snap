@@ -150,7 +150,11 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
       <div
         key=".1"
       >
-        Agent
+        <FormattedMessage
+          defaultMessage="Agent"
+          id="app.components.Stat.resource-id"
+          values={Object {}}
+        />
       </div>
       <div
         data-radium={true}
@@ -198,7 +202,9 @@ exports[`<Stat /> should show hover details on mouse over 1`] = `
       <div
         key=".5"
       >
-        MockStatAggregate
+        <FormattedMessage
+          values={Object {}}
+        />
       </div>
     </div>
     <div

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.53.0] (2020-07-06)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.53.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.53.0/index.html)
+### Added
+* CXV1-22730 - Adding missing translations for hardcoded texts on standard content - Part I.
+
 ## [1.52.2] (2020-07-09)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.52.2/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.52.2/index.html)

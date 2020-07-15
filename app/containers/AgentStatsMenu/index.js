@@ -32,6 +32,7 @@ import {
 } from 'containers/Toolbar/selectors';
 import { selectVisibleQueues } from 'containers/AgentTransferMenuPreferenceMenu/selectors';
 import { initializeTransferMenuPreferences } from 'containers/AgentTransferMenuPreferenceMenu/actions';
+import statMessages from 'components/Stat/messages';
 import messages from './messages';
 
 const MAXIMUM_STATS = 5;
@@ -161,7 +162,7 @@ export class AgentStatsMenu extends React.Component {
       this.props.availableStats[this.state.statOption].responseKeys
     ).map((key) => ({
       value: key,
-      label: key[0].toUpperCase() + key.slice(1),
+      label: this.props.intl.formatMessage(statMessages[key]),
     }));
 
   render() {

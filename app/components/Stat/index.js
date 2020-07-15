@@ -143,7 +143,8 @@ export class Stat extends React.Component {
 
     switch (this.props.stat.statSource) {
       case 'resource-id':
-        source = 'Agent';
+      case 'tenant-id':
+        source = <FormattedMessage {...messages[this.props.stat.statSource]} />;
         break;
       case 'queue-id': {
         const sourceData = this.props.queues.find(
@@ -160,18 +161,10 @@ export class Stat extends React.Component {
           );
         break;
       }
-      case 'tenant-id':
-        source = 'Tenant';
-        break;
       default:
         console.warn('[Agent Desktop] Agent statistic has unknown source.');
+        break;
     }
-
-    let aggregate = this.props.stat.statAggregate;
-    if (aggregate === 'avg') {
-      aggregate = 'average';
-    }
-    aggregate = aggregate[0].toUpperCase() + aggregate.slice(1);
 
     return (
       <div
@@ -213,7 +206,9 @@ export class Stat extends React.Component {
 :
               </div>
               <div style={styles.hoverData}>
-                {aggregate}
+                <FormattedMessage
+                  {...messages[this.props.stat.statAggregate]}
+                />
               </div>
             </div>
             <div

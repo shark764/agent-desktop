@@ -20,4 +20,7 @@ export default [
   'cxengage/interactions/unfocus-acknowledged', // Do nothing for this case
   'cxengage/interactions/voice/customer-hold-error', // Handling this on the error saga
   'cxengage/interactions/voice/customer-resume-error', // Handling this one on the error saga
+  'cxengage/entities/get-user-outbound-identifier-lists-response', // Do nothing for this case
+  'cxengage/interactions/email/attachment-removed', // Do nothing for this case
+  'cxengage/entities/get-recordings-response', // Handled by saga
 ];

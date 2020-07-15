@@ -149,7 +149,7 @@ export class AgentStatusMenu extends React.Component {
     }
   }
 
-  setCollapsibleMenus = menuId => {
+  setCollapsibleMenus = (menuId) => {
     if (this.state.expandedMenu === '' || this.state.expandedMenu !== menuId) {
       this.setState({ expandedMenu: menuId });
     } else {
@@ -159,7 +159,7 @@ export class AgentStatusMenu extends React.Component {
 
   clearHover = () => {
     // Longstanding radium bug where mouseleave event is never triggered https://github.com/FormidableLabs/radium/issues/524
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       clearHoverInt: prevState.clearHoverInt + 1,
     }));
   };
@@ -239,7 +239,7 @@ export class AgentStatusMenu extends React.Component {
     }
     const containsSelected =
       category.reasons.findIndex(
-        reason =>
+        (reason) =>
           this.props.selectedPresenceReason.reasonId === reason.reasonId &&
           this.props.selectedPresenceReason.listId === listId
       ) > -1;
@@ -257,14 +257,14 @@ export class AgentStatusMenu extends React.Component {
         handleTriggerClick={() => this.setCollapsibleMenus(elementId)}
       >
         {category.reasons.map(
-          reason => this.renderReason(reason, listId),
+          (reason) => this.renderReason(reason, listId),
           this
         )}
       </Collapsible>
     );
   };
 
-  renderList = reasonList => [
+  renderList = (reasonList) => [
     <div
       id={`notReadyStateTitle-${reasonList.id}`}
       key={`notReadyStateTitle-${reasonList.id}`}
@@ -331,7 +331,9 @@ export class AgentStatusMenu extends React.Component {
           />
           <Collapsible
             className="agentMenuPathway"
-            triggerHeader="Active Voice Pathway"
+            triggerHeader={this.props.intl.formatMessage(
+              messages.activeVoicePath
+            )}
             trigger={this.props.activeExtension.description}
             triggerDisabled={this.props.readyState === 'ready'}
             open={this.state.expandedMenu === 'agentVoicePathway'}
@@ -372,7 +374,7 @@ export class AgentStatusMenu extends React.Component {
           </Collapsible>
           <Collapsible
             className="agentDirectionMenu"
-            triggerHeader="Mode"
+            triggerHeader={this.props.intl.formatMessage(messages.mode)}
             trigger={this.props.intl.formatMessage(
               messages[this.props.agentDirection.direction]
             )}
@@ -482,9 +484,9 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    setActiveExtension: extension => dispatch(setActiveExtension(extension)),
+    setActiveExtension: (extension) => dispatch(setActiveExtension(extension)),
     goNotReady: (reason, listId) => dispatch(goNotReady(reason, listId)),
-    showConfirmationPopupGoReady: popupConfig =>
+    showConfirmationPopupGoReady: (popupConfig) =>
       dispatch(showConfirmationPopupGoReady(popupConfig)),
     dispatch,
   };

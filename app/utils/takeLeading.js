@@ -1,6 +1,6 @@
 import { call, fork, take } from 'redux-saga/effects';
 
-// eslint-disable-next-line func-names
+/* eslint-disable func-names */
 export const takeLeading = (patternOrChannel, saga, ...args) =>
   fork(function*() {
     while (true) {

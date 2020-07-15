@@ -162,7 +162,7 @@ const styles = {
 };
 
 export class ContactInteractionHistoryItem extends React.Component {
-  getInteractionHistoryDetails = contactHistoryInteractionId => {
+  getInteractionHistoryDetails = (contactHistoryInteractionId) => {
     this.props.setContactHistoryInteractionDetailsLoading(
       this.props.selectedInteractionId,
       contactHistoryInteractionId
@@ -172,20 +172,20 @@ export class ContactInteractionHistoryItem extends React.Component {
     });
   };
 
-  addControlsListAttribute = element => {
+  addControlsListAttribute = (element) => {
     if (element) {
       element.setAttribute('controlslist', 'nodownload'); // controlslist attribute not currently supported in React!
     }
   };
 
-  interactionBody = interactionDetails => {
+  interactionBody = (interactionDetails) => {
     let transcript;
     let transcriptItems;
-    const audioRecordings = recordings => {
+    const audioRecordings = (recordings) => {
       if (recordings.length === 0) {
         return <FormattedMessage {...messages.noRecordings} />;
       }
-      return recordings.map(recording => {
+      return recordings.map((recording) => {
         const participant = recording.name
           ? { name: recording.name }
           : recording.participantAdditionalInfo;
@@ -205,7 +205,10 @@ export class ContactInteractionHistoryItem extends React.Component {
 
         if (recording.files.length > 0) {
           return (
-            <div style={styles.recording}>
+            <div
+              key={recording.files[0].artifactFileId}
+              style={styles.recording}
+            >
               <div style={styles.transcriptTitle}>
                 <FormattedMessage
                   {...messages.recordingTitle}
@@ -218,7 +221,7 @@ export class ContactInteractionHistoryItem extends React.Component {
                 ref={this.addControlsListAttribute}
                 style={styles.audio}
                 controls
-                onContextMenu={event => event.preventDefault()}
+                onContextMenu={(event) => event.preventDefault()}
               />
               <div style={styles.recordingData}>
                 <FormattedMessage
@@ -266,7 +269,7 @@ export class ContactInteractionHistoryItem extends React.Component {
                 transcriptItem.payload.type;
               let messageFrom = transcriptItem.payload.from;
               if (messageType === 'agent') {
-                interactionDetails.agents.forEach(agent => {
+                interactionDetails.agents.forEach((agent) => {
                   if (agent.resourceId === transcriptItem.payload.from) {
                     messageFrom = agent.agentName;
                   }
@@ -275,6 +278,11 @@ export class ContactInteractionHistoryItem extends React.Component {
                 interactionDetails.customer === transcriptItem.payload.from
               ) {
                 messageFrom = this.props.contactName;
+              } else if (
+                transcriptItem.payload.metadata &&
+                transcriptItem.payload.metadata.type === 'system'
+              ) {
+                messageFrom = <FormattedMessage {...messages.system} />;
               } else if (
                 transcriptItem.payload.metadata &&
                 transcriptItem.payload.metadata.name
@@ -355,8 +363,8 @@ export class ContactInteractionHistoryItem extends React.Component {
       const segmentData =
         interaction.interactionDetails.agents &&
         interaction.interactionDetails.agents
-          .filter(segment => segment.conversationStartTimestamp !== undefined)
-          .map(segment => {
+          .filter((segment) => segment.conversationStartTimestamp !== undefined)
+          .map((segment) => {
             let duration;
             let notesBody;
             if (interaction.note === 1 && segment.note === undefined) {
@@ -490,28 +498,18 @@ export class ContactInteractionHistoryItem extends React.Component {
       );
     }
     switch (interaction.channelType) {
-      case 'voice': {
-        channelType = 'Voice';
-        break;
-      }
-      case 'sms': {
-        channelType = 'Sms';
-        break;
-      }
-      case 'messaging': {
-        channelType = 'Messaging';
-        break;
-      }
-      case 'email': {
-        channelType = 'Email';
-        break;
-      }
+      case 'voice':
+      case 'sms':
+      case 'messaging':
+      case 'email':
       case 'work-item': {
-        channelType = 'Work Item';
+        channelType = (
+          <FormattedMessage {...messages[interaction.channelType]} />
+        );
         break;
       }
       default: {
-        channelType = interaction.channelType;
+        ({ channelType } = interaction);
       }
     }
     if (interaction.lastQueueName) {
@@ -547,7 +545,7 @@ export class ContactInteractionHistoryItem extends React.Component {
             </div>
           )}
           <div>
-            {interaction.directionName}
+            <FormattedMessage {...messages[interaction.directionType]} />
           </div>
           <div>
             <FormattedMessage {...messages.channelType} />

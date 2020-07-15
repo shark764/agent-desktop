@@ -15,6 +15,14 @@ export default defineMessages({
     defaultMessage:
       'An unknown error has occurred. Please try to finish your work as you may need to refresh the page to continue.',
   },
+  code: {
+    id: 'app.containers.Errors.code',
+    defaultMessage: ' (Code: {code})',
+  },
+  errorDescription: {
+    id: 'app.containers.Errors.errorDescription',
+    defaultMessage: ' Error Description: {errorDescription}',
+  },
   'AD-1000': {
     id: 'app.containers.Errors.AD-1000',
     defaultMessage: 'No presence reason lists were found for this tenant.',

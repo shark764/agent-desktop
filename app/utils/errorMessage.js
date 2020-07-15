@@ -16,12 +16,12 @@ export const generateErrorMessage = (errorObject, formatMessage) => {
     errorDescriptionMessage = errorMessages.default;
   }
   if (code) {
-    errorDescriptionMessage += ` (Code: ${code})`;
+    errorDescriptionMessage += formatMessage(errorMessages.code, { code });
   }
   if (errorObject.data && errorObject.data.errorDescription) {
-    errorDescriptionMessage += ` Error Description: ${
-      errorObject.data.errorDescription
-    }`;
+    errorDescriptionMessage += formatMessage(errorMessages.errorDescription, {
+      errorDescription: errorObject.data.errorDescription,
+    });
   }
   return errorDescriptionMessage;
 };

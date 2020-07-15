@@ -52,19 +52,55 @@ export default defineMessages({
   },
   noNotesBody: {
     id: 'app.containers.ContactInteractionHistory.noNotesBody',
-    defaultMessage: 'notes body not written',
+    defaultMessage: 'Notes body not written',
   },
   noNotesTitle: {
     id: 'app.containers.ContactInteractionHistory.noNotesTitle',
-    defaultMessage: 'notes title not written',
+    defaultMessage: 'Notes title not written',
   },
   noDisposition: {
     id: 'app.containers.ContactInteractionHistory.noDisposition',
     defaultMessage: 'Disposition not selected',
   },
+  system: {
+    id: 'app.containers.ContactInteractionHistory.system',
+    defaultMessage: 'System',
+  },
   channelType: {
     id: 'app.containers.ContactInteractionHistory.channelType',
     defaultMessage: 'Channel',
+  },
+  inbound: {
+    id: 'app.containers.ContactInteractionHistory.inbound',
+    defaultMessage: 'Inbound',
+  },
+  outbound: {
+    id: 'app.containers.ContactInteractionHistory.outbound',
+    defaultMessage: 'Outbound',
+  },
+  'agent-initiated': {
+    id: 'app.containers.ContactInteractionHistory.agent-initiated',
+    defaultMessage: 'Agent Initiated',
+  },
+  voice: {
+    id: 'app.containers.ContactInteractionHistory.voice',
+    defaultMessage: 'Voice',
+  },
+  sms: {
+    id: 'app.containers.ContactInteractionHistory.sms',
+    defaultMessage: 'Sms',
+  },
+  messaging: {
+    id: 'app.containers.ContactInteractionHistory.messaging',
+    defaultMessage: 'Messaging',
+  },
+  email: {
+    id: 'app.containers.ContactInteractionHistory.email',
+    defaultMessage: 'Email',
+  },
+  'work-item': {
+    id: 'app.containers.ContactInteractionHistory.work-item',
+    defaultMessage: 'Work Item',
   },
   queue: {
     id: 'app.containers.ContactInteractionHistory.queue',

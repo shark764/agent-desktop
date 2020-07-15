@@ -1,7 +1,14 @@
 import { generateErrorMessage } from '../errorMessage';
 
 describe('generateErrorMessage', () => {
-  const formatMessage = (x) => x.defaultMessage;
+  const formatMessage = (x, y) => {
+    if (y === undefined) {
+      return x.defaultMessage;
+    } else {
+      const v = Object.keys(y)[0];
+      return x.defaultMessage.replace(`{${v}}`, y[v]);
+    }
+  };
   it('with an error object that has interactionFatal, returns the interactionFailed message', () => {
     expect(
       generateErrorMessage(

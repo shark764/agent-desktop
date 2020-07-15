@@ -40,6 +40,8 @@ import Button from 'components/Button';
 import ContactAttribute from 'components/ContactAttribute';
 import ContactSectionHeader from 'components/ContactSectionHeader';
 
+import { getLocaleLabel } from 'utils/contact';
+
 import {
   getSelectedOutboundEmailIdentifier,
   getSelectedOutboundPhoneIdentifier,
@@ -127,9 +129,14 @@ export class ContactView extends React.Component {
     );
   };
 
-  getSection = (section) => (
-    <div style={styles.section} key={section.label[this.props.intl.locale]}>
-      <ContactSectionHeader label={section.label[this.props.intl.locale]} />
+  getSection = (section, index) => (
+    <div
+      style={styles.section}
+      key={section.label[this.props.intl.locale] || index}
+    >
+      <ContactSectionHeader
+        label={getLocaleLabel(section, this.props.intl.locale)}
+      />
       {section.attributes.map(this.getAttributeRow)}
     </div>
   );
@@ -153,8 +160,10 @@ export class ContactView extends React.Component {
         selectedOutboundAni: this.props.getSelectedOutboundPhoneIdentifier,
       });
       if (channelType === 'voice') {
-        const outboundVoiceObject = { phoneNumber: contactPoint,
-          contactId: this.props.contact.id };
+        const outboundVoiceObject = {
+          phoneNumber: contactPoint,
+          contactId: this.props.contact.id,
+        };
         if (this.props.getSelectedOutboundPhoneIdentifier) {
           const {
             outboundIdentifier,

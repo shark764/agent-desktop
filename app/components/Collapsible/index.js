@@ -214,8 +214,7 @@ class Collapsible extends Component {
       <div className={parentClassString.trim()}>
         <div
           className={triggerContainerClassString}
-          onClick={this.handleTriggerClick}
-        >
+          onClick={this.handleTriggerClick}>
           <div className={'Collapsible__trigger-text'}>
             <div className={'Collapsible__trigger-header'}>
               {this.props.triggerHeader}
@@ -235,8 +234,7 @@ class Collapsible extends Component {
           className={outerClassString.trim()}
           ref="outer"
           style={dropdownStyle}
-          onTransitionEnd={this.handleTransitionEnd}
-        >
+          onTransitionEnd={this.handleTransitionEnd}>
           <div className={innerClassString.trim()} ref="inner">
             {children}
           </div>
@@ -247,6 +245,7 @@ class Collapsible extends Component {
 }
 
 Collapsible.propTypes = {
+  triggerHeader: PropTypes.string,
   transitionTime: PropTypes.number,
   easing: PropTypes.string,
   open: PropTypes.bool,
