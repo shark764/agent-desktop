@@ -1267,7 +1267,9 @@ export class Login extends React.Component {
             )}
             {pageContent}
           </div>
-          {!this.props.initiatedStandalonePopup && <LegalCopyright />}
+          {!this.props.initiatedStandalonePopup && (
+            <LegalCopyright locale={this.props.locale} />
+          )}
           {!this.props.initiatedStandalonePopup && this.getLanguageSelect()}
           <div style={styles.privacy}>
             <a
@@ -1287,7 +1289,7 @@ export class Login extends React.Component {
             {pageContent}
           </Dialog>
           {this.getLanguageSelect()}
-          <LegalCopyright />
+          <LegalCopyright locale={this.props.locale} />
           <div style={styles.privacy}>
             <a
               target="_blank"

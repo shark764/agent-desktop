@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.53.1] (2020-07-13)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.53.1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.53.1/index.html)
+### Changed
+* CXV1-22728 - Updating reference links to legal disclaimer pages.
+
 ## [1.53.0] (2020-07-06)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.53.0/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.53.0/index.html)

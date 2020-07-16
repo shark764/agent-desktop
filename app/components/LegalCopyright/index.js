@@ -17,7 +17,7 @@ import {
   MITEL_LEGAL_URL,
   MITEL_LEGAL_PROD_URL,
   CXENGAGE_LEGAL_PROD_URL,
-} from 'containers/AgentDesktop/constants';
+} from 'serenova-js-utils/urls';
 import messages from './messages';
 
 const styles = {
@@ -60,6 +60,13 @@ function LegalCopyright(props, context) {
     } else {
       legalUrl = CXENGAGE_LEGAL_URL;
     }
+    /**
+     * We add current language selected to cxengagelabs URLs
+     * Production URLs will be added when they are deployed
+     */
+    if (props.locale && props.locale !== 'en-US') {
+      legalUrl = `${legalUrl}/${props.locale}`;
+    }
   } else if (window.location.hostname.split('.')[0].indexOf('mitel') !== -1) {
     legalUrl = MITEL_LEGAL_PROD_URL;
   } else {
@@ -68,7 +75,10 @@ function LegalCopyright(props, context) {
 
   return (
     <div
-      style={[styles.copyright, context.toolbarMode && styles.copyrightToolbar]}
+      style={[
+        styles.copyright,
+        context.toolbarMode && styles.copyrightToolbar,
+      ]}
     >
       <div style={styles.copyrightText} id="serenova_copyright">
         <FormattedMessage
@@ -92,6 +102,10 @@ function LegalCopyright(props, context) {
     </div>
   );
 }
+
+LegalCopyright.propTypes = {
+  locale: PropTypes.string,
+};
 
 LegalCopyright.contextTypes = {
   toolbarMode: PropTypes.bool,

@@ -36,6 +36,30 @@ describe('<LegalCopyright />', () => {
     });
   });
 
+  describe('LegalCopyright in toolbarMode with different locale', () => {
+    it('renders CXEngage Legal in toolbarMode', () => {
+      global.jsdom.reconfigure({
+        url: 'https://dev-tb2.cxengagelabs.net/',
+      });
+      expect(
+        shallow(<LegalCopyright locale="fr-FR" />, {
+          context: { toolbarMode: true },
+        })
+      ).toMatchSnapshot();
+    });
+
+    it('renders Mitel Legal in toolbarMode', () => {
+      global.jsdom.reconfigure({
+        url: 'https://dev-mitel-skylight.cxengagelabs.net/',
+      });
+      expect(
+        shallow(<LegalCopyright locale="fr-FR" />, {
+          context: { toolbarMode: true },
+        })
+      ).toMatchSnapshot();
+    });
+  });
+
   describe('LegalCopyright in desktop', () => {
     it('renders CXEngage Legal in desktop', () => {
       global.jsdom.reconfigure({
@@ -54,6 +78,30 @@ describe('<LegalCopyright />', () => {
       });
       expect(
         shallow(<LegalCopyright />, {
+          context: { toolbarMode: false },
+        })
+      ).toMatchSnapshot();
+    });
+  });
+
+  describe('LegalCopyright in desktop with different locale', () => {
+    it('renders CXEngage Legal in desktop', () => {
+      global.jsdom.reconfigure({
+        url: 'https://dev-desktop.cxengagelabs.net/',
+      });
+      expect(
+        shallow(<LegalCopyright locale="es-ES" />, {
+          context: { toolbarMode: false },
+        })
+      ).toMatchSnapshot();
+    });
+
+    it('renders Mitel Legal in desktop', () => {
+      global.jsdom.reconfigure({
+        url: 'https://dev-mitel-desktop.cxengagelabs.net/',
+      });
+      expect(
+        shallow(<LegalCopyright locale="es-ES" />, {
           context: { toolbarMode: false },
         })
       ).toMatchSnapshot();

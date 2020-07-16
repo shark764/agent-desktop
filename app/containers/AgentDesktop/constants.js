@@ -225,14 +225,6 @@ export const UPDATE_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS_$ =
   'app/AgentDesktop/UPDATE_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS_$';
 export const SET_AWAITING_DISPOSITION_$ =
   'app/AgentDesktop/SET_AWAITING_DISPOSITION_$';
-export const CXENGAGE_LEGAL_URL =
-  'https://legal.cxengagelabs.net/cxengage-legal/index.html';
-export const MITEL_LEGAL_URL =
-  'https://legal.cxengagelabs.net/mitel-legal/index.html';
-export const CXENGAGE_LEGAL_PROD_URL =
-  'https://legal.cxengage.net/cxengage-legal/index.html';
-export const MITEL_LEGAL_PROD_URL =
-  'https://legal.cxengage.net/mitel-legal/index.html';
 
 export const DEFAULT_TOOLBAR_WIDTH = 400;
 export const EXPANDED_TOOLBAR_WIDTH = 800;
