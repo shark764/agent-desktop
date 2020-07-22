@@ -21,7 +21,6 @@ import { isUUID } from 'utils/validator';
 import crmCssAdapter from 'utils/crmCssAdapter';
 import { generateErrorMessage } from 'utils/errorMessage';
 
-import { isChrome } from 'serenova-js-utils/browser';
 import { kebabCaseToCamelCase } from 'serenova-js-utils/strings';
 import { PresenceStateIconSVG, DirectionIconSVG } from 'cx-ui-components';
 
@@ -676,17 +675,12 @@ export class App extends React.Component {
                       icon,
                     }
                   );
-                  // onClick handler for notifications hasn't been implemented on Firefox, yet.
-                  // https://developer.mozilla.org/en-US/docs/Web/API/Notification/onclick
-                  // Setting the onclick handler just in Chrome
-                  if (isChrome()) {
-                    notification.onclick = (e) => {
-                      e.preventDefault();
-                      window.focus();
-                      window.parent.focus();
-                      e.currentTarget.close();
-                    };
-                  }
+                  notification.onclick = (e) => {
+                    e.preventDefault();
+                    window.focus();
+                    window.parent.focus();
+                    e.currentTarget.close();
+                  };
                   setTimeout(() => {
                     notification.close();
                   }, 5000);
@@ -1149,15 +1143,12 @@ export class App extends React.Component {
                       icon: messageIcon,
                     }
                   );
-                  // Setting the onclick handler just in Chrome
-                  if (isChrome()) {
-                    notification.onclick = (e) => {
-                      e.preventDefault();
-                      window.focus();
-                      window.parent.focus();
-                      e.currentTarget.close();
-                    };
-                  }
+                  notification.onclick = (e) => {
+                    e.preventDefault();
+                    window.focus();
+                    window.parent.focus();
+                    e.currentTarget.close();
+                  };
                   setTimeout(() => {
                     notification.close();
                   }, 5000);

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.53.3] (2020-07-16)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.53.3/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.53.3/index.html)
+### Changed
+* CXV1-22841 - Skylight isChrome cleanup
+* Now allows the onClick feature of the Skylight Notifications to focus back to the Skylight tab in all browsers.
+
 ## [1.53.2] (2020-07-16)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.53.2/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.53.2/index.html)
