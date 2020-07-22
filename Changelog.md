@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.53.6] (2020-07-20)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.53.6/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.53.6/index.html)
+### Fixed
+* CXV1-22798 - Fixing accepted interaction time set when extension is pstn/sip.
+
 ## [1.53.5] (2020-07-22)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.53.5/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.53.5/index.html)

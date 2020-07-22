@@ -1372,7 +1372,7 @@ Immutable.Map {
       "interactionId": "test-interaction-id",
       "status": "work-accepting",
       "channelType": "voice",
-      "timeAccepted": 0,
+      "timeAccepted": 1530518207007,
       "onHold": false,
       "recording": false,
     },
@@ -1406,6 +1406,59 @@ Immutable.Map {
     },
   ],
   "selectedInteractionId": undefined,
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if interaction was accepted if active extension is PSTN adds a timestamp for timeAccepted 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": "work-accepted",
+      "channelType": "voice",
+      "autoAnswer": false,
+      "timeAccepted": 1530518207007,
+    },
+  ],
+  "selectedInteractionId": "test-interaction-id",
+  "activeExtension": Immutable.Map {
+    "type": "pstn",
+  },
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if interaction was accepted if active extension is SIP adds a timestamp for timeAccepted 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": "work-accepted",
+      "channelType": "voice",
+      "autoAnswer": false,
+      "timeAccepted": 1530518207007,
+    },
+  ],
+  "selectedInteractionId": "test-interaction-id",
+  "activeExtension": Immutable.Map {
+    "type": "sip",
+  },
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if interaction was accepted if autoAnswer is true, timeAccepted is not set does not add a timestamp for timeAccepted 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": "work-accepted",
+      "channelType": "voice",
+      "autoAnswer": true,
+    },
+  ],
+  "selectedInteractionId": "test-interaction-id",
+  "activeExtension": Immutable.Map {
+    "type": "pstn",
+  },
 }
 `;
 

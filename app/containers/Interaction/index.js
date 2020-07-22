@@ -498,7 +498,10 @@ export class Interaction extends React.Component {
               {this.context.toolbarMode &&
               this.props.status !== 'wrapup' && (
                 <div
-                  style={[styles.timerToolbar, { color: this.getTimerColor() }]}
+                  style={[
+                    styles.timerToolbar,
+                    { color: this.getTimerColor() },
+                  ]}
                 >
                   {this.getTimer()}
                 </div>

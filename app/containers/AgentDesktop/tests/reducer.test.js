@@ -143,12 +143,75 @@ describe('agentDesktopReducer', () => {
             },
           ];
           action.response = {};
+
+          Date.now = jest.fn(() => 1530518207007);
+        });
+        it('adds a timestamp for timeAccepted', () => {
+          runReducerAndExpectSnapshot();
+        });
+        afterAll(() => {
+          Date.now = jest.fn(() => 0);
+        });
+      });
+    });
+
+    describe('if interaction was accepted', () => {
+      beforeEach(() => {
+        action.newStatus = 'work-accepted';
+
+        initialState.interactions = [
+          {
+            interactionId: 'test-interaction-id',
+            status: 'work-accepting',
+            channelType: 'voice',
+            autoAnswer: false,
+          },
+        ];
+        initialState.activeExtension = {
+          type: 'pstn',
+        };
+
+        Date.now = jest.fn(() => 1530518207007);
+      });
+
+      describe('if active extension is PSTN', () => {
+        it('adds a timestamp for timeAccepted', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+
+      describe('if active extension is SIP', () => {
+        beforeEach(() => {
+          initialState.activeExtension = {
+            type: 'sip',
+          };
         });
         it('adds a timestamp for timeAccepted', () => {
           runReducerAndExpectSnapshot();
         });
       });
+
+      describe('if autoAnswer is true, timeAccepted is not set', () => {
+        beforeEach(() => {
+          initialState.interactions = [
+            {
+              interactionId: 'test-interaction-id',
+              status: 'work-accepting',
+              channelType: 'voice',
+              autoAnswer: true,
+            },
+          ];
+        });
+        it('does not add a timestamp for timeAccepted', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+
+      afterAll(() => {
+        Date.now = jest.fn(() => 0);
+      });
     });
+
     describe("if setting an interaction's status to wrapup", () => {
       beforeEach(() => {
         action.newStatus = 'wrapup';

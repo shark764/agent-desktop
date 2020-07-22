@@ -135,27 +135,25 @@ const getContactInteractionPath = (state, interactionId) => {
 
 const categorizeItems = (rawItems, name) => {
   const categorizedItems = [];
-  rawItems
-    .sort((a, b) => a.sortOrder - b.sortOrder)
-    .forEach(item => {
-      if (item.hierarchy[0]) {
-        const existingCategoryIndex = categorizedItems.findIndex(
-          category =>
-            category.name === item.hierarchy[0] && category.type === 'category'
-        );
-        if (existingCategoryIndex > -1) {
-          categorizedItems[existingCategoryIndex][name].push(item);
-        } else {
-          categorizedItems.push({
-            name: item.hierarchy[0],
-            [name]: [item],
-            type: 'category',
-          });
-        }
+  rawItems.sort((a, b) => a.sortOrder - b.sortOrder).forEach(item => {
+    if (item.hierarchy[0]) {
+      const existingCategoryIndex = categorizedItems.findIndex(
+        category =>
+          category.name === item.hierarchy[0] && category.type === 'category'
+      );
+      if (existingCategoryIndex > -1) {
+        categorizedItems[existingCategoryIndex][name].push(item);
       } else {
-        categorizedItems.push(item);
+        categorizedItems.push({
+          name: item.hierarchy[0],
+          [name]: [item],
+          type: 'category',
+        });
       }
-    });
+    } else {
+      categorizedItems.push(item);
+    }
+  });
   return categorizedItems;
 };
 
@@ -586,7 +584,21 @@ function agentDesktopReducer(state = initialState, action) {
               'status',
               action.newStatus
             );
-            if (action.newStatus === 'work-accepting') {
+            /**
+             * Interactions on PSTN | SIP active extension are not updating time-accepted
+             * since they don't go through "work-accepting" first
+             */
+            const activeExtensionType = state.getIn([
+              'activeExtension',
+              'type',
+            ]);
+            if (
+              action.newStatus === 'work-accepting' ||
+              (action.newStatus === 'work-accepted' &&
+                interaction.get('autoAnswer') === false &&
+                (activeExtensionType === 'pstn' ||
+                  activeExtensionType === 'sip'))
+            ) {
               updatedInteraction = updatedInteraction.set(
                 'timeAccepted',
                 Date.now()
@@ -915,8 +927,8 @@ function agentDesktopReducer(state = initialState, action) {
             .set(
               'selectedInteractionId',
               state.get('selectedInteractionId') === undefined &&
-                (interactionStatus === 'work-offer' ||
-                  interactionStatus === 'work-initiated')
+              (interactionStatus === 'work-offer' ||
+                interactionStatus === 'work-initiated')
                 ? action.interactionId
                 : state.get('selectedInteractionId')
             )
