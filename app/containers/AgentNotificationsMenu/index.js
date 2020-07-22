@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import Radium from 'radium';
-import { isIeEleven } from 'serenova-js-utils/browser';
 
 import Icon from 'components/Icon';
 
@@ -41,8 +40,7 @@ export function AgentNotificationsMenu(props) {
           <Icon name="checkStatus" style={styles.checkStatus} />
         )}
       </div>
-      {!isIeEleven() &&
-        window.parent === window && (
+      {window.parent === window && (
         <div
           id="visualNotificationOption"
           key="visualNotificationOption"

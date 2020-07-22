@@ -25,8 +25,6 @@ import {
 } from 'containers/Toolbar/selectors';
 import { selectVisibleQueues } from 'containers/AgentTransferMenuPreferenceMenu/selectors';
 
-import { isIeEleven } from 'serenova-js-utils/browser';
-
 import Stat from 'components/Stat';
 import { selectAvailableStats } from './selectors';
 
@@ -68,7 +66,7 @@ const styles = {
   statsScrollContainer: {
     display: 'flex',
     overflowX: 'hidden',
-    overflowY: isIeEleven() ? 'hidden' : 'visible',
+    overflowY: 'visible',
     paddingTop: '300px',
     marginTop: '-300px',
   },

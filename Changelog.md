@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.53.2] (2020-07-16)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.53.2/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.53.2/index.html)
+### Updated
+* CXV1-22839 - Skylight IE11 code cleanup
+
 ## [1.53.1] (2020-07-13)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.53.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.53.1/index.html)

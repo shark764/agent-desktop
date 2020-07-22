@@ -47,8 +47,6 @@ import PopupDialog from 'components/PopupDialog';
 import mitelFavicon from 'assets/favicons/mitel.png';
 import LegalCopyright from 'components/LegalCopyright';
 
-import { isIeEleven } from 'serenova-js-utils/browser';
-
 import { changeLocale } from 'containers/LanguageProvider/actions';
 import { selectLocale } from 'containers/LanguageProvider/selectors';
 import {
@@ -100,7 +98,7 @@ const styles = {
   base: {
     height: '100%',
     width: '100%',
-    display: isIeEleven() ? '-ms-grid' : 'grid',
+    display: 'grid',
     gridTemplateColumns: '1fr 1fr 550px 1fr 1fr',
     gridTemplateRows: '1fr 540px 1fr',
     gridTemplateAreas: `
@@ -416,7 +414,7 @@ export class Login extends React.Component {
     ) {
       this.setState({ ssoPopupBlocked: true });
     } else {
-      CxEngage.authentication.getAuthInfo(this.getAuthParams(), error => {
+      CxEngage.authentication.getAuthInfo(this.getAuthParams(), (error) => {
         if (error) {
           storage.removeItem(REAUTH_POPUP_OPTIONS);
           ssoWindow.close();
@@ -457,7 +455,7 @@ export class Login extends React.Component {
     }
   };
 
-  setLoginParams = credentials => {
+  setLoginParams = (credentials) => {
     // if we have a valid debug token value...
     if (
       storage.getItem('debugTokenVal') &&
@@ -495,7 +493,7 @@ export class Login extends React.Component {
     if (username !== 'OWXLHTYHTKMXUFYOLDUMUXWNSJNJPUSFHHKYBMTMGZTFOBJEPV') {
       CxEngage.authentication.login(
         this.setLoginParams(loginCredentials),
-        error => {
+        (error) => {
           if (error) {
             this.setState({
               expiredSessionReauth: {},
@@ -537,14 +535,14 @@ export class Login extends React.Component {
           targetTenantData = this.state.expiredSessionReauth;
         } else if (Object.keys(this.state.savedTenant).length === 2) {
           targetTenantData = response.details.find(
-            tenant => tenant.tenantId === this.state.savedTenant.tenantId
+            (tenant) => tenant.tenantId === this.state.savedTenant.tenantId
           );
         } else if (response.details.length) {
           if (response.details.length === 1) {
             targetTenantData = response.details[0];
           } else {
             targetTenantData = response.details.find(
-              tenant => tenant.tenantId === this.state.tenantId
+              (tenant) => tenant.tenantId === this.state.tenantId
             );
           }
         }
@@ -564,7 +562,7 @@ export class Login extends React.Component {
         } else {
           if (agent.defaultTenant) {
             const defaultTenant = response.details.find(
-              tenant => tenant.tenantId === agent.defaultTenant
+              (tenant) => tenant.tenantId === agent.defaultTenant
             );
             // check that the default tenant is in the results, on the off chance they no longer belong to the default tenant
             if (defaultTenant) {
@@ -606,7 +604,7 @@ export class Login extends React.Component {
       }
 
       const selectingTenant = this.props.agent.accountTenants.find(
-        tenant => tenant.tenantId === this.state.tenantId
+        (tenant) => tenant.tenantId === this.state.tenantId
       );
 
       // if this tenant is not available to use without reauth,
@@ -638,18 +636,18 @@ export class Login extends React.Component {
       }
 
       const fullTenantData = this.props.agent.tenants.find(
-        tenant => tenant.tenantId === selectingTenant.tenantId
+        (tenant) => tenant.tenantId === selectingTenant.tenantId
       );
 
       if (
         fullTenantData &&
         fullTenantData.tenantPermissions &&
-        requiredPermissions.every(permission =>
+        requiredPermissions.every((permission) =>
           fullTenantData.tenantPermissions.includes(permission)
         ) &&
         (this.context.toolbarMode ||
           (!this.context.toolbarMode &&
-            crmPermissions.every(permission =>
+            crmPermissions.every((permission) =>
               fullTenantData.tenantPermissions.includes(permission)
             )))
       ) {
@@ -680,7 +678,7 @@ export class Login extends React.Component {
   };
 
   // Locale Update
-  setLocalLocale = locale => {
+  setLocalLocale = (locale) => {
     storage.setItem('locale', locale);
     window.location.reload();
   };
@@ -698,35 +696,35 @@ export class Login extends React.Component {
   // Local Container State
   // TODO: Lift state into redux
 
-  setPassword = password => {
+  setPassword = (password) => {
     this.setState({ password });
   };
 
-  setEmail = email => {
+  setEmail = (email) => {
     this.setState({ email });
   };
 
-  setSsoEmail = ssoEmail => {
+  setSsoEmail = (ssoEmail) => {
     this.setState({ ssoEmail });
   };
 
   toggleMakeDefaultTenant = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       makeDefaultTenant: !prevState.makeDefaultTenant,
     }));
   };
 
-  setRememberEmail = rememberEmail => {
+  setRememberEmail = (rememberEmail) => {
     this.setState({ rememberEmail });
     storage.setItem('rememberEmail', rememberEmail);
   };
 
-  setRememberSsoEmail = rememberSsoEmail => {
+  setRememberSsoEmail = (rememberSsoEmail) => {
     this.setState({ rememberSsoEmail });
     storage.setItem('rememberSsoEmail', rememberSsoEmail);
   };
 
-  setRememberTenant = savedTenant => {
+  setRememberTenant = (savedTenant) => {
     const filteredTenant = JSON.stringify(
       pick(savedTenant, ['tenantId', 'name'])
     );
@@ -742,7 +740,7 @@ export class Login extends React.Component {
   };
 
   toggleLanguageMenu = () => {
-    this.setState(prevState => ({ showLanguage: !prevState.showLanguage }));
+    this.setState((prevState) => ({ showLanguage: !prevState.showLanguage }));
   };
 
   // Display States
@@ -847,12 +845,12 @@ export class Login extends React.Component {
     );
   };
 
-  requiresReauth = currentTenant => {
+  requiresReauth = (currentTenant) => {
     // if it is SSO
     if (this.props.displayState === SSO_LOGIN) {
       // make sure that this is one of the active tenants
       const agentTenant = this.props.agent.tenants.find(
-        tenant => tenant.tenantId === currentTenant.tenantId
+        (tenant) => tenant.tenantId === currentTenant.tenantId
       );
       if (agentTenant) {
         let tenantActiveBool;
@@ -862,7 +860,7 @@ export class Login extends React.Component {
           // array (as opposed to the tenants array), then we won't have
           // the tenantActive boolean property we need - so grab it!
           const accountTenant = this.props.agent.accountTenants.find(
-            tenant => tenant.tenantId === agentTenant.tenantId
+            (tenant) => tenant.tenantId === agentTenant.tenantId
           );
 
           tenantActiveBool = accountTenant.active;
@@ -883,7 +881,7 @@ export class Login extends React.Component {
       // if it's not SSO, then make sure that there is a password associated
       // with both the selected tenant AND the one you're trying to navigate to
       const targetTenant = this.props.agent.accountTenants.find(
-        tenantObj => tenantObj.tenantId === currentTenant.tenantId
+        (tenantObj) => tenantObj.tenantId === currentTenant.tenantId
       );
       return !(
         targetTenant &&
@@ -893,7 +891,7 @@ export class Login extends React.Component {
     }
   };
 
-  setTenantOptionStyle = currentTenant => {
+  setTenantOptionStyle = (currentTenant) => {
     if (
       has(this.props, 'agent.accountTenants') &&
       this.requiresReauth(currentTenant)
@@ -984,8 +982,8 @@ export class Login extends React.Component {
 
     // get everything but the selected item
     const tenantOptions = this.props.agent.accountTenants
-      .filter(tenant => tenant.active)
-      .map(tenant => ({
+      .filter((tenant) => tenant.active)
+      .map((tenant) => ({
         value: tenant.tenantId,
         label: tenant.name,
         style: this.setTenantOptionStyle(tenant),
@@ -1008,7 +1006,7 @@ export class Login extends React.Component {
             id="app.login.selectTennant.selectbox"
             style={{ width: '282px' }}
             value={this.state.tenantId}
-            onChange={e => this.setTenantId(e.value || '-1', e.label || '')}
+            onChange={(e) => this.setTenantId(e.value || '-1', e.label || '')}
             options={tenantOptions}
             autoFocus
             clearable={false}
@@ -1185,7 +1183,7 @@ export class Login extends React.Component {
           style={styles.languageSelect}
           value={this.props.locale}
           options={mappedLocales} // mappedLocales
-          onChange={e => {
+          onChange={(e) => {
             this.props.changeLocale(e.value);
             this.setLocalLocale(e.value);
             this.toggleLanguageMenu();
@@ -1319,19 +1317,19 @@ const mapStateToProps = (state, props) => ({
 function mapDispatchToProps(dispatch) {
   return {
     setInitiatedStandalonePopup: () => dispatch(setInitiatedStandalonePopup()),
-    resetPassword: email => dispatch(resetPassword(email)),
-    setLoading: loading => dispatch(setLoading(loading)),
+    resetPassword: (email) => dispatch(resetPassword(email)),
+    setLoading: (loading) => dispatch(setLoading(loading)),
     loginSuccess: (agent, authMethod) =>
       dispatch(loginSuccess(agent, authMethod)),
-    setAccountTenants: tenants => dispatch(setAccountTenants(tenants)),
+    setAccountTenants: (tenants) => dispatch(setAccountTenants(tenants)),
     errorOccurred: () => dispatch(errorOccurred()),
     setTenant: (id, name) => dispatch(setTenant(id, name)),
-    setDisplayState: displayState => dispatch(setDisplayState(displayState)),
-    changeLocale: locale => dispatch(changeLocale(locale)),
-    setNonCriticalError: error => dispatch(setNonCriticalError(error)),
+    setDisplayState: (displayState) => dispatch(setDisplayState(displayState)),
+    changeLocale: (locale) => dispatch(changeLocale(locale)),
+    setNonCriticalError: (error) => dispatch(setNonCriticalError(error)),
     dismissError: () => dispatch(dismissError()),
     handleSDKError: (error, topic) => dispatch(handleSDKError(error, topic)),
-    showLoginPopup: popupConfig => dispatch(showLoginPopup(popupConfig)),
+    showLoginPopup: (popupConfig) => dispatch(showLoginPopup(popupConfig)),
     initializeNotificatonPreferences: () =>
       dispatch(initializeNotificatonPreferences()),
     dispatch,
