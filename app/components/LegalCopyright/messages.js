@@ -13,7 +13,7 @@ export default defineMessages({
   copyright: {
     id: 'app.containers.Login.copyright',
     defaultMessage:
-      'Copyright © 2015-{year} Serenova, LLC ("Serenova"). All rights reserved.',
+      'Copyright © 2015-{year} Lifesize, Inc. All rights reserved.',
   },
   legal: {
     id: 'app.containers.Login.legal',

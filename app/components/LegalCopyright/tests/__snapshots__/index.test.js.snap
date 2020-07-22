@@ -27,7 +27,7 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders CXEngage Lega
     }
   >
     <FormattedMessage
-      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      defaultMessage="Copyright © 2015-{year} Lifesize, Inc. All rights reserved."
       id="app.containers.Login.copyright"
       values={
         Object {
@@ -103,7 +103,7 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders CXEngage Lega
     }
   >
     <FormattedMessage
-      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      defaultMessage="Copyright © 2015-{year} Lifesize, Inc. All rights reserved."
       id="app.containers.Login.copyright"
       values={
         Object {
@@ -178,7 +178,7 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders Mitel Legal i
     }
   >
     <FormattedMessage
-      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      defaultMessage="Copyright © 2015-{year} Lifesize, Inc. All rights reserved."
       id="app.containers.Login.copyright"
       values={
         Object {
@@ -254,7 +254,7 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders Mitel Legal i
     }
   >
     <FormattedMessage
-      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      defaultMessage="Copyright © 2015-{year} Lifesize, Inc. All rights reserved."
       id="app.containers.Login.copyright"
       values={
         Object {
@@ -329,7 +329,7 @@ exports[`<LegalCopyright /> LegalCopyright in desktop renders CXEngage Legal in 
     }
   >
     <FormattedMessage
-      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      defaultMessage="Copyright © 2015-{year} Lifesize, Inc. All rights reserved."
       id="app.containers.Login.copyright"
       values={
         Object {
@@ -404,7 +404,7 @@ exports[`<LegalCopyright /> LegalCopyright in desktop renders Mitel Legal in des
     }
   >
     <FormattedMessage
-      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      defaultMessage="Copyright © 2015-{year} Lifesize, Inc. All rights reserved."
       id="app.containers.Login.copyright"
       values={
         Object {
@@ -479,7 +479,7 @@ exports[`<LegalCopyright /> LegalCopyright in desktop with different locale rend
     }
   >
     <FormattedMessage
-      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      defaultMessage="Copyright © 2015-{year} Lifesize, Inc. All rights reserved."
       id="app.containers.Login.copyright"
       values={
         Object {
@@ -554,7 +554,7 @@ exports[`<LegalCopyright /> LegalCopyright in desktop with different locale rend
     }
   >
     <FormattedMessage
-      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      defaultMessage="Copyright © 2015-{year} Lifesize, Inc. All rights reserved."
       id="app.containers.Login.copyright"
       values={
         Object {
@@ -630,7 +630,7 @@ exports[`<LegalCopyright /> LegalCopyright in toolbarMode renders CXEngage Legal
     }
   >
     <FormattedMessage
-      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      defaultMessage="Copyright © 2015-{year} Lifesize, Inc. All rights reserved."
       id="app.containers.Login.copyright"
       values={
         Object {
@@ -706,7 +706,7 @@ exports[`<LegalCopyright /> LegalCopyright in toolbarMode renders Mitel Legal in
     }
   >
     <FormattedMessage
-      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      defaultMessage="Copyright © 2015-{year} Lifesize, Inc. All rights reserved."
       id="app.containers.Login.copyright"
       values={
         Object {
@@ -782,7 +782,7 @@ exports[`<LegalCopyright /> LegalCopyright in toolbarMode with different locale 
     }
   >
     <FormattedMessage
-      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      defaultMessage="Copyright © 2015-{year} Lifesize, Inc. All rights reserved."
       id="app.containers.Login.copyright"
       values={
         Object {
@@ -858,7 +858,7 @@ exports[`<LegalCopyright /> LegalCopyright in toolbarMode with different locale 
     }
   >
     <FormattedMessage
-      defaultMessage="Copyright © 2015-{year} Serenova, LLC (\\"Serenova\\"). All rights reserved."
+      defaultMessage="Copyright © 2015-{year} Lifesize, Inc. All rights reserved."
       id="app.containers.Login.copyright"
       values={
         Object {

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.53.4] (2020-07-22)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.53.4/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.53.4/index.html)
+### Updated
+* <no-jira> - Replacing company's name to Lifesize.
+
 ## [1.53.3] (2020-07-16)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.53.3/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.53.3/index.html)
