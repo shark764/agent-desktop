@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.53.5] (2020-07-22)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.53.5/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.53.5/index.html)
+### Updated
+* CXV1-17659 - sdk version bump status 404 as success condition to logout request
+
 ## [1.53.4] (2020-07-22)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.53.4/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.53.4/index.html)
