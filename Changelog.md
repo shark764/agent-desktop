@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.54.0] (2020-07-21)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.0/index.html)
+### Changed
+* Updating client-strings to v0.1.9.
+* Supporting new languages translations and datetime formats.
+* Adding beta flag to use new supported languages.
+
 ## [1.53.6] (2020-07-20)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.53.6/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.53.6/index.html)

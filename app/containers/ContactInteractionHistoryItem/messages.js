@@ -26,13 +26,21 @@ export default defineMessages({
     id: 'app.containers.ContactInteractionHistory.audioRecording',
     defaultMessage: 'Audio Recording',
   },
+  agent: {
+    id: 'app.containers.ContactInteractionHistory.agent',
+    defaultMessage: 'Agent',
+  },
+  customer: {
+    id: 'app.containers.ContactInteractionHistory.customer',
+    defaultMessage: 'Customer',
+  },
   defaultParticipantType: {
     id: 'app.containers.ContactInteractionHistory.defaultParticipantType',
     defaultMessage: 'Customer',
   },
   recordingTitle: {
     id: 'app.containers.ContactInteractionHistory.recordingTitle',
-    defaultMessage: '{participantType} Recording{participantIdentifier}',
+    defaultMessage: 'Recording of {participantType}{participantIdentifier}',
   },
   recordingStart: {
     id: 'app.containers.ContactInteractionHistory.recordingStart',

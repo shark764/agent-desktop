@@ -190,11 +190,21 @@ export class ContactInteractionHistoryItem extends React.Component {
           ? { name: recording.name }
           : recording.participantAdditionalInfo;
 
-        const participantType = participant ? (
-          participant.participantType || participant.name
-        ) : (
-          <FormattedMessage {...messages.defaultParticipantType} />
-        );
+        let participantType;
+        if (participant) {
+          const pType =
+            participant.participantType &&
+            participant.participantType.toLowerCase();
+          if (messages[pType]) {
+            participantType = <FormattedMessage {...messages[pType]} />;
+          } else {
+            participantType = participant.name;
+          }
+        } else {
+          participantType = (
+            <FormattedMessage {...messages.defaultParticipantType} />
+          );
+        }
 
         const participantIdentifier =
           participant && !participant.name
