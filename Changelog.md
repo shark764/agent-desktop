@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.54.2] (2020-07-23)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.2/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.2/index.html)
+### Changed
+* CXV1-22864 - Upgrading dependencies to newer versions/latest - Part I.
+
 ## [1.54.1] (2020-07-21)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.1/index.html)

@@ -15,7 +15,7 @@ module.exports = (env, argv) => {
       CxEngage: 'CxEngage',
     },
     resolve: {
-      modules: [path.resolve(__dirname, 'node_modules')],
+      modules: [path.resolve(__dirname, 'node_modules'), 'node_modules'],
       alias: {
         assets: path.resolve(__dirname, 'app', 'assets'),
         containers: path.resolve(__dirname, 'app', 'containers'),

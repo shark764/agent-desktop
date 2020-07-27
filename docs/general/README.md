@@ -11,20 +11,6 @@
 
 # Feature overview
 
-## Quick scaffolding
-
-Automate the creation of components, containers, routes, selectors and sagas -
-and their tests - right from the CLI!
-
-Run `npm run generate` in your terminal and choose one of the parts you want
-to generate. They'll automatically be imported in the correct places and have
-everything set up correctly.
-
-> We use [plop] to generate new components, you can find all the logic and
-templates for the generation in `internals/generators`.
-
-[plop]: https://github.com/amwmedia/plop
-
 ## Instant feedback
 
 Enjoy the best DX and code your app at the speed of thought! Your saved changes
