@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.54.1] (2020-07-21)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.1/index.html)
+### Changed
+* Updating client-strings to v0.1.11 (company name to lifesize, copyright, record)
+
 ## [1.54.0] (2020-07-21)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.0/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.0/index.html)
