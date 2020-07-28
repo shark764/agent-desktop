@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.54.3] (2020-07-27)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.3/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.3/index.html)
+### Changed
+* CXV1-22871 - Gracefully handle falsey terms from flow screen pop in Skylight
+
 ## [1.54.2] (2020-07-23)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.2/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.2/index.html)
