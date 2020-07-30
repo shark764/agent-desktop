@@ -555,7 +555,9 @@ export class ContactInteractionHistoryItem extends React.Component {
             </div>
           )}
           <div>
-            <FormattedMessage {...messages[interaction.directionType]} />
+            <FormattedMessage
+              {...messages[interaction.directionName.toLowerCase()]}
+            />
           </div>
           <div>
             <FormattedMessage {...messages.channelType} />

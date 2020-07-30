@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.54.5] (2020-07-29)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.5/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.5/index.html)
+### Changed
+* <no-jira> - Fixed ContactInteractionHistoryItem FormattedMessage change in a previous PR
+
 ## [1.54.4] (2020-07-28)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.4/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.4/index.html)
