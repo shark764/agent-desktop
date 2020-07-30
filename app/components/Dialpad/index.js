@@ -21,6 +21,7 @@ import { selectOutboundPhoneIdentification } from 'containers/OutboundAniSelect/
 
 import ButtonDialpad from 'components/ButtonDialpad';
 import TextInput from 'components/TextInput';
+import { sdkResponseLog } from '../../utils/logs';
 
 const styles = {
   dialpadText: {
@@ -76,7 +77,7 @@ export function Dialpad(props, context) {
         { interactionId: props.interactionId, digit: num },
         (e, t, r) => {
           if (!e) {
-            console.log('[Dialpad] CxEngage.subscribe()', t, r);
+            sdkResponseLog('[Dialpad] CxEngage.subscribe()', t, r);
           }
         }
       );
@@ -187,7 +188,7 @@ export function Dialpad(props, context) {
           <TextInput
             id={`${props.id}TextInput`}
             cb={props.setDialpadText}
-            onKeyDown={event => inputKeyDown(event)}
+            onKeyDown={(event) => inputKeyDown(event)}
             onEnter={props.onEnter}
             value={props.dialpadText}
             style={styles.dialpadText}

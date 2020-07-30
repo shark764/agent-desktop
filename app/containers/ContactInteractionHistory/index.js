@@ -30,6 +30,7 @@ import {
   loadCrmInteractionHistory,
 } from 'containers/AgentDesktop/actions';
 import { selectCrmModule } from 'containers/AgentDesktop/selectors';
+import { sdkResponseLog } from '../../utils/logs';
 import { selectContact } from './selectors';
 import messages from './messages';
 
@@ -130,7 +131,7 @@ export class ContactInteractionHistory extends React.Component {
           { interactionId: interaction.interactionId },
           (error, topic, response) => {
             if (!error) {
-              console.log(
+              sdkResponseLog(
                 '[ContactInteractionHistory] CxEngage.subscribe()',
                 topic,
                 response

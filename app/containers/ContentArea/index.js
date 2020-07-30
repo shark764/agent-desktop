@@ -43,6 +43,7 @@ import {
 } from 'containers/AgentDesktop/selectors';
 
 import { addErrorToHistory } from 'containers/Errors/actions';
+import { sdkResponseLog } from '../../utils/logs';
 
 import ButtonConfigPropTypes from './propTypes';
 import CrmRecordNotification from './CrmRecordNotification';
@@ -90,7 +91,7 @@ export class ContentArea extends React.Component {
     const height = this.contenAreaTopPx.clientHeight;
     const heightWin = window.innerHeight;
     const newMaxPx = Math.round(heightWin - height - 230);
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       maxPx: newMaxPx,
       notesPanelHeight:
         prevState.notesPanelHeight > newMaxPx
@@ -117,7 +118,7 @@ export class ContentArea extends React.Component {
       }
       const callback = (error, topic, response) => {
         if (!error) {
-          console.log('[ContentArea] CxEngage.subscribe()', topic, response);
+          sdkResponseLog('[ContentArea] CxEngage.subscribe()', topic, response);
           if (inContext) {
             this.setState({
               savingNote: false,
@@ -387,13 +388,13 @@ export class ContentArea extends React.Component {
     },
   };
 
-  setNotesPanelHeight = newHeight => {
+  setNotesPanelHeight = (newHeight) => {
     this.setState({
       notesPanelHeight: newHeight,
     });
   };
 
-  handleChange = note => {
+  handleChange = (note) => {
     this.setState(note);
     clearTimeout(this.persistNoteIntervalId);
     const currentNotesPanelHeight = this.state.notesPanelHeight;
@@ -416,7 +417,7 @@ export class ContentArea extends React.Component {
       this.props.interaction.status === 'initialized-outbound'
     );
 
-  selectDisposition = dispositionId => {
+  selectDisposition = (dispositionId) => {
     this.setState({
       loadingDisposition: true,
       showDispositionsList: false,
@@ -427,7 +428,7 @@ export class ContentArea extends React.Component {
         dispositionId,
       },
       (error, topic, response) => {
-        console.log('[ContentArea] CxEngage.subscribe()', topic, response);
+        sdkResponseLog('[ContentArea] CxEngage.subscribe()', topic, response);
         this.setState({
           loadingDisposition: false,
         });
@@ -435,7 +436,7 @@ export class ContentArea extends React.Component {
     );
   };
 
-  renderCategory = category => (
+  renderCategory = (category) => (
     <div
       key={`category-${category.name}`}
       id={`category-${category.name}`}
@@ -450,7 +451,7 @@ export class ContentArea extends React.Component {
     </div>
   );
 
-  renderDisposition = disposition => (
+  renderDisposition = (disposition) => (
     <div
       key={`disposition-${disposition.dispositionId}`}
       id={`disposition-${disposition.dispositionId}`}
@@ -474,7 +475,7 @@ export class ContentArea extends React.Component {
     CxEngage.interactions.deselectDispositionCode(
       { interactionId: this.props.interaction.interactionId },
       (error, topic, response) => {
-        console.log('[ContentArea] CxEngage.subscribe()', topic, response);
+        sdkResponseLog('[ContentArea] CxEngage.subscribe()', topic, response);
         this.setState({
           loadingDisposition: false,
         });
@@ -511,7 +512,7 @@ export class ContentArea extends React.Component {
             disabled={this.getIsActiveInteraction()}
             placeholder={formatMessage(messages.notesTitlePlaceholder)}
             value={this.state.title}
-            onChange={e => this.handleChange({ title: e.target.value })}
+            onChange={(e) => this.handleChange({ title: e.target.value })}
             style={[
               this.styles.notesTitleInput,
               this.props.interaction.status === 'work-ended-pending-script' &&
@@ -529,7 +530,7 @@ export class ContentArea extends React.Component {
           disabled={this.getIsActiveInteraction()}
           placeholder={formatMessage(messages.notesPlaceholder)}
           value={this.state.body}
-          onChange={e => this.handleChange({ body: e.target.value })}
+          onChange={(e) => this.handleChange({ body: e.target.value })}
           style={[
             this.styles.notesTextarea,
             this.props.interaction.status === 'work-ended-pending-script' &&
@@ -600,34 +601,36 @@ export class ContentArea extends React.Component {
         id="selected-dispositions"
         style={this.styles.dispositionChipsContainer}
       >
-        {this.props.interaction.dispositionDetails.selected.map(disposition => (
-          <div
-            id={`selected-disposition-${disposition.dispositionId}`}
-            key={`selected-disposition-${disposition.dispositionId}`}
-            title={disposition.name}
-            style={this.styles.dispositionChip}
-          >
-            <span style={this.styles.dispositionLabelText}>
-              {disposition.name !== undefined
-                ? disposition.name.toUpperCase()
-                : ''}
-            </span>
-            <Button
-              id="delete-disposition-btn"
-              style={this.styles.closeButton}
-              clear
-              iconName="close"
-              type="secondary"
-              onClick={this.deselectDisposition}
-              disabled={this.state.loadingDisposition}
-            />
-          </div>
-        ))}
+        {this.props.interaction.dispositionDetails.selected.map(
+          (disposition) => (
+            <div
+              id={`selected-disposition-${disposition.dispositionId}`}
+              key={`selected-disposition-${disposition.dispositionId}`}
+              title={disposition.name}
+              style={this.styles.dispositionChip}
+            >
+              <span style={this.styles.dispositionLabelText}>
+                {disposition.name !== undefined
+                  ? disposition.name.toUpperCase()
+                  : ''}
+              </span>
+              <Button
+                id="delete-disposition-btn"
+                style={this.styles.closeButton}
+                clear
+                iconName="close"
+                type="secondary"
+                onClick={this.deselectDisposition}
+                disabled={this.state.loadingDisposition}
+              />
+            </div>
+          )
+        )}
         {this.props.interaction.dispositionDetails.selected.length === 0 &&
           this.props.interaction.status !== 'work-ended-pending-script' && [
           <div
             onClick={() =>
-              this.setState(prevState => ({
+              this.setState((prevState) => ({
                 showDispositionsList: !prevState.showDispositionsList,
               }))
             }
@@ -664,7 +667,7 @@ export class ContentArea extends React.Component {
             >
               <ClickMask
                 onClick={() => {
-                  this.setState(prevState => ({
+                  this.setState((prevState) => ({
                     showDispositionsList: !prevState.showDispositionsList,
                   }));
                 }}
@@ -674,7 +677,7 @@ export class ContentArea extends React.Component {
                 style={this.styles.dispositionList}
               >
                 {this.props.interaction.dispositionDetails.dispositions.map(
-                  disposition => {
+                  (disposition) => {
                     if (disposition.type === 'category') {
                       return this.renderCategory(disposition);
                     }
@@ -726,7 +729,9 @@ export class ContentArea extends React.Component {
         });
       } else {
         console.error(
-          `Cannot unassign contact of type: ${this.props.interaction.contact.type}`
+          `Cannot unassign contact of type: ${
+            this.props.interaction.contact.type
+          }`
         );
       }
     }
@@ -793,7 +798,7 @@ export class ContentArea extends React.Component {
           },
         },
         (err, topic, response) => {
-          console.log('[ContentArea] CxEngage.subscribe()', topic, response);
+          sdkResponseLog('[ContentArea] CxEngage.subscribe()', topic, response);
           clearTimeout(timer);
           if (!err) {
             this.props.removeInteraction(this.props.interaction.interactionId);
@@ -838,7 +843,7 @@ export class ContentArea extends React.Component {
     );
   };
 
-  dismissErrorInteraction = notification => {
+  dismissErrorInteraction = (notification) => {
     const { notifications, ...interactionInfo } = this.props.interaction;
     this.props.toggleInteractionNotification(
       this.props.interaction.interactionId,
@@ -933,8 +938,8 @@ export class ContentArea extends React.Component {
               )}
               {this.props.interaction.notifications &&
                 this.props.interaction.notifications
-                  .filter(notification => !notification.messageKey)
-                  .map(notification => {
+                  .filter((notification) => !notification.messageKey)
+                  .map((notification) => {
                     let descriptionMessage;
                     if (notification.isError) {
                       const {
@@ -963,7 +968,9 @@ export class ContentArea extends React.Component {
                         descriptionMessage += ` (Code: ${code})`;
                       }
                       if (data && data.errorDescription) {
-                        descriptionMessage += ` Error Description: ${data.errorDescription}`;
+                        descriptionMessage += ` Error Description: ${
+                          data.errorDescription
+                        }`;
                       }
                     }
                     return (
@@ -988,7 +995,7 @@ export class ContentArea extends React.Component {
                   })}
               <div
                 style={this.styles.header}
-                ref={el => {
+                ref={(el) => {
                   this.contenAreaTopPx = el;
                 }}
               >
@@ -1080,7 +1087,7 @@ function mapDispatchToProps(dispatch) {
   return {
     updateNote: (interactionId, note) =>
       dispatch(updateNote(interactionId, note)),
-    removeInteraction: interactionId =>
+    removeInteraction: (interactionId) =>
       dispatch(removeInteraction(interactionId)),
     setInteractionConfirmation: (interactionId, status) =>
       dispatch(setInteractionConfirmation(interactionId, status)),
@@ -1088,11 +1095,16 @@ function mapDispatchToProps(dispatch) {
       dispatch(toggleInteractionIsEnding(interactionId, isEnding)),
     toggleInteractionNotification: (interactionId, notification) =>
       dispatch(toggleInteractionNotification(interactionId, notification)),
-    addErrorToHistory: error => dispatch(addErrorToHistory(error)),
+    addErrorToHistory: (error) => dispatch(addErrorToHistory(error)),
     dispatch,
   };
 }
 
 export default ErrorBoundary(
-  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(ContentArea)))
+  injectIntl(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Radium(ContentArea))
+  )
 );

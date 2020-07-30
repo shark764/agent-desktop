@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.54.6] (2020-07-30)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.6/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.6/index.html)
+### Changed
+* CXV1-22843 - Improve Skylight console logging
+
+
 ## [1.54.5] (2020-07-29)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.5/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.5/index.html)

@@ -69,6 +69,7 @@ import {
 } from 'containers/AgentDesktop/selectors';
 import { showLoginPopup } from 'containers/AgentDesktop/actions';
 import { initializeNotificatonPreferences } from 'containers/AgentNotificationsMenu/actions';
+import { sdkResponseLog } from '../../utils/logs';
 import { mappedLocales } from '../../i18n';
 import selectLogin from './selectors';
 import messages from './messages';
@@ -319,7 +320,7 @@ export class Login extends React.Component {
               response.auth === 'username'
             ) {
               this.props.dismissError();
-              console.log('[Login] CxEngage.subscribe()', topic, response);
+              sdkResponseLog('[Login] CxEngage.subscribe()', topic, response);
               this.loginCB(response, 'password');
               return;
             }
@@ -341,7 +342,7 @@ export class Login extends React.Component {
                       },
                       (cbError, cbTopic, cbResponse) => {
                         if (!cbError) {
-                          console.log(
+                          sdkResponseLog(
                             '[SSO-Login] CxEngage.subscribe()',
                             cbTopic,
                             cbResponse
@@ -512,7 +513,7 @@ export class Login extends React.Component {
   loginCB = (agent, authMethod) => {
     CxEngage.session.getTenantDetails((error, topic, response) => {
       if (!error) {
-        console.log(
+        sdkResponseLog(
           '[Login] CxEngage.session.getTenantDetails()',
           topic,
           response
@@ -657,7 +658,7 @@ export class Login extends React.Component {
             tenantId: this.state.tenantId,
           },
           (error, topic, response) => {
-            console.log('[Login] CxEngage.subscribe()', topic, response);
+            sdkResponseLog('[Login] CxEngage.subscribe()', topic, response);
             if (!error) {
               this.props.setTenant(this.state.tenantId, this.state.tenantName);
               if (this.props.nonCriticalError) {

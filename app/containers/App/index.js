@@ -184,6 +184,7 @@ import {
 } from 'containers/AgentDesktop/selectors';
 
 import { store } from 'store';
+import { sdkResponseLog } from '../../utils/logs';
 
 import { selectHasCrmPermissions } from './selectors';
 
@@ -913,7 +914,7 @@ export class App extends React.Component {
                     { contactId: response.popUri },
                     (contactGetError, contactGetTopic, contactGetResponse) => {
                       if (!contactGetError) {
-                        console.log(
+                        sdkResponseLog(
                           '[AgentDesktop] CxEngage.subscribe()',
                           contactGetTopic,
                           contactGetResponse
@@ -1222,7 +1223,7 @@ export class App extends React.Component {
                   attachmentUrlTopic,
                   attachmentUrlResponse
                 ) => {
-                  console.log(
+                  sdkResponseLog(
                     '[AgentDesktop] CxEngage.subscribe()',
                     attachmentUrlTopic,
                     attachmentUrlResponse
@@ -1675,7 +1676,11 @@ export class App extends React.Component {
         }
         if (!isIgnoreTopic) {
           if (isLogTopic || !topicUnhandled) {
-            console.log('[AgentDesktop] CxEngage.subscribe()', topic, response);
+            sdkResponseLog(
+              '[AgentDesktop] CxEngage.subscribe()',
+              topic,
+              response
+            );
           } else {
             console.warn(
               '[AgentDesktop] CxEngage.subscribe(): No pub sub for',
@@ -1733,7 +1738,7 @@ export class App extends React.Component {
         if (searchError) {
           this.props.setInteractionQuery(interactionId, query);
         } else {
-          console.log(
+          sdkResponseLog(
             '[AgentDesktop] CxEngage.subscribe()',
             searchTopic,
             searchResponse
