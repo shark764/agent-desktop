@@ -1,10 +1,16 @@
 # Changelog
 
+## [1.54.8] (2020-08-10)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.8/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.8/index.html)
+### Updated
+* Hide new locales in all modes. Only visible with beta URL param.
+
 ## [1.54.7] (2020-08-04)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.7/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.7/index.html)
 ### Updated
-* Updated Skylight console logging
+* CXV1-22843 - Updated Skylight console logging browser name
 
 ## [1.54.6] (2020-07-30)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.6/index.html)  

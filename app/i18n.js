@@ -2,7 +2,8 @@
  * Copyright © 2015-2020 Serenova, LLC. All rights reserved.
  */
 
-import { isBeta, isToolbar } from 'utils/url';
+import { isBeta } from 'utils/url';
+// isToolbar // we can show in toolbar mode when the hyperion change is in
 
 /**
  * i18n.js
@@ -134,7 +135,8 @@ let mappedLocalesList = [
   { value: 'pl-PL', label: 'Polski (Polska)' },
   { value: 'pt-BR', label: 'Português (Brasil)' },
 ];
-if (isBeta() || isToolbar()) {
+if (isBeta()) {
+  // || isToolbar() // we can show in toolbar mode when the hyperion change is in
   mappedLocalesList = [
     ...mappedLocalesList,
     { value: 'cs-CZ', label: 'Čeština (Czech Republic)' },
@@ -161,7 +163,8 @@ let translationMessagesList = {
   'pl-PL': formatTranslationMessages('pl-PL', plPlTranslationMessages),
   'pt-BR': formatTranslationMessages('pt-BR', ptBrTranslationMessages),
 };
-if (isBeta() || isToolbar()) {
+if (isBeta()) {
+  // || isToolbar() // we can show in toolbar mode when the hyperion change is in
   translationMessagesList = {
     ...translationMessagesList,
     'cs-CZ': formatTranslationMessages('cs-CZ', csCzTranslationMessages),
