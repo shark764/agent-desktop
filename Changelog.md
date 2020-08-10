@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.54.7] (2020-08-04)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.7/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.7/index.html)
+### Updated
+* Updated Skylight console logging
+
 ## [1.54.6] (2020-07-30)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.6/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.6/index.html)
