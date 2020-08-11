@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.54.9] (2020-08-11)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.9/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.9/index.html)
+### Updated
+* Updating serenova-client-strings version to 0.2.2.
+* CXV1-22883 - Adding missing tranlations for en-GB
+
 ## [1.54.8] (2020-08-10)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.8/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.8/index.html)
