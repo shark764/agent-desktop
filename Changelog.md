@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.54.11] (2020-08-12)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.11/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.11/index.html)
+### Changed
+* <no-jira> - Fixed ContactInteractionHistoryItem FormattedMessage when agent-initiated
+
 ## [1.54.10] (2020-08-11)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.10/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.10/index.html)

@@ -556,7 +556,9 @@ export class ContactInteractionHistoryItem extends React.Component {
           )}
           <div>
             <FormattedMessage
-              {...messages[interaction.directionName.toLowerCase()]}
+              {...messages[
+                interaction.directionName.replace(' ', '-').toLowerCase()
+              ]}
             />
           </div>
           <div>
