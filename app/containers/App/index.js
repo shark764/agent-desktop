@@ -480,6 +480,10 @@ export class App extends React.Component {
               },
               this.targetOrigin
             );
+          } else if (event.data.subModule) {
+            CxEngage[event.data.module][event.data.subModule][
+              event.data.command
+            ](event.data.data);
           } else {
             CxEngage[event.data.module][event.data.command](event.data.data);
           }

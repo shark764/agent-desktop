@@ -6,28 +6,58 @@
     <button onclick="initSkylight()">Open Skylight</button>
     <button onclick="login()">Login</button>
     <button onclick="loginWithSso()">Login with SSO</button>
+    <!-- TODO Not fully supported yet -->
+    <!-- <button onclick="setActiveTenant()">Set Active Tenant (Default Tenant)</button> -->
     <button onclick="goReady()">Go Ready</button>
     <button onclick="goNotReady()">Go Not Ready</button>
-    <button onclick="endWrapup()">End Wrapup</button>
     <button onclick="dumpState()">Dump State</button>
     <button onclick="logout()">Logout</button>
 
+    <p>
+      <select name="select-direction" id="select-direction">
+        <option value="inbound" selected>Inbound</option>
+        <option value="outbound">Outbound</option>
+        <option value="agent-initiated">Agent Initiated</option>
+      </select>
+      <button onclick="setDirection()">Set Direction</button>
+    </p>
+
+    <p>
+      <button onclick="makeCall()">Outbound Call</button>
+      <!-- TODO Not fully supported yet -->
+      <!-- <button onclick="acceptInteraction()">Accept Interaction</button> -->
+      <button onclick="endInteraction()">End Interaction</button>
+      <button onclick="endWrapup()">End Wrapup</button>
+    </p>
+    
+    <p>
+      <button onclick="customerHold()">Put Customer on Hold</button>
+      <button onclick="customerResume()">Take Customer off Hold</button>
+      <button onclick="startRecording()">Start Recording</button>
+      <button onclick="stopRecording()">Stop Recording</button>
+    </p>
+
     <script>
 
-      let extensionValue, reasonInfo, interactionId;
+      let extensionValue, reasonInfo, interactionId, tenantId, agentId, sessionId;
 
-      window.addEventListener('message', event => {
+      window.addEventListener('message', (event) => {
         const data = event.data;
         console.log(data.topic, data.error, data.response);
-        
+
         if (data.topic === 'skylight/loaded') {
           // This message tells Skylight to use this event's source for subsequent messages
-          skylight.postMessage({
-            skylightController: true,
-            controllerInit: true
-          }, '*');
+          skylight.postMessage(
+            {
+              skylightController: true,
+              controllerInit: true,
+            },
+            '*'
+          );
         } else if (data.topic === 'skylight/target-origin-defined') {
-          console.log('Communication with Skylight is secure. We can send messages back and forth.');
+          console.log(
+            'Communication with Skylight is secure. We can send messages back and forth.'
+          );
         } else if (data.topic === 'cxengage/session/config-details') {
           extensionValue = data.response.extensions[0].value;
           const reasonList = data.response.reasonLists[0];
@@ -35,92 +65,260 @@
           reasonInfo = {
             reason: reason.name,
             reasonId: reason.reasonId,
-            reasonListId: reasonList.id
+            reasonListId: reasonList.id,
           };
-        } else if (data.topic === 'cxengage/interactions/work-accepted-received') {
+        } else if (data.topic === 'cxengage/session/started') {
+          agentId = data.response.resourceId;
+          sessionId = data.response.sessionId;
+        } else if (data.topic === 'cxengage/interactions/work-offer-received') {
           interactionId = data.response.interactionId;
+        } else if (
+          data.topic === 'cxengage/interactions/work-accepted-received'
+        ) {
+          interactionId = data.response.interactionId;
+        } else if (data.topic === 'cxengage/authentication/login-response') {
+          tenantId = data.response.defaultTenant;
         } else if (data.topic === 'cxengage/session/ended') {
           skylight.close();
         }
       });
 
       let skylight;
-      
+
       function initSkylight() {
-        skylight = window.open('http://localhost:3003/?standalonePopup=true&skylightController=true', 'skylight', 'width=400,height=800');
+        skylight = window.open(
+          'http://localhost:3003/?standalonePopup=true&skylightController=true',
+          'skylight',
+          'width=400,height=800'
+        );
       }
 
       function login() {
-        skylight.postMessage({
-          skylightController: true,
-          module: 'authentication',
-          command: 'login',
-          data: {
-            // Auth could be brought in from internal CSR system?
-            username: 'jclowater@serenova.com',
-            password: '******'
-          }
-        }, '*');
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'authentication',
+            command: 'login',
+            data: {
+              // Auth could be brought in from internal CSR system?
+              username: 'jclowater@serenova.com',
+              password: '******',
+            },
+          },
+          '*'
+        );
       }
 
       function loginWithSso() {
-        skylight.postMessage({
-          skylightController: true,
-          module: 'authentication',
-          command: 'getAuthInfo',
-          data: {
-            // username could be brought in from internal CSR system?
-            username: 'jclowater@serenova.com'
-          }
-        }, '*');
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'authentication',
+            command: 'getAuthInfo',
+            data: {
+              // username could be brought in from internal CSR system?
+              username: 'jclowater@serenova.com',
+            },
+          },
+          '*'
+        );
+      }
+
+      function setActiveTenant() {
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'session',
+            command: 'setActiveTenant',
+            data: {
+              tenantId,
+            },
+          },
+          '*'
+        );
       }
 
       function goReady() {
-        skylight.postMessage({
-          skylightController: true,
-          module: 'session',
-          command: 'goReady',
-          data: {
-            extensionValue
-          }
-        }, '*');
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'session',
+            command: 'goReady',
+            data: {
+              extensionValue,
+            },
+          },
+          '*'
+        );
       }
 
       function goNotReady() {
-        skylight.postMessage({
-          skylightController: true,
-          module: 'session',
-          command: 'goNotReady',
-          data:  {
-            reasonInfo
-          }
-        }, '*');
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'session',
+            command: 'goNotReady',
+            data: {
+              reasonInfo,
+            },
+          },
+          '*'
+        );
+      }
+
+      function setDirection() {
+        const direction = document.getElementById('select-direction').value;
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'session',
+            command: 'setDirection',
+            data: {
+              direction,
+              agentId,
+              sessionId,
+            },
+          },
+          '*'
+        );
+      }
+
+      function makeCall() {
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'interactions',
+            subModule: 'voice',
+            command: 'dial',
+            data: {
+              phoneNumber: '+13025150674',
+            },
+          },
+          '*'
+        );
+      }
+
+      function acceptInteraction() {
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'interactions',
+            command: 'accept',
+            data: {
+              interactionId,
+            },
+          },
+          '*'
+        );
+      }
+
+      function customerHold() {
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'interactions',
+            subModule: 'voice',
+            command: 'customerHold',
+            data: {
+              interactionId,
+            },
+          },
+          '*'
+        );
+      }
+
+      function customerResume() {
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'interactions',
+            subModule: 'voice',
+            command: 'customerResume',
+            data: {
+              interactionId,
+            },
+          },
+          '*'
+        );
+      }
+
+      function startRecording() {
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'interactions',
+            subModule: 'voice',
+            command: 'startRecording',
+            data: {
+              interactionId,
+            },
+          },
+          '*'
+        );
+      }
+
+      function stopRecording() {
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'interactions',
+            subModule: 'voice',
+            command: 'stopRecording',
+            data: {
+              interactionId,
+            },
+          },
+          '*'
+        );
+      }
+
+      function endInteraction() {
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'interactions',
+            command: 'end',
+            data: {
+              interactionId,
+            },
+          },
+          '*'
+        );
       }
 
       function endWrapup() {
-        skylight.postMessage({
-          skylightController: true,
-          module: 'interactions',
-          command: 'endWrapup',
-          data:  {
-            interactionId
-          }
-        }, '*');
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'interactions',
+            command: 'endWrapup',
+            data: {
+              interactionId,
+            },
+          },
+          '*'
+        );
       }
 
       function dumpState() {
-        skylight.postMessage({
-          skylightController: true,
-          command: 'dumpState'
-        }, '*');
+        skylight.postMessage(
+          {
+            skylightController: true,
+            command: 'dumpState',
+          },
+          '*'
+        );
       }
 
       function logout() {
-        skylight.postMessage({
-          skylightController: true,
-          module: 'authentication',
-          command: 'logout'
-        }, '*');
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'authentication',
+            command: 'logout',
+          },
+          '*'
+        );
       }
     </script>
   </body>

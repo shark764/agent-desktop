@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.54.10] (2020-08-11)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.10/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.10/index.html)
+### Added
+* CXV1-22953 - Add submodule function support to postMessage
+
 ## [1.54.9] (2020-08-11)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.9/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.9/index.html)
