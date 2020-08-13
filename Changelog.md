@@ -1,8 +1,15 @@
 # Changelog
 
+## [1.54.13] (2020-08-12)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.13/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.13/index.html)
+### Updated
+* Updating serenova-client-strings version to 0.2.3.
+* Fixing translations for agent-desktop - Language nl-NL
+
 ## [1.54.12] (2020-08-12)
-[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.11/index.html)  
-[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.11/index.html)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.12/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.12/index.html)
 ### Updated
 * CXV1-22920 - SDK Bump - Include Salesforce user id in start session request
 
