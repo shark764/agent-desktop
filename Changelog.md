@@ -1,10 +1,16 @@
 # Changelog
 
+## [1.54.12] (2020-08-12)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.11/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.11/index.html)
+### Updated
+* CXV1-22920 - SDK Bump - Include Salesforce user id in start session request
+
 ## [1.54.11] (2020-08-12)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.11/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.11/index.html)
 ### Changed
-* <no-jira> - Fixed ContactInteractionHistoryItem FormattedMessage when agent-initiated
+* CXV1-22958 - Fixed ContactInteractionHistoryItem FormattedMessage when agent-initiated
 
 ## [1.54.10] (2020-08-11)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.10/index.html)  
@@ -36,7 +42,6 @@
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.6/index.html)
 ### Changed
 * CXV1-22843 - Improve Skylight console logging
-
 
 ## [1.54.5] (2020-07-29)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.5/index.html)  
