@@ -12,6 +12,43 @@ Object {
 }
 `;
 
+exports[`selectOutboundIdentifierListsForChannel Sort items from outbound lists 1`] = `
+Array [
+  Object {
+    "channelType": "voice",
+    "flowId": "1a",
+    "label": "Test A",
+    "outboundIdentifier": "+11",
+    "outboundIdentifierListId": "1",
+    "value": "0001",
+  },
+  Object {
+    "channelType": "voice",
+    "flowId": "1aa",
+    "label": "Test AA",
+    "outboundIdentifier": "+111",
+    "outboundIdentifierListId": "1",
+    "value": "0002",
+  },
+  Object {
+    "channelType": "email",
+    "flowId": "1aa",
+    "label": "Test D",
+    "outboundIdentifier": "+111",
+    "outboundIdentifierListId": "1",
+    "value": "0003",
+  },
+  Object {
+    "channelType": "voice",
+    "flowId": "1a",
+    "label": "Test D12",
+    "outboundIdentifier": "+11",
+    "outboundIdentifierListId": "2",
+    "value": "0008",
+  },
+]
+`;
+
 exports[`selectOutboundIdentifierListsForChannel if outbound identifier list exist 1`] = `
 Array [
   Object {
@@ -40,3 +77,5 @@ Array [
   },
 ]
 `;
+
+exports[`selectOutboundIdentifierListsForChannel if outbound identifier lists don't have items of passed channel types 1`] = `Array []`;

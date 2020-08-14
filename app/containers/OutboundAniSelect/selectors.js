@@ -35,7 +35,25 @@ export const selectOutboundIdentifierListsForChannel = createSelector(
             }
           );
         });
+
+      /**
+       * We sort here due to result list is filled with
+       * outbounds of all available lists
+       */
+      outboundList.sort((a, b) => {
+        const labelA = a.label.toLowerCase();
+        const labelB = b.label.toLowerCase();
+
+        if (labelA < labelB) {
+          return -1;
+        }
+        if (labelA > labelB) {
+          return 1;
+        }
+        return 0;
+      });
     }
+
     return outboundList;
   }
 );

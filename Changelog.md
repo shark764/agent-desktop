@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.54.14] (2020-08-12)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.14/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.14/index.html)
+### Fixed
+* CXV1-22890 - Outbound identifiers are sorted alphabetically ascending.
+
 ## [1.54.13] (2020-08-12)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.13/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.13/index.html)
