@@ -2,9 +2,6 @@
  * Copyright © 2015-2020 Serenova, LLC. All rights reserved.
  */
 
-import { isBeta } from 'utils/url';
-// isToolbar // we can show in toolbar mode when the hyperion change is in
-
 /**
  * i18n.js
  *
@@ -16,16 +13,16 @@ import csLocaleData from 'react-intl/locale-data/cs';
 import deLocaleData from 'react-intl/locale-data/de';
 import enLocaleData from 'react-intl/locale-data/en';
 import esLocaleData from 'react-intl/locale-data/es';
-import fiLocaleData from 'react-intl/locale-data/fi';
 import frLocaleData from 'react-intl/locale-data/fr';
 import itLocaleData from 'react-intl/locale-data/it';
-import jaLocaleData from 'react-intl/locale-data/ja';
-import koLocaleData from 'react-intl/locale-data/ko';
-import nbLocaleData from 'react-intl/locale-data/nb';
 import nlLocaleData from 'react-intl/locale-data/nl';
+import nbLocaleData from 'react-intl/locale-data/nb';
 import plLocaleData from 'react-intl/locale-data/pl';
 import ptLocaleData from 'react-intl/locale-data/pt';
+import fiLocaleData from 'react-intl/locale-data/fi';
 import svLocaleData from 'react-intl/locale-data/sv';
+import koLocaleData from 'react-intl/locale-data/ko';
+import jaLocaleData from 'react-intl/locale-data/ja';
 import zhLocaleData from 'react-intl/locale-data/zh';
 
 /**
@@ -40,17 +37,17 @@ import 'moment/locale/cs';
 import 'moment/locale/de';
 import 'moment/locale/en-gb';
 import 'moment/locale/es';
-import 'moment/locale/fi';
 import 'moment/locale/fr-ca';
 import 'moment/locale/fr';
 import 'moment/locale/it';
-import 'moment/locale/ja';
-import 'moment/locale/ko';
-import 'moment/locale/nb';
 import 'moment/locale/nl';
+import 'moment/locale/nb';
 import 'moment/locale/pl';
 import 'moment/locale/pt-br';
+import 'moment/locale/fi';
 import 'moment/locale/sv';
+import 'moment/locale/ko';
+import 'moment/locale/ja';
 import 'moment/locale/zh-cn';
 import 'moment/locale/zh-tw';
 
@@ -67,17 +64,17 @@ import deDeTranslationMessages from 'serenova-client-strings/agent-desktop/de-DE
 import enGbTranslationMessages from 'serenova-client-strings/agent-desktop/en-GB.json';
 import enUsTranslationMessages from 'serenova-client-strings/agent-desktop/en-US.json';
 import esEsTranslationMessages from 'serenova-client-strings/agent-desktop/es-ES.json';
-import fiFiTranslationMessages from 'serenova-client-strings/agent-desktop/fi-FI.json';
 import frCaTranslationMessages from 'serenova-client-strings/agent-desktop/fr-CA.json';
 import frFrTranslationMessages from 'serenova-client-strings/agent-desktop/fr-FR.json';
 import itItTranslationMessages from 'serenova-client-strings/agent-desktop/it-IT.json';
-import jaJpTranslationMessages from 'serenova-client-strings/agent-desktop/ja-JP.json';
-import koKrTranslationMessages from 'serenova-client-strings/agent-desktop/ko-KR.json';
-import nbNoTranslationMessages from 'serenova-client-strings/agent-desktop/nb-NO.json';
 import nlNlTranslationMessages from 'serenova-client-strings/agent-desktop/nl-NL.json';
+import nbNoTranslationMessages from 'serenova-client-strings/agent-desktop/nb-NO.json';
 import plPlTranslationMessages from 'serenova-client-strings/agent-desktop/pl-PL.json';
 import ptBrTranslationMessages from 'serenova-client-strings/agent-desktop/pt-BR.json';
+import fiFiTranslationMessages from 'serenova-client-strings/agent-desktop/fi-FI.json';
 import svSeTranslationMessages from 'serenova-client-strings/agent-desktop/sv-SE.json';
+import koKrTranslationMessages from 'serenova-client-strings/agent-desktop/ko-KR.json';
+import jaJpTranslationMessages from 'serenova-client-strings/agent-desktop/ja-JP.json';
 import zhCnTranslationMessages from 'serenova-client-strings/agent-desktop/zh-CN.json';
 import zhTwTranslationMessages from 'serenova-client-strings/agent-desktop/zh-TW.json';
 
@@ -87,16 +84,16 @@ addLocaleData(csLocaleData);
 addLocaleData(deLocaleData);
 addLocaleData(enLocaleData);
 addLocaleData(esLocaleData);
-addLocaleData(fiLocaleData);
 addLocaleData(frLocaleData);
 addLocaleData(itLocaleData);
-addLocaleData(jaLocaleData);
-addLocaleData(koLocaleData);
-addLocaleData(nbLocaleData);
 addLocaleData(nlLocaleData);
+addLocaleData(nbLocaleData);
 addLocaleData(plLocaleData);
 addLocaleData(ptLocaleData);
+addLocaleData(fiLocaleData);
 addLocaleData(svLocaleData);
+addLocaleData(koLocaleData);
+addLocaleData(jaLocaleData);
 addLocaleData(zhLocaleData);
 
 export const formatTranslationMessages = (locale, messages) => {
@@ -125,59 +122,48 @@ export const formatTranslationMessages = (locale, messages) => {
  */
 export const setGlobalLocale = (locale) => moment.locale(locale);
 
-let mappedLocalesList = [
-  { value: 'en-US', label: 'English (US)' },
+const mappedLocalesList = [
+  { value: 'cs-CZ', label: 'Čeština (Czech Republic)' },
   { value: 'de-DE', label: 'Deutsche (Deutschland)' },
   { value: 'en-GB', label: 'English (Great Britain)' },
+  { value: 'en-US', label: 'English (US)' },
   { value: 'es-ES', label: 'Español (España)' }, // Castilian Spanish - Grande!!
   { value: 'fr-CA', label: 'Français (Canada)' },
   { value: 'fr-FR', label: 'Français (France)' },
+  { value: 'it-IT', label: 'Italiano (Italia)' },
+  { value: 'nl-NL', label: 'Nederlands (Nederland)' },
+  { value: 'nb-NO', label: 'Norsk (Norge)' }, // Standard Norwegian
   { value: 'pl-PL', label: 'Polski (Polska)' },
   { value: 'pt-BR', label: 'Português (Brasil)' },
+  { value: 'fi-FI', label: 'Suomi (Suomessa)' }, // Standard Finnish
+  { value: 'sv-SE', label: 'Svenska (Sverige)' }, // Standard Swedish
+  { value: 'ko-KR', label: '한국어 (한국)' }, // Standard Korean
+  { value: 'ja-JP', label: '日本語 (日本)' }, // Standard Japanese
+  { value: 'zh-CN', label: '简体中文 (中国)' }, // Simplified Chinese
+  { value: 'zh-TW', label: '繁體中文 (中文 - 台灣)' }, // Traditional Chinese - Taiwan
 ];
-if (isBeta()) {
-  // || isToolbar() // we can show in toolbar mode when the hyperion change is in
-  mappedLocalesList = [
-    ...mappedLocalesList,
-    { value: 'cs-CZ', label: 'Čeština (Czech Republic)' },
-    { value: 'fi-FI', label: 'Suomi (Suomessa)' }, // Standard Finnish
-    { value: 'it-IT', label: 'Italiano (Italia)' },
-    { value: 'ja-JP', label: '日本語 (日本)' }, // Standard Japanese
-    { value: 'ko-KR', label: '한국어 (한국)' }, // Standard Korean
-    { value: 'nb-NO', label: 'Norsk (Norge)' }, // Standard Norwegian
-    { value: 'nl-NL', label: 'Nederlands (Nederland)' },
-    { value: 'sv-SE', label: 'Svenska (Sverige)' }, // Standard Swedish
-    { value: 'zh-CN', label: '简体中文 (中国)' }, // Simplified Chinese
-    { value: 'zh-TW', label: '繁體中文 (中文 - 台灣)' }, // Traditional Chinese - Taiwan
-  ];
-}
+
 export const mappedLocales = mappedLocalesList;
 
-let translationMessagesList = {
+const translationMessagesList = {
+  'cs-CZ': formatTranslationMessages('cs-CZ', csCzTranslationMessages),
   'de-DE': formatTranslationMessages('de-DE', deDeTranslationMessages),
   'en-GB': formatTranslationMessages('en-GB', enGbTranslationMessages),
   'en-US': formatTranslationMessages('en-US', enUsTranslationMessages),
   'es-ES': formatTranslationMessages('es-ES', esEsTranslationMessages),
   'fr-CA': formatTranslationMessages('fr-CA', frCaTranslationMessages),
   'fr-FR': formatTranslationMessages('fr-FR', frFrTranslationMessages),
+  'it-IT': formatTranslationMessages('it-IT', itItTranslationMessages),
+  'nl-NL': formatTranslationMessages('nl-NL', nlNlTranslationMessages),
+  'nb-NO': formatTranslationMessages('nb-NO', nbNoTranslationMessages),
   'pl-PL': formatTranslationMessages('pl-PL', plPlTranslationMessages),
   'pt-BR': formatTranslationMessages('pt-BR', ptBrTranslationMessages),
+  'fi-FI': formatTranslationMessages('fi-FI', fiFiTranslationMessages),
+  'sv-SE': formatTranslationMessages('sv-SE', svSeTranslationMessages),
+  'ko-KR': formatTranslationMessages('ko-KR', koKrTranslationMessages),
+  'ja-JP': formatTranslationMessages('ja-JP', jaJpTranslationMessages),
+  'zh-CN': formatTranslationMessages('zh-CN', zhCnTranslationMessages),
+  'zh-TW': formatTranslationMessages('zh-TW', zhTwTranslationMessages),
 };
-if (isBeta()) {
-  // || isToolbar() // we can show in toolbar mode when the hyperion change is in
-  translationMessagesList = {
-    ...translationMessagesList,
-    'cs-CZ': formatTranslationMessages('cs-CZ', csCzTranslationMessages),
-    'fi-FI': formatTranslationMessages('fi-FI', fiFiTranslationMessages),
-    'it-IT': formatTranslationMessages('it-IT', itItTranslationMessages),
-    'ja-JP': formatTranslationMessages('ja-JP', jaJpTranslationMessages),
-    'ko-KR': formatTranslationMessages('ko-KR', koKrTranslationMessages),
-    'nb-NO': formatTranslationMessages('nb-NO', nbNoTranslationMessages),
-    'nl-NL': formatTranslationMessages('nl-NL', nlNlTranslationMessages),
-    'sv-SE': formatTranslationMessages('sv-SE', svSeTranslationMessages),
-    'zh-CN': formatTranslationMessages('zh-CN', zhCnTranslationMessages),
-    'zh-TW': formatTranslationMessages('zh-TW', zhTwTranslationMessages),
-  };
-}
 
 export const translationMessages = translationMessagesList;
