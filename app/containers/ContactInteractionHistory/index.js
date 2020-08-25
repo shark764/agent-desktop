@@ -189,13 +189,15 @@ export class ContactInteractionHistory extends React.Component {
               ) : (
                 <FormattedMessage {...messages.interaction} />
               )}
-              {earliestTimestamp && (
+              {earliestTimestamp ? (
                 <span>
                   &nbsp;
                   <FormattedMessage {...messages.since} />
                   &nbsp;
                   {moment(earliestTimestamp).format('LL')}
                 </span>
+              ) : (
+                ''
               )}
             </div>
           ) : (
