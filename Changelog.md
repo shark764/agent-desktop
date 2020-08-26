@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.54.18] (2020-08-26)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.18/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.18/index.html)
+### Updated
+* CXv1-22994 - SDK Bump - Interactions do not re-subscribe to MQTT after MQTT reconnects
+
 ## [1.54.17] (2020-08-25)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.17/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.17/index.html)
