@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.54.17] (2020-08-25)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.17/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.17/index.html)
+### Updated
+* Updating serenova-js-utils version to 4.2.1.
+### Fixed
+* CXV1-23018 - Pointing legal page urls fo new ones for production.
+
 ## [1.54.16] (2020-08-21)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.16/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.16/index.html)

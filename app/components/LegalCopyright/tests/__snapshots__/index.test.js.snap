@@ -56,7 +56,7 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders CXEngage Lega
     />
     <a
       data-radium={true}
-      href="https://legal.cxengage.net/cxengage-legal/index.html"
+      href="https://legal.cxengage.net/#/cxengage-legal"
       key=".1"
       style={
         Object {
@@ -132,7 +132,7 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders CXEngage Lega
     />
     <a
       data-radium={true}
-      href="https://legal.cxengage.net/cxengage-legal/index.html"
+      href="https://legal.cxengage.net/#/cxengage-legal"
       key=".1"
       style={
         Object {
@@ -207,7 +207,7 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders Mitel Legal i
     />
     <a
       data-radium={true}
-      href="https://legal.cxengage.net/mitel-legal/index.html"
+      href="https://legal.cxengage.net/#/mitel-legal"
       key=".1"
       style={
         Object {
@@ -283,7 +283,7 @@ exports[`<LegalCopyright /> LegalCopyright in Non-Dev URLs renders Mitel Legal i
     />
     <a
       data-radium={true}
-      href="https://legal.cxengage.net/mitel-legal/index.html"
+      href="https://legal.cxengage.net/#/mitel-legal"
       key=".1"
       style={
         Object {
