@@ -911,8 +911,12 @@ export class App extends React.Component {
               break;
             }
             if (!this.context.toolbarMode && this.props.hasCrmPermissions) {
-              // Internal screen pop: retrieve specific contact
-              if (response.popType === 'url') {
+              if (response.popType === 'external-url') {
+                console.log(
+                  'Ignoring external-url screen-pop; handled by the SDK.'
+                );
+              } else if (response.popType === 'url') {
+                // Internal screen pop: retrieve specific contact
                 if (isUUID(response.popUri)) {
                   CxEngage.contacts.get(
                     { contactId: response.popUri },
@@ -936,62 +940,59 @@ export class App extends React.Component {
                     response.popUri
                   );
                 }
-              } else {
-                const terms = response.terms.filter((term) => {
-                  if (!term) {
-                    console.warn('Excluding falsey term from screen pop', term);
-                  }
-                  return term;
-                });
-                if (response.popType === 'search-pop') {
-                  if (response.searchType === 'strict') {
-                    if (response.filterType === 'or') {
-                      this.attemptContactSearch(
-                        response.filter,
-                        response.interactionId,
-                        interaction,
-                        terms
-                      );
-                    } else if (response.filterType === 'and') {
-                      this.attemptContactSearch(
-                        Object.assign({ op: 'and' }, response.filter),
-                        response.interactionId,
-                        interaction,
-                        terms
-                      );
-                    } else {
-                      console.error(
-                        `Unhandled filterType: ${response.filterType}`
-                      );
-                    }
-                  } else if (response.searchType === 'fuzzy') {
-                    const fuzzySearchString = terms
-                      .map((term) => {
-                        const trimmedTerm = term.trim();
-                        if (
-                          trimmedTerm.includes(' ') &&
-                          !trimmedTerm.includes('"')
-                        ) {
-                          return `"${trimmedTerm}"`;
-                        } else {
-                          return trimmedTerm;
-                        }
-                      })
-                      .join(' ');
+              } else if (response.popType === 'search-pop') {
+                if (response.searchType === 'strict') {
+                  if (response.filterType === 'or') {
                     this.attemptContactSearch(
-                      { q: fuzzySearchString },
+                      response.filter,
                       response.interactionId,
-                      interaction,
-                      terms
+                      interaction
+                    );
+                  } else if (response.filterType === 'and') {
+                    this.attemptContactSearch(
+                      Object.assign({ op: 'and' }, response.filter),
+                      response.interactionId,
+                      interaction
                     );
                   } else {
                     console.error(
-                      `Unhandled searchType: ${response.searchType}`
+                      `Unhandled filterType: ${response.filterType}`
                     );
                   }
+                } else if (response.searchType === 'fuzzy') {
+                  const fuzzySearchString = response.terms
+                    .filter((term) => {
+                      if (!term) {
+                        console.warn(
+                          'Excluding falsey term from screen pop',
+                          term
+                        );
+                      }
+                      return term;
+                    })
+                    .map((term) => {
+                      const trimmedTerm = term.trim();
+                      if (
+                        trimmedTerm.includes(' ') &&
+                        !trimmedTerm.includes('"')
+                      ) {
+                        return `"${trimmedTerm}"`;
+                      } else {
+                        return trimmedTerm;
+                      }
+                    })
+                    .join(' ');
+                  this.attemptContactSearch(
+                    { q: fuzzySearchString },
+                    response.interactionId,
+                    interaction,
+                    response.terms
+                  );
                 } else {
-                  console.error(`Unhandled pop type: ${response.popType}`);
+                  console.error(`Unhandled searchType: ${response.searchType}`);
                 }
+              } else {
+                console.error(`Unhandled pop type: ${response.popType}`);
               }
             } else {
               console.log('Ignoring screen-pop. Not using skylight CRM');
