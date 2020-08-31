@@ -20,6 +20,7 @@ import { createSearchQuery } from 'utils/contact';
 import { isUUID } from 'utils/validator';
 import crmCssAdapter from 'utils/crmCssAdapter';
 import { generateErrorMessage } from 'utils/errorMessage';
+import { generateUUID } from 'utils/uuid';
 
 import { kebabCaseToCamelCase } from 'serenova-js-utils/strings';
 import { PresenceStateIconSVG, DirectionIconSVG } from 'cx-ui-components';
@@ -516,7 +517,10 @@ export class App extends React.Component {
           );
         }
       }
-      if (error) {
+      if (
+        error &&
+        topic !== 'cxengage/errors/error/mqtt-lost-connection' // Error handled the same as non-error
+      ) {
         this.props.handleSDKError(error, topic);
       } else {
         const isIgnoreTopic = sdkIgnoreTopics.includes(topic);
@@ -1117,6 +1121,50 @@ export class App extends React.Component {
             } else {
               console.warn(`No message history: ${response}`);
             }
+            break;
+          }
+          case 'cxengage/errors/error/mqtt-lost-connection': {
+            this.props.agentDesktop.interactions.forEach((interaction) => {
+              if (
+                interaction.channelType === 'sms' ||
+                (interaction.channelType === 'messaging' &&
+                  interaction.source !== 'smooch')
+              ) {
+                this.props.toggleInteractionNotification(
+                  interaction.interactionId,
+                  {
+                    id: 'mqtt-disconnect',
+                    uuid: generateUUID(),
+                    code: 'AD-1008',
+                    isDismissible: false,
+                    isError: true,
+                  }
+                );
+              }
+            });
+            break;
+          }
+          case 'cxengage/interactions/messaging/mqtt-session-connected': {
+            this.props.agentDesktop.interactions.forEach((interaction) => {
+              if (
+                interaction.channelType === 'sms' ||
+                (interaction.channelType === 'messaging' &&
+                  interaction.source !== 'smooch')
+              ) {
+                let uuid;
+                interaction.notifications.forEach((notification) => {
+                  if (notification.id === 'mqtt-disconnect') {
+                    ({ uuid } = notification);
+                  }
+                });
+                if (uuid) {
+                  this.props.toggleInteractionNotification(
+                    interaction.interactionId,
+                    { uuid }
+                  );
+                }
+              }
+            });
             break;
           }
           case 'cxengage/interactions/smooch-messaging/message-received':

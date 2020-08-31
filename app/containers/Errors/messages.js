@@ -57,6 +57,11 @@ export default defineMessages({
     id: 'app.containers.Errors.AD-1007',
     defaultMessage: 'Failed to copy the chat transcript',
   },
+  'AD-1008': {
+    id: 'app.containers.Errors.AD-1008',
+    defaultMessage:
+      'MQTT is currently disconnected. You will not be able to send or receive messages until it reconnects.',
+  },
   /**
    * context :general
    */

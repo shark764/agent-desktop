@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.54.20",
+  "version": "1.54.21",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -110,7 +110,7 @@
     "redux-watch": "1.1.1",
     "reselect": "3.0.1",
     "sanitize.css": "6.0.0",
-    "serenova-client-strings": "^0.3.0",
+    "serenova-client-strings": "^0.3.2",
     "serenova-js-utils": "^4.2.1",
     "store": "2.0.12",
     "styled-components": "^3.4.10",

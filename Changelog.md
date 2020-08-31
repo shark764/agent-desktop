@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.54.21] (2020-08-31)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.21/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.21/index.html)
+### Fixed
+* CXV1-15978 - Only show MQTT disconnect error on affected interactions (old messaging, SMS)
+
 ## [1.54.20] (2020-08-31)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.20/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.20/index.html)

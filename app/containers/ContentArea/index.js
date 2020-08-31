@@ -978,13 +978,16 @@ export class ContentArea extends React.Component {
                         key={notification.uuid}
                         id={notification.uuid}
                         titleMessage={
-                          notification.isError && errorMessages.interactionError
+                          notification.isError
+                            ? errorMessages.interactionError
+                            : undefined
                         }
                         descriptionMessage={descriptionMessage}
                         descriptionStyle={this.styles.notificationBanner}
                         dismiss={
-                          notification.isDismissible &&
-                          this.dismissErrorInteraction
+                          notification.isDismissible
+                            ? this.dismissErrorInteraction
+                            : undefined
                         }
                         dismissArguments={
                           notification.isDismissible ? [notification] : []

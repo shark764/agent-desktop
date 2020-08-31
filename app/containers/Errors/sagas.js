@@ -59,7 +59,7 @@ export function* goHandleSDKError(action) {
     const erroredInteraction = interactionsList
       .toJS()
       .find(
-        interaction => interaction.interactionId === error.data.interactionId
+        (interaction) => interaction.interactionId === error.data.interactionId
       );
     if (!erroredInteraction) {
       // If we do not have the interaction that errored, ignore
@@ -97,7 +97,7 @@ export function* goHandleSDKError(action) {
   } else if (error.code === 4002 && error.data.flowMessage) {
     const interactionsList = yield select(selectInteractionsList);
     const erroredInteraction = interactionsList.find(
-      interaction => interaction.interactionId === error.data.interactionId
+      (interaction) => interaction.interactionId === error.data.interactionId
     );
     if (!erroredInteraction) {
       // If we do not have the interaction that errored, ignore
