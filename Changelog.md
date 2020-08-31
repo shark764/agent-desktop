@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.54.20] (2020-08-31)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.20/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.20/index.html)
+### Changed
+* CXV1-22893 - Adding beta flag to use new supported languages
+
 ## [1.54.19] (2020-08-27)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.19/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.19/index.html)
