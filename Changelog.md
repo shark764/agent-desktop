@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.54.22] (2020-09-02)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.22/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.22/index.html)
+### Changed
+CXV1-22614 - Hide internal routing (transfer button) for omnichannel interactions
+
 ## [1.54.21] (2020-08-31)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.21/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.21/index.html)

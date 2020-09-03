@@ -1043,6 +1043,79 @@ const smsInteractionWithLotsOfMessagesAndScript = {
   ],
 };
 
+const salesforceOmniChannelInteraction = {
+  contact: {
+    type: 'LiveChatTranscript',
+    id: '5704S000000CoJ2QAK',
+    attributes: {
+      name: '00000198',
+    },
+  },
+  isMuting: false,
+  timeout: 1598901949000,
+  warmTransfers: [],
+  contactMode: 'search',
+  selectedSidePanelTab: 'info',
+  query: {},
+  notifications: [],
+  isColdTransferring: false,
+  customFields: [
+    {
+      label: 'Flow Name',
+      value: 'Omnichannel Flow',
+    },
+    {
+      label: 'Queue Name',
+      value: 'All Agents',
+    },
+  ],
+  transferLists: {
+    loadingState: true,
+  },
+  dispositionDetails: {
+    forceSelect: false,
+    dispositions: [],
+    categories: [],
+    selected: [],
+  },
+  autoAnswer: false,
+  interactionId: 'b3ef3260-ebbf-11ea-a410-d4c7369d3741',
+  customFieldsCollapsed: true,
+  isEnding: false,
+  note: {
+    body: '',
+    title: '',
+    notesPanelHeight: 180,
+  },
+  status: 'work-accepted',
+  isSidePanelCollapsed: true,
+  timeAccepted: 1598901921709,
+  contactAssignedNotification: false,
+  isHolding: false,
+  source: 'salesforce-omni',
+  transferringInConference: false,
+  wrapupDetails: {
+    wrapupUpdateAllowed: false,
+    wrapupEnabled: true,
+    wrapupTime: '30',
+    targetWrapupTime: '30',
+    interactionId: 'b3ef3260-ebbf-11ea-a410-d4c7369d3741',
+  },
+  channelType: 'work-item',
+  activeContactForm: {
+    contactForm: {},
+    formIsDirty: false,
+    selectedIndexes: {},
+    showErrors: {},
+    editingContacts: [],
+    formIsValid: false,
+    unusedFields: {},
+    formErrors: {},
+    saveLoading: false,
+  },
+  direction: 'inbound',
+};
+
 const smsInteractionWithLotsOfMessagesAndScript2 = cloneDeep(
   smsInteractionWithLotsOfMessagesAndScript
 );
@@ -1113,4 +1186,5 @@ export {
   smsInteractionWithUnrespondedMessageAndScript2,
   scriptOnly,
   smsWithWrapup,
+  salesforceOmniChannelInteraction,
 };
