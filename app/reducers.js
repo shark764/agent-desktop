@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ * Copyright © 2015-2020 Serenova, LLC. All rights reserved.
  */
 
 import { combineReducers } from 'redux-immutable';
@@ -12,6 +12,7 @@ import infoTab from 'containers/InfoTab/reducer';
 import contactsControl from 'containers/ContactsControl/reducer';
 import errors from 'containers/Errors/reducer';
 import notificationPreferences from 'containers/AgentNotificationsMenu/reducer';
+import audioOutputPreferences from 'containers/AudioOutputMenu/reducer';
 import transferMenu from 'containers/TransferMenu/reducer';
 import transferDialPad from 'containers/TransferDialPad/reducer';
 import outboundAniSelect from 'containers/OutboundAniSelect/reducer';
@@ -29,6 +30,13 @@ const appReducer = combineReducers({
   contactsControl,
   errors,
   notificationPreferences,
+
+  /**
+   * Slices return an object with the reducer in
+   * https://redux-toolkit.js.org/api/createSlice#return-value
+   */
+  [audioOutputPreferences.name]: audioOutputPreferences.reducer,
+
   transferMenu,
   outboundAniSelect,
   transferDialPad,

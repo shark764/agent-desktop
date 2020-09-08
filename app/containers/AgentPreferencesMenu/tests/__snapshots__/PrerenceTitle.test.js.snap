@@ -1,71 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<PreferenceTitle /> no preference passed in renders correctly 1`] = `
-<div
+<styled.div
   id="preferenceTitle"
-  style={
-    Object {
-      "borderBottom": "solid 1px #e4e4e4",
-      "color": "#4B4B4B",
-      "fontSize": "18px",
-      "fontWeight": "bold",
-      "marginBottom": "10px",
-      "padding": "0 0 5px 0",
-    }
-  }
 >
   <FormattedMessage
     defaultMessage="Preferences"
     id="app.containers.AgentPreferencesMenu.preferences"
     values={Object {}}
   />
-</div>
+</styled.div>
 `;
 
 exports[`<PreferenceTitle /> preference is passed in renders correctly 1`] = `
-<div
+<Styled(styled.div)
   id="preferenceTitleBack"
   onClick={[Function]}
-  style={
-    Array [
-      Object {
-        "borderBottom": "solid 1px #e4e4e4",
-        "color": "#4B4B4B",
-        "fontSize": "18px",
-        "fontWeight": "bold",
-        "marginBottom": "10px",
-        "padding": "0 0 5px 0",
-      },
-      Object {
-        ":hover": Object {
-          "backgroundColor": "#DEF8FE",
-        },
-        "cursor": "pointer",
-        "padding": "5px 0",
-      },
-    ]
-  }
 >
-  <Icon
-    name="caret"
-    style={
-      Object {
-        "margin": "8px 5px 0 0",
-        "transform": "rotate(90deg)",
-        "verticalAlign": "top",
-      }
-    }
+  <Styled(SimpleCaretIconSVG)
+    direction="left"
+    size={10}
   />
   <FormattedMessage
     defaultMessage="Preferences"
     id="app.containers.AgentPreferencesMenu.preferences"
     values={Object {}}
   />
-   - 
+   - 
   <FormattedMessage
     defaultMessage="Metrics"
     id="app.containers.AgentPreferencesMenu.metrics"
     values={Object {}}
   />
-</div>
+</Styled(styled.div)>
 `;

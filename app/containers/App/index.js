@@ -184,6 +184,18 @@ import {
   selectHasInteractions,
 } from 'containers/AgentDesktop/selectors';
 
+import { updateActiveOutputNotificationDevices } from 'containers/AudioOutputMenu/thunks';
+import {
+  setAvailableOutputDevices,
+  setActiveOutputRingtoneDevices,
+  setActiveOutputSpeakerDevices,
+  setOutputSelectionSupported,
+} from 'containers/AudioOutputMenu/reducer';
+import {
+  selectActiveOutputNotificationDevices,
+  selectOutputSelectionSupported,
+} from 'containers/AudioOutputMenu/selectors';
+
 import { store } from 'store';
 import { sdkResponseLog } from '../../utils/logs';
 
@@ -292,6 +304,23 @@ export class App extends React.Component {
         this.props.removeStatErrorId(statId);
       }
     });
+  };
+
+  playAudioNotification = () => {
+    /**
+     * Check for firefox without flags enabled
+     * https://www.twilio.com/docs/voice/client/javascript/device#browser-support
+     */
+    if (this.props.isOutputSelectionSupported) {
+      this.props.activeNotificationDeviceIds.forEach((deviceId) => {
+        const audio = new Audio(notificationSound);
+        audio.setSinkId(deviceId);
+        audio.play();
+      });
+    } else {
+      const audio = new Audio(notificationSound);
+      audio.play();
+    }
   };
 
   init = () => {
@@ -698,7 +727,7 @@ export class App extends React.Component {
                   interaction.channelType !== 'voice' &&
                   this.props.audioNotificationsEnabled
                 ) {
-                  new Audio(notificationSound).play();
+                  this.playAudioNotification();
                 }
               }
             } else {
@@ -1218,7 +1247,7 @@ export class App extends React.Component {
                   }, 5000);
                 }
                 if (this.props.audioNotificationsEnabled) {
-                  new Audio(notificationSound).play();
+                  this.playAudioNotification();
                 }
               }
             }
@@ -1653,6 +1682,48 @@ export class App extends React.Component {
               },
               type
             );
+            break;
+          }
+
+          /**
+           * TWILIO
+           */
+          case 'cxengage/twilio/twilio-initialization': {
+            this.props.setOutputSelectionSupported(
+              response.isOutputSelectionSupported
+            );
+
+            break;
+          }
+          case 'cxengage/twilio/output-devices-changed': {
+            this.props.setAvailableOutputDevices(
+              response.availableOutputDevices
+            );
+            if (response.activeOutputRingtoneDevices.size > 0) {
+              this.props.setActiveOutputRingtoneDevices(
+                response.activeOutputRingtoneDevices
+              );
+            }
+            if (response.activeOutputSpeakerDevices.size > 0) {
+              this.props.setActiveOutputSpeakerDevices(
+                response.activeOutputSpeakerDevices
+              );
+            }
+            this.props.updateActiveOutputNotificationDevices();
+
+            break;
+          }
+          case 'cxengage/twilio/active-output-devices-changed': {
+            if (response.activeOutputRingtoneDevices) {
+              this.props.setActiveOutputRingtoneDevices(
+                response.activeOutputRingtoneDevices
+              );
+            } else if (response.activeOutputSpeakerDevices) {
+              this.props.setActiveOutputSpeakerDevices(
+                response.activeOutputSpeakerDevices
+              );
+            }
+
             break;
           }
 
@@ -2135,6 +2206,11 @@ const mapStateToProps = (state, props) => ({
   ),
   audioNotificationsEnabled: selectAudioPreferences(state, props),
   visualNotificationsEnabled: selectVisualPreferences(state, props),
+  isOutputSelectionSupported: selectOutputSelectionSupported(state, props),
+  activeNotificationDeviceIds: selectActiveOutputNotificationDevices(
+    state,
+    props
+  ),
   queues: selectQueues(state, props),
   selectedInteractionId: getSelectedInteractionId(state, props),
   hasInteractions: selectHasInteractions(state, props),
@@ -2317,6 +2393,26 @@ function mapDispatchToProps(dispatch) {
       dispatch(toggleSelectedQueueTransferMenuPreference(queue)),
     toggleInteractionNotification: (interactionId, notification) =>
       dispatch(toggleInteractionNotification(interactionId, notification)),
+    setAvailableOutputDevices: (
+      availableOutputDevices,
+      activeOutputRingtoneDevices,
+      activeOutputSpeakerDevices
+    ) =>
+      dispatch(
+        setAvailableOutputDevices(
+          availableOutputDevices,
+          activeOutputRingtoneDevices,
+          activeOutputSpeakerDevices
+        )
+      ),
+    setActiveOutputRingtoneDevices: (activeOutputRingtoneDevices) =>
+      dispatch(setActiveOutputRingtoneDevices(activeOutputRingtoneDevices)),
+    setActiveOutputSpeakerDevices: (activeOutputSpeakerDevices) =>
+      dispatch(setActiveOutputSpeakerDevices(activeOutputSpeakerDevices)),
+    updateActiveOutputNotificationDevices: () =>
+      dispatch(updateActiveOutputNotificationDevices()),
+    setOutputSelectionSupported: (isOutputSelectionSupported) =>
+      dispatch(setOutputSelectionSupported(isOutputSelectionSupported)),
     dispatch,
   };
 }
@@ -2427,6 +2523,8 @@ App.propTypes = {
   expirationPromptReauth: PropTypes.object,
   audioNotificationsEnabled: PropTypes.bool,
   visualNotificationsEnabled: PropTypes.bool,
+  isOutputSelectionSupported: PropTypes.bool,
+  activeNotificationDeviceIds: PropTypes.array,
   setResourceCapactiy: PropTypes.func.isRequired,
   setUsers: PropTypes.func.isRequired,
   setTransferListsFromFlow: PropTypes.func.isRequired,
@@ -2439,6 +2537,11 @@ App.propTypes = {
   setContactMode: PropTypes.func.isRequired,
   removeContact: PropTypes.func.isRequired,
   toggleInteractionNotification: PropTypes.func.isRequired,
+  setAvailableOutputDevices: PropTypes.func.isRequired,
+  setActiveOutputRingtoneDevices: PropTypes.func.isRequired,
+  setActiveOutputSpeakerDevices: PropTypes.func.isRequired,
+  updateActiveOutputNotificationDevices: PropTypes.func.isRequired,
+  setOutputSelectionSupported: PropTypes.func.isRequired,
 };
 
 App.contextTypes = {

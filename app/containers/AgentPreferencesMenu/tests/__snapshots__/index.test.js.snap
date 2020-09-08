@@ -23,10 +23,26 @@ exports[`<AgentPreferencesMenu /> does not render the metrics option when the ag
   />
   <React.Fragment>
     <PreferenceOption
+      caretDirection="right"
+      label={
+        Object {
+          "defaultMessage": "Notifications",
+          "id": "app.containers.AgentPreferencesMenu.notifications",
+        }
+      }
+      open={false}
       preference="notifications"
       setPreferenceSelected={[Function]}
     />
     <PreferenceOption
+      caretDirection="right"
+      label={
+        Object {
+          "defaultMessage": "Transfer Menu",
+          "id": "app.containers.AgentPreferencesMenu.transferMenu",
+        }
+      }
+      open={false}
       preference="transferMenu"
       setPreferenceSelected={[Function]}
     />
@@ -109,14 +125,38 @@ exports[`<AgentPreferencesMenu /> renders the preferences options by default 1`]
   />
   <React.Fragment>
     <PreferenceOption
+      caretDirection="right"
+      label={
+        Object {
+          "defaultMessage": "Metrics",
+          "id": "app.containers.AgentPreferencesMenu.metrics",
+        }
+      }
+      open={false}
       preference="metrics"
       setPreferenceSelected={[Function]}
     />
     <PreferenceOption
+      caretDirection="right"
+      label={
+        Object {
+          "defaultMessage": "Notifications",
+          "id": "app.containers.AgentPreferencesMenu.notifications",
+        }
+      }
+      open={false}
       preference="notifications"
       setPreferenceSelected={[Function]}
     />
     <PreferenceOption
+      caretDirection="right"
+      label={
+        Object {
+          "defaultMessage": "Transfer Menu",
+          "id": "app.containers.AgentPreferencesMenu.transferMenu",
+        }
+      }
+      open={false}
       preference="transferMenu"
       setPreferenceSelected={[Function]}
     />

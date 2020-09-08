@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.55.0] (2020-09-01)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.55.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.55.0/index.html)
+### Added
+* CXV1-22974 - Adding UI ability to set audio output devices for media and voice.
+* CXV1-22972 - Setting output devices to play audio notifications.
+
 ## [1.54.23] (2020-09-04)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.54.23/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.54.23/index.html)

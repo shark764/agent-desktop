@@ -25,6 +25,10 @@ export default defineMessages({
     id: 'app.containers.AgentPreferencesMenu.notifications',
     defaultMessage: 'Notifications',
   },
+  audioOutput: {
+    id: 'app.containers.AgentPreferencesMenu.audioOutput',
+    defaultMessage: 'Audio Output',
+  },
   transferMenu: {
     id: 'app.containers.AgentPreferencesMenu.transferMenu',
     defaultMessage: 'Transfer Menu',

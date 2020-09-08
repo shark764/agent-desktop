@@ -1,10 +1,10 @@
 /*
- * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ * Copyright © 2015-2020 Serenova, LLC. All rights reserved.
  */
 
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import Raven from 'raven-js';
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
+import { applyMiddleware } from 'redux';
 import { fromJS } from 'immutable';
 import createSagaMiddleware from 'redux-saga';
 import reduxErrorMiddleware from 'utils/reduxErrorMiddleware';
@@ -28,18 +28,36 @@ const sagaMiddleware = createSagaMiddleware({
   },
 });
 
-export default function configureStore(initialState = {}) {
+export default function configureAppStore(initialState = {}) {
   const middlewares = [sagaMiddleware, reduxErrorMiddleware];
   const enhancers = [applyMiddleware(...middlewares)];
-  const composeEnhancers = composeWithDevTools({
-    name: 'Skylight',
-  });
 
-  store = createStore(
+  /**
+   * Restricting the extension, we do not allow
+   * advanced features on production mode
+   */
+  const isDevEnv = process.env.NODE_ENV !== 'production';
+
+  store = configureStore({
     reducer,
-    fromJS(initialState),
-    composeEnhancers(...enhancers)
-  );
+    middleware: [...getDefaultMiddleware(), ...middlewares],
+    preloadedState: fromJS(initialState),
+    devTools: {
+      features: {
+        pause: isDevEnv, // start/pause recording of dispatched actions
+        lock: isDevEnv, // lock/unlock dispatching actions and side effects
+        persist: isDevEnv, // persist states on page reloading
+        export: isDevEnv ? 'custom' : isDevEnv, // export history of actions in a file
+        import: isDevEnv ? 'custom' : isDevEnv, // import history of actions from a file
+        jump: isDevEnv, // jump back and forth (time travelling)
+        skip: isDevEnv, // skip (cancel) actions
+        reorder: isDevEnv, // drag and drop actions in the history list
+        dispatch: isDevEnv, // dispatch custom actions or action creators
+        test: isDevEnv, // generate tests for the selected actions
+      },
+    },
+    enhancers,
+  });
 
   watchers.forEach((watcher) => {
     const watcherName = watch(() => store.getState().toJS(), watcher.statePath);

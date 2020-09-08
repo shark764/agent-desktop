@@ -485,6 +485,15 @@ export default defineMessages({
     defaultMessage:
       'Force-killed the connection with Twilio; previous attempts to end it naturally were unsuccessful.',
   },
+  8004: {
+    id: 'app.containers.Errors.8004',
+    defaultMessage:
+      'Setting output ringtone devices as active was unsuccessful.',
+  },
+  8005: {
+    id: 'app.containers.Errors.8005',
+    defaultMessage: 'Setting output speaker devices as active was unsuccessful',
+  },
   /**
    * context :mqtt
    */

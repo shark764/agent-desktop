@@ -1,65 +1,59 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import Radium from 'radium';
-
-import Icon from 'components/Icon';
+import { SimpleCaretIconSVG } from 'cx-ui-components';
+import styled from 'styled-components';
 
 import messages from './messages';
 
-const styles = {
-  title: {
-    fontSize: '18px',
-    color: '#4B4B4B',
-    fontWeight: 'bold',
-    marginBottom: '10px',
-    borderBottom: 'solid 1px #e4e4e4',
-    padding: '0 0 5px 0',
-  },
-  option: {
-    padding: '5px 0',
-    cursor: 'pointer',
-    ':hover': {
-      backgroundColor: '#DEF8FE',
-    },
-  },
-  backCaret: {
-    transform: 'rotate(90deg)',
-    verticalAlign: 'top',
-    margin: '8px 5px 0 0',
-  },
-};
+const Title = styled.div`
+  font-size: 18px;
+  color: #4b4b4b;
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-bottom: solid 1px #e4e4e4;
+  padding: 0 0 5px 0;
+`;
 
-export class PreferenceTitle extends React.Component {
-  clearPreferenceSelected = () => this.props.setPreferenceSelected(undefined);
-
-  render() {
-    if (this.props.preference) {
-      return (
-        <div
-          id="preferenceTitleBack"
-          onClick={this.clearPreferenceSelected}
-          style={[styles.title, styles.option]}
-        >
-          <Icon name="caret" style={styles.backCaret} />
-          <FormattedMessage {...messages.preferences} />
-          &nbsp;-&nbsp;
-          <FormattedMessage {...messages[this.props.preference]} />
-        </div>
-      );
-    } else {
-      return (
-        <div id="preferenceTitle" style={styles.title}>
-          <FormattedMessage {...messages.preferences} />
-        </div>
-      );
-    }
+const OptionTitle = styled(Title)`
+  padding: 5px 0;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  &:not([disabled]):hover {
+    background-color: #def8fe;
   }
-}
+`;
+
+const BackCaretIcon = styled(SimpleCaretIconSVG)`
+  vertical-align: top;
+  margin-right: 5px;
+`;
+
+export const PreferenceTitle = (props) => {
+  if (props.preference) {
+    return (
+      <OptionTitle
+        id="preferenceTitleBack"
+        onClick={() => props.setPreferenceSelected(undefined)}
+      >
+        <BackCaretIcon size={10} direction="left" />
+        <FormattedMessage {...messages.preferences} />
+        {` - `}
+        <FormattedMessage {...messages[props.preference]} />
+      </OptionTitle>
+    );
+  } else {
+    return (
+      <Title id="preferenceTitle">
+        <FormattedMessage {...messages.preferences} />
+      </Title>
+    );
+  }
+};
 
 PreferenceTitle.propTypes = {
   preference: PropTypes.string,
   setPreferenceSelected: PropTypes.func.isRequired,
 };
 
-export default Radium(PreferenceTitle);
+export default PreferenceTitle;

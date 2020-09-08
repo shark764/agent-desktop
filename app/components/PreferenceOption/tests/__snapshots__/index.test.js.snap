@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PreferenceOption /> renders correctly 1`] = `
+<styled.div
+  id="metrics-preference"
+  onClick={[Function]}
+>
+  <FormattedMessage
+    defaultMessage="Metrics"
+    id="app.containers.AgentPreferencesMenu.metrics"
+    values={Object {}}
+  />
+  <Styled(SimpleCaretIconSVG)
+    direction="right"
+    open={false}
+    size={10}
+  />
+</styled.div>
+`;

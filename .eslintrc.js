@@ -86,6 +86,7 @@ module.exports = {
     'redux-saga/yield-effects': 2,
     'react/sort-comp': 0,
     'react/destructuring-assignment': 0,
+    'no-param-reassign': ['error', { props: false }],
   },
   settings: {
     'import/resolver': {
