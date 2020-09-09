@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { selectAudioPreferences } from 'containers/AgentNotificationsMenu/selectors';
 import {
   selectActiveOutputRingtoneDevices,
   selectActiveOutputSpeakerDevices,
@@ -56,13 +57,15 @@ const AudioOutputMenu = (props) => (
       setDeviceAsActive={props.updateActiveOutputRingtoneDevice}
     />
 
-    <DeviceMenu
-      audio="notifications"
-      label={messages.notifications}
-      devices={props.notificationDevices}
-      setDeviceAsActive={props.updateActiveOutputNotificationDevice}
-      selectNoneAvailable
-    />
+    {props.audioNotificationsEnabled && (
+      <DeviceMenu
+        audio="notifications"
+        label={messages.notifications}
+        devices={props.notificationDevices}
+        setDeviceAsActive={props.updateActiveOutputNotificationDevice}
+        selectNoneAvailable
+      />
+    )}
 
     <DeviceMenu
       audio="voice"
@@ -77,6 +80,7 @@ const mapStateToProps = (state, props) => ({
   ringtoneDevices: selectActiveOutputRingtoneDevices(state, props),
   speakerDevices: selectActiveOutputSpeakerDevices(state, props),
   notificationDevices: selectActiveOutputNotificationDevices(state, props),
+  audioNotificationsEnabled: selectAudioPreferences(state, props),
 });
 
 const actions = {
@@ -104,6 +108,7 @@ AudioOutputMenu.propTypes = {
       id: PropTypes.string,
     })
   ).isRequired,
+  audioNotificationsEnabled: PropTypes.bool,
   updateActiveOutputRingtoneDevice: PropTypes.func.isRequired,
   updateActiveOutputSpeakerDevice: PropTypes.func.isRequired,
   updateActiveOutputNotificationDevice: PropTypes.func.isRequired,

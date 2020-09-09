@@ -318,6 +318,10 @@ export class App extends React.Component {
         audio.play();
       });
     } else {
+      /**
+       * Twilio not available, play notification
+       * on default system device
+       */
       const audio = new Audio(notificationSound);
       audio.play();
     }

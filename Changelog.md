@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.55.1] (2020-09-09)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.55.1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.55.1/index.html)
+### Fixed
+* CXV1-23069 - Notifications device selection is hidden if Audio Notifications menu is disabled.
+
 ## [1.55.0] (2020-09-01)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.55.0/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.55.0/index.html)
