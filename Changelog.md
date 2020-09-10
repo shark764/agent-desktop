@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.55.3] (2020-09-09)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.55.3/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.55.3/index.html)
+### Fixed
+* CXV1-23070 - Only one device is allowed to be selected for each of Media/Notifications/Voice.
+
 ## [1.55.2] (2020-09-09)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.55.2/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.55.2/index.html)

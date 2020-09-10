@@ -63,7 +63,6 @@ const AudioOutputMenu = (props) => (
         label={messages.notifications}
         devices={props.notificationDevices}
         setDeviceAsActive={props.updateActiveOutputNotificationDevice}
-        selectNoneAvailable
       />
     )}
 

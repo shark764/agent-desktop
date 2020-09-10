@@ -35,7 +35,7 @@ export const DeviceOption = ({ device, handleClick, disabled }) => (
       <CheckStatusIconSVG
         size={17}
         alt="selected"
-        fillColor={disabled ? 'gray' : 'black'}
+        fillColor="black"
         disabled={disabled}
       />
     )}

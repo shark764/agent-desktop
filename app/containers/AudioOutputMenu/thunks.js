@@ -9,8 +9,6 @@
  */
 
 import {
-  getActiveOutputRingtoneDevices,
-  getActiveOutputSpeakerDevices,
   getActiveOutputNotificationDevices,
   getAvailableOutputDevices,
 } from './selectors';
@@ -27,44 +25,24 @@ import { setActiveOutputNotificationDevices } from './reducer';
  */
 
 export function updateActiveOutputRingtoneDevice(deviceId) {
-  return (dispatch, getState) => {
-    let activeDevices = getActiveOutputRingtoneDevices(getState());
-    if (activeDevices.includes(deviceId)) {
-      activeDevices = activeDevices.filter((device) => device !== deviceId);
-    } else {
-      activeDevices = [...activeDevices, deviceId];
-    }
+  return () => {
     CxEngage.twilio.setActiveOutputRingtoneDevices({
-      deviceIds: activeDevices,
+      deviceIds: deviceId,
     });
   };
 }
 
 export function updateActiveOutputSpeakerDevice(deviceId) {
-  return (dispatch, getState) => {
-    let activeDevices = getActiveOutputSpeakerDevices(getState());
-    if (activeDevices.includes(deviceId)) {
-      activeDevices = activeDevices.filter((device) => device !== deviceId);
-    } else {
-      activeDevices = [...activeDevices, deviceId];
-    }
-
+  return () => {
     CxEngage.twilio.setActiveOutputSpeakerDevices({
-      deviceIds: activeDevices,
+      deviceIds: deviceId,
     });
   };
 }
 
 export function updateActiveOutputNotificationDevice(deviceId) {
-  return (dispatch, getState) => {
-    let activeDevices = getActiveOutputNotificationDevices(getState());
-    if (activeDevices.includes(deviceId)) {
-      activeDevices = activeDevices.filter((device) => device !== deviceId);
-    } else {
-      activeDevices = [...activeDevices, deviceId];
-    }
-
-    dispatch(setActiveOutputNotificationDevices(activeDevices));
+  return (dispatch) => {
+    dispatch(setActiveOutputNotificationDevices([deviceId]));
   };
 }
 

@@ -49,10 +49,7 @@ export class DeviceMenu extends React.Component {
                * We disable devices when they're the only
                * one selected
                */
-              const disabled =
-                device.isActive &&
-                activeDevicesCount === 1 &&
-                !this.props.selectNoneAvailable;
+              const disabled = device.isActive && activeDevicesCount === 1;
 
               return (
                 <DeviceOption
@@ -80,12 +77,7 @@ DeviceMenu.propTypes = {
   ).isRequired,
   audio: PropTypes.string.isRequired,
   label: PropTypes.object.isRequired,
-  selectNoneAvailable: PropTypes.bool,
   setDeviceAsActive: PropTypes.func.isRequired,
-};
-
-DeviceMenu.defaultProps = {
-  selectNoneAvailable: false,
 };
 
 export default DeviceMenu;
