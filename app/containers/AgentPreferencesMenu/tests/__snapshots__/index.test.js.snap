@@ -1,5 +1,129 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<AgentPreferencesMenu /> does not render the audioOutput option when the active extension is PSTN 1`] = `
+<PopupDialog
+  arrowLeftOffsetPx={348}
+  hide={[Function]}
+  id="preferencesMenu"
+  isVisible={true}
+  style={
+    Object {
+      "bottom": "56px",
+      "color": "#4b4b4b",
+      "margin": "10px",
+      "padding": "10px 13px",
+      "position": "absolute",
+      "right": "2px",
+    }
+  }
+  widthPx={380}
+>
+  <PreferenceTitle
+    setPreferenceSelected={[Function]}
+  />
+  <React.Fragment>
+    <PreferenceOption
+      caretDirection="right"
+      label={
+        Object {
+          "defaultMessage": "Metrics",
+          "id": "app.containers.AgentPreferencesMenu.metrics",
+        }
+      }
+      open={false}
+      preference="metrics"
+      setPreferenceSelected={[Function]}
+    />
+    <PreferenceOption
+      caretDirection="right"
+      label={
+        Object {
+          "defaultMessage": "Notifications",
+          "id": "app.containers.AgentPreferencesMenu.notifications",
+        }
+      }
+      open={false}
+      preference="notifications"
+      setPreferenceSelected={[Function]}
+    />
+    <PreferenceOption
+      caretDirection="right"
+      label={
+        Object {
+          "defaultMessage": "Transfer Menu",
+          "id": "app.containers.AgentPreferencesMenu.transferMenu",
+        }
+      }
+      open={false}
+      preference="transferMenu"
+      setPreferenceSelected={[Function]}
+    />
+  </React.Fragment>
+</PopupDialog>
+`;
+
+exports[`<AgentPreferencesMenu /> does not render the audioOutput option when the agent has not give browser permission to use mic/audio devices 1`] = `
+<PopupDialog
+  arrowLeftOffsetPx={348}
+  hide={[Function]}
+  id="preferencesMenu"
+  isVisible={true}
+  style={
+    Object {
+      "bottom": "56px",
+      "color": "#4b4b4b",
+      "margin": "10px",
+      "padding": "10px 13px",
+      "position": "absolute",
+      "right": "2px",
+    }
+  }
+  widthPx={380}
+>
+  <PreferenceTitle
+    setPreferenceSelected={[Function]}
+  />
+  <React.Fragment>
+    <PreferenceOption
+      caretDirection="right"
+      label={
+        Object {
+          "defaultMessage": "Metrics",
+          "id": "app.containers.AgentPreferencesMenu.metrics",
+        }
+      }
+      open={false}
+      preference="metrics"
+      setPreferenceSelected={[Function]}
+    />
+    <PreferenceOption
+      caretDirection="right"
+      label={
+        Object {
+          "defaultMessage": "Notifications",
+          "id": "app.containers.AgentPreferencesMenu.notifications",
+        }
+      }
+      open={false}
+      preference="notifications"
+      setPreferenceSelected={[Function]}
+    />
+    <PreferenceOption
+      caretDirection="right"
+      label={
+        Object {
+          "defaultMessage": "Transfer Menu",
+          "id": "app.containers.AgentPreferencesMenu.transferMenu",
+        }
+      }
+      open={false}
+      preference="transferMenu"
+      setPreferenceSelected={[Function]}
+    />
+  </React.Fragment>
+</PopupDialog>
+`;
+
 exports[`<AgentPreferencesMenu /> does not render the metrics option when the agent does not have the view stats permission 1`] = `
 <PopupDialog
   arrowLeftOffsetPx={348}
@@ -99,6 +223,58 @@ exports[`<AgentPreferencesMenu /> renders AgentStatsMenu when it is set in state
     setPreferenceSelected={[Function]}
   />
   <Connect(ErrorBoundaryComponent) />
+</PopupDialog>
+`;
+
+exports[`<AgentPreferencesMenu /> renders AgentTransferMenuPreferenceMenu when it is set in state 1`] = `
+<PopupDialog
+  arrowLeftOffsetPx={348}
+  hide={[Function]}
+  id="preferencesMenu"
+  isVisible={true}
+  style={
+    Object {
+      "bottom": "56px",
+      "color": "#4b4b4b",
+      "margin": "10px",
+      "padding": "10px 13px",
+      "position": "absolute",
+      "right": "2px",
+    }
+  }
+  widthPx={380}
+>
+  <PreferenceTitle
+    preference="transferMenu"
+    setPreferenceSelected={[Function]}
+  />
+  <Connect(ErrorBoundaryComponent) />
+</PopupDialog>
+`;
+
+exports[`<AgentPreferencesMenu /> renders AudioOutputMenu when it is set in state 1`] = `
+<PopupDialog
+  arrowLeftOffsetPx={348}
+  hide={[Function]}
+  id="preferencesMenu"
+  isVisible={true}
+  style={
+    Object {
+      "bottom": "56px",
+      "color": "#4b4b4b",
+      "margin": "10px",
+      "padding": "10px 13px",
+      "position": "absolute",
+      "right": "2px",
+    }
+  }
+  widthPx={380}
+>
+  <PreferenceTitle
+    preference="audioOutput"
+    setPreferenceSelected={[Function]}
+  />
+  <Connect(AudioOutputMenu) />
 </PopupDialog>
 `;
 

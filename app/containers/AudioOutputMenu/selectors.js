@@ -4,6 +4,8 @@
 
 import { createSelector } from '@reduxjs/toolkit';
 
+import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
+
 const selectAudioOutputPreferences = (state) =>
   state.get('audioOutputPreferences');
 
@@ -74,3 +76,12 @@ export const selectActiveOutputNotificationDevices = createSelector(
  */
 export const selectOutputSelectionSupported = (state) =>
   selectAudioOutputPreferences(state).isOutputSelectionSupported;
+
+/**
+ * Returns if active extension is Twilio/WebRTC
+ */
+export const selectActiveExtensionIsTwilio = createSelector(
+  selectActiveExtension,
+  (activeExtension) =>
+    activeExtension.provider === 'twilio' && activeExtension.type === 'webrtc'
+);

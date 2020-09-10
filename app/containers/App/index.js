@@ -194,7 +194,12 @@ import {
 import {
   selectActiveOutputNotificationDevices,
   selectOutputSelectionSupported,
+  selectActiveExtensionIsTwilio,
 } from 'containers/AudioOutputMenu/selectors';
+import {
+  selectAgentDirection,
+  selectSelectedPresenceReason,
+} from 'containers/AgentStatusMenu/selectors';
 
 import { store } from 'store';
 import { sdkResponseLog } from '../../utils/logs';
@@ -206,10 +211,6 @@ import { version as release } from '../../../package.json';
 import messages from './messages';
 import sdkIgnoreTopics from './sdkIgnoreTopics';
 import sdkLogTopics from './sdkLogTopics';
-import {
-  selectAgentDirection,
-  selectSelectedPresenceReason,
-} from '../AgentStatusMenu/selectors';
 
 import { setGlobalLocale } from '../../i18n';
 
@@ -310,8 +311,13 @@ export class App extends React.Component {
     /**
      * Check for firefox without flags enabled
      * https://www.twilio.com/docs/voice/client/javascript/device#browser-support
+     *
+     * Also check if active extension is not PSTN
      */
-    if (this.props.isOutputSelectionSupported) {
+    if (
+      this.props.activeExtensionIsTwilio &&
+      this.props.isOutputSelectionSupported
+    ) {
       this.props.activeNotificationDeviceIds.forEach((deviceId) => {
         const audio = new Audio(notificationSound);
         audio.setSinkId(deviceId);
@@ -2211,6 +2217,7 @@ const mapStateToProps = (state, props) => ({
   audioNotificationsEnabled: selectAudioPreferences(state, props),
   visualNotificationsEnabled: selectVisualPreferences(state, props),
   isOutputSelectionSupported: selectOutputSelectionSupported(state, props),
+  activeExtensionIsTwilio: selectActiveExtensionIsTwilio(state, props),
   activeNotificationDeviceIds: selectActiveOutputNotificationDevices(
     state,
     props
@@ -2528,6 +2535,7 @@ App.propTypes = {
   audioNotificationsEnabled: PropTypes.bool,
   visualNotificationsEnabled: PropTypes.bool,
   isOutputSelectionSupported: PropTypes.bool,
+  activeExtensionIsTwilio: PropTypes.bool,
   activeNotificationDeviceIds: PropTypes.array,
   setResourceCapactiy: PropTypes.func.isRequired,
   setUsers: PropTypes.func.isRequired,

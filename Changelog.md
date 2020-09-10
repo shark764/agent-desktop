@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.55.2] (2020-09-09)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.55.2/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.55.2/index.html)
+### Updated
+* CXV1-23048 - Updating serenova-client-strings version to 0.4.4. (Translations for new Audio Output menu options)
+### Fixed
+* CXV1-23071 - Audio Output Selection menu is hidden/shown when active extension is set to PSTN/WebRTC.
+
 ## [1.55.1] (2020-09-09)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.55.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.55.1/index.html)

@@ -13,7 +13,10 @@ import ErrorBoundary from 'components/ErrorBoundary';
 
 import PreferenceOption from 'components/PreferenceOption';
 import { isAlpha } from 'utils/url';
-import { selectOutputSelectionSupported } from 'containers/AudioOutputMenu/selectors';
+import {
+  selectOutputSelectionSupported,
+  selectActiveExtensionIsTwilio,
+} from 'containers/AudioOutputMenu/selectors';
 import { selectHasViewStatsPermission } from './selectors';
 
 import PreferenceTitle from './PreferenceTitle';
@@ -39,8 +42,22 @@ export class AgentPreferencesMenu extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    /**
+     * If activeExtension is changed, we need to
+     * hide AudioOutput menu
+     */
+    if (
+      this.props.activeExtensionIsTwilio !== prevProps.activeExtensionIsTwilio
+    ) {
+      this.setPreferenceSelected(undefined);
+    }
+  }
+
   setPreferenceSelected = (preferenceSelected) => {
-    this.setState({ preferenceSelected });
+    this.setState({
+      preferenceSelected,
+    });
   };
 
   renderPreferenceOption = (preference) => (
@@ -79,6 +96,7 @@ export class AgentPreferencesMenu extends React.Component {
             {this.renderPreferenceOption('notifications')}
 
             {isAlpha() &&
+              this.props.activeExtensionIsTwilio &&
               this.props.isOutputSelectionSupported &&
               this.renderPreferenceOption('audioOutput')}
 
@@ -112,11 +130,13 @@ AgentPreferencesMenu.propTypes = {
   hideMenu: PropTypes.func.isRequired,
   hasViewStatsPermission: PropTypes.bool,
   isOutputSelectionSupported: PropTypes.bool.isRequired,
+  activeExtensionIsTwilio: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
   hasViewStatsPermission: selectHasViewStatsPermission(state, props),
   isOutputSelectionSupported: selectOutputSelectionSupported(state, props),
+  activeExtensionIsTwilio: selectActiveExtensionIsTwilio(state, props),
 });
 
 export default ErrorBoundary(
