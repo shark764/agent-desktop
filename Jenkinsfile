@@ -26,6 +26,7 @@ pipeline {
   agent any
   stages {
     stage ('Setup') {
+      when { anyOf {changeRequest(); branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature'}}
       parallel {
         stage ('Set build version') {
           steps {
@@ -200,16 +201,16 @@ pipeline {
         c.cleanup()
       }
     }
-    success {
-      script {
-        h.hipchatPullRequestSuccess("${service}", "${build_version}")
-      }
-    }
-    failure {
-      script {
-        h.hipchatPullRequestFailure("${service}", "${build_version}")
-      }
-    }
+    // success {
+    //   script {
+    //     h.hipchatPullRequestSuccess("${service}", "${build_version}")
+    //   }
+    // }
+    // failure {
+    //   script {
+    //     h.hipchatPullRequestFailure("${service}", "${build_version}")
+    //   }
+    // }
     unstable {
         echo 'This will run only if the run was marked as unstable'
     }

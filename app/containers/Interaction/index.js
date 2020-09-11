@@ -11,7 +11,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import { FormattedMessage } from 'react-intl';
+import styled from 'styled-components';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import Dotdotdot from 'react-dotdotdot';
 
@@ -28,6 +29,12 @@ import { selectCrmModule } from 'containers/AgentDesktop/selectors';
 import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
 
 import messages from './messages';
+
+const TextOverflowEllipsis = styled.div`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
 
 const styles = {
   base: {
@@ -430,6 +437,7 @@ export class Interaction extends React.Component {
 
     const acceptMessage =
       pendingPSTN || pendingSIP ? messages.PSTN : messages.accept;
+    const acceptMessageTitle = this.props.intl.formatMessage(acceptMessage);
     return (
       <div
         id={`${this.props.status}InteractionContainer-${
@@ -523,7 +531,9 @@ export class Interaction extends React.Component {
               this.getDetails()}
             {this.props.status === 'pending' && (
               <div style={styles.intentText}>
-                <FormattedMessage {...acceptMessage} />
+                <TextOverflowEllipsis title={acceptMessageTitle}>
+                  <FormattedMessage {...acceptMessage} />
+                </TextOverflowEllipsis>
                 <CancelButton interaction={this.props.interaction} />
               </div>
             )}
@@ -572,6 +582,7 @@ export class Interaction extends React.Component {
 }
 
 Interaction.propTypes = {
+  intl: PropTypes.object.isRequired,
   from: PropTypes.string,
   previewText: PropTypes.string,
   icon: PropTypes.string,
@@ -613,4 +624,6 @@ Interaction.contextTypes = {
   toolbarMode: PropTypes.bool,
 };
 
-export default ErrorBoundary(connect(mapStateToProps)(Radium(Interaction)));
+export default ErrorBoundary(
+  connect(mapStateToProps)(injectIntl(Radium(Interaction)))
+);

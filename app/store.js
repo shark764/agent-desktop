@@ -40,7 +40,15 @@ export default function configureAppStore(initialState = {}) {
 
   store = configureStore({
     reducer,
-    middleware: [...getDefaultMiddleware(), ...middlewares],
+    middleware: [
+      ...getDefaultMiddleware({
+        // Needed because we use Immutable js
+        // https://redux-toolkit.js.org/api/getDefaultMiddleware#api-reference
+        serializableCheck: false,
+        immutableCheck: false,
+      }),
+      ...middlewares,
+    ],
     preloadedState: fromJS(initialState),
     devTools: {
       features: {

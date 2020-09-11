@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.55.4] (2020-09-11)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.55.3/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.55.3/index.html)
+### Fixed
+* CXV1-23095 - Cancel outbound button in Japanese locale.
+* CXV1-23002 - "s" (seconds) translations in Chinese, Japanese, and Korean.
+* CXV1-23003 - "All rights reserved" translations in Japanese and Korean.
+
 ## [1.55.3] (2020-09-09)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.55.3/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.55.3/index.html)
