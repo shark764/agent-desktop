@@ -1,0 +1,196 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DeviceOption /> empty data of device is passed in renders correctly 1`] = `
+<styled.div
+  disabled={false}
+  id="audiooutput-DeviceOption-undefined"
+  onClick={[Function]}
+/>
+`;
+
+exports[`<DeviceOption /> output device is disabled renders correctly 1`] = `
+<styled.div
+  disabled={true}
+  id="audiooutput-DeviceOption-807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
+>
+  USG PnIXAu20o  Analog Stereo
+  <Styled(CheckedIconSVG)
+    alt="selected"
+    disabled={true}
+    fillColor="black"
+    size={17}
+  />
+</styled.div>
+`;
+
+exports[`<DeviceOption /> output device is not active renders correctly 1`] = `
+<styled.div
+  disabled={false}
+  id="audiooutput-DeviceOption-807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
+  onClick={[Function]}
+>
+  USG PnIXAu20o  Analog Stereo
+</styled.div>
+`;
+
+exports[`<DeviceOption /> output device is passed in renders correctly 1`] = `
+<styled.div
+  disabled={false}
+  id="audiooutput-DeviceOption-807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
+  onClick={[Function]}
+>
+  USG PnIXAu20o  Analog Stereo
+  <Styled(CheckedIconSVG)
+    alt="selected"
+    disabled={false}
+    fillColor="black"
+    size={17}
+  />
+</styled.div>
+`;
+
+exports[`<DeviceOption /> renders output device when is disabled renders correctly 1`] = `
+<DeviceOption
+  device={
+    Object {
+      "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+      "isActive": true,
+      "label": "USG PnIXAu20o  Analog Stereo",
+    }
+  }
+  disabled={true}
+  handleClick={[MockFunction]}
+>
+  <styled.div
+    disabled={true}
+    id="audiooutput-DeviceOption-807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
+  >
+    <div
+      className="sc-jWojfa iUSkVz"
+      disabled={true}
+      id="audiooutput-DeviceOption-807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
+    >
+      USG PnIXAu20o  Analog Stereo
+      <Styled(CheckedIconSVG)
+        alt="selected"
+        disabled={true}
+        fillColor="black"
+        size={17}
+      >
+        <CheckedIconSVG
+          alt="selected"
+          checkedIconType="primary"
+          className="sc-kVrTmx bgSfis"
+          disabled={true}
+          fillColor="black"
+          size={17}
+        >
+          <styled.div
+            className="CheckedIconSVG sc-kVrTmx bgSfis"
+            size={17}
+          >
+            <div
+              className="CheckedIconSVG sc-kVrTmx bgSfis sc-gldTML pbECO"
+              size={17}
+            >
+              <svg
+                version="1.1"
+                viewBox="0 0 44 44"
+                x="0px"
+                xmlns="http://www.w3.org/2000/svg"
+                y="0px"
+              >
+                <styled.path
+                  checkedIconType="primary"
+                  className="icon"
+                  d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,15.1l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.6-0.1-0.7-0.3l-7.8-8.4-.2-.2c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.3 0.4,0.9 0,1.3z"
+                  fillColor="black"
+                >
+                  <path
+                    className="icon sc-feryYK iUeHBv"
+                    d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,15.1l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.6-0.1-0.7-0.3l-7.8-8.4-.2-.2c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.3 0.4,0.9 0,1.3z"
+                  />
+                </styled.path>
+              </svg>
+            </div>
+          </styled.div>
+        </CheckedIconSVG>
+      </Styled(CheckedIconSVG)>
+    </div>
+  </styled.div>
+</DeviceOption>
+`;
+
+exports[`<DeviceOption /> renders output device when is not disabled renders correctly 1`] = `
+<DeviceOption
+  device={
+    Object {
+      "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+      "isActive": true,
+      "label": "USG PnIXAu20o  Analog Stereo",
+    }
+  }
+  disabled={false}
+  handleClick={[MockFunction]}
+>
+  <styled.div
+    disabled={false}
+    id="audiooutput-DeviceOption-807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
+    onClick={[Function]}
+  >
+    <div
+      className="sc-jWojfa qVLJu"
+      disabled={false}
+      id="audiooutput-DeviceOption-807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
+      onClick={[Function]}
+    >
+      USG PnIXAu20o  Analog Stereo
+      <Styled(CheckedIconSVG)
+        alt="selected"
+        disabled={false}
+        fillColor="black"
+        size={17}
+      >
+        <CheckedIconSVG
+          alt="selected"
+          checkedIconType="primary"
+          className="sc-kVrTmx bToCNW"
+          disabled={false}
+          fillColor="black"
+          size={17}
+        >
+          <styled.div
+            className="CheckedIconSVG sc-kVrTmx bToCNW"
+            size={17}
+          >
+            <div
+              className="CheckedIconSVG sc-kVrTmx bToCNW sc-gldTML pbECO"
+              size={17}
+            >
+              <svg
+                version="1.1"
+                viewBox="0 0 44 44"
+                x="0px"
+                xmlns="http://www.w3.org/2000/svg"
+                y="0px"
+              >
+                <styled.path
+                  checkedIconType="primary"
+                  className="icon"
+                  d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,15.1l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.6-0.1-0.7-0.3l-7.8-8.4-.2-.2c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.3 0.4,0.9 0,1.3z"
+                  fillColor="black"
+                >
+                  <path
+                    className="icon sc-feryYK iUeHBv"
+                    d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,15.1l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.6-0.1-0.7-0.3l-7.8-8.4-.2-.2c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.3 0.4,0.9 0,1.3z"
+                  />
+                </styled.path>
+              </svg>
+            </div>
+          </styled.div>
+        </CheckedIconSVG>
+      </Styled(CheckedIconSVG)>
+    </div>
+  </styled.div>
+</DeviceOption>
+`;

@@ -162,6 +162,18 @@ exports[`<AgentPreferencesMenu /> does not render the metrics option when the ag
       caretDirection="right"
       label={
         Object {
+          "defaultMessage": "Audio Output",
+          "id": "app.containers.AgentPreferencesMenu.audioOutput",
+        }
+      }
+      open={false}
+      preference="audioOutput"
+      setPreferenceSelected={[Function]}
+    />
+    <PreferenceOption
+      caretDirection="right"
+      label={
+        Object {
           "defaultMessage": "Transfer Menu",
           "id": "app.containers.AgentPreferencesMenu.transferMenu",
         }
@@ -322,6 +334,18 @@ exports[`<AgentPreferencesMenu /> renders the preferences options by default 1`]
       }
       open={false}
       preference="notifications"
+      setPreferenceSelected={[Function]}
+    />
+    <PreferenceOption
+      caretDirection="right"
+      label={
+        Object {
+          "defaultMessage": "Audio Output",
+          "id": "app.containers.AgentPreferencesMenu.audioOutput",
+        }
+      }
+      open={false}
+      preference="audioOutput"
       setPreferenceSelected={[Function]}
     />
     <PreferenceOption

@@ -5,7 +5,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
+import { isAlpha } from 'utils/url';
+import PreferenceOption from 'components/PreferenceOption';
+
 import { AgentPreferencesMenu } from '../index';
+
+jest.mock('utils/url');
+isAlpha.mockImplementation(() => true);
 
 describe('<AgentPreferencesMenu />', () => {
   it('renders the preferences options by default', () => {
@@ -107,5 +113,111 @@ describe('<AgentPreferencesMenu />', () => {
     );
     rendered.setState({ preferenceSelected: 'transferMenu' });
     expect(rendered).toMatchSnapshot();
+  });
+
+  describe('calling menu option "setPreferenceSelected" method', () => {
+    it('should change preferenceSelected to "metrics" when setPreferenceSelected in PreferenceOption is clicked', () => {
+      const rendered = shallow(
+        <AgentPreferencesMenu
+          hasViewStatsPermission
+          isOutputSelectionSupported
+          isVisible
+          hideMenu={() => {}}
+          activeExtensionIsTwilio
+        />
+      );
+      expect(rendered.state('preferenceSelected')).toBe(undefined);
+
+      rendered
+        .find(PreferenceOption)
+        .first()
+        .props()
+        .setPreferenceSelected('metrics');
+
+      expect(rendered.state('preferenceSelected')).toBe('metrics');
+    });
+    it('should change preferenceSelected to "notifications" when AgentStats menu is not available and setPreferenceSelected in PreferenceOption is clicked', () => {
+      const rendered = shallow(
+        <AgentPreferencesMenu
+          hasViewStatsPermission={false}
+          isOutputSelectionSupported
+          isVisible
+          hideMenu={() => {}}
+          activeExtensionIsTwilio
+        />
+      );
+      expect(rendered.state('preferenceSelected')).toBe(undefined);
+
+      rendered
+        .find(PreferenceOption)
+        .first()
+        .props()
+        .setPreferenceSelected('notifications');
+
+      expect(rendered.state('preferenceSelected')).toBe('notifications');
+    });
+    it('should change preferenceSelected to "audioOutput" when AudioOutput menu is available and setPreferenceSelected in PreferenceOption is clicked', () => {
+      const rendered = shallow(
+        <AgentPreferencesMenu
+          hasViewStatsPermission
+          isOutputSelectionSupported
+          isVisible
+          hideMenu={() => {}}
+          activeExtensionIsTwilio
+        />
+      );
+      expect(rendered.state('preferenceSelected')).toBe(undefined);
+
+      rendered
+        .find(PreferenceOption)
+        .at(2)
+        .props()
+        .setPreferenceSelected('audioOutput');
+
+      expect(rendered.state('preferenceSelected')).toBe('audioOutput');
+    });
+    it('should change preferenceSelected to "transferMenu" when setPreferenceSelected in PreferenceOption is clicked', () => {
+      const rendered = shallow(
+        <AgentPreferencesMenu
+          hasViewStatsPermission
+          isOutputSelectionSupported
+          isVisible
+          hideMenu={() => {}}
+          activeExtensionIsTwilio={false}
+        />
+      );
+      expect(rendered.state('preferenceSelected')).toBe(undefined);
+
+      rendered
+        .find(PreferenceOption)
+        .at(2)
+        .props()
+        .setPreferenceSelected('transferMenu');
+
+      expect(rendered.state('preferenceSelected')).toBe('transferMenu');
+    });
+  });
+
+  describe('clearing menu option with "setPreferenceSelected" method on componentDidUpdate', () => {
+    it('should change preferenceSelected to <undefined> when active extension prop changes', () => {
+      const rendered = shallow(
+        <AgentPreferencesMenu
+          hasViewStatsPermission
+          isOutputSelectionSupported
+          isVisible
+          hideMenu={() => {}}
+          activeExtensionIsTwilio
+        />
+      );
+      rendered
+        .find(PreferenceOption)
+        .at(2)
+        .props()
+        .setPreferenceSelected('audioOutput');
+      expect(rendered.state('preferenceSelected')).toBe('audioOutput');
+
+      rendered.setProps({ activeExtensionIsTwilio: false });
+      expect(rendered.state('preferenceSelected')).toBe(undefined);
+    });
   });
 });

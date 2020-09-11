@@ -1,0 +1,304 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DeviceMenu /> Setting devices as selected renders DeviceOption list when open is set in state and none-selection is available 1`] = `
+<React.Fragment>
+  <PreferenceOption
+    caretDirection="down"
+    label={
+      Object {
+        "defaultMessage": "Voice",
+        "id": "app.containers.AudioOutputMenu.voice",
+      }
+    }
+    open={true}
+    preference="voice"
+    setPreferenceSelected={[Function]}
+  />
+  <styled.div>
+    <DeviceOption
+      device={
+        Object {
+          "id": "default",
+          "isActive": true,
+          "label": "Default",
+        }
+      }
+      disabled={true}
+      handleClick={[Function]}
+      key="default"
+    />
+    <DeviceOption
+      device={
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": false,
+          "label": "Built-in Audio Analog Stereo",
+        }
+      }
+      disabled={false}
+      handleClick={[Function]}
+      key="aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b"
+    />
+    <DeviceOption
+      device={
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": false,
+          "label": "Plantronics C320 Analog Stereo",
+        }
+      }
+      disabled={false}
+      handleClick={[Function]}
+      key="6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb"
+    />
+    <DeviceOption
+      device={
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": false,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        }
+      }
+      disabled={false}
+      handleClick={[Function]}
+      key="807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
+    />
+  </styled.div>
+</React.Fragment>
+`;
+
+exports[`<DeviceMenu /> Setting devices as selected renders DeviceOption list when open is set in state and none-selection is not available 1`] = `
+<React.Fragment>
+  <PreferenceOption
+    caretDirection="down"
+    label={
+      Object {
+        "defaultMessage": "Voice",
+        "id": "app.containers.AudioOutputMenu.voice",
+      }
+    }
+    open={true}
+    preference="voice"
+    setPreferenceSelected={[Function]}
+  />
+  <styled.div>
+    <DeviceOption
+      device={
+        Object {
+          "id": "default",
+          "isActive": true,
+          "label": "Default",
+        }
+      }
+      disabled={true}
+      handleClick={[Function]}
+      key="default"
+    />
+    <DeviceOption
+      device={
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": false,
+          "label": "Built-in Audio Analog Stereo",
+        }
+      }
+      disabled={false}
+      handleClick={[Function]}
+      key="aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b"
+    />
+    <DeviceOption
+      device={
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": false,
+          "label": "Plantronics C320 Analog Stereo",
+        }
+      }
+      disabled={false}
+      handleClick={[Function]}
+      key="6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb"
+    />
+    <DeviceOption
+      device={
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": false,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        }
+      }
+      disabled={false}
+      handleClick={[Function]}
+      key="807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
+    />
+  </styled.div>
+</React.Fragment>
+`;
+
+exports[`<DeviceMenu /> collection of devices is passed in renders correctly 1`] = `
+<React.Fragment>
+  <PreferenceOption
+    caretDirection="down"
+    label={
+      Object {
+        "defaultMessage": "Voice",
+        "id": "app.containers.AudioOutputMenu.voice",
+      }
+    }
+    open={false}
+    preference="voice"
+    setPreferenceSelected={[Function]}
+  />
+</React.Fragment>
+`;
+
+exports[`<DeviceMenu /> renders DeviceOption list when empty collection of devices is passed in 1`] = `
+<React.Fragment>
+  <PreferenceOption
+    caretDirection="down"
+    label={
+      Object {
+        "defaultMessage": "Media",
+        "id": "app.containers.AudioOutputMenu.media",
+      }
+    }
+    open={true}
+    preference="media"
+    setPreferenceSelected={[Function]}
+  />
+  <styled.div />
+</React.Fragment>
+`;
+
+exports[`<DeviceMenu /> renders DeviceOption list when open is set in state 1`] = `
+<React.Fragment>
+  <PreferenceOption
+    caretDirection="down"
+    label={
+      Object {
+        "defaultMessage": "Media",
+        "id": "app.containers.AudioOutputMenu.media",
+      }
+    }
+    open={true}
+    preference="media"
+    setPreferenceSelected={[Function]}
+  />
+  <styled.div>
+    <DeviceOption
+      device={
+        Object {
+          "id": "default",
+          "isActive": true,
+          "label": "Default",
+        }
+      }
+      disabled={false}
+      handleClick={[Function]}
+      key="default"
+    />
+    <DeviceOption
+      device={
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": true,
+          "label": "Built-in Audio Analog Stereo",
+        }
+      }
+      disabled={false}
+      handleClick={[Function]}
+      key="aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b"
+    />
+    <DeviceOption
+      device={
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": false,
+          "label": "Plantronics C320 Analog Stereo",
+        }
+      }
+      disabled={false}
+      handleClick={[Function]}
+      key="6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb"
+    />
+    <DeviceOption
+      device={
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": true,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        }
+      }
+      disabled={false}
+      handleClick={[Function]}
+      key="807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
+    />
+  </styled.div>
+</React.Fragment>
+`;
+
+exports[`<DeviceMenu /> renders DeviceOption list when open is set in state and none-selection is available 1`] = `
+<React.Fragment>
+  <PreferenceOption
+    caretDirection="down"
+    label={
+      Object {
+        "defaultMessage": "Media",
+        "id": "app.containers.AudioOutputMenu.media",
+      }
+    }
+    open={true}
+    preference="media"
+    setPreferenceSelected={[Function]}
+  />
+  <styled.div>
+    <DeviceOption
+      device={
+        Object {
+          "id": "default",
+          "isActive": true,
+          "label": "Default",
+        }
+      }
+      disabled={false}
+      handleClick={[Function]}
+      key="default"
+    />
+    <DeviceOption
+      device={
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": true,
+          "label": "Built-in Audio Analog Stereo",
+        }
+      }
+      disabled={false}
+      handleClick={[Function]}
+      key="aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b"
+    />
+    <DeviceOption
+      device={
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": false,
+          "label": "Plantronics C320 Analog Stereo",
+        }
+      }
+      disabled={false}
+      handleClick={[Function]}
+      key="6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb"
+    />
+    <DeviceOption
+      device={
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": true,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        }
+      }
+      disabled={false}
+      handleClick={[Function]}
+      key="807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
+    />
+  </styled.div>
+</React.Fragment>
+`;

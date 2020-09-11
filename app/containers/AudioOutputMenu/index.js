@@ -48,7 +48,7 @@ import DeviceMenu from './DeviceMenu';
  *    play standard speaker sounds.
  */
 
-const AudioOutputMenu = (props) => (
+export const AudioOutputMenu = (props) => (
   <Fragment>
     <DeviceMenu
       audio="media"
