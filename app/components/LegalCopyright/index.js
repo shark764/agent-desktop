@@ -60,17 +60,16 @@ function LegalCopyright(props, context) {
     } else {
       legalUrl = CXENGAGE_LEGAL_URL;
     }
-    /**
-     * We add current language selected to cxengagelabs URLs
-     * Production URLs will be added when they are deployed
-     */
-    if (props.locale && props.locale !== 'en-US') {
-      legalUrl = `${legalUrl}/${props.locale}`;
-    }
   } else if (window.location.hostname.split('.')[0].indexOf('mitel') !== -1) {
     legalUrl = MITEL_LEGAL_PROD_URL;
   } else {
     legalUrl = CXENGAGE_LEGAL_PROD_URL;
+  }
+  /**
+   * We add current language selected to cxengage URLs
+   */
+  if (props.locale && props.locale !== 'en-US') {
+    legalUrl = `${legalUrl}/${props.locale}`;
   }
 
   return (

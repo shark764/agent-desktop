@@ -1,8 +1,15 @@
 # Changelog
 
+## [1.55.5] (2020-09-11)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.55.5/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.55.5/index.html)
+### Fixed
+* CXV1-23004 - "SSO" translations.
+* CXV1-23018 - Add locale to prod legal page urls.
+
 ## [1.55.4] (2020-09-11)
-[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.55.3/index.html)  
-[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.55.3/index.html)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.55.4/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.55.4/index.html)
 ### Fixed
 * CXV1-23095 - Cancel outbound button in Japanese locale.
 * CXV1-23002 - "s" (seconds) translations in Chinese, Japanese, and Korean.
