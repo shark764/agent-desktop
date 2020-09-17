@@ -7,9 +7,9 @@ const { actions, reducer } = AudioOutputSlice;
 
 const mockState = {
   availableOutputDevices: [],
-  activeOutputRingtoneDevices: ['default'],
-  activeOutputSpeakerDevices: ['default'],
-  activeOutputNotificationDevices: ['default'],
+  activeOutputRingtoneDevice: 'default',
+  activeOutputSpeakerDevice: 'default',
+  activeOutputNotificationDevice: 'default',
   isOutputSelectionSupported: false,
 };
 
@@ -31,19 +31,6 @@ const availableOutputDevices = [
     label: 'USG PnIXAu20o  Analog Stereo',
   },
 ];
-const activeOutputRingtoneDevices = [
-  {
-    deviceId:
-      '6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb',
-    label: 'Plantronics C320 Analog Stereo',
-  },
-];
-const activeOutputSpeakerDevices = [
-  {
-    id: '807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957',
-    label: 'USG PnIXAu20o  Analog Stereo',
-  },
-];
 
 describe('reducer', () => {
   it('sets the correct initial state', () => {
@@ -61,36 +48,34 @@ describe('reducer', () => {
     });
   });
 
-  describe('audioOutputPreferences/setActiveOutputRingtoneDevices', () => {
+  describe('audioOutputPreferences/setActiveOutputRingtoneDevice', () => {
     it('sets new active ringtone devices', () => {
       expect(
         reducer(
           mockState,
-          actions.setActiveOutputRingtoneDevices(activeOutputRingtoneDevices)
+          actions.setActiveOutputRingtoneDevice('mock ringtone id')
         )
       ).toMatchSnapshot();
     });
   });
 
-  describe('audioOutputPreferences/setActiveOutputSpeakerDevices', () => {
+  describe('audioOutputPreferences/setActiveOutputSpeakerDevice', () => {
     it('sets new active speaker devices', () => {
       expect(
         reducer(
           mockState,
-          actions.setActiveOutputSpeakerDevices(activeOutputSpeakerDevices)
+          actions.setActiveOutputSpeakerDevice('mock speaker id')
         )
       ).toMatchSnapshot();
     });
   });
 
-  describe('audioOutputPreferences/setActiveOutputNotificationDevices', () => {
+  describe('audioOutputPreferences/setActiveOutputNotificationDevice', () => {
     it('sets new active notification device', () => {
       expect(
         reducer(
           mockState,
-          actions.setActiveOutputNotificationDevices([
-            '807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957',
-          ])
+          actions.setActiveOutputNotificationDevice('mock notification id')
         )
       ).toMatchSnapshot();
     });

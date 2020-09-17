@@ -12,9 +12,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   availableOutputDevices: [],
-  activeOutputRingtoneDevices: ['default'],
-  activeOutputSpeakerDevices: ['default'],
-  activeOutputNotificationDevices: ['default'],
+  activeOutputRingtoneDevice: 'default',
+  activeOutputSpeakerDevice: 'default',
+  activeOutputNotificationDevice: 'default',
   isOutputSelectionSupported: false,
 };
 
@@ -38,27 +38,19 @@ const audioOutputPreferencesSlice = createSlice({
      *    "audioOutputPreferences/setAvailableOutputDevices"
      */
     setAvailableOutputDevices(state, action) {
-      const devices = [];
-      action.payload.forEach((device) => {
-        devices.push({
-          id: device.deviceId,
-          label: device.label,
-        });
-      });
-
-      state.availableOutputDevices = devices;
+      state.availableOutputDevices = action.payload;
     },
 
-    setActiveOutputRingtoneDevices(state, action) {
-      state.activeOutputRingtoneDevices = getActiveDeviceIds(action.payload);
+    setActiveOutputRingtoneDevice(state, action) {
+      state.activeOutputRingtoneDevice = action.payload;
     },
 
-    setActiveOutputSpeakerDevices(state, action) {
-      state.activeOutputSpeakerDevices = getActiveDeviceIds(action.payload);
+    setActiveOutputSpeakerDevice(state, action) {
+      state.activeOutputSpeakerDevice = action.payload;
     },
 
-    setActiveOutputNotificationDevices(state, action) {
-      state.activeOutputNotificationDevices = action.payload;
+    setActiveOutputNotificationDevice(state, action) {
+      state.activeOutputNotificationDevice = action.payload;
     },
 
     /**
@@ -83,22 +75,10 @@ const audioOutputPreferencesSlice = createSlice({
  */
 export const {
   setAvailableOutputDevices,
-  setActiveOutputRingtoneDevices,
-  setActiveOutputSpeakerDevices,
-  setActiveOutputNotificationDevices,
+  setActiveOutputRingtoneDevice,
+  setActiveOutputSpeakerDevice,
+  setActiveOutputNotificationDevice,
   setOutputSelectionSupported,
 } = audioOutputPreferencesSlice.actions;
 
 export default audioOutputPreferencesSlice;
-
-/**
- * Extracts id property from Sets<> or Arrays[]
- * of devices
- */
-const getActiveDeviceIds = (devices) => {
-  const deviceIds = [];
-  devices.forEach((device) => {
-    deviceIds.push(device.deviceId);
-  });
-  return deviceIds;
-};

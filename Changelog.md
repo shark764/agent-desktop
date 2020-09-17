@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.56.0] (2020-09-16)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.56.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.56.0/index.html)
+### Added
+* CXV1-23068 - Storing user/tenant audio output preferences in browser localStorage
+
 ## [1.55.5] (2020-09-11)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.55.5/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.55.5/index.html)

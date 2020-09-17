@@ -6,11 +6,11 @@ import { Map } from 'immutable';
 import { selectActiveExtension } from 'containers/AgentStatusMenu/selectors';
 import {
   getAvailableOutputDevices,
-  getActiveOutputRingtoneDevices,
+  getActiveOutputRingtoneDevice,
   selectActiveOutputRingtoneDevices,
-  getActiveOutputSpeakerDevices,
+  getActiveOutputSpeakerDevice,
   selectActiveOutputSpeakerDevices,
-  getActiveOutputNotificationDevices,
+  getActiveOutputNotificationDevice,
   selectActiveOutputNotificationDevices,
   selectOutputSelectionSupported,
   selectActiveExtensionIsTwilio,
@@ -40,18 +40,9 @@ const mockState = new Map({
         label: 'USG PnIXAu20o  Analog Stereo',
       },
     ],
-    activeOutputRingtoneDevices: [
-      'default',
-      'aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b',
-      '807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957',
-    ],
-    activeOutputSpeakerDevices: [
-      'aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b',
-      '6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb',
-    ],
-    activeOutputNotificationDevices: [
-      '807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957',
-    ],
+    activeOutputRingtoneDevice: 'default',
+    activeOutputSpeakerDevice: '6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb',
+    activeOutputNotificationDevice: '807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957',
     isOutputSelectionSupported: true,
   },
 });
@@ -78,11 +69,7 @@ describe('getAvailableOutputDevices', () => {
 
 describe('getActiveOutputRingtoneDevices', () => {
   it('Should return an array with active ringtone device ids', () => {
-    expect(getActiveOutputRingtoneDevices(mockState)).toEqual([
-      'default',
-      'aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b',
-      '807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957',
-    ]);
+    expect(getActiveOutputRingtoneDevice(mockState)).toEqual('default');
   });
 });
 
@@ -93,7 +80,7 @@ describe('selectActiveOutputRingtoneDevices', () => {
       {
         id: 'aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b',
         label: 'Built-in Audio Analog Stereo',
-        isActive: true,
+        isActive: false,
       },
       {
         id: '6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb',
@@ -103,7 +90,7 @@ describe('selectActiveOutputRingtoneDevices', () => {
       {
         id: '807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957',
         label: 'USG PnIXAu20o  Analog Stereo',
-        isActive: true,
+        isActive: false,
       },
     ]);
   });
@@ -111,10 +98,7 @@ describe('selectActiveOutputRingtoneDevices', () => {
 
 describe('getActiveOutputSpeakerDevices', () => {
   it('Should return an array with active speaker device ids', () => {
-    expect(getActiveOutputSpeakerDevices(mockState)).toEqual([
-      'aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b',
-      '6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb',
-    ]);
+    expect(getActiveOutputSpeakerDevice(mockState)).toEqual('6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb');
   });
 });
 
@@ -125,7 +109,7 @@ describe('selectActiveOutputSpeakerDevices', () => {
       {
         id: 'aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b',
         label: 'Built-in Audio Analog Stereo',
-        isActive: true,
+        isActive: false,
       },
       {
         id: '6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb',
@@ -143,9 +127,7 @@ describe('selectActiveOutputSpeakerDevices', () => {
 
 describe('getActiveOutputNotificationDevices', () => {
   it('Should return an array with active notification device ids', () => {
-    expect(getActiveOutputNotificationDevices(mockState)).toEqual([
-      '807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957',
-    ]);
+    expect(getActiveOutputNotificationDevice(mockState)).toEqual('807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957');
   });
 });
 

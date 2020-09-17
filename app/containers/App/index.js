@@ -184,15 +184,14 @@ import {
   selectHasInteractions,
 } from 'containers/AgentDesktop/selectors';
 
-import { updateActiveOutputNotificationDevices } from 'containers/AudioOutputMenu/thunks';
 import {
-  setAvailableOutputDevices,
-  setActiveOutputRingtoneDevices,
-  setActiveOutputSpeakerDevices,
-  setOutputSelectionSupported,
-} from 'containers/AudioOutputMenu/reducer';
+  updateActiveOutputRingtoneDevices,
+  updateActiveOutputSpeakerDevices,
+  goUpdateAudioOutputUserPreferences,
+} from 'containers/AudioOutputMenu/thunks';
+import { setOutputSelectionSupported } from 'containers/AudioOutputMenu/reducer';
 import {
-  selectActiveOutputNotificationDevices,
+  getActiveOutputNotificationDevice,
   selectOutputSelectionSupported,
   selectActiveExtensionIsTwilio,
 } from 'containers/AudioOutputMenu/selectors';
@@ -308,29 +307,15 @@ export class App extends React.Component {
   };
 
   playAudioNotification = () => {
-    /**
-     * Check for firefox without flags enabled
-     * https://www.twilio.com/docs/voice/client/javascript/device#browser-support
-     *
-     * Also check if active extension is not PSTN
-     */
+    const audio = new Audio(notificationSound);
     if (
       this.props.activeExtensionIsTwilio &&
       this.props.isOutputSelectionSupported
     ) {
-      this.props.activeNotificationDeviceIds.forEach((deviceId) => {
-        const audio = new Audio(notificationSound);
-        audio.setSinkId(deviceId);
-        audio.play();
-      });
-    } else {
-      /**
-       * Twilio not available, play notification
-       * on default system device
-       */
-      const audio = new Audio(notificationSound);
-      audio.play();
+      // https://www.twilio.com/docs/voice/client/javascript/device#browser-support
+      audio.setSinkId(this.props.activeNotificationDeviceId);
     }
+    audio.play();
   };
 
   init = () => {
@@ -1706,30 +1691,17 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/twilio/output-devices-changed': {
-            this.props.setAvailableOutputDevices(
-              response.availableOutputDevices
-            );
-            if (response.activeOutputRingtoneDevices.size > 0) {
-              this.props.setActiveOutputRingtoneDevices(
-                response.activeOutputRingtoneDevices
-              );
-            }
-            if (response.activeOutputSpeakerDevices.size > 0) {
-              this.props.setActiveOutputSpeakerDevices(
-                response.activeOutputSpeakerDevices
-              );
-            }
-            this.props.updateActiveOutputNotificationDevices();
+            this.props.goUpdateAudioOutputUserPreferences(response);
 
             break;
           }
           case 'cxengage/twilio/active-output-devices-changed': {
             if (response.activeOutputRingtoneDevices) {
-              this.props.setActiveOutputRingtoneDevices(
+              this.props.updateActiveOutputRingtoneDevices(
                 response.activeOutputRingtoneDevices
               );
             } else if (response.activeOutputSpeakerDevices) {
-              this.props.setActiveOutputSpeakerDevices(
+              this.props.updateActiveOutputSpeakerDevices(
                 response.activeOutputSpeakerDevices
               );
             }
@@ -2218,10 +2190,7 @@ const mapStateToProps = (state, props) => ({
   visualNotificationsEnabled: selectVisualPreferences(state, props),
   isOutputSelectionSupported: selectOutputSelectionSupported(state, props),
   activeExtensionIsTwilio: selectActiveExtensionIsTwilio(state, props),
-  activeNotificationDeviceIds: selectActiveOutputNotificationDevices(
-    state,
-    props
-  ),
+  activeNotificationDeviceId: getActiveOutputNotificationDevice(state, props),
   queues: selectQueues(state, props),
   selectedInteractionId: getSelectedInteractionId(state, props),
   hasInteractions: selectHasInteractions(state, props),
@@ -2404,26 +2373,14 @@ function mapDispatchToProps(dispatch) {
       dispatch(toggleSelectedQueueTransferMenuPreference(queue)),
     toggleInteractionNotification: (interactionId, notification) =>
       dispatch(toggleInteractionNotification(interactionId, notification)),
-    setAvailableOutputDevices: (
-      availableOutputDevices,
-      activeOutputRingtoneDevices,
-      activeOutputSpeakerDevices
-    ) =>
-      dispatch(
-        setAvailableOutputDevices(
-          availableOutputDevices,
-          activeOutputRingtoneDevices,
-          activeOutputSpeakerDevices
-        )
-      ),
-    setActiveOutputRingtoneDevices: (activeOutputRingtoneDevices) =>
-      dispatch(setActiveOutputRingtoneDevices(activeOutputRingtoneDevices)),
-    setActiveOutputSpeakerDevices: (activeOutputSpeakerDevices) =>
-      dispatch(setActiveOutputSpeakerDevices(activeOutputSpeakerDevices)),
-    updateActiveOutputNotificationDevices: () =>
-      dispatch(updateActiveOutputNotificationDevices()),
+    updateActiveOutputRingtoneDevices: (activeOutputRingtoneDevices) =>
+      dispatch(updateActiveOutputRingtoneDevices(activeOutputRingtoneDevices)),
+    updateActiveOutputSpeakerDevices: (activeOutputSpeakerDevices) =>
+      dispatch(updateActiveOutputSpeakerDevices(activeOutputSpeakerDevices)),
     setOutputSelectionSupported: (isOutputSelectionSupported) =>
       dispatch(setOutputSelectionSupported(isOutputSelectionSupported)),
+    goUpdateAudioOutputUserPreferences: (preferences) =>
+      dispatch(goUpdateAudioOutputUserPreferences(preferences)),
     dispatch,
   };
 }
@@ -2536,7 +2493,7 @@ App.propTypes = {
   visualNotificationsEnabled: PropTypes.bool,
   isOutputSelectionSupported: PropTypes.bool,
   activeExtensionIsTwilio: PropTypes.bool,
-  activeNotificationDeviceIds: PropTypes.array,
+  activeNotificationDeviceId: PropTypes.string,
   setResourceCapactiy: PropTypes.func.isRequired,
   setUsers: PropTypes.func.isRequired,
   setTransferListsFromFlow: PropTypes.func.isRequired,
@@ -2549,11 +2506,10 @@ App.propTypes = {
   setContactMode: PropTypes.func.isRequired,
   removeContact: PropTypes.func.isRequired,
   toggleInteractionNotification: PropTypes.func.isRequired,
-  setAvailableOutputDevices: PropTypes.func.isRequired,
-  setActiveOutputRingtoneDevices: PropTypes.func.isRequired,
-  setActiveOutputSpeakerDevices: PropTypes.func.isRequired,
-  updateActiveOutputNotificationDevices: PropTypes.func.isRequired,
+  updateActiveOutputRingtoneDevices: PropTypes.func.isRequired,
+  updateActiveOutputSpeakerDevices: PropTypes.func.isRequired,
   setOutputSelectionSupported: PropTypes.func.isRequired,
+  goUpdateAudioOutputUserPreferences: PropTypes.func.isRequired,
 };
 
 App.contextTypes = {

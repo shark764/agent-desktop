@@ -24,16 +24,15 @@ export const getAvailableOutputDevices = (state) =>
  * Active connected ringtone devices
  * Returns array of ids
  */
-
-export const getActiveOutputRingtoneDevices = (state) =>
-  selectAudioOutputPreferences(state).activeOutputRingtoneDevices;
+export const getActiveOutputRingtoneDevice = (state) =>
+  selectAudioOutputPreferences(state).activeOutputRingtoneDevice;
 
 export const selectActiveOutputRingtoneDevices = createSelector(
-  [getAvailableOutputDevices, getActiveOutputRingtoneDevices],
-  (availables, ringtones) =>
+  [getAvailableOutputDevices, getActiveOutputRingtoneDevice],
+  (availables, ringtone) =>
     availables.map((device) => ({
       ...device,
-      isActive: ringtones.includes(device.id),
+      isActive: ringtone === device.id,
     }))
 );
 
@@ -41,16 +40,15 @@ export const selectActiveOutputRingtoneDevices = createSelector(
  * Active connected speaker devices
  * Returns array of ids
  */
-
-export const getActiveOutputSpeakerDevices = (state) =>
-  selectAudioOutputPreferences(state).activeOutputSpeakerDevices;
+export const getActiveOutputSpeakerDevice = (state) =>
+  selectAudioOutputPreferences(state).activeOutputSpeakerDevice;
 
 export const selectActiveOutputSpeakerDevices = createSelector(
-  [getAvailableOutputDevices, getActiveOutputSpeakerDevices],
-  (availables, speakers) =>
+  [getAvailableOutputDevices, getActiveOutputSpeakerDevice],
+  (availables, speaker) =>
     availables.map((device) => ({
       ...device,
-      isActive: speakers.includes(device.id),
+      isActive: speaker === device.id,
     }))
 );
 
@@ -58,16 +56,15 @@ export const selectActiveOutputSpeakerDevices = createSelector(
  * Active connected notification devices
  * Returns array of ids
  */
-
-export const getActiveOutputNotificationDevices = (state) =>
-  selectAudioOutputPreferences(state).activeOutputNotificationDevices;
+export const getActiveOutputNotificationDevice = (state) =>
+  selectAudioOutputPreferences(state).activeOutputNotificationDevice;
 
 export const selectActiveOutputNotificationDevices = createSelector(
-  [getAvailableOutputDevices, getActiveOutputNotificationDevices],
-  (availables, notifications) =>
+  [getAvailableOutputDevices, getActiveOutputNotificationDevice],
+  (availables, notification) =>
     availables.map((device) => ({
       ...device,
-      isActive: notifications.includes(device.id),
+      isActive: notification === device.id,
     }))
 );
 
