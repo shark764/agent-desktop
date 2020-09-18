@@ -2,8 +2,6 @@
  * Copyright © 2015-2020 Serenova, LLC. All rights reserved.
  */
 
-import { isBeta, isToolbar } from 'utils/url';
-
 /**
  * i18n.js
  *
@@ -124,57 +122,44 @@ export const formatTranslationMessages = (locale, messages) => {
  */
 export const setGlobalLocale = (locale) => moment.locale(locale);
 
-let mappedLocalesList = [
+export const mappedLocales = [
   { value: 'en-US', label: 'English (US)' },
+  { value: 'cs-CZ', label: 'Čeština (Czech Republic)' },
   { value: 'de-DE', label: 'Deutsche (Deutschland)' },
   { value: 'en-GB', label: 'English (Great Britain)' },
   { value: 'es-ES', label: 'Español (España)' }, // Castilian Spanish - Grande!!
   { value: 'fr-CA', label: 'Français (Canada)' },
   { value: 'fr-FR', label: 'Français (France)' },
+  { value: 'it-IT', label: 'Italiano (Italia)' },
+  { value: 'ja-JP', label: '日本語 (日本)' }, // Standard Japanese
+  { value: 'ko-KR', label: '한국어 (한국)' }, // Standard Korean
+  { value: 'nb-NO', label: 'Norsk (Norge)' }, // Standard Norwegian
+  { value: 'nl-NL', label: 'Nederlands (Nederland)' },
   { value: 'pl-PL', label: 'Polski (Polska)' },
   { value: 'pt-BR', label: 'Português (Brasil)' },
+  { value: 'fi-FI', label: 'Suomi (Suomessa)' }, // Standard Finnish
+  { value: 'sv-SE', label: 'Svenska (Sverige)' }, // Standard Swedish
+  { value: 'zh-CN', label: '简体中文 (中国)' }, // Simplified Chinese
+  { value: 'zh-TW', label: '繁體中文 (中文 - 台灣)' }, // Traditional Chinese - Taiwan
 ];
-if (isBeta() || isToolbar()) {
-  mappedLocalesList = [
-    ...mappedLocalesList,
-    { value: 'cs-CZ', label: 'Čeština (Czech Republic)' },
-    { value: 'fi-FI', label: 'Suomi (Suomessa)' }, // Standard Finnish
-    { value: 'it-IT', label: 'Italiano (Italia)' },
-    { value: 'ja-JP', label: '日本語 (日本)' }, // Standard Japanese
-    { value: 'ko-KR', label: '한국어 (한국)' }, // Standard Korean
-    { value: 'nb-NO', label: 'Norsk (Norge)' }, // Standard Norwegian
-    { value: 'nl-NL', label: 'Nederlands (Nederland)' },
-    { value: 'sv-SE', label: 'Svenska (Sverige)' }, // Standard Swedish
-    { value: 'zh-CN', label: '简体中文 (中国)' }, // Simplified Chinese
-    { value: 'zh-TW', label: '繁體中文 (中文 - 台灣)' }, // Traditional Chinese - Taiwan
-  ];
-}
-export const mappedLocales = mappedLocalesList;
 
-let translationMessagesList = {
+export const translationMessages = {
+  'en-US': formatTranslationMessages('en-US', enUsTranslationMessages),
+  'cs-CZ': formatTranslationMessages('cs-CZ', csCzTranslationMessages),
   'de-DE': formatTranslationMessages('de-DE', deDeTranslationMessages),
   'en-GB': formatTranslationMessages('en-GB', enGbTranslationMessages),
-  'en-US': formatTranslationMessages('en-US', enUsTranslationMessages),
   'es-ES': formatTranslationMessages('es-ES', esEsTranslationMessages),
+  'fi-FI': formatTranslationMessages('fi-FI', fiFiTranslationMessages),
   'fr-CA': formatTranslationMessages('fr-CA', frCaTranslationMessages),
   'fr-FR': formatTranslationMessages('fr-FR', frFrTranslationMessages),
+  'it-IT': formatTranslationMessages('it-IT', itItTranslationMessages),
+  'ja-JP': formatTranslationMessages('ja-JP', jaJpTranslationMessages),
+  'nb-NO': formatTranslationMessages('nb-NO', nbNoTranslationMessages),
+  'nl-NL': formatTranslationMessages('nl-NL', nlNlTranslationMessages),
+  'ko-KR': formatTranslationMessages('ko-KR', koKrTranslationMessages),
   'pl-PL': formatTranslationMessages('pl-PL', plPlTranslationMessages),
   'pt-BR': formatTranslationMessages('pt-BR', ptBrTranslationMessages),
+  'sv-SE': formatTranslationMessages('sv-SE', svSeTranslationMessages),
+  'zh-CN': formatTranslationMessages('zh-CN', zhCnTranslationMessages),
+  'zh-TW': formatTranslationMessages('zh-TW', zhTwTranslationMessages),
 };
-if (isBeta() || isToolbar()) {
-  translationMessagesList = {
-    ...translationMessagesList,
-    'cs-CZ': formatTranslationMessages('cs-CZ', csCzTranslationMessages),
-    'fi-FI': formatTranslationMessages('fi-FI', fiFiTranslationMessages),
-    'it-IT': formatTranslationMessages('it-IT', itItTranslationMessages),
-    'ja-JP': formatTranslationMessages('ja-JP', jaJpTranslationMessages),
-    'ko-KR': formatTranslationMessages('ko-KR', koKrTranslationMessages),
-    'nb-NO': formatTranslationMessages('nb-NO', nbNoTranslationMessages),
-    'nl-NL': formatTranslationMessages('nl-NL', nlNlTranslationMessages),
-    'sv-SE': formatTranslationMessages('sv-SE', svSeTranslationMessages),
-    'zh-CN': formatTranslationMessages('zh-CN', zhCnTranslationMessages),
-    'zh-TW': formatTranslationMessages('zh-TW', zhTwTranslationMessages),
-  };
-}
-
-export const translationMessages = translationMessagesList;

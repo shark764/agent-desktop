@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.57.0] (2020-09-18)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.0/index.html)
+### Updated
+* CXV1-23045 - Enable all locales in all modes of Skylight (include Desktop mode).
+
 ## [1.56.1] (2020-09-16)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.56.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.56.1/index.html)
