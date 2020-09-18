@@ -29,10 +29,6 @@ export class DeviceMenu extends React.Component {
   };
 
   render() {
-    const activeDevicesCount = this.props.devices.filter(
-      (device) => device.isActive
-    ).length;
-
     return (
       <Fragment>
         <PreferenceOption
@@ -44,22 +40,18 @@ export class DeviceMenu extends React.Component {
         />
         {this.state.open && (
           <DevicesContainer>
-            {this.props.devices.map((device) => {
-              /**
-               * We disable devices when they're the only
-               * one selected
-               */
-              const disabled = device.isActive && activeDevicesCount === 1;
-
-              return (
-                <DeviceOption
-                  key={device.id}
-                  device={device}
-                  handleClick={this.props.setDeviceAsActive}
-                  disabled={disabled}
-                />
-              );
-            })}
+            {this.props.devices.map((device) => (
+              <DeviceOption
+                key={device.id}
+                device={device}
+                handleClick={this.props.setDeviceAsActive}
+                /**
+                 * We disable devices when they're the only
+                 * one selected
+                 */
+                disabled={device.isActive}
+              />
+            ))}
           </DevicesContainer>
         )}
       </Fragment>

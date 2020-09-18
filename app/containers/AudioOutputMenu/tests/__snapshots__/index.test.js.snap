@@ -8,12 +8,12 @@ exports[`<AudioOutputMenu /> renders the audio output menu 1`] = `
       Array [
         Object {
           "id": "default",
-          "isActive": true,
+          "isActive": false,
           "label": "Default",
         },
         Object {
           "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
-          "isActive": true,
+          "isActive": false,
           "label": "Built-in Audio Analog Stereo",
         },
         Object {
@@ -37,17 +37,17 @@ exports[`<AudioOutputMenu /> renders the audio output menu 1`] = `
     setDeviceAsActive={[MockFunction]}
   />
   <DeviceMenu
-    audio="notifications"
+    audio="ringtone"
     devices={
       Array [
         Object {
           "id": "default",
-          "isActive": false,
+          "isActive": true,
           "label": "Default",
         },
         Object {
           "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
-          "isActive": false,
+          "isActive": true,
           "label": "Built-in Audio Analog Stereo",
         },
         Object {
@@ -64,8 +64,8 @@ exports[`<AudioOutputMenu /> renders the audio output menu 1`] = `
     }
     label={
       Object {
-        "defaultMessage": "Notifications",
-        "id": "app.containers.AudioOutputMenu.notifications",
+        "defaultMessage": "Ringtone",
+        "id": "app.containers.AudioOutputMenu.ringtone",
       }
     }
     setDeviceAsActive={[MockFunction]}
@@ -110,6 +110,7 @@ exports[`<AudioOutputMenu /> renders the audio output menu 1`] = `
 exports[`<AudioOutputMenu /> renders the audio output menu connected with redux 1`] = `
 <AudioOutputMenu
   audioNotificationsEnabled={true}
+  crmModule="none"
   notificationDevices={
     Array [
       Object {
@@ -220,6 +221,7 @@ exports[`<AudioOutputMenu /> renders the audio output menu connected with redux 
 exports[`<AudioOutputMenu /> renders the audio output menu connected with redux when notifications are not available 1`] = `
 <AudioOutputMenu
   audioNotificationsEnabled={false}
+  crmModule="none"
   notificationDevices={
     Array [
       Object {
@@ -327,6 +329,220 @@ exports[`<AudioOutputMenu /> renders the audio output menu connected with redux 
 />
 `;
 
+exports[`<AudioOutputMenu /> renders the audio output menu connected with redux when notifications are not available in zendesk mode 1`] = `
+<AudioOutputMenu
+  audioNotificationsEnabled={false}
+  crmModule="zendesk"
+  notificationDevices={
+    Array [
+      Object {
+        "id": "default",
+        "isActive": false,
+        "label": "Default",
+      },
+      Object {
+        "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+        "isActive": false,
+        "label": "Built-in Audio Analog Stereo",
+      },
+      Object {
+        "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+        "isActive": false,
+        "label": "Plantronics C320 Analog Stereo",
+      },
+      Object {
+        "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+        "isActive": true,
+        "label": "USG PnIXAu20o  Analog Stereo",
+      },
+    ]
+  }
+  ringtoneDevices={
+    Array [
+      Object {
+        "id": "default",
+        "isActive": true,
+        "label": "Default",
+      },
+      Object {
+        "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+        "isActive": true,
+        "label": "Built-in Audio Analog Stereo",
+      },
+      Object {
+        "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+        "isActive": false,
+        "label": "Plantronics C320 Analog Stereo",
+      },
+      Object {
+        "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+        "isActive": true,
+        "label": "USG PnIXAu20o  Analog Stereo",
+      },
+    ]
+  }
+  speakerDevices={
+    Array [
+      Object {
+        "id": "default",
+        "isActive": false,
+        "label": "Default",
+      },
+      Object {
+        "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+        "isActive": true,
+        "label": "Built-in Audio Analog Stereo",
+      },
+      Object {
+        "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+        "isActive": true,
+        "label": "Plantronics C320 Analog Stereo",
+      },
+      Object {
+        "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+        "isActive": false,
+        "label": "USG PnIXAu20o  Analog Stereo",
+      },
+    ]
+  }
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+  storeSubscription={
+    Subscription {
+      "listeners": Object {
+        "clear": [Function],
+        "get": [Function],
+        "notify": [Function],
+        "subscribe": [Function],
+      },
+      "onStateChange": [Function],
+      "parentSub": undefined,
+      "store": Object {
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+        Symbol(observable): [Function],
+      },
+      "unsubscribe": [Function],
+    }
+  }
+  updateActiveOutputNotificationDevice={[Function]}
+  updateActiveOutputRingtoneDevice={[Function]}
+  updateActiveOutputSpeakerDevice={[Function]}
+/>
+`;
+
+exports[`<AudioOutputMenu /> renders the audio output menu when crmModule is not zendesk and notifications are not enabled in toolbar mode 1`] = `
+<React.Fragment>
+  <DeviceMenu
+    audio="ringtone"
+    devices={Array []}
+    label={
+      Object {
+        "defaultMessage": "Ringtone",
+        "id": "app.containers.AudioOutputMenu.ringtone",
+      }
+    }
+    setDeviceAsActive={[MockFunction]}
+  />
+  <DeviceMenu
+    audio="voice"
+    devices={Array []}
+    label={
+      Object {
+        "defaultMessage": "Voice",
+        "id": "app.containers.AudioOutputMenu.voice",
+      }
+    }
+    setDeviceAsActive={[MockFunction]}
+  />
+</React.Fragment>
+`;
+
+exports[`<AudioOutputMenu /> renders the audio output menu when crmModule is zendesk in desktop mode 1`] = `
+<React.Fragment>
+  <DeviceMenu
+    audio="media"
+    devices={Array []}
+    label={
+      Object {
+        "defaultMessage": "Media",
+        "id": "app.containers.AudioOutputMenu.media",
+      }
+    }
+    setDeviceAsActive={[MockFunction]}
+  />
+  <DeviceMenu
+    audio="ringtone"
+    devices={Array []}
+    label={
+      Object {
+        "defaultMessage": "Ringtone",
+        "id": "app.containers.AudioOutputMenu.ringtone",
+      }
+    }
+    setDeviceAsActive={[MockFunction]}
+  />
+  <DeviceMenu
+    audio="voice"
+    devices={Array []}
+    label={
+      Object {
+        "defaultMessage": "Voice",
+        "id": "app.containers.AudioOutputMenu.voice",
+      }
+    }
+    setDeviceAsActive={[MockFunction]}
+  />
+</React.Fragment>
+`;
+
+exports[`<AudioOutputMenu /> renders the audio output menu when crmModule is zendesk in toolbar mode 1`] = `
+<React.Fragment>
+  <DeviceMenu
+    audio="media"
+    devices={Array []}
+    label={
+      Object {
+        "defaultMessage": "Media",
+        "id": "app.containers.AudioOutputMenu.media",
+      }
+    }
+    setDeviceAsActive={[MockFunction]}
+  />
+  <DeviceMenu
+    audio="ringtone"
+    devices={Array []}
+    label={
+      Object {
+        "defaultMessage": "Ringtone",
+        "id": "app.containers.AudioOutputMenu.ringtone",
+      }
+    }
+    setDeviceAsActive={[MockFunction]}
+  />
+  <DeviceMenu
+    audio="voice"
+    devices={Array []}
+    label={
+      Object {
+        "defaultMessage": "Voice",
+        "id": "app.containers.AudioOutputMenu.voice",
+      }
+    }
+    setDeviceAsActive={[MockFunction]}
+  />
+</React.Fragment>
+`;
+
 exports[`<AudioOutputMenu /> renders the audio output menu when devices lists are empty 1`] = `
 <React.Fragment>
   <DeviceMenu
@@ -341,12 +557,12 @@ exports[`<AudioOutputMenu /> renders the audio output menu when devices lists ar
     setDeviceAsActive={[MockFunction]}
   />
   <DeviceMenu
-    audio="notifications"
+    audio="ringtone"
     devices={Array []}
     label={
       Object {
-        "defaultMessage": "Notifications",
-        "id": "app.containers.AudioOutputMenu.notifications",
+        "defaultMessage": "Ringtone",
+        "id": "app.containers.AudioOutputMenu.ringtone",
       }
     }
     setDeviceAsActive={[MockFunction]}
@@ -374,6 +590,17 @@ exports[`<AudioOutputMenu /> renders the audio output menu when notifications ar
       Object {
         "defaultMessage": "Media",
         "id": "app.containers.AudioOutputMenu.media",
+      }
+    }
+    setDeviceAsActive={[MockFunction]}
+  />
+  <DeviceMenu
+    audio="ringtone"
+    devices={Array []}
+    label={
+      Object {
+        "defaultMessage": "Ringtone",
+        "id": "app.containers.AudioOutputMenu.ringtone",
       }
     }
     setDeviceAsActive={[MockFunction]}

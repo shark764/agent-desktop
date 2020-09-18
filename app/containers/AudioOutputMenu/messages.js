@@ -13,9 +13,9 @@ export default defineMessages({
     id: 'app.containers.AudioOutputMenu.media',
     defaultMessage: 'Media',
   },
-  notifications: {
-    id: 'app.containers.AudioOutputMenu.notifications',
-    defaultMessage: 'Notifications',
+  ringtone: {
+    id: 'app.containers.AudioOutputMenu.ringtone',
+    defaultMessage: 'Ringtone',
   },
   voice: {
     id: 'app.containers.AudioOutputMenu.voice',

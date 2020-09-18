@@ -10,15 +10,11 @@ import PreferenceOption from 'components/PreferenceOption';
 import { DeviceMenu } from '../DeviceMenu';
 
 const devices = [
-  {
-    id: 'default',
-    label: 'Default',
-    isActive: true,
-  },
+  { id: 'default', label: 'Default', isActive: false },
   {
     id: 'aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b',
     label: 'Built-in Audio Analog Stereo',
-    isActive: true,
+    isActive: false,
   },
   {
     id: '6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb',
@@ -43,7 +39,6 @@ describe('<DeviceMenu />', () => {
           id: 'app.containers.AudioOutputMenu.voice',
           defaultMessage: 'Voice',
         }}
-        selectNoneAvailable={false}
       />
     );
     it('renders correctly', () => {
@@ -60,7 +55,6 @@ describe('<DeviceMenu />', () => {
           id: 'app.containers.AudioOutputMenu.media',
           defaultMessage: 'Media',
         }}
-        selectNoneAvailable={false}
       />
     );
     rendered.setState({ open: true });
@@ -76,7 +70,6 @@ describe('<DeviceMenu />', () => {
           id: 'app.containers.AudioOutputMenu.media',
           defaultMessage: 'Media',
         }}
-        selectNoneAvailable={false}
       />
     );
     rendered.setState({ open: true });
@@ -92,52 +85,10 @@ describe('<DeviceMenu />', () => {
           id: 'app.containers.AudioOutputMenu.media',
           defaultMessage: 'Media',
         }}
-        selectNoneAvailable
       />
     );
     rendered.setState({ open: true });
     expect(rendered).toMatchSnapshot();
-  });
-
-  describe('Setting devices as selected', () => {
-    const unselectedDevices = devices.map((device) => ({
-      ...device,
-      isActive: device.id === 'default',
-    }));
-    it('renders DeviceOption list when open is set in state and none-selection is not available', () => {
-      const rendered = shallow(
-        <DeviceMenu
-          devices={unselectedDevices}
-          setDeviceAsActive={() => {}}
-          audio="voice"
-          label={{
-            id: 'app.containers.AudioOutputMenu.voice',
-            defaultMessage: 'Voice',
-          }}
-          selectNoneAvailable={false}
-        />
-      );
-      rendered.setState({ open: true });
-
-      expect(rendered).toMatchSnapshot();
-    });
-    it('renders DeviceOption list when open is set in state and none-selection is available', () => {
-      const rendered = shallow(
-        <DeviceMenu
-          devices={unselectedDevices}
-          setDeviceAsActive={() => {}}
-          audio="voice"
-          label={{
-            id: 'app.containers.AudioOutputMenu.voice',
-            defaultMessage: 'Voice',
-          }}
-          selectNoneAvailable
-        />
-      );
-      rendered.setState({ open: true });
-
-      expect(rendered).toMatchSnapshot();
-    });
   });
 
   describe('calling header "setOpen" method', () => {
@@ -151,7 +102,6 @@ describe('<DeviceMenu />', () => {
             id: 'app.containers.AudioOutputMenu.media',
             defaultMessage: 'Media',
           }}
-          selectNoneAvailable={false}
         />
       );
       expect(rendered.state('open')).toBe(false);

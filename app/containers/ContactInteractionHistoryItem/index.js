@@ -22,7 +22,12 @@ import IconSVG from 'components/IconSVG';
 
 import { getSelectedInteractionId } from 'containers/AgentDesktop/selectors';
 import { setContactHistoryInteractionDetailsLoading } from 'containers/AgentDesktop/actions';
-import MessageContent from '../../components/MessageContent';
+import {
+  getActiveOutputNotificationDevice,
+  selectOutputSelectionSupported,
+  selectActiveExtensionIsTwilio,
+} from 'containers/AudioOutputMenu/selectors';
+import MessageContent from 'components/MessageContent';
 
 import messages from './messages';
 
@@ -175,8 +180,31 @@ export class ContactInteractionHistoryItem extends React.Component {
   addControlsListAttribute = (element) => {
     if (element) {
       element.setAttribute('controlslist', 'nodownload'); // controlslist attribute not currently supported in React!
+      /**
+       * Setting output device for recordings
+       * https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/setSinkId
+       */
+      if (
+        this.props.activeExtensionIsTwilio &&
+        this.props.isOutputSelectionSupported
+      ) {
+        element.setSinkId(this.props.activeNotificationDeviceId);
+      }
     }
   };
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.activeExtensionIsTwilio &&
+      this.props.isOutputSelectionSupported &&
+      this.props.activeNotificationDeviceId !==
+        prevProps.activeNotificationDeviceId
+    ) {
+      document.querySelectorAll('audio').forEach((element) => {
+        element.setSinkId(this.props.activeNotificationDeviceId);
+      });
+    }
+  }
 
   interactionBody = (interactionDetails) => {
     let transcript;
@@ -610,23 +638,15 @@ export class ContactInteractionHistoryItem extends React.Component {
 function mapStateToProps(state, props) {
   return {
     selectedInteractionId: getSelectedInteractionId(state, props),
+    activeNotificationDeviceId: getActiveOutputNotificationDevice(state, props),
+    isOutputSelectionSupported: selectOutputSelectionSupported(state, props),
+    activeExtensionIsTwilio: selectActiveExtensionIsTwilio(state, props),
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setContactHistoryInteractionDetailsLoading: (
-      interactionId,
-      contactHistoryInteractionId
-    ) =>
-      dispatch(
-        setContactHistoryInteractionDetailsLoading(
-          interactionId,
-          contactHistoryInteractionId
-        )
-      ),
-  };
-}
+const actions = {
+  setContactHistoryInteractionDetailsLoading,
+};
 
 ContactInteractionHistoryItem.propTypes = {
   interaction: PropTypes.object.isRequired,
@@ -634,12 +654,15 @@ ContactInteractionHistoryItem.propTypes = {
   contactName: PropTypes.string.isRequired,
   selectInteraction: PropTypes.func.isRequired,
   selectedInteractionId: PropTypes.string,
+  activeNotificationDeviceId: PropTypes.string,
+  isOutputSelectionSupported: PropTypes.bool,
+  activeExtensionIsTwilio: PropTypes.bool,
   setContactHistoryInteractionDetailsLoading: PropTypes.func.isRequired,
 };
 
 export default ErrorBoundary(
   connect(
     mapStateToProps,
-    mapDispatchToProps
+    actions
   )(Radium(ContactInteractionHistoryItem))
 );

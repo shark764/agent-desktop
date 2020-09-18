@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.56.1] (2020-09-16)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.56.1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.56.1/index.html)
+### Updated
+* CXV1-23109 - Updating recordings audio HTML tags to use selected output  media device.
+* <no-jira> - Updating serenova-client-strings version to 0.4.7. (Fixed translations for new Audio Output menu options)
+### Fixed
+* <no-jira> - Fixing audio output menu. New options were changed to Media/Ringtone/Voice.
+
 ## [1.56.0] (2020-09-16)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.56.0/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.56.0/index.html)

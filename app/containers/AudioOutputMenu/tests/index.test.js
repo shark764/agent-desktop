@@ -6,14 +6,20 @@ import React from 'react';
 import { createStore } from 'redux';
 import { shallow } from 'enzyme';
 
+import { isToolbar } from 'utils/url';
+import { selectCrmModule } from 'containers/AgentDesktop/selectors';
+import { selectAudioPreferences } from 'containers/AgentNotificationsMenu/selectors';
+
 import {
   selectActiveOutputRingtoneDevices,
   selectActiveOutputSpeakerDevices,
   selectActiveOutputNotificationDevices,
 } from '../selectors';
-import { selectAudioPreferences } from 'containers/AgentNotificationsMenu/selectors';
 
 import ConnectedAudioOutputMenu, { AudioOutputMenu } from '..';
+
+jest.mock('utils/url');
+isToolbar.mockImplementation(() => false);
 
 const ringtoneDevices = [
   { id: 'default', label: 'Default', isActive: true },
@@ -73,6 +79,8 @@ const notificationDevices = [
 ];
 const updateActiveOutputNotificationDevice = jest.fn();
 
+jest.mock('containers/AgentDesktop/selectors');
+selectCrmModule.mockImplementation(() => 'none');
 jest.mock('containers/AgentNotificationsMenu/selectors');
 selectAudioPreferences.mockImplementation(() => true);
 jest.mock('../selectors');
@@ -93,6 +101,7 @@ describe('<AudioOutputMenu />', () => {
     updateActiveOutputSpeakerDevice,
     updateActiveOutputNotificationDevice,
     audioNotificationsEnabled: true,
+    crmModule: 'none',
   };
 
   it('renders the audio output menu', () => {
@@ -114,12 +123,41 @@ describe('<AudioOutputMenu />', () => {
     expect(rendered).toMatchSnapshot();
   });
 
+  it('renders the audio output menu when crmModule is zendesk in desktop mode', () => {
+    testProps.crmModule = 'zendesk';
+    const rendered = shallow(<AudioOutputMenu {...testProps} />);
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it('renders the audio output menu when crmModule is zendesk in toolbar mode', () => {
+    isToolbar.mockImplementationOnce(() => true);
+    testProps.crmModule = 'zendesk';
+    const rendered = shallow(<AudioOutputMenu {...testProps} />);
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it('renders the audio output menu when crmModule is not zendesk and notifications are not enabled in toolbar mode', () => {
+    isToolbar.mockImplementationOnce(() => true);
+    testProps.crmModule = 'none';
+    testProps.audioNotificationsEnabled = false;
+    const rendered = shallow(<AudioOutputMenu {...testProps} />);
+    expect(rendered).toMatchSnapshot();
+  });
+
   it('renders the audio output menu connected with redux', () => {
     const rendered = shallow(<ConnectedAudioOutputMenu {...testProps} />);
     expect(rendered).toMatchSnapshot();
   });
 
   it('renders the audio output menu connected with redux when notifications are not available', () => {
+    selectAudioPreferences.mockImplementationOnce(() => false);
+    const rendered = shallow(<ConnectedAudioOutputMenu {...testProps} />);
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it('renders the audio output menu connected with redux when notifications are not available in zendesk mode', () => {
+    isToolbar.mockImplementationOnce(() => true);
+    selectCrmModule.mockImplementationOnce(() => 'zendesk');
     selectAudioPreferences.mockImplementationOnce(() => false);
     const rendered = shallow(<ConnectedAudioOutputMenu {...testProps} />);
     expect(rendered).toMatchSnapshot();
