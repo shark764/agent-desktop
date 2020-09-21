@@ -41,8 +41,10 @@ const mockState = new Map({
       },
     ],
     activeOutputRingtoneDevice: 'default',
-    activeOutputSpeakerDevice: '6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb',
-    activeOutputNotificationDevice: '807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957',
+    activeOutputSpeakerDevice:
+      '6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb',
+    activeOutputNotificationDevice:
+      '807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957',
     isOutputSelectionSupported: true,
   },
 });
@@ -98,7 +100,9 @@ describe('selectActiveOutputRingtoneDevices', () => {
 
 describe('getActiveOutputSpeakerDevices', () => {
   it('Should return an array with active speaker device ids', () => {
-    expect(getActiveOutputSpeakerDevice(mockState)).toEqual('6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb');
+    expect(getActiveOutputSpeakerDevice(mockState)).toEqual(
+      '6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb'
+    );
   });
 });
 
@@ -127,7 +131,9 @@ describe('selectActiveOutputSpeakerDevices', () => {
 
 describe('getActiveOutputNotificationDevices', () => {
   it('Should return an array with active notification device ids', () => {
-    expect(getActiveOutputNotificationDevice(mockState)).toEqual('807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957');
+    expect(getActiveOutputNotificationDevice(mockState)).toEqual(
+      '807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957'
+    );
   });
 });
 
@@ -161,34 +167,27 @@ describe('selectOutputSelectionSupported', () => {
 });
 
 jest.mock('containers/AgentStatusMenu/selectors');
-selectActiveExtension.mockImplementation(() => ({
+selectActiveExtension.mockReturnValue({
   description: 'Default Twilio extension',
   provider: 'twilio',
   type: 'webrtc',
-}));
+});
 
 describe('selectActiveExtensionIsTwilio', () => {
   it('Should return true when active extension is twilio', () => {
-    expect(selectActiveExtensionIsTwilio(mockState)).toBe(true);
+    expect(selectActiveExtensionIsTwilio(1)).toBe(true);
   });
 
-  it('Should return false when active extension is not twilio', () => {
-    selectActiveExtension.mockImplementationOnce(() => ({
+  it('Should return falsy when active extension is not twilio', () => {
+    selectActiveExtension.mockReturnValueOnce(() => ({
       description: 'PSTN Test Extension',
       type: 'pstn',
     }));
-    expect(
-      selectActiveExtensionIsTwilio(
-        mockState.set(
-          'agentDesktop',
-          new Map({
-            activeExtension: {
-              description: 'PSTN Test Extension',
-              type: 'pstn',
-            },
-          })
-        )
-      )
-    ).toBe(false);
+    expect(selectActiveExtensionIsTwilio(2)).toBeFalsy();
+  });
+
+  it('Should return falsy when there is no active extension', () => {
+    selectActiveExtension.mockReturnValueOnce(undefined);
+    expect(selectActiveExtensionIsTwilio(3)).toBeFalsy();
   });
 });

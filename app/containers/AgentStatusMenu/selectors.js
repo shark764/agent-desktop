@@ -6,57 +6,60 @@ import { createSelector } from 'reselect';
 
 import { getCurrentTenantPermissions } from 'containers/App/selectors';
 
-const selectAgentDesktopDomain = state => state.get('agentDesktop');
+const selectAgentDesktopDomain = (state) => state.get('agentDesktop');
 
 export const selectExtensions = createSelector(
   selectAgentDesktopDomain,
-  agentDesktop => agentDesktop.get('extensions').toJS()
+  (agentDesktop) => agentDesktop.get('extensions').toJS()
 );
 
 export const selectActiveExtension = createSelector(
   selectAgentDesktopDomain,
-  agentDesktop => agentDesktop.get('activeExtension').toJS()
+  (agentDesktop) =>
+    agentDesktop.get('activeExtension') &&
+    agentDesktop.get('activeExtension').toJS()
 );
 
 export const selectHasActiveWrapup = createSelector(
   selectAgentDesktopDomain,
-  agentDesktop =>
+  (agentDesktop) =>
     agentDesktop
       .get('interactions')
-      .find(interaction => interaction.get('status') === 'wrapup') !== undefined
+      .find((interaction) => interaction.get('status') === 'wrapup') !==
+    undefined
 );
 
 export const selectHasActiveScript = createSelector(
   selectAgentDesktopDomain,
-  agentDesktop =>
+  (agentDesktop) =>
     agentDesktop
       .get('interactions')
-      .find(interaction => interaction.get('script') !== undefined) !==
+      .find((interaction) => interaction.get('script') !== undefined) !==
     undefined
 );
 
 export const selectPresenceReasonLists = createSelector(
   selectAgentDesktopDomain,
-  agentDesktop =>
+  (agentDesktop) =>
     agentDesktop
       .getIn(['presenceReasonLists'])
-      .filter(list => list.get('name') !== 'System Presence Reasons')
+      .filter((list) => list.get('name') !== 'System Presence Reasons')
       .toJS()
 );
 
 export const selectSelectedPresenceReason = createSelector(
   selectAgentDesktopDomain,
-  agentDesktop => agentDesktop.get('presenceReason').toJS()
+  (agentDesktop) => agentDesktop.get('presenceReason').toJS()
 );
 
 export const selectAgentDirection = createSelector(
   selectAgentDesktopDomain,
-  agentDesktop => agentDesktop.get('agentDirection').toJS()
+  (agentDesktop) => agentDesktop.get('agentDirection').toJS()
 );
 
 export const selectHasDirectionChangePermission = createSelector(
   [getCurrentTenantPermissions],
-  tenantPermissions =>
+  (tenantPermissions) =>
     tenantPermissions.includes('MANAGE_ALL_USERS_DIRECTION') ||
     tenantPermissions.includes('MANAGE_MY_DIRECTION')
 );

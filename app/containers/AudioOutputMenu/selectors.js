@@ -80,5 +80,7 @@ export const selectOutputSelectionSupported = (state) =>
 export const selectActiveExtensionIsTwilio = createSelector(
   selectActiveExtension,
   (activeExtension) =>
-    activeExtension.provider === 'twilio' && activeExtension.type === 'webrtc'
+    activeExtension &&
+    activeExtension.provider === 'twilio' &&
+    activeExtension.type === 'webrtc'
 );

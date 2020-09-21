@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.57.1] (2020-09-18)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.1/index.html)
+### Fixed
+* CXV1-23107 - Critical error when user has no extensions.
+
 ## [1.57.0] (2020-09-18)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.0/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.0/index.html)
