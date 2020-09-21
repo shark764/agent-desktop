@@ -12,7 +12,6 @@ import AgentTransferMenuPreferenceMenu from 'containers/AgentTransferMenuPrefere
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import PreferenceOption from 'components/PreferenceOption';
-import { isAlpha } from 'utils/url';
 import {
   selectOutputSelectionSupported,
   selectActiveExtensionIsTwilio,
@@ -95,8 +94,7 @@ export class AgentPreferencesMenu extends React.Component {
 
             {this.renderPreferenceOption('notifications')}
 
-            {isAlpha() &&
-              this.props.activeExtensionIsTwilio &&
+            {this.props.activeExtensionIsTwilio &&
               this.props.isOutputSelectionSupported &&
               this.renderPreferenceOption('audioOutput')}
 

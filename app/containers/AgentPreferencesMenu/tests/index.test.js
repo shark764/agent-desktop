@@ -5,13 +5,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { isAlpha } from 'utils/url';
 import PreferenceOption from 'components/PreferenceOption';
 
 import { AgentPreferencesMenu } from '../index';
-
-jest.mock('utils/url');
-isAlpha.mockImplementation(() => true);
 
 describe('<AgentPreferencesMenu />', () => {
   it('renders the preferences options by default', () => {

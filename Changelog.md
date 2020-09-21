@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.57.2] (2020-09-21)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.2/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.2/index.html)
+### Updated
+- CXV1-23048 - Audio output translations (notifications -> ringtone)
+
 ## [1.57.1] (2020-09-18)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.1/index.html)
