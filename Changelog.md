@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.57.3] (2020-09-23)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.3/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.3/index.html)
+### Fixed
+- CXV1-17657 - (SDK Bump to 9.14.2) Formatting request logs is not longer throwing exceptions when publishing.
+
 ## [1.57.2] (2020-09-21)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.2/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.2/index.html)
