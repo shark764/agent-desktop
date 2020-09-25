@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { CheckedIconSVG } from 'cx-ui-components';
+import CheckedIconSVG from 'components/CheckedIconSVG';
 
 const Device = styled.div`
   padding: 5px;

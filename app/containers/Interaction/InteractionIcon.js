@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { lastMessageFromInteraction } from 'utils/interaction';
 
-import { VoiceIconSVG } from 'cx-ui-components';
+import VoiceIconSVG from 'components/VoiceIconSVG';
 import Icon from 'components/Icon';
 
 export default function InteractionIcon(props, context) {

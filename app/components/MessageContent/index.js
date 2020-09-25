@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { LoadingSpinnerSVG } from 'cx-ui-components';
+import LoadingSpinnerSVG from 'components/LoadingSpinnerSVG';
 import Image from 'components/Image';
 import Icon from 'components/Icon';
 import { FormattedMessage } from 'react-intl';
@@ -127,6 +127,7 @@ MessageContent.propTypes = {
     type: PropTypes.oneOf(['customer', 'agent']),
     from: PropTypes.string,
     file: PropTypes.shape({
+      fileName: PropTypes.string,
       mediaUrl: PropTypes.string,
     }),
     contentType: PropTypes.oneOf([
@@ -138,6 +139,9 @@ MessageContent.propTypes = {
     ]),
     resourceId: PropTypes.string,
     timestamp: PropTypes.number,
+    pending: PropTypes.bool,
+    isFile: PropTypes.bool,
+    text: PropTypes.string,
   }),
 };
 

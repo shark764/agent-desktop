@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.57.4] (2020-09-24)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.4/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.4/index.html)
+### Updated
+* CXV1-23139 - Removing cx-ui-components from dependencies. Moving needed components to internal components.
+
 ## [1.57.3] (2020-09-23)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.3/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.3/index.html)

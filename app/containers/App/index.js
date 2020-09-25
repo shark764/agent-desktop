@@ -23,7 +23,8 @@ import { generateErrorMessage } from 'utils/errorMessage';
 import { generateUUID } from 'utils/uuid';
 
 import { kebabCaseToCamelCase } from 'serenova-js-utils/strings';
-import { PresenceStateIconSVG, DirectionIconSVG } from 'cx-ui-components';
+import PresenceStateIconSVG from 'components/PresenceStateIconSVG';
+import DirectionIconSVG from 'components/DirectionIconSVG';
 
 import voiceIcon from 'assets/icons/voice.png';
 import messageIcon from 'assets/icons/message_new.png';
@@ -366,7 +367,7 @@ export class App extends React.Component {
           },
           shouldSendCallback: (data) => data.logError,
           dataCallback: (data) => {
-            const dataWithState = Object.assign({}, data);
+            const dataWithState = { ...data};
             try {
               const state = store.getState().toJS();
               delete state.login.agent.tenants;
@@ -978,7 +979,7 @@ export class App extends React.Component {
                     );
                   } else if (response.filterType === 'and') {
                     this.attemptContactSearch(
-                      Object.assign({ op: 'and' }, response.filter),
+                      {op: 'and', ...response.filter},
                       response.interactionId,
                       interaction
                     );

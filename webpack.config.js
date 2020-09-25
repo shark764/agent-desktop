@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-const version = require('./package.json').version;
+const { version } = require('./package.json');
 
 module.exports = (env, argv) => {
   const config = {

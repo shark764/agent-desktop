@@ -66,7 +66,7 @@ exports[`<DeviceOption /> renders output device when is disabled renders correct
     id="audiooutput-DeviceOption-807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
   >
     <div
-      className="sc-jWojfa iUSkVz"
+      className="sc-htpNat iLORBz"
       disabled={true}
       id="audiooutput-DeviceOption-807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
     >
@@ -80,17 +80,17 @@ exports[`<DeviceOption /> renders output device when is disabled renders correct
         <CheckedIconSVG
           alt="selected"
           checkedIconType="primary"
-          className="sc-kVrTmx bgSfis"
+          className="sc-bxivhb cTphrt"
           disabled={true}
           fillColor="black"
           size={17}
         >
           <styled.div
-            className="CheckedIconSVG sc-kVrTmx bgSfis"
+            className="CheckedIconSVG sc-bxivhb cTphrt"
             size={17}
           >
             <div
-              className="CheckedIconSVG sc-kVrTmx bgSfis sc-gldTML pbECO"
+              className="CheckedIconSVG sc-bxivhb cTphrt sc-bdVaJa fVkYmQ"
               size={17}
             >
               <svg
@@ -107,7 +107,7 @@ exports[`<DeviceOption /> renders output device when is disabled renders correct
                   fillColor="black"
                 >
                   <path
-                    className="icon sc-feryYK iUeHBv"
+                    className="icon sc-bwzfXH dLrzUz"
                     d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,15.1l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.6-0.1-0.7-0.3l-7.8-8.4-.2-.2c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.3 0.4,0.9 0,1.3z"
                   />
                 </styled.path>
@@ -139,7 +139,7 @@ exports[`<DeviceOption /> renders output device when is not disabled renders cor
     onClick={[Function]}
   >
     <div
-      className="sc-jWojfa qVLJu"
+      className="sc-htpNat jYTYoz"
       disabled={false}
       id="audiooutput-DeviceOption-807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
       onClick={[Function]}
@@ -154,17 +154,17 @@ exports[`<DeviceOption /> renders output device when is not disabled renders cor
         <CheckedIconSVG
           alt="selected"
           checkedIconType="primary"
-          className="sc-kVrTmx bToCNW"
+          className="sc-bxivhb cINJPE"
           disabled={false}
           fillColor="black"
           size={17}
         >
           <styled.div
-            className="CheckedIconSVG sc-kVrTmx bToCNW"
+            className="CheckedIconSVG sc-bxivhb cINJPE"
             size={17}
           >
             <div
-              className="CheckedIconSVG sc-kVrTmx bToCNW sc-gldTML pbECO"
+              className="CheckedIconSVG sc-bxivhb cINJPE sc-bdVaJa fVkYmQ"
               size={17}
             >
               <svg
@@ -181,7 +181,7 @@ exports[`<DeviceOption /> renders output device when is not disabled renders cor
                   fillColor="black"
                 >
                   <path
-                    className="icon sc-feryYK iUeHBv"
+                    className="icon sc-bwzfXH dLrzUz"
                     d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,15.1l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.6-0.1-0.7-0.3l-7.8-8.4-.2-.2c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.3 0.4,0.9 0,1.3z"
                   />
                 </styled.path>

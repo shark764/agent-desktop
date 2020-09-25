@@ -17,7 +17,7 @@ import Radium from 'radium';
 
 import { isUUID } from 'utils/validator';
 import ErrorBoundary from 'components/ErrorBoundary';
-import ClickMask from 'cx-ui-components/src/components/ConfigUi/ClickMask';
+import ClickMask from 'components/ClickMask';
 
 import Resizable from 'components/Resizable';
 import Checkbox from 'components/Checkbox';
@@ -632,8 +632,7 @@ export class ContentArea extends React.Component {
             onClick={() =>
               this.setState((prevState) => ({
                 showDispositionsList: !prevState.showDispositionsList,
-              }))
-            }
+              }))}
             key="new-label-button"
             id="new-label-button"
             style={[

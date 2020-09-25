@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 
-import { CheckedIconSVG, TypingIndicator } from 'cx-ui-components';
+import CheckedIconSVG from 'components/CheckedIconSVG';
+import TypingIndicator from 'components/TypingIndicator';
 
 import { customerIsTyping, customerHasReadLastAgentMessage } from './selectors';
 import messages from './messages';

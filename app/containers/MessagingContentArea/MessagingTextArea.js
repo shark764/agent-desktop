@@ -2,7 +2,7 @@
  * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { connect } from 'react-redux';
@@ -230,7 +230,7 @@ export class MessagingTextArea extends React.Component {
     }
   };
 
-  handleKeyDown = e => {
+  handleKeyDown = (e) => {
     if (e.key === 'ArrowUp') {
       let newSelectedMessageTemplateIndex = this.props.selectedInteraction
         .selectedMessageTemplateIndex;
@@ -316,7 +316,7 @@ export class MessagingTextArea extends React.Component {
     }
   };
 
-  selectMessageTemplateIndex = selectedMessageTemplateIndex => {
+  selectMessageTemplateIndex = (selectedMessageTemplateIndex) => {
     this.props.setMessageTemplateIndex(
       this.props.selectedInteraction.interactionId,
       selectedMessageTemplateIndex
@@ -352,7 +352,7 @@ export class MessagingTextArea extends React.Component {
     document.removeEventListener('keydown', this.handleKeyDown);
   };
 
-  setMessageText = messageText => {
+  setMessageText = (messageText) => {
     // If we're filtering based on "/" text, reset the selected message template to the first unfiltered one
     let newSelectedMessageTemplateIndex;
     let newMessageTemplateFilter;
@@ -385,7 +385,7 @@ export class MessagingTextArea extends React.Component {
     );
   };
 
-  onMessageKeyDown = e => {
+  onMessageKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       if (!this.state.showMessageTemplateMenu) {
@@ -479,7 +479,7 @@ export class MessagingTextArea extends React.Component {
         interactionId: this.props.selectedInteraction.interactionId,
         typing: !this.state.isTyping,
       });
-      this.setState(previousState => ({
+      this.setState((previousState) => ({
         ...previousState,
         isTyping: !previousState.isTyping,
       }));
@@ -488,7 +488,7 @@ export class MessagingTextArea extends React.Component {
     { leading: true, trailing: true }
   );
 
-  attachFile = fileList => {
+  attachFile = (fileList) => {
     CxEngage.interactions.smoochMessaging.addAttachment({
       interactionId: this.props.selectedInteraction.interactionId,
       file: fileList[0],
@@ -598,7 +598,7 @@ export class MessagingTextArea extends React.Component {
                       <div
                         className="messageTemplate"
                         key={messageTemplate.id}
-                        ref={c => {
+                        ref={(c) => {
                           this[`messageTemplate-${messageTemplateIndex}`] = c;
                         }}
                         onClick={() => this.addMessageTemplate()}
@@ -648,7 +648,7 @@ export class MessagingTextArea extends React.Component {
               { height: this.state.messageTextareaHeight },
             ]}
           >
-            {'+'}
+              +
           </Button>
         )}
 
@@ -699,11 +699,11 @@ export class MessagingTextArea extends React.Component {
         <Textarea
           minRows={2}
           maxRows={4}
-          onHeightChange={messageTextareaHeight =>
+          onHeightChange={(messageTextareaHeight) =>
             this.setState({ messageTextareaHeight })
           }
           id="messageTextarea"
-          inputRef={input => {
+          inputRef={(input) => {
             this.messageTextarea = input;
           }}
           style={{
@@ -718,18 +718,18 @@ export class MessagingTextArea extends React.Component {
             }),
           }}
           value={this.props.selectedInteraction.currentMessage}
-          onChange={e => this.setMessageText(e.target.value)}
+          onChange={(e) => this.setMessageText(e.target.value)}
           onKeyDown={this.onMessageKeyDown}
           autoFocus
         />
 
         {this.props.selectedInteraction.source === 'smooch' && (
-          <Fragment>
+          <React.Fragment>
             <input
               id="attachmentFilePicker"
               type="file"
               value=""
-              onChange={e => this.attachFile(e.target.files)}
+              onChange={(e) => this.attachFile(e.target.files)}
               style={{ display: 'none' }}
               disabled={
                 this.props.selectedInteraction.currentAttachedFile !== null
@@ -762,7 +762,7 @@ export class MessagingTextArea extends React.Component {
                 />
               </div>
             </label>
-          </Fragment>
+          </React.Fragment>
         )}
 
         <Button
@@ -800,9 +800,9 @@ function mapDispatchToProps(dispatch) {
       ),
     sendOutboundSms: (interactionId, message) =>
       dispatch(sendOutboundSms(interactionId, message)),
-    copyChatTranscript: interaction =>
+    copyChatTranscript: (interaction) =>
       dispatch(copyChatTranscript(interaction)),
-    setMessageTemplateFilter: interactionId =>
+    setMessageTemplateFilter: (interactionId) =>
       dispatch(setMessageTemplateFilter(interactionId)),
     setMessageTemplateIndex: (interactionId, messageTemplateIndex) =>
       dispatch(setMessageTemplateIndex(interactionId, messageTemplateIndex)),

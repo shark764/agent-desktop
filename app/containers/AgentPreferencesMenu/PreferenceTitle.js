@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { SimpleCaretIconSVG } from 'cx-ui-components';
+import SimpleCaretIconSVG from 'components/SimpleCaretIconSVG';
 import styled from 'styled-components';
 
 import messages from './messages';
