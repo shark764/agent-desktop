@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.57.5] (2020-09-26)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.5/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.5/index.html)
+### Fixed
+* CXV1-22924 - Hide transfer button on omnichannel interactions.
+
 ## [1.57.4] (2020-09-24)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.4/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.4/index.html)

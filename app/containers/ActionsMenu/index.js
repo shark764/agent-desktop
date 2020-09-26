@@ -162,7 +162,7 @@ export class ActionsMenu extends React.Component {
               this.props.interaction.status !== 'wrapup' &&
               !this.props.interaction.sendingReply &&
               !this.props.interaction.isColdTransferring &&
-              this.props.interaction.source !== 'salesforce-omni' && (
+              !this.props.interaction.omnichannel && (
               <Button
                 style={styles.toolbarActionsButtons}
                 type="secondary"

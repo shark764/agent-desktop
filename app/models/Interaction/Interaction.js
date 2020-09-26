@@ -28,6 +28,7 @@ export default class Interaction {
     popUri,
     outboundAni,
     script,
+    omnichannel,
   }) {
     if (channelType === 'voice') {
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
@@ -163,6 +164,10 @@ export default class Interaction {
       this.status = status || 'work-offer';
     }
     this.transferringInConference = false;
+
+    if (omnichannel) {
+      this.omnichannel = omnichannel;
+    }
   }
 }
 

@@ -1092,7 +1092,7 @@ const salesforceOmniChannelInteraction = {
   timeAccepted: 1598901921709,
   contactAssignedNotification: false,
   isHolding: false,
-  source: 'salesforce-omni',
+  omnichannel: true,
   transferringInConference: false,
   wrapupDetails: {
     wrapupUpdateAllowed: false,
