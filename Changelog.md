@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.57.6] (2020-09-29)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.6/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.6/index.html)
+### Fixed
+* CXV1-23149 - Fixed timer on omnichannel interactions (was showing "NaNh").
+* CXV1-23156 - Disable click to accept on omnichannel interactions.
+  * Hide hover popup on omnichannel interactions.
+  * Remove "(No subject)" in omnichannel interaction title.
+
 ## [1.57.5] (2020-09-26)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.5/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.5/index.html)

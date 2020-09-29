@@ -61,15 +61,22 @@ export class WorkItemContentArea extends React.Component {
   render() {
     const { selectedInteraction } = this.props;
 
+    let subject;
+    if (selectedInteraction.omnichannel) {
+      subject = '';
+    } else if (selectedInteraction.subject) {
+      ({ subject } = selectedInteraction);
+    } else {
+      subject = `(${this.props.intl.formatMessage(messages.noSubject)})`;
+    }
+
     const from = `${
       has(selectedInteraction, 'contact.attributes.name')
-        ? `${selectedInteraction.contact.attributes.name} - `
+        ? `${selectedInteraction.contact.attributes.name}${
+          subject ? ' - ' : ''
+        }`
         : ''
-    }${
-      selectedInteraction.subject
-        ? selectedInteraction.subject
-        : `(${this.props.intl.formatMessage(messages.noSubject)})`
-    }`;
+    }${subject}`;
 
     let details;
     if (selectedInteraction.customFields) {
@@ -132,8 +139,8 @@ const mapStateToProps = (state, props) => ({
   awaitingDisposition: selectAwaitingDisposition(state, props),
 });
 
-const mapDispatchToProps = dispatch => ({
-  setAwaitingDisposition: interactionId =>
+const mapDispatchToProps = (dispatch) => ({
+  setAwaitingDisposition: (interactionId) =>
     dispatch(setAwaitingDisposition(interactionId)),
 });
 

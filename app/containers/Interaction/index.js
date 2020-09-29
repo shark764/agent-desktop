@@ -435,9 +435,20 @@ export class Interaction extends React.Component {
       this.props.status === 'pending' &&
       this.props.interaction.channelType === 'voice';
 
-    const acceptMessage =
-      pendingPSTN || pendingSIP ? messages.PSTN : messages.accept;
-    const acceptMessageTitle = this.props.intl.formatMessage(acceptMessage);
+    const pendingOmnichannel =
+      this.props.status === 'pending' && this.props.interaction.omnichannel;
+
+    let acceptMessage;
+    let acceptMessageTitle;
+    if (!pendingOmnichannel) {
+      if (pendingPSTN || pendingSIP) {
+        acceptMessage = messages.PSTN;
+      } else {
+        acceptMessage = messages.accept;
+      }
+      acceptMessageTitle = this.props.intl.formatMessage(acceptMessage);
+    }
+
     return (
       <div
         id={`${this.props.status}InteractionContainer-${
@@ -452,15 +463,32 @@ export class Interaction extends React.Component {
           this.context.toolbarMode &&
             this.props.status === 'pending' &&
             styles.pendingBaseToolbar,
-          (pendingPSTN || pendingSIP) && styles.pendingPstn,
+          (pendingPSTN || pendingSIP || pendingOmnichannel) &&
+            styles.pendingPstn,
           this.props.interaction.isCancellingInteraction &&
             styles.cancelInteractionInProgress,
         ]}
         key={this.props.interaction.interactionId}
-        onClick={!(pendingPSTN || pendingSIP) ? this.props.onClick : null}
-        onMouseOver={this.context.toolbarMode ? this.handleMouseOver : null}
-        onFocus={this.context.toolbarMode ? this.handleMouseOver : null}
-        onMouseLeave={this.context.toolbarMode ? this.handleMouseLeave : null}
+        onClick={
+          !(pendingPSTN || pendingSIP || pendingOmnichannel)
+            ? this.props.onClick
+            : null
+        }
+        onMouseOver={
+          this.context.toolbarMode && !pendingOmnichannel
+            ? this.handleMouseOver
+            : null
+        }
+        onFocus={
+          this.context.toolbarMode && !pendingOmnichannel
+            ? this.handleMouseOver
+            : null
+        }
+        onMouseLeave={
+          this.context.toolbarMode && !pendingOmnichannel
+            ? this.handleMouseLeave
+            : null
+        }
         disabled={this.props.selected}
       >
         {this.context.toolbarMode && [
@@ -529,7 +557,7 @@ export class Interaction extends React.Component {
             {this.props.status !== 'creating-new-interaction' &&
               this.props.status !== 'script-only' &&
               this.getDetails()}
-            {this.props.status === 'pending' && (
+            {acceptMessage && (
               <div style={styles.intentText}>
                 <TextOverflowEllipsis title={acceptMessageTitle}>
                   <FormattedMessage {...acceptMessage} />
@@ -612,6 +640,7 @@ Interaction.propTypes = {
     wrapupStarted: PropTypes.number,
     status: PropTypes.string,
     initiatedByCurrentAgent: PropTypes.bool,
+    omnichannel: PropTypes.bool,
   }).isRequired,
 };
 

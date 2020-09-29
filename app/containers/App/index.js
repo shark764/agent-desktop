@@ -367,7 +367,7 @@ export class App extends React.Component {
           },
           shouldSendCallback: (data) => data.logError,
           dataCallback: (data) => {
-            const dataWithState = { ...data};
+            const dataWithState = { ...data };
             try {
               const state = store.getState().toJS();
               delete state.login.agent.tenants;
@@ -979,7 +979,7 @@ export class App extends React.Component {
                     );
                   } else if (response.filterType === 'and') {
                     this.attemptContactSearch(
-                      {op: 'and', ...response.filter},
+                      { op: 'and', ...response.filter },
                       response.interactionId,
                       interaction
                     );

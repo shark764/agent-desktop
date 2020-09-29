@@ -601,8 +601,10 @@ function agentDesktopReducer(state = initialState, action) {
               action.newStatus === 'work-accepting' ||
               (action.newStatus === 'work-accepted' &&
                 interaction.get('autoAnswer') === false &&
-                (activeExtensionType === 'pstn' ||
-                  activeExtensionType === 'sip'))
+                ((interaction.get('channelType') === 'voice' &&
+                  (activeExtensionType === 'pstn' ||
+                    activeExtensionType === 'sip')) ||
+                  interaction.get('omnichannel')))
             ) {
               updatedInteraction = updatedInteraction.set(
                 'timeAccepted',
