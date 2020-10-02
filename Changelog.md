@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.58.0] (2020-10-02)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.58.0/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.58.0/index.html)
+### Added
+* CXV1-23174 - SDK bump for added direction and flow metadata params to dial SDK function (for postMessage)
+
 ## [1.57.7] (2020-09-24)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.7/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.7/index.html)

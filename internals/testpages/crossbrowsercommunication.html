@@ -2,7 +2,7 @@
 <html>
   <body>
     <h2>Desktop CSR</h2>
-    
+
     <button onclick="initSkylight()">Open Skylight</button>
     <button onclick="login()">Login</button>
     <button onclick="loginWithSso()">Login with SSO</button>
@@ -24,12 +24,13 @@
 
     <p>
       <button onclick="makeCall()">Outbound Call</button>
+      <button onclick="makeCallWithParameters()">Outbound Call 2</button>
       <!-- TODO Not fully supported yet -->
       <!-- <button onclick="acceptInteraction()">Accept Interaction</button> -->
       <button onclick="endInteraction()">End Interaction</button>
       <button onclick="endWrapup()">End Wrapup</button>
     </p>
-    
+
     <p>
       <button onclick="customerHold()">Put Customer on Hold</button>
       <button onclick="customerResume()">Take Customer off Hold</button>
@@ -38,8 +39,12 @@
     </p>
 
     <script>
-
-      let extensionValue, reasonInfo, interactionId, tenantId, agentId, sessionId;
+      let extensionValue,
+        reasonInfo,
+        interactionId,
+        tenantId,
+        agentId,
+        sessionId;
 
       window.addEventListener('message', (event) => {
         const data = event.data;
@@ -192,6 +197,38 @@
             command: 'dial',
             data: {
               phoneNumber: '+13025150674',
+            },
+          },
+          '*'
+        );
+      }
+
+      function makeCallWithParameters() {
+        skylight.postMessage(
+          {
+            skylightController: true,
+            module: 'interactions',
+            subModule: 'voice',
+            command: 'dial',
+            data: {
+              phoneNumber: '+13025150674',
+              direction: 'agent-initiated',
+              interactionMetadata: {
+                outboundDialer: {
+                  campaignName: 'Callback Campaign',
+                  campaignId: '5738012',
+                  listName: "Agent 007's List 2020-09-01",
+                  listId: '7674467',
+                  listSource: 'Salesforce',
+                  customer: {
+                    name: 'John Frusciante',
+                    stateCode: 'AZ',
+                    zipCode: '85310',
+                    country: 'US',
+                    timezone: 'US/Arizona',
+                  },
+                },
+              },
             },
           },
           '*'
