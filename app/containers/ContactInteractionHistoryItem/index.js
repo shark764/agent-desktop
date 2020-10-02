@@ -526,8 +526,7 @@ export class ContactInteractionHistoryItem extends React.Component {
               className="expand"
               style={styles.expand}
               onClick={() =>
-                this.props.selectInteraction(this.props.interactionIndex)
-              }
+                this.props.selectInteraction(this.props.interactionIndex)}
             >
               &#9679;&#9679;&#9679;
             </div>

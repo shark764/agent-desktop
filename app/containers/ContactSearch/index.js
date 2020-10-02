@@ -301,8 +301,7 @@ export class ContactSearch extends React.Component {
                 name={this.getFilterName(filter)}
                 value={filter.value}
                 remove={() =>
-                  this.props.removeSearchFilter(filter.attribute.objectName)
-                }
+                  this.props.removeSearchFilter(filter.attribute.objectName)}
                 style={styles.filter}
                 disabled={this.props.searchPending}
               />

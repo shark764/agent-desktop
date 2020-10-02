@@ -690,7 +690,7 @@ function agentDesktopReducer(state = initialState, action) {
               'warmTransfers',
               new List(
                 action.activeResources.map((resource) => {
-                  const mappedResource = Object.assign({}, resource);
+                  const mappedResource = { ...resource};
                   mappedResource.targetResource = mappedResource.id;
                   mappedResource.status = 'connected';
                   if (mappedResource.externalResource) {

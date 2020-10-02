@@ -83,9 +83,7 @@ export class CenteredConfirmationPopup extends React.Component {
 
   supplyModalWidth = () => {
     if (this.context.toolbarMode) {
-      return Object.assign({}, styles.modalWindow, {
-        width: '350px',
-      });
+      return { ...styles.modalWindow, width: '350px'};
     }
 
     return styles.modalWindow;

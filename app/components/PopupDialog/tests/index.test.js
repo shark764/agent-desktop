@@ -13,7 +13,7 @@ describe('<PopupDialog />', () => {
       const rendered = shallow(
         <PopupDialog id="mockId" isVisible hide={() => {}} widthPx={1}>
           <p>
-            {'Mock Child'}
+            Mock Child
           </p>
         </PopupDialog>
       );
@@ -32,7 +32,7 @@ describe('<PopupDialog />', () => {
           arrowLeftOffsetPx={5}
         >
           <p>
-            {'Mock Child'}
+            Mock Child
           </p>
         </PopupDialog>
       );

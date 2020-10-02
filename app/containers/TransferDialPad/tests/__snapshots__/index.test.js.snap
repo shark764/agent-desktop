@@ -9,7 +9,7 @@ exports[`TransferDialPad component event handlers dialpad onEnter event 1`] = `
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": "mockValidTransferToDialpadText",
     },
   ],
@@ -25,7 +25,7 @@ exports[`TransferDialPad component event handlers extParticipantTransferButton o
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": "mockValidTransferToDialpadText",
     },
   ],

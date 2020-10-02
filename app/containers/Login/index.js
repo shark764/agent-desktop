@@ -347,9 +347,7 @@ export class Login extends React.Component {
                             cbTopic,
                             cbResponse
                           );
-                          const agentData = Object.assign({}, cbResponse, {
-                            isSso: true,
-                          });
+                          const agentData = { ...cbResponse, isSso: true};
                           this.loginCB(agentData, 'sso');
                         } else {
                           this.props.errorOccurred();
@@ -463,9 +461,7 @@ export class Login extends React.Component {
       typeof Number(storage.getItem('debugTokenVal')) === 'number'
     ) {
       // add ttl to the credentials
-      return Object.assign({}, credentials, {
-        ttl: Number(storage.getItem('debugTokenVal')),
-      });
+      return { ...credentials, ttl: Number(storage.getItem('debugTokenVal'))};
     }
 
     // otherwise, just return the credentials without changing anything

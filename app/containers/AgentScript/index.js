@@ -155,8 +155,7 @@ export class AgentScript extends React.Component {
                   this.handleScriptInput({
                     element,
                     newValue,
-                  })
-                }
+                  })}
                 style={styles.textInput}
               />
             </div>
@@ -181,8 +180,7 @@ export class AgentScript extends React.Component {
                     this.handleScriptInput({
                       element,
                       option,
-                    })
-                  }
+                    })}
                 />
               </div>
             </div>
@@ -203,8 +201,7 @@ export class AgentScript extends React.Component {
                 this.handleScriptInput({
                   element,
                   newValue,
-                })
-              }
+                })}
               placeholder={element.text}
               style={styles.element}
             />
@@ -235,8 +232,7 @@ export class AgentScript extends React.Component {
                   element,
                   newValue,
                   option,
-                })
-              }
+                })}
             />
           ));
           scriptElements.push(

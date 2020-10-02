@@ -12,7 +12,7 @@ exports[`<Mute /> with false isMuted calls CxEngage.interactions.voice.mute with
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],
@@ -29,7 +29,7 @@ exports[`<Mute /> with false isMuted calls toggleInteractionIsMuting with the in
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],
@@ -69,7 +69,7 @@ exports[`<Mute /> with isMuted calls CxEngage.interactions.voice.unmute with the
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],
@@ -86,7 +86,7 @@ exports[`<Mute /> with isMuted calls toggleInteractionIsMuting with interactionI
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],

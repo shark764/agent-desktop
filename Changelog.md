@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.57.7] (2020-09-24)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.7/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.7/index.html)
+### Updated
+* CXV1-23151 - Upgrading Babel, Webpack and Eslint to Babel7, Webpack4.4 and Eslint6.6.
+* <no-jira> - Changing node version needed for Jenkins's deploys.
+### Fixed
+* <no-jira> - Fixing bad condition on node/npm version checker script.
+
 ## [1.57.6] (2020-09-29)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.57.6/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.57.6/index.html)

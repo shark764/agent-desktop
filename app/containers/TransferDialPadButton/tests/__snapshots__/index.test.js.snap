@@ -9,7 +9,7 @@ exports[`TransferDialPadButton component event handlers onClick event 1`] = `
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": true,
     },
   ],

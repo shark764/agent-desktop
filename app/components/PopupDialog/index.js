@@ -61,7 +61,8 @@ function PopupDialog(props) {
       {// Transparent mask to catch click outside of dialog
         props.isVisible && (
           <div style={styles.mask} id="screen-mask" onClick={props.hide} />
-        )}
+        )
+      }
       {props.isVisible && (
         <div id={props.id} style={[styles.base, props.style]}>
           <span style={[styles.triangle]} />

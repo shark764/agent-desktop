@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<AgentTransferMenuPreferenceMenu /> agent preference menu enabled renders the multiple preference options with select all button and open by default 1`] = `
-<React.Fragment>
+<Fragment>
   <CollapsibleMultiselect
     easing="linear"
     selectAllBtn={true}
@@ -15,11 +15,11 @@ exports[`<AgentTransferMenuPreferenceMenu /> agent preference menu enabled rende
     toggleSelection={[Function]}
     transitionTime={400}
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`<AgentTransferMenuPreferenceMenu /> renders queues multi item preference list with loading state and empty list and loading state preference list not rendered does not renders the multiple preference options and sets loading state for queues list 1`] = `
-<React.Fragment>
+<Fragment>
   <CollapsibleMultiselect
     easing="linear"
     selectAll={[Function]}
@@ -35,11 +35,11 @@ exports[`<AgentTransferMenuPreferenceMenu /> renders queues multi item preferenc
     toggleShowList={[Function]}
     transitionTime={400}
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`<AgentTransferMenuPreferenceMenu /> renders queues multi item preference list with selected items preference list rendered renders the multiple preference options with select all button 1`] = `
-<React.Fragment>
+<Fragment>
   <CollapsibleMultiselect
     easing="linear"
     selectAll={[Function]}
@@ -55,11 +55,11 @@ exports[`<AgentTransferMenuPreferenceMenu /> renders queues multi item preferenc
     toggleShowList={[Function]}
     transitionTime={400}
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`<AgentTransferMenuPreferenceMenu /> renders transfer lists multi item preference list with loading state and empty list preference list not rendered does not renders the multiple preference options and sets loading state for transfer lists items 1`] = `
-<React.Fragment>
+<Fragment>
   <CollapsibleMultiselect
     easing="linear"
     items={Array []}
@@ -77,11 +77,11 @@ exports[`<AgentTransferMenuPreferenceMenu /> renders transfer lists multi item p
     toggleShowList={[Function]}
     transitionTime={400}
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`<AgentTransferMenuPreferenceMenu /> renders transfer lists multi item preference list with selected items preference list rendered renders the multiple preference options with select all button 1`] = `
-<React.Fragment>
+<Fragment>
   <CollapsibleMultiselect
     easing="linear"
     items={
@@ -109,5 +109,5 @@ exports[`<AgentTransferMenuPreferenceMenu /> renders transfer lists multi item p
     toggleShowList={[Function]}
     transitionTime={400}
   />
-</React.Fragment>
+</Fragment>
 `;

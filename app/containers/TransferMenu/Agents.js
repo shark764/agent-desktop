@@ -7,7 +7,7 @@ import messages from './messages';
 
 function Agents(props) {
   return (
-    <React.Fragment>
+    <>
       {!props.nonVoice &&
           props.showAgentsTransferMenuPreference &&
           props.hasAgentExperienceTransferMenuAgentsViewPermission && (
@@ -21,8 +21,7 @@ function Agents(props) {
             ]}
             onClick={() =>
               !props.nonVoice &&
-                  props.updateAgentsListVisibleState()
-            }
+                  props.updateAgentsListVisibleState()}
           >
             <FormattedMessage {...messages.agents} />
             {(props.agentsListVisibleState ||
@@ -55,7 +54,7 @@ function Agents(props) {
           <div className="bigSpacer" style={props.styles.lineSpacer} />
         </div>
       )}
-    </React.Fragment>
+    </>
   );
 }
 

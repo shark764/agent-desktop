@@ -51,7 +51,7 @@ function DirectionIconSVG(props) {
       break;
   }
   return (
-    <React.Fragment>
+    <>
       <SvgWrapper
         size={props.size}
         className={`DirectionIconSVG ${props.className}`}
@@ -72,7 +72,7 @@ function DirectionIconSVG(props) {
           />
         </svg>
       </SvgWrapper>
-    </React.Fragment>
+    </>
   );
 }
 DirectionIconSVG.propTypes = {

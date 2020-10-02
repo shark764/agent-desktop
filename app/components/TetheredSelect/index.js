@@ -16,10 +16,10 @@ import Radium from 'radium';
 class TetheredSelect extends Select {
   constructor(props) {
     super(props);
-    this.renderOuter = this._renderOuter; // eslint-disable-line
+    this.renderOuter = this.customRenderOuter; // eslint-disable-line
   }
 
-  _renderOuter() {
+  customRenderOuter() {
     const menu = super.renderOuter.apply(this, arguments); // eslint-disable-line
 
     // Don't return an updated menu render if we don't have one

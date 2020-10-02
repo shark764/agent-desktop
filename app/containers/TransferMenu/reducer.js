@@ -22,7 +22,7 @@ const initialState = fromJS({
   },
 });
 
-export default function(state = initialState, action) {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.SET_RESOURCE_CAPACITY: {
       return state.set('resourceCapacity', fromJS(action.resourceCapacity));

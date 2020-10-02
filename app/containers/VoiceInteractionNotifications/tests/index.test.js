@@ -33,8 +33,7 @@ describe('<VoiceInteractionNotifications />', () => {
             interactionId="mockInteractionId"
             notifications={notifications}
             removeInteractionNotification={() =>
-              console.log('removeInteractionNotification()')
-            }
+              console.log('removeInteractionNotification()')}
           />
         )
       ).toMatchSnapshot();
@@ -47,8 +46,7 @@ describe('<VoiceInteractionNotifications />', () => {
           <VoiceInteractionNotifications
             intl={getIntlContext()}
             removeInteractionNotification={() =>
-              console.log('removeInteractionNotification()')
-            }
+              console.log('removeInteractionNotification()')}
           />
         )
       ).toMatchSnapshot();

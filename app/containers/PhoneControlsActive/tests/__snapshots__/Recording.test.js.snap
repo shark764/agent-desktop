@@ -100,7 +100,7 @@ exports[`<Recording /> with agentRecordingEnabled and false preventAgentRecordin
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],
@@ -117,7 +117,7 @@ exports[`<Recording /> with agentRecordingEnabled and false preventAgentRecordin
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],
@@ -135,7 +135,7 @@ exports[`<Recording /> with agentRecordingEnabled and false preventAgentRecordin
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],
@@ -152,7 +152,7 @@ exports[`<Recording /> with agentRecordingEnabled and false preventAgentRecordin
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],

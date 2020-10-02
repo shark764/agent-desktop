@@ -7,7 +7,7 @@ module.exports = {
     jest: true,
     es6: true,
   },
-  plugins: ['redux-saga', 'react', 'jsx-a11y'],
+  plugins: ['react', 'redux-saga', 'react-hooks', 'jsx-a11y'],
   parserOptions: {
     ecmaVersion: 6,
     sourceType: 'module',
@@ -39,6 +39,7 @@ module.exports = {
     'import/no-named-as-default': 0,
     'import/no-unresolved': 2,
     'import/prefer-default-export': 0,
+    'import/no-cycle': 0,
     indent: [
       2,
       2,
@@ -70,6 +71,7 @@ module.exports = {
     'jsx-a11y/no-autofocus': 0,
     'jsx-a11y/media-has-caption': 0,
     'jsx-a11y/accessible-emoji': 0,
+    'jsx-a11y/label-has-associated-control': 0,
     'max-len': 0,
     'newline-per-chained-call': 0,
     'no-console': 0,
@@ -87,6 +89,10 @@ module.exports = {
     'react/sort-comp': 0,
     'react/destructuring-assignment': 0,
     'no-param-reassign': ['error', { props: false }],
+    'react/jsx-props-no-spreading': 0,
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
+    'react/no-deprecated': 1,
   },
   settings: {
     'import/resolver': {

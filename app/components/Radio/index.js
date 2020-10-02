@@ -34,7 +34,7 @@ function Radio(props) {
   };
 
   return (
-    <span style={Object.assign({}, props.style)}>
+    <span style={({ ...props.style})}>
       {props.options.map((option) => (
         <span
           id={`agent-select-dir-1-${option.id}-container`}
@@ -69,6 +69,7 @@ Radio.propTypes = {
   value: PropTypes.string.isRequired,
   style: PropTypes.object,
   options: PropTypes.array,
+  cb: PropTypes.func,
 };
 
 export default injectIntl(Radium(Radio));

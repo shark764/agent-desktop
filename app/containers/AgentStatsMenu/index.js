@@ -8,7 +8,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
@@ -171,7 +171,7 @@ export class AgentStatsMenu extends React.Component {
         {Object.keys(this.props.availableStats).length === 0 ? (
           <FormattedMessage {...messages.loadingStats} />
         ) : (
-          <Fragment>
+          <>
             <div style={this.styles.menuGroup}>
               <div style={this.styles.menuHeader}>
                 <FormattedMessage {...messages.source} />
@@ -230,8 +230,7 @@ export class AgentStatsMenu extends React.Component {
                   style={this.styles.select}
                   options={this.getAggregates()}
                   onChange={(e) =>
-                    this.setStatAggregate(e.value || '-1', e.label || '')
-                  }
+                    this.setStatAggregate(e.value || '-1', e.label || '')}
                   clearable={false}
                 />
               </div>
@@ -251,7 +250,7 @@ export class AgentStatsMenu extends React.Component {
                 />
               )}
             </div>
-          </Fragment>
+          </>
         )}
       </div>
     );
@@ -298,9 +297,6 @@ AgentStatsMenu.propTypes = {
 
 export default ErrorBoundary(
   injectIntl(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(Radium(AgentStatsMenu))
+    connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStatsMenu))
   )
 );

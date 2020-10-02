@@ -49,18 +49,18 @@ Array [
 exports[`selectAgents batch requests are successful resourceCapacityList is defined filters agents out and maps them properly 1`] = `
 Array [
   Object {
-    "agentId": "1",
-    "firstName": "a",
-    "isAvailable": false,
-    "lastName": "a",
-    "name": "a a",
-  },
-  Object {
     "agentId": "2",
     "firstName": "b",
     "isAvailable": true,
     "lastName": "b",
     "name": "b b",
+  },
+  Object {
+    "agentId": "1",
+    "firstName": "a",
+    "isAvailable": false,
+    "lastName": "a",
+    "name": "a a",
   },
   Object {
     "agentId": "3",

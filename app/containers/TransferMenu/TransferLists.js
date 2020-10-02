@@ -144,8 +144,7 @@ export class TransferLists extends React.Component {
                     transferListItem.name,
                     transferListItem.contactType,
                     transferListItem.endpoint
-                  )
-                }
+                  )}
                 title={transferListItem.name}
                 style={styles.transferListItem}
                 tabIndex="0" // eslint-disable-line
@@ -195,8 +194,7 @@ export class TransferLists extends React.Component {
                 onClick={() =>
                   this.props.updateUserAssignedTransferListsVisibleState(
                     transferList.id
-                  )
-                }
+                  )}
                 title={transferList.name}
               >
                 <span
@@ -268,8 +266,7 @@ export class TransferLists extends React.Component {
                     transferListItem.name,
                     transferListItem.contactType,
                     transferListItem.endpoint
-                  )
-                }
+                  )}
                 title={transferListItem.name}
                 style={styles.transferListItem}
                 tabIndex="0" // eslint-disable-line
@@ -319,8 +316,7 @@ export class TransferLists extends React.Component {
                 onClick={() =>
                   this.props.updateInteractionTransferListsVisibleState(
                     transferList.id
-                  )
-                }
+                  )}
                 title={transferList.name}
               >
                 <span
@@ -354,7 +350,7 @@ export class TransferLists extends React.Component {
     }
 
     return (
-      <React.Fragment>
+      <>
         {this.props.interactionTransListsLoadSt ? (
           <div style={this.props.styles.transferListDivContainer}>
             <div style={styles.transferListsCheckingTitle}>
@@ -380,8 +376,7 @@ export class TransferLists extends React.Component {
                   { marginTop: '20px' },
                 ]}
                 onClick={() =>
-                  this.props.updateVisibleStateOfAllInteractionTransferlists()
-                }
+                  this.props.updateVisibleStateOfAllInteractionTransferlists()}
               >
                 <FormattedMessage {...messages.interactionTransferLists} />
                 <Icon
@@ -430,8 +425,7 @@ export class TransferLists extends React.Component {
                   { marginTop: '20px' },
                 ]}
                 onClick={() =>
-                  this.props.updateVisibleStateOfAllUserAssignedTransferlists()
-                }
+                  this.props.updateVisibleStateOfAllUserAssignedTransferlists()}
               >
                 <FormattedMessage {...messages.userAssignedTransferLists} />
                 <Icon
@@ -454,7 +448,7 @@ export class TransferLists extends React.Component {
             </div>
           )
         )}
-      </React.Fragment>
+      </>
     );
   }
 }

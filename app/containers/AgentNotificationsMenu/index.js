@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -28,7 +28,7 @@ const styles = {
 
 export function AgentNotificationsMenu(props) {
   return (
-    <Fragment>
+    <>
       <div
         id="audioNotificationOption"
         key="audioNotificationOption"
@@ -53,7 +53,7 @@ export function AgentNotificationsMenu(props) {
           )}
         </div>
       )}
-    </Fragment>
+    </>
   );
 }
 

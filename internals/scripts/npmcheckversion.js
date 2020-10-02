@@ -20,7 +20,7 @@ exec('node -v', function checkVersion(err, stdout) {
   if (
     (PACKAGE_NODE_VERSION.includes('~') ||
       PACKAGE_NODE_VERSION.includes('^')) &&
-    PACKAGE_NODE_VERSION.replace('~', '').replace('^', '') < NODE_VERSION
+    NODE_VERSION < PACKAGE_NODE_VERSION.replace('~', '').replace('^', '')
   ) {
     console.log(
       '\x1b[33m%s\x1b[0m',
@@ -75,7 +75,7 @@ exec('npm -v', function checkVersion(err, stdout) {
 
   if (
     (PACKAGE_NPM_VERSION.includes('~') || PACKAGE_NPM_VERSION.includes('^')) &&
-    PACKAGE_NPM_VERSION.replace('~', '').replace('^', '') < NPM_VERSION
+    NPM_VERSION < PACKAGE_NPM_VERSION.replace('~', '').replace('^', '')
   ) {
     console.log(
       '\x1b[33m%s\x1b[0m',

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Queues Component render renders Queues component with permissions, with a search input, without refresh button 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     data-radium={true}
   >
@@ -61,11 +61,11 @@ exports[`Queues Component render renders Queues component with permissions, with
       key=".2"
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Queues Component render renders Queues component with permissions, with empty queues 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     data-radium={true}
   >
@@ -74,11 +74,11 @@ exports[`Queues Component render renders Queues component with permissions, with
       key=".2"
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Queues Component render renders Queues component with permissions, without searching input 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     data-radium={true}
   >
@@ -112,7 +112,7 @@ exports[`Queues Component render renders Queues component with permissions, with
       key=".2"
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
-exports[`Queues Component render renders Queues component without permissions. Actually should not render anything 1`] = `<React.Fragment />`;
+exports[`Queues Component render renders Queues component without permissions. Actually should not render anything 1`] = `<Fragment />`;

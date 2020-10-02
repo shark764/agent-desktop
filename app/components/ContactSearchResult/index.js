@@ -96,12 +96,11 @@ export class ContactSearchResult extends React.Component {
         />
         <div
           onClick={() =>
-            this.setState((prevState) => ({ expanded: !prevState.expanded }))
-          }
+            this.setState((prevState) => ({ expanded: !prevState.expanded }))}
           style={this.styles.expandToggle}
         >
           <span style={this.styles.ellip}>
-            {'...'}
+            ...
           </span>
         </div>
       </div>

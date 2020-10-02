@@ -39,7 +39,7 @@ describe('<CircleIconButton />', () => {
   it('should correctly render HTML (or a component) that was inserted inside of the component using the innerElement prop', () => {
     const testInnerElement = (
       <div>
-        {'Inner Element'}
+        Inner Element
       </div>
     );
     const rendered = shallow(

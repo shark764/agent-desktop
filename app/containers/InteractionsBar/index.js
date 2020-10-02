@@ -478,8 +478,7 @@ export class InteractionsBar extends React.Component {
             previewText={text}
             status="pending"
             onClick={() =>
-              this.acceptInteraction(pendingInteraction.interactionId)
-            }
+              this.acceptInteraction(pendingInteraction.interactionId)}
             interactionDirection={pendingInteraction.direction}
           />
         );

@@ -532,8 +532,7 @@ export class TransferMenu extends React.Component {
               queue.name,
               undefined,
               queue.id
-            )
-          }
+            )}
           style={this.styles.transferListItem}
           title={queue.name}
           tabIndex="0" // eslint-disable-line
@@ -598,8 +597,7 @@ export class TransferMenu extends React.Component {
                       this.props.nonVoice,
                       agent.name,
                       agent.agentId
-                    )
-                  }
+                    )}
                   style={this.styles.transferListItem}
                   title={agent.name}
                   tabIndex="0" // eslint-disable-line
@@ -657,8 +655,7 @@ export class TransferMenu extends React.Component {
             type="small"
             selectedIndex={this.props.transferTabIndex}
             onSelect={(transferTabIndex) =>
-              this.props.setTransferTabIndex(transferTabIndex)
-            }
+              this.props.setTransferTabIndex(transferTabIndex)}
           >
             <TabList>
               <Tab>
@@ -678,8 +675,7 @@ export class TransferMenu extends React.Component {
               id="transferSearchInput"
               placeholder={messages.search}
               cb={(transferSearchInput) =>
-                this.props.setTransferSearchInput(transferSearchInput)
-              }
+                this.props.setTransferSearchInput(transferSearchInput)}
               value={this.props.transferSearchInput}
               style={this.styles.transferSearchInput}
               autoFocus

@@ -63,7 +63,7 @@ function SimpleCaretIconSVG(props) {
       break;
   }
   return (
-    <React.Fragment>
+    <>
       <SvgWrapper
         size={props.size}
         className={`SimpleCaretIconSVG ${props.className}`}
@@ -84,7 +84,7 @@ function SimpleCaretIconSVG(props) {
           />
         </svg>
       </SvgWrapper>
-    </React.Fragment>
+    </>
   );
 }
 SimpleCaretIconSVG.propTypes = {

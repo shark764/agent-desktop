@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { connect } from 'react-redux';
@@ -88,7 +88,7 @@ export class AgentPreferencesMenu extends React.Component {
       }
       default: {
         content = (
-          <Fragment>
+          <>
             {this.props.hasViewStatsPermission &&
               this.renderPreferenceOption('metrics')}
 
@@ -99,7 +99,7 @@ export class AgentPreferencesMenu extends React.Component {
               this.renderPreferenceOption('audioOutput')}
 
             {this.renderPreferenceOption('transferMenu')}
-          </Fragment>
+          </>
         );
       }
     }

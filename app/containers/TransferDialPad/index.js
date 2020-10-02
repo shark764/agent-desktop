@@ -28,11 +28,9 @@ export class TransferDialPad extends React.Component {
           <Dialpad
             id="dialpad"
             setDialpadText={(dialpadText) =>
-              this.props.updateDialpadText(dialpadText)
-            }
+              this.props.updateDialpadText(dialpadText)}
             onEnter={() =>
-              this.props.transferFromDialpad(this.props.dialpadText)
-            }
+              this.props.transferFromDialpad(this.props.dialpadText)}
             dialpadText={this.props.dialpadText}
             active={false}
             transfer
@@ -46,8 +44,7 @@ export class TransferDialPad extends React.Component {
             }
             disabled={!this.props.dialpadTextValidity}
             onClick={() =>
-              this.props.transferFromDialpad(this.props.dialpadText)
-            }
+              this.props.transferFromDialpad(this.props.dialpadText)}
             type="primaryBlue"
             style={{
               display: 'block',

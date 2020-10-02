@@ -30,7 +30,7 @@ function Select(props) {
     <div id={props.type}>
       <TetheredSelect
         id={props.id}
-        style={Object.assign({}, styles.base, props.style)}
+        style={({ ...styles.base, ...props.style})}
         onChange={props.onChange}
         name="form-field-name"
         value={props.value}

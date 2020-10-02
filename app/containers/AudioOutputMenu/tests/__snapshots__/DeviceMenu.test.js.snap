@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<DeviceMenu /> collection of devices is passed in renders correctly 1`] = `
-<React.Fragment>
+<Fragment>
   <PreferenceOption
     caretDirection="down"
     label={
@@ -14,11 +14,11 @@ exports[`<DeviceMenu /> collection of devices is passed in renders correctly 1`]
     preference="voice"
     setPreferenceSelected={[Function]}
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`<DeviceMenu /> renders DeviceOption list when empty collection of devices is passed in 1`] = `
-<React.Fragment>
+<Fragment>
   <PreferenceOption
     caretDirection="down"
     label={
@@ -32,11 +32,11 @@ exports[`<DeviceMenu /> renders DeviceOption list when empty collection of devic
     setPreferenceSelected={[Function]}
   />
   <styled.div />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`<DeviceMenu /> renders DeviceOption list when open is set in state 1`] = `
-<React.Fragment>
+<Fragment>
   <PreferenceOption
     caretDirection="down"
     label={
@@ -99,11 +99,11 @@ exports[`<DeviceMenu /> renders DeviceOption list when open is set in state 1`] 
       key="807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
     />
   </styled.div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`<DeviceMenu /> renders DeviceOption list when open is set in state and none-selection is available 1`] = `
-<React.Fragment>
+<Fragment>
   <PreferenceOption
     caretDirection="down"
     label={
@@ -166,5 +166,5 @@ exports[`<DeviceMenu /> renders DeviceOption list when open is set in state and 
       key="807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957"
     />
   </styled.div>
-</React.Fragment>
+</Fragment>
 `;

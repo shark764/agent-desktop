@@ -789,8 +789,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
                         id={`attachment-${index}`}
                         className="attachment"
                         onClick={() =>
-                          this.updateAttachmentUrl(attachment.artifactFileId)
-                        }
+                          this.updateAttachmentUrl(attachment.artifactFileId)}
                       >
                         <div
                           title={attachment.filename}
@@ -1087,8 +1086,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
                         this.props.selectedInteraction.status !== 'wrapup' && (
                         <div
                           onClick={() =>
-                            this.removeAttachment(attachment.attachmentId)
-                          }
+                            this.removeAttachment(attachment.attachmentId)}
                           style={{
                             display: 'inline-block',
                             marginLeft: '5px',

@@ -7,7 +7,7 @@ import messages from './messages';
 
 function Queues(props){
   return (
-    <React.Fragment>
+    <>
       {props.hasAgentExperienceTransferMenuQueuesViewPermission && (
         <div style={props.styles.transferListDivContainer}>
           {props.globalQueues.length > 0 && (
@@ -52,7 +52,7 @@ function Queues(props){
           <div className="bigSpacer" style={props.styles.lineSpacer} />
         </div>
       )}
-    </React.Fragment>
+    </>
   );
 }
 

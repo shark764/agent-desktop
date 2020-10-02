@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CollapsibleMultiselect from 'components/CollapsibleMultiselect';
@@ -42,7 +42,7 @@ export class AgentTransferMenuPreferenceMenu extends React.Component {
 
   render() {
     return (
-      <Fragment>
+      <>
         {this.props.hasAgentExperienceTransferMenuAgentsViewPermission && (
           <CollapsibleMultiselect
             title={messages.agents}
@@ -76,7 +76,7 @@ export class AgentTransferMenuPreferenceMenu extends React.Component {
           toggleShowList={this.props.toggleShowTransferLists}
           loading={this.props.preferenceMenuTransferListsLoading}
         />
-      </Fragment>
+      </>
     );
   }
 }
@@ -134,8 +134,5 @@ export const actions = {
 };
 
 export default ErrorBoundary(
-  connect(
-    mapStateToProps,
-    actions
-  )(AgentTransferMenuPreferenceMenu)
+  connect(mapStateToProps, actions)(AgentTransferMenuPreferenceMenu)
 );

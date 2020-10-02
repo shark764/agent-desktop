@@ -32,8 +32,7 @@ export class TransferDialPadButton extends React.PureComponent {
           onClick={() =>
             !this.props.showTransferDialpad
               ? this.props.setShowTransferDialPad(true)
-              : this.props.setShowTransferDialPad(false)
-          }
+              : this.props.setShowTransferDialPad(false)}
           style={{ display: 'block', margin: '0 auto' }}
         />
       </DialpadButtonContainer>

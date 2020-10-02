@@ -3,7 +3,7 @@ module.exports = {
     './internals/scripts/shim.js',
     './internals/scripts/enzymeConfig.js',
   ],
-  setupTestFrameworkScriptFile: './internals/scripts/setupTests.js',
+  setupFilesAfterEnv: ['./internals/scripts/setupTests.js'],
   testEnvironment: 'jest-environment-jsdom-global',
   testURL: 'http://localhost',
   transform: {

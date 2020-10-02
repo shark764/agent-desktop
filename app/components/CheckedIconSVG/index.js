@@ -40,7 +40,7 @@ const StyledPath = styled.path`
 
 function CheckedIconSVG(props) {
   return (
-    <React.Fragment>
+    <>
       <SvgWrapper
         size={props.size}
         className={`CheckedIconSVG ${props.className}`}
@@ -61,7 +61,7 @@ function CheckedIconSVG(props) {
           />
         </svg>
       </SvgWrapper>
-    </React.Fragment>
+    </>
   );
 }
 CheckedIconSVG.propTypes = {

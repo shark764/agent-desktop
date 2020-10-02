@@ -41,7 +41,7 @@ describe('goValidateContactLayoutTranslations saga', () => {
   describe('if locale is missing in layout', () => {
     let contactLayoutWithMissingTranslation;
     beforeAll(() => {
-      contactLayoutWithMissingTranslation = Object.assign({}, contactLayout);
+      contactLayoutWithMissingTranslation = { ...contactLayout};
       contactLayoutWithMissingTranslation.layout[0].label = {
         'fr-CA': 'Mise en page des contacts',
       };
@@ -77,10 +77,10 @@ describe('goValidateContactLayoutTranslations saga', () => {
   describe('if locale is missing in attribute', () => {
     let contactAttributesWithMissingTranslation;
     beforeAll(() => {
-      contactAttributesWithMissingTranslation = Object.assign(
-        {},
-        contactAttributes
-      );
+      contactAttributesWithMissingTranslation = {
+        
+        ...contactAttributes,
+      };
       contactAttributesWithMissingTranslation[1].label = {
         'fr-CA': 'Attribut deux',
       };
@@ -116,10 +116,10 @@ describe('goValidateContactLayoutTranslations saga', () => {
   describe('if locale is missing in attribute and notification has already been shown', () => {
     let contactAttributesWithMissingTranslation;
     beforeAll(() => {
-      contactAttributesWithMissingTranslation = Object.assign(
-        {},
-        contactAttributes
-      );
+      contactAttributesWithMissingTranslation = {
+        
+        ...contactAttributes,
+      };
       contactAttributesWithMissingTranslation[1].label = {
         'fr-CA': 'Attribut deux',
       };

@@ -65,11 +65,11 @@ export default function VoiceIconSVG({ size, color, type }) {
           }}
         />
         {type === 'callback' && (
-          <React.Fragment>
+          <>
             <circle cx="200" cy="100" r="15" style={{ fill: fillColor }} />
             <circle cx="240" cy="100" r="15" style={{ fill: fillColor }} />
             <circle cx="280" cy="100" r="15" style={{ fill: fillColor }} />
-          </React.Fragment>
+          </>
         )}
       </svg>
     </SvgWrapper>

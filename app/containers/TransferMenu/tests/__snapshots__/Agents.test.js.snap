@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Agents Component render renders Agents component with permissions, but not showing the menu preference, it should not render anything 1`] = `<React.Fragment />`;
+exports[`Agents Component render renders Agents component with permissions, but not showing the menu preference, it should not render anything 1`] = `<Fragment />`;
 
 exports[`Agents Component render renders Agents component with permissions, not showing the refresh buttons 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     data-radium={true}
   >
@@ -34,11 +34,11 @@ exports[`Agents Component render renders Agents component with permissions, not 
       key=".2"
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Agents Component render renders Agents component with permissions, showing menu agent transfer, without searching input 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     data-radium={true}
   >
@@ -99,11 +99,11 @@ exports[`Agents Component render renders Agents component with permissions, show
       key=".2"
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Agents Component render renders Agents component with permissions, with an empty agentsList 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     data-radium={true}
   >
@@ -143,7 +143,7 @@ exports[`Agents Component render renders Agents component with permissions, with
       key=".2"
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
-exports[`Agents Component render renders Agents component without permissions, it should not render anything 1`] = `<React.Fragment />`;
+exports[`Agents Component render renders Agents component without permissions, it should not render anything 1`] = `<Fragment />`;

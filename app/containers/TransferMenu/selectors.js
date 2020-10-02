@@ -123,7 +123,7 @@ const selectAgents = createSelector(
           .sort((agent1, agent2) => {
             // Ready agents first, then sort by name alphabetically
             if (agent1.isAvailable && !agent2.isAvailable) return -1;
-            if (!agent1.isAvailable && agent2.isAvailable) return -1;
+            if (!agent1.isAvailable && agent2.isAvailable) return 1;
             if (
               agent1.firstName.toLowerCase() + agent1.lastName.toLowerCase() <
               agent2.firstName.toLowerCase() + agent2.lastName.toLowerCase()
@@ -154,7 +154,7 @@ const selectAgents = createSelector(
           .sort((agent1, agent2) => {
             // Ready agents first, then sort by name alphabetically
             if (agent1.isAvailable && !agent2.isAvailable) return -1;
-            if (!agent1.isAvailable && agent2.isAvailable) return -1;
+            if (!agent1.isAvailable && agent2.isAvailable) return 1;
             if (
               agent1.firstName.toLowerCase() + agent1.lastName.toLowerCase() <
               agent2.firstName.toLowerCase() + agent2.lastName.toLowerCase()

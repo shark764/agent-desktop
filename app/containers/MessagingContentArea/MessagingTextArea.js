@@ -603,11 +603,9 @@ export class MessagingTextArea extends React.Component {
                         }}
                         onClick={() => this.addMessageTemplate()}
                         onFocus={() =>
-                          this.selectMessageTemplateIndex(messageTemplateIndex)
-                        }
+                          this.selectMessageTemplateIndex(messageTemplateIndex)}
                         onMouseOver={() =>
-                          this.selectMessageTemplateIndex(messageTemplateIndex)
-                        }
+                          this.selectMessageTemplateIndex(messageTemplateIndex)}
                         style={[
                           styles.messageTemplate,
                           this.props.selectedInteraction
@@ -700,8 +698,7 @@ export class MessagingTextArea extends React.Component {
           minRows={2}
           maxRows={4}
           onHeightChange={(messageTextareaHeight) =>
-            this.setState({ messageTextareaHeight })
-          }
+            this.setState({ messageTextareaHeight })}
           id="messageTextarea"
           inputRef={(input) => {
             this.messageTextarea = input;
@@ -724,7 +721,7 @@ export class MessagingTextArea extends React.Component {
         />
 
         {this.props.selectedInteraction.source === 'smooch' && (
-          <React.Fragment>
+          <>
             <input
               id="attachmentFilePicker"
               type="file"
@@ -762,7 +759,7 @@ export class MessagingTextArea extends React.Component {
                 />
               </div>
             </label>
-          </React.Fragment>
+          </>
         )}
 
         <Button

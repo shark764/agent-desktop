@@ -14,13 +14,13 @@ class TestApp extends React.Component {
     if (this.context.toolbarMode) {
       return (
         <div>
-          {'Toolbar'}
+          Toolbar
         </div>
       );
     } else {
       return (
         <div>
-          {'Desktop'}
+          Desktop
         </div>
       );
     }

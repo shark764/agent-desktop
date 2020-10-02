@@ -32,10 +32,10 @@ exports[`<VoiceContentArea /> should render correctly 1`] = `
         ]
       }
     >
-      <Connect(ErrorBoundaryComponent) />
+      <Memo(Connect(ErrorBoundaryComponent)) />
     </div>
   }
-  details={<Connect(ErrorBoundaryComponent) />}
+  details={<Memo(Connect(ErrorBoundaryComponent)) />}
   from="Contact name"
   interaction={
     Object {
@@ -99,10 +99,10 @@ exports[`<VoiceContentArea /> should render correctly when waiting on script 1`]
         ]
       }
     >
-      <Connect(ErrorBoundaryComponent) />
+      <Memo(Connect(ErrorBoundaryComponent)) />
     </div>
   }
-  details={<Connect(ErrorBoundaryComponent) />}
+  details={<Memo(Connect(ErrorBoundaryComponent)) />}
   from="Contact name"
   interaction={
     Object {

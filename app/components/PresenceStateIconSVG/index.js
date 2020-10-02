@@ -67,7 +67,7 @@ function PresenceStateIconSVG(props) {
       break;
   }
   return (
-    <React.Fragment>
+    <>
       <SvgWrapper
         size={props.size}
         className={`PresenceStateIconSVG ${props.className}`}
@@ -104,7 +104,7 @@ function PresenceStateIconSVG(props) {
           )}
         </svg>
       </SvgWrapper>
-    </React.Fragment>
+    </>
   );
 }
 PresenceStateIconSVG.propTypes = {

@@ -338,8 +338,7 @@ export class AgentStatusMenu extends React.Component {
             triggerDisabled={this.props.readyState === 'ready'}
             open={this.state.expandedMenu === 'agentVoicePathway'}
             handleTriggerClick={() =>
-              this.setCollapsibleMenus('agentVoicePathway')
-            }
+              this.setCollapsibleMenus('agentVoicePathway')}
           >
             {this.props.extensions.map((extension, index) => (
               <div
@@ -381,8 +380,7 @@ export class AgentStatusMenu extends React.Component {
             triggerDisabled={!this.props.hasDirectionChangePermission}
             open={this.state.expandedMenu === 'agentDirection'}
             handleTriggerClick={() =>
-              this.setCollapsibleMenus('agentDirection')
-            }
+              this.setCollapsibleMenus('agentDirection')}
           >
             <DirectionRow
               direction="inbound"

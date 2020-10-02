@@ -34,7 +34,7 @@ exports[`<Hold /> with false isOnHold calls CxEngage.interactions.voice.customer
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],
@@ -51,7 +51,7 @@ exports[`<Hold /> with false isOnHold calls toggleInteractionIsHolding with inte
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],
@@ -69,7 +69,7 @@ exports[`<Hold /> with isOnHold calls CxEngage.interactions.voice.customerResume
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],
@@ -86,7 +86,7 @@ exports[`<Hold /> with isOnHold calls toggleInteractionIsHolding with interactio
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],

@@ -200,8 +200,7 @@ export class SidePanel extends React.Component {
               this.props.selectSidePanelTab(
                 this.props.selectedInteractionId,
                 tabsData[tabIndex].name
-              )
-            }
+              )}
             selectedIndex={tabsData.findIndex(
               (tabData) => tabData.name === this.props.selectedSidePanelTab
             )}

@@ -71,17 +71,13 @@ describe('TransferLists Component render', () => {
         setShowTransferMenu={() => 'mock setShowTransferMenu'}
         transfer={() => 'mock transferInteraction'}
         updateUserAssignedTransferListsVisibleState={() =>
-          'mock updateAssignedTransferListsVisibleState'
-        }
+          'mock updateAssignedTransferListsVisibleState'}
         updateVisibleStateOfAllUserAssignedTransferlists={() =>
-          'mock updateAllAssignedTransferListsVisibleState'
-        }
+          'mock updateAllAssignedTransferListsVisibleState'}
         updateInteractionTransferListsVisibleState={() =>
-          'mock updateInteractionTransferListsVisibleState'
-        }
+          'mock updateInteractionTransferListsVisibleState'}
         updateVisibleStateOfAllInteractionTransferlists={() =>
-          'mock updateAllInteractionTransferListsVisibleState'
-        }
+          'mock updateAllInteractionTransferListsVisibleState'}
         styles={{}}
       />
     );
@@ -113,17 +109,13 @@ describe('TransferLists Component render', () => {
         setShowTransferMenu={() => 'mock setShowTransferMenu'}
         transfer={() => 'mock transferInteraction'}
         updateUserAssignedTransferListsVisibleState={() =>
-          'mock updateAssignedTransferListsVisibleState'
-        }
+          'mock updateAssignedTransferListsVisibleState'}
         updateVisibleStateOfAllUserAssignedTransferlists={() =>
-          'mock updateAllAssignedTransferListsVisibleState'
-        }
+          'mock updateAllAssignedTransferListsVisibleState'}
         updateInteractionTransferListsVisibleState={() =>
-          'mock updateInteractionTransferListsVisibleState'
-        }
+          'mock updateInteractionTransferListsVisibleState'}
         updateVisibleStateOfAllInteractionTransferlists={() =>
-          'mock updateAllInteractionTransferListsVisibleState'
-        }
+          'mock updateAllInteractionTransferListsVisibleState'}
         styles={{
           transferListDivContainer:
             transferMenu.styles.transferListDivContainer,
@@ -155,17 +147,13 @@ describe('TransferLists Component render', () => {
         setShowTransferMenu={() => 'mock setShowTransferMenu'}
         transfer={() => 'mock transferInteraction'}
         updateUserAssignedTransferListsVisibleState={() =>
-          'mock updateAssignedTransferListsVisibleState'
-        }
+          'mock updateAssignedTransferListsVisibleState'}
         updateVisibleStateOfAllUserAssignedTransferlists={() =>
-          'mock updateAllAssignedTransferListsVisibleState'
-        }
+          'mock updateAllAssignedTransferListsVisibleState'}
         updateInteractionTransferListsVisibleState={() =>
-          'mock updateInteractionTransferListsVisibleState'
-        }
+          'mock updateInteractionTransferListsVisibleState'}
         updateVisibleStateOfAllInteractionTransferlists={() =>
-          'mock updateAllInteractionTransferListsVisibleState'
-        }
+          'mock updateAllInteractionTransferListsVisibleState'}
         styles={{}}
       />
     );
@@ -188,17 +176,13 @@ describe('TransferLists Component render', () => {
         setShowTransferMenu={() => 'mock setShowTransferMenu'}
         transfer={() => 'mock transferInteraction'}
         updateUserAssignedTransferListsVisibleState={() =>
-          'mock updateAssignedTransferListsVisibleState'
-        }
+          'mock updateAssignedTransferListsVisibleState'}
         updateVisibleStateOfAllUserAssignedTransferlists={() =>
-          'mock updateAllAssignedTransferListsVisibleState'
-        }
+          'mock updateAllAssignedTransferListsVisibleState'}
         updateInteractionTransferListsVisibleState={() =>
-          'mock updateInteractionTransferListsVisibleState'
-        }
+          'mock updateInteractionTransferListsVisibleState'}
         updateVisibleStateOfAllInteractionTransferlists={() =>
-          'mock updateAllInteractionTransferListsVisibleState'
-        }
+          'mock updateAllInteractionTransferListsVisibleState'}
         styles={{}}
       />
     );

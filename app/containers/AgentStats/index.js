@@ -135,14 +135,12 @@ export class AgentStats extends React.Component {
   };
 
   scrollLeft = () => {
-    this.statsScrollContainer.scrollLeft =
-      this.statsScrollContainer.scrollLeft - 104;
+    this.statsScrollContainer.scrollLeft -= 104;
     this.updateScrollItems();
   };
 
   scrollRight = () => {
-    this.statsScrollContainer.scrollLeft =
-      this.statsScrollContainer.scrollLeft + 104;
+    this.statsScrollContainer.scrollLeft += 104;
     this.updateScrollItems();
   };
 
@@ -312,8 +310,5 @@ AgentStats.contextTypes = {
 };
 
 export default ErrorBoundary(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Radium(AgentStats))
+  connect(mapStateToProps, mapDispatchToProps)(Radium(AgentStats))
 );

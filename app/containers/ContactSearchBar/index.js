@@ -114,11 +114,11 @@ export class ContactSearchBar extends React.Component {
   createDropdownItem = (item, isHighlighted) => (
     <div
       key={item.id}
-      style={Object.assign(
-        {},
-        this.styles.filterDropdownRow,
-        isHighlighted ? this.styles.highlightedFilter : {}
-      )}
+      style={({
+        
+        ...this.styles.filterDropdownRow,
+        ...(isHighlighted ? this.styles.highlightedFilter : {}),
+      })}
     >
       {this.getLabel(item)}
     </div>
@@ -320,8 +320,7 @@ export class ContactSearchBar extends React.Component {
                   onKeyDown={this.handleFilterValueInputKey}
                   style={[this.styles.input, this.styles.pendingFilterInput]}
                   cb={(pendingFilterValue) =>
-                    this.setState({ pendingFilterValue })
-                  }
+                    this.setState({ pendingFilterValue })}
                   value={this.state.pendingFilterValue}
                   handleInputRef={this.props.setSearchInputElement}
                 />
@@ -334,8 +333,7 @@ export class ContactSearchBar extends React.Component {
                 getItemValue={this.getLabel}
                 shouldItemRender={this.matchFilterToTerm}
                 onChange={(event, value) =>
-                  this.setState({ autocompleteValue: value })
-                }
+                  this.setState({ autocompleteValue: value })}
                 onSelect={this.handleFilterSelect}
                 inputProps={{
                   style: this.styles.input,

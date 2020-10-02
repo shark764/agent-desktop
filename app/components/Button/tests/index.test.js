@@ -108,7 +108,7 @@ describe('<Button />', () => {
       const rendered = shallow(
         <Button.WrappedComponent type="primaryBlue" id="mockId">
           <div>
-            {'Test!'}
+            Test!
           </div>
         </Button.WrappedComponent>
       );

@@ -21,44 +21,42 @@ exports[`<AgentPreferencesMenu /> does not render the audioOutput option when th
   <PreferenceTitle
     setPreferenceSelected={[Function]}
   />
-  <React.Fragment>
-    <PreferenceOption
-      caretDirection="right"
-      label={
-        Object {
-          "defaultMessage": "Metrics",
-          "id": "app.containers.AgentPreferencesMenu.metrics",
-        }
+  <PreferenceOption
+    caretDirection="right"
+    label={
+      Object {
+        "defaultMessage": "Metrics",
+        "id": "app.containers.AgentPreferencesMenu.metrics",
       }
-      open={false}
-      preference="metrics"
-      setPreferenceSelected={[Function]}
-    />
-    <PreferenceOption
-      caretDirection="right"
-      label={
-        Object {
-          "defaultMessage": "Notifications",
-          "id": "app.containers.AgentPreferencesMenu.notifications",
-        }
+    }
+    open={false}
+    preference="metrics"
+    setPreferenceSelected={[Function]}
+  />
+  <PreferenceOption
+    caretDirection="right"
+    label={
+      Object {
+        "defaultMessage": "Notifications",
+        "id": "app.containers.AgentPreferencesMenu.notifications",
       }
-      open={false}
-      preference="notifications"
-      setPreferenceSelected={[Function]}
-    />
-    <PreferenceOption
-      caretDirection="right"
-      label={
-        Object {
-          "defaultMessage": "Transfer Menu",
-          "id": "app.containers.AgentPreferencesMenu.transferMenu",
-        }
+    }
+    open={false}
+    preference="notifications"
+    setPreferenceSelected={[Function]}
+  />
+  <PreferenceOption
+    caretDirection="right"
+    label={
+      Object {
+        "defaultMessage": "Transfer Menu",
+        "id": "app.containers.AgentPreferencesMenu.transferMenu",
       }
-      open={false}
-      preference="transferMenu"
-      setPreferenceSelected={[Function]}
-    />
-  </React.Fragment>
+    }
+    open={false}
+    preference="transferMenu"
+    setPreferenceSelected={[Function]}
+  />
 </PopupDialog>
 `;
 
@@ -83,44 +81,42 @@ exports[`<AgentPreferencesMenu /> does not render the audioOutput option when th
   <PreferenceTitle
     setPreferenceSelected={[Function]}
   />
-  <React.Fragment>
-    <PreferenceOption
-      caretDirection="right"
-      label={
-        Object {
-          "defaultMessage": "Metrics",
-          "id": "app.containers.AgentPreferencesMenu.metrics",
-        }
+  <PreferenceOption
+    caretDirection="right"
+    label={
+      Object {
+        "defaultMessage": "Metrics",
+        "id": "app.containers.AgentPreferencesMenu.metrics",
       }
-      open={false}
-      preference="metrics"
-      setPreferenceSelected={[Function]}
-    />
-    <PreferenceOption
-      caretDirection="right"
-      label={
-        Object {
-          "defaultMessage": "Notifications",
-          "id": "app.containers.AgentPreferencesMenu.notifications",
-        }
+    }
+    open={false}
+    preference="metrics"
+    setPreferenceSelected={[Function]}
+  />
+  <PreferenceOption
+    caretDirection="right"
+    label={
+      Object {
+        "defaultMessage": "Notifications",
+        "id": "app.containers.AgentPreferencesMenu.notifications",
       }
-      open={false}
-      preference="notifications"
-      setPreferenceSelected={[Function]}
-    />
-    <PreferenceOption
-      caretDirection="right"
-      label={
-        Object {
-          "defaultMessage": "Transfer Menu",
-          "id": "app.containers.AgentPreferencesMenu.transferMenu",
-        }
+    }
+    open={false}
+    preference="notifications"
+    setPreferenceSelected={[Function]}
+  />
+  <PreferenceOption
+    caretDirection="right"
+    label={
+      Object {
+        "defaultMessage": "Transfer Menu",
+        "id": "app.containers.AgentPreferencesMenu.transferMenu",
       }
-      open={false}
-      preference="transferMenu"
-      setPreferenceSelected={[Function]}
-    />
-  </React.Fragment>
+    }
+    open={false}
+    preference="transferMenu"
+    setPreferenceSelected={[Function]}
+  />
 </PopupDialog>
 `;
 
@@ -145,44 +141,42 @@ exports[`<AgentPreferencesMenu /> does not render the metrics option when the ag
   <PreferenceTitle
     setPreferenceSelected={[Function]}
   />
-  <React.Fragment>
-    <PreferenceOption
-      caretDirection="right"
-      label={
-        Object {
-          "defaultMessage": "Notifications",
-          "id": "app.containers.AgentPreferencesMenu.notifications",
-        }
+  <PreferenceOption
+    caretDirection="right"
+    label={
+      Object {
+        "defaultMessage": "Notifications",
+        "id": "app.containers.AgentPreferencesMenu.notifications",
       }
-      open={false}
-      preference="notifications"
-      setPreferenceSelected={[Function]}
-    />
-    <PreferenceOption
-      caretDirection="right"
-      label={
-        Object {
-          "defaultMessage": "Audio Output",
-          "id": "app.containers.AgentPreferencesMenu.audioOutput",
-        }
+    }
+    open={false}
+    preference="notifications"
+    setPreferenceSelected={[Function]}
+  />
+  <PreferenceOption
+    caretDirection="right"
+    label={
+      Object {
+        "defaultMessage": "Audio Output",
+        "id": "app.containers.AgentPreferencesMenu.audioOutput",
       }
-      open={false}
-      preference="audioOutput"
-      setPreferenceSelected={[Function]}
-    />
-    <PreferenceOption
-      caretDirection="right"
-      label={
-        Object {
-          "defaultMessage": "Transfer Menu",
-          "id": "app.containers.AgentPreferencesMenu.transferMenu",
-        }
+    }
+    open={false}
+    preference="audioOutput"
+    setPreferenceSelected={[Function]}
+  />
+  <PreferenceOption
+    caretDirection="right"
+    label={
+      Object {
+        "defaultMessage": "Transfer Menu",
+        "id": "app.containers.AgentPreferencesMenu.transferMenu",
       }
-      open={false}
-      preference="transferMenu"
-      setPreferenceSelected={[Function]}
-    />
-  </React.Fragment>
+    }
+    open={false}
+    preference="transferMenu"
+    setPreferenceSelected={[Function]}
+  />
 </PopupDialog>
 `;
 
@@ -311,55 +305,53 @@ exports[`<AgentPreferencesMenu /> renders the preferences options by default 1`]
   <PreferenceTitle
     setPreferenceSelected={[Function]}
   />
-  <React.Fragment>
-    <PreferenceOption
-      caretDirection="right"
-      label={
-        Object {
-          "defaultMessage": "Metrics",
-          "id": "app.containers.AgentPreferencesMenu.metrics",
-        }
+  <PreferenceOption
+    caretDirection="right"
+    label={
+      Object {
+        "defaultMessage": "Metrics",
+        "id": "app.containers.AgentPreferencesMenu.metrics",
       }
-      open={false}
-      preference="metrics"
-      setPreferenceSelected={[Function]}
-    />
-    <PreferenceOption
-      caretDirection="right"
-      label={
-        Object {
-          "defaultMessage": "Notifications",
-          "id": "app.containers.AgentPreferencesMenu.notifications",
-        }
+    }
+    open={false}
+    preference="metrics"
+    setPreferenceSelected={[Function]}
+  />
+  <PreferenceOption
+    caretDirection="right"
+    label={
+      Object {
+        "defaultMessage": "Notifications",
+        "id": "app.containers.AgentPreferencesMenu.notifications",
       }
-      open={false}
-      preference="notifications"
-      setPreferenceSelected={[Function]}
-    />
-    <PreferenceOption
-      caretDirection="right"
-      label={
-        Object {
-          "defaultMessage": "Audio Output",
-          "id": "app.containers.AgentPreferencesMenu.audioOutput",
-        }
+    }
+    open={false}
+    preference="notifications"
+    setPreferenceSelected={[Function]}
+  />
+  <PreferenceOption
+    caretDirection="right"
+    label={
+      Object {
+        "defaultMessage": "Audio Output",
+        "id": "app.containers.AgentPreferencesMenu.audioOutput",
       }
-      open={false}
-      preference="audioOutput"
-      setPreferenceSelected={[Function]}
-    />
-    <PreferenceOption
-      caretDirection="right"
-      label={
-        Object {
-          "defaultMessage": "Transfer Menu",
-          "id": "app.containers.AgentPreferencesMenu.transferMenu",
-        }
+    }
+    open={false}
+    preference="audioOutput"
+    setPreferenceSelected={[Function]}
+  />
+  <PreferenceOption
+    caretDirection="right"
+    label={
+      Object {
+        "defaultMessage": "Transfer Menu",
+        "id": "app.containers.AgentPreferencesMenu.transferMenu",
       }
-      open={false}
-      preference="transferMenu"
-      setPreferenceSelected={[Function]}
-    />
-  </React.Fragment>
+    }
+    open={false}
+    preference="transferMenu"
+    setPreferenceSelected={[Function]}
+  />
 </PopupDialog>
 `;

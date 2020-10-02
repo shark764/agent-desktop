@@ -12,7 +12,7 @@ describe('<Dialog />', () => {
     const rendered = shallow(
       <Dialog id="mockId">
         <p>
-          {'Mock Child'}
+          Mock Child
         </p>
       </Dialog>
     );

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<AgentNotificationsMenu /> parent window is different doesn't render the visual notification option 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     id="audioNotificationOption"
     key="audioNotificationOption"
@@ -22,11 +22,11 @@ exports[`<AgentNotificationsMenu /> parent window is different doesn't render th
       values={Object {}}
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`<AgentNotificationsMenu /> parent window is the same notifications disabled does not render the checkboxes 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     id="audioNotificationOption"
     key="audioNotificationOption"
@@ -67,11 +67,11 @@ exports[`<AgentNotificationsMenu /> parent window is the same notifications disa
       values={Object {}}
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`<AgentNotificationsMenu /> parent window is the same notifications enabled renders the checkboxes 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     id="audioNotificationOption"
     key="audioNotificationOption"
@@ -128,5 +128,5 @@ exports[`<AgentNotificationsMenu /> parent window is the same notifications enab
       }
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;

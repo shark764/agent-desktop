@@ -1,93 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`agentDesktopReducer ACTIONS.EMAIL_CREATE_REPLY if replyTo does not exist, show the email from in tos 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "test-interaction-id",
-      "channelType": "email",
-      "emailDetails": Immutable.Map {
-        "from": Immutable.Map {
-          "address": "fromtest@test.com",
-          "name": "test2",
-        },
-        "cc": Immutable.Map {
-          "address": "cctest@test.com",
-          "name": "cctest",
-        },
-        "bcc": Immutable.List [],
-        "subject": "[title test]",
-        "headers": Immutable.List [],
-      },
-      "emailReply": Immutable.Map {
-        "message": "",
-        "bccInput": "",
-        "ccInput": "",
-        "toInput": "",
-        "attachments": Immutable.List [],
-        "bccs": Immutable.List [],
-        "ccs": Immutable.Map {
-          "address": "cctest@test.com",
-          "name": "cctest",
-        },
-        "tos": Immutable.Map {
-          "address": "fromtest@test.com",
-          "name": "test2",
-        },
-        "subjectInput": "RE: [title test]",
-      },
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer ACTIONS.EMAIL_CREATE_REPLY if replyTo exist, show that email in tos 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "test-interaction-id",
-      "channelType": "email",
-      "emailDetails": Immutable.Map {
-        "from": Immutable.Map {
-          "address": "fromtest@test.com",
-          "name": "test2",
-        },
-        "cc": Immutable.Map {
-          "address": "cctest@test.com",
-          "name": "cctest",
-        },
-        "bcc": Immutable.List [],
-        "subject": "[title test]",
-        "headers": Immutable.List [
-          Immutable.Map {
-            "replyTo": "replytest@test.com",
-          },
-        ],
-      },
-      "emailReply": Immutable.Map {
-        "message": "",
-        "bccInput": "",
-        "ccInput": "",
-        "toInput": "",
-        "attachments": Immutable.List [],
-        "bccs": Immutable.List [],
-        "ccs": Immutable.Map {
-          "address": "cctest@test.com",
-          "name": "cctest",
-        },
-        "tos": Immutable.List [
-          Immutable.Map {
-            "address": "replytest@test.com",
-            "name": "",
-          },
-        ],
-        "subjectInput": "RE: [title test]",
-      },
-    },
-  ],
-}
-`;
-
 exports[`agentDesktopReducer ADD_INTERACTION adding an inbound interaction adds it 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
@@ -531,93 +443,6 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer ADD_SMOOCH_MESSAGE agent message with matching agentMessageId is replaced 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "test-interaction-id",
-      "direction": "inbound",
-      "channelType": "sms",
-      "messageHistory": Immutable.List [
-        Immutable.Map {
-          "id": "mock-id",
-          "type": "agent",
-          "from": "Agent",
-          "text": "test message",
-          "agentMessageId": "1",
-          "timestamp": "1970-01-01T00:00:00.000Z",
-        },
-      ],
-      "isCopied": true,
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer ADD_SMOOCH_MESSAGE agent message with non-matching agentMessageId is added 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "test-interaction-id",
-      "direction": "inbound",
-      "channelType": "sms",
-      "messageHistory": Immutable.List [
-        Immutable.Map {
-          "agentMessageId": "1",
-          "type": "agent",
-          "from": "Agent",
-          "text": "test message",
-          "timestamp": "1970-01-01T00:00:00.000Z",
-          "pending": true,
-        },
-        Immutable.Map {
-          "id": "mock-id",
-          "type": "agent",
-          "from": "Agent",
-          "text": "test message",
-          "agentMessageId": "not matching",
-          "timestamp": "1970-01-01T00:00:00.000Z",
-        },
-      ],
-      "isCopied": true,
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer ADD_SMOOCH_MESSAGE message without agentMessageId is added 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "test-interaction-id",
-      "direction": "inbound",
-      "channelType": "sms",
-      "messageHistory": Immutable.List [
-        Immutable.Map {
-          "agentMessageId": "1",
-          "type": "agent",
-          "from": "Agent",
-          "text": "test message",
-          "timestamp": "1970-01-01T00:00:00.000Z",
-          "pending": true,
-        },
-        Immutable.Map {
-          "id": "mock-id",
-          "to": "test-interaction-id",
-          "type": "customer",
-          "from": "Irvin Sandoval",
-          "body": Immutable.Map {
-            "text": "test message",
-          },
-          "timestamp": "1970-01-01T00:00:00.000Z",
-        },
-      ],
-      "isCopied": true,
-    },
-  ],
-}
-`;
-
 exports[`agentDesktopReducer CLOSE_CURRENT_CRM_ITEM_HISTORY_PANEL resets currentCrmItemHistoryPanel and selects the next interactionId 1`] = `
 Immutable.Map {
   "currentCrmItemHistoryPanel": Immutable.Map {
@@ -719,17 +544,6 @@ Immutable.Map {
     "isSidePanelCollapsed": true,
   },
   "selectedInteractionId": undefined,
-}
-`;
-
-exports[`agentDesktopReducer OUTBOUND_CUSTOMER_CONNECTED Customer picks up the outbound interaction voice customerConnected is set to true 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": 1,
-      "customerConnected": false,
-    },
-  ],
 }
 `;
 
@@ -1143,154 +957,6 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer SET_CUSTOM_FIELDS When customFields has already one custom field or it is an empty array it adds the ones that come from the SDK at the begginig of the list 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": 1,
-      "customFields": Immutable.List [
-        "value 2",
-        "value 3",
-        "value 1",
-      ],
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer SET_CUSTOM_FIELDS When customFields it is not set customFields is set to the values that come from the SDK 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": 1,
-      "customFields": Array [
-        "value 2",
-        "value 3",
-      ],
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer SET_DISPOSITION_DETAILS shows the dispositions list ordered as it was ordered on the configuration 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": 1,
-      "dispositionDetails": Immutable.Map {
-        "forceSelect": "Some random action",
-        "dispositions": Immutable.List [
-          Immutable.Map {
-            "name": "a",
-            "sortOrder": 1,
-            "hierarchy": Immutable.List [],
-          },
-          Immutable.Map {
-            "name": "b",
-            "sortOrder": 2,
-            "hierarchy": Immutable.List [],
-          },
-          Immutable.Map {
-            "name": "Test1",
-            "dispositions": Immutable.List [
-              Immutable.Map {
-                "name": "c",
-                "sortOrder": 3,
-                "hierarchy": Immutable.List [
-                  "Test1",
-                ],
-              },
-              Immutable.Map {
-                "name": "d",
-                "sortOrder": 4,
-                "hierarchy": Immutable.List [
-                  "Test1",
-                ],
-              },
-            ],
-            "type": "category",
-          },
-          Immutable.Map {
-            "name": "e",
-            "sortOrder": 5,
-            "hierarchy": Immutable.List [],
-          },
-          Immutable.Map {
-            "name": "f",
-            "sortOrder": 6,
-            "hierarchy": Immutable.List [],
-          },
-          Immutable.Map {
-            "name": "g",
-            "sortOrder": 7,
-            "hierarchy": Immutable.List [],
-          },
-          Immutable.Map {
-            "name": "h",
-            "sortOrder": 8,
-            "hierarchy": Immutable.List [],
-          },
-          Immutable.Map {
-            "name": "i",
-            "sortOrder": 9,
-            "hierarchy": Immutable.List [],
-          },
-          Immutable.Map {
-            "name": "j",
-            "sortOrder": 10,
-            "hierarchy": Immutable.List [],
-          },
-          Immutable.Map {
-            "name": "Test2",
-            "dispositions": Immutable.List [
-              Immutable.Map {
-                "name": "k",
-                "sortOrder": 11,
-                "hierarchy": Immutable.List [
-                  "Test2",
-                ],
-              },
-              Immutable.Map {
-                "name": "l",
-                "sortOrder": 12,
-                "hierarchy": Immutable.List [
-                  "Test2",
-                ],
-              },
-            ],
-            "type": "category",
-          },
-          Immutable.Map {
-            "name": "Test3",
-            "dispositions": Immutable.List [
-              Immutable.Map {
-                "name": "m",
-                "sortOrder": 13,
-                "hierarchy": Immutable.List [
-                  "Test3",
-                ],
-              },
-              Immutable.Map {
-                "name": "n",
-                "sortOrder": 14,
-                "hierarchy": Immutable.List [
-                  "Test3",
-                ],
-              },
-            ],
-            "type": "category",
-          },
-        ],
-        "selected": Immutable.List [],
-      },
-    },
-    Immutable.Map {
-      "interactionId": 2,
-    },
-  ],
-}
-`;
-
 exports[`agentDesktopReducer SET_DISPOSITION_DETAILS2 shows the dispositions list ordered as it was ordered on the configuration 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
@@ -1507,26 +1173,6 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer SET_INTERACTION_TRANSFER_LISTS sets interaction transfer lists 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "mockInteractionId",
-      "transferLists": Immutable.Map {
-        "loadingState": false,
-        "interactionTransferLists": Immutable.List [
-          Immutable.Map {
-            "id": "mockTransferListId",
-            "name": "mockTransferListName",
-            "endpoints": "mockEndPoint",
-          },
-        ],
-      },
-    },
-  ],
-}
-`;
-
 exports[`agentDesktopReducer SET_INTERACTION_TRANSFER_LISTS_LOADING_STATE sets loading state of interaction transfer lists 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
@@ -1535,37 +1181,6 @@ Immutable.Map {
       "transferLists": Immutable.Map {
         "loadingState": true,
       },
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer SET_INTERACTION_TRANSFER_LISTS_VISIBLE_STATE sets visible state of interaction transfer lists 1`] = `
-Immutable.Map {
-  "interactionTransferListsVisibleState": Immutable.Map {
-    "individualTransferLists": Immutable.Map {
-      "mockTransferListId1-InteractionId": true,
-      "mockTransferListId2-InteractionId": false,
-    },
-  },
-}
-`;
-
-exports[`agentDesktopReducer SET_IS_COLD_TRANSFERRING send isColdTransferring as false sets isColsTransferring flag as false in the interaction 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": 1,
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer SET_IS_COLD_TRANSFERRING send isColdTransferring as true sets isColsTransferring flag as true in the interaction 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": 1,
     },
   ],
 }
@@ -1653,84 +1268,6 @@ Immutable.Map {
     Immutable.Map {
       "id": "test-queue-uuid",
       "queueTime": 32,
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer SET_TRANSFER_LISTS_FROM_FLOW sets transfer lists from flow 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "mockInteractionId",
-      "transferLists": Immutable.Map {
-        "transferListsFromFlow": Immutable.List [
-          Immutable.Map {
-            "type": "id",
-            "value": "mockTransferList3",
-          },
-          Immutable.Map {
-            "type": "name",
-            "value": "mockTransferList4",
-          },
-        ],
-      },
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer SET_TRANSFER_LISTS_FROM_FLOW updates transfer lists from flow 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "mockInteractionId",
-      "transferlists": Immutable.Map {
-        "transferListsFromFlow": Immutable.List [
-          Immutable.Map {
-            "type": "id",
-            "value": "mockTransferList1",
-          },
-          Immutable.Map {
-            "type": "name",
-            "value": "mockTransferList2",
-          },
-        ],
-      },
-      "transferLists": Immutable.Map {
-        "transferListsFromFlow": Immutable.List [
-          Immutable.Map {
-            "type": "id",
-            "value": "mockTransferList3",
-          },
-          Immutable.Map {
-            "type": "name",
-            "value": "mockTransferList4",
-          },
-        ],
-      },
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer SET_TRANSFERRING_IN_CONFERENCE send transferringInConference as false sets transferringInConference flag as false in the interaction 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "1",
-      "transferringInConference": false,
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer SET_TRANSFERRING_IN_CONFERENCE send transferringInConference as true sets transferringInConference flag as true in the interaction 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "1",
-      "transferringInConference": true,
     },
   ],
 }
@@ -1954,14 +1491,6 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer SET_VISIBLE_STATE_OF_ALL_INTERACTION_TRANSFER_LISTS sets visible state of all interaction transfer lists 1`] = `
-Immutable.Map {
-  "interactionTransferListsVisibleState": Immutable.Map {
-    "allTransferLists": true,
-  },
-}
-`;
-
 exports[`agentDesktopReducer START_OUTBOUND_INTERACTION sms adds a new outbound interaction with a generated interactionId, channelType, customer, and contact 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
@@ -2109,78 +1638,6 @@ Immutable.Map {
     Immutable.Map {
       "interactionId": "mockInteraction2",
       "customFieldsCollapsed": true,
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer TOGGLE_INTERACTION_NOTIFICATION When notification is already on the interaction deletes notification on the interaction 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "a",
-      "notifications": Immutable.List [
-        Immutable.Map {
-          "uuid": "mock-uuid-2",
-          "mockValue": "mock-value-2",
-        },
-      ],
-    },
-    Immutable.Map {
-      "interactionId": "b",
-      "notifications": Immutable.List [],
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer TOGGLE_INTERACTION_NOTIFICATION When notification is not in the interaction adds notification to the interaction 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "a",
-      "notifications": Immutable.List [
-        Immutable.Map {
-          "uuid": "mock-uuid",
-          "mockValue": "mock-value",
-          "isError": true,
-        },
-        Immutable.Map {
-          "uuid": "mock-uuid",
-          "mockValue": "mock-value-2",
-        },
-        Immutable.Map {
-          "uuid": "mock-uuid-3",
-          "mockValue": "mock-value-3",
-          "isError": true,
-        },
-      ],
-    },
-    Immutable.Map {
-      "interactionId": "b",
-      "notifications": Immutable.List [],
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer TOGGLE_TRANSCRIPT_COPIED Toggles interaction's isCopied attribute from false to true 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "1",
-      "isCopied": true,
-    },
-  ],
-}
-`;
-
-exports[`agentDesktopReducer TOGGLE_TRANSCRIPT_COPIED Toggles interaction's isCopied attribute from true to false 1`] = `
-Immutable.Map {
-  "interactions": Immutable.List [
-    Immutable.Map {
-      "interactionId": "1",
-      "isCopied": false,
     },
   ],
 }

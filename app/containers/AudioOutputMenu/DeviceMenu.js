@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -30,7 +30,7 @@ export class DeviceMenu extends React.Component {
 
   render() {
     return (
-      <Fragment>
+      <>
         <PreferenceOption
           preference={this.props.audio}
           label={this.props.label}
@@ -54,7 +54,7 @@ export class DeviceMenu extends React.Component {
             ))}
           </DevicesContainer>
         )}
-      </Fragment>
+      </>
     );
   }
 }

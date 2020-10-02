@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TransferLists Component render renders TransferLists component when assigned transferlists and flow transferlists are in loading state 1`] = `
-<React.Fragment>
+<Fragment>
   <div>
     <div
       style={
@@ -60,13 +60,13 @@ exports[`TransferLists Component render renders TransferLists component when ass
       }
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
-exports[`TransferLists Component render renders TransferLists component when there are no assigned transferlists and flow transfer lists 1`] = `<React.Fragment />`;
+exports[`TransferLists Component render renders TransferLists component when there are no assigned transferlists and flow transfer lists 1`] = `<Fragment />`;
 
 exports[`TransferLists Component render renders TransferLists component with user assinged transferlists and interaction transferlists for the non-voice interaction 1`] = `
-<React.Fragment>
+<Fragment>
   <div>
     <div
       id="allInterAssigTransListsCollapExpandBtn"
@@ -187,11 +187,11 @@ exports[`TransferLists Component render renders TransferLists component with use
       />
     </div>
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`TransferLists Component render renders TransferLists component with user assinged transferlists and interaction transferlists for the voice interaction 1`] = `
-<React.Fragment>
+<Fragment>
   <div>
     <div
       id="allInterAssigTransListsCollapExpandBtn"
@@ -312,5 +312,5 @@ exports[`TransferLists Component render renders TransferLists component with use
       />
     </div>
   </div>
-</React.Fragment>
+</Fragment>
 `;

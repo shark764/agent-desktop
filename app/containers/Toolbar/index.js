@@ -285,8 +285,7 @@ export class Toolbar extends React.Component {
               key="status-button"
               style={this.getStatusMenuButtonStyle()}
               onClick={() =>
-                this.showStatusMenu(!this.props.showAgentStatusMenu)
-              }
+                this.showStatusMenu(!this.props.showAgentStatusMenu)}
               onMouseEnter={() => this.setStatusButtonHovered(true)}
               onMouseLeave={() => this.setStatusButtonHovered(false)}
               type="button"

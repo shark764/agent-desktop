@@ -8,7 +8,7 @@ const initialState = fromJS({
   selectedPhoneOutboundIdentifier: undefined,
 });
 
-export default function(state = initialState, action) {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.SET_OUTBOUND_IDENTIFICATION_LISTS: {
       return state.set(

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -51,7 +51,7 @@ import DeviceMenu from './DeviceMenu';
  */
 
 export const AudioOutputMenu = (props) => (
-  <Fragment>
+  <>
     {(props.audioNotificationsEnabled ||
       !isToolbar() ||
       props.crmModule === 'zendesk') && (
@@ -76,7 +76,7 @@ export const AudioOutputMenu = (props) => (
       devices={props.speakerDevices}
       setDeviceAsActive={props.updateActiveOutputSpeakerDevice}
     />
-  </Fragment>
+  </>
 );
 
 const mapStateToProps = (state, props) => ({

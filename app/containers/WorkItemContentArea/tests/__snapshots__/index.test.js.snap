@@ -37,10 +37,10 @@ exports[`<WorkItemContentArea /> should render correctly when waiting on script 
         ]
       }
     >
-      <Connect(ErrorBoundaryComponent) />
+      <Memo(Connect(ErrorBoundaryComponent)) />
     </div>
   }
-  details={<Connect(ErrorBoundaryComponent) />}
+  details={<Memo(Connect(ErrorBoundaryComponent)) />}
   from="(No Subject)"
   interaction={
     Object {
@@ -95,10 +95,10 @@ exports[`<WorkItemContentArea /> should render correctly with contact and subjec
         ]
       }
     >
-      <Connect(ErrorBoundaryComponent) />
+      <Memo(Connect(ErrorBoundaryComponent)) />
     </div>
   }
-  details={<Connect(ErrorBoundaryComponent) />}
+  details={<Memo(Connect(ErrorBoundaryComponent)) />}
   from="Contact name - Test subject"
   interaction={
     Object {
@@ -157,10 +157,10 @@ exports[`<WorkItemContentArea /> should render correctly with neither contact no
         ]
       }
     >
-      <Connect(ErrorBoundaryComponent) />
+      <Memo(Connect(ErrorBoundaryComponent)) />
     </div>
   }
-  details={<Connect(ErrorBoundaryComponent) />}
+  details={<Memo(Connect(ErrorBoundaryComponent)) />}
   from="(No Subject)"
   interaction={
     Object {

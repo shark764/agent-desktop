@@ -46,89 +46,85 @@ function Tabs(props) {
     tabsStyleElement = (
       <Radium.Style
         scopeSelector={`#${props.id} .react-tabs`}
-        rules={Object.assign(
-          {
-            color: '#4B4B4B',
-            '.react-tabs__tab-list': {
-              backgroundColor: '#F3F3F3',
-              borderBottom: '1px solid #D0D0D0',
-              padding: '0 32px',
-              margin: '0',
-              maxHeight: 100,
-              boxSizing: 'border-box',
-            },
-            '.react-tabs__tab': {
-              fontWeight: 'bold',
-              backgroundColor: '#F3F3F3',
-              display: 'inline-block',
-              border: '1px solid transparent',
-              borderBottom: 'none',
-              bottom: '-1px',
-              position: 'relative',
-              listStyle: 'none',
-              padding: '10px 12px',
-              marginBottom: '1px',
-              cursor: 'pointer',
-            },
-            '.react-tabs__tab--selected::after': {
-              content: "''",
-              width: 'calc(100% - 24px)',
-              left: '12px',
-              height: '3px',
-              background: '#4B4B4B',
-              position: 'absolute',
-              bottom: 0,
-            },
+        rules={({
+          color: '#4B4B4B',
+          '.react-tabs__tab-list': {
+            backgroundColor: '#F3F3F3',
+            borderBottom: '1px solid #D0D0D0',
+            padding: '0 32px',
+            margin: '0',
+            maxHeight: 100,
+            boxSizing: 'border-box',
           },
-          commonTabStyles
-        )}
+          '.react-tabs__tab': {
+            fontWeight: 'bold',
+            backgroundColor: '#F3F3F3',
+            display: 'inline-block',
+            border: '1px solid transparent',
+            borderBottom: 'none',
+            bottom: '-1px',
+            position: 'relative',
+            listStyle: 'none',
+            padding: '10px 12px',
+            marginBottom: '1px',
+            cursor: 'pointer',
+          },
+          '.react-tabs__tab--selected::after': {
+            content: "''",
+            width: 'calc(100% - 24px)',
+            left: '12px',
+            height: '3px',
+            background: '#4B4B4B',
+            position: 'absolute',
+            bottom: 0,
+          },
+          ...commonTabStyles,
+        })}
       />
     );
   } else {
     tabsStyleElement = (
       <Radium.Style
         scopeSelector={`#${props.id} .react-tabs`}
-        rules={Object.assign(
-          {
-            color: '#4B4B4B',
-            '.react-tabs__tab-list': {
-              flexGrow: '0',
-              flexShrink: '0',
-              order: '0',
-              borderBottom: '1px solid #D0D0D0',
-              padding: '10px 5px 15px 0',
-              margin: '0',
-              height: `${props.topBarHeightPx}px`,
-              boxSizing: 'border-box',
-            },
-            '.react-tabs__tab-panel--selected': {
-              height: `calc(100% - ${props.topBarHeightPx}px)`,
-              alignSelf: 'stretch',
-            },
-            '.react-tabs__tab': {
-              fontWeight: 'bold',
-              backgroundColor: '#FFFFFF',
-              display: 'inline-block',
-              border: '1px solid transparent',
-              borderBottom: 'none',
-              bottom: '-1px',
-              position: 'relative',
-              listStyle: 'none',
-              padding: '6px 12px',
-              cursor: 'pointer',
-            },
-            '.react-tabs__tab--selected::after': {
-              content: "''",
-              width: 'calc(100% - 24px)',
-              left: '12px',
-              height: '4px',
-              background: '#4B4B4B',
-              position: 'absolute',
-              bottom: '-14px',
-            },
+        rules={({
+          color: '#4B4B4B',
+          '.react-tabs__tab-list': {
+            flexGrow: '0',
+            flexShrink: '0',
+            order: '0',
+            borderBottom: '1px solid #D0D0D0',
+            padding: '10px 5px 15px 0',
+            margin: '0',
+            height: `${props.topBarHeightPx}px`,
+            boxSizing: 'border-box',
           },
-          commonTabStyles
-        )}
+          '.react-tabs__tab-panel--selected': {
+            height: `calc(100% - ${props.topBarHeightPx}px)`,
+            alignSelf: 'stretch',
+          },
+          '.react-tabs__tab': {
+            fontWeight: 'bold',
+            backgroundColor: '#FFFFFF',
+            display: 'inline-block',
+            border: '1px solid transparent',
+            borderBottom: 'none',
+            bottom: '-1px',
+            position: 'relative',
+            listStyle: 'none',
+            padding: '6px 12px',
+            cursor: 'pointer',
+          },
+          '.react-tabs__tab--selected::after': {
+            content: "''",
+            width: 'calc(100% - 24px)',
+            left: '12px',
+            height: '4px',
+            background: '#4B4B4B',
+            position: 'absolute',
+            bottom: '-14px',
+          },
+          ...commonTabStyles,
+        })}
       />
     );
   }
