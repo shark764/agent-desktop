@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.58.1] (2020-10-05)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.58.1/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.58.1/index.html)
+### Added
+* CXV1-23185 - Fix "Click to accept interaction" message being shown when it shouldn't.
+
 ## [1.58.0] (2020-10-02)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.58.0/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.58.0/index.html)

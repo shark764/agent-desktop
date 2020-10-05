@@ -439,21 +439,17 @@ export class Interaction extends React.Component {
       this.props.status === 'pending' && this.props.interaction.omnichannel;
 
     let acceptMessage;
-    let acceptMessageTitle;
     if (!pendingOmnichannel) {
       if (pendingPSTN || pendingSIP) {
-        acceptMessage = messages.PSTN;
-      } else {
-        acceptMessage = messages.accept;
+        acceptMessage = this.props.intl.formatMessage(messages.PSTN);
+      } else if (this.props.status === 'pending') {
+        acceptMessage = this.props.intl.formatMessage(messages.accept);
       }
-      acceptMessageTitle = this.props.intl.formatMessage(acceptMessage);
     }
 
     return (
       <div
-        id={`${this.props.status}InteractionContainer-${
-          this.props.interaction.interactionId
-        }`}
+        id={`${this.props.status}InteractionContainer-${this.props.interaction.interactionId}`}
         className={`${this.props.status}InteractionContainer`}
         style={[
           styles.base,
@@ -520,9 +516,7 @@ export class Interaction extends React.Component {
               <div style={styles.iconContainer} />
               <div style={[styles.mainContainer, { marginLeft: 0 }]}>
                 <div style={styles.headerContainer}>
-                  <div style={styles.from}>
-                    {this.getLabel()}
-                  </div>
+                  <div style={styles.from}>{this.getLabel()}</div>
                 </div>
               </div>
             </div>
@@ -531,13 +525,9 @@ export class Interaction extends React.Component {
               <div style={styles.iconContainer}>
                 <InteractionIcon interaction={this.props.interaction} />
               </div>
-              {this.context.toolbarMode &&
-              this.props.status !== 'wrapup' && (
+              {this.context.toolbarMode && this.props.status !== 'wrapup' && (
                 <div
-                  style={[
-                    styles.timerToolbar,
-                    { color: this.getTimerColor() },
-                  ]}
+                  style={[styles.timerToolbar, { color: this.getTimerColor() }]}
                 >
                   {this.getTimer()}
                 </div>
@@ -547,9 +537,7 @@ export class Interaction extends React.Component {
         {!this.context.toolbarMode && (
           <div style={styles.mainContainer}>
             <div style={styles.headerContainer}>
-              <div style={styles.from}>
-                {this.props.from}
-              </div>
+              <div style={styles.from}>{this.props.from}</div>
               <div style={[styles.timer, { color: this.getTimerColor() }]}>
                 {this.getTimer()}
               </div>
@@ -559,8 +547,8 @@ export class Interaction extends React.Component {
               this.getDetails()}
             {acceptMessage && (
               <div style={styles.intentText}>
-                <TextOverflowEllipsis title={acceptMessageTitle}>
-                  <FormattedMessage {...acceptMessage} />
+                <TextOverflowEllipsis title={acceptMessage}>
+                  {acceptMessage}
                 </TextOverflowEllipsis>
                 <CancelButton interaction={this.props.interaction} />
               </div>
@@ -589,9 +577,7 @@ export class Interaction extends React.Component {
               {this.props.interaction.contact &&
                 this.props.status === 'pending' &&
                 this.props.interaction.channelType !== 'messaging' && (
-                <p style={styles.hoverBoxText}>
-                  {this.props.contactPoint}
-                </p>
+                <p style={styles.hoverBoxText}>{this.props.contactPoint}</p>
               )}
               {this.getDetails()}
               <CancelButton

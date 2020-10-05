@@ -141,11 +141,7 @@ exports[`<Interaction /> should render correctly 1`] = `
       <styled.div
         title="Click to accept interaction"
       >
-        <FormattedMessage
-          defaultMessage="Click to accept interaction"
-          id="app.containers.Interaction.accept"
-          values={Object {}}
-        />
+        Click to accept interaction
       </styled.div>
       <Connect(CancelButton)
         interaction={Object {}}
