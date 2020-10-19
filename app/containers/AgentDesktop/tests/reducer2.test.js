@@ -522,6 +522,12 @@ describe('agentDesktopReducer', () => {
                         replyTo: 'replytest@test.com',
                       },
                     ],
+                    replyTo: [
+                      {
+                        address: 'replytest@test.com',
+                        name: 'reply-test',
+                      },
+                    ],
                   },
                 },
               ],

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.58.2] (2020-10-08)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.58.2/index.html)  
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.58.2/index.html)
+### Added
+* CXV1-23193 - Using replyTo field from manifest instead of the one from header for email interactions.
+
 ## [1.58.1] (2020-10-05)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.58.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.58.1/index.html)

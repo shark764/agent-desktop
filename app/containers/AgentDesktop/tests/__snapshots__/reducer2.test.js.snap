@@ -63,6 +63,12 @@ Immutable.Map {
             "replyTo": "replytest@test.com",
           },
         ],
+        "replyTo": Immutable.List [
+          Immutable.Map {
+            "address": "replytest@test.com",
+            "name": "reply-test",
+          },
+        ],
       },
       "emailReply": Immutable.Map {
         "message": "",
@@ -78,7 +84,7 @@ Immutable.Map {
         "tos": Immutable.List [
           Immutable.Map {
             "address": "replytest@test.com",
-            "name": "",
+            "name": "reply-test",
           },
         ],
         "subjectInput": "RE: [title test]",

@@ -136,25 +136,27 @@ const getContactInteractionPath = (state, interactionId) => {
 
 const categorizeItems = (rawItems, name) => {
   const categorizedItems = [];
-  rawItems.sort((a, b) => a.sortOrder - b.sortOrder).forEach((item) => {
-    if (item.hierarchy[0]) {
-      const existingCategoryIndex = categorizedItems.findIndex(
-        (category) =>
-          category.name === item.hierarchy[0] && category.type === 'category'
-      );
-      if (existingCategoryIndex > -1) {
-        categorizedItems[existingCategoryIndex][name].push(item);
+  rawItems
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .forEach((item) => {
+      if (item.hierarchy[0]) {
+        const existingCategoryIndex = categorizedItems.findIndex(
+          (category) =>
+            category.name === item.hierarchy[0] && category.type === 'category'
+        );
+        if (existingCategoryIndex > -1) {
+          categorizedItems[existingCategoryIndex][name].push(item);
+        } else {
+          categorizedItems.push({
+            name: item.hierarchy[0],
+            [name]: [item],
+            type: 'category',
+          });
+        }
       } else {
-        categorizedItems.push({
-          name: item.hierarchy[0],
-          [name]: [item],
-          type: 'category',
-        });
+        categorizedItems.push(item);
       }
-    } else {
-      categorizedItems.push(item);
-    }
-  });
+    });
   return categorizedItems;
 };
 
@@ -690,7 +692,7 @@ function agentDesktopReducer(state = initialState, action) {
               'warmTransfers',
               new List(
                 action.activeResources.map((resource) => {
-                  const mappedResource = { ...resource};
+                  const mappedResource = { ...resource };
                   mappedResource.targetResource = mappedResource.id;
                   mappedResource.status = 'connected';
                   if (mappedResource.externalResource) {
@@ -936,8 +938,8 @@ function agentDesktopReducer(state = initialState, action) {
             .set(
               'selectedInteractionId',
               state.get('selectedInteractionId') === undefined &&
-              (interactionStatus === 'work-offer' ||
-                interactionStatus === 'work-initiated')
+                (interactionStatus === 'work-offer' ||
+                  interactionStatus === 'work-initiated')
                 ? action.interactionId
                 : state.get('selectedInteractionId')
             )
@@ -2168,24 +2170,15 @@ function agentDesktopReducer(state = initialState, action) {
       }
     }
     case ACTIONS.EMAIL_CREATE_REPLY: {
-      const reply = [];
-      const headers = state.getIn([
+      let reply = [];
+      const emailReplyTo = state.getIn([
         'interactions',
         interactionIndex,
         'emailDetails',
-        'headers',
+        'replyTo',
       ]);
-      if (headers) {
-        const headersList = headers.toJS();
-        headersList
-          .filter((header) => header.replyTo)
-          .map(({ replyTo }) => ({
-            address: replyTo,
-            name: '',
-          }))
-          .forEach((head) => {
-            reply.push(head);
-          });
+      if (emailReplyTo) {
+        reply = [...emailReplyTo.toJS()];
       }
       if (
         interactionIndex !== -1 &&
