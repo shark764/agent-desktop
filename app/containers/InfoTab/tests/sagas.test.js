@@ -41,7 +41,7 @@ describe('goValidateContactLayoutTranslations saga', () => {
   describe('if locale is missing in layout', () => {
     let contactLayoutWithMissingTranslation;
     beforeAll(() => {
-      contactLayoutWithMissingTranslation = { ...contactLayout};
+      contactLayoutWithMissingTranslation = { ...contactLayout };
       contactLayoutWithMissingTranslation.layout[0].label = {
         'fr-CA': 'Mise en page des contacts',
       };
@@ -78,7 +78,6 @@ describe('goValidateContactLayoutTranslations saga', () => {
     let contactAttributesWithMissingTranslation;
     beforeAll(() => {
       contactAttributesWithMissingTranslation = {
-        
         ...contactAttributes,
       };
       contactAttributesWithMissingTranslation[1].label = {
@@ -117,7 +116,6 @@ describe('goValidateContactLayoutTranslations saga', () => {
     let contactAttributesWithMissingTranslation;
     beforeAll(() => {
       contactAttributesWithMissingTranslation = {
-        
         ...contactAttributes,
       };
       contactAttributesWithMissingTranslation[1].label = {

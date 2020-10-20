@@ -1,82 +1,60 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import Radium from 'radium';
-
-import Icon from 'components/Icon';
+import styled from 'styled-components';
+import CheckedIconSVG from 'components/CheckedIconSVG';
 
 import { selectAudioPreferences, selectVisualPreferences } from './selectors';
 import {
   toggleAudioNotificationsPreference,
   toggleVisualNotificationsPreference,
-} from './actions';
+} from './thunks';
 import messages from './messages';
 
-const styles = {
-  notificationOption: {
-    padding: '5px',
-    cursor: 'pointer',
-    ':hover': {
-      backgroundColor: '#DEF8FE',
-    },
-  },
-  checkStatus: {
-    float: 'right',
-  },
-};
+const NotificationOption = styled.div`
+  padding: 5px;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  &:not([disabled]):hover {
+    background-color: #def8fe;
+  }
+`;
 
-export function AgentNotificationsMenu(props) {
+const CheckStatus = styled(CheckedIconSVG)`
+  float: right;
+`;
+
+export function AgentNotificationsMenu() {
+  const audioNotificationsEnabled = useSelector(selectAudioPreferences);
+  const visualNotificationsEnabled = useSelector(selectVisualPreferences);
+  const dispatch = useDispatch();
+
   return (
     <>
-      <div
+      <NotificationOption
         id="audioNotificationOption"
         key="audioNotificationOption"
-        onClick={props.toggleAudioNotificationsPreference}
-        style={styles.notificationOption}
+        onClick={() => dispatch(toggleAudioNotificationsPreference())}
       >
         <FormattedMessage {...messages.audio} />
-        {props.audioNotificationsEnabled && (
-          <Icon name="checkStatus" style={styles.checkStatus} />
+        {audioNotificationsEnabled && (
+          <CheckStatus size={17} alt="selected" fillColor="black" />
         )}
-      </div>
+      </NotificationOption>
       {window.parent === window && (
-        <div
+        <NotificationOption
           id="visualNotificationOption"
           key="visualNotificationOption"
-          onClick={props.toggleVisualNotificationsPreference}
-          style={styles.notificationOption}
+          onClick={() => dispatch(toggleVisualNotificationsPreference())}
         >
           <FormattedMessage {...messages.visual} />
-          {props.visualNotificationsEnabled && (
-            <Icon name="checkStatus" style={styles.checkStatus} />
+          {visualNotificationsEnabled && (
+            <CheckStatus size={17} alt="selected" fillColor="black" />
           )}
-        </div>
+        </NotificationOption>
       )}
     </>
   );
 }
 
-function mapStateToProps(state, props) {
-  return {
-    audioNotificationsEnabled: selectAudioPreferences(state, props),
-    visualNotificationsEnabled: selectVisualPreferences(state, props),
-  };
-}
-
-const actions = {
-  toggleAudioNotificationsPreference,
-  toggleVisualNotificationsPreference,
-};
-
-AgentNotificationsMenu.propTypes = {
-  audioNotificationsEnabled: PropTypes.bool,
-  visualNotificationsEnabled: PropTypes.bool,
-  toggleAudioNotificationsPreference: PropTypes.func.isRequired,
-  toggleVisualNotificationsPreference: PropTypes.func.isRequired,
-};
-
-export default connect(
-  mapStateToProps,
-  actions
-)(Radium(AgentNotificationsMenu));
+export default AgentNotificationsMenu;

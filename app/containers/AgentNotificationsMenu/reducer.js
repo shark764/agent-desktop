@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ * Copyright © 2015-2020 Serenova, LLC. All rights reserved.
  */
 
 /*
@@ -8,24 +8,30 @@
  *
  */
 
-import { fromJS } from 'immutable';
-import * as ACTIONS from './constants';
+import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = fromJS({
+const initialState = {
   audioNotifications: true,
   visualNotifications: true,
+};
+
+const notificationPreferencesSlice = createSlice({
+  name: 'notificationPreferences',
+  initialState,
+  reducers: {
+    setAudioNotificationsPreference(state, action) {
+      state.audioNotifications = action.payload;
+    },
+
+    setVisualNotificationsPreference(state, action) {
+      state.visualNotifications = action.payload;
+    },
+  },
 });
 
-export default function notificationPreferencesReducer(
-  state = initialState,
-  action
-) {
-  switch (action.type) {
-    case ACTIONS.SET_AUDIO_NOTIFICATIONS_PREFERENCE:
-      return state.set('audioNotifications', action.audioNotifications);
-    case ACTIONS.SET_VISUAL_NOTIFICATIONS_PREFERENCE:
-      return state.set('visualNotifications', action.visualNotifications);
-    default:
-      return state;
-  }
-}
+export const {
+  setAudioNotificationsPreference,
+  setVisualNotificationsPreference,
+} = notificationPreferencesSlice.actions;
+
+export default notificationPreferencesSlice;

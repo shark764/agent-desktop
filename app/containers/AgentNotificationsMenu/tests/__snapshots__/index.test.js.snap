@@ -2,131 +2,85 @@
 
 exports[`<AgentNotificationsMenu /> parent window is different doesn't render the visual notification option 1`] = `
 <Fragment>
-  <div
+  <styled.div
     id="audioNotificationOption"
     key="audioNotificationOption"
     onClick={[Function]}
-    style={
-      Object {
-        ":hover": Object {
-          "backgroundColor": "#DEF8FE",
-        },
-        "cursor": "pointer",
-        "padding": "5px",
-      }
-    }
   >
     <FormattedMessage
       defaultMessage="Audio Notifications"
       id="app.containers.AgentNotificationsMenu.audio"
       values={Object {}}
     />
-  </div>
+    <Styled(CheckedIconSVG)
+      alt="selected"
+      fillColor="black"
+      size={17}
+    />
+  </styled.div>
 </Fragment>
 `;
 
 exports[`<AgentNotificationsMenu /> parent window is the same notifications disabled does not render the checkboxes 1`] = `
 <Fragment>
-  <div
+  <styled.div
     id="audioNotificationOption"
     key="audioNotificationOption"
     onClick={[Function]}
-    style={
-      Object {
-        ":hover": Object {
-          "backgroundColor": "#DEF8FE",
-        },
-        "cursor": "pointer",
-        "padding": "5px",
-      }
-    }
   >
     <FormattedMessage
       defaultMessage="Audio Notifications"
       id="app.containers.AgentNotificationsMenu.audio"
       values={Object {}}
     />
-  </div>
-  <div
+  </styled.div>
+  <styled.div
     id="visualNotificationOption"
     key="visualNotificationOption"
     onClick={[Function]}
-    style={
-      Object {
-        ":hover": Object {
-          "backgroundColor": "#DEF8FE",
-        },
-        "cursor": "pointer",
-        "padding": "5px",
-      }
-    }
   >
     <FormattedMessage
       defaultMessage="Visual Notifications"
       id="app.containers.AgentNotificationsMenu.visual"
       values={Object {}}
     />
-  </div>
+  </styled.div>
 </Fragment>
 `;
 
 exports[`<AgentNotificationsMenu /> parent window is the same notifications enabled renders the checkboxes 1`] = `
 <Fragment>
-  <div
+  <styled.div
     id="audioNotificationOption"
     key="audioNotificationOption"
     onClick={[Function]}
-    style={
-      Object {
-        ":hover": Object {
-          "backgroundColor": "#DEF8FE",
-        },
-        "cursor": "pointer",
-        "padding": "5px",
-      }
-    }
   >
     <FormattedMessage
       defaultMessage="Audio Notifications"
       id="app.containers.AgentNotificationsMenu.audio"
       values={Object {}}
     />
-    <Icon
-      name="checkStatus"
-      style={
-        Object {
-          "float": "right",
-        }
-      }
+    <Styled(CheckedIconSVG)
+      alt="selected"
+      fillColor="black"
+      size={17}
     />
-  </div>
-  <div
+  </styled.div>
+  <styled.div
     id="visualNotificationOption"
     key="visualNotificationOption"
     onClick={[Function]}
-    style={
-      Object {
-        ":hover": Object {
-          "backgroundColor": "#DEF8FE",
-        },
-        "cursor": "pointer",
-        "padding": "5px",
-      }
-    }
   >
     <FormattedMessage
       defaultMessage="Visual Notifications"
       id="app.containers.AgentNotificationsMenu.visual"
       values={Object {}}
     />
-    <Icon
-      name="checkStatus"
-      style={
-        Object {
-          "float": "right",
-        }
-      }
+    <Styled(CheckedIconSVG)
+      alt="selected"
+      fillColor="black"
+      size={17}
     />
-  </div>
+  </styled.div>
 </Fragment>
 `;

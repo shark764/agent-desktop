@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -13,51 +13,37 @@ const DevicesContainer = styled.div`
 /**
  * 'media' | 'notifications' | 'voice'
  */
-export class DeviceMenu extends React.Component {
-  constructor(props) {
-    super(props);
+export const DeviceMenu = (props) => {
+  const [open, setOpen] = useState(false);
 
-    this.state = {
-      open: false,
-    };
-  }
-
-  setOpen = () => {
-    this.setState((state) => ({
-      open: !state.open,
-    }));
-  };
-
-  render() {
-    return (
-      <>
-        <PreferenceOption
-          preference={this.props.audio}
-          label={this.props.label}
-          setPreferenceSelected={this.setOpen}
-          caretDirection="down"
-          open={this.state.open}
-        />
-        {this.state.open && (
-          <DevicesContainer>
-            {this.props.devices.map((device) => (
-              <DeviceOption
-                key={device.id}
-                device={device}
-                handleClick={this.props.setDeviceAsActive}
-                /**
-                 * We disable devices when they're the only
-                 * one selected
-                 */
-                disabled={device.isActive}
-              />
-            ))}
-          </DevicesContainer>
-        )}
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <PreferenceOption
+        preference={props.audio}
+        label={props.label}
+        setPreferenceSelected={() => setOpen((isOpen) => !isOpen)}
+        caretDirection="down"
+        open={open}
+      />
+      {open && (
+        <DevicesContainer>
+          {props.devices.map((device) => (
+            <DeviceOption
+              key={device.id}
+              device={device}
+              handleClick={props.setDeviceAsActive}
+              /**
+               * We disable devices when they're the only
+               * one selected
+               */
+              disabled={device.isActive}
+            />
+          ))}
+        </DevicesContainer>
+      )}
+    </>
+  );
+};
 
 DeviceMenu.propTypes = {
   devices: PropTypes.arrayOf(

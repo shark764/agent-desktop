@@ -18,15 +18,6 @@ import {
   setActiveOutputNotificationDevice,
 } from './reducer';
 
-/**
- * More than one device can be set as active
- * therefore we get active devices first and
- * concatenate new one
- * If id is already in array, then we remove it
- *
- * We do the same for every kind of audiooutput type
- */
-
 export function updateActiveOutputRingtoneDevice(deviceId) {
   return () => {
     CxEngage.twilio.setActiveOutputRingtoneDevices({

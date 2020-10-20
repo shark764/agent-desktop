@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ * Copyright © 2015-2020 Serenova, LLC. All rights reserved.
  */
 
 /*
@@ -12,54 +12,35 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
+import { useSelector, useDispatch } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import { selectLocale } from './selectors';
 import { changeLocale } from './actions';
 const storage = window.localStorage;
 
-export class LanguageProvider extends React.PureComponent {
-  componentWillMount() {
-    const locale = storage.getItem('locale');
-    if (locale) {
-      this.props.changeLocale(locale);
-    }
+export const LanguageProvider = (props) => {
+  const locale = useSelector((state) => selectLocale()(state));
+  const dispatch = useDispatch();
+
+  const storedLocale = storage.getItem('locale');
+  if (storedLocale) {
+    dispatch(changeLocale(storedLocale));
   }
 
-  render() {
-    return (
-      <IntlProvider
-        locale={this.props.locale}
-        key={this.props.locale}
-        messages={this.props.messages[this.props.locale]}
-      >
-        {React.Children.only(this.props.children)}
-      </IntlProvider>
-    );
-  }
-}
+  return (
+    <IntlProvider
+      locale={locale}
+      key={locale}
+      messages={props.messages[locale]}
+    >
+      {React.Children.only(props.children)}
+    </IntlProvider>
+  );
+};
 
 LanguageProvider.propTypes = {
-  locale: PropTypes.string,
   messages: PropTypes.object,
   children: PropTypes.element.isRequired,
 };
 
-const mapStateToProps = createSelector(selectLocale(), locale => ({ locale }));
-
-function mapDispatchToProps(dispatch) {
-  return {
-    changeLocale: locale => dispatch(changeLocale(locale)),
-    dispatch,
-  };
-}
-
-LanguageProvider.propTypes = {
-  changeLocale: PropTypes.func.isRequired,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LanguageProvider);
+export default LanguageProvider;

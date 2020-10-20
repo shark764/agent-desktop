@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.59.0] (2020-10-07)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.59.0/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.59.0/index.html)
+### Updated
+* CXV1-23065 - Refactor components using react hooks and redux-toolkit - Part I.
+
 ## [1.58.2] (2020-10-08)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.58.2/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.58.2/index.html)

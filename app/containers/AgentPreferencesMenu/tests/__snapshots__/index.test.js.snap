@@ -1,5 +1,135 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<AgentPreferencesMenu /> calling menu option "setPreferenceSelected" method renders AgentNotificationsMenu when it is set in state 1`] = `
+<PopupDialog
+  arrowLeftOffsetPx={348}
+  hide={[Function]}
+  id="preferencesMenu"
+  isVisible={true}
+  style={
+    Object {
+      "bottom": "56px",
+      "color": "#4b4b4b",
+      "margin": "10px",
+      "padding": "10px 13px",
+      "position": "absolute",
+      "right": "2px",
+    }
+  }
+  widthPx={380}
+>
+  <PreferenceTitle
+    preference="notifications"
+    setPreferenceSelected={[Function]}
+  />
+  <AgentNotificationsMenu />
+</PopupDialog>
+`;
+
+exports[`<AgentPreferencesMenu /> calling menu option "setPreferenceSelected" method renders AgentStatsMenu when it is set in state 1`] = `
+<PopupDialog
+  arrowLeftOffsetPx={348}
+  hide={[Function]}
+  id="preferencesMenu"
+  isVisible={true}
+  style={
+    Object {
+      "bottom": "56px",
+      "color": "#4b4b4b",
+      "margin": "10px",
+      "padding": "10px 13px",
+      "position": "absolute",
+      "right": "2px",
+    }
+  }
+  widthPx={380}
+>
+  <PreferenceTitle
+    preference="metrics"
+    setPreferenceSelected={[Function]}
+  />
+  <MockedComponent />
+</PopupDialog>
+`;
+
+exports[`<AgentPreferencesMenu /> calling menu option "setPreferenceSelected" method renders AgentTransferMenuPreferenceMenu when it is set in state 1`] = `
+<PopupDialog
+  arrowLeftOffsetPx={348}
+  hide={[Function]}
+  id="preferencesMenu"
+  isVisible={true}
+  style={
+    Object {
+      "bottom": "56px",
+      "color": "#4b4b4b",
+      "margin": "10px",
+      "padding": "10px 13px",
+      "position": "absolute",
+      "right": "2px",
+    }
+  }
+  widthPx={380}
+>
+  <PreferenceTitle
+    preference="transferMenu"
+    setPreferenceSelected={[Function]}
+  />
+  <MockedComponent />
+</PopupDialog>
+`;
+
+exports[`<AgentPreferencesMenu /> calling menu option "setPreferenceSelected" method renders AudioOutputMenu when it is set in state 1`] = `
+<PopupDialog
+  arrowLeftOffsetPx={348}
+  hide={[Function]}
+  id="preferencesMenu"
+  isVisible={true}
+  style={
+    Object {
+      "bottom": "56px",
+      "color": "#4b4b4b",
+      "margin": "10px",
+      "padding": "10px 13px",
+      "position": "absolute",
+      "right": "2px",
+    }
+  }
+  widthPx={380}
+>
+  <PreferenceTitle
+    preference="audioOutput"
+    setPreferenceSelected={[Function]}
+  />
+  <AudioOutputMenu />
+</PopupDialog>
+`;
+
+exports[`<AgentPreferencesMenu /> clearing menu option with "setPreferenceSelected" method on useffect execution should change preferenceSelected to <undefined> when active extension prop changes 1`] = `
+<PopupDialog
+  arrowLeftOffsetPx={348}
+  hide={[Function]}
+  id="preferencesMenu"
+  isVisible={true}
+  style={
+    Object {
+      "bottom": "56px",
+      "color": "#4b4b4b",
+      "margin": "10px",
+      "padding": "10px 13px",
+      "position": "absolute",
+      "right": "2px",
+    }
+  }
+  widthPx={380}
+>
+  <PreferenceTitle
+    preference="audioOutput"
+    setPreferenceSelected={[Function]}
+  />
+  <AudioOutputMenu />
+</PopupDialog>
+`;
+
 exports[`<AgentPreferencesMenu /> does not render the audioOutput option when the active extension is PSTN 1`] = `
 <PopupDialog
   arrowLeftOffsetPx={348}
@@ -177,110 +307,6 @@ exports[`<AgentPreferencesMenu /> does not render the metrics option when the ag
     preference="transferMenu"
     setPreferenceSelected={[Function]}
   />
-</PopupDialog>
-`;
-
-exports[`<AgentPreferencesMenu /> renders AgentNotificationsMenu when it is set in state 1`] = `
-<PopupDialog
-  arrowLeftOffsetPx={348}
-  hide={[Function]}
-  id="preferencesMenu"
-  isVisible={true}
-  style={
-    Object {
-      "bottom": "56px",
-      "color": "#4b4b4b",
-      "margin": "10px",
-      "padding": "10px 13px",
-      "position": "absolute",
-      "right": "2px",
-    }
-  }
-  widthPx={380}
->
-  <PreferenceTitle
-    preference="notifications"
-    setPreferenceSelected={[Function]}
-  />
-  <Connect(AgentNotificationsMenu) />
-</PopupDialog>
-`;
-
-exports[`<AgentPreferencesMenu /> renders AgentStatsMenu when it is set in state 1`] = `
-<PopupDialog
-  arrowLeftOffsetPx={348}
-  hide={[Function]}
-  id="preferencesMenu"
-  isVisible={true}
-  style={
-    Object {
-      "bottom": "56px",
-      "color": "#4b4b4b",
-      "margin": "10px",
-      "padding": "10px 13px",
-      "position": "absolute",
-      "right": "2px",
-    }
-  }
-  widthPx={380}
->
-  <PreferenceTitle
-    preference="metrics"
-    setPreferenceSelected={[Function]}
-  />
-  <Connect(ErrorBoundaryComponent) />
-</PopupDialog>
-`;
-
-exports[`<AgentPreferencesMenu /> renders AgentTransferMenuPreferenceMenu when it is set in state 1`] = `
-<PopupDialog
-  arrowLeftOffsetPx={348}
-  hide={[Function]}
-  id="preferencesMenu"
-  isVisible={true}
-  style={
-    Object {
-      "bottom": "56px",
-      "color": "#4b4b4b",
-      "margin": "10px",
-      "padding": "10px 13px",
-      "position": "absolute",
-      "right": "2px",
-    }
-  }
-  widthPx={380}
->
-  <PreferenceTitle
-    preference="transferMenu"
-    setPreferenceSelected={[Function]}
-  />
-  <Connect(ErrorBoundaryComponent) />
-</PopupDialog>
-`;
-
-exports[`<AgentPreferencesMenu /> renders AudioOutputMenu when it is set in state 1`] = `
-<PopupDialog
-  arrowLeftOffsetPx={348}
-  hide={[Function]}
-  id="preferencesMenu"
-  isVisible={true}
-  style={
-    Object {
-      "bottom": "56px",
-      "color": "#4b4b4b",
-      "margin": "10px",
-      "padding": "10px 13px",
-      "position": "absolute",
-      "right": "2px",
-    }
-  }
-  widthPx={380}
->
-  <PreferenceTitle
-    preference="audioOutput"
-    setPreferenceSelected={[Function]}
-  />
-  <Connect(AudioOutputMenu) />
 </PopupDialog>
 `;
 

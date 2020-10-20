@@ -29,12 +29,12 @@ const appReducer = combineReducers({
   infoTab,
   contactsControl,
   errors,
-  notificationPreferences,
 
   /**
    * Slices return an object with the reducer in
    * https://redux-toolkit.js.org/api/createSlice#return-value
    */
+  [notificationPreferences.name]: notificationPreferences.reducer,
   [audioOutputPreferences.name]: audioOutputPreferences.reducer,
 
   transferMenu,

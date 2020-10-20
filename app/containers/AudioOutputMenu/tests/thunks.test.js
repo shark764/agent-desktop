@@ -58,32 +58,31 @@ describe('updateActiveOutputRingtoneDevices', () => {
         setItem: mockSetItem,
       };
       mockDispatch = jest.fn();
-      updateActiveOutputRingtoneDevices(activeOutputRingtoneDevices)(
-        mockDispatch,
-        () => {}
-      );
+      updateActiveOutputRingtoneDevices(
+        activeOutputRingtoneDevices
+      )(mockDispatch, () => {});
     });
     it('sets the ringtone id in redux', () => {
       expect(mockDispatch.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    Object {
-      "payload": "mock-ringtone-id",
-      "type": "audioOutputPreferences/setActiveOutputRingtoneDevice",
-    },
-  ],
-]
-`);
+        Array [
+          Array [
+            Object {
+              "payload": "mock-ringtone-id",
+              "type": "audioOutputPreferences/setActiveOutputRingtoneDevice",
+            },
+          ],
+        ]
+      `);
     });
     it('updates the ringtone id in local storage', () => {
       expect(mockSetItem.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    "skylightAudioOutputPreferences-mocktenantid-mockagentid",
-    "{\\"ringtoneId\\":\\"mock-ringtone-id\\",\\"otherId\\":\\"other-value\\"}",
-  ],
-]
-`);
+        Array [
+          Array [
+            "skylightAudioOutputPreferences-mocktenantid-mockagentid",
+            "{\\"ringtoneId\\":\\"mock-ringtone-id\\",\\"otherId\\":\\"other-value\\"}",
+          ],
+        ]
+      `);
     });
   });
   describe('preference does not exist in localstorage', () => {
@@ -101,13 +100,13 @@ Array [
     });
     it('sets the ringtone id in localstorage', () => {
       expect(mockSetItem.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    "skylightAudioOutputPreferences-mocktenantid-mockagentid",
-    "{\\"ringtoneId\\":\\"mock-ringtone-id\\"}",
-  ],
-]
-`);
+        Array [
+          Array [
+            "skylightAudioOutputPreferences-mocktenantid-mockagentid",
+            "{\\"ringtoneId\\":\\"mock-ringtone-id\\"}",
+          ],
+        ]
+      `);
     });
   });
 });
@@ -159,25 +158,25 @@ describe('updateActiveOutputSpeakerDevices', () => {
     });
     it('sets the speaker id in redux', () => {
       expect(mockDispatch.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    Object {
-      "payload": "mock-speaker-id",
-      "type": "audioOutputPreferences/setActiveOutputSpeakerDevice",
-    },
-  ],
-]
-`);
+        Array [
+          Array [
+            Object {
+              "payload": "mock-speaker-id",
+              "type": "audioOutputPreferences/setActiveOutputSpeakerDevice",
+            },
+          ],
+        ]
+      `);
     });
     it('updates the speaker id in local storage', () => {
       expect(mockSetItem.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    "skylightAudioOutputPreferences-mocktenantid-mockagentid",
-    "{\\"speakerId\\":\\"mock-speaker-id\\",\\"otherId\\":\\"other-value\\"}",
-  ],
-]
-`);
+        Array [
+          Array [
+            "skylightAudioOutputPreferences-mocktenantid-mockagentid",
+            "{\\"speakerId\\":\\"mock-speaker-id\\",\\"otherId\\":\\"other-value\\"}",
+          ],
+        ]
+      `);
     });
   });
   describe('preference does not exist in localstorage', () => {
@@ -195,13 +194,13 @@ Array [
     });
     it('sets the speaker id in localstorage', () => {
       expect(mockSetItem.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    "skylightAudioOutputPreferences-mocktenantid-mockagentid",
-    "{\\"speakerId\\":\\"mock-speaker-id\\"}",
-  ],
-]
-`);
+        Array [
+          Array [
+            "skylightAudioOutputPreferences-mocktenantid-mockagentid",
+            "{\\"speakerId\\":\\"mock-speaker-id\\"}",
+          ],
+        ]
+      `);
     });
   });
 });
@@ -225,25 +224,25 @@ describe('updateActiveOutputNotificationDevice', () => {
     });
     it('sets the notification id in redux', () => {
       expect(mockDispatch.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    Object {
-      "payload": "mock-notification-id",
-      "type": "audioOutputPreferences/setActiveOutputNotificationDevice",
-    },
-  ],
-]
-`);
+        Array [
+          Array [
+            Object {
+              "payload": "mock-notification-id",
+              "type": "audioOutputPreferences/setActiveOutputNotificationDevice",
+            },
+          ],
+        ]
+      `);
     });
     it('updates the notification id in local storage', () => {
       expect(mockSetItem.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    "skylightAudioOutputPreferences-mocktenantid-mockagentid",
-    "{\\"notificationId\\":\\"mock-notification-id\\",\\"otherId\\":\\"other-value\\"}",
-  ],
-]
-`);
+        Array [
+          Array [
+            "skylightAudioOutputPreferences-mocktenantid-mockagentid",
+            "{\\"notificationId\\":\\"mock-notification-id\\",\\"otherId\\":\\"other-value\\"}",
+          ],
+        ]
+      `);
     });
   });
   describe('preference does not exist in localstorage', () => {
@@ -261,13 +260,13 @@ Array [
     });
     it('sets the notification id in localstorage', () => {
       expect(mockSetItem.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    "skylightAudioOutputPreferences-mocktenantid-mockagentid",
-    "{\\"notificationId\\":\\"mock-notification-id\\"}",
-  ],
-]
-`);
+        Array [
+          Array [
+            "skylightAudioOutputPreferences-mocktenantid-mockagentid",
+            "{\\"notificationId\\":\\"mock-notification-id\\"}",
+          ],
+        ]
+      `);
     });
   });
 });
@@ -313,52 +312,52 @@ describe('goUpdateAudioOutputUserPreferences', () => {
     describe('notification id exists in available devices', () => {
       it('sets devices in redux', () => {
         expect(mockDispatch.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    Object {
-      "payload": Array [
-        Object {
-          "id": "mock-device-id-1",
-          "label": "Device 1",
-        },
-        Object {
-          "id": "mock-device-id-2",
-          "label": "Device 2",
-        },
-      ],
-      "type": "audioOutputPreferences/setAvailableOutputDevices",
-    },
-  ],
-  Array [
-    Object {
-      "payload": "mock-device-id-1",
-      "type": "audioOutputPreferences/setActiveOutputRingtoneDevice",
-    },
-  ],
-  Array [
-    Object {
-      "payload": "mock-device-id-2",
-      "type": "audioOutputPreferences/setActiveOutputSpeakerDevice",
-    },
-  ],
-  Array [
-    Object {
-      "payload": "mock-device-id-1",
-      "type": "audioOutputPreferences/setActiveOutputNotificationDevice",
-    },
-  ],
-]
-`);
+          Array [
+            Array [
+              Object {
+                "payload": Array [
+                  Object {
+                    "id": "mock-device-id-1",
+                    "label": "Device 1",
+                  },
+                  Object {
+                    "id": "mock-device-id-2",
+                    "label": "Device 2",
+                  },
+                ],
+                "type": "audioOutputPreferences/setAvailableOutputDevices",
+              },
+            ],
+            Array [
+              Object {
+                "payload": "mock-device-id-1",
+                "type": "audioOutputPreferences/setActiveOutputRingtoneDevice",
+              },
+            ],
+            Array [
+              Object {
+                "payload": "mock-device-id-2",
+                "type": "audioOutputPreferences/setActiveOutputSpeakerDevice",
+              },
+            ],
+            Array [
+              Object {
+                "payload": "mock-device-id-1",
+                "type": "audioOutputPreferences/setActiveOutputNotificationDevice",
+              },
+            ],
+          ]
+        `);
       });
       it('sets devices in localstorage', () => {
         expect(mockSetItem.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    "skylightAudioOutputPreferences-mocktenantid-mockagentid",
-    "{\\"ringtoneId\\":\\"mock-device-id-1\\",\\"speakerId\\":\\"mock-device-id-2\\",\\"notificationId\\":\\"mock-device-id-1\\"}",
-  ],
-]
-`);
+          Array [
+            Array [
+              "skylightAudioOutputPreferences-mocktenantid-mockagentid",
+              "{\\"ringtoneId\\":\\"mock-device-id-1\\",\\"speakerId\\":\\"mock-device-id-2\\",\\"notificationId\\":\\"mock-device-id-1\\"}",
+            ],
+          ]
+        `);
       });
     });
     describe('notification id does not exist in available devices', () => {
@@ -369,13 +368,13 @@ Array [
       });
       it('falls back to default for notification id', () => {
         expect(mockDispatch.mock.calls[3]).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "payload": "default",
-    "type": "audioOutputPreferences/setActiveOutputNotificationDevice",
-  },
-]
-`);
+          Array [
+            Object {
+              "payload": "default",
+              "type": "audioOutputPreferences/setActiveOutputNotificationDevice",
+            },
+          ]
+        `);
       });
     });
   });
@@ -428,55 +427,55 @@ Array [
       it('calls updateActiveOutputRingtoneDevice', () => {
         expect(spyOnUpdateActiveOutputRingtoneDevice.mock.calls)
           .toMatchInlineSnapshot(`
-Array [
-  Array [
-    "mock-device-id-1",
-  ],
-]
-`);
+          Array [
+            Array [
+              "mock-device-id-1",
+            ],
+          ]
+        `);
       });
       it('calls updateActiveOutputSpeakerDevice', () => {
         expect(spyOnUpdateActiveOutputSpeakerDevice.mock.calls)
           .toMatchInlineSnapshot(`
-Array [
-  Array [
-    "mock-device-id-2",
-  ],
-]
-`);
+          Array [
+            Array [
+              "mock-device-id-2",
+            ],
+          ]
+        `);
       });
       it('sets devices in redux', () => {
         expect(mockDispatch.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    Object {
-      "payload": Array [
-        Object {
-          "id": "mock-device-id-1",
-          "label": "Device 1",
-        },
-        Object {
-          "id": "mock-device-id-2",
-          "label": "Device 2",
-        },
-      ],
-      "type": "audioOutputPreferences/setAvailableOutputDevices",
-    },
-  ],
-  Array [
-    "mockUpdateActiveOutputRingtoneDevice",
-  ],
-  Array [
-    "mockUpdateActiveOutputSpeakerDevice",
-  ],
-  Array [
-    Object {
-      "payload": "mock-device-id-1",
-      "type": "audioOutputPreferences/setActiveOutputNotificationDevice",
-    },
-  ],
-]
-`);
+          Array [
+            Array [
+              Object {
+                "payload": Array [
+                  Object {
+                    "id": "mock-device-id-1",
+                    "label": "Device 1",
+                  },
+                  Object {
+                    "id": "mock-device-id-2",
+                    "label": "Device 2",
+                  },
+                ],
+                "type": "audioOutputPreferences/setAvailableOutputDevices",
+              },
+            ],
+            Array [
+              "mockUpdateActiveOutputRingtoneDevice",
+            ],
+            Array [
+              "mockUpdateActiveOutputSpeakerDevice",
+            ],
+            Array [
+              Object {
+                "payload": "mock-device-id-1",
+                "type": "audioOutputPreferences/setActiveOutputNotificationDevice",
+              },
+            ],
+          ]
+        `);
       });
     });
     describe('does not have localstorage values', () => {
@@ -490,24 +489,24 @@ Array [
       });
       it('only sets available devices in redux', () => {
         expect(mockDispatch.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    Object {
-      "payload": Array [
-        Object {
-          "id": "mock-device-id-1",
-          "label": "Device 1",
-        },
-        Object {
-          "id": "mock-device-id-2",
-          "label": "Device 2",
-        },
-      ],
-      "type": "audioOutputPreferences/setAvailableOutputDevices",
-    },
-  ],
-]
-`);
+          Array [
+            Array [
+              Object {
+                "payload": Array [
+                  Object {
+                    "id": "mock-device-id-1",
+                    "label": "Device 1",
+                  },
+                  Object {
+                    "id": "mock-device-id-2",
+                    "label": "Device 2",
+                  },
+                ],
+                "type": "audioOutputPreferences/setAvailableOutputDevices",
+              },
+            ],
+          ]
+        `);
       });
     });
     describe('null localstorage values', () => {
@@ -521,24 +520,24 @@ Array [
       });
       it('only sets available devices in redux', () => {
         expect(mockDispatch.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    Object {
-      "payload": Array [
-        Object {
-          "id": "mock-device-id-1",
-          "label": "Device 1",
-        },
-        Object {
-          "id": "mock-device-id-2",
-          "label": "Device 2",
-        },
-      ],
-      "type": "audioOutputPreferences/setAvailableOutputDevices",
-    },
-  ],
-]
-`);
+          Array [
+            Array [
+              Object {
+                "payload": Array [
+                  Object {
+                    "id": "mock-device-id-1",
+                    "label": "Device 1",
+                  },
+                  Object {
+                    "id": "mock-device-id-2",
+                    "label": "Device 2",
+                  },
+                ],
+                "type": "audioOutputPreferences/setAvailableOutputDevices",
+              },
+            ],
+          ]
+        `);
       });
     });
   });

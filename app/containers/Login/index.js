@@ -68,7 +68,7 @@ import {
   selectIsCrmDownloaded,
 } from 'containers/AgentDesktop/selectors';
 import { showLoginPopup } from 'containers/AgentDesktop/actions';
-import { initializeNotificatonPreferences } from 'containers/AgentNotificationsMenu/actions';
+import { initializeNotificatonPreferences } from 'containers/AgentNotificationsMenu/thunks';
 import { sdkResponseLog } from '../../utils/logs';
 import { mappedLocales } from '../../i18n';
 import selectLogin from './selectors';

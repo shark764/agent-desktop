@@ -2,12 +2,12 @@
  * Copyright © 2015-2018 Serenova, LLC. All rights reserved.
  */
 
-import { fromJS } from 'immutable';
+import { Map } from 'immutable';
 import { selectAudioPreferences, selectVisualPreferences } from '../selectors';
 
 describe('selectAudioPreferences', () => {
   it('gets the value from state', () => {
-    const initialState = fromJS({
+    const initialState = new Map({
       notificationPreferences: {
         audioNotifications: 'mock audio notification preference',
       },
@@ -28,7 +28,7 @@ describe('selectVisualPreferences', () => {
         permission: 'denied',
       };
     });
-    const initialState = fromJS({
+    const initialState = new Map({
       notificationPreferences: {
         visualNotifications: 'mock visual notification preference',
       },
@@ -43,7 +43,7 @@ describe('selectVisualPreferences', () => {
         permission: 'granted',
       };
     });
-    const initialState = fromJS({
+    const initialState = new Map({
       notificationPreferences: {
         visualNotifications: 'mock visual notification preference',
       },

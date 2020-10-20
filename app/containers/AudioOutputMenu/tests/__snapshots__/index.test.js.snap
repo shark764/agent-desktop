@@ -34,7 +34,7 @@ exports[`<AudioOutputMenu /> renders the audio output menu 1`] = `
         "id": "app.containers.AudioOutputMenu.media",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
   <DeviceMenu
     audio="ringtone"
@@ -42,12 +42,12 @@ exports[`<AudioOutputMenu /> renders the audio output menu 1`] = `
       Array [
         Object {
           "id": "default",
-          "isActive": true,
+          "isActive": false,
           "label": "Default",
         },
         Object {
           "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
-          "isActive": true,
+          "isActive": false,
           "label": "Built-in Audio Analog Stereo",
         },
         Object {
@@ -68,7 +68,7 @@ exports[`<AudioOutputMenu /> renders the audio output menu 1`] = `
         "id": "app.containers.AudioOutputMenu.ringtone",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
   <DeviceMenu
     audio="voice"
@@ -81,7 +81,7 @@ exports[`<AudioOutputMenu /> renders the audio output menu 1`] = `
         },
         Object {
           "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
-          "isActive": true,
+          "isActive": false,
           "label": "Built-in Audio Analog Stereo",
         },
         Object {
@@ -102,319 +102,80 @@ exports[`<AudioOutputMenu /> renders the audio output menu 1`] = `
         "id": "app.containers.AudioOutputMenu.voice",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
 </Fragment>
-`;
-
-exports[`<AudioOutputMenu /> renders the audio output menu connected with redux 1`] = `
-<ContextProvider
-  value={null}
->
-  <AudioOutputMenu
-    audioNotificationsEnabled={true}
-    crmModule="none"
-    notificationDevices={
-      Array [
-        Object {
-          "id": "default",
-          "isActive": false,
-          "label": "Default",
-        },
-        Object {
-          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
-          "isActive": false,
-          "label": "Built-in Audio Analog Stereo",
-        },
-        Object {
-          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
-          "isActive": false,
-          "label": "Plantronics C320 Analog Stereo",
-        },
-        Object {
-          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
-          "isActive": true,
-          "label": "USG PnIXAu20o  Analog Stereo",
-        },
-      ]
-    }
-    ringtoneDevices={
-      Array [
-        Object {
-          "id": "default",
-          "isActive": true,
-          "label": "Default",
-        },
-        Object {
-          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
-          "isActive": true,
-          "label": "Built-in Audio Analog Stereo",
-        },
-        Object {
-          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
-          "isActive": false,
-          "label": "Plantronics C320 Analog Stereo",
-        },
-        Object {
-          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
-          "isActive": true,
-          "label": "USG PnIXAu20o  Analog Stereo",
-        },
-      ]
-    }
-    speakerDevices={
-      Array [
-        Object {
-          "id": "default",
-          "isActive": false,
-          "label": "Default",
-        },
-        Object {
-          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
-          "isActive": true,
-          "label": "Built-in Audio Analog Stereo",
-        },
-        Object {
-          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
-          "isActive": true,
-          "label": "Plantronics C320 Analog Stereo",
-        },
-        Object {
-          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
-          "isActive": false,
-          "label": "USG PnIXAu20o  Analog Stereo",
-        },
-      ]
-    }
-    store={
-      Object {
-        "dispatch": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-        Symbol(observable): [Function],
-      }
-    }
-    updateActiveOutputNotificationDevice={[Function]}
-    updateActiveOutputRingtoneDevice={[Function]}
-    updateActiveOutputSpeakerDevice={[Function]}
-  />
-</ContextProvider>
-`;
-
-exports[`<AudioOutputMenu /> renders the audio output menu connected with redux when notifications are not available 1`] = `
-<ContextProvider
-  value={null}
->
-  <AudioOutputMenu
-    audioNotificationsEnabled={false}
-    crmModule="none"
-    notificationDevices={
-      Array [
-        Object {
-          "id": "default",
-          "isActive": false,
-          "label": "Default",
-        },
-        Object {
-          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
-          "isActive": false,
-          "label": "Built-in Audio Analog Stereo",
-        },
-        Object {
-          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
-          "isActive": false,
-          "label": "Plantronics C320 Analog Stereo",
-        },
-        Object {
-          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
-          "isActive": true,
-          "label": "USG PnIXAu20o  Analog Stereo",
-        },
-      ]
-    }
-    ringtoneDevices={
-      Array [
-        Object {
-          "id": "default",
-          "isActive": true,
-          "label": "Default",
-        },
-        Object {
-          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
-          "isActive": true,
-          "label": "Built-in Audio Analog Stereo",
-        },
-        Object {
-          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
-          "isActive": false,
-          "label": "Plantronics C320 Analog Stereo",
-        },
-        Object {
-          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
-          "isActive": true,
-          "label": "USG PnIXAu20o  Analog Stereo",
-        },
-      ]
-    }
-    speakerDevices={
-      Array [
-        Object {
-          "id": "default",
-          "isActive": false,
-          "label": "Default",
-        },
-        Object {
-          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
-          "isActive": true,
-          "label": "Built-in Audio Analog Stereo",
-        },
-        Object {
-          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
-          "isActive": true,
-          "label": "Plantronics C320 Analog Stereo",
-        },
-        Object {
-          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
-          "isActive": false,
-          "label": "USG PnIXAu20o  Analog Stereo",
-        },
-      ]
-    }
-    store={
-      Object {
-        "dispatch": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-        Symbol(observable): [Function],
-      }
-    }
-    updateActiveOutputNotificationDevice={[Function]}
-    updateActiveOutputRingtoneDevice={[Function]}
-    updateActiveOutputSpeakerDevice={[Function]}
-  />
-</ContextProvider>
-`;
-
-exports[`<AudioOutputMenu /> renders the audio output menu connected with redux when notifications are not available in zendesk mode 1`] = `
-<ContextProvider
-  value={null}
->
-  <AudioOutputMenu
-    audioNotificationsEnabled={false}
-    crmModule="zendesk"
-    notificationDevices={
-      Array [
-        Object {
-          "id": "default",
-          "isActive": false,
-          "label": "Default",
-        },
-        Object {
-          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
-          "isActive": false,
-          "label": "Built-in Audio Analog Stereo",
-        },
-        Object {
-          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
-          "isActive": false,
-          "label": "Plantronics C320 Analog Stereo",
-        },
-        Object {
-          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
-          "isActive": true,
-          "label": "USG PnIXAu20o  Analog Stereo",
-        },
-      ]
-    }
-    ringtoneDevices={
-      Array [
-        Object {
-          "id": "default",
-          "isActive": true,
-          "label": "Default",
-        },
-        Object {
-          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
-          "isActive": true,
-          "label": "Built-in Audio Analog Stereo",
-        },
-        Object {
-          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
-          "isActive": false,
-          "label": "Plantronics C320 Analog Stereo",
-        },
-        Object {
-          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
-          "isActive": true,
-          "label": "USG PnIXAu20o  Analog Stereo",
-        },
-      ]
-    }
-    speakerDevices={
-      Array [
-        Object {
-          "id": "default",
-          "isActive": false,
-          "label": "Default",
-        },
-        Object {
-          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
-          "isActive": true,
-          "label": "Built-in Audio Analog Stereo",
-        },
-        Object {
-          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
-          "isActive": true,
-          "label": "Plantronics C320 Analog Stereo",
-        },
-        Object {
-          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
-          "isActive": false,
-          "label": "USG PnIXAu20o  Analog Stereo",
-        },
-      ]
-    }
-    store={
-      Object {
-        "dispatch": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-        Symbol(observable): [Function],
-      }
-    }
-    updateActiveOutputNotificationDevice={[Function]}
-    updateActiveOutputRingtoneDevice={[Function]}
-    updateActiveOutputSpeakerDevice={[Function]}
-  />
-</ContextProvider>
 `;
 
 exports[`<AudioOutputMenu /> renders the audio output menu when crmModule is not zendesk and notifications are not enabled in toolbar mode 1`] = `
 <Fragment>
   <DeviceMenu
     audio="ringtone"
-    devices={Array []}
+    devices={
+      Array [
+        Object {
+          "id": "default",
+          "isActive": false,
+          "label": "Default",
+        },
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": false,
+          "label": "Built-in Audio Analog Stereo",
+        },
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": false,
+          "label": "Plantronics C320 Analog Stereo",
+        },
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": true,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        },
+      ]
+    }
     label={
       Object {
         "defaultMessage": "Ringtone",
         "id": "app.containers.AudioOutputMenu.ringtone",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
   <DeviceMenu
     audio="voice"
-    devices={Array []}
+    devices={
+      Array [
+        Object {
+          "id": "default",
+          "isActive": false,
+          "label": "Default",
+        },
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": false,
+          "label": "Built-in Audio Analog Stereo",
+        },
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": true,
+          "label": "Plantronics C320 Analog Stereo",
+        },
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": false,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        },
+      ]
+    }
     label={
       Object {
         "defaultMessage": "Voice",
         "id": "app.containers.AudioOutputMenu.voice",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
 </Fragment>
 `;
@@ -423,36 +184,105 @@ exports[`<AudioOutputMenu /> renders the audio output menu when crmModule is zen
 <Fragment>
   <DeviceMenu
     audio="media"
-    devices={Array []}
+    devices={
+      Array [
+        Object {
+          "id": "default",
+          "isActive": false,
+          "label": "Default",
+        },
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": false,
+          "label": "Built-in Audio Analog Stereo",
+        },
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": false,
+          "label": "Plantronics C320 Analog Stereo",
+        },
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": true,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        },
+      ]
+    }
     label={
       Object {
         "defaultMessage": "Media",
         "id": "app.containers.AudioOutputMenu.media",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
   <DeviceMenu
     audio="ringtone"
-    devices={Array []}
+    devices={
+      Array [
+        Object {
+          "id": "default",
+          "isActive": false,
+          "label": "Default",
+        },
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": false,
+          "label": "Built-in Audio Analog Stereo",
+        },
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": false,
+          "label": "Plantronics C320 Analog Stereo",
+        },
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": true,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        },
+      ]
+    }
     label={
       Object {
         "defaultMessage": "Ringtone",
         "id": "app.containers.AudioOutputMenu.ringtone",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
   <DeviceMenu
     audio="voice"
-    devices={Array []}
+    devices={
+      Array [
+        Object {
+          "id": "default",
+          "isActive": false,
+          "label": "Default",
+        },
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": false,
+          "label": "Built-in Audio Analog Stereo",
+        },
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": true,
+          "label": "Plantronics C320 Analog Stereo",
+        },
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": false,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        },
+      ]
+    }
     label={
       Object {
         "defaultMessage": "Voice",
         "id": "app.containers.AudioOutputMenu.voice",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
 </Fragment>
 `;
@@ -461,36 +291,105 @@ exports[`<AudioOutputMenu /> renders the audio output menu when crmModule is zen
 <Fragment>
   <DeviceMenu
     audio="media"
-    devices={Array []}
+    devices={
+      Array [
+        Object {
+          "id": "default",
+          "isActive": false,
+          "label": "Default",
+        },
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": false,
+          "label": "Built-in Audio Analog Stereo",
+        },
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": false,
+          "label": "Plantronics C320 Analog Stereo",
+        },
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": true,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        },
+      ]
+    }
     label={
       Object {
         "defaultMessage": "Media",
         "id": "app.containers.AudioOutputMenu.media",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
   <DeviceMenu
     audio="ringtone"
-    devices={Array []}
+    devices={
+      Array [
+        Object {
+          "id": "default",
+          "isActive": false,
+          "label": "Default",
+        },
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": false,
+          "label": "Built-in Audio Analog Stereo",
+        },
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": false,
+          "label": "Plantronics C320 Analog Stereo",
+        },
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": true,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        },
+      ]
+    }
     label={
       Object {
         "defaultMessage": "Ringtone",
         "id": "app.containers.AudioOutputMenu.ringtone",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
   <DeviceMenu
     audio="voice"
-    devices={Array []}
+    devices={
+      Array [
+        Object {
+          "id": "default",
+          "isActive": false,
+          "label": "Default",
+        },
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": false,
+          "label": "Built-in Audio Analog Stereo",
+        },
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": true,
+          "label": "Plantronics C320 Analog Stereo",
+        },
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": false,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        },
+      ]
+    }
     label={
       Object {
         "defaultMessage": "Voice",
         "id": "app.containers.AudioOutputMenu.voice",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
 </Fragment>
 `;
@@ -506,7 +405,7 @@ exports[`<AudioOutputMenu /> renders the audio output menu when devices lists ar
         "id": "app.containers.AudioOutputMenu.media",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
   <DeviceMenu
     audio="ringtone"
@@ -517,7 +416,7 @@ exports[`<AudioOutputMenu /> renders the audio output menu when devices lists ar
         "id": "app.containers.AudioOutputMenu.ringtone",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
   <DeviceMenu
     audio="voice"
@@ -528,7 +427,7 @@ exports[`<AudioOutputMenu /> renders the audio output menu when devices lists ar
         "id": "app.containers.AudioOutputMenu.voice",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
 </Fragment>
 `;
@@ -537,36 +436,105 @@ exports[`<AudioOutputMenu /> renders the audio output menu when notifications ar
 <Fragment>
   <DeviceMenu
     audio="media"
-    devices={Array []}
+    devices={
+      Array [
+        Object {
+          "id": "default",
+          "isActive": false,
+          "label": "Default",
+        },
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": false,
+          "label": "Built-in Audio Analog Stereo",
+        },
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": false,
+          "label": "Plantronics C320 Analog Stereo",
+        },
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": true,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        },
+      ]
+    }
     label={
       Object {
         "defaultMessage": "Media",
         "id": "app.containers.AudioOutputMenu.media",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
   <DeviceMenu
     audio="ringtone"
-    devices={Array []}
+    devices={
+      Array [
+        Object {
+          "id": "default",
+          "isActive": false,
+          "label": "Default",
+        },
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": false,
+          "label": "Built-in Audio Analog Stereo",
+        },
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": false,
+          "label": "Plantronics C320 Analog Stereo",
+        },
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": true,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        },
+      ]
+    }
     label={
       Object {
         "defaultMessage": "Ringtone",
         "id": "app.containers.AudioOutputMenu.ringtone",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
   <DeviceMenu
     audio="voice"
-    devices={Array []}
+    devices={
+      Array [
+        Object {
+          "id": "default",
+          "isActive": false,
+          "label": "Default",
+        },
+        Object {
+          "id": "aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b",
+          "isActive": false,
+          "label": "Built-in Audio Analog Stereo",
+        },
+        Object {
+          "id": "6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb",
+          "isActive": true,
+          "label": "Plantronics C320 Analog Stereo",
+        },
+        Object {
+          "id": "807fbf9ab5fd57290d125721e10edaab372b2c52569513de20934e0a14971957",
+          "isActive": false,
+          "label": "USG PnIXAu20o  Analog Stereo",
+        },
+      ]
+    }
     label={
       Object {
         "defaultMessage": "Voice",
         "id": "app.containers.AudioOutputMenu.voice",
       }
     }
-    setDeviceAsActive={[MockFunction]}
+    setDeviceAsActive={[Function]}
   />
 </Fragment>
 `;

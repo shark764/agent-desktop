@@ -29,73 +29,45 @@ const devices = [
 ];
 
 describe('<DeviceMenu />', () => {
-  describe('collection of devices is passed in', () => {
-    const rendered = shallow(
+  let rendered;
+  const setOpen = jest.fn();
+  const useStateSpy = jest.spyOn(React, 'useState');
+  useStateSpy.mockImplementation((open) => [open, setOpen]);
+
+  beforeEach(() => {
+    rendered = shallow(
       <DeviceMenu
         devices={devices}
         setDeviceAsActive={() => {}}
-        audio="voice"
+        audio="media"
         label={{
-          id: 'app.containers.AudioOutputMenu.voice',
-          defaultMessage: 'Voice',
+          id: 'app.containers.AudioOutputMenu.media',
+          defaultMessage: 'Media',
         }}
       />
     );
+  });
+
+  describe('collection of devices is passed in', () => {
     it('renders correctly', () => {
       expect(rendered).toMatchSnapshot();
     });
   });
-  it('renders DeviceOption list when empty collection of devices is passed in', () => {
-    const rendered = shallow(
-      <DeviceMenu
-        devices={[]}
-        setDeviceAsActive={() => {}}
-        audio="media"
-        label={{
-          id: 'app.containers.AudioOutputMenu.media',
-          defaultMessage: 'Media',
-        }}
-      />
-    );
-    rendered.setState({ open: true });
-    expect(rendered).toMatchSnapshot();
-  });
-  it('renders DeviceOption list when open is set in state', () => {
-    const rendered = shallow(
-      <DeviceMenu
-        devices={devices}
-        setDeviceAsActive={() => {}}
-        audio="media"
-        label={{
-          id: 'app.containers.AudioOutputMenu.media',
-          defaultMessage: 'Media',
-        }}
-      />
-    );
-    rendered.setState({ open: true });
-    expect(rendered).toMatchSnapshot();
-  });
-  it('renders DeviceOption list when open is set in state and none-selection is available', () => {
-    const rendered = shallow(
-      <DeviceMenu
-        devices={devices}
-        setDeviceAsActive={() => {}}
-        audio="media"
-        label={{
-          id: 'app.containers.AudioOutputMenu.media',
-          defaultMessage: 'Media',
-        }}
-      />
-    );
-    rendered.setState({ open: true });
-    expect(rendered).toMatchSnapshot();
-  });
 
   describe('calling header "setOpen" method', () => {
     it('should call setOpen when PreferenceOption is clicked', () => {
-      const rendered = shallow(
+      rendered
+        .find(PreferenceOption)
+        .props()
+        .setPreferenceSelected();
+
+      expect(rendered).toMatchSnapshot();
+    });
+
+    it('renders DeviceOption list when empty collection of devices is passed in', () => {
+      rendered = shallow(
         <DeviceMenu
-          devices={devices}
+          devices={[]}
           setDeviceAsActive={() => {}}
           audio="media"
           label={{
@@ -104,13 +76,16 @@ describe('<DeviceMenu />', () => {
           }}
         />
       );
-      expect(rendered.state('open')).toBe(false);
-
       rendered
         .find(PreferenceOption)
         .props()
         .setPreferenceSelected();
-      expect(rendered.state('open')).toBe(true);
+
+      expect(rendered).toMatchSnapshot();
     });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 });

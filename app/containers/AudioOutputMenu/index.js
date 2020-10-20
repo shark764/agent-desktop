@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { isToolbar } from 'utils/url';
 import { selectCrmModule } from 'containers/AgentDesktop/selectors';
@@ -50,76 +49,47 @@ import DeviceMenu from './DeviceMenu';
  *    play standard speaker sounds.
  */
 
-export const AudioOutputMenu = (props) => (
-  <>
-    {(props.audioNotificationsEnabled ||
-      !isToolbar() ||
-      props.crmModule === 'zendesk') && (
+export const AudioOutputMenu = () => {
+  const ringtoneDevices = useSelector(selectActiveOutputRingtoneDevices);
+  const speakerDevices = useSelector(selectActiveOutputSpeakerDevices);
+  const notificationDevices = useSelector(
+    selectActiveOutputNotificationDevices
+  );
+  const audioNotificationsEnabled = useSelector(selectAudioPreferences);
+  const crmModule = useSelector(selectCrmModule);
+  const dispatch = useDispatch();
+
+  return (
+    <>
+      {(audioNotificationsEnabled ||
+        !isToolbar() ||
+        crmModule === 'zendesk') && (
+        <DeviceMenu
+          audio="media"
+          label={messages.media}
+          devices={notificationDevices}
+          setDeviceAsActive={(id) =>
+            dispatch(updateActiveOutputNotificationDevice(id))}
+        />
+      )}
+
       <DeviceMenu
-        audio="media"
-        label={messages.media}
-        devices={props.notificationDevices}
-        setDeviceAsActive={props.updateActiveOutputNotificationDevice}
+        audio="ringtone"
+        label={messages.ringtone}
+        devices={ringtoneDevices}
+        setDeviceAsActive={(id) =>
+          dispatch(updateActiveOutputRingtoneDevice(id))}
       />
-    )}
 
-    <DeviceMenu
-      audio="ringtone"
-      label={messages.ringtone}
-      devices={props.ringtoneDevices}
-      setDeviceAsActive={props.updateActiveOutputRingtoneDevice}
-    />
-
-    <DeviceMenu
-      audio="voice"
-      label={messages.voice}
-      devices={props.speakerDevices}
-      setDeviceAsActive={props.updateActiveOutputSpeakerDevice}
-    />
-  </>
-);
-
-const mapStateToProps = (state, props) => ({
-  ringtoneDevices: selectActiveOutputRingtoneDevices(state, props),
-  speakerDevices: selectActiveOutputSpeakerDevices(state, props),
-  notificationDevices: selectActiveOutputNotificationDevices(state, props),
-  audioNotificationsEnabled: selectAudioPreferences(state, props),
-  crmModule: selectCrmModule(state, props),
-});
-
-const actions = {
-  updateActiveOutputRingtoneDevice,
-  updateActiveOutputSpeakerDevice,
-  updateActiveOutputNotificationDevice,
+      <DeviceMenu
+        audio="voice"
+        label={messages.voice}
+        devices={speakerDevices}
+        setDeviceAsActive={(id) =>
+          dispatch(updateActiveOutputSpeakerDevice(id))}
+      />
+    </>
+  );
 };
 
-AudioOutputMenu.propTypes = {
-  ringtoneDevices: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      id: PropTypes.string,
-    })
-  ).isRequired,
-  speakerDevices: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      id: PropTypes.string,
-    })
-  ).isRequired,
-  notificationDevices: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      id: PropTypes.string,
-    })
-  ).isRequired,
-  audioNotificationsEnabled: PropTypes.bool,
-  updateActiveOutputRingtoneDevice: PropTypes.func.isRequired,
-  updateActiveOutputSpeakerDevice: PropTypes.func.isRequired,
-  updateActiveOutputNotificationDevice: PropTypes.func.isRequired,
-  crmModule: PropTypes.string,
-};
-
-export default connect(
-  mapStateToProps,
-  actions
-)(AudioOutputMenu);
+export default AudioOutputMenu;

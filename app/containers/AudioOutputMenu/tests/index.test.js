@@ -3,30 +3,25 @@
  */
 
 import React from 'react';
-import { createStore } from 'redux';
 import { shallow } from 'enzyme';
 
 import { isToolbar } from 'utils/url';
-import { selectCrmModule } from 'containers/AgentDesktop/selectors';
-import { selectAudioPreferences } from 'containers/AgentNotificationsMenu/selectors';
+import * as ADSelectors from 'containers/AgentDesktop/selectors';
+import * as ANSelectors from 'containers/AgentNotificationsMenu/selectors';
+import * as Selectors from '../selectors';
+import * as Thunks from '../thunks';
 
-import {
-  selectActiveOutputRingtoneDevices,
-  selectActiveOutputSpeakerDevices,
-  selectActiveOutputNotificationDevices,
-} from '../selectors';
-
-import ConnectedAudioOutputMenu, { AudioOutputMenu } from '..';
+import { AudioOutputMenu } from '..';
 
 jest.mock('utils/url');
 isToolbar.mockImplementation(() => false);
 
 const ringtoneDevices = [
-  { id: 'default', label: 'Default', isActive: true },
+  { id: 'default', label: 'Default', isActive: false },
   {
     id: 'aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b',
     label: 'Built-in Audio Analog Stereo',
-    isActive: true,
+    isActive: false,
   },
   {
     id: '6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb',
@@ -39,13 +34,12 @@ const ringtoneDevices = [
     isActive: true,
   },
 ];
-const updateActiveOutputRingtoneDevice = jest.fn();
 const speakerDevices = [
   { id: 'default', label: 'Default', isActive: false },
   {
     id: 'aead4bb457d9b0aeeddb669d8e6fef68d9cf2379d25264d6948af1dbdea3259b',
     label: 'Built-in Audio Analog Stereo',
-    isActive: true,
+    isActive: false,
   },
   {
     id: '6d4096a33f2ba164d976a9929c3936b2956644e0581085c8870c4272782db9fb',
@@ -58,7 +52,6 @@ const speakerDevices = [
     isActive: false,
   },
 ];
-const updateActiveOutputSpeakerDevice = jest.fn();
 const notificationDevices = [
   { id: 'default', label: 'Default', isActive: false },
   {
@@ -77,89 +70,84 @@ const notificationDevices = [
     isActive: true,
   },
 ];
-const updateActiveOutputNotificationDevice = jest.fn();
 
-jest.mock('containers/AgentDesktop/selectors');
-selectCrmModule.mockImplementation(() => 'none');
-jest.mock('containers/AgentNotificationsMenu/selectors');
-selectAudioPreferences.mockImplementation(() => true);
-jest.mock('../selectors');
-selectActiveOutputRingtoneDevices.mockImplementation(() => ringtoneDevices);
-selectActiveOutputSpeakerDevices.mockImplementation(() => speakerDevices);
-selectActiveOutputNotificationDevices.mockImplementation(
-  () => notificationDevices
-);
+jest.mock('react-redux', () => ({
+  useSelector: jest.fn((fn) => fn()),
+  useDispatch: () => jest.fn(),
+}));
+
+jest
+  .spyOn(Selectors, 'selectActiveOutputRingtoneDevices')
+  .mockReturnValue(ringtoneDevices);
+jest.spyOn(Thunks, 'updateActiveOutputRingtoneDevice');
+jest
+  .spyOn(Selectors, 'selectActiveOutputSpeakerDevices')
+  .mockReturnValue(speakerDevices);
+jest.spyOn(Thunks, 'updateActiveOutputSpeakerDevice');
+jest
+  .spyOn(Selectors, 'selectActiveOutputNotificationDevices')
+  .mockReturnValue(notificationDevices);
+jest.spyOn(Thunks, 'updateActiveOutputNotificationDevice');
+
+jest.spyOn(ADSelectors, 'selectCrmModule').mockReturnValue('none');
+jest.spyOn(ANSelectors, 'selectAudioPreferences').mockReturnValue(true);
 
 describe('<AudioOutputMenu />', () => {
-  const store = createStore((state) => state);
-  const testProps = {
-    store,
-    ringtoneDevices,
-    speakerDevices,
-    notificationDevices,
-    updateActiveOutputRingtoneDevice,
-    updateActiveOutputSpeakerDevice,
-    updateActiveOutputNotificationDevice,
-    audioNotificationsEnabled: true,
-    crmModule: 'none',
-  };
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
 
   it('renders the audio output menu', () => {
-    const rendered = shallow(<AudioOutputMenu {...testProps} />);
+    const rendered = shallow(<AudioOutputMenu />);
     expect(rendered).toMatchSnapshot();
   });
 
   it('renders the audio output menu when devices lists are empty', () => {
-    testProps.ringtoneDevices = [];
-    testProps.speakerDevices = [];
-    testProps.notificationDevices = [];
-    const rendered = shallow(<AudioOutputMenu {...testProps} />);
+    jest
+      .spyOn(Selectors, 'selectActiveOutputRingtoneDevices')
+      .mockReturnValueOnce([]);
+    jest
+      .spyOn(Selectors, 'selectActiveOutputSpeakerDevices')
+      .mockReturnValueOnce([]);
+    jest
+      .spyOn(Selectors, 'selectActiveOutputNotificationDevices')
+      .mockReturnValueOnce([]);
+    const rendered = shallow(<AudioOutputMenu />);
     expect(rendered).toMatchSnapshot();
   });
 
   it('renders the audio output menu when notifications are not enabled', () => {
-    testProps.audioNotificationsEnabled = false;
-    const rendered = shallow(<AudioOutputMenu {...testProps} />);
+    jest
+      .spyOn(ANSelectors, 'selectAudioPreferences')
+      .mockReturnValueOnce(false);
+    const rendered = shallow(<AudioOutputMenu />);
     expect(rendered).toMatchSnapshot();
   });
 
   it('renders the audio output menu when crmModule is zendesk in desktop mode', () => {
-    testProps.crmModule = 'zendesk';
-    const rendered = shallow(<AudioOutputMenu {...testProps} />);
+    jest.spyOn(ADSelectors, 'selectCrmModule').mockReturnValueOnce('zendesk');
+    const rendered = shallow(<AudioOutputMenu />);
     expect(rendered).toMatchSnapshot();
   });
 
   it('renders the audio output menu when crmModule is zendesk in toolbar mode', () => {
     isToolbar.mockImplementationOnce(() => true);
-    testProps.crmModule = 'zendesk';
-    const rendered = shallow(<AudioOutputMenu {...testProps} />);
+    jest.spyOn(ADSelectors, 'selectCrmModule').mockReturnValueOnce('zendesk');
+    const rendered = shallow(<AudioOutputMenu />);
     expect(rendered).toMatchSnapshot();
   });
 
   it('renders the audio output menu when crmModule is not zendesk and notifications are not enabled in toolbar mode', () => {
     isToolbar.mockImplementationOnce(() => true);
-    testProps.crmModule = 'none';
-    testProps.audioNotificationsEnabled = false;
-    const rendered = shallow(<AudioOutputMenu {...testProps} />);
-    expect(rendered).toMatchSnapshot();
-  });
-
-  it('renders the audio output menu connected with redux', () => {
-    const rendered = shallow(<ConnectedAudioOutputMenu {...testProps} />);
-    expect(rendered).toMatchSnapshot();
-  });
-
-  it('renders the audio output menu connected with redux when notifications are not available', () => {
-    selectAudioPreferences.mockImplementationOnce(() => false);
-    const rendered = shallow(<ConnectedAudioOutputMenu {...testProps} />);
-    expect(rendered).toMatchSnapshot();
-  });
-
-  it('renders the audio output menu connected with redux when notifications are not available in zendesk mode', () => {
-    isToolbar.mockImplementationOnce(() => true);
-    selectCrmModule.mockImplementationOnce(() => 'zendesk');
-    selectAudioPreferences.mockImplementationOnce(() => false);
-    const rendered = shallow(<ConnectedAudioOutputMenu {...testProps} />);
+    jest.spyOn(ADSelectors, 'selectCrmModule').mockReturnValueOnce('none');
+    jest
+      .spyOn(ANSelectors, 'selectAudioPreferences')
+      .mockReturnValueOnce(false);
+    const rendered = shallow(<AudioOutputMenu />);
     expect(rendered).toMatchSnapshot();
   });
 });
