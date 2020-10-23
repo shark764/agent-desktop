@@ -79,6 +79,12 @@ export const getLocaleLabel = (attribute, locale) => {
   } else if (attribute.objectName !== undefined) {
     // Fallback for attributes
     return attribute.objectName;
+  } else if (attribute.label.name !== undefined) {
+    // Fallback for section headers Config UI 2 uses name.
+    return attribute.label.name;
+  } else if (attribute.label['en-US'] !== undefined) {
+    // Fallback for section headers Config UI 1 created layouts with category name in en-US,
+    return attribute.label['en-US'];
   } else {
     // Fallback for section headers
     return '';
@@ -87,7 +93,7 @@ export const getLocaleLabel = (attribute, locale) => {
 
 export function createSearchQuery(query, nextPage) {
   const encodedQuery = {};
-  Object.keys(query).forEach(queryName => {
+  Object.keys(query).forEach((queryName) => {
     const queryToEncode = query[queryName];
     encodedQuery[queryName] = encodeURIComponent(queryToEncode);
   });
