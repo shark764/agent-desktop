@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ * Copyright © 2015-2020 Serenova, LLC. All rights reserved.
  */
 
 /*
@@ -26,6 +26,7 @@ import {
   setCrmInteractionHistory,
   addNotesToContactInteractionHistory,
   loadHistoricalInteractionBody,
+  loadHistoricalEmailInteractionBody,
   loadContactInteractionHistory,
   loadCrmInteractionHistory,
 } from 'containers/AgentDesktop/actions';
@@ -162,6 +163,11 @@ export class ContactInteractionHistory extends React.Component {
               'transcript'
             );
             break;
+          case 'email':
+            this.props.loadHistoricalEmailInteractionBody(
+              interaction.interactionId
+            );
+            break;
           default:
             break;
         }
@@ -274,11 +280,7 @@ export class ContactInteractionHistory extends React.Component {
         />
       );
     }
-    return (
-      <div style={[styles.base, this.props.style]}>
-        {content}
-      </div>
-    );
+    return <div style={[styles.base, this.props.style]}>{content}</div>;
   }
 }
 
@@ -311,6 +313,8 @@ function mapDispatchToProps(dispatch) {
       ),
     loadHistoricalInteractionBody: (interactionId, bodyType) =>
       dispatch(loadHistoricalInteractionBody(interactionId, bodyType)),
+    loadHistoricalEmailInteractionBody: (interactionId) =>
+      dispatch(loadHistoricalEmailInteractionBody(interactionId)),
     loadContactInteractionHistory: (contactId, page) =>
       dispatch(loadContactInteractionHistory(contactId, page)),
     loadCrmInteractionHistory: (subType, id, page) =>
@@ -330,6 +334,7 @@ ContactInteractionHistory.propTypes = {
   setCrmInteractionHistory: PropTypes.func.isRequired,
   addNotesToContactInteractionHistory: PropTypes.func.isRequired,
   loadHistoricalInteractionBody: PropTypes.func.isRequired,
+  loadHistoricalEmailInteractionBody: PropTypes.func.isRequired,
   loadContactInteractionHistory: PropTypes.func.isRequired,
   loadCrmInteractionHistory: PropTypes.func.isRequired,
   style: PropTypes.object,

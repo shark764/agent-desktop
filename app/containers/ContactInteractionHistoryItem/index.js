@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ * Copyright © 2015-2020 Serenova, LLC. All rights reserved.
  */
 
 /*
@@ -28,6 +28,7 @@ import {
   selectActiveExtensionIsTwilio,
 } from 'containers/AudioOutputMenu/selectors';
 import MessageContent from 'components/MessageContent';
+import EmailTranscript from 'components/EmailTranscript';
 
 import messages from './messages';
 
@@ -163,6 +164,9 @@ const styles = {
     fontSize: '16px',
     lineHeight: '20px',
     whiteSpace: 'pre-wrap',
+  },
+  emailBody: {
+    overflowX: 'auto',
   },
 };
 
@@ -333,9 +337,7 @@ export class ContactInteractionHistoryItem extends React.Component {
                   id={`transcriptItem${index}`}
                   style={styles.transcriptItem}
                 >
-                  <span style={styles.messageFrom}>
-                    {messageFrom}
-                  </span>
+                  <span style={styles.messageFrom}>{messageFrom}</span>
                   <span style={styles.messageTime}>
                     {moment(Number(transcriptItem.timestamp)).format('LT')}
                   </span>
@@ -345,6 +347,47 @@ export class ContactInteractionHistoryItem extends React.Component {
                 </div>
               );
             })
+          );
+        transcript = (
+          <div style={styles.transcript}>
+            <div style={styles.transcriptTitle}>
+              <FormattedMessage {...messages.transcript} />
+            </div>
+            <div style={styles.segmentMessage}>
+              {Array.isArray(transcriptItems) &&
+              transcriptItems.length === 0 ? (
+                  <FormattedMessage {...messages.noTranscript} />
+                ) : (
+                  transcriptItems
+                )}
+            </div>
+          </div>
+        );
+        break;
+      case 'email':
+        transcriptItems =
+          typeof interactionDetails.transcript === 'undefined' ? (
+            <div style={styles.loadingInteractionDetails}>
+              <IconSVG
+                id="loadingEmailTranscripts"
+                name="loading"
+                width="50px"
+              />
+            </div>
+          ) : (
+            interactionDetails.transcript &&
+            interactionDetails.transcript.map &&
+            interactionDetails.transcript.map((transcriptItem, index) => (
+              <div
+                key={`email-transcriptItem-${index}`} // eslint-disable-line
+                id={`email-transcriptItem${index}`}
+                style={styles.transcriptItem}
+              >
+                <div style={styles.messageText}>
+                  <EmailTranscript transcript={transcriptItem} />
+                </div>
+              </div>
+            ))
           );
         transcript = (
           <div style={styles.transcript}>
@@ -471,9 +514,7 @@ export class ContactInteractionHistoryItem extends React.Component {
             return (
               <div
                 className="segment"
-                key={`${segment.resourceId}-${
-                  segment.conversationStartTimestamp
-                }`}
+                key={`${segment.resourceId}-${segment.conversationStartTimestamp}`}
                 style={styles.segment}
               >
                 <Icon name={icon} style={styles.segmentChannelIcon} />
@@ -562,6 +603,8 @@ export class ContactInteractionHistoryItem extends React.Component {
           styles.interaction,
           styles.interactionListItem,
           interactionDetails === undefined && styles.pointer,
+          // Necessary to avoid email transcript overflows panel
+          interaction.channelType === 'email' && styles.emailBody,
         ]}
         onClick={
           interactionDetails === undefined
@@ -620,9 +663,7 @@ export class ContactInteractionHistoryItem extends React.Component {
               {interaction.lastDispositionName}
             </div>
           )}
-          <div>
-            {moment(interaction.startTimestamp).format('LLL')}
-          </div>
+          <div>{moment(interaction.startTimestamp).format('LLL')}</div>
         </div>
         {interactionDetails && (
           <div className="interactionDetails" style={styles.interactionDetails}>
@@ -660,8 +701,5 @@ ContactInteractionHistoryItem.propTypes = {
 };
 
 export default ErrorBoundary(
-  connect(
-    mapStateToProps,
-    actions
-  )(Radium(ContactInteractionHistoryItem))
+  connect(mapStateToProps, actions)(Radium(ContactInteractionHistoryItem))
 );

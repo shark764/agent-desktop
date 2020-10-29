@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.60.0] (2020-10-09)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.60.0/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.60.0/index.html)
+### Added
+* CXV1-23209 - Adding transcript for email interactions on contact history panel.
+
 ## [1.59.1] (2020-10-20)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.59.0/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.59.0/index.html)

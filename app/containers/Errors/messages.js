@@ -62,6 +62,14 @@ export default defineMessages({
     defaultMessage:
       'MQTT is currently disconnected. You will not be able to send or receive messages until it reconnects.',
   },
+  'AD-1009': {
+    id: 'app.containers.Errors.AD-1009',
+    defaultMessage: 'An error ocurred while fetching email manifest files.',
+  },
+  'AD-1010': {
+    id: 'app.containers.Errors.AD-1010',
+    defaultMessage: 'An error ocurred while fetching email transcript files.',
+  },
   /**
    * context :general
    */
@@ -549,6 +557,10 @@ export default defineMessages({
     id: 'app.containers.Errors.10008',
     defaultMessage:
       'Failed to send email reply. There is no artifact for the interaction.',
+  },
+  10009: {
+    id: 'app.containers.Errors.10009',
+    defaultMessage: 'Failed to retrieve email transcripts.',
   },
   /**
    * context :entities

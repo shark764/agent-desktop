@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
+ * Copyright © 2015-2020 Serenova, LLC. All rights reserved.
  */
 
 /*
@@ -8,6 +8,8 @@
  *
  */
 
+import axios from 'axios';
+import { setNonCriticalError } from 'containers/Errors/actions';
 import * as ACTIONS from './constants';
 
 export function saveMessageState(
@@ -488,6 +490,129 @@ export function loadHistoricalInteractionBody(interactionId, bodyType) {
     type: ACTIONS.LOAD_HISTORICAL_INTERACTION_BODY,
     interactionId,
     bodyType,
+  };
+}
+
+export function loadHistoricalEmailInteractionBody(interactionId) {
+  return (dispatch) => {
+    CxEngage.reporting.getEmailTranscripts(
+      { interactionId },
+      async (error, topic, response) => {
+        if (!error) {
+          const body = {};
+          body.transcript = [];
+
+          const artifacts = response.filter(
+            (artifact) => artifact.files.length > 0
+          );
+
+          let manifests = [];
+          const manifestArtifactFiles = artifacts.map((artifact) =>
+            artifact.files.find(
+              (file) =>
+                file &&
+                file.contentType.toLowerCase().includes('application/json') &&
+                file.filename === 'manifest.json'
+            )
+          );
+          try {
+            const results = await Promise.all(
+              manifestArtifactFiles.map((file) => axios.get(file.url))
+            );
+            manifests = results.map(
+              ({
+                data: { subject, from = [], to = [], cc = [], bcc = [] },
+              }) => ({
+                subject,
+                from,
+                to,
+                cc,
+                bcc,
+              })
+            );
+          } catch (e) {
+            console.error(
+              'An error ocurred while fetching email manifest files.',
+              e
+            );
+            dispatch(setNonCriticalError({ code: 'AD-1009' }));
+          }
+
+          /**
+           * Body files, use the html one, if it's not present, then use plaintext one
+           */
+          const bodyArtifactFiles = artifacts.map((artifact) => {
+            let bodyFile = artifact.files.find(
+              (file) =>
+                file.contentType.toLowerCase().includes('text/html') &&
+                (file.filename === 'body' || file.filename === 'htmlBody')
+            );
+            if (!bodyFile) {
+              bodyFile = artifact.files.find(
+                (file) =>
+                  file.contentType.toLowerCase().includes('text/plain') &&
+                  (file.filename === 'body' ||
+                    file.filename === 'plainTextBody')
+              );
+            }
+            return bodyFile;
+          });
+          try {
+            const results = await Promise.all(
+              bodyArtifactFiles.map((file) => axios.get(file.url))
+            );
+            body.transcript = results.map(({ data, headers }, index) => ({
+              data,
+              attachments: artifacts[index].files
+                .filter(
+                  (attachment) =>
+                    attachment && attachment.filename !== 'manifest.json'
+                )
+                .map((attachment) => {
+                  const attachmentContentType = attachment.contentType.toLowerCase();
+                  if (attachment.contentType.includes('name=')) {
+                    attachment.filename = attachment.contentType.substring(
+                      attachment.contentType.indexOf('name=') + 5
+                    );
+                  } else if (
+                    attachmentContentType.includes('text/html') &&
+                    (attachment.filename === 'body' ||
+                      attachment.filename === 'htmlBody')
+                  ) {
+                    attachment.filename = `${attachment.filename}.html`;
+                  } else if (
+                    attachmentContentType.includes('text/plain') &&
+                    (attachment.filename === 'body' ||
+                      attachment.filename === 'plainTextBody')
+                  ) {
+                    attachment.filename = `${attachment.filename}.txt`;
+                  }
+                  return attachment;
+                }),
+              ...manifests[index],
+              type: index === 0 ? 'email' : 'reply',
+              /**
+               * contentType is used to render html vs plaintext, depending
+               * on what file was retrieved from artifact
+               */
+              contentType: headers['content-type']
+                .toLowerCase()
+                .includes('text/html')
+                ? 'html'
+                : 'plainText',
+            }));
+          } catch (e) {
+            console.error(
+              'An error ocurred while fetching email transcript files.',
+              e
+            );
+            dispatch(setNonCriticalError({ code: 'AD-1010' }));
+          }
+
+          dispatch(updateContactHistoryInteractionDetails(interactionId, body));
+        }
+      }
+    );
   };
 }
 

@@ -1,0 +1,415 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EmailTranscript /> should render "bcc" recipients 1`] = `
+<EmailContainer>
+  <styled.div>
+    <h3>
+      <FormattedMessage
+        defaultMessage="Email"
+        id="app.components.EmailTranscript.email"
+        values={Object {}}
+      />
+    </h3>
+    <div>
+      <strong>
+        Subject: 
+      </strong>
+      Hey i need some help!
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="From"
+          id="app.components.EmailTranscript.from"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      sjohanson@serenova.com
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="To"
+          id="app.components.EmailTranscript.to"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      Emily Blunt &lt;eblunt@serenova.com&gt;
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="Cc"
+          id="app.components.EmailTranscript.cc"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      Elizabeth Olsen &lt;eolsen@serenova.com&gt;
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="Bcc"
+          id="app.components.EmailTranscript.bcc"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      Karen Gillan &lt;kgillan@serenova.com&gt;
+    </div>
+  </styled.div>
+  <styled.div>
+    <styled.a
+      alt="attachment"
+      href="https://files.com/body.txt"
+      key="artifact-1"
+      target="_blank"
+      title="body.txt"
+    >
+      <styled.div>
+        body.txt
+      </styled.div>
+    </styled.a>
+    <styled.a
+      alt="attachment"
+      href="https://files.com/body.html"
+      key="artifact-2"
+      target="_blank"
+      title="body.html"
+    >
+      <styled.div>
+        body.html
+      </styled.div>
+    </styled.a>
+  </styled.div>
+  <div
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "<p>Hello, this is a test message!</p>",
+      }
+    }
+  />
+</EmailContainer>
+`;
+
+exports[`<EmailTranscript /> should render "cc" recipients 1`] = `
+<EmailContainer>
+  <styled.div>
+    <h3>
+      <FormattedMessage
+        defaultMessage="Email"
+        id="app.components.EmailTranscript.email"
+        values={Object {}}
+      />
+    </h3>
+    <div>
+      <strong>
+        Subject: 
+      </strong>
+      Hey i need some help!
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="From"
+          id="app.components.EmailTranscript.from"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      sjohanson@serenova.com
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="To"
+          id="app.components.EmailTranscript.to"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      Emily Blunt &lt;eblunt@serenova.com&gt;
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="Cc"
+          id="app.components.EmailTranscript.cc"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      Elizabeth Olsen &lt;eolsen@serenova.com&gt;
+    </div>
+  </styled.div>
+  <styled.div>
+    <styled.a
+      alt="attachment"
+      href="https://files.com/body.txt"
+      key="artifact-1"
+      target="_blank"
+      title="body.txt"
+    >
+      <styled.div>
+        body.txt
+      </styled.div>
+    </styled.a>
+    <styled.a
+      alt="attachment"
+      href="https://files.com/body.html"
+      key="artifact-2"
+      target="_blank"
+      title="body.html"
+    >
+      <styled.div>
+        body.html
+      </styled.div>
+    </styled.a>
+  </styled.div>
+  <div
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "<p>Hello, this is a test message!</p>",
+      }
+    }
+  />
+</EmailContainer>
+`;
+
+exports[`<EmailTranscript /> should render "from" recipients when name === address 1`] = `
+<EmailContainer>
+  <styled.div>
+    <h3>
+      <FormattedMessage
+        defaultMessage="Email"
+        id="app.components.EmailTranscript.email"
+        values={Object {}}
+      />
+    </h3>
+    <div>
+      <strong>
+        Subject: 
+      </strong>
+      Hey i need some help!
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="From"
+          id="app.components.EmailTranscript.from"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      sjohanson@serenova.com
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="To"
+          id="app.components.EmailTranscript.to"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      Emily Blunt &lt;eblunt@serenova.com&gt;
+    </div>
+  </styled.div>
+  <styled.div>
+    <styled.a
+      alt="attachment"
+      href="https://files.com/body.txt"
+      key="artifact-1"
+      target="_blank"
+      title="body.txt"
+    >
+      <styled.div>
+        body.txt
+      </styled.div>
+    </styled.a>
+    <styled.a
+      alt="attachment"
+      href="https://files.com/body.html"
+      key="artifact-2"
+      target="_blank"
+      title="body.html"
+    >
+      <styled.div>
+        body.html
+      </styled.div>
+    </styled.a>
+  </styled.div>
+  <div
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "<p>Hello, this is a test message!</p>",
+      }
+    }
+  />
+</EmailContainer>
+`;
+
+exports[`<EmailTranscript /> should render email transcript component correctly 1`] = `
+<EmailContainer>
+  <styled.div>
+    <h3>
+      <FormattedMessage
+        defaultMessage="Email"
+        id="app.components.EmailTranscript.email"
+        values={Object {}}
+      />
+    </h3>
+    <div>
+      <strong>
+        Subject: 
+      </strong>
+      Hey i need some help!
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="From"
+          id="app.components.EmailTranscript.from"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      Scarlett Johanson &lt;sjohanson@serenova.com&gt;
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="To"
+          id="app.components.EmailTranscript.to"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      Emily Blunt &lt;eblunt@serenova.com&gt;
+    </div>
+  </styled.div>
+  <styled.div>
+    <styled.a
+      alt="attachment"
+      href="https://files.com/body.txt"
+      key="artifact-1"
+      target="_blank"
+      title="body.txt"
+    >
+      <styled.div>
+        body.txt
+      </styled.div>
+    </styled.a>
+    <styled.a
+      alt="attachment"
+      href="https://files.com/body.html"
+      key="artifact-2"
+      target="_blank"
+      title="body.html"
+    >
+      <styled.div>
+        body.html
+      </styled.div>
+    </styled.a>
+  </styled.div>
+  <div
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "<p>Hello, this is a test message!</p>",
+      }
+    }
+  />
+</EmailContainer>
+`;
+
+exports[`<EmailTranscript /> should render plaintext body when contentType is not html 1`] = `
+<EmailContainer>
+  <styled.div>
+    <h3>
+      <FormattedMessage
+        defaultMessage="Email"
+        id="app.components.EmailTranscript.email"
+        values={Object {}}
+      />
+    </h3>
+    <div>
+      <strong>
+        Subject: 
+      </strong>
+      Hey i need some help!
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="From"
+          id="app.components.EmailTranscript.from"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      sjohanson@serenova.com
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="To"
+          id="app.components.EmailTranscript.to"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      Emily Blunt &lt;eblunt@serenova.com&gt;
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="Cc"
+          id="app.components.EmailTranscript.cc"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      Elizabeth Olsen &lt;eolsen@serenova.com&gt;
+    </div>
+    <div>
+      <strong>
+        <FormattedMessage
+          defaultMessage="Bcc"
+          id="app.components.EmailTranscript.bcc"
+          values={Object {}}
+        />
+        : 
+      </strong>
+      Karen Gillan &lt;kgillan@serenova.com&gt;
+    </div>
+  </styled.div>
+  <styled.div>
+    <styled.a
+      alt="attachment"
+      href="https://files.com/body.txt"
+      key="artifact-1"
+      target="_blank"
+      title="body.txt"
+    >
+      <styled.div>
+        body.txt
+      </styled.div>
+    </styled.a>
+    <styled.a
+      alt="attachment"
+      href="https://files.com/body.html"
+      key="artifact-2"
+      target="_blank"
+      title="body.html"
+    >
+      <styled.div>
+        body.html
+      </styled.div>
+    </styled.a>
+  </styled.div>
+  &gt;&gt;Hello, this is a test message!
+</EmailContainer>
+`;

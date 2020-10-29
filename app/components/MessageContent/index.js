@@ -6,6 +6,7 @@ import Image from 'components/Image';
 import Icon from 'components/Icon';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+
 const AttachmentContainer = styled.div``;
 
 const AttachmentLink = styled.a`
@@ -100,9 +101,7 @@ export function MessageContent({ message }) {
                 placeholher="image"
               />
             </AttachmentIconContainer>
-            <FileNameContainer title={fileName}>
-              {fileName}
-            </FileNameContainer>
+            <FileNameContainer title={fileName}>{fileName}</FileNameContainer>
           </AttachmentLink>
         </AttachmentContainer>
       ) : (
@@ -113,8 +112,9 @@ export function MessageContent({ message }) {
     default:
       return (
         <MessageTextContainer>
-          {message.pending &&
-            message.isFile && <LoadingSpinnerSVG size={28} color="#b2b2b2" />}
+          {message.pending && message.isFile && (
+            <LoadingSpinnerSVG size={28} color="#b2b2b2" />
+          )}
           {message.text}
         </MessageTextContainer>
       );
