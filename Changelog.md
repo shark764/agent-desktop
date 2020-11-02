@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.60.1] (2020-11-02)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.60.1/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.60.1/index.html)
+### Updated
+* CXV1-23272 - Translations for email transcript on contact history panel.
+
 ## [1.60.0] (2020-10-09)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.60.0/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.60.0/index.html)
