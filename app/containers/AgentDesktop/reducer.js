@@ -618,9 +618,16 @@ function agentDesktopReducer(state = initialState, action) {
               action.response !== undefined
             ) {
               // Update customerOnHold and recording
-              updatedInteraction = updatedInteraction
-                .set('onHold', action.response.customerOnHold === true)
-                .set('recording', action.response.recording === true);
+              updatedInteraction = updatedInteraction.set(
+                'onHold',
+                action.response.customerOnHold === true
+              );
+              if (action.response.recording !== null) {
+                updatedInteraction = updatedInteraction.set(
+                  'recording',
+                  action.response.recording
+                );
+              }
             }
             if (
               (action.newStatus === 'work-accepting' ||

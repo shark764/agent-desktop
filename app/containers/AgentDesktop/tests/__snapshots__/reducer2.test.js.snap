@@ -340,6 +340,194 @@ Immutable.Map {
 }
 `;
 
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if interaction is "isScriptOnly" deletes "isScriptOnly" 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": "work-accepting",
+      "timeAccepted": 0,
+      "script": Immutable.Map {
+        "id": "mock-script-id",
+      },
+      "channelType": "voice",
+    },
+  ],
+  "selectedInteractionId": "test-interaction-id",
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if interaction is channel type voice adds a timestamp for timeAccepted 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": "work-accepting",
+      "channelType": "voice",
+      "timeAccepted": 1530518207007,
+      "onHold": false,
+      "recording": undefined,
+    },
+  ],
+  "selectedInteractionId": "test-interaction-id",
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if accepting an interaction if no interaction is currently selected selects the interaction 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": "work-accepting",
+      "timeAccepted": 0,
+    },
+  ],
+  "selectedInteractionId": "test-interaction-id",
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if interaction is of channelType 'voice' and action contains a response object with recording false sets onHold true and recording false 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": undefined,
+      "channelType": "voice",
+      "onHold": true,
+      "recording": false,
+    },
+  ],
+  "selectedInteractionId": undefined,
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if interaction is of channelType 'voice' and action contains a response object with recording null sets onHold true and no recording parameter 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": undefined,
+      "channelType": "voice",
+      "onHold": true,
+    },
+  ],
+  "selectedInteractionId": undefined,
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if interaction is of channelType 'voice' and action contains a response object with recording true sets onHold and recording parameters true 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": undefined,
+      "channelType": "voice",
+      "onHold": true,
+      "recording": true,
+    },
+  ],
+  "selectedInteractionId": undefined,
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if interaction was accepted if active extension is PSTN adds a timestamp for timeAccepted 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": "work-accepted",
+      "channelType": "voice",
+      "autoAnswer": false,
+      "timeAccepted": 1530518207007,
+    },
+  ],
+  "selectedInteractionId": "test-interaction-id",
+  "activeExtension": Immutable.Map {
+    "type": "pstn",
+  },
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if interaction was accepted if active extension is SIP adds a timestamp for timeAccepted 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": "work-accepted",
+      "channelType": "voice",
+      "autoAnswer": false,
+      "timeAccepted": 1530518207007,
+    },
+  ],
+  "selectedInteractionId": "test-interaction-id",
+  "activeExtension": Immutable.Map {
+    "type": "sip",
+  },
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if interaction was accepted if autoAnswer is true, timeAccepted is not set does not add a timestamp for timeAccepted 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": "work-accepted",
+      "channelType": "voice",
+      "autoAnswer": true,
+    },
+  ],
+  "selectedInteractionId": "test-interaction-id",
+  "activeExtension": Immutable.Map {
+    "type": "pstn",
+  },
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if setting a new status if there are multiple interactions updates the correct interaction's status 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": "new status",
+    },
+    Immutable.Map {
+      "interactionId": "other-interaction-id",
+      "status": "other-status-id",
+    },
+  ],
+  "selectedInteractionId": undefined,
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if setting a new status if there the interaction does not exist makes no change 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "other-interaction-id",
+      "status": "other-status-id",
+    },
+  ],
+  "selectedInteractionId": undefined,
+}
+`;
+
+exports[`agentDesktopReducer SET_INTERACTION_STATUS if setting an interaction's status to wrapup if the interaction has wrapupDetails updates the timeout and sets wrapupStarted 1`] = `
+Immutable.Map {
+  "interactions": Immutable.List [
+    Immutable.Map {
+      "interactionId": "test-interaction-id",
+      "status": "wrapup",
+      "timeout": 30000,
+      "wrapupDetails": Immutable.Map {
+        "wrapupTime": 30,
+      },
+      "wrapupStarted": 0,
+    },
+  ],
+  "selectedInteractionId": undefined,
+}
+`;
+
 exports[`agentDesktopReducer SET_INTERACTION_TRANSFER_LISTS sets interaction transfer lists 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [

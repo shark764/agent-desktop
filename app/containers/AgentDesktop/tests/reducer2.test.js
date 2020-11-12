@@ -738,4 +738,245 @@ describe('agentDesktopReducer', () => {
       });
     });
   });
+
+  describe('SET_INTERACTION_STATUS', () => {
+    beforeEach(() => {
+      initialState = {
+        interactions: [],
+        selectedInteractionId: undefined,
+      };
+      action = {
+        type: ACTIONS.SET_INTERACTION_STATUS,
+        interactionId: 'test-interaction-id',
+        newStatus: undefined,
+      };
+    });
+    describe('if setting a new status', () => {
+      beforeEach(() => {
+        action.newStatus = 'new status';
+      });
+      describe('if there are multiple interactions', () => {
+        beforeEach(() => {
+          initialState.interactions = [
+            {
+              interactionId: 'test-interaction-id',
+              status: 'old status',
+            },
+            {
+              interactionId: 'other-interaction-id',
+              status: 'other-status-id',
+            },
+          ];
+        });
+        it("updates the correct interaction's status", () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+      describe('if there the interaction does not exist', () => {
+        beforeEach(() => {
+          initialState.interactions = [
+            {
+              interactionId: 'other-interaction-id',
+              status: 'other-status-id',
+            },
+          ];
+        });
+        it('makes no change', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+    });
+    describe('if accepting an interaction', () => {
+      beforeEach(() => {
+        action.newStatus = 'work-accepting';
+      });
+      describe('if no interaction is currently selected', () => {
+        beforeEach(() => {
+          initialState.interactions = [
+            {
+              interactionId: 'test-interaction-id',
+              status: 'work-offer',
+            },
+          ];
+          initialState.selectedInteractionId = undefined;
+        });
+        it('selects the interaction', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+      describe('if interaction is "isScriptOnly"', () => {
+        beforeEach(() => {
+          initialState.interactions = [
+            {
+              interactionId: 'test-interaction-id',
+              status: 'work-offer',
+              isScriptOnly: true,
+              script: { id: 'mock-script-id' },
+            },
+          ];
+          initialState.interactions[0].channelType = 'voice';
+        });
+        it('deletes "isScriptOnly"', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+      describe('if interaction is channel type voice', () => {
+        beforeEach(() => {
+          initialState.interactions = [
+            {
+              interactionId: 'test-interaction-id',
+              status: 'work-offer',
+              channelType: 'voice',
+            },
+          ];
+          action.response = {};
+
+          Date.now = jest.fn(() => 1530518207007);
+        });
+        it('adds a timestamp for timeAccepted', () => {
+          runReducerAndExpectSnapshot();
+        });
+        afterAll(() => {
+          Date.now = jest.fn(() => 0);
+        });
+      });
+    });
+
+    describe('if interaction was accepted', () => {
+      beforeEach(() => {
+        action.newStatus = 'work-accepted';
+
+        initialState.interactions = [
+          {
+            interactionId: 'test-interaction-id',
+            status: 'work-accepting',
+            channelType: 'voice',
+            autoAnswer: false,
+          },
+        ];
+        initialState.activeExtension = {
+          type: 'pstn',
+        };
+
+        Date.now = jest.fn(() => 1530518207007);
+      });
+
+      describe('if active extension is PSTN', () => {
+        it('adds a timestamp for timeAccepted', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+
+      describe('if active extension is SIP', () => {
+        beforeEach(() => {
+          initialState.activeExtension = {
+            type: 'sip',
+          };
+        });
+        it('adds a timestamp for timeAccepted', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+
+      describe('if autoAnswer is true, timeAccepted is not set', () => {
+        beforeEach(() => {
+          initialState.interactions = [
+            {
+              interactionId: 'test-interaction-id',
+              status: 'work-accepting',
+              channelType: 'voice',
+              autoAnswer: true,
+            },
+          ];
+        });
+        it('does not add a timestamp for timeAccepted', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+
+      afterAll(() => {
+        Date.now = jest.fn(() => 0);
+      });
+    });
+
+    describe("if setting an interaction's status to wrapup", () => {
+      beforeEach(() => {
+        action.newStatus = 'wrapup';
+      });
+      describe('if the interaction has wrapupDetails', () => {
+        beforeEach(() => {
+          initialState.interactions = [
+            {
+              interactionId: 'test-interaction-id',
+              status: 'work-accepted',
+              timeout: -86400000,
+              wrapupDetails: {
+                wrapupTime: 30,
+              },
+            },
+          ];
+        });
+        it('updates the timeout and sets wrapupStarted', () => {
+          runReducerAndExpectSnapshot();
+        });
+      });
+    });
+
+    describe("if interaction is of channelType 'voice' and action contains a response object with recording true", () => {
+      beforeEach(() => {
+        initialState.interactions = [
+          {
+            interactionId: 'test-interaction-id',
+            status: 'status',
+            channelType: 'voice',
+          },
+        ];
+        action.response = {
+          customerOnHold: true,
+          recording: true,
+        };
+      });
+      it('sets onHold and recording parameters true', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+
+    describe("if interaction is of channelType 'voice' and action contains a response object with recording false", () => {
+      beforeEach(() => {
+        initialState.interactions = [
+          {
+            interactionId: 'test-interaction-id',
+            status: 'status',
+            channelType: 'voice',
+          },
+        ];
+        action.response = {
+          customerOnHold: true,
+          recording: false,
+        };
+      });
+      it('sets onHold true and recording false', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+
+    describe("if interaction is of channelType 'voice' and action contains a response object with recording null", () => {
+      beforeEach(() => {
+        initialState.interactions = [
+          {
+            interactionId: 'test-interaction-id',
+            status: 'status',
+            channelType: 'voice',
+          },
+        ];
+        action.response = {
+          customerOnHold: true,
+          recording: null,
+        };
+      });
+      it('sets onHold true and no recording parameter', () => {
+        runReducerAndExpectSnapshot();
+      });
+    });
+  });
 });
