@@ -470,7 +470,7 @@ export class MessagingTextArea extends React.Component {
 
   handleTyping = debounce(
     /**
-     * sendSmoochTypingIndicator is invoked on leading with typing as true,
+     * smoochMessaging.sendTypingIndicator is invoked on leading with typing as true,
      * once the agent finishes typing (trailing) we wait 2 seconds to send the indicator again as false.
      * As we can only send execute the same function on leading and trailing, we use the component state to switch between true and false.
      */
@@ -620,9 +620,7 @@ export class MessagingTextArea extends React.Component {
                           {messageTemplate.name}
                         </span>
                         &nbsp;&nbsp;&nbsp;
-                        <span>
-                          {messageTemplate.template}
-                        </span>
+                        <span>{messageTemplate.template}</span>
                       </div>
                     );
                   } else {
@@ -635,8 +633,7 @@ export class MessagingTextArea extends React.Component {
         ) : (
           undefined
         )}
-        {this.props.messageTemplates &&
-          this.props.messageTemplates.length > 0 && (
+        {this.props.messageTemplates && this.props.messageTemplates.length > 0 && (
           <Button
             id="templateMenuButton"
             onClick={this.toggleMessageTemplateMenu}
@@ -646,7 +643,7 @@ export class MessagingTextArea extends React.Component {
               { height: this.state.messageTextareaHeight },
             ]}
           >
-              +
+            +
           </Button>
         )}
 
@@ -849,8 +846,5 @@ MessagingTextArea.contextTypes = {
 };
 
 export default ErrorBoundary(
-  connect(
-    null,
-    mapDispatchToProps
-  )(Radium(MessagingTextArea))
+  connect(null, mapDispatchToProps)(Radium(MessagingTextArea))
 );

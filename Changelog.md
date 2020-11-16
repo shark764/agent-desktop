@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.60.3 (2020-11-11)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.60.3/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.60.3/index.html)
+### Updated
+- CXV1-23377 - Using smooch-messaging module instead of old messaging one for whatsapp interactions.
+
 ## [1.60.2] (2020-11-06)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.60.2/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.60.2/index.html)

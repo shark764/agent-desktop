@@ -1151,9 +1151,9 @@ export class App extends React.Component {
           case 'cxengage/errors/error/mqtt-lost-connection': {
             this.props.agentDesktop.interactions.forEach((interaction) => {
               if (
-                interaction.channelType === 'sms' ||
-                (interaction.channelType === 'messaging' &&
-                  interaction.source !== 'smooch')
+                (interaction.channelType === 'sms' ||
+                  interaction.channelType === 'messaging') &&
+                interaction.source !== 'smooch'
               ) {
                 this.props.toggleInteractionNotification(
                   interaction.interactionId,
@@ -1172,9 +1172,9 @@ export class App extends React.Component {
           case 'cxengage/interactions/messaging/mqtt-session-connected': {
             this.props.agentDesktop.interactions.forEach((interaction) => {
               if (
-                interaction.channelType === 'sms' ||
-                (interaction.channelType === 'messaging' &&
-                  interaction.source !== 'smooch')
+                (interaction.channelType === 'sms' ||
+                  interaction.channelType === 'messaging') &&
+                interaction.source !== 'smooch'
               ) {
                 let uuid;
                 interaction.notifications.forEach((notification) => {
@@ -1637,9 +1637,7 @@ export class App extends React.Component {
               });
             } else {
               console.log(
-                `SMS interaction already in progress for ${
-                  response.endpoint
-                }. Ignoring click-to-sms-requested.`
+                `SMS interaction already in progress for ${response.endpoint}. Ignoring click-to-sms-requested.`
               );
             }
             break;
@@ -1654,9 +1652,7 @@ export class App extends React.Component {
               this.props.startOutboundEmail(response.endpoint);
             } else {
               console.log(
-                `Email interaction already in progress for ${
-                  response.endpoint
-                }. Ignoring click-to-email-requested.`
+                `Email interaction already in progress for ${response.endpoint}. Ignoring click-to-email-requested.`
               );
             }
             break;
@@ -2518,8 +2514,5 @@ App.contextTypes = {
 };
 
 export default injectIntl(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(hot(module)(Radium(App)))
+  connect(mapStateToProps, mapDispatchToProps)(hot(module)(Radium(App)))
 );

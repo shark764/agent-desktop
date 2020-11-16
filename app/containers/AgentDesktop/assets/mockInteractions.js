@@ -901,6 +901,141 @@ const smoochMessagingInteraction = {
   ],
 };
 
+const smoochWhatsappInteraction = {
+  customFields,
+  customFieldsCollapsed: true,
+  channelType: 'sms',
+  source: 'smooch',
+  timeAccepted: Date.now() - 60000,
+  customerAvatarIndex: 5,
+  interactionId: 'smoochWhatsappInteraction',
+  status: 'work-accepted',
+  autoAnswer: false,
+  timeout: Date.now() + 60000,
+  customer: 'Jon Arbuckle',
+  query: {},
+  wrapupDetails: {
+    wrapupUpdateAllowed: true,
+    wrapupEnabled: true,
+    wrapupTime: '20',
+    targetWrapupTime: '10',
+  },
+  note: {
+    body: '',
+    title: '',
+    notesPanelHeight: 300,
+  },
+  selectedSidePanelTab: 'script',
+  dispositionDetails: processedDispositionDetails,
+  activeContactForm: activeContactFormBlank,
+  script: new Script({
+    elements: [
+      {
+        type: 'text',
+        icon: 'fa-font',
+        label: 'Text',
+        text: 'justText Placeholder',
+        id: 'ebe65c75-feda-45c9-852f-62cb6d2faca9',
+        name: 'justtext',
+        description: 'justTextDescription',
+      },
+      {
+        type: 'freeform',
+        icon: 'fa-list',
+        label: 'Freeform Input',
+        text: 'Textinput placeholder',
+        id: '5c091844-8d5c-4259-88e0-cef6502baf33',
+        name: 'textinput',
+        description: 'textinputdescription',
+      },
+    ],
+    id: '522ca8e2-3edc-497e-a03b-ed34b6608a0c',
+    name: 'script',
+  }),
+  messageHistory: [
+    {
+      text: 'this is a customer message',
+      from: 'Jon Arbuckle',
+      type: 'customer',
+      timestamp: new Date(
+        new Date().setDate(new Date().getDate() - 9)
+      ).toISOString(),
+    },
+    {
+      text: 'this is a system message',
+      from: 'System',
+      type: 'system',
+      timestamp: new Date(
+        new Date().setDate(new Date().getDate() - 8)
+      ).toISOString(),
+    },
+    {
+      text: 'this is a customer message',
+      from: 'Jon Arbuckle',
+      type: 'customer',
+      timestamp: new Date(
+        new Date().setDate(new Date().getDate() - 7)
+      ).toISOString(),
+    },
+    {
+      text: 'this is a customer message',
+      from: 'Jon Arbuckle',
+      type: 'customer',
+      timestamp: new Date(
+        new Date().setDate(new Date().getDate() - 6)
+      ).toISOString(),
+    },
+    {
+      text: 'this is a customer message',
+      from: 'Jon Arbuckle',
+      type: 'customer',
+      timestamp: new Date(
+        new Date().setDate(new Date().getDate() - 5)
+      ).toISOString(),
+    },
+    {
+      text: 'this is a customer message',
+      from: 'Jon Arbuckle',
+      type: 'customer',
+      timestamp: new Date(
+        new Date().setDate(new Date().getDate() - 4)
+      ).toISOString(),
+    },
+    {
+      text: 'this is a customer message',
+      from: 'Jon Arbuckle',
+      type: 'customer',
+      timestamp: new Date(
+        new Date().setDate(new Date().getDate() - 3)
+      ).toISOString(),
+    },
+    {
+      text: 'this is a customer message',
+      from: 'Jon Arbuckle',
+      type: 'customer',
+      timestamp: new Date(
+        new Date().setDate(new Date().getDate() - 2)
+      ).toISOString(),
+    },
+    {
+      text: 'this is a customer message',
+      from: 'Jon Arbuckle',
+      type: 'customer',
+      timestamp: new Date(
+        new Date().setDate(new Date().getDate() - 1)
+      ).toISOString(),
+    },
+    {
+      text: 'this is an agent message',
+      from: 'Agent',
+      type: 'agent',
+      timestamp: new Date(
+        new Date().setDate(new Date().getDate() - 0)
+      ).toISOString(),
+    },
+  ],
+};
+
 const smsInteractionWithLotsOfMessagesAndScript = {
   customFields,
   customFieldsCollapsed: true,
@@ -1176,6 +1311,7 @@ export {
   voiceInteractionWithTransfersAndScripts,
   emailInteraction,
   smoochMessagingInteraction,
+  smoochWhatsappInteraction,
   smsInteractionWithLotsOfMessagesAndScript,
   smsInteractionWithLotsOfMessagesAndScript2,
   smsInteractionWithLotsOfMessagesAndScript3,

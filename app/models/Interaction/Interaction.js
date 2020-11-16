@@ -52,7 +52,10 @@ export default class Interaction {
         this.currentAttachedFile = null;
       }
     }
-    if (channelType === 'email' || channelType === 'sms') {
+    if (
+      channelType === 'email' ||
+      (channelType === 'sms' && source !== 'smooch')
+    ) {
       this.customer = customer;
     }
     if (channelType === 'email' && direction === 'agent-initiated') {

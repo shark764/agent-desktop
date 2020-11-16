@@ -19,7 +19,7 @@ import ResponseMessage from 'models/Message/ResponseMessage';
 
 import * as ACTIONS from './constants';
 
-// import { outboundConnectingVoiceInteraction, voiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smoochMessagingInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithUnrespondedMessageAndScript, smsInteractionWithUnrespondedMessageAndScript2, smsInteractionWithLotsOfMessagesAndScript2, smsInteractionWithLotsOfMessagesAndScript3, smsInteractionWithLotsOfMessagesAndScript4, smsInteractionWithLotsOfMessagesAndScript5, smsInteractionWithLotsOfMessagesAndScript6, scriptOnly, salesforceOmniChannelInteraction } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
+// import { outboundConnectingVoiceInteraction, voiceInteraction, voiceInteractionWithTransfersAndScripts, emailInteraction, smoochMessagingInteraction, smoochWhatsappInteraction, smsInteractionWithLotsOfMessagesAndScript, smsInteractionWithUnrespondedMessageAndScript, smsInteractionWithUnrespondedMessageAndScript2, smsInteractionWithLotsOfMessagesAndScript2, smsInteractionWithLotsOfMessagesAndScript3, smsInteractionWithLotsOfMessagesAndScript4, smsInteractionWithLotsOfMessagesAndScript5, smsInteractionWithLotsOfMessagesAndScript6, scriptOnly, salesforceOmniChannelInteraction } from './assets/mockInteractions'; // eslint-disable-line no-unused-vars
 
 const blankNewInteractionPanel = {
   interactionId: 'creating-new-interaction',
@@ -53,6 +53,7 @@ const initialState = fromJS({
     // voiceInteractionWithTransfersAndScripts,
     // emailInteraction,
     // smoochMessagingInteraction,
+    // smoochWhatsappInteraction,
     // smsInteractionWithLotsOfMessagesAndScript,
     // smsInteractionWithUnrespondedMessageAndScript,
     // smsInteractionWithLotsOfMessagesAndScript2,
@@ -1019,15 +1020,15 @@ function agentDesktopReducer(state = initialState, action) {
             'number',
             action.response.customer
           );
-        } else if (interaction.get('channelType') === 'sms') {
-          newInteraction = newInteraction.set(
-            'customer',
-            `+${action.response.customer}`
-          );
         } else if (interaction.get('source') === 'smooch') {
           newInteraction = newInteraction.set(
             'customer',
             action.response.customer
+          );
+        } else if (interaction.get('channelType') === 'sms') {
+          newInteraction = newInteraction.set(
+            'customer',
+            `+${action.response.customer}`
           );
         }
         return newInteraction;
