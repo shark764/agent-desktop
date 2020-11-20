@@ -88,6 +88,7 @@ export function* goHandleSDKError(action) {
     topic === 'cxengage/contacts/update-contact-response' || // Handled in ContactEdit
     topic === 'cxengage/contacts/merge-contacts-response' || // Handled in ContactMerge
     topic === 'cxengage/interactions/unfocus-acknowledged' || // Not needed to be shown to agent
+    topic === 'cxengage/interactions/focus-acknowledged' || // Not needed to be shown to agent
     topic === 'cxengage/reporting/get-bulk-stat-query-response' || // Not needed to be shown to agent
     topic ===
       'cxengage/interactions/smooch-messaging/conversation-read-agent-received' || // Not needed to be shown to agent

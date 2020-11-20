@@ -1,6 +1,12 @@
 # Changelog
 
-## [1.60.3 (2020-11-11)
+## [1.60.4] (2020-11-19)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.60.4/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.60.4/index.html)
+### Updated
+- CXV1-23377 - Cleanup Causing 4005/4006. Suppressed focused errors.
+
+## [1.60.3] (2020-11-11)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.60.3/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.60.3/index.html)
 ### Updated
