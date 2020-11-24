@@ -51,6 +51,20 @@ export function* goHandleSDKError(action) {
     );
     return;
   } else if (
+    topic === 'cxengage/interactions/voice/customer-transfer-acknowledged'
+  ) {
+    if (error.data.problems.includes('Spec failed')) {
+      Raven.captureMessage('Transfer call failed. Logging state to Sentry.', {
+        tags: {
+          type: 'Spec Failed',
+        },
+        extra: {
+          action,
+        },
+        logError: true,
+      });
+    }
+  } else if (
     error.level === 'interaction-fatal' &&
     error.data &&
     error.data.interactionId

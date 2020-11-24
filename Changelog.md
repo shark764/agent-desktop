@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.60.5] (2020-11-20)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.60.5/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.60.5/index.html)
+### Updated
+* CXV1-23437 - No logging for spec failure on transfer
+
 ## [1.60.4] (2020-11-19)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.60.4/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.60.4/index.html)
