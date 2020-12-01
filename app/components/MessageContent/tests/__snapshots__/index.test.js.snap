@@ -1,5 +1,165 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<MessageContent /> file type message does not have fileName property 1`] = `
+<styled.div>
+  <styled.a
+    alt="image"
+    href="https://www.test.com/file.pdf"
+    target="_blank"
+  >
+    <styled.div>
+      <Icon
+        id="5e429c11749914000f07349f"
+        name="attachment_blue"
+        placeholher="image"
+      />
+    </styled.div>
+    <FileNameContainer
+      title="file.pdf"
+    >
+      file.pdf
+    </FileNameContainer>
+  </styled.a>
+</styled.div>
+`;
+
+exports[`<MessageContent /> file type message has text property and it is not video/mp4 type 1`] = `
+<styled.div>
+  <styled.a
+    alt="image"
+    href="https://www.test.com/file.pdf"
+    target="_blank"
+  >
+    <styled.div>
+      <Icon
+        id="5e429c11749914000f07349f"
+        name="attachment_blue"
+        placeholher="image"
+      />
+    </styled.div>
+    <FileNameContainer
+      title="most-awesome-file.pdf"
+    >
+      most-awesome-file.pdf
+    </FileNameContainer>
+  </styled.a>
+</styled.div>
+`;
+
+exports[`<MessageContent /> file type message is "video/mp4" format and has a caption 1`] = `
+<styled.div>
+  <styled.a
+    alt="image"
+    href="https://www.test.com/file.mp4"
+    target="_blank"
+  >
+    <styled.div>
+      <Icon
+        id="5e429c11749914000f07349f"
+        name="attachment_blue"
+        placeholher="image"
+      />
+    </styled.div>
+    <FileNameContainer
+      title="83hbu88d88dh-99ajffjf-11f4.mp4"
+    >
+      83hbu88d88dh-99ajffjf-11f4.mp4
+    </FileNameContainer>
+  </styled.a>
+  <MessageTextContainer>
+    Hey look at this video!!
+  </MessageTextContainer>
+</styled.div>
+`;
+
+exports[`<MessageContent /> file type message is "video/mp4" format and has a text property in pending state 1`] = `
+<styled.div>
+  <styled.a
+    alt="image"
+    href="https://www.test.com/file.mp4"
+    target="_blank"
+  >
+    <styled.div>
+      <Icon
+        id="5e429c11749914000f07349f"
+        name="attachment_blue"
+        placeholher="image"
+      />
+    </styled.div>
+    <FileNameContainer
+      title="most-awesome-video.mp4"
+    >
+      most-awesome-video.mp4
+    </FileNameContainer>
+  </styled.a>
+</styled.div>
+`;
+
+exports[`<MessageContent /> file type message is "video/mp4" format and has a text property with its name 1`] = `
+<styled.div>
+  <styled.a
+    alt="image"
+    href="https://www.test.com/file.mp4"
+    target="_blank"
+  >
+    <styled.div>
+      <Icon
+        id="5e429c11749914000f07349f"
+        name="attachment_blue"
+        placeholher="image"
+      />
+    </styled.div>
+    <FileNameContainer
+      title="most-awesome-video.mp4"
+    >
+      most-awesome-video.mp4
+    </FileNameContainer>
+  </styled.a>
+</styled.div>
+`;
+
+exports[`<MessageContent /> file type message is in a pending state 1`] = `
+<MessageTextContainer
+  pending={true}
+>
+  <LoadingSpinnerSVG
+    color="#b2b2b2"
+    size={28}
+  />
+  This is a test
+</MessageTextContainer>
+`;
+
+exports[`<MessageContent /> image type message has a camption along with the file 1`] = `
+<styled.div>
+  <styled.a
+    alt="image"
+    href="https://www.test.com/file.jpg"
+    style={
+      Object {
+        "display": "contents",
+      }
+    }
+    target="_blank"
+  >
+    <Image
+      id="5e429c11749914000f07349f"
+      placeholher="image"
+      src="https://www.test.com/file.jpg"
+      style={
+        Object {
+          "height": "auto",
+          "maxWidth": "300px",
+        }
+      }
+    />
+  </styled.a>
+  <MessageTextContainer>
+    hey, look at this file!
+  </MessageTextContainer>
+</styled.div>
+`;
+
 exports[`<MessageContent /> should render file message component correctly 1`] = `
 <styled.div>
   <styled.a
@@ -23,33 +183,128 @@ exports[`<MessageContent /> should render file message component correctly 1`] =
 </styled.div>
 `;
 
-exports[`<MessageContent /> should render image message component correctly 1`] = `
-<styled.a
-  alt="image"
-  href="https://www.test.com/file.jpg"
+exports[`<MessageContent /> should render fileNotFoundInTranscript error when file type message does not have file property 1`] = `
+<span
   style={
     Object {
-      "display": "contents",
+      "color": "red",
     }
   }
-  target="_blank"
 >
-  <Image
-    id="5e429c11749914000f07349f"
-    placeholher="image"
-    src="https://www.test.com/file.jpg"
+  <FormattedMessage
+    defaultMessage="File not found in transcript"
+    id="app.components.messageContent.fileNotFoundInTranscript"
+    values={Object {}}
+  />
+</span>
+`;
+
+exports[`<MessageContent /> should render fileNotFoundInTranscript error when image type message does not have file property 1`] = `
+<span
+  style={
+    Object {
+      "color": "red",
+    }
+  }
+>
+  <FormattedMessage
+    defaultMessage="File not found in transcript"
+    id="app.components.messageContent.fileNotFoundInTranscript"
+    values={Object {}}
+  />
+</span>
+`;
+
+exports[`<MessageContent /> should render image message component correctly 1`] = `
+<styled.div>
+  <styled.a
+    alt="image"
+    href="https://www.test.com/file.jpg"
     style={
       Object {
-        "height": "auto",
-        "maxWidth": "300px",
+        "display": "contents",
       }
     }
-  />
-</styled.a>
+    target="_blank"
+  >
+    <Image
+      id="5e429c11749914000f07349f"
+      placeholher="image"
+      src="https://www.test.com/file.jpg"
+      style={
+        Object {
+          "height": "auto",
+          "maxWidth": "300px",
+        }
+      }
+    />
+  </styled.a>
+</styled.div>
+`;
+
+exports[`<MessageContent /> should render styled component with text message 1`] = `
+<MessageContent
+  message={
+    Object {
+      "contentType": "text",
+      "file": Object {},
+      "from": "Irvin Sandoval",
+      "id": "5e429c11749914000f07349f",
+      "resourceId": null,
+      "text": "This is a test",
+      "timestamp": 1581423633126,
+      "type": "customer",
+    }
+  }
+>
+  <MessageTextContainer>
+    <div
+      className="sc-bZQynM eDJHjF"
+    >
+      This is a test
+    </div>
+  </MessageTextContainer>
+</MessageContent>
+`;
+
+exports[`<MessageContent /> should render styled component with text message in a pending state 1`] = `
+<MessageContent
+  message={
+    Object {
+      "contentType": "text",
+      "file": Object {},
+      "from": "Irvin Sandoval",
+      "id": "5e429c11749914000f07349f",
+      "pending": true,
+      "resourceId": null,
+      "text": "This is a test",
+      "timestamp": 1581423633126,
+      "type": "customer",
+    }
+  }
+>
+  <MessageTextContainer
+    pending={true}
+  >
+    <div
+      className="sc-bZQynM cqVKfM"
+    >
+      This is a test
+    </div>
+  </MessageTextContainer>
+</MessageContent>
 `;
 
 exports[`<MessageContent /> should render text message component correctly 1`] = `
 <MessageTextContainer>
+  This is a test
+</MessageTextContainer>
+`;
+
+exports[`<MessageContent /> text message is in a pending state 1`] = `
+<MessageTextContainer
+  pending={true}
+>
   This is a test
 </MessageTextContainer>
 `;

@@ -5,9 +5,9 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 const EmailContainer = styled.div`
-  fontsize: 14px;
-  lineheight: 20px;
-  whitespace: pre-wrap;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: pre-wrap;
   margin-bottom: 15px;
   border-bottom: 1px solid rgb(208, 208, 208);
 `;

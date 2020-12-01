@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.60.6] (2020-11-19)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.60.6/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.60.6/index.html)
+### Fixed
+- CXV1-23446 - Image type messages with caption are now rendered along with the text.
+- CXV1-23468 - File messages are no longer displaying a random text instead of proper filename.
+
 ## [1.60.5] (2020-11-20)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.60.5/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.60.5/index.html)
