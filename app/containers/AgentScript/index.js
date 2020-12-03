@@ -36,7 +36,7 @@ import TextBlob from 'components/TextBlob';
 import TextInput from 'components/TextInput';
 import Select from 'components/Select';
 
-import { sendScript } from './actions';
+import { sendScript } from './thunks';
 import messages from './messages';
 
 const styles = {
@@ -124,7 +124,12 @@ export class AgentScript extends React.Component {
   };
 
   handleSendingScript = () => {
-    this.props.sendScript(this.props.interactionId, this.props.script, false);
+    this.props.sendScript(
+      this.props.interactionId,
+      this.props.script,
+      false,
+      'user-submitted'
+    );
   };
 
   mappedScriptElements = () => {
@@ -145,9 +150,7 @@ export class AgentScript extends React.Component {
         case 'freeform':
           scriptElements.push(
             <div id={element.name} key={element.name} style={styles.element}>
-              <div>
-                {element.text}
-              </div>
+              <div>{element.text}</div>
               <TextInput
                 id={`${element.name}-textInput`}
                 value={script.values[element.name]}
@@ -168,9 +171,7 @@ export class AgentScript extends React.Component {
           }));
           scriptElements.push(
             <div key={element.name} style={styles.element}>
-              <div>
-                {element.text}
-              </div>
+              <div>{element.text}</div>
               <div style={styles.select}>
                 <Select
                   id={element.name}
@@ -237,12 +238,8 @@ export class AgentScript extends React.Component {
           ));
           scriptElements.push(
             <div key={element.id} style={styles.element}>
-              <div>
-                {element.text}
-              </div>
-              <div style={styles.checkboxesContainer}>
-                {checkboxes}
-              </div>
+              <div>{element.text}</div>
+              <div style={styles.checkboxesContainer}>{checkboxes}</div>
             </div>
           );
           break;
@@ -264,13 +261,24 @@ export class AgentScript extends React.Component {
           try {
             iframeUrl = new URL(element.src);
           } catch (error) {
-            console.log('Failed to script parse url. Ignoring possible "cxengageAllowScript" param.', error.message);
+            console.log(
+              'Failed to script parse url. Ignoring possible "cxengageAllowScript" param.',
+              error.message
+            );
           }
           if (iframeUrl) {
-            const allowParam = iframeUrl.searchParams.get('cxengageAllowScript');
+            const allowParam = iframeUrl.searchParams.get(
+              'cxengageAllowScript'
+            );
             if (allowParam) {
-              console.log('"cxengageAllowScript" param passed into script', allowParam);
-              allow = allowParam.split(',').map(allowValue => `${allowValue} ${iframeUrl.origin}`).join('; ');
+              console.log(
+                '"cxengageAllowScript" param passed into script',
+                allowParam
+              );
+              allow = allowParam
+                .split(',')
+                .map((allowValue) => `${allowValue} ${iframeUrl.origin}`)
+                .join('; ');
             }
           }
           scriptElements.push(
@@ -334,15 +342,12 @@ function mapDispatchToProps(dispatch) {
       dispatch(updateScriptValue(interactionId, elementName, newValue)),
     updateScriptScrollPosition: (interactionId, scrollPosition) =>
       dispatch(updateScriptScrollPosition(interactionId, scrollPosition)),
-    sendScript: (interactionId, script, dismissed) =>
-      dispatch(sendScript(interactionId, script, dismissed)),
+    sendScript: (interactionId, script, dismissed, exitReason) =>
+      dispatch(sendScript(interactionId, script, dismissed, exitReason)),
     dispatch,
   };
 }
 
 export default ErrorBoundary(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Radium(AgentScript))
+  connect(mapStateToProps, mapDispatchToProps)(Radium(AgentScript))
 );

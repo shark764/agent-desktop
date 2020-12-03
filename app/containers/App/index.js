@@ -49,7 +49,7 @@ import LoginPopup from 'containers/LoginPopup';
 import AgentDesktop from 'containers/AgentDesktop';
 
 import { selectLocale } from 'containers/LanguageProvider/selectors';
-import { sendScript } from 'containers/AgentScript/actions';
+import { sendScript, sendTimeoutScript } from 'containers/AgentScript/thunks';
 import {
   setAvailableStats,
   statsReceived,
@@ -830,7 +830,8 @@ export class App extends React.Component {
               this.props.sendScript(
                 response.interactionId,
                 interaction.script,
-                true
+                true,
+                'script-auto-dismissed'
               );
             }
             this.props.removeInteraction(response.interactionId);
@@ -885,9 +886,10 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/script-received': {
+            const script = JSON.parse(response.script);
             this.props.addScript(
               response.interactionId,
-              JSON.parse(response.script),
+              script,
               response.scriptId
             );
             const interaction = this.props.agentDesktop.interactions.find(
@@ -900,6 +902,17 @@ export class App extends React.Component {
             ) {
               this.props.selectSidePanelTab(response.interactionId, 'script');
               this.props.showSidePanel(interaction.interactionId);
+            }
+            if (
+              script.submitAfterTimeoutValue &&
+              script.submitAfterTimeoutUnit
+            ) {
+              this.props.sendTimeoutScript(
+                script,
+                interaction.interactionId,
+                response.scriptId,
+                'script-timeout'
+              );
             }
             break;
           }
@@ -2219,8 +2232,10 @@ function mapDispatchToProps(dispatch) {
     addScript: (interactionId, script, scriptId) =>
       dispatch(addScript(interactionId, script, scriptId)),
     removeScript: (interactionId) => dispatch(removeScript(interactionId)),
-    sendScript: (interactionId, script, dismissed) =>
-      dispatch(sendScript(interactionId, script, dismissed)),
+    sendScript: (interactionId, script, dismissed, exitReason) =>
+      dispatch(sendScript(interactionId, script, dismissed, exitReason)),
+    sendTimeoutScript: (script, interactionId, scriptId, exitReason) =>
+      dispatch(sendTimeoutScript(script, interactionId, scriptId, exitReason)),
     setPresence: (response) => dispatch(setPresence(response)),
     setInteractionStatus: (interactionId, newStatus, response) =>
       dispatch(setInteractionStatus(interactionId, newStatus, response)),
@@ -2390,6 +2405,7 @@ App.propTypes = {
   setAgentDirection: PropTypes.any,
   setExtensions: PropTypes.func.isRequired,
   sendScript: PropTypes.func.isRequired,
+  sendTimeoutScript: PropTypes.func,
   setPresence: PropTypes.func.isRequired,
   setInteractionStatus: PropTypes.func.isRequired,
   workAccepted: PropTypes.func.isRequired,

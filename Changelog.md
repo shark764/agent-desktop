@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.61.0] (2020-11-23)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.0/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.0/index.html)
+### Added
+* CXV1-23353 - Add timer to auto submit script after timeout
+
 ## [1.60.6] (2020-11-19)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.60.6/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.60.6/index.html)
