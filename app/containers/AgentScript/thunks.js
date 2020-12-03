@@ -43,9 +43,9 @@ export function sendTimeoutScript(
   return (dispatch, getState) => {
     let autoSubmitTimeout = parseInt(submitAfterTimeoutValue, 10) * 1000;
     if (submitAfterTimeoutUnit === 'minutes') {
-      autoSubmitTimeout = submitAfterTimeoutValue * 60;
+      autoSubmitTimeout *= 60;
     } else if (submitAfterTimeoutUnit === 'hours') {
-      autoSubmitTimeout = submitAfterTimeoutValue * 60 * 60;
+      autoSubmitTimeout *= 60 * 60;
     }
     setTimeout(() => {
       const interactionsList = selectInteractionsList(getState()).toJS();

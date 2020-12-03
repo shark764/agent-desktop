@@ -1,5 +1,12 @@
 # Changelog
 
+
+## [1.61.1] (2020-12-03)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.1/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.1/index.html)
+### Fixed
+* CXV1-23615 - Script Notation Auto timeout | Minutes and hours is not calculating correctly
+
 ## [1.61.0] (2020-11-23)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.0/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.0/index.html)
