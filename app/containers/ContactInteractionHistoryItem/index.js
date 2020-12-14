@@ -165,9 +165,6 @@ const styles = {
     lineHeight: '20px',
     whiteSpace: 'pre-wrap',
   },
-  emailBody: {
-    overflowX: 'auto',
-  },
 };
 
 export class ContactInteractionHistoryItem extends React.Component {
@@ -603,8 +600,6 @@ export class ContactInteractionHistoryItem extends React.Component {
           styles.interaction,
           styles.interactionListItem,
           interactionDetails === undefined && styles.pointer,
-          // Necessary to avoid email transcript overflows panel
-          interaction.channelType === 'email' && styles.emailBody,
         ]}
         onClick={
           interactionDetails === undefined

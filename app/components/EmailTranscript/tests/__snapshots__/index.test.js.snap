@@ -85,12 +85,9 @@ exports[`<EmailTranscript /> should render "bcc" recipients 1`] = `
       </styled.div>
     </styled.a>
   </styled.div>
-  <div
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "<p>Hello, this is a test message!</p>",
-      }
-    }
+  <styled.iframe
+    srcDoc="<span style=\\"font-size: 16px; font-style: italic; line-height: 20px;\\"><span style=\\"font-size: 16px; font-style: italic; line-height: 20px;\\"><span style=\\"font-size: 16px; font-style: italic; line-height: 20px;\\"><span style=\\"font-size: 16px; font-style: italic; line-height: 20px;\\"><p>Hello, this is a test message!</p></span></span></span></span>"
+    title="emailFrame"
   />
 </EmailContainer>
 `;
@@ -169,12 +166,9 @@ exports[`<EmailTranscript /> should render "cc" recipients 1`] = `
       </styled.div>
     </styled.a>
   </styled.div>
-  <div
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "<p>Hello, this is a test message!</p>",
-      }
-    }
+  <styled.iframe
+    srcDoc="<span style=\\"font-size: 16px; font-style: italic; line-height: 20px;\\"><span style=\\"font-size: 16px; font-style: italic; line-height: 20px;\\"><span style=\\"font-size: 16px; font-style: italic; line-height: 20px;\\"><p>Hello, this is a test message!</p></span></span></span>"
+    title="emailFrame"
   />
 </EmailContainer>
 `;
@@ -242,12 +236,9 @@ exports[`<EmailTranscript /> should render "from" recipients when name === addre
       </styled.div>
     </styled.a>
   </styled.div>
-  <div
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "<p>Hello, this is a test message!</p>",
-      }
-    }
+  <styled.iframe
+    srcDoc="<span style=\\"font-size: 16px; font-style: italic; line-height: 20px;\\"><span style=\\"font-size: 16px; font-style: italic; line-height: 20px;\\"><p>Hello, this is a test message!</p></span></span>"
+    title="emailFrame"
   />
 </EmailContainer>
 `;
@@ -315,12 +306,9 @@ exports[`<EmailTranscript /> should render email transcript component correctly 
       </styled.div>
     </styled.a>
   </styled.div>
-  <div
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "<p>Hello, this is a test message!</p>",
-      }
-    }
+  <styled.iframe
+    srcDoc="<span style=\\"font-size: 16px; font-style: italic; line-height: 20px;\\"><p>Hello, this is a test message!</p></span>"
+    title="emailFrame"
   />
 </EmailContainer>
 `;
@@ -410,6 +398,6 @@ exports[`<EmailTranscript /> should render plaintext body when contentType is no
       </styled.div>
     </styled.a>
   </styled.div>
-  &gt;&gt;Hello, this is a test message!
+  &lt;span style="font-size: 16px; font-style: italic; line-height: 20px;"&gt;&gt;&gt;Hello, this is a test message!&lt;/span&gt;
 </EmailContainer>
 `;

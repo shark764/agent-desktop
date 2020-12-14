@@ -9,7 +9,9 @@ const EmailContainer = styled.div`
   line-height: 20px;
   white-space: pre-wrap;
   margin-bottom: 15px;
+  height: 100%;
   border-bottom: 1px solid rgb(208, 208, 208);
+  padding-bottom: 15px;
 `;
 EmailContainer.displayName = 'EmailContainer';
 
@@ -43,6 +45,14 @@ const EmailAttachmentItem = styled.div`
   max-width: 200px;
 `;
 
+const TranscriptIframe = styled.iframe`
+  border: 1px solid rgb(208, 208, 208);
+  border-width: 1px;
+  border-radius: 2px;
+  height: 250px;
+  width: 100%;
+`;
+
 export function EmailTranscript({ transcript }) {
   const renderRecipients = (recipientType) => (
     <div>
@@ -59,6 +69,9 @@ export function EmailTranscript({ transcript }) {
         .join(', ')}
     </div>
   );
+
+  transcript.data = `<span style="font-size: 16px; font-style: italic; line-height: 20px;">${transcript.data}</span>`;
+
   return (
     <EmailContainer>
       <EmailHeadContainer>
@@ -92,11 +105,7 @@ export function EmailTranscript({ transcript }) {
         </EmailAttachmentContainer>
       )}
       {transcript.contentType === 'html' && (
-        <div
-          dangerouslySetInnerHTML={{
-            __html: transcript.data,
-          }}
-        />
+        <TranscriptIframe title="emailFrame" srcDoc={transcript.data} />
       )}
       {transcript.contentType === 'plainText' && transcript.data}
     </EmailContainer>

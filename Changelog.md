@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.61.3] (2020-12-09)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.3/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.3/index.html)
+### Added
+* CXV1-23412 - Implement Email transcripts to show within an iframe when viewing a contact in Skylight
+
 ## [1.61.2] (2020-12-07)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.2/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.2/index.html)
