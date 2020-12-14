@@ -1055,7 +1055,7 @@ function agentDesktopReducer(state = initialState, action) {
             'interactions',
             interactionIndex,
             'script',
-            'autoScriptDismisss',
+            'autoScriptDismiss',
           ]) !== true
         ) {
           return state.updateIn(

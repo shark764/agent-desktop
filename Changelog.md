@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.61.2] (2020-12-07)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.2/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.2/index.html)
+### Fixed
+* CXV1-23646 - Typo for autoScriptDismiss in remove interaction.
 
 ## [1.61.1] (2020-12-03)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.1/index.html)
