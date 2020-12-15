@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.61.4] (2020-12-01)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.2/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.2/index.html)
+### Fixed
+- CXV1-16055 - Script notification showing "NaNh" instead of time value
+
 ## [1.61.3] (2020-12-09)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.3/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.3/index.html)

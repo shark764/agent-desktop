@@ -293,10 +293,27 @@ export class Interaction extends React.Component {
           case 'messaging':
           case 'email':
           case 'work-item':
+            // returns nothing if Scipt-only does not have a time-accepted value to avoid showing "NaNh" instead of time value
+            if (
+              (this.props.status === 'script-only' &&
+                !this.props.interaction.timeAccepted) ||
+              (this.props.status === 'work-ended-pending-script' &&
+                !this.props.interaction.timeAccepted)
+            ) {
+              return <></>;
+            }
             return (
               <TimerMinutes timeSince={this.props.interaction.timeAccepted} />
             );
           case 'voice':
+            if (
+              (this.props.status === 'script-only' &&
+                !this.props.interaction.timeAccepted) ||
+              (this.props.status === 'work-ended-pending-script' &&
+                !this.props.interaction.timeAccepted)
+            ) {
+              return <></>;
+            }
             return <Timer timeSince={this.props.interaction.timeAccepted} />;
           default: {
             return '';
