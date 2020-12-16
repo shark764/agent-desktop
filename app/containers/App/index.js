@@ -1002,16 +1002,16 @@ export class App extends React.Component {
                     );
                   }
                 } else if (response.searchType === 'fuzzy') {
-                  const fuzzySearchString = response.terms
-                    .filter((term) => {
-                      if (!term) {
-                        console.warn(
-                          'Excluding falsey term from screen pop',
-                          term
-                        );
-                      }
-                      return term;
-                    })
+                  const terms = response.terms.filter((term) => {
+                    if (!term) {
+                      console.warn(
+                        'Excluding falsey term from screen pop',
+                        term
+                      );
+                    }
+                    return term;
+                  });
+                  const fuzzySearchString = terms
                     .map((term) => {
                       const trimmedTerm = term.trim();
                       if (
@@ -1028,7 +1028,7 @@ export class App extends React.Component {
                     { q: fuzzySearchString },
                     response.interactionId,
                     interaction,
-                    response.terms
+                    terms
                   );
                 } else {
                   console.error(`Unhandled searchType: ${response.searchType}`);

@@ -30,6 +30,7 @@ describe('Interaction', () => {
         callbackNumber: 'mock-callback-number',
         callbackRequestedTime: 0,
       },
+      recording: null,
     });
     it('adds the params to the object', () => {
       expect(interaction).toMatchSnapshot();

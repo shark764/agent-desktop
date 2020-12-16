@@ -29,8 +29,11 @@ export default class Interaction {
     outboundAni,
     script,
     omnichannel,
+    recording,
   }) {
     if (channelType === 'voice') {
+      // If "recording" is null/undefined, then it causes errors when the interaction is accepted
+      this.recording = recording || false;
       // recordingUpdate could be undefined for old flows, but should be enabled in that case
       this.agentRecordingEnabled =
         toolbarFeatures && toolbarFeatures.recordingUpdate !== false;

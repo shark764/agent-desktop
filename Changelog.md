@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.61.5] (2020-12-09)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.5/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.5/index.html)
+### Fixed
+* CXV1-23666 - Voice interactions are no longer throwing error when work offer is accepted and recording is not in model.
+* CXV1-23665 - "terms" property from screen-pop is no longer causing errors when it contains an array of nulls.
+
 ## [1.61.4] (2020-12-01)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.2/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.2/index.html)
