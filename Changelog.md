@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.61.6] (2020-12-14)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.6/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.6/index.html)
+### Updated
+SDK bump for:
+- CXV1-23622 - Improved logging for Salesforce search-pop
+- CXV1-23652 - Use officially supported Zendesk SDK URL
+
 ## [1.61.5] (2020-12-09)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.5/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.5/index.html)
