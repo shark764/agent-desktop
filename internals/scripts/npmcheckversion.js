@@ -5,6 +5,8 @@
 const { exec } = require('child_process');
 const { node, npm } = require('../../package.json').engines;
 
+const compareVersionNumbers = require('./helpers/compareVersions');
+
 const PACKAGE_NODE_VERSION = node.trim();
 const PACKAGE_NPM_VERSION = npm.trim();
 
@@ -20,7 +22,10 @@ exec('node -v', function checkVersion(err, stdout) {
   if (
     (PACKAGE_NODE_VERSION.includes('~') ||
       PACKAGE_NODE_VERSION.includes('^')) &&
-    NODE_VERSION < PACKAGE_NODE_VERSION.replace('~', '').replace('^', '')
+    compareVersionNumbers(
+      NODE_VERSION,
+      PACKAGE_NODE_VERSION.replace('~', '').replace('^', '')
+    ) < 0
   ) {
     console.log(
       '\x1b[33m%s\x1b[0m',
@@ -29,7 +34,10 @@ exec('node -v', function checkVersion(err, stdout) {
     hasError = true;
   } else if (
     PACKAGE_NODE_VERSION.includes('>=') &&
-    NODE_VERSION < PACKAGE_NODE_VERSION.replace('>=', '')
+    compareVersionNumbers(
+      NODE_VERSION,
+      PACKAGE_NODE_VERSION.replace('>=', '')
+    ) < 0
   ) {
     console.log(
       '\x1b[33m%s\x1b[0m',
@@ -39,7 +47,10 @@ exec('node -v', function checkVersion(err, stdout) {
   } else if (
     !PACKAGE_NODE_VERSION.includes('>=') &&
     PACKAGE_NODE_VERSION.includes('>') &&
-    NODE_VERSION <= PACKAGE_NODE_VERSION.replace('>', '')
+    compareVersionNumbers(
+      NODE_VERSION,
+      PACKAGE_NODE_VERSION.replace('>', '')
+    ) <= 0
   ) {
     console.log(
       '\x1b[33m%s\x1b[0m',
@@ -75,7 +86,10 @@ exec('npm -v', function checkVersion(err, stdout) {
 
   if (
     (PACKAGE_NPM_VERSION.includes('~') || PACKAGE_NPM_VERSION.includes('^')) &&
-    NPM_VERSION < PACKAGE_NPM_VERSION.replace('~', '').replace('^', '')
+    compareVersionNumbers(
+      NPM_VERSION,
+      PACKAGE_NPM_VERSION.replace('~', '').replace('^', '')
+    ) < 0
   ) {
     console.log(
       '\x1b[33m%s\x1b[0m',
@@ -84,7 +98,8 @@ exec('npm -v', function checkVersion(err, stdout) {
     process.exit(1);
   } else if (
     PACKAGE_NPM_VERSION.includes('>=') &&
-    NPM_VERSION < PACKAGE_NPM_VERSION.replace('>=', '')
+    compareVersionNumbers(NPM_VERSION, PACKAGE_NPM_VERSION.replace('>=', '')) <
+      0
   ) {
     console.log(
       '\x1b[33m%s\x1b[0m',
@@ -94,7 +109,8 @@ exec('npm -v', function checkVersion(err, stdout) {
   } else if (
     !PACKAGE_NPM_VERSION.includes('>=') &&
     PACKAGE_NPM_VERSION.includes('>') &&
-    NPM_VERSION <= PACKAGE_NPM_VERSION.replace('>', '')
+    compareVersionNumbers(NPM_VERSION, PACKAGE_NPM_VERSION.replace('>', '')) <=
+      0
   ) {
     console.log(
       '\x1b[33m%s\x1b[0m',

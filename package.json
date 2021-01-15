@@ -1,6 +1,6 @@
 {
   "name": "agent-desktop",
-  "version": "1.61.6",
+  "version": "1.61.7",
   "description": "Agent Desktop App",
   "repository": {
     "type": "git",
@@ -8,7 +8,7 @@
   },
   "engines": {
     "node": "~14.0.0",
-    "npm": "~6.14.8"
+    "npm": "^6.14.0"
   },
   "author": "Serenova",
   "license": "UNLICENSED",

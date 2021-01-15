@@ -356,9 +356,18 @@ export class MessagingTextArea extends React.Component {
     // If we're filtering based on "/" text, reset the selected message template to the first unfiltered one
     let newSelectedMessageTemplateIndex;
     let newMessageTemplateFilter;
+    const {
+      source,
+      channelType,
+      interactionId,
+    } = this.props.selectedInteraction;
 
-    // Send Typing indicator
-    if (this.props.selectedInteraction.source === 'smooch') {
+    /**
+     * Send Typing indicator
+     * Typing indicator is not supported on whatsapp interactions so we
+     * filter it out for smooch-sms interactions
+     */
+    if (source === 'smooch' && channelType !== 'sms') {
       this.handleTyping();
     }
 
@@ -378,7 +387,7 @@ export class MessagingTextArea extends React.Component {
       }
     }
     this.props.saveMessageState(
-      this.props.selectedInteraction.interactionId,
+      interactionId,
       messageText,
       newMessageTemplateFilter,
       newSelectedMessageTemplateIndex

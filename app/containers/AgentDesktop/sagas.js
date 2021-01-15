@@ -789,7 +789,10 @@ export function* updateVisibleStateofAllFlowTransferLists() {
 
 export function* doSetConversationRead() {
   const selectedInteraction = yield select(getSelectedInteraction);
-  if (yield select(getIsConversationUnread)) {
+  if (
+    yield select(getIsConversationUnread) &&
+      selectedInteraction.channelType !== 'sms'
+  ) {
     CxEngage.interactions.smoochMessaging.sendConversationRead({
       interactionId: selectedInteraction.interactionId,
     });
@@ -807,7 +810,7 @@ export function* doHandleNewSmoochMessage({ interactionId, message }) {
 
     if (interactionId !== selectedInteraction.interactionId) {
       yield put(setConversationIsUnread(interactionId, true));
-    } else {
+    } else if (selectedInteraction.channelType !== 'sms') {
       CxEngage.interactions.smoochMessaging.sendConversationRead({
         interactionId: selectedInteraction.interactionId,
       });
@@ -910,10 +913,10 @@ export function* terminateWrapupInteractions() {
                   ageSeconds > interaction.wrapupDetails.wrapupTime &&
                   !awaitingDisposition &&
                   !awaitingScript) {
-          yield call (
+          yield call(
             sdkCallToPromise,
             CxEngage.interactions.endWrapup,
-            {interactionId: interaction.interactionId},
+            { interactionId: interaction.interactionId },
             'AgentDesktop'
           );
         }

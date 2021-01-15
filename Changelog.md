@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.61.7] (2021-01-13)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.7/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.7/index.html)
+### Fixed
+* CXV1-21865 - Filtering out typing and read indicators from Agent side. | Whatsapp messaging.
+
 ## [1.61.6] (2020-12-14)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.6/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.6/index.html)
