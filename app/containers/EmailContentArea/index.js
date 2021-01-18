@@ -63,7 +63,7 @@ import EmailInput from './EmailInput';
 import messages from './messages';
 
 function findImageEntities(contentBlock, callback, contentState) {
-  contentBlock.findEntityRanges(character => {
+  contentBlock.findEntityRanges((character) => {
     const entityKey = character.getEntity();
     return (
       entityKey !== null &&
@@ -72,7 +72,7 @@ function findImageEntities(contentBlock, callback, contentState) {
   }, callback);
 }
 
-const Image = props => {
+const Image = (props) => {
   /* eslint-disable react/prop-types */
   const { height, src, width } = props.contentState
     .getEntity(props.entityKey)
@@ -222,7 +222,7 @@ export class EmailContentArea extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onChange = editorState => {
+    this.onChange = (editorState) => {
       this.setState({ editorState });
     };
     this.emailFrames = React.createRef();
@@ -289,6 +289,14 @@ export class EmailContentArea extends React.Component {
       this.updateIframes();
     }
 
+    // Doing this check because larger images where loading without the right size when hitting Reply (CXV1-23746)
+    if (
+      this.state.editorState !== prevState.editorState &&
+      !prevProps.selectedInteraction.emailReply
+    ) {
+      setTimeout(this.updateIframes, 3000);
+    }
+
     // set awaitingDisposition to true after the maximum wrapup time has reached
     if (
       this.props.awaitingDisposition &&
@@ -317,7 +325,11 @@ export class EmailContentArea extends React.Component {
       if (this.props.selectedInteraction.emailReply !== undefined) {
         //  Added a style to the body of the iframe to avoid a double scroll bar when the user reply email.
         this.emailFrames.current.contentDocument.head.innerHTML +=
-          '<style> body{ overflow:hidden } </style>';
+          '<style> body{ overflow-y:hidden } </style>';
+        this.emailFrames.current.style.width = '0px';
+        const widthpx = this.emailFrames.current.contentWindow.document.body
+          .scrollWidth;
+        this.emailFrames.current.style.width = `${widthpx}px`;
         this.emailFrames.current.style.height = '0px';
         const heightpx = this.emailFrames.current.contentWindow.document.body
           .scrollHeight;
@@ -357,7 +369,7 @@ export class EmailContentArea extends React.Component {
     this.props.emailCancelReply(this.props.selectedInteraction.interactionId);
   };
 
-  updateToInput = value => {
+  updateToInput = (value) => {
     this.props.updateEmailInput(
       this.props.selectedInteraction.interactionId,
       'toInput',
@@ -365,7 +377,7 @@ export class EmailContentArea extends React.Component {
     );
   };
 
-  updateCcInput = value => {
+  updateCcInput = (value) => {
     this.props.updateEmailInput(
       this.props.selectedInteraction.interactionId,
       'ccInput',
@@ -373,7 +385,7 @@ export class EmailContentArea extends React.Component {
     );
   };
 
-  updateBccInput = value => {
+  updateBccInput = (value) => {
     this.props.updateEmailInput(
       this.props.selectedInteraction.interactionId,
       'bccInput',
@@ -381,7 +393,7 @@ export class EmailContentArea extends React.Component {
     );
   };
 
-  updateSubjectInput = value => {
+  updateSubjectInput = (value) => {
     this.props.updateEmailInput(
       this.props.selectedInteraction.interactionId,
       'subjectInput',
@@ -389,7 +401,7 @@ export class EmailContentArea extends React.Component {
     );
   };
 
-  addFilesToEmail = fileList => {
+  addFilesToEmail = (fileList) => {
     for (let i = 0; i < fileList.length; i += 1) {
       this.props.emailAddAttachment(
         this.props.selectedInteraction.interactionId,
@@ -402,7 +414,7 @@ export class EmailContentArea extends React.Component {
     }
   };
 
-  removeAttachment = attachmentId => {
+  removeAttachment = (attachmentId) => {
     this.props.emailRemoveAttachment(
       this.props.selectedInteraction.interactionId,
       attachmentId
@@ -413,7 +425,7 @@ export class EmailContentArea extends React.Component {
     });
   };
 
-  onTemplateChange = e => {
+  onTemplateChange = (e) => {
     let newEditorState;
     if (e !== null && e !== undefined) {
       const { type, value } = e;
@@ -485,11 +497,11 @@ ${this.wrapEmailHistoryPlainText()}`;
     let imageId;
 
     if (emailDetails.attachments && emailDetails.attachments.length !== 0) {
-      emailDetails.attachments.forEach(attachment => {
+      emailDetails.attachments.forEach((attachment) => {
         inlineContent = false;
         imageId = '';
 
-        attachment.headers.forEach(header => {
+        attachment.headers.forEach((header) => {
           if (
             header.contentDisposition &&
             header.contentDisposition.slice(0, 6) === 'inline'
@@ -504,7 +516,9 @@ ${this.wrapEmailHistoryPlainText()}`;
         srcStartIndex = newEmailBody.indexOf(imageId) - 4;
         if (inlineContent && srcStartIndex > -1) {
           bodyAfter = newEmailBody.slice(srcStartIndex);
+
           srcEndIndex = bodyAfter.indexOf('"') + srcStartIndex;
+
           newEmailBody = [
             newEmailBody.slice(0, srcStartIndex),
             attachment.url,
@@ -513,7 +527,6 @@ ${this.wrapEmailHistoryPlainText()}`;
         }
       });
     }
-
     return newEmailBody;
   };
 
@@ -527,7 +540,7 @@ ${this.wrapEmailHistoryPlainText()}`;
     });
   };
 
-  wrapEmailHistoryHtml = email =>
+  wrapEmailHistoryHtml = (email) =>
     `<p>${this.onDateNameWrote()}</p>
 <div style='border-left: 2px solid #979797; padding-left: 20px; white-space: pre;'>
 ${email}
@@ -537,7 +550,7 @@ ${email}
     `${this.onDateNameWrote()}
 ${this.props.selectedInteraction.emailPlainBody}`;
 
-  updateAttachmentUrl = selectedArtifactFileId => {
+  updateAttachmentUrl = (selectedArtifactFileId) => {
     this.props.setEmailAttachmentFetchingUrl(
       this.props.selectedInteraction.interactionId,
       selectedArtifactFileId,
@@ -545,7 +558,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
     );
 
     const selectedAttachment = this.props.selectedInteraction.emailDetails.attachments.find(
-      attachment => selectedArtifactFileId === attachment.artifactFileId
+      (attachment) => selectedArtifactFileId === attachment.artifactFileId
     );
 
     if (selectedAttachment) {
@@ -576,7 +589,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
   };
 
   toggleCollpaseDetails = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       isCollapsed: !prevState.isCollapsed,
     }));
   };
@@ -584,7 +597,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
   // Config2 MessageTemplates is built using Draft-JS & it's plugins.
   // By default Images are wrapped inside figure tags in Draft-JS.
   // figure elements cannot be handled by medium draft-js without passing rendererFn prop
-  atomicBlock = props => {
+  atomicBlock = (props) => {
     const { blockProps, block } = props;
     const contentState = blockProps.getEditorState().getCurrentContent();
     const entity = contentState.getEntity(block.getEntityAt(0));
@@ -605,7 +618,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
 
   renderFn = (setEditorState, getEditorState, ...args) => {
     const rFnOld = rendererFn(setEditorState, getEditorState, ...args);
-    const rFnNew = contentBlock => {
+    const rFnNew = (contentBlock) => {
       const type = contentBlock.getType();
       switch (type) {
         case 'atomic':
@@ -628,18 +641,14 @@ ${this.props.selectedInteraction.emailPlainBody}`;
     let from;
     if (this.props.selectedInteraction.emailDetails === undefined) {
       if (this.props.selectedInteraction.contact !== undefined) {
-        from = `${this.props.selectedInteraction.contact.attributes.name} [${
-          this.props.selectedInteraction.customer
-        }]`;
+        from = `${this.props.selectedInteraction.contact.attributes.name} [${this.props.selectedInteraction.customer}]`;
       } else {
         from = this.props.selectedInteraction.customer;
       }
     } else {
       const emailFrom = this.props.selectedInteraction.emailDetails.from[0];
       if (this.props.selectedInteraction.contact !== undefined) {
-        from = `${this.props.selectedInteraction.contact.attributes.name} [${
-          emailFrom.address
-        }]`;
+        from = `${this.props.selectedInteraction.contact.attributes.name} [${emailFrom.address}]`;
       } else if (emailFrom.name !== emailFrom.address) {
         from =
           emailFrom.name === null
@@ -707,14 +716,14 @@ ${this.props.selectedInteraction.emailPlainBody}`;
           </div>
         );
       } else {
-        const tos = this.props.selectedInteraction.emailDetails.to.map(to => {
+        const tos = this.props.selectedInteraction.emailDetails.to.map((to) => {
           if (to.name && to.name !== to.address) {
             return `${to.name} [${to.address}]`;
           } else {
             return to.address;
           }
         });
-        const ccs = this.props.selectedInteraction.emailDetails.cc.map(cc => {
+        const ccs = this.props.selectedInteraction.emailDetails.cc.map((cc) => {
           if (cc.name && cc.name !== cc.address) {
             return `${cc.name} [${cc.address}]`;
           } else {
@@ -722,7 +731,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
           }
         });
         const bccs = this.props.selectedInteraction.emailDetails.bcc.map(
-          bcc => {
+          (bcc) => {
             if (bcc.name && bcc.name !== bcc.address) {
               return `${bcc.name} [${bcc.address}]`;
             } else {
@@ -736,18 +745,14 @@ ${this.props.selectedInteraction.emailPlainBody}`;
               <div style={styles.detailsField}>
                 <FormattedMessage {...messages.to} />
               </div>
-              <div style={styles.detailsValue}>
-                {tos.join(', ')}
-              </div>
+              <div style={styles.detailsValue}>{tos.join(', ')}</div>
             </div>
             {ccs.length > 0 ? (
               <div>
                 <div style={styles.detailsField}>
                   <FormattedMessage {...messages.cc} />
                 </div>
-                <div style={styles.detailsValue}>
-                  {ccs.join(', ')}
-                </div>
+                <div style={styles.detailsValue}>{ccs.join(', ')}</div>
               </div>
             ) : (
               undefined
@@ -757,9 +762,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
                 <div style={styles.detailsField}>
                   <FormattedMessage {...messages.bcc} />
                 </div>
-                <div style={styles.detailsValue}>
-                  {bccs.join(', ')}
-                </div>
+                <div style={styles.detailsValue}>{bccs.join(', ')}</div>
               </div>
             ) : (
               undefined
@@ -1007,7 +1010,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
                       value={
                         this.props.selectedInteraction.emailReply.subjectInput
                       }
-                      cb={subject => this.updateSubjectInput(subject)}
+                      cb={(subject) => this.updateSubjectInput(subject)}
                       style={{ width: '100%' }}
                       readOnly={
                         this.props.selectedInteraction.status ===
@@ -1038,7 +1041,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
                             .selectedEmailTemplate
                         }
                         options={emailTemplates}
-                        onChange={e => this.onTemplateChange(e)}
+                        onChange={(e) => this.onTemplateChange(e)}
                       />
                     ) : (
                       this.props.selectedInteraction.emailReply
@@ -1114,7 +1117,7 @@ ${this.props.selectedInteraction.emailPlainBody}`;
                   type="file"
                   multiple
                   value=""
-                  onChange={e => this.addFilesToEmail(e.target.files)}
+                  onChange={(e) => this.addFilesToEmail(e.target.files)}
                   style={{ display: 'none' }}
                 />
                 <label
@@ -1322,9 +1325,9 @@ const mapStateToProps = (state, props) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    emailCreateReply: interactionId =>
+    emailCreateReply: (interactionId) =>
       dispatch(emailCreateReply(interactionId)),
-    emailCancelReply: interactionId =>
+    emailCancelReply: (interactionId) =>
       dispatch(emailCancelReply(interactionId)),
     emailAddAttachment: (interactionId, attachment) =>
       dispatch(emailAddAttachment(interactionId, attachment)),
@@ -1332,7 +1335,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(emailRemoveAttachment(interactionId, attachmentId)),
     emailUpdateReply: (interactionId, message) =>
       dispatch(emailUpdateReply(interactionId, message)),
-    emailSendReply: interactionId => dispatch(emailSendReply(interactionId)),
+    emailSendReply: (interactionId) => dispatch(emailSendReply(interactionId)),
     setEmailAttachmentUrl: (interactionId, artifactFileId, url) =>
       dispatch(setEmailAttachmentUrl(interactionId, artifactFileId, url)),
     setEmailAttachmentFetchingUrl: (
@@ -1351,7 +1354,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(updateEmailInput(interactionId, input, value)),
     updateSelectedEmailTemplate: (interactionId, selectedTemplate) =>
       dispatch(updateSelectedEmailTemplate(interactionId, selectedTemplate)),
-    setAwaitingDisposition: interactionId =>
+    setAwaitingDisposition: (interactionId) =>
       dispatch(setAwaitingDisposition(interactionId)),
     dispatch,
   };
@@ -1359,9 +1362,6 @@ function mapDispatchToProps(dispatch) {
 
 export default ErrorBoundary(
   injectIntl(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(Radium(EmailContentArea))
+    connect(mapStateToProps, mapDispatchToProps)(Radium(EmailContentArea))
   )
 );

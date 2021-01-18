@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.61.8] (2021-01-15)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.8/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.8/index.html)
+### Fixed
+* CXV1-23746 - Malformed Amazon emails once hitting Reply.
+
 ## [1.61.7] (2021-01-13)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.7/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.7/index.html)
