@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.61.9] (2021-02-04)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.8/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.8/index.html)
+### Fixed 
+*  CXV1-23705 - SDK version bump for SDK should not retry on 501 (Not implemented) responses
+
 ## [1.61.8] (2021-01-15)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.8/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.8/index.html)
