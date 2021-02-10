@@ -30,4 +30,8 @@ export default defineMessages({
     id: 'app.containers.ContactsSearch.operator',
     defaultMessage: 'Operator',
   },
+  searchFailed: {
+    id: 'app.containers.ContactsSearch.searchFailed',
+    defaultMessage: 'Search failed. Edit search query to try again.',
+  },
 });

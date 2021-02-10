@@ -97,9 +97,14 @@ export function createSearchQuery(query, nextPage) {
     const queryToEncode = query[queryName];
     encodedQuery[queryName] = encodeURIComponent(queryToEncode);
   });
+  // To manually test the 400 API error case
+  if (encodedQuery.name === 'CXV1-23896') {
+    encodedQuery.badParam = 'CXV1-23896';
+  }
   return {
-    query: Object.assign(encodedQuery, {
+    query: {
+      ...encodedQuery,
       page: nextPage !== undefined ? nextPage : 1,
-    }),
+    },
   };
 }

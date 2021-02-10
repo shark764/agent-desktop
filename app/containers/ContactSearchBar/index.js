@@ -29,6 +29,7 @@ import {
   removeSearchFilter,
   setContactMode,
 } from 'containers/AgentDesktop/actions';
+import { setSearchPending } from 'containers/InfoTab/actions';
 import { selectSearchPending } from 'containers/InfoTab/selectors';
 import { selectSearchableAttributes } from './selectors';
 import messages from './messages';
@@ -114,11 +115,10 @@ export class ContactSearchBar extends React.Component {
   createDropdownItem = (item, isHighlighted) => (
     <div
       key={item.id}
-      style={({
-        
+      style={{
         ...this.styles.filterDropdownRow,
         ...(isHighlighted ? this.styles.highlightedFilter : {}),
-      })}
+      }}
     >
       {this.getLabel(item)}
     </div>
@@ -256,17 +256,20 @@ export class ContactSearchBar extends React.Component {
           this.state.pendingFilterValue
         );
         this.clearContactSearchForm();
+        this.props.setSearchPending(false); // Set to false to reset a possible failed state
       }
     } else if (this.state.autocompleteValue.length > 0) {
       this.props.addFilter('q', this.state.autocompleteValue);
       this.clearContactSearchForm();
+      this.props.setSearchPending(false); // Set to false to reset a possible failed state
     }
     return false;
   };
 
   cancel = () => {
-    if (!this.props.searchPending) {
+    if (this.props.searchPending !== true) {
       this.props.removeSearchFilter();
+      this.props.setSearchPending(false); // Set to false to reset a possible failed state
       if (
         this.props.selectedInteraction.contact !== undefined &&
         this.props.selectedInteraction.contact.id !== undefined
@@ -378,7 +381,8 @@ ContactSearchBar.propTypes = {
   searchableAttributes: PropTypes.array,
   removeSearchFilter: PropTypes.func.isRequired,
   setContactMode: PropTypes.func.isRequired,
-  searchPending: PropTypes.bool,
+  setSearchPending: PropTypes.func.isRequired,
+  searchPending: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 };
 
 function mapStateToProps(state, props) {
@@ -395,15 +399,13 @@ function mapDispatchToProps(dispatch) {
     removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
     setContactMode: (interactionId, newMode) =>
       dispatch(setContactMode(interactionId, newMode)),
+    setSearchPending: (pending) => dispatch(setSearchPending(pending)),
     dispatch,
   };
 }
 
 export default ErrorBoundary(
   injectIntl(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(Radium(ContactSearchBar))
+    connect(mapStateToProps, mapDispatchToProps)(Radium(ContactSearchBar))
   )
 );

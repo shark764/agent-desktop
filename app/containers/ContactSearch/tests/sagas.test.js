@@ -26,7 +26,7 @@ describe('goSearchContacts', () => {
     it('should select loading', () => {
       expect(generator.next()).toMatchSnapshot();
     });
-    it('should select deletionPending', () => {
+    it('should select searchPending', () => {
       expect(generator.next(false)).toMatchSnapshot();
     });
     it('should select selectedInteraction', () => {

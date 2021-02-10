@@ -89,19 +89,6 @@ Object {
 }
 `;
 
-exports[`goSearchContacts when a contact search is performed should select deletionPending 1`] = `
-Object {
-  "done": false,
-  "value": Object {
-    "@@redux-saga/IO": true,
-    "SELECT": Object {
-      "args": Array [],
-      "selector": [Function],
-    },
-  },
-}
-`;
-
 exports[`goSearchContacts when a contact search is performed should select loading 1`] = `
 Object {
   "done": false,
@@ -116,6 +103,19 @@ Object {
 `;
 
 exports[`goSearchContacts when a contact search is performed should select nextPage 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "@@redux-saga/IO": true,
+    "SELECT": Object {
+      "args": Array [],
+      "selector": [Function],
+    },
+  },
+}
+`;
+
+exports[`goSearchContacts when a contact search is performed should select searchPending 1`] = `
 Object {
   "done": false,
   "value": Object {

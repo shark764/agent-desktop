@@ -39,6 +39,7 @@ import {
   setConfirmingDelete,
   clearSearchResults,
   clearCheckedContacts,
+  setSearchPending,
 } from 'containers/InfoTab/actions';
 import { searchContacts } from './actions';
 
@@ -171,7 +172,7 @@ export class ContactSearch extends React.Component {
     </div>
   );
 
-  setSearchInputElement = element => {
+  setSearchInputElement = (element) => {
     if (element) {
       this.searchInputElement = element;
     }
@@ -183,7 +184,7 @@ export class ContactSearch extends React.Component {
     }
   };
 
-  getFilterName = filter => {
+  getFilterName = (filter) => {
     if (filter.attribute && filter.attribute.id === 'all') {
       return this.props.intl.formatMessage(messages.all);
     } else if (filter.attribute && filter.attribute.id === 'operator') {
@@ -206,9 +207,9 @@ export class ContactSearch extends React.Component {
       if (this.props.resultsCount !== 0) {
         const resultsMapped =
           !this.props.deletionPending &&
-          this.props.results.map(contact => {
+          this.props.results.map((contact) => {
             const isSelected = this.props.checkedContacts.find(
-              checkedContact => checkedContact.id === contact.id
+              (checkedContact) => checkedContact.id === contact.id
             );
             return (
               <ContactSearchResult
@@ -217,7 +218,7 @@ export class ContactSearch extends React.Component {
                   this.props.hideContactSelectCheckboxes
                 }
                 checked={!!isSelected}
-                selectContact={isChecked => {
+                selectContact={(isChecked) => {
                   if (isChecked) {
                     this.props.checkContact(contact);
                   } else {
@@ -236,8 +237,9 @@ export class ContactSearch extends React.Component {
               key="infinite-scroll"
               loadMore={this.props.searchContacts}
               hasMore={
-                this.props.resultsCount === -1 ||
-                this.props.results.length < this.props.resultsCount
+                this.props.searchPending !== 'failed' &&
+                (this.props.resultsCount === -1 ||
+                  this.props.results.length < this.props.resultsCount)
               }
               loader={this.getLoader()}
               useWindow={false}
@@ -295,23 +297,26 @@ export class ContactSearch extends React.Component {
             focusSearchInputElement={this.focusSearchInputElement}
           />
           <div style={styles.filtersWrapper}>
-            {this.props.query.map(filter => (
+            {this.props.query.map((filter) => (
               <Filter
                 key={filter.attribute.objectName}
                 name={this.getFilterName(filter)}
                 value={filter.value}
-                remove={() =>
-                  this.props.removeSearchFilter(filter.attribute.objectName)}
+                remove={() => {
+                  this.props.removeSearchFilter(filter.attribute.objectName);
+                  this.props.setSearchPending(false); // Set to false to reset a possible failed state
+                }}
                 style={styles.filter}
-                disabled={this.props.searchPending}
+                disabled={this.props.searchPending === true}
               />
             ))}
           </div>
+          {this.props.searchPending === 'failed' && (
+            <FormattedMessage {...messages.searchFailed} />
+          )}
         </div>
         {results}
-        {this.props.results.length > 0 &&
-          !this.props.loading &&
-          !isEditing && (
+        {this.props.results.length > 0 && !this.props.loading && !isEditing && (
           <ContactBulkActions
             newContact={this.newContact}
             selectedContacts={this.props.checkedContacts}
@@ -336,7 +341,7 @@ ContactSearch.propTypes = {
   loading: PropTypes.bool.isRequired,
   deletionPending: PropTypes.bool,
   confirmingDelete: PropTypes.bool,
-  searchPending: PropTypes.bool,
+  searchPending: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   query: PropTypes.array,
   searchContacts: PropTypes.func.isRequired,
   clearSearchResults: PropTypes.func.isRequired,
@@ -348,6 +353,7 @@ ContactSearch.propTypes = {
   setConfirmingDelete: PropTypes.func.isRequired,
   removeSearchFilter: PropTypes.func.isRequired,
   selectSidePanelTab: PropTypes.func.isRequired,
+  setSearchPending: PropTypes.func.isRequired,
   mergeContacts: PropTypes.func,
 };
 
@@ -370,25 +376,23 @@ function mapDispatchToProps(dispatch) {
     searchContacts: () => dispatch(searchContacts()),
     clearSearchResults: () => dispatch(clearSearchResults()),
     clearCheckedContacts: () => dispatch(clearCheckedContacts()),
-    checkContact: contact => dispatch(checkContact(contact)),
-    uncheckContact: contact => dispatch(uncheckContact(contact)),
-    newContact: interactionId => dispatch(newContact(interactionId)),
+    checkContact: (contact) => dispatch(checkContact(contact)),
+    uncheckContact: (contact) => dispatch(uncheckContact(contact)),
+    newContact: (interactionId) => dispatch(newContact(interactionId)),
     deleteContacts: () => dispatch(deleteContacts()),
-    setConfirmingDelete: confirmingDelete =>
+    setConfirmingDelete: (confirmingDelete) =>
       dispatch(setConfirmingDelete(confirmingDelete)),
-    removeSearchFilter: filter => dispatch(removeSearchFilter(filter)),
+    removeSearchFilter: (filter) => dispatch(removeSearchFilter(filter)),
+    setSearchPending: (pending) => dispatch(setSearchPending(pending)),
     selectSidePanelTab: (interactionId, tabName) =>
       dispatch(selectSidePanelTab(interactionId, tabName)),
-    mergeContacts: interactionId => dispatch(mergeContacts(interactionId)),
+    mergeContacts: (interactionId) => dispatch(mergeContacts(interactionId)),
     dispatch,
   };
 }
 
 export default ErrorBoundary(
   injectIntl(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(Radium(ContactSearch))
+    connect(mapStateToProps, mapDispatchToProps)(Radium(ContactSearch))
   )
 );

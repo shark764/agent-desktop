@@ -10,20 +10,21 @@ import { createSearchQuery } from 'utils/contact';
 import { setSearchPending, setSearchResults } from 'containers/InfoTab/actions';
 import {
   selectLoading,
-  selectDeletionPending,
   selectCurrentInteraction,
   selectNextPage,
+  selectSearchPending,
 } from 'containers/InfoTab/selectors';
 import { SEARCH_CONTACTS } from './constants';
 
 export function* goSearchContacts() {
   const loading = yield select(selectLoading);
-  const deletionPending = yield select(selectDeletionPending);
+  const searchPending = yield select(selectSearchPending);
   const selectedInteraction = yield select(selectCurrentInteraction);
   const nextPage = yield select(selectNextPage);
 
-  if (!loading || deletionPending) {
+  if (!loading && !searchPending) {
     try {
+      console.log('Performing search', selectedInteraction.query, nextPage);
       yield put(setSearchPending(true));
       const response = yield call(
         sdkCallToPromise,
@@ -34,7 +35,8 @@ export function* goSearchContacts() {
       yield put(setSearchResults(response));
       yield put(setSearchPending(false));
     } catch (error) {
-      console.log(error);
+      console.error('An error occured trying to search contacts', error);
+      yield put(setSearchPending('failed'));
     }
   }
 }
