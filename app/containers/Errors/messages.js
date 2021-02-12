@@ -70,6 +70,11 @@ export default defineMessages({
     id: 'app.containers.Errors.AD-1010',
     defaultMessage: 'An error ocurred while fetching email transcript files.',
   },
+  'AD-1011': {
+    id: 'app.containers.Errors.AD-1011',
+    defaultMessage:
+      'The WhatsApp customer did not respond within 24 hours of their first message, so the interaction has been automatically ended.',
+  },
   /**
    * context :general
    */

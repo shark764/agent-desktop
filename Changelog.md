@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.62.0] (2021-02-10)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.62.0/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.62.0/index.html)
+### Added 
+*  CXV1-23359 - Send a notification for Skylight to display when automatically ending the interaction after 24 hours.
+
 ## [1.61.10] (2021-02-09)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.10/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.10/index.html)

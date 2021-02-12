@@ -626,7 +626,9 @@ export class App extends React.Component {
 
           // NOTIFICATIONS
           case 'cxengage/notifications/show-banner': {
-            if (response.interactionId && response.extraParams) {
+            if (response.notification === 'whatsapp-customer-disconnect') {
+              this.props.setNonCriticalError({ code: 'AD-1011' });
+            } else if (response.interactionId && response.extraParams) {
               const extraParamsKeys = Object.keys(response.extraParams);
               extraParamsKeys.forEach((extraParam) => {
                 this.props.toggleInteractionNotification(
