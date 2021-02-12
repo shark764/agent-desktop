@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.63.0] (2021-02-12)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.0/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.0/index.html)
+### Added
+* CXV1-23408 - Render quoted reply from message in Skylight.
+
 ## [1.62.0] (2021-02-10)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.62.0/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.62.0/index.html)

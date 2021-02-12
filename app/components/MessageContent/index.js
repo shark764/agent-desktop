@@ -40,7 +40,24 @@ const MessageTextContainer = styled.div`
   ${({ pending }) => (pending ? 'color: #ccc6c6;' : '')};
 `;
 
+const QuotedMessageTextContainer = styled.div`
+  font-size: 14px;
+  line-height: 18px;
+  white-space: pre-wrap;
+  font-style: italic;
+  margin-left: 10px;
+  margin-right: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #F8F9F9;
+  border: 1px solid #ccc;
+  border-left: 4px solid #aaa;
+  ${({ pending }) => (pending && 'color: #ccc6c6')};
+`;
+
 MessageTextContainer.displayName = 'MessageTextContainer';
+
+QuotedMessageTextContainer.displayName = 'QuotedMessageTextContainer';
 
 export function MessageContent({ message }) {
   switch (message.contentType) {
@@ -50,29 +67,14 @@ export function MessageContent({ message }) {
        * the media file as "text" property
        */
       return message.file && message.file.mediaUrl ? (
-        <AttachmentContainer>
-          <AttachmentLink
-            href={message.file.mediaUrl}
-            alt="image"
-            target="_blank"
-            style={{
-              display: 'contents',
-            }}
-          >
-            <Image
-              id={message.id}
-              src={message.file.mediaUrl}
-              placeholher="image"
-              style={{
-                maxWidth: '300px',
-                height: 'auto',
-              }}
-            />
-          </AttachmentLink>
-          {message.text && (
-            <MessageTextContainer>{message.text}</MessageTextContainer>
+        <>
+          {message.quotedMessage && message.quotedMessage.content && (
+            <QuotedMessageTextContainer>
+              {message.quotedMessage.content.text}
+            </QuotedMessageTextContainer>
           )}
-        </AttachmentContainer>
+          {renderImageMessage(message, '300px')}
+        </>
       ) : (
         <span style={{ color: 'red' }}>
           <FormattedMessage {...messages.fileNotFoundInTranscript} />
@@ -89,62 +91,142 @@ export function MessageContent({ message }) {
        * "video/mp4" files has a random filename, but customer can add a caption along with the file,
        * that's why we cannot use "text" as filename for that case
        */
-      let fileName =
-        (message.file.mediaType !== 'video/mp4' &&
-          message.text &&
-          message.text.trim()) ||
-        (message.file && message.file.fileName) ||
-        (message.file.mediaUrl &&
-          decodeURIComponent(message.file.mediaUrl)
-            .split('/')
-            [message.file.mediaUrl.split('/').length - 1].split('?')[0]);
 
-      let caption = message.text;
-      const ext =
-        caption &&
-        caption.substring(caption.lastIndexOf('.') + 1).toLowerCase();
-      if (message.file.mediaType === 'video/mp4' && ext === 'mp4') {
-        fileName = caption.trim();
-        caption = null;
-      }
-
-      return fileName ? (
-        <AttachmentContainer>
-          <AttachmentLink
-            href={message.file.mediaUrl}
-            alt="image"
-            target="_blank"
-          >
-            <AttachmentIconContainer>
-              <Icon
-                id={message.id}
-                name="attachment_blue"
-                placeholher="image"
-              />
-            </AttachmentIconContainer>
-            <FileNameContainer title={fileName}>{fileName}</FileNameContainer>
-          </AttachmentLink>
-          {message.file.mediaType === 'video/mp4' && caption && (
-            <MessageTextContainer pending={message.pending}>
-              {caption}
-            </MessageTextContainer>
+      return message.file ? (
+        <>
+          {message.quotedMessage && message.quotedMessage.content && (
+            <QuotedMessageTextContainer>
+              {message.quotedMessage.content.text}
+            </QuotedMessageTextContainer>
           )}
-        </AttachmentContainer>
+          {renderFileMessage(message)}
+        </>
       ) : (
         <span style={{ color: 'red' }}>
           <FormattedMessage {...messages.fileNotFoundInTranscript} />
         </span>
       );
     }
-    default:
+    default: {
+      let quotedMessage;
+      if (message.quotedMessage && message.quotedMessage.content) {
+        if (message.quotedMessage.content.type === 'image') {
+          quotedMessage = renderImageMessage(message.quotedMessage.content, '50px');
+        } else if (message.quotedMessage.content.type === 'file') {
+          quotedMessage = renderFileMessage(message.quotedMessage.content);
+        } else {
+          quotedMessage = message.quotedMessage.content.text;
+        }
+      }
       return (
-        <MessageTextContainer pending={message.pending}>
-          {message.pending && message.isFile && (
-            <LoadingSpinnerSVG size={28} color="#b2b2b2" />
+        <>
+          {quotedMessage && (
+            <QuotedMessageTextContainer>
+              {quotedMessage}
+            </QuotedMessageTextContainer>
           )}
-          {message.text}
-        </MessageTextContainer>
+          <MessageTextContainer pending={message.pending}>
+            {message.pending && message.isFile && (
+              <LoadingSpinnerSVG size={28} color="#b2b2b2" />
+            )}
+            {message.text}
+          </MessageTextContainer>
+        </>
       );
+    }
+  }
+}
+
+function renderImageMessage(content, width) {
+  if (content) {
+    return (
+      <AttachmentContainer>
+        <AttachmentLink
+          href={content.file.mediaUrl}
+          alt="image"
+          target="_blank"
+          style={{
+            display: 'contents',
+          }}
+        >
+          <Image
+            id={content.id}
+            src={content.file.mediaUrl}
+            placeholher="image"
+            style={{
+              maxWidth: width,
+              height: 'auto',
+            }}
+          />
+        </AttachmentLink>
+        {content.text && (
+          <MessageTextContainer>{content.text}</MessageTextContainer>
+        )}
+      </AttachmentContainer>
+    );
+  } else {
+    return (
+      <span style={{ color: 'red' }}>
+        <FormattedMessage {...messages.fileNotFoundInTranscript} />
+      </span>
+    );
+  }
+}
+
+function renderFileMessage(content) {
+  if (content) {
+    let fileName =
+      (content.file.mediaType !== 'video/mp4' &&
+        content.text &&
+        content.text.trim()) ||
+      (content.file && content.file.fileName) ||
+      (content.file.mediaUrl &&
+        decodeURIComponent(content.file.mediaUrl)
+          .split('/')
+          [content.file.mediaUrl.split('/').length - 1].split('?')[0]);
+
+    let caption = content.text;
+    const ext =
+      caption &&
+      caption.substring(caption.lastIndexOf('.') + 1).toLowerCase();
+    if (content.file.mediaType === 'video/mp4' && ext === 'mp4') {
+      fileName = caption.trim();
+      caption = null;
+    }
+
+    return fileName ? (
+      <AttachmentContainer>
+        <AttachmentLink
+          href={content.file.mediaUrl}
+          alt="image"
+          target="_blank"
+        >
+          <AttachmentIconContainer>
+            <Icon
+              id={content.id}
+              name="attachment_blue"
+              placeholher="image"
+            />
+          </AttachmentIconContainer>
+          <FileNameContainer title={fileName}>{fileName}</FileNameContainer>
+        </AttachmentLink>
+        {content.file.mediaType === 'video/mp4' && caption && (
+          <MessageTextContainer pending={content.pending}>
+            {caption}
+          </MessageTextContainer>
+        )}
+      </AttachmentContainer>
+    ) : (
+      <span style={{ color: 'red' }}>
+        <FormattedMessage {...messages.fileNotFoundInTranscript} />
+      </span>
+    );
+  } else {
+    return (
+      <span style={{ color: 'red' }}>
+        <FormattedMessage {...messages.fileNotFoundInTranscript} />
+      </span>
+    );
   }
 }
 
@@ -170,6 +252,18 @@ MessageContent.propTypes = {
     pending: PropTypes.bool,
     isFile: PropTypes.bool,
     text: PropTypes.string,
+    quotedMessage: PropTypes.shape({
+      content: PropTypes.shape({
+        id: PropTypes.string,
+        type: PropTypes.string,
+        text: PropTypes.string,
+        file: PropTypes.shape({
+          mediaUrl: PropTypes.string,
+          mediaType: PropTypes.string,
+          mediaSize: PropTypes.string,
+        }),
+      }),
+    }),
   }),
 };
 
