@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.63.1] (2021-02-15)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.1/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.1/index.html)
+### Fixed 
+* CXV1-23595 - Transcript for Collect Message | The from is not showing as per configured in the notation.
+
 ## [1.63.0] (2021-02-12)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.0/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.0/index.html)

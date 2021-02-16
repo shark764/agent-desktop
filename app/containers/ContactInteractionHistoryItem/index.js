@@ -319,6 +319,12 @@ export class ContactInteractionHistoryItem extends React.Component {
                 messageFrom = this.props.contactName;
               } else if (
                 transcriptItem.payload.metadata &&
+                transcriptItem.payload.metadata.type === 'system' &&
+                transcriptItem.payload.metadata.name
+              ) {
+                messageFrom = transcriptItem.payload.metadata.name;
+              } else if (
+                transcriptItem.payload.metadata &&
                 transcriptItem.payload.metadata.type === 'system'
               ) {
                 messageFrom = <FormattedMessage {...messages.system} />;
