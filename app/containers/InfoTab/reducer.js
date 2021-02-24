@@ -52,7 +52,8 @@ function infoTabReducer(state = initialState, action) {
         return state
           .set('results', results)
           .set('nextPage', action.response.page + 1)
-          .set('resultsCount', validResultsCount);
+          .set('resultsCount', validResultsCount)
+          .set('totalPages', action.response.totalPages);
       } else {
         return state;
       }

@@ -26,6 +26,8 @@ import { mergeContacts, newContact } from 'containers/ContactsControl/actions';
 import {
   selectResults,
   selectResultsCount,
+  selectNextPage,
+  selectTotalPages,
   selectCheckedContacts,
   selectLoading,
   selectConfirmingDelete,
@@ -239,7 +241,8 @@ export class ContactSearch extends React.Component {
               hasMore={
                 this.props.searchPending !== 'failed' &&
                 (this.props.resultsCount === -1 ||
-                  this.props.results.length < this.props.resultsCount)
+                  (this.props.results.length < this.props.resultsCount &&
+                    this.props.nextPage <= this.props.totalPages + 1))
               }
               loader={this.getLoader()}
               useWindow={false}
@@ -337,6 +340,8 @@ ContactSearch.propTypes = {
   selectedInteraction: PropTypes.object.isRequired,
   results: PropTypes.any,
   resultsCount: PropTypes.number,
+  nextPage: PropTypes.number,
+  totalPages: PropTypes.number,
   checkedContacts: PropTypes.array,
   loading: PropTypes.bool.isRequired,
   deletionPending: PropTypes.bool,
@@ -362,6 +367,8 @@ function mapStateToProps(state, props) {
     selectedInteraction: getSelectedInteraction(state, props),
     results: selectResults(state, props),
     resultsCount: selectResultsCount(state, props),
+    nextPage: selectNextPage(state, props),
+    totalPages: selectTotalPages(state, props),
     checkedContacts: selectCheckedContacts(state, props),
     loading: selectLoading(state, props),
     deletionPending: selectDeletionPending(state, props),

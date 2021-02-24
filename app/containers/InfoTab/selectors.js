@@ -123,14 +123,16 @@ const selectResults = createSelector(selectInfoTabDomain(), (infoTab) =>
   infoTab.get('results').toJS()
 );
 
-const selectResultsCount = createSelector(
-  selectInfoTabDomain(),
-  (infoTab) =>
-    infoTab.get('resultsCount') !== undefined ? infoTab.get('resultsCount') : -1
+const selectResultsCount = createSelector(selectInfoTabDomain(), (infoTab) =>
+  infoTab.get('resultsCount') !== undefined ? infoTab.get('resultsCount') : -1
 );
 
 const selectNextPage = createSelector(selectInfoTabDomain(), (infoTab) =>
   infoTab.get('nextPage')
+);
+
+const selectTotalPages = createSelector(selectInfoTabDomain(), (infoTab) =>
+  infoTab.get('totalPages')
 );
 
 export {
@@ -153,4 +155,5 @@ export {
   selectResults,
   selectResultsCount,
   selectNextPage,
+  selectTotalPages,
 };
