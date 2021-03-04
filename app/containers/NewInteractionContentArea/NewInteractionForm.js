@@ -63,7 +63,7 @@ const styles = {
   },
 };
 
-const formatPhoneNumber = input => {
+const formatPhoneNumber = (input) => {
   const formattedInput = input.replace(/\D+/g, '');
   if (isValidNumber(`+${formattedInput}`)) {
     // Check if it's a valid number
@@ -139,7 +139,10 @@ export function NewInteractionForm(props) {
           !isPossibleNumber(formatPhoneNumber(props.input))) && (
         <OutboundSmsButton phoneNumber={formatPhoneNumber(props.input)} />
       )}
-      {!isPossibleNumber(formatPhoneNumber(props.input)) && (
+      {!isPossibleNumber(props.input) &&
+        (!props.getSelectedOutboundEmailIdentifier ||
+          props.getSelectedOutboundEmailIdentifier.channelType === 'email' ||
+          !isValidEmail(props.input)) && (
         <OutboundEmailButton email={props.input} />
       )}
     </div>
@@ -164,11 +167,11 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setNewInteractionPanelFormInput: input =>
+    setNewInteractionPanelFormInput: (input) =>
       dispatch(setNewInteractionPanelFormInput(input)),
-    selectOutboundPhoneIdentification: input =>
+    selectOutboundPhoneIdentification: (input) =>
       dispatch(selectOutboundPhoneIdentification(input)),
-    selectOutboundEmailIdentification: input =>
+    selectOutboundEmailIdentification: (input) =>
       dispatch(selectOutboundEmailIdentification(input)),
     dispatch,
   };
@@ -187,8 +190,5 @@ NewInteractionForm.propTypes = {
 };
 
 export default ErrorBoundary(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Radium(NewInteractionForm))
+  connect(mapStateToProps, mapDispatchToProps)(Radium(NewInteractionForm))
 );

@@ -1,4 +1,9 @@
 # Changelog
+## [1.63.3] (2021-03-04)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.3/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.3/index.html)
+### Fixed
+* CXV1-23755 - Unable to send emails to accounts with 4 to 11 numbers in the email address.
 
 ## [1.63.2] (2021-02-23)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.2/index.html)
@@ -9,7 +14,7 @@
 ## [1.63.1] (2021-02-15)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.1/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.1/index.html)
-### Fixed 
+### Fixed
 * CXV1-23595 - Transcript for Collect Message | The from is not showing as per configured in the notation.
 
 ## [1.63.0] (2021-02-12)
@@ -21,20 +26,20 @@
 ## [1.62.0] (2021-02-10)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.62.0/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.62.0/index.html)
-### Added 
+### Added
 *  CXV1-23359 - Send a notification for Skylight to display when automatically ending the interaction after 24 hours.
 
 ## [1.61.10] (2021-02-09)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.10/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.10/index.html)
-### Fixed 
+### Fixed
 * CXV1-23897 - Fixed duplicate contact search queries made on load
 * CXV1-23896 - Added handling for contact search failures
 
 ## [1.61.9] (2021-02-04)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.61.9/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.61.9/index.html)
-### Fixed 
+### Fixed
 * CXV1-23705 - SDK version bump for SDK should not retry on 501 (Not implemented) responses
 
 ## [1.61.8] (2021-01-15)
@@ -889,7 +894,7 @@ CXV1-22614 - Hide internal routing (transfer button) for omnichannel interaction
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.8/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.8/index.html)
 ### Fixed
-* CXV1-20378 Send SMS Action Throws Critical Error 
+* CXV1-20378 Send SMS Action Throws Critical Error
 
 ## [1.42.7] (2019-12-20)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.7/index.html)  
@@ -931,7 +936,7 @@ CXV1-22614 - Hide internal routing (transfer button) for omnichannel interaction
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.1/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.42.1/index.html)
 ### Fixed
-* CXV1-20246 - Error 1003 SDK error when adding a note to an SMS interaction prior to sending a message. 
+* CXV1-20246 - Error 1003 SDK error when adding a note to an SMS interaction prior to sending a message.
 
 ## [1.42.0] (2019-10-8)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.42.0/index.html)  
@@ -975,7 +980,7 @@ CXV1-22614 - Hide internal routing (transfer button) for omnichannel interaction
 ### Fixed
 * CXV1-18087 - Interactions not being recorded to contacts in Skylight Desktop.
 
-## [1.39.1] (2019-09-06) 
+## [1.39.1] (2019-09-06)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.39.1-SNAPSHOT/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.39.1-SNAPSHOT/index.html)
 ### Changed
@@ -1139,12 +1144,12 @@ CXV1-22614 - Hide internal routing (transfer button) for omnichannel interaction
 * Validation for undefined transfer list when user has no transfer lists assigned
 
 ### [1.37.8] (2019-03-08)
-[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.8/index.html) 
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.8/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.8/index.html)  
 ## Fixed
-* CXV1-17224 - Fix duplicate keys error in the TransferLists component 
+* CXV1-17224 - Fix duplicate keys error in the TransferLists component
 * CXV1-17328 - Transfer menu UI is broken for non-voice interactions when transfer items are too lengthy
-* CXV1-17330 - Do not show loading spinner when there are no interaction specific trasnfer lists 
+* CXV1-17330 - Do not show loading spinner when there are no interaction specific trasnfer lists
 
 ## [1.37.7] (2019-03-14)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.7/index.html)  
@@ -1163,10 +1168,10 @@ CXV1-22614 - Hide internal routing (transfer button) for omnichannel interaction
 * CXV1-17284 - Skylight | Update skylight to work with latest cx-ui-component library
 
 ## [1.37.4] (2019-03-09)
-[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.4/index.html) 
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.4/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.4/index.html)  
 ## Fixed
-* Updated transfer lists styling 
+* Updated transfer lists styling
 
 ## [1.37.3] (2019-03-09)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.3/index.html)  
@@ -1196,7 +1201,7 @@ CXV1-22614 - Hide internal routing (transfer button) for omnichannel interaction
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.37.0/index.html)  
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.37.0/index.html)  
 ### Added
-* CXV1-16780 - Hide queues/agents lists from transfer menu when no role	
+* CXV1-16780 - Hide queues/agents lists from transfer menu when no role
 * CXV1-16782 - Remove the batch requests for agents/queues when no role
 * CXV1-16779 - Hide queues/agents from preference menu when no role
 
@@ -1231,7 +1236,7 @@ CXV1-22614 - Hide internal routing (transfer button) for omnichannel interaction
 
 ### [1.35.13] (2019-02-19)
 ## Fixed
-* <no-ticket> - Fixed an issue with outbound emails that have an ANI not being sent with said selected ANI 
+* <no-ticket> - Fixed an issue with outbound emails that have an ANI not being sent with said selected ANI
 
 ### [1.35.12] (2019-02-19)
 ## Added
@@ -1353,7 +1358,7 @@ CXV1-22614 - Hide internal routing (transfer button) for omnichannel interaction
 * CXV1-15459 - Visual notification doesn´t redirect to URL in use(Chrome)
 
 ### [1.32.7] (2018-11-29)
-* CXV1-16124 - Email interaction - when replying, autofill "to" address field not using 'reply-to' 
+* CXV1-16124 - Email interaction - when replying, autofill "to" address field not using 'reply-to'
 
 ### [1.32.6] (2018-11-28)
 * CXV1-16084 - Add Participant - Second agent sees "Agent" in participants list and not the agents name
@@ -1379,7 +1384,7 @@ CXV1-22614 - Hide internal routing (transfer button) for omnichannel interaction
 ### [1.31.5] (2018-11-19)
 * CXV1-16059 - Fixed window errors being logged to sentry.
 
-### [1.31.4] (2018-11-21) 
+### [1.31.4] (2018-11-21)
 * CXV1-12476 - AD/TB2 - Outbound Identification - Include Outbound ANI list in new interaction panel for Voice fixed outbound ANI toolbar
 
 ### [1.31.3] (2018-11-20)
