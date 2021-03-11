@@ -347,7 +347,7 @@ export class Login extends React.Component {
                             cbTopic,
                             cbResponse
                           );
-                          const agentData = { ...cbResponse, isSso: true};
+                          const agentData = { ...cbResponse, isSso: true };
                           this.loginCB(agentData, 'sso');
                         } else {
                           this.props.errorOccurred();
@@ -461,7 +461,7 @@ export class Login extends React.Component {
       typeof Number(storage.getItem('debugTokenVal')) === 'number'
     ) {
       // add ttl to the credentials
-      return { ...credentials, ttl: Number(storage.getItem('debugTokenVal'))};
+      return { ...credentials, ttl: Number(storage.getItem('debugTokenVal')) };
     }
 
     // otherwise, just return the credentials without changing anything
@@ -1269,7 +1269,7 @@ export class Login extends React.Component {
           <div style={styles.privacy}>
             <a
               target="_blank"
-              href="https://www.serenova.com/privacy"
+              href="https://www.lifesize.com/en/legal-notices/cxengage-privacy-policy/"
               style={styles.privacyLinkToolbar}
             >
               <FormattedMessage {...messages.privacy} />
@@ -1280,9 +1280,7 @@ export class Login extends React.Component {
     } else {
       return (
         <div style={styles.base}>
-          <Dialog style={styles.content}>
-            {pageContent}
-          </Dialog>
+          <Dialog style={styles.content}>{pageContent}</Dialog>
           {this.getLanguageSelect()}
           <LegalCopyright locale={this.props.locale} />
           <div style={styles.privacy}>
@@ -1369,10 +1367,5 @@ Login.contextTypes = {
 };
 
 export default ErrorBoundary(
-  injectIntl(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(Radium(Login))
-  )
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(Radium(Login)))
 );

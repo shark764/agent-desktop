@@ -1,4 +1,10 @@
 # Changelog
+## [1.63.4] (2021-03-11)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.4/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.4/index.html)
+### Fixed
+* CXV1-24111 - Update the Privacy Policy links in Skylight.
+
 ## [1.63.3] (2021-03-04)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.3/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.3/index.html)
