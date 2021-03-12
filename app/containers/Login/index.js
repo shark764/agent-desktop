@@ -1286,7 +1286,7 @@ export class Login extends React.Component {
           <div style={styles.privacy}>
             <a
               target="_blank"
-              href="https://www.serenova.com/privacy"
+              href="https://www.lifesize.com/en/legal-notices/cxengage-privacy-policy/"
               style={styles.privacyLink}
             >
               <FormattedMessage {...messages.privacy} />
