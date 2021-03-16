@@ -1,4 +1,11 @@
 # Changelog
+## [1.63.6] (2021-03-10)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.6/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.6/index.html)
+### Fixed
+* CXV1-23708 - Fixed fuzzy search pops in Zendesk.
+             - Fixed OR condition for strict search pops in Zendesk.
+
 ## [1.63.5] (2021-03-11)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.5/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.5/index.html)
