@@ -70,7 +70,7 @@ export function MessageContent({ message }) {
         <>
           {message.quotedMessage && message.quotedMessage.content && (
             <QuotedMessageTextContainer>
-              {message.quotedMessage.content.text}
+              {renderQuotedMessage(message)}
             </QuotedMessageTextContainer>
           )}
           {renderImageMessage(message, '300px')}
@@ -96,7 +96,7 @@ export function MessageContent({ message }) {
         <>
           {message.quotedMessage && message.quotedMessage.content && (
             <QuotedMessageTextContainer>
-              {message.quotedMessage.content.text}
+              {renderQuotedMessage(message)}
             </QuotedMessageTextContainer>
           )}
           {renderFileMessage(message)}
@@ -108,21 +108,11 @@ export function MessageContent({ message }) {
       );
     }
     default: {
-      let quotedMessage;
-      if (message.quotedMessage && message.quotedMessage.content) {
-        if (message.quotedMessage.content.type === 'image') {
-          quotedMessage = renderImageMessage(message.quotedMessage.content, '50px');
-        } else if (message.quotedMessage.content.type === 'file') {
-          quotedMessage = renderFileMessage(message.quotedMessage.content);
-        } else {
-          quotedMessage = message.quotedMessage.content.text;
-        }
-      }
       return (
         <>
-          {quotedMessage && (
+          {message.quotedMessage && message.quotedMessage.content && (
             <QuotedMessageTextContainer>
-              {quotedMessage}
+              {renderQuotedMessage(message)}
             </QuotedMessageTextContainer>
           )}
           <MessageTextContainer pending={message.pending}>
@@ -137,8 +127,28 @@ export function MessageContent({ message }) {
   }
 }
 
+function renderQuotedMessage(message) {
+  let quotedMessage;
+  if (message.quotedMessage && message.quotedMessage.content) {
+    if (message.quotedMessage.content.type === 'image') {
+      quotedMessage = renderImageMessage(message.quotedMessage.content, '50px');
+    } else if (message.quotedMessage.content.type === 'file') {
+      quotedMessage = renderFileMessage(message.quotedMessage.content);
+    } else if (message.quotedMessage.content.type === 'text') {
+      quotedMessage = message.quotedMessage.content.text;
+    } else if (!message.quotedMessage.content.type) {
+      quotedMessage = (
+        <span style={{ color: 'red' }}>
+          <FormattedMessage {...messages.fileNotFoundInTranscript} />
+        </span>
+      );
+    }
+  }
+  return quotedMessage;
+}
+
 function renderImageMessage(content, width) {
-  if (content) {
+  if (content && content.file && content.file.mediaUrl) {
     return (
       <AttachmentContainer>
         <AttachmentLink
@@ -174,7 +184,7 @@ function renderImageMessage(content, width) {
 }
 
 function renderFileMessage(content) {
-  if (content) {
+  if (content && content.file && content.file.mediaUrl) {
     let fileName =
       (content.file.mediaType !== 'video/mp4' &&
         content.text &&
@@ -260,7 +270,7 @@ MessageContent.propTypes = {
         file: PropTypes.shape({
           mediaUrl: PropTypes.string,
           mediaType: PropTypes.string,
-          mediaSize: PropTypes.string,
+          mediaSize: PropTypes.number,
         }),
       }),
     }),

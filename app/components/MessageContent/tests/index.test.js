@@ -276,79 +276,166 @@ describe('<QuotedMessageContent />', () => {
   });
 
   it('should render fileNotFoundInTranscript error when quoted image type message does not have file property', () => {
+    const mockMessage = {
+      id: '601ad7e0f41170000cced559',
+      text: 'This is a quoted message',
+      type: 'customer',
+      from: 'Irvin Sandoval',
+      contentType: 'text',
+      resourceId: null,
+      timestamp: 1581423633126,
+      quotedMessage: {
+        content: {
+          id: '5e429c11749914000f07349f',
+          type: 'file',
+        },
+      },
+    };
     const rendered = shallow(
-      <MessageContent message={{ ...mockQuotedImageMessage.quotedMessage.content, file: null }} />
+      <MessageContent message={{ ...mockMessage}} />
     );
     expect(rendered).toMatchSnapshot();
   });
 
   it('quoted image message has a caption along with the file', () => {
+    const mockMessage = {
+      id: '601ad7e0f41170000cced559',
+      text: 'This is a quoted message',
+      type: 'customer',
+      from: 'Irvin Sandoval',
+      file: {},
+      contentType: 'text',
+      resourceId: null,
+      timestamp: 1581423633126,
+      quotedMessage: {
+        content: {
+          id: '5e429c11749914000f07349f',
+          type: 'image',
+          file: {
+            fileName: 'Test.jpg',
+            mediaUrl: `${mockMediaUrl}.jpg`,
+          },
+          text: 'hey, look at this file!',
+        },
+      },
+    };
     const rendered = shallow(
       <MessageContent
-        message={{ ...mockQuotedImageMessage.quotedMessage.content, text: 'hey, look at this file!' }}
+        message={{ ...mockMessage }}
       />
     );
     expect(rendered).toMatchSnapshot();
   });
 
   it('should render quoted file message component correctly', () => {
-    const rendered = shallow(<MessageContent message={mockQuotedFileMessage.quotedMessage.content} />);
+    const rendered = shallow(<MessageContent message={mockQuotedFileMessage} />);
     expect(rendered).toMatchSnapshot();
   });
 
 
   it('quoted file message does not have fileName property', () => {
-    const rendered = shallow(
-      <MessageContent
-        message={{
-          ...mockQuotedFileMessage.quotedMessage.content,
+    const mockMessage = {
+      id: '601ad7e0f41170000cced559',
+      text: 'This is a quoted message',
+      type: 'customer',
+      from: 'Irvin Sandoval',
+      file: {},
+      contentType: 'text',
+      resourceId: null,
+      timestamp: 1581423633126,
+      quotedMessage: {
+        content: {
+          id: '5e429c11749914000f07349f',
+          type: 'file',
           file: {
             mediaUrl: `${mockMediaUrl}.pdf`,
             mediaType: 'text/pdf',
           },
-        }}
-      />
+        },
+      },
+    };
+    const rendered = shallow(
+      <MessageContent message={{ ...mockMessage }} />
     );
     expect(rendered).toMatchSnapshot();
   });
 
   it('quoted file message is "video/mp4" format and has a text property with its name', () => {
-    const rendered = shallow(
-      <MessageContent
-        message={{
-          ...mockQuotedFileMessage.quotedMessage.content,
-          text: 'most-awesome-video.mp4',
+    const mockMessage = {
+      id: '601ad7e0f41170000cced559',
+      text: 'This is a quoted message',
+      type: 'customer',
+      from: 'Irvin Sandoval',
+      file: {},
+      contentType: 'text',
+      resourceId: null,
+      timestamp: 1581423633126,
+      quotedMessage: {
+        content: {
+          id: '5e429c11749914000f07349f',
+          type: 'file',
           file: {
             fileName: '83hbu88d88dh-99ajffjf-11f4.mp4',
             mediaUrl: `${mockMediaUrl}.mp4`,
             mediaType: 'video/mp4',
           },
-        }}
-      />
+          text: 'most-awesome-video.mp4',
+        },
+      },
+    };
+    const rendered = shallow(
+      <MessageContent message={{ ...mockMessage }} />
     );
     expect(rendered).toMatchSnapshot();
   });
 
   it('quoted file message is "video/mp4" format and has a caption', () => {
-    const rendered = shallow(
-      <MessageContent
-        message={{
-          ...mockQuotedFileMessage.quotedMessage.content,
-          text: 'Hey look at this video!!',
+    const mockMessage = {
+      id: '601ad7e0f41170000cced559',
+      text: 'This is a quoted message',
+      type: 'customer',
+      from: 'Irvin Sandoval',
+      file: {},
+      contentType: 'text',
+      resourceId: null,
+      timestamp: 1581423633126,
+      quotedMessage: {
+        content: {
+          id: '5e429c11749914000f07349f',
+          type: 'file',
           file: {
             fileName: '83hbu88d88dh-99ajffjf-11f4.mp4',
             mediaUrl: `${mockMediaUrl}.mp4`,
             mediaType: 'video/mp4',
           },
-        }}
-      />
+          text: 'Hey look at this video!!',
+        },
+      },
+    };
+    const rendered = shallow(
+      <MessageContent message={{ ...mockMessage }} />
     );
     expect(rendered).toMatchSnapshot();
   });
 
   it('should render fileNotFoundInTranscript error when quoted file message does not have file property', () => {
+    const mockMessage = {
+      id: '601ad7e0f41170000cced559',
+      text: 'This is a quoted message',
+      type: 'customer',
+      from: 'Irvin Sandoval',
+      contentType: 'text',
+      resourceId: null,
+      timestamp: 1581423633126,
+      quotedMessage: {
+        content: {
+          id: '5e429c11749914000f07349f',
+          type: 'file',
+        },
+      },
+    };
     const rendered = shallow(
-      <MessageContent message={{ ...mockQuotedFileMessage.quotedMessage.content, file: {} }} />
+      <MessageContent message={{ ...mockMessage }} />
     );
     expect(rendered).toMatchSnapshot();
   });
@@ -365,4 +452,3 @@ describe('<QuotedMessageContent />', () => {
     expect(rendered).toMatchSnapshot();
   });
 });
-

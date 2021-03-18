@@ -95,6 +95,39 @@ const getFileMetadata = (files, messageId) =>
     file => file && file.metadata && file.metadata.messageId === messageId
   );
 
+export const getQuotedFileMetadata = (content, messagesHistory) => {
+  let file;
+  if (content && messagesHistory) {
+    const selectedMessage = messagesHistory.filter(item => item.payload.body.id === content.id)[0];
+    if (selectedMessage) {
+      if (selectedMessage.payload.body.file && selectedMessage.payload.body.file.mediaUrl) {
+        file = selectedMessage.payload.body.file;
+      }
+    }
+  }
+  return file;
+}
+
+export const getQuotedMessage = (newTranscriptMsg, transcriptMsg, transcriptResponse) => {
+  const foundMsg = getQuotedFileMetadata(
+    transcriptMsg.payload.body.quotedMessage.content,
+    transcriptResponse
+  );
+  if (foundMsg && foundMsg.mediaUrl) {
+    newTranscriptMsg.payload.body.quotedMessage.content.file.mediaUrl = foundMsg.mediaUrl;
+    newTranscriptMsg.payload.body.quotedMessage.content.file.fileName =
+      foundMsg.fileName ||
+      decodeURIComponent(foundMsg.mediaUrl)
+        .split('/')
+        [foundMsg.mediaUrl.split('/').length - 1].split('?')[0];
+  } else {
+    // If artifact file url doesn't exist,
+    // we delete smooch one
+    delete newTranscriptMsg.payload.body.quotedMessage.content.file.mediaUrl;
+  }
+  return newTranscriptMsg;
+}
+
 export function* loadHistoricalInteractionBody(action) {
   const body = {};
   let metaData;
@@ -149,7 +182,24 @@ export function* loadHistoricalInteractionBody(action) {
                 // we delete smooch one
                 delete newTranscriptMsg.payload.body.file.mediaUrl;
               }
+              if (transcriptMsg.payload &&
+                transcriptMsg.payload.body &&
+                transcriptMsg.payload.body.quotedMessage &&
+                transcriptMsg.payload.body.quotedMessage.content &&
+                transcriptMsg.payload.body.quotedMessage.content.file &&
+                transcriptMsg.payload.body.quotedMessage.content.file.mediaType
+              ) {
+                getQuotedMessage(newTranscriptMsg, transcriptMsg, transcriptResponse.data);
+              }
               return newTranscriptMsg;
+            } else if (transcriptMsg.payload &&
+              transcriptMsg.payload.body &&
+              transcriptMsg.payload.body.quotedMessage &&
+              transcriptMsg.payload.body.quotedMessage.content &&
+              transcriptMsg.payload.body.quotedMessage.content.file &&
+              transcriptMsg.payload.body.quotedMessage.content.file.mediaType
+            ) {
+              return getQuotedMessage(newTranscriptMsg, transcriptMsg, transcriptResponse.data);
             } else {
               return transcriptMsg;
             }

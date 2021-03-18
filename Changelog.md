@@ -1,4 +1,10 @@
 # Changelog
+## [1.63.7] (2021-03-16)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.7/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.7/index.html)
+### Fixed 
+* CXV1-23911 - Fix transcript for quoted messages.
+
 ## [1.63.6] (2021-03-10)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.6/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.6/index.html)

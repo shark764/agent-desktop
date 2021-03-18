@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Get quoted file metadata function should get metadata from quoted file message 1`] = `
+Object {
+  "fileName": "file.jpg",
+  "mediaUrl": "https://www.test.com/file.jpg",
+}
+`;
+
 exports[`callTransferListsFromFlowAndUpdateState sets interaction transfet lists and there visible state for the non voice interactions calls the promise util with the SDK getTransferLists function to get the active transferLists 1`] = `
 Object {
   "done": false,

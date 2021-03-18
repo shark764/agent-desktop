@@ -335,30 +335,130 @@ exports[`<MessageContent /> text message is in a pending state 1`] = `
 
 exports[`<QuotedMessageContent /> quoted file message does not have fileName property 1`] = `
 <Fragment>
-  <MessageTextContainer />
+  <QuotedMessageTextContainer>
+    <styled.div>
+      <styled.a
+        alt="image"
+        href="https://www.test.com/file.pdf"
+        target="_blank"
+      >
+        <styled.div>
+          <Icon
+            id="5e429c11749914000f07349f"
+            name="attachment_blue"
+            placeholher="image"
+          />
+        </styled.div>
+        <FileNameContainer
+          title="file.pdf"
+        >
+          file.pdf
+        </FileNameContainer>
+      </styled.a>
+    </styled.div>
+  </QuotedMessageTextContainer>
+  <MessageTextContainer>
+    This is a quoted message
+  </MessageTextContainer>
 </Fragment>
 `;
 
 exports[`<QuotedMessageContent /> quoted file message is "video/mp4" format and has a caption 1`] = `
 <Fragment>
+  <QuotedMessageTextContainer>
+    <styled.div>
+      <styled.a
+        alt="image"
+        href="https://www.test.com/file.mp4"
+        target="_blank"
+      >
+        <styled.div>
+          <Icon
+            id="5e429c11749914000f07349f"
+            name="attachment_blue"
+            placeholher="image"
+          />
+        </styled.div>
+        <FileNameContainer
+          title="83hbu88d88dh-99ajffjf-11f4.mp4"
+        >
+          83hbu88d88dh-99ajffjf-11f4.mp4
+        </FileNameContainer>
+      </styled.a>
+      <MessageTextContainer>
+        Hey look at this video!!
+      </MessageTextContainer>
+    </styled.div>
+  </QuotedMessageTextContainer>
   <MessageTextContainer>
-    Hey look at this video!!
+    This is a quoted message
   </MessageTextContainer>
 </Fragment>
 `;
 
 exports[`<QuotedMessageContent /> quoted file message is "video/mp4" format and has a text property with its name 1`] = `
 <Fragment>
+  <QuotedMessageTextContainer>
+    <styled.div>
+      <styled.a
+        alt="image"
+        href="https://www.test.com/file.mp4"
+        target="_blank"
+      >
+        <styled.div>
+          <Icon
+            id="5e429c11749914000f07349f"
+            name="attachment_blue"
+            placeholher="image"
+          />
+        </styled.div>
+        <FileNameContainer
+          title="most-awesome-video.mp4"
+        >
+          most-awesome-video.mp4
+        </FileNameContainer>
+      </styled.a>
+    </styled.div>
+  </QuotedMessageTextContainer>
   <MessageTextContainer>
-    most-awesome-video.mp4
+    This is a quoted message
   </MessageTextContainer>
 </Fragment>
 `;
 
 exports[`<QuotedMessageContent /> quoted image message has a caption along with the file 1`] = `
 <Fragment>
+  <QuotedMessageTextContainer>
+    <styled.div>
+      <styled.a
+        alt="image"
+        href="https://www.test.com/file.jpg"
+        style={
+          Object {
+            "display": "contents",
+          }
+        }
+        target="_blank"
+      >
+        <Image
+          id="5e429c11749914000f07349f"
+          placeholher="image"
+          src="https://www.test.com/file.jpg"
+          style={
+            Object {
+              "height": "auto",
+              "maxWidth": "50px",
+            }
+          }
+        />
+      </styled.a>
+      <MessageTextContainer>
+        hey, look at this file!
+      </MessageTextContainer>
+    </styled.div>
+  </QuotedMessageTextContainer>
   <MessageTextContainer>
-    hey, look at this file!
+    This is a quoted message
   </MessageTextContainer>
 </Fragment>
 `;
@@ -378,19 +478,77 @@ exports[`<QuotedMessageContent /> quoted text message is in a pending state 1`] 
 
 exports[`<QuotedMessageContent /> should render fileNotFoundInTranscript error when quoted file message does not have file property 1`] = `
 <Fragment>
-  <MessageTextContainer />
+  <QuotedMessageTextContainer>
+    <span
+      style={
+        Object {
+          "color": "red",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="File not found in transcript"
+        id="app.components.messageContent.fileNotFoundInTranscript"
+        values={Object {}}
+      />
+    </span>
+  </QuotedMessageTextContainer>
+  <MessageTextContainer>
+    This is a quoted message
+  </MessageTextContainer>
 </Fragment>
 `;
 
 exports[`<QuotedMessageContent /> should render fileNotFoundInTranscript error when quoted image type message does not have file property 1`] = `
 <Fragment>
-  <MessageTextContainer />
+  <QuotedMessageTextContainer>
+    <span
+      style={
+        Object {
+          "color": "red",
+        }
+      }
+    >
+      <FormattedMessage
+        defaultMessage="File not found in transcript"
+        id="app.components.messageContent.fileNotFoundInTranscript"
+        values={Object {}}
+      />
+    </span>
+  </QuotedMessageTextContainer>
+  <MessageTextContainer>
+    This is a quoted message
+  </MessageTextContainer>
 </Fragment>
 `;
 
 exports[`<QuotedMessageContent /> should render quoted file message component correctly 1`] = `
 <Fragment>
-  <MessageTextContainer />
+  <QuotedMessageTextContainer>
+    <styled.div>
+      <styled.a
+        alt="image"
+        href="https://www.test.com/file.jpg"
+        target="_blank"
+      >
+        <styled.div>
+          <Icon
+            id="5e429c11749914000f07349f"
+            name="attachment_blue"
+            placeholher="image"
+          />
+        </styled.div>
+        <FileNameContainer
+          title="Test.jpg"
+        >
+          Test.jpg
+        </FileNameContainer>
+      </styled.a>
+    </styled.div>
+  </QuotedMessageTextContainer>
+  <MessageTextContainer>
+    This is a quoted message
+  </MessageTextContainer>
 </Fragment>
 `;
 

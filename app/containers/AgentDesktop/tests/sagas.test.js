@@ -13,6 +13,7 @@ import {
   changeInteractionTransferListVisibleState,
   updateVisibleStateofAllFlowTransferLists,
   terminateWrapupInteractions,
+  getQuotedFileMetadata,
 } from 'containers/AgentDesktop/sagas';
 jest.mock('utils/uuid', () => ({
   generateUUID: jest.fn(() => 'mock-uuid'),
@@ -898,5 +899,72 @@ describe('terminateWrapupInteractions', () => {
   });
   it('loops infinitely', () => {
     expect(generator.next().done).toBe(false);
+  });
+});
+
+describe('Get quoted file metadata function', () => {
+  const mockMediaUrl = 'https://www.test.com/file';
+  const mockMessageHistory = [{
+    payload: {
+      body: {
+        id: '5e429c11749914000f07349f',
+        type: 'customer',
+        from: 'Irvin Sandoval',
+        file: {
+          fileName: 'file.jpg',
+          mediaUrl: `${mockMediaUrl}.jpg`,
+        },
+        contentType: 'file',
+        resourceId: null,
+        timestamp: 1581423633126,
+      },
+    },
+  },
+  {
+    payload: {
+      body: {
+        id: '601ad7e0f41170000cced559',
+        text: 'This is a quoted message',
+        type: 'customer',
+        from: 'Irvin Sandoval',
+        file: {},
+        contentType: 'text',
+        resourceId: null,
+        timestamp: 1581423633126,
+        quotedMessage: {
+          content: {
+            id: '601afe46c4bb23000c7e69cd',
+            type: 'text',
+            text: 'This is a test',
+            file: {},
+          },
+        },
+      },
+    },
+  }];
+
+  const mockQuotedFileMessage = {
+    id: '601ad7e0f41170000cced559',
+    text: 'This is a quoted message',
+    type: 'customer',
+    from: 'Irvin Sandoval',
+    file: {},
+    contentType: 'text',
+    resourceId: null,
+    timestamp: 1581423633126,
+    quotedMessage: {
+      content: {
+        id: '5e429c11749914000f07349f',
+        type: 'file',
+        file: {
+          fileName: 'file.jpg',
+          mediaUrl: `${mockMediaUrl}.jpg`,
+        },
+      },
+    },
+  };
+
+  it('should get metadata from quoted file message', () => {
+    expect(getQuotedFileMetadata(mockQuotedFileMessage.quotedMessage.content, mockMessageHistory)).toMatchSnapshot();
   });
 });
