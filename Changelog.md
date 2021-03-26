@@ -1,8 +1,15 @@
 # Changelog
+
+## [1.63.8] (2021-03-25)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.8/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.8/index.html)
+### Fixed
+* CXV1-17694 - Fix Salesforce Lightning Pop-Out feature completely logs out agent -SDK version bump
+
 ## [1.63.7] (2021-03-16)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.7/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.7/index.html)
-### Fixed 
+### Fixed
 * CXV1-23911 - Fix transcript for quoted messages.
 
 ## [1.63.6] (2021-03-10)
@@ -33,7 +40,7 @@
 ## [1.63.2] (2021-02-23)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.2/index.html)
 [test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.2/index.html)
-### Fixed 
+### Fixed
 * CXV1-24056 - Contacts search logic updated to limit searching to `totalPages + 1`, to prevent infinite loading on cached total counts
 
 ## [1.63.1] (2021-02-15)
