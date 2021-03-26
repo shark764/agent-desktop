@@ -1,4 +1,9 @@
 # Changelog
+## [1.63.9] (2021-03-26)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.9/index.html)
+[test in dev](https://frontend-prs.cxengagelabs.net/dev/builds/skylight/1.63.9/index.html)
+### Fixed 
+* CXV1-24146 - Webchat | Quoted message feature for whatsapp affected the collect message in webchat.
 
 ## [1.63.8] (2021-03-25)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.8/index.html)

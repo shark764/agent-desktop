@@ -60,6 +60,9 @@ MessageTextContainer.displayName = 'MessageTextContainer';
 QuotedMessageTextContainer.displayName = 'QuotedMessageTextContainer';
 
 export function MessageContent({ message }) {
+  const renderQuote = message.quotedMessage && message.quotedMessage.content &&
+                      message.quotedMessage.content.type &&
+                      message.quotedMessage.content.type !== 'form';
   switch (message.contentType) {
     case 'image':
       /**
@@ -68,7 +71,7 @@ export function MessageContent({ message }) {
        */
       return message.file && message.file.mediaUrl ? (
         <>
-          {message.quotedMessage && message.quotedMessage.content && (
+          {renderQuote && (
             <QuotedMessageTextContainer>
               {renderQuotedMessage(message)}
             </QuotedMessageTextContainer>
@@ -94,7 +97,7 @@ export function MessageContent({ message }) {
 
       return message.file ? (
         <>
-          {message.quotedMessage && message.quotedMessage.content && (
+          {renderQuote && (
             <QuotedMessageTextContainer>
               {renderQuotedMessage(message)}
             </QuotedMessageTextContainer>
@@ -110,7 +113,7 @@ export function MessageContent({ message }) {
     default: {
       return (
         <>
-          {message.quotedMessage && message.quotedMessage.content && (
+          {renderQuote && (
             <QuotedMessageTextContainer>
               {renderQuotedMessage(message)}
             </QuotedMessageTextContainer>
