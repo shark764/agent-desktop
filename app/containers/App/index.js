@@ -335,8 +335,8 @@ export class App extends React.Component {
       window.location.hostname === 'localhost' ||
       window.location.hostname.includes('ngrok')
     ) {
-      where = 'dev-api.cxengagelabs.net/v1/';
-      environment = 'dev';
+      where = 'qe-api.cxengagelabs.net/v1/';
+      environment = 'qe';
       logLevel = 'debug';
       blastSqsOutput = true;
       reportingRefreshRate = 10000;
@@ -353,7 +353,7 @@ export class App extends React.Component {
     // Initialize Remote Logging with Sentry.io
     // Check if environment === 'prod' to re-enable
     if (
-      environment !== 'dev' &&
+      environment !== 'qe' &&
       window.location.hostname !== 'localhost' &&
       !window.location.hostname.includes('ngrok')
     ) {

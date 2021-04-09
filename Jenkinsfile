@@ -95,23 +95,6 @@ pipeline {
         }
       }
     }
-    stage ('Ready for QE') {
-      when { changeRequest() }
-      steps {
-        timeout(time: 5, unit: 'DAYS') {
-          script {
-            input message: 'Ready for QE?', submittedParameter: 'submitter'
-          }
-          sh "aws s3 rm s3://frontend-prs.cxengagelabs.net/tb2/${pr}/ --recursive"
-          sh "sed -i 's/dev/qe/g' build/config.json"
-          sh "aws s3 sync build/ s3://frontend-prs.cxengagelabs.net/tb2/${pr}/ --delete"
-          script {
-            f.invalidate("E23K7T1ARU8K88")
-            office365ConnectorSend status:"Ready for QE", color:"f6c342", message:"<a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html\">Toolbar 2 QE Preview</a> <br /> <a href=\"https://frontend-prs.cxengagelabs.net/tb2/${pr}/index.html?desktop=true\">Desktop QE Preview</a>", webhookUrl:"https://outlook.office.com/webhook/046fbedf-24a1-4c79-8e4a-3f73437d9de5@1d8e6215-577d-492c-9fe9-b3c9e7d65fdd/JenkinsCI/26ba2757836d431c8310fbfbfbb905dc/4060fcf8-0939-4695-932a-b8d400889db6"
-          }
-        }
-      }
-    }
     stage ('QE Approval') {
       when { changeRequest() }
       steps {
@@ -151,14 +134,6 @@ pipeline {
         sh "docker exec ${docker_tag} ./node_modules/.bin/sentry-cli --auth-token $sentry_api_key releases -o serenova -p skylight files ${build_version} upload-sourcemaps build/"
       }
     }
-    stage ('Create dev build') {
-      when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature';}}
-      steps {
-        sh 'echo "Stage Description: Pushes build files to S3"'
-        sh "cp app/configs/dev/config.json build"
-        sh "aws s3 sync build/ s3://frontend-prs.cxengagelabs.net/dev/builds/skylight/${build_version}/ --delete"
-      }
-    }
     stage ('Create qe build') {
       when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature';}}
       steps {
@@ -177,11 +152,6 @@ pipeline {
     stage ('Deploy') {
       when { anyOf {branch 'master'; branch 'develop'; branch 'hotfix'; branch 'feature'}}
       steps {
-        build job: 'Deploy - Front-End', parameters: [
-            [$class: 'StringParameterValue', name: 'Service', value: 'Agent-Desktop'],
-            [$class: 'StringParameterValue', name: 'Version', value: "${build_version}"],
-            [$class: 'StringParameterValue', name: 'Environment', value: 'dev']
-        ]
         build job: 'Deploy - Front-End', parameters: [
             [$class: 'StringParameterValue', name: 'Service', value: 'Agent-Desktop'],
             [$class: 'StringParameterValue', name: 'Version', value: "${build_version}"],
