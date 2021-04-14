@@ -1,4 +1,10 @@
 # Changelog
+
+## [1.63.11] (2021-04-14)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.11/index.html)
+### Fixed 
+* CXV1-24292 - (Hotfix) Fixed click to dials not being enabled in Salesforce Lightning
+
 ## [1.63.10] (2021-04-06)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.10/index.html)
 ### Fixed 
