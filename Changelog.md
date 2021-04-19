@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.63.12] (2021-04-16)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.12/index.html)
+### Updated 
+* CXV1-24295 - Updates for major SDK update on deprecated transfer functions being removed
+* CXV1-24292 - Updated SDK code for click to dials not being enabled in Salesforce Lightning
+* CXV1-24292 - Click to dials are disabled in Salesforce Lightning on page loag (for logout/refresh case)
+
 ## [1.63.11] (2021-04-14)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.11/index.html)
 ### Fixed 

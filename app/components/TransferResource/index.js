@@ -24,19 +24,19 @@ import messages from './messages';
 export class TransferResource extends React.Component {
   cancelTransfer = (warmTransfer) => {
     if (warmTransfer.type === 'agent') {
-      CxEngage.interactions.voice.cancelResourceTransfer({
+      CxEngage.interactions.cancelResourceTransfer({
         transferType: 'warm',
         interactionId: this.props.activeVoiceInteraction.interactionId,
         transferResourceId: warmTransfer.id,
       });
     } else if (warmTransfer.type === 'queue') {
-      CxEngage.interactions.voice.cancelQueueTransfer({
+      CxEngage.interactions.cancelQueueTransfer({
         transferType: 'warm',
         interactionId: this.props.activeVoiceInteraction.interactionId,
         transferQueueId: warmTransfer.id,
       });
     } else if (warmTransfer.type === 'transferExtension') {
-      CxEngage.interactions.voice.cancelExtensionTransfer({
+      CxEngage.interactions.cancelExtensionTransfer({
         transferType: 'warm',
         interactionId: this.props.activeVoiceInteraction.interactionId,
         transferExtension: warmTransfer.id,
@@ -68,7 +68,7 @@ export class TransferResource extends React.Component {
   };
 
   transfer = () => {
-    CxEngage.interactions.voice.transferToResource({
+    CxEngage.interactions.transferToResource({
       transferType: 'cold',
       interactionId: this.props.activeVoiceInteraction.interactionId,
       resourceId: this.props.resource.targetResource,
@@ -191,11 +191,7 @@ export class TransferResource extends React.Component {
         >
           {this.props.resource.name}
         </span>
-        {status && (
-          <span style={this.styles.transferStatus}>
-            {status}
-          </span>
-        )}
+        {status && <span style={this.styles.transferStatus}>{status}</span>}
         {this.props.resource.status === 'connected' && (
           <span
             id="resourceControlsMenu"

@@ -297,6 +297,30 @@ export default defineMessages({
     id: 'app.containers.Errors.4021',
     defaultMessage: 'Unable to find a script that matches that ID.',
   },
+  4022: {
+    id: 'app.containers.Errors.4022',
+    defaultMessage: 'Failed to transfer customer to another resource.',
+  },
+  4023: {
+    id: 'app.containers.Errors.4023',
+    defaultMessage: 'Failed to cancel pending transfer to resource.',
+  },
+  4024: {
+    id: 'app.containers.Errors.4024',
+    defaultMessage: 'Failed to transfer customer to queue.',
+  },
+  4025: {
+    id: 'app.containers.Errors.4025',
+    defaultMessage: 'Failed to cancel pending transfer to queue.',
+  },
+  4026: {
+    id: 'app.containers.Errors.4026',
+    defaultMessage: 'Failed to transfer customer to extension.',
+  },
+  4027: {
+    id: 'app.containers.Errors.4027',
+    defaultMessage: 'Failed to cancel pending transfer to extension.',
+  },
   /**
    * context :sqs
    */
@@ -416,14 +440,6 @@ export default defineMessages({
     id: 'app.containers.Errors.7008',
     defaultMessage: 'Failed to start recording on interaction.',
   },
-  7009: {
-    id: 'app.containers.Errors.7009',
-    defaultMessage: 'Failed to transfer customer to another resource.',
-  },
-  7010: {
-    id: 'app.containers.Errors.7010',
-    defaultMessage: 'Failed to cancel pending transfer to resource.',
-  },
   7011: {
     id: 'app.containers.Errors.7011',
     defaultMessage: 'Failed to place customer on hold.',
@@ -439,22 +455,6 @@ export default defineMessages({
   7014: {
     id: 'app.containers.Errors.7014',
     defaultMessage: 'Failed to remove the resource from the interaction.',
-  },
-  7015: {
-    id: 'app.containers.Errors.7015',
-    defaultMessage: 'Failed to transfer customer to queue.',
-  },
-  7016: {
-    id: 'app.containers.Errors.7016',
-    defaultMessage: 'Failed to cancel pending transfer to queue.',
-  },
-  7017: {
-    id: 'app.containers.Errors.7017',
-    defaultMessage: 'Failed to transfer customer to extension.',
-  },
-  7018: {
-    id: 'app.containers.Errors.7018',
-    defaultMessage: 'Failed to cancel pending transfer to extension.',
   },
   7019: {
     id: 'app.containers.Errors.7019',
