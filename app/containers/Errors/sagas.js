@@ -109,19 +109,6 @@ export function* goHandleSDKError(action) {
     topic === 'cxengage/interactions/smooch-messaging/typing-agent-received' // Not needed to be shown to agent
   ) {
     return; // Do nothing. Error UI handled in their own components.
-  } else if (error.code === 4002 && error.data.flowMessage) {
-    const interactionsList = yield select(selectInteractionsList);
-    const erroredInteraction = interactionsList.find(
-      (interaction) => interaction.interactionId === error.data.interactionId
-    );
-    if (!erroredInteraction) {
-      // If we do not have the interaction that errored, ignore
-      console.warn(
-        'Received interaction-fatal, but interation does not exist. Ignoring.'
-      );
-      return;
-    }
-    return;
   } else if (error.code === 2005) {
     // Invalid extension provided
     yield put(removeInvalidExtension());

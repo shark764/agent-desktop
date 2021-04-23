@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.63.13] (2021-04-23)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.13/index.html)
+### Fixed
+* CXV1-21520 - Error 4002 generated because of failed interaction: remove fatal-interaction from flow acknowledgement error
+
 ## [1.63.12] (2021-04-16)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.12/index.html)
 ### Updated 
