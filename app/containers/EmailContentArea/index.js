@@ -326,10 +326,7 @@ export class EmailContentArea extends React.Component {
         //  Added a style to the body of the iframe to avoid a double scroll bar when the user reply email.
         this.emailFrames.current.contentDocument.head.innerHTML +=
           '<style> body{ overflow-y:hidden } </style>';
-        this.emailFrames.current.style.width = '0px';
-        const widthpx = this.emailFrames.current.contentWindow.document.body
-          .scrollWidth;
-        this.emailFrames.current.style.width = `${widthpx}px`;
+        this.emailFrames.current.style.width = `calc(100% - 100px)`;
         this.emailFrames.current.style.height = '0px';
         const heightpx = this.emailFrames.current.contentWindow.document.body
           .scrollHeight;

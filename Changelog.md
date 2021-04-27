@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.63.14] (2021-04-23)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.14/index.html)
+### Fixed
+* CXV1-24302 - Email reply area takes enough space to show previous emails of interaction.
+
 ## [1.63.13] (2021-04-23)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.13/index.html)
 ### Fixed
