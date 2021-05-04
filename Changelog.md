@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.63.15] (2021-05-03)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.15/index.html)
+### Fixed
+* CXV1-24345 - SDK bump for Twilio initialization updates.
+
 ## [1.63.14] (2021-04-23)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.14/index.html)
 ### Fixed
