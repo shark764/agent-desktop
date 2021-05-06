@@ -1,129 +1,49 @@
-/*
- * Copyright © 2015-2017 Serenova, LLC. All rights reserved.
- */
-
 const { exec } = require('child_process');
 const { node, npm } = require('../../package.json').engines;
 
-const compareVersionNumbers = require('./helpers/compareVersions');
+const parseVersion = (versionText) =>
+  versionText
+    .split('.')
+    .map((text) => text.replace(/\D/g, ''))
+    .map((version) => parseInt(version, 0));
 
-const PACKAGE_NODE_VERSION = node.trim();
-const PACKAGE_NPM_VERSION = npm.trim();
+const fancyLog = (program, packageVersion, localVersion) =>
+  console.log(
+    '\x1b[33m%s\x1b[0m',
+    `\nAgent Desktop \nYou need ${program} version approximately equivalent to ${packageVersion}, you have ${localVersion}`
+  );
 
-exec('node -v', function checkVersion(err, stdout) {
-  if (err) {
-    throw err;
-  }
-
-  const NODE_VERSION = stdout.trim().replace('v', '');
-
-  let hasError = false;
+const compareVersionNumbers = (localVersion, packageVersion, onFail) => {
+  const [localMajor, localMinor] = localVersion;
+  const [packageMajor, packageMinor] = packageVersion;
 
   if (
-    (PACKAGE_NODE_VERSION.includes('~') ||
-      PACKAGE_NODE_VERSION.includes('^')) &&
-    compareVersionNumbers(
-      NODE_VERSION,
-      PACKAGE_NODE_VERSION.replace('~', '').replace('^', '')
-    ) < 0
+    localMajor < packageMajor ||
+    localMajor <= 0 ||
+    localMinor < packageMinor
   ) {
-    console.log(
-      '\x1b[33m%s\x1b[0m',
-      `\nAgent Desktop \nYou need Node version approximately equivalent to ${node}, you have version ${stdout}`
-    );
-    hasError = true;
-  } else if (
-    PACKAGE_NODE_VERSION.includes('>=') &&
-    compareVersionNumbers(
-      NODE_VERSION,
-      PACKAGE_NODE_VERSION.replace('>=', '')
-    ) < 0
-  ) {
-    console.log(
-      '\x1b[33m%s\x1b[0m',
-      `\nAgent Desktop \nYou need Node version that match the condition ${node}, you have version ${stdout}`
-    );
-    hasError = true;
-  } else if (
-    !PACKAGE_NODE_VERSION.includes('>=') &&
-    PACKAGE_NODE_VERSION.includes('>') &&
-    compareVersionNumbers(
-      NODE_VERSION,
-      PACKAGE_NODE_VERSION.replace('>', '')
-    ) <= 0
-  ) {
-    console.log(
-      '\x1b[33m%s\x1b[0m',
-      `\nAgent Desktop \nYou need Node version that match the condition ${node}, you have version ${stdout}`
-    );
-    hasError = true;
-  } else if (
-    /^\d{1,2}\.\d{1,2}\.\d{1,2}$/.test(PACKAGE_NODE_VERSION) &&
-    stdout !== `v${node}\n` &&
-    stdout !== `v${node}\r\n`
-  ) {
-    console.log(
-      '\x1b[33m%s\x1b[0m',
-      `\nAgent Desktop \nYou need Node version ${node}, you have version ${stdout}`
-    );
-    hasError = true;
-  }
-
-  if (hasError) {
+    onFail();
     console.log(
       'Use nvm to easily switch between node versions: https://github.com/creationix/nvm \nRead nvm doc to find out how you can get nvm to switch version automatically. \nhttps://github.com/creationix/nvm#nvmrc\n'
     );
     process.exit(1);
   }
+};
+
+exec('node -v', (err, stdout) => {
+  const localNodeVersion = parseVersion(stdout);
+  const packageNodeVersion = parseVersion(node);
+
+  compareVersionNumbers(localNodeVersion, packageNodeVersion, () =>
+    fancyLog('NodeJS', node, stdout)
+  );
 });
 
-exec('npm -v', function checkVersion(err, stdout) {
-  if (err) {
-    throw err;
-  }
+exec('npm -v', (err, stdout) => {
+  const localNpmVersion = parseVersion(stdout);
+  const packageNpmVersion = parseVersion(npm);
 
-  const NPM_VERSION = stdout.trim().replace('v', '');
-
-  if (
-    (PACKAGE_NPM_VERSION.includes('~') || PACKAGE_NPM_VERSION.includes('^')) &&
-    compareVersionNumbers(
-      NPM_VERSION,
-      PACKAGE_NPM_VERSION.replace('~', '').replace('^', '')
-    ) < 0
-  ) {
-    console.log(
-      '\x1b[33m%s\x1b[0m',
-      `\nAgent Desktop \nYou need NPM version approximately equivalent to ${npm}, you have version ${stdout}`
-    );
-    process.exit(1);
-  } else if (
-    PACKAGE_NPM_VERSION.includes('>=') &&
-    compareVersionNumbers(NPM_VERSION, PACKAGE_NPM_VERSION.replace('>=', '')) <
-      0
-  ) {
-    console.log(
-      '\x1b[33m%s\x1b[0m',
-      `\nAgent Desktop \nYou need NPM version that match the condition ${npm}, you have version ${stdout}`
-    );
-    process.exit(1);
-  } else if (
-    !PACKAGE_NPM_VERSION.includes('>=') &&
-    PACKAGE_NPM_VERSION.includes('>') &&
-    compareVersionNumbers(NPM_VERSION, PACKAGE_NPM_VERSION.replace('>', '')) <=
-      0
-  ) {
-    console.log(
-      '\x1b[33m%s\x1b[0m',
-      `\nAgent Desktop \nYou need NPM version that match the condition ${npm}, you have version ${stdout}`
-    );
-    process.exit(1);
-  } else if (
-    /^\d{1,2}\.\d{1,2}\.\d{1,2}$/.test(PACKAGE_NPM_VERSION) &&
-    stdout !== `${npm}\n`
-  ) {
-    console.log(
-      '\x1b[33m%s\x1b[0m',
-      `\nAgent Desktop \nYou need npm version ${npm}, you have ${stdout}`
-    );
-  }
+  compareVersionNumbers(localNpmVersion, packageNpmVersion, () =>
+    fancyLog('NPM', npm, stdout)
+  );
 });
