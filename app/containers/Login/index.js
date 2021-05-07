@@ -330,10 +330,20 @@ export class Login extends React.Component {
             } else {
               switch (topic) {
                 case 'cxengage/authentication/auth-info-response': {
+                  sdkResponseLog(
+                    '[SSO-Login] CxEngage.subscribe()',
+                    topic,
+                    response
+                  );
                   CxEngage.authentication.popIdentityPage();
                   break;
                 }
                 case 'cxengage/authentication/cognito-auth-response': {
+                  sdkResponseLog(
+                    '[SSO-Login] CxEngage.subscribe()',
+                    topic,
+                    response
+                  );
                   this.setState({ identityWindowSuccessful: true });
                   if (response) {
                     CxEngage.authentication.login(
@@ -354,12 +364,22 @@ export class Login extends React.Component {
                         }
                       }
                     );
+                  } else {
+                    console.error(
+                      '[SSO-Login] Did not receive response (token) from cxengage/authentication/cognito-auth-response'
+                    );
                   }
                   break;
                 }
                 // This will fire when the window is closed by the agent
                 // This will act as a CANCEL
                 case 'cxengage/authentication/identity-window-response': {
+                  sdkResponseLog(
+                    '[SSO-Login] CxEngage.subscribe()',
+                    topic,
+                    response
+                  );
+
                   // identityWindowSuccessful
                   // false = agent closed the window
                   // true = the window was closed due to a successful auth

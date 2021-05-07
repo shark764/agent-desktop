@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.63.16] (2021-05-06)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.16/index.html)
+### Fixed
+* CXV1-24319 - Allow users to switch to non-default SSO tenants after logging in with SSO in Salesforce mode.
+
 ## [1.63.15] (2021-05-03)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.15/index.html)
 ### Fixed
