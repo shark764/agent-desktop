@@ -923,14 +923,18 @@ export class App extends React.Component {
               (availableInteraction) =>
                 availableInteraction.interactionId === response
             );
-            if (!this.context.toolbarMode) {
-              if (interaction.channelType !== 'voice') {
-                this.props.selectSidePanelTab(response, 'info');
+            if (interaction) {
+              if (!this.context.toolbarMode) {
+                if (interaction.channelType !== 'voice') {
+                  this.props.selectSidePanelTab(response, 'info');
+                }
+              } else {
+                this.props.hideSidePanel(interaction.interactionId);
               }
+              this.props.removeScript(response);
             } else {
-              this.props.hideSidePanel(interaction.interactionId);
+              console.warn('Received send-script, but no associated interaction in state', response);
             }
-            this.props.removeScript(response);
             break;
           }
           case 'cxengage/interactions/disposition-code-changed': {

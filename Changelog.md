@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.63.17] (2021-05-10)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.17/index.html)
+### Fixed
+* CXV1-24417 - Prevent critical UI error when receiving send-script event with no matching interaction in state.
+
 ## [1.63.16] (2021-05-06)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.16/index.html)
 ### Fixed
