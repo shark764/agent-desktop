@@ -326,7 +326,16 @@ export class App extends React.Component {
     let blastSqsOutput;
     let reportingRefreshRate;
 
-    if (typeof window.ADconf !== 'undefined') {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.has('api') && urlParams.has('env')) {
+      where = urlParams.get('api');
+      environment = urlParams.get('env');
+      console.log('Using URL params for api and env', where, environment);
+      logLevel = 'debug';
+      blastSqsOutput = true;
+      reportingRefreshRate = 10000;
+    } else if (typeof window.ADconf !== 'undefined') {
       where = window.ADconf.api;
       environment = window.ADconf.env;
       ({ logLevel, blastSqsOutput } = window.ADconf);
@@ -933,7 +942,10 @@ export class App extends React.Component {
               }
               this.props.removeScript(response);
             } else {
-              console.warn('Received send-script, but no associated interaction in state', response);
+              console.warn(
+                'Received send-script, but no associated interaction in state',
+                response
+              );
             }
             break;
           }

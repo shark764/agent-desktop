@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.63.18] (2021-06-17)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.18/index.html)
+### Fixed
+* CXV1-24319 - Fix SSO login in prod.
+### Added
+* Ability to specify environment using URL params (ex. ?api=api.cxengage.net%2Fv1%2F&env=prod )
+
 ## [1.63.17] (2021-05-10)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.17/index.html)
 ### Fixed
