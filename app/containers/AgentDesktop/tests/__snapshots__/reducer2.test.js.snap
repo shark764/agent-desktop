@@ -181,7 +181,7 @@ Immutable.Map {
 }
 `;
 
-exports[`agentDesktopReducer OUTBOUND_CUSTOMER_CONNECTED Customer picks up the outbound interaction voice customerConnected is set to true 1`] = `
+exports[`agentDesktopReducer CUSTOMER_CONNECTED Customer picks up the outbound interaction voice customerConnected is set to true 1`] = `
 Immutable.Map {
   "interactions": Immutable.List [
     Immutable.Map {

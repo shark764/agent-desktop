@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.63.19] (2021-06-21)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.19/index.html)
+### Fixed
+* CXV1-21533 - Callback and outbound voice interactions fails if agent transfers call between caller dial and caller answer.
+
 ## [1.63.18] (2021-06-17)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.18/index.html)
 ### Fixed

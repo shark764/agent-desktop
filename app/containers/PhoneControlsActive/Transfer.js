@@ -12,6 +12,7 @@ import { selectQueuesSet } from 'containers/AgentDesktop/selectors';
 import { updateQueues } from 'containers/TransferMenu/actions';
 import CircleIconButton from 'components/CircleIconButton';
 import TransferMenu from 'containers/TransferMenu';
+import { isCustomerNotConnected } from './selectors';
 import messages from './messages';
 
 const styles = {
@@ -66,7 +67,7 @@ export class Transfer extends React.PureComponent {
     };
   }
 
-  setShowTransferMenu = showTransferMenu => {
+  setShowTransferMenu = (showTransferMenu) => {
     this.setState({
       showTransferMenu,
     });
@@ -86,7 +87,7 @@ export class Transfer extends React.PureComponent {
     this.setShowTransferMenu(false);
   };
 
-  renderTransferMenuTypes = forIcon => {
+  renderTransferMenuTypes = (forIcon) => {
     if (this.state.showTransferMenu) {
       if (forIcon && this.context.toolbarMode) {
         return <div style={styles.topTriangle} />;
@@ -120,7 +121,11 @@ export class Transfer extends React.PureComponent {
   };
 
   render() {
-    if (this.props.canTransfer && !this.props.connectingTransfers) {
+    if (
+      this.props.canTransfer &&
+      !this.props.connectingTransfers &&
+      !this.props.isCustomerNotConnected
+    ) {
       return (
         <span>
           <CircleIconButton
@@ -146,6 +151,7 @@ Transfer.propTypes = {
   queuesSet: PropTypes.bool.isRequired,
   hasAgentExperienceTransferMenuQueuesViewPermission: PropTypes.bool.isRequired,
   updateQueues: PropTypes.func.isRequired,
+  isCustomerNotConnected: PropTypes.bool,
 };
 
 Transfer.contextTypes = {
@@ -154,6 +160,7 @@ Transfer.contextTypes = {
 
 const mapStateToProps = (state, props) => ({
   queuesSet: selectQueuesSet(state, props),
+  isCustomerNotConnected: isCustomerNotConnected(state, props),
   hasAgentExperienceTransferMenuQueuesViewPermission: selectHasAgentExperienceTransferMenuQueuesViewPermission(
     state,
     props
@@ -164,7 +171,4 @@ export const actions = {
   updateQueues,
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(Radium(Transfer));
+export default connect(mapStateToProps, actions)(Radium(Transfer));

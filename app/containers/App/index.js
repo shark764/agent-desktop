@@ -163,7 +163,7 @@ import {
   toggleInteractionNotification,
   setQueuesTime,
   toggleIsOnline,
-  outboundCustomerConnected,
+  customerConnected,
   setTransferListsFromFlow,
   setTranferringInConference,
   dismissAgentDirection,
@@ -788,6 +788,7 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/resource-added-received': {
+            this.props.customerConnected(response.interactionId);
             if (
               this.props.login.agent.userId !==
               response.extraParams.targetResource
@@ -1125,7 +1126,7 @@ export class App extends React.Component {
             break;
           }
           case 'cxengage/interactions/voice/customer-connected': {
-            this.props.outboundCustomerConnected(response.interactionId);
+            this.props.customerConnected(response.interactionId);
             break;
           }
           case 'cxengage/interactions/voice/transfer-started': {
@@ -2392,8 +2393,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(setTransferListsFromFlow(interactionId, transferListsFromFlow)),
     setQueuesTime: (queueData) => dispatch(setQueuesTime(queueData)),
     toggleIsOnline: (isOnline) => dispatch(toggleIsOnline(isOnline)),
-    outboundCustomerConnected: (interactionId) =>
-      dispatch(outboundCustomerConnected(interactionId)),
+    customerConnected: (interactionId) =>
+      dispatch(customerConnected(interactionId)),
     setTranferringInConference: (interactionId, isColdTransferring) =>
       dispatch(setTranferringInConference(interactionId, isColdTransferring)),
     setContactMode: (interactionId, newMode) =>
@@ -2531,7 +2532,7 @@ App.propTypes = {
   queues: PropTypes.array,
   setQueuesTime: PropTypes.func.isRequired,
   toggleIsOnline: PropTypes.func.isRequired,
-  outboundCustomerConnected: PropTypes.func.isRequired,
+  customerConnected: PropTypes.func.isRequired,
   setTranferringInConference: PropTypes.func.isRequired,
   selectedInteractionId: PropTypes.string,
   setContactMode: PropTypes.func.isRequired,

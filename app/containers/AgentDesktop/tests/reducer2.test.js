@@ -209,7 +209,7 @@ describe('agentDesktopReducer', () => {
     });
   });
 
-  describe('OUTBOUND_CUSTOMER_CONNECTED', () => {
+  describe('CUSTOMER_CONNECTED', () => {
     beforeEach(() => {
       initialState = {
         interactions: [

@@ -962,9 +962,9 @@ export function stopRecordCall(interactionId) {
   };
 }
 
-export function outboundCustomerConnected(interactionId) {
+export function customerConnected(interactionId) {
   return {
-    type: ACTIONS.OUTBOUND_CUSTOMER_CONNECTED,
+    type: ACTIONS.CUSTOMER_CONNECTED,
     interactionId,
   };
 }

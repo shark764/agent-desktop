@@ -2628,7 +2628,7 @@ function agentDesktopReducer(state = initialState, action) {
     case ACTIONS.TOGGLE_IS_ONLINE: {
       return state.set('isOnline', action.isOnline);
     }
-    case ACTIONS.OUTBOUND_CUSTOMER_CONNECTED: {
+    case ACTIONS.CUSTOMER_CONNECTED: {
       if (interactionIndex !== -1) {
         return state.setIn(
           ['interactions', interactionIndex, 'customerConnected'],

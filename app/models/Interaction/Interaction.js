@@ -30,6 +30,7 @@ export default class Interaction {
     script,
     omnichannel,
     recording,
+    resource,
   }) {
     if (channelType === 'voice') {
       // If "recording" is null/undefined, then it causes errors when the interaction is accepted
@@ -39,7 +40,12 @@ export default class Interaction {
         toolbarFeatures && toolbarFeatures.recordingUpdate !== false;
       this.muted = false;
       this.togglingRecording = false;
-      if (direction === 'agent-initiated' || direction === 'outbound') {
+      if (
+        (direction === 'agent-initiated' ||
+          direction === 'outbound' ||
+          callbackRequest) &&
+        (!resource || !resource.isTransferResource)
+      ) {
         this.customerConnected = false;
       } else {
         this.customerConnected = true;
@@ -133,6 +139,7 @@ export default class Interaction {
 
     let notifications = new List();
     if (callbackRequest) {
+      this.isCallbackInteraction = true;
       const waitingFor = moment(callbackRequest.callbackRequestedTime).fromNow(
         true
       );

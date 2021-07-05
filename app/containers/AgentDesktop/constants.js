@@ -146,8 +146,7 @@ export const SET_IS_COLD_TRANSFERRING =
 export const SET_TRANSFERRING_IN_CONFERENCE =
   'app/AgentDesktop/SET_TRANSFERRING_IN_CONFERENCE';
 export const STOP_RECORD_CALL = 'app/AgentDesktop/STOP_RECORD_CALL';
-export const OUTBOUND_CUSTOMER_CONNECTED =
-  'app/AgentDesktop/OUTBOUND_CUSTOMER_CONNECTED';
+export const CUSTOMER_CONNECTED = 'app/AgentDesktop/CUSTOMER_CONNECTED';
 export const EMAIL_CREATE_REPLY = 'app/AgentDesktop/EMAIL_CREATE_REPLY';
 export const EMAIL_CAN_SEND_REPLY = 'app/AgentDesktop/EMAIL_CAN_SEND_REPLY';
 export const EMAIL_ADD_ATTACHMENT = 'app/AgentDesktop/EMAIL_ADD_ATTACHMENT';
