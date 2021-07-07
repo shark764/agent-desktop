@@ -31,9 +31,6 @@ describe('startOutboundEmailSaga', () => {
   it('should use the yielded SDK results to dispatch a setInteractionStatus action with the correct args', () => {
     expect(generator.next()).toMatchSnapshot();
   });
-  it('should use the yielded SDK results to assign email interaction to the correct contact', () => {
-    expect(generator.next()).toMatchSnapshot();
-  });
   it('should be done', () => {
     expect(generator.next()).toMatchSnapshot();
   });

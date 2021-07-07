@@ -1844,7 +1844,10 @@ export class App extends React.Component {
           .trim();
         searchResponse.results.forEach((result) => {
           const attributeArray = Object.values(result.attributes);
-          attributeArray.forEach((attribute) => {
+          const uniqueAttribute = attributeArray.filter(
+            (value, index) => attributeArray.indexOf(value) === index
+          );
+          uniqueAttribute.forEach((attribute) => {
             if (attribute.toLowerCase().trim() === trimmedTerm) {
               exactMatchesArray.push(result);
             }
@@ -1860,13 +1863,7 @@ export class App extends React.Component {
     this.props.setInteractionQuery(interactionId, query);
   };
 
-  attemptContactSearch = (
-    query,
-    interactionId,
-    interaction,
-    terms,
-    tries = 0
-  ) => {
+  attemptContactSearch = (query, interactionId, interaction, terms) => {
     CxEngage.contacts.search(
       createSearchQuery(query),
       (searchError, searchTopic, searchResponse) => {
@@ -1880,42 +1877,7 @@ export class App extends React.Component {
           );
 
           if (interaction && interaction.contact) {
-            const numberOfRetries = 7;
-            const contactMatched = searchResponse.results.find(
-              (contactResult) => contactResult.id === interaction.contact.id
-            );
-
-            if (
-              tries === 0 &&
-              !(contactMatched && searchResponse.results.length === 1)
-            ) {
-              this.props.setContactMode(interactionId, 'search');
-              this.props.removeContact(interaction.contact.id);
-              this.props.setLoading(true);
-            }
-
-            if (contactMatched) {
-              this.props.setLoading(false);
-              this.assignAndViewContacts(
-                searchResponse,
-                interactionId,
-                query,
-                terms
-              );
-            } else if (tries < numberOfRetries) {
-              setTimeout(() => {
-                this.attemptContactSearch(
-                  query,
-                  interactionId,
-                  interaction,
-                  terms,
-                  tries + 1
-                );
-              }, 2000);
-            } else if (tries >= numberOfRetries) {
-              this.props.setNonCriticalError({ code: 'incorrectContactsSync' });
-              this.props.setLoading(false);
-            }
+            this.props.setInteractionQuery(interactionId, query);
           } else {
             this.assignAndViewContacts(
               searchResponse,

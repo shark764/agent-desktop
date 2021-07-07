@@ -626,11 +626,15 @@ export class ContactInteractionHistoryItem extends React.Component {
             </div>
           )}
           <div>
-            <FormattedMessage
-              {...messages[
-                interaction.directionName.replace(' ', '-').toLowerCase()
-              ]}
-            />
+            {interaction.directionName ? (
+              <FormattedMessage
+                {...messages[
+                  interaction.directionName.replace(' ', '-').toLowerCase()
+                ]}
+              />
+            ) : (
+              ' - '
+            )}
           </div>
           <div>
             <FormattedMessage {...messages.channelType} />

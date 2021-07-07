@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.63.20] (2021-06-29)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.20/index.html)
+### Fixed
+* CXV1-27031 - Skylight desktop does not auto assign click to dials from contact records correctly
+* CXV1-27075 - Skylight desktop screen pops resulting in a contact with multiple fields matching the term don't auto assign
+
 ## [1.63.19] (2021-06-21)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.19/index.html)
 ### Fixed

@@ -79,9 +79,9 @@ import {
   setAwaitingDispositionSpinner,
 } from './actions';
 
-const getTranscript = files => {
+const getTranscript = (files) => {
   let transcript = files.find(
-    transcriptFile =>
+    (transcriptFile) =>
       transcriptFile.metadata && transcriptFile.metadata.transcript
   );
   if (!transcript) {
@@ -92,29 +92,39 @@ const getTranscript = files => {
 
 const getFileMetadata = (files, messageId) =>
   files.find(
-    file => file && file.metadata && file.metadata.messageId === messageId
+    (file) => file && file.metadata && file.metadata.messageId === messageId
   );
 
 export const getQuotedFileMetadata = (content, messagesHistory) => {
   let file;
   if (content && messagesHistory) {
-    const selectedMessage = messagesHistory.filter(item => item.payload.body.id === content.id)[0];
+    const selectedMessage = messagesHistory.filter(
+      (item) => item.payload.body.id === content.id
+    )[0];
     if (selectedMessage) {
-      if (selectedMessage.payload.body.file && selectedMessage.payload.body.file.mediaUrl) {
+      if (
+        selectedMessage.payload.body.file &&
+        selectedMessage.payload.body.file.mediaUrl
+      ) {
         file = selectedMessage.payload.body.file;
       }
     }
   }
   return file;
-}
+};
 
-export const getQuotedMessage = (newTranscriptMsg, transcriptMsg, transcriptResponse) => {
+export const getQuotedMessage = (
+  newTranscriptMsg,
+  transcriptMsg,
+  transcriptResponse
+) => {
   const foundMsg = getQuotedFileMetadata(
     transcriptMsg.payload.body.quotedMessage.content,
     transcriptResponse
   );
   if (foundMsg && foundMsg.mediaUrl) {
-    newTranscriptMsg.payload.body.quotedMessage.content.file.mediaUrl = foundMsg.mediaUrl;
+    newTranscriptMsg.payload.body.quotedMessage.content.file.mediaUrl =
+      foundMsg.mediaUrl;
     newTranscriptMsg.payload.body.quotedMessage.content.file.fileName =
       foundMsg.fileName ||
       decodeURIComponent(foundMsg.mediaUrl)
@@ -126,7 +136,7 @@ export const getQuotedMessage = (newTranscriptMsg, transcriptMsg, transcriptResp
     delete newTranscriptMsg.payload.body.quotedMessage.content.file.mediaUrl;
   }
   return newTranscriptMsg;
-}
+};
 
 export function* loadHistoricalInteractionBody(action) {
   const body = {};
@@ -158,7 +168,7 @@ export function* loadHistoricalInteractionBody(action) {
           transcriptResponse = yield call(axios.get, transcriptUrl);
         }
         if (transcriptResponse && transcriptResponse.data) {
-          body.transcript = transcriptResponse.data.map(transcriptMsg => {
+          body.transcript = transcriptResponse.data.map((transcriptMsg) => {
             const newTranscriptMsg = transcriptMsg;
             if (
               transcriptMsg.payload &&
@@ -182,24 +192,34 @@ export function* loadHistoricalInteractionBody(action) {
                 // we delete smooch one
                 delete newTranscriptMsg.payload.body.file.mediaUrl;
               }
-              if (transcriptMsg.payload &&
+              if (
+                transcriptMsg.payload &&
                 transcriptMsg.payload.body &&
                 transcriptMsg.payload.body.quotedMessage &&
                 transcriptMsg.payload.body.quotedMessage.content &&
                 transcriptMsg.payload.body.quotedMessage.content.file &&
                 transcriptMsg.payload.body.quotedMessage.content.file.mediaType
               ) {
-                getQuotedMessage(newTranscriptMsg, transcriptMsg, transcriptResponse.data);
+                getQuotedMessage(
+                  newTranscriptMsg,
+                  transcriptMsg,
+                  transcriptResponse.data
+                );
               }
               return newTranscriptMsg;
-            } else if (transcriptMsg.payload &&
+            } else if (
+              transcriptMsg.payload &&
               transcriptMsg.payload.body &&
               transcriptMsg.payload.body.quotedMessage &&
               transcriptMsg.payload.body.quotedMessage.content &&
               transcriptMsg.payload.body.quotedMessage.content.file &&
               transcriptMsg.payload.body.quotedMessage.content.file.mediaType
             ) {
-              return getQuotedMessage(newTranscriptMsg, transcriptMsg, transcriptResponse.data);
+              return getQuotedMessage(
+                newTranscriptMsg,
+                transcriptMsg,
+                transcriptResponse.data
+              );
             } else {
               return transcriptMsg;
             }
@@ -383,7 +403,7 @@ export function* goDeleteContacts() {
     yield put(setDeletionPending(true));
     const checkedContacts = yield select(selectCheckedContacts);
     const response = yield all(
-      checkedContacts.map(contact =>
+      checkedContacts.map((contact) =>
         call(
           sdkCallToPromise,
           CxEngage.contacts.delete,
@@ -394,7 +414,7 @@ export function* goDeleteContacts() {
     );
     yield checkedContacts
       .filter((contact, index) => response[index]) // Check API response is truthy
-      .map(contact => put(removeContact(contact.id)));
+      .map((contact) => put(removeContact(contact.id)));
 
     yield put(clearSearchResults());
     yield put(clearCheckedContacts());
@@ -420,9 +440,7 @@ export function* goAssignContact(action) {
   const interaction = yield call(getInteraction, action.interactionId);
   if (!interaction) {
     console.warn(
-      `Interaction not found: ${
-        action.interactionId
-      } . Aborting goAssignContact`
+      `Interaction not found: ${action.interactionId} . Aborting goAssignContact`
     );
     return;
   }
@@ -488,15 +506,12 @@ export function* goUnassignContact(action) {
   const interaction = yield call(getInteraction, action.interactionId);
   if (!interaction) {
     console.warn(
-      `Interaction not found: ${
-        action.interactionId
-      } . Aborting goUnassignContact`
+      `Interaction not found: ${action.interactionId} . Aborting goUnassignContact`
     );
     return;
   }
   try {
-    if (interaction.contact &&
-      interaction.contact.id) {
+    if (interaction.contact && interaction.contact.id) {
       yield call(
         sdkCallToPromise,
         CxEngage.interactions.unassignContact,
@@ -507,7 +522,9 @@ export function* goUnassignContact(action) {
         'AgentDesktop'
       );
       yield put(unassignContact(interaction.interactionId, true));
-      yield put(addContactNotification({ messageType: 'contactWasUnassigned' }));
+      yield put(
+        addContactNotification({ messageType: 'contactWasUnassigned' })
+      );
       yield put(setContactMode(interaction.interactionId, 'search'));
       yield put(setContactSaveLoading(interaction.interactionId, false));
     }
@@ -539,8 +556,8 @@ export function* goAcceptWork(action) {
     );
     const resourcesInfo = yield all(
       action.response.activeResources
-        .filter(resource => resource.externalResource === false)
-        .map(resource =>
+        .filter((resource) => resource.externalResource === false)
+        .map((resource) =>
           call(
             sdkCallToPromise,
             CxEngage.entities.getUser,
@@ -552,7 +569,7 @@ export function* goAcceptWork(action) {
         )
     );
     yield all(
-      resourcesInfo.map(response => {
+      resourcesInfo.map((response) => {
         const { firstName, lastName, id, email } = response.result;
         const name = firstName || lastName ? `${firstName} ${lastName}` : email;
         return put(updateResourceName(action.interactionId, id, name));
@@ -562,12 +579,11 @@ export function* goAcceptWork(action) {
     const interaction = yield call(getInteraction, action.interactionId);
     if (!interaction) {
       console.warn(
-        `Interaction not found: ${
-          action.interactionId
-        } . Aborting goAcceptWork to resume customer`
+        `Interaction not found: ${action.interactionId} . Aborting goAcceptWork to resume customer`
       );
       return;
     }
+
     if (interaction.onHold === true) {
       yield put(toggleInteractionIsHolding(action.interactionId, true));
       try {
@@ -580,6 +596,14 @@ export function* goAcceptWork(action) {
       } catch (error) {
         console.error(error);
       }
+    }
+
+    if (interaction.contact) {
+      yield call(goAssignContact, {
+        interactionId: interaction.interactionId,
+        contact: interaction.contact,
+        skipUnassign: true,
+      });
     }
   }
 }
@@ -619,13 +643,13 @@ export function* callTransferListsFromFlowAndUpdateState(action) {
         tenantTransferLists.result.length > 0
       ) {
         const activeTransferLists = tenantTransferLists.result
-          .filter(transferList => transferList.active === true)
+          .filter((transferList) => transferList.active === true)
           .map(({ id, name, endpoints }) => {
             const updatedEndpoints = [];
-            endpoints.forEach(endpoint => {
+            endpoints.forEach((endpoint) => {
               // Creating hierarchy and endpoint UUID's to use them as keys while rendering - similar hierarchy's should have the same hierarchyRenderUUID
               const existingHierarchy = updatedEndpoints.find(
-                val => endpoint.hierarchy === val.hierarchy
+                (val) => endpoint.hierarchy === val.hierarchy
               );
               if (existingHierarchy === undefined) {
                 updatedEndpoints.push({
@@ -709,7 +733,7 @@ export function* callTransferListsFromFlowAndUpdateState(action) {
                 // By mistake users may add duplicate transfer lists in a flow, which are getting filtered out below:
                 if (activeNonVocieTransList) {
                   const queueEndPoints = activeNonVocieTransList.endpoints.filter(
-                    endpoint => endpoint.contactType === 'queue'
+                    (endpoint) => endpoint.contactType === 'queue'
                   );
                   // PSTN and SIP contactType transfer-lists should be removed from non-voice transfer lists:
                   // Only queueEndpoints should be included:
@@ -757,9 +781,7 @@ export function* callTransferListsFromFlowAndUpdateState(action) {
         ...newObj,
         [list.id]:
           localStorage.getItem(
-            `flowTransferListHiddenState/${tenant.id}/${agent.userId}/${
-              list.id
-            }`
+            `flowTransferListHiddenState/${tenant.id}/${agent.userId}/${list.id}`
           ) !== 'false',
       }),
       {}
@@ -773,9 +795,7 @@ export function* callTransferListsFromFlowAndUpdateState(action) {
     if (interactionTransferLists.length > 0) {
       const visibleStateofAllInteractionTrasferLists =
         localStorage.getItem(
-          `visibleStateOfAllInteractionTransferLists/${tenant.id}/${
-            agent.userId
-          }`
+          `visibleStateOfAllInteractionTransferLists/${tenant.id}/${agent.userId}`
         ) !== 'false';
       yield put(
         setVisibleStateOfAllInteractionTransferLists(
@@ -813,9 +833,7 @@ export function* changeInteractionTransferListVisibleState(action) {
   ];
   yield put(setInteractionTransferListsVisibleState(interactionTransferLists));
   localStorage.setItem(
-    `flowTransferListHiddenState/${tenant.id}/${agent.userId}/${
-      action.transferListId
-    }`,
+    `flowTransferListHiddenState/${tenant.id}/${agent.userId}/${action.transferListId}`,
     interactionTransferLists[action.transferListId]
   );
 }
@@ -955,14 +973,19 @@ export function* terminateWrapupInteractions() {
         const ageSeconds = Math.round(
           (Date.now() - interaction.wrapupStarted) / 1000
         );
-        const awaitingDisposition = (interaction.dispositionDetails &&
-                                           interaction.dispositionDetails.forceSelect &&
-                                           interaction.dispositionDetails.selected.length === 0);
-        const awaitingScript = (interaction.script !== undefined && !interaction.script.autoScriptDismiss);
-        if (interaction.status === 'wrapup' &&
-                  ageSeconds > interaction.wrapupDetails.wrapupTime &&
-                  !awaitingDisposition &&
-                  !awaitingScript) {
+        const awaitingDisposition =
+          interaction.dispositionDetails &&
+          interaction.dispositionDetails.forceSelect &&
+          interaction.dispositionDetails.selected.length === 0;
+        const awaitingScript =
+          interaction.script !== undefined &&
+          !interaction.script.autoScriptDismiss;
+        if (
+          interaction.status === 'wrapup' &&
+          ageSeconds > interaction.wrapupDetails.wrapupTime &&
+          !awaitingDisposition &&
+          !awaitingScript
+        ) {
           yield call(
             sdkCallToPromise,
             CxEngage.interactions.endWrapup,

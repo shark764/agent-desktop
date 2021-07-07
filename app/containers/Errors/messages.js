@@ -826,9 +826,4 @@ export default defineMessages({
     defaultMessage:
       '{icon} {title} - Your current session has been disconnected by your supervisor - {name}.',
   },
-  incorrectContactsSync: {
-    id: 'app.containers.Errors.incorrectContactsSync',
-    defaultMessage:
-      'The new contact that you created the interaction from cannot be searched. Please try searching again to assign the contact to the interaction.',
-  },
 });

@@ -12,7 +12,6 @@ import {
   addEmailToList,
 } from 'containers/AgentDesktop/actions';
 import { getSelectedInteractionId } from 'containers/AgentDesktop/selectors';
-import { goAssignContact } from 'containers/AgentDesktop/sagas';
 import { START_OUTBOUND_EMAIL, ADD_EMAIL, REMOVE_EMAIL } from './constants';
 
 export function* startOutboundEmailSaga(action) {
@@ -62,14 +61,6 @@ export function* startOutboundEmailSaga(action) {
     yield put(
       setInteractionStatus(response.interactionId, 'initialized-outbound')
     );
-
-    if (action.contact.id) {
-      yield call(goAssignContact, {
-        interactionId: response.interactionId,
-        contact: action.contact,
-        skipUnassign: true,
-      });
-    }
   } catch (e) {
     // Handled in Errors Sagas
   }
