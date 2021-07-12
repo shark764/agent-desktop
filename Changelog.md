@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.63.21] (2021-07-12)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.21/index.html)
+### Fixed
+* CXV1-27094 - Fix auto assigning contacts in non-desktop mode
+
 ## [1.63.20] (2021-06-29)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.20/index.html)
 ### Fixed

@@ -19,6 +19,10 @@ export function isToolbar() {
   return toolbar;
 }
 
+export function isDesktop() {
+  return !toolbar;
+}
+
 export function isBeta() {
   return beta;
 }

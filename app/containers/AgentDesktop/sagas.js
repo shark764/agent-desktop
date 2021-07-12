@@ -8,6 +8,7 @@ import { delay } from 'redux-saga';
 
 import sdkCallToPromise from 'utils/sdkCallToPromise';
 import { isUUID } from 'utils/validator';
+import { isDesktop } from 'utils/url';
 import { generateUUID } from 'utils/uuid';
 
 import { selectTenant, selectAgent } from 'containers/Login/selectors';
@@ -598,7 +599,9 @@ export function* goAcceptWork(action) {
       }
     }
 
-    if (interaction.contact) {
+    if (isDesktop() && interaction.contact) {
+      console.log('Auto-assigning Desktop contact');
+
       yield call(goAssignContact, {
         interactionId: interaction.interactionId,
         contact: interaction.contact,
