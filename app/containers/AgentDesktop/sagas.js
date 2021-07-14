@@ -862,7 +862,8 @@ export function* doSetConversationRead() {
   const selectedInteraction = yield select(getSelectedInteraction);
   if (
     yield select(getIsConversationUnread) &&
-      selectedInteraction.channelType !== 'sms'
+      selectedInteraction.channelType !== 'sms' &&
+      selectedInteraction.source === 'smooch'
   ) {
     CxEngage.interactions.smoochMessaging.sendConversationRead({
       interactionId: selectedInteraction.interactionId,

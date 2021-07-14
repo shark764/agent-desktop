@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.63.22] (2021-07-14)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.22/index.html)
+### Fixed
+* CXV1-27042 - Errors in Skylight console on switching interactions
+* CXV1-23171 - SDK bump to 10.1.5
+
 ## [1.63.21] (2021-07-12)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.21/index.html)
 ### Fixed
