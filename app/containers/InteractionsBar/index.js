@@ -530,7 +530,6 @@ export class InteractionsBar extends React.Component {
             this.interactionsScrollContainer = interactionsScrollContainer;
           }}
           style={{
-            overflowY: 'auto',
             flexGrow: '1',
             paddingRight: '320px',
             marginRight: '-320px',

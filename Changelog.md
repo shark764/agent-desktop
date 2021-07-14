@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.63.23] (2021-07-14)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.23/index.html)
+### Fixed
+* CXV1-26944 - Fix horizontal scroll bar is unnecessarily displayed when the agent accepts an interaction
+
 ## [1.63.22] (2021-07-14)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.22/index.html)
 ### Fixed
