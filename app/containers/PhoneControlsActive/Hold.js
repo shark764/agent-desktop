@@ -8,8 +8,9 @@ import { connect } from 'react-redux';
 
 import { selectAgentId } from 'containers/AgentDesktop/selectors';
 import { toggleInteractionIsHolding } from 'containers/AgentDesktop/actions';
-
 import CircleIconButton from 'components/CircleIconButton';
+import { isCustomerNotConnected } from './selectors';
+
 import messages from './messages';
 
 const styles = {
@@ -45,7 +46,7 @@ export class Hold extends React.PureComponent {
   };
 
   render() {
-    if (this.props.canUpdateHold) {
+    if (this.props.canUpdateHold && !this.props.isCustomerNotConnected) {
       return (
         <CircleIconButton
           id="holdButton"
@@ -68,6 +69,7 @@ Hold.propTypes = {
   canUpdateHold: PropTypes.bool.isRequired,
   toggleInteractionIsHolding: PropTypes.func.isRequired,
   isHolding: PropTypes.bool.isRequired,
+  isCustomerNotConnected: PropTypes.bool,
 };
 function mapDispatchToProps(dispatch) {
   return {
@@ -79,9 +81,7 @@ function mapDispatchToProps(dispatch) {
 
 const mapStateToProps = (state, props) => ({
   agentId: selectAgentId(state, props),
+  isCustomerNotConnected: isCustomerNotConnected(state, props),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Hold);
+export default connect(mapStateToProps, mapDispatchToProps)(Hold);
