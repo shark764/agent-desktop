@@ -1,9 +1,15 @@
 # Changelog
+
+## [1.63.25] (2021-08-13)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.25/index.html)
+### Fixed
+* CXV1-24431 - SDK bump to 10.2.2
+
 ## [1.63.24] (2021-08-11)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.24/index.html)
 ### Fixed
 * CXV1-27084 - Hold button is hide until customer connected in queue callbacks
-* CXV1-23171 - SDK bump to 10.2.1
+* CXV1-24431 - SDK bump to 10.2.1
 
 ## [1.63.23] (2021-07-14)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.23/index.html)
