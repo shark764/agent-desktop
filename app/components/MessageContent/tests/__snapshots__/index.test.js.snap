@@ -174,6 +174,47 @@ exports[`<MessageContent /> image type message has a camption along with the fil
 </Fragment>
 `;
 
+exports[`<MessageContent /> should render carousel message component correctly 1`] = `
+<MessageTextContainer>
+  <MessageTextContainer>
+    This is a test of carousel message
+  </MessageTextContainer>
+  <MessageTextContainer>
+    1. Tacos
+  </MessageTextContainer>
+  <MessageTextContainer>
+    Description
+  </MessageTextContainer>
+  <MessageTextContainer>
+    More info: 
+    <styled.a
+      href="https://www.test.com/file/"
+      target="_blank"
+    >
+      https://www.test.com/file/
+    </styled.a>
+  </MessageTextContainer>
+  <MessageTextContainer>
+     
+  </MessageTextContainer>
+  <MessageTextContainer>
+    2. Ramen
+  </MessageTextContainer>
+  <MessageTextContainer>
+    Description
+  </MessageTextContainer>
+  <MessageTextContainer>
+    More info: 
+    <styled.a
+      href="https://www.test.com/file/"
+      target="_blank"
+    >
+      https://www.test.com/file/
+    </styled.a>
+  </MessageTextContainer>
+</MessageTextContainer>
+`;
+
 exports[`<MessageContent /> should render file message component correctly 1`] = `
 <Fragment>
   <styled.div>
@@ -291,6 +332,81 @@ exports[`<MessageContent /> should render image message component correctly 1`] 
 </Fragment>
 `;
 
+exports[`<MessageContent /> should render location message component correctly 1`] = `
+<Fragment>
+  <MessageTextContainer>
+    Location shared:
+  </MessageTextContainer>
+  <styled.a
+    href="https://maps.google.com/maps?q=13.678180063224062,-89.25147673422777"
+    target="_blank"
+  >
+    https://maps.google.com/maps?q=13.678180063224062,-89.25147673422777
+  </styled.a>
+</Fragment>
+`;
+
+exports[`<MessageContent /> should render shorthand image message component correctly 1`] = `
+<Fragment>
+  <styled.div>
+    <styled.a
+      alt="image"
+      href="https://www.test.com/test.jpg"
+      style={
+        Object {
+          "display": "contents",
+        }
+      }
+      target="_blank"
+    >
+      <Image
+        id="5e429c11749914000f07349f"
+        placeholher="image"
+        src="https://www.test.com/test.jpg"
+        style={
+          Object {
+            "height": "auto",
+            "maxWidth": "300px",
+          }
+        }
+      />
+    </styled.a>
+    <MessageTextContainer>
+      This is a test of shorthand image message
+    </MessageTextContainer>
+  </styled.div>
+  <MessageTextContainer>
+    Get to the cloud
+    : 
+    <styled.a
+      href="https://www.lifesize.com/en/solutions/contact-center-solutions/"
+      target="_blank"
+    >
+      https://www.lifesize.com/en/solutions/contact-center-solutions/
+    </styled.a>
+  </MessageTextContainer>
+</Fragment>
+`;
+
+exports[`<MessageContent /> should render shorthand reply/locationRequest message component correctly 1`] = `
+<Fragment>
+  <MessageTextContainer>
+    This is a test of shorthand reply message
+  </MessageTextContainer>
+  <RichMessageReplyPostback>
+    Albury-Wodonga
+  </RichMessageReplyPostback>
+  <RichMessageReplyPostback>
+    Bendigo
+  </RichMessageReplyPostback>
+  <MessageTextContainer>
+    <RichMessageLocationRequest>
+      Share your location
+    </RichMessageLocationRequest>
+  </MessageTextContainer>
+</Fragment>
+`;
+
 exports[`<MessageContent /> should render styled component with text message 1`] = `
 <MessageContent
   message={
@@ -308,7 +424,7 @@ exports[`<MessageContent /> should render styled component with text message 1`]
 >
   <MessageTextContainer>
     <div
-      className="sc-bZQynM eDJHjF"
+      className="sc-gzVnrw fBRSWC"
     >
       This is a test
     </div>
@@ -336,7 +452,7 @@ exports[`<MessageContent /> should render styled component with text message in 
     pending={true}
   >
     <div
-      className="sc-bZQynM cqVKfM"
+      className="sc-gzVnrw fdItUB"
     >
       This is a test
     </div>
@@ -651,14 +767,14 @@ exports[`<QuotedMessageContent /> should render styled component with quoted tex
 >
   <QuotedMessageTextContainer>
     <div
-      className="sc-gzVnrw idmQkH"
+      className="sc-htoDjs csRhWa"
     >
       This is a test
     </div>
   </QuotedMessageTextContainer>
   <MessageTextContainer>
     <div
-      className="sc-bZQynM eDJHjF"
+      className="sc-gzVnrw fBRSWC"
     >
       This is a quoted message
     </div>
@@ -692,7 +808,7 @@ exports[`<QuotedMessageContent /> should render styled component with quoted tex
 >
   <QuotedMessageTextContainer>
     <div
-      className="sc-gzVnrw idmQkH"
+      className="sc-htoDjs csRhWa"
     >
       This is a test
     </div>
@@ -701,7 +817,7 @@ exports[`<QuotedMessageContent /> should render styled component with quoted tex
     pending={true}
   >
     <div
-      className="sc-bZQynM cqVKfM"
+      className="sc-gzVnrw fdItUB"
     >
       This is a quoted message
     </div>

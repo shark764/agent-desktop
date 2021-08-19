@@ -51,6 +51,77 @@ describe('<MessageContent />', () => {
     timestamp: 1581423633126,
   };
 
+  const mockShorthandImageMessage = {
+    id: '5e429c11749914000f07349f',
+    text: 'This is a test of shorthand image message',
+    type: 'agent',
+    from: 'Agent',
+    file: {
+      mediaType: 'image',
+      mediaUrl: 'https://www.test.com/test.jpg',
+    },
+    contentType: 'image',
+    resourceId: null,
+    timestamp: 1581423633126,
+    actions: [
+      {
+        type: 'link',
+        uri: 'https://www.lifesize.com/en/solutions/contact-center-solutions/',
+        _id: '60d9e84d168a6e00d3519fca',
+        text: 'Get to the cloud',
+      },
+    ],
+  };
+
+  const mockShorthandReplyMessage = {
+    id: '5e429c11749914000f07349f',
+    text: 'This is a test of shorthand reply message',
+    type: 'agent',
+    from: 'Agent',
+    contentType: 'text',
+    resourceId: null,
+    timestamp: 1581423633126,
+    actions: [
+      {
+        type: 'reply',
+        _id: '60d3a4364f0d1400d36f594a',
+        text: 'Albury-Wodonga',
+        payload: 'albury-wodonga',
+      },
+      {
+        type: 'reply',
+        _id: '60d3a4364f0d1400d36f594b',
+        text: 'Bendigo',
+        payload: 'bendigo',
+      },
+      {
+        type: 'locationRequest',
+        _id: '60d4bff54cd1be00d32e770e',
+        text: 'Share your location',
+      },
+    ],
+  };
+
+  const mockLocationMessage = {
+    id: '5e429c11749914000f07349f',
+    text: 'Location shared:\nhttps://maps.google.com/maps?q=13.678180063224062,-89.25147673422777',
+    type: 'customer',
+    from: 'Irvin Sandoval',
+    contentType: 'location',
+    resourceId: null,
+    timestamp: 1581423633126,
+  };
+
+  const mockCarouselMessage = {
+    id: '5e429c11749914000f07349f',
+    text: 'This is a test of carousel message\n1. Tacos\nDescription\nMore info: https://www.test.com/file/\n\n2. Ramen\nDescription\nMore info: https://www.test.com/file/',
+    type: 'agent',
+    from: 'Agent',
+    contentType: 'carousel',
+    resourceId: null,
+    timestamp: 1581423633126,
+  };
+
   it('should render text message component correctly', () => {
     const rendered = shallow(<MessageContent message={mockTextMessage} />);
     expect(rendered).toMatchSnapshot();
@@ -203,6 +274,26 @@ describe('<MessageContent />', () => {
 
   it('should render form response message component correctly', () => {
     const rendered = shallow(<MessageContent message={mockFormResponseMessage} />);
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it('should render shorthand image message component correctly', () => {
+    const rendered = shallow(<MessageContent message={mockShorthandImageMessage} />);
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it('should render shorthand reply/locationRequest message component correctly', () => {
+    const rendered = shallow(<MessageContent message={mockShorthandReplyMessage} />);
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it('should render location message component correctly', () => {
+    const rendered = shallow(<MessageContent message={mockLocationMessage} />);
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it('should render carousel message component correctly', () => {
+    const rendered = shallow(<MessageContent message={mockCarouselMessage} />);
     expect(rendered).toMatchSnapshot();
   });
 });

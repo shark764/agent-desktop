@@ -18,4 +18,8 @@ export default defineMessages({
     id: 'app.components.messageContent.fileNotFoundInTranscript',
     defaultMessage: 'File not found in transcript',
   },
+  notSupported: {
+    id: 'app.components.messageContent.notSupported',
+    defaultMessage: 'Not supported',
+  },
 });

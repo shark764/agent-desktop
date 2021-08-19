@@ -17,6 +17,13 @@ const AttachmentLink = styled.a`
   display: inline-flex;
 `;
 
+const HyperLink = styled.a`
+  color: #23cdf4;
+  font-style: oblique;
+  font-size: 18px;
+  display: contents;
+`;
+
 const AttachmentIconContainer = styled.div`
   transform: rotate(45deg);
 `;
@@ -63,16 +70,49 @@ const FormResponseMessageTextContainer = styled.div`
   ${({ pending }) => (pending ? 'color: #ccc6c6;' : '')};
 `;
 
+const RichMessageReplyPostback = styled.div`
+  line-height: 18px;
+  margin: 2px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 25px;
+  border: 2px solid #ccc;
+  font-size: 16px;
+  line-height: 20px;
+  display: inline-flex;
+`;
+
+const RichMessageLocationRequest = styled.div`
+  line-height: 18px;
+  margin: 2px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 25px;
+  border: 2px solid #ccc;
+  font-size: 16px;
+  line-height: 20px;
+  display: inline-flex;
+`;
+
 MessageTextContainer.displayName = 'MessageTextContainer';
 
 QuotedMessageTextContainer.displayName = 'QuotedMessageTextContainer';
 
 FormResponseMessageTextContainer.displayName = 'FormResponseMessageTextContainer';
 
+RichMessageReplyPostback.displayName = 'RichMessageReplyPostback';
+
+RichMessageLocationRequest.displayName = 'RichMessageLocationRequest';
+
 export function MessageContent({ message }) {
   const renderQuote = message.quotedMessage && message.quotedMessage.content &&
                       message.quotedMessage.content.type &&
                       message.quotedMessage.content.type !== 'form';
+  const renderRichText = (message.actions && message.actions.length > 0 );
   switch (message.contentType) {
     case 'image':
       /**
@@ -87,6 +127,9 @@ export function MessageContent({ message }) {
             </QuotedMessageTextContainer>
           )}
           {renderImageMessage(message, '300px')}
+          {renderRichText && (
+            renderRichMessaging(message)
+          )}
         </>
       ) : (
         <span style={{ color: 'red' }}>
@@ -147,6 +190,35 @@ export function MessageContent({ message }) {
         return <MessageTextContainer>{message.text}</MessageTextContainer>;
       }
     }
+    case 'location': {
+      const locationResponse = message.text.split('\n');
+      return (
+        <>
+          {renderQuote && (
+            <QuotedMessageTextContainer>
+              {renderQuotedMessage(message)}
+            </QuotedMessageTextContainer>
+          )}
+          <MessageTextContainer>
+            {locationResponse[0]}
+          </MessageTextContainer>
+          <HyperLink
+            href={locationResponse[1]}
+            target="_blank"
+          >
+            {locationResponse[1]}
+          </HyperLink>
+        </>
+      );
+    }
+    case 'carousel':
+    case 'list': {
+      return (
+        <MessageTextContainer>
+          {renderCarouselMessaging(message)}
+        </MessageTextContainer>
+      );
+    }
     default: {
       return (
         <>
@@ -161,6 +233,9 @@ export function MessageContent({ message }) {
             )}
             {message.text}
           </MessageTextContainer>
+          {renderRichText && (
+            renderRichMessaging(message)
+          )}
         </>
       );
     }
@@ -280,6 +355,88 @@ function renderFileMessage(content) {
   }
 }
 
+function renderRichMessaging(message) {
+  const shortHandMessages = [];
+  if (message) {
+    message.actions.forEach(element => {
+      if (element.type === 'link') {
+        shortHandMessages.push(
+          <MessageTextContainer>
+            {element.text}
+            :&nbsp;
+            <HyperLink
+              href={element.uri}
+              target="_blank"
+            >
+              {element.uri}
+            </HyperLink>
+          </MessageTextContainer>
+        );
+      } else if (element.type === 'reply' || element.type === 'postback') {
+        shortHandMessages.push(
+          <RichMessageReplyPostback>
+            {element.text}
+          </RichMessageReplyPostback>
+        );
+      } else if (element.type === 'locationRequest') {
+        shortHandMessages.push(
+          <MessageTextContainer>
+            <RichMessageLocationRequest>
+              {element.text}
+            </RichMessageLocationRequest>
+          </MessageTextContainer>
+        );
+      } else {
+        shortHandMessages.push(
+          <span style={{ color: 'red' }}>
+            <FormattedMessage {...messages.notSupported} />
+          </span>
+        );
+      }
+    });
+
+  }
+  return(<>{shortHandMessages}</>);
+}
+
+function renderCarouselMessaging(message) {
+  const carouselMessages = [];
+  if (message) {
+    const carouselItems = message.text.split('\n\n');
+    carouselItems.forEach((carouselItem, index) => {
+      const itemContents = carouselItem.split('\n');
+      itemContents.forEach((itemContent) => {
+        if (itemContent.includes('http')) {
+          const text = itemContent.substring(0, itemContent.indexOf('http'));
+          const hyperlink = itemContent.substring(itemContent.indexOf('http'), itemContent.length);
+          carouselMessages.push(
+            <MessageTextContainer>
+              {text}
+              <HyperLink
+                href={hyperlink}
+                target="_blank"
+              >
+                {hyperlink}
+              </HyperLink>
+            </MessageTextContainer>
+          );
+        } else {
+          carouselMessages.push(
+            <MessageTextContainer>
+              {itemContent}
+            </MessageTextContainer>
+          );
+        }
+      });
+      // set blank space/new line after a hyperlink is rendered
+      if (index < carouselItems.length - 1) {
+        carouselMessages.push(<MessageTextContainer>&nbsp;</MessageTextContainer>);
+      }
+    });
+  }
+  return(<>{carouselMessages}</>);
+}
+
 MessageContent.propTypes = {
   message: PropTypes.shape({
     id: PropTypes.string,
@@ -296,6 +453,9 @@ MessageContent.propTypes = {
       'image',
       'form',
       'formResponse',
+      'location',
+      'carousel',
+      'list',
     ]),
     resourceId: PropTypes.string,
     timestamp: PropTypes.number,

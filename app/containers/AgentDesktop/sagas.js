@@ -131,7 +131,7 @@ export const getQuotedMessage = (
       decodeURIComponent(foundMsg.mediaUrl)
         .split('/')
         [foundMsg.mediaUrl.split('/').length - 1].split('?')[0];
-  } else {
+  } else if (newTranscriptMsg.payload.body.quotedMessage.content.file.mediaUrl.indexOf('smooch') >= 0) {
     // If artifact file url doesn't exist,
     // we delete smooch one
     delete newTranscriptMsg.payload.body.quotedMessage.content.file.mediaUrl;
@@ -188,7 +188,7 @@ export function* loadHistoricalInteractionBody(action) {
                   decodeURIComponent(foundMsg.url)
                     .split('/')
                     [foundMsg.url.split('/').length - 1].split('?')[0];
-              } else {
+              } else if (newTranscriptMsg.payload.body.file.mediaUrl.indexOf('smooch') >= 0) {
                 // If artifact file url doesn't exist,
                 // we delete smooch one
                 delete newTranscriptMsg.payload.body.file.mediaUrl;

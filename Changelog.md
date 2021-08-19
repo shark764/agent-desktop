@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.65.0] (2021-06-29)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.64.0/index.html)
+### Added
+* CXV1-26993 - Smooch Rich Messaging | Text Message Transcripts with shorthand and/or action buttons.
+* CXV1-26994 - Smooch Rich Messaging | Location Message Transcripts.
+* CXV1-26995 - Smooch Rich Messaging | Carousel Message Transcripts.
+* CXV1-26996 - Smooch Rich Messaging | List Message Transcripts.
+
 ## [1.64.0] (2021-07-22)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.64.0/index.html)
 ### Added
