@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.64.0] (2021-07-22)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.64.0/index.html)
+### Added
+* CXV1-26997 - Smooch Rich Messaging | Form Message with MULTIPLE FIELDS Transcripts.
+
 ## [1.63.25] (2021-08-13)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.63.25/index.html)
 ### Fixed

@@ -30,4 +30,8 @@ export default defineMessages({
     id: 'app.containers.InteractionsBar.retrievingMessages',
     defaultMessage: 'Retrieving messages...',
   },
+  formResponse: {
+    id: 'app.containers.InteractionsBar.formResponse',
+    defaultMessage: 'Form response',
+  },
 });

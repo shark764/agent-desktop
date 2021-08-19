@@ -332,7 +332,9 @@ export class InteractionsBar extends React.Component {
           const lastMessageFromThisInteraction = lastMessageFromInteraction(
             activeInteraction
           );
-          if (lastMessageFromThisInteraction) {
+          if (lastMessageFromThisInteraction && lastMessageFromThisInteraction.contentType === 'formResponse') {
+            text = this.props.intl.formatMessage(messages.formResponse);
+          } else if (lastMessageFromThisInteraction) {
             ({ text } = lastMessageFromThisInteraction);
           } else if (activeInteraction.direction === 'agent-initiated') {
             text = this.props.intl.formatMessage(messages.newInteraction);

@@ -41,6 +41,16 @@ describe('<MessageContent />', () => {
     timestamp: 1581423633126,
   };
 
+  const mockFormResponseMessage = {
+    id: '5e429c11749914000f07349f',
+    text: '{"responses":[{"name":"Your name?","text":" a"},{"name":"Your email?","text":" a@a.a"},{"name":"Company Size","text":" 1-50 employees"}]}',
+    type: 'system',
+    from: 'Chatbot',
+    contentType: 'formResponse',
+    resourceId: null,
+    timestamp: 1581423633126,
+  };
+
   it('should render text message component correctly', () => {
     const rendered = shallow(<MessageContent message={mockTextMessage} />);
     expect(rendered).toMatchSnapshot();
@@ -188,6 +198,11 @@ describe('<MessageContent />', () => {
     const rendered = mount(
       <StyledMessageContent message={{ ...mockTextMessage, pending: true }} />
     );
+    expect(rendered).toMatchSnapshot();
+  });
+
+  it('should render form response message component correctly', () => {
+    const rendered = shallow(<MessageContent message={mockFormResponseMessage} />);
     expect(rendered).toMatchSnapshot();
   });
 });

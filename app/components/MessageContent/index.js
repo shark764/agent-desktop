@@ -55,9 +55,19 @@ const QuotedMessageTextContainer = styled.div`
   ${({ pending }) => (pending && 'color: #ccc6c6')};
 `;
 
+const FormResponseMessageTextContainer = styled.div`
+  font-size: 16px;
+  line-height: 20px;
+  white-space: pre-wrap;
+  font-weight: bold;
+  ${({ pending }) => (pending ? 'color: #ccc6c6;' : '')};
+`;
+
 MessageTextContainer.displayName = 'MessageTextContainer';
 
 QuotedMessageTextContainer.displayName = 'QuotedMessageTextContainer';
+
+FormResponseMessageTextContainer.displayName = 'FormResponseMessageTextContainer';
 
 export function MessageContent({ message }) {
   const renderQuote = message.quotedMessage && message.quotedMessage.content &&
@@ -109,6 +119,33 @@ export function MessageContent({ message }) {
           <FormattedMessage {...messages.fileNotFoundInTranscript} />
         </span>
       );
+    }
+    case 'formResponse': {
+      try {
+        const formResponse = [];
+        const responses = JSON.parse(message.text);
+        if (responses && responses.responses.length > 0) {
+          responses.responses.forEach((item, index) => {
+            formResponse.push(
+              <>
+                <FormResponseMessageTextContainer>
+                  {item.name.trim()}
+                </FormResponseMessageTextContainer>
+                <MessageTextContainer>{item.text.trim()}</MessageTextContainer>
+              </>
+            );
+            if (index < (responses.responses.length - 1)) {
+              formResponse.push(
+                <MessageTextContainer>&nbsp;</MessageTextContainer>
+              );
+            }
+          });
+        }
+        return <>{formResponse}</>;
+      } catch (error) {
+        // in case JSON.parse fails, catch the error and return message.text instead
+        return <MessageTextContainer>{message.text}</MessageTextContainer>;
+      }
     }
     default: {
       return (
@@ -246,7 +283,7 @@ function renderFileMessage(content) {
 MessageContent.propTypes = {
   message: PropTypes.shape({
     id: PropTypes.string,
-    type: PropTypes.oneOf(['customer', 'agent']),
+    type: PropTypes.oneOf(['customer', 'agent', 'Chatbot']),
     from: PropTypes.string,
     file: PropTypes.shape({
       fileName: PropTypes.string,

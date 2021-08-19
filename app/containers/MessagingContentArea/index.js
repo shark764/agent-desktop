@@ -73,6 +73,15 @@ export class MessagingContentArea extends React.Component {
       width: '50%',
       margin: '0 25%',
     },
+    systemSilentMessage: {
+      fontSize: '16px',
+      whiteSpace: 'pre-wrap',
+      textAlign: 'center',
+      color: '#23cdf4',
+      display: 'inline-block',
+      width: '50%',
+      margin: '0 25%',
+    },
     avatarContainer: {
       display: 'inline-block',
       verticalAlign: 'top',
@@ -202,44 +211,56 @@ export class MessagingContentArea extends React.Component {
           } else {
             messageFrom = message.from;
           }
+          let messageContent;
+          if (message.type === 'system') {
+            messageContent = (
+              <span style={this.styles.systemMessage}>
+                {message.text}
+              </span>
+            );
+          } else if (message.type === 'system-silent') {
+            messageContent = (
+              <span style={this.styles.systemSilentMessage}>
+                {message.text}
+              </span>
+            );
+          } else {
+            messageContent = (
+              <div>
+                <div style={this.styles.avatarContainer}>
+                  <Avatar
+                    customerAvatarIndex={
+                      message.type === 'agent'
+                        ? undefined
+                        : this.props.selectedInteraction.customerAvatarIndex
+                    }
+                  />
+                </div>
+                <div style={this.styles.messageContainer}>
+                  <span
+                    style={[
+                      this.styles.messageFrom,
+                      message.pending && this.styles.messagePending,
+                    ]}
+                  >
+                    {messageFrom}
+                  </span>
+                  {!message.pending && (
+                    <span style={this.styles.messageTime}>
+                      {moment(message.timestamp).format('LT')}
+                    </span>
+                  )}
+                  <MessageContent message={message} />
+                </div>
+              </div>
+            );
+          }
           return (
             <div
               key={message.from + message.timestamp}
               style={this.styles.messageHistoryItem}
             >
-              {message.type === 'system' ? (
-                <span style={this.styles.systemMessage}>
-                  {message.text}
-                </span>
-              ) : (
-                <div>
-                  <div style={this.styles.avatarContainer}>
-                    <Avatar
-                      customerAvatarIndex={
-                        message.type === 'agent'
-                          ? undefined
-                          : this.props.selectedInteraction.customerAvatarIndex
-                      }
-                    />
-                  </div>
-                  <div style={this.styles.messageContainer}>
-                    <span
-                      style={[
-                        this.styles.messageFrom,
-                        message.pending && this.styles.messagePending,
-                      ]}
-                    >
-                      {messageFrom}
-                    </span>
-                    {!message.pending && (
-                      <span style={this.styles.messageTime}>
-                        {moment(message.timestamp).format('LT')}
-                      </span>
-                    )}
-                    <MessageContent message={message} />
-                  </div>
-                </div>
-              )}
+              {messageContent}
             </div>
           );
         }

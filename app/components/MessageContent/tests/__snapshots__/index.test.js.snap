@@ -233,6 +233,35 @@ exports[`<MessageContent /> should render fileNotFoundInTranscript error when im
 </span>
 `;
 
+exports[`<MessageContent /> should render form response message component correctly 1`] = `
+<Fragment>
+  <FormResponseMessageTextContainer>
+    Your name?
+  </FormResponseMessageTextContainer>
+  <MessageTextContainer>
+    a
+  </MessageTextContainer>
+  <MessageTextContainer>
+     
+  </MessageTextContainer>
+  <FormResponseMessageTextContainer>
+    Your email?
+  </FormResponseMessageTextContainer>
+  <MessageTextContainer>
+    a@a.a
+  </MessageTextContainer>
+  <MessageTextContainer>
+     
+  </MessageTextContainer>
+  <FormResponseMessageTextContainer>
+    Company Size
+  </FormResponseMessageTextContainer>
+  <MessageTextContainer>
+    1-50 employees
+  </MessageTextContainer>
+</Fragment>
+`;
+
 exports[`<MessageContent /> should render image message component correctly 1`] = `
 <Fragment>
   <styled.div>
