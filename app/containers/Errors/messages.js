@@ -75,6 +75,16 @@ export default defineMessages({
     defaultMessage:
       'The WhatsApp customer did not respond within 24 hours of their first message, so the interaction has been automatically ended.',
   },
+  'AD-1012': {
+    id: 'app.containers.Errors.AD-1012',
+    defaultMessage:
+      'Failed to deliver message to customer.  The Facebook integration\'s login status or access token has expired, been revoked, or is otherwise invalid.  Please contact the tenant administrator to update the Facebook integration with a new access token.',
+  },
+  'AD-1013': {
+    id: 'app.containers.Errors.AD-1013',
+    defaultMessage:
+      'Failed to deliver message to customer.  Error message from {events.payload.destination.type}: {events.payload.error.message}',
+  },
   /**
    * context :general
    */

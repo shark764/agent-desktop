@@ -637,6 +637,10 @@ export class App extends React.Component {
           case 'cxengage/notifications/show-banner': {
             if (response.notification === 'whatsapp-customer-disconnect') {
               this.props.setNonCriticalError({ code: 'AD-1011' });
+            } else if (response.notification === 'facebook-invalid-token') {
+              this.props.setNonCriticalError({ code: 'AD-1012' });
+            } else if (response.notification === 'failed-smooch-message') {
+              this.props.setNonCriticalError({ code: 'AD-1013', source: response.source, additionalMessage: response.message });
             } else if (response.interactionId && response.extraParams) {
               const extraParamsKeys = Object.keys(response.extraParams);
               extraParamsKeys.forEach((extraParam) => {

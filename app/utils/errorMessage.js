@@ -2,7 +2,7 @@ import errorMessages from 'containers/Errors/messages';
 
 export const generateErrorMessage = (errorObject, formatMessage) => {
   let errorDescriptionMessage;
-  const { code, interactionFatal } = errorObject;
+  const { code, interactionFatal, source, additionalMessage } = errorObject;
   if (interactionFatal) {
     errorDescriptionMessage = formatMessage(errorMessages.interactionFailed);
   } else if (code && errorMessages[code]) {
@@ -22,6 +22,14 @@ export const generateErrorMessage = (errorObject, formatMessage) => {
     errorDescriptionMessage += formatMessage(errorMessages.errorDescription, {
       errorDescription: errorObject.data.errorDescription,
     });
+  }
+  if (errorDescriptionMessage && (source && additionalMessage)) {
+    if (source && errorDescriptionMessage.indexOf('{events.payload.destination.type}') > 0) {
+      errorDescriptionMessage = errorDescriptionMessage.replace('{events.payload.destination.type}', source);
+    }
+    if (additionalMessage && errorDescriptionMessage.indexOf('{events.payload.error.message}') > 0) {
+      errorDescriptionMessage = errorDescriptionMessage.replace('{events.payload.error.message}', additionalMessage);
+    }
   }
   return errorDescriptionMessage;
 };

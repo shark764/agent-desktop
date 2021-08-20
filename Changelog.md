@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.65.1] (2021-08-03)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.65.1/index.html)
+### Fixed
+* CXV1-27197 - Create new banners for Facebook token failure Message and general smooch failed messages
+
 ## [1.65.0] (2021-06-29)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.64.0/index.html)
 ### Added
