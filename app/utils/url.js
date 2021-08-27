@@ -118,3 +118,22 @@ export function getDeepLinkLogin() {
 
   return null;
 }
+
+/*
+ * getDefaultWorkMode
+ *
+ * Returns the default work mode for agents
+ *
+ */
+export function getDefaultWorkMode() {
+  const agentModes = ['inbound', 'outbound', 'agent-initiated'];
+  const mode = urlParamsToObj().defaultworkmode;
+  if (mode) {
+    if (agentModes.includes(mode)) {
+      return mode;
+    } else {
+      console.error(`Invalid work mode: ${mode}`);
+    }
+  }
+  return false;
+}

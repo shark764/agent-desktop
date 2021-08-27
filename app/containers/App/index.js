@@ -21,6 +21,7 @@ import { isUUID } from 'utils/validator';
 import crmCssAdapter from 'utils/crmCssAdapter';
 import { generateErrorMessage } from 'utils/errorMessage';
 import { generateUUID } from 'utils/uuid';
+import { getDefaultWorkMode } from 'utils/url';
 
 import { kebabCaseToCamelCase } from 'serenova-js-utils/strings';
 import PresenceStateIconSVG from 'components/PresenceStateIconSVG';
@@ -614,7 +615,11 @@ export class App extends React.Component {
           case 'cxengage/session/started': {
             if (Object.keys(this.props.availableStats).length === 0) {
               CxEngage.reporting.getAvailableStats();
-              this.props.showLogin(false);
+            }
+            this.props.showLogin(false);
+            const defaultWorkMode = getDefaultWorkMode();
+            if (defaultWorkMode) {
+              CxEngage.session.setDirection({ direction: defaultWorkMode });
             }
             break;
           }

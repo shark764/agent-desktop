@@ -1,12 +1,17 @@
 # Changelog
 
+## [1.66.0] (2021-08-17)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.66.0/index.html)
+### Added
+* CXV1-27263 - Skylight | Set agent mode by adding new url parameter 'defaultWorkMode'
+
 ## [1.65.1] (2021-08-03)
 [test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.65.1/index.html)
 ### Fixed
 * CXV1-27197 - Create new banners for Facebook token failure Message and general smooch failed messages
 
 ## [1.65.0] (2021-06-29)
-[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.64.0/index.html)
+[test in qe](https://frontend-prs.cxengagelabs.net/qe/builds/skylight/1.65.0/index.html)
 ### Added
 * CXV1-26993 - Smooch Rich Messaging | Text Message Transcripts with shorthand and/or action buttons.
 * CXV1-26994 - Smooch Rich Messaging | Location Message Transcripts.
